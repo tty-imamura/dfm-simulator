@@ -3225,6 +3225,33 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
   `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。
 
+## 55. 第295便a —— geoPN の「番号 = 目的の組」と逸脱の警告・geoPN=0 の排他宣言の選択肢(原仮定者の裁定(第85報)「geoPN=0 では、慣性決定力などを含めた、全ての設定を試せる様にする。排他的な宣言がある場合は、宣言を選択肢で用意する」「geoPN=1、2、3 は目的別の組み合わせであり、パラメータが逸脱する場合は、セーブロード時に警告する。さらに、該当パラメータの編集箇所でも、逸脱した時に赤文字などで注意書きを表示する」・統括の検証項目 R153・**プリセットの宣言鍵は足していない**)
+
+- **判定は 1 か所**: `HP.modeSettingIssues(src)`(純関数 —— 入力を書き換えない)→ `[{code, fields, kind, message, aliasOf?}]`。入力は sim.params・保存の physics・受理後の physics の
+  どれでもよい(読むのは geoPN・kFrame・geodesic・relativeDrag・spaceMesh・meshVelocity・lambdaPN・kFrameApprox)。`kind` は "preset"(目的の組の逸脱 —— `geoModeOf(...).standard` を偽にする)か
+  "declaration"(`kFrameFraction`・`ignoredGeodesic` —— 宣言そのものの注意)。`fields` は編集欄の鍵。`HP.modeSaveWarnings(a)` はその写し(互換)。`HP.modeIssueText(list)` は
+  通知・赤文字の文(別名の行は文を重ねない)。保存(#btnSave)・セーブの読込(loadSave —— 頭文 `modeWarnHeadLoad`)・JSON の受理(validatePreset の警告・取り込みの通知 1 行)・
+  編集欄の赤文字が**同じ code 集合**を出す(例外は受理だけ: 旧法則版を宣言した 3 の `geo3NoInertial`・`geo3LegacyMesh` は validatePreset の警告に出さない —— `MODE_ACCEPT_LEGACY_SKIP`)。走行は止めない・値は書き換えない。
+- **目的の組(標準)**: 0 = 汎用(基底は 1 つ・kFrame は自由)/ 1 = 1PN 準拠(kFrame=0・慣性なし・測地線 ON)/ 2 = 引きずり近似 q(kFrame=1・慣性なし)/
+  3 = 慣性決定力(relativeDrag.law:"inertial"・kFrame=0・測地線 OFF・旧メッシュなし・合成 solve(velocity))。
+- **code**(`HP.MODE_SAVE_WARN_CODES` 13 本 —— 既存 6 本の並びのまま末尾に足した): `geo0Geodesic`(互換の別名 —— 測地線を含む重ねで `aliasOf:"geo0Stacked"`)・`geo1KFrame`・`geo2KFrame`・
+  `geo3NoInertial`・`kFrameFraction`・`inertialPlusGeodesic`(3 ∧ 慣性 ∧ geodesic:true)・**`inertialPlusKFrame`**(0・3 で慣性 ∧ kFrame>0)・**`geo0Stacked`**(0 で physics.geodesic:true・
+  relativeDrag.law:"inertial"・走る spaceMesh.lawVersion のうち 2 つ以上)・**`extraRelativeDrag`**(1・2 に慣性)・**`ignoredGeodesic`**(1・2 の geodesic:false)・**`geo3LegacyMesh`**(3 に旧メッシュ)・
+  **`inertialCompose`**(3 の compose:"sum")・**`inertialSolveFrom`**(3 の solveFrom:"history")。geoPN=0 の単独の測地線 ON はもう警告しない。保存の版 `HP.MODE_POLICY_VERSION` は **`"w295a-1"`**
+  (w291c-1・w293a-1・w294a-1 の保存も値を保持して読む)。
+- **geoPN=0 の選択肢**: `HP.GEO0_CHOICES` = `["newton","geodesic","inertial","legacy","stack"]`。`HP.geo0ChoiceOf(src)` は立っている宣言からの逆算(2 つ以上なら "stack")。
+  `HP.geo0ChoicePreview(src, choice, {gain})` は外す/足す宣言の表(純関数)。`HP.geo0ApplyChoice(S, choice, {gain})` は geoPN=0 の S にだけ効き、他の排他宣言を外す(kFrame は触らない・
+  "stack" といまの選択は no-op)。戻り値 `{ok, changed, removed, added, law, ge}`。UI は確認(confirm)のあとだけ適用する。旧空間メッシュは geoPN=0 では走らない(宣言だけ残す)。
+- **gain の継続編集**: `HP.geoInertialSetGain(S, gain)` —— 宣言済みなら他の鍵(pairs/eps/coreTable/compose/solveFrom)を保って gain だけ変える・未宣言なら `{law:"inertial", gain}` を宣言する。
+  `geo3InertialDeclare` も同じ本体。「パラメータ」タブの gain の欄は慣性の宣言の後も残る(全番号)。
+- **編集欄の赤文字**: `HP.refreshModeDeviation()` が `.prow[data-k="geoPN"]`(全体の要約)と `.prow[data-k="kFrame"]`(fields に kFrame)の中に `div.modeDeviation`(role=status・aria-live=polite・
+  `data-codes`・色 `--errText`)を出す/消す。
+- **AI 生成の推奨**: 目的に合わせて組をそろえる —— 観測値の再現は geoPN=1・kFrame=0(慣性なし)/ q 近似の引きずりは geoPN=2・kFrame=1 / 慣性決定力の引きずりは geoPN=3・
+  `relativeDrag.law:"inertial"`・kFrame=0・compose 未記載(既定 solve)/ 基底を自由に試すときは geoPN=0 で基底を 1 つ(physics.geodesic:true か relativeDrag.law:"inertial" のどちらか)。
+  組と違う設定は受理されて走るが、保存・読込・編集欄で警告が出る(比較用の実験設定として明示する)。
+- 内蔵 152 本の力学・presetSig・`S._core` は 1 bit 不変。QA: **`behavior.modeIssues295`**(新設)と、世代切替で改めた `behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`・
+  `behavior.geoModeResolve`・`behavior.geo3Inertial294`・`behavior.geoMode`・`preset.modeNoRestriction`・`docs.geoModeTable`(現行の表は docs/PHYSICS.md〔第295便a〕)。JSON の受理の警告は geoPN=2∧kFrame=0(互換入力)で互換の 1 行に geo2KFrame の 1 行が加わる(保存時と同じ判定)。
+
 ## 57. 第295便c —— 慣性決定力版サンプル 3 本(🌤️ earthMoonSunInertial・🟤 mercurySunInertial・🟣 plutoCharonInertial)と gain の SI 移送(原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」・統括の検証項目 R155・**新しい宣言鍵は足していない**・**SYSTEM_PROMPT には載せない**)
 
 - **新しい内蔵 3 本**(`sampleClass:"principle"`・較正母集団の外・`familyRole:"variant"`・群は家族の primary と同じ「現実較正」・`fidelity:"real"`・`referenceKind:"coefficient-transfer"`(宣言専用 —— 参照は移送した係数への応答)):

@@ -67973,7 +67973,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             lambdaPN: 1, pnAlpha: 1.5, softening: 0.5 }, ph),
           bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, { type: 'single', m: 1, x: 20, y: 0, vx: 0, vy: 0.7, spin: 0, pinned: false }] });
         const V = (p) => { const v = HP.validatePreset(p); return { ok: v.ok, err: (v.errors || []).find((e) => /geoPN=1/.test(e)) || null,
-          nw: (v.warnings || []).length, use1: (v.warnings || []).some((w) => /主に現実較正用・GR 1PN 準拠/.test(w)), compatW: (v.warnings || []).some((w) => /互換入力/.test(w)), snapped: v.kFrameSnapped || null,
+          nw: (v.warnings || []).length, use1: (v.warnings || []).some((w) => /主に現実較正用・GR 1PN 準拠|GR 1PN に引きずりを重ねた実験設定/.test(w)) /* 第295便a: 文は目的の組の判定(modeWarn_geo1KFrame)から */, compatW: (v.warnings || []).some((w) => /互換入力/.test(w)), snapped: v.kFrameSnapped || null,
           compat: v.geoCompat ? Object.assign({}, v.geoCompat) : null, geoPN: v.ok ? v.preset.physics.geoPN : null, kFrame: v.ok ? v.preset.physics.kFrame : null }; };
         out.val = { g1k1: V(two({ geoPN: 1, kFrame: 1 })), g1k03: V(two({ geoPN: 1, kFrame: 0.3 })), g1kDef: V(two({ geoPN: 1 })),
           g1k0: V(two({ geoPN: 1, kFrame: 0 })), g2k0: V(two({ geoPN: 2, kFrame: 0 })),
@@ -68045,14 +68045,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const has291cV = await page.evaluate(() => typeof modeSaveWarnings === 'function');
       // 第293便a(原仮定者の裁定(第83報)・R141): **固定値を変えた** —— 分数は書き換えず値を保持(0.3 のまま・分数の警告と主な用途の警告)
       const has293aV = await page.evaluate(() => typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0);
+      // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 受理の警告も目的の組の判定から。geoPN=2∧kFrame=0(互換入力)は互換の 1 行に加えて geo2KFrame の 1 行(保存時と同じ)
+      const m295V = await page.evaluate(() => typeof modeSettingIssues === 'function');
+      const nwG2 = m295V ? 2 : 1;
       const okV = { g1k1: has291cV ? (v.g1k1.ok === true && v.g1k1.use1 && v.g1k1.kFrame === 1 && v.g1k1.geoPN === 1) : (v.g1k1.ok === false && !!v.g1k1.err && /原仮定者の裁定/.test(v.g1k1.err)),
         g1k03: has293aV ? (v.g1k03.ok === true && v.g1k03.snapped === null && v.g1k03.kFrame === 0.3 && v.g1k03.use1)
           : has291cV ? (v.g1k03.ok === true && !!v.g1k03.snapped && v.g1k03.snapped.to === 0 && v.g1k03.kFrame === 0 && !v.g1k03.use1) : (v.g1k03.ok === false && v.g1k03.snapped === null),
         g1kDef: has291cV ? (v.g1kDef.ok === true && v.g1kDef.use1) : v.g1kDef.ok === false, g1k0: v.g1k0.ok === true && v.g1k0.nw === 0 && v.g1k0.compat === null,
-        g2k0: v.g2k0.ok === true && v.g2k0.nw === 1 && v.g2k0.compatW && !!v.g2k0.compat && v.g2k0.compat.builtinPending === false && v.g2k0.geoPN === 2 && v.g2k0.kFrame === 0,
+        g2k0: v.g2k0.ok === true && v.g2k0.nw === nwG2 && v.g2k0.compatW && !!v.g2k0.compat && v.g2k0.compat.builtinPending === false && v.g2k0.geoPN === 2 && v.g2k0.kFrame === 0,
         g2k0b: v.g2k0b.g284
-          ? (v.g2k0b.ok === true && v.g2k0b.nw === 1 && v.g2k0b.compatW && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === false)
-          : (v.g2k0b.ok === true && v.g2k0b.nw === 0 && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === true),
+          ? (v.g2k0b.ok === true && v.g2k0b.nw === nwG2 && v.g2k0b.compatW && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === false)
+          : (v.g2k0b.ok === true && v.g2k0b.nw === nwG2 - 1 && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === true),
         g2k1: v.g2k1.ok === true && v.g2k1.nw === 0 && v.g2k1.compat === null, g0k1: v.g0k1.ok === true && v.g0k1.kFrame === 1 && v.g0k1.geoPN === 0 };
       for (const [k, ok] of Object.entries(okV)) if (!ok) bad.push('② 受理器の契約 ' + k + ' が崩れた: ' + JSON.stringify(v[k]).slice(0, 120));
       cases.push(has293aV ? '受理器(第291便c・第293便a): geoPN=1∧kFrame≠0 は受理+主な用途の警告(分数 0.3 は値を保持して分数の警告も・未記入の既定 1 も受理)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変'
@@ -68187,6 +68190,14 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (!v.ok) { o.bad.push(p.id + ': 受理器が拒否'); continue; }
           const nw = (v.warnings || []).filter((w) => NEW_W.test(w));
           if (nw.length) o.bad.push(p.id + ': 新しい警告 ' + nw.join('|').slice(0, 80));
+          // 第295便a(原仮定者の裁定(第85報)・R153): 受理器の目的の組の警告 = modeSettingIssues の文(同じ関数 —— 保存・読込・赤文字と同じ)
+          if (typeof modeSettingIssues === 'function') {
+            const legA = !!((v.preset.physics.spaceMesh || {}).lawVersion !== undefined);   // 受理の例外 MODE_ACCEPT_LEGACY_SKIP(旧法則版を宣言した 3)
+            const mi = modeSettingIssues(v.preset.physics).filter((z) => !z.aliasOf && !(legA && typeof MODE_ACCEPT_LEGACY_SKIP !== 'undefined' && MODE_ACCEPT_LEGACY_SKIP.indexOf(z.code) >= 0));
+            const miss = mi.filter((z) => (v.warnings || []).indexOf(z.message) < 0);
+            if (miss.length) o.bad.push(p.id + ': 受理器に目的の組の警告が無い ' + miss.map((z) => z.code).join('+'));
+            if (mi.length) { o.modeBooks = (o.modeBooks || 0) + 1; const key = mi.map((z) => z.code).join('+'); o.modeDist = o.modeDist || {}; o.modeDist[key] = (o.modeDist[key] || 0) + 1; }
+          }
           HP.sim.build(v.preset);
           const L = geoLawOfSim(HP.sim), G = geoModeOf(HP.sim.params).law;
           if (L !== G || G !== g.law) o.bad.push(p.id + ': 走行 ' + L + ' ⇔ 宣言 ' + G + ' ⇔ 内蔵 ' + g.law);
@@ -68206,6 +68217,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         `**法則の解決は宣言から**(第291便c・原仮定者の裁定(第81報)⑥・R134): 内蔵 ${r.n} 本の law 分布 ${distTxt} —— 第285便b の欄(core・mode)からの導出と全本一致・`
         + `全本の走行中の dispatch(geoLawOfSim)= 宣言の解決(geoModeOf)・受理器は内蔵に新しい警告を出さない`
         + (r.has294a ? ` / **第294便a(R148)**: 旧法則版の無い 3 ∧ 慣性宣言は inertial-drag(測地線 OFF)・実効番号 geoEffectiveMode と法則の対応 ${r.geAgree}/${r.n}` : '')
+        + (r.modeDist ? ` / **第295便a(R153)**: 受理器の目的の組の警告 = modeSettingIssues の文(${r.modeBooks || 0} 本 ${JSON.stringify(r.modeDist)})` : '')
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---------- preset.modeNoRestriction
@@ -68242,7 +68254,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const v = HP.validatePreset(two({ geoPN: g, kFrame: k }, 'calibration'));
           o.cal.push(`${g}/${k}:${v.ok ? 'ok' : 'NG'}`);
           if (!v.ok) o.bad.push(`calibration geoPN=${g}∧kFrame=${k} を拒否: ${(v.errors || [])[0]}`);
-          else if (!(v.warnings || []).some((w) => /主な用途/.test(w)) && !(g === 1 && k === 0)) o.bad.push(`calibration geoPN=${g}∧kFrame=${k} に主な用途の警告が無い`);
+          else if (!(v.warnings || []).some((w) => /主な用途|GR 1PN に引きずりを重ねた実験設定/.test(w)) && !(g === 1 && k === 0)) o.bad.push(`calibration geoPN=${g}∧kFrame=${k} に主な用途の警告が無い`);   // 第295便a: geoPN=1∧kFrame≠0 の文は目的の組の判定(modeWarn_geo1KFrame)から
         }
         // 旧法則版の矛盾 → 受理+警告+旧法則版が無効(測地線の基底)
         const sm = (x) => Object.assign({ mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: 1 }, x);
@@ -68299,6 +68311,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第294便a(R148): 世代切替 —— 6 本目の code "inertialPlusGeodesic"(慣性宣言 ∧ 解決した測地線 ON)
         const ig294 = MODE_SAVE_WARN_CODES.indexOf('inertialPlusGeodesic') >= 0;
         o.ig294 = ig294;
+        // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 判定は目的の組の関数 modeSettingIssues(13 code)。modeSaveWarnings はその写し
+        const m295 = typeof modeSettingIssues === 'function';
+        o.m295 = m295;
         const cases = [];
         for (const g of [0, 1, 2, 3]) for (const k of [0, 0.5, 1]) for (const geo of [undefined, true]) cases.push({ geoPN: g, kFrame: k, geodesic: geo });
         if (kf293) for (const g of [0, 1, 2, 3]) for (const k of [0.25, 0.5]) for (const dec of ['space-mesh-effective', 'sample-only', 'yes'])
@@ -68310,7 +68325,32 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         if (ig294) for (const g of [0, 1, 2]) for (const k of [0, 1]) for (const geo of [undefined, true])
           cases.push({ geoPN: g, kFrame: k, geodesic: geo, relativeDrag: { law: 'inertial', gain: 1 } });
-        const want = (c) => { const w = [];
+        if (m295) for (const k of [0, 1]) {   // 第295便a: 3 の慣性の組の逸脱(測地線・旧加算則・history・旧メッシュの共存)と 1・2 の効かない geodesic:false
+          cases.push({ geoPN: 3, kFrame: k, geodesic: true, relativeDrag: { law: 'inertial', gain: 1 } });
+          cases.push({ geoPN: 3, kFrame: k, relativeDrag: { law: 'inertial', gain: 1, compose: 'sum' } });
+          cases.push({ geoPN: 3, kFrame: k, relativeDrag: { law: 'inertial', gain: 1, solveFrom: 'history' } });
+          cases.push({ geoPN: 3, kFrame: k, relativeDrag: { law: 'inertial', gain: 1 }, spaceMesh: { lawVersion: 'scalar', inertia: false } });
+          for (const g of [1, 2]) cases.push({ geoPN: g, kFrame: k, geodesic: false });
+        }
+        // 第295便a: 目的の組の規則(独立に書き直した期待値 —— 並びは関数の塊の順: 0 → 1 → 2 → 3 → 全番号)
+        const want295 = (c) => { const w = [];
+          const mode = c.geoPN >= 3 ? 3 : c.geoPN >= 2 ? 2 : c.geoPN > 0 ? 1 : 0;
+          const inert = !!(c.relativeDrag && c.relativeDrag.law === 'inertial'), geo = c.geodesic === true;
+          const sm = c.spaceMesh, legacy = !!(sm && sm.lawVersion !== undefined);
+          const legacyRuns = mode === 3 && legacy && !(c.kFrame > 0) && sm.inertia === false && (sm.lawVersion !== 'vMinusU' || !!c.meshVelocity);
+          if (mode === 0) { if (geo && inert) { w.push('geo0Stacked'); w.push('geo0Geodesic'); } if (inert && c.kFrame > 0) w.push('inertialPlusKFrame'); }
+          if (mode === 1) { if (c.kFrame !== 0) w.push('geo1KFrame'); if (inert) w.push('extraRelativeDrag'); if (c.geodesic === false) w.push('ignoredGeodesic'); }
+          if (mode === 2) { if (c.kFrame !== 1) w.push('geo2KFrame'); if (inert) w.push('extraRelativeDrag'); if (c.geodesic === false) w.push('ignoredGeodesic'); }
+          if (mode === 3) {
+            if (!inert) w.push('geo3NoInertial');
+            else { if (c.kFrame > 0) w.push('inertialPlusKFrame'); if (geo) w.push('inertialPlusGeodesic');
+              if (c.relativeDrag.compose === 'sum') w.push('inertialCompose'); if (c.relativeDrag.solveFrom === 'history') w.push('inertialSolveFrom'); }
+            if (legacy) w.push('geo3LegacyMesh');
+            void legacyRuns;
+          }
+          if (c.kFrame > 0 && c.kFrame < 1 && c.kFrameApprox !== 'space-mesh-effective' && c.kFrameApprox !== 'sample-only') w.push('kFrameFraction');
+          return w.join('+'); };
+        const want = (c) => { if (m295) return want295(c); const w = [];
           const geoOn = c.geoPN === 0 && c.geodesic === true;
           if (geoOn) w.push('geo0Geodesic');
           if (c.geoPN === 1 && c.kFrame !== 0) w.push('geo1KFrame');
@@ -68352,8 +68392,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (!o.fracLang) o.bad.push('kFrameFraction の ja/en の文');
           if (!o.fracSameAsLoad) o.bad.push('kFrameFraction の文が読み込み時の警告と違う');
         }
-        if (ig294) {   // 第294便a: 6 本目の文(ja/en・走る法則を含む)
-          const fi = (c) => (modeSaveWarnings(c).find((z) => z.code === 'inertialPlusGeodesic') || {}).message || '';
+        if (ig294) {   // 第294便a: 6 本目の文(ja/en・走る法則を含む)。第295便a: geoPN 1 の慣性は extraRelativeDrag(文の要件は同じ —— eih-kf0・geoPN=3)
+          const CODE_I = m295 ? 'extraRelativeDrag' : 'inertialPlusGeodesic';
+          const fi = (c) => (modeSaveWarnings(c).find((z) => z.code === CODE_I) || {}).message || '';
           const jaI = fi({ geoPN: 1, kFrame: 0, relativeDrag: { law: 'inertial', gain: 1 } });
           HP.setLang('en'); const enI = fi({ geoPN: 1, kFrame: 0, relativeDrag: { law: 'inertial', gain: 1 } }); HP.setLang('ja');
           o.igLang = jaI.length > 10 && enI.length > 10 && jaI !== enI && /eih-kf0/.test(jaI) && /eih-kf0/.test(enI) && /geoPN=3/.test(jaI) && /geoPN=3/.test(enI);
@@ -68361,9 +68402,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         return o;
       });
-      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24 && (!r.kf293 || (r.codes.length === (r.ig294 ? 6 : 5) && r.n >= (r.ig294 ? 66 : 54))),
+      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24 && (!r.kf293 || (r.codes.length === (r.m295 ? 13 : r.ig294 ? 6 : 5) && r.n >= (r.m295 ? 78 : r.ig294 ? 66 : 54))),
         `**セーブ時の警告**(第291便c・R134・純関数 modeSaveWarnings): ${r.n} 通りの code が規則どおり(geoPN=0∧測地線 ON / geoPN=1∧kFrame≠0 / geoPN=2∧kFrame≠1 / `
-        + `geoPN=3∧慣性決定力の引きずり未宣言` + (r.ig294 ? ` / **第294便a(R148)**: 慣性宣言 ∧ 測地線 ON(geoPN 1・2・0∧geodesic:true)→ inertialPlusGeodesic(ja≠en=${r.igLang})` : '') + (r.kf293 ? ` / **第293便a(R141)**: 0<kFrame<1 ∧ 宣言 kFrameApprox 無し → kFrameFraction —— code ${r.codes.length} 本・文は読み込み時の警告と同じ=${r.fracSameAsLoad}・ja≠en=${r.fracLang}` : '') + `)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
+        + `geoPN=3∧慣性決定力の引きずり未宣言` + (r.m295 ? ` / **第295便a(原仮定者の裁定(第85報)・R153)**: 目的の組の判定 modeSettingIssues の写し —— code ${r.codes.length} 本(geoPN=0 の単独の測地線 ON は警告しない・重ねた設定は geo0Stacked〔別名 geo0Geodesic〕)` : '') + (r.ig294 ? ` / **第294便a(R148)**: 慣性宣言 ∧ 測地線 ON(geoPN 1・2・0∧geodesic:true)→ inertialPlusGeodesic(ja≠en=${r.igLang})` : '') + (r.kf293 ? ` / **第293便a(R141)**: 0<kFrame<1 ∧ 宣言 kFrameApprox 無し → kFrameFraction —— code ${r.codes.length} 本・文は読み込み時の警告と同じ=${r.fracSameAsLoad}・ja≠en=${r.fracLang}` : '') + `)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---------- behavior.loadSaveModePolicy
@@ -68382,7 +68423,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const kf293 = MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0;
           // 第294便a(R148): 世代切替 —— 保存の版は w294a-1(w291c-1・w293a-1 の保存も値を保持して読む)
           const v294 = typeof geoEffectiveMode === 'function';
-          o.kf293 = kf293; o.v294 = v294; const VER = v294 ? 'w294a-1' : kf293 ? 'w293a-1' : 'w291c-1';
+          // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 保存の版は w295a-1・読込でも目的の組の逸脱を通知 1 行(頭文は読込用)
+          const v295 = typeof modeSettingIssues === 'function';
+          o.kf293 = kf293; o.v294 = v294; o.v295 = v295; const VER = v295 ? 'w295a-1' : v294 ? 'w294a-1' : kf293 ? 'w293a-1' : 'w291c-1';
           try {
           HP.loadPreset('mercuryReal', false);
           o.base = { geoPN: HP.sim.params.geoPN, kFrame: HP.sim.params.kFrame };
@@ -68411,6 +68454,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             const ok2 = HP.loadSaveItem(JSON.parse(JSON.stringify(sv)), 'x');
             o.load = { ok: ok2, kFrame: HP.sim.params.kFrame, law: geoLawOfSim(HP.sim), note: notice() };
             if (!(ok2 === true && HP.sim.params.kFrame === 1 && o.load.law === 'vMinusU-q' && !/kFrame=0 として読みました/.test(o.load.note))) o.bad.push('新版が保持されない ' + JSON.stringify(o.load).slice(0, 120));
+            if (v295) {   // 第295便a: 読込の通知に目的の組の逸脱(読込用の頭文・保存と同じ文)—— 保存用の頭文は使わない
+              const head = T('modeWarnHeadLoad'), msg1 = T('modeWarn_geo1KFrame')(1, 'vMinusU-q');
+              o.loadWarn = o.load.note.indexOf(head) >= 0 && o.load.note.indexOf(msg1) >= 0 && o.load.note.indexOf(T('modeWarnHead')) < 0;
+              if (!o.loadWarn) o.bad.push('読込の通知に目的の組の逸脱が無い: ' + o.load.note.slice(0, 120));
+            }
             if (kf293) {   // ③′ w291c-1 の保存(版を上げる前の新版)も値を保持して読む
               const sv0 = Object.assign(JSON.parse(JSON.stringify(sv)), { modePolicy: 'w291c-1' });
               HP.loadPreset('gas', false); notice();
@@ -68424,6 +68472,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
               const ok4 = HP.loadSaveItem(sv1, 'x');
               o.load293 = { ok: ok4, kFrame: HP.sim.params.kFrame };
               if (!(ok4 === true && HP.sim.params.kFrame === 1)) o.bad.push('w293a-1 の保存が保持されない ' + JSON.stringify(o.load293));
+            }
+            if (v295) {   // ③‴ 第295便a: w294a-1 の保存(版を上げる前)も値を保持して読む
+              const sv2 = Object.assign(JSON.parse(JSON.stringify(sv)), { modePolicy: 'w294a-1' });
+              HP.loadPreset('gas', false); notice();
+              const ok5 = HP.loadSaveItem(sv2, 'x');
+              o.load294 = { ok: ok5, kFrame: HP.sim.params.kFrame };
+              if (!(ok5 === true && HP.sim.params.kFrame === 1)) o.bad.push('w294a-1 の保存が保持されない ' + JSON.stringify(o.load294));
             }
           }
           // ⑤ 第293便a(R141): 分数 kFrame の保存 —— 成功通知に kFrameFraction の文・保存の値は分数のまま・読み戻しても同じ値
@@ -68464,6 +68519,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           document.getElementById('btnSave').click();
           o.stdNote = notice();
           if (/⚠/.test(o.stdNote) || !/保存しました/.test(o.stdNote)) o.bad.push('標準構成で警告: ' + o.stdNote.slice(0, 60));
+          if (v295) {   // 第295便a: 標準構成の保存を読んでも警告なし
+            const svS = JSON.parse(localStorage.getItem('hp_saves') || '[]').find((z) => z.name === 'qa_w291c_std');
+            HP.loadPreset('gas', false); notice();
+            const okS = svS ? HP.loadSaveItem(JSON.parse(JSON.stringify(svS)), 'x') : false;
+            o.stdLoadNote = notice();
+            if (!(okS === true && !/⚠/.test(o.stdLoadNote))) o.bad.push('標準構成の読込で警告: ' + o.stdLoadNote.slice(0, 60));
+          }
           } finally { window.notify = notify0; }
         } finally {
           if (keep === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep);
@@ -68472,7 +68534,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return o;
       });
       add('behavior.loadSaveModePolicy', r.bad.length === 0,
-        `**保存の版**(第291便c・R134${r.v294 ? ' —— 第294便a(R148)で w294a-1・w293a-1 の保存も値を保持=' + !!(r.load293 && r.load293.kFrame === 1) : ''}${r.kf293 ? ' —— 第293便a(R141)で w293a-1・w291c-1 の保存も値を保持=' + !!(r.load291 && r.load291.kFrame === 1) + '・分数 kFrame の保存 ' + JSON.stringify(r.fracSaved || {}) + ' は通知に kFrameFraction の文・読み戻し kFrame=' + (r.fracLoad ? r.fracLoad.kFrame : '—') : ''}): 旧セーブ(modePolicy 無し)の geoPN=1∧kFrame=1 は従来どおり kFrame=${r.old ? r.old.kFrame : '—'} で読む(通知 1 行)/ `
+        `**保存の版**(第291便c・R134${r.v295 ? ' —— 第295便a(R153)で w295a-1・w294a-1 の保存も値を保持=' + !!(r.load294 && r.load294.kFrame === 1) + '・読込の通知に目的の組の逸脱(読込用の頭文)=' + r.loadWarn : ''}${r.v294 ? ' —— 第294便a(R148)で w294a-1・w293a-1 の保存も値を保持=' + !!(r.load293 && r.load293.kFrame === 1) : ''}${r.kf293 ? ' —— 第293便a(R141)で w293a-1・w291c-1 の保存も値を保持=' + !!(r.load291 && r.load291.kFrame === 1) + '・分数 kFrame の保存 ' + JSON.stringify(r.fracSaved || {}) + ' は通知に kFrameFraction の文・読み戻し kFrame=' + (r.fracLoad ? r.fracLoad.kFrame : '—') : ''}): 旧セーブ(modePolicy 無し)の geoPN=1∧kFrame=1 は従来どおり kFrame=${r.old ? r.old.kFrame : '—'} で読む(通知 1 行)/ `
         + `#btnSave は ${JSON.stringify(r.saved || {})} を書き、成功通知に警告を含める(保存は止めない)/ その保存を読むと kFrame=${r.load ? r.load.kFrame : '—'}・法則 ${r.load ? r.load.law : '—'}(値を保持)/ 標準構成は警告なし`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
@@ -68483,9 +68545,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       // 第294便a(原仮定者の裁定(第84報)・R148): 世代切替 —— 現行の表(測地線の列・慣性宣言の 0・1 の行)は〔第294便a〕に載る。〔第291便c〕の表は履歴として残す(照合しない)
       const t294 = await page.evaluate(() => typeof geoEffectiveMode === 'function');
-      const SEC = t294 ? '\n〔第294便a — ' : '\n〔第291便c — ';
+      // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 現行の表(目的の組の判定 —— standard と警告の列)は〔第295便a〕。〔第294便a〕は履歴(照合しない)
+      const t295 = await page.evaluate(() => typeof modeSettingIssues === 'function');
+      const SEC = t295 ? '\n〔第295便a — ' : t294 ? '\n〔第294便a — ' : '\n〔第291便c — ';
       const i0 = P.indexOf(SEC), i7 = P.indexOf('\n## 7. ');
       if (t294 && P.indexOf('\n〔第291便c — ') < 0) bad.push('PHYSICS に〔第291便c〕節(履歴)が無い');
+      if (t295 && P.indexOf('\n〔第294便a — ') < 0) bad.push('PHYSICS に〔第294便a〕節(履歴)が無い');
       if (i0 < 0) bad.push('PHYSICS に' + SEC.trim() + '〕節が無い');
       else {
         if (!(i7 > i0)) bad.push('〔第291便c〕が「## 7.」の前に無い');
@@ -68494,7 +68559,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const row of rows) if (sec.indexOf(row) < 0) bad.push('表に行が無い: ' + row);
         const tableLines = sec.split('\n').filter((l) => /^\| [0-3] \|/.test(l));
         if (tableLines.length !== rows.length) bad.push(`表の行数 ${tableLines.length} ⇔ geoModeTable ${rows.length}`);
-        const WORDS = t294 ? ['原仮定者の裁定(第84報)', '統括の検証項目 R148', 'modePolicy', 'w294a-1', 'geoEffectiveMode', 'inertialPlusGeodesic', 'modeSaveWarnings', 'geoModeOf']
+        const WORDS = t295 ? ['原仮定者の裁定(第85報)', '統括の検証項目 R153', 'modePolicy', 'w295a-1', 'modeSettingIssues', 'geo0Stacked', 'inertialPlusKFrame', 'geoModeOf', 'refreshModeDeviation', 'geo0ApplyChoice']
+          : t294 ? ['原仮定者の裁定(第84報)', '統括の検証項目 R148', 'modePolicy', 'w294a-1', 'geoEffectiveMode', 'inertialPlusGeodesic', 'modeSaveWarnings', 'geoModeOf']
           : ['原仮定者の裁定(第81報)', '統括の検証項目 R134', 'modePolicy', 'w291c-1', 'lawResolved', 'modeSaveWarnings', 'geoModeOf'];
         for (const w of WORDS)
           if (sec.indexOf(w) < 0) bad.push('節に ' + w + ' が無い');
@@ -68502,7 +68568,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const w of ['GR 1PN と同等が証明', '新しい法則が正しい', 'geoPN=3 が GR と同値', '観測一致を達成']) if (secNoQuote.indexOf(w) >= 0) bad.push('禁止の言い回し ' + w);
       }
       add('docs.geoModeTable', bad.length === 0,
-        `**モードの表の転記一致**(第291便c・R134${t294 ? ' —— 第294便a(R148)から現行の表は〔第294便a〕(測地線の列・〔第291便c〕は履歴)' : ''}): PHYSICS${SEC.trim()}〕の表 ${rows.length} 行 = geoModeTable()(geoModeOf と modeSaveWarnings から作る行)`
+        `**モードの表の転記一致**(第291便c・R134${t294 ? ' —— 第294便a(R148)から現行の表は〔第294便a〕(測地線の列・〔第291便c〕は履歴)' : ''}${t295 ? ' —— 第295便a(R153)から現行の表は〔第295便a〕(目的の組の判定 modeSettingIssues の standard と警告・〔第294便a〕は履歴)' : ''}): PHYSICS${SEC.trim()}〕の表 ${rows.length} 行 = geoModeTable()(geoModeOf と modeSaveWarnings から作る行)`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -68654,12 +68720,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       o.geoFalse = [1, 2, 3].map((g) => gw(HP.validatePreset(mk(g, g === 3 ? { relativeDrag: { law: 'inertial', gain: 1 } } : {}))));
       if (!(o.geoFalse[0] === 1 && o.geoFalse[1] === 1 && o.geoFalse[2] === 0)) o.bad.push('⑤ geodesic:false の警告 ' + JSON.stringify(o.geoFalse));
       o.policy = { v: MODE_POLICY_VERSION, keep: MODE_POLICY_KEEP_VERSIONS.slice(), codes: MODE_SAVE_WARN_CODES.length };
-      if (!(o.policy.v === 'w294a-1' && ['w291c-1', 'w293a-1', 'w294a-1'].every((z) => o.policy.keep.includes(z)) && o.policy.codes === 6)) o.bad.push('⑤ 保存の版 ' + JSON.stringify(o.policy));
+      // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 保存の版 w295a-1・code 13 本(目的の組の判定)
+      const m295 = typeof modeSettingIssues === 'function';
+      const V = m295 ? 'w295a-1' : 'w294a-1', NC = m295 ? 13 : 6;
+      if (!(o.policy.v === V && ['w291c-1', 'w293a-1', 'w294a-1'].concat(m295 ? ['w295a-1'] : []).every((z) => o.policy.keep.includes(z)) && o.policy.codes === NC)) o.bad.push('⑤ 保存の版 ' + JSON.stringify(o.policy));
       const rdI = { law: 'inertial', gain: 1 };
       o.legacy = [{ physics: { relativeDrag: rdI } }, { modePolicy: 'w291c-1', physics: { relativeDrag: rdI } }, { modePolicy: 'w293a-1', physics: { relativeDrag: rdI } },
         { modePolicy: 'w294a-1', physics: { relativeDrag: rdI } }, { physics: { relativeDrag: { law: 'inertial', gain: 1, compose: 'sum' } } }, { physics: { relativeDrag: { law: 'pairSlip', kappa: 0.1 } } }, { physics: {} }]
+        .concat(m295 ? [{ modePolicy: 'w295a-1', physics: { relativeDrag: rdI } }] : [])
         .map(loadSaveComposeLegacyOf);
-      if (JSON.stringify(o.legacy) !== JSON.stringify([true, true, false, false, false, false, false])) o.bad.push('⑤ 旧 JSON の solve 警告の判別 ' + JSON.stringify(o.legacy));
+      if (JSON.stringify(o.legacy) !== JSON.stringify([true, true, false, false, false, false, false].concat(m295 ? [false] : []))) o.bad.push('⑤ 旧 JSON の solve 警告の判別 ' + JSON.stringify(o.legacy));
       o.legacyLang = (() => { const ja = T('loadComposeLegacy'); HP.setLang('en'); const en = T('loadComposeLegacy'); HP.setLang('ja'); return ja.length > 20 && en.length > 20 && ja !== en && /solve/.test(ja) && /solve/.test(en); })();
       if (!o.legacyLang) o.bad.push('⑤ 旧 JSON の solve 警告の文(ja/en)');
       const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
@@ -68691,19 +68761,227 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (b) { const inp = b.querySelector('input.geo3InertialGain'), bt = b.querySelector('button.geo3InertialBtn');
           o.init = inp ? inp.value : null;
           if (inp && bt) { inp.value = '0'; bt.click(); }
-          o.rd = HP.sim.relDrag ? { law: HP.sim.relDrag.law, gain: HP.sim.relDrag.gain } : null; o.lawAfter = geoLawOfSim(HP.sim); o.geAfter = geoEffectiveMode(HP.sim); o.visAfter = vis(); }
+          o.rd = HP.sim.relDrag ? { law: HP.sim.relDrag.law, gain: HP.sim.relDrag.gain } : null; o.lawAfter = geoLawOfSim(HP.sim); o.geAfter = geoEffectiveMode(HP.sim); o.visAfter = vis();
+          o.stateAfter = b.dataset.state || null; }
         HP.loadPreset('earthMoonInertial', false);
-        o.visBook = vis();
+        o.visBook = vis(); o.stateBook = box() ? (box().dataset.state || null) : null;
       } finally { HP.loadPreset('saturn', false); }
       return o;
     });
+    // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 宣言の後も gain の欄を残す(全番号 —— data-state "declared")。🌛 でも出る
+    const m295u = await page.evaluate(() => typeof modeSettingIssues === 'function');
+    const afterOk = m295u ? (u.visAfter === true && u.stateAfter === 'declared' && u.visBook === true && u.stateBook === 'declared') : (u.visAfter === false && u.visBook === false);
     if (!(u.hasBox && u.vis1 === false && u.geo === 3 && u.vis3 === true && u.lawBefore === 'eih-kf0' && u.init === '0' && u.rd && u.rd.law === 'inertial' && u.rd.gain === 0
-      && u.lawAfter === 'inertial-drag' && u.geAfter === 0 && u.visAfter === false && u.visBook === false)) bad.push('UI の宣言欄 ' + JSON.stringify(u).slice(0, 200));
-    cases.push(`UI: 🌙 の geoPN 行に 3 → 宣言欄が出る=${u.vis3}(法則 ${u.lawBefore})・gain ${u.init} で宣言 → ${u.lawAfter}・実効 ${u.geAfter}・欄が消える=${u.visAfter === false}・🌛 では出ない=${u.visBook === false}`);
+      && u.lawAfter === 'inertial-drag' && u.geAfter === 0 && afterOk)) bad.push('UI の宣言欄 ' + JSON.stringify(u).slice(0, 200));
+    cases.push(`UI: 🌙 の geoPN 行に 3 → 宣言欄が出る=${u.vis3}(法則 ${u.lawBefore})・gain ${u.init} で宣言 → ${u.lawAfter}・実効 ${u.geAfter}・`
+      + (m295u ? `**第295便a(R153)**: 宣言の後も gain の欄が残る=${u.visAfter === true}(${u.stateAfter})・🌛 でも出る=${u.visBook === true}(${u.stateBook})` : `欄が消える=${u.visAfter === false}・🌛 では出ない=${u.visBook === false}`));
     add('behavior.geo3Inertial294', bad.length === 0,
       `**geoPN=3 は慣性決定力の有効化の印**(第294便a・原仮定者の裁定(第84報)・統括の検証項目 R148 —— 慣性宣言の 3 は解決も走行も測地線 OFF・1PN なし・法則 inertial-drag。`
       + `未宣言の 3 は現行どおり測地線 ON。合成則は既定の solve のまま・gain は再フィットしない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第295便a(原仮定者の裁定(第85報)「geoPN=0 では、慣性決定力などを含めた、全ての設定を試せる様にする。排他的な宣言がある場合は、宣言を選択肢で用意する」
+// ----   「geoPN=1、2、3 は目的別の組み合わせであり、パラメータが逸脱する場合は、セーブロード時に警告する。さらに、該当パラメータの編集箇所でも、
+// ----   逸脱した時に赤文字などで注意書きを表示する」・統括の検証項目 R153): behavior.modeIssues295 ----
+// ----   目的の組の判定 `modeSettingIssues`(1 か所の純関数)を geoPN 0〜3 × kFrame {0,0.5,1} × 宣言 {なし・測地線・慣性・旧メッシュ・重ね(測地線+慣性)} の
+// ----   60 組で: ① 入力不変・2 度で同じ ② `geoModeOf(...).standard` ≡ kind:"preset" の逸脱 0 ③ 保存(modeSaveWarnings)・JSON の受理(validatePreset の警告)・
+// ----   セーブの読込(loadSave の通知 —— 読込用の頭文)・編集欄の赤文字(.modeDeviation の data-codes —— geoPN 行は全部・kFrame 行は fields に kFrame)が
+// ----   同じ code 集合(受理の例外 MODE_ACCEPT_LEGACY_SKIP —— 旧法則版を宣言した 3 の geo3NoInertial・geo3LegacyMesh は受理に出さない) ④ geoPN=0 の既定の選択の逆算(geo0ChoiceOf —— なし→newton・測地線→geodesic・慣性→inertial・旧メッシュ→legacy・重ね→stack)と
+// ----   UI の選択(.geo0Choice の data-current —— geoPN≥1 では出ない)⑤ 適用は確認(confirm)のあとだけ(拒否 → 宣言は 1 字も変わらない・了承 → 他の排他宣言が外れ
+// ----   geo0ChoiceOf が選んだ値・kFrame 不変)・「重ねる」は確認を出さず no-op ⑥ 内蔵(custom_ を除く全本)はどれも選択 5 値のどれかに収まり、
+// ----   いまの選択の適用は no-op(geo0ChoicePreview.changes=false)・判定と逆算の前後で presetSig と JSON が 1 字も変わらない ⑦ 赤文字の DOM
+// ----   (role=status・aria-live=polite・色 --errText・ダーク/ライトで背景とのコントラスト ≥4.5:1)⑧ gain の継続編集(宣言済みの 🌛 で欄が残り、
+// ----   gain を変えても pairs/eps/history を保つ・compose:"sum" の宣言も保つ)⑨ 新しい code の ja/en の文が別で空でない。**root は SKIP**。
+{
+  const has295a = TARGET.startsWith('beta/') && await page.evaluate(() => typeof modeSettingIssues === 'function' && typeof geo0ApplyChoice === 'function' && typeof refreshModeDeviation === 'function');
+  if (!has295a) console.log('SKIP behavior.modeIssues295(対象に第295便a の modeSettingIssues が無い: ' + TARGET + ')');
+  else {
+    const r = await page.evaluate(() => {
+      const o = { bad: [], n: 0, nIssue: 0, nStd: 0, codesSeen: {} };
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+      const set = (a) => [...new Set(a)].sort().join('+');
+      const SM = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'scalar', toyGain: 1 };
+      const DECL = { none: {}, geodesic: { geodesic: true }, inertial: { relativeDrag: { law: 'inertial', gain: 1 } },
+        legacy: { spaceMesh: SM }, stack: { geodesic: true, relativeDrag: { law: 'inertial', gain: 1 } } };
+      const WANT_CHOICE = { none: 'newton', geodesic: 'geodesic', inertial: 'inertial', legacy: 'legacy', stack: 'stack' };
+      const keep = localStorage.getItem('hp_saves');
+      const LOG = []; const notify0 = window.notify; const confirm0 = window.confirm;
+      window.notify = function (m) { LOG.push(String(m)); return notify0.apply(this, arguments); };
+      const notice = () => { const t = LOG.join(' ‖ '); LOG.length = 0; return t; };
+      const devCodes = (k) => { const rows = [...document.querySelectorAll('#paramRows .prow[data-k="' + k + '"]')];
+        return rows.map((rw) => { const el = rw.querySelector(':scope > .modeDeviation'); return el ? set(el.dataset.codes.split(' ')) : ''; }); };
+      try {
+        localStorage.setItem('hp_saves', '[]');
+        HP.loadPreset('saturn', false);
+        const base = clone(HP.sim.params);
+        for (const k of ['geodesic', 'relativeDrag', 'spaceMesh', 'meshVelocity', 'kFrameApprox']) delete base[k];
+        for (const g of [0, 1, 2, 3]) for (const kf of [0, 0.5, 1]) for (const dk of Object.keys(DECL)) {
+          o.n++;
+          const combo = Object.assign({ geoPN: g, kFrame: kf }, clone(DECL[dk]));
+          const tag = `geoPN=${g}・kFrame=${kf}・${dk}`;
+          // ① 入力不変・2 度で同じ
+          const before = JSON.stringify(combo);
+          const a = modeSettingIssues(combo), b = modeSettingIssues(combo);
+          if (JSON.stringify(combo) !== before) o.bad.push(tag + ': 入力が変わった');
+          if (JSON.stringify(a) !== JSON.stringify(b)) o.bad.push(tag + ': 2 度で違う');
+          const codes = set(a.map((z) => z.code));
+          for (const z of a) o.codesSeen[z.code] = (o.codesSeen[z.code] || 0) + 1;
+          if (a.length) o.nIssue++;
+          if (!a.every((z) => typeof z.message === 'string' && z.message.length > 10 && Array.isArray(z.fields) && z.fields.length && (z.kind === 'preset' || z.kind === 'declaration')))
+            o.bad.push(tag + ': 欄の形');
+          // ② standard ≡ preset の逸脱 0
+          const std = geoModeOf(combo).standard, wantStd = !a.some((z) => z.kind === 'preset');
+          if (std !== wantStd) o.bad.push(tag + ': standard ' + std + ' ⇔ preset 逸脱 0=' + wantStd);
+          if (std) o.nStd++;
+          // ③-1 保存
+          const sv = set(modeSaveWarnings(combo).map((z) => z.code));
+          if (sv !== codes) o.bad.push(tag + ': 保存 ' + sv + ' ⇔ ' + codes);
+          // ③-2 JSON の受理(validatePreset の警告は判定の文を全部含む・受理後の physics の判定が同じ code)
+          const pj = { id: 'qa_w295a_probe', name: 'p', description: 'd', sampleClass: 'principle', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+            physics: Object.assign({ G: 1, D0: 2, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, cLight: 30, lambdaPN: 1, pnAlpha: 1.5, softening: 0.5 }, clone(combo)),
+            bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, { type: 'single', m: 1, x: 20, y: 0, vx: 0, vy: 0.7, spin: 0, pinned: false }] };
+          const v = HP.validatePreset(pj);
+          if (!v.ok) { o.bad.push(tag + ': 受理器が拒否 ' + (v.errors || [])[0]); continue; }
+          const av = modeSettingIssues(v.preset.physics);
+          if (set(av.map((z) => z.code)) !== codes) o.bad.push(tag + ': 受理後の判定 ' + set(av.map((z) => z.code)) + ' ⇔ ' + codes);
+          // 受理の例外 MODE_ACCEPT_LEGACY_SKIP: 旧法則版を宣言した 3 の geo3NoInertial・geo3LegacyMesh は受理では出さない(出していないことも見る)
+          const legA = dk === 'legacy' && g >= 3, skipA = (z) => legA && MODE_ACCEPT_LEGACY_SKIP.indexOf(z.code) >= 0;
+          const missV = av.filter((z) => !z.aliasOf && !skipA(z) && (v.warnings || []).indexOf(z.message) < 0);
+          if (missV.length) o.bad.push(tag + ': 受理器の警告に無い ' + missV.map((z) => z.code).join('+'));
+          const extraV = av.filter((z) => skipA(z) && (v.warnings || []).indexOf(z.message) >= 0);
+          if (extraV.length) o.bad.push(tag + ': 受理の例外の code が受理器に出た ' + extraV.map((z) => z.code).join('+'));
+          // ③-3 セーブの読込(通知)・③-4 編集欄の赤文字
+          const save = { name: 'qa_w295a_' + o.n, comment: '', savedAt: new Date().toISOString(), presetId: 'saturn', presetName: 's',
+            physics: Object.assign(clone(base), clone(combo)), cameraScale: 1, modePolicy: MODE_POLICY_VERSION };
+          HP.loadPreset('gas', false); notice();
+          const ok = HP.loadSaveItem(clone(save), 'x');
+          const note = notice();
+          if (ok !== true) { o.bad.push(tag + ': 読込が中止'); continue; }
+          const lw = modeSettingIssues(modeIssueSrcOfSim(HP.sim));
+          if (set(lw.map((z) => z.code)) !== codes) o.bad.push(tag + ': 読込後の判定 ' + set(lw.map((z) => z.code)) + ' ⇔ ' + codes);
+          const head = T('modeWarnHeadLoad');
+          if (a.length) { if (!(note.indexOf(head) >= 0 && a.every((z) => z.aliasOf || note.indexOf(z.message) >= 0))) o.bad.push(tag + ': 読込の通知 ' + note.slice(0, 80)); }
+          else if (note.indexOf(head) >= 0) o.bad.push(tag + ': 逸脱なしで読込の警告');
+          if (note.indexOf(T('modeWarnHead')) >= 0) o.bad.push(tag + ': 読込の通知に保存用の頭文');
+          const dg = devCodes('geoPN'), dk2 = devCodes('kFrame');
+          const wantK = set(a.filter((z) => z.fields.indexOf('kFrame') >= 0).map((z) => z.code));
+          if (!dg.length || !dg.every((x) => x === codes)) o.bad.push(tag + ': geoPN 行の赤文字 ' + JSON.stringify(dg) + ' ⇔ ' + codes);
+          if (!dk2.length || !dk2.every((x) => x === wantK)) o.bad.push(tag + ': kFrame 行の赤文字 ' + JSON.stringify(dk2) + ' ⇔ ' + wantK);
+          // ④ geoPN=0 の既定の選択の逆算と UI
+          const ch = geo0ChoiceOf(combo);
+          if (ch !== WANT_CHOICE[dk]) o.bad.push(tag + ': 既定の選択 ' + ch + '(期待 ' + WANT_CHOICE[dk] + ')');
+          const boxes = [...document.querySelectorAll('.geo0Choice')];
+          const shown = boxes.filter((bx) => bx.style.display !== 'none');
+          if (g === 0) { if (!(shown.length === boxes.length && boxes.length >= 1 && shown.every((bx) => bx.dataset.current === ch))) o.bad.push(tag + ': 選択肢の UI ' + shown.map((bx) => bx.dataset.current).join(',')); }
+          else if (shown.length) o.bad.push(tag + ': geoPN≥1 で選択肢が出た');
+          // ⑤ 適用は確認のあとだけ(kFrame=0 の 5 宣言 × 5 選択)
+          if (g === 0 && kf === 0) for (const target of GEO0_CHOICES) {
+            HP.loadPreset('gas', false); HP.loadSaveItem(clone(save), 'x'); notice();
+            const declOf = () => JSON.stringify([HP.sim.params.geodesic, HP.sim.params.relativeDrag, HP.sim.params.spaceMesh, HP.sim.params.kFrame]);
+            const d0 = declOf();
+            const bx = document.querySelector('.geo0Choice'); const sel = bx.querySelector('.geo0ChoiceSel');
+            const avail = [...sel.options].map((op) => op.value);
+            if (target === 'legacy' && dk !== 'legacy') { if (avail.indexOf('legacy') >= 0) o.bad.push(tag + ': 宣言の無い本に旧メッシュの選択肢'); continue; }
+            let asked = 0;
+            window.confirm = () => { asked++; return false; };
+            sel.value = target; sel.dispatchEvent(new Event('change')); bx.querySelector('.geo0ChoiceBtn').click();
+            const d1 = declOf();
+            if (d1 !== d0) o.bad.push(tag + ' → ' + target + ': 確認を拒否しても宣言が変わった');
+            const noop = (target === ch);
+            if (noop || target === 'stack') { if (asked !== 0) o.bad.push(tag + ' → ' + target + ': no-op で確認を出した'); continue; }
+            if (asked !== 1) o.bad.push(tag + ' → ' + target + ': 確認が出ない');
+            window.confirm = () => { asked++; return true; };
+            const bx2 = document.querySelector('.geo0Choice'); const sel2 = bx2.querySelector('.geo0ChoiceSel');
+            sel2.value = target; sel2.dispatchEvent(new Event('change')); bx2.querySelector('.geo0ChoiceBtn').click();
+            const S = HP.sim, after = geo0ChoiceOf(S.params);
+            if (after !== target) o.bad.push(tag + ' → ' + target + ': 適用後の選択 ' + after);
+            if (S.params.kFrame !== kf) o.bad.push(tag + ' → ' + target + ': kFrame が変わった');
+            if (S.geodesicDecl !== (S.params.geodesic === true)) o.bad.push(tag + ' → ' + target + ': 測地線の旗');
+            if (!!S.hasRelativeDrag !== !!(S.params.relativeDrag && S.params.relativeDrag.law === 'inertial')) o.bad.push(tag + ' → ' + target + ': 慣性の旗');
+            if (geoLawOfSim(S) !== geoModeOf(S.params).law) o.bad.push(tag + ' → ' + target + ': 走行 ⇔ 宣言の法則');
+            o.applied = (o.applied || 0) + 1;
+          }
+        }
+        window.confirm = confirm0;
+        // ⑥ 内蔵: 選択 5 値に収まり・いまの選択の適用は no-op・判定と逆算の前後で presetSig と JSON 不変
+        const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+        o.nBuiltin = B.length; o.choiceDist = {}; o.choiceDist0 = {};
+        for (const p of B) {
+          const j0 = JSON.stringify(p), s0 = HP.presetSig(p);
+          const ch = geo0ChoiceOf(p.physics);
+          modeSettingIssues(p.physics); const pv = geo0ChoicePreview(p.physics, ch, {});
+          o.choiceDist[ch] = (o.choiceDist[ch] || 0) + 1;
+          if (!(p.physics.geoPN > 0)) o.choiceDist0[ch] = (o.choiceDist0[ch] || 0) + 1;
+          if (GEO0_CHOICES.indexOf(ch) < 0) o.bad.push(p.id + ': 選択 ' + ch);
+          if (!pv.ok || pv.changes) o.bad.push(p.id + ': いまの選択の適用が no-op でない');
+          if (JSON.stringify(p) !== j0 || HP.presetSig(p) !== s0) o.bad.push(p.id + ': 判定で本が変わった');
+        }
+        // ⑦ 赤文字の DOM(role・aria-live・色・コントラスト —— ダーク/ライト)
+        HP.loadPreset('galaxyAnalogyBH', false);
+        const el = document.querySelector('#paramRows .prow[data-k="geoPN"] > .modeDeviation');
+        o.dom = { has: !!el };
+        if (!el) o.bad.push('⑦ 旧メッシュの 3 の本で geoPN 行に赤文字が無い');
+        else {
+          o.dom.role = el.getAttribute('role'); o.dom.live = el.getAttribute('aria-live');
+          if (!(o.dom.role === 'status' && o.dom.live === 'polite')) o.bad.push('⑦ role/aria-live ' + JSON.stringify(o.dom));
+          const rgb = (c) => (c.match(/[\d.]+/g) || []).slice(0, 4).map(Number);
+          const lum = (c) => { const [r0, g0, b0] = rgb(c).map((x) => x / 255).map((x) => (x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4))); return 0.2126 * r0 + 0.7152 * g0 + 0.0722 * b0; };
+          const bgOf = (e) => { for (let x = e; x; x = x.parentElement) { const c = getComputedStyle(x).backgroundColor; const v = rgb(c); if (v.length && !(v.length === 4 && v[3] === 0)) return c; } return getComputedStyle(document.body).backgroundColor; };
+          const ratio = () => { const f = lum(getComputedStyle(el).color), bgc = lum(bgOf(el)); return (Math.max(f, bgc) + 0.05) / (Math.min(f, bgc) + 0.05); };
+          const errC = () => { const t = document.createElement('span'); t.style.color = 'var(--errText)'; document.body.appendChild(t); const c = getComputedStyle(t).color; t.remove(); return c; };
+          const skin0 = document.documentElement.getAttribute('data-skin');
+          o.dom.dark = +ratio().toFixed(2); o.dom.darkVar = getComputedStyle(el).color === errC();
+          document.documentElement.setAttribute('data-skin', 'light');
+          o.dom.light = +ratio().toFixed(2); o.dom.lightVar = getComputedStyle(el).color === errC();
+          if (skin0 === null) document.documentElement.removeAttribute('data-skin'); else document.documentElement.setAttribute('data-skin', skin0);
+          if (!(o.dom.dark >= 4.5 && o.dom.light >= 4.5 && o.dom.darkVar && o.dom.lightVar)) o.bad.push('⑦ 色・コントラスト ' + JSON.stringify(o.dom));
+        }
+        // ⑧ gain の継続編集
+        HP.loadPreset('earthMoonInertial', false);
+        const gb = [...document.querySelectorAll('.geo3Inertial')];
+        o.gain = { boxes: gb.length, state: gb.map((x) => x.dataset.state).join(','), vis: gb.every((x) => x.style.display !== 'none') };
+        const rd0 = clone(HP.sim.params.relativeDrag);
+        const inp = gb[0] && gb[0].querySelector('.geo3InertialGain'), btn = gb[0] && gb[0].querySelector('.geo3InertialBtn');
+        if (inp && btn) { inp.value = '1234'; btn.click(); }
+        const rd1 = clone(HP.sim.params.relativeDrag);
+        const keepKeys = Object.keys(rd0).filter((k) => k !== 'gain');
+        o.gain.kept = keepKeys.every((k) => JSON.stringify(rd0[k]) === JSON.stringify(rd1[k])) && rd1.gain === 1234 && HP.sim.relDrag === HP.sim.params.relativeDrag;
+        if (!(o.gain.boxes >= 1 && /declared/.test(o.gain.state) && o.gain.vis && o.gain.kept)) o.bad.push('⑧ 🌛 の gain の継続編集 ' + JSON.stringify(o.gain) + ' ' + JSON.stringify(rd1));
+        const S2 = HP.sim; S2.params.relativeDrag = { law: 'inertial', gain: 1, eps: 0.2, pairs: [[0, 1]], history: 'positions', compose: 'sum' }; S2.updateRadii();
+        const rs = geoInertialSetGain(S2, 7);
+        o.gain.sum = rs.ok && rs.relativeDrag.compose === 'sum' && rs.relativeDrag.eps === 0.2 && JSON.stringify(rs.relativeDrag.pairs) === '[[0,1]]' && rs.relativeDrag.gain === 7;
+        if (!o.gain.sum) o.bad.push('⑧ compose:"sum" の宣言を落とした ' + JSON.stringify(rs.relativeDrag));
+        // ⑨ 新しい code の ja/en
+        const NEW = { inertialPlusKFrame: { geoPN: 3, kFrame: 1, relativeDrag: { law: 'inertial', gain: 1 } }, geo0Stacked: { geoPN: 0, kFrame: 0, geodesic: true, relativeDrag: { law: 'inertial', gain: 1 } },
+          extraRelativeDrag: { geoPN: 2, kFrame: 1, relativeDrag: { law: 'inertial', gain: 1 } }, ignoredGeodesic: { geoPN: 1, kFrame: 0, geodesic: false },
+          geo3LegacyMesh: { geoPN: 3, kFrame: 0, spaceMesh: SM }, inertialCompose: { geoPN: 3, kFrame: 0, relativeDrag: { law: 'inertial', gain: 1, compose: 'sum' } },
+          inertialSolveFrom: { geoPN: 3, kFrame: 0, relativeDrag: { law: 'inertial', gain: 1, solveFrom: 'history' } } };
+        o.lang = {};
+        for (const [c, x] of Object.entries(NEW)) {
+          const ja = (modeSettingIssues(x).find((z) => z.code === c) || {}).message || '';
+          HP.setLang('en'); const en = (modeSettingIssues(x).find((z) => z.code === c) || {}).message || ''; HP.setLang('ja');
+          o.lang[c] = ja.length > 10 && en.length > 10 && ja !== en;
+          if (!o.lang[c]) o.bad.push('⑨ ' + c + ' の ja/en');
+        }
+        o.codes = MODE_SAVE_WARN_CODES.slice();
+        if (MODE_SAVE_WARN_CODES.slice(0, 7).join(',') !== 'geo0Geodesic,geo1KFrame,geo2KFrame,geo3NoInertial,kFrameFraction,inertialPlusGeodesic,inertialPlusKFrame') o.bad.push('code の並び ' + o.codes.join(','));
+      } finally {
+        window.notify = notify0; window.confirm = confirm0;
+        if (keep === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep);
+        HP.loadPreset('saturn', false);
+      }
+      return o;
+    });
+    add('behavior.modeIssues295', r.bad.length === 0 && r.n === 60 && r.applied >= 12 && r.nBuiltin >= 152,
+      `**目的の組と逸脱の警告**(第295便a・原仮定者の裁定(第85報)・統括の検証項目 R153 —— 判定は modeSettingIssues の 1 か所・走行は止めない・値は書き換えない): `
+      + `${r.n} 組(geoPN 0〜3 × kFrame 0/0.5/1 × 宣言 5 種)で入力不変・standard ≡ preset 逸脱 0(標準 ${r.nStd} 組・逸脱あり ${r.nIssue} 組)・保存 = JSON の受理 = セーブの読込(読込用の頭文)= 編集欄の赤文字の code 集合(受理の例外: 旧法則版を宣言した 3 の geo3NoInertial・geo3LegacyMesh は受理では出さない)/ `
+      + `code 出現 ${JSON.stringify(r.codesSeen)} / geoPN=0 の既定の選択の逆算 5/5・適用は確認のあとだけ(${r.applied} 通り)・重ねる/いまの選択は確認なしの no-op / `
+      + `内蔵 ${r.nBuiltin} 本の既定の選択 ${JSON.stringify(r.choiceDist)}(geoPN=0 の本 ${JSON.stringify(r.choiceDist0)})・いまの選択の適用は no-op・presetSig 不変 / `
+      + `赤文字 role=${r.dom && r.dom.role}・aria-live=${r.dom && r.dom.live}・--errText・コントラスト ダーク ${r.dom && r.dom.dark}:1・ライト ${r.dom && r.dom.light}:1 / `
+      + `🌛 の gain の継続編集で他の鍵を保つ=${r.gain && r.gain.kept}・compose:"sum" を保つ=${r.gain && r.gain.sum} / 新 code の ja≠en ${Object.values(r.lang || {}).filter(Boolean).length}/7`
+      + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
