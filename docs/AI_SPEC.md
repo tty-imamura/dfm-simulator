@@ -3224,3 +3224,15 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.pickerReorg294`**(新設)。既存の固定値は世代切替 has294e(html の `PP_OTHER_SECS` の宣言に段 `"topic"`):
   `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
   `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。
+
+## 55. 第295便c —— 慣性決定力版サンプル 3 本(🌤️ earthMoonSunInertial・🟤 mercurySunInertial・🟣 plutoCharonInertial)と gain の SI 移送(原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」・統括の検証項目 R155・**新しい宣言鍵は足していない**・**SYSTEM_PROMPT には載せない**)
+
+- **新しい内蔵 3 本**(`sampleClass:"principle"`・較正母集団の外・`familyRole:"variant"`・群は家族の primary と同じ「現実較正」・`fidelity:"real"`・`referenceKind:"coefficient-transfer"`(宣言専用 —— 参照は移送した係数への応答)):
+  - 🌤️ `earthMoonSunInertial`(家族 earthmoon): bodies は 🔆 emAuditSolar の写し+地球の `dragCore:{massFrac:0.325, radius:0.0348}`。`relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}`(慣性の対は地球と月だけ —— 太陽は重力の第三体)。
+  - 🟤 `mercurySunInertial`(家族 mercury): bodies は ☄️ mercuryReal の写し(点源)。`relativeDrag:{law:"inertial", gain:51.4182, eps:0.05, history:"positions", pairs:"all"}`。
+  - 🟣 `plutoCharonInertial`(家族 pluto): bodies・指数 L5/T1/M24・`integrator:"leapfrog"` は 🥶 plutoCharonDiagInput の写し(点源)。`relativeDrag:{law:"inertial", gain:5.14182e7, eps:0.01, history:"positions", pairs:"all"}`。
+  - 3 本とも physics は親から `geoPN`(→ 3 —— 慣性決定力の有効化の印・測地線 OFF・1PN なし・実効番号 0)と `relativeDrag` だけが違う。`compose`・`geodesic` は書かない(既定 solve(velocity))。`kFrame` 0。`activeParams:["geoPN","dispMag"]`(gain を主役スライダーにしない)。ワンタップの対照 `abBody.physicsPatch.relativeDrag` は同じ宣言の gain 0。
+- **gain の移送(フィットではない)**: C_d の次元は [L³/M](u = C_d Σ m 𝒦 Δv で C_d m 𝒦 は無次元 —— 時間の単位は効かない)。🌛 の 514182(L6/M25)は C_d,SI = 514182 × (10⁶ m)³/10²⁵ kg = **0.0514182 m³/kg** で、L8/M27 では 51.4182・L5/M24 では 5.14182×10⁷。核の ε は各本の重力の軟化と同じ数(メートルでは 10⁶ / 5×10⁶ / 10³ m)。
+- **notClaim の鍵(新設 4 つ・I18N `nc_*` の ja/en)**: `gain_universal`(gain の普遍性は主張しない)・`apsidal_8p85_transfer`(🌤️ —— 8.85 年をこの本が出したとは主張しない)・`perihelion_43`(🟤 —— 43″/世紀〔1PN の量〕を目的にしない)・`period_fit`(🟣 —— 周期の差を gain で埋めない)。3 本とも `solar_cal` も持つ。
+- **測定の正本** `tests/out/inertial3-w295c.json`(器 `tests/exp-w295c-inertial3.mjs`・段 inertial3-295c —— `W295C_OUT` で出力先・`W295C_WORKERS` で並列数): `conversion`(換算の表)・`decl`(宣言の門 3 本)・`proxyIdentity`・`em`(🌤️ の A1/A2/G0 × dt 0.016/0.008 × 窓 5 —— 近点周期・Δϖ・恒星月・離心率・fit 残差・h/h2)・`two`(🟤🟣 の gain 0/移送 × h/h2 —— 周期・近点率・振幅・eProxy・|u|/|v|・runRow との照合)・`readings`・`gates`・`inputMapping`。obsCard の model 欄は正本の転記(QA `docs.inertial3Contract295`)。
+- AI 生成の雛形にはしない(SYSTEM_PROMPT に載せない —— 新しい鍵は無く、既存の `relativeDrag`・`dragCore` の宣言の組み合わせである)。QA: **`preset.inertial3_295`**・**`docs.inertial3Contract295`**(新設)。

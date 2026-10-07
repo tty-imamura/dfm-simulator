@@ -1993,6 +1993,11 @@ ja: {
   // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
   nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
   nc_apsidal_8p85_fit:"近点回転 8.85 年は引きずりの係数 gain(C_d)を 1 次元でフィットした推定であり、較正の合でも、慣性決定力が較正ゼロで出した値でもない(実際の主因は太陽摂動)。",   // 第292便c(統合: 🌜 と鍵を分けた —— 🌛 のフィットの注記)
+  // 第295便c(原仮定者の裁定(第85報)・R155): 慣性決定力版サンプル 3 本(🌤️🟤🟣)の注記
+  nc_gain_universal:"引きずりの係数 gain(C_d)の普遍性は主張しない —— 🌛 の 1 次元フィットの推定値を同じ SI 係数 0.0514182 m³/kg として単位換算で移送しただけで、この本では合わせ直していない。",
+  nc_apsidal_8p85_transfer:"月の近点回転 8.85 年をこの本が出したとは主張しない(gain は 🌛 から移送した宣言値・近点周期は測った値の記録・主因は太陽摂動)。",
+  nc_perihelion_43:"水星の近日点前進 43″/世紀(1PN の量)をこの本の目的にしない —— この本は 1PN を入れておらず、gain をその値に合わせてもいない。",
+  nc_period_fit:"公転周期の観測との差を gain で埋めた本ではない —— gain は移送した宣言値で、周期の動きは測った値の記録である。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3079,6 +3084,11 @@ en: {
   // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
   nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
   nc_apsidal_8p85_fit:"The 8.85-year apsidal cycle is matched by a one-dimensional fit of the drag gain (C_d) — an estimate, not a calibration agreement and not a value the inertial determinacy produced with zero calibration (the real main cause is the solar perturbation).",   // wave 292c (integration: separate key from 🌜 — the fit note for 🌛)
+  // wave 295c (originator's ruling, report 85; R155): notes for the three inertial-determinacy samples (🌤️🟤🟣)
+  nc_gain_universal:"No universality of the drag gain (C_d) is claimed — 🌛's one-dimensional fit estimate is only carried over as the same SI coefficient 0.0514182 m³/kg by a change of units; it is not refitted in this sample.",
+  nc_apsidal_8p85_transfer:"It is not claimed that this sample produces the Moon's 8.85-year apsidal cycle (the gain is a declaration transferred from 🌛, the apsidal period is a recorded measurement, and the main cause is the solar perturbation).",
+  nc_perihelion_43:"Mercury's 43″/century perihelion advance (a 1PN quantity) is not the aim of this sample — it has no 1PN, and the gain is not tuned to that value.",
+  nc_period_fit:"Not a sample whose period gap to observation is filled with the gain — the gain is a transferred declaration and the change of the period is a recorded measurement.",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -12842,6 +12852,83 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
+// ===== 第295便c(原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」・統括の検証項目 R155): 🌤️ earthMoonSunInertial =====
+// **慣性決定力版の太陽・地球・月**(原理サンプル —— 較正母集団の外)。bodies は 🔆 emAuditSolar の宣言を**1 字も変えずに写した**(太陽 pinned・地球・月 ——
+// 初期状態も 🔆 のまま)うえで、地球にだけ構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌛 の 3.48×10⁶ m を L8 で —— 起点の宣言の写し)を足した。
+// physics は 🔆 の宣言から geoPN を 3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)にし、慣性引きずり relativeDrag を足しただけ。
+// gain は 🌛 の 514182(1 単位 = 10⁶ m / 10² s / 10²⁵ kg)を**同じ SI 係数** C_d,SI = 514182 × (10⁶ m)³/10²⁵ kg = 0.0514182 m³/kg として
+// L8/T4/M27 へ単位換算した 51.4182 [L³/M](**移送であってフィットではない** —— 8.85 年に合わせ直していない)。慣性の対は**地球と月だけ** pairs:[[1,2]]
+// (太陽は重力の第三体だけ —— 慣性の対和に入れない)。eps はこの本の重力の軟化と同じ 0.01(= 10⁶ m)。compose は書かない(既定 solve(velocity))。
+// 測った値は器 tests/exp-w295c-inertial3.mjs の正本 tests/out/inertial3-w295c.json(段 inertial3-295c)の転記(合否・年数の約束は書かない)。
+{ id:"earthMoonSunInertial", name:"太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動", emoji:"🌤️", group:"現実較正",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // 🔆 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg)
+  sampleClass:"principle",
+  referenceKind:"coefficient-transfer",   // 宣言専用メタ: 参照は 🌛 から単位換算で移送した係数への応答 —— 観測との合否を数える対象ではない
+  fidelity:"real",
+  notClaim:["solar_cal","gain_universal","apsidal_8p85_transfer"],
+  orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
+  abBody:{ label:{ja:"慣性引きずりを切る(gain 0 —— 🔆 と同じ重力だけの三体)", en:"switch the inertial drag off (gain 0 — the gravity-only three-body system of 🔆)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.01, history:"positions", pairs:[[1,2]]}} },
+  obsCard:[
+      {q:"何を置いたか", model:"🔆 の太陽・地球・月(初期状態も 🔆 のまま)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・慣性の対は地球と月だけ(太陽は重力の第三体)", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"構造核", model:"地球に dragCore{f=0.325, R_c=0.0348}(🌛 の起点の宣言 3.48×10⁶m の写し)・太陽と月は点源", obs:"—"},
+      {q:"gain(C_d)", model:"51.4182 [L³/M](L8/M27)= 🌛 の 514182(L6/M25)と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない", obs:"—"},
+      {q:"近点周期(実測・本の宣言 A1)", model:"27 公転窓 4.727 年・118 公転窓 4.262 年(Δϖ 0.11146 rad/公転)・近点方位の直線 fit の残差 RMS 25.5°", obs:"8.85 年(参照 —— 🔆 の観測欄)"},
+      {q:"恒星月・離心率(実測・A1)", model:"118 公転の区間平均 27.139 日・離心率の代理 0.0322", obs:"27.3217 日・e 0.0549(参照)"},
+      {q:"対照(実測・118 公転窓)", model:"A2(太陽も慣性の源)4.261 年 / gain 0(🔆 と同じ重力だけの三体)8.778 年・恒星月 27.319 日・離心率の代理 0.0374", obs:"—"},
+      {q:"言わないこと", model:"8.85 年をこの本が出したとは言わない。gain は移送した宣言値で、この本の近点周期は測った値の記録である", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の太陽・地球・月**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🔆 emAuditSolar の実単位の太陽(pinned)・地球・月(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 既定の合成則 solve(velocity): 力学速度 v の差から (I+L)u=s を解き、位置だけを x+=u·dt で動かす)で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182(1 単位=10⁶m/10²s/10²⁵kg)を同じ SI 係数 C_d,SI=0.0514182 m³/kg として単位換算した 51.4182 [L³/M](1 単位=10⁸m/10⁴s/10²⁷kg)**で、移送であってフィットではない —— この本で近点周期にも恒星月にも合わせ直していない(🌛 の gain 自体が近点周期への 1 次元フィットの推定である)。**慣性の対は地球と月だけ**(pairs:[[1,2]] —— 太陽は重力の第三体だけで、慣性の対和に入れない)。地球には 🌛 と同じ起点の構造核 dragCore:{massFrac:0.325, radius:0.0348}(=3.48×10⁶m)を宣言し、太陽と月は点源。核の軟化 ε はこの本の重力の軟化と同じ 0.01(=10⁶m —— 🌛 の核の ε 10⁵m の 10 倍)。測った値(器 tests/exp-w295c-inertial3.mjs・正本 tests/out/inertial3-w295c.json —— 118 公転の窓は測る前に宣言した): 近点周期は 27 公転窓 4.727 年・118 公転窓 4.262 年で、慣性引きずりを切った対照(gain 0 = 🔆 の重力だけの三体)の 8.778 年より短い —— 太陽摂動の近点前進に慣性引きずりの前進が重なる。27 公転ごとの近点周期は 4.727/4.618/4.549/4.305 年と窓で動く(定常とは書かない)。数は値の記録であって、合否の判定ではない。",
+      observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが順行に回るのを見る。カメラは地球追従・視野 ±10 単位(🔆 と同じ)。118 公転の区間平均で恒星月 27.139 日・離心率の代理 0.0322(gain 0 の対照は 27.319 日・0.0374)。近点方位の直線 fit の残差 RMS は 25.5°(太陽摂動による近点の揺れ —— 短い窓の近点率は揺れるので読まない)。HUD の t は日・年に換算される。",
+      control:"ワンタップの対照は gain 0(慣性引きずりを切る —— 🔆 と同じ重力だけの三体・geoPN 3)。もう 1 つの対照 A2(pairs:\"all\" —— 太陽も慣性の源。pinned の太陽は u=0 のまま源になり Σmu は閉じない)は器の中だけで走らせ、118 公転窓 4.261 年(本の宣言 A1 との差 −2.6×10⁻⁴)。本の宣言は A1 のまま(A2 を既定にしない)。dt を半分にした差は 118 公転窓の近点周期で 5.7×10⁻⁴。太陽を入れない二体の版は 🌛、慣性引きずりのない三体は 🔆 で見る。"},
+  en:{name:"Sun, Earth & Moon (inertial determinacy) — a transferred gain under the solar perturbation",
+    obsCard:[
+      {q:"What is placed", model:"🔆's Sun, Earth and Moon (🔆's initial state); geoPN=3 (no geodesic, no 1PN), kFrame=0; drag pair Earth-Moon only", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"Structure core", model:"Earth dragCore{f=0.325, R_c=0.0348} (🌛's starting declaration, 3.48e6 m); the Sun and the Moon are points", obs:"-"},
+      {q:"gain (C_d)", model:"51.4182 [L^3/M] (L8/M27) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)", obs:"-"},
+      {q:"Apsidal period (measured, A1)", model:"27-orbit window 4.727 yr, 118-orbit window 4.262 yr (0.11146 rad/orbit); RMS residual of the line fit 25.5 deg", obs:"8.85 yr (reference - 🔆's observation column)"},
+      {q:"Sidereal month, eccentricity (measured, A1)", model:"118-orbit mean 27.139 d; eccentricity proxy 0.0322", obs:"27.3217 d, e 0.0549 (reference)"},
+      {q:"Controls (measured, 118 orbits)", model:"A2 (Sun also a drag source) 4.261 yr / gain 0 (🔆's gravity-only system) 8.778 yr, 27.319 d, e proxy 0.0374", obs:"-"},
+      {q:"Not claimed", model:"This sample is not said to produce the 8.85 yr. The gain is transferred; the apsidal period is a recorded measurement", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY VERSION OF THE SUN, EARTH AND MOON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🔆 emAuditSolar's real-unit Sun (pinned), Earth and Moon (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (physics.relativeDrag.law:\"inertial\"; the default composition rule solve(velocity) solves (I+L)u = s from the dynamical-velocity differences and moves positions only, x += u dt). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 (1 unit = 10^6 m / 10^2 s / 10^25 kg) CONVERTED AS THE SAME SI COEFFICIENT C_d,SI = 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, not a fit - nothing is refitted here to the apsidal period or the sidereal month (🌛's gain is itself an estimate from a one-dimensional fit of the apsidal period). THE DRAG PAIR IS THE EARTH-MOON PAIR ONLY (pairs:[[1,2]] - the Sun is a gravitational third body only and is kept out of the drag sum). The Earth declares 🌛's starting structure core dragCore:{massFrac:0.325, radius:0.0348} (= 3.48e6 m); the Sun and the Moon are points. The kernel softening eps equals this sample's gravitational softening 0.01 (= 10^6 m - ten times 🌛's kernel eps of 10^5 m). Measured (harness tests/exp-w295c-inertial3.mjs, output tests/out/inertial3-w295c.json; the 118-orbit window was declared before measuring): the apsidal period is 4.727 yr over 27 orbits and 4.262 yr over 118 orbits, shorter than the drag-off control (gain 0 = 🔆's gravity-only three-body system) at 8.778 yr - the drag's advance adds to the solar perturbation's. The period per 27 orbits moves with the window, 4.727/4.618/4.549/4.305 yr (not called steady). The numbers are a record, not a pass/fail verdict.",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde. The camera follows the Earth with a +/-10-unit field (as in 🔆). Over 118 orbits the sidereal month is 27.139 d and the eccentricity proxy 0.0322 (the gain-0 control: 27.319 d, 0.0374). The RMS residual of the straight-line fit of the apse direction is 25.5 deg (the solar wobble of the apse - short-window rates wobble and are not read). The HUD time is shown in days and years.",
+      control:"The one-tap control is gain 0 (the inertial drag off - 🔆's gravity-only three-body system with geoPN 3). The other control, A2 (pairs:\"all\" - the Sun is a drag source too; the pinned Sun keeps u = 0 yet acts as a source, and sum m u does not close), runs only inside the harness: 4.261 yr over 118 orbits (-2.6e-4 from the declared A1). The declaration stays A1 (A2 is not made the default). Halving dt moves the 118-orbit apsidal period by 5.7e-4. The two-body version without the Sun is 🌛; the three-body system without the drag is 🔆."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Sun's, the Earth's and the Moon's real masses, radii and rotations (copied from 🔆)",
+        "the Sun–Earth distance 1 au and the Moon's eccentricity 0.0549 (copied from 🔆 — the initial perigee separation is 🔆's inversion on the sidereal month)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.01, history:\"positions\", pairs:[[1,2]]} (the Earth-Moon pair only - the Sun is a gravitational third body only; compose not declared = the default solve(velocity))",
+        "the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (🌛's starting declaration, 3.48e6 m, in L8 units); the Sun and the Moon are points",
+        "kRep=muF=gammaN=kappaS=0","stateCarry:\"double\", massFloor=1e-6","the Sun is pinned (as in 🔆)"],
+      fitted:["none in this sample (the gain is transferred, not refitted)"],
+      derived:["gain 51.4182 [L^3/M] = C_d,SI / (10^24 m^3 / 10^27 kg), C_d,SI = 514182 x (10^6 m)^3 / 10^25 kg = 0.0514182 m^3/kg (🌛's one-dimensional fit estimate, carried as the same SI coefficient)","kappa=G/c0^2=7.4258e-9"],
+      numerical:["softening eps=0.01 = 10^6 m (gravity and the drag kernel; 🌛's kernel eps is 10^5 m)","structure-core table 1024 points, r_max = 4 x the farthest initial body (the default rule)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","太陽・地球・月の実質量・実半径・実自転(🔆 の写し)",
+      "太陽–地球距離 1au・月の離心率 0.0549(🔆 の写し —— 初期近地点距離は 🔆 が恒星月から逆算した値)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.01, history:\"positions\", pairs:[[1,2]]}(対は地球と月だけ —— 太陽は重力の第三体だけ・compose は書かない = 既定 solve(velocity))",
+      "地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌛 の起点の宣言 3.48×10⁶m を L8 で)・太陽と月は点源",
+      "kRep=muF=γN=κ_S=0","stateCarry:\"double\"・massFloor=1e-6","太陽 pinned(🔆 と同じ)"],
+    fitted:["この本ではなし(gain は移送 —— 合わせ直していない)"],
+    derived:["gain 51.4182 [L³/M] = C_d,SI ÷ (10²⁴m³/10²⁷kg)・C_d,SI = 514182 × (10⁶m)³/10²⁵kg = 0.0514182 m³/kg(🌛 の 1 次元フィットの推定値を同じ SI 係数として移送)","κ=G/c₀²=7.4258×10⁻⁹"],
+    numerical:["ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核 —— 🌛 の核の ε は 10⁵m)","構造核の表 1024 点・r_max=初期配置で最も遠い天体までの距離の 4 倍(既定の規則)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["geoPN","dispMag"],   // gain は主役スライダーにしない(移送した宣言値)
+  camera:{scale:10, follow:1}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}},
+  bodies:[   // 🔆 emAuditSolar と同一(1 字も変えない)+地球にだけ dragCore(🌛 の起点の宣言の写し)。並び: 0=太陽(pinned), 1=地球, 2=月
+    {type:"single", m:1988.5, radius:6.96, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.0059724, radius:0.06371, x:1495.9356292,y:0, vx:0,vy:2.97715665, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
+    {type:"single", m:0.00007346, radius:0.0174, x:1499.5874090,y:0, vx:0,vy:3.08512000, spin:0.026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
 // ===== 第280便b(原仮定者の裁定〔第70報〕「引きずり減衰 q の算出を見直す …表側と裏側の引きずりは逆転している …密度分布にも
 // 影響を受ける」・統括の読み R69/R70): **表裏核の診断コピー 🌓 earthMoonDiagOne**(sampleClass:"principle" — 較正母集団に入れない)。
 // 🌘 earthMoonRealKF1 と**同じ初期状態**(質量・半径・位置・自転・座標速度)から、引きずりの経路だけを
@@ -13325,7 +13412,7 @@ const BUILTIN_PRESETS = [
         "Mercury's perihelion distance 4.60×10¹⁰ m and perihelion speed 58.98 km/s"],
       fixedConventions:["per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)","kFrame=0 (the no-dragging contrast)",
         "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
-        "kRep=muF=γN=κ_S=0 (contact and thermal mechanisms switched off)","geoPN=2, λ_PN=1, pnα=1.5 (the geodesic 1PN rule)",
+        "kRep=muF=γN=κ_S=0 (contact and thermal mechanisms switched off)","geoPN=1, λ_PN=1, pnα=1.5 (the geodesic 1PN rule)",
         "pnSource:true (1PN source declaration), stateCarry:\"double\"",
         "the Sun is pinned (an external constraint of the exhibit), massFloor=1e-6"],
       fitted:[],
@@ -13373,7 +13460,7 @@ const BUILTIN_PRESETS = [
       "水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","kFrame=0(引きずり非主張の対照)",
       "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
-      "kRep=muF=γN=κ_S=0(接触・熱の機構を切った天体設定)","geoPN=2・λ_PN=1・pnα=1.5(測地線1PN の統一則)",
+      "kRep=muF=γN=κ_S=0(接触・熱の機構を切った天体設定)","geoPN=1・λ_PN=1・pnα=1.5(測地線1PN の統一則)",
       "pnSource:true(1PN 源の宣言)・stateCarry:\"double\"(倍精度状態)",
       "太陽 pinned(展示系の外部拘束)・massFloor=1e-6(実質量を mEff 床で歪めない)"],
     fitted:[],
@@ -13386,6 +13473,75 @@ const BUILTIN_PRESETS = [
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
   bodies:[   // 第118便: 全て実値 — 太陽 1.9885e30kg/6.95e8m/自転25.05日、水星 3.3011e23kg/2.44e6m/
              // 自転58.646日・近日点 4.60e10m・近日点速度 58.98km/s(vis-viva、a=5.7909e10m・e=0.20563)
+    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第295便c(原仮定者の裁定(第85報)・統括の検証項目 R155): 🟤 mercurySunInertial —— 慣性決定力版の水星と太陽 =====
+// bodies は ☄️ mercuryReal の宣言を**1 字も変えずに写した**(太陽 pinned・点源 —— 内部核は宣言しない)。physics は ☄️ の宣言から geoPN を 3
+// (慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)にし、慣性引きずり relativeDrag を足しただけ。gain は 🌛 の 514182 を同じ SI 係数
+// 0.0514182 m³/kg として L8/T4/M27 へ換算した 51.4182(**移送 —— 43″/世紀にも公転周期にも合わせない**)。eps は ☄️ の軟化 0.05(= 5×10⁶ m)。
+// 43″/世紀は 1PN の量であってこの本の目的ではない(この本は 1PN を入れていない)。親の vx/vy を力学速度 v にそのまま与える(ẋ=v+u —— 座標速度は親と同一でない)。
+{ id:"mercurySunInertial", name:"水星と太陽(慣性決定力版)— 移送した gain の応答", emoji:"🟤", group:"現実較正",
+  familyId:"mercury", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg)
+  sampleClass:"principle",
+  referenceKind:"coefficient-transfer",
+  fidelity:"real",
+  notClaim:["solar_cal","perihelion_43","gain_universal"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},
+  abBody:{ label:{ja:"慣性引きずりを切る(gain 0 —— 重力だけの二体)", en:"switch the inertial drag off (gain 0 — the gravity-only two-body system)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.05, history:"positions", pairs:"all"}} },
+  obsCard:[
+      {q:"何を置いたか", model:"☄️ の太陽と水星(初期状態も ☄️ のまま —— vx/vy は力学速度 v に与えた)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・点源", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"gain(C_d)", model:"51.4182 [L³/M](L8/M27)= 🌛 の 514182 と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない", obs:"—"},
+      {q:"公転周期(実測・8 公転の平均)", model:"87.892 日(gain 0 の対照は 87.969 日 —— 差 -0.088%)", obs:"87.969 日(参照 —— ☄️ の観測欄)"},
+      {q:"近点率(実測・8 公転)", model:"0.3279°/公転(h=0.016)・0.3279°/公転(h/2)≈ 4.90×10⁵″/世紀 / gain 0 の対照は -9″/世紀(重力の軟化の逆行)", obs:"42.98″/世紀(参照 —— 1PN の量・この本は 1PN を入れていない)"},
+      {q:"離心率の代理・u(実測)", model:"eProxy 0.20488(gain 0 は 0.20563)・|u|/|v| の平均 5.62e-4", obs:"—"},
+      {q:"言わないこと", model:"43″/世紀をこの本が出したとは言わない(1PN の量)。gain は移送した宣言値・近点率は測った値の記録。入力は親の速度を v に与えた", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の水星と太陽**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。☄️ mercuryReal の実単位の太陽(pinned)と水星(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として 1 単位=10⁸m/10⁴s/10²⁷kg へ換算した 51.4182 [L³/M]**(移送 —— 近日点前進にも公転周期にも合わせない)。核の軟化 ε は ☄️ の重力の軟化と同じ 0.05(=5×10⁶m)。太陽と水星は点源(内部核は宣言しない)。**43″/世紀は 1PN の量であってこの本の目的ではない**(この本は 1PN を入れていない)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.016 と h/2): 近日点は 1 公転あたり 0.3279°(≈4.90×10⁵″/世紀)順行に回り、gain 0 の対照は −9″/世紀(重力の軟化の逆行)。公転周期は 87.892 日(gain 0 の対照は 87.969 日 —— −0.088%)。|u|/|v| の平均は 5.62×10⁻⁴。**入力速度の写像の限界**: ☄️ の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)ので、近日点の座標速度は観測の 58.98 km/s と同一ではない(観測の座標速度との比較ではない)。数は値の記録であって、合否の判定ではない。",
+      observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、近日点が 1 公転あたり約 0.33° ずつ順行に回るのを見る(gain 0 では回らない)。離心率の代理は 0.20488(gain 0 の対照は 0.20563)。HUD の t は日に換算される。",
+      control:"ワンタップの対照は gain 0(慣性引きずりを切る —— ☄️ と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。1PN の近日点前進は ☄️ で見る。gain を下げて 43″/世紀へ寄せることはしない(gain は 🌛 から移送した宣言値)。dt を半分にした差は近点率で 1.4×10⁻⁶°/公転。"},
+  en:{name:"Mercury & Sun (inertial determinacy) — the response to a transferred gain",
+    obsCard:[
+      {q:"What is placed", model:"☄️'s Sun and Mercury (☄️'s state; vx/vy given to the dynamical v); geoPN=3 (no geodesic, no 1PN), kFrame=0; points", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"gain (C_d)", model:"51.4182 [L^3/M] (L8/M27) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)", obs:"-"},
+      {q:"Orbital period (measured, mean of 8 orbits)", model:"87.892 d (gain-0 control 87.969 d; difference -0.088%)", obs:"87.969 d (reference - ☄️'s observation column)"},
+      {q:"Apsidal rate (measured, 8 orbits)", model:"0.3279 deg/orbit (h=0.016), 0.3279 deg/orbit (h/2) ~ 4.90e5 arcsec/century; gain 0: -9 arcsec/century", obs:"42.98 arcsec/century (reference - a 1PN quantity; this sample has no 1PN)"},
+      {q:"Eccentricity proxy, u (measured)", model:"eProxy 0.20488 (gain 0: 0.20563); mean |u|/|v| 5.62e-4", obs:"-"},
+      {q:"Not claimed", model:"This sample is not said to produce 43 arcsec/century (1PN). The gain is transferred; parent speeds were given to v", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY VERSION OF MERCURY AND THE SUN (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). ☄️ mercuryReal's real-unit Sun (pinned) and Mercury (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, fitted neither to the perihelion advance nor to the period. The kernel softening eps equals ☄️'s gravitational softening 0.05 (= 5e6 m). The Sun and Mercury are points (no internal core is declared). THE 43 ARCSEC/CENTURY IS A 1PN QUANTITY AND NOT THE AIM OF THIS SAMPLE (it has no 1PN). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.016 and h/2): the perihelion turns prograde by 0.3279 deg per orbit (~4.90e5 arcsec/century), against -9 arcsec/century for the gain-0 control (the softening's retrograde term). The period is 87.892 d (gain-0 control 87.969 d; -0.088%). The mean |u|/|v| is 5.62e-4. THE LIMIT OF THE INPUT-VELOCITY MAPPING: ☄️'s vx/vy are given to the dynamical velocity v as they are (x-dot = v + u), so the perihelion coordinate speed is not the observed 58.98 km/s (this is not a comparison with the observed coordinate speed). The numbers are a record, not a pass/fail verdict.",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the perihelion turn prograde by about 0.33 deg per orbit (with gain 0 it stays still). The eccentricity proxy is 0.20488 (gain-0 control 0.20563). The HUD time is shown in days.",
+      control:"The one-tap control is gain 0 (the inertial drag off - ☄️'s gravity-only two-body system; with geoPN 3 there is no 1PN either). The 1PN perihelion advance is seen in ☄️. The gain is not lowered towards 43 arcsec/century (it is the declaration transferred from 🌛). Halving dt moves the apsidal rate by 1.4e-6 deg/orbit."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Sun's and Mercury's real masses, radii and rotations (copied from ☄️)",
+        "Mercury's perihelion distance 4.60e10 m and perihelion speed 58.98 km/s (copied from ☄️ - given to the dynamical velocity v, not refitted)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.05, history:\"positions\", pairs:\"all\"} (compose not declared = the default solve(velocity))",
+        "point sources (no internal core is declared for the Sun or Mercury)","kRep=muF=gammaN=kappaS=0","stateCarry:\"double\", massFloor=1e-6","the Sun is pinned (as in ☄️)"],
+      fitted:["none in this sample (the gain is transferred, not refitted)"],
+      derived:["gain 51.4182 [L^3/M] = C_d,SI / (10^24 m^3 / 10^27 kg), C_d,SI = 0.0514182 m^3/kg (🌛's fit estimate carried as the same SI coefficient)","kappa=G/c0^2=7.4258e-9"],
+      numerical:["softening eps=0.05 = 5x10^6 m (gravity and the drag kernel)","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","太陽・水星の実質量・実半径・実自転(☄️ の写し)",
+      "水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s(☄️ の写し —— 力学速度 v に与えた・合わせ直していない)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.05, history:\"positions\", pairs:\"all\"}(compose は書かない = 既定 solve(velocity))",
+      "点源(太陽・水星の内部核は宣言しない)","kRep=muF=γN=κ_S=0","stateCarry:\"double\"・massFloor=1e-6","太陽 pinned(☄️ と同じ)"],
+    fitted:["この本ではなし(gain は移送 —— 合わせ直していない)"],
+    derived:["gain 51.4182 [L³/M] = C_d,SI ÷ (10²⁴m³/10²⁷kg)・C_d,SI = 0.0514182 m³/kg(🌛 のフィットの推定値を同じ SI 係数として移送)","κ=G/c₀²=7.4258×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05 = 5×10⁶m(重力と引きずりの核)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:800}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:51.4182, eps:0.05, history:"positions", pairs:"all"}},
+  bodies:[   // ☄️ mercuryReal と同一(1 字も変えない)
     {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
     {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
   ],
@@ -14519,6 +14675,80 @@ const BUILTIN_PRESETS = [
     stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share"},
   bodies:[ // 器の純関数 diagInputPair("plu060Mean")(tests/lib-w280d-charoninput.mjs)の出力そのもの:
            // 質量は GM/G・a=195.95764 単位・重心系配分・ε=0 のケプラー初速
+    {type:"single", m:0.013025172310458496, radius:11.88, x:-21.315466069304904, y:0,
+      vx:0, vy:-0.0024268498546968042, spin:0.00011385554400956285, pinned:false, pnSource:true},
+    {type:"single", m:0.0015897512735990414, radius:6.06, x:174.6421739306951, y:0,
+      vx:0, vy:0.019883700081884368, spin:0.00011385554400956285, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第295便c(原仮定者の裁定(第85報)・統括の検証項目 R155): 🟣 plutoCharonInertial —— 慣性決定力版の冥王星とカロン =====
+// bodies と指数(L5/T1/M24)は 🥶 plutoCharonDiagInput の宣言を**1 字も変えずに写した**(両天体自由・同期自転の値を保持・点源)。integrator も 🥶 と同じ leapfrog。
+// physics は 🥶 の宣言から geoPN を 3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)にし、慣性引きずり relativeDrag を足しただけ。
+// gain は 🌛 の 514182 を同じ SI 係数 0.0514182 m³/kg として L5/T1/M24 へ換算した 5.14182×10⁷(**移送 —— 周期に合わせない**)。eps は 🥶 の軟化 0.01(= 1 km)。
+// 潮汐ロックはこの法則を零にしない(慣性決定力は力学速度の差を読む —— 同期円でも公転の相対速度は残る)。
+{ id:"plutoCharonInertial", name:"冥王星とカロン(慣性決定力版)— 移送した gain と公転周期", emoji:"🟣", group:"現実較正",
+  familyId:"pluto", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:5, T:1, M:24},   // 🥶 と同一(1単位=10⁵m/10s/10²⁴kg —— ε=0.01 単位が 1 km)
+  integrator:"leapfrog",   // 🥶 と同じ
+  sampleClass:"principle",
+  referenceKind:"coefficient-transfer",
+  fidelity:"real",
+  notClaim:["solar_cal","period_fit","gain_universal"],
+  abBody:{ label:{ja:"慣性引きずりを切る(gain 0 —— 重力だけの二体)", en:"switch the inertial drag off (gain 0 — the gravity-only two-body system)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.01, history:"positions", pairs:"all"}} },
+  obsCard:[
+      {q:"何を置いたか", model:"🥶 の冥王星とカロン(円軌道のケプラー初速を力学速度 v に与えた)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・点源", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"gain(C_d)", model:"5.14182×10⁷ [L³/M](L5/M24)= 🌛 の 514182 と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない", obs:"—"},
+      {q:"同方向 1 周(第 2 周・実測)", model:"502286.499 s(h=0.16)—— gain 0 の対照は 551863.660 s・差 -49577.161 s(-8.984%)", obs:"551856.43872±0.02592 s(参照 —— Buie 2012 の二体の値)"},
+      {q:"軌道の形(実測・8 公転)", model:"eProxy 1.36e-1・距離振幅 2352.032 km(gain 0 は eProxy 3.99e-9)—— 入力の写像で円にならない", obs:"—"},
+      {q:"u(実測)", model:"|u|/|v| の平均 1.31e-1(相対速度の 1 割を超える)", obs:"—"},
+      {q:"言わないこと", model:"周期の残差を gain で埋めない(gain は移送した宣言値・動いた量の記録)。潮汐ロックはこの法則を零にしない", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の冥王星とカロン**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🥶 plutoCharonDiagInput の二体(PLU060 の GM と 400 年平均の a・重心系・円軌道・ε=0 のケプラー初速・同期自転の値 —— bodies と指数 1 単位=10⁵m/10s/10²⁴kg は 1 字も変えない写し・積分器も leapfrog)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として換算した 5.14182×10⁷ [L³/M]**(移送 —— 周期に合わせない)。ε は 🥶 の軟化と同じ 0.01(=1km)・両天体とも点源。**潮汐ロックはこの法則を零にしない**(慣性決定力は力学速度の差を読む —— 同期円でも公転の相対速度は残る)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.16 と h/2): 同方向 1 周(第 2 周)は 502286.499 s で、gain 0 の対照 551863.660 s より −49577.161 s(−8.984%)。|u|/|v| の平均は 1.31×10⁻¹ と大きい。🥶 の台帳の周期の残差(Buie 2012 比 +0.00131%)は元期と GM の写像の問題で、慣性を足すと周期が動く —— 動いた量を記録し、gain で埋めない。**入力速度の写像の限界**: 🥶 の円軌道のケプラー初速を力学速度 v にそのまま与えた(ẋ=v+u)ので、座標速度は円軌道の速さより遅く、軌道は円にならない(離心率の代理 1.36×10⁻¹・距離振幅 2352.032 km —— gain 0 の対照は 3.99×10⁻⁹)。数は値の記録であって、合否の判定ではない。",
+      observe:"トレイルで、冥王星とカロンが重心のまわりに描く軌道が円から外れ、近点の向きが大きく回るのを見る(検出器 B の近点ごとに約 106°)。gain 0 の対照は円軌道のままで、近点の向きの定義が弱い(離心率の代理 4×10⁻⁹)。粒子表示は実半径のまま(dispMag=1)。",
+      control:"ワンタップの対照は gain 0(慣性引きずりを切る —— 🥶 と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。gain 0 の第 2 周 551863.660 s は 🥶 の第 2 周(dt 0.16)551863.659899 s と 2×10⁻⁶ s 以内。座標速度を円軌道にそろえた入力(v=ẋ−u)は本便では作らない。"},
+  en:{name:"Pluto & Charon (inertial determinacy) — a transferred gain and the orbital period",
+    obsCard:[
+      {q:"What is placed", model:"🥶's Pluto and Charon (circular Kepler speed given to the dynamical v); geoPN=3 (no geodesic, no 1PN), kFrame=0; points", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"gain (C_d)", model:"5.14182e7 [L^3/M] (L5/M24) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)", obs:"-"},
+      {q:"Same-direction revolution (rev 2, measured)", model:"502286.499 s (h=0.16); gain-0 control 551863.660 s; difference -49577.161 s (-8.984%)", obs:"551856.43872 +/- 0.02592 s (reference - Buie 2012 two-body value)"},
+      {q:"Orbit shape (measured, 8 orbits)", model:"eProxy 1.36e-1, distance amplitude 2352.032 km (gain 0: eProxy 3.99e-9) - the input mapping does not give a circle", obs:"-"},
+      {q:"u (measured)", model:"mean |u|/|v| 1.31e-1 (above a tenth of the relative speed)", obs:"-"},
+      {q:"Not claimed", model:"The period residual is not filled with the gain (transferred; the shift is recorded). Tidal locking does not null it", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY VERSION OF PLUTO AND CHARON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🥶 plutoCharonDiagInput's pair (PLU060 GM and the 400-year mean a; barycentric, circular, epsilon-0 Kepler speed; the synchronous spin values - bodies and the exponents 1 unit = 10^5 m / 10 s / 10^24 kg copied without a single change; the integrator is leapfrog too) runs under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 5.14182e7 [L^3/M] (a transfer - not fitted to the period). eps equals 🥶's softening 0.01 (= 1 km); both bodies are points. TIDAL LOCKING DOES NOT NULL THIS LAW (the inertial determinacy reads differences of dynamical velocity - on a synchronous circle the orbital relative velocity remains). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.16 and h/2): the same-direction revolution (rev 2) is 502286.499 s, -49577.161 s (-8.984%) from the gain-0 control 551863.660 s. The mean |u|/|v| is large, 1.31e-1. The period residual in 🥶's ledger (+0.00131% from Buie 2012) is a matter of the epoch and GM mapping; adding the drag moves the period - the shift is recorded and is not filled with the gain. THE LIMIT OF THE INPUT-VELOCITY MAPPING: 🥶's circular Kepler speed is given to the dynamical velocity v as it is (x-dot = v + u), so the coordinate speed is below the circular speed and the orbit is not a circle (eccentricity proxy 1.36e-1, distance amplitude 2352.032 km; the gain-0 control 3.99e-9). The numbers are a record, not a pass/fail verdict.",
+      observe:"Use the trail to watch the orbits Pluto and Charon draw about the barycentre leave the circle while the apse line turns fast (about 106 deg per periapsis of detector B). The gain-0 control stays circular, where the apse direction is ill-defined (eccentricity proxy 4e-9). Bodies are drawn at real radii (dispMag=1).",
+      control:"The one-tap control is gain 0 (the inertial drag off - 🥶's gravity-only two-body system; with geoPN 3 there is no 1PN either). The gain-0 revolution 2, 551863.660 s, is within 2e-6 s of 🥶's revolution 2 (dt 0.16), 551863.659899 s. An input with the coordinate speed set to the circular one (v = x-dot - u) is not built in this wave."},
+    parameterAudit:{
+      observedInputs:["the built-in G=6.674 and c0=29979.2458","GM of Pluto and Charon and the 400-year mean semi-major axis 19595.764 km (copied from 🥶: Brozovic & Jacobson 2024 Tables 8 and 10)",
+        "the declared mutual synchronism omega = 2 pi / 551855.8944 s (copied from 🥶 - kept, not read by the law)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)","geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:5.14182e7, eps:0.01, history:\"positions\", pairs:\"all\"} (compose not declared = the default solve(velocity))",
+        "point sources (no internal core is declared for Pluto or Charon)","two free bodies, barycentric, circular, epsilon-0 Kepler speed (🥶's state given to the dynamical velocity v)",
+        "kRep=muF=gammaN=kappaS=0 / stateCarry:\"double\", massPrecision:\"double\"","2D"],
+      fitted:["none in this sample (the gain is transferred, not refitted)"],
+      derived:["gain 5.14182e7 [L^3/M] = C_d,SI / (10^15 m^3 / 10^24 kg), C_d,SI = 0.0514182 m^3/kg (🌛's fit estimate carried as the same SI coefficient)","kappa_T=G/c0^2=7.4258e-9"],
+      numerical:["softening epsilon=0.01 unit = 1 km (gravity and the drag kernel)","integrator:\"leapfrog\"","time multiplier timeScale=1000","display magnification dispMag=1 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["内蔵 G=6.674・c₀=29979.2458","冥王星・カロンの GM と 400 年平均の軌道長半径 19595.764km(🥶 の写し —— Brozović & Jacobson 2024 Table 8・10)",
+      "相互同期の宣言 ω=2π/551855.8944s(🥶 の写し —— 保持するが法則は読まない)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)","geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:5.14182e7, eps:0.01, history:\"positions\", pairs:\"all\"}(compose は書かない = 既定 solve(velocity))",
+      "点源(冥王星・カロンの内部核は宣言しない)","二体の自由天体・重心系・円軌道・ε=0 のケプラー初速(🥶 の状態を力学速度 v に与えた)",
+      "kRep=muF=γN=κ_S=0 / stateCarry:\"double\"・massPrecision:\"double\"","2D"],
+    fitted:["この本ではなし(gain は移送 —— 合わせ直していない)"],
+    derived:["gain 5.14182×10⁷ [L³/M] = C_d,SI ÷ (10¹⁵m³/10²⁴kg)・C_d,SI = 0.0514182 m³/kg(🌛 のフィットの推定値を同じ SI 係数として移送)","κ=G/c₀²=7.4258×10⁻⁹"],
+    numerical:["ソフトニング ε=0.01 単位=1km(重力と引きずりの核)","integrator:\"leapfrog\"","時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:210}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
+    stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:5.14182e7, eps:0.01, history:"positions", pairs:"all"}},
+  bodies:[ // 🥶 plutoCharonDiagInput と同一(1 字も変えない)
     {type:"single", m:0.013025172310458496, radius:11.88, x:-21.315466069304904, y:0,
       vx:0, vy:-0.0024268498546968042, spin:0.00011385554400956285, pinned:false, pnSource:true},
     {type:"single", m:0.0015897512735990414, radius:6.06, x:174.6421739306951, y:0,

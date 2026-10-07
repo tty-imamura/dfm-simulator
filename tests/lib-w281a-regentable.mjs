@@ -721,6 +721,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/geo3-w294a.json': META_RUN.concat(['/elapsedS', '/window/rows/*/wallSec']) },
     note: '第294便a: geoPN=3 ∧ 慣性宣言の解決と走行(law inertial-drag・測地線 OFF・実効番号 0・kF0 でない)・🌛 の geoPN 0⇔3 の 2000 步ビット同一(状態・PN 旗・u)・'
       + '27/8 公転窓の近点周期の同値・未宣言の 3 は測地線 ON(geoPN=1 と同一)・パラメータでの宣言(gain 0 ≡ 慣性なし・gain ≡ JSON の宣言)' }),
+  // ---- 第295便c(原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」・統括の検証項目 R155):
+  //   慣性決定力版サンプル 3 本(🌤️ earthMoonSunInertial・🟤 mercurySunInertial・🟣 plutoCharonInertial)の宣言の門(gain の換算・親の写し・eps・pairs・
+  //   受理・解決と実効番号・2000 步)と測定(🌤️ は第293便d の器の childTask を再利用して A1/A2/gain 0 × 118 公転 × dt 0.016/0.008・🟤🟣 は gain 0/移送 × 8 公転 × h/h2 ——
+  //   runRow と同じ検出器 B)。Node の headless(子プロセス 3 本 —— workers 3)。html と swing-w293d.json(照合だけ)を読むので swing293・geo3-294a の後に置く。
+  //   所要は第295便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('inertial3-295c', 'node tests/exp-w295c-inertial3.mjs', ['tests/out/inertial3-w295c.json'], 120, { secSource: 'w295c-branch', node: true, workers: 3, after: ['swing293', 'geo3-294a'],
+    volatilePaths: { 'tests/out/inertial3-w295c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第295便c: 慣性決定力版サンプル 3 本の宣言の門(gain = 🌛 の係数の SI 移送・親の bodies の写し・eps = 軟化・pairs・受理の警告 0・inertial-drag・実効 0)と'
+      + '測定(🌤️ A1/A2/gain 0 の 27/118 公転窓の近点周期・恒星月・離心率・fit 残差 / 🟤🟣 gain 0 と移送の 8 公転の周期・近点率・振幅・eProxy・|u|/|v|)—— 値だけ・合否なし' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

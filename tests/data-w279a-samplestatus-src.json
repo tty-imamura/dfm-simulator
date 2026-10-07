@@ -105,6 +105,42 @@
     "state": "solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4"
    }
   },
+  "earthMoonSunInertial": {
+   "purpose": "🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る",
+   "objective": "met",
+   "state": "慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ",
+   "evidence": [
+    "tests/out/inertial3-w295c.json"
+   ],
+   "en": {
+    "purpose": "Carry 🌛's gain in SI units; measure the lunar apse with the Sun",
+    "state": "Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only"
+   }
+  },
+  "mercurySunInertial": {
+   "purpose": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る",
+   "objective": "met",
+   "state": "近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ",
+   "evidence": [
+    "tests/out/inertial3-w295c.json"
+   ],
+   "en": {
+    "purpose": "Carry 🌛's gain in SI units; measure Mercury's apse and period",
+    "state": "apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only"
+   }
+  },
+  "plutoCharonInertial": {
+   "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
+   "objective": "met",
+   "state": "第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ",
+   "evidence": [
+    "tests/out/inertial3-w295c.json"
+   ],
+   "en": {
+    "purpose": "Carry 🌛's gain in SI units; measure the Pluto-Charon period",
+    "state": "rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only"
+   }
+  },
   "boxBinaryToy": {
    "purpose": "等質量で共通移動が相対軌道から消えるかを測る",
    "objective": "met",
@@ -2332,6 +2368,16 @@
    ],
    "docs.dragCoreFit": [
     "earthMoonInertial"
+   ],
+   "preset.inertial3_295": [
+    "earthMoonSunInertial",
+    "mercurySunInertial",
+    "plutoCharonInertial"
+   ],
+   "docs.inertial3Contract295": [
+    "earthMoonSunInertial",
+    "mercurySunInertial",
+    "plutoCharonInertial"
    ],
    "preset.conduction": [
     "conduction"
