@@ -30448,6 +30448,11 @@ n が大きい 3 本の時間はほぼすべて step(エンジンの步)で、�
 題材を「その他」の 4 段目(三状態・AND の中の否定 —— 他の段・他の次元・検索とも AND。題材どうしを OR にする変更はしていない)へ移し、「全カテゴリ」を「全て」(太字)に・「その他」の段ごとの「全て」・「すべて表示」の撤去(常に全て表示 —— 変種と catalog extended も一覧に出る)・変種の家族の語「〔🌙 の家族〕」(旧「└」)・群名の強調色(--accText・600)・ⓘ は説明を開いている間だけ太字、を入れた。題材の判定(表 TOPIC_TAGS —— 宣言の鍵だけ)は変えていない。
 確認: bitsame 152/152・sigsame 152/152(差分 ID なし)。QA: `ui.pickerReorg294`(新設)と既存の `ui.topicChips291`・`ui.topicChipFilter293`・`ui.picker*`・`ui.emFamily`・`ui.charonFamily` ほかの世代切替(has294e)。
 
+〔第295便d — UI 6 点(原仮定者の裁定(第85報)UI 関連修正・統括の検証項目 R156)(**表示だけ** —— 物理・presetSig・保存の値〔group・sampleClass・geoPN の数〕・600 步の状態は 1 bit も変えていない)〕
+
+分類の選択肢から「引きずり近似(q)— 較正母集団の外」(派生値 `calibration:dfm` —— 在位に該当本なし・退役の本の説明タブのチップには残す)を撤去し、分類チップ kf0 の語を「観測再現」(en "Observation reproduction" —— 観測値を再現しようとする本・所属は合否を意味しない)に改めた。geoPN の選択肢の語は目的の組「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」「3: 慣性決定力」(パラメータの行は「geoPN(目的の組)」—— 走る法則の解決 `geoLawResolveInto` と役割 `GEO_MODE_ROLE` は不変)。群「腕と渦伸長(軸力)」の表示名を「腕と軸力」(宣言の値は不変・`GROUP_ALIASES` に表示名 → 宣言の値)、区画 cal の名を「観測値サンプル」とし群「実在天体のアナロジー」をその区画(「実在天体との照合・太陽系/連星」の後)へ移した。説明を開いている間の ⓘ は字 1.25 倍(閉 1.1 倍)+二重の丸枠(box-shadow —— 行の高さは不変)。群「現実較正」の表示名「実在天体との照合」は据え置き。
+確認: bitsame 152/152・sigsame 152/152(差分 ID なし)。QA: `ui.labels295`(新設)と既存の `ui.pickerScope`・`ui.calGroupSplit291`・`ui.observedCompare294`・`ui.pickerReorg294`(⑦ の字と環)・`ui.pickerSeparators`・`ui.samplePicker`・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui` の世代切替(has295d)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
