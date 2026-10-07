@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:58:29.555Z",
+  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+  "generatedAt": "2026-10-07T13:15:30.574Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5853521,
+    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+    "mtime": "2026-10-07T12:21:11.966Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,21 +20,21 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838872,
-    "sha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
-    "mtime": "2026-10-06T22:43:44.026Z"
+    "bytes": 1821683,
+    "sha256": "4bf3ce6405923abdb3852d0f9b02ea6cd564f0bfb3c3de1622310f766d915c62",
+    "mtime": "2026-10-07T12:54:54.162Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 50854,
-    "sha256": "9e8ad492ed676310b4790b5f1f2d0e71084e9cea37c371bb037767780b92a638",
-    "mtime": "2026-10-06T22:49:09.614Z"
+    "sha256": "cc543ee177fb9bec692cffb87a6e6bc37a7830ae220abbda9d333d36fb735b34",
+    "mtime": "2026-10-07T13:01:25.910Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "bytes": 20496,
-    "sha256": "74420d4d3e7cb5551c3d5c76a78f3a4d29bb893096ad935fd838dd7dc0eaa9b3",
-    "mtime": "2026-10-04T21:26:04.025Z"
+    "bytes": 21104,
+    "sha256": "c2c32a3a4bf86b767538048b14998e03695a92df841914be798bee16ffb5dc67",
+    "mtime": "2026-10-07T11:18:23.926Z"
    }
   ],
   "code": [
@@ -105,16 +105,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1002,
-   "segments": 911,
-   "closureShare": 0.3263
+   "names": 1022,
+   "segments": 931,
+   "closureShare": 0.3258
   },
-  "scopeSha256": "7fe715e6a93c6a698c41eb2ff1b7834be1900daa41172de3275a79a565af821b",
+  "scopeSha256": "9c7ee4bc19b887278b789df814d73cf327a29ca98100418067abe6ff00dddaff",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a322580251d80719dedbf6a41257798b19969f3abacc19a07b487bd2753c7bb8",
+    "stableSha256": "41ba27cd136ed718506be76bed27b2130fe08d0c5af658decd23f2fa5bb2dce9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "c21ac85c7eabe434bc4abeef60f621a472c31dbfa0a0361f2c059066f494fbf3",
+    "stableSha256": "cdab2ff73ecd98acbf6890dabe459c4f08d2c5fbc48afb97471951d4cc3ef8f2",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "c37b6004a31d0e61002f42ce807a88f887cf741ab7a79cdc9d3c9797d204e442",
+    "stableSha256": "e3c176d9cf6f5b13b34efcacb2cf8d83f7e2de74a4f4a36caf8cd7be854d1683",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -182,7 +182,7 @@
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "stableSha256": "7d317ea3b42144b54b5026badd1e979e54c675a49ed97eba24464d69132a11bd",
+    "stableSha256": "f5c93182806b553a583c2fb87f407f52225464ec14a8b6a91c04462b45046d5c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -196,7 +196,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+ "nowSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -928,7 +928,7 @@
  "K": {
   "file": "tests/data-w286b-clight.json",
   "bad": [],
-  "nReal": 60,
+  "nReal": 63,
   "nRetired": 23,
   "roundedLive": [],
   "roundedRetired": [
@@ -940,7 +940,7 @@
    "k": 7.425826474101849e-9
   },
   "books": 51,
-  "exact": 8,
+  "exact": 11,
   "excluded": [
    "emAuditNewton",
    "pulsarSolo"
@@ -1275,7 +1275,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1293,7 +1293,7 @@
     "bitSame1": true,
     "bitSameMany": true,
     "maxPosMany": 0,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -2326,6 +2326,8 @@
    "binary"
   ],
   "sigDiff": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
    "clusterAnalogyBH",
    "earthMoonReal",
    "earthMoonRealKF1",
@@ -2382,11 +2384,13 @@
   "n": 142,
   "declaredN": 52,
   "bitSameMany": 98,
-  "sigSame": 90,
+  "sigSame": 88,
   "changedUndeclared": [
    "emAuditNewton",
    "mercury",
-   "binary"
+   "binary",
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH"
   ],
   "declaredUnchangedBits": [
    "plutoCharonSyncZero",
@@ -2414,13 +2418,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.067,
+   "wallSec": 0.084,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.12,
+   "wallSec": 0.139,
    "errors": 0
   }
  },
- "elapsedS": 554.829
+ "elapsedS": 679.623
 }
