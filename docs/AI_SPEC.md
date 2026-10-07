@@ -3224,3 +3224,15 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.pickerReorg294`**(新設)。既存の固定値は世代切替 has294e(html の `PP_OTHER_SECS` の宣言に段 `"topic"`):
   `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
   `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。
+
+## 55. 第295便d —— 分類チップ「観測再現」・geoPN の目的の組の語・群「腕と軸力」・区画「観測値サンプル」(原仮定者の裁定(第85報)UI 関連修正・統括の検証項目 R156・**表示だけ**・**保存の値は不変**)
+
+- **分類チップ**: `sampleClass:"calibration"` の本の分類チップの語は ja「観測再現」・en "Observation reproduction"(i18n `bdgSC_calibration`・`bdgSC_calibration_kf0` —— 観測値を再現しようとする本・所属は合否を意味しない)。プリセット JSON に書く値は**従来のまま** `sampleClass:"calibration"`。
+  「サンプルを選ぶ」の分類の選択肢は 全て/原理実証/複合現象/観測再現(値 `calibration:kf0`)/意味論表示 の 5 つ —— 派生値 `calibration:dfm`(「引きずり近似(q)— 較正母集団の外」)の選択肢は撤去した(在位に該当本なし)。
+  派生値 `calVariantOf`・`ppClassMatch(p,"calibration:dfm")`・語 `bdgSC_calibration_dfm` は退役の本を読み込んだときの説明タブの分類チップのために残す(宣言・保存 JSON・署名には入らない)。
+- **geoPN の語**(目的の組): `ppGeo0`〜`ppGeo3` = 「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」「3: 慣性決定力」(en "0: general" / "1: 1PN-compliant" / "2: drag approximation" / "3: inertial determinacy")。用途文 `ppGeoUse0`〜`3`・`grpDragDesc`・パラメータの行(`PARAM_DEFS` の label「geoPN(目的の組)」・en `params.geoPN` "geoPN (purpose set)"・説明の先頭に 4 語)・SYSTEM_PROMPT の geoPN の 1 文(「0=汎用/1=1PN準拠…/2=引きずり近似…/3=慣性決定力…」)を同じ語にした。**値(0〜3 の数)・受理・走る法則の解決・`GEO_MODE_ROLE`/`GEO_MODE_PURPOSE` の鍵は変えていない**。
+- **群の表示名**: 宣言の値 `group:"腕と渦伸長(軸力)"` は不変で、表示名は ja「腕と軸力」(`I18N.ja.groups`)・en "Arms & Axis Force"。`GROUP_ALIASES["腕と軸力"]="腕と渦伸長(軸力)"`・`GROUP_IDS["腕と軸力"]="armsVortex"` —— AI 生成・手書きの JSON が表示名で群を書いても同じ群へ着地する(宣言の文字列は書き換えない・presetSig は group を見ない)。
+- **区画**: `GROUP_SCOPE` の cal の表示名は ja「観測値サンプル」・en "Observed-value samples"(i18n `ppScope_cal`)。群「実在天体のアナロジー」の区画を main → cal へ移し、`GROUP_ORDER` で「現実較正」の後に置いた(一覧は「実在天体との照合・太陽系」→「…・連星」→「実在天体のアナロジー」)。群「現実較正」の表示名「実在天体との照合」(§52)は不変。
+- **ⓘ**: 次元・群の説明の ⓘ は `.ppDimBtn` の中の `span.ppInfoGlyph`(textContent・読み上げ名は「次元名 ⓘ」のまま)。`.ppInfoGlyph`・`.catInfo`・`#bgcInfo` は字 1.1 倍(閉)/ 1.25 倍+二重の丸枠(開 —— `aria-expanded="true"`・`box-shadow:0 0 0 1px var(--accText),0 0 0 3px var(--panel),0 0 0 4px var(--accText)`・`border-radius:50%`)。宣言の鍵は無い。
+- presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.labels295`**(新設 —— root は SKIP)。既存の固定値は世代切替 has295d(html の `GROUP_SCOPE` で「実在天体のアナロジー」が `"cal"`):
+  `ui.pickerScope`(cal の区画に「実在天体のアナロジー」・en 群名)・`ui.calGroupSplit291`・`ui.observedCompare294`(分類チップと区画の語)・`ui.pickerReorg294`(⑦ ⓘ の字と環)・`ui.pickerSeparators`(分類の選択肢 4)・`ui.samplePicker`(⑧ DFM のチップ無し)・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui`(geoPN 行の語)。

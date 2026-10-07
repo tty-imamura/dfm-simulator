@@ -44094,6 +44094,9 @@ if (!FAST) {
   // 第291便e(世代切替 has291e = `const TOPIC_TAGS=`): 次元「題材」を「その他」の前に足した —— 6 行・題材の選択肢は 9(参照模型・ダークマターハロー・慣性決定力・
   //   光学迷彩矮星・1PN・測地線・試験粒子・空間メッシュ・観測較正・連鎖・多体 —— この場で書いた数)
   const has291eS = /const TOPIC_TAGS=/.test(html) && !has294eS;
+  // 第295便d(原仮定者の裁定(第85報)①・R156 —— 世代切替 has295d = GROUP_SCOPE で「実在天体のアナロジー」が cal): 分類の選択肢から
+  //   「引きずり近似(q)— 較正母集団の外」(calibration:dfm)を撤去 —— 分類 5 → 4(原理実証/複合現象/観測再現/意味論表示)
+  const nCls295 = /"実在天体のアナロジー":"cal"/.test(html) ? 4 : 5;
   const SEP_ORDER = has291eS ? 'scale/cls/e/geo/topic/other' : 'scale/cls/e/geo/other', N_SEP = has291eS ? 6 : 5, I_OTHER_S = has291eS ? 5 : 4;
   if (!/className="ppDimName"/.test(html)) {
     console.log('SKIP ui.pickerSeparators(対象に第286便e の絞り込みのセパレータなし — root 等)');
@@ -44118,8 +44121,8 @@ if (!FAST) {
           par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }; });
       // 採寸(状態ごと)。独立の期待件数: スケール = SCALE_TIERS・分類 5(原理実証/複合現象/現実較正 DFM/kF0/意味論表示)・
       // E水準 = EMERGENCE_LEVELS・geoPN 4(0〜3)・その他 4(obsCard/pinned/multi/testParticle)
-      const measure = () => pg.evaluate(([nOther, withTopic]) => {
-        const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', 5], ['e', 'ppDimE', HP.EMERGENCE_LEVELS.length],
+      const measure = () => pg.evaluate(([nOther, withTopic, nCls]) => {
+        const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', nCls], ['e', 'ppDimE', HP.EMERGENCE_LEVELS.length],
           ['geo', 'ppDimGeo', 4]].concat(withTopic ? [['topic', 'ppDimTopic', 9]] : [], [['other', 'ppDimOther', nOther]]);
         const host = document.getElementById('ppFolds');
         const hr = host.getBoundingClientRect();
@@ -44158,7 +44161,7 @@ if (!FAST) {
             .every((e) => { const q = e.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5; });
         return { rows, stacked, inBox, h: Math.round(hr.height), docX: document.documentElement.scrollWidth - innerWidth,
           order: f.map((d) => d.dataset.dim).join('/') };
-      }, [nOther287, has291eS]);
+      }, [nOther287, has291eS, nCls295]);
       const judge = (m, openWant) => m.order === SEP_ORDER && m.rows.length === N_SEP && m.stacked && m.inBox && m.docX <= 0
         && m.rows.every((x) => x.keyOk && x.sep && x.head && x.n === x.nExp && x.n === x.nChips && x.fullW && x.vis === 1
           && x.headBeforeChips && x.btnOk && x.open === openWant && x.chipsVis === openWant);
@@ -45006,6 +45009,10 @@ if (!FAST) {
     // 第291便e(原仮定者の裁定(第81報)⑦・R136): 「現実較正」の表示の 2 見出し(現実較正・太陽系/現実較正・連星)も較正の区画(表に無い世代では効かない)
     const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合', '現実較正・太陽系', '現実較正・連星'];
     const AXB = ['axisBarStill', 'axisBarArms', 'axisBarReach'];
+    // 第295便d(原仮定者の裁定(第85報)⑤・R156 —— 世代切替 has295d = GROUP_SCOPE で「実在天体のアナロジー」が cal): 区画 cal の表示名は「観測値サンプル」で、
+    //   群「実在天体のアナロジー」は本体からこの区画へ移った(この場の対応表に足す)。群「腕と渦伸長(軸力)」の en 表示名は "Arms & Axis Force"(宣言の値は不変)
+    const has295dP = /"実在天体のアナロジー":"cal"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+    if (has295dP) CAL.push('実在天体のアナロジー');
     // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 「すべて表示」を撤去(常に全て表示)したので、
     //   既定の一覧の期待も variant を含めて数える(expCount(true) と同じ)
     const has294eP = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
@@ -45022,7 +45029,7 @@ if (!FAST) {
       ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
       setShowAllSamples(false); HP.loadPreset('saturn', false); });
     const s0 = await snap();
-    const r = await pg.evaluate(async ([OUT, CAL, AXB, has294e]) => {
+    const r = await pg.evaluate(async ([OUT, CAL, AXB, has294e, has295d]) => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const o = { bad: [] };
       const expScope = (g) => (OUT.indexOf(g) >= 0 ? 'outside' : (CAL.indexOf(g) >= 0 ? 'cal' : 'main'));
@@ -45041,7 +45048,7 @@ if (!FAST) {
       const nj = (I18N.ja.groupNotes || {})[NG] || '', ne = (I18N.en.groupNotes || {})[NG] || '';
       o.newOk = AXB.every((id) => (ps.find((q) => q.id === id) || {}).group === NG)
         && JSON.stringify(o.newMembers.slice().sort()) === JSON.stringify(AXB.slice().sort()) && o.galaxyAxb === 0
-        && groupIdOf(NG) === 'armsVortex' && I18N.en.groups[NG] === 'Arms & Vortex Stretching (Axis Force)' && gIcon(NG) === '🌀'
+        && groupIdOf(NG) === 'armsVortex' && I18N.en.groups[NG] === (has295d ? 'Arms & Axis Force' : 'Arms & Vortex Stretching (Axis Force)') && gIcon(NG) === '🌀'
         && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne)
         && GROUP_ORDER.indexOf(NG) >= 0;
       // ③ DOM
@@ -45129,7 +45136,7 @@ if (!FAST) {
       o.enOk = d4.heads.length === 3 && d4.heads.every((h) => h.name === I18N.en['ppScope_' + h.sc]) && /^DFM proper/.test(o.enNames[0]) && /^Analogies outside DFM/.test(o.enNames[1]);
       hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
       return o;
-    }, [OUT, CAL, AXB, has294eP]);
+    }, [OUT, CAL, AXB, has294eP, has295dP]);
     const s1 = await snap();
     r.same = s1.sig === s0.sig && s1.par === s0.par;
     r.ok = r.tableOk && r.notRenamed && r.newOk && r.domOk && r.contig && r.selOk && r.allOk && r.retOk && r.searchOk && r.layOk && r.enOk && r.same && errs.length === 0;
@@ -45907,7 +45914,13 @@ if (!FAST) {
       const wantW294 = (hasBox2 && w290 && w294c)
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
            'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '実在天体との照合'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), wantW294].filter(Boolean);
+      // 第295便d(原仮定者の裁定(第85報)④⑤・統括の検証項目 R156): 群「実在天体のアナロジー」を区画「観測値サンプル」(cal)へ移し「現実較正」(表示「実在天体との照合」)の後へ・
+      //   群「腕と渦伸長(軸力)」の表示名を「腕と軸力」へ(宣言の値は不変)。世代切替 w295d = GROUP_SCOPE で「実在天体のアナロジー」が cal。候補を追加して厳密一致(候補数=11 —— 弱体化なし)
+      const w295d = typeof GROUP_SCOPE !== 'undefined' && GROUP_SCOPE['実在天体のアナロジー'] === 'cal';
+      const wantW295 = (hasBox2 && w290 && w294c && w295d)
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験',
+           'スピンと熱', '自転と減光', '腕と軸力', '実在天体との照合', '実在天体のアナロジー'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), (w295d ? null : wantW294), wantW295].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -45920,6 +45933,7 @@ if (!FAST) {
       res.wave288 = !!wantW288 && hit === wantW288;
       res.wave290 = !!wantW290 && hit === wantW290;
       res.wave294 = !!wantW294 && hit === wantW294;
+      res.wave295 = !!wantW295 && hit === wantW295;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -46290,7 +46304,7 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave294 ? '第294便c 群「現実較正」の表示名を「実在天体との照合」へ(宣言の群・並びは第290便f のまま —— 原仮定者の裁定(第84報)・R150)' : r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave295 ? '第295便d 群「実在天体のアナロジー」を区画「観測値サンプル」へ(「実在天体との照合」の後)・群「腕と渦伸長(軸力)」の表示名「腕と軸力」(宣言の値は不変 —— 原仮定者の裁定(第85報)・R156)' : r.wave294 ? '第294便c 群「現実較正」の表示名を「実在天体との照合」へ(宣言の群・並びは第290便f のまま —— 原仮定者の裁定(第84報)・R150)' : r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
         : (r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
         : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
@@ -57265,7 +57279,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const nextProw = (el) => { let n = el.nextElementSibling;
         while (n && !n.classList.contains('prow')) n = n.nextElementSibling; return n; };
       const lab0 = (el) => { const l = el && el.querySelector('label'); return l ? l.textContent : ''; };
-      const geoRow = rows[li('測地線モード')], clRow = rows[li('相似変換連動')];
+      // 第295便d(原仮定者の裁定(第85報)③・R156): geoPN 行のラベルは「geoPN(目的の組)」—— 旧世代は「測地線モード geoPN」(どちらかの行)
+      const geoRow = rows[li('測地線モード')] || rows[li('geoPN(目的の組)')], clRow = rows[li('相似変換連動')];
       // 第284便d(原仮定者の裁定(第74報)⑦「『測地線モード geoPN』を『引きずり・測地線』の先頭に移動」): 世代で期待を分ける ——
       // ppGeoBucketOf のある html は geoPN 行がカテゴリ先頭(次の行は D₀)で、kFrame は「引きずり減衰 q」の次(詳細は ui.paramOrderDrag)。
       // root 等の旧世代は従来どおり kFrame が geoPN の次
@@ -60616,8 +60631,11 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           return ('calVariant' in p) || (v.ok && ('calVariant' in v.preset)); }).length };
       // 第288便b(第78報④): kF0 の派生値の語を「現実較正」1 語へ一本化 —— 素の語と同じになる(それが一本化)。DFM 側は「引きずり近似(q)— 較正母集団の外」
       o.cal.unified = w288sp && HP.T('bdgSC_calibration_kf0') === HP.T('bdgSC_calibration') && /^引きずり近似\(q\)/.test(HP.T('bdgSC_calibration_dfm'));
+      // 第295便d(原仮定者の裁定(第85報)①・R156 —— 世代切替 = GROUP_SCOPE で「実在天体のアナロジー」が cal): 分類の選択肢から DFM 側(引きずり近似(q))を撤去 ——
+      //   チップが**無い**ことを見る(派生値 calVariantOf・ppClassMatch の "calibration:dfm" は退役の本のために残る —— 本数 dfm は全内蔵〔退役を含む〕で数える)
+      o.cal.w295d = typeof GROUP_SCOPE !== 'undefined' && GROUP_SCOPE['実在天体のアナロジー'] === 'cal';
       o.calOk = o.cal.total === o.cal.dfm + o.cal.kf0 && o.cal.dfm > 0 && o.cal.kf0 > 0
-        && o.cal.hasDfmChip && o.cal.hasKf0Chip && (w288sp ? o.cal.unified : !o.cal.hasPlainChip)
+        && (o.cal.w295d ? !o.cal.hasDfmChip : o.cal.hasDfmChip) && o.cal.hasKf0Chip && (w288sp ? o.cal.unified : !o.cal.hasPlainChip)
         && o.cal.mismatch.length === 0 && o.cal.leaked === 0;
       // ⑨ 第258便c: 「現実との照合」グループの 3 分割(サフィックス無しの残りは 0)
       const gcount = {};
@@ -60694,7 +60712,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       `⑦旧鍵(日本語名)の移行: ${r.mig.from} 件 → ${r.mig.to} 件(id へ ${r.mig.renamed}・名称不明を保持 ${r.mig.kept}・鍵=[${r.mig.keys}])` +
       `=${r.migOk}・再実行で不変=${r.migIdempotent} / ` +
       `⑧第258便c 現実較正の分割: 較正 ${r.cal.total} 本 = DFM ${r.cal.dfm} + kF0 ${r.cal.kf0}(kF0=${r.cal.kf0ids})・` +
-      `チップは DFM=${r.cal.hasDfmChip}/kF0=${r.cal.hasKf0Chip}・素の「現実較正」チップは無い=${!r.cal.hasPlainChip}・` +
+      `チップは DFM=${r.cal.hasDfmChip}${r.cal.w295d ? '(第295便d で撤去 —— 無いのが正)' : ''}/kF0=${r.cal.hasKf0Chip}・素の「現実較正」チップは無い=${!r.cal.hasPlainChip}・` +
       `安い規則と validatePreset の食い違い ${r.cal.mismatch.length} 本・派生鍵の漏れ ${r.cal.leaked} 本=${r.calOk} / ` +
       `⑨グループ 3 分割: 太陽系 ${r.grp.solar} 本・${r.beyondName} ${r.grp.beyond} 本・サフィックス無しの残り ${r.grp.plain} 本` +
       `(id=${r.grp.ids.join('/')})=${r.grpOk} / ` +
@@ -62544,6 +62562,11 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.w290 = (typeof GROUP_SCOPE !== 'undefined');
       const SEEN290 = ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
         'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'];
+      // 第295便d(原仮定者の裁定(第85報)⑤・統括の検証項目 R156 —— 世代切替 w295d = GROUP_SCOPE で「実在天体のアナロジー」が cal): 「実在天体のアナロジー」を
+      //   区画「観測値サンプル」へ移し、GROUP_ORDER で「現実較正」の後へ(旧世代の期待値は 1 文字も緩めない —— 宣言の群名で比べる)
+      o.w295d = o.w290 && GROUP_SCOPE['実在天体のアナロジー'] === 'cal';
+      if (o.w295d) SEEN290.splice(0, SEEN290.length, '運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験',
+        'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正', '実在天体のアナロジー');
       // ① GROUP_ORDER そのもの(第272便d=論文順 / 第273便a=原仮定者の列挙順+末尾に予約名 3)
       o.order = GROUP_ORDER.slice();
       o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w290 ? [...SEEN290, '法則の実験室', 'シミュレーション', '現実との照合'] : o.w273
@@ -62593,7 +62616,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.emoji).join('')]);
       // ⑤ **保存 id は維持**(開閉の記憶が飛ばない)+ 新群だけ id を足した
       o.ids = o.seen.map((g) => groupIdOf(g));
-      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w290
+      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w295d   // 第295便d: 「実在天体のアナロジー」は「現実較正」の後(id は不変)
+        ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light', 'boxUniverse', 'heat', 'rotor', 'armsVortex', 'realityCal', 'realAnalogy']
+        : o.w290
         ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light', 'boxUniverse', 'realAnalogy', 'heat', 'rotor', 'armsVortex', 'realityCal']
         : o.w273
         ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light',
@@ -66316,6 +66341,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 {
   const html291c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has291eC = TARGET.startsWith('beta/') && /^const GROUP_DISPLAY_SPLIT=/m.test(html291c);
+  // 第295便d(原仮定者の裁定(第85報)②・R156 —— 世代切替 has295d = GROUP_SCOPE で「実在天体のアナロジー」が cal): 分類チップ kf0 の語は「観測再現」
+  //   (群の表示名「実在天体との照合」は不変)。dfm の語「引きずり近似(q)— 較正母集団の外」は退役の本のチップ用に残る(選択肢からは撤去 —— ui.labels295)
+  const has295dC = /"実在天体のアナロジー":"cal"/.test(html291c);
   if (!has291eC) {
     console.log('SKIP ui.calGroupSplit291(第291便e の表示の 2 見出しの前の世代 — ' + TARGET + ')');
   } else {
@@ -66445,7 +66473,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!r.openCur) bad.push('③読み込み中の本(📻)の見出し(連星)だけが開く —— でない');
       if (!r.dom2.ok) bad.push('③DOM(退役の本 ' + r.retId + ' 読込)' + JSON.stringify(r.dom2));
       if (!(r.enHeads.join('|') === EN0 + ' — Solar System|' + EN0 + ' — Binaries' && r.enOpen === EN0 + ' — Solar System')) bad.push('③en ' + r.enHeads.join('|') + ' 開 ' + r.enOpen);
-      if (!(r.lblKf0 === (r.w294c ? '実在天体との照合' : '現実較正') && r.lblDfm === '引きずり近似(q)— 較正母集団の外')) bad.push(`⑤分類の語 ${r.lblKf0} / ${r.lblDfm}`);
+      if (!(r.lblKf0 === (has295dC ? '観測再現' : r.w294c ? '実在天体との照合' : '現実較正') && r.lblDfm === '引きずり近似(q)— 較正母集団の外')) bad.push(`⑤分類の語 ${r.lblKf0} / ${r.lblDfm}`);
       if (r.series !== 'kFrame=1(履歴) / kFrame=0') bad.push('⑤系列の語 ' + r.series);
       if (!(r.notice && r.noticeNone)) bad.push(`⑥在位移行の注記 ${r.notice}・非移行の本に出ない ${r.noticeNone}`);
       if (!r.gcn) bad.push('⑦群のカードの 1 行に 🎻 が残る');
@@ -66922,11 +66950,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         document.documentElement.removeAttribute('data-skin');
         // ⑦ ⓘ
+        // 第295便d(原仮定者の裁定(第85報)⑥・R156 —— 世代切替 = GROUP_SCOPE で「実在天体のアナロジー」が cal): ⓘ の字(.ppDimBtn は中の .ppInfoGlyph・.catInfo は自身)は
+        //   開いている間だけ字が大きく(閉の 1.1 倍 → 1.25 倍 —— 比 > 1.1)二重の丸枠(box-shadow が none でない)、閉じると元へ戻る(詳細は ui.labels295)
+        o.w295d = typeof GROUP_SCOPE !== 'undefined' && GROUP_SCOPE['実在天体のアナロジー'] === 'cal';
         const iTest = async (el, label, clickEl) => {
-          const st = () => ({ ex: el.getAttribute('aria-expanded'), w: fw(el), c: getComputedStyle(el).color });
+          const g = el.querySelector('.ppInfoGlyph') || el;
+          const st = () => ({ ex: el.getAttribute('aria-expanded'), w: fw(el), c: getComputedStyle(el).color,
+            fs: parseFloat(getComputedStyle(g).fontSize), bs: getComputedStyle(g).boxShadow });
           const acc = varColor('--accText');
           const a = st(); (clickEl || el).click(); await wait(20); const b = st(); (clickEl || el).click(); await wait(20); const c = st();
-          const ok = a.ex === 'false' && a.w < 700 && b.ex === 'true' && b.w >= 700 && b.c === acc && c.ex === 'false' && c.w < 700;
+          const ok = a.ex === 'false' && a.w < 700 && b.ex === 'true' && b.w >= 700 && b.c === acc && c.ex === 'false' && c.w < 700
+            && (!o.w295d || (b.fs / a.fs > 1.1 && c.fs === a.fs && a.bs === 'none' && b.bs !== 'none' && c.bs === 'none'));
           if (!ok) o.bad.push(`⑦ ${label} ${JSON.stringify([a, b, c])}`);
           return ok;
         };
@@ -66967,7 +67001,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / ④ 切り替え撤去=${a.noToggle}・hp_show_all_samples="0" でも行 ${a.nRows} = 退役を除く ${a.nListable}(variant ${a.nVariant}・catalog extended ${a.nExt})・(+n) ${a.plusN}・書き込み無し(${a.lsBefore}→${a.lsAfter})`
       + ` / ⑤ └ ${a.branch}・variant の行と option に家族の語(例「${a.example}」・家族 ${a.famN}・primary の絵文字の重なりなし=${a.emoUnique}・en「${a.enTag}」)`
       + ` / ⑥ ` + a.skins.map((s) => `${s.skin}: 群名 ${s.acc}・600・比 ${s.ratio}(背景 ${s.bg})・区画 ${s.scopeColor}/${s.scopeW}`).join(' | ')
-      + ` / ⑦ ⓘ 開いている間だけ太字+強調色: 次元 ${a.iDim}・群 ${a.iGrp}・カテゴリ ${a.iCat}・背景宣言 ${a.iBgc}(${a.bgcId})`
+      + ` / ⑦ ⓘ 開いている間だけ太字+強調色${a.w295d ? '+字 1.25 倍(閉 1.1 倍)・二重の丸枠(第295便d)' : ''}: 次元 ${a.iDim}・群 ${a.iGrp}・カテゴリ ${a.iCat}・背景宣言 ${a.iBgc}(${a.bgcId})`
       + ' / ' + res.map((r) => `${r.vp}: ${r.ok ? 'OK' : 'NG ' + r.bad.slice(0, 4).join(' , ')}・presetSig/params 不変=${r.same}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
   }
 }
@@ -69309,6 +69343,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 {
   const html294c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has294c = TARGET.startsWith('beta/') && /^const OBSERVED_COMPARE_VERSION=/m.test(html294c);
+  // 第295便d(原仮定者の裁定(第85報)②⑤・R156 —— 世代切替 has295d = GROUP_SCOPE で「実在天体のアナロジー」が cal): 分類チップの語は ja「観測再現」/ en「Observation reproduction」、
+  //   区画の名は ja「観測値サンプル」/ en「Observed-value samples」。群「現実較正」の表示名・📏・監査ビューの題は「実在天体との照合」のまま(① ④ の残りは不変)
+  const has295dO = /"実在天体のアナロジー":"cal"/.test(html294c);
   if (!has294c) {
     console.log('SKIP ui.observedCompare294(第294便c の「実在天体との照合」の差の行の前の世代 — ' + TARGET + ')');
   } else {
@@ -69326,7 +69363,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     pg.on('pageerror', (e) => errs.push(String(e.message || e)));
     await pg.goto(INDEX, { waitUntil: 'load' });
     await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
-    const r = await pg.evaluate(async ({ canonIds, scOf }) => {
+    const r = await pg.evaluate(async ({ canonIds, scOf, has295d }) => {
       const o = { bad: [] };
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
@@ -69334,12 +69371,14 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       HP.setLang('ja'); HP.loadPreset('saturn', false); await wait(5);
       const s0 = snap();
       const G = '現実較正', SOL = '現実較正・太陽系', BIN = '現実較正・連星', JN = '実在天体との照合', EN = 'Observed-body comparison';
+      const JC = has295d ? '観測再現' : JN, EC = has295d ? 'Observation reproduction' : EN;   // 第295便d: 分類チップの語
+      const JS = has295d ? '観測値サンプル' : JN, ES = has295d ? 'Observed-value samples' : EN;   // 第295便d: 区画の名
       // ① 表示名(ja)
       o.ja = { g: gName(G), sol: gName(SOL), bin: gName(BIN), kf0: HP.T('bdgSC_calibration_kf0'), cls: HP.T('bdgSC_calibration'),
         fid: HP.T('bdgFidReal'), av: HP.T('avTitle'), avOpen: HP.T('avOpen')(1), scope: HP.T('ppScope_cal'),
         lbl: sampleClassLabel(B.find((p) => p.id === 'psrDoubleAB')) };
-      if (!(o.ja.g === JN && o.ja.sol === JN + '・太陽系' && o.ja.bin === JN + '・連星' && o.ja.kf0 === JN && o.ja.cls === JN && o.ja.lbl === JN
-        && o.ja.fid === '📏 ' + JN && o.ja.av.indexOf(JN) === 0 && o.ja.avOpen.indexOf(JN) >= 0 && o.ja.scope === JN)) o.bad.push('①ja 表示名 ' + JSON.stringify(o.ja));
+      if (!(o.ja.g === JN && o.ja.sol === JN + '・太陽系' && o.ja.bin === JN + '・連星' && o.ja.kf0 === JC && o.ja.cls === JC && o.ja.lbl === JC
+        && o.ja.fid === '📏 ' + JN && o.ja.av.indexOf(JN) === 0 && o.ja.avOpen.indexOf(JN) >= 0 && o.ja.scope === JS)) o.bad.push('①ja 表示名 ' + JSON.stringify(o.ja));
       if (!(HP.T('bdgSC_calibration_dfm') === '引きずり近似(q)— 較正母集団の外')) o.bad.push('①引きずり近似(q)の語が変わった');
       // ② 保存の値
       o.declCal = B.filter((p) => p.group === G).length;
@@ -69414,8 +69453,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       HP.setLang('en'); HP.loadPreset('alphaCenAB', false); await wait(5);
       o.en = { g: gName(G), sol: gName(SOL), kf0: HP.T('bdgSC_calibration_kf0'), cls: HP.T('bdgSC_calibration'), fid: HP.T('bdgFidReal'), av: HP.T('avTitle'), scope: HP.T('ppScope_cal'),
         head: ((document.querySelector('#odBox summary') || {}).textContent || ''), v: ((document.querySelector('#odBox .odVerdict') || {}).textContent || '') };
-      if (!(o.en.g === EN && o.en.sol === EN + ' — Solar System' && o.en.kf0 === EN && o.en.cls === EN && o.en.fid === '📏 ' + EN && o.en.av.indexOf(EN) === 0
-        && o.en.scope === EN && o.en.head.indexOf(I18N.en.odHead) >= 0 && o.en.v === I18N.en['stCal_pass-limited'])) o.bad.push('④en ' + JSON.stringify(o.en));
+      if (!(o.en.g === EN && o.en.sol === EN + ' — Solar System' && o.en.kf0 === EC && o.en.cls === EC && o.en.fid === '📏 ' + EN && o.en.av.indexOf(EN) === 0
+        && o.en.scope === ES && o.en.head.indexOf(I18N.en.odHead) >= 0 && o.en.v === I18N.en['stCal_pass-limited'])) o.bad.push('④en ' + JSON.stringify(o.en));
       HP.setLang('ja');
       // ⑥ 書かない語
       const txt = [I18N.ja.odHead, I18N.ja.odNote, I18N.en.odHead, I18N.en.odNote, I18N.ja.groupNotes[G], I18N.en.groupNotes[G]].join('\n');
@@ -69425,7 +69464,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       o.same = s1.sig === s0.sig && s1.par === s0.par;
       if (!o.same) o.bad.push('⑤presetSig/params が動いた');
       return o;
-    }, { canonIds, scOf }).catch((e) => ({ err: String(e).slice(0, 300) }));
+    }, { canonIds, scOf, has295d: has295dO }).catch((e) => ({ err: String(e).slice(0, 300) }));
     await ctx.close();
     if (r.err) bad.push('ページ: ' + r.err);
     else {
@@ -69439,6 +69478,194 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / 差の行: 本 ${r.nBooks}(= OBS_COMPARE_CANON.presets ${r.canonPresets} = calaudit = 4 値の本)・量 ${r.nRows} 行(Δ ${r.nDelta}・うち相対 ${r.nRel}・Δ/σ ${r.nSig}・σ 未接続 ${r.nSigMiss} / 量の対応未確定 ${r.nMap} / 観測か模型が無い ${r.nNoObs})`
       + `・門の語は行末・4 値 ${JSON.stringify(r.cal4)} = 正本 ${JSON.stringify(four)} / 例: ${(r.examples || []).join(' ‖ ')} / presetSig・params 不変=${r.same}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第295便d(原仮定者の裁定(第85報)UI 関連修正・統括の検証項目 R156): ui.labels295 —— **表示だけ**(物理・presetSig・保存の値 group/sampleClass/geoPN の数は不変)。
+// ----   世代切替 has295d = html の GROUP_SCOPE で「実在天体のアナロジー」が cal —— root 等は SKIP。viewport は 412×915(縦・タッチ)と 1280×800(横)。
+// ----   ① 分類の選択肢(#ppFold_cls のチップの値)= all/principle/composite/calibration:kf0/semantic —— 「calibration:dfm」(引きずり近似(q)— 較正母集団の外)が無く、
+// ----      分類の説明(#ppClassNote)にもその行が無い。語 bdgSC_calibration_dfm と派生値は**退役の本のチップ用に残る**(退役の dfm の本を読み込むと説明タブの #classChips に
+// ----      data-g=sclass-calibration-dfm が出る)/ ② 分類チップの語 = ja「観測再現」・en「Observation reproduction」(bdgSC_calibration・bdgSC_calibration_kf0・
+// ----      sampleClassLabel・チップの語)・群「現実較正」の表示名と 📏 は「実在天体との照合」のまま / ③ geoPN の選択肢 = 「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」
+// ----      「3: 慣性決定力」(en「0: general」「1: 1PN-compliant」「2: drag approximation」「3: inertial determinacy」)・パラメータの行の名前「geoPN(目的の組)」(en
+// ----      「geoPN (purpose set)」—— 行の label の文字)・行の説明と grpDragDesc に 4 語(旧語「0=測地線不用」「3=空間メッシュ」が無い)・SYSTEM_PROMPT に「0=汎用/1=1PN準拠」/
+// ----   ④ 群の表示名 = ja「腕と軸力」・en「Arms & Axis Force」(宣言の値「腕と渦伸長(軸力)」の本 3 本のまま・表示名を宣言した本 0)・GROUP_ALIASES[表示名] = 宣言の値・
+// ----      groupIdOf(表示名) = armsVortex・表示名で書いた複製は同じ群の見出しへ着地し presetSig は同じ / ⑤ 区画 cal の名 = ja「観測値サンプル」・en「Observed-value samples」・
+// ----      gScope(実在天体のアナロジー) = cal・一覧の cal の区画の下の群の並び = 実在天体との照合・太陽系 → 連星 → 実在天体のアナロジー・区画の件数 = 宣言から数え直した数 /
+// ----   ⑥ ⓘ(#ppDimClassBtn と #ppGroupNoteBtn の .ppInfoGlyph・パラメータのカテゴリ .catInfo・背景宣言 #bgcInfo): 閉 = 親の字の 1.1 倍・box-shadow none、開(aria-expanded="true")=
+// ----      1.25 倍・box-shadow に色が 3 つ(内側の環・下地の隙間・外側の環)・border-radius 50%・閉じると元へ・**行の高さが開閉で変わらない**(±0.5px)・字の色(--accText)と
+// ----      下地(--panel)のコントラスト ≥ 4.5(ダーク・ライト —— 計算色から)/ ⑦ 保存値: 内蔵の JSON に表示名(腕と軸力・観測再現・観測値サンプル)が無い・presetSig・params 不変・JS エラー 0。
+{
+  const html295d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has295d = /"実在天体のアナロジー":"cal"/.test(html295d);
+  if (!has295d) {
+    console.log('SKIP ui.labels295(対象に第295便d の区画「観測値サンプル」の表なし — root 等)');
+  } else {
+    const VPS = [{ name: 'portrait-412x915', width: 412, height: 915, mobile: true }, { name: 'landscape-1280x800', width: 1280, height: 800, mobile: false }];
+    const res = [];
+    for (const vp of VPS) {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+        par: JSON.stringify(HP.sim.params) }));
+      await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+        ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        HP.loadPreset('saturn', false); });
+      const s0 = await snap();
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { bad: [] };
+        const B = BUILTIN_PRESETS;
+        const AXG = '腕と渦伸長(軸力)', AXN = '腕と軸力', ANA = '実在天体のアナロジー';
+        // ① 分類の選択肢
+        ppFold = { cls: true, geo: true }; showPresetPicker(); await wait(50);
+        o.clsVals = [...document.querySelectorAll('#ppFold_cls .ppChip')].map((c) => c.dataset.v);
+        const clsTxt = [...document.querySelectorAll('#ppFold_cls .ppChip')].map((c) => c.textContent);
+        document.getElementById('ppDimClassBtn').click(); await wait(20);
+        const clsNote = (document.getElementById('ppClassNote') || {}).textContent || '';
+        document.getElementById('ppDimClassBtn').click(); await wait(20);
+        if (!(o.clsVals.join('/') === 'all/principle/composite/calibration:kf0/semantic' && clsTxt.indexOf(HP.T('bdgSC_calibration_dfm')) < 0
+          && clsNote.indexOf(HP.T('bdgSC_calibration_dfm')) < 0 && clsNote.indexOf(HP.T('bdgSC_calibration_kf0')) >= 0))
+          o.bad.push('①分類の選択肢 ' + o.clsVals.join('/'));
+        const retDfm = B.find((p) => p.familyRole === 'retired' && calVariantOf(p) === 'dfm');
+        o.retDfm = retDfm ? retDfm.id : null;
+        // ② 「観測再現」
+        o.ja = { cls: HP.T('bdgSC_calibration'), kf0: HP.T('bdgSC_calibration_kf0'), lbl: sampleClassLabel(B.find((p) => p.id === 'psrDoubleAB')),
+          chip: clsTxt.find((t) => t.indexOf('観測再現') === 0) || '', g: gName('現実較正'), fid: HP.T('bdgFidReal') };
+        if (!(o.ja.cls === '観測再現' && o.ja.kf0 === '観測再現' && o.ja.lbl === '観測再現' && o.ja.chip && o.ja.g === '実在天体との照合' && o.ja.fid === '📏 実在天体との照合'
+          && /観測値を再現しようとする本/.test(HP.T('bdgSC_calibration_kf0Tip')) && /合否を意味しない/.test(HP.T('bdgSC_calibration_kf0Tip'))))
+          o.bad.push('②ja ' + JSON.stringify(o.ja));
+        // ③ geoPN の語
+        o.geoJa = [...document.querySelectorAll('#ppFold_geo .ppChip')].filter((c) => /^[0-3]$/.test(c.dataset.v)).map((c) => c.textContent);
+        const GJ = ['0: 汎用', '1: 1PN準拠', '2: 引きずり近似', '3: 慣性決定力'];
+        const pd = PARAM_DEFS.find((d) => d.key === 'geoPN');
+        o.geoLabel = pd.label;
+        o.geoDesc = GJ.every((w) => pd.desc.indexOf(w) >= 0);
+        o.dragDesc = ['0=汎用', '1=1PN準拠', '2=引きずり近似', '3=慣性決定力'].every((w) => HP.T('grpDragDesc').indexOf(w) >= 0)
+          && !/0=測地線不用|3=空間メッシュ/.test(HP.T('grpDragDesc'));
+        o.sp = HP.SYSTEM_PROMPT.indexOf('0=汎用/1=1PN準拠') >= 0 && HP.SYSTEM_PROMPT.indexOf('主に現実較正') < 0;
+        if (!(GJ.every((w, k) => o.geoJa[k] === w && HP.T('ppGeo' + k) === w) && o.geoLabel === 'geoPN(目的の組)' && o.geoDesc && o.dragDesc && o.sp))
+          o.bad.push(`③geoPN の語 ${o.geoJa.join('|')}・行 ${o.geoLabel}・説明 ${o.geoDesc}・grpDragDesc ${o.dragDesc}・SYSTEM_PROMPT ${o.sp}`);
+        // ⑤ 区画(DOM —— 既定の一覧)
+        o.scopeJa = HP.T('ppScope_cal');
+        const list = document.getElementById('ppList');
+        let sc = null; const calSeq = []; let calBooks = -1, outNames = [];
+        for (const e of list.children) {
+          if (e.classList.contains('ppScopeHead')) { sc = e.dataset.scope; if (sc === 'cal') { calBooks = +e.dataset.books; o.calHeadName = e.querySelector('.ppScopeName').textContent; } }
+          else if (e.classList.contains('ppGroupHead')) { const nm = e.querySelector('span:not([class])').textContent; if (sc === 'cal') calSeq.push(nm); if (sc === 'outside') outNames.push(nm); }
+        }
+        o.calSeq = calSeq; o.outNames = outNames;
+        const listable = B.filter((p) => p.familyRole !== 'retired' && !catalogHidden(p));
+        o.calExp = listable.filter((p) => ['現実較正', ANA].indexOf(gCanon(p.group)) >= 0).length;
+        if (!(o.scopeJa === '観測値サンプル' && o.calHeadName === '観測値サンプル' && gScope(ANA) === 'cal'
+          && calSeq.join('|') === '実在天体との照合・太陽系|実在天体との照合・連星|実在天体のアナロジー' && calBooks === o.calExp))
+          o.bad.push(`⑤区画 ${o.calHeadName}・並び ${calSeq.join('|')}・件数 ${calBooks}/${o.calExp}`);
+        // ④ 群の表示名(DOM と表)
+        o.axDecl = B.filter((p) => p.group === AXG).map((p) => p.id);
+        o.axDispDecl = B.filter((p) => p.group === AXN).length;
+        const probe = JSON.parse(JSON.stringify(B.find((p) => p.id === 'axisBarStill'))); probe.group = AXN;
+        o.probe = { canon: gCanon(probe.group), name: gName(probe.group), id: groupIdOf(probe.group), disp: ppDispGroup(probe), sigSame: presetSig(probe) === presetSig(B.find((p) => p.id === 'axisBarStill')) };
+        if (!(gName(AXG) === AXN && outNames.indexOf(AXN) >= 0 && outNames.indexOf(AXG) < 0 && GROUP_ALIASES[AXN] === AXG && o.axDecl.length === 3 && o.axDispDecl === 0
+          && o.probe.canon === AXG && o.probe.name === AXN && o.probe.id === 'armsVortex' && o.probe.disp === AXG && o.probe.sigSame && groupIdOf(AXG) === 'armsVortex'))
+          o.bad.push(`④群の表示名 ${gName(AXG)}・外の区画 ${outNames.join('|')}・宣言 ${o.axDecl.length}・probe ${JSON.stringify(o.probe)}`);
+        // ⑥ ⓘ
+        const rgb = (c) => (/rgba?\(([^)]+)\)/.exec(c) || [, '0,0,0'])[1].split(',').map((x) => parseFloat(x));
+        const lum = (c) => { const v = rgb(c).slice(0, 3).map((x) => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+          return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
+        const ratio = (a, b) => { const L1 = lum(a), L2 = lum(b); return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05); };
+        const varColor = (name) => { const pr = document.createElement('span'); pr.style.color = 'var(' + name + ')'; document.body.appendChild(pr);
+          const c = getComputedStyle(pr).color; pr.remove(); return c; };
+        o.info = [];
+        const iTest = async (btn, label, rowEl) => {
+          const g = btn.querySelector('.ppInfoGlyph') || btn;
+          const base = parseFloat(getComputedStyle(g.parentElement).fontSize);
+          const st = () => { const cs = getComputedStyle(g); return { ex: btn.getAttribute('aria-expanded'), k: +(parseFloat(cs.fontSize) / base).toFixed(3),
+            bs: cs.boxShadow, nRing: (cs.boxShadow.match(/rgba?\(/g) || []).length, br: cs.borderRadius, h: +(rowEl || btn).getBoundingClientRect().height.toFixed(2), c: cs.color }; };
+          const a = st(); btn.click(); await wait(20); const b = st(); btn.click(); await wait(20); const c = st();
+          const ok = a.ex === 'false' && Math.abs(a.k - 1.1) < 0.02 && a.bs === 'none' && b.ex === 'true' && Math.abs(b.k - 1.25) < 0.02 && b.nRing === 3
+            && b.br === '50%' && c.ex === 'false' && c.k === a.k && c.bs === 'none' && Math.abs(b.h - a.h) <= 0.5 && Math.abs(c.h - a.h) <= 0.5;
+          o.info.push({ label, closed: a.k, open: b.k, rings: b.nRing, h: [a.h, b.h], ok });
+          if (!ok) o.bad.push('⑥ⓘ ' + label + ' ' + JSON.stringify([a, b, c]));
+          return b.c;
+        };
+        hidePresetPicker(); ppFold = { cls: true }; showPresetPicker(true); await wait(40);
+        const clsBtn = document.getElementById('ppDimClassBtn');
+        await iTest(clsBtn, 'ppDimClassBtn', clsBtn.closest('.ppChips'));
+        const gBtn = document.getElementById('ppGroupNoteBtn');
+        await iTest(gBtn, 'ppGroupNoteBtn', gBtn.closest('.ppChips'));
+        // コントラスト(両スキン): 開いた ⓘ の字の色と箱の下地
+        o.skins = [];
+        for (const skin of ['dark', 'light']) {
+          if (skin === 'light') document.documentElement.setAttribute('data-skin', 'light'); else document.documentElement.removeAttribute('data-skin');
+          await wait(10);
+          clsBtn.click(); await wait(10);
+          const g = clsBtn.querySelector('.ppInfoGlyph');
+          const fg = getComputedStyle(g).color, bg = getComputedStyle(document.querySelector('#ppModal .ppBox')).backgroundColor;
+          const rr = +ratio(fg, bg).toFixed(2);
+          o.skins.push({ skin, fg, bg, ratio: rr, acc: fg === varColor('--accText') });
+          if (!(rr >= 4.5 && fg === varColor('--accText'))) o.bad.push(`⑥コントラスト ${skin} ${rr}`);
+          clsBtn.click(); await wait(10);
+        }
+        document.documentElement.removeAttribute('data-skin');
+        hidePresetPicker();
+        { const tb = document.querySelector('[data-tab="params"]'); if (tb) tb.click(); await wait(30); }
+        const ci = document.querySelector('details.catParams > summary .catInfo');
+        if (ci) await iTest(ci, 'catInfo', ci.parentElement); else o.bad.push('⑥.catInfo が無い');
+        // パラメータの geoPN 行の語(DOM)
+        o.geoRowLabel = ([...document.querySelectorAll('#paramRows .prow label')].map((l) => l.textContent).find((t) => t.indexOf('geoPN') === 0) || '');
+        if (o.geoRowLabel.indexOf('geoPN(目的の組)') !== 0) o.bad.push('③パラメータの行 ' + o.geoRowLabel);
+        o.bgcId = null;
+        for (const p of B) { if (p.familyRole === 'retired') continue; HP.loadPreset(p.id, false); await wait(2);
+          if (document.getElementById('bgcInfo')) { o.bgcId = p.id; break; } }
+        const bi = document.getElementById('bgcInfo');
+        if (bi) await iTest(bi, 'bgcInfo', document.getElementById('bgcShort')); else o.bad.push('⑥#bgcInfo が出る本が無い');
+        // ① の続き: 退役の dfm の本を読み込むと説明タブの分類チップに dfm が残る
+        { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); await wait(20); }
+        if (retDfm) { HP.loadPreset(retDfm.id, false); await wait(20);
+          o.retChip = [...document.querySelectorAll('#classChips .classChip')].filter((c) => c.dataset.g === 'sclass-calibration-dfm').map((c) => c.textContent).join('');
+          if (o.retChip !== HP.T('bdgSC_calibration_dfm')) o.bad.push('①退役の本 ' + retDfm.id + ' のチップ ' + o.retChip); }
+        // en
+        HP.setLang('en');
+        hidePresetPicker(); ppFold = { cls: true, geo: true }; showPresetPicker(true); await wait(40);
+        o.en = { cls: HP.T('bdgSC_calibration_kf0'), scope: HP.T('ppScope_cal'), ax: gName(AXG), param: I18N.en.params.geoPN,
+          geo: [...document.querySelectorAll('#ppFold_geo .ppChip')].filter((c) => /^[0-3]$/.test(c.dataset.v)).map((c) => c.textContent),
+          chip: [...document.querySelectorAll('#ppFold_cls .ppChip')].map((c) => c.textContent).find((t) => t.indexOf('Observation reproduction') === 0) || '' };
+        const GE = ['0: general', '1: 1PN-compliant', '2: drag approximation', '3: inertial determinacy'];
+        if (!(o.en.cls === 'Observation reproduction' && HP.T('bdgSC_calibration') === 'Observation reproduction' && o.en.chip && o.en.scope === 'Observed-value samples'
+          && o.en.ax === 'Arms & Axis Force' && o.en.param === 'geoPN (purpose set)' && GE.every((w, k) => o.en.geo[k] === w)
+          && /PURPOSE SET/.test(I18N.en.paramDescs.geoPN) && GE.every((w) => I18N.en.paramDescs.geoPN.indexOf(w) >= 0)))
+          o.bad.push('en ' + JSON.stringify(o.en));
+        hidePresetPicker(); HP.setLang('ja');
+        // ⑦ 保存値: 内蔵の JSON に表示名が無い
+        const bj = JSON.stringify(B);
+        o.leak = [AXN, '観測再現', '観測値サンプル', 'Observation reproduction', 'Arms & Axis Force'].filter((w) => bj.indexOf(w) >= 0);
+        if (o.leak.length) o.bad.push('⑦内蔵の宣言に表示名 ' + o.leak.join(','));
+        { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
+        HP.loadPreset('saturn', false);
+        return o;
+      }).catch((e) => ({ bad: ['ページ: ' + String(e).slice(0, 300)] }));
+      const s1 = await snap();
+      r.same = s1.sig === s0.sig && s1.par === s0.par;
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.bad.length === 0 && r.same && errs.length === 0;
+      res.push(r);
+      await ctx.close();
+    }
+    const a = res[0];
+    add('ui.labels295', res.every((x) => x.ok),
+      `**UI 6 点**(原仮定者の裁定(第85報)・統括の検証項目 R156 —— 表示だけ・保存の値は不変): ① 分類の選択肢 [${(a.clsVals || []).join('/')}](引きずり近似(q)なし・退役の ${a.retDfm} のチップ「${a.retChip}」は残る)`
+      + ` / ② 分類チップ「${a.ja && a.ja.cls}」・en「${a.en && a.en.cls}」(群の表示名「${a.ja && a.ja.g}」・📏 は不変)`
+      + ` / ③ geoPN [${(a.geoJa || []).join('|')}]・en [${a.en && a.en.geo && a.en.geo.join('|')}]・行「${a.geoRowLabel}」(en「${a.en && a.en.param}」)・説明/grpDragDesc/SYSTEM_PROMPT の語=${a.geoDesc}/${a.dragDesc}/${a.sp}`
+      + ` / ④ 群の表示名「腕と軸力」(en「${a.en && a.en.ax}」)・宣言 ${a.axDecl && a.axDecl.length} 本は「腕と渦伸長(軸力)」のまま・表示名の宣言 ${a.axDispDecl}・別名の着地 ${a.probe && a.probe.disp}(${a.probe && a.probe.id}・presetSig 同じ=${a.probe && a.probe.sigSame})`
+      + ` / ⑤ 区画「${a.calHeadName}」(en「${a.en && a.en.scope}」)の下 [${(a.calSeq || []).join(' → ')}]・件数 = 数え直し ${a.calExp}`
+      + ` / ⑥ ⓘ ` + (a.info || []).map((x) => `${x.label} 閉 ${x.closed}・開 ${x.open} 倍・環 ${x.rings}・行の高さ ${x.h.join('→')}`).join(' | ')
+      + `・コントラスト ` + (a.skins || []).map((s) => `${s.skin} ${s.ratio}`).join('/') + `(背景宣言 ${a.bgcId})`
+      + ` / ⑦ 内蔵の宣言に表示名 ${(a.leak || []).length} 件 / ` + res.map((x) => `${x.vp}: ${x.ok ? 'OK' : 'NG ' + x.bad.slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
   }
 }
 
