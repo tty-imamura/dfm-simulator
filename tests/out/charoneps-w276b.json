@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便b",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T23:11:41.970Z",
+  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+  "generatedAt": "2026-10-07T19:46:13.048Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5856758,
+    "sha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+    "mtime": "2026-10-07T17:31:27.415Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838872,
-    "sha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
-    "mtime": "2026-10-06T22:43:44.026Z"
+    "bytes": 1838844,
+    "sha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
+    "mtime": "2026-10-07T19:12:45.687Z"
    }
   ],
   "code": [
@@ -66,13 +66,13 @@
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+  "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+   "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
+   "obsSha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -176,7 +176,7 @@
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "obsRowPreset": "plutoCharonDiagInput",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a"
+   "calauditSha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -675,6 +675,7 @@
     "applied": 0.05,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -683,6 +684,7 @@
     "applied": 0.025,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -691,6 +693,7 @@
     "applied": 0.0125,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -699,6 +702,7 @@
     "applied": 0.01,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -708,6 +712,7 @@
     "clamped": true,
     "warnings": [
      "physics.softening を値域に修正",
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -716,6 +721,7 @@
     "applied": 0.5,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -724,6 +730,7 @@
     "applied": 0.25,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -732,6 +739,7 @@
     "applied": 0.125,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -740,6 +748,7 @@
     "applied": 0.1,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -748,6 +757,7 @@
     "applied": 0.05,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -756,6 +766,7 @@
     "applied": 0.02,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -764,6 +775,7 @@
     "applied": 0.01,
     "clamped": false,
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    }
@@ -819,16 +831,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1006,
-   "segments": 915,
-   "closureShare": 0.3256
+   "names": 1026,
+   "segments": 935,
+   "closureShare": 0.3249
   },
-  "scopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7",
+  "scopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a322580251d80719dedbf6a41257798b19969f3abacc19a07b487bd2753c7bb8",
+    "stableSha256": "bba8d588729cfdab3e4ff21787a474c09ad5763b5f480a6c9ebbb2a96701a77c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -856,7 +868,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "c21ac85c7eabe434bc4abeef60f621a472c31dbfa0a0361f2c059066f494fbf3",
+    "stableSha256": "74e0badf5b9167648f00829feb9876f8d60bdc45844869a610f922e6b36e3385",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -1751,7 +1763,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.702,
+    "wallSec": 23.949,
     "revSec": [
      551862.4613634202,
      551864.0613634228,
@@ -1814,17 +1826,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999655285095,
     "oscE": 0.000016990022912915778,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -1841,7 +1854,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.495,
+    "wallSec": 45.468,
     "revSec": [
      551863.2612658667,
      551864.0612662266,
@@ -1904,17 +1917,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.59599965284415,
     "oscE": 0.000013705498471678544,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -1931,7 +1945,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 86.167,
+    "wallSec": 90.863,
     "revSec": [
      551863.6612430442,
      551864.0612408934,
@@ -1994,11 +2008,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999652241925,
     "oscE": 0.000012752871433028034,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -2017,7 +2032,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.234,
+    "wallSec": 23.315,
     "revSec": [
      551854.3777988458,
      551855.9777991155,
@@ -2080,17 +2095,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.59599965178155,
     "oscE": 0.000012000539855165624,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -2107,7 +2123,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 37.982,
+    "wallSec": 44.992,
     "revSec": [
      551855.1777016791,
      551855.9776997723,
@@ -2170,17 +2186,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.59599964933326,
     "oscE": 0.000006572167877669111,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -2197,7 +2214,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 83.828,
+    "wallSec": 92.347,
     "revSec": [
      551855.5776777915,
      551855.9776764665,
@@ -2260,11 +2277,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.59599964872501,
     "oscE": 0.000004241314118398945,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -2283,7 +2301,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.307,
+    "wallSec": 23.141,
     "revSec": [
      551852.3568783985,
      551853.9568784185,
@@ -2346,17 +2364,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999651559175,
     "oscE": 0.000011619467628296978,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -2373,7 +2392,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.098,
+    "wallSec": 46.256,
     "revSec": [
      551853.1567811184,
      551853.9567799916,
@@ -2436,17 +2455,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999649131695,
     "oscE": 0.000005847436170998395,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -2463,7 +2483,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 75.449,
+    "wallSec": 98.466,
     "revSec": [
      551853.5567569693,
      551853.9567561732,
@@ -2526,11 +2546,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.59599964850936,
     "oscE": 0.000002997957564968352,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -2549,7 +2570,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.407,
+    "wallSec": 22.28,
     "revSec": [
      551852.1143671477,
      551853.7143671894,
@@ -2612,17 +2633,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999651555886,
     "oscE": 0.000011604396805844353,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -2639,7 +2661,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.265,
+    "wallSec": 44.972,
     "revSec": [
      551852.9142698293,
      551853.7142687655,
@@ -2702,17 +2724,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999649118955,
     "oscE": 0.0000058174322443944565,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -2729,7 +2752,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.014,
+    "wallSec": 99.213,
     "revSec": [
      551853.3142456219,
      551853.7142449776,
@@ -2792,11 +2815,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999648522874,
     "oscE": 0.000002939003431697051,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -2815,7 +2839,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.445,
+    "wallSec": 22.852,
     "revSec": [
      551852.1143671477,
      551853.7143671894,
@@ -2879,17 +2903,18 @@
     },
     "warnings": [
      "physics.softening を値域に修正",
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999651555886,
     "oscE": 0.000011604396805844353,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -2906,7 +2931,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.623,
+    "wallSec": 47.393,
     "revSec": [
      551852.9142698293,
      551853.7142687655,
@@ -2970,17 +2995,18 @@
     },
     "warnings": [
      "physics.softening を値域に修正",
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999649118955,
     "oscE": 0.0000058174322443944565,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -2997,7 +3023,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.818,
+    "wallSec": 94.093,
     "revSec": [
      551853.3142456219,
      551853.7142449776,
@@ -3061,11 +3087,12 @@
     },
     "warnings": [
      "physics.softening を値域に修正",
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999648522874,
     "oscE": 0.000002939003431697051,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -3131,7 +3158,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.482,
+    "wallSec": 22.827,
     "revSec": [
      551862.4607198895,
      551864.0607198874,
@@ -3194,17 +3221,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999643853136,
     "oscE": 0.00001698975262234819,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -3268,7 +3296,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.579,
+    "wallSec": 49.731,
     "revSec": [
      551863.2606223773,
      551864.060622809,
@@ -3331,17 +3359,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999641413724,
     "oscE": 0.000013705164151316948,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -3405,7 +3434,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.169,
+    "wallSec": 100.294,
     "revSec": [
      551863.6605996105,
      551864.0605975055,
@@ -3468,11 +3497,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999640806195,
     "oscE": 0.000012752512473656895,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -3538,7 +3568,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.451,
+    "wallSec": 22.856,
     "revSec": [
      551854.3771553383,
      551855.9771556318,
@@ -3601,17 +3631,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599964035068,
     "oscE": 0.000012000444204930352,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -3675,7 +3706,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.809,
+    "wallSec": 45.499,
     "revSec": [
      551855.1770582009,
      551855.9770563636,
@@ -3738,17 +3769,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637914048,
     "oscE": 0.0000065719944041307806,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -3812,7 +3844,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.697,
+    "wallSec": 100.351,
     "revSec": [
      551855.5770342937,
      551855.9770330027,
@@ -3875,11 +3907,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637308466,
     "oscE": 0.000004241047322105143,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -3945,7 +3978,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.744,
+    "wallSec": 22.064,
     "revSec": [
      551852.3562348809,
      551853.9562349058,
@@ -4008,17 +4041,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999640136745,
     "oscE": 0.000011619443209145769,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -4082,7 +4116,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.005,
+    "wallSec": 46.14,
     "revSec": [
      551853.1561376114,
      551853.956136455,
@@ -4145,17 +4179,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637696946,
     "oscE": 0.000005847388273674264,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -4219,7 +4254,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 79.526,
+    "wallSec": 103.866,
     "revSec": [
      551853.5561133793,
      551853.9561125585,
@@ -4282,11 +4317,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599963708571,
     "oscE": 0.0000029978646462565536,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -4352,7 +4388,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.149,
+    "wallSec": 24.577,
     "revSec": [
      551852.1137236583,
      551853.7137236623,
@@ -4415,17 +4451,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599964012782,
     "oscE": 0.000011604381219321643,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -4489,7 +4526,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 40.771,
+    "wallSec": 47.308,
     "revSec": [
      551852.9136263443,
      551853.7136251772,
@@ -4552,17 +4589,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599963769493,
     "oscE": 0.000005817401560317989,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -4626,7 +4664,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 78.657,
+    "wallSec": 98.465,
     "revSec": [
      551853.3136022032,
      551853.7136016212,
@@ -4689,11 +4727,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.959996370782,
     "oscE": 0.0000029389438208691118,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -4759,7 +4798,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.984,
+    "wallSec": 23.104,
     "revSec": [
      551851.7903750336,
      551853.3903751065,
@@ -4822,17 +4861,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999640115718,
     "oscE": 0.00001159476760834517,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -4896,7 +4936,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 38.131,
+    "wallSec": 44.032,
     "revSec": [
      551852.5902777093,
      551853.3902766696,
@@ -4959,17 +4999,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637691713,
     "oscE": 0.000005798202676804097,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -5033,7 +5074,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.627,
+    "wallSec": 98.153,
     "revSec": [
      551852.9902536008,
      551853.3902530872,
@@ -5096,11 +5137,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637081312,
     "oscE": 0.0000029007545630316323,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -5166,7 +5208,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.477,
+    "wallSec": 24.524,
     "revSec": [
      551851.6998374328,
      551853.2998374206,
@@ -5229,17 +5271,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599964012713,
     "oscE": 0.00001159422404009325,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -5303,7 +5346,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.437,
+    "wallSec": 45.388,
     "revSec": [
      551852.499739985,
      551853.299738919,
@@ -5366,17 +5409,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637683872,
     "oscE": 0.000005797116260052393,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -5440,7 +5484,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 77.277,
+    "wallSec": 89.501,
     "revSec": [
      551852.8997157966,
      551853.2997150782,
@@ -5503,11 +5547,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599963706733,
     "oscE": 0.0000028985825142191494,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   },
@@ -5573,7 +5618,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 20.659,
+    "wallSec": 23.786,
     "revSec": [
      551851.686903492,
      551853.2869035281,
@@ -5636,17 +5681,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.9599964013272,
     "oscE": 0.000011594222951554897,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:47:53.561Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:17:42.397Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h2": {
@@ -5710,7 +5756,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 43.165,
+    "wallSec": 44.624,
     "revSec": [
      551852.4868061743,
      551853.286805011,
@@ -5773,17 +5819,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637681692,
     "oscE": 0.00000579711448142162,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-06T22:55:52.291Z",
-     "fromTargetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-     "fromScopeSha256": "3eda030d68678536caf9e26cf7d059eab4215e5809f3be93fe57bb0c7dbf4bb7"
+     "fromGeneratedAt": "2026-10-07T19:26:57.491Z",
+     "fromTargetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+     "fromScopeSha256": "f7761a5d3e14b4b80384d59b78f04a8393ffde2b9cb8a48d98dbe63e29525fca"
     }
    },
    "h4": {
@@ -5847,7 +5894,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 76.985,
+    "wallSec": 86.428,
     "revSec": [
      551852.8867819534,
      551853.2867813668,
@@ -5910,11 +5957,12 @@
      "geoToyOverlay": null
     },
     "warnings": [
+     "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 195.95999637080885,
     "oscE": 0.000002898579134849053,
-    "mergeKey": "274ae8143f9e74a63a1f526986e9331f040a192fffc005ea18384e3097c0d2e2",
+    "mergeKey": "ea7341147989f9532975f8f5b9397725ca97c84242fd7988e5e06e475f4061e9",
     "canonicalRun": true
    }
   }

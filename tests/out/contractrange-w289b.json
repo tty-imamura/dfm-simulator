@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便b",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:01:33.060Z",
+  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+  "generatedAt": "2026-10-07T14:01:23.577Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5853521,
+    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+    "mtime": "2026-10-07T12:21:11.966Z"
    }
   ],
   "code": [
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 999,
-   "segments": 908,
-   "closureShare": 0.3246
+   "names": 1019,
+   "segments": 928,
+   "closureShare": 0.3241
   },
-  "scopeSha256": "dc0bb935f27e9a2ad71ae6b7fafb318b113525a7c10b41f3c6c2cf3ec4d5f0cd",
+  "scopeSha256": "ed22cbd5cdd20f3c1119dc054ead776f86ceddc6583649b206b52b73b35561a2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -132,7 +132,7 @@
   {
    "id": "mercuryGeoToy3",
    "emoji": "🔁",
-   "geoPN": 3,
+   "geoPN": 4,
    "ok": true,
    "steps": 95007,
    "tEnd": 1520.1120000014334,
@@ -153,7 +153,7 @@
   {
    "id": "psrDoubleABGeoToy",
    "emoji": "🩻",
-   "geoPN": 3,
+   "geoPN": 4,
    "ok": true,
    "steps": 67548,
    "tEnd": 1080.7679999993356,
@@ -173,26 +173,20 @@
   }
  ],
  "D": {
-  "nPresets": 152,
+  "nPresets": 155,
   "timeContract": [
    "charonGeoToy3"
   ],
   "geoPN3": [
-   "galaxyMeshSpiralGeoToy",
    "galaxyMeshSpiralGeoToyLite",
-   "galaxyAnalogyBH",
-   "galaxyAnalogyBHCompose",
-   "galaxyAnalogyBHTilt90",
-   "galaxyAnalogyBHTilt90Layers",
-   "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
    "earthMoonInertial",
-   "mercuryGeoToy3",
-   "charonGeoToy3",
-   "psrDoubleABGeoToy"
+   "earthMoonSunInertial",
+   "mercurySunInertial",
+   "plutoCharonInertial"
   ]
  },
  "ok": true,
- "elapsedS": 5.524
+ "elapsedS": 9.1
 }

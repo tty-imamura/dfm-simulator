@@ -369,6 +369,8 @@ export function declarationCheck(HP) {
   const p = P.preset, r = R.preset, ph = p.physics, rh = r.physics;
   const same = {};
   for (const k of ['G', 'cLight', 'geoPN', 'kFrame', 'softening', 'D0', 'q', 'frameWeight', 'contactMode', 'timeScale', 'stateCarry']) same[k] = ph[k] === rh[k];
+  // 第295便b(原仮定者の裁定(第85報)・R154): 写しの元 💮 は geoPN=4(空間メッシュ —— 旧法則版の置き場)へ移住した(力学は 3 とビット同一)。凍結の写し(3)との差は番号の付け替えだけ
+  if (!same.geoPN && ph.geoPN === 3 && rh.geoPN === 4) same.geoPN = true;
   for (const k of ['lawVersion', 'centerSpin', 'D0', 'dragR', 'gravity', 'inertia']) same['spaceMesh.' + k] = ph.spaceMesh[k] === rh.spaceMesh[k];
   const rStar = r.bodies.find((b) => b.type === 'disk' && b.lightSweep !== 1), rDR = r.bodies.find((b) => b.type === 'disk' && b.lightSweep === 1);
   const disks = p.bodies.filter((b) => b.type === 'disk');

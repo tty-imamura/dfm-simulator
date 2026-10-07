@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便a",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:02:07.939Z",
+  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+  "generatedAt": "2026-10-07T14:02:05.821Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5853521,
+    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+    "mtime": "2026-10-07T12:21:11.966Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w287a-growth.mjs",
-    "bytes": 38980,
-    "sha256": "67d0047e04299918c765371db91c8b1f02dd4f394db83a2f0f0af6b20eab9c1f",
-    "mtime": "2026-10-02T23:11:02.920Z"
+    "bytes": 39300,
+    "sha256": "5d12ca8d7ea16b03e6142694e51740c2781c45daedb2c6a843b018f5958a4008",
+    "mtime": "2026-10-07T12:21:12.022Z"
    },
    {
     "file": "tests/lib-w287a-growth.mjs",
@@ -75,7 +75,7 @@
     "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "0fea01c0305336c7473359fec39e8d3d7087ebe35b80e6b0efae58b80da9ca45",
+  "codeSha256": "601e9167da4b2de441c58b4d61a318a937b5c0f54fa192b2324dadf76c770b3b",
   "harnessVersion": "w287a-growth-1",
   "libVersion": "w287a-growth-lib-1",
   "loadErrors": 0,
@@ -143,11 +143,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1001,
-   "segments": 910,
-   "closureShare": 0.3252
+   "names": 1021,
+   "segments": 930,
+   "closureShare": 0.3247
   },
-  "scopeSha256": "0a066a86b214af01a7de8dd49804635a265be939b72848b487a8f299114a7f94",
+  "scopeSha256": "c473b8af9f847d7d929a65d7abe4c7f22e762670805ef4338c74fed16cd140f8",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1932,8 +1932,8 @@
     "tailMeanAbs": 0.044485377540646576,
     "restored": false
    },
-   "wallSec": 3.861,
-   "spentSec": 11.218
+   "wallSec": 5.015,
+   "spentSec": 15.205
   },
   {
    "key": "pro-seed1",
@@ -3204,8 +3204,8 @@
     "tailMeanAbs": 0.03247381796737653,
     "restored": false
    },
-   "wallSec": 3.889,
-   "spentSec": 11.401
+   "wallSec": 4.993,
+   "spentSec": 14.854
   },
   {
    "key": "pro-seed2",
@@ -4311,8 +4311,8 @@
     "tailMeanAbs": 0.1573876522343127,
     "restored": false
    },
-   "wallSec": 3.725,
-   "spentSec": 11.398
+   "wallSec": 4.909,
+   "spentSec": 15.313
   },
   {
    "key": "retro-seed0",
@@ -5450,8 +5450,8 @@
     "tailMeanAbs": 0.03154688204668693,
     "restored": false
    },
-   "wallSec": 3.343,
-   "spentSec": 10.581
+   "wallSec": 4.476,
+   "spentSec": 13.223
   },
   {
    "key": "retro-seed1",
@@ -6602,8 +6602,8 @@
     "tailMeanAbs": 0.02359946254238976,
     "restored": true
    },
-   "wallSec": 3.735,
-   "spentSec": 11.18
+   "wallSec": 4.704,
+   "spentSec": 14.199
   },
   {
    "key": "retro-seed2",
@@ -8312,8 +8312,8 @@
     "tailMeanAbs": 0.035020675601269036,
     "restored": false
    },
-   "wallSec": 6.629,
-   "spentSec": 17.129
+   "wallSec": 8.375,
+   "spentSec": 20.738
   },
   {
    "key": "head-seed0",
@@ -9586,8 +9586,8 @@
     "tailMeanAbs": 0.031909783563752236,
     "restored": false
    },
-   "wallSec": 4.241,
-   "spentSec": 11.399
+   "wallSec": 4.906,
+   "spentSec": 13.723
   },
   {
    "key": "head-seed1",
@@ -10813,8 +10813,8 @@
     "tailMeanAbs": 0.03311070649280923,
     "restored": false
    },
-   "wallSec": 4.268,
-   "spentSec": 12.303
+   "wallSec": 5.124,
+   "spentSec": 15.358
   },
   {
    "key": "head-seed2",
@@ -11910,8 +11910,8 @@
     "tailMeanAbs": 0.028245444946178144,
     "restored": false
    },
-   "wallSec": 3.954,
-   "spentSec": 11.828
+   "wallSec": 5.472,
+   "spentSec": 16.308
   }
  ],
  "radiusRun": {
@@ -13632,8 +13632,8 @@
    "tailMeanAbs": 0.03296121516296241,
    "restored": false
   },
-  "wallSec": 2.331,
-  "spentSec": 6.979
+  "wallSec": 3.507,
+  "spentSec": 9.221
  },
  "summary": {
   "nDeclared": 3,
@@ -13645,21 +13645,21 @@
    {
     "key": "pro-seed0",
     "steps": 9248,
-    "wallSec": 3.861,
+    "wallSec": 5.015,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed1",
     "steps": 9248,
-    "wallSec": 3.889,
+    "wallSec": 4.993,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed2",
     "steps": 8092,
-    "wallSec": 3.725,
+    "wallSec": 4.909,
     "verdict": "未達",
     "n0": 85
    }
@@ -13692,7 +13692,7 @@
   "growthSteps": 26588,
   "jeansSteps": 21111,
   "growthTotal": {
-   "wallSec": 11.475
+   "wallSec": 14.916999999999998
   },
   "jeansTotal": {
    "wallSec": 1781.887
@@ -13700,6 +13700,6 @@
   "growthPass": 0,
   "jeansPass": 0
  },
- "elapsedS": 55.32,
+ "elapsedS": 70.457,
  "verdict": "未達"
 }

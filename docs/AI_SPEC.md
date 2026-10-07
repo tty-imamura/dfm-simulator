@@ -342,7 +342,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0〕/2=引きずり近似 q〔標準 kFrame=1〕/3=慣性決定力〔引きずりを慣性決定力で計算〕/4=空間メッシュ〔旧法則版の置き場 —— 新しく作る設定では使わない〕。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -3224,3 +3224,77 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.pickerReorg294`**(新設)。既存の固定値は世代切替 has294e(html の `PP_OTHER_SECS` の宣言に段 `"topic"`):
   `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
   `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。
+
+## 55. 第295便a —— geoPN の「番号 = 目的の組」と逸脱の警告・geoPN=0 の排他宣言の選択肢(原仮定者の裁定(第85報)「geoPN=0 では、慣性決定力などを含めた、全ての設定を試せる様にする。排他的な宣言がある場合は、宣言を選択肢で用意する」「geoPN=1、2、3 は目的別の組み合わせであり、パラメータが逸脱する場合は、セーブロード時に警告する。さらに、該当パラメータの編集箇所でも、逸脱した時に赤文字などで注意書きを表示する」・統括の検証項目 R153・**プリセットの宣言鍵は足していない**)
+
+- **判定は 1 か所**: `HP.modeSettingIssues(src)`(純関数 —— 入力を書き換えない)→ `[{code, fields, kind, message, aliasOf?}]`。入力は sim.params・保存の physics・受理後の physics の
+  どれでもよい(読むのは geoPN・kFrame・geodesic・relativeDrag・spaceMesh・meshVelocity・lambdaPN・kFrameApprox)。`kind` は "preset"(目的の組の逸脱 —— `geoModeOf(...).standard` を偽にする)か
+  "declaration"(`kFrameFraction`・`ignoredGeodesic` —— 宣言そのものの注意)。`fields` は編集欄の鍵。`HP.modeSaveWarnings(a)` はその写し(互換)。`HP.modeIssueText(list)` は
+  通知・赤文字の文(別名の行は文を重ねない)。保存(#btnSave)・セーブの読込(loadSave —— 頭文 `modeWarnHeadLoad`)・JSON の受理(validatePreset の警告・取り込みの通知 1 行)・
+  編集欄の赤文字が**同じ code 集合**を出す(例外は受理だけ: 旧法則版を宣言した 3 の `geo3NoInertial`・`geo3LegacyMesh` は validatePreset の警告に出さない —— `MODE_ACCEPT_LEGACY_SKIP`)。走行は止めない・値は書き換えない。
+- **目的の組(標準)**: 0 = 汎用(基底は 1 つ・kFrame は自由)/ 1 = 1PN 準拠(kFrame=0・慣性なし・測地線 ON)/ 2 = 引きずり近似 q(kFrame=1・慣性なし)/
+  3 = 慣性決定力(relativeDrag.law:"inertial"・kFrame=0・測地線 OFF・旧メッシュなし・合成 solve(velocity))/ 4 = 空間メッシュ(旧法則版の置き場 —— §56)。
+- **code**(`HP.MODE_SAVE_WARN_CODES` 13 本 —— 既存 6 本の並びのまま末尾に足した。第295便b の geoPN=4 の 3 本〔§56〕がさらに末尾に付き、統合後は 16 本): `geo0Geodesic`(互換の別名 —— 測地線を含む重ねで `aliasOf:"geo0Stacked"`)・`geo1KFrame`・`geo2KFrame`・
+  `geo3NoInertial`・`kFrameFraction`・`inertialPlusGeodesic`(3 ∧ 慣性 ∧ geodesic:true)・**`inertialPlusKFrame`**(0・3 で慣性 ∧ kFrame>0)・**`geo0Stacked`**(0 で physics.geodesic:true・
+  relativeDrag.law:"inertial"・走る spaceMesh.lawVersion のうち 2 つ以上)・**`extraRelativeDrag`**(1・2 に慣性)・**`ignoredGeodesic`**(1・2 の geodesic:false)・**`geo3LegacyMesh`**(3 に旧メッシュ)・
+  **`inertialCompose`**(3 の compose:"sum")・**`inertialSolveFrom`**(3 の solveFrom:"history")。geoPN=0 の単独の測地線 ON はもう警告しない。保存の版 `HP.MODE_POLICY_VERSION` は **`"w295a-1"`**
+  (w291c-1・w293a-1・w294a-1 の保存も値を保持して読む)。
+- **geoPN=0 の選択肢**: `HP.GEO0_CHOICES` = `["newton","geodesic","inertial","legacy","stack"]`。`HP.geo0ChoiceOf(src)` は立っている宣言からの逆算(2 つ以上なら "stack")。
+  `HP.geo0ChoicePreview(src, choice, {gain})` は外す/足す宣言の表(純関数)。`HP.geo0ApplyChoice(S, choice, {gain})` は geoPN=0 の S にだけ効き、他の排他宣言を外す(kFrame は触らない・
+  "stack" といまの選択は no-op)。戻り値 `{ok, changed, removed, added, law, ge}`。UI は確認(confirm)のあとだけ適用する。旧空間メッシュは geoPN=0 では走らない(宣言だけ残す)。
+- **gain の継続編集**: `HP.geoInertialSetGain(S, gain)` —— 宣言済みなら他の鍵(pairs/eps/coreTable/compose/solveFrom)を保って gain だけ変える・未宣言なら `{law:"inertial", gain}` を宣言する。
+  `geo3InertialDeclare` も同じ本体。「パラメータ」タブの gain の欄は慣性の宣言の後も残る(全番号)。
+- **編集欄の赤文字**: `HP.refreshModeDeviation()` が `.prow[data-k="geoPN"]`(全体の要約)と `.prow[data-k="kFrame"]`(fields に kFrame)の中に `div.modeDeviation`(role=status・aria-live=polite・
+  `data-codes`・色 `--errText`)を出す/消す。
+- **AI 生成の推奨**: 目的に合わせて組をそろえる —— 観測値の再現は geoPN=1・kFrame=0(慣性なし)/ q 近似の引きずりは geoPN=2・kFrame=1 / 慣性決定力の引きずりは geoPN=3・
+  `relativeDrag.law:"inertial"`・kFrame=0・compose 未記載(既定 solve)/ 基底を自由に試すときは geoPN=0 で基底を 1 つ(physics.geodesic:true か relativeDrag.law:"inertial" のどちらか)。
+  組と違う設定は受理されて走るが、保存・読込・編集欄で警告が出る(比較用の実験設定として明示する)。
+- 内蔵 152 本の力学・presetSig・`S._core` は 1 bit 不変。QA: **`behavior.modeIssues295`**(新設)と、世代切替で改めた `behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`・
+  `behavior.geoModeResolve`・`behavior.geo3Inertial294`・`behavior.geoMode`・`preset.modeNoRestriction`・`docs.geoModeTable`(現行の表は docs/PHYSICS.md〔第295便a〕)。JSON の受理の警告は geoPN=2∧kFrame=0(互換入力)で互換の 1 行に geo2KFrame の 1 行が加わる(保存時と同じ判定)。
+
+## 56. 第295便b —— geoPN=4「空間メッシュ」(旧法則版の置き場)の受理と組(原仮定者の裁定(第85報)「geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する」・統括の検証項目 R154・**AI 生成には 4 を推奨しない**)
+
+- **受理**: `physics.geoPN` の値域は **0〜4**(`CLAMPS.geoPN` [0,4] —— 5 以上は 4 に寄せて警告)。4 は**旧法則版(`physics.spaceMesh.lawVersion` = scalar/local/complex/vMinusU)の置き場**で、
+  **新しい物理モードではない**(4PN の意味でもない)。走る経路は 3 の旧法則版と同じ(`geoCoreDispatchBody` の `ge>=3` の枝 —— `_core` へ 0)。
+- **解決** `HP.geoModeOf(ph)`: mode 4・主な用途 `purpose:"legacyMesh"`・役割 `role:"legacyMesh"`・`spaceMesh:true`・`core:null`。旧法則版が走れば法則 `legacy-spaceMesh:<lawVersion>`
+  (測地線 OFF)/ 走らない 4(宣言なし・入場条件〔kFrame>0 ∧ `toyAllowDrag` なし・inertia/weave・vMinusU の meshVelocity〕で無効)は**逸脱**で測地線 ON の基底
+  (kFrame=0 → `eih-kf0`・kFrame>0 → `vMinusU-q` —— 走行は止めない)。慣性の宣言(`relativeDrag.law:"inertial"`)は 4 の法則を選ばない。
+  標準構成(`.standard`)= 旧法則版が走る ∧ 慣性なし ∧ (kFrame=0 ∨ `spaceMesh.toyAllowDrag:true`)。走行の実効番号 `HP.geoEffectiveMode(S)` は旧法則版が走れば 4・走らなければ 2。
+- **逸脱の警告**(目的の組の判定 `HP.modeSettingIssues` —— §55 —— の末尾の「mode 4」の塊・kind:"preset" の 3 本。`HP.MODE_SAVE_WARN_CODES` は統合後 16 本 = §55 の 13 本+末尾のこの 3 本): **`"geo4NoMesh"`**(旧法則版が走らない)・**`"geo4Inertial"`**(慣性を重ねた)・
+  **`"geo4KFrame"`**(kFrame>0 ∧ `toyAllowDrag` の明示なし)。保存・セーブの読込・JSON の受理・編集欄の赤文字で同じ code を出す(警告だけで保存も走行も止めない)。保存の版 `modePolicy` は §55 の `"w295a-1"`(4 の保存は値どおり 4 で読む)。
+- **内蔵**: 在位で旧法則版が走る 9 本(🪁 galaxyMeshSpiralGeoToy・🌚 galaxyAnalogyBH・🧩 galaxyAnalogyBHCompose・🛸 galaxyAnalogyBHTilt90・🪆 galaxyAnalogyBHTilt90Layers・
+  💮 clusterAnalogyBH・🔁 mercuryGeoToy3・🌒 charonGeoToy3・🩻 psrDoubleABGeoToy)を geoPN=4 へ移した(3 の写しと 2000 步ビット同一を本ごとに確認 —— 器
+  `tests/exp-w295b-geo4.mjs`・正本 `tests/out/geo4-w295b.json`・段 `geo4-295b`)。退役 3 本と 🌛(慣性の 3)は 3 のまま。署名 `presetSig` は geoPN の 1 字と本文の
+  「geoPN=3」の語だけ変わる(力学は不変)。名簿は `GEO4_MIGRATED`(表示と QA だけ —— 力学は読まない)。
+- **AI 生成**: 新しく作る設定では **4 を使わない**(SYSTEM_PROMPT は値域 0〜4 と「4=空間メッシュ〔旧法則版の置き場 —— 新しく作る設定では使わない〕」の 1 語だけ)。
+  慣性決定力の引きずりを主に使う本は 3 ∧ `relativeDrag.law:"inertial"`(第294便a)・旧法則版を比較したいだけなら既存の内蔵(4)を読む。
+- 表示: 「サンプルを選ぶ」の geoPN の桶 4(`ppGeo4` ja「4: 空間メッシュ」/ en "4: space mesh"・`ppGeoUse4`)・パラメータの geoPN スライダーの上限 4・HUD とチップの
+  「geoPN=<3|4> / vMinusU」は宣言の番号。慣性の宣言欄(`HP.geo3InertialOfferOf`)は 3 だけ。
+- 内蔵 152 本の力学・`S._core` は 1 bit 不変(bitsame 152/152・sigsame は移住した 9 本だけ差分)。
+- QA: **`behavior.geo4Migrate295`**(新設)と、世代切替 has295b(html の `GEO4_MIGRATED`)で固定値を改めた `behavior.geoMode`・`behavior.geoModeResolve`・`behavior.modeSaveWarnings`
+  (code 16 本・4 の 18 通り)・`docs.geoModeTable`(geoPN=4 の行は docs/PHYSICS.md〔第295便a〕の現行の表に統合 —— 〔第295便b〕の節は器と移住の語を照合)・`behavior.geo3Inertial294`(桶 3 は 4 を数えない)・
+  `ui.geo3Hud`(番号 4)・`ui.pickerGeoFilter`(桶 0〜4)ほか(root は SKIP / 旧期待)。
+
+## 57. 第295便c —— 慣性決定力版サンプル 3 本(🌤️ earthMoonSunInertial・🟤 mercurySunInertial・🟣 plutoCharonInertial)と gain の SI 移送(原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」・統括の検証項目 R155・**新しい宣言鍵は足していない**・**SYSTEM_PROMPT には載せない**)
+
+- **新しい内蔵 3 本**(`sampleClass:"principle"`・較正母集団の外・`familyRole:"variant"`・群は家族の primary と同じ「現実較正」・`fidelity:"real"`・`referenceKind:"coefficient-transfer"`(宣言専用 —— 参照は移送した係数への応答)):
+  - 🌤️ `earthMoonSunInertial`(家族 earthmoon): bodies は 🔆 emAuditSolar の写し+地球の `dragCore:{massFrac:0.325, radius:0.0348}`。`relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}`(慣性の対は地球と月だけ —— 太陽は重力の第三体)。
+  - 🟤 `mercurySunInertial`(家族 mercury): bodies は ☄️ mercuryReal の写し(点源)。`relativeDrag:{law:"inertial", gain:51.4182, eps:0.05, history:"positions", pairs:"all"}`。
+  - 🟣 `plutoCharonInertial`(家族 pluto): bodies・指数 L5/T1/M24・`integrator:"leapfrog"` は 🥶 plutoCharonDiagInput の写し(点源)。`relativeDrag:{law:"inertial", gain:5.14182e7, eps:0.01, history:"positions", pairs:"all"}`。
+  - 3 本とも physics は親から `geoPN`(→ 3 —— 慣性決定力の有効化の印・測地線 OFF・1PN なし・実効番号 0)と `relativeDrag` だけが違う。`compose`・`geodesic` は書かない(既定 solve(velocity))。`kFrame` 0。`activeParams:["geoPN","dispMag"]`(gain を主役スライダーにしない)。ワンタップの対照 `abBody.physicsPatch.relativeDrag` は同じ宣言の gain 0。
+- **gain の移送(フィットではない)**: C_d の次元は [L³/M](u = C_d Σ m 𝒦 Δv で C_d m 𝒦 は無次元 —— 時間の単位は効かない)。🌛 の 514182(L6/M25)は C_d,SI = 514182 × (10⁶ m)³/10²⁵ kg = **0.0514182 m³/kg** で、L8/M27 では 51.4182・L5/M24 では 5.14182×10⁷。核の ε は各本の重力の軟化と同じ数(メートルでは 10⁶ / 5×10⁶ / 10³ m)。
+- **notClaim の鍵(新設 4 つ・I18N `nc_*` の ja/en)**: `gain_universal`(gain の普遍性は主張しない)・`apsidal_8p85_transfer`(🌤️ —— 8.85 年をこの本が出したとは主張しない)・`perihelion_43`(🟤 —— 43″/世紀〔1PN の量〕を目的にしない)・`period_fit`(🟣 —— 周期の差を gain で埋めない)。3 本とも `solar_cal` も持つ。
+- **測定の正本** `tests/out/inertial3-w295c.json`(器 `tests/exp-w295c-inertial3.mjs`・段 inertial3-295c —— `W295C_OUT` で出力先・`W295C_WORKERS` で並列数): `conversion`(換算の表)・`decl`(宣言の門 3 本)・`proxyIdentity`・`em`(🌤️ の A1/A2/G0 × dt 0.016/0.008 × 窓 5 —— 近点周期・Δϖ・恒星月・離心率・fit 残差・h/h2)・`two`(🟤🟣 の gain 0/移送 × h/h2 —— 周期・近点率・振幅・eProxy・|u|/|v|・runRow との照合)・`readings`・`gates`・`inputMapping`。obsCard の model 欄は正本の転記(QA `docs.inertial3Contract295`)。
+- AI 生成の雛形にはしない(SYSTEM_PROMPT に載せない —— 新しい鍵は無く、既存の `relativeDrag`・`dragCore` の宣言の組み合わせである)。QA: **`preset.inertial3_295`**・**`docs.inertial3Contract295`**(新設)。
+
+## 58. 第295便d —— 分類チップ「観測再現」・geoPN の目的の組の語・群「腕と軸力」・区画「観測値サンプル」(原仮定者の裁定(第85報)UI 関連修正・統括の検証項目 R156・**表示だけ**・**保存の値は不変**)
+
+- **分類チップ**: `sampleClass:"calibration"` の本の分類チップの語は ja「観測再現」・en "Observation reproduction"(i18n `bdgSC_calibration`・`bdgSC_calibration_kf0` —— 観測値を再現しようとする本・所属は合否を意味しない)。プリセット JSON に書く値は**従来のまま** `sampleClass:"calibration"`。
+  「サンプルを選ぶ」の分類の選択肢は 全て/原理実証/複合現象/観測再現(値 `calibration:kf0`)/意味論表示 の 5 つ —— 派生値 `calibration:dfm`(「引きずり近似(q)— 較正母集団の外」)の選択肢は撤去した(在位に該当本なし)。
+  派生値 `calVariantOf`・`ppClassMatch(p,"calibration:dfm")`・語 `bdgSC_calibration_dfm` は退役の本を読み込んだときの説明タブの分類チップのために残す(宣言・保存 JSON・署名には入らない)。
+- **geoPN の語**(目的の組): `ppGeo0`〜`ppGeo3` = 「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」「3: 慣性決定力」(en "0: general" / "1: 1PN-compliant" / "2: drag approximation" / "3: inertial determinacy")。用途文 `ppGeoUse0`〜`3`・`grpDragDesc`・パラメータの行(`PARAM_DEFS` の label「geoPN(目的の組)」・en `params.geoPN` "geoPN (purpose set)"・説明の先頭に 4 語)・SYSTEM_PROMPT の geoPN の 1 文(「0=汎用/1=1PN準拠…/2=引きずり近似…/3=慣性決定力…」)を同じ語にした。**値(0〜3 の数)・受理・走る法則の解決・`GEO_MODE_ROLE`/`GEO_MODE_PURPOSE` の鍵は変えていない**。
+- **群の表示名**: 宣言の値 `group:"腕と渦伸長(軸力)"` は不変で、表示名は ja「腕と軸力」(`I18N.ja.groups`)・en "Arms & Axis Force"。`GROUP_ALIASES["腕と軸力"]="腕と渦伸長(軸力)"`・`GROUP_IDS["腕と軸力"]="armsVortex"` —— AI 生成・手書きの JSON が表示名で群を書いても同じ群へ着地する(宣言の文字列は書き換えない・presetSig は group を見ない)。
+- **区画**: `GROUP_SCOPE` の cal の表示名は ja「観測値サンプル」・en "Observed-value samples"(i18n `ppScope_cal`)。群「実在天体のアナロジー」の区画を main → cal へ移し、`GROUP_ORDER` で「現実較正」の後に置いた(一覧は「実在天体との照合・太陽系」→「…・連星」→「実在天体のアナロジー」)。群「現実較正」の表示名「実在天体との照合」(§52)は不変。
+- **ⓘ**: 次元・群の説明の ⓘ は `.ppDimBtn` の中の `span.ppInfoGlyph`(textContent・読み上げ名は「次元名 ⓘ」のまま)。`.ppInfoGlyph`・`.catInfo`・`#bgcInfo` は字 1.1 倍(閉)/ 1.25 倍+二重の丸枠(開 —— `aria-expanded="true"`・`box-shadow:0 0 0 1px var(--accText),0 0 0 3px var(--panel),0 0 0 4px var(--accText)`・`border-radius:50%`)。宣言の鍵は無い。
+- presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.labels295`**(新設 —— root は SKIP)。既存の固定値は世代切替 has295d(html の `GROUP_SCOPE` で「実在天体のアナロジー」が `"cal"`):
+  `ui.pickerScope`(cal の区画に「実在天体のアナロジー」・en 群名)・`ui.calGroupSplit291`・`ui.observedCompare294`(分類チップと区画の語)・`ui.pickerReorg294`(⑦ ⓘ の字と環)・`ui.pickerSeparators`(分類の選択肢 4)・`ui.samplePicker`(⑧ DFM のチップ無し)・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui`(geoPN 行の語)。

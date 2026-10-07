@@ -34,7 +34,7 @@ const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const OUT = process.env.W287B_EIH_OUT ? path.resolve(ROOT, process.env.W287B_EIH_OUT) : path.join(ROOT, 'tests', 'out', 'eihdiag-w287b.json');
 const CALAUDIT = 'tests/exp-w249b-calaudit.mjs';
 const PN1_JSON = 'tests/out/pn1-w285b.json';
-export const HARNESS_VERSION = 'w287b-eihdiag-1';
+export const HARNESS_VERSION = 'w287b-eihdiag-2';   // 第295便a: 目的の組の逸脱の警告を異常の印に数えない
 const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
 const t0 = Date.now();
 const log = (...a) => console.error('[w287b-eih]', ((Date.now() - t0) / 1000).toFixed(0) + 's', ...a);
@@ -56,7 +56,10 @@ H.evalExpr(`(function(){
     const v = HP.validatePreset(JSON.parse(JSON.stringify(V)));
     if (!v.ok) throw new Error('器の中の宇宙が受理されない: ' + id + ' / ' + JSON.stringify(v.errors || ''));
     HP.sim.build(v.preset);
-    return { warnings: v.warnings, n: HP.sim.n, map: window.__w249map(v.preset), kFrameApplied: (v.preset.physics || {}).kFrame,
+    // 第295便a(原仮定者の裁定(第85報)): 受理器は目的の組からの逸脱(geo2KFrame・kFrameFraction など)も警告として返すが、値は書き換えない情報なので
+    //   この器の「警告」(NaN・クランプと並べる異常の印)には数えない —— HP.modeSettingIssues の文と一致するものを除く(無い版ではそのまま)
+    const __mi = new Set((typeof HP.modeSettingIssues === 'function' ? HP.modeSettingIssues(Object.assign({}, v.preset.physics || {})) : []).map((m) => m.message));
+    return { warnings: (v.warnings || []).filter((w) => !__mi.has(w)), n: HP.sim.n, map: window.__w249map(v.preset), kFrameApplied: (v.preset.physics || {}).kFrame,
       geo: geoModeOf(v.preset.physics) };
   };
 })()`);

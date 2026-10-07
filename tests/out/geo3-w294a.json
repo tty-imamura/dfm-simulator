@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便a",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:24:01.436Z",
+  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
+  "generatedAt": "2026-10-07T14:30:09.505Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5856600,
+    "sha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
+    "mtime": "2026-10-07T14:24:06.010Z"
    }
   ],
   "code": [
@@ -65,14 +65,24 @@
   ],
   "codeSha256": "06163ef8f498ecae8383e8997de5d30464d7aca3401e0d7c3b3a1cf3ebc625dd",
   "harnessVersion": "w294a-geo3-1",
-  "modePolicy": "w294a-1",
+  "modePolicy": "w295a-1",
   "saveWarnCodes": [
    "geo0Geodesic",
    "geo1KFrame",
    "geo2KFrame",
    "geo3NoInertial",
    "kFrameFraction",
-   "inertialPlusGeodesic"
+   "inertialPlusGeodesic",
+   "inertialPlusKFrame",
+   "geo0Stacked",
+   "extraRelativeDrag",
+   "ignoredGeodesic",
+   "geo3LegacyMesh",
+   "inertialCompose",
+   "inertialSolveFrom",
+   "geo4NoMesh",
+   "geo4Inertial",
+   "geo4KFrame"
   ],
   "inertialVersion": "w290c-inertial-1",
   "composeDefault": [
@@ -127,11 +137,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1008,
-   "segments": 917,
-   "closureShare": 0.3264
+   "names": 1027,
+   "segments": 936,
+   "closureShare": 0.3257
   },
-  "scopeSha256": "9bf070de05dc9e4204bf6d559e0b2f38aa10292be0678232544e622f8d1cdff9",
+  "scopeSha256": "d268e41bbd1eae197ba7d38f6ddb676f2a36a1a4efe605de5f0483c80ebb7e1b",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -307,7 +317,7 @@
    {
     "geoPN": 0,
     "steps": 39596879,
-    "wallSec": 147.344,
+    "wallSec": 179.847,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -365,7 +375,7 @@
    {
     "geoPN": 3,
     "steps": 39596879,
-    "wallSec": 140.938,
+    "wallSec": 179.144,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -728,5 +738,5 @@
   "paramSameAsJson": true
  },
  "ok": true,
- "elapsedS": 290.202
+ "elapsedS": 361.412
 }

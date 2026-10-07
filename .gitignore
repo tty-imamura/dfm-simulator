@@ -833,6 +833,13 @@ tests/out/regen-plan-w281a.json
 #   🌛 の geoPN 0⇔3 の 2000 步ビット同一・27/8 公転窓の近点周期の同値・未宣言の 3・パラメータでの宣言)。QA behavior.geo3Inertial294 が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/geo3-w294a.json
+# 第295便b(原仮定者の裁定(第85報)・統括の検証項目 R154): **geoPN=4「空間メッシュ」への移住便**の正本(tests/exp-w295b-geo4.mjs —— 在位 9 本の geoPN 3⇔4 の
+#   2000 步ビット同一・4 の逸脱・退役 3 本と 🌛 は 3 のまま)。QA behavior.geo4Migrate295 が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/geo4-w295b.json
+# 第295便c(原仮定者の裁定(第85報)・統括の検証項目 R155): **慣性決定力版サンプル 3 本**の正本(tests/exp-w295c-inertial3.mjs —— 宣言の門〔gain の SI 移送・親の写し・
+#   eps・pairs・受理・解決〕と測定〔🌤️ A1/A2/gain 0 の 118 公転・🟤🟣 gain 0/移送の 8 公転 × h/h2〕)。QA preset.inertial3_295・docs.inertial3Contract295 が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/inertial3-w295c.json
 # 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): **GR 1PN 便**の正本(tests/exp-w291b-pnsources.mjs —— kF0 の 1PN 源 = 全質量源の
 #   源の表・基点 cf2da0a との前後・参照 EIH との照合・半径回帰・🥶 の残差の分解・表示条件の集計)。QA docs.pn1Contract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
