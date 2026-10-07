@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便c",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:54:52.119Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:01:48.736Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    },
    {
     "file": "tests/out/compose-w288c.json",
     "bytes": 9586,
-    "sha256": "b2147426e8a4de48c0d81457ef5f85861bc6badd0a533816efefc6ac491733bc",
-    "mtime": "2026-10-05T21:54:33.190Z"
+    "sha256": "ad4c8906f97bdec9682cc7dede1d5c718532756d022aaab0cc1832278451d2e7",
+    "mtime": "2026-10-06T22:01:34.410Z"
    }
   ],
   "code": [
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "a1cf49a91053ac8b4b5728f09ce121fc1523ca167991b5149a54b9902e7eb93b",
+  "codeSha256": "f59d8e350dfd162b1e0ce192f4b5bc3e51f46b900a5c52c3d45fc139c0e0e3c9",
   "harnessVersion": "w289c-nearfar-1",
   "libVersion": "w289c-nearfar-1",
   "loadErrors": 0,
@@ -108,14 +108,14 @@
    "complete": true,
    "names": 1000,
    "segments": 909,
-   "closureShare": 0.3258
+   "closureShare": 0.3252
   },
-  "scopeSha256": "ca737338236d7461d5766b33042fbfe29b48458956372269bc6ffe44842760ea",
+  "scopeSha256": "694601fdb1b37ced84afcf6ec468afb30f94af729e79134c7ad81c15e01b2fc7",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/compose-w288c.json",
-    "stableSha256": "1d60dcafbcbbd85f18be805fde2b6f362d43006e74b9940979372d4cec0c7fb5",
+    "stableSha256": "643fd8ffc053d5490ff5aaa686aa1dce6177929cc305144f7512480ed39c833d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -423,5 +423,5 @@
   "how": "既存の u = HP.dfmFieldContract(toy の宣言・excludeBodyId=i)。候補は C=1 で評価し addCandidate(u, du, C) に通す —— C=0 は u をそのまま写す"
  },
  "ok": true,
- "elapsedS": 1.387
+ "elapsedS": 1.32
 }

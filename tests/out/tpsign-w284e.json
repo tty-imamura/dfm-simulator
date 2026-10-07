@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T22:44:20.080Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T23:08:08.323Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838814,
-    "sha256": "8a86a0f0eeff0eb5fc58a20a370c62f0058ab7f5d6eb5959cea41915fbe119a3",
-    "mtime": "2026-10-05T22:21:06.963Z"
+    "bytes": 1838872,
+    "sha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
+    "mtime": "2026-10-06T22:43:44.026Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "d130a48158f32d1dd512f90400f9b4ed99e950b61135cb2398382154d7360bf5",
+  "codeSha256": "40f70687a20010a23ee7d44415e2c7628bdf9579a65fbac9bed2e74ae0c5aaee",
   "harnessVersion": "w284e-tpsign-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)AN34: 重い 4 本は試験粒子契約を宣言して署名(量ごとの前後を記録・全 54 量は未判定のまま・「区分が動かない」を受理の根拠にしない・💍 の C 環内縁は環粒子そのもの=前後を明記)",
@@ -92,14 +92,14 @@
    "complete": true,
    "names": 999,
    "segments": 908,
-   "closureShare": 0.3252
+   "closureShare": 0.3246
   },
-  "scopeSha256": "860007ee732ee3e7eba2ee4993ace1aa8809d8fa285943355fc4684d4ed0a834",
+  "scopeSha256": "c2ee3b09a5a73aeaa8b35a91bd768fd5831f614ac0ce906158940f9f9fa600e6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableSha256": "a322580251d80719dedbf6a41257798b19969f3abacc19a07b487bd2753c7bb8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -127,7 +127,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableSha256": "c21ac85c7eabe434bc4abeef60f621a472c31dbfa0a0361f2c059066f494fbf3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -167,8 +167,8 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "when": "2026-10-05T22:21:06.768Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "when": "2026-10-06T22:43:43.818Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
@@ -476,7 +476,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 41.549,
+      "wallSec": 40.021,
       "tags": [
        "dt"
       ],
@@ -823,7 +823,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 49.298,
+      "wallSec": 53.578,
       "tags": [
        "dt"
       ],
@@ -1038,7 +1038,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 115.168,
+      "wallSec": 120.052,
       "tags": [
        "dt"
       ],

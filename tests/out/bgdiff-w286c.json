@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便c",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:54:38.821Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:01:37.685Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "810f3ea491093972e1876254649b305381bf2a56f3e2c0f8293159f400ca4602",
+  "codeSha256": "751669ed3057eb64fa1bc938074715369e585dff32f2aedb9b5fe9ea3b68991f",
   "harnessVersion": "w287c-bgdiff-2",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
@@ -79,9 +79,9 @@
    "complete": true,
    "names": 1000,
    "segments": 909,
-   "closureShare": 0.3253
+   "closureShare": 0.3248
   },
-  "scopeSha256": "f439a159d81870546eca158c8e09273057f57890fac8305a2b5030baea4110ed",
+  "scopeSha256": "d8cf89e85d2b3da03b21d158b9fb1b59a2974d537f0a40ec43f365c3b6801744",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1047,5 +1047,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 1.31
+ "elapsedS": 1.216
 }

@@ -3151,3 +3151,76 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   `HP.relDragComposeOf(rd)`・`HP.relDragSolveFromOf(rd)`(正準形から実際の合成則と v の意味を読む)・`HP.REL_DRAG_COMPOSE_DEFAULT`・`HP.REL_DRAG_SOLVE_FROM_DEFAULT`。
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
+
+## 50. 第294便a —— geoPN=3 は慣性決定力の有効化の印(原仮定者の裁定(第84報)「慣性決定力版の earthMoonInertial が良好なので、パラメータで有効化を可能にする。その有効化を geoPN=3 のプリセットとする想定。引きずりを単純加算しない様に注意しつつ、処理の整理を進める」・統括の検証項目 R148・**SYSTEM_PROMPT には載せない**)
+
+- **解決と走行の一致**: `physics.geoPN=3` で旧法則版(`physics.spaceMesh.lawVersion`)が走らず `physics.relativeDrag.law:"inertial"` を宣言した本は、
+  **測地線 OFF・1PN なし・法則 `inertial-drag`**(`geoModeOf(...).law`・`.geodesic:false`・core null)。走行の実効番号は `HP.geoEffectiveMode(S)` が 0 を返し
+  (`_core` へ 0 —— geoPN=0 の同じ宣言とビット同一)、`HP.geoLawOfSim(S)`・`HP.pnOrbitalKF0(S.params,S)`(false)・dispatch が同じ式を読む。
+  第291便c〜第293便の版では、この組は法則名だけ inertial-drag で走行は測地線 ON(kFrame=0 → EIH の 1PN)だった。
+- **未宣言の 3**(旧法則版も慣性も無い)は**現行どおり測地線 ON**(kFrame=0 → `eih-kf0`・kFrame>0 → `vMinusU-q`)+セーブ時の警告 `geo3NoInertial`。旧法則版が走る 3 は従来どおり。
+- **受理器**: `physics.geodesic:false` の「効きません」の警告は geoPN 1・2 だけ(3 は黙って受理)。
+- **セーブ時の警告** `modeSaveWarnings`: 6 本目 **`"inertialPlusGeodesic"`** —— 慣性の宣言 ∧ 解決した測地線 ON(geoPN 1・2・geoPN=0 ∧ `geodesic:true`)。警告だけ。
+  `HP.MODE_SAVE_WARN_CODES` は 6 本。保存の版 `HP.MODE_POLICY_VERSION` は **`"w294a-1"`**(w291c-1・w293a-1 の保存も値を保持して読む)。
+- **旧 JSON の合成則の通知**: `modePolicy` が無いか `"w291c-1"` の保存で `relativeDrag.law:"inertial"` の `compose` が未宣言なら、読込で 1 行知らせる
+  (保存したときは加算 sum —— いまは既定の solve(velocity)。値は書き換えない。加算で比べるなら `compose:"sum"` を明示)。判別は `loadSaveComposeLegacyOf(s)`。
+- **パラメータで有効化**: 「パラメータ」タブの geoPN 行の 2 段目に、`HP.geo3InertialOfferOf(S)`(geoPN=3 ∧ 旧法則版の宣言なし ∧ 慣性の宣言なし)のときだけ gain の入力と「宣言」が出る。
+  `HP.geo3InertialDeclare(S, gain)` は `{law:"inertial", gain}` を `validateRelativeDrag` で正規化して実行時に宣言する(JSON の宣言と同じ経路・合成則は既定の solve・
+  他の宣言は触らない・gain は 0 以上 —— 0 は否定対照)。戻り値 `{ok, relativeDrag, law, ge}`(失敗は `{ok:false, err}`)。保存は `physics.relativeDrag` に JSON と同じ形。
+- **🌛 earthMoonInertial** は geoPN=3(`activeParams:["geoPN","dispMag"]`)。geoPN=0 の写しと 2000 步ビット同一・27 公転窓の近点周期も同値(器 `tests/exp-w294a-geo3.mjs`・
+  正本 `tests/out/geo3-w294a.json`・段 `geo3-294a`)。`compose` は書かない・gain 514182 は不変(再フィットなし)。署名 `presetSig` は geoPN の 1 字だけ変わる。
+- AI 生成の JSON で慣性決定力の引きずりを主に使う本は geoPN=3 ∧ `relativeDrag.law:"inertial"` を推奨する(geoPN=0 のままでも同じ力学で走る —— 0 は「測地線不用」の分類)。
+  1PN と重ねたいときだけ geoPN 1・2(警告 `inertialPlusGeodesic`)。
+- 内蔵 152 本の力学・`S._core` は 1 bit 不変(bitsame 152/152・sigsame は 🌛 の 1 本だけ差分)。
+- QA: **`behavior.geo3Inertial294`**(新設)と、中身を新契約へ改めた `behavior.geoModeResolve`・`behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`・`docs.geoModeTable`
+  (現行の表は docs/PHYSICS.md〔第294便a〕—— 〔第291便c〕の表は履歴)・`preset.earthMoonInertial`(root は旧契約のまま —— SKIP / 旧期待)。
+
+## 51. 第294便b —— 退役の本への言及を AI 生成の入力から外す(原仮定者の裁定(第84報)・統括の検証項目 R149 —— **鍵・仕様文は不変**)
+
+- **SYSTEM_PROMPT(本書の逐語収載)は 1 字も変えていない**。変えたのは AI 追加の画面の**ベース選択の注記**(`aiBaseNote` ja/en)だけで、参考の構成の例から退役の本の絵文字を外した
+  (「光学迷彩矮星の lightSweep・コアv2 core:{}・📡 の zonal など」)。ベース選択の候補は従来どおり在位の本だけ(読み込み中の退役の本だけ残る —— 第284便b の規則のまま)。
+- 退役の本は内蔵に残る(旧セーブ・旧 URL の ID で開ける)ので、ベースとして JSON を送ることは今も可能 —— 受理・正準形・保存の形は 1 bit も変わらない。
+- 機械の線は docs/PHYSICS.md〔第294便b〕。QA: **`docs.noRetiredMention294`**(在位の本・I18N・SYSTEM_PROMPT・現行文書に退役の本の ID・絵文字・名前が 0 件)。
+
+## 52. 第294便c —— 群「現実較正」の表示名「実在天体との照合」と保存の値(原仮定者の裁定(第84報)・統括の検証項目 R150・**表示だけ**・**SYSTEM_PROMPT は変えていない**)
+
+- **表示名と宣言の値は別**: 一覧の見出し・分類チップ・📏 チップ・監査ビュー・較正の区画は ja「実在天体との照合」(表示の 2 見出しは「実在天体との照合・太陽系」「実在天体との照合・連星」)・en「Observed-body comparison」と出るが、プリセット JSON に書く値は**従来のまま** —— `group:"現実較正"`・`sampleClass:"calibration"`。表示名(「実在天体との照合」)を `group` に書いても群の別名にはならない(`GROUP_ALIASES` は変えていない —— 旧 3 名「現実との照合・太陽系/連星/太陽系外」だけが「現実較正」へ着地する)。保存・エクスポート・`presetSig` は 1 bit も変わらない。
+- **SYSTEM_PROMPT**: AI 生成の本は群を宣言しない(「AI生成」の見出しに入る)ので、群名の文は SYSTEM_PROMPT に無い —— 本便は SYSTEM_PROMPT を変えていない。geoPN の主な用途の語(「1=主に現実較正」)は用途の分類の語で、本便では据え置いた(決断事項候補)。
+- 説明タブの「🎯 実在天体との照合 — 観測との差」(`#odBox`)は較正母集団 20 本だけに出る表示(台帳の転記 `OBS_COMPARE_ROWS` から量ごとに観測・模型・Δ=模型−観測・相対差・Δ/σ または「σ 未接続」の理由・行末に門の語)。宣言の鍵は無い(AI 生成の JSON に書くものは無い)。読み取り: `obsDiffBookIds()`・`obsDiffRowsOf(id)`(純関数)。式と数は docs/PHYSICS.md〔第294便c〕。QA **`ui.observedCompare294`**。
+
+## 53. 第294便d —— 時間の内訳の正本 `tests/out/timing-w294d.json` の鍵(原仮定者の裁定(第84報)・統括の検証項目 R151・**プリセットの宣言鍵は足していない**・**SYSTEM_PROMPT には載せない**)
+
+- 器 `tests/exp-w294d-timing.mjs`(鎖の段 `timing294` —— htmlagg の後・領域は全本・常時群にしない・`W294D_OUT` で出力先を変える・`--no-live` は集計だけで正本にしない)。**判定の欄を持たない**
+  (合否・区分・判定語は calaudit・QA の正本にあり、ここには写さない —— 鍵 `pass`・`ok`・`verdict`・`judgement`・`gate` 等が無いことを QA が全鍵で走査する)。
+- `calibration.table`(較正走行の本ごと: n・步数・壁時計・步/秒・対象・dt/2 と dt/4 の転記〔元の走行の壁時計〕)/ `calibration.top5`(上位 5 本の 1 本 1 行:
+  `stepSec`・`extractSec`・`rateProbeSec`〔前置の步/秒の測定 25000 步 —— 壁時計の外〕・`splitFrom`〔`record-rate` か n=2 の `live-ratio`〕)/
+  `calibration.solarInnerWindow`(🌞 の対象ごとの 20 近点窓に要る步数と、窓を決める対象)。
+- `qa`(保存 QA の記録 `tests/out/qa-results-full-beta.json` から: 項目の ms の上位・W5 の単位の runMs・前置の ms〔`prefixMs.replay`・`prefixMs.changed`〕・`syntaxMs`・重い 5 単位)。
+  QA の記録は来歴の inputs に入れず、読んだ版の sha を `sources.qa` に写す(QA が走るたびに変わる記録なので)。
+- `chain`(再生成表の段の実測秒・常時群・全本段 `presetsAll`〔本ごとの走行の印 `perPresetLoops`〕・退役の上限の目安 `retiredBound`)。
+- `live`(その場の実測 —— 時間の欄だけ): `rates`(上位 5 本の μs/步・抽出の代理との比 `extractShare`)・`subset`(💍💠🌞 の試験粒子を外した写しの μs/步と、
+  主張が読む single の 2000 步後の状態の全粒との差 —— **測るだけ・較正走行の入力は変えない**)・`twoBody`(🌛🐌 の μs/步)・`cost`(在位/退役の build と loadPreset+32 步)・
+  `closure`(`closureSame294` —— 全 scope × 3 版の閉包が参照実装 `closureOfRef294` と全欄同一の数と所要)。
+- 関連(エンジンの内部 —— 宣言鍵ではない): `inertialDragComposeSolve` の n=2 は直接法と同じ演算・同じ順序の展開形(結果はビット同一)。
+- 式・表・採った改善と採らなかった改善は docs/PHYSICS.md〔第294便d〕。QA: **`docs.timingContract294`**(正本の形)/ **`lint.scopeClosureSame294`**(閉包の前後同一)。
+
+## 54. 第294便e —— 「サンプルを選ぶ」の「その他」の 4 段目「題材」・段ごとの「全て」・「すべて表示」の撤去・家族の語(原仮定者の裁定(第84報)の UI 7 点・統括の検証項目 R152・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+- **題材は「その他」の 4 段目**: `PP_OTHER_SECS` = 宣言 `decl`・分類バッジ `badge`・状況 `status`・題材 `topic`(見出しの語 `ppOtherSecTopic`)。題材の軸は表 `TOPIC_TAGS`(§41 の 9 鍵 —— 判定は不変)から機械で
+  `PP_OTHER_AXES` の末尾へ足す(key `"topic:<鍵>"` —— 宣言の段の `testParticle` と鍵が重ならないよう接頭辞を付ける・`tp` に題材の鍵)。状態は「その他」の規約どおり**三状態**(1 回 = 含む・2 回 = 除く `"!topic:<鍵>"`・3 回 = 解除)で、
+  宣言・分類バッジ・状況・題材・スケール・分類・E水準・geoPN・検索の**すべてと AND**(AND の中の否定)。件数は `data-n`(いまの状態の数)・`data-n-on`・`data-n-not`。
+  旧の次元「題材」(`details#ppFold_topic`・単一選択の `ppTopic`・`#ppTopicRow`・`#ppTopicNote`)は**撤去**した(絞り込みの次元は scale/cls/e/geo/other の 5 つ・旧 `hp_pick_fold` の `topic` は読み捨てる)。ⓘ の説明は「その他」の説明(`#ppOtherNote`)の【題材】の節。
+- **説明タブの題材チップ**(`button.topicChip` → `topicChipPick(key)`): 段「題材」のその題材を「含む」にして(いま「含む」なら解除 —— 「除く」だったときは「含む」に)、「サンプルを選ぶ」を開き「その他」の畳み(`details#ppFold_other`)と段「題材」を開く。
+  チップの `data-state`・`aria-pressed` は段の状態(on/not/off → true/mixed/false)を映す(`descTopicsSync`)。検索欄が題材の語(ja・en)に当たる動き(第293便b)は不変。
+- **「全て」**: 語は `grpAll` =「全て」(en "All" —— 旧「全カテゴリ」/"All categories")。各次元の先頭の「全て」(値 `all`)と「その他」の**段ごとの「全て」**(値 `"<段>:all"`・`data-sec-all="<段>"` —— 段の見出しの直後)は class `ppChipAll`(太字 700・色は従来のまま)。
+  段の「全て」はその段の選択(含む・除く)だけを外し(`ppOtherClearSec`)、段に選択が無いとき on(`aria-pressed="true"`)。畳んだ段では出さず、隠した数(`data-nhid`)にも数えない。先頭の「全て」は全段を外す(従来)。
+- **「すべて表示」の撤去**: `showAllSamples` は定数 true(`localStorage` の `hp_show_all_samples` は読まない・書かない)・`setShowAllSamples` は旧呼び手のための no-op。窓の `#ppShowAll` とヘッダの `#showAllSamplesWrap`/`#showAllSamplesCb` は無い。
+  変種(`familyRole:"variant"`)と `catalog:"extended"|"diagnostic"` の本も一覧(`#ppList`)と隠し `#presetSelect` に**常に**出る(`catalogHidden(p)` は常に false)。primary の「(+n)」は出さない。退役の本(`familyRole:"retired"`)は従来どおり出さない。
+- **家族の語**(`familyTagOf(p)`): 変種の名前の後ろに「〔<同じ家族の primary の絵文字> の家族〕」(en「〔<絵文字> family〕」・i18n `familyTag`)を添える(一覧の行と `#presetSelect` の option の両方 —— 旧の行頭の「└ 」は使わない)。
+  家族ごとに primary は 1 本で、変種を持つ家族の primary の絵文字は互いに異なる(QA が固定)。役割名(`FAMILY_VARIANT_LABEL` の「〔…〕」)はその後ろに別の括弧で並ぶ。
+- **見た目**: 一覧の群名 `.ppGroupHead` は `--accText`・太さ 600(開閉のどちらでも同じ色 —— 開閉は ▸/▾)。区画の見出し `.ppScopeHead` は `--fg`・700(群名の一段上)。
+  ⓘ(`.ppDimBtn`・`#ppGroupNoteBtn`・パラメータのカテゴリの `.catInfo`・背景宣言の `#bgcInfo`)は説明を開いている間だけ `aria-expanded="true"` で太字+`--accText`(`.catInfo`/`#bgcInfo` は `role="button"`)。
+  「その他」を全部開いて絞り込みの欄(`#ppFolds`)が高くなったときは、欄が上限 55vh で縦にスクロールする(一覧の場所を残す)。
+- presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.pickerReorg294`**(新設)。既存の固定値は世代切替 has294e(html の `PP_OTHER_SECS` の宣言に段 `"topic"`):
+  `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
+  `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。

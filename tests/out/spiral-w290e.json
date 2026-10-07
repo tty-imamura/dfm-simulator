@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便e",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:51:22.538Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T21:57:26.629Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "72c54bf20d49851220a7f509492a03b2946e591d8fc988e7024bb625790415c8",
+  "codeSha256": "77f15c99d7dff396d76ffbb5931652cad340ae7cccd1063621408eae17876857",
   "harnessVersion": "w290e-spiral-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)⑤ 渦巻銀河の参照模型 2 本(shapeToyDisk+shapeToyArm/shapeToyDiskCore+shapeToyArmCore)",
@@ -83,9 +83,9 @@
    "complete": true,
    "names": 1004,
    "segments": 913,
-   "closureShare": 0.3267
+   "closureShare": 0.3261
   },
-  "scopeSha256": "089a966e04e219ad9ee39bf967221e6af86cbb7b4b0d7928ec8628c1fa011079",
+  "scopeSha256": "ae1e6db503e1b6aabde8c37f1a3d2214718bb8ddd1e1151db5e2c96bd7cadb64",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1179,71 +1179,71 @@
      "label": "🍭 N",
      "n": 144,
      "steps": 200,
-     "wallSec": 0.058621368,
-     "rateStepsPerSec": 3411.725226200794
+     "wallSec": 0.057350381,
+     "rateStepsPerSec": 3487.3351582441974
     },
     {
      "label": "🍭 2N",
      "n": 288,
      "steps": 200,
-     "wallSec": 0.19528221,
-     "rateStepsPerSec": 1024.1588314675464
+     "wallSec": 0.233555888,
+     "rateStepsPerSec": 856.3260884264241
     },
     {
      "label": "🍭 4N",
      "n": 576,
      "steps": 200,
-     "wallSec": 0.910819833,
-     "rateStepsPerSec": 219.58239462271348
+     "wallSec": 0.837209057,
+     "rateStepsPerSec": 238.88895888998965
     },
     {
      "label": "🍭 内蔵(450)",
      "n": 450,
      "steps": 200,
-     "wallSec": 0.467966679,
-     "rateStepsPerSec": 427.38085631947314
+     "wallSec": 0.456386654,
+     "rateStepsPerSec": 438.22490917975
     },
     {
      "label": "🎢 N",
      "n": 145,
      "steps": 200,
-     "wallSec": 0.068820632,
-     "rateStepsPerSec": 2906.1052505301022
+     "wallSec": 0.064405529,
+     "rateStepsPerSec": 3105.32345755595
     },
     {
      "label": "🎢 2N",
      "n": 289,
      "steps": 200,
-     "wallSec": 0.222756938,
-     "rateStepsPerSec": 897.8395995010491
+     "wallSec": 0.193229551,
+     "rateStepsPerSec": 1035.0383725727334
     },
     {
      "label": "🎢 4N",
      "n": 577,
      "steps": 200,
-     "wallSec": 0.944307748,
-     "rateStepsPerSec": 211.7953605946692
+     "wallSec": 0.732825475,
+     "rateStepsPerSec": 272.9162765527495
     },
     {
      "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
-     "wallSec": 0.505273576,
-     "rateStepsPerSec": 395.8251717481462
+     "wallSec": 0.486398536,
+     "rateStepsPerSec": 411.1854481404113
     },
     {
      "label": "🥏",
      "n": 300,
      "steps": 200,
-     "wallSec": 0.301118736,
-     "rateStepsPerSec": 664.1898231134977
+     "wallSec": 0.293714565,
+     "rateStepsPerSec": 680.9332046573857
     },
     {
      "label": "📀",
      "n": 301,
      "steps": 200,
-     "wallSec": 0.217872841,
-     "rateStepsPerSec": 917.9666409178553
+     "wallSec": 0.257178922,
+     "rateStepsPerSec": 777.6687080133263
     }
    ],
    "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
@@ -1275,5 +1275,5 @@
   "kArmImplemented": false
  },
  "ok": false,
- "elapsedS": 87.577
+ "elapsedS": 91.761
 }

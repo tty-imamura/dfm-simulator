@@ -1444,7 +1444,7 @@
    }
   },
   "plutoCharonDiagInput": {
-   "purpose": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)",
+   "purpose": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(家族の入口)",
    "objective": "partial",
    "state": "入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める",
    "evidence": [
@@ -1453,7 +1453,7 @@
    ],
    "holdRemedy": "同一解・同一元期の状態ベクトル(または軌道要素)と GM・共分散・座標時を揃える(閉じた式だけで +7.216805 s が残る —— 刻みの細分化では消えない)。1PN の源集合の寄与は 10⁻⁷ s の桁で、1PN の是正では解けない",
    "en": {
-    "purpose": "Pluto–Charon from one observed solution (❄️'s successor)",
+    "purpose": "Pluto–Charon from one observed solution (family entry)",
     "state": "verdict from the canonical output; residual is a definition gap",
     "holdRemedy": "align the state vector (or orbital elements), GM with covariance and coordinate time to the same solution and epoch (the closed form alone leaves +7.216805 s, which step refinement does not remove). The 1PN source set contributes at the 1e-7 s level: a 1PN fix cannot resolve it"
    }

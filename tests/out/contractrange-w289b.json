@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便b",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:54:34.281Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:01:33.060Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "c8f9fa4c8e1d181540b2af7411d366138a28d292d373e5f0f94900325c0c6c4a",
+  "codeSha256": "1426fe045b1aeb9f48a72c228087fd27a5ddc89e4c4f1860891998539cce7aca",
   "harnessVersion": "w289b-contractrange-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第79報)③で閉じた AN100(第288便c の旗「契約範囲外」を観測比較の評価器へ接続 —— 合否の数字は変えない・5 区分の「条」とは別の欄・過去の正本を遡って無効にしない)・統括の検証項目 R120",
@@ -86,9 +86,9 @@
    "complete": true,
    "names": 999,
    "segments": 908,
-   "closureShare": 0.3252
+   "closureShare": 0.3246
   },
-  "scopeSha256": "99a73c0a4d43fbfb2eb87b8fed26e67501f6060771093bdbcd47efa207962b2e",
+  "scopeSha256": "dc0bb935f27e9a2ad71ae6b7fafb318b113525a7c10b41f3c6c2cf3ec4d5f0cd",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -187,11 +187,12 @@
    "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
+   "earthMoonInertial",
    "mercuryGeoToy3",
    "charonGeoToy3",
    "psrDoubleABGeoToy"
   ]
  },
  "ok": true,
- "elapsedS": 5.569
+ "elapsedS": 5.524
 }

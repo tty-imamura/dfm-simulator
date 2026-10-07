@@ -37,7 +37,10 @@ import { REGEN_STEPS } from './lib-w281a-regentable.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["$","FAMILY_ROLES","FAMILY_VARIANT_LABEL","HP.allPresets","HP.validatePreset","RETIRED_PRESETS","SAMPLE_STATUS","calVariantOf","HP.sim","ctx","presetSigHash"],"core":false,"consts":["BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w283b-families-1';
+// 第294便b(原仮定者の裁定(第84報)・統括の検証項目 R149): 退役の本は**家族の表に出さない**(末尾の「退役」節の棚卸しだけ)。
+//   家族の行・集計・鍵ごとの差・候補は在位の本だけで作る(宣言 FAMILIES の ids は記録として退役を含んだまま —— build が退役を外す)。
+//   基準(ref)が退役の本だった家族は在位の入口(primary)へ移した(mercury・saturn・psrDoubleAB・gw150914・alphaCen・sirius)。
+export const HARNESS_VERSION = 'w294b-families-2';
 export const OUT = 'tests/out/families-w283b.json';
 export const MD = 'docs/FAMILIES_v1.45.md';
 export const CAL = 'tests/out/calaudit-w249.json';
@@ -61,17 +64,17 @@ export const FAMILIES = [
   //   家族の並びと本数(6)は不変 —— 役割は html の宣言から読む(primary は 🌙)。基準 ref は差の物差しで、🌘 のまま(在位に戻ったので履歴の本を基準にしていない)
   { key: 'earthmoon', ja: '地球–月(現実との照合)', ref: 'earthMoonRealKF1',
     ids: ['earthMoonRealKF1', 'earthMoonReal', 'emAuditNewton', 'emAuditDFM', 'emAuditSolar', 'earthMoonDiagOne', 'earthMoonInertial', 'earthMoonTide'] },
-  { key: 'mercury', ja: '水星(現実との照合)', ref: 'mercuryRealKF1', ids: ['mercuryRealKF1', 'mercuryReal', 'mercuryGeoToy3'] },
-  { key: 'saturn', ja: '土星(現実との照合)', ref: 'saturnRingRealKF1',
+  { key: 'mercury', ja: '水星(現実との照合)', ref: 'mercuryReal', ids: ['mercuryRealKF1', 'mercuryReal', 'mercuryGeoToy3'] },
+  { key: 'saturn', ja: '土星(現実との照合)', ref: 'saturnRingReal',
     ids: ['saturnRingRealKF1', 'saturnRingReal', 'saturnZonalD68', 'saturnD68Consistent', 'saturnD68ObsOrbit'] },
-  { key: 'psrDoubleAB', ja: '二重パルサー J0737−3039', ref: 'psrDoubleABDFM',
+  { key: 'psrDoubleAB', ja: '二重パルサー J0737−3039', ref: 'psrDoubleAB',
     ids: ['psrDoubleABDFM', 'psrDoubleAB', 'psrDoubleABSpinCal', 'psrDoubleABPN', 'psrDoubleABCF', 'psrDoubleABGeoToy'] },
   { key: 'psrJ1757', ja: 'パルサー J1757−1854', ref: 'psrJ1757DFM', ids: ['psrJ1757DFM', 'psrJ1757PN', 'psrJ1757CF'] },
   { key: 'psrJ1946', ja: 'パルサー J1946+2052', ref: 'psrJ1946DFM', ids: ['psrJ1946DFM', 'psrJ1946PN', 'psrJ1946CF'] },
   { key: 'psrB1534', ja: 'パルサー B1534+12', ref: 'psrB1534', ids: ['psrB1534', 'psrB1534DFM', 'psrB1534CF'] },
-  { key: 'gw150914', ja: '重力波 GW150914', ref: 'gw150914DFM', ids: ['gw150914DFM', 'gw150914', 'gw150914Merge4s', 'gw150914SpinDipole'] },
-  { key: 'alphaCen', ja: 'ケンタウルス座 α 星 AB', ref: 'alphaCenABDFM', ids: ['alphaCenABDFM', 'alphaCenAB'] },
-  { key: 'sirius', ja: 'シリウス AB', ref: 'siriusABDFM', ids: ['siriusABDFM', 'siriusAB'] },
+  { key: 'gw150914', ja: '重力波 GW150914', ref: 'gw150914', ids: ['gw150914DFM', 'gw150914', 'gw150914Merge4s', 'gw150914SpinDipole'] },
+  { key: 'alphaCen', ja: 'ケンタウルス座 α 星 AB', ref: 'alphaCenAB', ids: ['alphaCenABDFM', 'alphaCenAB'] },
+  { key: 'sirius', ja: 'シリウス AB', ref: 'siriusAB', ids: ['siriusABDFM', 'siriusAB'] },
   { key: 'galaxyMesh', ja: '銀河回転(空間メッシュ・アナロジー)', ref: 'galaxyMeshSpiral',
     ids: ['galaxyMeshSpiral', 'galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite', 'galaxyAnalogyBH'] },
   { key: 'galaxyrot', ja: '銀河の回転曲線 4 本', ref: 'galaxy', ids: ['galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB'] },
@@ -88,14 +91,14 @@ export const FAMILIES = [
   { key: 'whiteDwarf', ja: '白色矮星', ref: 'whiteDwarfDFM', ids: ['whiteDwarfDFM', 'whiteDwarfBareDFM'] },
   { key: 'saturnToy', ja: '土星(天体の機構)', ref: 'saturn', ids: ['saturn', 'saturnLayered'] },
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },
-  { key: 'rotor', ja: '光学迷彩矮星(退役の文脈)', ref: 'rotorSolo',
+  { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo',
     ids: ['rotorSolo', 'massLadder', 'selfRotor', 'darkrotor', 'bhCore', 'bhCoreTilt', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'] },
 ];
 
 /** 推定の列と候補の規則(文言は md にそのまま出す —— 推定であって裁定ではない)。 */
 export const RULES = {
   role: [
-    '履歴 = familyRole が "retired"(退役 —— 内蔵に残るが一覧に出ない)',
+    '退役の本(familyRole "retired")は家族の表に出さない —— 末尾の「退役」節の棚卸しだけに並べる(第294便b)',
     '主系列 = 較正母集団(calaudit の verdictLedger)に入る本。母集団の外の家族では入口(familyRole "primary")',
     '診断 = 母集団の外で sampleClass が "principle" の本のうち、geoPN=3 か、名前・目的・役割名に「診断・対照・零・コピー」を含むもの',
     '比較 = それ以外(同じ主題の別の条件・別の模型)',
@@ -178,8 +181,10 @@ export function roleOf(r, fam) {
 
 /** 家族 1 つの表。 */
 export function familyTable(ctx, F) {
-  const rows = F.ids.map((id) => memberRow(ctx, id));
-  const fam = { key: F.key, ja: F.ja, ref: F.ref, ids: F.ids, rows };
+  // 第294便b: 退役の本は家族の行から外す(退役の節の棚卸しだけに出す)
+  const all = F.ids.map((id) => memberRow(ctx, id));
+  const rows = all.filter((r) => !r.retired);
+  const fam = { key: F.key, ja: F.ja, ref: F.ref, ids: rows.map((r) => r.id), retiredIds: all.filter((r) => r.retired).map((r) => r.id), rows };
   const ref = rows.find((r) => r.id === F.ref);
   for (const r of rows) {
     if (r.missing) continue;
@@ -332,15 +337,15 @@ export function renderMd(J) {
   L.push('## 集計');
   L.push('');
   const c = J.counts;
-  L.push(`- 家族 **${c.families}**・本 **${c.members}**(うち退役 ${c.retiredMembers})・推定の列: 主系列 ${c.role['主系列'] || 0}・比較 ${c.role['比較'] || 0}・診断 ${c.role['診断'] || 0}・履歴 ${c.role['履歴'] || 0}。`);
+  L.push(`- 家族 **${c.families}**・本 **${c.members}**(在位の本)・推定の列: 主系列 ${c.role['主系列'] || 0}・比較 ${c.role['比較'] || 0}・診断 ${c.role['診断'] || 0}。`);
   L.push(`- 候補: 規則 A ${c.cand.A || 0}・規則 B ${c.cand.B || 0}・規則 C(要裁定)${c.cand.C || 0}・畳まない組 ${c.keepApart}。`);
   L.push('');
-  L.push('| 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 履歴 | 候補 A/B/C | 畳まない組 |');
-  L.push('|---|---|---|---|---|---|---|---|---|');
+  L.push('| 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |');
+  L.push('|---|---|---|---|---|---|---|---|');
   for (const F of J.families) {
     const n = (k) => F.rows.filter((r) => r.roleEst === k).length;
     const cc = (k) => F.candidates.filter((z) => z.rule === k).length;
-    L.push(`| ${esc(F.ja)}(\`${F.key}\`) | ${F.rows.length} | \`${F.ref}\` | ${n('主系列')} | ${n('比較')} | ${n('診断')} | ${n('履歴')} | ${cc('A')}/${cc('B')}/${cc('C')} | ${F.keepApart.length} |`);
+    L.push(`| ${esc(F.ja)}(\`${F.key}\`) | ${F.rows.length} | \`${F.ref}\` | ${n('主系列')} | ${n('比較')} | ${n('診断')} | ${cc('A')}/${cc('B')}/${cc('C')} | ${F.keepApart.length} |`);
   }
   L.push('');
   for (const F of J.families) {
@@ -370,7 +375,6 @@ export function renderMd(J) {
       L.push('**畳まない組**: ' + F.keepApart.map((z) => '`' + z.pair.join('`・`') + '`(' + esc(z.why) + ')').join(' / '));
       L.push('');
     }
-    if (F.history.length) { L.push('**履歴(退役)**: ' + F.history.map((x) => '`' + x + '`').join(' ')); L.push(''); }
   }
   const R = J.retired;
   L.push(`## 退役 ${R.ids.length} 本の棚卸し(統括の検証項目 R84)`);

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T22:34:58.445Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:58:29.555Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,15 +20,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838814,
-    "sha256": "8a86a0f0eeff0eb5fc58a20a370c62f0058ab7f5d6eb5959cea41915fbe119a3",
-    "mtime": "2026-10-05T22:21:06.963Z"
+    "bytes": 1838872,
+    "sha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
+    "mtime": "2026-10-06T22:43:44.026Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 50853,
-    "sha256": "5d8a163b4407fdd014cacba52408b2133358f7ed30256a992494cd34cb87c97d",
-    "mtime": "2026-10-05T22:26:12.427Z"
+    "bytes": 50854,
+    "sha256": "9e8ad492ed676310b4790b5f1f2d0e71084e9cea37c371bb037767780b92a638",
+    "mtime": "2026-10-06T22:49:09.614Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -76,12 +76,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "09d7bd3dc91b441ccd51f03299e042646295030306053b58f41536262af36ead",
+  "codeSha256": "d659780f6fba3dbea2df01561ca732f40be616e9d57bab20f12a14f37aaa0fad",
   "scope": {
    "version": "w286d-scope-4",
    "presets": "all",
@@ -107,14 +107,14 @@
    "complete": true,
    "names": 1002,
    "segments": 911,
-   "closureShare": 0.3269
+   "closureShare": 0.3263
   },
-  "scopeSha256": "91acd056387ba2b3a62b91d2fb12b233238f2538937c5d70f34bae20face1d92",
+  "scopeSha256": "7fe715e6a93c6a698c41eb2ff1b7834be1900daa41172de3275a79a565af821b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableSha256": "a322580251d80719dedbf6a41257798b19969f3abacc19a07b487bd2753c7bb8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableSha256": "c21ac85c7eabe434bc4abeef60f621a472c31dbfa0a0361f2c059066f494fbf3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "6561176fa738b292d184a6df84d43edf987803a8352abf891bda4cf4e565fc7d",
+    "stableSha256": "c37b6004a31d0e61002f42ce807a88f887cf741ab7a79cdc9d3c9797d204e442",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -196,7 +196,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+ "nowSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -2414,13 +2414,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.082,
+   "wallSec": 0.067,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.123,
+   "wallSec": 0.12,
    "errors": 0
   }
  },
- "elapsedS": 519.279
+ "elapsedS": 554.829
 }

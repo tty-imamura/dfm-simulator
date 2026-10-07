@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:54:33.192Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:01:34.414Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "283fc5046200552572b5b9c2d9f102683db4d368597bc1c58a923baeafd3526b",
+  "codeSha256": "9736cb0d555813a08eb2c541eceb081c9b85f355c9b5b792742b41d191cfae63",
   "harnessVersion": "w288c-compose-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN84(背景の台帳に中心を 1 源として足す・中心は 1 回だけ・A_spin は別に構成)/AN85(complex-p2 は既定にしない)・統括の検証項目 R115",
@@ -88,9 +88,9 @@
    "complete": true,
    "names": 1000,
    "segments": 909,
-   "closureShare": 0.3258
+   "closureShare": 0.3252
   },
-  "scopeSha256": "0fea0a852f5177ccf865826aac925b314c46bb972deed6945e55f19a984b0e6c",
+  "scopeSha256": "8826199638b63889b0046eec6ddbeba80e9a651d1b5c24262894bc0b6c53520d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -443,6 +443,6 @@
   },
   "ok": true
  },
- "elapsedS": 2.085,
+ "elapsedS": 2.138,
  "ok": true
 }

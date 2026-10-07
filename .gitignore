@@ -829,6 +829,10 @@ tests/out/regen-plan-w281a.json
 #   エンジン≡純関数・非相反性と 🐌/🌛 の sum/solve 比較・🌛 の solve 版 C_d の別フィット〔採用値にしない〕)。QA behavior.composeGate・docs.composeContract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/compose-w293e.json
+# 第294便a(原仮定者の裁定(第84報)・統括の検証項目 R148): **geoPN=3 を慣性決定力の有効化の印にする便**の正本(tests/exp-w294a-geo3.mjs —— 解決と走行の一致・
+#   🌛 の geoPN 0⇔3 の 2000 步ビット同一・27/8 公転窓の近点周期の同値・未宣言の 3・パラメータでの宣言)。QA behavior.geo3Inertial294 が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/geo3-w294a.json
 # 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): **GR 1PN 便**の正本(tests/exp-w291b-pnsources.mjs —— kF0 の 1PN 源 = 全質量源の
 #   源の表・基点 cf2da0a との前後・参照 EIH との照合・半径回帰・🥶 の残差の分解・表示条件の集計)。QA docs.pn1Contract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
@@ -838,3 +842,5 @@ tests/out/regen-plan-w281a.json
 # 第293便c(原仮定者の裁定(第83報)・統括の検証項目 R143): 引きずりとコア構造の棚卸しの正本(tests/exp-w293c-corecensus.mjs —— 4 経路の宣言数・
 #   コアなし対照 2000 步・分類 A〜D・撤去の可否)。QA docs.coreCensus・behavior.coreRemovalGate が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/corecensus-w293c.json
+# 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): 時間の内訳の正本(tests/exp-w294d-timing.mjs —— 判定の欄なし・鎖の段 timing294)
+!tests/out/timing-w294d.json

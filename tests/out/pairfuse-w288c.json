@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:49:48.042Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T21:55:25.957Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760681,
+    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+    "mtime": "2026-10-06T20:57:15.730Z"
    }
   ],
   "code": [
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "a790267733fa7128d425530f1386f8f87be8a8e9ca7fbe703dc30deb16ac3068",
+  "codeSha256": "5c7b87f739685c9b269685b1133677ca7c8cec4c5a1a786192f4defb7b2fdaca",
   "harnessVersion": "w288c-pairfuse-1",
   "loadErrors": 0,
   "fuseVersion": "w288c-pairfuse-1",
@@ -129,9 +129,9 @@
    "complete": true,
    "names": 1001,
    "segments": 910,
-   "closureShare": 0.3258
+   "closureShare": 0.3252
   },
-  "scopeSha256": "48c95226c575c1c635694988cedbefbd3bc7d98405c5d71164b753d98ee86656",
+  "scopeSha256": "148c7cf96a4dfc6b97b70d1b53107253d012addeb77938369e1e768d90f2660e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -152,10 +152,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 3.922519668
+     "wallSec": 4.434933981
     },
     "on": {
-     "wallSec": 1.664203411
+     "wallSec": 1.785063944
     }
    },
    {
@@ -171,10 +171,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 11.910988833
+     "wallSec": 12.586021469
     },
     "on": {
-     "wallSec": 5.266221382
+     "wallSec": 5.371666449
     }
    },
    {
@@ -190,10 +190,10 @@
     "stop": null,
     "nCap": 1,
     "off": {
-     "wallSec": 0.760941045
+     "wallSec": 0.945501889
     },
     "on": {
-     "wallSec": 0.308858254
+     "wallSec": 0.368866167
     }
    },
    {
@@ -209,10 +209,10 @@
     "stop": null,
     "nCap": null,
     "off": {
-     "wallSec": 3.981987755
+     "wallSec": 4.223139254
     },
     "on": {
-     "wallSec": 3.93456909
+     "wallSec": 3.909240397
     }
    }
   ],
@@ -239,10 +239,10 @@
     "resultSha": "4b822c211dff5b55500988f7960ec5d53af46c909f5c2e71f79f940527ea017c",
     "sameResult": true,
     "off": {
-     "wallSec": 8.872
+     "wallSec": 9.214
     },
     "on": {
-     "wallSec": 4.54
+     "wallSec": 4.118
     }
    },
    {
@@ -252,10 +252,10 @@
     "resultSha": "be446ff4e41dd77841891da1ea7aa8f479c3cc4b468a0c57c4d8999adb31c461",
     "sameResult": true,
     "off": {
-     "wallSec": 8.849
+     "wallSec": 9.263
     },
     "on": {
-     "wallSec": 3.872
+     "wallSec": 4.055
     }
    },
    {
@@ -265,19 +265,19 @@
     "resultSha": "5a44f54fc1e91a3629a4415b3ee4fbce643d1b882c34801dafabbdf8155af033",
     "sameResult": true,
     "off": {
-     "wallSec": 8.723
+     "wallSec": 9.495
     },
     "on": {
-     "wallSec": 3.765
+     "wallSec": 4.524
     }
    }
   ],
   "steps": 26588,
   "off": {
-   "wallSec": 26.444000000000003
+   "wallSec": 27.972
   },
   "on": {
-   "wallSec": 12.177
+   "wallSec": 12.697
   },
   "ok": true
  },
@@ -345,10 +345,10 @@
    "steps": 26588,
    "sameResult": true,
    "off": {
-    "wallSec": 26.444000000000003
+    "wallSec": 27.972
    },
    "on": {
-    "wallSec": 12.177
+    "wallSec": 12.697
    }
   },
   "jeans": {
@@ -363,6 +363,6 @@
   },
   "note": "壁時計は同じ機械・同じ時間帯の OFF/ON(機械の負荷で動く —— 鍵 wallSec は安定 hash の除外語彙)。改善率は同じ N・同じ門でだけ"
  },
- "elapsedS": 148.719,
+ "elapsedS": 155.851,
  "ok": true
 }
