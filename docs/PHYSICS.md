@@ -30448,6 +30448,63 @@ n が大きい 3 本の時間はほぼすべて step(エンジンの步)で、�
 題材を「その他」の 4 段目(三状態・AND の中の否定 —— 他の段・他の次元・検索とも AND。題材どうしを OR にする変更はしていない)へ移し、「全カテゴリ」を「全て」(太字)に・「その他」の段ごとの「全て」・「すべて表示」の撤去(常に全て表示 —— 変種と catalog extended も一覧に出る)・変種の家族の語「〔🌙 の家族〕」(旧「└」)・群名の強調色(--accText・600)・ⓘ は説明を開いている間だけ太字、を入れた。題材の判定(表 TOPIC_TAGS —— 宣言の鍵だけ)は変えていない。
 確認: bitsame 152/152・sigsame 152/152(差分 ID なし)。QA: `ui.pickerReorg294`(新設)と既存の `ui.topicChips291`・`ui.topicChipFilter293`・`ui.picker*`・`ui.emFamily`・`ui.charonFamily` ほかの世代切替(has294e)。
 
+〔第295便b — geoPN=4「空間メッシュ」の器と在位 9 本の移住(旧法則版 spaceMesh.lawVersion の置き場を 3 から分ける —— **4 は新しい物理ではない**)(**既存 152 本の力学は 1 bit 不変** —— bitsame **152/152**・sigsame **143/152**〔差分 ID は移住した 9 本だけ —— 署名の geoPN が 3→4 と本文の「geoPN=3」の語・力学はビット同一〕・`S._core` の本文は基点と同一)〕
+
+出典: 原仮定者の裁定(第85報)「geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する」・統括の検証項目 R154(移住はビット同一の本だけ)。
+
+**① 何を分けたか**: 第294便a で geoPN=3 は慣性決定力の引きずりの有効化の印になった。一方、在位で旧法則版(`physics.spaceMesh.lawVersion` = scalar/local/vMinusU)が走る本(銀河・星団のアナロジー・零試験・診断コピー)も 3 のままで、同じ番号に 2 つの用途が載っていた。本便は旧法則版の置き場として **geoPN=4「空間メッシュ」**を設け、ビット同一を確かめた本だけを 4 へ移した。4 は旧メッシュの可視化と零試験の置き場であり、**新しい物理モードではない**(回転引きずり・連鎖・大域場・近遠分離を 4 の標準式にしない。4 は 4PN の意味でもない)。走行の経路は 3 の旧法則版と同じ(`geoCoreDispatchBody` の `ge>=3` の枝 —— `_core` へ 0)。
+
+**② 何を変えたか**(器だけ —— 内蔵の宣言の書き換えは ③):
+- **宣言の解決** `geoModeOf`: 番号を 0〜4 に(`g>=4 → 4`)。`spaceMesh` の旗と `core:null` は 3・4 の両方。`GEO_MODE_PURPOSE` の 5 本目 **`legacyMesh`**・役割の鍵 `GEO_MODE_ROLE[4]="legacyMesh"`。法則の名前(`GEO_LAWS`)は増やさない(旧法則版は `legacy-spaceMesh:<lawVersion>` のまま)。
+- **`geoLawResolveInto` の mode 4**: 旧法則版が走る(`geoLegacyDeclOf` —— `S.updateRadii` の入場条件と同じ式)→ `legacy-spaceMesh:<lawVersion>`(測地線 OFF)/ 走らない 4(宣言なし・入場条件で無効)は**逸脱**で測地線 ON の基底(kFrame で `eih-kf0`/`vMinusU-q` —— 走行は止めない)。慣性の宣言は 4 の法則を選ばない(重ねた宣言は警告・慣性ステップは宣言どおり)。mode 3 の旧法則版の枝は残す(移住しなかった本・保存 JSON のため)。標準構成 `out.standard` の 4 = 旧法則版が走る ∧ 慣性なし ∧ (kFrame=0 ∨ `spaceMesh.toyAllowDrag:true` の明示)。
+- **走行の実効番号** `geoEffectiveMode`: g≥4 は旧法則版が走れば g(3 と同じく `_core` へ 0)・走らなければ 2(測地線 ON —— 慣性の宣言で 0 にしない)。3 の式は 1 字も変えていない。`S.hasGeoToy`・`S.hasGeo3`(`meshVelocityPrepare`)・`S.updateRadii` の入場条件はもともと `geoPN>=3` なので 4 でも同じ旗が立つ(器で確認 —— ④)。`meshChipState` の宣言の判定を「3 または 4」に・HUD とチップの「geoPN=3 / vMinusU」は宣言の番号(3/4)を出す。
+- **受理の値域** `CLAMPS.geoPN` を [0,4]・パラメータの geoPN スライダーの上限 `hi:4`・絞り込みの桶 `ppGeoBucketOf` に 4(`PP_GEO_BUCKET.legacyMesh`)・チップ `ppGeo4`(ja「4: 空間メッシュ」/ en "4: space mesh")と主な用途 `ppGeoUse4`・`grpDragDesc` の 4 の 1 文。慣性の宣言欄(`geo3InertialOfferOf`)は 3 だけ(4 には出さない)。
+- **セーブ時の警告**(`modeSaveWarnings` の末尾の「// mode 4(第295便b)」の塊 —— code は `MODE_SAVE_WARN_CODES` の末尾 3 本): **`geo4NoMesh`**(旧法則版が未宣言/入場条件で無効)・**`geo4Inertial`**(慣性決定力の引きずりを重ねた)・**`geo4KFrame`**(kFrame>0 ∧ `toyAllowDrag` の明示なし)。警告だけで保存も走行も止めない。受理器(validatePreset)の 3 の文は 4 のとき番号を 4 で出す(3 の文は 1 字も変えない)。
+- **AI 生成**: SYSTEM_PROMPT の geoPN の値域を 0〜4 にし、4 は「旧法則版の置き場 —— 新しく作る設定では使わない」と添えた(推奨しない —— docs/AI_SPEC.md)。
+
+**③ 移住**(器 `tests/exp-w295b-geo4.mjs` → 正本 `tests/out/geo4-w295b.json`・段 `geo4-295b`・`W295B_OUT` で出力先を変える): 9 本それぞれで、宣言の geoPN を 3 にした写しと 4 にした写しをアプリの読み込み(`HP.loadPreset` —— 内蔵の本の `physics.geoPN` だけを一時的に書き換える)で作り、アプリの既定 dt(0.016)で **2000 步**走らせ、步ごとの状態の指紋(x/y/vx/vy/spin/m/mEff/R・pnOv・vMinusU の天体ごとの u・hasGeoToy/hasGeo3/hasGeo3PN の旗・t)と最終状態の全配列(S の型付き配列のすべて)を比べた。**9 本とも同一**だったので、9 本とも `physics.geoPN` を 4 に書き換え、本文の「geoPN=3」の語もその本だけ「geoPN=4」に直した(原仮定者の報の引用文は原文のまま)。
+
+| 本 | ID | lawVersion | 3 ⇔ 4 の 2000 步 | 最終の全配列 | 解決(法則・旗 hasGeoToy/hasGeo3/hasGeo3PN・チップの key) | 4 の警告 |
+|---|---|---|---|---|---|---|
+| 🪁 | `galaxyMeshSpiralGeoToy` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 🌚 | `galaxyAnalogyBH` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 🧩 | `galaxyAnalogyBHCompose` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 🛸 | `galaxyAnalogyBHTilt90` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 🪆 | `galaxyAnalogyBHTilt90Layers` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 💮 | `clusterAnalogyBH` | scalar | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:scalar`・100・law) | — |
+| 🔁 | `mercuryGeoToy3` | vMinusU | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:vMinusU`・011・geo3) | — |
+| 🌒 | `charonGeoToy3` | vMinusU | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:vMinusU`・011・geo3) | — |
+| 🩻 | `psrDoubleABGeoToy` | local | 同一(最初の差 なし) | 同一 | 同じ(`legacy-spaceMesh:local`・100・law) | — |
+
+退役 3 本(geoPN=3 で旧法則版を宣言した退役の本)は**番号も本文も変えていない**(凍結 —— 3 のまま・器は宣言の番号だけを読む)。慣性の 3(🌛 earthMoonInertial)も 3 のまま。内蔵 152 本の geoPN の桶(`geoModeOf` の mode・`ppGeoBucketOf`)は 0/1/2/3/4 = **92/28/19/4/9(計 152)**(3 は 🌛 と退役 3 本)。
+
+**④ モードの表**(現行 —— `geoModeTable()` の行を `geoModeTableRow` の書式で転記。QA `docs.geoModeTable` は第295便b からこの節の表を照合し、〔第294便a〕〔第291便c〕の表は**履歴**として残す。列は〔第294便a〕と同じ):
+
+| geoPN | 宣言 | 主な用途 | 標準(kF0 / kF1) | 測地線(kF0 / kF1) | 法則(kFrame=0) | 法則(kFrame=1) | 警告(kFrame=0) | 警告(kFrame=1) |
+|---|---|---|---|---|---|---|---|---|
+| 0 | — | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 0 | geodesic:true | proof | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo0Geodesic | geo0Geodesic |
+| 1 | — | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | — | geo1KFrame |
+| 2 | — | dragApprox | — / ○ | ON / ON | `eih-kf0` | `vMinusU-q` | geo2KFrame | — |
+| 3 | — | inertialDrag | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | relativeDrag.law:inertial | inertialDrag | ○ / ○ | OFF / OFF | `inertial-drag` | `inertial-drag` | — | — |
+| 3 | spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:scalar` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | spaceMesh.lawVersion:vMinusU+meshVelocity | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 0 | relativeDrag.law:inertial | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 1 | relativeDrag.law:inertial | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | inertialPlusGeodesic | geo1KFrame+inertialPlusGeodesic |
+| 4 | — | legacyMesh | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo4NoMesh | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar | legacyMesh | ○ / — | OFF / ON | `legacy-spaceMesh:scalar` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar+toyAllowDrag | legacyMesh | ○ / ○ | OFF / OFF | `legacy-spaceMesh:scalar` | `legacy-spaceMesh:scalar` | — | — |
+| 4 | spaceMesh.lawVersion:vMinusU+meshVelocity | legacyMesh | ○ / — | OFF / ON | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+
+4 ∧ scalar ∧ kFrame=1 は入場条件で旧法則版が無効になり(`geoToyDeny` = kFrame)、測地線 ON の基底で走る(`geo4NoMesh`+`geo4KFrame`)。`toyAllowDrag:true` を明示した 4 は kFrame>0 でも旧法則版が走り E6′ の追従キックと同じ步で重なる(第263便a の診断構成 —— 標準として読むかは決断事項)。
+
+**⑤ 確認(実測)**: 器の 9 本は 3 ⇔ 4 の 2000 步が**全本ビット同一**(最初の差の步 null・最終の全配列も同一・解決〔法則・旗・チップ〕も同じ・4 はセーブ時の警告 0 —— 標準構成)。4 で旧法則版が走らない写し(🪁 の宣言から lawVersion を外す/kFrame=1)は測地線 ON の基底(実効番号 2・警告 `geo4NoMesh`/`geo4NoMesh+geo4KFrame`)で NaN なく走る。内蔵 152 本の基点(caee872)との比較: bitsame **152/152**(600 步)・sigsame **143/152**(差分 ID は移住した 9 本 `galaxyMeshSpiralGeoToy`・`galaxyAnalogyBH`・`galaxyAnalogyBHCompose`・`galaxyAnalogyBHTilt90`・`galaxyAnalogyBHTilt90Layers`・`clusterAnalogyBH`・`mercuryGeoToy3`・`charonGeoToy3`・`psrDoubleABGeoToy` だけ —— 署名の長さは同じ)・`S._core` の本文は基点と同一・jitprobe ×0.97〜×1.06(galaxyGeo2 ×0.99・bhCore ×0.99・galaxyMeshSpiral ×1.06・gw150914DFM ×0.97 —— 1.5× 以内・同じ容器で並走)。law の分布は第294便a と同じ(legacy-spaceMesh:scalar 6+退役 3・vMinusU 2・local 1 —— 在位の本は番号が 3 から 4 に替わっただけ)。基点比較の器 `tests/exp-w291b-pnsources.mjs`(基点 cf2da0a・版 w291b-pnsources-4)を試走すると、移住した 9 本は 600 步の指紋が基点と同一(`changed` に入らない)で、署名の差は新しい欄 `sigChangedByGeo4Migration` に 9 本(`sigDiff` は 0・判定 `sigAllSame` は true のまま —— ビット同一でない本は従来どおり `sigDiff` に数える)。QA は `behavior.geo4Migrate295`(新設)と、世代切替 has295b(html の `GEO4_MIGRATED`)で固定値を改めたブロック(`behavior.geoMode`・`behavior.geoModeResolve`・`behavior.modeSaveWarnings`・`docs.geoModeTable`・`behavior.geo3Inertial294`・`ui.geo3Hud`・`ui.pickerGeoFilter`・`ui.pickerSeparators`・`behavior.geoToyPinned`・`preset.geo3Contract`・`preset.galaxyGeoToyCopy`・`preset.galaxyLite`・`behavior.clusterAnalogy`・`behavior.clusterScale`・`docs.analogyKernelNote`・`ui.paramWbgRow`・`preset.meshVelocity`・`preset.bgSources`・`groups.reorder`・`behavior.growthCopy`・`behavior.ckFixcapRestore`・`behavior.weakfieldCoeff`)。器の側は、凍結の写し(退役 3)と移住した元の本の比較を「番号の付け替えだけ」と読む 1 行(`tests/exp-w287a-growth.mjs`)・保存の実装の指紋の世代の印(`tests/exp-w290d-ckfixcap.mjs` —— 実装は第294便a と同じ指紋)・移住した本の署名の差を記録する欄(`tests/exp-w291b-pnsources.mjs`)を足した。本枝で走らせ直した正本は `geo4-w295b`(新設)・`pnsources-w291b`・`growth-w287a`・`jeans-w286a`・`weakfield-w289a`・`ckfixcap-w290d`(物理・判定の欄の差は weakfield の棚卸しの analogies の geoPN 3→4 の 4 行と pnsources の新しい欄だけ)。html 全体を刻む他の正本は統合後の鎖で走らせ直す。
+
+**⑥ 書かないこと**: 「4 は新しい物理」「4PN」「回転引きずり・大域場を 4 の標準式にした」。移住は宣言の番号の付け替えであり、法則・入力・数値は 1 bit も変えていない。
+
+**⑦ 決断事項の候補**: 4 の表示名(「空間メッシュ」で確定か)/ 零試験 2 本(🔁🌒)を 4 に入れたまま(本便は 4)か 3 に戻すか / 旧法則版+kFrame>0(`toyAllowDrag`)を 4 の標準と読むか / mode 3 に残した旧法則版の枝(保存 JSON・AI 生成の旧宣言)をいつ警告 `geo3LegacyMesh` だけにするか / 本の名前に残る「geoPN=4 契約」の語(第280便c の vMinusU の契約名)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

@@ -1,0 +1,1693 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第295便b",
+  "target": "beta/index.html",
+  "targetSha256": "f83d6d9dfd9d49d130522c9b4658eba4729b4a5e9843038c33d5395dde90d209",
+  "generatedAt": "2026-10-07T11:05:54.668Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5769721,
+    "sha256": "f83d6d9dfd9d49d130522c9b4658eba4729b4a5e9843038c33d5395dde90d209",
+    "mtime": "2026-10-07T10:54:36.997Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w295b-geo4.mjs",
+    "bytes": 13842,
+    "sha256": "dadbf5a0e0c840aeef07f612097a38d394d141b35a47d8bb7971460951403ccf",
+    "mtime": "2026-10-07T10:57:50.838Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-07T10:13:25.801Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-07T10:13:25.801Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-07T10:13:25.797Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-07T10:13:25.805Z"
+   }
+  ],
+  "codeSha256": "ce9537209614b0f267119fa485cee05e72352894e39d244ba8fcd981afe1f8a4",
+  "harnessVersion": "w295b-geo4-1",
+  "purposes": [
+   "proof",
+   "calibration",
+   "dragApprox",
+   "inertialDrag",
+   "legacyMesh"
+  ],
+  "saveWarnCodes": [
+   "geo0Geodesic",
+   "geo1KFrame",
+   "geo2KFrame",
+   "geo3NoInertial",
+   "kFrameFraction",
+   "inertialPlusGeodesic",
+   "geo4NoMesh",
+   "geo4Inertial",
+   "geo4KFrame"
+  ],
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第85報)(geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する)",
+  "reading": "統括の検証項目 R154(geoPN=4〔旧空間メッシュ〕の器と在位 9 本の移住 —— 移住はビット同一の本だけ)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・HP.loadPreset で読む)",
+  "gateBuiltin": "内蔵の本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)",
+  "notClaim": [
+   "4 は新しい物理モード",
+   "4PN",
+   "回転引きずり・大域場を 4 の標準式にした"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.MODE_SAVE_WARN_CODES",
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.geo3TransportAt",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.loadPreset",
+    "HP.meshChipState",
+    "HP.modeSaveWarnings",
+    "HP.sim",
+    "HP.validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1002,
+   "segments": 911,
+   "closureShare": 0.3253
+  },
+  "scopeSha256": "b9d040c3022601dda08e948eea16cb36fe6de48314c79162966efdd0359835b0",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "run": {
+  "dt": 0.016,
+  "steps": 2000
+ },
+ "rows": [
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 351,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "e6e6c911"
+    },
+    "wallSec": 26.874
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 351,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "e6e6c911"
+    },
+    "wallSec": 26.588
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "15d2bc23",
+     "15d2bc23"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "cadc58bf"
+    },
+    "wallSec": 10.592
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "cadc58bf"
+    },
+    "wallSec": 9.835
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "7db66311",
+     "7db66311"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "cadc58bf"
+    },
+    "wallSec": 9.078
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "cadc58bf"
+    },
+    "wallSec": 9.246
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "7db66311",
+     "7db66311"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "8288be0c"
+    },
+    "wallSec": 9.647
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "8288be0c"
+    },
+    "wallSec": 10.172
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "92f7694d",
+     "92f7694d"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90Layers",
+   "emoji": "🪆",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "26c6a926"
+    },
+    "wallSec": 9.959
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 211,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "26c6a926"
+    },
+    "wallSec": 8.795
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "a1a3d1cc",
+     "a1a3d1cc"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "declaredGeoPN": 4,
+   "lawVersion": "scalar",
+   "kFrame": 0,
+   "familyRole": null,
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 526,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "ec52c4fd"
+    },
+    "wallSec": 41.651
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:scalar",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "scalar",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:scalar",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 526,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 123,
+     "hex": "ec52c4fd"
+    },
+    "wallSec": 39.24
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "773e98d2",
+     "773e98d2"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "declaredGeoPN": 4,
+   "lawVersion": "vMinusU",
+   "kFrame": 0,
+   "familyRole": "variant",
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "ad7e5913"
+    },
+    "wallSec": 0.19
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "ad7e5913"
+    },
+    "wallSec": 0.146
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "1b02e955",
+     "1b02e955"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "declaredGeoPN": 4,
+   "lawVersion": "vMinusU",
+   "kFrame": 0,
+   "familyRole": "variant",
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "9382bc39"
+    },
+    "wallSec": 0.24
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:vMinusU",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "vMinusU",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:vMinusU",
+     "saveWarn": [],
+     "chip": "geo3",
+     "flags": {
+      "hasGeoToy": false,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "9382bc39"
+    },
+    "wallSec": 0.113
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "eef4c9a6",
+     "eef4c9a6"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "declaredGeoPN": 4,
+   "lawVersion": "local",
+   "kFrame": 0,
+   "familyRole": "variant",
+   "geo3": {
+    "mode": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:local",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "local",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:local",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "mode": 3,
+     "purpose": "inertialDrag",
+     "role": "spaceMesh",
+     "law": "legacy-spaceMesh:local",
+     "geodesic": false,
+     "core": null,
+     "standard": false,
+     "legacyLaw": "local",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 3,
+     "lawOfSim": "legacy-spaceMesh:local",
+     "saveWarn": [
+      "geo3NoInertial"
+     ],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "854454d8"
+    },
+    "wallSec": 0.121
+   },
+   "geo4": {
+    "mode": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:local",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "local",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:local",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "modeEnd": {
+     "geoPN": 4,
+     "mode": 4,
+     "purpose": "legacyMesh",
+     "role": "legacyMesh",
+     "law": "legacy-spaceMesh:local",
+     "geodesic": false,
+     "core": null,
+     "standard": true,
+     "legacyLaw": "local",
+     "legacyOff": null,
+     "inertialDrag": false,
+     "ge": 4,
+     "lawOfSim": "legacy-spaceMesh:local",
+     "saveWarn": [],
+     "chip": "law",
+     "flags": {
+      "hasGeoToy": true,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "geoToyDeny": null,
+      "geoToyStop": null,
+      "geo3Undeclared": false
+     }
+    },
+    "n": 2,
+    "nan": false,
+    "t": 31.99999999999825,
+    "accept": {
+     "ok": true,
+     "warnings": 0
+    },
+    "whole": {
+     "n": 122,
+     "hex": "854454d8"
+    },
+    "wallSec": 0.06
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "wholeSame": true,
+    "printEnd": [
+     "39a4e48c",
+     "39a4e48c"
+    ]
+   },
+   "sameResolve": true,
+   "identical": true,
+   "geo4Standard": true
+  }
+ ],
+ "summary": {
+  "n": 9,
+  "identical": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
+   "mercuryGeoToy3",
+   "charonGeoToy3",
+   "psrDoubleABGeoToy"
+  ],
+  "different": [],
+  "migrated": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
+   "mercuryGeoToy3",
+   "charonGeoToy3",
+   "psrDoubleABGeoToy"
+  ],
+  "kept3": [],
+  "buckets": [
+   92,
+   28,
+   19,
+   4,
+   9
+  ]
+ },
+ "off": {
+  "noLawVersion": {
+   "mode": {
+    "geoPN": 4,
+    "mode": 4,
+    "purpose": "legacyMesh",
+    "role": "legacyMesh",
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "standard": false,
+    "legacyLaw": null,
+    "legacyOff": null,
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "eih-kf0",
+    "saveWarn": [
+     "geo4NoMesh"
+    ],
+    "chip": "stopped",
+    "flags": {
+     "hasGeoToy": false,
+     "hasGeo3": false,
+     "hasGeo3PN": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geo3Undeclared": true
+    }
+   },
+   "modeEnd": {
+    "geoPN": 4,
+    "mode": 4,
+    "purpose": "legacyMesh",
+    "role": "legacyMesh",
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "standard": false,
+    "legacyLaw": null,
+    "legacyOff": null,
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "eih-kf0",
+    "saveWarn": [
+     "geo4NoMesh"
+    ],
+    "chip": "stopped",
+    "flags": {
+     "hasGeoToy": false,
+     "hasGeo3": false,
+     "hasGeo3PN": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geo3Undeclared": true
+    }
+   },
+   "n": 351,
+   "nan": false,
+   "t": 0.3200000000000002,
+   "accept": {
+    "ok": true,
+    "warnings": 1
+   },
+   "whole": {
+    "n": 122,
+    "hex": "45c3d348"
+   },
+   "wallSec": 0.202
+  },
+  "kFrame1": {
+   "mode": {
+    "geoPN": 4,
+    "mode": 4,
+    "purpose": "legacyMesh",
+    "role": "legacyMesh",
+    "law": "vMinusU-q",
+    "geodesic": true,
+    "core": 2,
+    "standard": false,
+    "legacyLaw": "scalar",
+    "legacyOff": "kFrame",
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "vMinusU-q",
+    "saveWarn": [
+     "geo4NoMesh",
+     "geo4KFrame"
+    ],
+    "chip": "stopped",
+    "flags": {
+     "hasGeoToy": false,
+     "hasGeo3": false,
+     "hasGeo3PN": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geo3Undeclared": false
+    }
+   },
+   "modeEnd": {
+    "geoPN": 4,
+    "mode": 4,
+    "purpose": "legacyMesh",
+    "role": "legacyMesh",
+    "law": "vMinusU-q",
+    "geodesic": true,
+    "core": 2,
+    "standard": false,
+    "legacyLaw": "scalar",
+    "legacyOff": "kFrame",
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "vMinusU-q",
+    "saveWarn": [
+     "geo4NoMesh",
+     "geo4KFrame"
+    ],
+    "chip": "stopped",
+    "flags": {
+     "hasGeoToy": false,
+     "hasGeo3": false,
+     "hasGeo3PN": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geo3Undeclared": false
+    }
+   },
+   "n": 351,
+   "nan": false,
+   "t": 0.3200000000000002,
+   "accept": {
+    "ok": true,
+    "warnings": 1
+   },
+   "whole": {
+    "n": 124,
+    "hex": "5fa80e6d"
+   },
+   "wallSec": 0.404
+  }
+ },
+ "frozen": [
+  {
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "emoji": "🎋",
+   "present": true,
+   "geoPN": 3,
+   "familyRole": "retired"
+  },
+  {
+   "id": "clusterGrowthCopy",
+   "emoji": "🌰",
+   "present": true,
+   "geoPN": 3,
+   "familyRole": "retired"
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
+   "present": true,
+   "geoPN": 3,
+   "familyRole": "retired"
+  }
+ ],
+ "inertial": {
+  "id": "earthMoonInertial",
+  "geoPN": 3,
+  "law": "inertial-drag"
+ },
+ "gates": {
+  "identity": true,
+  "migratedIdentical": true,
+  "geo4Standard": true,
+  "offDeviates": true,
+  "frozen3": true,
+  "inertial3": true
+ },
+ "ok": true,
+ "elapsedS": 217.024
+}

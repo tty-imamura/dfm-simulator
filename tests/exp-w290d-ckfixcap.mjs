@@ -408,7 +408,9 @@ export function inventory(H, X) {
   return { code, saveCodeSameAsBase: JSON.stringify(code) === JSON.stringify(SAVE_CODE_F03) || (!!htmlText && htmlText.indexOf('function loadSaveInertialAccept(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W290C))
     || (!!htmlText && htmlText.indexOf('function modeSaveWarnings(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W291C))
     || (!!htmlText && htmlText.indexOf('"geo3NoInertial","kFrameFraction"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W293A))
-    || (!!htmlText && htmlText.indexOf('"kFrameFraction","inertialPlusGeodesic"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W294A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
+    || (!!htmlText && htmlText.indexOf('"kFrameFraction","inertialPlusGeodesic"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W294A))
+    // 第295便b(原仮定者の裁定(第85報)・R154): MODE_SAVE_WARN_CODES の末尾に geoPN=4 の 3 本を足した世代 —— 保存・読込の実装(loadSave・保存ボタンの handler)は第294便a と同じ指紋
+    || (!!htmlText && htmlText.indexOf('"inertialPlusGeodesic","geo4NoMesh","geo4Inertial","geo4KFrame"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W294A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
     'phaseParams', 'twallHeat', 'wallRest', 'graphOverlays', 'scaleExps', 'physLock', 'qLock', 'kappaT', 'modePolicy', 'lawResolved'].includes(k)) ? false : null,   // 第291便c: 保存の版と解決した法則(設定 —— 状態ではない)
   checkpointSets: { arrs: CK_ARRS.length, sc: CK_SC.length, objects: [...ckObj].sort() }, fixtures, table };
 }
