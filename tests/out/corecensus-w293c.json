@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:00:43.176Z",
+  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+  "generatedAt": "2026-10-07T12:17:33.764Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5853521,
+    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
+    "mtime": "2026-10-07T11:44:08.698Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w293c-corecensus.mjs",
     "bytes": 15161,
     "sha256": "45ccba1b4516823010164b035bdcb181d81c9347df3c9f8224d0e2e50c9d9dec",
-    "mtime": "2026-10-05T19:05:53.542Z"
+    "mtime": "2026-10-07T11:38:58.778Z"
    },
    {
     "file": "tests/lib-w293c-corecensus.mjs",
     "bytes": 14336,
     "sha256": "81e7fbf59c0ecdb877e37c1b720c9c73272ebbb639bd2f61b657bd203cf50ba0",
-    "mtime": "2026-10-05T19:05:53.542Z"
+    "mtime": "2026-10-07T11:38:58.814Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-07T11:38:58.802Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-07T11:38:58.802Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-07T11:38:58.798Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-07T11:38:58.806Z"
    }
   ],
   "codeSha256": "b528079e0ab1b208e2614aadff91248c98d7d9006ce935ea4acce77cdf71cc24",
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1002,
-   "segments": 911,
-   "closureShare": 0.326
+   "names": 1022,
+   "segments": 931,
+   "closureShare": 0.3255
   },
-  "scopeSha256": "972d1bca640b4335ddbd592e81dc023c957986127ed21606e9036ae32573a7a5",
+  "scopeSha256": "f7d2c106c985ff89111e879b74c6a6e38b7dfb18d0e41417d37e7eecf9d2ee4e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -141,7 +141,7 @@
   "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
  },
  "census": {
-  "nPresets": 152,
+  "nPresets": 155,
   "nRetired": 33,
   "rows": [
    {
@@ -3613,6 +3613,49 @@
     "textHits": 0
    },
    {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 1,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
     "id": "earthMoonDiagOne",
     "emoji": "🌓",
     "retired": false,
@@ -3811,6 +3854,49 @@
     "dragCore": 0,
     "coreField": false,
     "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercurySunInertial",
+    "emoji": "🟤",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
     "spinAxis": 0,
     "coreAxis": {
      "tilt": 0,
@@ -4241,6 +4327,49 @@
     "dragCore": 0,
     "coreField": false,
     "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonInertial",
+    "emoji": "🟣",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
     "spinAxis": 0,
     "coreAxis": {
      "tilt": 0,
@@ -7078,18 +7207,18 @@
     "declActive": 2
    },
    "dragCore": {
-    "books": 1,
-    "active": 1,
-    "retired": 0,
-    "decl": 1,
-    "declActive": 1
-   },
-   "relDrag:inertial": {
     "books": 2,
     "active": 2,
     "retired": 0,
     "decl": 2,
     "declActive": 2
+   },
+   "relDrag:inertial": {
+    "books": 5,
+    "active": 5,
+    "retired": 0,
+    "decl": 5,
+    "declActive": 5
    },
    "relDrag:pairSlip": {
     "books": 2,
@@ -7172,7 +7301,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 7.091,
+    "wallSec": 6.043,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -7248,7 +7377,7 @@
      "desc": 33,
      "physics": []
     },
-    "wallSec": 13.152000000000001,
+    "wallSec": 15.529,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt,axisMode,azimuthDeg,precessionRate)",
     "removable": false,
@@ -7319,7 +7448,7 @@
      "desc": 30,
      "physics": []
     },
-    "wallSec": 0.072,
+    "wallSec": 0.091,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7387,7 +7516,7 @@
      "desc": 6,
      "physics": []
     },
-    "wallSec": 0.047,
+    "wallSec": 0.07200000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7456,7 +7585,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.15100000000000002,
+    "wallSec": 0.12,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7527,7 +7656,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 12.711,
+    "wallSec": 15.071000000000002,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -7597,7 +7726,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.044,
+    "wallSec": 0.054,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7667,7 +7796,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.838,
+    "wallSec": 1.075,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7738,7 +7867,7 @@
      "desc": 64,
      "physics": []
     },
-    "wallSec": 11.573,
+    "wallSec": 14.743,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -7887,7 +8016,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.502,
+    "wallSec": 1.7369999999999999,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -7959,7 +8088,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.188,
+    "wallSec": 0.155,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8105,7 +8234,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.093,
+    "wallSec": 0.11199999999999999,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8179,7 +8308,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.454,
+    "wallSec": 0.418,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -8245,7 +8374,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 12.251999999999999
+    "wallSec": 13.15
    },
    {
     "id": "layeredCoreDFM",
@@ -8299,7 +8428,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.155
+    "wallSec": 0.065
    }
   ]
  },
@@ -8340,7 +8469,44 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.08
+    "wallSec": 0.063
+   },
+   {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "dragCoreBodies": 1,
+    "n0": 3,
+    "nEnd": [
+     3,
+     3
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 2,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 9.700702321424615e-7,
+      "y": 0.0000026004917543787087,
+      "vx": 3.9614762803452663e-8,
+      "vy": 1.4679828019836805e-8,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "wallSec": 0.059
    }
   ]
  },
@@ -8505,5 +8671,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 61.546
+ "elapsedS": 69.721
 }

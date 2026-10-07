@@ -277,7 +277,7 @@
    }
   },
   "galaxyMeshSpiralGeoToy": {
-   "purpose": "🎠 の配置で法則だけ geoPN=3 に替えて比べる",
+   "purpose": "🎠 の配置で法則だけ geoPN=4 に替えて比べる",
    "objective": "partial",
    "state": "600 歩の走行と帳簿は確認・形の門は無い",
    "evidence": [
@@ -285,7 +285,7 @@
     "preset.galaxyGeoToyCopy"
    ],
    "en": {
-    "purpose": "Compare 🎠's layout with only the law swapped to geoPN=3",
+    "purpose": "Compare 🎠's layout with only the law swapped to geoPN=4",
     "state": "the 600-step run and its ledger are checked; there is no shape gate"
    }
   },
@@ -1361,14 +1361,14 @@
    }
   },
   "mercuryGeoToy3": {
-   "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
+   "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる",
    "objective": "met",
    "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
    "evidence": [
     "tests/out/geo3-w280c.json"
    ],
    "en": {
-    "purpose": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged",
+    "purpose": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged",
     "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width"
    }
   },
@@ -1507,14 +1507,14 @@
    }
   },
   "charonGeoToy3": {
-   "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
+   "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
    "objective": "partial",
    "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
    "evidence": [
     "tests/out/geo3-w280c.json"
    ],
    "en": {
-    "purpose": "Compare the geoPN=3 period with a solar background against kF0",
+    "purpose": "Compare the geoPN=4 period with a solar background against kF0",
     "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)"
    }
   },
@@ -1700,7 +1700,7 @@
    }
   },
   "psrDoubleABGeoToy": {
-   "purpose": "観測質量のまま geoPN=3 則を当てる診断",
+   "purpose": "観測質量のまま geoPN=4 則を当てる診断",
    "objective": "unmet",
    "state": "周期 +0.0897%・掃引で観測をまたがない",
    "evidence": [
@@ -1708,7 +1708,7 @@
     "behavior.geoToyOverlay"
    ],
    "en": {
-    "purpose": "Diagnostic that applies the geoPN=3 law with the observed masses",
+    "purpose": "Diagnostic that applies the geoPN=4 law with the observed masses",
     "state": "period +0.0897%; no swept setting straddles the observation"
    }
   },

@@ -2353,6 +2353,9 @@ lastAddAt = Date.now();
       // 第294便a(原仮定者の裁定(第84報)・R148): geoPN=3 を慣性決定力の有効化の印にする便の門(🌛 の geoPN 0⇔3 の 2000 步ビット同一・27/8 公転窓・未宣言の 3・
       //   パラメータでの宣言)(Node の headless・1 プロセス・領域 REGEN_SCOPE —— 鎖の段 geo3-294a は dragcore292 の後)
       'tests/out/geo3-w294a.json',
+      // 第295便b(原仮定者の裁定(第85報)・R154): geoPN=4「空間メッシュ」への移住の門(在位 9 本の geoPN 3⇔4 の 2000 步ビット同一・4 の逸脱・退役 3 本と 🌛 は 3 のまま)
+      //   (Node の headless・1 プロセス・領域 REGEN_SCOPE —— 鎖の段 geo4-295b・他の正本は読まない)
+      'tests/out/geo4-w295b.json',
       // 第294便d(原仮定者の裁定(第84報)・R151): 時間の内訳(較正走行・保存 QA・鎖の段 —— 判定の欄なし)とその場の実測(Chromium・領域 REGEN_SCOPE・
       //   inputs は calaudit-w249 だけ —— QA の記録は sources に sha を写すだけ —— 鎖の段 timing294 は htmlagg の後)
       'tests/out/timing-w294d.json',
@@ -20550,7 +20553,8 @@ if (!FAST) {
           // 第286便a: 💮 を星団スケールへ書き換えた世代では、第283便f の器は凍結写しを読む(W_bg は写しの宣言と照合する)
           if (!(L.wbg.WbgFrom === 'declared' && L.wbg.Wbg === (E.sourcePreset ? E.sourcePreset(H.HP) : pd).physics.spaceMesh.D0)) bad.push('W_bg の明示入力(declared)');
           const ph = pd.physics;
-          if (!(pd.sampleClass === 'principle' && ph.geoPN === 3 && ph.kFrame === 0 && ph.spaceMesh.centerSpin === 'read' && pd.massLedger.darkRotor.lens === 'excluded' && pd.bodies[0].pinned === true)) bad.push('プリセットの宣言');
+          // 第295便b(原仮定者の裁定(第85報)・R154): 💮 は geoPN=4(空間メッシュ —— 旧法則版の置き場)へ移住した世代では 4(力学は 3 とビット同一)
+          if (!(pd.sampleClass === 'principle' && ph.geoPN === (/\nconst GEO4_MIGRATED=/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 4 : 3) && ph.kFrame === 0 && ph.spaceMesh.centerSpin === 'read' && pd.massLedger.darkRotor.lens === 'excluded' && pd.bodies[0].pinned === true)) bad.push('プリセットの宣言');
         } catch (e) { bad.push('headless の引き直し: ' + String(e).slice(0, 120)); }
         const mr = missRows('runs').concat(missRows('ledger'), missRows('refs'));
         if (psec && mr.length) bad.push('PHYSICS の表に無い行 ' + mr.slice(0, 2).join(' '));
@@ -21085,7 +21089,9 @@ if (!FAST) {
       else {
         if (!JK.meta || JK.meta.provenanceVersion !== 'w272e-1' || JK.meta.harnessVersion !== EK.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
         const D = EK.declarationCheck(H.HP);
-        if (JSON.stringify(D) !== JSON.stringify(JK.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+        // 第295便b(原仮定者の裁定(第85報)・R154): 💮 は geoPN=4(空間メッシュ)へ移住した —— 正本 cluster-w286a.json は履歴(3 の宣言)なので、移住の世代では番号だけ 3 に読み替えて照合する
+        const D295 = (D && D.physics && D.physics.geoPN === 4 && /\nconst GEO4_MIGRATED=/.test(html286)) ? Object.assign({}, D, { physics: Object.assign({}, D.physics, { geoPN: 3 }) }) : D;
+        if (JSON.stringify(D295) !== JSON.stringify(JK.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
         const U = D.units;
         if (!(U.relG <= 1e-12 && U.relC <= 1e-12 && U.unitKgIsM0 && U.L0M === 1e16 && U.T0S === 1e12 && U.M0Kg === 1e35)) bad.push('単位の一組(G_sim・c_sim・M₀)' + JSON.stringify(U));
         if (!(D.scaleExp && D.scaleExp.L === 16 && D.scaleExp.T === 12 && D.scaleExp.M === 35)) bad.push('💮 の scaleExp が L16/T12/M35 でない');
@@ -21097,7 +21103,8 @@ if (!FAST) {
         if (html286.indexOf(EK.DISPLAY.formula) < 0) bad.push('レンダラの表示半径の式が器の写しと違う');
         const Sp = D.separation;
         if (!(Sp.dragREqualsBodyRBitSame && Sp.dragRChangeDiffers > 0)) bad.push('R_drag の分離(dragR=本体半径で宣言なしとビット一致・dragR を変えると動く)' + JSON.stringify(Sp));
-        if (!(D.physics.contactMode === 'none' && D.physics.pinned && D.physics.geoPN === 3 && D.physics.kFrame === 0 && D.physics.vModes.join(',') === 'jeans,jeans')) bad.push('💮 の physics・初速の宣言');
+        // 第295便b(R154): 💮 は geoPN=4 へ移住した世代では 4
+        if (!(D.physics.contactMode === 'none' && D.physics.pinned && D.physics.geoPN === (/\nconst GEO4_MIGRATED=/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 4 : 3) && D.physics.kFrame === 0 && D.physics.vModes.join(',') === 'jeans,jeans')) bad.push('💮 の physics・初速の宣言');
         const pg = await page.evaluate(() => { const b = SCALE_BASES.find((x) => x.id === 'cluster'); const p = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
           const dr = p.bodies.find((z) => z.type === 'disk' && z.lightSweep === 1), st = p.bodies.find((z) => z.type === 'disk' && z.lightSweep !== 1);
           return { live: !!b && !b.retired, revived: b ? b.revived : null, L: b && b.L, T: b && b.T, M: b && b.M, lsDR: dr.lightSweep, lsStar: st.lightSweep === undefined ? 0 : st.lightSweep }; });
@@ -21732,7 +21739,10 @@ if (!FAST) {
         if (!psec) bad.push('PHYSICS〔第289便a〕が無い');
         else {
           const R = E.docRows(J);
-          const missRows = [].concat(R.coeff, R.kernelA, R.kernelR, R.engineClock, R.engineRay, R.analogy).filter((t) => psec.indexOf(t) < 0);
+          // 第295便b(原仮定者の裁定(第85報)・R154): アナロジーの本は geoPN=4(空間メッシュ)へ移住した —— 〔第289便a〕の表は履歴(geoPN 3 の行)なので、移住の世代では 4 の行を 3 として照合する
+          const g4w = html289a.indexOf('\nconst GEO4_MIGRATED=') >= 0;
+          const histRow = (t) => (g4w && R.analogy.indexOf(t) >= 0) ? t.replace(/^(\| [^|]+\| [^|]+\| )4( \|)/, '$13$2') : t;
+          const missRows = [].concat(R.coeff, R.kernelA, R.kernelR, R.engineClock, R.engineRay, R.analogy).filter((t) => psec.indexOf(t) < 0 && psec.indexOf(histRow(t)) < 0);
           if (missRows.length) bad.push('PHYSICS の表に無い行 ' + missRows.length + ' 件 ' + missRows[0].slice(0, 60));
         }
         for (const k of ['kernelOrbitPrecession', 'bornDeflectionCoeff', 'rayDeflectionCoeff', 'shapiroCoeff', 'WEAKFIELD_LIB_VERSION']) if (html289a.indexOf(k) >= 0) bad.push('本便の純関数の名前が html にある: ' + k);
@@ -33937,7 +33947,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),
         has288e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90'),
         has289e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90Layers'),
-        has294a: HP.allPresets().some((q) => q.id === 'earthMoonInertial' && q.physics.geoPN === 3) };   // 第294便a(R148): 🌛 が geoPN=3(慣性決定力の印・pinned 0・旧法則版なし)で名簿に入る   // 第289便e: 🪆(pinned 中心 1 個・centerSpin:"read" —— 🛸 の写し)   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has294a: HP.allPresets().some((q) => q.id === 'earthMoonInertial' && q.physics.geoPN === 3),
+        g4mig: (typeof GEO4_MIGRATED !== 'undefined') ? GEO4_MIGRATED.slice() : [] };   // 第295便b(R154): geoPN=4(空間メッシュ)へ移住した本(名簿は geoPN≥3 のまま —— 宣言の番号だけ 4)   // 第294便a(R148): 🌛 が geoPN=3(慣性決定力の印・pinned 0・旧法則版なし)で名簿に入る   // 第289便e: 🪆(pinned 中心 1 個・centerSpin:"read" —— 🛸 の写し)   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     });
     // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
     const relFree = r.dvFree
@@ -33969,7 +33980,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         && (!r.has288e || r.hits.indexOf('galaxyAnalogyBHTilt90:1') >= 0)   // 第288便e: 🛸(pinned 中心 1 個)
         && (!r.has289e || r.hits.indexOf('galaxyAnalogyBHTilt90Layers:1') >= 0),   // 第289便e: 🪆(pinned 中心 1 個)
       // 第265便b: pinned を持つ本ではトイが**実際に走る**(停止せず・対象数=非 pinned 粒子数)
-      builtinLive: r.live.length === (r.has274c ? 2 : 1) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) && r.live.every((z) => !z.err && z.geoPN === 3
+      builtinLive: r.live.length === (r.has274c ? 2 : 1) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) && r.live.every((z) => !z.err && z.geoPN === ((r.g4mig || []).indexOf(z.id) >= 0 ? 4 : 3)/* 第295便b: 移住した本は 4 */
         && z.stop === null && z.N === z.nFree && z.nPin === 1 && !z.nan) };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.geoToyPinned', bad.length === 0,
@@ -34403,15 +34414,17 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         srcGeoPN: src.physics.geoPN, srcKFrame: src.physics.kFrame,
         copy: run(cp, 600), source: run(src, 600) };
     });
+    // 第295便b(原仮定者の裁定(第85報)・R154): 🪁 は geoPN=4(空間メッシュ —— 旧法則版の置き場)へ移住した世代では 4(力学は 3 とビット同一)
+    const G4CP = (/\nconst GEO4_MIGRATED=/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 4 : 3);
     const CK = {
       principle: r.cls === 'principle' && r.fid === 'toy' && !r.claims && !r.mcal
         && Array.isArray(r.notClaim) && r.notClaim.indexOf('galaxy') >= 0,
       sourceUntouched: r.srcGeoPN === 0 && r.srcKFrame === 1 && r.source.geoPN === 0,
-      declaration: r.declGeoPN === 3 && r.declKFrame === 0 && r.declLawVersion === 'scalar'
+      declaration: r.declGeoPN === G4CP && r.declKFrame === 0 && r.declLawVersion === 'scalar'
         && r.declLaw === undefined,
       sameGeometry: r.sameBodies === true && r.sameSeed === true,
       runs: r.copy.stop === null && r.copy.N === r.copy.n - r.copy.nPin && r.copy.nPin === 1
-        && !r.copy.nan && r.copy.ledgerE === 0 && r.copy.geoPN === 3,
+        && !r.copy.nan && r.copy.ledgerE === 0 && r.copy.geoPN === G4CP,
       emoji: r.emojiDup === 1,
       // 第273便a(AH5 改名): 群の**表示名**は世代で変わる(銀河の物語 → 銀河の力学)ので、
       // 固定文字列ではなく**複製元 🎠 と同じ群にいること**で判定する(ファミリー導線の前提でもある)
@@ -34652,7 +34665,9 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       return { cls: lite.sampleClass, fid: lite.fidelity, claims: !!lite.claims,
         mcal: !!lite.massCalibration, notClaim: lite.notClaim,
         // 第285便a(R95): 🪁 は多粒子の契約 contactMode:"none" を宣言した —— 退役の 🎋 は凍結(宣言しない)。違いはこの 1 鍵だけ
-        samePhysics: JSON.stringify(lite.physics) === JSON.stringify((() => { const q = JSON.parse(JSON.stringify(src.physics)); if (q.contactMode === 'none' && lite.physics.contactMode === undefined) delete q.contactMode; return q; })()),
+        // 第295便b(原仮定者の裁定(第85報)・R154): 🪁 は geoPN=4(空間メッシュ)へ移住し、退役の 🎋 は凍結(3 のまま)—— geoPN の 1 字だけ違ってよい(力学は 3 とビット同一)
+        samePhysics: JSON.stringify(lite.physics) === JSON.stringify((() => { const q = JSON.parse(JSON.stringify(src.physics)); if (q.contactMode === 'none' && lite.physics.contactMode === undefined) delete q.contactMode;
+          if (typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf(src.id) >= 0 && q.geoPN === 4 && lite.physics.geoPN === 3) q.geoPN = 3; return q; })()),
         sameSeed: lite.seed === src.seed,
         sameBodiesExceptN: JSON.stringify(bl) === JSON.stringify(bs), nLite, nSrc,
         emoji: lite.emoji, nEmoji: all.filter((z) => z.emoji === lite.emoji).length,
@@ -43705,7 +43720,10 @@ if (!FAST) {
         const sig0 = builtins.map((p) => presetSig(p)).join('\u0001');
         const par0 = JSON.stringify(HP.sim.params);
         // 桶の独立の引き直し(受理器の geoMode から —— ppGeoBucketOf を使わない)
-        const ROLE = { noGeodesic: 0, kF0: 1, dfm: 2, spaceMesh: 3 };
+        const ROLE = { noGeodesic: 0, kF0: 1, dfm: 2, spaceMesh: 3, legacyMesh: 4 };
+        // 第295便b(原仮定者の裁定(第85報)・R154): 世代切替 —— 桶 4(空間メッシュ・旧法則版の置き場)のチップがある世代は 0〜4
+        const KS = (typeof GEO4_MIGRATED !== 'undefined') ? [0, 1, 2, 3, 4] : [0, 1, 2, 3];
+        o.KS = KS;
         const qb = {};
         for (const p of builtins) {
           const v = validatePreset(JSON.parse(JSON.stringify(p)));
@@ -43714,9 +43732,9 @@ if (!FAST) {
           qb[p.id] = (gm.mode === 1 && !gm.consistent) ? 2 : ROLE[gm.role];
           if (ppGeoBucketOf(p) !== qb[p.id]) o.bad.push('bucket:' + p.id + ':' + ppGeoBucketOf(p) + '≠' + qb[p.id]);
         }
-        o.nAll = [0, 1, 2, 3].map((k) => builtins.filter((p) => qb[p.id] === k).length);
+        o.nAll = KS.map((k) => builtins.filter((p) => qb[p.id] === k).length);
         const visible = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
-        const exp = [0, 1, 2, 3].map((k) => visible.filter((p) => qb[p.id] === k).length);
+        const exp = KS.map((k) => visible.filter((p) => qb[p.id] === k).length);
         o.nVisible = visible.length;
         ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all';
         showPresetPicker();
@@ -43728,11 +43746,11 @@ if (!FAST) {
         if (!o.hasRow) return o;
         o.dimLabel = document.getElementById('ppDimGeoBtn').textContent;
         o.labelsJa = chips().map((c) => c.textContent);
-        o.labelsOk = o.labelsJa.length === 5 && o.labelsJa[0] === HP.T('grpAll')
-          && [0, 1, 2, 3].every((k) => o.labelsJa[k + 1] === HP.T('ppGeo' + k) && o.labelsJa[k + 1].indexOf(String(k)) === 0);
+        o.labelsOk = o.labelsJa.length === KS.length + 1 && o.labelsJa[0] === HP.T('grpAll')
+          && KS.every((k) => o.labelsJa[k + 1] === HP.T('ppGeo' + k) && o.labelsJa[k + 1].indexOf(String(k)) === 0);
         o.row0 = rows();
         o.got = [];
-        for (let k = 0; k < 4; k++) {
+        for (let k = 0; k < KS.length; k++) {
           chips()[k + 1].click(); await wait(20);
           o.got.push(rows());
           const on = chips().filter((c) => c.dataset.on === '1').map((c) => c.textContent);
@@ -43767,7 +43785,7 @@ if (!FAST) {
         document.getElementById('ppDimGeoBtn').click(); await wait(20);
         const note = document.getElementById('ppGeoNote');
         o.noteOpen = !!note && !note.hidden && document.getElementById('ppDimGeoBtn').getAttribute('aria-expanded') === 'true';
-        o.noteOk = o.noteOpen && [0, 1, 2, 3].every((k) => note.textContent.includes(HP.T('ppGeo' + k) + '(' + o.nAll[k] + ')'));
+        o.noteOk = o.noteOpen && KS.every((k) => note.textContent.includes(HP.T('ppGeo' + k) + '(' + o.nAll[k] + ')'));
         document.getElementById('ppDimGeoBtn').click(); await wait(20);
         // 第285便e: 絞り込みは既定で畳む(details.ppFold)—— 採寸の前に geoPN の畳みを開く(畳みの無い世代では何もしない。
         // 判定〔箱の内側・幅 > 0〕は弱めない)
@@ -43780,7 +43798,7 @@ if (!FAST) {
         // en
         hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(30);
         o.labelsEn = chips().map((c) => c.textContent);
-        o.enOk = o.labelsEn.length === 5 && [0, 1, 2, 3].every((k) => o.labelsEn[k + 1] === HP.T('ppGeo' + k)) && o.labelsEn[1] !== o.labelsJa[1];
+        o.enOk = o.labelsEn.length === KS.length + 1 && KS.every((k) => o.labelsEn[k + 1] === HP.T('ppGeo' + k)) && o.labelsEn[1] !== o.labelsJa[1];
         chips()[2].click(); await wait(20); o.enCount = rows(); chips()[2].click(); await wait(20);
         o.enOk = o.enOk && o.enCount === exp[1];
         hidePresetPicker(); HP.setLang('ja');
@@ -43797,7 +43815,7 @@ if (!FAST) {
     }
     const g0 = gf[0];
     add('ui.pickerGeoFilter', gf.every((r) => r.ok),
-      `桶(全内蔵 ${g0.nAll && g0.nAll.reduce((a, b) => a + b, 0)} 本・受理器の geoMode から独立に引き直し = ppGeoBucketOf 全本一致): 0/1/2/3 = ${g0.nAll && g0.nAll.join('/')}` +
+      `桶(全内蔵 ${g0.nAll && g0.nAll.reduce((a, b) => a + b, 0)} 本・受理器の geoMode から独立に引き直し = ppGeoBucketOf 全本一致): ${(g0.KS || [0, 1, 2, 3]).join('/')} = ${g0.nAll && g0.nAll.join('/')}` +
       `(geoPN=2・kFrame=0 の互換入力は 1)/ ` + gf.map((r) => `${r.vp}: 「${r.dimLabel}」チップ [${(r.labelsJa || []).join('|')}]・行数 ${r.got && r.got.join('/')} = 期待 ${r.exp && r.exp.join('/')}` +
         `(一覧 ${r.nVisible} 本の分割=${r.partition})・再タップで戻る=${r.back}・AND kF0 較正 ${r.and1 && r.and1.got}=${r.and1 && r.and1.exp}(<${r.and1 && r.and1.only1})` +
         `・AND 検索 ${r.and2q || 'psr'} ${r.and2 && r.and2.got}=${r.and2 && r.and2.exp}(<${r.and2 && r.and2.only2})・ⓘ 件数=${r.noteOk}・画面内=${r.inView}・横はみ出し ${r.docX}` +
@@ -44277,7 +44295,7 @@ if (!FAST) {
       // E水準 = EMERGENCE_LEVELS・geoPN 4(0〜3)・その他 4(obsCard/pinned/multi/testParticle)
       const measure = () => pg.evaluate(([nOther, withTopic, nCls]) => {
         const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', nCls], ['e', 'ppDimE', HP.EMERGENCE_LEVELS.length],
-          ['geo', 'ppDimGeo', 4]].concat(withTopic ? [['topic', 'ppDimTopic', 9]] : [], [['other', 'ppDimOther', nOther]]);
+          ['geo', 'ppDimGeo', (typeof GEO4_MIGRATED !== 'undefined') ? 5 : 4/* 第295便b(R154): 桶 4(空間メッシュ)のチップ */]].concat(withTopic ? [['topic', 'ppDimTopic', 9]] : [], [['other', 'ppDimOther', nOther]]);
         const host = document.getElementById('ppFolds');
         const hr = host.getBoundingClientRect();
         const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
@@ -44792,7 +44810,7 @@ if (!FAST) {
           const a = one(1.5), b = one(4.5);
           let mx = -1;
           if (a && b && a.x0.every((v, i) => Object.is(v, b.x0[i]))) { mx = 0; for (let i = 0; i < a.vx.length; i++) mx = Math.max(mx, Math.abs(a.vx[i] - b.vx[i])); }
-          o.reads = { dvx: mx, kFrame: a && a.k, geoPN: a && a.g, ok: mx > 0 && a.k === 0 && a.g === 3 };
+          o.reads = { dvx: mx, kFrame: a && a.k, geoPN: a && a.g, ok: mx > 0 && a.k === 0 && a.g === ((typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf('galaxyAnalogyBHCompose') >= 0) ? 4 : 3)/* 第295便b: 🧩 は 4 */ };
         }
         return o;
       }, has289fW);
@@ -45410,7 +45428,7 @@ if (!FAST) {
         const ph = p.physics || {}, sm = ph.spaceMesh || {};
         HP.setLang('ja'); const bj = descBriefOf(p); HP.setLang('en'); const be = descBriefOf(p); HP.setLang('ja');
         return { id, emoji: p.emoji, nJa: cnt(p.descStruct && p.descStruct.summary, JA), nEn: cnt(p.en && p.en.descStruct && p.en.descStruct.summary, EN),
-          phys: ph.frameWeight === 'share' && frameWeightPow(ph) === 1 && ph.kFrame === 0 && ph.geoPN === 3 && typeof ph.q === 'number' && ph.q > 0 && sm.centerSpin === 'read',
+          phys: ph.frameWeight === 'share' && frameWeightPow(ph) === 1 && ph.kFrame === 0 && ph.geoPN === ((typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf(p.id) >= 0) ? 4 : 3)/* 第295便b: 移住した本は 4 */ && typeof ph.q === 'number' && ph.q > 0 && sm.centerSpin === 'read',
           gen: SAMPLE_STATUS[id] ? { ja: SAMPLE_STATUS[id].brief, en: SAMPLE_STATUS[id].en && SAMPLE_STATUS[id].en.brief } : null, bj, be }; });
     }, [IDS, JA, EN]);
     await ctx.close();
@@ -46396,7 +46414,7 @@ if (!FAST) {
           // 第280便c: geoPN=3・vMinusU の principle の診断コピー(🔁🌒)は輸送経路の背景を宣言する —— 除いて数える
           //   (顔ぶれは preset.geo3Contract ③ が固定する。較正母集団にも既定経路にも入らない)
           res.bgcDeclaredBuiltins = bis.filter(p => p.physics && p.physics.backgroundComplex !== undefined
-            && !(p.sampleClass === 'principle' && p.physics.geoPN === 3 && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU'))
+            && !(p.sampleClass === 'principle' && (p.physics.geoPN === 3 || p.physics.geoPN === 4)/* 第295便b: 🔁🌒 は 4 */ && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU'))
             .map(p => p.id);
           const wPlain = HP.validatePreset(mk({ D0: 0.006 }, 'calibration'));
           const wDecl = HP.validatePreset(mk({ D0: 0.006, backgroundComplex: FULL }, 'calibration'));
@@ -47270,7 +47288,7 @@ if (!FAST) {
       const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
       res.nBuiltins = bis.length;
       // 第280便c: **geoPN=3・vMinusU の principle の診断コピー**(🔁🌒)は輸送経路としてこの鍵を宣言する —— それ以外の内蔵は 0 本のまま
-      const isGeo3Copy = (p) => p.sampleClass === 'principle' && p.physics && p.physics.geoPN === 3 && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU';
+      const isGeo3Copy = (p) => p.sampleClass === 'principle' && p.physics && (p.physics.geoPN === 3 || p.physics.geoPN === 4)/* 第295便b: 🔁🌒 は 4 */ && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU';
       res.geo3Copies = bis.filter((p) => p.physics && p.physics.meshVelocity !== undefined && isGeo3Copy(p)).map((p) => p.id).sort();
       res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.meshVelocity !== undefined && !isGeo3Copy(p)).map((p) => p.id);
       // 第280便b: 表裏核の診断コピー 🌓 earthMoonDiagOne(principle)だけは meshVelocity を宣言する(世代判定は HP.validateQLockKernel)
@@ -47761,7 +47779,7 @@ if (!FAST) {
       const bis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
       res.nBuiltins = bis.length;
       // 第280便c: geoPN=3・vMinusU の principle の診断コピー(🔁🌒)は輸送経路の背景として sources/frame を宣言する(除いて数え、顔ぶれは別に固定)
-      const isGeo3Copy = (p) => p.sampleClass === 'principle' && p.physics && p.physics.geoPN === 3 && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU';
+      const isGeo3Copy = (p) => p.sampleClass === 'principle' && p.physics && (p.physics.geoPN === 3 || p.physics.geoPN === 4)/* 第295便b: 🔁🌒 は 4 */ && p.physics.spaceMesh && p.physics.spaceMesh.lawVersion === 'vMinusU';
       res.declaredBuiltins = bis.filter((p) => p.physics && p.physics.backgroundComplex && !isGeo3Copy(p)
         && (p.physics.backgroundComplex.sources !== undefined || p.physics.backgroundComplex.frame !== undefined)).map((p) => p.id);
       res.geo3Copies = bis.filter((p) => p.physics && p.physics.backgroundComplex && isGeo3Copy(p)).map((p) => p.id).sort();
@@ -47875,6 +47893,7 @@ if (!FAST) {
           && typeof HP.geoEffectiveMode === 'function' && /if\(S\.hasGeoToy \|\| S\.hasGeo3\) return g;/.test(HP.geoEffectiveMode.toString()) && /return 2;/.test(HP.geoEffectiveMode.toString())) };
       HP.loadPreset('mercuryGeoToy3', false);
       { const S = HP.sim; for (let i = 0; i < 20; i++) S.step(0.016);
+        res.g4mig = typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf('mercuryGeoToy3') >= 0;   // 第295便b: 🔁 は geoPN=4 へ移住
         res.run = { hasGeo3: S.hasGeo3, hasGeo3PN: S.hasGeo3PN, hasGeoToy: S.hasGeoToy, g2: !!S._g2, geoPN: S.params.geoPN,
           meshVelN: S.meshVelN, pnN: S.geo3PnN, pinCarry: S.geo3PinCarry }; }
       // ⑤ pn:off・u≡0 の vMinusU と geoPN=0 のビット同一(☄️ の複製・600 步)
@@ -47919,12 +47938,13 @@ if (!FAST) {
     for (const [k, w] of Object.entries(wantX)) if (r.cross[k] !== w) bad.push(`② ${k}: 受理=${r.cross[k]}(期待 ${w})`);
     if (!(r.idempotent && r.sig.pn && r.sig.pv && r.sig.vm)) bad.push('② 冪等/署名: ' + JSON.stringify({ idem: r.idempotent, sig: r.sig }));
     cases.push(`相互検査 ${Object.keys(wantX).length} 件(E6′〔kFrame>0・既定 1〕・トイ・座標変換慣性・織り込み・mesh-v2・輸送経路なし・geoPN≤2・較正クラスを拒否)・冪等・pn/pnVelocity/velocityMeaning で署名が変わる`);
-    const wantDecl = ['charonGeoToy3:principle:3', 'mercuryGeoToy3:principle:3'];
+    // 第295便b(原仮定者の裁定(第85報)・R154): 🔁🌒 は geoPN=4(空間メッシュ —— 旧法則版の置き場)へ移住した世代では 4(力学は 3 とビット同一)
+    const wantDecl = r.g4mig ? ['charonGeoToy3:principle:4', 'mercuryGeoToy3:principle:4'] : ['charonGeoToy3:principle:3', 'mercuryGeoToy3:principle:3'];
     if (JSON.stringify(r.decl.slice().sort()) !== JSON.stringify(wantDecl)) bad.push('③ vMinusU の内蔵が 2 本の診断コピーでない: ' + r.decl.join(','));
     if (JSON.stringify(r.live.slice().sort()) !== JSON.stringify(['charonGeoToy3', 'mercuryGeoToy3'])) bad.push('③ hasGeo3 が立った内蔵: ' + r.live.join(','));
     cases.push(`内蔵 ${r.nBuiltins} 本のうち vMinusU の宣言は **principle の診断コピー 2 本**(${r.decl.join(' / ')})・hasGeo3 が立つのも 2 本`);
     if (!(r.coreClean && r.dispatch.kickGuarded && r.dispatch.zeroForGeo3)) bad.push('④ dispatch の形: ' + JSON.stringify({ core: r.coreClean, d: r.dispatch }));
-    if (!(r.run.hasGeo3 && r.run.hasGeo3PN && !r.run.hasGeoToy && !r.run.g2 && r.run.geoPN === 3 && r.run.meshVelN === 20 && r.run.pnN === 20 && r.run.pinCarry === 20))
+    if (!(r.run.hasGeo3 && r.run.hasGeo3PN && !r.run.hasGeoToy && !r.run.g2 && r.run.geoPN === (r.g4mig ? 4 : 3)/* 第295便b: 🔁 は 4 */ && r.run.meshVelN === 20 && r.run.pnN === 20 && r.run.pinCarry === 20))
       bad.push('④ 🔁 の走行: ' + JSON.stringify(r.run));
     cases.push(`dispatch: _core に 0(S._g2 未確保=${!r.run.g2})・1PN は外部ステップだけ(20 步で ${r.run.pnN} 回)・pinned の太陽は移送 ${r.run.pinCarry} 回・_core の本文に geo3 の語 0`);
     if (!(r.zeroNewton.same && r.zeroNewton.g3 && r.zeroNewton.n === 600)) bad.push('⑤ pn:off・u≡0 が geoPN=0 とビット同一でない: ' + JSON.stringify(r.zeroNewton));
@@ -48074,13 +48094,15 @@ if (!FAST) {
       HP.loadPreset('saturn', false);
       return o;
     });
+    // 第295便b(原仮定者の裁定(第85報)・R154): 🔁🌒 が geoPN=4(空間メッシュ)へ移った世代では HUD・チップの番号が宣言どおり 4
+    const g4 = await page.evaluate(() => typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf('mercuryGeoToy3') >= 0) ? '4' : '3';
     const ck = {
-      hud: /^geoPN=3 \/ vMinusU \/ pn:reference-1PN\(v\) v0:v N=5 /.test(String(r.hud)) && /pnN=5/.test(String(r.hud)),
-      diag: String(r.diag).indexOf('geoPN=3 / vMinusU / pn:reference-1PN(v)') >= 0 && String(r.diag).indexOf('geoToy:') < 0,
-      chip: r.chip === 'geoPN=3 / vMinusU / pn:reference-1PN(v)・実験',
+      hud: new RegExp('^geoPN=' + g4 + ' \\/ vMinusU \\/ pn:reference-1PN\\(v\\) v0:v N=5 ').test(String(r.hud)) && /pnN=5/.test(String(r.hud)),
+      diag: String(r.diag).indexOf('geoPN=' + g4 + ' / vMinusU / pn:reference-1PN(v)') >= 0 && String(r.diag).indexOf('geoToy:') < 0,
+      chip: r.chip === 'geoPN=' + g4 + ' / vMinusU / pn:reference-1PN(v)・実験',
       deny: /未作動:/.test(String(r.hudDeny)) && /メッシュ未作動/.test(String(r.chipDeny)),
       xdot: /v0:xdot/.test(String(r.hudC)),
-      en: r.chipEn === 'geoPN=3 / vMinusU / pn:reference-1PN(v) - experimental',
+      en: r.chipEn === 'geoPN=' + g4 + ' / vMinusU / pn:reference-1PN(v) - experimental',
       toys: r.toys.length >= 3 && r.toys.every((z) => z[1] === null) };
     const bad = Object.keys(ck).filter((k) => !ck[k]);
     add('ui.geo3Hud', bad.length === 0,
@@ -62418,7 +62440,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ① **geoPN=3 だけでは「複素決定力場」と出さない** —— 内蔵で complex を宣言する本は 0 本
       o.complexDecl = ps.filter((p) => ((p.physics || {}).spaceMesh || {}).lawVersion === 'complex').map((p) => p.id);
       o.noComplexChip = o.rows.every((x) => x[2] !== 'complex');
-      o.geo3 = ps.filter((p) => (p.physics || {}).geoPN === 3).map((p) => p.emoji).join('');
+      o.geo3 = ps.filter((p) => (p.physics || {}).geoPN >= 3).map((p) => p.emoji).join('');   // 第295便b: 4(空間メッシュ)も数える(情報)
       // ② 宣言だけで走っていない本は「宣言のみ」(🪟 spaceMeshBinaryToy = geoPN≠3)
       o.declaredOnly = o.rows.filter((x) => x[2] === 'declared').map((x) => x[0]);
       // ③ **画面の選択値だけを根拠にしない**: 実行情報が「入場条件が立たない」と言っていれば
@@ -62487,7 +62509,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       && r.plainNull && /Space mesh: scalar/.test(String(r.enLabel)),
       `**空間メッシュ/複素決定力場チップ(宣言と作動を分ける)**: 宣言のある本 ${r.rows.length} 件=`
       + `${JSON.stringify(r.rows)} / **geoPN=3 だけでは「複素決定力場」と書かない**: `
-      + `geoPN=3 の内蔵=${r.geo3}・**lawVersion:"complex" を宣言する内蔵は ${r.complexDecl.length} 本**なので`
+      + `geoPN≥3 の内蔵=${r.geo3}・**lawVersion:"complex" を宣言する内蔵は ${r.complexDecl.length} 本**なので`
       + `「複素決定力場」チップは ${r.noComplexChip ? '1 件も出ない' : '出てしまっている'} / `
       + `宣言のみ(測地線トイ未選択)=${JSON.stringify(r.declaredOnly)} / `
       + `**作動状態を読む**(画面の選択値だけを根拠にしない): 実行情報が deny=${r.denyReason} を返す状態では`
@@ -68011,7 +68033,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (z.mode === 1 && z.kFrame !== 0) bad.push(`① ${z.id} は geoPN=1 なのに kFrame=${z.kFrame}`);
         if (z.mode === 2 && z.kFrame === 0 && z.compat !== 'geoPN2-kF0') bad.push(`① ${z.id} の互換が立たない`);
         if (z.mode < 3 && z.core !== coreOf(z)) bad.push(`① ${z.id} の core が ${z.core}`);
-        if (z.mode === 3 && z.spaceMesh !== true) bad.push(`① ${z.id} の spaceMesh が立たない`);
+        if (z.mode >= 3 && z.spaceMesh !== true) bad.push(`① ${z.id} の spaceMesh が立たない`);
       }
       const byMode = {}; for (const z of r.rows) byMode[z.mode] = (byMode[z.mode] || 0) + 1;
       if (J) {
@@ -68023,6 +68045,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));
         const has288bG = await page.evaluate(() => typeof UNIFY_MIGRATED !== 'undefined');
+        // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3 → 4(空間メッシュ)へ移住した本 —— 正本(履歴)の行は 3・ページの行は 4(mode 4・役割 legacyMesh)。
+        //   他の列(λ_PN・kFrame・spaceMesh・core・consistent・compat)は正本と同じ
+        const mig295 = new Set(await page.evaluate(() => (typeof GEO4_MIGRATED !== 'undefined') ? GEO4_MIGRATED.slice() : []));
+        let nMig295 = 0;
         let nMig = 0;
         for (const z of r.rows) { const y = JR.get(z.id); if (!y) { if (addedAfterCanon.indexOf(z.id) >= 0) { nAdded++; continue; } bad.push('① 正本の導出表に ' + z.id + ' が無い'); continue; }
           const mg = has288bG ? migRows.get(z.id) : null;
@@ -68031,12 +68057,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             if (!(z.geoPN === mg.after.geoPN && z.kFrame === mg.after.kFrame && z.role === (mg.after.geoPN === 0 ? 'noGeodesic' : 'kF0') && z.consistent === true))
               bad.push(`① ${z.id}: ページの導出が移行表の「後」と違う(${z.geoPN}/${z.kFrame}/${z.role})`);
             nCmp++; continue; }
+          if (mig295.has(z.id)) { nMig295++;
+            if (!(y.geoPN === 3 && y.mode === 3 && z.geoPN === 4 && z.mode === 4 && z.role === 'legacyMesh' && z.spaceMesh === true)) bad.push(`① ${z.id}: 第295便b の移住(正本 3 ⇔ ページ 4・legacyMesh)が立たない`);
+            for (const k of ['lambdaPN', 'kFrame', 'spaceMesh', 'consistent', 'compat']) if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`);
+            nCmp++; continue; }
           for (const k of ['geoPN', 'mode', 'lambdaPN', 'kFrame', 'spaceMesh', 'core', 'role', 'consistent', 'compat']) {
             if (has285bPN && k === 'core') continue;   // 第285便b: core は正本(履歴)の後に変わった列
             if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`); }
           nCmp++; }
         if (JR.size !== r.rows.length - nAdded) bad.push(`① 正本の導出表 ${JR.size} 本 ⇔ 内蔵 ${r.rows.length} 本(履歴の後に入った ${nAdded} 本を除く)`);
-        cases.push(`導出表 ${r.rows.length} 本(geoPN ${Object.entries(byMode).map(([k, v]) => k + ':' + v).join('/')})= 正本 ${nCmp} 本(履歴の後に入った ${nAdded} 本 ${addedAfterCanon.join(',')} は導出だけ検査${nMig ? '・第288便b で在位移行した ' + nMig + ' 本は正本=移行表の「前」・ページ=「後」で照合' : ''})・不整合 0・core ${JSON.stringify(r.core)}`);
+        cases.push(`導出表 ${r.rows.length} 本(geoPN ${Object.entries(byMode).map(([k, v]) => k + ':' + v).join('/')})= 正本 ${nCmp} 本(履歴の後に入った ${nAdded} 本 ${addedAfterCanon.join(',')} は導出だけ検査${nMig ? '・第288便b で在位移行した ' + nMig + ' 本は正本=移行表の「前」・ページ=「後」で照合' : ''}${nMig295 ? '・第295便b で geoPN 3→4 へ移住した ' + nMig295 + ' 本は正本 3 ⇔ ページ 4(legacyMesh)で照合' : ''})・不整合 0・core ${JSON.stringify(r.core)}`);
       } else bad.push('① 正本 tests/out/geomode-w283a.json が無い');
       // ②
       const v = r.val;
@@ -68181,11 +68211,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const g = geoModeOf(p.physics);
           o.dist[g.law] = (o.dist[g.law] || 0) + 1;
           const legacyDecl = (p.physics.spaceMesh || {}).lawVersion !== undefined;
-          const want = g.mode === 3 ? ((has294a && !legacyDecl && g.inertialDrag) ? 'inertial-drag' : ('legacy-spaceMesh:' + ((p.physics.spaceMesh || {}).lawVersion)))
+          // 第295便b(原仮定者の裁定(第85報)・R154): mode 4(空間メッシュ —— 旧法則版の置き場)は内蔵では旧法則版が走る本だけ(legacy-spaceMesh:<lawVersion>)
+          const want = g.mode === 4 ? ('legacy-spaceMesh:' + ((p.physics.spaceMesh || {}).lawVersion))
+            : g.mode === 3 ? ((has294a && !legacyDecl && g.inertialDrag) ? 'inertial-drag' : ('legacy-spaceMesh:' + ((p.physics.spaceMesh || {}).lawVersion)))
             : g.core === 0 ? 'newton' : g.core === 1 ? 'eih-kf0' : g.core === 2 ? 'vMinusU-q' : '?';
           if (g.law !== want) o.bad.push(p.id + ': law ' + g.law + ' ⇔ 第285便b の欄から ' + want);
-          if (g.mode === 3 && g.core !== null) o.bad.push(p.id + ': mode 3 の core が ' + g.core);
-          if (g.purpose !== ['proof', 'calibration', 'dragApprox', 'inertialDrag'][g.mode]) o.bad.push(p.id + ': purpose ' + g.purpose);
+          if (g.mode >= 3 && g.core !== null) o.bad.push(p.id + ': mode ' + g.mode + ' の core が ' + g.core);
+          if (g.purpose !== ['proof', 'calibration', 'dragApprox', 'inertialDrag', 'legacyMesh'][g.mode]) o.bad.push(p.id + ': purpose ' + g.purpose);
           const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
           if (!v.ok) { o.bad.push(p.id + ': 受理器が拒否'); continue; }
           const nw = (v.warnings || []).filter((w) => NEW_W.test(w));
@@ -68314,6 +68346,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 判定は目的の組の関数 modeSettingIssues(13 code)。modeSaveWarnings はその写し
         const m295 = typeof modeSettingIssues === 'function';
         o.m295 = m295;
+        // 第295便b(原仮定者の裁定(第85報)・R154): 世代切替 —— 末尾 3 本の code(geoPN=4「空間メッシュ」の逸脱 geo4NoMesh・geo4Inertial・geo4KFrame)
+        const g4b = MODE_SAVE_WARN_CODES.indexOf('geo4NoMesh') >= 0;
+        o.g4b = g4b;
         const cases = [];
         for (const g of [0, 1, 2, 3]) for (const k of [0, 0.5, 1]) for (const geo of [undefined, true]) cases.push({ geoPN: g, kFrame: k, geodesic: geo });
         if (kf293) for (const g of [0, 1, 2, 3]) for (const k of [0.25, 0.5]) for (const dec of ['space-mesh-effective', 'sample-only', 'yes'])
@@ -68332,9 +68367,20 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           cases.push({ geoPN: 3, kFrame: k, relativeDrag: { law: 'inertial', gain: 1 }, spaceMesh: { lawVersion: 'scalar', inertia: false } });
           for (const g of [1, 2]) cases.push({ geoPN: g, kFrame: k, geodesic: false });
         }
-        // 第295便a: 目的の組の規則(独立に書き直した期待値 —— 並びは関数の塊の順: 0 → 1 → 2 → 3 → 全番号)
+        if (g4b) for (const k of [0, 0.5, 1]) {
+          const smS = (x) => Object.assign({ lawVersion: 'scalar', inertia: false }, x || {});
+          cases.push({ geoPN: 4, kFrame: k });
+          cases.push({ geoPN: 4, kFrame: k, spaceMesh: smS() });
+          cases.push({ geoPN: 4, kFrame: k, spaceMesh: smS({ toyAllowDrag: true }) });
+          cases.push({ geoPN: 4, kFrame: k, spaceMesh: { lawVersion: 'vMinusU', inertia: false }, meshVelocity: { law: 'vMinusU' } });
+          cases.push({ geoPN: 4, kFrame: k, relativeDrag: { law: 'inertial', gain: 1 } });
+          cases.push({ geoPN: 4, kFrame: k, spaceMesh: smS(), relativeDrag: { law: 'inertial', gain: 1 } });
+        }
+        const runs4 = (c) => { const sm = c.spaceMesh || null, lv = sm && sm.lawVersion, tad = !!(sm && sm.toyAllowDrag === true);
+          return !!lv && (!(c.kFrame > 0) || tad) && sm.inertia === false && sm.weave === undefined && !(lv === 'vMinusU' && (c.kFrame > 0 || !c.meshVelocity)); };
+        // 第295便a: 目的の組の規則(独立に書き直した期待値 —— 並びは関数の塊の順: 0 → 1 → 2 → 3 → 全番号 → 4〔第295便b〕)
         const want295 = (c) => { const w = [];
-          const mode = c.geoPN >= 3 ? 3 : c.geoPN >= 2 ? 2 : c.geoPN > 0 ? 1 : 0;
+          const mode = (g4b && c.geoPN >= 4) ? 4 : c.geoPN >= 3 ? 3 : c.geoPN >= 2 ? 2 : c.geoPN > 0 ? 1 : 0;
           const inert = !!(c.relativeDrag && c.relativeDrag.law === 'inertial'), geo = c.geodesic === true;
           const sm = c.spaceMesh, legacy = !!(sm && sm.lawVersion !== undefined);
           const legacyRuns = mode === 3 && legacy && !(c.kFrame > 0) && sm.inertia === false && (sm.lawVersion !== 'vMinusU' || !!c.meshVelocity);
@@ -68349,6 +68395,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             void legacyRuns;
           }
           if (c.kFrame > 0 && c.kFrame < 1 && c.kFrameApprox !== 'space-mesh-effective' && c.kFrameApprox !== 'sample-only') w.push('kFrameFraction');
+          if (mode === 4) {   // 第295便b(R154): mode 4 の塊(関数の末尾 —— 全番号の kFrameFraction の後)
+            if (!runs4(c)) w.push('geo4NoMesh');
+            if (inert) w.push('geo4Inertial');
+            if (c.kFrame > 0 && !(sm && sm.toyAllowDrag === true)) w.push('geo4KFrame');
+          }
           return w.join('+'); };
         const want = (c) => { if (m295) return want295(c); const w = [];
           const geoOn = c.geoPN === 0 && c.geodesic === true;
@@ -68357,7 +68408,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (c.geoPN === 2 && c.kFrame !== 1) w.push('geo2KFrame');
           if (c.geoPN === 3 && !(c.relativeDrag && c.relativeDrag.law === 'inertial')) w.push('geo3NoInertial');
           if (kf293 && c.kFrame > 0 && c.kFrame < 1 && c.kFrameApprox !== 'space-mesh-effective' && c.kFrameApprox !== 'sample-only') w.push('kFrameFraction');
-          if (ig294 && c.relativeDrag && c.relativeDrag.law === 'inertial' && (c.geoPN === 1 || c.geoPN === 2 || geoOn)) w.push('inertialPlusGeodesic');
+          if (ig294 && c.relativeDrag && c.relativeDrag.law === 'inertial' && (c.geoPN === 1 || c.geoPN === 2 || geoOn || (g4b && c.geoPN === 4 && !runs4(c)))) w.push('inertialPlusGeodesic');
+          if (g4b && c.geoPN === 4) {   // mode 4(第295便b)の塊 —— 旧法則版が走らない/慣性を重ねた/kFrame>0 ∧ toyAllowDrag なし
+            if (!runs4(c)) w.push('geo4NoMesh');
+            if (c.relativeDrag && c.relativeDrag.law === 'inertial') w.push('geo4Inertial');
+            if (c.kFrame > 0 && !(c.spaceMesh && c.spaceMesh.toyAllowDrag === true)) w.push('geo4KFrame');
+          }
           return w.join('+'); };
         for (const c of cases) {
           const before = JSON.stringify(c);
@@ -68402,9 +68458,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         return o;
       });
-      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24 && (!r.kf293 || (r.codes.length === (r.m295 ? 13 : r.ig294 ? 6 : 5) && r.n >= (r.m295 ? 78 : r.ig294 ? 66 : 54))),
+      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24 && (!r.kf293 || (r.codes.length === (r.m295 ? (r.g4b ? 16 : 13) : r.g4b ? 9 : r.ig294 ? 6 : 5) && r.n >= (r.m295 ? (r.g4b ? 96 : 78) : r.g4b ? 84 : r.ig294 ? 66 : 54))),
         `**セーブ時の警告**(第291便c・R134・純関数 modeSaveWarnings): ${r.n} 通りの code が規則どおり(geoPN=0∧測地線 ON / geoPN=1∧kFrame≠0 / geoPN=2∧kFrame≠1 / `
-        + `geoPN=3∧慣性決定力の引きずり未宣言` + (r.m295 ? ` / **第295便a(原仮定者の裁定(第85報)・R153)**: 目的の組の判定 modeSettingIssues の写し —— code ${r.codes.length} 本(geoPN=0 の単独の測地線 ON は警告しない・重ねた設定は geo0Stacked〔別名 geo0Geodesic〕)` : '') + (r.ig294 ? ` / **第294便a(R148)**: 慣性宣言 ∧ 測地線 ON(geoPN 1・2・0∧geodesic:true)→ inertialPlusGeodesic(ja≠en=${r.igLang})` : '') + (r.kf293 ? ` / **第293便a(R141)**: 0<kFrame<1 ∧ 宣言 kFrameApprox 無し → kFrameFraction —— code ${r.codes.length} 本・文は読み込み時の警告と同じ=${r.fracSameAsLoad}・ja≠en=${r.fracLang}` : '') + `)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
+        + `geoPN=3∧慣性決定力の引きずり未宣言` + (r.m295 ? ` / **第295便a(原仮定者の裁定(第85報)・R153)**: 目的の組の判定 modeSettingIssues の写し —— code ${r.codes.length} 本(geoPN=0 の単独の測地線 ON は警告しない・重ねた設定は geo0Stacked〔別名 geo0Geodesic〕)` : '') + (r.g4b ? ` / **第295便b(R154)**: geoPN=4 ∧ 旧法則版が走らない → geo4NoMesh・慣性を重ねた → geo4Inertial・kFrame>0 ∧ toyAllowDrag なし → geo4KFrame(code の末尾 3 本 —— 目的の組の判定の末尾の塊・kind:"preset")` : '') + (r.ig294 ? ` / **第294便a(R148)**: 慣性宣言 ∧ 測地線 ON(geoPN 1・2・0∧geodesic:true)→ inertialPlusGeodesic(ja≠en=${r.igLang})` : '') + (r.kf293 ? ` / **第293便a(R141)**: 0<kFrame<1 ∧ 宣言 kFrameApprox 無し → kFrameFraction —— code ${r.codes.length} 本・文は読み込み時の警告と同じ=${r.fracSameAsLoad}・ja≠en=${r.fracLang}` : '') + `)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---------- behavior.loadSaveModePolicy
@@ -68547,7 +68603,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const t294 = await page.evaluate(() => typeof geoEffectiveMode === 'function');
       // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 現行の表(目的の組の判定 —— standard と警告の列)は〔第295便a〕。〔第294便a〕は履歴(照合しない)
       const t295 = await page.evaluate(() => typeof modeSettingIssues === 'function');
-      const SEC = t295 ? '\n〔第295便a — ' : t294 ? '\n〔第294便a — ' : '\n〔第291便c — ';
+      // 第295便b(原仮定者の裁定(第85報)・R154): 世代切替 —— geoPN=4 の行は統合で〔第295便a〕の表に足した(現行の表は 1 つ)。〔第295便b〕の節は器と移住の語を下で照合する
+      const t295b = await page.evaluate(() => typeof GEO4_MIGRATED !== 'undefined');
+      const SEC = t295 ? '\n〔第295便a — ' : t295b ? '\n〔第295便b — ' : t294 ? '\n〔第294便a — ' : '\n〔第291便c — ';
       const i0 = P.indexOf(SEC), i7 = P.indexOf('\n## 7. ');
       if (t294 && P.indexOf('\n〔第291便c — ') < 0) bad.push('PHYSICS に〔第291便c〕節(履歴)が無い');
       if (t295 && P.indexOf('\n〔第294便a — ') < 0) bad.push('PHYSICS に〔第294便a〕節(履歴)が無い');
@@ -68557,7 +68615,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const i1 = (() => { const z = [P.indexOf('\n〔第', i0 + 5), P.indexOf('\n## ', i0 + 5)].filter((q) => q >= 0); return z.length ? Math.min(...z) : P.length; })();
         const sec = P.slice(i0, i1);
         for (const row of rows) if (sec.indexOf(row) < 0) bad.push('表に行が無い: ' + row);
-        const tableLines = sec.split('\n').filter((l) => /^\| [0-3] \|/.test(l));
+        const tableLines = sec.split('\n').filter((l) => (t295 || t295b ? /^\| [0-4] \|/ : /^\| [0-3] \|/).test(l));
         if (tableLines.length !== rows.length) bad.push(`表の行数 ${tableLines.length} ⇔ geoModeTable ${rows.length}`);
         const WORDS = t295 ? ['原仮定者の裁定(第85報)', '統括の検証項目 R153', 'modePolicy', 'w295a-1', 'modeSettingIssues', 'geo0Stacked', 'inertialPlusKFrame', 'geoModeOf', 'refreshModeDeviation', 'geo0ApplyChoice']
           : t294 ? ['原仮定者の裁定(第84報)', '統括の検証項目 R148', 'modePolicy', 'w294a-1', 'geoEffectiveMode', 'inertialPlusGeodesic', 'modeSaveWarnings', 'geoModeOf']
@@ -68565,10 +68623,23 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const w of WORDS)
           if (sec.indexOf(w) < 0) bad.push('節に ' + w + ' が無い');
         const secNoQuote = sec.replace(/「[^」]*」/g, '');   // 「書かないこと」の引用は除く
-        for (const w of ['GR 1PN と同等が証明', '新しい法則が正しい', 'geoPN=3 が GR と同値', '観測一致を達成']) if (secNoQuote.indexOf(w) >= 0) bad.push('禁止の言い回し ' + w);
+        for (const w of ['GR 1PN と同等が証明', '新しい法則が正しい', 'geoPN=3 が GR と同値', '観測一致を達成'].concat(t295 || t295b ? ['4 は新しい物理モードである', '4PN と同定'] : [])) if (secNoQuote.indexOf(w) >= 0) bad.push('禁止の言い回し ' + w);
+        if (t295 && t295b) {   // 第295便b(R154): 〔第295便b〕の節(〔第295便a〕の後・〔第295便c〕の前)—— 器と移住の語・禁止の言い回し・表は〔第295便a〕に 1 つ(この節に geoPN の表の行を置かない)
+          const j0 = P.indexOf('\n〔第295便b — '), jA = P.indexOf('\n〔第295便a — '), jC = P.indexOf('\n〔第295便c — ');
+          if (j0 < 0) bad.push('PHYSICS に〔第295便b〕節が無い');
+          else {
+            if (!(jA < j0 && (jC < 0 || j0 < jC) && j0 < i7)) bad.push('〔第295便b〕節の位置(a の後・c の前・「## 7.」の前)');
+            const j1 = (() => { const z = [P.indexOf('\n〔第', j0 + 5), P.indexOf('\n## ', j0 + 5)].filter((q) => q >= 0); return z.length ? Math.min(...z) : P.length; })();
+            const secB = P.slice(j0, j1), secBNoQuote = secB.replace(/「[^」]*」/g, '');
+            for (const w of ['原仮定者の裁定(第85報)', '統括の検証項目 R154', 'legacyMesh', 'geoEffectiveMode', 'geo4NoMesh', 'geo4Inertial', 'geo4KFrame', 'modeIssuesOf', 'geoModeOf', 'GEO4_MIGRATED', '新しい物理ではない'])
+              if (secB.indexOf(w) < 0) bad.push('〔第295便b〕節に ' + w + ' が無い');
+            if (secB.split('\n').some((l) => /^\| [0-4] \|/.test(l))) bad.push('〔第295便b〕節に geoPN の表の行がある(現行の表は〔第295便a〕に 1 つ)');
+            for (const w of ['4 は新しい物理モードである', '4PN と同定', 'GR 1PN と同等が証明']) if (secBNoQuote.indexOf(w) >= 0) bad.push('〔第295便b〕禁止の言い回し ' + w);
+          }
+        }
       }
       add('docs.geoModeTable', bad.length === 0,
-        `**モードの表の転記一致**(第291便c・R134${t294 ? ' —— 第294便a(R148)から現行の表は〔第294便a〕(測地線の列・〔第291便c〕は履歴)' : ''}${t295 ? ' —— 第295便a(R153)から現行の表は〔第295便a〕(目的の組の判定 modeSettingIssues の standard と警告・〔第294便a〕は履歴)' : ''}): PHYSICS${SEC.trim()}〕の表 ${rows.length} 行 = geoModeTable()(geoModeOf と modeSaveWarnings から作る行)`
+        `**モードの表の転記一致**(第291便c・R134${t294 ? ' —— 第294便a(R148)から現行の表は〔第294便a〕(測地線の列・〔第291便c〕は履歴)' : ''}${t295 ? ' —— 第295便a(R153)から現行の表は〔第295便a〕(目的の組の判定 modeSettingIssues の standard と警告・〔第294便a〕は履歴)' : ''}${t295b ? ' —— 第295便b(R154)の geoPN=4 の行も同じ表(〔第295便b〕の節は器と移住の語を照合)' : ''}): PHYSICS${SEC.trim()}〕の表 ${rows.length} 行 = geoModeTable()(geoModeOf と modeSaveWarnings から作る行)`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -68722,7 +68793,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       o.policy = { v: MODE_POLICY_VERSION, keep: MODE_POLICY_KEEP_VERSIONS.slice(), codes: MODE_SAVE_WARN_CODES.length };
       // 第295便a(原仮定者の裁定(第85報)・R153): 世代切替 —— 保存の版 w295a-1・code 13 本(目的の組の判定)
       const m295 = typeof modeSettingIssues === 'function';
-      const V = m295 ? 'w295a-1' : 'w294a-1', NC = m295 ? 13 : 6;
+      const g4b = typeof GEO4_MIGRATED !== 'undefined';   // 第295便b(R154): code の末尾に geoPN=4 の 3 本(geo4NoMesh・geo4Inertial・geo4KFrame)
+      const V = m295 ? 'w295a-1' : 'w294a-1', NC = (m295 ? 13 : 6) + (g4b ? 3 : 0);
       if (!(o.policy.v === V && ['w291c-1', 'w293a-1', 'w294a-1'].concat(m295 ? ['w295a-1'] : []).every((z) => o.policy.keep.includes(z)) && o.policy.codes === NC)) o.bad.push('⑤ 保存の版 ' + JSON.stringify(o.policy));
       const rdI = { law: 'inertial', gain: 1 };
       o.legacy = [{ physics: { relativeDrag: rdI } }, { modePolicy: 'w291c-1', physics: { relativeDrag: rdI } }, { modePolicy: 'w293a-1', physics: { relativeDrag: rdI } },
@@ -68734,7 +68806,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!o.legacyLang) o.bad.push('⑤ 旧 JSON の solve 警告の文(ja/en)');
       const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
       o.buckets = [0, 1, 2, 3].map((k) => B.filter((p) => ppGeoBucketOf(p) === k).length);
-      o.n3 = B.filter((p) => p.physics && p.physics.geoPN >= 3).length;
+      o.n3 = B.filter((p) => p.physics && p.physics.geoPN >= 3 && !(g4b && p.physics.geoPN >= 4)).length;   // 第295便b: 4(空間メッシュ)は桶 4
       if (!(o.buckets[3] === o.n3 && ppGeoBucketOf(book) === 3)) o.bad.push('⑤ 桶 3 の本数 ' + o.buckets[3] + ' ⇔ geoPN≥3 の内蔵 ' + o.n3);
       HP.loadPreset('saturn', false);
       return o;
@@ -68920,6 +68992,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         }
         // ⑦ 赤文字の DOM(role・aria-live・色・コントラスト —— ダーク/ライト)
         HP.loadPreset('galaxyAnalogyBH', false);
+        // 第295便b(原仮定者の裁定(第85報)・R154): 世代切替 —— 🌚 は geoPN=4「空間メッシュ」へ移住した(旧法則版が走る 4 は標準の組 —— 赤文字なし)。
+        //   「パラメータ」タブの geoPN 行で 3 に戻すと、旧メッシュの 3 の逸脱(geo3NoInertial+geo3LegacyMesh)で赤文字が出る(編集の経路 —— setParam → refreshModeDeviation)
+        if (typeof GEO4_MIGRATED !== 'undefined') {
+          o.dom4none = !document.querySelector('#paramRows .prow[data-k="geoPN"] > .modeDeviation');
+          if (!o.dom4none) o.bad.push('⑦ 移住した 4 の本(🌚)の geoPN 行に赤文字が出た');
+          const vi = document.querySelector('#paramRows .prow[data-k="geoPN"] input.valIn');
+          if (!vi) o.bad.push('⑦ geoPN 行の数値欄が無い');
+          else { vi.value = '3'; vi.dispatchEvent(new Event('change')); }
+        }
         const el = document.querySelector('#paramRows .prow[data-k="geoPN"] > .modeDeviation');
         o.dom = { has: !!el };
         if (!el) o.bad.push('⑦ 旧メッシュの 3 の本で geoPN 行に赤文字が無い');
@@ -68982,6 +69063,112 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + `赤文字 role=${r.dom && r.dom.role}・aria-live=${r.dom && r.dom.live}・--errText・コントラスト ダーク ${r.dom && r.dom.dark}:1・ライト ${r.dom && r.dom.light}:1 / `
       + `🌛 の gain の継続編集で他の鍵を保つ=${r.gain && r.gain.kept}・compose:"sum" を保つ=${r.gain && r.gain.sum} / 新 code の ja≠en ${Object.values(r.lang || {}).filter(Boolean).length}/7`
       + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第295便b(原仮定者の裁定(第85報)「geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する」・統括の検証項目 R154):
+// ----   behavior.geo4Migrate295 —— geoPN=4「空間メッシュ」(旧法則版 spaceMesh.lawVersion の置き場 —— 新しい物理ではない)の器と在位 9 本の移住 ----
+// ----   ① 正本 tests/out/geo4-w295b.json(器 tests/exp-w295b-geo4.mjs —— 段 geo4-295b)の門が全部 ok・9 本それぞれ 3 ⇔ 4 の 2000 步がビット同一
+// ----      (步ごとの指紋・最終の全配列・解決)・来歴 w272e-1・器の版。移住した本(ページの GEO4_MIGRATED)= 正本で同一だった本(同一でない本は移さない)。
+// ----   ② このページで: 移住した本は宣言 geoPN=4・mode 4・主な用途 legacyMesh・法則 legacy-spaceMesh:<lawVersion>・標準構成・セーブ時の警告なし。
+// ----      読み込むと走行の法則(geoLawOfSim)= 宣言の法則・実効番号 ≥3(3 と同じ旧法則版の dispatch)・3 の写しと同じ旗(hasGeoToy/hasGeo3/hasGeo3PN)・
+// ----      安い 3 本(🔁🌒🩻)は 3 の写しと 200 步ビット同一(x/y/vx/vy/spin/m/R/pnOv/t)。
+// ----   ③ 逸脱(純関数): 4 ∧ 旧法則版なし → 測地線 ON・geo4NoMesh / 4 ∧ 慣性 → geo4Inertial / 4 ∧ kFrame=1 ∧ toyAllowDrag なし → geo4KFrame(+geo4NoMesh)/
+// ----      4 ∧ kFrame=1 ∧ toyAllowDrag → 警告なし・旧法則版が走る。code は MODE_SAVE_WARN_CODES の末尾 3 本。受理器は 4 をそのまま受理し 5 は 4 へ。
+// ----   ④ 退役 3 本(🎋🌰🥜)と 🌛 は geoPN=3 のまま・桶 4 の本数 = GEO4_MIGRATED の本数 = 宣言 4 の内蔵の本数・ppGeo4 の語(ja/en)・スライダーの上限 4。
+// ----   **root は SKIP**(世代切替 has295b = 対象 html に GEO4_MIGRATED がある)。
+{
+  const has295b = TARGET.startsWith('beta/') && await page.evaluate(() => typeof GEO4_MIGRATED !== 'undefined');
+  if (!has295b) console.log('SKIP behavior.geo4Migrate295(対象に第295便b の GEO4_MIGRATED が無い: ' + TARGET + ')');
+  else {
+    const bad = [], cases = [];
+    let J4 = null;
+    try { J4 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'geo4-w295b.json'), 'utf8')); } catch (e) { J4 = null; }
+    const migratedPage = await page.evaluate(() => GEO4_MIGRATED.slice());
+    if (!J4) bad.push('① 正本 geo4-w295b.json が読めない');
+    else {
+      const G = J4.gates || {};
+      for (const k of ['identity', 'migratedIdentical', 'geo4Standard', 'offDeviates', 'frozen3', 'inertial3']) if (G[k] !== true) bad.push('① 門 ' + k + ' が ok でない');
+      if (J4.ok !== true) bad.push('① 正本の ok');
+      if (!(J4.meta && J4.meta.provenanceVersion === 'w272e-1' && J4.meta.harnessVersion === 'w295b-geo4-1')) bad.push('① 来歴(w272e-1)・器の版');
+      if (!(J4.run && J4.run.steps === 2000)) bad.push('① 正本の步数が 2000 でない(短走の結果を正本にしない)');
+      const rows = J4.rows || [];
+      if (rows.length !== 9) bad.push('① 正本の本数 ' + rows.length + '(9 本)');
+      const ident = rows.filter((z) => z.identical === true && z.cmp && z.cmp.identical === true && z.cmp.wholeSame === true && z.cmp.firstDiffStep === null).map((z) => z.id);
+      const srt = (a) => JSON.stringify(a.slice().sort());
+      if (srt(migratedPage) !== srt(ident)) bad.push(`① 移住した本 ${srt(migratedPage)} ⇔ 正本で同一の本 ${srt(ident)}`);
+      if (srt((J4.summary || {}).migrated || []) !== srt(migratedPage)) bad.push('① 正本の移住済み(宣言 4)⇔ ページの GEO4_MIGRATED');
+      cases.push(`① 正本: ${rows.length} 本の 3 ⇔ 4 の ${J4.run ? J4.run.steps : '—'} 步 —— 同一 ${ident.length}(${rows.filter((z) => z.identical).map((z) => z.emoji).join('')})・違う ${rows.length - ident.length}・門 ${Object.values(G).filter(Boolean).length}/6`);
+    }
+    const r = await page.evaluate(() => {
+      const o = { bad: [] };
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+      const find = (id) => HP.allPresets().find((q) => q.id === id);
+      const F = ['x', 'y', 'vx', 'vy', 'spin', 'm', 'R', 'pnOv'];
+      const snap = (S) => JSON.stringify(F.map((k) => S[k] ? Array.from(S[k].subarray(0, S.n)).map(String) : null).concat([String(S.t)]));
+      const flags = (S) => [S.hasGeoToy, S.hasGeo3, S.hasGeo3PN].map((b) => (b ? 1 : 0)).join('');
+      const asGeo = (id, g, fn) => { const p = find(id), keep = clone(p.physics); p.physics.geoPN = g; try { HP.loadPreset(id, false); return fn(HP.sim, p); } finally { p.physics = keep; } };
+      o.rows = [];
+      for (const id of GEO4_MIGRATED) {
+        const p = find(id);
+        if (!p) { o.bad.push('② ' + id + ' が無い'); continue; }
+        const lv = (p.physics.spaceMesh || {}).lawVersion;
+        const g = geoModeOf(p.physics), w = modeSaveWarnings(p.physics).map((z) => z.code);
+        const row = { id, emoji: p.emoji, geoPN: p.physics.geoPN, mode: g.mode, purpose: g.purpose, law: g.law, standard: g.standard, warn: w };
+        if (!(p.physics.geoPN === 4 && g.mode === 4 && g.purpose === 'legacyMesh' && g.role === 'legacyMesh' && g.law === 'legacy-spaceMesh:' + lv && g.standard === true && g.geodesic === false && w.length === 0))
+          o.bad.push('② ' + id + ' の宣言 ' + JSON.stringify(row));
+        const run4 = asGeo(id, 4, (S) => ({ law: geoLawOfSim(S), ge: geoEffectiveMode(S), fl: flags(S) }));
+        const run3 = asGeo(id, 3, (S) => ({ law: geoLawOfSim(S), ge: geoEffectiveMode(S), fl: flags(S) }));
+        row.run = run4;
+        if (!(run4.law === g.law && run3.law === g.law && run4.ge >= 3 && run3.ge >= 3 && run4.fl === run3.fl && /1/.test(run4.fl))) o.bad.push('② ' + id + ' の走行 4 ' + JSON.stringify(run4) + ' ⇔ 3 ' + JSON.stringify(run3));
+        o.rows.push(row);
+      }
+      o.cheap = ['mercuryGeoToy3', 'charonGeoToy3', 'psrDoubleABGeoToy'].filter((id) => GEO4_MIGRATED.indexOf(id) >= 0).map((id) => {
+        const tr = (g) => asGeo(id, g, (S) => { const pr = [snap(S)]; for (let k = 0; k < 200; k++) { S.step(0.016); pr.push(snap(S)); } return pr; });
+        const a = tr(3), b = tr(4);
+        return { id, same: a.length === b.length && a.every((z, i) => z === b[i]) };
+      });
+      for (const z of o.cheap) if (!z.same) o.bad.push('② ' + z.id + ' の 3 と 4 の 200 步がビット同一でない');
+      // ③ 逸脱(純関数)
+      const W = (ph) => modeSaveWarnings(Object.assign({ geoPN: 4, kFrame: 0 }, ph)).map((z) => z.code).join('+') || '—';
+      const sm = (x) => ({ spaceMesh: Object.assign({ lawVersion: 'scalar', inertia: false }, x || {}) });
+      o.dev = { none: W({}), mesh: W(sm()), inert: W(Object.assign(sm(), { relativeDrag: { law: 'inertial', gain: 1 } })), kf1: W(Object.assign(sm(), { kFrame: 1 })),
+        kf1tad: W(Object.assign(sm({ toyAllowDrag: true }), { kFrame: 1 })) };
+      const gNone = geoModeOf({ geoPN: 4, kFrame: 0 }), gTad = geoModeOf(Object.assign({ geoPN: 4, kFrame: 1 }, sm({ toyAllowDrag: true })));
+      if (!(o.dev.none === 'geo4NoMesh' && gNone.geodesic === true && gNone.law === 'eih-kf0')) o.bad.push('③ 4 ∧ 旧法則版なし ' + o.dev.none + ' ' + gNone.law);
+      if (o.dev.mesh !== '—') o.bad.push('③ 4 ∧ scalar に警告 ' + o.dev.mesh);
+      if (o.dev.inert !== 'geo4Inertial') o.bad.push('③ 4 ∧ 慣性 ' + o.dev.inert);
+      if (o.dev.kf1 !== 'geo4NoMesh+geo4KFrame') o.bad.push('③ 4 ∧ kFrame=1 ' + o.dev.kf1);
+      if (!(o.dev.kf1tad === '—' && gTad.law === 'legacy-spaceMesh:scalar' && gTad.standard === true)) o.bad.push('③ 4 ∧ kFrame=1 ∧ toyAllowDrag ' + o.dev.kf1tad + ' ' + gTad.law);
+      o.codesTail = MODE_SAVE_WARN_CODES.slice(-3);
+      if (JSON.stringify(o.codesTail) !== JSON.stringify(['geo4NoMesh', 'geo4Inertial', 'geo4KFrame'])) o.bad.push('③ code の末尾 ' + JSON.stringify(o.codesTail));
+      const mk = (g) => ({ name: 'qa_w295b', description: 'd', sampleClass: 'principle', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { geoPN: g, kFrame: 0, spaceMesh: { mode: 'vertex', inertia: false, lawVersion: 'scalar' } }, bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v4 = HP.validatePreset(mk(4)), v5 = HP.validatePreset(mk(5));
+      o.accept = { g4: v4.ok ? v4.preset.physics.geoPN : null, g5: v5.ok ? v5.preset.physics.geoPN : null };
+      if (!(o.accept.g4 === 4 && o.accept.g5 === 4)) o.bad.push('③ 受理の値域 ' + JSON.stringify(o.accept));
+      // ④ 凍結・桶・語
+      o.frozen = ['galaxyMeshSpiralGeoToyLite', 'clusterGrowthCopy', 'fixedCaptureCopy', 'earthMoonInertial'].map((id) => { const p = find(id); return p ? p.physics.geoPN : null; });
+      if (!o.frozen.every((g) => g === 3)) o.bad.push('④ 退役 3 本・🌛 の geoPN ' + JSON.stringify(o.frozen));
+      const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      o.buckets = [0, 1, 2, 3, 4].map((k) => B.filter((p) => ppGeoBucketOf(p) === k).length);
+      o.n4 = B.filter((p) => p.physics && p.physics.geoPN === 4).length;
+      if (!(o.buckets[4] === GEO4_MIGRATED.length && o.n4 === GEO4_MIGRATED.length && o.buckets.reduce((a, b) => a + b, 0) === B.length)) o.bad.push('④ 桶 ' + JSON.stringify(o.buckets) + '・宣言 4 の本数 ' + o.n4);
+      o.words = (() => { const ja = T('ppGeo4'), uja = T('ppGeoUse4'); HP.setLang('en'); const en = T('ppGeo4'), uen = T('ppGeoUse4'); HP.setLang('ja'); return { ja, en, uja, uen }; })();
+      if (!(o.words.ja === '4: 空間メッシュ' && o.words.en === '4: space mesh' && o.words.uja.length > 10 && o.words.uen.length > 10 && o.words.uja !== o.words.uen)) o.bad.push('④ ppGeo4 の語 ' + JSON.stringify(o.words));
+      o.hi = (PARAM_DEFS.find((d) => d.key === 'geoPN') || {}).hi;
+      if (o.hi !== 4) o.bad.push('④ geoPN スライダーの上限 ' + o.hi);
+      HP.loadPreset('saturn', false);
+      return o;
+    });
+    for (const z of r.bad) bad.push(z);
+    cases.push(`② 移住した ${r.rows.length} 本(${r.rows.map((z) => z.emoji).join('')}): geoPN=4・legacyMesh・法則 ${[...new Set(r.rows.map((z) => z.law))].join('/')}・標準・警告なし・走行の法則 ≡ 宣言・実効番号 ≥3・3 と同じ旗・`
+      + `安い ${r.cheap.length} 本の 3 ⇔ 4 の 200 步ビット同一 ${r.cheap.filter((z) => z.same).length}/${r.cheap.length}`);
+    cases.push(`③ 逸脱 ${JSON.stringify(r.dev)}・code の末尾 ${r.codesTail.join('/')}・受理 4→${r.accept.g4}・5→${r.accept.g5}`);
+    cases.push(`④ 退役 3 本と 🌛 の geoPN ${r.frozen.join('/')}・桶 0〜4 = ${r.buckets.join('/')}・ppGeo4「${r.words.ja}」/"${r.words.en}"・スライダー上限 ${r.hi}`);
+    add('behavior.geo4Migrate295', bad.length === 0,
+      `**geoPN=4「空間メッシュ」の器と在位 9 本の移住**(第295便b・原仮定者の裁定(第85報)・統括の検証項目 R154 —— 4 は旧法則版の置き場で新しい物理ではない・移住はビット同一の本だけ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 

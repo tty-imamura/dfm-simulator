@@ -412,7 +412,9 @@ export function inventory(H, X) {
     || (!!htmlText && htmlText.indexOf('function modeSaveWarnings(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W291C))
     || (!!htmlText && htmlText.indexOf('"geo3NoInertial","kFrameFraction"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W293A))
     || (!!htmlText && htmlText.indexOf('"kFrameFraction","inertialPlusGeodesic"]') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W294A))
-    || (!!htmlText && htmlText.indexOf('function modeSettingIssues(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W295A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
+    // 第295便a+b(原仮定者の裁定(第85報)・R153/R154): 目的の組の判定 modeSettingIssues ∧ MODE_SAVE_WARN_CODES = a の 13 本+末尾に b の geoPN=4 の 3 本(統合後 16 本)の世代 ——
+    //   保存・読込の実装の指紋は第295便a の SAVE_CODE_W295A(b は loadSave・保存ボタンの handler を変えていない)
+    || (!!htmlText && htmlText.indexOf('function modeSettingIssues(') >= 0 && htmlText.indexOf('"inertialSolveFrom","geo4NoMesh","geo4Inertial","geo4KFrame"];') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W295A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
     'phaseParams', 'twallHeat', 'wallRest', 'graphOverlays', 'scaleExps', 'physLock', 'qLock', 'kappaT', 'modePolicy', 'lawResolved'].includes(k)) ? false : null,   // 第291便c: 保存の版と解決した法則(設定 —— 状態ではない)
   checkpointSets: { arrs: CK_ARRS.length, sc: CK_SC.length, objects: [...ckObj].sort() }, fixtures, table };
 }

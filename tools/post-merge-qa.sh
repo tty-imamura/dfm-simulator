@@ -38,7 +38,10 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 #   preset.inertialDragPair / d の behavior.ckFixcapRestore / e の preset.shapeToySpiral・behavior.spiralGeometry / f の ui.aboutOrder・ui.pickerScope)へ差し替えた
 #   (第289便の 6 本は ④ の後のフル QA で見る)。統合前の枝では他枝の名は「未統合」として数えるだけ
 # 第294便d: 枝 d の新設 2 本(docs.timingContract294・lint.scopeClosureSame294)を末尾に足した(第293便の 13 本と他枝の新設への差し替えは統合で)
-DEFAULT_WAVE_IDS="behavior.geo3Inertial294 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoModeResolve docs.geoModeTable preset.earthMoonInertial docs.noRetiredMention294 docs.noRetiredMention293 docs.sampleStatus-sync docs.retired docs.families ui.observedCompare294 groups.reorder ui.groupRenameAliases ui.calGroupSplit291 docs.timingContract294 lint.scopeClosureSame294 ui.pickerReorg294 ui.topicChips291 ui.topicChipFilter293 ui.emFamily"
+# 第295便b: 枝 b の新設 1 本(behavior.geo4Migrate295 —— geoPN=4「空間メッシュ」への移住)を末尾に足した(他枝の新設と第294便の分の差し替えは統合で)
+# 第295便(統合): 4 枝の新設 5 本(a の behavior.modeIssues295・b の behavior.geo4Migrate295・c の preset.inertial3_295・docs.inertial3Contract295・d の ui.labels295)と
+#   4 枝が世代切替で固定値を改めた 17 本へ差し替えた(第294便の分は ④ の後のフル QA で見る)
+DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract groups.reorder ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
