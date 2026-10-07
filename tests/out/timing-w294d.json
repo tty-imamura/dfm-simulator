@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便d",
   "target": "beta/index.html",
-  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
-  "generatedAt": "2026-10-07T15:55:46.498Z",
+  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+  "generatedAt": "2026-10-07T18:42:02.018Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823731,
-    "sha256": "a55a2a4735180db0d0414cf725124c2e3e507f6a53090b154db1506965b34b6f",
-    "mtime": "2026-10-07T15:02:57.002Z"
+    "bytes": 1823719,
+    "sha256": "b7b59766736f5ea013935723f5c10969413271cc93d3bff4de7708ed7cf182cd",
+    "mtime": "2026-10-07T17:50:49.455Z"
    }
   ],
   "code": [
@@ -71,7 +71,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "70f93b23b7bbd95b8a3bbbaa586eb767b0910c70d1ace38c317ce2a3b0fbca4f",
+    "stableSha256": "27f6476be04cd23c114133f2b4966b68cf995c6527c68aa956464f3bedb13fdd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -99,7 +99,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "c95186e21092a64e0d4c9c489798d7bdcea34389550d46dc9afa4c2a3e0c2675",
+    "stableSha256": "1f268c426677574b71644bd7a7dd5249015a38ee9aece6e7a21abce046864d93",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -132,7 +132,7 @@
  "sources": {
   "calaudit": {
    "file": "tests/out/calaudit-w249.json",
-   "generatedAt": "2026-10-07T15:02:56.728Z"
+   "generatedAt": "2026-10-07T17:50:49.214Z"
   },
   "qa": {
    "file": "tests/out/qa-results-full-beta.json",
@@ -154,8 +154,8 @@
      "n": 127,
      "dt": 0.016,
      "steps": 2042988,
-     "wallSec": 144.142,
-     "rateStepsPerSec": 13029,
+     "wallSec": 132.136,
+     "rateStepsPerSec": 16077,
      "targets": [
       "C環内縁",
       "ミマス",
@@ -170,8 +170,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 82.757,
-     "rateStepsPerSec": 434783,
+     "wallSec": 77.019,
+     "rateStepsPerSec": 408163,
      "targets": [
       "カロン"
      ],
@@ -189,8 +189,8 @@
      "n": 94,
      "dt": 0.016,
      "steps": 1075028,
-     "wallSec": 63.923,
-     "rateStepsPerSec": 20346,
+     "wallSec": 55.736,
+     "rateStepsPerSec": 21164,
      "targets": [
       "ミランダ",
       "アリエル",
@@ -207,8 +207,8 @@
      "n": 105,
      "dt": 0.016,
      "steps": 866426,
-     "wallSec": 46.688,
-     "rateStepsPerSec": 15516,
+     "wallSec": 44.132,
+     "rateStepsPerSec": 19417,
      "targets": [
       "水星",
       "金星",
@@ -224,8 +224,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 44.109,
-     "rateStepsPerSec": 465116,
+     "wallSec": 41.175,
+     "rateStepsPerSec": 588235,
      "targets": [
       "月"
      ],
@@ -243,8 +243,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 13631880,
-     "wallSec": 21.978,
-     "rateStepsPerSec": 370370,
+     "wallSec": 19.09,
+     "rateStepsPerSec": 666667,
      "targets": [
       "B"
      ],
@@ -262,8 +262,8 @@
      "n": 5,
      "dt": 0.016,
      "steps": 5405815,
-     "wallSec": 15.923,
-     "rateStepsPerSec": 377358,
+     "wallSec": 14.489,
+     "rateStepsPerSec": 392157,
      "targets": [
       "イオ",
       "エウロパ",
@@ -284,8 +284,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 9439328,
-     "wallSec": 14.317,
-     "rateStepsPerSec": 259740,
+     "wallSec": 10.622,
+     "rateStepsPerSec": 588235,
      "targets": [
       "B"
      ],
@@ -293,7 +293,7 @@
       "steps": 18878657,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 26.329
+      "reusedFromWallSec": 22.476
      },
      "dtQuarter": {
       "steps": 37757313,
@@ -303,37 +303,13 @@
      }
     },
     {
-     "id": "siriusAB",
-     "emoji": "🌟",
-     "n": 2,
-     "dt": 0.016,
-     "steps": 5932383,
-     "wallSec": 9.529,
-     "rateStepsPerSec": 555556,
-     "targets": [
-      "B"
-     ],
-     "dtHalf": {
-      "steps": 11864765,
-      "wallSec": null,
-      "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 14.533
-     },
-     "dtQuarter": {
-      "steps": 23729530,
-      "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 32.214
-     }
-    },
-    {
      "id": "venusReal",
      "emoji": "🌇",
      "n": 2,
      "dt": 0.016,
      "steps": 7280208,
-     "wallSec": 8.172,
-     "rateStepsPerSec": 909091,
+     "wallSec": 7.705,
+     "rateStepsPerSec": 588235,
      "targets": [
       "金星"
      ],
@@ -351,8 +327,8 @@
      "n": 11,
      "dt": 0.016,
      "steps": 668676,
-     "wallSec": 7.32,
-     "rateStepsPerSec": 52219,
+     "wallSec": 6.824,
+     "rateStepsPerSec": 69204,
      "targets": [
       "D68"
      ],
@@ -360,7 +336,7 @@
       "steps": 1337353,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 14.503
+      "reusedFromWallSec": 12.374
      },
      "dtQuarter": {
       "steps": 2674708,
@@ -370,13 +346,37 @@
      }
     },
     {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 5932383,
+     "wallSec": 6.176,
+     "rateStepsPerSec": 689655,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 11864765,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 13.302
+     },
+     "dtQuarter": {
+      "steps": 23729530,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 32.214
+     }
+    },
+    {
      "id": "marsMoonsReal",
      "emoji": "🥔",
      "n": 3,
      "dt": 0.016,
      "steps": 4091814,
-     "wallSec": 5.412,
-     "rateStepsPerSec": 714286,
+     "wallSec": 5.246,
+     "rateStepsPerSec": 526316,
      "targets": [
       "フォボス",
       "ダイモス"
@@ -395,8 +395,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 3312950,
-     "wallSec": 4.868,
-     "rateStepsPerSec": 476190,
+     "wallSec": 3.851,
+     "rateStepsPerSec": 465116,
      "targets": [
       "B"
      ],
@@ -414,8 +414,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2180354,
-     "wallSec": 3.902,
-     "rateStepsPerSec": 408163,
+     "wallSec": 2.699,
+     "rateStepsPerSec": 714286,
      "targets": [
       "B"
      ],
@@ -433,8 +433,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2850199,
-     "wallSec": 2.661,
-     "rateStepsPerSec": 952381,
+     "wallSec": 2.621,
+     "rateStepsPerSec": 714286,
      "targets": [
       "水星"
      ],
@@ -452,8 +452,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 1904169,
-     "wallSec": 2.274,
-     "rateStepsPerSec": 1000000,
+     "wallSec": 2.246,
+     "rateStepsPerSec": 769231,
      "targets": [
       "トリトン"
      ],
@@ -466,32 +466,13 @@
      "dtQuarter": null
     },
     {
-     "id": "emAuditSolar",
-     "emoji": "🔆",
-     "n": 3,
-     "dt": 0.016,
-     "steps": 885179,
-     "wallSec": 1.338,
-     "rateStepsPerSec": 408163,
-     "targets": [
-      "月"
-     ],
-     "dtHalf": {
-      "steps": 1770360,
-      "wallSec": null,
-      "skippedBy": null,
-      "reusedFromWallSec": null
-     },
-     "dtQuarter": null
-    },
-    {
      "id": "psrJ1946DFM",
      "emoji": "🩺",
      "n": 2,
      "dt": 0.016,
      "steps": 932492,
-     "wallSec": 1.186,
-     "rateStepsPerSec": 952381,
+     "wallSec": 1.3,
+     "rateStepsPerSec": 869565,
      "targets": [
       "B"
      ],
@@ -504,13 +485,32 @@
      "dtQuarter": null
     },
     {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "n": 3,
+     "dt": 0.016,
+     "steps": 885179,
+     "wallSec": 1.245,
+     "rateStepsPerSec": 571429,
+     "targets": [
+      "月"
+     ],
+     "dtHalf": {
+      "steps": 1770360,
+      "wallSec": null,
+      "skippedBy": null,
+      "reusedFromWallSec": null
+     },
+     "dtQuarter": null
+    },
+    {
      "id": "gw150914",
      "emoji": "🎐",
      "n": 2,
      "dt": 0.016,
      "steps": 681306,
-     "wallSec": 1.07,
-     "rateStepsPerSec": 769231,
+     "wallSec": 0.639,
+     "rateStepsPerSec": 1176471,
      "targets": [
       "B"
      ],
@@ -528,8 +528,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 34013,
-     "wallSec": 0.11,
-     "rateStepsPerSec": 357143,
+     "wallSec": 0.07,
+     "rateStepsPerSec": 434783,
      "targets": [
       "B"
      ],
@@ -549,10 +549,10 @@
     "solarInner",
     "earthMoonReal"
    ],
-   "wallSecDt": 481.679,
-   "wallSecRun": 481.679,
+   "wallSecDt": 435.021,
+   "wallSecRun": 435.021,
    "transcribedSec": {
-    "dtHalf": 55.365,
+    "dtHalf": 48.152,
     "dtQuarter": 113.582
    }
   },
@@ -562,15 +562,15 @@
     "emoji": "💍",
     "n": 127,
     "steps": 2042988,
-    "wallSec": 144.142,
-    "rateStepsPerSec": 13029,
-    "usPerStepLive": 62.9,
-    "stepSecRecord": 156.803,
-    "extractShareLive": 0.076,
-    "splitFrom": "live-ratio",
-    "stepSec": 133.187,
-    "extractSec": 10.955,
-    "rateProbeSec": 1.919,
+    "wallSec": 132.136,
+    "rateStepsPerSec": 16077,
+    "usPerStepLive": 70.85,
+    "stepSecRecord": 127.075,
+    "extractShareLive": 0.062,
+    "splitFrom": "record-rate",
+    "stepSec": 127.075,
+    "extractSec": 5.061,
+    "rateProbeSec": 1.555,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -579,15 +579,15 @@
     "emoji": "🥶",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 82.757,
-    "rateStepsPerSec": 434783,
-    "usPerStepLive": 1.705,
-    "stepSecRecord": 92,
-    "extractShareLive": 0.111,
+    "wallSec": 77.019,
+    "rateStepsPerSec": 408163,
+    "usPerStepLive": 1.712,
+    "stepSecRecord": 98,
+    "extractShareLive": 0.025,
     "splitFrom": "live-ratio",
-    "stepSec": 73.571,
-    "extractSec": 9.186,
-    "rateProbeSec": 0.057,
+    "stepSec": 75.094,
+    "extractSec": 1.925,
+    "rateProbeSec": 0.061,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
@@ -601,15 +601,15 @@
     "emoji": "💠",
     "n": 94,
     "steps": 1075028,
-    "wallSec": 63.923,
-    "rateStepsPerSec": 20346,
-    "usPerStepLive": 52.344,
-    "stepSecRecord": 52.837,
-    "extractShareLive": 0.054,
+    "wallSec": 55.736,
+    "rateStepsPerSec": 21164,
+    "usPerStepLive": 53.667,
+    "stepSecRecord": 50.795,
+    "extractShareLive": 0.021,
     "splitFrom": "record-rate",
-    "stepSec": 52.837,
-    "extractSec": 11.086,
-    "rateProbeSec": 1.229,
+    "stepSec": 50.795,
+    "extractSec": 4.941,
+    "rateProbeSec": 1.181,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -618,15 +618,15 @@
     "emoji": "🌞",
     "n": 105,
     "steps": 866426,
-    "wallSec": 46.688,
-    "rateStepsPerSec": 15516,
-    "usPerStepLive": 48.4,
-    "stepSecRecord": 55.841,
-    "extractShareLive": 0.067,
+    "wallSec": 44.132,
+    "rateStepsPerSec": 19417,
+    "usPerStepLive": 58.645,
+    "stepSecRecord": 44.622,
+    "extractShareLive": 0,
     "splitFrom": "live-ratio",
-    "stepSec": 43.56,
-    "extractSec": 3.128,
-    "rateProbeSec": 1.611,
+    "stepSec": 44.132,
+    "extractSec": 0,
+    "rateProbeSec": 1.288,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -635,15 +635,15 @@
     "emoji": "🌙",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 44.109,
-    "rateStepsPerSec": 465116,
-    "usPerStepLive": 1.125,
-    "stepSecRecord": 86,
-    "extractShareLive": 0.138,
+    "wallSec": 41.175,
+    "rateStepsPerSec": 588235,
+    "usPerStepLive": 1.064,
+    "stepSecRecord": 68,
+    "extractShareLive": 0.042,
     "splitFrom": "live-ratio",
-    "stepSec": 38.022,
-    "extractSec": 6.087,
-    "rateProbeSec": 0.054,
+    "stepSec": 39.446,
+    "extractSec": 1.729,
+    "rateProbeSec": 0.043,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
@@ -1325,7 +1325,7 @@
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    },
    {
     "key": "pn1",
@@ -1333,7 +1333,7 @@
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    },
    {
     "key": "clusterAnalogy",
@@ -1341,7 +1341,7 @@
     "loops": [
      "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    },
    {
     "key": "contact285",
@@ -1349,7 +1349,7 @@
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    },
    {
     "key": "pnsources291",
@@ -1357,7 +1357,7 @@
     "loops": [
      "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    },
    {
     "key": "timing294",
@@ -1365,7 +1365,7 @@
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 3.496
+    "retiredSecUpperPerHtml": 2.611
    }
   ],
   "retiredNote": "全本段のうち本ごとの走行の印がある段だけ、退役 33 本の build と loadPreset+32 步の和(1 html あたり)を上限の目安として添える。印の無い全本段(clusterStable・compose293・clusterAnalogy の門の走行等)は、領域の宣言が全本なだけで走るのは決まった本 —— 退役を外しても時間は減らない"
@@ -1378,56 +1378,56 @@
     "K": 20000,
     "nTargets": 3,
     "usPerStep": [
-     61.055,
-     62.9,
-     68.03
+     70.85,
+     66.57,
+     76.72
     ],
-    "usMedian": 62.9,
+    "usMedian": 70.85,
     "usProxy": [
-     70.82,
-     68.06,
-     65.455
+     75.495,
+     67.085,
+     82.68
     ],
-    "usProxyMedian": 68.06,
-    "extractShare": 0.076
+    "usProxyMedian": 75.495,
+    "extractShare": 0.062
    },
    {
     "id": "plutoCharonDiagInput",
     "n": 2,
-    "K": 434783,
+    "K": 408163,
     "nTargets": 1,
     "usPerStep": [
-     2.205,
-     1.607,
-     1.705
+     1.859,
+     1.614,
+     1.712
     ],
-    "usMedian": 1.705,
+    "usMedian": 1.712,
     "usProxy": [
-     2.009,
-     1.919,
-     1.803
+     1.756,
+     2.245,
+     1.756
     ],
-    "usProxyMedian": 1.919,
-    "extractShare": 0.111
+    "usProxyMedian": 1.756,
+    "extractShare": 0.025
    },
    {
     "id": "uranusReal",
     "n": 94,
-    "K": 20346,
+    "K": 21164,
     "nTargets": 5,
     "usPerStep": [
-     52.344,
-     54.576,
-     50.054
+     59.441,
+     51.04,
+     53.667
     ],
-    "usMedian": 52.344,
+    "usMedian": 53.667,
     "usProxy": [
-     55.269,
-     55.352,
-     56.296
+     54.824,
+     49.4,
+     61.926
     ],
-    "usProxyMedian": 55.352,
-    "extractShare": 0.054
+    "usProxyMedian": 54.824,
+    "extractShare": 0.021
    },
    {
     "id": "solarInner",
@@ -1435,37 +1435,37 @@
     "K": 20000,
     "nTargets": 4,
     "usPerStep": [
-     48.4,
-     49.805,
-     46.98
+     58.645,
+     54.69,
+     73.465
     ],
-    "usMedian": 48.4,
+    "usMedian": 58.645,
     "usProxy": [
-     51.865,
-     46.66,
-     56.905
+     58.035,
+     58.235,
+     48.355
     ],
-    "usProxyMedian": 51.865,
-    "extractShare": 0.067
+    "usProxyMedian": 58.035,
+    "extractShare": 0
    },
    {
     "id": "earthMoonReal",
     "n": 2,
-    "K": 465116,
+    "K": 588235,
     "nTargets": 1,
     "usPerStep": [
-     1.14,
-     0.889,
-     1.125
+     0.971,
+     1.064,
+     1.328
     ],
-    "usMedian": 1.125,
+    "usMedian": 1.064,
     "usProxy": [
-     1.376,
-     1.21,
-     1.306
+     1.11,
+     1.229,
+     1.091
     ],
-    "usProxyMedian": 1.306,
-    "extractShare": 0.138
+    "usProxyMedian": 1.11,
+    "extractShare": 0.042
    }
   ],
   "subset": [
@@ -1473,9 +1473,9 @@
     "id": "saturnRingReal",
     "nFull": 127,
     "nStrip": 7,
-    "usFullMedian": 67.255,
-    "usStripMedian": 3.923,
-    "speedup": 17.142,
+    "usFullMedian": 65.04,
+    "usStripMedian": 3.419,
+    "speedup": 19.02,
     "singlesAfter": {
      "nSingle": 7,
      "steps": 2000,
@@ -1488,9 +1488,9 @@
     "id": "uranusReal",
     "nFull": 94,
     "nStrip": 6,
-    "usFullMedian": 53.015,
-    "usStripMedian": 3.368,
-    "speedup": 15.738,
+    "usFullMedian": 51.62,
+    "usStripMedian": 3.424,
+    "speedup": 15.076,
     "singlesAfter": {
      "nSingle": 6,
      "steps": 2000,
@@ -1503,9 +1503,9 @@
     "id": "solarInner",
     "nFull": 105,
     "nStrip": 5,
-    "usFullMedian": 54.325,
-    "usStripMedian": 2.767,
-    "speedup": 19.633,
+    "usFullMedian": 50.875,
+    "usStripMedian": 2.994,
+    "speedup": 16.992,
     "singlesAfter": {
      "nSingle": 5,
      "steps": 2000,
@@ -1520,31 +1520,31 @@
     "id": "earthMoonInertial",
     "K": 400000,
     "usPerStep": [
-     2.02,
-     1.483,
-     1.395
+     1.921,
+     1.882,
+     2.119
     ],
-    "usMedian": 1.483
+    "usMedian": 1.921
    },
    {
     "id": "inertialDragPair",
     "K": 400000,
     "usPerStep": [
-     1.49,
-     1.431,
-     1.281
+     2.289,
+     1.265,
+     1.394
     ],
-    "usMedian": 1.431
+    "usMedian": 1.394
    }
   ],
   "cost": {
    "build": {
-    "live": 739.4,
-    "retired": 105.9
+    "live": 733.3,
+    "retired": 123.1
    },
    "load32": {
-    "live": 18062.9,
-    "retired": 3389.6
+    "live": 17832.6,
+    "retired": 2487.6
    },
    "nRetired": 33,
    "nLive": 122
@@ -1561,14 +1561,14 @@
    "diffs": [],
    "digest": "883fe2073509f47c0d515853e5fe9c86280f2b7ad713e94da1fe6d71f8e6b4c6",
    "msRef": [
-    10012
+    10503
    ],
    "msNew": [
-    3944
+    3692
    ],
-   "msRefMedian": 10012,
-   "msNewMedian": 3944
+   "msRefMedian": 10503,
+   "msNewMedian": 3692
   }
  },
- "elapsedS": 96.31
+ "elapsedS": 98.74
 }

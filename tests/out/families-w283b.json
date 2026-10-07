@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
-  "generatedAt": "2026-10-07T15:55:05.905Z",
+  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+  "generatedAt": "2026-10-07T18:42:51.967Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5856600,
-    "sha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
-    "mtime": "2026-10-07T14:24:06.010Z"
+    "bytes": 5856758,
+    "sha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+    "mtime": "2026-10-07T17:31:27.415Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823731,
-    "sha256": "a55a2a4735180db0d0414cf725124c2e3e507f6a53090b154db1506965b34b6f",
-    "mtime": "2026-10-07T15:02:57.002Z"
+    "bytes": 1823719,
+    "sha256": "b7b59766736f5ea013935723f5c10969413271cc93d3bff4de7708ed7cf182cd",
+    "mtime": "2026-10-07T17:50:49.455Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -52,7 +52,7 @@
     "file": "docs/FAMILIES_v1.45.md",
     "bytes": 65154,
     "sha256": "74d625c2d0815c2721d3054b745f8418715f9685f43a569a2e309890510662be",
-    "mtime": "2026-10-07T15:55:05.883Z"
+    "mtime": "2026-10-07T18:42:51.947Z"
    }
   ],
   "code": [
@@ -118,14 +118,14 @@
    "complete": true,
    "names": 1027,
    "segments": 936,
-   "closureShare": 0.3519
+   "closureShare": 0.352
   },
-  "scopeSha256": "ec2f5690a357f4c04365df715ffba908f5812ba6c8e1787f49611e75d7b45bec",
+  "scopeSha256": "b19d31d49bad9a3d720d7871326640b0b989038e307da58d1de4d53b6fc29320",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "70f93b23b7bbd95b8a3bbbaa586eb767b0910c70d1ace38c317ce2a3b0fbca4f",
+    "stableSha256": "27f6476be04cd23c114133f2b4966b68cf995c6527c68aa956464f3bedb13fdd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "c95186e21092a64e0d4c9c489798d7bdcea34389550d46dc9afa4c2a3e0c2675",
+    "stableSha256": "1f268c426677574b71644bd7a7dd5249015a38ee9aece6e7a21abce046864d93",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -367,7 +367,7 @@
      "group": "現実較正",
      "calVariant": null,
      "inPopulation": false,
-     "variantLabel": null,
+     "variantLabel": "慣性決定力版(係数移送)",
      "geoPN": 3,
      "kFrame": 0,
      "D0": 0.006,
@@ -6427,5 +6427,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.607
+ "elapsedS": 0.662
 }
