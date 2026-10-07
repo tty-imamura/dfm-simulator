@@ -69604,10 +69604,19 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         try { W291B = (JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {}).changed || []; } catch (e) { W291B = []; }
         if (!W291B.length) bad.push('④ 第291便b の源集合で動いた本の一覧(pnsources-w291b.json の B.changed)が読めない');
       }
-      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id));
+      // 第295便b(原仮定者の裁定(第85報)geoPN「3 と銀河などを分ける → 4」・統括の検証項目 R154)の世代(html に GEO4_MIGRATED): geoPN 3→4 へ移住した
+      //   在位の本(正本 tests/out/geo4-w295b.json の summary.migrated ∩ summary.identical —— 2000 歩の指紋はビット同一・署名だけ変わる)も、基点との前後で動いてよい本に加える
+      let W295B = [];
+      if (html.indexOf('const GEO4_MIGRATED=') >= 0) {
+        try { const G4 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'geo4-w295b.json'), 'utf8')).summary || {};
+          W295B = (G4.migrated || []).filter((id) => (G4.identical || []).includes(id)); } catch (e) { W295B = []; }
+        if (!W295B.length) bad.push('④ 第295便b の移住の一覧(geo4-w295b.json の summary.migrated)が読めない');
+      }
+      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id));
       if (!(J.G && undecl.length === 0)) bad.push('④ 宣言の外で動いた本: ' + undecl.join(','));
       cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`
-        + (W291B.length ? `+第291便b の源集合で動いた本 ${W291B.length}(うち宣言の外 ${(J.G.changedUndeclared || []).length} 本: ${(J.G.changedUndeclared || []).join(',')})` : ''));
+        + (W291B.length ? `+第291便b の源集合で動いた本 ${W291B.length}` : '') + (W295B.length ? `+第295便b で geoPN 4 へ移住した本 ${W295B.length}(ビット同一)` : '')
+        + ((W291B.length || W295B.length) ? `(うち宣言の外 ${(J.G.changedUndeclared || []).length} 本: ${(J.G.changedUndeclared || []).join(',')})` : ''));
     } catch (e) { bad.push('一覧・正本が読めない: ' + String(e).slice(0, 160)); }
     add('lint.cLightTrue', bad.length === 0,
       `**cLight の真値と従属値**(第286便b・原仮定者の裁定(第76報)AN59・R104): ${cases.join(' / ')} —— G=6.674 の丸めと q_exact の直値は本便の範囲の外(一覧の dependents)`
