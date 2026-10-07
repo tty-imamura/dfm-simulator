@@ -20,14 +20,14 @@
 
 ## 集計
 
-- 家族 **23**・本 **58**(在位の本)・推定の列: 主系列 27・比較 20・診断 11。
-- 候補: 規則 A 5・規則 B 0・規則 C(要裁定)1・畳まない組 0。
+- 家族 **23**・本 **61**(在位の本)・推定の列: 主系列 27・比較 21・診断 13。
+- 候補: 規則 A 8・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|
-| 冥王星–カロン(`pluto`) | 2 | `plutoCharonDiagInput` | 1 | 0 | 1 | 0/0/0 | 0 |
-| 地球–月(現実との照合)(`earthmoon`) | 6 | `earthMoonRealKF1` | 2 | 1 | 3 | 2/0/0 | 0 |
-| 水星(現実との照合)(`mercury`) | 2 | `mercuryReal` | 1 | 0 | 1 | 1/0/0 | 0 |
+| 冥王星–カロン(`pluto`) | 3 | `plutoCharonDiagInput` | 1 | 0 | 2 | 1/0/0 | 0 |
+| 地球–月(現実との照合)(`earthmoon`) | 7 | `earthMoonRealKF1` | 2 | 1 | 4 | 3/0/0 | 0 |
+| 水星(現実との照合)(`mercury`) | 3 | `mercuryReal` | 1 | 0 | 2 | 2/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 4 | `saturnRingReal` | 2 | 0 | 2 | 0/0/0 | 0 |
 | 二重パルサー J0737−3039(`psrDoubleAB`) | 2 | `psrDoubleAB` | 1 | 0 | 1 | 1/0/0 | 0 |
 | パルサー J1757−1854(`psrJ1757`) | 1 | `psrJ1757DFM` | 1 | 0 | 0 | 0/0/0 | 0 |
@@ -36,7 +36,7 @@
 | 重力波 GW150914(`gw150914`) | 3 | `gw150914` | 2 | 1 | 0 | 0/0/1 | 0 |
 | ケンタウルス座 α 星 AB(`alphaCen`) | 1 | `alphaCenAB` | 1 | 0 | 0 | 0/0/0 | 0 |
 | シリウス AB(`sirius`) | 1 | `siriusAB` | 1 | 0 | 0 | 0/0/0 | 0 |
-| 銀河回転(空間メッシュ・アナロジー)(`galaxyMesh`) | 3 | `galaxyMeshSpiral` | 1 | 0 | 2 | 1/0/0 | 0 |
+| 銀河回転(空間メッシュ・アナロジー)(`galaxyMesh`) | 3 | `galaxyMeshSpiral` | 1 | 1 | 1 | 1/0/0 | 0 |
 | 銀河の回転曲線 4 本(`galaxyrot`) | 4 | `galaxy` | 1 | 3 | 0 | 0/0/0 | 0 |
 | 球状星団 47 Tuc(`tuc47`) | 1 | `tuc47` | 1 | 0 | 0 | 0/0/0 | 0 |
 | 渦巻銀河 NGC 3198(`ngc3198`) | 2 | `ngc3198DFM` | 1 | 0 | 1 | 0/0/0 | 0 |
@@ -49,31 +49,37 @@
 | 時計と重力(GR の較正)(`grcal`) | 4 | `grcal` | 1 | 3 | 0 | 0/0/0 | 0 |
 | 光学迷彩矮星(`rotor`) | 3 | `rotorSolo` | 2 | 1 | 0 | 0/0/0 | 0 |
 
-## 冥王星–カロン(`pluto`・2 本)
+## 冥王星–カロン(`pluto`・3 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🥶 | `plutoCharonDiagInput` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 冥王星–カロンを 1 つの観測解に揃えた入力で照合する(家族の入口) | — |
-| 🌒 | `charonGeoToy3` | variant | 診断(principle・geoPN=3) | 違う入力(質量・位置・速度) | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | — |
+| 🌒 | `charonGeoToy3` | variant | 診断(principle・「診断」) | 違う入力(質量・位置・速度) | principle | — | 4 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる | — |
+| 🟣 | `plutoCharonInertial` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | inertial | — | 🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 25):
 
-- `physics.backgroundComplex`: plutoCharonDiagInput=— / charonGeoToy3={"background":"declared","W0":5.6999875742828215e-9,"A0":[0,2.701885161114078e-9],"gradW":[-1.93009222560893e-15,0],"gradA":[0,0,-9.14894545995665e-16,0],"dWdt":0,"dAdt":[2.16837314607735e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","refPos":[0,0],"sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"},"bgModel":"sources","ledger":[{"id":"sun","m":198849.99999999997,"x":-5906440.633928273,"y":0,"vx":0,"vy":0.4740159738776329,"ax":3.8041717070763564e-8,"ay":0}],"eps":0.05,"timeContract":{"mode":"sources","t0":0,"derivFrame":"frame","widthT":340000}}
-- `physics.geoPN`: plutoCharonDiagInput=1 / charonGeoToy3=3
-- `physics.massPrecision`: plutoCharonDiagInput=double / charonGeoToy3=—
-- `physics.meshVelocity`: plutoCharonDiagInput=— / charonGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
-- `physics.softening`: plutoCharonDiagInput=0.01 / charonGeoToy3=0.05
-- `physics.spaceMesh`: plutoCharonDiagInput=— / charonGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"xdot"}
-- `integrator`: plutoCharonDiagInput=leapfrog / charonGeoToy3=—
-- `scaleExp`: plutoCharonDiagInput=(宣言あり) / charonGeoToy3=(宣言あり)
-- `sampleClass`: plutoCharonDiagInput=calibration / charonGeoToy3=principle
-- `calVariant`: plutoCharonDiagInput=kf0 / charonGeoToy3=—
-- `familyRole`: plutoCharonDiagInput=primary / charonGeoToy3=variant
-- `bodies(vs 基準)`: plutoCharonDiagInput=基準 / charonGeoToy3=違う入力(質量・位置・速度)
+- `physics.backgroundComplex`: plutoCharonDiagInput=— / charonGeoToy3={"background":"declared","W0":5.6999875742828215e-9,"A0":[0,2.701885161114078e-9],"gradW":[-1.93009222560893e-15,0],"gradA":[0,0,-9.14894545995665e-16,0],"dWdt":0,"dAdt":[2.16837314607735e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","refPos":[0,0],"sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"},"bgModel":"sources","ledger":[{"id":"sun","m":198849.99999999997,"x":-5906440.633928273,"y":0,"vx":0,"vy":0.4740159738776329,"ax":3.8041717070763564e-8,"ay":0}],"eps":0.05,"timeContract":{"mode":"sources","t0":0,"derivFrame":"frame","widthT":340000}} / plutoCharonInertial=—
+- `physics.geoPN`: plutoCharonDiagInput=1 / charonGeoToy3=4 / plutoCharonInertial=3
+- `physics.massPrecision`: plutoCharonDiagInput=double / charonGeoToy3=— / plutoCharonInertial=double
+- `physics.meshVelocity`: plutoCharonDiagInput=— / charonGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}} / plutoCharonInertial=—
+- `physics.relativeDrag`: plutoCharonDiagInput=— / charonGeoToy3=— / plutoCharonInertial={"law":"inertial","gain":51418200,"eps":0.01,"pairs":"all","history":"positions"}
+- `physics.softening`: plutoCharonDiagInput=0.01 / charonGeoToy3=0.05 / plutoCharonInertial=0.01
+- `physics.spaceMesh`: plutoCharonDiagInput=— / charonGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"xdot"} / plutoCharonInertial=—
+- `integrator`: plutoCharonDiagInput=leapfrog / charonGeoToy3=— / plutoCharonInertial=leapfrog
+- `scaleExp`: plutoCharonDiagInput=(宣言あり) / charonGeoToy3=(宣言あり) / plutoCharonInertial=(宣言あり)
+- `sampleClass`: plutoCharonDiagInput=calibration / charonGeoToy3=principle / plutoCharonInertial=principle
+- `calVariant`: plutoCharonDiagInput=kf0 / charonGeoToy3=— / plutoCharonInertial=—
+- `familyRole`: plutoCharonDiagInput=primary / charonGeoToy3=variant / plutoCharonInertial=variant
+- `bodies(vs 基準)`: plutoCharonDiagInput=基準 / charonGeoToy3=違う入力(質量・位置・速度) / plutoCharonInertial=同じ入力
 
-**統廃合の候補**: 規則に当たる組は無い。
+**統廃合の候補**(実行ではない):
 
-## 地球–月(現実との照合)(`earthmoon`・6 本)
+| 規則 | 残す | 畳む | どう | 理由 |
+|---|---|---|---|---|
+| A | `plutoCharonDiagInput` | `plutoCharonInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が plutoCharonDiagInput と同じ・違うのは physics の geoPN・relativeDrag |
+
+## 地球–月(現実との照合)(`earthmoon`・7 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -83,28 +89,29 @@
 | 🌓 | `earthMoonDiagOne` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 1 | 0 | 0.006 | — | 8.2358 | — | — | — | 🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断 | — |
 | 🌛 | `earthMoonInertial` | variant | 診断(principle・geoPN=3) | 違う入力(速度) | principle | — | 3 | 0 | 0.1 | — | 3 | — | inertial | — | 慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る | — |
 | 🌜 | `earthMoonTide` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 1 | 0 | 0.1 | — | 3 | — | — | — | 定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る | — |
+| 🌤️ | `earthMoonSunInertial` | variant | 診断(principle・geoPN=3) | 違う入力(本数・質量・位置・速度) | principle | — | 3 | 0 | 0.1 | — | 3 | — | inertial | — | 🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 19):
 
-- `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1 / earthMoonDiagOne=0.006 / earthMoonInertial=0.1 / earthMoonTide=0.1
-- `physics.D0pull`: earthMoonRealKF1=0.0000324204 / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=—
-- `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share / earthMoonDiagOne=— / earthMoonInertial=share / earthMoonTide=share
-- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1 / earthMoonDiagOne=1 / earthMoonInertial=3 / earthMoonTide=1
-- `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0 / earthMoonDiagOne=0 / earthMoonInertial=0 / earthMoonTide=0
-- `physics.meshVelocity`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne={"law":"vMinusU","field":"explicit","mutual":0,"frame":{"origin":"barycenter","epoch":"🌘 t=0","rotation":"none","translation":"comoving"},"external":["body:0"]} / earthMoonInertial=— / earthMoonTide=—
-- `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditSolar=3 / earthMoonDiagOne=8.2358 / earthMoonInertial=3 / earthMoonTide=3
-- `physics.qLock`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne={"kernel":"frontBack","epsC":0,"nodes":16} / earthMoonInertial=— / earthMoonTide=—
-- `physics.relativeDrag`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial={"law":"inertial","gain":514182,"eps":0.1,"pairs":"all","history":"positions"} / earthMoonTide=—
-- `physics.softening`: earthMoonRealKF1=0.1 / earthMoonReal=0.1 / emAuditSolar=0.01 / earthMoonDiagOne=0.1 / earthMoonInertial=0.1 / earthMoonTide=0.1
-- `physics.tide`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide={"model":"ctl","maxN":8,"velocity":"v","inertia":"half","split":"full"}
-- `physics.timeScale`: earthMoonRealKF1=100 / earthMoonReal=100 / emAuditSolar=1 / earthMoonDiagOne=100 / earthMoonInertial=100 / earthMoonTide=100
-- `qLock`: earthMoonRealKF1=true / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=—
-- `scaleExp`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり) / earthMoonDiagOne=(宣言あり) / earthMoonInertial=(宣言あり) / earthMoonTide=(宣言あり)
-- `sampleClass`: earthMoonRealKF1=principle / earthMoonReal=calibration / emAuditSolar=calibration / earthMoonDiagOne=principle / earthMoonInertial=principle / earthMoonTide=principle
-- `calVariant`: earthMoonRealKF1=— / earthMoonReal=kf0 / emAuditSolar=kf0 / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=—
-- `familyRole`: earthMoonRealKF1=variant / earthMoonReal=primary / emAuditSolar=variant / earthMoonDiagOne=variant / earthMoonInertial=variant / earthMoonTide=variant
-- `gates(testId)`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=behavior.emAudit / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=—
-- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=違う入力(速度) / emAuditSolar=違う入力(本数・質量・位置・速度) / earthMoonDiagOne=違う入力(速度) / earthMoonInertial=違う入力(速度) / earthMoonTide=違う入力(速度)
+- `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1 / earthMoonDiagOne=0.006 / earthMoonInertial=0.1 / earthMoonTide=0.1 / earthMoonSunInertial=0.1
+- `physics.D0pull`: earthMoonRealKF1=0.0000324204 / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share / earthMoonDiagOne=— / earthMoonInertial=share / earthMoonTide=share / earthMoonSunInertial=share
+- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1 / earthMoonDiagOne=1 / earthMoonInertial=3 / earthMoonTide=1 / earthMoonSunInertial=3
+- `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0 / earthMoonDiagOne=0 / earthMoonInertial=0 / earthMoonTide=0 / earthMoonSunInertial=0
+- `physics.meshVelocity`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne={"law":"vMinusU","field":"explicit","mutual":0,"frame":{"origin":"barycenter","epoch":"🌘 t=0","rotation":"none","translation":"comoving"},"external":["body:0"]} / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditSolar=3 / earthMoonDiagOne=8.2358 / earthMoonInertial=3 / earthMoonTide=3 / earthMoonSunInertial=3
+- `physics.qLock`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne={"kernel":"frontBack","epsC":0,"nodes":16} / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `physics.relativeDrag`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial={"law":"inertial","gain":514182,"eps":0.1,"pairs":"all","history":"positions"} / earthMoonTide=— / earthMoonSunInertial={"law":"inertial","gain":51.4182,"eps":0.01,"pairs":[[1,2]],"history":"positions"}
+- `physics.softening`: earthMoonRealKF1=0.1 / earthMoonReal=0.1 / emAuditSolar=0.01 / earthMoonDiagOne=0.1 / earthMoonInertial=0.1 / earthMoonTide=0.1 / earthMoonSunInertial=0.01
+- `physics.tide`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide={"model":"ctl","maxN":8,"velocity":"v","inertia":"half","split":"full"} / earthMoonSunInertial=—
+- `physics.timeScale`: earthMoonRealKF1=100 / earthMoonReal=100 / emAuditSolar=1 / earthMoonDiagOne=100 / earthMoonInertial=100 / earthMoonTide=100 / earthMoonSunInertial=1
+- `qLock`: earthMoonRealKF1=true / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `scaleExp`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり) / earthMoonDiagOne=(宣言あり) / earthMoonInertial=(宣言あり) / earthMoonTide=(宣言あり) / earthMoonSunInertial=(宣言あり)
+- `sampleClass`: earthMoonRealKF1=principle / earthMoonReal=calibration / emAuditSolar=calibration / earthMoonDiagOne=principle / earthMoonInertial=principle / earthMoonTide=principle / earthMoonSunInertial=principle
+- `calVariant`: earthMoonRealKF1=— / earthMoonReal=kf0 / emAuditSolar=kf0 / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `familyRole`: earthMoonRealKF1=variant / earthMoonReal=primary / emAuditSolar=variant / earthMoonDiagOne=variant / earthMoonInertial=variant / earthMoonTide=variant / earthMoonSunInertial=variant
+- `gates(testId)`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=behavior.emAudit / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=— / earthMoonSunInertial=—
+- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=違う入力(速度) / emAuditSolar=違う入力(本数・質量・位置・速度) / earthMoonDiagOne=違う入力(速度) / earthMoonInertial=違う入力(速度) / earthMoonTide=違う入力(速度) / earthMoonSunInertial=違う入力(本数・質量・位置・速度)
 
 **統廃合の候補**(実行ではない):
 
@@ -112,30 +119,34 @@
 |---|---|---|---|---|
 | A | `earthMoonReal` | `earthMoonInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の geoPN・relativeDrag |
 | A | `earthMoonReal` | `earthMoonTide` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の tide |
+| A | `emAuditSolar` | `earthMoonSunInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が emAuditSolar と同じ・違うのは physics の geoPN・relativeDrag |
 
-## 水星(現実との照合)(`mercury`・2 本)
+## 水星(現実との照合)(`mercury`・3 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | ☄️ | `mercuryReal` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 水星の近日点前進を kF0 で照合する | — |
-| 🔁 | `mercuryGeoToy3` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.1 | — | 3 | — | — | vertex | 一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる | — |
+| 🔁 | `mercuryGeoToy3` | variant | 診断(principle・「零」) | 同じ入力 | principle | — | 4 | 0 | 0.1 | — | 3 | — | — | vertex | 一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる | — |
+| 🟤 | `mercurySunInertial` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.1 | — | 3 | — | inertial | — | 🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 25):
 
-- `physics.backgroundComplex`: mercuryReal=— / mercuryGeoToy3={"background":"declared","W0":1,"A0":[2.3,0],"gradW":[0,0],"gradA":[0,0,0,0],"dWdt":0,"dAdt":[0,0],"note":"第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)","sources":[{"id":"uniform-u","kind":"field","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
-- `physics.geoPN`: mercuryReal=1 / mercuryGeoToy3=3
-- `physics.meshVelocity`: mercuryReal=— / mercuryGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
-- `physics.spaceMesh`: mercuryReal=— / mercuryGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"v"}
-- `sampleClass`: mercuryReal=calibration / mercuryGeoToy3=principle
-- `calVariant`: mercuryReal=kf0 / mercuryGeoToy3=—
-- `familyRole`: mercuryReal=primary / mercuryGeoToy3=variant
-- `bodies(vs 基準)`: mercuryReal=基準 / mercuryGeoToy3=同じ入力
+- `physics.backgroundComplex`: mercuryReal=— / mercuryGeoToy3={"background":"declared","W0":1,"A0":[2.3,0],"gradW":[0,0],"gradA":[0,0,0,0],"dWdt":0,"dAdt":[0,0],"note":"第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)","sources":[{"id":"uniform-u","kind":"field","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}} / mercurySunInertial=—
+- `physics.geoPN`: mercuryReal=1 / mercuryGeoToy3=4 / mercurySunInertial=3
+- `physics.meshVelocity`: mercuryReal=— / mercuryGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}} / mercurySunInertial=—
+- `physics.relativeDrag`: mercuryReal=— / mercuryGeoToy3=— / mercurySunInertial={"law":"inertial","gain":51.4182,"eps":0.05,"pairs":"all","history":"positions"}
+- `physics.spaceMesh`: mercuryReal=— / mercuryGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"v"} / mercurySunInertial=—
+- `sampleClass`: mercuryReal=calibration / mercuryGeoToy3=principle / mercurySunInertial=principle
+- `calVariant`: mercuryReal=kf0 / mercuryGeoToy3=— / mercurySunInertial=—
+- `familyRole`: mercuryReal=primary / mercuryGeoToy3=variant / mercurySunInertial=variant
+- `bodies(vs 基準)`: mercuryReal=基準 / mercuryGeoToy3=同じ入力 / mercurySunInertial=同じ入力
 
 **統廃合の候補**(実行ではない):
 
 | 規則 | 残す | 畳む | どう | 理由 |
 |---|---|---|---|---|
 | A | `mercuryReal` | `mercuryGeoToy3` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が mercuryReal と同じ・違うのは physics の backgroundComplex・geoPN・meshVelocity・spaceMesh |
+| A | `mercuryReal` | `mercurySunInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が mercuryReal と同じ・違うのは physics の geoPN・relativeDrag |
 
 ## 土星(現実との照合)(`saturn`・4 本)
 
@@ -164,13 +175,13 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 📻 | `psrDoubleAB` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | 3.24204e-7 | 3.1789 | — | — | — | 二重パルサーを kF0 で照合する | `behavior.psrDoubleAB` |
-| 🩻 | `psrDoubleABGeoToy` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 3.1789 | — | — | vertex | 観測質量のまま geoPN=3 則を当てる診断 | — |
+| 🩻 | `psrDoubleABGeoToy` | variant | 診断(principle・「診断」) | 同じ入力 | principle | — | 4 | 0 | 0.006 | — | 3.1789 | — | — | vertex | 観測質量のまま geoPN=4 則を当てる診断 | — |
 
 **鍵ごとの差**(physics の同じ鍵 26):
 
 - `physics.D0pull`: psrDoubleAB=3.24204e-7 / psrDoubleABGeoToy=—
 - `physics.framePrecision`: psrDoubleAB=— / psrDoubleABGeoToy=double
-- `physics.geoPN`: psrDoubleAB=1 / psrDoubleABGeoToy=3
+- `physics.geoPN`: psrDoubleAB=1 / psrDoubleABGeoToy=4
 - `physics.spaceMesh`: psrDoubleAB=— / psrDoubleABGeoToy={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"local"}
 - `sampleClass`: psrDoubleAB=calibration / psrDoubleABGeoToy=principle
 - `calVariant`: psrDoubleAB=kf0 / psrDoubleABGeoToy=—
@@ -278,12 +289,12 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🎠 | `galaxyMeshSpiral` | — | 主系列(母集団の外の家族の基準の本) | 基準 | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 銀河の空間メッシュを局所場と物質線で表す | — |
-| 🪁 | `galaxyMeshSpiralGeoToy` | — | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 🎠 の配置で法則だけ geoPN=3 に替えて比べる | — |
-| 🌚 | `galaxyAnalogyBH` | — | 診断(principle・geoPN=3) | 違う入力(本数・質量・位置・速度) | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 中心 DFM 版 BH と恒星質量光学迷彩矮星を力学の質量要素に置いた銀河アナロジー | — |
+| 🪁 | `galaxyMeshSpiralGeoToy` | — | 診断(principle・「コピー」) | 同じ入力 | principle | — | 4 | 0 | 1.5 | — | 2 | — | — | vertex | 🎠 の配置で法則だけ geoPN=4 に替えて比べる | — |
+| 🌚 | `galaxyAnalogyBH` | — | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 4 | 0 | 1.5 | — | 2 | — | — | vertex | 中心 DFM 版 BH と恒星質量光学迷彩矮星を力学の質量要素に置いた銀河アナロジー | — |
 
 **鍵ごとの差**(physics の同じ鍵 24):
 
-- `physics.geoPN`: galaxyMeshSpiral=0 / galaxyMeshSpiralGeoToy=3 / galaxyAnalogyBH=3
+- `physics.geoPN`: galaxyMeshSpiral=0 / galaxyMeshSpiralGeoToy=4 / galaxyAnalogyBH=4
 - `physics.kFrame`: galaxyMeshSpiral=1 / galaxyMeshSpiralGeoToy=0 / galaxyAnalogyBH=0
 - `physics.ledger`: galaxyMeshSpiral={"dragWork":true} / galaxyMeshSpiralGeoToy=— / galaxyAnalogyBH=—
 - `physics.spaceMesh`: galaxyMeshSpiral=— / galaxyMeshSpiralGeoToy={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"scalar"} / galaxyAnalogyBH={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"scalar","centerSpin":"read"}
@@ -548,7 +559,7 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 61 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 13・道具 4・表の外 17。QA 本体の出現数: darkrotor 144・bhCore 44・nebulaRotor 17・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 62 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 14・道具 4・表の外 17。QA 本体の出現数: darkrotor 144・bhCore 44・nebulaRotor 17・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 25・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
@@ -607,6 +618,7 @@
 | `tests/exp-w282d-analogy.mjs` | bhCore galaxyMeshSpiralGeoToyLite | analogy(current) | 凍結の写しを読む |
 | `tests/exp-w285d-obscompare.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | obscompare(current) | 現行の段 |
 | `tests/exp-w288d-spinprec.mjs` | bhCoreTilt | spinprec288(current) | 現行の段 |
+| `tests/exp-w295b-geo4.mjs` | galaxyMeshSpiralGeoToyLite | geo4-295b(current) | 現行の段 |
 | `tests/lib-sigma-destinations.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 表の外(正本ではない) |
 | `tests/lib-w270a-stoprule.mjs` | psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
 | `tests/lib-w279a-samplestatus.mjs` | bhCore bhCoreTilt | — | 表の外(正本ではない) |

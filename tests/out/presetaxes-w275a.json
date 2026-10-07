@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T22:23:38.347Z",
+  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
+  "generatedAt": "2026-10-07T14:29:44.794Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5760681,
-    "sha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-    "mtime": "2026-10-06T20:57:15.730Z"
+    "bytes": 5856600,
+    "sha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
+    "mtime": "2026-10-07T14:24:06.010Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 152,
+ "nPresets": 155,
  "kFrameValues": [
   0,
   1
@@ -800,7 +800,7 @@
   {
    "id": "galaxyMeshSpiralGeoToy",
    "emoji": "🪁",
-   "name": "銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない)",
+   "name": "銀河の空間メッシュ — geoPN=4 原理コピー(較正ではない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -813,9 +813,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 3,
-   "presetSigHash": "2c6c96a8",
+   "presetSigHash": "cdbf16a9",
    "bodiesSha256": "388285e3754e1e5a8fb5cef2035bdc66bc77486196bba41dc2dc719a3536a2e1"
   },
   {
@@ -855,9 +855,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 4,
-   "presetSigHash": "2a6ae845",
+   "presetSigHash": "301a4c9c",
    "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
   },
   {
@@ -876,9 +876,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 4,
-   "presetSigHash": "79dc07af",
+   "presetSigHash": "3077113c",
    "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
   },
   {
@@ -897,9 +897,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 4,
-   "presetSigHash": "cc75dabe",
+   "presetSigHash": "840ba335",
    "bodiesSha256": "238531f27ebdda062ff3fd354530d63e3d980c8f2af89027b45313dfc5bcdb1e"
   },
   {
@@ -918,9 +918,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 4,
-   "presetSigHash": "ba5ba45a",
+   "presetSigHash": "f29538fb",
    "bodiesSha256": "e6f85b71db391222df527f71311fa01477a974b001d16b703fb7ac444499031c"
   },
   {
@@ -939,9 +939,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 3,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 3,
-   "presetSigHash": "bcc05f3a",
+   "presetSigHash": "aef8e58f",
    "bodiesSha256": "0a10121b47a115f18edbe03165b98e000f3a57913e3dc74cbf34b16d52644a48"
   },
   {
@@ -1680,6 +1680,27 @@
    "bodiesSha256": "ae147a9befc090205af13e00239638e66c86ba0bbfe8ce1f5a7da7a77721e85a"
   },
   {
+   "id": "earthMoonSunInertial",
+   "emoji": "🌤️",
+   "name": "太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 3,
+   "nBodyDecl": 3,
+   "presetSigHash": "c5280552",
+   "bodiesSha256": "fbfb34f39f467cf8ead7e66a417d0905bcfaada93bc5050905bee2d34a4bfd12"
+  },
+  {
    "id": "earthMoonDiagOne",
    "emoji": "🌓",
    "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
@@ -1785,9 +1806,9 @@
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
-   "id": "mercuryGeoToy3",
-   "emoji": "🔁",
-   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "id": "mercurySunInertial",
+   "emoji": "🟤",
+   "name": "水星と太陽(慣性決定力版)— 移送した gain の応答",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1802,7 +1823,28 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "cb798520",
+   "presetSigHash": "46692d5c",
+   "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 4,
+   "nBodyDecl": 2,
+   "presetSigHash": "4db17359",
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
@@ -1995,6 +2037,27 @@
    "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
   },
   {
+   "id": "plutoCharonInertial",
+   "emoji": "🟣",
+   "name": "冥王星とカロン(慣性決定力版)— 移送した gain と公転周期",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 11.9386,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "92b42b64",
+   "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
+  },
+  {
    "id": "plutoCharonSyncZero",
    "emoji": "☃️",
    "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
@@ -2018,7 +2081,7 @@
   {
    "id": "charonGeoToy3",
    "emoji": "🌒",
-   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "name": "冥王星とカロン — geoPN=4 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2031,9 +2094,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "497e238a",
+   "presetSigHash": "6f514b1",
    "bodiesSha256": "851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7"
   },
   {
@@ -2207,7 +2270,7 @@
   {
    "id": "psrDoubleABGeoToy",
    "emoji": "🩻",
-   "name": "二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)",
+   "name": "二重パルサー J0737−3039A/B — geoPN=4 診断(f=1・較正候補ではない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2220,9 +2283,9 @@
    "frameWeight": "pull",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 3,
+   "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "d002fc29",
+   "presetSigHash": "87503ca",
    "bodiesSha256": "66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a"
   },
   {

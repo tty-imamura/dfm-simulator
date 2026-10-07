@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
-  "generatedAt": "2026-10-06T23:25:34.062Z",
+  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
+  "generatedAt": "2026-10-07T14:24:04.368Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 94701,
-    "sha256": "cdd0f0a38ba7145f6e44fe39fb2a04c9387fd1c4902fc21306534ae3d0626e0f",
-    "mtime": "2026-10-06T16:18:55.853Z"
+    "bytes": 96594,
+    "sha256": "f95b520c7ea85fd6cfe80f4d83a289798749c2fa2fce63e9883d5970e792e70c",
+    "mtime": "2026-10-07T12:21:12.022Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838872,
-    "sha256": "37fa597038c9894fcfcb3ca274e48c0eb63e8af7bc30d9c1ddae6af30214c42a",
-    "mtime": "2026-10-06T22:43:44.026Z"
+    "bytes": 1821683,
+    "sha256": "4bf3ce6405923abdb3852d0f9b02ea6cd564f0bfb3c3de1622310f766d915c62",
+    "mtime": "2026-10-07T12:54:54.162Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90740,
-    "sha256": "d2fa3b2130411baf5752ce0a8cce963c8c89b6e278fdde4c375c50dd0e087b90",
-    "mtime": "2026-10-06T21:00:23.994Z"
+    "bytes": 90749,
+    "sha256": "454aa56ea31a889b0ee0e0d5f0c010374fe6c8c41aa67c9060ce553957c3df16",
+    "mtime": "2026-10-07T12:44:39.282Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 123837,
-    "sha256": "f359a47ba2bb0faec51ae5a3ffbca0f24642ed971146df75df6505bf04278edb",
-    "mtime": "2026-10-06T23:25:34.046Z"
+    "bytes": 128910,
+    "sha256": "a6db9dcc5c91c253756b4346cbb8eb813969f160ac26565e3550c47175a82fa6",
+    "mtime": "2026-10-07T14:24:04.350Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,14 +105,14 @@
   "codeSha256": "9aa0769c20def6904b1c04663c7218397de9b87d07b26772222a8090330b3015",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "3fe93417646d13d029111b4d172df4215079369c",
-   "date": "2026-10-06T20:51:36.818Z",
-   "pass": 1053
+   "commit": "64efb84a618e13b8169fdc7ebe5e4ab6d0ce7799",
+   "date": "2026-10-07T00:38:35.902Z",
+   "pass": 1059
   }
  },
  "tally": {
   "objective": {
-   "met": 74,
+   "met": 77,
    "partial": 40,
    "unmet": 5,
    "n/a": 0
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 0,
-   "out-of-scope": 99
+   "out-of-scope": 102
   },
   "four": {
    "合": 0,
@@ -163,11 +163,6 @@
     "n": 10
    },
    {
-    "group": "実在天体のアナロジー",
-    "icon": "🔭",
-    "n": 5
-   },
-   {
     "group": "スピンと熱",
     "icon": "🌡️",
     "n": 12
@@ -185,7 +180,12 @@
    {
     "group": "現実較正",
     "icon": "🎯",
-    "n": 29
+    "n": 32
+   },
+   {
+    "group": "実在天体のアナロジー",
+    "icon": "🔭",
+    "n": 5
    },
    {
     "group": "法則の実験室",
@@ -203,13 +203,13 @@
     "n": 0
    }
   ],
-  "n": 119,
+  "n": 122,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 152,
+   "n": 155,
    "objective": {
-    "met": 85,
+    "met": 88,
     "partial": 59,
     "unmet": 8,
     "n/a": 0
@@ -220,7 +220,7 @@
     "fail": 1,
     "hold": 17,
     "hold-definition": 2,
-    "out-of-scope": 130
+    "out-of-scope": 133
    },
    "four": {
     "合": 0,
@@ -439,6 +439,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -448,23 +454,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15080,
+     "ms": 14743,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 14864,
+       "ms": 14526,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 193,
+       "ms": 176,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 23,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -635,6 +641,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -644,7 +656,7 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 63,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.grcal",
@@ -654,7 +666,7 @@
       },
       {
        "id": "grcal.clocks",
-       "ms": 30,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       },
@@ -836,6 +848,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -845,17 +863,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 151,
+     "ms": 110,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 121,
+       "ms": 77,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 30,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -1025,6 +1043,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1034,17 +1058,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 156,
+     "ms": 118,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 121,
+       "ms": 77,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 35,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -1214,6 +1238,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1223,17 +1253,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 144,
+     "ms": 106,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 121,
+       "ms": 77,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 23,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -1404,6 +1434,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1413,11 +1449,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 13,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 13,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       },
@@ -1594,6 +1630,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1603,35 +1645,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1450,
+     "ms": 1150,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 1009,
+       "ms": 532,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 246,
+       "ms": 392,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 137,
+       "ms": 151,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 46,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 11,
+       "ms": 9,
        "pass": true,
        "via": "targetIds"
       }
@@ -1801,6 +1843,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1810,11 +1858,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 157,
+     "ms": 158,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 157,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       }
@@ -1984,6 +2032,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1993,11 +2047,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 217,
+     "ms": 197,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 217,
+       "ms": 197,
        "pass": true,
        "via": "targetIds"
       }
@@ -2167,6 +2221,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2176,11 +2236,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 413,
+     "ms": 305,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 413,
+       "ms": 305,
        "pass": true,
        "via": "targetIds"
       }
@@ -2350,6 +2410,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2359,17 +2425,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 487,
+     "ms": 349,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 350,
+       "ms": 247,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 137,
+       "ms": 102,
        "pass": true,
        "via": "targetIds"
       }
@@ -2539,6 +2605,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2548,17 +2620,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 576,
+     "ms": 372,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 535,
+       "ms": 312,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 41,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -2728,6 +2800,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2737,11 +2815,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 152,
+     "ms": 168,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 152,
+       "ms": 168,
        "pass": true,
        "via": "targetIds"
       }
@@ -2911,6 +2989,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2920,23 +3004,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 215,
+     "ms": 221,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 133,
+       "ms": 127,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 65,
+       "ms": 71,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 17,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -3106,6 +3190,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3115,17 +3205,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 178,
+     "ms": 172,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 111,
+       "ms": 94,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 67,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -3295,6 +3385,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3304,35 +3400,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2240,
+     "ms": 2347,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1328,
+       "ms": 1251,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 354,
+       "ms": 440,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 271,
+       "ms": 337,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 271,
+       "ms": 304,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 10,
+       "ms": 9,
        "pass": true,
        "via": "targetIds"
       }
@@ -3502,6 +3598,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3511,11 +3613,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3962,
+     "ms": 3939,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3961,
+       "ms": 3938,
        "pass": true,
        "via": "targetIds"
       },
@@ -3715,6 +3817,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3724,17 +3832,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10902,
+     "ms": 10097,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6600,
+       "ms": 6011,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4301,
+       "ms": 4085,
        "pass": true,
        "via": "targetIds"
       },
@@ -3910,6 +4018,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3919,17 +4033,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 71709,
+     "ms": 71174,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 67623,
+       "ms": 66769,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4086,
+       "ms": 4405,
        "pass": true,
        "via": "targetIds"
       }
@@ -4099,6 +4213,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4108,17 +4228,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 248614,
+     "ms": 243320,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 242274,
+       "ms": 237059,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6340,
+       "ms": 6261,
        "pass": true,
        "via": "targetIds"
       }
@@ -4288,6 +4408,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4297,17 +4423,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3310,
+     "ms": 3484,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3309,
+       "ms": 3484,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -4477,6 +4603,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4486,29 +4618,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 8405,
+     "ms": 8114,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4250,
+       "ms": 4063,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 4101,
+       "ms": 4000,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 31,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 23,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -4678,6 +4810,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4687,17 +4825,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 940,
+     "ms": 1365,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 851,
+       "ms": 1279,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 89,
+       "ms": 86,
        "pass": true,
        "via": "targetIds"
       }
@@ -4867,6 +5005,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4876,17 +5020,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4252,
+     "ms": 4463,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4010,
+       "ms": 4212,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 242,
+       "ms": 251,
        "pass": true,
        "via": "targetIds"
       }
@@ -5056,6 +5200,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5065,17 +5215,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3829,
+     "ms": 3693,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3495,
+       "ms": 3232,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 334,
+       "ms": 461,
        "pass": true,
        "via": "targetIds"
       }
@@ -5245,6 +5395,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5254,23 +5410,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 23560,
+     "ms": 17301,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 17243,
+       "ms": 12461,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 6159,
+       "ms": 4683,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 158,
+       "ms": 157,
        "pass": true,
        "via": "targetIds"
       }
@@ -5440,6 +5596,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5449,17 +5611,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3147,
+     "ms": 3449,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3146,
+       "ms": 3449,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.bhcore-selfdrive",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -5641,6 +5803,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5650,11 +5818,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3006,
+     "ms": 2979,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3006,
+       "ms": 2979,
        "pass": true,
        "via": "targetIds"
       }
@@ -5824,6 +5992,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5833,17 +6007,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6419,
+     "ms": 5939,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5929,
+       "ms": 5428,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 490,
+       "ms": 511,
        "pass": true,
        "via": "targetIds"
       }
@@ -6013,6 +6187,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6022,17 +6202,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 27828,
+     "ms": 23710,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 25969,
+       "ms": 21889,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1859,
+       "ms": 1821,
        "pass": true,
        "via": "targetIds"
       },
@@ -6209,6 +6389,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6218,11 +6404,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6106,
+     "ms": 5660,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6106,
+       "ms": 5660,
        "pass": true,
        "via": "targetIds"
       }
@@ -6393,6 +6579,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6402,11 +6594,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5985,
+     "ms": 5762,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5985,
+       "ms": 5762,
        "pass": true,
        "via": "targetIds"
       }
@@ -6577,6 +6769,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6586,11 +6784,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5239,
+     "ms": 5393,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5239,
+       "ms": 5393,
        "pass": true,
        "via": "targetIds"
       }
@@ -6760,6 +6958,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6769,22 +6973,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1340,
+     "ms": 1233,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1339,
+       "ms": 1233,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.selfrotor-multiseed",
-       "ms": 1,
+       "id": "behavior.selfrotor",
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "behavior.selfrotor",
+       "id": "behavior.selfrotor-multiseed",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -6961,6 +7165,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6970,11 +7180,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3902,
+     "ms": 4025,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3902,
+       "ms": 4025,
        "pass": true,
        "via": "targetIds"
       },
@@ -6991,11 +7201,11 @@
   {
    "id": "galaxyMeshSpiralGeoToy",
    "emoji": "🪁",
-   "name": "銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない)",
+   "name": "銀河の空間メッシュ — geoPN=4 原理コピー(較正ではない)",
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "🎠 の配置で法則だけ geoPN=3 に替えて比べる",
+    "purpose": "🎠 の配置で法則だけ geoPN=4 に替えて比べる",
     "objective": "partial",
     "state": "600 歩の走行と帳簿は確認・形の門は無い",
     "calibration": "out-of-scope",
@@ -7006,13 +7216,13 @@
      "preset.galaxyGeoToyCopy"
     ],
     "en": {
-     "purpose": "Compare 🎠's layout with only the law swapped to geoPN=3",
+     "purpose": "Compare 🎠's layout with only the law swapped to geoPN=4",
      "state": "the 600-step run and its ledger are checked; there is no shape gate",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare 🎠's layout with only the law swapped to geoPN=3. Partial: the 600-step run and its ledger are checked; there is no shape gate. Out of calibration scope."
+     "brief": "Compare 🎠's layout with only the law swapped to geoPN=4. Partial: the 600-step run and its ledger are checked; there is no shape gate. Out of calibration scope."
     },
-    "brief": "🎠 の配置で法則だけ geoPN=3 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"
+    "brief": "🎠 の配置で法則だけ geoPN=4 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -7163,6 +7373,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7172,11 +7388,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7224,
+     "ms": 7427,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7224,
+       "ms": 7427,
        "pass": true,
        "via": "targetIds"
       }
@@ -7352,6 +7568,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7361,11 +7583,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1768,
+     "ms": 1785,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1768,
+       "ms": 1785,
        "pass": true,
        "via": "targetIds"
       }
@@ -7589,6 +7811,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7598,11 +7826,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1766,
+     "ms": 1836,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1766,
+       "ms": 1836,
        "pass": true,
        "via": "targetIds"
       }
@@ -7780,6 +8008,12 @@
      {
       "key": "compose293",
       "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
       "share": "all",
       "always": false
      },
@@ -7972,6 +8206,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7981,11 +8221,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 76,
+     "ms": 89,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 76,
+       "ms": 89,
        "pass": true,
        "via": "targetIds"
       }
@@ -8161,6 +8401,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8170,11 +8416,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9982,
+     "ms": 11328,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 9982,
+       "ms": 11328,
        "pass": true,
        "via": "targetIds"
       }
@@ -8365,6 +8611,12 @@
      {
       "key": "compose293",
       "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
       "share": "all",
       "always": false
      },
@@ -8575,6 +8827,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8769,6 +9027,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8958,6 +9222,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8967,11 +9237,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1147,
+     "ms": 977,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 1147,
+       "ms": 977,
        "pass": true,
        "via": "targetIds"
       }
@@ -9154,6 +9424,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9163,11 +9439,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1424,
+     "ms": 1479,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1424,
+       "ms": 1479,
        "pass": true,
        "via": "targetIds"
       }
@@ -9362,6 +9638,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9371,11 +9653,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 582,
+     "ms": 643,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 582,
+       "ms": 643,
        "pass": true,
        "via": "targetIds"
       }
@@ -9551,6 +9833,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9560,29 +9848,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 12833,
+     "ms": 13338,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 9467,
+       "ms": 9625,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3120,
+       "ms": 3320,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 158,
+       "ms": 248,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 88,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -9759,6 +10047,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9768,11 +10062,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1074,
+     "ms": 1024,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1074,
+       "ms": 1024,
        "pass": true,
        "via": "targetIds"
       }
@@ -9955,6 +10249,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9964,11 +10264,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1388,
+     "ms": 1540,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1388,
+       "ms": 1540,
        "pass": true,
        "via": "targetIds"
       }
@@ -10151,6 +10451,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10160,11 +10466,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 531,
+     "ms": 542,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 531,
+       "ms": 542,
        "pass": true,
        "via": "targetIds"
       }
@@ -10340,6 +10646,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10349,29 +10661,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 12833,
+     "ms": 13338,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 9467,
+       "ms": 9625,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3120,
+       "ms": 3320,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 158,
+       "ms": 248,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 88,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -10542,6 +10854,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10551,17 +10869,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 176,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 140,
+       "ms": 146,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 40,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -10731,6 +11049,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10740,11 +11064,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 19,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -10920,6 +11244,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10929,17 +11259,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 51,
+     "ms": 61,
      "tests": [
       {
-       "id": "behavior.blens",
-       "ms": 27,
+       "id": "preset.blens",
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.blens",
-       "ms": 24,
+       "id": "behavior.blens",
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -11109,6 +11439,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11118,17 +11454,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 340,
+     "ms": 317,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 315,
+       "ms": 293,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 25,
+       "ms": 24,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -11340,6 +11676,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11349,23 +11691,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 30253,
+     "ms": 31022,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25927,
+       "ms": 26777,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2168,
+       "ms": 2130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2158,
+       "ms": 2115,
        "pass": true,
        "via": "targetIds"
       }
@@ -11535,6 +11877,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11544,23 +11892,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15757,
+     "ms": 15066,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12408,
+       "ms": 11813,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2021,
+       "ms": 2002,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1328,
+       "ms": 1251,
        "pass": true,
        "via": "targetIds"
       }
@@ -11730,6 +12078,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11739,29 +12093,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 969,
+     "ms": 748,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 793,
+       "ms": 580,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 131,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "conduction.pinned-bath",
-       "ms": 23,
+       "ms": 132,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
        "ms": 22,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "conduction.pinned-bath",
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -11931,6 +12285,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11940,11 +12300,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1096,
+     "ms": 972,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1096,
+       "ms": 972,
        "pass": true,
        "via": "targetIds"
       }
@@ -12114,6 +12474,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12123,11 +12489,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 16,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       },
@@ -12303,6 +12669,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12312,23 +12684,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3893,
+     "ms": 3653,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 2101,
+       "ms": 2009,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1766,
+       "ms": 1620,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 26,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       },
@@ -12504,6 +12876,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12513,11 +12891,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2714,
+     "ms": 2536,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2714,
+       "ms": 2536,
        "pass": true,
        "via": "targetIds"
       },
@@ -12693,6 +13071,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12702,11 +13086,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1722,
+     "ms": 1845,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1722,
+       "ms": 1845,
        "pass": true,
        "via": "targetIds"
       },
@@ -12882,6 +13266,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12891,11 +13281,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 852,
+     "ms": 921,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 852,
+       "ms": 921,
        "pass": true,
        "via": "targetIds"
       },
@@ -13077,6 +13467,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13086,11 +13482,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1804,
+     "ms": 1724,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1804,
+       "ms": 1724,
        "pass": true,
        "via": "targetIds"
       },
@@ -13272,6 +13668,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13281,11 +13683,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 941,
+     "ms": 932,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 941,
+       "ms": 932,
        "pass": true,
        "via": "targetIds"
       },
@@ -13468,6 +13870,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13477,11 +13885,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1464,
+     "ms": 1236,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1464,
+       "ms": 1236,
        "pass": true,
        "via": "targetIds"
       },
@@ -13669,6 +14077,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13678,23 +14092,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 824,
+     "ms": 716,
      "tests": [
       {
        "id": "preset.earthMoon",
-       "ms": 411,
+       "ms": 333,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.earthMoon",
-       "ms": 293,
+       "ms": 269,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 120,
+       "ms": 114,
        "pass": true,
        "via": "targetIds"
       }
@@ -13870,6 +14284,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13879,17 +14299,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1376,
+     "ms": 1113,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1186,
+       "ms": 982,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 190,
+       "ms": 131,
        "pass": true,
        "via": "targetIds"
       }
@@ -13935,23 +14355,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.063,
+     "wallSec": 150.127,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 37.063,
+       "wallSec": 49.661,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 84.221,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 100.466,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 84.221,
-     "reusedH2Sec": 84.221,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14118,6 +14538,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14127,11 +14553,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 47,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -14307,6 +14733,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14316,23 +14748,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3273,
+     "ms": 3446,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3199,
+       "ms": 3400,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 72,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 2,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -14545,6 +14977,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14554,11 +14992,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 66,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -14746,6 +15184,18 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14755,17 +15205,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 686,
+     "ms": 795,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 617,
+       "ms": 719,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 55,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       },
@@ -14777,7 +15227,7 @@
       },
       {
        "id": "docs.dragCoreFit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -14959,6 +15409,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14968,11 +15424,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 37,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 36,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
@@ -15174,6 +15630,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15183,11 +15645,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 56,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 55,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       },
@@ -15239,23 +15701,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.13,
+     "wallSec": 4.934,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.13,
+       "wallSec": 1.663,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.463,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 3.271,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.463,
-     "reusedH2Sec": 2.463,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15410,6 +15872,18 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15419,11 +15893,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 28,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 27,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -15434,6 +15908,194 @@
        "via": "claims"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "earthMoonSunInertial",
+   "emoji": "🌤️",
+   "name": "太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る",
+    "objective": "met",
+    "state": "慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/inertial3-w295c.json"
+    ],
+    "en": {
+     "purpose": "Carry 🌛's gain in SI units; measure the lunar apse with the Sun",
+     "state": "Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."
+    },
+    "brief": "🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -15612,6 +16274,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15621,11 +16289,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 71,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 71,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -15807,6 +16475,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15816,17 +16490,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 973,
+     "ms": 1097,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 889,
+       "ms": 1015,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 84,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -16008,6 +16682,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16017,17 +16697,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 941,
+     "ms": 1072,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 889,
+       "ms": 1015,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 52,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -16203,6 +16883,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16212,17 +16898,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 509,
+     "ms": 482,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 493,
+       "ms": 465,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 16,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -16269,23 +16955,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.572,
+     "wallSec": 9.756,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.572,
+       "wallSec": 3.035,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.669,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 6.721,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 6.669,
-     "reusedH2Sec": 6.669,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -16446,6 +17132,18 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16455,11 +17153,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 25,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -16468,13 +17166,201 @@
    }
   },
   {
-   "id": "mercuryGeoToy3",
-   "emoji": "🔁",
-   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "id": "mercurySunInertial",
+   "emoji": "🟤",
+   "name": "水星と太陽(慣性決定力版)— 移送した gain の応答",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
+    "purpose": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る",
+    "objective": "met",
+    "state": "近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/inertial3-w295c.json"
+    ],
+    "en": {
+     "purpose": "Carry 🌛's gain in SI units; measure Mercury's apse and period",
+     "state": "apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry 🌛's gain in SI units; measure Mercury's apse and period. Met: apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only. Out of calibration scope."
+    },
+    "brief": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る。達・近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる",
     "objective": "met",
     "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
     "calibration": "out-of-scope",
@@ -16484,13 +17370,13 @@
      "tests/out/geo3-w280c.json"
     ],
     "en": {
-     "purpose": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged",
+     "purpose": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged",
      "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width",
      "mismatch": null,
      "outlook": null,
-     "brief": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
+     "brief": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
     },
-    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
+    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -16635,6 +17521,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16644,11 +17536,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 61,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -16832,6 +17724,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16841,11 +17739,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 66,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -16893,11 +17791,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 40.021,
+     "wallSec": 51.253,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 40.021,
+       "wallSec": 51.253,
        "reused": false,
        "reusedBy": null
       }
@@ -17052,6 +17950,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17061,17 +17965,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2032,
+     "ms": 1907,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1762,
+       "ms": 1598,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 270,
+       "ms": 309,
        "pass": true,
        "via": "targetIds"
       }
@@ -17117,23 +18021,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.831,
+     "wallSec": 56.278999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.831,
+       "wallSec": 19.548,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.88,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 36.731,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 29.88,
-     "reusedH2Sec": 29.88,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17294,6 +18198,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17303,17 +18213,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 484,
+     "ms": 447,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 423,
+       "ms": 403,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 61,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -17359,23 +18269,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.637,
+     "wallSec": 25.457,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.637,
+       "wallSec": 8.192,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.391,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 17.265,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 18.391,
-     "reusedH2Sec": 18.391,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17572,6 +18482,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17581,17 +18497,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4025,
+     "ms": 4184,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 3982,
+       "ms": 4158,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 43,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -17637,23 +18553,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.993,
+     "wallSec": 20.89,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.993,
+       "wallSec": 6.931,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.922,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 13.959,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 11.922,
-     "reusedH2Sec": 11.922,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17814,6 +18730,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17823,11 +18745,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 39,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 39,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
@@ -18095,6 +19017,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18104,11 +19032,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 30,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 30,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       },
@@ -18314,6 +19242,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18323,17 +19257,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11104,
+     "ms": 11457,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11034,
+       "ms": 11391,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 70,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -18528,6 +19462,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18537,11 +19477,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 52,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -18587,23 +19527,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 70.383,
+     "wallSec": 278.283,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 70.383,
+       "wallSec": 93.26,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 157.584,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 185.023,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 157.584,
-     "reusedH2Sec": 157.584,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18812,6 +19752,18 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18821,15 +19773,203 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 30,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "plutoCharonInertial",
+   "emoji": "🟣",
+   "name": "冥王星とカロン(慣性決定力版)— 移送した gain と公転周期",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
+    "objective": "met",
+    "state": "第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/inertial3-w295c.json"
+    ],
+    "en": {
+     "purpose": "Carry 🌛's gain in SI units; measure the Pluto-Charon period",
+     "state": "rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry 🌛's gain in SI units; measure the Pluto-Charon period. Met: rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only. Out of calibration scope."
+    },
+    "brief": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る。達・第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial3-295c",
+      "sec": 120,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -19001,6 +20141,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19010,11 +20156,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 35,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -19025,11 +20171,11 @@
   {
    "id": "charonGeoToy3",
    "emoji": "🌒",
-   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "name": "冥王星とカロン — geoPN=4 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
+    "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
     "objective": "partial",
     "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
     "calibration": "out-of-scope",
@@ -19039,13 +20185,13 @@
      "tests/out/geo3-w280c.json"
     ],
     "en": {
-     "purpose": "Compare the geoPN=3 period with a solar background against kF0",
+     "purpose": "Compare the geoPN=4 period with a solar background against kF0",
      "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
+     "brief": "Compare the geoPN=4 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
     },
-    "brief": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
+    "brief": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -19196,6 +20342,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19205,11 +20357,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 44,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 44,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -19257,11 +20409,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.578,
+     "wallSec": 63.62,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 53.578,
+       "wallSec": 63.62,
        "reused": false,
        "reusedBy": null
       }
@@ -19416,6 +20568,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19425,11 +20583,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 207,
+     "ms": 216,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 207,
+       "ms": 216,
        "pass": true,
        "via": "targetIds"
       },
@@ -19481,23 +20639,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.863,
+     "wallSec": 7.133,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.863,
+       "wallSec": 2.375,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.615,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.758,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.615,
-     "reusedH2Sec": 4.615,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19694,6 +20852,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19703,11 +20867,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 29,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 29,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
@@ -19757,30 +20921,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.958,
+     "wallSec": 65.872,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.958,
+       "wallSec": 12.287,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.358,
+       "wallSec": 28.078,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 42.391,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 53.585,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 66.749,
-     "reusedH2Sec": 24.358,
-     "reusedH4Sec": 42.39099999999999
+     "reusedSec": 28.078,
+     "reusedH2Sec": 28.078,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -19976,6 +21140,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19985,17 +21155,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3468,
+     "ms": 3243,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3424,
+       "ms": 3195,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 44,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -20196,6 +21366,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20205,17 +21381,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3492,
+     "ms": 3258,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3424,
+       "ms": 3195,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 68,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       }
@@ -20259,30 +21435,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.816,
+     "wallSec": 41.288,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.816,
+       "wallSec": 9.074,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.225,
+       "wallSec": 15.415,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 25.079,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 32.214,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 38.304,
-     "reusedH2Sec": 13.225,
-     "reusedH4Sec": 25.079
+     "reusedSec": 15.415,
+     "reusedH2Sec": 15.415,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -20478,6 +21654,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20487,17 +21669,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2915,
+     "ms": 2745,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2865,
+       "ms": 2690,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 50,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -20698,6 +21880,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20707,17 +21895,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2938,
+     "ms": 2734,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2865,
+       "ms": 2690,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 73,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -20764,23 +21952,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.249,
+     "wallSec": 13.216,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.249,
+       "wallSec": 4.279,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.209,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 8.937,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 8.209,
-     "reusedH2Sec": 8.209,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -20953,6 +22141,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20962,11 +22156,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 35,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 35,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       },
@@ -21209,6 +22403,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21218,17 +22418,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8138,
+     "ms": 7760,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 8069,
+       "ms": 7696,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 69,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -21239,11 +22439,11 @@
   {
    "id": "psrDoubleABGeoToy",
    "emoji": "🩻",
-   "name": "二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)",
+   "name": "二重パルサー J0737−3039A/B — geoPN=4 診断(f=1・較正候補ではない)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "観測質量のまま geoPN=3 則を当てる診断",
+    "purpose": "観測質量のまま geoPN=4 則を当てる診断",
     "objective": "unmet",
     "state": "周期 +0.0897%・掃引で観測をまたがない",
     "calibration": "out-of-scope",
@@ -21254,13 +22454,13 @@
      "behavior.geoToyOverlay"
     ],
     "en": {
-     "purpose": "Diagnostic that applies the geoPN=3 law with the observed masses",
+     "purpose": "Diagnostic that applies the geoPN=4 law with the observed masses",
      "state": "period +0.0897%; no swept setting straddles the observation",
      "mismatch": null,
      "outlook": null,
-     "brief": "Diagnostic that applies the geoPN=3 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."
+     "brief": "Diagnostic that applies the geoPN=4 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."
     },
-    "brief": "観測質量のまま geoPN=3 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"
+    "brief": "観測質量のまま geoPN=4 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -21399,6 +22599,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21408,11 +22614,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 125,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 125,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -21601,6 +22807,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21610,11 +22822,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 68,
+     "ms": 87,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 68,
+       "ms": 87,
        "pass": true,
        "via": "targetIds"
       }
@@ -21661,23 +22873,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.555,
+     "wallSec": 9.231,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.555,
+       "wallSec": 3.258,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.92,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.973,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.92,
-     "reusedH2Sec": 4.92,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -21880,6 +23092,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21889,11 +23107,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 41,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -21940,23 +23158,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.107,
+     "wallSec": 4.481,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.107,
+       "wallSec": 1.92,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.273,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.561,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.273,
-     "reusedH2Sec": 2.273,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -22159,6 +23377,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22168,11 +23392,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 31,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -22361,6 +23585,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22370,11 +23600,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 32,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -22563,6 +23793,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22572,11 +23808,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 27,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -22765,6 +24001,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22774,11 +24016,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 31,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -22967,6 +24209,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22976,11 +24224,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 91,
+     "ms": 80,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 91,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       }
@@ -23169,6 +24417,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23178,11 +24432,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 61,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -23371,6 +24625,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23380,11 +24640,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 59,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -23431,23 +24691,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 17.903,
+     "wallSec": 67.05799999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.903,
+       "wallSec": 21.089,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 42.914,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 45.969,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 42.914,
-     "reusedH2Sec": 42.914,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -23602,6 +24862,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23611,11 +24877,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 43,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -23852,6 +25118,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23861,11 +25133,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 53,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 53,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -24054,6 +25326,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24063,11 +25341,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 56,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -24243,6 +25521,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24252,11 +25536,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 60,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 52,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -24438,6 +25722,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24447,23 +25737,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3608,
+     "ms": 3432,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2677,
+       "ms": 2553,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 870,
+       "ms": 830,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 61,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -24639,6 +25929,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24648,11 +25944,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 49,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -24828,6 +26124,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24837,11 +26139,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 84,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 84,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -24887,23 +26189,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.531,
+     "wallSec": 1.9300000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.531,
+       "wallSec": 0.59,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.177,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.34,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.177,
-     "reusedH2Sec": 1.177,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -25046,6 +26348,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25055,17 +26363,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3794,
+     "ms": 3977,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3757,
+       "ms": 3926,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 37,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -25266,6 +26574,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25275,17 +26589,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3811,
+     "ms": 3976,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3757,
+       "ms": 3926,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 54,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -25331,23 +26645,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.069,
+     "wallSec": 0.352,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.069,
+       "wallSec": 0.168,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.097,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 0.184,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.097,
-     "reusedH2Sec": 0.097,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -25486,6 +26800,12 @@
      {
       "key": "compose293",
       "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
       "share": "all",
       "always": false
      },
@@ -25673,6 +26993,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25682,11 +27008,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 34,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -25862,6 +27188,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25871,11 +27203,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3592,
+     "ms": 3286,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3592,
+       "ms": 3286,
        "pass": true,
        "via": "targetIds"
       },
@@ -26057,6 +27389,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26066,11 +27404,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5874,
+     "ms": 5736,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5874,
+       "ms": 5736,
        "pass": true,
        "via": "targetIds"
       }
@@ -26252,6 +27590,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26261,17 +27605,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5720,
+     "ms": 5516,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5720,
+       "ms": 5515,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -26459,6 +27803,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26468,11 +27818,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11997,
+     "ms": 11827,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 11997,
+       "ms": 11827,
        "pass": true,
        "via": "targetIds"
       }
@@ -26642,6 +27992,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26651,11 +28007,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 26,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -26825,6 +28181,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26834,11 +28196,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 23,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -27008,6 +28370,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27017,11 +28385,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 471,
+     "ms": 461,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 471,
+       "ms": 461,
        "pass": true,
        "via": "targetIds"
       }
@@ -27203,6 +28571,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27212,25 +28586,25 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4903,
+     "ms": 5217,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2503,
+       "ms": 2800,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2399,
+       "ms": 2416,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturnExp",
+       "id": "behavior.saturn-kframe-control",
        "ms": 1,
        "pass": true,
-       "via": "claims"
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.saturn",
@@ -27239,10 +28613,10 @@
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturn-kframe-control",
+       "id": "behavior.saturnExp",
        "ms": 0,
        "pass": true,
-       "via": "claims+targetIds"
+       "via": "claims"
       }
      ]
     }
@@ -27410,6 +28784,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27419,23 +28799,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4932,
+     "ms": 5234,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2649,
+       "ms": 2779,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2266,
+       "ms": 2437,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 17,
+       "ms": 18,
        "pass": true,
        "via": "claims"
       },
@@ -27485,30 +28865,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.251,
+     "wallSec": 36.056,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.251,
+       "wallSec": 8.273,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.445,
+       "wallSec": 12.95,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 25.314,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 27.783,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 38.759,
-     "reusedH2Sec": 13.445,
-     "reusedH4Sec": 25.314
+     "reusedSec": 12.95,
+     "reusedH2Sec": 12.95,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -27668,6 +29048,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27677,23 +29063,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9360,
+     "ms": 9484,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 9288,
+       "ms": 9413,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 54,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 15,
+       "ms": 19,
        "pass": true,
        "via": "claims"
       },
@@ -27869,6 +29255,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27878,11 +29270,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 17,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -28052,6 +29444,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28061,11 +29459,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 13,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -28113,11 +29511,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 120.052,
+     "wallSec": 152.222,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 120.052,
+       "wallSec": 152.222,
        "reused": false,
        "reusedBy": null
       }
@@ -28278,6 +29676,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28287,17 +29691,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 289,
+     "ms": 265,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 260,
+       "ms": 237,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 29,
+       "ms": 28,
        "pass": true,
        "via": "claims"
       }
@@ -28482,6 +29886,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28491,11 +29901,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 305,
+     "ms": 386,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 305,
+       "ms": 386,
        "pass": true,
        "via": "targetIds"
       }
@@ -28665,6 +30075,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28674,28 +30090,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4875,
+     "ms": 4678,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4770,
+       "ms": 4594,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 104,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.binary",
-       "ms": 1,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.kframe-binary-default",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.binary",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -28867,6 +30283,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28876,17 +30298,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 138,
+     "ms": 127,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 126,
+       "ms": 114,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 12,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -29056,6 +30478,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29065,11 +30493,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 827,
+     "ms": 834,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 827,
+       "ms": 834,
        "pass": true,
        "via": "targetIds"
       },
@@ -29245,6 +30673,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29254,23 +30688,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2199,
+     "ms": 2132,
      "tests": [
       {
        "id": "preset.spinup",
-       "ms": 1130,
+       "ms": 1140,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-spinup",
-       "ms": 1069,
+       "ms": 991,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -29440,6 +30874,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29449,11 +30889,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 755,
+     "ms": 136,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 755,
+       "ms": 136,
        "pass": true,
        "via": "targetIds"
       }
@@ -29623,6 +31063,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29632,11 +31078,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 127,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 127,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -29806,6 +31252,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29815,11 +31267,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 50,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -29989,6 +31441,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29998,11 +31456,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 13,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -30172,6 +31630,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30181,11 +31645,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 16,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -30355,6 +31819,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30364,17 +31834,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 189,
+     "ms": 207,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 107,
+       "ms": 114,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 82,
+       "ms": 93,
        "pass": true,
        "via": "targetIds"
       }
@@ -30550,6 +32020,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30559,11 +32035,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 13,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -30733,6 +32209,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30742,11 +32224,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 20,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -30916,6 +32398,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30925,17 +32413,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 207,
+     "ms": 196,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 174,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 33,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -31101,6 +32589,12 @@
      {
       "key": "compose293",
       "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
       "share": "all",
       "always": false
      },
@@ -31288,6 +32782,12 @@
       "always": false
      },
      {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31297,17 +32797,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 83,
+     "ms": 59,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 64,
+       "ms": 31,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -31319,22 +32819,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 123,
-  "regenSecSum": 29630,
+  "regenSteps": 125,
+  "regenSecSum": 29967,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
   "qaTotal": 1064,
-  "qaDurationMs": 2060017,
+  "qaDurationMs": 1992880,
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 17,
-    "sec": 426.36300000000006
+    "n": 3,
+    "sec": 56.443
    },
    "h4": {
-    "n": 3,
-    "sec": 92.78399999999999
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
