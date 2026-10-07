@@ -34047,7 +34047,8 @@ const FAMILY_VARIANT_LABEL={
   plutoCharonKF0Control:{ja:"観測入力の geoPN=1 の対照(元期 A の状態)", en:"observed-input geoPN=1 control (epoch-A state)"},   // 第288便b: 「kF0」を外した
   plutoCharonDFM:{ja:"相対すべりモデル", en:"relative-slip model"},
   plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"},
-  charonGeoToy3:{ja:"geoPN=4 契約の診断コピー(太陽の背景)", en:"geoPN=4 contract diagnostic (solar background)"} };   // 第280便c の 🌒(統合時に追加 — 表示専用)
+  charonGeoToy3:{ja:"geoPN=4 契約の診断コピー(太陽の背景)", en:"geoPN=4 contract diagnostic (solar background)"},   // 第280便c の 🌒(統合時に追加 — 表示専用)
+  plutoCharonInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"} };   // 第295便c の 🟣(表示専用)
 function familyVariantLabel(p){
   const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
   return e? (LANG==="en"? e.en : e.ja) : "";

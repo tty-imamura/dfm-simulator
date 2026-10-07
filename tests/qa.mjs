@@ -25109,14 +25109,15 @@ if (!FAST) {
       o.has280d = HP.allPresets().some((z) => z.id === 'plutoCharonSyncZero');   // 第280便d: 🥶☃️ も double を宣言(2→4)
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰 も double を宣言(💮 の写し・4→5)
       o.has288a = HP.allPresets().some((z) => z.id === 'fixedCaptureCopy');   // 第288便a: 🥜 も double を宣言(🌰 の写し・5→6)
-      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌 も double を宣言(新法則版 relativeDrag.law:"inertial" の診断本・6→7)
+      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');
+      o.has295c = HP.allPresets().some((z) => z.id === 'plutoCharonInertial' && z.physics && z.physics.massPrecision === 'double');   // 第295便c: 🟣 は 🥶 の写しなので double を宣言(8→9)   // 第290便c: 🐌 も double を宣言(新法則版 relativeDrag.law:"inertial" の診断本・6→7)
       o.nSoftFloor = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).length;
       o.nMfs = HP.allPresets().filter((z) => z.physics && z.physics.massFloorScaled !== undefined).length;
       HP.loadPreset('saturn', false);
       return o;
     });
     add('preset.massPrecision',
-      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0),
+      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0) + (r.has295c ? 1 : 0),
       `不正値は警告つき削除=${r.badDropped} / 既定 "single" は正準形に出ない(署名同一)=${r.singleNotCanonical} / `
       + `"double" は正準形と署名に入る=${r.doubleCanonical} / build で S.m・S.mEff が Float64Array=${r.f64} / `
       + `**未宣言の本は Float32 のまま**(❄️ で確認・自転も Float32)=${r.f32Default} / `
@@ -25601,6 +25602,8 @@ if (!FAST) {
       const IDS = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput', 'plutoCharonSyncZero'];
       // 第280便c: 🌒 charonGeoToy3(geoPN=3 契約の診断コピー)も family pluto の variant(世代で切り替え)
       if (HP.allPresets().some((q) => q.id === 'charonGeoToy3')) IDS.push('charonGeoToy3');
+      // 第295便c(原仮定者の裁定(第85報)「慣性決定力版サンプル: 冥王星とカロン」): 🟣 plutoCharonInertial も family pluto の variant(世代で切り替え)
+      if (HP.allPresets().some((q) => q.id === 'plutoCharonInertial')) IDS.push('plutoCharonInertial');
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = RETIRED_PRESETS に ❄️ の行。入口は 🥶(primary)・❄️⛄☃️ は退役(家族に残る)・
       //   在位の variant は 🌨️🌒(「この仲間」と入口の (+n) は在位の variant だけを数える)
       o.has290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;

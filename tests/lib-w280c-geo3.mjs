@@ -14,7 +14,7 @@
 //
 // ■ しないこと
 //   ・値を作らない(測るのは器 `tests/exp-w280c-geo3.mjs`)。**観測との一致・較正を主張しない**。
-export const GEO3_HARNESS_VERSION = 'w280c-geo3-1';
+export const GEO3_HARNESS_VERSION = 'w280c-geo3-2';   // 第295便: 複製の geoPN を o.geoPN(4 = 移住後の契約)で選べる
 
 /** 凍結参照系(背景の値をどの系で持つか)—— 診断コピーの既定 */
 export const GEO3_FRAME = { origin: 'barycenter', epoch: 't0(第280便c の診断コピー)', rotation: 'none', translation: 'comoving' };
@@ -44,7 +44,9 @@ export function makeGeo3Copy(base, o) {
   }
   p.sampleClass = 'principle';
   const ph = p.physics = Object.assign({}, p.physics);
-  ph.geoPN = 3; ph.kFrame = 0;
+  // 第295便(原仮定者の裁定(第85報)geoPN「3 と銀河などを分ける → 4」): 内蔵の診断コピー 🔁🌒 は geoPN=4 へ移住(bit 不変)。
+  //   器の複製は o.geoPN===4 のときだけ 4(既定は従来どおり 3 —— 他の器〔geo1・geomode・pn1〕の正本を変えない)
+  ph.geoPN = (s.geoPN === 4) ? 4 : 3; ph.kFrame = 0;
   const sm = { mode: 'vertex', gravity: false, inertia: false, lawVersion: 'vMinusU', pn: s.pn || 'off' };
   if (sm.pn === 'reference-1PN') sm.pnVelocity = s.pnVelocity;
   sm.velocityMeaning = s.velocityMeaning;

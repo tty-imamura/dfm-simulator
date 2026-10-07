@@ -116,6 +116,8 @@ const CHARON_HISTORY_W291 = Object.freeze({ window: CHARON_HISTORY_W289.window,
   officialKf0: { period: { name: '公転周期(kFrame=0 対照・同方向1周)', meas: 551864.0613634228, rev: null } },
   sourceSet: '新しい源集合(第291便b —— kF0 の 1PN 源は全質量源)', sourceContract: 'w291b-eih-2' });
 const HAS291B = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
+// 第295便: 内蔵の診断コピー 🔁🌒 は geoPN=4(GEO4_MIGRATED)の世代では 4 で宣言されている —— (f) の器の複製も同じ geoPN にする
+const GEO4_GEN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const GEO4_MIGRATED=') >= 0;
 const CHARON_HISTORY = HAS291B ? CHARON_HISTORY_W291 : CHARON_HISTORY_W289;
 const CHARON_HISTORY_FROM = HAS291B ? 'history(geo3-w280c の第291便 鎖 2 の正本 C0 rev2S —— 新しい源集合・❄️ は第290便b で退役)' : 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)';
 const windowOf = (id) => { const p = calRow(id, false);
@@ -284,8 +286,8 @@ if (!PART || PART === 'checks') {
     explicitMutual1: makeGeo3Copy(pc3, { id: 'cconv_ex1', pn: 'off', velocityMeaning: 'xdot', field: 'explicit', external: ['body:2'], mutual: 1 }),
   };
   const harnessCopies = {
-    mercuryGeoToy3: makeGeo3Copy(merc, { id: 'mercuryGeoToy3', pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'v', background: uniformBackground(V_MERC) }),
-    charonGeoToy3: makeGeo3Copy(pc, { id: 'charonGeoToy3', pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'xdot', background: charonBg }),
+    mercuryGeoToy3: makeGeo3Copy(merc, { id: 'mercuryGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'v', background: uniformBackground(V_MERC) }),
+    charonGeoToy3: makeGeo3Copy(pc, { id: 'charonGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'xdot', background: charonBg }),
   };
   out.checks = await pg.evaluate(({ good, convCases, harnessCopies, uBg }) => {
     const C = {};
