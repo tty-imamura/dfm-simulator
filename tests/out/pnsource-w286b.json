@@ -4,7 +4,7 @@
   "wave": "第286便b",
   "target": "beta/index.html",
   "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-  "generatedAt": "2026-10-07T18:07:23.389Z",
+  "generatedAt": "2026-10-07T19:30:13.668Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -20,15 +20,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823719,
-    "sha256": "b7b59766736f5ea013935723f5c10969413271cc93d3bff4de7708ed7cf182cd",
-    "mtime": "2026-10-07T17:50:49.455Z"
+    "bytes": 1838844,
+    "sha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
+    "mtime": "2026-10-07T19:12:45.687Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 50854,
-    "sha256": "9da04d028f45764ff9abc1f59ae961792abd219ea744933a72e5cffbf3e3815f",
-    "mtime": "2026-10-07T17:56:45.683Z"
+    "sha256": "5befe9ce3ae13bd69ff8eaedb915e2914058640a8dba926fb15bd73da4be2e00",
+    "mtime": "2026-10-07T19:19:08.235Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -114,7 +114,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "27f6476be04cd23c114133f2b4966b68cf995c6527c68aa956464f3bedb13fdd",
+    "stableSha256": "bba8d588729cfdab3e4ff21787a474c09ad5763b5f480a6c9ebbb2a96701a77c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1f268c426677574b71644bd7a7dd5249015a38ee9aece6e7a21abce046864d93",
+    "stableSha256": "74e0badf5b9167648f00829feb9876f8d60bdc45844869a610f922e6b36e3385",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "2a69d029c94dfd39ba0a5b765e853695504d2fffc606543743787922b97403b2",
+    "stableSha256": "4ea5563dbc4ce3f2c8910be4d2b1d72654c4d8ef5371fb1f05ef36f51a6209e3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -2418,13 +2418,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.088,
+   "wallSec": 0.124,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.147,
+   "wallSec": 0.202,
    "errors": 0
   }
  },
- "elapsedS": 620.89
+ "elapsedS": 652.03
 }
