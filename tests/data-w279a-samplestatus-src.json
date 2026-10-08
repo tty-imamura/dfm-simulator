@@ -141,6 +141,18 @@
     "state": "apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only"
    }
   },
+  "mercurySunInertialFit": {
+   "purpose": "🟤 の写しで gain だけを近点率(gain 0 の対照との差 43.0″/世紀)に合わせる",
+   "objective": "met",
+   "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 の差 1.59e-4(fitted)・周期と離心率は合わせていない・dragCore は同定できない",
+   "evidence": [
+    "tests/out/fit-w296b.json"
+   ],
+   "en": {
+    "purpose": "A copy of 🟤 with only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0)",
+    "state": "gain 0.004522415; residual 1.27e-5 <= h vs h/2 1.59e-4 (fitted); period and e not matched"
+   }
+  },
   "plutoCharonInertial": {
    "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
    "objective": "met",
@@ -151,6 +163,18 @@
    "en": {
     "purpose": "Carry 🌛's gain in SI units; measure the Pluto-Charon period",
     "state": "rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only"
+   }
+  },
+  "plutoCharonInertialFit": {
+   "purpose": "🟣 の写しに構造核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる",
+   "objective": "met",
+   "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 の差 4.56e-5 s(fitted)・核は 1 量では同定できない・軌道の形は合わせていない",
+   "evidence": [
+    "tests/out/fit-w296b.json"
+   ],
+   "en": {
+    "purpose": "A copy of 🟣 with prior cores and only the gain matched to the period (6.3872273 d)",
+    "state": "gain 6729.009; residual 3.25e-7 s <= h vs h/2 4.56e-5 s (fitted); cores not identifiable"
    }
   },
   "boxBinaryToy": {

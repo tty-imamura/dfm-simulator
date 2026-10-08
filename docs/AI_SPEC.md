@@ -339,7 +339,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 # 主張の範囲とフィット(第296便a —— 原仮定者の裁定(第86報))
 - ${CLAIM_SCOPE.ja}
 - geoPN=1(1PN 準拠)の本は観測入力のまま照合する基準である。法則のノブ(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と、天体の構造核の宣言)を観測値に合わせて調整しない(観測入力〔質量・軌道要素・元期〕はそのまま使う)。
-- それ以外の geoPN で観測値に合わせて値を調整したときは、最上位の fitRecord に標的の観測量・窓・調整した鍵と探索範囲を書く(書けない調整はしない)。合わせられなかったときは合ったと書かない。
+- それ以外の geoPN でも、観測値に合わせた値の調整(フィット)はアプリの生成器が走らせ、その記録(標的の観測量・窓・調整した鍵と探索範囲・残差)も生成器が機械で付ける。この出力では調整の記録を書かず、観測値に合わせた・合ったとも書かない(値は宣言としてそのまま置く)。
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
@@ -3328,7 +3328,14 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **AI 生成**: 旧法則版(`spaceMesh.lawVersion`)は新しく作る設定では使わない(§56 のまま —— 0 で走るようになっても推奨しない)。
 - QA: **`behavior.sampleGenContract296`**(新設 —— root は SKIP)と、世代切替 has296a(`MODE_SAVE_WARN_CODES` に `geo1Fitted`)で改めた `behavior.modeSaveWarnings`(17 本)・`behavior.modeIssues295`・`docs.geoModeTable`(現行の表は docs/PHYSICS.md〔第296便a〕)・
   `behavior.geoModeResolve`・`preset.modeNoRestriction`・`behavior.geo3Inertial294`(code 17 本)・`preset.geo3Contract`(dispatch の形)・`behavior.geo4Migrate295`(geoPN=4 の 3 本は 14〜16 本目)。
-## 60. 第296便c —— geoPN=4 = 多粒子の連鎖引きずり: 宣言鍵 `physics.relativeDrag.solver`・`solverTol`・`solverMaxIter`・`spinSource` と試作本 🔗 chainDiskToy(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・統括の検証項目 R159・**SYSTEM_PROMPT には載せない**)
+## 60. 第296便b —— geoPN=3 のフィット生成器・フィットの記録 `fitRecord`・派生本 2 本(🟫 mercurySunInertialFit・🟪 plutoCharonInertialFit)(原仮定者の裁定(第86報)「geoPN=3 のサンプルは、観測値に合うように dragCore をフィットさせる。gain の妥当性も確認する」・統括の検証項目 R158・**SYSTEM_PROMPT には載せない**)
+
+- **新しい最上位の宣言鍵 `fitRecord`**(表示専用・**presetSig の外**・力学は読まない): `{version:"w296b-1", parent, law, targets:[{q,obs,unit,source,window}], knobs:[{key,range:[lo,hi],final}], fixed:[…], procedure, dt, steps, residual:{value,unit,model?,rel?}, numerics:{h2,dtHalf?}, status:"fitted"|"unreachable-in-bounds"|"not-identifiable", notFitted:[…], notIdentifiable?:[…]}`。受理器 `validateFitRecord`(HP に公開・`FIT_RECORD_VERSION`・`FIT_RECORD_KEYS`・`FIT_RECORD_STATUS`)—— 未知の鍵はどの深さでも受理しない・status:"fitted" は |residual.value| ≤ numerics.h2(h と h/2 の差)のときだけ。`validatePreset` は受理しない記録を**警告つきで削除**し、受理した記録は鍵の並びを固定した正準形に置き換える(保存 JSON の往復で同じ)。説明タブに「フィットの記録」1 枚(`#fitRecordBox`)。
+- **速度の規約の純関数 `inertialDragInverseMap(S)`**(HP に公開・`INERTIAL_INVERSE_MAP_VERSION` "w296b-inverse-1"): 合成則 solve(velocity) の (I+L)W = v から、座標速度 W(S.vx/S.vy)を力学速度 v = (I+L)W へ写す(状態を動かさない・履歴を読まない・pinned と質量が正でない行は v=W・law:"inertial" でない本・compose:"sum"・一致点・n>4096 は null)。**本の既定にはしない**(器が 🟣 の対照として走らせるだけ)。
+- **生成器** `tests/exp-w296b-fit.mjs`(純関数 `tests/lib-w296b-fit.mjs`・正本 `tests/out/fit-w296b.json`・段 fit-296b —— `W296B_OUT` で出力先・`W296B_WORKERS` で並列数・`W296B_PART` で本を絞る〔正本を書かない〕): 段 0 規約・段 1 速度の規約の対照・段 2 dragCore の感度 43 通り・段 3 gain の探索(対数格子で挟む → Illinois → 7 桁 → h・h/2)と f の掃引・段 4 派生本の照合・段 5 受理・段 6 gain の SI 表。正本の鍵: `conventions`・`velocityConvention`・`sensitivity`・`search`・`fitRecords`・`derived`・`gainTable`・`gates`・`timing`。
+- **派生本 2 本**(根を挟めた本だけ —— 🌤️ は 8.85 年を挟めず unreachable-in-bounds の記録だけ): 🟫 `mercurySunInertialFit`(🟤 の写し+`relativeDrag.gain` 0.004522415 —— gain 0 の対照との近点率の差を 43.0″/世紀に)・🟪 `plutoCharonInertialFit`(🟣 の写し+gain 6729.009・`coreTable:{n:4096}`・両天体の `dragCore` 事前値 —— 公転周期を 6.3872273 日に)。`sampleClass:"principle"`・`familyRole:"variant"`・`referenceKind:"observation-fit"`(宣言専用の新しい値)・`fidelity:"real"`。notClaim の鍵(新設 4 つ・I18N `nc_*` の ja/en): `perihelion_43_fit`・`period_target_fit`・`gain_universal_fit`・`single_quantity_fit`。
+- AI 生成の雛形にはしない(SYSTEM_PROMPT に `fitRecord` も派生本も載せない —— 記録は生成器だけが書く)。QA: **`preset.fitDerived296`**・**`docs.fitContract296`**(新設)。
+## 61. 第296便c —— geoPN=4 = 多粒子の連鎖引きずり: 宣言鍵 `physics.relativeDrag.solver`・`solverTol`・`solverMaxIter`・`spinSource` と試作本 🔗 chainDiskToy(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・統括の検証項目 R159・**SYSTEM_PROMPT には載せない**)
 
 - **連鎖は既存の全体 solve が持つ**((I+L)u = s・s_i = Σ_j a_ij (v_j − v_i) —— 第293便e/g の既定 compose:"solve")。本便の鍵はその上の 2 つで、どちらも `law:"inertial"` ∧ 合成則 solve の本だけ(compose:"sum" とは一緒に宣言しない —— 拒否)・**省略は正準形に出ない**(既存の本の署名は 1 字も変わらない)。隣の u を再加算する緩和反復は無い。
 - **`solver:"network-pcg-v1"`**(版 `REL_DRAG_CHAIN_VERSION` = "w296c-chain-1"): n > `REL_DRAG_SOLVE_DIRECT_MAX`(64)の步で Gauss–Seidel(`solveIters`)の代わりに、質量で対称化した系(z_i = √m_i u_i —— B = M(I+L) は対称正定値)を対角前処理の共役勾配法で解く(`HP.inertialDragPCG`)。n ≤ 64 は従来どおり直接法。
@@ -3340,7 +3347,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **試作本 🔗 `chainDiskToy`**(群「運動と時空」・`sampleClass:"principle"`・`fidelity:"toy"`・notClaim `galaxy_disk`・`flat_rotation`(新設 —— I18N `nc_*` の ja/en)・`gain_universal`(文は「本ごとの宣言値」に一般化)): geoPN 4・kFrame 0・G 0.005・`relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1", spinSource:"surfaceFlip"}`・中心(m 100・radius 6・spin 0.5・pinned)+ 静止した粒子 80 個(m 5・円盤半径 24・seed 20261008 —— n=81 で PCG が走る)。ワンタップ対照は pairs を中心と各粒子の対だけにした「連鎖を切った対照」。gain は宣言値(フィットしない)。
 - **測定の正本** `tests/out/chain-w296c.json`(器 `tests/exp-w296c-chain.mjs`・純関数 `tests/lib-w296c-chain.mjs`・段 chain-296c —— `W296C_OUT` で出力先・`W296C_STEPS` で短走): `part1`(3 粒子の零試験)・`part2`(65 粒子の鎖 —— GS 8 回と PCG の残差 2 通りの規格化)・`part3`(4 層×16 点の環・剛体回転の残差)・`part4`(自転源の M1 と 2 次元求積・第280便b の sphere2D・点の受け手の u・スピン 0)・`part5`(🔗 の 2000 步・h/2・連鎖を切った対照)・`gates`。obsCard の model 欄は正本の転記(QA `docs.chainContract296`)。
 - AI 生成の雛形にはしない(SYSTEM_PROMPT に載せない)。QA: **`behavior.chain296`**・**`docs.chainContract296`**(新設)と、世代切替で改めた `behavior.geo4Migrate295`・`behavior.modeSaveWarnings`(code +2・4 の 6 通り)・`behavior.geoModeResolve`・`docs.geoModeTable`(4 の 3 行)・`behavior.composeGate`(解法の語彙 pcg)・新本の本数の固定値。
-## 61. 第296便d —— 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160・**表示と QA の器だけ**・**SYSTEM_PROMPT には載せない**)
+## 62. 第296便d —— 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160・**表示と QA の器だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **役割名**(`FAMILY_VARIANT_LABEL` —— プリセットの外の表示専用の表): `earthMoonSunInertial`・`mercurySunInertial` に ja「慣性決定力版(係数移送)」/ en "inertial-determinacy build (coefficient transfer)"(`plutoCharonInertial` と同じ語)。`charonGeoToy3` は ja「旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)」/ en "legacy vMinusU contract diagnostic (kept under geoPN=4; solar background)"。ID・物理・presetSig は不変。
 - **文言**: `wbgTip` の「geoPN=3 の場」→「旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場」。`grpDragDesc` の 4 の文の後に「在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ)」。`ppGeoUse0`〜`3` は「推奨は <構成>(逸脱は保存時に警告)」の 1 文(`ppGeoUse4` は変えていない)。
