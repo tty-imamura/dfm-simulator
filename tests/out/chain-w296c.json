@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第296便c",
   "target": "beta/index.html",
-  "targetSha256": "d39cfd06fed1566d62d4e2c012168bf3598d6be5d7f6beb791bd5988a29b234b",
-  "generatedAt": "2026-10-08T07:32:56.685Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:53:27.550Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5898727,
-    "sha256": "d39cfd06fed1566d62d4e2c012168bf3598d6be5d7f6beb791bd5988a29b234b",
-    "mtime": "2026-10-08T07:32:38.948Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    }
   ],
   "code": [
@@ -18,49 +18,49 @@
     "file": "tests/exp-w296c-chain.mjs",
     "bytes": 34776,
     "sha256": "bc528af2d39e11622c452c474473b5f3ccf653b7358f8b70b0060982912c94d8",
-    "mtime": "2026-10-08T06:59:52.987Z"
+    "mtime": "2026-10-08T07:41:29.892Z"
    },
    {
     "file": "tests/lib-w296c-chain.mjs",
     "bytes": 12258,
     "sha256": "b97d6a39c925bcf1ad56705d8b31f3364940c3fcd3b5879a872e6f9042a5412e",
-    "mtime": "2026-10-08T06:40:28.736Z"
+    "mtime": "2026-10-08T07:41:29.892Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-08T06:20:08.196Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-10-08T06:20:08.196Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-08T06:20:08.196Z"
+    "mtime": "2026-10-02T23:11:02.948Z"
    },
    {
     "file": "tests/lib-w293e-compose.mjs",
     "bytes": 22457,
     "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
-    "mtime": "2026-10-08T06:20:08.212Z"
+    "mtime": "2026-10-05T18:53:12.444Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-08T06:20:08.184Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-08T06:20:08.204Z"
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
   "codeSha256": "dbd6d973c19634a69e70ea66ba4dad46006c93930df6b34e245475ddb256998b",
@@ -128,11 +128,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1037,
-   "segments": 946,
-   "closureShare": 0.3263
+   "names": 1057,
+   "segments": 966,
+   "closureShare": 0.3253
   },
-  "scopeSha256": "ed5726b1039d7f0b0e454331bcc55993ea01df78d4ba6b176aba410dd35b62d2",
+  "scopeSha256": "b28a2a9c179f61c5545443c8a9059b03bf8c0237fa72794c409d3bf593c74428",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -662,7 +662,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 3.783,
+   "wallSec": 4.224,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -817,7 +817,7 @@
    "steps": 4000,
    "n": 81,
    "t": 31.999999999997364,
-   "wallSec": 7.653,
+   "wallSec": 8.257,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -890,7 +890,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 1.243,
+   "wallSec": 1.296,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -1070,5 +1070,5 @@
   "toy": true
  },
  "ok": true,
- "elapsedS": 17.648
+ "elapsedS": 19.458
 }

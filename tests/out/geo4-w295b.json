@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便b",
   "target": "beta/index.html",
-  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
-  "generatedAt": "2026-10-07T13:57:15.349Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:47:25.345Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5853521,
-    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
-    "mtime": "2026-10-07T12:21:11.966Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    }
   ],
   "code": [
@@ -70,7 +70,10 @@
    "inertialSolveFrom",
    "geo4NoMesh",
    "geo4Inertial",
-   "geo4KFrame"
+   "geo4KFrame",
+   "geo1Fitted",
+   "geo4Solver",
+   "geo4Both"
   ],
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第85報)(geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する)",
@@ -102,11 +105,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1021,
-   "segments": 930,
+   "names": 1053,
+   "segments": 962,
    "closureShare": 0.3242
   },
-  "scopeSha256": "542f518e1cc639e0571fcfddad985370c6efeafb80206ea1b605ece38d0ff632",
+  "scopeSha256": "6a7db945b302673d0b284207282f1786b3fe4dd04a112552131dfdb56d2c20e6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -191,7 +194,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 28.906
+    "wallSec": 32.7
    },
    "geo4": {
     "mode": {
@@ -255,7 +258,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 27.575
+    "wallSec": 32.34
    },
    "cmp": {
     "firstDiffStep": null,
@@ -345,7 +348,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 8.649
+    "wallSec": 9.653
    },
    "geo4": {
     "mode": {
@@ -409,7 +412,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 8.652
+    "wallSec": 9.897
    },
    "cmp": {
     "firstDiffStep": null,
@@ -499,7 +502,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 8.599
+    "wallSec": 10.38
    },
    "geo4": {
     "mode": {
@@ -563,7 +566,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 7.975
+    "wallSec": 9.428
    },
    "cmp": {
     "firstDiffStep": null,
@@ -653,7 +656,7 @@
      "n": 123,
      "hex": "8288be0c"
     },
-    "wallSec": 8.908
+    "wallSec": 12.133
    },
    "geo4": {
     "mode": {
@@ -717,7 +720,7 @@
      "n": 123,
      "hex": "8288be0c"
     },
-    "wallSec": 8.776
+    "wallSec": 10.786
    },
    "cmp": {
     "firstDiffStep": null,
@@ -807,7 +810,7 @@
      "n": 123,
      "hex": "26c6a926"
     },
-    "wallSec": 8.506
+    "wallSec": 10.1
    },
    "geo4": {
     "mode": {
@@ -871,7 +874,7 @@
      "n": 123,
      "hex": "26c6a926"
     },
-    "wallSec": 7.642
+    "wallSec": 10.03
    },
    "cmp": {
     "firstDiffStep": null,
@@ -961,7 +964,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 51.234
+    "wallSec": 61.423
    },
    "geo4": {
     "mode": {
@@ -1025,7 +1028,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 47.102
+    "wallSec": 60.522
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1115,7 +1118,7 @@
      "n": 122,
      "hex": "ad7e5913"
     },
-    "wallSec": 0.188
+    "wallSec": 0.237
    },
    "geo4": {
     "mode": {
@@ -1179,7 +1182,7 @@
      "n": 122,
      "hex": "ad7e5913"
     },
-    "wallSec": 0.161
+    "wallSec": 0.146
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1269,7 +1272,7 @@
      "n": 122,
      "hex": "9382bc39"
     },
-    "wallSec": 0.167
+    "wallSec": 0.163
    },
    "geo4": {
     "mode": {
@@ -1333,7 +1336,7 @@
      "n": 122,
      "hex": "9382bc39"
     },
-    "wallSec": 0.134
+    "wallSec": 0.093
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1423,7 +1426,7 @@
      "n": 122,
      "hex": "854454d8"
     },
-    "wallSec": 0.121
+    "wallSec": 0.105
    },
    "geo4": {
     "mode": {
@@ -1487,7 +1490,7 @@
      "n": 122,
      "hex": "854454d8"
     },
-    "wallSec": 0.065
+    "wallSec": 0.061
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1533,8 +1536,8 @@
    92,
    28,
    19,
-   7,
-   9
+   9,
+   10
   ]
  },
  "off": {
@@ -1604,7 +1607,7 @@
     "n": 122,
     "hex": "45c3d348"
    },
-   "wallSec": 0.258
+   "wallSec": 0.268
   },
   "kFrame1": {
    "mode": {
@@ -1674,7 +1677,7 @@
     "n": 124,
     "hex": "5fa80e6d"
    },
-   "wallSec": 0.389
+   "wallSec": 0.394
   }
  },
  "frozen": [
@@ -1714,5 +1717,5 @@
   "inertial3": true
  },
  "ok": true,
- "elapsedS": 228.268
+ "elapsedS": 275.215
 }

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-  "generatedAt": "2026-10-07T19:41:53.490Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:48:02.713Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5856758,
-    "sha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-    "mtime": "2026-10-07T17:31:27.415Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838844,
-    "sha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
-    "mtime": "2026-10-07T19:12:45.687Z"
+    "bytes": 1821630,
+    "sha256": "561540913361847c9804628b33bcaa23c8bf505a4c92a22f941d3e3c54aac499",
+    "mtime": "2026-10-08T10:35:56.136Z"
    }
   ],
   "code": [
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1022,
-   "segments": 931,
+   "names": 1054,
+   "segments": 963,
    "closureShare": 0.3244
   },
-  "scopeSha256": "e96cae40761529a1099dd809a5a9e6366abd43f494193b50afc66c7a85038ed4",
+  "scopeSha256": "abfadb12669a3582de5ea4eab3eb4c1e8d725ce681ca410c247111cd124318d2",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "bba8d588729cfdab3e4ff21787a474c09ad5763b5f480a6c9ebbb2a96701a77c",
+    "stableSha256": "8feda71a8f8df3a3fc7a4cb64c33a9a7078b56724cc92cc0d0a9fd09a9fa2ff9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "74e0badf5b9167648f00829feb9876f8d60bdc45844869a610f922e6b36e3385",
+    "stableSha256": "942833d14afff554c2ed250d5c14f95fd75269f4b075cb64403ea2c103f4dccd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -536,7 +536,7 @@
  "oneStep": {
   "baseRev": "b92ffa1",
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "n": 155,
+  "n": 158,
   "nBase": 142,
   "identical": 92,
   "differ": [
@@ -568,6 +568,7 @@
    "mercury",
    "mercuryReal",
    "mercurySunInertial",
+   "mercurySunInertialFit",
    "mercuryGeoToy3",
    "mercuryRealKF1",
    "solarInner",
@@ -579,6 +580,7 @@
    "plutoCharonKF0Control",
    "plutoCharonDiagInput",
    "plutoCharonInertial",
+   "plutoCharonInertialFit",
    "charonGeoToy3",
    "uranusReal",
    "neptuneReal",
@@ -595,6 +597,7 @@
    "psrB1534DFM",
    "psrB1534CF",
    "inertialDragPair",
+   "chainDiskToy",
    "gw150914Merge4s",
    "gw150914SpinDipole",
    "saturnZonalD68",
@@ -627,6 +630,7 @@
    "shapeToyDiskCore",
    "shapeToyArmCore",
    "shapeToySpiralCore",
+   "chainDiskToy",
    "saturnRingReal",
    "saturnRingRealKF1"
   ]
@@ -1674,7 +1678,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f"
+   "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc"
   },
   "table": [
    {
@@ -1876,7 +1880,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 141.339,
+      "wallSec": 198.744,
       "tags": [
        "dt"
       ],
@@ -1891,5 +1895,5 @@
   ],
   "note": null
  },
- "elapsedS": 259.393
+ "elapsedS": 352.32
 }

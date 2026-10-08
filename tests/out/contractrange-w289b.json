@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便b",
   "target": "beta/index.html",
-  "targetSha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
-  "generatedAt": "2026-10-07T14:01:23.577Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:53:42.084Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5853521,
-    "sha256": "0ec374508f40105fb56904d0759d077f6d6a9336b903f1dc55dc383acdd85dcd",
-    "mtime": "2026-10-07T12:21:11.966Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    }
   ],
   "code": [
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1019,
-   "segments": 928,
-   "closureShare": 0.3241
+   "names": 1051,
+   "segments": 960,
+   "closureShare": 0.3239
   },
-  "scopeSha256": "ed22cbd5cdd20f3c1119dc054ead776f86ceddc6583649b206b52b73b35561a2",
+  "scopeSha256": "613688fe9242470655e617c3f1cb05b2bf0304004e0bea3f6db7d2642dcda22a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -173,7 +173,7 @@
   }
  ],
  "D": {
-  "nPresets": 155,
+  "nPresets": 158,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -184,9 +184,11 @@
    "earthMoonInertial",
    "earthMoonSunInertial",
    "mercurySunInertial",
-   "plutoCharonInertial"
+   "mercurySunInertialFit",
+   "plutoCharonInertial",
+   "plutoCharonInertialFit"
   ]
  },
  "ok": true,
- "elapsedS": 9.1
+ "elapsedS": 8.001
 }
