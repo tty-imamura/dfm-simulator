@@ -261,6 +261,14 @@
   .ppRow:active,.ppRow:hover{background:var(--panel2);}
   .ppRow[data-cur="1"]{outline:1px solid var(--acc);}
   .ppRow .ppTags{margin-left:auto;font-size:calc(10px*var(--uz,1));color:var(--dim);white-space:nowrap;}
+  /* 第296便d(原仮定者の裁定〔第86報〕・統括の検証項目 R160): **家族の折りたたみ**の行(button.ppFamFold —— 表示専用)。在位の変種が多い家族の
+     variant の行は .ppFamBody に入り、畳んだ家族は hidden(群の畳み .ppGroupBody と同じ作法)。行は primary の下に字下げして置き、
+     押せることが分かる見出しの色(--accText)・行より小さめの字・指で押せる高さ(36px)。折り返しで横にはみ出さない */
+  .ppFamFold{display:flex;align-items:center;width:100%;min-width:0;text-align:left;background:none;border:0;border-radius:var(--rS);
+    padding:4px 6px 4px 22px;min-height:36px;font-family:inherit;font-size:calc(12px*var(--uz,1));color:var(--accText);
+    cursor:pointer;overflow-wrap:anywhere;}
+  .ppFamFold:active,.ppFamFold:hover{background:var(--panel2);}
+  .ppFamBody[hidden]{display:none!important;}
   /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右)
      第62便(原仮定者指示): カテゴリ側を狭めてタイトル(一覧)側を広げる */
   #presetGroupSelect{flex:0 0 72px;min-width:0;padding:8px 6px;}
@@ -799,7 +807,7 @@
   button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,
   a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:1px;}
   nav#tabs button:focus-visible,#transport button:focus-visible,.ppRow:focus-visible,
-  .ppGroupHead:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;}
+  .ppGroupHead:focus-visible,.ppFamFold:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;}
   /* 第279便d: 粒子の編集パネルの小見出し 4 つは html 本文の style 属性で --acc を持つ —— CSS だけで
      文字用の色へ寄せる(!important はこの 4 つの id だけ・本文の style 属性は変えない) */
   #beLayTitle,#beLyNumHead,#beLcvTitle,#beLinTitle{color:var(--accText)!important;}
@@ -1316,6 +1324,9 @@ ja: {
   // 第82便: サンプルのファミリー表示 — 「すべて表示」トグル(ヘッダー)・説明パネルの「この仲間」導線
   // 第294便e(原仮定者の裁定(第84報)④⑤・R152): 「すべて表示」の切り替えは撤去(常に全て表示)。変種の家族の表示語(旧「└ 」の代わり)
   familyTag:(e)=>e+" の家族",
+  // 第296便d(原仮定者の裁定(第86報)・R160): 在位の variant が多い家族(FAMILY_FOLD_MIN_VARIANTS 本以上)の折りたたみの行(表示専用)
+  famFoldOpen:(n,e)=>"〔+"+n+" 本の家族を開く("+e+")〕", famFoldClose:(n,e)=>"〔"+n+" 本の家族を畳む("+e+")〕",
+  famFoldTip:(e,m)=>e+" の家族は在位の変種が "+m+" 本以上あるので、一覧では既定で畳みます(選択中の本・検索や絞り込みに当たった本は畳みません)。開閉は家族ごとにこの端末に記憶します",
   familyRowLabel:"この仲間:",
   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
   retiredTag:"退役(履歴)",
@@ -1348,7 +1359,7 @@ ja: {
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
   grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
-  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(目的の組 —— 語は第295便d・原仮定者の裁定(第85報))**: 0=汎用 / 1=1PN準拠(観測再現の組 —— 1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり近似(kFrame=1 —— q を使った引きずりの近似・較正母集団の外〔第288便b〕)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— 旧法則版 spaceMesh.lawVersion を宣言した本はその版で走る) / 4=空間メッシュ(旧法則版 spaceMesh.lawVersion の可視化と零試験の置き場 —— 新しい物理モードではない・第295便b)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。**第288便f**: 「背景決定力 D₀」の次の行は**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(目的の組 —— 語は第295便d・原仮定者の裁定(第85報))**: 0=汎用 / 1=1PN準拠(観測再現の組 —— 1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり近似(kFrame=1 —— q を使った引きずりの近似・較正母集団の外〔第288便b〕)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— 旧法則版 spaceMesh.lawVersion を宣言した本はその版で走る) / 4=空間メッシュ(旧法則版 spaceMesh.lawVersion の可視化と零試験の置き場 —— 新しい物理モードではない・第295便b)。**在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ —— 第296便d)**。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。**第288便f**: 「背景決定力 D₀」の次の行は**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
   grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
@@ -1383,7 +1394,7 @@ ja: {
   /* 第289便f(原仮定者の裁定(第79報)・AN103「Wbg は A/B へ写さない・単位と説明は直す」・統括の検証項目 R124): 「kFrame=0 では力に入らない」は
      広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで Wbg 1.5→4.5 の 1 步で vx の最大差 7.4e-4)。
      現実較正の geoPN=1・kFrame=0 の軌道力に限定し、単位は採用した核の M/L^p(wbgConvStr)と書く */
-  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(geoPN=3 の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
+  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
   wbgDesc:"静止背景相当 Wbg — 慣性決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
     +"(中心の自転を読むトイ〔geoPN=3・lawVersion scalar・centerSpin read〕だけ)→ frameWeight pull の D0pull → D₀ の順。"
     +"単位は採用した核の M/L^p(frameWeight の冪 p —— share は p=1 で M/L・pull は p=2 で M/L²・pull3/pull4 は M/L³・M/L⁴。換算表示もこの p で引く)。"
@@ -1882,8 +1893,9 @@ ja: {
   geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ)",
   loadComposeLegacy:"このセーブは第293便より前の保存です —— 慣性引きずり(law:\"inertial\")の合成則が未宣言で、保存したときは加算(sum)で走っていました。いまは既定の solve(velocity)で走ります(加算で比べるなら relativeDrag.compose:\"sum\" を明示。値は保存どおり)",
   modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 空間メッシュ —— 旧法則版の置き場)。値は保存どおりに読み込み、走る法則は宣言(physics.spaceMesh.lawVersion・physics.relativeDrag・physics.geodesic)から決まります。用途と違う組み合わせは保存時に警告します。",
-  ppGeoUse0:"汎用 —— 原理実証など(測地線は physics.geodesic:true で使える)", ppGeoUse1:"1PN 準拠(観測再現の組)—— GR 1PN(標準 kFrame=0)",
-  ppGeoUse2:"引きずり近似 —— q で近似(標準 kFrame=1)", ppGeoUse3:"慣性決定力 —— 引きずりを慣性決定力で計算(旧法則版 spaceMesh も宣言どおり走る)",
+  // 第296便d(原仮定者の裁定(第86報)・R160): 用途文 0〜3 を短く —— 番号は目的別の推奨構成・設定の逸脱は保存時に警告(ppGeoN の語は繰り返さない)
+  ppGeoUse0:"推奨は法則 1 つの実験台(測地線・慣性の引きずり・旧メッシュを重ねると保存時に警告)", ppGeoUse1:"推奨は GR 1PN・kFrame=0(観測再現の組 —— 逸脱は保存時に警告)",
+  ppGeoUse2:"推奨は q の引きずり・kFrame=1(逸脱は保存時に警告)", ppGeoUse3:"推奨は relativeDrag.law:\"inertial\" の宣言・kFrame=0(逸脱は保存時に警告)",
   ppGeoUse4:"空間メッシュ —— 旧法則版(spaceMesh.lawVersion)の可視化と零試験の置き場(新しい物理モードではない・標準 kFrame=0)",
   bdgMeshStop_undeclared:"旧法則版の宣言なし(physics.spaceMesh.lawVersion)—— 測地線の法則で走っている",
   saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
@@ -2463,6 +2475,9 @@ en: {
   // 82nd delivery: sample family display — the "show all" header toggle, and the "Family:" links in the description panel
   // wave 294e (R152): the "Show all" toggle is gone (everything is always listed); the family word of a variant (replaces the old "└ ")
   familyTag:(e)=>e+" family",
+  // wave 296d: the fold row of a family with many listed variants (FAMILY_FOLD_MIN_VARIANTS or more) - display only
+  famFoldOpen:(n,e)=>"〔+"+n+" family members - show ("+e+")〕", famFoldClose:(n,e)=>"〔hide "+n+" family members ("+e+")〕",
+  famFoldTip:(e,m)=>"The "+e+" family has "+m+" or more listed variants, so the list folds them by default (the selected sample and samples matching a search or filter are never folded). Open/closed is remembered per family on this device",
   familyRowLabel:"Family:",
   // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
   retiredTag:"retired (history)",
@@ -2494,7 +2509,7 @@ en: {
   // wave 95: category descriptions (ⓘ) for every category
   grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
-  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A PURPOSE SET — words from wave 295d, the adjudicator's ruling, 85th report): 0 = general / 1 = 1PN-compliant (the observation-reproduction set — 1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = drag approximation (kFrame=1 — the drag approximation using q, outside the calibration population [wave 288b]) / 3 = inertial determinacy (dragging computed from the inertial determinacy — a sample that declares a legacy spaceMesh.lawVersion runs that legacy law) / 4 = space mesh (the home of the legacy spaceMesh law versions for visualisation and null tests - not a new physics mode; wave 295b). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). Wave 288f: the row after 'Background determinacy D0' is the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0).",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A PURPOSE SET — words from wave 295d, the adjudicator's ruling, 85th report): 0 = general / 1 = 1PN-compliant (the observation-reproduction set — 1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = drag approximation (kFrame=1 — the drag approximation using q, outside the calibration population [wave 288b]) / 3 = inertial determinacy (dragging computed from the inertial determinacy — a sample that declares a legacy spaceMesh.lawVersion runs that legacy law) / 4 = space mesh (the home of the legacy spaceMesh law versions for visualisation and null tests - not a new physics mode; wave 295b). THE LISTED LEGACY-MESH SAMPLES HAVE MOVED TO 4 (a legacy law under 3 now comes only from old JSON - wave 296d). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). Wave 288f: the row after 'Background determinacy D0' is the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
   grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
@@ -2527,7 +2542,7 @@ en: {
   wbgLabel:"Static-background equiv. Wbg",
   /* Wave 289f (the originator's ruling, report 79; AN103; the coordinator's check item R124): "does not enter the force when kFrame=0" was too broad
      (🧩 reads Wbg at geoPN=3, kFrame=0). Limited to the orbital force of the reality calibration (geoPN=1, kFrame=0); unit M/L^p of the adopted kernel */
-  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the geoPN=3 field and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
+  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the legacy space-mesh field (a legacy geoPN=3 declaration, or geoPN=4) and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
   wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the inertial determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
     +"(only for the toys that read the centre's spin - geoPN=3, lawVersion scalar, centerSpin read) -> D0pull of frameWeight pull -> D0. "
     +"Unit: M/L^p of the adopted kernel (the frameWeight power p - share is p=1, M/L; pull is p=2, M/L^2; pull3/pull4 are M/L^3 and M/L^4; the scale conversion uses this p too). "
@@ -3012,8 +3027,9 @@ en: {
   geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept)",
   loadComposeLegacy:"This save predates wave 293 - its inertial drag (law:\"inertial\") declares no composition rule and ran as a plain sum when saved. It now runs with the default solve (velocity) (declare relativeDrag.compose:\"sum\" to compare with the sum; values are as saved)",
   modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 space mesh - the home of the legacy laws). Values load as saved; the law that runs is resolved from the declarations (physics.spaceMesh.lawVersion, physics.relativeDrag, physics.geodesic). Combinations outside the main use raise a warning on save.",
-  ppGeoUse0:"general — proof of principle and so on (the geodesic is available with physics.geodesic:true)", ppGeoUse1:"1PN-compliant (the observation-reproduction set) — GR 1PN (standard kFrame=0)",
-  ppGeoUse2:"drag approximation — approximated with q (standard kFrame=1)", ppGeoUse3:"inertial determinacy — dragging computed from the inertial determinacy (a declared legacy spaceMesh law still runs as declared)",
+  // wave 296d: the use lines 0-3 shortened - each number is a recommended set per purpose; a deviating setup is warned on save
+  ppGeoUse0:"recommended: one law per experiment (stacking the geodesic, the inertial drag or a legacy mesh is warned on save)", ppGeoUse1:"recommended: GR 1PN with kFrame=0 (the observation-reproduction set; deviations are warned on save)",
+  ppGeoUse2:"recommended: q dragging with kFrame=1 (deviations are warned on save)", ppGeoUse3:"recommended: declare relativeDrag.law:\"inertial\" with kFrame=0 (deviations are warned on save)",
   ppGeoUse4:"space mesh - the home of the legacy spaceMesh law versions for visualisation and null tests (not a new physics mode; standard kFrame=0)",
   bdgMeshStop_undeclared:"no legacy law declared (physics.spaceMesh.lawVersion) - running the geodesic law",
   saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
@@ -29545,14 +29561,33 @@ let pendingSteps=0, stepReq=0, stepExec=0, stepCancel=0, stepGen=1, lastGenReaso
 let stepCarryOn=true;              // QA の否定対照から false にできる(既定 true = 繰越あり)
 // 繰越の有効/無効(否定対照専用)。OFF にした瞬間のバックログは cancelled へ計上して破棄する
 function setStepCarry(v){ const on=!!v;
-  if(!on && pendingSteps>0){ stepCancel+=pendingSteps; pendingSteps=0; }
+  if(!on){ const d=stepCarryDiscard(pendingSteps); pendingSteps=d.pending; stepCancel+=d.cancel; }   // 第296便d: 破棄は純関数 stepCarryDiscard
   stepCarryOn=on; }
+// 第296便d: **繰越の破棄の純関数**(世代切替・繰越 OFF)—— 繰越を全量 cancelled へ移す。stepGenBump と setStepCarry はこれだけを通る
+function stepCarryDiscard(pending){ return {pending:0, cancel:pending>0? pending : 0}; }
 // 世代: プリセット切替・停止・⏮初めから・チェックポイント復元・A/B 開始終了で進める。
 // 旧世代のバックログは cancelled に計上して破棄する(前の宇宙の遅れを次の宇宙で走らせない)。
 // stepAcc(1步未満の端数)は requested に未計上なので、ここで捨てても不変式は動かない。
 function stepGenBump(reason){
-  if(pendingSteps>0){ stepCancel+=pendingSteps; pendingSteps=0; }
+  { const d=stepCarryDiscard(pendingSteps); pendingSteps=d.pending; stepCancel+=d.cancel; }   // 第296便d: 純関数 stepCarryDiscard(中身は従来どおり)
   stepAcc=0; stepGen++; lastGenReason=reason||"";
+}
+// 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): **1 フレームの会計の純関数**。loop() の「新規 kNew+繰越 → 予算で打ち切り →
+// 未実行分を繰越/破棄」はこの関数だけを通る(時計 now() と 1 步 stepFn は引数 —— 大域の状態に触らない)。QA ui.step-accounting は
+// 手で進める時計をここへ渡して会計(requested=executed+pending+cancelled・繰越の上限・世代破棄・予算∞・繰越 OFF)を決定的に判定する。
+// 戻り値: kReq(走らせたい步)・kRun(走った步)・pending(次フレームへの繰越)・cancel(このフレームで破棄した步)・ms(この呼び出しの所要)。
+// 中身は第175便の会計と同じ(最低 1 步・打ち切りは 2 步目以降の前で判定・上限 = capFrames×kNew)—— step の回数と順は 1 bit も変えない
+const perfNow=()=>performance.now();   // loop() が stepCarryFrame に渡す実時計
+function stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn){
+  const kReq=kNew+pending, t0=now();
+  let kRun=0;
+  for(let s2=0;s2<kReq;s2++){
+    stepFn(); kRun=s2+1;
+    if(s2+1<kReq && now()-t0>budgetMs) break;
+  }
+  const ms=now()-t0, left=kReq-kRun;
+  const keep=carryOn? Math.min(left,capFrames*kNew) : 0;   // 繰越 OFF(否定対照)は全量破棄 = 第171便の挙動
+  return {kReq, kRun, pending:keep, cancel:left-keep, ms};
 }
 // 診断の集計窓(60フレーム)。trim 率・ms/步・実効倍率はこの窓の実測から出す。
 //
@@ -33772,28 +33807,19 @@ function loop(now){
     stepAcc=b.acc;
     const kNew=b.k;                    // 第175便: このフレームの**新規**要求(累積 requested へ)
     stepReq+=kNew;
-    const kReq=kNew+pendingSteps;      // 実際に走らせたい歩数 = 新規 + 前フレームからの繰越
+    // 実際に走らせたい歩数 kReq = 新規 + 前フレームからの繰越
     // 第171便 ①: フレーム予算。kReq 步の途中で frameBudgetMs を超えたらそのフレームは打ち切る
     // (最低1步は必ず実行 = 進行は止めない)。step() の中身・引数・呼び出し順は不変 —
     // 変わるのは1フレームあたりの呼び出し回数だけ。
     // 第175便: 打ち切った未実行分は**捨てずに pendingSteps へ繰越す**(上限 = 新規要求 kNew の
     // STEP_CARRY_CAP_FRAMES フレーム分)。上限超過分だけを cancelled として明示計上する
-    const tPhys0=performance.now();
-    let kRun=0;
+    // 第296便d: この会計は純関数 stepCarryFrame(上の定義)に移した(中身・step の回数と順は不変 —— QA が手で進める時計で判定する)
     const lcOn=(sim.overlays.liveCompare===true && !ab);   // 第286便d: ライブ比較の採取(読み出しだけ・OFF なら 1 命令も足さない)
-    for(let s2=0;s2<kReq;s2++){
-      sim.step(DT); if(lcOn) lcAfterStep(); kRun=s2+1;
-      if(s2+1<kReq && performance.now()-tPhys0>frameBudgetMs) break;
-    }
-    const physMs=performance.now()-tPhys0;
+    const fr=stepCarryFrame(kNew, pendingSteps, stepCarryOn, STEP_CARRY_CAP_FRAMES, frameBudgetMs, perfNow,
+      lcOn? ()=>{ sim.step(DT); lcAfterStep(); } : ()=>{ sim.step(DT); });
+    const kReq=fr.kReq, kRun=fr.kRun, physMs=fr.ms;
     stepExec+=kRun;
-    { const left=kReq-kRun;                                   // 今フレームの未実行分
-      if(stepCarryOn){
-        const cap=STEP_CARRY_CAP_FRAMES*kNew;                 // バックログ上限(追いつきフリーズ防止)
-        const keep=Math.min(left,cap);
-        pendingSteps=keep; stepCancel+=left-keep;
-      } else { pendingSteps=0; stepCancel+=left; }            // 否定対照: 繰越なし(= 第171便の挙動)
-    }
+    pendingSteps=fr.pending; stepCancel+=fr.cancel;          // 否定対照(繰越 OFF)では pending=0・未実行分は全量 cancelled
     if(ab) for(let s2=0;s2<kRun;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
     inputStats.lastWanted=kReq; inputStats.lastRun=kRun;
     inputStats.lastNew=kNew; inputStats.lastPending=pendingSteps;
@@ -34038,16 +34064,50 @@ function familyTagOf(p){
 }
 function familyMembersOf(fid){ return BUILTIN_PRESETS.filter(p=>p.familyId===fid); }
 function familyVariantCountOf(fid){ return familyMembersOf(fid).filter(p=>p.familyRole==="variant").length; }
+// 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): **家族の折りたたみ**(一覧「サンプルを選ぶ」・表示専用)。
+//   在位の variant が FAMILY_FOLD_MIN_VARIANTS 本以上の家族は、一覧の variant の行を既定で畳み、primary の行の直後(variant が primary と別の群に
+//   並ぶときは、その群で variant が並ぶ位置)に「〔+n 本の家族を開く(<primary の絵文字>)〕」の行(button.ppFamFold・aria-expanded・aria-controls)を置く。
+//   variant の行そのものは組み立てて .ppFamBody[hidden] に入れる(群の畳み .ppGroupBody と同じ作法 —— 群の件数・検索の即応性は不変)。
+//   **畳まない**: 選択中の本の家族・検索/絞り込みが効いている間(一致した本はすべて見える)・variant が閾値未満の家族(従来どおり全て表示 ——
+//   第294便e の「常に全て表示」は家族の長さの条件つきになった)。開閉は家族ごとに localStorage hp_family_open_<familyId>("1" 開 / "0" 閉 ——
+//   無ければ閉)。隠し #presetSelect は畳まない。presetSig・保存 JSON・物理には触らない(QA ui.familyFold296)
+const FAMILY_FOLD_MIN_VARIANTS=6;
+const FAMILY_OPEN_LS="hp_family_open_";
+const familyOpenMem={};   // localStorage が使えない環境でもセッション内の開閉は効く
+function familyFoldable(fid){ return !!fid && familyVariantCountOf(fid)>=FAMILY_FOLD_MIN_VARIANTS; }
+function familyFoldIds(){ return [...new Set(BUILTIN_PRESETS.filter(p=>p.familyRole==="variant" && p.familyId).map(p=>p.familyId))].filter(familyFoldable); }
+function familyOpenOf(fid){
+  if(Object.prototype.hasOwnProperty.call(familyOpenMem,fid)) return !!familyOpenMem[fid];
+  try{ return localStorage.getItem(FAMILY_OPEN_LS+fid)==="1"; }catch(_){ return false; }
+}
+function familySetOpen(fid,v){ familyOpenMem[fid]=!!v; try{ localStorage.setItem(FAMILY_OPEN_LS+fid, v? "1" : "0"); }catch(_){} }
+// いまこの家族の variant を畳みの対象にするか(絞り込み中・選択中の本の家族・閾値未満は対象外)
+function familyFoldActive(fid,filtering){
+  if(filtering || !familyFoldable(fid)) return false;
+  return !(currentPreset && currentPreset.familyId===fid);
+}
+// 開閉の状態を、同じ家族のすべての畳みの行と入れ物へ映す(一覧を組み直さない —— フォーカスはそのまま)
+function familyFoldSync(fid){
+  const open=familyOpenOf(fid);
+  for(const b of document.querySelectorAll("#ppList .ppFamFold")){ if(b.dataset.fam!==fid) continue;
+    const n=+b.dataset.n||0, e=b.dataset.emo||"";
+    b.setAttribute("aria-expanded",open? "true" : "false");
+    b.textContent=open? T("famFoldClose")(n,e) : T("famFoldOpen")(n,e); }
+  for(const d of document.querySelectorAll("#ppList .ppFamBody")) if(d.dataset.fam===fid) d.hidden=!open;
+}
 // 第280便d(原仮定者の裁定(第70報)「plutoCharonDFM・plutoCharonKF0Control: まとめても良い」): **ファミリー内の役割名**。
 // 物理的な統合(ID の削除)はしない —— 入口を 1 つ(primary)にまとめ、variant ごとに「何を試す本か」を名前の横に出す。
 // **プリセットの外に置く表示専用の side table**(presetSig・保存 JSON・物理・600 步の状態には 1 bit も効かない)。
 const FAMILY_VARIANT_LABEL={
+  // 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): 慣性決定力版の 🌤️🟤 にも 🟣 と同じ役割名(表示専用 —— presetSig・物理・保存 JSON は不変)
+  earthMoonSunInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"},
+  mercurySunInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"},
   plutoCharonReal:{ja:"観測値版(旧入力)", en:"observed-value build (older inputs)"},
   plutoCharonDiagInput:{ja:"観測入力の geoPN=1 の対照(入力を整えた二体)", en:"observed-input geoPN=1 control (cleaned two-body inputs)"},   // 第288便b: 「kF0」を外した
   plutoCharonKF0Control:{ja:"観測入力の geoPN=1 の対照(元期 A の状態)", en:"observed-input geoPN=1 control (epoch-A state)"},   // 第288便b: 「kF0」を外した
   plutoCharonDFM:{ja:"相対すべりモデル", en:"relative-slip model"},
   plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"},
-  charonGeoToy3:{ja:"geoPN=4 契約の診断コピー(太陽の背景)", en:"geoPN=4 contract diagnostic (solar background)"},   // 第280便c の 🌒(統合時に追加 — 表示専用)
+  charonGeoToy3:{ja:"旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)", en:"legacy vMinusU contract diagnostic (kept under geoPN=4; solar background)"},   // 第280便c の 🌒(統合時に追加 — 表示専用)・第296便d: 役割名を「旧 vMinusU 契約」へ(ID・物理は不変)
   plutoCharonInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"} };   // 第295便c の 🟣(表示専用)
 function familyVariantLabel(p){
   const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
@@ -34589,6 +34649,7 @@ function ppRender(){
   list.textContent="";
   const filtering=ppFiltering();
   let body=null;                                  // いま積んでいるグループの行の入れ物
+  let famRun=null; const famSeen=new Set();       // 第296便d: いま積んでいる家族の畳みの入れ物(群が変わる・別の本が挟まると閉じる)
   // 見出し = 開閉ボタン(第255便c)。行は .ppGroupBody に入れ、畳んだグループは hidden にする
   // (行そのものは組み立てておく —— 検索の即応性と、グループ間の件数比較のため)
   const mkHead=(g,txt)=>{
@@ -34612,15 +34673,28 @@ function ppRender(){
     h.addEventListener("click",()=>{
       ppToggleOpen(gid,filtering,ppIsOpen(gid,filtering)); ppRender(); });
     list.appendChild(h); list.appendChild(d);
-    body=d; return {h,d,cnt};
+    body=d; famRun=null; return {h,d,cnt};
   };
-  const mkRow=(label,tags,cur,fn)=>{
+  // 第296便d: 家族の畳みの行(button.ppFamFold)と入れ物(.ppFamBody)を、いまの群の中の現在位置に置く
+  const mkFamFold=(fid)=>{
+    const pr=BUILTIN_PRESETS.find(q=>q.familyId===fid && q.familyRole==="primary");
+    const emo=pr? (pr.emoji||pName(pr)) : fid;
+    const b=document.createElement("button"); b.type="button"; b.className="ppFamFold";
+    b.dataset.fam=fid; b.dataset.emo=emo; b.dataset.n="0"; b.title=T("famFoldTip")(emo,FAMILY_FOLD_MIN_VARIANTS);
+    const d=document.createElement("div"); d.className="ppFamBody"; d.dataset.fam=fid; d.id="ppFamBody"+(ppGrpSeq++);
+    b.setAttribute("aria-controls",d.id);
+    b.addEventListener("click",()=>{ familySetOpen(fid,!familyOpenOf(fid)); familyFoldSync(fid); });
+    (body||list).appendChild(b); (body||list).appendChild(d);
+    famSeen.add(fid);
+    return {fid,b,d,n:0};
+  };
+  const mkRow=(label,tags,cur,fn,parent)=>{
     const b=document.createElement("button"); b.type="button"; b.className="ppRow";
     if(cur) b.dataset.cur="1";
     const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
     if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
     b.addEventListener("click",fn);
-    (body||list).appendChild(b);
+    (parent||body||list).appendChild(b);
   };
   const pick=(v)=>{   // プルダウンの change ハンドラと同じ意味論
     if(paramsDirty && !confirm(T("confirmDiscard"))) return;
@@ -34660,8 +34734,15 @@ function ppRender(){
     if(retiredOf(p)) label+="〔"+T("retiredTag")+"〕";   // 第283便b: 読み込み中の退役の本(一覧に残るのはこの 1 本だけ)
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       sampleClassLabel(p)].filter(Boolean).join(" ");   // 第258便c: 較正は DFM / kF0 を出す
-    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
+    // 第296便d: 在位の variant が多い家族の variant は畳みの入れ物へ(primary の直後 —— 別の群ではその群の並びの位置に畳みの行)
+    let famParent=null;
+    if(p.familyRole==="variant" && familyFoldActive(p.familyId,filtering)){
+      if(!famRun || famRun.fid!==p.familyId) famRun=mkFamFold(p.familyId);
+      famRun.n++; famRun.b.dataset.n=String(famRun.n); famParent=famRun.d;
+    } else famRun=null;
+    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id),famParent);
   });
+  famRun=null; for(const fid of famSeen) familyFoldSync(fid);   // 第296便d: 畳みの行の語と開閉を家族ごとに揃える
   closeGroup(); closeScope();
   const customs=getCustomPresets();
   const saves=getSaves();
@@ -53444,6 +53525,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     carryCapFrames:STEP_CARRY_CAP_FRAMES}),
   stepCarry:()=>stepCarryOn, setStepCarry,     // 否定対照(繰越の無効化)専用の切替
   stepGenNow:()=>stepGen, stepGenBump,
+  stepCarryFrame, stepCarryDiscard,   // 第296便d: 1 フレームの会計と繰越の破棄の純関数(QA が手で進める時計で判定する)
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
   coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   spinAxisGlyphCount:()=>spinAxisGlyphN,   // 第288便e: spinAxis の投影線を描いた回数の累計(表示の検査用)

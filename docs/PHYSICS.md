@@ -30621,6 +30621,16 @@ G0(gain 0 —— 🔆 の重力だけの三体・geoPN 3)は〔第293便d〕の�
 分類の選択肢から「引きずり近似(q)— 較正母集団の外」(派生値 `calibration:dfm` —— 在位に該当本なし・退役の本の説明タブのチップには残す)を撤去し、分類チップ kf0 の語を「観測再現」(en "Observation reproduction" —— 観測値を再現しようとする本・所属は合否を意味しない)に改めた。geoPN の選択肢の語は目的の組「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」「3: 慣性決定力」(パラメータの行は「geoPN(目的の組)」—— 走る法則の解決 `geoLawResolveInto` と役割 `GEO_MODE_ROLE` は不変)。群「腕と渦伸長(軸力)」の表示名を「腕と軸力」(宣言の値は不変・`GROUP_ALIASES` に表示名 → 宣言の値)、区画 cal の名を「観測値サンプル」とし群「実在天体のアナロジー」をその区画(「実在天体との照合・太陽系/連星」の後)へ移した。説明を開いている間の ⓘ は字 1.25 倍(閉 1.1 倍)+二重の丸枠(box-shadow —— 行の高さは不変)。群「現実較正」の表示名「実在天体との照合」は据え置き。
 確認: bitsame 152/152・sigsame 152/152(差分 ID なし)。QA: `ui.labels295`(新設)と既存の `ui.pickerScope`・`ui.calGroupSplit291`・`ui.observedCompare294`・`ui.pickerReorg294`(⑦ の字と環)・`ui.pickerSeparators`・`ui.samplePicker`・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui` の世代切替(has295d)。
 
+〔第296便d — 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160)(**表示と QA の器だけ** —— 物理・presetSig・保存 JSON・600 步の状態は 1 bit も変えていない)〕
+
+役割名の表(`FAMILY_VARIANT_LABEL`)に 🌤️ earthMoonSunInertial・🟤 mercurySunInertial の 2 行(「慣性決定力版(係数移送)」/ en "inertial-determinacy build (coefficient transfer)" —— 🟣 と同じ語)を足し、🌒 charonGeoToy3 の役割名を「旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)」に改めた(ID・物理は不変)。静止背景相当 Wbg の説明(`wbgTip`)の「geoPN=3 の場」は「旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場」に、引きずり・測地線の群の説明(`grpDragDesc`)の 4 の文の後に「在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ)」を足した。geoPN の用途文 `ppGeoUse0`〜`3` は「推奨は…(逸脱は保存時に警告)」の 1 文に短くした(番号は目的別の推奨構成 —— `ppGeoN` の語は繰り返さない)。
+
+「サンプルを選ぶ」の一覧では、在位の variant が **6 本以上**(`FAMILY_FOLD_MIN_VARIANTS`)の家族(いまは地球–月 earthmoon の 6 本)の variant を既定で畳み、primary の行の直後(primary と別の群に並ぶ variant はその群の位置)に「〔+n 本の家族を開く(🌙)〕」の行(押せる・`aria-expanded`・`aria-controls`)を置く。選択中の本の家族と、検索・絞り込みが効いている間は畳まない。開閉は家族ごとに localStorage `hp_family_open_<familyId>`。5 本以下の家族は従来どおり全て表示。隠し `#presetSelect` は畳まない。
+
+step 会計(第175便)は loop() の中の書き方を純関数 `stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn)` と `stepCarryDiscard(pending)` に移した(中身・step の回数と順は不変)。QA `ui.step-accounting` は手で進める時計をこの関数へ渡して会計(requested = executed + pending + cancelled・繰越の上限・世代破棄・予算∞・繰越 OFF)を決定的に判定し、実フレームの 25 標本は lastRun の分布を記録するだけにした(手元の実測 {1:24, 2:1} —— 純関数の試験の「時計が進まない対照」〔予算 0 でも kRun = kReq〕のとおり、打ち切りは時計の読みが進んだときにだけ起こるので、予算 0 で 2 步の標本は会計の欠陥ではなく時計の読みの側の揺れとして扱う)。`tests/perf.mjs` の counterring は測定の長さを 60 → 240 frames に揃えた(閾値 1.10・判定式は不変)。
+
+確認: bitsame 155/155・sigsame 155/155(差分 ID なし)。QA: `ui.familyFold296`(新設)と `ui.step-accounting`・`ui.pickerReorg294`(⑤ に畳んだ variant の数)・`ui.paramWbgRow`(tip の語)の世代切替(has296d)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

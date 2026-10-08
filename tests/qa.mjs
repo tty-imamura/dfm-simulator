@@ -44698,7 +44698,7 @@ if (!FAST) {
     const wr = [];
     for (const vp of VPS) {
       const { ctx, pg, errs } = await openPage(vp);
-      const r = await pg.evaluate(async (has289fW) => {
+      const r = await pg.evaluate(async ([has289fW, has296dW]) => {
         const wait = (ms) => new Promise((res) => setTimeout(res, ms));
         const o = { rows: [], bad: [] };
         // 第289便f: 換算の期待(この場で書いた冪の表 —— ページの frameWeightPow・WBG_UNIT_STR を使わない)
@@ -44748,7 +44748,10 @@ if (!FAST) {
             && Object.is(w.Wbg, want.Wbg) && w.from === want.from;
           const tl = row.querySelector('label').title;
           const tipOk = has289fW
-            ? (/現実較正の geoPN=1・kFrame=0 の軌道力には入らない/.test(tl) && /geoPN=3 の場と Jeans 初速/.test(tl) && /kFrame=0 でも読む/.test(tl)
+            ? (/現実較正の geoPN=1・kFrame=0 の軌道力には入らない/.test(tl) && /kFrame=0 でも読む/.test(tl)
+              // 第296便d(R160 —— 世代切替 has296dW = html の `const FAMILY_FOLD_MIN_VARIANTS=`): 「geoPN=3 の場」→「旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場」
+              && (has296dW ? /旧空間メッシュ\(geoPN=3 の旧宣言、または geoPN=4\)の場と Jeans 初速/.test(tl) && !/geoPN=3 の場と/.test(tl)
+                : /geoPN=3 の場と Jeans 初速/.test(tl))
               && /単位は採用した核の M\/L\^p/.test(tl) && /別欄/.test(tl) && !/kFrame=0 では力に入らない/.test(tl)
               && /単位は採用した核の M\/L\^p/.test(HP.T('wbgDesc')) && !/単位は D₀ と同じ表示/.test(HP.T('wbgDesc')))
             : (/kFrame=0 では力に入らない/.test(tl) && /別欄/.test(tl));
@@ -44816,7 +44819,7 @@ if (!FAST) {
           o.reads = { dvx: mx, kFrame: a && a.k, geoPN: a && a.g, ok: mx > 0 && a.k === 0 && a.g === ((typeof GEO4_MIGRATED !== 'undefined' && GEO4_MIGRATED.indexOf('galaxyAnalogyBHCompose') >= 0) ? 4 : 3)/* 第295便b: 🧩 は 4 */ };
         }
         return o;
-      }, has289fW);
+      }, [has289fW, /const FAMILY_FOLD_MIN_VARIANTS=/.test(html)]);
       r.vp = vp.name; r.errs = errs.slice(0, 2);
       r.ok = r.bad.length === 0 && r.oneFormula && r.rows.length >= 7 && r.rows.every((x) => x.posOk && x.roOk && x.valOk && x.tipOk && x.convOk && x.sigSame)
         && r.live.ok && r.live.declOk && r.enOk && (!has289fW || (!!r.reads && r.reads.ok && r.rows.some((x) => x.p === 1) && r.rows.some((x) => x.p === 2)))
@@ -59116,23 +59119,71 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
 // ----           (= (2)(3) の検査が成立しない)ことをその場で実測する
 // ----     診断1行(HUD)と簡易ベンチ(複製 sim・描画なし)の存在・非侵襲も併せて検査する。
 // ----     タイミング閾値は一切判定しない(ヘッドレスの実機代表性が低い — 第171便と同じ方針)
+// ---- 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160 —— 世代切替 has296dSA = html の `function stepCarryFrame(`): **負荷に依らない判定へ分けた**。
+// ----     (A) **決定的な会計の試験**(判定): loop() が通る純関数 HP.stepCarryFrame / HP.stepCarryDiscard に**手で進める時計**(1 步ごとに既知の ms を足す)を渡し、
+// ----         上の (1)〜(6) を固定の筋書きで判定する —— 既定予算 12 ms・1 步 1 ms・新規 20 步(💿 と同じ要求)で 30 フレーム / 予算 0(毎フレーム 1 步・繰越が要求に入る・
+// ----         上限 = STEP_CARRY_CAP_FRAMES×k で超過は破棄)/ 世代破棄 / 予算∞(実行=要求・破棄 0)/ 繰越 OFF(pending 0・不足は全量破棄)/ 1 步の費用が
+// ----         決まった種の乱数で揺れる 200 フレーム(不変式が常に 0)/ **時計が進まない対照**(予算 0 でも打ち切れず kRun=kReq —— 実機で「予算 0 → 2 步」が
+// ----         出る理由はタイマーの分解能であって会計ではない)。loop() がこの純関数を呼んでいること(html の呼び出しの形)も見る。
+// ----     (B) **実フレームの標本**(💿 の実走行): 計数器の恒等式(不変式 0・繰越が上限を超えない・世代切替で繰越が全量破棄へ移る・予算∞で実行=要求・
+// ----         繰越 OFF で pending 0)と診断/ベンチ/停止は判定のまま。**負荷で揺れる量**(予算 0 で 1 步だった標本の割合・繰越が立ったか・破棄が増えたか・
+// ----         世代切替の直前の繰越が正か・繰越 OFF で破棄が出たか)は**記録だけ**(detail に 25 標本の lastRun の分布を残す —— 判定に入れない)
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const capDecl = /const STEP_CARRY_CAP_FRAMES = (\d+);/.exec(html);
   const hasCarry = /let pendingSteps=0, stepReq=0, stepExec=0, stepCancel=0/.test(html);
+  const has296dSA = /function stepCarryFrame\(/.test(html);
+  const loopUsesPure = has296dSA && /stepCarryFrame\(kNew, pendingSteps, stepCarryOn, STEP_CARRY_CAP_FRAMES, frameBudgetMs, perfNow,/.test(html)
+    && /function stepGenBump\(reason\)\{\n  \{ const d=stepCarryDiscard\(pendingSteps\);/.test(html);
   if (capDecl && hasCarry) {
     const sa = await browser.newPage();
     const saErr = [];
     sa.on('pageerror', (e) => saErr.push(String(e)));
     await sa.goto(INDEX, { waitUntil: 'load' });
     await sa.waitForFunction(() => !!(window.HP && HP.sim));
-    const r = await sa.evaluate(async () => {
+    const r = await sa.evaluate(async (has296dSA) => {
       const sleep = (ms) => new Promise((s) => setTimeout(s, ms));
       const need = ['inputStats', 'frameBudget', 'frameBudgetDefault', 'setFrameBudget',
         'stepCarry', 'setStepCarry', 'stepGenNow', 'stepGenBump',
-        'stepDiag', 'setStepDiag', 'stepDiagText', 'runStepBench', 'lastBench'];
+        'stepDiag', 'setStepDiag', 'stepDiagText', 'runStepBench', 'lastBench'].concat(has296dSA ? ['stepCarryFrame', 'stepCarryDiscard'] : []);
       const out = { api: need.filter((k) => typeof HP[k] !== 'function') };
       const inv = (s) => s.requested - (s.executed + s.pending + s.cancelled);
+      // ---- 第296便d (A) 決定的な会計の試験(手で進める時計 —— 実フレーム・rAF・performance.now を使わない)----
+      if (has296dSA && out.api.length === 0) {
+        const F = HP.stepCarryFrame, D = HP.stepCarryDiscard, CAP = HP.inputStats().carryCapFrames, K = 20, BUD = HP.frameBudgetDefault();
+        let clock = 0; const now = () => clock;
+        const mk = () => ({ requested: 0, executed: 0, pending: 0, cancelled: 0 });
+        const frame = (A, kNew, budget, cost, carry) => { const r = F(kNew, A.pending, carry !== false, CAP, budget, now, () => { clock += cost; });
+          A.requested += kNew; A.executed += r.kRun; A.pending = r.pending; A.cancelled += r.cancel; return r; };
+        const P = { cap: CAP, k: K, budget: BUD };
+        // 既定予算・1 步 1 ms・30 フレーム
+        { const A = mk(); let w = 0, maxP = 0, runs = new Set();
+          for (let i = 0; i < 30; i++) { const f = frame(A, K, BUD, 1); w = Math.max(w, Math.abs(inv(A))); maxP = Math.max(maxP, A.pending); runs.add(f.kRun); }
+          P.def = { inv: w, maxPend: maxP, runs: [...runs].join('/'), A: { ...A } }; }
+        // 予算 0・1 步 1 ms・25 フレーム → 世代破棄 → 予算∞ → 繰越 OFF
+        { const A = mk(); let w = 0, maxP = 0, maxOver = 0, one = 0, carried = 0; const c0 = A.cancelled;
+          for (let i = 0; i < 25; i++) { const f = frame(A, K, 0, 1); w = Math.max(w, Math.abs(inv(A))); maxP = Math.max(maxP, A.pending);
+            maxOver = Math.max(maxOver, A.pending - CAP * K); if (f.kRun === 1) one++; if (i > 0 && f.kReq > K) carried++; }
+          P.b0 = { inv: w, maxPend: maxP, maxOver, oneStep: one, carried, cancelGrew: A.cancelled - c0 };
+          const pB = A.pending, cB = A.cancelled, d = D(A.pending); A.pending = d.pending; A.cancelled += d.cancel;
+          P.gen = { pendBefore: pB, pendAfter: A.pending, cancelDelta: A.cancelled - cB, inv: inv(A), zero: JSON.stringify(D(0)) };
+          frame(A, K, 0, 1); const r0 = A.requested, e0 = A.executed, x0 = A.cancelled;   // 繰越を立て直してから予算∞へ
+          const fi = frame(A, K, 1e9, 1); let allRun = fi.kRun === fi.kReq && fi.kReq > K;
+          for (let i = 0; i < 10; i++) { const f = frame(A, K, 1e9, 1); allRun = allRun && f.kRun === f.kReq && f.kReq === K && f.pending === 0 && f.cancel === 0; }
+          P.inf = { drained: fi.kReq - K, allRun, pending: A.pending, reqDelta: A.requested - r0, execDelta: A.executed - e0 - (fi.kReq - K), cancelDelta: A.cancelled - x0, inv: inv(A) };
+          const r1 = A.requested, e1 = A.executed, x1 = A.cancelled; let maxPoff = 0, wantOk = true;
+          for (let i = 0; i < 15; i++) { const f = frame(A, K, 0, 1, false); maxPoff = Math.max(maxPoff, A.pending); wantOk = wantOk && f.kReq === K && f.kRun === 1 && f.cancel === K - 1; }
+          P.neg = { maxPend: maxPoff, wantOk, reqDelta: A.requested - r1, execDelta: A.executed - e1, cancelDelta: A.cancelled - x1, inv: inv(A) }; }
+        // 1 步の費用が揺れる 200 フレーム(決まった種の LCG・予算 0/既定/∞ を混ぜる)—— 不変式と上限
+        { const A = mk(); let seed = 296, w = 0, over = 0; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+          for (let i = 0; i < 200; i++) { const b = [0, BUD, 1e9][i % 3], k = 1 + Math.floor(rnd() * 24); frame(A, k, b, rnd() * 3, (i % 50) < 45);
+            if (i % 37 === 36) { const d = D(A.pending); A.pending = d.pending; A.cancelled += d.cancel; }
+            w = Math.max(w, Math.abs(inv(A))); over = Math.max(over, A.pending - CAP * k); }
+          P.rand = { inv: w, maxOver: over, A: { ...A } }; }
+        // 時計が進まない対照: 予算 0 でも打ち切れない(kRun = kReq)
+        { const f = F(K, 5, true, CAP, 0, () => 0, () => {}); P.frozen = { kReq: f.kReq, kRun: f.kRun, pending: f.pending, cancel: f.cancel }; }
+        out.pure = P;
+      }
       // 💿saturnRingRealKF1: レビューが特定した当の構成(時間倍率10 = 要求 20步/フレーム)。
       // 1步が重いので既定予算でも打ち切りが起き、繰越の挙動をそのまま観測できる
       HP.loadPreset('saturnRingRealKF1', false);
@@ -59152,16 +59203,18 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       HP.setFrameBudget(0);
       await sleep(300);
       let maxPend = 0, maxOver = 0, w0 = 0, run1 = 0, runN = 0;
+      const runHist = {};   // 第296便d: 25 標本の lastRun の分布(記録だけ —— 判定に入れない)
       for (let i = 0; i < 25; i++) { await sleep(30); const s = HP.inputStats();
         if (s.pending > maxPend) maxPend = s.pending;
         const over = s.pending - s.carryCapFrames * s.lastNew;
         if (over > maxOver) maxOver = over;
         const d = inv(s); if (Math.abs(d) > Math.abs(w0)) w0 = d;
+        runHist[s.lastRun] = (runHist[s.lastRun] || 0) + 1;
         if (s.lastRun === 1) run1++; runN++; }
       const c0 = HP.inputStats();
       out.b0 = { inv: w0, maxPend, maxOver, cap: c0.carryCapFrames * c0.lastNew,
         lastNew: c0.lastNew, lastWanted: c0.lastWanted, lastRun: c0.lastRun,
-        oneStep: run1, samples: runN, carriedIntoRequest: c0.lastWanted > c0.lastNew };
+        oneStep: run1, samples: runN, carriedIntoRequest: c0.lastWanted > c0.lastNew, runHist };
       { const a = HP.inputStats(); await sleep(400); const b = HP.inputStats();
         out.b0.cancelGrew = b.cancelled - a.cancelled;      // 破棄は黙って消えず必ず数字に残る
         out.b0.execRate = b.executed - a.executed; }
@@ -59217,7 +59270,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const z = HP.inputStats();
       out.stopped = { pending: z.pending, inv: inv(z), gen: z.gen, reason: z.genReason };
       return out;
-    });
+    }, has296dSA);
     await sa.close();
     const chk = {
       api: r.api.length === 0,
@@ -59249,8 +59302,36 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && r.bench.stepsPerBudget >= 1 && r.bench.pristine === true,
       stopClean: r.stopped.pending === 0 && r.stopped.reason === 'pause',
       noPageErrors: saErr.length === 0 };
+    // 第296便d(R160 —— 世代切替 has296dSA): (2)(3)(4)(6) の**負荷で揺れる部分**は (A) の決定的な会計の試験で判定し、実フレームでは恒等式だけを判定する
+    //   (予算 0 で 1 步だった標本の割合・繰越が立ったか・破棄が増えたか・世代切替の直前の繰越が正か・繰越 OFF で破棄が出たか は記録だけ)
+    if (has296dSA) {
+      const P = r.pure || {};
+      const ok = (x) => !!x;
+      chk.carryWorks = r.b0.maxOver <= 0;   // 実フレーム: 恒等式だけ(繰越が立ったか・1 步の割合は記録)
+      chk.backlogCapped = r.b0.maxOver <= 0 && r.b0.maxPend <= r.b0.cap;
+      chk.genDiscard = r.gen.pendAfter === 0 && r.gen.cancelDelta === r.gen.pendBefore && r.gen.genAfter === r.gen.genBefore + 1;
+      chk.negControl = r.neg.flag === false && r.neg.maxPend === 0 && r.neg.reqDelta === r.neg.execDelta + r.neg.cancelDelta
+        && r.neg.lastWanted === r.neg.lastNew && r.neg.restored === true;
+      chk.loopUsesPure = loopUsesPure;
+      chk.pureInvariant = ok(P.def && P.b0 && P.gen && P.inf && P.neg && P.rand) && P.def.inv === 0 && P.b0.inv === 0 && P.gen.inv === 0 && P.inf.inv === 0 && P.neg.inv === 0 && P.rand.inv === 0;
+      chk.pureDefault = ok(P.def) && P.def.runs === '13' && P.def.maxPend === P.k * P.cap && P.def.A.cancelled > 0;
+      chk.pureCarry = ok(P.b0) && P.b0.oneStep === 25 && P.b0.carried === 24 && P.b0.maxPend > 0 && P.b0.maxOver <= 0 && P.b0.maxPend === P.cap * P.k && P.b0.cancelGrew > 0;
+      chk.pureGen = ok(P.gen) && P.gen.pendBefore > 0 && P.gen.pendAfter === 0 && P.gen.cancelDelta === P.gen.pendBefore && P.gen.zero === '{"pending":0,"cancel":0}';
+      chk.pureInf = ok(P.inf) && P.inf.drained > 0 && P.inf.allRun && P.inf.pending === 0 && P.inf.cancelDelta === 0 && P.inf.execDelta === P.inf.reqDelta;
+      chk.pureNeg = ok(P.neg) && P.neg.maxPend === 0 && P.neg.wantOk && P.neg.cancelDelta > 0 && P.neg.reqDelta === P.neg.execDelta + P.neg.cancelDelta;
+      chk.pureRand = ok(P.rand) && P.rand.maxOver <= 0 && P.rand.A.requested > 0;
+      chk.pureFrozen = ok(P.frozen) && P.frozen.kRun === P.frozen.kReq && P.frozen.pending === 0 && P.frozen.cancel === 0;
+    }
     const ng = Object.keys(chk).filter((k) => !chk[k]);
+    const P296 = r.pure;
     add('ui.step-accounting', ng.length === 0,
+      (has296dSA && P296 ? `**(A) 決定的な会計の試験**(第296便d・R160 —— 手で進める時計・loop() は純関数 stepCarryFrame を通る=${loopUsesPure}): ` +
+        `既定予算 ${P296.budget}ms・1 步 1 ms・新規 ${P296.k} 步 → 毎フレーム実行 ${P296.def.runs} 步・繰越最大 ${P296.def.maxPend}(上限 ${P296.cap}×${P296.k})・累計 要求${P296.def.A.requested}=実行${P296.def.A.executed}+繰越${P296.def.A.pending}+破棄${P296.def.A.cancelled} / ` +
+        `予算0: 1 步 ${P296.b0.oneStep}/25・繰越が要求に入る ${P296.b0.carried}/24・繰越最大 ${P296.b0.maxPend}(超過 ${P296.b0.maxOver})・破棄 ${P296.b0.cancelGrew} / ` +
+        `世代破棄: 繰越 ${P296.gen.pendBefore} → 0(Δ破棄 ${P296.gen.cancelDelta}) / 予算∞: 繰越 ${P296.inf.drained} を消化して以後 実行=要求 ${P296.inf.execDelta}=${P296.inf.reqDelta}・破棄 ${P296.inf.cancelDelta} / ` +
+        `繰越OFF: 繰越最大 ${P296.neg.maxPend}・要求${P296.neg.reqDelta}=実行${P296.neg.execDelta}+破棄${P296.neg.cancelDelta} / 揺れる費用 200 フレーム: 不変式 ${P296.rand.inv}・超過 ${P296.rand.maxOver} / ` +
+        `時計が進まない対照: 予算0 でも ${P296.frozen.kRun}/${P296.frozen.kReq} 步(打ち切れない —— 実機の「予算0 → 2 步」はタイマーの分解能) / ` +
+        `**(B) 実フレームの標本**(恒等式だけ判定・負荷で揺れる量は記録): lastRun の分布 ${JSON.stringify(r.b0.runHist || {})}(25 標本)・` : '') +
       `不変式 requested=executed+pending+cancelled の最大ズレ: 既定${r.def.inv}・予算0 ${r.b0.inv}・` +
       `世代切替後${r.gen.inv}・予算∞ ${r.bInf.inv}・繰越OFF ${r.neg.inv}・停止後${r.stopped.inv}(全0) / ` +
       `既定予算(💿 要求${r.def.lastNew}步/フレーム): 累計 要求${r.def.requested}=実行${r.def.executed}` +
@@ -67019,9 +67100,14 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppOtherSecOpen = {};
         HP.loadPreset('saturn', false); });
       const s0 = await snap();
-      const r = await pg.evaluate(async () => {
+      // 第296便d(原仮定者の裁定(第86報)・R160 —— 世代切替 has296dR = html の `const FAMILY_FOLD_MIN_VARIANTS=`): 家族の折りたたみ。④ の行の数(nRows = 退役を除く内蔵)は
+      //   **DOM の行の数**のまま(畳んだ variant の行も .ppFamBody[hidden] の中に組み立てる —— 群の畳みと同じ作法)。⑤ では群を開いた状態で
+      //   「見えている行 = 退役を除く内蔵 − 畳んだ variant(在位の variant が閾値以上の家族の variant —— この場の規則で数える)」に読み替え、
+      //   variant の行の家族の語の検査(⑤)は畳んだ行も含めて見る
+      const has296dR = /^const FAMILY_FOLD_MIN_VARIANTS=/m.test(html);
+      const r = await pg.evaluate(async (has296dR) => {
         const wait = (ms) => new Promise((res) => setTimeout(res, ms));
-        const o = { bad: [] };
+        const o = { bad: [], has296dR };
         const ps = BUILTIN_PRESETS;
         const listable = (f) => ps.filter((p) => p.familyRole !== 'retired' && f(p));
         // この場で書いた規則(ページの TOPIC_TAGS・PP_OTHER_AXES を使わない)
@@ -67099,6 +67185,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const emos = famWithVar.map((f) => (famPrim[f] || {}).emoji);
         o.famN = famWithVar.length; o.emoUnique = new Set(emos).size === emos.length && emos.every(Boolean);
         for (const g of document.querySelectorAll('#ppList .ppGroupBody')) g.hidden = false;
+        if (has296dR) {   // 第296便d: 畳んだ variant の数(この場の規則: 在位の variant が閾値以上の家族・選択中〔🪐〕の家族でない)
+          const vc = {}; for (const p of ps) if (p.familyId && p.familyRole === 'variant') vc[p.familyId] = (vc[p.familyId] || 0) + 1;
+          const cur = HP.currentPreset();
+          o.foldExp = listable((p) => p.familyRole === 'variant' && vc[p.familyId] >= FAMILY_FOLD_MIN_VARIANTS && !(cur && cur.familyId === p.familyId)).length;
+          o.foldHid = rows().filter((b) => !!b.closest('.ppFamBody[hidden]')).length;
+          o.visRows = rows().filter((b) => b.offsetParent !== null).length;
+          if (!(o.foldHid === o.foldExp && o.foldExp > 0 && o.visRows === o.nListable - o.foldHid))
+            o.bad.push(`⑤′ 畳んだ variant ${o.foldHid}(規則 ${o.foldExp})・見える行 ${o.visRows} ≠ ${o.nListable}−${o.foldHid}`);
+        }
         const rowTxt = rows().map((b) => b.firstChild.textContent);
         const optTxt = [...document.querySelectorAll('#presetSelect option')].map((x) => x.textContent);
         o.branch = rowTxt.concat(optTxt).filter((t) => t.indexOf('└') >= 0).length;
@@ -67174,7 +67269,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
         HP.loadPreset('saturn', false);
         return o;
-      });
+      }, has296dR);
       const s1 = await snap();
       r.same = s1.sig === s0.sig && s1.par === s0.par && s1.n === s0.n;
       r.vp = vp.name; r.errs = errs.slice(0, 2);
@@ -67188,6 +67283,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / ② 「全て」${a.nAll} 個が太字 ${a.allW}(他 ${a.otherW})・色は他のチップと同じ=${a.colorSame} / ③ 段の「全て」[${a.secAll}]・宣言の「全て」で宣言だけ外れる → [${a.afterDeclAll}]`
       + ` / ④ 切り替え撤去=${a.noToggle}・hp_show_all_samples="0" でも行 ${a.nRows} = 退役を除く ${a.nListable}(variant ${a.nVariant}・catalog extended ${a.nExt})・(+n) ${a.plusN}・書き込み無し(${a.lsBefore}→${a.lsAfter})`
       + ` / ⑤ └ ${a.branch}・variant の行と option に家族の語(例「${a.example}」・家族 ${a.famN}・primary の絵文字の重なりなし=${a.emoUnique}・en「${a.enTag}」)`
+      + (a.has296dR ? `・**第296便d**: 畳んだ variant ${a.foldHid}(規則 ${a.foldExp})・群を開いて見える行 ${a.visRows} = ${a.nListable}−${a.foldHid}` : '')
       + ` / ⑥ ` + a.skins.map((s) => `${s.skin}: 群名 ${s.acc}・600・比 ${s.ratio}(背景 ${s.bg})・区画 ${s.scopeColor}/${s.scopeW}`).join(' | ')
       + ` / ⑦ ⓘ 開いている間だけ太字+強調色${a.w295d ? '+字 1.25 倍(閉 1.1 倍)・二重の丸枠(第295便d)' : ''}: 次元 ${a.iDim}・群 ${a.iGrp}・カテゴリ ${a.iCat}・背景宣言 ${a.iBgc}(${a.bgcId})`
       + ' / ' + res.map((r) => `${r.vp}: ${r.ok ? 'OK' : 'NG ' + r.bad.slice(0, 4).join(' , ')}・presetSig/params 不変=${r.same}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
@@ -70306,6 +70402,172 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / ⑥ ⓘ ` + (a.info || []).map((x) => `${x.label} 閉 ${x.closed}・開 ${x.open} 倍・環 ${x.rings}・行の高さ ${x.h.join('→')}`).join(' | ')
       + `・コントラスト ` + (a.skins || []).map((s) => `${s.skin} ${s.ratio}`).join('/') + `(背景宣言 ${a.bgcId})`
       + ` / ⑦ 内蔵の宣言に表示名 ${(a.leak || []).length} 件 / ` + res.map((x) => `${x.vp}: ${x.ok ? 'OK' : 'NG ' + x.bad.slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): ui.familyFold296 —— **家族の折りたたみ**(一覧「サンプルを選ぶ」・表示だけ —— 物理・presetSig・保存 JSON に 1 bit も効かない)。
+// ----   世代切替 has296d = html の `const FAMILY_FOLD_MIN_VARIANTS=` —— root 等は SKIP。viewport は 412×915(縦・タッチ)と 1280×800(横)。
+// ----   ① 閾値 FAMILY_FOLD_MIN_VARIANTS = 6・畳む家族(familyFoldIds)= **この場の規則**(familyRole "variant" の本が 6 本以上の familyId)で数えた家族
+// ----      (本数・家族は宣言から読む —— 手書きの ID 一覧を持たない)・閾値未満の家族の variant は畳みの入れ物(.ppFamBody)に入らない
+// ----   ② 既定(🪐 を選択・絞り込みなし・hp_family_open_* なし): 畳む家族の variant の行はすべて .ppFamBody[hidden] の中(DOM には在る —— 群を開いても見えない)・
+// ----      入れ物の直前に button.ppFamFold(type=button・aria-expanded="false"・aria-controls = 入れ物の id・語 = famFoldOpen(n, primary の絵文字)・n = 入れ物の行の数)・
+// ----      primary と同じ表示の群に variant があれば畳みの行は primary の行の直後・家族の畳みの行の n の和 = 一覧に出る variant の数
+// ----   ③ 開く/閉じる: 押すと同じ家族のすべての畳みの行が aria-expanded="true"・語 famFoldClose・入れ物と行が見え、localStorage hp_family_open_<id> = "1"・
+// ----      もう一度押すと元へ戻り "0"・**読み込み直し**の後も開いた状態が残る(開いたまま読み直す → 開・閉じて窓を開き直す → 閉)
+// ----   ④ 選択中は畳まない: 畳む家族の variant / primary を読み込むと、その家族の畳みの行が無く variant の行がすべて見える(選択中の行 data-cur も見える)
+// ----   ⑤ 検索/絞り込みに一致した本は畳まない: 検索語(畳む家族の variant の ID)・geoPN の絞り込みで畳みの行が 0・一致した variant の行が見える
+// ----   ⑥ en の語(「〔+n family members - show (🌙)〕」)・隠し #presetSelect の option は畳まない(退役を除く内蔵の数)・縦 412 で畳みの行の高さ ≥ 36 px・
+// ----      横はみ出し 0(行と一覧)・presetSig/params 不変・JS エラー 0
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/^const FAMILY_FOLD_MIN_VARIANTS=/m.test(html)) {
+    console.log('SKIP ui.familyFold296(対象に第296便d の家族の折りたたみ FAMILY_FOLD_MIN_VARIANTS なし — root 等)');
+  } else {
+    const VPS = [{ name: 'portrait-412x915', width: 412, height: 915, mobile: true }, { name: 'landscape-1280x800', width: 1280, height: 800, mobile: false }];
+    const res = [];
+    for (const vp of VPS) {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.addInitScript(() => { try { if (!sessionStorage.getItem('w296dInit')) {
+        for (const k of Object.keys(localStorage)) if (k.indexOf('hp_family_open_') === 0) localStorage.removeItem(k);
+        sessionStorage.setItem('w296dInit', '1'); } } catch (_) {} });
+      const boot = async () => { await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+        await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+          ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+          HP.loadPreset('saturn', false); }); };
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await boot();
+      const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+        par: JSON.stringify(HP.sim.params) }));
+      const s0 = await snap();
+      // 共通の道具(ページの中で毎回定義する —— 文字列で渡す)
+      const LIB = `(() => {
+        const ps = BUILTIN_PRESETS, MIN = FAMILY_FOLD_MIN_VARIANTS;
+        const vc = {}; for (const p of ps) if (p.familyId && p.familyRole === 'variant') vc[p.familyId] = (vc[p.familyId] || 0) + 1;
+        const foldFams = Object.keys(vc).filter((f) => vc[f] >= 6).sort(), smallFams = Object.keys(vc).filter((f) => vc[f] < 6).sort();
+        const prim = (f) => ps.find((p) => p.familyId === f && p.familyRole === 'primary');
+        const emo = (f) => { const p = prim(f); return p ? (p.emoji || pName(p)) : f; };
+        const varsOf = (f) => ps.filter((p) => p.familyId === f && p.familyRole === 'variant');
+        const rows = () => [...document.querySelectorAll('#ppList .ppRow')];
+        const rowOf = (p) => { const e = (p.emoji || '') + ' ' + pName(p) + familyTagOf(p);
+          return rows().find((b) => { const t = b.firstChild.textContent; return t === e || t.indexOf(e + '〔') === 0; }) || null; };
+        const toggles = (f) => [...document.querySelectorAll('#ppList .ppFamFold')].filter((b) => b.dataset.fam === f);
+        const openAll = () => { for (const g of document.querySelectorAll('#ppList .ppGroupBody')) g.hidden = false; };
+        const vis = (e) => !!e && e.offsetParent !== null;
+        const ls = (f) => { try { return localStorage.getItem('hp_family_open_' + f); } catch (_) { return 'THROW'; } };
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const reopen = async () => { hidePresetPicker(); showPresetPicker(); await wait(40); openAll(); };
+        return { ps, MIN, vc, foldFams, smallFams, prim, emo, varsOf, rows, rowOf, toggles, openAll, vis, ls, wait, reopen };
+      })()`;
+      const r = await pg.evaluate(async (LIB) => {
+        const L = eval(LIB);
+        const o = { bad: [] };
+        // ①
+        o.min = L.MIN; o.foldFams = L.foldFams; o.foldIds = familyFoldIds().slice().sort(); o.smallN = L.smallFams.length;
+        if (!(L.MIN === 6 && o.foldFams.length >= 1 && o.foldIds.join(',') === o.foldFams.join(',')))
+          o.bad.push(`① 閾値 ${L.MIN}・畳む家族 ${o.foldIds.join(',')} ≠ 規則 ${o.foldFams.join(',')}`);
+        await L.reopen();
+        o.smallInFold = L.smallFams.flatMap((f) => L.varsOf(f)).filter((p) => { const b = L.rowOf(p); return !b || !!b.closest('.ppFamBody'); }).map((p) => p.id);
+        if (o.smallInFold.length) o.bad.push('① 閾値未満の家族の variant が畳まれた/行が無い: ' + o.smallInFold.join(','));
+        // ②
+        o.fams = [];
+        for (const f of L.foldFams) {
+          const vs = L.varsOf(f), tg = L.toggles(f), pr = L.prim(f), prow = pr ? L.rowOf(pr) : null;
+          const F = { f, emo: L.emo(f), nVar: vs.length, nTog: tg.length, ns: tg.map((b) => +b.dataset.n), ls0: L.ls(f) };
+          F.rowsHidden = vs.every((p) => { const b = L.rowOf(p); const c = b && b.closest('.ppFamBody'); return !!c && c.dataset.fam === f && c.hidden && !L.vis(b); });
+          F.togOk = tg.length >= 1 && tg.every((b) => { const c = b.nextElementSibling;
+            return b.tagName === 'BUTTON' && b.type === 'button' && b.getAttribute('aria-expanded') === 'false' && !!c && c.classList.contains('ppFamBody')
+              && c.id && b.getAttribute('aria-controls') === c.id && c.querySelectorAll('.ppRow').length === +b.dataset.n
+              && b.textContent === HP.T('famFoldOpen')(+b.dataset.n, F.emo) && L.vis(b); });
+          F.sumOk = F.ns.reduce((a, b) => a + b, 0) === vs.length;
+          const sameGrp = pr && vs.some((p) => ppDispGroup(p) === ppDispGroup(pr));
+          F.afterPrim = !sameGrp || (!!prow && !!prow.nextElementSibling && prow.nextElementSibling.classList.contains('ppFamFold') && prow.nextElementSibling.dataset.fam === f);
+          F.text = tg.length ? tg[0].textContent : '';
+          if (!(F.rowsHidden && F.togOk && F.sumOk && F.afterPrim && F.ls0 === null))
+            o.bad.push(`② ${f}: 畳んだ行 ${F.rowsHidden}・畳みの行 ${F.togOk}(${F.nTog} 個・n ${F.ns.join('+')} / variant ${F.nVar})・primary の直後 ${F.afterPrim}・LS ${F.ls0}`);
+          // ③ 開く → 閉じる → 開く(読み直しの検査のために開いたままにする)
+          tg[0].click(); await L.wait(20);
+          F.open = L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'true' && b.textContent === HP.T('famFoldClose')(+b.dataset.n, F.emo))
+            && vs.every((p) => L.vis(L.rowOf(p))) && L.ls(f) === '1';
+          F.textOpen = L.toggles(f)[0].textContent;
+          L.toggles(f)[0].click(); await L.wait(20);
+          F.close = L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'false') && vs.every((p) => !L.vis(L.rowOf(p))) && L.ls(f) === '0';
+          L.toggles(f)[0].click(); await L.wait(20);
+          if (!(F.open && F.close && L.ls(f) === '1')) o.bad.push(`③ ${f}: 開 ${F.open}・閉 ${F.close}・LS ${L.ls(f)}`);
+          o.fams.push(F);
+        }
+        return o;
+      }, LIB);
+      // ③ 読み込み直し(開いたまま)
+      await pg.reload({ waitUntil: 'load' });
+      await boot();
+      const r2 = await pg.evaluate(async (LIB) => {
+        const L = eval(LIB);
+        const o = { bad: [] };
+        await L.reopen();
+        o.persist = L.foldFams.map((f) => L.toggles(f).length > 0 && L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'true') && L.varsOf(f).every((p) => L.vis(L.rowOf(p))));
+        for (const f of L.foldFams) { L.toggles(f)[0].click(); await L.wait(10); }
+        await L.reopen();
+        o.persistClose = L.foldFams.map((f) => L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'false') && L.ls(f) === '0' && L.varsOf(f).every((p) => !L.vis(L.rowOf(p))));
+        if (!(o.persist.every(Boolean) && o.persistClose.every(Boolean))) o.bad.push(`③ 読み直し: 開 ${o.persist.join('/')}・閉 ${o.persistClose.join('/')}`);
+        // ④ 選択中は畳まない(先頭の家族の variant と primary)
+        const f = L.foldFams[0], vs = L.varsOf(f), pr = L.prim(f);
+        o.sel = [];
+        for (const p of [vs[vs.length - 1], pr].filter(Boolean)) {
+          hidePresetPicker(); HP.loadPreset(p.id, false); await L.reopen();
+          const cur = document.querySelector('#ppList .ppRow[data-cur="1"]');
+          const z = { id: p.id, nTog: L.toggles(f).length, allVis: vs.every((q) => L.vis(L.rowOf(q)) && !L.rowOf(q).closest('.ppFamBody')), curVis: L.vis(cur) && cur === L.rowOf(p) };
+          o.sel.push(z);
+          if (!(z.nTog === 0 && z.allVis && z.curVis)) o.bad.push(`④ ${p.id} を選択: 畳みの行 ${z.nTog}・variant が見える ${z.allVis}・選択中の行 ${z.curVis}`);
+        }
+        hidePresetPicker(); HP.loadPreset('saturn', false); await L.reopen();
+        // ⑤ 検索と絞り込み
+        const v0 = vs[0];
+        const si = document.getElementById('ppSearch'); si.value = v0.id; si.dispatchEvent(new Event('input')); await L.wait(30);
+        o.search = { q: v0.id, nTog: document.querySelectorAll('#ppList .ppFamFold').length, vis: L.vis(L.rowOf(v0)), inFold: !!(L.rowOf(v0) && L.rowOf(v0).closest('.ppFamBody')) };
+        si.value = ''; si.dispatchEvent(new Event('input')); await L.wait(30);
+        ppGeo = String(ppGeoBucketOf(v0)); showPresetPicker(true); await L.wait(30);
+        const hit = vs.filter((p) => String(ppGeoBucketOf(p)) === ppGeo);
+        o.filter = { geo: ppGeo, nTog: document.querySelectorAll('#ppList .ppFamFold').length, nHit: hit.length, allVis: hit.every((p) => L.vis(L.rowOf(p))) };
+        ppGeo = 'all'; showPresetPicker(true); await L.wait(30); L.openAll();
+        o.backFolded = L.foldFams.every((g) => L.toggles(g).length > 0 && L.varsOf(g).every((p) => !L.vis(L.rowOf(p))));
+        if (!(o.search.nTog === 0 && o.search.vis && !o.search.inFold && o.filter.nTog === 0 && o.filter.nHit > 0 && o.filter.allVis && o.backFolded))
+          o.bad.push(`⑤ 検索 ${JSON.stringify(o.search)}・絞り込み ${JSON.stringify(o.filter)}・解除で畳みへ戻る ${o.backFolded}`);
+        // ⑥ 寸法・option・en
+        const tg = [...document.querySelectorAll('#ppList .ppFamFold')], list = document.getElementById('ppList');
+        o.minH = tg.length ? Math.min(...tg.map((b) => b.getBoundingClientRect().height)) : 0;
+        o.overflow = tg.filter((b) => b.scrollWidth > b.clientWidth + 1).length + (list.scrollWidth > list.clientWidth + 1 ? 1 : 0);
+        o.nListable = L.ps.filter((p) => p.familyRole !== 'retired').length;
+        o.nOpts = [...document.querySelectorAll('#presetSelect option')].filter((x) => L.ps.some((p) => p.id === x.value)).length;
+        HP.setLang('en'); await L.reopen();
+        const te = [...document.querySelectorAll('#ppList .ppFamFold')][0];
+        o.en = te ? te.textContent : '';
+        o.enOk = !!te && te.textContent === I18N.en.famFoldOpen(+te.dataset.n, te.dataset.emo) && /^〔\+\d+ family members - show \(.+\)〕$/.test(te.textContent)
+          && /listed variants/.test(te.title);
+        HP.setLang('ja'); hidePresetPicker();
+        o.ja = (HP.T('famFoldOpen')(3, '🌙'));
+        if (!(o.minH >= 35.5 && o.overflow === 0 && o.nOpts === o.nListable && o.enOk && o.ja === '〔+3 本の家族を開く(🌙)〕'))
+          o.bad.push(`⑥ 高さ ${o.minH}・はみ出し ${o.overflow}・option ${o.nOpts}/${o.nListable}・en「${o.en}」=${o.enOk}・ja「${o.ja}」`);
+        HP.loadPreset('saturn', false);
+        return o;
+      }, LIB);
+      const s1 = await snap();
+      const R = { vp: vp.name, r, r2, same: s1.sig === s0.sig && s1.par === s0.par, errs: errs.slice(0, 2) };
+      R.ok = r.bad.length === 0 && r2.bad.length === 0 && R.same && errs.length === 0;
+      res.push(R);
+      await ctx.close();
+    }
+    const a = res[0].r, b = res[0].r2;
+    add('ui.familyFold296', res.every((x) => x.ok),
+      `**家族の折りたたみ**(第296便d・原仮定者の裁定(第86報)・R160 —— 表示だけ): ① 閾値 ${a.min}・畳む家族 [${a.foldIds.join(',')}](規則で数えた [${a.foldFams.join(',')}]・閾値未満の家族 ${a.smallN} は畳まない)`
+      + ` / ② ` + a.fams.map((F) => `${F.f}(${F.emo}): variant ${F.nVar} 本を畳みの行 ${F.nTog} 個(n ${F.ns.join('+')})に・「${F.text}」・primary の直後=${F.afterPrim}`).join(' | ')
+      + ` / ③ 開「${a.fams.map((F) => F.textOpen).join('|')}」⇄ 閉・hp_family_open_<id> 1/0・読み直しで開=${b.persist.join('/')}・閉じて開き直すと閉=${b.persistClose.join('/')}`
+      + ` / ④ 選択中は畳まない ` + b.sel.map((z) => `${z.id}: 畳みの行 ${z.nTog}・variant 見える ${z.allVis}`).join(' | ')
+      + ` / ⑤ 検索「${b.search.q}」で畳みの行 ${b.search.nTog}・見える ${b.search.vis} / geoPN=${b.filter.geo} で畳みの行 ${b.filter.nTog}・一致 ${b.filter.nHit} 本が見える ${b.filter.allVis}・解除で畳みへ戻る ${b.backFolded}`
+      + ` / ⑥ en「${b.en}」・option ${b.nOpts}/${b.nListable}・` + res.map((x) => `${x.vp}: 畳みの行の高さ ≥ ${x.r2.minH.toFixed(1)}px・はみ出し ${x.r2.overflow}・${x.ok ? 'OK' : 'NG ' + x.r.bad.concat(x.r2.bad).slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
   }
 }
 
