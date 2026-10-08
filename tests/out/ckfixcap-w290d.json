@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T12:29:37.516Z",
+  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+  "generatedAt": "2026-10-08T16:46:24.843Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 5976655,
+    "sha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+    "mtime": "2026-10-08T16:39:20.927Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 47302,
-    "sha256": "63ddaf921cfc5378871d76248ba54b44921f57c23c942363cbed481ece62a11b",
-    "mtime": "2026-10-08T07:30:08.672Z"
+    "bytes": 47498,
+    "sha256": "11e69ae7c21f0a7b931b688c6e831dc0e054c0b27050776d8ff2211b3d6f13c0",
+    "mtime": "2026-10-08T16:39:21.001Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "3679e84cfbc0c7394cd8e3d199c8c52f6aa6ba7447143798307d324caaa8d9d7",
+  "codeSha256": "9ab05e48592a02cf6259adc7dbbc18f730c2194ddc5b8d9dcd609feedd37fa3e",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -104,7 +104,7 @@
    "complete": true,
    "names": 1055,
    "segments": 964,
-   "closureShare": 0.3249
+   "closureShare": 0.3247
   },
   "scopeSha256": "ff33b4106410a5f189dec7d7a592640ac4487e26a1adcb498756fe0f102ffb59",
   "scopeComplete": true,
@@ -667,7 +667,7 @@
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
     "saveHandler": "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6"
    },
-   "saveCodeSameAsBase": false,
+   "saveCodeSameAsBase": true,
    "saveKeys": [
     "cameraScale",
     "comment",
@@ -2693,9 +2693,9 @@
    "abIndependent": true,
    "abCheckpoint": true,
    "inventoryFixcap": true,
-   "saveFormatUnchanged": false
+   "saveFormatUnchanged": true
   },
-  "ok": false
+  "ok": true
  },
- "elapsedS": 0.558
+ "elapsedS": 0.644
 }
