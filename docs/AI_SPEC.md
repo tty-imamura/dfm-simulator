@@ -306,6 +306,7 @@ specification text sent to it (section 5 is unchanged, byte for byte).
 ## 5. The preset specification (verbatim — Japanese, machine-synced)
 
 This is the app's `SYSTEM_PROMPT`, carried here word for word.
+(Wave 296a: the line `- ${CLAIM_SCOPE.ja}` is the template-literal source; at run time it expands to the app's claim sentence `CLAIM_SCOPE.ja`, quoted verbatim in §59.)
 
 ```
 あなたは「仮想物理シミュレータ」のプリセット生成器です。ユーザーの要望を読み、下記仕様のシミュレーション設定をJSONで1つだけ出力します。
@@ -334,6 +335,11 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
 - タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速の換算指数 eC はティア別 x−eT 固定(分子3 / ビーカー・日常0 / 惑星・恒星4 / 銀河5 / 宇宙全体6)で、cLight=30 はそのティアの次元的光速として表示される(日常 ≈30 m/s・惑星/恒星 ≈3×10^5 m/s)。手動での上書きはできない(第130便)。
 - 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=9.8、beaker は gravityY=0.031 が ≈9.8 m/s²)。
+
+# 主張の範囲とフィット(第296便a —— 原仮定者の裁定(第86報))
+- ${CLAIM_SCOPE.ja}
+- geoPN=1(1PN 準拠)の本は観測入力のまま照合する基準である。法則のノブ(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と、天体の構造核の宣言)を観測値に合わせて調整しない(観測入力〔質量・軌道要素・元期〕はそのまま使う)。
+- それ以外の geoPN で観測値に合わせて値を調整したときは、最上位の fitRecord に標的の観測量・窓・調整した鍵と探索範囲を書く(書けない調整はしない)。合わせられなかったときは合ったと書かない。
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
@@ -3241,7 +3247,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   (w291c-1・w293a-1・w294a-1 の保存も値を保持して読む)。
 - **geoPN=0 の選択肢**: `HP.GEO0_CHOICES` = `["newton","geodesic","inertial","legacy","stack"]`。`HP.geo0ChoiceOf(src)` は立っている宣言からの逆算(2 つ以上なら "stack")。
   `HP.geo0ChoicePreview(src, choice, {gain})` は外す/足す宣言の表(純関数)。`HP.geo0ApplyChoice(S, choice, {gain})` は geoPN=0 の S にだけ効き、他の排他宣言を外す(kFrame は触らない・
-  "stack" といまの選択は no-op)。戻り値 `{ok, changed, removed, added, law, ge}`。UI は確認(confirm)のあとだけ適用する。旧空間メッシュは geoPN=0 では走らない(宣言だけ残す)。
+  "stack" といまの選択は no-op)。戻り値 `{ok, changed, removed, added, law, ge}`。UI は確認(confirm)のあとだけ適用する。旧空間メッシュは geoPN=0 では走らない(宣言だけ残す —— 第295便a の時点。第296便a から 0 でも走る —— §59)。
 - **gain の継続編集**: `HP.geoInertialSetGain(S, gain)` —— 宣言済みなら他の鍵(pairs/eps/coreTable/compose/solveFrom)を保って gain だけ変える・未宣言なら `{law:"inertial", gain}` を宣言する。
   `geo3InertialDeclare` も同じ本体。「パラメータ」タブの gain の欄は慣性の宣言の後も残る(全番号)。
 - **編集欄の赤文字**: `HP.refreshModeDeviation()` が `.prow[data-k="geoPN"]`(全体の要約)と `.prow[data-k="kFrame"]`(fields に kFrame)の中に `div.modeDeviation`(role=status・aria-live=polite・
@@ -3299,7 +3305,30 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.labels295`**(新設 —— root は SKIP)。既存の固定値は世代切替 has295d(html の `GROUP_SCOPE` で「実在天体のアナロジー」が `"cal"`):
   `ui.pickerScope`(cal の区画に「実在天体のアナロジー」・en 群名)・`ui.calGroupSplit291`・`ui.observedCompare294`(分類チップと区画の語)・`ui.pickerReorg294`(⑦ ⓘ の字と環)・`ui.pickerSeparators`(分類の選択肢 4)・`ui.samplePicker`(⑧ DFM のチップ無し)・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui`(geoPN 行の語)。
 
-## 59. 第296便d —— 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160・**表示と QA の器だけ**・**SYSTEM_PROMPT には載せない**)
+## 59. 第296便a —— サンプル生成の契約: 主張の文・geoPN=1 の不フィット(`geo1Fitted`)・geoPN=0 で旧空間メッシュが走る(原仮定者の裁定(第86報)「DFM アプリは、現実の物理の再現の主張はしないが、アプリ内での整合性を整えて観測値に合わせられることを主張する」「1PN 準拠の geoPN=1 以外は、サンプル生成時に調整可能なパラメータをフィットさせる」+ 第85報「geoPN=0 では全ての設定を試せる」・統括の検証項目 R157)
+
+**主張の文**(html の `CLAIM_SCOPE` —— i18n `claimScope` の ja/en。説明パネル aboutBody と SYSTEM_PROMPT が同じ値を読む・この節は逐語の転記):
+
+> DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
+>
+> DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
+
+- **SYSTEM_PROMPT**: 「出力ルール」の前に段「主張の範囲とフィット」を足した —— 上の文(ja)・**geoPN=1(1PN 準拠)は観測入力のまま照合する基準で、法則のノブ**(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と天体の構造核の宣言 —— SYSTEM_PROMPT は構造核の鍵名を書かない〔AI 生成には開放しない〕)**を観測値に合わせて調整しない**
+  (観測入力〔質量・軌道要素・元期〕はそのまま使う)・それ以外の geoPN で観測値に合わせて値を調整したときは最上位の `fitRecord` に標的の観測量・窓・調整した鍵と探索範囲を書く・合わせられなかったときは合ったと書かない。
+  `fitRecord` の受理器と正準形は第296便b(この節は鍵の名前と `knobs[].key` だけを使う)。
+- **逸脱 `geo1Fitted`**(目的の組の判定 `HP.modeSettingIssues(src, opts)` —— §55 —— の mode 1 の塊・kind:"preset"・fields `["geoPN"]`・`knobs`。`HP.MODE_SAVE_WARN_CODES` の **17 本目**(末尾)): geoPN=1 の本の
+  `fitRecord.knobs[].key` に**法則のノブ**があるとき(`HP.fitKnobIsLaw(key)` —— `physics.` の接頭辞は外す。観測入力の推定 = 頭の鍵が `HP.GEO1_OBS_INPUT_HEADS`〔bodies・epoch・elements・orbit・initial・state〕で dragCore を含まない鍵。
+  それ以外〔`HP.GEO1_LAW_KNOB_HEADS`・天体の dragCore・その他の physics の鍵・名前の分からない鍵〕は法則のノブ)。第 2 引数 `opts.fitRecord`(physics の外の鍵なので別に渡す —— 省略時は従来と同じ)。
+  保存・セーブの読込・編集欄の赤文字(実行中プリセットの記録 `HP.modeIssueOptsOfSim(S)`)・JSON の受理(`validatePreset` —— 入力の本の `fitRecord`・**受理は通して警告だけ・記録は捨てない**)・取り込みの通知で出す。
+  文は i18n `modeWarn_geo1Fitted`(ja/en)。内蔵 155 本は `fitRecord` を持たない(出現 0)。
+- **geoPN=0 で旧空間メッシュが走る**: 旧法則版の門の番号条件は `HP.geoLegacyGateOf(physics)`(3・4 は常に・**0 は `spaceMesh.lawVersion` を宣言したときだけ**・1・2 は入らない)。入場条件は 3/4 と同じ。
+  走れば法則 `legacy-spaceMesh:<lawVersion>`(測地線 OFF)・`HP.geoEffectiveMode(S)` は **0**(`_core` へ 0 —— 3/4 と同じ数)・`HP.geoLawOfSim(S)` も同じ名前。vMinusU(輸送経路 `meshVelocity` つき)は 0 でも受理する(1・2 は従来どおり拒否)。
+  geoPN=0 の選択肢 `legacy`(`HP.geo0ApplyChoice`)は適用後に旧法則版で走る(プレビュー `legacyOff` —— null = 走る)。走る旧メッシュに測地線・慣性を重ねた宣言は `geo0Stacked`。
+  内蔵で geoPN=0 ∧ lawVersion の本は 0 本(内蔵の力学は 1 bit 不変)。保存の版 `modePolicy` は `"w295a-1"` のまま。
+- **AI 生成**: 旧法則版(`spaceMesh.lawVersion`)は新しく作る設定では使わない(§56 のまま —— 0 で走るようになっても推奨しない)。
+- QA: **`behavior.sampleGenContract296`**(新設 —— root は SKIP)と、世代切替 has296a(`MODE_SAVE_WARN_CODES` に `geo1Fitted`)で改めた `behavior.modeSaveWarnings`(17 本)・`behavior.modeIssues295`・`docs.geoModeTable`(現行の表は docs/PHYSICS.md〔第296便a〕)・
+  `behavior.geoModeResolve`・`preset.modeNoRestriction`・`behavior.geo3Inertial294`(code 17 本)・`preset.geo3Contract`(dispatch の形)・`behavior.geo4Migrate295`(geoPN=4 の 3 本は 14〜16 本目)。
+## 60. 第296便d —— 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160・**表示と QA の器だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **役割名**(`FAMILY_VARIANT_LABEL` —— プリセットの外の表示専用の表): `earthMoonSunInertial`・`mercurySunInertial` に ja「慣性決定力版(係数移送)」/ en "inertial-determinacy build (coefficient transfer)"(`plutoCharonInertial` と同じ語)。`charonGeoToy3` は ja「旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)」/ en "legacy vMinusU contract diagnostic (kept under geoPN=4; solar background)"。ID・物理・presetSig は不変。
 - **文言**: `wbgTip` の「geoPN=3 の場」→「旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場」。`grpDragDesc` の 4 の文の後に「在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ)」。`ppGeoUse0`〜`3` は「推奨は <構成>(逸脱は保存時に警告)」の 1 文(`ppGeoUse4` は変えていない)。

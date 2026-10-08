@@ -30621,6 +30621,99 @@ G0(gain 0 —— 🔆 の重力だけの三体・geoPN 3)は〔第293便d〕の�
 分類の選択肢から「引きずり近似(q)— 較正母集団の外」(派生値 `calibration:dfm` —— 在位に該当本なし・退役の本の説明タブのチップには残す)を撤去し、分類チップ kf0 の語を「観測再現」(en "Observation reproduction" —— 観測値を再現しようとする本・所属は合否を意味しない)に改めた。geoPN の選択肢の語は目的の組「0: 汎用」「1: 1PN準拠」「2: 引きずり近似」「3: 慣性決定力」(パラメータの行は「geoPN(目的の組)」—— 走る法則の解決 `geoLawResolveInto` と役割 `GEO_MODE_ROLE` は不変)。群「腕と渦伸長(軸力)」の表示名を「腕と軸力」(宣言の値は不変・`GROUP_ALIASES` に表示名 → 宣言の値)、区画 cal の名を「観測値サンプル」とし群「実在天体のアナロジー」をその区画(「実在天体との照合・太陽系/連星」の後)へ移した。説明を開いている間の ⓘ は字 1.25 倍(閉 1.1 倍)+二重の丸枠(box-shadow —— 行の高さは不変)。群「現実較正」の表示名「実在天体との照合」は据え置き。
 確認: bitsame 152/152・sigsame 152/152(差分 ID なし)。QA: `ui.labels295`(新設)と既存の `ui.pickerScope`・`ui.calGroupSplit291`・`ui.observedCompare294`・`ui.pickerReorg294`(⑦ の字と環)・`ui.pickerSeparators`・`ui.samplePicker`・`groups.reorder`・`ui.groupOrderPaper`・`wave124.ui` の世代切替(has295d)。
 
+〔第296便a — サンプル生成の契約: アプリの主張の文(1 か所)・geoPN=1 の不フィット(逸脱 geo1Fitted)・geoPN=0 で旧空間メッシュが走る(**内蔵 155 本の力学は 1 bit 不変** —— bitsame **155/155**(600 步・差分 ID なし)・sigsame **155/155**(差分 ID なし)・`S._core` は触っていない)〕
+
+出典: 原仮定者の裁定(第86報)「DFM アプリは、現実の物理の再現の主張はしないが、アプリ内での整合性を整えて観測値に合わせられることを主張する」「1PN 準拠の geoPN=1 以外は、サンプル生成時に調整可能なパラメータをフィットさせる」と第85報「geoPN=0 では、慣性決定力などを含めた、全ての設定を試せる様にする」・統括の検証項目 R157。
+
+**① 主張の範囲(アプリの主張の文 —— 1 か所)。** 文は html の `CLAIM_SCOPE`(ja/en —— i18n の生成領域の中・`T("claimScope")`)の 1 か所に置き、説明パネルの `aboutBody`(ja/en —— 従来の 2 文の後)と
+SYSTEM_PROMPT(「出力ルール」の前の段「主張の範囲とフィット」)が同じ値を読む。README の冒頭・docs/AI_SPEC.md §59・この節は逐語の転記(QA `behavior.sampleGenContract296` が照合する):
+
+> DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
+>
+> DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
+
+従来の主張の範囲の 2 文(〔第290便a〕 —— 現実の宇宙を主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったこと)はそのまま残す。この文は「フィットした模型を作れる」ことの主張であって、
+フィットで得た値の普遍性や、観測量の全部が合うことの主張ではない。フィットの記録(標的・窓・固定した宣言・探索範囲・残差・数値誤差 h/2 —— 鍵 `fitRecord` の受理と正準形は第296便b)は
+「未達の量・フィットに使っていない量」も残す。合わせられなかったときは `status:"unreachable-in-bounds"` を成果として記録する(成功を作らない)。
+
+**② geoPN=1 の規則(フィットしない照合基準)。** geoPN=1(1PN 準拠)は観測入力のまま照合する基準で、**法則のノブをフィットしない**。目的の組の判定 `modeSettingIssues(src, opts)`(本体 `modeIssuesOf` の mode 1 の塊)に
+17 本目の code **`geo1Fitted`**(kind:"preset"・fields `["geoPN"]`・`knobs` に該当の鍵 —— `MODE_SAVE_WARN_CODES` の末尾)を足した: 本の最上位の `fitRecord`(physics の外なので第 2 引数 `opts.fitRecord` で渡す)の
+`knobs[].key` に法則のノブが 1 つでもあれば出す。法則のノブの分類は `fitKnobIsLaw(key)`(`physics.` の接頭辞は外して読む):
+
+| 分類 | 鍵 | 例 |
+|---|---|---|
+| 法則のノブ | `GEO1_LAW_KNOB_HEADS`(relativeDrag・q・kFrame・lambdaPN・D0・dragCore・G・cLight・softening)・経路に dragCore を含む鍵(天体の宣言でも)・`physics.` で始まる鍵・その他の名前の分からない鍵(警告に倒す) | `relativeDrag.gain`・`bodies[1].dragCore.massFrac`・`spaceMesh.D0`・`physics.timeScale` |
+| 観測入力の推定(法則のノブではない) | `GEO1_OBS_INPUT_HEADS`(bodies〔質量・位置・速度〕・epoch〔元期〕・elements/orbit〔軌道要素〕・initial/state)で dragCore を含まない鍵 | `bodies[1].m`・`bodies[0].x`・`epoch`・`elements.e` |
+
+呼び出し元 5 か所に配線した: 保存(#btnSave の `modeSaveWarnings` —— 実行中プリセットの記録 `modeIssueOptsOfSim`)・セーブの読込(loadSave の通知)・編集欄の赤文字(`refreshModeDeviation` —— geoPN 行)・
+JSON の受理(`validatePreset` —— 入力の本の `p.fitRecord`・**受理は通して警告だけ・記録は捨てない**)・JSON の取り込みの通知。`geoModeOf(...).standard` は physics だけの判定(記録を読まない)。
+内蔵 155 本は `fitRecord` を持たないので code の出現は 0。geoPN=3 などの本が同じ記録を持っても `geo1Fitted` は出ない。AI 生成(SYSTEM_PROMPT)にも同じ規則を 1 段落で書いた
+(geoPN=1 は法則のノブを合わせない・それ以外で合わせたら標的・窓・調整した鍵と探索範囲を `fitRecord` に書く・合わせられなかったら合ったと書かない)。
+
+**③ geoPN=0 の実行表(旧空間メッシュが 0 でも走る)。** 第295便a の選択肢「旧空間メッシュ」は geoPN=0 では走らず宣言だけが残っていた(選んだ宣言と走る法則の食い違い)。
+本便は**旧法則版の門の番号条件**を 1 つの関数 `geoLegacyGateOf(p)` にまとめた: 3・4 は従来どおり常に入る(宣言が無ければ `S.geo3Undeclared`)・**0 は `spaceMesh.lawVersion` を宣言したときだけ入る**・1・2 は入らない。
+入場条件(kFrame=0〔または toyAllowDrag の明示〕・inertia/weave と排他・vMinusU は輸送経路 meshVelocity)は 3/4 と同じ式。門を読む場所:
+
+| 場所 | 変えたこと |
+|---|---|
+| `S.updateRadii` | 入場条件の塊と `S.hasGeoToy` の番号条件(`geoPN>=3` → 門) |
+| `meshVelocityPrepare` | vMinusU の `S.hasGeo3`・`S.hasGeo3PN`(門) |
+| `testParticlePrepare` | 旧法則版の宇宙の拒否 "geoPN3"(門 ∧ lawVersion) |
+| `bgToyOf`(Jeans 初速と Wbg の行) | トイの場を読むかの番号条件(門)—— 💮 の 0 の写しの初速が 4 と同じになる |
+| `geoLawResolveInto` の mode 0 の枝 | `geoLegacyDeclOf(ph)` が runs なら測地線 OFF・法則 `legacy-spaceMesh:<lawVersion>`(3・4 と同じ名前)・basis null。走らなければ 0 の他の宣言(geodesic:true → 測地線の基底・無ければ newton) |
+| `geoEffectiveMode(S, 0)` | 旧法則版が走れば(`S.hasGeoToy ∨ S.hasGeo3`)**0 のまま** |
+| `geoCoreDispatchBody` | `ge>=3` の枝に `S.hasGeo3PN` でも入る(vMinusU ∧ pn:"reference-1PN" の `dfmGeo3PNKick` —— 旗は門の内側でしか立たない) |
+| `geoLawOfSim` | 0 で旧法則版が走れば `legacy-spaceMesh:<lawVersion>` |
+| `meshChipState`・`geo3HudText`・HUD のトイの行・geoPN/kFrame の入力の知らせ | 番号条件を門に(チップと HUD の vMinusU の番号は宣言どおり 0) |
+| 受理器(`validatePreset`・`bgLawCrossCheck`・meshVelocity の相互検査) | 旧法則版の内部整合の行(「宣言が矛盾」の警告・vMinusU の輸送経路の要求・band-pressure・mesh-v2・share-p1)を門で読む —— 0 の文の番号は 0・走る法則の語は「走る法則」(3・4 の文は 1 字も変えない)。vMinusU の拒否は 1・2 だけ |
+| `geo0ChoicePreview`/`geo0ApplyChoice` | legacy の「0 では走らない」を削った。プレビューに `legacyOff`(null = 走る)・適用後の `geoLawOfSim` は `legacy-spaceMesh:<lawVersion>` |
+
+**ge を 0 のまま返す根拠。** 3/4 の旧法則版は `geoEffectiveMode` が g(3/4)を返し、`geoCoreDispatchBody` の `ge>=3` の枝が `_core` へ **0** を渡す(`p.geoPN=0` を一時的に書く)。0 の本は宣言の番号がすでに 0 なので
+同じ数が `_core` に入る。違いは枝の中の `dfmGeo3PNKick`(vMinusU ∧ pn:"reference-1PN")だけで、これは `S.hasGeo3PN` で同じ枝に入れた。`pnOrbitalKF0` は ge=0 で kF0 でない(3/4 の ge≥3 も kF0 でない)。
+試験粒子の契約は旧法則版の宇宙では拒否される(門で読む)ので、試験粒子の枝には入らない。トイの積分器 `dfmGeoToyStep`・外部ステップ `dfmMeshVelocityStep` は番号を読まない。
+**実測**: 🪁 galaxyMeshSpiralGeoToy(scalar)と 🌒 charonGeoToy3(vMinusU ∧ pn:"reference-1PN" ∧ velocityMeaning:"xdot")の写しを geoPN=0 にすると、`geo0ChoiceOf`=legacy・`geoLawOfSim`=`geoModeOf(...).law`=
+`legacy-spaceMesh:<lawVersion>`・`geoEffectiveMode`=0・警告 0 で、dt 0.016 の 200 步の步ごとの状態の指紋(x/y/vx/vy/spin/m/mEff/R/pnOv・vMinusU の u・t)と最終の全配列が geoPN=4 の本体と**ビット同一**(QA)。
+器の外の追試: 移住した 9 本すべて(🪁🌚🧩🛸🪆💮🔁🌒🩻)で 0 と 4 の写しが dt 0.016 の **2000 步**で步ごとの指紋と最終の全配列が**ビット同一**(9/9 —— 本便の作業中の追試・正本にはしていない)(`bgToyOf` の番号条件を直す前は 💮 clusterAnalogyBH の Jeans 初速が 0 步目で違った —— 直して一致)。
+**内蔵への影響**: 内蔵 155 本で geoPN=0 ∧ `spaceMesh.lawVersion` の本は **0 本**(機械で確認 —— geoPN=0 で spaceMesh を持つのは 🪟 spaceMeshBinaryToy〔mode・gravity・inertia だけ〕の 1 本で門に入らない)・
+門 ≡ 旧条件 geoPN≥3 が全本で成り立つ(違い 0 本)。退役 3 本(geoPN 3)は不変。手書き・保存の JSON で geoPN=0 に lawVersion の宣言だけが残っていた本は、本便から旧法則版で走る(入場条件を満たせば)——
+保存の版 `modePolicy` は `w295a-1` のまま(読み替えは足していない)。重ねた宣言(走る旧メッシュ+測地線・慣性)は従来どおり `geo0Stacked`(測地線を含めば別名 `geo0Geodesic`)。
+
+**④ モードの表**(現行 —— `geoModeTable()` の行を `geoModeTableRow` の書式で転記。QA `docs.geoModeTable` は第296便a からこの節の表を照合し、〔第295便a〕の表は**履歴**。
+geoPN=0 の 3 行目「spaceMesh.lawVersion:scalar」を足した —— kFrame=0 は旧法則版が走り、kFrame=1 は入場条件で走らず newton。どちらも基底は 1 つなので標準):
+
+| geoPN | 宣言 | 主な用途 | 標準(kF0 / kF1) | 測地線(kF0 / kF1) | 法則(kFrame=0) | 法則(kFrame=1) | 警告(kFrame=0) | 警告(kFrame=1) |
+|---|---|---|---|---|---|---|---|---|
+| 0 | — | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 0 | geodesic:true | proof | ○ / ○ | ON / ON | `eih-kf0` | `vMinusU-q` | — | — |
+| 0 | spaceMesh.lawVersion:scalar | proof | ○ / ○ | OFF / OFF | `legacy-spaceMesh:scalar` | `newton` | — | — |
+| 1 | — | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | — | geo1KFrame |
+| 2 | — | dragApprox | — / ○ | ON / ON | `eih-kf0` | `vMinusU-q` | geo2KFrame | — |
+| 3 | — | inertialDrag | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | relativeDrag.law:inertial | inertialDrag | ○ / — | OFF / OFF | `inertial-drag` | `inertial-drag` | — | inertialPlusKFrame |
+| 3 | spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:scalar` | `vMinusU-q` | geo3NoInertial+geo3LegacyMesh | geo3NoInertial+geo3LegacyMesh |
+| 3 | spaceMesh.lawVersion:vMinusU+meshVelocity | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | geo3NoInertial+geo3LegacyMesh | geo3NoInertial+geo3LegacyMesh |
+| 0 | relativeDrag.law:inertial | proof | ○ / — | OFF / OFF | `newton` | `newton` | — | inertialPlusKFrame |
+| 1 | relativeDrag.law:inertial | calibration | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | extraRelativeDrag | geo1KFrame+extraRelativeDrag |
+| 0 | geodesic:true+relativeDrag.law:inertial | proof | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo0Stacked+geo0Geodesic | geo0Stacked+geo0Geodesic+inertialPlusKFrame |
+| 1 | geodesic:false | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | ignoredGeodesic | geo1KFrame+ignoredGeodesic |
+| 2 | relativeDrag.law:inertial | dragApprox | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo2KFrame+extraRelativeDrag | extraRelativeDrag |
+| 3 | relativeDrag.law:inertial+compose:sum | inertialDrag | — / — | OFF / OFF | `inertial-drag` | `inertial-drag` | inertialCompose | inertialPlusKFrame+inertialCompose |
+| 3 | relativeDrag.law:inertial+spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / OFF | `legacy-spaceMesh:scalar` | `inertial-drag` | geo3LegacyMesh | inertialPlusKFrame+geo3LegacyMesh |
+| 4 | — | legacyMesh | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo4NoMesh | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar | legacyMesh | ○ / — | OFF / ON | `legacy-spaceMesh:scalar` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar+toyAllowDrag | legacyMesh | ○ / ○ | OFF / OFF | `legacy-spaceMesh:scalar` | `legacy-spaceMesh:scalar` | — | — |
+| 4 | spaceMesh.lawVersion:vMinusU+meshVelocity | legacyMesh | ○ / — | OFF / ON | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+
+**⑤ 確認(実測)。** QA `behavior.sampleGenContract296`(新設 —— 主張の文の逐語・geoPN=1 の不フィット・geoPN=0 の旧メッシュの 200 步ビット同一・選択肢の適用・内蔵の構造の裏づけ)と、世代切替 has296a
+(`MODE_SAVE_WARN_CODES` に `geo1Fitted`)で改めた `behavior.modeSaveWarnings`(code 17 本・geoPN=0 の旧メッシュの 15 通り)・`behavior.modeIssues295`(geo1Fitted の ja/en・60 組で出現 0)・`docs.geoModeTable`(この節の表)・
+`behavior.geoModeResolve`(law 分布 不変・0 で走る旧メッシュは ge=0)・`preset.modeNoRestriction`(0 の scalar/vMinusU の受理と走行・0 と 4 の 2 体 200 步ビット同一)。部分 QA(`tests/exp-w258c-qapart.mjs`)で新設 1 本・改めた 7 本(上の 5 本と `behavior.geo3Inertial294`〔保存の版の code 数 17〕・`preset.geo3Contract`〔dispatch の形 —— `ge>=3 || S.hasGeo3PN===true` の枝〕)と、関係する既存の `prompt.spec-sync`(AI_SPEC §5 の SYSTEM_PROMPT の逐語に段を足した)・`ui.meshChipState`・`ui.meshChipStop`・`ui.geo3Hud`・`docs.claimScope`・`ui.aboutOrder`・`preset.earthMoonInertial`・`docs.coreCensus`(SYSTEM_PROMPT の段に構造核の鍵名を書かない)ほかが PASS。`behavior.geo4Migrate295` の「code の末尾 3 本」は 17 本目を足した世代では 14〜16 本目を照合する。保存/読込の実装の指紋は器 `tests/exp-w290d-ckfixcap.mjs` に `SAVE_CODE_W296A`(html に `"geo1Fitted"]` があるときだけ許す —— 保存の鍵と版は不変)を足した。html の本文が動いたので、`targetSha256` を刻む既存の正本(bgaudit-w291d の `staticRefs.wbg.callClosure` に `geoLegacyGateOf` が 1 つ増える以外は値が同じことを器の再走で確認 —— ckfixcap-w290d も `saveFormatUnchanged:true`)は再生成の鎖で刻み直す(この枝では正本を書いていない)。
+bitsame **155/155**(600 步・差分 ID なし)・sigsame **155/155**(差分 ID なし)・jitprobe galaxyGeo2 ×1.03・bhCore ×1.02・galaxyMeshSpiral ×1.04・gw150914DFM ×0.79(指紋 ck は 4 本とも基点と同一 —— 時間の比は同じ機械の 1 回の測りで、雑音の幅)。
+
+**⑥ 書かないこと。** 「現実を再現した」「月/水星/冥王星を再現した」「較正 合」「どの観測値にも合わせられる」とは書かない。geoPN=0 の旧メッシュは 3/4 と同じ旧法則版の経路で、新しい物理でも観測との一致の主張でもない。
+`geo1Fitted` は禁止ではなく警告(受理・走行・保存は止めない)。
+
+**⑦ 決断事項の候補。** 主張の文の最終形(ja/en)/ `geo1Fitted` を受理の警告にも出すか(本便は出す —— 受理は通す)/ 法則のノブの一覧(どの鍵を「法則」と数えるか —— 名前の分からない鍵を法則に倒すか)/
+geoPN=0 の旧メッシュを HUD・チップでどう名乗るか(本便は「geoPN=0 / vMinusU」・トイは従来の geoToy の行)/ 手書き JSON の geoPN=0 ∧ lawVersion の本の挙動の変化を読込で知らせるか(本便は知らせない —— 内蔵に該当なし)。
 〔第296便d — 役割名・文言・家族の折りたたみ・負荷に依らない会計の試験(原仮定者の裁定(第86報)・統括の検証項目 R160)(**表示と QA の器だけ** —— 物理・presetSig・保存 JSON・600 步の状態は 1 bit も変えていない)〕
 
 役割名の表(`FAMILY_VARIANT_LABEL`)に 🌤️ earthMoonSunInertial・🟤 mercurySunInertial の 2 行(「慣性決定力版(係数移送)」/ en "inertial-determinacy build (coefficient transfer)" —— 🟣 と同じ語)を足し、🌒 charonGeoToy3 の役割名を「旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)」に改めた(ID・物理は不変)。静止背景相当 Wbg の説明(`wbgTip`)の「geoPN=3 の場」は「旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場」に、引きずり・測地線の群の説明(`grpDragDesc`)の 4 の文の後に「在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ)」を足した。geoPN の用途文 `ppGeoUse0`〜`3` は「推奨は…(逸脱は保存時に警告)」の 1 文に短くした(番号は目的別の推奨構成 —— `ppGeoN` の語は繰り返さない)。

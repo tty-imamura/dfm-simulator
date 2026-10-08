@@ -11,6 +11,9 @@ iPhoneのブラウザで観察できるシミュレータです。
 
 > **主張の範囲**: DFM は現実の宇宙を主張しません。DFM が主張するのは、宣言した仮定の内部で、保存・対称性・関数形の帰結が互いに矛盾しないことです。
 > 観測との突合(較正)はその検査であって、「合」は仮定と転写(観測量への写像)が窓に入ったことであり、宇宙がそう成り立っていることの主張ではありません。
+>
+> **観測値に合わせる模型(第296便a)**: DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
+> *(English)* DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
 
 > 🚀 **オンラインで試す**: https://tty-imamura.github.io/dfm-simulator/
 > (GitHub Pages 有効化後に利用可能 — Settings → Pages → Branch: `main` / root)
@@ -399,7 +402,7 @@ iPhoneのブラウザで観察できるシミュレータです。
 - **geoPN の番号は目的の組(v1.45-b1・第295便a)** — 1 = 1PN 準拠(kFrame=0・慣性なし)/ 2 = 引きずり近似 q(kFrame=1・慣性なし)/
   3 = 慣性決定力(`physics.relativeDrag.law:"inertial"`・kFrame=0・測地線 OFF・旧メッシュなし・合成則は既定の solve)/ 0 = 汎用の実験台(基底は 1 つ・kFrame は自由)。
   組と違う設定も受理してそのまま走りますが、**保存・読込のときに警告**し、「パラメータ」タブの geoPN 行と kFrame 行にも**赤文字の注意書き**が出ます(値は書き換えません)。
-  geoPN=0 では geoPN 行の 2 段目で基底(ニュートンだけ/測地線〔1PN〕/慣性決定力〔gain・既定 0〕/旧空間メッシュ〔宣言のある本だけ・geoPN=0 では走りません〕/重ねる)を選べます ——
+  geoPN=0 では geoPN 行の 2 段目で基底(ニュートンだけ/測地線〔1PN〕/慣性決定力〔gain・既定 0〕/旧空間メッシュ〔宣言のある本だけ・第296便a から geoPN=0 でも走ります〕/重ねる)を選べます ——
   確認のあとで他の排他な宣言を外します(kFrame は変えません。「重ねる」は宣言を残して警告だけ)。慣性決定力の gain は宣言の後も同じ欄で変えられます(他の鍵は保ちます)。
 - **geoPN=3 は慣性決定力の引きずりの有効化の印(v1.45-b1・第294便a)** — 慣性決定力の引きずり
   (`physics.relativeDrag.law:"inertial"`)を宣言した geoPN=3 は、**測地線 OFF・1PN なし・法則 inertial-drag** で走ります

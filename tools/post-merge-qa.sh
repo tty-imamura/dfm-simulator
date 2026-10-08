@@ -41,9 +41,8 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第295便b: 枝 b の新設 1 本(behavior.geo4Migrate295 —— geoPN=4「空間メッシュ」への移住)を末尾に足した(他枝の新設と第294便の分の差し替えは統合で)
 # 第295便(統合): 4 枝の新設 5 本(a の behavior.modeIssues295・b の behavior.geo4Migrate295・c の preset.inertial3_295・docs.inertial3Contract295・d の ui.labels295)と
 #   4 枝が世代切替で固定値を改めた 17 本へ差し替えた(第294便の分は ④ の後のフル QA で見る)
-# 第296便d: 枝 d の新設 1 本(ui.familyFold296)と固定値を世代切替で改めた/見たい 3 本(ui.charonFamily・ui.step-accounting・ui.paramWbgRow)を末尾に足した
-#   (ui.labels295・ui.pickerReorg294 は既に入っている —— 他枝の新設と第295便の分の差し替えは統合で)
-DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow"
+# 第296便(統合): 枝 a(behavior.sampleGenContract296・preset.modeNoRestriction・prompt.spec-sync)と枝 d(ui.familyFold296・ui.charonFamily・ui.step-accounting・ui.paramWbgRow)の分を末尾に足した
+DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
