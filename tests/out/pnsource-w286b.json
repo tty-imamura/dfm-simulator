@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-  "generatedAt": "2026-10-07T19:30:13.668Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:01:32.247Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5856758,
-    "sha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-    "mtime": "2026-10-07T17:31:27.415Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,21 +20,21 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838844,
-    "sha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
-    "mtime": "2026-10-07T19:12:45.687Z"
+    "bytes": 1821630,
+    "sha256": "561540913361847c9804628b33bcaa23c8bf505a4c92a22f941d3e3c54aac499",
+    "mtime": "2026-10-08T10:35:56.136Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 50854,
-    "sha256": "5befe9ce3ae13bd69ff8eaedb915e2914058640a8dba926fb15bd73da4be2e00",
-    "mtime": "2026-10-07T19:19:08.235Z"
+    "sha256": "d209696f67129160d70f3ea1cb805c9f8d10f755333c63b0431bc695a10afd2c",
+    "mtime": "2026-10-08T10:44:27.944Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "bytes": 21104,
-    "sha256": "c2c32a3a4bf86b767538048b14998e03695a92df841914be798bee16ffb5dc67",
-    "mtime": "2026-10-07T11:18:23.926Z"
+    "bytes": 21575,
+    "sha256": "bf8c9c29b1b0506fb7021f71de62c20f08c5134f53dba38ff4668cb42824ab5c",
+    "mtime": "2026-10-08T09:44:18.928Z"
    }
   ],
   "code": [
@@ -105,16 +105,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1022,
-   "segments": 931,
+   "names": 1054,
+   "segments": 963,
    "closureShare": 0.3256
   },
-  "scopeSha256": "9c7ee4bc19b887278b789df814d73cf327a29ca98100418067abe6ff00dddaff",
+  "scopeSha256": "cfe424cd03457869ee48f7b022ffe6a2016c0d8b3d20f848b4837f6195a568b4",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "bba8d588729cfdab3e4ff21787a474c09ad5763b5f480a6c9ebbb2a96701a77c",
+    "stableSha256": "8feda71a8f8df3a3fc7a4cb64c33a9a7078b56724cc92cc0d0a9fd09a9fa2ff9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "74e0badf5b9167648f00829feb9876f8d60bdc45844869a610f922e6b36e3385",
+    "stableSha256": "942833d14afff554c2ed250d5c14f95fd75269f4b075cb64403ea2c103f4dccd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "4ea5563dbc4ce3f2c8910be4d2b1d72654c4d8ef5371fb1f05ef36f51a6209e3",
+    "stableSha256": "9da7909cbc1f666918c6a0f42d9311e5440e9a080b54fa248e4b295eef81a4c8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -182,7 +182,7 @@
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "stableSha256": "f5c93182806b553a583c2fb87f407f52225464ec14a8b6a91c04462b45046d5c",
+    "stableSha256": "5412344222fc9b247c075b0270ae2e1cc0d3bbc13d171ff9e7f8484ef365d335",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -196,7 +196,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
+ "nowSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -928,7 +928,7 @@
  "K": {
   "file": "tests/data-w286b-clight.json",
   "bad": [],
-  "nReal": 63,
+  "nReal": 65,
   "nRetired": 23,
   "roundedLive": [],
   "roundedRetired": [
@@ -940,7 +940,7 @@
    "k": 7.425826474101849e-9
   },
   "books": 51,
-  "exact": 11,
+  "exact": 13,
   "excluded": [
    "emAuditNewton",
    "pulsarSolo"
@@ -2418,13 +2418,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.124,
+   "wallSec": 0.102,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.202,
+   "wallSec": 0.171,
    "errors": 0
   }
  },
- "elapsedS": 652.03
+ "elapsedS": 884.307
 }
