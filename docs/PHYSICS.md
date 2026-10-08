@@ -30013,9 +30013,9 @@ r=x_j−x_i・V は相対速度(velocity:"v" は v_j−v_i〔既定〕・"xdot" 
 |---|---|---|---|---|
 | コア V2 `core` | 15 | 15 | 18 | 67 |
 | 親子コア `layers` | 2 | 0 | 2 | 2 |
-| 構造核 `dragCore` | 2 | 0 | 2 | 2 |
+| 構造核 `dragCore` | 3 | 0 | 4 | 4 |
 | 形状トイの `shapeToy.coreField` | 4 | 0 | 4 | 4 |
-| 慣性引きずり `relativeDrag.law:"inertial"` | 5 | 0 | 5 | 5 |
+| 慣性引きずり `relativeDrag.law:"inertial"` | 8 | 0 | 8 | 8 |
 | 相対すべり `relativeDrag.law:"pairSlip"` | 0 | 2 | 0 | 2 |
 | 点粒子の軸 `spinAxis`(表示専用) | 1 | 0 | 1 | 1 |
 | コアの傾き `core.tilt`≠0 | 2 | 1 | 2 | 3 |

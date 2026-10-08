@@ -34748,7 +34748,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       const n0 = run({ law: 'mesh-v2', gauge: 'inertia', eta: 0 }, 600);
       const n1 = run({ law: 'mesh-v2', gauge: 'constraint', eta: 0 }, 600);
       const np = run({ geoPN: 0, noMesh: true }, 600);
-      return { gates, declared, sigHit,
+      return { gates, declared, sigHit, has296a: typeof geoLegacyGateOf === 'function',   // 第296便a(R157): geoPN=0 で宣言した旧法則版(mesh-v2 を含む)が走る世代
         hess: { A: { minEig: hA.minEigH, maxEig: hA.maxEigH, symRel: hA.symRel,
           structural: hA.structural, rowDev: hA.rowDev, chi: hA.chi[0] },
           B: { minEig: hB.minEigH, maxEig: hB.maxEigH, loExact: loB, hiExact: hiB,
@@ -34759,7 +34759,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
           constraint: n1.st.every((z, i) => Object.is(z, np.st[i])), dv: Math.max(n0.dv, n1.dv) } };
     });
     const CK = {
-      gates: r.gates.unknown === false && r.gates.calib === false && r.gates.geo0 === false
+      gates: r.gates.unknown === false && r.gates.calib === false && r.gates.geo0 === (r.has296a ? true : false)   // 第296便a: 0 でも宣言どおり受理(走る)—— 旧世代は拒否
         && r.gates.withClosure === false && r.gates.withDrag === false && r.gates.badGauge === false
         && (r.gates.okSig || '').indexOf('mesh-v2') >= 0
         && (r.gates.defaultSig || '').indexOf('mesh-v2') < 0
@@ -34781,7 +34781,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.meshV2', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
-      + `① 門(未知値/calibration/geoPN=0/toyClosure/toyAllowDrag/未知ゲージ)=`
+      + `① 門(未知値/calibration/geoPN=0${r.has296a ? '〔第296便a: 0 でも受理〕' : ''}/toyClosure/toyAllowDrag/未知ゲージ)=`
       + `${r.gates.unknown}/${r.gates.calib}/${r.gates.geo0}/${r.gates.withClosure}/${r.gates.withDrag}/${r.gates.badGauge}`
       + `(すべて false)・既定署名=${r.gates.defaultSig}・内蔵の law 宣言=${r.declared.length} 本 / `
       + `② H 検査: 対称性(相対)=${r.hess.A.symRel}・**構造的特異**(D₀=0∧η=1)λ_min=${r.hess.A.minEig}`
