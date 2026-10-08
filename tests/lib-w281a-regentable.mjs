@@ -740,6 +740,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/inertial3-w295c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第295便c: 慣性決定力版サンプル 3 本の宣言の門(gain = 🌛 の係数の SI 移送・親の bodies の写し・eps = 軟化・pairs・受理の警告 0・inertial-drag・実効 0)と'
       + '測定(🌤️ A1/A2/gain 0 の 27/118 公転窓の近点周期・恒星月・離心率・fit 残差 / 🟤🟣 gain 0 と移送の 8 公転の周期・近点率・振幅・eProxy・|u|/|v|)—— 値だけ・合否なし' }),
+  // ---- 第296便c(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・統括の検証項目 R159):
+  //   geoPN=4 = 多粒子の連鎖引きずり —— 連鎖の解法(solver:"network-pcg-v1" —— 質量で対称化した対角前処理の共役勾配法)と自転する源の表裏核
+  //   (spinSource:"surfaceFlip")の零試験(① 3 粒子・② 65 粒子の鎖・③ 4 層×16 点の環・④ 自転源)と ⑤ 試作本 🔗 chainDiskToy の 2000 步(h/2・連鎖を切った対照)。
+  //   Node の headless(1 プロセス・HP.loadPreset で読む)・html だけを読む(他の正本は読まない —— after なし)。所要は第296便c の枝の実測(正本の elapsedS ——
+  //   他の枝と同じ容器で並走)
+  S('chain-296c', 'node tests/exp-w296c-chain.mjs', ['tests/out/chain-w296c.json'], 25, { secSource: 'w296c-branch', node: true,
+    volatilePaths: { 'tests/out/chain-w296c.json': META_RUN.concat(['/elapsedS', '/part5/run/wallSec', '/part5/half/wallSec', '/part5/chainCut/wallSec']) },
+    note: '第296便c: geoPN=4 の慣性の連鎖 —— PCG と直接法の一致(3 粒子・固定・質量差・反復上限 1 は採用しない・重複辺の拒否)・65 粒子の鎖の GS 8 回と PCG の残差・'
+      + '4 層×16 点の環の層ごとの接線速度(層 2–3 を切ると外側 0)・剛体回転の残差(残す)・自転源の表裏核(2 次元求積・第280便b の sphere2D と同じ組み方・点の受け手の u)・'
+      + 'スピン 0 のビット同一・🔗 の 2000 步(NaN・残差の門・未収束 0・反復・Σm u・h/2・連鎖を切った対照の角変位)—— 値だけ・合否なし' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

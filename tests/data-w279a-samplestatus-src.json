@@ -93,6 +93,18 @@
     "state": "solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain"
    }
   },
+  "chainDiskToy": {
+   "purpose": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る",
+   "objective": "met",
+   "state": "共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない",
+   "evidence": [
+    "tests/out/chain-w296c.json"
+   ],
+   "en": {
+    "purpose": "Measure whether drag chains outward through neighbouring particles around a spinning centre",
+    "state": "CG at most 40 iterations; residual inside the 1e-10 tolerance; outer band turns 2.22x the chain-cut control; no disc formation or rotation curve"
+   }
+  },
   "earthMoonInertial": {
    "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
    "objective": "met",
@@ -2378,6 +2390,12 @@
     "earthMoonSunInertial",
     "mercurySunInertial",
     "plutoCharonInertial"
+   ],
+   "behavior.chain296": [
+    "chainDiskToy"
+   ],
+   "docs.chainContract296": [
+    "chainDiskToy"
    ],
    "preset.conduction": [
     "conduction"
