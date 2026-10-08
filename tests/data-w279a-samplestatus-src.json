@@ -102,7 +102,7 @@
    ],
    "en": {
     "purpose": "Test whether drag chains outward through neighbours of a spinning centre",
-    "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc or curve claim"
+    "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim"
    }
   },
   "earthMoonInertial": {
@@ -142,9 +142,9 @@
    }
   },
   "mercurySunInertialFit": {
-   "purpose": "🟤 の写しで gain だけを近点率(gain 0 対照との差 43.0″/世紀)に合わせる",
+   "purpose": "🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる",
    "objective": "met",
-   "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4(fitted)・周期・離心率は未調整・核は同定不可",
+   "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可",
    "evidence": [
     "tests/out/fit-w296b.json"
    ],
@@ -168,7 +168,7 @@
   "plutoCharonInertialFit": {
    "purpose": "🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる",
    "objective": "met",
-   "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s(fitted)・核は 1 量では同定不可・軌道の形は未調整",
+   "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整",
    "evidence": [
     "tests/out/fit-w296b.json"
    ],
