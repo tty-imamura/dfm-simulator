@@ -1,0 +1,1074 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第296便c",
+  "target": "beta/index.html",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T11:53:27.550Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w296c-chain.mjs",
+    "bytes": 34776,
+    "sha256": "bc528af2d39e11622c452c474473b5f3ccf653b7358f8b70b0060982912c94d8",
+    "mtime": "2026-10-08T07:41:29.892Z"
+   },
+   {
+    "file": "tests/lib-w296c-chain.mjs",
+    "bytes": 12258,
+    "sha256": "b97d6a39c925bcf1ad56705d8b31f3364940c3fcd3b5879a872e6f9042a5412e",
+    "mtime": "2026-10-08T07:41:29.892Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-02T23:11:02.952Z"
+   },
+   {
+    "file": "tests/lib-w280b-sphereKernel.mjs",
+    "bytes": 14578,
+    "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
+    "mtime": "2026-10-02T23:11:02.952Z"
+   },
+   {
+    "file": "tests/lib-w279c-bgcompose.mjs",
+    "bytes": 21462,
+    "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
+    "mtime": "2026-10-02T23:11:02.948Z"
+   },
+   {
+    "file": "tests/lib-w293e-compose.mjs",
+    "bytes": 22457,
+    "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
+    "mtime": "2026-10-05T18:53:12.444Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-02T23:11:02.944Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
+   }
+  ],
+  "codeSha256": "dbd6d973c19634a69e70ea66ba4dad46006c93930df6b34e245475ddb256998b",
+  "harnessVersion": "w296c-chain-1",
+  "libVersion": "w296c-chain-lib-1",
+  "chainVersion": "w296c-chain-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第86報)(geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する)",
+  "reading": "統括の検証項目 R159(geoPN=4 = 多粒子の連鎖引きずり —— 既存の全体 solve の上に、収束を確かめる解法〔PCG〕と自転する源の表裏核)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・HP.loadPreset で読む)",
+  "notClaim": [
+   "円盤の形成",
+   "平坦な回転曲線",
+   "銀河ができた",
+   "gain は普遍定数",
+   "隣の u を再加算する緩和反復"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.REL_DRAG_CHAIN_VERSION",
+    "HP.REL_DRAG_SOLVER_TOL_DEFAULT",
+    "HP.REL_DRAG_SPIN_NODES",
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.inertialDragComposeSolve",
+    "HP.inertialDragState",
+    "HP.loadPreset",
+    "HP.modeSettingIssues",
+    "HP.sim",
+    "HP.validatePreset",
+    "HP.validateRelativeDrag",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmAddMoments",
+    "dfmBlendComplexMoments",
+    "dfmComplexMomentsOf",
+    "dfmField",
+    "dfmGaussLegendre01",
+    "dfmGeoToyStep",
+    "dfmInertialDragStep",
+    "dfmLaneEmden",
+    "dfmLocalMeshField",
+    "dfmMeshVelocityRHS",
+    "dfmSphereKernelMomentsOf",
+    "dfmSphereKernelQEff",
+    "dfmSphereKernelRadial",
+    "dfmSphereOmega",
+    "dfmSphereProfile",
+    "dfmSphereRho",
+    "inertialDragComposeBuild",
+    "inertialDragComposeSolve",
+    "inertialDragPCG",
+    "inertialSpinMoment",
+    "isNum",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1057,
+   "segments": 966,
+   "closureShare": 0.3253
+  },
+  "scopeSha256": "b28a2a9c179f61c5545443c8a9059b03bf8c0237fa72794c409d3bf593c74428",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "run": {
+  "dt": 0.016,
+  "steps": 2000
+ },
+ "part1": {
+  "path": {
+   "uPCG": [
+    -0.375,
+    0.24999999999999997,
+    0.12500000000000003
+   ],
+   "uDirect": [
+    -0.375,
+    0.25,
+    0.125
+   ],
+   "want": [
+    -0.375,
+    0.25,
+    0.125
+   ],
+   "errPCG": 2.7755575615628914e-17,
+   "errDirect": 0,
+   "iters": 3,
+   "converged": true,
+   "uyZero": true
+  },
+  "cut12": {
+   "uPCG": [
+    -0.3333333333333333,
+    0.3333333333333333,
+    0
+   ],
+   "uDirect": [
+    -0.33333333333333337,
+    0.3333333333333333,
+    0
+   ],
+   "endZero": true
+  },
+  "translation": [
+   {
+    "V": [
+     0.25,
+     -0.5
+    ],
+    "dU": 0
+   },
+   {
+    "V": [
+     0.3,
+     -0.7
+    ],
+    "dU": 0
+   }
+  ],
+  "massDiff": {
+   "m": [
+    1,
+    2.5,
+    0.4
+   ],
+   "relDiffPCGvsDirect": 2.151549821785218e-16,
+   "iters": 3,
+   "sumMu": [
+    -2.7755575615628914e-17,
+    5.204170427930421e-17
+   ],
+   "sumMuRel": 7.92743560490485e-17,
+   "res": {
+    "inf": 7.838265133915184e-17,
+    "two": 1.0111599113547057e-16
+   }
+  },
+  "fixed": {
+   "u0": [
+    0,
+    0
+   ],
+   "u0Zero": true,
+   "relDiffPCGvsDirect": 1.3248199122770186e-16
+  },
+  "maxIter1Pure": {
+   "converged": false,
+   "iters": 1,
+   "res": 0.16301295882244868
+  },
+  "maxIter1Engine": {
+   "fail": 2,
+   "halt": true,
+   "why": "solveNoConverge",
+   "failAt": {
+    "t": 0.048,
+    "res": 0.6731084999425873,
+    "iters": 1,
+    "breakdown": false,
+    "tol": 1e-10
+   },
+   "sameAsNoDrag": true,
+   "fpFail": "33972fbf",
+   "fpNoDrag": "33972fbf"
+  },
+  "duplicate": {
+   "pure": "duplicate edge [0,1]",
+   "validator": "physics.relativeDrag.pairs に同じ対が 2 度ある([0,1] — 向きを変えても同じ対)"
+  }
+ },
+ "part2": {
+  "n": 65,
+  "weight": 10000,
+  "normalisation": {
+   "inf": "max_i max(|r_x|,|r_y|) / max_i |s_i|(エンジンの帳簿 inertialDragSolveRes と同じ)",
+   "two": "‖r‖₂ / ‖s‖₂"
+  },
+  "gs8": {
+   "method": "gs",
+   "resInf": 0.000019618343650092606,
+   "resInfLib": 0.000019618343650092606,
+   "resTwo": 0.000025160425409885188,
+   "errVsDirect": 0.017432884651873683
+  },
+  "pcg": {
+   "method": "pcg",
+   "resInf": 3.2529499094380297e-13,
+   "resInfLib": 3.2529499094380297e-13,
+   "resTwo": 5.499906792104968e-13,
+   "errVsDirect": 1.1681204845202595e-13,
+   "iters": 65,
+   "restarts": 0,
+   "converged": true,
+   "adopted": true
+  },
+  "reversed": {
+   "pcgDiff": 2.454813240159393e-13,
+   "pcgIters": 65,
+   "gsDiff": 0.19966619087817777,
+   "gsResInf": 0.013083534133954208
+  },
+  "uEnds": [
+   -0.9825571151437408,
+   0.014352648556771735
+  ]
+ },
+ "part3": {
+  "layers": 4,
+  "per": 16,
+  "wAdj": 100,
+  "wSame": 10,
+  "vIn": 1,
+  "full": {
+   "pcgLayers": [
+    {
+     "layer": 1,
+     "uT": 0,
+     "wT": 1
+    },
+    {
+     "layer": 2,
+     "uT": 0.9322386220247886,
+     "wT": 0.9322386220247886
+    },
+    {
+     "layer": 3,
+     "uT": 0.8879921182137365,
+     "wT": 0.8879921182137365
+    },
+    {
+     "layer": 4,
+     "uT": 0.8661444106177671,
+     "wT": 0.8661444106177671
+    }
+   ],
+   "directLayers": [
+    {
+     "layer": 1,
+     "uT": 1.2722730659892064e-15,
+     "wT": 1.0000000000000016
+    },
+    {
+     "layer": 2,
+     "uT": 0.9322386220247894,
+     "wT": 0.9322386220247894
+    },
+    {
+     "layer": 3,
+     "uT": 0.887992118213738,
+     "wT": 0.887992118213738
+    },
+    {
+     "layer": 4,
+     "uT": 0.8661444106177678,
+     "wT": 0.8661444106177678
+    }
+   ],
+   "sOnlyLayers": [
+    {
+     "layer": 1,
+     "uT": 0,
+     "wT": 1
+    },
+    {
+     "layer": 2,
+     "uT": 0.45248868778280554,
+     "wT": 0.45248868778280554
+    },
+    {
+     "layer": 3,
+     "uT": 0,
+     "wT": 0
+    },
+    {
+     "layer": 4,
+     "uT": 0,
+     "wT": 0
+    }
+   ],
+   "pcgVsDirect": 2.1316282072803005e-15,
+   "iters": 3,
+   "converged": true
+  },
+  "cut23": {
+   "pcgLayers": [
+    {
+     "layer": 1,
+     "uT": 0,
+     "wT": 1
+    },
+    {
+     "layer": 2,
+     "uT": 0.9753965073024319,
+     "wT": 0.9753965073024319
+    },
+    {
+     "layer": 3,
+     "uT": 0,
+     "wT": 0
+    },
+    {
+     "layer": 4,
+     "uT": 0,
+     "wT": 0
+    }
+   ],
+   "directLayers": [
+    {
+     "layer": 1,
+     "uT": 4.6940882499817015e-17,
+     "wT": 1
+    },
+    {
+     "layer": 2,
+     "uT": 0.9753965073024318,
+     "wT": 0.9753965073024318
+    },
+    {
+     "layer": 3,
+     "uT": 0,
+     "wT": 0
+    },
+    {
+     "layer": 4,
+     "uT": 0,
+     "wT": 0
+    }
+   ],
+   "sOnlyLayers": [
+    {
+     "layer": 1,
+     "uT": 0,
+     "wT": 1
+    },
+    {
+     "layer": 2,
+     "uT": 0.8264462809917356,
+     "wT": 0.8264462809917356
+    },
+    {
+     "layer": 3,
+     "uT": 0,
+     "wT": 0
+    },
+    {
+     "layer": 4,
+     "uT": 0,
+     "wT": 0
+    }
+   ],
+   "pcgVsDirect": 6.661338147750939e-16,
+   "iters": 1,
+   "converged": true,
+   "outerTwoMaxAbsU": 0,
+   "outerZero": true
+  },
+  "rigidRotation": {
+   "omega": 1,
+   "uMaxOverVMax": 0.7462279761665506,
+   "sumMu": [
+    -5.906386491005833e-14,
+    -5.417888360170764e-14
+   ],
+   "sumMxU": -320.11756115604925,
+   "policy": "kept"
+  }
+ },
+ "part4": {
+  "kernel": "K_ε(d) = d/(d²+ε²)²(並進の a_ij と同じ核)",
+  "p2Kernel": "1/(d²+ε²)(第280便b の表裏核)",
+  "moment": [
+   {
+    "rOverR": 1.5,
+    "epsOverR": 0,
+    "engine": 0.044197714633070366,
+    "ref2D48": 0.04419771463307025,
+    "ref2D64": 0.044197714633070366,
+    "relEngineVsRef": 0,
+    "relRef48vs64": -2.668943345730368e-15,
+    "farLimit": 0.029629629629629627,
+    "p2Generalised": 0.13821418527455412,
+    "p2Sphere2D280b": 0.13821418527455406,
+    "relP2": 4.0163136020364556e-16
+   },
+   {
+    "rOverR": 3,
+    "epsOverR": 0,
+    "engine": 0.002012800352160696,
+    "ref2D48": 0.0020128003521606903,
+    "ref2D64": 0.002012800352160695,
+    "relEngineVsRef": 4.3092288664263726e-16,
+    "relRef48vs64": -2.370075876534505e-15,
+    "farLimit": 0.0018518518518518517,
+    "p2Generalised": 0.015313157386921851,
+    "p2Sphere2D280b": 0.01531315738692185,
+    "relP2": 1.1328320033191468e-16
+   },
+   {
+    "rOverR": 10,
+    "epsOverR": 0,
+    "engine": 0.000015107983066854752,
+    "ref2D48": 0.000015107983066854717,
+    "ref2D64": 0.000015107983066854769,
+    "relEngineVsRef": -1.1213051318711049e-15,
+    "relRef48vs64": -3.476045908800425e-15,
+    "farLimit": 0.000014999999999999999,
+    "p2Generalised": 0.00040114860629539615,
+    "p2Sphere2D280b": 0.00040114860629539593,
+    "relP2": 5.405488915931194e-16
+   },
+   {
+    "rOverR": 1.5,
+    "epsOverR": 0.1,
+    "engine": 0.04281461274593523,
+    "ref2D48": 0.04281461274593514,
+    "ref2D64": 0.042814612745935225,
+    "relEngineVsRef": 1.620683560793388e-16,
+    "relRef48vs64": -1.9448202729520657e-15,
+    "farLimit": null,
+    "p2Generalised": 0.1360402020349083,
+    "p2Sphere2D280b": 0.13604020203490827,
+    "relP2": 2.040248044361678e-16
+   },
+   {
+    "rOverR": 3,
+    "epsOverR": 0.1,
+    "engine": 0.0020041449608735116,
+    "ref2D48": 0.002004144960873505,
+    "ref2D64": 0.0020041449608735103,
+    "relEngineVsRef": 6.491758991403214e-16,
+    "relRef48vs64": -2.5967035965612854e-15,
+    "farLimit": null,
+    "p2Generalised": 0.015274951216373733,
+    "p2Sphere2D280b": 0.015274951216373726,
+    "relP2": 4.542661908123934e-16
+   },
+   {
+    "rOverR": 10,
+    "epsOverR": 0.1,
+    "engine": 0.000015102882637919828,
+    "ref2D48": 0.000015102882637919823,
+    "ref2D64": 0.000015102882637919867,
+    "relEngineVsRef": -2.579872763883458e-15,
+    "relRef48vs64": -2.9163779069986914e-15,
+    "farLimit": null,
+    "p2Generalised": 0.00040106757852086453,
+    "p2Sphere2D280b": 0.00040106757852086437,
+    "relP2": 4.0549357410690153e-16
+   },
+   {
+    "rOverR": 0.5,
+    "epsOverR": 0.2,
+    "engine": 0.27214901390401397,
+    "ref2D48": 0.27214901603543706,
+    "ref2D64": 0.27214901458486773,
+    "relEngineVsRef": -2.501768243757202e-9,
+    "relRef48vs64": 5.33005542397771e-9,
+    "farLimit": null,
+    "p2Generalised": 0.5150161504922192,
+    "p2Sphere2D280b": 0.5150161504922189,
+    "relP2": 4.3114105200937003e-16
+   }
+  ],
+  "tangential": {
+   "M": 50,
+   "R": 2,
+   "spin": 0.75,
+   "gain": 3,
+   "eps": 0.3,
+   "rows": [
+    {
+     "rOverR": 1.5,
+     "uEngine": [
+      0,
+      0.7188472473766905
+     ],
+     "uWant": 0.7188472473766904,
+     "rel": 1.5444491561687479e-16,
+     "radialZero": true,
+     "a": 5.4460891633717825,
+     "spin": 0.75,
+     "method": "direct"
+    },
+    {
+     "rOverR": 3,
+     "uEngine": [
+      0,
+      0.13261917420978706
+     ],
+     "uWant": 0.13261917420978694,
+     "rel": 8.371512122891993e-16,
+     "radialZero": true,
+     "a": 0.6909851997880057,
+     "spin": 0.75,
+     "method": "direct"
+    },
+    {
+     "rOverR": 10,
+     "uEngine": [
+      0,
+      0.0016671130852821399
+     ],
+     "uWant": 0.001667113085282143,
+     "rel": -1.8209719003229093e-15,
+     "radialZero": true,
+     "a": 0.018741565346802193,
+     "spin": 0.75,
+     "method": "direct"
+    }
+   ]
+  },
+  "spinZero": {
+   "steps": 200,
+   "firstDiffStep": null,
+   "identical": true
+  }
+ },
+ "part5": {
+  "decl": {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "emojiFree": true,
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "notClaim": [
+    "galaxy_disk",
+    "flat_rotation",
+    "gain_universal"
+   ],
+   "geoPN": 4,
+   "kFrame": 0,
+   "relativeDrag": {
+    "law": "inertial",
+    "gain": 8,
+    "eps": 1,
+    "pairs": "all",
+    "solver": "network-pcg-v1",
+    "spinSource": "surfaceFlip"
+   },
+   "G": 0.005,
+   "center": {
+    "type": "single",
+    "m": 100,
+    "radius": 6,
+    "x": 0,
+    "y": 0,
+    "vx": 0,
+    "vy": 0,
+    "spin": 0.5,
+    "pinned": true
+   },
+   "disk": {
+    "type": "disk",
+    "n": 80,
+    "cx": 0,
+    "cy": 0,
+    "radius": 24,
+    "mMin": 5,
+    "mMax": 5,
+    "spinMin": 0,
+    "spinMax": 0,
+    "vMode": "hubble",
+    "vScale": 0,
+    "direction": 1,
+    "bulkVx": 0,
+    "bulkVy": 0
+   }
+  },
+  "accept": {
+   "ok": true,
+   "warnings": 0,
+   "warningText": []
+  },
+  "resolve": {
+   "law": "inertial-drag",
+   "geodesic": false,
+   "standard": true,
+   "purpose": "legacyMesh",
+   "issues": [],
+   "lawOfSim": "inertial-drag",
+   "ge": 0,
+   "n": 81
+  },
+  "run": {
+   "dt": 0.016,
+   "steps": 2000,
+   "n": 81,
+   "t": 31.99999999999825,
+   "wallSec": 4.224,
+   "nanStep": null,
+   "method": "pcg",
+   "compose": {
+    "version": "w293g-compose-2",
+    "compose": "solve",
+    "solveFrom": "velocity",
+    "solveIters": 8,
+    "directMax": 64,
+    "solves": 1999,
+    "method": "pcg",
+    "res": 7.620193561471465e-11,
+    "resMax": 9.997500941040683e-11,
+    "uSumMax": 61.88852629344092,
+    "uSolveMax": 1.7049942842232009,
+    "tooLarge": 0,
+    "chain": {
+     "version": "w296c-chain-1",
+     "solver": "network-pcg-v1",
+     "solverTol": 1e-10,
+     "solverMaxIter": 1000,
+     "iters": 39,
+     "itersMax": 40,
+     "restarts": 0,
+     "fail": 0,
+     "failAt": null,
+     "spinSource": "surfaceFlip",
+     "spinSources": 1,
+     "spinTerms": 159920,
+     "spinSkip": 0,
+     "spinMax": 11.62310473532263,
+     "rigidRotation": "kept"
+    }
+   },
+   "sumMuMax": 82.47476868589798,
+   "sumMuRelMax": 0.49014628892668993,
+   "failSteps": 0,
+   "dThetaByR0": [
+    {
+     "r0Lo": 0,
+     "r0Hi": 6,
+     "n": 0,
+     "dTheta": null
+    },
+    {
+     "r0Lo": 6,
+     "r0Hi": 12,
+     "n": 21,
+     "dTheta": 2.16965
+    },
+    {
+     "r0Lo": 12,
+     "r0Hi": 18,
+     "n": 26,
+     "dTheta": 0.577207
+    },
+    {
+     "r0Lo": 18,
+     "r0Hi": 24,
+     "n": 33,
+     "dTheta": 0.195592
+    }
+   ],
+   "rMin": 6.115471697629286,
+   "rMax": 22.712332284186033,
+   "diag0": [
+    {
+     "rLo": 0,
+     "rHi": 6,
+     "n": 0,
+     "uChain": null,
+     "uDirect": null,
+     "ratio": null,
+     "deg": null,
+     "aCenter": null
+    },
+    {
+     "rLo": 6,
+     "rHi": 12,
+     "n": 21,
+     "uChain": 0.52251,
+     "uDirect": 0.213773,
+     "ratio": 2.44423,
+     "deg": 13.448,
+     "aCenter": 0.960323
+    },
+    {
+     "rLo": 12,
+     "rHi": 18,
+     "n": 26,
+     "uChain": 0.179861,
+     "uDirect": 0.0274757,
+     "ratio": 6.54619,
+     "deg": 9.84802,
+     "aCenter": 0.233311
+    },
+    {
+     "rLo": 18,
+     "rHi": 24,
+     "n": 33,
+     "uChain": 0.0964945,
+     "uDirect": 0.00998437,
+     "ratio": 9.66455,
+     "deg": 6.82324,
+     "aCenter": 0.0872122
+    }
+   ],
+   "diagEnd": [
+    {
+     "rLo": 0,
+     "rHi": 6,
+     "n": 0,
+     "uChain": null,
+     "uDirect": null,
+     "ratio": null,
+     "deg": null,
+     "aCenter": null
+    },
+    {
+     "rLo": 6,
+     "rHi": 12,
+     "n": 26,
+     "uChain": 0.60144,
+     "uDirect": 0.131355,
+     "ratio": 4.57874,
+     "deg": 23.4228,
+     "aCenter": 1.06728
+    },
+    {
+     "rLo": 12,
+     "rHi": 18,
+     "n": 29,
+     "uChain": 0.262865,
+     "uDirect": 0.0228696,
+     "ratio": 11.494,
+     "deg": 12.6406,
+     "aCenter": 0.222747
+    },
+    {
+     "rLo": 18,
+     "rHi": 24,
+     "n": 25,
+     "uChain": 0.16308,
+     "uDirect": 0.00880731,
+     "ratio": 18.5165,
+     "deg": 9.61853,
+     "aCenter": 0.10524
+    }
+   ]
+  },
+  "half": {
+   "dt": 0.008,
+   "steps": 4000,
+   "n": 81,
+   "t": 31.999999999997364,
+   "wallSec": 8.257,
+   "nanStep": null,
+   "method": "pcg",
+   "compose": {
+    "version": "w293g-compose-2",
+    "compose": "solve",
+    "solveFrom": "velocity",
+    "solveIters": 8,
+    "directMax": 64,
+    "solves": 3999,
+    "method": "pcg",
+    "res": 8.720592382461014e-11,
+    "resMax": 9.99530592764408e-11,
+    "uSumMax": 61.951351309435545,
+    "uSolveMax": 1.7027573548661696,
+    "tooLarge": 0,
+    "chain": {
+     "version": "w296c-chain-1",
+     "solver": "network-pcg-v1",
+     "solverTol": 1e-10,
+     "solverMaxIter": 1000,
+     "iters": 39,
+     "itersMax": 40,
+     "restarts": 0,
+     "fail": 0,
+     "failAt": null,
+     "spinSource": "surfaceFlip",
+     "spinSources": 1,
+     "spinTerms": 319920,
+     "spinSkip": 0,
+     "spinMax": 11.688728734823126,
+     "rigidRotation": "kept"
+    }
+   },
+   "sumMuMax": 82.7427257499904,
+   "sumMuRelMax": 0.4906609575404369,
+   "failSteps": 0,
+   "dThetaByR0": [
+    {
+     "r0Lo": 0,
+     "r0Hi": 6,
+     "n": 0,
+     "dTheta": null
+    },
+    {
+     "r0Lo": 6,
+     "r0Hi": 12,
+     "n": 21,
+     "dTheta": 2.17596
+    },
+    {
+     "r0Lo": 12,
+     "r0Hi": 18,
+     "n": 26,
+     "dTheta": 0.577597
+    },
+    {
+     "r0Lo": 18,
+     "r0Hi": 24,
+     "n": 33,
+     "dTheta": 0.195704
+    }
+   ],
+   "rMin": 6.112068776296343,
+   "rMax": 22.69849281730033,
+   "diag0": null,
+   "diagEnd": null
+  },
+  "chainCut": {
+   "dt": 0.016,
+   "steps": 2000,
+   "n": 81,
+   "t": 31.99999999999825,
+   "wallSec": 1.296,
+   "nanStep": null,
+   "method": "pcg",
+   "compose": {
+    "version": "w293g-compose-2",
+    "compose": "solve",
+    "solveFrom": "velocity",
+    "solveIters": 8,
+    "directMax": 64,
+    "solves": 1999,
+    "method": "pcg",
+    "res": 9.539142033223351e-17,
+    "resMax": 5.364847111192906e-16,
+    "uSumMax": 4.655441844805003,
+    "uSolveMax": 1.5281066786293325,
+    "tooLarge": 0,
+    "chain": {
+     "version": "w296c-chain-1",
+     "solver": "network-pcg-v1",
+     "solverTol": 1e-10,
+     "solverMaxIter": 1000,
+     "iters": 1,
+     "itersMax": 1,
+     "restarts": 0,
+     "fail": 0,
+     "failAt": null,
+     "spinSource": "surfaceFlip",
+     "spinSources": 1,
+     "spinTerms": 159920,
+     "spinSkip": 0,
+     "spinMax": 5.2209697356931715,
+     "rigidRotation": "kept"
+    }
+   },
+   "sumMuMax": 40.17900755215912,
+   "sumMuRelMax": 0.34182328197511813,
+   "failSteps": 0,
+   "dThetaByR0": [
+    {
+     "r0Lo": 0,
+     "r0Hi": 6,
+     "n": 0,
+     "dTheta": null
+    },
+    {
+     "r0Lo": 6,
+     "r0Hi": 12,
+     "n": 21,
+     "dTheta": 3.05884
+    },
+    {
+     "r0Lo": 12,
+     "r0Hi": 18,
+     "n": 26,
+     "dTheta": 0.506619
+    },
+    {
+     "r0Lo": 18,
+     "r0Hi": 24,
+     "n": 33,
+     "dTheta": 0.088036
+    }
+   ],
+   "rMin": 7.222427459647092,
+   "rMax": 20.73354995147733,
+   "diag0": null,
+   "diagEnd": null
+  },
+  "hHalf": {
+   "maxPosDiff": 0.16528234207495973,
+   "dThetaA": [
+    {
+     "r0Lo": 0,
+     "r0Hi": 6,
+     "n": 0,
+     "dTheta": null
+    },
+    {
+     "r0Lo": 6,
+     "r0Hi": 12,
+     "n": 21,
+     "dTheta": 2.16965
+    },
+    {
+     "r0Lo": 12,
+     "r0Hi": 18,
+     "n": 26,
+     "dTheta": 0.577207
+    },
+    {
+     "r0Lo": 18,
+     "r0Hi": 24,
+     "n": 33,
+     "dTheta": 0.195592
+    }
+   ],
+   "dThetaHalf": [
+    {
+     "r0Lo": 0,
+     "r0Hi": 6,
+     "n": 0,
+     "dTheta": null
+    },
+    {
+     "r0Lo": 6,
+     "r0Hi": 12,
+     "n": 21,
+     "dTheta": 2.17596
+    },
+    {
+     "r0Lo": 12,
+     "r0Hi": 18,
+     "n": 26,
+     "dTheta": 0.577597
+    },
+    {
+     "r0Lo": 18,
+     "r0Hi": 24,
+     "n": 33,
+     "dTheta": 0.195704
+    }
+   ]
+  },
+  "chainVsCut": [
+   {
+    "r0Lo": 0,
+    "r0Hi": 6,
+    "n": 0,
+    "dThetaChain": null,
+    "dThetaCut": null,
+    "ratio": null
+   },
+   {
+    "r0Lo": 6,
+    "r0Hi": 12,
+    "n": 21,
+    "dThetaChain": 2.16965,
+    "dThetaCut": 3.05884,
+    "ratio": 0.709305
+   },
+   {
+    "r0Lo": 12,
+    "r0Hi": 18,
+    "n": 26,
+    "dThetaChain": 0.577207,
+    "dThetaCut": 0.506619,
+    "ratio": 1.13933
+   },
+   {
+    "r0Lo": 18,
+    "r0Hi": 24,
+    "n": 33,
+    "dThetaChain": 0.195592,
+    "dThetaCut": 0.088036,
+    "ratio": 2.22173
+   }
+  ],
+  "gates": {
+   "noNaN": true,
+   "resWithinTol": true,
+   "noFail": true,
+   "pcg": true
+  }
+ },
+ "gates": {
+  "path3": true,
+  "cut12": true,
+  "translation": true,
+  "massDiff": true,
+  "fixed": true,
+  "maxIter1": true,
+  "duplicate": true,
+  "chain65": true,
+  "ring": true,
+  "spinMoment": true,
+  "spinTangential": true,
+  "spinZero": true,
+  "toy": true
+ },
+ "ok": true,
+ "elapsedS": 19.458
+}

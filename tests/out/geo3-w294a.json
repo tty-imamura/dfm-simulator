@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便a",
   "target": "beta/index.html",
-  "targetSha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
-  "generatedAt": "2026-10-07T14:30:09.505Z",
+  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "generatedAt": "2026-10-08T12:29:29.519Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5856600,
-    "sha256": "3059be460d3ed50040a01c4dc24860cdc6794802ecbee99ad69c10c04c98053b",
-    "mtime": "2026-10-07T14:24:06.010Z"
+    "bytes": 5973263,
+    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+    "mtime": "2026-10-08T09:53:10.928Z"
    }
   ],
   "code": [
@@ -82,7 +82,10 @@
    "inertialSolveFrom",
    "geo4NoMesh",
    "geo4Inertial",
-   "geo4KFrame"
+   "geo4KFrame",
+   "geo1Fitted",
+   "geo4Solver",
+   "geo4Both"
   ],
   "inertialVersion": "w290c-inertial-1",
   "composeDefault": [
@@ -137,11 +140,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1027,
-   "segments": 936,
-   "closureShare": 0.3257
+   "names": 1060,
+   "segments": 969,
+   "closureShare": 0.3262
   },
-  "scopeSha256": "d268e41bbd1eae197ba7d38f6ddb676f2a36a1a4efe605de5f0483c80ebb7e1b",
+  "scopeSha256": "8e389565cedb2231d0b1f9d9a73eb9e6eb47952ce85d1d8d35b4fc58256d9030",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -317,7 +320,7 @@
    {
     "geoPN": 0,
     "steps": 39596879,
-    "wallSec": 179.847,
+    "wallSec": 215.909,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -375,7 +378,7 @@
    {
     "geoPN": 3,
     "steps": 39596879,
-    "wallSec": 179.144,
+    "wallSec": 207.685,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -738,5 +741,5 @@
   "paramSameAsJson": true
  },
  "ok": true,
- "elapsedS": 361.412
+ "elapsedS": 426.341
 }

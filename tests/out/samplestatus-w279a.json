@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-  "generatedAt": "2026-10-07T20:02:54.097Z",
+  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+  "generatedAt": "2026-10-08T19:50:26.281Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 96594,
-    "sha256": "f95b520c7ea85fd6cfe80f4d83a289798749c2fa2fce63e9883d5970e792e70c",
-    "mtime": "2026-10-07T12:21:12.022Z"
+    "bytes": 98444,
+    "sha256": "7ec09bec68ddc4a321faa9f709d2dfeecc9da58201a64600745cffa29b122a8b",
+    "mtime": "2026-10-08T12:21:48.746Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838844,
-    "sha256": "22f2c952bb2a5391d062fd047fa6d2c4910bcaa24a073843255a219cc20f7cba",
-    "mtime": "2026-10-07T19:12:45.687Z"
+    "bytes": 1838863,
+    "sha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
+    "mtime": "2026-10-08T18:45:09.187Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90749,
-    "sha256": "454aa56ea31a889b0ee0e0d5f0c010374fe6c8c41aa67c9060ce553957c3df16",
-    "mtime": "2026-10-07T12:44:39.282Z"
+    "bytes": 90741,
+    "sha256": "32171a7c43e038bc6b795a4d4962a2e144a68a77803cb673cc1af48c6f6b8950",
+    "mtime": "2026-10-08T10:24:34.100Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 129303,
-    "sha256": "ada8131cd20457bb9aebab49adb7345d323d1c8dc87f05f4b6db448d2c8150cc",
-    "mtime": "2026-10-07T20:02:54.079Z"
+    "bytes": 137581,
+    "sha256": "eb87585b2d7224e2d7859f5ed39578e5c0b2dee132d250ce67077f912d779b32",
+    "mtime": "2026-10-08T19:50:26.247Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,14 +105,14 @@
   "codeSha256": "9aa0769c20def6904b1c04663c7218397de9b87d07b26772222a8090330b3015",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "64efb84a618e13b8169fdc7ebe5e4ab6d0ce7799",
-   "date": "2026-10-07T00:38:35.902Z",
-   "pass": 1059
+   "commit": "cb59dc45b2b69b00f6648093535b7f88a42b82e7",
+   "date": "2026-10-08T16:00:13.507Z",
+   "pass": 1072
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
+   "met": 80,
    "partial": 40,
    "unmet": 5,
    "n/a": 0
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 0,
-   "out-of-scope": 102
+   "out-of-scope": 105
   },
   "four": {
    "合": 0,
@@ -135,7 +135,7 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 6
+    "n": 7
    },
    {
     "group": "銀河の力学",
@@ -180,7 +180,7 @@
    {
     "group": "現実較正",
     "icon": "🎯",
-    "n": 32
+    "n": 34
    },
    {
     "group": "実在天体のアナロジー",
@@ -203,13 +203,13 @@
     "n": 0
    }
   ],
-  "n": 122,
+  "n": 125,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 155,
+   "n": 158,
    "objective": {
-    "met": 88,
+    "met": 91,
     "partial": 59,
     "unmet": 8,
     "n/a": 0
@@ -220,7 +220,7 @@
     "fail": 1,
     "hold": 17,
     "hold-definition": 2,
-    "out-of-scope": 133
+    "out-of-scope": 136
    },
    "four": {
     "合": 0,
@@ -445,6 +445,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -454,23 +466,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14743,
+     "ms": 22442,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 14526,
+       "ms": 22159,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 176,
+       "ms": 231,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 41,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -647,6 +659,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -656,17 +680,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 45,
+     "ms": 90,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 33,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 12,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       },
@@ -854,6 +878,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -863,17 +899,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 110,
+     "ms": 269,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 77,
+       "ms": 209,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 33,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -1049,6 +1085,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1058,17 +1106,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 118,
+     "ms": 240,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 77,
+       "ms": 209,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 41,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -1244,6 +1292,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1253,17 +1313,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 106,
+     "ms": 246,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 77,
+       "ms": 209,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 29,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -1440,6 +1500,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1449,11 +1521,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 16,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       },
@@ -1636,6 +1708,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1645,35 +1729,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1150,
+     "ms": 1843,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 532,
+       "ms": 1078,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 392,
+       "ms": 495,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 151,
+       "ms": 185,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 66,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 9,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -1849,6 +1933,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1858,11 +1954,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 158,
+     "ms": 226,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 158,
+       "ms": 226,
        "pass": true,
        "via": "targetIds"
       }
@@ -2038,6 +2134,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2047,11 +2155,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 197,
+     "ms": 320,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 197,
+       "ms": 320,
        "pass": true,
        "via": "targetIds"
       }
@@ -2227,6 +2335,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2236,11 +2356,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 305,
+     "ms": 460,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 305,
+       "ms": 460,
        "pass": true,
        "via": "targetIds"
       }
@@ -2416,6 +2536,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2425,17 +2557,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 349,
+     "ms": 527,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 247,
+       "ms": 346,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 102,
+       "ms": 181,
        "pass": true,
        "via": "targetIds"
       }
@@ -2611,6 +2743,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2620,17 +2764,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 372,
+     "ms": 522,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 312,
+       "ms": 431,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 60,
+       "ms": 91,
        "pass": true,
        "via": "targetIds"
       }
@@ -2806,6 +2950,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2815,11 +2971,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 168,
+     "ms": 194,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 168,
+       "ms": 194,
        "pass": true,
        "via": "targetIds"
       }
@@ -2995,6 +3151,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3004,23 +3172,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 221,
+     "ms": 281,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 127,
+       "ms": 182,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 71,
+       "ms": 79,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 23,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -3196,6 +3364,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3205,17 +3385,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 172,
+     "ms": 221,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 94,
+       "ms": 135,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 78,
+       "ms": 86,
        "pass": true,
        "via": "targetIds"
       }
@@ -3391,6 +3571,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3400,35 +3592,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2347,
+     "ms": 3652,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1251,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.freebox",
-       "ms": 440,
+       "ms": 2196,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 337,
+       "ms": 536,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.freebox",
+       "ms": 513,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 304,
+       "ms": 352,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 9,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -3604,6 +3796,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3613,17 +3817,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3939,
+     "ms": 6447,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3938,
+       "ms": 6445,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 1,
+       "ms": 2,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3823,6 +4027,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3832,23 +4048,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10097,
+     "ms": 15359,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6011,
+       "ms": 8592,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4085,
+       "ms": 6767,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -4024,6 +4240,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4033,17 +4261,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 71174,
+     "ms": 107927,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 66769,
+       "ms": 100869,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4405,
+       "ms": 7058,
        "pass": true,
        "via": "targetIds"
       }
@@ -4219,6 +4447,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4228,17 +4468,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 243320,
+     "ms": 375663,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 237059,
+       "ms": 365867,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6261,
+       "ms": 9796,
        "pass": true,
        "via": "targetIds"
       }
@@ -4414,6 +4654,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4423,17 +4675,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3484,
+     "ms": 5540,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3484,
+       "ms": 5539,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -4609,6 +4861,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4618,29 +4882,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 8114,
+     "ms": 11258,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4063,
+       "ms": 5931,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 4000,
+       "ms": 5251,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 29,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 22,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -4816,6 +5080,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4825,17 +5101,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1365,
+     "ms": 1381,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 1279,
+       "ms": 1185,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 86,
+       "ms": 196,
        "pass": true,
        "via": "targetIds"
       }
@@ -5011,6 +5287,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5020,17 +5308,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4463,
+     "ms": 7133,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4212,
+       "ms": 6655,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 251,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       }
@@ -5206,6 +5494,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5215,17 +5515,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3693,
+     "ms": 5506,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3232,
+       "ms": 4947,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 461,
+       "ms": 559,
        "pass": true,
        "via": "targetIds"
       }
@@ -5401,6 +5701,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5410,23 +5722,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17301,
+     "ms": 33087,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 12461,
+       "ms": 24172,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4683,
+       "ms": 8597,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 157,
+       "ms": 318,
        "pass": true,
        "via": "targetIds"
       }
@@ -5602,6 +5914,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5611,17 +5935,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3449,
+     "ms": 5651,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3449,
+       "ms": 5650,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.bhcore-selfdrive",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -5809,6 +6133,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5818,11 +6154,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2979,
+     "ms": 4896,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2979,
+       "ms": 4896,
        "pass": true,
        "via": "targetIds"
       }
@@ -5998,6 +6334,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6007,17 +6355,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5939,
+     "ms": 8909,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5428,
+       "ms": 8076,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 511,
+       "ms": 833,
        "pass": true,
        "via": "targetIds"
       }
@@ -6193,6 +6541,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6202,17 +6562,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 23710,
+     "ms": 37221,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 21889,
+       "ms": 34949,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1821,
+       "ms": 2272,
        "pass": true,
        "via": "targetIds"
       },
@@ -6395,6 +6755,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6404,11 +6776,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5660,
+     "ms": 10544,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 5660,
+       "ms": 10544,
        "pass": true,
        "via": "targetIds"
       }
@@ -6585,6 +6957,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6594,11 +6978,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5762,
+     "ms": 13243,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5762,
+       "ms": 13243,
        "pass": true,
        "via": "targetIds"
       }
@@ -6775,6 +7159,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6784,11 +7180,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5393,
+     "ms": 12380,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5393,
+       "ms": 12380,
        "pass": true,
        "via": "targetIds"
       }
@@ -6964,6 +7360,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6973,11 +7381,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1233,
+     "ms": 2172,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1233,
+       "ms": 2172,
        "pass": true,
        "via": "targetIds"
       },
@@ -7171,6 +7579,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7180,11 +7600,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4025,
+     "ms": 5831,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 4025,
+       "ms": 5831,
        "pass": true,
        "via": "targetIds"
       },
@@ -7379,6 +7799,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7388,11 +7820,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7427,
+     "ms": 10999,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7427,
+       "ms": 10999,
        "pass": true,
        "via": "targetIds"
       }
@@ -7574,6 +8006,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7583,11 +8027,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1785,
+     "ms": 2676,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1785,
+       "ms": 2676,
        "pass": true,
        "via": "targetIds"
       }
@@ -7817,6 +8261,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7826,11 +8282,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1836,
+     "ms": 2557,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1836,
+       "ms": 2557,
        "pass": true,
        "via": "targetIds"
       }
@@ -8014,6 +8470,18 @@
      {
       "key": "geo4-295b",
       "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
       "share": "all",
       "always": false
      },
@@ -8212,6 +8680,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8221,11 +8701,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 89,
+     "ms": 97,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 89,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       }
@@ -8407,6 +8887,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8416,11 +8908,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11328,
+     "ms": 15363,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 11328,
+       "ms": 15363,
        "pass": true,
        "via": "targetIds"
       }
@@ -8617,6 +9109,18 @@
      {
       "key": "geo4-295b",
       "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
       "share": "all",
       "always": false
      },
@@ -8833,6 +9337,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9033,6 +9549,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9228,6 +9756,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9237,11 +9777,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 977,
+     "ms": 1267,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 977,
+       "ms": 1267,
        "pass": true,
        "via": "targetIds"
       }
@@ -9430,6 +9970,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9439,11 +9991,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1479,
+     "ms": 2044,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1479,
+       "ms": 2044,
        "pass": true,
        "via": "targetIds"
       }
@@ -9644,6 +10196,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9653,11 +10217,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 643,
+     "ms": 812,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 643,
+       "ms": 812,
        "pass": true,
        "via": "targetIds"
       }
@@ -9839,6 +10403,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9848,29 +10424,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 13338,
+     "ms": 19233,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 9625,
+       "ms": 14615,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3320,
+       "ms": 4311,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 248,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 145,
+       "ms": 105,
        "pass": true,
        "via": "targetIds"
       }
@@ -10053,6 +10629,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10062,11 +10650,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1024,
+     "ms": 1387,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1024,
+       "ms": 1387,
        "pass": true,
        "via": "targetIds"
       }
@@ -10255,6 +10843,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10264,11 +10864,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1540,
+     "ms": 2160,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1540,
+       "ms": 2160,
        "pass": true,
        "via": "targetIds"
       }
@@ -10457,6 +11057,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10466,11 +11078,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 542,
+     "ms": 714,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 542,
+       "ms": 714,
        "pass": true,
        "via": "targetIds"
       }
@@ -10652,6 +11264,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10661,29 +11285,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 13338,
+     "ms": 19233,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 9625,
+       "ms": 14615,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3320,
+       "ms": 4311,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 248,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 145,
+       "ms": 105,
        "pass": true,
        "via": "targetIds"
       }
@@ -10860,6 +11484,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10869,17 +11505,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 176,
+     "ms": 250,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 146,
+       "ms": 211,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 30,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -11055,6 +11691,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11064,11 +11712,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 18,
+     "ms": 107,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 18,
+       "ms": 107,
        "pass": true,
        "via": "targetIds"
       },
@@ -11250,6 +11898,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11259,17 +11919,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 61,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 45,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 16,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -11445,6 +12105,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11454,17 +12126,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 317,
+     "ms": 496,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 293,
+       "ms": 459,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 24,
+       "ms": 37,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -11682,6 +12354,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11691,23 +12375,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 31022,
+     "ms": 40187,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 26777,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-gas",
-       "ms": 2130,
+       "ms": 33808,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2115,
+       "ms": 3363,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-gas",
+       "ms": 3016,
        "pass": true,
        "via": "targetIds"
       }
@@ -11883,6 +12567,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11892,23 +12588,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15066,
+     "ms": 25948,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 11813,
+       "ms": 20464,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2002,
+       "ms": 3288,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1251,
+       "ms": 2196,
        "pass": true,
        "via": "targetIds"
       }
@@ -12084,6 +12780,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12093,29 +12801,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 748,
+     "ms": 1182,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 580,
+       "ms": 945,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 132,
+       "ms": 187,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 22,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 14,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -12291,6 +12999,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12300,11 +13020,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 972,
+     "ms": 1618,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 972,
+       "ms": 1618,
        "pass": true,
        "via": "targetIds"
       }
@@ -12480,6 +13200,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12489,11 +13221,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 13,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 13,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
@@ -12675,6 +13407,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12684,23 +13428,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3653,
+     "ms": 5495,
      "tests": [
       {
-       "id": "shot.regress-convection",
-       "ms": 2009,
+       "id": "preset.convection",
+       "ms": 2736,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.convection",
-       "ms": 1620,
+       "id": "shot.regress-convection",
+       "ms": 2722,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 24,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -12882,6 +13626,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12891,11 +13647,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2536,
+     "ms": 4003,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2536,
+       "ms": 4003,
        "pass": true,
        "via": "targetIds"
       },
@@ -13077,6 +13833,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13086,11 +13854,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1845,
+     "ms": 2150,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1845,
+       "ms": 2150,
        "pass": true,
        "via": "targetIds"
       },
@@ -13272,6 +14040,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13281,11 +14061,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 921,
+     "ms": 1204,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 921,
+       "ms": 1204,
        "pass": true,
        "via": "targetIds"
       },
@@ -13473,6 +14253,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13482,11 +14274,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1724,
+     "ms": 2551,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1724,
+       "ms": 2551,
        "pass": true,
        "via": "targetIds"
       },
@@ -13674,6 +14466,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13683,11 +14487,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 932,
+     "ms": 1454,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 932,
+       "ms": 1454,
        "pass": true,
        "via": "targetIds"
       },
@@ -13876,6 +14680,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13885,11 +14701,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1236,
+     "ms": 1817,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1236,
+       "ms": 1817,
        "pass": true,
        "via": "targetIds"
       },
@@ -14083,6 +14899,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14092,23 +14920,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 716,
+     "ms": 1010,
      "tests": [
       {
        "id": "preset.earthMoon",
-       "ms": 333,
+       "ms": 425,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.earthMoon",
-       "ms": 269,
+       "ms": 408,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 114,
+       "ms": 177,
        "pass": true,
        "via": "targetIds"
       }
@@ -14290,6 +15118,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14299,17 +15139,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1113,
+     "ms": 1853,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 982,
+       "ms": 1583,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 131,
+       "ms": 270,
        "pass": true,
        "via": "targetIds"
       }
@@ -14355,23 +15195,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 47.53,
+     "wallSec": 57.685,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 47.53,
+       "wallSec": 57.685,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 83.193,
+       "wallSec": 110.248,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 83.193,
-     "reusedH2Sec": 83.193,
+     "reusedSec": 110.248,
+     "reusedH2Sec": 110.248,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14544,6 +15384,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14553,11 +15405,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 32,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -14739,6 +15591,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14748,17 +15612,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3446,
+     "ms": 4731,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3400,
+       "ms": 4662,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 43,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       },
@@ -14983,6 +15847,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14992,11 +15868,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 78,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 58,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -15196,6 +16072,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15205,29 +16093,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 795,
+     "ms": 1030,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 719,
+       "ms": 906,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 63,
+       "ms": 103,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 13,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.dragCoreFit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -15415,6 +16303,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15424,11 +16324,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 40,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 39,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       },
@@ -15636,6 +16536,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15645,11 +16557,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 47,
+     "ms": 87,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 46,
+       "ms": 86,
        "pass": true,
        "via": "targetIds"
       },
@@ -15701,23 +16613,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.671,
+     "wallSec": 1.684,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.671,
+       "wallSec": 1.684,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.355,
+       "wallSec": 3.417,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 2.355,
-     "reusedH2Sec": 2.355,
+     "reusedSec": 3.417,
+     "reusedH2Sec": 3.417,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15884,6 +16796,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15893,11 +16817,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 18,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 17,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -16085,6 +17009,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16093,9 +17029,22 @@
     ],
     "qa": {
      "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
+     "n": 2,
+     "ms": 233,
+     "tests": [
+      {
+       "id": "preset.inertial3_295",
+       "ms": 229,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.inertial3Contract295",
+       "ms": 4,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
     }
    }
   },
@@ -16280,6 +17229,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16289,11 +17250,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 62,
+     "ms": 133,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 62,
+       "ms": 133,
        "pass": true,
        "via": "targetIds"
       }
@@ -16481,6 +17442,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16490,17 +17463,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1097,
+     "ms": 1380,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1015,
+       "ms": 1258,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 82,
+       "ms": 122,
        "pass": true,
        "via": "targetIds"
       }
@@ -16688,6 +17661,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16697,17 +17682,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1072,
+     "ms": 1356,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1015,
+       "ms": 1258,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 57,
+       "ms": 98,
        "pass": true,
        "via": "targetIds"
       }
@@ -16889,6 +17874,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16898,17 +17895,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 482,
+     "ms": 964,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 465,
+       "ms": 936,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 17,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -16955,23 +17952,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.556,
+     "wallSec": 4.159,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.556,
+       "wallSec": 4.159,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.495,
+       "wallSec": 7.528,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 5.495,
-     "reusedH2Sec": 5.495,
+     "reusedSec": 7.528,
+     "reusedH2Sec": 7.528,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17144,6 +18141,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17153,11 +18162,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 27,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -17339,6 +18348,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17347,6 +18368,213 @@
     ],
     "qa": {
      "attributed": true,
+     "n": 2,
+     "ms": 233,
+     "tests": [
+      {
+       "id": "preset.inertial3_295",
+       "ms": 229,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.inertial3Contract295",
+       "ms": 4,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた gain",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる",
+    "objective": "met",
+    "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/fit-w296b.json"
+    ],
+    "en": {
+     "purpose": "🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0)",
+     "state": "gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0). Met: gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched. Out of calibration scope."
+    },
+    "brief": "🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる。達・gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
      "n": 0,
      "ms": 0,
      "tests": []
@@ -17527,6 +18755,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17536,11 +18776,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 97,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 54,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       }
@@ -17730,6 +18970,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17739,11 +18991,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 69,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 57,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -17791,11 +19043,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 49.399,
+     "wallSec": 65.001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 49.399,
+       "wallSec": 65.001,
        "reused": false,
        "reusedBy": null
       }
@@ -17956,6 +19208,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17965,17 +19229,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1907,
+     "ms": 2761,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1598,
+       "ms": 2321,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 309,
+       "ms": 440,
        "pass": true,
        "via": "targetIds"
       }
@@ -18021,23 +19285,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 18.493,
+     "wallSec": 21.531,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.493,
+       "wallSec": 21.531,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 30.26,
+       "wallSec": 40.764,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 30.26,
-     "reusedH2Sec": 30.26,
+     "reusedSec": 40.764,
+     "reusedH2Sec": 40.764,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18204,6 +19468,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18213,17 +19489,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 447,
+     "ms": 786,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 403,
+       "ms": 705,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 44,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -18269,23 +19545,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.302,
+     "wallSec": 10.491,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.302,
+       "wallSec": 10.491,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.66,
+       "wallSec": 20.258,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 15.66,
-     "reusedH2Sec": 15.66,
+     "reusedSec": 20.258,
+     "reusedH2Sec": 20.258,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18488,6 +19764,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18497,17 +19785,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4184,
+     "ms": 5990,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4158,
+       "ms": 5942,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 26,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -18553,23 +19841,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.698,
+     "wallSec": 8.156,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.698,
+       "wallSec": 8.156,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.95,
+       "wallSec": 14.664,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 10.95,
-     "reusedH2Sec": 10.95,
+     "reusedSec": 14.664,
+     "reusedH2Sec": 14.664,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18736,6 +20024,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18745,17 +20045,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 25,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -19023,6 +20323,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19032,11 +20344,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 35,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 35,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -19248,6 +20560,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19257,17 +20581,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11457,
+     "ms": 15986,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11391,
+       "ms": 15887,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 66,
+       "ms": 99,
        "pass": true,
        "via": "targetIds"
       }
@@ -19468,6 +20792,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19477,11 +20813,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 68,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 40,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -19527,23 +20863,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 86.316,
+     "wallSec": 109.528,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 86.316,
+       "wallSec": 109.528,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 155.655,
+       "wallSec": 201.401,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 155.655,
-     "reusedH2Sec": 155.655,
+     "reusedSec": 201.401,
+     "reusedH2Sec": 201.401,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19764,6 +21100,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19773,11 +21121,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 52,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -19959,6 +21307,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19967,6 +21327,213 @@
     ],
     "qa": {
      "attributed": true,
+     "n": 2,
+     "ms": 233,
+     "tests": [
+      {
+       "id": "preset.inertial3_295",
+       "ms": 229,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.inertial3Contract295",
+       "ms": 4,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "name": "冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる",
+    "objective": "met",
+    "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/fit-w296b.json"
+    ],
+    "en": {
+     "purpose": "🟣 copy with prior cores; only the gain matched to the period (6.3872273 d)",
+     "state": "gain 6729.009; residual 3.25e-7 s <= h/2 4.56e-5 s (fitted); cores not identifiable",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "🟣 copy with prior cores; only the gain matched to the period (6.3872273 d). Met: gain 6729.009; residual 3.25e-7 s <= h/2 4.56e-5 s (fitted); cores not identifiable. Out of calibration scope."
+    },
+    "brief": "🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる。達・gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
      "n": 0,
      "ms": 0,
      "tests": []
@@ -20143,6 +21710,18 @@
      {
       "key": "geo4-295b",
       "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
       "share": "all",
       "always": false
      },
@@ -20348,6 +21927,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20357,11 +21948,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 77,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 43,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       }
@@ -20409,11 +22000,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 59.45,
+     "wallSec": 82.471,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 59.45,
+       "wallSec": 82.471,
        "reused": false,
        "reusedBy": null
       }
@@ -20574,6 +22165,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20583,17 +22186,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 216,
+     "ms": 444,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 216,
+       "ms": 443,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -20639,23 +22242,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.192,
+     "wallSec": 2.58,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.192,
+       "wallSec": 2.58,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.287,
+       "wallSec": 5.364,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 4.287,
-     "reusedH2Sec": 4.287,
+     "reusedSec": 5.364,
+     "reusedH2Sec": 5.364,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -20858,6 +22461,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20867,11 +22482,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 25,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -20921,30 +22536,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.187,
+     "wallSec": 14.899,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.187,
+       "wallSec": 14.899,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.476,
+       "wallSec": 28.595,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 53.585,
+       "wallSec": 61.089,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 76.061,
-     "reusedH2Sec": 22.476,
-     "reusedH4Sec": 53.58500000000001
+     "reusedSec": 89.684,
+     "reusedH2Sec": 28.595,
+     "reusedH4Sec": 61.089
     },
     "regenSteps": [
      {
@@ -21146,6 +22761,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21155,17 +22782,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3243,
+     "ms": 4754,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3195,
+       "ms": 4682,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 48,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -21372,6 +22999,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21381,17 +23020,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3258,
+     "ms": 4761,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3195,
+       "ms": 4682,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 63,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -21435,30 +23074,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.185,
+     "wallSec": 9.078,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.185,
+       "wallSec": 9.078,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.302,
+       "wallSec": 16.575,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 32.214,
+       "wallSec": 36.721,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 45.516,
-     "reusedH2Sec": 13.302,
-     "reusedH4Sec": 32.214
+     "reusedSec": 53.29599999999999,
+     "reusedH2Sec": 16.575,
+     "reusedH4Sec": 36.72099999999999
     },
     "regenSteps": [
      {
@@ -21660,6 +23299,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21669,17 +23320,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2745,
+     "ms": 3817,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2690,
+       "ms": 3734,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 55,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -21886,6 +23537,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21895,17 +23558,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2734,
+     "ms": 3823,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2690,
+       "ms": 3734,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 44,
+       "ms": 89,
        "pass": true,
        "via": "targetIds"
       }
@@ -21952,23 +23615,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.64,
+     "wallSec": 5.337,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.64,
+       "wallSec": 5.337,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.262,
+       "wallSec": 9.481,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 7.262,
-     "reusedH2Sec": 7.262,
+     "reusedSec": 9.481,
+     "reusedH2Sec": 9.481,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -22147,6 +23810,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22156,17 +23831,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 40,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 40,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -22409,6 +24084,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22418,17 +24105,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7760,
+     "ms": 10805,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 7696,
+       "ms": 10736,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 64,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -22605,6 +24292,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22614,11 +24313,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 90,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 58,
+       "ms": 90,
        "pass": true,
        "via": "targetIds"
       }
@@ -22813,6 +24512,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22822,11 +24533,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 87,
+     "ms": 109,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 87,
+       "ms": 109,
        "pass": true,
        "via": "targetIds"
       }
@@ -22873,23 +24584,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.155,
+     "wallSec": 3.559,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.155,
+       "wallSec": 3.559,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.72,
+       "wallSec": 6.337,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 5.72,
-     "reusedH2Sec": 5.72,
+     "reusedSec": 6.337,
+     "reusedH2Sec": 6.337,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -23098,6 +24809,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23107,11 +24830,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 53,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 53,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -23158,23 +24881,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.474,
+     "wallSec": 1.489,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.474,
+       "wallSec": 1.489,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.625,
+       "wallSec": 2.867,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 2.625,
-     "reusedH2Sec": 2.625,
+     "reusedSec": 2.867,
+     "reusedH2Sec": 2.867,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -23383,6 +25106,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23392,11 +25127,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 23,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -23591,6 +25326,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23600,11 +25347,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 26,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -23799,6 +25546,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23808,11 +25567,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 29,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -24007,6 +25766,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24016,11 +25787,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 36,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -24215,6 +25986,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24224,11 +26007,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 80,
+     "ms": 117,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 80,
+       "ms": 117,
        "pass": true,
        "via": "targetIds"
       }
@@ -24423,6 +26206,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24432,11 +26227,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 119,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 55,
+       "ms": 119,
        "pass": true,
        "via": "targetIds"
       }
@@ -24631,6 +26426,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24640,11 +26447,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 106,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 52,
+       "ms": 106,
        "pass": true,
        "via": "targetIds"
       }
@@ -24691,23 +26498,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.532,
+     "wallSec": 25.011,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 22.532,
+       "wallSec": 25.011,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 39.059,
+       "wallSec": 47.319,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 39.059,
-     "reusedH2Sec": 39.059,
+     "reusedSec": 47.319,
+     "reusedH2Sec": 47.319,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -24868,6 +26675,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24877,11 +26696,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 30,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -25124,6 +26943,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25133,11 +26964,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 91,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 52,
+       "ms": 91,
        "pass": true,
        "via": "targetIds"
       }
@@ -25332,6 +27163,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25341,11 +27184,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 130,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 50,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       }
@@ -25527,6 +27370,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25536,11 +27391,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 60,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -25728,6 +27583,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25737,23 +27604,230 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3432,
+     "ms": 4633,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2553,
+       "ms": 3492,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 830,
+       "ms": 1079,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 49,
+       "ms": 62,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "name": "連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る",
+    "objective": "met",
+    "state": "共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/chain-w296c.json"
+    ],
+    "en": {
+     "purpose": "Test whether drag chains outward through neighbours of a spinning centre",
+     "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Test whether drag chains outward through neighbours of a spinning centre. Met: CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim. Out of calibration scope."
+    },
+    "brief": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る。達・共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 2,
+     "ms": 393,
+     "tests": [
+      {
+       "id": "behavior.chain296",
+       "ms": 342,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.chainContract296",
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -25935,6 +28009,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25944,11 +28030,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 84,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 46,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       }
@@ -26130,6 +28216,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26139,11 +28237,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 83,
+     "ms": 139,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 83,
+       "ms": 139,
        "pass": true,
        "via": "targetIds"
       }
@@ -26189,23 +28287,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.543,
+     "wallSec": 0.919,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.543,
+       "wallSec": 0.919,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.201,
+       "wallSec": 1.65,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 1.201,
-     "reusedH2Sec": 1.201,
+     "reusedSec": 1.65,
+     "reusedH2Sec": 1.65,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26354,6 +28452,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26363,17 +28473,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3977,
+     "ms": 5039,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3926,
+       "ms": 5000,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 51,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -26580,6 +28690,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26589,17 +28711,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3976,
+     "ms": 5061,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3926,
+       "ms": 5000,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 50,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -26645,23 +28767,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.071,
+     "wallSec": 0.109,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.071,
+       "wallSec": 0.109,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.114,
+       "wallSec": 0.112,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0.114,
-     "reusedH2Sec": 0.114,
+     "reusedSec": 0.112,
+     "reusedH2Sec": 0.112,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26810,6 +28932,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26819,11 +28953,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 64,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 38,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -26999,6 +29133,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27008,11 +29154,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 30,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -27194,6 +29340,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27203,17 +29361,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3286,
+     "ms": 4741,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3286,
+       "ms": 4740,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -27395,6 +29553,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27404,11 +29574,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5736,
+     "ms": 9041,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5736,
+       "ms": 9041,
        "pass": true,
        "via": "targetIds"
       }
@@ -27596,6 +29766,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27605,17 +29787,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5516,
+     "ms": 7565,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5515,
+       "ms": 7565,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -27809,6 +29991,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27818,11 +30012,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11827,
+     "ms": 16253,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 11827,
+       "ms": 16253,
        "pass": true,
        "via": "targetIds"
       }
@@ -27998,6 +30192,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28007,11 +30213,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 18,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -28187,6 +30393,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28196,11 +30414,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 16,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -28376,6 +30594,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28385,11 +30615,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 461,
+     "ms": 599,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 461,
+       "ms": 599,
        "pass": true,
        "via": "targetIds"
       }
@@ -28577,6 +30807,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28586,29 +30828,29 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5217,
+     "ms": 7755,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2800,
+       "ms": 4199,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2416,
+       "ms": 3554,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturn-kframe-control",
+       "id": "behavior.saturn",
        "ms": 1,
        "pass": true,
-       "via": "claims+targetIds"
+       "via": "targetIds"
       },
       {
-       "id": "behavior.saturn",
-       "ms": 0,
+       "id": "behavior.saturn-muf-control",
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
@@ -28790,6 +31032,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28799,29 +31053,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5234,
+     "ms": 6719,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2779,
+       "ms": 3720,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2437,
+       "ms": 2965,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 18,
+       "ms": 33,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -28865,30 +31119,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.131,
+     "wallSec": 8.771,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.131,
+       "wallSec": 8.771,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.374,
+       "wallSec": 16.999,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 27.783,
+       "wallSec": 36.835,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 40.157000000000004,
-     "reusedH2Sec": 12.374,
-     "reusedH4Sec": 27.783
+     "reusedSec": 53.834,
+     "reusedH2Sec": 16.999,
+     "reusedH4Sec": 36.83500000000001
     },
     "regenSteps": [
      {
@@ -29054,6 +31308,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29063,29 +31329,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9484,
+     "ms": 13112,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 9413,
+       "ms": 13010,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 49,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 19,
+       "ms": 23,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 3,
+       "ms": 5,
        "pass": true,
        "via": "claims"
       }
@@ -29261,6 +31527,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29270,11 +31548,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 24,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -29450,6 +31728,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29459,11 +31749,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 15,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       }
@@ -29511,11 +31801,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 141.339,
+     "wallSec": 203.386,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 141.339,
+       "wallSec": 203.386,
        "reused": false,
        "reusedBy": null
       }
@@ -29682,6 +31972,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29691,17 +31993,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 265,
+     "ms": 364,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 237,
+       "ms": 318,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 28,
+       "ms": 46,
        "pass": true,
        "via": "claims"
       }
@@ -29892,6 +32194,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29901,11 +32215,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 386,
+     "ms": 409,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 386,
+       "ms": 409,
        "pass": true,
        "via": "targetIds"
       }
@@ -30081,6 +32395,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30090,17 +32416,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4678,
+     "ms": 7318,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4594,
+       "ms": 7197,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 84,
+       "ms": 121,
        "pass": true,
        "via": "targetIds"
       },
@@ -30289,6 +32615,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30298,17 +32636,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 127,
+     "ms": 167,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 114,
+       "ms": 142,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 13,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -30484,6 +32822,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30493,11 +32843,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 834,
+     "ms": 1614,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 834,
+       "ms": 1614,
        "pass": true,
        "via": "targetIds"
       },
@@ -30679,6 +33029,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30688,17 +33050,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2132,
+     "ms": 3091,
      "tests": [
       {
        "id": "preset.spinup",
-       "ms": 1140,
+       "ms": 1775,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-spinup",
-       "ms": 991,
+       "ms": 1315,
        "pass": true,
        "via": "targetIds"
       },
@@ -30880,6 +33242,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30889,11 +33263,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 136,
+     "ms": 892,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 136,
+       "ms": 892,
        "pass": true,
        "via": "targetIds"
       }
@@ -31069,6 +33443,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31078,11 +33464,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 150,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 35,
+       "ms": 150,
        "pass": true,
        "via": "targetIds"
       }
@@ -31258,6 +33644,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31267,11 +33665,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 136,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 14,
+       "ms": 136,
        "pass": true,
        "via": "targetIds"
       }
@@ -31447,6 +33845,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31456,11 +33866,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 148,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 14,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       }
@@ -31636,6 +34046,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31645,11 +34067,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 137,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 12,
+       "ms": 137,
        "pass": true,
        "via": "targetIds"
       }
@@ -31825,6 +34247,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31834,17 +34268,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 207,
+     "ms": 337,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 114,
+       "ms": 183,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 93,
+       "ms": 154,
        "pass": true,
        "via": "targetIds"
       }
@@ -32026,6 +34460,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32035,11 +34481,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 15,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -32215,6 +34661,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32224,11 +34682,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 12,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -32404,6 +34862,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32413,17 +34883,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 196,
+     "ms": 294,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 152,
+       "ms": 239,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 44,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -32599,6 +35069,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32608,11 +35090,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 20,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -32788,6 +35270,18 @@
       "always": false
      },
      {
+      "key": "fit-296b",
+      "sec": 460,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32797,17 +35291,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 59,
+     "ms": 85,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 31,
+       "ms": 45,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 28,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -32819,29 +35313,29 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 125,
-  "regenSecSum": 29967,
+  "regenSteps": 127,
+  "regenSecSum": 30452,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
-  "qaTotal": 1064,
-  "qaDurationMs": 1992880,
+  "qaTotal": 1081,
+  "qaDurationMs": 3015262,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 17,
-    "sec": 411.988
+    "sec": 533.579
    },
    "h4": {
     "n": 3,
-    "sec": 113.58200000000001
+    "sec": 134.645
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",
-   "unattributed": 4
+   "unattributed": 6
   }
  }
 }

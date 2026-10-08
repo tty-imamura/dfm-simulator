@@ -59,6 +59,9 @@ for (const [s0, e0] of spans) {
   } else merged.push([s0, e0]);
 }
 const body = merged.map(([s0, e0]) => lines.slice(s0, e0).map((l, k) => headRewrite.get(s0 + k) ?? l).join('\n')).join('\n');
+// 第296便(統合): tests/qa.mjs が最上位で作る世代定数(`const W29xX_… = …` の 1 行 —— fs/path/ROOT/TARGET だけを読む)を切り出しの前文に写す
+//   (枝 b・c の W296B_FITIDS / W296C_CHAIN などを参照するブロックが部分実行でも走るように —— 切り出した範囲に同じ宣言があれば二重になるので外す)
+const consts = lines.filter((l) => /^const W\d{3}[A-Z]_[A-Z0-9_]+ = /.test(l) && !merged.some(([s0, e0]) => lines.slice(s0, e0).includes(l))).join('\n');
 
 const src = `import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -99,6 +102,7 @@ const add = (id, pass, detail) => {
   results.push({ id, pass: !!pass, detail: String(detail ?? ''), ms });
   console.log(\`\${pass ? 'PASS' : 'FAIL'} \${id}\${detail ? '  ' + detail : ''}  [\${(ms / 1000).toFixed(1)}s]\`);
 };
+${consts}
 ${body}
 await browser.close();
 const pass = results.every((r) => r.pass);

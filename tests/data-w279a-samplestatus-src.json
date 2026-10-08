@@ -93,6 +93,18 @@
     "state": "solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain"
    }
   },
+  "chainDiskToy": {
+   "purpose": "自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る",
+   "objective": "met",
+   "state": "共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない",
+   "evidence": [
+    "tests/out/chain-w296c.json"
+   ],
+   "en": {
+    "purpose": "Test whether drag chains outward through neighbours of a spinning centre",
+    "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim"
+   }
+  },
   "earthMoonInertial": {
    "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
    "objective": "met",
@@ -129,6 +141,18 @@
     "state": "apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only"
    }
   },
+  "mercurySunInertialFit": {
+   "purpose": "🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる",
+   "objective": "met",
+   "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可",
+   "evidence": [
+    "tests/out/fit-w296b.json"
+   ],
+   "en": {
+    "purpose": "🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0)",
+    "state": "gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched"
+   }
+  },
   "plutoCharonInertial": {
    "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
    "objective": "met",
@@ -139,6 +163,18 @@
    "en": {
     "purpose": "Carry 🌛's gain in SI units; measure the Pluto-Charon period",
     "state": "rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only"
+   }
+  },
+  "plutoCharonInertialFit": {
+   "purpose": "🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる",
+   "objective": "met",
+   "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整",
+   "evidence": [
+    "tests/out/fit-w296b.json"
+   ],
+   "en": {
+    "purpose": "🟣 copy with prior cores; only the gain matched to the period (6.3872273 d)",
+    "state": "gain 6729.009; residual 3.25e-7 s <= h/2 4.56e-5 s (fitted); cores not identifiable"
    }
   },
   "boxBinaryToy": {
@@ -2378,6 +2414,12 @@
     "earthMoonSunInertial",
     "mercurySunInertial",
     "plutoCharonInertial"
+   ],
+   "behavior.chain296": [
+    "chainDiskToy"
+   ],
+   "docs.chainContract296": [
+    "chainDiskToy"
    ],
    "preset.conduction": [
     "conduction"

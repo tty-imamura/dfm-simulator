@@ -261,6 +261,14 @@
   .ppRow:active,.ppRow:hover{background:var(--panel2);}
   .ppRow[data-cur="1"]{outline:1px solid var(--acc);}
   .ppRow .ppTags{margin-left:auto;font-size:calc(10px*var(--uz,1));color:var(--dim);white-space:nowrap;}
+  /* 第296便d(原仮定者の裁定〔第86報〕・統括の検証項目 R160): **家族の折りたたみ**の行(button.ppFamFold —— 表示専用)。在位の変種が多い家族の
+     variant の行は .ppFamBody に入り、畳んだ家族は hidden(群の畳み .ppGroupBody と同じ作法)。行は primary の下に字下げして置き、
+     押せることが分かる見出しの色(--accText)・行より小さめの字・指で押せる高さ(36px)。折り返しで横にはみ出さない */
+  .ppFamFold{display:flex;align-items:center;width:100%;min-width:0;text-align:left;background:none;border:0;border-radius:var(--rS);
+    padding:4px 6px 4px 22px;min-height:36px;font-family:inherit;font-size:calc(12px*var(--uz,1));color:var(--accText);
+    cursor:pointer;overflow-wrap:anywhere;}
+  .ppFamFold:active,.ppFamFold:hover{background:var(--panel2);}
+  .ppFamBody[hidden]{display:none!important;}
   /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右)
      第62便(原仮定者指示): カテゴリ側を狭めてタイトル(一覧)側を広げる */
   #presetGroupSelect{flex:0 0 72px;min-width:0;padding:8px 6px;}
@@ -270,6 +278,7 @@
   #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
     text-shadow:0 1px 2px #000;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;
     max-width:calc(100% - 16px);}   /* 第52便(原仮定者指示): 詳細表示の長行を画面幅で折り返し(見切れ防止) */
+  #hud .hudErr{color:var(--err);font-weight:600;}   /* 第296便c: 連鎖の解法の未収束(赤 —— キャンバスは常に暗い地) */
   /* 第27便: タイトルタップのアプリ説明パネル */
   .title{cursor:pointer;}
   /* 第278便e(原仮定者の裁定(第68報)「UI」②「『このアプリについて』『監査ビュー』のウィンドウは
@@ -690,6 +699,14 @@
   .odRow{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border-top:1px solid var(--line);padding:3px 0;}
   .odRow .odName{flex:1 1 100%;font-weight:700;overflow-wrap:anywhere;}
   .odRow .odDelta{font-weight:700;}
+  /* 第296便b: フィットの記録(#fitRecordBox —— 失敗から見る・観測結果カードの箱〔.ffBox〕とは別のクラス) */
+  .frBox{border:1px solid var(--line);border-radius:var(--rL);padding:6px 10px;margin:8px 0;background:var(--panel2);}
+  details.frBox>summary{cursor:pointer;min-height:34px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;touch-action:manipulation;list-style-position:inside;}
+  .frHead{font-weight:700;font-size:calc(12px*var(--uz,1));margin:2px 0 4px;}
+  .frNote{font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--dim);margin:2px 0 4px;}
+  .frRow{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border-top:1px solid var(--line);padding:3px 0;overflow-wrap:anywhere;font-size:calc(12px*var(--uz,1));line-height:1.55;}
+  .frRow .frKey{flex:0 0 auto;font-weight:700;}
+  .frRow[data-k="status"] .frVal{font-size:calc(10.5px*var(--uz,1));padding:0 6px;border-radius:999px;border:1px solid var(--line);}
   .odRow .odMissTxt,.odRow .odSigMiss,.odRow .odRelMiss{color:var(--dim);}
   .odRow .odGate,.odVerdictRow .odVerdict{font-size:calc(10.5px*var(--uz,1));padding:0 6px;border-radius:999px;border:1px solid var(--line);color:var(--fg);}
   .odRow .odGate[data-g="合(3σ)"]{border-color:var(--ok);}
@@ -799,7 +816,7 @@
   button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,
   a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:1px;}
   nav#tabs button:focus-visible,#transport button:focus-visible,.ppRow:focus-visible,
-  .ppGroupHead:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;}
+  .ppGroupHead:focus-visible,.ppFamFold:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;}
   /* 第279便d: 粒子の編集パネルの小見出し 4 つは html 本文の style 属性で --acc を持つ —— CSS だけで
      文字用の色へ寄せる(!important はこの 4 つの id だけ・本文の style 属性は変えない) */
   #beLayTitle,#beLyNumHead,#beLcvTitle,#beLinTitle{color:var(--accText)!important;}
@@ -1277,6 +1294,12 @@ const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
 // ===== i18n(v1.10): 日本語/英語切り替え。既定 ja、localStorage hp_lang に永続化 =====
 let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
 // >>> w275a-generated: i18n
+// 第296便a(原仮定者の裁定(第86報)「DFM アプリは、現実の物理の再現の主張はしないが、アプリ内での整合性を整えて観測値に合わせられることを主張する」・
+// 統括の検証項目 R157): **アプリの主張の文は 1 か所**(ja/en)。`T("claimScope")`・説明パネル(aboutBody)・SYSTEM_PROMPT が同じ文を読み、
+// README・docs/AI_SPEC.md §59・docs/PHYSICS.md〔第296便a〕は逐語で転記する(QA behavior.sampleGenContract296 が照合する)
+const CLAIM_SCOPE=Object.freeze({
+  ja:"DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。",
+  en:"DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched."});
 const I18N = {
 ja: {
   appTitle:"DFM Lab", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",   // 第23便: 左上タイトルを短縮(document.title は不変)
@@ -1316,6 +1339,9 @@ ja: {
   // 第82便: サンプルのファミリー表示 — 「すべて表示」トグル(ヘッダー)・説明パネルの「この仲間」導線
   // 第294便e(原仮定者の裁定(第84報)④⑤・R152): 「すべて表示」の切り替えは撤去(常に全て表示)。変種の家族の表示語(旧「└ 」の代わり)
   familyTag:(e)=>e+" の家族",
+  // 第296便d(原仮定者の裁定(第86報)・R160): 在位の variant が多い家族(FAMILY_FOLD_MIN_VARIANTS 本以上)の折りたたみの行(表示専用)
+  famFoldOpen:(n,e)=>"〔+"+n+" 本の家族を開く("+e+")〕", famFoldClose:(n,e)=>"〔"+n+" 本の家族を畳む("+e+")〕",
+  famFoldTip:(e,m)=>e+" の家族は在位の変種が "+m+" 本以上あるので、一覧では既定で畳みます(選択中の本・検索や絞り込みに当たった本は畳みません)。開閉は家族ごとにこの端末に記憶します",
   familyRowLabel:"この仲間:",
   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
   retiredTag:"退役(履歴)",
@@ -1348,7 +1374,7 @@ ja: {
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
   grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
-  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(目的の組 —— 語は第295便d・原仮定者の裁定(第85報))**: 0=汎用 / 1=1PN準拠(観測再現の組 —— 1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり近似(kFrame=1 —— q を使った引きずりの近似・較正母集団の外〔第288便b〕)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— 旧法則版 spaceMesh.lawVersion を宣言した本はその版で走る) / 4=空間メッシュ(旧法則版 spaceMesh.lawVersion の可視化と零試験の置き場 —— 新しい物理モードではない・第295便b)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。**第288便f**: 「背景決定力 D₀」の次の行は**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(目的の組 —— 語は第295便d・原仮定者の裁定(第85報))**: 0=汎用 / 1=1PN準拠(観測再現の組 —— 1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり近似(kFrame=1 —— q を使った引きずりの近似・較正母集団の外〔第288便b〕)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— 旧法則版 spaceMesh.lawVersion を宣言した本はその版で走る) / 4=空間メッシュ(旧法則版 spaceMesh.lawVersion の可視化と零試験の置き場 —— 新しい物理モードではない・第295便b)。**在位の旧メッシュは 4 に移った(3 の旧法則版は旧 JSON だけ —— 第296便d)**。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。**第288便f**: 「背景決定力 D₀」の次の行は**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
   grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
@@ -1383,7 +1409,7 @@ ja: {
   /* 第289便f(原仮定者の裁定(第79報)・AN103「Wbg は A/B へ写さない・単位と説明は直す」・統括の検証項目 R124): 「kFrame=0 では力に入らない」は
      広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで Wbg 1.5→4.5 の 1 步で vx の最大差 7.4e-4)。
      現実較正の geoPN=1・kFrame=0 の軌道力に限定し、単位は採用した核の M/L^p(wbgConvStr)と書く */
-  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(geoPN=3 の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
+  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
   wbgDesc:"静止背景相当 Wbg — 慣性決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
     +"(中心の自転を読むトイ〔geoPN=3・lawVersion scalar・centerSpin read〕だけ)→ frameWeight pull の D0pull → D₀ の順。"
     +"単位は採用した核の M/L^p(frameWeight の冪 p —— share は p=1 で M/L・pull は p=2 で M/L²・pull3/pull4 は M/L³・M/L⁴。換算表示もこの p で引く)。"
@@ -1607,7 +1633,7 @@ ja: {
      積分器へ接続していない(意図された未接続)ので、作動中の語としては 1 度も出せない */
   bdgMesh_law:(v)=>"空間メッシュ: "+v+"・実験",
   bdgMesh_v2:"空間メッシュ: v2・実験",
-  bdgMesh_geo3:(pn,pv,vm,g)=>"geoPN="+(g===4? 4 : 3)+" / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+"・実験",   // 第295便b: 宣言の番号(3/4)   // 第280便c(速度分解の契約 —— トイではない)
+  bdgMesh_geo3:(pn,pv,vm,g)=>"geoPN="+((g===4 || g===0)? g : 3)+" / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+"・実験",   // 第296便a: 0(旧メッシュを geoPN=0 で走らせた本)も宣言の番号   // 第295便b: 宣言の番号(3/4)   // 第280便c(速度分解の契約 —— トイではない)
   bdgMesh_declared:"空間メッシュ: 宣言のみ(測地線トイは未選択)",
   bdgMesh_stopped:(r)=>"メッシュ未作動: "+r,
   bdgMesh_dragOverlay:" +引きずり重畳(明示した実験 variant)",
@@ -1854,13 +1880,13 @@ ja: {
   modeLawName_geodesic:"測地線(physics.geodesic:true)", modeLawName_relativeDrag:"慣性決定力(relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"旧空間メッシュ(spaceMesh.lawVersion)",
   geo0ChoiceLabel:"geoPN=0 の基底(排他な宣言を選ぶ)",
   geo0Choice_newton:"ニュートンだけ", geo0Choice_geodesic:"測地線(1PN)", geo0Choice_inertial:"慣性決定力(gain)",
-  geo0Choice_legacy:"旧空間メッシュ(宣言だけ残す —— geoPN=0 では走りません)", geo0Choice_stack:"重ねる(宣言を残す・警告だけ)",
+  geo0Choice_legacy:"旧空間メッシュ(spaceMesh.lawVersion —— geoPN=0 でも走ります)", geo0Choice_stack:"重ねる(宣言を残す・警告だけ)",
   geo0ChoiceApply:"適用",
   geo0ChoiceConfirm:(lab,rm,ad)=>"geoPN=0 の基底を「"+lab+"」にします。\n外す宣言: "+(rm||"なし")+"\n足す宣言: "+(ad||"なし")+"\nkFrame は変えません。よろしいですか?",
   geo0ChoiceDone:(lab,law)=>"geoPN=0 の基底を「"+lab+"」にしました(走る法則 "+law+" —— 慣性の履歴は作り直し・最初の步は u=0)",
   geo0ChoiceNoop:"宣言は変わりません(いまの選択のまま —— 重ねるは警告だけ)",
   geo0ChoiceBad:(e)=>"切り替えられません: "+e,
-  geo0ChoiceDesc:"geoPN=0 は汎用の実験台です —— ニュートン・測地線(1PN)・慣性決定力の引きずり・旧空間メッシュのどれでも試せます。これらは排他な座標法則なので、ここで 1 つを選ぶと、確認のあとで他の宣言を外します(kFrame は変えません)。「重ねる」は宣言を残したまま警告だけを出します(比較用の実験設定)。旧空間メッシュの宣言は geoPN=0 では走りません(宣言だけを残す)。",
+  geo0ChoiceDesc:"geoPN=0 は汎用の実験台です —— ニュートン・測地線(1PN)・慣性決定力の引きずり・旧空間メッシュのどれでも試せます。これらは排他な座標法則なので、ここで 1 つを選ぶと、確認のあとで他の宣言を外します(kFrame は変えません)。「重ねる」は宣言を残したまま警告だけを出します(比較用の実験設定)。旧空間メッシュ(spaceMesh.lawVersion)は geoPN=0 でも geoPN=4 と同じ経路で走ります(入場条件を満たさないときは走らず、その理由を表示します)。",
   geoInertialGainLabel:"慣性決定力の引きずりの gain C_d [L³/M](宣言済み —— 他の鍵は保つ)",
   geoInertialGainApply:"gain を更新",
   geoInertialGainDone:(g)=>"慣性決定力の引きずりの gain を "+g+" にしました(pairs・eps・coreTable・compose・solveFrom は保持 —— 履歴は作り直し・最初の步は u=0)",
@@ -1869,22 +1895,29 @@ ja: {
   // 第294便a(原仮定者の裁定(第84報)・R148): geoPN=3 は慣性決定力の有効化の印(慣性宣言の 3 = 測地線 OFF・1PN なし)
   modeWarn_inertialPlusGeodesic:(g,law)=>"geoPN=3「"+T("ppGeo3")+"」の慣性決定力の引きずりに physics.geodesic:true を重ねています(慣性決定力の組は測地線 OFF・1PN なし —— この宣言は走行に効きません・走る法則 "+law+")",
   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN=4(空間メッシュ —— 旧法則版の置き場)の逸脱 3 本(文は目的の組の書式 —— 保存・読込・赤文字で共通)
-  modeWarn_geo4NoMesh:(legacy,off,law)=>"geoPN=4「"+T("ppGeo4")+"」で旧法則版が走っていません("
-    +(legacy===null? "physics.spaceMesh.lawVersion が未宣言" : "旧法則版 "+legacy+" は入場条件("+off+")で無効")+" —— 測地線の法則 "+law+" で走ります。この組は旧法則版の置き場で、旧法則版が走るのが標準)",
-  modeWarn_geo4Inertial:(law)=>"geoPN=4「"+T("ppGeo4")+"」に慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")を重ねています(この組の標準は慣性なし・慣性決定力の組は geoPN=3・走る法則 "+law+")",
+  // 第296便c(原仮定者の裁定(第86報)・R159): 4 は「旧メッシュ(互換)」か「慣性の連鎖(新標準)」—— どちらも無い 4 の文と、新しい 2 本(geo4Solver・geo4Both)
+  modeWarn_geo4NoMesh:(legacy,off,law)=>"geoPN=4「"+T("ppGeo4")+"」で旧法則版も慣性の連鎖も走っていません("
+    +(legacy===null? "physics.spaceMesh.lawVersion が未宣言" : "旧法則版 "+legacy+" は入場条件("+off+")で無効")+" —— 測地線の法則 "+law+" で走ります。この組には旧メッシュ(spaceMesh.lawVersion)か慣性の連鎖の宣言(relativeDrag.law:\"inertial\"・solver:\"network-pcg-v1\")が要る)",
+  modeWarn_geo4Inertial:(law)=>"geoPN=4「"+T("ppGeo4")+"」で旧メッシュ(spaceMesh.lawVersion)と慣性決定力の引きずり(relativeDrag.law:\"inertial\")が両方走っています(4 の標準はどちらか一方 —— 旧メッシュ(互換)か慣性の連鎖・走る法則 "+law+")",
+  modeWarn_geo4Both:(law)=>"geoPN=4「"+T("ppGeo4")+"」で旧メッシュ(spaceMesh.lawVersion)と慣性決定力の引きずり(relativeDrag.law:\"inertial\")が両方走っています(4 の標準はどちらか一方 —— 旧メッシュ(互換)か慣性の連鎖・走る法則 "+law+")",
+  modeWarn_geo4Solver:(law)=>"geoPN=4「"+T("ppGeo4")+"」の慣性の引きずりに連鎖の解法の宣言がありません(physics.relativeDrag.solver:\"network-pcg-v1\" —— 多粒子で収束を確かめる解法。未宣言は n>64 で Gauss–Seidel の固定回数・走る法則 "+law+")",
+  chainSolveFail:(k,res,it,tol)=>"連鎖の解法(network-pcg-v1)が収束しませんでした —— その步の引きずりは採用せず(u=0)、実行を止めました(未収束 "+k+" 回・残差 "+(Number.isFinite(res)? res.toExponential(2) : "—")+"・門 "+(Number.isFinite(tol)? tol.toExponential(0) : "—")+"・反復 "+it+")。solverMaxIter・gain・dt を見直してください",
+  chainSolveFailHud:(k,res,it,tol)=>"⚠ 連鎖の解法 未収束 "+k+" 回(残差 "+(Number.isFinite(res)? res.toExponential(2) : "—")+" > 門 "+(Number.isFinite(tol)? tol.toExponential(0) : "—")+"・反復 "+it+")—— その步の引きずりは 0",
   modeWarn_geo4KFrame:(kf,law)=>"geoPN=4「"+T("ppGeo4")+"」で kFrame="+kf+" —— 旧法則版は kFrame=0 が標準です(重ねるなら physics.spaceMesh.toyAllowDrag:true を明示。走る法則 "+law+")",
-  geo4NoMesh:(law)=>"測地線モード geoPN=4(空間メッシュ): 旧法則版(physics.spaceMesh.lawVersion)が走っていません —— 測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
+  modeWarn_geo1Fitted:(knobs)=>"geoPN=1「"+T("ppGeo1")+"」は観測入力のまま照合する基準です(法則のノブをフィットしない)—— この本のフィット記録(fitRecord)は法則のノブ "+knobs+" を観測値に合わせています。フィットした模型は geoPN=1 以外の本として宣言してください(読込・走行は止めません・記録も捨てません)",   // 第296便a(原仮定者の裁定(第86報)・R157)
+  geo4NoMesh:(law)=>"測地線モード geoPN=4(空間メッシュ・連鎖): 旧メッシュ(physics.spaceMesh.lawVersion)も慣性の連鎖の宣言(relativeDrag.law:\"inertial\")も走っていません —— 旧メッシュか慣性の連鎖の宣言が要ります。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
   geo3InertialOn:"測地線モード geoPN=3: 慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が宣言されています —— 測地線 OFF・1PN なし・法則 inertial-drag で走ります",
   geo3InertialLabel:"慣性決定力の引きずりを宣言する(gain C_d [L³/M])",
   geo3InertialApply:"宣言",
   geo3InertialDone:(g)=>"physics.relativeDrag={law:\"inertial\", gain:"+g+"} を宣言しました(合成則は既定の solve —— 測地線 OFF・1PN なし・法則 inertial-drag。履歴は作り直し・最初の步は u=0)",
   geo3InertialBad:(e)=>"宣言できません: "+e,
-  geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ)",
+  geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ) 第296便c: geoPN=4(空間メッシュ・連鎖)で旧法則版の宣言が無い本にも出し、4 では連鎖の解法 solver:\"network-pcg-v1\" も一緒に宣言します。",
   loadComposeLegacy:"このセーブは第293便より前の保存です —— 慣性引きずり(law:\"inertial\")の合成則が未宣言で、保存したときは加算(sum)で走っていました。いまは既定の solve(velocity)で走ります(加算で比べるなら relativeDrag.compose:\"sum\" を明示。値は保存どおり)",
   modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 空間メッシュ —— 旧法則版の置き場)。値は保存どおりに読み込み、走る法則は宣言(physics.spaceMesh.lawVersion・physics.relativeDrag・physics.geodesic)から決まります。用途と違う組み合わせは保存時に警告します。",
-  ppGeoUse0:"汎用 —— 原理実証など(測地線は physics.geodesic:true で使える)", ppGeoUse1:"1PN 準拠(観測再現の組)—— GR 1PN(標準 kFrame=0)",
-  ppGeoUse2:"引きずり近似 —— q で近似(標準 kFrame=1)", ppGeoUse3:"慣性決定力 —— 引きずりを慣性決定力で計算(旧法則版 spaceMesh も宣言どおり走る)",
-  ppGeoUse4:"空間メッシュ —— 旧法則版(spaceMesh.lawVersion)の可視化と零試験の置き場(新しい物理モードではない・標準 kFrame=0)",
+  // 第296便d(原仮定者の裁定(第86報)・R160): 用途文 0〜3 を短く —— 番号は目的別の推奨構成・設定の逸脱は保存時に警告(ppGeoN の語は繰り返さない)
+  ppGeoUse0:"推奨は法則 1 つの実験台(測地線・慣性の引きずり・旧メッシュを重ねると保存時に警告)", ppGeoUse1:"推奨は GR 1PN・kFrame=0(観測再現の組 —— 逸脱は保存時に警告)",
+  ppGeoUse2:"推奨は q の引きずり・kFrame=1(逸脱は保存時に警告)", ppGeoUse3:"推奨は relativeDrag.law:\"inertial\" の宣言・kFrame=0(逸脱は保存時に警告)",
+  ppGeoUse4:"空間メッシュ・連鎖 —— 多粒子の連鎖引きずり(慣性 + solver:network-pcg-v1・標準 kFrame=0)と、旧法則版(spaceMesh.lawVersion)の互換の置き場",
   bdgMeshStop_undeclared:"旧法則版の宣言なし(physics.spaceMesh.lawVersion)—— 測地線の法則で走っている",
   saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
   contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
@@ -1997,7 +2030,8 @@ ja: {
   helpTheory:"この現象の法則(自動抽出)",
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
   aboutTitle:"このアプリについて",   // 第27便: タイトルタップの説明パネル
-  aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。DFM は現実の宇宙を主張しません —— 主張するのは、宣言した仮定の内部で保存・対称性・関数形の帰結が互いに矛盾しないことです。観測との突合(較正)はその検査であり、「合」は仮定と転写が窓に入ったことであって、宇宙がそう成り立っていることの主張ではありません。",
+  aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。DFM は現実の宇宙を主張しません —— 主張するのは、宣言した仮定の内部で保存・対称性・関数形の帰結が互いに矛盾しないことです。観測との突合(較正)はその検査であり、「合」は仮定と転写が窓に入ったことであって、宇宙がそう成り立っていることの主張ではありません。"+CLAIM_SCOPE.ja+"",   // 第296便a(原仮定者の裁定(第86報)・R157): 主張の文(1 か所 —— 末尾の空文字は行の形〔文字列で終わる行〕を保つ —— 旧 QA docs.claimScope が行を読む)
+  claimScope:CLAIM_SCOPE.ja,
   // 第88便(v1.39-b1 スプリント1)EXT-01: 初見ガイド(3枚カード — 表示専用)
   fvTitle:"DFM Lab へようこそ",
   fvCard1Head:"❶ DFM とは",
@@ -2034,10 +2068,18 @@ ja: {
   nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
   nc_apsidal_8p85_fit:"近点回転 8.85 年は引きずりの係数 gain(C_d)を 1 次元でフィットした推定であり、較正の合でも、慣性決定力が較正ゼロで出した値でもない(実際の主因は太陽摂動)。",   // 第292便c(統合: 🌜 と鍵を分けた —— 🌛 のフィットの注記)
   // 第295便c(原仮定者の裁定(第85報)・R155): 慣性決定力版サンプル 3 本(🌤️🟤🟣)の注記
-  nc_gain_universal:"引きずりの係数 gain(C_d)の普遍性は主張しない —— 🌛 の 1 次元フィットの推定値を同じ SI 係数 0.0514182 m³/kg として単位換算で移送しただけで、この本では合わせ直していない。",
+  nc_gain_universal:"引きずりの係数 gain(C_d)の普遍性は主張しない —— 本ごとの宣言値である(慣性決定力版の 3 本は 🌛 の 1 次元フィットの推定値を同じ SI 係数 0.0514182 m³/kg として単位換算で移送しただけで、この本では合わせ直していない)。",   // 第296便c: 🔗 も同じ鍵を持つので「本ごとの宣言値」を先に置いた(3 本の文は括弧の中に残した)
   nc_apsidal_8p85_transfer:"月の近点回転 8.85 年をこの本が出したとは主張しない(gain は 🌛 から移送した宣言値・近点周期は測った値の記録・主因は太陽摂動)。",
   nc_perihelion_43:"水星の近日点前進 43″/世紀(1PN の量)をこの本の目的にしない —— この本は 1PN を入れておらず、gain をその値に合わせてもいない。",
   nc_period_fit:"公転周期の観測との差を gain で埋めた本ではない —— gain は移送した宣言値で、周期の動きは測った値の記録である。",
+  // 第296便c(原仮定者の裁定(第86報)・R159): 連鎖引きずりの試作本(🔗)の注記
+  nc_galaxy_disk:"円盤(銀河の円盤を含む)の形成・構造を出した本ではない —— 静止して置いた粒子が自転する中心と隣の粒子に引きずられて回る、連鎖の原理だけを見せる。",
+  nc_flat_rotation:"平坦な回転曲線を出した・説明したとは主張しない —— 角変位の帯ごとの値は連鎖の度合いの記録で、回転曲線へのフィットはしていない。",
+  // 第296便b(原仮定者の裁定(第86報)・R158): フィットの派生本(🟫🟪)の注記 —— 親の注記のうちフィットと食い違うもの(🟤 の perihelion_43・🟣 の period_fit・両方の gain_universal)はフィット版の鍵に置き換えた
+  nc_perihelion_43_fit:"43″/世紀(1PN の量)を DFM から導いたとは主張しない —— この本は 1PN を入れておらず、gain 0 の対照との近点率の差がその値になるように慣性引きずりの gain を合わせた(フィット)だけである。",
+  nc_period_target_fit:"公転周期を予言したとは主張しない —— 周期は gain を合わせた標的(フィットの入力)で、合わせた値は予測ではない。",
+  nc_gain_universal_fit:"gain(C_d)を全系に共通の定数とは主張しない —— この本の gain は宣言した 1 量へのフィットで、系ごとの経験係数である(移送値・他の系のフィット値と一致しない —— 共通係数は見つかっていない)。",
+  nc_single_quantity_fit:"宣言した 1 つの観測量だけに合わせた —— 他の量(周期・離心率・軌道の形)は合わせておらず、構造核 dragCore の値は内部核の測定値ではない(1 量では gain と分けて決められない)。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -2065,7 +2107,7 @@ ja: {
   // 第284便d(原仮定者の裁定(第74報)⑦「『サンプルを選ぶ』に geoPN の絞り込みを追加」): 4 つ目の絞り込み次元。
   // 値は geoModeOf の役割(role)から導く派生値で、宣言(presetSig・保存 JSON)は 1 bit も変えない
   ppDimGeo:"geoPN", ppGeo0:"0: 汎用", ppGeo1:"1: 1PN準拠", ppGeo2:"2: 引きずり近似", ppGeo3:"3: 慣性決定力",   // 第295便d(原仮定者の裁定(第85報)・R156): 目的の組の語
-  ppGeo4:"4: 空間メッシュ",   // 第295便b(原仮定者の裁定(第85報)・R154): 桶 4 —— 旧法則版(spaceMesh.lawVersion)の置き場
+  ppGeo4:"4: 空間メッシュ・連鎖",   // 第295便b(原仮定者の裁定(第85報)・R154): 桶 4 —— 旧法則版(spaceMesh.lawVersion)の置き場
   ppNoteGeoHead:"geoPN はサンプルの測地線モードの宣言(physics.geoPN)で、ここでは geoModeOf が導く役割で数える(表示専用 — 物理・保存 JSON には一切影響しない)。件数は実行時に数える(退役・非表示の本を含む全内蔵)。",
   ppNoteGeoCompat:"geoPN=2・kFrame=0 の旧宣言(互換入力)は 1PN準拠の既定(geoPN=1・kFrame=0)と同じ処理で走るので 1 に数える",
   // 第285便e(原仮定者の裁定(第75報)⑧): 絞り込みの畳み(要約行)と「その他」のチップ(複数 AND)。語は既存の宣言の名前だけ
@@ -2331,6 +2373,12 @@ ja: {
   odText:(n)=>"数の無い台帳の行 "+n+"(文の行 —— 差は作れない)",
   odVerdictHead:"台帳の 4 値",
   odEmpty:"観測値・模型値の数を持つ量が台帳に無い",
+  // 第296便b(原仮定者の裁定(第86報)・R158): 説明タブの「フィットの記録」(fitRecord の表示 —— 表示専用・このページでは測り直さない)
+  frHead:"フィットの記録(宣言した 1 量へのフィット)",
+  frNote:"生成器 tests/exp-w296b-fit.mjs が作った記録(fitRecord —— 正本 tests/out/fit-w296b.json と同じ値)をそのまま並べる。宣言した法則・単位・窓の中でアプリ内の整合を整え、宣言した 1 つの観測量にノブを合わせた結果で、他の量は合わせていない。このページでは何も測っていない(記録の文は生成器の原文)。",
+  frParent:"親(移送の対照)", frTarget:"標的", frKnob:"ノブ", frFixed:"固定した宣言", frProc:"手順", frResidual:"残差(模型−標的)", frNumerics:"数値誤差(|h − h/2|)",
+  frStatus:"状態", frNotFitted:"合わせていない量", frNotIdent:"同定できない", frRange:"探索範囲", frFinal:"最終値", frSteps:"步",
+  frStatus_fitted:"fitted —— 根を挟み、残差が数値誤差の帯の中", "frStatus_unreachable-in-bounds":"unreachable-in-bounds —— 探索範囲で根を挟めない(成果として記録)", "frStatus_not-identifiable":"not-identifiable —— 残差が数値誤差の帯の外か、量が決まらない",
   helpObsCompare:"説明タブの「📊 観測との差」は、判定器の正本(calaudit)の量ごとに観測値を中心線・±3σ を緑の帯・実行値を点として 1 行 1 量で並べる表示専用のグラフです(系列・量・尺度 %/σ・横軸の範囲・検索・退役の表示を切り替え)。帯の中でも「合」とは書かず、合否は右欄の正式判定(3σ 門)だけです(第285便d)。",
   avTitle:"実在天体との照合ファミリー監査ビュー",
   avNote:"実在天体との照合ファミリーのサンプルを1画面に並べた**表示専用**の監査ビュー(第146便)。各カードの内容は、そのサンプルが宣言した failureFirst(失敗と結果)・parameterAudit(観測入力・fit・導出)・claims(役割・説明文の実測値・QA テストID)から**毎回その場で組み立てている**。ビューは独自の数値を1つも持たない — 宣言に無い項目は空欄になる。物理・保存 JSON・AI 仕様には一切影響しない。",
@@ -2463,6 +2511,9 @@ en: {
   // 82nd delivery: sample family display — the "show all" header toggle, and the "Family:" links in the description panel
   // wave 294e (R152): the "Show all" toggle is gone (everything is always listed); the family word of a variant (replaces the old "└ ")
   familyTag:(e)=>e+" family",
+  // wave 296d: the fold row of a family with many listed variants (FAMILY_FOLD_MIN_VARIANTS or more) - display only
+  famFoldOpen:(n,e)=>"〔+"+n+" family members - show ("+e+")〕", famFoldClose:(n,e)=>"〔hide "+n+" family members ("+e+")〕",
+  famFoldTip:(e,m)=>"The "+e+" family has "+m+" or more listed variants, so the list folds them by default (the selected sample and samples matching a search or filter are never folded). Open/closed is remembered per family on this device",
   familyRowLabel:"Family:",
   // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
   retiredTag:"retired (history)",
@@ -2494,7 +2545,7 @@ en: {
   // wave 95: category descriptions (ⓘ) for every category
   grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
-  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A PURPOSE SET — words from wave 295d, the adjudicator's ruling, 85th report): 0 = general / 1 = 1PN-compliant (the observation-reproduction set — 1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = drag approximation (kFrame=1 — the drag approximation using q, outside the calibration population [wave 288b]) / 3 = inertial determinacy (dragging computed from the inertial determinacy — a sample that declares a legacy spaceMesh.lawVersion runs that legacy law) / 4 = space mesh (the home of the legacy spaceMesh law versions for visualisation and null tests - not a new physics mode; wave 295b). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). Wave 288f: the row after 'Background determinacy D0' is the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0).",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A PURPOSE SET — words from wave 295d, the adjudicator's ruling, 85th report): 0 = general / 1 = 1PN-compliant (the observation-reproduction set — 1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = drag approximation (kFrame=1 — the drag approximation using q, outside the calibration population [wave 288b]) / 3 = inertial determinacy (dragging computed from the inertial determinacy — a sample that declares a legacy spaceMesh.lawVersion runs that legacy law) / 4 = space mesh (the home of the legacy spaceMesh law versions for visualisation and null tests - not a new physics mode; wave 295b). THE LISTED LEGACY-MESH SAMPLES HAVE MOVED TO 4 (a legacy law under 3 now comes only from old JSON - wave 296d). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). Wave 288f: the row after 'Background determinacy D0' is the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
   grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
@@ -2527,7 +2578,7 @@ en: {
   wbgLabel:"Static-background equiv. Wbg",
   /* Wave 289f (the originator's ruling, report 79; AN103; the coordinator's check item R124): "does not enter the force when kFrame=0" was too broad
      (🧩 reads Wbg at geoPN=3, kFrame=0). Limited to the orbital force of the reality calibration (geoPN=1, kFrame=0); unit M/L^p of the adopted kernel */
-  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the geoPN=3 field and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
+  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the legacy space-mesh field (a legacy geoPN=3 declaration, or geoPN=4) and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
   wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the inertial determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
     +"(only for the toys that read the centre's spin - geoPN=3, lawVersion scalar, centerSpin read) -> D0pull of frameWeight pull -> D0. "
     +"Unit: M/L^p of the adopted kernel (the frameWeight power p - share is p=1, M/L; pull is p=2, M/L^2; pull3/pull4 are M/L^3 and M/L^4; the scale conversion uses this p too). "
@@ -2738,7 +2789,7 @@ en: {
      wired into the integrator (an intended non-connection), so it can never be printed as acting */
   bdgMesh_law:(v)=>"Space mesh: " + v + " - experimental",
   bdgMesh_v2:"Space mesh: v2 - experimental",
-  bdgMesh_geo3:(pn,pv,vm,g)=>"geoPN="+(g===4? 4 : 3)+" / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+" - experimental",   // wave 295b: the declared number (3/4)   // wave 280c
+  bdgMesh_geo3:(pn,pv,vm,g)=>"geoPN="+((g===4 || g===0)? g : 3)+" / vMinusU / pn:"+pn+(pv? "("+pv+")" : "")+" - experimental",   // wave 296a: 0 as declared too   // wave 295b: the declared number (3/4)   // wave 280c
   bdgMesh_declared:"Space mesh: declared only (the geodesic toy is not selected)",
   bdgMesh_stopped:(r)=>"Mesh not acting: " + r,
   bdgMesh_dragOverlay:" + dragging overlaid (an explicitly declared experiment variant)",
@@ -2984,13 +3035,13 @@ en: {
   modeLawName_geodesic:"geodesic (physics.geodesic:true)", modeLawName_relativeDrag:"inertial determinacy (relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"legacy space mesh (spaceMesh.lawVersion)",
   geo0ChoiceLabel:"geoPN=0 basis (pick one exclusive declaration)",
   geo0Choice_newton:"Newton only", geo0Choice_geodesic:"Geodesic (1PN)", geo0Choice_inertial:"Inertial determinacy (gain)",
-  geo0Choice_legacy:"Legacy space mesh (keep the declaration only - it does not run at geoPN=0)", geo0Choice_stack:"Stack (keep the declarations; warning only)",
+  geo0Choice_legacy:"Legacy space mesh (spaceMesh.lawVersion - it runs at geoPN=0 too)", geo0Choice_stack:"Stack (keep the declarations; warning only)",
   geo0ChoiceApply:"Apply",
   geo0ChoiceConfirm:(lab,rm,ad)=>"Set the geoPN=0 basis to \""+lab+"\".\nDeclarations removed: "+(rm||"none")+"\nDeclarations added: "+(ad||"none")+"\nkFrame is not changed. Continue?",
   geo0ChoiceDone:(lab,law)=>"Set the geoPN=0 basis to \""+lab+"\" (law run: "+law+" - the inertial history restarts; the first step has u=0)",
   geo0ChoiceNoop:"No declaration changes (the current choice - stacking only warns)",
   geo0ChoiceBad:(e)=>"Cannot switch: "+e,
-  geo0ChoiceDesc:"geoPN=0 is the general-purpose test bench - Newton, the geodesic (1PN), the inertial-determinacy drag or the legacy space mesh can all be tried. They are exclusive coordinate laws, so picking one here removes the other declarations after a confirmation (kFrame is not changed). \"Stack\" keeps the declarations and only warns (an experimental comparison). The legacy space-mesh declaration does not run at geoPN=0 (only the declaration is kept).",
+  geo0ChoiceDesc:"geoPN=0 is the general-purpose test bench - Newton, the geodesic (1PN), the inertial-determinacy drag or the legacy space mesh can all be tried. They are exclusive coordinate laws, so picking one here removes the other declarations after a confirmation (kFrame is not changed). \"Stack\" keeps the declarations and only warns (an experimental comparison). The legacy space mesh (spaceMesh.lawVersion) runs at geoPN=0 too, on the same path as geoPN=4 (when its entry conditions fail it does not run and the reason is shown).",
   geoInertialGainLabel:"Gain C_d [L^3/M] of the inertial-determinacy drag (declared - the other keys are kept)",
   geoInertialGainApply:"Update gain",
   geoInertialGainDone:(g)=>"Set the inertial-determinacy drag gain to "+g+" (pairs, eps, coreTable, compose and solveFrom are kept - the history restarts; the first step has u=0)",
@@ -2999,22 +3050,29 @@ en: {
   /* Wave 294a (originator's ruling, report 84; R148): geoPN=3 marks the inertial-determinacy drag as enabled (geodesic off, no 1PN) */
   modeWarn_inertialPlusGeodesic:(g,law)=>"The inertial-determinacy drag under geoPN=3 \""+T("ppGeo3")+"\" carries physics.geodesic:true (the inertial set runs with the geodesic off and no 1PN - this declaration has no effect; law run: "+law+")",
   /* Wave 295b (originator's ruling, report 85; R154): three deviations of geoPN=4 (space mesh - the home of the legacy laws; purpose-set wording shared by save, load and the red text) */
-  modeWarn_geo4NoMesh:(legacy,off,law)=>"geoPN=4 \""+T("ppGeo4")+"\" runs no legacy law ("
-    +(legacy===null? "physics.spaceMesh.lawVersion is not declared" : "the legacy law "+legacy+" is disabled by its entry condition ("+off+")")+" - it runs the geodesic law "+law+"; this set is the home of the legacy laws, standard with a legacy law running)",
-  modeWarn_geo4Inertial:(law)=>"geoPN=4 \""+T("ppGeo4")+"\" has the inertial-determinacy drag (physics.relativeDrag.law:\"inertial\") layered on it (this set's standard has no inertial drag; the inertial set is geoPN=3; law run: "+law+")",
+  /* Wave 296c (originator's ruling, report 86; R159): 4 is either the legacy mesh (compatibility) or the inertial chain (new standard) - the text for a 4 with neither, and two new codes (geo4Solver, geo4Both) */
+  modeWarn_geo4NoMesh:(legacy,off,law)=>"geoPN=4 \""+T("ppGeo4")+"\" runs neither a legacy law nor the inertial chain ("
+    +(legacy===null? "physics.spaceMesh.lawVersion is not declared" : "the legacy law "+legacy+" is disabled by its entry condition ("+off+")")+" - it runs the geodesic law "+law+"; this set needs the legacy mesh (spaceMesh.lawVersion) or the inertial chain declaration (relativeDrag.law:\"inertial\", solver:\"network-pcg-v1\"))",
+  modeWarn_geo4Inertial:(law)=>"geoPN=4 \""+T("ppGeo4")+"\" runs both the legacy mesh (spaceMesh.lawVersion) and the inertial-determinacy drag (relativeDrag.law:\"inertial\") (the standard of 4 is one of them - the legacy mesh (compatibility) or the inertial chain; law run: "+law+")",
+  modeWarn_geo4Both:(law)=>"geoPN=4 \""+T("ppGeo4")+"\" runs both the legacy mesh (spaceMesh.lawVersion) and the inertial-determinacy drag (relativeDrag.law:\"inertial\") (the standard of 4 is one of them - the legacy mesh (compatibility) or the inertial chain; law run: "+law+")",
+  modeWarn_geo4Solver:(law)=>"The inertial drag under geoPN=4 \""+T("ppGeo4")+"\" declares no chain solver (physics.relativeDrag.solver:\"network-pcg-v1\" - the solver that checks convergence with many particles; without it n>64 runs a fixed number of Gauss-Seidel sweeps; law run: "+law+")",
+  chainSolveFail:(k,res,it,tol)=>"The chain solver (network-pcg-v1) did not converge - the drag of that step was not adopted (u=0) and the run was stopped (non-converged "+k+" time(s); residual "+(Number.isFinite(res)? res.toExponential(2) : "-")+"; gate "+(Number.isFinite(tol)? tol.toExponential(0) : "-")+"; iterations "+it+"). Review solverMaxIter, gain or dt",
+  chainSolveFailHud:(k,res,it,tol)=>"⚠ chain solver not converged "+k+" time(s) (residual "+(Number.isFinite(res)? res.toExponential(2) : "-")+" > gate "+(Number.isFinite(tol)? tol.toExponential(0) : "-")+"; iterations "+it+") - drag of that step is 0",
   modeWarn_geo4KFrame:(kf,law)=>"geoPN=4 \""+T("ppGeo4")+"\" with kFrame="+kf+" - the legacy laws are standard at kFrame=0 (to layer them, declare physics.spaceMesh.toyAllowDrag:true explicitly; law run: "+law+")",
-  geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (space mesh): no legacy law (physics.spaceMesh.lawVersion) is running - it runs the geodesic law ("+law+"). The value stays 4 on save and reload",
+  modeWarn_geo1Fitted:(knobs)=>"geoPN=1 \""+T("ppGeo1")+"\" is the reference checked with the observed inputs as they are (law knobs are not fitted) - this book's fit record (fitRecord) fits the law knobs "+knobs+" to observed values. Declare a fitted model as a book with a geoPN other than 1 (loading and running are not stopped; the record is not discarded)",   // wave 296a
+  geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (space mesh / chain): neither the legacy mesh (physics.spaceMesh.lawVersion) nor the inertial chain declaration (relativeDrag.law:\"inertial\") is running - one of them is needed. It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
   geo3InertialOn:"Geodesic mode geoPN=3: the inertial-determinacy drag (physics.relativeDrag.law:\"inertial\") is declared - it runs with the geodesic off, no 1PN, law inertial-drag",
   geo3InertialLabel:"Declare the inertial-determinacy drag (gain C_d [L^3/M])",
   geo3InertialApply:"Declare",
   geo3InertialDone:(g)=>"Declared physics.relativeDrag={law:\"inertial\", gain:"+g+"} (default composition solve - geodesic off, no 1PN, law inertial-drag; the history restarts, the first step has u=0)",
   geo3InertialBad:(e)=>"Cannot declare: "+e,
-  geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept)",
+  geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept) Wave 296c: it is also offered on geoPN=4 (space mesh / chain) without a legacy law, where the chain solver solver:\"network-pcg-v1\" is declared together.",
   loadComposeLegacy:"This save predates wave 293 - its inertial drag (law:\"inertial\") declares no composition rule and ran as a plain sum when saved. It now runs with the default solve (velocity) (declare relativeDrag.compose:\"sum\" to compare with the sum; values are as saved)",
   modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 space mesh - the home of the legacy laws). Values load as saved; the law that runs is resolved from the declarations (physics.spaceMesh.lawVersion, physics.relativeDrag, physics.geodesic). Combinations outside the main use raise a warning on save.",
-  ppGeoUse0:"general — proof of principle and so on (the geodesic is available with physics.geodesic:true)", ppGeoUse1:"1PN-compliant (the observation-reproduction set) — GR 1PN (standard kFrame=0)",
-  ppGeoUse2:"drag approximation — approximated with q (standard kFrame=1)", ppGeoUse3:"inertial determinacy — dragging computed from the inertial determinacy (a declared legacy spaceMesh law still runs as declared)",
-  ppGeoUse4:"space mesh - the home of the legacy spaceMesh law versions for visualisation and null tests (not a new physics mode; standard kFrame=0)",
+  // wave 296d: the use lines 0-3 shortened - each number is a recommended set per purpose; a deviating setup is warned on save
+  ppGeoUse0:"recommended: one law per experiment (stacking the geodesic, the inertial drag or a legacy mesh is warned on save)", ppGeoUse1:"recommended: GR 1PN with kFrame=0 (the observation-reproduction set; deviations are warned on save)",
+  ppGeoUse2:"recommended: q dragging with kFrame=1 (deviations are warned on save)", ppGeoUse3:"recommended: declare relativeDrag.law:\"inertial\" with kFrame=0 (deviations are warned on save)",
+  ppGeoUse4:"space mesh / chain - many-particle chain dragging (inertial + solver:network-pcg-v1; standard kFrame=0) and the compatibility home of the legacy spaceMesh law versions",
   bdgMeshStop_undeclared:"no legacy law declared (physics.spaceMesh.lawVersion) - running the geodesic law",
   saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
   contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
@@ -3121,7 +3179,8 @@ en: {
   helpTheory:"Laws behind this scene (auto-extracted)",
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
   aboutTitle:"About this app",
-  aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md). DFM makes no claim about the real universe - what it claims is that, inside the declared assumptions, the consequences of conservation, symmetry and functional form do not contradict one another. Comparison with observation (calibration) is a test of that: a \"match\" means the assumptions and their transcription landed inside the window, not that the universe works this way.",
+  aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md). DFM makes no claim about the real universe - what it claims is that, inside the declared assumptions, the consequences of conservation, symmetry and functional form do not contradict one another. Comparison with observation (calibration) is a test of that: a \"match\" means the assumptions and their transcription landed inside the window, not that the universe works this way. "+CLAIM_SCOPE.en+"",   // wave 296a: the claim sentence (one place; the trailing empty string keeps the line ending in a string literal - read by the older QA docs.claimScope)
+  claimScope:CLAIM_SCOPE.en,
   // 第88便(v1.39-b1 sprint 1)EXT-01: first-visit guide (3 cards — display only)
   fvTitle:"Welcome to DFM Lab",
   fvCard1Head:"❶ What is DFM?",
@@ -3156,10 +3215,18 @@ en: {
   nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
   nc_apsidal_8p85_fit:"The 8.85-year apsidal cycle is matched by a one-dimensional fit of the drag gain (C_d) — an estimate, not a calibration agreement and not a value the inertial determinacy produced with zero calibration (the real main cause is the solar perturbation).",   // wave 292c (integration: separate key from 🌜 — the fit note for 🌛)
   // wave 295c (originator's ruling, report 85; R155): notes for the three inertial-determinacy samples (🌤️🟤🟣)
-  nc_gain_universal:"No universality of the drag gain (C_d) is claimed — 🌛's one-dimensional fit estimate is only carried over as the same SI coefficient 0.0514182 m³/kg by a change of units; it is not refitted in this sample.",
+  nc_gain_universal:"No universality of the drag gain (C_d) is claimed — it is a per-sample declaration (in the three inertial-determinacy samples 🌛's one-dimensional fit estimate is only carried over as the same SI coefficient 0.0514182 m³/kg by a change of units and is not refitted).",   // wave 296c: 🔗 carries the same key
   nc_apsidal_8p85_transfer:"It is not claimed that this sample produces the Moon's 8.85-year apsidal cycle (the gain is a declaration transferred from 🌛, the apsidal period is a recorded measurement, and the main cause is the solar perturbation).",
   nc_perihelion_43:"Mercury's 43″/century perihelion advance (a 1PN quantity) is not the aim of this sample — it has no 1PN, and the gain is not tuned to that value.",
   nc_period_fit:"Not a sample whose period gap to observation is filled with the gain — the gain is a transferred declaration and the change of the period is a recorded measurement.",
+  /* wave 296c (originator's ruling, report 86; R159): notes for the chain-dragging sample (🔗) */
+  nc_galaxy_disk:"Not a sample that forms a disc (including a galactic disc) or its structure — it only shows the chain principle: particles placed at rest are dragged round by a spinning centre and by their neighbours.",
+  nc_flat_rotation:"No claim to produce or explain a flat rotation curve — the band values of the angular displacement record the degree of chaining; nothing is fitted to a rotation curve.",
+  // wave 296b (originator's ruling, report 86; R158): notes for the fitted derived samples (🟫🟪) — the parent notes that contradict a fit are replaced by fit keys
+  nc_perihelion_43_fit:"It is not claimed that the 43″/century (a 1PN quantity) is derived from DFM — this sample has no 1PN; the inertial-drag gain is only matched (fitted) so that the apsidal-rate difference from the gain-0 control takes that value.",
+  nc_period_target_fit:"The orbital period is not claimed as a prediction — it is the target the gain was matched to (an input of the fit), not a forecast.",
+  nc_gain_universal_fit:"The gain (C_d) is not claimed as a constant shared by all systems — this sample's gain is a fit to one declared quantity, an empirical coefficient per system (it differs from the transferred value and from the other system's fit — no shared coefficient has been found).",
+  nc_single_quantity_fit:"Matched to one declared observed quantity only — the other quantities (period, eccentricity, orbit shape) are not matched, and the structure-core dragCore values are not measurements of an internal core (one quantity cannot separate them from the gain).",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3186,7 +3253,7 @@ en: {
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
   // wave 284d: the fourth filter dimension (derived from the geoModeOf role - declarations untouched)
   ppDimGeo:"geoPN", ppGeo0:"0: general", ppGeo1:"1: 1PN-compliant", ppGeo2:"2: drag approximation", ppGeo3:"3: inertial determinacy",   // wave 295d: purpose-set words
-  ppGeo4:"4: space mesh",   // wave 295b: bucket 4 - the home of the legacy spaceMesh law versions
+  ppGeo4:"4: space mesh / chain",   // wave 295b: bucket 4 - the home of the legacy spaceMesh law versions
   ppNoteGeoHead:"geoPN is the sample's geodesic-mode declaration (physics.geoPN); here it is counted by the role geoModeOf derives (display only - it never touches the physics or the saved JSON). Counts are taken at runtime over all built-in samples, retired and hidden ones included.",
   ppNoteGeoCompat:"a legacy geoPN=2 with kFrame=0 (compatibility input) runs exactly as the 1PN-compliant default (geoPN=1, kFrame=0), so it is counted under 1",
   // wave 285e: folded filters (summary line) and the "Other" chips (multiple, AND)
@@ -3435,6 +3502,12 @@ en: {
   odText:(n)=>n+" ledger rows without numbers (text rows - no difference)",
   odVerdictHead:"Four-valued ledger",
   odEmpty:"The ledger has no quantity with an observed or model number",
+  // wave 296b (originator's ruling, report 86; R158): the "fit record" card of the explanation tab (display only — nothing is re-measured here)
+  frHead:"Fit record (a fit to one declared quantity)",
+  frNote:"The record made by the generator tests/exp-w296b-fit.mjs (fitRecord — the same values as the canonical tests/out/fit-w296b.json), shown as it is. Inside the declared law, units and window the in-app consistency is set and the knobs are matched to one declared observed quantity; the other quantities are not matched. Nothing is measured on this page (the record's text is the generator's original wording).",
+  frParent:"Parent (transfer control)", frTarget:"Target", frKnob:"Knob", frFixed:"Fixed declarations", frProc:"Procedure", frResidual:"Residual (model − target)", frNumerics:"Numerical error (|h − h/2|)",
+  frStatus:"Status", frNotFitted:"Not matched", frNotIdent:"Not identifiable", frRange:"search range", frFinal:"final", frSteps:"steps",
+  frStatus_fitted:"fitted — root bracketed, residual inside the numerical-error band", "frStatus_unreachable-in-bounds":"unreachable-in-bounds — no root bracketed in the search range (recorded as a result)", "frStatus_not-identifiable":"not-identifiable — residual outside the numerical-error band, or the quantity is not determined",
   helpObsCompare:"\"📊 Difference from observation\" in the Description tab is a display-only graph with one row per quantity of the judging harness's canonical run (calaudit): observed value as the centre line, ±3σ as a green band and the run value as a dot (switch series, quantity, scale %/σ, axis range, search and retired). Being inside the band is never labelled a pass; pass/fail is only the formal verdict (3σ gate) in the right column (wave 285d).",
   avTitle:"Observed-body comparison family audit",
   avNote:"A DISPLAY-ONLY audit view (wave 146) that lines up the observed-body comparison family on one screen. Every card is assembled on the spot from what that sample declares: failureFirst (the failure and the outcome), parameterAudit (observed inputs, fits, derived values) and claims (roles, the measured values quoted in the description, QA test IDs). The view holds no numbers of its own — anything not declared is left blank. No effect on physics, saved JSON or the AI spec.",
@@ -4156,6 +4229,7 @@ function geoModeOf(ph){
 //   第294便a(原仮定者の裁定(第84報)・R148): 上の「旧法則版が走らず慣性の宣言がある 3」は**測地線 OFF**(1PN を重ねない —— 走行の実効番号は
 //     geoEffectiveMode の 0 = geoPN=0 の同じ宣言とビット同一)。第291便c〜第293便は法則名だけ inertial-drag で、走行は測地線 ON の基底(kFrame=0 → EIH)
 //     だった(名前と步の食い違い —— 本便で解消)。旧法則版も慣性も無い 3 は従来どおり測地線 ON(警告 geo3NoInertial)
+//   第296便a(原仮定者の裁定(第85報)・R157): geoPN=0 でも旧法則版(spaceMesh.lawVersion)の宣言が入場条件を満たせば "legacy-spaceMesh:<lawVersion>"(3・4 と同じ経路・測地線 OFF —— 門 geoLegacyGateOf)
 //   それ以外(geoPN=0 で測地線 OFF): "newton"(kFrame>0 なら E6′ の追従キックが別に立つ —— `drag` 欄)
 // **geoModeOf は宣言から決まる(S を読まない)**。旧法則版の入場条件は `S.updateRadii` の門と同じ式(kFrame・toyAllowDrag・inertia・weave)を
 // ここでも評価する。vMinusU の外部ステップの前提(meshVelocity の受理など)は宣言の有無だけを見る(細目の拒否理由は S.meshVelDeny)
@@ -4186,6 +4260,18 @@ function geoLegacyDeclOf(ph){   // geoPN=3 の旧法則版の宣言(lawVersion)�
   }
   return {lawVersion:sm.lawVersion, runs:!off, off};
 }
+// ===== 第296便a(原仮定者の裁定(第85報)「geoPN=0 では全ての設定を試せる」・第86報・統括の検証項目 R157): **旧法則版の門に入る番号** =====
+// 3・4 は従来どおり常に入る(宣言が無ければ S.geo3Undeclared)。**0 は spaceMesh.lawVersion を宣言したときだけ入る**(宣言の無い 0 は
+// 1 命令も変わらない —— 内蔵の geoPN=0 で lawVersion を宣言した本は 0 本〔機械で確認〕)。1・2 は入らない(測地線 ON の番号)。
+// S.updateRadii(hasGeoToy の門)・meshVelocityPrepare(vMinusU の hasGeo3)・testParticlePrepare・受理器の旧法則版の行・チップ・HUD が同じ式を読む
+function geoLegacyGateOf(p){
+  if(!p || typeof p!=="object") return false;
+  const g=p.geoPN;
+  if(g>=3) return true;
+  if(g>0) return false;
+  const sm=p[SPACE_MESH_KEY];
+  return !!(sm && typeof sm==="object" && sm.lawVersion!==undefined && sm.lawVersion!==null);
+}
 function geoLawResolveInto(out, ph, kF){
   const mode=out.mode, kFpos=(kF>0);
   const rd=ph && ph.relativeDrag;
@@ -4196,6 +4282,14 @@ function geoLawResolveInto(out, ph, kF){
   let geodesic=(mode===1 || mode===2);
   if(mode===0) geodesic=!!(ph && ph.geodesic===true);
   let law=null;
+  // 第296便a(原仮定者の裁定(第85報)「geoPN=0 では全ての設定を試せる」・R157): **0 でも旧法則版(spaceMesh.lawVersion)が走る**。入場条件
+  //   (geoLegacyDeclOf —— S.updateRadii の門と同じ式)を満たせば "legacy-spaceMesh:<lawVersion>"(3・4 と同じ名前・同じ経路)で測地線 OFF。
+  //   満たさなければ宣言だけが残り、0 の他の宣言(geodesic:true なら測地線の基底・無ければ newton)で走る。測地線・慣性を重ねた宣言は geo0Stacked
+  if(mode===0){
+    const L=geoLegacyDeclOf(ph);
+    if(L){ out.legacyLaw=L.lawVersion; out.legacyOff=L.off; }
+    if(L && L.runs){ geodesic=false; law="legacy-spaceMesh:"+L.lawVersion; }
+  }
   if(mode===3){
     const L=geoLegacyDeclOf(ph);
     if(L){ out.legacyLaw=L.lawVersion; out.legacyOff=L.off; }
@@ -4206,10 +4300,14 @@ function geoLawResolveInto(out, ph, kF){
   // 第295便b(原仮定者の裁定(第85報)・統括の検証項目 R154): **4 = 空間メッシュ**(旧法則版 spaceMesh.lawVersion の置き場 —— 新しい物理ではない)。
   //   旧法則版が走る → "legacy-spaceMesh:<lawVersion>"(3 の旧法則版と同じ経路・同じ数値)。走らない 4(宣言なし・入場条件で無効)は逸脱で
   //   測地線 ON の基底(走行は止めない —— 警告 geo4NoMesh)。慣性の宣言は 4 の法則を選ばない(重ねた宣言は警告 geo4Inertial —— 慣性ステップは宣言どおり)
+  // 第296便c(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・R159):
+  //   旧法則版が走る 4 は現行どおり(互換 —— 在位 9 本はビット同一)/ 旧法則版が走らず慣性の宣言がある 4 は**慣性の連鎖**(3 の慣性と同じ
+  //   測地線 OFF・law inertial-drag・実効番号 0)/ どちらも無い 4 は測地線 ON(警告 geo4NoMesh —— 文は「旧メッシュか慣性の連鎖の宣言が要る」)
   else if(mode===4){
     const L=geoLegacyDeclOf(ph);
     if(L){ out.legacyLaw=L.lawVersion; out.legacyOff=L.off; }
     if(L && L.runs){ geodesic=false; law="legacy-spaceMesh:"+L.lawVersion; }
+    else if(out.inertialDrag){ geodesic=false; law=GEO_LAWS[3]; }
     else geodesic=true;
   }
   out.geodesic=geodesic;
@@ -4242,13 +4340,21 @@ function geoLawResolveInto(out, ph, kF){
 function geoEffectiveMode(S, g){
   if(g===undefined) g=(S && S.params)? S.params.geoPN : undefined;
   // 第295便b(R154): 4 = 空間メッシュ —— 旧法則版が走れば g(3 と同じく `_core` へ 0)・走らなければ測地線 ON の 2(慣性の宣言で 0 にしない —— 逸脱 geo4Inertial)
-  if(g>=4) return (S.hasGeoToy || S.hasGeo3)? g : 2;
+  // 第296便c(R159): 旧法則版が走らず慣性の宣言がある 4 は 0(慣性の連鎖 —— 3 の慣性と同じ・測地線 OFF・1PN なし)
+  if(g>=4) return (S.hasGeoToy || S.hasGeo3)? g : ((S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial")? 0 : 2);
   if(g>=3){
     if(S.hasGeoToy || S.hasGeo3) return g;
     if(S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial") return 0;
     return 2;
   }
-  return (!(g>0) && S.geodesicDecl===true)? 2 : g;
+  // 第296便a(R157): 0 で旧法則版が走る(S.hasGeoToy ∨ S.hasGeo3 —— 門 geoLegacyGateOf は lawVersion を宣言した 0 だけ)→ **0 のまま**。
+  //   3/4 が g を返して geoCoreDispatchBody の ge≥3 の枝で `_core` へ 0 を渡すのと同じ数(0 は書き換え不要)。違いは vMinusU の
+  //   pn:"reference-1PN"(dfmGeo3PNKick)だけで、dispatch はその旗(S.hasGeo3PN)で同じ枝に入れる。pnOrbitalKF0 は ge=0 で kF0 でない(3/4 と同じ)
+  if(!(g>0)){
+    if(S.hasGeoToy || S.hasGeo3) return g;
+    return (S.geodesicDecl===true)? 2 : g;
+  }
+  return g;
 }
 // 第294便a(R148): **パラメータで慣性決定力の引きずりを有効化する**(「パラメータ」タブの geoPN 行 —— geoPN=3 で旧法則版〔spaceMesh.lawVersion〕の
 // 宣言も慣性の宣言も無い本にだけ入力を出す)。`geo3InertialOfferOf(S)` は出す条件(S の宣言だけを読む)。`geo3InertialDeclare(S,gain)` は
@@ -4256,7 +4362,7 @@ function geoEffectiveMode(S, g){
 // (loadSave の rdi.inertial の行)と同じ経路(params・S.relDrag・S.hasRelativeDrag・inertialDragInit —— 履歴は作り直し・最初の步は u=0)。
 // dispMag など他の宣言は触らない。合成則は既定の solve(velocity)のまま(compose を書かない —— 単純加算に戻さない)。gain 0 は否定対照(u=0)
 function geo3InertialOfferOf(S){
-  if(!S || !S.params || !(S.params.geoPN>=3 && S.params.geoPN<4)) return false;   // 第295便b: 4(空間メッシュ)には出さない
+  if(!S || !S.params || !(S.params.geoPN>=3)) return false;   // 第296便c(R159): 4(空間メッシュ・連鎖)でも出す —— 慣性の宣言が無い 4(第295便b は 4 に出さなかった)
   const sm=S.params[SPACE_MESH_KEY];
   if(sm && typeof sm==="object" && sm.lawVersion!==undefined) return false;   // 旧法則版の宣言がある本(宣言どおり —— 入場条件で無効化されていても出さない)
   return !(S.relDrag && S.relDrag.law==="inertial");
@@ -4264,7 +4370,8 @@ function geo3InertialOfferOf(S){
 function geo3InertialDeclare(S, gain){
   // 第295便a(R153): 本体は geoInertialSetGain(宣言済みなら他の鍵を保つ —— 旧版の {law,gain} だけの再検証は pairs/eps/coreTable/compose/solveFrom を落とした)。
   // 未宣言からの宣言は従来と同じ {law:"inertial",gain} の正準形。pnOrbitalSync は両向き(kF0 を離れたらビット 2 を外す・入ったら埋める)
-  return geoInertialSetGain(S, gain);
+  // 第296便c(R159): 4(空間メッシュ・連鎖)では連鎖の解法 solver:"network-pcg-v1" も一緒に宣言する(4 の慣性の標準の組 —— 警告 geo4Solver を出さない)
+  return geoInertialSetGain(S, gain, (S && S.params && S.params.geoPN>=4)? {solver:REL_DRAG_SOLVERS[0]} : null);
 }
 // 第291便c(R134): **セーブ時の警告**(純関数 —— 入力を変えない・保存も走行も止めない。#btnSave の成功通知に含める)。
 // 入力 {geoPN,kFrame,geodesic,relativeDrag,spaceMesh,meshVelocity}(sim.params をそのまま渡してよい —— 読むのはこの鍵だけ)。
@@ -4288,18 +4395,51 @@ function geo3InertialDeclare(S, gain){
 //   3 慣性決定力: relativeDrag.law:"inertial"・kFrame=0・測地線 OFF・旧メッシュなし・合成 solve(velocity)—— geo3NoInertial / inertialPlusKFrame /
 //     inertialPlusGeodesic(geodesic:true —— 3 では効かない宣言)/ geo3LegacyMesh / inertialCompose(compose:"sum")/ inertialSolveFrom(solveFrom:"history")
 //   4 空間メッシュ(第295便b —— 旧法則版の置き場・新しい物理ではない): 旧法則版が走る・慣性なし・kFrame=0(または toyAllowDrag の明示)—— geo4NoMesh / geo4Inertial / geo4KFrame
+//     第296便c(R159): 4 = 空間メッシュ・連鎖 —— 標準は旧メッシュ(上の互換)か慣性の連鎖(慣性 ∧ solver:"network-pcg-v1" ∧ kFrame=0 ∧ 旧メッシュなし)。
+//     逸脱 geo4NoMesh(どちらも無い)/ geo4Solver(慣性 ∧ solver 未宣言)/ geo4Both(両方 —— geo4Inertial は同じ文の別名)/ inertialPlusKFrame / geo4KFrame
 //   全番号: kFrameFraction(0<kFrame<1 ∧ 宣言 kFrameApprox なし —— 第293便a)
 // kind: "preset"(組の逸脱 —— out.standard を偽にする)/ "declaration"(宣言そのものの注意 —— kFrameFraction・ignoredGeodesic)。fields は編集欄の鍵
 // (赤文字を出す行 —— geoPN 行は全体の要約・kFrame 行は fields に kFrame を含む逸脱)。新しい code は**末尾に足す**(並びを動かさない)
 // 第295便b(原仮定者の裁定(第85報)・R154): 末尾 3 本 —— geoPN=4(空間メッシュ)の逸脱 geo4NoMesh・geo4Inertial・geo4KFrame(modeIssuesOf の「mode 4」の塊)。統合後 16 本
 const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial","kFrameFraction","inertialPlusGeodesic",
-  "inertialPlusKFrame","geo0Stacked","extraRelativeDrag","ignoredGeodesic","geo3LegacyMesh","inertialCompose","inertialSolveFrom","geo4NoMesh","geo4Inertial","geo4KFrame"];
+  "inertialPlusKFrame","geo0Stacked","extraRelativeDrag","ignoredGeodesic","geo3LegacyMesh","inertialCompose","inertialSolveFrom","geo4NoMesh","geo4Inertial","geo4KFrame",
+  "geo1Fitted",   // 第296便a(原仮定者の裁定(第86報)・R157): 17 本目 —— geoPN=1 の本のフィット記録が法則のノブを合わせた
+  "geo4Solver","geo4Both"];   // 第296便c(原仮定者の裁定(第86報)・R159): 18・19 本目 —— geoPN=4 の慣性の連鎖の逸脱(solver 未宣言・旧メッシュと慣性の両方)
+// 第296便a(原仮定者の裁定(第86報)「1PN 準拠の geoPN=1 以外は、サンプル生成時に調整可能なパラメータをフィットさせる」・統括の検証項目 R157):
+// **geoPN=1 は観測入力のまま照合する基準**(法則のノブをフィットしない)。フィット記録 `fitRecord.knobs[].key`(記録の鍵の名前は第296便b の正準形 ——
+// ここは key だけを読む・`physics.` の接頭辞は外して読む)を 2 つに分ける:
+//   **観測入力の推定**(法則のノブではない): 頭の鍵が GEO1_OBS_INPUT_HEADS(bodies〔質量・位置・速度 —— 軌道要素の写し〕・epoch〔元期〕・
+//     elements/orbit〔軌道要素〕・initial/state〔初期状態〕)で、経路に dragCore を含まない鍵
+//   **法則のノブ**: それ以外の鍵 —— relativeDrag.*・q・kFrame・lambdaPN・D0・dragCore(天体の宣言でも)・G・cLight・softening(GEO1_LAW_KNOB_HEADS)と
+//     その他の physics の鍵(spaceMesh.*・timeScale など)。名前の分からない鍵も法則のノブとして数える(警告に倒す —— 黙って通さない)
+const GEO1_LAW_KNOB_HEADS=Object.freeze(["relativeDrag","q","kFrame","lambdaPN","D0","dragCore","G","cLight","softening"]);
+const GEO1_OBS_INPUT_HEADS=Object.freeze(["bodies","epoch","elements","orbit","initial","state"]);
+function fitKnobIsLaw(key){
+  if(typeof key!=="string" || !key) return false;
+  const k=key.replace(/^physics\./,"");
+  const segs=k.split(/[.\[\]]+/).filter((z)=>z!=="");
+  if(!segs.length) return false;
+  if(segs.indexOf(DRAG_CORE_KEY)>=0) return true;
+  if(k!==key) return true;   // physics. の鍵
+  if(GEO1_LAW_KNOB_HEADS.indexOf(segs[0])>=0) return true;
+  return GEO1_OBS_INPUT_HEADS.indexOf(segs[0])<0;
+}
+// fitRecord(未検証の生の記録でよい —— 読むのは knobs[].key だけ・入力を書き換えない)の法則のノブの鍵の一覧(重複なし・出現順)
+function geo1FittedKnobsOf(fr){
+  if(!fr || typeof fr!=="object" || !Array.isArray(fr.knobs)) return [];
+  const out=[];
+  for(const kn of fr.knobs){
+    const key=(typeof kn==="string")? kn : (kn && typeof kn==="object")? kn.key : null;
+    if(fitKnobIsLaw(key) && out.indexOf(key)<0) out.push(key);
+  }
+  return out;
+}
 const MODE_ISSUE_DECL_CODES=["kFrameFraction","ignoredGeodesic"];   // kind:"declaration"(それ以外は kind:"preset")
 const MODE_POLICY_ISSUES_VERSION="w295a-issues-1";
 const MODE_ACCEPT_LEGACY_SKIP=["geo3NoInertial","geo3LegacyMesh"];   // JSON の受理(validatePreset)だけの例外 —— 旧法則版を宣言した 3 では出さない(受理の旧契約・凍結写しの宣言照合を保つ)   // 判定の版(QA・AI_SPEC §55 が読む)
 // 判定の本体(g = geoModeOf の解決済みの欄 —— mode・inertialDrag・legacyLaw・legacyOff・law・geoPN を読む。src = 宣言〔null 可〕・kF = 読んだ kFrame)。
 // withMsg=false は文を作らない(geoLawResolveInto の standard 用 —— T を呼ばない)。**入力を書き換えない**
-function modeIssuesOf(g, src, kF, withMsg){
+function modeIssuesOf(g, src, kF, withMsg, opts){   // 第296便a: opts.fitRecord(本の最上位のフィット記録 —— physics の外なので別の引数で渡す)
   const s=(src && typeof src==="object")? src : {};
   const out=[];
   const add=(code, fields, msg, extra)=>{
@@ -4328,6 +4468,9 @@ function modeIssuesOf(g, src, kF, withMsg){
     if(kF!==0) add("geo1KFrame", ["kFrame"], ()=>T("modeWarn_geo1KFrame")(kF, g.law));
     if(inertial) add("extraRelativeDrag", [REL_DRAG_KEY], ()=>T("modeWarn_extraRelativeDrag")(1, g.law));
     if(geoOff) add("ignoredGeodesic", [GEODESIC_KEY], ()=>T("modeWarn_ignoredGeodesic")(1));
+    // 第296便a(原仮定者の裁定(第86報)・R157): フィット記録が法則のノブを合わせた geoPN=1 の本 —— 警告だけ(受理は通す・記録は捨てない)
+    const fk=geo1FittedKnobsOf(opts && opts.fitRecord);
+    if(fk.length) add("geo1Fitted", ["geoPN"], ()=>T("modeWarn_geo1Fitted")(fk.join(", ")), {knobs:fk});
   }
   // ---- mode 2(引きずり近似 q)
   if(g.mode===2){
@@ -4354,25 +4497,39 @@ function modeIssuesOf(g, src, kF, withMsg){
   // ---- mode 4(第295便b —— 原仮定者の裁定(第85報)・統括の検証項目 R154): 空間メッシュ(旧法則版 spaceMesh.lawVersion の置き場 —— 新しい物理ではない)。
   //   標準の組 = 旧法則版が走る ∧ 慣性なし ∧ (kFrame=0 ∨ spaceMesh.toyAllowDrag:true の明示)。逸脱(kind:"preset"): 旧法則版が走らない(未宣言/入場条件で無効)= geo4NoMesh・
   //   慣性決定力を重ねた = geo4Inertial・kFrame>0 ∧ toyAllowDrag の明示なし = geo4KFrame
+  // 第296便c(原仮定者の裁定(第86報)・R159): 4 の標準は 2 つ —— (旧メッシュが走る ∧ 慣性なし ∧ (kFrame=0 ∨ toyAllowDrag の明示))〔互換〕∨
+  //   (慣性 ∧ solver:"network-pcg-v1" ∧ kFrame=0 ∧ 旧メッシュが走らない)〔慣性の連鎖 —— 新標準〕。逸脱: どちらも無い = geo4NoMesh(文を改めた)・
+  //   慣性 ∧ solver 未宣言 = geo4Solver・旧メッシュ ∧ 慣性 = geo4Both(既存 geo4Inertial は改名せず同じ文の別名 aliasOf:"geo4Both")・
+  //   慣性の連鎖 ∧ kFrame>0 = inertialPlusKFrame(3 の慣性と同じ code)・旧メッシュの kFrame>0 は従来どおり geo4KFrame
   if(g.mode===4){
     const sm4=s[SPACE_MESH_KEY], tad4=!!(sm4 && typeof sm4==="object" && sm4.toyAllowDrag===true);
-    if(!legacyRuns) add("geo4NoMesh", ["geoPN",SPACE_MESH_KEY], ()=>T("modeWarn_geo4NoMesh")((g.legacyLaw===undefined)? null : g.legacyLaw, g.legacyOff, g.law));
-    if(inertial) add("geo4Inertial", [REL_DRAG_KEY], ()=>T("modeWarn_geo4Inertial")(g.law));
-    if(kFpos && !tad4) add("geo4KFrame", ["kFrame",SPACE_MESH_KEY], ()=>T("modeWarn_geo4KFrame")(kF, g.law));
+    if(!legacyRuns && !inertial) add("geo4NoMesh", ["geoPN",SPACE_MESH_KEY], ()=>T("modeWarn_geo4NoMesh")((g.legacyLaw===undefined)? null : g.legacyLaw, g.legacyOff, g.law));
+    if(legacyRuns && inertial){
+      const m4=()=>T("modeWarn_geo4Both")(g.law);
+      add("geo4Both", [SPACE_MESH_KEY,REL_DRAG_KEY], m4);
+      add("geo4Inertial", [REL_DRAG_KEY], m4, {aliasOf:"geo4Both"});
+    }
+    if(inertial && !(rd && rd.solver===REL_DRAG_SOLVERS[0])) add("geo4Solver", [REL_DRAG_KEY], ()=>T("modeWarn_geo4Solver")(g.law));
+    if(inertial && !legacyRuns){
+      if(kFpos) add("inertialPlusKFrame", ["kFrame",REL_DRAG_KEY], ()=>T("modeWarn_inertialPlusKFrame")(g.mode, kF, g.law));
+    }
+    else if(kFpos && !tad4) add("geo4KFrame", ["kFrame",SPACE_MESH_KEY], ()=>T("modeWarn_geo4KFrame")(kF, g.law));
   }
   return out;
 }
 // 公開の入口(純関数): 入力 = sim.params / 保存の physics / 受理後の ph(読むのは geoPN・kFrame・geodesic・relativeDrag・spaceMesh・meshVelocity・
 // lambdaPN・kFrameApprox だけ)。戻り値 [{code, fields, kind, message, aliasOf?}](無ければ [])
-function modeSettingIssues(a){
+// 第296便a(R157): 第 2 引数 opts = {fitRecord}(本の最上位の fitRecord —— 保存・読込・赤文字は実行中プリセット〔modeIssueOptsOfSim〕、
+// JSON の受理は入力の本の p.fitRecord を渡す)。省略時は従来と同じ(geo1Fitted は出ない)
+function modeSettingIssues(a, opts){
   const src=(a && typeof a==="object")? a : {};
   const kF=(typeof src.kFrame==="number" && isFinite(src.kFrame))? src.kFrame : DEFAULT_PHYSICS.kFrame;
   const ph={geoPN:src.geoPN, kFrame:kF, geodesic:src.geodesic, relativeDrag:src.relativeDrag,
     spaceMesh:src.spaceMesh, meshVelocity:src.meshVelocity, lambdaPN:src.lambdaPN, [KFRAME_APPROX_KEY]:src[KFRAME_APPROX_KEY]};
-  return modeIssuesOf(geoModeOf(ph), ph, kF, true);
+  return modeIssuesOf(geoModeOf(ph), ph, kF, true, (opts && typeof opts==="object")? opts : null);
 }
 // 互換: 保存時の警告 = 目的の組の判定の写し(第291便c〜第294便a の呼び出し口)
-function modeSaveWarnings(a){ return modeSettingIssues(a); }
+function modeSaveWarnings(a, opts){ return modeSettingIssues(a, opts); }
 // 通知・赤文字の文(別名 aliasOf の行は文を重ねない・同じ文は 1 度だけ)
 // 実行中の S から判定の入力を作る(params + kFrameApprox の宣言 —— 宣言は params に無いことがある〔UI で動かした値・既定へ戻した後〕ので
 // 実行中プリセットの宣言を写す。#btnSave・loadSave・refreshModeDeviation が同じ写し方を読む)
@@ -4380,6 +4537,11 @@ function modeIssueSrcOfSim(S){
   const p=(S && S.params)? S.params : {};
   const kfDecl=(p[KFRAME_APPROX_KEY]!==undefined)? p[KFRAME_APPROX_KEY] : ((currentPreset && currentPreset.physics)? currentPreset.physics[KFRAME_APPROX_KEY] : undefined);
   return Object.assign({}, p, {[KFRAME_APPROX_KEY]:kfDecl});
+}
+// 第296便a(R157): 判定の第 2 引数(本のフィット記録)—— 実行中プリセットの最上位 fitRecord(A/B の対象でも本は同じ)
+function modeIssueOptsOfSim(S){
+  const fr=(currentPreset && currentPreset.fitRecord!==undefined)? currentPreset.fitRecord : undefined;
+  return (fr===undefined)? null : {fitRecord:fr};
 }
 function modeIssueText(list, sep){
   const seen=[];
@@ -4389,7 +4551,9 @@ function modeIssueText(list, sep){
 // ===== 第295便a(原仮定者の裁定(第85報)「geoPN=0 では、慣性決定力などを含めた、全ての設定を試せる様にする。排他的な宣言がある場合は、
 // 宣言を選択肢で用意する」・R153): geoPN=0 の**排他な基底の選択肢** =====
 // 選択肢: newton(ニュートンだけ)/ geodesic(physics.geodesic:true —— 測地線 1PN)/ inertial(relativeDrag.law:"inertial" —— gain 入力・既定 0)/
-// legacy(旧空間メッシュの宣言だけを残す —— その本に spaceMesh.lawVersion の宣言があるときだけ。geoPN=0 では走らない)/ stack(重ねる —— 宣言を残す・警告だけ)。
+// legacy(旧空間メッシュ —— その本に spaceMesh.lawVersion の宣言があるときだけ。第296便a〔原仮定者の裁定(第85報)・R157〕から **geoPN=0 でも走る** ——
+// 門 geoLegacyGateOf・入場条件は 3/4 と同じ。適用後の geoLawOfSim は legacy-spaceMesh:<lawVersion>。入場条件を満たさないときは走らず、プレビューの legacyOff に理由)/
+// stack(重ねる —— 宣言を残す・警告だけ)。
 // 既定の選択は立っている宣言から逆算(`geo0ChoiceOf` —— 2 つ以上なら stack)。適用は**確認のあと**だけ(`geo0ApplyChoice` —— 他の排他宣言を外す・
 // kFrame は触らない・stack は no-op)。宣言が変わったときだけ S.updateRadii(relativeDrag の履歴の張り直し —— 最初の步は u=0)と pnOrbitalSync
 const GEO0_CHOICES=["newton","geodesic","inertial","legacy","stack"];
@@ -4418,6 +4582,9 @@ function geo0ChoicePreview(src, choice, opts){
   if(choice!=="legacy" && d.legacy) removed.push('physics.spaceMesh.lawVersion:"'+s[SPACE_MESH_KEY].lawVersion+'"'
     +((s[SPACE_MESH_KEY].lawVersion===GEO3_LAW && s[MESH_VEL_KEY])? " + physics.meshVelocity" : ""));
   if(choice==="geodesic" && !d.geodesic) added.push("physics.geodesic:true");
+  // 第296便a(R157): 旧メッシュを選んだときの入場条件(適用後に走るか —— kFrame は触らないので今の宣言で決まる)
+  let legacyOff;
+  if(choice==="legacy"){ const L=geoLegacyDeclOf(Object.assign({}, s, {kFrame:(isNum(s.kFrame)? s.kFrame : DEFAULT_PHYSICS.kFrame)})); legacyOff=L? L.off : "undeclared"; }
   let rdNew=null;
   if(choice==="inertial"){
     const g0=(opts && isNum(opts.gain))? opts.gain : (d.inertial? rd.gain : 0);
@@ -4428,7 +4595,9 @@ function geo0ChoicePreview(src, choice, opts){
     const cur=d.inertial? validateRelativeDrag(rd) : null;   // 宣言済みは正準形どうしで比べる(内蔵の宣言は history 等を省略して書くことがある)
     if(!d.inertial || !cur.ok || JSON.stringify(rdNew)!==JSON.stringify(cur.relativeDrag)) added.push('physics.relativeDrag={law:"inertial", gain:'+rdNew.gain+"}");
   }
-  return {ok:true, removed, added, changes:(removed.length+added.length)>0, relativeDrag:rdNew};
+  const res={ok:true, removed, added, changes:(removed.length+added.length)>0, relativeDrag:rdNew};
+  if(legacyOff!==undefined) res.legacyOff=legacyOff;   // 第296便a: null = 走る
+  return res;
 }
 function geo0ApplyChoice(S, choice, opts){
   if(!S || !S.params) return {ok:false, err:"no sim"};
@@ -4450,11 +4619,11 @@ function geo0ApplyChoice(S, choice, opts){
   return Object.assign({changed:true, choice, law:geoLawOfSim(S), ge:geoEffectiveMode(S)}, pv);
 }
 // 慣性決定力の gain の継続編集(全番号 —— 宣言済みの本は他の鍵を落とさない。未宣言なら新しく宣言する)
-function geoInertialSetGain(S, gain){
+function geoInertialSetGain(S, gain, extra){   // 第296便c: extra は未宣言からの宣言に足す鍵(4 の solver —— 宣言済みの本の鍵は動かさない)
   if(!S || !S.params) return {ok:false, err:"no sim"};
   const prev=S.params[REL_DRAG_KEY];
   const keep=!!(prev && typeof prev==="object" && prev.law==="inertial");
-  const v=validateRelativeDrag(Object.assign({}, keep? prev : {}, {law:"inertial", gain}));
+  const v=validateRelativeDrag(Object.assign({}, keep? prev : (extra||{}), {law:"inertial", gain}));
   if(!v.ok || !v.relativeDrag) return {ok:false, err:v.err || "relativeDrag"};
   const rd=v.relativeDrag;
   S.params[REL_DRAG_KEY]=rd; S.relDrag=rd; S.hasRelativeDrag=true;
@@ -4467,6 +4636,8 @@ function geoInertialSetGain(S, gain){
 const GEO_MODE_TABLE_CASES=[
   {geoPN:0, decl:"—", ph:{}},
   {geoPN:0, decl:"geodesic:true", ph:{geodesic:true}},
+  // 第296便a(原仮定者の裁定(第85報)・R157): 0 で旧法則版が走る行(kFrame=0 は legacy-spaceMesh:scalar・kFrame=1 は入場条件で走らず newton)
+  {geoPN:0, decl:"spaceMesh.lawVersion:scalar", ph:{spaceMesh:{lawVersion:"scalar", inertia:false}}},
   {geoPN:1, decl:"—", ph:{}},
   {geoPN:2, decl:"—", ph:{}},
   {geoPN:3, decl:"—", ph:{}},
@@ -4486,7 +4657,11 @@ const GEO_MODE_TABLE_CASES=[
   {geoPN:4, decl:"—", ph:{}},
   {geoPN:4, decl:"spaceMesh.lawVersion:scalar", ph:{spaceMesh:{lawVersion:"scalar", inertia:false}}},
   {geoPN:4, decl:"spaceMesh.lawVersion:scalar+toyAllowDrag", ph:{spaceMesh:{lawVersion:"scalar", inertia:false, toyAllowDrag:true}}},
-  {geoPN:4, decl:"spaceMesh.lawVersion:vMinusU+meshVelocity", ph:{spaceMesh:{lawVersion:"vMinusU", inertia:false}, meshVelocity:{law:"vMinusU"}}}];
+  {geoPN:4, decl:"spaceMesh.lawVersion:vMinusU+meshVelocity", ph:{spaceMesh:{lawVersion:"vMinusU", inertia:false}, meshVelocity:{law:"vMinusU"}}},
+  // 第296便c(原仮定者の裁定(第86報)・R159): 4 の慣性の連鎖(新標準 —— 慣性 + solver)・solver の無い慣性・旧メッシュと慣性の両方
+  {geoPN:4, decl:"relativeDrag.law:inertial+solver:network-pcg-v1", ph:{relativeDrag:{law:"inertial", solver:"network-pcg-v1"}}},
+  {geoPN:4, decl:"relativeDrag.law:inertial", ph:{relativeDrag:{law:"inertial"}}},
+  {geoPN:4, decl:"relativeDrag.law:inertial+solver+spaceMesh.lawVersion:scalar", ph:{relativeDrag:{law:"inertial", solver:"network-pcg-v1"}, spaceMesh:{lawVersion:"scalar", inertia:false}}}];
 // 第295便b(原仮定者の裁定(第85報)・統括の検証項目 R154): **geoPN 3 → 4 へ移住した在位の本**(器 tests/exp-w295b-geo4.mjs が 3 と 4 の写しの
 // 2000 步ビット同一〔状態・PN 旗・u・旗・最終の全配列〕を確かめた本だけ —— 正本 tests/out/geo4-w295b.json)。宣言の geoPN だけを 4 に書き換え、
 // 本文の「geoPN=3」の語もその本だけ直した(引用の文は原文のまま)。退役 3 本(凍結)と慣性の 3(🌛)は 3 のまま。表示と QA の名簿(力学は読まない)
@@ -5042,8 +5217,8 @@ function meshChipState(p,S){
   const run=(S && S.params && S.params[SPACE_MESH_KEY]
     && typeof S.params[SPACE_MESH_KEY]==="object")? S.params[SPACE_MESH_KEY] : null;
   const sm=run||decl, source=run? "running" : (decl? "declared" : null);
-  const declaredGeo3=(ph.geoPN===3 || ph.geoPN===4);   // 第295便b: 4(空間メッシュ —— 旧法則版の置き場)も同じ
-  const runGeo3=!!(S && S.params && S.params.geoPN>=3);
+  const declaredGeo3=(ph.geoPN===3 || ph.geoPN===4);   // 第295便b: 4(空間メッシュ —— 旧法則版の置き場)も同じ。第296便a: 0 は宣言だけ(走行情報なし)では従来どおり「宣言のみ」
+  const runGeo3=!!(S && S.params && geoLegacyGateOf(S.params));   // 第296便a(R157): 走行中は門と同じ式(3・4 は従来どおり・lawVersion を宣言した 0 も —— 0 でも走る/入場条件の停止理由を出す)
   if(!sm && !declaredGeo3 && !runGeo3) return null;
   // 第294便a(原仮定者の裁定(第84報)・R148): geoPN=3 ∧ 慣性決定力の宣言(旧法則版なし)は空間メッシュの本ではない —— メッシュのチップを出さない
   //   (法則は inertial-drag としてモードの行で読む・QA ui.meshChipState は 🌛 を数えない)
@@ -5055,7 +5230,8 @@ function meshChipState(p,S){
     const on=!!(S && S.hasGeo3===true);
     const g3={law, pn:(sm.pn||GEO3_PN[0]), pnVelocity:(sm.pnVelocity||null), velocityMeaning:(sm.velocityMeaning||null),
       meshV2:false, overlay:false, unconverged:false, source,
-      geoPN:((S && S.params && S.params.geoPN>=4) || (!(S && S.params) && ph.geoPN===4))? 4 : 3};   // 第295便b: 番号(表示だけ)
+      geoPN:((S && S.params && S.params.geoPN>=4) || (!(S && S.params) && ph.geoPN===4))? 4
+        : ((S && S.params)? !(S.params.geoPN>0) : !(ph.geoPN>0))? 0 : 3};   // 第295便b: 番号(表示だけ)。第296便a: 0(旧メッシュを 0 で走らせた本)
     if(on) return Object.assign({key:"geo3", acting:true, entered:true}, g3);
     if(declaredGeo3 || runGeo3)
       return Object.assign({key:"stopped", reason:(S && (S.meshVelDeny || S.geoToyDeny)) || "denied", acting:false, entered:false}, g3);
@@ -5103,10 +5279,10 @@ function meshChipLabel(st){
 // 初期速度の意味)と作動(外部ステップの步数・最大の移送速さ・1PN の步数)を分けて出す。未作動なら理由を出す
 // (**黙って別の経路で走らせない**)。vMinusU を宣言していない宇宙では null(トイの行は従来どおり)
 function geo3HudText(S){
-  if(!S || !S.params || !(S.params.geoPN>=3)) return null;
+  if(!S || !S.params || !geoLegacyGateOf(S.params)) return null;   // 第296便a(R157): 門と同じ式(lawVersion を宣言した 0 も)
   const sm=S.params[SPACE_MESH_KEY];
   if(!(sm && typeof sm==="object" && sm.lawVersion===GEO3_LAW)) return null;
-  let s="geoPN="+(S.params.geoPN>=4? 4 : 3)+" / vMinusU / pn:"+(sm.pn||GEO3_PN[0])+(sm.pnVelocity? "("+sm.pnVelocity+")" : "")   // 第295便b: 宣言の番号(3/4)
+  let s="geoPN="+(S.params.geoPN>=4? 4 : S.params.geoPN>=3? 3 : 0)+" / vMinusU / pn:"+(sm.pn||GEO3_PN[0])+(sm.pnVelocity? "("+sm.pnVelocity+")" : "")   // 第295便b: 宣言の番号(3/4)
     +" v0:"+(sm.velocityMeaning||"—");
   if(S.hasGeo3!==true) return s+" 未作動:"+(S.meshVelDeny||S.geoToyDeny||"denied");
   s+=" N="+(S.meshVelN||0)+" |u|max="+Number(S.meshVelUMax||0).toExponential(2);
@@ -6575,7 +6751,7 @@ function bgLawCrossCheck(bgc, ph, sampleClass){
   if(sampleClass==="calibration") return W+' は較正クラス(sampleClass "calibration")では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';
   const sm=ph[SPACE_MESH_KEY];
   if(lv==="share-p1"){
-    if(!(ph.geoPN>=3) || !sm) return W+' は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)';
+    if(!geoLegacyGateOf(ph) || !sm) return W+' は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)';
     const law=(sm.lawVersion===undefined)? GEO_TOY_LAW_DEFAULT : sm.lawVersion;
     if(law!=="scalar") return W+' は spaceMesh.lawVersion:"scalar"(大域の正規化平均)のトイだけ(local/complex/vMinusU とは併用しない)';
     if(frameWeightPow(ph)!==1) return W+' は frameWeight:"share"(p=1)の本だけ(局所の核と背景の核を同じ p にする)';
@@ -6831,7 +7007,7 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
   // トイ(scalar/local/complex)・メッシュのチャネル(座標変換慣性・織り込み・メッシュ重力)とは従来どおり排他
   // (vMinusU の spaceMesh はそれらのチャネルを持てない —— validateSpaceMesh が拒否する)。
   const smX=ph[SPACE_MESH_KEY], g3X=!!(smX && smX.lawVersion===GEO3_LAW);
-  if(ph.geoPN>=3){ if(!g3X) return "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ"; }
+  if(geoLegacyGateOf(ph)){ if(!g3X) return "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ"; }
   else if(smX) return "physics.meshVelocity は physics.spaceMesh(座標変換慣性・織り込み・メッシュ重力)と排他";
   const nb=Array.isArray(bodies)? bodies.length : 0;
   if(nb<1) return "physics.meshVelocity は bodies が要る";
@@ -6988,7 +7164,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7014,11 +7190,36 @@ function relDragSolveFromOf(rd){
   if(relDragComposeOf(rd)!=="solve") return null;
   return (rd.solveFrom===undefined || rd.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : rd.solveFrom;
 }
+// 第296便c: 連鎖の解法の門と反復上限(宣言が無ければ既定 —— 正準形には宣言した本だけ)
+function relDragSolverTolOf(rd){ return (rd && rd.solverTol!==undefined && rd.solverTol!==null)? rd.solverTol : REL_DRAG_SOLVER_TOL_DEFAULT; }
+function relDragSolverMaxIterOf(rd){ return (rd && rd.solverMaxIter!==undefined && rd.solverMaxIter!==null)? rd.solverMaxIter : REL_DRAG_SOLVER_MAXITER_DEFAULT; }
 const REL_DRAG_SOLVE_ITERS_DEFAULT = 8;
 const REL_DRAG_SOLVE_ITERS_RANGE = [1, 1000];
 const REL_DRAG_SOLVE_DIRECT_MAX = 64;     // n ≤ 64 は直接法(ガウス消去 —— 行の対角優位なのでピボットなし)・それより多いと Gauss–Seidel
 const REL_DRAG_SOLVE_NMAX = 4096;         // 結合行列 a_ij(n² の倍精度)を張る上限 —— 超えた步は拒否して数える(u=0)
-const REL_DRAG_COMPOSE_VERSION = "w293g-compose-2";   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
+const REL_DRAG_COMPOSE_VERSION = "w293g-compose-2";
+// ===== 第296便c(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・
+//   統括の検証項目 R159): **連鎖の解法の宣言** `solver:"network-pcg-v1"` と **自転する源** `spinSource:"surfaceFlip"`(law:"inertial" ∧ compose solve だけ) =====
+// 連鎖そのものは既存の全体 solve (I+L)u = s(直接つながらない粒へも中間の粒を通じて伝わる —— 第293便e)が持つ。本便はその上に
+//   (1) 解法: 辺 c_ij = m_i a_ij = C m_i m_j K_ε(r_ij)(源に dragCore が無いとき対称)なので B = M(I+L) は対称正定値 ——
+//       z_i = √m_i u_i の対角相似で対称化した系を対角前処理の共役勾配法(PCG)で解く。n > REL_DRAG_SOLVE_DIRECT_MAX(64)で
+//       Gauss–Seidel の代わりに走る(n ≤ 64 は従来どおり直接法)。収束判定は**元の式 (I+L)u = s を再評価した残差**
+//       max|(I+L)u − s|/max|s| ≤ solverTol(既定 1e-10)。solverMaxIter(既定 1000)で収まらなければ **u を採用しない**
+//       (その步の引きずりは 0・S.inertialDragSolveFail を数え・HUD に赤・アプリは停止して通知 —— 黙って進めない)。
+//   (2) 自転する源: 源 j の速度を V_j + Ω_j×ρ(Ω_j = 宣言スピン・軸は画面に垂直・ρ は源の中心からの位置)として、宣言半径 radius の
+//       一様球で体積平均した**接線成分** C m_j Ω_j ⟨K_ε(|d−ρ|)(ρ·ê)⟩ (ẑ×ê) を s_i に足す(d = x_i − x_j・ê = d/|d|・受け手は点)。
+//       第280便b の表裏核(dfmSphereKernelRadial の A_φ —— 表側と裏側の Ω×ξ が逆向きで近い側の重みが残る)と同じ形で、核だけが
+//       慣性決定力の K_ε(r)=r/(r²+ε²)²(並進の a_ij と同じ核)。並進の a_ij は点源のまま(スピン 0 の源は 1 命令も足さない)。
+//   隣の u を別に足す緩和反復は作らない(同じ引きずりを二度数えない)。共通の剛体回転は並進と違って s から消えない —— 残差は器が記録し、
+//   本便は**引かずに残す**(rigidRotation:"kept")。式と零試験は docs/PHYSICS.md〔第296便c〕・純関数 tests/lib-w296c-chain.mjs
+const REL_DRAG_SOLVERS = ["network-pcg-v1"];
+const REL_DRAG_SOLVER_TOL_DEFAULT = 1e-10;
+const REL_DRAG_SOLVER_TOL_RANGE = [1e-15, 1e-3];
+const REL_DRAG_SOLVER_MAXITER_DEFAULT = 1000;
+const REL_DRAG_SOLVER_MAXITER_RANGE = [1, 100000];
+const REL_DRAG_SPIN_SOURCES = ["surfaceFlip"];
+const REL_DRAG_SPIN_NODES = 16;            // 自転源の半径積分(区間あたりの Gauss–Legendre 点数)
+const REL_DRAG_CHAIN_VERSION = "w296c-chain-1";   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -7059,6 +7260,9 @@ function validateDragCoreBody(b, ph){
   if(d.radius===b.radius && d.massFrac<1) return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
   const rd=ph && ph[REL_DRAG_KEY];
   if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
+  // 第296便c(R159): 構造核のある源は c_ij = C m_i m_j ⟨K⟩_j が非対称(源ごとに核が違う)—— 対称正定値を前提にした連鎖の解法と、一様球の自転源は使えない
+  if(rd.solver!==undefined && rd.solver!==null) return {ok:false, err:'dragCore(構造核のある源)は physics.relativeDrag.solver:"network-pcg-v1" と一緒に宣言しない —— 源ごとに核が違うと結合 c_ij が非対称になり、対称正定値を前提にした共役勾配法が使えない(第296便c)'};
+  if(rd.spinSource!==undefined && rd.spinSource!==null) return {ok:false, err:'dragCore(構造核のある源)は physics.relativeDrag.spinSource と一緒に宣言しない —— 自転源の表裏核は一様球(dragCore 無し)だけ(構造核へ広げるのは未決 —— 第296便c)'};
   const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
   if(!(eps>0)) return {ok:false, err:'dragCore は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では受け手が源の中で体積平均が発散する)'};
   return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};
@@ -7110,6 +7314,8 @@ function validateRelativeDragInertial(a){
   if(cmp==="sum"){
     for(const k of ["solveFrom","solveIters"]) if(a[k]!==undefined && a[k]!==null)
       return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定)専用(compose:"sum" では宣言しない)'};
+    for(const k of ["solver","solverTol","solverMaxIter","spinSource"]) if(a[k]!==undefined && a[k]!==null)   // 第296便c: 連鎖の宣言は solve 専用
+      return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定 —— 共通の移動速度を全体で解く)専用(compose:"sum" では宣言しない —— 第296便c)'};
     out.compose="sum";
   } else {
     const sf=(a.solveFrom===undefined || a.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : a.solveFrom;
@@ -7119,6 +7325,28 @@ function validateRelativeDragInertial(a){
       if(!isNum(a.solveIters) || a.solveIters!==Math.round(a.solveIters) || a.solveIters<REL_DRAG_SOLVE_ITERS_RANGE[0] || a.solveIters>REL_DRAG_SOLVE_ITERS_RANGE[1])
         return {ok:false, err:'physics.relativeDrag.solveIters は '+REL_DRAG_SOLVE_ITERS_RANGE[0]+'〜'+REL_DRAG_SOLVE_ITERS_RANGE[1]+' の整数(n>'+REL_DRAG_SOLVE_DIRECT_MAX+' の Gauss–Seidel の回数・既定 '+REL_DRAG_SOLVE_ITERS_DEFAULT+')'};
       out.solveIters=a.solveIters;
+    }
+    // 第296便c(R159): 連鎖の解法 solver・残差の門 solverTol・反復上限 solverMaxIter・自転する源 spinSource(省略は正準形に出さない)
+    if(a.solver!==undefined && a.solver!==null){
+      if(REL_DRAG_SOLVERS.indexOf(a.solver)<0) return {ok:false, err:'physics.relativeDrag.solver は "network-pcg-v1"(質量で対称化した対角前処理の共役勾配法 —— 第296便c)のみ'};
+      out.solver=a.solver;
+    }
+    for(const k of ["solverTol","solverMaxIter"]) if(a[k]!==undefined && a[k]!==null && out.solver===undefined)
+      return {ok:false, err:'physics.relativeDrag.'+k+' は solver:"network-pcg-v1" の宣言と一緒にだけ(第296便c)'};
+    if(a.solverTol!==undefined && a.solverTol!==null){
+      if(!isNum(a.solverTol) || a.solverTol<REL_DRAG_SOLVER_TOL_RANGE[0] || a.solverTol>REL_DRAG_SOLVER_TOL_RANGE[1])
+        return {ok:false, err:'physics.relativeDrag.solverTol は '+REL_DRAG_SOLVER_TOL_RANGE[0]+'〜'+REL_DRAG_SOLVER_TOL_RANGE[1]+'(元の式 (I+L)u=s の相対残差の門・既定 '+REL_DRAG_SOLVER_TOL_DEFAULT+')'};
+      out.solverTol=a.solverTol;
+    }
+    if(a.solverMaxIter!==undefined && a.solverMaxIter!==null){
+      if(!isNum(a.solverMaxIter) || a.solverMaxIter!==Math.round(a.solverMaxIter) || a.solverMaxIter<REL_DRAG_SOLVER_MAXITER_RANGE[0] || a.solverMaxIter>REL_DRAG_SOLVER_MAXITER_RANGE[1])
+        return {ok:false, err:'physics.relativeDrag.solverMaxIter は '+REL_DRAG_SOLVER_MAXITER_RANGE[0]+'〜'+REL_DRAG_SOLVER_MAXITER_RANGE[1]+' の整数(共役勾配法の反復上限・既定 '+REL_DRAG_SOLVER_MAXITER_DEFAULT+' —— 収まらなければ u を採用せず停止)'};
+      out.solverMaxIter=a.solverMaxIter;
+    }
+    if(a.spinSource!==undefined && a.spinSource!==null){
+      if(REL_DRAG_SPIN_SOURCES.indexOf(a.spinSource)<0) return {ok:false, err:'physics.relativeDrag.spinSource は "surfaceFlip"(自転する源の表裏を一様球で体積平均した接線成分 —— 第296便c)のみ'};
+      if(!(a.gain>0)) return {ok:false, err:'physics.relativeDrag.spinSource は gain>0 の慣性の宣言と一緒にだけ(gain:0 の否定対照には自転源を重ねない —— 第296便c)'};
+      out.spinSource=a.spinSource;
     }
   }
   return {ok:true, relativeDrag:out};
@@ -7827,7 +8055,8 @@ function jeansSigma2Profile(r,Sig,g,aM,V){
 function bgToyOf(ph){
   const cf=ph[SPACE_MESH_KEY]||null;
   // トイの場を読むか(geoPN=3・lawVersion "scalar"・帯平均/mesh-v2 なし —— それ以外は ⟨a_mesh,r⟩=0 と宣言して記録)
-  const toy=!!(cf && (ph.geoPN||0)>=3 && cf.lawVersion==="scalar" && cf.diskSupport===undefined && cf.law===undefined);
+  // 第296便a(R157): 番号の条件は門 geoLegacyGateOf(3・4 は従来どおり・lawVersion を宣言した 0 も —— 旧メッシュが 0 で走る本の Jeans 初速が 4 と同じ)
+  const toy=!!(cf && geoLegacyGateOf(ph) && cf.lawVersion==="scalar" && cf.diskSupport===undefined && cf.law===undefined);
   const spinRead=!!(toy && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
   return {cf, toy, spinRead};
 }
@@ -13814,6 +14043,75 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ===== 第296便b(原仮定者の裁定(第86報)・統括の検証項目 R158): 🟫 mercurySunInertialFit —— 🟤 の派生本(gain を近点率に合わせた —— フィット) =====
+// bodies・physics は 🟤 mercurySunInertial の写しで、違うのは relativeDrag.gain だけ(生成器 tests/exp-w296b-fit.mjs の最終値)。🟤 は係数移送の対照として 1 字も変えない。
+// 標的は gain 0 の対照との近点率の差 43.0″/世紀(照合規約の値 —— 1PN の量)。周期・離心率は合わせていない。fitRecord は正本 tests/out/fit-w296b.json と同じ(presetSig の外)。
+{ id:"mercurySunInertialFit", name:"水星と太陽(慣性決定力版・フィット)— 近点率に合わせた gain", emoji:"🟫", group:"現実較正",
+  familyId:"mercury", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // 🟤・☄️ と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg)
+  sampleClass:"principle",
+  referenceKind:"observation-fit",
+  fidelity:"real",
+  notClaim:["solar_cal","perihelion_43_fit","gain_universal_fit","single_quantity_fit"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},
+  abBody:{ label:{ja:"慣性引きずりを切る(gain 0 —— 重力だけの二体)", en:"switch the inertial drag off (gain 0 — the gravity-only two-body system)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.05, history:"positions", pairs:"all"}} },
+  obsCard:[
+      {q:"何を置いたか", model:"🟤 の写し(☄️ の太陽と水星・geoPN=3・kFrame=0・点源)で gain だけを合わせた派生本", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"標的(宣言した 1 量)", model:"gain 0 の対照との近点率の差(8 公転・検出器 B・同じ刻み)", obs:"43.0″/世紀(照合規約の値 —— 1PN の量)"},
+      {q:"gain(フィット)", model:"0.004522415 [L³/M] = 4.52241e-6 m³/kg(移送値 0.0514182 の 8.795e-5 倍)", obs:"—"},
+      {q:"模型・残差・数値誤差", model:"差 43.00001″/世紀・残差 1.27e-5・h と h/2 の差 1.59e-4(残差 ≤ 数値誤差)", obs:"43.0″/世紀"},
+      {q:"合わせていない量(実測)", model:"周期 87.96914 日(gain 0 との差 -0.58 s)・近日点移動の全量 33.73″/世紀(軟化の逆行を含む)", obs:"87.969 日(参照)"},
+      {q:"構造核 dragCore", model:"太陽の f を R_c/R=0.3 で振った幅 6.03e-3″/世紀 —— 1 量では gain と分けられない(点源のまま)", obs:"—"},
+      {q:"言わないこと", model:"43″/世紀を DFM から導いたとは言わない。合わせたのは 1 量だけ・gain は系ごとの経験係数", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の水星と太陽 —— 近点率に gain を合わせた派生本**(第296便b・原仮定者の裁定〔第86報〕・統括の検証項目 R158)。🟤 mercurySunInertial(係数移送の本 —— 1 字も変えない対照)の bodies と physics の写しを重力(E4)と慣性引きずり(既定の合成則 solve(velocity))で回す。**違うのは慣性引きずりの gain だけ**。gain は生成器 tests/exp-w296b-fit.mjs が、**宣言した 1 つの観測量** —— gain 0 の対照との近点率の差(8 公転・検出器 B・同じ刻み)—— を照合規約の値 43.0″/世紀(☄️ の expected・1PN の量)に合わせた値 0.004522415 [L³/M](= 4.52241e-6 m³/kg・移送値 0.0514182 m³/kg の 8.795e-5 倍)。手順: gain の対数格子(SI で 10⁻⁶〜0.0514182 m³/kg・13 点)で根を挟み、Illinois で詰め、7 桁に丸めた値を h=0.016 と h/2 で測り直した。模型の差は 43.00001″/世紀(残差 1.27e-5)で、h と h/2 の差 1.59e-4″/世紀(数値誤差の帯)の中にある —— status:\"fitted\"。**周期・離心率・近日点移動の全量は合わせていない**(周期 87.96914 日・gain 0 との差 -0.58 s/全量 33.73″/世紀 —— 重力の軟化の逆行を含む)。構造核 dragCore: 太陽の実半径の中のコア(R_c/R=0.3)の f を 0.1〜1.0 に振ると近点率は 6.03e-3″/世紀だけ動き、1 量では gain と分けて決められない(太陽と水星は点源のまま —— 内部核の測定値は置かない)。宣言した法則・単位・窓の中でアプリ内の整合を整え、宣言した 1 量に合わせた本であって、1PN を DFM から導いた本ではない。記録は fitRecord(説明タブの「フィットの記録」)。",
+      observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、近日点がほとんど動かないのを見る(gain 0 の対照との差が 1 世紀に約 43″ —— 画面では見えない量)。数は説明タブの「フィットの記録」と観測結果カードにある。HUD の t は日に換算される。",
+      control:"ワンタップの対照は gain 0(慣性引きずりを切る —— ☄️ と同じ重力だけの二体・geoPN 3)。係数移送の対照は 🟤(gain 51.4182 —— 近点 0.3279°/公転)。1PN の近日点前進は ☄️ で見る。gain の妥当性(系ごとの経験係数・共通係数は見つかっていない)は docs/PHYSICS.md〔第296便b〕の gain の表。"},
+  en:{name:"Mercury & Sun (inertial determinacy, fitted) — the gain matched to the apsidal rate",
+    obsCard:[
+      {q:"What is placed", model:"a copy of 🟤 (☄️'s Sun and Mercury, geoPN=3, kFrame=0, points) with only the gain matched", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"Target (one declared quantity)", model:"apsidal-rate difference from the gain-0 control (8 orbits, detector B, same step)", obs:"43.0 arcsec/century (the comparison convention - a 1PN quantity)"},
+      {q:"gain (fitted)", model:"0.004522415 [L^3/M] = 4.52241e-6 m^3/kg (8.795e-5 times the transferred 0.0514182)", obs:"-"},
+      {q:"Model, residual, numerical error", model:"difference 43.00001 arcsec/century; residual 1.27e-5; h vs h/2 1.59e-4 (residual <= numerical error)", obs:"43.0 arcsec/century"},
+      {q:"Not matched (measured)", model:"period 87.96914 d (vs gain 0: -0.58 s); full perihelion rate 33.73 arcsec/century (incl. softening)", obs:"87.969 d (reference)"},
+      {q:"Structure core dragCore", model:"the Sun's f swept at R_c/R=0.3 moves it by 6.03e-3 arcsec/century - not separable from the gain", obs:"-"},
+      {q:"Not claimed", model:"43 arcsec/century is not derived from DFM. One quantity is matched; the gain is a per-system coefficient", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY MERCURY AND SUN WITH THE GAIN MATCHED TO THE APSIDAL RATE (wave 296b; the originator's ruling in report 86; the coordinator's check item R158). A copy of 🟤 mercurySunInertial (the coefficient-transfer sample, kept unchanged as the control), run under gravity (E4) and the inertial drag (the default composition rule solve(velocity)); ONLY THE INERTIAL-DRAG GAIN DIFFERS. The generator tests/exp-w296b-fit.mjs matched ONE DECLARED OBSERVED QUANTITY - the apsidal-rate difference from the gain-0 control (8 orbits, detector B, the same step) - to the comparison value 43.0 arcsec/century (☄️'s expected value, a 1PN quantity), giving 0.004522415 [L^3/M] (= 4.52241e-6 m^3/kg, 8.795e-5 times the transferred 0.0514182 m^3/kg). Procedure: bracket the root on a log grid of the gain (1e-6 to 0.0514182 m^3/kg in SI, 13 points), tighten it by Illinois, and re-measure the 7-digit value at h=0.016 and h/2. The model difference is 43.00001 arcsec/century (residual 1.27e-5), inside the h vs h/2 band 1.59e-4 arcsec/century - status \"fitted\". THE PERIOD, THE ECCENTRICITY AND THE FULL PERIHELION RATE ARE NOT MATCHED (period 87.96914 d, -0.58 s from gain 0; full rate 33.73 arcsec/century including the softening's retrograde term). Structure core dragCore: sweeping the f of a core inside the Sun's real radius (R_c/R=0.3) from 0.1 to 1.0 moves the rate by 6.03e-3 arcsec/century, so one quantity cannot separate it from the gain (the Sun and Mercury stay points - no internal-core measurement is placed). The in-app consistency is set inside the declared law, units and window and one declared quantity is matched; 1PN is not derived from DFM. The record is fitRecord (the \"fit record\" card of the explanation tab).",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20): the perihelion hardly moves (the difference from the gain-0 control is about 43 arcsec per century - too small to see). The numbers are in the \"fit record\" card and the observation card. The HUD time is shown in days.",
+      control:"The one-tap control is gain 0 (the inertial drag off - ☄️'s gravity-only two-body system, geoPN 3). The coefficient-transfer control is 🟤 (gain 51.4182 - 0.3279 deg/orbit). The 1PN perihelion advance is seen in ☄️. The gain's standing (a per-system empirical coefficient; no shared coefficient found) is the gain table of docs/PHYSICS.md [wave 296b]."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Sun's and Mercury's real masses, radii and rotations (copied from 🟤/☄️)",
+        "Mercury's perihelion distance 4.60e10 m and perihelion speed 58.98 km/s (copied from 🟤/☄️ - given to the dynamical velocity v)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:0.004522415, eps:0.05, history:\"positions\", pairs:\"all\"} (compose not declared = the default solve(velocity))",
+        "point sources (no internal core is declared for the Sun or Mercury)","kRep=muF=gammaN=kappaS=0","stateCarry:\"double\", massFloor=1e-6","the Sun is pinned (as in ☄️)"],
+      fitted:["gain (relativeDrag.gain) = 0.004522415 [L^3/M] - a one-dimensional fit of the apsidal-rate difference from the gain-0 control to 43.0 arcsec/century (log-grid bracket, Illinois, 7 digits; residual 1.27e-5 <= h vs h/2 1.59e-4). The record is fitRecord"],
+      derived:["kappa=G/c0^2=7.4258e-9"],
+      numerical:["softening eps=0.05 = 5x10^6 m (gravity and the drag kernel)","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","太陽・水星の実質量・実半径・実自転(🟤・☄️ の写し)",
+      "水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s(🟤・☄️ の写し —— 力学速度 v に与えた)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:0.004522415, eps:0.05, history:\"positions\", pairs:\"all\"}(compose は書かない = 既定 solve(velocity))",
+      "点源(太陽・水星の内部核は宣言しない)","kRep=muF=γN=κ_S=0","stateCarry:\"double\"・massFloor=1e-6","太陽 pinned(☄️ と同じ)"],
+    fitted:["gain(relativeDrag.gain)= 0.004522415 [L³/M] —— gain 0 の対照との近点率の差を 43.0″/世紀に合わせた 1 次元フィット(対数格子で挟む → Illinois → 7 桁・残差 1.27e-5″/世紀 ≤ h/2 の差 1.59e-4)。記録は fitRecord"],
+    derived:["κ=G/c₀²=7.4258×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05 = 5×10⁶m(重力と引きずりの核)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  fitRecord:{"version": "w296b-1", "parent": "mercurySunInertial", "law": "inertial-drag", "targets": [{"q": "perihelionRateDrag", "obs": 43, "unit": "″/世紀", "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)", "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)・gain 0 の対照との差(同じ刻み)"}], "knobs": [{"key": "physics.relativeDrag.gain", "range": [0.001, 51.4182], "final": 0.004522415}], "fixed": ["bodies・初期状態・元期・配置は親 🟤 mercurySunInertial の写し(1 字も変えない)", "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.05・pairs \"all\"(親のまま)", "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)", "太陽と水星は点源(dragCore を宣言しない —— 太陽の f を R_c/R=0.3 で振った近点率の差は下の notIdentifiable)"], "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(残差 ≤ 数値誤差の帯 |q_h − q_h/2| なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)", "dt": 0.016, "steps": 380027, "residual": {"value": 1.270306584899572e-05, "unit": "″/世紀", "model": 43.00001270306585, "rel": 2.954201360231563e-07}, "numerics": {"h2": 0.00015869460099082744, "dtHalf": 0.008}, "status": "fitted", "notFitted": ["公転周期(8 公転の平均 —— gain 0 の対照との差と JPL/NSSDC の値との差を記録するだけ)", "離心率", "近日点移動の全量(重力の軟化の逆行を含む —— 合わせたのは gain 0 の対照との差)"], "notIdentifiable": ["dragCore(太陽の f を R_c/R=0.3 で 0.1〜1.0 に振った近点率の幅 6.03e-3″/世紀 —— 数値誤差の帯 1.59e-4″/世紀 を超えるが gain と縮退。1 量では gain と分けられない)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:800}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:0.004522415, eps:0.05, history:"positions", pairs:"all"}},
+  bodies:[   // 🟤 mercurySunInertial(= ☄️ mercuryReal)と同一(1 字も変えない)
+    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 // ===== 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進め、必要に応じてサンプルを追加する」・統括の読み R65) =====
 // **🔁 水星の geoPN=3 契約の零試験**(診断コピー・`sampleClass:"principle"`・較正母集団に入れない)。
@@ -15021,6 +15319,84 @@ const BUILTIN_PRESETS = [
       vx:0, vy:-0.0024268498546968042, spin:0.00011385554400956285, pinned:false, pnSource:true},
     {type:"single", m:0.0015897512735990414, radius:6.06, x:174.6421739306951, y:0,
       vx:0, vy:0.019883700081884368, spin:0.00011385554400956285, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+// ===== 第296便b(原仮定者の裁定(第86報)・統括の検証項目 R158): 🟪 plutoCharonInertialFit —— 🟣 の派生本(構造核の事前値+gain を公転周期に合わせた —— フィット) =====
+// bodies・physics は 🟣 plutoCharonInertial の写しで、違うのは relativeDrag.gain(生成器 tests/exp-w296b-fit.mjs の最終値)・relativeDrag.coreTable.n 4096・両天体の dragCore(事前値 —— 固定)だけ。
+// 🟣 は係数移送の対照として 1 字も変えない。標的は公転周期(8 公転の平均)6.3872273 日(Buie 2012)。構造核は 1 量では同定できない(fitRecord.notIdentifiable)。
+{ id:"plutoCharonInertialFit", name:"冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain", emoji:"🟪", group:"現実較正",
+  familyId:"pluto", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:5, T:1, M:24},   // 🟣・🥶 と同一(1単位=10⁵m/10s/10²⁴kg —— ε=0.01 単位が 1 km)
+  integrator:"leapfrog",   // 🟣・🥶 と同じ
+  sampleClass:"principle",
+  referenceKind:"observation-fit",
+  fidelity:"real",
+  notClaim:["solar_cal","period_target_fit","gain_universal_fit","single_quantity_fit"],
+  abBody:{ label:{ja:"慣性引きずりを切る(gain 0 —— 重力だけの二体)", en:"switch the inertial drag off (gain 0 — the gravity-only two-body system)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.01, history:"positions", pairs:"all", coreTable:{n:4096}}} },
+  obsCard:[
+      {q:"何を置いたか", model:"🟣 の写し(🥶 の二体・geoPN=3・kFrame=0)+構造核の事前値・gain だけを合わせた派生本", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"標的(宣言した 1 量)", model:"公転周期(8 公転の平均 —— 同方向の周回の通過時刻の平均間隔)", obs:"551856.43872±0.02592 s(Buie 2012・6.3872273 日)"},
+      {q:"gain(フィット)", model:"6729.009 [L³/M] = 6.72901e-6 m³/kg(移送値 0.0514182 の 1.309e-4 倍)", obs:"—"},
+      {q:"模型・残差・数値誤差", model:"551856.4387 s・残差 3.25e-7 s・h と h/2 の差 4.56e-5 s・16 公転 551856.4387 s", obs:"551856.43872 s"},
+      {q:"構造核 dragCore(固定)", model:"冥王星 f 0.5・R_c/R 0.3/カロン f 0.5・R_c/R 0.5 —— f を振った幅 1.20e-2 s(gain と縮退)", obs:"—"},
+      {q:"合わせていない量(実測)", model:"第 2 周 551856.4387 s・離心率の代理 1.31e-5(gain 0 は 3.99e-9)", obs:"—"},
+      {q:"速度の規約(対照・移送 gain)", model:"v=(I+L)W の写し: eProxy 1.30e-1・周期 695130.0 s(v=W は eProxy 1.36e-1)", obs:"—"},
+      {q:"言わないこと", model:"周期を予言したとは言わない(標的)。核の値は内部核の測定値ではない・gain は系ごとの経験係数", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の冥王星とカロン —— 公転周期に gain を合わせた派生本**(第296便b・原仮定者の裁定〔第86報〕・統括の検証項目 R158)。🟣 plutoCharonInertial(係数移送の本 —— 1 字も変えない対照)の bodies と physics の写し(重力 E4 と慣性引きずり —— 既定の合成則 solve(velocity))に、**構造核 dragCore の事前値**(冥王星 {f 0.5, R_c/R 0.3}・カロン {f 0.5, R_c/R 0.5}・表 coreTable.n 4096 —— 固定)を置き、**慣性引きずりの gain だけ**を合わせた。gain は生成器 tests/exp-w296b-fit.mjs が、**宣言した 1 つの観測量** —— 公転周期(8 公転の平均)—— を Buie, Tholen & Grundy 2012 の 6.3872273 日(551856.43872±0.02592 s)に合わせた値 6729.009 [L³/M](= 6.72901e-6 m³/kg・移送値 0.0514182 m³/kg の 1.309e-4 倍)。手順: gain の対数格子(SI で 10⁻⁶〜0.0514182 m³/kg・13 点)で根を挟み、Illinois で詰め、7 桁に丸めた値を h=0.16 と h/2 で測り直した。模型は 551856.4387 s(残差 3.25e-7 s)で、h と h/2 の差 4.56e-5 s(数値誤差の帯)の中 —— status:\"fitted\"。16 公転の平均は 551856.4387 s。**構造核は同定できない**: 固定した gain で冥王星とカロンの f を振った周期の幅は 1.20e-2 s で、観測の 1σ 0.02592 s より小さく、1 量では gain と縮退する(核の値は事前値であって内部核の測定値ではない)。**軌道の形と第 2 周は合わせていない**(第 2 周 551856.4387 s・離心率の代理 1.31e-5)。**速度の規約**: 親の vx/vy を力学速度 v に与えた(v=W)ままにした。観測の座標速度を W と読む写し v=(I+L)W(純関数 inertialDragInverseMap)は対照として器の中だけで走らせた(移送 gain で eProxy 1.30e-1・周期 695130.0 s —— v=W の写しは eProxy 1.36e-1)。宣言した法則・単位・窓の中でアプリ内の整合を整え、宣言した 1 量に合わせた本であって、周期を予言した本ではない。記録は fitRecord(説明タブの「フィットの記録」)。",
+      observe:"トレイルで、冥王星とカロンが重心のまわりにほぼ円を描くのを見る(移送 gain の 🟣 と違い、合わせた gain は小さく |u|/|v| も小さい)。数は説明タブの「フィットの記録」と観測結果カードにある。粒子表示は実半径のまま(dispMag=1)。",
+      control:"ワンタップの対照は gain 0(慣性引きずりを切る —— 🥶 と同じ重力だけの二体・geoPN 3)。係数移送の対照は 🟣(gain 5.14182×10⁷ —— 軌道が円から外れる)。gain の妥当性(系ごとの経験係数・共通係数は見つかっていない)は docs/PHYSICS.md〔第296便b〕の gain の表。"},
+  en:{name:"Pluto & Charon (inertial determinacy, fitted) — the gain matched to the orbital period",
+    obsCard:[
+      {q:"What is placed", model:"a copy of 🟣 (🥶's pair, geoPN=3, kFrame=0) with prior structure cores; only the gain matched", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"Target (one declared quantity)", model:"orbital period (mean over 8 orbits - mean interval of same-direction passages)", obs:"551856.43872 +/- 0.02592 s (Buie 2012, 6.3872273 d)"},
+      {q:"gain (fitted)", model:"6729.009 [L^3/M] = 6.72901e-6 m^3/kg (1.309e-4 times the transferred 0.0514182)", obs:"-"},
+      {q:"Model, residual, numerical error", model:"551856.4387 s; residual 3.25e-7 s; h vs h/2 4.56e-5 s; 16 orbits 551856.4387 s", obs:"551856.43872 s"},
+      {q:"Structure core dragCore (fixed)", model:"Pluto f 0.5, R_c/R 0.3 / Charon f 0.5, R_c/R 0.5 - sweeping f moves it 1.20e-2 s (degenerate)", obs:"-"},
+      {q:"Not matched (measured)", model:"revolution 2 551856.4387 s; eccentricity proxy 1.31e-5 (gain 0: 3.99e-9)", obs:"-"},
+      {q:"Velocity convention (control)", model:"copy with v=(I+L)W: eProxy 1.30e-1, period 695130.0 s (v=W: eProxy 1.36e-1)", obs:"-"},
+      {q:"Not claimed", model:"The period is the target, not a prediction. Core values are not internal-core data; the gain is per system", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY PLUTO AND CHARON WITH THE GAIN MATCHED TO THE ORBITAL PERIOD (wave 296b; the originator's ruling in report 86; the coordinator's check item R158). A copy of 🟣 plutoCharonInertial (the coefficient-transfer sample, kept unchanged as the control; gravity E4 and the inertial drag with the default composition rule solve(velocity)) with PRIOR STRUCTURE CORES dragCore (Pluto {f 0.5, R_c/R 0.3}, Charon {f 0.5, R_c/R 0.5}, table coreTable.n 4096 - fixed); ONLY THE INERTIAL-DRAG GAIN IS MATCHED. The generator tests/exp-w296b-fit.mjs matched ONE DECLARED OBSERVED QUANTITY - the orbital period (mean over 8 orbits) - to Buie, Tholen & Grundy 2012's 6.3872273 d (551856.43872 +/- 0.02592 s), giving 6729.009 [L^3/M] (= 6.72901e-6 m^3/kg, 1.309e-4 times the transferred 0.0514182 m^3/kg). Procedure: bracket the root on a log grid of the gain (1e-6 to 0.0514182 m^3/kg in SI, 13 points), tighten it by Illinois, and re-measure the 7-digit value at h=0.16 and h/2. The model is 551856.4387 s (residual 3.25e-7 s), inside the h vs h/2 band 4.56e-5 s - status \"fitted\". The 16-orbit mean is 551856.4387 s. THE STRUCTURE CORES ARE NOT IDENTIFIABLE: at the fixed gain, sweeping Pluto's and Charon's f moves the period by 1.20e-2 s, below the observed 1-sigma 0.02592 s, and one quantity cannot separate them from the gain (the core values are priors, not internal-core measurements). THE ORBIT SHAPE AND REVOLUTION 2 ARE NOT MATCHED (revolution 2 551856.4387 s, eccentricity proxy 1.31e-5). VELOCITY CONVENTION: the parent's vx/vy stay given to the dynamical velocity v (v = W). A copy reading the observed coordinate velocity as W, v = (I+L)W (the pure function inertialDragInverseMap), was run inside the harness only, as a control (at the transferred gain: eProxy 1.30e-1, period 695130.0 s; the v = W copy has eProxy 1.36e-1). The in-app consistency is set inside the declared law, units and window and one declared quantity is matched; the period is not predicted. The record is fitRecord (the \"fit record\" card of the explanation tab).",
+      observe:"Use the trail to watch Pluto and Charon draw nearly circular orbits about the barycentre (unlike 🟣 with the transferred gain, the matched gain is small and so is |u|/|v|). The numbers are in the \"fit record\" card and the observation card. Bodies are drawn at real radii (dispMag=1).",
+      control:"The one-tap control is gain 0 (the inertial drag off - 🥶's gravity-only two-body system, geoPN 3). The coefficient-transfer control is 🟣 (gain 5.14182e7 - the orbit leaves the circle). The gain's standing (a per-system empirical coefficient; no shared coefficient found) is the gain table of docs/PHYSICS.md [wave 296b]."},
+    parameterAudit:{
+      observedInputs:["the built-in G=6.674 and c0=29979.2458","GM of Pluto and Charon and the 400-year mean semi-major axis 19595.764 km (copied from 🟣/🥶)",
+        "the declared mutual synchronism omega = 2 pi / 551855.8944 s (copied from 🟣/🥶 - kept, not read by the law)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)","geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:6729.009, eps:0.01, history:\"positions\", pairs:\"all\", coreTable:{n:4096}} (compose not declared = the default solve(velocity))",
+        "prior structure cores (fixed, not fitted): Pluto dragCore{massFrac:0.5, radius:3.564} (R_c/R 0.3), Charon dragCore{massFrac:0.5, radius:3.03} (R_c/R 0.5)",
+        "two free bodies, barycentric, circular, epsilon-0 Kepler speed (🥶's state given to the dynamical velocity v)",
+        "kRep=muF=gammaN=kappaS=0 / stateCarry:\"double\", massPrecision:\"double\"","2D"],
+      fitted:["gain (relativeDrag.gain) = 6729.009 [L^3/M] - a one-dimensional fit of the orbital period (mean over 8 orbits) to 551856.43872 s (log-grid bracket, Illinois, 7 digits; residual 3.25e-7 s <= h vs h/2 4.56e-5 s). The structure cores are fixed priors (not identifiable). The record is fitRecord"],
+      derived:["kappa_T=G/c0^2=7.4258e-9"],
+      numerical:["softening epsilon=0.01 unit = 1 km (gravity and the drag kernel)","integrator:\"leapfrog\"","time multiplier timeScale=1000","display magnification dispMag=1 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["内蔵 G=6.674・c₀=29979.2458","冥王星・カロンの GM と 400 年平均の軌道長半径 19595.764km(🟣・🥶 の写し)",
+      "相互同期の宣言 ω=2π/551855.8944s(🟣・🥶 の写し —— 保持するが法則は読まない)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)","geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:6729.009, eps:0.01, history:\"positions\", pairs:\"all\", coreTable:{n:4096}}(compose は書かない = 既定 solve(velocity))",
+      "構造核の事前値(固定 —— フィットしない): 冥王星 dragCore{massFrac:0.5, radius:3.564}(R_c/R 0.3)・カロン dragCore{massFrac:0.5, radius:3.03}(R_c/R 0.5)",
+      "二体の自由天体・重心系・円軌道・ε=0 のケプラー初速(🥶 の状態を力学速度 v に与えた)",
+      "kRep=muF=γN=κ_S=0 / stateCarry:\"double\"・massPrecision:\"double\"","2D"],
+    fitted:["gain(relativeDrag.gain)= 6729.009 [L³/M] —— 公転周期(8 公転の平均)を 551856.43872 s に合わせた 1 次元フィット(対数格子で挟む → Illinois → 7 桁・残差 3.25e-7 s ≤ h/2 の差 4.56e-5 s)。構造核は事前値に固定(同定できない)。記録は fitRecord"],
+    derived:["κ=G/c₀²=7.4258×10⁻⁹"],
+    numerical:["ソフトニング ε=0.01 単位=1km(重力と引きずりの核)","integrator:\"leapfrog\"","時間倍率 timeScale=1000","粒子表示倍率 dispMag=1(表示専用)"]},
+  fitRecord:{"version": "w296b-1", "parent": "plutoCharonInertial", "law": "inertial-drag", "targets": [{"q": "orbitalPeriodMean", "obs": 551856.43872, "unit": "s", "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)", "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)"}], "knobs": [{"key": "physics.relativeDrag.gain", "range": [1000, 51418200], "final": 6729.009}], "fixed": ["bodies・初期状態・元期・配置は親 🟣 plutoCharonInertial の写し(1 字も変えない)", "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.01・pairs \"all\"(親のまま)", "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)", "構造核の事前値: 冥王星 dragCore{f 0.5, R_c/R 0.3}・カロン dragCore{f 0.5, R_c/R 0.5}・表 coreTable.n 4096(固定 —— フィットしない)"], "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(残差 ≤ 数値誤差の帯 |q_h − q_h/2| なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)", "dt": 0.16, "steps": 2759283, "residual": {"value": 3.253808245062828e-07, "unit": "s", "model": 551856.4387203254, "rel": 5.896113584558067e-13}, "numerics": {"h2": 4.560861270874739e-05, "dtHalf": 0.08}, "status": "fitted", "notFitted": ["軌道の形(離心率の代理)", "第 2 周の周期(記録だけ)", "自転・潮汐"], "notIdentifiable": ["dragCore(固定 gain で冥王星/カロンの f を振った周期の幅 1.20e-2 s —— 観測の 1σ 0.02592 s より小さく、1 量では gain と縮退する)"]},
+  activeParams:["geoPN","dispMag"],
+  camera:{scale:210}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
+    stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:6729.009, eps:0.01, history:"positions", pairs:"all", coreTable:{n:4096}}},
+  bodies:[ // 🟣 plutoCharonInertial(= 🥶 plutoCharonDiagInput)の写し+構造核の事前値 dragCore(radius は R_c = x·R)
+    {type:"single", m:0.013025172310458496, radius:11.88, x:-21.315466069304904, y:0,
+      vx:0, vy:-0.0024268498546968042, spin:0.00011385554400956285, pinned:false, pnSource:true, dragCore:{massFrac:0.5, radius:3.564}},
+    {type:"single", m:0.0015897512735990414, radius:6.06, x:174.6421739306951, y:0,
+      vx:0, vy:0.019883700081884368, spin:0.00011385554400956285, pinned:false, dragCore:{massFrac:0.5, radius:3.03}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -17983,6 +18359,73 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第296便c(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・
+//   統括の検証項目 R159): 🔗 chainDiskToy —— 自転する中心(一様球・pinned)と多粒子の連鎖引きずり(原理)=====
+// geoPN=4(空間メッシュ・連鎖)・慣性の宣言 + solver:"network-pcg-v1"(n=81 > 64 で共役勾配法が走る)+ spinSource:"surfaceFlip"。
+// 目的は「連鎖が外へ伝わること」の原理だけ(円盤の形成・回転曲線ではない)。gain は宣言値(フィットしない)。数は器 tests/exp-w296c-chain.mjs の正本
+{ id:"chainDiskToy", name:"連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)", emoji:"🔗", group:"運動と時空",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  fidelity:"toy",
+  notClaim:["galaxy_disk","flat_rotation","gain_universal"],
+  obsCard:[
+    {q:"何を置いたか", model:"トイ単位。中心 1 個(m=100・半径 6 の一様球・spin 0.5・pinned)+ 静止した粒子 80 個(m=5・半径 6〜24 の円盤・乱数種 20261008)。G=0.005(2000 步の落下は帯の幅より小さい)", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"則(1 步)", model:"geoPN=4 の慣性の連鎖: (I+L)u=s を全体で解く(直接つながらない粒へも中間の粒を通じて伝わる)。s に自転する中心の表裏核 C m Ω ⟨K_ε(ρ·ê)⟩(ẑ×ê)を足す。x+=u·dt(v は触らない)", obs:"—"},
+    {q:"解法(実測)", model:"n=81>64 で共役勾配法(network-pcg-v1・対角前処理)。2000 步で反復 最大 40 回・元の式の残差 最大 1.0e-10(許容 1e-10)・未収束 0・NaN 0", obs:"—"},
+    {q:"連鎖の診断(実測 t=0)", model:"自転源だけの系で帯 r=6–12/12–18/18–24 の接線 u: 連鎖の解 0.523/0.180/0.0965・直接の項 s/(1+deg) 0.214/0.0275/0.00998(外ほど連鎖の分が大きい)", obs:"—"},
+    {q:"角変位(実測 2000 步)", model:"帯ごとの平均 Δθ: 連鎖 2.170/0.577/0.196 rad・連鎖を切った対照(中心と各粒子の対だけ)3.059/0.507/0.0880 rad —— 外側の帯は 2.22 倍", obs:"—"},
+    {q:"零試験(実測)", model:"共通の並進で u 不変・スピン 0 は自転源なしと 200 步ビット同一・反復上限 1 は u を採用せず(引きずりなしと全状態同一)・点の受け手の接線 u は表裏核の式と相対 2e-15", obs:"—"},
+    {q:"刻み(実測)", model:"dt 0.016 と 0.008 の Δθ 2.170/2.176 rad(内帯)・位置の差 最大 0.17。共通の剛体回転は並進と違い s から消えない —— 引かずに残す(器が残差を記録)", obs:"—"},
+    {q:"言わないこと", model:"円盤や銀河の形成・平坦な回転曲線とは書かない。gain は宣言値(フィットしない)。連鎖が外へ伝わる原理だけ", obs:"—"}],
+  descStruct:{
+    summary:"**磁石に付いたパチンコ玉のように連鎖する引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則 —— 第296便c・原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・統括の検証項目 R159)。自転する中心(一様球)に引きずられた内側の粒が、隣の粒の源になって外へ連鎖する。連鎖そのものは既存の**共通の移動速度を全体で解く** solve((I+L)u=s・s_i=C_d Σ_j m_j K_ε(r_ij)(v_j−v_i)—— 直接つながらない粒へも中間の粒を通じて伝わる)が持ち、本便はその上に (1) **自転する源の表裏核**(宣言 spinSource:\"surfaceFlip\" —— 源の点の速度 Ω×ρ を一様球で体積平均した接線成分。表側と裏側の Ω×ρ は逆向きで、近い側の核が大きいぶんだけ残る —— 第280便b の表裏核と同じ形で、核だけが慣性決定力の K_ε)と (2) **多粒子で収束を確かめる解法**(宣言 solver:\"network-pcg-v1\" —— 辺 c_ij=m_i a_ij が対称なので質量で対称化した系を対角前処理の共役勾配法で解く。収束は元の式の残差で判定し、収まらなければ u を採用せず停止して知らせる)を足した。隣の u を別に足す項は無い(同じ引きずりを二度数えない)。",
+    observe:"トレイルで、静止して置いた 80 個の粒子が自転する中心に引かれて回り出すのを見る(2000 步で内帯 r=6–12 は平均 2.17 rad・外帯 r=18–24 は 0.196 rad)。中心から直接受ける項は遠方で r⁻⁴ で弱まるが、外帯の u の大半は**隣の粒子を通じて届く**(t=0 の診断: 外帯の接線 u は連鎖の解 0.0965・直接の項だけなら 0.00998)。共役勾配法の反復は 2000 步で最大 40 回・残差は許容 1e-10 の内側・未収束 0。dt を半分にしても Δθ は 0.3% 以内。重力は G=0.005 のニュートン(落下は小さい)で、**円盤の形成・回転曲線の再現ではない**。",
+    control:"ワンタップ対照A/B: B 側は**連鎖を切った対照**(同じ宣言で pairs を中心と各粒子の 80 対だけにする —— 粒子どうしの辺なし)。B では外帯の粒子は中心から直接の項しか受けず(2000 步で Δθ 0.0880 rad)、A の 0.196 rad の 0.45 倍に留まる。内帯は逆に B の方が速い(A では外の粒子の分まで引きずるので内帯の u が分け合われる)。比べる相手は 🐌(2 体の並進引きずり —— 連鎖も自転源も無い)。"},
+  en:{name:"Chain-dragging mini disc — a spinning centre and many particles (principle)",
+    obsCard:[
+      {q:"What is placed", model:"toy units; one centre (m=100, uniform sphere of radius 6, spin 0.5, pinned) + 80 particles at rest (m=5, disc radius 6 to 24, seed 20261008); G=0.005 (the fall in 2000 steps is smaller than a band)", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"The law (one step)", model:"inertial chain of geoPN=4: solve (I+L)u=s over the whole system (it reaches particles not directly linked through the ones between); s gets the spinning centre's front/back term C m Omega <K_eps (rho.e)> (z x e); x+=u dt (v untouched)", obs:"-"},
+      {q:"Solver (measured)", model:"n=81>64 runs the conjugate-gradient solver (network-pcg-v1, diagonal preconditioner); 2000 steps: at most 40 iterations, original-equation residual at most 1.0e-10 (tolerance 1e-10), no failure, no NaN", obs:"-"},
+      {q:"Chain diagnostic (measured, t=0)", model:"spin source only, bands r=6-12/12-18/18-24, tangential u: chain solution 0.523/0.180/0.0965; direct term s/(1+deg) 0.214/0.0275/0.00998 (the chain share grows outward)", obs:"-"},
+      {q:"Angular displacement (measured, 2000 steps)", model:"band means: chain 2.170/0.577/0.196 rad; chain-cut control (centre-particle pairs only) 3.059/0.507/0.0880 rad - outer band 2.22 times", obs:"-"},
+      {q:"Null tests (measured)", model:"u unchanged by a common translation; spin 0 is bit-identical to no spin source over 200 steps; max 1 iteration leaves u unadopted (state identical to no drag); point receiver's tangential u matches the front/back formula to 2e-15", obs:"-"},
+      {q:"Step size (measured)", model:"dt 0.016 vs 0.008: inner-band dTheta 2.170/2.176 rad; largest position difference 0.17. A common rigid rotation does not cancel from s (unlike a translation) - kept, not subtracted (the residual is recorded)", obs:"-"},
+      {q:"Not claimed", model:"no disc formation, no flat rotation curve, no galaxy; gain is a declared value (not fitted); only the principle that the chain carries the drag outward", obs:"-"}],
+    descStruct:{
+      summary:"A PRINCIPLE SAMPLE OF DRAGGING THAT CHAINS LIKE PACHINKO BALLS STUCK TO A MAGNET (laws: the spin dragging A8 and the transport law E6′; wave 296c; the originator's ruling in report 86, that the geoPN=4 sample implements many-particle dragging chaining like pachinko balls on a magnet; the coordinator's check item R159). Inner particles dragged by a spinning centre (a uniform sphere) become sources for their neighbours, and the drag chains outward. The chain itself belongs to the existing solve for a COMMON MOVING VELOCITY OVER THE WHOLE SYSTEM ((I+L)u=s, s_i=C_d sum_j m_j K_eps(r_ij)(v_j-v_i) - it reaches particles that are not directly linked through the ones between). This wave adds (1) THE FRONT/BACK KERNEL OF A SPINNING SOURCE (spinSource:\"surfaceFlip\" - the tangential part of the source points' velocity Omega x rho averaged over a uniform sphere; the near and far sides move in opposite directions and the nearer side's larger kernel leaves a remainder - the same form as wave 280b's front/back kernel, with the inertial-determinacy kernel K_eps) and (2) A SOLVER THAT CHECKS CONVERGENCE WITH MANY PARTICLES (solver:\"network-pcg-v1\" - the edges c_ij=m_i a_ij are symmetric, so the mass-symmetrised system is solved by conjugate gradients with a diagonal preconditioner; convergence is judged on the original equation, and a step that does not converge is not adopted - the run stops with a notice). There is no extra term adding the neighbours' u again (the same drag is not counted twice).",
+      observe:"Use the trail to watch 80 particles placed at rest start to turn, pulled by the spinning centre (in 2000 steps the inner band r=6-12 turns 2.17 rad on average, the outer band r=18-24 0.196 rad). The term received directly from the centre falls off as r^-4, yet most of the outer band's u ARRIVES THROUGH THE NEIGHBOURS (diagnostic at t=0: chain solution 0.0965 against 0.00998 from the direct term alone). The conjugate-gradient solver needs at most 40 iterations in 2000 steps, the residual stays inside the 1e-10 tolerance, and no step fails. Halving dt changes dTheta by under 0.3%. Gravity is Newtonian with G=0.005 (the fall is small); THIS IS NOT DISC FORMATION OR A ROTATION CURVE.",
+      control:"One-tap A/B: side B is THE CHAIN-CUT CONTROL (same declaration with pairs restricted to the 80 centre-particle pairs - no particle-particle edges). On side B the outer band receives only the direct term (dTheta 0.0880 rad in 2000 steps), 0.45 of side A's 0.196 rad. The inner band turns faster on side B (on side A it shares its u with the outer particles it drags). Compare with 🐌 (translational dragging of two bodies - no chain, no spinning source)."},
+    parameterAudit:{
+      observedInputs:["NONE - this sample transcribes no observation"],
+      fixedConventions:["toy units, G=0.005, cLight=30, geoPN=4, kFrame=0 (inertial chain: geodesic off, no 1PN)",
+        "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; 80 particles m=5 at rest on a disc of radius 24 (seed 20261008)"],
+      fitted:["NOTHING - gain C_d=8 is a declared value, not fitted to any observation or rotation curve"],
+      derived:["coupling to the centre at t=0, band means 0.960/0.233/0.0872; degree 13.4/9.85/6.82 (bands r=6-12/12-18/18-24)"],
+      numerical:["drag kernel softening eps=1 (relativeDrag.eps), gravity softening 0.5","stateCarry:\"double\" (masses 100 and 5 are exact in single precision)",
+        "solver tolerance 1e-10 on the original equation, max 1000 iterations; spin moment: 16-point Gauss-Legendre panels"]}},
+  parameterAudit:{
+    observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
+    fixedConventions:["トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0(慣性の連鎖 —— 測地線 OFF・1PN なし)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned/粒子 80 個 m=5・半径 24 の円盤に静止で置く(乱数種 20261008)"],
+    fitted:["**無し** —— gain C_d=8 は宣言値で、観測にも回転曲線にも合わせていない"],
+    derived:["t=0 の中心との結合 帯平均 0.960/0.233/0.0872・次数 13.4/9.85/6.82(帯 r=6–12/12–18/18–24)"],
+    numerical:["引きずりの核の軟化 ε=1(relativeDrag.eps)・重力の軟化 0.5","stateCarry:\"double\"(質量 100・5 は単精度で厳密)",
+      "解法の門 元の式の相対残差 1e-10・反復上限 1000・自転源の半径積分 区間あたり 16 点の Gauss–Legendre"]},
+  abBody:{ label:{ja:"連鎖を切った対照(中心と各粒子の対だけ —— 粒子どうしの辺なし)", en:"chain cut (centre-particle pairs only - no particle-particle edges)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:8, eps:1, pairs:[[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[0,10],[0,11],[0,12],[0,13],[0,14],[0,15],[0,16],[0,17],[0,18],[0,19],[0,20],[0,21],[0,22],[0,23],[0,24],[0,25],[0,26],[0,27],[0,28],[0,29],[0,30],[0,31],[0,32],[0,33],[0,34],[0,35],[0,36],[0,37],[0,38],[0,39],[0,40],[0,41],[0,42],[0,43],[0,44],[0,45],[0,46],[0,47],[0,48],[0,49],[0,50],[0,51],[0,52],[0,53],[0,54],[0,55],[0,56],[0,57],[0,58],[0,59],[0,60],[0,61],[0,62],[0,63],[0,64],[0,65],[0,66],[0,67],[0,68],[0,69],[0,70],[0,71],[0,72],[0,73],[0,74],[0,75],[0,76],[0,77],[0,78],[0,79],[0,80]], solver:"network-pcg-v1", spinSource:"surfaceFlip"}} },
+  activeParams:["G","softening"],
+  camera:{scale:7}, world:{boundary:"none",size:0}, seed:20261008,
+  physics:{contactMode:"none", G:0.005, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:4, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:3, dispMag:1,
+    stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1", spinSource:"surfaceFlip"}},
+  bodies:[
+    {type:"single", m:100, radius:6, x:0, y:0, vx:0, vy:0, spin:0.5, pinned:true},
+    {type:"disk", n:80, cx:0, cy:0, radius:24, mMin:5, mMax:5, spinMin:0, spinMax:0, vMode:"hubble", vScale:0, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 // ===== 第252便a(第44報「箱宇宙と連星」): 🫂 boxBinaryToy — 等質量では何が消えて何が残るか =====
 // 原仮定者(第44報・全文は docs/PHYSICS.md 〔第252便a〕): 「もしも2つしかない天体が同じ質量だったら…
 // 2天体が等価な基準になるので、互いの公転が消える/…大質量の天体同士では…公転は残るが公転に伴う並進は減少する」。
@@ -20277,10 +20720,13 @@ const SAMPLE_STATUS={
 "echo":{"purpose":"保存系は巻き戻り摩擦系は戻らないことを比べる","objective":"met","state":"反転後の復帰と摩擦での不復帰が門を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["echo.leapfrog-return","echo.friction-noreturn"],"en":{"purpose":"Compare a conservative universe that rewinds with a frictional one that does not","state":"the return after reversal and the non-return with friction pass their gates","mismatch":null,"outlook":null,"brief":"Compare a conservative universe that rewinds with a frictional one that does not. Met: the return after reversal and the non-return with friction pass their gates. Out of calibration scope."},"brief":"保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"},
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
 "inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"},
+"chainDiskToy":{"purpose":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る","objective":"met","state":"共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/chain-w296c.json"],"en":{"purpose":"Test whether drag chains outward through neighbours of a spinning centre","state":"CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim","mismatch":null,"outlook":null,"brief":"Test whether drag chains outward through neighbours of a spinning centre. Met: CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim. Out of calibration scope."},"brief":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る。達・共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない。較正対象外。"},
 "earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "earthMoonSunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る","objective":"met","state":"慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun","state":"Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"},
 "mercurySunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る","objective":"met","state":"近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure Mercury's apse and period","state":"apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure Mercury's apse and period. Met: apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る。達・近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ。較正対象外。"},
+"mercurySunInertialFit":{"purpose":"🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる","objective":"met","state":"gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/fit-w296b.json"],"en":{"purpose":"🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0)","state":"gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched","mismatch":null,"outlook":null,"brief":"🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0). Met: gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched. Out of calibration scope."},"brief":"🟤 の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる。達・gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可。較正対象外。"},
 "plutoCharonInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る","objective":"met","state":"第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the Pluto-Charon period","state":"rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the Pluto-Charon period. Met: rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る。達・第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ。較正対象外。"},
+"plutoCharonInertialFit":{"purpose":"🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる","objective":"met","state":"gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/fit-w296b.json"],"en":{"purpose":"🟣 copy with prior cores; only the gain matched to the period (6.3872273 d)","state":"gain 6729.009; residual 3.25e-7 s <= h/2 4.56e-5 s (fitted); cores not identifiable","mismatch":null,"outlook":null,"brief":"🟣 copy with prior cores; only the gain matched to the period (6.3872273 d). Met: gain 6729.009; residual 3.25e-7 s <= h/2 4.56e-5 s (fitted); cores not identifiable. Out of calibration scope."},"brief":"🟣 の写しに核の事前値を置き gain だけを公転周期(6.3872273 日)に合わせる。達・gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整。較正対象外。"},
 "boxBinaryToy":{"purpose":"等質量で共通移動が相対軌道から消えるかを測る","objective":"met","state":"等質量で消え質量差の対照では残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.boxBinary"],"en":{"purpose":"Test whether a common drift drops out of the relative orbit for equal masses","state":"it drops out for equal masses and stays in the unequal-mass control","mismatch":null,"outlook":null,"brief":"Test whether a common drift drops out of the relative orbit for equal masses. Met: it drops out for equal masses and stays in the unequal-mass control. Out of calibration scope."},"brief":"等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"},
 "spaceMeshBinaryToy":{"purpose":"メッシュの重力が既存の重力と同じ核かを確かめる","objective":"met","state":"重力は二重計上なし・慣性候補は頂点で退化","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.spaceMeshForce"],"en":{"purpose":"Check that the mesh gravity is the same kernel as the existing gravity","state":"gravity is not double counted; the inertia candidates degenerate at the vertex","mismatch":null,"outlook":null,"brief":"Check that the mesh gravity is the same kernel as the existing gravity. Met: gravity is not double counted; the inertia candidates degenerate at the vertex. Out of calibration scope."},"brief":"メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"},
 "galaxy":{"purpose":"中心天体の引きずりで外縁の回転が速まるかを測る","objective":"met","state":"外縁速度比 1.521 が門 >1.04 を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxy-outerboost"],"en":{"purpose":"Measure whether the central body's dragging speeds up the outer rotation","state":"outer speed ratio 1.521 passes the >1.04 gate","mismatch":null,"outlook":null,"brief":"Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.521 passes the >1.04 gate. Out of calibration scope."},"brief":"中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.521 が門 >1.04 を通過。較正対象外。"},
@@ -20940,6 +21386,77 @@ function validateMassLedger(ml){
   for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
   return {ok:true, value:o, warnings};
 }
+// ===== 第296便b(原仮定者の裁定(第86報)「1PN 準拠の geoPN=1 以外は、サンプル生成時に調整可能なパラメータをフィットさせる」・統括の検証項目 R158):
+//   **フィットの記録 `fitRecord`**(プリセットの最上位・**presetSig の外** —— 表示・文書・QA が読む・力学は 1 命令も読まない)の受理器と正準形。
+//   形: {version:"w296b-1", parent, law, targets:[{q,obs,unit,source,window}], knobs:[{key,range:[lo,hi],final}], fixed:[…], procedure, dt, steps,
+//        residual:{value,unit,model?,rel?}, numerics:{h2,dtHalf?}, status:"fitted"|"unreachable-in-bounds"|"not-identifiable", notFitted:[…], notIdentifiable?:[…]}
+//   ・**未知の鍵は受理しない**(どの深さでも)・status の語彙・knobs の range は有限数 2 つ(lo<hi)・final は数(range の中)か null・
+//     status:"fitted" は knobs の final が全部数で、残差 |residual.value| が数値誤差の帯 numerics.h2(h と h/2 の差)以下のときだけ。
+//   ・正準形は鍵の並びを上の順に揃えた写し(省略可は notIdentifiable と residual.model/rel・numerics.dtHalf だけ —— 無ければ出さない)。
+//   ・受理しない記録は validatePreset が**警告つきで削除**する(本の他の宣言は読む —— 表示専用の宣言と同じ流儀)。生成器は tests/exp-w296b-fit.mjs。
+const FIT_RECORD_VERSION="w296b-1";
+const FIT_RECORD_KEYS=["version","parent","law","targets","knobs","fixed","procedure","dt","steps","residual","numerics","status","notFitted","notIdentifiable"];
+const FIT_RECORD_STATUS=["fitted","unreachable-in-bounds","not-identifiable"];
+const FIT_TARGET_KEYS=["q","obs","unit","source","window"];
+const FIT_KNOB_KEYS=["key","range","final"];
+const FIT_RESIDUAL_KEYS=["value","unit","model","rel"];
+const FIT_NUMERICS_KEYS=["h2","dtHalf"];
+const FIT_STR_CAP=600;
+function validateFitRecord(fr){
+  const no=(m)=>({ok:false, err:m});
+  const isObj=(o)=>!!o && typeof o==="object" && !Array.isArray(o);
+  const str=(v)=>typeof v==="string" && v.trim()!=="" && v.length<=FIT_STR_CAP;
+  const unknown=(o,keys)=>Object.keys(o).find((k)=>keys.indexOf(k)<0);
+  const strList=(a,max)=>Array.isArray(a) && a.length<=max && a.every(str);
+  if(!isObj(fr)) return no("fitRecord はオブジェクト");
+  let u=unknown(fr,FIT_RECORD_KEYS); if(u!==undefined) return no("fitRecord に未知の鍵 "+String(u).slice(0,30));
+  if(fr.version!==FIT_RECORD_VERSION) return no('fitRecord.version は "'+FIT_RECORD_VERSION+'"');
+  for(const k of ["parent","law","procedure"]) if(!str(fr[k])) return no("fitRecord."+k+" は空でない文字列(≤"+FIT_STR_CAP+" 字)");
+  if(!Array.isArray(fr.targets) || fr.targets.length<1 || fr.targets.length>4) return no("fitRecord.targets は 1〜4 件の配列");
+  const targets=[];
+  for(const t of fr.targets){
+    if(!isObj(t)) return no("fitRecord.targets の要素はオブジェクト");
+    u=unknown(t,FIT_TARGET_KEYS); if(u!==undefined) return no("fitRecord.targets に未知の鍵 "+String(u).slice(0,30));
+    if(!str(t.q) || !str(t.unit) || !str(t.source) || !str(t.window) || !isNum(t.obs)) return no("fitRecord.targets は {q,obs(有限数),unit,source,window}");
+    targets.push({q:t.q, obs:t.obs, unit:t.unit, source:t.source, window:t.window});
+  }
+  if(!Array.isArray(fr.knobs) || fr.knobs.length<1 || fr.knobs.length>8) return no("fitRecord.knobs は 1〜8 件の配列");
+  const knobs=[];
+  for(const k of fr.knobs){
+    if(!isObj(k)) return no("fitRecord.knobs の要素はオブジェクト");
+    u=unknown(k,FIT_KNOB_KEYS); if(u!==undefined) return no("fitRecord.knobs に未知の鍵 "+String(u).slice(0,30));
+    if(!str(k.key)) return no("fitRecord.knobs.key は空でない文字列");
+    if(!Array.isArray(k.range) || k.range.length!==2 || !isNum(k.range[0]) || !isNum(k.range[1]) || !(k.range[0]<k.range[1])) return no("fitRecord.knobs.range は有限数 [lo,hi](lo<hi)");
+    if(k.final!==null && !(isNum(k.final) && k.final>=k.range[0] && k.final<=k.range[1])) return no("fitRecord.knobs.final は range の中の数か null");
+    knobs.push({key:k.key, range:[k.range[0],k.range[1]], final:k.final});
+  }
+  if(!strList(fr.fixed,16)) return no("fitRecord.fixed は文字列の配列(≤16 件)");
+  if(!(isNum(fr.dt) && fr.dt>0)) return no("fitRecord.dt は正の有限数");
+  if(!(isNum(fr.steps) && fr.steps>=0 && Math.floor(fr.steps)===fr.steps)) return no("fitRecord.steps は 0 以上の整数");
+  const r=fr.residual;
+  if(!isObj(r)) return no("fitRecord.residual はオブジェクト");
+  u=unknown(r,FIT_RESIDUAL_KEYS); if(u!==undefined) return no("fitRecord.residual に未知の鍵 "+String(u).slice(0,30));
+  if(!(r.value===null || isNum(r.value)) || !str(r.unit)) return no("fitRecord.residual は {value(有限数か null),unit}");
+  for(const k of ["model","rel"]) if(r[k]!==undefined && !isNum(r[k])) return no("fitRecord.residual."+k+" は有限数");
+  const nm=fr.numerics;
+  if(!isObj(nm)) return no("fitRecord.numerics はオブジェクト");
+  u=unknown(nm,FIT_NUMERICS_KEYS); if(u!==undefined) return no("fitRecord.numerics に未知の鍵 "+String(u).slice(0,30));
+  if(!(nm.h2===null || (isNum(nm.h2) && nm.h2>=0))) return no("fitRecord.numerics.h2 は 0 以上の有限数か null(h と h/2 の差)");
+  if(nm.dtHalf!==undefined && !(isNum(nm.dtHalf) && nm.dtHalf>0)) return no("fitRecord.numerics.dtHalf は正の有限数");
+  if(FIT_RECORD_STATUS.indexOf(fr.status)<0) return no("fitRecord.status は "+FIT_RECORD_STATUS.join("/"));
+  if(!strList(fr.notFitted,16)) return no("fitRecord.notFitted は文字列の配列(≤16 件)");
+  if(fr.notIdentifiable!==undefined && !strList(fr.notIdentifiable,16)) return no("fitRecord.notIdentifiable は文字列の配列(≤16 件)");
+  if(fr.status==="fitted"){
+    if(!knobs.every((k)=>k.final!==null)) return no('status:"fitted" は knobs の final が全部数');
+    if(!(isNum(r.value) && isNum(nm.h2) && Math.abs(r.value)<=nm.h2)) return no('status:"fitted" は |residual.value| ≤ numerics.h2(残差が数値誤差の帯の中)');
+  }
+  const res={value:r.value, unit:r.unit}; if(r.model!==undefined) res.model=r.model; if(r.rel!==undefined) res.rel=r.rel;
+  const num={h2:nm.h2}; if(nm.dtHalf!==undefined) num.dtHalf=nm.dtHalf;
+  const out={version:fr.version, parent:fr.parent, law:fr.law, targets, knobs, fixed:fr.fixed.slice(), procedure:fr.procedure, dt:fr.dt, steps:fr.steps,
+    residual:res, numerics:num, status:fr.status, notFitted:fr.notFitted.slice()};
+  if(fr.notIdentifiable!==undefined) out.notIdentifiable=fr.notIdentifiable.slice();
+  return {ok:true, fitRecord:out};
+}
 function validatePreset(obj){
   const errors=[], warnings=[];
   // 第86便(外部レビュー P0-3): 旧コアキー(コアv1)から コアv2 へ**実際に移行したか**の機械可読フラグ。
@@ -21388,12 +21905,15 @@ function validatePreset(obj){
   //   (c)(d) 旧法則版の内部整合(二重計上の防止)は残すが、**拒否ではなく「宣言が矛盾している」の警告**+**旧法則版を無効化して走る**
   //       (無効化は `S.updateRadii` の入場条件の門 —— geoToyDeny と同じ式。宣言の値は書き換えない=保存どおりに読み直せる)。
   //       vMinusU の輸送経路 physics.meshVelocity の欠落は契約の欠落なので従来どおり拒否する(モードの制限ではない)
-  if(ph.geoPN>=3){
+  // 第296便a(原仮定者の裁定(第85報)・R157): 門は geoLegacyGateOf —— lawVersion を宣言した 0 も旧法則版の内部整合(「宣言が矛盾」の警告・
+  //   vMinusU の輸送経路の要求)を同じ文で受ける(文の番号は 0)。calibration の「主な用途」の行は 3・4 だけ(0 の文は足さない)
+  if(geoLegacyGateOf(ph)){
     const sm3=ph[SPACE_MESH_KEY];
     const tad3=!!(sm3 && sm3.toyAllowDrag===true);
     const gm3=geoModeOf(ph);
-    const G3=(gm3.mode===4)? "4" : "3";   // 第295便b(R154): 文の番号(4 = 空間メッシュ —— 旧法則版の置き場。3 の文は 1 字も変えない)
-    if(p.sampleClass==="calibration")   // 第295便b: 4 は「空間メッシュ —— 旧法則版の置き場」の語(3 の文は 1 字も変えない)
+    const G3=(gm3.mode===4)? "4" : (gm3.mode===0)? "0" : "3";
+    const LW3=(gm3.mode===0)? "走る法則 " : "測地線の法則 ";   // 第296便a: 0 は旧法則版が無効なら 0 の他の宣言(newton/測地線)で走る —— 3・4 の文は 1 字も変えない   // 第295便b(R154): 文の番号(4 = 空間メッシュ —— 旧法則版の置き場。3 の文は 1 字も変えない)。第296便a: 0
+    if(p.sampleClass==="calibration" && gm3.mode>=3)   // 第295便b: 4 は「空間メッシュ —— 旧法則版の置き場」の語(3 の文は 1 字も変えない)
       warnings.push('physics.geoPN='+G3+(gm3.mode===4? '(空間メッシュ —— 旧法則版の置き場)' : '(主に慣性決定力の引きずり用)')+'を sampleClass:"calibration" で使います —— 現実較正の主な用途は geoPN=1(GR 1PN・kFrame=0)。走る法則 '+gm3.law);
     if(!sm3 || sm3.lawVersion===undefined){
       // 第295便a(R153): 未宣言の 3 の警告(旧: 「旧法則版(physics.spaceMesh.lawVersion "scalar"/"local"/"complex"/"vMinusU")も慣性決定力の引きずりも未宣言 —— 3 のまま受理し、測地線の法則で走ります」)は
@@ -21403,18 +21923,18 @@ function validatePreset(obj){
       bad('physics.geoPN='+G3+'・spaceMesh.lawVersion:"vMinusU" は physics.meshVelocity(輸送経路 {law:"vMinusU",field,mutual,frame})の宣言が要る');
     else if(sm3.lawVersion===GEO3_LAW && ph.kFrame>0)
       warnings.push('physics.geoPN='+G3+'・spaceMesh.lawVersion:"vMinusU" と kFrame='+ph.kFrame+' は宣言が矛盾しています(vMinusU は kFrame=0 で E6′ の追従キック・v−u 輸送と座標変換を二重に当てない)'
-        +' —— 旧法則版 vMinusU を無効化し、測地線の法則 '+gm3.law+' で走ります');
+        +' —— 旧法則版 vMinusU を無効化し、'+LW3+gm3.law+' で走ります');
     else if(ph.kFrame>0 && !tad3)
       warnings.push('physics.geoPN='+G3+'・旧法則版 '+sm3.lawVersion+' と kFrame='+ph.kFrame+' は宣言が矛盾しています(トイは E6′/E12 の追従を置換する —— 重ねるなら physics.spaceMesh.toyAllowDrag:true)'
-        +' —— 旧法則版を無効化し、測地線の法則 '+gm3.law+' で走ります');
+        +' —— 旧法則版を無効化し、'+LW3+gm3.law+' で走ります');
     else if(ph.kFrame>0)
       warnings.push('physics.spaceMesh.toyAllowDrag:true — geoPN='+G3+' を kFrame>0(='+ph.kFrame+')のまま走らせます。**E6′ の追従キックとトイが同じ步で重なる**(二重計上の可能性がある診断構成)。較正則ではありません');
     else if(sm3.inertia!==false)
       warnings.push('physics.geoPN='+G3+'・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.inertia は宣言が矛盾しています(重複適用禁止)'
-        +' —— 旧法則版を無効化し(inertia の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
+        +' —— 旧法則版を無効化し(inertia の経路は宣言どおり)、'+LW3+gm3.law+' で走ります');
     else if(sm3.weave!==undefined)
       warnings.push('physics.geoPN='+G3+'・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.weave は宣言が矛盾しています(重複適用禁止)'
-        +' —— 旧法則版を無効化し(weave の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
+        +' —— 旧法則版を無効化し(weave の経路は宣言どおり)、'+LW3+gm3.law+' で走ります');
   }
   // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(受理した値 —— 上の拒否の撤去。第293便a 以後は分数もそのままの値)
   // 第291便c: geoPN 1・2 の physics.geodesic:false は効かない(1・2 は測地線 ON)—— 宣言だけが残らないように知らせる。
@@ -21428,7 +21948,8 @@ function validatePreset(obj){
   //   保存・セーブの読込・編集欄の赤文字では出す。旧メッシュの本の番号の移し替えは第295便b の仕事)
   { const raw=(p.physics && typeof p.physics==="object")? p.physics : {};
     const smA=ph[SPACE_MESH_KEY], legacyA=!!(smA && typeof smA==="object" && smA.lawVersion!==undefined);
-    const mi=modeSettingIssues(Object.assign({}, ph, {[GEODESIC_KEY]:(raw[GEODESIC_KEY]===false)? false : ph[GEODESIC_KEY]}));
+    const mi=modeSettingIssues(Object.assign({}, ph, {[GEODESIC_KEY]:(raw[GEODESIC_KEY]===false)? false : ph[GEODESIC_KEY]}),
+      (p.fitRecord!==undefined)? {fitRecord:p.fitRecord} : null);   // 第296便a(R157): 本の最上位の fitRecord(geo1Fitted —— 警告だけ・受理は通す)
     for(const z of mi) if(!z.aliasOf && !(legacyA && MODE_ACCEPT_LEGACY_SKIP.indexOf(z.code)>=0) && warnings.indexOf(z.message)<0) warnings.push(z.message); }
   // ===== 第283便a: **geoPN=2・kFrame=0 は互換入力**(kF0 版として解釈 —— geoPN=1 と力学はビット同一)=====
   //   値は書き換えない(presetSig・保存 JSON は 1 bit も変わらない)。機械可読の記録 `geoCompat` を返し、**内蔵の同じ宣言**
@@ -21442,7 +21963,8 @@ function validatePreset(obj){
         +'原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」');
     } }
   // 第280便c: **vMinusU は geoPN=3 の法則**(geoPN≤2 の宇宙に宣言だけが残って効かない状態を作らない)
-  if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].lawVersion===GEO3_LAW && !(ph.geoPN>=3))
+  // 第296便a(R157): geoPN=0 でも走る(門 geoLegacyGateOf)—— 拒否は宣言が効かない 1・2 だけ(文は従来のまま)
+  if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].lawVersion===GEO3_LAW && !geoLegacyGateOf(ph))
     bad('physics.spaceMesh.lawVersion:"vMinusU" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c)');
   // 第263便a: **診断キーは現実較正クラスへ入れない**(geoPN が 3 でなくても宣言そのものを拒否する)
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
@@ -21457,7 +21979,7 @@ function validatePreset(obj){
   if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].diskSupport==="band-pressure"){
     if(p.sampleClass==="calibration")
       bad('physics.spaceMesh.diskSupport:"band-pressure"(帯平均の近似 variant)は sampleClass:"calibration" では使えません');
-    else if(!(ph.geoPN>=3))
+    else if(!geoLegacyGateOf(ph))   // 第296便a: lawVersion を宣言した 0 も(トイが 0 で走る)
       bad('physics.spaceMesh.diskSupport:"band-pressure" は physics.geoPN=3 専用です(既定トイと同じ入場条件)');
   }
   // 第265便b(Z2): **mesh-v2 は principle 限定**(較正へ入れない)・**geoPN=3 でなければ意味を持たない**・
@@ -21465,7 +21987,7 @@ function validatePreset(obj){
   if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].law==="mesh-v2"){
     if(p.sampleClass==="calibration")
       bad('physics.spaceMesh.law:"mesh-v2"(引きずりの完全置換の候補・最小代数実装)は sampleClass:"calibration" では使えません');
-    else if(!(ph.geoPN>=3))
+    else if(!geoLegacyGateOf(ph))   // 第296便a: lawVersion を宣言した 0 も
       bad('physics.spaceMesh.law:"mesh-v2" は physics.geoPN=3 専用です(既存の E6′/E12 の経路とは排他)');
     else if(ph[SPACE_MESH_KEY].toyAllowDrag===true)
       bad('physics.spaceMesh.law:"mesh-v2" は toyAllowDrag(E6′ と重ねる診断キー)と排他です');
@@ -22411,6 +22933,12 @@ function validatePreset(obj){
     if(!Array.isArray(oc) || oc.length===0 || oc.length>8 || !oc.every(okRow)){
       warnings.push("obsCard が不正のため削除({q,model,obs}文字列の配列・≤8件)"); delete p.obsCard;
     } else p.obsCard=oc.map(r=>({q:r.q, model:r.model, obs:r.obs}));
+  }
+  // 第296便b(R158): fitRecord — フィットの記録(表示専用・presetSig の外)。受理しない記録は警告つきで削除(本の他の宣言は読む)
+  if(p.fitRecord!==undefined){
+    const fv=validateFitRecord(p.fitRecord);
+    if(!fv.ok){ warnings.push("fitRecord が不正のため削除("+fv.err+")"); delete p.fitRecord; }
+    else p.fitRecord=fv.fitRecord;
   }
   // 第119便: orbitObs — 軌道観測(歳差積算+ゴースト軌道)の宣言(表示専用)。
   // {center,orbiter}: 粒子 index(非負整数・別)/ ghostAmp: 差分拡大倍率 [1,1e9](省略時 1e5)
@@ -25018,7 +25546,9 @@ function makeSim(){
     // 第263便a(検証仮説 (1)): **明示キー `toyAllowDrag`** が立っている宇宙だけ kFrame の条件を
     // 迂回する(`S.geoToyDeny=null`)。代わりに `S.geoToyOverlay="drag"` を立て、HUD に
     // 「E6′ とトイの重畳(二重計上の可能性・診断)」を出す。**既定(未宣言)は従来どおり denied。**
-    if(S.params.geoPN>=3){
+    // 第296便a(原仮定者の裁定(第85報)「geoPN=0 では全ての設定を試せる」・R157): 門は geoLegacyGateOf —— 3・4 は従来どおり・**0 は
+    // spaceMesh.lawVersion を宣言したときだけ**同じ入場条件で入る(宣言の無い 0 は else の 1 行のまま —— 1 命令も変わらない)
+    if(geoLegacyGateOf(S.params)){
       const __tad=!!(__sm && __sm.toyAllowDrag===true);
       const __kf=(S.params.kFrame>0);
       const okToy=(!__kf || __tad)
@@ -25036,7 +25566,7 @@ function makeSim(){
     S.geodesicDecl=(S.params.geodesic===true);
     // 第280便c: **lawVersion:"vMinusU" はトイ積分器を通らない**(速度分解の外部ステップ dfmMeshVelocityStep へ
     // dispatch する —— 下の meshVelocityPrepare が S.hasGeo3 を立てる)。入場条件の門(denied)は共通のまま
-    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny && !S.geo3Undeclared && !(__sm && __sm.lawVersion===GEO3_LAW));
+    S.hasGeoToy=(geoLegacyGateOf(S.params) && !S.geoToyDeny && !S.geo3Undeclared && !(__sm && __sm.lawVersion===GEO3_LAW));   // 第296便a: 門と同じ式
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
     // 第258便b: 引きずりの仕事の記録(physics.ledger.dragWork)の有無フラグも同じ場所で張る。
@@ -29545,14 +30075,34 @@ let pendingSteps=0, stepReq=0, stepExec=0, stepCancel=0, stepGen=1, lastGenReaso
 let stepCarryOn=true;              // QA の否定対照から false にできる(既定 true = 繰越あり)
 // 繰越の有効/無効(否定対照専用)。OFF にした瞬間のバックログは cancelled へ計上して破棄する
 function setStepCarry(v){ const on=!!v;
-  if(!on && pendingSteps>0){ stepCancel+=pendingSteps; pendingSteps=0; }
+  if(!on){ const d=stepCarryDiscard(pendingSteps); pendingSteps=d.pending; stepCancel+=d.cancel; }   // 第296便d: 破棄は純関数 stepCarryDiscard
   stepCarryOn=on; }
+// 第296便d: **繰越の破棄の純関数**(世代切替・繰越 OFF)—— 繰越を全量 cancelled へ移す。stepGenBump と setStepCarry はこれだけを通る
+function stepCarryDiscard(pending){ return {pending:0, cancel:pending>0? pending : 0}; }
 // 世代: プリセット切替・停止・⏮初めから・チェックポイント復元・A/B 開始終了で進める。
 // 旧世代のバックログは cancelled に計上して破棄する(前の宇宙の遅れを次の宇宙で走らせない)。
 // stepAcc(1步未満の端数)は requested に未計上なので、ここで捨てても不変式は動かない。
 function stepGenBump(reason){
-  if(pendingSteps>0){ stepCancel+=pendingSteps; pendingSteps=0; }
+  { const d=stepCarryDiscard(pendingSteps); pendingSteps=d.pending; stepCancel+=d.cancel; }   // 第296便d: 純関数 stepCarryDiscard(中身は従来どおり)
   stepAcc=0; stepGen++; lastGenReason=reason||"";
+}
+// 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): **1 フレームの会計の純関数**。loop() の「新規 kNew+繰越 → 予算で打ち切り →
+// 未実行分を繰越/破棄」はこの関数だけを通る(時計 now() と 1 步 stepFn は引数 —— 大域の状態に触らない)。QA ui.step-accounting は
+// 手で進める時計をここへ渡して会計(requested=executed+pending+cancelled・繰越の上限・世代破棄・予算∞・繰越 OFF)を決定的に判定する。
+// 戻り値: kReq(走らせたい步)・kRun(走った步)・pending(次フレームへの繰越)・cancel(このフレームで破棄した步)・ms(この呼び出しの所要)。
+// 中身は第175便の会計と同じ(最低 1 步・打ち切りは 2 步目以降の前で判定・上限 = capFrames×kNew)—— step の回数と順は 1 bit も変えない
+const perfNow=()=>performance.now();   // loop() が stepCarryFrame に渡す実時計
+function stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn){
+  const kReq=kNew+pending, t0=now();
+  let kRun=0;
+  for(let s2=0;s2<kReq;s2++){
+    const go=stepFn(); kRun=s2+1;
+    if(go===false) break;   // 第296便c(R159): 步の関数が false を返したら打ち切る(連鎖の解法の未収束 —— 残りは繰越/破棄の会計どおり)
+    if(s2+1<kReq && now()-t0>budgetMs) break;
+  }
+  const ms=now()-t0, left=kReq-kRun;
+  const keep=carryOn? Math.min(left,capFrames*kNew) : 0;   // 繰越 OFF(否定対照)は全量破棄 = 第171便の挙動
+  return {kReq, kRun, pending:keep, cancel:left-keep, ms};
 }
 // 診断の集計窓(60フレーム)。trim 率・ms/步・実効倍率はこの窓の実測から出す。
 //
@@ -29613,7 +30163,7 @@ function stepDiagText(){
   // 第280便c(R65): **geoPN=3・vMinusU は作動表示を別の行にする**(トイの停止理由と混ぜない)
   const g3t=geo3HudText(sim);
   if(g3t) out+="  "+g3t;
-  else if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
+  else if(sim && sim.params && geoLegacyGateOf(sim.params)) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN   // 第296便a: lawVersion を宣言した 0 も
     +(!sim.hasGeoToy? " law:"+geoModeOf(sim.params).law : "")   // 第291便c: トイが走らない 3 は実際に走った法則を出す
     +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "")
     // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
@@ -33749,6 +34299,12 @@ function syncHud(){
   // 第291便b(R133): kF0(geoPN=1∧kFrame=0 と互換入力)の宇宙だけ「GR 1PN 準拠(実行条件)」を 1 行(表示だけ —— 他の宇宙では 1 文字も増えない)
   if(pnOrbitalKF0(sim.params,sim) && (sim.params.lambdaPN!==undefined? sim.params.lambdaPN : 1)>0){ const gc=pn1GRConformance(sim); if(gc) txt+=`\n${T("pn1GRLine")(gc)}`; }
   $("#hud").textContent=txt;
+  // 第296便c(R159): 連鎖の解法の未収束(宣言 solver の本だけ —— 0 回なら何も足さない)を赤の 1 行で(表示だけ)
+  if(sim.inertialDragSolveFail>0){
+    const sp=document.createElement("span"), fa=sim.inertialDragSolveFailAt||{};
+    sp.className="hudErr"; sp.textContent="\n"+T("chainSolveFailHud")(sim.inertialDragSolveFail, fa.res, fa.iters, fa.tol);
+    $("#hud").appendChild(sp);
+  }
 }
 
 function loop(now){
@@ -33772,28 +34328,19 @@ function loop(now){
     stepAcc=b.acc;
     const kNew=b.k;                    // 第175便: このフレームの**新規**要求(累積 requested へ)
     stepReq+=kNew;
-    const kReq=kNew+pendingSteps;      // 実際に走らせたい歩数 = 新規 + 前フレームからの繰越
+    // 実際に走らせたい歩数 kReq = 新規 + 前フレームからの繰越
     // 第171便 ①: フレーム予算。kReq 步の途中で frameBudgetMs を超えたらそのフレームは打ち切る
     // (最低1步は必ず実行 = 進行は止めない)。step() の中身・引数・呼び出し順は不変 —
     // 変わるのは1フレームあたりの呼び出し回数だけ。
     // 第175便: 打ち切った未実行分は**捨てずに pendingSteps へ繰越す**(上限 = 新規要求 kNew の
     // STEP_CARRY_CAP_FRAMES フレーム分)。上限超過分だけを cancelled として明示計上する
-    const tPhys0=performance.now();
-    let kRun=0;
+    // 第296便d: この会計は純関数 stepCarryFrame(上の定義)に移した(中身・step の回数と順は不変 —— QA が手で進める時計で判定する)
     const lcOn=(sim.overlays.liveCompare===true && !ab);   // 第286便d: ライブ比較の採取(読み出しだけ・OFF なら 1 命令も足さない)
-    for(let s2=0;s2<kReq;s2++){
-      sim.step(DT); if(lcOn) lcAfterStep(); kRun=s2+1;
-      if(s2+1<kReq && performance.now()-tPhys0>frameBudgetMs) break;
-    }
-    const physMs=performance.now()-tPhys0;
+    const fr=stepCarryFrame(kNew, pendingSteps, stepCarryOn, STEP_CARRY_CAP_FRAMES, frameBudgetMs, perfNow,
+      lcOn? ()=>{ sim.step(DT); lcAfterStep(); return sim.inertialDragHalt!==true; } : ()=>{ sim.step(DT); return sim.inertialDragHalt!==true; });   // 第296便c(R159): 連鎖の解法が収束しなかった步で止める(false で打ち切り・下で停止して通知)
+    const kReq=fr.kReq, kRun=fr.kRun, physMs=fr.ms;
     stepExec+=kRun;
-    { const left=kReq-kRun;                                   // 今フレームの未実行分
-      if(stepCarryOn){
-        const cap=STEP_CARRY_CAP_FRAMES*kNew;                 // バックログ上限(追いつきフリーズ防止)
-        const keep=Math.min(left,cap);
-        pendingSteps=keep; stepCancel+=left-keep;
-      } else { pendingSteps=0; stepCancel+=left; }            // 否定対照: 繰越なし(= 第171便の挙動)
-    }
+    pendingSteps=fr.pending; stepCancel+=fr.cancel;          // 否定対照(繰越 OFF)では pending=0・未実行分は全量 cancelled
     if(ab) for(let s2=0;s2<kRun;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
     inputStats.lastWanted=kReq; inputStats.lastRun=kRun;
     inputStats.lastNew=kNew; inputStats.lastPending=pendingSteps;
@@ -33803,6 +34350,14 @@ function loop(now){
     // 第44便 44B(台帳4-68c): 融合で粒子が消えると index と粒子の対応が変わるので、線の軌跡
     // (index で引く配列)を捨てて引き直す。fusion 無しのプリセットでは判定 1 回だけで素通りする
     if(sim.fusion && sim.n!==fusLastN){ fusLastN=sim.n; trailBuf=[]; trailBufB=[]; }
+    // 第296便c(原仮定者の裁定(第86報)・R159): 連鎖の解法(solver:"network-pcg-v1")が収束しなかった步は u を採用せず(引きずり 0)、
+    // **アプリを停止して通知する**(黙って進めない)。HUD には赤の 1 行(未収束の回数・残差・反復)が残る
+    if(sim.inertialDragHalt===true || (ab && ab.simB.inertialDragHalt===true)){
+      const hs=(sim.inertialDragHalt===true)? sim : ab.simB, fa=hs.inertialDragSolveFailAt||{};
+      sim.inertialDragHalt=false; if(ab) ab.simB.inertialDragHalt=false;
+      running=false; stepGenBump("diverged"); updatePlayBtn();
+      notify(T("chainSolveFail")(hs.inertialDragSolveFail, fa.res, fa.iters, fa.tol), 12000);
+    }
     if((frameCount%30)===0){
       const bad=sim.hasNaN() || (ab && ab.simB.hasNaN());
       if(bad){
@@ -34038,16 +34593,52 @@ function familyTagOf(p){
 }
 function familyMembersOf(fid){ return BUILTIN_PRESETS.filter(p=>p.familyId===fid); }
 function familyVariantCountOf(fid){ return familyMembersOf(fid).filter(p=>p.familyRole==="variant").length; }
+// 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): **家族の折りたたみ**(一覧「サンプルを選ぶ」・表示専用)。
+//   在位の variant が FAMILY_FOLD_MIN_VARIANTS 本以上の家族は、一覧の variant の行を既定で畳み、primary の行の直後(variant が primary と別の群に
+//   並ぶときは、その群で variant が並ぶ位置)に「〔+n 本の家族を開く(<primary の絵文字>)〕」の行(button.ppFamFold・aria-expanded・aria-controls)を置く。
+//   variant の行そのものは組み立てて .ppFamBody[hidden] に入れる(群の畳み .ppGroupBody と同じ作法 —— 群の件数・検索の即応性は不変)。
+//   **畳まない**: 選択中の本の家族・検索/絞り込みが効いている間(一致した本はすべて見える)・variant が閾値未満の家族(従来どおり全て表示 ——
+//   第294便e の「常に全て表示」は家族の長さの条件つきになった)。開閉は家族ごとに localStorage hp_family_open_<familyId>("1" 開 / "0" 閉 ——
+//   無ければ閉)。隠し #presetSelect は畳まない。presetSig・保存 JSON・物理には触らない(QA ui.familyFold296)
+const FAMILY_FOLD_MIN_VARIANTS=6;
+const FAMILY_OPEN_LS="hp_family_open_";
+const familyOpenMem={};   // localStorage が使えない環境でもセッション内の開閉は効く
+function familyFoldable(fid){ return !!fid && familyVariantCountOf(fid)>=FAMILY_FOLD_MIN_VARIANTS; }
+function familyFoldIds(){ return [...new Set(BUILTIN_PRESETS.filter(p=>p.familyRole==="variant" && p.familyId).map(p=>p.familyId))].filter(familyFoldable); }
+function familyOpenOf(fid){
+  if(Object.prototype.hasOwnProperty.call(familyOpenMem,fid)) return !!familyOpenMem[fid];
+  try{ return localStorage.getItem(FAMILY_OPEN_LS+fid)==="1"; }catch(_){ return false; }
+}
+function familySetOpen(fid,v){ familyOpenMem[fid]=!!v; try{ localStorage.setItem(FAMILY_OPEN_LS+fid, v? "1" : "0"); }catch(_){} }
+// いまこの家族の variant を畳みの対象にするか(絞り込み中・選択中の本の家族・閾値未満は対象外)
+function familyFoldActive(fid,filtering){
+  if(filtering || !familyFoldable(fid)) return false;
+  return !(currentPreset && currentPreset.familyId===fid);
+}
+// 開閉の状態を、同じ家族のすべての畳みの行と入れ物へ映す(一覧を組み直さない —— フォーカスはそのまま)
+function familyFoldSync(fid){
+  const open=familyOpenOf(fid);
+  for(const b of document.querySelectorAll("#ppList .ppFamFold")){ if(b.dataset.fam!==fid) continue;
+    const n=+b.dataset.n||0, e=b.dataset.emo||"";
+    b.setAttribute("aria-expanded",open? "true" : "false");
+    b.textContent=open? T("famFoldClose")(n,e) : T("famFoldOpen")(n,e); }
+  for(const d of document.querySelectorAll("#ppList .ppFamBody")) if(d.dataset.fam===fid) d.hidden=!open;
+}
 // 第280便d(原仮定者の裁定(第70報)「plutoCharonDFM・plutoCharonKF0Control: まとめても良い」): **ファミリー内の役割名**。
 // 物理的な統合(ID の削除)はしない —— 入口を 1 つ(primary)にまとめ、variant ごとに「何を試す本か」を名前の横に出す。
 // **プリセットの外に置く表示専用の side table**(presetSig・保存 JSON・物理・600 步の状態には 1 bit も効かない)。
 const FAMILY_VARIANT_LABEL={
+  // 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): 慣性決定力版の 🌤️🟤 にも 🟣 と同じ役割名(表示専用 —— presetSig・物理・保存 JSON は不変)
+  earthMoonSunInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"},
+  mercurySunInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"},
+  mercurySunInertialFit:{ja:"慣性決定力版(フィット: 近点率)", en:"inertial-determinacy build (fitted: perihelion rate)"},   // 第296便b の 🟫(表示専用)
+  plutoCharonInertialFit:{ja:"慣性決定力版(フィット: 周期)", en:"inertial-determinacy build (fitted: period)"},   // 第296便b の 🟪(表示専用)
   plutoCharonReal:{ja:"観測値版(旧入力)", en:"observed-value build (older inputs)"},
   plutoCharonDiagInput:{ja:"観測入力の geoPN=1 の対照(入力を整えた二体)", en:"observed-input geoPN=1 control (cleaned two-body inputs)"},   // 第288便b: 「kF0」を外した
   plutoCharonKF0Control:{ja:"観測入力の geoPN=1 の対照(元期 A の状態)", en:"observed-input geoPN=1 control (epoch-A state)"},   // 第288便b: 「kF0」を外した
   plutoCharonDFM:{ja:"相対すべりモデル", en:"relative-slip model"},
   plutoCharonSyncZero:{ja:"厳密同期円の零試験", en:"exact synchronous-circle zero test"},
-  charonGeoToy3:{ja:"geoPN=4 契約の診断コピー(太陽の背景)", en:"geoPN=4 contract diagnostic (solar background)"},   // 第280便c の 🌒(統合時に追加 — 表示専用)
+  charonGeoToy3:{ja:"旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)", en:"legacy vMinusU contract diagnostic (kept under geoPN=4; solar background)"},   // 第280便c の 🌒(統合時に追加 — 表示専用)・第296便d: 役割名を「旧 vMinusU 契約」へ(ID・物理は不変)
   plutoCharonInertial:{ja:"慣性決定力版(係数移送)", en:"inertial-determinacy build (coefficient transfer)"} };   // 第295便c の 🟣(表示専用)
 function familyVariantLabel(p){
   const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
@@ -34589,6 +35180,7 @@ function ppRender(){
   list.textContent="";
   const filtering=ppFiltering();
   let body=null;                                  // いま積んでいるグループの行の入れ物
+  let famRun=null; const famSeen=new Set();       // 第296便d: いま積んでいる家族の畳みの入れ物(群が変わる・別の本が挟まると閉じる)
   // 見出し = 開閉ボタン(第255便c)。行は .ppGroupBody に入れ、畳んだグループは hidden にする
   // (行そのものは組み立てておく —— 検索の即応性と、グループ間の件数比較のため)
   const mkHead=(g,txt)=>{
@@ -34612,15 +35204,28 @@ function ppRender(){
     h.addEventListener("click",()=>{
       ppToggleOpen(gid,filtering,ppIsOpen(gid,filtering)); ppRender(); });
     list.appendChild(h); list.appendChild(d);
-    body=d; return {h,d,cnt};
+    body=d; famRun=null; return {h,d,cnt};
   };
-  const mkRow=(label,tags,cur,fn)=>{
+  // 第296便d: 家族の畳みの行(button.ppFamFold)と入れ物(.ppFamBody)を、いまの群の中の現在位置に置く
+  const mkFamFold=(fid)=>{
+    const pr=BUILTIN_PRESETS.find(q=>q.familyId===fid && q.familyRole==="primary");
+    const emo=pr? (pr.emoji||pName(pr)) : fid;
+    const b=document.createElement("button"); b.type="button"; b.className="ppFamFold";
+    b.dataset.fam=fid; b.dataset.emo=emo; b.dataset.n="0"; b.title=T("famFoldTip")(emo,FAMILY_FOLD_MIN_VARIANTS);
+    const d=document.createElement("div"); d.className="ppFamBody"; d.dataset.fam=fid; d.id="ppFamBody"+(ppGrpSeq++);
+    b.setAttribute("aria-controls",d.id);
+    b.addEventListener("click",()=>{ familySetOpen(fid,!familyOpenOf(fid)); familyFoldSync(fid); });
+    (body||list).appendChild(b); (body||list).appendChild(d);
+    famSeen.add(fid);
+    return {fid,b,d,n:0};
+  };
+  const mkRow=(label,tags,cur,fn,parent)=>{
     const b=document.createElement("button"); b.type="button"; b.className="ppRow";
     if(cur) b.dataset.cur="1";
     const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
     if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
     b.addEventListener("click",fn);
-    (body||list).appendChild(b);
+    (parent||body||list).appendChild(b);
   };
   const pick=(v)=>{   // プルダウンの change ハンドラと同じ意味論
     if(paramsDirty && !confirm(T("confirmDiscard"))) return;
@@ -34660,8 +35265,15 @@ function ppRender(){
     if(retiredOf(p)) label+="〔"+T("retiredTag")+"〕";   // 第283便b: 読み込み中の退役の本(一覧に残るのはこの 1 本だけ)
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       sampleClassLabel(p)].filter(Boolean).join(" ");   // 第258便c: 較正は DFM / kF0 を出す
-    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
+    // 第296便d: 在位の variant が多い家族の variant は畳みの入れ物へ(primary の直後 —— 別の群ではその群の並びの位置に畳みの行)
+    let famParent=null;
+    if(p.familyRole==="variant" && familyFoldActive(p.familyId,filtering)){
+      if(!famRun || famRun.fid!==p.familyId) famRun=mkFamFold(p.familyId);
+      famRun.n++; famRun.b.dataset.n=String(famRun.n); famParent=famRun.d;
+    } else famRun=null;
+    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id),famParent);
   });
+  famRun=null; for(const fid of famSeen) familyFoldSync(fid);   // 第296便d: 畳みの行の語と開閉を家族ごとに揃える
   closeGroup(); closeScope();
   const customs=getCustomPresets();
   const saves=getSaves();
@@ -35168,7 +35780,7 @@ function geo0ChoiceSync(){
 const MODE_DEV_KEYS=["geoPN","kFrame"];
 function refreshModeDeviation(){
   let S=null; try{ S=editSim(); }catch(e){ S=null; }
-  const list=(S && S.params)? modeSettingIssues(modeIssueSrcOfSim(S)) : [];
+  const list=(S && S.params)? modeSettingIssues(modeIssueSrcOfSim(S), modeIssueOptsOfSim(S)) : [];   // 第296便a: 本の fitRecord も
   document.querySelectorAll("#paramRows .prow[data-k]").forEach((row)=>{
     const k=row.dataset.k;
     if(MODE_DEV_KEYS.indexOf(k)<0) return;
@@ -35298,7 +35910,7 @@ function loadSave(s, selValue){
   setParamsDirty(false);
   // 第295便a(原仮定者の裁定(第85報)「パラメータが逸脱する場合は、セーブロード時に警告する」・R153): 値を載せたあとの params(+ kFrameApprox の宣言 ——
   // #btnSave と同じ写し方)を「目的の組」の判定に通し、逸脱があれば読込の通知 1 行に含める(頭文は読込用 —— 保存用の文を流用しない)。走行・値は変えない
-  const modeL=modeSettingIssues(modeIssueSrcOfSim(sim));
+  const modeL=modeSettingIssues(modeIssueSrcOfSim(sim), modeIssueOptsOfSim(sim));   // 第296便a: 本の fitRecord も
   buildParamRows();
   if(modeL.length) notify(T("loadedAs")(s.name)+" "+T("modeWarnHeadLoad")+modeIssueText(modeL),9000);
   else notify(T("loadedAs")(s.name));
@@ -36899,13 +37511,13 @@ function buildParamRows(){
         else if(key==="geoPN" || key==="kFrame"){
           const dy0=S.geoToyDeny, gt0=S.hasGeoToy, ov0=S.geoToyOverlay, un0=(S.geo3Undeclared===true && dy0===null);
           S.updateRadii();
-          if(S===sim && S.params.geoPN>=3){
+          if(S===sim && geoLegacyGateOf(S.params)){   // 第296便a(R157): lawVersion を宣言した 0 も(旧メッシュが 0 で走る —— 入場/拒否の知らせは 3/4 と同じ)
             if(S.geoToyDeny && S.geoToyDeny!==dy0) notify(T("geoToyDenied")(S.geoToyDeny),5000);
             // 第263便a: **重畳(toyAllowDrag)へ入った/kFrame が動いた**ときも 1 行知らせる
             else if(S.geoToyOverlay && (S.geoToyOverlay!==ov0 || !gt0)) notify(T("geoToyOverlayOn")(fmt(S.params.kFrame)),6000);
             else if(S.hasGeoToy && !gt0) notify(T("geoToyOn"),4000);
             // 第295便b(R154): 4(空間メッシュ)で旧法則版が走らない —— 測地線の法則で走ることを 1 行(変化のときだけ)
-            else if(S.params.geoPN>=4){ if(S.geo3Undeclared===true && !S.geoToyDeny && !un0) notify(T("geo4NoMesh")(geoModeOf(S.params).law),6000); }
+            else if(S.params.geoPN>=4){ if(S.geo3Undeclared===true && !S.geoToyDeny && !un0 && geoLawOfSim(S)!==GEO_LAWS[3]) notify(T("geo4NoMesh")(geoModeOf(S.params).law),6000); }   // 第296便c: 慣性の連鎖の 4 は出さない
             // 第291便c(R134): 旧法則版の宣言が無い 3 —— トイは走らず測地線の法則で走ることを 1 行知らせる(変化のときだけ)
             // 第294便a(R148): 慣性決定力の引きずりを宣言した 3 は測地線 OFF・1PN なし(未宣言の通知を出さない)
             else if(S.geo3Undeclared===true && !S.geoToyDeny && geoLawOfSim(S)===GEO_LAWS[3]){ if(key==="geoPN") notify(T("geo3InertialOn"),5000); }
@@ -37778,7 +38390,7 @@ $("#btnSave").addEventListener("click",()=>{
   item.lawResolved=geoModeOf(sim.params).law;
   // 第293便a(R141): 宣言 kFrameApprox は sim.params に無いことがある(実行中に UI で動かした値・既定へ戻した後など)ので、実行中プリセットの宣言を写して渡す
   // 第295便a(R153): 写し方は modeIssueSrcOfSim(読込の通知・編集欄の赤文字と同じ)
-  const modeW=modeSaveWarnings(modeIssueSrcOfSim(sim));
+  const modeW=modeSaveWarnings(modeIssueSrcOfSim(sim), modeIssueOptsOfSim(sim));   // 第296便a: 本の fitRecord も
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -38024,7 +38636,8 @@ function doImportText(text){
     }
     seen.add(v.preset.id); sigs.add(sig); names.add(v.preset.name);
     // 第295便a(R153): JSON の受理でも「目的の組」の判定(validatePreset の警告と同じ関数)—— 取り込みの通知に 1 行(走行・値は変えない)
-    { const mi=modeSettingIssues(v.preset.physics); if(mi.length) modeImp.push({name:v.preset.name, mi}); }
+    { const fr=(v.preset.fitRecord!==undefined)? v.preset.fitRecord : (c && c.fitRecord);   // 第296便a: 本の fitRecord(受理後に無ければ入力の記録)
+      const mi=modeSettingIssues(v.preset.physics, (fr!==undefined)? {fitRecord:fr} : null); if(mi.length) modeImp.push({name:v.preset.name, mi}); }
     cur.push(v.preset); added++;
     addedPresets.push({preset:v.preset, origId:id});
   }
@@ -38125,6 +38738,11 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
 - タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速の換算指数 eC はティア別 x−eT 固定(分子3 / ビーカー・日常0 / 惑星・恒星4 / 銀河5 / 宇宙全体6)で、cLight=30 はそのティアの次元的光速として表示される(日常 ≈30 m/s・惑星/恒星 ≈3×10^5 m/s)。手動での上書きはできない(第130便)。
 - 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=9.8、beaker は gravityY=0.031 が ≈9.8 m/s²)。
+
+# 主張の範囲とフィット(第296便a —— 原仮定者の裁定(第86報))
+- ${CLAIM_SCOPE.ja}
+- geoPN=1(1PN 準拠)の本は観測入力のまま照合する基準である。法則のノブ(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と、天体の構造核の宣言)を観測値に合わせて調整しない(観測入力〔質量・軌道要素・元期〕はそのまま使う)。
+- それ以外の geoPN でも、観測値に合わせた値の調整(フィット)はアプリの生成器が走らせ、その記録(標的の観測量・窓・調整した鍵と探索範囲・残差)も生成器が機械で付ける。この出力では調整の記録を書かず、観測値に合わせた・合ったとも書かない(値は宣言としてそのまま置く)。
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
@@ -40853,6 +41471,34 @@ function renderHelp(){
         const c=odSp("odVerdict",T("stCal_"+st.calibration)); c.dataset.cal=st.calibration; vr.appendChild(c);
         box.appendChild(vr);
       }
+      el.appendChild(box);
+    }
+  }
+  // 第296便b(原仮定者の裁定(第86報)・R158): 「フィットの記録」1 枚(fitRecord の表示 —— 表示専用・**クラスは frBox/frHead/frRow**〔失敗から見る・観測結果カードの .ffBox/.ffRow/.ocRow とは別 —— 既存の箱の数え方は不変〕・このページでは測り直さない)。
+  //   標的/窓/ノブ/固定/残差/数値誤差/status/合わせていない量(/同定できない)を 1 行 1 項目で並べる。記録の文は生成器の原文(ja)のまま
+  {
+    const fr=currentPreset? currentPreset.fitRecord : null;
+    if(fr && typeof fr==="object" && Array.isArray(fr.targets) && Array.isArray(fr.knobs)){
+      const box=document.createElement("details"); box.className="frBox"; box.id="fitRecordBox"; box.open=true;
+      box.dataset.status=String(fr.status||""); box.dataset.parent=String(fr.parent||"");
+      const bh=document.createElement("summary"); bh.className="frHead"; bh.textContent="📐 "+T("frHead"); box.appendChild(bh);
+      const nt=document.createElement("p"); nt.className="frNote"; nt.textContent=T("frNote"); box.appendChild(nt);
+      const fmt=(x)=>(typeof x==="number" && isFinite(x))? ((x!==0 && (Math.abs(x)<1e-3 || Math.abs(x)>=1e6))? x.toExponential(4) : String(Number(x.toPrecision(9)))) : "—";
+      const row=(k,label,val)=>{ const d=document.createElement("div"); d.className="frRow"; d.dataset.k=k;
+        const a=document.createElement("span"); a.className="frKey"; a.textContent=label; d.appendChild(a);
+        const b=document.createElement("span"); b.className="frVal"; b.textContent=val; d.appendChild(b); box.appendChild(d); return d; };
+      row("parent",T("frParent"),String(fr.parent)+(fr.law? "("+fr.law+")" : ""));
+      for(const t of fr.targets) row("target",T("frTarget"),t.q+" = "+fmt(t.obs)+" "+t.unit+" —— "+t.source+" / "+t.window);
+      for(const k of fr.knobs) row("knob",T("frKnob"),k.key+" : "+T("frFinal")+" "+fmt(k.final)+"("+T("frRange")+" ["+fmt(k.range[0])+", "+fmt(k.range[1])+"])");
+      if(fr.fixed && fr.fixed.length) row("fixed",T("frFixed"),fr.fixed.join(" / "));
+      row("procedure",T("frProc"),String(fr.procedure)+"(dt "+fmt(fr.dt)+"・"+fmt(fr.steps)+" "+T("frSteps")+")");
+      const r=fr.residual||{};
+      row("residual",T("frResidual"),fmt(r.value)+" "+(r.unit||"")+(r.model!==undefined? "(model "+fmt(r.model)+")" : "")+(r.rel!==undefined? "・rel "+fmt(r.rel) : ""));
+      const nm=fr.numerics||{};
+      row("numerics",T("frNumerics"),fmt(nm.h2)+" "+(r.unit||"")+(nm.dtHalf!==undefined? "(h/2 = "+fmt(nm.dtHalf)+")" : ""));
+      const st=row("status",T("frStatus"),T("frStatus_"+fr.status)); st.dataset.status=String(fr.status);
+      row("notFitted",T("frNotFitted"),(fr.notFitted||[]).join(" / ")||"—");
+      if(Array.isArray(fr.notIdentifiable) && fr.notIdentifiable.length) row("notIdentifiable",T("frNotIdent"),fr.notIdentifiable.join(" / "));
       el.appendChild(box);
     }
   }
@@ -49645,6 +50291,11 @@ function inertialDragInit(S){
   if(relDragComposeOf(rd)==="solve"){   // 第293便e: 合成則 solve の帳簿(第293便g: 既定 solve —— compose:"sum" を明示した本と law:"inertial" でない本には鍵を作らない)
     S.inertialDragSolveN=0; S.inertialDragSolveRes=0; S.inertialDragSolveResMax=0; S.inertialDragSolveMethod=null;
     S.inertialDragUSumMax=0; S.inertialDragUSolveMax=0; S.inertialDragSolveTooLarge=0;
+    if(rd.solver!==undefined || rd.spinSource!==undefined){   // 第296便c: 連鎖の宣言(solver・spinSource)の本だけの帳簿(未宣言の本には鍵を作らない)
+      S.inertialDragSolveFail=0; S.inertialDragHalt=false; S.inertialDragSolveFailAt=null;
+      S.inertialDragSolveIters=0; S.inertialDragSolveItersMax=0; S.inertialDragSolveRestarts=0;
+      S.inertialDragSpinSrc=0; S.inertialDragSpinN=0; S.inertialDragSpinSkip=0; S.inertialDragSpinMax=0;
+    }
   }
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
 }
@@ -49677,6 +50328,138 @@ function inertialDragEpoch(S){
 //     履歴なしの步は u=0・一致点は拒否・構造核(dragCore の表)は核の 𝒦_j として同じ式で読む —— どれも現行の契約 (i)〜(viii) のまま。
 //   ・次数 deg_i と上界 2·max deg_i は現行と同じ式で出す(solve では上界 ≥1 でも |u_i| ≤ max_j |v_j − v_i| —— 有界)。
 //   ・純関数の写しは tests/lib-w293e-compose.mjs(同じ式・同じ順序 —— 器 tests/exp-w293e-compose.mjs の門でビット同一)。**S._core の外**。
+// ===== 第296便c(原仮定者の裁定(第86報)・統括の検証項目 R159): 連鎖の 2 つの純関数(式は REL_DRAG_CHAIN_VERSION の注記・docs/PHYSICS.md〔第296便c〕)=====
+// (a) **自転源の表裏核** M1(r) = ⟨K_ε(|d−ρ|)(ρ·ê)⟩(宣言半径 R の一様球で体積平均・単位質量あたり・d は源の中心から受け手へ・r=|d|)。
+//   源の点 ρ の速度 Ω×ρ の平均は Ω ẑ×⟨K_ε ρ⟩ = Ω M1 (ẑ×ê)(ê に垂直な成分は対称で消える —— 表側と裏側の Ω×ρ は逆向きで、近い側の核が大きいぶんだけ残る)。
+//   方位の積分は閉じた形(μ=cos∠(ρ,ê)・d²=r²+s²−2rsμ・a=r²+s²・d₂=r+s・d₁=|r−s|・Δ=d₂−d₁):
+//     ∫_{−1}^{1} K_ε(d) μ dμ = [F(d₂)−F(d₁)]/(2r²s²)、F(d) = ((a+3ε²)/(2ε))·atan(d/ε) − (a+ε²)·d/(2(d²+ε²)) − d
+//     (atan の差は atan(εΔ/(ε²+d₁d₂)) で取る —— 小さい ε で桁落ちしない。ε=0 は aΔ/(2d₁d₂))
+//   半径は M1 = (3/(2R³))·∫₀^R s·[F(d₂)−F(d₁)]/(2r²) ds を区間分割の Gauss–Legendre(区間あたり gl の点数)で積む ——
+//   特異点に最も近い s* = min(r,R) へ等比に細かくした区間(第280便b の dfmSphereKernelRadial と同じ組み方)。遠方 r ≫ R で M1 → (3/5)R²/r⁴(ε=0)。
+//   ε=0 で球の内部・表面(r ≤ R)は拒否(null —— 呼び手は足さずに数える)。
+function inertialSpinMoment(r, R, eps, gl){
+  if(!(r>0) || !(R>0) || !(eps>=0) || !Number.isFinite(r) || !Number.isFinite(R) || !Number.isFinite(eps)) return null;
+  if(eps===0 && r<=R) return null;
+  const e2=eps*eps, sStar=(r<R)? r : R, del=Math.max((r<R)? eps : Math.hypot(r-R, eps), 1e-12*R);
+  const pts=[0, R];
+  if(r<R) pts.push(r);
+  for(let d=del; d<R; d*=2){ if(sStar-d>0) pts.push(sStar-d); if(sStar+d<R) pts.push(sStar+d); }
+  pts.sort((a,b)=>a-b);
+  const gx=gl.x, gw=gl.w, nG=gx.length;
+  let sum=0;
+  for(let b=0;b+1<pts.length;b++){
+    const a0=pts[b], h=pts[b+1]-a0;
+    if(!(h>1e-15*R)) continue;
+    for(let k=0;k<nG;k++){
+      const sv=a0+h*gx[k], w=h*gw[k];
+      const a=r*r+sv*sv, d2=r+sv, d1=Math.abs(r-sv), D=d2-d1;
+      const t1=(eps>0)? (a+3*e2)/(2*eps)*Math.atan(eps*D/(e2+d1*d2)) : a*D/(2*d1*d2);
+      const t2=(a+e2)/2*(d2/(d2*d2+e2)-d1/(d1*d1+e2));
+      sum+=w*sv*(t1-t2-D);
+    }
+  }
+  return 3/(2*R*R*R)*sum/(2*r*r);
+}
+// (b) **連鎖の解法** —— (I+L)u = s を質量の重みの内積で対称な系として、対角前処理の共役勾配法で解く(x と y を同時に・別々の係数)。
+//   A[i*n+j] = a_ij(受け手 i・源 j)・DG[i] = Σ_j a_ij・FX[i]=1 は受け取らない行(u_i=0 に固定 —— 列からも外れる)。
+//   m_i a_ij = m_j a_ji(辺 c_ij の対称)のとき B = M(I+L) は対称正定値(M + 非負重みのグラフラプラシアン)。z_i = √m_i u_i の相似で
+//   対称化した系の対角前処理 PCG と同じ反復: 前処理 1/(1+deg_i)・内積の重み m_i(B の対角は m_i(1+deg_i))。
+//   収束の判定は**元の式を再評価した残差** max_i max(|r_x|,|r_y|) ≤ tol·max_i|s_i|(r = s − (I+L)u —— 漸化式の残差が門に入ったら
+//   真の残差を計算し直し、入っていなければ真の残差から再開する)。W は作業配列(長さ ≥ n の Float64Array 8 本)。
+//   戻り値 {converged, iters, restarts, breakdown}。UX/UY に最後の反復値を書く(未収束でも —— 採用するかは呼び手が決める)
+function inertialDragPCG(A, DG, m, FX, SX, SY, UX, UY, n, tol, maxIter, W){
+  const RX=W[0], RY=W[1], PX=W[2], PY=W[3], QX=W[4], QY=W[5], ZX=W[6], ZY=W[7];
+  let sMax=0;
+  for(let i=0;i<n;i++){ UX[i]=0; UY[i]=0; if(!FX[i]){ const sm=Math.hypot(SX[i],SY[i]); if(sm>sMax) sMax=sm; } }
+  if(!(sMax>0)) return {converged:true, iters:0, restarts:0, breakdown:false};
+  const gate=tol*sMax;
+  let it=0, restarts=0, rzX=0, rzY=0;
+  const trueRes=()=>{
+    let mx=0;
+    for(let i=0;i<n;i++){
+      if(FX[i]){ RX[i]=0; RY[i]=0; continue; }
+      const row=i*n, d=1+DG[i];
+      let rx=SX[i]-d*UX[i], ry=SY[i]-d*UY[i];
+      for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx+=a*UX[j]; ry+=a*UY[j]; } }
+      RX[i]=rx; RY[i]=ry;
+      const rr=Math.max(Math.abs(rx),Math.abs(ry)); if(rr>mx) mx=rr;
+    }
+    return mx;
+  };
+  const start=()=>{
+    rzX=0; rzY=0;
+    for(let i=0;i<n;i++){
+      if(FX[i]){ ZX[i]=0; ZY[i]=0; PX[i]=0; PY[i]=0; continue; }
+      const d=1+DG[i];
+      ZX[i]=RX[i]/d; ZY[i]=RY[i]/d; PX[i]=ZX[i]; PY[i]=ZY[i];
+      rzX+=m[i]*RX[i]*ZX[i]; rzY+=m[i]*RY[i]*ZY[i];
+    }
+  };
+  if(trueRes()<=gate) return {converged:true, iters:0, restarts:0, breakdown:false};
+  start();
+  while(it<maxIter){
+    it++;
+    let pqX=0, pqY=0;
+    for(let i=0;i<n;i++){
+      if(FX[i]){ QX[i]=0; QY[i]=0; continue; }
+      const row=i*n, d=1+DG[i];
+      let qx=d*PX[i], qy=d*PY[i];
+      for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ qx-=a*PX[j]; qy-=a*PY[j]; } }
+      QX[i]=qx; QY[i]=qy; pqX+=m[i]*PX[i]*qx; pqY+=m[i]*PY[i]*qy;
+    }
+    if((rzX>0 && !(pqX>0)) || (rzY>0 && !(pqY>0))) return {converged:false, iters:it, restarts, breakdown:true};
+    const aX=(rzX>0)? rzX/pqX : 0, aY=(rzY>0)? rzY/pqY : 0;
+    if(!Number.isFinite(aX) || !Number.isFinite(aY)) return {converged:false, iters:it, restarts, breakdown:true};
+    let rMax=0;
+    for(let i=0;i<n;i++){
+      if(FX[i]) continue;
+      UX[i]+=aX*PX[i]; UY[i]+=aY*PY[i]; RX[i]-=aX*QX[i]; RY[i]-=aY*QY[i];
+      const rr=Math.max(Math.abs(RX[i]),Math.abs(RY[i])); if(rr>rMax) rMax=rr;
+    }
+    if(rMax<=gate){
+      if(trueRes()<=gate) return {converged:true, iters:it, restarts, breakdown:false};
+      restarts++; start(); continue;
+    }
+    let nzX=0, nzY=0;
+    for(let i=0;i<n;i++){
+      if(FX[i]) continue;
+      const d=1+DG[i];
+      ZX[i]=RX[i]/d; ZY[i]=RY[i]/d; nzX+=m[i]*RX[i]*ZX[i]; nzY+=m[i]*RY[i]*ZY[i];
+    }
+    const bX=(rzX>0)? nzX/rzX : 0, bY=(rzY>0)? nzY/rzY : 0;
+    for(let i=0;i<n;i++){ if(FX[i]) continue; PX[i]=ZX[i]+bX*PX[i]; PY[i]=ZY[i]+bY*PY[i]; }
+    rzX=nzX; rzY=nzY;
+  }
+  return {converged:false, iters:it, restarts, breakdown:false};
+}
+// 自転源の項を s(UX/UY —— 入口の値)に足す(spinSource:"surfaceFlip" を宣言した本だけ —— 未宣言の本はここを呼ばない)。
+// 源 j: 質量が正・宣言スピン S.spin[j] ≠ 0・宣言半径 S.radOv[j] > 0。受け手 i: 質量が正・宣言した対(pinned は solve が u=0 に固定)。
+// 足す量は C m_j Ω_j M1(r_ij)(ẑ×ê)・ê = (x_i − x_j)/r_ij。ε=0 の内部・表面(M1 が null)は足さずに S.inertialDragSpinSkip に数える
+function inertialDragSpinTerm(S,n,C,eps){
+  const X=S.x, Y=S.y, m=S.m, sp=S.spin, Rd=S.radOv, set=S._rdPairSet, NP=S._rdPairN, UX=S._rdUX, UY=S._rdUY;
+  if(!S._rdSpinGL) S._rdSpinGL=dfmGaussLegendre01(REL_DRAG_SPIN_NODES);
+  const gl=S._rdSpinGL;
+  let nSrc=0, nAdd=0, skip=0, tMax=0;
+  for(let j=0;j<n;j++){
+    const Om=sp[j], R=Rd[j], mj=m[j];
+    if(Om===0 || !(R>0) || !(mj>0) || !Number.isFinite(mj) || !Number.isFinite(Om)) continue;
+    nSrc++;
+    for(let i=0;i<n;i++){
+      if(i===j) continue;
+      const mi=m[i];
+      if(!(mi>0) || !Number.isFinite(mi)) continue;
+      if(set && !set.has(i*NP+j)) continue;
+      const dx=X[i]-X[j], dy=Y[i]-Y[j], r=Math.sqrt(dx*dx+dy*dy);
+      const M1=inertialSpinMoment(r, R, eps, gl);
+      if(M1===null){ skip++; continue; }
+      const f=C*mj*Om*M1/r;                                  // (ẑ×ê)·|·| = (−dy, dx)/r
+      UX[i]+=-f*dy; UY[i]+=f*dx; nAdd++;
+      const tm=Math.abs(f*r); if(tm>tMax) tMax=tm;
+    }
+  }
+  S.inertialDragSpinSrc=nSrc; S.inertialDragSpinN+=nAdd; S.inertialDragSpinSkip+=skip; if(tMax>S.inertialDragSpinMax) S.inertialDragSpinMax=tMax;
+  return {nSrc, nAdd, skip, tMax};
+}
 function inertialDragComposeBuild(S,n,CT,hist,C,e2){
   if(n>REL_DRAG_SOLVE_NMAX) return {coincident:false, degMax:0, tooLarge:true};
   const X=S.x, Y=S.y, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
@@ -49721,7 +50504,7 @@ function inertialDragComposeSolve(S,n){
     SX[i]=FX[i]? 0 : UX[i]; SY[i]=FX[i]? 0 : UY[i];
     const sm=Math.hypot(SX[i],SY[i]); if(sm>sMax) sMax=sm;
   }
-  let method;
+  let method, pcg=null;   // 第296便c: pcg は連鎖の解法の結果(宣言した本の n>64 だけ)
   if(n===2 && n<=REL_DRAG_SOLVE_DIRECT_MAX){
     // 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): **n=2 の展開形** —— 下の直接法と**同じ演算・同じ順序**(添字とループだけを外した)。
     //   M も同じ値を書く(消去後の M[3] まで)。🌛 earthMoonInertial・🐌 inertialDragPair の全状態がビット同一(第294便d の器で実測)
@@ -49760,6 +50543,12 @@ function inertialDragComposeSolve(S,n){
       const d=M[i*n+i];
       UX[i]=sx/d; UY[i]=sy/d;
     }
+  } else if(S.relDrag.solver===REL_DRAG_SOLVERS[0]){
+    // 第296便c(R159): 宣言 solver:"network-pcg-v1" の本だけ —— n > 64 で Gauss–Seidel の代わりに対角前処理の共役勾配法(inertialDragPCG)。
+    //   収束しなければ下の残差のあとで u を採用しない(その步の引きずりは 0・停止して通知)
+    method="pcg";
+    if(!S._rdPW || S._rdPW[0].length<n){ S._rdPW=[]; for(let k=0;k<8;k++) S._rdPW.push(new Float64Array(n)); }
+    pcg=inertialDragPCG(A, DG, m, FX, SX, SY, UX, UY, n, relDragSolverTolOf(S.relDrag), relDragSolverMaxIterOf(S.relDrag), S._rdPW);
   } else {
     method="gs";
     const it=(S.relDrag.solveIters!==undefined)? S.relDrag.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT;
@@ -49788,6 +50577,18 @@ function inertialDragComposeSolve(S,n){
   const res=(sMax>0)? rMax/sMax : rMax;
   S.inertialDragSolveN++; S.inertialDragSolveRes=res; if(res>S.inertialDragSolveResMax) S.inertialDragSolveResMax=res;
   S.inertialDragSolveMethod=method; S.inertialDragUSumMax=sMax; S.inertialDragUSolveMax=uMax;
+  if(pcg){
+    // 第296便c(R159): 門 = 反復が収束を返し ∧ 元の式の残差(上の res)≤ solverTol。外れたら **u を採用しない**(全行 0 —— 黙って進めない)
+    const tol=relDragSolverTolOf(S.relDrag), adopted=(pcg.converged===true && res<=tol);
+    S.inertialDragSolveIters=pcg.iters; if(pcg.iters>S.inertialDragSolveItersMax) S.inertialDragSolveItersMax=pcg.iters;
+    S.inertialDragSolveRestarts+=pcg.restarts;
+    if(!adopted){
+      for(let i=0;i<n;i++){ UX[i]=0; UY[i]=0; }
+      S.inertialDragSolveFail++; S.inertialDragHalt=true; S.inertialDragWhy="solveNoConverge";
+      S.inertialDragSolveFailAt={t:S.t, res, iters:pcg.iters, breakdown:pcg.breakdown, tol};
+    }
+    return {method, res, sMax, uMax, iters:pcg.iters, restarts:pcg.restarts, converged:pcg.converged, breakdown:pcg.breakdown, adopted};
+  }
   return {method, res, sMax, uMax};
 }
 function dfmInertialDragStep(S,dt){
@@ -49854,6 +50655,7 @@ function dfmInertialDragStep(S,dt){
   if(bound>=1) S.inertialDragOver++;                        // (vii) 数える(clamp しない・飽和させない)
   let dU=0, Px=0, Py=0, Jz=0, dL=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
+  if(hist && comp && rd.spinSource===REL_DRAG_SPIN_SOURCES[0]) inertialDragSpinTerm(S,n,C,eps);   // 第296便c: 自転する源の表裏核を s に足す(宣言した本だけ)
   if(hist && comp) inertialDragComposeSolve(S,n);          // 第293便e: (I+L)u = s を解いて UX/UY を置き換える(移送・帳簿は下の共通の手続き)
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
@@ -49903,7 +50705,43 @@ function inertialDragComposeState(S){
   return { version:REL_DRAG_COMPOSE_VERSION, compose:"solve", solveFrom:relDragSolveFromOf(rd),
     solveIters:(rd.solveIters!==undefined)? rd.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT, directMax:REL_DRAG_SOLVE_DIRECT_MAX,
     solves:S.inertialDragSolveN, method:S.inertialDragSolveMethod, res:S.inertialDragSolveRes, resMax:S.inertialDragSolveResMax,
-    uSumMax:S.inertialDragUSumMax, uSolveMax:S.inertialDragUSolveMax, tooLarge:S.inertialDragSolveTooLarge };
+    uSumMax:S.inertialDragUSumMax, uSolveMax:S.inertialDragUSolveMax, tooLarge:S.inertialDragSolveTooLarge,
+    ...((rd.solver!==undefined || rd.spinSource!==undefined)? {chain:{version:REL_DRAG_CHAIN_VERSION, solver:rd.solver||null,   // 第296便c: 連鎖の宣言の本だけ
+      solverTol:relDragSolverTolOf(rd), solverMaxIter:relDragSolverMaxIterOf(rd), iters:S.inertialDragSolveIters, itersMax:S.inertialDragSolveItersMax,
+      restarts:S.inertialDragSolveRestarts, fail:S.inertialDragSolveFail, failAt:S.inertialDragSolveFailAt? Object.assign({}, S.inertialDragSolveFailAt) : null,
+      spinSource:rd.spinSource||null, spinSources:S.inertialDragSpinSrc, spinTerms:S.inertialDragSpinN, spinSkip:S.inertialDragSpinSkip, spinMax:S.inertialDragSpinMax,
+      rigidRotation:"kept"}} : null) };
+}
+// ===== 第296便b(原仮定者の裁定(第86報)「geoPN=3 のサンプルは、観測値に合うように dragCore をフィットさせる」・統括の検証項目 R158):
+//   **速度の規約の純関数** `inertialDragInverseMap(S)` —— 合成則 solve(velocity)(既定)では、固定した位置で (I+L)u = −Lv・座標速度 W = v+u
+//   なので (I+L)W = v。観測の座標速度を W と読むなら、力学速度は **v = (I+L)W**(v_i = W_i + Σ_j a_ij (W_i − W_j)・a_ij は
+//   `inertialDragComposeBuild` の A と同じ式・同じ順序 —— 構造核の表も同じに読む)。W は S.vx/S.vy(この関数を呼んだ時点の値)。
+//   ■ 契約: **状態を 1 bit も動かさない**(A は S を原型にした写しへ書く —— S._rdA・_rdUX/_rdUY・_rdDeg は触らない)・**履歴を読まない**
+//   (hist=false で張る)・受け取らない行(pinned・質量が正でない)は v=W のまま・law:"inertial" でない本・合成則 "sum"・一致点・n>REL_DRAG_SOLVE_NMAX は null。
+//   本の既定にはしない(器 tests/exp-w296b-fit.mjs が 🟣 の対照として走らせて記録するだけ —— 既定にするかは決断事項)。
+const INERTIAL_INVERSE_MAP_VERSION = "w296b-inverse-1";
+function inertialDragInverseMap(S){
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial" || relDragComposeOf(S.relDrag)!=="solve" || !S._rdPairN) return null;
+  const n=S.n;
+  if(!(n>0) || n>REL_DRAG_SOLVE_NMAX) return null;
+  const T=Object.create(S);
+  T._rdA=new Float64Array(n*n); T._rdUX=new Float64Array(n); T._rdUY=new Float64Array(n); T._rdDeg=new Float64Array(n);
+  const rd=S.relDrag, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
+  const q=inertialDragComposeBuild(T,n,S._dragCoreT||null,false,rd.gain,eps*eps);
+  if(q.coincident || q.tooLarge) return null;
+  const A=T._rdA, DG=T._rdDeg, m=S.m, pin=S.pinned, WX=S.vx, WY=S.vy;
+  const vx=new Float64Array(n), vy=new Float64Array(n);
+  let fixed=0, relMax=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i];
+    if(!(mi>0) || !Number.isFinite(mi) || pin[i]){ vx[i]=WX[i]; vy[i]=WY[i]; fixed++; continue; }
+    const row=i*n;
+    let sx=(1+DG[i])*WX[i], sy=(1+DG[i])*WY[i];
+    for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx-=a*WX[j]; sy-=a*WY[j]; } }
+    vx[i]=sx; vy[i]=sy;
+    const w=Math.hypot(WX[i],WY[i]), d=Math.hypot(sx-WX[i],sy-WY[i]); if(w>0 && d/w>relMax) relMax=d/w;
+  }
+  return {version:INERTIAL_INVERSE_MAP_VERSION, n, vx, vy, fixed, degMax:q.degMax, relMax, from:"W=S.vx/S.vy", rule:"v=(I+L)W"};
 }
 // ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
 // `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
@@ -50568,7 +51406,7 @@ function testParticlePrepare(S){
   if(n0<1) return deny("noSource");
   const p=S.params;
   if(S.integrator!=="semi") return deny("integrator");
-  if((p.geoPN||0)>=3 && p[SPACE_MESH_KEY] && p[SPACE_MESH_KEY].lawVersion!==undefined) return deny("geoPN3");   // 第291便c: 旧法則版を宣言した 3 だけ(未宣言の 3 は測地線 ON の基底で走る —— 旧来の 2 への丸めと同じ)
+  if(geoLegacyGateOf(p) && p[SPACE_MESH_KEY] && p[SPACE_MESH_KEY].lawVersion!==undefined) return deny("geoPN3");   // 第296便a: lawVersion を宣言した 0 も同じ(旧法則版の宇宙)   // 第291便c: 旧法則版を宣言した 3 だけ(未宣言の 3 は測地線 ON の基底で走る —— 旧来の 2 への丸めと同じ)
   if(p.kRep!==0 || p.muF!==0 || p.gammaN!==0 || p.kappaS!==0 || p.etaRad!==0) return deny("material");
   if(S.thermal==="tint" || S.phase || S.fusion) return deny("thermal");
   if(S.hasCoreV2) return deny("coreV2");
@@ -50949,7 +51787,7 @@ function geoCoreDispatchBody(S,dt,mode){
     if(!kf0){ if(ge===g){ dfmTestParticleCore(S,dt,mode); return; }
       p.geoPN=ge; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
     dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
-  if(ge>=3){
+  if(ge>=3 || S.hasGeo3PN===true){   // 第296便a(R157): geoPN=0 で vMinusU ∧ pn:"reference-1PN" が走る本(ge=0 —— 旗は門 geoLegacyGateOf の内側でしか立たない)も同じ枝
     if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);
     p.geoPN=0; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else if(kf0){ dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
@@ -50962,7 +51800,7 @@ function geoCoreDispatchBody(S,dt,mode){
 function geoLawOfSim(S){
   if(!S || !S.params) return null;
   const p=S.params, g=p.geoPN, ge=geoEffectiveMode(S);   // 第294便a(R148): dispatch と同じ実効番号の正本
-  if(ge>=3){ const sm=p[SPACE_MESH_KEY]; return "legacy-spaceMesh:"+(sm && sm.lawVersion); }
+  if(ge>=3 || (!(g>0) && (S.hasGeoToy || S.hasGeo3))){ const sm=p[SPACE_MESH_KEY]; return "legacy-spaceMesh:"+(sm && sm.lawVersion); }   // 第296便a: 0 で旧法則版が走る本も
   if(g>=3 && ge===0) return GEO_LAWS[3];   // 慣性宣言の 3 —— 測地線 OFF・`_core` へ 0(名前と步が一致)
   if(!(ge>0)) return GEO_LAWS[0];
   return (p.kFrame>0)? GEO_LAWS[2] : GEO_LAWS[1];
@@ -51522,7 +52360,7 @@ function meshVelocityPrepare(S){
   // 第280便c(R65): geoPN=3 で通すのは **spaceMesh.lawVersion:"vMinusU"(速度分解の契約)だけ**。
   // トイ(scalar/local/complex)・メッシュのチャネルとは従来どおり排他。契約鍵は検証器で正規化してから読む
   let g3=null;
-  if(P.geoPN>=3){
+  if(geoLegacyGateOf(P)){   // 第296便a(R157): lawVersion を宣言した 0 も(vMinusU が 0 で走る —— 3/4 と同じ契約)
     const smv=validateSpaceMesh(P[SPACE_MESH_KEY]===undefined? null : P[SPACE_MESH_KEY]);
     const sm=(smv.ok && smv.spaceMesh)? smv.spaceMesh : null;
     if(!sm || sm.lawVersion!==GEO3_LAW) return deny("geoPN=3");
@@ -53248,8 +54086,13 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
   geoEffectiveMode, geoLawOfSim, geoModeOf, geo3InertialOfferOf, geo3InertialDeclare, modeSaveWarnings, MODE_SAVE_WARN_CODES, MODE_POLICY_VERSION,   // 第294便a
   modeSettingIssues, modeIssueText, GEO0_CHOICES, geo0ChoiceOf, geo0ChoicePreview, geo0ApplyChoice, geoInertialSetGain, refreshModeDeviation,   // 第295便a(R153)
+  CLAIM_SCOPE, geoLegacyGateOf, GEO1_LAW_KNOB_HEADS, GEO1_OBS_INPUT_HEADS, fitKnobIsLaw, geo1FittedKnobsOf, modeIssueOptsOfSim,   // 第296便a(原仮定者の裁定(第86報)・R157)
+  inertialDragInverseMap, INERTIAL_INVERSE_MAP_VERSION,   // 第296便b(R158): 速度の規約 v=(I+L)W の純関数
+  validateFitRecord, FIT_RECORD_VERSION, FIT_RECORD_KEYS, FIT_RECORD_STATUS,   // 第296便b(R158): フィットの記録の受理器(presetSig の外)
   inertialDragComposeBuild, inertialDragComposeSolve, inertialDragComposeState, REL_DRAG_COMPOSE, REL_DRAG_SOLVE_FROM, REL_DRAG_SOLVE_ITERS_DEFAULT,
   REL_DRAG_SOLVE_ITERS_RANGE, REL_DRAG_SOLVE_DIRECT_MAX, REL_DRAG_SOLVE_NMAX, REL_DRAG_COMPOSE_VERSION,   // 第293便e
+  inertialSpinMoment, inertialDragPCG, inertialDragSpinTerm, relDragSolverTolOf, relDragSolverMaxIterOf, REL_DRAG_SOLVERS, REL_DRAG_SOLVER_TOL_DEFAULT,
+  REL_DRAG_SOLVER_MAXITER_DEFAULT, REL_DRAG_SPIN_SOURCES, REL_DRAG_SPIN_NODES, REL_DRAG_CHAIN_VERSION,   // 第296便c
   REL_DRAG_COMPOSE_DEFAULT, REL_DRAG_SOLVE_FROM_DEFAULT, relDragComposeOf, relDragSolveFromOf,   // 第293便g
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
@@ -53444,6 +54287,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     carryCapFrames:STEP_CARRY_CAP_FRAMES}),
   stepCarry:()=>stepCarryOn, setStepCarry,     // 否定対照(繰越の無効化)専用の切替
   stepGenNow:()=>stepGen, stepGenBump,
+  stepCarryFrame, stepCarryDiscard,   // 第296便d: 1 フレームの会計と繰越の破棄の純関数(QA が手で進める時計で判定する)
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
   coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   spinAxisGlyphCount:()=>spinAxisGlyphN,   // 第288便e: spinAxis の投影線を描いた回数の累計(表示の検査用)

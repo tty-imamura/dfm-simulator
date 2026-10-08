@@ -111,8 +111,11 @@ const ALLOW = {};
 // 第144便(v1.41.0 昇格に同梱): 2コア CI×小サンプル(60フレーム・180ms/60ms 級)のノイズフロアが
 // ~1.13 署名(frictionHeat・第135便以降3回)と散在ペア(nebulaRotor)を作るため、計測時間を引き上げる。
 // 判定条件・閾値 1.10・走査順は不変
+// 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): 比較ゲート SAMPLES の中で counterring だけが 60frames ≈ 180 ms と短く(他は 600〜2000 ms)、
+// 負荷の揺れが比に出やすい(第295便の手元の記録: ペア比 [0.854 0.993 1.094])。測定の長さを他の本と同じ桁に揃える(60→240frames ≈ 0.7 s/rep)。
+// **閾値 1.10・判定式・ペア比の中央値・走査順は不変**(比の閾値は変えない —— 長さだけ揃える)
 const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480,
-  frictionHeat: 480, nebulaRotor: 480 };
+  frictionHeat: 480, nebulaRotor: 480, counterring: 240 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
@@ -649,6 +652,10 @@ fs.writeFileSync(path.join(OUT_DIR, ABJIT_ONLY ? 'perf-abjit-only.json' : 'perf-
   //   ratio = msPerStep / baseRef。**判定は informational**(warn を立てるだけで fail を増やさない)。
   //   prev は前回の走行の記録で、**判定には使わない**(tests/out は追跡外なので CI では空から始まる)。
   results: rows, informational, geo2: { gate: geo2Gate, sweep: geo2Sweep },
+  // 第296便d(R160): **初回失敗の記録**(再トスが走ったサンプルの初回の比と最終判定 —— rows[].first* の要約)。再トスが無い run では空配列。
+  //   1 回再走で緑になっても、初回に落ちた事実は保存物に残す(読み手が上位キーだけを見て見落とさないように)
+  firstFailures: rows.filter((r) => r.retossed).map((r) => ({ id: r.id, firstNormRatio: r.firstNormRatio, firstPass: r.firstPass,
+    forced: !!r.forcedRetoss, finalRatio: r.finalRatio, finalPass: r.finalPass, frames: r.frames })),
   abJit: { rows: abJitRows, warnRatio: ABJIT_WARN, selfWarnRatio: ABJIT_SELF_WARN,
     presets: ABJIT_PRESETS,
     method: `ab(2 sim)・warm ${ABJIT.warm} 步・${ABJIT.reps} 反復 × ${ABJIT.chunk} 步の中央値・ms/步`

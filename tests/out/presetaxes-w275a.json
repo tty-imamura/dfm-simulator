@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-  "generatedAt": "2026-10-07T18:43:04.135Z",
+  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+  "generatedAt": "2026-10-08T18:05:14.995Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5856758,
-    "sha256": "d59fce32dcbc888ef0569aa75c33f66f4d16107f43e606105a0a615cdcf9182f",
-    "mtime": "2026-10-07T17:31:27.415Z"
+    "bytes": 5976655,
+    "sha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+    "mtime": "2026-10-08T16:39:20.927Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 155,
+ "nPresets": 158,
  "kFrameValues": [
   0,
   1
@@ -1827,6 +1827,27 @@
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "name": "水星と太陽(慣性決定力版・フィット)— 近点率に合わせた gain",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "1eb9a778",
+   "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
+  },
+  {
    "id": "mercuryGeoToy3",
    "emoji": "🔁",
    "name": "水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)",
@@ -2056,6 +2077,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "92b42b64",
    "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
+  },
+  {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "name": "冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 11.9386,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "c59b1bbe",
+   "bodiesSha256": "e730126fe3576f42a3d34f4c263b04f329cbadd668d65fdb8e81976628e5afc3"
   },
   {
    "id": "plutoCharonSyncZero",
@@ -2581,6 +2623,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "80390719",
    "bodiesSha256": "9738fb3120ea587cf718dfacd5161c334dfe3262b7ca50fcb9dd58382cbf4ac2"
+  },
+  {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "name": "連鎖引きずりの小円盤 — 自転する中心と多粒子(原理)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.5,
+   "geoPN": 4,
+   "nBodyDecl": 2,
+   "presetSigHash": "6fb406d3",
+   "bodiesSha256": "ee6f804bbb850e4ff042147823e1d6a01c71ee34cc8b591f80fd3ca9e8d5a291"
   },
   {
    "id": "boxBinaryToy",
