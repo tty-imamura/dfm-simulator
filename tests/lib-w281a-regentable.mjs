@@ -39,6 +39,7 @@
 //   'w292d-branch' … 第292便d の枝で器を走らせた実測(正本の elapsedS 約 85 —— Node の headless 1 本・Chromium なし・他の 3 枝と同じ容器で並走)。
 //   'w293c-branch' … 第293便c の枝で器を走らせた実測(正本の elapsedS 60.7〜106.0 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w295b-branch' … 第295便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w296b-branch' … 第296便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -740,6 +741,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/inertial3-w295c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第295便c: 慣性決定力版サンプル 3 本の宣言の門(gain = 🌛 の係数の SI 移送・親の bodies の写し・eps = 軟化・pairs・受理の警告 0・inertial-drag・実効 0)と'
       + '測定(🌤️ A1/A2/gain 0 の 27/118 公転窓の近点周期・恒星月・離心率・fit 残差 / 🟤🟣 gain 0 と移送の 8 公転の周期・近点率・振幅・eProxy・|u|/|v|)—— 値だけ・合否なし' }),
+  // ---- 第296便b(原仮定者の裁定(第86報)「geoPN=3 のサンプルは、観測値に合うように dragCore をフィットさせる。gain の妥当性も確認する」・統括の検証項目 R158):
+  //   geoPN=3 のフィット生成器 —— 段 0 規約の固定(親 🌤️🟤🟣 の署名・法則・単位・観測量の出典)・段 1 速度の規約(🟣 の逆写像 v=(I+L)W の対照)・段 2 dragCore の感度 43 通り・
+  //   段 3 探索(gain の対数格子で根を挟む → Illinois → 7 桁の値を h・h/2 で測り直す・f の掃引)・段 4 派生本の照合・段 5 fitRecord の受理・段 6 gain の SI 表。
+  //   抽出器は第295便c の器の childTask をそのまま呼ぶ(Node の headless・子プロセス 3 本 —— workers 3)。html と観測表 paper/data/solar-observations.csv を読む
+  //  (他の正本は読まない —— 器のコードの依存として inertial3-295c の後に置く)。所要は第296便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('fit-296b', 'node tests/exp-w296b-fit.mjs', ['tests/out/fit-w296b.json'], 460, { secSource: 'w296b-branch', node: true, workers: 3, after: ['inertial3-295c'],
+    volatilePaths: { 'tests/out/fit-w296b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第296便b: geoPN=3 のフィット生成器 —— 🟤 近点率(gain 0 の対照との差 43.0″/世紀)・🟣 公転周期(6.3872273 日)・🌤️ 近点周期(8.85 年)へ gain を合わせる(挟めなければ unreachable-in-bounds)・'
+      + '残差と h/2 の数値誤差・dragCore の感度 43 通りと f の掃引(同定の可否)・逆写像の対照・派生本と fitRecord の照合・gain の SI 表' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

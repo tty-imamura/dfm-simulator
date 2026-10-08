@@ -59,12 +59,12 @@ const retiredFixtures = (root) => [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED
 export const FAMILIES = [
   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 基準を ❄️ → 🥶(❄️⛄☃️ は退役・履歴として家族に残す)
   { key: 'pluto', ja: '冥王星–カロン', ref: 'plutoCharonDiagInput',
-    ids: ['plutoCharonDiagInput', 'plutoCharonKF0Control', 'charonGeoToy3', 'plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero', 'plutoCharonInertial'] },   // 第295便c: 🟣(慣性決定力版)を末尾へ
+    ids: ['plutoCharonDiagInput', 'plutoCharonKF0Control', 'charonGeoToy3', 'plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero', 'plutoCharonInertial', 'plutoCharonInertialFit'] },   // 第295便c: 🟣(慣性決定力版)を末尾へ   // 第296便b: 🟪(フィットの派生本)を末尾へ
   // 第292便b(原仮定者の裁定(第82報)⑤・統括の検証項目 R138): 🌘 earthMoonRealKF1 は**復活**(variant・原理の参照 —— 群「天体の機構」)・🧲 emAuditDFM は退役のまま。
   //   家族の並びと本数(6)は不変 —— 役割は html の宣言から読む(primary は 🌙)。基準 ref は差の物差しで、🌘 のまま(在位に戻ったので履歴の本を基準にしていない)
   { key: 'earthmoon', ja: '地球–月(現実との照合)', ref: 'earthMoonRealKF1',
     ids: ['earthMoonRealKF1', 'earthMoonReal', 'emAuditNewton', 'emAuditDFM', 'emAuditSolar', 'earthMoonDiagOne', 'earthMoonInertial', 'earthMoonTide', 'earthMoonSunInertial'] },   // 第295便c: 🌤️(慣性決定力版の太陽・地球・月)を末尾へ
-  { key: 'mercury', ja: '水星(現実との照合)', ref: 'mercuryReal', ids: ['mercuryRealKF1', 'mercuryReal', 'mercuryGeoToy3', 'mercurySunInertial'] },   // 第295便c: 🟤 を末尾へ
+  { key: 'mercury', ja: '水星(現実との照合)', ref: 'mercuryReal', ids: ['mercuryRealKF1', 'mercuryReal', 'mercuryGeoToy3', 'mercurySunInertial', 'mercurySunInertialFit'] },   // 第295便c: 🟤 を末尾へ   // 第296便b: 🟫(フィットの派生本)を末尾へ
   { key: 'saturn', ja: '土星(現実との照合)', ref: 'saturnRingReal',
     ids: ['saturnRingRealKF1', 'saturnRingReal', 'saturnZonalD68', 'saturnD68Consistent', 'saturnD68ObsOrbit'] },
   { key: 'psrDoubleAB', ja: '二重パルサー J0737−3039', ref: 'psrDoubleAB',
