@@ -2367,7 +2367,10 @@ lastAddAt = Date.now();
       'tests/out/chain-w296c.json',
       // 第296便b(原仮定者の裁定(第86報)・R158): geoPN=3 のフィット生成器(規約・速度の規約の対照・感度 43 通り・gain の探索と h/h2・f の掃引・派生本と fitRecord・gain の SI 表)
       //   (Node の headless・子プロセス 3 本・領域 REGEN_SCOPE・inputs に paper/data/solar-observations.csv —— 鎖の段 fit-296b は inertial3-295c の後)
-      'tests/out/fit-w296b.json'];
+      'tests/out/fit-w296b.json',
+      // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準の移行表と安定性(在位の公転の本の 8 公転・刻み 1/2 の参照・観察の本の 600 步・退役の記録)
+      //   (Node の headless・1 プロセス・領域 REGEN_SCOPE・html だけを読む —— 鎖の段 timestd-297c)
+      'tests/out/timestd-w297c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -26138,7 +26141,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
         out.uranus = {
           decl: { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
             G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
-            D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale,
+            D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, tr: p.timeRef ? p.timeRef.basis : null,
             dm: p.physics.dispMag, pin0: p.bodies[0].pinned, spin0: p.bodies[0].spin,
             nRingBands: p.bodies.filter((b) => b.type === 'ring').length,
             ringTestMass: p.bodies.filter((b) => b.type === 'ring').every((b) => b.mMin === 1e-6 && b.mMax === 1e-6),
@@ -26167,7 +26170,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
     { // 💠
       const u = un.uranus, d = u.decl;
       const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === C4_286B
-        && kOk(d) && d.kF === KF288 && d.D0 === 0.006 && d.fr === undefined && d.ts === 30 && d.dm === 1
+        && kOk(d) && d.kF === KF288 && d.D0 === 0.006 && d.fr === undefined && d.ts === (d.tr === 'orbit' ? 1 : 30) && d.dm === 1
         && d.pin0 === true && d.nRingBands === 11 && d.ringTestMass
         && d.spin0 > 0;   // 第196便: 中心自転は面内符号+(環・衛星と共回転 — NSSDC 負符号は軸姿勢ラベル)
       const tM = day(u.kf1.tRev[0], 2), tA = day(u.kf1.tRev[1], 2);
@@ -26258,7 +26261,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       const p = HP.allPresets().find((q) => q.id === 'alphaCenAB');
       const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
         G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
-        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, tr: p.timeRef ? p.timeRef.basis : null, dm: p.physics.dispMag,
         pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
         fam: p.familyRole,   // 第204便: ✴️ を仲間のメインへ — 観測版は variant
@@ -26507,7 +26510,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
     const d = ac.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
     const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === C4_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
-      && d.ts === 1000 && d.dm === 300 && d.pin0 === false && d.pin1 === false
+      && d.ts === (d.tr === 'orbit' ? 1 : 1000) && d.dm === 300 && d.pin0 === false && d.pin1 === false
       && d.spin0 > 0 && d.spin1 > 0 && d.ruleDecl;
     const yr = (u) => u === null ? null : u * 1e6 / 3.15576e7;
     const t0 = yr(ac.kf0.tRev);
@@ -26607,7 +26610,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       const p = HP.allPresets().find((q) => q.id === 'siriusAB');
       const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
         G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
-        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, tr: p.timeRef ? p.timeRef.basis : null, dm: p.physics.dispMag,
         pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
         rB: p.bodies[1].radius,   // 第214便: 半径限定の二体降格(下限 0.01)
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
@@ -26829,7 +26832,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
     const d = si.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
     const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === C4_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
-      && d.ts === 300 && d.dm === 300 && d.pin0 === false && d.pin1 === false
+      && d.ts === (d.tr === 'orbit' ? 1 : 300) && d.dm === 300 && d.pin0 === false && d.pin1 === false
       && d.spin0 === 0 && d.spin1 === 0 && d.rB === 0.01 && d.ruleDecl && d.fam === (/^const UNIFY_MIGRATED=/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 'primary' : 'variant');   // 第288便b: 💫 の退役で 🌟 が primary
     const yr = (u) => u === null ? null : u * 1e6 / 3.15576e7;
     const t0 = yr(si.kf0.tRev);
@@ -26947,7 +26950,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       const p = HP.allPresets().find((q) => q.id === 'psrDoubleAB');
       const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
         G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
-        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, tr: p.timeRef ? p.timeRef.basis : null, dm: p.physics.dispMag,
         pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
         r0: p.bodies[0].radius, r1: p.bodies[1].radius,
         pn0: p.bodies[0].pnSource === true, pn1: p.bodies[1].pnSource === true,
@@ -27314,7 +27317,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
     const d = ps.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
     const declOk = d.fid === 'real' && d.L === 6 && d.T === 1 && d.M === 27 && d.G === 6.674 && d.c === C5_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
-      && d.ts === 300 && d.dm === 1000 && d.pin0 === false && d.pin1 === false
+      && d.ts === (d.tr === 'orbit' ? 1 : 300) && d.dm === 1000 && d.pin0 === false && d.pin1 === false
       && d.spin0 === 0 && d.spin1 === 0 && d.r0 === 0.01175 && d.r1 === 0.01175
       && d.pn0 && d.pn1 && d.ruleDecl && d.fam === (/^const UNIFY_MIGRATED=/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 'primary' : 'variant')   /* 第288便b: ⚡ の退役で 📻 が primary */
       && d.sink === 'reservoir';   // 第223便: 1PN 偶力の resL 記帳宣言
@@ -28152,7 +28155,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
         G: p.physics.G, c: p.physics.cLight, cD: pd.physics.cLight, kap: p.physics.kappaT,
         kF: p.physics.kFrame, kFD: pd.physics.kFrame, geo: p.physics.geoPN, geoD: pd.physics.geoPN,
         D0: p.physics.D0, fr: p.physics.frameReaction, sink: p.physics.coupleSink, sinkD: pd.physics.coupleSink,
-        gauge: p.physics.cmGauge, gaugeD: pd.physics.cmGauge, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        gauge: p.physics.cmGauge, gaugeD: pd.physics.cmGauge, ts: p.physics.timeScale, tr: p.timeRef ? p.timeRef.basis : null, dm: p.physics.dispMag,
         r0: p.bodies[0].radius, r1: p.bodies[1].radius, rD0: pd.bodies[0].radius, rD1: pd.bodies[1].radius,
         spinAll: p.bodies[0].spin === 0 && p.bodies[1].spin === 0 && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0,
         pnAll: [p, pd].every((q) => q.bodies.every((b) => b.pnSource === true)),
@@ -28272,7 +28275,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
       && d.G === 6.674 && d.c === C7_286B && d.cD === C7_286B && gw.kOk
       && d.kF === 0 && d.kFD === 1 && d.geo === 0 && d.geoD === 0   // 換算整合則: geoPN=0 は両版共通
       && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sink === 'reservoir' && d.sinkD === 'reservoir'
-      && d.gauge === 'barycentric' && d.gaugeD === 'barycentric' && d.ts === 30 && d.dm === 1
+      && d.gauge === 'barycentric' && d.gaugeD === 'barycentric' && d.ts === (d.tr === 'orbit' ? 1 : 30) && d.dm === 1
       && d.r0 === 10.218554 && d.r1 === 8.8600181 && d.rD0 === d.r0 && d.rD1 === d.r1
       && d.spinAll && d.pnAll && d.posEq && d.massOk && d.coreD
       && d.abKF === 1 && d.abKFD === 0
@@ -57667,7 +57670,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       out.tierMercury = presetTierOf(HP.allPresets().find((p) => p.id === 'mercuryReal')) === 'planetary';
       // ③ 💍: 時間経過倍率1・線の軌跡ON
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
-      out.ringTweak = sr.physics.timeScale === 10 && sr.overlays.trail === true;   // 第121便: ts=10 へ更新
+      out.ringTweak = sr.physics.timeScale === ((sr.timeRef && sr.timeRef.basis === 'orbit') ? 1 : 10) && sr.overlays.trail === true;   // 第121便: ts=10 へ更新 / 第297便c(R163): timeRef 宣言の世代は時間の標準 timeScale=1(画面の刻み stepDt)
       // ④ 時空係数の κ 換算表示。第120便=Kt 主表示の副行に κ 併記 →
       //   第128便=κ(kappaT)が正準キーになったので汎用経路が [L/M] m/kg で主表示する
       HP.loadPreset('mercuryReal', false);
@@ -57745,7 +57748,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
       const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
       const titan = (p) => p.bodies.some((b) => b.type === 'single' && Math.abs(b.m - 0.013452) < 1e-9);
-      out.ringE6 = sr.scaleExp.L === 6 && sr.physics.timeScale === 10 && titan(sr)
+      out.ringE6 = sr.scaleExp.L === 6 && sr.physics.timeScale === ((sr.timeRef && sr.timeRef.basis === 'orbit') ? 1 : 10) && titan(sr)   /* 第297便c: 時間の標準 */
         && sk.scaleExp.L === 6 && titan(sk) && sk.overlays.trail === true
         && sr.bodies.filter((b) => b.type === 'single').length === 7;
       const gen123 = (typeof qLockCalc === 'function');   // 第123便世代(qLock 自動算出)
@@ -62435,7 +62438,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ② 🌙 の 2 回の同方向通過
       const moon = await lp.evaluate(() => {
         const L = HP.liveCompare;
-        HP.loadPreset('earthMoonReal', false); HP.sim.overlays.liveCompare = true; L.reset('on');
+        HP.loadPreset('earthMoonReal', false);
+        // 第297便c(R163): 正本 calaudit は刻み DT で測る —— 画面の刻み(stepDt・1 公転 ≈360 步)を外し、同じ刻みで計測器の同一性を見る(測定の都合 —— 物理の変化ではない)
+        if (HP.timeStd) HP.sim.params.stepDt = undefined;
+        HP.sim.overlays.liveCompare = true; L.reset('on');
         let s = L.snapshot(), guard = 0, before = null;
         while (s.laps < 2 && guard++ < 20) {
           L.stepN(250000); s = L.snapshot();
@@ -62849,7 +62855,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         const L = HP.liveCompare, o = { rows: [] };
         for (const [id, d] of Object.entries(L.spec)) d.q.forEach((qd, i) => o.rows.push({ id, i, n: qd.n, est: qd.est, hasOd: Object.prototype.hasOwnProperty.call(qd, 'od'), od: qd.od === undefined ? null : qd.od,
           cond: !!qd.cond, label: L.labelOf(qd), def: L.estDef[qd.est] || null, row: !!L.rowOf(id, qd.n) }));
-        const paintQ = (id, i, n) => { HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); if (n) L.stepN(n); L.setQ(i);
+        // 第297便c(R163): 步数は旧刻み DT の座標時間で数える(n·DT/画面の刻み —— 「1000 步 = 近点が足りない窓」を時間の標準の後も同じ窓に保つ・測定の都合)
+        const nStd = (n) => (n && HP.timeStd) ? Math.max(1, Math.round(n * HP.timeStd.appStepDt({ params: {} }) / HP.timeStd.appStepDt(HP.sim))) : n;
+        const paintQ = (id, i, n) => { HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); if (n) L.stepN(nStd(n)); L.setQ(i);
           const rec = L.paint(), x = L.snapshot().q[i]; L.setQ(0);
           return { texts: rec.texts, label: rec.label, def: rec.def, obsDef: rec.obsDef, defRel: rec.defRel, status: x.status, n: x.n, need: x.need, band: rec.band, s: x.sigma,
             card: [...document.querySelectorAll('#helpBody .lcInline')].map((e) => e.textContent) }; };
@@ -69749,6 +69757,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 法則のノブの分類
       const KN = { 'relativeDrag.gain': true, 'physics.relativeDrag.eps': true, q: true, kFrame: true, lambdaPN: true, D0: true, G: true, cLight: true, softening: true,
         'bodies[1].dragCore.massFrac': true, 'physics.timeScale': true, 'spaceMesh.D0': true, 'bodies[1].m': false, 'bodies[0].x': false, 'bodies[2].vy': false, epoch: false, 'elements.e': false };
+      // 第297便c(原仮定者の裁定(第87報)③・R163): **数値のノブ**(physics.timeScale・dispMag・stepDt —— PARAM_ROLES の numerics)は法則のノブではない。
+      //   宣言 FIT_NUMERIC_KNOBS がある世代(html の宣言から読む)はそちらへ倒す(仕様の変更 —— 測定の都合ではない)
+      if (typeof FIT_NUMERIC_KNOBS !== 'undefined') { for (const k of FIT_NUMERIC_KNOBS) KN['physics.' + k] = false; KN['physics.q'] = true; }
       o.knobTable = Object.entries(KN).filter(([k, v]) => fitKnobIsLaw(k) === v).length + '/' + Object.keys(KN).length;
       for (const [k, v] of Object.entries(KN)) if (fitKnobIsLaw(k) !== v) o.bad.push('(ii) fitKnobIsLaw(' + k + ') ≠ ' + v);
       if (JSON.stringify(geo1FittedKnobsOf({ knobs: [{ key: 'bodies[1].m' }, { key: 'q' }, { key: 'q' }, 'G', null, { key: 3 }] })) !== '["q","G"]') o.bad.push('(ii) geo1FittedKnobsOf の重複除去と文字列の knob');
@@ -71296,6 +71307,200 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / ④ 選択中は畳まない ` + b.sel.map((z) => `${z.id}: 畳みの行 ${z.nTog}・variant 見える ${z.allVis}`).join(' | ')
       + ` / ⑤ 検索「${b.search.q}」で畳みの行 ${b.search.nTog}・見える ${b.search.vis} / geoPN=${b.filter.geo} で畳みの行 ${b.filter.nTog}・一致 ${b.filter.nHit} 本が見える ${b.filter.allVis}・解除で畳みへ戻る ${b.backFolded}`
       + ` / ⑥ en「${b.en}」・option ${b.nOpts}/${b.nListable}・` + res.map((x) => `${x.vp}: 畳みの行の高さ ≥ ${x.r2.minH.toFixed(1)}px・はみ出し ${x.r2.overflow}・${x.ok ? 'OK' : 'NG ' + x.r.bad.concat(x.r2.bad).slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163)
+// ----   **時間の標準**の 3 ブロック。世代切替 has297c = html の `const TIME_STD_VERSION="w297c-timestd-1"` —— root 等は SKIP。
+// ----   ① preset.timeStd297 …… 在位の本は全部 timeRef を宣言(公転 = timeScale 1・画面の刻み stepDt・步/公転 = pRef/stepDt が stepsPerOrbit の ±25%・
+// ----      stepDt ≤ pRef/36・対が粒子の内 / 観察 = timeScale 1〜4・tObs/刻み ≈ 600 步)・退役は physics を変えない記録(stepDt なし・公転の記録は pRef/DT 步)・
+// ----      timeRef の往復(validatePreset 2 回・JSON 往復)・timeRef は presetSig の外・stepDt は内・旧 JSON(stepDt なし)は DT・受理器の否定対照・
+// ----      fitKnobIsLaw の数値ノブ・PARAM_ROLES.stepDt。数・ID は宣言から数える(手書きの一覧を持たない)。
+// ----   ② behavior.timeStd297 …… appStepDt の配線(HP.tick・stepN・ライブ比較の連続性)・A/B の同時停止(appStepFn —— A 失敗・B 失敗を別に注入して
+// ----      同じ步・同じ時刻で止まる)・loop の本文の配線・HUD の 1 行(公転/観察)・整形 stabilizePreset の時間の規約(公転の対あり/なし・宣言済みは触らない)。
+// ----   ③ docs.timeStd297 …… 正本 tests/out/timestd-w297c.json(段 timestd-297c)と宣言の一致・崩れて上げた本は宣言の note に理由・門外は note に「門外」・
+// ----      PHYSICS〔第297便c〕の表に在位の公転の本が全部・AI_SPEC §63・CHANGELOG・README・SYSTEM_PROMPT の時間の行・書かない語。
+{
+  const html297c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has297c = TARGET.startsWith('beta/') && html297c.indexOf('const TIME_STD_VERSION="w297c-timestd-1"') >= 0;
+  if (!has297c) {
+    console.log('SKIP preset.timeStd297 / behavior.timeStd297 / docs.timeStd297(第297便c 未適用 — ' + TARGET + ')');
+  } else {
+    // ---- ① preset.timeStd297
+    {
+      const r = await page.evaluate(() => {
+        const bad = [], TS = HP.timeStd, DTv = TS.appStepDt({ params: {} });
+        const rows = { orbit: 0, observe: 0, retired: 0, raised: [], spo: [] };
+        for (const p of HP.allPresets()) {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) { bad.push(p.id + ' 検証 NG'); continue; }
+          const q = v.preset, ph = q.physics, tr = q.timeRef;
+          if (v.warnings.some((w) => /timeRef|stepDt/.test(w))) bad.push(p.id + ' 受理の警告: ' + v.warnings.filter((w) => /timeRef|stepDt/.test(w)).join('|'));
+          if (!tr) { bad.push(p.id + ' timeRef なし'); continue; }
+          // 往復: 2 回目の検証・JSON 往復で同じ
+          const v2 = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+          if (JSON.stringify(v2.preset.timeRef) !== JSON.stringify(tr) || v2.preset.physics.stepDt !== ph.stepDt) bad.push(p.id + ' 往復で timeRef/stepDt が変わった');
+          if (p.familyRole === 'retired') {
+            rows.retired++;
+            if (ph.stepDt !== undefined) bad.push(p.id + ' 退役に stepDt');
+            if (!/退役/.test(tr.note || '')) bad.push(p.id + ' 退役の記録の note');
+            if (tr.basis === 'orbit' && tr.stepsPerOrbit !== Math.round(tr.pRef / DTv)) bad.push(p.id + ' 退役の記録の步/公転 ≠ pRef/DT');
+            continue;
+          }
+          const dt = TS.appStepDt({ params: ph });
+          if (tr.basis === 'orbit') {
+            rows.orbit++;
+            if (ph.timeScale !== 1) bad.push(p.id + ' 公転の本の timeScale=' + ph.timeScale);
+            if (typeof ph.stepDt !== 'number') bad.push(p.id + ' 公転の本に stepDt なし');
+            const spo = tr.pRef / dt;
+            if (!(Math.abs(spo / tr.stepsPerOrbit - 1) <= 0.25)) bad.push(p.id + ' 步/公転 ' + spo.toFixed(1) + ' が宣言 ' + tr.stepsPerOrbit + ' の ±25% の外');
+            if (!(dt <= tr.pRef / TS.orbitMin)) bad.push(p.id + ' stepDt > pRef/' + TS.orbitMin);
+            HP.sim.build(q);
+            if (!(tr.pair[0] < HP.sim.n && tr.pair[1] < HP.sim.n)) bad.push(p.id + ' pair が粒子の外');
+            if (tr.stepsPerOrbit !== TS.orbitSteps) { rows.raised.push(p.id + ':' + tr.stepsPerOrbit); if (!tr.note) bad.push(p.id + ' 上げた本に理由(note)なし'); }
+            rows.spo.push(spo);
+          } else {
+            rows.observe++;
+            if (!(ph.timeScale >= 1 && ph.timeScale <= 4)) bad.push(p.id + ' 観察の本の timeScale=' + ph.timeScale);
+            if (!(Math.abs(tr.tObs / dt / TS.observeSteps - 1) <= 0.25)) bad.push(p.id + ' tObs/刻み ≠ ' + TS.observeSteps);
+          }
+          // timeRef は presetSig の外・stepDt は内
+          const noTr = JSON.parse(JSON.stringify(q)); delete noTr.timeRef;
+          if (presetSig(noTr) !== presetSig(q)) bad.push(p.id + ' timeRef が presetSig に入っている');
+          if (typeof ph.stepDt === 'number') { const noDt = JSON.parse(JSON.stringify(q)); delete noDt.physics.stepDt; delete noDt.timeRef;
+            if (presetSig(noDt) === presetSig(q)) bad.push(p.id + ' stepDt が presetSig に入っていない'); }
+        }
+        // 旧 JSON(stepDt なし)は DT・受理器の否定対照
+        const base = { name: 'QA297', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 1, softening: 2, timeScale: 1 }, bodies: [{ type: 'single', m: 1000, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 1, x: 100, y: 0, vx: 0, vy: 3.16, spin: 0, pinned: false }] };
+        const vOld = HP.validatePreset(JSON.parse(JSON.stringify(base)));
+        if (!vOld.ok) return { bad: ['否定対照の土台が検証に通らない: ' + vOld.errors.join('|')], orbit: 0, observe: 0, retired: 0, raised: [], spoMin: 0, spoMax: 0, neg: [], n: 0 };
+        HP.sim.build(vOld.preset); const oldDt = TS.appStepDt(HP.sim);
+        if (!(vOld.ok && vOld.preset.physics.stepDt === undefined && oldDt === DTv && vOld.preset.timeRef === undefined)) bad.push('旧 JSON が DT でない');
+        const neg = [];
+        const tryTr = (tr, why) => { const c = JSON.parse(JSON.stringify(base)); c.timeRef = tr; const w = HP.validatePreset(c);
+          if (!(w.ok && w.preset.timeRef === undefined && w.warnings.some((x) => /timeRef/.test(x)))) bad.push('否定対照が通った: ' + why); else neg.push(why); };
+        tryTr({ basis: 'foo', tObs: 1 }, 'basis'); tryTr({ pRef: 0, pair: [0, 1] }, 'pRef0'); tryTr({ pRef: 10, pair: [1, 1] }, 'pair同一');
+        tryTr({ pRef: 10, pair: [0, 1], stepsPerOrbit: 10 }, 'spo<36'); tryTr({ pRef: 10, pair: [0, 1], def: 'x' }, 'def'); tryTr({ basis: 'observe' }, 'tObs無');
+        const dtNeg = (() => { const c = JSON.parse(JSON.stringify(base)); c.physics.stepDt = -1; const w = HP.validatePreset(c); return w.ok && w.preset.physics.stepDt === undefined && w.warnings.some((x) => /stepDt/.test(x)); })();
+        const dtStr = (() => { const c = JSON.parse(JSON.stringify(base)); c.physics.stepDt = 'a'; return !HP.validatePreset(c).ok; })();
+        const dtCap = (() => { const c = JSON.parse(JSON.stringify(base)); c.physics.stepDt = 5; c.timeRef = { pRef: 36, pair: [0, 1] }; const w = HP.validatePreset(c);
+          return w.ok && w.preset.physics.stepDt === 1 && w.warnings.some((x) => /pRef\/36/.test(x)) && w.preset.timeRef.basis === 'orbit' && w.preset.timeRef.stepsPerOrbit === 360 && w.preset.timeRef.def === 'revolution'; })();
+        if (!dtNeg) bad.push('stepDt<0 が警告して無視されない'); if (!dtStr) bad.push('stepDt 文字列が拒否されない'); if (!dtCap) bad.push('stepDt > pRef/36 が丸められない・既定の正準形');
+        // 数値のノブ・役割
+        const knob = ['timeScale', 'dispMag', 'stepDt'].every((k) => fitKnobIsLaw('physics.' + k) === false) && fitKnobIsLaw('physics.q') === true && fitKnobIsLaw('physics.softening') === true;
+        if (!knob) bad.push('fitKnobIsLaw の数値ノブ'); if (paramRole('stepDt') !== 'numerics') bad.push('PARAM_ROLES.stepDt');
+        const s = rows.spo.slice().sort((a, b) => a - b);
+        return { bad, orbit: rows.orbit, observe: rows.observe, retired: rows.retired, raised: rows.raised, spoMin: s[0], spoMax: s[s.length - 1], neg, n: HP.allPresets().length };
+      });
+      add('preset.timeStd297', r.bad.length === 0,
+        `**時間の標準**(第297便c・原仮定者の裁定(第87報)③・R163): 内蔵 ${r.n} 本 = 在位の公転 ${r.orbit}・観察 ${r.observe}・退役の記録 ${r.retired}(宣言から数えた)/ `
+        + `公転の本は timeScale 1・步/公転 ${r.spoMin.toFixed(1)}〜${r.spoMax.toFixed(1)}(宣言の stepsPerOrbit ±25%)・上げた本 [${r.raised.join(',')}](note に理由)/ `
+        + `timeRef の往復・presetSig の外(stepDt は内)・旧 JSON は DT・否定対照 ${r.neg.length} 件(${r.neg.join('・')})・stepDt 負/文字列/上限丸め・数値ノブ・役割`
+        + `${r.bad.length ? ' NG=[' + r.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+    }
+    // ---- ② behavior.timeStd297
+    {
+      const r = await page.evaluate(() => {
+        const bad = [], TS = HP.timeStd, DTv = TS.appStepDt({ params: {} }), out = {};
+        // HP.tick: 公転の本(🌙 —— 宣言の刻み)・観察の本(🔥 —— DT)
+        const orb = HP.allPresets().find((p) => p.timeRef && p.timeRef.basis === 'orbit' && p.familyRole !== 'retired' && p.id === 'earthMoonReal')
+          || HP.allPresets().find((p) => p.timeRef && p.timeRef.basis === 'orbit' && p.familyRole !== 'retired');
+        HP.loadPreset(orb.id, false);
+        const dO = TS.appStepDt(HP.sim); HP.tick(1);
+        out.tickOrbit = { id: orb.id, dt: dO, t: HP.sim.t, k: Math.min(Math.max(1, Math.round(2 * HP.sim.params.timeScale)), TS.tickCap) };
+        if (!(dO === orb.physics.stepDt && Math.abs(HP.sim.t - out.tickOrbit.k * dO) <= 1e-12 * Math.max(1, HP.sim.t))) bad.push('HP.tick が宣言の刻みで進まない(' + orb.id + ')');
+        HP.loadPreset(orb.id, false); HP.liveCompare.stepN(3);
+        if (!(Math.abs(HP.sim.t - 3 * dO) <= 1e-12 * Math.max(1, HP.sim.t))) bad.push('stepN が宣言の刻みで進まない');
+        const obs = HP.allPresets().find((p) => p.timeRef && p.timeRef.basis === 'observe' && p.familyRole !== 'retired' && !(p.physics && p.physics.stepDt));
+        HP.loadPreset(obs.id, false); HP.tick(1);
+        const kO = Math.min(Math.max(1, Math.round(2 * HP.sim.params.timeScale)), TS.tickCap);
+        if (!(TS.appStepDt(HP.sim) === DTv && Math.abs(HP.sim.t - kO * DTv) <= 1e-12)) bad.push('stepDt の無い本が DT で進まない(' + obs.id + ')');
+        out.tickObs = { id: obs.id, k: kO, t: HP.sim.t };
+        // HUD の 1 行(公転・観察)
+        HP.loadPreset(orb.id, false); const hO = TS.hudLine(); HP.syncHud(); const hudO = document.getElementById('hud').textContent;
+        HP.loadPreset(obs.id, false); const hB = TS.hudLine();
+        if (!(hO && /360/.test(hO) && hudO.indexOf(hO) >= 0)) bad.push('HUD の公転の 1 行: ' + hO);
+        if (!(hB && hB.indexOf('600') >= 0)) bad.push('HUD の観察の 1 行: ' + hB);
+        out.hud = [hO, hB];
+        // A/B の同時停止(appStepFn —— A 失敗・B 失敗を別に注入)
+        const mk = () => { const v = HP.validatePreset(JSON.parse(JSON.stringify(orb))); const S = makeSim(); S.build(v.preset); return S; };
+        const inject = (S, at) => { const st = S.step.bind(S); let c = 0; S.step = (h) => { st(h); c++; if (c === at) S.inertialDragHalt = true; }; };
+        const clk = () => { let t = 0; return () => (t += 0.001); };
+        const run = (failA, failB) => { const A = mk(), B = mk(); if (failA) inject(A, failA); if (failB) inject(B, failB);
+          const fr = HP.stepCarryFrame(10, 0, true, 1, Infinity, clk(), TS.appStepFn(A, B, dO, false));
+          return { kRun: fr.kRun, tA: A.t, tB: B.t, hA: A.inertialDragHalt === true, hB: B.inertialDragHalt === true }; };
+        const n0 = run(0, 0), fa = run(3, 0), fb = run(0, 5);
+        out.ab = { none: n0, failA: fa, failB: fb };
+        if (!(n0.kRun === 10 && n0.tA === n0.tB && !n0.hA && !n0.hB)) bad.push('A/B 停止なしで 10 步・同時刻');
+        if (!(fa.kRun === 3 && fa.tA === fa.tB && Math.abs(fa.tA - 3 * dO) <= 1e-9 * fa.tA && fa.hA)) bad.push('A 失敗で同じ步・同じ時刻に止まらない: ' + JSON.stringify(fa));
+        if (!(fb.kRun === 5 && fb.tA === fb.tB && Math.abs(fb.tB - 5 * dO) <= 1e-9 * fb.tB && fb.hB)) bad.push('B 失敗で同じ步・同じ時刻に止まらない: ' + JSON.stringify(fb));
+        // loop の本文の配線(静的): A/B は appStepFn の中・旧「A の後に B を kRun 步」は無い
+        const src = String(loop);
+        out.loopWired = src.indexOf('appStepFn(sim, ab? ab.simB : null, appStepDt(sim), lcOn)') >= 0 && src.indexOf('ab.simB.step(DT)') < 0 && src.indexOf('sim.step(DT)') < 0;
+        if (!out.loopWired) bad.push('loop の配線(appStepFn・ab.simB.step(DT) の撤去)');
+        out.lcWired = String(lcAfterStep).indexOf('appStepDt(sim)') >= 0 && String(lcAfterStep).indexOf('-DT)') < 0;
+        if (!out.lcWired) bad.push('ライブ比較の連続性判定が appStepDt でない');
+        // 整形の時間の規約
+        const mkP = (bodies) => ({ name: 'QA297s', description: 'd', camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: { G: 1, softening: 2, timeScale: 30 }, bodies });
+        const sgl = (m, x, vy, pinned) => ({ type: 'single', m, x, y: 0, vx: 0, vy, spin: 0, pinned: !!pinned });
+        const s1 = HP.stabilizePreset(mkP([sgl(1000, 0, 0, true), sgl(1, 100, 3.1639)]), { kepler: true });
+        const P1 = 2 * Math.PI * Math.sqrt(Math.pow(1 / (2 / 100 - 3.1639 * 3.1639 / 1001), 3) / 1001);
+        if (!(s1.ok && s1.preset.physics.timeScale === 1 && s1.preset.timeRef && s1.preset.timeRef.basis === 'orbit'
+          && Math.abs(s1.preset.timeRef.pRef / P1 - 1) < 1e-5 && Math.abs(s1.preset.physics.stepDt * TS.orbitSteps / s1.preset.timeRef.pRef - 1) < 1e-5
+          && s1.changes.some((c) => /stepDt/.test(c)))) bad.push('整形(公転の対あり)が時間の標準を宣言しない');
+        const s2 = HP.stabilizePreset(mkP([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]), { kepler: true });
+        if (!(s2.ok && s2.preset.timeRef && s2.preset.timeRef.basis === 'observe' && s2.preset.physics.timeScale === 4 && s2.preset.physics.stepDt === Number((DTv * 3).toPrecision(6)))) bad.push('整形(公転の対なし)の観察の宣言・倍率 1〜4');
+        const s3 = HP.stabilizePreset(JSON.parse(JSON.stringify(s1.preset)), { kepler: true });
+        if (!(s3.ok && JSON.stringify(s3.preset.timeRef) === JSON.stringify(s1.preset.timeRef) && s3.preset.physics.stepDt === s1.preset.physics.stepDt && !s3.changes.some((c) => /stepDt|timeRef/.test(c)))) bad.push('宣言済みの本を整形が書き換えた');
+        out.stab = { dt: s1.preset.physics.stepDt, pRef: s1.preset.timeRef.pRef, obs: s2.preset.physics.stepDt };
+        return { bad, out };
+      });
+      add('behavior.timeStd297', r.bad.length === 0,
+        `**時間の標準の配線**(第297便c・R163): HP.tick ${r.out.tickOrbit.id} k=${r.out.tickOrbit.k} → t=${r.out.tickOrbit.t.toPrecision(6)}(刻み ${r.out.tickOrbit.dt})・`
+        + `stepN 3 步・${r.out.tickObs.id} は DT(k=${r.out.tickObs.k})/ A/B 同時停止(appStepFn): 停止なし ${r.out.ab.none.kRun} 步・A 失敗 ${r.out.ab.failA.kRun} 步 tA=tB=${r.out.ab.failA.tA.toPrecision(6)}・`
+        + `B 失敗 ${r.out.ab.failB.kRun} 步 tA=tB=${r.out.ab.failB.tB.toPrecision(6)}/ loop の配線=${r.out.loopWired}・ライブ比較の連続性=${r.out.lcWired}/ `
+        + `HUD「${r.out.hud[0]}」「${r.out.hud[1]}」/ 整形: 公転 stepDt=${r.out.stab.dt}(pRef ${r.out.stab.pRef}/${360})・観察 ×3 刻み ${r.out.stab.obs}・宣言済みは触らない`
+        + `${r.bad.length ? ' NG=[' + r.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+    }
+    // ---- ③ docs.timeStd297
+    {
+      const bad = [];
+      const J = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'timestd-w297c.json'), 'utf8')); } catch (e) { return null; } })();
+      const decl = await page.evaluate(() => HP.allPresets().map((p) => ({ id: p.id, emoji: p.emoji || '', retired: p.familyRole === 'retired',
+        ts: (p.physics || {}).timeScale === undefined ? 1 : p.physics.timeScale, dt: (p.physics || {}).stepDt === undefined ? null : p.physics.stepDt, tr: p.timeRef || null })));
+      let nOk = 0, nNot = [];
+      if (!J) bad.push('正本 tests/out/timestd-w297c.json が読めない');
+      else {
+        if (!(J.meta && J.meta.version === 'w297c-timestd-1' && J.meta.orbits === 8 && J.meta.observeSteps === 600 && !J.meta.plan)) bad.push('正本の版・8 公転・600 步・上書き案なし');
+        if (J.rows.length !== decl.length) bad.push('正本の行数 ' + J.rows.length + ' ≠ 内蔵 ' + decl.length);
+        for (const d of decl) {
+          const row = J.rows.find((x) => x.id === d.id);
+          if (!row) { bad.push(d.id + ' 正本に行なし'); continue; }
+          if (row.timeScale !== d.ts || row.stepDt !== d.dt || JSON.stringify(row.timeRef) !== JSON.stringify(d.tr)) bad.push(d.id + ' 正本と宣言が違う');
+          if (d.retired) continue;
+          if (row.status === 'ok') nOk++;
+          else { nNot.push(d.id); if (!(d.tr && /門外/.test(d.tr.note || ''))) bad.push(d.id + ' 正本の門 ' + row.status + ' なのに宣言の note に「門外」なし'); }
+        }
+      }
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const a = P.indexOf('〔第297便c — '); const sec = a < 0 ? '' : P.slice(a, (() => { const e = [P.indexOf('\n〔第', a + 10), P.indexOf('\n## 7.', a)].filter((k) => k > a); return e.length ? Math.min(...e) : undefined; })());
+      if (!sec) bad.push('PHYSICS〔第297便c〕が無い');
+      for (const d of decl) if (!d.retired && d.tr && d.tr.basis === 'orbit' && sec.indexOf(d.id) < 0) bad.push('PHYSICS の移行表に ' + d.id + ' が無い');
+      for (const w of ['再現しない', '再現できない', '合わせられない', '諦める', '現実を再現した', '較正 合']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS の節に書かない語「' + w + '」');
+      const AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      // 節の番号は統合で枝順に改番される(枝では 63)—— 見出しの「第297便c」で引く
+      const aiSec = (() => { const m = /\n## (\d+)\. 第297便c[^\n]*/.exec(AI); if (!m) return ''; const r = AI.slice(m.index + 1), e = r.indexOf('\n## ', 3); return e < 0 ? r : r.slice(0, e); })();
+      if (!(aiSec && aiSec.indexOf('physics.stepDt') >= 0 && aiSec.indexOf('timeRef') >= 0 && aiSec.indexOf('360') >= 0 && aiSec.indexOf('appStepDt') >= 0)) bad.push('AI_SPEC の第297便c の節(stepDt・timeRef・360・appStepDt)');
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); if (CL.indexOf('第297便c') < 0) bad.push('CHANGELOG');
+      const RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); if (RM.indexOf('第297便c') < 0) bad.push('README');
+      const sp = await page.evaluate(() => HP.SYSTEM_PROMPT);
+      if (!(sp.indexOf('timeScale=1') >= 0 && sp.indexOf('stepDt') >= 0 && sp.indexOf('timeRef') >= 0)) bad.push('SYSTEM_PROMPT の時間の行');
+      add('docs.timeStd297', bad.length === 0,
+        `**時間の標準の正本と文書**(第297便c・R163): 正本 timestd-w297c.json ${J ? J.rows.length : 0} 行 = 宣言(timeScale・stepDt・timeRef)と一致・在位 ok ${nOk}・門外 [${nNot.join(',')}](宣言の note に「門外」)/ `
+        + `PHYSICS〔第297便c〕の移行表に在位の公転の本が全部・書かない語なし・AI_SPEC の第297便c の節・CHANGELOG・README・SYSTEM_PROMPT の時間の行`
+        + `${bad.length ? ' NG=[' + bad.slice(0, 6).join(' / ') + ']' : ''}`);
+    }
   }
 }
 
