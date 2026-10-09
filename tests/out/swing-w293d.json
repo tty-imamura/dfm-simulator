@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便d",
   "target": "beta/index.html",
-  "targetSha256": "3f3024216979d1814d3fa4ebc878cf2269c51900553030a39ef1c7afb46f8766",
-  "generatedAt": "2026-10-08T12:54:25.106Z",
+  "targetSha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
+  "generatedAt": "2026-10-09T14:26:28.474Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5976532,
-    "sha256": "3f3024216979d1814d3fa4ebc878cf2269c51900553030a39ef1c7afb46f8766",
-    "mtime": "2026-10-08T12:33:56.111Z"
+    "bytes": 6146028,
+    "sha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
+    "mtime": "2026-10-09T14:14:50.711Z"
    },
    {
     "file": "tests/out/dragcore-w292c.json",
     "bytes": 34634,
-    "sha256": "7285959810e67e7471e94d9330c2e0f1370616fe4067e3deae5406e8bc21ace6",
-    "mtime": "2026-10-08T12:17:48.363Z"
+    "sha256": "968317326e45ecd9331b01acc3c5bcecdb4f64ce1d64c3d9b94cd4458ea768c3",
+    "mtime": "2026-10-09T14:13:37.851Z"
    }
   ],
   "code": [
@@ -24,31 +24,31 @@
     "file": "tests/exp-w293d-swing.mjs",
     "bytes": 49884,
     "sha256": "7f678a1d04628774d8784a3d36dabad0017371e291cfb7b8f239503380412440",
-    "mtime": "2026-10-05T20:53:28.454Z"
+    "mtime": "2026-10-09T10:19:35.494Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "9bc6a88df3cd36426f4d14e9356db5c72f5334a9e9276df125176b01fe26ce12",
@@ -96,16 +96,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1056,
-   "segments": 965,
-   "closureShare": 0.3248
+   "names": 1079,
+   "segments": 988,
+   "closureShare": 0.3196
   },
-  "scopeSha256": "7069a5a19989bcb1ad332a222a9bf3a77398906bfe649ff20237ece80ec13b81",
+  "scopeSha256": "73c6efc0bffb99b39264f15111fc7619db45e35102673b85916df1be08db223d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/dragcore-w292c.json",
-    "stableSha256": "df5b920bc3821171b9c47a0700cae55bbc76177f44dd59fed39a4c58d12f968b",
+    "stableSha256": "0ee70eca5ddd7be41513e35f868537d16bb59178b730c29d4baf50ac8363003f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -330,13 +330,14 @@
      "gravityX": 0,
      "gravityY": 0,
      "geoPN": 3,
-     "lambdaPN": 1,
+     "lambdaPN": 0,
      "pnAlpha": 1.5,
      "radiusScale": 1,
      "softening": 0.01,
-     "timeScale": 100,
+     "timeScale": 1,
      "dispMag": 10,
      "massFloor": 1e-8,
+     "stepDt": 65.5721,
      "stateCarry": "double",
      "frameWeight": "share",
      "relativeDrag": {
@@ -377,13 +378,14 @@
      "gravityX": 0,
      "gravityY": 0,
      "geoPN": 3,
-     "lambdaPN": 1,
+     "lambdaPN": 0,
      "pnAlpha": 1.5,
      "radiusScale": 1,
      "softening": 0.01,
-     "timeScale": 100,
+     "timeScale": 1,
      "dispMag": 10,
      "massFloor": 1e-8,
+     "stepDt": 65.5721,
      "stateCarry": "double",
      "frameWeight": "share",
      "relativeDrag": {
@@ -419,13 +421,14 @@
      "gravityX": 0,
      "gravityY": 0,
      "geoPN": 3,
-     "lambdaPN": 1,
+     "lambdaPN": 0,
      "pnAlpha": 1.5,
      "radiusScale": 1,
      "softening": 0.01,
-     "timeScale": 100,
+     "timeScale": 1,
      "dispMag": 10,
      "massFloor": 1e-8,
+     "stepDt": 65.5721,
      "stateCarry": "double",
      "frameWeight": "share",
      "relativeDrag": {
@@ -23506,128 +23509,128 @@
  "ok": true,
  "timing": {
   "br-A1-instant-peri-0.008": {
-   "wallSec": 25.683999999999997
+   "wallSec": 17.735
   },
   "br-A1-instant-apo-0.008": {
-   "wallSec": 25.820999999999998
+   "wallSec": 17.752
   },
   "br-A1-smooth-peri-0.008": {
-   "wallSec": 26.253
+   "wallSec": 18.148
   },
   "br-A2-instant-apo-0.008": {
-   "wallSec": 25.320999999999998
-  },
-  "br-A1-smooth-apo-0.008": {
-   "wallSec": 26.027
+   "wallSec": 15.559000000000001
   },
   "br-A2-instant-peri-0.008": {
-   "wallSec": 26.036
+   "wallSec": 16.103
+  },
+  "br-A1-smooth-apo-0.008": {
+   "wallSec": 17.05
   },
   "br-C-instant-peri-0.008": {
-   "wallSec": 24.043
+   "wallSec": 14.368
   },
   "br-A2-smooth-peri-0.008": {
-   "wallSec": 28.826999999999998
+   "wallSec": 16.168
   },
   "br-A2-smooth-apo-0.008": {
-   "wallSec": 29.846
+   "wallSec": 16.236
   },
   "br-C-instant-apo-0.008": {
-   "wallSec": 26.96
-  },
-  "br-C-smooth-peri-0.008": {
-   "wallSec": 25.343
+   "wallSec": 15.538
   },
   "br-C-smooth-apo-0.008": {
-   "wallSec": 24.570999999999998
+   "wallSec": 15.850999999999999
+  },
+  "br-C-smooth-peri-0.008": {
+   "wallSec": 16.084
   },
   "br-A1-instant-peri-0.016": {
-   "wallSec": 13.751999999999999
+   "wallSec": 9.26
   },
   "br-A1-instant-apo-0.016": {
-   "wallSec": 13.834
+   "wallSec": 9.108
   },
   "br-A1-smooth-peri-0.016": {
-   "wallSec": 13.653
+   "wallSec": 9.515
   },
   "br-A1-smooth-apo-0.016": {
-   "wallSec": 14.536000000000001
+   "wallSec": 8.986
   },
   "br-A2-instant-peri-0.016": {
-   "wallSec": 14.65
+   "wallSec": 8.542
   },
   "br-A2-instant-apo-0.016": {
-   "wallSec": 15.96
-  },
-  "br-A2-smooth-peri-0.016": {
-   "wallSec": 15.556000000000001
-  },
-  "br-A2-smooth-apo-0.016": {
-   "wallSec": 14.701
+   "wallSec": 8.397
   },
   "br-C-instant-peri-0.016": {
-   "wallSec": 13.5
+   "wallSec": 7.085
+  },
+  "br-A2-smooth-peri-0.016": {
+   "wallSec": 8.653
+  },
+  "br-A2-smooth-apo-0.016": {
+   "wallSec": 7.979
   },
   "br-C-instant-apo-0.016": {
-   "wallSec": 12.995000000000001
+   "wallSec": 7.668
   },
   "br-C-smooth-peri-0.016": {
-   "wallSec": 14.006
+   "wallSec": 7.805999999999999
   },
   "br-C-smooth-apo-0.016": {
-   "wallSec": 14.142
+   "wallSec": 8.092
   },
   "bridge-0.0016": {
-   "wallSec": 22.233
-  },
-  "cond-A1-0.008": {
-   "wallSec": 25.735
+   "wallSec": 14.943
   },
   "cond-A2-0.008": {
-   "wallSec": 25.49
+   "wallSec": 14.556
   },
-  "cond-B-0.008": {
-   "wallSec": 25.712
+  "cond-A1-0.008": {
+   "wallSec": 15.146
   },
   "cond-C-0.008": {
-   "wallSec": 23.716
+   "wallSec": 12.099
   },
   "cond-D-0.008": {
-   "wallSec": 23.998
+   "wallSec": 11.883
+  },
+  "cond-B-0.008": {
+   "wallSec": 13.933
   },
   "bridge-0.008": {
-   "wallSec": 4.809
-  },
-  "cond-Bdrop-0.008": {
-   "wallSec": 20.861
+   "wallSec": 2.814
   },
   "cond-S-0.008": {
-   "wallSec": 16.042
+   "wallSec": 9.282
+  },
+  "cond-Bdrop-0.008": {
+   "wallSec": 11.777
   },
   "cond-A1-0.016": {
-   "wallSec": 10.888
-  },
-  "cond-C-0.016": {
-   "wallSec": 10.78
-  },
-  "cond-B-0.016": {
-   "wallSec": 12.259
+   "wallSec": 7.713
   },
   "cond-A2-0.016": {
-   "wallSec": 12.731
+   "wallSec": 7.059
   },
-  "cond-S-0.016": {
-   "wallSec": 8.747
+  "cond-C-0.016": {
+   "wallSec": 6.319
   },
-  "cond-Bdrop-0.016": {
-   "wallSec": 10.352
+  "cond-B-0.016": {
+   "wallSec": 7.461
   },
   "cond-D-0.016": {
-   "wallSec": 12.228
+   "wallSec": 6.173
+  },
+  "cond-S-0.016": {
+   "wallSec": 4.51
+  },
+  "cond-Bdrop-0.016": {
+   "wallSec": 5.762
   },
   "bridge-0.016": {
-   "wallSec": 2.372
+   "wallSec": 1.416
   }
  },
- "elapsedS": 258.5
+ "elapsedS": 154.394
 }

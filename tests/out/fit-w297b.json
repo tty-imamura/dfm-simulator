@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第297便b",
   "target": "beta/index.html",
-  "targetSha256": "d17270e498367af375c8acbff1ada7988b98af60796776cf0ae6d5c608fc7104",
-  "generatedAt": "2026-10-09T12:24:36.491Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T14:44:55.686Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6012680,
-    "sha256": "d17270e498367af375c8acbff1ada7988b98af60796776cf0ae6d5c608fc7104",
-    "mtime": "2026-10-09T12:15:59.134Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-09T10:22:44.258Z"
+    "mtime": "2026-10-09T10:19:35.430Z"
    }
   ],
   "code": [
@@ -24,64 +24,64 @@
     "file": "tests/exp-w297b-fit.mjs",
     "bytes": 67025,
     "sha256": "d776e674edcfba19a77c8928a7b92cde2d49a10f2e801bdd929da16331f0315c",
-    "mtime": "2026-10-09T11:09:45.285Z"
+    "mtime": "2026-10-09T12:27:43.762Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-09T11:09:45.293Z"
+    "mtime": "2026-10-09T12:27:43.762Z"
    },
    {
     "file": "tests/lib-w296b-fit.mjs",
     "bytes": 10522,
     "sha256": "fee34451c30b386826577ad8ebc0a3a71607e6aba14449cd9762096a0ff860de",
-    "mtime": "2026-10-09T10:22:44.402Z"
+    "mtime": "2026-10-09T10:19:35.522Z"
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
-    "bytes": 34406,
-    "sha256": "8b142dcdc4b9881fe2f4aecd5af075e5d7063408e69b277c89d319ca00839864",
-    "mtime": "2026-10-09T10:22:44.370Z"
+    "bytes": 34743,
+    "sha256": "f2acccb9859f6a01109414506e7a5926ccb1462dd161926915357ce985ea4891",
+    "mtime": "2026-10-09T12:28:59.303Z"
    },
    {
     "file": "tests/exp-w293d-swing.mjs",
     "bytes": 49884,
     "sha256": "7f678a1d04628774d8784a3d36dabad0017371e291cfb7b8f239503380412440",
-    "mtime": "2026-10-09T10:22:44.370Z"
+    "mtime": "2026-10-09T10:19:35.494Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:22:44.394Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:22:44.394Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w292c-dragcore.mjs",
     "bytes": 13583,
     "sha256": "755f0a919b272cfc94b9961416c99640458394075e3f7f1745a703b7d81cc6ab",
-    "mtime": "2026-10-09T10:22:44.402Z"
+    "mtime": "2026-10-09T10:19:35.522Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:22:44.386Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:22:44.398Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "9d2a0043a1f9f4ffbf0da3b1227864769d8321f42ddc7be4a5880e7fc069bfb8",
+  "codeSha256": "2ec6b9f47ea81b81fb59ac2781b98f570506c90d5408ae78a6026a3555a091b3",
   "harnessVersion": "w297b-fit-1",
   "libVersion": "w297b-fit-lib-1",
   "fitRecordVersion": "w297b-1",
@@ -132,11 +132,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1073,
-   "segments": 982,
-   "closureShare": 0.3254
+   "names": 1084,
+   "segments": 993,
+   "closureShare": 0.3208
   },
-  "scopeSha256": "da5d371091064c110c510f5862fcd6d41972d113ad7720f14a73dd9962e38cd6",
+  "scopeSha256": "f90be2baf90bc335c465ccfd683b7076909105a3b724e6e80f467142c858f157",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -146,13 +146,13 @@
    "key": "mer",
    "parent": "mercurySunInertial",
    "emoji": "🟤",
-   "presetSigFnv": "46692d5c",
+   "presetSigFnv": "8ab2b5d8",
    "bodiesFnv": "646360b",
    "law": "inertial-drag",
    "effectiveMode": 0,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaDecl": 1,
+   "lambdaDecl": 0,
    "lambdaRun": 0,
    "scaleExp": {
     "L": 8,
@@ -205,13 +205,13 @@
    "key": "plu",
    "parent": "plutoCharonInertial",
    "emoji": "🟣",
-   "presetSigFnv": "92b42b64",
+   "presetSigFnv": "d9dc259c",
    "bodiesFnv": "51808f17",
    "law": "inertial-drag",
    "effectiveMode": 0,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaDecl": 1,
+   "lambdaDecl": 0,
    "lambdaRun": 0,
    "scaleExp": {
     "L": 5,
@@ -264,13 +264,13 @@
    "key": "ems",
    "parent": "earthMoonSunInertial",
    "emoji": "🌤️",
-   "presetSigFnv": "c5280552",
+   "presetSigFnv": "c6e13783",
    "bodiesFnv": "72f4d436",
    "law": "inertial-drag",
    "effectiveMode": 0,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaDecl": 1,
+   "lambdaDecl": 0,
    "lambdaRun": 0,
    "scaleExp": {
     "L": 8,
@@ -334,7 +334,7 @@
     "emoji": "🟤",
     "dt": 0.016,
     "steps": 2000,
-    "lambdaDecl": 1,
+    "lambdaDecl": 0,
     "law": "inertial-drag",
     "eff": 0,
     "same": true,
@@ -347,7 +347,7 @@
     "emoji": "🟫",
     "dt": 0.016,
     "steps": 2000,
-    "lambdaDecl": 1,
+    "lambdaDecl": 0,
     "law": "inertial-drag",
     "eff": 0,
     "same": true,
@@ -360,7 +360,7 @@
     "emoji": "🟣",
     "dt": 0.16,
     "steps": 2000,
-    "lambdaDecl": 1,
+    "lambdaDecl": 0,
     "law": "inertial-drag",
     "eff": 0,
     "same": true,
@@ -373,7 +373,7 @@
     "emoji": "🟪",
     "dt": 0.16,
     "steps": 2000,
-    "lambdaDecl": 1,
+    "lambdaDecl": 0,
     "law": "inertial-drag",
     "eff": 0,
     "same": true,
@@ -386,7 +386,7 @@
     "emoji": "🌤️",
     "dt": 0.016,
     "steps": 2000,
-    "lambdaDecl": 1,
+    "lambdaDecl": 0,
     "law": "inertial-drag",
     "eff": 0,
     "same": true,
@@ -3296,7 +3296,7 @@
      "sid": 27.32885846186129,
      "eMean": 0.05494176955119052,
      "revN": 354,
-     "wallSec": 1.671
+     "wallSec": 1.968
     },
     {
      "label": "傾斜 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して))",
@@ -3305,7 +3305,7 @@
      "sid": 27.32753645997272,
      "eMean": 0.05518676069409869,
      "revN": 354,
-     "wallSec": 1.765
+     "wallSec": 1.942
     },
     {
      "label": "傾斜 5.16°(JPL SSD の平均要素の軌道傾斜(黄道))",
@@ -3314,7 +3314,7 @@
      "sid": 27.327531213933476,
      "eMean": 0.055188216752033496,
      "revN": 354,
-     "wallSec": 2.017
+     "wallSec": 1.856
     }
    ],
    "flat": {
@@ -3325,7 +3325,7 @@
     "sid": 27.32885846186129,
     "eMean": 0.05494176955119052,
     "revN": 354,
-    "wallSec": 1.671
+    "wallSec": 1.968
    },
    "incl": {
     "key": "ems-ref3d-5.145",
@@ -3335,7 +3335,7 @@
     "sid": 27.32753645997272,
     "eMean": 0.05518676069409869,
     "revN": 354,
-    "wallSec": 1.765
+    "wallSec": 1.942
    },
    "engineFlatT2": 8.765021737598444,
    "flatRel": 8.929621986580909e-7,
@@ -3789,7 +3789,7 @@
    "ok": true,
    "bad": [],
    "condState": "match",
-   "sigFnv": "1eb9a778"
+   "sigFnv": "1e29ced4"
   },
   {
    "id": "plutoCharonInertialFit",
@@ -3798,7 +3798,7 @@
    "ok": true,
    "bad": [],
    "condState": "match",
-   "sigFnv": "c59b1bbe"
+   "sigFnv": "463e68e6"
   },
   {
    "id": "earthMoonSunInertialFit",
@@ -3807,7 +3807,7 @@
    "ok": true,
    "bad": [],
    "condState": "match",
-   "sigFnv": "4885c2e9"
+   "sigFnv": "ca4386ef"
   }
  ],
  "gainTable": {
@@ -3904,313 +3904,313 @@
  "ok": true,
  "timing": {
   "mer-g0-h": {
-   "wallSec": 1.216
+   "wallSec": 1.163
   },
   "mer-g0-h2": {
-   "wallSec": 2.042
+   "wallSec": 2.159
   },
   "mer-grid0-h": {
-   "wallSec": 1.266
+   "wallSec": 1.444
   },
   "mer-grid1-h": {
-   "wallSec": 1.472
-  },
-  "mer-grid2-h": {
-   "wallSec": 1.459
-  },
-  "mer-grid3-h": {
-   "wallSec": 1.35
-  },
-  "mer-grid5-h": {
-   "wallSec": 1.23
-  },
-  "mer-grid4-h": {
-   "wallSec": 1.247
-  },
-  "mer-grid6-h": {
-   "wallSec": 1.371
-  },
-  "mer-grid7-h": {
-   "wallSec": 1.415
-  },
-  "mer-grid8-h": {
-   "wallSec": 1.301
-  },
-  "mer-grid9-h": {
-   "wallSec": 1.431
-  },
-  "mer-grid10-h": {
-   "wallSec": 1.424
-  },
-  "mer-grid11-h": {
-   "wallSec": 1.305
-  },
-  "mer-grid12-h": {
-   "wallSec": 1.482
-  },
-  "mer-it0-h": {
-   "wallSec": 1.473
-  },
-  "mer-it1-h": {
-   "wallSec": 1.192
-  },
-  "mer-it2-h": {
    "wallSec": 1.404
   },
-  "mer-it3-h": {
-   "wallSec": 1.399
+  "mer-grid2-h": {
+   "wallSec": 1.763
   },
-  "mer-final-h2": {
-   "wallSec": 2.633
+  "mer-grid3-h": {
+   "wallSec": 1.402
+  },
+  "mer-grid4-h": {
+   "wallSec": 1.323
+  },
+  "mer-grid5-h": {
+   "wallSec": 1.389
+  },
+  "mer-grid6-h": {
+   "wallSec": 1.451
+  },
+  "mer-grid7-h": {
+   "wallSec": 1.493
+  },
+  "mer-grid8-h": {
+   "wallSec": 1.393
+  },
+  "mer-grid9-h": {
+   "wallSec": 1.735
+  },
+  "mer-grid10-h": {
+   "wallSec": 1.946
+  },
+  "mer-grid11-h": {
+   "wallSec": 1.663
+  },
+  "mer-grid12-h": {
+   "wallSec": 1.287
+  },
+  "mer-it0-h": {
+   "wallSec": 1.647
+  },
+  "mer-it1-h": {
+   "wallSec": 1.306
+  },
+  "mer-it2-h": {
+   "wallSec": 1.329
+  },
+  "mer-it3-h": {
+   "wallSec": 1.371
   },
   "mer-final-h": {
-   "wallSec": 1.682
+   "wallSec": 1.414
+  },
+  "mer-final-h2": {
+   "wallSec": 2.541
   },
   "mer-fscan-0-0.1": {
-   "wallSec": 1.556
+   "wallSec": 1.376
   },
   "mer-fscan-0-0.3": {
-   "wallSec": 1.423
+   "wallSec": 1.5
   },
   "mer-fscan-0-0.5": {
-   "wallSec": 1.57
+   "wallSec": 1.419
   },
   "mer-fscan-0-0.7": {
-   "wallSec": 1.394
+   "wallSec": 1.562
   },
   "mer-fscan-0-0.9": {
-   "wallSec": 1.468
+   "wallSec": 1.646
   },
   "mer-fscan-0-1": {
-   "wallSec": 1.279
+   "wallSec": 1.646
   },
   "plu-grid0-h": {
-   "wallSec": 12.484
+   "wallSec": 12.52
   },
   "plu-grid1-h": {
-   "wallSec": 12.496
+   "wallSec": 12.011
   },
   "plu-grid2-h": {
-   "wallSec": 12.211
+   "wallSec": 12.496
   },
   "plu-grid3-h": {
-   "wallSec": 12.022
+   "wallSec": 12.407
   },
   "plu-grid4-h": {
-   "wallSec": 11.615
+   "wallSec": 12.787
   },
   "plu-grid5-h": {
-   "wallSec": 12.459
+   "wallSec": 13.002
   },
   "plu-grid6-h": {
-   "wallSec": 12.575
+   "wallSec": 12.133
   },
   "plu-grid7-h": {
-   "wallSec": 12.711
+   "wallSec": 12.355
   },
   "plu-grid8-h": {
-   "wallSec": 12.535
+   "wallSec": 12.3
   },
   "plu-grid9-h": {
-   "wallSec": 12.169
-  },
-  "plu-grid10-h": {
-   "wallSec": 11.717
-  },
-  "plu-grid11-h": {
-   "wallSec": 11.828
-  },
-  "plu-grid12-h": {
-   "wallSec": 10.636
-  },
-  "plu-g0-h": {
-   "wallSec": 10.559
-  },
-  "plu-g0-h2": {
-   "wallSec": 20.731
-  },
-  "plu-it0-h": {
-   "wallSec": 14.151
-  },
-  "plu-it1-h": {
    "wallSec": 12.629
   },
-  "plu-final-h": {
-   "wallSec": 11.708
+  "plu-grid10-h": {
+   "wallSec": 12.889
   },
-  "plu-final-h2": {
-   "wallSec": 23.135
+  "plu-grid11-h": {
+   "wallSec": 13.059
+  },
+  "plu-grid12-h": {
+   "wallSec": 10.63
+  },
+  "plu-g0-h": {
+   "wallSec": 11.231
+  },
+  "plu-g0-h2": {
+   "wallSec": 21.199
+  },
+  "plu-it0-h": {
+   "wallSec": 12.291
+  },
+  "plu-it1-h": {
+   "wallSec": 12.203
+  },
+  "plu-final-h": {
+   "wallSec": 12.216
   },
   "plu-final-16-h": {
-   "wallSec": 24.186
+   "wallSec": 23.869
   },
-  "plu-fscan-0-0.1": {
-   "wallSec": 12.019
+  "plu-final-h2": {
+   "wallSec": 24.444
   },
   "plu-fscan-0-0.3": {
-   "wallSec": 11.554
+   "wallSec": 13.158
+  },
+  "plu-fscan-0-0.1": {
+   "wallSec": 13.444
   },
   "plu-fscan-0-0.5": {
-   "wallSec": 13.544
-  },
-  "plu-fscan-0-0.7": {
-   "wallSec": 12.322
+   "wallSec": 12.255
   },
   "plu-fscan-0-0.9": {
-   "wallSec": 11.299
+   "wallSec": 12.38
+  },
+  "plu-fscan-0-0.7": {
+   "wallSec": 13.001
   },
   "plu-fscan-0-1": {
-   "wallSec": 11.196
-  },
-  "plu-fscan-1-0.3": {
-   "wallSec": 11.594
+   "wallSec": 12.165
   },
   "plu-fscan-1-0.5": {
-   "wallSec": 12.422
+   "wallSec": 12.458
+  },
+  "plu-fscan-1-0.3": {
+   "wallSec": 13.571
   },
   "plu-fscan-1-0.7": {
-   "wallSec": 11.731
-  },
-  "plu-fscan-1-0.9": {
-   "wallSec": 11.772
+   "wallSec": 12.149
   },
   "plu-fscan-1-1": {
-   "wallSec": 12.186
+   "wallSec": 12.393
+  },
+  "plu-fscan-1-0.9": {
+   "wallSec": 12.988
   },
   "ems-ex-g0-h": {
-   "wallSec": 6.037
+   "wallSec": 6.16
   },
   "ems-ex-g0-h2": {
-   "wallSec": 12.566
+   "wallSec": 13.934
   },
   "ems-ex-g0-h4": {
-   "wallSec": 25.717
+   "wallSec": 25.181
   },
   "ems-ex-gT-h": {
-   "wallSec": 7.051
+   "wallSec": 7.713
   },
   "ems-ex-gT-h2": {
-   "wallSec": 15.085
+   "wallSec": 14.664
   },
   "ems-ex-gT-h4": {
-   "wallSec": 29.742
+   "wallSec": 29.288
   },
   "ems-fix-h": {
-   "wallSec": 6.555
+   "wallSec": 6.009
   },
   "ems-fix-h2": {
-   "wallSec": 13.055
+   "wallSec": 12.032
   },
   "ems-fix-h4": {
-   "wallSec": 24.488
+   "wallSec": 23.645
   },
   "ems-fix-long": {
-   "wallSec": 17.944
+   "wallSec": 18.333
   },
   "ems-fix-earthE": {
-   "wallSec": 6.051
+   "wallSec": 6.109
   },
   "ems-long-g0": {
-   "wallSec": 17.787
+   "wallSec": 18.44
   },
   "ems-inv-W": {
-   "wallSec": 7.14
+   "wallSec": 7.5
   },
   "ems-inv-V": {
-   "wallSec": 4.209
+   "wallSec": 4.319
   },
   "ems-grid0-h": {
-   "wallSec": 6.091
+   "wallSec": 6.233
   },
   "ems-grid0-h2": {
-   "wallSec": 12.186
+   "wallSec": 12.145
   },
   "ems-grid1-h": {
-   "wallSec": 6.959
+   "wallSec": 6.533
   },
   "ems-grid1-h2": {
-   "wallSec": 14.955
+   "wallSec": 14.848
   },
   "ems-grid2-h": {
-   "wallSec": 7.939
+   "wallSec": 7.471
   },
   "ems-grid2-h2": {
-   "wallSec": 14.183
+   "wallSec": 14.679
   },
   "ems-grid3-h": {
-   "wallSec": 6.857
+   "wallSec": 7.371
   },
   "ems-grid3-h2": {
-   "wallSec": 13.77
+   "wallSec": 16.712
   },
   "ems-grid4-h": {
-   "wallSec": 7.005
+   "wallSec": 8.413
   },
   "ems-grid4-h2": {
-   "wallSec": 14.984
+   "wallSec": 16.298
   },
   "ems-grid5-h": {
-   "wallSec": 7.737
+   "wallSec": 7.94
   },
   "ems-grid5-h2": {
-   "wallSec": 14.23
+   "wallSec": 16.63
   },
   "ems-grid6-h": {
-   "wallSec": 7.666
+   "wallSec": 8.418
   },
   "ems-grid6-h2": {
-   "wallSec": 14.394
+   "wallSec": 15.519
   },
   "ems-grid7-h": {
-   "wallSec": 7.236
+   "wallSec": 8.218
   },
   "ems-grid7-h2": {
-   "wallSec": 14.078
+   "wallSec": 14.529
   },
   "ems-grid8-h": {
-   "wallSec": 6.765
+   "wallSec": 8.065
   },
   "ems-grid8-h2": {
-   "wallSec": 14.349
+   "wallSec": 14.62
   },
   "ems-grid9-h": {
-   "wallSec": 7.145
+   "wallSec": 7.064
   },
   "ems-grid9-h2": {
-   "wallSec": 15.461
+   "wallSec": 14.147
   },
   "ems-grid10-h": {
-   "wallSec": 7.633
+   "wallSec": 7.023
   },
   "ems-grid10-h2": {
-   "wallSec": 14.764
+   "wallSec": 13.956
   },
   "ems-grid11-h": {
-   "wallSec": 7.277
+   "wallSec": 7.346
   },
   "ems-grid11-h2": {
-   "wallSec": 13.83
+   "wallSec": 14.126
   },
   "ems-grid12-h": {
-   "wallSec": 6.474
+   "wallSec": 6.992
   },
   "ems-grid12-h2": {
-   "wallSec": 14.914
+   "wallSec": 13.429
   },
   "ems-grid13-h": {
-   "wallSec": 7.02
+   "wallSec": 6.826
   },
   "ems-grid13-h2": {
-   "wallSec": 15.029
+   "wallSec": 13.689
   },
   "plu-inv-fit-V": {
-   "wallSec": 6.612
+   "wallSec": 6.368
   },
   "plu-inv-transfer-V": {
-   "wallSec": 7.978
+   "wallSec": 7.116
   },
   "plu-inv-transfer-W": {
-   "wallSec": 11.324
+   "wallSec": 9.86
   }
  },
  "run": {
@@ -4374,5 +4374,5 @@
   "gain は普遍定数",
   "全系の保存則が閉じた"
  ],
- "elapsedS": 445.41
+ "elapsedS": 457.181
 }

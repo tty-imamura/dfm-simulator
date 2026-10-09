@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-  "generatedAt": "2026-10-08T20:17:12.096Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T14:43:43.140Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5976655,
-    "sha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-    "mtime": "2026-10-08T16:39:20.927Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838863,
-    "sha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
-    "mtime": "2026-10-08T18:45:09.187Z"
+    "bytes": 1822332,
+    "sha256": "49a9772182185a4735999dfddd4b29b5deb7fe8143219b90810e91c351dc7938",
+    "mtime": "2026-10-09T12:59:15.039Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 103773,
-    "sha256": "20be563ade8610207016d14370d75663cf648433cd2c9c41392561588a53197b",
-    "mtime": "2026-10-08T18:04:30.879Z"
+    "bytes": 103746,
+    "sha256": "e1775f9b4b6b90758c5138c84069030a49a7267f90e2296f12fb89b7bc4e8315",
+    "mtime": "2026-10-09T14:28:36.251Z"
    }
   ],
   "code": [
@@ -30,25 +30,25 @@
     "file": "tests/exp-w280c-geo3.mjs",
     "bytes": 37356,
     "sha256": "5c1d8f8c4fb3a5ba4732910e9f51b543305c9f89fcfbf98e6270fd4e8eb3d7b5",
-    "mtime": "2026-10-07T17:31:27.319Z"
+    "mtime": "2026-10-09T10:19:35.486Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5810,
     "sha256": "0bbf76e309439d6975f8095d574df2c611671fce499265f5c566b1ae8814d398",
-    "mtime": "2026-10-07T17:31:27.317Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 364342,
     "sha256": "a481d697c9239500990ce9217bc6976c9243ffcc34f42a139b39c309a1a5207a",
-    "mtime": "2026-10-05T18:54:36.450Z"
+    "mtime": "2026-10-09T10:19:35.462Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    }
   ],
   "codeSha256": "0b60fc628c4b119432aab2da704f470c91e2abd493fbd109ac6bf7a9fcf35f39",
@@ -134,16 +134,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1053,
-   "segments": 962,
-   "closureShare": 0.3242
+   "names": 1075,
+   "segments": 984,
+   "closureShare": 0.3189
   },
-  "scopeSha256": "e03e65a763906c6c66b01017cb4c0ed68fc9cf005b56ac6fa047023ec069b841",
+  "scopeSha256": "f2a1a1c2c06b8fb6f3cc4d14d73a65f33a76ed946e44a3c4714e75bd0768ecea",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0d0faaf7a148c20764fa37da22fcfdd4da9634ca87232cc9a0a9352716483031",
+    "stableSha256": "86911c7dc7fd702ec6c7d7346404498b66ada91e0bec391d5c8b167555035e01",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -171,7 +171,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1b4f0994469a17d4757e315fa03f78d8fdf1b8d6717d28fc11f02cb54ae595fd",
+    "stableSha256": "73d50929b38abd8c3e14cc7a63cbca95aa982c1dc87de84dc8dd3aee6e43fd91",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -199,7 +199,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "cbb7443268c3d4f689549549982b19c0b9db56b41d150b60ca3628b5cecc13ce",
+    "stableSha256": "741841d1162e7e63f7b3d8d40dd8017897132c92bc345c212518183bd0400f66",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -279,7 +279,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.866
+       "wallSec": 2.471
       },
       "dt/2": {
        "steps": 5700398,
@@ -312,7 +312,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.99
+       "wallSec": 4.603
       }
      }
     },
@@ -351,7 +351,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.835
+       "wallSec": 2.362
       },
       "dt/2": {
        "steps": 5700398,
@@ -384,7 +384,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 8.178
+       "wallSec": 4.496
       }
      }
     },
@@ -423,7 +423,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.479
+       "wallSec": 1.732
       },
       "dt/2": {
        "steps": 5700398,
@@ -456,7 +456,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.183
+       "wallSec": 3.681
       }
      }
     },
@@ -495,7 +495,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.169
+       "wallSec": 1.816
       },
       "dt/2": {
        "steps": 5700398,
@@ -528,7 +528,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.017
+       "wallSec": 3.487
       }
      }
     },
@@ -571,7 +571,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.973
+       "wallSec": 7.243
       },
       "dt/2": {
        "steps": 5700398,
@@ -608,7 +608,7 @@
          "stop": null
         }
        },
-       "wallSec": 24.216
+       "wallSec": 13.656
       }
      }
     },
@@ -651,7 +651,7 @@
          "stop": null
         }
        },
-       "wallSec": 18.447
+       "wallSec": 10.816
       },
       "dt/2": {
        "steps": 5700398,
@@ -688,7 +688,7 @@
          "stop": null
         }
        },
-       "wallSec": 38.236
+       "wallSec": 22.122
       }
      }
     },
@@ -731,7 +731,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.841
+       "wallSec": 6.173
       },
       "dt/2": {
        "steps": 5700398,
@@ -768,7 +768,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.121
+       "wallSec": 12.396
       }
      }
     },
@@ -811,7 +811,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.521
+       "wallSec": 9.685
       },
       "dt/2": {
        "steps": 5700398,
@@ -848,7 +848,7 @@
          "stop": null
         }
        },
-       "wallSec": 33.257
+       "wallSec": 19.891
       }
      }
     },
@@ -891,7 +891,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.613
+       "wallSec": 6.026
       },
       "dt/2": {
        "steps": 5700398,
@@ -928,7 +928,7 @@
          "stop": null
         }
        },
-       "wallSec": 19.5
+       "wallSec": 11.657
       }
      }
     },
@@ -967,7 +967,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.522
+       "wallSec": 3.193
       },
       "dt/2": {
        "steps": 5700398,
@@ -1000,7 +1000,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 10.162
+       "wallSec": 6.208
       }
      }
     },
@@ -1039,7 +1039,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.941
+       "wallSec": 2.632
       },
       "dt/2": {
        "steps": 5700398,
@@ -1072,7 +1072,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 9.67
+       "wallSec": 5.398
       }
      }
     },
@@ -1115,7 +1115,7 @@
          "stop": null
         }
        },
-       "wallSec": 13.565
+       "wallSec": 7.192
       },
       "dt/2": {
        "steps": 5700398,
@@ -1152,7 +1152,7 @@
          "stop": null
         }
        },
-       "wallSec": 25.608
+       "wallSec": 15.735
       }
      }
     }
@@ -1269,7 +1269,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 29.678
+       "wallSec": 16.864
       },
       "dt/2": {
        "steps": 41388996,
@@ -1302,7 +1302,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 59.014
+       "wallSec": 33.35
       }
      }
     },
@@ -1341,7 +1341,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 24.111
+       "wallSec": 13.289
       },
       "dt/2": {
        "steps": 41388996,
@@ -1374,7 +1374,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 47.782
+       "wallSec": 29.349
       }
      }
     },
@@ -1413,7 +1413,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 23.59
+       "wallSec": 13.69
       },
       "dt/2": {
        "steps": 41388996,
@@ -1446,7 +1446,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 47.655
+       "wallSec": 28.316
       }
      }
     },
@@ -1491,7 +1491,7 @@
          "stop": null
         }
        },
-       "wallSec": 144.212
+       "wallSec": 84.545
       },
       "dt/2": {
        "steps": 41388996,
@@ -1530,7 +1530,7 @@
          "stop": null
         }
        },
-       "wallSec": 290.76
+       "wallSec": 171.818
       }
      }
     },
@@ -1575,7 +1575,7 @@
          "stop": null
         }
        },
-       "wallSec": 97.461
+       "wallSec": 57.771
       },
       "dt/2": {
        "steps": 41388996,
@@ -1614,7 +1614,7 @@
          "stop": null
         }
        },
-       "wallSec": 188.476
+       "wallSec": 109.968
       }
      }
     },
@@ -1659,7 +1659,7 @@
          "stop": null
         }
        },
-       "wallSec": 87.428
+       "wallSec": 50.288
       },
       "dt/2": {
        "steps": 41388996,
@@ -1698,7 +1698,7 @@
          "stop": null
         }
        },
-       "wallSec": 179.03
+       "wallSec": 106.687
       }
      }
     }
@@ -1984,8 +1984,7 @@
      "gravity": false,
      "inertia": false,
      "lawVersion": "vMinusU",
-     "pn": "reference-1PN",
-     "pnVelocity": "v",
+     "pn": "off",
      "velocityMeaning": "v"
     },
     "stateBitSameAsFreshBuild": true
@@ -1999,8 +1998,7 @@
      "gravity": false,
      "inertia": false,
      "lawVersion": "vMinusU",
-     "pn": "reference-1PN",
-     "pnVelocity": "v",
+     "pn": "off",
      "velocityMeaning": "xdot"
     },
     "stateBitSameAsFreshBuild": true
@@ -2011,10 +2009,10 @@
     "bitSame": true,
     "hasGeo3": true,
     "meshVelN": 2000,
-    "pnN": 2000,
-    "hud": "geoPN=4 / vMinusU / pn:reference-1PN(v) v0:v N=2000 |u|max=2.30e+0 pnN=2000",
-    "chip": "geoPN=4 / vMinusU / pn:reference-1PN(v)・実験",
-    "physicsSameAsHarnessCopy": true,
+    "pnN": 0,
+    "hud": "geoPN=4 / vMinusU / pn:off v0:v N=2000 |u|max=2.30e+0",
+    "chip": "geoPN=4 / vMinusU / pn:off・実験",
+    "physicsSameAsHarnessCopy": false,
     "bodiesSameAsHarnessCopy": true,
     "integratorSame": true,
     "sampleClass": "principle",
@@ -2024,10 +2022,10 @@
     "bitSame": true,
     "hasGeo3": true,
     "meshVelN": 2000,
-    "pnN": 2000,
-    "hud": "geoPN=4 / vMinusU / pn:reference-1PN(v) v0:xdot N=2000 |u|max=4.74e-1 pnN=2000",
-    "chip": "geoPN=4 / vMinusU / pn:reference-1PN(v)・実験",
-    "physicsSameAsHarnessCopy": true,
+    "pnN": 0,
+    "hud": "geoPN=4 / vMinusU / pn:off v0:xdot N=2000 |u|max=4.74e-1",
+    "chip": "geoPN=4 / vMinusU / pn:off・実験",
+    "physicsSameAsHarnessCopy": false,
     "bodiesSameAsHarnessCopy": true,
     "integratorSame": true,
     "sampleClass": "principle",
@@ -2063,5 +2061,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1539.877
+ "elapsedS": 902.769
 }

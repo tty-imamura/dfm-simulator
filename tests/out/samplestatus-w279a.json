@@ -12,62 +12,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "d17270e498367af375c8acbff1ada7988b98af60796776cf0ae6d5c608fc7104",
-  "generatedAt": "2026-10-09T12:24:51.318Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T14:26:30.127Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 99010,
-    "sha256": "d42f89481c317b282fc16b29aaa0c01203f8c41fa18851b34f2bfb36f6723f04",
-    "mtime": "2026-10-09T11:07:44.305Z"
+    "bytes": 99134,
+    "sha256": "34075121f99ad8a516d93e6172ec04b3e672eff90456a6c5d0f96ccd11776525",
+    "mtime": "2026-10-09T14:23:35.259Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838863,
-    "sha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
-    "mtime": "2026-10-09T10:22:44.430Z"
+    "bytes": 1822332,
+    "sha256": "49a9772182185a4735999dfddd4b29b5deb7fe8143219b90810e91c351dc7938",
+    "mtime": "2026-10-09T12:59:15.039Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90741,
-    "sha256": "32171a7c43e038bc6b795a4d4962a2e144a68a77803cb673cc1af48c6f6b8950",
-    "mtime": "2026-10-09T10:22:44.442Z"
+    "bytes": 90746,
+    "sha256": "8ae445a67e7ae65f3e028e8da0e481f9ee3fe4c34932aed4603f969478626a48",
+    "mtime": "2026-10-09T12:52:31.983Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 138629,
-    "sha256": "645a05baee07c07d5b8e4571b95304e9527c3f0143dcba428c7f0af908248157",
-    "mtime": "2026-10-09T12:24:51.298Z"
+    "bytes": 144077,
+    "sha256": "217f3cb3447dc016028aefd6623343eb40934d8d66731edaa2965b53613504db",
+    "mtime": "2026-10-09T14:26:30.111Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-09T10:22:44.378Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-09T10:22:44.378Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-09T10:22:44.378Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-09T10:22:44.378Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-09T10:22:44.378Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    }
   ],
   "code": [
@@ -75,31 +75,31 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 31972,
     "sha256": "704b6480397c90d305c68715513f5c76474c1f32c7e5f95ece91a67346af33a6",
-    "mtime": "2026-10-09T10:22:44.350Z"
+    "mtime": "2026-10-09T10:19:35.486Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 26924,
     "sha256": "1e392bdbaaad2a21ce04eda6696502b557b2a780b5d8cad8daf03b7ff67b6d18",
-    "mtime": "2026-10-09T10:22:44.394Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:22:44.386Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-09T10:22:44.398Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-09T10:22:44.402Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    }
   ],
   "codeSha256": "9aa0769c20def6904b1c04663c7218397de9b87d07b26772222a8090330b3015",
@@ -457,6 +457,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -667,6 +679,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -890,6 +914,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1097,6 +1133,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1300,6 +1348,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -1512,6 +1572,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1716,6 +1788,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -1945,6 +2029,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2142,6 +2238,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -2347,6 +2455,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2544,6 +2664,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -2755,6 +2887,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2962,6 +3106,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3159,6 +3315,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -3376,6 +3544,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3579,6 +3759,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -3804,6 +3996,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -4039,6 +4243,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4252,6 +4468,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4288,7 +4516,7 @@
    "status": {
     "purpose": "v−u 測地線則で外縁の増速を比べる",
     "objective": "met",
-    "state": "外縁速度比 1.188 が窓内・クランプ 0",
+    "state": "λ_PN=0 で外縁速度比 1.180 が窓内・クランプ 0",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -4297,12 +4525,12 @@
     ],
     "en": {
      "purpose": "Compare the outer speed-up under the v−u geodesic law",
-     "state": "outer speed ratio 1.188 lies in its window with zero clamps",
+     "state": "with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare the outer speed-up under the v−u geodesic law. Met: outer speed ratio 1.188 lies in its window with zero clamps. Out of calibration scope."
+     "brief": "Compare the outer speed-up under the v−u geodesic law. Met: with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps. Out of calibration scope."
     },
-    "brief": "v−u 測地線則で外縁の増速を比べる。達・外縁速度比 1.188 が窓内・クランプ 0。較正対象外。"
+    "brief": "v−u 測地線則で外縁の増速を比べる。達・λ_PN=0 で外縁速度比 1.180 が窓内・クランプ 0。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -4455,6 +4683,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -4666,6 +4906,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4869,6 +5121,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -5092,6 +5356,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5295,6 +5571,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -5506,6 +5794,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5709,6 +6009,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -5922,6 +6234,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -6145,6 +6469,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6342,6 +6678,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -6549,6 +6897,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -6767,6 +7127,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6965,6 +7337,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -7171,6 +7555,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7368,6 +7764,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -7587,6 +7995,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -7811,6 +8231,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8014,6 +8446,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -8273,6 +8717,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8486,6 +8942,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8688,6 +9156,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -8895,6 +9375,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -9125,6 +9617,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9349,6 +9853,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9561,6 +10077,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9764,6 +10292,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -9978,6 +10518,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -10208,6 +10760,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10411,6 +10975,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -10641,6 +11217,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10851,6 +11439,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -11069,6 +11669,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11272,6 +11884,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -11496,6 +12120,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11699,6 +12335,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -11910,6 +12558,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12113,6 +12773,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -12366,6 +13038,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12579,6 +13263,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12788,6 +13484,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -13011,6 +13719,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13208,6 +13928,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -13415,6 +14147,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -13638,6 +14382,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13845,6 +14601,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14048,6 +14816,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -14265,6 +15045,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14474,6 +15266,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -14688,6 +15492,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -14911,6 +15727,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15130,6 +15958,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15195,23 +16035,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 57.685,
+     "wallSec": 102.087,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 57.685,
+       "wallSec": 35.321,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 110.248,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 66.766,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 110.248,
-     "reusedH2Sec": 110.248,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15392,6 +16232,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -15603,6 +16455,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15645,22 +16509,23 @@
    "status": {
     "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
     "objective": "partial",
-    "state": "8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない",
+    "state": "λ_PN=0 で D0pull・初速を再フィット(8 公転窓 恒星月 27.3216 日・近点回転 8.850 年)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/refit-w297a.json",
      "tests/out/emgrid-w280b.json",
      "tests/out/calaudit-w249.json"
     ],
     "en": {
-     "purpose": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit",
-     "state": "8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady)",
+     "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
+     "state": "D0pull and initial speed refit under λ_PN=0 (8 orbits: 27.3216 d, apsides 8.850 yr)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit. Partial: 8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady). Out of calibration scope."
+     "brief": "Principle reference: kF1 q-drag apsidal mechanism. Partial: D0pull and initial speed refit under λ_PN=0 (8 orbits: 27.3216 d, apsides 8.850 yr). Out of calibration scope."
     },
-    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない。較正対象外。"
+    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・λ_PN=0 で D0pull・初速を再フィット(8 公転窓 恒星月 27.3216 日・近点回転 8.850 年)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -15855,6 +16720,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -16080,6 +16957,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -16311,6 +17200,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -16548,6 +17449,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16613,23 +17526,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.684,
+     "wallSec": 3.315,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.684,
+       "wallSec": 1.149,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.417,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.166,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 3.417,
-     "reusedH2Sec": 3.417,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -16804,6 +17717,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -17021,6 +17946,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17228,6 +18165,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17431,6 +18380,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -17644,6 +18605,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -17867,6 +18840,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18080,6 +19065,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18146,23 +19143,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.159,
+     "wallSec": 7.239000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.159,
+       "wallSec": 2.916,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.528,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.323,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 7.528,
-     "reusedH2Sec": 7.528,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18343,6 +19340,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -18554,6 +19563,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18761,6 +19782,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18784,21 +19817,22 @@
    "status": {
     "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる",
     "objective": "met",
-    "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
+    "state": "pn:off・λ_PN=0 の零試験 —— ニュートンの対照との近点移動の差は 10⁻¹¹ °/周の桁",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/refit-w297a.json",
      "tests/out/geo3-w280c.json"
     ],
     "en": {
-     "purpose": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged",
-     "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width",
+     "purpose": "geoPN=4 check: a uniform coordinate change keeps the periapsis advance",
+     "state": "null test (pn off, λ_PN=0): differs from Newton by ~1e-11 deg/orbit",
      "mismatch": null,
      "outlook": null,
-     "brief": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
+     "brief": "geoPN=4 check: a uniform coordinate change keeps the periapsis advance. Met: null test (pn off, λ_PN=0): differs from Newton by ~1e-11 deg/orbit. Out of calibration scope."
     },
-    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
+    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる。達・pn:off・λ_PN=0 の零試験 —— ニュートンの対照との近点移動の差は 10⁻¹¹ °/周の桁。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -18957,6 +19991,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -19176,6 +20222,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19237,11 +20295,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 65.001,
+     "wallSec": 39.316,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 65.001,
+       "wallSec": 39.316,
        "reused": false,
        "reusedBy": null
       }
@@ -19414,6 +20472,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19479,23 +20549,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 21.531,
+     "wallSec": 41.677,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 21.531,
+       "wallSec": 14.023,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 40.764,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 27.654,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 40.764,
-     "reusedH2Sec": 40.764,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19674,6 +20744,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19739,23 +20821,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.491,
+     "wallSec": 18.514,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.491,
+       "wallSec": 6.356,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 20.258,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 12.158,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 20.258,
-     "reusedH2Sec": 20.258,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19970,6 +21052,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20035,23 +21129,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.156,
+     "wallSec": 13.913,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.156,
+       "wallSec": 4.386,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.664,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 9.527,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 14.664,
-     "reusedH2Sec": 14.664,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -20226,6 +21320,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -20529,6 +21635,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20766,6 +21884,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20998,6 +22128,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21057,23 +22199,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 109.528,
+     "wallSec": 184.88400000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 109.528,
+       "wallSec": 60.24,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 201.401,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 124.644,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 201.401,
-     "reusedH2Sec": 201.401,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -21306,6 +22448,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21509,6 +22663,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -21720,6 +22886,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21920,6 +23098,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21950,21 +23140,22 @@
    "status": {
     "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
     "objective": "partial",
-    "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
+    "state": "pn:off・λ_PN=0 で B 側との周期の差は 10⁻⁵ s の桁(第296便までの pnVelocity v は +5.6×10⁻⁴ s)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/refit-w297a.json",
      "tests/out/geo3-w280c.json"
     ],
     "en": {
      "purpose": "Compare the geoPN=4 period with a solar background against kF0",
-     "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)",
+     "state": "pn off, λ_PN=0: period differs from side B by ~1e-5 s",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare the geoPN=4 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
+     "brief": "Compare the geoPN=4 period with a solar background against kF0. Partial: pn off, λ_PN=0: period differs from side B by ~1e-5 s. Out of calibration scope."
     },
-    "brief": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
+    "brief": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる。部分・pn:off・λ_PN=0 で B 側との周期の差は 10⁻⁵ s の桁(第296便までの pnVelocity v は +5.6×10⁻⁴ s)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -22133,6 +23324,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22194,11 +23397,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 82.471,
+     "wallSec": 51.082,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 82.471,
+       "wallSec": 51.082,
        "reused": false,
        "reusedBy": null
       }
@@ -22371,6 +23574,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22436,23 +23651,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.58,
+     "wallSec": 5.084,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.58,
+       "wallSec": 1.663,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.364,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 3.421,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.364,
-     "reusedH2Sec": 5.364,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -22667,6 +23882,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22730,30 +23957,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.899,
+     "wallSec": 43.352,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.899,
+       "wallSec": 8.863,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 28.595,
+       "wallSec": 16.284,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 61.089,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 34.489,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 89.684,
-     "reusedH2Sec": 28.595,
-     "reusedH4Sec": 61.089
+     "reusedSec": 16.284,
+     "reusedH2Sec": 16.284,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -22963,6 +24190,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -23205,6 +24444,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23268,30 +24519,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.078,
+     "wallSec": 24.628,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.078,
+       "wallSec": 5.22,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.575,
+       "wallSec": 10.06,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 36.721,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 19.408,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 53.29599999999999,
-     "reusedH2Sec": 16.575,
-     "reusedH4Sec": 36.72099999999999
+     "reusedSec": 10.06,
+     "reusedH2Sec": 10.06,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -23501,6 +24752,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -23743,6 +25006,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23809,23 +25084,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.337,
+     "wallSec": 8.533999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.337,
+       "wallSec": 2.872,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.481,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.662,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 9.481,
-     "reusedH2Sec": 9.481,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -24012,6 +25287,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -24290,6 +25577,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24494,6 +25793,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -24718,6 +26029,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24778,23 +26101,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.559,
+     "wallSec": 5.436,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.559,
+       "wallSec": 1.809,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.337,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 3.627,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 6.337,
-     "reusedH2Sec": 6.337,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -25011,6 +26334,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -25075,23 +26410,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.489,
+     "wallSec": 2.775,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.489,
+       "wallSec": 1.045,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.867,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.73,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.867,
-     "reusedH2Sec": 2.867,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -25308,6 +26643,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -25532,6 +26879,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25748,6 +27107,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -25972,6 +27343,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26188,6 +27571,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -26412,6 +27807,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26632,6 +28039,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26692,23 +28111,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 25.011,
+     "wallSec": 40.592,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 25.011,
+       "wallSec": 13.358,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 47.319,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 27.234,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 47.319,
-     "reusedH2Sec": 47.319,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26877,6 +28296,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -27149,6 +28580,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27369,6 +28812,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27572,6 +29027,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -27789,6 +29256,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27998,6 +29477,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -28215,6 +29706,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28422,6 +29925,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28481,23 +29996,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.919,
+     "wallSec": 1.4949999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.919,
+       "wallSec": 0.438,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.65,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.057,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.65,
-     "reusedH2Sec": 1.65,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -28654,6 +30169,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -28896,6 +30423,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28961,23 +30500,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.109,
+     "wallSec": 0.20500000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.109,
+       "wallSec": 0.12,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.112,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 0.085,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.112,
-     "reusedH2Sec": 0.112,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -29134,6 +30673,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -29335,6 +30886,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -29542,6 +31105,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -29759,6 +31334,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29968,6 +31555,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -30197,6 +31796,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30394,6 +32005,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -30599,6 +32222,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30796,6 +32431,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -31009,6 +32656,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -31238,6 +32897,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31313,30 +32984,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.771,
+     "wallSec": 28.454,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.771,
+       "wallSec": 5.736,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.999,
+       "wallSec": 11.77,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 36.835,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 22.718,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 53.834,
-     "reusedH2Sec": 16.999,
-     "reusedH4Sec": 36.83500000000001
+     "reusedSec": 11.77,
+     "reusedH2Sec": 11.77,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -31510,6 +33181,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -31733,6 +33416,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31934,6 +33629,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31995,11 +33702,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 203.386,
+     "wallSec": 115.104,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 203.386,
+       "wallSec": 115.104,
        "reused": false,
        "reusedBy": null
       }
@@ -32174,6 +33881,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -32400,6 +34119,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32597,6 +34328,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -32821,6 +34564,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33028,6 +34783,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33231,6 +34998,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -33448,6 +35227,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33645,6 +35436,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -33850,6 +35653,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34047,6 +35862,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -34252,6 +36079,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34449,6 +36288,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -34666,6 +36517,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34867,6 +36730,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35064,6 +36939,18 @@
      {
       "key": "chain-296c",
       "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
       "share": "all",
       "always": false
      },
@@ -35275,6 +37162,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35476,6 +37375,18 @@
       "always": false
      },
      {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 180,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35507,8 +37418,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 127,
-  "regenSecSum": 30437,
+  "regenSteps": 129,
+  "regenSecSum": 37649,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
@@ -35517,12 +37428,12 @@
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 17,
-    "sec": 533.579
+    "n": 3,
+    "sec": 38.114000000000004
    },
    "h4": {
-    "n": 3,
-    "sec": 134.645
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
