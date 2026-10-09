@@ -4,7 +4,7 @@
   "wave": "第284便e",
   "target": "beta/index.html",
   "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
-  "generatedAt": "2026-10-09T17:56:17.183Z",
+  "generatedAt": "2026-10-09T18:56:10.484Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -14,9 +14,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823752,
-    "sha256": "6dd180a8402f3e1f133040f5eab56c84b5d17b344ea667fcb3e11a2123a5c98c",
-    "mtime": "2026-10-09T17:35:05.732Z"
+    "bytes": 1838852,
+    "sha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
+    "mtime": "2026-10-09T18:34:48.808Z"
    }
   ],
   "code": [
@@ -99,7 +99,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "41e8e9ae7e8d5cf90bedb5a91a24b7c63596f32e73873895c4ef4ef77239ff28",
+    "stableSha256": "5c310903567af7d5a1b57f9f56da3ca33ebe17cfaa3924b89d78ed4baf4c88f6",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -127,7 +127,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "a64c3f39f09c15b5b4410546c5ba621436392f2c1884bd7471be795cebf884f6",
+    "stableSha256": "dacffef89d5732adcdfc46b44c48da4180d01c672a5dbacae1ab2f0ed812e13f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -168,14 +168,14 @@
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
   "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
-  "when": "2026-10-09T17:35:05.509Z",
+  "when": "2026-10-09T18:34:48.591Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
    "保留": 17
   },
-  "wallSec": 0.014
+  "wallSec": 0.021
  },
  "signed": {
   "solarInner": {
@@ -476,7 +476,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 37.029,
+      "wallSec": 36.978,
       "tags": [
        "dt"
       ],
@@ -823,7 +823,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 46.778,
+      "wallSec": 45.237,
       "tags": [
        "dt"
       ],
@@ -1038,7 +1038,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 107.873,
+      "wallSec": 107.344,
       "tags": [
        "dt"
       ],
@@ -1266,5 +1266,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.131
+ "elapsedS": 0.168
 }
