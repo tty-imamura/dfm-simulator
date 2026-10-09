@@ -71299,6 +71299,242 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
+// ---- 第297便d(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、実測に反映する」・
+// ----   統括の検証項目 R164): ui.liveMeasure297 —— **アプリ内実測(精密)**(押した時点の sim の複製を判定器・フィット器の刻みと窓で走らせる —— 表示専用)。
+// ----   世代切替 has297d = HP.liveMeasure(root 等は SKIP)。
+// ----   ⓪ 宣言の表が正本と一致: 基準刻み = calaudit meta.dtBase・YEAR_SEC = tests/lib-w258d-evidence.mjs・相手の組 = calaudit の CFG(c/o/ringInner)・
+// ----      判定器の写しの条件 = calaudit の calPhysics.rows・慣性決定力版の組 = tests/exp-w295c-inertial3.mjs の BOOKS・周期の推定器 = 正本の periodDef(全周期行)・
+// ----      在位の本の正本の行はすべて対象の表に載る(退役の本は 0)
+// ----   ① 編集なしの本で 精密実測 = 判定器の正本の値(同じ刻み・窓 —— 相対 1e-12): 🌙 恒星月・🌙 離心率・✨ 公転周期(h4)・📻 公転周期(近点間)・🔆 近点回転の周期・
+// ----      📻 近点前進(deg/yr)/ フィット器の値: 🟫 gain 0 の対照との近点率の差・🟪 8 公転の平均周期(fitRecord.residual.model と相対 1e-12)・🟫 の h/2 の差 = fitRecord.numerics.h2
+// ----   ② G を +1% 編集すると 🌙 の恒星月が理論(ケプラー周期の比 —— 同じ位置・速度で G だけ変えた接触要素)どおり動く(比の差 ≤ 1e-6)・前の実測に「条件が変わった」の印・
+// ----      読み込み直しで編集を捨てると、編集した条件で測った値にも印
+// ----   ③ 本走行の sim のビット一致(測定の前後で x・y・vx・vy・spin・R・m・t と帳簿・params)・測った後の 1 步が測らない 1 步と同じ
+// ----   ④ 取り消しで走行が止まる(步が増えない)・本の切替で止まる(preset)
+// ----   ⑤ 推定器で測れない量は「アプリ内実測 未対応 —— 理由」(理由の語が辞書にある)・正本の行の無い観測カードの本は「未対応」の 1 行
+// ----   ⑥ 🟫 の差の標的で対照(gain 0)の走行が走り、値 = この本 − 対照
+// ----   ⑦ 合否の語が出ない(ja/en)・語で分ける(「アプリ内実測(刻み h=」/ ライブの「画面の走行での暫定値」)・☄️ に判定器の写しの条件(ε)の行
+// ----   ⑧ 文書(PHYSICS〔第297便d〕・AI_SPEC の ui.liveMeasure297)
+{
+  const lp = await browser.newPage();
+  const errs = [];
+  lp.on('pageerror', (e) => errs.push(String(e.message || e)));
+  await lp.goto(INDEX, { waitUntil: 'load' });
+  await lp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has297d = await lp.evaluate(() => !!(window.HP && HP.liveMeasure && HP.liveMeasure.version));
+  if (!has297d) {
+    console.log('SKIP ui.liveMeasure297(第297便d 未適用 — HP.liveMeasure なし — root 等)');
+  } else {
+    const bad = [], info = {};
+    try {
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const pres = (J.presets || []).filter((p) => !p.kf0Diagnostic);
+      const qOf = (id, n, t) => { const p = pres.find((z) => z.id === id); return p ? (p.quantities || []).find((q) => q.name === n && (t === undefined || q.target === t)) : null; };
+      // ⓪ 宣言の表
+      const T0 = await lp.evaluate(() => {
+        const L = HP.liveMeasure, o = { consts: L.consts, tables: { targets: L.tables.targets, periBooks: L.tables.periBooks, judgeCond: L.tables.judgeCond, pairs: L.tables.pairs }, books: [], retired: [] };
+        for (const p of HP.allPresets()) {
+          const sp = L.specOf(p.id);
+          if (p.familyRole === 'retired') { if (sp.length) o.retired.push(p.id); continue; }
+          if (!sp.length) continue;
+          o.books.push({ id: p.id, items: sp.map((z) => ({ key: z.key, src: z.src, n: z.n, t: z.t, est: z.est, why: z.why, dt: z.dt, win: z.win, row: z.row ? { i: z.row.i, n: z.row.n, t: z.row.t, st: z.row.st, sr: z.row.sr } : null })) });
+        }
+        o.rowsInPlace = OBS_COMPARE_ROWS.filter((r) => { const p = HP.allPresets().find((q) => q.id === r.i); return p && p.familyRole !== 'retired'; }).length;
+        o.whyKeys = Object.keys(HP.T('lmsWhy'));
+        return o;
+      });
+      if (T0.consts.dtBase !== J.meta.dtBase) bad.push(`⓪基準刻み ${T0.consts.dtBase} ≠ calaudit dtBase ${J.meta.dtBase}`);
+      const EV = await import('file://' + path.join(ROOT, 'tests', 'lib-w258d-evidence.mjs'));
+      if (T0.consts.yearSec !== EV.YEAR_SEC) bad.push(`⓪YEAR_SEC ${T0.consts.yearSec} ≠ 判定器 ${EV.YEAR_SEC}`);
+      const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+      const cfg = {};
+      for (const m of calSrc.matchAll(/^ {2}(\w+):\s*\{ c: (\d+), o: (\[\[.*?\]\])(?:, ringInner: '([^']+)')?/gm)) cfg[m[1]] = { c: Number(m[2]), o: JSON.parse(m[3].replace(/'/g, '"')), ringInner: m[4] || undefined };
+      const calIds = pres.map((p) => p.id);
+      for (const id of calIds) {
+        const a = T0.tables.targets[id], b = cfg[id];
+        if (!a) { bad.push(`⓪相手の組の表に判定器の本 ${id} が無い`); continue; }
+        if (!b || a.c !== b.c || JSON.stringify(a.o) !== JSON.stringify(b.o) || (a.ringInner || undefined) !== b.ringInner) bad.push(`⓪相手の組 ${id} が calaudit の CFG と違う`);
+      }
+      for (const id of Object.keys(T0.tables.targets)) if (!calIds.includes(id)) bad.push(`⓪相手の組の表に判定器の母集団の外の本 ${id}`);
+      if (JSON.stringify(T0.tables.judgeCond) !== JSON.stringify((J.calPhysics || {}).rows || {})) bad.push('⓪判定器の写しの条件が calaudit の calPhysics.rows と違う');
+      const I3 = await import('file://' + path.join(ROOT, 'tests', 'exp-w295c-inertial3.mjs'));
+      for (const b of I3.BOOKS) {
+        const pr = T0.tables.pairs[b.id], want = (b.ci !== undefined) ? { c: b.ci, o: b.oi } : { c: b.pairs[0][0], o: b.pairs[0][1] };
+        if (!pr || pr.c !== want.c || pr.o !== want.o) bad.push(`⓪慣性決定力版の組 ${b.id} が器の BOOKS と違う`);
+      }
+      let nRows = 0, nPeriodChecked = 0;
+      const est2def = { rev: 'revolution', peri: 'periastron' };
+      for (const B of T0.books) for (const it of B.items) {
+        if (it.src === 'row') nRows++;
+        if (it.est === 'rev' || it.est === 'peri') {
+          const q = qOf(B.id, it.n, it.t);
+          if (!q) bad.push(`⓪${B.id}「${String(it.n).slice(0, 12)}」: 正本 calaudit の量に無い`);
+          else if (q.periodDef !== est2def[it.est]) bad.push(`⓪${B.id}「${String(it.n).slice(0, 12)}」(${it.t}): 推定器 ${it.est} ≠ 正本の periodDef ${q.periodDef}`);
+          else nPeriodChecked++;
+        }
+        if (!it.est && !(it.why && T0.whyKeys.includes(it.why))) bad.push(`⑤${B.id}「${String(it.n).slice(0, 12)}」: 未対応の理由が辞書に無い(${it.why})`);
+      }
+      if (nRows !== T0.rowsInPlace) bad.push(`⓪在位の本の正本の行 ${T0.rowsInPlace} のうち対象の表に載ったのは ${nRows}`);
+      if (T0.retired.length) bad.push('⓪退役の本に対象がある: ' + T0.retired.join(','));
+      const allItems = T0.books.flatMap((B) => B.items.map((z) => Object.assign({ id: B.id }, z)));
+      info.tab = { books: T0.books.length, items: allItems.length, sup: allItems.filter((z) => z.est).length, rows: nRows, periodChecked: nPeriodChecked,
+        why: allItems.filter((z) => !z.est).reduce((a, z) => (a[z.why] = (a[z.why] || 0) + 1, a), {}),
+        est: allItems.filter((z) => z.est).reduce((a, z) => (a[z.est] = (a[z.est] || 0) + 1, a), {}) };
+      // ① 精密実測 = 判定器・フィット器の値 / ③ 本走行のビット一致 / ⑥ 対照
+      const R1 = await lp.evaluate(() => {
+        const L = HP.liveMeasure, out = [];
+        const hash = () => { const S = HP.sim; let a = 0x811c9dc5; const f = new Float64Array(1), u = new Uint8Array(f.buffer);
+          const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+          for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const A = S[k]; if (!A) continue; for (let i = 0; i < S.n; i++) push(A[i]); }
+          for (const k of ['t', 'n', 'resPx', 'resPy', 'resL', 'radE', 'radL', 'coreWork', 'inertialDragN', 'inertialDragWork']) { const v = S[k]; if (typeof v === 'number') push(v); }
+          if (S.rdPrevX) for (let i = 0; i < S.n; i++) push(S.rdPrevX[i]);
+          return a.toString(16) + ':' + JSON.stringify(S.params).length; };
+        const pick = [['earthMoonReal', (z) => z.n === '恒星月'], ['earthMoonReal', (z) => /離心率/.test(z.n) && z.src === 'row'], ['alphaCenAB', (z) => /公転周期/.test(z.n) && z.src === 'row'],
+          ['psrDoubleAB', (z) => /公転周期/.test(z.n) && z.src === 'row'], ['emAuditSolar', (z) => /近点回転の周期/.test(z.n)], ['psrDoubleAB', (z) => /近点前進/.test(z.n) && z.est === 'precYr'],
+          ['mercurySunInertialFit', (z) => z.src === 'fit'], ['plutoCharonInertialFit', (z) => z.src === 'fit']];
+        for (const [id, f] of pick) {
+          HP.loadPreset(id, false);
+          const it = L.spec().find(f);
+          if (!it) { out.push({ id, none: true }); continue; }
+          const h0 = hash(), t0 = performance.now();
+          const s = L.run(it.key, {});
+          const r = L.result(it.key), h1 = hash();
+          out.push({ id, key: it.key, n: it.n, t: it.t, est: it.est, dt: it.dt, win: it.win, ok: s.ok, status: r && r.status, v: r && r.v, main: r && r.main, ctrl: r && r.ctrl,
+            ctrlSteps: r ? r.stepsByRun.filter((z) => z.role === 'ctrl').reduce((a, z) => a + z.k, 0) : 0, fit: it.fit, steps: r && r.steps, ms: performance.now() - t0, same: h0 === h1,
+            text: L.text(it.key) });
+        }
+        // 🟫 の h と h/2(数値誤差)
+        HP.loadPreset('mercurySunInertialFit', false);
+        const itF = L.spec().find((z) => z.src === 'fit');
+        L.run(itF.key, { half: true }); const rh = L.result(itF.key);
+        const half = { v: rh.v, vH2: rh.vH2, numErr: rh.numErr, h2: itF.fit && itF.fit.h2, status: rh.status };
+        // ③ 測った後の 1 步 = 測らない 1 步
+        HP.loadPreset('mercurySunInertialFit', false); HP.tick(1); const ref = hash();
+        HP.loadPreset('mercurySunInertialFit', false); L.run(itF.key, {}); HP.tick(1); const aft = hash();
+        return { out, half, tickSame: ref === aft };
+      });
+      info.r1 = [];
+      for (const x of R1.out) {
+        const tag = `${x.id}「${String(x.n || '').slice(0, 10)}」`;
+        if (x.none) { bad.push(`①${x.id}: 対象の量が見つからない`); continue; }
+        if (!x.same) bad.push(`③${tag}: 測定の前後で本走行の sim が変わった`);
+        if (x.status !== 'done') { bad.push(`①${tag}: 状態 ${x.status}`); continue; }
+        let want = null, src = '';
+        if (x.fit) { want = x.fit.model; src = 'fitRecord'; }
+        else { const q = qOf(x.id, x.n, x.t); want = q && q.gate ? q.gate.assessedValue : null; src = 'calaudit'; }
+        const rel = (want === null) ? null : Math.abs(x.v - want) / Math.max(1e-300, Math.abs(want));
+        info.r1.push(`${tag} ${x.est} h=${x.dt}・${x.win.laps ? x.win.laps + ' 周' : x.win.peri + ' 近点'}: ${x.v}(${src} ${want}・相対 ${rel === null ? '—' : rel.toExponential(2)}・${x.steps} 步・${(x.ms / 1000).toFixed(1)} s)`);
+        if (!(rel !== null && rel <= 1e-12)) bad.push(`①${tag}: 精密実測 ${x.v} ≠ ${src} の値 ${want}(相対 ${rel})`);
+        if (x.id === 'mercurySunInertialFit') {
+          if (!(x.ctrl !== null && x.ctrlSteps > 0)) bad.push('⑥🟫 対照(gain 0)の走行が走っていない');
+          if (!(x.v === x.main - x.ctrl)) bad.push(`⑥🟫 値 ${x.v} ≠ この本 ${x.main} − 対照 ${x.ctrl}`);
+          info.ctrl = { main: x.main, ctrl: x.ctrl, steps: x.ctrlSteps };
+        }
+        if (!/^アプリ内実測\(刻み h=/.test(x.text || '')) bad.push(`⑦${tag}: 文が「アプリ内実測(刻み h=」で始まらない`);
+      }
+      info.half = R1.half;
+      if (!(R1.half.status === 'done' && R1.half.numErr !== null && R1.half.h2 !== null && Math.abs(R1.half.numErr - R1.half.h2) <= 1e-9 * Math.abs(R1.half.h2))) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ fitRecord.numerics.h2 ${R1.half.h2}`);
+      if (!R1.tickSame) bad.push('③測った後の本走行の 1 步が、測らない 1 步と違う');
+      // ② G +1% の編集
+      const R2 = await lp.evaluate(() => {
+        const L = HP.liveMeasure;
+        HP.loadPreset('earthMoonReal', false);
+        const it = L.spec().find((z) => z.n === '恒星月');
+        const kep = () => { const S = HP.sim, dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+          const r = Math.hypot(dx, dy), v2 = dvx * dvx + dvy * dvy, mu = S.params.G * (S.m[0] + S.m[1]), a = 1 / (2 / r - v2 / mu); return 2 * Math.PI * Math.sqrt(a * a * a / mu); };
+        L.run(it.key, {}); const r0 = L.result(it.key); const k0 = kep(), c0 = L.cond(), G0 = HP.sim.params.G;
+        document.querySelector('#tabs button[data-tab=params]').click();
+        const row = document.querySelector('#paramRows .prow[data-k="G"]');
+        const inp = row && row.querySelector('input.valIn');
+        if (inp) { inp.value = String(G0 * 1.01); inp.dispatchEvent(new Event('change')); }
+        const G1 = HP.sim.params.G, k1 = kep(), c1 = L.cond();
+        document.querySelector('#tabs button[data-tab=help]').click();
+        const staleTxt = L.text(it.key);
+        L.run(it.key, {}); const r1 = L.result(it.key), fresh = L.text(it.key);
+        HP.loadPreset('earthMoonReal', false);   // 読み込み直しで編集を捨てる —— 編集した条件で測った値に印
+        const discard = L.text(it.key);
+        return { G0, G1, k0, k1, v0: r0.v, v1: r1.v, c0, c1, stale: staleTxt, dirty: r1.dirty, fresh, discard, st: r1.status, t0: r1.t0 };
+      });
+      const ratioM = R2.v1 / R2.v0, ratioK = R2.k1 / R2.k0;
+      info.g = { G0: R2.G0, G1: R2.G1, v0: R2.v0, v1: R2.v1, ratioM, ratioK, d: ratioM - ratioK };
+      if (!(Math.abs(R2.G1 / R2.G0 - 1.01) < 1e-9)) bad.push(`②G の編集が効かない(${R2.G0} → ${R2.G1})`);
+      if (!(R2.st === 'done' && Math.abs(ratioM - ratioK) <= 1e-6)) bad.push(`②G +1% の恒星月の比 ${ratioM} ≠ ケプラー周期の比 ${ratioK}`);
+      if (!(R2.c1 > R2.c0 && /条件が変わった/.test(R2.stale))) bad.push('②編集で前の実測に「条件が変わった —— 再実測」の印が出ない');
+      if (!(R2.dirty === true && /編集した条件で測った/.test(R2.fresh) && !/条件が変わった/.test(R2.fresh))) bad.push('②編集後の実測に「編集した条件で測った」が無い(または古い印が残る)');
+      if (!/条件が変わった/.test(R2.discard || '')) bad.push('②読み込み直しで編集を捨てた後、編集した条件で測った値に「条件が変わった」の印が無い');
+      // ④ 取り消し・本の切替
+      const R4 = await lp.evaluate(async () => {
+        const L = HP.liveMeasure, wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        HP.loadPreset('earthMoonReal', false);
+        const it = L.spec().find((z) => z.n === '恒星月');
+        document.querySelector(`#lmsBox .lmsRow[data-key="${it.key}"] .lmsGo`).click();
+        await wait(400); const J = L.job(), R = J && J.runs[0];
+        const k1 = R && R.G ? R.G.k : 0, line = document.getElementById('lmsJobLine').textContent;
+        document.getElementById('lmsCancel').click();
+        await wait(300); const k2 = R && R.G ? R.G.k : 0; await wait(300); const k3 = R && R.G ? R.G.k : 0;
+        const st = L.result(it.key).status, noJob = !L.job();
+        L.start(it.key, {}); await wait(250); HP.loadPreset('mercuryReal', false); await wait(250);
+        const st2 = (() => { HP.loadPreset('earthMoonReal', false); const r = L.result(it.key); return r ? r.status : null; })();
+        return { started: !!J, k1, k2, k3, st, noJob, st2, line };
+      });
+      info.cancel = R4;
+      if (!(R4.started && R4.k1 > 0 && /測定中/.test(R4.line))) bad.push('④ボタンで時間を区切った走行が始まらない: ' + JSON.stringify(R4));
+      if (!(R4.st === 'cancelled' && R4.noJob && R4.k2 === R4.k3)) bad.push('④取り消しで走行が止まらない: ' + JSON.stringify(R4));
+      if (R4.st2 !== 'preset') bad.push('④本の切替で走行が止まらない: ' + R4.st2);
+      // ⑤ 未対応の理由の文・正本の行の無い本 ⑦ 語
+      const R5 = await lp.evaluate(() => {
+        const L = HP.liveMeasure, o = { texts: [], uns: [], noRows: [], cond: null, live: HP.T('lcCardHead') };
+        for (const id of ['psrDoubleAB', 'saturnRingReal', 'mercuryReal', 'uranusReal']) {
+          HP.loadPreset(id, false);
+          for (const e of document.querySelectorAll('#lmsBox .lmsRow')) { o.texts.push(e.textContent);
+            if (e.dataset.why) o.uns.push({ id, why: e.dataset.why, txt: e.querySelector('.lmsRes').textContent }); }
+          for (const e of document.querySelectorAll('#odBox .odLms')) o.texts.push(e.textContent);
+          if (id === 'mercuryReal') o.cond = [...document.querySelectorAll('#lmsBox .lmsCondDiff')].map((e) => e.textContent);
+        }
+        // 正本の行の無い本(観測結果カードあり・対象 0)
+        for (const p of HP.allPresets()) { if (p.familyRole === 'retired' || !(Array.isArray(p.obsCard) && p.obsCard.length) || L.specOf(p.id).length) continue; o.noRows.push(p.id); }
+        if (o.noRows.length) { HP.loadPreset(o.noRows[0], false); const e = document.querySelector('#lmsBox .lmsNone'); o.noRowTxt = e ? e.textContent : null; }
+        HP.setLang('en'); HP.loadPreset('mercurySunInertialFit', false);
+        const it = L.spec().find((z) => z.src === 'fit'); L.run(it.key, {});
+        o.en = [...document.querySelectorAll('#lmsBox .lmsRow, #lmsBox .lmsCtl')].map((e) => e.textContent); o.enLive = HP.T('lcCardHead');
+        HP.setLang('ja');
+        return o;
+      });
+      info.uns = R5.uns.length; info.noRows = R5.noRows.length;
+      for (const u of R5.uns) if (!/^アプリ内実測 未対応 —— ./.test(u.txt)) { bad.push(`⑤${u.id} ${u.why}: 「アプリ内実測 未対応 —— 理由」が出ない`); break; }
+      if (!R5.uns.some((u) => u.why === 'ringInner') || !R5.uns.some((u) => u.why === 'spin') || !R5.uns.some((u) => u.why === 'pn0')) bad.push('⑤群の内縁・自転・λ_PN=0 の対照の理由の行が出ない');
+      if (R5.noRows.length && !(R5.noRowTxt && /未対応/.test(R5.noRowTxt))) bad.push('⑤正本の行の無い本に「未対応」の 1 行が無い');
+      if (!(R5.cond && R5.cond.some((t) => /softening=0\.01/.test(t)))) bad.push('⑦☄️ に判定器の写しの条件(softening=0.01)の行が無い');
+      if (!/画面の走行での暫定値/.test(R5.live) || !/on-screen run/.test(R5.enLive)) bad.push('⑦ライブ比較の語が「画面の走行での暫定値」になっていない');
+      const VERDICT = /合格|不合格|合\(3σ\)|否\(3σ\)|較正 ?合|\bpass(es|ed)?\b|\bfail(s|ed)?\b|\bOK\b/i;
+      for (const t of R5.texts.concat(R5.en)) if (VERDICT.test(t)) { bad.push('⑦合否の語: ' + t.slice(0, 50)); break; }
+      if (!R5.en.some((t) => /In-app measurement \(step h=/.test(t))) bad.push('⑦en の実測の文が無い');
+      // ⑧ 文書
+      try {
+        const md = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const i0 = md.indexOf('〔第297便d');
+        if (i0 < 0) bad.push('⑧PHYSICS に〔第297便d〕の節が無い');
+        else {
+          const rest = md.slice(i0 + 1), j = rest.search(/\n〔第\d+便[a-z]? |\n## /), sec = j < 0 ? rest : rest.slice(0, j);
+          for (const need of ['アプリ内実測', '画面の走行での暫定値', '測定の刻み', '窓', '判定器と同じ定義', '未対応', '本走行の sim', 'ui.liveMeasure297']) if (!sec.includes(need)) bad.push(`⑧PHYSICS の節に「${need}」が無い`);
+          for (const line of sec.split('\n')) if (/再現した|再現しない|再現できない|合わせられない|較正 合/.test(line.replace(/[「『][^」』]*[」』]/g, ''))) bad.push('⑧PHYSICS の書かない語: ' + line.slice(0, 40));
+        }
+        const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (!/第297便d[\s\S]{0,6000}ui\.liveMeasure297/.test(ai)) bad.push('⑧AI_SPEC に第297便d の節(ui.liveMeasure297)が無い');
+      } catch (e) { bad.push('⑧文書が読めない: ' + String(e).slice(0, 80)); }
+    } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+    if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+    add('ui.liveMeasure297', bad.length === 0,
+      `**アプリ内実測(精密)**(第297便d・原仮定者の裁定(第87報)・R164 —— 表示専用・本走行の sim は書かない): ⓪ 対象 ${info.tab ? `${info.tab.books} 本・${info.tab.items} 量(測れる ${info.tab.sup}・正本の行 ${info.tab.rows}・周期の定義を正本と照合 ${info.tab.periodChecked} 行・推定器 ${JSON.stringify(info.tab.est)}・未対応 ${JSON.stringify(info.tab.why)})` : '—'}`
+      + ` / ① ${(info.r1 || []).join(' | ')} / 🟫 h/2: ${info.half ? `${info.half.vH2}・|h−h/2| ${info.half.numErr}(記録 ${info.half.h2})` : '—'}`
+      + ` / ② G ${info.g ? `${info.g.G0}→${info.g.G1}: 恒星月の比 ${info.g.ratioM}・ケプラー比 ${info.g.ratioK}(差 ${info.g.d.toExponential(2)})` : '—'}`
+      + ` / ③ 本走行のビット一致・測った後の 1 步も同じ / ④ 取り消し ${info.cancel ? `k ${info.cancel.k1}→${info.cancel.k2}=${info.cancel.k3}・${info.cancel.st}・本の切替 ${info.cancel.st2}` : '—'}`
+      + ` / ⑤ 未対応の行(4 本)${info.uns || 0}・正本の行の無い観測カードの本 ${info.noRows || 0} / ⑥ 🟫 対照 ${info.ctrl ? `${info.ctrl.main} − ${info.ctrl.ctrl}(${info.ctrl.steps} 步)` : '—'} / ⑦ 合否の語なし(ja/en) / ⑧ 文書`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  await lp.close();
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)

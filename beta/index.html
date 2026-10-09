@@ -707,6 +707,14 @@
   .frRow{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border-top:1px solid var(--line);padding:3px 0;overflow-wrap:anywhere;font-size:calc(12px*var(--uz,1));line-height:1.55;}
   .frRow .frKey{flex:0 0 auto;font-weight:700;}
   .frRow[data-k="status"] .frVal{font-size:calc(10.5px*var(--uz,1));padding:0 6px;border-radius:999px;border:1px solid var(--line);}
+  /* 第297便d(原仮定者の裁定(第87報)・R164): アプリ内実測の箱(#lmsBox —— frBox の見た目・行は .lmsRow)と、照合の行の列(.odLms)。表示専用 */
+  .lmsRow .lmsRes,.odRow .odLms{flex:1 1 100%;font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--fg);overflow-wrap:anywhere;}
+  .lmsRow .lmsRes[data-status="none"],.odRow .odLms[data-status="none"],.lmsRow .lmsRes[data-status="unsupported"],.odRow .odLms[data-status="unsupported"]{color:var(--dim);}
+  .lmsRow .lmsRes[data-stale="1"],.odRow .odLms[data-stale="1"]{color:var(--hotText);}
+  .lmsRow .lmsObs,.lmsRow .lmsJudge,.lmsRow .lmsCondDiff,.lmsCtl .lmsJobLine{font-size:calc(11px*var(--uz,1));}
+  .lmsRow .lmsCondDiff{color:var(--hotText);}
+  .lmsCtl .lmsJobLine{flex:1 1 0;min-width:0;color:var(--dim);overflow-wrap:anywhere;}
+  .lmsRow .miniBtn,.lmsCtl .miniBtn{min-height:36px;touch-action:manipulation;}
   .odRow .odMissTxt,.odRow .odSigMiss,.odRow .odRelMiss{color:var(--dim);}
   .odRow .odGate,.odVerdictRow .odVerdict{font-size:calc(10.5px*var(--uz,1));padding:0 6px;border-radius:999px;border:1px solid var(--line);color:var(--fg);}
   .odRow .odGate[data-g="合(3σ)"]{border-color:var(--ok);}
@@ -1565,7 +1573,7 @@ ja: {
   lcGen:(g,r)=>`計測世代 ${g}(${r})`,
   lcReason:{init:"起動", preset:"サンプル読込", reload:"初めから・再読込", diverged:"発散停止", gap:"步の欠け", restart:"初めから", condition:"実行条件の変更", checkpoint:"チェックポイント復元", save:"セーブ読込", on:"表示 ON", ab:"A/B", rewind:"時刻の巻き戻り", nchange:"粒子数の変化"},
   lcCond:"条件がプリセット既定と違う",
-  lcCardHead:"ライブ(今回の走行)",
+  lcCardHead:"ライブ(画面の走行での暫定値)",   /* 第297便d: アプリ内実測(精密)と語で分ける */
   // 第287便d(AN65): 周期の定義(同方向公転周期と近点間周期は**別量**)。今回=推定器の定義・観測=観測値の定義
   lcDefName:{revolution:"同方向公転周期", periastron:"近点間周期", undeclared:"未宣言"},
   lcDefLine:(m,o,rel)=>"定義: 今回="+m+"・観測="+o+(rel==="differ"? "(別量)" : ""),
@@ -1582,6 +1590,31 @@ ja: {
   gcnCal:"BH 連星の家族(🎐⏰⚛️)は「実在天体との照合」に置く(表示だけ —— 所属は合否を意味しない)。geoPN=0・較正母集団の門には入れない(σ 未接続)。",
   gcnPrinciple:"BH 連星の家族(🎐⏰⚛️)は「実在天体との照合」に置く(表示だけ —— 所属は合否を意味しない)。本サンプルは原理サンプル —— geoPN=0・較正母集団の外。",
   lcCardOff:"グラフ「ライブ比較」を ON にすると今回の走行を測る(OFF のあいだは測らない)",
+  // 第297便d(原仮定者の裁定(第87報)・R164): アプリ内実測(精密)—— 説明タブの箱「⏱ アプリ内実測」と照合の行の列(表示専用・合否の語を出さない)
+  lmsBoxHead:"アプリ内実測 —— 観測と比べる量を、いまの初期値・パラメータで測る",
+  lmsNote:"▶ を押した時点の状態(編集した初期値・パラメータを含む)を複製し、判定器・フィット器と同じ刻みと窓で測る(本の走行と表示は止めない・本の値は書き換えない)。画面の走行での暫定値(ライブ比較)とは別の測定で、ここの値は「アプリ内実測(刻み h・窓 N 周)」。差は実測−観測で、帯(±3σ)は σ が台帳にある量だけ —— 正式な判定は判定器の正本(上の正式判定の欄)のまま。「h と h/2」は刻みを半分にした走行も続けて走らせ、差を数値誤差として出す。",
+  lmsNoRows:"この本は観測の正本の転記(OBS_COMPARE_ROWS)にもフィットの記録にも量が無い —— アプリ内実測 未対応(観測結果カードの文の量には推定器の宣言が無い)",
+  lmsHead:(h,w)=>"アプリ内実測(刻み h="+h+"・"+w+")",
+  lmsWinLaps:(n)=>"窓 "+n+" 周", lmsWinPeri:(n)=>"窓 "+n+" 近点",
+  lmsNotYet:"未実測(▶ で、押した時点の状態から測る)",
+  lmsRunning:(i,n,k,s,l)=>"測定中 —— 走行 "+i+"/"+n+"・"+k+" 步・"+l+" 周・経過 "+s+" s",
+  lmsSt:{cancelled:"取り消した", replaced:"次の実測に替えた", preset:"本を切り替えたので止めた", "wall-cap":"時間の上限で打ち切った(窓が埋まらない —— 値は出さない)", "steps-cap":"步数の上限で打ち切った(窓が埋まらない —— 値は出さない)", nonfinite:"非有限(走行が発散 —— 値は出さない)", aliasing:"標本が粗い(1 步の角が大きすぎる —— 値は出さない)", "time-reverse":"時刻が進まない(値は出さない)", halt:"慣性引きずりの解法が収束しない步で止めた(値は出さない)", novalue:"窓は埋まったが値が決まらない(近点が足りない等)", ctrl:"対照(gain 0)の複製を作れない"},
+  lmsSteps:(k)=>k+" 步", lmsWall:(s)=>"所要 "+s+" s",
+  lmsCtrl:(m,c)=>"この本 "+m+" − 対照(gain 0)"+c,
+  lmsDiffObs:"差(実測−観測)", lmsSig:"σ 換算", lmsBandIn:"帯(±3σ)の中", lmsBandOut:"帯(±3σ)の外",
+  lmsNoSigma:"σ 未接続(帯は出さない)", lmsNoObs:"観測値の数が台帳に無い(差は出さない)",
+  lmsDJudge:(st)=>"判定器の値(判定段 "+st+")との差", lmsDFit:"フィット器の値との差",
+  lmsH2:(v,e)=>"h/2 "+v+"・数値誤差 |h−h/2| "+e,
+  lmsFromStart:"開始 t=0(本の初期状態から)", lmsFromMid:(t)=>"開始 t="+t+"(走行の途中の状態から)", lmsEdited:"編集した条件で測った",
+  lmsStale:"⚠ 条件が変わった —— 再実測", lmsUnsupported:"アプリ内実測 未対応",
+  lmsWhy:{pn0:"λ_PN=0 の対照の写しで測った診断の行(この本の条件とは別の写し)", spin:"自転の量(公転の推定器では測らない —— 自転の推定器は未実装)", text:"文の行(数の量ではない —— 宣言・帳簿・形態)", unit:"この単位の推定器が無い", noTarget:"相手の組(中心・周回)が判定器の宣言に無い", ringInner:"群の内縁(判定器は群の最内の粒子を選ぶ —— 選び方の推定器は未実装)", stage:"判定段の刻みが読めない", fitQ:"フィットの量の推定器が無い", fitWindow:"フィットの窓(N 公転)か刻みが記録から読めない", refRow:"参照した正本の行が引けない"},
+  lmsJudge:(st)=>"判定器の値(判定段 "+st+")", lmsFitModel:"フィット器の値",
+  lmsFitName:(q,e)=>"フィットの標的 "+q+(e? "(子の本 "+e+" の記録の標的を、この本で測る)" : ""),
+  lmsRefName:(n)=>"🔆 の正本の行「"+n+"」と同じ量(この本の観測欄が参照する近点回転の周期)",
+  lmsCondDiff:(k,j,n)=>"判定器は "+k+"="+j+" の写しで測った行 —— いまの "+k+"="+n+" と違う(実測はいまの条件で測る)",
+  lmsBtnGo:"▶ 測る", lmsBtnH2:"▶ h と h/2", lmsBtnCancel:"■ 取り消し",
+  lmsJobOn:(n,s)=>"測定中: "+n+"(経過 "+s+" s —— 本の走行と表示は止まらない)",
+  lmsJobOff:(h)=>"測定していない(画面の走行の刻みは h="+h+" —— 測定の刻みとは別)",
   lcLaps:(n)=>`${n} 周`, lcPeri:(n)=>`近点 ${n}`,
   helpLiveCompare:"グラフ「ライブ比較」(第286便d)は、開いている本の今回の走行を物理 step ごとに測り(位置・速度の読み出しだけ)、正本の観測値と並べる表示専用のグラフです。白線=観測値、緑の帯=±3σ(σ のある量だけ)、赤い点=今回の値、◇=前回の較正(判定段の値の転記)。**暫定値であって正式判定を置き換えない**(帯の中でも合否の語は出さない)。量の宣言が無い本は「ライブ計測未対応」と出ます。",
   bdgSC_principle:"原理実証", bdgSC_principleTip:"主張の主役機構が対照実験(A/B・ノックアウト)で分離され、QA が機械固定している基準・実証系(第67便 P3 分類)",
@@ -2731,7 +2764,7 @@ en: {
   lcGen:(g,r)=>`generation ${g} (${r})`,
   lcReason:{init:"start-up", preset:"sample load", reload:"restart / reload", diverged:"diverged", gap:"missed steps", restart:"restart", condition:"run conditions changed", checkpoint:"checkpoint restore", save:"save load", on:"display ON", ab:"A/B", rewind:"time rewound", nchange:"particle count changed"},
   lcCond:"conditions differ from the preset",
-  lcCardHead:"Live (this run)",
+  lcCardHead:"Live (provisional value from the on-screen run)",
   lcDefName:{revolution:"same-direction revolution period", periastron:"periastron-to-periastron period", undeclared:"not declared"},
   lcDefLine:(m,o,rel)=>"Definition: now="+m+", obs="+o+(rel==="differ"? " (different quantities)" : ""),
   lcDefShort:{revolution:"same-dir rev", periastron:"peri-to-peri", undeclared:"undeclared"},
@@ -2744,6 +2777,31 @@ en: {
   gcnCal:"The binary-black-hole family (🎐⏰⚛️) sits in \"Observed-body comparison\" (display only — membership says nothing about pass or fail). geoPN=0; it does NOT enter the calibration-population gate (no σ connected).",
   gcnPrinciple:"The binary-black-hole family (🎐⏰⚛️) sits in \"Observed-body comparison\" (display only — membership says nothing about pass or fail). This is a principle sample — geoPN=0, outside the calibration population.",
   lcCardOff:"Turn on the \"Live comparison\" graph to measure this run (nothing is measured while it is OFF)",
+  // wave 297d (the originator's ruling in report 87; the coordinator's check item R164): in-app measurement (precise) - display only, no verdict words
+  lmsBoxHead:"In-app measurement - measure the quantities compared with observation, with the current initial values and parameters",
+  lmsNote:"Pressing ▶ copies the state at that moment (edited initial values and parameters included) and measures it with the same step and window as the judge and fit tools (the run and the display keep going; the sample's values are not rewritten). This is separate from the provisional value of the on-screen run (live comparison); values here read \"In-app measurement (step h, window N orbits)\". The difference is measured minus observed, and the band (±3σ) is drawn only for quantities with a recorded σ - the formal verdict stays the judge's record (the formal-verdict column above). \"h and h/2\" also runs the half-step copy and shows the difference as the numerical error.",
+  lmsNoRows:"This sample has no quantity in the transcribed observation record (OBS_COMPARE_ROWS) or a fit record - in-app measurement not supported (the text rows of the observation card have no estimator declaration)",
+  lmsHead:(h,w)=>"In-app measurement (step h="+h+", "+w+")",
+  lmsWinLaps:(n)=>"window "+n+" orbits", lmsWinPeri:(n)=>"window "+n+" periapses",
+  lmsNotYet:"not measured yet (▶ measures from the state at the moment you press it)",
+  lmsRunning:(i,n,k,s,l)=>"measuring - run "+i+"/"+n+", "+k+" steps, "+l+" orbits, "+s+" s elapsed",
+  lmsSt:{cancelled:"cancelled", replaced:"replaced by the next measurement", preset:"stopped: the sample was switched", "wall-cap":"stopped at the time limit (window not filled - no value)", "steps-cap":"stopped at the step limit (window not filled - no value)", nonfinite:"non-finite (the run diverged - no value)", aliasing:"sampling too coarse (no value)", "time-reverse":"time does not advance (no value)", halt:"stopped at a step where the inertial-drag solver did not converge (no value)", novalue:"window filled but no value (too few periapses, etc.)", ctrl:"could not make the control copy (gain 0)"},
+  lmsSteps:(k)=>k+" steps", lmsWall:(s)=>s+" s",
+  lmsCtrl:(m,c)=>"this sample "+m+" - control (gain 0) "+c,
+  lmsDiffObs:"difference (measured - observed)", lmsSig:"in σ", lmsBandIn:"inside the band (±3σ)", lmsBandOut:"outside the band (±3σ)",
+  lmsNoSigma:"no σ connected (no band)", lmsNoObs:"no observed number in the record (no difference)",
+  lmsDJudge:(st)=>"difference from the judge's value (stage "+st+")", lmsDFit:"difference from the fit tool's value",
+  lmsH2:(v,e)=>"h/2 "+v+", numerical error |h-h/2| "+e,
+  lmsFromStart:"started at t=0 (from the sample's initial state)", lmsFromMid:(t)=>"started at t="+t+" (from a state in the middle of the run)", lmsEdited:"measured with edited conditions",
+  lmsStale:"⚠ conditions changed - measure again", lmsUnsupported:"In-app measurement not supported",
+  lmsWhy:{pn0:"a diagnostic row measured on a lambda_PN=0 control copy (a different copy from this sample's conditions)", spin:"a spin quantity (not measured with the orbit estimators - no spin estimator yet)", text:"a text row (not a numeric quantity - declaration, ledger or morphology)", unit:"no estimator for this unit", noTarget:"the pair (centre and orbiter) is not in the judge's declaration", ringInner:"the inner edge of a group (the judge picks the innermost particle - no estimator for that choice yet)", stage:"the judge stage's step cannot be read", fitQ:"no estimator for this fit quantity", fitWindow:"the fit window (N orbits) or step cannot be read from the record", refRow:"the referenced record row cannot be found"},
+  lmsJudge:(st)=>"judge's value (stage "+st+")", lmsFitModel:"fit tool's value",
+  lmsFitName:(q,e)=>"fit target "+q+(e? " (the target of the child sample "+e+"'s record, measured in this sample)" : ""),
+  lmsRefName:(n)=>"the same quantity as 🔆's record row \""+n+"\" (the apsidal period this sample's observation column refers to)",
+  lmsCondDiff:(k,j,n)=>"the judge measured this row on a copy with "+k+"="+j+" - the current "+k+"="+n+" differs (the measurement uses the current conditions)",
+  lmsBtnGo:"▶ Measure", lmsBtnH2:"▶ h and h/2", lmsBtnCancel:"■ Cancel",
+  lmsJobOn:(n,s)=>"measuring: "+n+" ("+s+" s elapsed - the run and the display keep going)",
+  lmsJobOff:(h)=>"not measuring (the on-screen run's step is h="+h+" - separate from the measuring step)",
   lcLaps:(n)=>`${n} laps`, lcPeri:(n)=>`${n} periastra`,
   helpLiveCompare:"The \"Live comparison\" graph (wave 286d) measures this run of the open sample at every physics step (positions and velocities are only read) and sets it against the canonical observed value — display only. White line = observed value, green band = ±3σ (only where a σ exists), red dot = this run, ◇ = previous calibration (the judged-stage value, transcribed). PROVISIONAL AND DOES NOT REPLACE THE FORMAL VERDICT (no pass/fail word even inside the band). Samples without a declaration show \"live measurement not supported\".",
   bdgSC_principle:"Principle", bdgSC_principleTip:"A baseline/demonstration system whose lead mechanism is isolated by controls (A/B, knockouts) and machine-verified by QA (P3 classification, session 67)",
@@ -31718,6 +31776,7 @@ function lcActive(){ return !!(sim.overlays && sim.overlays.liveCompare && !ab &
 // (stepGen —— 停止〔pause〕は世代を切らない)・計算上の時刻の連続性(1 步 = DT でなければ「步の欠け/巻き戻り」)・粒子数。
 // 実行条件の変更は setParamsDirty(true)(編集の入口 1 つ)から、表示 ON はトグルから呼ぶ。
 function lcReset(reason){
+  if(reason==="condition") lmsCondNote();   // 第297便d: 実行条件の変更(編集の入口 setParamsDirty(true))—— アプリ内実測の前の値に「条件が変わった」の印(表示層のみ)
   if(!liveCmp) return;
   liveCmp.gen++; liveCmp.reason=reason||""; liveCmp.meter=null; liveCmp.snap=null;
   liveCmp.stepGen=stepGen;
@@ -31973,6 +32032,388 @@ function drawLiveCompare(slot=0){
   ctx.restore();
   liveCmp.drawRec=rec;
   ovDrawToggle("liveCompare",slot);
+}
+// ===== 第297便d(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、
+//   実測に反映する」・統括の検証項目 R164): **アプリ内実測(精密)** =====
+// 押した時点の sim(編集後の params・bodies・初期値を含む)を cloneSimState(A/B・物理ベンチと同じ複製)で写し、**測定の刻み**と**窓**で
+// 表示を止めずに時間を区切って(setTimeout のチャンク・取り消し可)走らせる。ライブ比較(画面の走行での暫定値 —— 画面の刻み一段)とは別の層。
+//   ・**本走行の sim は 1 bit も書かない**(読むのは複製を作る瞬間だけ —— QA ui.liveMeasure297 ③)。状態は表示層のモジュール変数(sim の外)。
+//   ・測定の刻み = 行ごとの宣言から引く: 正本の転記の行は判定段 st(h・h2・h4・h8)と判定器の基準刻み(calaudit の dtBase = const DT)、
+//     フィットの標的は fitRecord.dt(フィット器の刻み)。窓 = 判定器の数え方(同方向 1 周の 2 周目 = 2 周・eProxy = 1 周目・近点間 = 最初の
+//     np〔20〕近点・近点移動 = 判定器の走行の近点数 mp)/ フィット器の数え方(fitRecord の窓の「N 公転」)。
+//   ・推定器は判定器と同じ定義(lm* —— ライブ比較と同じ純関数)と、フィット器と同じ式(検出器 B・周回の通過時刻 —— lmsFitB/lmsFeedStep)。
+//   ・観測値・σ・判定器の値は**正本の転記**(OBS_COMPARE_ROWS)と本の fitRecord から読む(この層に数を書かない)。
+//   ・差・相対差・σ 換算・帯(±3σ)の中/外だけを出し、**合否の語を出さない**(正式判定は判定器の正本の転記を従来どおり並べる)。
+//   ・推定器で測れない量(自転・文の行・λ_PN=0 の対照の写し・群の内縁など)は「アプリ内実測 未対応 —— 理由」を出す(黙って空欄にしない)。
+//   ・実測は**表示だけ**(本の値を書き換えない —— フィットは生成器の仕事)。presetSig・保存 JSON・物理には 1 バイトも効かない。
+const LIVE_MEASURE_VERSION="w297d-1";
+const LMS_STAGE_DIV={h:1, h2:2, h4:4, h8:8};     // 判定段 → 基準刻みの割り数(判定器の段の名前)
+const LMS_DT_BASE=DT;                            // 判定器の基準刻み(calaudit の meta.dtBase —— アプリ既定の const DT と同じ。QA が一致を確かめる)
+const LMS_YEAR_SEC=3.15576e7;                    // 判定器の YEAR_SEC(deg/yr の換算 —— tests/lib-w258d-evidence.mjs と同じ値。QA が一致を確かめる)
+const LMS_CHUNK_MS=14;                           // 1 チャンクの計算時間(表示のフレームを止めない —— 残りは描画へ)
+const LMS_WALL_CAP_SEC=240;                      // 1 回の実測の壁時計の上限(超えたら打ち切り —— 決断事項候補)
+const LMS_STEP_CAP=4e8;                          // 1 走行の步数の上限(判定器の階級上限 4e7 の 10 倍 —— 窓が埋まらなければ値を出さない)
+// 判定器の対象の組(calaudit の CFG の転記 —— 中心 c と周回 o は**宣言 index**・ラベルは正本の行の t。QA が calaudit の CFG と突き合わせる)
+const LMS_TARGETS={
+  earthMoonReal:{c:0, o:[[1,"月"]]}, emAuditSolar:{c:1, o:[[2,"月"]]}, mercuryReal:{c:0, o:[[1,"水星"]]},
+  solarInner:{c:0, o:[[1,"水星"],[2,"金星"],[3,"地球"],[4,"火星"]]},
+  jupiterGalilean:{c:0, o:[[1,"イオ"],[2,"エウロパ"],[3,"ガニメデ"],[4,"カリスト"]]},
+  venusReal:{c:0, o:[[1,"金星"]]}, marsMoonsReal:{c:0, o:[[1,"フォボス"],[2,"ダイモス"]]}, plutoCharonDiagInput:{c:0, o:[[1,"カロン"]]},
+  uranusReal:{c:0, o:[[1,"ミランダ"],[2,"アリエル"],[3,"ウンブリエル"],[4,"チタニア"],[5,"オベロン"]]}, neptuneReal:{c:0, o:[[1,"トリトン"]]},
+  alphaCenAB:{c:0, o:[[1,"B"]]}, siriusAB:{c:0, o:[[1,"B"]]}, psrDoubleAB:{c:0, o:[[1,"B"]]}, psrJ1757DFM:{c:0, o:[[1,"B"]]},
+  psrJ1946DFM:{c:0, o:[[1,"B"]]}, psrB1534:{c:0, o:[[1,"B"]]}, gw150914:{c:0, o:[[1,"B"]]}, gw150914Merge4s:{c:0, o:[[1,"B"]]},
+  saturnZonalD68:{c:0, o:[[1,"D68"]]}, saturnRingReal:{c:0, o:[[1,"ミマス"],[6,"タイタン"]], ringInner:"C環内縁"},
+};
+// 周期の行を**近点間周期**で測る本(判定器の離心タイミング連星 —— 正本の periodDef:"periastron")。行名が「近点間」を名乗る行も近点間(📡)。
+// それ以外の周期の行は同方向 1 周(periodDef:"revolution")。QA が正本 calaudit の全周期行の periodDef と突き合わせる
+const LMS_PERIASTRON_BOOKS=["psrDoubleAB","psrJ1757DFM","psrJ1946DFM","psrB1534"];
+// フィットの標的(fitRecord.targets[].q —— フィット器の量の名前)→ 推定器と単位(数は fitRecord から読む)
+const LMS_FIT_Q={
+  perihelionRateDrag:{est:"apsBRate"},   // 検出器 B の近点方位の時刻への直線 fit(°/時間 × 1 世紀 × 3600 ″)—— 対照(gain 0)との差は窓の文が宣言する
+  orbitalPeriodMean:{est:"revMean"},     // 同方向の周回の通過時刻の平均間隔(窓の N 公転)
+  apsidalPeriod118:{est:"apsBYear"},     // 検出器 B の近点方位の直線 fit から 360°/ϖ̇(ユリウス年)
+};
+// 慣性決定力版の本の相手の組(フィット器・移送の器の ci/oi の転記 —— 派生本は fitRecord.parent の組を使う)
+const LMS_PAIRS={earthMoonInertial:{c:0,o:1}, earthMoonSunInertial:{c:1,o:2}, mercurySunInertial:{c:0,o:1}, plutoCharonInertial:{c:0,o:1}};
+// fitRecord の無い慣性決定力版の本の標的(観測値は正本の転記の 🔆 の行から読む —— 本の観測欄が「8.85 年(🔆 の観測欄)」と参照している量)。
+// 窓は本の宣言(🌛 = 検出器 B・27 公転窓 / 🌤️ = A1・118 公転の窓)・刻みは判定器の基準刻み
+const LMS_REF_TARGETS={
+  earthMoonInertial:{ref:{i:"emAuditSolar", n:"近点回転の周期(118公転窓・較正ゼロ)"}, est:"apsBSec", laps:27},
+  earthMoonSunInertial:{ref:{i:"emAuditSolar", n:"近点回転の周期(118公転窓・較正ゼロ)"}, est:"apsBSec", laps:118},
+};
+// 判定器が**写しにだけ**当てた条件(calaudit の CFG の calPhysics の転記 —— 正本の転記の行には載らない。QA が正本 calaudit の calPhysics.rows と突き合わせる)。
+// いまの本と違えば行に「判定器は … の写しで測った —— いまの … と違う」を出す(実測は**いまの本の条件**で測る —— 写しの条件へは替えない)
+const LMS_JUDGE_COND={mercuryReal:{softening:0.01}};
+const LMS_EST_UNIT={rev:"s", peri:"s", aps:"s", prec:"deg/orbit", precYr:"deg/yr", eProxy:"-", revMean:"s", apsBRate:"″/世紀", apsBYear:"年", apsBSec:"s"};
+const LMS_B_EST={apsBRate:1, apsBYear:1, apsBSec:1};
+// 本の宣言から実測の対象を**機械で**組み立てる(手書きの量の一覧を持たない)。退役の本は対象外
+function lmsSpecOf(p){
+  if(!p || p.familyRole==="retired") return [];
+  const out=[], tg=LMS_TARGETS[p.id]||null;
+  OBS_COMPARE_ROWS.forEach((r,ri)=>{
+    if(r.i!==p.id) return;
+    const it={key:"row:"+ri, src:"row", ri, id:p.id, n:r.n, label:r.n, t:r.t||null, row:r, est:null, why:null, c:-1, o:-1, dt:null, win:null,
+      unit:r.u, obs:r.o, sigma:(r.s!==null && r.s>0)? r.s : null, judge:(r.v!==null)? {v:r.v, st:r.st, g:r.g} : null, kf:r.kf, kc:r.kc, ctrl:null, fit:null};
+    out.push(it);
+    if(r.sr!=="calaudit"){ it.why="pn0"; return; }
+    if(r.k==="spin"){ it.why="spin"; return; }
+    if(r.k!=="period" && r.k!=="ecc" && r.k!=="precession"){ it.why="text"; return; }
+    let est=null;
+    if(r.k==="period") est=(LMS_PERIASTRON_BOOKS.indexOf(p.id)>=0 || /近点間/.test(r.n))? "peri" : "rev";
+    else if(r.k==="ecc") est="eProxy";
+    else est=(r.u==="deg/orbit")? "prec" : (r.u==="s"? "aps" : (r.u==="deg/yr"? "precYr" : null));
+    if(!est){ it.why="unit"; return; }
+    if(!tg){ it.why="noTarget"; return; }
+    if(tg.ringInner && r.t===tg.ringInner){ it.why="ringInner"; return; }
+    const hit=tg.o.find(z=>z[1]===r.t);
+    if(!hit){ it.why="noTarget"; return; }
+    const div=LMS_STAGE_DIV[r.st];
+    if(!div){ it.why="stage"; return; }
+    it.est=est; it.c=tg.c; it.o=hit[0]; it.dt=LMS_DT_BASE/div; it.unit=r.u||LMS_EST_UNIT[est];
+    const np=(r.np>0)? r.np : LM_PERI_WIN, mp=(r.mp>0)? r.mp : np;
+    it.win=(est==="rev")? {laps:2} : (est==="eProxy")? {laps:1} : (est==="peri")? {peri:np} : {peri:mp};
+  });
+  const frs=[];
+  if(p.fitRecord && Array.isArray(p.fitRecord.targets)) frs.push({fr:p.fitRecord, from:null});
+  for(const q of allPresets()) if(q.id!==p.id && q.familyRole!=="retired" && q.fitRecord && q.fitRecord.parent===p.id && Array.isArray(q.fitRecord.targets)) frs.push({fr:q.fitRecord, from:q});
+  for(const {fr, from} of frs){
+    fr.targets.forEach((t,ti)=>{
+      const d=LMS_FIT_Q[t.q]||null, pair=LMS_PAIRS[p.id]||LMS_PAIRS[fr.parent]||null;
+      const mW=/^(\d+)\s*公転/.exec(String(t.window||""));
+      const it={key:"fit:"+(from? from.id : "self")+":"+ti, src:"fit", id:p.id, n:String(t.q), label:String(t.q), t:null, row:null, est:null, why:null,
+        c:-1, o:-1, dt:null, win:null, unit:t.unit||null, obs:isNum(t.obs)? t.obs : null, sigma:null, judge:null, kf:null, kc:0,
+        ctrl:/gain 0 の対照/.test(String(t.window||""))? {gain:0} : null,
+        fit:from? null : {model:(fr.residual && isNum(fr.residual.model))? fr.residual.model : null, h2:(fr.numerics && isNum(fr.numerics.h2))? fr.numerics.h2 : null, status:fr.status||null},
+        fromId:from? from.id : null, fromEmoji:from? (from.emoji||"") : null, window:String(t.window||"")};
+      out.push(it);
+      if(!d){ it.why="fitQ"; return; }
+      if(!pair){ it.why="noTarget"; return; }
+      if(!mW || !isNum(fr.dt) || !(fr.dt>0)){ it.why="fitWindow"; return; }
+      it.est=d.est; it.c=pair.c; it.o=pair.o; it.dt=fr.dt; it.win={laps:Number(mW[1])};
+    });
+  }
+  const rf=LMS_REF_TARGETS[p.id];
+  if(rf){
+    const row=lcRowOf(rf.ref.i, rf.ref.n), pair=LMS_PAIRS[p.id];
+    const it={key:"ref:"+rf.ref.i, src:"ref", id:p.id, n:rf.ref.n, label:rf.ref.n, t:null, row, est:null, why:null, c:-1, o:-1, dt:null, win:null,
+      unit:row? row.u : null, obs:row? row.o : null, sigma:(row && row.s!==null && row.s>0)? row.s : null, judge:null, kf:null, kc:0, ctrl:null, fit:null, refId:rf.ref.i};
+    out.push(it);
+    if(!row || row.o===null) it.why="refRow";
+    else if(!pair) it.why="noTarget";
+    else { it.est=rf.est; it.c=pair.c; it.o=pair.o; it.dt=LMS_DT_BASE; it.win={laps:rf.laps}; }
+  }
+  return out;
+}
+// ---- 計測器(純関数 —— 複製の状態と刻みだけで決まる)----
+// 1 対の相手の計測器: lm*(判定器の定義 —— 同方向 1 周・近点 A・eProxy)+ 検出器 B と通過時刻(フィット器の式 —— runPair と同じ式・同じ順序)
+function lmsMeterNew(S,ci,oi){
+  const dx=S.x[oi]-S.x[ci], dy=S.y[oi]-S.y[ci], dvx=S.vx[oi]-S.vx[ci], dvy=S.vy[oi]-S.vy[ci];
+  const r=Math.hypot(dx,dy), v2=dvx*dvx+dvy*dvy, mu=S.params.G*(S.m[ci]+S.m[oi]), inv=2/r-v2/mu, a=(inv!==0)? 1/inv : NaN;
+  const P0=(a>0)? 2*Math.PI*Math.sqrt(a*a*a/mu) : 0, th=Math.atan2(dy,dx);
+  const M=lmCreate({pRef:P0}); lmFeed(M, 0, dx, dy, dvx, dvy);
+  return {M, ci, oi, P0, k:0, revK:[], B:[], r1:r, r2:r, th1:th, th2:th, rMinW:Infinity, rMaxW:-Infinity, pSeen:-1, nKeep:0, jump:false};
+}
+// 1 步の標本(k 步目 —— 時刻 k·dt)。W>0 なら検出器 B と通過時刻(窓 W 公転ぶんの距離の極値)も積む。戻り値は無効化の理由か null
+function lmsFeedStep(G,S,dt,W){
+  G.k++;
+  const ci=G.ci, oi=G.oi, dx=S.x[oi]-S.x[ci], dy=S.y[oi]-S.y[ci];
+  const M=G.M, revBefore=M.rev.length, accBefore=M.acc;
+  const inv=lmFeed(M, G.k*dt, dx, dy, S.vx[oi]-S.vx[ci], S.vy[oi]-S.vy[ci]);
+  if(inv) return inv;
+  if(W>0){
+    const rr=Math.hypot(dx,dy), th=Math.atan2(dy,dx);
+    if(revBefore<W){ if(rr<G.rMinW) G.rMinW=rr; if(rr>G.rMaxW) G.rMaxW=rr; }
+    if(M.rev.length>revBefore){   // 通過時刻はフィット器と同じ式((k−1+fr+1)·dt —— k は 0 起点の步の番号)
+      const nN=Math.floor(Math.abs(M.acc)/(2*Math.PI)), tg=Math.sign(M.acc)*nN*2*Math.PI, fr=(tg-accBefore)/(M.acc-accBefore);
+      G.revK.push(((G.k-2)+fr+1)*dt);
+    }
+    if(G.k>=3 && G.r1<G.r2 && G.r1<rr){   // 検出器 B(距離極小の放物線頂点 —— フィット器と同じ式)
+      const dd=(G.r2-2*G.r1+rr), fr=(dd!==0)? 0.5*(G.r2-rr)/dd : 0;
+      let a1=G.th2, a2=G.th1, a3=th;
+      while(a2-a1>Math.PI) a2-=2*Math.PI; while(a2-a1<-Math.PI) a2+=2*Math.PI;
+      while(a3-a2>Math.PI) a3-=2*Math.PI; while(a3-a2<-Math.PI) a3+=2*Math.PI;
+      G.B.push({ang:a2+0.5*fr*(a3-a1)+0.5*fr*fr*(a3-2*a2+a1), k:(G.k-1)+fr, r:G.r1});
+    }
+    G.r2=G.r1; G.r1=rr; G.th2=G.th1; G.th1=th;
+  }
+  return null;
+}
+// 近点方位の直線 fit(フィット器 tests/lib-w280b-emgrid.mjs の fitPeri と同じ手続き: 近点側だけ・重複除去・unwrap・時刻への傾き)
+function lmsFitB(raw,rMin,rMax,pRef,dt){
+  const mid=0.5*(rMin+rMax), keep=[];
+  for(const p of raw){ if(!(p.r<=mid)) continue; if(keep.length && (p.k-keep[keep.length-1].k)*dt<0.5*pRef) continue; keep.push(p); }
+  const ang=[];
+  for(let i=0;i<keep.length;i++){ let a=keep[i].ang;
+    if(i){ let z=a-ang[i-1]; while(z>Math.PI) z-=2*Math.PI; while(z<-Math.PI) z+=2*Math.PI; a=ang[i-1]+z; }
+    ang.push(a); }
+  const n=ang.length;
+  if(n<3) return {nPeri:n, slopeDegPerPeri:null, slopeDegPerTime:null};
+  const mx=(n-1)/2, my=ang.reduce((s,a)=>s+a,0)/n;
+  let sxy=0, sxx=0;
+  for(let i=0;i<n;i++){ sxy+=(i-mx)*(ang[i]-my); sxx+=(i-mx)*(i-mx); }
+  const ts=keep.map(p=>p.k*dt), mt=ts.reduce((s,t)=>s+t,0)/n;
+  let tsy=0, tsx=0;
+  for(let i=0;i<n;i++){ tsy+=(ts[i]-mt)*(ang[i]-my); tsx+=(ts[i]-mt)*(ts[i]-mt); }
+  return {nPeri:n, slopeDegPerPeri:sxy/sxx*180/Math.PI, slopeDegPerTime:tsy/tsx*180/Math.PI};
+}
+function lmsLapsOf(item){ return (item.win && item.win.laps)? item.win.laps : 0; }
+function lmsWindowDone(G,item){
+  const w=item.win;
+  if(w.laps) return G.M.rev.length>=w.laps;
+  if(G.M.peri.length!==G.pSeen){ G.pSeen=G.M.peri.length; const U=lmPeriUse(G.M); G.nKeep=U.keep.length; G.jump=U.jump; }
+  return G.nKeep>=w.peri || G.jump;
+}
+// 窓が埋まった計測器から値(観測と同じ単位)を出す。toSec = 10^scaleExp.T
+function lmsValueOf(G,item,toSec,dt){
+  const e=item.est;
+  if(e==="rev" || e==="eProxy" || e==="peri" || e==="prec" || e==="aps") return lmValue(G.M, e, toSec).v;
+  if(e==="precYr"){   // 判定器の換算 ϖ̇ = Δϖ[°/周] × YEAR / P_peri(傾きと同じ近点集合の近点間周期 —— AD8)
+    const U=lmPeriUse(G.M), K=U.keep, n=U.ang.length; if(n<2) return null;
+    const S=lmSlope(U.ang), pFit=(K[n-1].t-K[0].t)/(n-1)*toSec;
+    return (S && pFit>0)? S.deg*LMS_YEAR_SEC/pFit : null;
+  }
+  const W=lmsLapsOf(item); if(!(W>=2) || G.revK.length<W) return null;
+  if(e==="revMean") return (G.revK[W-1]-G.revK[0])/(W-1)*toSec;
+  if(LMS_B_EST[e]){
+    const tCut=G.revK[W-1], fb=lmsFitB(G.B.filter(p=>p.k*dt<=tCut), G.rMinW, G.rMaxW, G.P0, dt);
+    if(!fb.slopeDegPerTime) return null;
+    if(e==="apsBRate") return fb.slopeDegPerTime*(36525*86400/toSec)*3600;
+    if(e==="apsBYear") return 360/fb.slopeDegPerTime/(365.25*86400/toSec);
+    return 360/fb.slopeDegPerTime*toSec;
+  }
+  return null;
+}
+// ---- 走行(複製だけを進める)----
+var lmsJob=null, lmsRes={}, lmsResId=null, lmsCond=0, lmsSeq=0;
+// 押した時点の sim の複製。編集後の慣性引きずりの宣言(geoInertialSetGain は sim.relDrag を張り替える)は複製へも写す(読むだけ)
+function lmsClone(){
+  const S=cloneSimState();
+  if(sim.relDrag!==S.relDrag && JSON.stringify(sim.relDrag||null)!==JSON.stringify(S.relDrag||null)){ S.relDrag=sim.relDrag; S.hasRelativeDrag=sim.hasRelativeDrag; }
+  return S;
+}
+function lmsRunNew(item,dt,role,ci,oi){
+  const S=lmsClone();
+  if(role==="ctrl" && item.ctrl && item.ctrl.gain===0){ const g=geoInertialSetGain(S, 0); if(!g.ok) return {S, dt, role, G:null, status:"ctrl", k:0}; }
+  return {S, dt, role, G:lmsMeterNew(S,ci,oi), status:null, v:null, steps:0};
+}
+function lmsStart(key,opts){
+  const o=opts||{}, p=currentPreset;
+  if(!p) return {ok:false, err:"no-preset"};
+  const item=lmsSpecOf(p).find(z=>z.key===key)||null;
+  if(!item) return {ok:false, err:"no-item"};
+  if(!item.est) return {ok:false, err:"unsupported", why:item.why};
+  const ci=lcRunIndex(p,item.c), oi=lcRunIndex(p,item.o);
+  if(ci<0 || oi<0 || ci>=sim.n || oi>=sim.n) return {ok:false, err:"index"};
+  lmsCancel("restart");
+  const dts=o.half? [item.dt, item.dt/2] : [item.dt];
+  const runs=[];
+  for(const dt of dts){ runs.push(lmsRunNew(item,dt,"main",ci,oi)); if(item.ctrl) runs.push(lmsRunNew(item,dt,"ctrl",ci,oi)); }
+  const J={seq:++lmsSeq, id:p.id, key, item, half:!!o.half, runs, ri:0, t0:sim.t, fromStart:(sim.t===0), cond:lmsCond, dirty:!!paramsDirty,
+    toSec:Math.pow(10, (p.scaleExp && isFinite(p.scaleExp.T))? Number(p.scaleExp.T) : 0), started:performance.now(), wallMs:0, status:"running",
+    capSec:(isNum(o.wallCapSec) && o.wallCapSec>0)? o.wallCapSec : LMS_WALL_CAP_SEC, sync:!!o.sync};
+  if(runs.some(R=>R.status==="ctrl")){ J.status="ctrl"; lmsFinish(J,"ctrl"); return {ok:false, err:"ctrl"}; }
+  if(lmsResId!==p.id){ lmsRes={}; lmsResId=p.id; }
+  lmsJob=J; lmsRes[key]=lmsSummary(J);
+  if(J.sync) lmsPump(true); else { lmsCardSync(); setTimeout(()=>lmsPump(false),0); }
+  return {ok:true, seq:J.seq, result:lmsRes[key]};
+}
+function lmsRunSteps(R,J,maxN){
+  const S=R.S, dt=R.dt, G=R.G, item=J.item, W=(LMS_B_EST[item.est] || item.est==="revMean")? lmsLapsOf(item) : 0;
+  for(let n=0;n<maxN;n++){
+    if(G.k>=LMS_STEP_CAP){ R.status="steps-cap"; return; }
+    S.step(dt);
+    if(S.inertialDragHalt===true){ R.status="halt"; return; }
+    const inv=lmsFeedStep(G,S,dt,W);
+    if(inv){ R.status=inv; return; }
+    if((G.k&1023)===0 && S.hasNaN()){ R.status="nonfinite"; return; }
+    if(lmsWindowDone(G,item)){
+      R.steps=G.k; R.v=lmsValueOf(G,item,J.toSec,dt);
+      R.status=(R.v===null || !isFinite(R.v))? "novalue" : "done"; return;
+    }
+  }
+}
+function lmsPump(sync){
+  const J=lmsJob; if(!J || J.status!=="running") return;
+  if(!currentPreset || currentPreset.id!==J.id){ lmsFinish(J,"preset"); return; }
+  const tEnd=performance.now()+LMS_CHUNK_MS;
+  while(J.ri<J.runs.length){
+    const R=J.runs[J.ri];
+    lmsRunSteps(R,J,2048);
+    if(R.status){ if(R.status!=="done"){ lmsFinish(J,R.status); return; } J.ri++; continue; }
+    const now=performance.now();
+    if(now-J.started>J.capSec*1000){ lmsFinish(J,"wall-cap"); return; }
+    if(!sync && now>=tEnd) break;
+  }
+  if(J.ri>=J.runs.length){ lmsFinish(J,"done"); return; }
+  J.wallMs=performance.now()-J.started; lmsRes[J.key]=lmsSummary(J); lmsCardSync();
+  setTimeout(()=>lmsPump(false),0);
+}
+// 走行の要約(表示と QA が同じこの 1 つを読む)。値は窓が埋まった走行だけから作る(途中の値を出さない)
+function lmsSummary(J){
+  const it=J.item, val=(dt,role)=>{ const R=J.runs.find(z=>z.dt===dt && z.role===role); return (R && R.status==="done")? R.v : null; };
+  const one=(dt)=>{ const m=val(dt,"main"); if(m===null) return null; if(!it.ctrl) return m; const c=val(dt,"ctrl"); return (c===null)? null : m-c; };
+  const vh=one(it.dt), vh2=J.half? one(it.dt/2) : null;
+  const R0=J.runs[Math.min(J.ri,J.runs.length-1)];
+  const s={seq:J.seq, key:J.key, id:J.id, status:J.status, est:it.est, dt:it.dt, win:it.win, half:J.half, t0:J.t0, fromStart:J.fromStart, cond:J.cond, dirty:J.dirty,
+    v:vh, vH2:vh2, numErr:(vh!==null && vh2!==null)? Math.abs(vh-vh2) : null,
+    main:val(it.dt,"main"), ctrl:it.ctrl? val(it.dt,"ctrl") : null, mainH2:J.half? val(it.dt/2,"main") : null, ctrlH2:(J.half && it.ctrl)? val(it.dt/2,"ctrl") : null,
+    steps:J.runs.reduce((a,R)=>a+(R.G? R.G.k : 0),0), stepsByRun:J.runs.map(R=>({dt:R.dt, role:R.role, k:R.G? R.G.k : 0, status:R.status})),
+    run:Math.min(J.ri+1,J.runs.length), nRuns:J.runs.length, laps:R0 && R0.G? R0.G.M.rev.length : 0, peri:R0 && R0.G? R0.G.nKeep : 0,
+    wallMs:J.wallMs, at:Date.now()};
+  if(s.v!==null && it.obs!==null){ s.diff=s.v-it.obs; s.rel=(it.obs!==0)? s.diff/Math.abs(it.obs) : null; s.sig=(it.sigma!==null)? s.diff/it.sigma : null; }
+  else { s.diff=null; s.rel=null; s.sig=null; }
+  s.dJudge=(s.v!==null && it.judge && it.judge.v!==null)? s.v-it.judge.v : null;
+  s.dFit=(s.v!==null && it.fit && it.fit.model!==null)? s.v-it.fit.model : null;
+  return s;
+}
+function lmsFinish(J,status){
+  J.status=status; J.wallMs=performance.now()-J.started;
+  if(lmsResId!==J.id){ lmsRes={}; lmsResId=J.id; }
+  lmsRes[J.key]=lmsSummary(J);
+  for(const R of J.runs) R.S=null;   // 複製を捨てる
+  if(lmsJob===J) lmsJob=null;
+  lmsCardSync();
+}
+function lmsCancel(reason){
+  const J=lmsJob; if(!J) return false;
+  lmsFinish(J, reason==="restart"? "replaced" : "cancelled");
+  return true;
+}
+// 実行条件の変更(編集の入口 setParamsDirty(true) → lcReset("condition"))から呼ぶ —— 前の実測に「条件が変わった —— 再実測」の印(実測は消さない)。
+// 編集を捨てた(読み込み直し —— 編集した条件で測った値が残る)は lmsStaleOf が paramsDirty から読む。setParamsDirty の本文は変えない(物理の閉包の外 ——
+// 再生成の鎖の scope は lcReset で止まる)
+function lmsCondNote(){ lmsCond++; lmsCardSync(); }
+function lmsStaleOf(r){ return !!r && (r.cond!==lmsCond || (r.dirty===true && !paramsDirty)); }
+function lmsResultOf(key){
+  if(!currentPreset || lmsResId!==currentPreset.id) return null;
+  return lmsRes[key]||null;
+}
+// ---- 表示(文はこの関数だけが作る —— 説明タブの箱と照合の行が同じ 1 つを読む)----
+function lmsFmt(x){ return (x===null || x===undefined || !isFinite(x))? "—" : lcFmt(x); }
+function lmsWinTxt(it){ return it.win? (it.win.laps? T("lmsWinLaps")(it.win.laps) : T("lmsWinPeri")(it.win.peri)) : "—"; }
+function lmsUnitOf(it){ const u=it.unit||LMS_EST_UNIT[it.est]||""; return (u && u!=="-")? " "+u : ""; }
+function lmsResultText(it,r){
+  if(!it.est) return T("lmsUnsupported")+" —— "+(T("lmsWhy")[it.why]||it.why||"");
+  const head=T("lmsHead")(lmsFmt(it.dt), lmsWinTxt(it));
+  if(!r) return head+": "+T("lmsNotYet");
+  const stale=lmsStaleOf(r)? T("lmsStale")+" · " : "";
+  if(r.status==="running") return stale+head+": "+T("lmsRunning")(r.run, r.nRuns, r.steps, (r.wallMs/1000).toFixed(1), r.laps);
+  if(r.status!=="done") return stale+head+": "+(T("lmsSt")[r.status]||r.status)+" · "+T("lmsSteps")(r.steps)+" · "+T("lmsWall")((r.wallMs/1000).toFixed(1));
+  const u=lmsUnitOf(it);
+  let s=stale+head+": "+lmsFmt(r.v)+u;
+  if(it.ctrl) s+=" ("+T("lmsCtrl")(lmsFmt(r.main), lmsFmt(r.ctrl))+")";
+  if(r.diff!==null){
+    s+=" · "+T("lmsDiffObs")+" "+lcFmtD(r.diff)+u+(r.rel!==null? "("+lcFmtD(r.rel*100)+" %)" : "");
+    if(r.sig!==null) s+=" · "+T("lmsSig")+" "+lcFmtD(r.sig)+" · "+(Math.abs(r.sig)<=3? T("lmsBandIn") : T("lmsBandOut"));
+    else s+=" · "+T("lmsNoSigma");
+  } else if(it.obs===null) s+=" · "+T("lmsNoObs");
+  if(r.dJudge!==null) s+=" · "+T("lmsDJudge")(it.judge.st)+" "+lcFmtD(r.dJudge)+u;
+  if(r.dFit!==null) s+=" · "+T("lmsDFit")+" "+lcFmtD(r.dFit)+u;
+  if(r.half) s+=" · "+T("lmsH2")(lmsFmt(r.vH2), lmsFmt(r.numErr))+u;
+  s+=" · "+T("lmsSteps")(r.steps)+" · "+T("lmsWall")((r.wallMs/1000).toFixed(1));
+  s+=" · "+(r.fromStart? T("lmsFromStart") : T("lmsFromMid")(lmsFmt(r.t0)));
+  if(r.dirty) s+=" · "+T("lmsEdited");
+  return s;
+}
+// 判定器と測った条件の違い(kFrame —— 正本の行の kf・判定器の写しの条件 LMS_JUDGE_COND)。読むだけ —— [{k, judge, now}]
+function lmsCondDiffOf(it){
+  const out=[], P=(sim && sim.params)? sim.params : null; if(!P || it.src!=="row") return out;
+  if((it.kf===0 || it.kf===1) && P.kFrame!==it.kf) out.push({k:"kFrame", judge:it.kf, now:P.kFrame});
+  const jc=LMS_JUDGE_COND[it.id]; if(jc) for(const k of Object.keys(jc)) if(P[k]!==jc[k]) out.push({k, judge:jc[k], now:P[k]});
+  return out;
+}
+function lmsScreenDt(){ return (typeof appStepDt==="function")? appStepDt(sim) : DT; }   // 第297便c の画面の刻み(無ければ const DT)
+function lmsCardSync(){
+  if(typeof document==="undefined" || !currentPreset) return;
+  const items=lmsSpecOf(currentPreset), byKey={};
+  for(const it of items) byKey[it.key]=it;
+  document.querySelectorAll("#helpBody .lmsRes[data-key], #helpBody .odLms[data-key]").forEach((el)=>{
+    const it=byKey[el.dataset.key]; if(!it) return;
+    const r=lmsResultOf(it.key);
+    el.dataset.status=it.est? (r? r.status : "none") : "unsupported";
+    el.dataset.stale=lmsStaleOf(r)? "1" : "0";
+    el.textContent=(el.classList.contains("odLms")? "⏱ " : "")+lmsResultText(it,r);
+  });
+  const jl=document.getElementById("lmsJobLine");
+  if(jl){ const J=lmsJob; jl.dataset.running=J? "1" : "0";
+    jl.textContent=J? T("lmsJobOn")(J.item.label, (J.wallMs/1000).toFixed(1)) : T("lmsJobOff")(lmsFmt(lmsScreenDt())); }
+  const cb=document.getElementById("lmsCancel"); if(cb) cb.disabled=!lmsJob;
+}
+// 説明タブの箱(renderHelp から 1 回呼ぶ)。行の文は lmsCardSync が書く
+function lmsBuildBox(el){
+  const p=currentPreset; if(!p) return;
+  const items=lmsSpecOf(p), hasCard=Array.isArray(p.obsCard) && p.obsCard.length>0;
+  if(!items.length && !hasCard) return;
+  const box=document.createElement("details"); box.className="frBox lmsBox"; box.id="lmsBox"; box.open=items.length>0;
+  box.dataset.n=String(items.length); box.dataset.supported=String(items.filter(z=>z.est).length);
+  const bh=document.createElement("summary"); bh.className="frHead"; bh.textContent="⏱ "+T("lmsBoxHead"); box.appendChild(bh);
+  const nt=document.createElement("p"); nt.className="frNote"; nt.textContent=T("lmsNote"); box.appendChild(nt);
+  if(!items.length){ const e=document.createElement("p"); e.className="frNote lmsNone"; e.textContent=T("lmsNoRows"); box.appendChild(e); el.appendChild(box); return; }
+  const ctl=document.createElement("div"); ctl.className="frRow lmsCtl";
+  const jl=document.createElement("span"); jl.id="lmsJobLine"; jl.className="lmsJobLine"; ctl.appendChild(jl);
+  const cb=document.createElement("button"); cb.type="button"; cb.id="lmsCancel"; cb.className="miniBtn"; cb.textContent=T("lmsBtnCancel");
+  cb.addEventListener("click",()=>lmsCancel("user")); ctl.appendChild(cb);
+  box.appendChild(ctl);
+  const sp=(cls,txt)=>{ const z=document.createElement("span"); z.className=cls; z.textContent=txt; return z; };
+  for(const it of items){
+    const d=document.createElement("div"); d.className="frRow lmsRow"; d.dataset.key=it.key; d.dataset.src=it.src; d.dataset.est=it.est||"";
+    if(!it.est) d.dataset.why=it.why||"";
+    const u=lmsUnitOf(it);
+    d.appendChild(sp("frKey lmsName",(it.t? it.t+"・" : "")+(it.src==="fit"? T("lmsFitName")(it.label, it.fromEmoji) : (it.src==="ref"? T("lmsRefName")(it.label) : it.label))));
+    d.appendChild(sp("lmsObs",T("odObs")+" "+(it.obs===null? T("odNone") : lcFmt(it.obs)+u)+(it.sigma!==null? "(σ "+lcFmt(it.sigma)+")" : "")));
+    if(it.judge) d.appendChild(sp("lmsJudge",T("lmsJudge")(it.judge.st)+" "+lcFmt(it.judge.v)+u));
+    if(it.fit && it.fit.model!==null) d.appendChild(sp("lmsJudge",T("lmsFitModel")+" "+lcFmt(it.fit.model)+u+(it.fit.h2!==null? "(|h−h/2| "+lcFmt(it.fit.h2)+")" : "")));
+    if(it.est) for(const c of lmsCondDiffOf(it)) d.appendChild(sp("lmsCondDiff",T("lmsCondDiff")(c.k, lcFmt(c.judge), lcFmt(c.now))));
+    if(it.est){
+      const b1=document.createElement("button"); b1.type="button"; b1.className="miniBtn lmsGo"; b1.textContent=T("lmsBtnGo");
+      b1.addEventListener("click",()=>lmsStart(it.key,{})); d.appendChild(b1);
+      const b2=document.createElement("button"); b2.type="button"; b2.className="miniBtn lmsGoH2"; b2.textContent=T("lmsBtnH2");
+      b2.addEventListener("click",()=>lmsStart(it.key,{half:true})); d.appendChild(b2);
+    }
+    const rs=sp("lmsRes",""); rs.dataset.key=it.key; d.appendChild(rs);
+    box.appendChild(d);
+  }
+  el.appendChild(box);
 }
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
@@ -41459,6 +41900,7 @@ function renderHelp(){
         } else {
           d.appendChild(odSp("odMissTxt",T("odDelta")+": "+T("odMiss")[x.why]+(x.mapWhy? "("+x.mapWhy+")" : "")));
         }
+        { const lk=OBS_COMPARE_ROWS.indexOf(r); if(lk>=0){ const z=odSp("odLms",""); z.dataset.key="row:"+lk; d.appendChild(z); } }   // 第297便d: アプリ内実測の列(文は lmsCardSync)
         const g=odSp("odGate",T("ocGate")(x.gate)); g.dataset.g=x.gate||""; d.appendChild(g);
         box.appendChild(d);
       }
@@ -41502,6 +41944,8 @@ function renderHelp(){
       el.appendChild(box);
     }
   }
+  // 第297便d(原仮定者の裁定(第87報)・R164): 「⏱ アプリ内実測」の箱(観測と比べる量を、押した時点の初期値・パラメータで測る —— 表示専用・クラスは frBox/lmsBox/lmsRow)
+  lmsBuildBox(el);
   el=SEC.stdtests;
   // 第91便 EXT-07: 創発の標準試験チェックリスト — stdTests 宣言のあるプリセットのみ。
   // sampleClass と同方針の**宣言専用メタ**(自動判定しない — 実測は stdTestsRef のハーネスが正本。
@@ -41664,6 +42108,7 @@ function renderHelp(){
   // 第27便(原仮定者指示): 「操作」「この宇宙の法則(要約)」はタイトルタップの説明パネルへ移動
   // 第276便f: 宣言した順で #helpBody へ移す(空の区画は何も足さない)
   for(const k of HELP_SECTIONS) host.appendChild(SEC[k]);
+  lmsCardSync();   // 第297便d: アプリ内実測の行(箱と照合の行の列)の文を DOM へ入れた後に書く
 }
 // 第88便(v1.39-b1 スプリント1)EXT-01: 初見ガイド(3枚カード)。表示専用 — 物理・保存に無関係。
 // 自動表示は http(s) 配信の初回のみ(file:// の QA・ローカル直開きでは自動表示しない —
@@ -54348,6 +54793,14 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     paint:()=>{ liveCmp.snap=null; drawLiveCompare(Math.max(0,overlaySlots().indexOf("liveCompare"))); return liveCmp.drawRec; }, cardSync:lcCardSync, cardText:lcCardText,
     stepN:(n)=>{ const on=(sim.overlays.liveCompare===true && !ab); for(let k=0;k<n;k++){ sim.step(DT); if(on) lcAfterStep(); } },
     consts:{alias:LM_ALIAS, cap:LM_CAP, periWin:LM_PERI_WIN, minPrec:LM_MIN_PREC, refreshMs:LC_REFRESH_MS} },
+  // 第297便d(原仮定者の裁定(第87報)・R164): アプリ内実測(精密)の読み口 —— 走行は複製だけ(run は同期で最後まで・start は時間を区切る)
+  liveMeasure:{ version:LIVE_MEASURE_VERSION, specOf:(id)=>lmsSpecOf(allPresets().find(q=>q.id===id)||null), spec:()=>lmsSpecOf(currentPreset),
+    start:(key,o)=>lmsStart(key,Object.assign({},o||{},{sync:false})), run:(key,o)=>lmsStart(key,Object.assign({},o||{},{sync:true})),
+    cancel:lmsCancel, job:()=>lmsJob, result:lmsResultOf, results:()=>Object.assign({},lmsRes), cond:()=>lmsCond, staleOf:lmsStaleOf, cardSync:lmsCardSync,
+    text:(key)=>{ const it=lmsSpecOf(currentPreset).find(z=>z.key===key); return it? lmsResultText(it,lmsResultOf(key)) : null; },
+    meterNew:lmsMeterNew, feedStep:lmsFeedStep, fitB:lmsFitB, valueOf:lmsValueOf, screenDt:lmsScreenDt,
+    tables:{targets:LMS_TARGETS, periBooks:LMS_PERIASTRON_BOOKS, judgeCond:LMS_JUDGE_COND, condDiffOf:lmsCondDiffOf, fitQ:LMS_FIT_Q, pairs:LMS_PAIRS, refs:LMS_REF_TARGETS, stageDiv:LMS_STAGE_DIV, estUnit:LMS_EST_UNIT},
+    consts:{dtBase:LMS_DT_BASE, yearSec:LMS_YEAR_SEC, chunkMs:LMS_CHUNK_MS, wallCapSec:LMS_WALL_CAP_SEC, stepCap:LMS_STEP_CAP} },
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); const lcOn=(sim.overlays.liveCompare===true && !ab); for(let s2=0;s2<Math.min(k,24);s2++){ sim.step(DT); if(lcOn) lcAfterStep(); } } render(); } };
 
 // ===== 起動 =====
