@@ -9,11 +9,13 @@
 その帰結(回転方向の整列、銀河外縁の回転速度増強、熱平衡、光の湾曲、空間の引きずり)を
 iPhoneのブラウザで観察できるシミュレータです。
 
+> **再現を目標にする(第297便b —— 原仮定者の裁定(第87報))**: DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+> *(English)* DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
+>
+> **第297便b**: 🌤️ の月の近点回転 8.85 年の再現作業 —— 初期配置を平均要素に直した派生本 🌥️ で gain 0 の 118 公転窓 8.7873 年(この探索範囲では未達 —— 次の見直し: 2 次元の射影〔器の中だけの 3 次元の参照で軌道傾斜 5.145° は +1.13%〕)。フィットの記録は条件の署名つき(w297b-1)。
+>
 > **主張の範囲**: DFM は現実の宇宙を主張しません。DFM が主張するのは、宣言した仮定の内部で、保存・対称性・関数形の帰結が互いに矛盾しないことです。
 > 観測との突合(較正)はその検査であって、「合」は仮定と転写(観測量への写像)が窓に入ったことであり、宇宙がそう成り立っていることの主張ではありません。
->
-> **観測値に合わせる模型(第296便a)**: DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
-> *(English)* DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
 
 > 🚀 **オンラインで試す**: https://tty-imamura.github.io/dfm-simulator/
 > (GitHub Pages 有効化後に利用可能 — Settings → Pages → Branch: `main` / root)

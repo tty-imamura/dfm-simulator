@@ -129,6 +129,18 @@
     "state": "Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only"
    }
   },
+  "earthMoonSunInertialFit": {
+   "purpose": "🌤️ の初期配置を平均要素に直し 8.85 年へ gain を探索する",
+   "objective": "partial",
+   "state": "gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%",
+   "evidence": [
+    "tests/out/fit-w297b.json"
+   ],
+   "en": {
+    "purpose": "🌤️ copy with mean-element initial state; search the gain toward 8.85 yr",
+    "state": "gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%"
+   }
+  },
   "mercurySunInertial": {
    "purpose": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る",
    "objective": "met",
@@ -146,7 +158,7 @@
    "objective": "met",
    "state": "gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可",
    "evidence": [
-    "tests/out/fit-w296b.json"
+    "tests/out/fit-w297b.json"
    ],
    "en": {
     "purpose": "🟤 copy; only the gain matched to the apsidal rate (43.0 arcsec/century vs gain 0)",
@@ -170,7 +182,7 @@
    "objective": "met",
    "state": "gain 6729.009・残差 3.25e-7 s ≤ h/2 差 4.56e-5 s・核は同定不可・軌道の形は未調整",
    "evidence": [
-    "tests/out/fit-w296b.json"
+    "tests/out/fit-w297b.json"
    ],
    "en": {
     "purpose": "🟣 copy with prior cores; only the gain matched to the period (6.3872273 d)",
@@ -2004,13 +2016,13 @@
   "ngc3198DFM": {
    "purpose": "ハローなしの DFM で外縁速度を支える",
    "objective": "unmet",
-   "state": "外縁 55 km/s で届かない",
+   "state": "外縁 55 km/s で未達 —— 次の見直しへ",
    "evidence": [
     "behavior.ngc3198"
    ],
    "en": {
     "purpose": "Support the outer speed with halo-free DFM",
-    "state": "it falls short at 55 km/s in the outskirts"
+    "state": "not yet reached at 55 km/s in the outskirts (next revision)"
    }
   },
   "supernovaProg": {

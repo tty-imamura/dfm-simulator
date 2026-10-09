@@ -844,6 +844,10 @@ tests/out/regen-plan-w281a.json
 #   dragCore の感度 43 通り・gain の探索と h/h2・f の掃引・派生本と fitRecord の照合・gain の SI 表)。QA preset.fitDerived296・docs.fitContract296 が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/fit-w296b.json
+# 第297便b(原仮定者の裁定(第87報)・統括の検証項目 R162): **フィット生成器の後継**の正本(tests/exp-w297b-fit.mjs —— 🟫🟪 の再フィット〔λ_PN=0・記録 w297b-1〕・
+#   🌤️ の再現作業〔初期配置の点検・抽出器 3 方式・平均要素の初期配置・3 次元の参照・gain の探索〕・🌥️ の照合)。QA preset.fitCond297・docs.fit297 が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/fit-w297b.json
 # 第296便c(原仮定者の裁定(第86報)・統括の検証項目 R159): **geoPN=4 = 多粒子の連鎖引きずり便**の正本(tests/exp-w296c-chain.mjs —— ①〜④ の零試験〔3 粒子・
 #   65 粒子の鎖・4 層×16 点の環・自転源の表裏核〕と ⑤ 試作本 🔗 chainDiskToy の 2000 步)。QA behavior.chain296・docs.chainContract296 が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする

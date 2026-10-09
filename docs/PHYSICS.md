@@ -5851,6 +5851,7 @@ NaN 0・安全クランプ 0・帳簿 L 残差 3.1×10⁻¹⁵。QA `behavior.gw
 | earthMoonDiagOne | 🌓 地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換 | **第280便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・較正母集団に入れない)。🌘 と**同じ初期状態**(質量・半径・位置・自転・座標速度)から、引きずりを kFrame=1 の E6′(q_exact)→ kFrame=0 + `physics.meshVelocity`(field:"explicit"・外部=地球・mutual:0)+ `physics.qLock:{kernel:"frontBack"}`(地球 densityClass:"solid")へ置き換えた。月の vx,vy は慣性速度 v=ẋ−u(0)。**q は使わない・c² の抑制は入っていない**。実測(27 公転窓・近点検出器 B): 近点移動 **1.072×10⁻³ °/周**(点源 −3.598×10⁻⁵ との差 +1.11×10⁻³)・恒星月 27.950 日(並進の移送で月の質量の寄与が抜ける)・月の位置の u_φ=2.830 m/s。器 `tests/exp-w280b-emgrid.mjs`(行 E7)・QA `preset.qlockKernel`・`docs.emgrid-sync`・PHYSICS〔第280便b〕 |
 | earthMoonInertial | 🌛 地球と月(慣性決定力版)— 構造核と近点回転のフィット | **第292便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は「天体の機構」—— 宣言した跨ぎ〕・`referenceKind:"structure-sensitivity"`・較正母集団に入れない —— 原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139)。bodies は 🌙 earthMoonReal の宣言を 1 字も変えずに写し(初速も 🌙 のまま —— 🌘 の −0.12% の初速・qLock・D₀・D0pull は使わない)、地球にだけ構造核 `dragCore:{massFrac:0.325, radius:3.48}`(感度実験の起点の宣言 —— 地球の核の同定ではない)。physics は geoPN=0・kFrame=0 に慣性引きずり `relativeDrag:{law:"inertial", gain, eps:0.1}` だけ。gain は近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた **1 次元フィットの推定**であって較正の合ではない(式・表・感度は〔第292便c〕)。 |
 | earthMoonSunInertial | 🌤️ 太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動 | **第295便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は primary 🌙 と同じ「現実較正」〕・`referenceKind:"coefficient-transfer"`・較正母集団に入れない —— 原仮定者の裁定(第85報)・統括の検証項目 R155)。bodies は 🔆 emAuditSolar の写し+地球の `dragCore:{massFrac:0.325, radius:0.0348}`(🌛 の起点の宣言を L8 で)。physics は 🔆 から geoPN を 3 にし `relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}` を足しただけ(慣性の対は地球と月だけ —— 太陽は重力の第三体)。gain は 🌛 の 514182 を同じ SI 係数 0.0514182 m³/kg として単位換算で移送した値(フィットではない)。測った値は〔第295便c〕。 |
+| earthMoonSunInertialFit | 🌥️ 太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索 | **第297便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・`referenceKind:"observation-fit"`・較正母集団に入れない)。🌤️ の写しで地球→月の初期の相対ベクトルだけを平均要素(離心率 0.0549・恒星月 27.321661 日 —— 走行の平均)に直し、λ_PN=0・gain 0(探索範囲で 8.85 年に最も近い点 —— この探索範囲では未達・次の見直しへ)。記録は fitRecord(w297b-1)。詳細は〔第297便b〕。 |
 | qLockRadialAudit | 📶 qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる | **第136便 新設**(論文3 Cost 2 の可視化・将来 Fig.4 の生成元データ)。ファミリー `qlockAudit` の primary。地球(実質量・実半径・実自転 23.93h)を pinned にし、質量床級(m=10⁻⁶・e=0.05)の試験粒子を 1.5R_地球〜2a_月 の対数等間隔9点+qLock 参照半径(363.6253)の計10半径に置く。規約は 🌘 と同一で **q=8.25 は直値宣言**(qLock を実行時に掛けるとプローブ配置で参照軌道が動くため)。`fitted` は空=**較正ゼロ**。実測(exp-qlockradial): 参照点で素の引きずり率が Ω_LT の **0.944倍**(χ=0.2149 を掛けた実効フレーム回転は 0.203倍)、外側域の ω_DFM 傾きは **−8.99乗**(LT は −3.00乗)、最外(2a_月)の |Δϖ_drag| は参照点の **2.42%**(r⁻³ なら 12.5%)、ω_DFM/Ω_LT は 1.5R_地球 で 2.89×10⁶・r≈276.6 で 1 を横切る。Δϖ_drag は全10半径で**逆行**で 参照点では LT 解析値 −4GJ/(c₀²a³(1−e²)^{3/2}) の 3.55倍・同符号。事前登録窓は W1・W4 が PASS、W2(参照点 8.85年)・W3(順行)・W5(文字どおりの帯)が FAIL — いずれも実測を PHYSICS §5 に記録。ワンタップ対照は kFrame=0(差分の土台)。QA `behavior.qlockRadial` |
 | qLockRadialAuditQ3 | 📐 qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し | **第136便 新設**。ファミリー `qlockAudit` の variant。📶 と物理・幾何・プローブ配置が **bit 一致**で **q だけ 8.25→3**(=LT と同じ r⁻³ の半径依存)。`fitted` は空。実測: 外側域の傾きは **−3.81乗**で 📶 との傾き差 **5.19**(q の差 5.25 とほぼ一致 = 外側傾き差は指数 q の差そのもの)、参照点の近点回転周期 **617.7年**(📶 は 1.28×10¹¹年)、最外プローブでは 📶 の **1.70×10⁹倍以上**。ただし振幅を合わせる規則が無いので参照点では Ω_LT の 3.67×10⁸倍 — **r⁻³ 則と参照点の振幅一致は 単一の指数 q では両立しない**。ワンタップ対照は q=8.25。QA `behavior.qlockRadial` |
 | mercuryRealKF1 | **退役(履歴)** 🪨 水星(実単位・kFrame=1)— 共通補正で43″成立 | **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 mercuryReal ☄️・対の差は凍結の写し tests/fixtures/retired-w288b.json)。第120→第121便 D₀=10⁴→第122便で共通補正→**第123便で qLock 自動算出(q*=6.16)へ**: 逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 — qLock の幾何減衰(q*=3+ln(1.25c₀²R/(GM))/ln((R+a)/R)=6.16)で引きずり −5.6e-10 rad/公転(LT級・1PN の約1/900)に落ち、kF1 のまま 43″/世紀成立。D₀ は 🌘💿 と共通の 0.006・q は同一算出則=**「同じ値」ではなく同じ規則が全系を満たす**(exp-kf1c/kf1d)。被引きずり側スピンは×10⁴でも無関与。ワンタップ c₀=30(歳差誇張)・主役ノブ q(5⇄3 で逆行引きずりの対照)。**第172便: 運用規約を厳密一致式へ(q=6.16→6.1471・引きずり −5.6e-10→−5.8e-10 = 1PN の約1/860。窓 5.0〜6.2e-10 は不変で PASS)** |
@@ -30634,9 +30635,11 @@ G0(gain 0 —— 🔆 の重力だけの三体・geoPN 3)は〔第293便d〕の�
 **① 主張の範囲(アプリの主張の文 —— 1 か所)。** 文は html の `CLAIM_SCOPE`(ja/en —— i18n の生成領域の中・`T("claimScope")`)の 1 か所に置き、説明パネルの `aboutBody`(ja/en —— 従来の 2 文の後)と
 SYSTEM_PROMPT(「出力ルール」の前の段「主張の範囲とフィット」)が同じ値を読む。README の冒頭・docs/AI_SPEC.md §59・この節は逐語の転記(QA `behavior.sampleGenContract296` が照合する):
 
-> DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
+> (第297便b で文を改めた —— 原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる」・〔第297便b〕。第296便a の文は git の履歴〔8f380ee〕にある)
 >
-> DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
+> DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+>
+> DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
 
 従来の主張の範囲の 2 文(〔第290便a〕 —— 現実の宇宙を主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったこと)はそのまま残す。この文は「フィットした模型を作れる」ことの主張であって、
 フィットで得た値の普遍性や、観測量の全部が合うことの主張ではない。フィットの記録(標的・窓・固定した宣言・探索範囲・残差・数値誤差 h/2 —— 鍵 `fitRecord` の受理と正準形は第296便b)は
@@ -30873,6 +30876,102 @@ geoPN=0 の旧メッシュを HUD・チップでどう名乗るか(本便は「g
 step 会計(第175便)は loop() の中の書き方を純関数 `stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn)` と `stepCarryDiscard(pending)` に移した(中身・step の回数と順は不変)。QA `ui.step-accounting` は手で進める時計をこの関数へ渡して会計(requested = executed + pending + cancelled・繰越の上限・世代破棄・予算∞・繰越 OFF)を決定的に判定し、実フレームの 25 標本は lastRun の分布を記録するだけにした(手元の実測 {1:24, 2:1} —— 純関数の試験の「時計が進まない対照」〔予算 0 でも kRun = kReq〕のとおり、打ち切りは時計の読みが進んだときにだけ起こるので、予算 0 で 2 步の標本は会計の欠陥ではなく時計の読みの側の揺れとして扱う)。`tests/perf.mjs` の counterring は測定の長さを 60 → 240 frames に揃えた(閾値 1.10・判定式は不変)。
 
 確認: bitsame 155/155・sigsame 155/155(差分 ID なし)。QA: `ui.familyFold296`(新設)と `ui.step-accounting`・`ui.pickerReorg294`(⑤ に畳んだ variant の数)・`ui.paramWbgRow`(tip の語)の世代切替(has296d)。
+
+〔第297便b — 再現の努力: 主張文・フィット記録の条件結合(w297b-1)・🟫🟪 の再フィット(λ_PN=0)・🌤️ の再現作業と 🌥️ earthMoonSunInertialFit〕
+
+出典: 原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる。『再現するために計算を合わせた』と『再現したと主張しない』は両立する」「光学と力学を分ける。geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」・統括の検証項目 R162。
+
+**① 主張の文(1 か所のまま —— `CLAIM_SCOPE`)。** 文を「再現を優先度の高い目標にする・合わせたときは記録を示す・合わせたことは現実の法則の主張ではない・未達は次の見直しへ」に改めた。説明パネル `aboutBody`(ja/en)は導入 1 文+この文+較正の読み(〔第290便a〕の趣旨)の順で、先頭が「主張しません」に読めない。SYSTEM_PROMPT の段「主張の範囲とフィット」も同じ値を読み、説明文を「再現しない」「再現できない」「合わせられない」で閉じない書き方の規則を足した。逐語の転記(README の冒頭・docs/AI_SPEC.md §59・§63・〔第296便a〕・この節 —— QA `behavior.claimEffort297`):
+
+> DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+>
+> DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
+
+表示の文の掃除(数値と判定語は変えない —— presetSig 不変): 在位の本の説明で結論として閉じていた文を「この探索範囲では未達 —— 次の見直し」の形へ(🧮 psrJ1757DFM・🩺 psrJ1946DFM の「観測周期は再現しない」・NGC 3198 の「f=2 でも届かない」と状況の原稿・lfbotTrap の「別々には合わせられない」・☿ mercury の fail の文 ja/en)。在位の本の範囲の宣言(solarInner の円軌道デモ・jupiterGalilean の 2D 赤道面・uranusReal の環の狭帯化)は「再現しない」を「この本の範囲の外」へ言い換えた(退役の本の文は履歴のまま)。フィットの記録の status の語(unreachable-in-bounds・not-identifiable)は「次の見直し(実装・初期条件・調整範囲)」で終わる。
+
+**② フィット記録の条件結合(版 w297b-1 —— `validateFitRecord`・`fitCondSig`・`fitCondStateOf`・`fitCondInputsOf`)。** 事前の測定で見つかった 2 つの穴 —— (i) 🟪 の複製で gain だけを 2 倍にしても `status:"fitted"` と旧 gain の記録が警告なしで残る・(ii) residual=100・h2=1000 の合成記録が fitted で受理される —— を塞いだ。記録に**条件の署名** `cond:{version:"w297b-cond-1", sig, extractor}` を生成器が機械で付ける。sig は `fitCondSig(本, 記録)` —— 記録の law と慣性引きずりの法則版・physics(表示と時間の鍵 dispMag/timeScale/stepDt/timeRef と、解決した法則が読まない鍵 —— geoPN=3 は lambdaPN/pnAlpha —— を除く)・bodies(spinAxis を除く)・scaleExp・epoch・積分器・記録の刻み・窓・抽出器の版 —— を鍵の辞書順の JSON にした 16 桁の hex。説明タブの「フィットの記録」に行「条件の署名」を足し、**今の実行入力**(受理後の本に、実行中の sim.params の値を重ねた写し)で作り直して比べる: 一致 → 「一致」・違う → 「以前の条件でのフィット(条件が変わった後は未再測定)」(記録は消さない)。`validatePreset` は本の宣言と比べて違えば警告 1 行(記録は残す)。観測側の許容 `targets[].tol:{value, kind:"sigma"|"declared", note}` を必須にし(出典に σ の無い量は kind:"declared" —— 照合許容の宣言で、σ は作らない)、`status:"fitted"` の門を **|residual| + numerics.h2 ≤ targets[0].tol.value**(残差と数値誤差の和が許容の中)にした。旧版 w296b-1 の記録は読める(旧い門のまま受理し `legacy:true` —— 表示は「旧版の記録(条件の署名なし —— 検証済みと推定しない)」)。
+
+| 本 | 標的 | 許容(種類) | 残差 | h と h/2 の差 | status | 条件の署名 |
+|---|---|---|---|---|---|---|
+| 🟫 | perihelionRateDrag 43 ″/世紀 | 0.0009(declared) | 1.270e-5 | 1.587e-4 | fitted | `eff92242133e525a` |
+| 🟪 | orbitalPeriodMean 551856.43872 s | 0.02592(sigma) | 3.254e-7 | 4.561e-5 | fitted | `a9ca77f74c73e6cf` |
+| 🌥️ | apsidalPeriod118 8.85 年 | 0.005(declared) | -6.270e-2 | 2.222e-4 | unreachable-in-bounds | `86a6be4193d30125` |
+
+**③ 🟫🟪 の再フィット(λ_PN=0)。** 生成器 `tests/exp-w297b-fit.mjs`(第296便b の器の後継 —— 段 0〜6 を引き継ぎ、親と派生本の写しに physics.lambdaPN=0 を器の中で当てて走る・正本 `tests/out/fit-w297b.json`・段 fit-297b)。geoPN=3 の解決(慣性引きずり・測地線 OFF・実効 0)が λ を読まないことを、親 3 本と派生本の λ=1 と λ=0 の 2000 步の状態の指紋で確かめた(🟤 mercurySunInertial・🟫 mercurySunInertialFit・🟣 plutoCharonInertial・🟪 plutoCharonInertialFit・🌤️ earthMoonSunInertial —— 全部同じ)。再走した値: 🟫 gain 0.004522415(残差 1.27e-5″/世紀・h と h/2 の差 1.59e-4 —— 許容 0.0009 の宣言の中で fitted)・🟪 gain 6729.009(残差 3.25e-7 s・差 4.56e-5 s —— 出典の 1σ 0.02592 s の中で fitted)。第296便b の値と同じ(bit 同一の走行)で、変わったのは記録の版(tol と cond)だけ。
+
+**④ 🌤️ の再現作業(月の近点回転 8.85 年 —— A1・118 公転窓)。** 「止める」ではなく、慣性決定力版の宣言の中で再現するための計算と初期配置を順に見直した(生成器の段 7)。
+
+7a 規約: 単位 L8/T4/M27(1 年 = 3155.76 単位)・実行則 inertial-drag(実効 0)・λ_PN=0・親の vx/vy は力学速度 v(v=W —— 逆写像 v=(I+L)W は対照)・慣性履歴は build で位置から初期化(最初の 1 步は履歴なし —— noHistory 1)。標的の転写: JPL SSD の行 SOL-59edf981 の 5.997 年は近地点引数 ω の周期で、近地点経度 ϖ の周期は ~8.85 年(注記どおり)。慣性系の平均の率は Chapront 2002 Table 4 の SOL-c34be08a 40.67616758°/年 = 8.85038 年 —— 8.85 年(照合許容の宣言 0.005 年)の中。
+
+7b 初期配置の点検(二体と三体を分けて): 二体の接触要素(地球–月・μ = G(m地+m月))は近地点距離 3.651780・e 0.0549・接触周期 27.4971 日。三体: 重心は太陽から 1495.9800(1 au = 1495.9787)・重心の速度は円速度の 1.00000000 倍・近地点は太陽の反対方向(φ = 0.0°)・元期の宣言なし・2 次元(月の軌道傾斜なし)・地球の公転は円。**見つかった転写の取り違え: 月の離心率 0.0549 は平均要素(NASA NSSDC —— JPL SSD は 0.0554)だが、親は t=0 の接触要素として近地点に置いていた** —— 118 公転の走行の平均離心率は 0.0375(−32%)・恒星月 27.3157 日。親は直さず(係数移送の対照のまま)、派生本で直した形を作った。
+
+| 初期配置 | 近地点距離 | t=0 の接触 e | φ [°] | 118 公転の平均 e | 恒星月 [日] | M1 [年] | M2 [年] | M3 [年] |
+|---|---|---|---|---|---|---|---|---|
+| 親 🌤️(🔆 の写し —— e 0.0549 を t=0 の接触要素に置いた) | 3.651780 | 0.054904 | 0.0 | 0.03749 | 27.31569 | 8.7779 | 8.7536 | 8.5956 |
+| 直した写し φ=0°(e 0.0549・恒星月を走行の平均で) | 3.570492 | 0.075566 | 0.0 | 0.05490 | 27.32166 | 8.7873 | 8.7665 | 8.5138 |
+| 直した写し φ=90°(e 0.0549・恒星月を走行の平均で) | 3.703343 | 0.026171 | 90.0 | 0.05490 | 27.32166 | 8.7522 | 8.7572 | 8.4862 |
+| 直した写し φ=180°(e 0.0549・恒星月を走行の平均で) | 3.572751 | 0.075044 | 180.0 | 0.05490 | 27.32164 | 8.7836 | 8.7640 | 8.5106 |
+| 直した写し φ=270°(e 0.0549・恒星月を走行の平均で) | 3.703323 | 0.026176 | 270.0 | 0.05490 | 27.32166 | 8.7549 | 8.7586 | 8.4884 |
+| 直した写し φ=0°(e 0.0554 —— JPL SSD の値) | 3.568171 | 0.076152 | 0.0 | 0.05540 | 27.32166 | 8.7877 | 8.7671 | 8.5116 |
+
+7c 抽出器 3 方式(M1 近点の方位〔検出器 B の 3 点放物線 —— 位置だけ〕の時刻への直線 fit / M2 接触離心ベクトル〔位置の中心差分の座標速度・64 步ごと〕の方位の直線 fit / M3 位相の回帰〔近点月と恒星月 → 1/(1/恒星月 − 1/近点月)〕)× 窓 8/27/60/118 公転 × 刻み h/h2/h4(表の値は M1 / M2 / M3 [年])。M1 の 118 公転窓・h は第296便b の器(第293便d の childTask)の値と同じ(一致)。8 公転窓は近点の揺れ(出差 —— 直線 fit の残差 RMS 約 20°)で符号も定まらず、27 公転窓は方式で 0.4 年動く —— 短い窓の値は読まない。
+
+| 条件 | 刻み | 8 公転 | 27 公転 | 60 公転 | 118 公転 |
+|---|---|---|---|---|---|
+| 親の初期配置・gain 0 | h | -13.615 / 16.067 / -12.825 | 8.231 / 8.644 / 8.641 | 8.977 / 8.876 / 8.947 | 8.778 / 8.754 / 8.596 |
+| 親の初期配置・gain 0 | h2 | -13.571 / 16.026 / -12.777 | 8.238 / 8.645 / 8.650 | 8.979 / 8.876 / 8.951 | 8.780 / 8.754 / 8.598 |
+| 親の初期配置・gain 0 | h4 | -13.549 / 16.006 / -12.754 | 8.242 / 8.645 / 8.656 | 8.980 / 8.876 / 8.953 | 8.781 / 8.754 / 8.599 |
+| 親の初期配置・移送 gain 51.4182 | h | 5388.768 / 8.794 / -97.862 | 4.727 / 4.540 / 4.739 | 4.324 / 4.288 / 4.256 | 4.262 / 4.263 / 4.246 |
+| 親の初期配置・移送 gain 51.4182 | h2 | -2392.832 / 8.817 / -92.377 | 4.727 / 4.540 / 4.741 | 4.324 / 4.287 / 4.256 | 4.264 / 4.264 / 4.248 |
+| 親の初期配置・移送 gain 51.4182 | h4 | -1392.123 / 8.829 / -89.878 | 4.727 / 4.539 / 4.741 | 4.324 / 4.287 / 4.255 | 4.265 / 4.264 / 4.249 |
+| 直した初期配置(φ=0)・gain 0 | h | -25.127 / 16.438 / -22.907 | 8.521 / 8.709 / 9.140 | 8.982 / 8.875 / 8.936 | 8.787 / 8.767 / 8.514 |
+| 直した初期配置(φ=0)・gain 0 | h2 | -25.027 / 16.435 / -22.810 | 8.525 / 8.709 / 9.146 | 8.982 / 8.875 / 8.938 | 8.788 / 8.767 / 8.514 |
+| 直した初期配置(φ=0)・gain 0 | h4 | -24.979 / 16.434 / -22.763 | 8.527 / 8.709 / 9.150 | 8.982 / 8.875 / 8.940 | 8.788 / 8.767 / 8.514 |
+
+長い窓(gain 0・h): 親の初期配置で 354 公転 8.7552 / 8.7528 / 8.7346 年・直した初期配置で 354 公転 8.7681 / 8.7650 / 8.7368 年。
+
+7d 初期配置の見直し: (近地点距離, t=0 の接触離心率) を、118 公転・h・gain 0 の走行の平均で離心率 0.0549 と恒星月 27.321661 日(Chapront 2002 —— SOL-432f643e)を満たすように 2 元の Newton で解いた(太陽の位相 φ = 0/90/180/270° —— 元期の宣言が無いので位相ごとに解き直す・離心率の出典の幅 0.0554 も)。全部の解が収束し、118 公転窓の M1 は φ ごとに 8.7873/8.7522/8.7836/8.7549 年・e 0.0554 で 8.7877 年。地球の公転離心率 0.01671123(SOL-488eaddb —— 親は円)の対照は 8.7883 年。**どの初期配置でも gain 0 で 8.85 年の片側(短い側)**。動かした入力(観測値・出典・不確かさ・変位・理由)は正本の `ems.icAudit.displacements` —— 入力の変位を法則の予言として数えない。
+
+7e **器の中だけの 3 次元のニュートンの参照積分器**(アプリの物理ではない —— 太陽固定・地球と月・Plummer の軟化 ε=0.01・速度 Verlet・dt 0.016・近地点経度 ϖ = Ω + ω の時刻への直線 fit・354 公転): 直した初期配置で、平面(傾斜 0)は本のエンジンの M2(354 公転)と相対 8.9e-7 で一致(門 ≤ 10⁻⁴)。月の軌道傾斜(観測表 paper/data に行が無い —— 本の宣言には入れない)を入れると:
+
+| 3 次元の参照 | 傾斜 [°] | ϖ の周期 [年] | 恒星月 [日] | 平均 e |
+|---|---|---|---|---|
+| 平面(傾斜 0) | 0.000 | 8.7650 | 27.3289 | 0.05494 |
+| 傾斜 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)) | 5.145 | 8.8643 | 27.3275 | 0.05519 |
+| 傾斜 5.16°(JPL SSD の平均要素の軌道傾斜(黄道)) | 5.160 | 8.8649 | 27.3275 | 0.05519 |
+
+傾斜 5.145° で +1.13%(8.8643 年)—— **2 次元の射影(月の軌道傾斜なし)が、直した初期配置の gain 0 と 8.85 年の差の候補**(実測 —— 3 次元の器で傾斜を入れると 8.85 年の長い側へ出る)。
+
+7f 直した初期配置(φ=0)での gain の探索(SI で 10⁻⁶〜0.0514182 m³/kg の 13 点+0・118 公転窓の M1 —— h と h/2):
+
+| gain [L³/M] | h [年] | h/2 [年] |
+|---|---|---|
+| 0 | 8.7873 | 8.7875 |
+| 1.000000e-3 | 8.7871 | 8.7873 |
+| 2.469410e-3 | 8.7868 | 8.7871 |
+| 6.097980e-3 | 8.7862 | 8.7864 |
+| 1.505840e-2 | 8.7845 | 8.7847 |
+| 3.718540e-2 | 8.7804 | 8.7806 |
+| 9.182590e-2 | 8.7703 | 8.7705 |
+| 2.267560e-1 | 8.7453 | 8.7455 |
+| 5.599530e-1 | 8.6842 | 8.6844 |
+| 1.382750e+0 | 8.5379 | 8.5381 |
+| 3.414580e+0 | 8.1943 | 8.1941 |
+| 8.432000e+0 | 7.5211 | 7.5210 |
+| 2.082210e+1 | 6.1867 | 6.1868 |
+| 5.141820e+1 | 4.2598 | 4.2598 |
+
+単調に短くなり(単調)、標的 8.85 年は格子の全点で片側 —— status:"unreachable-in-bounds"。**この探索範囲では未達 —— 次の見直し(実装: 2 次元の射影 / 初期条件: 元期と太陽の位相・地球の公転離心率 / 調整範囲: gain は正だけ)へ**。最も近い点は gain 0(8.7873 年・残差 -6.270e-2 年・h と h/2 の差 2.22e-4 年)。
+
+7g 速度の規約 v=(I+L)W の対照(直した初期配置・移送 gain 51.4182 —— 既定にしない): 118 公転窓 4.3196 年(v=W は 4.2598 年)・平均 e 0.0599(v=W は 0.0485)。
+
+7h **派生本 🌥️ earthMoonSunInertialFit**(家族 earthmoon の variant・principle・observation-fit・較正母集団の外): 🌤️ の写しで、地球→月の相対ベクトルだけを直した初期配置(近地点距離 3.570492・e0 0.075566 —— 重心の位置・速度は保つ〔丸めの差は速度で 1 ulp〕)・λ_PN=0・gain 0(探索範囲で標的に最も近い点)。ワンタップの対照は移送 gain 51.4182。fitRecord(w297b-1・status unreachable-in-bounds・条件の署名つき)。親 🌤️ は 1 字も変えない。
+
+**読み。** 合わせられたのは初期配置の入力(平均離心率と恒星月 —— 観測入力の転写の見直し)で、8.85 年は 2 次元の宣言の中ではこの探索範囲で未達。3 次元の参照は傾斜の効果を実測で示すが、アプリのエンジンは 2 次元なので、次の見直しは「3 次元(傾斜)を扱う実装」か「2 次元の宣言のまま傾斜の効果を宣言として入れる規約」のどちらか(決断事項)。gain は系ごとの経験係数で、🟫🟪 のフィット値どうしの比は 1.49e+0(共通係数は見つかっていない)。
+
+**書かないこと。** 「現実を再現した」「月を再現した」「8.85 年を出した」「43″ を再現した」「較正 合」「gain は普遍定数」「再現しない」「合わせられない」「諦める」。
+
+QA: `behavior.claimEffort297`・`preset.fitCond297`・`docs.fit297`(新設 —— root は SKIP)と、世代切替 has297b で改めた `docs.claimScope`(aboutBody の読み方)・`preset.fitDerived296`(後継の器と正本で照合)・`docs.fitContract296`(記録の版)。段 fit-296b は履歴(再生成しない)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
