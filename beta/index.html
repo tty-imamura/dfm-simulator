@@ -5413,11 +5413,16 @@ function validateTimeRef(tr){
   const str=(v,cap)=>(typeof v==="string" && v.length<=cap);
   const num=(v)=>(typeof v==="number" && isFinite(v) && v>0);
   const basis=(tr.basis===undefined)? "orbit" : tr.basis;
+  // legacyTimeScale(任意): 移行前の時間経過倍率の記録(第297便c の移行で timeScale/stepDt を変えた本だけ —— 物理にも署名にも効かない。
+  //   QA が「時間の宣言を戻すと基点の署名と同じ」を宣言から確かめるための鍵)
+  const lts=tr.legacyTimeScale;
+  if(lts!==undefined && !(num(lts) && lts>=CLAMPS.timeScale[0] && lts<=CLAMPS.timeScale[1])) return {ok:false, err:"legacyTimeScale は "+CLAMPS.timeScale.join("〜")+" の数"};
   if(basis==="observe"){
     if(!num(tr.tObs)) return {ok:false, err:"tObs は正の有限数"};
     if(tr.note!==undefined && !str(tr.note,240)) return {ok:false, err:"note は 240 字以内の文字列"};
     const out={basis:"observe", tObs:tr.tObs};
     if(tr.note!==undefined) out.note=tr.note;
+    if(lts!==undefined) out.legacyTimeScale=lts;
     return {ok:true, timeRef:out};
   }
   if(basis!=="orbit") return {ok:false, err:'basis は "orbit"/"observe" のみ'};
@@ -5433,7 +5438,16 @@ function validateTimeRef(tr){
   const out={basis:"orbit", pRef:tr.pRef, pair:[tr.pair[0],tr.pair[1]], def, stepsPerOrbit:spo};
   if(tr.source!==undefined) out.source=tr.source;
   if(tr.note!==undefined) out.note=tr.note;
+  if(lts!==undefined) out.legacyTimeScale=lts;
   return {ok:true, timeRef:out};
+}
+// 第297便c: 時間の宣言を移行前へ戻した写し(timeScale=legacyTimeScale・stepDt なし —— QA が凍結した写し・基点の署名と照合するための純関数。入力は書き換えない)
+function timeStdRevert(p){
+  const c=JSON.parse(JSON.stringify(p||{})), tr=c.timeRef;
+  if(tr && typeof tr==="object" && typeof tr.legacyTimeScale==="number" && c.physics && typeof c.physics==="object"){
+    c.physics.timeScale=tr.legacyTimeScale; delete c.physics[STEP_DT_KEY];
+  }
+  return c;
 }
 // 宣言から読む「1 公転 ≈ N 步」(HUD・QA が読む —— 公転の本だけ。stepDt が無い本は DT で数える)
 function timeStdOf(p){
@@ -9258,7 +9272,7 @@ const BUILTIN_PRESETS = [
     control:"Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."}},
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
-  timeRef:{basis:"observe", tObs:2.6016, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.271 → 1(刻み ×0.271)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:2.6016, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.271 → 1(刻み ×0.271)", legacyTimeScale:0.271},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30/* 第98便: c₀は一律規約の30(⚾は光速非依存 — τ比のみ僅かに変わる。力学は第94便の実値 g_y=9.8 のまま) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:9.8, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.004336, frameWeight:"share"},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
@@ -9330,7 +9344,7 @@ const BUILTIN_PRESETS = [
     control:"Press ⏮ to reset."}},
   activeParams:["kFrame","cLight"],
   camera:{scale:420}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.4 → 1(刻み ×0.4)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.4 → 1(刻み ×0.4)", legacyTimeScale:0.4},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30, contactK:1000, contactCap:200, bM:25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:1, stepDt:0.0064, frameWeight:"share"},
   bodies:[
@@ -9504,7 +9518,7 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.1, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
-  timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 公転の対を代表にしない構成・旧 timeScale=0.4 → 1(刻み ×0.4)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 公転の対を代表にしない構成・旧 timeScale=0.4 → 1(刻み ×0.4)", legacyTimeScale:0.4},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30, contactK:1000, contactCap:200, bM:25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:1, stepDt:0.0064, frameWeight:"share"},
@@ -12719,7 +12733,7 @@ const BUILTIN_PRESETS = [
       descPattern:"半径ドリフト(\\d+\\.\\d+)%", testId:"behavior.earthMoon" }
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:573.839936, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:1440, note:"360 步では刻み 1/2 との 8 公転の長半径の差 dA=0.047(門 0.02)—— 1440 步で 0.017"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:573.839936, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:1440, note:"360 步では刻み 1/2 との 8 公転の長半径の差 dA=0.047(門 0.02)—— 1440 步で 0.017", legacyTimeScale:5},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.3985, frameWeight:"share"},
   bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
@@ -12778,7 +12792,7 @@ const BUILTIN_PRESETS = [
       descPattern:"同期誤差 (\\d+\\.\\d+)°/周", testId:"behavior.earthMoonFree" }
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:476.774878, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:476.774878, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:5},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:1.32437, frameWeight:"share"},
   bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
@@ -12877,7 +12891,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1","時間倍率 timeScale=1・画面の刻み stepDt=65.5721","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -12943,7 +12957,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1","stateCarry:\"double\"(潮汐のキックも速度の繰り越しへ)","自転は潮汐が働く本だけ Float64"]},
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -13068,7 +13082,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1","時間倍率 timeScale=1・画面の刻み stepDt=65.5721","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, D0pull:3.24204e-5, kFrame:1, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double"},
@@ -13143,7 +13157,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1(重力と引きずりの核)","構造核の表 1024 点・r_max=初期配置の 4 倍・Gauss–Legendre 32 点","時間倍率 timeScale=1・画面の刻み stepDt=65.5721","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["geoPN","dispMag"],   // 第294便a: geoPN を主役に(3 = 慣性決定力の有効化の印)
   camera:{scale:450}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -13487,7 +13501,7 @@ const BUILTIN_PRESETS = [
       "時間倍率 timeScale=1(二体の地球–月の本と同じ画面上の速さ)","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["kFrame","D0","dispMag"],
   camera:{scale:10, follow:1}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:1},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=0 —— λ_PN を 0→1 に開く宣言)
@@ -13568,7 +13582,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核 —— 🌛 の核の ε は 10⁵m)","構造核の表 1024 点・r_max=初期配置で最も遠い天体までの距離の 4 倍(既定の規則)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["geoPN","dispMag"],   // gain は主役スライダーにしない(移送した宣言値)
   camera:{scale:10, follow:1}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:1},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -13635,7 +13649,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1(重力)— 慣性決定力場は ε_c=0(別の宣言)","時間倍率 timeScale=1・画面の刻み stepDt=65.5721","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:23605.9488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, stateCarry:"double",
@@ -13834,7 +13848,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1","時間倍率 timeScale=1・画面の刻み stepDt=0.258807","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["q","kFrame","D0"],
   camera:{scale:850}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:93.1705603, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:93.1705603, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:10},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:0.258807, dispMag:10, stateCarry:"double", frameWeight:"share"},
@@ -13970,7 +13984,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.1","時間倍率 timeScale=1・画面の刻み stepDt=0.258807","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["q","kFrame","D0"],
   camera:{scale:850}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:93.1705603, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:93.1705603, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:10},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:0.258807, dispMag:10, stateCarry:"double", frameWeight:"share"},
@@ -14017,7 +14031,7 @@ const BUILTIN_PRESETS = [
     control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:196.884183, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:196.884183, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:6.66667},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1.44, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, contactK:57.6, contactCap:11.52, bM:1.44, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.546901, frameWeight:"share"},
@@ -14123,7 +14137,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1・画面の刻み stepDt=2.11126","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -14193,7 +14207,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05 = 5×10⁶m(重力と引きずりの核)","時間倍率 timeScale=1・画面の刻み stepDt=2.11126","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -14263,7 +14277,7 @@ const BUILTIN_PRESETS = [
   fitRecord:{"version": "w296b-1", "parent": "mercurySunInertial", "law": "inertial-drag", "targets": [{"q": "perihelionRateDrag", "obs": 43, "unit": "″/世紀", "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)", "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)・gain 0 の対照との差(同じ刻み)"}], "knobs": [{"key": "physics.relativeDrag.gain", "range": [0.001, 51.4182], "final": 0.004522415}], "fixed": ["bodies・初期状態・元期・配置は親 🟤 mercurySunInertial の写し(1 字も変えない)", "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.05・pairs \"all\"(親のまま)", "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)", "太陽と水星は点源(dragCore を宣言しない —— 太陽の f を R_c/R=0.3 で振った近点率の差は下の notIdentifiable)"], "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(残差 ≤ 数値誤差の帯 |q_h − q_h/2| なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)", "dt": 0.016, "steps": 380027, "residual": {"value": 1.270306584899572e-05, "unit": "″/世紀", "model": 43.00001270306585, "rel": 2.954201360231563e-07}, "numerics": {"h2": 0.00015869460099082744, "dtHalf": 0.008}, "status": "fitted", "notFitted": ["公転周期(8 公転の平均 —— gain 0 の対照との差と JPL/NSSDC の値との差を記録するだけ)", "離心率", "近日点移動の全量(重力の軟化の逆行を含む —— 合わせたのは gain 0 の対照との差)"], "notIdentifiable": ["dragCore(太陽の f を R_c/R=0.3 で 0.1〜1.0 に振った近点率の幅 6.03e-3″/世紀 —— 数値誤差の帯 1.59e-4″/世紀 を超えるが gain と縮退。1 量では gain と分けられない)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -14329,7 +14343,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{geoPN:2} },
   activeParams:["geoPN","lambdaPN","cLight"],
   camera:{scale:800, follow:0}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:4, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, stateCarry:"double", frameWeight:"share",
@@ -14558,7 +14572,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:1700}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(solarInner の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:760.05216, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(solarInner の 水星 の周期 7600521.6 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:5.1, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10,
@@ -14746,7 +14760,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:220}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:152.853523, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(jupiterGalilean の イオ の周期 152853.5232 s ÷ 10^3 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:152.853523, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(jupiterGalilean の イオ の周期 152853.5232 s ÷ 10^3 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:12.0586, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.424593, dispMag:3, stateCarry:"double", frameWeight:"share"},
@@ -14872,7 +14886,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:1300}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:1941.41664, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(venusReal の 金星 の周期 19414166.4 s ÷ 10^4 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:1941.41664, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(venusReal の 金星 の周期 19414166.4 s ÷ 10^4 s)", stepsPerOrbit:360, legacyTimeScale:300},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:5.626, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:5.39282, dispMag:10,
@@ -14981,7 +14995,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:28}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:275.538416, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(marsMoonsReal の フォボス の周期 27553.8415675 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:275.538416, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(marsMoonsReal の フォボス の周期 27553.8415675 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:19.5783, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.765384, dispMag:1,
@@ -15405,7 +15419,7 @@ const BUILTIN_PRESETS = [
       "時間倍率 timeScale=1・画面の刻み stepDt=153.293","粒子表示倍率 dispMag=1(表示専用)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:210}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:153.293, dispMag:1,
@@ -15480,7 +15494,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.01 単位=1km(重力と引きずりの核)","integrator:\"leapfrog\"","時間倍率 timeScale=1・画面の刻み stepDt=153.293","粒子表示倍率 dispMag=1(表示専用)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:210}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:153.293, dispMag:1,
@@ -15559,7 +15573,7 @@ const BUILTIN_PRESETS = [
   fitRecord:{"version": "w296b-1", "parent": "plutoCharonInertial", "law": "inertial-drag", "targets": [{"q": "orbitalPeriodMean", "obs": 551856.43872, "unit": "s", "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)", "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)"}], "knobs": [{"key": "physics.relativeDrag.gain", "range": [1000, 51418200], "final": 6729.009}], "fixed": ["bodies・初期状態・元期・配置は親 🟣 plutoCharonInertial の写し(1 字も変えない)", "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.01・pairs \"all\"(親のまま)", "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)", "構造核の事前値: 冥王星 dragCore{f 0.5, R_c/R 0.3}・カロン dragCore{f 0.5, R_c/R 0.5}・表 coreTable.n 4096(固定 —— フィットしない)"], "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(残差 ≤ 数値誤差の帯 |q_h − q_h/2| なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)", "dt": 0.16, "steps": 2759283, "residual": {"value": 3.253808245062828e-07, "unit": "s", "model": 551856.4387203254, "rel": 5.896113584558067e-13}, "numerics": {"h2": 4.560861270874739e-05, "dtHalf": 0.08}, "status": "fitted", "notFitted": ["軌道の形(離心率の代理)", "第 2 周の周期(記録だけ)", "自転・潮汐"], "notIdentifiable": ["dragCore(固定 gain で冥王星/カロンの f を振った周期の幅 1.20e-2 s —— 観測の 1σ 0.02592 s より小さく、1 量では gain と縮退する)"]},
   activeParams:["geoPN","dispMag"],
   camera:{scale:210}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:55185.6439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:3, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:153.293, dispMag:1,
@@ -15704,7 +15718,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{geoPN:2} },
   activeParams:["geoPN","lambdaPN","D0"],
   camera:{scale:23, follow:0}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:5518.56439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:5518.56439, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:4, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:15.3293, dispMag:1,
@@ -15841,7 +15855,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:700}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:1221.24621, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(uranusReal の ミランダ の周期 122124.62102 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:1221.24621, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(uranusReal の ミランダ の周期 122124.62102 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:13.792, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:3.39235, dispMag:1,
@@ -15984,7 +15998,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:42}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:507.760186, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(neptuneReal の トリトン の周期 507760.1856 s ÷ 10^3 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:507.760186, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(neptuneReal の トリトン の周期 507760.1856 s ÷ 10^3 s)", stepsPerOrbit:360, legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:10.1893, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:1.41044, dispMag:1,
@@ -16121,7 +16135,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1・画面の刻み stepDt=6.99194","粒子表示倍率 dispMag=300(表示専用)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:630}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:2517.09729, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:2517.09729, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:6.99194, dispMag:300,   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -16439,7 +16453,7 @@ const BUILTIN_PRESETS = [
       "自己診断: 400步試走+二体クロージャ確認(第214便)・周期許容 ±1%"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:560}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:1581.932, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(siriusAB の B の周期 1581931995.84 s ÷ 10^6 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:1581.932, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(siriusAB の B の周期 1581931995.84 s ÷ 10^6 s)", stepsPerOrbit:360, legacyTimeScale:300},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:4.6761, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:4.39426, dispMag:300,   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -16772,7 +16786,7 @@ const BUILTIN_PRESETS = [
       "自己診断: 400步試走+ドリフト外挿・周期許容 ±1%"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:1100}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:883.453472, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:883.453472, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:300},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7,
     cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:2.45404, dispMag:1000,   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -17064,7 +17078,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{geoPN:2} },
   activeParams:["geoPN","D0","kFrame"],
   camera:{scale:1100}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:883.453472, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:5760, note:"360 步では dA=5.8・dE=0.63 —— 5760 步でも門外(dA=0.20・dE=0.076)・旧刻み DT でも dA=0.048・dE=0.058(空間メッシュの toy の感度)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:883.453472, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)", stepsPerOrbit:5760, note:"360 步では dA=5.8・dE=0.63 —— 5760 步でも門外(dA=0.20・dE=0.076)・旧刻み DT でも dA=0.048・dE=0.058(空間メッシュの toy の感度)", legacyTimeScale:300},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7,
     cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:4, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.153377, dispMag:1000,
@@ -17313,7 +17327,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:500}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:1585.7669, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrJ1757DFM の B の周期 15857.6690192 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:1585.7669, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrJ1757DFM の B の周期 15857.6690192 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:500},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1726, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7,
     cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:4.40491, dispMag:1000,
@@ -17452,7 +17466,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:1350}, world:{boundary:"none",size:0},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **在位移行** —— 旧宣言 geoPN=2・kFrame=1(引きずり近似 q)を geoPN=1・kFrame=0(現実較正)へ。ID は不変。
   //   D₀・q・frameWeight は kFrame=0 では力に入らないので値を残す。旧宣言は凍結の写し tests/fixtures/dfmcal-w288b.json(移行表 tests/data-w288b-unify.json)
-  timeRef:{basis:"orbit", pRef:678.1368, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrJ1946DFM の B の周期 6781.36799866 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:678.1368, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrJ1946DFM の B の周期 6781.36799866 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:230},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1856, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7,
     cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:1.88371, dispMag:1000,
@@ -18181,7 +18195,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{kFrame:1, geoPN:2} },
   activeParams:["kFrame","q","D0"],
   camera:{scale:1500}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:3635.17026, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrB1534 の B の周期 36351.702644 s ÷ 10^1 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:3635.17026, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(psrB1534 の B の周期 36351.702644 s ÷ 10^1 s)", stepsPerOrbit:360, legacyTimeScale:1000},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.1652, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.42582647410185e-7,
     cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:10.0977, dispMag:1000,   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -18472,7 +18486,7 @@ const BUILTIN_PRESETS = [
   // 保ったまま c を 100→30(×0.3)へ縮尺した: 速度 ×0.3・G ×0.09(v²∝GM/r なので v を 0.3 倍にする)。
   // κ_T=G/c² は 0.09/0.09 で**不変**(0.0006674)。位置・質量・半径・rc・chiGate・kappa は 1 つも動かない。
   // 周期は 1/0.3=3.333 倍(ケプラー解析値 489.2102)になるので timeScale も 20→60 で画面上の速さを保つ。
-  timeRef:{basis:"orbit", pRef:489.210171, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:489.210171, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:60},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:0.60066, D0:0.006, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0006674,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:1.35892, dispMag:3,
@@ -18545,7 +18559,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{relativeDrag:{law:"inertial", gain:0, pairs:"all", history:"positions"}} },
   activeParams:["G","softening"],
   camera:{scale:16}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:169.470327, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:169.470327, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.470751, dispMag:1,
@@ -18701,7 +18715,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{D0pull:1e-6} },
   activeParams:["kFrame","G","cLight"],
   camera:{scale:130}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:489.210171, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:720, note:"360 步では dA=0.052(門 0.02)—— 720 步で 0.017"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:489.210171, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:720, note:"360 步では dA=0.052(門 0.02)—— 720 步で 0.017", legacyTimeScale:60},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:0.60066, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0006674,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.679459, dispMag:3,
@@ -18800,7 +18814,7 @@ const BUILTIN_PRESETS = [
     physicsPatch:{spaceMesh:null} },
   activeParams:["kFrame","G","cLight"],
   camera:{scale:150}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:518.854379, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:1440, note:"360 步では dA=0.087(門 0.02)—— 1440 步で 0.018"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:518.854379, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:1440, note:"360 步では dA=0.087(門 0.02)—— 1440 步で 0.018", legacyTimeScale:60},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:0.60066, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0006674,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.360316, dispMag:3,
@@ -18951,7 +18965,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1・画面の刻み stepDt=0.50505","粒子表示倍率 dispMag=1(実寸)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:240}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.2552, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00742582647410185,
     cLight:29.9792458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.50505, dispMag:1,
@@ -19209,7 +19223,7 @@ const BUILTIN_PRESETS = [
     note:"第288便b(原仮定者の裁定(第78報)④・AN80): 較正質量(f≈2)の複製をやめ、bodies の m を 🎐 の観測質量(GWOSC GWTC-2.1 の中央値の換算)へ戻した。差分コア(massFrac=(f−1)/f)を外した。位置・速度・dragQ は 🎐 と同じ(dragQ は kFrame=0 では力に入らない)。旧宣言は history(現行の根拠ではない)",
     history:{law:"inertia-law-lin-v1", wave:"第247便b〜第287便", factor:1.9999999999889444, mass:[1376.0212399923937, 1193.081999993405],
       core:{mode:"differential", massFrac:0.4999999999972361, Kcs:0}, spinDipoleOmega:[4.107142621474031, 4.7369042966413595]}},
-  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.2552, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00742582647410185,
     cLight:29.9792458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.50505, dispMag:1,
@@ -19302,7 +19316,7 @@ const BUILTIN_PRESETS = [
       "λ=0 対照の −0.003647°/周 はソフトニング由来の**数値床**であって物理の歳差ではない"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:240}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:181.818, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)", stepsPerOrbit:360, legacyTimeScale:30},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.006, kFrame:0, q:3.2552, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00742582647410185,
     cLight:29.9792458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.50505, dispMag:1,
@@ -19353,7 +19367,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","softening"],
   seed:2509719581,   // 第230便: 実効 seed の明示(旧 rngSeed は無効キー — 従来の ID 由来 seed と同値・ビット同一を実測)
   camera:{scale:60}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=50 → 4(刻み ×3)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=50 → 4(刻み ×3)", legacyTimeScale:50},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:0.5, timeScale:4, stepDt:0.048, dispMag:1, frameReaction:"pairReduced", frameWeight:"share"},
@@ -19439,7 +19453,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","softening"],
   seed:1573711561,   // 第230便: 実効 seed の明示(旧 rngSeed は無効キー — ID 由来 seed と同値・ビット同一を実測)
   camera:{scale:25}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)", legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:1, timeScale:4, stepDt:0.048, dispMag:1, frameReaction:"pairReduced",
@@ -19499,7 +19513,7 @@ const BUILTIN_PRESETS = [
   seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)
   balanceFrame:"barycentric",   // 第230便: 自由中心核の重心系
   camera:{scale:25, follow:300}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:19.2, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:19.2, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)", legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:1, timeScale:4, stepDt:0.032, dispMag:1, frameReaction:"pairReduced", frameWeight:"share"},
@@ -19550,7 +19564,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","kFrame","softening"],
   seed:20260901,
   camera:{scale:150}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=100 → 4(刻み ×3)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=100 → 4(刻み ×3)", legacyTimeScale:100},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
     kappaT:7.425826474101849e-9, cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:4, stepDt:0.048, coupleSink:"core", frameWeight:"share"},
@@ -19629,7 +19643,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","kFrame","softening"],
   seed:20260901,
   camera:{scale:800}, world:{boundary:"none",size:0},
-  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:28.8, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)", legacyTimeScale:20},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
     kappaT:7.42582647410185e-7, cLight:2997.92458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:4, stepDt:0.048, coupleSink:"core",
@@ -19860,7 +19874,7 @@ const BUILTIN_PRESETS = [
     derived:["κ=G/c₀²=7.4258×10⁻⁹(物理対応条件の導出値)"],
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1・画面の刻み stepDt=0.498","粒子表示倍率 dispMag=1(実半径のまま)"]},
   camera:{scale:160}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:3},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.498, dispMag:1,   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -19936,7 +19950,7 @@ const BUILTIN_PRESETS = [
       control:"Compare with 📡 (same Saturn, same C, only the initial speed differs) and 📎 saturnD68ObsOrbit (e set to the observed ae/a). The numbers' canonical file is tests/out/d68-w280e.json (harness tests/exp-w280e-d68.mjs)."}},
   activeParams:["G","softening","dispMag"],
   camera:{scale:160}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:3},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.498, dispMag:1,
@@ -19986,7 +20000,7 @@ const BUILTIN_PRESETS = [
       control:"Compare with 📡 (the initial speed is built differently) and 🧷 saturnD68Consistent (e*=0.001). The numbers' canonical file is tests/out/d68-w280e.json (harness tests/exp-w280e-d68.mjs)."}},
   activeParams:["G","softening","dispMag"],
   camera:{scale:160}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:179.28, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:3},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.498, dispMag:1,
@@ -20080,7 +20094,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1・画面の刻み stepDt=0.58","粒子表示倍率 dispMag=1(実半径のまま)"]},
   activeParams:["kFrame","lambdaPN","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:208.8, pair:[0,33], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnRingReal の C環内縁 の周期 20880 s ÷ 10^2 s)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:208.8, pair:[0,33], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(saturnRingReal の C環内縁 の周期 20880 s ÷ 10^2 s)", stepsPerOrbit:360, legacyTimeScale:10},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.58, dispMag:1, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
@@ -20284,7 +20298,7 @@ const BUILTIN_PRESETS = [
     control:"Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions."}},
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
-  timeRef:{basis:"orbit", pRef:261.334788, pair:[0,2], def:"revolution", source:"8 の字解の周期 T=6.32591398(G=m=1・Chenciner–Montgomery 2000)を初期配置の尺度 L=|x₁|/0.97000436・m で換算 T·√(L³/(Gm))", stepsPerOrbit:2880, note:"360 步では dA=0.053(門 0.02)—— 2880 步で 0.012"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:261.334788, pair:[0,2], def:"revolution", source:"8 の字解の周期 T=6.32591398(G=m=1・Chenciner–Montgomery 2000)を初期配置の尺度 L=|x₁|/0.97000436・m で換算 T·√(L³/(Gm))", stepsPerOrbit:2880, note:"360 步では dA=0.053(門 0.02)—— 2880 步で 0.012", legacyTimeScale:2},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:1, stepDt:0.0907412, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
@@ -20407,7 +20421,7 @@ const BUILTIN_PRESETS = [
     control:"Suggested A/B: core.tilt 45↔0 switches the spokes ellipse↔circle (clock and dynamics unchanged). Removing pulse removes the clock (orbits unchanged to the bit — same as the wave-226 removal control). Moving the time-scale exponent T changes only the displayed period."}},
   activeParams:["kFrame","G","softening"],
   camera:{scale:800}, world:{boundary:"none",size:0}, seed:20260901,
-  timeRef:{basis:"observe", tObs:24, note:"観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=10 → 4(刻み ×2.5)"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
+  timeRef:{basis:"observe", tObs:24, note:"観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=10 → 4(刻み ×2.5)", legacyTimeScale:10},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:1, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
     kappaT:0.0011111111111111111, cLight:30/* 正典 c₀(第97便規則)。時計は運動学チャネルで c 非依存・減光は宣言値 */, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:4, stepDt:0.04, coupleSink:"core", frameWeight:"share"},
@@ -20758,7 +20772,7 @@ const BUILTIN_PRESETS = [
   abBody:{ label:{ja:"λ=0(現行核 — 静的スピン間力は無い)", en:"λ=0 (the current kernel — no static spin-spin force)"},
     physicsPatch:{spinSpin:0} },
   camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260906,
-  timeRef:{basis:"orbit", pRef:584.031925, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
+  timeRef:{basis:"orbit", pRef:584.031925, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)", stepsPerOrbit:360, legacyTimeScale:1},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— timeScale=1・画面の刻み stepDt=pRef/stepsPerOrbit(較正・フィットの器の dt は別欄)
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, stepDt:1.62231, spinSpin:200, stateCarry:"double",
@@ -39151,7 +39165,7 @@ const ASTRO_CATALOG = {
     // 第288便b(原仮定者の裁定(第78報)④): 出典 🌞 は在位のまま geoPN=1・kFrame=0 へ移した —— 変種は出典のビット写しなので kf0 だけにした
     //   (旧 kf1「DFM 版の規約(kFrame=1)」は出典が無くなった —— 引きずり近似 q の対照は出典の A/B〔B 側 q=0.5・kFrame=1・geoPN=2〕で見る)
     variants:{ kf0:{ src:"solarInner", name:{ja:"現実較正(kFrame=0・geoPN=1)",en:"reality calibration (kFrame=0, geoPN=1)"},
-      physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:0, q:5.1, softening:0.05, timeScale:30, dispMag:10, geoPN:1}) } },
+      physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:0, q:5.1, softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, geoPN:1}) } },
     defVariant:"kf0" },
 
   // ---- 水星の近日点移動(出典: mercuryReal / mercuryRealKF1)----
@@ -39167,7 +39181,7 @@ const ASTRO_CATALOG = {
     sats:[{id:"mercury", name:{ja:"水星",en:"Mercury"}, m:0.00033011, radius:0.0244, spin:0.0124, a:579.09, e:0.20563}],
     variants:{
       kf0:{ src:"mercuryReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:100, dispMag:10, geoPN:1}) },   // 第284便b(AN39): 出典の kF0 版の宣言 geoPN=1 のビット写し
+        physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:1, stepDt:2.11126, dispMag:10, geoPN:1}) },   // 第284便b(AN39): 出典の kF0 版の宣言 geoPN=1 のビット写し
       kf1:{ src:"mercuryRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=6.1471)",en:"with the shared correction (kFrame=1, q_exact=6.1471)"},
         physics:astroPh({D0pull:3.24204e-3, G:6.674, D0:0.006, kFrame:1, q:6.1471, softening:0.05, timeScale:100, dispMag:10}) } },
     defVariant:"kf1" },
@@ -39185,9 +39199,9 @@ const ASTRO_CATALOG = {
     sats:[{id:"moon", name:{ja:"月",en:"Moon"}, m:0.007346, radius:1.74, spin:0.00026617, a:384.748, e:0.0549}],
     variants:{
       kf0:{ src:"earthMoonReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.1, timeScale:100, dispMag:10, geoPN:1}), velCalib:1 },   // 第284便b(AN39): geoPN=1
+        physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10, geoPN:1}), velCalib:1 },   // 第284便b(AN39): geoPN=1
       kf1:{ src:"earthMoonRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=8.2358・初速較正 0.99880)",en:"with the shared correction (kFrame=1, q_exact=8.2358, speed calibration 0.99880)"},
-        physics:astroPh({D0pull:3.24204e-5, G:6.674, D0:0.006, kFrame:1, q:8.2358, softening:0.1, timeScale:100, dispMag:10}), velCalib:0.9988040262896644 } },   // 第242便: pull 共同 fit(Kepler 比 0.99880)
+        physics:astroPh({D0pull:3.24204e-5, G:6.674, D0:0.006, kFrame:1, q:8.2358, softening:0.1, timeScale:1, stepDt:65.5721, dispMag:10}), velCalib:0.9988040262896644 } },   // 第242便: pull 共同 fit(Kepler 比 0.99880)
     defVariant:"kf1" },
 
   // ---- 木星とガリレオ衛星(出典: jupiterGalilean + paper/data/jovian-satellites.csv)----
@@ -39208,9 +39222,9 @@ const ASTRO_CATALOG = {
     variants:{
       // 第288便b(第78報④): 出典 🟠 を geoPN=1・kFrame=0 へ在位移行 —— kf1(引きずり近似 q)は出典の A/B の B 側(旧宣言)、kf0 は出典そのもの(geoPN=1)
       kf1:{ src:"jupiterGalilean.abBody", name:{ja:"引きずり近似(q)の規約(kFrame=1・q_exact=12.0586)—— 較正母集団の外",en:"the drag-approximation (q) convention (kFrame=1, q_exact=12.0586) — outside the calibration population"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:1, q:12.0586, softening:0.05, timeScale:30, dispMag:3}) },
+        physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:1, q:12.0586, softening:0.05, timeScale:1, stepDt:0.424593, dispMag:3}) },
       kf0:{ src:"jupiterGalilean", name:{ja:"現実較正(kFrame=0・geoPN=1)",en:"reality calibration (kFrame=0, geoPN=1)"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:0, q:12.0586, softening:0.05, timeScale:30, dispMag:3, geoPN:1}) } },
+        physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:0, q:12.0586, softening:0.05, timeScale:1, stepDt:0.424593, dispMag:3, geoPN:1}) } },
     defVariant:"kf0" },
 
   // ---- 土星の衛星と環(出典: saturnRingReal / saturnRingRealKF1)----
@@ -39251,7 +39265,7 @@ const ASTRO_CATALOG = {
          spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}] },
     variants:{
       kf0:{ src:"saturnRingReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
-        physics:astroPh({contactMode:"none"/* 第285便a: 出典 💍💿 と同じ多粒子の契約 */, frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1, geoPN:1}) },   // 第284便b(AN39): geoPN=1
+        physics:astroPh({contactMode:"none"/* 第285便a: 出典 💍💿 と同じ多粒子の契約 */, frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:1, stepDt:0.58, dispMag:1, geoPN:1}) },   // 第284便b(AN39): geoPN=1
       kf1:{ src:"saturnRingRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=20.4932・観測環質量)",en:"with the shared correction (kFrame=1, q_exact=20.4932, observed ring mass)"},
         // 第244便(裁定 B7′): 出典 💿 と同じく pull・D0pull・massFloor 1e-8。環帯は ringPatch で観測総質量(1.283e-8/粒)+frameSource:false に上書き(kf0 の帯は不変)
         physics:astroPh({contactMode:"none"/* 第285便a: 出典 💍💿 と同じ多粒子の契約 */, frameWeight:"pull", D0pull:3.24204e-5, massFloor:1e-8, G:6.674, D0:0.006, kFrame:1, q:20.4932, softening:0.05, timeScale:10, dispMag:1}),
@@ -39282,7 +39296,7 @@ const ASTRO_CATALOG = {
       {id:"r129",      name:{ja:"A環中間(129)",en:"mid A ring (129)"},      m:0.000001, radius:0.1, spin:0, a:129},
       {id:"aOuter",    name:{ja:"A環外縁",en:"the A-ring outer edge"},      m:0.000001, radius:0.1, spin:0, a:136.775}],
     variants:{ zonal:{ src:"saturnZonalD68", name:{ja:"D68 の解析式への fit(C=1.000302283)",en:"the D68 analytic-formula fit (C=1.000302283)"},
-      physics:astroPh({frameWeight:"share", G:6.674, D0:0.1, kFrame:0, q:3, softening:0.05, timeScale:3, dispMag:1, geoPN:1}) } },   // 第284便b(AN39): 出典 📡 の geoPN=1
+      physics:astroPh({frameWeight:"share", G:6.674, D0:0.1, kFrame:0, q:3, softening:0.05, timeScale:1, stepDt:0.498, dispMag:1, geoPN:1}) } },   // 第284便b(AN39): 出典 📡 の geoPN=1
     defVariant:"zonal" }
 };
 
@@ -39724,8 +39738,12 @@ function obsMakeSys(rec, sc){
   const q=Math.round(qExact*1e4)/1e4;
   if(!(q>=CLAMPS.q[0] && q<=CLAMPS.q[1])) errs.push("qLock 則の算出値 q_exact="+qExact.toFixed(4)+" が値域 "+CLAMPS.q[0]+"〜"+CLAMPS.q[1]+" の外です");
   // timeScale: 最内衛星の1公転が実時間で約 OBS_WALL_SEC 秒(60fps)になる刻み(1/3×10^k ラダー)
+  // 第297便c(原仮定者の裁定(第87報)③・R163): 上の梯子は使わない —— **時間の標準** timeScale=1・画面の刻み stepDt = 最内の衛星の転写した公転周期 ÷ ORBIT_STEPS_STD
+  //   (周期は自己診断の照合先と同じ記録 orbital_period —— 配置には使わない。内蔵の観測の本と同じ丸め: 周期 9 桁 → 刻み 6 桁)
   const Pin=2*Math.PI*Math.sqrt(a1*a1*a1/(G*Mc));
-  const timeScale=obsLadder(OBS_LADDER_TS, Pin/(OBS_WALL_SEC*60*DT));
+  const pIn0=(rec.sats[0] && rec.sats[0].q)? rec.sats[0].q.orbital_period : NaN;   // 記録の最内の衛星(rec.sats は a の昇順 —— 下の sats[0] と同じ天体)
+  const pRefIn=(pIn0>0)? Number((pIn0/Math.pow(10,sc.T)).toPrecision(9)) : Number(Pin.toPrecision(9));
+  const timeScale=1, stepDt=Number((pRefIn/ORBIT_STEPS_STD).toPrecision(6));
   // dispMag: 中心天体の描画半径が camera.scale の 3〜15%(帯の幾何中央)に最も近くなる刻み
   const dispMag=obsLadder(OBS_LADDER_DM, Math.sqrt(OBS_R_BAND[0]*OBS_R_BAND[1])/(R/camScale));
   // scaleTier: 距離指数 L から最近傍アンカー(presetTierOf と同じ規則 — 表示分類だけ)
@@ -39755,7 +39773,7 @@ function obsMakeSys(rec, sc){
       // (衛星2体以上)は legacy のまま 1 bit も変えない(pinned が反作用を吸収する従来設計)。
       physics:(function(){
         // 第222便: 相対論的連星族は cLight=3×10³・κ=G/c₀²=7.4156×10⁻⁷(ASTRO_COMMON の従来族値を上書き)
-        const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/m²(🌘🪨 と共通)を単位系へ換算
+        const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/m²(🌘🪨 と共通)を単位系へ換算
         if(sc.rel){ phO.cLight=2997.92458; phO.kappaT=7.42582647410185e-7;   // 第286便b: 真値(旧 3000・7.415555555555556e-7)
           phO.coupleSink="reservoir"; }   // 第223便: 相対論的連星の観測版は 1PN 偶力を resL へ記帳(内部自由度なし)
         return (nS===1
@@ -39764,7 +39782,7 @@ function obsMakeSys(rec, sc){
       })() } },
     defVariant:"kf1" };
   return { ok:errs.length===0, errors:errs, sys,
-    meta:{ q, qStar, qExact, X, aRef:a1, timeScale, dispMag, camScale, tier, unitJa, unitEn,
+    meta:{ q, qStar, qExact, X, aRef:a1, timeScale, stepDt, pRefIn, dispMag, camScale, tier, unitJa, unitEn,
       periodInner:Pin, scale:sc, spinDemoted } };
 }
 // 値域(CLAMPS と同じ域)に収まるかを**構築結果そのもの**で検査する。黙ったクランプ=物理の
@@ -54672,7 +54690,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); const lcOn=(sim.overlays.liveCompare===true && !ab), dt=appStepDt(sim); for(let s2=0;s2<Math.min(k,HP_TICK_CAP);s2++){ sim.step(dt); if(lcOn) lcAfterStep(); } } render(); },   // 第297便c(R163): 画面の刻み appStepDt
   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準の読み口(QA preset.timeStd297/behavior.timeStd297)
   timeStd:{ version:TIME_STD_VERSION, orbitSteps:ORBIT_STEPS_STD, observeSteps:OBSERVE_STEPS_STD, dtRange:STEP_DT_RANGE, orbitMin:STEP_DT_ORBIT_MIN,
-    defs:TIME_REF_DEFS, appStepDt, appStepFn, validateTimeRef, timeStdOf, hudLine:()=>timeStdHudLine(), tickCap:HP_TICK_CAP } };
+    defs:TIME_REF_DEFS, appStepDt, appStepFn, validateTimeRef, timeStdOf, revert:timeStdRevert, hudLine:()=>timeStdHudLine(), tickCap:HP_TICK_CAP } };
 
 // ===== 起動 =====
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)

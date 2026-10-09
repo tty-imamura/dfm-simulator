@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 export const TIMESTD_VERSION = 'w297c-timestd-1';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -197,9 +197,9 @@ for (const p0 of HP.allPresets()) {
       }
     }
   } catch (e) { row.status = 'error'; row.err = String(e.message || e).slice(0, 200); }
-  row.ms = Date.now() - ts0;
+  row.wallSec = (Date.now() - ts0) / 1000;
   rows.push(row);
-  if (process.env.W297C_VERBOSE) console.error(p.id, row.status, row.ms + 'ms');
+  if (process.env.W297C_VERBOSE) console.error(p.id, row.status, row.wallSec + 's');
 }
 const inSvc = rows.filter((r) => !r.retired);
 const CODE = ['tests/exp-w297c-timestd.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];

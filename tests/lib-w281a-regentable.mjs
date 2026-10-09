@@ -765,7 +765,7 @@ export const REGEN_STEPS = [
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
   //   所要は第297便c の枝の実測(正本の meta.wallSec —— 他の枝と同じ容器で並走)
   S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 180, { secSource: 'w297c-branch', node: true,
-    volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/ms']) },
+    volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/wallSec']) },
     note: '第297便c: 時間の標準 —— 在位の公転の本の 8 公転(画面の刻み stepDt と 1/2)・観察の本の 600 步・退役は記録だけ —— 刻みの妥当性の物差し(物理の合否ではない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、

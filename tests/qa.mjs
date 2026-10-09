@@ -15958,7 +15958,8 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     });
     // ③ step/モデル時刻併記(HUD はキャンバス描画のため静的検査 — wallColorOk と同方針)
     const htmlSrc61 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-    const hudStepOk = /Math\.round\(sim\.t\/0\.016\)\}步/.test(htmlSrc61);
+    // 第297便c(R163): 步数は t/画面の刻み(appStepDt —— 宣言の無い本は DT=0.016)で数える形も受ける(画面の刻みの導入に伴う式の置き換え)
+    const hudStepOk = /Math\.round\(sim\.t\/0\.016\)\}步/.test(htmlSrc61) || /Math\.round\(sim\.t\/appStepDt\(sim\)\)\}步/.test(htmlSrc61);
     if (d61.gone) {
       console.log('SKIP ui.61b-tools(対象に第61便 61B の UI なし — root 等)');
     } else {
@@ -18847,7 +18848,10 @@ if (!FAST) {
     {
       const bad = [];
       const r = await page.evaluate(() => {
-        const p = HP.allPresets().find((q) => q.id === 'ngc3198DFM');
+        // 第297便c(R163): 署名は時間の宣言を移行前へ戻した写し(HP.timeStd.revert —— timeScale=legacyTimeScale・stepDt なし)で基点と照合する
+        //   (🛞 は時間の標準で timeScale 20→4・stepDt 0.032 を宣言 —— 戻すと基点の署名と同じ・力学の入力は不変)
+        const p0 = HP.allPresets().find((q) => q.id === 'ngc3198DFM');
+        const p = (HP.timeStd && HP.timeStd.revert) ? HP.timeStd.revert(p0) : p0;
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
         const ml = v.preset.massLedger || null;
         const declared = HP.allPresets().filter((q) => q.massLedger !== undefined).map((q) => q.id);
@@ -18919,7 +18923,7 @@ if (!FAST) {
       if (!r.hp) bad.push('HP.validateMassLedger / MASS_LEDGER_VERSION');
       // ⑤ 物理は不変: 署名は基点 53aaa64 の値のまま・台帳の有無・不正な台帳でも署名は同じ
       // 第286便b(AN59): 🛞 は cLight の真値化の本(一覧 tests/data-w286b-clight.json)—— 署名は世代で分ける(root/旧則 1a98b3d3・beta 67ef3d3d)
-      const SIG0 = C_TRUE_286B ? '67ef3d3d' : '1a98b3d3';
+      const SIG0 = C_TRUE_286B ? '67ef3d3d' : '1a98b3d3';   // 第297便c: 署名は時間の宣言を戻した写しで照合する(上の evaluate)
       if (r.sig !== SIG0) bad.push(`⑤ presetSigHash ${r.sig} ≠ 基点 ${SIG0}`);
       if (r.sigNo !== r.sig || Object.values(j).some((x) => x.sig !== r.sig)) bad.push('⑤ massLedger が署名に入っている');
       add('preset.massLedger', bad.length === 0,
@@ -19093,7 +19097,7 @@ if (!FAST) {
         } else if (!(A.rays.heavy.darkRotor === A.rays.heavy.nDR && A.rays.raysDiffering > 0)) bad.push('光線: 代表粒子が重い天体に入ること/質量 0 の写しとの差の記録');
         const N = J.ngc;
         if (!(N.fLedger === 1 && N.currentTotalUnit === 767.5 && N.declared.currentTotalUnit === 767.5 && N.declared.fStar === 1
-          && ['1a98b3d3', '67ef3d3d'].includes(N.presetSigHash) && N.presetSigHashNoLedger === N.presetSigHash && /* 第286便b: 正本の世代で 1a98b3d3(c 丸め)か 67ef3d3d(c 真値) */ N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
+          && ['1a98b3d3', '67ef3d3d', '7fa984c'].includes(N.presetSigHash) && N.presetSigHashNoLedger === N.presetSigHash && /* 第286便b: 正本の世代で 1a98b3d3(c 丸め)か 67ef3d3d(c 真値)/ 第297便c: 時間の標準(timeScale 4・stepDt 0.032)の 7fa984c */ N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
         if (!(Array.isArray(J.references) && J.references.map((z) => z.key).join(',') === 'MOA-9y-5919,M31-2014-DS1,VASCO')) bad.push('参考 3 件の行');
         for (const k of ['ledger', 'curves', 'refs', 'ngc']) { const m = missRows(k); if (m.length) bad.push(`PHYSICS の表(${k})に無い行 ` + m.slice(0, 2).join(' ')); }
         const body = psec.split('**言わないこと。**')[0];
@@ -23824,7 +23828,10 @@ if (!FAST) {
         o.hud = { has: !!el, text: el ? el.textContent.trim().slice(0, 40) : '', red: el ? getComputedStyle(el).color !== getComputedStyle(document.querySelector('#hud')).color : false };
         if (!(o.hud.has && /連鎖の解法/.test(o.hud.text) && o.hud.red)) o.bad.push('HUD の赤の 1 行 ' + JSON.stringify(o.hud));
         const LS = loop.toString(), iF = LS.indexOf('T("chainSolveFail")'), win = iF >= 0 ? LS.slice(Math.max(0, iF - 600), iF) : '';
-        o.loopHalt = iF >= 0 && /running=false/.test(win) && /inertialDragHalt===true/.test(win) && (/if\(sim\.inertialDragHalt===true\) break;/.test(LS) || /return sim\.inertialDragHalt!==true/.test(LS));
+        // 第297便c(R163): 步の関数は appStepFn(A/B は A→B を 1 macrostep ずつ)へ移した —— loop が appStepFn を渡し、appStepFn が停止の旗で false を返す形も受ける(配線の移動・測定の都合)
+        const SF = (typeof appStepFn === 'function') ? appStepFn.toString() : '';
+        o.loopHalt = iF >= 0 && /running=false/.test(win) && /inertialDragHalt===true/.test(win) && (/if\(sim\.inertialDragHalt===true\) break;/.test(LS) || /return sim\.inertialDragHalt!==true/.test(LS)
+          || (/stepCarryFrame\([^;]*appStepFn\(sim,/.test(LS) && /return S\.inertialDragHalt!==true/.test(SF) && /SB\.inertialDragHalt!==true/.test(SF)));
         if (!o.loopHalt) o.bad.push('停止して通知の経路(loop)');
         const ja = T('chainSolveFail')(1, 0.5, 1, 1e-10), jaH = T('chainSolveFailHud')(1, 0.5, 1, 1e-10);
         HP.setLang('en'); const en = T('chainSolveFail')(1, 0.5, 1, 1e-10), enH = T('chainSolveFailHud')(1, 0.5, 1, 1e-10); HP.setLang('ja');
@@ -58851,7 +58858,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         HP.requestRender();
         setTimeout(() => {
           const hud1 = document.querySelector('#hud').textContent;
-          out.hudPlain = /実効倍率0\.271|effective rate 0\.271/.test(hud1);   // 0.271×1(クランプ内 — 第98便: ⚾第94便値)
+          // 第297便c(R163): ⚾ は時間の標準で timeScale 0.271→1(刻み 0.004336 —— 座標時間の進みは同じ)。期待は宣言の timeScale から作る(宣言値×1 がそのまま出る)
+          const tsDecl96 = HP.allPresets().find((p) => p.id === 'projectile').physics.timeScale;
+          out.hudPlain = (typeof HP.timeStd === 'object') ? (hud1.includes('実効倍率' + sciFmt(tsDecl96) + ':') || hud1.includes('effective rate ' + sciFmt(tsDecl96) + ':'))
+            : /実効倍率0\.271|effective rate 0\.271/.test(hud1);   // 0.271×1(クランプ内 — 第98便: ⚾第94便値)
           sp.value = sp0 || '1'; sp.dispatchEvent(new Event('change'));
           // ③ 箱宇宙 A/B: H₀ 行の編集で ab.lastBox が立ち、パラメータ編集で戻る
           HP.loadPreset('probeH', false);
@@ -58883,7 +58893,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       r.dragMoves && r.dragOffsetWhenSel && r.hudClamped && r.hudPlain
       && r.lastBoxSet === true && r.lastKeyBack === true,
       `sel非選択ドラッグでカメラ移動=${r.dragMoves}(選択時はオフセット=${r.dragOffsetWhenSel})/ ` +
-      `HUD実効倍率: 30×4→100(クランプ・第97便上限)=${r.hudClamped}・0.271×1→0.271=${r.hudPlain} / ` +
+      `HUD実効倍率: 30×4→100(クランプ・第97便上限)=${r.hudClamped}・宣言値×1→宣言値(⚾ 第297便c の世代は 1・旧 0.271)=${r.hudPlain} / ` +
       `箱A/B比較表示: lastBox=H0=${r.lastBoxSet}・G編集でlastKeyへ復帰=${r.lastKeyBack}`);
   } else {
     console.log('SKIP ui.wave96a(対象に第95便機能なし — root 等)');
@@ -58921,7 +58931,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 步数は t/0.016・実効倍率は timeScale×簡易倍率を 0.001〜1000 でクランプ)
       const want = () => {
         const ef = HP.scaleEffNow(), r1 = (v) => Math.round(v * 10) / 10;
-        return { t: +HP.sim.t.toFixed(1), step: Math.round(HP.sim.t / 0.016), n: HP.sim.n,
+        // 第297便c(R163): HUD の步数は t/画面の刻み(appStepDt —— 宣言の無い本は 0.016)
+        return { t: +HP.sim.t.toFixed(1), step: Math.round(HP.sim.t / ((HP.timeStd && HP.timeStd.appStepDt) ? HP.timeStd.appStepDt(HP.sim) : 0.016)), n: HP.sim.n,
           L: r1(ef.x), T: r1(ef.eT), M: r1(ef.eM),
           mul: Math.min(Math.max(HP.sim.params.timeScale * HP.speedMul(), 0.001), 1000) };
       };
@@ -66679,9 +66690,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           push(S.t); return h.toString(16) + '|' + S.n; };
         const run = (p) => { const S = makeSim(); S.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(p))).preset)));
           for (let k = 0; k < 200; k++) S.step(0.016); return hash(S); };
+        // 第297便c(R163): 署名の照合は時間の宣言を移行前へ戻した写しで(timeScale=legacyTimeScale・stepDt なし —— 200 步は刻み 0.016 の器なので戻さない)
+        const tsRev = (q) => (HP.timeStd && HP.timeStd.revert) ? HP.timeStd.revert(q) : q;
         for (const row of TB.rows.filter((z) => z.action === 'retire')) {
           const fx = (FXR.presets || {})[row.id], p = byId.get(row.id);
-          o.fx.push({ id: row.id, sig: !!fx && fx.presetSigHash === presetSigHash(p), pair: fx && fx.pairDiff ? Object.keys(fx.pairDiff.diff || {}).length : null,
+          o.fx.push({ id: row.id, sig: !!fx && fx.presetSigHash === presetSigHash(tsRev(p)), pair: fx && fx.pairDiff ? Object.keys(fx.pairDiff.diff || {}).length : null,
             kOnly: fx && fx.pairDiff ? fx.pairDiff.kOnly === true : null });
         }
         for (const row of TB.rows.filter((z) => z.action === 'migrate')) {
@@ -66702,7 +66715,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const c = JSON.parse(JSON.stringify(sup.raw));
           c.physics.kFrame = p.physics.kFrame; c.physics.geoPN = p.physics.geoPN;
           c.familyRole = p.familyRole; c.name = p.name; c.group = p.group;
-          o.mig.push({ id: row.id, oldOk, sig: presetSigHash(c) === presetSigHash(p), h: run(c) === run(p) });
+          o.mig.push({ id: row.id, oldOk, sig: presetSigHash(c) === presetSigHash(tsRev(p)), h: run(c) === run(p) });
         }
         return o;
       }, { TB, FXR, FXD }).catch((e) => ({ err: String(e).slice(0, 300) }));
@@ -66785,7 +66798,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       }
       o.retiredAll = ps.filter((p) => p.familyRole === 'retired').map((p) => p.id).sort();
       const d = byId.get('saturnZonalD68');
-      o.d68 = d ? { sig: presetSigHash(d), rows: (d.obsCard || []).map((z) => ({ q: z.q, model: z.model, obs: z.obs })),
+      o.d68 = d ? { sig: presetSigHash((HP.timeStd && HP.timeStd.revert) ? HP.timeStd.revert(d) : d) /* 第297便c: 時間の宣言を戻した写しで基点と照合 */, rows: (d.obsCard || []).map((z) => ({ q: z.q, model: z.model, obs: z.obs })),
         en: ((d.en || {}).obsCard || []).map((z) => ({ q: z.q, model: z.model, obs: z.obs })) } : null;
       return o;
     }, { IDS290, FAMW: (FAM || []).filter((F) => ['pluto', 'tuc47', 'supernova', 'shapeToy', 'shapeToyCore', 'axisBar'].includes(F.key)).map((F) => ({ key: F.key })) })
@@ -66929,9 +66942,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       o.cls = { familyId: p.familyId || null, familyRole: p.familyRole || null, sampleClass: p.sampleClass || null, group: p.group || null, referenceKind: p.referenceKind || null };
       o.prim = ps.filter((q) => q.familyId === 'earthmoon' && q.familyRole === 'primary').map((q) => q.id);
       o.inRP = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.earthMoonRealKF1;
-      o.json = { physics: JSON.stringify(p.physics === undefined ? null : p.physics), bodies: JSON.stringify(p.bodies === undefined ? null : p.bodies),
+      // 第297便c(R163): physics の sha と署名は時間の宣言を移行前へ戻した写しで基点と照合する(🌘 は timeScale 100→1・stepDt 65.5721 を宣言 —— 戻すと基点と同じ)
+      const pT = (HP.timeStd && HP.timeStd.revert) ? HP.timeStd.revert(p) : p;
+      o.json = { physics: JSON.stringify(pT.physics === undefined ? null : pT.physics), bodies: JSON.stringify(p.bodies === undefined ? null : p.bodies),
         qLock: JSON.stringify(p.qLock === undefined ? null : p.qLock), claims: JSON.stringify(p.claims === undefined ? null : p.claims) };
-      o.sig = presetSigHash(p);
+      o.sig = presetSigHash(pT);
       o.pop = ps.filter((q) => q.sampleClass === 'calibration' && q.familyRole !== 'retired').length;
       o.retired = ps.filter((q) => q.familyRole === 'retired').length;
       o.rpRows = typeof RETIRED_PRESETS !== 'undefined' ? Object.keys(RETIRED_PRESETS).length : null;
