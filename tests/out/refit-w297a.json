@@ -3,7 +3,7 @@
  "generator": "tests/exp-w297a-refit.mjs",
  "ruling": "原仮定者の裁定(第87報)・統括の検証項目 R161",
  "target": "beta/index.html",
- "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+ "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
  "declared": {
   "rule": "geoPN≥2 の内蔵 = physics.lambdaPN 0(宣言から列挙)",
   "n": 39,
@@ -586,7 +586,7 @@
      "apsPeriodYr": 8.850019234257942,
      "steps": 13278333,
      "nan": false,
-     "wallSec": 37.504,
+     "wallSec": 35.509,
      "rel": [
       -0.000002560014517039022,
       0.0000021733624793185413
@@ -600,7 +600,7 @@
      "apsPeriodYr": 8.850019234257942,
      "steps": 13278333,
      "nan": false,
-     "wallSec": 39.298,
+     "wallSec": 34.92,
      "rel": [
       -0.000002560014517039022,
       0.0000021733624793185413
@@ -614,7 +614,7 @@
      "apsPeriodYr": 8.849542818677518,
      "steps": 26556662,
      "nan": false,
-     "wallSec": 75.5,
+     "wallSec": 71.934,
      "rel": [
       -0.0000027146213332773783,
       -0.00005165890649505567
@@ -652,7 +652,7 @@
    "residualRel": 0.000002560014517039022,
    "status": "fitted",
    "fitRecord": {
-    "version": "w297b-1",
+    "version": "w296b-1",
     "parent": "earthMoonRealKF1",
     "law": "geoPN=2・kFrame=1・λ_PN=0(第297便a —— 力学の 1PN を q の引きずりと重ねない)・qLock・frameWeight:\"pull\"",
     "targets": [
@@ -716,9 +716,9 @@
      "機構(実際の主因は太陽摂動 —— 機構の同定ではない)"
     ]
    },
-   "fitRecordAccepted": false,
-   "fitRecordErr": "fitRecord.targets.tol はオブジェクト {value,kind,note}",
-   "wallSec": 152.304
+   "fitRecordAccepted": true,
+   "fitRecordErr": null,
+   "wallSec": 142.367
   },
   "qlock": {
    "procedure": "離心ベクトルの角度の累積(地球 pinned)・窓 T=24000(参照プローブの約 1 公転)・Δϖ_drag = kFrame=1 − kFrame=0",
@@ -1815,28 +1815,28 @@
   }
  },
  "timing": {
-  "wallSec": 1650.618
+  "wallSec": 143.878
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第297便a",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:18:34.480Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:02:02.078Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w297a-refit.mjs",
-    "bytes": 31556,
-    "sha256": "6161b211a5efb3420e894b310b2ae324c6d48b7608dd8526cf4af3090c406008",
-    "mtime": "2026-10-09T12:28:59.306Z"
+    "bytes": 32280,
+    "sha256": "14b09ed1416958793c8f36e0de07a18e99cf280c99eeb588e7716cea2df8da47",
+    "mtime": "2026-10-09T16:59:32.023Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -1863,7 +1863,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "1979e3caf57278b5e2015f6d4efc01326782d791208e38477496e1873143b6db",
+  "codeSha256": "65949506d191591ab3c8869e7dcf294581c6070fecdf3874ccffb36239e7e167",
   "harnessVersion": "w297a-refit-1",
   "parts": [
    "em",
@@ -1887,6 +1887,7 @@
    "presets": "all",
    "roots": [
     "HP.FIT_RECORD_VERSION",
+    "HP.FIT_RECORD_VERSIONS",
     "HP.abStart",
     "HP.abStop",
     "HP.ab",
@@ -1907,10 +1908,10 @@
    "segments": 983,
    "closureShare": 0.3186
   },
-  "scopeSha256": "f53b7e3620120b7b6acb91d16cf38edb2b70640e2ff3f98f6b2c31ccfb057749",
+  "scopeSha256": "45f86a7665bc6a25dbfbf833a7cfddb69a452592e5aa96a79d30d104512abfaa",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 1650.618
+ "elapsedS": 143.878
 }

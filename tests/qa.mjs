@@ -6541,7 +6541,7 @@ if (!TARGET.startsWith('beta/')) {
     console.log('SKIP docs.families(対象 html に第283便b の FAMILY_ROLES なし — root 等)');
   } else {
     const bad = [];
-    let J = null, E = null;
+    let J = null, E = null, cases6F = '';
     try {
       E = await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'));
       J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'families-w283b.json'), 'utf8'));
@@ -6580,10 +6580,19 @@ if (!TARGET.startsWith('beta/')) {
       // 第287便b(原仮定者の裁定(第77報)AN62): 🪤 psrB1534CF の退役で 16(世代切替は同じく RETIRED_PRESETS の行)
       const nRet = html.indexOf('  psrB1534CF:{ja:') >= 0 ? 16 : html.indexOf('  psrJ1946CF:{ja:') >= 0 ? 15 : html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
       if (!(Array.isArray(R.presets) && R.presets.length === nRet)) bad.push(`⑥退役の棚卸しが ${nRet} 本でない`);
+      // 第297便a(原仮定者の裁定(第87報)・R161): 世代切替 has297aF = html の MODE_SAVE_WARN_CODES に "lambdaPnOnDrag"。geoPN≥2 の退役の本も λ_PN=0 になった ——
+      //   器が宣言から導いた本(lam297: 内蔵 λ_PN=0・写しの λ_PN≠0)だけ、λ_PN を写しの値へ戻した写しの署名 sigBuiltinLam で写しと照合する(動いたのは λ_PN の 1 か所だけ)
+      const has297aF = /"lambdaPnOnDrag"\]/.test(html);
+      const lam297F = [];
       for (const p of R.presets || []) {
         if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);
-        if (!(p.sigBuiltin && p.sigBuiltin === p.sigFixture && p.sigFixtureNow === p.sigFixture)) bad.push(`⑥${p.id}: 署名 内蔵 ${p.sigBuiltin} / 写し ${p.sigFixture}`);
+        const lamOk = has297aF && p.lam297 && p.lam297.builtin === 0 && p.lam297.fixture !== 0 && p.sigBuiltinLam;
+        if (lamOk) lam297F.push(p.emoji || p.id);
+        const sigB = lamOk ? p.sigBuiltinLam : p.sigBuiltin;
+        if (!(sigB && sigB === p.sigFixture && p.sigFixtureNow === p.sigFixture)) bad.push(`⑥${p.id}: 署名 内蔵 ${p.sigBuiltin}${lamOk ? '(λ_PN を戻した写し ' + p.sigBuiltinLam + ')' : ''} / 写し ${p.sigFixture}`);
+        if (!has297aF && p.lam297) bad.push(`⑥${p.id}: 第297便a の前の世代の html なのに正本に lam297 がある(器を走らせ直すこと)`);
       }
+      if (lam297F.length) cases6F = `第297便a の λ_PN=0 で署名だけ変わった退役 ${lam297F.length} 本(${lam297F.join('')})は λ_PN を写しの値へ戻した写しで一致`;
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 100)); }
     const c = (J && J.counts) || {};
     add('docs.families', bad.length === 0,
@@ -6592,6 +6601,7 @@ if (!TARGET.startsWith('beta/')) {
       ` / 候補 A ${(c.cand || {}).A || 0}・B ${(c.cand || {}).B || 0}・C(要裁定)${(c.cand || {}).C || 0}・畳まない組 ${c.keepApart}` +
       ` / md は正本の生成物と 1 字一致・禁止語 0・観測版と DFM 版をまたぐ候補 0・候補の本はすべて内蔵に残る(畳んでいない)` +
       (J && J.retired ? ` / 退役 ${J.retired.presets.length} 本は内蔵に残り署名が凍結の写しと同じ・名指しする器 ${J.retired.harnesses.length} 本(${Object.entries(J.retired.kindCounts).map(([k, v]) => k + ' ' + v).join('・')})` : '') +
+      (cases6F ? ' / ' + cases6F : '') +
       (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -20189,9 +20199,12 @@ if (!FAST) {
         else if (!(C.beforeAfter && C.beforeAfter.kf0SameAsBefore === true)) bad.push('kF0 の写しが基点と同じでない');
         if (kfD) cases.push(`kF0 の写しの前後差 ${kfD.map((d) => d.toExponential(3)).join('/')} s(dt・dt/2 —— 第291便b の源集合で変わる・ビット同一は求めない)`);
         if (!(C.beforeAfter && Math.abs(C.beforeAfter.dtS) < 1e-6 && Math.abs(C.beforeAfter.dtHalfS) < 1e-6)) bad.push('🌒 の周期の前後差が 1e-6 s 以上(記録を読み直すこと)');
+        if (C.beforeAfter && C.beforeAfter.declHist && !/"lambdaPnOnDrag"\]/.test(html287c)) bad.push('第297便a の前の世代の html なのに正本の前後が第296便までの宣言の写しで測られている(器を走らせ直すこと)');
         if (!(C.taylorVariant && C.taylorVariant.vsSourcesS > 1e-4)) bad.push('taylor(採らない形)の見かけのせん断が記録されていない');
         if (!(P1.ok && P1.bitSame === true)) bad.push('share-p1 の基準コピーが 🪁 とビット一致しない');
-        if (rr.dt && rr.dtHalf) cases.push(`🌒 周期(2 周目)の kF0 との差 ${Number(rr.dt.diffS).toExponential(3)}/${Number(rr.dtHalf.diffS).toExponential(3)} s(dt・dt/2)・前後差 ${Number(C.beforeAfter.dtS).toExponential(1)}/${Number(C.beforeAfter.dtHalfS).toExponential(1)} s・`
+        if (rr.dt && rr.dtHalf) cases.push(`🌒 周期(2 周目)の kF0 との差 ${Number(rr.dt.diffS).toExponential(3)}/${Number(rr.dtHalf.diffS).toExponential(3)} s(dt・dt/2)・前後差 ${Number(C.beforeAfter.dtS).toExponential(1)}/${Number(C.beforeAfter.dtHalfS).toExponential(1)} s`
+          // 第297便a(R161): 🌒 は力学の 1PN を外した(pn:"off"・λ_PN=0)—— 前後の照合は器が第296便までの宣言へ戻した写しで行う(今の宣言の差は記録)
+          + (C.beforeAfter.declHist ? `(第296便までの宣言へ戻した写し —— 第297便a。今の宣言の 🌒 と基点の差 ${Number((C.beforeAfterNow || {}).dtS).toExponential(2)}/${Number((C.beforeAfterNow || {}).dtHalfS).toExponential(2)} s は力学の 1PN を外した分)` : '') + `・`
           + `taylor(採らない形)は sources から ${Number(C.taylorVariant.vsSourcesS).toExponential(2)} s・share-p1 の基準コピー ${P1.n} 体 ${P1.steps} 步でビット一致`);
       }
       add('behavior.bgTimeContract', bad.length === 0,
@@ -20340,7 +20353,11 @@ if (!FAST) {
         const BA = JR.beforeAfter || {};
         if (!(BA.counterBefore === 0 && BA.counterAfter === 3 && BA.controlsSame === true && BA.charonBitSame === true)) bad.push('正本の前後(反例 0/3 → 3/3・対照不変・🌒 の指紋が基点と同一)' + JSON.stringify(BA));
         cases.push(`反例(taylor の再展開): ${C.rows.filter((r) => r.counter).map((r) => r.key + ' out=' + r.out).join('・')}(基点 0/3 → ${C.counterPass}/3)・対照 ${C.rows.filter((r) => !r.counter).map((r) => r.key + ' ' + r.out + '/' + r.reexp).join('・')}・再展開の値は sources とビット一致`);
-        cases.push(`🌒 2 周: 範囲外 ${F.base.timeOutSteps} 步(${F.base.contractRange})・widthT=${F.short.widthT} の写し ${F.short.timeOutSteps} 步(${F.short.contractRange}・器の数えと一致・軌道は元とビット同一)・🌒 の指紋 ${String(JR.fingerprint.sha256).slice(0, 12)}… が基点と同一`);
+        cases.push(`🌒 2 周: 範囲外 ${F.base.timeOutSteps} 步(${F.base.contractRange})・widthT=${F.short.widthT} の写し ${F.short.timeOutSteps} 步(${F.short.contractRange}・器の数えと一致・軌道は元とビット同一)・`
+          // 第297便a(R161): 🌒 は力学の 1PN を外した(pn:"off"・λ_PN=0)—— 基点との指紋の照合は器が第296便までの宣言へ戻した写し(fingerprintHist)で行う
+          + (JR.fingerprintHist ? `🌒 の指紋(第296便までの宣言へ戻した写し —— 第297便a)${String(JR.fingerprintHist.sha256).slice(0, 12)}… が基点と同一・今の宣言の 🌒 は ${String(JR.fingerprint.sha256).slice(0, 12)}…`
+            : `🌒 の指紋 ${String(JR.fingerprint.sha256).slice(0, 12)}… が基点と同一`));
+        if (JR.fingerprintHist && !/"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))) bad.push('第297便a の前の世代の html なのに正本に第296便までの宣言の写しの指紋がある(器を走らせ直すこと)');
         const rows = BR.docRows(JR), miss = docMiss(rows);
         if (!psec288) bad.push('PHYSICS〔第288便c — 〕が無い');
         else if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
@@ -20892,6 +20909,13 @@ if (!FAST) {
           try { for (const id of ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {}).changed || [])) OTHER285.add(id); }
           catch (e) { bad.push('第291便b の源集合で動いた本の一覧(pnsources-w291b.json の B.changed)が読めない'); }
         }
+        // 第297便a(原仮定者の裁定(第87報)・R161)の世代(html の MODE_SAVE_WARN_CODES に "lambdaPnOnDrag"): geoPN≥2 の λ_PN=0 で 1 步の結果が動いた本 ——
+        //   第296便までの宣言で力学の 1PN が走っていた本(正本 refit-w297a.json の declared の pn1Before —— 宣言から導いた一覧)も宣言の外でよい
+        //   (第291便b の正本 pnsources-w291b.json は器の版 w291b-pnsources-5 から、この本を B.changed ではなく B.changedByLambdaPn297 に記録する)
+        if (/"lambdaPnOnDrag"\]/.test(html285)) {
+          try { for (const b of ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w297a.json'), 'utf8')).declared || {}).books || [])) if (b.pn1Before === true) OTHER285.add(b.id); }
+          catch (e) { bad.push('第297便a の宣言の列挙(refit-w297a.json の declared)が読めない'); }
+        }
         const has290e285 = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
         // 第292便c: 🌛 earthMoonInertial(慣性決定力版の地球と月 —— 宣言した本だけの別経路で 1 步が変わる。基点 b92ffa1 には無い本)を足した世代は 151 本
         //   (鎖の段 contact285 で正本が入れ替わるまでは 150 本の正本のまま —— どちらの世代も通す)
@@ -21041,7 +21065,12 @@ if (!FAST) {
           const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
           const H = loadHtmlHeadless(path.join(ROOT, TARGET));
           const D = EK.declarationCheck(H.HP);
-          if (JSON.stringify(D) !== JSON.stringify(JK.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+          // 第297便a(原仮定者の裁定(第87報)・R161): 世代切替 has297aK = html の MODE_SAVE_WARN_CODES に "lambdaPnOnDrag"。器は 💮 の凍結の写し(第285便a の宣言 —— geoPN=3・λ_PN=1)を
+          //   受理器に通すので、第297便a の逸脱 lambdaPnOnDrag の警告 1 行が足される(写しは履歴 —— 書き換えない)。照合はその 1 行を除いて行う(ほかの警告と全欄は従来どおり)
+          const has297aK = /"lambdaPnOnDrag"\]/.test(html285);
+          const Dk = has297aK ? Object.assign({}, D, { warnings: (D.warnings || []).filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)) }) : D;
+          if (JSON.stringify(Dk) !== JSON.stringify(JK.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+          if (has297aK && (D.warnings || []).length !== (Dk.warnings || []).length) cases.push('第297便a: 凍結の写し(geoPN=3・λ_PN=1)の lambdaPnOnDrag の警告 1 行は照合から除く');
           if (!(D.lengthUnitM.rel <= 1e-9 && D.dr.relDeclared <= 1e-4 && D.star.relDeclared <= 1e-4 && D.dr.builtVsFround && D.star.builtVsFround && D.dr.rMulAbsent && D.star.rMulAbsent))
             bad.push('particleRadius(G・c・質量単位からの換算)' + JSON.stringify({ L: D.lengthUnitM, dr: D.dr.relDeclared, st: D.star.relDeclared }));
           if (!(D.draw.length === 3 && D.draw.every((z) => z.drBelowStar && z.starAboveFloor))) bad.push('**DR の表示半径 < 恒星**でない(または恒星が床に潰れる)' + JSON.stringify(D.draw));
@@ -43402,7 +43431,10 @@ if (!FAST) {
         return { n, hit };
       };
       // #hud は毎フレーム書き換わるので、同じ同期タスクの中で長文を入れて測り、最後に戻す
-      const LONG = ('HUD ' + 'X'.repeat(40) + '\n').repeat(14);
+      // 第297便 ゲート 1(測定の都合 —— 環境依存): 1 行の長さは折り返さない長さにする。狭い画面(390px・--uz 1.15 で 12.65px)では「HUD + X×40」が
+      //   既定の sans-serif の字幅で 374px を超えて 2 行に折り返し(容器の既定 sans-serif が Inter のとき —— 基準 html でも同じ)、14 行が 28 行になって
+      //   狭い状態でも操作列へはみ出す。この検査が見るのは**縦**のはみ出し(広げた状態のクリップ)なので、字幅に依らず 1 行に収まる X×20 で 14 行を作る
+      const LONG = ('HUD ' + 'X'.repeat(20) + '\n').repeat(14);
       const snap = () => {
         const hud = document.getElementById('hud');
         const sv = hud.textContent, pe = hud.style.pointerEvents;
@@ -62978,7 +63010,11 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           if (sp[p.id]) continue;
           HP.loadPreset(p.id, false); HP.sim.overlays.liveCompare = true; L.reset('on');
           const rec = L.paint();
-          if (!(rec.status === 'none' && rec.texts.includes(HP.T('lcNone')) && rec.texts.includes(HP.T('lcProv')))) o.none.push(p.id);
+          // 第297便 ゲート 1(測定の都合 —— 環境依存): グラフの文は枠の幅で「…」に切り詰められる(字幅は容器のフォントで変わる —— 既定の sans-serif が
+          //   Inter の容器では lcNone が切り詰められ、基準 html でも同じ)。全文か、全文の先頭(少なくとも「(」の前の語 —— 「ライブ計測未対応」)を含む切り詰めを認める
+          const NONE = HP.T('lcNone'), head = NONE.split(/[((]/)[0];
+          const hasNone = rec.texts.some((t) => t === NONE || (t.endsWith('…') && t.length - 1 >= head.length && NONE.startsWith(t.slice(0, -1))));
+          if (!(rec.status === 'none' && hasNone && rec.texts.includes(HP.T('lcProv')))) o.none.push(p.id);
           const cs = [...document.querySelectorAll('#helpBody .lcInline')];
           if (cs.length && !cs.every((e) => e.dataset.status === 'none' && e.textContent.includes(HP.T('lcNone')))) o.none.push(p.id + '(カード)');
           o.nAll = (o.nAll || 0) + 1;
@@ -70713,9 +70749,24 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const W286B = C_TRUE_286B ? JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')).books.map((b) => b.id)
         .concat(['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB']) : [];
       const OTHER285B = ['galaxyGeo2', 'psrJ1757DFM'].concat(W286B), SIG285B = OTHER285B.concat(['saturnRingReal', 'saturnRingRealKF1']);
-      const notEih285 = G.changedNotEih.filter((id) => !OTHER285B.includes(id));
-      const sigOff285 = (G.rows || []).filter((r) => !r.sigSame && !SIG285B.includes(r.id)).map((r) => r.id);
+      // 第297便a・c(原仮定者の裁定(第87報)・R161/R163): 世代切替 has297aP1 = html の MODE_SAVE_WARN_CODES に "lambdaPnOnDrag"・has297cP1 = html の TIME_STD_VERSION。
+      //   宣言から導いた集合だけを足す(手書きの ID 一覧は持たない): 軌道の差は「第296便までの宣言で力学の 1PN が走っていた本」(正本 refit-w297a.json の declared —— pn1Before)、
+      //   署名の差はそれに「λ_PN の宣言が変わった本」(同 —— lambdaBefore≠lambdaPN)と「時間の宣言を移した本」(timeRef.legacyTimeScale —— 署名だけが変わる)を足す
+      const html297P1 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const has297aP1 = /"lambdaPnOnDrag"\]/.test(html297P1), has297cP1 = html297P1.indexOf('const TIME_STD_VERSION="w297c-timestd-1"') >= 0;
+      let LAM297T = [], LAM297S = [], TS297 = [];
+      if (has297aP1) {
+        const bk = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w297a.json'), 'utf8')).declared || {}).books) || [];
+        if (!bk.length) bad.push('② 第297便a の宣言の列挙(refit-w297a.json の declared)が読めない');
+        LAM297T = bk.filter((b) => b.pn1Before === true).map((b) => b.id);
+        LAM297S = bk.filter((b) => typeof b.lambdaBefore === 'number' && b.lambdaBefore !== b.lambdaPN).map((b) => b.id);
+      }
+      if (has297cP1) TS297 = await page.evaluate(() => HP.allPresets().filter((p) => p.timeRef && typeof p.timeRef.legacyTimeScale === 'number').map((p) => p.id));
+      const notEih285 = G.changedNotEih.filter((id) => !OTHER285B.includes(id) && !LAM297T.includes(id));
+      const sigOff285 = (G.rows || []).filter((r) => !r.sigSame && !SIG285B.includes(r.id) && !LAM297S.includes(r.id) && !TS297.includes(r.id)).map((r) => r.id);
       if (!(notEih285.length === 0 && sigOff285.length === 0)) bad.push(`② EIH の本以外の差 ${notEih285.join(',')}・署名の差 ${sigOff285.join(',')}(${G.sigSame}/${G.n})`);
+      if (has297aP1 || has297cP1) cases.push(`第297便: EIH の外の差のうち λ_PN の宣言で動いた本 ${G.changedNotEih.filter((id) => LAM297T.includes(id) && !OTHER285B.includes(id)).length}・`
+        + `署名だけ時間の宣言で動いた本 ${(G.rows || []).filter((r) => !r.sigSame && TS297.includes(r.id) && !LAM297S.includes(r.id) && !SIG285B.includes(r.id)).length}(宣言から導く)`);
       cases.push(`基点 ${A.reproBase.q1e4.toFixed(4)}・${A.reproBase.q1.toFixed(4)} → 現行 ${A.now.q1e4.toFixed(5)}・${A.now.q1.toFixed(5)}・前後 ${G.bitSame128}/${G.n}`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = P.indexOf('\n〔第285便b — '), i7 = P.indexOf('\n## 7. ');
@@ -71030,8 +71081,24 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           W295B = (G4.migrated || []).filter((id) => (G4.identical || []).includes(id)); } catch (e) { W295B = []; }
         if (!W295B.length) bad.push('④ 第295便b の移住の一覧(geo4-w295b.json の summary.migrated)が読めない');
       }
-      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id));
+      // 第297便a・c(原仮定者の裁定(第87報)・R161/R163)の世代: 宣言から導いた集合だけを足す(手書きの ID 一覧は持たない)——
+      //   軌道(diffMany)の差は「第296便までの宣言で力学の 1PN が走っていた本」(正本 refit-w297a.json の declared —— pn1Before)、
+      //   署名(sigDiff)の差はそれに「λ_PN の宣言が変わった本」(同 —— lambdaBefore≠lambdaPN)と「時間の宣言を移した本」(timeRef.legacyTimeScale)を足す
+      const has297aCL = /"lambdaPnOnDrag"\]/.test(html), has297cCL = html.indexOf('const TIME_STD_VERSION="w297c-timestd-1"') >= 0;
+      let LAM297T = [], LAM297S = [], TS297 = [];
+      if (has297aCL) {
+        const bk = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w297a.json'), 'utf8')).declared || {}).books) || [];
+        if (!bk.length) bad.push('④ 第297便a の宣言の列挙(refit-w297a.json の declared)が読めない');
+        LAM297T = bk.filter((b) => b.pn1Before === true).map((b) => b.id);
+        LAM297S = bk.filter((b) => typeof b.lambdaBefore === 'number' && b.lambdaBefore !== b.lambdaPN).map((b) => b.id);
+      }
+      if (has297cCL) TS297 = await page.evaluate(() => HP.allPresets().filter((p) => p.timeRef && typeof p.timeRef.legacyTimeScale === 'number').map((p) => p.id));
+      const diffManyCL = new Set((J.G || {}).diffMany || []), sigDiffCL = new Set((J.G || {}).sigDiff || []);
+      const ok297CL = (id) => (has297aCL || has297cCL) && (!diffManyCL.has(id) || LAM297T.includes(id)) && (!sigDiffCL.has(id) || LAM297S.includes(id) || TS297.includes(id));
+      const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && ok297CL(id)))];
+      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !ok297CL(id));
       if (!(J.G && undecl.length === 0)) bad.push('④ 宣言の外で動いた本: ' + undecl.join(','));
+      if (undecl297.length) cases.push(`第297便の宣言(λ_PN=0〔軌道は 1PN が走っていた本だけ〕・時間の宣言〔署名だけ〕)で動いた本 ${undecl297.length}(宣言から導く)`);
       cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`
         + (W291B.length ? `+第291便b の源集合で動いた本 ${W291B.length}` : '') + (W295B.length ? `+第295便b で geoPN 4 へ移住した本 ${W295B.length}(ビット同一)` : '')
         + ((W291B.length || W295B.length) ? `(うち宣言の外 ${(J.G.changedUndeclared || []).length} 本: ${(J.G.changedUndeclared || []).join(',')})` : ''));

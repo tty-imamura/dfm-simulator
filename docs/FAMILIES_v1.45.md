@@ -581,6 +581,8 @@
 | 🩹 | `psrJ1946CF` | ○ | ○ | 159233c1 | f8600f7c |
 | 🪤 | `psrB1534CF` | ○ | ○ | 67d471cb | 84820b4 |
 
+- **第297便a(geoPN=2・3・4 は λ_PN=0)で λ_PN だけが変わった退役 8 本**: 🎋`galaxyMeshSpiralGeoToyLite`・🪶`psrDoubleABPN`・🪃`psrJ1757PN`・🪀`psrJ1946PN`・🪝`psrDoubleABCF`・🪄`psrJ1757CF`・🩹`psrJ1946CF`・🪤`psrB1534CF` —— 内蔵の署名は凍結の写しと違う(走る宣言は λ_PN=0)。λ_PN を写しの値(未宣言 = 1・🪶🪃🪀 は 1/f)へ戻した写しの署名は **すべて写しと同じ**(9f910293 / c794a498 / 7132210b / cc595e3c / 8767377 / 12797269 / f8600f7c / 84820b4 —— 動いたのは λ_PN の 1 か所だけ)。
+
 - **ゲートから外した長走行**: `darkrotorMidNew`・`darkrotorMidOld`・`darkrotorLong`・`darkrotorMultiseed`(保存 QA の worker の所要の和 341.6 s)と、その結果を読む試験 `behavior.darkrotor`・`behavior.darkrotorLong`・`behavior.darkrotor-pitch`・`behavior.darkrotor-multiseed`。最後の保存 QA の値は凍結の写しの history に転記した(測り直していない)。
 - **機構の最小試験**(ゲートに残す 1 点ずつ): コアの交換(殻のスピン移送) = `claim.bhcore-selfdrive`(bhCore) / 傾斜(コア軸の横倒しで Jz が機械ゼロ・減光は保つ) = `behavior.templates229`(bhCoreTilt) / 減光(暗いコアと明るい外層のコントラスト) = `claim.nebularotor-contrast`(nebulaRotor) / パワーボール(圧縮と軸仕事の経路) = `claim.starseed-powerball`(starSeed)。
 - **第284便b の写し** `tests/fixtures/retired-w284b.json`(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本(`galaxyMeshSpiralGeoToyLite` `psrDoubleABPN` `psrJ1757PN` `psrJ1946PN` `emAuditNewton` `psrDoubleABCF`)と、f=1 へ移した本の旧則(`psrDoubleABDFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.psrDoubleAB`・`behavior.w249a-pnResponse`・`behavior.compactForce`・`behavior.calibrationForecast`。

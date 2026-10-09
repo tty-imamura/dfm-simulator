@@ -32,7 +32,7 @@ import { loadHtmlMain, runRow, fitPeri } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は宣言から列挙するので presets は全本
-const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_RECORD_VERSION","HP.FIT_RECORD_VERSIONS","HP.abStart","HP.abStop","HP.ab","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoModeOf","HP.loadPreset","HP.sim","HP.validateFitRecord","HP.validatePreset","isNum","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.W297A_TARGET || 'beta/index.html';
@@ -40,6 +40,8 @@ const OUT = process.env.W297A_OUT || path.join(ROOT, 'tests', 'out', 'refit-w297
 const argOf = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
 const PARTS = String(argOf('--part') || process.env.W297A_PART || 'em,emfit,qlock,galaxy,geotoy,retired').split(',').filter(Boolean);
 export const REFIT_W297A_VERSION = 'w297a-refit-1';
+/** 本器が書く fitRecord の形の版(targets[].tol・cond を持たない形 —— 第296便b の w296b-1)。 */
+export const FIT_RECORD_VERSION_FORM = 'w296b-1';
 
 // 第296便までの宣言の λ_PN(履歴 —— 基点 8f380ee の physics.lambdaPN)。🪶🪃🪀 は massCalibration の 1/f(第249便a の処方 —— 第297便a で撤回)。
 // それ以外の 35 本は 1。**走る正本は 0**(本の宣言)—— この表は「前」の行を作るためだけに読む
@@ -156,8 +158,10 @@ async function partEmFit() {
   const status = resid <= h2 ? 'fitted' : 'unreachable-in-bounds';
   const adopted = { D0pull: adoptedX.D0pull, f: adoptedX.f, bodies: pA.bodies.map((b) => ({ vx: b.vx, vy: b.vy })),
     sidMeanDays: eh.sidMeanDays, apsPeriodYr: eh.apsPeriodYr, rel: hRow, half: { dt: 0.008, sidMeanDays: eh2.sidMeanDays, apsPeriodYr: eh2.apsPeriodYr } };
+  // 第297便(統合 —— 枝 b の記録の版 w297b-1 は targets[].tol と cond〔条件の署名〕を要る): 本器が書く記録は w296b-1 の形(tol・cond を持たない)で、
+  //   🌘 の本の fitRecord も w296b-1(旧版の記録として受理される)—— 版は形に合わせて w296b-1 で書く(受理器が w296b-1 を読めない世代だけ受理器の現行版)
   const fitRecord = {
-    version: HP.FIT_RECORD_VERSION, parent: EM_ID, law: 'geoPN=2・kFrame=1・λ_PN=0(第297便a —— 力学の 1PN を q の引きずりと重ねない)・qLock・frameWeight:"pull"',
+    version: (Array.isArray(HP.FIT_RECORD_VERSIONS) && HP.FIT_RECORD_VERSIONS.indexOf(FIT_RECORD_VERSION_FORM) >= 0) ? FIT_RECORD_VERSION_FORM : HP.FIT_RECORD_VERSION, parent: EM_ID, law: 'geoPN=2・kFrame=1・λ_PN=0(第297便a —— 力学の 1PN を q の引きずりと重ねない)・qLock・frameWeight:"pull"',
     targets: [
       { q: '恒星月(同方向 1 周の平均)', obs: T.siderealMonthDays, unit: 'd', source: '恒星月 27.3217 日(本の parameterAudit の観測値)', window: '同方向 1〜9 周(8 公転窓)' },
       { q: '近点回転の周期(検出器 B・近点方位の時刻に対する直線 fit)', obs: T.apsidalPeriodYr, unit: 'yr', source: '月の近点回転 8.85 年(本の parameterAudit の観測値)', window: '最初の 8 公転(第280便b の emgrid と同じ窓と抽出器)' }],

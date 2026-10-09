@@ -4,7 +4,7 @@
   "wave": "第283便b",
   "target": "beta/index.html",
   "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
-  "generatedAt": "2026-10-09T15:35:51.608Z",
+  "generatedAt": "2026-10-09T17:15:54.049Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 69942,
-    "sha256": "8a56da8be4d805d40b63910b858072721e7047e95c2395cf67255b85f57744dd",
-    "mtime": "2026-10-09T15:35:51.543Z"
+    "bytes": 70537,
+    "sha256": "c067e06e77709255a5e174742f0ae939214dca655f285214b8232b25afd36f61",
+    "mtime": "2026-10-09T17:15:54.028Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 41576,
-    "sha256": "c0dbeaefe5d9194a949b90ea71ac14a98fcfff033ff9812d38dfc8aa6eca72d0",
-    "mtime": "2026-10-09T10:19:35.486Z"
+    "bytes": 43310,
+    "sha256": "98abf0b12d80f7a74187fc4649d2dde87f31f6b73772dcca43c845e745ac63fd",
+    "mtime": "2026-10-09T16:55:55.087Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -93,7 +93,7 @@
     "mtime": "2026-10-09T12:30:33.487Z"
    }
   ],
-  "codeSha256": "5688a09ea7498d0e51724d9d7e9317723823a8cdc1d32d99bf58bac4fce241b1",
+  "codeSha256": "a8dd9116bc604d4b44434144ad951c5b79aee2c3ccf9b09b92023a008a9ca96a",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -5870,7 +5870,12 @@
     "sigBuiltin": "4bbd4446",
     "sigFixture": "9f910293",
     "sigFixtureNow": "9f910293",
-    "fixture": "tests/fixtures/retired-w284b.json"
+    "fixture": "tests/fixtures/retired-w284b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 1
+    },
+    "sigBuiltinLam": "9f910293"
    },
    {
     "id": "psrDoubleABPN",
@@ -5880,7 +5885,12 @@
     "sigBuiltin": "73202193",
     "sigFixture": "c794a498",
     "sigFixtureNow": "c794a498",
-    "fixture": "tests/fixtures/retired-w284b.json"
+    "fixture": "tests/fixtures/retired-w284b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 0.5000144330801174
+    },
+    "sigBuiltinLam": "c794a498"
    },
    {
     "id": "psrJ1757PN",
@@ -5890,7 +5900,12 @@
     "sigBuiltin": "eae3ad89",
     "sigFixture": "7132210b",
     "sigFixtureNow": "7132210b",
-    "fixture": "tests/fixtures/retired-w284b.json"
+    "fixture": "tests/fixtures/retired-w284b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 0.5000260856666837
+    },
+    "sigBuiltinLam": "7132210b"
    },
    {
     "id": "psrJ1946PN",
@@ -5900,7 +5915,12 @@
     "sigBuiltin": "971fc62b",
     "sigFixture": "cc595e3c",
     "sigFixtureNow": "cc595e3c",
-    "fixture": "tests/fixtures/retired-w284b.json"
+    "fixture": "tests/fixtures/retired-w284b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 0.5000086177580901
+    },
+    "sigBuiltinLam": "cc595e3c"
    },
    {
     "id": "emAuditNewton",
@@ -5920,7 +5940,12 @@
     "sigBuiltin": "d8a175e6",
     "sigFixture": "8767377",
     "sigFixtureNow": "8767377",
-    "fixture": "tests/fixtures/retired-w284b.json"
+    "fixture": "tests/fixtures/retired-w284b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 1
+    },
+    "sigBuiltinLam": "8767377"
    },
    {
     "id": "psrJ1757CF",
@@ -5930,7 +5955,12 @@
     "sigBuiltin": "67328148",
     "sigFixture": "12797269",
     "sigFixtureNow": "12797269",
-    "fixture": "tests/fixtures/retired-w285f.json"
+    "fixture": "tests/fixtures/retired-w285f.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 1
+    },
+    "sigBuiltinLam": "12797269"
    },
    {
     "id": "psrJ1946CF",
@@ -5940,7 +5970,12 @@
     "sigBuiltin": "159233c1",
     "sigFixture": "f8600f7c",
     "sigFixtureNow": "f8600f7c",
-    "fixture": "tests/fixtures/retired-w286f.json"
+    "fixture": "tests/fixtures/retired-w286f.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 1
+    },
+    "sigBuiltinLam": "f8600f7c"
    },
    {
     "id": "psrB1534CF",
@@ -5950,7 +5985,12 @@
     "sigBuiltin": "67d471cb",
     "sigFixture": "84820b4",
     "sigFixtureNow": "84820b4",
-    "fixture": "tests/fixtures/retired-w287b.json"
+    "fixture": "tests/fixtures/retired-w287b.json",
+    "lam297": {
+     "builtin": 0,
+     "fixture": 1
+    },
+    "sigBuiltinLam": "84820b4"
    }
   ],
   "harnesses": [
@@ -6845,5 +6885,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.699
+ "elapsedS": 0.579
 }

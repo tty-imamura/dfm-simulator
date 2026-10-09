@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:51:35.759Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:01:25.086Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 23591,
-    "sha256": "36984af0a21b09633f30ffabf37690200d1610f7b4dd9339ef85e0716323e1bc",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "bytes": 25885,
+    "sha256": "d37fdd4fa6982682eef73b41af21f1c93cc4ff89cf35c681793ee48f2b060efb",
+    "mtime": "2026-10-09T16:59:23.994Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
@@ -63,8 +63,8 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "ebea457efc161ae615cfb8983a1ae6c264b8b22b4c8482cbdf4c96e0f646b6ae",
-  "harnessVersion": "w291b-pnsources-4",
+  "codeSha256": "a6b49af07c37b013d53f914c10ab384f66ff26759c1ecbfed4eba6a692a2ac3b",
+  "harnessVersion": "w291b-pnsources-5",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
   "reading": "統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)",
@@ -107,16 +107,17 @@
     "pnOrbitalKF0",
     "pnOrbitalSource",
     "pnSource",
-    "presetSig"
+    "presetSig",
+    "timeStdRevert"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1079,
-   "segments": 988,
+   "names": 1080,
+   "segments": 989,
    "closureShare": 0.3205
   },
-  "scopeSha256": "086e6d54a95c42df7f1d295d82a209d33d59e3ea8e1b9c906fe753f5bda3739c",
+  "scopeSha256": "e4842a2502ccb91a90321acbedf055d395f865e46547e8c68edda12533c8ac28",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -167,7 +168,7 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+ "nowSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
  "A": {
   "n": 159,
   "kf0Books": 28,
@@ -201,19 +202,12 @@
   "dt": 0.016,
   "bitSame": 108,
   "changed": [
-   "galaxyGeo2",
    "earthMoonReal",
-   "earthMoonRealKF1",
    "emAuditNewton",
-   "emAuditDFM",
    "emAuditSolar",
    "earthMoonDiagOne",
-   "qLockRadialAudit",
-   "qLockRadialAuditQ3",
    "mercury",
    "mercuryReal",
-   "mercuryGeoToy3",
-   "mercuryRealKF1",
    "solarInner",
    "jupiterGalilean",
    "venusReal",
@@ -222,122 +216,19 @@
    "plutoCharonDFM",
    "plutoCharonKF0Control",
    "plutoCharonDiagInput",
-   "charonGeoToy3",
    "uranusReal",
    "neptuneReal",
-   "alphaCenABDFM",
-   "siriusABDFM",
-   "psrDoubleABDFM",
-   "psrDoubleABSpinCal",
-   "psrDoubleABPN",
-   "psrJ1757PN",
-   "psrJ1946PN",
-   "psrDoubleABCF",
-   "psrJ1757CF",
-   "psrJ1946CF",
-   "psrB1534DFM",
-   "psrB1534CF",
    "saturnZonalD68",
    "saturnD68Consistent",
    "saturnRingReal",
-   "saturnRingRealKF1",
    "binary"
   ],
-  "changedNotIncreased": [
-   "galaxyGeo2",
-   "earthMoonRealKF1",
-   "emAuditDFM",
-   "qLockRadialAudit",
-   "qLockRadialAuditQ3",
-   "mercuryGeoToy3",
-   "mercuryRealKF1",
-   "charonGeoToy3",
-   "alphaCenABDFM",
-   "siriusABDFM",
-   "psrDoubleABDFM",
-   "psrDoubleABSpinCal",
-   "psrDoubleABPN",
-   "psrJ1757PN",
-   "psrJ1946PN",
-   "psrDoubleABCF",
-   "psrJ1757CF",
-   "psrJ1946CF",
-   "psrB1534DFM",
-   "psrB1534CF",
-   "saturnRingRealKF1"
-  ],
+  "changedNotIncreased": [],
   "increasedUnchanged": [
    "saturnD68ObsOrbit"
   ],
   "sigSame": 77,
-  "sigDiff": [
-   "projectile",
-   "boxtrans",
-   "boxredshift",
-   "galaxyGeo2",
-   "galaxyMeshSpiralGeoToyLite",
-   "clusterGrowthCopy",
-   "fixedCaptureCopy",
-   "earthMoon",
-   "earthMoonFree",
-   "earthMoonReal",
-   "earthMoonRealKF1",
-   "emAuditDFM",
-   "emAuditSolar",
-   "earthMoonDiagOne",
-   "qLockRadialAudit",
-   "qLockRadialAuditQ3",
-   "mercury",
-   "mercuryReal",
-   "mercuryGeoToy3",
-   "mercuryRealKF1",
-   "solarInner",
-   "jupiterGalilean",
-   "venusReal",
-   "marsMoonsReal",
-   "plutoCharonDiagInput",
-   "charonGeoToy3",
-   "uranusReal",
-   "neptuneReal",
-   "alphaCenAB",
-   "alphaCenABDFM",
-   "siriusAB",
-   "siriusABDFM",
-   "psrDoubleAB",
-   "psrDoubleABDFM",
-   "psrDoubleABSpinCal",
-   "psrJ1757DFM",
-   "psrJ1946DFM",
-   "psrDoubleABPN",
-   "psrJ1757PN",
-   "psrJ1946PN",
-   "psrDoubleABCF",
-   "psrJ1757CF",
-   "psrJ1946CF",
-   "psrB1534",
-   "psrB1534DFM",
-   "psrB1534CF",
-   "compactForceToy",
-   "inertialDragPair",
-   "boxBinaryToy",
-   "spaceMeshBinaryToy",
-   "gw150914",
-   "gw150914Merge4s",
-   "gw150914SpinDipole",
-   "tuc47",
-   "ngc3198",
-   "ngc3198DFM",
-   "supernovaProg",
-   "crabRemnant",
-   "saturnZonalD68",
-   "saturnD68Consistent",
-   "saturnD68ObsOrbit",
-   "saturnRingReal",
-   "saturnRingRealKF1",
-   "fig8",
-   "pulsarSolo",
-   "spinDipoleBinary"
-  ],
+  "sigDiff": [],
   "newInNow": [
    "earthMoonTide",
    "earthMoonInertial",
@@ -360,6 +251,106 @@
    "galaxyAnalogyBHTilt90Layers",
    "clusterAnalogyBH",
    "psrDoubleABGeoToy"
+  ],
+  "changedByLambdaPn297": [
+   "galaxyGeo2",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "charonGeoToy3",
+   "alphaCenABDFM",
+   "siriusABDFM",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "saturnRingRealKF1"
+  ],
+  "sigChangedByLambdaPn297": [
+   "galaxyGeo2",
+   "galaxyMeshSpiralGeoToy",
+   "galaxyMeshSpiralGeoToyLite",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
+   "clusterGrowthCopy",
+   "fixedCaptureCopy",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "charonGeoToy3",
+   "alphaCenABDFM",
+   "siriusABDFM",
+   "psrDoubleABDFM",
+   "psrDoubleABGeoToy",
+   "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "saturnRingRealKF1"
+  ],
+  "sigChangedByTimeStd297": [
+   "projectile",
+   "boxtrans",
+   "boxredshift",
+   "earthMoon",
+   "earthMoonFree",
+   "earthMoonReal",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "mercury",
+   "mercuryReal",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonDiagInput",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "compactForceToy",
+   "inertialDragPair",
+   "boxBinaryToy",
+   "spaceMeshBinaryToy",
+   "gw150914",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "tuc47",
+   "ngc3198",
+   "ngc3198DFM",
+   "supernovaProg",
+   "crabRemnant",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "fig8",
+   "pulsarSolo",
+   "spinDipoleBinary"
   ],
   "nullPhysicsKF0": [],
   "errors": [],
@@ -746,7 +737,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcal",
@@ -769,7 +763,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalGps",
@@ -792,7 +789,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalLight",
@@ -815,7 +815,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalShapiro",
@@ -838,7 +841,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "projectile",
@@ -861,7 +867,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "echo",
@@ -884,7 +893,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxtrans",
@@ -907,7 +919,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "boxrot",
@@ -930,7 +945,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxexpand",
@@ -953,7 +971,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxcomoving",
@@ -976,7 +997,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxbound",
@@ -999,7 +1023,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxbreath",
@@ -1022,7 +1049,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxredshift",
@@ -1045,7 +1075,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "probeH",
@@ -1068,7 +1101,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "freebox",
@@ -1091,7 +1127,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "cosmicweb",
@@ -1114,7 +1153,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxy",
@@ -1137,7 +1179,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyStd",
@@ -1160,7 +1205,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyGeo2",
@@ -1183,7 +1231,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyDB",
@@ -1206,7 +1257,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "darkrotor",
@@ -1229,7 +1283,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "rotorSolo",
@@ -1252,7 +1309,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaRotor",
@@ -1275,7 +1335,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaShell",
@@ -1298,7 +1361,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaBipolar",
@@ -1321,7 +1387,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "bhCore",
@@ -1344,7 +1413,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "bhCoreTilt",
@@ -1367,7 +1439,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "massLadder",
@@ -1390,7 +1465,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "collapse",
@@ -1413,7 +1491,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarStill",
@@ -1436,7 +1517,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarArms",
@@ -1459,7 +1543,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarReach",
@@ -1482,7 +1569,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "selfRotor",
@@ -1505,7 +1595,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1528,7 +1621,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1551,7 +1647,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1574,7 +1673,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBH",
@@ -1597,7 +1699,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHCompose",
@@ -1620,7 +1725,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHTilt90",
@@ -1643,7 +1751,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHTilt90Layers",
@@ -1666,7 +1777,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "clusterAnalogyBH",
@@ -1689,7 +1803,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "clusterGrowthCopy",
@@ -1712,7 +1829,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "fixedCaptureCopy",
@@ -1735,7 +1855,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyCluster",
@@ -1758,7 +1881,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyDisk",
@@ -1781,7 +1907,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyArm",
@@ -1804,7 +1933,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToySpiral",
@@ -1827,7 +1959,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyClusterCore",
@@ -1850,7 +1985,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyDiskCore",
@@ -1873,7 +2011,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyArmCore",
@@ -1896,7 +2037,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToySpiralCore",
@@ -1919,7 +2063,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "lensing",
@@ -1942,7 +2089,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinlens",
@@ -1965,7 +2115,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "blens",
@@ -1988,7 +2141,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "reddening",
@@ -2011,7 +2167,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "gas",
@@ -2034,7 +2193,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "pressure",
@@ -2057,7 +2219,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "conduction",
@@ -2080,7 +2245,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "frictionHeat",
@@ -2103,7 +2271,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "coolrace",
@@ -2126,7 +2297,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "convection",
@@ -2149,7 +2323,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "buoyancy",
@@ -2172,7 +2349,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "cooling",
@@ -2195,7 +2375,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emergent",
@@ -2218,7 +2401,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emergent2",
@@ -2241,7 +2427,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "chain2",
@@ -2264,7 +2453,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "chaincycle",
@@ -2287,7 +2479,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoon",
@@ -2310,7 +2505,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonFree",
@@ -2333,7 +2531,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonReal",
@@ -2359,7 +2560,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonTide",
@@ -2385,7 +2589,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonRealKF1",
@@ -2408,7 +2615,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonInertial",
@@ -2431,7 +2641,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditNewton",
@@ -2457,7 +2670,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditDFM",
@@ -2480,7 +2696,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditSolar",
@@ -2508,7 +2727,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonSunInertial",
@@ -2531,7 +2753,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonSunInertialFit",
@@ -2554,7 +2779,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonDiagOne",
@@ -2582,7 +2810,10 @@
      "spaceMesh"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "qLockRadialAudit",
@@ -2605,7 +2836,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2628,7 +2862,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "mercury",
@@ -2656,7 +2893,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "mercuryReal",
@@ -2684,7 +2924,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "mercurySunInertial",
@@ -2707,7 +2950,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mercurySunInertialFit",
@@ -2730,7 +2976,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mercuryGeoToy3",
@@ -2753,7 +3002,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "mercuryRealKF1",
@@ -2776,7 +3028,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "solarInner",
@@ -2804,7 +3059,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "jupiterGalilean",
@@ -2832,7 +3090,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "venusReal",
@@ -2858,7 +3119,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "marsMoonsReal",
@@ -2886,7 +3150,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "plutoCharonReal",
@@ -2912,7 +3179,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonDFM",
@@ -2940,7 +3210,10 @@
      "relativeDrag"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonKF0Control",
@@ -2966,7 +3239,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonDiagInput",
@@ -2992,7 +3268,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "plutoCharonInertial",
@@ -3015,7 +3294,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonInertialFit",
@@ -3038,7 +3320,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonSyncZero",
@@ -3061,7 +3346,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "charonGeoToy3",
@@ -3084,7 +3372,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "uranusReal",
@@ -3112,7 +3403,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "neptuneReal",
@@ -3138,7 +3432,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "alphaCenAB",
@@ -3164,7 +3461,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "alphaCenABDFM",
@@ -3187,7 +3487,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "siriusAB",
@@ -3213,7 +3516,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "siriusABDFM",
@@ -3236,7 +3542,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleAB",
@@ -3262,7 +3571,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrDoubleABDFM",
@@ -3285,7 +3597,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABGeoToy",
@@ -3308,7 +3623,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -3331,7 +3649,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757DFM",
@@ -3357,7 +3678,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrJ1946DFM",
@@ -3383,7 +3707,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrDoubleABPN",
@@ -3406,7 +3733,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000144330801174,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757PN",
@@ -3429,7 +3759,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000260856666837,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1946PN",
@@ -3452,7 +3785,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000086177580901,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABCF",
@@ -3475,7 +3811,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757CF",
@@ -3498,7 +3837,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1946CF",
@@ -3521,7 +3863,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrB1534",
@@ -3547,7 +3892,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrB1534DFM",
@@ -3570,7 +3918,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrB1534CF",
@@ -3593,7 +3944,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "compactForceToy",
@@ -3616,7 +3970,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "inertialDragPair",
@@ -3639,7 +3996,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "chainDiskToy",
@@ -3662,7 +4022,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxBinaryToy",
@@ -3685,7 +4048,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -3708,7 +4074,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914",
@@ -3731,7 +4100,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914DFM",
@@ -3754,7 +4126,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "gw150914Merge4s",
@@ -3777,7 +4152,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914SpinDipole",
@@ -3800,7 +4178,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "tuc47",
@@ -3823,7 +4204,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "tuc47DFM",
@@ -3846,7 +4230,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "ngc3198",
@@ -3869,7 +4256,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "ngc3198DFM",
@@ -3892,7 +4282,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaProg",
@@ -3915,7 +4308,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaProgDFM",
@@ -3938,7 +4334,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "crabRemnant",
@@ -3961,7 +4360,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturn",
@@ -3984,7 +4386,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "saturnLayered",
@@ -4007,7 +4412,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "saturnZonalD68",
@@ -4036,7 +4444,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnD68Consistent",
@@ -4065,7 +4476,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -4094,7 +4508,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnRingReal",
@@ -4122,7 +4539,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnRingRealKF1",
@@ -4145,7 +4565,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "binary",
@@ -4173,7 +4596,10 @@
      "contact"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "fig8",
@@ -4196,7 +4622,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "counterring",
@@ -4219,7 +4648,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinup",
@@ -4242,7 +4674,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "pulsarSolo",
@@ -4265,7 +4700,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaCore",
@@ -4288,7 +4726,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "whiteDwarfDFM",
@@ -4311,7 +4752,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -4334,7 +4778,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "envelopeShedDFM",
@@ -4357,7 +4804,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "lfbotTrap",
@@ -4380,7 +4830,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "layeredCoreDFM",
@@ -4403,7 +4856,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinDipoleBinary",
@@ -4426,7 +4882,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gasCohSurface",
@@ -4449,7 +4908,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mmPhaseToy",
@@ -4472,7 +4934,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "starSeed",
@@ -4495,15 +4960,18 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   }
  ],
  "verdict": {
-  "changedOnlyWhereSourcesIncreased": false,
+  "changedOnlyWhereSourcesIncreased": true,
   "increasedButBitSame": [
    "saturnD68ObsOrbit"
   ],
-  "sigAllSame": false,
+  "sigAllSame": true,
   "oracle1e12": true,
   "mercuryDeltaZero": true,
   "radiusIndependent": true,
@@ -4521,13 +4989,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.108,
+   "wallSec": 0.068,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.177,
+   "wallSec": 0.128,
    "errors": 0
   }
  },
- "elapsedS": 147.47
+ "elapsedS": 121.005
 }

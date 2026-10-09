@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:56:32.585Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:01:40.374Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w288c-bgrange.mjs",
-    "bytes": 16433,
-    "sha256": "4f1ac18801726036894a4a92dba4b01959c7b5b56e52c031b0cd8b8b7d20f130",
-    "mtime": "2026-10-09T10:19:35.490Z"
+    "bytes": 18401,
+    "sha256": "abb7ca24aa8dac779fb92beb3a6641834743a829b572434e3a40cb59b55f4bf6",
+    "mtime": "2026-10-09T17:00:53.838Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "7d4a6b9e5faee3ea0cbb9a08cff7a4f04cceb6528b0a9aa8ea0ee299f450d50f",
+  "codeSha256": "8696a1747a3b497838bd7177cc9978608dec1c14ff9b708ef0af81bd9d7f09db",
   "harnessVersion": "w288c-bgrange-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN86(有効幅を超えても再展開しない・超えた歩数を観測結果カードに出す・超えた走行を含む観測比較は「契約範囲外」)・統括の検証項目 R115",
@@ -324,7 +324,36 @@
   "counterBefore": 0,
   "counterAfter": 3,
   "controlsSame": true,
-  "charonBitSame": false
+  "charonBitSame": true,
+  "declHist": true,
+  "charonBitSameNow": false
  },
- "elapsedS": 4.566
+ "elapsedS": 4.655,
+ "fingerprintHist": {
+  "restored": {
+   "lambdaPN": 1,
+   "spaceMesh": {
+    "pn": "reference-1PN",
+    "pnVelocity": "v"
+   }
+  },
+  "note": "第297便a で 🌒 の宣言が変わった(pn:\"off\"・λ_PN=0)—— 基点 940dba52 との指紋の照合は第296便までの宣言へ戻した写しで行う(器の中だけ)",
+  "ok": true,
+  "steps": 20000,
+  "dt": 0.016,
+  "sha256": "5aee79be4bc0dea29c0763fa8ee720aa8eb1c44841de6ce723cf1992d1476ac5",
+  "state": [
+   -1.9848547095027183,
+   -0.7576998132106275,
+   16.32479593808057,
+   6.224986482619074,
+   0.0008626825651273567,
+   -0.4762780846453311,
+   -0.007087486798146485,
+   -0.4554312933863204,
+   320.00000000002336
+  ],
+  "timeOut": 0,
+  "timeReexp": 0
+ }
 }

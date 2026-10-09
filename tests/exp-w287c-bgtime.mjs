@@ -212,6 +212,19 @@ export function etaBg(HP, S) {
   const rel = sub(aBg[1], aBg[0]), relG = sub(aG[1], aG[0]);
   return { t: S.t, aBg, aGrav: aG, eta: [nrm(aBg[0]) / nrm(aG[0]), nrm(aBg[1]) / nrm(aG[1])], etaRel: nrm(rel) / nrm(relG) };
 }
+/** 第297便a(原仮定者の裁定(第87報)「geoPN=2・3・4 のサンプルは全て λ_PN=0」・R161): 🌒 は第297便a で旧メッシュの力学の 1PN を外した
+ *  (spaceMesh.pn "reference-1PN" → "off"・pnVelocity を外す・λ_PN 1 → 0)。基点 f94ca580 との前後は**第296便までの宣言へ戻した写し**で照合する
+ *  (器の中だけ —— 本の宣言は今のまま。今の 🌒 の周期は rows と beforeAfterNow に記録する)。 */
+export const CHARON_DECL_W296 = { lambdaPN: 1, spaceMesh: { pn: 'reference-1PN', pnVelocity: 'v' } };
+export function charonHistCopy(P) {
+  const ph = P.physics || {}, sm = ph.spaceMesh || {};
+  if (!(sm.pn === 'off' && ph.lambdaPN === 0)) return null;   // 第297便a の前の宣言(戻す必要がない)
+  const Q = clone(P);
+  Q.physics.lambdaPN = CHARON_DECL_W296.lambdaPN;
+  Q.physics.spaceMesh = Object.assign({}, Q.physics.spaceMesh, CHARON_DECL_W296.spaceMesh);
+  Q.id = 'w287cCharonDeclW296';
+  return Q;
+}
 export function charonRuns(HP) {
   const P = find(HP, 'charonGeoToy3'), K = kf0Copy(HP), out = { steps: {}, rows: {} };
   for (const [key, dt] of [['dt', DT], ['dtHalf', DT / 2]]) {
@@ -229,9 +242,18 @@ export function charonRuns(HP) {
     vsSourcesS: (a.ok && out.rows.dt.charon.ok) ? a.period2S - out.rows.dt.charon.period2S : null }; }
   const b = build(HP, P); out.eta0 = b.ok ? etaBg(HP, b.S) : null;
   out.before = BEFORE_F94;
-  out.beforeAfter = { dtS: out.rows.dt.charon.ok ? out.rows.dt.charon.period2S - BEFORE_F94.period2S.dt : null,
-    dtHalfS: out.rows.dtHalf.charon.ok ? out.rows.dtHalf.charon.period2S - BEFORE_F94.period2S.dtHalf : null,
-    kf0SameAsBefore: out.rows.dt.kf0.period2S === BEFORE_F94.kf0Period2S.dt && out.rows.dtHalf.kf0.period2S === BEFORE_F94.kf0Period2S.dtHalf };
+  // 第297便a: 前後の照合は第296便までの宣言へ戻した写し(H)で —— 戻す必要がない世代は今の 🌒 そのもの
+  const H = charonHistCopy(P);
+  const hist = H ? { dt: periodRun(HP, H, DT), dtHalf: periodRun(HP, H, DT / 2) } : { dt: out.rows.dt.charon, dtHalf: out.rows.dtHalf.charon };
+  if (H) out.histDecl = { id: H.id, restored: CHARON_DECL_W296, dt: hist.dt, dtHalf: hist.dtHalf,
+    note: '第297便a で 🌒 の宣言が変わった(pn:"off"・λ_PN=0)—— 基点 f94ca580 との前後は第296便までの宣言へ戻した写しで照合する(器の中だけ)' };
+  out.beforeAfter = { dtS: hist.dt.ok ? hist.dt.period2S - BEFORE_F94.period2S.dt : null,
+    dtHalfS: hist.dtHalf.ok ? hist.dtHalf.period2S - BEFORE_F94.period2S.dtHalf : null,
+    kf0SameAsBefore: out.rows.dt.kf0.period2S === BEFORE_F94.kf0Period2S.dt && out.rows.dtHalf.kf0.period2S === BEFORE_F94.kf0Period2S.dtHalf,
+    declHist: !!H };
+  // 今の宣言の 🌒 と基点の差(記録 —— 第297便a の力学の 1PN を外した分。門ではない)
+  if (H) out.beforeAfterNow = { dtS: out.rows.dt.charon.ok ? out.rows.dt.charon.period2S - BEFORE_F94.period2S.dt : null,
+    dtHalfS: out.rows.dtHalf.charon.ok ? out.rows.dtHalf.charon.period2S - BEFORE_F94.period2S.dtHalf : null };
   const rr = out.rows;
   out.ok = rr.dt.charon.ok && rr.dt.kf0.ok && rr.dtHalf.charon.ok && rr.dtHalf.kf0.ok && rr.dt.charon.meshVel.bad === 0 && rr.dt.charon.meshVel.timeOut === 0;
   return out;

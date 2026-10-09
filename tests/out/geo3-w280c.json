@@ -4,7 +4,7 @@
   "wave": "第280便c",
   "target": "beta/index.html",
   "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
-  "generatedAt": "2026-10-09T15:50:26.315Z",
+  "generatedAt": "2026-10-09T17:15:46.648Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w280c-geo3.mjs",
-    "bytes": 37356,
-    "sha256": "5c1d8f8c4fb3a5ba4732910e9f51b543305c9f89fcfbf98e6270fd4e8eb3d7b5",
-    "mtime": "2026-10-09T10:19:35.486Z"
+    "bytes": 38233,
+    "sha256": "46d0510d86b423164a02588cfaaad5b3c375676f8c71240cd1088290ab43b6e9",
+    "mtime": "2026-10-09T17:00:28.347Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-09T10:19:35.506Z"
    }
   ],
-  "codeSha256": "0b60fc628c4b119432aab2da704f470c91e2abd493fbd109ac6bf7a9fcf35f39",
+  "codeSha256": "a1a2c25d039e78fbc6912c4afe391700fb05e7f64e332e1b907b4f87aedddbb3",
   "harnessVersion": "w280c-geo3-2",
   "quick": false,
   "part": null,
@@ -117,6 +117,7 @@
     "HP.loadPreset",
     "HP.meshChipLabel",
     "HP.sim",
+    "HP.timeStd",
     "HP.validatePreset",
     "T",
     "applyQLock",
@@ -134,11 +135,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1075,
-   "segments": 984,
-   "closureShare": 0.3189
+   "names": 1080,
+   "segments": 989,
+   "closureShare": 0.3192
   },
-  "scopeSha256": "f2a1a1c2c06b8fb6f3cc4d14d73a65f33a76ed946e44a3c4714e75bd0768ecea",
+  "scopeSha256": "11cad1baa50e216f365456368c9d803c26bf2a85c416da2d4605fdc1db46ae2c",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -279,7 +280,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.276
+       "wallSec": 2.052
       },
       "dt/2": {
        "steps": 5700398,
@@ -312,7 +313,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.458
+       "wallSec": 4.13
       }
      }
     },
@@ -351,7 +352,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.095
+       "wallSec": 2.169
       },
       "dt/2": {
        "steps": 5700398,
@@ -384,7 +385,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.283
+       "wallSec": 4.173
       }
      }
     },
@@ -423,7 +424,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.806
+       "wallSec": 2.317
       },
       "dt/2": {
        "steps": 5700398,
@@ -456,7 +457,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.631
+       "wallSec": 4.23
       }
      }
     },
@@ -495,7 +496,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.728
+       "wallSec": 1.783
       },
       "dt/2": {
        "steps": 5700398,
@@ -528,7 +529,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.492
+       "wallSec": 3.409
       }
      }
     },
@@ -571,7 +572,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.747
+       "wallSec": 7.01
       },
       "dt/2": {
        "steps": 5700398,
@@ -608,7 +609,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.798
+       "wallSec": 16.046
       }
      }
     },
@@ -651,7 +652,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.369
+       "wallSec": 10.87
       },
       "dt/2": {
        "steps": 5700398,
@@ -688,7 +689,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.458
+       "wallSec": 21.253
       }
      }
     },
@@ -731,7 +732,7 @@
          "stop": null
         }
        },
-       "wallSec": 6.782
+       "wallSec": 6.559
       },
       "dt/2": {
        "steps": 5700398,
@@ -768,7 +769,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.958
+       "wallSec": 13.493
       }
      }
     },
@@ -811,7 +812,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.587
+       "wallSec": 10.184
       },
       "dt/2": {
        "steps": 5700398,
@@ -848,7 +849,7 @@
          "stop": null
         }
        },
-       "wallSec": 18.439
+       "wallSec": 18.062
       }
      }
     },
@@ -891,7 +892,7 @@
          "stop": null
         }
        },
-       "wallSec": 5.806
+       "wallSec": 5.682
       },
       "dt/2": {
        "steps": 5700398,
@@ -928,7 +929,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.41
+       "wallSec": 11.833
       }
      }
     },
@@ -967,7 +968,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.995
+       "wallSec": 3.385
       },
       "dt/2": {
        "steps": 5700398,
@@ -1000,7 +1001,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.706
+       "wallSec": 5.699
       }
      }
     },
@@ -1039,7 +1040,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.683
+       "wallSec": 2.755
       },
       "dt/2": {
        "steps": 5700398,
@@ -1072,7 +1073,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.559
+       "wallSec": 4.896
       }
      }
     },
@@ -1115,7 +1116,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.913
+       "wallSec": 8.245
       },
       "dt/2": {
        "steps": 5700398,
@@ -1152,7 +1153,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.313
+       "wallSec": 15.701
       }
      }
     }
@@ -1269,7 +1270,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 16.465
+       "wallSec": 17.296
       },
       "dt/2": {
        "steps": 41388996,
@@ -1302,7 +1303,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.783
+       "wallSec": 31.646
       }
      }
     },
@@ -1341,7 +1342,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 13.22
+       "wallSec": 13.348
       },
       "dt/2": {
        "steps": 41388996,
@@ -1374,7 +1375,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 27.812
+       "wallSec": 26.434
       }
      }
     },
@@ -1413,7 +1414,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 13.754
+       "wallSec": 13.453
       },
       "dt/2": {
        "steps": 41388996,
@@ -1446,7 +1447,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 27.159
+       "wallSec": 25.789
       }
      }
     },
@@ -1491,7 +1492,7 @@
          "stop": null
         }
        },
-       "wallSec": 84.084
+       "wallSec": 79.077
       },
       "dt/2": {
        "steps": 41388996,
@@ -1530,7 +1531,7 @@
          "stop": null
         }
        },
-       "wallSec": 173.336
+       "wallSec": 163.847
       }
      }
     },
@@ -1575,7 +1576,7 @@
          "stop": null
         }
        },
-       "wallSec": 55.231
+       "wallSec": 52.956
       },
       "dt/2": {
        "steps": 41388996,
@@ -1614,7 +1615,7 @@
          "stop": null
         }
        },
-       "wallSec": 110.622
+       "wallSec": 103.899
       }
      }
     },
@@ -1659,7 +1660,7 @@
          "stop": null
         }
        },
-       "wallSec": 52.252
+       "wallSec": 49.488
       },
       "dt/2": {
        "steps": 41388996,
@@ -1698,7 +1699,7 @@
          "stop": null
         }
        },
-       "wallSec": 103.696
+       "wallSec": 96.815
       }
      }
     }
@@ -2012,7 +2013,7 @@
     "pnN": 0,
     "hud": "geoPN=4 / vMinusU / pn:off v0:v N=2000 |u|max=2.30e+0",
     "chip": "geoPN=4 / vMinusU / pn:off・実験",
-    "physicsSameAsHarnessCopy": false,
+    "physicsSameAsHarnessCopy": true,
     "bodiesSameAsHarnessCopy": true,
     "integratorSame": true,
     "sampleClass": "principle",
@@ -2025,7 +2026,7 @@
     "pnN": 0,
     "hud": "geoPN=4 / vMinusU / pn:off v0:xdot N=2000 |u|max=4.74e-1",
     "chip": "geoPN=4 / vMinusU / pn:off・実験",
-    "physicsSameAsHarnessCopy": false,
+    "physicsSameAsHarnessCopy": true,
     "bodiesSameAsHarnessCopy": true,
     "integratorSame": true,
     "sampleClass": "principle",
@@ -2061,5 +2062,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 903.633
+ "elapsedS": 861.722
 }

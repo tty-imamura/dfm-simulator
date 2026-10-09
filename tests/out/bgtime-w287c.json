@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便c",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:54:21.957Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:02:35.695Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w287c-bgtime.mjs",
-    "bytes": 30705,
-    "sha256": "d10aaeeed1bb46efc803937afe09e242e5f4a542bd849988312e39f57b08c26a",
-    "mtime": "2026-10-09T10:19:35.490Z"
+    "bytes": 32648,
+    "sha256": "5b698e1e3d031229205389aaf4d175cd3fbe3ed90c9825bf022cd86a0890603e",
+    "mtime": "2026-10-09T16:59:55.643Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "b491328d74c20ba7dc94bb1fe805ee0116db08145fca186c427a2d5806f86939",
+  "codeSha256": "e96ebfa926c5dcfe2c4b38c23bb1cb5686ae4af25c6e0cc3e395f78f1e73820e",
   "harnessVersion": "w287c-bgtime-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第77報)⑤と第77報で閉じた AN64(complex-p2 を既定にしない・昇格条件)/AN73(🌒 の扱い)・統括の検証項目 R109(背景場の時間発展の契約)",
@@ -1083,10 +1083,82 @@
     ]
    }
   },
+  "histDecl": {
+   "id": "w287cCharonDeclW296",
+   "restored": {
+    "lambdaPN": 1,
+    "spaceMesh": {
+     "pn": "reference-1PN",
+     "pnVelocity": "v"
+    }
+   },
+   "dt": {
+    "ok": true,
+    "steps": 689831,
+    "dt": 0.016,
+    "tEnd": 11037.295999849593,
+    "cross": [
+     5518.64061923716,
+     11037.281238363486
+    ],
+    "period2S": 551864.0619126327,
+    "meshVel": {
+     "n": 689831,
+     "undef": 0,
+     "bad": 0,
+     "timeOut": 0,
+     "timeReexp": 0
+    },
+    "state": [
+     0.1907746668314645,
+     -0.000036242704991541405,
+     19.78677463916388,
+     0.0002931042948572885,
+     4.068481711196427e-8,
+     -0.47643699345904766,
+     -3.342516886538857e-7,
+     -0.4541257562573081
+    ]
+   },
+   "dtHalf": {
+    "ok": true,
+    "steps": 1379661,
+    "dt": 0.008,
+    "tEnd": 11037.287999794298,
+    "cross": [
+     5518.6406181160855,
+     11037.281236182747
+    ],
+    "period2S": 551864.0618066662,
+    "meshVel": {
+     "n": 1379661,
+     "undef": 0,
+     "bad": 0,
+     "timeOut": 0,
+     "timeReexp": 0
+    },
+    "state": [
+     0.19076962660558963,
+     -0.000016879755962958057,
+     19.786769614393645,
+     0.00013402479531622428,
+     1.8639001092564604e-8,
+     -0.47643699345767876,
+     -1.5313126695065992e-7,
+     -0.4541257562685545
+    ]
+   },
+   "note": "第297便a で 🌒 の宣言が変わった(pn:\"off\"・λ_PN=0)—— 基点 f94ca580 との前後は第296便までの宣言へ戻した写しで照合する(器の中だけ)"
+  },
   "beforeAfter": {
+   "dtS": 4.9243681132793427e-8,
+   "dtHalfS": 1.618172973394394e-8,
+   "kf0SameAsBefore": false,
+   "declHist": true
+  },
+  "beforeAfterNow": {
    "dtS": -0.0005641047609969974,
-   "dtHalfS": -0.0005643800832331181,
-   "kf0SameAsBefore": false
+   "dtHalfS": -0.0005643800832331181
   },
   "ok": true
  },
@@ -1115,5 +1187,5 @@
   "maxAbsDiff": 0,
   "ok": true
  },
- "elapsedS": 34.304
+ "elapsedS": 43.094
 }
