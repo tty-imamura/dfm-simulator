@@ -3361,7 +3361,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **規則**: `physics.lambdaPN` は力学の 1PN の係数(`_core` の対経路・`dfmPN1Delta`・geoPN=3/4 の外部項 `dfmGeo3PNKick` が `λ_PN/c²` で読む)。光学(κ・光線・時計)は λ_PN の欄ではない(変えない)。
   **geoPN=2・3・4 では λ_PN=0**(q の引きずり・慣性決定力の引きずり gain と力学の 1PN を重ねない)。geoPN=1 は 1PN の照合基準として λ_PN=1 のまま・geoPN=0 は従来どおり。
 - **内蔵**: geoPN≥2 の内蔵(宣言から列挙 —— 第297便a の時点で 38 本: 2 = 19・3 = 9・4 = 10)の `physics.lambdaPN` を **0 と明示**した(省略ではない)。🔁 mercuryGeoToy3・🌒 charonGeoToy3 は `spaceMesh.pn:"off"`(`pnVelocity` は外した —— 受理器の規則どおり)。
-  ワンタップ対照で geoPN を 2 に替える `abBody.physicsPatch` には `lambdaPN:0` を足した(親から継承して 2/3/4 で走る対照も λ_PN=0)。退役 🪶🪃🪀 の「λ_PN=1(旧則)」のワンタップ対照は撤去・λ_PN=1/f の処方は撤回(説明に履歴として 1 行)。
+  ワンタップ対照で geoPN を 2 に替える `abBody.physicsPatch` には `lambdaPN:0` を足した(親から継承して 2/3/4 で走る対照も λ_PN=0)。退役 🪶🪃🪀 の「λ_PN=1(旧則)」のワンタップ対照は撤去・λ_PN=1/f の処方は撤回(説明に履歴として 1 行)。AI のカタログ(`astroPh` —— λ_PN を明示しない変種は geoPN≥2 で 0)と観測レコードからの構築(`buildAstroFromRecords` の観測安定則 —— 採用側 geoPN=1 は λ_PN=1・A/B の測定側 geoPN=2 は λ_PN=0)も同じ規則。
 - **逸脱 `lambdaPnOnDrag`**(`HP.MODE_SAVE_WARN_CODES` の **20 本目**・末尾 —— 目的の組の判定 `HP.modeSettingIssues(src, opts)` の mode≥2 の塊・kind:"preset"・fields `["lambdaPN"]`・`lambdaPN`(読んだ値)): geoPN≥2 ∧ `physics.lambdaPN`≠0(**未宣言は 1** —— `_core` の読みと同じ)。
   保存・セーブの読込・編集欄の赤文字(λ_PN 行にも —— `MODE_DEV_KEYS`)・JSON の受理の警告で出す。**値は書き換えない**(黙って 0 にしない)。文は i18n `modeWarn_lambdaPnOnDrag(g, λ)`(ja/en):
   ja「geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。」

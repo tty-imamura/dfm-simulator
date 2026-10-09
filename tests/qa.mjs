@@ -26563,7 +26563,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
         // 第242便 pull: kF1 雛形は自己診断(二体クロージャ)を通過して記録経路は kF1 を構築する — 内蔵 ✨ は裁定の根拠②で kF0 を維持。kFrame 以外はビット一致を要求
         // 第284便b(原仮定者の裁定(第74報)AN39): 内蔵 ✨ は kF0 版の宣言 geoPN=1・kFrame=0 —— 記録経路の kF1 雛形は geoPN=2。
         //   geoPN は kFrame と組のモード選択(geoModeOf)なので、「kFrame 以外」は組の 2 キー(kFrame・geoPN)以外で比べる
-        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; if (ph.geoPN === 1 || ph.geoPN === 2) delete ph.geoPN; return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
+        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; if (ph.geoPN === 1 || ph.geoPN === 2) { delete ph.geoPN; if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) delete ph.lambdaPN; }   /* 第297便a(R161): λ_PN も組の鍵(geoPN=1 は 1・2 は 0) */ return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
         eq.recKF = r1.preset.physics.kFrame; eq.sameNoKF = pickNoKF(vb.preset) === pickNoKF(r1.preset);
       }
       // 第203〜209便: ✴️ DFM 版 — 質量較正(f=1.827)+**役割反転二層**(第208便)+**重心ゲージ**
@@ -27677,14 +27677,14 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.999942269345993),
         massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1] && pd.bodies[0].m === pr.bodies[0].m && pd.bodies[1].m === pr.bodies[1].m,
         noCore: pd.bodies.every((b) => b.core === undefined),
-        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === ((((pd.physics.geoPN || 0) >= 2) && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? 0 : 1),   // 第297便a(R161): geoPN≥2 は λ_PN=0
         mode: pd.physics.geoPN === 2 && pd.physics.kFrame === 1 && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         sameAsObs: pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy'].every((k) => Object.is(b[k], pr.bodies[i][k]))),
         claims: Array.isArray(pd.claims) && pd.claims.length === 5 && pd.claims.every((c) => c.testId === 'behavior.psrF1'),
       };
       const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
-      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      o.decl.validator = vd.ok && vd.warnings.filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length === 0;   // 第297便a(R161): 旧宣言の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない
       // ② 走行
       const S = makeSim(); S.build(vd.preset);
       const clamp0 = S.clampSN || 0;
@@ -27716,7 +27716,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       // ③ 対照
       const runState = (p, n) => { const v = HP.validatePreset(p); const Z = makeSim(); Z.build(v.preset); for (let i = 0; i < n; i++) Z.step(dt);
         const a = []; for (let i = 0; i < Z.n; i++) a.push(Z.x[i], Z.y[i], Z.vx[i], Z.vy[i]); return a; };
-      const k0 = P('psrDoubleABDFM'); k0.physics.kFrame = 0;
+      const k0 = P('psrDoubleABDFM'); k0.physics.kFrame = 0; if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) k0.physics.lambdaPN = 1;   // 第297便a(R161): 📻(geoPN=1・λ_PN=1)と同じ 1PN で比べる
       const sa = runState(k0, 4000), sb = runState(P('psrDoubleAB'), 4000);
       o.kf0SameAsObs = sa.length === sb.length && sa.every((x, i) => Object.is(x, sb[i]));
       const ns = P('psrDoubleABDFM'); delete ns.physics.coupleSink;
@@ -27797,17 +27797,17 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.9998956627766773 && mc.history.coupleSink === 'core' && mc.history.core && mc.history.core.Kcs === 0),
         massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1],
         noCore: pd.bodies.every((b) => b.core === undefined),
-        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === ((((pd.physics.geoPN || 0) >= 2) && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? 0 : 1),   // 第297便a(R161): geoPN≥2 は λ_PN=0
         // 第288便b(原仮定者の裁定(第78報)④): 在位のまま geoPN 2→1・kFrame 1→0 へ移した —— 宣言は移行後の値・走行と否定対照は旧宣言(引きずり近似 q)の写し
         mode: (typeof UNIFY_MIGRATED !== 'undefined' ? (pd.physics.geoPN === 1 && pd.physics.kFrame === 0) : (pd.physics.geoPN === 2 && pd.physics.kFrame === 1)) && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
         name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrJ1757CF
-          && (RETIRED_PRESETS.psrJ1757CF.see || []).includes('psrJ1757DFM') && presetSigHash(cf) === CFSIG,
+          && (RETIRED_PRESETS.psrJ1757CF.see || []).includes('psrJ1757DFM') && presetSigHash((MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,
       };
       const vd = HP.validatePreset(OLD288P(JSON.parse(JSON.stringify(pd))));
-      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      o.decl.validator = vd.ok && vd.warnings.filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length === 0;   // 第297便a(R161): 旧宣言の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない
       const S = makeSim(); S.build(vd.preset);
       const clamp0 = S.clampSN || 0;
       const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL; const mt = S.m[0] + S.m[1];
@@ -27927,18 +27927,18 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.9999655295617553 && mc.history.coupleSink === 'core' && mc.history.core && mc.history.core.Kcs === 0),
         massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1],
         noCore: pd.bodies.every((b) => b.core === undefined),
-        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === ((((pd.physics.geoPN || 0) >= 2) && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? 0 : 1),   // 第297便a(R161): geoPN≥2 は λ_PN=0
         // 第288便b(原仮定者の裁定(第78報)④): 在位のまま geoPN 2→1・kFrame 1→0 へ移した —— 宣言は移行後の値・走行と否定対照は旧宣言(引きずり近似 q)の写し
         mode: (typeof UNIFY_MIGRATED !== 'undefined' ? (pd.physics.geoPN === 1 && pd.physics.kFrame === 0) : (pd.physics.geoPN === 2 && pd.physics.kFrame === 1)) && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
         name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrJ1946CF
-          && (RETIRED_PRESETS.psrJ1946CF.see || []).includes('psrJ1946DFM') && presetSigHash(cf) === CFSIG,
+          && (RETIRED_PRESETS.psrJ1946CF.see || []).includes('psrJ1946DFM') && presetSigHash((MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,
         dragIndependent: (pd.obsCard || []).some((z) => /引きずり非依存/.test(z.q)),
       };
       const vd = HP.validatePreset(OLD288P(JSON.parse(JSON.stringify(pd))));
-      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      o.decl.validator = vd.ok && vd.warnings.filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length === 0;   // 第297便a(R161): 旧宣言の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない
       const S = makeSim(); S.build(vd.preset);
       const clamp0 = S.clampSN || 0;
       const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL; const mt = S.m[0] + S.m[1];
@@ -28067,17 +28067,18 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.9994854557873434 && mc.history.coupleSink === 'core' && mc.history.core && mc.history.core.Kcs === 0),
         massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1],
         noCore: pd.bodies.every((b) => b.core === undefined),
-        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === ((((pd.physics.geoPN || 0) >= 2) && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? 0 : 1),   // 第297便a(R161): geoPN≥2 は λ_PN=0
         mode: pd.physics.geoPN === 2 && pd.physics.kFrame === 1 && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
         fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
         supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
         name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
         cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrB1534CF
-          && (RETIRED_PRESETS.psrB1534CF.see || []).includes(typeof UNIFY_MIGRATED !== 'undefined' ? 'psrB1534' : 'psrB1534DFM') && presetSigHash(cf) === CFSIG,   // 第288便b: 🧶 も退役 —— 🪤 の後継は 📿
+          && (RETIRED_PRESETS.psrB1534CF.see || []).includes(typeof UNIFY_MIGRATED !== 'undefined' ? 'psrB1534' : 'psrB1534DFM') && presetSigHash((MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && cf.physics.lambdaPN === 0) ? Object.assign({}, cf, { physics: Object.assign({}, cf.physics, { lambdaPN: 1 }) }) : cf) === CFSIG,   // 第288便b: 🧶 も退役 —— 🪤 の後継は 📿
         dragIndependent: (pd.obsCard || []).some((z) => /引きずり非依存/.test(z.q)),
       };
-      const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
-      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      // 第297便a(原仮定者の裁定(第87報)・R161): 🧶 は退役 —— 走行の検査(軌道窓の履歴・帳簿・否定対照)は第296便までの宣言(λ_PN=1)の写しで行う(走る宣言は λ_PN=0・宣言の検査は ① で 0)
+      const vd = HP.validatePreset((() => { const q = JSON.parse(JSON.stringify(pd)); if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && q.physics.lambdaPN === 0) q.physics.lambdaPN = 1; return q; })());
+      o.decl.validator = vd.ok && vd.warnings.filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length === 0;   // 第297便a(R161): 旧宣言の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない
       const S = makeSim(); S.build(vd.preset);
       const clamp0 = S.clampSN || 0;
       const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL; const mt = S.m[0] + S.m[1];
@@ -28113,7 +28114,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
           if (i === 0) { qx = dx; qy = dy; } else { a += Math.atan2(qx * dy - qy * dx, qx * dx + qy * dy); qx = dx; qy = dy;
             if (Math.abs(a) >= 2 * Math.PI) return { sec: (i + 1) * dt * 10, e: (hi - lo) / (hi + lo) }; } }
         return null; };
-      const k0 = P('psrB1534DFM'); k0.physics.kFrame = 0; k0.physics.geoPN = 1;
+      const k0 = P('psrB1534DFM'); k0.physics.kFrame = 0; k0.physics.geoPN = 1; k0.physics.lambdaPN = 1;   // 第297便a(R161): geoPN=1 の対照は λ_PN=1
       o.kf0 = firstRev(k0);
       const ns = P('psrB1534DFM'); delete ns.physics.coupleSink;
       { const v = HP.validatePreset(ns); const Z = makeSim(); Z.build(v.preset); const c0z = Z.clampSN || 0; let m3 = 0;
@@ -30231,7 +30232,7 @@ await w5bRun('axisForceBit', true); async function W5B_axisForceBit(page, add, f
       const dD = detect('double', 0.016), dL = detect('legacy', 0.016);
       const pRel = Math.max(...dD.A.per.map((p, i) => Math.abs(p / dD.B.per[i] - 1)));
       return {
-        warn: (v0.warnings || []).length, Qa, Qb, QaF, QbF,
+        warn: (v0.warnings || []).filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length, Qa, Qb, QaF, QbF,   /* 第297便a(R161): 凍結の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない */
         qExact: Object.is(Qa, QaF) && Object.is(Qb, QbF),
         qOv: [HP.dfmSpinDipoleQov(0), HP.dfmSpinDipoleQov(1)], hasDip: S.hasSpinDip,
         eta, etaLad: ld.eta, etaRel: Math.abs(eta / ld.eta - 1), r0,
@@ -34241,6 +34242,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         p.id = 'w264aQaRun'; p.sampleClass = 'principle';
         delete p.massCalibration; delete p.claims; delete p.calibrationForecast;
         p.physics.kFrame = kF;
+        // 第297便a(原仮定者の裁定(第87報)・R161): この診断(第264便a の根の挟み込み)は 1PN を含む旧宣言の数 —— 写しは λ_PN=1 で走らせる(走る宣言の ⚡ は λ_PN=0)
+        if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && p.physics.lambdaPN === 0) p.physics.lambdaPN = 1;
         p.bodies.forEach((b, i) => { b.m = BASE[i] * f; if (b.core) b.core.massFrac = (f - 1) / f; });
         const v = HP.validatePreset(p); if (!v.ok) return null;
         kApplied.push(v.preset.physics.kFrame);
@@ -40934,7 +40937,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     const fp = await page.evaluate(({ D0P3, D0P4 }) => {
       const base = (h, ph) => ({ name: 'mm', description: 'toy', physics: Object.assign({ G: 6.674, D0: 0.006, kFrame: 1, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.415555555555556e-9, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.01, timeScale: 1 }, ph || {}),
         camera: { scale: 1 }, world: { boundary: 'none', size: 0 }, bodies: [{ type: 'single', m: 10000, radius: 50, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 1, radius: 5, x: 2000, y: 0, vx: 0, vy: 1, spin: 0, pinned: true }, { type: 'single', m: 1e-6, radius: 0.01, x: 2005 + h, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
-      const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004); return { uy: S.uPy[2], k: S._kKind, warn: (v.warnings || []).length, sig: JSON.stringify(v.preset.physics) }; };
+      const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004); return { uy: S.uPy[2], k: S._kKind, warn: (v.warnings || []).filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length, sig: JSON.stringify(v.preset.physics) }; };   // 第297便a(R161): 玩具の geoPN=2 の行の lambdaPnOnDrag は数えない(この試験は χ の解析一致)
       const rows = [];
       for (const p of [2, 3, 4]) for (const geo of [0, 2]) for (const h of [0, 10, 100]) { const D0pt = (p === 2) ? 1e-5 : (p === 3) ? 1e-6 : 1e-7, fw = (p === 2) ? 'pull' : 'pull' + p;
         const t = u(base(h, { frameWeight: fw, D0pull: D0pt, geoPN: geo }));
@@ -40999,7 +41002,8 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), def: Object.values(fp.def).every(Boolean),
       sentinel: Object.values(fp.sentinel).every(Boolean),
       legacy: fp.nShare >= 80 && fp.nOther === 0 && fp.wrong.length === 0,
-      moonDecl: fp.e0.fw === undefined && fp.e0.D0pull === 3.24204e-5 && fp.e0.k === 0 && fp.e0.warn === 0 && fp.shareMoves && fp.kShare === 2,
+      moonDecl: fp.e0.fw === undefined && fp.e0.D0pull === (/"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? 3.14447e-5 : 3.24204e-5) &&   // 第297便a(R161): 🌘 の D0pull は λ_PN=0 の再フィット値
+ fp.e0.k === 0 && fp.e0.warn === 0 && fp.shareMoves && fp.kShare === 2,
       moonCal2: win(fp.pp2), moonCal3: win(fp.pp3), moonReference4: !!fp.pp4 && fp.pp4.dPeri > 1.5 && fp.pp4.dPeri < 2.0,
       ground: fp.ground.chi > 0.99 && fp.ground.residual < 500, gps: fp.gps.chi > 0.94, moon: fp.moon.chi > 0.10 && fp.moon.chi < 0.14,
       acen: fp.acen.chi < 2e-3, psr: fp.psr.chi > 0.999, galaxy: fp.galaxyOverD0p < 1e-6 };
@@ -41082,6 +41086,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     }, { SUP: SUP284, SUP5: SUP285, SUP6: SUP286, C5_286B });
     add('behavior.w249a-pnResponse', r.bad.length === 0,
       (r.bad.length ? `不成立=[${r.bad.slice(0, 6).join(' / ')}] ` : '')
+      + (/"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? '**第297便a: λ_PN=1/f の処方は撤回 —— 走る宣言は λ_PN=0(以下の 1/f は旧宣言の説明)** ' : '')
       + `NS 応答候補 3 本(🪶🪃🪀)の宣言固定: λ_PN=1/f(massCalibration.factor の逆数・±1e-9)・`
       + `c=2997.92458(299,792,458 m/s の単位換算)・κ=G/c² 同期・framePrecision:"double" / `
       + `複製元(⚡🧮🩺)は旧則のまま(λ_PN=1・c=3000)で bodies と massCalibration はビット同一 — `
@@ -41103,7 +41108,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     const r = await page.evaluate(() => {
       const S = HP.sim; const single = (o) => Object.assign({ type: 'single', m: 1, radius: 0.01, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, o);
       const build = (bodies, ph) => { const v = HP.validatePreset({ name: 'fc', description: 'd', camera: { scale: 1 }, world: { boundary: 'none', size: 0 },
-        physics: Object.assign({ G: 0, D0: 0.006, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0, etaRad: 0, cLight: 30000, geoPN: 0, softening: 0.05, radiusScale: 1, massFloor: 1e-6, timeScale: 1, frameWeight: 'pull', D0pull: 0.01, stateCarry: 'double', frameReaction: 'pairReduced', coupleSink: 'reservoir', bM: 1, pRad: 4, gravityX: 0, gravityY: 0, lambdaPN: 1, pnAlpha: 1.5 }, ph), bodies });
+        physics: Object.assign({ G: 0, D0: 0.006, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0, etaRad: 0, cLight: 30000, geoPN: 0, softening: 0.05, radiusScale: 1, massFloor: 1e-6, timeScale: 1, frameWeight: 'pull', D0pull: 0.01, stateCarry: 'double', frameReaction: 'pairReduced', coupleSink: 'reservoir', bM: 1, pRad: 4, gravityX: 0, gravityY: 0, lambdaPN: (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && (ph || {}).geoPN >= 2) ? 0 : 1, pnAlpha: 1.5 }, ph), bodies });   // 第297便a(R161): 2・3・4 は λ_PN=0(G=0 なので力は同じ)
         if (!v.ok) throw Error(JSON.stringify(v.errors)); S.build(v.preset); S.step(0.0001); return v.warnings.length; };
       // ① gasCoh 勾配(geoPN=2・気体殻+差動コア)の解析 J と中心差分
       const grad = []; for (const gasCoh of [0.25, 1]) for (const core of [false, true]) { const read = (x) => { const src = single({ m: 100, radius: 20, spin: 0.5, pinned: true, shell: 'gas' }); if (core) src.core = { mode: 'differential', massFrac: 0.4, radius: 5, omega: 1, Kcs: 0 }; const w = build([src, single({ x })], { geoPN: 2, gasCoh }); const u = S.uPy[1], den = S.params.D0pull + S.sumWu[1]; return { u, J: (S._g2.dPyx[1] - u * S._g2.dWx[1]) / den, w }; };
@@ -41319,7 +41324,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
       // 第284便b: ⚡ も f 固定形へ移ったので、一次則台帳の見本は凍結の写しの旧 ⚡(__qaPreset —— f=1 の世代だけ写しを返す)
       const pd0 = w282 ? (typeof __qaPreset === 'function' ? __qaPreset('psrDoubleABDFM') : HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')) : HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
       const v1 = HP.validatePreset(JSON.parse(JSON.stringify(pd0)));
-      out.vOk = v1.ok && v1.warnings.length === 0 && v1.preset.massCalibration
+      out.vOk = v1.ok && v1.warnings.filter((w) => !/力学の λ_PN を 0 にする|dynamical λ_PN to 0/.test(w)).length === 0 && v1.preset.massCalibration   // 第297便a(R161): 凍結の写し(geoPN=2・λ_PN=1)の lambdaPnOnDrag は数えない
         && v1.preset.massCalibration.law === 'inertia-law-lin-v1'   // 第245便(裁定 A6): 台帳は一次則
         && v1.preset.massCalibration.factorQuad === pd0.massCalibration.factorQuad   // χ² 則の併記が正規化で保持される
         && Array.isArray(v1.preset.massCalibration.chiQuad) && v1.preset.massCalibration.chiQuad.length === 2
@@ -42979,8 +42984,14 @@ if (!FAST) {
         for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const Ar = T[k]; if (!Ar) continue; for (let i = 0; i < T.n; i++) push(Ar[i]); }
         push(T.t); return h.toString(16) + '|' + T.n; };
       o.fx = [];
+      // 第297便a(原仮定者の裁定(第87報)・R161): 世代切替 —— geoPN≥2 の退役の本も λ_PN=0(凍結の写しは第296便までの λ_PN)。λ_PN だけを写しの値へ戻した写しで、
+      //   署名と 200 步が凍結の写しと同じこと(= 動いたのは λ_PN の 1 か所だけ)を見る
+      const w297R = MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0;
+      o.lam297 = [];
       for (const id of IDS) {
-        const raw = FX.presets[id].raw, bp = ps.find((q) => q.id === id);
+        const raw = FX.presets[id].raw; let bp = ps.find((q) => q.id === id);
+        if (w297R && bp && raw && raw.physics && ((bp.physics || {}).geoPN || 0) >= 2 && bp.physics.lambdaPN === 0 && raw.physics.lambdaPN !== 0) {
+          bp = JSON.parse(JSON.stringify(bp)); bp.physics.lambdaPN = (raw.physics.lambdaPN === undefined) ? 1 : raw.physics.lambdaPN; o.lam297.push(id); }
         const S1 = makeSim(); S1.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(bp))).preset)));
         const S2 = makeSim(); S2.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(raw))).preset)));
         for (let k = 0; k < 200; k++) { S1.step(0.016); S2.step(0.016); }
@@ -48219,7 +48230,10 @@ if (!FAST) {
       res.oneStep = { nBit, n: S.n, kick: S.meshVelKickMax, bad: S.meshVelBad, kernel: !!(S.meshVel && S.meshVel.kernel) };
       // ⑥ 🌓 の初速の意味
       const dg = JSON.parse(JSON.stringify(bis.find((p) => p.id === 'earthMoonDiagOne')));
-      const em = bis.find((p) => p.id === 'earthMoonRealKF1');
+      let em = bis.find((p) => p.id === 'earthMoonRealKF1');
+      // 第297便a(原仮定者の裁定(第87報)・R161): 🌘 は λ_PN=0 の再フィットで初速が動いた —— 🌓 は第296便までの 🌘 の初速から作った本(🌓 の宣言は変えていない)ので、
+      //   照合は第296便までの 🌘 の初速(fitRecord の前の値)で行う
+      if (em && em.fitRecord && MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) { em = JSON.parse(JSON.stringify(em)); em.bodies[0].vy = -0.0013130341660799998; em.bodies[1].vy = 0.10675096027535999; }
       const vyDecl = dg.bodies[1].vy;
       dg.bodies[1].vy = em.bodies[1].vy; dg.bodies[1].vx = em.bodies[1].vx;
       const vd = HP.validatePreset(dg);
@@ -50503,7 +50517,7 @@ if (!FAST) {
       //   して比べる(在位移行で動いたのはこの 2 鍵だけ —— 他の物理・幾何は従来どおりビット一致を求める)
       const catPhys0 = cat.physics;   // カタログ経路の生成物そのもの(下の「カタログ経路の生成物は不変」はこれで見る)
       if (typeof UNIFY_MIGRATED !== 'undefined' && UNIFY_MIGRATED.jupiterGalilean && cat.physics.kFrame === 0 && cat.physics.geoPN === 1)
-        cat.physics = Object.assign({}, cat.physics, { kFrame: 1, geoPN: 2 });
+        cat.physics = Object.assign({}, cat.physics, { kFrame: 1, geoPN: 2 }, (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? { lambdaPN: 0 } : {});   // 第297便a(R161): geoPN=2 の雛形は λ_PN=0
       // ビット一致を要求するキー(物理・幾何・スケール・カメラ・世界・オーバーレイ・分類)
       const SAME = ['physics', 'bodies', 'camera', 'world', 'overlays', 'scaleExp', 'scaleTier'];
       // 第242便: 既定 pull — レコード経路は pull+D0pull(単位換算)を宣言し、カタログ変種(出典=share 固定の内蔵)は frameWeight:"share" を持つ。
@@ -66914,7 +66928,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const run = (p) => { const S = makeSim(); S.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(p))).preset)));
           for (let k = 0; k < 200; k++) S.step(0.016); return hash(S); };
         for (const row of TB.rows.filter((z) => z.action === 'retire')) {
-          const fx = (FXR.presets || {})[row.id], p = byId.get(row.id);
+          const fx = (FXR.presets || {})[row.id]; let p = byId.get(row.id);
+          // 第297便a(原仮定者の裁定(第87報)・R161): 世代切替 —— geoPN≥2 は λ_PN=0・🌘 は再フィット(D0pull・地球と月の vy)。その箇所だけを写しの値へ戻した写しで署名を見る
+          if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && p && ((p.physics || {}).geoPN || 0) >= 2 && p.physics.lambdaPN === 0) {
+            p = JSON.parse(JSON.stringify(p)); const rp = (fx && fx.raw && fx.raw.physics) || {};
+            p.physics.lambdaPN = (rp.lambdaPN === undefined) ? 1 : rp.lambdaPN;
+            if (row.id === 'earthMoonRealKF1') { p.physics.D0pull = 3.24204e-5; p.bodies[0].vy = -0.0013130341660799998; p.bodies[1].vy = 0.10675096027535999; delete p.fitRecord; } }
           o.fx.push({ id: row.id, sig: !!fx && fx.presetSigHash === presetSigHash(p), pair: fx && fx.pairDiff ? Object.keys(fx.pairDiff.diff || {}).length : null,
             kOnly: fx && fx.pairDiff ? fx.pairDiff.kOnly === true : null });
         }
@@ -67006,7 +67025,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const o = { ret: [], fam: {}, d68: null };
       const ps = HP.allPresets(), byId = new Map(ps.map((p) => [p.id, p]));
       for (const id of IDS290) {
-        const p = byId.get(id), e = (typeof RETIRED_PRESETS !== 'undefined') ? RETIRED_PRESETS[id] : null;
+        // 第297便a(原仮定者の裁定(第87報)・R161): 世代切替 —— geoPN≥2 の退役の写しは λ_PN=0(凍結の写しは第296便までの 1)。λ_PN だけを 1 へ戻した写しで署名と physics を見る
+        const p0 = byId.get(id), w297 = MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && p0 && ((p0.physics || {}).geoPN || 0) >= 2 && p0.physics.lambdaPN === 0;
+        const p = w297 ? Object.assign({}, p0, { physics: Object.assign({}, p0.physics, { lambdaPN: 1 }) }) : p0, e = (typeof RETIRED_PRESETS !== 'undefined') ? RETIRED_PRESETS[id] : null;
         o.ret.push({ id, has: !!p, role: p ? p.familyRole || null : null, sig: p ? presetSigHash(p) : null,
           phys: p ? JSON.stringify(p.physics) : null, bodies: p ? JSON.stringify(p.bodies) : null,
           why: !!(e && e.ja && e.en), see: e && Array.isArray(e.see) ? e.see.map((s) => { const q = byId.get(s); return s + ':' + (q ? (q.familyRole === 'retired' ? 'retired' : 'ok') : 'missing'); }) : [] });
@@ -67221,11 +67242,19 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const F = FX && FX.presets ? FX.presets.earthMoonRealKF1 : null;
       if (!F || FX.fixtureVersion !== 'w292b-revived-1' || !F.base || F.base.rev !== 'a37a1f9') bad.push('②前後の写し(w292b-revived-1・基点 a37a1f9)が揃わない');
       else {
-        for (const k of ['physics', 'bodies', 'qLock', 'claims']) if (sha(r.json[k]) !== F.physicsSha256[k]) bad.push(`②${k} の sha が写しの基点と違う`);
-        if (!(r.sig === F.presetSigHash && F.base.presetSigHash === r.sig && F.base.sigSame === true)) bad.push(`②presetSigHash ${r.sig} / 写し ${F.presetSigHash} / 基点 ${F.base.presetSigHash}`);
+        // 第297便a(原仮定者の裁定(第87報)「修正したサンプルは再フィットする」・R161): 世代切替 —— 🌘 は λ_PN=0 と既存のノブ(D0pull・初速)の再フィットで physics と bodies が動いた。
+        //   再フィットの 3 か所(lambdaPN・D0pull・地球と月の vy)だけを第296便までの値へ戻した写しが写しの基点と sha 一致すること(= 動いたのはその 3 か所だけ)を見る。署名と 200 步は変わって正しい
+        const re297 = /"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        const json297 = Object.assign({}, r.json);
+        if (re297) {
+          const ph = JSON.parse(r.json.physics); ph.lambdaPN = 1; ph.D0pull = 3.24204e-5; json297.physics = JSON.stringify(ph);
+          const bo = JSON.parse(r.json.bodies); bo[0].vy = -0.0013130341660799998; bo[1].vy = 0.10675096027535999; json297.bodies = JSON.stringify(bo);
+        }
+        for (const k of ['physics', 'bodies', 'qLock', 'claims']) if (sha(json297[k]) !== F.physicsSha256[k]) bad.push(`②${k} の sha が写しの基点と違う${re297 ? '(第297便a の再フィットの 3 か所を戻した写しで)' : ''}`);
+        if (!re297 && !(r.sig === F.presetSigHash && F.base.presetSigHash === r.sig && F.base.sigSame === true)) bad.push(`②presetSigHash ${r.sig} / 写し ${F.presetSigHash} / 基点 ${F.base.presetSigHash}`);
         if (F.before.familyRole !== 'retired' || F.before.sampleClass !== 'calibration' || F.after.familyRole !== 'variant') bad.push('②写しの分類の前後が retired/calibration → variant でない');
       }
-      if (!r.h || r.h[0] !== r.h[1] || r.sig288 !== r.sig) bad.push(`②第288便b の写しの raw と 200 步/署名が違う: ${JSON.stringify(r.h)}・${r.sig288}/${r.sig}`);
+      if (!/"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) && (!r.h || r.h[0] !== r.h[1] || r.sig288 !== r.sig)) bad.push(`②第288便b の写しの raw と 200 步/署名が違う: ${JSON.stringify(r.h)}・${r.sig288}/${r.sig}`);
       // ③
       const cb = FX && FX.counts ? FX.counts.base : null;
       if (!cb) bad.push('③写しに基点の本数が無い');
@@ -68760,13 +68789,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const r = await page.evaluate(({ bin, cal3 }) => {
         const out = {};
         out.version = GEO_MODE_VERSION; out.core = Array.from(GEO_CORE_PN);
+        // 第297便a(R161): 宣言から —— geoPN≥3 で旧メッシュの pn が "off" の内蔵(第296便までは reference-1PN だった 🔁🌒)
+        out.pn297 = (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) ? HP.allPresets().filter((p) => (p.physics || {}).geoPN >= 3 && p.physics.spaceMesh && p.physics.spaceMesh.pn === 'off').map((p) => p.id) : [];
         out.rows = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => { const g = geoModeOf(p.physics);
           return { id: p.id, geoPN: g.geoPN, mode: g.mode, lambdaPN: g.lambdaPN, kFrame: g.kFrame, spaceMesh: g.spaceMesh, core: g.core,
             role: g.role, consistent: g.consistent, compat: g.compat }; });
         // ② 受理器
         const two = (ph) => ({ id: 'qa_w283a_probe', name: 'p', description: 'd', sampleClass: 'principle', camera: { scale: 100 },
           world: { boundary: 'none', size: 0 }, physics: Object.assign({ G: 1, D0: 2, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, cLight: 30,
-            lambdaPN: 1, pnAlpha: 1.5, softening: 0.5 }, ph),
+            lambdaPN: (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0 && ph.geoPN >= 2) ? 0 : 1, pnAlpha: 1.5, softening: 0.5 }, ph),   // 第297便a(R161): 2・3・4 の標準は λ_PN=0(この試験は kFrame の受理の契約 —— λ の逸脱は behavior.lambdaPnOnDrag297)
           bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, { type: 'single', m: 1, x: 20, y: 0, vx: 0, vy: 0.7, spin: 0, pinned: false }] });
         const V = (p) => { const v = HP.validatePreset(p); return { ok: v.ok, err: (v.errors || []).find((e) => /geoPN=1/.test(e)) || null,
           nw: (v.warnings || []).length, use1: (v.warnings || []).some((w) => /主に現実較正用・GR 1PN 準拠|GR 1PN に引きずりを重ねた実験設定/.test(w)) /* 第295便a: 文は目的の組の判定(modeWarn_geo1KFrame)から */, compatW: (v.warnings || []).some((w) => /互換入力/.test(w)), snapped: v.kFrameSnapped || null,
@@ -68775,7 +68806,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           g1k0: V(two({ geoPN: 1, kFrame: 0 })), g2k0: V(two({ geoPN: 2, kFrame: 0 })),
           // 第284便b(AN39): 内蔵の ☄️ が geoPN=1 へ移った世代では、旧宣言(geoPN=2・kFrame=0)のまま保存された ☄️ を入れる
           g2k0b: (() => { const m = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'mercuryReal'))); const g284 = m.physics.geoPN === 1;
-            if (g284) m.physics.geoPN = 2; return Object.assign(V(m), { g284 }); })(),
+            if (g284) m.physics.geoPN = 2; if (MODE_SAVE_WARN_CODES.indexOf('lambdaPnOnDrag') >= 0) m.physics.lambdaPN = 0; return Object.assign(V(m), { g284 }); })(),
           g2k1: V(two({ geoPN: 2, kFrame: 1 })), g0k1: V(two({ geoPN: 0, kFrame: 1 })) };
         // ③ ビット同一
         const run = (p, steps, gen) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); if (!v.ok) return null;
@@ -68833,7 +68864,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             nCmp++; continue; }
           if (mig295.has(z.id)) { nMig295++;
             if (!(y.geoPN === 3 && y.mode === 3 && z.geoPN === 4 && z.mode === 4 && z.role === 'legacyMesh' && z.spaceMesh === true)) bad.push(`① ${z.id}: 第295便b の移住(正本 3 ⇔ ページ 4・legacyMesh)が立たない`);
-            for (const k of ['lambdaPN', 'kFrame', 'spaceMesh', 'consistent', 'compat']) if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`);
+            // 第297便a(原仮定者の裁定(第87報)・R161): 🔁🌒 は spaceMesh.pn:"off" になり、1PN の経路フラグ lambdaPN は 1 → 0(正本は履歴 —— 再生成しない)
+            for (const k of ['lambdaPN', 'kFrame', 'spaceMesh', 'consistent', 'compat']) if (y[k] !== z[k] && !(k === 'lambdaPN' && r.pn297 && r.pn297.indexOf(z.id) >= 0 && y[k] === 1 && z[k] === 0)) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`);
             nCmp++; continue; }
           for (const k of ['geoPN', 'mode', 'lambdaPN', 'kFrame', 'spaceMesh', 'core', 'role', 'consistent', 'compat']) {
             if (has285bPN && k === 'core') continue;   // 第285便b: core は正本(履歴)の後に変わった列
