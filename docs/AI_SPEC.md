@@ -344,12 +344,12 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, kappaT=0.016666666666666666, cLight=30, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, kappaT=0.016666666666666666, cLight=30, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1(geoPN=2・3・4 では lambdaPN=0), pnAlpha=1.5, radiusScale=1, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0〕/2=引きずり近似 q〔標準 kFrame=1〕/3=慣性決定力〔引きずりを慣性決定力で計算〕/4=空間メッシュ〔旧法則版の置き場 —— 新しく作る設定では使わない〕。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 spaceMesh.lawVersion は互換〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
@@ -3360,8 +3360,26 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **step 会計の純関数**: `stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn)` → `{kReq, kRun, pending, cancel, ms}`・`stepCarryDiscard(pending)` → `{pending:0, cancel}`(どちらも `HP` に公開)。loop() と `stepGenBump`・`setStepCarry` はこれだけを通る(step の回数と順は不変)。
 - QA: **`ui.familyFold296`**(新設 —— root は SKIP)。`ui.step-accounting` は (A) 手で進める時計の決定的な会計の試験(判定)と (B) 実フレームの標本(恒等式だけ判定・lastRun の分布は記録)に分けた(世代切替 has296dSA = html の `function stepCarryFrame(`)。`ui.pickerReorg294` ⑤・`ui.paramWbgRow` の tip の語は世代切替 has296d(html の `const FAMILY_FOLD_MIN_VARIANTS=`)。`tests/perf.mjs` の counterring は 240 frames(閾値は不変)・結果 JSON に `firstFailures`(再トスした本の初回の比)。
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 155/155)。
+## 63. 第297便a —— geoPN=2・3・4 は λ_PN=0(光学と力学を分ける)・逸脱 `lambdaPnOnDrag`・1PN の有無の表示・geoPN=0 の旧メッシュの読込通知(原仮定者の裁定(第87報)「光学と力学を分ける。λ_PN は力学の作用なので、geoPN=2 の引きずり減衰 q・geoPN=3 の慣性決定力の引きずり gain(geoPN=4 も)と重ねない。geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」・統括の検証項目 R161)
 
-## 63. 第297便b —— 再現の努力: 主張文の改訂・フィット記録の条件結合(w297b-1)・🟫🟪 の再フィット(λ_PN=0)・🌤️ の再現作業と派生本 🌥️(原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる。『再現するために計算を合わせた』と『再現したと主張しない』は両立する」・統括の検証項目 R162・**fitRecord・fitCondSig は SYSTEM_PROMPT に載せない**)
+- **規則**: `physics.lambdaPN` は力学の 1PN の係数(`_core` の対経路・`dfmPN1Delta`・geoPN=3/4 の外部項 `dfmGeo3PNKick` が `λ_PN/c²` で読む)。光学(κ・光線・時計)は λ_PN の欄ではない(変えない)。
+  **geoPN=2・3・4 では λ_PN=0**(q の引きずり・慣性決定力の引きずり gain と力学の 1PN を重ねない)。geoPN=1 は 1PN の照合基準として λ_PN=1 のまま・geoPN=0 は従来どおり。
+- **内蔵**: geoPN≥2 の内蔵(宣言から列挙 —— 第297便a の時点で 38 本: 2 = 19・3 = 9・4 = 10)の `physics.lambdaPN` を **0 と明示**した(省略ではない)。🔁 mercuryGeoToy3・🌒 charonGeoToy3 は `spaceMesh.pn:"off"`(`pnVelocity` は外した —— 受理器の規則どおり)。
+  ワンタップ対照で geoPN を 2 に替える `abBody.physicsPatch` には `lambdaPN:0` を足した(親から継承して 2/3/4 で走る対照も λ_PN=0)。退役 🪶🪃🪀 の「λ_PN=1(旧則)」のワンタップ対照は撤去・λ_PN=1/f の処方は撤回(説明に履歴として 1 行)。AI のカタログ(`astroPh` —— λ_PN を明示しない変種は geoPN≥2 で 0)と観測レコードからの構築(`buildAstroFromRecords` の観測安定則 —— 採用側 geoPN=1 は λ_PN=1・A/B の測定側 geoPN=2 は λ_PN=0)も同じ規則。
+- **逸脱 `lambdaPnOnDrag`**(`HP.MODE_SAVE_WARN_CODES` の **20 本目**・末尾 —— 目的の組の判定 `HP.modeSettingIssues(src, opts)` の mode≥2 の塊・kind:"preset"・fields `["lambdaPN"]`・`lambdaPN`(読んだ値)): geoPN≥2 ∧ `physics.lambdaPN`≠0(**未宣言は 1** —— `_core` の読みと同じ)。
+  保存・セーブの読込・編集欄の赤文字(λ_PN 行にも —— `MODE_DEV_KEYS`)・JSON の受理の警告で出す。**値は書き換えない**(黙って 0 にしない)。文は i18n `modeWarn_lambdaPnOnDrag(g, λ)`(ja/en):
+  ja「geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。」
+- **1PN の有無の表示**: `HP.geoModeOf(physics).pn1Active` = 経路フラグ `lambdaPN`(0/1)∧ 係数 `lambdaPNCoef`≠0。経路フラグ 1 ∧ 係数 0 は表示オフ(モード表の測地線の列は「ON(λ_PN=0)」—— `geoModeTableGeo`)。物理の経路(core・law)は変えない。
+  モード表 `GEO_MODE_TABLE_CASES` の 2・3・4 の行は `lambdaPN:0`(標準)・旧宣言の行 `lambdaPN:1`(逸脱 lambdaPnOnDrag)を足した(現行の表は docs/PHYSICS.md〔第297便a〕)。
+- **geoPN=0 の旧メッシュの読込通知**(AN255 の残り): geoPN=0 ∧ `spaceMesh.lawVersion` の宣言が入場条件を満たして旧メッシュで走る設定は、セーブの読込と JSON の受理で 1 行知らせる(i18n `loadGeo0Legacy` —— 第296便から実行則が変わった・値は書き換えない)。内蔵の該当は 0 本。
+- **SYSTEM_PROMPT**: 値域の行の geoPN を「1=1PN準拠〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 spaceMesh.lawVersion は互換〕。
+  geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)」に、既定値の行の lambdaPN を「lambdaPN=1(geoPN=2・3・4 では lambdaPN=0)」にした(§59 の「旧法則版は新しく作る設定では使わない」は値域の行から外した —— 4 の標準は慣性の連鎖)。
+- **再測定と再フィット**: 器 `tests/exp-w297a-refit.mjs`(段 em・emfit・qlock・galaxy・geotoy・retired —— `W297A_OUT` で出力先・`W297A_PART`/`--part` で段を絞る)・正本 `tests/out/refit-w297a.json`(段 refit-297a)。
+  🌘 earthMoonRealKF1 は既存のノブ(`physics.D0pull`・初速の係数 f)だけで恒星月 27.3217 日と 8 公転窓の近点回転 8.85 年に合わせ直し、`fitRecord` に記録した。数値と表は docs/PHYSICS.md〔第297便a〕。
+- QA: **`preset.lambdaPN297`**・**`behavior.lambdaPnOnDrag297`**・**`docs.refit297`**(新設 —— root は SKIP)と、世代切替 has297a で改めた λ を読む既存ブロック。
+
+
+## 64. 第297便b —— 再現の努力: 主張文の改訂・フィット記録の条件結合(w297b-1)・🟫🟪 の再フィット(λ_PN=0)・🌤️ の再現作業と派生本 🌥️(原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる。『再現するために計算を合わせた』と『再現したと主張しない』は両立する」・統括の検証項目 R162・**fitRecord・fitCondSig は SYSTEM_PROMPT に載せない**)
 
 **主張の文**(html の `CLAIM_SCOPE` —— 1 か所のまま。aboutBody〔導入 1 文+この文+較正の読み〕・SYSTEM_PROMPT〔段「主張の範囲とフィット」〕が同じ値を読む・この節は逐語の転記):
 
@@ -3377,7 +3395,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **AI 生成**: `fitRecord`・`fitCondSig` は生成の出力に書かない(生成器が機械で付ける —— §59 のまま)。
 - QA: **`behavior.claimEffort297`・`preset.fitCond297`・`docs.fit297`**(新設 —— root は SKIP)と、世代切替 has297b で改めた `docs.claimScope`・`preset.fitDerived296`・`docs.fitContract296`。
 
-## 64. 第297便c —— 時間の標準: 画面の積分刻み `physics.stepDt` と時間の宣言 `timeRef`(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163)
+## 65. 第297便c —— 時間の標準: 画面の積分刻み `physics.stepDt` と時間の宣言 `timeRef`(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163)
 
 - **方式**: 物理の入力(G・c・質量・速度・scaleExp)は 1 つも動かさない(単位の相似変換はしない)。本ごとに**画面の積分刻み** `physics.stepDt` を宣言し、時間経過倍率 `timeScale` は 1 を標準にする。標準は **1 公転 ≈ 360 步**(`ORBIT_STEPS_STD=360`・`stepDt = timeRef.pRef / timeRef.stepsPerOrbit`)。
 - **`physics.stepDt`**(数値ノブ・`PARAM_ROLES.stepDt="numerics"`・`fitKnobIsLaw` は false): 正の有限数(値域 `STEP_DT_RANGE=[1e-9,1e9]`・0 以下は警告して無視・数値でなければ拒否)。**未宣言は `DT`(0.016)** —— 旧 JSON・保存は 1 bit も変わらない。宣言すれば presetSig に入る(画面の軌跡が変わる)。`timeRef` が公転なら `stepDt ≤ pRef/36`(`STEP_DT_ORBIT_MIN`)に丸めて警告。相似変換連動(c₀ の k 倍)は `timeScale` と同じく `stepDt` も ÷k。
@@ -3392,7 +3410,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - SYSTEM_PROMPT に時間の規則を 1 行(規則 10)足した(既定値の行・値域の行は変えていない)。
 - QA: **`preset.timeStd297`**・**`behavior.timeStd297`**・**`docs.timeStd297`**(新設 —— root は SKIP)。
 
-## 65. 第297便d —— アプリ内実測(精密): 観測と比べる量を、いまの初期値・パラメータで測る(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、実測に反映する」・統括の検証項目 R164・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
+## 66. 第297便d —— アプリ内実測(精密): 観測と比べる量を、いまの初期値・パラメータで測る(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、実測に反映する」・統括の検証項目 R164・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **純関数層**(sim・DOM を読まない): `lmsSpecOf(preset)` → 対象の配列 `[{key, src:"row"|"fit"|"ref", n, t, row, est, why, c, o, dt, win:{laps}|{peri}, unit, obs, sigma, judge:{v,st,g}, ctrl:{gain:0}|null, fit:{model,h2,status}|null}]`(正本の転記 `OBS_COMPARE_ROWS` の行・本と子の `fitRecord.targets`・🌛🌤️ の参照行 `LMS_REF_TARGETS` から**機械で**組む —— 退役の本は空)/ `lmsMeterNew(S, ci, oi)`・`lmsFeedStep(G, S, dt, W)`(lm* の計測器 + 検出器 B + 通過時刻 —— フィット器と同じ式)/ `lmsFitB(raw, rMin, rMax, pRef, dt)`(`tests/lib-w280b-emgrid.mjs` の `fitPeri` と同じ手続き)/ `lmsValueOf(G, item, toSec, dt)`。
 - **推定器 `est`**: `rev`(同方向 1 周 —— 2 周目)・`eProxy`(1 周目の半径比)・`peri`(近点間周期 —— 最初の np 近点)・`prec`(近点移動 °/周)・`aps`(近点回転の周期 s)・`precYr`(近点移動 deg/yr = Δϖ × YEAR / P_peri —— AD8)・`revMean`(N 公転の平均周期)・`apsBRate`(検出器 B の近点率 ″/世紀)・`apsBYear`(360°/ϖ̇ 年)・`apsBSec`(360°/ϖ̇ s)。`est:null` の量は `why` ∈ {`text`・`spin`・`pn0`・`ringInner`・`unit`・`noTarget`・`stage`・`fitQ`・`fitWindow`・`refRow`} と「アプリ内実測 未対応 —— 理由」の文。

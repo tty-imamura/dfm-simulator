@@ -85,7 +85,9 @@ export function declGate(HP) {
     if (!coreOk) bad.push('dragCore の宣言(🌤️ の地球だけ)');
     const keys = [...new Set(Object.keys(p.physics).concat(Object.keys(par.physics)))];
     const physDiff = keys.filter((k) => JSON.stringify(p.physics[k]) !== JSON.stringify(par.physics[k])).sort();
-    if (JSON.stringify(physDiff) !== JSON.stringify(['geoPN', 'relativeDrag'])) bad.push('physics の親との差が geoPN と relativeDrag だけでない: ' + physDiff.join(','));
+    // 第297便a(原仮定者の裁定(第87報)・R161): geoPN=3 は λ_PN=0(親の geoPN=1・λ_PN=1 との差に lambdaPN が加わる —— 慣性の 3 は測地線 OFF で力学は同じ)
+    const allow297 = (ph0) => ph0.lambdaPN === 0 && par.physics.lambdaPN !== 0;
+    if (JSON.stringify(physDiff) !== JSON.stringify(allow297(p.physics) ? ['geoPN', 'lambdaPN', 'relativeDrag'] : ['geoPN', 'relativeDrag'])) bad.push('physics の親との差が geoPN と relativeDrag だけでない: ' + physDiff.join(','));
     const ph = p.physics, rd = ph.relativeDrag || {};
     const rdKeys = Object.keys(rd).sort();
     if (!(ph.geoPN === 3 && ph.kFrame === 0 && ph.geodesic === undefined && rd.law === 'inertial' && rd.history === 'positions' && rd.compose === undefined

@@ -40,6 +40,7 @@
 //   'w293c-branch' … 第293便c の枝で器を走らせた実測(正本の elapsedS 60.7〜106.0 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w295b-branch' … 第295便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w296b-branch' … 第296便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w297a-branch' … 第297便a の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・Chromium なし・他の 3 枝と同じ容器で並走 —— 段 galaxy が最長)。
 //   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
@@ -773,6 +774,16 @@ export const REGEN_STEPS = [
     note: '第296便c: geoPN=4 の慣性の連鎖 —— PCG と直接法の一致(3 粒子・固定・質量差・反復上限 1 は採用しない・重複辺の拒否)・65 粒子の鎖の GS 8 回と PCG の残差・'
       + '4 層×16 点の環の層ごとの接線速度(層 2–3 を切ると外側 0)・剛体回転の残差(残す)・自転源の表裏核(2 次元求積・第280便b の sphere2D と同じ組み方・点の受け手の u)・'
       + 'スピン 0 のビット同一・🔗 の 2000 步(NaN・残差の門・未収束 0・反復・Σm u・h/2・連鎖を切った対照の角変位)—— 値だけ・合否なし' }),
+  // ---- 第297便a(原仮定者の裁定(第87報)「光学と力学を分ける。λ_PN は力学の作用なので、geoPN=2 の引きずり減衰 q・geoPN=3 の慣性決定力の引きずり gain(geoPN=4 も)と
+  //   重ねない。geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」・統括の検証項目 R161): λ_PN=0 にした本の再測定と再フィット ——
+  //   段 em(🌘 の λ 前後・h/2)・emfit(🌘 を既存のノブ D0pull・初速の係数で恒星月と 8 公転窓の近点回転へ —— 本の値が既に満たせば反復しない)・qlock(📶📐 の Δϖ_drag)・
+  //   galaxy(💫 の外縁の増強 —— claim の手続き)・geotoy(🔁🌒 の零試験)・retired(退役 geoPN=2 の二体 14 本の λ 前後)。対象は宣言から列挙(geoPN≥2 の内蔵)。
+  //   Node の headless(1 プロセス)・html だけを読む(他の正本は読まない —— after なし)。所要は第297便a の枝の実測(段ごとの和 —— 他の枝と同じ容器で並走)
+  S('refit-297a', 'node tests/exp-w297a-refit.mjs', ['tests/out/refit-w297a.json'], 7032, { secSource: 'w297a-branch', node: true,
+    volatilePaths: { 'tests/out/refit-w297a.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/em/rows/*/wallSec', '/parts/emfit/evals/*/wallSec',
+      '/parts/qlock/books/*/rows/*/wallSec', '/parts/galaxy/rows/*/wallSec', '/parts/geotoy/*/rows/*/wallSec', '/parts/retired/*/rows/*/wallSec']) },
+    note: '第297便a: geoPN=2・3・4 の λ_PN=0 —— 🌘 の再フィット(D0pull・初速の係数 f → 恒星月 27.3217 日・8 公転窓の近点回転 8.85 年・h と h/2・fitRecord)と、'
+      + '💫 の外縁の増強・📶📐 の Δϖ_drag・🔁🌒 の零試験・退役 geoPN=2 の近点移動と周期の λ 前後(値だけ —— 届かない本は次の見直しへ)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
