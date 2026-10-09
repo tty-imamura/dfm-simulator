@@ -759,7 +759,7 @@ export const REGEN_STEPS = [
   //   器の中だけの 3 次元の参照積分器・直した初期配置での gain の探索・速度の規約の対照・🌥️ の照合)。Node の headless(子プロセス 3 本 —— workers 3)。
   //   html と観測表 paper/data/solar-observations.csv を読む(他の正本は読まない —— 器のコードの依存として inertial3-295c の後・html の生成領域〔obs-compare・sample-status〕を書く段の後)。所要は第297便b の枝の実測(正本の elapsedS ——
   //   他の枝と同じ容器で並走)
-  S('fit-297b', 'node tests/exp-w297b-fit.mjs', ['tests/out/fit-w297b.json'], 1203, { secSource: 'w297b-branch', node: true, workers: 3, after: ['inertial3-295c', 'obscompare', 'samplestatus'],
+  S('fit-297b', 'node tests/exp-w297b-fit.mjs', ['tests/out/fit-w297b.json'], 445, { secSource: 'w297b-branch', node: true, workers: 3, after: ['inertial3-295c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/fit-w297b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ems/ref3d/rows/*/wallSec']) },
     note: '第297便b: フィット生成器の後継 —— 🟫🟪 の再フィット(λ_PN=0・記録 w297b-1 —— 条件の署名と許容の門)・🌤️ の再現作業(平均要素に直した初期配置・抽出器 3 方式・'
       + '3 次元の参照積分器・gain の探索 —— この探索範囲では未達を記録)・🌥️ earthMoonSunInertialFit の照合' }),

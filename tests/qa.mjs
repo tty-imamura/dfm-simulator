@@ -20900,7 +20900,9 @@ if (!FAST) {
         // 第296便c(原仮定者の裁定(第86報)・R159): 🔗 chainDiskToy(連鎖引きずりの試作本 —— 宣言した本だけの別経路で 1 步が変わる・contactMode none。基点 b92ffa1 には無い本)を足した世代は +1
         if (has292d285 && html285.indexOf('id:"chainDiskToy"') >= 0) { OTHER285.add('chainDiskToy'); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + 1); }
         // 第296便b(R158): フィットの派生本(🟫🟪 —— ID は正本 fit-w296b.json)を足した世代は +2(正本が鎖で刻み直されるまでは前の世代の本数 —— 両方を許す)
-        if (has292d285 && ids295c.length && W296B_FIT) { for (const id of W296B_FITIDS) OTHER285.add(id); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + W296B_FIT); }
+        if (has292d285 && ids295c.length && W296B_FIT) { for (const id of W296B_FITIDS) OTHER285.add(id); const nb = nBuiltin285[nBuiltin285.length - 1];
+          // 第297便b(R162): 🌥️(W297B_NEWIDS)を足した世代 —— 正本が鎖で刻み直されるまでは前の世代(🟫🟪 だけ)の本数も許す
+          if (W297B_NEWIDS.length) nBuiltin285.push(nb + W296B_FIT - W297B_NEWIDS.length); nBuiltin285.push(nb + W296B_FIT); }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -61560,7 +61562,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && o.fam.mercury.length === (ps.some((q) => q.id === 'mercuryGeoToy3') ? 3 : 2) + (ps.some((q) => q.id === 'mercurySunInertial') ? 1 : 0) + ps.filter((q) => q.familyId === 'mercury' && q.referenceKind === 'observation-fit').length   // 第296便b: 🟫(フィットの派生本)も mercury の variant   // 第295便c: 🟤 も mercury の variant   // 第280便c: 🔁 mercuryGeoToy3(geoPN=3 の診断コピー)が variant で加わる
         // 第280便b(R70): 地球–月は 🌙🌘 に ⭕🧲🔆(旧 emAudit)と診断コピー 🌓 を足した 6 本(世代判定 HP.validateQLockKernel)
         // 第292便d(R140): 🌜 earthMoonTide(明示潮汐の診断本 —— earthmoon の variant)を足した世代は +1
-        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) + (ps.some((q) => q.id === 'earthMoonTide') ? 1 : 0) + (ps.some((q) => q.id === 'earthMoonInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第292便c: 🌛 */ + (ps.some((q) => q.id === 'earthMoonSunInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第295便c: 🌤️ */ && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) /* 第280便e: 🧷📎 */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
+        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) + (ps.some((q) => q.id === 'earthMoonTide') ? 1 : 0) + (ps.some((q) => q.id === 'earthMoonInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第292便c: 🌛 */ + (ps.some((q) => q.id === 'earthMoonSunInertial' && q.familyId === 'earthmoon') ? 1 : 0) /* 第295便c: 🌤️ */ + ps.filter((q) => q.familyId === 'earthmoon' && q.referenceKind === 'observation-fit').length /* 第297便b: 🌥️(再現作業の派生本) */ && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) /* 第280便e: 🧷📎 */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
       // 単独ファミリーでは「この仲間」導線が出ない(他メンバーが無いので)
       hidePresetPicker(); HP.loadPreset('solarInner', false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
@@ -70098,7 +70100,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----       「現実を再現した」「月を再現した」「8.85 年を出した」「較正 合」「gain は普遍定数」が無い(「」の引用は除く)・SYSTEM_PROMPT は閉じない書き方の規則を持つ。
 // ----   (v) 表示の文: フィットの記録の status の語(unreachable-in-bounds / not-identifiable)が ja/en とも「次の見直し / next revision」で終わる・在位の本の説明の掃除の対象
 // ----       (🧮 psrJ1757DFM・🩺 psrJ1946DFM・NGC 3198・lfbotTrap・☿ mercury の fail・範囲の宣言を言い換えた solarInner・jupiterGalilean・uranusReal)に閉じる語が残らない
-// ----       (数値は変えていない —— presetSig は不変)。**root は SKIP**。
+// ----       (obsCard の行は除く —— 🧮🩺 の条件行は凍結の写し。数値は変えていない —— presetSig は不変)。**root は SKIP**。
 {
   const has297b = TARGET.startsWith('beta/') && await page.evaluate(() => typeof FIT_COND_VERSION !== 'undefined' && typeof CLAIM_SCOPE !== 'undefined');
   if (!has297b) console.log('SKIP behavior.claimEffort297(対象に第297便b の条件の署名が無い: ' + TARGET + ')');
@@ -70148,7 +70150,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const CLEAN = { psrJ1757DFM: ['観測周期は再現しない', '観測周期を再現しない'], psrJ1946DFM: ['観測周期は再現しない', '観測周期を再現しない'], ngc3198DFM: ['f=2 でも届かない', 'ですら届かない'],
       lfbotTrap: ['別々には合わせられない'], mercury: ['近日点前進を再現しない', "does not reproduce Mercury's"],
       solarInner: ['は再現しない', 'are not reproduced'], jupiterGalilean: ['は再現しない'], uranusReal: ['再現しない'] };
-    const blockOf = (id) => { const i = H297.indexOf('{ id:"' + id + '"'); if (i < 0) return null; const j = H297.indexOf('\n{ id:"', i + 5); return H297.slice(i, j < 0 ? undefined : j); };
+    // obsCard の行は除いて読む(🧮🩺 の条件行は第289便b の凍結の写し —— preset.condRowsRenamed が「値は 1 字も変えない」を守る)
+    const blockOf = (id) => { const i = H297.indexOf('{ id:"' + id + '"'); if (i < 0) return null; const j = H297.indexOf('\n{ id:"', i + 5);
+      let b = H297.slice(i, j < 0 ? undefined : j); for (;;) { const k = b.indexOf('obsCard:['); if (k < 0) break; const e = b.indexOf('],', k); b = b.slice(0, k) + b.slice(e < 0 ? b.length : e + 2); } return b; };
     let nClean = 0;
     for (const [id, ws] of Object.entries(CLEAN)) { const b = blockOf(id); if (!b) { bad.push('(v) 本 ' + id + ' が無い'); continue; } const hit = ws.filter((w) => b.indexOf(w) >= 0); if (hit.length) bad.push('(v) ' + id + ' に ' + hit.join(',')); else nClean++; }
     if (/"state":"外縁 55 km\/s で届かない"/.test(H297)) bad.push('(v) 状況の原稿(NGC 3198)に「届かない」');
