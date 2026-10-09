@@ -32119,7 +32119,7 @@ function lmsSpecOf(p){
   for(const {fr, from} of frs){
     fr.targets.forEach((t,ti)=>{
       const d=LMS_FIT_Q[t.q]||null, pair=LMS_PAIRS[p.id]||LMS_PAIRS[fr.parent]||null;
-      const mW=/^(\d+)\s*公転/.exec(String(t.window||""));
+      const mW=/(\d+)\s*公転/.exec(String(t.window||""));   // 窓の文の最初の「N 公転」(「8 公転・…」/「A1(…)・118 公転の窓 …」)
       const it={key:"fit:"+(from? from.id : "self")+":"+ti, src:"fit", id:p.id, n:String(t.q), label:String(t.q), t:null, row:null, est:null, why:null,
         c:-1, o:-1, dt:null, win:null, unit:t.unit||null, obs:isNum(t.obs)? t.obs : null, sigma:null, judge:null, kf:null, kc:0,
         ctrl:/gain 0 の対照/.test(String(t.window||""))? {gain:0} : null,
