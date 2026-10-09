@@ -1290,15 +1290,15 @@
   "earthMoonRealKF1": {
    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
    "objective": "partial",
-   "state": "λ_PN=0 で D0pull と初速を再フィット(8 公転窓で恒星月 27.3216 日・近点回転 8.850 年・残差は h/2 差の内)・窓を延ばすと定常でない",
+   "state": "λ_PN=0 で D0pull・初速を再フィット(8 公転窓 恒星月 27.3216 日・近点回転 8.850 年)",
    "evidence": [
     "tests/out/refit-w297a.json",
     "tests/out/emgrid-w280b.json",
     "tests/out/calaudit-w249.json"
    ],
    "en": {
-    "purpose": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit",
-    "state": "refit under λ_PN=0 with D0pull and the initial speed (8-orbit window: month 27.3216 d, apsides 8.850 yr, residual within the h/2 gap); longer windows are not steady"
+    "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
+    "state": "D0pull and initial speed refit under λ_PN=0 (8 orbits: 27.3216 d, apsides 8.850 yr)"
    }
   },
   "emAuditNewton": {
@@ -1418,8 +1418,8 @@
     "tests/out/geo3-w280c.json"
    ],
    "en": {
-    "purpose": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged",
-    "state": "null test with pn off and λ_PN=0 - the advance differs from the Newtonian control at the 1e-11 deg/orbit level"
+    "purpose": "geoPN=4 check: a uniform coordinate change keeps the periapsis advance",
+    "state": "null test (pn off, λ_PN=0): differs from Newton by ~1e-11 deg/orbit"
    }
   },
   "solarInner": {
@@ -1566,7 +1566,7 @@
    ],
    "en": {
     "purpose": "Compare the geoPN=4 period with a solar background against kF0",
-    "state": "with pn off and λ_PN=0 the period differs from side B at the 1e-5 s level (until wave 296, pnVelocity v gave +5.6e-4 s)"
+    "state": "pn off, λ_PN=0: period differs from side B by ~1e-5 s"
    }
   },
   "uranusReal": {
