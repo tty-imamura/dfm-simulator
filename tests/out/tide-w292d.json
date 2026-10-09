@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T11:53:13.688Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:56:49.537Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    }
   ],
   "code": [
@@ -18,31 +18,31 @@
     "file": "tests/exp-w292d-tide.mjs",
     "bytes": 31702,
     "sha256": "5cd70a359cee26f61d94bc26409307040fc9be9b19000bd93d2ea414ef18659a",
-    "mtime": "2026-10-04T16:30:05.702Z"
+    "mtime": "2026-10-09T10:19:35.494Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-04T16:30:05.702Z"
+    "mtime": "2026-10-09T10:19:35.522Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "f5999c2040a1b0adfe6b5eb1642867db26db86994efca3ffb38904edea0b1132",
@@ -90,11 +90,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1061,
-   "segments": 970,
-   "closureShare": 0.3265
+   "names": 1084,
+   "segments": 993,
+   "closureShare": 0.3211
   },
-  "scopeSha256": "4b4132576a1a946c35ac45bcc27afdf79a9e2a5d23c6655e7ac1de74e9e4f29b",
+  "scopeSha256": "73d97edd85db00757579c10d6f658c9f841aece171e72cfd5e81cb7be1edabfb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -359,7 +359,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 6.529,
+   "wallSec": 4.67,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -409,7 +409,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 13.97,
+   "wallSec": 8.692,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -488,7 +488,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 7.245,
+   "wallSec": 4.339,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -506,7 +506,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 10.066,
+   "wallSec": 5.855,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -730,71 +730,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.245
+    "wallSec": 4.339
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 10.066
+    "wallSec": 5.855
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 8.461
+    "wallSec": 5.251
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 10.011
+    "wallSec": 6.646
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 10.715
+    "wallSec": 7.527
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.86
+    "wallSec": 5.197
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 9.97
+    "wallSec": 6.813
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 10.431
+    "wallSec": 6.941
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.685
+    "wallSec": 5.164
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 9.242
+    "wallSec": 6.885
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 10.244
+    "wallSec": 7.303
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 126.642
+ "elapsedS": 84.005
 }

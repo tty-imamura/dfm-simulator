@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第297便c",
   "target": "beta/index.html",
-  "targetSha256": "5d5be01444db8527434cfd7e9b14950cffc32d3eb19195a839c37babae6b569a",
-  "generatedAt": "2026-10-09T12:11:03.239Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:54:08.639Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6051671,
-    "sha256": "5d5be01444db8527434cfd7e9b14950cffc32d3eb19195a839c37babae6b569a",
-    "mtime": "2026-10-09T12:07:19.318Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    }
   ],
   "code": [
@@ -18,31 +18,31 @@
     "file": "tests/exp-w297c-timestd.mjs",
     "bytes": 16371,
     "sha256": "55053d8f1d1de74c1dd1c2fee20f7fcaa2676a04558fb89f32a98f0ace35b656",
-    "mtime": "2026-10-09T11:23:29.489Z"
+    "mtime": "2026-10-09T12:13:30.906Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:22:45.250Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:22:45.250Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:22:45.242Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:22:45.254Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "fd682eefa6d953c83ad8e687dd2d73e2b94c2555a8b3734435223aeefde48b79",
@@ -66,9 +66,9 @@
   "orbitStepsStd": 360,
   "plan": false,
   "ids": null,
-  "base": "beta/_w297_base.html",
+  "base": null,
   "loadErrors": [],
-  "wallSec": 150.4,
+  "wallSec": 151,
   "notClaim": [
    "画面の 360 步で 43″ や近点率を測った",
    "刻みの門は物理の合否",
@@ -87,23 +87,23 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1065,
-   "segments": 974,
-   "closureShare": 0.3221
+   "names": 1079,
+   "segments": 988,
+   "closureShare": 0.3189
   },
-  "scopeSha256": "c416d462ff3ac166c5e34cc184df931a4d51d0289881cd99e294f4675400d7ef",
+  "scopeSha256": "69607377575c102a0bc7cdb8e6525e38f3029ada97dc8589ea401c56e7d31b09",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
  "summary": {
-  "n": 158,
-  "inService": 125,
+  "n": 159,
+  "inService": 126,
   "retired": 33,
-  "orbit": 46,
+  "orbit": 47,
   "observe": 79,
   "noTimeRef": [],
-  "ok": 124,
+  "ok": 125,
   "notOk": [
    "psrDoubleABGeoToy:unstable(dA,dE)"
   ],
@@ -125,7 +125,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -144,7 +144,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.016
+   "wallSec": 0.015
   },
   {
    "id": "grcal",
@@ -153,7 +153,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -172,7 +172,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.004
+   "wallSec": 0.003
   },
   {
    "id": "grcalGps",
@@ -181,7 +181,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -200,7 +200,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.019
+   "wallSec": 0.008
   },
   {
    "id": "grcalLight",
@@ -209,7 +209,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -237,7 +237,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -256,7 +256,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.013
+   "wallSec": 0.004
   },
   {
    "id": "projectile",
@@ -265,7 +265,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 0.271,
+   "tsOld": null,
    "stepDt": 0.004336,
    "dtApp": 0.004336,
    "timeRef": {
@@ -290,7 +290,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.055
+   "wallSec": 0.025
   },
   {
    "id": "echo",
@@ -299,7 +299,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -318,7 +318,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.069
+   "wallSec": 0.055
   },
   {
    "id": "boxtrans",
@@ -327,7 +327,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 0.4,
+   "tsOld": null,
    "stepDt": 0.0064,
    "dtApp": 0.0064,
    "timeRef": {
@@ -352,7 +352,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.655
+   "wallSec": 0.82
   },
   {
    "id": "boxrot",
@@ -361,7 +361,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -380,7 +380,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.326
+   "wallSec": 0.373
   },
   {
    "id": "boxexpand",
@@ -389,7 +389,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -408,7 +408,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.413
+   "wallSec": 0.346
   },
   {
    "id": "boxcomoving",
@@ -417,7 +417,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -436,7 +436,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.214
+   "wallSec": 0.236
   },
   {
    "id": "boxbound",
@@ -445,7 +445,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -464,7 +464,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.011
+   "wallSec": 0.021
   },
   {
    "id": "boxbreath",
@@ -473,7 +473,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -492,7 +492,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.202
+   "wallSec": 0.279
   },
   {
    "id": "boxredshift",
@@ -501,7 +501,7 @@
    "sampleClass": "semantic",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 0.4,
+   "tsOld": null,
    "stepDt": 0.0064,
    "dtApp": 0.0064,
    "timeRef": {
@@ -527,7 +527,7 @@
    "stateRel": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.048
+   "wallSec": 0.045
   },
   {
    "id": "probeH",
@@ -536,7 +536,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -555,7 +555,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.223
+   "wallSec": 0.236
   },
   {
    "id": "freebox",
@@ -564,7 +564,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -583,7 +583,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.649
+   "wallSec": 0.608
   },
   {
    "id": "cosmicweb",
@@ -592,7 +592,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -611,7 +611,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 7.912
+   "wallSec": 8.201
   },
   {
    "id": "galaxy",
@@ -620,7 +620,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -639,7 +639,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.053
+   "wallSec": 4.287
   },
   {
    "id": "galaxyStd",
@@ -648,7 +648,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -667,7 +667,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.594
+   "wallSec": 3.733
   },
   {
    "id": "galaxyGeo2",
@@ -676,7 +676,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -687,7 +687,7 @@
    "scaleT": null,
    "steps": 600,
    "tObsSteps": 600,
-   "maxR": 260.058,
+   "maxR": 260.02,
    "clamp": [
     0,
     0
@@ -695,7 +695,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.251
+   "wallSec": 4.486
   },
   {
    "id": "galaxyDB",
@@ -704,7 +704,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -723,7 +723,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.649
+   "wallSec": 2.842
   },
   {
    "id": "darkrotor",
@@ -732,7 +732,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -742,7 +742,7 @@
    },
    "scaleT": null,
    "status": "retired-record",
-   "wallSec": 0.001
+   "wallSec": 0
   },
   {
    "id": "rotorSolo",
@@ -751,7 +751,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -770,7 +770,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.03
+   "wallSec": 0.037
   },
   {
    "id": "nebulaRotor",
@@ -779,7 +779,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -798,7 +798,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -817,7 +817,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -836,7 +836,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -855,7 +855,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -874,7 +874,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -893,7 +893,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.461
+   "wallSec": 0.557
   },
   {
    "id": "collapse",
@@ -902,7 +902,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2.2,
-   "tsOld": 2.2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -921,7 +921,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.291
+   "wallSec": 2.06
   },
   {
    "id": "axisBarStill",
@@ -930,7 +930,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -949,7 +949,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 8.461
+   "wallSec": 8.994
   },
   {
    "id": "axisBarArms",
@@ -958,7 +958,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -977,7 +977,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 6.837
+   "wallSec": 7.386
   },
   {
    "id": "axisBarReach",
@@ -986,7 +986,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1005,7 +1005,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 6.808
+   "wallSec": 7.099
   },
   {
    "id": "selfRotor",
@@ -1014,7 +1014,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1033,7 +1033,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.666
+   "wallSec": 1.786
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1042,7 +1042,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1061,7 +1061,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.171
+   "wallSec": 2.225
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1070,7 +1070,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1089,7 +1089,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 8.204
+   "wallSec": 7.782
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1098,7 +1098,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1117,7 +1117,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1136,7 +1136,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.356
+   "wallSec": 1.901
   },
   {
    "id": "galaxyAnalogyBHCompose",
@@ -1145,7 +1145,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1164,7 +1164,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.152
+   "wallSec": 1.973
   },
   {
    "id": "galaxyAnalogyBHTilt90",
@@ -1173,7 +1173,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1192,7 +1192,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.388
+   "wallSec": 2.413
   },
   {
    "id": "galaxyAnalogyBHTilt90Layers",
@@ -1201,7 +1201,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1220,7 +1220,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.879
+   "wallSec": 1.88
   },
   {
    "id": "clusterAnalogyBH",
@@ -1229,7 +1229,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1248,7 +1248,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 11.098
+   "wallSec": 11.653
   },
   {
    "id": "clusterGrowthCopy",
@@ -1257,7 +1257,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1276,7 +1276,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1295,7 +1295,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1314,7 +1314,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.54
+   "wallSec": 0.559
   },
   {
    "id": "shapeToyDisk",
@@ -1323,7 +1323,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1342,7 +1342,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.846
+   "wallSec": 0.832
   },
   {
    "id": "shapeToyArm",
@@ -1351,7 +1351,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1370,7 +1370,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.381
+   "wallSec": 0.331
   },
   {
    "id": "shapeToySpiral",
@@ -1379,7 +1379,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1398,7 +1398,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.723
+   "wallSec": 1.975
   },
   {
    "id": "shapeToyClusterCore",
@@ -1407,7 +1407,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1426,7 +1426,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.656
+   "wallSec": 0.654
   },
   {
    "id": "shapeToyDiskCore",
@@ -1435,7 +1435,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1454,7 +1454,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.858
+   "wallSec": 0.927
   },
   {
    "id": "shapeToyArmCore",
@@ -1463,7 +1463,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1482,7 +1482,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.353
+   "wallSec": 0.32
   },
   {
    "id": "shapeToySpiralCore",
@@ -1491,7 +1491,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1510,7 +1510,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.991
+   "wallSec": 1.82
   },
   {
    "id": "lensing",
@@ -1519,7 +1519,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1547,7 +1547,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1.33333,
-   "tsOld": 1.33333,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1566,7 +1566,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.007
+   "wallSec": 0.002
   },
   {
    "id": "blens",
@@ -1575,7 +1575,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1594,7 +1594,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.009
+   "wallSec": 0.017
   },
   {
    "id": "reddening",
@@ -1603,7 +1603,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1622,7 +1622,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.463
+   "wallSec": 0.203
   },
   {
    "id": "gas",
@@ -1631,7 +1631,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1650,7 +1650,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.314
+   "wallSec": 3.747
   },
   {
    "id": "pressure",
@@ -1659,7 +1659,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1678,7 +1678,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.044
+   "wallSec": 3.861
   },
   {
    "id": "conduction",
@@ -1687,7 +1687,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1706,7 +1706,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.147
+   "wallSec": 0.138
   },
   {
    "id": "frictionHeat",
@@ -1715,7 +1715,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1734,7 +1734,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.773
+   "wallSec": 0.794
   },
   {
    "id": "coolrace",
@@ -1743,7 +1743,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1771,7 +1771,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1790,7 +1790,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.336
+   "wallSec": 3.481
   },
   {
    "id": "buoyancy",
@@ -1799,7 +1799,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1818,7 +1818,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.78
+   "wallSec": 4.681
   },
   {
    "id": "cooling",
@@ -1827,7 +1827,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1846,7 +1846,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.225
+   "wallSec": 3.291
   },
   {
    "id": "emergent",
@@ -1855,7 +1855,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1874,7 +1874,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.897
+   "wallSec": 1.76
   },
   {
    "id": "emergent2",
@@ -1883,7 +1883,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1902,7 +1902,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.647
+   "wallSec": 1.552
   },
   {
    "id": "chain2",
@@ -1911,7 +1911,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1930,7 +1930,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.846
+   "wallSec": 0.837
   },
   {
    "id": "chaincycle",
@@ -1939,7 +1939,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -1958,7 +1958,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.665
+   "wallSec": 1.42
   },
   {
    "id": "earthMoon",
@@ -1967,7 +1967,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 5,
+   "tsOld": null,
    "stepDt": 0.3985,
    "dtApp": 0.3985,
    "timeRef": {
@@ -2023,7 +2023,7 @@
    "cdtOverCam": 0.0543409,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.778
+   "wallSec": 0.844
   },
   {
    "id": "earthMoonFree",
@@ -2032,7 +2032,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 5,
+   "tsOld": null,
    "stepDt": 1.32437,
    "dtApp": 1.32437,
    "timeRef": {
@@ -2087,7 +2087,7 @@
    "cdtOverCam": 0.180596,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.034
+   "wallSec": 0.042
   },
   {
    "id": "earthMoonReal",
@@ -2096,7 +2096,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 65.5721,
    "dtApp": 65.5721,
    "timeRef": {
@@ -2151,7 +2151,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.086
+   "wallSec": 0.111
   },
   {
    "id": "earthMoonTide",
@@ -2160,7 +2160,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 65.5721,
    "dtApp": 65.5721,
    "timeRef": {
@@ -2215,16 +2215,16 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.146
+   "wallSec": 0.119
   },
   {
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
    "retired": false,
    "sampleClass": "principle",
-   "fit": false,
+   "fit": true,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 65.5721,
    "dtApp": 65.5721,
    "timeRef": {
@@ -2242,28 +2242,28 @@
    "scaleT": 2,
    "steps": 2880,
    "stepsPerOrbit": 360,
-   "stepsPerOrbitOsc": 358.565,
+   "stepsPerOrbitOsc": 358.538,
    "osc0": {
-    "a": 383.724,
-    "e": 0.0523783,
-    "P": 23511.8
+    "a": 383.705,
+    "e": 0.0523309,
+    "P": 23510.1
    },
    "end": {
-    "a": 381.591,
-    "e": 0.053056
+    "a": 381.513,
+    "e": 0.0531044
    },
    "endHalf": {
-    "a": 382.653,
-    "e": 0.0529928
+    "a": 382.605,
+    "e": 0.0530524
    },
-   "dA": 0.00276665,
-   "dE": 0.0000631461,
-   "maxRelE": 0.0057119,
-   "maxRelL": 0.00281866,
-   "rMinRatio": 0.996536,
+   "dA": 0.00284552,
+   "dE": 0.0000520119,
+   "maxRelE": 0.00585519,
+   "maxRelL": 0.00290067,
+   "rMinRatio": 0.996442,
    "rev": 8,
-   "pMeas": 23512.3,
-   "pResid": -0.00396795,
+   "pMeas": 23502.9,
+   "pResid": -0.00436478,
    "clamp": [
     0,
     0
@@ -2279,7 +2279,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.818
+   "wallSec": 1.185
   },
   {
    "id": "earthMoonInertial",
@@ -2288,7 +2288,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 65.5721,
    "dtApp": 65.5721,
    "timeRef": {
@@ -2343,7 +2343,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.093
+   "wallSec": 0.148
   },
   {
    "id": "emAuditNewton",
@@ -2352,7 +2352,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 100,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -2379,7 +2379,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 100,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -2406,7 +2406,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": 0.655721,
    "dtApp": 0.655721,
    "timeRef": {
@@ -2461,7 +2461,7 @@
    "cdtOverCam": 1965.8,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.04
+   "wallSec": 0.056
   },
   {
    "id": "earthMoonSunInertial",
@@ -2470,7 +2470,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": 0.655721,
    "dtApp": 0.655721,
    "timeRef": {
@@ -2525,7 +2525,70 @@
    "cdtOverCam": 1965.8,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.074
+   "wallSec": 0.118
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": true,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.655721,
+   "dtApp": 0.655721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 362.09,
+   "osc0": {
+    "a": 3.86235,
+    "e": 0.0755658,
+    "P": 237.43
+   },
+   "end": {
+    "a": 3.83259,
+    "e": 0.0657915
+   },
+   "endHalf": {
+    "a": 3.83534,
+    "e": 0.0677326
+   },
+   "dA": 0.000710032,
+   "dE": 0.00194117,
+   "maxRelE": 0.0174847,
+   "maxRelL": 0.00782387,
+   "rMinRatio": 0.99958,
+   "rev": 7,
+   "pMeas": 236.169,
+   "pResid": 0.000463268,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 4805.82,
+   "cdtOverCam": 1965.8,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.047
   },
   {
    "id": "earthMoonDiagOne",
@@ -2534,7 +2597,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 65.5721,
    "dtApp": 65.5721,
    "timeRef": {
@@ -2589,7 +2652,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.25
+   "wallSec": 0.247
   },
   {
    "id": "qLockRadialAudit",
@@ -2598,7 +2661,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 10,
+   "tsOld": null,
    "stepDt": 0.258807,
    "dtApp": 0.258807,
    "timeRef": {
@@ -2630,10 +2693,10 @@
     "a": 9.57003,
     "e": 0.0500545
    },
-   "dA": 0.00000150545,
-   "dE": 0.000014735,
+   "dA": 0.00000150613,
+   "dE": 0.0000147333,
    "maxRelE": 0.0011037,
-   "maxRelL": 0.0000164064,
+   "maxRelL": 0.0000164066,
    "rMinRatio": 0.999349,
    "rev": 7,
    "pMeas": 93.2568,
@@ -2653,7 +2716,7 @@
    "cdtOverCam": 9.12805,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.461
+   "wallSec": 0.491
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2662,7 +2725,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 10,
+   "tsOld": null,
    "stepDt": 0.258807,
    "dtApp": 0.258807,
    "timeRef": {
@@ -2694,10 +2757,10 @@
     "a": 9.56952,
     "e": 0.0494719
    },
-   "dA": 0.0000536949,
-   "dE": 0.000595278,
-   "maxRelE": 0.00110466,
-   "maxRelL": 0.0000777488,
+   "dA": 0.000053683,
+   "dE": 0.000595269,
+   "maxRelE": 0.00110467,
+   "maxRelL": 0.000077749,
    "rMinRatio": 0.999335,
    "rev": 8,
    "pMeas": 93.1335,
@@ -2717,7 +2780,7 @@
    "cdtOverCam": 9.12805,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.156
+   "wallSec": 0.162
   },
   {
    "id": "mercury",
@@ -2726,7 +2789,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 6.66667,
+   "tsOld": null,
    "stepDt": 0.546901,
    "dtApp": 0.546901,
    "timeRef": {
@@ -2781,7 +2844,7 @@
    "cdtOverCam": 0.0745774,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.048
+   "wallSec": 0.044
   },
   {
    "id": "mercuryReal",
@@ -2790,7 +2853,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 2.11126,
    "dtApp": 2.11126,
    "timeRef": {
@@ -2854,7 +2917,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 2.11126,
    "dtApp": 2.11126,
    "timeRef": {
@@ -2909,7 +2972,7 @@
    "cdtOverCam": 79.1175,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.036
+   "wallSec": 0.033
   },
   {
    "id": "mercurySunInertialFit",
@@ -2918,7 +2981,7 @@
    "sampleClass": "principle",
    "fit": true,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 2.11126,
    "dtApp": 2.11126,
    "timeRef": {
@@ -2973,7 +3036,7 @@
    "cdtOverCam": 79.1175,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.035
+   "wallSec": 0.031
   },
   {
    "id": "mercuryGeoToy3",
@@ -2982,7 +3045,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 2.11126,
    "dtApp": 2.11126,
    "timeRef": {
@@ -3008,16 +3071,16 @@
    },
    "end": {
     "a": 578.984,
-    "e": 0.2052
+    "e": 0.205201
    },
    "endHalf": {
     "a": 579.077,
     "e": 0.205577
    },
-   "dA": 0.000161321,
-   "dE": 0.000376313,
-   "maxRelE": 0.0046782,
-   "maxRelL": 9.16795e-8,
+   "dA": 0.000161263,
+   "dE": 0.000376057,
+   "maxRelE": 0.00467806,
+   "maxRelL": 5.74932e-14,
    "rMinRatio": 0.999724,
    "rev": 7,
    "pMeas": 760.405,
@@ -3037,7 +3100,7 @@
    "cdtOverCam": 79.1175,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.089
+   "wallSec": 0.086
   },
   {
    "id": "mercuryRealKF1",
@@ -3046,7 +3109,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 100,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3073,7 +3136,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 2.11126,
    "dtApp": 2.11126,
    "timeRef": {
@@ -3128,7 +3191,7 @@
    "cdtOverCam": 37.2318,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.832
+   "wallSec": 0.789
   },
   {
    "id": "jupiterGalilean",
@@ -3137,7 +3200,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 0.424593,
    "dtApp": 0.424593,
    "timeRef": {
@@ -3192,7 +3255,7 @@
    "cdtOverCam": 57.859,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.047
+   "wallSec": 0.043
   },
   {
    "id": "venusReal",
@@ -3201,7 +3264,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": 5.39282,
    "dtApp": 5.39282,
    "timeRef": {
@@ -3256,7 +3319,7 @@
    "cdtOverCam": 124.364,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.052
+   "wallSec": 0.078
   },
   {
    "id": "marsMoonsReal",
@@ -3265,7 +3328,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 0.765384,
    "dtApp": 0.765384,
    "timeRef": {
@@ -3320,7 +3383,7 @@
    "cdtOverCam": 819.487,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.051
+   "wallSec": 0.096
   },
   {
    "id": "plutoCharonReal",
@@ -3329,7 +3392,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3356,7 +3419,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3383,7 +3446,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3410,7 +3473,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 153.293,
    "dtApp": 153.293,
    "timeRef": {
@@ -3465,7 +3528,7 @@
    "cdtOverCam": 21883.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.255
+   "wallSec": 0.218
   },
   {
    "id": "plutoCharonInertial",
@@ -3474,7 +3537,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 153.293,
    "dtApp": 153.293,
    "timeRef": {
@@ -3529,7 +3592,7 @@
    "cdtOverCam": 21883.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.278
+   "wallSec": 0.202
   },
   {
    "id": "plutoCharonInertialFit",
@@ -3538,7 +3601,7 @@
    "sampleClass": "principle",
    "fit": true,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 153.293,
    "dtApp": 153.293,
    "timeRef": {
@@ -3593,7 +3656,7 @@
    "cdtOverCam": 21883.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.278
+   "wallSec": 0.26
   },
   {
    "id": "plutoCharonSyncZero",
@@ -3602,7 +3665,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3629,7 +3692,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 15.3293,
    "dtApp": 15.3293,
    "timeRef": {
@@ -3655,16 +3718,16 @@
    },
    "end": {
     "a": 19.596,
-    "e": 0.0000879994
+    "e": 0.0000879999
    },
    "endHalf": {
     "a": 19.596,
-    "e": 0.0000669557
+    "e": 0.0000669559
    },
-   "dA": 3.27077e-9,
-   "dE": 0.0000210438,
+   "dA": 3.26095e-9,
+   "dE": 0.000021044,
    "maxRelE": 0.000304631,
-   "maxRelL": 4.71837e-10,
+   "maxRelL": 4.69776e-15,
    "rMinRatio": 0.995732,
    "rev": 8,
    "pMeas": 5518.55,
@@ -3684,7 +3747,7 @@
    "cdtOverCam": 19980.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.153
+   "wallSec": 0.104
   },
   {
    "id": "uranusReal",
@@ -3693,7 +3756,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 3.39235,
    "dtApp": 3.39235,
    "timeRef": {
@@ -3748,7 +3811,7 @@
    "cdtOverCam": 145.286,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.747
+   "wallSec": 0.705
   },
   {
    "id": "neptuneReal",
@@ -3757,7 +3820,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 1.41044,
    "dtApp": 1.41044,
    "timeRef": {
@@ -3812,7 +3875,7 @@
    "cdtOverCam": 1006.76,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.051
+   "wallSec": 0.03
   },
   {
    "id": "alphaCenAB",
@@ -3821,7 +3884,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 6.99194,
    "dtApp": 6.99194,
    "timeRef": {
@@ -3876,7 +3939,7 @@
    "cdtOverCam": 332.719,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.041
+   "wallSec": 0.056
   },
   {
    "id": "alphaCenABDFM",
@@ -3885,7 +3948,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -3912,7 +3975,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": 4.39426,
    "dtApp": 4.39426,
    "timeRef": {
@@ -3967,7 +4030,7 @@
    "cdtOverCam": 235.244,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.025
+   "wallSec": 0.022
   },
   {
    "id": "siriusABDFM",
@@ -3976,7 +4039,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 300,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4003,7 +4066,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": 2.45404,
    "dtApp": 2.45404,
    "timeRef": {
@@ -4058,7 +4121,7 @@
    "cdtOverCam": 6.68821,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.056
+   "wallSec": 0.079
   },
   {
    "id": "psrDoubleABDFM",
@@ -4067,7 +4130,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 300,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4094,7 +4157,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": 0.153377,
    "dtApp": 0.153377,
    "timeRef": {
@@ -4153,7 +4216,7 @@
     "dE"
    ],
    "status": "unstable",
-   "wallSec": 1.561
+   "wallSec": 1.309
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -4162,7 +4225,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 300,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4180,7 +4243,7 @@
    "scaleT": 1,
    "status": "retired-record",
    "stepsPerOrbit": 23091.5,
-   "wallSec": 0
+   "wallSec": 0.001
   },
   {
    "id": "psrJ1757DFM",
@@ -4189,7 +4252,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 500,
+   "tsOld": null,
    "stepDt": 4.40491,
    "dtApp": 4.40491,
    "timeRef": {
@@ -4244,7 +4307,7 @@
    "cdtOverCam": 26.4112,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.055
+   "wallSec": 0.069
   },
   {
    "id": "psrJ1946DFM",
@@ -4253,7 +4316,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 230,
+   "tsOld": null,
    "stepDt": 1.88371,
    "dtApp": 1.88371,
    "timeRef": {
@@ -4308,7 +4371,7 @@
    "cdtOverCam": 4.18313,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.115
+   "wallSec": 0.077
   },
   {
    "id": "psrDoubleABPN",
@@ -4317,7 +4380,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 300,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4344,7 +4407,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 500,
-   "tsOld": 500,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4371,7 +4434,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 230,
-   "tsOld": 230,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4398,7 +4461,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 300,
-   "tsOld": 300,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4425,7 +4488,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 500,
-   "tsOld": 500,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4452,7 +4515,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 230,
-   "tsOld": 230,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4479,7 +4542,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": 10.0977,
    "dtApp": 10.0977,
    "timeRef": {
@@ -4534,7 +4597,7 @@
    "cdtOverCam": 20.1814,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.112
+   "wallSec": 0.153
   },
   {
    "id": "psrB1534DFM",
@@ -4543,7 +4606,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4570,7 +4633,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1000,
-   "tsOld": 1000,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4597,7 +4660,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 60,
+   "tsOld": null,
    "stepDt": 1.35892,
    "dtApp": 1.35892,
    "timeRef": {
@@ -4652,7 +4715,7 @@
    "cdtOverCam": 0.313597,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.098
+   "wallSec": 0.2
   },
   {
    "id": "inertialDragPair",
@@ -4661,7 +4724,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 20,
+   "tsOld": null,
    "stepDt": 0.470751,
    "dtApp": 0.470751,
    "timeRef": {
@@ -4716,7 +4779,7 @@
    "cdtOverCam": 0.882658,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.147
+   "wallSec": 0.143
   },
   {
    "id": "chainDiskToy",
@@ -4725,7 +4788,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4744,7 +4807,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.049
+   "wallSec": 1.119
   },
   {
    "id": "boxBinaryToy",
@@ -4753,7 +4816,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 60,
+   "tsOld": null,
    "stepDt": 0.679459,
    "dtApp": 0.679459,
    "timeRef": {
@@ -4809,7 +4872,7 @@
    "cdtOverCam": 0.156798,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.196
+   "wallSec": 0.234
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -4818,7 +4881,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 60,
+   "tsOld": null,
    "stepDt": 0.360316,
    "dtApp": 0.360316,
    "timeRef": {
@@ -4874,7 +4937,7 @@
    "cdtOverCam": 0.0720632,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.776
+   "wallSec": 0.705
   },
   {
    "id": "gw150914",
@@ -4883,7 +4946,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 0.50505,
    "dtApp": 0.50505,
    "timeRef": {
@@ -4938,7 +5001,7 @@
    "cdtOverCam": 0.0630876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.072
+   "wallSec": 0.018
   },
   {
    "id": "gw150914DFM",
@@ -4947,7 +5010,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 30,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -4974,7 +5037,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 0.50505,
    "dtApp": 0.50505,
    "timeRef": {
@@ -5029,7 +5092,7 @@
    "cdtOverCam": 0.0630876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.108
+   "wallSec": 0.06
   },
   {
    "id": "gw150914SpinDipole",
@@ -5038,7 +5101,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 30,
+   "tsOld": null,
    "stepDt": 0.50505,
    "dtApp": 0.50505,
    "timeRef": {
@@ -5102,7 +5165,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 50,
+   "tsOld": null,
    "stepDt": 0.048,
    "dtApp": 0.048,
    "timeRef": {
@@ -5127,7 +5190,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 1.298
+   "wallSec": 1.447
   },
   {
    "id": "tuc47DFM",
@@ -5136,7 +5199,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 50,
-   "tsOld": 50,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5155,7 +5218,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 20,
+   "tsOld": null,
    "stepDt": 0.048,
    "dtApp": 0.048,
    "timeRef": {
@@ -5180,7 +5243,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 2.236
+   "wallSec": 2.299
   },
   {
    "id": "ngc3198DFM",
@@ -5189,7 +5252,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 20,
+   "tsOld": null,
    "stepDt": 0.032,
    "dtApp": 0.032,
    "timeRef": {
@@ -5214,7 +5277,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 7.474
+   "wallSec": 7.2
   },
   {
    "id": "supernovaProg",
@@ -5223,7 +5286,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": 0.048,
    "dtApp": 0.048,
    "timeRef": {
@@ -5249,7 +5312,7 @@
    "stateRel": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.007
+   "wallSec": 0.003
   },
   {
    "id": "supernovaProgDFM",
@@ -5258,7 +5321,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 100,
-   "tsOld": 100,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5277,7 +5340,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 20,
+   "tsOld": null,
    "stepDt": 0.048,
    "dtApp": 0.048,
    "timeRef": {
@@ -5302,7 +5365,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.246
+   "wallSec": 0.232
   },
   {
    "id": "saturn",
@@ -5311,7 +5374,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5330,7 +5393,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.548
+   "wallSec": 1.418
   },
   {
    "id": "saturnLayered",
@@ -5339,7 +5402,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 3,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5358,7 +5421,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.543
+   "wallSec": 1.52
   },
   {
    "id": "saturnZonalD68",
@@ -5367,7 +5430,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": 0.498,
    "dtApp": 0.498,
    "timeRef": {
@@ -5422,7 +5485,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.469
+   "wallSec": 0.519
   },
   {
    "id": "saturnD68Consistent",
@@ -5431,7 +5494,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": 0.498,
    "dtApp": 0.498,
    "timeRef": {
@@ -5486,7 +5549,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.071
+   "wallSec": 0.106
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -5495,7 +5558,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 3,
+   "tsOld": null,
    "stepDt": 0.498,
    "dtApp": 0.498,
    "timeRef": {
@@ -5550,7 +5613,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.079
+   "wallSec": 0.099
   },
   {
    "id": "saturnRingReal",
@@ -5559,7 +5622,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 10,
+   "tsOld": null,
    "stepDt": 0.58,
    "dtApp": 0.58,
    "timeRef": {
@@ -5614,7 +5677,7 @@
    "cdtOverCam": 13.3754,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.974
+   "wallSec": 0.936
   },
   {
    "id": "saturnRingRealKF1",
@@ -5623,7 +5686,7 @@
    "sampleClass": "calibration",
    "fit": false,
    "timeScale": 10,
-   "tsOld": 10,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5642,7 +5705,7 @@
    "sampleClass": "composite",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 4,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5661,7 +5724,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.827
+   "wallSec": 2.243
   },
   {
    "id": "fig8",
@@ -5670,7 +5733,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": 0.0907412,
    "dtApp": 0.0907412,
    "timeRef": {
@@ -5726,7 +5789,7 @@
    "cdtOverCam": 0.0194445,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.201
+   "wallSec": 0.164
   },
   {
    "id": "counterring",
@@ -5735,7 +5798,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5754,7 +5817,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.545
+   "wallSec": 0.566
   },
   {
    "id": "spinup",
@@ -5763,7 +5826,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5782,7 +5845,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.822
+   "wallSec": 0.835
   },
   {
    "id": "pulsarSolo",
@@ -5791,7 +5854,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 4,
-   "tsOld": 10,
+   "tsOld": null,
    "stepDt": 0.04,
    "dtApp": 0.04,
    "timeRef": {
@@ -5817,7 +5880,7 @@
    "stateRel": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.004
+   "wallSec": 0.005
   },
   {
    "id": "supernovaCore",
@@ -5826,7 +5889,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5845,7 +5908,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.059
+   "wallSec": 0.065
   },
   {
    "id": "whiteDwarfDFM",
@@ -5854,7 +5917,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5873,7 +5936,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.056
+   "wallSec": 0.069
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -5882,7 +5945,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5901,7 +5964,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.107
+   "wallSec": 0.116
   },
   {
    "id": "envelopeShedDFM",
@@ -5910,7 +5973,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5929,7 +5992,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.119
+   "wallSec": 0.085
   },
   {
    "id": "lfbotTrap",
@@ -5938,7 +6001,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5957,7 +6020,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.313
+   "wallSec": 0.237
   },
   {
    "id": "layeredCoreDFM",
@@ -5966,7 +6029,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -5985,7 +6048,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.007
+   "wallSec": 0.029
   },
   {
    "id": "spinDipoleBinary",
@@ -5994,7 +6057,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": 1.62231,
    "dtApp": 1.62231,
    "timeRef": {
@@ -6049,7 +6112,7 @@
    "cdtOverCam": 0.18719,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.147
+   "wallSec": 0.111
   },
   {
    "id": "gasCohSurface",
@@ -6058,7 +6121,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -6077,7 +6140,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.058
+   "wallSec": 0.102
   },
   {
    "id": "mmPhaseToy",
@@ -6086,7 +6149,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 1,
-   "tsOld": 1,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {
@@ -6105,7 +6168,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.01
+   "wallSec": 0.024
   },
   {
    "id": "starSeed",
@@ -6114,7 +6177,7 @@
    "sampleClass": "principle",
    "fit": false,
    "timeScale": 2,
-   "tsOld": 2,
+   "tsOld": null,
    "stepDt": null,
    "dtApp": 0.016,
    "timeRef": {

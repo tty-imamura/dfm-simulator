@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T11:54:03.417Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:56:48.163Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w291d-bgaudit.mjs",
     "bytes": 26181,
     "sha256": "8134a254b6004233c24cb6a95f80f1fdd164402ce9992ae63ecbf5c4f2ebb6be",
-    "mtime": "2026-10-05T20:53:28.454Z"
+    "mtime": "2026-10-09T10:19:35.494Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "5f4126d0b96a31cf085b2189ac5316b438dc79f884a885c0c135087dc2766d18",
@@ -101,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1058,
-   "segments": 967,
-   "closureShare": 0.3252
+   "names": 1081,
+   "segments": 990,
+   "closureShare": 0.3199
   },
-  "scopeSha256": "6ef339e8647c6bf79c1b24a9b5871e959b2a4f4f2a71c27b5d39283c22fed00a",
+  "scopeSha256": "58013380c64a54f3844435b8e7c4b6a4fa0378c085a076d2892cc04620e5a780",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -344,7 +344,7 @@
     "ready": true,
     "readySame": 2,
     "readyChecked": 2,
-    "boundMax": 3.4631119006258076e-10,
+    "boundMax": 3.463111900625789e-10,
     "boundOver": 0,
     "Wbg": 0.006,
     "WbgFrom": "D0",
@@ -358,9 +358,9 @@
       "receivers": 2,
       "bitSame": 0,
       "absMax": 4.927540758372528e-26,
-      "uScale": 3.863278779011546e-12,
-      "relMax": 1.2754815378954565e-14,
-      "floorAbs": 3.3491893469004835e-25,
+      "uScale": 3.863278779011525e-12,
+      "relMax": 1.2754815378954635e-14,
+      "floorAbs": 3.3491893469004656e-25,
       "withinFloor": true
      },
      {
@@ -369,11 +369,11 @@
        0.002
       ],
       "receivers": 2,
-      "bitSame": 1,
-      "absMax": 1.0097419586828951e-28,
-      "uScale": 3.863278779011546e-12,
-      "relMax": 2.61369167601528e-17,
-      "floorAbs": 3.402840111407277e-27,
+      "bitSame": 0,
+      "absMax": 8.077935669463161e-28,
+      "uScale": 3.863278779011525e-12,
+      "relMax": 2.0909533408122353e-16,
+      "floorAbs": 3.402840111407259e-27,
       "withinFloor": true
      },
      {
@@ -384,9 +384,9 @@
       "receivers": 2,
       "bitSame": 0,
       "absMax": 1.0420537013607478e-25,
-      "uScale": 3.863278779011546e-12,
-      "relMax": 2.697329809647769e-14,
-      "floorAbs": 7.257463209828249e-24,
+      "uScale": 3.863278779011525e-12,
+      "relMax": 2.6973298096477834e-14,
+      "floorAbs": 7.25746320982821e-24,
       "withinFloor": true
      }
     ],
@@ -825,5 +825,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 3.813
+ "elapsedS": 2.326
 }

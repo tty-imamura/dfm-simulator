@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T11:54:03.137Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:56:52.844Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w284e-bgfield.mjs",
     "bytes": 22699,
     "sha256": "29eef115c62dc6b7515a1222481e78abc8e28d0133c7d3934a973715ba676f5e",
-    "mtime": "2026-10-02T23:11:02.916Z"
+    "mtime": "2026-10-09T10:19:35.490Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "40c24b288761467c75617aed20875b4eb476d54b50ebeb2f8159183656778c8c",
@@ -78,11 +78,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1051,
-   "segments": 960,
-   "closureShare": 0.3239
+   "names": 1074,
+   "segments": 983,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "b37eff23e455c1993b66cceb581c32ce00eae2761e77dcd62baed59021207ce6",
+  "scopeSha256": "00a4826f547d9c842e776df3e0ac50dba27125e5c15781f9c16a5c42acec1dcf",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -472,7 +472,7 @@
    "zeroBitSame": false,
    "largeBitSame": false,
    "nan": false,
-   "maxAbsDiffZero": 73.60000000005823,
+   "maxAbsDiffZero": 73.60000000005755,
    "maxAbsDiffLarge": 662.4000000000265,
    "state": "適用中"
   },
@@ -493,13 +493,13 @@
    "zeroBitSame": false,
    "largeBitSame": false,
    "nan": false,
-   "maxAbsDiffZero": 0.474015973877634,
-   "maxAbsDiffLarge": 4.266143764898815,
+   "maxAbsDiffZero": 0.47401597387763295,
+   "maxAbsDiffLarge": 4.266143764898696,
    "state": "適用中"
   }
  ],
  "inventory": {
-  "nPresets": 158,
+  "nPresets": 159,
   "rows": [
    {
     "id": "earthMoonDiagOne",
@@ -531,5 +531,5 @@
    }
   ]
  },
- "elapsedS": 15.863
+ "elapsedS": 8.933
 }

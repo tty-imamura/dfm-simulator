@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-  "generatedAt": "2026-10-08T18:54:12.122Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:04:13.535Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5976655,
-    "sha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-    "mtime": "2026-10-08T16:39:20.927Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 364342,
     "sha256": "a481d697c9239500990ce9217bc6976c9243ffcc34f42a139b39c309a1a5207a",
-    "mtime": "2026-10-05T18:54:36.450Z"
+    "mtime": "2026-10-09T10:19:35.462Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838863,
-    "sha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
-    "mtime": "2026-10-08T18:45:09.187Z"
+    "bytes": 1822332,
+    "sha256": "49a9772182185a4735999dfddd4b29b5deb7fe8143219b90810e91c351dc7938",
+    "mtime": "2026-10-09T12:59:15.039Z"
    }
   ],
   "code": [
@@ -30,55 +30,55 @@
     "file": "tests/exp-w285b-pn1.mjs",
     "bytes": 37023,
     "sha256": "a51fc0868d0973c5024a76012265fbf57087621899ea4cfd4fd5bc6ad464de38",
-    "mtime": "2026-10-02T23:11:02.916Z"
+    "mtime": "2026-10-09T10:19:35.490Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19554,
     "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
-    "mtime": "2026-10-03T19:20:22.715Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5810,
     "sha256": "0bbf76e309439d6975f8095d574df2c611671fce499265f5c566b1ae8814d398",
-    "mtime": "2026-10-07T17:31:27.317Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w283a-geomode.mjs",
     "bytes": 8878,
     "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w280a-mercury.mjs",
     "bytes": 9761,
     "sha256": "b8dd3b76544fd2ec4a17f026025b805b02672e50012e600c42e82bab44ee5f75",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "3a14aa683c76e50c066174dda2d235a4b0570c46e6f3cd27f07aca08b3c20428",
@@ -108,16 +108,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1054,
-   "segments": 963,
-   "closureShare": 0.3244
+   "names": 1076,
+   "segments": 985,
+   "closureShare": 0.3192
   },
-  "scopeSha256": "f3efcd1973e1a9373408dabfe6434c402e523053e5b52d460d6d2babdd6ea061",
+  "scopeSha256": "6b99bc0d7a8cb891e451bed31a14225fb508d65a139ab4b624cf983d346a1d66",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0d0faaf7a148c20764fa37da22fcfdd4da9634ca87232cc9a0a9352716483031",
+    "stableSha256": "86911c7dc7fd702ec6c7d7346404498b66ada91e0bec391d5c8b167555035e01",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1b4f0994469a17d4757e315fa03f78d8fdf1b8d6717d28fc11f02cb54ae595fd",
+    "stableSha256": "73d50929b38abd8c3e14cc7a63cbca95aa982c1dc87de84dc8dd3aee6e43fd91",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -208,7 +208,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+ "nowSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -1249,7 +1249,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 1.7916990069554877,
+    "maxPos128": 1.7939842411462832,
     "sigSame": false,
     "nan": false
    },
@@ -1271,7 +1271,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0,
+    "maxPos128": 0.000004922125419432835,
     "sigSame": false,
     "nan": false
    },
@@ -1326,7 +1326,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.0995277296850832e-13,
+    "maxPos128": 1.4685238794137652e-10,
     "sigSame": false,
     "nan": false
    },
@@ -1337,7 +1337,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.0990392205394893e-13,
+    "maxPos128": 1.474783936593684e-10,
     "sigSame": false,
     "nan": false
    },
@@ -1349,7 +1349,7 @@
     "bitSame1": false,
     "bitSame128": false,
     "maxPos128": 0.00000762939453125,
-    "sigSame": true,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1370,7 +1370,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 1.6371927026729474e-11,
+    "maxPos128": 1.1873464562590183e-8,
     "sigSame": false,
     "nan": false
    },
@@ -1502,7 +1502,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 1.648459180611086e-12,
+    "maxPos128": 1.2505552592915009e-12,
     "sigSame": false,
     "nan": false
    },
@@ -1524,7 +1524,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 3.0695450120088404e-12,
+    "maxPos128": 6.366463618109908e-12,
     "sigSame": false,
     "nan": false
    },
@@ -1546,7 +1546,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.513177005396364e-10,
+    "maxPos128": 1.814330601645734e-7,
     "sigSame": false,
     "nan": false
    },
@@ -1557,7 +1557,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.042454960789025e-9,
+    "maxPos128": 0.0000010228218552175832,
     "sigSame": false,
     "nan": false
    },
@@ -1588,10 +1588,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 5.124629356360435e-7,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1599,10 +1599,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 6.004552456074355e-8,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1610,10 +1610,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 8.852015616620516e-7,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1621,10 +1621,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0.0000010248972793163447,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1632,10 +1632,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 1.2008604690166008e-7,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1643,10 +1643,10 @@
     "geoPN": 2,
     "kFrame": 1,
     "pn1": null,
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
-    "sigSame": true,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0.0000017703730546156675,
+    "sigSame": false,
     "nan": false
    },
    {
@@ -1667,7 +1667,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.0022462913307717968,
+    "maxPos128": 0.0022462834784173547,
     "sigSame": false,
     "nan": false
    },
@@ -1678,7 +1678,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 7.526069718444331e-11,
+    "maxPos128": 4.008029892856612e-8,
     "sigSame": false,
     "nan": false
    },
@@ -1733,7 +1733,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 5.04576128572513e-11,
+    "maxPos128": 2.19013786605039e-9,
     "sigSame": false,
     "nan": false
    },
@@ -1781,6 +1781,12 @@
    "psrDoubleABSpinCal",
    "psrJ1757DFM",
    "psrJ1946DFM",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
    "psrB1534",
    "psrB1534DFM",
    "psrB1534CF",
@@ -1823,6 +1829,12 @@
    "psrDoubleABSpinCal",
    "psrJ1757DFM",
    "psrJ1946DFM",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
    "psrB1534",
    "psrB1534DFM",
    "psrB1534CF",
@@ -1842,6 +1854,7 @@
    "earthMoonDiagOne",
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
+   "mercury",
    "mercuryReal",
    "mercuryRealKF1",
    "solarInner",
@@ -1863,6 +1876,12 @@
    "psrDoubleABSpinCal",
    "psrJ1757DFM",
    "psrJ1946DFM",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
    "psrB1534",
    "psrB1534DFM",
    "psrB1534CF",
@@ -1873,10 +1892,10 @@
    "saturnRingRealKF1"
   ],
   "scope": "geoPN 1/2 の内蔵(47 本)—— 0・3 は geoCoreDispatch の変わらない行を通る",
-  "nAll": 158,
+  "nAll": 159,
   "n": 46,
-  "bitSame128": 6,
-  "sigSame": 9,
+  "bitSame128": 0,
+  "sigSame": 2,
   "eihBooks": [
    "earthMoonReal",
    "emAuditNewton",
@@ -1918,6 +1937,12 @@
    "siriusABDFM",
    "psrDoubleABDFM",
    "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
    "psrB1534DFM",
    "psrB1534CF",
    "saturnRingRealKF1"
@@ -2092,13 +2117,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.14,
+   "wallSec": 0.077,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.193,
+   "wallSec": 0.12,
    "errors": 0
   }
  },
- "elapsedS": 521.232
+ "elapsedS": 294.662
 }
