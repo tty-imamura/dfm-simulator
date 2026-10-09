@@ -19923,7 +19923,8 @@ if (!FAST) {
     const rd = (rel) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch (e) { return null; } };
     const deepNear = (a, b, where, out) => {
       if (out.length > 4) return;
-      if (typeof a === 'number' && typeof b === 'number') { if (!(a === b || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) out.push(where + ' ' + a + '≠' + b); return; }
+      // 第297便(CI の別環境 —— 運用の追記 8 の規約): 残差・仕事の鍵(…/work・rel…)は絶対 1e-12 でも比べる(1e-23 級の打ち消しの値は環境で最下位が揺れる)
+      if (typeof a === 'number' && typeof b === 'number') { const absTol = /\/(work|rel[A-Za-z0-9]*|maxRel)$/.test(where) ? 1e-12 : 0; if (!(a === b || Math.abs(a - b) <= Math.max(absTol, 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b); return; }
       if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + JSON.stringify(a) + '≠' + JSON.stringify(b)); return; }
       if (Array.isArray(a) !== Array.isArray(b)) { out.push(where + ' 型'); return; }
       const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
