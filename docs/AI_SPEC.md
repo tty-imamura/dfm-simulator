@@ -336,8 +336,9 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速の換算指数 eC はティア別 x−eT 固定(分子3 / ビーカー・日常0 / 惑星・恒星4 / 銀河5 / 宇宙全体6)で、cLight=30 はそのティアの次元的光速として表示される(日常 ≈30 m/s・惑星/恒星 ≈3×10^5 m/s)。手動での上書きはできない(第130便)。
 - 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=9.8、beaker は gravityY=0.031 が ≈9.8 m/s²)。
 
-# 主張の範囲とフィット(第296便a —— 原仮定者の裁定(第86報))
+# 主張の範囲とフィット(第296便a —— 原仮定者の裁定(第86報)・第297便b —— 原仮定者の裁定(第87報))
 - ${CLAIM_SCOPE.ja}
+- 説明文(description・obsCard・descStruct)は「再現しない」「再現できない」「合わせられない」で閉じない。観測値に届かない量は、値をそのまま書いたうえで「この探索範囲では未達 —— 次の見直し(実装・初期条件・調整範囲)」と書く。届いたとも、届かないことが確定したとも書かない。
 - geoPN=1(1PN 準拠)の本は観測入力のまま照合する基準である。法則のノブ(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と、天体の構造核の宣言)を観測値に合わせて調整しない(観測入力〔質量・軌道要素・元期〕はそのまま使う)。
 - それ以外の geoPN でも、観測値に合わせた値の調整(フィット)はアプリの生成器が走らせ、その記録(標的の観測量・窓・調整した鍵と探索範囲・残差)も生成器が機械で付ける。この出力では調整の記録を書かず、観測値に合わせた・合ったとも書かない(値は宣言としてそのまま置く)。
 
@@ -3310,9 +3311,11 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 
 **主張の文**(html の `CLAIM_SCOPE` —— i18n `claimScope` の ja/en。説明パネル aboutBody と SYSTEM_PROMPT が同じ値を読む・この節は逐語の転記):
 
-> DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
+> (第297便b で文を改めた —— 原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる」・〔第297便b〕。第296便a の文は git の履歴〔8f380ee〕にある)
 >
-> DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
+> DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+>
+> DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
 
 - **SYSTEM_PROMPT**: 「出力ルール」の前に段「主張の範囲とフィット」を足した —— 上の文(ja)・**geoPN=1(1PN 準拠)は観測入力のまま照合する基準で、法則のノブ**(relativeDrag・q・kFrame・lambdaPN・D0・G・cLight・softening など physics の鍵と天体の構造核の宣言 —— SYSTEM_PROMPT は構造核の鍵名を書かない〔AI 生成には開放しない〕)**を観測値に合わせて調整しない**
   (観測入力〔質量・軌道要素・元期〕はそのまま使う)・それ以外の geoPN で観測値に合わせて値を調整したときは最上位の `fitRecord` に標的の観測量・窓・調整した鍵と探索範囲を書く・合わせられなかったときは合ったと書かない。
@@ -3358,7 +3361,23 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - QA: **`ui.familyFold296`**(新設 —— root は SKIP)。`ui.step-accounting` は (A) 手で進める時計の決定的な会計の試験(判定)と (B) 実フレームの標本(恒等式だけ判定・lastRun の分布は記録)に分けた(世代切替 has296dSA = html の `function stepCarryFrame(`)。`ui.pickerReorg294` ⑤・`ui.paramWbgRow` の tip の語は世代切替 has296d(html の `const FAMILY_FOLD_MIN_VARIANTS=`)。`tests/perf.mjs` の counterring は 240 frames(閾値は不変)・結果 JSON に `firstFailures`(再トスした本の初回の比)。
 - presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 155/155)。
 
-## 63. 第297便c —— 時間の標準: 画面の積分刻み `physics.stepDt` と時間の宣言 `timeRef`(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163)
+## 63. 第297便b —— 再現の努力: 主張文の改訂・フィット記録の条件結合(w297b-1)・🟫🟪 の再フィット(λ_PN=0)・🌤️ の再現作業と派生本 🌥️(原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる。『再現するために計算を合わせた』と『再現したと主張しない』は両立する」・統括の検証項目 R162・**fitRecord・fitCondSig は SYSTEM_PROMPT に載せない**)
+
+**主張の文**(html の `CLAIM_SCOPE` —— 1 か所のまま。aboutBody〔導入 1 文+この文+較正の読み〕・SYSTEM_PROMPT〔段「主張の範囲とフィット」〕が同じ値を読む・この節は逐語の転記):
+
+> DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+>
+> DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
+
+- **SYSTEM_PROMPT**: 段「主張の範囲とフィット」に 1 行 —— 説明文(description・obsCard・descStruct)は「再現しない」「再現できない」「合わせられない」で閉じない。観測値に届かない量は値をそのまま書いたうえで「この探索範囲では未達 —— 次の見直し(実装・初期条件・調整範囲)」と書く。届いたとも、届かないことが確定したとも書かない。
+- **フィットの記録 `fitRecord` の版 w297b-1**(HP: `FIT_RECORD_VERSION` "w297b-1"・`FIT_RECORD_VERSIONS` ["w296b-1","w297b-1"]): 鍵 `cond:{version:"w297b-cond-1", sig, extractor}`(必須 —— `FIT_COND_VERSION`)と `targets[].tol:{value(正), kind:"sigma"|"declared", note}`(必須 —— `FIT_TOL_KINDS`)を足した。`status:"fitted"` は knobs の final が全部数で **|residual.value| + numerics.h2 ≤ targets[0].tol.value** のときだけ。旧版 w296b-1 は旧い形・旧い門で受理し `validateFitRecord` は `{ok, fitRecord, legacy:true}` を返す。
+- **条件の署名の純関数**: `fitCondSig(q, rec)`(受理後の本 q と記録 rec → 16 桁の hex。法則〔rec.law と `REL_DRAG_INERTIAL_VERSION`〕・physics〔`DEFAULT_PHYSICS` に重ねた写しから `FIT_COND_DROP_PHYS`〔dispMag・timeScale・stepDt・timeRef〕と `FIT_COND_INERT_BY_GEO`〔geoPN=3 は lambdaPN・pnAlpha〕を除く〕・bodies〔spinAxis を除く〕・scaleExp・epoch・積分器・rec.dt・targets[].window・cond.extractor を鍵の辞書順の JSON にして FNV を 2 回)・`fitCondInputsOf(vp, params)`(受理後の本に sim.params のスカラーの値を重ねた「今の実行入力」)・`fitCondStateOf(q, rec)` → `{state:"match"|"changed"|"legacy"|"none", sigNow, sigRec}`。`validatePreset` は w297b-1 の記録の署名が本の宣言と違えば警告 1 行(記録は残す)。説明タブの「フィットの記録」に行 `data-k="cond"`(`#fitRecordBox[data-cond]`・i18n `frCond`・`frCond_match/changed/legacy/none`・`frTolKind_sigma/declared`)。
+- **生成器** `tests/exp-w297b-fit.mjs`(純関数 `tests/lib-w297b-fit.mjs` —— `tests/lib-w296b-fit.mjs` を再輸出・正本 `tests/out/fit-w297b.json`・段 fit-297b —— `W297B_OUT` で出力先・`W297B_WORKERS` で並列数・`W297B_PART` で段を絞る〔正本を書かない〕)。第296便b の器(段 fit-296b)は**履歴**。正本の鍵: `conventions`・`lambda`・`velocityConvention`・`sensitivity`・`search`(🟫🟪)・`ems`(🌤️ の再現作業 —— `extractor`・`icAudit`・`solutions`・`fix`・`ref3d`・`search`・`velocityConvention`)・`fitRecords`・`derived`・`gainTable`・`gates`。
+- **派生本 🌥️ `earthMoonSunInertialFit`**(🌤️ の写し・地球→月の相対ベクトルだけを平均要素に合わせた初期配置・λ_PN=0・gain 0 —— 探索範囲で 8.85 年に最も近い点・fitRecord は status "unreachable-in-bounds"・notClaim `apsidal_8p85_effort` を新設)。🟫🟪 の gain は再走で同じ値(0.004522415・6729.009)—— 記録だけ w297b-1 へ。
+- **AI 生成**: `fitRecord`・`fitCondSig` は生成の出力に書かない(生成器が機械で付ける —— §59 のまま)。
+- QA: **`behavior.claimEffort297`・`preset.fitCond297`・`docs.fit297`**(新設 —— root は SKIP)と、世代切替 has297b で改めた `docs.claimScope`・`preset.fitDerived296`・`docs.fitContract296`。
+
+## 64. 第297便c —— 時間の標準: 画面の積分刻み `physics.stepDt` と時間の宣言 `timeRef`(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163)
 
 - **方式**: 物理の入力(G・c・質量・速度・scaleExp)は 1 つも動かさない(単位の相似変換はしない)。本ごとに**画面の積分刻み** `physics.stepDt` を宣言し、時間経過倍率 `timeScale` は 1 を標準にする。標準は **1 公転 ≈ 360 步**(`ORBIT_STEPS_STD=360`・`stepDt = timeRef.pRef / timeRef.stepsPerOrbit`)。
 - **`physics.stepDt`**(数値ノブ・`PARAM_ROLES.stepDt="numerics"`・`fitKnobIsLaw` は false): 正の有限数(値域 `STEP_DT_RANGE=[1e-9,1e9]`・0 以下は警告して無視・数値でなければ拒否)。**未宣言は `DT`(0.016)** —— 旧 JSON・保存は 1 bit も変わらない。宣言すれば presetSig に入る(画面の軌跡が変わる)。`timeRef` が公転なら `stepDt ≤ pRef/36`(`STEP_DT_ORBIT_MIN`)に丸めて警告。相似変換連動(c₀ の k 倍)は `timeScale` と同じく `stepDt` も ÷k。
@@ -3373,7 +3392,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - SYSTEM_PROMPT に時間の規則を 1 行(規則 10)足した(既定値の行・値域の行は変えていない)。
 - QA: **`preset.timeStd297`**・**`behavior.timeStd297`**・**`docs.timeStd297`**(新設 —— root は SKIP)。
 
-## 64. 第297便d —— アプリ内実測(精密): 観測と比べる量を、いまの初期値・パラメータで測る(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、実測に反映する」・統括の検証項目 R164・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
+## 65. 第297便d —— アプリ内実測(精密): 観測と比べる量を、いまの初期値・パラメータで測る(原仮定者の裁定(第87報)「観測値と比較される数値に関して、アプリ内で実測しての比較を可能にする。初期値やパラメータの変更が、実測に反映する」・統括の検証項目 R164・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **純関数層**(sim・DOM を読まない): `lmsSpecOf(preset)` → 対象の配列 `[{key, src:"row"|"fit"|"ref", n, t, row, est, why, c, o, dt, win:{laps}|{peri}, unit, obs, sigma, judge:{v,st,g}, ctrl:{gain:0}|null, fit:{model,h2,status}|null}]`(正本の転記 `OBS_COMPARE_ROWS` の行・本と子の `fitRecord.targets`・🌛🌤️ の参照行 `LMS_REF_TARGETS` から**機械で**組む —— 退役の本は空)/ `lmsMeterNew(S, ci, oi)`・`lmsFeedStep(G, S, dt, W)`(lm* の計測器 + 検出器 B + 通過時刻 —— フィット器と同じ式)/ `lmsFitB(raw, rMin, rMax, pRef, dt)`(`tests/lib-w280b-emgrid.mjs` の `fitPeri` と同じ手続き)/ `lmsValueOf(G, item, toSec, dt)`。
 - **推定器 `est`**: `rev`(同方向 1 周 —— 2 周目)・`eProxy`(1 周目の半径比)・`peri`(近点間周期 —— 最初の np 近点)・`prec`(近点移動 °/周)・`aps`(近点回転の周期 s)・`precYr`(近点移動 deg/yr = Δϖ × YEAR / P_peri —— AD8)・`revMean`(N 公転の平均周期)・`apsBRate`(検出器 B の近点率 ″/世紀)・`apsBYear`(360°/ϖ̇ 年)・`apsBSec`(360°/ϖ̇ s)。`est:null` の量は `why` ∈ {`text`・`spin`・`pn0`・`ringInner`・`unit`・`noTarget`・`stage`・`fitQ`・`fitWindow`・`refRow`} と「アプリ内実測 未対応 —— 理由」の文。

@@ -40,6 +40,7 @@
 //   'w293c-branch' … 第293便c の枝で器を走らせた実測(正本の elapsedS 60.7〜106.0 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w295b-branch' … 第295便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w296b-branch' … 第296便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -746,10 +747,22 @@ export const REGEN_STEPS = [
   //   段 3 探索(gain の対数格子で根を挟む → Illinois → 7 桁の値を h・h/2 で測り直す・f の掃引)・段 4 派生本の照合・段 5 fitRecord の受理・段 6 gain の SI 表。
   //   抽出器は第295便c の器の childTask をそのまま呼ぶ(Node の headless・子プロセス 3 本 —— workers 3)。html と観測表 paper/data/solar-observations.csv を読む
   //  (他の正本は読まない —— 器のコードの依存として inertial3-295c の後に置く)。所要は第296便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
-  S('fit-296b', 'node tests/exp-w296b-fit.mjs', ['tests/out/fit-w296b.json'], 460, { secSource: 'w296b-branch', node: true, workers: 3, after: ['inertial3-295c'],
+  // 第297便b(原仮定者の裁定(第87報)・統括の検証項目 R162): 後継の器 tests/exp-w297b-fit.mjs(段 fit-297b)へ移った —— この段は**履歴**(再生成しない。
+  //   記録の版が w297b-1 に上がり、派生本の記録は第296便b の器の照合〔w296b-1〕と一致しなくなるため。正本は第296便b の走行のまま —— QA docs.fitContract296 が PHYSICS〔第296便b〕と照合する)
+  S('fit-296b', 'node tests/exp-w296b-fit.mjs', ['tests/out/fit-w296b.json'], 460, { secSource: 'w296b-branch', node: true, workers: 3, after: ['inertial3-295c'], role: 'history',
     volatilePaths: { 'tests/out/fit-w296b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第296便b: geoPN=3 のフィット生成器 —— 🟤 近点率(gain 0 の対照との差 43.0″/世紀)・🟣 公転周期(6.3872273 日)・🌤️ 近点周期(8.85 年)へ gain を合わせる(挟めなければ unreachable-in-bounds)・'
-      + '残差と h/2 の数値誤差・dragCore の感度 43 通りと f の掃引(同定の可否)・逆写像の対照・派生本と fitRecord の照合・gain の SI 表' }),
+      + '残差と h/2 の数値誤差・dragCore の感度 43 通りと f の掃引(同定の可否)・逆写像の対照・派生本と fitRecord の照合・gain の SI 表。**第297便b で履歴**(後継の段 fit-297b —— 再生成しない)' }),
+  // ---- 第297便b(原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる」「geoPN=2・3・4 のサンプルは全て λ_PN=0。
+  //   修正したサンプルは再フィットする」・統括の検証項目 R162): フィット生成器の後継 —— 段 0〜6(第296便b を引き継ぎ・親と派生本に λ_PN=0 を当てる・λ の不活性の指紋)・
+  //   記録 w297b-1(条件の署名 fitCondSig・観測側の許容)・段 7 🌤️ の再現作業(規約・初期配置の点検・抽出器 3 方式 × 窓 × 刻み・平均要素への初期配置の 2 元 Newton・
+  //   器の中だけの 3 次元の参照積分器・直した初期配置での gain の探索・速度の規約の対照・🌥️ の照合)。Node の headless(子プロセス 3 本 —— workers 3)。
+  //   html と観測表 paper/data/solar-observations.csv を読む(他の正本は読まない —— 器のコードの依存として inertial3-295c の後・html の生成領域〔obs-compare・sample-status〕を書く段の後)。所要は第297便b の枝の実測(正本の elapsedS ——
+  //   他の枝と同じ容器で並走)
+  S('fit-297b', 'node tests/exp-w297b-fit.mjs', ['tests/out/fit-w297b.json'], 445, { secSource: 'w297b-branch', node: true, workers: 3, after: ['inertial3-295c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/fit-w297b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ems/ref3d/rows/*/wallSec']) },
+    note: '第297便b: フィット生成器の後継 —— 🟫🟪 の再フィット(λ_PN=0・記録 w297b-1 —— 条件の署名と許容の門)・🌤️ の再現作業(平均要素に直した初期配置・抽出器 3 方式・'
+      + '3 次元の参照積分器・gain の探索 —— この探索範囲では未達を記録)・🌥️ earthMoonSunInertialFit の照合' }),
   // ---- 第296便c(原仮定者の裁定(第86報)「geoPN=4 のサンプルは、多粒子での、磁石に付いたパチンコ玉のように連鎖する引きずりを実装する」・統括の検証項目 R159):
   //   geoPN=4 = 多粒子の連鎖引きずり —— 連鎖の解法(solver:"network-pcg-v1" —— 質量で対称化した対角前処理の共役勾配法)と自転する源の表裏核
   //   (spinSource:"surfaceFlip")の零試験(① 3 粒子・② 65 粒子の鎖・③ 4 層×16 点の環・④ 自転源)と ⑤ 試作本 🔗 chainDiskToy の 2000 步(h/2・連鎖を切った対照)。
