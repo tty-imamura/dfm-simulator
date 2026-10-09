@@ -228,13 +228,13 @@
   "galaxyGeo2": {
    "purpose": "v−u 測地線則で外縁の増速を比べる",
    "objective": "met",
-   "state": "外縁速度比 1.188 が窓内・クランプ 0",
+   "state": "λ_PN=0 で外縁速度比 1.180 が窓内・クランプ 0",
    "evidence": [
     "claim.galaxygeo2-outerboost"
    ],
    "en": {
     "purpose": "Compare the outer speed-up under the v−u geodesic law",
-    "state": "outer speed ratio 1.188 lies in its window with zero clamps"
+    "state": "with λ_PN=0 the outer speed ratio 1.180 lies in its window with zero clamps"
    }
   },
   "galaxyDB": {
@@ -1278,14 +1278,15 @@
   "earthMoonRealKF1": {
    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
    "objective": "partial",
-   "state": "8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない",
+   "state": "λ_PN=0 で D0pull と初速を再フィット(8 公転窓で恒星月 27.3216 日・近点回転 8.850 年・残差は h/2 差の内)・窓を延ばすと定常でない",
    "evidence": [
+    "tests/out/refit-w297a.json",
     "tests/out/emgrid-w280b.json",
     "tests/out/calaudit-w249.json"
    ],
    "en": {
     "purpose": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit",
-    "state": "8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady)"
+    "state": "refit under λ_PN=0 with D0pull and the initial speed (8-orbit window: month 27.3216 d, apsides 8.850 yr, residual within the h/2 gap); longer windows are not steady"
    }
   },
   "emAuditNewton": {
@@ -1399,13 +1400,14 @@
   "mercuryGeoToy3": {
    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる",
    "objective": "met",
-   "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
+   "state": "pn:off・λ_PN=0 の零試験 —— ニュートンの対照との近点移動の差は 10⁻¹¹ °/周の桁",
    "evidence": [
+    "tests/out/refit-w297a.json",
     "tests/out/geo3-w280c.json"
    ],
    "en": {
     "purpose": "Check with the geoPN=4 contract that a uniform coordinate change leaves the periapsis advance unchanged",
-    "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width"
+    "state": "null test with pn off and λ_PN=0 - the advance differs from the Newtonian control at the 1e-11 deg/orbit level"
    }
   },
   "solarInner": {
@@ -1545,13 +1547,14 @@
   "charonGeoToy3": {
    "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
    "objective": "partial",
-   "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
+   "state": "pn:off・λ_PN=0 で B 側との周期の差は 10⁻⁵ s の桁(第296便までの pnVelocity v は +5.6×10⁻⁴ s)",
    "evidence": [
+    "tests/out/refit-w297a.json",
     "tests/out/geo3-w280c.json"
    ],
    "en": {
     "purpose": "Compare the geoPN=4 period with a solar background against kF0",
-    "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)"
+    "state": "with pn off and λ_PN=0 the period differs from side B at the 1e-5 s level (until wave 296, pnVelocity v gave +5.6e-4 s)"
    }
   },
   "uranusReal": {

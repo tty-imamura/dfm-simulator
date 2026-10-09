@@ -30874,6 +30874,153 @@ step 会計(第175便)は loop() の中の書き方を純関数 `stepCarryFrame(
 
 確認: bitsame 155/155・sigsame 155/155(差分 ID なし)。QA: `ui.familyFold296`(新設)と `ui.step-accounting`・`ui.pickerReorg294`(⑤ に畳んだ variant の数)・`ui.paramWbgRow`(tip の語)の世代切替(has296d)。
 
+〔第297便a — geoPN=2・3・4 は λ_PN=0(光学と力学を分ける)・逸脱 lambdaPnOnDrag・1PN の有無の表示・🌘 の再フィットと再測定(内蔵 38 本の宣言を変えた —— 600 步の軌道が変わるのは 21 本〔宣言から導出: 第296便までの宣言で力学の 1PN が走っていた本 —— bitsame の差分 ID と一致〕・残り 17 本は軌道がビット同一で署名だけが変わる・`S._core` は不変)〕
+
+出典: 原仮定者の裁定(第87報)「光学と力学を分ける。λ_PN は力学の作用なので、geoPN=2 の引きずり減衰 q・geoPN=3 の慣性決定力の引きずり gain(geoPN=4 も)と重ねない。geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」・統括の検証項目 R161。
+
+**① 光学と力学の分離。** `physics.lambdaPN` は**力学の 1PN の係数**である(`_core` の対経路の `invC2 = geo ? λ_PN/c² : 0`・kF0 の EIH の差分 `dfmPN1Delta`/`dfmPN1DeltaWide`・geoPN=3/4 の旧メッシュの外部項 `dfmGeo3PNKick`〔`spaceMesh.pn:"reference-1PN"` のとき〕の 3 か所が同じ式で読む)。
+光学 —— κ(`kappaT`)・光線・時計 —— は λ_PN の欄ではないので変えていない。geoPN=2 の q の引きずり(kFrame=1 の v−u 輸送)・geoPN=3/4 の慣性決定力の引きずり(gain)は、それぞれが軌道の近点の動きを担う力学の模型で、そこへ力学の 1PN を重ねると同じ観測量を 2 つの機構で二重に動かすことになる。
+本便から **geoPN=2・3・4 は λ_PN=0**(省略ではなく `lambdaPN:0` を明示)・geoPN=1 は 1PN の照合基準として λ_PN=1 のまま・geoPN=0 は従来どおり。
+geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地線 OFF で、もともと力学の 1PN は走っていなかった —— 軌道が変わるのは、geoPN=2(19 本 —— 測地線 ON)と、旧メッシュに `pn:"reference-1PN"` を重ねていた 🔁 mercuryGeoToy3・🌒 charonGeoToy3(第297便a から `pn:"off"`・`pnVelocity` は外した)の 21 本である。
+
+**② 内蔵 38 本の表**(宣言から列挙 —— 器 `tests/exp-w297a-refit.mjs` の `declared`。「力学の 1PN が走っていたか」は第296便までの宣言〔λ_PN の旧値と 🔁🌒 の旧 pn〕を `geoModeOf(…).pn1Active` に通した値):
+
+| ID | 絵文字 | geoPN | 在位/退役 | λ_PN(第296便まで → 現行) | 力学の 1PN が走っていたか(= 600 步の軌道が変わる) | 現行の法則 |
+|---|---|---|---|---|---|---|
+| galaxyGeo2 | 💫 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| galaxyMeshSpiralGeoToy | 🪁 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| galaxyMeshSpiralGeoToyLite | 🎋 | 3 | 退役 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| galaxyAnalogyBH | 🌚 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| galaxyAnalogyBHCompose | 🧩 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| galaxyAnalogyBHTilt90 | 🛸 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| galaxyAnalogyBHTilt90Layers | 🪆 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| clusterAnalogyBH | 💮 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| clusterGrowthCopy | 🌰 | 3 | 退役 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| fixedCaptureCopy | 🥜 | 3 | 退役 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:scalar` |
+| earthMoonRealKF1 | 🌘 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| earthMoonInertial | 🌛 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| emAuditDFM | 🧲 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| earthMoonSunInertial | 🌤️ | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| qLockRadialAudit | 📶 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| qLockRadialAuditQ3 | 📐 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| mercurySunInertial | 🟤 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| mercurySunInertialFit | 🟫 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| mercuryGeoToy3 | 🔁 | 4 | 在位 | 1 → 0 | 走っていた(変わる) | `legacy-spaceMesh:vMinusU` |
+| mercuryRealKF1 | 🪨 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| plutoCharonInertial | 🟣 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| plutoCharonInertialFit | 🟪 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| charonGeoToy3 | 🌒 | 4 | 在位 | 1 → 0 | 走っていた(変わる) | `legacy-spaceMesh:vMinusU` |
+| alphaCenABDFM | ✴️ | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| siriusABDFM | 💫 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrDoubleABDFM | ⚡ | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrDoubleABGeoToy | 🩻 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `legacy-spaceMesh:local` |
+| psrDoubleABSpinCal | 🧿 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrDoubleABPN | 🪶 | 2 | 退役 | 0.5000144330801174 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrJ1757PN | 🪃 | 2 | 退役 | 0.5000260856666837 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrJ1946PN | 🪀 | 2 | 退役 | 0.5000086177580901 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrDoubleABCF | 🪝 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrJ1757CF | 🪄 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrJ1946CF | 🩹 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrB1534DFM | 🧶 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| psrB1534CF | 🪤 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+| chainDiskToy | 🔗 | 4 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| saturnRingRealKF1 | 💿 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
+
+**③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
+(**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。
+`MODE_SAVE_WARN_CODES` の **20 本目**(末尾)。保存・セーブの読込・編集欄の赤文字(`MODE_DEV_KEYS` に lambdaPN を足した —— λ_PN 行にも出る)・JSON の受理の警告が同じ判定を読む。
+**黙って 0 にしない**(受理した値・保存した値はそのまま)。文(ja)「geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。」
+
+**④ 1PN の有無の表示。** `geoModeOf` の `lambdaPN` は 1PN の**経路フラグ**(0/1)で、係数は別の欄 `lambdaPNCoef` である。表示が経路フラグ 1 を係数 1 と読まないように、
+`pn1Active` = 経路フラグ 1 ∧ 係数≠0 を足した(物理の経路 —— core・law —— は変えない)。モード表の測地線の列は、経路が ON でも係数 0 なら「ON(λ_PN=0)」と書く(`geoModeTableGeo`)。
+HUD の「GR 1PN 準拠」の行は第291便b から係数 0 では出ない(変えていない)。現行のモード表(`GEO_MODE_TABLE_CASES` —— 2・3・4 の行は `lambdaPN:0`・旧宣言 `lambdaPN:1` の 2 の行を足した):
+
+| geoPN | 宣言 | 主な用途 | 標準(kF 0/1) | 測地線(kF 0/1) | 法則 kF=0 | 法則 kF=1 | 警告 kF=0 | 警告 kF=1 |
+|---|---|---|---|---|---|---|---|---|
+| 0 | — | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 0 | geodesic:true | proof | ○ / ○ | ON / ON | `eih-kf0` | `vMinusU-q` | — | — |
+| 0 | spaceMesh.lawVersion:scalar | proof | ○ / ○ | OFF / OFF | `legacy-spaceMesh:scalar` | `newton` | — | — |
+| 1 | — | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | — | geo1KFrame |
+| 2 | — | dragApprox | — / ○ | ON(λ_PN=0) / ON(λ_PN=0) | `eih-kf0` | `vMinusU-q` | geo2KFrame | — |
+| 3 | — | inertialDrag | — / — | ON(λ_PN=0) / ON(λ_PN=0) | `eih-kf0` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | relativeDrag.law:inertial | inertialDrag | ○ / — | OFF / OFF | `inertial-drag` | `inertial-drag` | — | inertialPlusKFrame |
+| 3 | spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / ON(λ_PN=0) | `legacy-spaceMesh:scalar` | `vMinusU-q` | geo3NoInertial+geo3LegacyMesh | geo3NoInertial+geo3LegacyMesh |
+| 3 | spaceMesh.lawVersion:vMinusU+meshVelocity | inertialDrag | — / — | OFF / ON(λ_PN=0) | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | geo3NoInertial+geo3LegacyMesh | geo3NoInertial+geo3LegacyMesh |
+| 0 | relativeDrag.law:inertial | proof | ○ / — | OFF / OFF | `newton` | `newton` | — | inertialPlusKFrame |
+| 1 | relativeDrag.law:inertial | calibration | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | extraRelativeDrag | geo1KFrame+extraRelativeDrag |
+| 0 | geodesic:true+relativeDrag.law:inertial | proof | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo0Stacked+geo0Geodesic | geo0Stacked+geo0Geodesic+inertialPlusKFrame |
+| 1 | geodesic:false | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | ignoredGeodesic | geo1KFrame+ignoredGeodesic |
+| 2 | relativeDrag.law:inertial | dragApprox | — / — | ON(λ_PN=0) / ON(λ_PN=0) | `eih-kf0` | `vMinusU-q` | geo2KFrame+extraRelativeDrag | extraRelativeDrag |
+| 3 | relativeDrag.law:inertial+compose:sum | inertialDrag | — / — | OFF / OFF | `inertial-drag` | `inertial-drag` | inertialCompose | inertialPlusKFrame+inertialCompose |
+| 3 | relativeDrag.law:inertial+spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / OFF | `legacy-spaceMesh:scalar` | `inertial-drag` | geo3LegacyMesh | inertialPlusKFrame+geo3LegacyMesh |
+| 4 | — | legacyMesh | — / — | ON(λ_PN=0) / ON(λ_PN=0) | `eih-kf0` | `vMinusU-q` | geo4NoMesh | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar | legacyMesh | ○ / — | OFF / ON(λ_PN=0) | `legacy-spaceMesh:scalar` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+| 4 | spaceMesh.lawVersion:scalar+toyAllowDrag | legacyMesh | ○ / ○ | OFF / OFF | `legacy-spaceMesh:scalar` | `legacy-spaceMesh:scalar` | — | — |
+| 4 | spaceMesh.lawVersion:vMinusU+meshVelocity | legacyMesh | ○ / — | OFF / ON(λ_PN=0) | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | — | geo4NoMesh+geo4KFrame |
+| 4 | relativeDrag.law:inertial+solver:network-pcg-v1 | legacyMesh | ○ / — | OFF / OFF | `inertial-drag` | `inertial-drag` | — | inertialPlusKFrame |
+| 4 | relativeDrag.law:inertial | legacyMesh | — / — | OFF / OFF | `inertial-drag` | `inertial-drag` | geo4Solver | geo4Solver+inertialPlusKFrame |
+| 4 | relativeDrag.law:inertial+solver+spaceMesh.lawVersion:scalar | legacyMesh | — / — | OFF / OFF | `legacy-spaceMesh:scalar` | `inertial-drag` | geo4Both+geo4Inertial | inertialPlusKFrame |
+| 2 | lambdaPN:1(第296便までの宣言) | dragApprox | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo2KFrame+lambdaPnOnDrag | lambdaPnOnDrag |
+
+**⑤ geoPN=0 で旧メッシュが走る設定の読込通知(AN255 の残り)。** 第296便a から geoPN=0 でも `spaceMesh.lawVersion` の宣言が入場条件を満たせば旧メッシュで走る(第295便までは宣言が残るだけ)。
+その形の設定をセーブの読込と JSON の受理で 1 行知らせる(`geo0LegacyLoadNoteOf` —— 走る lawVersion を返す純関数・i18n `loadGeo0Legacy`・**値は書き換えない**)。内蔵の該当は 0 本(機械で確認 —— QA `behavior.lambdaPnOnDrag297`)。
+
+**⑥ 再測定と再フィット**(器 `tests/exp-w297a-refit.mjs` —— 段 em・emfit・qlock・galaxy・geotoy・retired。正本 `tests/out/refit-w297a.json`(段 refit-297a)。
+「前」の行は第296便までの宣言〔λ_PN の旧値 —— 器の `LAMBDA_BEFORE_PN`(🪶🪃🪀 の 1/f)と 1・🔁🌒 の旧 pn —— `MESH_PN_BEFORE`〕を写しに置いて同じ抽出器・同じ窓・同じ刻みで測った値。刻みは h=0.016 と h/2=0.008):
+
+| 本 | 量 | 第296便までの宣言(λ_PN 旧値) | λ_PN=0(h) | λ_PN=0(h/2) | ノブと値 | 標的 | 扱い |
+|---|---|---|---|---|---|---|---|
+| 🌘 earthMoonRealKF1 | 恒星月(同方向 1 周・8 公転窓)日 / 近点回転の周期(検出器 B・8 公転窓)年 | 27.31962 / 9.1280(D0pull 3.24204×10⁻⁵・f 0.99880・λ_PN=1) | — | — | 第296便までの宣言 | 27.3217 / 8.85 | 窓と抽出器の違いで +3% —— 下の行で合わせ直した |
+| 🌘 earthMoonRealKF1(再フィット後) | 恒星月 / 近点回転 | λ_PN=1 の写し: 27.32161 日 / 8.8496 年 | 27.32163 日 / 8.8500 年 | 27.32163 日 / 8.8495 年 | D0pull 3.24204×10⁻⁵ → 3.14447×10⁻⁵・f 0.99880 → 0.998777511 | 27.3217 日 / 8.85 年 | fitted(相対残差 2.56×10⁻⁶・h/2 5.38×10⁻⁵)・λ の寄与 1.67×10⁻⁵ 日 / 4.39×10⁻⁴ 年 |
+| 💫 galaxyGeo2 | 外縁帯の回転の増強 kF1/kF0(12000 步) | 1.1985 | 1.1801 | 1.1795 | ノブなし(原理の実証 —— 測り直し) | claim の窓 1.14〜1.23 | 機構の内訳の測地線(1PN)14.0% → 0.0% |
+| 📶 qLockRadialAudit | 10 プローブの Δϖ_drag(kF1−kF0・窓 T=24000) | — | — | — | ノブなし(fitted は空 —— q・D₀ は宣言) | 第136便の監査量 | λ の寄与 最大 6.83×10⁻⁴(相対)・h/2 差 最大 1.95×10⁻² |
+| 📐 qLockRadialAuditQ3 | 10 プローブの Δϖ_drag(kF1−kF0・窓 T=24000) | — | — | — | ノブなし(fitted は空 —— q・D₀ は宣言) | 第136便の監査量 | λ の寄与 最大 1.80×10⁻⁴(相対)・h/2 差 最大 2.44×10⁻³ |
+| 🔁 mercuryGeoToy3 | 零試験 A − B(近点移動 °/周(検出器 B・59 近点)) | 3.93×10⁻¹¹ °/周(pn:reference-1PN ⇔ geoPN=2・λ_PN=1) | 1.61×10⁻¹¹ °/周 | −1.37×10⁻¹¹ °/周 | ノブなし | 0(零試験) | 1PN 項の大きさ(B 側の λ 1−0)2.88×10⁻⁵ °/周 |
+| 🌒 charonGeoToy3 | 零試験 A − B(周期(同方向 1 周・2 周目)s) | 9.36×10⁻⁵ s(pn:reference-1PN ⇔ geoPN=2・λ_PN=1) | −6.63×10⁻⁶ s | −1.50×10⁻⁵ s | ノブなし | 0(零試験) | 1PN 項の大きさ(B 側の λ 1−0)4.64×10⁻⁴ s |
+| 🧲 emAuditDFM(退役) | 近点移動 °/周・周期 s(3 周) | 2.9915・2.3613998×10⁶ | 2.9916・2.3614006×10⁶ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 1.0000・周期の相対変化 3.77×10⁻⁷ —— 次の見直しへ |
+| 🪨 mercuryRealKF1(退役) | 近点移動 °/周・周期 s(20 周) | 2.2526×10⁻⁵・7.6005368×10⁶ | −6.2290×10⁻⁶・7.6005342×10⁶ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.2765・周期の相対変化 −3.44×10⁻⁷ —— 次の見直しへ |
+| ✴️ alphaCenABDFM(退役) | 近点移動 °/周・周期 s(19 周) | 8.8941×10⁻¹・2.5025803×10⁹ | 8.8941×10⁻¹・2.5025804×10⁹ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 1.0000・周期の相対変化 4.08×10⁻⁸ —— 次の見直しへ |
+| 💫 siriusABDFM(退役) | 近点移動 °/周・周期 s(20 周) | 2.1899・1.5603781×10⁹ | 2.1899・1.5603781×10⁹ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 1.0000・周期の相対変化 −2.27×10⁻⁸ —— 次の見直しへ |
+| ⚡ psrDoubleABDFM(退役) | 近点移動 °/周・周期 s(3 周) | —・1.8960816×10⁵ | —・1.8955104×10⁵ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 —・周期の相対変化 −3.01×10⁻⁴ —— 次の見直しへ |
+| 🧿 psrDoubleABSpinCal(退役) | 近点移動 °/周・周期 s(20 周) | 4.9631×10⁻³・8.7278566×10³ | −4.5523×10⁻³・8.7275577×10³ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.9172・周期の相対変化 −3.43×10⁻⁵ —— 次の見直しへ |
+| 🪶 psrDoubleABPN(退役) | 近点移動 °/周・周期 s(20 周) | 4.9960×10⁻³・8.7272594×10³ | 1.7215×10⁻⁴・8.7271100×10³ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 0.0345・周期の相対変化 −1.71×10⁻⁵ —— 次の見直しへ |
+| 🪃 psrJ1757PN(退役) | 近点移動 °/周・周期 s(20 周) | 5.2815×10⁻³・1.5472802×10⁴ | 3.0361×10⁻⁵・1.5473343×10⁴ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 0.0057・周期の相対変化 3.50×10⁻⁵ —— 次の見直しへ |
+| 🪀 psrJ1946PN(退役) | 近点移動 °/周・周期 s(20 周) | 6.1456×10⁻³・6.6756479×10³ | 5.4834×10⁻⁴・6.6754930×10³ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 0.0892・周期の相対変化 −2.32×10⁻⁵ —— 次の見直しへ |
+| 🪝 psrDoubleABCF(退役) | 近点移動 °/周・周期 s(20 周) | 4.9382×10⁻³・8.7276354×10³ | −4.5788×10⁻³・8.7273365×10³ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.9272・周期の相対変化 −3.43×10⁻⁵ —— 次の見直しへ |
+| 🪄 psrJ1757CF(退役) | 近点移動 °/周・周期 s(20 周) | 5.2762×10⁻³・1.5473018×10⁴ | −5.2251×10⁻³・1.5474099×10⁴ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.9903・周期の相対変化 6.99×10⁻⁵ —— 次の見直しへ |
+| 🩹 psrJ1946CF(退役) | 近点移動 °/周・周期 s(20 周) | 6.1217×10⁻³・6.6760068×10³ | −5.1209×10⁻³・6.6756969×10³ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.8365・周期の相対変化 −4.64×10⁻⁵ —— 次の見直しへ |
+| 🧶 psrB1534DFM(退役) | 近点移動 °/周・周期 s(3 周) | 6.1091×10⁻³・1.8028019×10⁵ | 5.0990×10⁻³・1.8027553×10⁵ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 0.8347・周期の相対変化 −2.59×10⁻⁵ —— 次の見直しへ |
+| 🪤 psrB1534CF(退役) | 近点移動 °/周・周期 s(13 周) | 2.0811×10⁻³・3.6246085×10⁴ | −1.9679×10⁻³・3.6246118×10⁴ | — | 再フィットしていない(この便の時間の区切り) | 本の説明の旧標的 | 近点移動の比 −0.9456・周期の相対変化 9.11×10⁻⁷ —— 次の見直しへ |
+| saturnRingRealKF1 | — | — | — | — | — | — | 器の窓に入らない(二体でない(器が無い —— 次の見直しで器を作る)) |
+
+- **🌘 earthMoonRealKF1**(在位・原理の参照): 本の宣言の標的は恒星月 27.3217 日と 8 公転窓の近点回転 8.85 年(parameterAudit の観測値)、既存のノブは D0pull(引きずり歳差の pull 用量)と初速の係数 f。
+  λ_PN の寄与そのもの(採用値で λ_PN=1 と 0 を並べた差 —— 表の「λ の寄与」)は、8 近点の直線 fit の揺れ(ノブを 10⁻⁵ 動かすと周期が相対 ±5×10⁻⁵ 程度動く)と同じ桁の小さな量である
+  (力学の 1PN は 2 体で 10⁻¹¹ の相対量だが、DFM の core 2 の経路では u の差し引きを通じて窓の近点の拾い方に効く)。
+  第280便b の emgrid と同じ抽出器(検出器 B)・同じ窓(最初の 8 公転)で測ると、第296便までの宣言(D0pull 3.24204×10⁻⁵・f 0.99880・λ_PN=1 —— 旧フィットは exp-kf1b の窓)は約 9.13 年で標的から +3% 離れていた
+  (窓と抽出器の違い)。**再現するために計算を合わせた**: 2 つのノブで 2 つの標的を同時に解き(2×2 Newton —— 枝の初回の走行は 2 回の Newton 段で止める条件 2×10⁻⁵ の内へ)、採用値を h と h/2 で測り直して、相対残差は h/2 の差の内(`status:"fitted"` —— 本の `fitRecord`。正本の再走は本の値から始まるので反復 0)。
+  合わせていない量は 27 公転窓(窓を延ばすと定常ではない)・近点間の周期・機構(実際の主因は太陽摂動)で、fitRecord の `notFitted` に残した。D0pull は 💿 などと共通の値ではなくなった(🌙 のワンタップ対照と
+  AI のカタログ `ASTRO_CATALOG.earthMoon.variants.kf1` の D0pull・velCalib は 🌘 の新しい値へ —— 出典の初期条件の再現はカタログの許容 10⁻⁵ の内)。
+- **💫 galaxyGeo2**(在位・原理の実証 —— 調整ノブは無い): claim galaxygeo2.outer-boost-ratio の手続き(loadPreset → abStart("kFrame", 0)・12000 步・外縁帯 [156,286])で測り直した。
+  λ_PN=0 で外縁の増強は表のとおり下がり、機構の内訳の「測地線(1PN)」は 0 になる(引きずり〔輸送+渦度〕は残る)。claim の窓 1.14〜1.23 は動かしていない(値はその中)。説明の「実測約」の値を正本の値に直した。
+- **📶📐 qLockRadialAudit(Q3)**(在位・理論値の対照 —— fitted は空): 10 プローブの引きずり近点移動(kFrame=1 と 0 の同一構成差分)の λ_PN の寄与は、表のとおり h と h/2 の差より小さいか同じ桁。
+  q・D₀ は宣言のまま(合わせ直す量は無い)。第136便の監査の数(参照点の 0.944・傾き −8.99 乗など)は u の場から読む量で λ_PN に依らない。
+- **🔁🌒 mercuryGeoToy3 / charonGeoToy3**(在位・零試験 —— ノブは無い): 現行の宣言(`pn:"off"`・λ_PN=0)は「旧メッシュの速度分解だけ」の零試験になった。ワンタップ対照(geoPN=2・λ_PN=0 —— 速度分解も
+  力学の 1PN も無いニュートンの二体)との差は表のとおり刻みの幅の桁の小さな値。第296便までの記録(pn:"reference-1PN" と ☄️/kF0 との差)は本の obsCard と説明に履歴として残した。
+- **退役 geoPN=2(15 本)**: 本便の時間の区切りの中では再フィットしていない(1 本あたり λ の前後 2 走行だけ)。二体 14 本の λ 前後の近点移動と周期を表に記録した —— 🪶🪃🪀 は λ_PN=1/f の処方で
+  近点移動を観測に合わせていたので、λ_PN=0 では近点移動が旧値の 1〜9% に下がる。🧿🪝🪄🩹🪤 は compactForce などの別の項が後退を作り、1PN を外すと近点移動の符号が逆になる。
+  ✴️💫(連星)・🧲 は 1PN の寄与が小さく、値はほぼ変わらない。⚡ は 3 周の窓で近点を検出できなかった(較正質量の本は公転が観測の周期より長い)。💿 saturnRingRealKF1(127 体)は二体の器が無い。
+  **この探索範囲では未達 —— 次の見直し(実装・初期条件・調整範囲)へ**: 既存のノブ(質量較正 f・D0pull・compactForce の係数)で λ_PN=0 のまま旧標的に届くかを探す器を作る。
+
+**⑦ 撤回した処方。** 退役 🪶🪃🪀(第249便a)の「質量較正と 1PN を λ_PN で分離する」処方(λ_PN=1/f —— 較正質量 f≈2 が 1PN に入るのを打ち消す)は、geoPN=2 の q の引きずりに力学の 1PN を重ねる処方なので撤回した。
+走る宣言は λ_PN=0。本の説明には履歴として 1 行(「第297便a で撤回 —— 走る宣言は λ_PN=0」)を残し、旧ワンタップ対照「λ_PN=1(旧則)」は撤去した。説明の数値(第249便a の器の測定)は λ_PN=1/f の宣言で測った履歴である。
+
+**⑧ 軌道がビット同一の本。** λ_PN=0 にしても力学の 1PN が走っていなかった 17 本(geoPN=3 の 9 本・geoPN=4 の 8 本〔🔁🌒 を除く〕—— 慣性の宣言・旧メッシュ〔pn:off〕・連鎖)は、基点と 600 步の指紋(bitsame)が同一で、
+在位の 3/4(🌛🌤️🟤🟫🟣🟪・🪁🌚🧩🛸🪆💮・🩻・🔗)は 2000 步の指紋も基点と同一(器の外の確認 —— 第297便a の枝)。署名 presetSig は λ_PN の 1 字で 38 本すべて変わる(sigsame)。
+
+**⑨ 性能。** 💫 の A/B ワークロード(tests/exp-w258e-jitprobe.mjs・W258E_PRESETS=galaxyGeo2)を第297便a の枝で測った: 基点 7.425 ms/步 → 現行 4.666 ms/步(基点比 ×0.63 —— λ_PN=0 で 1PN の項を積まない。チェックサムは物理が変わったので基点と違う)。他の枝と同じ容器で並走した値で、負荷で揺れる。物理の値を性能の門のために隠さない。
+
+**⑩ 書かないこと。** 「月の近点回転を再現した」「較正 合」「1PN を DFM から導出した」「λ_PN=0 で過去の結果を得た」(過去の表と論文図は第296便までの宣言の値のまま)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
