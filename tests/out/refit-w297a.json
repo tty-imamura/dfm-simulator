@@ -1,0 +1,1917 @@
+{
+ "version": "w297a-refit-1",
+ "generator": "tests/exp-w297a-refit.mjs",
+ "ruling": "原仮定者の裁定(第87報)・統括の検証項目 R161",
+ "target": "beta/index.html",
+ "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+ "declared": {
+  "rule": "geoPN≥2 の内蔵 = physics.lambdaPN 0(宣言から列挙)",
+  "n": 39,
+  "books": [
+   {
+    "id": "galaxyGeo2",
+    "emoji": "💫",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToy",
+    "emoji": "🪁",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToyLite",
+    "emoji": "🎋",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "galaxyAnalogyBH",
+    "emoji": "🌚",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "galaxyAnalogyBHCompose",
+    "emoji": "🧩",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90",
+    "emoji": "🛸",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90Layers",
+    "emoji": "🪆",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "emoji": "💮",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "clusterGrowthCopy",
+    "emoji": "🌰",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "fixedCaptureCopy",
+    "emoji": "🥜",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:scalar"
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "earthMoonInertial",
+    "emoji": "🌛",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "earthMoonSunInertialFit",
+    "emoji": "🌥️",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "qLockRadialAudit",
+    "emoji": "📶",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "qLockRadialAuditQ3",
+    "emoji": "📐",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "mercurySunInertial",
+    "emoji": "🟤",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "mercurySunInertialFit",
+    "emoji": "🟫",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "mercuryGeoToy3",
+    "emoji": "🔁",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:vMinusU"
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "plutoCharonInertial",
+    "emoji": "🟣",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "plutoCharonInertialFit",
+    "emoji": "🟪",
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "charonGeoToy3",
+    "emoji": "🌒",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:vMinusU"
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrDoubleABGeoToy",
+    "emoji": "🩻",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "legacy-spaceMesh:local"
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 0.5000144330801174,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 0.5000260856666837,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 0.5000086177580901,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   },
+   {
+    "id": "chainDiskToy",
+    "emoji": "🔗",
+    "geoPN": 4,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": false,
+    "kFrame": 0,
+    "pn1Before": false,
+    "pn1Now": false,
+    "law": "inertial-drag"
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "geoPN": 2,
+    "lambdaPN": 0,
+    "lambdaBefore": 1,
+    "retired": true,
+    "kFrame": 1,
+    "pn1Before": true,
+    "pn1Now": false,
+    "law": "vMinusU-q"
+   }
+  ]
+ },
+ "parts": {
+  "em": {
+   "id": "earthMoonRealKF1",
+   "target": {
+    "siderealMonthDays": 27.3217,
+    "apsidalPeriodYr": 8.85
+   },
+   "knobs": [
+    "physics.D0pull",
+    "bodies[*].v (初速の係数 f)"
+   ],
+   "rows": [
+    {
+     "lambdaPN": 1,
+     "wallSec": 41.057,
+     "dt": 0.016,
+     "steps": 13278326,
+     "sidMeanDays": 27.321613400739437,
+     "apsPeriodYr": 8.849580685022486,
+     "slopeDegPerPeri": 3.066190743513851,
+     "nPeri": 8,
+     "nan": false
+    },
+    {
+     "lambdaPN": 0,
+     "wallSec": 36.258,
+     "dt": 0.016,
+     "steps": 13278333,
+     "sidMeanDays": 27.32163005605137,
+     "apsPeriodYr": 8.850019234257942,
+     "slopeDegPerPeri": 3.0660388696732364,
+     "nPeri": 8,
+     "nan": false
+    },
+    {
+     "lambdaPN": 0,
+     "wallSec": 73.707,
+     "dt": 0.008,
+     "steps": 26556662,
+     "sidMeanDays": 27.32162583193032,
+     "apsPeriodYr": 8.849542818677518,
+     "slopeDegPerPeri": 3.06620457878551,
+     "nPeri": 8,
+     "nan": false
+    },
+    {
+     "lambdaPN": 1,
+     "history": true,
+     "D0pull": 0.0000324204,
+     "f": 0.9988,
+     "wallSec": 36.177,
+     "dt": 0.016,
+     "steps": 13277358,
+     "sidMeanDays": 27.319623722256047,
+     "apsPeriodYr": 9.128038813247842,
+     "slopeDegPerPeri": 2.971745511896813,
+     "nPeri": 8,
+     "nan": false
+    }
+   ],
+   "lambdaEffect": {
+    "sidMeanDays": 0.000016655311931401684,
+    "apsPeriodYr": 0.00043854923545616487
+   },
+   "numerics": {
+    "h2SidMeanDays": -0.000004224121049389851,
+    "h2ApsPeriodYr": -0.0004764155804242165
+   },
+   "wallSec": 187.204
+  },
+  "emfit": {
+   "id": "earthMoonRealKF1",
+   "target": {
+    "siderealMonthDays": 27.3217,
+    "apsidalPeriodYr": 8.85
+   },
+   "ranges": {
+    "D0pull": [
+     0.00001,
+     0.0001
+    ],
+    "f": [
+     0.998,
+     1
+    ]
+   },
+   "tol": 0.00002,
+   "history": {
+    "wave": "第120便〜第296便",
+    "D0pull": 0.0000324204,
+    "f": 0.9988,
+    "lambdaPN": 1,
+    "note": "旧フィット(exp-kf1b の窓・λ_PN=1)の値 —— 宣言の bodies は f=0.99880 を焼き込んだ速度"
+   },
+   "start": {
+    "D0pull": 0.0000314447,
+    "f": 0.998777511
+   },
+   "iterations": 0,
+   "evals": [
+    {
+     "D0pull": 0.0000314447,
+     "f": 0.998777511,
+     "dt": 0.016,
+     "sidMeanDays": 27.32163005605137,
+     "apsPeriodYr": 8.850019234257942,
+     "steps": 13278333,
+     "nan": false,
+     "wallSec": 35.509,
+     "rel": [
+      -0.000002560014517039022,
+      0.0000021733624793185413
+     ]
+    },
+    {
+     "D0pull": 0.0000314447,
+     "f": 0.998777511,
+     "dt": 0.016,
+     "sidMeanDays": 27.32163005605137,
+     "apsPeriodYr": 8.850019234257942,
+     "steps": 13278333,
+     "nan": false,
+     "wallSec": 34.92,
+     "rel": [
+      -0.000002560014517039022,
+      0.0000021733624793185413
+     ]
+    },
+    {
+     "D0pull": 0.0000314447,
+     "f": 0.998777511,
+     "dt": 0.008,
+     "sidMeanDays": 27.32162583193032,
+     "apsPeriodYr": 8.849542818677518,
+     "steps": 26556662,
+     "nan": false,
+     "wallSec": 71.934,
+     "rel": [
+      -0.0000027146213332773783,
+      -0.00005165890649505567
+     ]
+    }
+   ],
+   "adopted": {
+    "D0pull": 0.0000314447,
+    "f": 0.998777511,
+    "bodies": [
+     {
+      "vx": 0,
+      "vy": -0.0013130046017774757
+     },
+     {
+      "vx": 0,
+      "vy": 0.10674855666868635
+     }
+    ],
+    "sidMeanDays": 27.32163005605137,
+    "apsPeriodYr": 8.850019234257942,
+    "rel": [
+     -0.000002560014517039022,
+     0.0000021733624793185413
+    ],
+    "half": {
+     "dt": 0.008,
+     "sidMeanDays": 27.32162583193032,
+     "apsPeriodYr": 8.849542818677518
+    }
+   },
+   "numerics": {
+    "h2Rel": 0.000053832151977739606
+   },
+   "residualRel": 0.000002560014517039022,
+   "status": "fitted",
+   "fitRecord": {
+    "version": "w296b-1",
+    "parent": "earthMoonRealKF1",
+    "law": "geoPN=2・kFrame=1・λ_PN=0(第297便a —— 力学の 1PN を q の引きずりと重ねない)・qLock・frameWeight:\"pull\"",
+    "targets": [
+     {
+      "q": "恒星月(同方向 1 周の平均)",
+      "obs": 27.3217,
+      "unit": "d",
+      "source": "恒星月 27.3217 日(本の parameterAudit の観測値)",
+      "window": "同方向 1〜9 周(8 公転窓)"
+     },
+     {
+      "q": "近点回転の周期(検出器 B・近点方位の時刻に対する直線 fit)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近点回転 8.85 年(本の parameterAudit の観測値)",
+      "window": "最初の 8 公転(第280便b の emgrid と同じ窓と抽出器)"
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.D0pull",
+      "range": [
+       0.00001,
+       0.0001
+      ],
+      "final": 0.0000314447
+     },
+     {
+      "key": "bodies[*].v(初速の係数 f —— 地球と月の速度に同じ倍率)",
+      "range": [
+       0.998,
+       1
+      ],
+      "final": 0.998777511
+     }
+    ],
+    "fixed": [
+     "G・質量・半径・自転・離角(🌙 と同じ観測入力)",
+     "D0=0.006(E1′)",
+     "q=8.2358(qLock の厳密一致式)",
+     "kFrame=1・geoPN=2・λ_PN=0",
+     "frameWeight:\"pull\"",
+     "softening 0.1・stateCarry:\"double\""
+    ],
+    "procedure": "2×2 Newton(差分のヤコビアン → Broyden 更新・器 tests/exp-w297a-refit.mjs の段 emfit)。止める条件は 2 つの相対残差の最大 ≤ 0.00002。採用値は D0pull 6 桁・f 9 桁に丸めて h と h/2 で測り直した",
+    "dt": 0.016,
+    "steps": 13278333,
+    "residual": {
+     "value": 0.000002560014517039022,
+     "unit": "相対(2 つの標的の最大)",
+     "rel": 0.000002560014517039022
+    },
+    "numerics": {
+     "h2": 0.000053832151977739606,
+     "dtHalf": 0.008
+    },
+    "status": "fitted",
+    "notFitted": [
+     "27 公転窓の近点回転(窓を延ばすと定常ではない —— 第135便・第280便b)",
+     "近点間の周期(近点間は観測の恒星月に対応しない)",
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)"
+    ]
+   },
+   "fitRecordAccepted": true,
+   "fitRecordErr": null,
+   "wallSec": 142.367
+  },
+  "qlock": {
+   "procedure": "離心ベクトルの角度の累積(地球 pinned)・窓 T=24000(参照プローブの約 1 公転)・Δϖ_drag = kFrame=1 − kFrame=0",
+   "books": {
+    "qLockRadialAudit": {
+     "rows": [
+      {
+       "lambdaPN": 1,
+       "dt": 0.016,
+       "steps": 1500000,
+       "T": 24000,
+       "dVarpiKF1": [
+        -0.9223995827397957,
+        -0.0910454855624322,
+        -0.0040937052177087985,
+        -0.00015965194055289622,
+        0.0006160780800619214,
+        0.00015464132714138046,
+        0.00023202922372567159,
+        0.002021581038558873,
+        -0.0009408891269873099,
+        0.000411512913145784
+       ],
+       "dVarpiKF0": [
+        -0.24415060479778203,
+        -0.036608778773634554,
+        -0.002037026623093352,
+        -0.00013636068633493537,
+        0.0006098195980897003,
+        0.0003878246994095669,
+        0.0004214400984188238,
+        0.002574029086288787,
+        -0.0010874454831937275,
+        0.0004992506858365608
+       ],
+       "dragRad": [
+        -0.6782489779420137,
+        -0.05443670678879764,
+        -0.0020566785946154464,
+        -0.000023291254217960855,
+        0.000006258481972221119,
+        -0.00023318337226818642,
+        -0.0001894108746931522,
+        -0.0005524480477299143,
+        0.0001465563562064176,
+        -0.00008773777269077687
+       ],
+       "rEnd": [
+        10.015643056356973,
+        16.12935082910523,
+        29.08076231066873,
+        48.387476658081205,
+        89.4521439346636,
+        147.20098452862234,
+        249.76649739512,
+        349.20620332487533,
+        437.0191927138207,
+        794.604502767208
+       ],
+       "nan": false,
+       "wallSec": 38.06
+      },
+      {
+       "lambdaPN": 0,
+       "dt": 0.016,
+       "steps": 1500000,
+       "T": 24000,
+       "dVarpiKF1": [
+        -0.9224018126094895,
+        -0.09104604323762722,
+        -0.004093856097979964,
+        -0.00015969737367216297,
+        0.0006160715222573998,
+        0.00015464391845521064,
+        0.00023203246599745597,
+        0.00202158490806581,
+        -0.0009408927891454422,
+        0.00041151388127425026
+       ],
+       "dVarpiKF0": [
+        -0.24415285418664698,
+        -0.036609327477578835,
+        -0.0020371812102861764,
+        -0.0001364026758194914,
+        0.0006098087643611194,
+        0.00038782411278859286,
+        0.00042143857885479363,
+        0.0025740293263010194,
+        -0.001087446220098931,
+        0.0004992508837544651
+       ],
+       "dragRad": [
+        -0.6782489584228425,
+        -0.05443671576004838,
+        -0.002056674887693788,
+        -0.000023294697852671575,
+        0.000006262757896280391,
+        -0.00023318019433338222,
+        -0.00018940611285733766,
+        -0.0005524444182352095,
+        0.00014655343095348883,
+        -0.00008773700248021488
+       ],
+       "rEnd": [
+        10.015641304159615,
+        16.129352321927925,
+        29.080761494493032,
+        48.387476295601694,
+        89.45214379244516,
+        147.20098455159078,
+        249.76649736731682,
+        349.2062032740376,
+        437.01919266854713,
+        794.6045028390672
+       ],
+       "nan": false,
+       "wallSec": 33.925
+      },
+      {
+       "lambdaPN": 0,
+       "dt": 0.008,
+       "steps": 3000000,
+       "T": 24000,
+       "dVarpiKF1": [
+        -0.9324870618023002,
+        -0.09243396498932355,
+        -0.005589000058273896,
+        -0.00045157331616429985,
+        0.0002347171590972863,
+        0.00006835409460537178,
+        0.0002106585597569932,
+        0.0020153859198743795,
+        -0.0009545789563822904,
+        0.0003983942779446359
+       ],
+       "dVarpiKF0": [
+        -0.2544799987866271,
+        -0.03792349213856916,
+        -0.003535526264708544,
+        -0.00042873332617632265,
+        0.0002284885538541559,
+        0.00030141854579968097,
+        0.00040007443227674244,
+        0.0025678426377615526,
+        -0.0011010470967720565,
+        0.0004861931058437463
+       ],
+       "dragRad": [
+        -0.6780070630156732,
+        -0.05451047285075439,
+        -0.0020534737935653524,
+        -0.000022839989987977205,
+        0.000006228605243130403,
+        -0.00023306445119430919,
+        -0.00018941587251974923,
+        -0.0005524567178871731,
+        0.00014646814038976608,
+        -0.00008779882789911042
+       ],
+       "rEnd": [
+        10.014481188918758,
+        16.131127427053322,
+        29.079346298926453,
+        48.38645882486073,
+        89.45170471109024,
+        147.2016355595622,
+        249.7660731648018,
+        349.2064701746886,
+        437.01883074474705,
+        794.6047138290672
+       ],
+       "nan": false,
+       "wallSec": 68.704
+      }
+     ],
+     "lambdaEffectRel": [
+      -2.8778769700643636e-8,
+      1.6480149644948483e-7,
+      -0.000001802382573634631,
+      0.00014785097781744305,
+      0.0006832206401250485,
+      -0.000013628479480720657,
+      -0.00002514024510080759,
+      -0.00000656983895530594,
+      -0.000019959918522105546,
+      -0.000008778551567667492
+     ],
+     "h2Rel": [
+      -0.0003566469275999573,
+      0.0013549144116467016,
+      -0.0015564414908693092,
+      -0.01951980092509431,
+      -0.0054532928967718775,
+      -0.0004963677957465773,
+      0.000051527705544174296,
+      0.000022264053283205243,
+      -0.0005819758921223883,
+      0.0007046675535729019
+     ]
+    },
+    "qLockRadialAuditQ3": {
+     "rows": [
+      {
+       "lambdaPN": 1,
+       "dt": 0.016,
+       "steps": 1500000,
+       "T": 24000,
+       "dVarpiKF1": [
+        5.5210377681163765,
+        -0.4862340007247174,
+        -0.7358055173539858,
+        -0.27295833348593135,
+        -0.0692129376826518,
+        -0.0204467055451647,
+        -0.00035656757968816066,
+        0.0008215111832314825,
+        -0.0006597045669227697,
+        0.00011875896500301852
+       ],
+       "dVarpiKF0": [
+        -0.24415060479778203,
+        -0.036608778773634554,
+        -0.002037026623093352,
+        -0.00013636068633493537,
+        0.0006098195980897003,
+        0.0003878246994095669,
+        0.0004214400984188238,
+        0.002574029086288787,
+        -0.0010874454831937275,
+        0.0004992506858365608
+       ],
+       "dragRad": [
+        5.765188372914158,
+        -0.44962522195108284,
+        -0.7337684907308925,
+        -0.2728219727995964,
+        -0.0698227572807415,
+        -0.020834530244574267,
+        -0.0007780076781069845,
+        -0.0017525179030573046,
+        0.0004277409162709578,
+        -0.0003804917208335423
+       ],
+       "rEnd": [
+        9.092273901952089,
+        15.853915076395255,
+        29.584860449700777,
+        48.5271943804696,
+        89.5598786903771,
+        147.24280484397522,
+        249.77552508825704,
+        349.21144854203976,
+        437.0279174169886,
+        794.6167416149328
+       ],
+       "nan": false,
+       "wallSec": 41.158
+      },
+      {
+       "lambdaPN": 0,
+       "dt": 0.016,
+       "steps": 1500000,
+       "T": 24000,
+       "dVarpiKF1": [
+        5.521035597088403,
+        -0.48622804313263,
+        -0.7358092537153135,
+        -0.2729586186152455,
+        -0.06921254841715951,
+        -0.020446801446261986,
+        -0.00035642875995289813,
+        0.0008214771233672202,
+        -0.0006597333429834151,
+        0.00011875066835809189
+       ],
+       "dVarpiKF0": [
+        -0.24415285418664698,
+        -0.036609327477578835,
+        -0.0020371812102861764,
+        -0.0001364026758194914,
+        0.0006098087643611194,
+        0.00038782411278859286,
+        0.00042143857885479363,
+        0.0025740293263010194,
+        -0.001087446220098931,
+        0.0004992508837544651
+       ],
+       "dragRad": [
+        5.76518845127505,
+        -0.4496187156550512,
+        -0.7337720725050273,
+        -0.272822215939426,
+        -0.06982235718152063,
+        -0.02083462555905058,
+        -0.0007778673388076918,
+        -0.0017525522029337992,
+        0.00042771287711551587,
+        -0.00038050021539637324
+       ],
+       "rEnd": [
+        9.092271164294726,
+        15.854010961475058,
+        29.58492350866531,
+        48.52720989195052,
+        89.55988462159182,
+        147.24280652653835,
+        249.77552717792597,
+        349.21144870520436,
+        437.02791804382616,
+        794.6167412807823
+       ],
+       "nan": false,
+       "wallSec": 32.813
+      },
+      {
+       "lambdaPN": 0,
+       "dt": 0.008,
+       "steps": 3000000,
+       "T": 24000,
+       "dVarpiKF1": [
+        5.5216913345784455,
+        -0.48664002966217257,
+        -0.7374997310300377,
+        -0.27328065159493864,
+        -0.0695871100335812,
+        -0.020534652937249653,
+        -0.00037788564174068284,
+        0.000815264227932877,
+        -0.0006722901547966398,
+        0.00010640439056408546
+       ],
+       "dVarpiKF0": [
+        -0.2544799987866271,
+        -0.03792349213856916,
+        -0.003535526264708544,
+        -0.00042873332617632265,
+        0.0002284885538541559,
+        0.00030141854579968097,
+        0.00040007443227674244,
+        0.0025678426377615526,
+        -0.0011010470967720565,
+        0.0004861931058437463
+       ],
+       "dragRad": [
+        5.776171333365072,
+        -0.4487165375236034,
+        -0.7339642047653292,
+        -0.2728519182687623,
+        -0.06981559858743536,
+        -0.020836071483049334,
+        -0.0007779600740174253,
+        -0.0017525784098286756,
+        0.0004287569419754167,
+        -0.00037978871527966085
+       ],
+       "rEnd": [
+        9.092792383926554,
+        15.853331504618838,
+        29.583858880414738,
+        48.52615733805422,
+        89.55943905548177,
+        147.24345366938277,
+        249.77510297901202,
+        349.2117166821118,
+        437.0275548280852,
+        794.6169536170271
+       ],
+       "nan": false,
+       "wallSec": 64.049
+      }
+     ],
+     "lambdaEffectRel": [
+      1.3592078351720716e-8,
+      -0.000014470487228024353,
+      0.0000048813408861647645,
+      8.912032527508273e-7,
+      -0.0000057302122753455365,
+      0.000004574832030979081,
+      -0.00018038292325617267,
+      0.000019571769529269645,
+      -0.00006555172623268213,
+      0.000022325223824282148
+     ],
+     "h2Rel": [
+      0.0019050343597342145,
+      -0.002006540430892434,
+      0.0002618418818338686,
+      0.00010887064029607707,
+      -0.00009679699107989492,
+      0.00006940004727495896,
+      0.00011921725608843303,
+      0.000014953560203645466,
+      0.0024410414457052276,
+      -0.0018699072639715153
+     ]
+    }
+   },
+   "wallSec": 278.711
+  },
+  "galaxy": {
+   "id": "galaxyGeo2",
+   "procedure": "claim galaxygeo2.outer-boost-ratio(外縁帯 [156,286]・12000 步・kF1/kF0)",
+   "claimWindow": {
+    "min": 1.14,
+    "max": 1.23
+   },
+   "piLabels": [
+    "重力",
+    "測地線(1PN)",
+    "熱斥力",
+    "接触",
+    "結合",
+    "引きずり"
+   ],
+   "rows": [
+    {
+     "lambdaPN": 1,
+     "dt": 0.016,
+     "steps": 12000,
+     "vphiKF1": 3.3759192011440176,
+     "vphiKF0": 2.81678716151404,
+     "ratio": 1.1984999247616,
+     "piKF1": [
+      0.6192109949085399,
+      0.1404402868900242,
+      0,
+      0,
+      0,
+      0.24034871820143605
+     ],
+     "nan": false,
+     "clampV": 0,
+     "clampR": 0,
+     "lamA": 1,
+     "lamB": 1,
+     "kFrameB": 0,
+     "wallSec": 196.417
+    },
+    {
+     "lambdaPN": 0,
+     "dt": 0.016,
+     "steps": 12000,
+     "vphiKF1": 3.538113848913677,
+     "vphiKF0": 2.9982166313607,
+     "ratio": 1.1800727845699235,
+     "piKF1": [
+      0.6714982188350924,
+      0,
+      0,
+      0,
+      0,
+      0.3285017811649076
+     ],
+     "nan": false,
+     "clampV": 0,
+     "clampR": 0,
+     "lamA": 0,
+     "lamB": 0,
+     "kFrameB": 0,
+     "wallSec": 135.111
+    },
+    {
+     "lambdaPN": 0,
+     "dt": 0.008,
+     "steps": 24000,
+     "vphiKF1": 3.5363517937674205,
+     "vphiKF0": 2.9982233000473912,
+     "ratio": 1.1794824600661076,
+     "piKF1": [
+      0.670788291733103,
+      0,
+      0,
+      0,
+      0,
+      0.32921170826689705
+     ],
+     "nan": false,
+     "clampV": 0,
+     "clampR": 0,
+     "lamA": 0,
+     "lamB": 0,
+     "kFrameB": 0,
+     "wallSec": 272.765
+    }
+   ],
+   "lambdaEffect": -0.01842714019167646,
+   "h2": 0.0005903245038159088,
+   "wallSec": 604.294
+  },
+  "geotoy": {
+   "mercuryGeoToy3": {
+    "measure": "近点移動 °/周(検出器 B・59 近点)",
+    "rows": [
+     {
+      "tag": "A",
+      "dt": 0.016,
+      "slopeDegPerPeri": -0.00000620037943941503,
+      "nPeri": 59,
+      "steps": 2850201,
+      "nan": false,
+      "wallSec": 12.837
+     },
+     {
+      "tag": "A",
+      "dt": 0.008,
+      "slopeDegPerPeri": -0.000004841873601499326,
+      "nPeri": 59,
+      "steps": 5700401,
+      "nan": false,
+      "wallSec": 26.19
+     },
+     {
+      "tag": "B",
+      "dt": 0.016,
+      "slopeDegPerPeri": -0.000006200395576495468,
+      "nPeri": 59,
+      "steps": 2850201,
+      "nan": false,
+      "wallSec": 6.063
+     },
+     {
+      "tag": "B",
+      "dt": 0.008,
+      "slopeDegPerPeri": -0.0000048418599391505955,
+      "nPeri": 59,
+      "steps": 5700401,
+      "nan": false,
+      "wallSec": 11.295
+     },
+     {
+      "tag": "A_before",
+      "dt": 0.016,
+      "slopeDegPerPeri": 0.000022554459510831107,
+      "nPeri": 59,
+      "steps": 2850202,
+      "nan": false,
+      "wallSec": 14.493
+     },
+     {
+      "tag": "A_before",
+      "dt": 0.008,
+      "slopeDegPerPeri": 0.000023913088046546775,
+      "nPeri": 59,
+      "steps": 5700403,
+      "nan": false,
+      "wallSec": 30.329
+     },
+     {
+      "tag": "B_before",
+      "dt": 0.016,
+      "slopeDegPerPeri": 0.000022554420182543545,
+      "nPeri": 59,
+      "steps": 2850202,
+      "nan": false,
+      "wallSec": 6.35
+     },
+     {
+      "tag": "B_before",
+      "dt": 0.008,
+      "slopeDegPerPeri": 0.000023912958338206166,
+      "nPeri": 59,
+      "steps": 5700403,
+      "nan": false,
+      "wallSec": 13.176
+     }
+    ],
+    "nullDiff": {
+     "dt": 1.6137080438046033e-11,
+     "dtHalf": -1.3662348730883315e-11
+    },
+    "nullDiffBefore": {
+     "dt": 3.932828756126987e-11,
+     "dtHalf": 1.297083406088769e-10
+    },
+    "pn1Size": {
+     "dt": 0.000028754815759039013
+    }
+   },
+   "charonGeoToy3": {
+    "measure": "周期(同方向 1 周・2 周目)s",
+    "rows": [
+     {
+      "tag": "A",
+      "dt": 0.016,
+      "period2S": 551864.0613615285,
+      "hasGeo3": true,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 3.567
+     },
+     {
+      "tag": "A",
+      "dt": 0.008,
+      "period2S": 551864.0612553197,
+      "hasGeo3": true,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 6.64
+     },
+     {
+      "tag": "B",
+      "dt": 0.016,
+      "period2S": 551864.0613681617,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 1.396
+     },
+     {
+      "tag": "B",
+      "dt": 0.008,
+      "period2S": 551864.0612703213,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 2.897
+     },
+     {
+      "tag": "A_before",
+      "dt": 0.016,
+      "period2S": 551864.0619256825,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "nan": false,
+      "wallSec": 3.702
+     },
+     {
+      "tag": "A_before",
+      "dt": 0.008,
+      "period2S": 551864.061819716,
+      "hasGeo3": true,
+      "hasGeo3PN": true,
+      "nan": false,
+      "wallSec": 7.356
+     },
+     {
+      "tag": "B_before",
+      "dt": 0.016,
+      "period2S": 551864.0618321022,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 1.412
+     },
+     {
+      "tag": "B_before",
+      "dt": 0.008,
+      "period2S": 551864.0617345526,
+      "hasGeo3": false,
+      "hasGeo3PN": false,
+      "nan": false,
+      "wallSec": 2.74
+     }
+    ],
+    "nullDiff": {
+     "dt": -0.000006633228622376919,
+     "dtHalf": -0.000015001511201262474
+    },
+    "nullDiffBefore": {
+     "dt": 0.0000935802236199379,
+     "dtHalf": 0.00008516339585185051
+    },
+    "pn1Size": {
+     "dt": 0.00046394055243581533
+    }
+   },
+   "wallSec": 150.451
+  },
+  "retired": {
+   "emAuditDFM": {
+    "emoji": "🧲",
+    "unitS": 100,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 5903502,
+      "advanceDegPerOrbit": 2.991515097065709,
+      "nPeri": 3,
+      "periodS": 2361399.750583582,
+      "nan": false,
+      "wallSec": 15.452
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 5903504,
+      "advanceDegPerOrbit": 2.9915751536085846,
+      "nPeri": 3,
+      "periodS": 2361400.640108667,
+      "nan": false,
+      "wallSec": 14.801
+     }
+    ],
+    "advanceRatioAfterOverBefore": 1.0000200756275421,
+    "periodRelChange": 3.7669398600392867e-7
+   },
+   "mercuryRealKF1": {
+    "emoji": "🪨",
+    "unitS": 10000,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 997571,
+      "advanceDegPerOrbit": 0.00002252585521921094,
+      "nPeri": 20,
+      "periodS": 7600536.776914166,
+      "nan": false,
+      "wallSec": 3.115
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 997571,
+      "advanceDegPerOrbit": -0.0000062289602134635265,
+      "nPeri": 20,
+      "periodS": 7600534.1614259295,
+      "nan": false,
+      "wallSec": 2.844
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.27652491560681003,
+    "periodRelChange": -3.441188843877896e-7
+   },
+   "alphaCenABDFM": {
+    "emoji": "✴️",
+    "unitS": 1000000,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 19,
+      "steps": 3128194,
+      "advanceDegPerOrbit": 0.8894105815789052,
+      "nPeri": 19,
+      "periodS": 2502580268.9363136,
+      "nan": false,
+      "wallSec": 11.131
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 19,
+      "steps": 3128194,
+      "advanceDegPerOrbit": 0.8894102860490383,
+      "nPeri": 19,
+      "periodS": 2502580371.099477,
+      "nan": false,
+      "wallSec": 10.151
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.999999667723914,
+    "periodRelChange": 4.082313131981152e-8
+   },
+   "siriusABDFM": {
+    "emoji": "💫",
+    "unitS": 1000000,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2047589,
+      "advanceDegPerOrbit": 2.189897504375564,
+      "nPeri": 20,
+      "periodS": 1560378130.6264346,
+      "nan": false,
+      "wallSec": 6.722
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2047589,
+      "advanceDegPerOrbit": 2.189895780787122,
+      "nPeri": 20,
+      "periodS": 1560378095.27041,
+      "nan": false,
+      "wallSec": 5.895
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.9999992129364782,
+    "periodRelChange": -2.265862597550239e-8
+   },
+   "psrDoubleABDFM": {
+    "emoji": "⚡",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 4742849,
+      "advanceDegPerOrbit": null,
+      "nPeri": 2,
+      "periodS": 189608.1602929036,
+      "nan": false,
+      "wallSec": 16.531
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 4741420,
+      "advanceDegPerOrbit": null,
+      "nPeri": 2,
+      "periodS": 189551.04094729264,
+      "nan": false,
+      "wallSec": 14.193
+     }
+    ],
+    "advanceRatioAfterOverBefore": null,
+    "periodRelChange": -0.0003012494057361703
+   },
+   "psrDoubleABSpinCal": {
+    "emoji": "🧿",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146168,
+      "advanceDegPerOrbit": 0.004963129379012713,
+      "nPeri": 20,
+      "periodS": 8727.856599277397,
+      "nan": false,
+      "wallSec": 5.117
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146129,
+      "advanceDegPerOrbit": -0.004552345301831064,
+      "nPeri": 20,
+      "periodS": 8727.557650120116,
+      "nan": false,
+      "wallSec": 4.904
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.9172328493150497,
+    "periodRelChange": -0.000034252299391024366
+   },
+   "psrDoubleABPN": {
+    "emoji": "🪶",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 0.5000144330801174,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146089,
+      "advanceDegPerOrbit": 0.004995995356219267,
+      "nPeri": 20,
+      "periodS": 8727.25939814897,
+      "nan": false,
+      "wallSec": 4.729
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146070,
+      "advanceDegPerOrbit": 0.00017214933565167352,
+      "nPeri": 20,
+      "periodS": 8727.109950135782,
+      "nan": false,
+      "wallSec": 4.413
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.034457465105001216,
+    "periodRelChange": -0.00001712427766498159
+   },
+   "psrJ1757PN": {
+    "emoji": "🪃",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 0.5000260856666837,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2033083,
+      "advanceDegPerOrbit": 0.005281549096967304,
+      "nPeri": 20,
+      "periodS": 15472.802416423692,
+      "nan": false,
+      "wallSec": 8.378
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2033154,
+      "advanceDegPerOrbit": 0.000030360640187899787,
+      "nPeri": 20,
+      "periodS": 15473.343358552429,
+      "nan": false,
+      "wallSec": 8.144
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.005748434716877486,
+    "periodRelChange": 0.00003496083735687883
+   },
+   "psrJ1946PN": {
+    "emoji": "🪀",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 0.5000086177580901,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 876809,
+      "advanceDegPerOrbit": 0.006145635784881512,
+      "nPeri": 20,
+      "periodS": 6675.647899209394,
+      "nan": false,
+      "wallSec": 3.644
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 876788,
+      "advanceDegPerOrbit": 0.0005483433506958958,
+      "nPeri": 20,
+      "periodS": 6675.49296964219,
+      "nan": false,
+      "wallSec": 3.659
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.08922483692327496,
+    "periodRelChange": -0.000023208169385835475
+   },
+   "psrDoubleABCF": {
+    "emoji": "🪝",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146139,
+      "advanceDegPerOrbit": 0.004938181314500321,
+      "nPeri": 20,
+      "periodS": 8727.635378942832,
+      "nan": false,
+      "wallSec": 6.669
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 1146100,
+      "advanceDegPerOrbit": -0.004578787264665311,
+      "nPeri": 20,
+      "periodS": 8727.336454354734,
+      "nan": false,
+      "wallSec": 5.738
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.9272213742375769,
+    "periodRelChange": -0.00003425035248605379
+   },
+   "psrJ1757CF": {
+    "emoji": "🪄",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2033111,
+      "advanceDegPerOrbit": 0.005276236470495683,
+      "nPeri": 20,
+      "periodS": 15473.017519914018,
+      "nan": false,
+      "wallSec": 10.629
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 2033253,
+      "advanceDegPerOrbit": -0.005225098660239697,
+      "nPeri": 20,
+      "periodS": 15474.09927845309,
+      "nan": false,
+      "wallSec": 9.996
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.9903079002349601,
+    "periodRelChange": 0.0000699125776648657
+   },
+   "psrJ1946CF": {
+    "emoji": "🩹",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 876856,
+      "advanceDegPerOrbit": 0.00612173304570455,
+      "nPeri": 20,
+      "periodS": 6676.006775419222,
+      "nan": false,
+      "wallSec": 4.169
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 20,
+      "steps": 876815,
+      "advanceDegPerOrbit": -0.005120903557312613,
+      "nPeri": 20,
+      "periodS": 6675.696879273691,
+      "nan": false,
+      "wallSec": 4.312
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.8365120659591337,
+    "periodRelChange": -0.00004641938751059893
+   },
+   "psrB1534DFM": {
+    "emoji": "🧶",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 4507232,
+      "advanceDegPerOrbit": 0.006109080154602815,
+      "nPeri": 3,
+      "periodS": 180280.19105765971,
+      "nan": false,
+      "wallSec": 15.556
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 3,
+      "steps": 4507115,
+      "advanceDegPerOrbit": 0.005098951036124641,
+      "nPeri": 3,
+      "periodS": 180275.52564843482,
+      "nan": false,
+      "wallSec": 13.534
+     }
+    ],
+    "advanceRatioAfterOverBefore": 0.8346511925011977,
+    "periodRelChange": -0.000025878656981226378
+   },
+   "psrB1534CF": {
+    "emoji": "🪤",
+    "unitS": 10,
+    "rows": [
+     {
+      "lambdaPN": 1,
+      "dt": 0.016,
+      "revolutions": 13,
+      "steps": 3172055,
+      "advanceDegPerOrbit": 0.0020811463670586724,
+      "nPeri": 13,
+      "periodS": 36246.08507937736,
+      "nan": false,
+      "wallSec": 15.93
+     },
+     {
+      "lambdaPN": 0,
+      "dt": 0.016,
+      "revolutions": 13,
+      "steps": 3172058,
+      "advanceDegPerOrbit": -0.0019678818057871014,
+      "nPeri": 13,
+      "periodS": 36246.11811360562,
+      "nan": false,
+      "wallSec": 15.471
+     }
+    ],
+    "advanceRatioAfterOverBefore": -0.9455758792056274,
+    "periodRelChange": 9.113874832600288e-7
+   },
+   "saturnRingRealKF1": {
+    "skipped": "二体でない(器が無い —— 次の見直しで器を作る)"
+   },
+   "wallSec": 275.716
+  }
+ },
+ "timing": {
+  "wallSec": 143.878
+ },
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第297便a",
+  "target": "beta/index.html",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:02:02.078Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w297a-refit.mjs",
+    "bytes": 32280,
+    "sha256": "14b09ed1416958793c8f36e0de07a18e99cf280c99eeb588e7716cea2df8da47",
+    "mtime": "2026-10-09T16:59:32.023Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:35.506Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:35.514Z"
+   }
+  ],
+  "codeSha256": "65949506d191591ab3c8869e7dcf294581c6070fecdf3874ccffb36239e7e167",
+  "harnessVersion": "w297a-refit-1",
+  "parts": [
+   "em",
+   "emfit",
+   "qlock",
+   "galaxy",
+   "geotoy",
+   "retired"
+  ],
+  "ruling": "原仮定者の裁定(第87報)(光学と力学を分ける。λ_PN は力学の作用なので、geoPN=2 の引きずり減衰 q・geoPN=3 の慣性決定力の引きずり gain〔geoPN=4 も〕と重ねない。geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする)",
+  "reading": "統括の検証項目 R161(λ_PN=0 と再フィット —— 既存のノブだけ・h と h/2・届かなければ次の見直しへ)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "月の近点回転を再現した",
+   "較正 合",
+   "gain は普遍定数",
+   "1PN を DFM から導出した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.FIT_RECORD_VERSION",
+    "HP.FIT_RECORD_VERSIONS",
+    "HP.abStart",
+    "HP.abStop",
+    "HP.ab",
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.geoModeOf",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "isNum",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1074,
+   "segments": 983,
+   "closureShare": 0.3186
+  },
+  "scopeSha256": "45f86a7665bc6a25dbfbf833a7cfddb69a452592e5aa96a79d30d104512abfaa",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "elapsedS": 143.878
+}

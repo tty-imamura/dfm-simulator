@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便a",
   "target": "beta/index.html",
-  "targetSha256": "3f3024216979d1814d3fa4ebc878cf2269c51900553030a39ef1c7afb46f8766",
-  "generatedAt": "2026-10-08T12:50:02.537Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T14:36:03.800Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5976532,
-    "sha256": "3f3024216979d1814d3fa4ebc878cf2269c51900553030a39ef1c7afb46f8766",
-    "mtime": "2026-10-08T12:33:56.111Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    },
    {
     "file": "tests/out/cluster-w283f.json",
-    "bytes": 140082,
-    "sha256": "4e1af37e9a6a18b7cc7ee55af96bab4cba6c62de7ac2bacbd6203eaae2ed9c67",
-    "mtime": "2026-10-08T12:43:00.391Z"
+    "bytes": 140473,
+    "sha256": "fbb6dc900e65b8627c2f9f93547bbc14b49a1ce8fa85a718324c23943466d221",
+    "mtime": "2026-10-09T14:31:48.775Z"
    },
    {
     "file": "tests/fixtures/cluster-w284a-preset.json",
     "bytes": 23431,
     "sha256": "090b21644f227918eada095d09812609524ec6b1a8481562d557eca28c2c4a72",
-    "mtime": "2026-10-02T23:11:02.930Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    }
   ],
   "code": [
@@ -30,43 +30,43 @@
     "file": "tests/exp-w284a-cluster.mjs",
     "bytes": 31648,
     "sha256": "1bfc5713e384ac4d572ac3e2c6e6703c75cf5743f29cea13b0c715f6de3a5c7f",
-    "mtime": "2026-10-02T23:11:02.916Z"
+    "mtime": "2026-10-09T10:19:35.490Z"
    },
    {
     "file": "tests/exp-w283f-cluster.mjs",
     "bytes": 32804,
     "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
-    "mtime": "2026-10-02T23:11:02.916Z"
+    "mtime": "2026-10-09T10:19:35.490Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "f7c9a3316963101edf9a4659ec23fb41073f65c9488ab25463c4966988bed197",
@@ -124,16 +124,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1052,
-   "segments": 961,
-   "closureShare": 0.3243
+   "names": 1075,
+   "segments": 984,
+   "closureShare": 0.3191
   },
-  "scopeSha256": "c3709b354705f3220248806f699b12089bcb76efe73cbdada744090ab2aba349",
+  "scopeSha256": "f8cf1b6ddc44a8773b6ce821729e2dc0af8929c00c1f8e3906325ae4892b7ee0",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/cluster-w283f.json",
-    "stableSha256": "b28f571d07e82f0df63f0aa6ddd67b4ff69f134ed453d05ea0b5a5ffb2e5c658",
+    "stableSha256": "4337e1a38f2ab3cc9121c90359f4462f62af92804891fa208bf4aff191d206eb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -219,7 +219,9 @@
  },
  "preset": "clusterAnalogyBH",
  "declaration": {
-  "warnings": [],
+  "warnings": [
+   "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+  ],
   "ledger": {
    "nRep": 40,
    "nTrue": 10686447.070656272,
@@ -324,7 +326,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -1279,8 +1283,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 30.382,
-   "rateStepsPerSec": 214.59795999470128
+   "wallSec": 19.53,
+   "rateStepsPerSec": 333.487725798981
   },
   {
    "key": "n40-r20-s1",
@@ -1299,7 +1303,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -2254,8 +2260,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.721,
-   "rateStepsPerSec": 219.04472163066626
+   "wallSec": 19.297,
+   "rateStepsPerSec": 336.93843594009985
   },
   {
    "key": "n40-r20-s2",
@@ -2274,7 +2280,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -3230,8 +3238,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 30.397,
-   "rateStepsPerSec": 213.86138613861385
+   "wallSec": 18.513,
+   "rateStepsPerSec": 352.00173828018904
   },
   {
    "key": "n40-r10-s0",
@@ -3250,7 +3258,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -4205,8 +4215,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 30.956,
-   "rateStepsPerSec": 210.396441442904
+   "wallSec": 18.496,
+   "rateStepsPerSec": 351.7724336355247
   },
   {
    "key": "n40-r10-s1",
@@ -4225,7 +4235,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -5180,8 +5192,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 31.313,
-   "rateStepsPerSec": 208.03903942468216
+   "wallSec": 18.476,
+   "rateStepsPerSec": 352.0399847883957
   },
   {
    "key": "n40-r10-s2",
@@ -5200,7 +5212,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -6156,8 +6170,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 31.702,
-   "rateStepsPerSec": 205.62289775972584
+   "wallSec": 19.239,
+   "rateStepsPerSec": 338.1340012523481
   },
   {
    "key": "n80-r20-s0",
@@ -6176,7 +6190,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -7130,8 +7146,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 45.254,
-   "rateStepsPerSec": 143.5724730801613
+   "wallSec": 27.17,
+   "rateStepsPerSec": 239.2909896602659
   },
   {
    "key": "n80-r20-s1",
@@ -7150,7 +7166,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -8104,8 +8122,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 44.372,
-   "rateStepsPerSec": 146.52677279305357
+   "wallSec": 28.399,
+   "rateStepsPerSec": 229.10479422995334
   },
   {
    "key": "n80-r20-s2",
@@ -8124,7 +8142,9 @@
    "mStar": 0.3125,
    "RDR": 1.0307763814926147,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -9078,8 +9098,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 44.766,
-   "rateStepsPerSec": 145.29147982062779
+   "wallSec": 27.453,
+   "rateStepsPerSec": 236.92870201096892
   },
   {
    "key": "n80-r10-s0",
@@ -9098,7 +9118,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -10052,8 +10074,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 43.966,
-   "rateStepsPerSec": 147.82370654256775
+   "wallSec": 27.425,
+   "rateStepsPerSec": 237.07606190319396
   },
   {
    "key": "n80-r10-s1",
@@ -10072,7 +10094,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -11026,8 +11050,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 43.298,
-   "rateStepsPerSec": 150.12162631761845
+   "wallSec": 26.72,
+   "rateStepsPerSec": 243.32544778641432
   },
   {
    "key": "n80-r10-s2",
@@ -11046,7 +11070,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -12000,8 +12026,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 44.022,
-   "rateStepsPerSec": 147.64855997083487
+   "wallSec": 27.431,
+   "rateStepsPerSec": 237.2322899505766
   },
   {
    "key": "n160-r20-s0",
@@ -12020,7 +12046,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -12974,8 +13002,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 75.241,
-   "rateStepsPerSec": 86.37696614236204
+   "wallSec": 44.593,
+   "rateStepsPerSec": 145.72604403265342
   },
   {
    "key": "n160-r20-s1",
@@ -12994,7 +13022,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -13948,8 +13978,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 77.977,
-   "rateStepsPerSec": 83.30762110459735
+   "wallSec": 46.774,
+   "rateStepsPerSec": 138.84722519820014
   },
   {
    "key": "n160-r20-s2",
@@ -13968,7 +13998,9 @@
    "mStar": 0.3125,
    "RDR": 0.7288689613342285,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -14922,8 +14954,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 74.807,
-   "rateStepsPerSec": 86.84697241804487
+   "wallSec": 44.029,
+   "rateStepsPerSec": 147.51411400473503
   },
   {
    "key": "n160-r10-s0",
@@ -14942,7 +14974,9 @@
    "mStar": 0.3125,
    "RDR": 0.5153881907463074,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -15896,8 +15930,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 77.539,
-   "rateStepsPerSec": 83.74581594013725
+   "wallSec": 48.586,
+   "rateStepsPerSec": 133.66612347614432
   },
   {
    "key": "n160-r10-s1",
@@ -15916,7 +15950,9 @@
    "mStar": 0.3125,
    "RDR": 0.5153881907463074,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -16869,8 +16905,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 75.865,
-   "rateStepsPerSec": 85.6033184496288
+   "wallSec": 46.824,
+   "rateStepsPerSec": 138.74614594039053
   },
   {
    "key": "n160-r10-s2",
@@ -16889,7 +16925,9 @@
    "mStar": 0.3125,
    "RDR": 0.5153881907463074,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -17843,8 +17881,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 76.51,
-   "rateStepsPerSec": 84.90677288748542
+   "wallSec": 45.331,
+   "rateStepsPerSec": 143.25824066500124
   },
   {
    "key": "spin0-s0",
@@ -17863,7 +17901,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -18818,8 +18858,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 33.325,
-   "rateStepsPerSec": 195.16896572495634
+   "wallSec": 18.197,
+   "rateStepsPerSec": 357.4975173783515
   },
   {
    "key": "spin0-s1",
@@ -18838,7 +18878,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -19793,8 +19835,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 33.614,
-   "rateStepsPerSec": 193.3404940923738
+   "wallSec": 18.325,
+   "rateStepsPerSec": 355.36057033177957
   },
   {
    "key": "spin0-s2",
@@ -19813,7 +19855,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -20768,8 +20812,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 33.642,
-   "rateStepsPerSec": 193.2655313310865
+   "wallSec": 18.882,
+   "rateStepsPerSec": 344.6441867886395
   },
   {
    "key": "virial",
@@ -20788,7 +20832,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [
      {
@@ -21726,8 +21772,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 32.213,
-   "rateStepsPerSec": 201.81257591329532
+   "wallSec": 19.147,
+   "rateStepsPerSec": 339.33808127356514
   },
   {
    "key": "contactOn",
@@ -21745,7 +21791,9 @@
    "mDR": 53.125,
    "mStar": 0.3125,
    "RDR": 8.746427536010742,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -22702,8 +22750,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 33.407,
-   "rateStepsPerSec": 194.72909216576014
+   "wallSec": 18.889,
+   "rateStepsPerSec": 344.33285509325685
   },
   {
    "key": "eqPinned",
@@ -22722,7 +22770,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -23677,8 +23727,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 34.279,
-   "rateStepsPerSec": 189.49584746754007
+   "wallSec": 18.852,
+   "rateStepsPerSec": 344.5708816335212
   },
   {
    "key": "centerFree",
@@ -23697,7 +23747,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -24652,8 +24704,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 30.724,
-   "rateStepsPerSec": 211.6609505144537
+   "wallSec": 18.997,
+   "rateStepsPerSec": 342.6395939086295
   },
   {
    "key": "toyOff",
@@ -25627,8 +25679,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 5.757,
-   "rateStepsPerSec": 1147.7151965993623
+   "wallSec": 3.687,
+   "rateStepsPerSec": 1807.5313807531381
   },
   {
    "key": "cut08",
@@ -25647,7 +25699,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -26601,8 +26655,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 31.473,
-   "rateStepsPerSec": 206.60630021680907
+   "wallSec": 19.298,
+   "rateStepsPerSec": 337.7110694183865
   },
   {
    "key": "eps8",
@@ -26621,7 +26675,9 @@
    "mStar": 0.3125,
    "RDR": 1.457737922668457,
    "contactK": 0,
-   "warnings": [],
+   "warnings": [
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   ],
    "eqInit": {
     "rows": [],
     "equilibrium": [
@@ -27575,8 +27631,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 31.755,
-   "rateStepsPerSec": 204.81051866367457
+   "wallSec": 18.953,
+   "rateStepsPerSec": 343.1294678316124
   }
  ],
  "summary": [
@@ -27704,5 +27760,5 @@
   "E0": -117053.79305150372,
   "E1": 1272952.8601665813
  },
- "elapsedS": 416.952
+ "elapsedS": 251.593
 }

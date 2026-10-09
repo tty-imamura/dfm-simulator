@@ -1,18 +1,18 @@
 {
- "when": "2026-10-08T19:50:24.129Z",
+ "when": "2026-10-09T19:09:24.821Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
+  "calauditSha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+  "canonicalTargetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-10-08T18:45:08.864Z"
+  "canonicalWhen": "2026-10-09T18:34:48.591Z"
  },
  "stamp": {
-  "inHtml": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-  "inCanonicalNow": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+  "inHtml": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "inCanonicalNow": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
   "stampChanged": true,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"
@@ -21,15 +21,15 @@
  "presets": 9,
  "rows": 19,
  "sig": {
-  "mercuryReal": "504f66ef",
-  "plutoCharonDiagInput": "9842c8c3",
-  "alphaCenAB": "919fda5b",
-  "siriusAB": "1b87793c",
-  "psrDoubleAB": "4216236d",
-  "psrJ1757DFM": "c1b02ef7",
-  "psrJ1946DFM": "d802a205",
-  "psrB1534": "f6792a1e",
-  "saturnZonalD68": "13b08308"
+  "mercuryReal": "d2fa07aa",
+  "plutoCharonDiagInput": "40f7d05a",
+  "alphaCenAB": "8e6ee131",
+  "siriusAB": "4f002ee6",
+  "psrDoubleAB": "5440febc",
+  "psrJ1757DFM": "6b2f324f",
+  "psrJ1946DFM": "3ad491ff",
+  "psrB1534": "b1146444",
+  "saturnZonalD68": "e1674e29"
  },
  "values": {
   "mercuryReal": [

@@ -7,13 +7,13 @@
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "7a4e4365a40253ce7f86a5ebd8a7ae1fc258045a0f13c600e3878dbb539138b3",
+  "mergeKey": "5a4dd70981174b92581faca8e2472aaf1368175ee445b0ad59a4be0a9625e7cb",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
+   "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
+   "obsSha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -127,7 +127,7 @@
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "obsRowPreset": "plutoCharonDiagInput",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da"
+   "calauditSha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932"
   },
   "secondsPerUnit": 100,
   "separationAtT0": 19.596,
@@ -147,20 +147,20 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-  "generatedAt": "2026-10-08T19:10:13.798Z",
+  "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
+  "generatedAt": "2026-10-09T18:47:41.663Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5976655,
-    "sha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-    "mtime": "2026-10-08T16:39:20.927Z"
+    "bytes": 6146338,
+    "sha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
+    "mtime": "2026-10-09T17:23:00.380Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838863,
-    "sha256": "867187351b7f28a232529b60a614dc348b2cac2922a588f83f957098cc2652da",
-    "mtime": "2026-10-08T18:45:09.187Z"
+    "bytes": 1838852,
+    "sha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
+    "mtime": "2026-10-09T18:34:48.808Z"
    }
   ],
   "code": [
@@ -168,31 +168,31 @@
     "file": "tests/exp-w273b-charonk.mjs",
     "bytes": 22719,
     "sha256": "6e7e88cd92a2abc2b09a7f74b7a7627ec68769fd856579f995e46f9a9d43a631",
-    "mtime": "2026-10-03T01:40:56.112Z"
+    "mtime": "2026-10-09T10:19:35.478Z"
    },
    {
     "file": "tests/lib-w273b-charonpage.mjs",
     "bytes": 13221,
     "sha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w273b-mergekey.mjs",
     "bytes": 6901,
     "sha256": "117bab590575bc3c52453d45088971ff9f287fd2297557236eac4bcc76e38019",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w272b-pairlock.mjs",
     "bytes": 14317,
     "sha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    }
   ],
   "codeSha256": "26723e58fc34a74ec5952c364a2b8a5ab9cb74b33f84af389f257186e1a80ed0",
@@ -224,16 +224,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1059,
-   "segments": 968,
-   "closureShare": 0.3251
+   "names": 1081,
+   "segments": 990,
+   "closureShare": 0.3198
   },
-  "scopeSha256": "b6f66b9f498276a4643735dda85e331a94a710d1a8d9ee226f63cb39cd37009f",
+  "scopeSha256": "de3d76da6f2537cc1aca5e29aaaaa95ec7b75534d47ef7e3504840e4246b9da2",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0d0faaf7a148c20764fa37da22fcfdd4da9634ca87232cc9a0a9352716483031",
+    "stableSha256": "5c310903567af7d5a1b57f9f56da3ca33ebe17cfaa3924b89d78ed4baf4c88f6",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -261,7 +261,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1b4f0994469a17d4757e315fa03f78d8fdf1b8d6717d28fc11f02cb54ae595fd",
+    "stableSha256": "dacffef89d5732adcdfc46b44c48da4180d01c672a5dbacae1ab2f0ed812e13f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -309,7 +309,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.933,
+    "wallSec": 16.636,
     "kFrame": 0,
     "f": 1,
     "softening": 0.05,
@@ -371,6 +371,7 @@
     },
     "warnings": [
      "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -385,7 +386,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.501,
+    "wallSec": 22.798,
     "kFrame": 0.1,
     "f": 1.0002390844283853,
     "softening": 0.05,
@@ -446,7 +447,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.1 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.1 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -460,7 +462,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.278,
+    "wallSec": 22.688,
     "kFrame": 0.05,
     "f": 1.000119528013179,
     "softening": 0.05,
@@ -521,7 +523,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.05 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.05 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -535,7 +538,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.127,
+    "wallSec": 22.834,
     "kFrame": 0.025,
     "f": 1.0000597604569648,
     "softening": 0.05,
@@ -596,7 +599,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.025 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.025 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -610,7 +614,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.69,
+    "wallSec": 23.087,
     "kFrame": 0.0125,
     "f": 1.0000298793411548,
     "softening": 0.05,
@@ -671,7 +675,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.0125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.0125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -685,7 +690,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.882,
+    "wallSec": 23.304,
     "kFrame": 0.00625,
     "f": 1.0000149394487554,
     "softening": 0.05,
@@ -746,7 +751,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.00625 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.00625 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -760,7 +766,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 47.676,
+    "wallSec": 23.011,
     "kFrame": 0.003125,
     "f": 1.0000074696689234,
     "softening": 0.05,
@@ -821,7 +827,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.003125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.003125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -835,7 +842,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 45.998,
+    "wallSec": 22.762,
     "kFrame": 0.004687500000000001,
     "f": 1.0000112045449756,
     "softening": 0.05,
@@ -896,7 +903,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.004687500000000001 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.004687500000000001 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -910,7 +918,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.278,
+    "wallSec": 23.301,
     "kFrame": 0.0054687500000000005,
     "f": 1.0000130719933995,
     "softening": 0.05,
@@ -971,7 +979,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.0054687500000000005 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.0054687500000000005 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -985,7 +994,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 45.022,
+    "wallSec": 23.814,
     "kFrame": 0.005859375,
     "f": 1.000014005720211,
     "softening": 0.05,
@@ -1046,7 +1055,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005859375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005859375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1060,7 +1070,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.604,
+    "wallSec": 22.455,
     "kFrame": 0.005664062500000001,
     "f": 1.0000135388565885,
     "softening": 0.05,
@@ -1121,7 +1131,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005664062500000001 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005664062500000001 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1135,7 +1146,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 45.346,
+    "wallSec": 24.26,
     "kFrame": 0.00576171875,
     "f": 1.0000137722883455,
     "softening": 0.05,
@@ -1196,7 +1207,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.00576171875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.00576171875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1210,7 +1222,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 45.107,
+    "wallSec": 22.563,
     "kFrame": 0.005810546875,
     "f": 1.0000138890042647,
     "softening": 0.05,
@@ -1271,7 +1283,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005810546875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005810546875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1285,7 +1298,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 46.836,
+    "wallSec": 23.074,
     "kFrame": 0.0058349609375,
     "f": 1.0000139473622345,
     "softening": 0.05,
@@ -1346,7 +1359,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.0058349609375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.0058349609375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1360,7 +1374,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.42,
+    "wallSec": 23.092,
     "kFrame": 0.00584716796875,
     "f": 1.000013976541222,
     "softening": 0.05,
@@ -1421,7 +1435,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.00584716796875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.00584716796875 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1435,7 +1450,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 45.094,
+    "wallSec": 22.399,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1496,7 +1511,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    }
   ],
@@ -1522,7 +1538,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 48.275,
+    "wallSec": 23.272,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1583,7 +1599,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    "h2": {
@@ -1597,7 +1614,7 @@
     },
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 90.522,
+    "wallSec": 44.92,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1658,7 +1675,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    "h4": {
@@ -1672,7 +1690,7 @@
     },
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 180.794,
+    "wallSec": 90.013,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1733,7 +1751,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    }
   },
@@ -1770,7 +1789,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.734,
+    "wallSec": 16.839,
     "kFrame": 0,
     "f": 1,
     "softening": 0.05,
@@ -1832,6 +1851,7 @@
     },
     "warnings": [
      "geoPN=2「2: 引きずり近似」で kFrame=0 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 eih-kf0)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。",
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
@@ -1846,7 +1866,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.091,
+    "wallSec": 22.252,
     "kFrame": 0.00625,
     "f": 1,
     "softening": 0.05,
@@ -1907,7 +1927,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.00625 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.00625 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1921,7 +1942,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 47.343,
+    "wallSec": 22.591,
     "kFrame": 0.0125,
     "f": 1,
     "softening": 0.05,
@@ -1982,7 +2003,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.0125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.0125 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -1996,7 +2018,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.403,
+    "wallSec": 22.741,
     "kFrame": 0.025,
     "f": 1,
     "softening": 0.05,
@@ -2057,7 +2079,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.025 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.025 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -2071,7 +2094,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.892,
+    "wallSec": 22.871,
     "kFrame": 0.05,
     "f": 1,
     "softening": 0.05,
@@ -2132,7 +2155,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.05 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.05 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    },
    {
@@ -2146,7 +2170,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 43.831,
+    "wallSec": 22.612,
     "kFrame": 0.1,
     "f": 1,
     "softening": 0.05,
@@ -2207,7 +2231,8 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "geoPN=2「2: 引きずり近似」で kFrame=0.1 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+     "geoPN=2「2: 引きずり近似」で kFrame=0.1 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+     "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
     ]
    }
   ],
@@ -2227,7 +2252,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 47.147,
+   "wallSec": 22.226,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.05,
@@ -2288,7 +2313,8 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+    "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ]
   },
   {
@@ -2302,7 +2328,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 43.969,
+   "wallSec": 22.736,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.025,
@@ -2363,7 +2389,8 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+    "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ]
   },
   {
@@ -2377,7 +2404,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 44.063,
+   "wallSec": 22.466,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.0125,
@@ -2438,7 +2465,8 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)"
+    "geoPN=2「2: 引きずり近似」で kFrame=0.005853271484375 —— q 近似の標準強度(kFrame=1)と異なります(走る法則 vMinusU-q)",
+    "geoPN=2: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ]
   }
  ],

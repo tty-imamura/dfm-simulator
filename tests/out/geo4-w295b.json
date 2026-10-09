@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便b",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T11:47:25.345Z",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:52:11.894Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
    }
   ],
   "code": [
@@ -18,31 +18,31 @@
     "file": "tests/exp-w295b-geo4.mjs",
     "bytes": 13842,
     "sha256": "dadbf5a0e0c840aeef07f612097a38d394d141b35a47d8bb7971460951403ccf",
-    "mtime": "2026-10-07T12:21:12.027Z"
+    "mtime": "2026-10-09T10:19:35.494Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "ce9537209614b0f267119fa485cee05e72352894e39d244ba8fcd981afe1f8a4",
@@ -73,7 +73,8 @@
    "geo4KFrame",
    "geo1Fitted",
    "geo4Solver",
-   "geo4Both"
+   "geo4Both",
+   "lambdaPnOnDrag"
   ],
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第85報)(geoPN=3 と銀河などを分けた方が良い場合は、新たに geoPN=4 の組み合わせを検討する)",
@@ -105,11 +106,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1053,
-   "segments": 962,
-   "closureShare": 0.3242
+   "names": 1076,
+   "segments": 985,
+   "closureShare": 0.3189
   },
-  "scopeSha256": "6a7db945b302673d0b284207282f1786b3fe4dd04a112552131dfdb56d2c20e6",
+  "scopeSha256": "89ea9db54742a1e23d837f4875d88ee01e5afc0f1321a8fd7c96b3fc09cefabb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -194,7 +195,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 32.7
+    "wallSec": 24.347
    },
    "geo4": {
     "mode": {
@@ -258,7 +259,7 @@
      "n": 122,
      "hex": "e6e6c911"
     },
-    "wallSec": 32.34
+    "wallSec": 20.9
    },
    "cmp": {
     "firstDiffStep": null,
@@ -348,7 +349,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 9.653
+    "wallSec": 6.31
    },
    "geo4": {
     "mode": {
@@ -412,7 +413,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 9.897
+    "wallSec": 6.157
    },
    "cmp": {
     "firstDiffStep": null,
@@ -502,7 +503,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 10.38
+    "wallSec": 7.047
    },
    "geo4": {
     "mode": {
@@ -566,7 +567,7 @@
      "n": 123,
      "hex": "cadc58bf"
     },
-    "wallSec": 9.428
+    "wallSec": 6.726
    },
    "cmp": {
     "firstDiffStep": null,
@@ -656,7 +657,7 @@
      "n": 123,
      "hex": "8288be0c"
     },
-    "wallSec": 12.133
+    "wallSec": 7.054
    },
    "geo4": {
     "mode": {
@@ -720,7 +721,7 @@
      "n": 123,
      "hex": "8288be0c"
     },
-    "wallSec": 10.786
+    "wallSec": 7.357
    },
    "cmp": {
     "firstDiffStep": null,
@@ -810,7 +811,7 @@
      "n": 123,
      "hex": "26c6a926"
     },
-    "wallSec": 10.1
+    "wallSec": 6.793
    },
    "geo4": {
     "mode": {
@@ -874,7 +875,7 @@
      "n": 123,
      "hex": "26c6a926"
     },
-    "wallSec": 10.03
+    "wallSec": 6.48
    },
    "cmp": {
     "firstDiffStep": null,
@@ -964,7 +965,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 61.423
+    "wallSec": 42.234
    },
    "geo4": {
     "mode": {
@@ -1028,7 +1029,7 @@
      "n": 123,
      "hex": "ec52c4fd"
     },
-    "wallSec": 60.522
+    "wallSec": 38.376
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1073,7 +1074,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1101,7 +1102,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1116,9 +1117,9 @@
     },
     "whole": {
      "n": 122,
-     "hex": "ad7e5913"
+     "hex": "c77fe505"
     },
-    "wallSec": 0.237
+    "wallSec": 0.154
    },
    "geo4": {
     "mode": {
@@ -1140,7 +1141,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1165,7 +1166,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1180,17 +1181,17 @@
     },
     "whole": {
      "n": 122,
-     "hex": "ad7e5913"
+     "hex": "c77fe505"
     },
-    "wallSec": 0.146
+    "wallSec": 0.139
    },
    "cmp": {
     "firstDiffStep": null,
     "identical": true,
     "wholeSame": true,
     "printEnd": [
-     "1b02e955",
-     "1b02e955"
+     "e978068d",
+     "e978068d"
     ]
    },
    "sameResolve": true,
@@ -1227,7 +1228,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1255,7 +1256,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1270,9 +1271,9 @@
     },
     "whole": {
      "n": 122,
-     "hex": "9382bc39"
+     "hex": "32ae7abc"
     },
-    "wallSec": 0.163
+    "wallSec": 0.159
    },
    "geo4": {
     "mode": {
@@ -1294,7 +1295,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1319,7 +1320,7 @@
      "flags": {
       "hasGeoToy": false,
       "hasGeo3": true,
-      "hasGeo3PN": true,
+      "hasGeo3PN": false,
       "geoToyDeny": null,
       "geoToyStop": null,
       "geo3Undeclared": false
@@ -1334,17 +1335,17 @@
     },
     "whole": {
      "n": 122,
-     "hex": "9382bc39"
+     "hex": "32ae7abc"
     },
-    "wallSec": 0.093
+    "wallSec": 0.068
    },
    "cmp": {
     "firstDiffStep": null,
     "identical": true,
     "wholeSame": true,
     "printEnd": [
-     "eef4c9a6",
-     "eef4c9a6"
+     "f5697e24",
+     "f5697e24"
     ]
    },
    "sameResolve": true,
@@ -1426,7 +1427,7 @@
      "n": 122,
      "hex": "854454d8"
     },
-    "wallSec": 0.105
+    "wallSec": 0.129
    },
    "geo4": {
     "mode": {
@@ -1490,7 +1491,7 @@
      "n": 122,
      "hex": "854454d8"
     },
-    "wallSec": 0.061
+    "wallSec": 0.058
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1536,7 +1537,7 @@
    92,
    28,
    19,
-   9,
+   10,
    10
   ]
  },
@@ -1605,9 +1606,9 @@
    },
    "whole": {
     "n": 122,
-    "hex": "45c3d348"
+    "hex": "cf9b9261"
    },
-   "wallSec": 0.268
+   "wallSec": 0.065
   },
   "kFrame1": {
    "mode": {
@@ -1675,9 +1676,9 @@
    },
    "whole": {
     "n": 124,
-    "hex": "5fa80e6d"
+    "hex": "c24e6279"
    },
-   "wallSec": 0.394
+   "wallSec": 0.272
   }
  },
  "frozen": [
@@ -1717,5 +1718,5 @@
   "inertial3": true
  },
  "ok": true,
- "elapsedS": 275.215
+ "elapsedS": 184.475
 }

@@ -3,68 +3,68 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-  "generatedAt": "2026-10-08T11:49:11.128Z",
+  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+  "generatedAt": "2026-10-09T17:01:25.086Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5973263,
-    "sha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
-    "mtime": "2026-10-08T09:53:10.928Z"
+    "bytes": 6146159,
+    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
+    "mtime": "2026-10-09T14:26:31.783Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 23591,
-    "sha256": "36984af0a21b09633f30ffabf37690200d1610f7b4dd9339ef85e0716323e1bc",
-    "mtime": "2026-10-07T12:21:12.026Z"
+    "bytes": 25885,
+    "sha256": "d37fdd4fa6982682eef73b41af21f1c93cc4ff89cf35c681793ee48f2b060efb",
+    "mtime": "2026-10-09T16:59:23.994Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19554,
     "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
-    "mtime": "2026-10-03T19:20:22.715Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w280d-charoninput.mjs",
     "bytes": 22952,
     "sha256": "53d308ce7d3f14067cb8dc8f038d1b5faad5b80dec087c7fe0835de6cad3150d",
-    "mtime": "2026-10-03T19:20:22.714Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-06T16:39:41.633Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "ebea457efc161ae615cfb8983a1ae6c264b8b22b4c8482cbdf4c96e0f646b6ae",
-  "harnessVersion": "w291b-pnsources-4",
+  "codeSha256": "a6b49af07c37b013d53f914c10ab384f66ff26759c1ecbfed4eba6a692a2ac3b",
+  "harnessVersion": "w291b-pnsources-5",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
   "reading": "統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)",
@@ -107,16 +107,17 @@
     "pnOrbitalKF0",
     "pnOrbitalSource",
     "pnSource",
-    "presetSig"
+    "presetSig",
+    "timeStdRevert"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1057,
-   "segments": 966,
-   "closureShare": 0.3259
+   "names": 1080,
+   "segments": 989,
+   "closureShare": 0.3205
   },
-  "scopeSha256": "753ad377052bb54337fbaf23a3c453a26f5c40769283ca309669f2997624f55e",
+  "scopeSha256": "e4842a2502ccb91a90321acbedf055d395f865e46547e8c68edda12533c8ac28",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -167,9 +168,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+ "nowSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
  "A": {
-  "n": 158,
+  "n": 159,
   "kf0Books": 28,
   "increased": [
    "earthMoonReal",
@@ -199,7 +200,7 @@
  "B": {
   "steps": 24,
   "dt": 0.016,
-  "bitSame": 129,
+  "bitSame": 108,
   "changed": [
    "earthMoonReal",
    "emAuditNewton",
@@ -226,12 +227,13 @@
   "increasedUnchanged": [
    "saturnD68ObsOrbit"
   ],
-  "sigSame": 141,
+  "sigSame": 77,
   "sigDiff": [],
   "newInNow": [
    "earthMoonTide",
    "earthMoonInertial",
    "earthMoonSunInertial",
+   "earthMoonSunInertialFit",
    "mercurySunInertial",
    "mercurySunInertialFit",
    "plutoCharonInertial",
@@ -248,9 +250,107 @@
    "galaxyAnalogyBHTilt90",
    "galaxyAnalogyBHTilt90Layers",
    "clusterAnalogyBH",
-   "mercuryGeoToy3",
-   "charonGeoToy3",
    "psrDoubleABGeoToy"
+  ],
+  "changedByLambdaPn297": [
+   "galaxyGeo2",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "charonGeoToy3",
+   "alphaCenABDFM",
+   "siriusABDFM",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "saturnRingRealKF1"
+  ],
+  "sigChangedByLambdaPn297": [
+   "galaxyGeo2",
+   "galaxyMeshSpiralGeoToy",
+   "galaxyMeshSpiralGeoToyLite",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
+   "clusterGrowthCopy",
+   "fixedCaptureCopy",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "charonGeoToy3",
+   "alphaCenABDFM",
+   "siriusABDFM",
+   "psrDoubleABDFM",
+   "psrDoubleABGeoToy",
+   "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "saturnRingRealKF1"
+  ],
+  "sigChangedByTimeStd297": [
+   "projectile",
+   "boxtrans",
+   "boxredshift",
+   "earthMoon",
+   "earthMoonFree",
+   "earthMoonReal",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "mercury",
+   "mercuryReal",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonDiagInput",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "compactForceToy",
+   "inertialDragPair",
+   "boxBinaryToy",
+   "spaceMeshBinaryToy",
+   "gw150914",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "tuc47",
+   "ngc3198",
+   "ngc3198DFM",
+   "supernovaProg",
+   "crabRemnant",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "fig8",
+   "pulsarSolo",
+   "spinDipoleBinary"
   ],
   "nullPhysicsKF0": [],
   "errors": [],
@@ -637,7 +737,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcal",
@@ -660,7 +763,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalGps",
@@ -683,7 +789,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalLight",
@@ -706,7 +815,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "grcalShapiro",
@@ -729,7 +841,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "projectile",
@@ -749,10 +864,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "echo",
@@ -775,7 +893,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxtrans",
@@ -795,10 +916,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "boxrot",
@@ -821,7 +945,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxexpand",
@@ -844,7 +971,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxcomoving",
@@ -867,7 +997,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxbound",
@@ -890,7 +1023,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxbreath",
@@ -913,7 +1049,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxredshift",
@@ -933,10 +1072,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "probeH",
@@ -959,7 +1101,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "freebox",
@@ -982,7 +1127,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "cosmicweb",
@@ -1005,7 +1153,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxy",
@@ -1028,7 +1179,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyStd",
@@ -1051,7 +1205,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyGeo2",
@@ -1061,7 +1218,7 @@
    "n": 381,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 1,
@@ -1070,11 +1227,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyDB",
@@ -1097,7 +1257,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "darkrotor",
@@ -1120,7 +1283,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "rotorSolo",
@@ -1143,7 +1309,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaRotor",
@@ -1166,7 +1335,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaShell",
@@ -1189,7 +1361,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "nebulaBipolar",
@@ -1212,7 +1387,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "bhCore",
@@ -1235,7 +1413,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "bhCoreTilt",
@@ -1258,7 +1439,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "massLadder",
@@ -1281,7 +1465,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "collapse",
@@ -1304,7 +1491,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarStill",
@@ -1327,7 +1517,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarArms",
@@ -1350,7 +1543,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "axisBarReach",
@@ -1373,7 +1569,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "selfRotor",
@@ -1396,7 +1595,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1419,7 +1621,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1429,7 +1634,7 @@
    "n": 351,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 1,
@@ -1442,7 +1647,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1452,7 +1660,7 @@
    "n": 171,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 1,
@@ -1462,10 +1670,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBH",
@@ -1475,7 +1686,7 @@
    "n": 211,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 41,
@@ -1488,7 +1699,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHCompose",
@@ -1498,7 +1712,7 @@
    "n": 211,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 41,
@@ -1511,7 +1725,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHTilt90",
@@ -1521,7 +1738,7 @@
    "n": 211,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 41,
@@ -1534,7 +1751,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "galaxyAnalogyBHTilt90Layers",
@@ -1544,7 +1764,7 @@
    "n": 211,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.8,
    "kf0": false,
    "srcBase": 41,
@@ -1557,7 +1777,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "clusterAnalogyBH",
@@ -1567,7 +1790,7 @@
    "n": 526,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.6743,
    "kf0": false,
    "srcBase": 0,
@@ -1580,7 +1803,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "clusterGrowthCopy",
@@ -1590,7 +1816,7 @@
    "n": 85,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.6743,
    "kf0": false,
    "srcBase": 0,
@@ -1600,10 +1826,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "fixedCaptureCopy",
@@ -1613,7 +1842,7 @@
    "n": 85,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.6743,
    "kf0": false,
    "srcBase": 0,
@@ -1623,10 +1852,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyCluster",
@@ -1649,7 +1881,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyDisk",
@@ -1672,7 +1907,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyArm",
@@ -1695,7 +1933,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToySpiral",
@@ -1718,7 +1959,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyClusterCore",
@@ -1741,7 +1985,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyDiskCore",
@@ -1764,7 +2011,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToyArmCore",
@@ -1787,7 +2037,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "shapeToySpiralCore",
@@ -1810,7 +2063,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "lensing",
@@ -1833,7 +2089,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinlens",
@@ -1856,7 +2115,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "blens",
@@ -1879,7 +2141,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "reddening",
@@ -1902,7 +2167,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "gas",
@@ -1925,7 +2193,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "pressure",
@@ -1948,7 +2219,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "conduction",
@@ -1971,7 +2245,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "frictionHeat",
@@ -1994,7 +2271,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "coolrace",
@@ -2017,7 +2297,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "convection",
@@ -2040,7 +2323,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "buoyancy",
@@ -2063,7 +2349,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "cooling",
@@ -2086,7 +2375,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emergent",
@@ -2109,7 +2401,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emergent2",
@@ -2132,7 +2427,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "chain2",
@@ -2155,7 +2453,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "chaincycle",
@@ -2178,7 +2479,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoon",
@@ -2198,10 +2502,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonFree",
@@ -2221,10 +2528,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonReal",
@@ -2244,13 +2554,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonTide",
@@ -2276,7 +2589,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonRealKF1",
@@ -2286,7 +2602,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2295,11 +2611,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonInertial",
@@ -2309,7 +2628,7 @@
    "n": 2,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2322,7 +2641,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditNewton",
@@ -2348,7 +2670,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditDFM",
@@ -2358,7 +2683,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2367,11 +2692,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "emAuditSolar",
@@ -2391,7 +2719,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2399,7 +2727,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "earthMoonSunInertial",
@@ -2409,7 +2740,7 @@
    "n": 3,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2422,7 +2753,36 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "role": "variant",
+   "cls": "principle",
+   "n": 3,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 2,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "earthMoonDiagOne",
@@ -2442,7 +2802,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2450,7 +2810,10 @@
      "spaceMesh"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "qLockRadialAudit",
@@ -2460,7 +2823,7 @@
    "n": 11,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2469,11 +2832,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2483,7 +2849,7 @@
    "n": 11,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2492,11 +2858,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "mercury",
@@ -2516,7 +2885,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2524,7 +2893,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "mercuryReal",
@@ -2544,7 +2916,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2552,7 +2924,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "mercurySunInertial",
@@ -2562,7 +2937,7 @@
    "n": 2,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2575,7 +2950,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mercurySunInertialFit",
@@ -2585,7 +2963,7 @@
    "n": 2,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2598,7 +2976,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mercuryGeoToy3",
@@ -2608,7 +2989,7 @@
    "n": 2,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2617,11 +2998,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": true,
-   "bitSame": true,
+   "bitSame": false,
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "mercuryRealKF1",
@@ -2631,7 +3015,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2640,11 +3024,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "solarInner",
@@ -2664,7 +3051,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2672,7 +3059,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "jupiterGalilean",
@@ -2692,7 +3082,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2700,7 +3090,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "venusReal",
@@ -2720,13 +3113,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "marsMoonsReal",
@@ -2746,7 +3142,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2754,7 +3150,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "plutoCharonReal",
@@ -2780,7 +3179,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonDFM",
@@ -2808,7 +3210,10 @@
      "relativeDrag"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonKF0Control",
@@ -2834,7 +3239,10 @@
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonDiagInput",
@@ -2854,13 +3262,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "plutoCharonInertial",
@@ -2870,7 +3281,7 @@
    "n": 2,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2883,7 +3294,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonInertialFit",
@@ -2893,7 +3307,7 @@
    "n": 2,
    "geoPN": 3,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": null,
@@ -2906,7 +3320,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "plutoCharonSyncZero",
@@ -2929,7 +3346,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "charonGeoToy3",
@@ -2939,7 +3359,7 @@
    "n": 2,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -2948,11 +3368,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": true,
-   "bitSame": true,
+   "bitSame": false,
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "uranusReal",
@@ -2972,7 +3395,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -2980,7 +3403,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "neptuneReal",
@@ -3000,13 +3426,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "alphaCenAB",
@@ -3026,13 +3455,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "alphaCenABDFM",
@@ -3042,7 +3474,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3051,11 +3483,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "siriusAB",
@@ -3075,13 +3510,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "siriusABDFM",
@@ -3091,7 +3529,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3100,11 +3538,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleAB",
@@ -3124,13 +3565,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrDoubleABDFM",
@@ -3140,7 +3584,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3149,11 +3593,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABGeoToy",
@@ -3163,7 +3610,7 @@
    "n": 2,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3176,7 +3623,10 @@
    "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -3186,7 +3636,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3195,11 +3645,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757DFM",
@@ -3219,13 +3672,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrJ1946DFM",
@@ -3245,13 +3701,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrDoubleABPN",
@@ -3261,7 +3720,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 0.5000144330801174,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3270,11 +3729,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000144330801174,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757PN",
@@ -3284,7 +3746,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 0.5000260856666837,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3293,11 +3755,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000260856666837,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1946PN",
@@ -3307,7 +3772,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 0.5000086177580901,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3316,11 +3781,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 0.5000086177580901,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrDoubleABCF",
@@ -3330,7 +3798,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3339,11 +3807,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1757CF",
@@ -3353,7 +3824,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3362,11 +3833,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrJ1946CF",
@@ -3376,7 +3850,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3385,11 +3859,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrB1534",
@@ -3409,13 +3886,16 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": true,
     "reasons": []
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "psrB1534DFM",
@@ -3425,7 +3905,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3434,11 +3914,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "psrB1534CF",
@@ -3448,7 +3931,7 @@
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 2,
@@ -3457,11 +3940,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "compactForceToy",
@@ -3481,10 +3967,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "inertialDragPair",
@@ -3504,10 +3993,13 @@
    "inertialLaw": true,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "chainDiskToy",
@@ -3517,7 +4009,7 @@
    "n": 81,
    "geoPN": 4,
    "kFrame": 0,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 0.005,
    "kf0": false,
    "srcBase": null,
@@ -3530,7 +4022,10 @@
    "sigSame": null,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "boxBinaryToy",
@@ -3550,10 +4045,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -3573,10 +4071,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914",
@@ -3596,10 +4097,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914DFM",
@@ -3622,7 +4126,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "gw150914Merge4s",
@@ -3642,10 +4149,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gw150914SpinDipole",
@@ -3665,10 +4175,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "tuc47",
@@ -3688,10 +4201,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "tuc47DFM",
@@ -3714,7 +4230,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "ngc3198",
@@ -3734,10 +4253,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "ngc3198DFM",
@@ -3757,10 +4279,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaProg",
@@ -3780,10 +4305,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaProgDFM",
@@ -3806,7 +4334,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "crabRemnant",
@@ -3826,10 +4357,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturn",
@@ -3852,7 +4386,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "saturnLayered",
@@ -3875,7 +4412,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "saturnZonalD68",
@@ -3895,7 +4435,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -3904,7 +4444,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnD68Consistent",
@@ -3924,7 +4467,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -3933,7 +4476,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -3953,7 +4499,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -3962,7 +4508,10 @@
      "zonal"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnRingReal",
@@ -3982,7 +4531,7 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": false,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": {
     "ok": false,
@@ -3990,7 +4539,10 @@
      "pinned"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "saturnRingRealKF1",
@@ -4000,7 +4552,7 @@
    "n": 127,
    "geoPN": 2,
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "G": 6.674,
    "kf0": false,
    "srcBase": 1,
@@ -4009,11 +4561,14 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": true,
+   "timeStdOnly": false
   },
   {
    "id": "binary",
@@ -4041,7 +4596,10 @@
      "contact"
     ]
    },
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "fig8",
@@ -4061,10 +4619,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "counterring",
@@ -4087,7 +4648,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinup",
@@ -4110,7 +4674,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "pulsarSolo",
@@ -4130,10 +4697,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "supernovaCore",
@@ -4156,7 +4726,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "whiteDwarfDFM",
@@ -4179,7 +4752,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -4202,7 +4778,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "envelopeShedDFM",
@@ -4225,7 +4804,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "lfbotTrap",
@@ -4248,7 +4830,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "layeredCoreDFM",
@@ -4271,7 +4856,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "spinDipoleBinary",
@@ -4291,10 +4879,13 @@
    "inertialLaw": false,
    "geo4Migrated": false,
    "bitSame": true,
-   "sigSame": true,
+   "sigSame": false,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": true
   },
   {
    "id": "gasCohSurface",
@@ -4317,7 +4908,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "mmPhaseToy",
@@ -4340,7 +4934,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   },
   {
    "id": "starSeed",
@@ -4363,7 +4960,10 @@
    "sigSame": true,
    "nan": false,
    "conf": null,
-   "err": null
+   "err": null,
+   "lambdaBase": 1,
+   "lam297": false,
+   "timeStdOnly": false
   }
  ],
  "verdict": {
@@ -4389,13 +4989,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.112,
+   "wallSec": 0.068,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.182,
+   "wallSec": 0.128,
    "errors": 0
   }
  },
- "elapsedS": 228.164
+ "elapsedS": 121.005
 }

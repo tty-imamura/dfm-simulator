@@ -86,9 +86,24 @@ export function cases(HP) {
     counterPass: counter.filter((r) => r.pass).length, counterN: counter.length,
     ok: rows.every((r) => r.pass) && rows.filter((r) => r.want.reexp).every((r) => r.sameAsSources === true) };
 }
-/** (B) 🌒 の状態の指紋(同じ初期状態・N_STEPS 步)。 */
-export function fingerprint(HP) {
-  const b = build(HP, find(HP, 'charonGeoToy3'));
+/** 第297便a(原仮定者の裁定(第87報)「geoPN=2・3・4 のサンプルは全て λ_PN=0」・R161): 🌒 は旧メッシュの力学の 1PN を外した
+ *  (spaceMesh.pn "reference-1PN" → "off"・pnVelocity を外す・λ_PN 1 → 0)。基点 940dba52 との指紋の照合は**第296便までの宣言へ戻した写し**で行う
+ *  (器の中だけ —— 本の宣言は今のまま。今の 🌒 の指紋は fingerprint に記録する)。 */
+export const CHARON_DECL_W296 = { lambdaPN: 1, spaceMesh: { pn: 'reference-1PN', pnVelocity: 'v' } };
+export function charonHistCopy(P) {
+  const ph = P.physics || {}, sm = ph.spaceMesh || {};
+  if (!(sm.pn === 'off' && ph.lambdaPN === 0)) return null;   // 第297便a の前の宣言(戻す必要がない)
+  const Q = clone(P);
+  Q.physics.lambdaPN = CHARON_DECL_W296.lambdaPN;
+  Q.physics.spaceMesh = Object.assign({}, Q.physics.spaceMesh, CHARON_DECL_W296.spaceMesh);
+  Q.id = 'w288cCharonDeclW296';
+  return Q;
+}
+/** (B) 🌒 の状態の指紋(同じ初期状態・N_STEPS 步)。hist=true は第296便までの宣言へ戻した写し(戻す必要がない世代は null)。 */
+export function fingerprint(HP, hist) {
+  const P0 = find(HP, 'charonGeoToy3'), P = hist ? charonHistCopy(P0) : P0;
+  if (!P) return null;
+  const b = build(HP, P);
   if (!b.ok) return { ok: false, err: b.err };
   const S = b.S;
   for (let k = 0; k < N_STEPS; k++) S.step(DT);
@@ -180,9 +195,14 @@ if (IS_MAIN && process.argv[2] === '--probe') {
     }
     console.log(`基点(子プロセス): ${JSON.stringify(baseLive.cases)} 宣言と一致・指紋 ${baseLive.fingerprint.sha256.slice(0, 16)}…`);
   }
+  // 第297便a: 基点との指紋の照合は第296便までの宣言へ戻した写し(fingerprintHist)で —— 戻す必要がない世代は今の 🌒 そのもの
+  const fpHist = fingerprint(HP, true);
+  const fpCmp = fpHist || R.fingerprint;
   const beforeAfter = { counterBefore: BEFORE_940.cases.filter((z) => ['timePlus', 'timeMinus', 'timeAndSpace'].includes(z.key) && z.out === true).length,
     counterAfter: R.cases.counterPass, controlsSame: ['spaceOnly', 'inside'].every((k) => { const a = BEFORE_940.cases.find((z) => z.key === k), b = R.cases.rows.find((z) => z.key === k); return a.out === b.out && a.reexp === b.reexp; }),
-    charonBitSame: before.fingerprint.sha256 === R.fingerprint.sha256 };
+    charonBitSame: before.fingerprint.sha256 === fpCmp.sha256, declHist: !!fpHist,
+    charonBitSameNow: before.fingerprint.sha256 === R.fingerprint.sha256 };
+  if (fpHist) console.log(`(B′) 第296便までの宣言へ戻した 🌒 の写し ${fpHist.steps} 步 sha ${fpHist.sha256.slice(0, 16)}…(基点と同一 ${beforeAfter.charonBitSame})`);
   console.log(`前後: 反例 ${beforeAfter.counterBefore}/3 → ${beforeAfter.counterAfter}/3・対照 ${beforeAfter.controlsSame}・🌒 のビット同一 ${beforeAfter.charonBitSame}`);
   const CODE = ['tests/exp-w288c-bgrange.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第288便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
@@ -191,6 +211,7 @@ if (IS_MAIN && process.argv[2] === '--probe') {
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)',
     baseRev: '940dba52', notClaim: ['複素場を接続した', '観測と合った', '新発見'] });
   const out = { meta, ...R, before, beforeAfter, elapsedS: (Date.now() - t0) / 1000 };
+  if (fpHist) out.fingerprintHist = Object.assign({ restored: CHARON_DECL_W296, note: '第297便a で 🌒 の宣言が変わった(pn:"off"・λ_PN=0)—— 基点 940dba52 との指紋の照合は第296便までの宣言へ戻した写しで行う(器の中だけ)' }, fpHist);
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 1) + '\n');

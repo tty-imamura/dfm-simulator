@@ -9,11 +9,13 @@
 その帰結(回転方向の整列、銀河外縁の回転速度増強、熱平衡、光の湾曲、空間の引きずり)を
 iPhoneのブラウザで観察できるシミュレータです。
 
+> **再現を目標にする(第297便b —— 原仮定者の裁定(第87報))**: DFM は、観測された現象と観測量を再現することを優先度の高い目標とし、そのために計算の実装・初期配置・単位・測定方法と、調整してよい量と範囲を見直し続けます。再現するために計算やパラメータを観測値へ合わせた場合は、対象の観測量・許容・調整範囲・数値誤差と調整の記録を示します。計算を合わせたことは、現実の宇宙がその法則で成り立っていることの主張ではなく、宣言した仮定と検証範囲を超えて現実の物理法則を再現したとは主張しません。未達の量とフィットに使っていない量も表示し、未達は実装・初期条件・調整範囲がまだ合っていないものとして次の見直しに回します。
+> *(English)* DFM's priority is to reproduce observed phenomena and observables. To that end it keeps revisiting its implementation, initial configuration, units and measurement methods, and the quantities and ranges it may adjust. When the calculation or its parameters are adjusted to match observed values, the target observable, tolerance, adjustment range, numerical error and adjustment record are shown. Adjusting the calculation to match is not a claim that the real universe is constituted by that law, and DFM does not claim that real laws of physics have been reproduced beyond the declared assumptions and verified scope. Quantities not yet reached and quantities not used in the fit are shown too; a miss is treated as the implementation, the initial condition or the adjustment range not yet being right, and is carried to the next revision.
+>
+> **第297便b**: 🌤️ の月の近点回転 8.85 年の再現作業 —— 初期配置を平均要素に直した派生本 🌥️ で gain 0 の 118 公転窓 8.7873 年(この探索範囲では未達 —— 次の見直し: 2 次元の射影〔器の中だけの 3 次元の参照で軌道傾斜 5.145° は +1.13%〕)。フィットの記録は条件の署名つき(w297b-1)。
+>
 > **主張の範囲**: DFM は現実の宇宙を主張しません。DFM が主張するのは、宣言した仮定の内部で、保存・対称性・関数形の帰結が互いに矛盾しないことです。
 > 観測との突合(較正)はその検査であって、「合」は仮定と転写(観測量への写像)が窓に入ったことであり、宇宙がそう成り立っていることの主張ではありません。
->
-> **観測値に合わせる模型(第296便a)**: DFM は現実の物理法則を再現したとは主張しません。宣言した仮定の法則・単位・窓の中でアプリ内の整合を整え、対象の観測量・許容・調整範囲を定めて観測値へ合わせた模型を生成し、その範囲内の整合を検証します。未達の量・フィットに使っていない量も表示します。どの観測値にも必ず合わせられるとは主張しません。
-> *(English)* DFM does not claim to reproduce the real laws of physics. Within the declared hypothetical laws, units and windows it puts the app's internal consistency in order, generates models fitted to observed values with a stated target observable, tolerance and adjustment range, and verifies consistency within that range. Quantities that are not reached and quantities not used in the fit are shown as well. It does not claim that every observed value can always be matched.
 
 > 🚀 **オンラインで試す**: https://tty-imamura.github.io/dfm-simulator/
 > (GitHub Pages 有効化後に利用可能 — Settings → Pages → Branch: `main` / root)
@@ -418,6 +420,9 @@ iPhoneのブラウザで観察できるシミュレータです。
   2000 步まで 1 bit も変わらないことを本ごとに確かめてから 4 へ移しました。geoPN=3 は慣性決定力の引きずりの印として残ります。
   旧法則版が走らない 4・慣性を重ねた 4・kFrame>0(`toyAllowDrag` の明示なし)の 4 は、ほかの番号の「目的の組」と同じく保存・読込のときに警告が出て、編集欄も赤文字になります(走行は止めません)。
   「サンプルを選ぶ」の geoPN の絞り込みに「4: 空間メッシュ」が加わり、「パラメータ」タブの geoPN は 0〜4 になりました。
+- **アプリ内実測(v1.45-b1・第297便d)** — 説明タブの「⏱ アプリ内実測」で ▶ を押すと、その時点の状態(編集した初期値・パラメータを含む)の複製を
+  判定器・フィット器と同じ刻みと窓で走らせ、観測と比べる量(公転周期・離心率の代理・近点移動・フィットの標的)を測ります。本の走行と表示は止まらず、
+  本の値は書き換えません。ライブ比較(画面の走行での暫定値)とは別の測定で、合否は判定器の正本の転記のまま(ここは差と σ 換算だけ)です。
 - **geoPN=3 のフィットの派生本(v1.45-b1・第296便b)** — 🟫 水星と太陽(慣性決定力版・フィット)・🟪 冥王星とカロン(慣性決定力版・フィット)を
   原理サンプル(較正母集団の外)として足しました。生成器 `tests/exp-w296b-fit.mjs` が慣性引きずりの gain を**宣言した 1 つの観測量**
   (🟫 は gain 0 の対照との近点率の差 43.0″/世紀・🟪 は公転周期 6.3872273 日)に合わせ、残差を刻み h と h/2 の差(数値誤差)と比べています。
@@ -434,6 +439,15 @@ iPhoneのブラウザで観察できるシミュレータです。
   解法は粒子が 64 個を超えると共役勾配法で解き、元の式の残差で収束を確かめます。**収束しなければその步の引きずりを使わず、実行を止めて知らせます**(HUD に赤の 1 行)。
   自転する源は `spinSource:"surfaceFlip"`(源の表側と裏側の速度を一様球で平均した接線成分)。試作本 🔗 連鎖引きずりの小円盤(chainDiskToy)は原理サンプルで、
   円盤の形成や回転曲線の再現ではありません(gain は宣言値・ワンタップ対照は粒子どうしの辺を切った写し)。
+- **geoPN=2・3・4 は λ_PN=0(v1.45-b1・第297便a)** — 光学と力学を分けました。`physics.lambdaPN` は力学の 1PN の係数で、geoPN=2 の q の引きずり・
+  geoPN=3/4 の慣性決定力の引きずり(gain)と重ねません(光学の κ・光線・時計は別の欄で変えていません)。geoPN≥2 の内蔵 38 本は `lambdaPN:0` を明示し、
+  🔁🌒 の旧メッシュは `pn:"off"` にしました。geoPN≥2 で λ_PN≠0(未宣言は 1)の設定は保存・読込・編集欄・JSON の取り込みで警告(`lambdaPnOnDrag`)が出ます(値は書き換えません)。
+  軌道が変わった本は測り直し、🌘 は既存のノブ(D0pull・初速の係数)だけで恒星月と 8 公転窓の近点回転に合わせ直しました(記録は説明タブの「フィットの記録」)。
+- **時間の標準(v1.45-b1・第297便c)** — 時間経過倍率は **1 倍が標準**になり、公転する本は **1 公転 ≈ 360 步**で画面に出ます
+  (物理の値は変えず、本ごとに画面の積分刻み `physics.stepDt` を宣言 —— `stepDt = 周期 ÷ 360`。周期の基準は観測対象なら採用出典の周期、無ければ初期状態の接触軌道)。
+  時間の宣言 `timeRef` が「何の周期を何步で刻むか」を機械で読める形で持ち、HUD に「⏱ 1公転≈N步・倍率」が出ます。360 步で刻みを半分にした走行と
+  8 公転で合わなかった本は 720〜5760 步へ上げて理由を宣言に残しました。較正・フィットの器は自分の刻みで測るので、較正の数値は変わりません。
+  公転を持たない本(気体・箱・光線・円盤の粒子群など)は「観察の基準 600 步」を宣言し、倍率は 1〜4 に収めました。退役の本は変えていません(記録だけ)。
 - **「パラメータ」タブのカテゴリ構成(v1.44・第254便c)** — 並びは
   **時空 → 引きずり・測地線 → スピン・熱 →(実験箱/箱宇宙/相変化)→ シミュレーション → グラフ → 表示 → スケール → 共通設定**。
   「シミュレーション」にはソフトニング ε・時間経過倍率・摂動注入に加えて**ステップ診断を表示**・

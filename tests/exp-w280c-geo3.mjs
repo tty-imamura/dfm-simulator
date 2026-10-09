@@ -37,7 +37,7 @@ import { GEO3_HARNESS_VERSION, uniformBackground, makeGeo3Copy, extractCalauditP
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.timeStd","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -118,6 +118,9 @@ const CHARON_HISTORY_W291 = Object.freeze({ window: CHARON_HISTORY_W289.window,
 const HAS291B = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
 // 第295便: 内蔵の診断コピー 🔁🌒 は geoPN=4(GEO4_MIGRATED)の世代では 4 で宣言されている —— (f) の器の複製も同じ geoPN にする
 const GEO4_GEN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const GEO4_MIGRATED=') >= 0;
+// 第297便a(原仮定者の裁定(第87報)「geoPN=2・3・4 のサンプルは全て λ_PN=0」・R161): 内蔵の 🔁🌒 は旧メッシュの力学の 1PN を外した(spaceMesh.pn "off"・pnVelocity なし・λ_PN=0)——
+//   (f) の器の複製も同じ宣言にする(世代切替 = html の MODE_SAVE_WARN_CODES に "lambdaPnOnDrag")
+const GEN297A = /"lambdaPnOnDrag"\]/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
 const CHARON_HISTORY = HAS291B ? CHARON_HISTORY_W291 : CHARON_HISTORY_W289;
 const CHARON_HISTORY_FROM = HAS291B ? 'history(geo3-w280c の第291便 鎖 2 の正本 C0 rev2S —— 新しい源集合・❄️ は第290便b で退役)' : 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)';
 const windowOf = (id) => { const p = calRow(id, false);
@@ -286,9 +289,10 @@ if (!PART || PART === 'checks') {
     explicitMutual1: makeGeo3Copy(pc3, { id: 'cconv_ex1', pn: 'off', velocityMeaning: 'xdot', field: 'explicit', external: ['body:2'], mutual: 1 }),
   };
   const harnessCopies = {
-    mercuryGeoToy3: makeGeo3Copy(merc, { id: 'mercuryGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'v', background: uniformBackground(V_MERC) }),
-    charonGeoToy3: makeGeo3Copy(pc, { id: 'charonGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'xdot', background: charonBg }),
+    mercuryGeoToy3: makeGeo3Copy(merc, { id: 'mercuryGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: GEN297A ? 'off' : 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'v', background: uniformBackground(V_MERC) }),
+    charonGeoToy3: makeGeo3Copy(pc, { id: 'charonGeoToy3', geoPN: GEO4_GEN ? 4 : 3, pn: GEN297A ? 'off' : 'reference-1PN', pnVelocity: 'v', velocityMeaning: 'xdot', background: charonBg }),
   };
+  if (GEN297A) for (const c of Object.values(harnessCopies)) c.physics.lambdaPN = 0;
   out.checks = await pg.evaluate(({ good, convCases, harnessCopies, uBg }) => {
     const C = {};
     // (c) velocityMeaning の変換の往復
@@ -375,7 +379,9 @@ if (!PART || PART === 'checks') {
         return { st: [Array.from(S.x), Array.from(S.y), Array.from(S.vx), Array.from(S.vy), Array.from(S.spin)], t: S.t,
           hasGeo3: S.hasGeo3, meshVelN: S.meshVelN, pnN: S.geo3PnN, hud: HP.geo3HudText(S), chip: HP.meshChipLabel(p, S) }; };
       const a = once(), b = once();
-      const vp = HP.validatePreset(JSON.parse(JSON.stringify(p))), vc = HP.validatePreset(JSON.parse(JSON.stringify(harnessCopies[id])));
+      // 第297便c(R163): 内蔵は画面の刻みの宣言(timeScale・stepDt)を移した —— 時間の宣言を移行前へ戻した写しどうしで比べる(写し元 ☄️ も移した/❄️ は退役で移していない)
+      const rv = (q) => (HP.timeStd && HP.timeStd.revert) ? HP.timeStd.revert(q) : JSON.parse(JSON.stringify(q));
+      const vp = HP.validatePreset(rv(p)), vc = HP.validatePreset(rv(harnessCopies[id]));
       F[id] = { bitSame: a.st.every((arr, k) => arr.every((z, i) => Object.is(z, b.st[k][i]))) && a.t === b.t,
         hasGeo3: a.hasGeo3, meshVelN: a.meshVelN, pnN: a.pnN, hud: a.hud, chip: a.chip,
         physicsSameAsHarnessCopy: vc.ok && JSON.stringify(vp.preset.physics) === JSON.stringify(vc.preset.physics),

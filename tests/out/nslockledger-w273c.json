@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "ac6116d7d2fd19a3f51a9598220e5f1a46ac89b5bf0adc2826c7f56334397285",
-  "generatedAt": "2026-10-08T18:05:13.856Z",
+  "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
+  "generatedAt": "2026-10-09T18:11:45.803Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 229481,
-    "sha256": "742f8cc812d0a1b31c2e24be46a2aed5087ed390340b986b5a61eea74be306b7",
-    "mtime": "2026-10-08T10:46:42.952Z"
+    "bytes": 229487,
+    "sha256": "0086573457b2bfa99c94c895f8aecbafc94a4175f5b588cf41edce7d9423e6ca",
+    "mtime": "2026-10-09T13:42:19.967Z"
    }
   ],
   "code": [
@@ -18,20 +18,20 @@
     "file": "tests/exp-w273c-nslockledger.mjs",
     "bytes": 8660,
     "sha256": "18550fa26fd5e9f640996b786b86bdae657d9c0492c7413dc67679e571482c05",
-    "mtime": "2026-10-02T23:11:02.896Z"
+    "mtime": "2026-10-09T10:19:35.478Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    }
   ],
   "codeSha256": "0f51ef98c04d5cad70de5658432865206d52faa932b76f5440ad407f14156b3b"
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-10-08T10:24:50.227Z",
+ "sourceAt": "2026-10-09T13:30:01.874Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
@@ -49,7 +49,7 @@
    },
    "declared": {
     "kFrame": 1,
-    "lambdaPN": 1,
+    "lambdaPN": 0,
     "pnAlpha": 1.5,
     "geoPN": 2,
     "frameWeight": "pull",
@@ -382,7 +382,7 @@
    },
    "declared": {
     "kFrame": 1,
-    "lambdaPN": 1,
+    "lambdaPN": 0,
     "pnAlpha": 1.5,
     "geoPN": 2,
     "frameWeight": "pull",

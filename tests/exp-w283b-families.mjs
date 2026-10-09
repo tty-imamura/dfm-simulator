@@ -280,9 +280,20 @@ export function retiredInventory(ctx) {
   const presets = allIds.map((id) => {
     const p = HP.allPresets().find((q) => q.id === id);
     const { fx, file } = fxOf(id);
-    return { id, emoji: p ? p.emoji : null, inBuiltin: !!p, retired: !!(p && p.familyRole === 'retired'),
+    const row = { id, emoji: p ? p.emoji : null, inBuiltin: !!p, retired: !!(p && p.familyRole === 'retired'),
       sigBuiltin: p ? presetSigHash(p) : null, sigFixture: fx.presets[id].presetSigHash,
       sigFixtureNow: presetSigHash(fx.presets[id].raw), fixture: file };
+    // 第297便a(原仮定者の裁定(第87報)「geoPN=2・3・4 のサンプルは全て λ_PN=0」・R161): 退役の本も geoPN≥2 は λ_PN=0 になった(凍結の写しは第296便までの λ_PN)。
+    //   宣言から導く —— 内蔵が geoPN≥2 ∧ λ_PN=0 で、写しの λ_PN が 0 でない(未宣言 = 1)本だけ、λ_PN を写しの値へ戻した写しの署名 sigBuiltinLam を足す
+    //   (動いたのが λ_PN の 1 か所だけであることの照合 —— sigBuiltin は内蔵そのままの署名で残す)
+    const rawPh = (fx.presets[id].raw && fx.presets[id].raw.physics) || {};
+    if (p && ((p.physics || {}).geoPN || 0) >= 2 && p.physics.lambdaPN === 0 && rawPh.lambdaPN !== 0) {
+      const q = clone(p);
+      if (rawPh.lambdaPN === undefined) delete q.physics.lambdaPN; else q.physics.lambdaPN = rawPh.lambdaPN;
+      row.lam297 = { builtin: 0, fixture: rawPh.lambdaPN === undefined ? null : rawPh.lambdaPN };
+      row.sigBuiltinLam = presetSigHash(q);
+    }
+    return row;
   });
   const files = fs.readdirSync(path.join(root, 'tests')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tests/' + f)
     .concat(fs.readdirSync(path.join(root, 'tools')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tools/' + f)).sort();
@@ -385,6 +396,13 @@ export function renderMd(J) {
   L.push('|---|---|---|---|---|---|');
   for (const p of R.presets) L.push(`| ${p.emoji || ''} | \`${p.id}\` | ${p.inBuiltin ? '○' : '—'} | ${p.retired ? '○' : '—'} | ${fv(p.sigBuiltin)} | ${fv(p.sigFixture)} |`);
   L.push('');
+  const lam297 = R.presets.filter((p) => p.lam297);
+  if (lam297.length) {
+    L.push(`- **第297便a(geoPN=2・3・4 は λ_PN=0)で λ_PN だけが変わった退役 ${lam297.length} 本**: ${lam297.map((p) => (p.emoji || '') + '`' + p.id + '`').join('・')} —— 内蔵の署名は凍結の写しと違う(走る宣言は λ_PN=0)。`
+      + `λ_PN を写しの値(未宣言 = 1・🪶🪃🪀 は 1/f)へ戻した写しの署名は ${lam297.every((p) => p.sigBuiltinLam === p.sigFixture) ? '**すべて写しと同じ**' : '写しと違う本がある'}`
+      + `(${lam297.map((p) => fv(p.sigBuiltinLam)).join(' / ')} —— 動いたのは λ_PN の 1 か所だけ)。`);
+    L.push('');
+  }
   L.push(`- **ゲートから外した長走行**: ${R.fixture.gateRemovedUnits.map((x) => '`' + x + '`').join('・')}(保存 QA の worker の所要の和 ${(R.fixture.gateRemovedWorkerMs / 1000).toFixed(1)} s)と、その結果を読む試験 ${R.fixture.gateRemovedTests.map((x) => '`' + x + '`').join('・')}。最後の保存 QA の値は凍結の写しの history に転記した(測り直していない)。`);
   L.push('- **機構の最小試験**(ゲートに残す 1 点ずつ): ' + R.fixture.mechanism.map((m) => `${m.ja} = \`${m.testId}\`(${m.preset})`).join(' / ') + '。');
   if (R.fixture2) L.push(`- **第284便b の写し** \`${R.fixture2.file}\`(原仮定者の裁定(第74報)⑤・AN35): 退役 ${R.fixture2.ids.length} 本(${R.fixture2.ids.map((x) => '\`' + x + '\`').join(' ')})と、f=1 へ移した本の旧則(${R.fixture2.superseded.map((x) => '\`' + x + '\`').join(' ')} —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: ${R.fixture2.repointedTests.map((x) => '\`' + x + '\`').join('・')}。`);

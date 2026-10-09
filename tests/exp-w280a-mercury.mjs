@@ -103,7 +103,15 @@ await E(`(function(){
 })()`);
 
 const presetOf = async (id) => JSON.parse(await E(`JSON.stringify(HP.allPresets().find((q) => q.id === ${JSON.stringify(id)}))`));
-const KF0 = await presetOf('mercuryReal'), KF1 = await presetOf('mercuryRealKF1');
+const KF0 = await presetOf('mercuryReal'), KF1_NOW = await presetOf('mercuryRealKF1');
+// 第297便(原仮定者の裁定(第87報)「geoPN=2・3・4 は λ_PN=0」・統括の検証項目 R161): 🪨 は geoPN=2(退役)なので本の宣言は λ_PN=0 になり力学が変わった。
+// 本器の kF1 は第280便a の分解(履歴の正式値・PHYSICS〔第280便a〕の表)の対照なので、**器の中だけ** λ_PN を履歴の宣言(1)へ戻した写しで走らせる
+// (本の宣言は今のまま —— λ_PN=0 の 🪨 の値は第297便a の器 refit-297a が記録する)
+const KF1_LAM_HIST = 1;
+const KF1_RESTORED = Number(KF1_NOW.physics.lambdaPN) !== KF1_LAM_HIST;
+const KF1_ID = KF1_RESTORED ? 'mercuryRealKF1__lamHist' : 'mercuryRealKF1';
+const KF1 = KF1_RESTORED ? Object.assign(JSON.parse(JSON.stringify(KF1_NOW)), { id: KF1_ID, name: KF1_ID }) : KF1_NOW;
+if (KF1_RESTORED) { KF1.physics.lambdaPN = KF1_LAM_HIST; }
 const sameBodies = JSON.stringify(KF0.bodies) === JSON.stringify(KF1.bodies);
 if (!sameBodies) throw new Error('☄️ と 🪨 の bodies が違う(同じ状態ベクトルの前提が崩れた)');
 
@@ -137,7 +145,7 @@ async function run(id, dt) {
     softening: S.params.softening, spin0: S.spin[0] }; })()`);
   const t = r.targets[0];
   return {
-    id, dt, steps: r.steps, maxSteps: sr.maxSteps, wallSec: (Date.now() - w0) / 1000, nan: r.nan, clamp: r.clamp,
+    id: (id === KF1_ID ? 'mercuryRealKF1' : id), dt, steps: r.steps, maxSteps: sr.maxSteps, wallSec: (Date.now() - w0) / 1000, nan: r.nan, clamp: r.clamp,
     warnings: (b0.warnings || []).length,
     slopeDegA: t.A.slopeDeg, residDegA: t.A.residDeg, nPeriA: t.A.nPeri, rejA: t.A.rej,
     slopeDegB: t.B.slopeDeg, nPeriB: t.B.nPeri,
@@ -165,11 +173,13 @@ const EPS_PRESET = Number(KF0.physics.softening);
 const EPS_FORMAL = (CAL_PHYS && Number.isFinite(Number(CAL_PHYS.softening))) ? Number(CAL_PHYS.softening) : EPS_PRESET;
 await E(`window.__w249calPhys = ${JSON.stringify(CAL_PHYS_ROWS)};`);
 const r00 = await run('mercuryReal', 0.016);
-const r01 = await run('mercuryRealKF1', 0.016);
+if (KF1_RESTORED) await register(KF1);
+const r01 = await run(KF1_ID, 0.016);
 await E('window.__w249calPhys = {};');   // 再現のあとは外す(格子・1 表の ☄️ は本の宣言 ε のまま)
 const repro = {
   kF0: { formal: CAL0.meas, here: r00.slopeDegA, bitIdentical: r00.slopeDegA === CAL0.meas, nPeri: r00.nPeriA, softening: r00.state.softening },
   kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA, softening: r01.state.softening,
+    lambdaRestored: KF1_RESTORED ? KF1_LAM_HIST : null,
     retired: !!CAL1.retired, formalFrom: CAL1.retired ? CAL1.from : CANON_CAL },
   calPhysics: CAL_PHYS, epsFormal: EPS_FORMAL, epsPreset: EPS_PRESET,
   engine: ENGINE,
@@ -309,7 +319,7 @@ await register(variant(KF0, 'mercuryDiag_vMinusU_mutual1', { meshVelocity: { law
 const table = [];
 const COND = [
   { key: 'kF0', id: 'mercuryReal', label: 'kF0(☄️ そのもの・λ_PN=1)' },
-  { key: 'kF1', id: 'mercuryRealKF1', label: 'kF1(🪨 そのもの・q=6.1471 qLock・D0pull)' },
+  { key: 'kF1', id: KF1_ID, label: 'kF1(🪨 そのもの・q=6.1471 qLock・D0pull)' },
   { key: 'geoPN3scalar', id: 'mercuryDiag_geoToyScalar', label: 'geoPN=3 scalar(現行トイ —— _core の geoPN は 0 = 1PN なし)' },
   { key: 'vMinusU', id: 'mercuryDiag_vMinusU', label: 'meshVelocity vMinusU(field:"explicit"・external 太陽・mutual:0・kF0・geoPN=2・λ_PN=1)' },
   { key: 'vMinusU_mutual1', id: 'mercuryDiag_vMinusU_mutual1', label: '同上 mutual:1(2 体で外部=太陽なので局所の源は空)' },

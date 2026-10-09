@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "4fa604a0ce9a1f08a5a8bfdcaa9530617300b97f14eda584c19bc41b0367c6cc",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-10-08T10:24:50.227Z",
+  "at": "2026-10-09T13:30:01.874Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1051,
-   "segments": 960,
-   "closureShare": 0.3239
+   "names": 1074,
+   "segments": 983,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "8e9f9d3b8c1c16f07a09db406c6aa1efc39ae9a7766d072193d0347ce5a62ce0",
+  "scopeSha256": "fd493e8e84d73503d3e1aa602deb9ebd37a6574970a1052d38ab96c338f91dc3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -76,23 +76,23 @@
     "file": "tests/exp-w272c-nslock.mjs",
     "bytes": 28600,
     "sha256": "0443a5568e2e7fe6ce599efc92aa6fb9cc47a4f37e94eb53b27d6a07ab07ffce",
-    "mtime": "2026-10-02T23:11:02.892Z"
+    "mtime": "2026-10-09T10:19:35.478Z"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
     "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
-    "mtime": "2026-10-02T23:11:02.940Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w272c-binlock.mjs",
     "bytes": 23335,
     "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 1312.5,
+  "spentSec": 737.9,
   "stages": 102
  },
  "builtinDeclared": [
@@ -100,7 +100,7 @@
    "id": "psrDoubleABDFM",
    "emoji": "⚡",
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
@@ -169,7 +169,7 @@
    "id": "psrB1534DFM",
    "emoji": "🧶",
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
@@ -232,7 +232,7 @@
    "id": "alphaCenABDFM",
    "emoji": "✴️",
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
@@ -255,7 +255,7 @@
    "id": "siriusABDFM",
    "emoji": "💫",
    "kFrame": 1,
-   "lambdaPN": 1,
+   "lambdaPN": 0,
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
@@ -294,7 +294,7 @@
     "id": "psrDoubleABDFM",
     "emoji": "⚡",
     "kFrame": 1,
-    "lambdaPN": 1,
+    "lambdaPN": 0,
     "geoPN": 2,
     "sampleClass": "calibration",
     "masses": [
@@ -463,7 +463,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
+     "what": "内蔵そのまま(kFrame=1・λ_PN=0・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -475,16 +475,16 @@
        "errors": null,
        "stopped": "escape",
        "nPeri": 1,
-       "steps": 262648,
+       "steps": 262687,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777779005392588,
+       "e": 0.7777778491614956,
        "P": null,
        "omegaDot": null,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -508,16 +508,16 @@
        "errors": null,
        "stopped": "escape",
        "nPeri": 1,
-       "steps": 525224,
+       "steps": 525302,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777778886872951,
+       "e": 0.7777778470839705,
        "P": null,
        "omegaDot": null,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -541,16 +541,16 @@
        "errors": null,
        "stopped": "escape",
        "nPeri": 1,
-       "steps": 1050375,
+       "steps": 1050532,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777777862602977,
+       "e": 0.7777778423588294,
        "P": null,
        "omegaDot": null,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -586,11 +586,11 @@
        "note": "3 段が揃っていない"
       },
       "e": {
-       "p": -3.111398017553593,
+       "p": -1.1854914543702668,
        "ext": null,
        "monotone": false,
-       "d1": 1.1851963632736329e-8,
-       "d2": 1.0242699743923112e-7,
+       "d1": 2.077525151911175e-9,
+       "d2": 4.725141056205473e-9,
        "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
       }
      },
@@ -630,9 +630,9 @@
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
         "modelExt": null,
-        "modelH4": 0.7777777862602977,
+        "modelH4": 0.7777778423588294,
         "sigmaTimesExt": null,
-        "sigmaTimesH4": 14375015.63042287
+        "sigmaTimesH4": 14375016.79914228
        }
       },
       "solution": {
@@ -662,9 +662,9 @@
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
         "modelExt": null,
-        "modelH4": 0.7777777862602977,
+        "modelH4": 0.7777778423588294,
         "sigmaTimesExt": null,
-        "sigmaTimesH4": 11311487.92229996
+        "sigmaTimesH4": 11311488.841948023
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -4862,7 +4862,7 @@
     "id": "psrB1534DFM",
     "emoji": "🧶",
     "kFrame": 1,
-    "lambdaPN": 1,
+    "lambdaPN": 0,
     "geoPN": 2,
     "sampleClass": "calibration",
     "masses": [
@@ -5023,7 +5023,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
+     "what": "内蔵そのまま(kFrame=1・λ_PN=0・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -5035,16 +5035,16 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 21393335,
+       "steps": 21392761,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.4494796848008013,
-       "P": 180154.39528105222,
-       "omegaDot": 1.1118148114581017,
+       "e": 0.44947104344672595,
+       "P": 180149.56081277743,
+       "omegaDot": 0.9348203933232975,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -5072,12 +5072,12 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.4493298983206867,
+       "e": 0.44932125373810533,
        "P": null,
        "omegaDot": null,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -5105,12 +5105,12 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.4492362949597033,
+       "e": 0.4492276483693605,
        "P": null,
        "omegaDot": null,
        "used": {
         "kFrame": 1,
-        "lambdaPN": 1,
+        "lambdaPN": 0,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
@@ -5146,17 +5146,17 @@
        "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 0.678275172298156,
-       "ext": 0.449080347954217,
+       "p": 0.6782753228874733,
+       "ext": 0.4490716980622604,
        "monotone": true,
-       "d1": 0.00014978648011459983,
-       "d2": 0.00009360336098340749,
+       "d1": 0.0001497897086206179,
+       "d2": 0.00009360536874480907,
        "note": null
       }
      },
      "Pext": null,
      "omegaDotExt": null,
-     "eExt": 0.449080347954217,
+     "eExt": 0.4490716980622604,
      "resolved": {
       "P": false,
       "omegaDot": false,
@@ -5189,10 +5189,10 @@
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.449080347954217,
-        "modelH4": 0.4492362949597033,
-        "sigmaTimesExt": 584676.1598473899,
-        "sigmaTimesH4": 585195.983199011
+        "modelExt": 0.4490716980622604,
+        "modelH4": 0.4492276483693605,
+        "sigmaTimesExt": 584647.3268742012,
+        "sigmaTimesH4": 585167.1612312017
        }
       },
       "solution": {
@@ -5221,10 +5221,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.449080347954217,
-        "modelH4": 0.4492362949597033,
-        "sigmaTimesExt": 4385073.698855424,
-        "sigmaTimesH4": 4388972.373992582
+        "modelExt": 0.4490716980622604,
+        "modelH4": 0.4492276483693605,
+        "sigmaTimesExt": 4384857.451556509,
+        "sigmaTimesH4": 4388756.209234012
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"

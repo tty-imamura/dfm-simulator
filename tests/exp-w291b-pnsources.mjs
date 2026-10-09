@@ -39,10 +39,11 @@ import * as O from './lib-w285b-gr1pn.mjs';
 import { definitionMixAudit } from './lib-w280d-charoninput.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w291b-pnsources-4';   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3→4(空間メッシュ)へ移住した本(GEO4_MIGRATED)の署名の差は、力学がビット同一なら sigDiff に数えず sigChangedByGeo4Migration に記録だけ   // 第293便(統合): 慣性決定力の本(relativeDrag.law:"inertial")は 1PN の源集合の契約の外(合成則の既定が変わると動く)— changedByInertialLaw に記録だけ   // 第292便(統合): 基点に無い本(newInNow)は差・署名の判定から外す(記録だけ)
+export const HARNESS_VERSION = 'w291b-pnsources-5';   // 第297便(原仮定者の裁定(第87報)・R161/R163): λ_PN の宣言が基点から変わった geoPN≥2 の本(第297便a —— λ_PN=0)の差・署名の差と、時間の宣言を移しただけの本(第297便c —— timeStdRevert の署名が基点と同じ)の署名の差は、記録だけ(changedByLambdaPn297・sigChangedByLambdaPn297・sigChangedByTimeStd297)
+// 以前の版の記録:   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3→4(空間メッシュ)へ移住した本(GEO4_MIGRATED)の署名の差は、力学がビット同一なら sigDiff に数えず sigChangedByGeo4Migration に記録だけ   // 第293便(統合): 慣性決定力の本(relativeDrag.law:"inertial")は 1PN の源集合の契約の外(合成則の既定が変わると動く)— changedByInertialLaw に記録だけ   // 第292便(統合): 基点に無い本(newInNow)は差・署名の判定から外す(記録だけ)
 /** 本器の宣言(前後の步数・半径回帰の系・🥶 の ID)。 */
 export const SPEC = Object.freeze({
   bitSteps: 24,
@@ -80,7 +81,7 @@ function bookTable(H, steps) {
         let src=0; for(let i=0;i<S.n;i++) if(pnSource(S,i)) src++;
         const conf=(typeof pn1GRConformance==='function' && kf0)? pn1GRConformance(S) : null;
         row=Object.assign(row,{n:S.n, geoPN:P.geoPN, kFrame:P.kFrame, lambdaPN:(P.lambdaPN===undefined?1:P.lambdaPN), G:P.G, kf0, src, inertial:!!(P.relativeDrag && P.relativeDrag.law==='inertial'),
-          sig:presetSig(p), conf:conf? {ok:conf.ok, reasons:conf.reasons} : null,
+          sig:presetSig(p), sigTimeRevert:(typeof timeStdRevert==='function')? presetSig(timeStdRevert(p)) : null, conf:conf? {ok:conf.ok, reasons:conf.reasons} : null,
           geo4:(typeof GEO4_MIGRATED!=='undefined' && GEO4_MIGRATED.indexOf(p.id)>=0)});
         for(let k=0;k<${steps};k++) S.step(DT);
         row.fp=fp(S); row.nan=S.hasNaN();
@@ -180,7 +181,11 @@ if (IS_MAIN) {
     const b = bm.get(r.id) || {};
     return { id: r.id, emoji: r.emoji, role: r.role, cls: r.cls, n: r.n, geoPN: r.geoPN, kFrame: r.kFrame, lambdaPN: r.lambdaPN, G: r.G, kf0: r.kf0,
       srcBase: b.src === undefined ? null : b.src, srcNow: r.src, srcIncreased: (b.src !== undefined && r.src > b.src),
-      inBase: bm.has(r.id), inertialLaw: !!r.inertial, geo4Migrated: !!r.geo4, bitSame: !r.err && !b.err && r.fp === b.fp, sigSame: bm.has(r.id) ? r.sig === b.sig : null, nan: !!r.nan, conf: r.conf, err: r.err || b.err || null };
+      inBase: bm.has(r.id), inertialLaw: !!r.inertial, geo4Migrated: !!r.geo4, bitSame: !r.err && !b.err && r.fp === b.fp, sigSame: bm.has(r.id) ? r.sig === b.sig : null, nan: !!r.nan, conf: r.conf, err: r.err || b.err || null,
+      // 第297便a(R161): λ_PN の宣言が基点から変わった geoPN≥2 の本(宣言から —— 基点の λ_PN≠0・いまの λ_PN=0)
+      lambdaBase: b.lambdaPN === undefined ? null : b.lambdaPN, lam297: bm.has(r.id) && r.geoPN >= 2 && r.lambdaPN === 0 && b.lambdaPN !== undefined && b.lambdaPN !== 0,
+      // 第297便c(R163): 時間の宣言(timeScale・stepDt)を移行前へ戻した写しの署名が基点と同じ本
+      timeStdOnly: bm.has(r.id) && r.sigTimeRevert !== null && r.sigTimeRevert !== r.sig && r.sigTimeRevert === b.sig };
   });
   // 第292便(統合): 基点の html に無い本(新設の本)は「前後」の判定の外(newInNow に記録だけ・差にも署名の不一致にも数えない)
   const newInNow = rows.filter((r) => !r.inBase).map((r) => r.id);
@@ -189,7 +194,13 @@ if (IS_MAIN) {
   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3→4(空間メッシュ)へ移住した本は署名(geoPN と本文の語)だけが変わる —— 力学がビット同一なら
   //   署名の差に数えず記録だけ(ビット同一でなければ従来どおり sigDiff・changed に数える)
   const sigChangedByGeo4Migration = rows.filter((r) => r.inBase && r.sigSame === false && r.geo4Migrated && r.bitSame).map((r) => r.id);
-  const changed = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw).map((r) => r.id);
+  // 第297便a(原仮定者の裁定(第87報)「geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」・R161): λ_PN の宣言が変わった本の軌道の差は
+  //   1PN の源集合の契約の外(力学の 1PN を外した —— 🌘 は同便の再フィットも含む)—— 源が増えていない本だけ changedByLambdaPn297 に記録(差に数えない)
+  const changedByLambdaPn297 = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && r.lam297 && !r.srcIncreased).map((r) => r.id);
+  // 署名: λ_PN の宣言が変わった本(sigChangedByLambdaPn297)・時間の宣言を移しただけの本(sigChangedByTimeStd297 —— 戻した写しの署名が基点と同じ)は記録だけ
+  const sigChangedByLambdaPn297 = rows.filter((r) => r.inBase && r.sigSame === false && r.lam297).map((r) => r.id);
+  const sigChangedByTimeStd297 = rows.filter((r) => r.inBase && r.sigSame === false && !r.lam297 && r.timeStdOnly).map((r) => r.id);
+  const changed = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && changedByLambdaPn297.indexOf(r.id) < 0).map((r) => r.id);
   const increased = rows.filter((r) => r.srcIncreased).map((r) => r.id);
   const changedNotIncreased = changed.filter((id) => !increased.includes(id));
   const increasedUnchanged = increased.filter((id) => !changed.includes(id));
@@ -199,7 +210,9 @@ if (IS_MAIN) {
   for (const r of confRows) for (const k of r.conf.reasons) reasonTally[k] = (reasonTally[k] || 0) + 1;
   const A = { n: rows.length, kf0Books: rows.filter((r) => r.kf0).length, increased, increasedN: increased.length };
   const B = { steps: SPEC.bitSteps, dt: HN.evalExpr('DT'), bitSame: rows.filter((r) => r.bitSame).length, changed, changedNotIncreased, increasedUnchanged,
-    sigSame: rows.filter((r) => r.sigSame === true).length, sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0).map((r) => r.id), newInNow, changedByInertialLaw, sigChangedByGeo4Migration, nullPhysicsKF0: nullPhysics,
+    sigSame: rows.filter((r) => r.sigSame === true).length,
+    sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0 && sigChangedByLambdaPn297.indexOf(r.id) < 0 && sigChangedByTimeStd297.indexOf(r.id) < 0).map((r) => r.id),
+    newInNow, changedByInertialLaw, sigChangedByGeo4Migration, changedByLambdaPn297, sigChangedByLambdaPn297, sigChangedByTimeStd297, nullPhysicsKF0: nullPhysics,
     errors: rows.filter((r) => r.err && r.inBase).map((r) => r.id + ': ' + r.err), nanNow: rows.filter((r) => r.nan).map((r) => r.id) };
   const F = { conformant: confRows.filter((r) => r.conf.ok).map((r) => r.id), outside: confRows.filter((r) => !r.conf.ok).map((r) => ({ id: r.id, reasons: r.conf.reasons })),
     reasonTally, note: '表示だけ(実行は禁止しない)—— 条件内でも観測一致の主張ではない' };

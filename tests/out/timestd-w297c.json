@@ -1,0 +1,6201 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第297便c",
+  "target": "beta/index.html",
+  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+  "generatedAt": "2026-10-09T13:54:08.639Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6146028,
+    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
+    "mtime": "2026-10-09T12:30:16.151Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w297c-timestd.mjs",
+    "bytes": 16371,
+    "sha256": "55053d8f1d1de74c1dd1c2fee20f7fcaa2676a04558fb89f32a98f0ace35b656",
+    "mtime": "2026-10-09T12:13:30.906Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:35.506Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:35.514Z"
+   }
+  ],
+  "codeSha256": "fd682eefa6d953c83ad8e687dd2d73e2b94c2555a8b3734435223aeefde48b79",
+  "version": "w297c-timestd-1",
+  "timeStdVersion": "w297c-timestd-1",
+  "ruling": "原仮定者の裁定(第87報)③ 時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す",
+  "reading": "統括の検証項目 R163(physics.stepDt・timeRef・timeScale=1・全在位本の移行・A/B 停止)",
+  "rule": "公転の本: timeScale=1・stepDt=pRef/stepsPerOrbit(pRef は観測対象なら採用出典の周期・無ければ初期状態の二体の接触軌道 —— 実測周期で正規化しない)/ 観察の本: timeRef basis observe・timeScale 1〜4 / 退役: physics を変えない記録",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "orbits": 8,
+  "observeSteps": 600,
+  "gate": {
+   "dA": 0.02,
+   "dE": 0.02,
+   "rMin": 0.1,
+   "ringFrac": 0.05,
+   "ringRel": 0.1,
+   "obsR": 0.1,
+   "obsState": 0.02
+  },
+  "orbitStepsStd": 360,
+  "plan": false,
+  "ids": null,
+  "base": null,
+  "loadErrors": [],
+  "wallSec": 151,
+  "notClaim": [
+   "画面の 360 步で 43″ や近点率を測った",
+   "刻みの門は物理の合否",
+   "実測周期で pRef を正規化した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.timeStd",
+    "HP.validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1079,
+   "segments": 988,
+   "closureShare": 0.3189
+  },
+  "scopeSha256": "69607377575c102a0bc7cdb8e6525e38f3029ada97dc8589ea401c56e7d31b09",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "summary": {
+  "n": 159,
+  "inService": 126,
+  "retired": 33,
+  "orbit": 47,
+  "observe": 79,
+  "noTimeRef": [],
+  "ok": 125,
+  "notOk": [
+   "psrDoubleABGeoToy:unstable(dA,dE)"
+  ],
+  "raised": [
+   "earthMoon:1440",
+   "psrDoubleABGeoToy:5760",
+   "boxBinaryToy:720",
+   "spaceMeshBinaryToy:1440",
+   "fig8:2880"
+  ],
+  "timeScaleNot1Orbit": [],
+  "observeTsOut": []
+ },
+ "rows": [
+  {
+   "id": "gclock",
+   "emoji": "⏱️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 240,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.015
+  },
+  {
+   "id": "grcal",
+   "emoji": "🛰️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 179.998,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.003
+  },
+  {
+   "id": "grcalGps",
+   "emoji": "🕰️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 250,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.008
+  },
+  {
+   "id": "grcalLight",
+   "emoji": "🌟",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 398.497,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.01
+  },
+  {
+   "id": "grcalShapiro",
+   "emoji": "⏲️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 408.534,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.004
+  },
+  {
+   "id": "projectile",
+   "emoji": "⚾",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.004336,
+   "dtApp": 0.004336,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 2.6016,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.271 → 1(刻み ×0.271)",
+    "legacyTimeScale": 0.271
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 184.125,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 184.141,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.025
+  },
+  {
+   "id": "echo",
+   "emoji": "⏪",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 82.5083,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.055
+  },
+  {
+   "id": "boxtrans",
+   "emoji": "📦",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.0064,
+   "dtApp": 0.0064,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 3.84,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.4 → 1(刻み ×0.4)",
+    "legacyTimeScale": 0.4
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 283.031,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 283.031,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.82
+  },
+  {
+   "id": "boxrot",
+   "emoji": "🌀",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 260,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.373
+  },
+  {
+   "id": "boxexpand",
+   "emoji": "📈",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 272.784,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.346
+  },
+  {
+   "id": "boxcomoving",
+   "emoji": "🫧",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 207.388,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.236
+  },
+  {
+   "id": "boxbound",
+   "emoji": "🪢",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 196.722,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.021
+  },
+  {
+   "id": "boxbreath",
+   "emoji": "🫁",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 201.018,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.279
+  },
+  {
+   "id": "boxredshift",
+   "emoji": "🔦",
+   "retired": false,
+   "sampleClass": "semantic",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.0064,
+   "dtApp": 0.0064,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 3.84,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成・旧 timeScale=0.4 → 1(刻み ×0.4)",
+    "legacyTimeScale": 0.4
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 183.463,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 183.473,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "stateRel": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.045
+  },
+  {
+   "id": "probeH",
+   "emoji": "🧭",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 215.032,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.236
+  },
+  {
+   "id": "freebox",
+   "emoji": "🕊️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 266.437,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.608
+  },
+  {
+   "id": "cosmicweb",
+   "emoji": "🕸️",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 261.87,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 8.201
+  },
+  {
+   "id": "galaxy",
+   "emoji": "🌌",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 259.806,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 4.287
+  },
+  {
+   "id": "galaxyStd",
+   "emoji": "🎡",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 259.681,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 3.733
+  },
+  {
+   "id": "galaxyGeo2",
+   "emoji": "💫",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 260.02,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 4.486
+  },
+  {
+   "id": "galaxyDB",
+   "emoji": "🍳",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 258.491,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.842
+  },
+  {
+   "id": "darkrotor",
+   "emoji": "🕶️",
+   "retired": true,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "rotorSolo",
+   "emoji": "🕳️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 197.943,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.037
+  },
+  {
+   "id": "nebulaRotor",
+   "emoji": "🌑",
+   "retired": true,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "nebulaShell",
+   "emoji": "🐚",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "nebulaBipolar",
+   "emoji": "⏳",
+   "retired": true,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "bhCore",
+   "emoji": "⚫",
+   "retired": true,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "bhCoreTilt",
+   "emoji": "🪩",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "massLadder",
+   "emoji": "🪜",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 1619.96,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.557
+  },
+  {
+   "id": "collapse",
+   "emoji": "🌫️",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2.2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 212.124,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.06
+  },
+  {
+   "id": "axisBarStill",
+   "emoji": "🥢",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 260.872,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 8.994
+  },
+  {
+   "id": "axisBarArms",
+   "emoji": "🎏",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 259.236,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 7.386
+  },
+  {
+   "id": "axisBarReach",
+   "emoji": "🎚️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 268.015,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 7.099
+  },
+  {
+   "id": "selfRotor",
+   "emoji": "🥚",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 91.0474,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.786
+  },
+  {
+   "id": "galaxyMeshSpiral",
+   "emoji": "🎠",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 259.343,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.225
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 259.746,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 7.782
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToyLite",
+   "emoji": "🎋",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 245.784,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.901
+  },
+  {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 245.784,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.973
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 245.552,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.413
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90Layers",
+   "emoji": "🪆",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 245.536,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.88
+  },
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": 12,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 134.358,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 11.653
+  },
+  {
+   "id": "clusterGrowthCopy",
+   "emoji": "🌰",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 12,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 12,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 118.139,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.559
+  },
+  {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 89.1703,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.832
+  },
+  {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 119.66,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.331
+  },
+  {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 157.139,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.975
+  },
+  {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 93.3588,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.654
+  },
+  {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 117.279,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.927
+  },
+  {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 154.849,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.32
+  },
+  {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 155.329,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.82
+  },
+  {
+   "id": "lensing",
+   "emoji": "💡",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 150,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.002
+  },
+  {
+   "id": "spinlens",
+   "emoji": "🌗",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1.33333,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.002
+  },
+  {
+   "id": "blens",
+   "emoji": "🔭",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 65,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.017
+  },
+  {
+   "id": "reddening",
+   "emoji": "🌆",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 光線の本"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 379.017,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.203
+  },
+  {
+   "id": "gas",
+   "emoji": "🔥",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 252.537,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 3.747
+  },
+  {
+   "id": "pressure",
+   "emoji": "🎈",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 190.034,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 3.861
+  },
+  {
+   "id": "conduction",
+   "emoji": "📏",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 156.605,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.138
+  },
+  {
+   "id": "frictionHeat",
+   "emoji": "🛷",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 223.093,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.794
+  },
+  {
+   "id": "coolrace",
+   "emoji": "🌈",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 100,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.002
+  },
+  {
+   "id": "convection",
+   "emoji": "♨️",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 70.1239,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 3.481
+  },
+  {
+   "id": "buoyancy",
+   "emoji": "🧪",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 193.096,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 4.681
+  },
+  {
+   "id": "cooling",
+   "emoji": "☕",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 182.543,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 3.291
+  },
+  {
+   "id": "emergent",
+   "emoji": "🧬",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 119.132,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.76
+  },
+  {
+   "id": "emergent2",
+   "emoji": "🧊",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 127.411,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.552
+  },
+  {
+   "id": "chain2",
+   "emoji": "⛓️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 148.6,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.837
+  },
+  {
+   "id": "chaincycle",
+   "emoji": "♻️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 148.6,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.42
+  },
+  {
+   "id": "earthMoon",
+   "emoji": "🌍",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.3985,
+   "dtApp": 0.3985,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 573.839936,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 1440,
+    "note": "360 步では刻み 1/2 との 8 公転の長半径の差 dA=0.047(門 0.02)—— 1440 步で 0.017",
+    "legacyTimeScale": 5
+   },
+   "scaleT": null,
+   "steps": 11520,
+   "stepsPerOrbit": 1440,
+   "stepsPerOrbitOsc": 1440,
+   "osc0": {
+    "a": 203.631,
+    "e": 0.116048,
+    "P": 573.84
+   },
+   "end": {
+    "a": 210.394,
+    "e": 0.117432
+   },
+   "endHalf": {
+    "a": 206.975,
+    "e": 0.115364
+   },
+   "dA": 0.016792,
+   "dE": 0.0020684,
+   "maxRelE": 0.0321666,
+   "maxRelL": 0.0163041,
+   "rMinRatio": 0.999108,
+   "rev": 9,
+   "pMeas": 463.356,
+   "pResid": -0.192535,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0543409,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.844
+  },
+  {
+   "id": "earthMoonFree",
+   "emoji": "🌕",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 1.32437,
+   "dtApp": 1.32437,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 476.774878,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 5
+   },
+   "scaleT": null,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.001,
+   "osc0": {
+    "a": 179.967,
+    "e": 0.00018521,
+    "P": 476.775
+   },
+   "end": {
+    "a": 179.967,
+    "e": 0.000180841
+   },
+   "endHalf": {
+    "a": 179.967,
+    "e": 0.000160612
+   },
+   "dA": 6.58986e-7,
+   "dE": 0.0000202291,
+   "maxRelE": 0.00030689,
+   "maxRelL": 0.0000018401,
+   "rMinRatio": 0.995736,
+   "rev": 7,
+   "pMeas": 476.994,
+   "pResid": 0.000459442,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.180596,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.042
+  },
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 65.5721,
+   "dtApp": 65.5721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.001,
+   "osc0": {
+    "a": 384.748,
+    "e": 0.0549002,
+    "P": 23606
+   },
+   "end": {
+    "a": 384.744,
+    "e": 0.0547986
+   },
+   "endHalf": {
+    "a": 384.748,
+    "e": 0.0548871
+   },
+   "dA": 0.00000973429,
+   "dE": 0.0000884809,
+   "maxRelE": 0.00117149,
+   "maxRelL": 2.45059e-11,
+   "rMinRatio": 0.999392,
+   "rev": 7,
+   "pMeas": 23606,
+   "pResid": 3.05008e-7,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4368.45,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.111
+  },
+  {
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 65.5721,
+   "dtApp": 65.5721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.001,
+   "osc0": {
+    "a": 384.748,
+    "e": 0.0549002,
+    "P": 23606
+   },
+   "end": {
+    "a": 384.744,
+    "e": 0.0547986
+   },
+   "endHalf": {
+    "a": 384.748,
+    "e": 0.0548871
+   },
+   "dA": 0.0000097343,
+   "dE": 0.000088481,
+   "maxRelE": 0.00117149,
+   "maxRelL": 5.29626e-11,
+   "rMinRatio": 0.999392,
+   "rev": 7,
+   "pMeas": 23606,
+   "pResid": 3.05008e-7,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4368.45,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.119
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": true,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 65.5721,
+   "dtApp": 65.5721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 358.538,
+   "osc0": {
+    "a": 383.705,
+    "e": 0.0523309,
+    "P": 23510.1
+   },
+   "end": {
+    "a": 381.513,
+    "e": 0.0531044
+   },
+   "endHalf": {
+    "a": 382.605,
+    "e": 0.0530524
+   },
+   "dA": 0.00284552,
+   "dE": 0.0000520119,
+   "maxRelE": 0.00585519,
+   "maxRelL": 0.00290067,
+   "rMinRatio": 0.996442,
+   "rev": 8,
+   "pMeas": 23502.9,
+   "pResid": -0.00436478,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4368.45,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.185
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 65.5721,
+   "dtApp": 65.5721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.001,
+   "osc0": {
+    "a": 384.748,
+    "e": 0.0549002,
+    "P": 23606
+   },
+   "end": {
+    "a": 384.708,
+    "e": 0.053938
+   },
+   "endHalf": {
+    "a": 384.729,
+    "e": 0.0544413
+   },
+   "dA": 0.000054707,
+   "dE": 0.000503331,
+   "maxRelE": 0.00142186,
+   "maxRelL": 3.79275e-15,
+   "rMinRatio": 0.999249,
+   "rev": 8,
+   "pMeas": 23474.8,
+   "pResid": -0.00555525,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4368.45,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.148
+  },
+  {
+   "id": "emAuditNewton",
+   "emoji": "⭕",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 100,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23606.001,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 1475375,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 2,
+   "status": "retired-record",
+   "stepsPerOrbit": 1475380,
+   "wallSec": 0
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 100,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23355.7063,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 1459732,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 2,
+   "status": "retired-record",
+   "stepsPerOrbit": 1459730,
+   "wallSec": 0
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.655721,
+   "dtApp": 0.655721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 362.311,
+   "osc0": {
+    "a": 3.86393,
+    "e": 0.0549042,
+    "P": 237.575
+   },
+   "end": {
+    "a": 3.83646,
+    "e": 0.0463724
+   },
+   "endHalf": {
+    "a": 3.83863,
+    "e": 0.0480192
+   },
+   "dA": 0.000560735,
+   "dE": 0.00164673,
+   "maxRelE": 0.0176563,
+   "maxRelL": 0.00833766,
+   "rMinRatio": 0.998187,
+   "rev": 7,
+   "pMeas": 236.169,
+   "pResid": 0.000463268,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 4805.95,
+   "cdtOverCam": 1965.8,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.056
+  },
+  {
+   "id": "earthMoonSunInertial",
+   "emoji": "🌤️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.655721,
+   "dtApp": 0.655721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 362.311,
+   "osc0": {
+    "a": 3.86393,
+    "e": 0.0549042,
+    "P": 237.575
+   },
+   "end": {
+    "a": 3.85572,
+    "e": 0.0458668
+   },
+   "endHalf": {
+    "a": 3.85699,
+    "e": 0.049121
+   },
+   "dA": 0.000329704,
+   "dE": 0.00325417,
+   "maxRelE": 0.0183485,
+   "maxRelL": 0.00827407,
+   "rMinRatio": 0.997393,
+   "rev": 8,
+   "pMeas": 234.654,
+   "pResid": -0.00595208,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 4805.95,
+   "cdtOverCam": 1965.8,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.118
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": true,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.655721,
+   "dtApp": 0.655721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 362.09,
+   "osc0": {
+    "a": 3.86235,
+    "e": 0.0755658,
+    "P": 237.43
+   },
+   "end": {
+    "a": 3.83259,
+    "e": 0.0657915
+   },
+   "endHalf": {
+    "a": 3.83534,
+    "e": 0.0677326
+   },
+   "dA": 0.000710032,
+   "dE": 0.00194117,
+   "maxRelE": 0.0174847,
+   "maxRelL": 0.00782387,
+   "rMinRatio": 0.99958,
+   "rev": 7,
+   "pMeas": 236.169,
+   "pResid": 0.000463268,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 4805.82,
+   "cdtOverCam": 1965.8,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.047
+  },
+  {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 65.5721,
+   "dtApp": 65.5721,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 370.317,
+   "osc0": {
+    "a": 392.064,
+    "e": 0.0725357,
+    "P": 24282.5
+   },
+   "end": {
+    "a": 391.486,
+    "e": 0.0595959
+   },
+   "endHalf": {
+    "a": 391.682,
+    "e": 0.0638188
+   },
+   "dA": 0.000499804,
+   "dE": 0.00422284,
+   "maxRelE": 0.0017177,
+   "maxRelL": 0.000337927,
+   "rMinRatio": 0.999489,
+   "rev": 7,
+   "pMeas": 24152.4,
+   "pResid": 0.0231485,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4368.45,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.247
+  },
+  {
+   "id": "qLockRadialAudit",
+   "emoji": "📶",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.258807,
+   "dtApp": 0.258807,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 93.1705603,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 10
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 9.56998,
+    "e": 0.0499983,
+    "P": 93.1706
+   },
+   "end": {
+    "a": 9.57001,
+    "e": 0.0500397
+   },
+   "endHalf": {
+    "a": 9.57003,
+    "e": 0.0500545
+   },
+   "dA": 0.00000150613,
+   "dE": 0.0000147333,
+   "maxRelE": 0.0011037,
+   "maxRelL": 0.0000164066,
+   "rMinRatio": 0.999349,
+   "rev": 7,
+   "pMeas": 93.2568,
+   "pResid": 0.000925493,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 9,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 819.493,
+   "cdtOverCam": 9.12805,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.491
+  },
+  {
+   "id": "qLockRadialAuditQ3",
+   "emoji": "📐",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.258807,
+   "dtApp": 0.258807,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 93.1705603,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 10
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 9.56998,
+    "e": 0.0499983,
+    "P": 93.1706
+   },
+   "end": {
+    "a": 9.569,
+    "e": 0.0488766
+   },
+   "endHalf": {
+    "a": 9.56952,
+    "e": 0.0494719
+   },
+   "dA": 0.000053683,
+   "dE": 0.000595269,
+   "maxRelE": 0.00110467,
+   "maxRelL": 0.000077749,
+   "rMinRatio": 0.999335,
+   "rev": 8,
+   "pMeas": 93.1335,
+   "pResid": -0.000397258,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 9,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 819.493,
+   "cdtOverCam": 9.12805,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.162
+  },
+  {
+   "id": "mercury",
+   "emoji": "☿",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.546901,
+   "dtApp": 0.546901,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 196.884183,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 6.66667
+   },
+   "scaleT": null,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 59.7017,
+    "e": 0.201698,
+    "P": 196.884
+   },
+   "end": {
+    "a": 62.7027,
+    "e": 0.247977
+   },
+   "endHalf": {
+    "a": 62.1668,
+    "e": 0.242934
+   },
+   "dA": 0.00897716,
+   "dE": 0.0050431,
+   "maxRelE": 0.0478603,
+   "maxRelL": 0.0139844,
+   "rMinRatio": 0.999759,
+   "rev": 7,
+   "pMeas": 214.203,
+   "pResid": 0.0879639,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0745774,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.044
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.11126,
+   "dtApp": 2.11126,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 579.091,
+    "e": 0.205631,
+    "P": 760.053
+   },
+   "end": {
+    "a": 578.984,
+    "e": 0.2052
+   },
+   "endHalf": {
+    "a": 579.077,
+    "e": 0.205577
+   },
+   "dA": 0.000161321,
+   "dE": 0.000376313,
+   "maxRelE": 0.0046782,
+   "maxRelL": 9.16795e-8,
+   "rMinRatio": 0.999724,
+   "rev": 7,
+   "pMeas": 760.405,
+   "pResid": 0.000464858,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 79.1175,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.024
+  },
+  {
+   "id": "mercurySunInertial",
+   "emoji": "🟤",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.11126,
+   "dtApp": 2.11126,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 579.091,
+    "e": 0.205631,
+    "P": 760.053
+   },
+   "end": {
+    "a": 579.075,
+    "e": 0.205567
+   },
+   "endHalf": {
+    "a": 579.125,
+    "e": 0.205767
+   },
+   "dA": 0.000085893,
+   "dE": 0.00019998,
+   "maxRelE": 0.00446007,
+   "maxRelL": 7.20761e-15,
+   "rMinRatio": 0.999689,
+   "rev": 8,
+   "pMeas": 759.752,
+   "pResid": -0.000394932,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 79.1175,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.033
+  },
+  {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": true,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.11126,
+   "dtApp": 2.11126,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 579.091,
+    "e": 0.205631,
+    "P": 760.053
+   },
+   "end": {
+    "a": 578.984,
+    "e": 0.205201
+   },
+   "endHalf": {
+    "a": 579.077,
+    "e": 0.205577
+   },
+   "dA": 0.000161256,
+   "dE": 0.000376042,
+   "maxRelE": 0.00467803,
+   "maxRelL": 4.52571e-15,
+   "rMinRatio": 0.999724,
+   "rev": 7,
+   "pMeas": 760.405,
+   "pResid": 0.000464858,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 79.1175,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.031
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.11126,
+   "dtApp": 2.11126,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 579.091,
+    "e": 0.205631,
+    "P": 760.053
+   },
+   "end": {
+    "a": 578.984,
+    "e": 0.205201
+   },
+   "endHalf": {
+    "a": 579.077,
+    "e": 0.205577
+   },
+   "dA": 0.000161263,
+   "dE": 0.000376057,
+   "maxRelE": 0.00467806,
+   "maxRelL": 5.74932e-14,
+   "rMinRatio": 0.999724,
+   "rev": 7,
+   "pMeas": 760.405,
+   "pResid": 0.000464858,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 79.1175,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.086
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 100,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.053023,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 47503,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 4,
+   "status": "retired-record",
+   "stepsPerOrbit": 47503.3,
+   "wallSec": 0
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.11126,
+   "dtApp": 2.11126,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(solarInner の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": 4,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 359.999,
+   "osc0": {
+    "a": 579.09,
+    "e": 2.77778e-7,
+    "P": 760.051
+   },
+   "end": {
+    "a": 579.09,
+    "e": 0.0000675881
+   },
+   "endHalf": {
+    "a": 579.09,
+    "e": 0.0000152539
+   },
+   "dA": 3.81973e-8,
+   "dE": 0.0000523343,
+   "maxRelE": 0.000310126,
+   "maxRelL": 0.0000027752,
+   "rMinRatio": 0.995732,
+   "rev": 7,
+   "pMeas": 760.054,
+   "pResid": 0.00000189461,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 103,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 919.537,
+   "cdtOverCam": 37.2318,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.789
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.424593,
+   "dtApp": 0.424593,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 152.853523,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(jupiterGalilean の イオ の周期 152853.5232 s ÷ 10^3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": 3,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.151,
+   "osc0": {
+    "a": 42.178,
+    "e": 0.00405278,
+    "P": 152.918
+   },
+   "end": {
+    "a": 42.1773,
+    "e": 0.00406081
+   },
+   "endHalf": {
+    "a": 42.178,
+    "e": 0.00416926
+   },
+   "dA": 0.0000184735,
+   "dE": 0.000108445,
+   "maxRelE": 0.000493787,
+   "maxRelL": 0.0000850991,
+   "rMinRatio": 0.996223,
+   "rev": 7,
+   "pMeas": 152.995,
+   "pResid": 0.000925644,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 3,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 722.81,
+   "cdtOverCam": 57.859,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.043
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 5.39282,
+   "dtApp": 5.39282,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1941.41664,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(venusReal の 金星 の周期 19414166.4 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 300
+   },
+   "scaleT": 4,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.995,
+   "osc0": {
+    "a": 1082.08,
+    "e": 0.007,
+    "P": 1941.39
+   },
+   "end": {
+    "a": 1082.08,
+    "e": 0.00709756
+   },
+   "endHalf": {
+    "a": 1082.08,
+    "e": 0.00707324
+   },
+   "dA": 3.68587e-7,
+   "dE": 0.0000243199,
+   "maxRelE": 0.000353494,
+   "maxRelL": 2.40719e-8,
+   "rMinRatio": 0.997058,
+   "rev": 8,
+   "pMeas": 1941.42,
+   "pResid": -7.41726e-7,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 124.364,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.078
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.765384,
+   "dtApp": 0.765384,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 275.538416,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(marsMoonsReal の フォボス の周期 27553.8415675 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.123,
+   "osc0": {
+    "a": 9.37585,
+    "e": 0.0150842,
+    "P": 275.632
+   },
+   "end": {
+    "a": 9.37581,
+    "e": 0.0149817
+   },
+   "endHalf": {
+    "a": 9.37584,
+    "e": 0.0150604
+   },
+   "dA": 0.0000023897,
+   "dE": 0.0000787029,
+   "maxRelE": 0.000482314,
+   "maxRelL": 0.00000584295,
+   "rMinRatio": 0.998225,
+   "rev": 7,
+   "pMeas": 275.666,
+   "pResid": 0.000462324,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 1425.62,
+   "cdtOverCam": 819.487,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.096
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 5518.53283,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 344908,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 2,
+   "status": "retired-record",
+   "stepsPerOrbit": 344908,
+   "wallSec": 0
+  },
+  {
+   "id": "plutoCharonDFM",
+   "emoji": "⛄",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55188.666,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 3449292,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 3449290,
+   "wallSec": 0
+  },
+  {
+   "id": "plutoCharonKF0Control",
+   "emoji": "🌨️",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55188.666,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 3449292,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 3449290,
+   "wallSec": 0
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 153.293,
+   "dtApp": 153.293,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55185.6439,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 1,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.006,
+   "osc0": {
+    "a": 195.958,
+    "e": 0,
+    "P": 55186.4
+   },
+   "end": {
+    "a": 195.958,
+    "e": 0.00000117081
+   },
+   "endHalf": {
+    "a": 195.958,
+    "e": 3.1061e-7
+   },
+   "dA": 1.73831e-12,
+   "dE": 8.60199e-7,
+   "maxRelE": 2.31891e-8,
+   "maxRelL": 4.62584e-13,
+   "rMinRatio": 1,
+   "rev": 8,
+   "pMeas": 55185.5,
+   "pResid": -0.00000296998,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 21883.9,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.218
+  },
+  {
+   "id": "plutoCharonInertial",
+   "emoji": "🟣",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 153.293,
+   "dtApp": 153.293,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55185.6439,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 1,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.006,
+   "osc0": {
+    "a": 195.958,
+    "e": 0,
+    "P": 55186.4
+   },
+   "end": {
+    "a": 195.984,
+    "e": 0.0116023
+   },
+   "endHalf": {
+    "a": 195.984,
+    "e": 0.0116639
+   },
+   "dA": 0.00000143363,
+   "dE": 0.0000616022,
+   "maxRelE": 0.101282,
+   "maxRelL": 3.65679e-15,
+   "rMinRatio": 0.999241,
+   "rev": 9,
+   "pMeas": 48766.3,
+   "pResid": -0.116322,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 21883.9,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.202
+  },
+  {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": true,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 153.293,
+   "dtApp": 153.293,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55185.6439,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 1,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.006,
+   "osc0": {
+    "a": 195.958,
+    "e": 0,
+    "P": 55186.4
+   },
+   "end": {
+    "a": 195.958,
+    "e": 0.00000117677
+   },
+   "endHalf": {
+    "a": 195.958,
+    "e": 2.09413e-7
+   },
+   "dA": 1.35235e-12,
+   "dE": 9.67354e-7,
+   "maxRelE": 1.59087e-8,
+   "maxRelL": 3.04733e-15,
+   "rMinRatio": 1,
+   "rev": 8,
+   "pMeas": 55185.5,
+   "pResid": -0.00000296998,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 21883.9,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.26
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 55193.1468,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 3449572,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 3449570,
+   "wallSec": 0
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 15.3293,
+   "dtApp": 15.3293,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 5518.56439,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 359.999,
+   "osc0": {
+    "a": 19.596,
+    "e": 2.10734e-8,
+    "P": 5518.53
+   },
+   "end": {
+    "a": 19.596,
+    "e": 0.0000879999
+   },
+   "endHalf": {
+    "a": 19.596,
+    "e": 0.0000669559
+   },
+   "dA": 3.26095e-9,
+   "dE": 0.000021044,
+   "maxRelE": 0.000304631,
+   "maxRelL": 4.69776e-15,
+   "rMinRatio": 0.995732,
+   "rev": 8,
+   "pMeas": 5518.55,
+   "pResid": -0.00000296998,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 19980.9,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.104
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 3.39235,
+   "dtApp": 3.39235,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1221.24621,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(uranusReal の ミランダ の周期 122124.62102 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.256,
+   "osc0": {
+    "a": 129.9,
+    "e": 0.00129925,
+    "P": 1222.12
+   },
+   "end": {
+    "a": 129.9,
+    "e": 0.0010969
+   },
+   "endHalf": {
+    "a": 129.9,
+    "e": 0.00124141
+   },
+   "dA": 0.00000237332,
+   "dE": 0.00014451,
+   "maxRelE": 0.000421752,
+   "maxRelL": 0.0000584617,
+   "rMinRatio": 0.995812,
+   "rev": 7,
+   "pMeas": 1222.38,
+   "pResid": 0.000925754,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 92,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 55.0726,
+   "cdtOverCam": 145.286,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.705
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 1.41044,
+   "dtApp": 1.41044,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 507.760186,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(neptuneReal の トリトン の周期 507760.1856 s ÷ 10^3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "scaleT": 3,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.014,
+   "osc0": {
+    "a": 35.476,
+    "e": 0.0000159496,
+    "P": 507.778
+   },
+   "end": {
+    "a": 35.476,
+    "e": 0.0000884071
+   },
+   "endHalf": {
+    "a": 35.476,
+    "e": 0.0000751464
+   },
+   "dA": 2.54482e-9,
+   "dE": 0.0000132607,
+   "maxRelE": 0.000304628,
+   "maxRelL": 3.7605e-10,
+   "rMinRatio": 0.995732,
+   "rev": 8,
+   "pMeas": 507.758,
+   "pResid": -0.00000351741,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 1006.76,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.03
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 6.99194,
+   "dtApp": 6.99194,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 2517.09729,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(alphaCenAB の B の周期 2517097291.2 s ÷ 10^6 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 6,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.008,
+   "osc0": {
+    "a": 348.548,
+    "e": 0.51947,
+    "P": 2517.15
+   },
+   "end": {
+    "a": 348.549,
+    "e": 0.519471
+   },
+   "endHalf": {
+    "a": 348.548,
+    "e": 0.519471
+   },
+   "dA": 0.00000101946,
+   "dE": 7.14197e-7,
+   "maxRelE": 0.0279723,
+   "maxRelL": 3.99984e-9,
+   "rMinRatio": 1.00033,
+   "rev": 7,
+   "pMeas": 2518.26,
+   "pResid": 0.000463404,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 332.719,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.056
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 2517.15422,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 157322,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 6,
+   "status": "retired-record",
+   "stepsPerOrbit": 157322,
+   "wallSec": 0
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 4.39426,
+   "dtApp": 4.39426,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1581.932,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(siriusAB の B の周期 1581931995.84 s ÷ 10^6 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 300
+   },
+   "scaleT": 6,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360.008,
+   "osc0": {
+    "a": 295.946,
+    "e": 0.59142,
+    "P": 1581.97
+   },
+   "end": {
+    "a": 295.947,
+    "e": 0.591421
+   },
+   "endHalf": {
+    "a": 295.947,
+    "e": 0.59142
+   },
+   "dA": 3.98812e-7,
+   "dE": 2.14701e-7,
+   "maxRelE": 0.0453895,
+   "maxRelL": 9.44217e-9,
+   "rMinRatio": 1.00054,
+   "rev": 7,
+   "pMeas": 1583.4,
+   "pResid": 0.000926938,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 235.244,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.022
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 300,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1581.9687,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 98873,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 6,
+   "status": "retired-record",
+   "stepsPerOrbit": 98873,
+   "wallSec": 0
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 2.45404,
+   "dtApp": 2.45404,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 883.453472,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 300
+   },
+   "scaleT": 1,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 878.837,
+    "e": 0.0877771,
+    "P": 883.453
+   },
+   "end": {
+    "a": 878.855,
+    "e": 0.0878203
+   },
+   "endHalf": {
+    "a": 878.844,
+    "e": 0.0877872
+   },
+   "dA": 0.0000126794,
+   "dE": 0.0000330641,
+   "maxRelE": 0.0017227,
+   "maxRelL": 0.00000682929,
+   "rMinRatio": 0.9999,
+   "rev": 7,
+   "pMeas": 883.454,
+   "pResid": 0.00000105042,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 6.68821,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.079
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 300,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 883.453254,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 55216,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 55215.8,
+   "wallSec": 0
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.153377,
+   "dtApp": 0.153377,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 883.453472,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(psrDoubleAB の B の周期 8834.53472328 s ÷ 10^1 s)",
+    "stepsPerOrbit": 5760,
+    "note": "360 步では dA=5.8・dE=0.63 —— 5760 步でも門外(dA=0.20・dE=0.076)・旧刻み DT でも dA=0.048・dE=0.058(空間メッシュの toy の感度)",
+    "legacyTimeScale": 300
+   },
+   "scaleT": 1,
+   "steps": 46081,
+   "stepsPerOrbit": 5760.01,
+   "stepsPerOrbitOsc": 5760.01,
+   "osc0": {
+    "a": 878.837,
+    "e": 0.0877771,
+    "P": 883.453
+   },
+   "end": {
+    "a": 1240.19,
+    "e": 0.253752
+   },
+   "endHalf": {
+    "a": 1065.23,
+    "e": 0.177588
+   },
+   "dA": 0.199078,
+   "dE": 0.076164,
+   "maxRelE": 2.4359,
+   "maxRelL": 0.464208,
+   "rMinRatio": 1.00142,
+   "rev": 11,
+   "pMeas": 612.373,
+   "pResid": -0.306842,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.418012,
+   "fails": [
+    "dA",
+    "dE"
+   ],
+   "status": "unstable",
+   "wallSec": 1.309
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 300,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 369.464011,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 23092,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 23091.5,
+   "wallSec": 0.001
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 4.40491,
+   "dtApp": 4.40491,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1585.7669,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(psrJ1757DFM の B の周期 15857.6690192 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 500
+   },
+   "scaleT": 1,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.996,
+   "osc0": {
+    "a": 1321.97,
+    "e": 0.605814,
+    "P": 1585.75
+   },
+   "end": {
+    "a": 1322.12,
+    "e": 0.605857
+   },
+   "endHalf": {
+    "a": 1322.04,
+    "e": 0.605835
+   },
+   "dA": 0.0000597063,
+   "dE": 0.000022128,
+   "maxRelE": 0.0503988,
+   "maxRelL": 0.0000193888,
+   "rMinRatio": 1.0006,
+   "rev": 7,
+   "pMeas": 1587.24,
+   "pResid": 0.000926368,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 26.4112,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.069
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 1.88371,
+   "dtApp": 1.88371,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 678.1368,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(psrJ1946DFM の B の周期 6781.36799866 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 230
+   },
+   "scaleT": 1,
+   "steps": 2881,
+   "stepsPerOrbit": 360.001,
+   "stepsPerOrbitOsc": 360.005,
+   "osc0": {
+    "a": 731.49,
+    "e": 0.0638363,
+    "P": 678.144
+   },
+   "end": {
+    "a": 731.496,
+    "e": 0.0637764
+   },
+   "endHalf": {
+    "a": 731.492,
+    "e": 0.0637922
+   },
+   "dA": 0.00000591344,
+   "dE": 0.0000158195,
+   "maxRelE": 0.00128258,
+   "maxRelL": 0.00000794129,
+   "rMinRatio": 0.999785,
+   "rev": 8,
+   "pMeas": 678.136,
+   "pResid": -0.00000176955,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 4.18313,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.077
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 300,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 369.459082,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 23091,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 23091.2,
+   "wallSec": 0
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 500,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 942.580096,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 58911,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 58911.3,
+   "wallSec": 0
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 230,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 277.506559,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 17344,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 17344.2,
+   "wallSec": 0
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 300,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 369.459082,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 23091,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 23091.2,
+   "wallSec": 0
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 500,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 942.580096,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 58911,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 58911.3,
+   "wallSec": 0
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 230,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 277.506559,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 17344,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 17344.2,
+   "wallSec": 0
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 10.0977,
+   "dtApp": 10.0977,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 3635.17026,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(psrB1534 の B の周期 36351.702644 s ÷ 10^1 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1000
+   },
+   "scaleT": 1,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 2282.96,
+    "e": 0.273678,
+    "P": 3635.17
+   },
+   "end": {
+    "a": 2282.99,
+    "e": 0.273689
+   },
+   "endHalf": {
+    "a": 2282.97,
+    "e": 0.273681
+   },
+   "dA": 0.00000812535,
+   "dE": 0.00000807077,
+   "maxRelE": 0.00668501,
+   "maxRelL": 0.00000338123,
+   "rMinRatio": 1.00011,
+   "rev": 7,
+   "pMeas": 3635.17,
+   "pResid": 4.78657e-7,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 20.1814,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.153
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 3635.17025,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 227198,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 227198,
+   "wallSec": 0
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1000,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 1764.75004,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 110297,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 1,
+   "status": "retired-record",
+   "stepsPerOrbit": 110297,
+   "wallSec": 0
+  },
+  {
+   "id": "compactForceToy",
+   "emoji": "🪗",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 1.35892,
+   "dtApp": 1.35892,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 489.210171,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 60
+   },
+   "scaleT": null,
+   "steps": 2880,
+   "stepsPerOrbit": 359.999,
+   "stepsPerOrbitOsc": 359.999,
+   "osc0": {
+    "a": 153.846,
+    "e": 0.3,
+    "P": 489.21
+   },
+   "end": {
+    "a": 154.002,
+    "e": 0.301534
+   },
+   "endHalf": {
+    "a": 153.921,
+    "e": 0.300741
+   },
+   "dA": 0.000525172,
+   "dE": 0.000792311,
+   "maxRelE": 0.0140858,
+   "maxRelL": 2.35225e-15,
+   "rMinRatio": 0.999735,
+   "rev": 7,
+   "pMeas": 497.138,
+   "pResid": 0.0162058,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.313597,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.2
+  },
+  {
+   "id": "inertialDragPair",
+   "emoji": "🐌",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.470751,
+   "dtApp": 0.470751,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 169.470327,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 20
+   },
+   "scaleT": null,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 20.002,
+    "e": 0.01,
+    "P": 169.47
+   },
+   "end": {
+    "a": 20.002,
+    "e": 0.0100428
+   },
+   "endHalf": {
+    "a": 20.002,
+    "e": 0.0100373
+   },
+   "dA": 1.10821e-7,
+   "dE": 0.00000551835,
+   "maxRelE": 0.0000487827,
+   "maxRelL": 2.27548e-15,
+   "rMinRatio": 1.00416,
+   "rev": 8,
+   "pMeas": 169.269,
+   "pResid": -0.00119028,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.882658,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.143
+  },
+  {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 23.8738,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.119
+  },
+  {
+   "id": "boxBinaryToy",
+   "emoji": "🫂",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.679459,
+   "dtApp": 0.679459,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 489.210171,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 720,
+    "note": "360 步では dA=0.052(門 0.02)—— 720 步で 0.017",
+    "legacyTimeScale": 60
+   },
+   "scaleT": null,
+   "steps": 5760,
+   "stepsPerOrbit": 720,
+   "stepsPerOrbitOsc": 720,
+   "osc0": {
+    "a": 153.846,
+    "e": 0.3,
+    "P": 489.21
+   },
+   "end": {
+    "a": 147.919,
+    "e": 0.288392
+   },
+   "endHalf": {
+    "a": 150.514,
+    "e": 0.294835
+   },
+   "dA": 0.0168708,
+   "dE": 0.00644363,
+   "maxRelE": 0.142379,
+   "maxRelL": 0.0425359,
+   "rMinRatio": 0.990062,
+   "rev": 8,
+   "pMeas": 473.001,
+   "pResid": -0.0331343,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.156798,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.234
+  },
+  {
+   "id": "spaceMeshBinaryToy",
+   "emoji": "🪟",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.360316,
+   "dtApp": 0.360316,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 518.854379,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 1440,
+    "note": "360 步では dA=0.087(門 0.02)—— 1440 步で 0.018",
+    "legacyTimeScale": 60
+   },
+   "scaleT": null,
+   "steps": 11520,
+   "stepsPerOrbit": 1440,
+   "stepsPerOrbitOsc": 1440,
+   "osc0": {
+    "a": 160,
+    "e": 0.5,
+    "P": 518.854
+   },
+   "end": {
+    "a": 154.116,
+    "e": 0.498571
+   },
+   "endHalf": {
+    "a": 157.063,
+    "e": 0.499103
+   },
+   "dA": 0.0184159,
+   "dE": 0.000531873,
+   "maxRelE": 0.0381791,
+   "maxRelL": 0.0176264,
+   "rMinRatio": 0.986046,
+   "rev": 3,
+   "pMeas": 1289.93,
+   "pResid": 1.48611,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0720632,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.705
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.50505,
+   "dtApp": 0.50505,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 181.818,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": -3,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.73,
+   "osc0": {
+    "a": 192.812,
+    "e": 0.08,
+    "P": 181.682
+   },
+   "end": {
+    "a": 192.805,
+    "e": 0.0797894
+   },
+   "endHalf": {
+    "a": 192.808,
+    "e": 0.0798833
+   },
+   "dA": 0.0000150918,
+   "dE": 0.0000939171,
+   "maxRelE": 0.00156941,
+   "maxRelL": 1.9516e-15,
+   "rMinRatio": 0.999869,
+   "rev": 8,
+   "pMeas": 181.746,
+   "pResid": -0.000396825,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0630876,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.018
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 30,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 75.4484416,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 4716,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": -3,
+   "status": "retired-record",
+   "stepsPerOrbit": 4715.53,
+   "wallSec": 0
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.50505,
+   "dtApp": 0.50505,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 181.818,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": -3,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.73,
+   "osc0": {
+    "a": 192.812,
+    "e": 0.08,
+    "P": 181.682
+   },
+   "end": {
+    "a": 190.417,
+    "e": 0.0759389
+   },
+   "endHalf": {
+    "a": 190.46,
+    "e": 0.0774071
+   },
+   "dA": 0.000221439,
+   "dE": 0.0014682,
+   "maxRelE": 0.0125732,
+   "maxRelL": 0.0059113,
+   "rMinRatio": 0.999891,
+   "rev": 8,
+   "pMeas": 180.159,
+   "pResid": -0.00912698,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0630876,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.06
+  },
+  {
+   "id": "gw150914SpinDipole",
+   "emoji": "⚛️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.50505,
+   "dtApp": 0.50505,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 181.818,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(gw150914 の B の周期 0.181818 s ÷ 10^-3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "scaleT": -3,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.73,
+   "osc0": {
+    "a": 192.812,
+    "e": 0.08,
+    "P": 181.682
+   },
+   "end": {
+    "a": 192.812,
+    "e": 0.0800175
+   },
+   "endHalf": {
+    "a": 192.812,
+    "e": 0.0799974
+   },
+   "dA": 0.00000324987,
+   "dE": 0.0000201798,
+   "maxRelE": 0.0014586,
+   "maxRelL": 1.41935e-15,
+   "rMinRatio": 0.999866,
+   "rev": 7,
+   "pMeas": 182.071,
+   "pResid": 0.00138889,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.0630876,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.02
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.048,
+   "dtApp": 0.048,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 28.8,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=50 → 4(刻み ×3)",
+    "legacyTimeScale": 50
+   },
+   "scaleT": 12,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 197.874,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 197.875,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.447
+  },
+  {
+   "id": "tuc47DFM",
+   "emoji": "🫐",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 50,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 12,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "ngc3198",
+   "emoji": "🌃",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.048,
+   "dtApp": 0.048,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 28.8,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)",
+    "legacyTimeScale": 20
+   },
+   "scaleT": 15,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 116.739,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 127.441,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.299
+  },
+  {
+   "id": "ngc3198DFM",
+   "emoji": "🛞",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.032,
+   "dtApp": 0.032,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 19.2,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×2)",
+    "legacyTimeScale": 20
+   },
+   "scaleT": 15,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 213.938,
+   "clamp": [
+    0,
+    49895
+   ],
+   "solveFail": 0,
+   "maxRHalf": 201.009,
+   "clampHalf": [
+    0,
+    85950
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 7.2
+  },
+  {
+   "id": "supernovaProg",
+   "emoji": "🥀",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.048,
+   "dtApp": 0.048,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 28.8,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=100 → 4(刻み ×3)",
+    "legacyTimeScale": 100
+   },
+   "scaleT": 6,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 0,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "stateRel": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.003
+  },
+  {
+   "id": "supernovaProgDFM",
+   "emoji": "🌹",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 100,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 6,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "crabRemnant",
+   "emoji": "🦀",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.048,
+   "dtApp": 0.048,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 28.8,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)・旧 timeScale=20 → 4(刻み ×3)",
+    "legacyTimeScale": 20
+   },
+   "scaleT": 9,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 1093.55,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 1093.56,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.232
+  },
+  {
+   "id": "saturn",
+   "emoji": "🪐",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 211.389,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.418
+  },
+  {
+   "id": "saturnLayered",
+   "emoji": "🎯",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 3,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 211.388,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 1.52
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.498,
+   "dtApp": 0.498,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 179.28,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 3
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 374.512,
+   "osc0": {
+    "a": 69.3971,
+    "e": 0.0742319,
+    "P": 186.507
+   },
+   "end": {
+    "a": 69.2597,
+    "e": 0.0594899
+   },
+   "endHalf": {
+    "a": 69.2954,
+    "e": 0.0636547
+   },
+   "dA": 0.000513814,
+   "dE": 0.0041648,
+   "maxRelE": 0.00449976,
+   "maxRelL": 0.00000172578,
+   "rMinRatio": 0.99933,
+   "rev": 8,
+   "pMeas": 178.64,
+   "pResid": -0.00357143,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 9,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 431.186,
+   "cdtOverCam": 93.3104,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.519
+  },
+  {
+   "id": "saturnD68Consistent",
+   "emoji": "🧷",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.498,
+   "dtApp": 0.498,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 179.28,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 3
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 371.769,
+   "osc0": {
+    "a": 69.0579,
+    "e": 0.0216992,
+    "P": 185.141
+   },
+   "end": {
+    "a": 69.0432,
+    "e": 0.0160569
+   },
+   "endHalf": {
+    "a": 69.0497,
+    "e": 0.0187836
+   },
+   "dA": 0.000095002,
+   "dE": 0.00272671,
+   "maxRelE": 0.000539257,
+   "maxRelL": 1.12944e-8,
+   "rMinRatio": 0.995638,
+   "rev": 8,
+   "pMeas": 177.644,
+   "pResid": -0.00912698,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 93.3104,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.106
+  },
+  {
+   "id": "saturnD68ObsOrbit",
+   "emoji": "📎",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.498,
+   "dtApp": 0.498,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 179.28,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(saturnZonalD68 の D68 の周期 17928 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 3
+   },
+   "scaleT": 2,
+   "steps": 2880,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 371.754,
+   "osc0": {
+    "a": 69.056,
+    "e": 0.0210557,
+    "P": 185.134
+   },
+   "end": {
+    "a": 69.0422,
+    "e": 0.0155811
+   },
+   "endHalf": {
+    "a": 69.0485,
+    "e": 0.0182792
+   },
+   "dA": 0.000091357,
+   "dE": 0.00269803,
+   "maxRelE": 0.00056254,
+   "maxRelL": 1.12913e-8,
+   "rMinRatio": 0.995601,
+   "rev": 8,
+   "pMeas": 177.573,
+   "pResid": -0.00952381,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 93.3104,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.099
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "retired": false,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.58,
+   "dtApp": 0.58,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 208.8,
+    "pair": [
+     0,
+     33
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(saturnRingReal の C環内縁 の周期 20880 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 10
+   },
+   "scaleT": 2,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 359.031,
+   "osc0": {
+    "a": 74.6881,
+    "e": 1.68587e-7,
+    "P": 208.238
+   },
+   "end": {
+    "a": 74.6881,
+    "e": 0.00135201
+   },
+   "endHalf": {
+    "a": 74.688,
+    "e": 0.000733514
+   },
+   "dA": 0.00000132079,
+   "dE": 0.000618495,
+   "maxRelE": 0.000306311,
+   "maxRelL": 0.0000013968,
+   "rMinRatio": 0.995721,
+   "rev": 8,
+   "pMeas": 208.22,
+   "pResid": -0.00277778,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 125,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 359.527,
+   "cdtOverCam": 13.3754,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.936
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "retired": true,
+   "sampleClass": "calibration",
+   "fit": false,
+   "timeScale": 10,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": 2,
+   "status": "retired-record",
+   "wallSec": 0
+  },
+  {
+   "id": "binary",
+   "emoji": "⭐",
+   "retired": false,
+   "sampleClass": "composite",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 286.945,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 2.243
+  },
+  {
+   "id": "fig8",
+   "emoji": "♾️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 0.0907412,
+   "dtApp": 0.0907412,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 261.334788,
+    "pair": [
+     0,
+     2
+    ],
+    "def": "revolution",
+    "source": "8 の字解の周期 T=6.32591398(G=m=1・Chenciner–Montgomery 2000)を初期配置の尺度 L=|x₁|/0.97000436・m で換算 T·√(L³/(Gm))",
+    "stepsPerOrbit": 2880,
+    "note": "360 步では dA=0.053(門 0.02)—— 2880 步で 0.012",
+    "legacyTimeScale": 2
+   },
+   "scaleT": null,
+   "steps": 23041,
+   "stepsPerOrbit": 2880,
+   "stepsPerOrbitOsc": 26327.3,
+   "osc0": {
+    "a": 442.661,
+    "e": 0.877042,
+    "P": 2388.97
+   },
+   "end": {
+    "a": 437.049,
+    "e": 0.875152
+   },
+   "endHalf": {
+    "a": 442.549,
+    "e": 0.876908
+   },
+   "dA": 0.0124247,
+   "dE": 0.0017561,
+   "maxRelE": 4.5406,
+   "maxRelL": 2.0015,
+   "rMinRatio": 0.99925,
+   "rev": 0,
+   "pMeas": null,
+   "pResid": null,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 1,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": 2022.71,
+   "cdtOverCam": 0.0194445,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.164
+  },
+  {
+   "id": "counterring",
+   "emoji": "💥",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 145.075,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.566
+  },
+  {
+   "id": "spinup",
+   "emoji": "🌪️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 195.805,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.835
+  },
+  {
+   "id": "pulsarSolo",
+   "emoji": "🏮",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.04,
+   "dtApp": 0.04,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 24,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)・旧 timeScale=10 → 4(刻み ×2.5)",
+    "legacyTimeScale": 10
+   },
+   "scaleT": 1,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 0,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "stateRel": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.005
+  },
+  {
+   "id": "supernovaCore",
+   "emoji": "🎇",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.065
+  },
+  {
+   "id": "whiteDwarfDFM",
+   "emoji": "⚪",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.069
+  },
+  {
+   "id": "whiteDwarfBareDFM",
+   "emoji": "🔘",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.116
+  },
+  {
+   "id": "envelopeShedDFM",
+   "emoji": "🎆",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 単一の天体(内部の進化)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 0,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.085
+  },
+  {
+   "id": "lfbotTrap",
+   "emoji": "🐮",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 57.9522,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.237
+  },
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 500,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.029
+  },
+  {
+   "id": "spinDipoleBinary",
+   "emoji": "⚙️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": 1.62231,
+   "dtApp": 1.62231,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 584.031925,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 1
+   },
+   "scaleT": null,
+   "steps": 2881,
+   "stepsPerOrbit": 360,
+   "stepsPerOrbitOsc": 360,
+   "osc0": {
+    "a": 120,
+    "e": 0.35,
+    "P": 584.032
+   },
+   "end": {
+    "a": 120.006,
+    "e": 0.350062
+   },
+   "endHalf": {
+    "a": 120.003,
+    "e": 0.35003
+   },
+   "dA": 0.000025529,
+   "dE": 0.0000319958,
+   "maxRelE": 0.0126404,
+   "maxRelL": 4.70037e-15,
+   "rMinRatio": 1.00015,
+   "rev": 7,
+   "pMeas": 587.817,
+   "pResid": 0.00648092,
+   "clamp": [
+    0,
+    0
+   ],
+   "clampHalf": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "ringN": 0,
+   "ringFrac": 0,
+   "otherMinStepsPerOrbit": null,
+   "cdtOverCam": 0.18719,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.111
+  },
+  {
+   "id": "gasCohSurface",
+   "emoji": "🌬️",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 19.8592,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.102
+  },
+  {
+   "id": "mmPhaseToy",
+   "emoji": "🪞",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 1,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 公転の対を代表にしない構成"
+   },
+   "scaleT": null,
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 10.9,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.024
+  },
+  {
+   "id": "starSeed",
+   "emoji": "🌱",
+   "retired": true,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 2,
+   "tsOld": null,
+   "stepDt": null,
+   "dtApp": 0.016,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 237.469216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道(記録)",
+    "stepsPerOrbit": 14842,
+    "note": "退役(履歴)—— 移行しない(旧刻み DT のままの記録)"
+   },
+   "scaleT": null,
+   "status": "retired-record",
+   "stepsPerOrbit": 14841.8,
+   "wallSec": 0
+  }
+ ]
+}
