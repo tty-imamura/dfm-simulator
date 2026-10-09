@@ -30904,6 +30904,7 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 | earthMoonInertial | 🌛 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
 | emAuditDFM | 🧲 | 2 | 退役 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
 | earthMoonSunInertial | 🌤️ | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
+| earthMoonSunInertialFit | 🌥️ | 3 | 在位 | 新本(0 で宣言 —— 第297便b の派生本・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | qLockRadialAudit | 📶 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
 | qLockRadialAuditQ3 | 📐 | 2 | 在位 | 1 → 0 | 走っていた(変わる) | `vMinusU-q` |
 | mercurySunInertial | 🟤 | 3 | 在位 | 1 → 0 | 走っていない(同一) | `inertial-drag` |
@@ -31146,6 +31147,7 @@ QA: `behavior.claimEffort297`・`preset.fitCond297`・`docs.fit297`(新設 —�
 | 🌛 earthMoonInertial | 100 | 23605.9488 | 観測の正本(earthMoonReal・月 2360594.88 s) | 65.5721 | 360 | 5.5e-5 | 5.0e-4 | 0.00142 | 0.9992 | — | -0.00556 | ok |
 | 🔆 emAuditSolar | 1 | 236.059488 | 観測の正本(emAuditSolar・月 2360594.88 s) | 0.655721 | 360 | 5.6e-4 | 0.00165 | 0.0177 | 0.9982 | 0/1 | 4.6e-4 | ok |
 | 🌤️ earthMoonSunInertial | 1 | 236.059488 | 観測の正本(emAuditSolar・月 2360594.88 s) | 0.655721 | 360 | 3.3e-4 | 0.00325 | 0.0183 | 0.9974 | 0/1 | -0.00595 | ok |
+| 🌥️ earthMoonSunInertialFit | —(新本・統合で 🌤️ と同じ宣言) | 236.059488 | 観測の正本(emAuditSolar・月 2360594.88 s) | 0.655721 | 360 | 7.1e-4 | 0.00194 | 0.0175 | 0.9996 | 0/1 | 0.000463 | ok |
 | 🌓 earthMoonDiagOne | 100 | 23605.9488 | 観測の正本(earthMoonReal・月 2360594.88 s) | 65.5721 | 360 | 5.0e-4 | 0.00422 | 0.00172 | 0.9995 | — | 0.0231 | ok |
 | 📶 qLockRadialAudit | 10 | 93.1705603 | 初期接触軌道 | 0.258807 | 360 | 1.5e-6 | 1.5e-5 | 0.0011 | 0.9993 | 0/9 | 9.3e-4 | ok |
 | 📐 qLockRadialAuditQ3 | 10 | 93.1705603 | 初期接触軌道 | 0.258807 | 360 | 5.4e-5 | 6.0e-4 | 0.0011 | 0.9993 | 0/9 | -4.0e-4 | ok |

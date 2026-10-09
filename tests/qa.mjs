@@ -24537,7 +24537,7 @@ if (!FAST) {
         for (const w of ['原仮定者の裁定(第87報)', 'R162', 'fit-w297b.json', 'この探索範囲では未達', '次の見直し', '2 次元の射影', '平均要素', 'λ_PN=0', 'fitCondSig', 'w297b-1'])
           if (psec297.indexOf(w) < 0) bad.push('PHYSICS〔第297便b〕に「' + w + '」が無い');
         const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
-        if (!/\n## 63\. 第297便b/.test(AS) || AS.indexOf('fitCondSig') < 0) bad.push('AI_SPEC §63(第297便b・fitCondSig)が無い');
+        if (!/\n## \d+\. 第297便b/.test(AS) || AS.indexOf('fitCondSig') < 0) bad.push('AI_SPEC §63(第297便b・fitCondSig)が無い');
         if ((CL.match(/第297便b/g) || []).length < 1) bad.push('CHANGELOG に第297便b が無い');
         if (RM.indexOf('第297便b') < 0) bad.push('README に第297便b が無い');
         if (HP297.SYSTEM_PROMPT && (/fitRecord|fitCondSig/.test(HP297.SYSTEM_PROMPT) || HP297.SYSTEM_PROMPT.indexOf('earthMoonSunInertialFit') >= 0)) bad.push('SYSTEM_PROMPT に fitRecord・fitCondSig か派生本の ID がある');
@@ -70442,7 +70442,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     cases.push(`(ii) aboutBody: 導入 ja ${preJa.length} 字・en ${preEn.length} 字 → 主張の文`);
     // (iii)
     const spPos = c.spRaw.indexOf(c.ja), spOut = c.spRaw.indexOf('# 出力ルール');
-    const ai59 = secOf(AIS297, '\n## 59. '), ai63 = secOf(AIS297, '\n## 63. '), ph296a = secOf(PH297, '\n〔第296便a — '), ph297 = secOf(PH297, '\n〔第297便b — ');
+    const ai59 = secOf(AIS297, '\n## 59. '), ai63 = (() => { const m = /\n## (\d+)\. 第297便b/.exec(AIS297); return m ? secOf(AIS297, '\n## ' + m[1] + '. ') : ''; })(), ph296a = secOf(PH297, '\n〔第296便a — '), ph297 = secOf(PH297, '\n〔第297便b — ');
     const hits = { prompt: spPos >= 0 && spOut > spPos, readme: RM297.indexOf(c.ja) >= 0 && RM297.indexOf(c.en) >= 0 && RM297.indexOf(c.ja) < RM297.indexOf('\n## 使い方'),
       ai59: !!ai59 && ai59.indexOf(c.ja) >= 0 && ai59.indexOf(c.en) >= 0, ai63: !!ai63 && ai63.indexOf(c.ja) >= 0 && ai63.indexOf(c.en) >= 0,
       ph296a: !!ph296a && ph296a.indexOf(c.ja) >= 0 && ph296a.indexOf(c.en) >= 0, ph297: !!ph297 && ph297.indexOf(c.ja) >= 0 && ph297.indexOf(c.en) >= 0 && PH297.indexOf('\n〔第297便b — ') < PH297.indexOf('\n## 7. ') };
