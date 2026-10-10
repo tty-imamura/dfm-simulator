@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
-  "generatedAt": "2026-10-09T18:39:50.967Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T20:08:00.683Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146338,
-    "sha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
-    "mtime": "2026-10-09T17:23:00.380Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838852,
-    "sha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
-    "mtime": "2026-10-09T18:34:48.808Z"
+    "bytes": 1821704,
+    "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
+    "mtime": "2026-10-10T20:02:14.146Z"
    }
   ],
   "code": [
@@ -108,16 +108,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1076,
-   "segments": 985,
-   "closureShare": 0.3191
+   "names": 1147,
+   "segments": 1047,
+   "closureShare": 0.3236
   },
-  "scopeSha256": "6b99bc0d7a8cb891e451bed31a14225fb508d65a139ab4b624cf983d346a1d66",
+  "scopeSha256": "b6cf71f33af78ad2842cb5bb8c0c556f468f639772874330ee6c825191330521",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "5c310903567af7d5a1b57f9f56da3ca33ebe17cfaa3924b89d78ed4baf4c88f6",
+    "stableSha256": "dda6759e030343a93f7e1752391195c1a6e82e5a7c89f177e36678877ae2f124",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "dacffef89d5732adcdfc46b44c48da4180d01c672a5dbacae1ab2f0ed812e13f",
+    "stableSha256": "db57ed70193a03fd538edcf4dcd64c0c2dc901251ef48f9d8167a95f5bad2115",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -208,7 +208,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
+ "nowSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -1271,7 +1271,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.000004922125419432835,
+    "maxPos128": 0.00026181606716794314,
     "sigSame": false,
     "nan": false
    },
@@ -1892,7 +1892,7 @@
    "saturnRingRealKF1"
   ],
   "scope": "geoPN 1/2 の内蔵(47 本)—— 0・3 は geoCoreDispatch の変わらない行を通る",
-  "nAll": 159,
+  "nAll": 164,
   "n": 46,
   "bitSame128": 0,
   "sigSame": 2,
@@ -2117,13 +2117,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.129,
+   "wallSec": 0.084,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.187,
+   "wallSec": 0.136,
    "errors": 0
   }
  },
- "elapsedS": 287.831
+ "elapsedS": 342.446
 }
