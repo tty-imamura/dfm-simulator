@@ -19034,26 +19034,26 @@ const BUILTIN_PRESETS = [
   fidelity:"toy",
   notClaim:["cal"],
   obsCard:[
-    {q:"何を置いたか", model:"トイ単位(G=1)の 2 体 m=10・1・近点距離 20・離心率 0.3・軌道面を x 軸のまわりに 30° 傾けた初速(z 成分あり)。physics.coord:\"3d\"・geoPN=0・kFrame=0", obs:"—(原理サンプル —— 観測転写はしない)"},
-    {q:"則(1 步)", model:"E4 重力の三次元版(d²=dx²+dy²+dz²・軟化 ε=0.05)・二次元と同じ積分器(semi)。z=vz=0 の走行は二次元の本と全状態ビット同一(零試験)", obs:"—"},
-    {q:"周期(実測)", model:"軌道面の位相で数えた同方向 1 周の平均 289.549(接触軌道のケプラー周期 289.322 との差は相対 +7.8e-4・刻みを 1/2 にすると +2.1e-4 —— 差は刻みとともに縮む)", obs:"—"},
-    {q:"軌道面(実測)", model:"8 公転で軌道面の法線の向きのずれの最大 8.5e-7°(刻み 1/2 で 1.2e-6°)・傾き 30°", obs:"—"},
-    {q:"保存(実測)", model:"8000 步で P の相対のずれ 1.4e-16・L(3 成分)4.8e-15・E 1.5e-4", obs:"—"},
-    {q:"言わないこと", model:"三次元の慣性決定力(回転引きずり・軸引きずり)・1PN・現実の軌道との一致は主張の外(三次元の土台の原理だけ)", obs:"—"}],
+    {q:"何を置いたか", model:"G=1 の 2 体 m=10・1・近点距離 20・e=0.3・軌道面を x 軸のまわりに 30° 傾けた初速(z 成分あり)。coord:\"3d\"・geoPN=0・kFrame=0", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"則(1 步)", model:"E4 重力の三次元版(d²=dx²+dy²+dz²・ε=0.05)・積分器は二次元と同じ semi。z=vz=0 の走行は二次元の本と全状態ビット同一(零試験)", obs:"—"},
+    {q:"周期(実測)", model:"軌道面の位相で数えた 1 周の平均 289.549(ケプラー 289.322 との差は相対 +7.9e-4・刻み 1/2 で +2.1e-4)", obs:"—"},
+    {q:"軌道面(実測)", model:"8 公転で軌道面の法線の向きのずれの最大 4.1e-5°(刻み 1/2 で 8.4e-5°)・傾き 30°", obs:"—"},
+    {q:"保存(実測)", model:"8000 步で P の相対のずれ 1.0e-6・L(3 成分)1.9e-6・E 1.5e-4(状態は Float32 —— 倍精度では P 1.4e-16・L 4.8e-15)", obs:"—"},
+    {q:"言わないこと", model:"三次元の回転引きずり・軸引きずり・1PN・現実の軌道との一致は主張の外(三次元の土台の原理だけ)", obs:"—"}],
   descStruct:{
-    summary:"**三次元の座標で走る最初の本**(第298便a・原仮定者の裁定〔第88報〕「三次元座標化する。右手系。サンプルごとの選択」・統括の検証項目 R165)。宣言 physics.coord:\"3d\" の本だけが三次元の別の步(dfmStep3 —— 二次元の核 S._core は 1 命令も変えていない)を通り、位置・速度・相互距離・力が x・y・z の 3 成分になる。右手系で +z=x×y(画面は右 +x・下 +y なので、既定の視点では +z は画面の奥)。2 体(m=10・1)を近点距離 20・離心率 0.3 の楕円に置き、軌道面を x 軸のまわりに 30° 傾けた。画面の楕円は軌道を xy 面へ投影したもので、縦に縮んで見える。",
+    summary:"**三次元の座標で走る最初の本**(第298便a・原仮定者の裁定〔第88報〕「三次元座標化する。右手系。サンプルごとの選択」・統括の検証項目 R165)。宣言 physics.coord:\"3d\" の本だけが三次元の別の步(dfmStep3 —— 二次元の核 S._core は 1 命令も変えていない)を通り、位置・速度・相互距離・力が x・y・z の 3 成分になる。右手系で +z=x×y(画面は右 +x・下 +y なので、既定の視点では +z は画面の奥)。2 体(m=10・1)を近点距離 20・離心率 0.3 の楕円に置き、軌道面を x 軸のまわりに 30° 傾けた。画面の楕円は軌道を xy 面へ投影したもので、縦に縮んで見える。働く法則は E4 重力(三次元版)だけ。",
     observe:"トレイルで軽い方の楕円が同じ形で閉じるのを見る(投影で縦に縮んだ楕円)。HUD の 2 行目に「三次元」の表示と、保存量モニタを開くと P₃・L₃ の 3 成分が出る。周期と軌道面の向きは器が実測した(説明の観測カード)。",
     control:"ワンタップ対照は置いていない。同じ本の二次元の双子(physics.coord を外し z・vz を 0 にした写し)は、三次元の步の z=0 の走行とビット同一に走る(器の零試験)。"},
   en:{name:"Two bodies on a tilted orbital plane — a 3D ellipse",
     obsCard:[
-      {q:"What is placed", model:"toy units (G=1), m=10 and 1, periapsis 20, eccentricity 0.3, orbital plane tilted 30 degrees about x (initial vz); physics.coord 3d, geoPN=0, kFrame=0", obs:"- (a principle sample; nothing transcribed)"},
-      {q:"The law (one step)", model:"3D E4 gravity (d^2=dx^2+dy^2+dz^2, eps 0.05), the same integrator as 2D (semi); a z=vz=0 run is bit-identical to the 2D book", obs:"-"},
-      {q:"Period (measured)", model:"same-direction revolution counted in the orbital plane: mean 289.549 (vs osculating Kepler 289.322: +7.8e-4 relative; +2.1e-4 at half the step - the gap shrinks with the step)", obs:"-"},
-      {q:"Orbital plane (measured)", model:"largest drift of the plane normal over 8 orbits 8.5e-7 deg (1.2e-6 deg at half the step); tilt 30 deg", obs:"-"},
-      {q:"Conservation (measured)", model:"8000 steps: relative drift of P 1.4e-16, L (3 components) 4.8e-15, E 1.5e-4", obs:"-"},
-      {q:"Not claimed", model:"no 3D inertial-determinacy drag (rotational/axial), no 1PN, no match to a real orbit claimed (only the 3D foundation)", obs:"-"}],
+      {q:"What is placed", model:"G=1, m=10 and 1, periapsis 20, e=0.3, orbital plane tilted 30 deg about x (initial vz); coord 3d, geoPN 0, kFrame 0", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"The law (one step)", model:"3D E4 gravity (eps 0.05), the same semi integrator as 2D; a z=0 run is bit-identical to the 2D book", obs:"-"},
+      {q:"Period (measured)", model:"mean revolution in the orbital plane 289.549 (Kepler 289.322: +7.9e-4; +2.1e-4 at half step)", obs:"-"},
+      {q:"Orbital plane (measured)", model:"largest drift of the plane normal in 8 orbits 4.1e-5 deg (8.4e-5 deg at half step); tilt 30 deg", obs:"-"},
+      {q:"Conservation (measured)", model:"8000 steps: P 1.0e-6, L 1.9e-6, E 1.5e-4 (Float32 state; in double P 1.4e-16, L 4.8e-15)", obs:"-"},
+      {q:"Not claimed", model:"no 3D rotational/axial drag, no 1PN, no match to a real orbit (only the 3D foundation)", obs:"-"}],
     descStruct:{
-      summary:"THE FIRST SAMPLE THAT RUNS IN 3D COORDINATES (wave 298a; the originator's ruling in report 88: make the coordinates 3D, right-handed, chosen per sample; the coordinator's check item R165). Only a sample that declares physics.coord:\"3d\" takes the separate 3D step (dfmStep3 - the 2D core S._core is untouched), so positions, velocities, separations and forces have x, y and z components. Right-handed: +z = x cross y (the screen has +x to the right and +y down, so in the default view +z points into the screen). Two bodies (m=10 and 1) sit on an ellipse with periapsis 20 and eccentricity 0.3, with the orbital plane tilted 30 degrees about the x axis. The ellipse on screen is the orbit projected onto the xy plane, so it looks squashed vertically.",
+      summary:"THE FIRST SAMPLE THAT RUNS IN 3D COORDINATES (wave 298a; the originator's ruling in report 88: make the coordinates 3D, right-handed, chosen per sample; the coordinator's check item R165). Only a sample that declares physics.coord:\"3d\" takes the separate 3D step (dfmStep3 - the 2D core S._core is untouched), so positions, velocities, separations and forces have x, y and z components. Right-handed: +z = x cross y (the screen has +x to the right and +y down, so in the default view +z points into the screen). Two bodies (m=10 and 1) sit on an ellipse with periapsis 20 and eccentricity 0.3, with the orbital plane tilted 30 degrees about the x axis. The ellipse on screen is the orbit projected onto the xy plane, so it looks squashed vertically. The only law at work is E4 gravity (in 3D).",
       observe:"Use the trail to watch the light body's ellipse close on itself (squashed by the projection). The HUD shows a 3D line, and the conservation monitor adds the three components P3 and L3. The period and the plane orientation were measured by the harness (see the observation card).",
       control:"No one-tap control. The 2D twin of the same sample (physics.coord removed, z and vz set to 0) runs bit-identically to a z=0 run of the 3D step (the harness's zero test)."},
     parameterAudit:{
@@ -19062,21 +19062,20 @@ const BUILTIN_PRESETS = [
         "two bodies m=10 and m=1 (M=11), radius 1 and 0.5, barycentric frame, orbital plane tilted 30 degrees about x"],
       fitted:["NOTHING"],
       derived:["periapsis 20, e=0.3, a=20/0.7=28.5714, v_p=sqrt(GM(1+e)/r_p)=0.8455767262643882; Kepler period 289.322"],
-      numerical:["softening eps=0.05","stateCarry double, massPrecision double","screen step stepDt=P/360=0.803672"]}},
+      numerical:["softening eps=0.05","state in Float32 like x (z the same type)","screen step stepDt=P/360=0.803672"]}},
   parameterAudit:{
     observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
     fixedConventions:["トイ単位 G=1・cLight=30・geoPN=0・kFrame=0・physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
       "2 体 m=10・m=1(M=11)・半径 1・0.5・重心系・軌道面を x 軸のまわりに 30° 傾けた"],
     fitted:["**無し**"],
     derived:["近点距離 20・e=0.3・a=20/0.7=28.5714・v_p=√(GM(1+e)/r_p)=0.8455767262643882・ケプラー周期 289.322"],
-    numerical:["ソフトニング ε=0.05","stateCarry:\"double\"・massPrecision:\"double\"","画面の刻み stepDt=P/360=0.803672"]},
+    numerical:["ソフトニング ε=0.05","状態は x と同じ Float32(z も同じ型)","画面の刻み stepDt=P/360=0.803672"]},
   activeParams:["G","softening"],
   camera:{scale:9}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:289.3220004429814, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=r_p/(1−e)", stepsPerOrbit:360},
   physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
-    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.803672223452726, dispMag:1,
-    stateCarry:"double", massPrecision:"double"},
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.803672223452726, dispMag:1, frameWeight:"share"},
   bodies:[
     {type:"single", m:10, x:-1.8181818181818183, y:0, z:0, vx:0, vy:-0.0665719023448946, vz:-0.03843530573929037, spin:0, pinned:false, radius:1},
     {type:"single", m:1, x:18.18181818181818, y:0, z:0, vx:0, vy:0.665719023448946, vz:0.38435305739290365, spin:0, pinned:false, radius:0.5}],
@@ -19087,22 +19086,22 @@ const BUILTIN_PRESETS = [
   fidelity:"toy",
   notClaim:["cal"],
   obsCard:[
-    {q:"何を置いたか", model:"トイ単位の 2 体 m=10・1・離角 20 の円軌道(z=0 の面)。軽い方 1 粒子だけ spinAxis.enable(傾き 30°・方位 0)・歳差 precessionRate=0.00927 rad/時間(+z のまわり・4 公転で 1 周)", obs:"—(原理サンプル —— 観測転写はしない)"},
-    {q:"歳差の意味", model:"宣言した軸のまわりに初期の軸を角 Ω_p·t だけ回す**規定運動**(トルクから求めた歳差ではない)。軸の角運動量 I s â の変化は「宣言した拘束が持ち去った量」として帳簿に負号で記帳", obs:"—"},
+    {q:"何を置いたか", model:"2 体 m=10・1・離角 20 の円軌道(z=0)。軽い方だけ spinAxis.enable(傾き 30°・方位 0)・歳差 0.00927 rad/時間(+z のまわり・4 公転で 1 周)", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"歳差の意味", model:"宣言した軸のまわりに初期の軸を角 Ω_p·t だけ回す規定運動(トルクから求めない)。I s â の変化は拘束の帳簿へ負号で記帳", obs:"—"},
     {q:"軸(実測)", model:"3600 步で解析値 R(ẑ, Ω_p t)·â₀ との差の最大 2.5e-16・傾きのずれ 1.4e-14°", obs:"—"},
     {q:"言わないこと", model:"軸が力を生む・回転引きずり・軸引きずり(第 2 段)・現実の天体の歳差とは書かない(表示の確認用)", obs:"—"}],
   descStruct:{
-    summary:"**自転軸を粒子ごとに有効化し、歳差させる最初の本**(第298便a・原仮定者の裁定〔第88報〕「三次元では自転軸の傾きを粒子ごとに有効化(多粒子の全部には不要)・歳差にも対応」・統括の検証項目 R165)。physics.coord:\"3d\" の本で、軽い方 1 粒子だけが spinAxis.enable を宣言する(傾きは +z から 30°・方位は +x から 0° —— コア V2 の core.tilt・core.azimuthDeg と同じ角の定義)。宣言した歳差(+z のまわり・Ω_p=0.00927 rad/時間・4 公転で 1 周)は**外から課す規定運動**で、トルクから求めた歳差ではない。軸はこの段では力に入らない(三次元の回転引きずり・軸引きずりは第 2 段)。",
+    summary:"**自転軸を粒子ごとに有効化し、歳差させる最初の本**(第298便a・原仮定者の裁定〔第88報〕「三次元では自転軸の傾きを粒子ごとに有効化(多粒子の全部には不要)・歳差にも対応」・統括の検証項目 R165)。physics.coord:\"3d\" の本で、軽い方 1 粒子だけが spinAxis.enable を宣言する(傾きは +z から 30°・方位は +x から 0° —— コア V2 の core.tilt・core.azimuthDeg と同じ角の定義)。宣言した歳差(+z のまわり・Ω_p=0.00927 rad/時間・4 公転で 1 周)は**外から課す規定運動**で、トルクから求めた歳差ではない。軸はこの段では力に入らない(働く法則は E4 重力だけ —— 三次元の回転引きずり・軸引きずりは第 2 段)。",
     observe:"共通設定の「コア軸の投影線を表示」(既定 ON)で、軽い方に橙の線(自転軸の xy への投影)が出て、4 公転で 1 周する。線の長さは sin(傾き)で一定。",
     control:"ワンタップ対照は置いていない。歳差の宣言(precessionRate)を外した写しでは軸は 1 bit も動かない(器)。"},
   en:{name:"Spin-axis precession — one body with an enabled axis",
     obsCard:[
-      {q:"What is placed", model:"toy units, m=10 and 1 on a circle of separation 20 (the z=0 plane). Only the light body enables spinAxis (tilt 30 deg, azimuth 0) with precessionRate 0.00927 rad per time (about +z, one turn in 4 orbits)", obs:"- (a principle sample; nothing transcribed)"},
-      {q:"What precession means here", model:"PRESCRIBED motion: the initial axis is rotated by Omega_p t about the declared axis (not torque-driven). The change of I s a-hat is booked, with a minus sign, as taken away by the declared constraint", obs:"-"},
+      {q:"What is placed", model:"m=10 and 1 on a circle (separation 20, z=0); only the light body enables its axis (tilt 30); precession 0.00927", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"What precession means here", model:"prescribed: the axis turns by Omega_p t about the declared axis (no torque); the change of I s a goes to a ledger", obs:"-"},
       {q:"Axis (measured)", model:"3600 steps: largest gap from the analytic R(z, Omega_p t) a0 2.5e-16; tilt deviation 1.4e-14 deg", obs:"-"},
       {q:"Not claimed", model:"the axis produces no force; no rotational/axial drag (stage 2); not a real body's precession (a display check)", obs:"-"}],
     descStruct:{
-      summary:"THE FIRST SAMPLE THAT ENABLES A SPIN AXIS PER BODY AND PRECESSES IT (wave 298a; the originator's ruling in report 88: in 3D enable the spin-axis tilt per body - not needed for every body of a many-body system - and support precession; the coordinator's check item R165). In a physics.coord:\"3d\" sample only the light body declares spinAxis.enable (tilt 30 degrees from +z, azimuth 0 from +x - the same angle definitions as Core V2's core.tilt and core.azimuthDeg). The declared precession (about +z, Omega_p=0.00927 rad per time, one turn in 4 orbits) is PRESCRIBED from outside, not derived from a torque. At this stage the axis enters no force (3D rotational and axial dragging are stage 2).",
+      summary:"THE FIRST SAMPLE THAT ENABLES A SPIN AXIS PER BODY AND PRECESSES IT (wave 298a; the originator's ruling in report 88: in 3D enable the spin-axis tilt per body - not needed for every body of a many-body system - and support precession; the coordinator's check item R165). In a physics.coord:\"3d\" sample only the light body declares spinAxis.enable (tilt 30 degrees from +z, azimuth 0 from +x - the same angle definitions as Core V2's core.tilt and core.azimuthDeg). The declared precession (about +z, Omega_p=0.00927 rad per time, one turn in 4 orbits) is PRESCRIBED from outside, not derived from a torque. At this stage the axis enters no force (only E4 gravity acts - 3D rotational and axial dragging are stage 2).",
       observe:"With the common setting 'show the core axis projection' (on by default) the light body carries an orange line (the axis projected onto xy) that turns once every 4 orbits. Its length, sin(tilt), stays constant.",
       control:"No one-tap control. A copy without the precession declaration (precessionRate) keeps the axis fixed to the last bit (harness)."},
     parameterAudit:{
@@ -19124,7 +19123,7 @@ const BUILTIN_PRESETS = [
   timeRef:{basis:"orbit", pRef:169.44490679726164, pair:[0,1], def:"osculating", source:"初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o)))", stepsPerOrbit:360},
   physics:{coord:"3d", G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
-    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.4706802966590601, dispMag:1},
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, stepDt:0.4706802966590601, dispMag:1, frameWeight:"share"},
   bodies:[
     {type:"single", m:10, x:-1.8181818181818183, y:0, z:0, vx:0, vy:-0.06741998624632421, vz:0, spin:0, pinned:false, radius:1},
     {type:"single", m:1, x:18.18181818181818, y:0, z:0, vx:0, vy:0.674199862463242, vz:0, spin:0.3, pinned:false, radius:0.5,
@@ -21461,7 +21460,7 @@ const SAMPLE_STATUS={
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
 "inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"},
 "chainDiskToy":{"purpose":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る","objective":"met","state":"共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/chain-w296c.json"],"en":{"purpose":"Test whether drag chains outward through neighbours of a spinning centre","state":"CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim","mismatch":null,"outlook":null,"brief":"Test whether drag chains outward through neighbours of a spinning centre. Met: CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim. Out of calibration scope."},"brief":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る。達・共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない。較正対象外。"},
-"coord3dKeplerTilt":{"purpose":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る","objective":"met","state":"零試験で二次元とビット同一・周期の差は相対 7.8e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 8.5e-7°・三次元の引きずりは第 2 段","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/coord3d-w298a.json"],"en":{"purpose":"Run a tilted-plane ellipse in 3D; measure period and plane","state":"bit-identical to 2D at z=0; period gap 7.8e-4 (2.1e-4 at half step); plane drift 8.5e-7 deg","mismatch":null,"outlook":null,"brief":"Run a tilted-plane ellipse in 3D; measure period and plane. Met: bit-identical to 2D at z=0; period gap 7.8e-4 (2.1e-4 at half step); plane drift 8.5e-7 deg. Out of calibration scope."},"brief":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る。達・零試験で二次元とビット同一・周期の差は相対 7.8e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 8.5e-7°・三次元の引きずりは第 2 段。較正対象外。"},
+"coord3dKeplerTilt":{"purpose":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る","objective":"met","state":"零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/coord3d-w298a.json"],"en":{"purpose":"Run a tilted-plane ellipse in 3D; measure period and plane","state":"bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg","mismatch":null,"outlook":null,"brief":"Run a tilted-plane ellipse in 3D; measure period and plane. Met: bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg. Out of calibration scope."},"brief":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る。達・零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段。較正対象外。"},
 "coord3dSpinPrecess":{"purpose":"三次元で 1 粒子だけ自転軸を有効化し宣言した歳差で回す表示を確かめる","objective":"met","state":"軸は解析値と 2.5e-16 で一致・傾きは保存・歳差は規定運動でトルクからは求めない・軸は力に入らない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/coord3d-w298a.json"],"en":{"purpose":"Enable one body's spin axis in 3D and precess it","state":"axis within 2.5e-16 of analytic; tilt kept; prescribed precession; no force","mismatch":null,"outlook":null,"brief":"Enable one body's spin axis in 3D and precess it. Met: axis within 2.5e-16 of analytic; tilt kept; prescribed precession; no force. Out of calibration scope."},"brief":"三次元で 1 粒子だけ自転軸を有効化し宣言した歳差で回す表示を確かめる。達・軸は解析値と 2.5e-16 で一致・傾きは保存・歳差は規定運動でトルクからは求めない・軸は力に入らない。較正対象外。"},
 "earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "earthMoonSunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る","objective":"met","state":"慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun","state":"Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"},
@@ -40058,7 +40057,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
-11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0(または relativeDrag.law:"inertial" を宣言した 3・4)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
+11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。省略可の dragQ(粒子別の引きずり減衰指数 0.5〜40・既定は physics.q)。

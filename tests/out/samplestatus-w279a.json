@@ -12,14 +12,14 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "20b1388f2c9c8c37b0553f3d4d41e36a53b7177cf48e8c56ae398ecc4f1c8188",
-  "generatedAt": "2026-10-10T16:03:19.766Z",
+  "targetSha256": "9724e1d00f7497fefef553ba4eaad3a6c7b4446066d9ce39a06800eb1b8ac712",
+  "generatedAt": "2026-10-10T16:47:17.456Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 100294,
-    "sha256": "bac0f3300d4412967c8cf030d1ceec66eb7c393c347217b109f7c4d702d39236",
-    "mtime": "2026-10-10T15:51:20.411Z"
+    "sha256": "b7bdd2914cba25329b64161404882d8d08778bea4de6853a4dacbf527089c2a2",
+    "mtime": "2026-10-10T16:43:24.446Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -36,8 +36,8 @@
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
     "bytes": 149675,
-    "sha256": "61e22f85afc00af3cfc65dca72cd05994430865e9785ed47d68d8d4b85437f20",
-    "mtime": "2026-10-10T16:03:19.750Z"
+    "sha256": "0e969297134cb1b98a1708b3acdc3900673d23d67179072260812439714d7024",
+    "mtime": "2026-10-10T16:47:17.442Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -30273,7 +30273,7 @@
    "status": {
     "purpose": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る",
     "objective": "met",
-    "state": "零試験で二次元とビット同一・周期の差は相対 7.8e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 8.5e-7°・三次元の引きずりは第 2 段",
+    "state": "零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -30282,12 +30282,12 @@
     ],
     "en": {
      "purpose": "Run a tilted-plane ellipse in 3D; measure period and plane",
-     "state": "bit-identical to 2D at z=0; period gap 7.8e-4 (2.1e-4 at half step); plane drift 8.5e-7 deg",
+     "state": "bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg",
      "mismatch": null,
      "outlook": null,
-     "brief": "Run a tilted-plane ellipse in 3D; measure period and plane. Met: bit-identical to 2D at z=0; period gap 7.8e-4 (2.1e-4 at half step); plane drift 8.5e-7 deg. Out of calibration scope."
+     "brief": "Run a tilted-plane ellipse in 3D; measure period and plane. Met: bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg. Out of calibration scope."
     },
-    "brief": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る。達・零試験で二次元とビット同一・周期の差は相対 7.8e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 8.5e-7°・三次元の引きずりは第 2 段。較正対象外。"
+    "brief": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る。達・零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {

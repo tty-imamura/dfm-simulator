@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便a",
   "target": "beta/index.html",
-  "targetSha256": "20b1388f2c9c8c37b0553f3d4d41e36a53b7177cf48e8c56ae398ecc4f1c8188",
-  "generatedAt": "2026-10-10T16:03:07.956Z",
+  "targetSha256": "9724e1d00f7497fefef553ba4eaad3a6c7b4446066d9ce39a06800eb1b8ac712",
+  "generatedAt": "2026-10-10T16:47:20.774Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6215490,
-    "sha256": "20b1388f2c9c8c37b0553f3d4d41e36a53b7177cf48e8c56ae398ecc4f1c8188",
-    "mtime": "2026-10-10T16:03:01.918Z"
+    "bytes": 6215041,
+    "sha256": "9724e1d00f7497fefef553ba4eaad3a6c7b4446066d9ce39a06800eb1b8ac712",
+    "mtime": "2026-10-10T16:47:16.322Z"
    }
   ],
   "code": [
@@ -141,7 +141,7 @@
    "segments": 1024,
    "closureShare": 0.3257
   },
-  "scopeSha256": "98e8b6fa94e27f9212fae51052bf6a79ad3331a2576d559d19d0a808a9ddc6cc",
+  "scopeSha256": "7865ae447cbfb73ff4734f7aa061c05ae896900928af32fc3c45712f966fdbb5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -297,15 +297,15 @@
  "part3": {
   "keplerTilt": {
    "steps": 8000,
-   "relP": 1.44498e-16,
-   "relL": 4.84219e-15,
-   "relE": 0.000152093,
+   "relP": 0.00000104804,
+   "relL": 0.00000193085,
+   "relE": 0.000151857,
    "L0": [
     0,
     -7.68706,
     13.3144
    ],
-   "arrayType": "Float64Array",
+   "arrayType": "Float32Array",
    "ledger": null
   },
   "keplerTiltDouble": {
@@ -645,8 +645,8 @@
  },
  "part7": {
   "roundTripSame": true,
-  "sig3d": "34e596c1",
-  "sig2dTwin": "5deacebd",
+  "sig3d": "3d6c3d65",
+  "sig2dTwin": "dc9fac19",
   "differsFrom2d": true,
   "axisInSig": true,
   "fitCondHasCoord": true,
@@ -668,9 +668,9 @@
    "pKepler": 289.322,
    "revs": 8,
    "periodMean": 289.549,
-   "periodRelDiff": 0.000784561,
-   "eProxy": 0.300651,
-   "planeNormalDriftDeg": 8.53774e-7,
+   "periodRelDiff": 0.000785433,
+   "eProxy": 0.300652,
+   "planeNormalDriftDeg": 0.000040901,
    "timeRefP": 289.3220004429814
   },
   "keplerHalf": {
@@ -681,10 +681,10 @@
    "aOsc": 28.5714,
    "pKepler": 289.322,
    "revs": 8,
-   "periodMean": 289.382,
-   "periodRelDiff": 0.000208256,
-   "eProxy": 0.300168,
-   "planeNormalDriftDeg": 0.00000120742,
+   "periodMean": 289.383,
+   "periodRelDiff": 0.000211798,
+   "eProxy": 0.300173,
+   "planeNormalDriftDeg": 0.0000835739,
    "timeRefP": 289.3220004429814
   },
   "spin": {
@@ -710,5 +710,5 @@
   "covariantDouble": true
  },
  "ok": true,
- "elapsedS": 5.193
+ "elapsedS": 3.205
 }
