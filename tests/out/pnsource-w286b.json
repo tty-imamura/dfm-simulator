@@ -4,37 +4,37 @@
   "wave": "第286便b",
   "target": "beta/index.html",
   "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:27:14.328Z",
+  "generatedAt": "2026-10-10T22:46:52.234Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 6337385,
     "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "mtime": "2026-10-10T22:31:50.807Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 364342,
     "sha256": "a481d697c9239500990ce9217bc6976c9243ffcc34f42a139b39c309a1a5207a",
-    "mtime": "2026-10-09T10:19:35.462Z"
+    "mtime": "2026-10-10T22:31:51.007Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1821704,
     "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
-    "mtime": "2026-10-10T20:02:14.146Z"
+    "mtime": "2026-10-10T22:31:51.079Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 51463,
     "sha256": "bbb201881b0c0d1436d6b75070386135047163d32a7f0ecce45c5c43b764c064",
-    "mtime": "2026-10-10T20:08:00.814Z"
+    "mtime": "2026-10-10T22:31:51.155Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "bytes": 21881,
-    "sha256": "3ac9aba02879674198251c25947f4913796c4940ca5a71047b8e15eacbe0a937",
-    "mtime": "2026-10-09T12:27:43.755Z"
+    "bytes": 22155,
+    "sha256": "3b741a8f1f04617d76702b9db199e4f1c3e656d12a8c2c624d20ca3e76142436",
+    "mtime": "2026-10-10T22:38:00.320Z"
    }
   ],
   "code": [
@@ -42,43 +42,43 @@
     "file": "tests/exp-w286b-pnsource.mjs",
     "bytes": 24402,
     "sha256": "a58cff49dc4e19c43ab19fa115ad26c879266049adf072f8b7e21ac843ea293e",
-    "mtime": "2026-10-09T10:19:35.490Z"
+    "mtime": "2026-10-10T22:31:51.035Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-10T22:31:51.063Z"
    },
    {
     "file": "tests/lib-w283a-geomode.mjs",
     "bytes": 8878,
     "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-10T22:31:51.063Z"
    },
    {
     "file": "tests/lib-w280a-mercury.mjs",
     "bytes": 9761,
     "sha256": "b8dd3b76544fd2ec4a17f026025b805b02672e50012e600c42e82bab44ee5f75",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-10T22:31:51.059Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-10T22:31:51.059Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-10T22:31:51.055Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-10T22:31:51.063Z"
    }
   ],
   "codeSha256": "d659780f6fba3dbea2df01561ca732f40be616e9d57bab20f12a14f37aaa0fad",
@@ -182,7 +182,7 @@
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "stableSha256": "62b8e06a3444582e27f33d0ea6461cd8b61b7e0b43e629ab6b56e1454f1b8e1a",
+    "stableSha256": "9ff8fb7178e1fad29f463c246176583af61d48e69257cf2b3da63941136df642",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -927,9 +927,7 @@
  },
  "K": {
   "file": "tests/data-w286b-clight.json",
-  "bad": [
-   "一覧の外の実単位の本: earthMoonSunInertial3d"
-  ],
+  "bad": [],
   "nReal": 67,
   "nRetired": 27,
   "roundedLive": [],
@@ -942,12 +940,12 @@
    "k": 7.425826474101849e-9
   },
   "books": 51,
-  "exact": 14,
+  "exact": 15,
   "excluded": [
    "emAuditNewton",
    "pulsarSolo"
   ],
-  "ok": false
+  "ok": true
  },
  "G": {
   "steps": [
@@ -2481,13 +2479,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.074,
+   "wallSec": 0.102,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.119,
+   "wallSec": 0.184,
    "errors": 0
   }
  },
- "elapsedS": 565.495
+ "elapsedS": 530.085
 }

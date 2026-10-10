@@ -20773,6 +20773,11 @@ if (!FAST) {
         const has296cRL = R.survey.some((z) => z.id === 'chainDiskToy');   // 第296便c(R159): 🔗 も基点に無い(正本を鎖で刻み直した後に survey に入る —— 本の並びで 🐌 の後)
         const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : [],
           has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has292dRL ? ['earthMoonTide'] : [], has292cRL ? ['earthMoonInertial'] : [], has295cRL.concat(W296B_FITIDS.filter((id) => R.survey.some((z) => z.id === id))).sort((a, b) => R.survey.findIndex((z) => z.id === a) - R.survey.findIndex((z) => z.id === b)), has290cRL ? ['inertialDragPair'] : [], has296cRL ? ['chainDiskToy'] : []);   // 第296便b: 🟫🟪(フィットの派生本)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 親の直後)
+        // 第298便(統括代行 g): 三次元の新本(W298A_IDS —— physics.coord:"3d" の宣言から列挙・🌦️🔩🪛🌐🎲)も基点に無い(正本を鎖で刻み直した後に survey に入る)。
+        //   入る位置は本の並びで決まる(🌦️ は 🌥️ の直後・🔩🪛 は 🔗 の直後・🌐🎲 は末尾)ので、正本に行がある世代だけ、期待の並びに足して survey の順に並べ直す
+        const w298News = W298A_IDS.filter((id) => R.survey.some((z) => z.id === id));
+        if (w298News.length) { const ix = (id) => R.survey.findIndex((z) => z.id === id); const all = wantNews.concat(w298News);
+          if (all.every((id) => ix(id) >= 0)) all.sort((a, b) => ix(a) - ix(b)); wantNews.splice(0, wantNews.length, ...all); }
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
         const c = R.cluster;
@@ -20911,6 +20916,9 @@ if (!FAST) {
         if (has292d285 && ids295c.length && W296B_FIT) { for (const id of W296B_FITIDS) OTHER285.add(id); const nb = nBuiltin285[nBuiltin285.length - 1];
           // 第297便b(R162): 🌥️(W297B_NEWIDS)を足した世代 —— 正本が鎖で刻み直されるまでは前の世代(🟫🟪 だけ)の本数も許す
           if (W297B_NEWIDS.length) nBuiltin285.push(nb + W296B_FIT - W297B_NEWIDS.length); nBuiltin285.push(nb + W296B_FIT); }
+        // 第298便(統括代行 g): 三次元の新本(W298A_IDS —— physics.coord:"3d" の宣言から列挙。三次元の本は別の 1 步 dfmStep3 で走る・基点 b92ffa1 には無い本)を足した世代は
+        //   +W298A_IDS.length(正本が鎖で刻み直されるまでは前の世代の本数 —— 両方を許す)。🔩🪛 は contactMode none の宣言の側・🌦️🌐🎲 は宣言の外でよい
+        if (has292d285 && W298A_IDS.length) { for (const id of W298A_IDS) OTHER285.add(id); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + W298A_IDS.length); }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -21519,7 +21527,12 @@ if (!FAST) {
           const has298aS = typeof HP.coord3d !== 'undefined' && Array.isArray(sa0.keys) && K298.every((k) => sa0.keys.indexOf(k) >= 0);
           const sa = has298aS ? Object.assign({}, sa0, { keys: sa0.keys.filter((k) => K298.indexOf(k) < 0) }) : sa0;
           if (has298aS && JSON.stringify(sa0.keys.slice(-3)) !== JSON.stringify(K298)) bad.push('第298便a の 3 鍵が SPIN_AXIS_KEYS の末尾に無い');
-          if (!near(sa, J.spinAxis, 1e-12)) bad.push('spinAxis の照合を引き直すと正本と違う —— 器を走らせ直すこと');
+          // 第298便(統括代行 g): 正本 tilt90-w288e.json を第298便の鎖で刻み直した世代は、正本の側の鍵の名簿にも 3 鍵が末尾に入る —— 同じ 3 鍵を除いて照合する
+          //   (末尾の位置は上と同じく見る。3 鍵の無い正本〔第288便e〜第297便の刻み〕はそのまま照合)
+          const Jsa = (has298aS && J.spinAxis && Array.isArray(J.spinAxis.keys) && K298.every((k) => J.spinAxis.keys.indexOf(k) >= 0))
+            ? Object.assign({}, J.spinAxis, { keys: J.spinAxis.keys.filter((k) => K298.indexOf(k) < 0) }) : J.spinAxis;
+          if (Jsa !== J.spinAxis && JSON.stringify(J.spinAxis.keys.slice(-3)) !== JSON.stringify(K298)) bad.push('正本の 3 鍵が SPIN_AXIS_KEYS の末尾に無い');
+          if (!near(sa, Jsa, 1e-12)) bad.push('spinAxis の照合を引き直すと正本と違う —— 器を走らせ直すこと');
           const C = sa.cases;
           if (!(C.good.ok && C.good.kept && C.good.kept.tiltDeg === 40.6 && C.good.warns === 0)) bad.push('正しい宣言が通らない');
           if (!(C.missingSource.ok && C.missingSource.kept === null && C.missingSource.warns >= 1)) bad.push('source の無い宣言が落ちない');
@@ -23700,8 +23713,17 @@ if (!FAST) {
       else if (!J295) bad.push('正本 inertial3-w295c.json が読めない');
       else if (!psec295) bad.push('PHYSICS〔第295便c — 〕が無い');
       else {
-        if (!(J295.meta && J295.meta.provenanceVersion === 'w272e-1' && J295.meta.harnessVersion === E295.HARNESS_VERSION && J295.ok === true && J295.gates && J295.gates.ok === true))
+        // 第298便(統括代行 g): 第298便b で 3 本は退役(familyRole "retired")。正本を第298便の鎖で刻み直すと、器の宣言の門の「分類」(variant を求める)の 1 項だけが
+        //   落ちて gates.declOk=false・ok=false になる —— preset.inertial3_295 と同じ規則で、退役の世代では「分類」の 1 項だけの不一致を退役として受ける
+        //   (他の門 —— 写しの同一・走行・警告・窓の完走・runRow の一致 —— と、分類の他の欄〔群・principle・real〕は正本の値のまま見る)
+        const ret298I = HP295.allPresets().some((q) => q.id === 'earthMoonDiagOne' && q.familyRole === 'retired');
+        const declRet298 = ret298I && J295.gates && J295.gates.declOk === false && (J295.decl || []).length === 3
+          && J295.decl.every((d) => d.ok || (Array.isArray(d.bad) && d.bad.length === 1 && /^分類/.test(d.bad[0]) && d.cls && d.cls.familyRole === 'retired'
+            && (find295(d.id) || {}).familyRole === 'retired' && d.cls.group === d.cls.primaryGroup && d.cls.sampleClass === 'principle' && d.cls.fidelity === 'real' && d.cls.familyId === d.cls.parentFamily));
+        const gates295 = J295.gates && (J295.gates.ok === true || (declRet298 && Object.entries(J295.gates).every(([k, v]) => k === 'ok' || k === 'declOk' || v === true)));
+        if (!(J295.meta && J295.meta.provenanceVersion === 'w272e-1' && J295.meta.harnessVersion === E295.HARNESS_VERSION && (J295.ok === true || declRet298) && gates295))
           bad.push('来歴(w272e-1)・器の版・ok・門');
+        else if (declRet298) cases.push('門: 宣言の「分類」は 3 本とも退役(第298便b)で外れる 1 項だけ —— 他の門は正本で ok');
         const NUM = E295.obsNumbers(J295);
         let nHit = 0, nAll = 0;
         for (const [id, nums] of Object.entries(NUM)) {
@@ -24221,7 +24243,9 @@ if (!FAST) {
       if (r.pnAb.length) bad.push('λ_PN=1(旧則)のワンタップ対照が残る: ' + r.pnAb.join(','));
       if (!(r.sp.range && r.sp.def && r.sp.g4 && r.sp.noOld)) bad.push('SYSTEM_PROMPT の値域・既定値の行 ' + JSON.stringify(r.sp));
       // 第298便c(R167): 正本(第297便a)の後に入った三次元の慣性決定力の本 🔩🪛🌦️(W298C_IDS —— 宣言から列挙・geoPN 3/4・λ_PN=0)は本数の照合の外
-      if (J297 && J297.declared && J297.declared.n !== r.n - W298C_IDS.length) bad.push(`正本の宣言の本数 ${J297.declared.n} ⇔ 内蔵 ${r.n}(第298便c の新本 ${W298C_IDS.length} を除く)`);
+      //   第298便(統括代行 g): 正本を第298便の鎖で刻み直した世代は 🔩🪛🌦️ が正本の宣言の列挙に入っている —— 正本に**無い**新本だけを本数から除く
+      const out298c = W298C_IDS.filter((id) => !((J297 && J297.declared && J297.declared.books) || []).some((b) => b.id === id));
+      if (J297 && J297.declared && J297.declared.n !== r.n - out298c.length) bad.push(`正本の宣言の本数 ${J297.declared.n} ⇔ 内蔵 ${r.n}(正本の後に入った第298便c の新本 ${out298c.length} を除く)`);
       add('preset.lambdaPN297', bad.length === 0,
         `**geoPN=2・3・4 は λ_PN=0**(第297便a・原仮定者の裁定(第87報)・R161 —— 宣言から列挙): geoPN≥2 の内蔵 ${r.n} 本(2/3/4 = ${r.byG.join('/')})は全部 lambdaPN:0 を明示・geoPN=1 は 1 のまま・`
         + `A/B で 2/3/4 に走る設定 ${r.ab} 件は全部 λ_PN=0・🔁🌒 は pn:"off"(受理の警告 0)・pn:"reference-1PN" の内蔵 0・逸脱 lambdaPnOnDrag の内蔵 0・λ_PN=1 の対照 0・SYSTEM_PROMPT の値域と既定値の行`
@@ -24321,7 +24345,7 @@ if (!FAST) {
             mesh: { mercuryGeoToy3: mt('mercuryGeoToy3'), charonGeoToy3: mt('charonGeoToy3') } };
         });
         const dIds = (J297.declared && J297.declared.books || []).map((z) => z.id);
-        r.ids = r.ids.filter((id) => !W298C_IDS.includes(id));   // 第298便c(R167): 正本の後に入った 🔩🪛🌦️ は照合の外(geoPN 3/4・λ_PN=0 は preset.lambdaPN297 の全本の検査が見る)
+        r.ids = r.ids.filter((id) => !W298C_IDS.includes(id) || dIds.includes(id));   // 第298便c(R167): 正本の後に入った 🔩🪛🌦️ は照合の外(geoPN 3/4・λ_PN=0 は preset.lambdaPN297 の全本の検査が見る)—— 第298便の鎖で正本に入った後は照合の内(統括代行 g)
         if (JSON.stringify(dIds) !== JSON.stringify(r.ids)) bad.push('正本の宣言の列挙と今の内蔵の geoPN≥2 が違う');
         const ef = P.emfit;
         // 第298便b(原仮定者の裁定(第88報)・R166): 世代切替 has298bE = html の `const FIT_RECORD_VERSION_MT=`(typeof で守る —— 文字列で判る)。🌘 は f=1 へ再フィットされた
@@ -24331,7 +24355,10 @@ if (!FAST) {
         const rej297 = has298bE ? await page.evaluate((fr) => { const v = HP.validateFitRecord(JSON.parse(JSON.stringify(fr))); return v.ok ? null : v.err; }, ef ? ef.fitRecord : null) : null;
         if (ef && has298bE) {
           if (!rej297) bad.push('第297便a の 2 標的 w296b-1 の記録がいまの受理器で受理された(第298便b の穴の修正)');
-          if (!(ef.fitRecordAccepted === true && r.warn === 0)) bad.push('第297便a の正本の受理(当時)・🌘 の受理の警告');
+          // 第298便(統括代行 g): 正本 refit-w297a.json を第298便の鎖で刻み直した世代は、器がいまの受理器で記録を試すので fitRecordAccepted=false・
+          //   fitRecordErr = いまの受理器の拒否の文になる —— その文が上で引き直した拒否と同じであることを見る(当時の正本は fitRecordAccepted=true)
+          const acc297 = ef.fitRecordAccepted === true || (ef.fitRecordAccepted === false && typeof ef.fitRecordErr === 'string' && ef.fitRecordErr === rej297);
+          if (!(acc297 && r.warn === 0)) bad.push('第297便a の正本の受理(当時)・🌘 の受理の警告');
           cases.push(`🌘 の第297便a の再フィットは履歴(D0pull ${ef.adopted.D0pull}・f ${ef.adopted.f} —— 第298便b で f=1 へ。当時の記録はいまの受理器で受理しない: ${String(rej297).slice(0, 30)}…)`);
         }
         if (ef && !has298bE) {
@@ -25159,7 +25186,10 @@ if (!FAST) {
         const CK298 = ['z', 'vz', 'carVz', 'sax', 'say', 'saz', 'rdPrevZ'];
         let P298 = P;
         try { if (Hc.evalExpr("typeof COORD3D_ARRS!=='undefined'") === true) { const ck = Hc.evalExpr('CK_ARRS');
-          if (CK298.every((k) => ck.indexOf(k) >= 0)) { P298 = JSON.parse(JSON.stringify(P)); P298.inventory.checkpointSets.arrs -= CK298.length; } else bad.push('第298便a の 7 本が CK_ARRS に無い'); } } catch (e) { bad.push('CK_ARRS の読み: ' + String(e).slice(0, 80)); }
+          // 第298便(統括代行 g): 正本を第298便の鎖で刻み直した世代は正本の名簿の数にも 7 本が入っている —— 正本が引き直しと同じ数なら除かずに照合する
+          //   (正本が 7 本少ない〔第290便d〜第297便の刻み〕ときだけ 7 本を除く。どちらでもなければ照合で落ちる)
+          const canonArrs = ((((JC.probe || {}).inventory || {}).checkpointSets) || {}).arrs;
+          if (CK298.every((k) => ck.indexOf(k) >= 0)) { if (canonArrs !== P.inventory.checkpointSets.arrs) { P298 = JSON.parse(JSON.stringify(P)); P298.inventory.checkpointSets.arrs -= CK298.length; } } else bad.push('第298便a の 7 本が CK_ARRS に無い'); } } catch (e) { bad.push('CK_ARRS の読み: ' + String(e).slice(0, 80)); }
         const dn = nearC(noPrint(P298), noPrint(JC.probe));
         if (dn.length) bad.push('probe を引き直すと正本と違う ' + dn[0]);
         const V = EC.verdictOf(P);
