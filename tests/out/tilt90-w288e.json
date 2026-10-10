@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便e",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:39:42.633Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T20:44:34.419Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -108,11 +108,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1080,
-   "segments": 989,
-   "closureShare": 0.3199
+   "names": 1151,
+   "segments": 1051,
+   "closureShare": 0.3245
   },
-  "scopeSha256": "17b89f75594f7aa877fc52a0a5bf26c04b138af6e3bfb34e3035a253c80b2dbf",
+  "scopeSha256": "91cf7efe7ae49d49bc0590693b1c2304e2bc4481c629f0728e92c97c0ab21bac",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -446,7 +446,7 @@
      ]
     }
    ],
-   "wallSec": 9.153
+   "wallSec": 8.8
   },
   {
    "key": "spin0",
@@ -638,7 +638,7 @@
      ]
     }
    ],
-   "wallSec": 8.614
+   "wallSec": 8.519
   },
   {
    "key": "tilt90",
@@ -862,7 +862,7 @@
      ]
     }
    ],
-   "wallSec": 9.324
+   "wallSec": 9.757
   },
   {
    "key": "tilt90-om0",
@@ -1087,7 +1087,7 @@
      ]
     }
    ],
-   "wallSec": 9.461
+   "wallSec": 9.945
   },
   {
    "key": "tilt90-om2x",
@@ -1312,7 +1312,7 @@
      ]
     }
    ],
-   "wallSec": 9.864
+   "wallSec": 9.698
   },
   {
    "key": "tilt0-core",
@@ -1537,7 +1537,7 @@
      ]
     }
    ],
-   "wallSec": 9.49
+   "wallSec": 9.776
   },
   {
    "key": "tilt90-shell",
@@ -1762,7 +1762,7 @@
      ]
     }
    ],
-   "wallSec": 10.328
+   "wallSec": 9.734
   }
  ],
  "same": [
@@ -3158,7 +3158,10 @@
    "precessionRateDegPerYr",
    "epoch",
    "source",
-   "uncertainty"
+   "uncertainty",
+   "enable",
+   "precessionRate",
+   "precessAxis"
   ],
   "cases": {
    "good": {
@@ -3279,5 +3282,5 @@
   },
   "stateWithout": null
  },
- "elapsedS": 66.742
+ "elapsedS": 66.639
 }
