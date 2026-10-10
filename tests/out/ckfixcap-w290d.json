@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
-  "generatedAt": "2026-10-09T14:20:22.222Z",
+  "targetSha256": "5fbcbff961944a9150cb362e72cfeb0592e5b67f60e15d42b48bb330804a7d32",
+  "generatedAt": "2026-10-10T16:22:19.945Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
-    "mtime": "2026-10-09T14:14:50.711Z"
+    "bytes": 6166620,
+    "sha256": "5fbcbff961944a9150cb362e72cfeb0592e5b67f60e15d42b48bb330804a7d32",
+    "mtime": "2026-10-10T16:10:10.146Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w290d-ckfixcap.mjs",
     "bytes": 48506,
     "sha256": "84a1c6a55bbbe195131fffd02279cc0c81cad0627edb8fd4d88b80b255c93b6c",
-    "mtime": "2026-10-09T12:28:59.303Z"
+    "mtime": "2026-10-10T15:18:24.937Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-10T15:18:24.965Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-10T15:18:24.961Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-10T15:18:24.969Z"
    }
   ],
   "codeSha256": "d52b5b4e9df365fe97e7b06cc73bb21d451fb386c33aae723300d9f18437d33a",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1078,
-   "segments": 987,
-   "closureShare": 0.3195
+   "names": 1084,
+   "segments": 993,
+   "closureShare": 0.3193
   },
-  "scopeSha256": "87165892520e3cfe2b05118699bc0c1812f6efbab4a91cc98c1a941507ffc602",
+  "scopeSha256": "38402b1f1e825a285bb06e5918a8d516358568f77ecb10dd96b229a85fa6a21d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -990,7 +990,7 @@
     {
      "cat": "coreV2",
      "id": "earthMoon",
-     "retiredFixture": false,
+     "retiredFixture": true,
      "flagOn": true,
      "n": 2,
      "nSame": true,
@@ -2697,5 +2697,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.319
+ "elapsedS": 0.643
 }
