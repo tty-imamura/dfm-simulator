@@ -58162,7 +58162,11 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
   const has120 = await page.evaluate(() => !!(window.HP && typeof SCALE_BASES !== 'undefined'
     && typeof presetTierOf === 'function'));
   if (has120) {
-    const r = await page.evaluate(() => {
+    // 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 世代切替 KF1W298E = 🌘 の fitRecord の procedure が「周期優先(第298便e)」(html の正規表現)。
+    //   周期優先の宣言(D0pull=0.001)では 1 公転の正味の順行は正本 refit-w298b.json の段 fitmonth の傾き slopeDegPerPeri(°/近点)×3600″ —— ⑦ の門をその 0.5〜2 倍へ
+    const KF1W298E = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))
+      ? (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w298b.json'), 'utf8')).parts.fitmonth.adopted.h.slopeDegPerPeri * 3600; } catch (e) { return NaN; } })() : null;
+    const r = await page.evaluate((kf1Want) => {
       const out = {};
       // ① ベースのスケール: なし+9択・惑星(e7) 選択で {7,3,26,4}
       buildParamRows();
@@ -58213,7 +58217,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const stepsOrbit = Math.ceil(23608 / 0.016 / 1500);   // 1公転を1500分割
       for (let j = 0; j < 1500; j++) { for (let i = 0; i < stepsOrbit; i++) HP.sim.step(0.016); drawOrbitObs(); }
       const oo = HP.orbitObsNow();
-      out.kf1Prec = !!(oo && oo.cumArc > 3000);   // 1公転で ≈+10800″(周回内振動を均して正)
+      out.kf1Arc = oo ? oo.cumArc : null;
+      out.kf1Prec = (kf1Want !== null) ? !!(oo && oo.cumArc > 0.5 * kf1Want && oo.cumArc < 2 * kf1Want)   // 第298便e: 周期優先の宣言 ≈+330″/公転
+        : !!(oo && oo.cumArc > 3000);   // 1公転で ≈+10800″(周回内振動を均して正)
       // ⑧ 🪨💿 が内蔵に存在し、💿 はワンタップ kFrame=0 対照を持つ
       const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
       const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
@@ -58222,7 +58228,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           : sk.abBody.physicsPatch.kFrame === 0));
       HP.loadPreset('saturn', false);
       return out;
-    });
+    }, KF1W298E);
     // 第254便c: 頻用の指数組み合わせ6件を SCALE_BASES へ追加 → なし+15行(旧世代は なし+9行)
     // 第258便c: 廃止した行(retired:true)は選択肢に出さない → なし+**生きている行**(現行は 13 行)
     const wantBase = await page.evaluate(() => (typeof SCALE_BASES_LIVE === 'function')
@@ -58233,7 +58239,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       && r.abBtn && r.abPhys && r.hudMerged && r.kf1D0 && r.kf1Prec && r.newPresets,
       `ベース選択肢+なし=${r.baseOpts}(期待${wantBase}・e7選択=${r.baseSet}) / ☄️タグ=惑星=${r.tierMercury} / ` +
       `💍ts1+trail=${r.ringTweak} / κ併記=${r.kappa} / ワンタップphysics=${r.abBtn}&${r.abPhys} / ` +
-      `歳差HUD統合=${r.hudMerged} / 🌘D0較正=${r.kf1D0}・正の積算=${r.kf1Prec} / 🪨💿=${r.newPresets}`);
+      `歳差HUD統合=${r.hudMerged} / 🌘D0較正=${r.kf1D0}・正の積算=${r.kf1Prec}${KF1W298E !== null ? '(第298便e 周期優先: 1 公転 ' + (r.kf1Arc === null ? '—' : r.kf1Arc.toFixed(0)) + '″・門 ' + (0.5 * KF1W298E).toFixed(0) + '〜' + (2 * KF1W298E).toFixed(0) + '″)' : ''} / 🪨💿=${r.newPresets}`);
   } else {
     console.log('SKIP wave120.ui(第120便 未適用 — root 等)');
   }
