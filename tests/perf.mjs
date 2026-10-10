@@ -50,6 +50,9 @@ const OUT_DIR = path.join(ROOT, 'tests', 'out');
 // 走査順は不変(merger は SAMPLES の 3 番目にあったが、SAMPLES→EXTRA の連結順で走るため
 // 位置が変わる。第39便 39B の「♨️convection を通した後」の並びは SAMPLES 内で保たれる)。
 const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];
+// 第298便b(原仮定者の裁定(第88報)・統括の検証項目 R166): 🎯 saturnLayered は退役した(familyRole:"retired")が、**据え置く** —— 対象は
+//   HP.allPresets()(退役を含む内蔵の全本)の id で開く(第283便b の darkrotor と同じ —— 退役は表示だけ・物理と ID は不変)。在位の列挙で読む
+//   器ではないので、代表を在位の本へ差し替えると計測条件(並び・粒子数・基準の履歴)が変わる。差し替えは決断事項候補として残す
 // 第36便 Wave A(P2-2・ChatGPT差分検証レビュー): echo/freebox(第35便で追加)をベンチ対象へ。
 // root(旧版)にはまだ存在しないため feature-detect し、片側にしかプリセットが無い場合は
 // 「beta 単独の実測 ms を informational として記録する(pass判定なし・SAMPLES の 6/6 ゲート数

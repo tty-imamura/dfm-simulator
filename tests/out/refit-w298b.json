@@ -1,0 +1,560 @@
+{
+ "version": "w298b-refit-1",
+ "generator": "tests/exp-w298b-refit.mjs",
+ "ruling": "原仮定者の裁定(第88報)・統括の検証項目 R166",
+ "target": "beta/index.html",
+ "targetSha256": "5fbcbff961944a9150cb362e72cfeb0592e5b67f60e15d42b48bb330804a7d32",
+ "parts": {
+  "scan": {
+   "id": "earthMoonRealKF1",
+   "f": 1,
+   "obsBodies": [
+    {
+     "vx": 0,
+     "vy": -0.0013146
+    },
+    {
+     "vx": 0,
+     "vy": 0.1068788
+    }
+   ],
+   "range": [
+    0.00001,
+    0.0001
+   ],
+   "grid": [
+    0.00001,
+    0.00002,
+    0.0000314447,
+    0.000045,
+    0.00006,
+    0.0001
+   ],
+   "rows": [
+    {
+     "D0pull": 0.00001,
+     "dt": 0.016,
+     "steps": 13500464,
+     "sidMeanDays": 27.778570992001463,
+     "apsPeriodYr": 3.446726136478919,
+     "slopeDegPerPeri": 8.097281769173971,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 101.162,
+     "rel": [
+      0.016721909398077717,
+      -0.6105394196069018
+     ]
+    },
+    {
+     "D0pull": 0.00002,
+     "dt": 0.016,
+     "steps": 13374036,
+     "sidMeanDays": 27.51848942047011,
+     "apsPeriodYr": 5.881887360796495,
+     "slopeDegPerPeri": 4.664288771603091,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 134.331,
+     "rel": [
+      0.0072026784742571515,
+      -0.33537995923203445
+     ]
+    },
+    {
+     "D0pull": 0.0000314447,
+     "dt": 0.016,
+     "steps": 13333328,
+     "sidMeanDays": 27.434785268184264,
+     "apsPeriodYr": 9.06523638444081,
+     "slopeDegPerPeri": 3.005075818232636,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 97.265,
+     "rel": [
+      0.004139027519673544,
+      0.024320495417040844
+     ]
+    },
+    {
+     "D0pull": 0.000045,
+     "dt": 0.016,
+     "steps": 13314094,
+     "sidMeanDays": 27.395234583658816,
+     "apsPeriodYr": 12.967833565607679,
+     "slopeDegPerPeri": 2.09299767113761,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 106.327,
+     "rel": [
+      0.002691435147110788,
+      0.46529192831725186
+     ]
+    },
+    {
+     "D0pull": 0.00006,
+     "dt": 0.016,
+     "steps": 13303853,
+     "sidMeanDays": 27.37417151911649,
+     "apsPeriodYr": 17.337363681148968,
+     "slopeDegPerPeri": 1.5622508788637761,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 102.482,
+     "rel": [
+      0.0019205071103369775,
+      0.9590241447625953
+     ]
+    },
+    {
+     "D0pull": 0.0001,
+     "dt": 0.016,
+     "steps": 13292615,
+     "sidMeanDays": 27.35105505216979,
+     "apsPeriodYr": 29.058752907086088,
+     "slopeDegPerPeri": 0.9298459079595179,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 105.391,
+     "rel": [
+      0.0010744226080292574,
+      2.2834749047554905
+     ]
+    }
+   ],
+   "monotone": {
+    "sidMeanDays": true,
+    "apsPeriodYr": true
+   },
+   "monthClosest": {
+    "D0pull": 0.0001,
+    "sidMeanDays": 27.35105505216979,
+    "residualDays": 0.02935505216979095
+   },
+   "wallSec": 646.996
+  },
+  "fit": {
+   "id": "earthMoonRealKF1",
+   "f": 1,
+   "target": {
+    "siderealMonthDays": 27.3217,
+    "apsidalPeriodYr": 8.85
+   },
+   "range": [
+    0.00001,
+    0.0001
+   ],
+   "bracket": [
+    0.00002,
+    0.0000314447
+   ],
+   "stop": 0.00002,
+   "w297a": {
+    "D0pull": 0.0000314447,
+    "f": 0.998777511,
+    "note": "第297便a の再フィット(λ_PN=0・D0pull と初速の係数 f の 2×2 Newton —— 記録 w296b-1・第297便a の正本の段 emfit)"
+   },
+   "iterations": 4,
+   "evals": [
+    {
+     "D0pull": 0.00002,
+     "dt": 0.016,
+     "steps": 13374036,
+     "sidMeanDays": 27.51848942047011,
+     "apsPeriodYr": 5.881887360796495,
+     "slopeDegPerPeri": 4.664288771603091,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 97.197,
+     "rel": [
+      0.0072026784742571515,
+      -0.33537995923203445
+     ]
+    },
+    {
+     "D0pull": 0.0000314447,
+     "dt": 0.016,
+     "steps": 13333328,
+     "sidMeanDays": 27.434785268184264,
+     "apsPeriodYr": 9.06523638444081,
+     "slopeDegPerPeri": 3.005075818232636,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 129.683,
+     "rel": [
+      0.004139027519673544,
+      0.024320495417040844
+     ]
+    },
+    {
+     "D0pull": 0.00003067088731696918,
+     "dt": 0.016,
+     "steps": 13335021,
+     "sidMeanDays": 27.438268244833967,
+     "apsPeriodYr": 8.84488337800525,
+     "slopeDegPerPeri": 3.0809031251900003,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 97.528,
+     "rel": [
+      0.004266507751492954,
+      -0.0005781493779378755
+     ]
+    },
+    {
+     "D0pull": 0.00003068885533591232,
+     "dt": 0.016,
+     "steps": 13334982,
+     "sidMeanDays": 27.4381884549134,
+     "apsPeriodYr": 8.850309098410394,
+     "slopeDegPerPeri": 3.0789907422882963,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 102.616,
+     "rel": [
+      0.0042635873651126754,
+      0.00003492637405577703
+     ]
+    },
+    {
+     "D0pull": 0.00003068783171403752,
+     "dt": 0.016,
+     "steps": 13334988,
+     "sidMeanDays": 27.43820033057728,
+     "apsPeriodYr": 8.84969039475219,
+     "slopeDegPerPeri": 3.0792091054262674,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 101.996,
+     "rel": [
+      0.004264022025616265,
+      -0.00003498364382026331
+     ]
+    },
+    {
+     "D0pull": 0.000030688343944246614,
+     "dt": 0.016,
+     "steps": 13334981,
+     "sidMeanDays": 27.438186006941372,
+     "apsPeriodYr": 8.850090383353251,
+     "slopeDegPerPeri": 3.0790679395377007,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 101.776,
+     "rel": [
+      0.004263497767026614,
+      0.000010212808277065832
+     ]
+    },
+    {
+     "D0pull": 0.0000306883,
+     "dt": 0.016,
+     "steps": 13334985,
+     "sidMeanDays": 27.438195378394344,
+     "apsPeriodYr": 8.849946315505882,
+     "slopeDegPerPeri": 3.0791187922641186,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 57.041,
+     "rel": [
+      0.004263840771048022,
+      -0.0000060660445331262025
+     ]
+    },
+    {
+     "D0pull": 0.0000306883,
+     "dt": 0.008,
+     "steps": 26670001,
+     "sidMeanDays": 27.43822905157376,
+     "apsPeriodYr": 8.849595526976747,
+     "slopeDegPerPeri": 3.07924551826346,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 118.083,
+     "rel": [
+      0.0042650732411877446,
+      -0.00004570316646912431
+     ]
+    }
+   ],
+   "adopted": {
+    "D0pull": 0.0000306883,
+    "bodies": [
+     {
+      "vx": 0,
+      "vy": -0.0013146
+     },
+     {
+      "vx": 0,
+      "vy": 0.1068788
+     }
+    ],
+    "h": {
+     "sidMeanDays": 27.438195378394344,
+     "apsPeriodYr": 8.849946315505882,
+     "steps": 13334985
+    },
+    "half": {
+     "dt": 0.008,
+     "sidMeanDays": 27.43822905157376,
+     "apsPeriodYr": 8.849595526976747,
+     "steps": 26670001
+    }
+   },
+   "gate": [
+    {
+     "q": "恒星月(同方向 1 周の平均)",
+     "pass": false,
+     "residual": 0.11649537839434387,
+     "h2": 0.00003367317941638248,
+     "tol": 0.00005
+    },
+    {
+     "q": "近点回転の周期(検出器 B・近点方位の時刻に対する直線 fit)",
+     "pass": true,
+     "residual": -0.000053684494117689496,
+     "h2": 0.00035078852913450476,
+     "tol": 0.005
+    }
+   ],
+   "status": "unreachable-in-bounds",
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "earthMoonRealKF1",
+    "law": "geoPN=2(レガシー)・kFrame=1・λ_PN=0・qLock・frameWeight:\"pull\"・初速の係数 f=1(観測の初速)",
+    "targets": [
+     {
+      "q": "恒星月(同方向 1 周の平均)",
+      "obs": 27.3217,
+      "unit": "d",
+      "source": "恒星月 27.3217 日(本の parameterAudit の観測値)",
+      "window": "同方向 1〜9 周(8 公転窓)",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 日 —— 恒星月 27.3217 日は表記の末位(0.0001 日)まで・σ なし"
+      },
+      "extractor": "tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1) —— 相対角の連続化で同方向 1 周の通過時刻・最初と最後の通過の間の平均(9 周 → 8 間隔)",
+      "model": 27.438195378394344,
+      "residual": 0.11649537839434387,
+      "rel": 0.004263840771048064,
+      "numerics": {
+       "h2": 0.00003367317941638248,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "近点回転の周期(検出器 B・近点方位の時刻に対する直線 fit)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近点回転 8.85 年(本の parameterAudit の観測値)",
+      "window": "最初の 8 公転(第280便b の emgrid と同じ窓と抽出器)",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"
+      },
+      "extractor": "tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1) —— 検出器 B(相対距離の極小・3 点の放物線の頂点)・近点方位の時刻に対する直線 fit → 360°/ϖ̇(ユリウス年)",
+      "model": 8.849946315505882,
+      "residual": -0.000053684494117689496,
+      "rel": -0.00000606604453307226,
+      "numerics": {
+       "h2": 0.00035078852913450476,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.D0pull",
+      "range": [
+       0.00001,
+       0.0001
+      ],
+      "final": 0.0000306883
+     }
+    ],
+    "fixed": [
+     "初速の係数 f=1(地球と月の速度は 🌙 earthMoonReal の宣言そのもの —— 第297便a の f=0.998777511 は履歴)",
+     "G・質量・半径・自転・離角(🌙 と同じ観測入力)",
+     "D0=0.006(E1′)",
+     "q=8.2358(qLock の厳密一致式 —— qLock を外して q を 5・12 にしても 2 量は動かない: 段 qprobe)",
+     "kFrame=1・geoPN=2・λ_PN=0",
+     "frameWeight:\"pull\"",
+     "softening 0.1・stateCarry:\"double\""
+    ],
+    "procedure": "f=1 に固定し、ノブ D0pull だけで近点回転の周期の根を区間 [0.00002, 0.0000314447] で挟んで Illinois(止める条件は近点回転の相対残差 ≤ 0.00002)。採用値は 6 桁に丸めて h と h/2 で 2 量を測り直した。恒星月は探索範囲 [0.00001, 0.0001] の格子(段 scan)で D0pull に単調 —— 範囲の中に根が無い(器 tests/exp-w298b-refit.mjs)",
+    "dt": 0.016,
+    "steps": 13334985,
+    "status": "unreachable-in-bounds",
+    "notFitted": [
+     "恒星月(f=1・D0pull だけでは探索範囲の中で 27.3217 日に届かない —— この探索範囲では未達・次の見直し〔初期配置・q の範囲〕)",
+     "27 公転窓の近点回転(窓を延ばすと定常ではない —— 第135便・第280便b)",
+     "近点間の周期(近点間は観測の恒星月に対応しない)",
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "0afd684d2fcc59ad",
+     "extractor": "tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1)"
+    }
+   },
+   "fitRecordAccepted": true,
+   "fitRecordErr": null,
+   "wallSec": 805.949
+  },
+  "qprobe": {
+   "id": "earthMoonRealKF1",
+   "f": 1,
+   "rows": [
+    {
+     "q": "qLock",
+     "D0pull": 0.0000314447,
+     "dt": 0.016,
+     "steps": 13333328,
+     "sidMeanDays": 27.434785268184264,
+     "apsPeriodYr": 9.06523638444081,
+     "slopeDegPerPeri": 3.005075818232636,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 99.459,
+     "rel": [
+      0.004139027519673544,
+      0.024320495417040844
+     ]
+    },
+    {
+     "q": 5,
+     "D0pull": 0.0000314447,
+     "dt": 0.016,
+     "steps": 13333327,
+     "sidMeanDays": 27.43478294146597,
+     "apsPeriodYr": 9.065111673126085,
+     "slopeDegPerPeri": 3.0051175054544723,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 132.402,
+     "rel": [
+      0.00413894235958856,
+      0.02430640374306048
+     ]
+    },
+    {
+     "q": 12,
+     "D0pull": 0.0000314447,
+     "dt": 0.016,
+     "steps": 13333330,
+     "sidMeanDays": 27.43479026339347,
+     "apsPeriodYr": 9.06504003796979,
+     "slopeDegPerPeri": 3.0051421513618948,
+     "nPeri": 8,
+     "nan": false,
+     "wallSec": 97.774,
+     "rel": [
+      0.004139210349043854,
+      0.024298309375117677
+     ]
+    }
+   ],
+   "spanSidMeanDays": 0.000007321927501635628,
+   "spanApsPeriodYr": 0.00019634647101973712,
+   "wallSec": 329.64
+  }
+ },
+ "timing": {
+  "wallSec": 1782.585,
+  "mode": "merge(段ごとの壁時計の和 —— 段は別の process で並走)"
+ },
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第298便b",
+  "target": "beta/index.html",
+  "targetSha256": "5fbcbff961944a9150cb362e72cfeb0592e5b67f60e15d42b48bb330804a7d32",
+  "generatedAt": "2026-10-10T16:23:58.866Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6166620,
+    "sha256": "5fbcbff961944a9150cb362e72cfeb0592e5b67f60e15d42b48bb330804a7d32",
+    "mtime": "2026-10-10T16:10:10.146Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w298b-refit.mjs",
+    "bytes": 17091,
+    "sha256": "ae6d797f0a5197c4420794c6f48199c0cc13d3f1d7a1be1329a22dc88bf56049",
+    "mtime": "2026-10-10T16:10:10.156Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-10T15:18:24.965Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-10T15:18:24.965Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-10T15:18:24.961Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-10T15:18:24.969Z"
+   }
+  ],
+  "codeSha256": "ee6889446633a037203338047350f656d1cff9d3f53b8fc4548feb0d1bf03e78",
+  "harnessVersion": "w298b-refit-1",
+  "parts": [
+   "scan",
+   "fit",
+   "qprobe"
+  ],
+  "ruling": "原仮定者の裁定(第88報)(geoPN=2 はレガシー〔廃止の復活なし〕・earthMoonRealKF1 は f=1 で可能な範囲でフィット)",
+  "reading": "統括の検証項目 R166(f=1 に固定・ノブは既存の D0pull だけ・恒星月と近点回転を同時に測る・h と h/2・両方が門に入れば fitted —— 片方だけなら残差を書いて fitted にしない)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "月の近点回転を再現した",
+   "較正 合",
+   "gain は普遍定数",
+   "1PN を DFM から導出した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonRealKF1",
+    "earthMoonReal"
+   ],
+   "roots": [
+    "HP.FIT_COND_VERSION",
+    "HP.FIT_RECORD_VERSION_MT",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondSig",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.sim",
+    "isNum",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1080,
+   "segments": 989,
+   "closureShare": 0.3184
+  },
+  "scopeSha256": "5e87c54e8fdbb97d268e3a97adf13e754c281654201818a982f0e0b5da71ca3e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "elapsedS": 1782.585
+}
