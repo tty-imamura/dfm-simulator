@@ -26456,7 +26456,9 @@ if (!FAST) {
       const ENTRY = o.has290b ? 'plutoCharonDiagInput' : 'plutoCharonReal';
       // 第291便b(原仮定者の裁定(第81報)③・R133): RETIRED_PRESETS に 🌨️ の行がある世代は 🌨️ も退役(在位の variant は 🌒 だけ)
       o.has291b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonKF0Control;
-      const RET290 = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'].concat(o.has291b ? ['plutoCharonKF0Control'] : []);
+      // 第298便b(原仮定者の裁定(第88報)・R166): RETIRED_PRESETS に 🌓 の行がある世代は 🟣 plutoCharonInertial も退役(在位の variant は 🌒🟪)
+      o.has298b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.earthMoonDiagOne;
+      const RET290 = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'].concat(o.has291b ? ['plutoCharonKF0Control'] : [], o.has298b ? ['plutoCharonInertial'] : []);
       const VAR = IDS.filter((id) => id !== ENTRY && !(o.has290b && RET290.includes(id)));
       o.entry = ENTRY;
       o.nVar = VAR.length;
@@ -40984,11 +40986,12 @@ await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, consol
   const hasCh = await page.evaluate(() => { const S = HP.sim; return S.dragQT !== undefined && typeof HP.dfmBinaryInertiaFactor === 'function'; });
   if (hasCh) {
     const ch = await page.evaluate(() => {
+      // 第298便b(R166): 🌘 は条件の署名つきの記録(w298b-1)を持つ —— physics を書き換えた写しの受理は「条件の署名が一致しない」の警告 1 行を出して正しい(記録は残す)。ここでは数えない
       const run = (id, patch, steps) => { const pd = JSON.parse(JSON.stringify(__qaPreset(id)));
         if (patch) Object.assign(pd.physics, patch); const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
         for (let k = 0; k < steps; k++) S.step(0.016);
         const o = []; for (let i = 0; i < Math.min(6, S.n); i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
-        return { o, kKind: S._kKind, warn: (v.warnings || []).length, sig: JSON.stringify(v.preset.physics) }; };
+        return { o, kKind: S._kKind, warn: (v.warnings || []).filter((w) => !/fitRecord の条件の署名/.test(w)).length, sig: JSON.stringify(v.preset.physics) }; };
       const same = (a, b) => a.o.every((x, i) => Object.is(x, b.o[i]));
       // ① 既定値の明示宣言は署名不変・軌道 bit 不変(✴️ generic・🌘 特別化)
       const ac0 = run('alphaCenABDFM', null, 200), ac1 = run('alphaCenABDFM', { qTrans: 0, gasCoh: 1 }, 200);
@@ -50379,6 +50382,10 @@ if (!FAST) {
       const C = HP.ASTRO_CATALOG, bad = [];
       let checked = 0;
       const P = {}; for (const p of HP.allPresets()) P[p.id] = p;
+      // 第298便b(原仮定者の裁定(第88報)・R166): 🌘 は f=1 へ再フィットした(fitRecord w298b-1)。カタログの kf1 変種は**第297便a の宣言のまま**(共通の D0pull・初速の較正へは写さない ——
+      //   統括の指示)。kf1 の照合の相手は 🌘 に第297便a の 3 値(D0pull 3.14447e-5・地球と月の vy —— 初速の係数 0.998777511)を戻した写し
+      const em298 = !!(P.earthMoonRealKF1 && P.earthMoonRealKF1.fitRecord && P.earthMoonRealKF1.fitRecord.version === 'w298b-1');
+      if (em298) { const q = JSON.parse(JSON.stringify(P.earthMoonRealKF1)); q.physics.D0pull = 3.14447e-5; q.bodies[0].vy = -0.0013130046017774757; q.bodies[1].vy = 0.10674855666868635; P.earthMoonRealKF1 = q; }
       const eq = (a, b, w) => { checked++; if (!Object.is(a, b)) bad.push(`${w}: ${a} != ${b}`); };
       for (const sysId of Object.keys(C)) {
         const s = C[sysId], src = P[s.src];
@@ -50459,6 +50466,10 @@ if (!FAST) {
     const det = await page.evaluate(() => {
       const C = HP.ASTRO_CATALOG, bad = [];
       const P = {}; for (const p of HP.allPresets()) P[p.id] = p;
+      // 第298便b(原仮定者の裁定(第88報)・R166): 🌘 は f=1 へ再フィットした(fitRecord w298b-1)。カタログの kf1 変種は**第297便a の宣言のまま**(共通の D0pull・初速の較正へは写さない ——
+      //   統括の指示)。kf1 の照合の相手は 🌘 に第297便a の 3 値(D0pull 3.14447e-5・地球と月の vy —— 初速の係数 0.998777511)を戻した写し
+      const em298 = !!(P.earthMoonRealKF1 && P.earthMoonRealKF1.fitRecord && P.earthMoonRealKF1.fitRecord.version === 'w298b-1');
+      if (em298) { const q = JSON.parse(JSON.stringify(P.earthMoonRealKF1)); q.physics.D0pull = 3.14447e-5; q.bodies[0].vy = -0.0013130046017774757; q.bodies[1].vy = 0.10674855666868635; P.earthMoonRealKF1 = q; }
       let worstAll = 0, worstAllAt = '', jupWorst = 0, cases = 0;
       for (const sysId of Object.keys(C)) {
         const s = C[sysId];
