@@ -815,7 +815,7 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/drag3d-w298c.json': META_RUN.concat(['/elapsedS', '/part4/chain3d/wallSec', '/part4/chain3dTilt/wallSec']) },
     note: '第298便c: 三次元の慣性決定力 3 成分(並進・回転引きずり・軸引きずり)の零試験・有限球の収束・受動プローブ・🔩🪛 の実測(値だけ —— 軸引きずりの係数は未較正)' }),
   S('moon3d-298c', 'node tests/exp-w298c-moon3d.mjs', ['tests/out/moon3d-w298c.json'], 300, { secSource: 'w298c-branch', node: true,
-    volatilePaths: { 'tests/out/moon3d-w298c.json': META_RUN.concat(['/elapsedS', '/timing', '/meta/workers']) },
+    volatilePaths: { 'tests/out/moon3d-w298c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ref/flat/wallSec', '/ref/incl/wallSec']) },
     note: '第298便c: 🌥️ の三次元の写し —— 月の軌道傾斜 5.145° の初期配置(3 元 Newton)・軌道面の中の近点経度・gain の探索(挟めたら fitRecord w298b-1 の 3 標的)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、

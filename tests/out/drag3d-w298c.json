@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 4.155,
+   "wallSec": 2.37,
    "itersMax": 40,
    "resMax": 9.9975e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 6.639,
+   "wallSec": 4.101,
    "itersMax": 40,
    "resMax": 9.98881e-11,
    "fail": 0,
@@ -942,22 +942,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "8657cef4cd3a3bbd1ff623526cc9e19524a2a3c2b8d7fc3d202564d94711be07",
-  "generatedAt": "2026-10-10T17:33:24.077Z",
+  "targetSha256": "3d8cead559bf9e5c1ad947c9ebaad7b5664980ba0a815c38223720ae0fcadab9",
+  "generatedAt": "2026-10-10T18:15:08.104Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6329318,
-    "sha256": "8657cef4cd3a3bbd1ff623526cc9e19524a2a3c2b8d7fc3d202564d94711be07",
-    "mtime": "2026-10-10T17:26:31.294Z"
+    "bytes": 6329064,
+    "sha256": "3d8cead559bf9e5c1ad947c9ebaad7b5664980ba0a815c38223720ae0fcadab9",
+    "mtime": "2026-10-10T18:04:08.298Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w298c-drag3d.mjs",
-    "bytes": 31684,
-    "sha256": "f91f7cc12e5416b0eb66cd449781cb0050c9e45465ed8580da18ed8954604473",
-    "mtime": "2026-10-10T17:30:35.875Z"
+    "bytes": 31836,
+    "sha256": "7a068bbc4dd138992894b3f23465d2104b923da1b3319f8db0724794254f84af",
+    "mtime": "2026-10-10T17:52:40.610Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -978,7 +978,7 @@
     "mtime": "2026-10-10T17:00:39.234Z"
    }
   ],
-  "codeSha256": "6feedf089d487629e8746fdbfff599b58e58bc79dee48b3016e8fb0d8562a92e",
+  "codeSha256": "b008b6b6c9089c8f29266d65f5cfdb413b83a351d4a9b918b0873e4b502fc94b",
   "harnessVersion": "w298c-drag3d-1",
   "spin3Version": "w298c-spin3-1",
   "probeVersion": "w298c-probe-1",
@@ -990,9 +990,15 @@
    "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
+    "DT",
+    "HP.PROBE_VERSION",
+    "HP.REL_DRAG_AXIAL_LAW",
+    "HP.REL_DRAG_SPIN3_VERSION",
+    "HP.REL_DRAG_SPIN_NODES",
     "HP.allPresets",
     "HP.coord3d",
     "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
     "HP.inertialDrag3AxialOmega",
     "HP.inertialDrag3RotTerm",
     "HP.inertialDragProbeAt",
@@ -1002,19 +1008,23 @@
     "HP.inertialDragProbeStreamlines",
     "HP.inertialDragState",
     "HP.inertialSpinMoment",
-    "HP.validatePreset"
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ch",
+    "cw"
    ],
    "core": true,
    "consts": [],
    "complete": true,
    "names": 1158,
    "segments": 1058,
-   "closureShare": 0.3261
+   "closureShare": 0.326
   },
-  "scopeSha256": "f9df599b96a2919553aba8387d3b389c8a2d798af0512df77053f0b262cbd9b9",
+  "scopeSha256": "7914783612f126c10000cef59d278f56efad8260a7f4a6e994b209828d62b328",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 32.559
+ "elapsedS": 18.497
 }

@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w297b-fit.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-moon3d-1';
@@ -361,11 +361,11 @@ export async function main() {
     complete: all.every((r) => r.kind === 'ref3d' || r.revN >= 118), coord3d: all.every((r) => r.kind === 'ref3d' || r.kind === 'flat2d' || r.coord3d === true),
     flatSame: flat.sameT1, icSolved: ic0.converged && outer.every((z) => z.ic.converged), record: J.recordAccepted };
   J.ok = Object.values(J.gates).every(Boolean);
-  J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, r.wallSec]));
+  J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「月を再現した」', '「8.85 年を出した」', '「gain は普遍定数」', '「参照積分で fitted」'];   // 書かない語(引用 —— 本文には書かない)
   const CODE = ['tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第298便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
-    harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length, workers: NW,
+    harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第88報)「三次元座標化する」「geoPN=4 は慣性決定力の多粒子版・三次元が既定」', reading: '統括の検証項目 R167(🌥️ の三次元 —— 月の傾斜 5.145° の再現作業)' });
   J.elapsedS = (Date.now() - t0) / 1000;
   Object.assign(J.meta, W281A_SCOPE, w281aStableInputs(ROOT, J.meta.inputs));

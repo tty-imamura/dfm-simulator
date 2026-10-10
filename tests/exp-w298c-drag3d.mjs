@@ -25,7 +25,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-drag3d-1';
