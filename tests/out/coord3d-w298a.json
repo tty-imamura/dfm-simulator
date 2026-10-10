@@ -1,0 +1,714 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第298便a",
+  "target": "beta/index.html",
+  "targetSha256": "20b1388f2c9c8c37b0553f3d4d41e36a53b7177cf48e8c56ae398ecc4f1c8188",
+  "generatedAt": "2026-10-10T16:03:07.956Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6215490,
+    "sha256": "20b1388f2c9c8c37b0553f3d4d41e36a53b7177cf48e8c56ae398ecc4f1c8188",
+    "mtime": "2026-10-10T16:03:01.918Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w298a-coord3d.mjs",
+    "bytes": 31394,
+    "sha256": "abf6f9c7311e55ab5ab6cc4af11f278160a0121a5dc5eeecb15fde7c1e190e56",
+    "mtime": "2026-10-10T16:03:01.977Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-10T15:18:21.721Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-10T15:18:21.713Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-10T15:18:22.021Z"
+   }
+  ],
+  "codeSha256": "cfc1f7613da089dfa6ba7c1988ed24265a50c3a3b91795b62a3e7682a28afd05",
+  "harnessVersion": "w298a-coord3d-1",
+  "coord3dVersion": "w298a-coord3d-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第88報)(三次元座標化する。右手系。サンプル毎の選択。二次元に Z があれば警告。三次元では自転軸の傾きを粒子ごとに有効化・歳差にも対応)",
+  "reading": "統括の検証項目 R165(三次元の土台 —— 座標・状態・力・軸と歳差・警告・保存)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "現実の軌道との一致",
+   "三次元の慣性決定力(回転引きずり・軸引きずり)",
+   "トルクから求めた歳差"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.MODE_SAVE_WARN_CODES",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.loadPreset",
+    "HP.modeSettingIssues",
+    "HP.sim",
+    "HP.timeStd",
+    "HP.validatePreset",
+    "T",
+    "_monCls",
+    "_ooLast",
+    "ab",
+    "applyLang",
+    "applyQLock",
+    "applySkin",
+    "applyUiScale",
+    "bgSourcesBodyCheck",
+    "buildParamRows",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "coord2dZKeysOf",
+    "coord3dDenyOf",
+    "coord3dPlace",
+    "coord3dPrepare",
+    "coord3dRuntimeWhy",
+    "coord3dState",
+    "coord3dTotals",
+    "coreFieldInitState",
+    "ctx",
+    "cv",
+    "cw",
+    "dfmCore3",
+    "dfmCoreFieldStep",
+    "dfmInertialDragStep3",
+    "dfmMeshVelocityStep",
+    "dfmStep3",
+    "dpr",
+    "drawEmergence",
+    "drawOrbitObs",
+    "drawSpaceLinesOn",
+    "emHist",
+    "emTick",
+    "fitCondInputsOf",
+    "geo3InitVelocity",
+    "isNum",
+    "lcAfterStep",
+    "lcReset",
+    "liveCmp",
+    "loadPreset",
+    "makeSim",
+    "meshVelocityPrepare",
+    "modeIssuesOf",
+    "panelContentChanged",
+    "paramRowSync",
+    "pmCells",
+    "pmRender",
+    "presetSigHash",
+    "qLockCalc",
+    "render",
+    "renderCustomList",
+    "renderHelp",
+    "renderSaves",
+    "resizeCanvas",
+    "setCanvasSkin",
+    "setSkin",
+    "showFirstVisit",
+    "sim",
+    "spinAxisOf",
+    "syncPanelWideReserve",
+    "tempP90EMA",
+    "updateAbQuickRow",
+    "validateMeshVelocity",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1117,
+   "segments": 1024,
+   "closureShare": 0.3257
+  },
+  "scopeSha256": "98e8b6fa94e27f9212fae51052bf6a79ad3331a2576d559d19d0a808a9ddc6cc",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "dt": 0.016,
+ "part1": {
+  "a_twoBodySemi": {
+   "steps": 3000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 16,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "b_twoBodyLeapfrog": {
+   "steps": 3000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 16,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "c_contactGammaN": {
+   "steps": 1500,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 52,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "c2_contactLeapfrog": {
+   "steps": 1500,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 52,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "d_inertialPair": {
+   "steps": 3000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 16,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "e_inertialThreeDirect": {
+   "steps": 2000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 22,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "e2_inertialThreeHistory": {
+   "steps": 2000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 22,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "f_chainPCG": {
+   "steps": 200,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 490,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "g_stateCarryDouble": {
+   "steps": 3000,
+   "coord3d": true,
+   "coord2d": true,
+   "nVal": 16,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "allSame": true
+ },
+ "part2": {
+  "float32": {
+   "steps": 3000,
+   "R": [
+    [
+     -0.297769,
+     -0.642667,
+     0.705913
+    ],
+    [
+     0.8716,
+     -0.484664,
+     -0.0735805
+    ],
+    [
+     0.389418,
+     0.593364,
+     0.704466
+    ]
+   ],
+   "maxDr": 0.000139452,
+   "maxDv": 0.0000102023,
+   "maxDaxis": 1.11022e-16,
+   "relDr": 0.0000053867,
+   "relDv": 0.0000121517,
+   "arrayType": "Float32Array"
+  },
+  "double": {
+   "steps": 3000,
+   "R": [
+    [
+     -0.297769,
+     -0.642667,
+     0.705913
+    ],
+    [
+     0.8716,
+     -0.484664,
+     -0.0735805
+    ],
+    [
+     0.389418,
+     0.593364,
+     0.704466
+    ]
+   ],
+   "maxDr": 2.45282e-13,
+   "maxDv": 1.69867e-14,
+   "maxDaxis": 1.11022e-16,
+   "relDr": 9.4747e-15,
+   "relDv": 2.02325e-14,
+   "arrayType": "Float64Array"
+  }
+ },
+ "part3": {
+  "keplerTilt": {
+   "steps": 8000,
+   "relP": 1.44498e-16,
+   "relL": 4.84219e-15,
+   "relE": 0.000152093,
+   "L0": [
+    0,
+    -7.68706,
+    13.3144
+   ],
+   "arrayType": "Float64Array",
+   "ledger": null
+  },
+  "keplerTiltDouble": {
+   "steps": 8000,
+   "relP": 1.44498e-16,
+   "relL": 4.84219e-15,
+   "relE": 0.000152093,
+   "L0": [
+    0,
+    -7.68706,
+    13.3144
+   ],
+   "arrayType": "Float64Array",
+   "ledger": null
+  },
+  "threeBodyAxis": {
+   "steps": 3000,
+   "relP": 0.00000176147,
+   "relL": 0.00000178136,
+   "relE": 0.00021945,
+   "L0": [
+    -0.0808488,
+    -1.32393,
+    23.8833
+   ],
+   "arrayType": "Float32Array",
+   "ledger": "自転 I s â と歳差の拘束の帳簿 spin3PrescL を含む"
+  },
+  "threeBodyAxisDouble": {
+   "steps": 3000,
+   "relP": 2.07653e-16,
+   "relL": 2.55237e-15,
+   "relE": 0.000217034,
+   "L0": [
+    -0.0808489,
+    -1.32393,
+    23.8833
+   ],
+   "arrayType": "Float64Array",
+   "ledger": "同上(stateCarry:\"double\")"
+  }
+ },
+ "part4": {
+  "rows": [
+   {
+    "key": "kFrame",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "kRep",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "muF",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "kappaS",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "etaRad",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "gravityXY",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "geoPN12",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "geodesic",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "geoLegacy",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "physicsOther",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "relativeDragLaw",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "spinSource",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "dragCore",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "thermal",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "phaseChange",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "fusion",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "universeBox",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "measureBox",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "photonEmit",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "rays",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "echoFlipAt",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "capture",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "qLock",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "boundary",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "overlays",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "core",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "layers",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "pulse",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "spinDipole",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "tide",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "zonal",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "testParticle",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "rail",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "lightSweepAuto",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "dragQ",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "densityClass",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "spinAxisDisplay",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   },
+   {
+    "key": "vModeEq",
+    "tested": true,
+    "rejected": true,
+    "otherErrors": []
+   }
+  ],
+  "nRejected": 38,
+  "nTested": 38,
+  "allRejected": true,
+  "boxTiltDropped": true,
+  "runtimeHalt": {
+   "tBefore": 0.16000000000000003,
+   "tAfter": 0.16000000000000003,
+   "stopped": true,
+   "why": "physics.kFrame≠0",
+   "resumed": true
+  }
+ },
+ "part5": {
+  "ok": true,
+  "warnCount": 1,
+  "issue": {
+   "code": "coord2dZ",
+   "kind": "declaration",
+   "keys": [
+    "bodies[0].z",
+    "bodies[1].vz",
+    "bodies[1].spinAxis.enable",
+    "bodies[2].incl"
+   ]
+  },
+  "kept": {
+   "z0": 0,
+   "vz1": 0.05,
+   "enable": true,
+   "incl": 20
+  },
+  "run2dSameAsNoKeys": true,
+  "coord3dFlag": false,
+  "zArray": true,
+  "codesLength": 21,
+  "lastCode": "coord2dZ",
+  "noIssueIn3d": true
+ },
+ "part6": {
+  "tiltDeg": 30,
+  "azimuthDeg": 40,
+  "precessionRate": 0.05,
+  "precessAxis": [
+   20,
+   -60
+  ],
+  "steps": 4000,
+  "t": 64,
+  "maxAxisErr": 3.88578e-16,
+  "maxNormErr": 3.33067e-16,
+  "maxConeErr": 3.33067e-16,
+  "LplusLedgerDrift": 0.00000324932,
+  "prescL": [
+   0.0174314,
+   0.0419515,
+   0.0100512
+  ],
+  "displayAxis": {
+   "tiltDeg": 53.2736,
+   "azimuthDeg": -95.8588
+  },
+  "staticAxisUnchanged": true,
+  "spinAxisOfIs3d": true
+ },
+ "part7": {
+  "roundTripSame": true,
+  "sig3d": "34e596c1",
+  "sig2dTwin": "5deacebd",
+  "differsFrom2d": true,
+  "axisInSig": true,
+  "fitCondHasCoord": true,
+  "abClone": {
+   "coord3d": true,
+   "same": true
+  },
+  "checkpoint": {
+   "same": true
+  }
+ },
+ "part8": {
+  "kepler": {
+   "id": "coord3dKeplerTilt",
+   "dt": 0.803672223452726,
+   "steps": 2953,
+   "inclDeg": 30,
+   "aOsc": 28.5714,
+   "pKepler": 289.322,
+   "revs": 8,
+   "periodMean": 289.549,
+   "periodRelDiff": 0.000784561,
+   "eProxy": 0.300651,
+   "planeNormalDriftDeg": 8.53774e-7,
+   "timeRefP": 289.3220004429814
+  },
+  "keplerHalf": {
+   "id": "coord3dKeplerTilt",
+   "dt": 0.401836111726363,
+   "steps": 5905,
+   "inclDeg": 30,
+   "aOsc": 28.5714,
+   "pKepler": 289.322,
+   "revs": 8,
+   "periodMean": 289.382,
+   "periodRelDiff": 0.000208256,
+   "eProxy": 0.300168,
+   "planeNormalDriftDeg": 0.00000120742,
+   "timeRefP": 289.3220004429814
+  },
+  "spin": {
+   "id": "coord3dSpinPrecess",
+   "body": 1,
+   "dt": 0.4706802966590601,
+   "steps": 3600,
+   "t": 1694.45,
+   "tiltDeg": 30,
+   "precessionRate": 0.009270248108869578,
+   "maxAxisErr": 2.54384e-16,
+   "maxTiltDevDeg": 1.42109e-14,
+   "azimuthNowDeg": -180,
+   "azimuthWantDeg": -180
+  }
+ },
+ "gates": {
+  "zeroTestBitSame": true,
+  "rejectAll": true,
+  "zWarn": true,
+  "axisExact": true,
+  "saveRoundTrip": true,
+  "covariantDouble": true
+ },
+ "ok": true,
+ "elapsedS": 5.193
+}

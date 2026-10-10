@@ -21538,7 +21538,13 @@ if (!FAST) {
       else {
         const HP = H.HP;
         try {
-          const sa = E.spinAxisCheck(HP);
+          const sa0 = E.spinAxisCheck(HP);
+          // 第298便a(R165): SPIN_AXIS_KEYS の末尾に三次元の自転軸の 3 鍵(enable・precessionRate・precessAxis)を足した世代(HP.coord3d がある)は、
+          //   その 3 鍵を除いて正本(第288便e)と照合する(表示専用の宣言の受理の場合分けは 1 つも変えていない —— 3 鍵は behavior.coord3d298 が照合する)
+          const K298 = ['enable', 'precessionRate', 'precessAxis'];
+          const has298aS = typeof HP.coord3d !== 'undefined' && Array.isArray(sa0.keys) && K298.every((k) => sa0.keys.indexOf(k) >= 0);
+          const sa = has298aS ? Object.assign({}, sa0, { keys: sa0.keys.filter((k) => K298.indexOf(k) < 0) }) : sa0;
+          if (has298aS && JSON.stringify(sa0.keys.slice(-3)) !== JSON.stringify(K298)) bad.push('第298便a の 3 鍵が SPIN_AXIS_KEYS の末尾に無い');
           if (!near(sa, J.spinAxis, 1e-12)) bad.push('spinAxis の照合を引き直すと正本と違う —— 器を走らせ直すこと');
           const C = sa.cases;
           if (!(C.good.ok && C.good.kept && C.good.kept.tiltDeg === 40.6 && C.good.warns === 0)) bad.push('正しい宣言が通らない');
@@ -21552,7 +21558,9 @@ if (!FAST) {
           cases.push(`受理 8 事例(正しい宣言・source 無し・tilt 非数・未知の鍵・値域・非対称区間・不正な不定性・single 以外)・署名 宣言あり/なし ${sa.sigs.map((z) => z.with + '/' + z.without).join(',')}・📻 3000 步の状態 ビット一致=${sa.bitSame}`);
         } catch (e) { bad.push('spinAxis の照合: ' + String(e).slice(0, 140)); }
         // 内蔵の宣言集合(いまの html で全本を数える)= 登録簿の declared
-        const decl = HP.allPresets().map((p) => ({ id: p.id, idx: (p.bodies || []).map((b, i) => (b && b.spinAxis !== undefined) ? i : -1).filter((i) => i >= 0) })).filter((z) => z.idx.length);
+        // 第298便a(R165): 三次元の本(physics.coord:"3d")の spinAxis は**力学の軸**(enable:true —— 表示専用の宣言ではない)なので、表示専用の宣言集合からは外す
+        //   (三次元の本の軸は behavior.coord3d298 が照合する。第298便a の前の html には三次元の本が無いので、この絞りは前の世代でも同じ集合を返す)
+        const decl = HP.allPresets().filter((p) => (p.physics || {}).coord !== '3d').map((p) => ({ id: p.id, idx: (p.bodies || []).map((b, i) => (b && b.spinAxis !== undefined) ? i : -1).filter((i) => i >= 0) })).filter((z) => z.idx.length);
         const B = HP.SPIN_AXIS_BOOKS;
         const wantDecl = Object.keys(B).filter((id) => B[id].status === 'declared');
         if (JSON.stringify(decl.map((z) => z.id).sort()) !== JSON.stringify(wantDecl.sort()) || JSON.stringify(decl.map((z) => z.idx)) !== JSON.stringify([[1]])) bad.push('内蔵の宣言集合 ' + JSON.stringify(decl));
@@ -72389,6 +72397,160 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
   await lp.close();
+}
+
+// ---- 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。二次元の設定に Z の位置・速度が入っていたら警告。
+// ----   三次元では自転軸の傾きを粒子ごとに有効化(多粒子の全部には不要)・歳差にも対応」・統括の検証項目 R165): **三次元座標の土台**の 3 ブロック。
+// ----   **root では SKIP**(器 tests/exp-w298a-coord3d.mjs・正本 tests/out/coord3d-w298a.json)。世代切替 has298a = html に `COORD3D_VERSION="w298a`。
+// ----   ① behavior.coord3d298 …… 器の runAll を headless(tests/lib-w279b-headless.mjs)で引き直して正本と全欄一致(零試験 9 通りビット同一・共変・保存・
+// ----      拒否 38 項目と走行中の停止・二次元の Z の警告と値の保持・軸と歳差・保存往復/A/B の複製/チェックポイント・🌐🎲)・門が全部真・
+// ----      21 本目の code coord2dZ(末尾)・二次元の内蔵は physics.coord を持たず S.step は二次元の步・`S._core` に z/coord の語が無い・
+// ----      三次元の本だけ S.step が三次元の步・SYSTEM_PROMPT の規則 11
+// ----   ② preset.coord3d298 …… 三次元の内蔵 = 宣言から列挙した 2 本(正本の part8 の id と一致)・principle・受理の警告に coord2dZ が無い・
+// ----      timeRef(公転)と stepDt=pRef/360・🎲 は 1 粒子だけ enable・観測カードの数は正本の値の転記・samplestatus の原稿に行がある・
+// ----      二次元の内蔵に z/vz/incl/node/spinAxis.enable の鍵が無い
+// ----   ③ docs.coord3d298 …… PHYSICS〔第298便a〕(右手系・状態・対応/拒否・零試験・共変・保存・軸と歳差・coord2dZ・差し込み場所)・AI_SPEC §67・
+// ----      CHANGELOG・README・正本の来歴(w272e-1・器の版)・再生成の段 coord3d-298a と .gitignore の例外・禁句と書かない語
+{
+  const html298a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has298a = TARGET.startsWith('beta/') && html298a.indexOf('COORD3D_VERSION="w298a') >= 0;
+  if (!has298a) {
+    console.log('SKIP behavior.coord3d298 / preset.coord3d298 / docs.coord3d298(第298便a 未適用 — ' + TARGET + ')');
+  } else {
+    let E298 = null, J298 = null, H298 = null, err298 = null;
+    try {
+      E298 = await import('file://' + path.join(ROOT, 'tests', 'exp-w298a-coord3d.mjs'));
+      J298 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'coord3d-w298a.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      H298 = loadHtmlHeadless(path.join(ROOT, TARGET));
+    } catch (e) { err298 = String(e && e.stack || e).slice(0, 200); }
+    const near298 = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near298(x, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => near298(a[k], b[k], tol)); }
+      return a === b; };
+    // ---- ① behavior.coord3d298
+    {
+      const bad = [], cases = [];
+      if (err298) bad.push('器/正本/headless が読めない: ' + err298);
+      else {
+        const HP = H298.HP;
+        let R = null;
+        try { R = E298.runAll(HP, H298.ctx); } catch (e) { bad.push('runAll: ' + String(e).slice(0, 160)); }
+        if (R) {
+          for (const k of ['part1', 'part2', 'part3', 'part4', 'part5', 'part6', 'part7', 'part8'])
+            if (!near298(R[k], J298[k], 1e-12)) bad.push(k + ' を引き直すと正本と違う(器を走らせ直すこと)');
+          if (!(R.ok === true && J298.ok === true && Object.values(J298.gates).every(Boolean))) bad.push('門 ' + JSON.stringify(R.gates));
+          const z = R.part1;
+          const zs = Object.keys(z).filter((k) => z[k] && typeof z[k] === 'object');
+          if (!(z.allSame === true && zs.length === 9 && zs.every((k) => z[k].nDiff === 0 && z[k].coord3d && z[k].coord2d))) bad.push('零試験 ' + zs.map((k) => k + ':' + z[k].nDiff).join(','));
+          cases.push(`零試験 ${zs.length} 通り・差 0 値(${zs.map((k) => k.split('_')[0] + ' ' + z[k].nVal).join('・')})`);
+          const c = R.part2;
+          if (!(c.double.relDr <= 1e-9 && c.double.maxDaxis <= 1e-12 && c.float32.relDr <= 1e-4)) bad.push('共変 ' + JSON.stringify(c));
+          cases.push(`共変(3000 步)Float32 相対 ${c.float32.relDr}・double ${c.double.relDr}・軸 ${c.double.maxDaxis}`);
+          const r4 = R.part4;
+          if (!(r4.allRejected && r4.boxTiltDropped && r4.nTested === HP.coord3d.rejected.length && r4.runtimeHalt.stopped && r4.runtimeHalt.resumed)) bad.push('拒否 ' + JSON.stringify(r4.rows.filter((x) => !x.rejected)));
+          cases.push(`拒否 ${r4.nRejected}/${r4.nTested}(box の incl は警告して落とす)・走行中の kFrame=1 で停止(t ${r4.runtimeHalt.tBefore} のまま)`);
+          const r5 = R.part5;
+          if (!(r5.issue && r5.issue.code === 'coord2dZ' && r5.issue.kind === 'declaration' && r5.kept.z0 === 0 && r5.kept.vz1 === 0.05 && r5.kept.enable === true && r5.kept.incl === 20
+            && r5.run2dSameAsNoKeys && r5.noIssueIn3d && r5.zArray)) bad.push('二次元の Z の警告 ' + JSON.stringify(r5));
+          cases.push(`coord2dZ の鍵 ${r5.issue ? r5.issue.keys.join(',') : '—'}・値は残る・走行は鍵なしとビット同一`);
+          const r6 = R.part6;
+          if (!(r6.maxAxisErr <= 1e-12 && r6.maxConeErr <= 1e-12 && r6.staticAxisUnchanged && r6.spinAxisOfIs3d)) bad.push('軸と歳差 ' + JSON.stringify(r6));
+          cases.push(`軸 解析値との差 ${r6.maxAxisErr}・円錐 ${r6.maxConeErr}`);
+          const r7 = R.part7;
+          if (!(r7.roundTripSame && r7.differsFrom2d && r7.axisInSig && r7.fitCondHasCoord && r7.abClone.same && r7.checkpoint.same)) bad.push('保存往復 ' + JSON.stringify(r7));
+        }
+        // 21 本目の code(末尾)・二次元の内蔵の步・S._core の語・SYSTEM_PROMPT
+        const codes = HP.MODE_SAVE_WARN_CODES;
+        if (!(codes.length === 21 && codes[20] === 'coord2dZ' && codes[19] === 'lambdaPnOnDrag')) bad.push('MODE_SAVE_WARN_CODES ' + codes.length + ' ' + codes[codes.length - 1]);
+        const all = HP.allPresets(), b3 = all.filter((p) => (p.physics || {}).coord === '3d');
+        if (all.some((p) => (p.physics || {}).coord !== undefined && p.physics.coord !== '3d')) bad.push('内蔵に coord:"3d" 以外の宣言');
+        const coreSrc = HP.sim._core.toString();
+        if (/\bcoord3d\b|S\.z\b|\.az3\b|\bvz\[/.test(coreSrc)) bad.push('S._core に三次元の語');
+        let n2 = 0, n3 = 0;
+        for (const p of all) { HP.loadPreset(p.id, false); const s = HP.sim; if ((p.physics || {}).coord === '3d') { if (s.coord3d === true && s.step === s._step3 && s.z && s.z.length === s.n) n3++; } else if (s.coord3d !== true && s.step === s._step2 && s.z === null) n2++; }
+        if (!(n2 === all.length - b3.length && n3 === b3.length)) bad.push(`步の差し替え 二次元 ${n2}/${all.length - b3.length}・三次元 ${n3}/${b3.length}`);
+        if (!/\n11\. 座標\(第298便a\): [^\n]*physics\.coord:"3d"[^\n]*spinAxis:\{"enable":true/.test(HP.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT の規則 11(座標)');
+        cases.push(`code 21 本(末尾 coord2dZ)・二次元の内蔵 ${n2} 本は二次元の步・三次元 ${n3} 本は三次元の步・S._core に三次元の語なし`);
+      }
+      add('behavior.coord3d298', bad.length === 0,
+        `**三次元座標の土台**(第298便a・原仮定者の裁定(第88報)・R165 —— physics.coord:"3d" の本だけが別の步・二次元の本は不変): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.coord3d298
+    {
+      const bad = [], cases = [];
+      if (err298) bad.push('器/正本/headless が読めない: ' + err298);
+      else {
+        const HP = H298.HP, all = HP.allPresets();
+        const b3 = all.filter((p) => (p.physics || {}).coord === '3d').map((p) => p.id);
+        const want = [J298.part8.kepler.id, J298.part8.spin.id];
+        if (JSON.stringify(b3.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push('三次元の内蔵 ' + b3.join(',') + ' ≠ 正本 ' + want.join(','));
+        const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        for (const id of b3) {
+          const p = all.find((q) => q.id === id);
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) { bad.push(id + ' が受理されない ' + JSON.stringify(v.errors).slice(0, 120)); continue; }
+          if ((v.warnings || []).some((w) => /Z の宣言/.test(w))) bad.push(id + ' の受理に coord2dZ');
+          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy') bad.push(id + ' の sampleClass/fidelity');
+          const tr = HP.timeStd.validateTimeRef(p.timeRef);
+          if (!(tr.ok && tr.timeRef.basis === 'orbit' && Math.abs(p.physics.stepDt - p.timeRef.pRef / 360) <= 1e-12 * p.timeRef.pRef)) bad.push(id + ' の timeRef/stepDt');
+          if (!(src.rows && src.rows[id] && src.rows[id].evidence.indexOf('tests/out/coord3d-w298a.json') >= 0)) bad.push(id + ' の samplestatus の原稿の行');
+          const en = (p.bodies || []).filter((b) => b.spinAxis && b.spinAxis.enable === true).length;
+          if (id === J298.part8.spin.id && en !== 1) bad.push(id + ' の enable の粒子が 1 個でない');
+        }
+        const K = J298.part8.kepler, S8 = J298.part8.spin, KH = J298.part8.keplerHalf;
+        const f = (x, d) => Number(x).toFixed(d);
+        const pk = all.find((q) => q.id === K.id), ps = all.find((q) => q.id === S8.id);
+        const txtK = JSON.stringify(pk.obsCard), txtS = JSON.stringify(ps.obsCard);
+        for (const w of [f(K.periodMean, 3), f(K.pKepler, 3), (K.periodRelDiff).toExponential(1).replace('e-', 'e-'), (KH.periodRelDiff).toExponential(1), K.planeNormalDriftDeg.toExponential(1)])
+          if (txtK.indexOf(String(w).replace(/^(\d)\.(\d)e-(\d)$/, '$1.$2e-$3')) < 0) bad.push(K.id + ' の観測カードに正本の値 ' + w + ' が無い');
+        for (const w of [S8.maxAxisErr.toExponential(1), S8.maxTiltDevDeg.toExponential(1)]) if (txtS.indexOf(w) < 0) bad.push(S8.id + ' の観測カードに正本の値 ' + w + ' が無い');
+        const keys2d = all.filter((p) => (p.physics || {}).coord !== '3d').map((p) => ({ id: p.id, k: HP.coord3d.zKeysOf(p.bodies) })).filter((z) => z.k.length);
+        if (keys2d.length) bad.push('二次元の内蔵に Z の鍵 ' + keys2d.map((z) => z.id).join(','));
+        cases.push(`三次元の内蔵 ${b3.join('・')}(正本の id と一致)・🌐 周期 ${f(K.periodMean, 3)}(ケプラー ${f(K.pKepler, 3)}・相対 ${K.periodRelDiff}・h/2 ${KH.periodRelDiff})・軌道面のずれ ${K.planeNormalDriftDeg}°・🎲 軸の差 ${S8.maxAxisErr}・二次元の内蔵に Z の鍵 0 本`);
+      }
+      add('preset.coord3d298', bad.length === 0,
+        `**三次元の最初の検証本**(第298便a・R165 —— 🌐 傾いた軌道面の楕円・🎲 自転軸の歳差): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.coord3d298
+    {
+      const bad = [], cases = [];
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const a = Pd.indexOf('〔第298便a — ');
+      const ends = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. 論文', a)].filter((k) => k > a) : [];
+      const psec = (a >= 0) ? Pd.slice(a, ends.length ? Math.min(...ends) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第298便a〕が無い');
+      for (const w of ['physics.coord:"3d"', '右手系', '+z = x×y', 'S.z', 'S.vz', 'S.sax', 'dfmStep3', 'dfmCore3', 'coord3dDenyOf', 'coord3dRuntimeWhy', '零試験', 'ビット同一',
+        '共変', 'coord2dZ', 'spinAxis', 'precessionRate', '規定運動', 'spin3PrescL', 'dfmInertialDragStep3', 'inertialDragSpinTerm', 'surfaceFlip', 'S._core', 'bitsame'])
+        if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第298便a〕に「' + w + '」が無い');
+      const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      const ai = Ai.indexOf('第298便a —— 三次元座標の土台');
+      if (ai < 0) bad.push('AI_SPEC に第298便a の節が無い');
+      else { const as = Ai.slice(ai); for (const w of ['physics.coord', 'coord2dZ', 'spinAxis', 'enable:true', 'HP.coord3d', 'behavior.coord3d298']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+      if (CL.indexOf('第298便a') < 0) bad.push('CHANGELOG に第298便a が無い');
+      if (RM.indexOf('第298便a') < 0 || RM.indexOf('physics.coord:"3d"') < 0) bad.push('README に三次元座標の要点が無い');
+      if (J298) {
+        if (!(J298.meta && J298.meta.provenanceVersion === 'w272e-1' && E298 && J298.meta.harnessVersion === E298.HARNESS_VERSION)) bad.push('正本の来歴(w272e-1)/器の版');
+      } else bad.push('正本が読めない');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      if (!/S\('coord3d-298a', 'node tests\/exp-w298a-coord3d\.mjs', \['tests\/out\/coord3d-w298a\.json'\]/.test(RT) || !/secSource: 'w298a-branch'/.test(RT)) bad.push('再生成の段 coord3d-298a');
+      if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/coord3d-w298a.json') < 0) bad.push('.gitignore の例外');
+      // 禁句と書かない語(第298便a の節・新本の宣言・器)
+      const i0 = html298a.indexOf('{ id:"coord3dKeplerTilt"'), i1 = html298a.indexOf('// ===== 第252便a(第44報「箱宇宙と連星」)', i0);
+      const blk = (i0 >= 0 && i1 > i0) ? html298a.slice(i0, i1) : '';
+      if (!blk) bad.push('新本の宣言が読めない');
+      const harn = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w298a-coord3d.mjs'), 'utf8');
+      const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+      for (const [nm, tx] of [['PHYSICS', psec], ['新本', blk], ['器', harn], ['AI_SPEC', (ai >= 0) ? Ai.slice(ai) : '']]) for (const re of NG) if (re.test(tx)) bad.push(nm + ' に禁句 ' + re.source);
+      cases.push(`PHYSICS〔第298便a〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・正本の来歴・段 coord3d-298a・.gitignore・禁句 0`);
+      add('docs.coord3d298', bad.length === 0,
+        `**三次元座標の土台の文書**(第298便a・R165): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
