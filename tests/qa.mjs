@@ -58052,7 +58052,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       setFlipY(false);
       const y2 = w2sY(camY + 50);
       out.flip = Math.abs((y0 - ch / 2) + (y1 - ch / 2)) < 1e-9 && Math.abs(y0 - ch / 2) > 1 && y2 === y0;
-      out.flipCb = !!document.querySelector('#flipYCb');
+      // 第298便d: トグルは視点の傾きのスライダーへ置き換えた(setFlipY は θ=±90 の互換の入口として残る)
+      out.flipCb = !!document.querySelector('#flipYCb') || (typeof VIEW_TILT_DEFAULT !== 'undefined' && !!document.querySelector('#viewTiltSlider'));
       // ④ 時間の単位変換: s/分/時間/日/年(HUD の t 表示・再生1s換算が使う)
       out.fmtOk = fmtSecs(30) === '30 s' && /分$/.test(fmtSecs(120)) && /時間$/.test(fmtSecs(7200))
         && /^27\.3\d* 日$/.test(fmtSecs(2.3606e6)) && /年$/.test(fmtSecs(3.2e7));
@@ -58116,7 +58117,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ⑤ dispMag が A/B 側描画式にも入っている(ソース検査 — drawWorldInto)
       out.abDisp = String(drawWorldInto).includes('S.params.dispMag');
       // ⑥ 上下反転: panCam が flipY で y 反転・スポーク描画が fy を使う(ソース検査)
-      out.panFlip = String(panCam).includes('flipY');
+      out.panFlip = String(panCam).includes('flipY') || (typeof VIEW_TILT_DEFAULT !== 'undefined' && String(panCam).includes('viewFy'));   // 第298便d: fy=viewFy(−sinθ)
       out.spokeFlip = String(render).includes('fy*Math.sin');
       // ⑦ 時間経過倍率の行がソフトニング ε の行より前(シミュレーションカテゴリ内)
       const labels = [...document.querySelectorAll('#paramRows .prow label')].map((x) => x.textContent);
@@ -72389,6 +72390,216 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
   await lp.close();
+}
+
+// ---- 第298便d(原仮定者の裁定(第88報)「説明タブのフィットの標的の行が枠をはみ出すので修正」・統括の検証項目 R168): ui.fitTargetRow298 ——
+// ----   説明タブの「⏱ アプリ内実測」(#lmsBox)と「📐 フィットの記録」(#fitRecordBox)の行が枠をはみ出さない(表示専用)。
+// ----   世代切替 has298d = 視点の傾き(setViewTilt・VIEW_TILT_DEFAULT —— 同じ枝の実体。root 等は SKIP)。
+// ----   対象 = 在位の本のうち、fitRecord を持つ本と、アプリ内実測にフィットの標的の行(src "fit")を持つ本(宣言から導く —— 手書きの一覧を持たない)。
+// ----   390×844 と 1280×800・ja/en で、箱の中の全要素の左右端が箱の内側(±0.5px)・箱と #helpBody に横スクロールが無い。
+// ----   **字幅に依らない**: 同じ検査を箱の幅を 220px に絞って繰り返す(既定の字体〔容器では Inter〕が細くても太くても、
+// ----   折り返さない限り必ずはみ出す幅 —— 第297便の lmsName〔flex:0 0 auto〕はここで落ちる)。
+{
+  const bad = [], info = { vp: [] };
+  for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+    const fctx = await browser.newContext({ viewport: vp });
+    const fp = await fctx.newPage();
+    const errs = [];
+    fp.on('pageerror', (e) => errs.push(String(e.message || e)));
+    await fp.goto(INDEX, { waitUntil: 'load' });
+    await fp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    const has298d = await fp.evaluate(() => typeof setViewTilt === 'function' && typeof VIEW_TILT_DEFAULT !== 'undefined');
+    if (!has298d) { await fctx.close(); info.skip = true; break; }
+    const r = await fp.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { books: [], rows: 0, els: 0, bad: [] };
+      const L = HP.liveMeasure;
+      const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && p.familyRole !== 'retired'
+        && ((p.fitRecord && Array.isArray(p.fitRecord.targets)) || (L && L.specOf(p.id).some((z) => z.src === 'fit'))));
+      const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+      const check = (box, tag) => {
+        const br = box.getBoundingClientRect();
+        for (const e of box.querySelectorAll('*')) {
+          const q = e.getBoundingClientRect(); if (!(q.width > 0)) continue;
+          o.els++;
+          if (q.right > br.right + 0.5 || q.left < br.left - 0.5)
+            o.bad.push(tag + ' ' + (e.className || e.tagName) + ' 右端 +' + (q.right - br.right).toFixed(1) + 'px「' + e.textContent.slice(0, 24) + '」');
+        }
+        if (box.scrollWidth > box.clientWidth + 1) o.bad.push(tag + ' 箱に横スクロール ' + box.scrollWidth + '>' + box.clientWidth);
+      };
+      for (const lang of ['ja', 'en']) {
+        HP.setLang(lang);
+        for (const p of B) {
+          HP.loadPreset(p.id, false); await wait(5);
+          if (lang === 'ja') o.books.push(p.id);
+          let nBox = 0;
+          for (const id of ['lmsBox', 'fitRecordBox']) {
+            const box = document.getElementById(id); if (!box) continue;
+            nBox++; box.open = true;
+            o.rows += box.querySelectorAll(id === 'lmsBox' ? '.lmsRow[data-src="fit"]' : '.frRow[data-k="target"]').length;
+            check(box, lang + ' ' + p.id + ' #' + id);
+            const mw = box.style.maxWidth; box.style.maxWidth = '220px';
+            check(box, lang + ' ' + p.id + ' #' + id + '(幅 220px)');
+            box.style.maxWidth = mw;
+          }
+          if (!nBox) o.bad.push(lang + ' ' + p.id + ': 標的の箱が 1 つも無い');
+          const hb = document.getElementById('helpBody');
+          if (hb && hb.scrollWidth > hb.clientWidth + 1) o.bad.push(lang + ' ' + p.id + ' #helpBody に横スクロール');
+        }
+      }
+      HP.setLang('ja');
+      return o;
+    });
+    await fctx.close();
+    if (errs.length) bad.push(`${vp.width}: ページのエラー ${errs[0].slice(0, 80)}`);
+    if (!(r.books.length >= 1 && r.rows >= r.books.length)) bad.push(`${vp.width}: 対象の本 ${r.books.length}・標的の行 ${r.rows}(本ごとに 1 行以上の想定)`);
+    bad.push(...r.bad.slice(0, 6).map((x) => vp.width + ': ' + x));
+    info.vp.push(`${vp.width}×${vp.height}: ${r.books.length} 本(${r.books.join('・')})・標的の行 ${r.rows}(ja)+en・要素 ${r.els}・はみ出し ${r.bad.length}`);
+  }
+  if (info.skip) console.log('SKIP ui.fitTargetRow298(第298便d 未適用 — setViewTilt なし — root 等)');
+  else add('ui.fitTargetRow298', bad.length === 0,
+    `**説明タブのフィットの標的の行**(第298便d・原仮定者の裁定(第88報)・R168 —— 表示専用): ${info.vp.join(' / ')}`
+    + ` / 判定 = 箱の中の全要素の左右端 ≤ 箱(±0.5px)・横スクロールなし・箱の幅を 220px に絞っても同じ(字幅に依らない)`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 第298便d(原仮定者の裁定(第88報)「共通設定の上下反転をスライダー化。画面右は X 方向固定。初期値は −90 で画面下が Y 方向。0 で横から画面上が Z 方向。
+// ----   90 で上下反転、画面上が Y 方向」・統括の検証項目 R168): ui.viewTilt298 —— **視点の傾き θ**(X 軸まわりのカメラの回転・表示専用)。
+// ----   世代切替 has298d = setViewTilt・VIEW_TILT_DEFAULT(root 等は SKIP)。
+// ----   ① θ=−90(既定)は第118便の「上下反転 OFF」の式とビット一致(w2sY・逆写像・panCam の差分)・θ を往復しても画面の画素が同じ
+// ----   ② θ=+90 は第118便の「上下反転 ON」の式とビット一致(setFlipY(true) → θ=+90)
+// ----   ③ θ=0 で z を上に描く(z を持つ合成の状態 —— S.coord3d・S.z を表示の検査のためだけに置き、物理は進めない)・二次元の本は x 軸上の線(画面の縦の中心)
+// ----   ④ ヒット判定の逆変換: 7 つの θ で、粒子の画面位置を押すとその粒子が選ばれる(マウスの押下/離しを canvas/window へ送る —— 実際の経路)
+// ----   ⑤ 縦のドラッグ: 二次元の本は y に割り当て(Δy = ΔU/sinθ)・横から ±5.7° 以内は無効・三次元の本は (y, z) を画面の上向きへ
+// ----   ⑥ localStorage の移行(hp_flip_y "1" → +90・hp_view_tilt 優先・不正値は既定)・再読み込みで復元・スライダーの値域
+// ----   ⑦ 表示専用: 走行の状態・params・presetSig が θ で 1 bit も変わらない・保存 JSON に鍵が無い
+// ----   ⑧ 文書(PHYSICS〔第298便d〕)
+{
+  const vctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const vp2 = await vctx.newPage();
+  const errs = [];
+  vp2.on('pageerror', (e) => errs.push(String(e.message || e)));
+  await vp2.goto(INDEX, { waitUntil: 'load' });
+  await vp2.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has298d = await vp2.evaluate(() => typeof setViewTilt === 'function' && typeof VIEW_TILT_DEFAULT !== 'undefined');
+  if (!has298d) {
+    console.log('SKIP ui.viewTilt298(第298便d 未適用 — setViewTilt なし — root 等)');
+  } else {
+    const bad = [], info = {};
+    try {
+      const R = await vp2.evaluate(() => {
+        const o = { bad: [] };
+        const hash = () => { render(); const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let h = 2166136261 >>> 0;
+          for (let i = 0; i < d.length; i += 3) { h ^= d[i]; h = Math.imul(h, 16777619) >>> 0; } return h; };
+        const dump = () => { const S = HP.sim; const a = []; for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) a.push(Array.prototype.join.call(S[k].subarray(0, S.n), ','));
+          return a.join('|') + '|' + S.t + '|' + JSON.stringify(S.params); };
+        HP.loadPreset('earthMoonReal', false);
+        setViewTilt(-90);
+        for (let k = 0; k < 20; k++) HP.sim.step(0.016);
+        // ① θ=−90
+        o.def = viewTiltDeg === VIEW_TILT_DEFAULT && VIEW_TILT_DEFAULT === -90 && viewCs === 0 && viewSn === -1;
+        const ys = [camY + 50, camY - 1e-7, camY + 3.3e5, -17.25, 0.1 + 0.2];
+        o.m90 = ys.every((y) => w2sY(y) === ch / 2 + (y - camY) * zoom() * 1 && w2sY(y, 123) === w2sY(y));
+        const sy0 = [0, 1, ch / 3, ch - 0.5];
+        o.inv90 = sy0.every((s) => viewInvYc(ch / 2, zoom(), s) === camY + (s - ch / 2) / zoom() * 1);
+        { const cx0 = camX, cy0 = camY, mf = camFollowMode; camFollowMode = 'none';
+          panCam(7, -13); const z = zoom(); o.pan90 = camX === cx0 - 7 / z && camY === cy0 - (-13) / z * 1 && camZ === 0;
+          camX = cx0; camY = cy0; camFollowMode = mf; }
+        const h0 = hash(); setViewTilt(37); const h37 = hash(); setViewTilt(-90); const h1 = hash();
+        o.round = h0 === h1 && h37 !== h0;
+        // ② θ=+90 = 旧上下反転
+        setFlipY(true);
+        o.flip = viewTiltDeg === 90 && flipY === true && ys.every((y) => w2sY(y) === ch / 2 + (y - camY) * zoom() * -1)
+          && sy0.every((s) => viewInvYc(ch / 2, zoom(), s) === camY + (s - ch / 2) / zoom() * -1);
+        { const cy0 = camY, mf = camFollowMode; camFollowMode = 'none'; panCam(0, 9); o.pan90f = camY === cy0 - 9 / zoom() * -1; camY = cy0; camFollowMode = mf; }
+        setFlipY(false);
+        o.flipBack = viewTiltDeg === -90 && flipY === false;
+        // ⑦ 表示専用(状態・params・presetSig)
+        const sig0 = presetSig(HP.currentPreset()), d0 = dump();
+        for (const th of [-90, -45, 0, 30, 90]) { setViewTilt(th); render(); }
+        setViewTilt(-90);
+        o.inert = dump() === d0 && presetSig(HP.currentPreset()) === sig0 && !/tilt|flip/i.test(JSON.stringify(HP.sim.params));
+        // ③ θ=0: 二次元の本は線・合成の z は上へ
+        setViewTilt(0);
+        o.line2d = [0, 1].every((i) => w2sY(HP.sim.y[i], viewZOf(HP.sim, i)) === ch / 2 - (0 - camZ) * zoom());
+        const S = HP.sim; S.coord3d = true; S.z = new Float64Array(S.n);
+        for (let i = 0; i < S.n; i++) S.z[i] = (i + 1) * 0.2 * camScale;
+        render();
+        o.zUp = w2sY(S.y[1], S.z[1]) < w2sY(S.y[0], S.z[0]) && Math.abs(w2sY(S.y[1], S.z[1]) - (ch / 2 - (S.z[1] - camZ) * zoom())) < 1e-9;
+        // ⑤ 縦のドラッグ(三次元の本: z へ)
+        { const cy0 = camY, cz0 = camZ, mf = camFollowMode; camFollowMode = 'none'; panCam(0, 10);
+          o.pan3d0 = camY === cy0 && Math.abs(camZ - (cz0 + 10 / zoom())) < 1e-12; camY = cy0; camZ = cz0; camFollowMode = mf; }
+        delete S.coord3d; delete S.z; camZ = 0;
+        { const mf = camFollowMode; camFollowMode = 'none';
+          setViewTilt(0); const cy0 = camY; panCam(0, 10); o.pan2d0 = camY === cy0 && camZ === 0;
+          setViewTilt(5); panCam(0, 10); o.pan2d5 = camY === cy0 && camZ === 0;   // sin5° < 0.1 → 無効
+          setViewTilt(30); const s30 = Math.sin(30 * Math.PI / 180); panCam(0, 10);
+          o.pan2d30 = Math.abs(camY - (cy0 + 10 / zoom() / s30)) < 1e-9 && camZ === 0;
+          // 指に付いてくる: 押した世界の点 (y) の画面位置が 10px 下がる
+          camY = cy0; const yP = cy0 + 3, sB = w2sY(yP); panCam(0, 10); o.track30 = Math.abs(w2sY(yP) - sB - 10) < 1e-6;
+          camY = cy0; camFollowMode = mf; }
+        setViewTilt(-90);
+        return o;
+      });
+      info.r = R;
+      for (const k of ['def', 'm90', 'inv90', 'pan90', 'round', 'flip', 'pan90f', 'flipBack', 'inert', 'line2d', 'zUp', 'pan3d0', 'pan2d0', 'pan2d5', 'pan2d30', 'track30'])
+        if (R[k] !== true) bad.push('検査 ' + k + ' が成り立たない');
+      // ④ ヒット判定(実際の経路 —— canvas の mousedown・window の mouseup)
+      const picks = [];
+      for (const th of [-90, -60, -30, 0, 30, 60, 90]) {
+        const q = await vp2.evaluate((th) => {
+          HP.loadPreset('earthMoonReal', false); camFollowMode = 'none';
+          const S = HP.sim; S.coord3d = true; S.z = new Float64Array(S.n);
+          for (let i = 0; i < S.n; i++) S.z[i] = (i % 2 ? 1 : -1) * 0.15 * camScale;
+          setViewTilt(th); render();
+          const rect = cv.getBoundingClientRect(), out = [];
+          for (const i of [0, 1]) {
+            selIdx = -1;
+            const px = rect.left + w2sX(S.x[i]) + 2, py = rect.top + w2sY(S.y[i], S.z[i]) - 2;
+            cv.dispatchEvent(new MouseEvent('mousedown', { clientX: px, clientY: py, bubbles: true }));
+            window.dispatchEvent(new MouseEvent('mouseup', { clientX: px, clientY: py, bubbles: true }));
+            out.push(selIdx);
+          }
+          selIdx = -1; delete S.coord3d; delete S.z; setViewTilt(-90);
+          return out;
+        }, th);
+        picks.push(th + ':' + q.join(','));
+        if (!(q[0] === 0 && q[1] === 1)) bad.push(`④θ=${th}: 押した粒子 [0,1] → [${q.join(',')}]`);
+      }
+      info.picks = picks;
+      // ⑥ 移行と再読み込み
+      const M = await vp2.evaluate(() => ({
+        a: viewTiltFromStore(null, '1') === 90, b: viewTiltFromStore(null, '0') === -90, c: viewTiltFromStore(null, null) === -90,
+        d: viewTiltFromStore('30', '1') === 30, e: viewTiltFromStore('abc', null) === -90, f: viewTiltFromStore('200', null) === 90,
+        g: viewTiltFromStore('-12.4', null) === -12,
+        sl: (() => { const r = document.getElementById('viewTiltSlider'); return !!r && r.min === '-90' && r.max === '90' && r.value === String(viewTiltDeg); })(),
+        noCb: !document.getElementById('flipYCb'),
+      }));
+      for (const k of Object.keys(M)) if (M[k] !== true) bad.push('⑥ ' + k);
+      await vp2.evaluate(() => { localStorage.removeItem('hp_view_tilt'); localStorage.setItem('hp_flip_y', '1'); });
+      await vp2.reload({ waitUntil: 'load' });
+      await vp2.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const M2 = await vp2.evaluate(() => {
+        const o = { t: viewTiltDeg, sl: (document.getElementById('viewTiltSlider') || {}).value };
+        const r = document.getElementById('viewTiltSlider'); r.value = '-90'; r.dispatchEvent(new Event('input'));
+        o.after = viewTiltDeg; o.ls = localStorage.getItem('hp_view_tilt'); o.lf = localStorage.getItem('hp_flip_y');
+        localStorage.removeItem('hp_view_tilt'); localStorage.removeItem('hp_flip_y');
+        return o;
+      });
+      info.mig = M2;
+      if (!(M2.t === 90 && M2.sl === '90' && M2.after === -90 && M2.ls === '-90' && M2.lf === '0')) bad.push('⑥移行/再読み込み ' + JSON.stringify(M2));
+      // ⑧ 文書
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (!/〔第298便d/.test(PH)) bad.push('⑧ PHYSICS に〔第298便d〕が無い');
+    } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+    if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+    add('ui.viewTilt298', bad.length === 0,
+      `**視点の傾き θ**(第298便d・原仮定者の裁定(第88報)・R168 —— 表示専用): ① −90 = 第118便 OFF の式とビット一致(w2sY・逆写像・panCam)・θ 往復で画素同一`
+      + ` / ② +90 = 第118便 ON(setFlipY(true))とビット一致 / ③ θ=0: 二次元は縦の中心の線・合成の z は上へ / ④ ヒット判定 ${(info.picks || []).join(' ')}`
+      + ` / ⑤ 縦のドラッグ: 二次元 = y(Δy=ΔU/sinθ・|sinθ|<0.1 は無効)・三次元 = z(θ=0) / ⑥ 移行 hp_flip_y "1" → ${info.mig ? info.mig.t : '—'}・スライダー −90〜90 / ⑦ 状態・params・presetSig 不変 / ⑧ 文書`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  await vctx.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

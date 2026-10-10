@@ -706,6 +706,12 @@
   .frNote{font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--dim);margin:2px 0 4px;}
   .frRow{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border-top:1px solid var(--line);padding:3px 0;overflow-wrap:anywhere;font-size:calc(12px*var(--uz,1));line-height:1.55;}
   .frRow .frKey{flex:0 0 auto;font-weight:700;}
+  /* 第298便d(原仮定者の裁定(第88報)「説明タブのフィットの標的の行が枠をはみ出す」・R168): 行の子は枠の幅を超えない
+     (min-width:0 と max-width:100% で縮み、長い量の名前・括弧の注記は折り返す —— 字体の幅に依らない)。
+     アプリ内実測の行の名前(「フィットの標的 …」)は 1 行を占有し、観測値・ボタンはその下に並ぶ */
+  .frRow>*{min-width:0;max-width:100%;overflow-wrap:anywhere;}
+  .frRow .frKey{flex-shrink:1;}
+  .lmsRow .lmsName{flex:1 1 100%;}
   .frRow[data-k="status"] .frVal{font-size:calc(10.5px*var(--uz,1));padding:0 6px;border-radius:999px;border:1px solid var(--line);}
   /* 第297便d(原仮定者の裁定(第87報)・R164): アプリ内実測の箱(#lmsBox —— frBox の見た目・行は .lmsRow)と、照合の行の列(.odLms)。表示専用 */
   .lmsRow .lmsRes,.odRow .odLms{flex:1 1 100%;font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--fg);overflow-wrap:anywhere;}
@@ -1358,8 +1364,8 @@ ja: {
   retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第80報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
-  tgFlipY:"上下反転",
-  tgFlipYDesc:"画面の上下だけを鏡像反転する表示専用のトグル(共通設定・永続)。見た目の公転・自転が逆回転になるので、回転方向の確認・対比に使う。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で反転するだけ。",
+  tgFlipY:"視点の傾き θ(°)",
+  tgFlipYDesc:"X 軸まわりにカメラを回す表示専用のスライダー(共通設定・永続 —— 旧「上下反転」)。画面右はいつも +X。−90(既定)= 画面下が +Y(これまでの見え方)/ 0 = 横から見る・画面上が +Z / +90 = 画面上が +Y(旧「上下反転」と同じ —— 見た目の公転・自転が逆回転になる)。二次元の本は z=0 の面なので、0 では x 軸上の線に潰れて見える(上下のドラッグは y に割り当て、横から ±5.7° 以内では効かない)。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で変わるだけ。",
   // 第171便(原仮定者報告「粒子が多いサンプルで fps が低い・操作レスポンスを良くしたい」)
   tgDragPause:"ドラッグ中は計算を止める",
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
@@ -1378,7 +1384,7 @@ ja: {
   benchResult:(r)=>`物理ベンチ: ${r.msPerStep.toFixed(3)} ms/步(${r.steps}步 計 ${r.ms.toFixed(1)}ms・N=${r.n})→ 予算${r.budgetMs}ms 内 ${r.stepsPerBudget} 步`,
   hudStepDiag:(d)=>`step ${d.want}→${d.run} (+${d.pend} pend) ${d.ms}ms/步 trim ${d.trim}/${d.win} fps ${d.fps} 実効×${d.eff}(要求×${d.req}) 破棄 ${d.cancel}步`
     +(d.bench? ` bench ${d.bench}ms/步` : ""),
-  grpCommonDesc:"サンプルに依らないアプリ全体の設定(保存量モニタ・描画品質・文字サイズ・スキン・カメラ追従・上下反転)。物理には影響しない。",   /* 第254便c: 保存量モニタを追記・ステップ診断/物理ベンチはシミュレーションへ移動 */
+  grpCommonDesc:"サンプルに依らないアプリ全体の設定(保存量モニタ・描画品質・文字サイズ・スキン・カメラ追従・視点の傾き)。物理には影響しない。",   /* 第254便c: 保存量モニタを追記・ステップ診断/物理ベンチはシミュレーションへ移動 */
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
@@ -2570,8 +2576,8 @@ en: {
   retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–80). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
-  tgFlipY:"Flip vertically",
-  tgFlipYDesc:"Display-only toggle that mirrors the screen vertically (General, persisted). Apparent orbits and spins reverse, which is useful to check rotation directions. Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input flip, as a pair.",
+  tgFlipY:"View tilt θ (°)",
+  tgFlipYDesc:"Display-only slider that rotates the camera about the X axis (General, persisted — formerly \"Flip vertically\"). Screen right is always +X. −90 (default) = screen down is +Y (the usual view) / 0 = side view, screen up is +Z / +90 = screen up is +Y (same as the old flip — apparent orbits and spins reverse). 2D samples live in the z=0 plane, so at 0 they collapse onto a line along the x axis (vertical drag pans y and is disabled within ±5.7° of the side view). Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input change, as a pair.",
   tgDragPause:"Pause physics while dragging",
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
@@ -2589,7 +2595,7 @@ en: {
   benchResult:(r)=>`Physics bench: ${r.msPerStep.toFixed(3)} ms/step (${r.steps} steps, ${r.ms.toFixed(1)}ms total, N=${r.n}) → ${r.stepsPerBudget} steps per ${r.budgetMs}ms budget`,
   hudStepDiag:(d)=>`step ${d.want}→${d.run} (+${d.pend} pend) ${d.ms}ms/step trim ${d.trim}/${d.win} fps ${d.fps} eff ×${d.eff} (req ×${d.req}) cancelled ${d.cancel}`
     +(d.bench? ` bench ${d.bench}ms/step` : ""),
-  grpCommonDesc:"App-wide settings that don't depend on the sample (conservation monitor, render quality, text size, skin, camera follow, vertical flip). Does not affect the physics.",   /* wave 254c */
+  grpCommonDesc:"App-wide settings that don't depend on the sample (conservation monitor, render quality, text size, skin, camera follow, view tilt). Does not affect the physics.",   /* wave 254c */
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   // wave 95: category descriptions (ⓘ) for every category
@@ -30306,9 +30312,97 @@ function applyPresetMonitor(S){
 // hp_flip_y 永続)。見た目の公転・自転を逆回転で確認するのが目的。物理座標・保存 JSON・
 // 一様重力 g_y の向き(+y)は一切変わらない — world→screen(w2sY)と screen→world の
 // 逆変換(ポインタ・場グリッド)だけが対で反転する
-let flipY=false;
-try{ flipY = localStorage.getItem("hp_flip_y")==="1"; }catch(_){}
-function setFlipY(v){ flipY=!!v; try{ localStorage.setItem("hp_flip_y",flipY?"1":"0"); }catch(_){} }
+// 第298便d(原仮定者の裁定(第88報)「上下反転をスライダー化 —— 画面右は X 方向固定・初期値 −90 で画面下が Y 方向・
+// 0 で横から画面上が Z 方向・90 で上下反転・画面上が Y 方向」・統括の検証項目 R168): 上下反転のトグルを
+// **視点の傾き θ**(度・[−90, +90])へ置き換えた。X 軸まわりのカメラの回転で、画面右 = +X は固定。
+//   画面の上向き成分 U = sinθ·y + cosθ·z ・ 奥行き = cosθ·y − sinθ·z(大きいほど遠い —— 右手系)
+//   θ=−90(既定): 画面下 = +Y(第118便の「上下反転 OFF」と同じ —— 描画座標はビット一致)
+//   θ=0: 横から・画面上 = +Z(二次元の本は z=0 の面なので x 軸上の線に潰れる)
+//   θ=+90: 画面上 = +Y(第118便の「上下反転 ON」と同じ)
+// 粒子の z は S.coord3d===true の本の S.z[i](二次元の本は 0)。**表示専用**: 物理・保存 JSON・署名・S.params には
+// 1 bit も書かない(永続は localStorage hp_view_tilt —— 旧 hp_flip_y="1" は θ=+90 へ移す)。
+// sin/cos は ±90・0 で厳密値(viewCs===0 の間は第118便の式そのままを通るので、既定の描画は 1 bit も変わらない)。
+const VIEW_TILT_MIN=-90, VIEW_TILT_MAX=90, VIEW_TILT_DEFAULT=-90, VIEW_TILT_STEP=1;
+let viewTiltDeg=VIEW_TILT_DEFAULT, viewSn=-1, viewCs=0, viewFy=1;
+let camZ=0, camFollowOffZ=0;   // 第298便d: カメラの z(縦のドラッグを z に割り当てるのは三次元の本だけ —— 二次元の本では 0 のまま)
+let flipY=false;               // 互換の読み口(θ=+90 のときだけ true)。描画は viewSn/viewCs/viewFy を読む
+function viewTiltTrig(d){
+  if(d===-90) return [-1,0]; if(d===90) return [1,0]; if(d===0) return [0,1];
+  const r=d*Math.PI/180; return [Math.sin(r),Math.cos(r)];
+}
+function viewTiltNorm(v){ v=+v; if(!isFinite(v)) return VIEW_TILT_DEFAULT; return Math.max(VIEW_TILT_MIN,Math.min(VIEW_TILT_MAX,Math.round(v))); }
+// 永続値からの読み出し(純関数 —— QA が移行を単体で叩く)。hp_view_tilt があればそれを・無ければ旧 hp_flip_y("1" → +90)
+function viewTiltFromStore(rawTilt, rawFlip){
+  if(rawTilt!==null && rawTilt!==undefined && String(rawTilt).trim()!=="" && isFinite(parseFloat(rawTilt))) return viewTiltNorm(parseFloat(rawTilt));
+  return (rawFlip==="1")? 90 : VIEW_TILT_DEFAULT;
+}
+function applyViewTilt(d){
+  viewTiltDeg=viewTiltNorm(d);
+  const t=viewTiltTrig(viewTiltDeg); viewSn=t[0]; viewCs=t[1]; viewFy=-viewSn;
+  flipY=(viewTiltDeg===VIEW_TILT_MAX);
+}
+function setViewTilt(d){
+  applyViewTilt(d);
+  try{ localStorage.setItem("hp_view_tilt",String(viewTiltDeg)); localStorage.setItem("hp_flip_y",flipY?"1":"0"); }catch(_){}
+  const rng=(typeof document!=="undefined")? document.getElementById("viewTiltSlider") : null;
+  if(rng && String(rng.value)!==String(viewTiltDeg)) rng.value=String(viewTiltDeg);
+  const num=(typeof document!=="undefined")? document.getElementById("viewTiltIn") : null;
+  if(num && document.activeElement!==num) num.value=String(viewTiltDeg);
+  if(typeof requestRender==="function") requestRender();
+}
+// 第118便の入口(互換): true = θ=+90・false = θ=−90
+function setFlipY(v){ setViewTilt(v? VIEW_TILT_MAX : VIEW_TILT_DEFAULT); }
+try{ applyViewTilt(viewTiltFromStore(localStorage.getItem("hp_view_tilt"), localStorage.getItem("hp_flip_y"))); }catch(_){}
+// 粒子の z(三次元の本だけ —— 枝の約束: S.coord3d===true のとき S.z が長さ n の Float64Array)。二次元の本は 0
+function viewZOf(S,i){ return (S && S.coord3d===true && S.z)? S.z[i] : 0; }
+// 世界の変位 (dy, dz) を画面の下向き(px 単位・zoom 抜き)へ。viewCs===0 では第118便の fy·dy と同じ値
+function viewDownOf(dy,dz){ return (viewCs===0)? viewFy*dy : -(viewSn*dy+viewCs*(dz||0)); }
+// 画面の縦座標(中心 c0・倍率 z)。メインと A/B の半面が共有する
+function viewSYc(c0,z,wy,wz){
+  if(viewCs===0) return c0+(wy-camY)*z*viewFy;          // 第118便の式そのまま(θ=±90)
+  return c0-((wy-camY)*viewSn+((wz||0)-camZ)*viewCs)*z;
+}
+// 逆写像: 画面の縦座標 → z=0 の面の y(面が画面に垂直〔sinθ=0〕のときは NaN —— 呼び出し側で描かない)
+function viewInvYc(c0,z,sy){
+  if(viewCs===0) return camY+(sy-c0)/z*viewFy;          // 第118便の式そのまま
+  if(viewSn===0) return NaN;
+  return camY+(camZ*viewCs-(sy-c0)/z)/viewSn;
+}
+// 奥行き(大きいほど遠い)—— 三次元の本の描画順だけに使う
+function viewDepthOf(wy,wz){ return viewCs*wy-viewSn*(wz||0); }
+// 三次元の本を θ≠±90 で見るときだけの描画順(遠い順の添字)。二次元の本・θ=±90 は null(添字順のまま —— 既定は 1 bit も変わらない)
+function viewDrawOrder(S){
+  if(viewCs===0 || !S || S.coord3d!==true || !S.z || !(S.n>1)) return null;
+  const n=S.n, ord=new Array(n), dep=new Float64Array(n);
+  for(let i=0;i<n;i++){ ord[i]=i; dep[i]=viewDepthOf(S.y[i],S.z[i]); }
+  ord.sort((a,b)=>(dep[b]-dep[a])||(a-b));
+  return ord;
+}
+// 自転軸などの単位ベクトル (ex, ey, ez) を長さ L(px)で画面へ(右 = x・下 = viewDownOf)
+function viewAxisUV(ex,ey,ez,L){ return [ex*L, viewDownOf(ey,ez)*L]; }
+// 世界の z=0 の面の円(半径 r px)。θ≠±90 では縦が |sinθ| 倍の楕円(θ=±90 は従来どおりの円)
+function viewStrokeCircle(cx,cy,r){
+  ctx.beginPath();
+  if(viewCs===0) ctx.arc(cx,cy,r,0,7);
+  else ctx.ellipse(cx,cy,Math.max(0,r),Math.max(0,r*Math.abs(viewSn)),0,0,7);
+  ctx.stroke();
+}
+// 世界の箱 [−s, s]²(z=0 の面)。θ=−90 は従来の strokeRect そのまま。それ以外は 2 隅の画面座標から(第118便の上下反転で
+// 箱が下へずれていたのも、ここで直る)
+function viewStrokeBox(SXf,SYf,s,z){
+  if(viewTiltDeg===VIEW_TILT_DEFAULT){ ctx.strokeRect(SXf(-s),SYf(-s),2*s*z,2*s*z); return; }
+  const ya=SYf(-s), yb=SYf(s);
+  ctx.strokeRect(SXf(-s),Math.min(ya,yb),2*s*z,Math.abs(yb-ya));
+}
+// 画面の上で (cx, cy) に最も近い粒子(半径 rPx 以内・無ければ −1)。c0 は半面の縦の中心
+function viewPickNearest(S,cx,cy,c0,z,rPx){
+  let best=-1, bd=rPx*rPx;
+  for(let i=0;i<S.n;i++){
+    const dx=(cw/2+(S.x[i]-camX)*z)-cx, dy=viewSYc(c0,z,S.y[i],viewZOf(S,i))-cy, d2=dx*dx+dy*dy;
+    if(d2<bd){ bd=d2; best=i; }
+  }
+  return best;
+}
 // 第81便: カメラの天体追従(描画層のみ — 物理・sim.params・セーブには一切書かない。表示スケール
 // 指数と同じ「表示専用」の流儀)。camFollowMode は "none"(既定)/"preset"(プリセットの
 // camera.follow が指す天体)/"sel"(いま選択中の粒子)/"com"(全粒子の質量重心 — 第217便)。
@@ -30327,21 +30421,23 @@ function camFollowIdx(){
 // 場合は単純平均へフォールバック(負質量は現行スキーマでは生成不可 — 防御のみ)
 function camFollowAnchor(){
   const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
+  // 第298便d: 三次元の本(S.coord3d===true)だけ 3 番目に z を足す(二次元の本は [x,y] のまま —— 値は従来と同じ)
+  const z3=!!(S && S.coord3d===true && S.z);
   if(camFollowMode==="com"){
     if(!S || S.n<=0) return null;
-    let M=0,cx=0,cy=0;
-    for(let i=0;i<S.n;i++){ const m=S.m[i]; M+=m; cx+=m*S.x[i]; cy+=m*S.y[i]; }
-    if(M>0) return [cx/M, cy/M];
-    cx=0; cy=0;
-    for(let i=0;i<S.n;i++){ cx+=S.x[i]; cy+=S.y[i]; }
-    return [cx/S.n, cy/S.n];
+    let M=0,cx=0,cy=0,cz=0;
+    for(let i=0;i<S.n;i++){ const m=S.m[i]; M+=m; cx+=m*S.x[i]; cy+=m*S.y[i]; if(z3) cz+=m*S.z[i]; }
+    if(M>0) return z3? [cx/M, cy/M, cz/M] : [cx/M, cy/M];
+    cx=0; cy=0; cz=0;
+    for(let i=0;i<S.n;i++){ cx+=S.x[i]; cy+=S.y[i]; if(z3) cz+=S.z[i]; }
+    return z3? [cx/S.n, cy/S.n, cz/S.n] : [cx/S.n, cy/S.n];
   }
   const i=camFollowIdx();
-  return (i>=0 && i<S.n)? [S.x[i],S.y[i]] : null;
+  return (i>=0 && i<S.n)? (z3? [S.x[i],S.y[i],S.z[i]] : [S.x[i],S.y[i]]) : null;
 }
 function setCamFollowMode(mode){
   camFollowMode=(mode==="preset"||mode==="sel"||mode==="com")?mode:"none";
-  camFollowOffX=0; camFollowOffY=0;   // モード切替でオフセットは畳む(対象が画面中央へ来る)
+  camFollowOffX=0; camFollowOffY=0; camFollowOffZ=0;   // モード切替でオフセットは畳む(対象が画面中央へ来る)
   try{ localStorage.setItem("hp_camfollow",camFollowMode); }catch(_){}   // 第97便: 共通設定として永続
   requestRender();
 }
@@ -30354,18 +30450,31 @@ function applyCamFollow(){
   const a=camFollowAnchor();
   if(!a) return;
   camX=a[0]+camFollowOffX; camY=a[1]+camFollowOffY;
+  if(a.length>2) camZ=a[2]+camFollowOffZ;   // 第298便d: 三次元の本だけ(二次元の本の camZ は 0 のまま)
 }
 // パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む。
 // 第96便(原仮定者指示): 「選択粒子」設定中でも追従先が無い(非選択)間は「なし」と同じく
 // カメラを直接動かす — 旧実装はオフセットへ積むだけで画面が動かずドラッグ不能だった
+// 第298便d: 縦のドラッグは**画面の上向き** e_up=(0, sinθ, cosθ) に沿ってカメラを動かす(指に画面が付いてくる)。
+//   θ=±90(viewCs===0)は第119便の式そのまま。三次元の本は (y, z) を e_up 方向へ。二次元の本は z を動かさず
+//   y にだけ割り当てる(指に付いてくる量 Δy = ΔU/sinθ)—— |sinθ|<0.1(横から見た ±5.7° 以内)では縦のドラッグは無効
+const VIEW_PAN_Y_MIN_SIN=0.1;
 function panCam(dxPx,dyPx){
-  const z=zoom(), fy=flipY?-1:1;   // 第119便: 上下反転中はドラッグの上下も反転(指に画面が付いてくる)
+  const z=zoom(), fy=viewFy;   // 第119便: 上下反転中はドラッグの上下も反転(第298便d: fy=−sinθ —— ±90 では従来の ±1)
   const a=(camFollowMode!=="none")? camFollowAnchor() : null;
-  if(a){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy;
+  let dyW=0, dzW=0;            // viewCs!==0 のときの縦のドラッグの世界の変位
+  if(viewCs!==0){
+    const dU=dyPx/z, S3=selSimRef();
+    if(S3 && S3.coord3d===true && S3.z){ dyW=viewSn*dU; dzW=viewCs*dU; }
+    else if(Math.abs(viewSn)>=VIEW_PAN_Y_MIN_SIN) dyW=dU/viewSn;
+  }
+  if(a){ camFollowOffX-=dxPx/z;
+    if(viewCs===0) camFollowOffY-=dyPx/z*fy; else { camFollowOffY+=dyW; camFollowOffZ+=dzW; }
     // 第171便: 追従中も camX/camY をこの場で確定させる(即時反映パス camPreview() が読むため)。
     // 描画直前の applyCamFollow() が同じ式で上書きするので、描画結果は従来と厳密に同一
-    camX=a[0]+camFollowOffX; camY=a[1]+camFollowOffY; }
-  else { camX-=dxPx/z; camY-=dyPx/z*fy; }
+    camX=a[0]+camFollowOffX; camY=a[1]+camFollowOffY; if(a.length>2) camZ=a[2]+camFollowOffZ; }
+  else { camX-=dxPx/z;
+    if(viewCs===0) camY-=dyPx/z*fy; else { camY+=dyW; camZ+=dzW; } }
 }
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
 // drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。
@@ -30532,7 +30641,7 @@ window.addEventListener("resize",resizeCanvas);
 // #canvasWrap の高さはパネル開閉でも変わる(window resize は発火しない)ため直接監視する
 if(window.ResizeObserver) new ResizeObserver(resizeCanvas).observe($("#canvasWrap"));
 function w2sX(wx){ return cw/2+(wx-camX)*zoom(); }
-function w2sY(wy){ return ch/2+(wy-camY)*zoom()*(flipY?-1:1); }   // 第118便: 上下反転(表示専用)
+function w2sY(wy,wz){ return viewSYc(ch/2,zoom(),wy,wz); }   // 第118便: 上下反転(表示専用)→ 第298便d: 視点の傾き θ(wz は三次元の本の z・省略 0)
 function zoom(){ return Math.min(cw,ch)/2/camScale; }
 
 // ===== 第171便: 操作レスポンスの分離(入力→カメラ→描画を物理ステップから切り離す)=====
@@ -30728,7 +30837,7 @@ function captureCamSnapshot(){
   camSnapCtx.setTransform(1,0,0,1,0,0);
   camSnapCtx.clearRect(0,0,camSnapCv.width,camSnapCv.height);
   camSnapCtx.drawImage(cv,0,0);
-  camSnap={x:camX, y:camY, scale:camScale, cw, ch, dpr, flipY};
+  camSnap={x:camX, y:camY, z:camZ, scale:camScale, cw, ch, dpr, tilt:viewTiltDeg};
   inputStats.snapshots++;
 }
 // 入力イベントの中から同期に呼ぶ。直前フレームの絵をカメラ差分ぶんだけ平行移動・拡大縮小して
@@ -30738,11 +30847,12 @@ function captureCamSnapshot(){
 function camPreview(){
   const s=camSnap;
   if(!s || ab) return false;
-  if(s.cw!==cw || s.ch!==ch || s.dpr!==dpr || s.flipY!==flipY) return false;
-  if(s.x===camX && s.y===camY && s.scale===camScale) return false;
+  if(s.cw!==cw || s.ch!==ch || s.dpr!==dpr || s.tilt!==viewTiltDeg) return false;
+  if(s.x===camX && s.y===camY && s.z===camZ && s.scale===camScale) return false;
   const t0=performance.now();
-  const z0=Math.min(s.cw,s.ch)/2/s.scale, z1=zoom(), k=z1/z0, fy=flipY?-1:1;
-  const tx=cw/2+(s.x-camX)*z1, ty=ch/2+(s.y-camY)*z1*fy;
+  const z0=Math.min(s.cw,s.ch)/2/s.scale, z1=zoom(), k=z1/z0, fy=viewFy;
+  // 第298便d: θ≠±90 では画面の上向き成分 U=sinθ·y+cosθ·z のカメラ差で縦を合わせる
+  const tx=cw/2+(s.x-camX)*z1, ty=(viewCs===0)? ch/2+(s.y-camY)*z1*fy : ch/2-((s.y-camY)*viewSn+(s.z-camZ)*viewCs)*z1;
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch);
   ctx.setTransform(dpr*k,0,0,dpr*k, dpr*tx, dpr*ty);
@@ -30794,8 +30904,10 @@ function fieldKeyOf(){
   for(let i=0;i<sim.n;i++){ s1+=sim.x[i]*(i+1); s2+=sim.y[i]*(i+1); s3+=sim.m[i]; }
   return camX+","+camY+","+camScale+","+cw+","+ch+","+sim.params.D0+","+sim.params.softening+
          ","+sim.n+","+s1+","+s2+","+s3+
-         ","+sim.params.G+","+sim.params.gravityX+","+sim.params.gravityY;   // 第37便 A4: 表示合成もキーに含める
+         ","+sim.params.G+","+sim.params.gravityX+","+sim.params.gravityY+viewKeySuffix();   // 第37便 A4: 表示合成もキーに含める
 }
+// 第298便d: 視点の傾き(θ と camZ)をキャッシュの鍵に足す。既定 θ=−90 では空文字(鍵は従来と 1 字も変わらない)
+function viewKeySuffix(){ return (viewTiltDeg===VIEW_TILT_DEFAULT)? "" : ",vt"+viewTiltDeg+","+camZ; }
 // 第37便 A4(原仮定者裁定): 決定力マップの表示規約 — 一様重力場を等価決定力勾配として重ねる。
 // a=G∇W より、一様加速度 g に対応する等価的な W 勾配は g/G。よって表示合成
 // Φ_g=(gravityX·x+gravityY·y)/G_eff、G_eff=(G>0?G:1) を W に加えたものをマップの色付けに使う。
@@ -30839,7 +30951,7 @@ function drawFieldInto(S, y0, hgt, slot){
   let s1=0,s2=0,s3=0;
   for(let i=0;i<S.n;i++){ s1+=S.x[i]*(i+1); s2+=S.y[i]*(i+1); s3+=S.m[i]; }
   const key=camX+","+camY+","+camScale+","+cw+","+hgt+","+S.params.D0+","+S.params.softening+
-    ","+S.n+","+s1+","+s2+","+s3+","+S.params.G+","+S.params.gravityX+","+S.params.gravityY+","+res;
+    ","+S.n+","+s1+","+s2+","+s3+","+S.params.G+","+S.params.gravityX+","+S.params.gravityY+","+res+viewKeySuffix();
   if(!fieldCvAB[slot]){ fieldCvAB[slot]=document.createElement("canvas");
     fieldCvAB[slot].width=res; fieldCvAB[slot].height=res;
     fieldCtxAB[slot]=fieldCvAB[slot].getContext("2d"); }
@@ -30851,8 +30963,9 @@ function drawFieldInto(S, y0, hgt, slot){
     let wmax=S.params.D0+0.001;
     const vals=new Float32Array(res*res);
     for(let gy=0;gy<res;gy++) for(let gx=0;gx<res;gx++){
-      const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=camY+((gy+0.5)/res*hgt-hgt/2)/z*(flipY?-1:1);
-      const w=fieldWDispOf(S,wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;
+      // 第298便d: 縦は z=0 の面への逆写像(viewInvYc —— θ=±90 は第118便の式そのまま)。面が画面に垂直なら 0(描かない)
+      const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=viewInvYc(hgt/2,z,(gy+0.5)/res*hgt);
+      const w=isFinite(wy)? fieldWDispOf(S,wx,wy) : 0; vals[gy*res+gx]=w; if(w>wmax)wmax=w;
     }
     fieldPaint(fctx,res,vals,wmax);
   }
@@ -30870,8 +30983,8 @@ function drawField(){
     let wmax=sim.params.D0+0.001;
     const vals=new Float32Array(res*res);
     for(let gy=0;gy<res;gy++) for(let gx=0;gx<res;gx++){
-      const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=camY+((gy+0.5)/res*ch-ch/2)/z*(flipY?-1:1);
-      const w=fieldWDisp(wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;   // 第37便 A4: 表示合成 W_disp
+      const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=viewInvYc(ch/2,z,(gy+0.5)/res*ch);   // 第298便d: z=0 の面への逆写像
+      const w=isFinite(wy)? fieldWDisp(wx,wy) : 0; vals[gy*res+gx]=w; if(w>wmax)wmax=w;   // 第37便 A4: 表示合成 W_disp
     }
     // 第36便 B2(原仮定者指示): 対数正規化+10バンド量子化 — 決定力マップを等決定力線状の
     // 見た目にして視認性を上げる(品質段階の縮退・上の場キャッシュ機構は不変。色付けのみの変更)。
@@ -31353,7 +31466,7 @@ let rayKey="";
 function rayKeyOf(rays){
   let h=camX+","+camY+","+camScale+","+cw+","+ch+","+dpr+","+rays.n+","+rays.spread+","+
     sim.params.kappaT+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
-    sim.params.softening+","+sim.params.kFrame+","+rayLambda0;   // 第37便 A3: λ0(表示専用)もキーに含める
+    sim.params.softening+","+sim.params.kFrame+","+rayLambda0+viewKeySuffix();   // 第37便 A3: λ0(表示専用)もキーに含める / 第298便d: 視点の傾き
   // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
   if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
   // 第45便 45A(台帳4-48): 源集合は rayHeavy(m, R, κ, ε)で決まる。κ・softening は上のキーに
@@ -33024,7 +33137,8 @@ function setTrailFrame(m){ const nm=(m==="follow")? "follow" : "world";
 function trailAnchorOf(S){
   if(trailFrameMode!=="follow" || !S) return null;
   const i=camFollowPreset;
-  return (isNum(i) && i>=0 && i<S.n)? [S.x[i],S.y[i]] : null;
+  // 第298便d: 三次元の本だけ 3 番目に z(二次元の本は [x,y] のまま)
+  return (isNum(i) && i>=0 && i<S.n)? ((S.coord3d===true && S.z)? [S.x[i],S.y[i],S.z[i]] : [S.x[i],S.y[i]]) : null;
 }
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
 let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線の軌跡の引き直し用)
@@ -33037,9 +33151,12 @@ function recTrail(S,buf){
   // 点は原点からの相対位置で積み、描くときに**いまの**原点を足す。フレームが変わったら積んだ点は捨てる
   // (世界座標と相対座標の点を 1 本の線に混ぜない)。読むのは x・y だけ —— 力学・保存 JSON・presetSig は不変。
   const a=trailAnchorOf(S), fr=a? "follow" : "world";
-  if((buf._fr||"world")!==fr){ buf.length=0; }
+  if((buf._fr||"world")!==fr){ buf.length=0; buf._z=null; }
   buf._fr=fr;
   const ax=a? a[0] : 0, ay=a? a[1] : 0;
+  // 第298便d: 三次元の本だけ z を並列の配列 buf._z[i](1 点 1 要素)に積む(表示専用 —— 二次元の本は作らない)
+  const z3=(S.coord3d===true && S.z), az=(a && a.length>2)? a[2] : 0;
+  if(z3 && !buf._z) buf._z=[];
   const sampled=S.overlays.trailTargets==="sampled";
   let stride=1;
   if(sampled){
@@ -33059,7 +33176,11 @@ function recTrail(S,buf){
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
     b.push(S.x[i]-ax,S.y[i]-ay,S.t);   // world では ax=ay=0(従来と同じ値を積む)
-    if(b.length>capF+360) b.splice(0,b.length-capF);
+    if(z3){ const bz=buf._z[i]||(buf._z[i]=[]); bz.push(S.z[i]-az); }
+    if(b.length>capF+360){
+      if(z3 && buf._z[i]) buf._z[i].splice(0,(b.length-capF)/3);
+      b.splice(0,b.length-capF);
+    }
   }
 }
 // 第121便: 線の軌跡の残存時間(t.u.・0=無制限)。表示専用・hp_trail_life 永続
@@ -33074,10 +33195,14 @@ function drawTrailPolys(bufArr, tNow, SX0, SY0, n, S){
   let SX=SX0, SY=SY0;
   if(bufArr && bufArr._fr==="follow"){
     const a=trailAnchorOf(S); if(!a) return;
-    SX=(x)=>SX0(x+a[0]); SY=(y)=>SY0(y+a[1]);
+    const az=(a.length>2)? a[2] : 0;
+    SX=(x)=>SX0(x+a[0]); SY=(y,zz)=>SY0(y+a[1],(zz||0)+az);
   }
   const tst=3*(qLevel()+1);
+  const ZB=(bufArr && bufArr._z)? bufArr._z : null;   // 第298便d: 三次元の本の z(1 点 1 要素)。長さが合わなければ 0 の面に描く
   for(let i=0;i<n;i++){ const b=bufArr[i]; if(!b||b.length<6) continue;
+    const bz=ZB? ZB[i] : null, zOk=!!(bz && bz.length*3===b.length);
+    const SYk=zOk? ((k)=>SY(b[k+1],bz[k/3])) : ((k)=>SY(b[k+1]));
     let s0=0;
     if(trailLife>0){ while(s0<b.length-3 && tNow-b[s0+2]>trailLife) s0+=3; }
     const last=b.length-3;
@@ -33091,15 +33216,15 @@ function drawTrailPolys(bufArr, tNow, SX0, SY0, n, S){
         const age=tNow-b[from+2];
         const al=Math.max(0.06, 0.55*(1-age/trailLife));
         ctx.strokeStyle="rgba(150,200,255,"+al.toFixed(3)+")";
-        ctx.beginPath(); ctx.moveTo(SX(b[from]),SY(b[from+1]));
-        for(let k2=from+tst;k2<to;k2+=tst) ctx.lineTo(SX(b[k2]),SY(b[k2+1]));
-        ctx.lineTo(SX(b[to]),SY(b[to+1])); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(SX(b[from]),SYk(from));
+        for(let k2=from+tst;k2<to;k2+=tst) ctx.lineTo(SX(b[k2]),SYk(k2));
+        ctx.lineTo(SX(b[to]),SYk(to)); ctx.stroke();
       }
     } else {
       ctx.strokeStyle="rgba(150,200,255,0.55)";
-      ctx.beginPath(); ctx.moveTo(SX(b[s0]),SY(b[s0+1]));
-      for(let k2=s0+tst;k2<last;k2+=tst) ctx.lineTo(SX(b[k2]),SY(b[k2+1]));
-      ctx.lineTo(SX(b[last]),SY(b[last+1])); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(SX(b[s0]),SYk(s0));
+      for(let k2=s0+tst;k2<last;k2+=tst) ctx.lineTo(SX(b[k2]),SYk(k2));
+      ctx.lineTo(SX(b[last]),SYk(last)); ctx.stroke();
     }
   }
 }
@@ -34422,14 +34547,14 @@ function render(){
       const s=sim.world.size;
       // 第50便 50J: 伝熱する箱は壁を熱境界条件の色で描き分ける(加熱=橙・放熱=青・断熱=灰破線)
       if(sim.twall) drawThermalWallBox(sim,w2sX,w2sY);
-      else ctx.strokeRect(w2sX(-s),w2sY(-s),2*s*z,2*s*z);
-    } else { ctx.beginPath(); ctx.arc(w2sX(0),w2sY(0),sim.world.size*z,0,7); ctx.stroke(); }
+      else viewStrokeBox(w2sX,w2sY,s,z);
+    } else viewStrokeCircle(w2sX(0),w2sY(0),sim.world.size*z);
     ctx.setLineDash([]);
   }
   if(sim.box){ // 第31便: UniverseBox の名目半径 L·a(t) を破線円で表示(表示のみ — 壁ではない)
     const sc=boxScaleAt(sim.box,sim.t);
     ctx.strokeStyle="rgba(150,200,255,0.45)"; ctx.setLineDash([8,6]);
-    ctx.beginPath(); ctx.arc(w2sX(sim.box.cx),w2sY(sim.box.cy),sim.box.L*sc.a*z,0,7); ctx.stroke();
+    viewStrokeCircle(w2sX(sim.box.cx),w2sY(sim.box.cy),sim.box.L*sc.a*z);
     ctx.setLineDash([]);
   }
   drawRays();
@@ -34472,16 +34597,18 @@ function render(){
           if(al<0.04) continue;
           ctx.strokeStyle="rgba(190,215,255,"+al.toFixed(3)+")";
           ctx.lineWidth=0.8+1.8*str*wN;
-          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
-          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i],viewZOf(sim,i)));
+          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j],viewZOf(sim,j))); ctx.stroke();
         }
       }
       ctx.lineWidth=1;
     }
   }
   const rCap=drawRadiusCap(), glowOn=qLevel()===0;
-  for(let i=0;i<sim.n;i++){
-    const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
+  const ordV=viewDrawOrder(sim);   // 第298便d: 三次元の本を横から見るときだけ遠い順(二次元の本・θ=±90 は null —— 添字順のまま)
+  for(let kV=0;kV<sim.n;kV++){
+    const i=ordV? ordV[kV] : kV;
+    const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i],viewZOf(sim,i));
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=obsTemp(sim,i);   // 第36便 D: 観測温度
     const rr=Math.max(1.2,Math.min(sim.R[i]*(sim.params.dispMag||1)*z,rCap));  // 第25便: 半径準拠固定 → 第37便 A5: 上限撤廃 / 第118便: ×粒子表示倍率(表示専用)
@@ -34496,7 +34623,7 @@ function render(){
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
-      const a0=sim.rotA[i], fy=flipY?-1:1;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)
+      const a0=sim.rotA[i], fy=viewFy;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)/ 第298便d: −sinθ(自転面 xy の楕円)
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
       for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
         ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+fy*Math.sin(a)*rr*0.3);
@@ -34522,7 +34649,7 @@ function render(){
       if(sq<0.999999) ctx.ellipse(sx,sy,rc,Math.max(rc*sq,1.2),0,0,7); else ctx.arc(sx,sy,rc,0,7);
       ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
-        const a0=sim.rotAc[i], fy=flipY?-1:1;   // 第119便: コアスポークも鏡像
+        const a0=sim.rotAc[i], fy=viewFy;   // 第119便: コアスポークも鏡像 / 第298便d: −sinθ
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
           ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+fy*Math.sin(a)*rc*0.25*sq);
@@ -34540,10 +34667,12 @@ function render(){
       const Jm=sim.coreJm[i];
       if(Jm>0){
         const st2=Math.min(1,Math.hypot(sim.coreJx[i],sim.coreJy[i])/Jm);
-        const ph2=Math.atan2(sim.coreJy[i],sim.coreJx[i]), fy2=flipY?-1:1;
-        const La=Math.max(rr*0.5, Math.min(sim.RcV[i]*(sim.params.dispMag||1)*z, rr*0.92)*1.6)*st2;
-        if(La>1.5){
-          const ux=Math.cos(ph2)*La, uy=fy2*Math.sin(ph2)*La;
+        const ph2=Math.atan2(sim.coreJy[i],sim.coreJx[i]), fy2=viewFy;
+        const LaB=Math.max(rr*0.5, Math.min(sim.RcV[i]*(sim.params.dispMag||1)*z, rr*0.92)*1.6), La=LaB*st2;
+        // 第298便d: θ≠±90 では軸の z 成分 J_z/|J| も画面の縦へ入る(横から見ると直立した軸が縦線に見える)
+        const uv=(viewCs===0)? null : viewAxisUV(Math.cos(ph2)*st2, Math.sin(ph2)*st2, sim.coreJ[i]/Jm, LaB);
+        if(uv? Math.hypot(uv[0],uv[1])>1.5 : La>1.5){
+          const ux=uv? uv[0] : Math.cos(ph2)*La, uy=uv? uv[1] : fy2*Math.sin(ph2)*La;
           ctx.strokeStyle="rgba(120,220,255,0.9)"; ctx.lineWidth=Math.max(1.2,rr*0.09);
           ctx.beginPath(); ctx.moveTo(sx-ux,sy-uy); ctx.lineTo(sx+ux,sy+uy); ctx.stroke();
           ctx.fillStyle="rgba(120,220,255,0.95)";
@@ -34576,10 +34705,13 @@ function render(){
       if(coreAxisShow && sim.layAx){
         const la=layerAxisState(sim,i);
         if(la){
-          const st2=Math.hypot(la.projX,la.projY), fy2=flipY?-1:1;
-          const La=Math.max(rr*0.5, Math.min(la.r*dm*z, rr*0.92)*1.6)*st2;
-          if(La>1.5){
-            const ph2=la.phiDisplayDeg*Math.PI/180, ux=Math.cos(ph2)*La, uy=fy2*Math.sin(ph2)*La;
+          const st2=Math.hypot(la.projX,la.projY), fy2=viewFy;
+          const LaB=Math.max(rr*0.5, Math.min(la.r*dm*z, rr*0.92)*1.6), La=LaB*st2;
+          const ph2=la.phiDisplayDeg*Math.PI/180;
+          // 第298便d: θ≠±90 では軸の z 成分 cos(傾き)も画面の縦へ
+          const uv=(viewCs===0)? null : viewAxisUV(Math.cos(ph2)*st2, Math.sin(ph2)*st2, Math.cos(la.tiltDeg*Math.PI/180), LaB);
+          if(uv? Math.hypot(uv[0],uv[1])>1.5 : La>1.5){
+            const ux=uv? uv[0] : Math.cos(ph2)*La, uy=uv? uv[1] : fy2*Math.sin(ph2)*La;
             ctx.strokeStyle="rgba(120,220,255,0.9)"; ctx.lineWidth=Math.max(1.2,rr*0.09);
             ctx.beginPath(); ctx.moveTo(sx-ux,sy-uy); ctx.lineTo(sx+ux,sy+uy); ctx.stroke();
             ctx.fillStyle="rgba(120,220,255,0.95)";
@@ -34595,7 +34727,10 @@ function render(){
     if(coreAxisShow && sim.spinAxD && sim.spinAxN0===sim.n && sim.spinAxD[i]){
       const sa=spinAxisOf(sim,i);
       if(sa){
-        const La=Math.max(12, rr*1.6), fy3=flipY?-1:1, ux=sa.projX*La, uy=fy3*sa.projY*La;
+        const La=Math.max(12, rr*1.6), fy3=viewFy;
+        // 第298便d: θ≠±90 では軸の z 成分 cos(傾き)も画面の縦へ(θ=±90 は第288便e の式そのまま)
+        const uv=(viewCs===0)? null : viewAxisUV(sa.projX, sa.projY, Math.cos(sa.tiltDeg*Math.PI/180), La);
+        const ux=uv? uv[0] : sa.projX*La, uy=uv? uv[1] : fy3*sa.projY*La;
         if(Math.hypot(ux,uy)>1.5){
           ctx.strokeStyle="rgba(255,196,120,0.95)"; ctx.lineWidth=Math.max(1.4,rr*0.09);
           if(!sa.azimuthDeclared && ctx.setLineDash) ctx.setLineDash([4,3]);
@@ -34622,7 +34757,7 @@ function render(){
       const col=wavelengthColor(lam);
       // 尾(進行方向の逆向き・長さ8px・低透明度)
       ctx.strokeStyle=col; ctx.globalAlpha=0.35; ctx.lineWidth=1.5;
-      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-ph.dx*8, sy-ph.dy*8); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-ph.dx*8, sy-viewDownOf(ph.dy,0)*8); ctx.stroke();   // 第298便d: 尾の縦も視点に合わせる(θ=−90 は従来と同値)
       ctx.lineWidth=1; ctx.globalAlpha=1;
       // 淡いグロー(半径6px)
       const g=ctx.createRadialGradient(sx,sy,0,sx,sy,6);
@@ -34641,7 +34776,7 @@ function render(){
   }
   // 選択粒子の固有時計
   if(selIdx>=0&&selIdx<sim.n){
-    const i=selIdx, sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
+    const i=selIdx, sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i],viewZOf(sim,i));
     ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
     ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*(sim.params.dispMag||1)*z+5),0,7); ctx.stroke();
     const frac=sim.t>0? sim.tau[i]/sim.t : 1;
@@ -34848,8 +34983,8 @@ function drawOrbitObs(){
     for(let k=0;k<=120;k++){
       const th=pom+k/120*2*Math.PI;
       const rr=p0/(1+m.e0*Math.cos(th-pom));
-      const wx=sim.x[c]+rr*Math.cos(th), wy=sim.y[c]+rr*Math.sin(th);
-      if(k===0) ctx.moveTo(w2sX(wx),w2sY(wy)); else ctx.lineTo(w2sX(wx),w2sY(wy));
+      const wx=sim.x[c]+rr*Math.cos(th), wy=sim.y[c]+rr*Math.sin(th), wzc=viewZOf(sim,c);   // 第298便d: 中心天体の z の面に描く
+      if(k===0) ctx.moveTo(w2sX(wx),w2sY(wy,wzc)); else ctx.lineTo(w2sX(wx),w2sY(wy,wzc));
     }
     ctx.stroke();
   };
@@ -34926,7 +35061,7 @@ function drawThermalWallBox(S, mx, my){
 function drawWorldInto(S, y0, hgt, label, tbuf){
   ctx.save(); ctx.beginPath(); ctx.rect(0,y0,cw,hgt); ctx.clip();
   const z=Math.min(cw,hgt)/2/camScale;
-  const sx=(wx)=>cw/2+(wx-camX)*z, sy=(wy)=>y0+hgt/2+(wy-camY)*z*(flipY?-1:1);
+  const sx=(wx)=>cw/2+(wx-camX)*z, sy=(wy,wz)=>viewSYc(y0+hgt/2,z,wy,wz);   // 第298便d: 視点の傾き(θ=±90 は第118便の式そのまま)
   // 第123便(原仮定者指示): 決定力マップを A/B 分割ビューでも描く(半面ごとの独立キャッシュ —
   // B側は自分の params で評価されるため、ワンタップ対照の D₀/G 差がマップにも見える)
   if(S.overlays.field) drawFieldInto(S, y0, hgt, y0===0? 0 : 1);
@@ -34939,14 +35074,14 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     if(S.world.boundary==="box"){ const s=S.world.size;
       // 第50便 50J: 伝熱する箱は A/B 分割ビューでも壁を熱境界条件の色で描き分ける
       if(S.twall) drawThermalWallBox(S,sx,sy);
-      else ctx.strokeRect(sx(-s),sy(-s),2*s*z,2*s*z); }
-    else { ctx.beginPath(); ctx.arc(sx(0),sy(0),S.world.size*z,0,7); ctx.stroke(); }
+      else viewStrokeBox(sx,sy,s,z); }
+    else viewStrokeCircle(sx(0),sy(0),S.world.size*z);
     ctx.setLineDash([]);
   }
   if(S.box){ // 第31便: UniverseBox(A/B 分割ビュー)
     const sc=boxScaleAt(S.box,S.t);
     ctx.strokeStyle="rgba(150,200,255,0.45)"; ctx.setLineDash([8,6]);
-    ctx.beginPath(); ctx.arc(sx(S.box.cx),sy(S.box.cy),S.box.L*sc.a*z,0,7); ctx.stroke();
+    viewStrokeCircle(sx(S.box.cx),sy(S.box.cy),S.box.L*sc.a*z);
     ctx.setLineDash([]);
   }
   // 光線(Kt等の比較が見どころになるため半分ずつ独立に飛ばす)
@@ -34978,15 +35113,17 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
     S._p90=p90;
   }
-  for(let i=0;i<S.n;i++){
-    const px=sx(S.x[i]), py=sy(S.y[i]);
+  const ordV=viewDrawOrder(S);   // 第298便d: 三次元の本を傾けて見るときだけ遠い順
+  for(let kV=0;kV<S.n;kV++){
+    const i=ordV? ordV[kV] : kV;
+    const px=sx(S.x[i]), py=sy(S.y[i],viewZOf(S,i));
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=obsTemp(S,i);   // 第36便 D: 観測温度
     const rr=Math.max(1.2,Math.min(S.R[i]*(S.params.dispMag||1)*z,drawRadiusCap()));   // 第25便: 半径準拠 → 第37便 A5: 上限撤廃 / 第119便: ×粒子表示倍率(A/B側も対応 — 原仮定者指示)
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
-      const a0=S.rotA[i], fy=flipY?-1:1;   // 第119便: A/B側スポークも鏡像
+      const a0=S.rotA[i], fy=viewFy;   // 第119便: A/B側スポークも鏡像 / 第298便d: −sinθ
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
       for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
         ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+fy*Math.sin(a)*rr*0.3);
@@ -35007,7 +35144,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       if(sq<0.999999) ctx.ellipse(px,py,rc,Math.max(rc*sq,1.2),0,0,7); else ctx.arc(px,py,rc,0,7);
       ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
-        const a0=S.rotAc[i], fy=flipY?-1:1;   // 第119便: A/B側コアスポークも鏡像
+        const a0=S.rotAc[i], fy=viewFy;   // 第119便: A/B側コアスポークも鏡像 / 第298便d: −sinθ
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
           ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+fy*Math.sin(a)*rc*0.25*sq);
@@ -36868,7 +37005,7 @@ function loadPreset(id, keepPhysics){
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
   applyPresetMonitor(sim);   // v1.12: プリセット既定の保存量モニタ / 第255便c: 永続は camFollow 方式(hp_monitor を上書きしない)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
-  camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
+  camX=0; camY=0; camZ=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;   // 第298便d: camZ も 0 へ
   // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
   // 表示専用 — sim.params・保存 JSON には一切書かない
   camFollowPreset=(p.camera && isNum(p.camera.follow))? p.camera.follow : -1;
@@ -36876,7 +37013,7 @@ function loadPreset(id, keepPhysics){
   // 一度も触っていないユーザーだけサンプル既定(camera.follow があれば ON)に従う
   { let st=null; try{ st=localStorage.getItem("hp_camfollow"); }catch(_){}
     camFollowMode=(st==="sel"||st==="preset"||st==="none"||st==="com")? st : ((camFollowPreset>=0)? "preset" : "none"); }   // 第217便: "com" も受理
-  camFollowOffX=0; camFollowOffY=0;
+  camFollowOffX=0; camFollowOffY=0; camFollowOffZ=0;
   scaleExpL=scaleExpT=scaleExpM=null;   // 第74便→94便: サンプルのスケールタグ既定へ戻す(表示専用)/ 第130便: eC は上書き自体を廃止
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
   setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
@@ -37070,6 +37207,7 @@ function abStart(key, valB, bodyPatch){
   };
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   trailBufB._fr=trailBuf._fr;             // 第287便d: 積んだフレーム(world/follow)も写す
+  if(trailBuf._z) trailBufB._z=trailBuf._z.map(b=>b.slice());   // 第298便d: 三次元の本の z も写す
   if(key!==undefined){
     const c=CLAMPS[key];
     ab.simB.params[key]=clamp(valB,c[0],c[1]); ab.simB.updateRadii();
@@ -39174,13 +39312,25 @@ function buildParamRows(){
     row.appendChild(lab); row.appendChild(sel); common.appendChild(row);   // 第95便: 表示→共通設定へ移動
   }
   // 第118便(原仮定者指示): 上下反転 — 表示専用トグル(共通設定・hp_flip_y 永続)
+  // 第298便d(原仮定者の裁定(第88報)・R168): トグルを**視点の傾き θ のスライダー**へ置き換えた(−90〜+90 度・既定 −90・
+  // hp_view_tilt 永続・表示専用)。−90 = 画面下が +Y(従来の既定)/ 0 = 横から・画面上が +Z / +90 = 画面上が +Y(旧「上下反転」)
   {
-    const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("tgFlipY"); lab.style.flex="1";
+    const row=document.createElement("div"); row.className="prow"; row.id="viewTiltRow";
+    const lab=document.createElement("label"); lab.textContent=T("tgFlipY"); lab.style.flex="0 0 auto";
     tapDesc(row,lab,"tgFlipYDesc");
-    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="flipYCb"; cb.checked=flipY;
-    cb.addEventListener("change",()=>{ setFlipY(cb.checked); requestRender(); });
-    row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
+    const rng=document.createElement("input"); rng.type="range"; rng.id="viewTiltSlider";
+    rng.min=String(VIEW_TILT_MIN); rng.max=String(VIEW_TILT_MAX); rng.step=String(VIEW_TILT_STEP);
+    rng.value=String(viewTiltDeg); rng.style.flex="1"; rng.style.minWidth="60px";
+    const num=document.createElement("input"); num.type="text"; num.className="valIn"; num.id="viewTiltIn";
+    num.inputMode="numeric"; num.autocomplete="off"; num.style.cssText="flex:0 0 52px;width:52px;text-align:right;";
+    num.value=String(viewTiltDeg);
+    rng.addEventListener("input",()=>{ setViewTilt(parseFloat(rng.value)); num.value=String(viewTiltDeg); });
+    num.addEventListener("change",()=>{
+      const v=parseFloat(String(num.value).replace(/[,、\s°度]/g,"").replace(/[−ー–—－]/g,"-"));
+      if(isFinite(v)) setViewTilt(v);
+      num.value=String(viewTiltDeg); rng.value=String(viewTiltDeg);
+    });
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); common.appendChild(row);
   }
   // 第171便: ドラッグ中の物理抑制(既定 ON・hp_drag_pause 永続)。表示専用ではないが
   // 物理の式・結果は不変 — 「操作中はステップを進めない」だけの負荷制御トグル
@@ -42783,18 +42933,23 @@ $("#aboutPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) 
     // 第26便: グラフ最小化トグルのタップを最優先で処理(A/B中はオーバーレイ非表示のため対象外)
     if(!ab){ for(const r of ovHit){ if(cx>=r.x&&cx<=r.x+r.w&&cy>=r.y&&cy<=r.y+r.h){
       if(r.fn) r.fn(); else ovMin[r.key]=!ovMin[r.key]; requestRender(); return; } } }   // 第286便d: fn のある領域はグラフ内の切替
-    let S=sim, world="A", z=zoom(), wx, wy;
+    let S=sim, world="A", z=zoom(), wx, wy, c0=ch/2;
     if(ab){ // 第12便: A/B比較中も選択可 — タップ位置の半面(A=上/B=下)の宇宙から拾う
       const hh=ch/2, inB=cy>=hh, y0=inB? hh : 0;
       S=inB? ab.simB : sim; world=inB? "B" : "A";
       z=Math.min(cw,hh)/2/camScale;   // drawWorldInto と同じ分割ビュー変換の逆写像
-      wx=camX+(cx-cw/2)/z; wy=camY+(cy-(y0+hh/2))/z*(flipY?-1:1);
+      wx=camX+(cx-cw/2)/z; wy=viewInvYc(y0+hh/2,z,cy); c0=y0+hh/2;
     } else {
-      wx=camX+(cx-cw/2)/z; wy=camY+(cy-ch/2)/z*(flipY?-1:1);
+      wx=camX+(cx-cw/2)/z; wy=viewInvYc(ch/2,z,cy);
     }
     let best=-1,bd=(30/z)*(30/z);
-    for(let i=0;i<S.n;i++){ const dx=S.x[i]-wx,dy=S.y[i]-wy,d2=dx*dx+dy*dy;
-      if(d2<bd){bd=d2;best=i;} }
+    if(viewCs===0){
+      for(let i=0;i<S.n;i++){ const dx=S.x[i]-wx,dy=S.y[i]-wy,d2=dx*dx+dy*dy;
+        if(d2<bd){bd=d2;best=i;} }
+    } else {
+      // 第298便d: θ≠±90 は**画面の上で**近い粒子を拾う(z を持つ本も、面が傾いた二次元の本も同じ式 —— 半径 30px)
+      best=viewPickNearest(S,cx,cy,c0,z,30);
+    }
     selIdx=(best===selIdx && world===selWorld)?-1:best;
     selWorld=world;
     updateBodyEdit();  // v1.17: 選択粒子の編集パネルを同期
@@ -55249,6 +55404,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   camState:()=>({x:camX, y:camY, scale:camScale, mode:camFollowMode, idx:camFollowIdx(),
     presetIdx:camFollowPreset, offX:camFollowOffX, offY:camFollowOffY}),
   setCamFollow:setCamFollowMode, panCam,
+  // 第298便d: 視点の傾き θ(表示専用)—— 状態の読み出し・設定・永続値からの読み出し(純関数)
+  viewTilt:()=>({deg:viewTiltDeg, sin:viewSn, cos:viewCs, camZ, min:VIEW_TILT_MIN, max:VIEW_TILT_MAX, def:VIEW_TILT_DEFAULT}),
+  setViewTilt:(d)=>{ setViewTilt(d); return viewTiltDeg; }, viewTiltFromStore,
   // 第256便c: ズーム(表示専用)の QA 用フック —— 線の長さが camScale に依らないことを
   // 機械で確かめるために、ホイール操作と同じ範囲でズームだけを動かす
   setCamScale:(v)=>{ camScale=clamp(Number(v)||camScale,20,3000); requestRender(); return camScale; },

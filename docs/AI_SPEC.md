@@ -3421,3 +3421,15 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **表示**: 説明タブの箱 `#lmsBox`(`lmsBuildBox` —— 行 `.lmsRow[data-key]`・ボタン `.lmsGo`「▶ 測る」・`.lmsGoH2`「▶ h と h/2」・`#lmsCancel`・`#lmsJobLine`・結果 `.lmsRes`)と照合の行の列 `.odRow .odLms[data-key]`。文は `lmsResultText` だけが作る(「アプリ内実測(刻み h=…・窓 N 周): 値 · 差(実測−観測) · σ 換算 · 帯(±3σ)の中/外 · 判定器の値との差 · 所要 · 開始 t」)。ライブ比較の観測カードの見出しは「ライブ(画面の走行での暫定値)」。合否の語は出さない。
 - **HP**: `HP.liveMeasure` = `{version, specOf, spec, start, run, cancel, job, result, results, cond, staleOf, cardSync, text, meterNew, feedStep, fitB, valueOf, screenDt, tables, consts}`。
 - QA: **`ui.liveMeasure297`**(新設 —— root は SKIP)。presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame は基点と同一)。
+
+## 67. 第298便d —— 視点の傾き θ(上下反転のトグルをスライダーへ)と、説明タブのフィットの標的の行のはみ出し(原仮定者の裁定(第88報)「説明タブのフィットの標的の行が枠をはみ出すので修正」「共通設定の上下反転をスライダー化。画面右は X 方向固定。初期値は −90 で画面下が Y 方向。0 で横から画面上が Z 方向。90 で上下反転、画面上が Y 方向」・統括の検証項目 R168・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+- **状態**(表示層のモジュール変数 —— presetSig・保存 JSON・`S.params` の外): `viewTiltDeg`(整数度・[`VIEW_TILT_MIN`=−90, `VIEW_TILT_MAX`=+90]・既定 `VIEW_TILT_DEFAULT`=−90・スライダーの刻み `VIEW_TILT_STEP`=1)・`viewSn`=sin θ・`viewCs`=cos θ(±90・0 では厳密値)・`viewFy`=−sin θ(θ=±90 では第118便の fy=±1)・`camZ`・`camFollowOffZ`・互換の読み口 `flipY`(θ=+90 のときだけ true)。
+- **写像**: 画面の上向き U = sin θ·y + cos θ·z・奥行き = cos θ·y − sin θ·z。`w2sY(wy, wz)`(wz 省略 = 0)= `viewSYc(ch/2, zoom(), wy, wz)`。`viewSYc(c0, z, wy, wz)` は viewCs===0 のとき第118便の式 c0+(wy−camY)·z·viewFy そのまま、それ以外は c0 − ((wy−camY)·sin θ + (wz−camZ)·cos θ)·z。逆写像 `viewInvYc(c0, z, sy)` は z=0 の面の y(sin θ=0 では NaN)。`viewDownOf(dy, dz)`・`viewAxisUV(ex, ey, ez, L)`・`viewDepthOf(y, z)`・`viewDrawOrder(S)`(三次元の本 ∧ θ≠±90 だけ遠い順・それ以外は null)・`viewStrokeCircle`・`viewStrokeBox`・`viewPickNearest(S, cx, cy, c0, z, rPx)`・`viewKeySuffix()`(決定力マップ・光線のキャッシュの鍵 —— 既定 θ では空文字)。
+- **z の読み口**: `viewZOf(S, i)` = `S.coord3d===true && S.z ? S.z[i] : 0`(枝の約束 —— 二次元の本は 0)。カメラの追従の基準点 `camFollowAnchor()` と軌跡の追従フレームの原点 `trailAnchorOf()` は三次元の本だけ 3 番目の要素に z を返す。線の軌跡は三次元の本だけ `buf._z[i]`(1 点 1 要素)に z を積む。
+- **ポインタ**: `tapSelect` は θ=±90 では第118便の逆変換、それ以外は画面の上で最も近い粒子(30 px)。`panCam` の縦: θ=±90 は第119便の式、三次元の本は (y, z) を e_up=(0, sin θ, cos θ) へ、二次元の本は y にだけ Δy = ΔU / sin θ(|sin θ| < `VIEW_PAN_Y_MIN_SIN`=0.1 では無効)。
+- **永続**: localStorage `hp_view_tilt`(度)。`viewTiltFromStore(rawTilt, rawFlip)`(純関数)—— hp_view_tilt が数なら丸めて値域に収める・無ければ旧 `hp_flip_y` の "1" → +90・それ以外 −90。`setViewTilt(d)` は hp_view_tilt と旧 hp_flip_y("1"/"0")を書き、スライダーを同期して再描画する。旧入口 `setFlipY(v)` = `setViewTilt(v ? 90 : −90)`。
+- **UI**: 共通設定の行 `#viewTiltRow`(ラベル i18n `tgFlipY`「視点の傾き θ(°)」/「View tilt θ (°)」・説明 `tgFlipYDesc`)・`input[type=range]#viewTiltSlider`(−90〜90・刻み 1)・数値欄 `#viewTiltIn`。旧チェックボックス `#flipYCb` は無い。
+- **CSS(フィットの標的の行)**: `.frRow>*{min-width:0;max-width:100%;overflow-wrap:anywhere}`・`.frRow .frKey{flex-shrink:1}`・`.lmsRow .lmsName{flex:1 1 100%}`。
+- **HP**: `HP.viewTilt()` → `{deg, sin, cos, camZ, min, max, def}`・`HP.setViewTilt(d)` → 設定後の度・`HP.viewTiltFromStore`。
+- QA: **`ui.fitTargetRow298`**・**`ui.viewTilt298`**(新設 —— root は SKIP)。力学・presetSig・保存 JSON・`S._core` は 1 bit も変えない(bitsame/sigsame は基点と同一)。
