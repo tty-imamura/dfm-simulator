@@ -48632,7 +48632,10 @@ if (!FAST) {
       cases.push(gone5.length === 2 ? 'E0・E3 の写し元 🌘🧲 は第288便b で退役 —— 正式の判定器の正本に照合の相手が無い(⑤ は飛ばす)'
         : 'E0・E3 の 27 公転窓は正式の判定器 calaudit の検出器 A・B とビット一致' + (gone5.length ? '(' + gone5.join('・') + ' は退役で相手なし)' : ''));
       const ap0 = w('E0', 0.016, 0).apsPeriodYr;
-      if (!(ap0 > 7 && ap0 < 11)) bad.push('⑤ E0 の 8 公転窓の近点回転の周期が 7〜11 年の外(' + ap0 + ')');
+      // 第298便e(R166′): 🌘 が周期優先(標的 = 恒星月・D0pull は探索範囲の端)の世代では近点回転は照合だけ —— 窓を 285〜305 年(claims の窓と同じ)に
+      const eg298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      const apLo = eg298e ? 285 : 7, apHi = eg298e ? 305 : 11;
+      if (!(ap0 > apLo && ap0 < apHi)) bad.push(`⑤ E0 の 8 公転窓の近点回転の周期が ${apLo}〜${apHi} 年の外(` + ap0 + ')');
       cases.push(`E0 の 8 公転窓 ${ap0.toFixed(3)} 年・27 公転窓 ${w('E0', 0.016, 1).apsPeriodYr.toFixed(3)} 年`);
       const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const a0 = Pm.indexOf('〔第280便b — ');
