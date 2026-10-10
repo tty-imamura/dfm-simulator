@@ -1,0 +1,1030 @@
+{
+ "part1": {
+  "chainPcg_spinDrag": {
+   "steps": 200,
+   "coord3d": true,
+   "coord2d": true,
+   "spinTerms2": 15920,
+   "spinTerms3": 15920,
+   "spinMaxSame": true,
+   "nVal": 488,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "chainPcg_spinSource": {
+   "steps": 200,
+   "coord3d": true,
+   "coord2d": true,
+   "spinTerms2": 15920,
+   "spinTerms3": 15920,
+   "spinMaxSame": true,
+   "nVal": 488,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "direct3_spinDrag": {
+   "steps": 400,
+   "coord3d": true,
+   "coord2d": true,
+   "spinTerms2": 798,
+   "spinTerms3": 798,
+   "spinMaxSame": true,
+   "nVal": 20,
+   "nDiff": 0,
+   "maxAbs": 0,
+   "same": true,
+   "zMax": 0
+  },
+  "onAxis": {
+   "rotUz": 0,
+   "axialW": 0.705813183619478,
+   "axialWexpect": 0.705813183619478,
+   "rotUtilt": 0,
+   "axialWtilt": 0.7058131836194781,
+   "southRotU": 0,
+   "southW": [
+    0,
+    0,
+    0.705813183619478
+   ]
+  },
+  "equator": {
+   "rotU": 0.24992881201266726,
+   "rotUexpect": 0.24992881201266728,
+   "spinStored": 0.6000000238418579,
+   "axialW": 0,
+   "axialWzero": true,
+   "rotUtilt": 0.24992881201266726,
+   "axialWtilt": 0
+  },
+  "latitude": [
+   {
+    "lat": 0,
+    "rotRatio": 1,
+    "cosLat": 1,
+    "axialRatio": 0,
+    "sin2Lat": 0
+   },
+   {
+    "lat": 15,
+    "rotRatio": 0.965926,
+    "cosLat": 0.965926,
+    "axialRatio": 0.0669873,
+    "sin2Lat": 0.0669873
+   },
+   {
+    "lat": 30,
+    "rotRatio": 0.866025,
+    "cosLat": 0.866025,
+    "axialRatio": 0.25,
+    "sin2Lat": 0.25
+   },
+   {
+    "lat": 45,
+    "rotRatio": 0.707107,
+    "cosLat": 0.707107,
+    "axialRatio": 0.5,
+    "sin2Lat": 0.5
+   },
+   {
+    "lat": 60,
+    "rotRatio": 0.5,
+    "cosLat": 0.5,
+    "axialRatio": 0.75,
+    "sin2Lat": 0.75
+   },
+   {
+    "lat": 75,
+    "rotRatio": 0.258819,
+    "cosLat": 0.258819,
+    "axialRatio": 0.933013,
+    "sin2Lat": 0.933013
+   },
+   {
+    "lat": 90,
+    "rotRatio": 6.12323e-17,
+    "cosLat": 6.12323e-17,
+    "axialRatio": 1,
+    "sin2Lat": 1
+   }
+  ],
+  "flip": {
+   "bitNegated": true,
+   "nValues": 24
+  },
+  "covariance": {
+   "steps": 1500,
+   "relDr": 9.39964e-14,
+   "relDv": 4.0962e-14,
+   "maxDaxis": 8.40684e-14,
+   "maxDrotA": 1.59872e-13,
+   "shift": [
+    37.5,
+    -12.25,
+    8
+   ],
+   "axialTerms": 5996,
+   "rotTerms": 8994,
+   "axisTurns": 2998
+  },
+  "budget": {
+   "steps": 3000,
+   "relP": 3.05803e-16,
+   "dLmax": 7.64663,
+   "Lresid": 1.86944e-14,
+   "Lscale": 59.0248,
+   "relLresid": 3.16721e-16,
+   "dL3": [
+    1.35886,
+    2.76637,
+    0.0723387
+   ],
+   "dLspin": [
+    0.0709091,
+    0.586394,
+    -0.252932
+   ],
+   "axisTurns": 5998,
+   "perpSkip": 5998
+  },
+  "allSame": true
+ },
+ "part2": {
+  "R": 1,
+  "eps": 0.1,
+  "rows": [
+   {
+    "r": 0.5,
+    "lat": 0,
+    "M1": 2.02516,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.0234616,
+      "relPerp": 6.48956e-17
+     },
+     {
+      "N": 16,
+      "relPar": 0.00439257,
+      "relPerp": 7.88143e-17
+     },
+     {
+      "N": 32,
+      "relPar": 0.000264834,
+      "relPerp": 1.10119e-17
+     },
+     {
+      "N": 48,
+      "relPar": 0.0000450959,
+      "relPerp": 3.7729e-17
+     }
+    ]
+   },
+   {
+    "r": 0.5,
+    "lat": 30,
+    "M1": 2.02516,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.0011724,
+      "relPerp": 0.00228684
+     },
+     {
+      "N": 16,
+      "relPar": 0.00291839,
+      "relPerp": 0.000118994
+     },
+     {
+      "N": 32,
+      "relPar": 0.0000969208,
+      "relPerp": 0.00000365111
+     },
+     {
+      "N": 48,
+      "relPar": 0.0000371759,
+      "relPerp": 3.496e-7
+     }
+    ]
+   },
+   {
+    "r": 0.5,
+    "lat": 60,
+    "M1": 2.02516,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.00423344,
+      "relPerp": 0.0035883
+     },
+     {
+      "N": 16,
+      "relPar": 0.000836806,
+      "relPerp": 0.0000122432
+     },
+     {
+      "N": 32,
+      "relPar": 0.000155302,
+      "relPerp": 0.00000642748
+     },
+     {
+      "N": 48,
+      "relPar": 0.0000285144,
+      "relPerp": 6.32043e-7
+     }
+    ]
+   },
+   {
+    "r": 0.5,
+    "lat": 90,
+    "M1": 2.02516,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.0291795,
+      "relPerp": 2.39316e-17
+     },
+     {
+      "N": 16,
+      "relPar": 0.00485921,
+      "relPerp": 3.09384e-17
+     },
+     {
+      "N": 32,
+      "relPar": 0.000327226,
+      "relPerp": 2.68132e-17
+     },
+     {
+      "N": 48,
+      "relPar": 0.0000551028,
+      "relPerp": 3.21465e-17
+     }
+    ]
+   },
+   {
+    "r": 1.5,
+    "lat": 0,
+    "M1": 0.171258,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.00231223,
+      "relPerp": 9.20165e-17
+     },
+     {
+      "N": 16,
+      "relPar": 0.00000177355,
+      "relPerp": 9.69452e-17
+     },
+     {
+      "N": 32,
+      "relPar": 1.60205e-12,
+      "relPerp": 1.14668e-17
+     },
+     {
+      "N": 48,
+      "relPar": 1.44565e-13,
+      "relPerp": 4.79151e-17
+     }
+    ]
+   },
+   {
+    "r": 1.5,
+    "lat": 30,
+    "M1": 0.171258,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.000293781,
+      "relPerp": 0.000314284
+     },
+     {
+      "N": 16,
+      "relPar": 5.62965e-8,
+      "relPerp": 2.95631e-7
+     },
+     {
+      "N": 32,
+      "relPar": 4.44554e-13,
+      "relPerp": 1.6119e-13
+     },
+     {
+      "N": 48,
+      "relPar": 1.54613e-13,
+      "relPerp": 3.77071e-15
+     }
+    ]
+   },
+   {
+    "r": 1.5,
+    "lat": 60,
+    "M1": 0.171258,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.000261863,
+      "relPerp": 0.000474573
+     },
+     {
+      "N": 16,
+      "relPar": 7.76387e-7,
+      "relPerp": 1.07644e-7
+     },
+     {
+      "N": 32,
+      "relPar": 2.19927e-13,
+      "relPerp": 2.83613e-13
+     },
+     {
+      "N": 48,
+      "relPar": 1.54289e-13,
+      "relPerp": 2.75527e-15
+     }
+    ]
+   },
+   {
+    "r": 1.5,
+    "lat": 90,
+    "M1": 0.171258,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0.00312388,
+      "relPerp": 3.81115e-17
+     },
+     {
+      "N": 16,
+      "relPar": 0.00000327775,
+      "relPerp": 4.59637e-17
+     },
+     {
+      "N": 32,
+      "relPar": 4.03469e-12,
+      "relPerp": 2.72359e-17
+     },
+     {
+      "N": 48,
+      "relPar": 2.09068e-14,
+      "relPerp": 3.17843e-17
+     }
+    ]
+   },
+   {
+    "r": 3,
+    "lat": 0,
+    "M1": 0.00801658,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 1.2093e-7,
+      "relPerp": 5.17679e-17
+     },
+     {
+      "N": 16,
+      "relPar": 1.29835e-14,
+      "relPerp": 9.12905e-17
+     },
+     {
+      "N": 32,
+      "relPar": 6.36192e-14,
+      "relPerp": 1.13586e-17
+     },
+     {
+      "N": 48,
+      "relPar": 1.29619e-13,
+      "relPerp": 9.95959e-17
+     }
+    ]
+   },
+   {
+    "r": 3,
+    "lat": 30,
+    "M1": 0.00801658,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 2.20687e-8,
+      "relPerp": 3.04029e-8
+     },
+     {
+      "N": 16,
+      "relPar": 9.73764e-15,
+      "relPerp": 5.43208e-16
+     },
+     {
+      "N": 32,
+      "relPar": 5.47472e-14,
+      "relPerp": 1.20967e-15
+     },
+     {
+      "N": 48,
+      "relPar": 1.64242e-13,
+      "relPerp": 2.52398e-15
+     }
+    ]
+   },
+   {
+    "r": 3,
+    "lat": 60,
+    "M1": 0.00801658,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 3.55338e-9,
+      "relPerp": 4.72749e-8
+     },
+     {
+      "N": 16,
+      "relPar": 8.22289e-15,
+      "relPerp": 3.12088e-16
+     },
+     {
+      "N": 32,
+      "relPar": 7.03274e-14,
+      "relPerp": 4.65746e-15
+     },
+     {
+      "N": 48,
+      "relPar": 1.66405e-13,
+      "relPerp": 6.92547e-15
+     }
+    ]
+   },
+   {
+    "r": 3,
+    "lat": 90,
+    "M1": 0.00801658,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 1.95384e-7,
+      "relPerp": 1.31224e-16
+     },
+     {
+      "N": 16,
+      "relPar": 7.14093e-15,
+      "relPerp": 1.45612e-16
+     },
+     {
+      "N": 32,
+      "relPar": 5.19341e-15,
+      "relPerp": 7.05935e-17
+     },
+     {
+      "N": 48,
+      "relPar": 8.82879e-14,
+      "relPerp": 1.04851e-16
+     }
+    ]
+   },
+   {
+    "r": 10,
+    "lat": 0,
+    "M1": 0.0000604115,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 4.71107e-15,
+      "relPerp": 8.31681e-17
+     },
+     {
+      "N": 16,
+      "relPar": 7.40311e-15,
+      "relPerp": 2.52805e-16
+     },
+     {
+      "N": 32,
+      "relPar": 5.93371e-14,
+      "relPerp": 1.86314e-16
+     },
+     {
+      "N": 48,
+      "relPar": 1.61186e-13,
+      "relPerp": 1.63455e-16
+     }
+    ]
+   },
+   {
+    "r": 10,
+    "lat": 30,
+    "M1": 0.0000604115,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 1.45819e-15,
+      "relPerp": 1.55835e-15
+     },
+     {
+      "N": 16,
+      "relPar": 4.71107e-15,
+      "relPerp": 8.66475e-16
+     },
+     {
+      "N": 32,
+      "relPar": 4.45308e-14,
+      "relPerp": 1.05833e-15
+     },
+     {
+      "N": 48,
+      "relPar": 1.43015e-13,
+      "relPerp": 2.1106e-14
+     }
+    ]
+   },
+   {
+    "r": 10,
+    "lat": 60,
+    "M1": 0.0000604115,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 0,
+      "relPerp": 2.3662e-15
+     },
+     {
+      "N": 16,
+      "relPar": 7.73962e-15,
+      "relPerp": 1.4198e-15
+     },
+     {
+      "N": 32,
+      "relPar": 5.328e-14,
+      "relPerp": 3.71547e-15
+     },
+     {
+      "N": 48,
+      "relPar": 1.54232e-13,
+      "relPerp": 4.52215e-15
+     }
+    ]
+   },
+   {
+    "r": 10,
+    "lat": 90,
+    "M1": 0.0000604115,
+    "cub": [
+     {
+      "N": 8,
+      "relPar": 3.58939e-15,
+      "relPerp": 5.12381e-16
+     },
+     {
+      "N": 16,
+      "relPar": 1.89565e-14,
+      "relPerp": 5.34814e-16
+     },
+     {
+      "N": 32,
+      "relPar": 6.02344e-14,
+      "relPerp": 2.21175e-16
+     },
+     {
+      "N": 48,
+      "relPar": 1.52886e-13,
+      "relPerp": 3.76164e-16
+     }
+    ]
+   }
+  ],
+  "nodes": [
+   {
+    "n": 4,
+    "rel": 0.00000369669
+   },
+   {
+    "n": 8,
+    "rel": 8.91945e-12
+   },
+   {
+    "n": 16,
+    "rel": 2.1312e-15
+   },
+   {
+    "n": 32,
+    "rel": 4.48674e-16
+   }
+  ],
+  "farLimit": [
+   {
+    "r": 20,
+    "ratio": 1.00179
+   },
+   {
+    "r": 50,
+    "ratio": 1.00029
+   },
+   {
+    "r": 100,
+    "ratio": 1.00007
+   }
+  ],
+  "outsideParMax": 1.66405e-13,
+  "outsidePerpMax": 2.1106e-14,
+  "monotone": false
+ },
+ "part3": {
+  "readyBuild": {
+   "ready": false,
+   "why": "noHistory",
+   "checked": 0,
+   "relMax": 0
+  },
+  "ready": {
+   "chain3d": {
+    "ready": true,
+    "why": null,
+    "checked": 63,
+    "relMax": 2.81928e-11
+   },
+   "chain2d": {
+    "ready": true,
+    "why": null,
+    "checked": 63,
+    "relMax": 2.81928e-11
+   },
+   "chain3dTilt": {
+    "ready": true,
+    "why": null,
+    "checked": 63,
+    "relMax": 2.89815e-11
+   },
+   "pair2d": {
+    "ready": true,
+    "why": null,
+    "checked": 2,
+    "relMax": 1.46535e-16
+   }
+  },
+  "displayBitsame": {
+   "steps": 300,
+   "calls": 30,
+   "drawn": 30,
+   "fpA": "81319d2ef94e9130:517",
+   "fpB": "81319d2ef94e9130:517",
+   "same": true
+  },
+  "grid": [
+   {
+    "res": 8,
+    "h": 5,
+    "nodes": 81,
+    "n": 390,
+    "maxRel": 0.368067,
+    "rmsRel": 0.0632698
+   },
+   {
+    "res": 16,
+    "h": 2,
+    "nodes": 625,
+    "n": 390,
+    "maxRel": 0.21078,
+    "rmsRel": 0.0300276
+   },
+   {
+    "res": 48,
+    "h": 1,
+    "nodes": 2401,
+    "n": 390,
+    "maxRel": 0.0506289,
+    "rmsRel": 0.00724488
+   }
+  ],
+  "gridMonotone": true,
+  "circulation": [
+   {
+    "r": 8,
+    "withSpin": 36.6083,
+    "spin0": 0.0000637518
+   },
+   {
+    "r": 12,
+    "withSpin": 24.2893,
+    "spin0": -0.0000257464
+   },
+   {
+    "r": 18,
+    "withSpin": 14.3757,
+    "spin0": -0.0000995978
+   }
+  ],
+  "tilt": {
+   "nodes": 169,
+   "uMax": 1.59565,
+   "uzMax": 0.920736,
+   "wzMax": 0.320276,
+   "streamlines": 136
+  }
+ },
+ "part4": {
+  "chain3d": {
+   "steps": 2000,
+   "wallSec": 2.289,
+   "itersMax": 40,
+   "resMax": 9.9975e-11,
+   "fail": 0,
+   "nan": false,
+   "spin3": {
+    "rotTerms": 159920,
+    "rotMax": 11.6231,
+    "axialTerms": 0,
+    "omegaMax": 0,
+    "perpSkip": 0,
+    "rotA": 0,
+    "dL3": [
+     0,
+     0,
+     206.128
+    ]
+   },
+   "axis0": [
+    0,
+    0,
+    1
+   ],
+   "bands": [
+    {
+     "band": [
+      6,
+      12
+     ],
+     "n": 21,
+     "dthMean": 2.16965
+    },
+    {
+     "band": [
+      12,
+      18
+     ],
+     "n": 26,
+     "dthMean": 0.577207
+    },
+    {
+     "band": [
+      18,
+      24
+     ],
+     "n": 33,
+     "dthMean": 0.195592
+    }
+   ],
+   "zMax": 0,
+   "vzMax": 0
+  },
+  "chain3dTilt": {
+   "steps": 2000,
+   "wallSec": 3.777,
+   "itersMax": 40,
+   "resMax": 9.98881e-11,
+   "fail": 0,
+   "nan": false,
+   "spin3": {
+    "rotTerms": 159920,
+    "rotMax": 8.44862,
+    "axialTerms": 159920,
+    "omegaMax": 0.285216,
+    "perpSkip": 159920,
+    "rotA": 25.8163,
+    "dL3": [
+     97.889,
+     -44.173,
+     152.959
+    ]
+   },
+   "axis0": [
+    0.5,
+    0,
+    0.866025
+   ],
+   "bands": [
+    {
+     "band": [
+      6,
+      12
+     ],
+     "n": 21,
+     "dthMean": 2.22489
+    },
+    {
+     "band": [
+      12,
+      18
+     ],
+     "n": 26,
+     "dthMean": 0.470256
+    },
+    {
+     "band": [
+      18,
+      24
+     ],
+     "n": 33,
+     "dthMean": 0.157098
+    }
+   ],
+   "zMax": 6.86457,
+   "vzMax": 0.405802
+  },
+  "tiltAxialOff": {
+   "steps": 2000,
+   "positionsVelocitiesSame": true,
+   "rotAmaxDiff": 3.54371
+  }
+ },
+ "part5": {
+  "spinSource3d": {
+   "ok": true,
+   "err": null
+  },
+  "dragCore3d": {
+   "ok": true,
+   "err": null
+  },
+  "spinDrag2d": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag は三次元の本(physics.coord:\"3d\")だけ —— 二次元の自転源は spinSource:\"surfaceFlip\"(第298便c)"
+  },
+  "spinDrag3d": {
+   "ok": true,
+   "err": null
+  },
+  "spinDragTilt3d": {
+   "ok": true,
+   "err": null
+  },
+  "both": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:\"surfaceFlip\" は spinDrag:{rot:\"surfaceFlip\", axial:\"off\"} と同じ —— 第298便c)"
+  },
+  "noCoupling": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 κ [L³/M] —— gain とは別の宣言・未較正)は axial:\"on\" のとき 0〜1000000000000 の有限数"
+  },
+  "couplingOff": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag.axialCoupling は axial:\"on\" のときだけ"
+  },
+  "allOff": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag の rot と axial が両方 \"off\"(何もしない宣言は書かない)"
+  },
+  "unknownKey": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag に未知の鍵 x(rot・axial・axialCoupling —— 第298便c)"
+  },
+  "sum": {
+   "ok": false,
+   "err": "physics.relativeDrag.spinDrag は compose:\"solve\"(既定 —— 共通の移動速度を全体で解く)専用(compose:\"sum\" では宣言しない —— 第296便c)"
+  },
+  "ok": true,
+  "rejectedList": [
+   "kFrame",
+   "kRep",
+   "muF",
+   "kappaS",
+   "etaRad",
+   "gravityXY",
+   "geoPN12",
+   "geodesic",
+   "geoLegacy",
+   "physicsOther",
+   "relativeDragLaw",
+   "thermal",
+   "phaseChange",
+   "fusion",
+   "universeBox",
+   "measureBox",
+   "photonEmit",
+   "rays",
+   "echoFlipAt",
+   "capture",
+   "qLock",
+   "boundary",
+   "overlays",
+   "core",
+   "layers",
+   "pulse",
+   "spinDipole",
+   "tide",
+   "zonal",
+   "testParticle",
+   "rail",
+   "lightSweepAuto",
+   "dragQ",
+   "densityClass",
+   "spinAxisDisplay",
+   "vModeEq"
+  ],
+  "opened": [
+   "spinSource",
+   "dragCore"
+  ]
+ },
+ "gates": {
+  "zeroBitsame": true,
+  "onAxis": true,
+  "equator": true,
+  "flip": true,
+  "covariance": true,
+  "budget": true,
+  "sphere": true,
+  "probeReady": true,
+  "displayBitsame": true,
+  "gridConverges": true,
+  "axialNotLinear": true,
+  "accept": true
+ },
+ "ok": true,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第298便c",
+  "target": "beta/index.html",
+  "targetSha256": "62f923d6c6c4f367ab54d3fe401f4f55abd950c302c804656fe270d544ed06c5",
+  "generatedAt": "2026-10-10T19:01:24.695Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6332724,
+    "sha256": "62f923d6c6c4f367ab54d3fe401f4f55abd950c302c804656fe270d544ed06c5",
+    "mtime": "2026-10-10T19:00:14.910Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w298c-drag3d.mjs",
+    "bytes": 31836,
+    "sha256": "7a068bbc4dd138992894b3f23465d2104b923da1b3319f8db0724794254f84af",
+    "mtime": "2026-10-10T17:52:40.610Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-10T17:00:39.230Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-10T17:00:39.226Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-10T17:00:39.234Z"
+   }
+  ],
+  "codeSha256": "b008b6b6c9089c8f29266d65f5cfdb413b83a351d4a9b918b0873e4b502fc94b",
+  "harnessVersion": "w298c-drag3d-1",
+  "spin3Version": "w298c-spin3-1",
+  "probeVersion": "w298c-probe-1",
+  "axialLaw": "mu2-pointK",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第88報)「三次元の慣性決定力: 回転引きずりは赤道面で最大・自転軸方向でゼロ/軸引きずり —— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」「表示の空間メッシュで渦状の引きずりが見えるよう物理と表示の両面で精度を上げる(表示は Z=0 の公転面)」",
+  "reading": "統括の検証項目 R167",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "DT",
+    "HP.PROBE_VERSION",
+    "HP.REL_DRAG_AXIAL_LAW",
+    "HP.REL_DRAG_SPIN3_VERSION",
+    "HP.REL_DRAG_SPIN_NODES",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDrag3AxialOmega",
+    "HP.inertialDrag3RotTerm",
+    "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeBilinear",
+    "HP.inertialDragProbeReady",
+    "HP.inertialDragProbeSample",
+    "HP.inertialDragProbeStreamlines",
+    "HP.inertialDragState",
+    "HP.inertialSpinMoment",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ch",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1158,
+   "segments": 1058,
+   "closureShare": 0.3259
+  },
+  "scopeSha256": "20a59e0b50051ca3aac2b2b6d6bd8e2b33f798eb0b590788b4a4e40d881aff9d",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "elapsedS": 16.828
+}

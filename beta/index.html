@@ -1537,6 +1537,14 @@ ja: {
   smDragFrameCentroid:"受け手: 源の重心系に静止(共通の並進は消える)",
   smDragFrameCoord:"受け手: 座標に静止(共通の並進も見える)",
   smDragLenNote:"長さ ∝ (|u|/|u|ref)^(1/3)(ref を超える矢印は基準長で切る)",
+  // 第298便c(原仮定者の裁定(第88報)・R167): 受動プローブ(合成則 solve の本・三次元の本 —— Z=0 の面)
+  smProbeTitle:"慣性決定力の場(受動プローブ u・Z=0 の面・表示専用)",
+  smProbeNotReady:(why)=>"標本が直近の步の解と合わない・履歴なし("+why+")— 描かない",
+  smProbePlane:"面 Z=0(源が面外なら距離に dz を含める)・u を XY へ投影・流線は凍結場の RK4",
+  smProbeAxial:(w)=>"点の色 = 軸引きずりの角速度 ω_z(暖色 +・寒色 −・|ω|max="+w+")—— 速度の矢印には足さない",
+  smProbeNote:"矢印 = 質量ゼロ・反作用なしの受け手の u(同じ步の解 u_j と同じ核 —— 連立は解き直さない)",
+  smMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定 —— 新しく作る設定では使わない(在位の本は互換のまま)",
+  geo4CoordNote:"geoPN=4 の既定は三次元(physics.coord:\"3d\")—— この本は二次元(互換・逸脱ではない)",
   smRulerTitle:"光の物差し(局所目盛り dℓ=A|dx|・A=e^ψ・表示専用)",
   smRulerNote:"目盛りの長さ ∝ (A_min/A)^g(A_min は視野の最小・g は誇張)\n格子は歪めない・n=e^(2ψ) は光の所要時間の側(長さの倍率ではない)",
   helpMeshView:"空間メッシュの「表示の種類」で、慣性引きずりの u の矢印(引きずりの可視化)と、光の物差しの局所目盛り(dℓ=A|dx|)を選べる。どちらも表示専用で、粒子の運動・履歴・帳簿は 1 bit も変わらない。",
@@ -1950,6 +1958,8 @@ ja: {
   modeWarn_lambdaPnOnDrag:(g,lam)=>"geoPN="+g+": λ_PN="+lam+" —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。",
   // 第298便a(原仮定者の裁定(第88報)・R165): 二次元の本の Z の宣言(coord2dZ)・三次元の HUD
   modeWarn_coord2dZ:(keys)=>"二次元の本(physics.coord 未宣言・\"2d\")に Z の宣言 "+keys+" —— 走行は二次元のまま(z は積分しない)。三次元で走らせるなら physics.coord:\"3d\" を宣言する。値は捨てていない。",
+  hudSpin3:(rot,ax,k,w)=>"三次元の慣性決定力: 並進"+(rot? "・回転引きずり(赤道で最大・軸上で 0)" : "")+(ax? "・軸引きずり κ="+k+"(|ω|max "+w+" —— 姿勢だけを回す)" : ""),   // 第298便c(R167)
+  hudMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定 —— この本は互換で走る(新しく作る設定は慣性決定力 relativeDrag.law:\"inertial\" と三次元で)",   // 第298便c
   hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の奥)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
   loadGeo0Legacy:(lv)=>"geoPN=0 で spaceMesh.lawVersion:\""+lv+"\" を宣言した設定です —— 第296便から geoPN=0 でも旧空間メッシュ(legacy-spaceMesh:"+lv+")で走ります(第295便までは宣言が残るだけでニュートン等の他の宣言で走っていました)。値は保存どおり",
   geo4NoMesh:(law)=>"測地線モード geoPN=4(空間メッシュ・連鎖): 旧メッシュ(physics.spaceMesh.lawVersion)も慣性の連鎖の宣言(relativeDrag.law:\"inertial\")も走っていません —— 旧メッシュか慣性の連鎖の宣言が要ります。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
@@ -2131,6 +2141,9 @@ ja: {
   nc_perihelion_43_fit:"43″/世紀(1PN の量)を DFM から導いたとは主張しない —— この本は 1PN を入れておらず、gain 0 の対照との近点率の差がその値になるように慣性引きずりの gain を合わせた(フィット)だけである。",
   nc_period_target_fit:"公転周期を予言したとは主張しない —— 周期は gain を合わせた標的(フィットの入力)で、合わせた値は予測ではない。",
   nc_gain_universal_fit:"gain(C_d)を全系に共通の定数とは主張しない —— この本の gain は宣言した 1 量へのフィットで、系ごとの経験係数である(移送値・他の系のフィット値と一致しない —— 共通係数は見つかっていない)。",
+  // 第298便c(原仮定者の裁定(第88報)・R167): 三次元の慣性決定力の本(🔩🪛🌦️)の注記
+  nc_axial_drag_unfitted:"軸引きずりの係数 axialCoupling(κ)は宣言値で、観測にも他の量にも合わせていない(未較正 —— 角度則 μ² と点源の核も宣言)。軸引きずりは受け手の姿勢を回すだけで、線速度には足さない。",
+  nc_apsidal_8p85_3d:"月の近点回転 8.85 年を法則が予言したとは主張しない —— 三次元の写し(月の軌道傾斜 5.145° —— 平均要素)で gain を探索し、118 公転窓で 8.85 年を挟んだ点を宣言した再現作業の本である(gain は系ごとの経験係数・初期配置は平均要素に合わせた入力・354 公転窓との差も記録)。",
   nc_single_quantity_fit:"宣言した 1 つの観測量だけに合わせた —— 他の量(周期・離心率・軌道の形)は合わせておらず、構造核 dragCore の値は内部核の測定値ではない(1 量では gain と分けて決められない)。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
@@ -2747,6 +2760,13 @@ en: {
   smDragFrameCentroid:"Receiver: at rest in the sources' barycentric frame (a shared translation cancels)",
   smDragFrameCoord:"Receiver: at rest in the coordinates (a shared translation shows up)",
   smDragLenNote:"length ~ (|u|/|u|ref)^(1/3) (arrows beyond ref are capped)",
+  smProbeTitle:"Inertial-determinacy field (passive probe u, plane Z=0; display only)",
+  smProbeNotReady:(why)=>"The sample does not match the latest step's solution, or there is no history ("+why+") - nothing is drawn",
+  smProbePlane:"plane Z=0 (dz enters the distance for sources off the plane); u projected on XY; streamlines are RK4 in the frozen field",
+  smProbeAxial:(w)=>"dot colour = axial-drag angular velocity omega_z (warm +, cool -, |omega|max="+w+") - not added to the velocity arrows",
+  smProbeNote:"arrows = u of a massless receiver with no reaction (the same step's solution u_j and the same kernel - the system is not re-solved)",
+  smMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is scheduled for retirement - do not use it in new setups (existing samples stay compatible)",
+  geo4CoordNote:"The default of geoPN=4 is 3D (physics.coord:\"3d\") - this sample is 2D (compatible; not a deviation)",
   smRulerTitle:"Light ruler (local ticks dl = A|dx|, A = e^psi; display only)",
   smRulerNote:"tick length ~ (A_min/A)^g (A_min = smallest in view; g exaggerates)\nthe grid is not warped; n = e^(2psi) is the light-travel-time side (not a length factor)",
   helpMeshView:"The space mesh's \"View\" offers arrows of the inertial dragging u (dragging made visible) and the light ruler's local ticks (dl = A|dx|). Both are display only: the motion, the histories and the ledgers of the bodies do not change by a single bit.",
@@ -3148,6 +3168,8 @@ en: {
   modeWarn_lambdaPnOnDrag:(g,lam)=>"geoPN="+g+": λ_PN="+lam+" - for geoPN 2, 3 and 4 set the dynamical λ_PN to 0 (separate from the optical κ; do not stack 1PN on q or gain). The value has not been discarded.",
   // wave 298a: Z declarations in a 2D book (coord2dZ) and the 3D HUD
   modeWarn_coord2dZ:(keys)=>"a 2D book (physics.coord undeclared or \"2d\") carries Z declarations "+keys+" - it still runs in 2D (z is not integrated). Declare physics.coord:\"3d\" to run in 3D. The values have not been discarded.",
+  hudSpin3:(rot,ax,k,w)=>"3D inertial determinacy: translation"+(rot? ", rotational drag (largest on the equator, zero on the axis)" : "")+(ax? ", axial drag kappa="+k+" (|omega|max "+w+" - turns the attitude only)" : ""),
+  hudMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is scheduled for retirement - this sample runs for compatibility (new setups use the inertial determinacy relativeDrag.law:\"inertial\" in 3D)",
   hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points into the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
   loadGeo0Legacy:(lv)=>"This setting declares spaceMesh.lawVersion:\""+lv+"\" with geoPN=0 - since wave 296 geoPN=0 also runs the legacy space mesh (legacy-spaceMesh:"+lv+") (up to wave 295 the declaration was only kept and the other declarations, e.g. Newton, ran). Values are as saved",
   geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (space mesh / chain): neither the legacy mesh (physics.spaceMesh.lawVersion) nor the inertial chain declaration (relativeDrag.law:\"inertial\") is running - one of them is needed. It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
@@ -3321,6 +3343,8 @@ en: {
   nc_perihelion_43_fit:"It is not claimed that the 43″/century (a 1PN quantity) is derived from DFM — this sample has no 1PN; the inertial-drag gain is only matched (fitted) so that the apsidal-rate difference from the gain-0 control takes that value.",
   nc_period_target_fit:"The orbital period is not claimed as a prediction — it is the target the gain was matched to (an input of the fit), not a forecast.",
   nc_gain_universal_fit:"The gain (C_d) is not claimed as a constant shared by all systems — this sample's gain is a fit to one declared quantity, an empirical coefficient per system (it differs from the transferred value and from the other system's fit — no shared coefficient has been found).",
+  nc_axial_drag_unfitted:"The axial-drag coefficient axialCoupling (kappa) is a declared value, fitted to no observation or other quantity (uncalibrated - the angular law mu^2 and the point kernel are declared too). Axial drag only turns the receiver's attitude and is never added to the linear velocity.",
+  nc_apsidal_8p85_3d:"It is not claimed that the law predicts the Moon's 8.85-year apsidal cycle - this is a reproduction-effort sample: in the three-dimensional copy (lunar orbital inclination 5.145 deg - a mean element) the gain was searched and the point that brackets 8.85 yr in the 118-orbit window is declared (the gain is an empirical per-system coefficient, the initial configuration is an input matched to the mean elements, and the difference from the 354-orbit window is recorded).",
   nc_single_quantity_fit:"Matched to one declared observed quantity only — the other quantities (period, eccentricity, orbit shape) are not matched, and the structure-core dragCore values are not measurements of an internal core (one quantity cannot separate them from the gain).",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
@@ -4799,7 +4823,9 @@ const GEO_MODE_TABLE_CASES=[
   {geoPN:4, decl:"relativeDrag.law:inertial", ph:{lambdaPN:0, relativeDrag:{law:"inertial"}}},
   {geoPN:4, decl:"relativeDrag.law:inertial+solver+spaceMesh.lawVersion:scalar", ph:{lambdaPN:0, relativeDrag:{law:"inertial", solver:"network-pcg-v1"}, spaceMesh:{lawVersion:"scalar", inertia:false}}},
   // 第297便a(原仮定者の裁定(第87報)・R161): 2・3・4 の行は λ_PN=0(標準 —— 光学と力学を分ける)。旧宣言の λ_PN=1 を置いた 2 の行(逸脱 lambdaPnOnDrag)
-  {geoPN:2, decl:"lambdaPN:1(第296便までの宣言)", ph:{lambdaPN:1}}];
+  {geoPN:2, decl:"lambdaPN:1(第296便までの宣言)", ph:{lambdaPN:1}},
+  // 第298便c(原仮定者の裁定(第88報)「geoPN=4 は慣性決定力の多粒子版・三次元が既定」・R167): 4 の標準例(三次元 —— 新しく作る 4 の本の形)
+  {geoPN:4, decl:"coord:3d+relativeDrag.law:inertial+solver:network-pcg-v1(三次元の標準例)", ph:{lambdaPN:0, coord:"3d", relativeDrag:{law:"inertial", solver:"network-pcg-v1"}}}];
 // 第295便b(原仮定者の裁定(第85報)・統括の検証項目 R154): **geoPN 3 → 4 へ移住した在位の本**(器 tests/exp-w295b-geo4.mjs が 3 と 4 の写しの
 // 2000 步ビット同一〔状態・PN 旗・u・旗・最終の全配列〕を確かめた本だけ —— 正本 tests/out/geo4-w295b.json)。宣言の geoPN だけを 4 に書き換え、
 // 本文の「geoPN=3」の語もその本だけ直した(引用の文は原文のまま)。退役 3 本(凍結)と慣性の 3(🌛)は 3 のまま。表示と QA の名簿(力学は読まない)
@@ -5445,7 +5471,7 @@ function syncMeshChip(){
   let el=slot.firstElementChild;
   if(!ms){ if(el) slot.textContent=""; return; }
   const g="mesh-"+ms.key, label=meshChipLabel(ms),
-    tip=T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : "");
+    tip=T("bdgMeshTip")+(ms.unconverged? "\n"+T("bdgMesh_closureUnconverged") : "")+"\n"+T("smMeshDeprecated");   // 第298便c: 旧 physics.spaceMesh は廃止予定
   if(!el){ el=document.createElement("span"); el.className="classChip"; slot.appendChild(el); }
   if(el.dataset.g!==g) el.dataset.g=g;
   if(el.textContent!==label) el.textContent=label;
@@ -7378,7 +7404,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag"];   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7433,7 +7459,25 @@ const REL_DRAG_SOLVER_MAXITER_DEFAULT = 1000;
 const REL_DRAG_SOLVER_MAXITER_RANGE = [1, 100000];
 const REL_DRAG_SPIN_SOURCES = ["surfaceFlip"];
 const REL_DRAG_SPIN_NODES = 16;            // 自転源の半径積分(区間あたりの Gauss–Legendre 点数)
-const REL_DRAG_CHAIN_VERSION = "w296c-chain-1";   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
+const REL_DRAG_CHAIN_VERSION = "w296c-chain-1";
+// ===== 第298便c(原仮定者の裁定(第88報)「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に
+//   『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」・統括の検証項目 R167): **三次元の慣性決定力 3 成分の宣言** `relativeDrag.spinDrag` =====
+// 三次元の本(physics.coord:"3d")∧ law:"inertial" ∧ compose solve だけ(二次元の本では受理で拒否 —— 二次元の自転源は従来の spinSource)。正準形:
+//   {rot:"surfaceFlip"|"off", axial:"on"|"off", axialCoupling?}(axialCoupling は axial:"on" のときだけ・必須)。rot と axial の両方 off は宣言しない(拒否)。
+//   ・並進引きずり: 既存の (I+L)u=s(係数はスカラー・同じ N×N を x・y・z の 3 右辺で共有 —— 3N×3N にしない)
+//   ・回転引きずり rot:"surfaceFlip": 源 j の点 ρ の速度 Ω_j â_j×ρ を宣言半径の一様球で体積平均 —— ⟨K_ε(|d−ρ|) ρ⟩ = M1(r) ê(球対称なので ê 方向だけが残る)
+//       なので s_i += C m_j Ω_j M1(r)(â_j×ê)。大きさ ∝ sin∠(â_j,ê) —— 赤道面で最大・軸上で 0(外積が sin を持つ —— sin² を重ねない)。二次元の spinSource は â=+z の特別な場合
+//   ・軸引きずり axial:"on": 受け手 i の**自転の向き**を â_j の向きに回す角速度 ω_i = Σ_j κ m_j Ω_j K_ε(r) μ² â_j(μ = ê·â_j —— 軸上で 1・赤道で 0・両極対称)。
+//       κ = axialCoupling [L³/M](gain とは別の宣言 —— 未較正)・K_ε は並進と同じ点源の核 r/(r²+ε²)²。**線速度 u には足さない**:
+//       受け手の姿勢を ω dt だけ回す(rotA += (ω·â_i)dt・自転軸を有効化し歳差を宣言していない粒子は軸を ω_⊥ dt だけ回す)。自転の角速度の大きさ s は変えない
+//       (並進の x += u dt が v を触らないのと同じ流儀)。軸が回ったぶんの自転の角運動量 I s Δâ は帳簿 inertialDrag3AxL(受け手側の変化 —— 反作用は源・外部へ)
+const REL_DRAG_SPIN3_KEY = "spinDrag";
+const REL_DRAG_SPIN3_KEYS = ["rot", "axial", "axialCoupling"];
+const REL_DRAG_SPIN3_ROT = ["surfaceFlip", "off"];
+const REL_DRAG_SPIN3_AXIAL = ["on", "off"];
+const REL_DRAG_AXIAL_COUPLING_RANGE = [0, 1e12];
+const REL_DRAG_SPIN3_VERSION = "w298c-spin3-1";
+const REL_DRAG_AXIAL_LAW = "mu2-pointK";   // 角度則 μ²・距離の核 K_ε(r)=r/(r²+ε²)²(並進と同じ点源)   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -7528,7 +7572,7 @@ function validateRelativeDragInertial(a){
   if(cmp==="sum"){
     for(const k of ["solveFrom","solveIters"]) if(a[k]!==undefined && a[k]!==null)
       return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定)専用(compose:"sum" では宣言しない)'};
-    for(const k of ["solver","solverTol","solverMaxIter","spinSource"]) if(a[k]!==undefined && a[k]!==null)   // 第296便c: 連鎖の宣言は solve 専用
+    for(const k of ["solver","solverTol","solverMaxIter","spinSource","spinDrag"]) if(a[k]!==undefined && a[k]!==null)   // 第296便c: 連鎖の宣言は solve 専用(第298便c: spinDrag も)
       return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定 —— 共通の移動速度を全体で解く)専用(compose:"sum" では宣言しない —— 第296便c)'};
     out.compose="sum";
   } else {
@@ -7561,6 +7605,24 @@ function validateRelativeDragInertial(a){
       if(REL_DRAG_SPIN_SOURCES.indexOf(a.spinSource)<0) return {ok:false, err:'physics.relativeDrag.spinSource は "surfaceFlip"(自転する源の表裏を一様球で体積平均した接線成分 —— 第296便c)のみ'};
       if(!(a.gain>0)) return {ok:false, err:'physics.relativeDrag.spinSource は gain>0 の慣性の宣言と一緒にだけ(gain:0 の否定対照には自転源を重ねない —— 第296便c)'};
       out.spinSource=a.spinSource;
+    }
+    // 第298便c(R167): 三次元の回転引きずり・軸引きずり(二次元の本の拒否は validatePreset の座標の門 —— ここは形だけ)
+    if(a.spinDrag!==undefined && a.spinDrag!==null){
+      const sd=a.spinDrag;
+      if(out.spinSource!==undefined) return {ok:false, err:'physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:"surfaceFlip" は spinDrag:{rot:"surfaceFlip", axial:"off"} と同じ —— 第298便c)'};
+      if(typeof sd!=="object" || Array.isArray(sd)) return {ok:false, err:'physics.relativeDrag.spinDrag は {rot, axial, axialCoupling?}(第298便c)'};
+      for(const k of Object.keys(sd)) if(REL_DRAG_SPIN3_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.spinDrag に未知の鍵 '+k+'(rot・axial・axialCoupling —— 第298便c)'};
+      const rot=(sd.rot===undefined || sd.rot===null)? REL_DRAG_SPIN3_ROT[0] : sd.rot, ax=(sd.axial===undefined || sd.axial===null)? "off" : sd.axial;
+      if(REL_DRAG_SPIN3_ROT.indexOf(rot)<0) return {ok:false, err:'physics.relativeDrag.spinDrag.rot は "surfaceFlip"(回転引きずり —— 自転する源の表裏を一様球で体積平均・赤道面で最大・軸上で 0)か "off"'};
+      if(REL_DRAG_SPIN3_AXIAL.indexOf(ax)<0) return {ok:false, err:'physics.relativeDrag.spinDrag.axial は "on"(軸引きずり —— 軸上で最大・赤道で 0・受け手の自転を源の軸の向きに回す)か "off"'};
+      const o2={rot, axial:ax};
+      if(ax==="on"){
+        if(!isNum(sd.axialCoupling) || sd.axialCoupling<REL_DRAG_AXIAL_COUPLING_RANGE[0] || sd.axialCoupling>REL_DRAG_AXIAL_COUPLING_RANGE[1])
+          return {ok:false, err:'physics.relativeDrag.spinDrag.axialCoupling(軸引きずりの係数 κ [L³/M] —— gain とは別の宣言・未較正)は axial:"on" のとき 0〜'+REL_DRAG_AXIAL_COUPLING_RANGE[1]+' の有限数'};
+        o2.axialCoupling=sd.axialCoupling;
+      } else if(sd.axialCoupling!==undefined && sd.axialCoupling!==null) return {ok:false, err:'physics.relativeDrag.spinDrag.axialCoupling は axial:"on" のときだけ'};
+      if(rot==="off" && ax==="off") return {ok:false, err:'physics.relativeDrag.spinDrag の rot と axial が両方 "off"(何もしない宣言は書かない)'};
+      out.spinDrag=o2;
     }
   }
   return {ok:true, relativeDrag:out};
@@ -7914,10 +7976,13 @@ const COORD3D_SUPPORTED=Object.freeze([
   {key:"pinned", ja:"pinned(静止 —— 規定運動のレールは除く)", en:"pinned bodies (static - prescribed rails excluded)"},
   {key:"inertialDrag", ja:"relativeDrag.law:\"inertial\" の並進(合成則 solve/sum・solveFrom velocity/history・solver network-pcg-v1 —— 既存の solve を z へ広げた)", en:"translational relativeDrag law inertial (solve/sum, velocity/history, network-pcg-v1 - the existing solve extended to z)"},
   {key:"spinAxis", ja:"自転のスカラー spin(軸まわりの角速度)と粒子ごとの自転軸 spinAxis.enable・宣言した歳差(規定運動)", en:"scalar spin about each body's axis, per-body spin axis spinAxis.enable and declared precession (prescribed)"},
-  {key:"frame", ja:"balanceFrame:\"barycentric\"(z も重心系へ)・群 ring/disk の傾き incl と昇交点 node", en:"balanceFrame barycentric (z included), ring/disk group inclination incl and node"}]);
+  {key:"frame", ja:"balanceFrame:\"barycentric\"(z も重心系へ)・群 ring/disk の傾き incl と昇交点 node", en:"balanceFrame barycentric (z included), ring/disk group inclination incl and node"},
+  // 第298便c(原仮定者の裁定(第88報)・R167): 第 2 段で開けた 2 項目(旧 COORD3D_REJECTED の spinSource・dragCore)
+  {key:"spinDrag", ja:"慣性決定力の回転引きずり・軸引きずり relativeDrag.spinDrag(三次元だけ —— spinSource:\"surfaceFlip\" は rot だけの別名)", en:"inertial rotational and axial drag relativeDrag.spinDrag (3D only - spinSource surfaceFlip is the rot-only alias)"},
+  {key:"dragCore", ja:"慣性決定力の構造核 dragCore(表は r だけの関数 —— 三次元の距離で引く)", en:"inertial structure core dragCore (the table is a function of r only - looked up at the 3D distance)"}]);
 // 三次元で**拒否する**機能(受理の門 coord3dDenyOf の理由 —— 第 2 段以降で対応させる候補。並びは docs と同じ)
 const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","gravityXY","geoPN12","geodesic","geoLegacy","physicsOther",
-  "relativeDragLaw","spinSource","dragCore","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
+  "relativeDragLaw","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
   "capture","qLock","boundary","overlays","core","layers","pulse","spinDipole","tide","zonal","testParticle","rail","lightSweepAuto",
   "dragQ","densityClass","spinAxisDisplay","vModeEq"]);   // box/grid の incl・node は拒否ではなく警告して落とす(受理器 coord3dBodyKeys —— 面内に置く)
 const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag"];
@@ -7945,7 +8010,7 @@ function coord3dDenyOf(p){
   }
   if(rd!==undefined && rd!==null){
     if(!inert) add("relativeDragLaw","relativeDrag.law:\""+String(rd && rd.law)+"\"(三次元で対応するのは law:\"inertial\" の並進だけ)");
-    else if(rd.spinSource!==undefined) add("spinSource","relativeDrag.spinSource(自転する源の表裏核 —— 三次元の回転引きずり・軸引きずりは第 2 段)");
+    // 第298便c(R167): spinSource(回転引きずりの別名)・spinDrag は三次元で対応(第 2 段で開けた)
   }
   if(p && p.thermal==="tint") add("thermal","thermal:\"tint\"(内部温度・伝導・放射)");
   if(p && p.phaseChange) add("phaseChange","phaseChange(E14″ 相変化 —— 二次元の配位数)");
@@ -7960,7 +8025,7 @@ function coord3dDenyOf(p){
   if(p && p.world && p.world.boundary && p.world.boundary!=="none") add("boundary","world.boundary:\""+p.world.boundary+"\"(壁は二次元の箱・円)");
   const ov=(p && p.overlays && typeof p.overlays==="object")? p.overlays : {};
   for(const k of ["field","spectrum","boxGraph","phaseGraph","mechSpectrum"]) if(ov[k]===true) add("overlays","overlays."+k+"(二次元の場・光・核の診断を描く —— 三次元では未対応)");
-  if(ov.spaceMesh || ov.galaxyField) add("overlays","overlays.spaceMesh/galaxyField(二次元の場の表示 —— 三次元の空間メッシュ表示は第 2 段)");
+  if(ov.galaxyField) add("overlays","overlays.galaxyField(二次元の場の表示)");   // 第298便c(R167): overlays.spaceMesh は三次元で対応(慣性決定力の場 —— 受動プローブ・Z=0 の面)
   const B=(p && Array.isArray(p.bodies))? p.bodies : [];
   B.forEach((b,i)=>{
     if(!b || typeof b!=="object") return;
@@ -7971,7 +8036,7 @@ function coord3dDenyOf(p){
       if(b.pulse) add("pulse",at+".pulse(パルス時計 —— 時計)");
       if(b.spinDipole) add("spinDipole",at+".spinDipole(スピン双極子)");
       if(b.tide) add("tide",at+".tide(明示潮汐)");
-      if(b[DRAG_CORE_KEY]) add("dragCore",at+".dragCore(慣性決定力の構造核)");
+      // 第298便c(R167): dragCore(慣性決定力の構造核)は三次元で対応(表は r だけの関数 —— 第 2 段で開けた)
       if(b.zonal) add("zonal",at+".zonal(E13 帯状重力 —— 赤道面の補正)");
       if(b.railOmega) add("rail",at+".railOmega(規定運動のレール —— 面内の円)");
       if(b.densityClass!==undefined) add("densityClass",at+".densityClass(表裏核の密度 —— 二次元の核)");
@@ -7995,12 +8060,12 @@ function coord3dRuntimeWhy(S){
   if(geoEffectiveMode(S)!==0 || p[GEODESIC_KEY]===true) return "geoPN(測地線・1PN)";
   if(p.halo) return "physics.halo";
   if(p.petersGW===true) return "physics.petersGW";
-  if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial" && S.relDrag.spinSource===undefined)) return "physics.relativeDrag";
+  if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";   // 第298便c: spinSource・spinDrag・dragCore は三次元で対応
   const fl=["hasSpaceMesh","hasCoordInertia","hasPairWeave","hasMeshReservoir","hasSpinSpin","hasAxisForce","hasCompactForce","hasBodyLayers","hasCoreV2",
     "hasTide","hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasShapeToy","hasCoreField","hasSpiral","hasCoreAxis","hasMeshVelocity",
     "hasCenterCapture","hasFixedCapture","hasShed","hasLightTrap","hasPeriSub"];
   for(const k of fl) if(S[k]===true) return k;
-  if(S.thermal==="tint" || S.fusion || S.box || S.measureBox || S.phase || S.zonal || S._phSched || S.dragCoreD) return "thermal/fusion/box/phase/zonal/photon/dragCore";
+  if(S.thermal==="tint" || S.fusion || S.box || S.measureBox || S.phase || S.zonal || S._phSched) return "thermal/fusion/box/phase/zonal/photon";   // 第298便c: dragCore は三次元で対応
   if(S.rays && S.rays.n>0) return "rays";
   if(S.echoFlipAt!==null) return "echoFlipAt";
   if(S.world && S.world.boundary!=="none") return "world.boundary";
@@ -13996,6 +14061,75 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
+// ===== 第298便c(原仮定者の裁定(第88報)「三次元座標化する」・統括の検証項目 R167): 🌦️ earthMoonSunInertial3d —— 🌥️ の三次元の写し(月の軌道傾斜 5.145° の再現作業)=====
+// 🌥️ の写しを physics.coord:"3d" で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(平均離心率 0.0549・恒星月 27.321661 日・平均傾斜 5.145°)を
+// 118 公転の走行の平均で満たす (近地点距離, t=0 の接触離心率, t=0 の接触傾斜) の 3 元 Newton(器 tests/exp-w298c-moon3d.mjs)。近点回転は軌道面の中の近点経度で数えた。
+// gain の探索(0 から)で 118 公転窓の 8.85 年を挟んだ(gain 0 で 8.8989 年・格子 0.226756 と 0.559953 の間)。🌥️ は 1 字も変えない。fitRecord は正本 tests/out/moon3d-w298c.json と同じ。
+{ id:"earthMoonSunInertial3d", name:"太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索", emoji:"🌦️", group:"現実較正",
+  // 家族 earthmoon には入れない(入れると在位の variant が畳みの閾値 6 に達する —— 家族への編入は決断事項。比べる相手は説明文の 🌥️)
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // 🌥️ と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg)
+  sampleClass:"principle",
+  referenceKind:"observation-fit",
+  fidelity:"real",
+  notClaim:["solar_cal","apsidal_8p85_3d","gain_universal_fit"],
+  orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
+  abBody:{ label:{ja:"gain 0 に戻す(三次元の写しの探索の起点 —— 118 公転窓 8.8989 年)", en:"set the gain to 0 (the start of the 3D search - 8.8989 yr over 118 orbits)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:0, eps:0.01, history:"positions", pairs:[[1,2]]}} },
+  obsCard:[
+      {q:"何を置いたか", model:"🌥️ の写しを physics.coord:\"3d\" で走らせ、月の軌道面を黄道(xy 面)に対し傾けた(昇交点 = t=0 の地球→月の方向)。重心・質量・半径・自転・地球の構造核は 🌥️ のまま・geoPN=3・λ_PN=0", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"初期配置(入力)", model:"近地点距離 3.5716702・t=0 の接触離心率 0.0753227・接触傾斜 5.28885° → 118 公転の平均 離心率 0.054900・恒星月 27.32166 日・傾斜 5.1450°", obs:"平均離心率 0.0549・恒星月 27.321661 日・軌道傾斜 5.145°(平均要素)"},
+      {q:"近点周期(実測・118 公転窓)", model:"軌道面の中の近点経度で数えた。gain 0 で 8.8989 年(二次元の 🌥️ は 8.7873 年・傾斜 0 の三次元は二次元と同値)", obs:"8.85 年"},
+      {q:"gain の探索(実測)", model:"格子の 0.226756 で 8.8565 年・0.559953 で 8.7943 年 —— 8.85 年を挟んだ。根を詰めて初期配置を解き直し gain 0.259335 で 8.8500 年(h/2 8.8502・h/4 8.8503)", obs:"8.85 年"},
+      {q:"窓と抽出器(実測)", model:"354 公転窓は 8.8261 年(118 公転窓との差 −0.0239)・離心ベクトルの方位 8.8276 年・位相の回帰 8.5629 年(118 公転窓)。器の中だけの参照積分器(傾斜・gain 0)は 8.8643 年", obs:"8.85 年"},
+      {q:"言わないこと", model:"8.85 年を法則が予言したとは言わない。gain は系ごとの経験係数(移送値の 1/198)・初期配置は平均要素に合わせた入力", obs:"—"}],
+  descStruct:{
+      summary:"**慣性決定力版の太陽・地球・月の三次元の写し —— 月の軌道傾斜 5.145° を入れた再現作業**(法則は重力 E4 と慣性引きずり —— 第298便c・原仮定者の裁定〔第88報〕「三次元座標化する」・統括の検証項目 R167)。🌥️(二次元 —— 第297便b の再現作業)の次に疑う実装として挙げた**二次元の射影**を外すため、🌥️ を書き換えずに写して physics.coord:\"3d\" で走らせ、月の軌道面を黄道(xy 面 —— 地球の公転面)に対して傾けた。初期配置は平均要素(平均離心率 0.0549・恒星月 27.321661 日・平均軌道傾斜 5.145°)を 118 公転・h・gain 0 の走行の平均で満たす (近地点距離 3.5716702, t=0 の接触離心率 0.0753227, t=0 の接触傾斜 5.28885°) に置いた(3 元の Newton —— 入力の見直しであって法則の予言ではない。昇交点は t=0 の地球→月の方向・元期の宣言なし)。近点の向きは**軌道面の中の近点経度** ϖ = Ω + u(瞬間の軌道面の昇交点 Ω と面内の角 u)で数える(xy の方位だけでは数えない)。gain 0 の 118 公転窓の近点周期は 8.8989 年(二次元の 🌥️ は 8.7873 年 —— 傾斜 0 の三次元は二次元と全窓で同値)で、標的 8.85 年の上にある。**gain の探索**(器 tests/exp-w298c-moon3d.mjs —— SI で 10⁻⁶〜0.0514182 m³/kg の対数格子+0・h と h/2): 近点周期は gain とともに単調に短くなり、格子の 0.226756(8.8565 年)と 0.559953(8.7943 年)の間で 8.85 年を挟んだ。根を Illinois で詰め、根の gain で初期配置を解き直して 2 回繰り返した最終値が **gain 0.259335 [L³/M](SI 2.59335×10⁻⁴ m³/kg —— 🌛 から移送した値の 1/198)で 118 公転窓 8.8500 年**(h/2 8.8502・h/4 8.8503)。記録は fitRecord(w298b-1 の 3 標的 —— 近点回転・恒星月・平均離心率)。354 公転窓は 8.8261 年(窓の差 −0.0239 年 —— 定常の率ではない)。",
+      observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で月の近点の向きが順行に回るのを見る。視点のスライダーで横から見ると、月の軌道面が黄道に対して傾いているのが見える。数は説明タブの「フィットの記録」(条件の署名の行)。",
+      control:"ワンタップの対照は gain 0(探索の起点 —— 118 公転窓 8.8989 年)。比べる相手は 🌥️(二次元 —— 同じ初期配置の考え方で傾斜なし・gain 0 で 8.7873 年)。"},
+  en:{name:"Sun, Earth & Moon (inertial determinacy, 3D) — the lunar inclination 5.145 deg and the search toward 8.85 yr",
+    obsCard:[
+      {q:"What is placed", model:"🌥️ run with physics.coord 3d, the Moon's orbital plane tilted to the ecliptic (xy plane; ascending node along the Earth-to-Moon direction at t=0); barycentre, masses, radii, spins and the Earth's structure core as in 🌥️; geoPN=3, lambda_PN=0", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"Initial configuration (inputs)", model:"perigee distance 3.5716702, osculating eccentricity 0.0753227 and inclination 5.28885 deg at t=0 -> 118-orbit means: eccentricity 0.054900, sidereal month 27.32166 d, inclination 5.1450 deg", obs:"mean eccentricity 0.0549, sidereal month 27.321661 d, inclination 5.145 deg (mean elements)"},
+      {q:"Apsidal period (measured, 118-orbit window)", model:"counted with the longitude of perigee in the orbital plane; gain 0: 8.8989 yr (2D 🌥️: 8.7873 yr; the 3D run at zero inclination equals 2D)", obs:"8.85 yr"},
+      {q:"Gain search (measured)", model:"grid 0.226756: 8.8565 yr, 0.559953: 8.7943 yr - 8.85 yr is bracketed; the root, with the initial configuration re-solved, is gain 0.259335 at 8.8500 yr (h/2 8.8502, h/4 8.8503)", obs:"8.85 yr"},
+      {q:"Windows and extractors (measured)", model:"354-orbit window 8.8261 yr (-0.0239 from 118 orbits); eccentricity-vector 8.8276 yr, phase regression 8.5629 yr (118 orbits); the harness-only reference integrator (tilted, gain 0) 8.8643 yr", obs:"8.85 yr"},
+      {q:"Not claimed", model:"the law is not said to predict 8.85 yr; the gain is an empirical per-system coefficient (1/198 of the transferred value); the initial configuration is an input matched to the mean elements", obs:"-"}],
+    descStruct:{
+      summary:"THE 3D COPY OF THE INERTIAL-DETERMINACY SUN, EARTH AND MOON - A REPRODUCTION EFFORT WITH THE LUNAR INCLINATION 5.145 DEG (laws: gravity E4 and the inertial drag; wave 298c; the originator's ruling in report 88: make the coordinates 3D; the coordinator's check item R167). To remove the TWO-DIMENSIONAL PROJECTION named as the next implementation to revisit in 🌥️ (2D - the wave-297b reproduction effort), 🌥️ is copied untouched and run with physics.coord 3d, and the Moon's orbital plane is tilted to the ecliptic (the xy plane - the Earth's orbital plane). The initial configuration (perigee distance 3.5716702, osculating eccentricity 0.0753227 and inclination 5.28885 deg at t=0) satisfies the mean elements (mean eccentricity 0.0549, sidereal month 27.321661 d, mean inclination 5.145 deg) as averages over a 118-orbit run at h with gain 0 (a three-variable Newton - an input revision, not a prediction of the law; the ascending node lies along the Earth-to-Moon direction at t=0; no epoch is declared). The apse is counted with THE LONGITUDE OF PERIGEE IN THE ORBITAL PLANE, varpi = Omega + u (node of the instantaneous plane plus the in-plane angle), not with the xy direction alone. At gain 0 the 118-orbit apsidal period is 8.8989 yr (2D 🌥️: 8.7873 yr - the 3D run at zero inclination equals 2D in every window), above the 8.85-yr target. THE GAIN SEARCH (harness tests/exp-w298c-moon3d.mjs - log grid 1e-6 to 0.0514182 m^3/kg in SI plus 0, h and h/2): the period shortens monotonically with the gain, and 8.85 yr is bracketed between grid points 0.226756 (8.8565 yr) and 0.559953 (8.7943 yr). The root was refined by Illinois and the initial configuration re-solved at the root gain, twice; the final value is GAIN 0.259335 [L^3/M] (SI 2.59335e-4 m^3/kg - 1/198 of the value transferred from 🌛) AT 8.8500 YR OVER 118 ORBITS (h/2 8.8502, h/4 8.8503). The record is fitRecord (version w298b-1 with three targets - apsidal period, sidereal month, mean eccentricity). The 354-orbit window gives 8.8261 yr (a window difference of -0.0239 yr - not a steady rate).",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse turn prograde. Turn the view slider to look side-on and the lunar orbital plane is seen tilted to the ecliptic. The numbers are in the 'fit record' card of the explanation tab (the condition-signature row).",
+      control:"The one-tap control is gain 0 (the start of the search - 8.8989 yr over 118 orbits). Compare with 🌥️ (2D - the same approach to the initial configuration without the tilt; 8.7873 yr at gain 0)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Sun's, the Earth's and the Moon's masses, radii and rotations, the Sun-Earth distance and the barycentre motion (as in 🌥️)",
+        "the Moon's mean eccentricity 0.0549 (NASA NSSDC), sidereal month 27.321661 d (Chapront 2002) and mean orbital inclination 5.145 deg (NASA NSSDC Moon Fact Sheet) - matched as run averages through the initial relative vector"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","physics.coord 3d (right-handed; the ecliptic is the xy plane)","geoPN=3, kFrame=0, lambda_PN=0",
+        "inertial drag relativeDrag:{law:\"inertial\", gain:0.259335, eps:0.01, history:\"positions\", pairs:[[1,2]]} (translation only - no rotational or axial drag declared)","the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in 🌥️); the Sun pinned"],
+      fitted:["gain 0.259335: the root bracketed in the gain search for the 118-orbit apsidal period 8.85 yr (status fitted - |residual| + h/2 difference <= declared tolerance)","initial relative vector: perigee distance 3.5716702, osculating eccentricity 0.0753227 and inclination 5.28885 deg at t=0 - a three-variable Newton on the 118-orbit run averages (an input revision, not a prediction)"],
+      derived:["kappa=G/c0^2=7.4258e-9","gain in SI 2.59335e-4 m^3/kg"],
+      numerical:["softening eps=0.01 = 10^6 m (gravity and the drag kernel)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","太陽・地球・月の実質量・実半径・実自転・太陽–地球距離と重心の運動(🌥️ のまま)",
+      "月の平均離心率 0.0549(NASA NSSDC)・恒星月 27.321661 日(Chapront 2002)・平均軌道傾斜 5.145°(NASA NSSDC Moon Fact Sheet)—— 初期の相対ベクトルで走行の平均に合わせた"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","physics.coord:\"3d\"(右手系・黄道は xy 面)","geoPN=3・kFrame=0・λ_PN=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:0.259335, eps:0.01, history:\"positions\", pairs:[[1,2]]}(並進だけ —— 回転引きずり・軸引きずりは宣言しない)","地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌥️ のまま)・太陽 pinned"],
+    fitted:["gain 0.259335: 118 公転窓の近点周期 8.85 年への gain の探索で挟んだ根(status fitted —— |残差|+h/2 の差 ≤ 照合許容の宣言)","初期の相対ベクトル: 近地点距離 3.5716702・t=0 の接触離心率 0.0753227・接触傾斜 5.28885° —— 118 公転の走行の平均への 3 元の Newton(入力の見直し —— 予言ではない)"],
+    derived:["κ=G/c₀²=7.4258×10⁻⁹","gain の SI 2.59335×10⁻⁴ m³/kg"],
+    numerical:["ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
+  fitRecord:{"version":"w298b-1","parent":"earthMoonSunInertialFit","law":"inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0","targets":[{"q":"近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)","obs":8.85,"unit":"yr","source":"月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)","window":"118 公転の窓 [0,118]・A1(慣性の対は地球と月だけ)","tol":{"value":0.005,"kind":"declared","note":"照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ","model":8.850002272639843,"residual":0.00000227263984342585,"rel":2.5679546253399437e-7,"numerics":{"h2":0.0001850428998722009,"dtHalf":0.008}},{"q":"恒星月(黄道経度の周回の平均間隔・118 公転窓)","obs":27.321661,"unit":"d","source":"恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力","window":"118 公転の窓","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(走行の平均に合わせた量 —— 予言ではない)"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 黄道経度(xy の方位)の通過","model":27.321661471052362,"residual":4.710523633377761e-7,"rel":1.724098558055369e-8,"numerics":{"h2":0.00000449931718904395,"dtHalf":0.008}},{"q":"平均離心率(接触離心率の時間平均・118 公転窓)","obs":0.0549,"unit":"無次元","source":"月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力","window":"118 公転の窓","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(走行の平均に合わせた量)"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 位置の中心差分の座標速度から作る接触離心率・64 步ごと","model":0.05490000752940848,"residual":7.52940848558481e-9,"rel":1.371476955479929e-7,"numerics":{"h2":0.0000013297620823221612,"dtHalf":0.008}}],"knobs":[{"key":"physics.relativeDrag.gain","range":[0,51.4182],"final":0.259335},{"key":"initial.moonPerigeeDistance","range":[3.4,3.8],"final":3.5716702},{"key":"initial.moonOscEccentricity0","range":[0.02,0.12],"final":0.0753227},{"key":"initial.moonOscInclination0","range":[4.5,6],"final":5.28885}],"fixed":["太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球の公転は円(面は xy = 黄道)","月の軌道傾斜は平均 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)5.145°)を 118 公転の走行の平均で満たす t=0 の接触傾斜 5.28885°・昇交点を t=0 の地球→月の方向(近地点・太陽の反対方向)に置いた(元期の宣言なし)","geoPN=3・kFrame=0・λ_PN=0・積分器 semi・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](🌥️ のまま)・地球の自転軸は有効化しない(回転引きずり・軸引きずりの宣言なし)"],"procedure":"段 2 の 3 元 Newton(近地点距離・t=0 の接触離心率・接触傾斜 → 平均離心率・恒星月・平均傾斜 —— gain 0・118 公転・h)→ 段 4 の gain の対数格子(SI 10⁻⁶〜0.0514182 m³/kg・13 点+0)を h と h/2 → 挟めたら Illinois → 根の gain で初期配置を解き直す(外側 2 回)→ 6 桁に丸めて h / h/2 / h/4 と 354 公転窓で測り直した(器 tests/exp-w298c-moon3d.mjs)","dt":0.016,"steps":1741368,"status":"fitted","notFitted":["機構(実際の主因は太陽摂動 —— 機構の同定ではない)","恒星月と平均離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)"],"cond":{"version":"w297b-cond-1","sig":"809f083d2a43d8e5","extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1)"}},
+  activeParams:["geoPN","dispMag"],   // gain・初期配置は主役スライダーにしない
+  camera:{scale:10,follow:1}, world:{boundary:"none",size:0},
+  timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360},
+  physics:{coord:"3d", G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:0.259335, eps:0.01, history:"positions", pairs:[[1,2]]}},
+  bodies:[   // 🌥️ の写し —— 地球→月の相対ベクトルを三次元で置き直し(重心の位置・速度は同じ)。並び: 0=太陽(pinned), 1=地球, 2=月
+    {type:"single", m:1988.5, radius:6.96, x:0, y:0, z:0, vx:0, vy:0, vz:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.0059724, radius:0.06371, x:1495.936602568754, y:0, z:0, vx:0, vy:2.977134946107245, vz:-0.0001234441189683723, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
+    {type:"single", m:7.346e-05, radius:0.0174, x:1499.508272768754, y:0, z:0, vx:0, vy:3.086884556617057, vz:0.010036178275615391, spin:0.026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
 // ===== 第280便b(原仮定者の裁定〔第70報〕「引きずり減衰 q の算出を見直す …表側と裏側の引きずりは逆転している …密度分布にも
 // 影響を受ける」・統括の読み R69/R70): **表裏核の診断コピー 🌓 earthMoonDiagOne**(sampleClass:"principle" — 較正母集団に入れない)。
 // 🌘 earthMoonRealKF1 と**同じ初期状態**(質量・半径・位置・自転・座標速度)から、引きずりの経路だけを
@@ -19038,6 +19172,126 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第298便c(原仮定者の裁定(第88報)「geoPN=4 は慣性決定力の多粒子版・三次元が既定」「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。
+//   『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」・統括の検証項目 R167): 🔗 の三次元の写し 2 本(🔗 は 1 字も書き換えない)=====
+// 🔩 chainDiskToy3d: 中心の自転軸を +z のまま有効化 —— 二次元の 🔗 と全状態ビット同一(器の零試験 (1))。空間メッシュ表示は慣性決定力の場(受動プローブ・Z=0 の面)。
+// 🪛 chainDiskToy3dTilt: 中心の自転軸を 30° 傾け、軸引きずり(axialCoupling 4 —— 宣言値・未較正)も宣言 —— 回転引きずりが面外の成分を持ち、粒子が面から浮く。
+// 数は器 tests/exp-w298c-drag3d.mjs の正本 tests/out/drag3d-w298c.json の実測(推定はしない)。
+{ id:"chainDiskToy3d", name:"連鎖引きずりの小円盤(三次元)— 自転軸を有効化した中心と多粒子(原理)", emoji:"🔩", group:"運動と時空",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  fidelity:"toy",
+  notClaim:["galaxy_disk","flat_rotation","gain_universal"],
+  obsCard:[
+    {q:"何を置いたか", model:"🔗 の写しを physics.coord:\"3d\" で走らせた(粒子は z=0 の面)。中心だけ自転軸を有効化(傾き 0 = +z)・spinDrag:{rot:\"surfaceFlip\", axial:\"off\"}", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"則(1 步)", model:"(I+L)u=s を x・y・z の 3 右辺で解く(係数は同じ N×N)。s に回転引きずり C m Ω M1(r)(â×ê)—— 大きさは sin∠(â,ê) に比例(赤道面で最大・軸上で 0)。x+=u·dt(v は触らない)", obs:"—"},
+    {q:"零試験(実測)", model:"軸 +z・z=0 では二次元の 🔗 と 200 步の全状態 488 値がビット同一(spinSource の別名でも同じ)", obs:"—"},
+    {q:"角変位(実測 2000 步)", model:"帯 r=6–12/12–18/18–24 の平均 Δθ 2.170/0.577/0.196 rad(🔗 と同じ)・反復 最大 40・残差 最大 1.0e-10・面外の変位 0", obs:"—"},
+    {q:"空間メッシュ(実測)", model:"受動プローブの門 相対 2.8e-11・r=8 の円の循環 36.6(自転 0 の対照 6.4e-5)・格子幅 5/2/1 の補間の誤差 rms 0.063/0.030/0.0072", obs:"—"},
+    {q:"言わないこと", model:"円盤や銀河の形成・平坦な回転曲線とは書かない。gain は宣言値(フィットしない)", obs:"—"}],
+  descStruct:{
+    summary:"**geoPN=4(慣性決定力の多粒子版)の三次元の標準の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 第298便c・原仮定者の裁定〔第88報〕「geoPN=4 は慣性決定力の多粒子版・三次元が既定」・統括の検証項目 R167)。🔗 chainDiskToy を書き換えずに写し、physics.coord:\"3d\" で走らせる。中心の一様球だけが自転軸を有効化し(傾き 0 —— +z)、三次元の慣性決定力の宣言 relativeDrag.spinDrag で**回転引きずり**(rot:\"surfaceFlip\" —— 源の点の速度 Ω â×ρ を一様球で体積平均した ⟨K_ε ρ⟩ = M1(r) ê から C m Ω M1 (â×ê)。外積が sin を持つので赤道面で最大・軸上で 0)を足す。**並進引きずり**は既存の連立 (I+L)u=s を x・y・z の 3 右辺で解く(係数は同じ)。軸引きずりはこの本では宣言しない(axial:\"off\")。粒子が z=0 の面にあり軸が +z のとき、三次元の走行は二次元の 🔗 と全状態がビット同一になる(器の零試験)。空間メッシュの表示は旧 physics.spaceMesh ではなく**この本の慣性決定力の場**(表示点を質量ゼロ・反作用なしの受け手として、同じ步の解 u_j と同じ核で u を求める受動プローブ —— Z=0 の面・矢印と凍結場の流線)で、自転する中心のまわりの渦が見える。",
+    observe:"表示の「空間メッシュ」を ON にすると、Z=0 の面の矢印と流線が自転する中心のまわりを回る。表示を ON/OFF しても状態は 1 bit も変わらない(器)。トレイルで粒子が回り出すのは 🔗 と同じ(帯ごとの Δθ も同じ値)。",
+    control:"ワンタップ対照A/B: B 側は回転引きずりを外す(spinDrag を宣言しない —— 並進の連鎖だけ)。比べる相手は 🔗(二次元・同じ値)と 🪛(軸を 30° 傾けた写し)。"},
+  en:{name:"Chain-dragging mini disc (3D) — a centre with an enabled spin axis and many particles (principle)",
+    obsCard:[
+      {q:"What is placed", model:"🔗 run with physics.coord 3d (particles on z=0); only the centre enables its axis (tilt 0 = +z); spinDrag rot surfaceFlip, axial off", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"The law (one step)", model:"(I+L)u=s solved for the x, y and z right-hand sides (same N x N); s gets the rotational drag C m Omega M1(r)(a x e), proportional to sin(a,e) (largest on the equator, zero on the axis); x+=u dt (v untouched)", obs:"-"},
+      {q:"Null test (measured)", model:"axis +z, z=0: all 488 state values bit-identical to 2D 🔗 over 200 steps (also with the spinSource alias)", obs:"-"},
+      {q:"Angular displacement (measured, 2000 steps)", model:"band means r=6-12/12-18/18-24: 2.170/0.577/0.196 rad (as 🔗); at most 40 iterations; residual at most 1.0e-10; no out-of-plane motion", obs:"-"},
+      {q:"Space mesh (measured)", model:"passive-probe gate 2.8e-11 relative; circulation on r=8 36.6 (spin-0 control 6.4e-5); interpolation error rms 0.063/0.030/0.0072 for cells 5/2/1", obs:"-"},
+      {q:"Not claimed", model:"no disc or galaxy formation, no flat rotation curve; gain is declared (not fitted)", obs:"-"}],
+    descStruct:{
+      summary:"THE 3D STANDARD SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) (laws: the spin dragging A8 and the transport law E6′ in 3D; wave 298c; the originator's ruling in report 88: geoPN=4 is the many-body version of the inertial determinacy and 3D is its default; the coordinator's check item R167). 🔗 chainDiskToy is copied untouched and run with physics.coord 3d. Only the central uniform sphere enables its spin axis (tilt 0 - +z), and the 3D inertial-determinacy declaration relativeDrag.spinDrag adds the ROTATIONAL DRAG (rot surfaceFlip - the source points' velocity Omega a x rho averaged over the uniform sphere gives <K_eps rho> = M1(r) e, hence C m Omega M1 (a x e); the cross product carries the sine, so it is largest on the equator and zero on the axis). The TRANSLATIONAL DRAG solves the existing system (I+L)u=s for the x, y and z right-hand sides (same coefficients). No axial drag is declared here (axial off). With the particles on z=0 and the axis along +z the 3D run is bit-identical to the 2D 🔗 (the harness's null test). The space-mesh display is not the legacy physics.spaceMesh but THIS SAMPLE'S INERTIAL-DETERMINACY FIELD (a passive probe: a massless receiver with no reaction at each display point, using the same step's solution u_j and the same kernel - plane Z=0, arrows and frozen-field streamlines), and it shows the vortex round the spinning centre.",
+      observe:"Turn on the space mesh in the display settings and the arrows and streamlines on the plane Z=0 circle the spinning centre. Switching the display on or off changes the state by not a single bit (harness). The particles start to turn as in 🔗 (the same band values).",
+      control:"One-tap A/B: side B drops the rotational drag (no spinDrag - translational chain only). Compare with 🔗 (2D, the same values) and 🪛 (the copy with the axis tilted 30 degrees)."},
+    parameterAudit:{
+      observedInputs:["NONE - this sample transcribes no observation"],
+      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+        "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 0 = +z)"],
+      fitted:["NOTHING - gain C_d=8 is 🔗's declared value"],
+      derived:["the rotational drag C m Omega M1(r)(a x e) uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"],
+      numerical:["drag-kernel softening eps=1, gravity softening 0.5","stateCarry double","solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"]}},
+  parameterAudit:{
+    observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
+    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 0 = +z)"],
+    fitted:["**無し** —— gain C_d=8 は 🔗 の宣言値"],
+    derived:["回転引きずり C m Ω M1(r)(â×ê)の M1 は二次元と同じ一様球の表裏核(r だけの関数)"],
+    numerical:["引きずりの核の軟化 ε=1・重力の軟化 0.5","stateCarry:\"double\"","解法の門 元の式の相対残差 1e-10(network-pcg-v1)・自転源の半径積分 区間あたり 16 点"]},
+  abBody:{ label:{ja:"回転引きずりを外す(並進の連鎖だけ)", en:"drop the rotational drag (translational chain only)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1"}} },
+  activeParams:["G","softening"],
+  camera:{scale:7}, world:{boundary:"none",size:0}, seed:20261008,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.005, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:4, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:3, dispMag:1,
+    stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1", spinDrag:{rot:"surfaceFlip", axial:"off"}}},
+  bodies:[
+    {type:"single", m:100, radius:6, x:0, y:0, vx:0, vy:0, spin:0.5, pinned:true, spinAxis:{enable:true, tiltDeg:0, source:"宣言(第298便c の原理の本 —— 観測ではない)"}},
+    {type:"disk", n:80, cx:0, cy:0, radius:24, mMin:5, mMax:5, spinMin:0, spinMax:0, vMode:"hubble", vScale:0, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+{ id:"chainDiskToy3dTilt", name:"連鎖引きずりの小円盤(三次元・軸 30°)— 傾いた自転軸の回転引きずりと軸引きずり(原理)", emoji:"🪛", group:"運動と時空",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  fidelity:"toy",
+  notClaim:["galaxy_disk","flat_rotation","gain_universal","axial_drag_unfitted"],
+  obsCard:[
+    {q:"何を置いたか", model:"🔩 の写しで中心の自転軸を +z から 30°(方位 0)傾け、軸引きずりを宣言(axial:\"on\"・axialCoupling 4 —— 宣言値・未較正)", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"則(1 步)", model:"回転引きずり C m Ω M1(r)(â×ê)は軸が傾くと面外の成分を持つ。軸引きずり ω = κ m Ω K_ε(r) μ² â(μ=ê·â —— 軸上で最大・赤道で 0)は受け手の姿勢を回すだけ(線速度に足さない)", obs:"—"},
+    {q:"角変位(実測 2000 步)", model:"帯 r=6–12/12–18/18–24 の平均 Δθ 2.225/0.470/0.157 rad・面外の変位 最大 6.86・vz 最大 0.406・反復 最大 40・残差 最大 1.0e-10", obs:"—"},
+    {q:"軸引きずり(実測 2000 步)", model:"受け手の角速度 |ω| 最大 0.285・粒子に軸が無いので垂直成分は数えて回さない(姿勢の角 rotA に足した合計 25.8 rad)", obs:"—"},
+    {q:"空間メッシュ(実測 50 步)", model:"Z=0 の面の |u|max 1.60・面に垂直な u_z 最大 0.921(矢印は XY へ投影)・軸引きずりの ω_z 最大 0.320(点の色)", obs:"—"},
+    {q:"言わないこと", model:"円盤・銀河・歳差の再現とは書かない。gain と κ は宣言値(フィットしない)", obs:"—"}],
+  descStruct:{
+    summary:"**傾いた自転軸の回転引きずりと軸引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 第298便c・原仮定者の裁定〔第88報〕「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」・統括の検証項目 R167)。🔩 の写しで、中心の自転軸を +z から 30° 傾ける。回転引きずり C m Ω M1(r)(â×ê)は粒子の面(z=0)に対して面外の成分を持つので、粒子は回りながら面から浮く。**軸引きずり**(spinDrag の axial:\"on\")は源の軸の向き â の角速度 ω = κ m Ω K_ε(r) μ² â を受け手に与え、受け手の**姿勢**(自転軸まわりの角 rotA と、軸を有効化した粒子の軸)を回す —— 線速度 u には足さない。角度則 μ²(両極対称・赤道 0)・距離の核 K_ε(並進と同じ点源)・係数 κ=4 はどれも宣言で、未較正(注記 axial_drag_unfitted)。この本の粒子は軸を有効化していないので、ω の垂直成分は数えるだけで軸は回さない(帳簿)。",
+    observe:"トレイルで粒子が回りながら面から浮くのを見る(視点のスライダーを 0 に近づけると横から見える)。表示の「空間メッシュ」を ON にすると Z=0 の面の u の XY への投影と流線、軸引きずりの ω_z を点の色(暖色 +・寒色 −)で出す。",
+    control:"ワンタップ対照A/B: B 側は軸引きずりを外す(axial:\"off\" —— 回転引きずりはそのまま)。B では姿勢の角だけが変わらず、位置と速度は A と同じ(軸引きずりは線速度に足さない)。比べる相手は 🔩(軸 +z)。"},
+  en:{name:"Chain-dragging mini disc (3D, axis 30 deg) — rotational and axial drag of a tilted spin axis (principle)",
+    obsCard:[
+      {q:"What is placed", model:"a copy of 🔩 with the centre's axis tilted 30 deg from +z (azimuth 0) and axial drag declared (axial on, axialCoupling 4 - declared, uncalibrated)", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"The law (one step)", model:"the rotational drag C m Omega M1(r)(a x e) gets an out-of-plane part once the axis tilts; the axial drag omega = kappa m Omega K_eps(r) mu^2 a (mu = e.a - largest on the axis, zero on the equator) only turns the receiver's attitude (never added to the linear velocity)", obs:"-"},
+      {q:"Angular displacement (measured, 2000 steps)", model:"band means r=6-12/12-18/18-24: 2.225/0.470/0.157 rad; largest out-of-plane offset 6.86, vz 0.406; at most 40 iterations; residual at most 1.0e-10", obs:"-"},
+      {q:"Axial drag (measured, 2000 steps)", model:"receiver angular velocity |omega| up to 0.285; the particles have no enabled axis, so the perpendicular part is counted, not applied (sum added to rotA 25.8 rad)", obs:"-"},
+      {q:"Space mesh (measured, 50 steps)", model:"plane Z=0: |u|max 1.60, normal component u_z up to 0.921 (arrows projected on XY), axial omega_z up to 0.320 (dot colour)", obs:"-"},
+      {q:"Not claimed", model:"no disc, galaxy or precession reproduced; gain and kappa are declared (not fitted)", obs:"-"}],
+    descStruct:{
+      summary:"A PRINCIPLE SAMPLE OF THE ROTATIONAL AND AXIAL DRAG OF A TILTED SPIN AXIS (laws: the spin dragging A8 and the transport law E6′ in 3D; wave 298c; the originator's ruling in report 88: in 3D the rotational drag is largest on the equator and zero along the spin axis; besides the translational and rotational drag there is an axial drag - largest along the axis, turning bodies about the same axis, zero on the equator; the coordinator's check item R167). A copy of 🔩 with the centre's axis tilted 30 degrees from +z. The rotational drag C m Omega M1(r)(a x e) now has a component normal to the particles' plane (z=0), so the particles rise out of the plane while they turn. The AXIAL DRAG (spinDrag axial on) gives each receiver the angular velocity omega = kappa m Omega K_eps(r) mu^2 a along the source axis and turns the receiver's ATTITUDE (the angle rotA about its own axis, and the axis of a body with an enabled axis) - it is never added to the linear velocity u. The angular law mu^2 (symmetric at both poles, zero on the equator), the distance kernel K_eps (the same point kernel as the translation) and kappa=4 are all declarations, uncalibrated (note axial_drag_unfitted). The particles here have no enabled axis, so the perpendicular part of omega is counted, not applied (ledger).",
+      observe:"Use the trail to watch the particles rise out of the plane while turning (move the view slider towards 0 to see it side-on). With the space mesh turned on, the display shows the projection of u on XY on the plane Z=0 with streamlines, and the axial omega_z as the dot colour (warm +, cool -).",
+      control:"One-tap A/B: side B drops the axial drag (axial off - the rotational drag stays). On side B only the attitude angle differs; positions and velocities match side A (the axial drag is never added to the linear velocity). Compare with 🔩 (axis +z)."},
+    parameterAudit:{
+      observedInputs:["NONE - this sample transcribes no observation"],
+      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+        "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 30 deg, azimuth 0)"],
+      fitted:["NOTHING - gain C_d=8 is 🔗's declared value; the axial coupling kappa=4 is declared, uncalibrated"],
+      derived:["the rotational drag C m Omega M1(r)(a x e) uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"],
+      numerical:["drag-kernel softening eps=1, gravity softening 0.5","stateCarry double","solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"]}},
+  parameterAudit:{
+    observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
+    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+      "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 30°・方位 0)"],
+    fitted:["**無し** —— gain C_d=8 は 🔗 の宣言値・軸引きずりの係数 κ=4 は宣言値(未較正)"],
+    derived:["回転引きずり C m Ω M1(r)(â×ê)の M1 は二次元と同じ一様球の表裏核(r だけの関数)"],
+    numerical:["引きずりの核の軟化 ε=1・重力の軟化 0.5","stateCarry:\"double\"","解法の門 元の式の相対残差 1e-10(network-pcg-v1)・自転源の半径積分 区間あたり 16 点"]},
+  abBody:{ label:{ja:"軸引きずりを外す(axial off —— 回転引きずりはそのまま)", en:"drop the axial drag (axial off - the rotational drag stays)"},
+    physicsPatch:{relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1", spinDrag:{rot:"surfaceFlip", axial:"off"}}} },
+  activeParams:["G","softening"],
+  camera:{scale:7}, world:{boundary:"none",size:0}, seed:20261008,
+  timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"},
+  physics:{coord:"3d", contactMode:"none", G:0.005, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0001,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:4, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:3, dispMag:1,
+    stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:8, eps:1, pairs:"all", solver:"network-pcg-v1", spinDrag:{rot:"surfaceFlip", axial:"on", axialCoupling:4}}},
+  bodies:[
+    {type:"single", m:100, radius:6, x:0, y:0, vx:0, vy:0, spin:0.5, pinned:true, spinAxis:{enable:true, tiltDeg:30, azimuthDeg:0, source:"宣言(第298便c の原理の本 —— 観測ではない)"}},
+    {type:"disk", n:80, cx:0, cy:0, radius:24, mMin:5, mMax:5, spinMin:0, spinMax:0, vMode:"hubble", vScale:0, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 // ===== 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。…三次元では自転軸の傾きを粒子ごとに有効化・歳差にも対応」・
 //   統括の検証項目 R165): 三次元の最初の検証本 2 本(physics.coord:"3d" —— 二次元の本は 1 本も書き換えていない) =====
 // 🌐 coord3dKeplerTilt: 傾いた軌道面(傾き 30°)の楕円二体 —— 周期(軌道面の位相で数える)と軌道面の保存を測る。
@@ -21475,11 +21729,14 @@ const SAMPLE_STATUS={
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
 "inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"},
 "chainDiskToy":{"purpose":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る","objective":"met","state":"共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/chain-w296c.json"],"en":{"purpose":"Test whether drag chains outward through neighbours of a spinning centre","state":"CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim","mismatch":null,"outlook":null,"brief":"Test whether drag chains outward through neighbours of a spinning centre. Met: CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim. Out of calibration scope."},"brief":"自転する中心と多粒子で引きずりが隣の粒子を通じて外へ連鎖するかを測る。達・共役勾配法の反復 最大 40・残差は許容 1e-10 の内側・外帯の角変位は連鎖を切った対照の 2.22 倍・円盤の形成や回転曲線ではない。較正対象外。"},
+"chainDiskToy3d":{"purpose":"🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る","objective":"met","state":"零試験で二次元の 🔗 とビット同一・帯の Δθ 2.170/0.577/0.196 rad・プローブの門 2.8e-11・循環 36.6","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/drag3d-w298c.json"],"en":{"purpose":"Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex","state":"bit-identical to 2D 🔗; band dTheta 2.170/0.577/0.196 rad; probe gate 2.8e-11; circulation 36.6","mismatch":null,"outlook":null,"brief":"Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex. Met: bit-identical to 2D 🔗; band dTheta 2.170/0.577/0.196 rad; probe gate 2.8e-11; circulation 36.6. Out of calibration scope."},"brief":"🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る。達・零試験で二次元の 🔗 とビット同一・帯の Δθ 2.170/0.577/0.196 rad・プローブの門 2.8e-11・循環 36.6。較正対象外。"},
+"chainDiskToy3dTilt":{"purpose":"中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る","objective":"met","state":"面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/drag3d-w298c.json"],"en":{"purpose":"Tilt the centre's axis 30 deg; measure out-of-plane and axial drag","state":"out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285","mismatch":null,"outlook":null,"brief":"Tilt the centre's axis 30 deg; measure out-of-plane and axial drag. Met: out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285. Out of calibration scope."},"brief":"中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る。達・面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)。較正対象外。"},
 "coord3dKeplerTilt":{"purpose":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る","objective":"met","state":"零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/coord3d-w298a.json"],"en":{"purpose":"Run a tilted-plane ellipse in 3D; measure period and plane","state":"bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg","mismatch":null,"outlook":null,"brief":"Run a tilted-plane ellipse in 3D; measure period and plane. Met: bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg. Out of calibration scope."},"brief":"三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る。達・零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段。較正対象外。"},
 "coord3dSpinPrecess":{"purpose":"三次元で 1 粒子だけ自転軸を有効化し宣言した歳差で回す表示を確かめる","objective":"met","state":"軸は解析値と 2.5e-16 で一致・傾きは保存・歳差は規定運動でトルクからは求めない・軸は力に入らない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/coord3d-w298a.json"],"en":{"purpose":"Enable one body's spin axis in 3D and precess it","state":"axis within 2.5e-16 of analytic; tilt kept; prescribed precession; no force","mismatch":null,"outlook":null,"brief":"Enable one body's spin axis in 3D and precess it. Met: axis within 2.5e-16 of analytic; tilt kept; prescribed precession; no force. Out of calibration scope."},"brief":"三次元で 1 粒子だけ自転軸を有効化し宣言した歳差で回す表示を確かめる。達・軸は解析値と 2.5e-16 で一致・傾きは保存・歳差は規定運動でトルクからは求めない・軸は力に入らない。較正対象外。"},
 "earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "earthMoonSunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る","objective":"met","state":"慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun","state":"Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"},
 "earthMoonSunInertialFit":{"purpose":"係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する","objective":"partial","state":"gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/fit-w297b.json"],"en":{"purpose":"parent copy with mean-element initial state; search the gain toward 8.85 yr","state":"gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%","mismatch":null,"outlook":null,"brief":"parent copy with mean-element initial state; search the gain toward 8.85 yr. Partial: gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%. Out of calibration scope."},"brief":"係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する。部分・gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%。較正対象外。"},
+"earthMoonSunInertial3d":{"purpose":"🌥️ を三次元で走らせ月の軌道傾斜を入れて 8.85 年へ gain を探索","objective":"met","state":"gain 0.259335 で 118 公転窓 8.8500 年・gain 0 は 8.8989 年・354 公転窓 8.8261 年","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/moon3d-w298c.json"],"en":{"purpose":"Run 🌥️ in 3D with the lunar inclination; search the gain to 8.85 yr","state":"gain 0.259335: 8.8500 yr over 118 orbits (h/2 8.8502); gain 0: 8.8989 yr; 354 orbits 8.8261 yr","mismatch":null,"outlook":null,"brief":"Run 🌥️ in 3D with the lunar inclination; search the gain to 8.85 yr. Met: gain 0.259335: 8.8500 yr over 118 orbits (h/2 8.8502); gain 0: 8.8989 yr; 354 orbits 8.8261 yr. Out of calibration scope."},"brief":"🌥️ を三次元で走らせ月の軌道傾斜を入れて 8.85 年へ gain を探索。達・gain 0.259335 で 118 公転窓 8.8500 年・gain 0 は 8.8989 年・354 公転窓 8.8261 年。較正対象外。"},
 "mercurySunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る","objective":"met","state":"近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure Mercury's apse and period","state":"apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure Mercury's apse and period. Met: apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る。達・近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ。較正対象外。"},
 "mercurySunInertialFit":{"purpose":"係数移送版の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる","objective":"met","state":"gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/fit-w297b.json"],"en":{"purpose":"parent copy; only the gain matched to the apsidal rate (43.0 arcsec/cy vs gain 0)","state":"gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched","mismatch":null,"outlook":null,"brief":"parent copy; only the gain matched to the apsidal rate (43.0 arcsec/cy vs gain 0). Met: gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched. Out of calibration scope."},"brief":"係数移送版の写しで gain だけを近点率(43.0″/世紀・gain 0 対照との差)に合わせる。達・gain 0.004522415・残差 1.27e-5 ≤ h/2 差 1.59e-4・周期と離心率は未調整・核は同定不可。較正対象外。"},
 "plutoCharonInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る","objective":"met","state":"第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the Pluto-Charon period","state":"rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the Pluto-Charon period. Met: rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る。達・第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ。較正対象外。"},
@@ -24651,6 +24908,9 @@ function validatePreset(obj){
     warnings.push("fitRecord の条件の署名が本の宣言と一致しません(以前の条件でのフィット —— 条件が変わった後は未再測定。記録は残します)");
   // 第298便a(原仮定者の裁定(第88報)・R165): **三次元の本の受理の門** —— 三次元で未対応の機能は拒否する(黙って二次元の式で動かさない)
   if(!errors.length && coordOf(p.physics)==="3d") for(const d of coord3dDenyOf(p)) bad('三次元(physics.coord:"3d")では未対応 —— '+d.why);
+  // 第298便c(R167): 三次元の慣性決定力の宣言 spinDrag は三次元の本だけ(二次元の本の自転源は従来の spinSource —— 黙って二次元の式で動かさない)
+  if(!errors.length && coordOf(p.physics)!=="3d" && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_SPIN3_KEY]!==undefined)
+    bad('physics.relativeDrag.spinDrag は三次元の本(physics.coord:"3d")だけ —— 二次元の自転源は spinSource:"surfaceFlip"(第298便c)');
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
   return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat}
                       : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, geoMode:geoModeOf(p.physics)};
@@ -34806,6 +35066,7 @@ function drawDragFieldOn(S,SXf,SYf){
   const V=_smDisplayView(S,SXf,SYf,"drag"); if(!V) return;
   const lx=V.sx0+8, ly=V.syB;
   if(!S.relDrag || S.relDrag.law!=="inertial"){ _smDrawLegend([T("smDragTitle"), T("smDragUndecl")],lx,ly,SPACE_MESH_DRAG_RGB); return; }
+  if(relDragComposeOf(S.relDrag)==="solve"){ drawProbeFieldOn(S,SXf,SYf); return; }   // 第298便c(R167): 合成則 solve(既定)の本は受動プローブで描く(旧: 理由だけを出して描かない)
   const D=spaceMeshDisplaySample(S,V); if(!D || !D.xs) return;
   _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_DRAG_RGB);
   const R=D.ready, leg=[T("smDragTitle")];
@@ -34832,6 +35093,56 @@ function drawDragFieldOn(S,SXf,SYf){
   leg.push(T(D.frame==="coordinate"? "smDragFrameCoord" : "smDragFrameCentroid"));
   leg.push(T("smDragLenNote"));
   _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB);
+}
+// 第298便c(R167): 受動プローブの描画(三次元の本と合成則 solve の本の drag —— Z=0 の面)。**書くのはキャンバスだけ**
+const SPACE_MESH_PROBE_RGB="150,215,255";
+function drawProbeFieldOn(S,SXf,SYf){
+  const V=_smDisplayView(S,SXf,SYf,"drag"); if(!V) return;   // 面が画面に垂直(θ=0)のときは描かない
+  const lx=V.sx0+8, ly=V.syB, leg=[T("smProbeTitle")];
+  if(!S.relDrag || S.relDrag.law!=="inertial"){ leg.push(T("smDragUndecl")); _smDrawLegend(leg,lx,ly,SPACE_MESH_PROBE_RGB); return; }
+  const D=inertialDragProbeSample(S,V); if(!D || !D.xs){ if(D && D.ready && !D.ready.ready){ leg.push(T("smProbeNotReady")(D.ready.why)); _smDrawLegend(leg,lx,ly,SPACE_MESH_PROBE_RGB); } return; }
+  _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_PROBE_RGB);
+  const um=D.uMax, ur=(D.uRef>0)? D.uRef : um, Lmax=0.45*Math.abs(SXf(D.h)-SXf(0)), lw=ctx.lineWidth;
+  if(um>0){
+    const SL=inertialDragProbeStreamlines(D,12,48);
+    ctx.lineWidth=1; ctx.strokeStyle="rgba("+SPACE_MESH_PROBE_RGB+",0.30)";
+    ctx.beginPath();
+    for(const L of SL){ ctx.moveTo(SXf(L[0][0]),SYf(L[0][1])); for(let k=1;k<L.length;k++) ctx.lineTo(SXf(L[k][0]),SYf(L[k][1])); }
+    ctx.stroke();
+    ctx.lineWidth=1.2; ctx.strokeStyle="rgba("+SPACE_MESH_PROBE_RGB+",0.85)";
+    ctx.beginPath();
+    for(let k=0;k<D.nodes;k++){
+      const ux=D.ux[k], uy=D.uy[k], m=Math.hypot(ux,uy);
+      if(!(m>0)) continue;
+      const L=Lmax*Math.min(1,Math.cbrt(m/ur)); if(L<0.75) continue;
+      const x0=SXf(D.xs[k]), y0=SYf(D.ys[k]);
+      const dx=SXf(D.xs[k]+ux/m)-x0, dy=SYf(D.ys[k]+uy/m)-y0, dl=Math.hypot(dx,dy)||1;
+      const ex=dx/dl, ey=dy/dl, x1=x0+ex*L, y1=y0+ey*L, hd=Math.min(5,0.35*L);
+      ctx.moveTo(x0,y0); ctx.lineTo(x1,y1);
+      ctx.moveTo(x1,y1); ctx.lineTo(x1-hd*(ex*0.87-ey*0.5), y1-hd*(ey*0.87+ex*0.5));
+      ctx.moveTo(x1,y1); ctx.lineTo(x1-hd*(ex*0.87+ey*0.5), y1-hd*(ey*0.87-ex*0.5));
+    }
+    ctx.stroke();
+  }
+  if(D.wz && D.wMax>0){   // 軸引きずりの角速度 ω_z(速度の矢印とは別の表現 —— 点の色)
+    const sv=ctx.fillStyle;
+    for(let k=0;k<D.nodes;k++){
+      const w=D.wz[k]; if(w===0) continue;
+      const a=Math.min(1,Math.cbrt(Math.abs(w)/D.wMax));
+      ctx.fillStyle=(w>0)? "rgba(255,170,90,"+(0.15+0.75*a).toFixed(3)+")" : "rgba(110,160,255,"+(0.15+0.75*a).toFixed(3)+")";
+      ctx.beginPath(); ctx.arc(SXf(D.xs[k]),SYf(D.ys[k]),2.5,0,7); ctx.fill();
+    }
+    ctx.fillStyle=sv;
+  }
+  ctx.lineWidth=lw;
+  const R=D.ready;
+  leg.push("C_d="+_smFx(R.gain)+" / ε="+_smFx(R.eps)+" / h="+_smFx(D.h)+" / t_s="+_smFx(R.tSample)+" / gate "+_smFx(R.relMax));
+  leg.push("|u|max="+_smFx(um)+" / |u|ref(95%)="+_smFx(ur));
+  leg.push(T(D.frame==="coordinate"? "smDragFrameCoord" : "smDragFrameCentroid"));
+  leg.push(T("smProbePlane"));
+  if(D.wz) leg.push(T("smProbeAxial")(_smFx(D.wMax)));
+  leg.push(T("smProbeNote"));
+  _smDrawLegend(leg,lx,ly,SPACE_MESH_PROBE_RGB);
 }
 function drawLightRulerOn(S,SXf,SYf){
   const V=_smDisplayView(S,SXf,SYf,"ruler"); if(!V) return;
@@ -34861,6 +35172,8 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
   const mode=_smViewMode(S);
   if(!mode) return;
   if(S) S._smKeepMode=mode;                        // トグル往復で復帰するモード(**sim ごと**)
+  // 第298便c(原仮定者の裁定(第88報)・R167): 三次元の本の空間メッシュは**慣性決定力の場**(受動プローブ・Z=0 の面)だけ —— 旧メッシュ系の表示(二次元の場)は描かない
+  if(S && S.coord3d===true){ drawProbeFieldOn(S,SXf,SYf); return; }
   // ---- mesh(蓄積格子・第257便c): **重心原点の凍結場の診断図**。他のバックエンドは 1 つも触らない
   if(mode==="mesh"){ drawSpaceGridOn(S,SXf,SYf); return; }
   // ---- tracer(物質線): 局所場の tracer だけを描いて終わる。空間線も頂点メッシュも描かない
@@ -35647,7 +35960,9 @@ function syncHud(){
   // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
   let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/appStepDt(sim))}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;   // 第297便c: 步数 = t/画面の刻み
   { const tl=timeStdHudLine(); if(tl) txt+="\n"+tl; }   // 第297便c(R163): 時間の標準(1 公転 ≈ N 步・倍率・頭打ちなら実効倍率)
-  if(sim.coord3d===true){ let nAx=0; for(let i=0;i<sim.n;i++) if(sim.saOn[i]) nAx++; txt+="\n"+T("hudCoord3d")(nAx, sim.coord3dHalt||null); }   // 第298便a(R165): 三次元の本だけ 1 行(二次元の本は 1 文字も増えない)
+  if(sim.coord3d===true){ let nAx=0; for(let i=0;i<sim.n;i++) if(sim.saOn[i]) nAx++; txt+="\n"+T("hudCoord3d")(nAx, sim.coord3dHalt||null);
+    const sd3=relDrag3SpinOf(sim.relDrag); if(sd3) txt+="\n"+T("hudSpin3")(sd3.rot, sd3.axial, sd3.kappa, Number(sim.inertialDrag3AxOmMax||0).toExponential(2)); }   // 第298便c(R167): 三次元の慣性決定力の宣言の本だけ
+  if(sim.params && sim.params[SPACE_MESH_KEY] && typeof sim.params[SPACE_MESH_KEY]==="object" && sim.params[SPACE_MESH_KEY].lawVersion!==undefined) txt+="\n"+T("hudMeshDeprecated");   // 第298便c(原仮定者の裁定(第88報)「精度の低い physics.spaceMesh は廃止予定」): 旧法則版を宣言した本だけ   // 第298便a(R165): 三次元の本だけ 1 行(二次元の本は 1 文字も増えない)
   // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
   // 窓内では1文字も増えない(クラッタ回避)。表示専用 — 物理には一切フィードバックしない。
   // A/B比較中は simB も同じ座標時間だけ進む(loop() 内 for 文が両方を同じ k だけ step する)ため
@@ -37280,8 +37595,31 @@ function geo0ChoiceSync(){
 // modeSettingIssues(modeIssueSrcOfSim(editSim()))。呼ぶ場所: buildParamRows の末尾(プリセット適用・既定に戻す・セーブ/JSON の読込・A/B の対象変更・
 // 言語変更はどれも buildParamRows を通る)・geoPN/kFrame の入力の変更・geoPN=0 の選択肢の適用・gain の宣言/変更。戻り値は判定の一覧(QA 用)
 const MODE_DEV_KEYS=["geoPN","kFrame","lambdaPN"];   // 第297便a(R161): λ_PN 行にも赤文字(lambdaPnOnDrag の fields)
+// 第298便c(原仮定者の裁定(第88報)「geoPN=4 は三次元が既定」「physics.spaceMesh は廃止予定」・R167): geoPN 行の**情報の行**(逸脱ではない —— 警告の code に入れない)。
+//   二次元の 4 の本に「既定は三次元(この本は互換)」・旧 spaceMesh を宣言した本に「廃止予定」。純関数(S の宣言だけを読む)
+function geoInfoNotesOf(S){
+  const out=[];
+  if(!S || !S.params) return out;
+  if(S.params.geoPN>=4 && S.coord3d!==true) out.push("geo4CoordNote");
+  const sm=S.params[SPACE_MESH_KEY];
+  if(sm && typeof sm==="object" && sm.lawVersion!==undefined) out.push("smMeshDeprecated");
+  return out;
+}
+function refreshGeoInfoNotes(S){
+  const row=document.querySelector('#paramRows .prow[data-k="geoPN"]');
+  if(!row) return;
+  const keys=geoInfoNotesOf(S);
+  let el=row.querySelector(":scope > .modeInfo");
+  if(!keys.length){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement("div"); el.className="modeInfo"; el.setAttribute("role","note"); el.style.cssText="font-size:11px;opacity:.8;margin-top:2px;white-space:pre-line";
+    const cv=row.querySelector(":scope > .convVal"); if(cv) cv.after(el); else row.appendChild(el); }
+  const txt=keys.map((k)=>"ⓘ "+T(k)).join("\n");
+  el.dataset.notes=keys.join(" ");
+  if(el.textContent!==txt) el.textContent=txt;
+}
 function refreshModeDeviation(){
   let S=null; try{ S=editSim(); }catch(e){ S=null; }
+  try{ refreshGeoInfoNotes(S); }catch(_){}   // 第298便c: 情報の行(逸脱の判定とは別)
   const list=(S && S.params)? modeSettingIssues(modeIssueSrcOfSim(S), modeIssueOptsOfSim(S)) : [];   // 第296便a: 本の fitRecord も
   document.querySelectorAll("#paramRows .prow[data-k]").forEach((row)=>{
     const k=row.dataset.k;
@@ -37554,6 +37892,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of COORD3D_ARRS) if(sim[k] && simB[k]) simB[k].set(sim[k].subarray(0,sim.n));
     simB.spin3PrescL=sim.spin3PrescL.slice(); simB.spin3PrescN=sim.spin3PrescN; simB.coord3dHalt=sim.coord3dHalt; simB.hasSpinAx3=sim.hasSpinAx3;
     if(sim.rdPrevZ){ const N=sim.rdPrevZ.length; simB.rdPrevZ=Float64Array.from(sim.rdPrevZ); simB._rdVZ=new Float64Array(N); simB._rdUZ=new Float64Array(N); simB._rdNZ=new Float64Array(N); }
+    // 第298便c(R167): 三次元の慣性決定力の帳簿(回転引きずり・軸引きずり・移送の dL3)
+    if(sim.inertialDragDL3){ simB.inertialDragDL3=sim.inertialDragDL3.slice(); simB.inertialDrag3AxL=sim.inertialDrag3AxL.slice();
+      for(const k of INERTIAL_DRAG3_SC) simB[k]=sim[k]; }
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
@@ -37770,7 +38111,9 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ",
   "z","vz","carVz","sax","say","saz","rdPrevZ"];   // 第298便a(R165): 三次元の状態(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
-const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
+const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];
+const INERTIAL_DRAG3_SC=["inertialDrag3RotSrc","inertialDrag3RotN","inertialDrag3RotSkip","inertialDrag3RotMax","inertialDrag3AxN","inertialDrag3AxOmMax","inertialDrag3AxRotA",
+  "inertialDrag3AxAxisN","inertialDrag3AxPerpSkip","inertialDrag3AxPerpSkipMax"];   // 第298便c: A/B 複製で運ぶ三次元の慣性決定力の帳簿(三次元の本だけ)   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -40298,7 +40641,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
-11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
+11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。省略可の dragQ(粒子別の引きずり減衰指数 0.5〜40・既定は physics.q)。
@@ -51875,7 +52219,8 @@ function dragCoreInit(S){
     if(!d) continue;
     if(!(eps>0) || !(d.R>0) || !(d.massFrac>0) || !(d.massFrac<=1) || !(d.radius>0) || !(d.radius<=d.R)){ src.push({index:i, skipped:"invalid"}); continue; }
     let far=0;
-    for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }
+    if(S.coord3d===true && S.z){ for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i], S.z[j]-S.z[i]); if(z>far) far=z; } }   // 第298便c: 三次元の本は z も含めた距離
+    else for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }
     const rMax=(ct.rMax!==undefined)? ct.rMax : DRAG_CORE_RMAX_FACTOR*Math.max(far, 2*d.R);
     const t=dragCoreTableBuild(d,d.R,eps,n,rMax,gl);
     T[i]=t;
@@ -51916,6 +52261,7 @@ function inertialDragInit(S){
     }
   }
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
+  if(S.coord3d===true) inertialDrag3LedgerInit(S);   // 第298便c: 三次元の本だけ(二次元の本には鍵を作らない)
 }
 function inertialDragClear(S){
   S.rdPrevX=null; S.rdPrevY=null; S.rdPrevT=null; S._rdVX=S._rdVY=S._rdUX=S._rdUY=S._rdDeg=S._rdNX=S._rdNY=null;
@@ -52314,7 +52660,8 @@ function inertialDragState(S){
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
     ...(S._dragCore? {dragCore:dragCoreState(S)} : null),   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
-    ...((relDragComposeOf(S.relDrag)==="solve")? {compose:inertialDragComposeState(S)} : null) };   // 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
+    ...((relDragComposeOf(S.relDrag)==="solve")? {compose:inertialDragComposeState(S)} : null),
+    ...((S.coord3d===true)? {spin3:inertialDrag3SpinState(S)} : null) };   // 第298便c: 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない) / 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
 }
 // 第293便e: 合成則 solve の読み口(状態は 1 bit も動かさない)
 // ===== 第298便a(原仮定者の裁定(第88報)・統括の検証項目 R165): **三次元の步**(三次元の本だけが通る —— `S._core` の外の別の核)=====
@@ -52532,8 +52879,11 @@ function dfmInertialDragStep3(S,dt){
   const set=S._rdPairSet, NP=S._rdPairN;
   if(hist) for(let i=0;i<n;i++){ VX[i]=(X[i]-PX[i])/dt; VY[i]=(Y[i]-PY[i])/dt; VZ[i]=(Z[i]-PZ[i])/dt; }
   let degMax=0, coincident=false;
+  // 第298便c: 構造核(dragCore)の表 —— 二次元と同じ規約(粒子が入れ替わったら表を捨てて点源へ)。表は r だけの関数なので三次元の距離で引く
+  let CT=S._dragCoreT;
+  if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
   const comp=(relDragComposeOf(rd)==="solve");
-  if(comp){ const q=dfmInertialDrag3Build(S,n,hist,C,e2); coincident=q.coincident; degMax=q.degMax;
+  if(comp){ const q=dfmInertialDrag3Build(S,n,hist,C,e2,CT); coincident=q.coincident; degMax=q.degMax;
     if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } }
   else for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, uz=0, deg=0;
@@ -52545,7 +52895,7 @@ function dfmInertialDragStep3(S,dt){
       if(!(mj>0) || !Number.isFinite(mj)) continue;
       const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z[j]-Z[i], r2=dx*dx+dy*dy+dz*dz;
       if(!(r2>0)){ coincident=true; break; }
-      const r=Math.sqrt(r2), s=r2+e2, a=C*mj*(r/(s*s));
+      const r=Math.sqrt(r2), s=r2+e2, kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null, a=C*mj*((kv===null)? (r/(s*s)) : kv);
       if(hist){ ux+=a*(VX[j]-VX[i]); uy+=a*(VY[j]-VY[i]); uz+=a*(VZ[j]-VZ[i]); }
       deg+=a;
     }
@@ -52557,9 +52907,17 @@ function dfmInertialDragStep3(S,dt){
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
   if(degMax>S.inertialDragDegMax) S.inertialDragDegMax=degMax;
   if(bound>=1) S.inertialDragOver++;
-  let dU=0, Px=0, Py=0, Pz=0, Jx=0, Jy=0, Jz=0, dL=0, uMax=0, nMoved=0;
+  let dU=0, Px=0, Py=0, Pz=0, Jx=0, Jy=0, Jz=0, dL=0, dLx=0, dLy=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
   // ---- 第 2 段の差し込み場所(s を組んだ後・解く前): 三次元の回転引きずり・軸引きずりの項を UX/UY/UZ(= s)へ足す ----
+  // 第298便c(R167): 回転引きずり(s へ —— 二次元の inertialDragSpinTerm と同じ位置)・軸引きずり(受け手の自転の角速度 ω —— s には足さない・移送の後で姿勢へ)
+  const sd3=(hist && comp)? relDrag3SpinOf(rd) : null;
+  if(sd3){   // 核が使った源の軸の写し(受動プローブ inertialDragProbeAt が同じ軸で読む —— 移送の後の軸引きずり・歳差で軸が回っても標本は步の相のまま)
+    if(!S._rdSAX || S._rdSAX.length<n){ S._rdSAX=new Float64Array(n); S._rdSAY=new Float64Array(n); S._rdSAZ=new Float64Array(n); }
+    for(let i=0;i<n;i++){ S._rdSAX[i]=S.sax[i]; S._rdSAY[i]=S.say[i]; S._rdSAZ[i]=S.saz[i]; }
+  }
+  if(sd3 && sd3.rot) inertialDrag3RotTerm(S,n,C,eps);
+  if(sd3 && sd3.axial) inertialDrag3AxialOmega(S,n,sd3.kappa,eps);
   if(hist && comp) dfmInertialDrag3Solve(S,n);
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, NZ=S._rdNZ, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
@@ -52573,6 +52931,7 @@ function dfmInertialDragStep3(S,dt){
         Px+=mi*ux; Py+=mi*uy; Pz+=mi*uz;
         Jz+=mi*(X[i]*uy-Y[i]*ux); Jx+=mi*(Y[i]*uz-Z[i]*uy); Jy+=mi*(Z[i]*ux-X[i]*uz);
         dL+=mi*(ux*S.vy[i]-uy*S.vx[i])*dt;
+        if(S.inertialDragDL3){ const vxi=S.vx[i], vyi=S.vy[i], vzi=S.vz[i]; dLx+=mi*(uy*vzi-uz*vyi)*dt; dLy+=mi*(uz*vxi-ux*vzi)*dt; }   // 第298便c: 移送が運んだ軌道角運動量 Σ m (u×v) dt の x・y(z は dL)
         const um=(uz===0)? Math.hypot(ux,uy) : Math.hypot(ux,uy,uz); if(um>uMax) uMax=um;
       }
     }
@@ -52588,13 +52947,15 @@ function dfmInertialDragStep3(S,dt){
   for(let i=0;i<n;i++){ PX[i]=X[i]; PY[i]=Y[i]; PZ[i]=Z[i]; PT[i]=t; }
   S.rdEpoch=ep;
   if(nMoved){ const NX=S._rdNX, NY=S._rdNY, NZ=S._rdNZ; for(let i=0;i<n;i++){ X[i]=NX[i]; Y[i]=NY[i]; Z[i]=NZ[i]; } }
+  if(sd3 && sd3.axial) inertialDrag3AxialApply(S,n,dt);   // 第298便c: 軸引きずり —— 受け手の姿勢(rotA・有効化した軸)を ω dt だけ回す(位置・速度は触らない)
+  if(S.inertialDragDL3){ S.inertialDragDL3[0]+=dLx; S.inertialDragDL3[1]+=dLy; S.inertialDragDL3[2]+=dL; }
   S.inertialDragPx=Px; S.inertialDragPy=Py; S.inertialDragPz=Pz; S.inertialDragJz=Jz; S.inertialDragJx=Jx; S.inertialDragJy=Jy;
   S.inertialDragDU=dU; S.inertialDragUMax=uMax;
   S.inertialDragWork+=dU; S.inertialDragDL+=dL;
   return { hist, bound, degMax, uMax, nMoved, dU, Px, Py, Pz, Jx, Jy, Jz, dL, reject:coincident? "coincident" : null, version:REL_DRAG_INERTIAL_VERSION, coord:"3d" };
 }
-// inertialDragComposeBuild の三次元版(同じ式・同じ順序 —— 構造核の表は読まない)
-function dfmInertialDrag3Build(S,n,hist,C,e2){
+// inertialDragComposeBuild の三次元版(同じ式・同じ順序 —— 第298便c: 構造核の表 CT も二次元と同じに読む〔表は r だけの関数〕)
+function dfmInertialDrag3Build(S,n,hist,C,e2,CT){
   if(n>REL_DRAG_SOLVE_NMAX) return {coincident:false, degMax:0, tooLarge:true};
   const X=S.x, Y=S.y, Z=S.z, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
   const vel=(relDragSolveFromOf(S.relDrag)==="velocity");
@@ -52614,8 +52975,9 @@ function dfmInertialDrag3Build(S,n,hist,C,e2){
       if(!(mj>0) || !Number.isFinite(mj)) continue;
       const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z[j]-Z[i], r2=dx*dx+dy*dy+dz*dz;
       if(!(r2>0)) return {coincident:true, degMax};
-      const r=Math.sqrt(r2), s=r2+e2;
-      const a=C*mj*(r/(s*s));
+      const r=Math.sqrt(r2), s=r2+e2, Tj=CT? CT[j] : null;
+      const kv=Tj? dragCoreLookup(Tj,r) : null;
+      const a=C*mj*((kv===null)? (r/(s*s)) : kv);
       A[row+j]=a;
       if(hist){ ux+=a*(WX[j]-WX[i]); uy+=a*(WY[j]-WY[i]); uz+=a*(WZ[j]-WZ[i]); }
       deg+=a;
@@ -52721,6 +53083,114 @@ function dfmInertialDrag3Solve(S,n){
     return {method, res, sMax, uMax, iters:pcg.iters, restarts:pcg.restarts, converged:pcg.converged, breakdown:pcg.breakdown, adopted};
   }
   return {method, res, sMax, uMax};
+}
+// ===== 第298便c(原仮定者の裁定(第88報)・統括の検証項目 R167): **三次元の慣性決定力 —— 回転引きずりと軸引きずり**(三次元の本だけ・`S._core` の外)=====
+// 宣言の解決(spinDrag が正本・spinSource:"surfaceFlip" は {rot:"surfaceFlip", axial:"off"} の別名)。宣言の無い本は null
+function relDrag3SpinOf(rd){
+  if(!rd || rd.law!=="inertial") return null;
+  const sd=rd[REL_DRAG_SPIN3_KEY];
+  if(sd) return {rot:sd.rot===REL_DRAG_SPIN3_ROT[0], axial:sd.axial==="on", kappa:(sd.axial==="on")? sd.axialCoupling : 0, src:"spinDrag"};
+  if(rd.spinSource===REL_DRAG_SPIN_SOURCES[0]) return {rot:true, axial:false, kappa:0, src:"spinSource"};
+  return null;
+}
+function inertialDrag3LedgerInit(S){
+  S.inertialDragDL3=[0,0,0];
+  S.inertialDrag3RotSrc=0; S.inertialDrag3RotN=0; S.inertialDrag3RotSkip=0; S.inertialDrag3RotMax=0;
+  S.inertialDrag3AxN=0; S.inertialDrag3AxOmMax=0; S.inertialDrag3AxL=[0,0,0]; S.inertialDrag3AxRotA=0; S.inertialDrag3AxAxisN=0;
+  S.inertialDrag3AxPerpSkip=0; S.inertialDrag3AxPerpSkipMax=0;
+  S._rdWX=null; S._rdWY=null; S._rdWZ=null;
+}
+// 回転引きずり: 源 j(質量が正・スピン ≠ 0・宣言半径 > 0)ごとに、受け手 i(質量が正・宣言した対)の s_i へ C m_j Ω_j M1(r)(â_j × ê) を足す。
+//   d = x_i − x_j(源から受け手)・r = |d|・ê = d/r・M1 は二次元と同じ inertialSpinMoment(r だけの関数 —— 一様球の ⟨K_ε(|d−ρ|) ρ⟩ = M1 ê)。
+//   â×d は外積の成分そのまま(大きさ r sin∠(â,ê) —— 赤道で最大・軸上で 0。sin を重ねない)。ループの順(源が外・受け手が内)と式は二次元の
+//   inertialDragSpinTerm と同じ —— â=+z・dz=0 なら x・y の演算列が二次元と同じ(−f·dy を f·(0·0 − 1·dy) で作る —— 符号の反転は丸めない)
+function inertialDrag3RotTerm(S,n,C,eps){
+  const X=S.x, Y=S.y, Z=S.z, m=S.m, sp=S.spin, Rd=S.radOv, AX=S.sax, AY=S.say, AZ=S.saz, set=S._rdPairSet, NP=S._rdPairN, UX=S._rdUX, UY=S._rdUY, UZ=S._rdUZ;
+  if(!S._rdSpinGL) S._rdSpinGL=dfmGaussLegendre01(REL_DRAG_SPIN_NODES);
+  const gl=S._rdSpinGL;
+  let nSrc=0, nAdd=0, skip=0, tMax=0;
+  for(let j=0;j<n;j++){
+    const Om=sp[j], R=Rd[j], mj=m[j];
+    if(Om===0 || !(R>0) || !(mj>0) || !Number.isFinite(mj) || !Number.isFinite(Om)) continue;
+    nSrc++;
+    const ax=AX[j], ay=AY[j], az=AZ[j];
+    for(let i=0;i<n;i++){
+      if(i===j) continue;
+      const mi=m[i];
+      if(!(mi>0) || !Number.isFinite(mi)) continue;
+      if(set && !set.has(i*NP+j)) continue;
+      const dx=X[i]-X[j], dy=Y[i]-Y[j], dz=Z[i]-Z[j], r=Math.sqrt(dx*dx+dy*dy+dz*dz);
+      const M1=inertialSpinMoment(r, R, eps, gl);
+      if(M1===null){ skip++; continue; }
+      const f=C*mj*Om*M1/r;
+      const cx=ay*dz-az*dy, cy=az*dx-ax*dz, cz=ax*dy-ay*dx;   // â × d
+      UX[i]+=f*cx; UY[i]+=f*cy; UZ[i]+=f*cz; nAdd++;
+      const tm=Math.abs(f)*Math.sqrt(cx*cx+cy*cy+cz*cz); if(tm>tMax) tMax=tm;
+    }
+  }
+  S.inertialDrag3RotSrc=nSrc; S.inertialDrag3RotN+=nAdd; S.inertialDrag3RotSkip+=skip; if(tMax>S.inertialDrag3RotMax) S.inertialDrag3RotMax=tMax;
+  return {nSrc, nAdd, skip, tMax};
+}
+// 軸引きずりの角速度 ω_i = Σ_j κ m_j Ω_j K_ε(r) μ² â_j(μ = ê·â_j)を S._rdWX/WY/WZ へ(移送の前の座標 —— 並進・回転と同じ相)。
+//   受け手: 質量が正・pinned でない・宣言した対。一致点は足さない(並進の build が拒否を数える)。線速度 u には足さない
+function inertialDrag3AxialOmega(S,n,kap,eps){
+  const X=S.x, Y=S.y, Z=S.z, m=S.m, sp=S.spin, pin=S.pinned, AX=S.sax, AY=S.say, AZ=S.saz, set=S._rdPairSet, NP=S._rdPairN, e2=eps*eps;
+  if(!S._rdWX || S._rdWX.length<n){ S._rdWX=new Float64Array(n); S._rdWY=new Float64Array(n); S._rdWZ=new Float64Array(n); }
+  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ;
+  for(let i=0;i<n;i++){ WX[i]=0; WY[i]=0; WZ[i]=0; }
+  for(let j=0;j<n;j++){
+    const Om=sp[j], mj=m[j];
+    if(Om===0 || !(mj>0) || !Number.isFinite(mj) || !Number.isFinite(Om)) continue;
+    const ax=AX[j], ay=AY[j], az=AZ[j];
+    for(let i=0;i<n;i++){
+      if(i===j || pin[i]) continue;
+      const mi=m[i];
+      if(!(mi>0) || !Number.isFinite(mi)) continue;
+      if(set && !set.has(i*NP+j)) continue;
+      const dx=X[i]-X[j], dy=Y[i]-Y[j], dz=Z[i]-Z[j], r2=dx*dx+dy*dy+dz*dz;
+      if(!(r2>0)) continue;
+      const r=Math.sqrt(r2), mu=(dx*ax+dy*ay+dz*az)/r, s=r2+e2, w=kap*mj*Om*(r/(s*s))*mu*mu;
+      WX[i]+=w*ax; WY[i]+=w*ay; WZ[i]+=w*az;
+    }
+  }
+}
+// 軸引きずりを受け手の姿勢へ: ω の軸方向成分 ω∥ = ω·â_i は rotA へ(rotA += ω∥ dt)・垂直成分 ω⊥ は自転軸を有効化し歳差を宣言していない粒子だけ
+// 軸を回す(â ← â cos θ + (p̂×â) sin θ・θ = |ω⊥| dt・p̂ = ω⊥/|ω⊥|)。軸を持たない粒子(+z の規約)と規定運動の歳差の粒子の ω⊥ は**回さずに数える**
+// (S.inertialDrag3AxPerpSkip・最大 |ω⊥|)。自転の角速度の大きさ S.spin は変えない。軸が回った分の I s Δâ(I=½mR²)を S.inertialDrag3AxL へ
+function inertialDrag3AxialApply(S,n,dt){
+  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ, m=S.m, R=S.R, sp=S.spin;
+  if(!WX) return;
+  let nOm=0, omMax=0, rotA=0, nAx=0, skip=0, skipMax=0;
+  for(let i=0;i<n;i++){
+    const wx=WX[i], wy=WY[i], wz=WZ[i];
+    if(wx===0 && wy===0 && wz===0) continue;
+    nOm++;
+    const om=Math.hypot(wx,wy,wz); if(om>omMax) omMax=om;
+    const ax=S.sax[i], ay=S.say[i], az=S.saz[i], wp=wx*ax+wy*ay+wz*az;
+    S.rotA[i]+=wp*dt; rotA+=Math.abs(wp*dt);
+    const px=wx-wp*ax, py=wy-wp*ay, pz=wz-wp*az, wq=Math.hypot(px,py,pz);
+    if(!(wq>0)) continue;
+    if(S.saOn[i] && S.saOm[i]===0){
+      const th=wq*dt, c=Math.cos(th), sn=Math.sin(th), qx=px/wq, qy=py/wq, qz=pz/wq;
+      let nx=ax*c+(qy*az-qz*ay)*sn, ny=ay*c+(qz*ax-qx*az)*sn, nz=az*c+(qx*ay-qy*ax)*sn;
+      const nn=Math.hypot(nx,ny,nz); nx/=nn; ny/=nn; nz/=nn;
+      const Js=0.5*m[i]*R[i]*R[i]*sp[i];
+      S.inertialDrag3AxL[0]+=Js*(nx-ax); S.inertialDrag3AxL[1]+=Js*(ny-ay); S.inertialDrag3AxL[2]+=Js*(nz-az);
+      S.sax[i]=nx; S.say[i]=ny; S.saz[i]=nz; nAx++;
+    } else { skip++; if(wq>skipMax) skipMax=wq; }
+  }
+  S.inertialDrag3AxN+=nOm; if(omMax>S.inertialDrag3AxOmMax) S.inertialDrag3AxOmMax=omMax;
+  S.inertialDrag3AxRotA+=rotA; S.inertialDrag3AxAxisN+=nAx; S.inertialDrag3AxPerpSkip+=skip; if(skipMax>S.inertialDrag3AxPerpSkipMax) S.inertialDrag3AxPerpSkipMax=skipMax;
+}
+// 読み口(三次元の本だけ —— 状態を 1 bit も動かさない)
+function inertialDrag3SpinState(S){
+  if(!S || S.coord3d!==true || !S.relDrag || S.relDrag.law!=="inertial") return null;
+  const sd=relDrag3SpinOf(S.relDrag);
+  return { version:REL_DRAG_SPIN3_VERSION, decl:sd? {rot:sd.rot? REL_DRAG_SPIN3_ROT[0] : "off", axial:sd.axial? "on" : "off", axialCoupling:sd.axial? sd.kappa : null, from:sd.src} : null,
+    axialLaw:REL_DRAG_AXIAL_LAW, dL3:S.inertialDragDL3? S.inertialDragDL3.slice() : null,
+    rot:{sources:S.inertialDrag3RotSrc||0, terms:S.inertialDrag3RotN||0, skip:S.inertialDrag3RotSkip||0, max:S.inertialDrag3RotMax||0},
+    axial:{terms:S.inertialDrag3AxN||0, omegaMax:S.inertialDrag3AxOmMax||0, dLspin:S.inertialDrag3AxL? S.inertialDrag3AxL.slice() : null, rotA:S.inertialDrag3AxRotA||0,
+      axisTurns:S.inertialDrag3AxAxisN||0, perpSkip:S.inertialDrag3AxPerpSkip||0, perpSkipMax:S.inertialDrag3AxPerpSkipMax||0} };
 }
 function inertialDragComposeState(S){
   if(!S || !S.relDrag || relDragComposeOf(S.relDrag)!=="solve") return null;
@@ -53002,6 +53472,160 @@ function inertialDragFieldReady(S){
   out.ready=(out.checked>0 && out.same===out.checked);
   if(!out.ready) out.why=(out.checked>0)? "stale" : "noReceiver";
   return out;
+}
+// ===== 第298便c(原仮定者の裁定(第88報)「表示の『空間メッシュ』で渦状の引きずりが見えるよう物理と表示の両面で精度を上げる(表示は Z=0 の公転面)」・
+//   統括の検証項目 R167): **受動プローブ** —— 合成則 solve(既定)の本の u を、表示点 p に置いた**質量ゼロ・反作用なしの受け手**として読む =====
+// 受け手 p の行だけを同じ式で書く(p は源にならない —— a_jp = C m_p K = 0 なので他の行は変わらない = 連立解を解き直さない):
+//   (1+deg_p) u_p − Σ_j a_pj u_j = s_p、s_p = Σ_j a_pj (W_j − W_p) + 回転引きずりの源項(rot —— 二次元の spinSource は â=+z)
+//   ⇒ **u_p = [Σ_j a_pj (W_j − W_p + u_j) + rot_p] / (1 + deg_p)**(a_pj = C m_j K_ε(r) —— 構造核の表があれば同じ表・r は三次元の距離)
+// 読むのは直近の步の核の標本: 位置 rdPrevX/Y/Z(移送の前の相)・W(solveFrom velocity は S.vx〔步の後に書き換わっていれば ready:false〕/ history は _rdVX)・
+// 解 u_j(_rdUX/UY/UZ)・源の軸(三次元は核が使った軸の写し _rdSA*)。W_p は受け手の系: "centroid"(源の質量加重平均 —— 既定)/ "coordinate"(0)。
+// 軸引きずりの角速度 ω_p = Σ_j κ m_j Ω_j K_ε μ² â_j は**別の量**として返す(速度 u_p に足さない —— 表示は色と回転記号)。
+// 門 `inertialDragProbeReady(S)`: 実在の受け手 i を p=x_i・W_p=W_i・宣言した対・i を除いて同じ式で引き直し、核の u_i と相対 PROBE_READY_TOL 以内か(直接法は丸め・
+// PCG は solverTol の内側)。**状態を 1 bit も書かない**(作業配列は表示のキャッシュ —— S の鍵には書かない)。
+const PROBE_VERSION = "w298c-probe-1";
+const PROBE_READY_TOL = 1e-8;
+function inertialDragProbeAt(S,x,y,z,opt){
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial" || relDragComposeOf(S.relDrag)!=="solve") return null;
+  const n=S.n, PX=S.rdPrevX, PY=S.rdPrevY, PZ=(S.coord3d===true)? S.rdPrevZ : null, UX=S._rdUX, UY=S._rdUY, UZ=(S.coord3d===true)? S._rdUZ : null;
+  if(!PX || !UX || PX.length<n || UX.length<n || (S.coord3d===true && (!PZ || !UZ || PZ.length<n))) return null;
+  const o=opt||{}, rd=S.relDrag, m=S.m, c3=(S.coord3d===true);
+  const vel=(relDragSolveFromOf(rd)==="velocity");
+  const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY, WZ=c3? (vel? S.vz : S._rdVZ) : null;
+  if(!WX || !WY || (c3 && !WZ)) return null;
+  const C=rd.gain, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;
+  const skip=(Number.isInteger(o.skip) && o.skip>=0 && o.skip<n)? o.skip : -1;
+  const set=(skip>=0)? S._rdPairSet : null, NP=S._rdPairN;
+  let wpx=0, wpy=0, wpz=0, frame;
+  if(skip>=0){ wpx=WX[skip]; wpy=WY[skip]; wpz=c3? WZ[skip] : 0; frame="particle"; }
+  else {
+    frame=(SPACE_MESH_DRAG_FRAMES.indexOf(o.frame)>=0)? o.frame : SPACE_MESH_DRAG_FRAMES[0];
+    if(frame==="centroid"){
+      let ms=0, sx=0, sy=0, sz=0;
+      for(let j=0;j<n;j++){ const mj=m[j]; if(!(mj>0) || !Number.isFinite(mj)) continue; ms+=mj; sx+=mj*WX[j]; sy+=mj*WY[j]; if(c3) sz+=mj*WZ[j]; }
+      if(ms>0){ wpx=sx/ms; wpy=sy/ms; wpz=sz/ms; }
+    }
+  }
+  const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y), pz=(skip>=0)? (c3? PZ[skip] : 0) : (Number(z)||0);
+  if(!Number.isFinite(px) || !Number.isFinite(py) || !Number.isFinite(pz)) return null;
+  const CT=S._dragCoreT||null, sd=c3? relDrag3SpinOf(rd) : ((rd.spinSource===REL_DRAG_SPIN_SOURCES[0])? {rot:true, axial:false, kappa:0} : null);
+  const AX=c3? (S._rdSAX||S.sax) : null, AY=c3? (S._rdSAY||S.say) : null, AZ=c3? (S._rdSAZ||S.saz) : null;
+  const sp=S.spin, Rd=S.radOv;
+  if(sd && sd.rot && !S._rdSpinGL) S._rdSpinGL=dfmGaussLegendre01(REL_DRAG_SPIN_NODES);
+  const gl=S._rdSpinGL;
+  let sx=0, sy=0, sz=0, deg=0, rx=0, ry=0, rz=0, wx=0, wy=0, wz=0, coincident=false, near=0;
+  for(let j=0;j<n;j++){
+    if(j===skip) continue;
+    if(set && !set.has(skip*NP+j)) continue;
+    const mj=m[j];
+    if(!(mj>0) || !Number.isFinite(mj)) continue;
+    const dx=PX[j]-px, dy=PY[j]-py, dz=c3? PZ[j]-pz : -pz, r2=dx*dx+dy*dy+dz*dz;
+    if(!(r2>0)){ if(skip>=0){ coincident=true; break; } near++; continue; }   // 表示点が源に重なった点は足さない(数える)
+    const r=Math.sqrt(r2), s=r2+e2, kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;
+    const a=C*mj*((kv===null)? (r/(s*s)) : kv);
+    sx+=a*(WX[j]-wpx+UX[j]); sy+=a*(WY[j]-wpy+UY[j]); if(c3) sz+=a*(WZ[j]-wpz+UZ[j]);
+    deg+=a;
+    const Om=sp[j];
+    if(sd && Om!==0 && Number.isFinite(Om)){
+      const ax=c3? AX[j] : 0, ay=c3? AY[j] : 0, az=c3? AZ[j] : 1, ex=-dx, ey=-dy, ez=-dz;   // d = 受け手 − 源
+      if(sd.rot && Rd[j]>0){
+        const M1=inertialSpinMoment(r, Rd[j], eps, gl);
+        if(M1!==null){ const f=C*mj*Om*M1/r; rx+=f*(ay*ez-az*ey); ry+=f*(az*ex-ax*ez); rz+=f*(ax*ey-ay*ex); }
+      }
+      if(sd.axial){ const mu=(ex*ax+ey*ay+ez*az)/r, w=sd.kappa*mj*Om*(r/(s*s))*mu*mu; wx+=w*ax; wy+=w*ay; wz+=w*az; }
+    }
+  }
+  if(coincident) return { u:null, reject:"coincident", frame, version:PROBE_VERSION };
+  const d=1+deg;
+  return { u:[(sx+rx)/d, (sy+ry)/d, (sz+rz)/d], deg, rot:[rx/d, ry/d, rz/d], omega:(sd && sd.axial)? [wx,wy,wz] : null, ref:[wpx,wpy,wpz], frame, near,
+    at:[px,py,pz], gain:C, eps, version:PROBE_VERSION };
+}
+function inertialDragProbeReady(S){
+  const out={ declared:false, ready:false, why:null, checked:0, same:0, relMax:0, tol:PROBE_READY_TOL, tSample:null, gain:null, eps:null, n:S? S.n : 0,
+    coord:(S && S.coord3d===true)? "3d" : "2d", version:PROBE_VERSION };
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial"){ out.why="undeclared"; return out; }
+  out.declared=true; out.gain=S.relDrag.gain; out.eps=(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0);
+  if(relDragComposeOf(S.relDrag)!=="solve"){ out.why="composeSum"; return out; }
+  const n=S.n;
+  if(!S.rdPrevX || !S._rdUX || S.rdPrevX.length<n){ out.why="noSample"; return out; }
+  if(!(S.inertialDragN>0)){ out.why="noHistory"; return out; }
+  if(S.rdEpoch!==inertialDragEpoch(S)){ out.why="epoch"; return out; }
+  if(S.inertialDragHalt===true){ out.why="halt"; return out; }
+  out.tSample=(n>0)? S.rdPrevT[0] : null;
+  const c3=(S.coord3d===true), lim=Math.min(n,64);
+  let uScale=0;
+  for(let i=0;i<n;i++){ const um=Math.hypot(S._rdUX[i],S._rdUY[i],c3? S._rdUZ[i] : 0); if(um>uScale) uScale=um; }
+  for(let i=0;i<lim;i++){
+    const mi=S.m[i];
+    if(!(mi>0) || !Number.isFinite(mi) || (S.pinned && S.pinned[i])) continue;
+    const q=inertialDragProbeAt(S,0,0,0,{skip:i});
+    out.checked++;
+    if(!q || !q.u) continue;
+    const e=Math.hypot(q.u[0]-S._rdUX[i], q.u[1]-S._rdUY[i], c3? q.u[2]-S._rdUZ[i] : 0), rel=(uScale>0)? e/uScale : e;
+    if(rel>out.relMax) out.relMax=rel;
+    if(rel<=PROBE_READY_TOL || e===0) out.same++;
+  }
+  out.ready=(out.checked>0 && out.same===out.checked);
+  if(!out.ready) out.why=(out.checked>0)? "stale" : "noReceiver";
+  return out;
+}
+// 表示の表(Z=0 の面 —— 格子点の u を XY へ投影・軸引きずりの ω_z を別の欄)。view は spaceMeshDisplaySample と同じ形。状態を書かない
+function inertialDragProbeSample(S,view){
+  if(!S || !view) return null;
+  const hx=Number(view.hx), hy=Number(view.hy), cx=Number(view.cx), cy=Number(view.cy);
+  if(![hx,hy,cx,cy].every(Number.isFinite) || !(hx>0) || !(hy>0)) return null;
+  const res=(Number.isInteger(view.res) && view.res>=SPACE_MESH_RES_MIN && view.res<=SPACE_MESH_RES_MAX)? view.res : SPACE_MESH_RES_DEF;
+  const h=_smNiceStep(2*Math.min(hx,hy)/res);
+  const i0=Math.ceil((cx-hx)/h), i1=Math.floor((cx+hx)/h), j0=Math.ceil((cy-hy)/h), j1=Math.floor((cy+hy)/h);
+  const nx=Math.max(0,i1-i0+1), ny=Math.max(0,j1-j0+1);
+  const out={ mode:"probe", h, res, i0, j0, nx, ny, nodes:nx*ny, xs:null, ys:null, plane:0, version:PROBE_VERSION };
+  if(out.nodes>SPACE_MESH_RES_MAX*SPACE_MESH_RES_MAX*4){ out.why="tooMany"; return out; }
+  const rdy=inertialDragProbeReady(S); out.ready=rdy;
+  const frame=(SPACE_MESH_DRAG_FRAMES.indexOf(view.frame)>=0)? view.frame : SPACE_MESH_DRAG_FRAMES[0]; out.frame=frame;
+  if(!rdy.ready) return out;
+  const X=new Float64Array(out.nodes), Y=new Float64Array(out.nodes), UX=new Float64Array(out.nodes), UY=new Float64Array(out.nodes), WZ=new Float64Array(out.nodes);
+  let uMax=0, wMax=0, axial=false;
+  for(let b=0;b<ny;b++) for(let a=0;a<nx;a++){
+    const k=b*nx+a; X[k]=(i0+a)*h; Y[k]=(j0+b)*h;
+    const q=inertialDragProbeAt(S,X[k],Y[k],0,{frame});
+    if(!q || !q.u) continue;
+    UX[k]=q.u[0]; UY[k]=q.u[1];
+    const um=Math.hypot(q.u[0],q.u[1]); if(um>uMax) uMax=um;
+    if(q.omega){ axial=true; WZ[k]=q.omega[2]; const wa=Math.abs(q.omega[2]); if(wa>wMax) wMax=wa; }
+  }
+  out.xs=X; out.ys=Y; out.ux=UX; out.uy=UY; out.uMax=uMax; out.wz=axial? WZ : null; out.wMax=wMax;
+  const MG=new Float64Array(out.nodes); for(let k=0;k<out.nodes;k++) MG[k]=Math.hypot(UX[k],UY[k]);
+  out.uRef=_smQuantile(MG,0.95)||uMax;
+  return out;
+}
+// 凍結場の流線(表示専用 —— 格子の表 D の u を双一次で補間し RK4 で積む。補間の外・|u|=0 で止める)。seeds は世界座標の点の配列。戻り値は折れ線の配列
+function inertialDragProbeBilinear(D,x,y){
+  const fx=(x/D.h)-D.i0, fy=(y/D.h)-D.j0;
+  if(!(fx>=0) || !(fy>=0) || fx>D.nx-1 || fy>D.ny-1) return null;
+  const a=Math.min(D.nx-2,Math.floor(fx)), b=Math.min(D.ny-2,Math.floor(fy)), tx=fx-a, ty=fy-b, k=b*D.nx+a;
+  if(a<0 || b<0) return null;
+  const w00=(1-tx)*(1-ty), w10=tx*(1-ty), w01=(1-tx)*ty, w11=tx*ty;
+  return [w00*D.ux[k]+w10*D.ux[k+1]+w01*D.ux[k+D.nx]+w11*D.ux[k+D.nx+1], w00*D.uy[k]+w10*D.uy[k+1]+w01*D.uy[k+D.nx]+w11*D.uy[k+D.nx+1]];
+}
+function inertialDragProbeStreamlines(D,nSeed,nStep){
+  if(!D || !D.ux || D.nx<2 || D.ny<2 || !(D.uRef>0)) return [];
+  const lines=[], ds=0.5*D.h, ns=Math.max(2,nSeed|0), st=Math.max(1,nStep|0);
+  const dir=(x,y)=>{ const u=inertialDragProbeBilinear(D,x,y); if(!u) return null; const m=Math.hypot(u[0],u[1]); return (m>1e-3*D.uRef)? [u[0]/m,u[1]/m] : null; };
+  const x0=D.i0*D.h, y0=D.j0*D.h, Wd=(D.nx-1)*D.h, Ht=(D.ny-1)*D.h;
+  for(let a=0;a<ns;a++) for(let b=0;b<ns;b++){
+    let x=x0+(a+0.5)/ns*Wd, y=y0+(b+0.5)/ns*Ht;
+    const L=[[x,y]];
+    for(let k=0;k<st;k++){
+      const k1=dir(x,y); if(!k1) break;
+      const k2=dir(x+0.5*ds*k1[0], y+0.5*ds*k1[1]); if(!k2) break;
+      const k3=dir(x+0.5*ds*k2[0], y+0.5*ds*k2[1]); if(!k3) break;
+      const k4=dir(x+ds*k3[0], y+ds*k3[1]); if(!k4) break;
+      x+=ds*(k1[0]+2*k2[0]+2*k3[0]+k4[0])/6; y+=ds*(k1[1]+2*k2[1]+2*k3[1]+k4[1])/6;
+      L.push([x,y]);
+    }
+    if(L.length>2) lines.push(L);
+  }
+  return lines;
 }
 function lightRulerAt(S,x,y){
   if(!S || !S.params) return null;
@@ -56122,6 +56746,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   REL_DRAG_SOLVE_ITERS_RANGE, REL_DRAG_SOLVE_DIRECT_MAX, REL_DRAG_SOLVE_NMAX, REL_DRAG_COMPOSE_VERSION,   // 第293便e
   inertialSpinMoment, inertialDragPCG, inertialDragSpinTerm, relDragSolverTolOf, relDragSolverMaxIterOf, REL_DRAG_SOLVERS, REL_DRAG_SOLVER_TOL_DEFAULT,
   REL_DRAG_SOLVER_MAXITER_DEFAULT, REL_DRAG_SPIN_SOURCES, REL_DRAG_SPIN_NODES, REL_DRAG_CHAIN_VERSION,   // 第296便c
+  REL_DRAG_SPIN3_KEY, REL_DRAG_SPIN3_KEYS, REL_DRAG_SPIN3_ROT, REL_DRAG_SPIN3_AXIAL, REL_DRAG_AXIAL_COUPLING_RANGE, REL_DRAG_SPIN3_VERSION, REL_DRAG_AXIAL_LAW,   // 第298便c
+  relDrag3SpinOf, inertialDrag3RotTerm, inertialDrag3AxialOmega, inertialDrag3AxialApply, inertialDrag3SpinState,
+  PROBE_VERSION, PROBE_READY_TOL, inertialDragProbeAt, inertialDragProbeReady, inertialDragProbeSample, inertialDragProbeBilinear, inertialDragProbeStreamlines,
   REL_DRAG_COMPOSE_DEFAULT, REL_DRAG_SOLVE_FROM_DEFAULT, relDragComposeOf, relDragSolveFromOf,   // 第293便g
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
