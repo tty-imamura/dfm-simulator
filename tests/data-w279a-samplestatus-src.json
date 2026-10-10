@@ -113,6 +113,30 @@
     "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim"
    }
   },
+  "coord3dKeplerTilt": {
+   "purpose": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る",
+   "objective": "met",
+   "state": "零試験で二次元とビット同一・周期の差は相対 7.9e-4(刻み 1/2 で 2.1e-4)・軌道面のずれ 4.1e-5°・三次元の引きずりは第 2 段",
+   "evidence": [
+    "tests/out/coord3d-w298a.json"
+   ],
+   "en": {
+    "purpose": "Run a tilted-plane ellipse in 3D; measure period and plane",
+    "state": "bit-identical to 2D at z=0; period gap 7.9e-4 (2.1e-4 at half step); plane drift 4.1e-5 deg"
+   }
+  },
+  "coord3dSpinPrecess": {
+   "purpose": "三次元で 1 粒子だけ自転軸を有効化し宣言した歳差で回す表示を確かめる",
+   "objective": "met",
+   "state": "軸は解析値と 2.5e-16 で一致・傾きは保存・歳差は規定運動でトルクからは求めない・軸は力に入らない",
+   "evidence": [
+    "tests/out/coord3d-w298a.json"
+   ],
+   "en": {
+    "purpose": "Enable one body's spin axis in 3D and precess it",
+    "state": "axis within 2.5e-16 of analytic; tilt kept; prescribed precession; no force"
+   }
+  },
   "earthMoonInertial": {
    "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
    "objective": "met",

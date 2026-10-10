@@ -798,6 +798,14 @@ export const REGEN_STEPS = [
   S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 180, { secSource: 'w297c-branch', node: true,
     volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/wallSec']) },
     note: '第297便c: 時間の標準 —— 在位の公転の本の 8 公転(画面の刻み stepDt と 1/2)・観察の本の 600 步・退役は記録だけ —— 刻みの妥当性の物差し(物理の合否ではない)' }),
+  // ---- 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。二次元の設定に Z の位置・速度が入っていたら警告。
+  //   三次元では自転軸の傾きを粒子ごとに有効化・歳差にも対応」・統括の検証項目 R165): **三次元座標の土台**の零試験(三次元の z=0 の走行と二次元の本の
+  //   全状態のビット一致 —— 二体 semi/leapfrog・接触 γn・慣性決定力の並進 n=2/3/PCG・stateCarry double)・共変(任意の回転)・保存(P・L 3 成分・E)・
+  //   未対応の拒否と走行中の停止・二次元の Z の警告(coord2dZ)・軸と歳差(規定運動)・保存往復/A/B の複製/チェックポイント・新本 🌐🎲 の実測。
+  //   Node の headless(1 プロセス)・html だけを読む(他の正本は読まない —— after なし)。所要は第298便a の枝の実測(正本の elapsedS)
+  S('coord3d-298a', 'node tests/exp-w298a-coord3d.mjs', ['tests/out/coord3d-w298a.json'], 5, { secSource: 'w298a-branch', node: true,
+    volatilePaths: { 'tests/out/coord3d-w298a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第298便a: 三次元座標の土台 —— 零試験(二次元とビット同一)・共変・保存・未対応の拒否・二次元の Z の警告・軸と歳差・保存往復・🌐🎲 の実測(値だけ —— 三次元の慣性決定力 3 成分は第 2 段)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
