@@ -3462,3 +3462,12 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **CSS(フィットの標的の行)**: `.frRow>*{min-width:0;max-width:100%;overflow-wrap:anywhere}`・`.frRow .frKey{flex-shrink:1}`・`.lmsRow .lmsName{flex:1 1 100%}`。
 - **HP**: `HP.viewTilt()` → `{deg, sin, cos, camZ, min, max, def}`・`HP.setViewTilt(d)` → 設定後の度・`HP.viewTiltFromStore`。
 - QA: **`ui.fitTargetRow298`**・**`ui.viewTilt298`**(新設 —— root は SKIP)。力学・presetSig・保存 JSON・`S._core` は 1 bit も変えない(bitsame/sigsame は基点と同一)。
+
+## 70. 第298便e —— 🌘 earthMoonRealKF1 の周期優先(原仮定者の追加指示(第88報の追補)「earthMoonRealKF1 は、公転周期を優先して合わせる」・統括の検証項目 R166′・**🌘 の D0pull と記録・文だけ** —— `S._core`・他の本・🌙 の A/B・カタログ kf1 は不変・**SYSTEM_PROMPT には載せない**)
+
+- **標的の優先順位**: 第一の標的 = 恒星月 27.3217 日(同方向 1 周の平均・8 公転窓・許容 0.00005 日 —— 第298便b と同じ出典・抽出器・窓)。近点回転は第二の量(合わせない —— 照合だけ)。f=1・λ_PN=0・質量・qLock は固定・ノブは既存の `physics.D0pull` だけ。
+- **探索と採用値**: D0pull の探索範囲を [1×10⁻⁵, 1×10⁻³] へ上に広げた。恒星月は D0pull に単調に減るが両端とも標的より長く根を挟めない → 範囲の端 **D0pull=0.001**(根ではない)を h と h/2 で測り直した: 恒星月 27.32437 日(+0.0026658 日・h/2 差 7.7×10⁻⁷ 日 —— 門の外)・近点回転(照合)293.85 年。範囲の外の参照(段 limit): D0pull 1×10⁻²・1×10⁻¹ と kFrame=0 の写し(床 27.321766 日 —— 残差 +6.62×10⁻⁵ 日で許容の外)。
+- **記録の形**: `fitRecord` は版 w298b-1(`FIT_RECORD_VERSION_MT`)のまま、**標的は恒星月の 1 件**。版の形が「全標的が門を通ったときだけ fitted」なので、近点回転は `targets` から外し `notFitted` の先頭に照合の値・8.85 年との残差・h/2 差を書く(受理器・署名・表示の規則は変えていない)。`status:"unreachable-in-bounds"` は恒星月の門で決まる。
+- **器と正本**: `tests/exp-w298b-refit.mjs` の版 **w298b-refit-2**(段 scan・**scanwide**・**limit**・**fitmonth**・**fitaps**〔第298便b の段 fit の改名 —— 履歴〕・qprobe)・正本 `tests/out/refit-w298b.json`(`W298B_OUT`・`W298B_PART`・`--merge` は従来どおり)。
+- **claims**: id・role・prov は変えない(`earthMoonRealKF1.apsidal-period` は role "fit_target" のまま —— 照合だけになったことは roleNote に書く)。窓は恒星月 27.32〜27.33・近点回転 285〜305(descPattern は「近点回転の周期は約(数)年」)。
+- QA: `docs.refit298`・`behavior.fitCond298`・`behavior.framePull`(🌘 の宣言の D0pull と p=2 の近点移動の窓 —— 正本の段 fitmonth から読む)・`preset.revived292b`(claims の追記を第298便b の文へ戻して照合)の世代追従(世代切替 = 🌘 の `fitRecord.procedure` が「周期優先(第298便e)」で始まる —— html の正規表現)。

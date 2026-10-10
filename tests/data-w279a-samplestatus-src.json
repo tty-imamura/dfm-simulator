@@ -1322,7 +1322,7 @@
   "earthMoonRealKF1": {
    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
    "objective": "partial",
-   "state": "f=1 で D0pull だけを再フィット・近点回転 8.850 年は門の中・恒星月 27.438 日はこの探索範囲では未達",
+   "state": "周期優先・恒星月 27.324 日は範囲の端でも門の外(この探索範囲では未達)・近点回転 293.850 年は照合だけ",
    "evidence": [
     "tests/out/refit-w298b.json",
     "tests/out/emgrid-w280b.json",
@@ -1330,7 +1330,7 @@
    ],
    "en": {
     "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
-    "state": "f=1, D0pull-only refit: apsides 8.850 yr in the gate; month 27.438 d not reached in this search range"
+    "state": "Period first: month 27.324 d not reached in this search range (range end); apsides 293.850 yr, check only"
    }
   },
   "emAuditNewton": {

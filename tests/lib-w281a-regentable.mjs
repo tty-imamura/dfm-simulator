@@ -43,6 +43,7 @@
 //   'w297a-branch' … 第297便a の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・Chromium なし・他の 3 枝と同じ容器で並走 —— 段 galaxy が最長)。
 //   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w298b-branch' … 第298便b の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・段 3 つを並走・Chromium なし・他の枝と同じ容器で並走 —— 段 fit が最長)。
+//   'w298e-branch' … 第298便e の枝で器(版 w298b-refit-2)を段ごとに走らせた実測の和(Node の headless 4 本 —— scan / fitaps / scanwide+qprobe / limit+fitmonth を並走・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -788,9 +789,14 @@ export const REGEN_STEPS = [
   // ---- 第298便b(原仮定者の裁定(第88報)「earthMoonRealKF1 は f=1 で可能な範囲でフィット」・統括の検証項目 R166): 🌘 の f=1 再フィット ——
   //   段 scan(f=1 で D0pull の格子 6 点)・fit(近点回転の周期へ D0pull の根を Illinois → h と h/2 → 記録 w298b-1)・qprobe(qLock を外した q の感度)。
   //   Node の headless(1 プロセスずつ)・html だけを読む(🌘 と 🌙 —— 他の正本は読まない・after なし)。所要は第298便b の枝の実測(段の和 —— 段は並走)
-  S('refit-298b', 'node tests/exp-w298b-refit.mjs', ['tests/out/refit-w298b.json'], 1783, { secSource: 'w298b-branch', node: true,
-    volatilePaths: { 'tests/out/refit-w298b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/fit/evals/*/wallSec', '/parts/qprobe/rows/*/wallSec']) },
-    note: '第298便b: 🌘 の f=1 再フィット(ノブは D0pull だけ —— 恒星月と 8 公転窓の近点回転を同時に測る・h と h/2・fitRecord w298b-1)と D0pull の格子・q の感度(値だけ —— 届かない量は次の見直しへ)' }),
+  // 第298便e(原仮定者の追加指示(第88報の追補)「earthMoonRealKF1 は、公転周期を優先して合わせる」・統括の検証項目 R166′): 器を版 w298b-refit-2 へ(周期優先)——
+  //   段 scanwide(D0pull の格子を上へ 5 点)・limit(探索範囲の外の参照と kFrame=0 の床)・fitmonth(恒星月へ —— 根を挟めなければ範囲の端・h と h/2・記録 w298b-1 の標的 1 件)を足し、
+  //   第298便b の段 fit は fitaps(履歴)へ。所要は第298便e の枝の実測(段の和 —— 4 プロセスで並走)
+  S('refit-298b', 'node tests/exp-w298b-refit.mjs', ['tests/out/refit-w298b.json'], 2891, { secSource: 'w298e-branch', node: true,
+    volatilePaths: { 'tests/out/refit-w298b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/scanwide/rows/*/wallSec',
+      '/parts/limit/rows/*/wallSec', '/parts/limit/kFrame0/h/wallSec', '/parts/limit/kFrame0/half/wallSec', '/parts/fitmonth/evals/*/wallSec', '/parts/fitaps/evals/*/wallSec', '/parts/qprobe/rows/*/wallSec']) },
+    note: '第298便b・第298便e: 🌘 の f=1 再フィット —— 周期優先(恒星月が第一の標的・近点回転は照合だけ・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
+      + 'D0pull の格子(scan・scanwide)・範囲の外の参照(limit)・第298便b の近点回転優先(fitaps —— 履歴)・q の感度(値だけ —— 届かない量は次の見直しへ)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。

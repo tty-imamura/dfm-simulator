@@ -53,6 +53,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.lambdaPN297 behavior.lambdaPnOnDrag29
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.spinAxisDecl"
 # 第298便b(原仮定者の裁定(第88報)・R166): 退役 8 本・🌘 の f=1 再フィット・フィット記録 w298b-1・比較器の共通化の新設 4 本と、追従した在位の集合のブロック
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.retire298 behavior.fitCond298 docs.refit298 lint.near298 docs.retired docs.noRetiredMention294 preset.revived292b"
+# 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 🌘 の周期優先で追従したブロック(docs.refit298・behavior.fitCond298・preset.revived292b は上にある)—— behavior.framePull
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.framePull"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
