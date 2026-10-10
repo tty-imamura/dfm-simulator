@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便a",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:57:14.085Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:02:24.481Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -143,11 +143,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1076,
-   "segments": 985,
-   "closureShare": 0.3192
+   "names": 1147,
+   "segments": 1047,
+   "closureShare": 0.3236
   },
-  "scopeSha256": "294f7ad33bd02f47734cb8b71dfcebe5fe7d501f9f3d48c507f3512e680d0bf2",
+  "scopeSha256": "3fc2a3d52449a59499a345959d8bb6e65ff2d6ecda2124be73f47c32aebaa47a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1932,8 +1932,8 @@
     "tailMeanAbs": 0.044485377540646576,
     "restored": false
    },
-   "wallSec": 4.244,
-   "spentSec": 11.418
+   "wallSec": 3.774,
+   "spentSec": 11.017
   },
   {
    "key": "pro-seed1",
@@ -3204,8 +3204,8 @@
     "tailMeanAbs": 0.03247381796737653,
     "restored": false
    },
-   "wallSec": 4.028,
-   "spentSec": 11.446
+   "wallSec": 3.977,
+   "spentSec": 11.424
   },
   {
    "key": "pro-seed2",
@@ -4311,8 +4311,8 @@
     "tailMeanAbs": 0.1573876522343127,
     "restored": false
    },
-   "wallSec": 3.904,
-   "spentSec": 11.423
+   "wallSec": 3.854,
+   "spentSec": 11.494
   },
   {
    "key": "retro-seed0",
@@ -5450,8 +5450,8 @@
     "tailMeanAbs": 0.03154688204668693,
     "restored": false
    },
-   "wallSec": 3.605,
-   "spentSec": 10.672
+   "wallSec": 3.762,
+   "spentSec": 10.867
   },
   {
    "key": "retro-seed1",
@@ -6602,8 +6602,8 @@
     "tailMeanAbs": 0.02359946254238976,
     "restored": true
    },
-   "wallSec": 3.545,
-   "spentSec": 10.543
+   "wallSec": 3.601,
+   "spentSec": 10.766
   },
   {
    "key": "retro-seed2",
@@ -8312,8 +8312,8 @@
     "tailMeanAbs": 0.035020675601269036,
     "restored": false
    },
-   "wallSec": 6.655,
-   "spentSec": 17.206
+   "wallSec": 6.886,
+   "spentSec": 17.333
   },
   {
    "key": "head-seed0",
@@ -9586,8 +9586,8 @@
     "tailMeanAbs": 0.031909783563752236,
     "restored": false
    },
-   "wallSec": 4.418,
-   "spentSec": 11.22
+   "wallSec": 4.062,
+   "spentSec": 11.605
   },
   {
    "key": "head-seed1",
@@ -10813,8 +10813,8 @@
     "tailMeanAbs": 0.03311070649280923,
     "restored": false
    },
-   "wallSec": 4.608,
-   "spentSec": 12.242
+   "wallSec": 4.145,
+   "spentSec": 12.447
   },
   {
    "key": "head-seed2",
@@ -11910,8 +11910,8 @@
     "tailMeanAbs": 0.028245444946178144,
     "restored": false
    },
-   "wallSec": 3.871,
-   "spentSec": 11.917
+   "wallSec": 4.335,
+   "spentSec": 12.556
   }
  ],
  "radiusRun": {
@@ -13632,8 +13632,8 @@
    "tailMeanAbs": 0.03296121516296241,
    "restored": false
   },
-  "wallSec": 2.392,
-  "spentSec": 6.768
+  "wallSec": 2.504,
+  "spentSec": 7.249
  },
  "summary": {
   "nDeclared": 3,
@@ -13645,21 +13645,21 @@
    {
     "key": "pro-seed0",
     "steps": 9248,
-    "wallSec": 4.244,
+    "wallSec": 3.774,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed1",
     "steps": 9248,
-    "wallSec": 4.028,
+    "wallSec": 3.977,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed2",
     "steps": 8092,
-    "wallSec": 3.904,
+    "wallSec": 3.854,
     "verdict": "未達",
     "n0": 85
    }
@@ -13692,7 +13692,7 @@
   "growthSteps": 26588,
   "jeansSteps": 21111,
   "growthTotal": {
-   "wallSec": 12.175999999999998
+   "wallSec": 11.605
   },
   "jeansTotal": {
    "wallSec": 1781.887
@@ -13700,6 +13700,6 @@
   "growthPass": 0,
   "jeansPass": 0
  },
- "elapsedS": 55.234,
+ "elapsedS": 55.838,
  "verdict": "未達"
 }

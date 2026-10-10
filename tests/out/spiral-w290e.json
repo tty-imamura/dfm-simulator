@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便e",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:53:43.468Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T20:58:45.952Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1079,
-   "segments": 988,
-   "closureShare": 0.32
+   "names": 1150,
+   "segments": 1050,
+   "closureShare": 0.3245
   },
-  "scopeSha256": "3685bdb2802f7f38d04d93923c9f9e8f1358fbc4b2dfcf35c6d3494a207721dc",
+  "scopeSha256": "26c2b8c10663d727941bb459b3e1112a5a1d20e6cf28ca8cfebedadc00ca83b2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1179,71 +1179,71 @@
      "label": "🍭 N",
      "n": 144,
      "steps": 200,
-     "wallSec": 0.103121647,
-     "rateStepsPerSec": 1939.456998781255
+     "wallSec": 0.066609318,
+     "rateStepsPerSec": 3002.5829118983024
     },
     {
      "label": "🍭 2N",
      "n": 288,
      "steps": 200,
-     "wallSec": 0.287721196,
-     "rateStepsPerSec": 695.1173663270883
+     "wallSec": 0.22232722,
+     "rateStepsPerSec": 899.5749598272313
     },
     {
      "label": "🍭 4N",
      "n": 576,
      "steps": 200,
-     "wallSec": 0.807394596,
-     "rateStepsPerSec": 247.71035252259728
+     "wallSec": 0.902557552,
+     "rateStepsPerSec": 221.59251734896569
     },
     {
      "label": "🍭 内蔵(450)",
      "n": 450,
      "steps": 200,
-     "wallSec": 0.535191111,
-     "rateStepsPerSec": 373.69828438723823
+     "wallSec": 0.56318938,
+     "rateStepsPerSec": 355.12033270229637
     },
     {
      "label": "🎢 N",
      "n": 145,
      "steps": 200,
-     "wallSec": 0.066502114,
-     "rateStepsPerSec": 3007.423192592043
+     "wallSec": 0.069731224,
+     "rateStepsPerSec": 2868.1555912456092
     },
     {
      "label": "🎢 2N",
      "n": 289,
      "steps": 200,
-     "wallSec": 0.245023272,
-     "rateStepsPerSec": 816.2489969524202
+     "wallSec": 0.223741102,
+     "rateStepsPerSec": 893.8902964731085
     },
     {
      "label": "🎢 4N",
      "n": 577,
      "steps": 200,
-     "wallSec": 0.740199442,
-     "rateStepsPerSec": 270.19744767654123
+     "wallSec": 0.849333984,
+     "rateStepsPerSec": 235.47862650930966
     },
     {
      "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
-     "wallSec": 0.749828063,
-     "rateStepsPerSec": 266.727813840171
+     "wallSec": 0.498930407,
+     "rateStepsPerSec": 400.85750877075725
     },
     {
      "label": "🥏",
      "n": 300,
      "steps": 200,
-     "wallSec": 0.233882123,
-     "rateStepsPerSec": 855.1316254299608
+     "wallSec": 0.24674102,
+     "rateStepsPerSec": 810.5664797851609
     },
     {
      "label": "📀",
      "n": 301,
      "steps": 200,
-     "wallSec": 0.217824407,
-     "rateStepsPerSec": 918.170753932088
+     "wallSec": 0.239159925,
+     "rateStepsPerSec": 836.260506437272
     }
    ],
    "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
@@ -1275,5 +1275,5 @@
   "kArmImplemented": false
  },
  "ok": false,
- "elapsedS": 88.107
+ "elapsedS": 103.048
 }
