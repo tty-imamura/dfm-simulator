@@ -22840,6 +22840,9 @@ if (!FAST) {
   // 第293便g(R147): 世代切替 has293g = html に `const REL_DRAG_COMPOSE_DEFAULT` —— 🐌 は既定 solve で drag を描かず理由(smDragComposeSolve)を出す。
   //   矢印は compose:"sum" を明示した 🐌 の写し(id 'inertialDragPair:sum' —— loadPreset の後に写しを build)で見る
   const has293gM = has291d && html291d.indexOf('const REL_DRAG_COMPOSE_DEFAULT') >= 0;
+  // 第298便c(R167): 世代切替 has298cM = html に `REL_DRAG_SPIN3_VERSION = "w298c` —— 既定 solve の 🐌 の drag は受動プローブの矢印(色 SPACE_MESH_PROBE_RGB)を描き、
+  //   「合成則 solve」の理由の凡例は出さない(旧: 理由だけ)。矢印の照合は behavior.meshField298
+  const has298cM = has291d && html291d.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
   if (!has291d) {
     console.log('SKIP behavior.meshDisplayBitsame(第291便d 未適用 — ' + TARGET + ')');
   } else {
@@ -22910,7 +22913,11 @@ if (!FAST) {
       const rows = r[id], f0 = rows[0].fp;
       for (const row of rows) if (row.fp !== f0) bad.push(`${id} ${row.key} の指紋 ${row.fp} ≠ OFF ${f0}`);
       const by = Object.fromEntries(rows.map((x) => [x.key, x]));
-      if (id === 'inertialDragPair' && has293gM) {
+      if (id === 'inertialDragPair' && has298cM) {
+        // 第298便c: 既定 solve の 🐌 は受動プローブで描く —— 旧色の矢印 0・理由の凡例 0(プローブの矢印は behavior.meshField298)
+        if (!(by['drag/res8'].drawn.compose === 0 && by['drag/res8'].drawn.drag === 0 && by['drag/res32/cam50'].drawn.compose === 0)) bad.push('🐌(既定 solve)の drag で旧の矢印か「合成則 solve」の凡例を出した');
+        if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🐌 ruler で目盛りが描かれていない');
+      } else if (id === 'inertialDragPair' && has293gM) {
         // 第293便g: 既定 solve の 🐌 は drag を描かず理由の凡例だけ(矢印 0)
         if (!(by['drag/res8'].drawn.compose > 0 && by['drag/res8'].drawn.drag === 0 && by['drag/res32/cam50'].drawn.compose > 0 && by['drag/res32/cam50'].drawn.drag === 0)) bad.push('🐌(既定 solve)の drag で「合成則 solve」の凡例だけを出していない');
         if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🐌 ruler で目盛りが描かれていない');
@@ -22926,7 +22933,7 @@ if (!FAST) {
     }
     if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
     add('behavior.meshDisplayBitsame', bad.length === 0,
-      `**表示メッシュは表示専用**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135${has293gM ? ' —— 第293便g: 🐌 は既定 solve で drag を描かず理由を出す・矢印は compose:"sum" の写し' : ''}): ` + Object.keys(r).map((id) => `${id}: ` + r[id].map((x) => `${x.key} ${x.fp}(t=${x.t.toFixed(3)}・矢印 ${x.drawn.drag}・目盛り ${x.drawn.ruler}・未宣言 ${x.drawn.undecl}${has293gM ? '・solve の理由 ' + x.drawn.compose : ''})`).join(' / ')).join(' // ')
+      `**表示メッシュは表示専用**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135${has298cM ? ' —— 第298便c: 既定 solve の 🐌 は受動プローブで描く(旧色の矢印と理由の凡例は出さない —— プローブの矢印は behavior.meshField298)・旧色の矢印は compose:"sum" の写し' : has293gM ? ' —— 第293便g: 🐌 は既定 solve で drag を描かず理由を出す・矢印は compose:"sum" の写し' : ''}): ` + Object.keys(r).map((id) => `${id}: ` + r[id].map((x) => `${x.key} ${x.fp}(t=${x.t.toFixed(3)}・矢印 ${x.drawn.drag}・目盛り ${x.drawn.ruler}・未宣言 ${x.drawn.undecl}${has293gM ? '・solve の理由 ' + x.drawn.compose : ''})`).join(' / ')).join(' // ')
       + ' —— 600 步・50 步ごとに描画・指紋は S の数値の欄と型付き配列の全部+S.params(表示のキャッシュ _sm*/_sl*/_gal* は除く)'
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     await vp.close();
@@ -72530,7 +72537,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (err298) bad.push('器/正本/headless が読めない: ' + err298);
       else {
         const HP = H298.HP, all = HP.allPresets();
-        const b3 = all.filter((p) => (p.physics || {}).coord === '3d').map((p) => p.id);
+        // 第298便c(R167): 三次元の慣性決定力の本(relativeDrag を宣言した三次元の本 —— 🔩🪛🌦️)は第298便c の preset.geo4Std298・docs.moon3d298 が照合する(宣言から除く)
+        const has298cP = html298a.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
+        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag)).map((p) => p.id);
         const want = [J298.part8.kepler.id, J298.part8.spin.id];
         if (JSON.stringify(b3.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push('三次元の内蔵 ' + b3.join(',') + ' ≠ 正本 ' + want.join(','));
         const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
@@ -72595,6 +72604,242 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       cases.push(`PHYSICS〔第298便a〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・正本の来歴・段 coord3d-298a・.gitignore・禁句 0`);
       add('docs.coord3d298', bad.length === 0,
         `**三次元座標の土台の文書**(第298便a・R165): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 第298便c(原仮定者の裁定(第88報)「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に
+// ----   『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」「geoPN=4 は慣性決定力の多粒子版・三次元が既定・physics.spaceMesh は廃止予定・
+// ----   表示の空間メッシュで渦状の引きずりが見えるよう物理と表示の両面で精度を上げる(表示は Z=0 の公転面)」・統括の検証項目 R167): 4 ブロック。
+// ----   **root では SKIP**(器 tests/exp-w298c-drag3d.mjs・tests/exp-w298c-moon3d.mjs・正本 tests/out/drag3d-w298c.json・tests/out/moon3d-w298c.json)。
+// ----   世代切替 has298c = html に `REL_DRAG_SPIN3_VERSION = "w298c`(ページの中の判定は typeof で守る)。
+// ----   ① behavior.drag3d298 …… 器の runAll を headless で引き直して正本と全欄一致(相対 1e-12 —— 所要の秒は除く)・門が全部真: 零試験 (1) 軸 +z・z=0 で二次元の
+// ----      表裏核と全状態ビット同一(🔗 の写し n=81 PCG・3 体の直接法・spinSource の別名)(2) 軸上で回転の項 0・軸の項 = κmΩK (3) 赤道で軸の項 0・回転の項 = CmΩM1
+// ----      (4) 軸の反転で両方の項がビットで反転 (5) 回転・平行移動で共変 (6) 運動量と角運動量(自転・帳簿 dL3・軸引きずり・拘束)の収支。有限球の収束・受理の開閉。
+// ----   ② behavior.meshField298 …… ページ: 🔩 と 🐌(既定 solve の二次元)の空間メッシュが受動プローブの矢印を描く(旧: 🐌 は理由だけ)・表示 ON/OFF と
+// ----      100 步ごとの切替で 600 步の状態の指紋が OFF と同じ・プローブの門(相対差)・格子の収束(正本)・視点 θ=0(面が画面に垂直)では描かない。
+// ----   ③ preset.geo4Std298 …… 4 の三次元の標準: 🔩🪛 は器の写しと physics・bodies が同じ・受理の警告なし・geoPN=4・coord 3d・標準(out.standard)・
+// ----      モード表の三次元の標準例の行・SYSTEM_PROMPT の規則 12(spinDrag・廃止予定)・二次元の 4 の本(🔗)は警告なしで受理され情報の行 geo4CoordNote・
+// ----      旧 spaceMesh の在位 9 本は互換(退役にしない)で情報の行 smMeshDeprecated・HUD の i18n・二次元の本に spinDrag は拒否。
+// ----   ④ docs.moon3d298 …… 🌦️ の正本: 来歴(w272e-1・器の版)・門が全部真・fitRecord が本の宣言と同じ(受理・条件の署名)・本の physics/bodies が器の写しと同じ・
+// ----      観測カードの数が正本の値・PHYSICS〔第298便c〕・AI_SPEC の節・CHANGELOG・README・再生成の段 2 つ・.gitignore の例外・禁句と書かない語。
+{
+  const html298c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has298c = TARGET.startsWith('beta/') && html298c.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
+  if (!has298c) {
+    console.log('SKIP behavior.drag3d298 / behavior.meshField298 / preset.geo4Std298 / docs.moon3d298(第298便c 未適用 — ' + TARGET + ')');
+  } else {
+    let E3c = null, J3c = null, M3c = null, JM3c = null, H3c = null, err3c = null;
+    try {
+      E3c = await import('file://' + path.join(ROOT, 'tests', 'exp-w298c-drag3d.mjs'));
+      M3c = await import('file://' + path.join(ROOT, 'tests', 'exp-w298c-moon3d.mjs'));
+      J3c = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'drag3d-w298c.json'), 'utf8'));
+      JM3c = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'moon3d-w298c.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      H3c = loadHtmlHeadless(path.join(ROOT, TARGET));
+    } catch (e) { err3c = String(e && e.stack || e).slice(0, 200); }
+    const near3c = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near3c(x, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).filter((k) => k !== 'wallSec').sort(), kb = Object.keys(b).filter((k) => k !== 'wallSec').sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => near3c(a[k], b[k], tol)); }
+      return a === b; };
+    const norm3c = (x) => JSON.stringify(x, (k, v) => (v && typeof v === 'object' && !Array.isArray(v)) ? Object.fromEntries(Object.keys(v).sort().map((q) => [q, v[q]])) : v);
+    // ---- ① behavior.drag3d298
+    {
+      const bad = [], cases = [];
+      if (err3c) bad.push('器/正本/headless が読めない: ' + err3c);
+      else {
+        const HP = H3c.HP;
+        let R = null;
+        try { R = E3c.runAll(HP); } catch (e) { bad.push('runAll: ' + String(e).slice(0, 160)); }
+        if (R) {
+          for (const k of ['part1', 'part2', 'part3', 'part5']) if (!near3c(R[k], J3c[k], 1e-12)) bad.push(k + ' を引き直すと正本と違う(器を走らせ直すこと)');
+          const p4 = (o) => { const c = JSON.parse(JSON.stringify(o)); for (const k of Object.keys(c)) delete c[k].wallSec; return c; };
+          if (!near3c(p4(R.part4), p4(J3c.part4), 1e-12)) bad.push('part4 を引き直すと正本と違う');
+          if (!(R.ok === true && J3c.ok === true && Object.values(J3c.gates).every(Boolean))) bad.push('門 ' + JSON.stringify(R.gates));
+          const z = R.part1;
+          cases.push(`(1) ビット同一 ${['chainPcg_spinDrag', 'chainPcg_spinSource', 'direct3_spinDrag'].map((k) => k + ' ' + z[k].nVal + ' 値・差 ' + z[k].nDiff).join('・')}`);
+          cases.push(`(2) 軸上 回転 ${z.onAxis.rotUz}・軸 ${z.onAxis.axialW}(κmΩK ${z.onAxis.axialWexpect})/(3) 赤道 軸 ${z.equator.axialW}・回転 ${z.equator.rotU}(CmΩM1 ${z.equator.rotUexpect})`);
+          cases.push(`(4) 反転 ビット ${z.flip.bitNegated}(${z.flip.nValues} 値)/(5) 共変 位置 ${z.covariance.relDr}・速度 ${z.covariance.relDv}・軸 ${z.covariance.maxDaxis}/(6) 収支 P ${z.budget.relP}・L の残り ${z.budget.relLresid}`);
+          cases.push(`有限球 ê 方向 ${R.part2.outsideParMax}・垂直 ${R.part2.outsidePerpMax}・受理 開けた ${R.part5.opened.join(',')}`);
+        }
+        if (HP.coord3d.rejected.indexOf('spinSource') >= 0 || HP.coord3d.rejected.indexOf('dragCore') >= 0) bad.push('受理の門の拒否の一覧に spinSource/dragCore が残る');
+        const coreSrc = HP.sim._core.toString();
+        if (/spinDrag|inertialDrag3|axialCoupling/.test(coreSrc)) bad.push('S._core に三次元の慣性決定力の語');
+      }
+      add('behavior.drag3d298', bad.length === 0,
+        `**三次元の慣性決定力 3 成分**(第298便c・原仮定者の裁定(第88報)・R167 —— 並進・回転引きずり〔赤道で最大・軸上で 0〕・軸引きずり〔軸上で最大・赤道で 0・姿勢だけ〕): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.meshField298
+    {
+      const bad = [], cases = [];
+      const vp = await browser.newPage();
+      const vpErr = [];
+      vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
+      await vp.goto(INDEX, { waitUntil: 'load' });
+      await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const r = await vp.evaluate(() => {
+        if (typeof inertialDragProbeReady === 'undefined') return { skip: true };
+        const fp = (S) => { let h1 = 0x811c9dc5, h2 = 0x01000193; const f64 = new Float64Array(1), u8 = new Uint8Array(f64.buffer);
+          const mix = (b) => { h1 = Math.imul(h1 ^ b, 16777619) >>> 0; h2 = Math.imul(h2 ^ b, 2246822519) >>> 0; };
+          const num = (v) => { f64[0] = v; for (let k = 0; k < 8; k++) mix(u8[k]); };
+          const str = (s) => { for (let k = 0; k < s.length; k++) mix(s.charCodeAt(k) & 255); };
+          for (const k of Object.keys(S).sort()) { if (/^_s[mlg]|^_gal/.test(k)) continue; const v = S[k];
+            if (typeof v === 'number') { str(k); num(v); } else if (typeof v === 'boolean') { str(k); mix(v ? 1 : 0); }
+            else if (ArrayBuffer.isView(v) && !(v instanceof DataView)) { str(k); for (let i = 0; i < v.length; i++) num(Number(v[i])); } }
+          str(JSON.stringify(S.params)); return h1.toString(16) + h2.toString(16); };
+        const spy = () => { const proto = CanvasRenderingContext2D.prototype;
+          const d = Object.getOwnPropertyDescriptor(proto, 'strokeStyle'), seen = [];
+          Object.defineProperty(proto, 'strokeStyle', { configurable: true, get() { return d.get.call(this); }, set(v) { seen.push(String(v)); d.set.call(this, v); } });
+          return { seen, off: () => { Object.defineProperty(proto, 'strokeStyle', d); } }; };
+        const out = {};
+        const tilt0 = viewTiltDeg;
+        for (const id of ['chainDiskToy3d', 'inertialDragPair']) {
+          const rows = [];
+          for (const v of ['off', 'on', 'toggle']) {
+            HP.loadPreset(id, false); HP.setCamScale(400);
+            const S = HP.sim;
+            S.overlays.spaceMesh = (v === 'on') ? { mode: 'drag', res: 16 } : false;
+            let probe = 0;
+            for (let k = 1; k <= 600; k++) {
+              S.step(appStepDt(S));
+              if (v === 'toggle' && k % 100 === 0) S.overlays.spaceMesh = ((k / 100) % 2) ? { mode: 'drag', res: 12 } : false;
+              if (k % 100 === 0) { const sp = spy(); HP.tick(0); sp.off(); probe += sp.seen.filter((c) => c.indexOf('rgba(' + SPACE_MESH_PROBE_RGB + ',0.85') === 0).length; }
+            }
+            rows.push({ v, fp: fp(S), probe, ready: inertialDragProbeReady(S).ready, relMax: inertialDragProbeReady(S).relMax });
+          }
+          out[id] = rows;
+        }
+        // 視点 θ=0(面 Z=0 が画面に垂直)では描かない
+        HP.loadPreset('chainDiskToy3d', false); const S = HP.sim; for (let k = 0; k < 20; k++) S.step(appStepDt(S));
+        S.overlays.spaceMesh = { mode: 'drag', res: 16 };
+        applyViewTilt(0); let sp = spy(); HP.tick(0); sp.off(); const edge = sp.seen.filter((c) => c.indexOf('rgba(' + SPACE_MESH_PROBE_RGB) === 0).length;
+        applyViewTilt(-60); sp = spy(); HP.tick(0); sp.off(); const tilted = sp.seen.filter((c) => c.indexOf('rgba(' + SPACE_MESH_PROBE_RGB) === 0).length;
+        applyViewTilt(tilt0); HP.setCamScale(400); S.overlays.spaceMesh = false;
+        out.view = { edge, tilted };
+        return out;
+      });
+      if (r.skip) bad.push('ページに受動プローブが無い');
+      else {
+        for (const id of ['chainDiskToy3d', 'inertialDragPair']) {
+          const rows = r[id], by = Object.fromEntries(rows.map((x) => [x.v, x]));
+          if (!(by.on.fp === by.off.fp && by.toggle.fp === by.off.fp)) bad.push(id + ' の表示 ON/OFF で状態の指紋が違う');
+          if (!(by.on.probe > 0)) bad.push(id + ' で受動プローブの矢印が描かれていない');
+          if (by.off.probe !== 0) bad.push(id + ' OFF で描いた');
+          if (!(by.on.ready === true && by.on.relMax <= 1e-8)) bad.push(id + ' のプローブの門 ' + by.on.relMax);
+          cases.push(`${id}: 指紋 ${by.off.fp}(ON/切替も同じ)・矢印 ${by.on.probe}・門 ${by.on.relMax.toExponential(2)}`);
+        }
+        if (!(r.view.edge === 0 && r.view.tilted > 0)) bad.push('視点 θ=0 で描いた/θ=−60 で描かない ' + JSON.stringify(r.view));
+        cases.push(`θ=0 で描かない・θ=−60 で描く(${r.view.tilted})`);
+      }
+      if (J3c) {
+        const g = J3c.part3.grid;
+        if (!(J3c.part3.gridMonotone === true && g.every((x, i) => i === 0 || x.h < g[i - 1].h))) bad.push('格子の収束 ' + JSON.stringify(g));
+        cases.push(`格子の収束(正本)h ${g.map((x) => x.h).join('/')} → 誤差 rms ${g.map((x) => x.rmsRel).join('/')}・循環 r=8 ${J3c.part3.circulation[0].withSpin}(自転 0 で ${J3c.part3.circulation[0].spin0})`);
+      } else bad.push('正本が読めない');
+      if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
+      await vp.close();
+      add('behavior.meshField298', bad.length === 0,
+        `**空間メッシュ表示 = 慣性決定力の場**(第298便c・R167 —— 受動プローブ・Z=0 の面・表示専用): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ preset.geo4Std298
+    {
+      const bad = [], cases = [];
+      if (err3c) bad.push('器/正本/headless が読めない: ' + err3c);
+      else {
+        const HP = H3c.HP, all = HP.allPresets();
+        for (const [id, tilt] of [[E3c.BOOKS.chain3d, false], [E3c.BOOKS.chain3dTilt, true]]) {
+          const p = all.find((q) => q.id === id);
+          if (!p) { bad.push(id + ' が無い'); continue; }
+          const d = E3c.chain3dPreset(HP, tilt);
+          if (norm3c(d.physics) !== norm3c(p.physics) || norm3c(d.bodies) !== norm3c(p.bodies)) bad.push(id + ' の physics/bodies が器の写しと違う');
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok || (v.warnings || []).length) bad.push(id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 120));
+          else if (!(v.geoMode && v.geoMode.mode === 4 && v.geoMode.standard === true && p.physics.coord === '3d')) bad.push(id + ' が 4 の三次元の標準でない');
+          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy') bad.push(id + ' の sampleClass/fidelity');
+          if (tilt && (p.notClaim || []).indexOf('axial_drag_unfitted') < 0) bad.push(id + ' に notClaim axial_drag_unfitted が無い');
+        }
+        const rows = H3c.evalExpr('geoModeTable()');
+        if (!rows.some((z) => z.geoPN === 4 && /coord:3d/.test(z.decl) && z.standard0 === true)) bad.push('モード表に 4 の三次元の標準例の行が無い');
+        if (!/\n12\. 三次元の慣性決定力\(第298便c\): [^\n]*physics\.coord:"3d"[^\n]*spinDrag[^\n]*廃止予定/.test(HP.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT の規則 12');
+        const notes = H3c.evalExpr('geoInfoNotesOf');
+        HP.loadPreset('chainDiskToy', false); const n2 = notes(HP.sim);
+        HP.loadPreset(E3c.BOOKS.chain3d, false); const n3 = notes(HP.sim);
+        if (!(n2.indexOf('geo4CoordNote') >= 0 && n3.indexOf('geo4CoordNote') < 0)) bad.push('情報の行 geo4CoordNote ' + JSON.stringify([n2, n3]));
+        const v2 = HP.validatePreset(JSON.parse(JSON.stringify(all.find((q) => q.id === 'chainDiskToy'))));
+        if (!(v2.ok && !(v2.warnings || []).length)) bad.push('二次元の 🔗 が警告なしで受理されない');
+        const leg = all.filter((p) => p.physics && p.physics.spaceMesh && typeof p.physics.spaceMesh === 'object' && p.physics.spaceMesh.lawVersion !== undefined && p.familyRole !== 'retired');
+        let depN = 0; for (const p of leg) { HP.loadPreset(p.id, false); if (notes(HP.sim).indexOf('smMeshDeprecated') >= 0) depN++; }
+        if (!(leg.length >= 9 && depN === leg.length)) bad.push(`旧 spaceMesh の在位 ${leg.length} 本・情報の行 ${depN}`);
+        const sd2 = JSON.parse(JSON.stringify(all.find((q) => q.id === 'chainDiskToy'))); delete sd2.physics.relativeDrag.spinSource; sd2.physics.relativeDrag.spinDrag = { rot: 'surfaceFlip', axial: 'off' };
+        if (HP.validatePreset(sd2).ok) bad.push('二次元の本の spinDrag が受理された');
+        for (const k of ['hudSpin3', 'hudMeshDeprecated', 'smProbeTitle', 'smMeshDeprecated', 'geo4CoordNote']) for (const L of ['ja', 'en']) if (H3c.evalExpr('typeof I18N!=="undefined" && I18N.' + L + '.' + k + '!==undefined') !== true) bad.push('i18n ' + L + '.' + k);
+        cases.push(`🔩🪛 = 器の写し・受理の警告 0・4 の標準・coord 3d / モード表の三次元の標準例 / 規則 12 / 🔗 は警告なし・情報の行 geo4CoordNote / 旧 spaceMesh の在位 ${leg.length} 本は互換・廃止予定の行 ${depN}`);
+      }
+      add('preset.geo4Std298', bad.length === 0,
+        `**geoPN=4 = 慣性決定力の多粒子版・三次元が既定**(第298便c・原仮定者の裁定(第88報)・R167 —— 旧 physics.spaceMesh は廃止予定・在位の本は互換): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ④ docs.moon3d298
+    {
+      const bad = [], cases = [];
+      if (err3c) bad.push('器/正本/headless が読めない: ' + err3c);
+      else {
+        const HP = H3c.HP, all = HP.allPresets(), J = JM3c;
+        const p = all.find((q) => q.id === M3c.FIT_ID);
+        if (!p) bad.push('三次元の 🌥️ の写しが無い');
+        else {
+          if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === M3c.HARNESS_VERSION)) bad.push('正本の来歴(w272e-1)/器の版');
+          if (!(J.ok === true && Object.values(J.gates).every(Boolean))) bad.push('門 ' + JSON.stringify(J.gates));
+          if (norm3c(p.fitRecord) !== norm3c(J.fitRecord)) bad.push('fitRecord が正本と違う');
+          const vr = HP.validateFitRecord(JSON.parse(JSON.stringify(p.fitRecord)));
+          if (!vr.ok) bad.push('fitRecord が受理されない ' + vr.err);
+          const d = M3c.derivedPreset3(HP, J);
+          if (norm3c(d.physics) !== norm3c(p.physics) || norm3c(d.bodies) !== norm3c(p.bodies)) bad.push('本の physics/bodies が器の写しと違う');
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok || (v.warnings || []).length) bad.push('受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 160));
+          else if (HP.fitCondSig(v.preset, p.fitRecord) !== p.fitRecord.cond.sig) bad.push('条件の署名');
+          const f = J.final, fx = (x, k) => Number(x).toFixed(k), txt = JSON.stringify(p.obsCard), txtE = JSON.stringify(p.en.obsCard);
+          const W = [fx(f.h.w118.T1, 4), fx(f.h2.w118.T1, 4), fx(f.h4.w118.T1, 4), fx(f.long.w354.T1, 4), String(f.gain), String(f.rp), String(f.e0), String(f.inc), fx(J.fix0.w118.T1, 4),
+            fx(J.search.bracket ? J.search.bracket.yLo : NaN, 4), fx(J.search.bracket ? J.search.bracket.yHi : NaN, 4), fx(J.ref.incl.T2, 4), fx(J.flat.w2d.T1, 4)];
+          for (const w of W) { if (txt.indexOf(w) < 0) bad.push('観測カードに正本の値 ' + w + ' が無い'); if (txtE.indexOf(w) < 0) bad.push('観測カード(en)に正本の値 ' + w + ' が無い'); }
+          if (p.fitRecord.status !== J.status) bad.push('status');
+          cases.push(`gain ${f.gain}・118 公転窓 ${fx(f.h.w118.T1, 4)} 年(h/2 ${fx(f.h2.w118.T1, 4)}・h/4 ${fx(f.h4.w118.T1, 4)})・354 公転窓 ${fx(f.long.w354.T1, 4)}・gain 0 ${fx(J.fix0.w118.T1, 4)}・参照 ${fx(J.ref.incl.T2, 4)}・status ${J.status}・挟めた ${J.search.bracketed}`);
+        }
+      }
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const a = Pd.indexOf('〔第298便c — ');
+      const ends = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. 論文', a)].filter((k) => k > a) : [];
+      const psec = (a >= 0) ? Pd.slice(a, ends.length ? Math.min(...ends) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第298便c〕が無い');
+      else if (!(a < Pd.indexOf('\n## 7. '))) bad.push('〔第298便c〕が「## 7.」の前に無い');
+      for (const w of ['spinDrag', 'surfaceFlip', 'axialCoupling', 'μ²', 'M1', 'â×ê', '回転引きずり', '軸引きずり', '並進引きずり', '受動プローブ', 'Z=0', 'inertialDragProbeAt', '廃止予定',
+        '零試験', 'ビット同一', '共変', '収支', '有限球', 'earthMoonSunInertial3d', '8.85', '354', 'chainDiskToy3d', 'chainDiskToy3dTilt', 'coord3dDenyOf', 'S._core', 'bitsame'])
+        if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第298便c〕に「' + w + '」が無い');
+      const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      const ai = Ai.indexOf('第298便c —— 三次元の慣性決定力');
+      if (ai < 0) bad.push('AI_SPEC に第298便c の節が無い');
+      else { const as = Ai.slice(ai); for (const w of ['spinDrag', 'axialCoupling', 'inertialDragProbeAt', 'behavior.drag3d298', 'docs.moon3d298', '12. 三次元の慣性決定力(第298便c)']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+      if (CL.indexOf('第298便c') < 0) bad.push('CHANGELOG に第298便c が無い');
+      if (RM.indexOf('第298便c') < 0 || RM.indexOf('spinDrag') < 0) bad.push('README に要点が無い');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      for (const [st, cmd, o] of [['drag3d-298c', 'node tests/exp-w298c-drag3d.mjs', 'tests/out/drag3d-w298c.json'], ['moon3d-298c', 'node tests/exp-w298c-moon3d.mjs', 'tests/out/moon3d-w298c.json']])
+        if (RT.indexOf("S('" + st + "', '" + cmd + "', ['" + o + "']") < 0) bad.push('再生成の段 ' + st);
+      if (!/secSource: 'w298c-branch'/.test(RT)) bad.push("段の secSource 'w298c-branch'");
+      const GI = fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8');
+      for (const o of ['!tests/out/drag3d-w298c.json', '!tests/out/moon3d-w298c.json']) if (GI.indexOf(o) < 0) bad.push('.gitignore の例外 ' + o);
+      const blk = (id) => { const i0 = html298c.indexOf('{ id:"' + id + '"'); const i1 = html298c.indexOf('\n{ id:"', i0 + 5); return (i0 >= 0) ? html298c.slice(i0, i1 > i0 ? i1 : undefined) : ''; };
+      const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+      const harn = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w298c-drag3d.mjs'), 'utf8') + fs.readFileSync(path.join(ROOT, 'tests', 'exp-w298c-moon3d.mjs'), 'utf8');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      for (const [nm, tx] of [['PHYSICS', psec], ['新本', blk('chainDiskToy3d') + blk('chainDiskToy3dTilt') + blk('earthMoonSunInertial3d')], ['器', harn], ['AI_SPEC', (ai >= 0) ? Ai.slice(ai, ai + 20000) : '']])
+        for (const re of NG) if (re.test(strip(tx))) bad.push(nm + ' に禁句 ' + re.source);
+      cases.push(`PHYSICS〔第298便c〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・段 2 つ・.gitignore・禁句 0`);
+      add('docs.moon3d298', bad.length === 0,
+        `**🌥️ の三次元の写し(月の軌道傾斜)と第298便c の文書**(第298便c・R167 —— fitted の門はアプリの三次元の步の値だけ・参照積分は記録): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

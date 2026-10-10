@@ -113,6 +113,30 @@
     "state": "CG <=40 iterations within 1e-10; outer band 2.22x the chain-cut control; no disc claim"
    }
   },
+  "chainDiskToy3d": {
+   "purpose": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る",
+   "objective": "met",
+   "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.170/0.577/0.196 rad・プローブの門 2.8e-11・循環 36.6",
+   "evidence": [
+    "tests/out/drag3d-w298c.json"
+   ],
+   "en": {
+    "purpose": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex",
+    "state": "bit-identical to 2D 🔗; band dTheta 2.170/0.577/0.196 rad; probe gate 2.8e-11; circulation 36.6"
+   }
+  },
+  "chainDiskToy3dTilt": {
+   "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
+   "objective": "met",
+   "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)",
+   "evidence": [
+    "tests/out/drag3d-w298c.json"
+   ],
+   "en": {
+    "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
+    "state": "out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285"
+   }
+  },
   "coord3dKeplerTilt": {
    "purpose": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る",
    "objective": "met",
@@ -171,6 +195,18 @@
    "en": {
     "purpose": "parent copy with mean-element initial state; search the gain toward 8.85 yr",
     "state": "gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%"
+   }
+  },
+  "earthMoonSunInertial3d": {
+   "purpose": "🌥️ を三次元で走らせ月の軌道傾斜を入れて 8.85 年へ gain を探索",
+   "objective": "met",
+   "state": "gain 0.259335 で 118 公転窓 8.8500 年・gain 0 は 8.8989 年・354 公転窓 8.8261 年",
+   "evidence": [
+    "tests/out/moon3d-w298c.json"
+   ],
+   "en": {
+    "purpose": "Run 🌥️ in 3D with the lunar inclination; search the gain to 8.85 yr",
+    "state": "gain 0.259335: 8.8500 yr over 118 orbits (h/2 8.8502); gain 0: 8.8989 yr; 354 orbits 8.8261 yr"
    }
   },
   "mercurySunInertial": {

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便a",
   "target": "beta/index.html",
-  "targetSha256": "9724e1d00f7497fefef553ba4eaad3a6c7b4446066d9ce39a06800eb1b8ac712",
-  "generatedAt": "2026-10-10T16:47:20.774Z",
+  "targetSha256": "8657cef4cd3a3bbd1ff623526cc9e19524a2a3c2b8d7fc3d202564d94711be07",
+  "generatedAt": "2026-10-10T17:33:28.291Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6215041,
-    "sha256": "9724e1d00f7497fefef553ba4eaad3a6c7b4446066d9ce39a06800eb1b8ac712",
-    "mtime": "2026-10-10T16:47:16.322Z"
+    "bytes": 6329318,
+    "sha256": "8657cef4cd3a3bbd1ff623526cc9e19524a2a3c2b8d7fc3d202564d94711be07",
+    "mtime": "2026-10-10T17:26:31.294Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w298a-coord3d.mjs",
     "bytes": 31394,
     "sha256": "abf6f9c7311e55ab5ab6cc4af11f278160a0121a5dc5eeecb15fde7c1e190e56",
-    "mtime": "2026-10-10T16:03:01.977Z"
+    "mtime": "2026-10-10T17:00:39.218Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-10T15:18:21.721Z"
+    "mtime": "2026-10-10T17:00:39.230Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-10T15:18:21.713Z"
+    "mtime": "2026-10-10T17:00:39.226Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-10T15:18:22.021Z"
+    "mtime": "2026-10-10T17:00:39.234Z"
    }
   ],
   "codeSha256": "cfc1f7613da089dfa6ba7c1988ed24265a50c3a3b91795b62a3e7682a28afd05",
@@ -137,11 +137,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1117,
-   "segments": 1024,
-   "closureShare": 0.3257
+   "names": 1166,
+   "segments": 1066,
+   "closureShare": 0.3272
   },
-  "scopeSha256": "7865ae447cbfb73ff4734f7aa061c05ae896900928af32fc3c45712f966fdbb5",
+  "scopeSha256": "ba700f1924f2f869720828c99010715f9a3ca88788094cb20674b461348a764c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -417,18 +417,6 @@
     "otherErrors": []
    },
    {
-    "key": "spinSource",
-    "tested": true,
-    "rejected": true,
-    "otherErrors": []
-   },
-   {
-    "key": "dragCore",
-    "tested": true,
-    "rejected": true,
-    "otherErrors": []
-   },
-   {
     "key": "thermal",
     "tested": true,
     "rejected": true,
@@ -579,8 +567,8 @@
     "otherErrors": []
    }
   ],
-  "nRejected": 38,
-  "nTested": 38,
+  "nRejected": 36,
+  "nTested": 36,
   "allRejected": true,
   "boxTiltDropped": true,
   "runtimeHalt": {
@@ -710,5 +698,5 @@
   "covariantDouble": true
  },
  "ok": true,
- "elapsedS": 3.205
+ "elapsedS": 3.996
 }
