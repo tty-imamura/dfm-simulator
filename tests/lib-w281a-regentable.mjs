@@ -826,6 +826,13 @@ export const REGEN_STEPS = [
   S('moon3d-298c', 'node tests/exp-w298c-moon3d.mjs', ['tests/out/moon3d-w298c.json'], 300, { secSource: 'w298c-branch', node: true,
     volatilePaths: { 'tests/out/moon3d-w298c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ref/flat/wallSec', '/ref/incl/wallSec']) },
     note: '第298便c: 🌥️ の三次元の写し —— 月の軌道傾斜 5.145° の初期配置(3 元 Newton)・軌道面の中の近点経度・gain の探索(挟めたら fitRecord w298b-1 の 3 標的)' }),
+  // ---- 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・DECISIONS v58 §1 の AN286・統括の検証項目 R174): **参照模型の三次元化**
+  //   (在位の 8 本 🔮🥏🧵🍭🎱📀🧹🎢 —— xy が凍結の二次元の写し〔+stateCarry:"double"〕とビット同一・z の厚みと v_z の分散・G に対する不感と Core 系の門・
+  //   Core 力学の三次元の共変・三次元の P/L/E の収支・チェックポイントと複製・保存往復・受理と走行の門・feedback と成長の写し)。
+  //   Node の headless(1 プロセス)・html と凍結の写し tests/data-w299e-ref2d.json を読む(他の正本は読まない —— after なし)。所要は第299便e の枝の実測(正本の elapsedS —— 他の枝と並走)
+  S('ref3d-299e', 'node tests/exp-w299e-ref3d.mjs', ['tests/out/ref3d-w299e.json'], 80, { secSource: 'w299e-branch', node: true,
+    volatilePaths: { 'tests/out/ref3d-w299e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第299便e: 参照模型 8 本の三次元化 —— xy のビット同一(凍結の二次元の写し)・z の厚み・G の不感・共変・三次元の収支・チェックポイント/複製・保存往復(値だけ —— 扁平は宣言)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

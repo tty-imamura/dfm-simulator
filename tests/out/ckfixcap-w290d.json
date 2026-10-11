@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
-  "generatedAt": "2026-10-11T06:28:53.726Z",
+  "targetSha256": "d463e9585ab33360375b6486ec3af280cc57562ea8844337ffa0f152b187f2f1",
+  "generatedAt": "2026-10-11T07:49:14.740Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6378738,
-    "sha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
-    "mtime": "2026-10-11T06:28:33.904Z"
+    "bytes": 6412608,
+    "sha256": "d463e9585ab33360375b6486ec3af280cc57562ea8844337ffa0f152b187f2f1",
+    "mtime": "2026-10-11T07:20:45.372Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 49508,
-    "sha256": "d4939757fc35aae2404907d597ccedea34cdc1179c8e78d7b5527aeed3d33de5",
-    "mtime": "2026-10-11T06:28:27.411Z"
+    "bytes": 50272,
+    "sha256": "163b491bce3ac8bccd8bb92c5a570de3cc6f6d4ea81db2f9b86636301595c9e5",
+    "mtime": "2026-10-11T07:49:12.564Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-11T05:00:25.808Z"
+    "mtime": "2026-10-11T06:46:32.300Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-11T05:00:25.804Z"
+    "mtime": "2026-10-11T06:46:32.296Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-11T05:00:25.816Z"
+    "mtime": "2026-10-11T06:46:32.304Z"
    }
   ],
-  "codeSha256": "4168f19fc26796d0ef50b5eaed20236e7a2cee6be7195dc1675b3510b9177daf",
+  "codeSha256": "b554259a98ca032f14e8e1f8228426d62902a50b22b1f06f687473d301d3e069",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1167,
-   "segments": 1060,
-   "closureShare": 0.3246
+   "names": 1191,
+   "segments": 1084,
+   "closureShare": 0.3264
   },
-  "scopeSha256": "518b397a24e960d1a88f590a6ee4c8b15965c27ecf7a9dc44c9ae6d0970a45ce",
+  "scopeSha256": "d3c26cde90f3db1d18e1e4fd9b1ad87aff15e9635bcbf005b5317df681386776",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1925,278 +1925,325 @@
        "saveJson": false
       },
       {
+       "key": "shapeToy3N",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
        "key": "shapeToyBathE",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathEz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyBathL",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathLx",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathLy",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyBathPx",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyBathPy",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathPz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyBranch",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyDetE",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyDetEz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyDx",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyDz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyE",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyEz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyL",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyLen",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyLx",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyLy",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyN",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyPx",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyPy",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyPz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySigma",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySigmaZ",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyStop",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySupE",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupEz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySupL",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySupPx",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToySupPy",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupPz",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyTheta",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "shapeToyUnbooked",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "uLat",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "wLat",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "wzLat",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "yLat",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "zLat",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       }
      ],
      "moved": [
       "shapeToyBathE",
+      "shapeToyBathEz",
       "shapeToyBathL",
+      "shapeToyBathLx",
+      "shapeToyBathLy",
       "shapeToyBathPy",
+      "shapeToyBathPz",
       "shapeToyDetE",
+      "shapeToyDetEz",
       "shapeToyDx",
+      "shapeToyDz",
       "shapeToyE",
+      "shapeToyEz",
       "shapeToyL",
+      "shapeToyLx",
+      "shapeToyLy",
       "shapeToyPy",
+      "shapeToyPz",
       "shapeToySupE",
+      "shapeToySupEz",
       "shapeToySupL",
       "shapeToySupPy",
+      "shapeToySupPz",
       "wLat",
       "wzLat",
       "yLat",
       "zLat"
      ],
-     "notRestored": [
-      "shapeToyBathE",
-      "shapeToyBathL",
-      "shapeToyBathPy",
-      "shapeToyDetE",
-      "shapeToyDx",
-      "shapeToyE",
-      "shapeToyL",
-      "shapeToyPy",
-      "shapeToySupE",
-      "shapeToySupL",
-      "shapeToySupPy",
-      "wLat",
-      "wzLat",
-      "yLat",
-      "zLat"
-     ],
+     "notRestored": [],
      "diffKeys": [
-      "_pkC",
-      "pairD",
-      "railIdx",
-      "shapeToyBathE",
-      "shapeToyBathL",
-      "shapeToyBathPy",
-      "shapeToyDetE",
-      "shapeToyDx",
-      "shapeToyE",
-      "shapeToyL",
-      "shapeToyPy",
-      "shapeToySupE",
-      "shapeToySupL",
-      "shapeToySupPy",
-      "sumW",
-      "uAy",
-      "wLat",
-      "wzLat",
-      "yLat",
-      "zLat"
+      "_st3P"
      ],
      "diffByCat": {
       "other": [
-       "_pkC",
-       "pairD",
-       "railIdx",
-       "sumW",
-       "uAy"
-      ],
-      "shapeToy": [
-       "shapeToyBathE",
-       "shapeToyBathL",
-       "shapeToyBathPy",
-       "shapeToyDetE",
-       "shapeToyDx",
-       "shapeToyE",
-       "shapeToyL",
-       "shapeToyPy",
-       "shapeToySupE",
-       "shapeToySupL",
-       "shapeToySupPy",
-       "wLat",
-       "wzLat",
-       "yLat",
-       "zLat"
+       "_st3P"
       ]
      },
-     "rerunBitSame": false
+     "rerunBitSame": true
     }
    ],
    "table": [
@@ -2388,16 +2435,28 @@
      "fixture": "shapeToyArm",
      "keys": [
       "shapeToyBathE",
+      "shapeToyBathEz",
       "shapeToyBathL",
+      "shapeToyBathLx",
+      "shapeToyBathLy",
       "shapeToyBathPy",
+      "shapeToyBathPz",
       "shapeToyDetE",
+      "shapeToyDetEz",
       "shapeToyDx",
+      "shapeToyDz",
       "shapeToyE",
+      "shapeToyEz",
       "shapeToyL",
+      "shapeToyLx",
+      "shapeToyLy",
       "shapeToyPy",
+      "shapeToyPz",
       "shapeToySupE",
+      "shapeToySupEz",
       "shapeToySupL",
       "shapeToySupPy",
+      "shapeToySupPz",
       "wLat",
       "wzLat",
       "yLat",
@@ -2405,44 +2464,40 @@
      ],
      "moved": [
       "shapeToyBathE",
+      "shapeToyBathEz",
       "shapeToyBathL",
+      "shapeToyBathLx",
+      "shapeToyBathLy",
       "shapeToyBathPy",
+      "shapeToyBathPz",
       "shapeToyDetE",
+      "shapeToyDetEz",
       "shapeToyDx",
+      "shapeToyDz",
       "shapeToyE",
+      "shapeToyEz",
       "shapeToyL",
+      "shapeToyLx",
+      "shapeToyLy",
       "shapeToyPy",
+      "shapeToyPz",
       "shapeToySupE",
+      "shapeToySupEz",
       "shapeToySupL",
       "shapeToySupPy",
+      "shapeToySupPz",
       "wLat",
       "wzLat",
       "yLat",
       "zLat"
      ],
-     "notRestored": [
-      "shapeToyBathE",
-      "shapeToyBathL",
-      "shapeToyBathPy",
-      "shapeToyDetE",
-      "shapeToyDx",
-      "shapeToyE",
-      "shapeToyL",
-      "shapeToyPy",
-      "shapeToySupE",
-      "shapeToySupL",
-      "shapeToySupPy",
-      "wLat",
-      "wzLat",
-      "yLat",
-      "zLat"
-     ],
+     "notRestored": [],
      "saveJson": "運ばない",
      "rebuild": "再構築できる(t=0 の値だけ)",
-     "checkpoint": "運ばない",
-     "abClone": "運ばない",
-     "roundTrip": "動いた 15 鍵のうち 15 鍵が戻らない",
-     "rerunBitSame": false
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
+     "roundTrip": "動いた 27 鍵がすべて戻る",
+     "rerunBitSame": true
     },
     {
      "key": "capture",
@@ -2557,9 +2612,9 @@
    ],
    [
     "shapeToy",
-    "運ばない",
-    "動いた 15 鍵のうち 15 鍵が戻らない",
-    false
+    "運ぶ",
+    "動いた 27 鍵がすべて戻る",
+    true
    ],
    [
     "capture",
@@ -2697,5 +2752,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.48
+ "elapsedS": 0.478
 }

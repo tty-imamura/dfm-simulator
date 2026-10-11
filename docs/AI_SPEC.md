@@ -3507,3 +3507,14 @@ SYSTEM_PROMPT の規則 12(逐語):
 - **棚卸し**: 器 `tests/exp-w293c-corecensus.mjs`(`w293c-corecensus-2`)・純関数 lib-2 —— 行 `spinAxis:display2d`・`spinAxis:enable3d`・`spinAxis:precess3d`(旧 `spinAxis` の 1 行を分けた)。
 - **HP**: `selEditVisOf`・`coord3dSpinAxisEdit`・`coreAxisEdit`・`dragCoreEdit`・`coordSwitchPlanOf`・`coordSwitchTo`・`coordSwitchState`・`coord2dZNonzeroOf`・`familyFoldMin`・`setFamilyFoldMin`。
 - QA: **`ui.selEdit299`**・**`ui.paramTab299`**(新設 —— root は SKIP)・`ui.familyFold296`(⑥ の数え方と初期化を直し ⑦ 閾値 5 案・⑧ 合成の家族を足した)・`docs.coreCensus`。力学の既定経路・presetSig・`S._core` は 1 bit も変えない(bitsame/sigsame 164/164 同一)。
+
+## 75. 第299便e —— 参照模型サンプルの三次元化(原仮定者の裁定(第89報)④・DECISIONS v58 §1 の AN286・統括の検証項目 R174・**在位の 8 本を三次元の本に** —— 二次元の經路は 1 文字も変えない・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: 🔮 shapeToyCluster・🥏 shapeToyDisk・🧵 shapeToyArm・🍭 shapeToySpiral・🎱 shapeToyClusterCore・📀 shapeToyDiskCore・🧹 shapeToyArmCore・🎢 shapeToySpiralCore の physics に `coord:"3d"`・`stateCarry:"double"`(ほかの鍵は 1 つも変えていない)。二次元の宣言は凍結の写し `tests/data-w299e-ref2d.json`(第298便の main の宣言 —— 書き換えない)。
+- **受理と走行の門**: `coord3dDenyOf` は `physics.shapeToy` を拒否しない(三次元の本で形状トイ・Core 力学・渦巻を宣言できる —— coupling:"feedback"・tauGrow>0 も)・`coord3dRuntimeWhy` は `hasShapeToy`・`hasCoreField`・`hasSpiral` で止めない・`COORD3D_SUPPORTED` に `shapeToy`。
+- **步**: `dfmStep3` の核の後に `dfmShapeToyStep3`・`dfmCoreFieldStep3`・`dfmShapeToySpiralStep3`(二次元の步をそのまま呼び、前後で z だけを読み書き —— 規定系 z=c_z+σ_z ζ・v_z=ċ_z+σ̇_z ζ+σ_z w_ζ/渦巻は sigmaZ・armSigmaZ/Core 系は S.z=c_z+cfZ・S.vz=cfVz と z のキックの取り込み)。build の後段 `shapeToy3Write(S)` が t=0 の z を書く。
+- **帳簿の鍵**(三次元の本だけ): `SHAPE_TOY3_SC` = shapeToyPz・Lx・Ly・Ez・BathPz・BathLx・BathLy・BathEz・SupPz・SupEz・DetEz・Dz/spiral の同じ並び(+SupEzArm)/coreFieldExtPz・coreFieldExtEz・coreFieldDriftDz・coreFieldL3FixX・coreFieldL3FixY/shapeToy3N。**二次元の經路の欄の意味は変えない**(三次元の E = 二次元の欄 + *Ez・三次元の L_x,L_y = coreFieldLx,Ly + L3Fix)。
+- **チェックポイントと複製**: `shapeToyCkSnap(S)`/`shapeToyCkRestore(S, o)`(潜在の配列 `SHAPE_TOY_CK_ARRS`・乱数の位置・帳簿のスカラー)—— ckSnapOne の `o.st`・cloneSimState。乱数 `S._stRng`・`S._spRng` は `mulberry32S`(mulberry32 と同じ出力列・状態 `.s`)。
+- **HP**: `HP.coord3d.ref3d` = `{version:SHAPE_TOY3_VERSION("w299e-ref3d-1"), sc, ckArrs, write, state(S) → {stats:{all|disk|arm:{n, meanZ, rmsZ, sigmaZ, meanVz, sigmaVz, rmsR}}, ledger}, ckSnap, ckRestore, rng}`。
+- **器と正本**: `tests/exp-w299e-ref3d.mjs`(版 w299e-ref3d-1・`W299E_OUT`)→ `tests/out/ref3d-w299e.json`(段 ref3d-299e)。
+- QA: `behavior.ref3d299`・`preset.ref3d299`・`docs.ref3d299`(root は SKIP —— 世代切替 = html の `SHAPE_TOY3_VERSION="w299e`)。

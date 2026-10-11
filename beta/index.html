@@ -1333,6 +1333,12 @@ const clamp = (v,a,b)=>v<a?a:(v>b?b:v);
 function mulberry32(seed){ let a=seed>>>0; return function(){ a|=0; a=(a+0x6D2B79F5)|0;
   let t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t;
   return ((t^(t>>>14))>>>0)/4294967296; }; }
+// 第299便e(R174): **状態を読める mulberry32**(形状トイ・Core 力学・渦巻の参照模型の乱数 `S._stRng`・`S._spRng` だけが使う)。
+//   出力列は mulberry32 と**同じ式・同じ順**(状態 a を閉包の変数でなく関数の鍵 .s に置いただけ)—— チェックポイント・A/B の複製が
+//   乱数の位置を写して戻せるようにする(閉包の mulberry32 は状態を読めないので、複製の後の乱数が「最初から」引き直されていた)。
+function mulberry32S(seed){ const f=function(){ let a=f.s|0; a=(a+0x6D2B79F5)|0; f.s=a;
+  let t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t;
+  return ((t^(t>>>14))>>>0)/4294967296; }; f.s=seed>>>0; return f; }
 function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);} return h>>>0; }
 const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
   :Math.abs(v)>=0.1||v===0?v.toFixed(2):v.toFixed(4);
@@ -8069,7 +8075,9 @@ const COORD3D_SUPPORTED=Object.freeze([
   {key:"frame", ja:"balanceFrame:\"barycentric\"(z も重心系へ)・群 ring/disk の傾き incl と昇交点 node", en:"balanceFrame barycentric (z included), ring/disk group inclination incl and node"},
   // 第298便c(原仮定者の裁定(第88報)・R167): 第 2 段で開けた 2 項目(旧 COORD3D_REJECTED の spinSource・dragCore)
   {key:"spinDrag", ja:"慣性決定力の回転引きずり・軸引きずり relativeDrag.spinDrag(三次元だけ —— spinSource:\"surfaceFlip\" は rot だけの別名)", en:"inertial rotational and axial drag relativeDrag.spinDrag (3D only - spinSource surfaceFlip is the rot-only alias)"},
-  {key:"dragCore", ja:"慣性決定力の構造核 dragCore(表は r だけの関数 —— 三次元の距離で引く)", en:"inertial structure core dragCore (the table is a function of r only - looked up at the 3D distance)"}]);
+  {key:"dragCore", ja:"慣性決定力の構造核 dragCore(表は r だけの関数 —— 三次元の距離で引く)", en:"inertial structure core dragCore (the table is a function of r only - looked up at the 3D distance)"},
+  // 第299便e(原仮定者の裁定(第89報)④・R174): 参照模型(形状トイ・Core 力学・渦巻)—— 潜在だった面外 z を座標へ(xy の解は二次元と同じ式・同じ乱数の順)
+  {key:"shapeToy", ja:"参照模型 physics.shapeToy(規定運動の潜在 z を座標 S.z・S.vz へ・Core 力学の cfZ/cfVz を同期し z のキックを取り込む・渦巻の円盤と腕)", en:"reference models physics.shapeToy (the latent z of the prescribed motion becomes S.z/S.vz; the core law syncs cfZ/cfVz and takes the z kicks; spiral disc and arms)"}]);
 // 三次元で**拒否する**機能(受理の門 coord3dDenyOf の理由 —— 第 2 段以降で対応させる候補。並びは docs と同じ)
 const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","gravityXY","geoPN12","geodesic","geoLegacy","physicsOther",
   "relativeDragLaw","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
@@ -8095,7 +8103,7 @@ function coord3dDenyOf(p){
   if(sm!==undefined && sm!==null) add("geoLegacy","physics.spaceMesh(旧法則版・空間メッシュ —— 二次元の場)");
   const allow=Object.keys(DEFAULT_PHYSICS).concat(COORD3D_PHYS_EXTRA_ALLOW);
   for(const k of Object.keys(ph)){
-    if(ph[k]===undefined || allow.indexOf(k)>=0 || k===SPACE_MESH_KEY || k===GEODESIC_KEY) continue;
+    if(ph[k]===undefined || allow.indexOf(k)>=0 || k===SPACE_MESH_KEY || k===GEODESIC_KEY || k===SHAPE_TOY_KEY) continue;   // 第299便e(R174): physics.shapeToy(参照模型)は三次元で対応
     add("physicsOther","physics."+k+"(三次元では未対応の宣言 —— 二次元の経路の鍵)");
   }
   if(rd!==undefined && rd!==null){
@@ -8152,7 +8160,7 @@ function coord3dRuntimeWhy(S){
   if(p.petersGW===true) return "physics.petersGW";
   if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";   // 第298便c: spinSource・spinDrag・dragCore は三次元で対応
   const fl=["hasSpaceMesh","hasCoordInertia","hasPairWeave","hasMeshReservoir","hasSpinSpin","hasAxisForce","hasCompactForce","hasBodyLayers","hasCoreV2",
-    "hasTide","hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasShapeToy","hasCoreField","hasSpiral","hasCoreAxis","hasMeshVelocity",
+    "hasTide","hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasCoreAxis","hasMeshVelocity",   // 第299便e: hasShapeToy・hasCoreField・hasSpiral は三次元で対応(参照模型)
     "hasCenterCapture","hasFixedCapture","hasShed","hasLightTrap","hasPeriSub"];
   for(const k of fl) if(S[k]===true) return k;
   if(S.thermal==="tint" || S.fusion || S.box || S.measureBox || S.phase || S.zonal || S._phSched) return "thermal/fusion/box/phase/zonal/photon";   // 第298便c: dragCore は三次元で対応
@@ -12031,7 +12039,7 @@ const BUILTIN_PRESETS = [
     {q:"較正ではない", model:"観測された星団の密度も速度分散も**1 つも入力していない**。claim 窓も regression window も無い", obs:"—"},
     {q:"重力で安定したのではない", model:"対象粒子は**規定運動**。G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない(器で実測)", obs:"—"},
     {q:"定常分布", model:"Cov(y)=I・Cov(w)=ω₀²I。**離散化は厳密**(F=e^{Bh}・Q_h=C−FCFᵀ)で、刻みを変えても定常分布は動かない", obs:"—"},
-    {q:"3D と投影", model:"面外 z は潜在のまま持つ(力には使わない)。3 つの 1D 正規分布の積が 3D 密度で、どの視線の投影も正規分布になる", obs:"—"},
+    {q:"3D と投影", model:"面外 z は**座標**(第299便e —— 潜在 ζ の σ 倍を書き出す規定運動・力には使わない)。3 つの 1D 正規分布の積が 3D 密度で、どの視線の投影も正規分布(θ=0 で横から見える)", obs:"—"},
     {q:"成長は止めてある(第275便d)", model:"τ=0・σ=σ₀=36。σ は**初期配置の RMS 半径**(一様円盤 R=72 の R/√2=50.91=36√2)に合わせた宣言値である", obs:"—"},
     {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。粒子が受け取った P/L/E の厳密な負を帳簿へ記帳する(**閉じていない**)", obs:"—"},
     {q:"言わないこと", model:"**星団を較正した/正規分布が創発した/銀河が安定した**とは書かない。指定した形状の参照モデルである", obs:"—"}],
@@ -12045,7 +12053,7 @@ const BUILTIN_PRESETS = [
       {q:"This is not a calibration", model:"NOT ONE observed cluster density or velocity dispersion is fed in; there is no claim window and no regression window", obs:"-"},
       {q:"Gravity did not stabilise it", model:"The target particles are PRESCRIBED motion. It runs at G=0, and raising G leaves the 600-step state BIT-UNCHANGED (measured by the harness)", obs:"-"},
       {q:"Stationary law", model:"Cov(y)=I, Cov(w)=omega0^2 I. The DISCRETISATION IS EXACT (F = exp(Bh), Q_h = C - F C F^T), so the stationary law does not move with the step size", obs:"-"},
-      {q:"3D and projection", model:"The out-of-plane z stays latent (never read by any force). The 3D density is the PRODUCT of three 1D normals, so every line-of-sight projection is normal", obs:"-"},
+      {q:"3D and projection", model:"The out-of-plane z is a COORDINATE (a 3D book since wave 299e: the latent zeta times sigma is written to S.z as prescribed motion, never read by any force). The 3D density is the PRODUCT of three 1D normals, so every line-of-sight projection is normal (seen edge-on at view tilt theta = 0)", obs:"-"},
       {q:"The growth is switched off (wave 275d)", model:"tau = 0, sigma = sigma_0 = 36 - the RMS radius of the initial layout (a uniform disc of R = 72 has R/sqrt(2) = 50.91 = 36*sqrt(2))", obs:"-"},
       {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E handed to the particles is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
       {q:"What this does not claim", model:"NOT a calibrated cluster, NOT 'a normal distribution emerged', NOT 'a galaxy became stable'. It is a reference model of a SPECIFIED shape", obs:"-"}],
@@ -12055,7 +12063,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY: it is declared in physics.shapeToy (omega0 = restoring frequency, gamma = damping rate, sigma = target spread, tau = growth time constant). Raising G changes nothing at all, because the target particles are prescribed motion - which is the operational check that GRAVITY IS NOT WHAT STABILISED THIS."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された星団の密度・速度分散・年齢を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["中心 c=(0,0)・固定(**中心天体なし版** —— 中心天体つきは 🎱 shapeToyClusterCore)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(潜在 ζ を σ_z 倍して書き出す規定運動のまま —— 力には使わない)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "中心 c=(0,0)・固定(**中心天体なし版** —— 中心天体つきは 🎱 shapeToyClusterCore)",
       "A=σI(等方)・ω₀=0.10・γ=0.25(過減衰 γ²/4>ω₀²)","**成長なし** τ=0・σ=σ₀=36(初期配置 R=72 の RMS 半径 R/√2=50.91 に一致)",
       "coupling:\"prescribed\"(潜在が状態の正本)","supply:\"external-bath\"(供給の出所の宣言)",
       "G=0(重力を切ってある —— **これは参照モデルである**)","cLight=30(組込みプリセットの規約)"],
@@ -12070,6 +12079,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
       omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"fixed", cx:0, cy:0}},
   bodies:[
@@ -12092,7 +12102,7 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**楕円銀河を較正した/腕が創発した/銀河が安定した**とは書かない。腕は本便では乗せていない", obs:"—"}],
   descStruct:{
     summary:"**腕のない回転円盤の参照モデル**(楕円銀河のアナロジー・第274便d・重力 E4 はこの経路の状態を決めない)。A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ(t)=Ωt で潜在座標を物理座標へ写し、潜在は 🔮 と同じ 2 階 OU(厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)で更新する。**面内 σ が等しいので回転 R(θ) は形を変えない** —— 横から見たときの扁平は **σ_z<σ_R の宣言**であって、回転の帰結ではない(「回転させたら扁平になった」とは書かない)。**これは較正ではない**(観測された楕円銀河の軸比・速度分散を 1 つも入力していない)。**重力から形が出たのでもない**: 対象粒子は規定運動であり、G=0 で走らせてあって、G を上げても 600 步の状態は 1 bit も変わらない。Ω=0.05<ω₀=0.10 を宣言条件として走らせているが、**この参照モデルでは Ω は潜在座標の式に入らない**ので、Ω を上げても定常共分散は動かない(第274便d の実測表)—— つまり「Ω<√κ」は**この模型では安定条件として働いていない**。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳するだけである(**閉じた系ではない**)。腕は乗せていない(渦巻は次段)。**第275便d(第65報 (5))の変更**: 成長の宣言を外し(τ=0・σ_R=σ₀=44=初期配置の RMS 半径)、**Ω/ω₀ を 0.5 から 5 へ上げた**(ω₀=0.01・γ=0.02 の臨界減衰)。これで角運動量が平均と逆向きの粒子の割合が **27.9% → 1.1%** へ下がる(実測)—— ただし**この模型の A(t) は線形写像なので回転は剛体回転だけ**であり、**外側が平坦な回転曲線は出ない**(半径 5 ビンの Ω は 0.0487〜0.0500 でばらつき 2.7%、v_t は最内 0.98 から最外 5.16 へ外ほど大きい。否定結果)。中心天体つきの参照版は 📀 `shapeToyDiskCore` に分けてある。**言わないこと**: 「楕円銀河を較正した」「回転させたら扁平になった」「腕が創発した」「銀河が安定した」「平坦回転曲線を再現した」とは書かない。",
-    observe:"面内は σ_R=44 へ、面外(潜在 z)は σ_z=14 へ緩和し、θ=Ωt(Ω=0.05)で回る。大きさは変えない(τ=0)。ランダム速度 σ_Rω₀=0.44 に対して回転 Ω·r が効くので、粒子はほぼ同じ向きに回る。横から見た投影(x–z)は軸比 σ_z/σ_R の正規分布である。数は docs/PHYSICS.md〔第275便d〕の表。",
+    observe:"面内は σ_R=44 へ、面外 z(三次元の本の座標 —— 第299便e)は σ_z=14 へ緩和し、θ=Ωt(Ω=0.05)で回る。大きさは変えない(τ=0)。ランダム速度 σ_Rω₀=0.44 に対して回転 Ω·r が効くので、粒子はほぼ同じ向きに回る。横から見た投影(x–z)は軸比 σ_z/σ_R の正規分布である。数は docs/PHYSICS.md〔第275便d〕の表。",
     control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy)。重力 G を上げても状態は 1 bit も動かない(規定運動)。扁平を変えたいときは σ_z の宣言を変える —— 回転 Ω を上げても扁平にはならない。"},
   en:{name:"Rotating disc toy without arms — the flattening is a declared sigma_z (NOT a calibration)",
     obsCard:[
@@ -12106,11 +12116,12 @@ const BUILTIN_PRESETS = [
       {q:"What this does not claim", model:"NOT a calibrated elliptical galaxy, NOT 'arms emerged', NOT 'a galaxy became stable'. No arm is carried on this sample", obs:"-"}],
     descStruct:{
       summary:"A REFERENCE MODEL OF A ROTATING DISC WITHOUT ARMS (the elliptical-galaxy analogy, wave 274d). A(t) = R(theta(t)) diag(sigma_R, sigma_R, sigma_z) with theta(t) = Omega t maps the latent coordinates to the physical ones, and the latent pair is advanced by the same second-order OU process as the globular-cluster toy (exact discretisation F = exp(Bh), Q_h = C - F C F^T). SINCE THE IN-PLANE SIGMAS ARE EQUAL, THE ROTATION R(theta) DOES NOT CHANGE THE SHAPE: the edge-on flattening is the DECLARED sigma_z < sigma_R, not a consequence of rotation. THIS IS NOT A CALIBRATION (no observed axis ratio or velocity dispersion is fed in) AND THE SHAPE DID NOT COME OUT OF GRAVITY (prescribed motion, G = 0, bit-unchanged when G is raised). Omega = 0.05 < omega0 = 0.10 is declared, but Omega DOES NOT ENTER THE LATENT EQUATIONS of this reference model, so raising Omega does not move the stationary covariance - 'Omega < sqrt(kappa)' IS NOT ACTING AS A STABILITY CONDITION HERE. The supply is an external bath and only the exact negative of the P/L/E handed to the particles is booked (THE SYSTEM IS NOT CLOSED). No arm is carried here; the spiral comes later. WAVE 275d (report 65, item 5) switched the growth off (tau = 0, sigma_R = sigma_0 = 44) AND RAISED Omega/omega0 FROM 0.5 TO 5 (omega0 = 0.01, gamma = 0.02, critically damped), which drops the retrograde fraction from 27.9% to 1.1% (measured). BUT A(t) IS A LINEAR MAP, SO THE ROTATION IS RIGID-BODY ONLY AND NO FLAT OUTER ROTATION CURVE COMES OUT (across five radial bins Omega stays within 2.7% while v_t grows from 0.98 to 5.16 - a negative result). The version with a central object is a separate sample, 📀 shapeToyDiskCore.",
-      observe:"In the plane the particles relax to sigma_R = 44, out of plane (the latent z) to sigma_z = 14, and the whole map turns with theta = Omega t (Omega = 0.05); the size does not change (tau = 0). The rotation Omega*r dominates the random speed sigma_R*omega0 = 0.44, so the particles nearly all turn the same way. The edge-on projection (x-z) is a normal distribution with axis ratio sigma_z / sigma_R. The numbers live in docs/PHYSICS.md, wave 275d.",
+      observe:"In the plane the particles relax to sigma_R = 44, out of plane (z, a coordinate of the 3D book since wave 299e) to sigma_z = 14, and the whole map turns with theta = Omega t (Omega = 0.05); the size does not change (tau = 0). The rotation Omega*r dominates the random speed sigma_R*omega0 = 0.44, so the particles nearly all turn the same way. The edge-on projection (x-z) is a normal distribution with axis ratio sigma_z / sigma_R. The numbers live in docs/PHYSICS.md, wave 275d.",
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). To change the flattening, change the declared sigma_z - raising the rotation Omega will not flatten it."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された楕円銀河の軸比・速度分散・回転を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(**宣言** Ω/ω₀=5)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(潜在 ζ を σ_z 倍して書き出す規定運動のまま —— 力には使わない)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "A=R(θ)·diag(σ_R,σ_R,σ_z)・θ=Ωt・Ω=0.05(**宣言** Ω/ω₀=5)",
       "**成長なし** τ=0・σ_R=σ₀=44(初期配置 R=88 の RMS 半径に一致)・σ_z=14(**扁平は σ_z の宣言**)","ω₀=0.01・γ=0.02(**臨界減衰** γ²/4=ω₀²・緩和時間 100)",
       "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
     fitted:["**無い。**"],
@@ -12125,6 +12136,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
       omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0,
       omegaSpin:0.05, center:"fixed", cx:0, cy:0}},
@@ -12166,7 +12178,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy). Raising G changes nothing (prescribed motion). Change the declared sigma to make the arm thicker, or tau to change how fast it grows."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された渦状腕のピッチ角・幅・密度を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["軸 c(s)=c₀+s·e₁(e₁=+x・c₀=(0,0))・**回さない**",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(潜在 ζ を σ_z 倍して書き出す規定運動のまま —— 力には使わない)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "軸 c(s)=c₀+s·e₁(e₁=+x・c₀=(0,0))・**回さない**",
       "**成長なし** τ=0・横断 σ_n=σ₀=7.2(箱 h=25 の横断 RMS 25/√12)・面外 σ_z=4.8","L=120 固定(伸ばさない)",
       "ω₀=0.12・γ=0.24(臨界減衰 γ²/4=ω₀²)","s は共動の端条件(ṡ=s·L̇/L — 復元も熱浴も無い)",
       "coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
@@ -12181,6 +12194,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
       omega0:0.12, gamma:0.24, sigma:7.2, sigmaZ:4.8, sigma0:7.2, tauGrow:0,
       armLength:120, armLength0:120, center:"fixed", cx:0, cy:0}},
@@ -12227,7 +12241,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy.spiral). Raising G changes nothing (prescribed motion). Pitch angle, number of arms and radial range are changed in the declaration - setting Omega_p to 0 keeps the arms curved (because the geometry is declared)."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された渦巻銀河のピッチ角・軸比・腕の幅・回転を 1 つも入力していない(原理サンプル)"],
-    fixedConventions:["円盤成分 300 個: 🥏 と同じ A=R(θ)·diag(σ_R,σ_R,σ_z)・σ_R=44・σ_z=14・ω₀=0.01・γ=0.02(臨界)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(潜在 ζ を σ_z 倍して書き出す規定運動のまま —— 力には使わない)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "円盤成分 300 個: 🥏 と同じ A=R(θ)·diag(σ_R,σ_R,σ_z)・σ_R=44・σ_z=14・ω₀=0.01・γ=0.02(臨界)",
       "腕成分 150 個(2 本 × 75): 対数螺旋の中心線 p=20°・r=24〜144・r₀=24・φ₀=0・横断 7.2・面外 4.8(🧵 の値)・ω₀=0.12・γ=0.24(臨界)",
       "θ=Ω_p t・Ω_p=0.05(🥏 と同じ —— 剛体パターン回転)","質量比 円盤/腕=2(宣言 —— 走行時の粒子と一致しなければ止まる)",
       "s は宣言の密度で固定(density:\"uniform-s\" —— 伸長なし)","coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
@@ -12243,6 +12258,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed",
       omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0, center:"fixed", cx:0, cy:0,
       spiral:{nArm:2, pitchDeg:20, rMin:24, rMax:144, r0:24, phi0Deg:0, armWidth:7.2, armSigmaZ:4.8,
@@ -12296,7 +12312,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). The SPIN of the central object is the input of omega_m, so changing it changes both the shape and the fingerprint. Raising G while the centre still carries engine mass would count the central gravity twice in E4 and k0, so that combination IS STOPPED BY A GATE."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は**参照**であって入力ではない)"],
-    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(Core 力学の自前の状態 cfZ・cfVz を同期 —— 中心の重力の二重計上の門は二次元と同じ)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
       "`law:\"coreField\"`・`center:\"pinned\"`(ω_c を中心天体のスピンから読む)",
       "力学的コア半径 r_c=125(表示半径 5 とは別)・M_c=10・W₀=0.00064(ω_m=0.5·ω_c になる側)",
       "α=1.1・β=0.1(K⊥=K∥=0.025 の等方)・軸 s=(0,0,1)・Ω_p=0",
@@ -12315,6 +12332,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     contactK:0, contactCap:0,
     shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.10, gamma:0.25, sigma:36, sigma0:36, tauGrow:0, center:"pinned", cx:0, cy:0,
@@ -12360,7 +12378,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). Raising beta makes it thinner and raising Omega_p cuts the retrograde fraction, but once Omega_p leaves the range of the circular-orbit rates lambda_pm THERE IS NO STATIONARY LAW AND THE GATE REJECTS IT."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された銀河の軸比・回転曲線・速度分散・中心質量を 1 つも入力していない"],
-    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(Core 力学の自前の状態 cfZ・cfVz を同期 —— 中心の重力の二重計上の門は二次元と同じ)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
       "`law:\"coreField\"`・`center:\"pinned\"`・軸 s=(0,0,1)(**円盤の法線**)",
       "力学的コア半径 r_c=160(表示半径 5 とは別)・M_c=10・W₀=0.000390625(ω_m=0.5·ω_c になる側)",
       "α=1.05(K⊥=0.00032)・β=7.8(K∥=0.04992)・Ω_p=0.14(円軌道角速度 λ± の内側・Ω_p/√K_eff=2.51)",
@@ -12380,6 +12399,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     contactK:0, contactCap:0,
     shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0,
@@ -12426,7 +12446,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE CORE LAW (it is declared in physics.shapeToy.law and coreField). Lowering beta lengthens the bar and raising alpha thins it. Tipping the axis s out of the plane turns the same declaration into a disc, which is what 📀 is."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された渦状腕のピッチ角・幅・中心質量を 1 つも入力していない"],
-    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(Core 力学の自前の状態 cfZ・cfVz を同期 —— 中心の重力の二重計上の門は二次元と同じ)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
       "`law:\"coreField\"`・`center:\"pinned\"`・軸 s=(1,0,0)(**面内**)",
       "力学的コア半径 r_c=250(表示半径 5 とは別)・M_c=10・W₀=0.00016(ω_m=0.5·ω_c になる側)",
       "α=2(K⊥=0.25)・β=0.0108(K∥=0.0027)・Ω_p=0",
@@ -12445,6 +12466,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     contactK:0, contactCap:0,
     shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.12, gamma:0.24, sigma:7.2, sigmaZ:4.8, sigma0:7.2, tauGrow:0,
@@ -12496,7 +12518,8 @@ const BUILTIN_PRESETS = [
       control:"THERE IS NO SLIDER FOR THE CORE LAW OR THE SHAPE TOY (declared in physics.shapeToy law, coreField and spiral). Setting the SPIN of the central object to 0 removes the disc force (the arms do not change). Raising G while the centre still carries engine mass would count the central gravity twice in E4 and k0, so that combination IS STOPPED BY A GATE (disc component)."}},
   parameterAudit:{
     observedInputs:["**無い。** 観測された渦巻銀河のピッチ角・軸比・回転曲線・中心質量を 1 つも入力していない"],
-    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+    fixedConventions:["**三次元の本**(physics.coord:\"3d\"・stateCarry:\"double\" —— 第299便e): 面外 z は**座標** S.z・S.vz(Core 力学の自前の状態 cfZ・cfVz を同期 —— 中心の重力の二重計上の門は二次元と同じ)。xy は二次元の宣言の写し(QA の凍結の写し)と同じ式・同じ乱数の順でビット同一",
+      "中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
       "円盤成分 300 個: 📀 と同じ `law:\"coreField\"`・軸 s=(0,0,1)・r_c=160・M_c=10・α=1.05・β=7.8・W₀=0.0044921875・T=3.624・Ω_p=0.14・交換 rotating-bath(γ=0.02・有限容量 20000)",
       "腕成分 150 個(2 本 × 75): 🍭 と同じ対数螺旋 p=20°・r=24〜144・横断 7.2・面外 7.2(🧹 の軸のまわりの定常幅 σ⊥ —— 横断と面外が等しい)・ω₀=0.12・γ=0.24・**規定運動**",
       "腕のパターン回転 Ω_p=0.14(円盤の共回転熱浴と同じ宣言値)","質量比 円盤/腕=2(宣言)",
@@ -12513,6 +12536,7 @@ const BUILTIN_PRESETS = [
   physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    coord:"3d", stateCarry:"double",   // 第299便e(原仮定者の裁定(第89報)④・R174・AN286): 三次元の本(面外 z は潜在でなく座標 —— 新しい三次元の本の規約どおり倍精度の状態)
     contactK:0, contactCap:0,
     shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", law:"coreField",
       omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0, center:"pinned", cx:0, cy:0,
@@ -26675,6 +26699,7 @@ function makeSim(){
     if(S.hasShapeToy) shapeToyInitLatent(S);
     if(S.hasCoreField) coreFieldInitState(S);   // 第276便d: Core 力学の初期条件(等温定常から引く)
     if(S.hasSpiral) shapeToySpiralInit(S);       // 第290便e: 渦巻の参照模型(成分の割り当て・潜在・腕成分の初期配置)
+    if(S.coord3d===true && (S.hasShapeToy || S.hasCoreField || S.hasSpiral)) shapeToy3Write(S);   // 第299便e(R174): 三次元の本だけ潜在の z を座標へ(t=0 の初期配置)
     // 第280便c: geoPN=3・vMinusU の**初期速度の意味**(velocityMeaning:"xdot" は v=ẋ−u(0) へ **build で 1 度だけ**変換)。
     // 未宣言の宇宙は真偽値 1 つで素通り(S.geo3Init は null)
     if(S.hasGeo3) geo3InitVelocity(S); else S.geo3Init=null;
@@ -38102,6 +38127,8 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(sim.carVx && simB.carVx && simB.carVx.length>=sim.n){ simB.carVx.set(sim.carVx.subarray(0,sim.n)); simB.carVy.set(sim.carVy.subarray(0,sim.n)); }
   // 第299便a(R169・AN277 ⑥): 慣性決定力の直近の步の値・累計・核の標本(チェックポイントと同じ 1 組の写し —— 二次元・三次元とも。宣言の無い本は素通り)
   if(sim.rdPrevX && simB.rdPrevX && simB.rdPrevX.length>=sim.n) inertialDragCkRestore(simB, inertialDragCkSnap(sim));
+  // 第299便e(R174): 参照模型の潜在・自前の状態・乱数の位置・帳簿(チェックポイントと同じ 1 組の写し —— 二次元・三次元とも。宣言の無い本は素通り)
+  { const stk=shapeToyCkSnap(sim); if(stk) shapeToyCkRestore(simB, stk); }
   // 第299便f: 選択粒子の編集で付け外しした構造核(dragCore)も B へ(表は読むだけの共有 —— 宣言どおりの本は build と同じ中身なので素通り)
   if(JSON.stringify(sim.dragCoreD||null)!==JSON.stringify(simB.dragCoreD||null)){
     simB.dragCoreD=sim.dragCoreD? sim.dragCoreD.map((d)=>d? Object.assign({},d) : null) : null;
@@ -38376,6 +38403,7 @@ function ckSnapOne(S){
   for(const k of CK_SC) o.sc[k]=S[k];
   if(S.coord3d===true) o.c3={L:S.spin3PrescL.slice(), N:S.spin3PrescN, halt:S.coord3dHalt||null};   // 第298便a: 歳差の拘束の帳簿(配列なので写しで持つ)/ 第299便a: 走行中の門の理由
   const rdk=inertialDragCkSnap(S); if(rdk) o.rd=rdk;   // 第299便a: 慣性決定力の直近の步の値・累計・核の標本(三次元の dL3・軸引きずりの帳簿を含む)
+  const stk=shapeToyCkSnap(S); if(stk) o.st=stk;   // 第299便e(R174): 参照模型の潜在・自前の状態・乱数の位置・帳簿(宣言の無い本は null)
   return o;
 }
 function ckRestoreOne(S,o){
@@ -38383,6 +38411,7 @@ function ckRestoreOne(S,o){
   for(const k of CK_SC) if(o.sc[k]!==undefined) S[k]=o.sc[k];
   if(o.c3 && S.coord3d===true){ S.spin3PrescL=o.c3.L.slice(); S.spin3PrescN=o.c3.N; if("halt" in o.c3) S.coord3dHalt=o.c3.halt; }   // 第298便a / 第299便a
   if(o.rd) inertialDragCkRestore(S, o.rd);   // 第299便a
+  if(o.st) shapeToyCkRestore(S, o.st);   // 第299便e
   S.params=fastParams(o.params);   // 第250便e
   if(S.phase && o.phase) Object.assign(S.phase, o.phase);
   if(S.twall && o.tw) for(let k=0;k<4;k++) S.twall[k]=o.tw[k]? Object.assign({},o.tw[k]) : null;
@@ -51423,7 +51452,7 @@ function shapeToyInitLatent(S){
   if(!(n>=1)) return false;
   const F=shapeToyFrame(S,cf,S.t);
   if(F.why) return false;
-  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S._stRng) S._stRng=mulberry32S((S._stSeed||0x274d)>>>0);
   S.yLat=new Float64Array(2*n); S.wLat=new Float64Array(2*n);
   S.zLat=new Float64Array(n); S.wzLat=new Float64Array(n); S.uLat=new Float64Array(n);
   for(let i=0;i<n;i++){
@@ -51447,7 +51476,7 @@ function dfmShapeToyStep(S,dt){
   if(!Number.isFinite(dt) || !(dt>0)){ S.shapeToyStop="dt"; return null; }
   const n=S.n, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, mEff=S.mEff, pin=S.pinned;
   if(!(n>=1)){ S.shapeToyStop="n"; return null; }
-  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S._stRng) S._stRng=mulberry32S((S._stSeed||0x274d)>>>0);
   // 時刻: `S._core` はこの步を進め終えているので S.t は**步の終端**である(t₀=S.t−dt が步の始点)
   const t1=S.t, t0=S.t-dt;
   const F=shapeToyFrame(S,cf,t1);
@@ -51661,7 +51690,7 @@ function coreFieldInitState(S){
   if(k<0) return false;
   const P=coreFieldParams(cfd, S.params.G, S.spin[k]);
   if(P.gate) return false;
-  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S._stRng) S._stRng=mulberry32S((S._stSeed||0x274d)>>>0);
   const B=coreFieldBasis(cfd.axis), e1=B.e1, e2=B.e2, s=B.s;
   const cx=S.x[k], cy=S.y[k];
   S.cfX=new Float64Array(n); S.cfY=new Float64Array(n); S.cfZ=new Float64Array(n);
@@ -51860,7 +51889,7 @@ function shapeToySpiralCentre(S,cf){
 // 1 bit も依存しない**(器が照合する)。
 function shapeToySpiralGauss(S){
   if(S._spG!==null && S._spG!==undefined){ const g=S._spG; S._spG=null; return g; }
-  if(!S._spRng) S._spRng=mulberry32((((S._stSeed||0x274d)^0x290e)>>>0));
+  if(!S._spRng) S._spRng=mulberry32S((((S._stSeed||0x274d)^0x290e)>>>0));
   let u=0,v=0,s2=0;
   do{ u=2*S._spRng()-1; v=2*S._spRng()-1; s2=u*u+v*v; } while(!(s2>0 && s2<1));
   const f=Math.sqrt(-2*Math.log(s2)/s2);
@@ -51908,7 +51937,7 @@ function shapeToySpiralInit(S){
   S.spiralMassRatio=(mA>0)? mD/mA : null;
   if(nd!==sp.nDisk || na!==sp.nArmParticles || nx!==0){ S.spiralStop="split"; return false; }
   if(sp.massRatio!==null && !(Math.abs(S.spiralMassRatio/sp.massRatio-1)<=1e-6)){ S.spiralStop="mass"; return false; }
-  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S._stRng) S._stRng=mulberry32S((S._stSeed||0x274d)>>>0);
   const core=(cf.law===SHAPE_TOY_LAWS[1]);
   // law:"coreField" の円盤成分は 📀 と同じ初期条件(既存の関数をそのまま呼ぶ —— 腕成分の分は下で上書きする)。
   // 中心スピン 0 などで Core 力学の門が閉じているときは初期化しない(円盤成分は力を受けない —— 📀 と同じ契約)
@@ -52059,7 +52088,7 @@ function dfmShapeToySpiralStep(S,dt){
   if(!Number.isFinite(dt) || !(dt>0)){ S.spiralStop="dt"; return null; }
   const n=S.n, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, mEff=S.mEff;
   if(!(n>=1)){ S.spiralStop="n"; return null; }
-  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S._stRng) S._stRng=mulberry32S((S._stSeed||0x274d)>>>0);
   if(!S.spComp || S.spComp.length!==n){
     if(!shapeToySpiralInit(S)){ if(!S.spiralStop) S.spiralStop="init"; return null; }
   }
@@ -52168,6 +52197,247 @@ function shapeToySpiralState(S){
   return { comp, arm:Array.from(S.spK), s:Array.from(S.spS), z, transverse:tr, theta:sp.omegaP*S.t,
     law:(core? SHAPE_TOY_LAWS[1] : SHAPE_TOY_LAWS[0]), nDisk:S.spiralNDisk, nArm:S.spiralNArm,
     massDisk:S.spiralMassDisk, massArm:S.spiralMassArm, massRatio:S.spiralMassRatio, stop:S.spiralStop };
+}
+// ===== 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・統括の検証項目 R174・AN286): **参照模型の三次元の步** =====
+//
+// ■ 何をするか(1 行で)
+//   三次元の本(physics.coord:"3d")の形状トイ・Core 力学・渦巻の参照模型で、これまで**潜在の状態**だった面外 z を**座標** S.z・S.vz にする。
+//   二次元の經路(dfmShapeToyStep・dfmCoreFieldStep・dfmShapeToySpiralStep)は**1 文字も変えず**にそのまま呼び、前後で z だけを読み書きする
+//   (潜在の更新と乱数の順は二次元と同じ —— **xy の規定運動・Core 力学の解は二次元の写しとビット同一**〔同じ状態の精度 stateCarry で比べたとき〕)。
+//
+// ■ 写像(宣言どおり —— 新しい力ではない)
+//   ・規定系 🔮🥏🧵: z = c_z + σ_z(t)·ζ、 v_z = ċ_z + σ̇_z(t)·ζ + σ_z(t)·w_ζ(ζ=S.zLat・w_ζ=S.wzLat。σ_z(t)=sigmaZ·fac(t)・σ̇_z=sigmaZ·facDot(t)
+//     —— 成長する宣言〔tauGrow>0〕は σ̇_z の項が入る)。中心 c は center:"pinned" なら pinned の粒子の z・v_z、"fixed" なら 0。
+//     🥏 の A(t)=R_z(θ)·diag(σ_R,σ_R,σ_z) の回転は z 軸まわりなので z は回転を受けない(**扁平は σ_z の宣言** —— 重力で扁平になったのではない)。
+//     coupling:"feedback"(診断用)は xy と同じく z の潜在も毎步 S.z・S.vz から作り直す。
+//   ・渦巻 🍭: 円盤成分 z = c_z + sigmaZ·spZ・v_z = ċ_z + sigmaZ·spWz/腕成分 z = c_z + armSigmaZ·spZ・v_z = ċ_z + armSigmaZ·spWz。
+//   ・Core 系 🎱📀🧹 と 🎢 の円盤成分: 自前の三次元の状態 cfZ・cfVz(中心から測った z)を S.z = c_z + cfZ・S.vz = cfVz と同期する。
+//     エンジン(dfmCore3)が当てた z の速度キック Δv_z = S.vz − cfVzS(重力 E4 の z 成分など)を**解く前に** cfVz へ取り込む(xy の Δv と同じ流儀 ——
+//     帳簿 coreFieldExtPz・coreFieldExtEz)。位置はエンジンの drift を捨てる(xy と同じ —— 捨てた量は coreFieldDriftDz)。
+//     步が門で止まったときは取り込みを戻す(二次元の xy と同じく、次に走る步でまとめて取り込む)。中心重力の二重計上の門(gravityDouble)は二次元の經路のまま。
+//
+// ■ 帳簿(三次元 —— z 方向を落とさない)
+//   規定運動の成分(🔮🥏🧵・🍭 の全成分・🎢 の腕成分)が粒子へ渡した ΔP_z・ΔL_x・ΔL_y と z の運動エネルギーの**厳密な負**を外部熱浴へ同じ步のうちに記帳する
+//   (shapeToyPz/BathPz・shapeToyLx,Ly/BathLx,Ly・shapeToyEz/BathEz・spiral* も同じ)。**二次元の經路の欄(shapeToyE・BathE・SupE・DetE・spiralE…)の意味は変えない**
+//   (xy の運動エネルギー —— 既存の器の収支の照合がそのまま通る)。三次元の E = 二次元の欄 + *Ez。Core 力学の帳簿は二次元の經路がもとから三次元(spz・slx・sly・3 成分の E)。
+//   **記帳していない量**は二次元と同じ(規定写像の位置変化に対応する ΔU)。**閉じた系ではない**。
+//
+// ■ 二次元の本は 1 bit 不変: この節の関数は三次元の本の dfmStep3 と build の後段(S.coord3d===true)からしか呼ばれない。
+const SHAPE_TOY3_VERSION="w299e-ref3d-1";
+// 三次元の本だけに作る帳簿の鍵(build の後段 shapeToy3Write が 0 で張る —— 二次元の本には鍵が無い)
+const SHAPE_TOY3_SC=["shapeToyPz","shapeToyLx","shapeToyLy","shapeToyEz","shapeToyBathPz","shapeToyBathLx","shapeToyBathLy","shapeToyBathEz","shapeToySupPz","shapeToySupEz","shapeToyDetEz","shapeToyDz",
+  "spiralPz","spiralLx","spiralLy","spiralEz","spiralBathPz","spiralBathLx","spiralBathLy","spiralBathEz","spiralSupPz","spiralSupEz","spiralDetEz","spiralSupEzArm","spiralDz",
+  "coreFieldExtPz","coreFieldExtEz","coreFieldDriftDz","coreFieldL3FixX","coreFieldL3FixY","shapeToy3N"];
+// 中心の z・v_z(center:"pinned" は最初の pinned の粒子 —— shapeToyFrame・shapeToySpiralCentre と同じ選び方。"fixed" は 0)
+function shapeToy3Centre(S,cf){
+  if(cf && cf.center===SHAPE_TOY_CENTERS[1]){ for(let i=0;i<S.n;i++) if(S.pinned[i]) return [S.z[i], S.vz[i]]; return [0,0]; }
+  return [0,0];
+}
+// Core 力学の中心(coreFieldCentre と同じ —— law:"coreField" は pinned の中心で走る)
+function shapeToy3CoreCentre(S){ const k=coreFieldCentre(S); return (k<0)? [0,0] : [S.z[k], S.vz[k]]; }
+// **潜在 → 座標の書き出し**(build の後段 = t=0 の初期配置・チェックポイントの外の再同期にも使う)。三次元の本だけ。状態の潜在は読むだけ
+function shapeToy3Write(S){
+  if(!S || S.coord3d!==true || !S.z) return false;
+  const cf=S.params[SHAPE_TOY_KEY];
+  if(!cf) return false;
+  for(const k of SHAPE_TOY3_SC) if(S[k]===undefined) S[k]=0;
+  const n=S.n, Z=S.z, VZ=S.vz;
+  let nW=0;
+  if(S.hasShapeToy && S.zLat && S.zLat.length===n){
+    const g=shapeToyGrow(cf,S.t), sZ=cf.sigmaZ*g.fac, sZd=cf.sigmaZ*g.facDot, c=shapeToy3Centre(S,cf);
+    for(let i=0;i<n;i++){ if(S.pinned[i]) continue; Z[i]=c[0]+sZ*S.zLat[i]; VZ[i]=c[1]+sZd*S.zLat[i]+sZ*S.wzLat[i]; nW++; }
+  }
+  if(S.hasCoreField && S.cfZ && S.cfZ.length===n){
+    if(!S.cfVzS || S.cfVzS.length!==n) S.cfVzS=new Float64Array(n);
+    const c=shapeToy3CoreCentre(S);
+    for(let i=0;i<n;i++){ if(S.pinned[i] || !(S.mEff[i]>0)) continue; Z[i]=c[0]+S.cfZ[i]; VZ[i]=S.cfVz[i]; S.cfVzS[i]=VZ[i]; nW++; }
+  }
+  if(S.hasSpiral && S.spComp && S.spComp.length===n){
+    const sp=cf.spiral, core=(cf.law===SHAPE_TOY_LAWS[1]), c=shapeToy3Centre(S,cf);
+    if(core && S.cfZ && S.cfZ.length===n && (!S.cfVzS || S.cfVzS.length!==n)) S.cfVzS=new Float64Array(n);
+    const cc=core? shapeToy3CoreCentre(S) : null;
+    for(let i=0;i<n;i++){
+      const k=S.spComp[i];
+      if(k===1){
+        if(core){ if(!S.cfZ || S.cfZ.length!==n || !(S.mEff[i]>0)) continue; Z[i]=cc[0]+S.cfZ[i]; VZ[i]=S.cfVz[i]; S.cfVzS[i]=VZ[i]; }
+        else { Z[i]=c[0]+cf.sigmaZ*S.spZ[i]; VZ[i]=c[1]+cf.sigmaZ*S.spWz[i]; }
+        nW++;
+      } else if(k===2){ Z[i]=c[0]+sp.armSigmaZ*S.spZ[i]; VZ[i]=c[1]+sp.armSigmaZ*S.spWz[i]; nW++; }
+    }
+  }
+  S.shapeToy3N=nW;
+  return nW>0;
+}
+// 前の状態の控え(核の步の後・参照模型の步の前の x・y・z・vx・vy・vz と潜在の z)。作業配列は使い回す
+function shapeToy3Pre(S,lz,lw){
+  const n=S.n;
+  if(!S._st3P || S._st3P.length<8*n) S._st3P=new Float64Array(8*n);
+  const P=S._st3P;
+  for(let i=0;i<n;i++){ const o=8*i; P[o]=S.x[i]; P[o+1]=S.y[i]; P[o+2]=S.z[i]; P[o+3]=S.vx[i]; P[o+4]=S.vy[i]; P[o+5]=S.vz[i];
+    P[o+6]=lz? lz[i] : 0; P[o+7]=lw? lw[i] : 0; }
+  return P;
+}
+// 規定運動の 1 粒子の z の帳簿(格納後の値 —— 二次元の xy の帳簿と同じ流儀)。acc=[Pz,Lx,Ly,Ez,supPz,supEz,detEz,dzMax]
+function shapeToy3Book(S,i,P,mi,vzd,vzn,acc){
+  const o=8*i, x0=P[o], y0=P[o+1], z0=P[o+2], vx0=P[o+3], vy0=P[o+4], vz0=P[o+5];
+  const xs=S.x[i], ys=S.y[i], zs=S.z[i], vxs=S.vx[i], vys=S.vy[i], vzs=S.vz[i];
+  acc[0]+=mi*(vzs-vz0);
+  acc[1]+=mi*((ys*vzs-zs*vys)-(y0*vz0-z0*vy0));
+  acc[2]+=mi*((zs*vxs-xs*vzs)-(z0*vx0-x0*vz0));
+  acc[3]+=0.5*mi*(vzs*vzs-vz0*vz0);
+  acc[4]+=mi*(vzn-vzd); acc[5]+=0.5*mi*(vzn*vzn-vzd*vzd); acc[6]+=0.5*mi*(vzd*vzd-vz0*vz0);
+  const dd=Math.abs(zs-z0); if(dd>acc[7]) acc[7]=dd;
+}
+// 🔮🥏🧵(law 未宣言 = 規定運動)の三次元の 1 步
+function dfmShapeToyStep3(S,dt){
+  const cf=S.params[SHAPE_TOY_KEY];
+  if(!cf || !S.z) return dfmShapeToyStep(S,dt);
+  const n=S.n;
+  if(!S.zLat || S.zLat.length!==n) return dfmShapeToyStep(S,dt);   // 潜在の初期化は二次元の經路の中(下の書き出しは次の步から)
+  const fb=(cf.coupling===SHAPE_TOY_COUPLINGS[1]), t1=S.t, g=shapeToyGrow(cf,t1);
+  const sZ=cf.sigmaZ*g.fac, sZd=cf.sigmaZ*g.facDot, c=shapeToy3Centre(S,cf);
+  // "feedback": z の潜在も座標から作り直す(xy と同じく步の終端の枠 —— エンジンの drift と OU の二重の当たりも xy と同じ)
+  if(fb && sZ>0) for(let i=0;i<n;i++){ if(S.pinned[i]) continue; const a=(S.z[i]-c[0])/sZ; S.zLat[i]=a; S.wzLat[i]=(S.vz[i]-c[1]-sZd*a)/sZ; }
+  const P=shapeToy3Pre(S,S.zLat,S.wzLat);
+  const r=dfmShapeToyStep(S,dt);
+  if(!r) return r;
+  const D=shapeToyDisc(cf.omega0,cf.gamma,dt);
+  const acc=[0,0,0,0,0,0,0,0];
+  for(let i=0;i<n;i++){
+    if(S.pinned[i]) continue;
+    const o=8*i, zl0=P[o+6], wl0=P[o+7];
+    if(S.zLat[i]===zl0 && S.wzLat[i]===wl0) continue;   // 二次元の經路が書かなかった粒子(非有限で飛ばした粒子)
+    S.z[i]=c[0]+sZ*S.zLat[i]; S.vz[i]=c[1]+sZd*S.zLat[i]+sZ*S.wzLat[i];
+    const Azd=D.F11*zl0+D.F12*wl0, Bzd=D.F21*zl0+D.F22*wl0;
+    const vzd=c[1]+sZd*Azd+sZ*Bzd, vzn=c[1]+sZd*S.zLat[i]+sZ*S.wzLat[i];
+    shapeToy3Book(S,i,P,S.mEff[i],vzd,vzn,acc);
+  }
+  S.shapeToyPz+=acc[0]; S.shapeToyLx+=acc[1]; S.shapeToyLy+=acc[2]; S.shapeToyEz+=acc[3];
+  S.shapeToyBathPz-=acc[0]; S.shapeToyBathLx-=acc[1]; S.shapeToyBathLy-=acc[2]; S.shapeToyBathEz-=acc[3];
+  S.shapeToySupPz+=acc[4]; S.shapeToySupEz+=acc[5]; S.shapeToyDetEz+=acc[6];
+  S.shapeToyDz=acc[7];
+  r.dP3=[r.dP[0],r.dP[1],acc[0]]; r.dL3=[acc[1],acc[2],r.dL]; r.dE3=r.dE+acc[3]; r.sigmaZ=sZ;
+  return r;
+}
+// Core 系の z のキックを解く前に取り込む(戻すための控えを返す)。sel(i) が真の粒子だけ
+function shapeToy3CoreAbsorb(S,sel){
+  const n=S.n;
+  if(!S.cfVz || S.cfVz.length!==n) return null;
+  if(!S.cfVzS || S.cfVzS.length!==n){ S.cfVzS=new Float64Array(n); S.cfVzS.set(S.cfVz); }
+  if(!S._st3V || S._st3V.length<n) S._st3V=new Float64Array(n);
+  const keep=S._st3V; keep.set(S.cfVz);
+  if(!S._st3C || S._st3C.length<4*n) S._st3C=new Float64Array(4*n);
+  const C=S._st3C;   // 解く前の (エンジンの z・cfZ・解に入る vx・vy) —— L の x・y 成分の帳簿の補正に使う
+  const c=shapeToy3CoreCentre(S);
+  let pz=0, ez=0, dz=0;
+  for(let i=0;i<n;i++){
+    if(S.pinned[i] || !(S.mEff[i]>0) || !sel(i)) continue;
+    const mi=S.mEff[i], dv=S.vz[i]-S.cfVzS[i], v0=S.cfVz[i], v1=v0+dv;
+    pz+=mi*dv; ez+=0.5*mi*(v1*v1-v0*v0); S.cfVz[i]=v1;
+    const d=Math.abs(S.z[i]-(c[0]+S.cfZ[i])); if(d>dz) dz=d;
+    C[4*i]=S.z[i]; C[4*i+1]=S.cfZ[i]; C[4*i+2]=S.cfVx[i]+(S.vx[i]-S.cfVxS[i]); C[4*i+3]=S.cfVy[i]+(S.vy[i]-S.cfVyS[i]);
+  }
+  return {keep, pz, ez, dz};
+}
+// 解いた後の書き出しと帳簿。二次元の經路の L の x・y 成分は「解く前」の z に**中心から測った cfZ**(エンジンの drift を受けていない)を、
+//   y・x に**エンジンの drift を受けた**位置を使う(二次元ではエンジンに z が無いので両者は区別されない)。三次元の本ではエンジンの z が
+//   座標そのものなので、受け取った量 = (書き出した後の r×v) − (解く前のエンジンの r×v) との差を **coreFieldL3FixX/Y** に積む
+//   (三次元の L_x・L_y = coreFieldLx/Ly + L3Fix —— 二次元の經路の欄の意味は変えない・反作用は −(coreFieldReacL + L3Fix))。z のキックの帳簿も別の欄(ExtPz・ExtEz)
+function shapeToy3CoreCommit(S,ab,sel){
+  const n=S.n, c=shapeToy3CoreCentre(S), C=S._st3C;
+  let fx=0, fy=0;
+  for(let i=0;i<n;i++){
+    if(S.pinned[i] || !(S.mEff[i]>0) || !sel(i)) continue;
+    const mi=S.mEff[i], z0e=C[4*i], rz=C[4*i+1], vx0=C[4*i+2], vy0=C[4*i+3];
+    S.z[i]=c[0]+S.cfZ[i]; S.vz[i]=S.cfVz[i]; S.cfVzS[i]=S.vz[i];
+    fx+=mi*((z0e-rz)*vy0-c[0]*S.vy[i]); fy-=mi*((z0e-rz)*vx0-c[0]*S.vx[i]);
+  }
+  S.coreFieldL3FixX+=fx; S.coreFieldL3FixY+=fy;
+  S.coreFieldExtPz+=ab.pz; S.coreFieldExtEz+=ab.ez; S.coreFieldDriftDz=ab.dz;
+}
+// 🎱📀🧹(law:"coreField")の三次元の 1 步
+function dfmCoreFieldStep3(S,dt){
+  if(!S.z || !S.cfX || S.cfX.length!==S.n) return dfmCoreFieldStep(S,dt);
+  const all=()=>true;
+  const ab=shapeToy3CoreAbsorb(S,all);
+  const r=dfmCoreFieldStep(S,dt);
+  if(!ab) return r;
+  if(!r){ S.cfVz.set(ab.keep.subarray(0,S.n)); return r; }   // 門で止まった步: 取り込みを戻す(二次元の xy と同じく次に走る步でまとめて取り込む)
+  shapeToy3CoreCommit(S,ab,all);
+  r.ext3=[r.ext[0],r.ext[1],ab.pz]; r.extEz=ab.ez;
+  return r;
+}
+// 🍭🎢(shape:"spiral")の三次元の 1 步。円盤成分(Core 力学)と規定運動の成分(円盤〔law 未宣言〕・腕)を**別の作用として**記帳する
+function dfmShapeToySpiralStep3(S,dt){
+  const cf=S.params[SHAPE_TOY_KEY];
+  if(!cf || !cf.spiral || !S.z || !S.spComp || S.spComp.length!==S.n) return dfmShapeToySpiralStep(S,dt);
+  const n=S.n, sp=cf.spiral, core=(cf.law===SHAPE_TOY_LAWS[1]), comp=S.spComp, c=shapeToy3Centre(S,cf);
+  const disk=(i)=>comp[i]===1;
+  const ab=(core && S.cfX && S.cfX.length===n)? shapeToy3CoreAbsorb(S,disk) : null;
+  const P=shapeToy3Pre(S,S.spZ,S.spWz);
+  const r=dfmShapeToySpiralStep(S,dt);
+  if(ab){ if(S.spiralCoreN>0) shapeToy3CoreCommit(S,ab,disk); else S.cfVz.set(ab.keep.subarray(0,n)); }
+  if(!r || !(S.spiralN>0)) return r;
+  const D=core? null : shapeToyDisc(cf.omega0,cf.gamma,dt), DA=shapeToyDisc(sp.armOmega0,sp.armGamma,dt);
+  const acc=[0,0,0,0,0,0,0,0];
+  let supEzArm=0;
+  for(let i=0;i<n;i++){
+    const k=comp[i];
+    if(k===0 || (k===1 && core)) continue;
+    const o=8*i, zl0=P[o+6], wl0=P[o+7];
+    if(S.spZ[i]===zl0 && S.spWz[i]===wl0) continue;
+    const sz=(k===1)? cf.sigmaZ : sp.armSigmaZ, DD=(k===1)? D : DA;
+    S.z[i]=c[0]+sz*S.spZ[i]; S.vz[i]=c[1]+sz*S.spWz[i];
+    const vzd=c[1]+sz*(DD.F21*zl0+DD.F22*wl0), vzn=S.vz[i];
+    const s5=acc[5];
+    shapeToy3Book(S,i,P,S.mEff[i],vzd,vzn,acc);
+    if(k===2) supEzArm+=acc[5]-s5;
+  }
+  S.spiralPz+=acc[0]; S.spiralLx+=acc[1]; S.spiralLy+=acc[2]; S.spiralEz+=acc[3];
+  S.spiralBathPz-=acc[0]; S.spiralBathLx-=acc[1]; S.spiralBathLy-=acc[2]; S.spiralBathEz-=acc[3];
+  S.spiralSupPz+=acc[4]; S.spiralSupEz+=acc[5]; S.spiralSupEzArm+=supEzArm; S.spiralDetEz+=acc[6];
+  S.spiralDz=acc[7];
+  if(r.dP) { r.dP3=[r.dP[0],r.dP[1],acc[0]]; r.dL3=[acc[1],acc[2],r.dL]; r.dE3=r.dE+acc[3]; }
+  return r;
+}
+// **チェックポイント・A/B の複製の写し**(形状トイ・Core 力学・渦巻の参照模型 —— 二次元・三次元とも。宣言の無い本は null で素通り)。
+//   潜在の配列・Core 力学の自前の状態・渦巻の成分と潜在・乱数の位置(mulberry32S の .s)と Marsaglia の控え・帳簿のスカラー(shapeToy*・coreField*・spiral*)。
+//   第299便a の報告(二次元の本の複製の漏れ)のうち参照模型 8 本の分を塞いだ(旧: 複製の後の乱数が最初から引き直され、潜在も B 側の build のまま)
+const SHAPE_TOY_CK_ARRS=["yLat","wLat","zLat","wzLat","uLat","cfX","cfY","cfZ","cfVx","cfVy","cfVz","cfVxS","cfVyS","cfVzS",
+  "spComp","spA1","spA2","spB1","spB2","spZ","spWz","spK","spS","spCx","spCy","spNx","spNy"];
+const SHAPE_TOY_CK_RE=/^(shapeToy|coreField|spiral)[A-Z0-9]/;
+function shapeToyCkSnap(S){
+  if(!S || !(S.hasShapeToy || S.hasCoreField || S.hasSpiral)) return null;
+  const o={arrs:{}, sc:{}, rng:{st:S._stRng? S._stRng.s : null, sp:S._spRng? S._spRng.s : null}, g:{st:S._stG, sp:S._spG}};
+  for(const k of SHAPE_TOY_CK_ARRS) if(S[k]) o.arrs[k]=S[k].slice();
+  for(const k of Object.keys(S)){ if(!SHAPE_TOY_CK_RE.test(k)) continue; const v=S[k]; if(v===null || typeof v!=="object") o.sc[k]=v; }
+  return o;
+}
+function shapeToyCkRestore(S,o){
+  if(!S || !o) return;
+  for(const k of Object.keys(o.arrs)){ const c=o.arrs[k]; if(S[k] && S[k].length===c.length) S[k].set(c); else S[k]=c.slice(); }
+  for(const k of Object.keys(o.sc)) S[k]=o.sc[k];
+  if(o.rng.st!==null && o.rng.st!==undefined){ if(!S._stRng) S._stRng=mulberry32S(0); S._stRng.s=o.rng.st; } else S._stRng=null;
+  if(o.rng.sp!==null && o.rng.sp!==undefined){ if(!S._spRng) S._spRng=mulberry32S(0); S._spRng.s=o.rng.sp; } else S._spRng=null;
+  S._stG=o.g.st; S._spG=o.g.sp;
+}
+// 読み口(器・QA —— 状態を 1 bit も動かさない)。三次元の本の z の厚み(対象粒子の RMS・平均)・v_z の分散・三次元の帳簿
+function shapeToy3State(S){
+  if(!S || S.coord3d!==true || !S.z || !(S.hasShapeToy || S.hasCoreField || S.hasSpiral)) return null;
+  const cf=S.params[SHAPE_TOY_KEY], n=S.n;
+  const grp=(i)=>{ if(S.pinned[i]) return null; if(S.hasSpiral && S.spComp) return (S.spComp[i]===1)? "disk" : (S.spComp[i]===2? "arm" : null); return "all"; };
+  const G={};
+  for(let i=0;i<n;i++){ const g=grp(i); if(!g) continue; const q=G[g]||(G[g]={n:0,z:0,z2:0,vz:0,vz2:0,r2:0});
+    q.n++; q.z+=S.z[i]; q.z2+=S.z[i]*S.z[i]; q.vz+=S.vz[i]; q.vz2+=S.vz[i]*S.vz[i]; q.r2+=S.x[i]*S.x[i]+S.y[i]*S.y[i]; }
+  const stats={};
+  for(const g of Object.keys(G)){ const q=G[g], mz=q.z/q.n, mv=q.vz/q.n;
+    stats[g]={n:q.n, meanZ:mz, rmsZ:Math.sqrt(q.z2/q.n), sigmaZ:Math.sqrt(Math.max(0,q.z2/q.n-mz*mz)), meanVz:mv, sigmaVz:Math.sqrt(Math.max(0,q.vz2/q.n-mv*mv)), rmsR:Math.sqrt(q.r2/q.n)}; }
+  const pick=(ks)=>{ const o={}; for(const k of ks) if(S[k]!==undefined) o[k]=S[k]; return o; };
+  return { version:SHAPE_TOY3_VERSION, shape:cf? cf.shape : null, law:(cf && cf.law)||SHAPE_TOY_LAWS[0], t:S.t, stats,
+    ledger:pick(SHAPE_TOY3_SC.concat(["shapeToyPx","shapeToyPy","shapeToyL","shapeToyE","shapeToyBathPx","shapeToyBathPy","shapeToyBathL","shapeToyBathE","shapeToySupE","shapeToyDetE",
+      "spiralPx","spiralPy","spiralL","spiralE","spiralBathPx","spiralBathPy","spiralBathL","spiralBathE","spiralSupE","spiralDetE",
+      "coreFieldPx","coreFieldPy","coreFieldPz","coreFieldLx","coreFieldLy","coreFieldLz","coreFieldE","coreFieldReacPx","coreFieldReacPy","coreFieldReacPz",
+      "coreFieldReacLx","coreFieldReacLy","coreFieldReacLz","coreFieldReacE","coreFieldBathE","coreFieldHeat","coreFieldWork","coreFieldExtPx","coreFieldExtPy","coreFieldExtE"])) };
 }
 // ===== 第275便e(第65報 (7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
 // 再現する。親子コア構造限定でよい」): **コア軸の prescribed ステップ** `dfmCoreAxisStep(S,dt)` =====
@@ -53173,6 +53443,10 @@ function dfmStep3(S,dt){
   S.coord3dHalt=null;
   if(S.integrator==="leapfrog"){ dfmCore3(S,dt,1); dfmCore3(S,dt,2); }
   else dfmCore3(S,dt,0);
+  // 第299便e(R174): 参照模型(二次元と同じ位置 —— 核の後・引きずりの前。潜在 z を座標へ・Core 力学の cfZ/cfVz を S.z/S.vz と同期)
+  if(S.hasShapeToy) dfmShapeToyStep3(S,dt);
+  if(S.hasCoreField) dfmCoreFieldStep3(S,dt);
+  if(S.hasSpiral) dfmShapeToySpiralStep3(S,dt);
   if(S.hasRelativeDrag) dfmInertialDragStep3(S,dt);   // 二次元と同じ位置(核の後)・慣性決定力の並進(z へ広げた solve)
   if(S.hasSpinAx3) coord3dSpinAxisStep(S);
 }
@@ -56787,7 +57061,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第298便a(原仮定者の裁定(第88報)・R165): 三次元座標の土台の読み口(器・QA)
   coord3d:{ version:COORD3D_VERSION, key:COORD_KEY, values:COORD_VALUES, coordOf, denyOf:coord3dDenyOf, runtimeWhy:coord3dRuntimeWhy, zKeysOf:coord2dZKeysOf,
     state:(S)=>coord3dState(S||sim), totals:(S)=>coord3dTotals(S||sim), supported:COORD3D_SUPPORTED, rejected:COORD3D_REJECTED, arrs:COORD3D_ARRS,
-    axisUnit:spinAxis3Unit, rot:rot3About, planeOf:coord3dPlaneOf, relInPlane:coord3dRelInPlane, step:dfmStep3, core:dfmCore3, makeSim:()=>makeSim() }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+    axisUnit:spinAxis3Unit, rot:rot3About, planeOf:coord3dPlaneOf, relInPlane:coord3dRelInPlane, step:dfmStep3, core:dfmCore3, makeSim:()=>makeSim(),
+    // 第299便e(R174): 参照模型の三次元(器・QA の読み口 —— 状態を書くのは write と ck の restore だけ)
+    ref3d:{ version:SHAPE_TOY3_VERSION, sc:SHAPE_TOY3_SC, ckArrs:SHAPE_TOY_CK_ARRS, write:shapeToy3Write, state:(S)=>shapeToy3State(S||sim),
+      ckSnap:shapeToyCkSnap, ckRestore:shapeToyCkRestore, rng:mulberry32S } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
   validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS, MASS_LEDGER_DR_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。

@@ -1,0 +1,1129 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第299便e",
+  "target": "beta/index.html",
+  "targetSha256": "d463e9585ab33360375b6486ec3af280cc57562ea8844337ffa0f152b187f2f1",
+  "generatedAt": "2026-10-11T07:52:09.742Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6412608,
+    "sha256": "d463e9585ab33360375b6486ec3af280cc57562ea8844337ffa0f152b187f2f1",
+    "mtime": "2026-10-11T07:20:45.372Z"
+   },
+   {
+    "file": "tests/data-w299e-ref2d.json",
+    "bytes": 15559,
+    "sha256": "1fe8beae79f0dd3c127feaa6f320f77b247e1162077448bf672adaa3dac96d58",
+    "mtime": "2026-10-11T06:58:26.764Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w299e-ref3d.mjs",
+    "bytes": 24578,
+    "sha256": "56a261d2a60576545798c6618eb0fc1ccae24da29c46a8068ee92051e402205e",
+    "mtime": "2026-10-11T07:15:13.022Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-11T06:46:32.300Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-11T06:46:32.296Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-11T06:46:32.304Z"
+   }
+  ],
+  "codeSha256": "839cdbc46034894ae9fa1aeaaf612077e0a1d9681abac274650df01f94b10f35",
+  "harnessVersion": "w299e-ref3d-1",
+  "ref3dVersion": "w299e-ref3d-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第89報)④(参照模型サンプルを三次元化する)",
+  "reading": "統括の検証項目 R174・決断事項 AN286(在位の 8 本を三次元に —— 二次元の宣言は凍結の写し)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "重力で扁平になった",
+   "星団・銀河の較正",
+   "模型の固有基底を世界座標に対して傾ける宣言(未実装)"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "shapeToyArm",
+    "shapeToyArmCore",
+    "shapeToyCluster",
+    "shapeToyClusterCore",
+    "shapeToyDisk",
+    "shapeToyDiskCore",
+    "shapeToySpiral",
+    "shapeToySpiralCore"
+   ],
+   "roots": [
+    "DT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "cw",
+    "presetSigHash"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1200,
+   "segments": 1093,
+   "closureShare": 0.3286
+  },
+  "scopeSha256": "1d19d3585512720d2a1a02c7606bb36bde070837877514ce72f3c82df96cbbf7",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w299e-ref2d.json",
+    "stableSha256": "d575974610d5e48a4491ca293a88fa74232c197a2f0e889946199446a5797a80",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "dt": 0.25,
+ "ids": [
+  "shapeToyCluster",
+  "shapeToyDisk",
+  "shapeToyArm",
+  "shapeToySpiral",
+  "shapeToyClusterCore",
+  "shapeToyDiskCore",
+  "shapeToyArmCore",
+  "shapeToySpiralCore"
+ ],
+ "bit": {
+  "dt": 0.25,
+  "steps": 800,
+  "rows": {
+   "shapeToyCluster": {
+    "emoji": "🔮",
+    "n": 240,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1440,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 960,
+     "maxAbs": 0.00000493663,
+     "maxRelPos": 5.80154e-8
+    },
+    "halt": null
+   },
+   "shapeToyDisk": {
+    "emoji": "🥏",
+    "n": 300,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1800,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 1200,
+     "maxAbs": 0.00000795634,
+     "maxRelPos": 0.00000286902
+    },
+    "halt": null
+   },
+   "shapeToyArm": {
+    "emoji": "🧵",
+    "n": 180,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1080,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 539,
+     "maxAbs": 0.00000372529,
+     "maxRelPos": 5.24006e-8
+    },
+    "halt": null
+   },
+   "shapeToySpiral": {
+    "emoji": "🍭",
+    "n": 450,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 2700,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 1800,
+     "maxAbs": 0.00000795634,
+     "maxRelPos": 0.00000286902
+    },
+    "halt": null
+   },
+   "shapeToyClusterCore": {
+    "emoji": "🎱",
+    "n": 241,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1446,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 960,
+     "maxAbs": 0.00000502084,
+     "maxRelPos": 1.23551e-7
+    },
+    "halt": null
+   },
+   "shapeToyDiskCore": {
+    "emoji": "📀",
+    "n": 301,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1806,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 1200,
+     "maxAbs": 0.00000485255,
+     "maxRelPos": 1.95776e-7
+    },
+    "halt": null
+   },
+   "shapeToyArmCore": {
+    "emoji": "🧹",
+    "n": 181,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 1086,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 720,
+     "maxAbs": 0.0000067328,
+     "maxRelPos": 1.3538e-7
+    },
+    "halt": null
+   },
+   "shapeToySpiralCore": {
+    "emoji": "🎢",
+    "n": 451,
+    "coord": "3d",
+    "stateCarry": "double",
+    "declOnlyCoordAndCarry": true,
+    "coord3d": true,
+    "coord2dFixture": true,
+    "vsFixtureDouble": {
+     "nVal": 2706,
+     "nDiff": 0,
+     "maxAbs": 0
+    },
+    "vsFixtureFloat32": {
+     "nDiff": 1800,
+     "maxAbs": 0.00000739388,
+     "maxRelPos": 2.64591e-7
+    },
+    "halt": null
+   }
+  },
+  "allSame": true
+ },
+ "thick": {
+  "window": [
+   100,
+   200
+  ],
+  "every": 4,
+  "rows": {
+   "shapeToyCluster": {
+    "emoji": "🔮",
+    "law": "prescribed",
+    "shape": "cluster",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 35.7498,
+      "sigmaVz": 3.60296,
+      "rmsR": 50.4501,
+      "meanZ": -3.85254,
+      "sigmaZ0": 36.21,
+      "expectSigmaZ": 36,
+      "expectSigmaVz": 3.6,
+      "ratioZ": 0.99305,
+      "ratioVz": 1.00082,
+      "aspectZoverRperAxis": 1.00214,
+      "basis": "OU の定常 σ_z・σ_z ω₀"
+     }
+    }
+   },
+   "shapeToyDisk": {
+    "emoji": "🥏",
+    "law": "prescribed",
+    "shape": "disk",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 13.6504,
+      "sigmaVz": 0.142714,
+      "rmsR": 61.4414,
+      "meanZ": -1.62066,
+      "sigmaZ0": 13.9086,
+      "expectSigmaZ": 14,
+      "expectSigmaVz": 0.14,
+      "ratioZ": 0.975032,
+      "ratioVz": 1.01939,
+      "aspectZoverRperAxis": 0.314196,
+      "basis": "OU の定常 σ_z・σ_z ω₀"
+     }
+    }
+   },
+   "shapeToyArm": {
+    "emoji": "🧵",
+    "law": "prescribed",
+    "shape": "arm",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 4.70849,
+      "sigmaVz": 0.57753,
+      "rmsR": 68.0619,
+      "meanZ": -0.349973,
+      "sigmaZ0": 4.87364,
+      "expectSigmaZ": 4.8,
+      "expectSigmaVz": 0.576,
+      "ratioZ": 0.980936,
+      "ratioVz": 1.00266,
+      "aspectZoverRperAxis": 0.0978347,
+      "basis": "OU の定常 σ_z・σ_z ω₀"
+     }
+    }
+   },
+   "shapeToySpiral": {
+    "emoji": "🍭",
+    "law": "prescribed",
+    "shape": "spiral",
+    "groups": {
+     "disk": {
+      "samples": 101,
+      "sigmaZ": 13.6504,
+      "sigmaVz": 0.142714,
+      "rmsR": 61.4414,
+      "meanZ": -1.62066,
+      "sigmaZ0": 13.9086,
+      "expectSigmaZ": 14,
+      "expectSigmaVz": 0.14,
+      "ratioZ": 0.975032,
+      "ratioVz": 1.01939,
+      "aspectZoverRperAxis": 0.314196,
+      "basis": "OU の定常 σ_z・σ_z ω₀"
+     },
+     "arm": {
+      "samples": 101,
+      "sigmaZ": 4.87206,
+      "sigmaVz": 0.573846,
+      "rmsR": 91.1275,
+      "meanZ": -0.239207,
+      "sigmaZ0": 4.38822,
+      "expectSigmaZ": 4.8,
+      "expectSigmaVz": 0.576,
+      "ratioZ": 1.01501,
+      "ratioVz": 0.99626,
+      "aspectZoverRperAxis": 0.0756099,
+      "basis": "腕の OU の定常 armSigmaZ・armSigmaZ·armOmega0"
+     }
+    }
+   },
+   "shapeToyClusterCore": {
+    "emoji": "🎱",
+    "law": "coreField",
+    "shape": "cluster",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 36.6145,
+      "sigmaVz": 5.78468,
+      "rmsR": 52.3783,
+      "meanZ": -0.788229,
+      "sigmaZ0": 33.9532,
+      "expectSigmaZ": 36,
+      "expectSigmaVz": 5.6921,
+      "ratioZ": 1.01707,
+      "ratioVz": 1.01626,
+      "aspectZoverRperAxis": 0.98859,
+      "basis": "Core 力学の等温定常 T/(m K∥)・T/(m K_eff)・T/m"
+     }
+    }
+   },
+   "shapeToyDiskCore": {
+    "emoji": "📀",
+    "law": "coreField",
+    "shape": "disk",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 11.5611,
+      "sigmaVz": 2.57981,
+      "rmsR": 63.1244,
+      "meanZ": -0.163151,
+      "sigmaZ0": 10.3598,
+      "expectSigmaZ": 10.9997,
+      "expectSigmaVz": 2.45764,
+      "ratioZ": 1.05104,
+      "ratioVz": 1.04971,
+      "aspectZoverRperAxis": 0.25901,
+      "basis": "Core 力学の等温定常 T/(m K∥)・T/(m K_eff)・T/m"
+     }
+    }
+   },
+   "shapeToyArmCore": {
+    "emoji": "🧹",
+    "law": "coreField",
+    "shape": "arm",
+    "groups": {
+     "all": {
+      "samples": 101,
+      "sigmaZ": 7.70186,
+      "sigmaVz": 3.68779,
+      "rmsR": 71.0241,
+      "meanZ": -0.0131468,
+      "sigmaZ0": 6.61461,
+      "expectSigmaZ": 7.2,
+      "expectSigmaVz": 3.6,
+      "ratioZ": 1.0697,
+      "ratioVz": 1.02439,
+      "aspectZoverRperAxis": 0.153357,
+      "basis": "Core 力学の等温定常 T/(m K∥)・T/(m K_eff)・T/m"
+     }
+    }
+   },
+   "shapeToySpiralCore": {
+    "emoji": "🎢",
+    "law": "coreField",
+    "shape": "spiral",
+    "groups": {
+     "disk": {
+      "samples": 101,
+      "sigmaZ": 11.4867,
+      "sigmaVz": 2.56496,
+      "rmsR": 62.3893,
+      "meanZ": -0.163557,
+      "sigmaZ0": 10.3598,
+      "expectSigmaZ": 10.9997,
+      "expectSigmaVz": 2.45764,
+      "ratioZ": 1.04427,
+      "ratioVz": 1.04367,
+      "aspectZoverRperAxis": 0.260375,
+      "basis": "Core 力学の等温定常 T/(m K∥)・T/(m K_eff)・T/m"
+     },
+     "arm": {
+      "samples": 101,
+      "sigmaZ": 7.44656,
+      "sigmaVz": 0.873983,
+      "rmsR": 91.4159,
+      "meanZ": 0.214329,
+      "sigmaZ0": 6.97842,
+      "expectSigmaZ": 7.2,
+      "expectSigmaVz": 0.864,
+      "ratioZ": 1.03424,
+      "ratioVz": 1.01155,
+      "aspectZoverRperAxis": 0.115199,
+      "basis": "腕の OU の定常 armSigmaZ・armSigmaZ·armOmega0"
+     }
+    }
+   }
+  },
+  "ratioZRange": [
+   0.975032,
+   1.0697
+  ]
+ },
+ "gravity": {
+  "rows": {
+   "shapeToyCluster": {
+    "law": "prescribed",
+    "nDiffG8": 0,
+    "maxAbs": 0,
+    "coreFieldStopG8": null
+   },
+   "shapeToyDisk": {
+    "law": "prescribed",
+    "nDiffG8": 0,
+    "maxAbs": 0,
+    "coreFieldStopG8": null
+   },
+   "shapeToyArm": {
+    "law": "prescribed",
+    "nDiffG8": 0,
+    "maxAbs": 0,
+    "coreFieldStopG8": null
+   },
+   "shapeToySpiral": {
+    "law": "prescribed",
+    "nDiffG8": 0,
+    "maxAbs": 0,
+    "coreFieldStopG8": null
+   },
+   "shapeToyClusterCore": {
+    "law": "coreField",
+    "nDiffG8": 1440,
+    "maxAbs": 2915.35,
+    "coreFieldStopG8": "gravityDouble"
+   },
+   "shapeToyDiskCore": {
+    "law": "coreField",
+    "nDiffG8": 1800,
+    "maxAbs": 2623.51,
+    "coreFieldStopG8": "gravityDouble"
+   },
+   "shapeToyArmCore": {
+    "law": "coreField",
+    "nDiffG8": 1080,
+    "maxAbs": 1646.73,
+    "coreFieldStopG8": "gravityDouble"
+   },
+   "shapeToySpiralCore": {
+    "law": "coreField",
+    "nDiffG8": 1800,
+    "maxAbs": 2536.77,
+    "coreFieldStopG8": "gravityDouble"
+   }
+  },
+  "prescribedBitSameUnderG": true,
+  "coreGravityDoubleGate": true
+ },
+ "cov": {
+  "rotation": {
+   "axis": [
+    1,
+    2,
+    3
+   ],
+   "angleRad": 0.7
+  },
+  "steps": [
+   200,
+   200
+  ],
+  "exchange": "none(写し)",
+  "rows": {
+   "shapeToyDiskCore": {
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "relDr": 5.15436e-14,
+    "relDv": 5.05141e-14,
+    "stopA": null,
+    "stopB": null
+   },
+   "shapeToyArmCore": {
+    "axis": [
+     1,
+     0,
+     0
+    ],
+    "relDr": 5.69006e-14,
+    "relDv": 4.53322e-14,
+    "stopA": null,
+    "stopB": null
+   },
+   "shapeToyClusterCore": {
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "relDr": 4.0869e-14,
+    "relDv": 4.94204e-14,
+    "stopA": null,
+    "stopB": null
+   }
+  },
+  "worstRel": 5.69006e-14
+ },
+ "ledger": {
+  "rows": {
+   "shapeToyCluster": {
+    "steps": 600,
+    "dP": [
+     45.1881,
+     86.8058,
+     87.6912
+    ],
+    "dL": [
+     649.652,
+     1057.96,
+     -243.662
+    ],
+    "dK": 1902.95,
+    "bookP": [
+     45.1881,
+     86.8058,
+     87.6912
+    ],
+    "bookL": [
+     649.652,
+     1057.96,
+     -243.662
+    ],
+    "bookE": 1902.95,
+    "zShare": {
+     "Pz": 87.6912,
+     "Lx": 649.652,
+     "Ly": 1057.96,
+     "Ez": -9.53645,
+     "coreL3Fix": [
+      0,
+      0
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 6.32017e-15,
+    "relResL": 4.29834e-15,
+    "relResE": 4.72799e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": 7.79042e-14,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToyDisk": {
+    "steps": 600,
+    "dP": [
+     39.942,
+     16.4498,
+     0.453807
+    ],
+    "dL": [
+     532.52,
+     -195.312,
+     2991.63
+    ],
+    "dK": 110.342,
+    "bookP": [
+     39.942,
+     16.4498,
+     0.453807
+    ],
+    "bookL": [
+     532.52,
+     -195.312,
+     2991.63
+    ],
+    "bookE": 110.342,
+    "zShare": {
+     "Pz": 0.453807,
+     "Lx": 532.52,
+     "Ly": -195.312,
+     "Ez": 0.0850871,
+     "coreL3Fix": [
+      0,
+      0
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 5.33681e-16,
+    "relResL": 1.23125e-14,
+    "relResE": 8.34749e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": 1.2879e-16,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToyArm": {
+    "steps": 600,
+    "dP": [
+     0,
+     2.3585,
+     4.45698
+    ],
+    "dL": [
+     8.59022,
+     -83.1198,
+     -37.6579
+    ],
+    "dK": 30.699,
+    "bookP": [
+     0,
+     2.3585,
+     4.45698
+    ],
+    "bookL": [
+     8.59022,
+     -83.1198,
+     -37.6579
+    ],
+    "bookE": 30.699,
+    "zShare": {
+     "Pz": 4.45698,
+     "Lx": 8.59022,
+     "Ly": -83.1198,
+     "Ez": 0.576976,
+     "coreL3Fix": [
+      0,
+      0
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 9.06716e-15,
+    "relResL": 8.20648e-15,
+    "relResE": 1.7731e-15,
+    "bathExactNeg": true,
+    "supplySplitRel": 4.13147e-14,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToySpiral": {
+    "steps": 600,
+    "dP": [
+     50.7112,
+     11.0987,
+     -1.65626
+    ],
+    "dL": [
+     777.085,
+     -444.716,
+     4268.42
+    ],
+    "dK": 158.318,
+    "bookP": [
+     50.7112,
+     11.0987,
+     -1.65626
+    ],
+    "bookL": [
+     777.085,
+     -444.716,
+     4268.42
+    ],
+    "bookE": 158.318,
+    "zShare": {
+     "Pz": -1.65626,
+     "Lx": 777.085,
+     "Ly": -444.716,
+     "Ez": -1.85414,
+     "coreL3Fix": [
+      0,
+      0
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 5.60462e-16,
+    "relResL": 2.5569e-15,
+    "relResE": 5.20501e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": null,
+    "supplySplitRelSpiral": 5.20615e-15
+   },
+   "shapeToyClusterCore": {
+    "steps": 600,
+    "dP": [
+     72.2291,
+     41.873,
+     34.9493
+    ],
+    "dL": [
+     -2661.16,
+     -4658.83,
+     -2575.54
+    ],
+    "dK": -19.7965,
+    "bookP": [
+     72.2291,
+     41.873,
+     34.9493
+    ],
+    "bookL": [
+     -2661.16,
+     -4658.83,
+     -2575.54
+    ],
+    "bookE": -19.7965,
+    "zShare": {
+     "Pz": 34.9493,
+     "Lx": -2661.16,
+     "Ly": -4658.83,
+     "Ez": 0,
+     "coreL3Fix": [
+      392.592,
+      -294.32
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 5.41054e-15,
+    "relResL": 5.85659e-16,
+    "relResE": 7.40035e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": null,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToyDiskCore": {
+    "steps": 600,
+    "dP": [
+     -97.2706,
+     -21.1754,
+     20.4569
+    ],
+    "dL": [
+     -2242.22,
+     664.563,
+     7216.52
+    ],
+    "dK": 359.664,
+    "bookP": [
+     -97.2706,
+     -21.1754,
+     20.4569
+    ],
+    "bookL": [
+     -2242.22,
+     664.563,
+     7216.52
+    ],
+    "bookE": 359.664,
+    "zShare": {
+     "Pz": 20.4569,
+     "Lx": -2242.22,
+     "Ly": 664.563,
+     "Ez": 0,
+     "coreL3Fix": [
+      -2739.9,
+      2203.57
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 2.77582e-15,
+    "relResL": 1.02399e-15,
+    "relResE": 5.55557e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": null,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToyArmCore": {
+    "steps": 600,
+    "dP": [
+     32.6995,
+     72.2829,
+     41.1671
+    ],
+    "dL": [
+     -793.136,
+     2222.04,
+     -732.361
+    ],
+    "dK": 416.115,
+    "bookP": [
+     32.6995,
+     72.2829,
+     41.1671
+    ],
+    "bookL": [
+     -793.136,
+     2222.04,
+     -732.361
+    ],
+    "bookE": 416.115,
+    "zShare": {
+     "Pz": 41.1671,
+     "Lx": -793.136,
+     "Ly": 2222.04,
+     "Ez": 0,
+     "coreL3Fix": [
+      262.027,
+      1112.99
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 6.88101e-16,
+    "relResL": 6.34425e-15,
+    "relResE": 7.2726e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": null,
+    "supplySplitRelSpiral": null
+   },
+   "shapeToySpiralCore": {
+    "steps": 600,
+    "dP": [
+     -88.2181,
+     -37.4977,
+     16.4606
+    ],
+    "dL": [
+     -562.46,
+     2919.17,
+     1389.52
+    ],
+    "dK": 96.5232,
+    "bookP": [
+     -88.2181,
+     -37.4977,
+     16.4606
+    ],
+    "bookL": [
+     -562.46,
+     2919.17,
+     1389.52
+    ],
+    "bookE": 96.5232,
+    "zShare": {
+     "Pz": 16.4606,
+     "Lx": -562.46,
+     "Ly": 2919.17,
+     "Ez": 1.7964,
+     "coreL3Fix": [
+      427.359,
+      -1353.6
+     ],
+     "coreExtPz": 0
+    },
+    "relResP": 2.41632e-15,
+    "relResL": 1.08267e-14,
+    "relResE": 5.14058e-16,
+    "bathExactNeg": true,
+    "supplySplitRel": null,
+    "supplySplitRelSpiral": 1.59224e-14
+   }
+  },
+  "worstRel": 1.23125e-14,
+  "allBathExactNeg": true
+ },
+ "ck": {
+  "rows": {
+   "shapeToyCluster": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToyDisk": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToyArm": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToySpiral": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToyClusterCore": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToyDiskCore": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToyArmCore": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   },
+   "shapeToySpiralCore": {
+    "cloneSame": true,
+    "checkpointSame": true,
+    "fixture2dCheckpointSame": true
+   }
+  },
+  "allSame": true
+ },
+ "save": {
+  "rows": {
+   "shapeToyCluster": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToyDisk": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToyArm": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToySpiral": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToyClusterCore": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToyDiskCore": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToyArmCore": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   },
+   "shapeToySpiralCore": {
+    "sigSame": true,
+    "runSame": true,
+    "differsFrom2d": true,
+    "warnings3d": 0
+   }
+  },
+  "allOk": true
+ },
+ "variants": {
+  "feedback": {
+   "halt": null,
+   "stop": null,
+   "sigmaZ": 49.5994,
+   "declared": 36,
+   "ratio": 1.37776,
+   "note": "診断用(二次元と同じく、エンジンの drift と OU が二重に当たるので定常の広がりは理論値に合わない —— 第274便d と同じ契約)"
+  },
+  "growth": {
+   "sigma": 36,
+   "sigma0": 72,
+   "tauGrow": 50,
+   "track": [
+    {
+     "t": 50,
+     "sigmaZ": 48.131,
+     "expect": 49.2437,
+     "ratio": 0.977405
+    },
+    {
+     "t": 100,
+     "sigmaZ": 39.5768,
+     "expect": 40.8721,
+     "ratio": 0.96831
+    },
+    {
+     "t": 150,
+     "sigmaZ": 39.1371,
+     "expect": 37.7923,
+     "ratio": 1.03558
+    },
+    {
+     "t": 200,
+     "sigmaZ": 36.8046,
+     "expect": 36.6594,
+     "ratio": 1.00396
+    }
+   ],
+   "halt": null
+  }
+ },
+ "gate": {
+  "rows": {
+   "shapeToyCluster": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToyDisk": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToyArm": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToySpiral": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToyClusterCore": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToyDiskCore": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToyArmCore": {
+    "deny": [],
+    "runtimeWhy": null
+   },
+   "shapeToySpiralCore": {
+    "deny": [],
+    "runtimeWhy": null
+   }
+  },
+  "supportedHasShapeToy": true,
+  "allAccepted": true
+ },
+ "gates": {
+  "xyBitSameVsFixtureDouble": true,
+  "prescribedBitSameUnderG": true,
+  "covariantCore": true,
+  "ledgerClosed": true,
+  "checkpointAndClone": true,
+  "saveRoundTrip": true,
+  "accepted": true
+ },
+ "ok": true,
+ "elapsedS": 61.036
+}

@@ -11847,6 +11847,9 @@ const W298A_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGE
 const W298C_BLOCK = (h, id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, b > a ? b : undefined); };
 const W298C_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); if (h.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') < 0) return []; return W298A_IDS.filter((id) => W298C_BLOCK(h, id).indexOf('relativeDrag:{law:"inertial"') >= 0); } catch (e) { return []; } })();
 const W298C_DCIDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); return W298C_IDS.filter((id) => W298C_BLOCK(h, id).indexOf('dragCore:{') >= 0); } catch (e) { return []; } })();
+// 第299便e(原仮定者の裁定(第89報)④・R174): 三次元の参照模型(physics に shapeToy と coord:"3d" を持つ内蔵 —— 🔮🥏🧵🍭🎱📀🧹🎢)。宣言から列挙する(手書きの一覧を持たない)。
+//   世代切替は html の `SHAPE_TOY3_VERSION="w299e`(無い html では空)。W298A_IDS(physics の先頭に coord を書いた第298便の三次元の本)には入らない
+const W299E_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); if (h.indexOf('SHAPE_TOY3_VERSION="w299e') < 0) return []; const out = []; const re = /\n\{ id:"([^"]+)"/g; let m; while ((m = re.exec(h))) { const b = W298C_BLOCK(h, m[1]); const ph = b.slice(b.indexOf('\n  physics:{')); if (b.indexOf('\n  physics:{') >= 0 && /\n    coord:"3d", /.test(ph.slice(0, ph.indexOf('\n  bodies:'))) && ph.indexOf('shapeToy:{') >= 0 && ph.indexOf('shapeToy:{') < ph.indexOf('\n  bodies:')) out.push(m[1]); } return out; } catch (e) { return []; } })();
 // 第296便b(原仮定者の裁定(第86報)・R158): geoPN=3 のフィットの派生本(🟫 mercurySunInertialFit・🟪 plutoCharonInertialFit —— **core・layers・spaceMesh の宣言なし**・
 //   pinned は 🟫 の太陽 1 個・dragCore は 🟪 の両天体〔事前値〕)。ID は正本 tests/out/fit-w296b.json の status:"fitted" の本から読む(手書きの ID 一覧を足さない —— AN245)
 const W296B_J = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'fit-w296b.json'), 'utf8')); } catch (e) { return null; } })();
@@ -63807,7 +63810,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.n295c = HP.allPresets().filter((z) => ['earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial'].includes(z.id) || z.referenceKind === 'observation-fit').length;   // 第295便c: 🌤️🟤🟣(慣性決定力版サンプル 3 本)で +3   // 第296便b: フィットの派生本(referenceKind observation-fit —— 🟫🟪)も同じ群・同じ数え方で +2
       o.n295cCal = HP.allPresets().filter((z) => (['earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial'].includes(z.id) || z.referenceKind === 'observation-fit') && z.group === o.beyondName).length;   // 第296便b: 🟫🟪 も現実較正   // 第295便c: そのうち移動元の群(現実較正)に入る本
       o.n296c = HP.allPresets().filter((z) => z.id === 'chainDiskToy').length;   // 第296便c: 🔗(連鎖引きずりの試作本 —— 運動と時空)で +1   // 第295便c: そのうち移動元の群(現実較正)に入る本
-      o.n298a = HP.allPresets().filter((z) => (z.physics || {}).coord === '3d' && z.referenceKind !== 'observation-fit').length;   // 第298便a: 🌐🎲(三次元の本 —— 運動と時空)で +2・第298便c: 🔩🪛 +2(🌦️ は observation-fit —— n295c が数える)
+      o.n298a = HP.allPresets().filter((z) => (z.physics || {}).coord === '3d' && z.referenceKind !== 'observation-fit' && !(z.physics || {}).shapeToy).length;   // 第299便e: 三次元になった参照模型 8 本は nShapeToy で数える(二重に数えない)   // 第298便a: 🌐🎲(三次元の本 —— 運動と時空)で +2・第298便c: 🔩🪛 +2(🌦️ は observation-fit —— n295c が数える)
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -64114,7 +64117,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has292c = HP.allPresets().some((z) => z.id === 'earthMoonInertial');   // 第292便c: 🌛(慣性決定力版の地球と月)で +1
       o.n295c = HP.allPresets().filter((z) => ['earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial'].includes(z.id) || z.referenceKind === 'observation-fit').length;   // 第295便c: 🌤️🟤🟣(慣性決定力版サンプル 3 本)で +3   // 第296便b: フィットの派生本(referenceKind observation-fit —— 🟫🟪)も同じ群・同じ数え方で +2
       o.n296c = HP.allPresets().filter((z) => z.id === 'chainDiskToy').length;   // 第296便c: 🔗(連鎖引きずりの試作本 —— 運動と時空)で +1
-      o.n298a = HP.allPresets().filter((z) => (z.physics || {}).coord === '3d' && z.referenceKind !== 'observation-fit').length;   // 第298便a: 🌐🎲(三次元の本 —— 運動と時空)で +2・第298便c: 🔩🪛 +2(🌦️ は observation-fit —— n295c が数える)
+      o.n298a = HP.allPresets().filter((z) => (z.physics || {}).coord === '3d' && z.referenceKind !== 'observation-fit' && !(z.physics || {}).shapeToy).length;   // 第299便e: 三次元になった参照模型 8 本は nShapeToy で数える(二重に数えない)   // 第298便a: 🌐🎲(三次元の本 —— 運動と時空)で +2・第298便c: 🔩🪛 +2(🌦️ は observation-fit —— n295c が数える)
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -72684,7 +72687,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const HP = H298.HP, all = HP.allPresets();
         // 第298便c(R167): 三次元の慣性決定力の本(relativeDrag を宣言した三次元の本 —— 🔩🪛🌦️)は第298便c の preset.geo4Std298・docs.moon3d298 が照合する(宣言から除く)
         const has298cP = html298a.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') >= 0;
-        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag)).map((p) => p.id);
+        // 第299便e(R174): 三次元の参照模型(W299E_IDS —— physics.shapeToy を宣言した三次元の本)は preset.ref3d299 が照合する(宣言から除く)
+        const b3 = all.filter((p) => (p.physics || {}).coord === '3d' && !(has298cP && (p.physics || {}).relativeDrag) && W299E_IDS.indexOf(p.id) < 0).map((p) => p.id);
         const want = [J298.part8.kepler.id, J298.part8.spin.id];
         if (JSON.stringify(b3.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push('三次元の内蔵 ' + b3.join(',') + ' ≠ 正本 ' + want.join(','));
         const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
@@ -73163,7 +73167,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       else if (J) {
         const HP = H299.HP;
         if (!(ver && J.meta && J.meta.version === ver && ver !== 'w297c-timestd-1')) bad.push('正本の版 ' + (J.meta && J.meta.version) + ' ⇔ 器 ' + ver);
-        const ids3 = HP.allPresets().filter((p) => W298A_IDS.indexOf(p.id) >= 0).map((p) => p.id);
+        // 第299便e(R174): 三次元の参照模型(W299E_IDS)は正本に三次元の行(coord "3d")が入った世代(鎖で作り直した後)だけ三次元の本に数える
+        const ids3 = HP.allPresets().filter((p) => W298A_IDS.indexOf(p.id) >= 0 || (W299E_IDS.indexOf(p.id) >= 0 && J.rows.some((r) => r.id === p.id && r.coord === '3d'))).map((p) => p.id);
         const rows3 = J.rows.filter((r) => r.coord === '3d').map((r) => r.id);
         if (JSON.stringify(rows3.slice().sort()) !== JSON.stringify(ids3.slice().sort())) bad.push('三次元の行 ' + rows3.join(',') + ' ⇔ 三次元の本 ' + ids3.join(','));
         if (!(J.meta.coord3d && JSON.stringify(J.meta.coord3d.rows) === JSON.stringify(rows3))) bad.push('meta.coord3d.rows');
@@ -73200,6 +73205,142 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第299便a') < 0) bad.push('CHANGELOG');
       add('docs.timeStd3d299', bad.length === 0,
         `**時間の標準器の三次元化**(第299便a・R169 —— 器 ${ver}: 三次元の本は r・v²・|r×v|・半径を 3 成分・公転の位相は初期の軌道面へ射影・二次元の行は旧版と同じ式): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・DECISIONS v58 §1 の AN286・統括の検証項目 R174): **参照模型の三次元化**。
+// ----   世代切替 has299e = html の `SHAPE_TOY3_VERSION="w299e`(root 等は SKIP)。本は宣言から列挙(W299E_IDS —— physics に shapeToy と coord:"3d" を持つ本)。
+// ----   器 tests/exp-w299e-ref3d.mjs・正本 tests/out/ref3d-w299e.json・凍結の二次元の写し tests/data-w299e-ref2d.json(書き換えない)。
+// ----   ① behavior.ref3d299 …… 器を子プロセスで引き直して(W299E_OUT —— 一時ファイル。vm の headless は大域の関数の参照が遅く 20 倍かかるので使わない)正本と全欄一致・門が全部真: xy が凍結の二次元の写し(+stateCarry:"double")とビット同一
+// ----      (8 本 × 800 步)・z の厚み(σ_z・σ_vz の実測/宣言の定常が 0.9〜1.1)・規定系は G=8 でも xyz・v がビット同一/Core 系は門 gravityDouble・
+// ----      Core 力学の三次元の共変 ≤1e-9・三次元の P/L/E の収支 ≤1e-9 と熱浴の欄が厳密な負・チェックポイントと複製・保存往復・受理と走行の門
+// ----   ② preset.ref3d299 …… 宣言: W299E_IDS = 写しの 8 本・各本の physics の coord "3d"・stateCarry "double"・写しとの宣言の差は 2 鍵だけ・受理の警告に
+// ----      Z の宣言なし・三次元の步(S.step === S._step3)・build の直後の z が潜在から書かれている(規定系 z=σ_z ζ・Core 系 z=cfZ)・二次元の写しは受理で
+// ----      二次元の步・samplestatus の原稿の根拠に正本・説明文(fixedConventions)に「三次元の本」
+// ----   ③ docs.ref3d299 …… PHYSICS〔第299便e〕・AI_SPEC の第299便e の節・CHANGELOG・README・正本の来歴(器の版)・再生成の段 ref3d-299e と .gitignore の例外・
+// ----      禁句と書かない語
+{
+  const html299e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has299e = TARGET.startsWith('beta/') && html299e.indexOf('SHAPE_TOY3_VERSION="w299e') >= 0;
+  if (!has299e) {
+    console.log('SKIP behavior.ref3d299 / preset.ref3d299 / docs.ref3d299(第299便e 未適用 — ' + TARGET + ')');
+  } else {
+    let E299e = null, J299e = null, F299e = null, H299e = null, err299e = null;
+    try {
+      E299e = await import('file://' + path.join(ROOT, 'tests', 'exp-w299e-ref3d.mjs'));
+      J299e = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'ref3d-w299e.json'), 'utf8'));
+      F299e = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w299e-ref2d.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      H299e = loadHtmlHeadless(path.join(ROOT, TARGET));
+    } catch (e) { err299e = String(e && e.stack || e).slice(0, 200); }
+    // ---- ① behavior.ref3d299
+    {
+      const bad = [], cases = [];
+      if (err299e) bad.push('器/正本/写し/headless が読めない: ' + err299e);
+      else {
+        let R = null;
+        const os299e = await import('node:os');
+        const tmp299e = path.join(fs.mkdtempSync(path.join(os299e.tmpdir(), 'qa-ref3d299-')), 'ref3d.json');
+        try { execSync(JSON.stringify(process.execPath) + ' tests/exp-w299e-ref3d.mjs', { cwd: ROOT, env: Object.assign({}, process.env, { W299E_OUT: tmp299e }), stdio: 'pipe', timeout: 900000 }); }
+        catch (e) { if (!fs.existsSync(tmp299e)) bad.push('器: ' + String(e && e.message || e).slice(0, 160)); }
+        try { R = JSON.parse(fs.readFileSync(tmp299e, 'utf8')); } catch (e) { bad.push('器の出力が読めない'); }
+        if (R) {
+          for (const k of ['bit', 'thick', 'gravity', 'cov', 'ledger', 'ck', 'save', 'variants', 'gate'])
+            if (JSON.stringify(R[k]) !== JSON.stringify(J299e[k])) bad.push(k + ' を引き直すと正本と違う(器を走らせ直すこと)');
+          if (!(R.ok === true && J299e.ok === true && Object.values(J299e.gates).every(Boolean))) bad.push('門 ' + JSON.stringify(R.gates));
+          const ids = Object.keys(R.bit.rows);
+          if (JSON.stringify(ids.slice().sort()) !== JSON.stringify(W299E_IDS.slice().sort())) bad.push('器の本 ' + ids.join(',') + ' ⇔ 宣言 ' + W299E_IDS.join(','));
+          const nv = ids.reduce((a, id) => a + R.bit.rows[id].vsFixtureDouble.nVal, 0);
+          if (!ids.every((id) => R.bit.rows[id].vsFixtureDouble.nDiff === 0)) bad.push('xy のビット同一 ' + ids.map((id) => id + ':' + R.bit.rows[id].vsFixtureDouble.nDiff).join(','));
+          cases.push(`xy は凍結の二次元の写し(+double)とビット同一 ${ids.length} 本・${nv} 値・${R.bit.steps} 步`);
+          const rz = []; for (const id of ids) for (const [g, q] of Object.entries(R.thick.rows[id].groups)) { rz.push(q.ratioZ, q.ratioVz); if (!(q.ratioZ >= 0.9 && q.ratioZ <= 1.1 && q.ratioVz >= 0.9 && q.ratioVz <= 1.1)) bad.push(id + '/' + g + ' の厚み ' + q.ratioZ + '・' + q.ratioVz); }
+          cases.push(`σ_z・σ_vz の実測/定常 ${Math.min(...rz)}〜${Math.max(...rz)}(t∈[100,200])`);
+          if (!(R.gravity.prescribedBitSameUnderG && R.gravity.coreGravityDoubleGate)) bad.push('G の不感/門 ' + JSON.stringify(R.gravity.rows).slice(0, 160));
+          if (!(R.cov.worstRel <= 1e-9)) bad.push('共変 ' + R.cov.worstRel);
+          if (!(R.ledger.worstRel <= 1e-9 && R.ledger.allBathExactNeg)) bad.push('収支 ' + R.ledger.worstRel);
+          cases.push(`規定系は G=8 でも不変・Core 系は門 gravityDouble・共変 ${R.cov.worstRel}・三次元の収支 ${R.ledger.worstRel}(熱浴の欄は厳密な負)`);
+          if (!(R.ck.allSame && R.save.allOk && R.gate.allAccepted && R.gate.supportedHasShapeToy)) bad.push('チェックポイント/保存/門 ' + JSON.stringify({ ck: R.ck.allSame, save: R.save.allOk, gate: R.gate.allAccepted }));
+          cases.push('チェックポイント・複製・保存往復が同じ瞬間へ戻る・受理と走行の門が通す');
+        }
+      }
+      add('behavior.ref3d299', bad.length === 0,
+        `**参照模型の三次元化**(第299便e・原仮定者の裁定(第89報)④・R174 —— 潜在だった面外 z を座標へ・二次元の經路は不変): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.ref3d299
+    {
+      const bad = [], cases = [];
+      if (err299e) bad.push('器/正本/写し/headless が読めない: ' + err299e);
+      else {
+        const HP = H299e.HP, all = HP.allPresets();
+        const fx = Object.keys(F299e.books || {});
+        if (!(F299e.meta && F299e.meta.frozen === true && F299e.meta.role === 'fixture' && F299e.meta.version === 'w299e-ref2d-1')) bad.push('写しの meta');
+        if (JSON.stringify(fx.slice().sort()) !== JSON.stringify(W299E_IDS.slice().sort())) bad.push('写しの本 ' + fx.join(',') + ' ⇔ 宣言 ' + W299E_IDS.join(','));
+        const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        for (const id of W299E_IDS) {
+          const p = all.find((q) => q.id === id), F = F299e.books[id];
+          if (!p || !F) { bad.push(id + ' が無い'); continue; }
+          if (!(p.physics.coord === '3d' && p.physics.stateCarry === 'double' && p.physics.shapeToy)) bad.push(id + ' の physics の coord/stateCarry/shapeToy');
+          const ph = JSON.parse(JSON.stringify(p.physics)); delete ph.coord; delete ph.stateCarry;
+          if (JSON.stringify(ph) !== JSON.stringify(F.physics) || JSON.stringify(p.bodies) !== JSON.stringify(F.bodies) || p.seed !== F.seed) bad.push(id + ' の宣言が写しと coord・stateCarry 以外で違う');
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) { bad.push(id + ' が受理されない'); continue; }
+          if ((v.warnings || []).some((w) => /Z の宣言/.test(String(w)))) bad.push(id + ' の受理に coord2dZ');
+          HP.loadPreset(id, false); const S = HP.sim;
+          if (!(S.coord3d === true && S.step === S._step3 && S.z && S.z.length === S.n)) bad.push(id + ' が三次元の步でない');
+          const cf = S.params.shapeToy; let zMax = 0;
+          for (let i = 0; i < S.n; i++) { if (S.pinned[i]) continue;
+            let want = null;
+            if (S.hasShapeToy) want = cf.sigmaZ * S.zLat[i];
+            else if (S.hasCoreField) want = S.cfZ[i];
+            else if (S.hasSpiral) want = (S.spComp[i] === 2) ? cf.spiral.armSigmaZ * S.spZ[i] : ((cf.law === 'coreField') ? S.cfZ[i] : cf.sigmaZ * S.spZ[i]);
+            if (want !== null) zMax = Math.max(zMax, Math.abs(S.z[i] - want)); }
+          if (!(zMax === 0)) bad.push(id + ' の build 直後の z が潜在から書かれていない(差 ' + zMax + ')');
+          const f2 = { id, name: id, description: '写し', emoji: F.emoji, seed: F.seed, world: F.world, camera: F.camera, timeRef: F.timeRef, physics: F.physics, bodies: F.bodies };
+          const v2 = HP.validatePreset(JSON.parse(JSON.stringify(f2)));
+          if (!v2.ok) bad.push(id + ' の二次元の写しが受理されない');
+          else { const S2 = HP.coord3d.makeSim(); S2.build(JSON.parse(JSON.stringify(v2.preset))); if (!(S2.coord3d !== true && S2.step === S2._step2 && S2.z === null)) bad.push(id + ' の写しが二次元の步でない'); }
+          if (!(src.rows && src.rows[id] && src.rows[id].evidence.indexOf('tests/out/ref3d-w299e.json') >= 0)) bad.push(id + ' の samplestatus の原稿の根拠');
+          if (JSON.stringify(p.parameterAudit && p.parameterAudit.fixedConventions || []).indexOf('三次元の本') < 0) bad.push(id + ' の fixedConventions に「三次元の本」が無い');
+          if (HP.coord3d.denyOf(p).length) bad.push(id + ' を受理の門が拒否');
+        }
+        cases.push(`三次元の参照模型 ${W299E_IDS.length} 本(宣言から列挙)・写しとの差は coord・stateCarry だけ・三次元の步・t=0 の z は潜在から・写しは二次元の步・原稿の根拠`);
+      }
+      add('preset.ref3d299', bad.length === 0,
+        `**参照模型の三次元の宣言と凍結の二次元の写し**(第299便e・AN286 —— 在位の本を三次元・二次元の宣言は写し): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.ref3d299
+    {
+      const bad = [], cases = [];
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+      const pi = PH.indexOf('〔第299便e'), p7 = PH.indexOf('\n## 7. ', pi);
+      if (pi < 0 || p7 < 0) bad.push('PHYSICS〔第299便e〕が「## 7.」の前に無い');
+      const psec = (pi >= 0 && p7 > pi) ? PH.slice(pi, p7) : '';
+      for (const w of ['physics.coord:"3d"', 'stateCarry:"double"', 'S.z', 'zLat', 'cfZ', 'spZ', 'dfmShapeToyStep3', 'dfmCoreFieldStep3', 'dfmShapeToySpiralStep3', 'coord3dDenyOf', 'coord3dRuntimeWhy',
+        'ビット同一', '共変', '凍結の写し', 'mulberry32S', 'shapeToyCkSnap', 'gravityDouble', 'σ_z の宣言', 'tests/out/ref3d-w299e.json']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第299便e〕に「' + w + '」が無い');
+      const ai = Ai.indexOf('第299便e —— 参照模型サンプルの三次元化');
+      if (ai < 0) bad.push('AI_SPEC の第299便e の節が無い');
+      else { const as = Ai.slice(ai); for (const w of ['SHAPE_TOY3_SC', 'HP.coord3d.ref3d', 'shapeToyCkSnap', 'behavior.ref3d299', 'tests/data-w299e-ref2d.json']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      if (CL.indexOf('第299便e') < 0) bad.push('CHANGELOG');
+      if (RM.indexOf('第299便e') < 0) bad.push('README');
+      if (J299e) {
+        const hv = /export const HARNESS_VERSION = '([^']+)'/.exec(fs.readFileSync(path.join(ROOT, 'tests', 'exp-w299e-ref3d.mjs'), 'utf8'));
+        if (!(J299e.meta && J299e.meta.provenanceVersion === 'w272e-1' && hv && J299e.meta.harnessVersion === hv[1])) bad.push('正本の来歴/器の版');
+        if (!(J299e.meta.inputs || []).some((z) => z.file === 'tests/data-w299e-ref2d.json')) bad.push('正本の入力に写しが無い');
+      } else bad.push('正本が読めない');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      if (!/S\('ref3d-299e', 'node tests\/exp-w299e-ref3d\.mjs', \['tests\/out\/ref3d-w299e\.json'\]/.test(RT) || !/secSource: 'w299e-branch'/.test(RT)) bad.push('再生成の段 ref3d-299e');
+      if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/ref3d-w299e.json') < 0) bad.push('.gitignore の例外');
+      const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+      const harn299e = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w299e-ref3d.mjs'), 'utf8');
+      for (const [nm, tx] of [['PHYSICS', psec], ['器', harn299e], ['AI_SPEC', (ai >= 0) ? Ai.slice(ai) : '']]) for (const re of NG) if (re.test(tx)) bad.push(nm + ' に禁句 ' + re.source);
+      cases.push(`PHYSICS〔第299便e〕${psec.length} 字・AI_SPEC の節・CHANGELOG・README・正本の来歴・段 ref3d-299e・.gitignore・禁句 0`);
+      add('docs.ref3d299', bad.length === 0,
+        `**参照模型の三次元化の文書**(第299便e): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

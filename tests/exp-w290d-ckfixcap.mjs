@@ -366,7 +366,13 @@ export function inventory(H, X) {
   const ckObj = new Set(['params', 'phase', 'twall', 'wallRest', 'phHist', 'fixcap'].filter((k) => new RegExp('\\b' + (k === 'twall' ? 'tw' : k === 'wallRest' ? 'wr' : k) + ':').test(ckSrc)));
   const ckSet = new Set(CK_ARRS.concat(CK_SC).concat([...ckObj]));
   const abSrc = H.evalExpr('cloneSimState.toString()');
-  const abHas = (k) => new RegExp('simB\\.' + k.replace(/\$/g, '\\$') + '\\s*=').test(abSrc) || new RegExp('"' + k + '"').test(abSrc);
+  const abHas0 = (k) => new RegExp('simB\\.' + k.replace(/\$/g, '\\$') + '\\s*=').test(abSrc) || new RegExp('"' + k + '"').test(abSrc);
+  // 第299便e(R174): 参照模型の写し(shapeToyCkSnap/shapeToyCkRestore —— 潜在の配列 SHAPE_TOY_CK_ARRS と shapeToy*・coreField*・spiral* の帳簿のスカラー)を
+  //   チェックポイント(ckSnapOne が呼ぶ)・複製(cloneSimState が呼ぶ)の名簿として数える(名簿の外の 1 組の写し —— 呼ばない世代では従来どおり)
+  const stCk = /shapeToyCkSnap\(/.test(ckSrc), stAb = /shapeToyCkRestore\(/.test(abSrc);
+  const stArrs = (stCk || stAb) ? clone(H.evalExpr("typeof SHAPE_TOY_CK_ARRS!=='undefined' ? SHAPE_TOY_CK_ARRS : []")) : [];
+  const stHas = (k) => stArrs.includes(k) || /^(shapeToy|coreField|spiral)[A-Z0-9]/.test(k);
+  const abHas = (k) => abHas0(k) || (stAb && stHas(k));
   const fixtures = [];
   for (const F of INVENTORY_FIXTURES) {
     const p = fixtureOf(HP, F);
@@ -392,7 +398,7 @@ export function inventory(H, X) {
       const d = diffBits(Object.assign(Fnoreset, { fixcap: null }), Object.assign(fp(S), { fixcap: null }));
       rerunBitSame = d.same;
     }
-    const rows = catKeys.map((k) => ({ key: k, moved: moved.includes(k), checkpoint: ckSet.has(k), abClone: abHas(k), saveJson: (saveKeys || []).includes(k) }));
+    const rows = catKeys.map((k) => ({ key: k, moved: moved.includes(k), checkpoint: ckSet.has(k) || (stCk && stHas(k)), abClone: abHas(k), saveJson: (saveKeys || []).includes(k) }));
     const byCat = {};
     for (const k of diffKeys || []) { const c = catOf(k) || 'other'; (byCat[c] = byCat[c] || []).push(k); }
     fixtures.push({ cat: F.cat, id: p.id || F.id, retiredFixture: p.familyRole === 'retired', flagOn: !!S[F.flag], n: n0, nSame, keys: rows,
