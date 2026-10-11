@@ -842,6 +842,13 @@ export const REGEN_STEPS = [
   S('planets3d-299c', 'node tests/exp-w299c-planets3d.mjs', ['tests/out/planets3d-w299c.json'], 195, { secSource: 'w299c-branch', node: true,
     volatilePaths: { 'tests/out/planets3d-w299c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第299便c: 惑星の geoPN=3 三次元の本 7 本 —— 近似要素の種の初期状態・gain 0 の恒星周期と近点率(h と h/2)・水星の gain の探索(fitRecord w298b-1)・移送の診断(宣言しない)' }),
+  // ---- 第299便d(原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」・
+  //   統括の検証項目 R173): **geoPN=4 の安定の条件**(先に宣言した 8 項目 —— 配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)を広げた円盤 🍥 で測り、
+  //   全部満たしたときだけ旧 spaceMesh の 🔁 を 🔂 へ移した記録(移行の条件 4 項目・何を変えたら何が動いたか)。Node 1 プロセス・html だけを読む(after なし)。
+  //   所要は第299便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('geo4stable-299d', 'node tests/exp-w299d-geo4stable.mjs', ['tests/out/geo4stable-w299d.json'], 90, { secSource: 'w299d-branch', node: true,
+    volatilePaths: { 'tests/out/geo4stable-w299d.json': META_RUN.concat(['/elapsedS', '/stable/runs/A/wallSec', '/stable/runs/B/wallSec', '/stable/conditions/count/value/rows/*/timing/*/wallSec']) },
+    note: '第299便d: geoPN=4 の安定の条件(宣言 8 項目)・広げた円盤 🍥 の帯の診断・旧 spaceMesh 🔁 → 🔂 の移行の記録(値だけ —— gain は 🟫 から移した宣言値)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
