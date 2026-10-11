@@ -44,6 +44,7 @@
 //   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w298b-branch' … 第298便b の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・段 3 つを並走・Chromium なし・他の枝と同じ容器で並走 —— 段 fit が最長)。
 //   'w298e-branch' … 第298便e の枝で器(版 w298b-refit-2)を段ごとに走らせた実測の和(Node の headless 4 本 —— scan / fitaps / scanwide+qprobe / limit+fitmonth を並走・Chromium なし・他の枝と同じ容器で並走)。
+//   'w299a-branch' … 第299便a の枝で器(timestd の版 w299a-timestd-2)を 1 回走らせた実測(正本の meta.wallSec 347.3 —— Node の headless 1 本・Chromium なし・他の枝の器と同じ容器で並走〔負荷平均 3 超〕)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -801,7 +802,9 @@ export const REGEN_STEPS = [
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
   //   所要は第297便c の枝の実測(正本の meta.wallSec —— 他の枝と同じ容器で並走)
-  S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 180, { secSource: 'w297c-branch', node: true,
+  //   第299便a(R169): 器の版 w299a-timestd-2(三次元の本を三次元で数える —— 二次元の行は旧版とビット同一)。所要は第299便a の枝の実測(正本の meta.wallSec 347.3 s ——
+  //   他の枝の器と同じ容器で並走〔負荷平均 3〜9〕。並走の少ない試走は 259.6 s)
+  S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 347, { secSource: 'w299a-branch', node: true,
     volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/wallSec']) },
     note: '第297便c: 時間の標準 —— 在位の公転の本の 8 公転(画面の刻み stepDt と 1/2)・観察の本の 600 步・退役は記録だけ —— 刻みの妥当性の物差し(物理の合否ではない)' }),
   // ---- 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。二次元の設定に Z の位置・速度が入っていたら警告。

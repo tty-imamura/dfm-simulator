@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:08:07.750Z",
+  "targetSha256": "29aab36f0b3b2e296079be40519b50b0593447fd53f8fcb9c21716b39df10051",
+  "generatedAt": "2026-10-11T05:51:35.817Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6345704,
+    "sha256": "29aab36f0b3b2e296079be40519b50b0593447fd53f8fcb9c21716b39df10051",
+    "mtime": "2026-10-11T05:13:09.928Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w290c-inertial.mjs",
     "bytes": 30324,
     "sha256": "82f9526f45ed03ece7e1bde21e53a84643d6d1ad645ab59ada07c87b1ea3c8e8",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "mtime": "2026-10-11T05:00:19.936Z"
    },
    {
     "file": "tests/lib-w290c-inertial.mjs",
     "bytes": 6142,
     "sha256": "0029d77a92a8dfba36c3abb8545ed1d711a31a045afe4ffb0754cf0e8adb15bd",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-11T05:00:20.364Z"
    },
    {
     "file": "tests/lib-w289c-reldrag.mjs",
     "bytes": 22223,
     "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-11T05:00:20.364Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-11T05:00:20.280Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-11T05:00:20.272Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-11T05:00:20.356Z"
    }
   ],
   "codeSha256": "41a6165f2bb1db38fe332bd3e897b3947711de759692952ab0733b8aa0115000",
@@ -106,11 +106,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1157,
-   "segments": 1057,
-   "closureShare": 0.3256
+   "names": 1165,
+   "segments": 1065,
+   "closureShare": 0.3263
   },
-  "scopeSha256": "c48a00d04d61e36541afc7a31c42639483476aaa5efb6dc51592ddb7c717018a",
+  "scopeSha256": "8983370c9b94bed8c0c7d3f7ec97b156d8abf8fa46792cb484e553bf9f239083",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -448,11 +448,11 @@
    "stateCarryDouble": {
     "declared": {
      "restoreSame": true,
-     "cloneSame": false
+     "cloneSame": true
     },
     "undeclared": {
      "restoreSame": true,
-     "cloneSame": false
+     "cloneSame": true
     },
     "note": "基点からある既存の欠落(宣言の有無に依らない)—— 門に使わない"
    }
@@ -783,5 +783,5 @@
   "ok": true
  },
  "ok": true,
- "elapsedS": 3.372
+ "elapsedS": 12.072
 }
