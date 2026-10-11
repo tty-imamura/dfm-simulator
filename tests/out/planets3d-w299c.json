@@ -1,0 +1,1488 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第299便c",
+  "target": "beta/index.html",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-11T05:16:41.284Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-11T05:00:24.160Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 27325,
+    "sha256": "3b65027eba16f05c9297eacbd56a3f1074f6eaca2bbc06e13edda24b01a68068",
+    "mtime": "2026-10-11T05:13:07.319Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16332,
+    "sha256": "790727e6e9ecb9a7d4f142e44d5e8ccceeeba71c19527150fbd16a431fc88935",
+    "mtime": "2026-10-11T05:12:56.893Z"
+   },
+   {
+    "file": "tests/exp-w298c-moon3d.mjs",
+    "bytes": 34936,
+    "sha256": "fb1bf14ca1ce8fec7aa41d988c008338a29252caeb1455a3aeeef8ed40dd9a0b",
+    "mtime": "2026-10-11T05:00:24.764Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-11T05:00:24.804Z"
+   },
+   {
+    "file": "tests/lib-w296b-fit.mjs",
+    "bytes": 10522,
+    "sha256": "fee34451c30b386826577ad8ebc0a3a71607e6aba14449cd9762096a0ff860de",
+    "mtime": "2026-10-11T05:00:24.804Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-11T05:00:24.792Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-11T05:00:24.788Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-11T05:00:24.796Z"
+   }
+  ],
+  "codeSha256": "ba949cd369453535755ac92d2befe9c190162eeff562355fa9c3fe6c7d97570c",
+  "harnessVersion": "w299c-planets3d-1",
+  "extractorVersion": "w299c-plx3-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第89報)②「太陽系の各惑星の geoPN=3 版を、それぞれ三次元で用意する」",
+  "reading": "統括の検証項目 R171(惑星の geoPN=3 三次元の新本・初期状態の生成器・測定と標的のある惑星のフィット)",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.FIT_COND_VERSION",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.fitCondSig",
+    "HP.inertialDragState",
+    "HP.validateFitRecord",
+    "HP.validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1158,
+   "segments": 1058,
+   "closureShare": 0.3256
+  },
+  "scopeSha256": "cbe96dacf106ac73101040be7a279d555159cf7b41cbec57e08a6139464e8931",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "lib": "w299c-planets3d-lib-1",
+ "sources": {
+  "elements": "JPL SSD「Approximate Positions of the Planets」Table 1(E. M. Standish・1800〜2050 年の近似要素・J2000 の平均黄道と分点)の T=0 の行",
+  "poles": "IAU WGCCRE 2009 報告(Archinal et al. 2011, Celest. Mech. Dyn. Astr. 109, 101)Table 1・2 の J2000 の極 α0・δ0(T=0)と自転角 W の率の符号",
+  "network": "本便のコンテナはネットワークに出られず(JPL SSD・NASA NSSDC への接続が拒否された)原表を取得できなかった —— 値は公表値の転記で、原表との照合は次の見直し",
+  "obliquityArcsec": 84381.406,
+  "auM": 149597870700
+ },
+ "wins": [
+  8,
+  64
+ ],
+ "books": [
+  {
+   "key": "mercury",
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "ja": "水星",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "gainUnitSI": 0.001,
+   "h": 0.016,
+   "pRef": 760.05216,
+   "el": {
+    "a": 0.38709927,
+    "e": 0.20563593,
+    "I": 7.00497902,
+    "L": 252.2503235,
+    "varpi": 77.45779628,
+    "Om": 48.33076593
+   },
+   "pole": {
+    "ra": 281.0097,
+    "dec": 61.4143,
+    "wSign": 1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 7.03769810457,
+     "azimuthDeg": 318.227318235,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の水星の極 α0 281.0097°・δ0 61.4143° を J2000 の黄道へ(軸は一定の近似)"
+    }
+   },
+   "masses": {
+    "sun": 1988.5,
+    "planet": 0.00033011
+   },
+   "radius": 0.0244,
+   "spin": 0.0124,
+   "keplerPeriodDays": 87.96944207185551,
+   "obsPeriodDays": 87.969,
+   "periodSource": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+   "periodBuiltIn": true,
+   "M0deg": 174.79252722,
+   "pn1Ref": 42.980510382067486,
+   "target": "fit",
+   "noTarget": null,
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 760.0546712106787,
+      "periodDays": 87.96929064938412,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -9.267888359086529,
+      "apsDegPerOrbit": -0.000006200392157323951,
+      "residRmsArcsec": 5.266028521735559e-7,
+      "ecc": 0.20563319420179002,
+      "aMean": 579.0915954518227
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 760.0546712107396,
+      "periodDays": 87.96929064939116,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -9.267895735473566,
+      "apsDegPerOrbit": -0.0000062003970922665376,
+      "residRmsArcsec": 5.616626182591964e-7,
+      "ecc": 0.20563319420173173,
+      "aMean": 579.0915954518161
+     },
+     "steps": 3040219,
+     "planeDriftDegMax": 0.0000014787793334710982
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 760.0553326808766,
+      "periodDays": 87.9693672084348,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -7.237235699023904,
+      "apsDegPerOrbit": -0.000004841851431906814,
+      "residRmsArcsec": 3.581663475720934e-7,
+      "ecc": 0.20563455709498643,
+      "aMean": 579.0919319646404
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 760.0553326809038,
+      "periodDays": 87.96936720843794,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -7.237240724850344,
+      "apsDegPerOrbit": -0.000004841854794282618,
+      "residRmsArcsec": 9.787232630882181e-7,
+      "ecc": 0.2056345570950517,
+      "aMean": 579.0919319646817
+     },
+     "steps": 6080443,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 2.030652660062625,
+    "apsRes64": 2.0306550106232217
+   },
+   "periodResidDays": 0.0002906493841265956,
+   "search": {
+    "grid": [
+     0.001,
+     0.00246941,
+     0.00609798,
+     0.0150584,
+     0.0371854,
+     0.0918259,
+     0.226756,
+     0.559953,
+     1.38275,
+     3.41458,
+     8.432,
+     20.8221,
+     51.4182
+    ],
+    "rows": [
+     {
+      "g": 0.001,
+      "y": 9.508167223045303
+     },
+     {
+      "g": 0.00246941,
+      "y": 23.479569925359904
+     },
+     {
+      "g": 0.00609798,
+      "y": 57.98066384733862
+     },
+     {
+      "g": 0.0150584,
+      "y": 143.1780550738467
+     },
+     {
+      "g": 0.0371854,
+      "y": 353.56592624094617
+     },
+     {
+      "g": 0.0918259,
+      "y": 873.1003985108918
+     },
+     {
+      "g": 0.226756,
+      "y": 2156.057079388172
+     },
+     {
+      "g": 0.559953,
+      "y": 5324.2582607892755
+     },
+     {
+      "g": 1.38275,
+      "y": 13148.19771663255
+     },
+     {
+      "g": 3.41458,
+      "y": 32471.094601455843
+     },
+     {
+      "g": 8.432,
+      "y": 80201.37577687572
+     },
+     {
+      "g": 20.8221,
+      "y": 198153.6374772317
+     },
+     {
+      "g": 51.4182,
+      "y": 489952.64831611014
+     }
+    ],
+    "bracketed": true,
+    "bracket": {
+     "lo": 0.00246941,
+     "hi": 0.00609798,
+     "yLo": 23.479569925359904,
+     "yHi": 57.98066384733862
+    },
+    "nearest": {
+     "g": 0.00609798,
+     "y": 57.98066384733862
+    },
+    "iters": [
+     {
+      "g": 0.004522424525165945,
+      "y": 43.00007238343512,
+      "f": 0.00007238343511772882
+     },
+     {
+      "g": 0.004522416912439583,
+      "y": 42.99990389780386,
+      "f": -0.0000961021961387587
+     },
+     {
+      "g": 0.004522421254647975,
+      "y": 43.000022894595226,
+      "f": 0.000022894595225864123
+     },
+     {
+      "g": 0.004522420419221218,
+      "y": 43.000038570080854,
+      "f": 0.00003857008085361713
+     },
+     {
+      "g": 0.004522419414880501,
+      "y": 42.99998933931985,
+      "f": -0.000010660680146656887
+     },
+     {
+      "g": 0.004522419632365564,
+      "y": 43.00003811799244,
+      "f": 0.000038117992438913006
+     },
+     {
+      "g": 0.004522419462412314,
+      "y": 43.00002131262459,
+      "f": 0.000021312624589597817
+     },
+     {
+      "g": 0.0045224194307287675,
+      "y": 42.999942797772626,
+      "f": -0.000057202227374375525
+     },
+     {
+      "g": 0.00452241945381191,
+      "y": 43.00001689746283,
+      "f": 0.000016897462828069365
+     },
+     {
+      "g": 0.004522419448548102,
+      "y": 43.000098288521045,
+      "f": 0.00009828852104476482
+     },
+     {
+      "g": 0.004522419437284178,
+      "y": 43.000039849376364,
+      "f": 0.00003984937636403174
+     },
+     {
+      "g": 0.004522419433467858,
+      "y": 43.00001156952264,
+      "f": 0.00001156952264125266
+     },
+     {
+      "g": 0.004522419432242892,
+      "y": 42.99997405162896,
+      "f": -0.00002594837103941927
+     },
+     {
+      "g": 0.004522419433090111,
+      "y": 42.999991369303885,
+      "f": -0.000008630696115119463
+     },
+     {
+      "g": 0.0045224194332515065,
+      "y": 42.99999892033267,
+      "f": -0.0000010796673279855895
+     }
+    ]
+   },
+   "fit": {
+    "gain": 0.004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 760.0546155261418,
+      "periodDays": 87.96928420441456,
+      "nPeri": 8,
+      "apsArcsecPerCentury": 33.73212268273547,
+      "apsDegPerOrbit": 0.000022567424801093132,
+      "residRmsArcsec": 6.842144650260579e-7,
+      "ecc": 0.20563323782803103,
+      "aMean": 579.091574481049
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 760.0546156314368,
+      "periodDays": 87.96928421660148,
+      "nPeri": 64,
+      "apsArcsecPerCentury": 33.732083915136045,
+      "apsDegPerOrbit": 0.000022567398867966036,
+      "residRmsArcsec": 5.670343073090954e-7,
+      "ecc": 0.2056332380428118,
+      "aMean": 579.0915745344398
+     },
+     "steps": 3040219,
+     "diff": 43.000011041822,
+     "diff64": 42.99997965060961,
+     "periodShiftSec": -0.5568453697378573
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 760.0552769877756,
+      "periodDays": 87.96936076247403,
+      "nPeri": 8,
+      "apsArcsecPerCentury": 35.76278589329485,
+      "apsDegPerOrbit": 0.000023925997521624244,
+      "residRmsArcsec": 4.0536817422100866e-7,
+      "ecc": 0.20563460070672868,
+      "aMean": 579.0919109907825
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 760.0552770403741,
+      "periodDays": 87.96936076856181,
+      "nPeri": 64,
+      "apsArcsecPerCentury": 35.76270140296691,
+      "apsDegPerOrbit": 0.00002392594099761159,
+      "residRmsArcsec": 0.0000012416180668373924,
+      "ecc": 0.20563460081409576,
+      "aMean": 579.0919110175012
+     },
+     "steps": 6080443,
+     "diff": 43.00002159231875,
+     "diff64": 42.999942127817256,
+     "periodShiftSec": -0.5569310112605308
+    }
+   },
+   "transfer": {
+    "gain": 0.004522419,
+    "h": 43.000011041822,
+    "h2": 43.00002159231875,
+    "res": 0.000010550496753580774,
+    "ratioPn1": 1.000453709357594,
+    "periodShiftSec": -0.5568453697378573
+   },
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "mercurySunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0",
+    "targets": [
+     {
+      "q": "近点率の差(gain 0 の対照との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)",
+      "window": "8 公転・検出器 B・gain 0 の対照との差(同じ刻み)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした(🟫 と同じ)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 43.000011041822,
+      "residual": 0.000011041821998958312,
+      "rel": 2.567865581153096e-7,
+      "numerics": {
+       "h2": 0.000010550496753580774,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+      "obs": 87.969,
+      "unit": "d",
+      "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+      "window": "8 公転",
+      "tol": {
+       "value": 0.0005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+      "model": 87.96928420441456,
+      "residual": 0.00028420441456944445,
+      "rel": 0.0000032307337194857788,
+      "numerics": {
+       "h2": 0.00007655805946171768,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.gain",
+      "range": [
+       0.001,
+       51.4182
+      ],
+      "final": 0.004522419
+     }
+    ],
+    "fixed": [
+     "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+     "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"(🟫 と同じ)"
+    ],
+    "procedure": "gain の対数格子(SI 10⁻⁶〜0.0514182 m³/kg・13 点)を h で走り gain 0 の対照との近点率の差(8 公転)で 43.0″/世紀を挟む → Illinois → 7 桁に丸めて h と h/2(と 64 公転の窓)で測り直した(器 tests/exp-w299c-planets3d.mjs)。二次元の 🟫 の値は写していない",
+    "dt": 0.016,
+    "steps": 3040219,
+    "status": "fitted",
+    "notFitted": [
+     "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+     "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+     "機構(1PN の近日点前進の機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "8d25ffd57cc23e15",
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+    }
+   },
+   "recordAccepted": true,
+   "recordErr": null,
+   "status": "fitted",
+   "gainDeclared": 0.004522419
+  },
+  {
+   "key": "venus",
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "ja": "金星",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "gainUnitSI": 0.001,
+   "h": 0.04087,
+   "pRef": 1941.41664,
+   "el": {
+    "a": 0.72333566,
+    "e": 0.00677672,
+    "I": 3.39467605,
+    "L": 181.9790995,
+    "varpi": 131.60246718,
+    "Om": 76.67984255
+   },
+   "pole": {
+    "ra": 272.76,
+    "dec": 67.16,
+    "wSign": -1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 1.23900284821,
+     "azimuthDeg": 30.1862722555,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の金星の極 α0 272.76°・δ0 67.16° を J2000 の黄道へ(軸は一定の近似・自転は IAU の北極に対し逆行 —— spin は負)"
+    }
+   },
+   "masses": {
+    "sun": 1988.5,
+    "planet": 0.0048675
+   },
+   "radius": 0.0605,
+   "spin": -0.00299236919,
+   "keplerPeriodDays": 224.7023568732672,
+   "obsPeriodDays": 224.701,
+   "periodSource": "観測の正本 OBS_COMPARE_ROWS(venusReal の 金星 の公転周期 19414166.4 s = 224.701 日)",
+   "periodBuiltIn": true,
+   "M0deg": 50.37663232,
+   "pn1Ref": 8.624520620178837,
+   "target": "none",
+   "noTarget": "金星の近日点の相対論的な部分(1PN の式で約 8.6″/世紀)は、暦表の解析からの推定値の出典と不確かさを本便では一次資料で確かめられなかった(ネットワーク不通)—— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 1941.426354614841,
+      "periodDays": 224.70212437671773,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -1.5962116208851826,
+      "apsDegPerOrbit": -0.000002727752240989463,
+      "residRmsArcsec": 0.00001529939878848882,
+      "ecc": 0.006725032192769121,
+      "aMean": 1082.0939983716778
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 1941.4263546154928,
+      "periodDays": 224.70212437679314,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -1.596284202966917,
+      "apsDegPerOrbit": -0.0000027278762758824417,
+      "residRmsArcsec": 0.00001962856541808132,
+      "ecc": 0.0067250321928433495,
+      "aMean": 1082.0939983717535
+     },
+     "steps": 3040159,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 1941.4273591512501,
+      "periodDays": 224.7022406425058,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.9053605357595742,
+      "apsDegPerOrbit": -0.0000015471635939955572,
+      "residRmsArcsec": 0.000028600878136946382,
+      "ecc": 0.0067508435058409475,
+      "aMean": 1082.0943712229441
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 1941.4273591509739,
+      "periodDays": 224.7022406424738,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.9050760068863004,
+      "apsDegPerOrbit": -0.0000015466773648117328,
+      "residRmsArcsec": 0.00003241670908387019,
+      "ecc": 0.0067508435058620895,
+      "aMean": 1082.0943712228727
+     },
+     "steps": 6080321,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 0.6908510851256084,
+    "apsRes64": 0.6912081960806167
+   },
+   "periodResidDays": 0.0011243767177404607,
+   "transfer": {
+    "gain": 0.004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 2.2431832730775962,
+    "h2": 2.2436459752248403,
+    "periodShiftSec": -0.137838524824474,
+    "res": 0.0004627021472440873,
+    "ratioPn1": 0.2600936761434842
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  },
+  {
+   "key": "mars",
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "ja": "火星",
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "gainUnitSI": 0.001,
+   "h": 0.1249,
+   "pRef": 5935.5072,
+   "el": {
+    "a": 1.52371034,
+    "e": 0.0933941,
+    "I": 1.84969142,
+    "L": -4.55343205,
+    "varpi": -23.94362959,
+    "Om": 49.55953891
+   },
+   "pole": {
+    "ra": 317.68143,
+    "dec": 52.8865,
+    "wSign": 1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 26.7179524748,
+     "azimuthDeg": 352.907615966,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の火星の極 α0 317.68143°・δ0 52.8865° を J2000 の黄道へ(軸は一定の近似)"
+    }
+   },
+   "masses": {
+    "sun": 1988.5,
+    "planet": 0.00064171
+   },
+   "radius": 0.033895,
+   "spin": 0.708821638,
+   "keplerPeriodDays": 686.9923438523554,
+   "obsPeriodDays": 686.98,
+   "periodSource": "観測の正本 OBS_COMPARE_ROWS(solarInner の 火星 の公転周期 59355072 s —— NASA NSSDC Mars Fact Sheet の 686.980 日)",
+   "periodBuiltIn": true,
+   "M0deg": 19.390197540000003,
+   "pn1Ref": 1.3508652247462136,
+   "target": "none",
+   "noTarget": "火星の近日点の相対論的な部分(1PN の式で約 1.35″/世紀)は、暦表の解析からの推定値の出典と不確かさを本便では一次資料で確かめられなかった(ネットワーク不通)—— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 5935.5613957076475,
+      "periodDays": 686.9862726513481,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.3604202731987368,
+      "apsDegPerOrbit": -0.0000018830616782476298,
+      "residRmsArcsec": 0.0000014850119311482837,
+      "ecc": 0.09336280411409484,
+      "aMean": 2279.4247965851146
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 5935.561395724037,
+      "periodDays": 686.986272653245,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.3604229594388872,
+      "apsDegPerOrbit": -0.0000018830757128570445,
+      "residRmsArcsec": 0.0000014473518733570861,
+      "ecc": 0.0933628041140757,
+      "aMean": 2279.4247965849922
+     },
+     "steps": 3041441,
+     "planeDriftDegMax": 0.0000014787793334710982
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 5935.587603914903,
+      "periodDays": 686.9893060086694,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.12804787943911766,
+      "apsDegPerOrbit": -6.69005428791248e-7,
+      "residRmsArcsec": 0.000003227339505170828,
+      "ecc": 0.09337844428521563,
+      "aMean": 2279.431504733454
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 5935.587603915551,
+      "periodDays": 686.9893060087444,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.12806245155413515,
+      "apsDegPerOrbit": -6.690815630006369e-7,
+      "residRmsArcsec": 0.000002589293226320347,
+      "ecc": 0.09337844428523083,
+      "aMean": 2279.4315047337136
+     },
+     "steps": 6082909,
+     "planeDriftDegMax": 0.0000014787793334710982
+    },
+    "apsRes8": 0.23237239375961916,
+    "apsRes64": 0.23236050788475204
+   },
+   "periodResidDays": 0.006272651348126601,
+   "transfer": {
+    "gain": 0.004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 0.08074372338496455,
+    "h2": 0.08075110039965433,
+    "periodShiftSec": -0.04979392688255757,
+    "res": 0.000007377014689780026,
+    "ratioPn1": 0.05977185725551106
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  },
+  {
+   "key": "jupiter",
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "ja": "木星",
+   "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+   },
+   "gainUnitSI": 0.1,
+   "h": 0.0788,
+   "pRef": 3743.356896,
+   "el": {
+    "a": 5.202887,
+    "e": 0.04838624,
+    "I": 1.30439695,
+    "L": 34.39644051,
+    "varpi": 14.72847983,
+    "Om": 100.47390909
+   },
+   "pole": {
+    "ra": 268.056595,
+    "dec": 64.495303,
+    "wSign": 1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 2.21651092308,
+     "azimuthDeg": 247.817832162,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の木星の極 α0 268.056595°・δ0 64.495303° を J2000 の黄道へ(軸は一定の近似)"
+    }
+   },
+   "masses": {
+    "sun": 198.85,
+    "planet": 0.1898
+   },
+   "radius": 0.071492,
+   "spin": 17.5851814,
+   "keplerPeriodDays": 4332.691528653002,
+   "obsPeriodDays": 4332.589,
+   "periodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 4332.589 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+   "periodBuiltIn": false,
+   "M0deg": 19.66796068,
+   "pn1Ref": 0.06238664095813726,
+   "target": "none",
+   "noTarget": "外惑星の近日点の相対論的な部分は 1PN の式で 1 世紀に 0.06″ 以下 —— 観測の行が無く、数値の分解能(h と h/2 の差)と比べる量 —— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 3743.4307759031394,
+      "periodDays": 4332.674509147152,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.11608803980932397,
+      "apsDegPerOrbit": -0.000003825170666200606,
+      "residRmsArcsec": 0.0000027985057550547346,
+      "ecc": 0.04835953596345825,
+      "aMean": 778.3387855820276
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 3743.430775904493,
+      "periodDays": 4332.674509148719,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.11609200058518326,
+      "apsDegPerOrbit": -0.000003825301176146488,
+      "residRmsArcsec": 0.000002792834262015572,
+      "ecc": 0.04835953596346418,
+      "aMean": 778.3387855821003
+     },
+     "steps": 3040350,
+     "planeDriftDegMax": 8.537736462515939e-7
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 3743.4380162624416,
+      "periodDays": 4332.682889192641,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.07997845846857217,
+      "apsDegPerOrbit": -0.0000026353433607938767,
+      "residRmsArcsec": 0.000004968126321194579,
+      "ecc": 0.04837286323368799,
+      "aMean": 778.3397887663351
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 3743.4380162631946,
+      "periodDays": 4332.682889193512,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.07998265908138148,
+      "apsDegPerOrbit": -0.0000026354817737782313,
+      "residRmsArcsec": 0.000006106313718762534,
+      "ecc": 0.048372863233720705,
+      "aMean": 778.3397887663245
+     },
+     "steps": 6080712,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 0.036109581340751803,
+    "apsRes64": 0.03610934150380178
+   },
+   "periodResidDays": 0.08550914715215185,
+   "transfer": {
+    "gain": 0.00004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 0.0003133300311660009,
+    "h2": 0.0003161103412173405,
+    "periodShiftSec": -0.007403918425552547,
+    "res": 0.0000027803100513396073,
+    "ratioPn1": 0.00502238983144247
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  },
+  {
+   "key": "saturn",
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "ja": "土星",
+   "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+   },
+   "gainUnitSI": 0.1,
+   "h": 0.1957,
+   "pRef": 9295.96608,
+   "el": {
+    "a": 9.53667594,
+    "e": 0.05386179,
+    "I": 2.48599187,
+    "L": 49.95424423,
+    "varpi": 92.59887831,
+    "Om": 113.66242448
+   },
+   "pole": {
+    "ra": 40.589,
+    "dec": 83.537,
+    "wSign": 1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 28.0521622529,
+     "azimuthDeg": 79.5275088416,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の土星の極 α0 40.589°・δ0 83.537° を J2000 の黄道へ(軸は一定の近似)"
+    }
+   },
+   "masses": {
+    "sun": 198.85,
+    "planet": 0.056834
+   },
+   "radius": 0.0603,
+   "spin": 16.528,
+   "keplerPeriodDays": 10755.530309810807,
+   "obsPeriodDays": 10759.22,
+   "periodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 10759.22 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+   "periodBuiltIn": false,
+   "M0deg": -42.64463408,
+   "pn1Ref": 0.013709400874347208,
+   "target": "none",
+   "noTarget": "外惑星の近日点の相対論的な部分は 1PN の式で 1 世紀に 0.06″ 以下 —— 観測の行が無く、数値の分解能(h と h/2 の差)と比べる量 —— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 9292.856453635373,
+      "periodDays": 10755.620895411312,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.02759927600299109,
+      "apsDegPerOrbit": -0.000002257565972134725,
+      "residRmsArcsec": 0.000002522375996804268,
+      "ecc": 0.0539140575609614,
+      "aMean": 1426.6744394870548
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 9292.856453639506,
+      "periodDays": 10755.620895416096,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.027602754910192307,
+      "apsDegPerOrbit": -0.000002257850539836593,
+      "residRmsArcsec": 0.0000031585922213778218,
+      "ecc": 0.053914057561017185,
+      "aMean": 1426.674439486985
+     },
+     "steps": 3039054,
+     "planeDriftDegMax": 0.0000014787793334710982
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 9292.817003939761,
+      "periodDays": 10755.57523604139,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.013019315957404057,
+      "apsDegPerOrbit": -0.000001064949671470481,
+      "residRmsArcsec": 0.000005873125232984014,
+      "ecc": 0.05388790694622592,
+      "aMean": 1426.6704010921776
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 9292.817003942268,
+      "periodDays": 10755.575236044291,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.01301749063457571,
+      "apsDegPerOrbit": -0.000001064800364321857,
+      "residRmsArcsec": 0.000005613698031088048,
+      "ecc": 0.05388790694622594,
+      "aMean": 1426.670401091962
+     },
+     "steps": 6078082,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 0.014579960045587032,
+    "apsRes64": 0.014585264275616598
+   },
+   "periodResidDays": -3.5991045886876236,
+   "transfer": {
+    "gain": 0.00004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 0.00001883965419528441,
+    "h2": 0.000012556402234164751,
+    "periodShiftSec": -0.0030713912565261126,
+    "res": 0.00000628325196111966,
+    "ratioPn1": 0.0013742142612910857
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  },
+  {
+   "key": "uranus",
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "ja": "天王星",
+   "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+   },
+   "gainUnitSI": 0.1,
+   "h": 0.5581,
+   "pRef": 26512.1856,
+   "el": {
+    "a": 19.18916464,
+    "e": 0.04725744,
+    "I": 0.77263783,
+    "L": 313.23810451,
+    "varpi": 170.9542763,
+    "Om": 74.01692503
+   },
+   "pole": {
+    "ra": 257.311,
+    "dec": -15.175,
+    "wSign": -1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 82.2782129109,
+     "azimuthDeg": 257.646679694,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の天王星の極 α0 257.311°・δ0 -15.175° を J2000 の黄道へ(軸は一定の近似・自転は IAU の北極に対し逆行 —— spin は負)"
+    }
+   },
+   "masses": {
+    "sun": 198.85,
+    "planet": 0.0086811
+   },
+   "radius": 0.025559,
+   "spin": -10.1237196,
+   "keplerPeriodDays": 30702.44549237814,
+   "obsPeriodDays": 30685.4,
+   "periodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 30685.4 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+   "periodBuiltIn": false,
+   "M0deg": 142.28382821000002,
+   "pn1Ref": 0.0023846374574266038,
+   "target": "none",
+   "noTarget": "外惑星の近日点の相対論的な部分は 1PN の式で 1 世紀に 0.06″ 以下 —— 観測の行が無く、数値の分解能(h と h/2 の差)と比べる量 —— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 26526.78074146518,
+      "periodDays": 30702.292524843957,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.0074887808975896124,
+      "apsDegPerOrbit": -0.0000017485948876132009,
+      "residRmsArcsec": 0.0000030228293577445616,
+      "ecc": 0.04722274418479866,
+      "aMean": 2870.6486653220336
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 26526.780741496492,
+      "periodDays": 30702.2925248802,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.007489414611891092,
+      "apsDegPerOrbit": -0.0000017487428569046502,
+      "residRmsArcsec": 0.0000036928939619824526,
+      "ecc": 0.04722274418475491,
+      "aMean": 2870.648665322088
+     },
+     "steps": 3041953,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 26526.84599047926,
+      "periodDays": 30702.36804453618,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.002400347369199774,
+      "apsDegPerOrbit": -5.604711260468906e-7,
+      "residRmsArcsec": 0.000004586588439873579,
+      "ecc": 0.047240097992033256,
+      "aMean": 2870.653372147289
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 26526.845990482718,
+      "periodDays": 30702.36804454018,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.0024009868842944314,
+      "apsDegPerOrbit": -5.606204501613921e-7,
+      "residRmsArcsec": 0.000006325369566252417,
+      "ecc": 0.0472400979920611,
+      "aMean": 2870.653372147286
+     },
+     "steps": 6083921,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 0.005088433528389839,
+    "apsRes64": 0.005088427727596661
+   },
+   "periodResidDays": 16.89252484395547,
+   "transfer": {
+    "gain": 0.00004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 0.000002425501863710655,
+    "h2": 0.0000012916116642982568,
+    "periodShiftSec": -0.0010309740900993347,
+    "res": 0.0000011338901994123983,
+    "ratioPn1": 0.0010171365278846833
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  },
+  {
+   "key": "neptune",
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "ja": "海王星",
+   "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+   },
+   "gainUnitSI": 0.1,
+   "h": 1.095,
+   "pRef": 52003.296,
+   "el": {
+    "a": 30.06992276,
+    "e": 0.00859048,
+    "I": 1.77004347,
+    "L": -55.12002969,
+    "varpi": 44.96476227,
+    "Om": 131.78422574
+   },
+   "pole": {
+    "ra": 299.33373895877264,
+    "dec": 42.95035902184485,
+    "wSign": 1
+   },
+   "axes": {
+    "sun": {
+     "enable": true,
+     "tiltDeg": 7.25172967436,
+     "azimuthDeg": 345.765730644,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+    },
+    "planet": {
+     "enable": true,
+     "tiltDeg": 28.4829265636,
+     "azimuthDeg": 318.754822321,
+     "source": "IAU WGCCRE 2009(Archinal et al. 2011)の海王星の極 α0 299.333738959°・δ0 42.9503590218° を J2000 の黄道へ(軸は一定の近似)"
+    }
+   },
+   "masses": {
+    "sun": 198.85,
+    "planet": 0.0102409
+   },
+   "radius": 0.024764,
+   "spin": 10.8338253,
+   "keplerPeriodDays": 60226.22343350715,
+   "obsPeriodDays": 60189,
+   "periodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 60189 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+   "periodBuiltIn": false,
+   "M0deg": -100.08479196,
+   "pn1Ref": 0.0007741015435735884,
+   "target": "none",
+   "noTarget": "外惑星の近日点の相対論的な部分は 1PN の式で 1 世紀に 0.06″ 以下 —— 観測の行が無く、数値の分解能(h と h/2 の差)と比べる量 —— 標的の観測行なし・次の見直し",
+   "g0": {
+    "h": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 52035.5412612289,
+      "periodDays": 60226.32090420012,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.0035822197814282366,
+      "apsDegPerOrbit": -0.0000016407629333460385,
+      "residRmsArcsec": 0.000010865714285641463,
+      "ecc": 0.008655170984612133,
+      "aMean": 4498.401318395763
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 52035.54126126277,
+      "periodDays": 60226.320904239314,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.0035816705269352466,
+      "apsDegPerOrbit": -0.0000016405113584946237,
+      "residRmsArcsec": 0.000014847322276208717,
+      "ecc": 0.008655170984572223,
+      "aMean": 4498.401318395805
+     },
+     "steps": 3041347,
+     "planeDriftDegMax": 0.0000014787793334710982
+    },
+    "h2": {
+     "w8": {
+      "N": 8,
+      "complete": true,
+      "periodUnits": 52035.497409622396,
+      "periodDays": 60226.27015002592,
+      "nPeri": 8,
+      "apsArcsecPerCentury": -0.0010042688675717234,
+      "apsDegPerOrbit": -4.5998454727838796e-7,
+      "residRmsArcsec": 0.000024907941010337073,
+      "ecc": 0.008622826213590408,
+      "aMean": 4498.3987895126975
+     },
+     "w64": {
+      "N": 64,
+      "complete": true,
+      "periodUnits": 52035.49740960719,
+      "periodDays": 60226.27015000832,
+      "nPeri": 64,
+      "apsArcsecPerCentury": -0.0010046100363870116,
+      "apsDegPerOrbit": -4.601408125853971e-7,
+      "residRmsArcsec": 0.00002129875354754323,
+      "ecc": 0.008622826213581382,
+      "aMean": 4498.398789511868
+     },
+     "steps": 6082689,
+     "planeDriftDegMax": 0.0000012074182697257333
+    },
+    "apsRes8": 0.002577950913856513,
+    "apsRes64": 0.002577060490548235
+   },
+   "periodResidDays": 37.32090420011809,
+   "transfer": {
+    "gain": 0.00004522419,
+    "gainSI": 0.0000045224189999999996,
+    "h": 1.9885925525101739e-7,
+    "h2": -0.000004579798549161473,
+    "periodShiftSec": -0.000039604492485523224,
+    "res": 0.00000477865780441249,
+    "ratioPn1": 0.0002568904001056461
+   },
+   "gainDeclared": 0,
+   "status": "no-target"
+  }
+ ],
+ "gates": {
+  "runsOk": true,
+  "complete": true,
+  "coord3d": true,
+  "noWarn": true,
+  "record": true,
+  "planeKept": true
+ },
+ "ok": true,
+ "timing": {
+  "mercury-g0-h": {
+   "wallSec": 10.192
+  },
+  "mercury-g0-h2": {
+   "wallSec": 19.902
+  },
+  "venus-g0-h": {
+   "wallSec": 9.135
+  },
+  "mars-g0-h": {
+   "wallSec": 9.144
+  },
+  "venus-g0-h2": {
+   "wallSec": 20.383
+  },
+  "jupiter-g0-h": {
+   "wallSec": 8.113
+  },
+  "mars-g0-h2": {
+   "wallSec": 19.282
+  },
+  "saturn-g0-h": {
+   "wallSec": 9.306
+  },
+  "jupiter-g0-h2": {
+   "wallSec": 21.693
+  },
+  "uranus-g0-h": {
+   "wallSec": 15.002
+  },
+  "saturn-g0-h2": {
+   "wallSec": 29.836
+  },
+  "neptune-g0-h": {
+   "wallSec": 12.84
+  },
+  "uranus-g0-h2": {
+   "wallSec": 22.783
+  },
+  "neptune-g0-h2": {
+   "wallSec": 16.694
+  },
+  "mer-grid1": {
+   "wallSec": 1.409
+  },
+  "mer-grid0": {
+   "wallSec": 1.911
+  },
+  "mer-grid2": {
+   "wallSec": 1.629
+  },
+  "mer-grid3": {
+   "wallSec": 1.634
+  },
+  "mer-grid4": {
+   "wallSec": 1.829
+  },
+  "mer-grid5": {
+   "wallSec": 1.577
+  },
+  "mer-grid6": {
+   "wallSec": 1.453
+  },
+  "mer-grid7": {
+   "wallSec": 1.471
+  },
+  "mer-grid8": {
+   "wallSec": 1.521
+  },
+  "mer-grid9": {
+   "wallSec": 1.291
+  },
+  "mer-grid10": {
+   "wallSec": 1.49
+  },
+  "mer-grid11": {
+   "wallSec": 1.969
+  },
+  "mer-grid12": {
+   "wallSec": 1.217
+  },
+  "mer-it0": {
+   "wallSec": 1.225
+  },
+  "mer-it1": {
+   "wallSec": 1.165
+  },
+  "mer-it2": {
+   "wallSec": 1.248
+  },
+  "mer-it3": {
+   "wallSec": 1.207
+  },
+  "mer-it4": {
+   "wallSec": 1.346
+  },
+  "mer-it5": {
+   "wallSec": 1.254
+  },
+  "mer-it6": {
+   "wallSec": 1.325
+  },
+  "mer-it7": {
+   "wallSec": 1.397
+  },
+  "mer-it8": {
+   "wallSec": 1.107
+  },
+  "mer-it9": {
+   "wallSec": 1.267
+  },
+  "mer-it10": {
+   "wallSec": 1.28
+  },
+  "mer-it11": {
+   "wallSec": 1.306
+  },
+  "mer-it12": {
+   "wallSec": 1.237
+  },
+  "mer-it13": {
+   "wallSec": 1.308
+  },
+  "mer-it14": {
+   "wallSec": 1.204
+  },
+  "mer-fit-h": {
+   "wallSec": 8.975
+  },
+  "mer-fit-h2": {
+   "wallSec": 17.682
+  },
+  "venus-tr-h": {
+   "wallSec": 1.54
+  },
+  "venus-tr-h2": {
+   "wallSec": 2.943
+  },
+  "mars-tr-h": {
+   "wallSec": 1.673
+  },
+  "mars-tr-h2": {
+   "wallSec": 2.463
+  },
+  "jupiter-tr-h": {
+   "wallSec": 2.382
+  },
+  "jupiter-tr-h2": {
+   "wallSec": 2.27
+  },
+  "saturn-tr-h": {
+   "wallSec": 1.338
+  },
+  "saturn-tr-h2": {
+   "wallSec": 2.416
+  },
+  "uranus-tr-h": {
+   "wallSec": 2.784
+  },
+  "neptune-tr-h": {
+   "wallSec": 2.12
+  },
+  "uranus-tr-h2": {
+   "wallSec": 4.658
+  },
+  "neptune-tr-h2": {
+   "wallSec": 2.256
+  }
+ },
+ "notClaim": [
+  "「現実を再現した」",
+  "「43″ を再現した」",
+  "「gain は普遍定数」",
+  "「二次元の値を写して fitted」"
+ ],
+ "elapsedS": 195.44
+}

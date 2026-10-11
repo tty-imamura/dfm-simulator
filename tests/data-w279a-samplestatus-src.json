@@ -233,6 +233,90 @@
     "state": "gain 0.004522415; residual 1.27e-5 <= h/2 1.59e-4 (fitted); period, e not matched"
    }
   },
+  "mercurySunInertial3d": {
+   "purpose": "太陽と水星を三次元で置き gain を近点率の差 43.0″/世紀に測り直して合わせる",
+   "objective": "met",
+   "state": "gain 0.004522419・差 43.00001(h/2 43.00002)・恒星周期の差 0.0003 日・fitted",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Mercury in 3D; re-measure the gain to the 43.0\"/cy apsidal difference",
+    "state": "gain 0.004522419; diff 43.00001 (h/2 43.00002)\"/cy; period gap 0.0003 d; fitted"
+   }
+  },
+  "venusSunInertial3d": {
+   "purpose": "太陽と金星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 224.7021 日(観測との差 0.0011)・近点 −1.59621″/世紀(h/2 −0.90536)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Venus in 3D at gain 0; measure period and apse",
+    "state": "period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy (h/2 -0.90536); no target row"
+   }
+  },
+  "marsSunInertial3d": {
+   "purpose": "太陽と火星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 686.9863 日(観測との差 0.0063)・近点 −0.36042″/世紀(h/2 −0.12805)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Mars in 3D at gain 0; measure period and apse",
+    "state": "period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy (h/2 -0.12805); no target row"
+   }
+  },
+  "jupiterSunInertial3d": {
+   "purpose": "太陽と木星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 4332.6745 日(観測との差 0.0855)・近点 −0.11609″/世紀(h/2 −0.07998)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Jupiter in 3D at gain 0; measure period and apse",
+    "state": "period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy (h/2 -0.07998); no target row"
+   }
+  },
+  "saturnSunInertial3d": {
+   "purpose": "太陽と土星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 10755.6209 日(観測との差 −3.5991)・近点 −0.02760″/世紀(h/2 −0.01302)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Saturn in 3D at gain 0; measure period and apse",
+    "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy (h/2 -0.01302); no target row"
+   }
+  },
+  "uranusSunInertial3d": {
+   "purpose": "太陽と天王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 30702.2925 日(観測との差 16.8925)・近点 −0.00749″/世紀(h/2 −0.00240)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Uranus in 3D at gain 0; measure period and apse",
+    "state": "period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy (h/2 -0.00240); no target row"
+   }
+  },
+  "neptuneSunInertial3d": {
+   "purpose": "太陽と海王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "objective": "met",
+   "state": "周期 60226.3209 日(観測との差 37.3209)・近点 −0.00358″/世紀(h/2 −0.00100)・標的の観測行なし",
+   "evidence": [
+    "tests/out/planets3d-w299c.json"
+   ],
+   "en": {
+    "purpose": "Sun and Neptune in 3D at gain 0; measure period and apse",
+    "state": "period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy (h/2 -0.00100); no target row"
+   }
+  },
   "plutoCharonInertial": {
    "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
    "objective": "met",
