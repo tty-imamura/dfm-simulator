@@ -849,6 +849,13 @@ export const REGEN_STEPS = [
   S('geo4stable-299d', 'node tests/exp-w299d-geo4stable.mjs', ['tests/out/geo4stable-w299d.json'], 90, { secSource: 'w299d-branch', node: true,
     volatilePaths: { 'tests/out/geo4stable-w299d.json': META_RUN.concat(['/elapsedS', '/stable/runs/A/wallSec', '/stable/runs/B/wallSec', '/stable/conditions/count/value/rows/*/timing/*/wallSec']) },
     note: '第299便d: geoPN=4 の安定の条件(宣言 8 項目)・広げた円盤 🍥 の帯の診断・旧 spaceMesh 🔁 → 🔂 の移行の記録(値だけ —— gain は 🟫 から移した宣言値)' }),
+  // ---- 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・DECISIONS v58 §1 の AN286・統括の検証項目 R174): **参照模型の三次元化**
+  //   (在位の 8 本 🔮🥏🧵🍭🎱📀🧹🎢 —— xy が凍結の二次元の写し〔+stateCarry:"double"〕とビット同一・z の厚みと v_z の分散・G に対する不感と Core 系の門・
+  //   Core 力学の三次元の共変・三次元の P/L/E の収支・チェックポイントと複製・保存往復・受理と走行の門・feedback と成長の写し)。
+  //   Node の headless(1 プロセス)・html と凍結の写し tests/data-w299e-ref2d.json を読む(他の正本は読まない —— after なし)。所要は第299便e の枝の実測(正本の elapsedS —— 他の枝と並走)
+  S('ref3d-299e', 'node tests/exp-w299e-ref3d.mjs', ['tests/out/ref3d-w299e.json'], 80, { secSource: 'w299e-branch', node: true,
+    volatilePaths: { 'tests/out/ref3d-w299e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第299便e: 参照模型 8 本の三次元化 —— xy のビット同一(凍結の二次元の写し)・z の厚み・G の不感・共変・三次元の収支・チェックポイント/複製・保存往復(値だけ —— 扁平は宣言)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -929,6 +936,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/cluster-w285a-preset.json': [],
   // 第286便b(原仮定者の裁定(第76報)AN59): cLight の真値化の一覧と従属値(手で書いた宣言の表 —— 除く欄は無い。現行の正本 pnsource-w286b の入力)
   'tests/data-w286b-clight.json': [],
+  // 第299便e(R174): 参照模型 8 本の凍結の二次元の写し(書き換えない fixture —— 除く欄は無い。現行の正本 ref3d-w299e の入力)
+  'tests/data-w299e-ref2d.json': [],
   // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)

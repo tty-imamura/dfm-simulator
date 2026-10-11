@@ -599,104 +599,112 @@
    }
   },
   "shapeToyCluster": {
-   "purpose": "指定した 3D 正規分布を保つ参照模型",
+   "purpose": "指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標)",
    "objective": "met",
    "state": "形状トイの門を通過(規定分布の模型)",
    "evidence": [
     "docs.shapeToyCriteria",
-    "tests/out/shapetoy-w274d.json"
+    "tests/out/shapetoy-w274d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Reference toy that keeps a specified 3D normal distribution",
+    "purpose": "Reference toy that keeps a specified 3D normal distribution (a 3D book: z is a coordinate)",
     "state": "passes the shape-toy gate (a prescribed-distribution model)"
    }
   },
   "shapeToyDisk": {
-   "purpose": "指定した薄い回転円盤を保つ参照模型",
+   "purpose": "指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言)",
    "objective": "unmet",
    "state": "形状トイの門で KS 比 1.330 が不合格",
    "evidence": [
     "docs.shapeToyCriteria",
-    "tests/out/shapetoy-w274d.json"
+    "tests/out/shapetoy-w274d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Reference toy that keeps a specified thin rotating disc",
+    "purpose": "Reference toy that keeps a specified thin rotating disc (3D: the thickness is the declared sigma_z)",
     "state": "fails the shape-toy gate with a KS ratio of 1.330"
    }
   },
   "shapeToyArm": {
-   "purpose": "腕の軸に対する正規分布を保つ参照模型",
+   "purpose": "腕の軸に対する正規分布を保つ参照模型(三次元)",
    "objective": "met",
    "state": "形状トイの門を通過(規定分布の模型)",
    "evidence": [
     "docs.shapeToyCriteria",
-    "tests/out/shapetoy-w274d.json"
+    "tests/out/shapetoy-w274d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Reference toy that keeps a normal profile about the arm axis",
+    "purpose": "Reference toy that keeps a normal profile about the arm axis (3D)",
     "state": "passes the shape-toy gate (a prescribed-distribution model)"
    }
   },
   "shapeToyClusterCore": {
-   "purpose": "中心スピンに依存する力学で星団を束ねる",
+   "purpose": "中心スピンに依存する力学で星団を束ねる(三次元)",
    "objective": "met",
    "state": "Core 力学の門を通過(RMS 偏り 0.0101)",
    "evidence": [
     "docs.coreFieldCriteria",
-    "tests/out/corefield-w276d.json"
+    "tests/out/corefield-w276d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Bind a cluster with a law that depends on the central spin",
+    "purpose": "Bind a cluster with a law that depends on the central spin (3D)",
     "state": "passes the core-law gate (RMS bias 0.0101)"
    }
   },
   "shapeToyDiskCore": {
-   "purpose": "中心スピンから薄さと円盤の回転を作る",
+   "purpose": "中心スピンから薄さと円盤の回転を作る(三次元)",
    "objective": "met",
    "state": "Core 力学の門を通過(逆行率 0.0352)",
    "evidence": [
     "docs.coreFieldCriteria",
-    "tests/out/corefield-w276d.json"
+    "tests/out/corefield-w276d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Make a thin, rotating disc from the central spin",
+    "purpose": "Make a thin, rotating disc from the central spin (3D)",
     "state": "passes the core-law gate (retrograde fraction 0.0352)"
    }
   },
   "shapeToyArmCore": {
-   "purpose": "面内の自転軸に沿った棒を作る",
+   "purpose": "面内の自転軸に沿った棒を作る(三次元)",
    "objective": "met",
    "state": "Core 力学の門を通過(RMS 偏り 0.0060)",
    "evidence": [
     "docs.coreFieldCriteria",
-    "tests/out/corefield-w276d.json"
+    "tests/out/corefield-w276d.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Make a bar along the in-plane spin axis",
+    "purpose": "Make a bar along the in-plane spin axis (3D)",
     "state": "passes the core-law gate (RMS bias 0.0060)"
    }
   },
   "shapeToySpiral": {
-   "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)",
+   "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない)",
    "objective": "partial",
    "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)",
    "evidence": [
-    "tests/out/spiral-w290e.json"
+    "tests/out/spiral-w290e.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent)",
+    "purpose": "Reference model of a declared two-arm spiral on the 🥏 disc (3D, not emergent)",
     "state": "gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏)"
    }
   },
   "shapeToySpiralCore": {
-   "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)",
+   "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない)",
    "objective": "partial",
    "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超",
    "evidence": [
-    "tests/out/spiral-w290e.json"
+    "tests/out/spiral-w290e.json",
+    "tests/out/ref3d-w299e.json"
    ],
    "en": {
-    "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence)",
+    "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (3D, no emergence)",
     "state": "gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N)"
    }
   },

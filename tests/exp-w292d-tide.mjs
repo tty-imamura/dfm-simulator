@@ -181,7 +181,10 @@ export function gateF(HP) {
   const nineToy = toyPreset(nine, {});
   const cloak = toyPreset([{ type: 'single', m: 1, radius: 0.5, x: -1, y: 0, vx: 0, vy: -0.2, spin: 0.5, pinned: false, lightSweep: 'auto' },
     { type: 'single', m: 1, radius: 0.5, x: 1, y: 0, vx: 0, vy: 0.2, spin: 0.5, pinned: false }], {});
-  const reps = [['maxN', 'nine-body toy', nineToy], ['group', OMIT.groupId, find(HP, OMIT.groupId)], ['shapeToy', OMIT.shapeId, find(HP, OMIT.shapeId)], ['cloakedDwarf', 'lightSweep:auto toy', cloak]];
+  // 第299便e(R174): 参照模型は三次元の本になった(三次元では潮汐を受理で拒否する)—— 代表は**二次元の写し**(coord・stateCarry を外した宣言 =
+  //   凍結の写し tests/data-w299e-ref2d.json と同じ宣言)で、第292便d と同じ二次元の本を測る
+  const as2d = (p) => { const q = clone(p); if (q.physics && q.physics.coord === '3d') { delete q.physics.coord; delete q.physics.stateCarry; } return q; };
+  const reps = [['maxN', 'nine-body toy', nineToy], ['group', OMIT.groupId, find(HP, OMIT.groupId)], ['shapeToy', OMIT.shapeId, as2d(find(HP, OMIT.shapeId))], ['cloakedDwarf', 'lightSweep:auto toy', cloak]];
   const rows = [];
   for (const [want, label, p] of reps) {
     const A = runSnaps(HP, p, OMIT.steps, OMIT.dt), B = runSnaps(HP, withTide(p), OMIT.steps, OMIT.dt);

@@ -66,6 +66,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.framePull wave120.ui"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3dHaltAB299 behavior.ckDrag3d299 docs.timeStd3d299 behavior.contactMode preset.lambdaPN297 docs.refit297 behavior.ckFixcapRestore"
 # 第299便b(原仮定者の裁定(第89報)①・R170): 🌘 の朔望月の新設 2 本(behavior.synodicClock299・docs.synodic299)と世代切替で追従した docs.emgrid-sync・claims.sync(docs.refit298・behavior.fitCond298・preset.revived292b・behavior.framePull・wave120.ui は上にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.synodicClock299 docs.synodic299 docs.emgrid-sync claims.sync"
+# 第299便e: 枝 e の新設 3 本(behavior.ref3d299 —— 参照模型の三次元化・preset.ref3d299 —— 宣言と凍結の二次元の写し・docs.ref3d299)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ref3d299 preset.ref3d299 docs.ref3d299"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

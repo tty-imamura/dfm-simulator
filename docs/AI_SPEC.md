@@ -3530,3 +3530,14 @@ SYSTEM_PROMPT の規則 12(逐語):
 - **🔂 mercuryMeshMigrate3d**: 🟫 mercurySunInertialFit の physics・bodies の写しに coord 3d・geoPN 4・`relativeDrag.solver:"network-pcg-v1"`・軌道面を x 軸まわりに 30° 回した写し(水星の vz・太陽の `spinAxis` 傾き 30°・方位 −90°)。gain は 🟫 のフィット値を移した宣言値。家族 mercury の variant(🔁 は在位の variant のまま —— 旧 physics.spaceMesh の本は互換のまま残す・退役にしない)。
 - **器** `tests/exp-w299d-geo4stable.mjs`(`HARNESS_VERSION` = `w299d-geo4stable-1`): `STABLE_CONDITIONS`(layout・solver・resume・budget・step・count・seed・display —— 閾値は器の定数で測る前に宣言)・`MIG_CONDITIONS`(planar・tilt・boost・rate)・`spreadPreset(HP, {vel, spread, axis, unpin, spin0})`・`migPreset(HP, {tilt, gain, unpin, boost, eps, pairs, axis, coord2d})`・`runBands`・`runPair3`(検出器 B を初期の軌道面の基底で)・`fingerprint`・`stateFp`。移行は安定の条件と移行の条件を全部満たしたときだけ(`migrated`)。正本 `tests/out/geo4stable-w299d.json`(`W299D_OUT` で出力先を変える・段 `geo4stable-299d`)。
 - QA: **`behavior.geo4Stable299`**・**`preset.chainSpread299`**・**`preset.meshMigrate299`**(新設 —— root は SKIP・世代切替 = html の `{ id:"chainSpreadToy3d"`)。
+
+## 77. 第299便e —— 参照模型サンプルの三次元化(原仮定者の裁定(第89報)④・DECISIONS v58 §1 の AN286・統括の検証項目 R174・**在位の 8 本を三次元の本に** —— 二次元の經路は 1 文字も変えない・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: 🔮 shapeToyCluster・🥏 shapeToyDisk・🧵 shapeToyArm・🍭 shapeToySpiral・🎱 shapeToyClusterCore・📀 shapeToyDiskCore・🧹 shapeToyArmCore・🎢 shapeToySpiralCore の physics に `coord:"3d"`・`stateCarry:"double"`(ほかの鍵は 1 つも変えていない)。二次元の宣言は凍結の写し `tests/data-w299e-ref2d.json`(第298便の main の宣言 —— 書き換えない)。
+- **受理と走行の門**: `coord3dDenyOf` は `physics.shapeToy` を拒否しない(三次元の本で形状トイ・Core 力学・渦巻を宣言できる —— coupling:"feedback"・tauGrow>0 も)・`coord3dRuntimeWhy` は `hasShapeToy`・`hasCoreField`・`hasSpiral` で止めない・`COORD3D_SUPPORTED` に `shapeToy`。
+- **步**: `dfmStep3` の核の後に `dfmShapeToyStep3`・`dfmCoreFieldStep3`・`dfmShapeToySpiralStep3`(二次元の步をそのまま呼び、前後で z だけを読み書き —— 規定系 z=c_z+σ_z ζ・v_z=ċ_z+σ̇_z ζ+σ_z w_ζ/渦巻は sigmaZ・armSigmaZ/Core 系は S.z=c_z+cfZ・S.vz=cfVz と z のキックの取り込み)。build の後段 `shapeToy3Write(S)` が t=0 の z を書く。
+- **帳簿の鍵**(三次元の本だけ): `SHAPE_TOY3_SC` = shapeToyPz・Lx・Ly・Ez・BathPz・BathLx・BathLy・BathEz・SupPz・SupEz・DetEz・Dz/spiral の同じ並び(+SupEzArm)/coreFieldExtPz・coreFieldExtEz・coreFieldDriftDz・coreFieldL3FixX・coreFieldL3FixY/shapeToy3N。**二次元の經路の欄の意味は変えない**(三次元の E = 二次元の欄 + *Ez・三次元の L_x,L_y = coreFieldLx,Ly + L3Fix)。
+- **チェックポイントと複製**: `shapeToyCkSnap(S)`/`shapeToyCkRestore(S, o)`(潜在の配列 `SHAPE_TOY_CK_ARRS`・乱数の位置・帳簿のスカラー)—— ckSnapOne の `o.st`・cloneSimState。乱数 `S._stRng`・`S._spRng` は `mulberry32S`(mulberry32 と同じ出力列・状態 `.s`)。
+- **HP**: `HP.coord3d.ref3d` = `{version:SHAPE_TOY3_VERSION("w299e-ref3d-1"), sc, ckArrs, write, state(S) → {stats:{all|disk|arm:{n, meanZ, rmsZ, sigmaZ, meanVz, sigmaVz, rmsR}}, ledger}, ckSnap, ckRestore, rng}`。
+- **器と正本**: `tests/exp-w299e-ref3d.mjs`(版 w299e-ref3d-1・`W299E_OUT`)→ `tests/out/ref3d-w299e.json`(段 ref3d-299e)。
+- QA: `behavior.ref3d299`・`preset.ref3d299`・`docs.ref3d299`(root は SKIP —— 世代切替 = html の `SHAPE_TOY3_VERSION="w299e`)。
