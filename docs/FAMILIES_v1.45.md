@@ -380,12 +380,12 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🔮 | `shapeToyCluster` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した 3D 正規分布を保つ参照模型 | — |
-| 🥏 | `shapeToyDisk` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した薄い回転円盤を保つ参照模型 | — |
-| 🧵 | `shapeToyArm` | variant | 比較(上のどれでもない) | 違う入力(位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 腕の軸に対する正規分布を保つ参照模型 | — |
-| 🍭 | `shapeToySpiral` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない) | — |
+| 🔮 | `shapeToyCluster` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標) | — |
+| 🥏 | `shapeToyDisk` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言) | — |
+| 🧵 | `shapeToyArm` | variant | 比較(上のどれでもない) | 違う入力(位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 腕の軸に対する正規分布を保つ参照模型(三次元) | — |
+| 🍭 | `shapeToySpiral` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない) | — |
 
-**鍵ごとの差**(physics の同じ鍵 25):
+**鍵ごとの差**(physics の同じ鍵 27):
 
 - `physics.shapeToy`: shapeToyCluster={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0} / shapeToyDisk={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0} / shapeToyArm={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120} / shapeToySpiral={"shape":"spiral","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"spiral":{"nArm":2,"pitchDeg":20,"rMin":24,"rMax":144,"r0":24,"phi0Deg":0,"armWidth":7.2,"armSigmaZ":4.8,"armOmega0":0.12,"armGamma":0.24,"omegaP":0.05,"massRatio":2,"nDisk":300,"nArmParticles":150,"density":"uniform-s"}}
 - `timeRef`: shapeToyCluster=(宣言あり) / shapeToyDisk=(宣言あり) / shapeToyArm=(宣言あり) / shapeToySpiral=(宣言あり)
@@ -398,12 +398,12 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🎱 | `shapeToyClusterCore` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンに依存する力学で星団を束ねる | — |
-| 📀 | `shapeToyDiskCore` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンから薄さと円盤の回転を作る | — |
-| 🧹 | `shapeToyArmCore` | variant | 比較(上のどれでもない) | 違う入力(速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 面内の自転軸に沿った棒を作る | — |
-| 🎢 | `shapeToySpiralCore` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない) | — |
+| 🎱 | `shapeToyClusterCore` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンに依存する力学で星団を束ねる(三次元) | — |
+| 📀 | `shapeToyDiskCore` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンから薄さと円盤の回転を作る(三次元) | — |
+| 🧹 | `shapeToyArmCore` | variant | 比較(上のどれでもない) | 違う入力(速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 面内の自転軸に沿った棒を作る(三次元) | — |
+| 🎢 | `shapeToySpiralCore` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない) | — |
 
-**鍵ごとの差**(physics の同じ鍵 27):
+**鍵ごとの差**(physics の同じ鍵 29):
 
 - `physics.shapeToy`: shapeToyClusterCore={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":125,"coreMass":10,"alpha":1.1,"beta":0.1,"axis":[0,0,1],"W0":0.00064,"temp":19.44,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyDiskCore={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":160,"coreMass":10,"alpha":1.05,"beta":7.8,"axis":[0,0,1],"W0":0.0044921875,"temp":3.624,"omegaP":0.14,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyArmCore={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120,"law":"coreField","coreField":{"coreRc":250,"coreMass":10,"alpha":2,"beta":0.0108,"axis":[1,0,0],"W0":0.00016,"temp":7.776,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToySpiralCore={"shape":"spiral","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":160,"coreMass":10,"alpha":1.05,"beta":7.8,"axis":[0,0,1],"W0":0.0044921875,"temp":3.624,"omegaP":0.14,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}},"spiral":{"nArm":2,"pitchDeg":20,"rMin":24,"rMax":144,"r0":24,"phi0Deg":0,"armWidth":7.2,"armSigmaZ":7.2,"armOmega0":0.12,"armGamma":0.24,"omegaP":0.14,"massRatio":2,"nDisk":300,"nArmParticles":150,"density":"uniform-s"}}
 - `timeRef`: shapeToyClusterCore=(宣言あり) / shapeToyDiskCore=(宣言あり) / shapeToyArmCore=(宣言あり) / shapeToySpiralCore=(宣言あり)
@@ -563,7 +563,7 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 63 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 17。QA 本体の出現数: darkrotor 144・bhCore 44・nebulaRotor 17・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 25・psrDoubleABPN 20・psrJ1757PN 12・psrJ1946PN 14・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 63 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 15・道具 4・表の外 17。QA 本体の出現数: darkrotor 144・bhCore 46・nebulaRotor 17・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 25・psrDoubleABPN 20・psrJ1757PN 12・psrJ1946PN 14・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|

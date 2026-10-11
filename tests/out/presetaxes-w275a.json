@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:25:16.562Z",
+  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "generatedAt": "2026-10-11T12:02:55.011Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6567878,
+    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+    "mtime": "2026-10-11T11:59:41.552Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 164,
+ "nPresets": 173,
  "kFrameValues": [
   0,
   1
@@ -1004,7 +1004,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 1,
-   "presetSigHash": "38156713",
+   "presetSigHash": "4a6639e0",
    "bodiesSha256": "5f10b5e8fdd4e7f8e7a4bdaea6a84aaf72862f38b29d65c92a5b1eda8878d116"
   },
   {
@@ -1025,7 +1025,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 1,
-   "presetSigHash": "b5673bea",
+   "presetSigHash": "99bacdbd",
    "bodiesSha256": "e2fd0492eba20e5bd163d4e2c1b25478b89565c2ab095342127900931529b265"
   },
   {
@@ -1046,7 +1046,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 1,
-   "presetSigHash": "ffbcf715",
+   "presetSigHash": "4dfb50fa",
    "bodiesSha256": "1e608803af76bdb457fdbf9e2789c49f15957b95d244dcb514b19130ae75b2f3"
   },
   {
@@ -1067,7 +1067,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "79d7026e",
+   "presetSigHash": "dde465e5",
    "bodiesSha256": "56aaee6dff2cacd959a9c72ff40ed1b5336c81062679111b57d96d1fb4b35287"
   },
   {
@@ -1088,7 +1088,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "e5fffafa",
+   "presetSigHash": "1f4f8e11",
    "bodiesSha256": "72bd935349c56c774738c7907447e0025183c38f337a115e332dc71352bfd942"
   },
   {
@@ -1109,7 +1109,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "762ea0c6",
+   "presetSigHash": "e41e5e03",
    "bodiesSha256": "65ef12f8208ec02930bc41e2671950cba7ac45bf01b3cd8957b312c69e16b555"
   },
   {
@@ -1130,7 +1130,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "76132401",
+   "presetSigHash": "6a2285ee",
    "bodiesSha256": "e7a6668e692c047d3e2caca0561783bbc1d4700b04dfc8b8b6f5f510b0cade67"
   },
   {
@@ -1151,7 +1151,7 @@
    "softening": 2,
    "geoPN": 0,
    "nBodyDecl": 3,
-   "presetSigHash": "4639ec41",
+   "presetSigHash": "7254217c",
    "bodiesSha256": "c90fda442e46f9f82e030c0b05f8a014db249e0563c259f3a9ad03d75b94c2ec"
   },
   {
@@ -1890,6 +1890,153 @@
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "name": "太陽と水星(慣性決定力版・三次元)— 近点率に合わせた gain",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "329fa554",
+   "bodiesSha256": "30d20b8fbe1b54f138de433f673633d5467dcd4d61ca3e2c0a1cea8ab6f78727"
+  },
+  {
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "name": "太陽と金星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "7969d299",
+   "bodiesSha256": "bb61ae546955ce3cde90d6ee1ceb2a44f2bad5208da4f88d3a79d009dbd060df"
+  },
+  {
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "name": "太陽と火星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "c9b3cc9d",
+   "bodiesSha256": "42025981779f7b055b80332a8dbe87c22a47cc175caaf17537e3bf012d05deee"
+  },
+  {
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "name": "太陽と木星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "d7df215d",
+   "bodiesSha256": "e6fa1c4ad765cc360d2dd63293b24e970c07ab0d26050284de9f6ead664aa83c"
+  },
+  {
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "name": "太陽と土星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "9d22af0b",
+   "bodiesSha256": "4f3a538aaca88d32e3ffb35709b2efccbe86d2965deff6d525730a3b7f24006a"
+  },
+  {
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "name": "太陽と天王星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "5336396d",
+   "bodiesSha256": "d0ff4523c22560ab50b9c873b928da529bd7ff088ae55915d14e66250c97625b"
+  },
+  {
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "name": "太陽と海王星(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "32f58cb5",
+   "bodiesSha256": "ab507834d939b278da9667dfb13a456d224cf73f993f6039e911d964709f0c08"
+  },
+  {
    "id": "mercuryGeoToy3",
    "emoji": "🔁",
    "name": "水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)",
@@ -1909,6 +2056,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "ee85610",
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
+  },
+  {
+   "id": "mercuryMeshMigrate3d",
+   "emoji": "🔂",
+   "name": "水星 — 旧空間メッシュの零試験の三次元の慣性決定力への移行(傾けた軌道面・較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 4,
+   "nBodyDecl": 2,
+   "presetSigHash": "e3ee7460",
+   "bodiesSha256": "97c2369de90b94544d3e249c4430d53f123a8eca37b5162a0a8ce74c182ec904"
   },
   {
    "id": "mercuryRealKF1",
@@ -2728,6 +2896,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "fad0c72e",
    "bodiesSha256": "19798ee95091b750bf253447747065e4227e2ffbb635baeeda750f0ca8cbc521"
+  },
+  {
+   "id": "chainSpreadToy3d",
+   "emoji": "🍥",
+   "name": "広げた連鎖の円盤(三次元)— 半径 18〜72 の環に黄金角で置いた多粒子と傾いた自転軸(原理)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.5,
+   "geoPN": 4,
+   "nBodyDecl": 81,
+   "presetSigHash": "c03faafd",
+   "bodiesSha256": "2b09fc22147c23ae73ffbe0eee4c6a289bef93888918d176a67a4e3033789c1f"
   },
   {
    "id": "coord3dKeplerTilt",

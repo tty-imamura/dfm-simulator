@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:20:14.373Z",
+  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "generatedAt": "2026-10-11T11:59:39.387Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 102543,
-    "sha256": "4fba5c393d822badd29c54fa904b67c35d489a3f6df244484444d03a12440550",
-    "mtime": "2026-10-10T19:21:09.914Z"
+    "bytes": 108027,
+    "sha256": "39a96254a1aabfbb2b05646df0d43e95d485e1874e91ada24272da5319551016",
+    "mtime": "2026-10-11T11:49:48.720Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1821704,
-    "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
-    "mtime": "2026-10-10T20:02:14.146Z"
+    "bytes": 1821636,
+    "sha256": "9d3a212bc3e2131187259abb9f130a7ec479cd59f08044030e0d237236a155a5",
+    "mtime": "2026-10-11T09:44:14.316Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90747,
-    "sha256": "a7f508e2efccd694e27f2771624442c9e84b2ba194063168c2d244de390f4ac6",
-    "mtime": "2026-10-10T19:54:03.518Z"
+    "bytes": 90731,
+    "sha256": "0f7b639e55db0073a8b745e3cae5b3bcb773729e15a94ee773d230794f46e4f6",
+    "mtime": "2026-10-11T09:47:14.056Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 149771,
-    "sha256": "d6f1be1964554b484d37ea08b6010cc15d650dace0c238674efd77b609c0ad2d",
-    "mtime": "2026-10-10T21:20:14.359Z"
+    "bytes": 163860,
+    "sha256": "18f4fde8d145a6d7dbd6e768cf132af1b4e54ed7ecd489e668a6f43c060896ed",
+    "mtime": "2026-10-11T11:59:39.348Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,14 +105,14 @@
   "codeSha256": "9aa0769c20def6904b1c04663c7218397de9b87d07b26772222a8090330b3015",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "823fd5223ecc44d6ac65950172fc6da60d9f227c",
-   "date": "2026-10-09T19:57:22.414Z",
-   "pass": 1087
+   "commit": "271a3b8b7fd980f0b14d5331656b2192f1d4c4e2",
+   "date": "2026-10-10T23:41:36.572Z",
+   "pass": 1105
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
+   "met": 86,
    "partial": 41,
    "unmet": 5,
    "n/a": 0
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 0,
-   "out-of-scope": 103
+   "out-of-scope": 112
   },
   "four": {
    "合": 0,
@@ -135,7 +135,7 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 11
+    "n": 12
    },
    {
     "group": "銀河の力学",
@@ -180,7 +180,7 @@
    {
     "group": "現実較正",
     "icon": "🎯",
-    "n": 32
+    "n": 40
    },
    {
     "group": "実在天体のアナロジー",
@@ -203,13 +203,13 @@
     "n": 0
    }
   ],
-  "n": 123,
+  "n": 132,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 164,
+   "n": 173,
    "objective": {
-    "met": 96,
+    "met": 105,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -220,7 +220,7 @@
     "fail": 1,
     "hold": 17,
     "hold-definition": 2,
-    "out-of-scope": 142
+    "out-of-scope": 151
    },
    "four": {
     "合": 0,
@@ -472,7 +472,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -495,6 +495,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -504,23 +510,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 12147,
+     "ms": 15281,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 11904,
+       "ms": 15049,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 196,
+       "ms": 200,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 47,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -716,7 +722,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -739,6 +745,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -748,17 +760,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 63,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 41,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 22,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       },
@@ -965,7 +977,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -988,6 +1000,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -997,17 +1015,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 160,
+     "ms": 164,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 133,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 27,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -1202,7 +1220,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -1225,6 +1243,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1234,17 +1258,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 155,
+     "ms": 162,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 133,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 22,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -1439,7 +1463,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -1462,6 +1486,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1471,17 +1501,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 164,
+     "ms": 157,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 133,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 31,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -1677,7 +1707,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -1700,6 +1730,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1709,11 +1745,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 23,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       },
@@ -1915,7 +1951,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -1938,6 +1974,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1947,35 +1989,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1411,
+     "ms": 1052,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 788,
+       "ms": 495,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 410,
+       "ms": 314,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 157,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 45,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 11,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -2170,7 +2212,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -2193,6 +2235,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2202,11 +2250,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 169,
+     "ms": 211,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 169,
+       "ms": 211,
        "pass": true,
        "via": "targetIds"
       }
@@ -2401,7 +2449,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -2424,6 +2472,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2433,11 +2487,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 204,
+     "ms": 193,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 204,
+       "ms": 193,
        "pass": true,
        "via": "targetIds"
       }
@@ -2632,7 +2686,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -2655,6 +2709,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2664,11 +2724,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 261,
+     "ms": 349,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 261,
+       "ms": 349,
        "pass": true,
        "via": "targetIds"
       }
@@ -2863,7 +2923,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -2886,6 +2946,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2895,17 +2961,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 325,
+     "ms": 477,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 200,
+       "ms": 366,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 125,
+       "ms": 111,
        "pass": true,
        "via": "targetIds"
       }
@@ -3100,7 +3166,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -3123,6 +3189,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3132,17 +3204,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 469,
+     "ms": 510,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 435,
+       "ms": 477,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 34,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -3337,7 +3409,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -3360,6 +3432,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3369,11 +3447,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 168,
+     "ms": 152,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 168,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       }
@@ -3568,7 +3646,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -3591,6 +3669,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3600,25 +3684,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 172,
+     "ms": 204,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 122,
+       "ms": 146,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.boxredshift",
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 36,
+       "ms": 28,
        "pass": true,
        "via": "claims"
-      },
-      {
-       "id": "preset.boxredshift",
-       "ms": 14,
-       "pass": true,
-       "via": "targetIds"
       }
      ]
     }
@@ -3811,7 +3895,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -3834,6 +3918,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3843,17 +3933,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 173,
+     "ms": 220,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 111,
+       "ms": 137,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 62,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -4048,7 +4138,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -4071,6 +4161,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4080,35 +4176,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 1836,
+     "ms": 2271,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 971,
+       "ms": 1238,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 310,
+       "ms": 397,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 296,
+       "ms": 378,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 240,
+       "ms": 242,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 12,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -4303,7 +4399,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -4326,6 +4422,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4335,11 +4437,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3871,
+     "ms": 3836,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3870,
+       "ms": 3835,
        "pass": true,
        "via": "targetIds"
       },
@@ -4564,7 +4666,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -4587,6 +4689,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4596,17 +4704,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 8862,
+     "ms": 10200,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 5180,
+       "ms": 6211,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 3682,
+       "ms": 3989,
        "pass": true,
        "via": "targetIds"
       },
@@ -4807,7 +4915,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -4830,6 +4938,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4839,17 +4953,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 60662,
+     "ms": 70550,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 56756,
+       "ms": 66564,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 3906,
+       "ms": 3986,
        "pass": true,
        "via": "targetIds"
       }
@@ -5044,7 +5158,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -5067,6 +5181,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5076,17 +5196,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 139734,
+     "ms": 162549,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 134306,
+       "ms": 156927,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 5428,
+       "ms": 5622,
        "pass": true,
        "via": "targetIds"
       }
@@ -5281,7 +5401,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -5304,6 +5424,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5313,17 +5439,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3161,
+     "ms": 3491,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3161,
+       "ms": 3490,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -5518,7 +5644,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -5541,6 +5667,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5550,29 +5682,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6095,
+     "ms": 7151,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3478,
+       "ms": 4116,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 2556,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "darkrotor.uphi",
-       "ms": 35,
+       "ms": 2910,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 26,
+       "ms": 84,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "darkrotor.uphi",
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -5767,7 +5899,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -5790,6 +5922,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5799,17 +5937,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 799,
+     "ms": 929,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 706,
+       "ms": 850,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 93,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -6004,7 +6142,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -6027,6 +6165,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6036,17 +6180,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3626,
+     "ms": 4195,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3402,
+       "ms": 3942,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 224,
+       "ms": 253,
        "pass": true,
        "via": "targetIds"
       }
@@ -6241,7 +6385,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -6264,6 +6408,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6273,17 +6423,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3183,
+     "ms": 3704,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 2866,
+       "ms": 3328,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 317,
+       "ms": 376,
        "pass": true,
        "via": "targetIds"
       }
@@ -6478,7 +6628,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -6501,6 +6651,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6510,23 +6666,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14987,
+     "ms": 21368,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 10837,
+       "ms": 15292,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4024,
+       "ms": 5898,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 126,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       }
@@ -6721,7 +6877,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -6744,6 +6900,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6753,17 +6915,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2752,
+     "ms": 2902,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 2751,
+       "ms": 2902,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.bhcore-selfdrive",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -6970,7 +7132,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -6993,6 +7155,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7002,11 +7170,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2671,
+     "ms": 2993,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2671,
+       "ms": 2993,
        "pass": true,
        "via": "targetIds"
       }
@@ -7201,7 +7369,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -7224,6 +7392,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7233,17 +7407,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5179,
+     "ms": 5704,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 4681,
+       "ms": 5174,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 498,
+       "ms": 530,
        "pass": true,
        "via": "targetIds"
       }
@@ -7438,7 +7612,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -7461,6 +7635,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7470,23 +7650,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 21130,
+     "ms": 24016,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 19918,
+       "ms": 22674,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1212,
+       "ms": 1341,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -7682,7 +7862,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -7705,6 +7885,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7714,11 +7900,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5487,
+     "ms": 6192,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 5487,
+       "ms": 6192,
        "pass": true,
        "via": "targetIds"
       }
@@ -7914,7 +8100,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -7937,6 +8123,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7946,11 +8138,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5029,
+     "ms": 5698,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5029,
+       "ms": 5698,
        "pass": true,
        "via": "targetIds"
       }
@@ -8146,7 +8338,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -8169,6 +8361,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8178,11 +8376,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4769,
+     "ms": 5483,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 4769,
+       "ms": 5483,
        "pass": true,
        "via": "targetIds"
       }
@@ -8377,7 +8575,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -8400,6 +8598,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8409,11 +8613,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1126,
+     "ms": 1195,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1126,
+       "ms": 1195,
        "pass": true,
        "via": "targetIds"
       },
@@ -8626,7 +8830,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -8649,6 +8853,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8658,17 +8868,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3143,
+     "ms": 3343,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3142,
+       "ms": 3343,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -8876,7 +9086,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -8899,6 +9109,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8908,11 +9124,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6384,
+     "ms": 7692,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 6384,
+       "ms": 7692,
        "pass": true,
        "via": "targetIds"
       }
@@ -9113,7 +9329,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -9136,6 +9352,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9145,11 +9367,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1548,
+     "ms": 1755,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1548,
+       "ms": 1755,
        "pass": true,
        "via": "targetIds"
       }
@@ -9398,7 +9620,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -9421,6 +9643,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9430,11 +9658,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1663,
+     "ms": 1838,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1663,
+       "ms": 1838,
        "pass": true,
        "via": "targetIds"
       }
@@ -9641,7 +9869,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -9660,6 +9888,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -9877,7 +10111,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -9900,6 +10134,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9909,11 +10149,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 82,
+     "ms": 83,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 82,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -10114,7 +10354,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -10137,6 +10377,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10146,11 +10392,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8248,
+     "ms": 9709,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 8248,
+       "ms": 9709,
        "pass": true,
        "via": "targetIds"
       }
@@ -10370,7 +10616,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -10389,6 +10635,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10624,7 +10876,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -10643,6 +10895,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10866,7 +11124,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -10885,6 +11143,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -10910,7 +11174,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "指定した 3D 正規分布を保つ参照模型",
+    "purpose": "指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標)",
     "objective": "met",
     "state": "形状トイの門を通過(規定分布の模型)",
     "calibration": "out-of-scope",
@@ -10918,16 +11182,17 @@
     "outlook": null,
     "evidence": [
      "docs.shapeToyCriteria",
-     "tests/out/shapetoy-w274d.json"
+     "tests/out/shapetoy-w274d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Reference toy that keeps a specified 3D normal distribution",
+     "purpose": "Reference toy that keeps a specified 3D normal distribution (a 3D book: z is a coordinate)",
      "state": "passes the shape-toy gate (a prescribed-distribution model)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Reference toy that keeps a specified 3D normal distribution. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
+     "brief": "Reference toy that keeps a specified 3D normal distribution (a 3D book: z is a coordinate). Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
     },
-    "brief": "指定した 3D 正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
+    "brief": "指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標)。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -11103,7 +11368,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -11126,6 +11391,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11135,11 +11412,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 838,
+     "ms": 1006,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 838,
+       "ms": 1006,
        "pass": true,
        "via": "targetIds"
       }
@@ -11154,7 +11431,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "指定した薄い回転円盤を保つ参照模型",
+    "purpose": "指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言)",
     "objective": "unmet",
     "state": "形状トイの門で KS 比 1.330 が不合格",
     "calibration": "out-of-scope",
@@ -11162,16 +11439,17 @@
     "outlook": null,
     "evidence": [
      "docs.shapeToyCriteria",
-     "tests/out/shapetoy-w274d.json"
+     "tests/out/shapetoy-w274d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Reference toy that keeps a specified thin rotating disc",
+     "purpose": "Reference toy that keeps a specified thin rotating disc (3D: the thickness is the declared sigma_z)",
      "state": "fails the shape-toy gate with a KS ratio of 1.330",
      "mismatch": null,
      "outlook": null,
-     "brief": "Reference toy that keeps a specified thin rotating disc. Unmet: fails the shape-toy gate with a KS ratio of 1.330. Out of calibration scope."
+     "brief": "Reference toy that keeps a specified thin rotating disc (3D: the thickness is the declared sigma_z). Unmet: fails the shape-toy gate with a KS ratio of 1.330. Out of calibration scope."
     },
-    "brief": "指定した薄い回転円盤を保つ参照模型。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"
+    "brief": "指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言)。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -11347,7 +11625,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -11370,6 +11648,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11379,11 +11669,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1275,
+     "ms": 1399,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1275,
+       "ms": 1399,
        "pass": true,
        "via": "targetIds"
       }
@@ -11398,7 +11688,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "腕の軸に対する正規分布を保つ参照模型",
+    "purpose": "腕の軸に対する正規分布を保つ参照模型(三次元)",
     "objective": "met",
     "state": "形状トイの門を通過(規定分布の模型)",
     "calibration": "out-of-scope",
@@ -11406,16 +11696,17 @@
     "outlook": null,
     "evidence": [
      "docs.shapeToyCriteria",
-     "tests/out/shapetoy-w274d.json"
+     "tests/out/shapetoy-w274d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Reference toy that keeps a normal profile about the arm axis",
+     "purpose": "Reference toy that keeps a normal profile about the arm axis (3D)",
      "state": "passes the shape-toy gate (a prescribed-distribution model)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Reference toy that keeps a normal profile about the arm axis. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
+     "brief": "Reference toy that keeps a normal profile about the arm axis (3D). Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."
     },
-    "brief": "腕の軸に対する正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
+    "brief": "腕の軸に対する正規分布を保つ参照模型(三次元)。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -11603,7 +11894,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -11626,6 +11917,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11635,11 +11938,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 472,
+     "ms": 583,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 472,
+       "ms": 583,
        "pass": true,
        "via": "targetIds"
       }
@@ -11654,23 +11957,24 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)",
+    "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない)",
     "objective": "partial",
     "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/spiral-w290e.json"
+     "tests/out/spiral-w290e.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent)",
+     "purpose": "Reference model of a declared two-arm spiral on the 🥏 disc (3D, not emergent)",
      "state": "gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent). Partial: gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏). Out of calibration scope."
+     "brief": "Reference model of a declared two-arm spiral on the 🥏 disc (3D, not emergent). Partial: gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏). Out of calibration scope."
     },
-    "brief": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)。較正対象外。"
+    "brief": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -11840,7 +12144,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -11863,6 +12167,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11872,29 +12188,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 11615,
+     "ms": 12720,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 8448,
+       "ms": 9415,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 2971,
+       "ms": 3084,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 123,
+       "ms": 139,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 73,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -11909,7 +12225,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "中心スピンに依存する力学で星団を束ねる",
+    "purpose": "中心スピンに依存する力学で星団を束ねる(三次元)",
     "objective": "met",
     "state": "Core 力学の門を通過(RMS 偏り 0.0101)",
     "calibration": "out-of-scope",
@@ -11917,16 +12233,17 @@
     "outlook": null,
     "evidence": [
      "docs.coreFieldCriteria",
-     "tests/out/corefield-w276d.json"
+     "tests/out/corefield-w276d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Bind a cluster with a law that depends on the central spin",
+     "purpose": "Bind a cluster with a law that depends on the central spin (3D)",
      "state": "passes the core-law gate (RMS bias 0.0101)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Bind a cluster with a law that depends on the central spin. Met: passes the core-law gate (RMS bias 0.0101). Out of calibration scope."
+     "brief": "Bind a cluster with a law that depends on the central spin (3D). Met: passes the core-law gate (RMS bias 0.0101). Out of calibration scope."
     },
-    "brief": "中心スピンに依存する力学で星団を束ねる。達・Core 力学の門を通過(RMS 偏り 0.0101)。較正対象外。"
+    "brief": "中心スピンに依存する力学で星団を束ねる(三次元)。達・Core 力学の門を通過(RMS 偏り 0.0101)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -12096,7 +12413,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -12119,6 +12436,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12128,11 +12457,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 753,
+     "ms": 1021,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 753,
+       "ms": 1021,
        "pass": true,
        "via": "targetIds"
       }
@@ -12147,7 +12476,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "中心スピンから薄さと円盤の回転を作る",
+    "purpose": "中心スピンから薄さと円盤の回転を作る(三次元)",
     "objective": "met",
     "state": "Core 力学の門を通過(逆行率 0.0352)",
     "calibration": "out-of-scope",
@@ -12155,16 +12484,17 @@
     "outlook": null,
     "evidence": [
      "docs.coreFieldCriteria",
-     "tests/out/corefield-w276d.json"
+     "tests/out/corefield-w276d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Make a thin, rotating disc from the central spin",
+     "purpose": "Make a thin, rotating disc from the central spin (3D)",
      "state": "passes the core-law gate (retrograde fraction 0.0352)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Make a thin, rotating disc from the central spin. Met: passes the core-law gate (retrograde fraction 0.0352). Out of calibration scope."
+     "brief": "Make a thin, rotating disc from the central spin (3D). Met: passes the core-law gate (retrograde fraction 0.0352). Out of calibration scope."
     },
-    "brief": "中心スピンから薄さと円盤の回転を作る。達・Core 力学の門を通過(逆行率 0.0352)。較正対象外。"
+    "brief": "中心スピンから薄さと円盤の回転を作る(三次元)。達・Core 力学の門を通過(逆行率 0.0352)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -12340,7 +12670,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -12363,6 +12693,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12372,11 +12714,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1212,
+     "ms": 1451,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1212,
+       "ms": 1451,
        "pass": true,
        "via": "targetIds"
       }
@@ -12391,7 +12733,7 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "面内の自転軸に沿った棒を作る",
+    "purpose": "面内の自転軸に沿った棒を作る(三次元)",
     "objective": "met",
     "state": "Core 力学の門を通過(RMS 偏り 0.0060)",
     "calibration": "out-of-scope",
@@ -12399,16 +12741,17 @@
     "outlook": null,
     "evidence": [
      "docs.coreFieldCriteria",
-     "tests/out/corefield-w276d.json"
+     "tests/out/corefield-w276d.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Make a bar along the in-plane spin axis",
+     "purpose": "Make a bar along the in-plane spin axis (3D)",
      "state": "passes the core-law gate (RMS bias 0.0060)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Make a bar along the in-plane spin axis. Met: passes the core-law gate (RMS bias 0.0060). Out of calibration scope."
+     "brief": "Make a bar along the in-plane spin axis (3D). Met: passes the core-law gate (RMS bias 0.0060). Out of calibration scope."
     },
-    "brief": "面内の自転軸に沿った棒を作る。達・Core 力学の門を通過(RMS 偏り 0.0060)。較正対象外。"
+    "brief": "面内の自転軸に沿った棒を作る(三次元)。達・Core 力学の門を通過(RMS 偏り 0.0060)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -12584,7 +12927,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -12607,6 +12950,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12616,11 +12971,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 475,
+     "ms": 483,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 475,
+       "ms": 483,
        "pass": true,
        "via": "targetIds"
       }
@@ -12635,23 +12990,24 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)",
+    "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない)",
     "objective": "partial",
     "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/spiral-w290e.json"
+     "tests/out/spiral-w290e.json",
+     "tests/out/ref3d-w299e.json"
     ],
     "en": {
-     "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence)",
+     "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (3D, no emergence)",
      "state": "gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence). Partial: gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N). Out of calibration scope."
+     "brief": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (3D, no emergence). Partial: gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N). Out of calibration scope."
     },
-    "brief": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超。較正対象外。"
+    "brief": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -12821,7 +13177,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -12844,6 +13200,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ref3d-299e",
+      "sec": 80,
+      "share": 8,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12853,29 +13221,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 11615,
+     "ms": 12720,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 8448,
+       "ms": 9415,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 2971,
+       "ms": 3084,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 123,
+       "ms": 139,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 73,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -13071,7 +13439,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -13094,6 +13462,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13103,17 +13477,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 182,
+     "ms": 189,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 146,
+       "ms": 154,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 36,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -13308,7 +13682,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -13331,6 +13705,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13340,11 +13720,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 23,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -13545,7 +13925,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -13568,6 +13948,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13577,17 +13963,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 72,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 44,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 28,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -13782,7 +14168,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -13805,6 +14191,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13814,17 +14206,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 318,
+     "ms": 335,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 292,
+       "ms": 307,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 26,
+       "ms": 28,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -14061,7 +14453,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -14084,6 +14476,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14093,23 +14491,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25738,
+     "ms": 28955,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 21612,
+       "ms": 24910,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2147,
+       "ms": 2055,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 1979,
+       "ms": 1990,
        "pass": true,
        "via": "targetIds"
       }
@@ -14304,7 +14702,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -14327,6 +14725,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14336,23 +14740,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13723,
+     "ms": 14977,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 10618,
+       "ms": 11769,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2134,
+       "ms": 1970,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 971,
+       "ms": 1238,
        "pass": true,
        "via": "targetIds"
       }
@@ -14547,7 +14951,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -14570,6 +14974,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14579,29 +14989,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 793,
+     "ms": 954,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 641,
+       "ms": 772,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 118,
+       "ms": 122,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 20,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 14,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -14796,7 +15206,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -14819,6 +15229,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14828,11 +15244,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 826,
+     "ms": 1097,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 826,
+       "ms": 1097,
        "pass": true,
        "via": "targetIds"
       }
@@ -15027,7 +15443,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -15050,6 +15466,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15059,11 +15481,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 11,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -15264,7 +15686,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -15287,6 +15709,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15296,23 +15724,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3024,
+     "ms": 3570,
      "tests": [
       {
-       "id": "shot.regress-convection",
-       "ms": 1518,
+       "id": "preset.convection",
+       "ms": 1827,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.convection",
-       "ms": 1484,
+       "id": "shot.regress-convection",
+       "ms": 1716,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 22,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       },
@@ -15513,7 +15941,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -15536,6 +15964,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15545,17 +15979,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1981,
+     "ms": 2311,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 1980,
+       "ms": 2311,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -15750,7 +16184,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -15773,6 +16207,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15782,17 +16222,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1648,
+     "ms": 1854,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1648,
+       "ms": 1853,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -15987,7 +16427,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -16010,6 +16450,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16019,11 +16465,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 923,
+     "ms": 915,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 923,
+       "ms": 915,
        "pass": true,
        "via": "targetIds"
       },
@@ -16230,7 +16676,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -16253,6 +16699,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16262,11 +16714,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1638,
+     "ms": 1721,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1638,
+       "ms": 1721,
        "pass": true,
        "via": "targetIds"
       },
@@ -16473,7 +16925,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -16496,6 +16948,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16505,11 +16963,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 973,
+     "ms": 843,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 973,
+       "ms": 843,
        "pass": true,
        "via": "targetIds"
       },
@@ -16717,7 +17175,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -16740,6 +17198,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16749,11 +17213,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1166,
+     "ms": 1181,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1166,
+       "ms": 1181,
        "pass": true,
        "via": "targetIds"
       },
@@ -16966,7 +17430,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -16989,6 +17453,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16998,23 +17468,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 454,
+     "ms": 512,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 245,
+       "ms": 289,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 132,
+       "ms": 141,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 77,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -17215,7 +17685,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -17238,6 +17708,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17247,17 +17723,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 926,
+     "ms": 1181,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 848,
+       "ms": 1100,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 78,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -17303,17 +17779,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 122.884,
+     "wallSec": 150.562,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 41.31,
+       "wallSec": 49.917,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 81.574,
+       "wallSec": 100.645,
        "reused": false,
        "reusedBy": null
       }
@@ -17516,8 +17992,14 @@
       "always": false
      },
      {
+      "key": "synodic-299b",
+      "sec": 13055,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -17540,6 +18022,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17549,11 +18037,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 35,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -17754,7 +18242,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -17777,6 +18265,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17786,17 +18280,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2910,
+     "ms": 3179,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 2881,
+       "ms": 3158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 26,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -17819,23 +18313,24 @@
    "status": {
     "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
     "objective": "partial",
-    "state": "周期優先・恒星月 27.324 日は範囲の端でも門の外(この探索範囲では未達)・近点回転 293.850 年は照合だけ",
+    "state": "朔望月 29.534 日(恒星月 27.324 日を恒星年で一様換算)は門の中・近点回転 293.850 年は照合だけ",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/synodic-w299b.json",
      "tests/out/refit-w298b.json",
      "tests/out/emgrid-w280b.json",
      "tests/out/calaudit-w249.json"
     ],
     "en": {
      "purpose": "Principle reference: kF1 q-drag apsidal mechanism",
-     "state": "Period first: month 27.324 d not reached in this search range (range end); apsides 293.850 yr, check only",
+     "state": "Synodic month 29.534 d (sidereal 27.324 d via the sidereal year) inside the gate; apsides 293.850 yr, check only",
      "mismatch": null,
      "outlook": null,
-     "brief": "Principle reference: kF1 q-drag apsidal mechanism. Partial: Period first: month 27.324 d not reached in this search range (range end); apsides 293.850 yr, check only. Out of calibration scope."
+     "brief": "Principle reference: kF1 q-drag apsidal mechanism. Partial: Synodic month 29.534 d (sidereal 27.324 d via the sidereal year) inside the gate; apsides 293.850 yr, check only. Out of calibration scope."
     },
-    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・周期優先・恒星月 27.324 日は範囲の端でも門の外(この探索範囲では未達)・近点回転 293.850 年は照合だけ。較正対象外。"
+    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・朔望月 29.534 日(恒星月 27.324 日を恒星年で一様換算)は門の中・近点回転 293.850 年は照合だけ。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -18046,8 +18541,14 @@
       "always": false
      },
      {
+      "key": "synodic-299b",
+      "sec": 13055,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -18070,6 +18571,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18079,11 +18586,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 52,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -18302,7 +18809,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -18325,6 +18832,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18334,29 +18847,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 647,
+     "ms": 657,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 574,
+       "ms": 607,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 52,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 20,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.dragCoreFit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -18563,7 +19076,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -18586,6 +19099,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18595,11 +19114,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 43,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 43,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       },
@@ -18826,7 +19345,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -18849,6 +19368,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18858,11 +19383,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 42,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 42,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       },
@@ -18914,17 +19439,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.636,
+     "wallSec": 4.465999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.363,
+       "wallSec": 1.509,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.273,
+       "wallSec": 2.957,
        "reused": false,
        "reusedBy": null
       }
@@ -19116,7 +19641,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -19139,6 +19664,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19148,11 +19679,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 32,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 32,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -19359,7 +19890,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -19382,6 +19913,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19391,17 +19928,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 204,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 173,
+       "ms": 201,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 7,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -19596,7 +20133,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -19615,6 +20152,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -19819,8 +20362,14 @@
       "always": false
      },
      {
+      "key": "synodic-299b",
+      "sec": 13055,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -19839,6 +20388,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -20057,7 +20612,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -20080,6 +20635,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20089,11 +20650,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 32,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -20300,7 +20861,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -20323,6 +20884,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20332,11 +20899,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 525,
+     "ms": 966,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 495,
+       "ms": 936,
        "pass": true,
        "via": "claims"
       },
@@ -20549,7 +21116,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -20572,6 +21139,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20581,17 +21154,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 537,
+     "ms": 980,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 495,
+       "ms": 936,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 42,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -20792,7 +21365,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -20815,6 +21388,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20824,17 +21403,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 398,
+     "ms": 488,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 381,
+       "ms": 460,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 17,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -20881,17 +21460,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.343,
+     "wallSec": 9.936,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.817,
+       "wallSec": 3.559,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.526,
+       "wallSec": 6.377,
        "reused": false,
        "reusedBy": null
       }
@@ -21089,7 +21668,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -21112,6 +21691,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21121,11 +21706,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 21,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -21326,7 +21911,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -21349,6 +21934,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21358,17 +21949,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 204,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 173,
+       "ms": 201,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 7,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -21563,7 +22154,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -21582,6 +22173,1628 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4stable-299d",
+      "sec": 90,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "name": "太陽と水星(慣性決定力版・三次元)— 近点率に合わせた gain",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と水星を三次元で置き gain を近点率の差 43.0″/世紀に測り直して合わせる",
+    "objective": "met",
+    "state": "gain 0.004522419・差 43.00001(h/2 43.00002)・恒星周期の差 0.0003 日・fitted",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Mercury in 3D; re-measure the gain to the 43.0\"/cy apsidal difference",
+     "state": "gain 0.004522419; diff 43.00001 (h/2 43.00002)\"/cy; period gap 0.0003 d; fitted",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Mercury in 3D; re-measure the gain to the 43.0\"/cy apsidal difference. Met: gain 0.004522419; diff 43.00001 (h/2 43.00002)\"/cy; period gap 0.0003 d; fitted. Out of calibration scope."
+    },
+    "brief": "太陽と水星を三次元で置き gain を近点率の差 43.0″/世紀に測り直して合わせる。達・gain 0.004522419・差 43.00001(h/2 43.00002)・恒星周期の差 0.0003 日・fitted。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "name": "太陽と金星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と金星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 224.7021 日(観測との差 0.0011)・近点 −1.59621″/世紀(h/2 −0.90536)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Venus in 3D at gain 0; measure period and apse",
+     "state": "period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy (h/2 -0.90536); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Venus in 3D at gain 0; measure period and apse. Met: period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy (h/2 -0.90536); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と金星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 224.7021 日(観測との差 0.0011)・近点 −1.59621″/世紀(h/2 −0.90536)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "name": "太陽と火星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と火星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 686.9863 日(観測との差 0.0063)・近点 −0.36042″/世紀(h/2 −0.12805)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Mars in 3D at gain 0; measure period and apse",
+     "state": "period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy (h/2 -0.12805); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Mars in 3D at gain 0; measure period and apse. Met: period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy (h/2 -0.12805); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と火星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 686.9863 日(観測との差 0.0063)・近点 −0.36042″/世紀(h/2 −0.12805)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "name": "太陽と木星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と木星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 4332.6745 日(観測との差 0.0855)・近点 −0.11609″/世紀(h/2 −0.07998)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Jupiter in 3D at gain 0; measure period and apse",
+     "state": "period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy (h/2 -0.07998); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Jupiter in 3D at gain 0; measure period and apse. Met: period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy (h/2 -0.07998); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と木星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 4332.6745 日(観測との差 0.0855)・近点 −0.11609″/世紀(h/2 −0.07998)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "name": "太陽と土星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と土星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 10755.6209 日(観測との差 −3.5991)・近点 −0.02760″/世紀(h/2 −0.01302)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Saturn in 3D at gain 0; measure period and apse",
+     "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy (h/2 -0.01302); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Saturn in 3D at gain 0; measure period and apse. Met: period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy (h/2 -0.01302); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と土星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 10755.6209 日(観測との差 −3.5991)・近点 −0.02760″/世紀(h/2 −0.01302)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "name": "太陽と天王星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と天王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 30702.2925 日(観測との差 16.8925)・近点 −0.00749″/世紀(h/2 −0.00240)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Uranus in 3D at gain 0; measure period and apse",
+     "state": "period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy (h/2 -0.00240); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Uranus in 3D at gain 0; measure period and apse. Met: period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy (h/2 -0.00240); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と天王星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 30702.2925 日(観測との差 16.8925)・近点 −0.00749″/世紀(h/2 −0.00240)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "name": "太陽と海王星(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽と海王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+    "objective": "met",
+    "state": "周期 60226.3209 日(観測との差 37.3209)・近点 −0.00358″/世紀(h/2 −0.00100)・標的の観測行なし",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/planets3d-w299c.json"
+    ],
+    "en": {
+     "purpose": "Sun and Neptune in 3D at gain 0; measure period and apse",
+     "state": "period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy (h/2 -0.00100); no target row",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Sun and Neptune in 3D at gain 0; measure period and apse. Met: period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy (h/2 -0.00100); no target row. Out of calibration scope."
+    },
+    "brief": "太陽と海王星の三次元の基準(gain 0)で恒星周期と近点率を測る。達・周期 60226.3209 日(観測との差 37.3209)・近点 −0.00358″/世紀(h/2 −0.00100)・標的の観測行なし。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -21794,7 +24007,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -21817,6 +24030,18 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4stable-299d",
+      "sec": 90,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21826,15 +24051,251 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 20,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "mercuryMeshMigrate3d",
+   "emoji": "🔂",
+   "name": "水星 — 旧空間メッシュの零試験の三次元の慣性決定力への移行(傾けた軌道面・較正ではない)",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🔁 の零試験を三次元の慣性決定力へ移し座標の回転と一様な速度で近点率を見る",
+    "objective": "met",
+    "state": "平面は 🟫 とビット同一・30° の差 5.0e-5″/世紀・一様な速度 −5.3e-4″/世紀",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo4stable-w299d.json"
+    ],
+    "en": {
+     "purpose": "Move 🔁's null test to 3D inertial determinacy; rotation and uniform velocity",
+     "state": "planar copy bit-identical to 🟫; 30 deg tilt 5.0e-5 arcsec/cy; uniform velocity -5.3e-4",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Move 🔁's null test to 3D inertial determinacy; rotation and uniform velocity. Met: planar copy bit-identical to 🟫; 30 deg tilt 5.0e-5 arcsec/cy; uniform velocity -5.3e-4. Out of calibration scope."
+    },
+    "brief": "🔁 の零試験を三次元の慣性決定力へ移し座標の回転と一様な速度で近点率を見る。達・平面は 🟫 とビット同一・30° の差 5.0e-5″/世紀・一様な速度 −5.3e-4″/世紀。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4stable-299d",
+      "sec": 90,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -22039,7 +24500,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -22062,6 +24523,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22071,11 +24538,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 46,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -22123,11 +24590,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 43.618,
+     "wallSec": 48.396,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 43.618,
+       "wallSec": 48.396,
        "reused": false,
        "reusedBy": null
       }
@@ -22307,7 +24774,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -22330,6 +24797,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22339,17 +24812,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1167,
+     "ms": 1620,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1124,
+       "ms": 1570,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 43,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -22395,17 +24868,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 43.186,
+     "wallSec": 53.696,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.141,
+       "wallSec": 16.884,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.045,
+       "wallSec": 36.812,
        "reused": false,
        "reusedBy": null
       }
@@ -22597,7 +25070,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -22620,6 +25093,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22629,11 +25108,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 368,
+     "ms": 431,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 355,
+       "ms": 418,
        "pass": true,
        "via": "claims"
       },
@@ -22685,17 +25164,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.258000000000003,
+     "wallSec": 27.428,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.141,
+       "wallSec": 9.479,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.117,
+       "wallSec": 17.949,
        "reused": false,
        "reusedBy": null
       }
@@ -22923,7 +25402,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -22946,6 +25425,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22955,17 +25440,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3020,
+     "ms": 4012,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 2974,
+       "ms": 3986,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 46,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -23011,17 +25496,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.852,
+     "wallSec": 20.878,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.713,
+       "wallSec": 6.99,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.139,
+       "wallSec": 13.888,
        "reused": false,
        "reusedBy": null
       }
@@ -23213,7 +25698,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -23236,6 +25721,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23245,11 +25736,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 10,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 19,
+       "ms": 10,
        "pass": true,
        "via": "targetIds"
       },
@@ -23542,7 +26033,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -23565,6 +26056,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23574,11 +26071,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
@@ -23809,7 +26306,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -23832,6 +26329,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23841,17 +26344,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8625,
+     "ms": 11117,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 8555,
+       "ms": 11035,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 70,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -24071,7 +26574,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -24094,6 +26597,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24103,11 +26612,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 56,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -24153,17 +26662,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 230.72899999999998,
+     "wallSec": 286.478,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 75.919,
+       "wallSec": 93.221,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 154.81,
+       "wallSec": 193.257,
        "reused": false,
        "reusedBy": null
       }
@@ -24409,7 +26918,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -24432,6 +26941,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24441,11 +26956,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 16,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -24646,7 +27161,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -24669,6 +27184,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24678,17 +27199,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 204,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 173,
+       "ms": 201,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 7,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -24883,7 +27404,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -24902,6 +27423,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -25113,7 +27640,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -25136,6 +27663,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25145,11 +27678,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 29,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -25357,7 +27890,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -25380,6 +27913,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25389,11 +27928,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 45,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -25441,11 +27980,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 54.685,
+     "wallSec": 68.092,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 54.685,
+       "wallSec": 68.092,
        "reused": false,
        "reusedBy": null
       }
@@ -25625,7 +28164,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -25648,6 +28187,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25657,17 +28202,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 40,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 39,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -25713,17 +28258,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.367,
+     "wallSec": 7.822000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.873,
+       "wallSec": 2.358,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.494,
+       "wallSec": 5.464,
        "reused": false,
        "reusedBy": null
       }
@@ -25951,7 +28496,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -25974,6 +28519,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25983,11 +28534,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 18,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 18,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       },
@@ -26037,29 +28588,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.364000000000004,
+     "wallSec": 69.185,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.288,
+       "wallSec": 13.004,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.963,
+       "wallSec": 25.634,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 42.076,
+       "wallSec": 56.181,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 22.963,
-     "reusedH2Sec": 22.963,
+     "reusedSec": 25.634,
+     "reusedH2Sec": 25.634,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26281,7 +28832,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -26304,6 +28855,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26313,17 +28870,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3215,
+     "ms": 3821,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3189,
+       "ms": 3799,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 26,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -26549,7 +29106,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -26572,6 +29129,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26581,17 +29144,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3230,
+     "ms": 3845,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3189,
+       "ms": 3799,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 41,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -26635,29 +29198,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 30.778,
+     "wallSec": 40.458999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.357,
+       "wallSec": 7.97,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.571,
+       "wallSec": 15.97,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 24.421,
+       "wallSec": 32.489,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 13.571,
-     "reusedH2Sec": 13.571,
+     "reusedSec": 15.97,
+     "reusedH2Sec": 15.97,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26879,7 +29442,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -26902,6 +29465,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26911,17 +29480,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2125,
+     "ms": 2889,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2109,
+       "ms": 2876,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 16,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -27147,7 +29716,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -27170,6 +29739,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27179,17 +29754,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2158,
+     "ms": 2921,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2109,
+       "ms": 2876,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 49,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -27236,17 +29811,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.489,
+     "wallSec": 13.258000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.544,
+       "wallSec": 4.98,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.945,
+       "wallSec": 8.278,
        "reused": false,
        "reusedBy": null
       }
@@ -27450,7 +30025,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -27473,6 +30048,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27482,17 +30063,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 34,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 33,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -27754,7 +30335,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -27777,6 +30358,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27786,17 +30373,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5854,
+     "ms": 7383,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 5797,
+       "ms": 7330,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 57,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -27992,7 +30579,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -28015,6 +30602,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28024,11 +30617,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 25,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -28242,7 +30835,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -28265,6 +30858,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28274,11 +30873,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 90,
+     "ms": 88,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 90,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       }
@@ -28325,17 +30924,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.885,
+     "wallSec": 9.698,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.814,
+       "wallSec": 3.214,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.071,
+       "wallSec": 6.484,
        "reused": false,
        "reusedBy": null
       }
@@ -28569,7 +31168,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -28592,6 +31191,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28601,11 +31206,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 21,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -28652,17 +31257,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.332,
+     "wallSec": 3.7800000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.117,
+       "wallSec": 1.324,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.215,
+       "wallSec": 2.456,
        "reused": false,
        "reusedBy": null
       }
@@ -28896,7 +31501,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -28915,6 +31520,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -29146,7 +31757,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -29169,6 +31780,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29178,11 +31795,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 24,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -29396,7 +32013,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -29419,6 +32036,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29428,11 +32051,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 30,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -29646,7 +32269,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -29665,6 +32288,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -29896,7 +32525,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -29919,6 +32548,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29928,11 +32563,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 86,
+     "ms": 101,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 86,
+       "ms": 101,
        "pass": true,
        "via": "targetIds"
       }
@@ -30146,7 +32781,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -30169,6 +32804,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30178,11 +32819,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 60,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 54,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -30396,7 +33037,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -30419,6 +33060,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30428,11 +33075,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 27,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -30479,17 +33126,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.268,
+     "wallSec": 64.372,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.343,
+       "wallSec": 20.567,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 35.925,
+       "wallSec": 43.805,
        "reused": false,
        "reusedBy": null
       }
@@ -30675,7 +33322,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -30698,6 +33345,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30707,11 +33360,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 18,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -30973,7 +33626,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -30996,6 +33649,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31005,11 +33664,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 29,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -31223,7 +33882,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -31246,6 +33905,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31255,11 +33920,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 28,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -31460,7 +34125,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -31479,6 +34144,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -31703,7 +34374,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -31726,6 +34397,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31735,23 +34412,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3083,
+     "ms": 3593,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2123,
+       "ms": 2642,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 925,
+       "ms": 924,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 35,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -31946,7 +34623,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -31969,6 +34646,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31978,17 +34661,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 253,
+     "ms": 278,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 216,
+       "ms": 238,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 37,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -32183,7 +34866,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -32203,6 +34886,18 @@
       "key": "moon3d-298c",
       "sec": 300,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4stable-299d",
+      "sec": 90,
+      "share": 5,
       "always": false
      },
      {
@@ -32407,7 +35102,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -32427,6 +35122,248 @@
       "key": "moon3d-298c",
       "sec": 300,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "chainSpreadToy3d",
+   "emoji": "🍥",
+   "name": "広げた連鎖の円盤(三次元)— 半径 18〜72 の環に黄金角で置いた多粒子と傾いた自転軸(原理)",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
+    "objective": "met",
+    "state": "重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo4stable-w299d.json"
+    ],
+    "en": {
+     "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
+     "state": "no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions. Met: no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met. Out of calibration scope."
+    },
+    "brief": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る。達・重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4stable-299d",
+      "sec": 90,
+      "share": 5,
       "always": false
      },
      {
@@ -32631,7 +35568,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -32650,6 +35587,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -32855,7 +35798,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -32874,6 +35817,12 @@
      {
       "key": "moon3d-298c",
       "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
       "share": "all",
       "always": false
      },
@@ -33085,7 +36034,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -33108,6 +36057,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33117,11 +36072,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 33,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -33322,7 +36277,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -33345,6 +36300,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33354,11 +36315,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 38,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -33404,17 +36365,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.943,
+     "wallSec": 2.4370000000000003,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.604,
+       "wallSec": 0.72,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.339,
+       "wallSec": 1.717,
        "reused": false,
        "reusedBy": null
       }
@@ -33588,7 +36549,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -33611,6 +36572,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33620,17 +36587,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3142,
+     "ms": 3744,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3123,
+       "ms": 3722,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 19,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -33856,7 +36823,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -33879,6 +36846,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33888,17 +36861,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3171,
+     "ms": 3759,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3123,
+       "ms": 3722,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 48,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -33944,17 +36917,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.259,
+     "wallSec": 0.218,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.118,
+       "wallSec": 0.111,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.141,
+       "wallSec": 0.107,
        "reused": false,
        "reusedBy": null
       }
@@ -34128,7 +37101,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -34151,6 +37124,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34160,11 +37139,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 15,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -34359,7 +37338,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -34382,6 +37361,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34391,11 +37376,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 11,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 14,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -34596,7 +37581,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -34619,6 +37604,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34628,17 +37619,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1001,
+     "ms": 1271,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1000,
+       "ms": 1271,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -34839,7 +37830,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -34862,6 +37853,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34871,11 +37868,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5153,
+     "ms": 6017,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5153,
+       "ms": 6017,
        "pass": true,
        "via": "targetIds"
       }
@@ -35082,7 +38079,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -35105,6 +38102,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35114,17 +38117,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1376,
+     "ms": 1766,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 1376,
+       "ms": 1765,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -35337,7 +38340,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -35360,6 +38363,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35369,11 +38378,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3636,
+     "ms": 3852,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 3636,
+       "ms": 3852,
        "pass": true,
        "via": "targetIds"
       }
@@ -35568,7 +38577,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -35591,6 +38600,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35600,11 +38615,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 22,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -35799,7 +38814,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -35822,6 +38837,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35831,11 +38852,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 26,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -36030,7 +39051,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -36053,6 +39074,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36062,11 +39089,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 199,
+     "ms": 169,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 199,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       }
@@ -36273,7 +39300,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -36296,6 +39323,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36305,23 +39338,23 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4669,
+     "ms": 4698,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2379,
+       "ms": 2358,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2290,
+       "ms": 2339,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.saturn",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
@@ -36528,7 +39561,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -36551,6 +39584,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36560,29 +39599,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4458,
+     "ms": 4840,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2415,
+       "ms": 2649,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2019,
+       "ms": 2168,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 24,
+       "ms": 22,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -36626,29 +39665,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 31.408,
+     "wallSec": 35.784,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.371,
+       "wallSec": 7.364,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.441,
+       "wallSec": 13.847,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 25.037,
+       "wallSec": 28.42,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 12.441,
-     "reusedH2Sec": 12.441,
+     "reusedSec": 13.847,
+     "reusedH2Sec": 13.847,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -36834,7 +39873,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -36857,6 +39896,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36866,29 +39911,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 8010,
+     "ms": 9233,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 7955,
+       "ms": 9188,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 32,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 4,
+       "ms": 3,
        "pass": true,
        "via": "claims"
       }
@@ -37083,7 +40128,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -37106,6 +40151,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37115,11 +40166,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 20,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -37314,7 +40365,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -37337,6 +40388,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37346,11 +40403,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 10,
+     "ms": 8,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 10,
+       "ms": 8,
        "pass": true,
        "via": "targetIds"
       }
@@ -37398,11 +40455,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 124.852,
+     "wallSec": 154.511,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 124.852,
+       "wallSec": 154.511,
        "reused": false,
        "reusedBy": null
       }
@@ -37588,7 +40645,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -37611,6 +40668,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37620,17 +40683,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77,
+     "ms": 82,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 45,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 32,
+       "ms": 31,
        "pass": true,
        "via": "claims"
       }
@@ -37840,7 +40903,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -37863,6 +40926,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37872,11 +40941,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 333,
+     "ms": 319,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 333,
+       "ms": 319,
        "pass": true,
        "via": "targetIds"
       }
@@ -38071,7 +41140,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -38094,6 +41163,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38103,17 +41178,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4127,
+     "ms": 4447,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4068,
+       "ms": 4382,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 59,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       },
@@ -38321,7 +41396,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -38344,6 +41419,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38353,17 +41434,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 139,
+     "ms": 146,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 122,
+       "ms": 126,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 17,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -38558,7 +41639,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -38581,6 +41662,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38590,11 +41677,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 603,
+     "ms": 857,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 603,
+       "ms": 857,
        "pass": true,
        "via": "targetIds"
       },
@@ -38795,7 +41882,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -38818,6 +41905,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38827,23 +41920,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1810,
+     "ms": 2283,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1017,
+       "ms": 1172,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 788,
+       "ms": 1110,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 5,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -39038,7 +42131,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -39061,6 +42154,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39070,11 +42169,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 192,
+     "ms": 219,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 192,
+       "ms": 219,
        "pass": true,
        "via": "targetIds"
       }
@@ -39269,7 +42368,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -39292,6 +42391,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39301,11 +42406,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 153,
+     "ms": 125,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 153,
+       "ms": 125,
        "pass": true,
        "via": "targetIds"
       }
@@ -39500,7 +42605,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -39523,6 +42628,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39532,11 +42643,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 146,
+     "ms": 124,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 146,
+       "ms": 124,
        "pass": true,
        "via": "targetIds"
       }
@@ -39731,7 +42842,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -39754,6 +42865,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39763,11 +42880,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 118,
+     "ms": 137,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 118,
+       "ms": 137,
        "pass": true,
        "via": "targetIds"
       }
@@ -39962,7 +43079,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -39985,6 +43102,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39994,11 +43117,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 126,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 126,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -40193,7 +43316,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -40216,6 +43339,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40225,17 +43354,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 188,
+     "ms": 179,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 103,
+       "ms": 98,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 85,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -40436,7 +43565,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -40459,6 +43588,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40468,11 +43603,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 25,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -40667,7 +43802,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -40690,6 +43825,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40699,11 +43840,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 27,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -40898,7 +44039,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -40921,6 +44062,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40930,17 +44077,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 171,
+     "ms": 176,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 135,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 36,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -41135,7 +44282,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -41158,6 +44305,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41167,11 +44320,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 16,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -41366,7 +44519,7 @@
      },
      {
       "key": "timestd-297c",
-      "sec": 180,
+      "sec": 347,
       "share": "all",
       "always": false
      },
@@ -41389,6 +44542,12 @@
       "always": false
      },
      {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41398,17 +44557,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 99,
+     "ms": 60,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 78,
+       "ms": 34,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 21,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -41420,18 +44579,18 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 133,
-  "regenSecSum": 40860,
+  "regenSteps": 137,
+  "regenSecSum": 54447,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
-  "qaTotal": 1092,
-  "qaDurationMs": 1743885,
+  "qaTotal": 1110,
+  "qaDurationMs": 2122311,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 48.975
+    "sec": 55.451
    },
    "h4": {
     "n": 0,
@@ -41442,7 +44601,7 @@
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",
-   "unattributed": 12
+   "unattributed": 21
   }
  }
 }
