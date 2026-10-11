@@ -63,6 +63,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.framePull wave120.ui"
 # 第299便a(統括の検証項目 R169・AN275 ⑤・AN277 ⑥・AN282): 枝 a の新設 3 本(三次元の片側停止・チェックポイントの三次元の帳簿・時間の標準器の三次元化)と、
 #   旧世代の分岐を外したブロック(rayLensExcluded・spinAxisDecl・inertial3_295 は上にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3dHaltAB299 behavior.ckDrag3d299 docs.timeStd3d299 behavior.contactMode preset.lambdaPN297 docs.refit297 behavior.ckFixcapRestore"
+# 第299便b(原仮定者の裁定(第89報)①・R170): 🌘 の朔望月の新設 2 本(behavior.synodicClock299・docs.synodic299)と世代切替で追従した docs.emgrid-sync・claims.sync(docs.refit298・behavior.fitCond298・preset.revived292b・behavior.framePull・wave120.ui は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.synodicClock299 docs.synodic299 docs.emgrid-sync claims.sync"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
