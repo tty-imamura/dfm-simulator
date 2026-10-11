@@ -62061,7 +62061,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     const has295cEm = await pf.evaluate(() => HP.allPresets().some((p) => p.id === 'earthMoonSunInertial' && p.familyId === 'earthmoon'));   // 第295便c(R155): 🌤️ も earthmoon の variant(群は primary と同じ現実較正)
     // 第297便b(R162): 再現作業の派生本(🌥️ —— ID は正本 fit-w297b.json の derived から: W297B_NEWIDS)も earthmoon の variant
     const em297 = W297B_NEWIDS.filter((id) => id.startsWith('earthMoon'));
-    const wantMem = IDS.concat(has292cEm ? ['earthMoonInertial'] : [], has292dEm ? ['earthMoonTide'] : [], has295cEm ? ['earthMoonSunInertial'] : [], em297).sort();
+    // 第299便f(DECISIONS v58 §0 の AN281 ①): 🌦️ earthMoonSunInertial3d も earthmoon の variant(世代切替 = 宣言の familyId —— 宣言から読む)
+    const has299fEm = await pf.evaluate(() => HP.allPresets().some((p) => p.id === 'earthMoonSunInertial3d' && p.familyId === 'earthmoon'));
+    const wantMem = IDS.concat(has292cEm ? ['earthMoonInertial'] : [], has292dEm ? ['earthMoonTide'] : [], has295cEm ? ['earthMoonSunInertial'] : [], em297, has299fEm ? ['earthMoonSunInertial3d'] : []).sort();
     if (JSON.stringify(r.members) !== JSON.stringify(wantMem)) bad.push('① 仲間が ' + wantMem.length + ' 本でない: ' + r.members.join(','));
     // 第288便b(原仮定者の裁定(第78報)④): 🌘🧲 は現実較正の一本化で退役 —— 入口(primary)は 🌙(世代切替 w288em = UNIFY_MIGRATED がある)
     const w288em = await pf.evaluate(() => typeof UNIFY_MIGRATED !== 'undefined');
@@ -62092,7 +62094,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       + (has292dEm ? 1 : 0)   // 第292便d: 🌜(明示潮汐の診断本・earthmoon の variant)も「他の仲間」に並ぶ
       + (has295cEm ? 1 : 0)   // 第295便c: 🌤️(慣性決定力版の太陽・地球・月・earthmoon の variant)も「他の仲間」に並ぶ
       + em297.length   // 第297便b: 🌥️(再現作業の派生本・earthmoon の variant)も「他の仲間」に並ぶ
-      - (w298em ? 2 : 0);   // 第298便b: 🌓・🌤️ は退役(「この仲間」は退役でない仲間だけ)
+      - (w298em ? 2 : 0)   // 第298便b: 🌓・🌤️ は退役(「この仲間」は退役でない仲間だけ)
+      + (has299fEm ? 1 : 0);   // 第299便f: 🌦️(慣性決定力版・三次元・earthmoon の variant)も「他の仲間」に並ぶ
     if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === nFam)) bad.push(`④ 旧判別 B(退役)の「他の仲間」が ${nFam} 本でない: ` + JSON.stringify(r.familyButtons));
     const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const EM = w288em ? '🌙' : '🌘';
@@ -71931,8 +71934,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----      もう一度押すと元へ戻り "0"・**読み込み直し**の後も開いた状態が残る(開いたまま読み直す → 開・閉じて窓を開き直す → 閉)
 // ----   ④ 選択中は畳まない: 畳む家族の variant / primary を読み込むと、その家族の畳みの行が無く variant の行がすべて見える(選択中の行 data-cur も見える)
 // ----   ⑤ 検索/絞り込みに一致した本は畳まない: 検索語(畳む家族の variant の ID)・geoPN の絞り込みで畳みの行が 0・一致した variant の行が見える
-// ----   ⑥ en の語(「〔+n family members - show (🌙)〕」)・隠し #presetSelect の option は畳まない(退役を除く内蔵の数)・縦 412 で畳みの行の高さ ≥ 36 px・
+// ----   ⑥ en の語(「〔+n family members - show (🌙)〕」)・隠し #presetSelect の option は畳まない(退役を除く内蔵の数 + 読み込み中の退役の本)・縦 412 で畳みの行の高さ ≥ 36 px・
 // ----      横はみ出し 0(行と一覧)・presetSig/params 不変・JS エラー 0
+// ----   ⑦ 第299便f(DECISIONS v58 §0 の AN281 ①・🌦️ を家族 earthmoon へ —— 在位の variant 6 本で初めて実際に畳む): **閾値 5 案**(HP.setFamilyFoldMin(5) —— 戻す)で
+// ----      畳む家族 = 規則・閾値未満は畳まない・畳み/開き/窓を開き直して保持/閉じ/保持
+// ----   ⑧ **合成の家族**(内蔵の写し 1+6 本を一時的に足す —— 外す): 6 本は既定の閾値で畳む・5 本は既定で畳まず閾値 5 で畳む(開閉と保持)
+// ----   第299便f の修正: ⑥ の option の数え方(読み込み中の退役の本 🪐 を足す)と、初期化の localStorage 消去を読み込み直しで繰り返さない(断続的な失敗の原因)
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!/^const FAMILY_FOLD_MIN_VARIANTS=/m.test(html)) {
@@ -71946,14 +71953,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const errs = [];
       pg.on('pageerror', (e) => errs.push(String(e.message || e)));
       pg.on('dialog', (d) => d.accept());
-      await pg.addInitScript(() => { try { if (!sessionStorage.getItem('w296dInit')) {
-        for (const k of Object.keys(localStorage)) if (k.indexOf('hp_family_open_') === 0) localStorage.removeItem(k);
-        sessionStorage.setItem('w296dInit', '1'); } } catch (_) {} });
+      // 第299便f(AN281 ①): **断続的な失敗の原因** —— 旧版は addInitScript で「sessionStorage の印が無ければ hp_family_open_* を消す」としていたが、
+      //   読み込み直し(③)で印が見えないことがあり(容器の Chromium で 20 回中 2 回 —— 実測)、③ で開いた家族の localStorage が消されて「読み直しで開=false」・
+      //   ⑤ の「解除で畳みへ戻る」・⑥ の en の語が連鎖して落ちた(第298便d の「通しの走行でだけ FAIL」)。最初の読み込みの後に 1 度だけ消す(読み込み直しでは消さない)
       const boot = async () => { await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
         await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
           ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
           HP.loadPreset('saturn', false); }); };
       await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      await pg.evaluate(() => { try { for (const k of Object.keys(localStorage)) if (k.indexOf('hp_family_open_') === 0) localStorage.removeItem(k); } catch (_) {}
+        for (const k of Object.keys(familyOpenMem)) delete familyOpenMem[k]; });
       await boot();
       const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
         par: JSON.stringify(HP.sim.params) }));
@@ -71961,8 +71971,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 共通の道具(ページの中で毎回定義する —— 文字列で渡す)
       const LIB = `(() => {
         const ps = BUILTIN_PRESETS, MIN = FAMILY_FOLD_MIN_VARIANTS;
+        // 第299便f(AN281 ①): 畳む閾値は実際に効いている値(familyFoldMinNow —— 閾値 5 案の試験のときだけ動く)で数える(旧: 6 の直書き)
+        const MINNOW = (typeof familyFoldMinNow !== 'undefined') ? familyFoldMinNow : MIN;
         const vc = {}; for (const p of ps) if (p.familyId && p.familyRole === 'variant') vc[p.familyId] = (vc[p.familyId] || 0) + 1;
-        const foldFams = Object.keys(vc).filter((f) => vc[f] >= 6).sort(), smallFams = Object.keys(vc).filter((f) => vc[f] < 6).sort();
+        const foldFams = Object.keys(vc).filter((f) => vc[f] >= MINNOW).sort(), smallFams = Object.keys(vc).filter((f) => vc[f] < MINNOW).sort();
         const prim = (f) => ps.find((p) => p.familyId === f && p.familyRole === 'primary');
         const emo = (f) => { const p = prim(f); return p ? (p.emoji || pName(p)) : f; };
         const varsOf = (f) => ps.filter((p) => p.familyId === f && p.familyRole === 'variant');
@@ -72063,7 +72075,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const tg = [...document.querySelectorAll('#ppList .ppFamFold')], list = document.getElementById('ppList');
         o.minH = tg.length ? Math.min(...tg.map((b) => b.getBoundingClientRect().height)) : 0;
         o.overflow = tg.filter((b) => b.scrollWidth > b.clientWidth + 1).length + (list.scrollWidth > list.clientWidth + 1 ? 1 : 0);
-        o.nListable = L.ps.filter((p) => p.familyRole !== 'retired').length;
+        // 第299便f(AN281 ①): **第298便c の失敗の原因** —— 隠し #presetSelect は「退役を除く内蔵」に**読み込み中の退役の本**(retiredHidden の例外)を足したもの。
+        //   この検査の中立の本 🪐 saturn は第298便b で退役したので option が 1 つ多く(124/123)、畳む家族が 0 の間(zero298)は ⑥ を通らずに隠れていた
+        o.nListable = L.ps.filter((p) => p.familyRole !== 'retired' || (currentPreset && p.id === currentPreset.id)).length;
         o.nOpts = [...document.querySelectorAll('#presetSelect option')].filter((x) => L.ps.some((p) => p.id === x.value)).length;
         HP.setLang('en'); await L.reopen();
         const te = [...document.querySelectorAll('#ppList .ppFamFold')][0];
@@ -72077,9 +72091,61 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         HP.loadPreset('saturn', false);
         return o;
       }, LIB);
+      // ⑦⑧ 第299便f(DECISIONS v58 §0 の AN281 ①): **閾値 5 案**(HP.setFamilyFoldMin(5) —— 終わったら戻す)と**合成の家族**(内蔵の本の写し 1+6 本を
+      //   BUILTIN_PRESETS に一時的に足す —— 終わったら外す)で、畳み・開き・保持(窓を開き直しても開いたまま・localStorage)を検査する(在位の家族の本数に依らない)
+      const r3 = await pg.evaluate(async (LIB) => {
+        const o = { bad: [], t5: [], syn: null };
+        if (typeof HP.setFamilyFoldMin !== 'function') { o.skip = true; return o; }
+        const L0 = eval(LIB);
+        const cycle = async (L, f, tag) => {   // 畳んだ → 開く → 開き直しても開いたまま → 閉じる → 開き直しても閉
+          const vs = L.varsOf(f), tg = L.toggles(f);
+          const z = { f, n: vs.length, nTog: tg.length, ns: tg.map((b) => +b.dataset.n) };
+          z.folded = tg.length >= 1 && vs.every((p) => { const b = L.rowOf(p); return !!b && !!b.closest('.ppFamBody') && !L.vis(b); }) && z.ns.reduce((a, b) => a + b, 0) === vs.length;
+          tg[0] && tg[0].click(); await L.wait(15);
+          z.open = L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'true') && vs.every((p) => L.vis(L.rowOf(p))) && L.ls(f) === '1';
+          await L.reopen(); z.keepOpen = L.toggles(f).length > 0 && L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'true') && vs.every((p) => L.vis(L.rowOf(p)));
+          L.toggles(f)[0] && L.toggles(f)[0].click(); await L.wait(15);
+          z.close = vs.every((p) => !L.vis(L.rowOf(p))) && L.ls(f) === '0';
+          await L.reopen(); z.keepClose = L.toggles(f).every((b) => b.getAttribute('aria-expanded') === 'false') && vs.every((p) => !L.vis(L.rowOf(p)));
+          try { localStorage.removeItem('hp_family_open_' + f); } catch (_) {} delete familyOpenMem[f];
+          if (!(z.folded && z.open && z.keepOpen && z.close && z.keepClose)) o.bad.push(tag + ' ' + JSON.stringify(z));
+          return z;
+        };
+        hidePresetPicker(); HP.loadPreset('saturn', false);
+        // ⑦ 閾値 5 案
+        const prev = HP.setFamilyFoldMin(5);
+        { const L = eval(LIB); await L.reopen();
+          o.fold5 = familyFoldIds().slice().sort(); o.rule5 = L.foldFams;
+          if (o.fold5.join(',') !== o.rule5.join(',') || !o.rule5.length) o.bad.push('⑦ 閾値 5 の畳む家族 ' + o.fold5.join(',') + ' ≠ 規則 ' + o.rule5.join(','));
+          const small = L.smallFams.flatMap((f) => L.varsOf(f)).filter((p) => { const b = L.rowOf(p); return !b || !!b.closest('.ppFamBody'); }).map((p) => p.id);
+          if (small.length) o.bad.push('⑦ 閾値 5 未満の家族が畳まれた ' + small.join(','));
+          for (const f of L.foldFams) o.t5.push(await cycle(L, f, '⑦ 閾値 5'));
+          if (L.toggles(L.foldFams[0])[0] && L.toggles(L.foldFams[0])[0].title.indexOf('5') < 0) o.bad.push('⑦ 畳みの行の説明に閾値 5 が無い'); }
+        HP.setFamilyFoldMin(prev);
+        if (HP.familyFoldMin() !== FAMILY_FOLD_MIN_VARIANTS) o.bad.push('⑦ 閾値が戻らない');
+        // ⑧ 合成の家族(写し 1+6 本 → 既定の閾値で畳む / 1 本外して 5 本 → 既定では畳まない・閾値 5 で畳む)
+        const base = L0.ps.find((p) => !p.familyId && p.familyRole !== 'retired' && !catalogHidden(p));
+        const syn = [];
+        for (let k = 0; k <= 6; k++) { const c = JSON.parse(JSON.stringify(base)); c.id = 'qaSynFam299_' + k; c.name = 'QA 合成の家族 ' + k; c.emoji = (k === 0) ? '🧪' : '🔬';
+          c.familyId = 'qaSynth299'; c.familyRole = (k === 0) ? 'primary' : 'variant'; syn.push(c); }
+        BUILTIN_PRESETS.push(...syn);
+        try {
+          { const L = eval(LIB); await L.reopen(); o.syn = await cycle(L, 'qaSynth299', '⑧ 合成 6 本'); }
+          BUILTIN_PRESETS.splice(BUILTIN_PRESETS.indexOf(syn[6]), 1);
+          { const L = eval(LIB); await L.reopen(); o.syn5 = { nTog: L.toggles('qaSynth299').length, allVis: L.varsOf('qaSynth299').every((p) => L.vis(L.rowOf(p))) };
+            if (!(o.syn5.nTog === 0 && o.syn5.allVis)) o.bad.push('⑧ 合成 5 本が既定の閾値で畳まれた ' + JSON.stringify(o.syn5)); }
+          HP.setFamilyFoldMin(5);
+          { const L = eval(LIB); await L.reopen(); o.syn5t = await cycle(L, 'qaSynth299', '⑧ 合成 5 本・閾値 5'); }
+        } finally {
+          HP.setFamilyFoldMin(FAMILY_FOLD_MIN_VARIANTS);
+          for (const c of syn) { const k = BUILTIN_PRESETS.indexOf(c); if (k >= 0) BUILTIN_PRESETS.splice(k, 1); }
+          hidePresetPicker(); HP.loadPreset('saturn', false);
+        }
+        return o;
+      }, LIB);
       const s1 = await snap();
-      const R = { vp: vp.name, r, r2, same: s1.sig === s0.sig && s1.par === s0.par, errs: errs.slice(0, 2) };
-      R.ok = r.bad.length === 0 && r2.bad.length === 0 && R.same && errs.length === 0;
+      const R = { vp: vp.name, r, r2, r3, same: s1.sig === s0.sig && s1.par === s0.par, errs: errs.slice(0, 2) };
+      R.ok = r.bad.length === 0 && r2.bad.length === 0 && r3.bad.length === 0 && R.same && errs.length === 0;
       res.push(R);
       await ctx.close();
     }
@@ -72090,7 +72156,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / ③ 開「${a.fams.map((F) => F.textOpen).join('|')}」⇄ 閉・hp_family_open_<id> 1/0・読み直しで開=${b.persist.join('/')}・閉じて開き直すと閉=${b.persistClose.join('/')}`
       + ` / ④ 選択中は畳まない ` + b.sel.map((z) => `${z.id}: 畳みの行 ${z.nTog}・variant 見える ${z.allVis}`).join(' | ')
       + ` / ⑤ 検索「${b.search.q}」で畳みの行 ${b.search.nTog}・見える ${b.search.vis} / geoPN=${b.filter.geo} で畳みの行 ${b.filter.nTog}・一致 ${b.filter.nHit} 本が見える ${b.filter.allVis}・解除で畳みへ戻る ${b.backFolded}`
-      + ` / ⑥ en「${b.en}」・option ${b.nOpts}/${b.nListable}・` + res.map((x) => `${x.vp}: 畳みの行の高さ ≥ ${x.r2.minH.toFixed(1)}px・はみ出し ${x.r2.overflow}・${x.ok ? 'OK' : 'NG ' + x.r.bad.concat(x.r2.bad).slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
+      + ` / ⑥ en「${b.en}」・option ${b.nOpts}/${b.nListable}`
+      + ((res[0].r3 && !res[0].r3.skip) ? ` / ⑦ 閾値 5 案: 畳む家族 [${(res[0].r3.rule5 || []).join(',')}]・畳み/開き/開き直しで保持/閉じ ${res[0].r3.t5.map((z) => z.f + ' ' + z.n + ' 本').join('・')}`
+        + ` / ⑧ 合成の家族: 6 本を既定の閾値で畳む・5 本は既定で畳まず閾値 5 で畳む(開閉と保持)` : '') + '・'
+      + res.map((x) => `${x.vp}: 畳みの行の高さ ≥ ${x.r2.minH.toFixed(1)}px・はみ出し ${x.r2.overflow}・${x.ok ? 'OK' : 'NG ' + x.r.bad.concat(x.r2.bad, x.r3 ? x.r3.bad : []).slice(0, 4).join(' , ')}・presetSig/params 不変=${x.same}${x.errs.length ? '・JS ' + x.errs.join(' | ') : ''}`).join(' / '));
   }
 }
 
@@ -73556,6 +73625,339 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
   await vctx.close();
+}
+
+// ---- 第299便f(原仮定者の裁定(第89報)⑤「選択粒子の編集: kFrame=0 では『引きずり q』を出さない/『コア内訳(v2)』は切り替えも含めて現在有効な場合のみ出す/
+// ----   三次元では vz を出す/慣性決定力が有効なら dragCore の切り替えとパラメータを出す/コア軸の切り替えとパラメータを出す」・統括の検証項目 R172):
+// ----   ui.selEdit299 —— **選択粒子の編集の出し分けと編集**。世代切替 has299f = html の selEditVisOf・coordSwitchTo(root 等は SKIP)。
+// ----   ① 出し分け: 在位の全本で粒子 0(とコア V2 を持つ最初の粒子)を選び、行の表示が**宣言から導いた期待**と一致 —— 引きずり q は physics.kFrame≠0 の本だけ・
+// ----      コア内訳(v2)はその粒子がコア V2 を持つときだけ(トグルも)・z/vz と自転軸(三次元)は physics.coord:"3d" の本だけ・構造核は relativeDrag.law:"inertial" の本だけ・
+// ----      コア軸の宣言は二次元の本のコア V2(cavity 以外)だけ(期待は本の宣言 JSON と粒子のコア V2 の状態から作る —— 手書きの ID 一覧を持たない)
+// ----   ② 引きずり q: kFrame を 0 にすると行が隠れて値(S.dragQ)は残り、1 に戻すと同じ値で出る
+// ----   ③ コア内訳(v2): コアを外す(コア有効 OFF)とブロックごと消える・コアの無い粒子では出ない
+// ----   ④ 三次元の z・vz: 編集が状態に入る(型は x と同じ)・二次元の本では行が出ない
+// ----   ⑤ 構造核: 編集が受理器を通って表に入る(f を変えると S._dragCore の宣言が変わる)・受理器が拒否する値(R_c>R)は 1 bit も書かず ⛔ の理由・外す/付ける
+// ----   ⑥ コア軸(コア V2): Ω_p を変えても今の方位が続く(|Δφ|<1e-9)・外すと hasCoreAxis が落ちる・宣言の無いコアに付けると歳差の既定は殻スピン
+// ----   ⑦ 自転軸(三次元): 傾き・方位の編集が今の軸に入る・歳差が編集後の軸から続く(解析の R(p̂,Ω_p t)·â₀ と 1e-12)・外すと +z・二次元の本では入口が "coord2d" を返す
+// ----   ⑧ 三次元で拒否する編集(減光の自動算出)は ⛔ の理由で拒否して步を止めない・内蔵の本の宣言(presetSig)は編集で 1 字も変わらない
+// ----   ⑨ 390×844 と 1280×800・ja/en で、編集パネルの要素が箱の内側(±0.5px)・横スクロールなし(三次元の自転軸・構造核・コア軸の行を出した状態)
+{
+  const sctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const sp = await sctx.newPage();
+  const errs = [];
+  sp.on('pageerror', (e) => errs.push(String(e.message || e)));
+  sp.on('dialog', (d) => d.accept());
+  await sp.goto(INDEX, { waitUntil: 'load' });
+  await sp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has299f = await sp.evaluate(() => typeof selEditVisOf === 'function' && typeof coordSwitchTo === 'function');
+  if (!has299f) {
+    console.log('SKIP ui.selEdit299(第299便f 未適用 — selEditVisOf なし — root 等)');
+  } else {
+    const bad = [], info = {};
+    const R = await sp.evaluate(() => {
+      const o = { bad: [], n: 0, sets: {} };
+      const disp = (id) => { const e = document.getElementById(id); return !!e && e.style.display !== 'none' && getComputedStyle(e).display !== 'none'; };
+      const sig0 = BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001');
+      const ps = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && p.familyRole !== 'retired');
+      const kOf = (p) => { const k = (p.physics || {}).kFrame; return (typeof k === 'number') ? k : DEFAULT_PHYSICS.kFrame; };
+      const c3Of = (p) => HP.coord3d.coordOf(p.physics) === '3d';
+      const inertOf = (p) => { const rd = (p.physics || {}).relativeDrag; return !!rd && typeof rd === 'object' && rd.law === 'inertial'; };
+      const S0 = { k0: 0, kp: 0, core: 0, c3: 0, inert: 0, axV2: 0 };
+      // ① 全本の出し分け
+      for (const p of ps) {
+        HP.loadPreset(p.id, false);
+        const S = HP.sim;
+        const idx = [0]; if (S.coreMd) { for (let i = 0; i < S.n; i++) if (S.coreMd[i]) { if (i) idx.push(i); break; } }
+        for (const i of idx) {
+          if (!(i < S.n)) continue;
+          HP.selectBody(i, 'A'); o.n++;
+          const md = S.coreMd ? S.coreMd[i] : 0, c3 = c3Of(p);
+          const exp = { beDqRow: kOf(p) !== 0, beCoreV2: md !== 0, beZRow: c3, beSaBox: c3, beDcBox: inertOf(p), beCvAxBox: md !== 0 && md !== 4 && !c3 };
+          if (kOf(p) === 0) S0.k0++; else S0.kp++; if (md) S0.core++; if (c3) S0.c3++; if (inertOf(p)) S0.inert++; if (exp.beCvAxBox) S0.axV2++;
+          for (const id of Object.keys(exp)) {
+            const got = (id === 'beCvAxBox') ? (disp('beCoreV2') && disp(id)) : disp(id);
+            if (got !== exp[id]) o.bad.push(`① ${p.id}#${i} ${id} 表示 ${got} ≠ 期待 ${exp[id]}`);
+          }
+          // トグル(コア有効)はブロックの中 —— ブロックが無ければ見えない
+          const tg = document.getElementById('beCvOn');
+          if ((tg.offsetParent !== null) !== (md !== 0) && document.getElementById('beCoreV2').open) o.bad.push(`① ${p.id}#${i} コア有効のトグル`);
+        }
+      }
+      o.sets = S0;
+      // ② 引きずり q の保持(✴️ —— kFrame>0 の本)
+      HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
+      { const S = HP.sim, el = document.getElementById('beDq');
+        el.value = '3'; el.dispatchEvent(new Event('change'));
+        const v3 = S.dragQ[0]; S.params.kFrame = 0; updateBodyEdit();
+        const hid = !disp('beDqRow'), keep = S.dragQ[0];
+        S.params.kFrame = 1; updateBodyEdit();
+        o.dq = { v3, hid, keep, back: disp('beDqRow'), shown: el.value };
+        if (!(v3 === 3 && hid && keep === 3 && o.dq.back && Number(o.dq.shown) === 3)) o.bad.push('② 引きずり q ' + JSON.stringify(o.dq)); }
+      // ③ コア内訳(v2)
+      HP.loadPreset('bhCore', false);
+      { const S = HP.sim; let ic = -1, i0 = -1; for (let i = 0; i < S.n; i++) { if (S.coreMd[i] && ic < 0) ic = i; if (!S.coreMd[i] && i0 < 0) i0 = i; }
+        HP.selectBody(ic, 'A'); const on = disp('beCoreV2');
+        const cb = document.getElementById('beCvOn'); cb.checked = false; cb.dispatchEvent(new Event('change'));
+        const off = !disp('beCoreV2') && S.coreMd[ic] === 0;
+        HP.selectBody(i0, 'A'); const none = !disp('beCoreV2');
+        o.core = { ic, i0, on, off, none };
+        if (!(ic >= 0 && i0 >= 0 && on && off && none)) o.bad.push('③ コア内訳 ' + JSON.stringify(o.core)); }
+      // ④ 三次元の z・vz
+      HP.loadPreset('coord3dKeplerTilt', false); HP.selectBody(1, 'A');
+      { const S = HP.sim, ez = document.getElementById('beZ'), ev = document.getElementById('beVz');
+        ez.value = '2.5'; ez.dispatchEvent(new Event('change')); ev.value = '−0.25'; ev.dispatchEvent(new Event('change'));
+        const cast = (S.z instanceof Float32Array) ? Math.fround : (x) => x;
+        o.z3 = { z: S.z[1], vz: S.vz[1], ok: S.z[1] === cast(2.5) && S.vz[1] === cast(-0.25), type: S.z.constructor.name };
+        if (!o.z3.ok) o.bad.push('④ z/vz ' + JSON.stringify(o.z3)); }
+      HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
+      if (disp('beZRow') || disp('beSaBox')) o.bad.push('④ 二次元の本に z/vz・自転軸の行');
+      // ⑤ 構造核(🌛 earthMoonInertial —— 地球に宣言)
+      HP.loadPreset('earthMoonInertial', false); HP.selectBody(0, 'A');
+      { const S = HP.sim, mf = document.getElementById('beDcMF'), rc = document.getElementById('beDcR'), on = document.getElementById('beDcOn');
+        const d0 = JSON.stringify(S.dragCoreD[0]), shown = on.checked;
+        mf.value = '0.4'; mf.dispatchEvent(new Event('change'));
+        const d1 = S.dragCoreD[0], st1 = HP.dragCoreState ? HP.dragCoreState(S) : (S._dragCore ? JSON.parse(JSON.stringify(S._dragCore)) : null);
+        rc.value = String(S.radOv[0] * 2); rc.dispatchEvent(new Event('change'));
+        const rej = JSON.stringify(S.dragCoreD[0]) === JSON.stringify(d1), note = document.getElementById('beDcNote').textContent;
+        on.checked = false; on.dispatchEvent(new Event('change')); const offOk = S.dragCoreD === null && S._dragCoreT === null;
+        HP.selectBody(1, 'A'); on.checked = true; on.dispatchEvent(new Event('change'));
+        const moon = S.dragCoreD ? S.dragCoreD[1] : null;
+        o.dc = { d0, shown, mf1: d1.massFrac, src1: st1 ? st1.sources[0].massFrac : null, rej, note: note.slice(0, 40), offOk, moon };
+        if (!(shown && d1.massFrac === 0.4 && o.dc.src1 === 0.4 && rej && /⛔/.test(note) && offOk
+          && (moon ? (moon.massFrac === 0.5 && moon.radius === S.radOv[1] * 0.5) : /⛔/.test(document.getElementById('beDcNote').textContent))))
+          o.bad.push('⑤ 構造核 ' + JSON.stringify(o.dc)); }
+      HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
+      if (disp('beDcBox')) o.bad.push('⑤ 慣性決定力の無い本に構造核の行');
+      // ⑥ コア軸(コア V2 —— 宣言のある本は 🛸 系の中から宣言で探す)
+      { const pa = ps.find((p) => (p.bodies || []).some((b) => b && b.core && b.core.axisMode === 'prescribed'));
+        HP.loadPreset(pa.id, false); const S = HP.sim; let ic = -1; for (let i = 0; i < S.n; i++) if (S.coreAxM[i]) { ic = i; break; }
+        for (let k = 0; k < 20; k++) S.step(DT);
+        HP.selectBody(ic, 'A');
+        const phi0 = Math.atan2(S.coreJy[ic], S.coreJx[ic]), on0 = document.getElementById('beCvAxOn').checked;
+        const om = document.getElementById('beCvAxOm'); om.value = '0.3'; om.dispatchEvent(new Event('change'));
+        const phi1 = Math.atan2(S.coreJy[ic], S.coreJx[ic]), om1 = S.coreAxOm[ic];
+        for (let k = 0; k < 10; k++) S.step(DT);
+        const phi2 = Math.atan2(S.coreJy[ic], S.coreJx[ic]), exp2 = S.coreAxAz[ic] + 0.3 * S.t;
+        const dPhi = Math.abs(Math.atan2(Math.sin(phi2 - exp2), Math.cos(phi2 - exp2)));
+        const cb = document.getElementById('beCvAxOn'); cb.checked = false; cb.dispatchEvent(new Event('change'));
+        const offOk = S.coreAxM[ic] === 0 && S.hasCoreAxis === false;
+        o.ax = { id: pa.id, ic, on0, jump: Math.abs(phi1 - phi0), om1, dPhi, offOk };
+        if (!(ic >= 0 && on0 && o.ax.jump < 1e-9 && om1 === 0.3 && dPhi < 1e-9 && offOk)) o.bad.push('⑥ コア軸 ' + JSON.stringify(o.ax)); }
+      HP.loadPreset('bhCore', false);
+      { const S = HP.sim; let ic = -1; for (let i = 0; i < S.n; i++) if (S.coreMd[i] && S.coreMd[i] !== 4) { ic = i; break; }
+        HP.selectBody(ic, 'A'); const cb = document.getElementById('beCvAxOn'); const was = cb.checked;
+        cb.checked = true; cb.dispatchEvent(new Event('change'));
+        o.ax2 = { was, on: S.coreAxM[ic], om: S.coreAxOm[ic], spin: S.spin[ic], has: S.hasCoreAxis };
+        if (!(was === false && S.coreAxM[ic] === 1 && S.coreAxOm[ic] === S.spin[ic] && S.hasCoreAxis === true)) o.bad.push('⑥ コア軸の付与 ' + JSON.stringify(o.ax2)); }
+      // ⑦ 自転軸(三次元)
+      HP.loadPreset('coord3dSpinPrecess', false);
+      { const S = HP.sim; let ia = -1, ib = -1; for (let i = 0; i < S.n; i++) { if (S.saOn[i] && ia < 0) ia = i; if (!S.saOn[i] && ib < 0) ib = i; }
+        for (let k = 0; k < 30; k++) S.step(DT);
+        HP.selectBody(ia, 'A');
+        const ti = document.getElementById('beSaTilt'), az = document.getElementById('beSaAz'), om = document.getElementById('beSaOm');
+        ti.value = '45'; ti.dispatchEvent(new Event('change')); az.value = '30'; az.dispatchEvent(new Event('change'));
+        const u = HP.coord3d.axisUnit ? HP.coord3d.axisUnit(45, 30) : [Math.sin(Math.PI / 4) * Math.cos(Math.PI / 6), Math.sin(Math.PI / 4) * Math.sin(Math.PI / 6), Math.cos(Math.PI / 4)];
+        const e1 = Math.hypot(S.sax[ia] - u[0], S.say[ia] - u[1], S.saz[ia] - u[2]);
+        om.value = '0.7'; om.dispatchEvent(new Event('change'));
+        const t1 = S.t, a1 = [S.sax[ia], S.say[ia], S.saz[ia]], p = [S.sapx[ia], S.sapy[ia], S.sapz[ia]];
+        for (let k = 0; k < 40; k++) S.step(DT);
+        const ex = rot3About(p[0], p[1], p[2], 0.7 * (S.t - t1), a1[0], a1[1], a1[2]);
+        const e2 = Math.hypot(S.sax[ia] - ex[0], S.say[ia] - ex[1], S.saz[ia] - ex[2]);
+        const cb = document.getElementById('beSaOn'); cb.checked = false; cb.dispatchEvent(new Event('change'));
+        const offOk = S.saOn[ia] === 0 && S.sax[ia] === 0 && S.say[ia] === 0 && S.saz[ia] === 1;
+        let onB = null; if (ib >= 0) { HP.selectBody(ib, 'A'); cb.checked = true; cb.dispatchEvent(new Event('change')); onB = S.saOn[ib] === 1 && S.saz[ib] === 1; }
+        const r2 = coord3dSpinAxisEdit((() => { HP.loadPreset('alphaCenABDFM', false); return HP.sim; })(), 0, { tiltDeg: 10 });
+        o.sa = { ia, ib, e1, e2, offOk, onB, r2 };
+        if (!(ia >= 0 && e1 < 1e-12 && e2 < 1e-12 && offOk && onB !== false && r2.ok === false && r2.reason === 'coord2d')) o.bad.push('⑦ 自転軸 ' + JSON.stringify(o.sa)); }
+      // ⑧ 三次元の拒否(減光の自動算出)
+      HP.loadPreset('coord3dKeplerTilt', false); HP.selectBody(0, 'A');
+      { const S = HP.sim, cb = document.getElementById('beSwAuto'); cb.checked = true; cb.dispatchEvent(new Event('change'));
+        S.step(DT);
+        o.deny = { auto: S.lSwAuto[0], has: !!S.hasLSwAuto, halt: S.coord3dHalt, note: document.getElementById('beNote').textContent.slice(0, 30) };
+        if (!(o.deny.auto === 0 && !o.deny.has && o.deny.halt === null && /⛔/.test(o.deny.note))) o.bad.push('⑧ 三次元の拒否 ' + JSON.stringify(o.deny)); }
+      if (BUILTIN_PRESETS.map((p) => presetSig(p)).join('\u0001') !== sig0) o.bad.push('⑧ 内蔵の本の presetSig が変わった');
+      HP.loadPreset('saturnRingReal', false);
+      return o;
+    });
+    bad.push(...R.bad.slice(0, 8));
+    info.R = R;
+    // ⑨ はみ出し(2 幅 × ja/en —— 行を出した状態で)
+    const ov = [];
+    for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+      const c2 = await browser.newContext({ viewport: vp }); const p2 = await c2.newPage();
+      await p2.goto(INDEX, { waitUntil: 'load' }); await p2.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const r = await p2.evaluate(() => {
+        const out = { els: 0, bad: [] };
+        const check = (tag) => { const box = document.getElementById('bodyEdit'); const br = box.getBoundingClientRect();
+          for (const e of box.querySelectorAll('*')) { const q = e.getBoundingClientRect(); if (!(q.width > 0) || e.offsetParent === null) continue; out.els++;
+            if (q.right > br.right + 0.5 || q.left < br.left - 0.5) out.bad.push(tag + ' ' + (e.id || e.tagName) + ' +' + (q.right - br.right).toFixed(1)); }
+          if (box.scrollWidth > box.clientWidth + 1) out.bad.push(tag + ' 横スクロール'); };
+        for (const lang of ['ja', 'en']) {
+          HP.setLang(lang);
+          HP.loadPreset('coord3dSpinPrecess', false); { const S = HP.sim; let ia = 0; for (let i = 0; i < S.n; i++) if (S.saOn[i]) { ia = i; break; } HP.selectBody(ia, 'A'); } check(lang + ' 🎲');
+          HP.loadPreset('earthMoonInertial', false); HP.selectBody(0, 'A'); check(lang + ' 🌛');
+          const pa = BUILTIN_PRESETS.find((p) => p.familyRole !== 'retired' && (p.bodies || []).some((b) => b && b.core && b.core.axisMode === 'prescribed'));
+          HP.loadPreset(pa.id, false); { const S = HP.sim; let ic = 0; for (let i = 0; i < S.n; i++) if (S.coreAxM[i]) { ic = i; break; } HP.selectBody(ic, 'A'); }
+          const d = document.getElementById('beCoreV2'); d.open = true; updateBodyEdit(); check(lang + ' ' + pa.emoji);
+        }
+        HP.setLang('ja');
+        return out;
+      });
+      ov.push(`${vp.width}: 要素 ${r.els}・はみ出し ${r.bad.length}`);
+      bad.push(...r.bad.slice(0, 3).map((x) => vp.width + ': ' + x));
+      await c2.close();
+    }
+    if (errs.length) bad.push('ページのエラー ' + errs[0].slice(0, 80));
+    const S0 = R.sets || {};
+    add('ui.selEdit299', bad.length === 0,
+      `**選択粒子の編集の出し分けと編集**(第299便f・原仮定者の裁定(第89報)⑤・R172): ① 在位の全本 ${R.n} 粒子で行の表示 = 宣言から導いた期待(kFrame=0 ${S0.k0}・kFrame≠0 ${S0.kp}・コア V2 ${S0.core}・三次元 ${S0.c3}・慣性 ${S0.inert}・コア軸の欄 ${S0.axV2})`
+      + ` / ② 引きずり q: kFrame 0 で隠れて値 ${R.dq ? R.dq.keep : '—'} は保持・1 で戻る / ③ コア内訳: コアを外すと消える・コアの無い粒子に出ない`
+      + ` / ④ z/vz → 状態(${R.z3 ? R.z3.type : '—'}) / ⑤ 構造核 f 0.325→${R.dc ? R.dc.mf1 : '—'}(表の宣言 ${R.dc ? R.dc.src1 : '—'})・R_c>R は拒否(⛔)・外す/付ける`
+      + ` / ⑥ コア軸 ${R.ax ? R.ax.id : '—'}: Ω_p 0.3 で方位の跳び ${R.ax ? R.ax.jump.toExponential(1) : '—'}・10 步後の差 ${R.ax ? R.ax.dPhi.toExponential(1) : '—'}・外す/付ける(既定 Ω_p=殻スピン)`
+      + ` / ⑦ 自転軸(三次元)θ45・φ30 の差 ${R.sa ? R.sa.e1.toExponential(1) : '—'}・Ω_p 0.7 で 40 步後の解析との差 ${R.sa ? R.sa.e2.toExponential(1) : '—'}・外すと +z・二次元は coord2d`
+      + ` / ⑧ 三次元で減光 auto を拒否(步は止まらない)・presetSig 不変 / ⑨ ${ov.join('・')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  await sctx.close();
+}
+
+// ---- 第299便f(原仮定者の裁定(第89報)⑥「『パラメータ』タブ: 『コア軸の投影線を表示』を『表示』カテゴリへ移す/『シミュレーション』カテゴリに三次元の切り替えを追加」・R172):
+// ----   ui.paramTab299 —— 世代切替 has299f(root 等は SKIP)。
+// ----   ① 「コア軸の投影線を表示」(#coreAxisCb)は「表示」カテゴリの中・「シミュレーション」には無い・状態と localStorage hp_core_axis は不変(切り替えて戻す)
+// ----   ② 「三次元で走らせる」(#coord3dCb)は「シミュレーション」の先頭・チェックは読み込んだ本の座標
+// ----   ③ 二次元→三次元: 切り替えられる在位の二次元の本すべて(coordSwitchPlanOf で導く)で、押すと三次元で再構築(sim.coord3d・写しの physics.coord)・
+// ----      内蔵の本の宣言は 1 字も変わらない・写しの presetSig は宣言の本と違う・**零試験**(宣言の本の二次元と写しの三次元を 300 步 —— x/y/vx/vy/spin/rotA/t がビット同一・z=vz=0)・
+// ----      ⏮ で写しのまま・もう一度押すと宣言の本へ戻る(presetSig が宣言と同じ)
+// ----   ④ 拒否: 三次元で未対応の機能を宣言した在位の本(先頭 3 本)は押しても二次元のまま・行の下に ⛔ と受理の門 coord3dDenyOf の理由
+// ----   ⑤ 三次元→二次元: Z の宣言のある本(🌐)は 1 回目は ⚠ で三次元のまま・2 回目で二次元(値は捨てない —— 写しの bodies に vz・目的の組の coord2dZ)・戻すと宣言の本
+// ----   ⑥ 保存と読込: 写しの保存は presetId = 宣言の本・physics.coord = "3d" —— 別の本の後で読み込むと三次元の写しで開く / A/B の B も三次元
+// ----   ⑦ 別の本を読み込むと切り替えは外れる / 390×844 と 1280×800・ja/en で行と注記がはみ出さない
+{
+  const pctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const pp = await pctx.newPage();
+  const errs = [];
+  pp.on('pageerror', (e) => errs.push(String(e.message || e)));
+  pp.on('dialog', (d) => d.accept());
+  await pp.goto(INDEX, { waitUntil: 'load' });
+  await pp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has299f = await pp.evaluate(() => typeof selEditVisOf === 'function' && typeof coordSwitchTo === 'function');
+  if (!has299f) {
+    console.log('SKIP ui.paramTab299(第299便f 未適用 — coordSwitchTo なし — root 等)');
+  } else {
+    const bad = [];
+    const R = await pp.evaluate(() => {
+      const o = { bad: [] };
+      const catOf = (el) => { const d = el && el.closest('details'); const s = d && d.querySelector('summary'); return s ? s.textContent : ''; };
+      const ps = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && p.familyRole !== 'retired');
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+      const click = (id) => { const c = document.getElementById(id); c.checked = !c.checked; c.dispatchEvent(new Event('change')); };
+      setParamsDirty(false);
+      HP.loadPreset('alphaCenABDFM', false);
+      // ①
+      { const cb = document.getElementById('coreAxisCb'), v0 = HP.coreAxisShow(); let ls0 = null; try { ls0 = localStorage.getItem('hp_core_axis'); } catch (_) {}
+        const inDisp = catOf(cb).indexOf(HP.T('grpDisplay')) >= 0, inSim = catOf(cb).indexOf(HP.T('grpSim')) >= 0;
+        click('coreAxisCb'); let ls1 = null; try { ls1 = localStorage.getItem('hp_core_axis'); } catch (_) {}
+        const v1 = HP.coreAxisShow(); click('coreAxisCb'); let ls2 = null; try { ls2 = localStorage.getItem('hp_core_axis'); } catch (_) {}
+        o.axis = { inDisp, inSim, v0, v1, ls1, ls2, back: HP.coreAxisShow() === v0 };
+        if (!(inDisp && !inSim && v1 === !v0 && ls1 === (v1 ? '1' : '0') && ls2 === (v0 ? '1' : '0') && o.axis.back)) o.bad.push('① ' + JSON.stringify(o.axis));
+        if (ls0 === null) { try { localStorage.removeItem('hp_core_axis'); } catch (_) {} } }
+      // ②
+      { const cb = document.getElementById('coord3dCb'); const grp = cb.closest('.group');
+        o.pos = { inSim: catOf(cb).indexOf(HP.T('grpSim')) >= 0, first: !!grp && grp.firstElementChild === cb.closest('.prow'), checked: cb.checked };
+        if (!(o.pos.inSim && o.pos.first && o.pos.checked === false)) o.bad.push('② ' + JSON.stringify(o.pos)); }
+      // ③ 二次元→三次元(切り替えられる本を宣言から導く)
+      const sw = ps.filter((p) => HP.coord3d.coordOf(p.physics) === '2d' && HP.coordSwitchPlanOf(p, '3d').ok);
+      const deny = ps.filter((p) => HP.coord3d.coordOf(p.physics) === '2d' && !HP.coordSwitchPlanOf(p, '3d').ok);
+      o.sw = sw.map((p) => p.id); o.nDeny = deny.length; o.zero = [];
+      for (const p of sw) {
+        HP.loadPreset(p.id, false); setParamsDirty(false);
+        const j0 = JSON.stringify(p), sigB = presetSig(p);
+        click('coord3dCb');
+        const S = HP.sim, cp = HP.currentPreset();
+        const okSw = S.coord3d === true && cp.physics.coord === '3d' && cp !== p && JSON.stringify(p) === j0 && presetSig(cp) !== sigB && document.getElementById('coord3dCb').checked;
+        // 零試験(宣言の本の二次元 vs 写しの三次元 —— アプリの build と同じ経路)
+        const A = HP.coord3d.makeSim(), B = HP.coord3d.makeSim(); A.build(clone(p)); B.build(clone(cp));
+        const dt = (p.physics && p.physics.stepDt) || DT; let nd = 0, nv = 0, zm = 0;
+        for (let k = 0; k < 300; k++) { A.step(dt); B.step(dt); }
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'rotA']) for (let i = 0; i < A.n; i++) { nv++; if (!Object.is(A[k][i], B[k][i])) nd++; }
+        if (!Object.is(A.t, B.t)) nd++;
+        for (let i = 0; i < B.n; i++) zm = Math.max(zm, Math.abs(B.z[i]), Math.abs(B.vz[i]));
+        // ⏮ で写しのまま
+        document.getElementById('btnReset').click();
+        const keep = HP.sim.coord3d === true && HP.currentPreset().physics.coord === '3d';
+        click('coord3dCb');
+        const back = HP.sim.coord3d !== true && HP.currentPreset() === p && presetSig(HP.currentPreset()) === sigB;
+        o.zero.push({ id: p.id, n: A.n, nv, nd, zm, okSw, keep, back });
+        if (!(okSw && nd === 0 && zm === 0 && B.coord3d === true && keep && back)) o.bad.push('③ ' + JSON.stringify(o.zero[o.zero.length - 1]));
+      }
+      if (sw.length < 1) o.bad.push('③ 切り替えられる二次元の本が 0');
+      // ④ 拒否
+      o.deny = [];
+      for (const p of deny.slice(0, 3)) {
+        HP.loadPreset(p.id, false); setParamsDirty(false);
+        const why = HP.coordSwitchPlanOf(p, '3d').reasons[0].why;
+        click('coord3dCb');
+        const note = document.getElementById('coord3dNote').textContent;
+        const z = { id: p.id, stay: HP.sim.coord3d !== true && HP.currentPreset() === p && !document.getElementById('coord3dCb').checked, why: why.slice(0, 30), hit: note.indexOf('⛔') >= 0 && note.indexOf(why) >= 0 };
+        o.deny.push(z); if (!(z.stay && z.hit)) o.bad.push('④ ' + JSON.stringify(z));
+      }
+      // ⑤ 三次元→二次元(🌐)
+      { const p = ps.find((q) => q.id === 'coord3dKeplerTilt'); HP.loadPreset(p.id, false); setParamsDirty(false);
+        const sigB = presetSig(p);
+        click('coord3dCb'); const n1 = document.getElementById('coord3dNote').textContent, st1 = HP.sim.coord3d === true;
+        click('coord3dCb'); const cp = HP.currentPreset(), st2 = HP.sim.coord3d !== true && cp !== p && HP.coord3d.coordOf(cp.physics) === '2d';
+        const keepV = cp.bodies[0].vz === p.bodies[0].vz && cp.bodies[0].vz !== 0;
+        const warn = HP.modeSettingIssues(cp.physics, { bodies: cp.bodies }).some((z) => z.code === 'coord2dZ');
+        click('coord3dCb'); const back = HP.sim.coord3d === true && HP.currentPreset() === p && presetSig(HP.currentPreset()) === sigB;
+        o.to2 = { warn1: n1.indexOf('⚠') >= 0 && n1.indexOf('bodies[0].vz') >= 0, st1, st2, keepV, warn, back };
+        if (!(o.to2.warn1 && st1 && st2 && keepV && warn && back)) o.bad.push('⑤ ' + JSON.stringify(o.to2)); }
+      // ⑥ 保存と読込・A/B
+      { const p = sw[0]; HP.loadPreset(p.id, false); setParamsDirty(false); click('coord3dCb');
+        const n0 = getSaves().length; document.getElementById('saveName').value = 'qa-w299f-coord'; document.getElementById('btnSave').click();
+        const sv = getSaves()[0], okS = getSaves().length === n0 + 1 && sv.presetId === p.id && sv.physics.coord === '3d';
+        HP.loadPreset('alphaCenABDFM', false); const dropped = HP.coordSwitchState().switched === false;
+        const okL = loadSave(sv) === true && HP.sim.coord3d === true && HP.currentPreset().physics.coord === '3d' && HP.coordSwitchState().switched === true;
+        abStart(); const abOk = !!ab && ab.simB.coord3d === true; abStop();
+        const arr = getSaves(); arr.splice(0, 1); setSaves(arr); renderSaves();
+        o.save = { okS, dropped, okL, abOk };
+        if (!(okS && dropped && okL && abOk)) o.bad.push('⑥ ' + JSON.stringify(o.save)); }
+      setParamsDirty(false); HP.loadPreset('saturnRingReal', false);
+      return o;
+    });
+    bad.push(...R.bad.slice(0, 8));
+    const ov = [];
+    for (const vp of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+      const c2 = await browser.newContext({ viewport: vp }); const p2 = await c2.newPage();
+      p2.on('dialog', (d) => d.accept());
+      await p2.goto(INDEX, { waitUntil: 'load' }); await p2.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const r = await p2.evaluate(async () => {
+        const out = { els: 0, bad: [] };
+        const t = document.querySelector('[data-tab="params"]'); if (t) t.click();
+        for (const lang of ['ja', 'en']) {
+          HP.setLang(lang); HP.loadPreset('saturnRingReal', false);
+          const c = document.getElementById('coord3dCb'); c.checked = true; c.dispatchEvent(new Event('change'));   // 拒否される本 —— ⛔ の注記を出した状態で測る
+          for (const d of document.querySelectorAll('#paramRows details')) d.open = true;
+          for (const id of ['coord3dRow', 'coord3dNote']) { const e = document.getElementById(id); const host = e.closest('.group') || e.parentElement;
+            const hb = host.getBoundingClientRect(), q = e.getBoundingClientRect(); out.els++;
+            if (q.right > hb.right + 0.5 || q.left < hb.left - 0.5) out.bad.push(lang + ' ' + id + ' +' + (q.right - hb.right).toFixed(1));
+            if (e.scrollWidth > e.clientWidth + 1) out.bad.push(lang + ' ' + id + ' 横スクロール'); }
+        }
+        HP.setLang('ja');
+        return out;
+      });
+      ov.push(`${vp.width}: 行と注記 ${r.els}・はみ出し ${r.bad.length}`);
+      bad.push(...r.bad.slice(0, 3).map((x) => vp.width + ': ' + x));
+      await c2.close();
+    }
+    if (errs.length) bad.push('ページのエラー ' + errs[0].slice(0, 80));
+    const zs = (R.zero || []).map((z) => `${z.id}(n ${z.n}・${z.nd}/${z.nv} 差)`).join('・');
+    add('ui.paramTab299', bad.length === 0,
+      `**パラメータタブ**(第299便f・原仮定者の裁定(第89報)⑥・R172): ① コア軸の投影線 →「表示」(hp_core_axis 不変) / ② 三次元の切り替えは「シミュレーション」の先頭`
+      + ` / ③ 二次元→三次元 ${(R.sw || []).length} 本の零試験 300 步: ${zs}・⏮ で写しのまま・戻すと宣言の署名 / ④ 拒否 ${R.nDeny} 本(先頭 3 本で ⛔+受理の門の理由: ${(R.deny || []).map((z) => z.id).join('・')})`
+      + ` / ⑤ 三次元→二次元(🌐): 1 回目 ⚠・2 回目で二次元(vz は保持・coord2dZ)・戻すと宣言 / ⑥ 保存 = 宣言の ID+physics.coord・読込で写し・A/B の B も三次元 / ⑦ ${ov.join('・')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  await pctx.close();
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

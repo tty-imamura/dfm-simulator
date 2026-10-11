@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:26:17.944Z",
+  "targetSha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
+  "generatedAt": "2026-10-11T06:28:53.726Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6378738,
+    "sha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
+    "mtime": "2026-10-11T06:28:33.904Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 48506,
-    "sha256": "84a1c6a55bbbe195131fffd02279cc0c81cad0627edb8fd4d88b80b255c93b6c",
-    "mtime": "2026-10-09T12:28:59.303Z"
+    "bytes": 49508,
+    "sha256": "d4939757fc35aae2404907d597ccedea34cdc1179c8e78d7b5527aeed3d33de5",
+    "mtime": "2026-10-11T06:28:27.411Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-11T05:00:25.808Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-11T05:00:25.804Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-11T05:00:25.816Z"
    }
   ],
-  "codeSha256": "d52b5b4e9df365fe97e7b06cc73bb21d451fb386c33aae723300d9f18437d33a",
+  "codeSha256": "4168f19fc26796d0ef50b5eaed20236e7a2cee6be7195dc1675b3510b9177daf",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1149,
-   "segments": 1049,
-   "closureShare": 0.324
+   "names": 1167,
+   "segments": 1060,
+   "closureShare": 0.3246
   },
-  "scopeSha256": "b99d36e72f1db498c1139a3f870de19d9032c7cb614fbcaa894c6f6411c7c34d",
+  "scopeSha256": "518b397a24e960d1a88f590a6ee4c8b15965c27ecf7a9dc44c9ae6d0970a45ce",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -663,7 +663,7 @@
   },
   "inventory": {
    "code": {
-    "loadSave": "503760701e2768acd21511def596fe21033fd09fac6d1f3b74c9d774d3129724",
+    "loadSave": "d812391c0692efe552538cd9d3e095ee0dadd6f30b6fa0950133b01d470b77f7",
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
     "saveHandler": "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6"
    },
@@ -2697,5 +2697,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.494
+ "elapsedS": 0.48
 }

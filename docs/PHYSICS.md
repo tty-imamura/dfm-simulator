@@ -30100,6 +30100,16 @@ r=x_j−x_i・V は相対速度(velocity:"v" は v_j−v_i〔既定〕・"xdot" 
 
 構造核の +1 は 🌦️ の地球(🌥️ の三次元の写し)、慣性引きずりの +3 は 🔩🪛🌦️。`spinAxis` の行は鍵 `spinAxis` を持つ body を数える棚卸しの規則のままで、+3 は 🎲🔩🪛 の**三次元の自転軸の有効化**(`spinAxis.enable:true` —— 署名に入る・〔第298便a〕)である。表示専用の宣言は 📻 の 1 本のまま。
 
+**第299便f の更新(DECISIONS v58 §0 の AN282 ③)。** 上の「点粒子の軸 `spinAxis`(表示専用)」の 1 行(鍵 `spinAxis` を持つ body の数 —— 表示専用と三次元の有効化を同じ行に数えていた)を、3 区分に分けた(器 `tests/exp-w293c-corecensus.mjs` 版 -2・純関数 lib-2。比較の走行・分類・ほかの行は不変 —— 正本 `tests/out/corecensus-w293c.json` を作り直した):
+
+| 経路(鍵) | 在位の本 | 退役の本 | 在位の body 宣言 | 全 body 宣言 |
+|---|---|---|---|---|
+| 点粒子の軸 `spinAxis`(二次元の表示専用) | 1 | 0 | 1 | 1 |
+| 点粒子の軸 `spinAxis.enable:true`(三次元の有効化した軸) | 3 | 0 | 3 | 3 |
+| 点粒子の軸の規定歳差 `spinAxis.precessionRate`≠0(三次元の有効化した軸のうち) | 1 | 0 | 1 | 1 |
+
+二次元の表示専用は 📻 psrDoubleAB の B、三次元の有効化した軸は 🎲🔩🪛、規定歳差はそのうち 🎲 coord3dSpinPrecess だけ(🔩🪛 の軸 30° は歳差を宣言しない)。
+
 html の本文で `core:{` を含む在位の本は 19 本だが、body に宣言しているのは **15 本(18 body)** である。残る 4 本のうち 🧮 psrJ1757DFM・🩺 psrJ1946DFM・⏰ gw150914Merge4s は `massCalibration.history.core`(第285便f・第288便b で外した補正コアの履歴 —— build は読まない)、🌫️ collapse は隣の 🥚 の説明のコメントで、どれもコアなし対照の対象にならない(較正の在位 4 本のうち比べられるのは 📿 psrB1534 だけ)。置換の 6 項(`HP.coreV2ReplaceReport`)は在位の 18 body のうち置換可 4(📿 2・🏮・🛸)で、残りは m・R を build が導く(needsResolve)・Rc≥R(🦀)・殻項の差(🥀)・K_cs(🛞)で不可。
 
 **⑤ コアなし対照**(2000 步・dt 0.016。正本 `control.rows`)。8 量の欄は最大差(粒子数が同じ步だけ)。「融合/分裂/放出」は 2000 步の件数(コアあり / なし)。T_obs・Q は参考の観測層。
@@ -31542,6 +31552,41 @@ QA の比較器 10 個(deepNear ×2・near ×1・near288 ×2・near289・near290
 記録は fitRecord(w298b-1 の 3 標的 —— 近点回転・恒星月・平均離心率 —— status fitted: 全標的で |残差| + h/2 の差 ≤ 照合許容の宣言)。fitted の門はアプリの三次元の步の値だけ(参照積分は記録)。恒星月と離心率と傾斜は初期配置の入力として平均に合わせた(法則の予言として数えない)。gain は系ごとの経験係数(普遍の係数とは書かない)・機構の同定ではない。
 
 **変えていないもの。** `S._core`(1 命令も)・二次元の本の步と軌道(bitsame・sigsame)・旧 `inertialDragFieldAt`/`inertialDragFieldReady`/`spaceMeshDisplaySample`(加算の局所場 —— compose:"sum" の本の表示はそのまま)。QA `behavior.drag3d298`・`behavior.meshField298`・`preset.geo4Std298`・`docs.moon3d298`。
+
+〔第299便f — 選択粒子の編集の出し分け(三次元の z・vz と自転軸・構造核 dragCore・コア軸の宣言)と、パラメータタブの三次元の切り替え・コア軸の投影線の移動・家族の畳みの修正(🌦️ を家族 earthmoon へ)・spinAxis の棚卸しの行名(原仮定者の裁定(第89報)⑤「選択粒子の編集: kFrame=0 では『引きずり q』を出さない/『コア内訳(v2)』は切り替えも含めて現在有効な場合のみ出す/三次元では vz を出す/慣性決定力が有効なら dragCore の切り替えとパラメータを出す/コア軸の切り替えとパラメータを出す」⑥「『パラメータ』タブ: 『コア軸の投影線を表示』を『表示』カテゴリへ移す/『シミュレーション』カテゴリに三次元の切り替えを追加」・DECISIONS v58 §0 の AN281 ①・AN282 ③・統括の検証項目 R172)(**物理の既定経路は 1 bit も変えていない** —— 新しい入口は押したときだけ書く・`S._core` は不変)〕
+
+**選択粒子の編集の出し分け。** 行の出し分けを 1 つの関数 `selEditVisOf(S, i)` にまとめた(本の宣言 `S.params`・`S.relDrag` と粒子の状態 `S.coreMd`・`S.coord3d` を読むだけ —— 書かない)。
+
+| 行 | 出す条件 | 隠したとき |
+|---|---|---|
+| 引きずりq(`#beDqRow`) | `physics.kFrame` ≠ 0 | 値 `S.dragQ[i]` は保持(kFrame を戻せば同じ値で出る) |
+| コア内訳(v2)(`#beCoreV2` —— 「コア有効」のトグルも) | その粒子がコア V2 を持つ(`S.coreMd[i]` ≠ 0) | 第212便の「コアの無い粒子にも付与できる」入口は閉じた(コアを外すと、同じ粒子にはブロックが出なくなる —— ⏮初めからで本の宣言に戻る) |
+| z・vz(`#beZRow`) | 三次元の本(`physics.coord:"3d"`) | 二次元の本には出さない(書かない) |
+| 自転軸(三次元)(`#beSaBox`) | 三次元の本 | 二次元の表示専用の `spinAxis`(📻 ほか)は**この欄に出さない**(座標で出し分け —— 混同しない) |
+| 構造核 dragCore(`#beDcBox`) | `relativeDrag.law:"inertial"` の本 | — |
+| コア軸の宣言(prescribed)(`#beCvAxBox` —— コア内訳の中) | 二次元の本のコア V2(cavity 以外) | — |
+
+**編集の入口(押したときだけ書く —— どれも `S._core` の外の top-level 関数)。**
+- `dragCoreEdit(S, i, cfg)` —— `{on}`・`{massFrac}`・`{radius}`。**受理器 `validateDragCoreBody` をそのまま通す**(天体の半径 radius の宣言・0<f≤1・0<R_c≤R・R_c=R なら f=1・コア V2 と同時に持たない・law:"inertial" だけ・連鎖の solver/spinSource と一緒に持たない・ε>0)。通らなければ 1 bit も書かず理由(⛔)を返す。通れば `S.dragCoreD[i]` を置いて表を張り直す(`dragCoreInit` —— 鍵が変われば作り直す)。付けるときの既定は f=0.5・R_c=R/2。A/B の複製は編集した構造核を B へ写す(表は読むだけの共有 —— 宣言どおりの本は build と同じ中身なので素通り)。
+- `coreAxisEdit(S, i, cfg)` —— `{prescribed}`・`{azimuthDeg}`(t=0 の方位 φ₀)・`{precessionRate}`。値域は受理器と同じ(`CORE_AXIS_AZ_CLAMP`・`CORE_AXIS_RATE_CLAMP`)。宣言を付けたとき・歳差だけを変えたときは**今の面内方位から続く**(φ₀ = φ_now − Ω_p·t —— 実測の方位の跳び 6.9×10⁻¹⁸ rad・10 步後の φ₀+Ω_p·t との差 0)。付けるときの歳差の既定は殻スピン(build の "spin" と同じ)。面内 J を置き直したときは `S.applyCoreEdit` と同じ編集台帳 `S.editLog` に 1 行(J_z・|J| は不変)。
+- `coord3dSpinAxisEdit(S, i, cfg)` —— `{enable}`・`{tiltDeg}`・`{azimuthDeg}`・`{precessionRate}`・`{pTiltDeg}`・`{pAzimuthDeg}`(指定した鍵だけ)。値域は受理器と同じ(θ 0〜180・φ ±360・Ω_p ±100)。規定運動 â(t)=R(p̂, Ω_p t)·â₀ の â₀ を、**今の時刻で編集後の軸になる**ように引き戻して置く(R(p̂, −Ω_p t)·â —— 歳差の位相を飛ばさない。θ45・φ30 の置き直しの差 0・Ω_p 0.7 で 40 步後の解析との差 1.6×10⁻¹⁶)。外すと +z(二次元と同じ Ω_z)。二次元の本では "coord2d" を返して何もしない。編集で有効化した軸(宣言の無い粒子)も `spinAxisOf` が力学の軸を返し、コア軸の投影線のトグルで描く(外した宣言の軸は描かない)。
+- 三次元の本で、編集で立てると步が止まる設定(減光の自動算出 `lightSweep:"auto"` —— `coord3dRuntimeWhy` の対象)は**受け付けずに理由**を出す(`beDeny3dOf` —— 黙って止めない)。z の値域は受理器の座標 ±5000・vz は vx/vy と同じ ±100。
+
+**パラメータタブ。** 「コア軸の投影線を表示」(`#coreAxisCb`)は「シミュレーション」から「表示」カテゴリの末尾へ移した(状態 `coreAxisShow`・localStorage `hp_core_axis`・端末に永続・⏮ と「プリセット既定値に戻す」で変わらない —— は 1 つも変えていない)。「シミュレーション」の先頭に「三次元で走らせる(physics.coord:"3d")」(`#coord3dCb`・注記 `#coord3dNote`)を足した。
+- **切り替えは本の宣言の写し**(`coordSwitchPlanOf(p, to)` —— physics.coord だけを書き換えた JSON。z・vz・incl・node・spinAxis は宣言のまま)を作り、loadPreset と同じ経路で初めから再構築する(内蔵の本の定義 `BUILTIN_PRESETS` は 1 字も変えない・未保存の編集は破棄・A/B は終わる)。写しは `coordSwitch` に持ち、同じ本の ⏮初めから・発散の復元・相図の適用だけが写しを使う(別の本・一覧から読み込むと外れる)。
+- **二次元→三次元** は z=vz=0・軸 +z(三次元の build の既定 —— 宣言どおりの変換)。受理の門 `coord3dDenyOf`(宣言を受理器で正規化した写しに coord:"3d" を立てて引く)が 1 つでも立てば拒否して理由を出す。在位の二次元の本 120 本のうち切り替えられるのは **6 本**(🌛 earthMoonInertial・🌥️ earthMoonSunInertialFit・🟫 mercurySunInertialFit・inertialDragPair・🔗 chainDiskToy・fig8 —— 宣言から導いた集合)で、残り 114 本は kFrame・geoPN 1/2・コア V2・光線・overlays.field などで拒否される。**零試験**: 6 本すべてで、宣言の本(二次元)と写し(三次元)を 600 步並べて x・y・vx・vy・spin・rotA・t がビット同一・z=vz=0 のまま(QA は 300 步 —— 🔗 n=81 も 486 値すべて同一)。
+- **三次元→二次元** は受理器が通らなければ拒否(🔩🪛 の `spinDrag` は三次元だけ)。🌐🎲🌦️ は粒子の z/vz・spinAxis.enable を持つので、1 回目は ⚠ の注記で三次元のまま、もう一度押したときだけ二次元で再構築する(値は捨てない —— 写しの bodies に vz が残り、「目的の組」の `coord2dZ` の警告のまま走る)。
+- **保存と署名**: #btnSave は presetId(宣言の本)と physics(`coord` を含む)を書く。loadSave は保存の coord が本の宣言と違えば同じ写しを作って開き、作れなければ読込を中止する。写しの presetSig は宣言の本と違い、戻すと宣言の署名に戻る。フィットの記録(fitRecord)は消さない(条件の署名が合わなければ「以前の条件でのフィット」—— 第297便b の規則のまま)。A/B の B も写しから作るので三次元。
+
+**家族の畳み(AN281 ①)。** 🌦️ earthMoonSunInertial3d を家族 earthmoon の variant に入れた(在位の variant 6 本 = 閾値 `FAMILY_FOLD_MIN_VARIANTS`=6 —— 一覧で初めて実際に畳む家族になった。表示専用 —— presetSig は familyRole を見ない)。第298便c で見えた `ui.familyFold296` の失敗の原因は 2 つで、どちらも検査の側にあった: ① 隠し #presetSelect の option の数を「退役を除く内蔵」と比べていたが、検査の中立の本 🪐 saturn が第298便b で退役し、読み込み中の退役の本(`retiredHidden` の例外)の 1 本ぶん多かった(124/123 —— 畳む家族が 0 の間は ⑥ を通らずに隠れていた)/② 初期化の localStorage の消去を `addInitScript` で「sessionStorage の印が無ければ」としていたため、読み込み直しで印が見えないことがあり(容器の Chromium で 20 回中 2 回 —— 実測)、開いた家族の記憶が消されて ③⑤⑥ が連鎖して落ちた(第298便d の「通しの走行でだけ FAIL」)。数え方を規則どおりに直し、消去は最初の読み込みの後に 1 度だけにした。閾値は 6 のまま、実際に効く値の読み口 `familyFoldMinNow`(QA が `HP.setFamilyFoldMin` で閾値 5 案を試す口)を足し、検査に ⑦ 閾値 5 案(在位の家族で畳み・開き・窓を開き直して保持)と ⑧ 合成の家族(内蔵の写し 1+6 本 —— 6 本は既定で畳む・5 本は既定では畳まず閾値 5 で畳む)を足した(4 回続けて PASS)。
+
+**spinAxis の棚卸しの行名(AN282 ③)。** 〔第293便c〕の棚卸しの行「点粒子の軸 `spinAxis`(表示専用)」を 3 行(二次元の表示専用 / 三次元の有効化した軸 / 規定歳差)に分けた(器 `tests/exp-w293c-corecensus.mjs` は版 -2・純関数は lib-2 —— 比較の走行・分類は同じ)。値は〔第293便c〕の「第299便f の更新」の表。
+
+確認: bitsame **164/164** 同一(600 步・差分 ID なし)・sigsame **164/164** 同一(差分 ID なし・added なし —— 宣言した範囲は表示と編集の入口だけで、🌦️ の familyId/familyRole は presetSig の外なので、差分の ID は宣言から導いても 0 本)。QA: **`ui.selEdit299`**・**`ui.paramTab299`**(新設 —— root は SKIP)・`ui.familyFold296`(数え方と初期化を直し ⑦⑧ を足した)・`docs.coreCensus`(正本の行が 3 区分になった)。
+
+**言わないこと。** 三次元の切り替えは三次元の物理を新しく足したものではない(二次元→三次元は z=0 の面に置いた写しで、零試験は「同じ軌道になる」ことの確認である —— 三次元で対応する物理は〔第298便a〕〔第298便c〕のまま)。
+
+**未決(決断事項候補)。** 三次元の切り替えの保存の形(いまは宣言の本の ID + physics.coord で写しを作り直す —— 写しを別名の本として持つ案・宣言を書き換える案)/ 切り替え後の署名と fitRecord(いまは署名が変わり記録は残す —— 三次元の写しで測り直すまで「以前の条件でのフィット」)/ 「コア有効」で付与する入口を閉じたこと(付与はいま JSON か親子コアの層だけ)/ 構造核・コア軸・三次元の自転軸の編集はチェックポイントに載らない(編集の後に保存したチェックポイントを戻すと、配列に載る z・vz・軸の 14 本は戻り、構造核の宣言は今の値のまま —— 三次元の帳簿は枝 a の範囲)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 

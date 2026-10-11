@@ -29,7 +29,8 @@ import * as LC from './lib-w293c-corecensus.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coreV2MigrateReport","HP.coreV2ReplaceReport","HP.dfmMeshVelocityFieldAt","HP.dfmSpinDipoleMoment","HP.obsTemp","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w293c-corecensus-1';
+// 第299便f(AN282 ③): -2 = 点粒子の軸 spinAxis の行を 3 区分(二次元の表示専用・三次元の有効化した軸・規定歳差)に分けた版(lib-2)。比較の走行・分類は -1 と同じ
+export const HARNESS_VERSION = 'w293c-corecensus-2';
 /** 較正の在位(本便は比較の数値だけ —— ブリーフ 2)。body にコアを持つのは psrB1534 だけで、他の 3 本はコアが履歴の欄にしかない。 */
 export const CALIBRATION_ACTIVE = Object.freeze(['psrJ1757DFM', 'psrJ1946DFM', 'psrB1534', 'gw150914Merge4s']);
 /** 撤去を適用した本(本便は 0 本 —— 条件 (i)〜(iii) をすべて満たす本が無かった。候補と証拠は正本の removal.candidates)。 */
