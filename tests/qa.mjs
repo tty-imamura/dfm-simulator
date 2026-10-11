@@ -71034,7 +71034,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const V = JP.verdict || {};
       for (const k of ['changedOnlyWhereSourcesIncreased', 'sigAllSame', 'oracle1e12', 'mercuryDeltaZero', 'radiusIndependent', 'charonIsSource', 'pn1BelowResidual'])
         if (V[k] !== true) bad.push('② 正本の ' + k + ' が true でない');
-      cases.push(`前後 ${JP.B.bitSame}/${JP.A.n}(差 ${JP.B.changed.length} 本 —— すべて源が増えた本・署名 ${JP.B.sigSame}/${JP.A.n})・照合 ${Number(JP.C.summary.maxRel).toExponential(2)}`);
+      // 第299便e(原仮定者の裁定(第89報)④・R174)の世代(器の版 w291b-pnsources-6 以降): 三次元へ移した参照模型の差・署名の差は記録だけ(changedByCoord3d299・
+      //   sigChangedByCoord3d299)—— 記録された本は宣言(W299E_IDS —— physics に shapeToy と coord:"3d")の内で、1PN の源が増えていない本であること
+      const c3 = [...new Set((JP.B.changedByCoord3d299 || []).concat(JP.B.sigChangedByCoord3d299 || []))];
+      for (const id of c3) {
+        if (!(typeof W299E_IDS !== 'undefined' && W299E_IDS.includes(id))) bad.push('② 三次元化の記録に宣言(W299E_IDS)の外の本 ' + id);
+        const r9 = (JP.rows || []).find((z) => z.id === id);
+        if (!r9 || r9.srcIncreased !== false || r9.coord3d299 !== true) bad.push('② 三次元化の記録の本 ' + id + ' の行が「源が増えていない・次元の宣言を三次元へ」でない');
+      }
+      cases.push(`前後 ${JP.B.bitSame}/${JP.A.n}(差 ${JP.B.changed.length} 本 —— すべて源が増えた本・署名 ${JP.B.sigSame}/${JP.A.n})・照合 ${Number(JP.C.summary.maxRel).toExponential(2)}`
+        + (c3.length ? `・三次元へ移した参照模型 ${c3.length} 本は記録だけ(宣言した差)` : ''));
       const au = CI.definitionMixAudit();
       if (!(Math.abs(JP.E.closedFormPeriod - au.closedFormPeriod) <= 1e-12 * au.closedFormPeriod && Math.abs(JP.E.closedFormResidual.sec - au.closedFormResidual.sec) <= 1e-12))
         bad.push('③ 正本の閉じた式が lib と違う');
@@ -71194,6 +71203,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         try { W291B = (JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {}).changed || []; } catch (e) { W291B = []; }
         if (!W291B.length) bad.push('④ 第291便b の源集合で動いた本の一覧(pnsources-w291b.json の B.changed)が読めない');
       }
+      // 第299便e(原仮定者の裁定(第89報)④・統括の検証項目 R174)の世代(正本 pnsources-w291b.json の器の版 w291b-pnsources-6 以降): 次元の宣言を二次元から三次元へ
+      //   変えた参照模型(同じ正本の B.changedByCoord3d299 ∪ B.sigChangedByCoord3d299 —— 宣言から導いた機械の一覧・W299E_IDS の内であることを見る)も、基点との前後で動いてよい本に加える
+      let W299E3 = [];
+      if (html.indexOf('function pnOrbitalSource(') >= 0) {
+        try { const B9 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {};
+          W299E3 = [...new Set((B9.changedByCoord3d299 || []).concat(B9.sigChangedByCoord3d299 || []))]; } catch (e) { W299E3 = []; }
+        const out3 = W299E3.filter((id) => !(typeof W299E_IDS !== 'undefined' && W299E_IDS.includes(id)));
+        if (out3.length) bad.push('④ 第299便e の三次元化で動いた本の一覧に宣言(W299E_IDS)の外の本: ' + out3.join(','));
+      }
       // 第295便b(原仮定者の裁定(第85報)geoPN「3 と銀河などを分ける → 4」・統括の検証項目 R154)の世代(html に GEO4_MIGRATED): geoPN 3→4 へ移住した
       //   在位の本(正本 tests/out/geo4-w295b.json の summary.migrated ∩ summary.identical —— 2000 歩の指紋はビット同一・署名だけ変わる)も、基点との前後で動いてよい本に加える
       let W295B = [];
@@ -71216,12 +71234,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (has297cCL) TS297 = await page.evaluate(() => HP.allPresets().filter((p) => p.timeRef && typeof p.timeRef.legacyTimeScale === 'number').map((p) => p.id));
       const diffManyCL = new Set((J.G || {}).diffMany || []), sigDiffCL = new Set((J.G || {}).sigDiff || []);
       const ok297CL = (id) => (has297aCL || has297cCL) && (!diffManyCL.has(id) || LAM297T.includes(id)) && (!sigDiffCL.has(id) || LAM297S.includes(id) || TS297.includes(id));
-      const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && ok297CL(id)))];
-      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !ok297CL(id));
+      const undecl297 = [...new Set(((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && ok297CL(id)))];
+      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id) && !W295B.includes(id) && !W299E3.includes(id) && !ok297CL(id));
       if (!(J.G && undecl.length === 0)) bad.push('④ 宣言の外で動いた本: ' + undecl.join(','));
       if (undecl297.length) cases.push(`第297便の宣言(λ_PN=0〔軌道は 1PN が走っていた本だけ〕・時間の宣言〔署名だけ〕)で動いた本 ${undecl297.length}(宣言から導く)`);
       cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`
         + (W291B.length ? `+第291便b の源集合で動いた本 ${W291B.length}` : '') + (W295B.length ? `+第295便b で geoPN 4 へ移住した本 ${W295B.length}(ビット同一)` : '')
+        + (W299E3.length ? `+第299便e で三次元へ移した参照模型 ${W299E3.length}(宣言した差)` : '')
         + ((W291B.length || W295B.length) ? `(うち宣言の外 ${(J.G.changedUndeclared || []).length} 本: ${(J.G.changedUndeclared || []).join(',')})` : ''));
     } catch (e) { bad.push('一覧・正本が読めない: ' + String(e).slice(0, 160)); }
     add('lint.cLightTrue', bad.length === 0,
