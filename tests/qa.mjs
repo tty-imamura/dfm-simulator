@@ -41271,7 +41271,8 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
     // 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 世代切替 FP298E = 🌘 の fitRecord の procedure が「周期優先(第298便e)」(html の正規表現)。
     //   🌘 の宣言は周期優先の D0pull(探索範囲の端)で、近点移動は 1 近点あたり約 0.09° —— p=2 の窓は正本の段 fitmonth の 8 公転窓の傾き slopeDegPerPeri の ±5%
     //   (2.85〜3.15 は第298便b までの近点回転優先の宣言の窓。p=3・p=4 の行は宣言の D0pull を使わないので窓は不変)
-    const FP298E = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))
+    // 第299便b(R170): 朔望月の世代も D0pull は段 fitmonth の採用値と同じ(1×10⁻³ —— 正本 synodic-w299b.json の段 fit が同じ値を採る)
+    const FP298E = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"(周期優先\(第298便e\)|朔望月\(第299便b)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))
       ? (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w298b.json'), 'utf8')).parts.fitmonth; } catch (e) { return { adopted: { D0pull: NaN, h: { slopeDegPerPeri: NaN } } }; } })() : null;
     const win2 = (pp) => !!pp && (FP298E ? near(pp.dPeri, FP298E.adopted.h.slopeDegPerPeri, 0.05) : (pp.dPeri > 2.85 && pp.dPeri < 3.15));
     const win = (pp) => !!pp && pp.dPeri > 2.85 && pp.dPeri < 3.15;
@@ -48663,7 +48664,8 @@ if (!FAST) {
         : 'E0・E3 の 27 公転窓は正式の判定器 calaudit の検出器 A・B とビット一致' + (gone5.length ? '(' + gone5.join('・') + ' は退役で相手なし)' : ''));
       const ap0 = w('E0', 0.016, 0).apsPeriodYr;
       // 第298便e(R166′): 🌘 が周期優先(標的 = 恒星月・D0pull は探索範囲の端)の世代では近点回転は照合だけ —— 窓を 285〜305 年(claims の窓と同じ)に
-      const eg298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      const eg298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"(周期優先\(第298便e\)|朔望月\(第299便b)/.test(   // 第299便b: 朔望月の世代も D0pull は同じ(近点回転は照合だけ)
+        fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
       const apLo = eg298e ? 285 : 7, apHi = eg298e ? 305 : 11;
       if (!(ap0 > apLo && ap0 < apHi)) bad.push(`⑤ E0 の 8 公転窓の近点回転の周期が ${apLo}〜${apHi} 年の外(` + ap0 + ')');
       cases.push(`E0 の 8 公転窓 ${ap0.toFixed(3)} 年・27 公転窓 ${w('E0', 0.016, 1).apsPeriodYr.toFixed(3)} 年`);
@@ -58214,7 +58216,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
   if (has120) {
     // 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 世代切替 KF1W298E = 🌘 の fitRecord の procedure が「周期優先(第298便e)」(html の正規表現)。
     //   周期優先の宣言(D0pull=0.001)では 1 公転の正味の順行は正本 refit-w298b.json の段 fitmonth の傾き slopeDegPerPeri(°/近点)×3600″ —— ⑦ の門をその 0.5〜2 倍へ
-    const KF1W298E = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))
+    // 第299便b(R170): 朔望月の世代も D0pull は同じ(1 公転の正味の順行の門は不変)
+    const KF1W298E = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"(周期優先\(第298便e\)|朔望月\(第299便b)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))
       ? (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w298b.json'), 'utf8')).parts.fitmonth.adopted.h.slopeDegPerPeri * 3600; } catch (e) { return NaN; } })() : null;
     const r = await page.evaluate((kf1Want) => {
       const out = {};
@@ -67594,7 +67597,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           ['"expected":{"min":27.4,"max":27.48}', '"expected":{"min":27.28,"max":27.38}']];
           // 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 世代切替 has298eRv = 🌘 の fitRecord の procedure が「周期優先(第298便e)」—— claims の文(追記 5 か所)・
           //   2 つの窓・近点回転の descPattern を第298便b の文へ戻してから上の R298 を当てる
-          if (/"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))) {
+          // 第299便b(原仮定者の裁定(第89報)①・R170): 世代切替 = 🌘 の fitRecord の procedure が「朔望月(第299便b」—— 朔望月の claim(1 件)を外し、恒星月の claim の追記(ja/en 各 1 か所)を
+          //   第298便e の文へ戻してから下の R298E・R298 を当てる(physics・bodies・qLock は第298便e と同じ —— D0pull は不変)
+          const has299bRv = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"朔望月\(第299便b/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+          if (has299bRv) {
+            json297.claims = JSON.stringify(JSON.parse(json297.claims).filter((c) => c.id !== 'earthMoonRealKF1.synodic-month'));
+            const R299B = [["第299便b からは照合(標的は朔望月 —— この恒星月の一様換算)。", ""],
+              [" From wave 299b it is a check (the target is the synodic month - this sidereal month converted).", ""]];
+            json297.claims = R299B.reduce((x, [n, o]) => x.split(n).join(o), json297.claims);
+          }
+          if (has299bRv || /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'))) {
             const js = (x) => JSON.stringify(x).slice(1, -1);
             const R298E = [
               ["第298便e の周期優先では照合だけ(門に入れない —— D0pull=1×10⁻³ で 8 公転窓 293.85 年)。", ""],
@@ -73081,6 +73093,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----   docs.refit298 は段 fitmonth を本と照合し(③ 恒星月は格子の全点と探索範囲の端で標的より長い〔根を挟めない〕・段 limit の床〔kFrame=0 の写し〕も門の外・
 // ----   範囲の外の点は格子の端と床の間)、④ obsCard・claims の窓・原稿の行に段 fitmonth の恒星月と照合の近点回転、⑤ PHYSICS〔第298便b〕の追補(周期優先)と AI_SPEC・CHANGELOG・README の第298便e。
 // ----   behavior.fitCond298 の ③④ は標的の数を記録から読む(🌘 は 1 件 —— 門の外)
+// ---- 第299便b(原仮定者の裁定(第89報)①・統括の検証項目 R170): 世代切替 has299b = 🌘 の fitRecord の procedure が「朔望月(第299便b」で始まる(html の正規表現)。D0pull と正本 refit-w298b.json は
+// ----   第298便e のまま(has298e は両方の世代で真)。behavior.fitCond298 の ③④ は 🌘 の門が中・status fitted(③ の「門の外の fitted」は数値誤差を許容の 2 倍にした写しで試す)。
+// ----   docs.refit298 の ② は本の記録 = 段 fitmonth を見ない(本の記録は朔望月 —— docs.synodic299 が正本 synodic-w299b.json と照合)
 {
   const html298bF = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has298bF = TARGET.startsWith('beta/') && /^const FIT_RECORD_VERSION_MT="w298b-1";/m.test(html298bF);
@@ -73088,7 +73103,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     console.log('SKIP behavior.fitCond298 / docs.refit298(第298便b の複数標的の記録の前の世代 — ' + TARGET + ')');
   } else {
     const J298 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w298b.json'), 'utf8')); } catch (e) { return null; } })();
-    const has298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"周期優先\(第298便e\)/.test(html298bF);   // 第298便e(R166′): 周期優先の世代
+    const has298e = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"(周期優先\(第298便e\)|朔望月\(第299便b)/.test(html298bF);   // 第298便e(R166′): 周期優先の世代(第299便b の朔望月の世代も D0pull・正本 refit-w298b.json の段は同じ)
+    const has299b = /"parent":"earthMoonRealKF1"[^\n]*"procedure":"朔望月\(第299便b/.test(html298bF);   // 第299便b(R170): 🌘 の記録は朔望月(標的 1 件・門の中 → fitted)—— 本と記録の照合は docs.synodic299
     const J297 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w297a.json'), 'utf8')); } catch (e) { return null; } })();
     const fp = await browser.newPage();
     const errs = [];
@@ -73146,7 +73162,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           o.mt.rejUnknown = mut((x) => { x.targets[0].foo = 1; });
           o.mt.rejNoExtractor = mut((x) => { delete x.targets[tl].extractor; });
           o.mt.rejTopResidual = mut((x) => { x.residual = { value: 0, unit: 'd' }; });
-          o.mt.rejFitted = mut((x) => { x.status = 'fitted'; });
+          o.mt.rejFitted = mut((x) => { x.status = 'fitted'; x.targets[tl].numerics.h2 = x.targets[tl].tol.value * 2; });   // 第299便b: 門を通らない標的(数値誤差を許容の 2 倍に)で fitted を名乗る
           o.mt.accFitted = mut((x) => { x.status = 'fitted'; x.targets[0].model = x.targets[0].obs; x.targets[0].residual = 0; x.targets[0].rel = 0; x.targets[0].numerics.h2 = 1e-6; });
           o.mt.rej5 = mut((x) => { while (x.targets.length < 5) x.targets.push(cl(x.targets[0])); });
           { const x = cl(rec); const vp = HP.validatePreset(cl(em)); const s1 = HP.fitCondSig(vp.preset, x); x.targets[0].extractor += ' (改)'; const s2 = HP.fitCondSig(vp.preset, x); o.mt.sigExtractor = s1 !== s2; o.mt.sigNow = s1 === rec.cond.sig; }
@@ -73180,18 +73196,20 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const k of ['rejResidual', 'rejModel', 'rejRel', 'rejUnknown', 'rejNoExtractor', 'rejTopResidual', 'rejFitted', 'rej5']) if (M[k] !== false) bad.push('③' + k + ' が受理された');
         if (M.accFitted !== true) bad.push('③両標的を門に入れた合成記録が fitted で受理されない');
         if (!(M.sigExtractor && M.sigNow)) bad.push('③標的の抽出器が署名に入らない/本の署名と違う');
-        const gWant = has298e ? [false] : [false, true];   // 第298便e: 周期優先 —— 標的は恒星月だけ(門の外)
-        if (!(M.status === 'unreachable-in-bounds' && M.nT === gWant.length && JSON.stringify(M.gates.map((g) => g.pass)) === JSON.stringify(gWant))) bad.push('③🌘 の門: ' + JSON.stringify(M.gates.map((g) => g.pass)) + '・' + M.status);
+        const gWant = has299b ? [true] : has298e ? [false] : [false, true];   // 第298便e: 周期優先 —— 標的は恒星月だけ(門の外)/ 第299便b: 標的は朔望月だけ(門の中)
+        const stWant = has299b ? 'fitted' : 'unreachable-in-bounds';
+        if (!(M.status === stWant && M.nT === gWant.length && JSON.stringify(M.gates.map((g) => g.pass)) === JSON.stringify(gWant))) bad.push('③🌘 の門: ' + JSON.stringify(M.gates.map((g) => g.pass)) + '・' + M.status);
         cases.push(`③w298b-1: 🌘 受理(multi・往復)・標的ごとの残差/model/rel の書き換え・未知の鍵・抽出器の欠け・最上位の residual・5 標的・門の外の fitted を拒否・`
           + `${has298e ? '標的を門に入れた' : '両標的が門の中の'}合成記録は fitted で受理・抽出器は署名に入る / 🌘 の門 恒星月 ${M.gates[0].pass ? '中' : '外'}`
           + (has298e ? '(近点回転は照合だけ —— 門に入れない)' : `・近点回転 ${M.gates[1].pass ? '中' : '外'}`) + ` → ${M.status}`);
         // ④
         const U = r.ui;
         const nU = has298e ? 1 : 2;
-        if (!(U && U.status === 'unreachable-in-bounds' && U.cond === 'match' && U.res.length === nU && U.num.length === nU && U.tgt === nU
-          && U.res[0].ti === '0' && U.res[0].gate === 'fail' && (has298e || (U.res[1].ti === '1' && U.res[1].gate === 'pass')))) bad.push('④🌘 のフィットの記録の表示: ' + JSON.stringify(U));
+        if (!(U && U.status === stWant && U.cond === 'match' && U.res.length === nU && U.num.length === nU && U.tgt === nU
+          && U.res[0].ti === '0' && U.res[0].gate === (has299b ? 'pass' : 'fail') && (has298e || (U.res[1].ti === '1' && U.res[1].gate === 'pass')))) bad.push('④🌘 のフィットの記録の表示: ' + JSON.stringify(U));
         if (JSON.stringify(r.lms) !== JSON.stringify(r.lmsWant)) bad.push('④アプリ内実測の fit の行の model/h2 が標的ごとの値でない');
-        cases.push(has298e ? '④🌘 の表示(周期優先): 標的 1・残差の行 1(門 外)・数値誤差の行 1・status unreachable-in-bounds・署名 match・アプリ内実測の model/h2 は標的の値'
+        cases.push(has299b ? '④🌘 の表示(朔望月 —— 第299便b): 標的 1・残差の行 1(門 中)・数値誤差の行 1・status fitted・署名 match・アプリ内実測の model/h2 は標的の値'
+          : has298e ? '④🌘 の表示(周期優先): 標的 1・残差の行 1(門 外)・数値誤差の行 1・status unreachable-in-bounds・署名 match・アプリ内実測の model/h2 は標的の値'
           : '④🌘 の表示: 標的 2・残差の行 2(門 外/中)・数値誤差の行 2・status unreachable-in-bounds・署名 match・アプリ内実測の model/h2 は標的ごと');
       } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
       add('behavior.fitCond298', bad.length === 0,
@@ -73221,13 +73239,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (F) {
           if (r.d0 !== F.adopted.D0pull) bad.push(`②D0pull ${r.d0} ⇔ 正本 ${F.adopted.D0pull}`);
           if (JSON.stringify(r.v) !== JSON.stringify(F.adopted.bodies) || JSON.stringify(r.v) !== JSON.stringify(r.vObs)) bad.push('②初速が正本の採用値・🌙 の初速(f=1)と違う');
-          if (r.fr !== JSON.stringify(F.fitRecord)) bad.push('②fitRecord が正本と違う');
+          if (!has299b && r.fr !== JSON.stringify(F.fitRecord)) bad.push('②fitRecord が正本と違う');   // 第299便b: 本の記録は朔望月(正本 synodic-w299b.json —— docs.synodic299 が照合)
           if (!(F.fitRecordAccepted === true && r.warn.length === 0)) bad.push('②fitRecord の受理・受理の警告 ' + r.warn.join('|'));
-          cases.push(`②本 = 正本: D0pull ${r.d0}・初速は 🌙 の値(f=1)・fitRecord w298b-1(受理・警告 0)`);
+          cases.push(`②本 = 正本: D0pull ${r.d0}・初速は 🌙 の値(f=1)・fitRecord w298b-1(受理・警告 0${has299b ? ' —— 第299便b の本の記録は朔望月: docs.synodic299' : ''})`);
           // ③
           const fr = F.fitRecord, T = fr.targets;
           const gate = T.map((t) => Math.abs(t.residual) + t.numerics.h2 <= t.tol.value);
-          if (JSON.stringify(gate) !== JSON.stringify(F.gate.map((g) => g.pass)) || JSON.stringify(gate) !== JSON.stringify((r.gates || []).map((g) => g.pass))) bad.push('③門の可否が正本の gate・fitTargetGates と違う');
+          if (JSON.stringify(gate) !== JSON.stringify(F.gate.map((g) => g.pass)) || (!has299b && JSON.stringify(gate) !== JSON.stringify((r.gates || []).map((g) => g.pass)))) bad.push('③門の可否が正本の gate・fitTargetGates と違う');   // 第299便b: 本の門は朔望月(docs.synodic299)
           if ((fr.status === 'fitted') !== gate.every(Boolean)) bad.push('③status と門の可否が合わない');
           for (const t of T) if (Math.abs((t.model - t.obs) - t.residual) > 8 * Number.EPSILON * Math.max(Math.abs(t.model), Math.abs(t.obs))) bad.push('③残差 ≠ model − obs: ' + t.q);
           if (S) {
@@ -73300,6 +73318,205 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
     await fp.close();
+  }
+}
+
+// ---- 第299便b(原仮定者の裁定(第89報)①「geoPN=2 は近似であり、近似として扱いやすい基準を探す。earthMoonRealKF1 で合わせる『公転周期』は、『恒星月』の代わりに
+// ----   『朔望月』を検証する」・統括の検証項目 R170): behavior.synodicClock299 / docs.synodic299(root では SKIP —— 世代切替は html の `const SYNODIC_CLOCK_VERSION=`)
+// ----   behavior.synodicClock299 —— **朔望月の時計(抽出器 HP.synodic)の単体**:
+// ----     ① 版・恒星年の宣言(正本 synodic-w299b.json の obs と同じ)・刻みの上限
+// ----     ② 一様な円運動(恒星月 27.321661 日・恒星年)では全位相の 8 間隔が一様換算 1/P_syn=1/P_sid−1/T_year と一致(相対 1e-9)・位相の幅 0・
+// ----        t=0 ちょうどの合は数えない(位相 0 の最初の合 = P_syn・位相 180° = P_syn/2)・窓が埋まる/埋まらない
+// ----     ③ 実際の太陽の方位を与える時計(N=1)は、同じ角速度の仮想の太陽と同じ合(差 ≤ 1e-9 日)
+// ----     ④ 拒否: 離角が戻る(逆行)→ "retrograde"(以後も同じ理由・合を足さない)/ 1 標本の増分が上限を超える → "coarse"(上限の 0.9 倍は通る)/ 非有限 → "nonfinite"
+// ----     ⑤ 換算式: IERS の恒星月 27.32166156 日と恒星年から 29.5305889 日(D の率から作った平均朔望月と 1e-6 日の中)・P_sid ≥ T_year・負は null
+// ----     ⑥ アプリ内実測: 🌘 の fit の行は推定器 synB・窓 9 回の通過(8 間隔)・組 0/1・刻みは記録の dt。合成の通過時刻で lmsValueOf が一様換算と一致
+// ----   docs.synodic299 —— **🌘 の朔望月の正本と本**(器 tests/exp-w299b-synodic.mjs・正本 tests/out/synodic-w299b.json):
+// ----     ① 正本の版・段(scan・long・longh2・sun3d・fit・aps)・来歴・時計の版 = html の SYNODIC_CLOCK_VERSION・平均朔望月 = IERS の D の率からの値
+// ----     ② 本 = 正本: D0pull・fitRecord(受理後の正準形・標的 synodicMonthUniform の 1 件・抽出器に時計の版)・受理の警告なし・門の可否 = 正本 = fitTargetGates・
+// ----        標的の model = 段 fit の恒星月の一様換算(器の外で作り直す)・恒星月は第298便e の正本の段 fitmonth と同じ値(同じ D0pull・同じ抽出器)
+// ----     ③ 正本の中の整合: 一様換算は探索範囲で D0pull に単調・格子の全点と床(kFrame=0)で観測の平均より長い(根を挟めない)→ 範囲の端・
+// ----        仮想の太陽の 8 間隔は位相の幅が許容より大きく、窓を 118・354 と延ばすと幅が縮む・近点回転優先の D0pull(段 aps)は門の外・🌦️ の実際の太陽(段 sun3d)は値がある
+// ----     ④ 本の文: obsCard(ja/en)・claims の朔望月の窓・parameterAudit(観測の行 —— 平均朔望月と恒星年)・原稿の 🌘 の行の根拠に正本
+// ----     ⑤ 文書: PHYSICS〔第299便b〕(「## 7.」の前・裁定・R170・器と正本・時計の版・数・書かない語なし)・〔第298便b〕の「追補: 朔望月」・AI_SPEC 第299便b・CHANGELOG・README
+{
+  const html299b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has299b = TARGET.startsWith('beta/') && /^const SYNODIC_CLOCK_VERSION="w299b-syn-1";/m.test(html299b);
+  if (!has299b) {
+    console.log('SKIP behavior.synodicClock299 / docs.synodic299(第299便b の朔望月の時計の前の世代 — ' + TARGET + ')');
+  } else {
+    const J299 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'synodic-w299b.json'), 'utf8')); } catch (e) { return null; } })();
+    const J298e = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'refit-w298b.json'), 'utf8')); } catch (e) { return null; } })();
+    const SYN_OBS = 1296000 * 36525 / 1602961601.2090;   // IERS の Delaunay 引数 D の率(Simon et al. 1994)からの平均朔望月 [日]
+    const sp = await browser.newPage();
+    const errs = [];
+    sp.on('pageerror', (e) => errs.push(String(e.message || e)));
+    await sp.goto(INDEX, { waitUntil: 'load' });
+    await sp.waitForFunction(() => window.HP && HP.sim && HP.synodic && HP.currentPreset());
+    // ---- behavior.synodicClock299
+    {
+      const bad = [], cases = [];
+      try {
+        const r = await sp.evaluate(() => {
+          const Y = HP.synodic, o = { v: Y.version, yd: Y.yearDays, ms: Y.maxStep };
+          const Ps = 27.321661, Ty = Y.yearDays, dt = 0.01, Pu = Y.uniform(Ps, Ty);
+          const C = Y.clockNew({ phases: 36, tYear: Ty }), R = Y.clockNew({ phases: 1, real: true });
+          Y.feed(C, 0, 0, null); Y.feed(R, 0, 0, 0);
+          const nK = Math.ceil(10 * Pu / dt);
+          for (let k = 1; k <= nK; k++) {
+            const t = k * dt, m = Y.wrap(2 * Math.PI * t / Ps);
+            const e1 = Y.feed(C, t, m, null), e2 = Y.feed(R, t, m, Y.wrap(2 * Math.PI * t / Ty));
+            if (e1 || e2) { o.err = e1 || e2; break; }
+          }
+          const st = Y.phaseStats(C, 8, 0);
+          o.pu = Pu; o.st = st ? { mean: st.mean, sd: st.sd, min: st.min, max: st.max, n: st.n } : null;
+          o.first0 = C.conj[0][0]; o.first18 = C.conj[18][0];
+          o.done8 = Y.windowDone(C, 8, 0); o.done12 = Y.windowDone(C, 12, 0);
+          o.real = R.conj[0].length; o.realDiff = Math.max(...R.conj[0].map((x, i) => Math.abs(x - C.conj[0][i])));
+          const B = Y.clockNew({ phases: 4, tYear: Ty }); Y.feed(B, 0, 0, null); Y.feed(B, 0.01, 0.01, null);
+          o.retro = Y.feed(B, 0.02, 0.005, null); o.retroSticky = Y.feed(B, 0.03, 0.05, null); o.retroConj = B.conj.reduce((a, z) => a + z.length, 0);
+          const K = Y.clockNew({ phases: 4, tYear: Ty }); Y.feed(K, 0, 0, null); o.coarse = Y.feed(K, 0.01, Y.maxStep * 1.5, null);
+          const K2 = Y.clockNew({ phases: 4, tYear: Ty }); Y.feed(K2, 0, 0, null); o.fine = Y.feed(K2, 0.01, Y.maxStep * 0.9, null);
+          const N = Y.clockNew({ phases: 1, tYear: Ty }); Y.feed(N, 0, 0, null); o.nf = Y.feed(N, 0.01, NaN, null);
+          o.uIERS = Y.uniform(27.32166156, Ty); o.uBad = Y.uniform(400, Ty); o.uNeg = Y.uniform(-1, Ty);
+          const sp1 = HP.liveMeasure.specOf('earthMoonRealKF1').filter((z) => z.src === 'fit');
+          o.lms = sp1.map((z) => ({ n: z.n, est: z.est, win: z.win, dt: z.dt, c: z.c, o: z.o, why: z.why, unit: z.unit }));
+          const it = sp1.find((z) => z.est === 'synB');
+          if (it) {
+            const G = { revK: Array.from({ length: 9 }, (_, i) => i * 27.3 * 864), M: { rev: [] } };
+            o.synBv = HP.liveMeasure.valueOf(G, it, 100, it.dt); o.synBwant = Y.uniform(27.3 * 864, Y.yearUnits(100)) * 100 / 86400;
+          }
+          const em = HP.allPresets().find((p) => p.id === 'earthMoonRealKF1');
+          o.frDt = em && em.fitRecord ? em.fitRecord.dt : null;
+          return o;
+        });
+        // ①
+        if (r.v !== 'w299b-syn-1') bad.push('①時計の版 ' + r.v);
+        if (r.yd !== 365.256363004 || (J299 && J299.obs && J299.obs.siderealYearDays !== r.yd)) bad.push('①恒星年の宣言 ' + r.yd + '(正本 ' + (J299 && J299.obs ? J299.obs.siderealYearDays : '—') + ')');
+        if (!(r.ms > 0 && r.ms <= Math.PI / 4)) bad.push('①刻みの上限 ' + r.ms);
+        cases.push(`①版 ${r.v}・恒星年 ${r.yd} 日(IERS)・1 標本の離角の上限 ${r.ms.toFixed(4)} rad`);
+        // ②
+        const rel = (a, b) => Math.abs(a / b - 1);
+        if (r.err) bad.push('②一様な円運動で拒否 ' + r.err);
+        if (!(r.st && r.st.n === 36 && rel(r.st.mean, r.pu) < 1e-9 && rel(r.st.min, r.pu) < 1e-9 && rel(r.st.max, r.pu) < 1e-9)) bad.push('②一様な円運動の 8 間隔が一様換算と合わない ' + JSON.stringify(r.st) + ' / ' + r.pu);
+        if (!(rel(r.first0, r.pu) < 1e-9 && rel(r.first18, r.pu / 2) < 1e-9)) bad.push(`②最初の合(位相 0 ${r.first0}・180° ${r.first18})が P_syn・P_syn/2 でない(t=0 の合を数えた?)`);
+        if (!(r.done8 === true && r.done12 === false)) bad.push('②窓が埋まる判定 ' + r.done8 + '/' + r.done12);
+        cases.push(`②一様な円運動: 36 位相の 8 間隔 = 一様換算 ${r.pu.toFixed(6)} 日(相対 1e-9)・t=0 の合は数えない`);
+        // ③
+        if (!(r.real >= 9 && r.realDiff <= 1e-9)) bad.push('③実際の太陽の時計が仮想の太陽と合わない ' + r.realDiff);
+        cases.push(`③実際の太陽の方位(同じ角速度)= 仮想の太陽(差 ${r.realDiff.toExponential(1)} 日)`);
+        // ④
+        if (!(r.retro === 'retrograde' && r.retroSticky === 'retrograde' && r.retroConj === 0)) bad.push('④逆行の拒否 ' + [r.retro, r.retroSticky, r.retroConj].join('/'));
+        if (!(r.coarse === 'coarse' && r.fine === null)) bad.push('④刻みの拒否 ' + r.coarse + '/' + r.fine);
+        if (r.nf !== 'nonfinite') bad.push('④非有限 ' + r.nf);
+        cases.push('④逆行(以後も拒否・合を足さない)・刻みが粗い(上限の 1.5 倍は拒否・0.9 倍は通る)・非有限を拒否');
+        // ⑤
+        if (!(Math.abs(r.uIERS - SYN_OBS) < 1e-6 && r.uBad === null && r.uNeg === null)) bad.push(`⑤換算式 ${r.uIERS}(D の率 ${SYN_OBS})・${r.uBad}・${r.uNeg}`);
+        cases.push(`⑤IERS の恒星月 27.32166156 日 → ${r.uIERS.toFixed(7)} 日 ≈ D の率の平均朔望月 ${SYN_OBS.toFixed(7)} 日`);
+        // ⑥
+        const L = r.lms.find((z) => z.est === 'synB');
+        if (!(L && L.n === 'synodicMonthUniform' && L.win && L.win.laps === 9 && L.c === 0 && L.o === 1 && L.dt === r.frDt && L.unit === 'd' && !L.why)) bad.push('⑥アプリ内実測の行 ' + JSON.stringify(r.lms));
+        if (!(isFinite(r.synBv) && Math.abs(r.synBv - r.synBwant) <= 1e-12 * r.synBwant)) bad.push(`⑥lmsValueOf ${r.synBv} ⇔ 一様換算 ${r.synBwant}`);
+        cases.push(`⑥アプリ内実測: 🌘 の行は推定器 synB(窓 9 回の通過 = 8 間隔・dt ${r.frDt})・合成の通過時刻で一様換算と一致`);
+      } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+      add('behavior.synodicClock299', bad.length === 0,
+        `**朔望月の時計**(第299便b・原仮定者の裁定(第89報)①・R170 —— 抽出器 HP.synodic・器とアプリ内実測が同じ関数): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.synodic299
+    {
+      const bad = [], cases = [];
+      try {
+        if (!J299) throw new Error('正本 synodic-w299b.json が読めない');
+        const P = J299.parts || {};
+        for (const k of ['scan', 'long', 'longh2', 'sun3d', 'fit', 'aps']) if (!P[k]) bad.push('①正本に段 ' + k + ' が無い');
+        const clockV = await sp.evaluate(() => HP.synodic.version);
+        if (!(J299.version === 'w299b-synodic-1' && J299.generator === 'tests/exp-w299b-synodic.mjs' && J299.meta && J299.meta.provenanceVersion === 'w272e-1' && J299.clockVersion === clockV && J299.meta.clockVersion === clockV)) bad.push('①正本の版・器・来歴・時計の版');
+        if (!(J299.obs && J299.obs.synodicDays === SYN_OBS && J299.obs.tol && J299.obs.tol.kind === 'declared' && J299.obs.tol.value === 0.005)) bad.push('①平均朔望月・許容の宣言');
+        cases.push(`①正本 ${J299.version}・時計 ${clockV}・平均朔望月 ${SYN_OBS.toFixed(9)} 日(IERS の D の率)・許容 0.005 日(declared)`);
+        const F = P.fit, S = P.scan, LG = P.long, AP = P.aps, SU = P.sun3d;
+        const r = await sp.evaluate(() => {
+          const B = HP.allPresets(), em = B.find((p) => p.id === 'earthMoonRealKF1');
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(em)));
+          const lc = (p) => [(p.obsCard || []).map((z) => z.q + ' ' + z.model + ' ' + z.obs).join(' | '), ((p.en || {}).obsCard || []).map((z) => z.q + ' ' + z.model + ' ' + z.obs).join(' | ')];
+          const pa = (p) => [((p.parameterAudit || {}).observedInputs || []).join(' | '), (((p.en || {}).parameterAudit || {}).observedInputs || []).join(' | ')];
+          return { d0: em.physics.D0pull, fr: v.ok && v.preset.fitRecord ? JSON.stringify(v.preset.fitRecord) : null, warn: (v.warnings || []).filter((w) => /fitRecord/.test(w)),
+            gates: v.ok ? HP.fitTargetGates(v.preset.fitRecord) : null, oc: lc(em), pa: pa(em), y: HP.synodic.yearUnits(100),
+            claims: (em.claims || []).map((c) => ({ id: c.id, ex: c.expected, role: c.role, prov: c.prov })) };
+        });
+        // ②
+        if (F) {
+          const fr = F.fitRecord, T = fr.targets;
+          if (r.d0 !== F.adopted.D0pull) bad.push(`②D0pull ${r.d0} ⇔ 正本 ${F.adopted.D0pull}`);
+          if (r.fr !== JSON.stringify(fr)) bad.push('②fitRecord が正本と違う');
+          if (!(F.fitRecordAccepted === true && r.warn.length === 0)) bad.push('②fitRecord の受理・受理の警告 ' + r.warn.join('|'));
+          if (!(T.length === 1 && T[0].q === 'synodicMonthUniform' && T[0].unit === 'd' && T[0].obs === SYN_OBS && T[0].extractor.indexOf(clockV) >= 0 && fr.cond.extractor.indexOf(clockV) >= 0)) bad.push('②標的(synodicMonthUniform の 1 件・時計の版)');
+          if (!/^朔望月\(第299便b/.test(fr.procedure)) bad.push('②procedure が「朔望月(第299便b」で始まらない');
+          const gate = T.map((t) => Math.abs(t.residual) + t.numerics.h2 <= t.tol.value);
+          if (JSON.stringify(gate) !== JSON.stringify(F.gate.map((g) => g.pass)) || JSON.stringify(gate) !== JSON.stringify((r.gates || []).map((g) => g.pass))) bad.push('②門の可否が正本の gate・fitTargetGates と違う');
+          if ((fr.status === 'fitted') !== gate.every(Boolean) || fr.status !== F.status) bad.push('②status と門の可否が合わない');
+          const uh = 1 / (1 / (F.adopted.h.sidMeanDays * 864) - 1 / r.y) / 864, uh2 = 1 / (1 / (F.adopted.half.sidMeanDays * 864) - 1 / r.y) / 864;
+          if (!(Math.abs(uh - T[0].model) <= 1e-12 * uh && Math.abs(Math.abs(uh2 - uh) - T[0].numerics.h2) <= 1e-12 * uh)) bad.push('②標的の model・h2 が段 fit の恒星月の一様換算と合わない');
+          const fm = J298e && J298e.parts && J298e.parts.fitmonth;
+          if (fm && fm.adopted.D0pull === F.adopted.D0pull && fm.adopted.h.sidMeanDays !== F.adopted.h.sidMeanDays) bad.push('②同じ D0pull で第298便e の正本の恒星月と違う');
+          cases.push(`②本 = 正本: D0pull ${r.d0}・標的 synodicMonthUniform ${T[0].model.toFixed(5)} 日(残差 ${T[0].residual.toExponential(3)}・h/2 ${T[0].numerics.h2.toExponential(2)}・許容 ${T[0].tol.value})→ ${fr.status}`
+            + (fm && fm.adopted.D0pull === F.adopted.D0pull ? `・恒星月 ${F.adopted.h.sidMeanDays.toFixed(6)} 日 = 第298便e の正本` : ''));
+          // ③
+          if (S) {
+            const inR = S.rows.filter((z) => z.kFrame === 1 && z.D0pull >= fr.knobs[0].range[0] && z.D0pull <= fr.knobs[0].range[1]);
+            if (!(S.monotone && S.monotone.uniformDays === true && inR.every((z, i) => i === 0 || z.uniformDays < inR[i - 1].uniformDays))) bad.push('③段 scan の一様換算が D0pull に単調でない');
+            const fl = S.rows.find((z) => z.kFrame === 0);
+            if (!(S.allAbove === true && fl && fl.uniformResidual > 0)) bad.push('③格子の全点・床(kFrame=0)が観測の平均より長い、でない');
+            if (!(F.bracketed === false && F.adopted.D0pull === fr.knobs[0].range[1] && fr.knobs[0].final === F.adopted.D0pull)) bad.push('③根を挟めないときの採用値(範囲の端)');
+            const w8 = S.rows.find((z) => z.kFrame === 1 && z.D0pull === F.adopted.D0pull);
+            if (!(w8 && w8.phaseMax - w8.phaseMin > T[0].tol.value)) bad.push('③仮想の太陽の 8 間隔の位相の幅が許容より小さい(単一の位相を基準にしない理由と合わない)');
+            cases.push(`③一様換算は D0pull に単調・床 ${fl ? fl.uniformDays.toFixed(6) : '—'} 日(+${fl ? fl.uniformResidual.toExponential(2) : '—'})でも長い → 範囲の端・仮想の太陽 8 間隔の位相の幅 ${w8 ? (w8.phaseMax - w8.phaseMin).toFixed(3) : '—'} 日`);
+          }
+          if (LG && LG.dependence) {
+            const D = LG.dependence, sp8 = D.find((z) => z.W === 8), sp118 = D.find((z) => z.W === 118), sp354 = D.find((z) => z.W === 354);
+            if (!(sp8 && sp118 && sp354 && sp354.phaseSpan < sp118.phaseSpan && sp118.phaseSpan < sp8.phaseSpan)) bad.push('③窓を延ばしても位相の幅が縮まない');
+            if (!(sp354 && Math.abs(sp354.virtualMinusUniform) < T[0].tol.value)) bad.push('③354 間隔の位相平均が一様換算から許容以上に離れる');
+            cases.push(`③位相の幅 8/118/354 間隔 ${[sp8, sp118, sp354].map((z) => z ? z.phaseSpan.toFixed(4) : '—').join('/')} 日・354 間隔の位相平均 − 一様換算 ${sp354 ? sp354.virtualMinusUniform.toExponential(2) : '—'} 日`);
+          }
+          if (AP && !(AP.gate.every((g) => g.pass === false) && AP.D0pull === 3.06883e-5)) bad.push('③近点回転優先の D0pull が門に入る/段 aps の値');
+          if (SU && !(SU.err === null && SU.real && SU.real['8'] && isFinite(SU.real['8'].mean) && isFinite(SU.real['354'].mean))) bad.push('③段 sun3d の実際の太陽の値');
+          // ④
+          const f5 = (x) => x.toFixed(5);
+          const want = [f5(T[0].model), '29.530589', '365.256363004'];
+          for (const w of want) { if (r.oc[0].indexOf(w) < 0) bad.push('④obsCard(ja)に ' + w + ' が無い'); if (r.oc[1].indexOf(w) < 0) bad.push('④obsCard(en)に ' + w + ' が無い'); }
+          for (const w of ['29.530589', '365.256363004']) { if (r.pa[0].indexOf(w) < 0) bad.push('④parameterAudit(ja)の観測の行に ' + w + ' が無い'); if (r.pa[1].indexOf(w) < 0) bad.push('④parameterAudit(en)の観測の行に ' + w + ' が無い'); }
+          const cs = r.claims.find((c) => c.id === 'earthMoonRealKF1.synodic-month');
+          if (!(cs && cs.ex && cs.ex.min <= T[0].model && T[0].model <= cs.ex.max && cs.role === 'fit_target' && cs.prov === 'calibrated')) bad.push('④claims の朔望月の窓・役割');
+          let SS = null; try { SS = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { SS = null; }
+          const row = SS && SS.rows ? SS.rows.earthMoonRealKF1 : null;
+          if (!(row && row.evidence.includes('tests/out/synodic-w299b.json') && row.state.indexOf(T[0].model.toFixed(3)) >= 0)) bad.push('④原稿の 🌘 の行(根拠・数)');
+          cases.push(`④obsCard(ja/en)・parameterAudit の観測の行・claims の朔望月の窓・原稿の行に正本の値(${want.join('・')})`);
+        }
+        // ⑤
+        const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const a = PH.indexOf('〔第299便b — '), i7 = PH.indexOf('\n## 7. ');
+        const sec = a >= 0 ? PH.slice(a, i7 > a ? i7 : undefined) : '';
+        if (!(a > 0 && a < i7)) bad.push('⑤〔第299便b〕が「## 7.」の前に無い');
+        for (const w of ['原仮定者の裁定(第89報)', '統括の検証項目 R170', 'tests/exp-w299b-synodic.mjs', 'tests/out/synodic-w299b.json', clockV, 'w298b-1', 'h/2', 'IERS', '365.256363004', '29.530589', 'declared', '何を基準にしないか'])
+          if (sec.indexOf(w) < 0) bad.push('⑤〔第299便b〕に ' + w + ' が無い');
+        if (F) for (const x of [F.fitRecord.targets[0].model.toFixed(5)]) if (sec.indexOf(x) < 0) bad.push('⑤〔第299便b〕に正本の値 ' + x + ' が無い');
+        const b0 = PH.indexOf('〔第298便b — '), b1 = b0 >= 0 ? PH.indexOf('\n〔第29', b0 + 10) : -1;
+        const s298 = b0 >= 0 ? PH.slice(b0, b1 > b0 ? b1 : undefined) : '';
+        if (s298.indexOf('追補: 朔望月') < 0) bad.push('⑤〔第298便b〕に「追補: 朔望月」の段が無い');
+        const nq = sec.replace(/「[^」]*」/g, '');
+        for (const w of ['再現しない', '再現できない', '合わせられない', '現実を再現した', '朔望月を再現した', '8.85 年を再現した', '43″ を再現した', 'gain は普遍定数', '較正 合']) if (nq.indexOf(w) >= 0) bad.push('⑤〔第299便b〕に書かない語 ' + w);
+        const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+        if (!/\n## [789]\d\. 第299便b /.test(AS)) bad.push('⑤AI_SPEC に第299便b の節が無い');
+        if (CL.indexOf('第299便b') < 0) bad.push('⑤CHANGELOG に第299便b が無い');
+        if (RM.indexOf('第299便b') < 0) bad.push('⑤README に第299便b が無い');
+        cases.push('⑤PHYSICS〔第299便b〕(「## 7.」の前・正本の値・書かない語 0)・〔第298便b〕の追補: 朔望月・AI_SPEC・CHANGELOG・README');
+      } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+      if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+      add('docs.synodic299', bad.length === 0,
+        `**🌘 の朔望月**(第299便b・原仮定者の裁定(第89報)①「geoPN=2 は近似 —— 恒星月の代わりに朔望月を検証する」・R170 —— 正本 synodic-w299b.json ↔ 本 ↔ PHYSICS): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    await sp.close();
   }
 }
 

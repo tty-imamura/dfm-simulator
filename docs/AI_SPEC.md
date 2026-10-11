@@ -3488,3 +3488,12 @@ SYSTEM_PROMPT の規則 12(逐語):
 - **器と正本**: `tests/exp-w298b-refit.mjs` の版 **w298b-refit-2**(段 scan・**scanwide**・**limit**・**fitmonth**・**fitaps**〔第298便b の段 fit の改名 —— 履歴〕・qprobe)・正本 `tests/out/refit-w298b.json`(`W298B_OUT`・`W298B_PART`・`--merge` は従来どおり)。
 - **claims**: id・role・prov は変えない(`earthMoonRealKF1.apsidal-period` は role "fit_target" のまま —— 照合だけになったことは roleNote に書く)。窓は恒星月 27.32〜27.33・近点回転 285〜305(descPattern は「近点回転の周期は約(数)年」)。
 - QA: `docs.refit298`・`behavior.fitCond298`・`behavior.framePull`(🌘 の宣言の D0pull と p=2 の近点移動の窓 —— 正本の段 fitmonth から読む)・`wave120.ui`(🌘 の 1 公転の正味の順行の門 —— 正本の段 fitmonth の傾き×3600″ の 0.5〜2 倍)・`preset.revived292b`(claims の追記を第298便b の文へ戻して照合)の世代追従(世代切替 = 🌘 の `fitRecord.procedure` が「周期優先(第298便e)」で始まる —— html の正規表現)。
+
+## 72. 第299便b —— 🌘 earthMoonRealKF1 は朔望月を検証する(geoPN=2 の近似の基準)(原仮定者の裁定(第89報)①「geoPN=2 は近似であり、近似として扱いやすい基準を探す。earthMoonRealKF1 で合わせる『公転周期』は、『恒星月』の代わりに『朔望月』を検証する」・統括の検証項目 R170・**🌘 の記録・文・claims・アプリ内実測の行だけ** —— physics・D0pull・`S._core`・他の本・🌙 の A/B・カタログ kf1 は不変・**SYSTEM_PROMPT には載せない**)
+
+- **朔望月の時計**(抽出器 `SYNODIC_CLOCK_VERSION`=w299b-syn-1・`HP.synodic` —— 器とアプリ内実測が同じ関数): 仮想の太陽 λ☉=λ☉0+2πt/T_year(T_year = 恒星年 365.256363004 日 —— IERS・Simon et al. 1994)で地心の離角が 2πk を下から越えた合を数える(初期位相 36 点・t=0 の合は数えない・逆行/刻みが粗い/非有限は拒否)/一様換算 1/P_syn=1/P_sid−1/T_year(`synUniform`)/太陽のある本は実際の太陽の方向。
+- **基準**: 恒星月の 8 公転窓を恒星年で一様換算した朔望月(位相に依らない・h/2 差 9.0×10⁻⁷ 日)。仮想の太陽の 8 間隔は初期位相で 29.415〜29.646 日に揺れ、36 位相の平均も一様換算より +0.0053 日長い(354 間隔で一様換算との差 -0.00073 日)—— 照合だけ。許容は表示桁 29.53 日の末位の半分 0.005 日(declared —— 観測の σ ではない)。観測は平均朔望月 29.530589 日(IERS の D の率・J2000.0)。
+- **再フィット**: ノブは D0pull だけ・探索範囲 [1×10⁻⁵, 1×10⁻³]。床(kFrame=0)でも 29.53071 日と観測の平均より長く根を挟めない → 範囲の端 D0pull=0.001(第298便e と同じ値)で 29.53375 日(残差 +0.0031593 日)→ `status:"fitted"`(許容の中 —— 根ではない)。近点回転優先の 3.06883×10⁻⁵ は 29.66677 日で門の外。
+- **記録**: `fitRecord` w298b-1・標的 1 件 `synodicMonthUniform`・procedure は「朔望月(第299便b」で始まる。claims に `earthMoonRealKF1.synodic-month`(role fit_target・prov calibrated・窓 29.53〜29.54・descPattern「朔望月は(数)日」)。恒星月・近点回転の claims は id・role・prov を変えない(恒星月の roleNote に照合になった旨)。
+- **アプリ内実測**: `LMS_FIT_Q.synodicMonthUniform`(推定器 `synB` —— 通過 9 回 = 8 間隔を一様換算・日)・`LMS_PAIRS.earthMoonRealKF1`。
+- **器と正本**: `tests/exp-w299b-synodic.mjs`(段 scan・long・longh2・sun3d・fit・aps)・`tests/out/synodic-w299b.json`(鎖の段 synodic-299b)。QA `behavior.synodicClock299`・`docs.synodic299`(新設)と `docs.refit298`・`behavior.fitCond298`・`preset.revived292b`・`behavior.framePull`・`wave120.ui`・`docs.emgrid-sync` の世代追従(世代切替 = 🌘 の `fitRecord.procedure` が「朔望月(第299便b」で始まる —— html の正規表現)。

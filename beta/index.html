@@ -1612,6 +1612,7 @@ ja: {
   lmsNoRows:"この本は観測の正本の転記(OBS_COMPARE_ROWS)にもフィットの記録にも量が無い —— アプリ内実測 未対応(観測結果カードの文の量には推定器の宣言が無い)",
   lmsHead:(h,w)=>"アプリ内実測(刻み h="+h+"・"+w+")",
   lmsWinLaps:(n)=>"窓 "+n+" 周", lmsWinPeri:(n)=>"窓 "+n+" 近点",
+  lmsWinSynB:(n)=>"窓 "+n+" 周(同方向の通過 —— 恒星年 "+SYN_YEAR_SID_DAYS+" 日で朔望月へ一様換算)",   // 第299便b(R170): 時計の宣言
   lmsNotYet:"未実測(▶ で、押した時点の状態から測る)",
   lmsRunning:(i,n,k,s,l)=>"測定中 —— 走行 "+i+"/"+n+"・"+k+" 步・"+l+" 周・経過 "+s+" s",
   lmsSt:{cancelled:"取り消した", replaced:"次の実測に替えた", preset:"本を切り替えたので止めた", "wall-cap":"時間の上限で打ち切った(窓が埋まらない —— 値は出さない)", "steps-cap":"步数の上限で打ち切った(窓が埋まらない —— 値は出さない)", nonfinite:"非有限(走行が発散 —— 値は出さない)", aliasing:"標本が粗い(1 步の角が大きすぎる —— 値は出さない)", "time-reverse":"時刻が進まない(値は出さない)", halt:"慣性引きずりの解法が収束しない步で止めた(値は出さない)", novalue:"窓は埋まったが値が決まらない(近点が足りない等)", ctrl:"対照(gain 0)の複製を作れない"},
@@ -2830,6 +2831,7 @@ en: {
   lmsNoRows:"This sample has no quantity in the transcribed observation record (OBS_COMPARE_ROWS) or a fit record - in-app measurement not supported (the text rows of the observation card have no estimator declaration)",
   lmsHead:(h,w)=>"In-app measurement (step h="+h+", "+w+")",
   lmsWinLaps:(n)=>"window "+n+" orbits", lmsWinPeri:(n)=>"window "+n+" periapses",
+  lmsWinSynB:(n)=>"window "+n+" orbits (same-direction passes - converted to the synodic month with the sidereal year "+SYN_YEAR_SID_DAYS+" d)",   // wave 299b (R170): the clock declaration
   lmsNotYet:"not measured yet (▶ measures from the state at the moment you press it)",
   lmsRunning:(i,n,k,s,l)=>"measuring - run "+i+"/"+n+", "+k+" steps, "+l+" orbits, "+s+" s elapsed",
   lmsSt:{cancelled:"cancelled", replaced:"replaced by the next measurement", preset:"stopped: the sample was switched", "wall-cap":"stopped at the time limit (window not filled - no value)", "steps-cap":"stopped at the step limit (window not filled - no value)", nonfinite:"non-finite (the run diverged - no value)", aliasing:"sampling too coarse (no value)", "time-reverse":"time does not advance (no value)", halt:"stopped at a step where the inertial-drag solver did not converge (no value)", novalue:"window filled but no value (too few periapses, etc.)", ctrl:"could not make the control copy (gain 0)"},
@@ -13386,47 +13388,48 @@ const BUILTIN_PRESETS = [
     fail:"ニュートンの逆二乗力だけの二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は出ない(閉じた楕円)。GR 1PN の二体や別の力則の二体には近点回転がある —— 二体 1PN は ≈2.18×10⁻¹⁰ rad/公転で観測(0.0531 rad/公転)の約 4×10⁻⁹ 倍(観測の主因は太陽摂動 —— 第292便b で文を訂正)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
     pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(共通補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) で満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
   obsCard:[
-    {q:"第298便e の周期優先(f=1・ノブは D0pull だけ・第一の標的は恒星月・8 公転窓)", model:"D0pull→1×10⁻³(探索範囲の端 —— 根を挟めない): 恒星月 27.32437 日(+0.00267 日・門の外)・近点回転 293.850 年(照合だけ)", obs:"27.3217 日(標的)・8.85 年(照合 —— 第298便b の近点回転優先 D0pull 3.06883×10⁻⁵ は 8.84995 年・恒星月 27.43820 日〔+0.11650 日〕—— 履歴)"},
-    {q:"恒星月の残差の床(探索範囲の外の参照 —— 段 limit)", model:"D0pull 1×10⁻² で 27.32202 日・1×10⁻¹ で 27.32179 日・kFrame=0 の写し(引きずりなし)で 27.32177 日(+6.62×10⁻⁵ 日)", obs:"27.3217 日(許容 0.00005 日 —— 床でも門の外)"},
+    {q:"第299便b の朔望月(標的 —— 恒星月の 8 公転窓を恒星年で一様換算)", model:"D0pull 1×10⁻³: 29.53375 日(+0.00316 日・h/2 差 9.04×10⁻⁷ 日 —— 門の中)", obs:"29.530589 日(平均朔望月・J2000.0 —— IERS の D の率)・許容 0.005 日(宣言)"},
+    {q:"朔望月(照合 —— 仮想の太陽の時計・恒星年 365.256363004 日)", model:"8 間隔: 初期位相で 29.415〜29.646 日(36 点の平均 29.53905)・長い窓は正本の段 long", obs:"29.530589 日(個々の朔望月は約 29.26〜29.80 日 —— 比べるのは平均)"},
+    {q:"朔望月の床(引きずりを切った kFrame=0 の写し —— 範囲の外の参照)", model:"一様換算 29.53071 日(+1.22×10⁻⁴ 日)・D0pull 1×10⁻² で 29.53101 日", obs:"29.530589 日(床でも長い —— 根は挟めない)"},
+    {q:"恒星月(第298便e の標的 —— 第299便b から照合・8 公転窓)", model:"D0pull 1×10⁻³: 27.32437 日(+0.00267 日)・床 27.32177 日(+6.62×10⁻⁵ 日)", obs:"27.3217 日(許容 0.00005 日 —— 床でも門の外)"},
     {q:"恒星月・同方向1周(履歴 — 現行 QA の定義)", model:"宣言値 27.331 日(+0.03%)・棚卸し実測 27.3200 日(−0.006%)", obs:"27.3217 日"},
     {q:"恒星月・近点間(第250便d — 定義併記)", model:"実測 27.5228 日(+0.736%)= Δϖ/360° と窓内ドリフトの合成", obs:"27.3217 日(e≈0.055 の準円 — 近点間は観測の恒星月に対応しない。判定は据置)"},
-    {q:"近点回転の周期", model:"≈8.99 年(Δϖ比 0.984 — qLock q_exact=8.2358・第242便 pull 共同 fit)", obs:"8.85 年"},
-    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
-    {q:"近点回転の窓依存(正本 emgrid —— 第298便e の宣言・周期優先)", model:"8 周 293.8502 年・27 周 293.8549 年(照合だけ。第297便a: 8.8500・9.6846 年/第296便まで: 9.1278・9.9214 年)", obs:"8.85 年(観測 —— 周期優先の宣言では合わせていない)"},
-    {q:"補正の共通性(第296便までの値 —— 第297便a で D0pull と初速は再フィット・他の本と共通でなくなった)", model:"第242便 pull: D0pull=3.24×10⁻⁵(3.24×10⁸ kg/m² — 共通の pull 用量)+初速 −0.12% の共同 fit・D₀=0.006(E1′)・q は qLock 自動算出", obs:"—"}],
+    {q:"近点回転の周期(照合 —— 正本 emgrid の窓依存)", model:"8 周 293.8502 年・27 周 293.8549 年(第297便a: 8.8500・9.6846 年/旧 ≈8.99 年)", obs:"8.85 年(合わせていない —— 照合だけ)"},
+    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
-    summary:"**在位は原理の参照**(第292便b で分類を変えて復活 —— q 引きずりの機構実験。較正母集団ではない)。🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)を当てた版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量に同時に合わせた**現象論のフィット**(exp-kf1b/kf1c 実測 —— 第297便までは初速の補正つき)。**第298便b(原仮定者の裁定〔第88報〕)で初速を観測の値に戻し(f=1)、既存のノブ D0pull だけで再フィットした** —— 8 公転窓の近点回転 8.8499 年は許容の門の中、恒星月 27.4382 日(+0.43%)は門の外(この探索範囲では未達 —— 次の見直し)。**第298便e(原仮定者の追加指示〔第88報の追補〕「公転周期を優先して合わせる」)で第一の標的を恒星月に入れ替えた** —— D0pull の探索範囲を 1×10⁻³ まで上へ広げても恒星月の根を挟めない(恒星月は D0pull に単調に減り、引きずりを切った kFrame=0 の写しの 27.32177 日へ近づく —— その床でも許容の門の外)ので、範囲の端 D0pull=1×10⁻³ を採った: 恒星月 27.3244 日(+0.0098% —— 門の外・この探索範囲では未達)、近点回転は照合だけで 8 公転窓 293.85 年(8.85 年から大きく外れる —— 次の見直しの候補は初期配置を平均要素から接触要素へ直すこと)。第298便b の近点回転優先の値は履歴。8 公転窓の近点回転 ≈8.85 年(Δϖ=+0.05308 rad/公転)は第298便b までのフィットの記録で、窓を延ばすと定常ではない(第298便e の宣言〔f=1・周期優先〕の正本 emgrid では 8 周 293.8502 年・27 周 293.8549 年 —— 第297便a の宣言では 8.8500・9.6846 年・第296便までの宣言では 9.1278・9.9214 年)。ニュートンの逆二乗力だけの二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は DFM 版の規約。",
-    observe:"軌道の向き(近点方向)がごくゆっくり回る — 第298便e の周期優先の宣言(D0pull=1×10⁻³)では、8 公転窓の近点回転の周期は約293.85年(1 近点あたり約 0.092° —— 照合だけ。第298便b までの旧フィットの 8 公転窓では実際の月と同じ約8.85年 —— 履歴・現在の観測一致・予測ではない)。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅 —— ×20 で 1 公転あたり約 1.8°)で回転を見る。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読む(8 公転窓の直線 fit で正味 約 +0.0016 rad/公転 —— 第298便b までの宣言では +0.053 rad/公転・Δϖ比 0.999)**。恒星月は 27.324日(f=1・周期優先 —— +0.0098%・この探索範囲では未達)。旧フィットの 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は 🔆(太陽+地球+月の三体・較正なし)を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    summary:"**在位は原理の参照**(第292便b で分類を変えて復活 —— q 引きずりの機構実験。較正母集団ではない)。🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)を当てた版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量に同時に合わせた**現象論のフィット**(exp-kf1b/kf1c 実測 —— 第297便までは初速の補正つき)。**第298便b(原仮定者の裁定〔第88報〕)で初速を観測の値に戻し(f=1)、既存のノブ D0pull だけで再フィットした** —— 8 公転窓の近点回転 8.8499 年は許容の門の中、恒星月 27.4382 日(+0.43%)は門の外(この探索範囲では未達 —— 次の見直し)。**第298便e(原仮定者の追加指示〔第88報の追補〕「公転周期を優先して合わせる」)で第一の標的を恒星月に入れ替えた** —— D0pull の探索範囲を 1×10⁻³ まで上へ広げても恒星月の根を挟めない(恒星月は D0pull に単調に減り、引きずりを切った kFrame=0 の写しの 27.32177 日へ近づく —— その床でも許容の門の外)ので、範囲の端 D0pull=1×10⁻³ を採った: 恒星月 27.3244 日(+0.0098% —— 門の外・この探索範囲では未達)、近点回転は照合だけで 8 公転窓 293.85 年(8.85 年から大きく外れる —— 次の見直しの候補は初期配置を平均要素から接触要素へ直すこと)。第298便b の近点回転優先の値は履歴。**第299便b(原仮定者の裁定〔第89報〕①「geoPN=2 は近似 —— 近似として扱いやすい基準を探す。公転周期は恒星月の代わりに朔望月を検証する」)で標的を朔望月に替えた** —— 🌘 は太陽の無い二体なので、恒星月の 8 公転窓を恒星年 365.256363004 日で一様換算した朔望月(1/P_syn=1/P_sid−1/T_year)を標的にし、近似の基準として許容を 0.005 日(表示桁 29.53 日の末位の半分 —— 宣言)とした。D0pull は同じ 1×10⁻³(換算の朔望月は引きずりを切った床でも 29.53071 日と観測の平均 29.530589 日より長く、根は挟めない —— 残差が最小の範囲の端)で 29.53375 日(+0.00316 日 —— 門の中)。仮想の太陽の時計で幾何学的な合を数えると 8 間隔は初期位相で 29.415〜29.646 日に揺れる(36 位相の平均も一様換算より長い —— 窓を延ばすと縮む・照合だけ)。8 公転窓の近点回転 ≈8.85 年(Δϖ=+0.05308 rad/公転)は第298便b までのフィットの記録で、窓を延ばすと定常ではない(第298便e の宣言〔f=1・周期優先〕の正本 emgrid では 8 周 293.8502 年・27 周 293.8549 年 —— 第297便a の宣言では 8.8500・9.6846 年・第296便までの宣言では 9.1278・9.9214 年)。ニュートンの逆二乗力だけの二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は DFM 版の規約。",
+    observe:"軌道の向き(近点方向)がごくゆっくり回る — 第298便e の周期優先の宣言(D0pull=1×10⁻³)では、8 公転窓の近点回転の周期は約293.85年(1 近点あたり約 0.092° —— 照合だけ。第298便b までの旧フィットの 8 公転窓では実際の月と同じ約8.85年 —— 履歴・現在の観測一致・予測ではない)。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅 —— ×20 で 1 公転あたり約 1.8°)で回転を見る。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読む(8 公転窓の直線 fit で正味 約 +0.0016 rad/公転 —— 第298便b までの宣言では +0.053 rad/公転・Δϖ比 0.999)**。恒星月は 27.324日(f=1・周期優先 —— +0.0098%・この探索範囲では未達)。朔望月は 29.5337日(第299便b の標的 —— 恒星月の 8 公転窓を恒星年で一様換算・許容 0.005 日の門の中。説明タブのアプリ内実測で同じ換算を測れる)。旧フィットの 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は 🔆(太陽+地球+月の三体・較正なし)を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"本サンプルは**DFM 版**(実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock)で、第292便b で原理の参照として置いている。**現行の較正方針**: 観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある(較正の雛形ではない —— 第286便c で文言を更新)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面高度(dragRef:\"interior\" — 第239便の正名。「物質に囲まれた内部は完全共動し表面から減衰する」の意で、表面が特別に強いという主張ではない。旧名 \"surface\" は別名)にすると月位置の核は 1.15 倍。)"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — q-dragging mechanism experiment (phenomenological reference, former fit)",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=29979.2458","the Earth's real mass, radius and rotation (23.93 h)",
         "the Moon's real mass, radius and synchronous rotation","semi-major axis 3.84748×10⁸ m, eccentricity 0.0549",
         "the Moon's 8.85-year apsidal cycle (a fit target up to wave 298b — a check only from wave 298e)",
-        "the sidereal month 27.3217 d (a fit target — the first target from wave 298e)"],
+        "the sidereal month 27.3217 d (the first target of wave 298e — a check from wave 299b)",
+        "the mean synodic month 29.530589 d (the fit target from wave 299b; IERS rate of the Delaunay argument D, 1602961601.2090 arcsec per century [Simon et al. 1994], J2000.0)","the sidereal year 365.256363004 d (the synodic clock; IERS useful constants [Simon et al. 1994])"],
       fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
         "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=0 (wave 297a; λ_PN=1 until wave 296), pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
         "a free binary placed about the barycenter (nothing pinned)","initial-speed factor f=1 (the observed initial speeds, as in 🌙 — wave 298b; the factor 0.998777511 of wave 297a and 0.99880 until wave 296 are history)"],
       fitted:["D₀=0.006 (the calibration knob of the drag precession — the one value of the joint correction)",
-        "D0pull=0.001 (the wave-298e period-first refit to the sidereal month — no root bracketed in the search range [1×10⁻⁵, 1×10⁻³], so the range end; 3.06883×10⁻⁵ in wave 298b [to the apsidal period], 3.14447×10⁻⁵ in wave 297a, 3.24204×10⁻⁵ until wave 296 — the pull dose of the drag precession)"],
+        "D0pull=0.001 (wave 299b: to the synodic month [the 8-orbit sidereal month converted] in the range [1×10⁻⁵, 1×10⁻³] - no root bracketed, the range end; 29.53375 d inside the 0.005 d gate. The wave-298e period-first refit to the sidereal month — no root bracketed in the search range [1×10⁻⁵, 1×10⁻³], so the range end; 3.06883×10⁻⁵ in wave 298b [to the apsidal period], 3.14447×10⁻⁵ in wave 297a, 3.24204×10⁻⁵ until wave 296 — the pull dose of the drag precession)"],
       derived:["q=8.2358 (auto-derived by qLock, exact-agreement form q_exact — it removes the Earth-spin contamination; the distant-limit q* is N/A as the operating convention from wave 172)","κ=G/c₀²=7.4258×10⁻⁹"],
       numerical:["softening ε=0.1","time multiplier timeScale=1, screen step stepDt=65.5721","display magnification dispMag=10 (display only)"]},
     failureFirst:{
       fail:"A two-body system under the Newtonian inverse-square force alone (🌙, kFrame=0) does not show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. Two bodies under GR 1PN or under another force law DO precess — the two-body 1PN rate is ≈2.18×10⁻¹⁰ rad/orbit, about 4×10⁻⁹ of the observed 0.0531 rad/orbit (whose main cause is solar perturbation; sentence corrected in wave 292b). The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
       pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D0pull=3.24×10⁻⁵ (with D₀=0.006 for E1′) and a −0.12% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the joint correction) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies it (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
     obsCard:[
-      {q:"Wave 298e period priority (f=1; D0pull the only knob; the sidereal month is the first target; 8 orbits)", model:"D0pull→1×10⁻³ (range end, no bracket): month 27.32437 d (+0.00267 d, outside the gate); apsides 293.850 yr (check only)", obs:"27.3217 d (target); 8.85 yr (check only). 298b, apsides first: D0pull 3.06883×10⁻⁵, 8.84995 yr, 27.43820 d (history)"},
-      {q:"Floor of the month residual (outside the search range - stage limit)", model:"27.32202 d at D0pull 1×10⁻², 27.32179 d at 1×10⁻¹, 27.32177 d with kFrame=0 (no dragging; +6.62×10⁻⁵ d)", obs:"27.3217 d (tolerance 0.00005 d - outside the gate even at the floor)"},
+      {q:"Wave 299b synodic month (target - the 8-orbit sidereal month converted with the sidereal year)", model:"D0pull 1×10⁻³: 29.53375 d (+0.00316 d; h/2 diff 9.04×10⁻⁷ d - inside the gate)", obs:"29.530589 d (mean synodic month, J2000.0 - IERS rate of D); tolerance 0.005 d (declared)"},
+      {q:"Synodic month (check - virtual-Sun clock, sidereal year 365.256363004 d)", model:"8 intervals: 29.415-29.646 d by initial phase (36-point mean 29.53905); longer windows: stage long", obs:"29.530589 d (single months vary about 29.26-29.80 d - compare means)"},
+      {q:"Floor of the synodic month (kFrame=0 copy, no dragging - outside the range)", model:"converted 29.53071 d (+1.22×10⁻⁴ d); 29.53101 d at D0pull 1×10⁻²", obs:"29.530589 d (longer even at the floor - no root bracketed)"},
+      {q:"Sidereal month (wave-298e target - a check from wave 299b; 8 orbits)", model:"D0pull 1×10⁻³: 27.32437 d (+0.00267 d); floor 27.32177 d (+6.62×10⁻⁵ d)", obs:"27.3217 d (tolerance 0.00005 d - outside the gate even at the floor)"},
       {q:"Sidereal month — same-direction revolution (historical, the current QA definition)", model:"declared 27.331 d (+0.03%); audited 27.3200 d (−0.006%)", obs:"27.3217 d"},
       {q:"Sidereal month — periapsis to periapsis (wave 250d, both definitions declared)", model:"27.5228 d (+0.736%) = Δϖ/360° plus the in-window drift", obs:"27.3217 d (e≈0.055, near-circular — this definition does not match the observed sidereal month; verdict unchanged)"},
-      {q:"Apsidal precession period", model:"≈8.99 yr (Δϖ ratio 0.984 — qLock q_exact=8.2358; wave-242 pull joint fit)", obs:"8.85 yr"},
-      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
-      {q:"Window dependence of the apsidal period (emgrid; wave-298e declaration, period first)", model:"293.8502 yr over 8 orbits, 293.8549 yr over 27 (check only; wave 297a: 8.8500/9.6846; until 296: 9.1278/9.9214)", obs:"8.85 yr (observed — not fitted under the period-first declaration)"},
-      {q:"Universality of the correction (values until wave 296; refit in wave 297a, no longer shared)", model:"wave 242 pull: D0pull=3.24×10⁻⁵ (3.24×10⁸ kg/m²) + −0.12% speed, joint fit; D₀=0.006 (E1′); q by qLock", obs:"—"}],
+      {q:"Apsidal period (check - window dependence in emgrid)", model:"293.8502 yr over 8 orbits, 293.8549 yr over 27 (wave 297a: 8.8500/9.6846; former ≈8.99)", obs:"8.85 yr (not fitted - check only)"},
+      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"}],
     descStruct:{
-    summary:"IN PLACE AS A PRINCIPLE REFERENCE (revived with a changed classification in wave 292b — a q-dragging mechanism experiment; NOT part of the calibration population). The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived exact-agreement value q_exact=8.2358, the convention adopted in wave 172) applied — gravity (E4) plus motion dragging alone were fitted to TWO observables at once, the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years): a PHENOMENOLOGICAL FIT (exp-kf1b/kf1c; with the initial-speed correction until wave 297). WAVE 298B (the originator's ruling in report 88) RETURNED THE INITIAL SPEEDS TO THE OBSERVED VALUES (f=1) AND REFIT WITH THE EXISTING KNOB D0pull ALONE — the 8-orbit apsidal period 8.8499 yr is inside the tolerance gate, the sidereal month 27.4382 d (+0.43%) is outside it (not yet reached in this search range — next revision). WAVE 298E (the originator's added instruction to report 88, 'fit the orbital period first') MADE THE SIDEREAL MONTH THE FIRST TARGET — widening the D0pull search range upward to 1×10⁻³ still does not bracket a month root (the month falls monotonically with D0pull towards 27.32177 d, the kFrame=0 copy with the dragging switched off, and even that floor is outside the tolerance gate), so the range end D0pull=1×10⁻³ was taken: month 27.3244 d (+0.0098% — outside the gate, not yet reached in this search range); the apsidal period is a check only, 293.85 yr in the 8-orbit window (far from 8.85 yr — the next candidate is to move the initial placement from mean to osculating elements). The wave-298b apsides-first values are history. The ≈8.85-year apsidal period in the 8-orbit window (Δϖ=+0.05308 rad/orbit) is the record of the fits up to wave 298b, and it is not steady when the window is stretched (the canonical emgrid under the wave-298e declaration [f=1, period first]: 293.8502 yr over 8 orbits, 293.8549 yr over 27 — 8.8500 and 9.6846 yr under the wave-297a declaration, 9.1278 and 9.9214 yr under the declaration until wave 296). A two-body Kepler orbit under the Newtonian inverse-square force alone is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is a DFM BUILD (real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). ",
-    observe:"The orbit's apse line rotates very slowly — under the wave-298e period-first declaration (D0pull=1×10⁻³) the apsidal period in the 8-orbit window is about 293.85 years (about 0.092° per periapsis — a check only; the former fits up to wave 298b gave about 8.85 years in the 8-orbit window, as the real Moon does — history, not a current observational match or prediction). The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20, about 1.8° per orbit at ×20) show the rotation. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit (net about +0.0016 rad/orbit from the 8-orbit linear fit; +0.053 rad/orbit, Δϖ ratio 0.999, under the declarations up to wave 298b). The sidereal month is 27.324 d (f=1, period first — +0.0098%; not yet reached in this search range). The former fit's 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see 🔆 (the Sun–Earth–Moon three-body with no calibration). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+    summary:"IN PLACE AS A PRINCIPLE REFERENCE (revived with a changed classification in wave 292b — a q-dragging mechanism experiment; NOT part of the calibration population). The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived exact-agreement value q_exact=8.2358, the convention adopted in wave 172) applied — gravity (E4) plus motion dragging alone were fitted to TWO observables at once, the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years): a PHENOMENOLOGICAL FIT (exp-kf1b/kf1c; with the initial-speed correction until wave 297). WAVE 298B (the originator's ruling in report 88) RETURNED THE INITIAL SPEEDS TO THE OBSERVED VALUES (f=1) AND REFIT WITH THE EXISTING KNOB D0pull ALONE — the 8-orbit apsidal period 8.8499 yr is inside the tolerance gate, the sidereal month 27.4382 d (+0.43%) is outside it (not yet reached in this search range — next revision). WAVE 298E (the originator's added instruction to report 88, 'fit the orbital period first') MADE THE SIDEREAL MONTH THE FIRST TARGET — widening the D0pull search range upward to 1×10⁻³ still does not bracket a month root (the month falls monotonically with D0pull towards 27.32177 d, the kFrame=0 copy with the dragging switched off, and even that floor is outside the tolerance gate), so the range end D0pull=1×10⁻³ was taken: month 27.3244 d (+0.0098% — outside the gate, not yet reached in this search range); the apsidal period is a check only, 293.85 yr in the 8-orbit window (far from 8.85 yr — the next candidate is to move the initial placement from mean to osculating elements). The wave-298b apsides-first values are history. The ≈8.85-year apsidal period in the 8-orbit window (Δϖ=+0.05308 rad/orbit) is the record of the fits up to wave 298b, and it is not steady when the window is stretched (the canonical emgrid under the wave-298e declaration [f=1, period first]: 293.8502 yr over 8 orbits, 293.8549 yr over 27 — 8.8500 and 9.6846 yr under the wave-297a declaration, 9.1278 and 9.9214 yr under the declaration until wave 296). A two-body Kepler orbit under the Newtonian inverse-square force alone is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is a DFM BUILD (real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c).  WAVE 299B (ruling 89 (1)) MADE THE SYNODIC MONTH THE TARGET (the 8-orbit sidereal month converted with the sidereal year - details in the observation text).",
+    observe:"The orbit's apse line rotates very slowly — under the wave-298e period-first declaration (D0pull=1×10⁻³) the apsidal period in the 8-orbit window is about 293.85 years (about 0.092° per periapsis — a check only; the former fits up to wave 298b gave about 8.85 years in the 8-orbit window, as the real Moon does — history, not a current observational match or prediction). The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20, about 1.8° per orbit at ×20) show the rotation. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit (net about +0.0016 rad/orbit from the 8-orbit linear fit; +0.053 rad/orbit, Δϖ ratio 0.999, under the declarations up to wave 298b). The sidereal month is 27.324 d (f=1, period first — +0.0098%; not yet reached in this search range). The former fit's 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see 🔆 (the Sun–Earth–Moon three-body with no calibration). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged. The synodic month is 29.5337 d (the wave-299b target - the 8-orbit sidereal month converted with the sidereal year; inside the 0.005 d gate; the in-app measurement in the explanation tab measures the same conversion). WAVE 299B (the originator's ruling 89 (1): geoPN=2 is an approximation - find a reference that is easy to handle as an approximation; verify the synodic month instead of the sidereal month) MADE THE SYNODIC MONTH THE TARGET: 🌘 is a two-body system without the Sun, so the 8-orbit sidereal month is converted with the sidereal year 365.256363004 d (1/P_syn = 1/P_sid - 1/T_year), and the tolerance is declared as 0.005 d (half the last digit of 29.53 d - an approximation reference). At the same D0pull=1×10⁻³ (no root is bracketed: even the floor with the dragging cut gives 29.53071 d, longer than the observed mean 29.530589 d - the range end with the smallest residual) it is 29.53375 d (+0.00316 d - inside the gate). Counting geometric conjunctions with a virtual-Sun clock, 8 intervals vary from 29.415 to 29.646 d with the initial phase (the 36-phase mean is also longer than the conversion - it shrinks with longer windows; a check only).",
     control:"This is a DFM BUILD (real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock), kept as a principle reference since wave 292b. CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
@@ -13437,7 +13440,10 @@ const BUILTIN_PRESETS = [
   // 第298便e(原仮定者の追加指示(第88報の追補)「earthMoonRealKF1 は、公転周期を優先して合わせる」・統括の検証項目 R166′): **周期優先**へ書き換えた(正本 tests/out/refit-w298b.json の段 fitmonth の写し)。
   //   標的は恒星月の 1 件(版 w298b-1 は全標的が門を通ったときだけ fitted —— 近点回転は targets から外し notFitted に照合の値と残差)。D0pull の探索範囲 [1e-5, 1e-3] で根を挟めず、
   //   範囲の端 D0pull=0.001 を採った → status "unreachable-in-bounds"(この探索範囲では未達 —— 次の見直し)。第298便b の 2 標的の記録は段 fitaps(履歴)
-  fitRecord:{"version":"w298b-1","parent":"earthMoonRealKF1","law":"geoPN=2(レガシー)・kFrame=1・λ_PN=0・qLock・frameWeight:\"pull\"・初速の係数 f=1(観測の初速)","targets":[{"q":"恒星月(同方向 1 周の平均)","obs":27.3217,"unit":"d","source":"恒星月 27.3217 日(本の parameterAudit の観測値)","window":"同方向 1〜9 周(8 公転窓)","tol":{"value":5e-05,"kind":"declared","note":"照合許容の宣言 0.00005 日 —— 恒星月 27.3217 日は表記の末位(0.0001 日)まで・σ なし"},"extractor":"tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1) —— 相対角の連続化で同方向 1 周の通過時刻・最初と最後の通過の間の平均(9 周 → 8 間隔)","model":27.324365828034008,"residual":0.0026658280340079443,"rel":9.757182144624764e-05,"numerics":{"h2":7.734305533801944e-07,"dtHalf":0.008}}],"knobs":[{"key":"physics.D0pull","range":[1e-05,0.001],"final":0.001}],"fixed":["初速の係数 f=1(地球と月の速度は 🌙 earthMoonReal の宣言そのもの —— 第297便a の f=0.998777511 は履歴)","G・質量・半径・自転・離角(🌙 と同じ観測入力)","D0=0.006(E1′)","q=8.2358(qLock の厳密一致式 —— qLock を外して q を 5・12 にしても 2 量は動かない: 段 qprobe)","kFrame=1・geoPN=2・λ_PN=0","frameWeight:\"pull\"","softening 0.1・stateCarry:\"double\""],"procedure":"周期優先(第298便e): f=1 に固定し、ノブ D0pull だけで恒星月 27.3217 日の根を探索範囲 [0.00001, 0.001] で探した(恒星月は段 scan・scanwide の格子で D0pull に単調に減る)。両端とも恒星月が標的より長く根を挟めないので、恒星月の残差が最小の範囲の端 D0pull=0.001 を採り(根ではない) h と h/2 で測り直した。近点回転は照合だけ(門に入れない)。範囲の外の参照は段 limit(器 tests/exp-w298b-refit.mjs)","dt":0.016,"steps":13279642,"status":"unreachable-in-bounds","notFitted":["近点回転の周期(照合だけ —— 門に入れない): 8 公転窓 293.850 年・8.85 年との残差 +285.000 年・h/2 差 2.30e-3 年(第298便b の近点回転優先 D0pull 3.06883e-5・8.84995 年は履歴)","恒星月(探索範囲の端でも門の外 —— この探索範囲では未達・次の見直し〔初期配置を平均要素から接触要素へ —— 🌥️ と同じ型〕。範囲の外の参照は段 limit)","27 公転窓の近点回転(窓を延ばすと定常ではない —— 第135便・第280便b)","近点間の周期(近点間は観測の恒星月に対応しない)","機構(実際の主因は太陽摂動 —— 機構の同定ではない)"],"cond":{"version":"w297b-cond-1","sig":"141e56dddd3847c5","extractor":"tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1)"}},
+  // 第299便b(原仮定者の裁定(第89報)①「geoPN=2 は近似 —— 近似として扱いやすい基準を探す。公転周期は恒星月の代わりに朔望月を検証する」・統括の検証項目 R170): **朔望月**へ書き換えた
+  //   (正本 tests/out/synodic-w299b.json の段 fit の写し)。標的は恒星月の 8 公転窓を恒星年で一様換算した朔望月の 1 件(許容 0.005 日 —— 近似の基準の宣言)。D0pull の探索範囲
+  //   [1e-5, 1e-3] で根を挟めず、範囲の端 D0pull=0.001(第298便e と同じ値 —— physics は不変)が門の中 → status "fitted"。第298便e の恒星月の記録は正本 refit-w298b.json の段 fitmonth(履歴)
+  fitRecord:{"version":"w298b-1","parent":"earthMoonRealKF1","law":"geoPN=2(レガシー・近似)・kFrame=1・λ_PN=0・qLock・frameWeight:\"pull\"・初速の係数 f=1(観測の初速)","targets":[{"q":"synodicMonthUniform","obs":29.530588857710324,"unit":"d","source":"平均朔望月 29.530588858 日(IERS の Delaunay 引数 D の率 1602961601.2090″/世紀 —— Simon et al. 1994 A&A 282 663・J2000.0)","window":"8 公転窓(同方向 1〜9 周の通過 —— 恒星月と同じ窓)を恒星年で一様換算","tol":{"value":0.005,"kind":"declared","note":"照合許容の宣言 0.005 日 —— 近似の基準(geoPN=2・太陽の無い二体)として朔望月を表示桁 29.53 日(NASA NSSDC Moon Fact Sheet の表記)の末位の半分まで読む。観測の σ ではない(平均朔望月 29.530588858 日〔IERS の D の率〕は桁がもっと多い —— 桁で読む宣言)"},"extractor":"tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1) の恒星月(同方向 1〜9 周の 8 間隔の平均)を一様換算 1/P_syn=1/P_sid−1/T_year(T_year = 恒星年 365.256363004 日・時計 w299b-syn-1)","model":29.53374811246876,"residual":0.0031592547584367026,"rel":0.00010698245042315955,"numerics":{"h2":9.035626575837341e-07,"dtHalf":0.008}}],"knobs":[{"key":"physics.D0pull","range":[1e-05,0.001],"final":0.001}],"fixed":["初速の係数 f=1(地球と月の速度は 🌙 earthMoonReal の宣言そのもの)","G・質量・半径・自転・離角(🌙 と同じ観測入力)","D0=0.006(E1′)","q=8.2358(qLock の厳密一致式)","kFrame=1・geoPN=2・λ_PN=0","frameWeight:\"pull\"","softening 0.1・stateCarry:\"double\"","朔望月の時計 w299b-syn-1: 恒星年 365.256363004 日(IERS —— Simon et al. 1994)・時刻は sim の座標時・初期位相 36 点・捨てる初期間隔 0"],"procedure":"朔望月(第299便b —— 原仮定者の裁定(第89報)①): f=1 に固定し、ノブ D0pull だけで標的(恒星月の 8 公転窓を恒星年で一様換算した朔望月)の根を探索範囲 [0.00001, 0.001] で探した。両端とも換算の朔望月が観測の平均より長く根を挟めない(引きずりを切った kFrame=0 の写しでも長い —— 段 scan の床)ので、残差が最小の範囲の端 D0pull=0.001 を採り(根ではない) h と h/2 で測り直した。許容は近似の基準の宣言 0.005 日。仮想の太陽の時計で数えた合・恒星月・近点回転は照合だけ(器 tests/exp-w299b-synodic.mjs)","dt":0.016,"steps":13279642,"status":"fitted","notFitted":["仮想の太陽の時計の朔望月(照合だけ): 初期位相 36 点の平均・8 間隔 29.539046 日(残差 +0.00846 日 —— 8 間隔の位相平均は離心の偏りで長い。位相ごとは 29.415〜29.646 日・長い窓は段 long)","恒星月(照合 —— 第298便e の第一の標的・履歴): 8 公転窓 27.324366 日・27.3217 日との残差 +0.002666 日(恒星月の許容 0.00005 日の門の外 —— 第298便e)","近点回転の周期(照合だけ): 8 公転窓 293.850 年・8.85 年との残差 +285.000 年(第298便b の近点回転優先 D0pull 3.06883e-5 は朔望月の門の外 —— 段 aps)","実際の太陽による朔望月の揺れ(🌘 は太陽の無い二体 —— 時計は仮想。太陽のある本の値は段 sun3d)","機構(実際の主因は太陽摂動 —— 機構の同定ではない)"],"cond":{"version":"w297b-cond-1","sig":"9117577cc878c154","extractor":"tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1)・朔望月の時計 w299b-syn-1(一様換算)"}},
   qLock:true,   // 第123便: q 自動算出 → 第172便: 厳密一致式 q_exact=8.2358
   // 第133便 P0: claims — 共同フィット(D₀=0.006・D0pull=3.24×10⁻⁵+初速 −0.12%)の2つの対象を、fit の対象として
   // 明示的に台帳へ計上する(prov:"calibrated" = 較正2件)。「較正の少なさ」を主張する場所で、
@@ -13457,20 +13463,30 @@ const BUILTIN_PRESETS = [
       chain:{ax:["A4","A5","A6"], eq:["E4","E6′"],
         note:"引きずりを入れるとずれる恒星月 —— 第297便までは初速の補正(f=0.99880 → 0.998777511)で 27.32日級へ戻していた。第298便b で f=1(観測の初速)に戻し、ノブ D0pull だけでは探索範囲の中で届かない(8 公転窓 27.4382 日・+0.43% —— この探索範囲では未達・次の見直し)。第298便e(周期優先)で第一の標的にし、D0pull の探索範囲を 1×10⁻³ まで広げても根を挟めない(範囲の端 27.3244 日・+0.0098% —— この探索範囲では未達・次の見直し)。",
         noteEn:"The sidereal month, which dragging shifts — restored to the 27.32-day class by the initial-speed correction (f=0.99880, then 0.998777511) until wave 297. Wave 298b returned to f=1 (the observed initial speeds); D0pull alone does not reach it inside the search range (27.4382 d over 8 orbits, +0.43% — not yet reached in this search range; next revision). Wave 298e (period first) made it the first target; widening the D0pull range to 1×10⁻³ still brackets no root (27.3244 d at the range end, +0.0098% — not yet reached in this search range; next revision)."},
-      roleNote:"fit の対象 — 🌙(kFrame=0)は較正ゼロで同じ月を出すので、この 1 件は「kF1 を成立させるために払った較正」だった(回顧的確認ではない)。f=1 の第298便b では払っていない(門の外の記録)。第298便e の周期優先でも門の外(探索範囲の端の記録)。",
-      roleNoteEn:"Fit target — 🌙 (kFrame=0) reproduces the same month with zero calibration, so this item was the calibration paid to make kF1 work (not a retrospective check). At f=1 (wave 298b) it is not paid (recorded outside the gate); under the wave-298e period-first fit it is still outside the gate (the range-end record).",
+      roleNote:"fit の対象 — 🌙(kFrame=0)は較正ゼロで同じ月を出すので、この 1 件は「kF1 を成立させるために払った較正」だった(回顧的確認ではない)。f=1 の第298便b では払っていない(門の外の記録)。第298便e の周期優先でも門の外(探索範囲の端の記録)。第299便b からは照合(標的は朔望月 —— この恒星月の一様換算)。",
+      roleNoteEn:"Fit target — 🌙 (kFrame=0) reproduces the same month with zero calibration, so this item was the calibration paid to make kF1 work (not a retrospective check). At f=1 (wave 298b) it is not paid (recorded outside the gate); under the wave-298e period-first fit it is still outside the gate (the range-end record). From wave 299b it is a check (the target is the synodic month - this sidereal month converted).",
       expected:{min:27.32, max:27.33},   // 第298便e: 周期優先の 8 公転窓 27.32437 日(第298便b は 27.40〜27.48・第297便までは 27.28〜27.38 —— 初速の補正つき)
-      descPattern:"恒星月は (\\d+\\.\\d+)日" }
+      descPattern:"恒星月は (\\d+\\.\\d+)日" },
+    { id:"earthMoonRealKF1.synodic-month", kind:"semantic", prov:"calibrated", role:"fit_target",
+      metric:"synodicMonthDaysKF1",
+      chain:{ax:["A4","A5","A6"], eq:["E4","E6′"],
+        note:"第299便b(原仮定者の裁定(第89報)①)の標的 —— 太陽の無い二体なので、恒星月の 8 公転窓を恒星年 365.256363004 日で一様換算した朔望月(1/P_syn=1/P_sid−1/T_year)を平均朔望月 29.530589 日と比べる(近似の基準 —— 許容 0.005 日は宣言)。D0pull=1×10⁻³ で 29.53375 日(+0.00316 日 —— 門の中)。",
+        noteEn:"The wave-299b target (the originator's ruling 89 (1)): a two-body system without the Sun, so the 8-orbit sidereal month converted with the sidereal year 365.256363004 d (1/P_syn = 1/P_sid - 1/T_year) is compared with the mean synodic month 29.530589 d (an approximation reference - the 0.005 d tolerance is declared). 29.53375 d at D0pull=1×10⁻³ (+0.00316 d - inside the gate)."},
+      roleNote:"fit の対象 —— D0pull の探索範囲 [1×10⁻⁵, 1×10⁻³] で根は挟めず(引きずりを切った kFrame=0 の写しでも 29.53071 日と観測の平均より長い)、残差が最小の範囲の端が許容の門に入った記録。仮想の太陽の時計で数えた合は照合だけ(8 間隔は初期位相で ±0.1 日級に揺れる)。",
+      roleNoteEn:"Fit target - no root is bracketed in the D0pull range [1×10⁻⁵, 1×10⁻³] (even the kFrame=0 copy with the dragging cut gives 29.53071 d, longer than the observed mean); the range end with the smallest residual lies inside the gate. Conjunctions counted with the virtual-Sun clock are a check only (8 intervals vary by about ±0.1 d with the initial phase).",
+      expected:{min:29.53, max:29.54},   // 第299便b: 8 公転窓の恒星月の一様換算 29.53375 日
+      descPattern:"朔望月は (\\d+\\.\\d+)日" }
   ],
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=29979.2458","地球の実質量・実半径・実自転(23.93時間)",
       "月の実質量・実半径・同期自転","軌道長半径 3.84748×10⁸m・離心率 0.0549",
-      "月の近点回転の周期 8.85年(第298便b までの fit の対象 —— 第298便e からは照合だけ)","恒星月 27.3217日(fit の対象 —— 第298便e から第一の標的)"],
+      "月の近点回転の周期 8.85年(第298便b までの fit の対象 —— 第298便e からは照合だけ)","恒星月 27.3217日(第298便e の第一の標的 —— 第299便b からは照合)",
+      "平均朔望月 29.530589 日(fit の対象 —— 第299便b から。IERS の Delaunay 引数 D の率 1602961601.2090″/世紀〔Simon et al. 1994〕・J2000.0)","恒星年 365.256363004 日(朔望月の時計 —— IERS の有用定数〔Simon et al. 1994〕)"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
       "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=0(第297便a —— 第296便までは λ_PN=1)・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
       "自由二体を重心系で配置(pinned なし)","初速の係数 f=1(観測の初速 —— 🌙 と同じ値・第298便b。第297便a の 0.998777511・第296便までの 0.99880 は履歴)"],
     fitted:["D₀=0.006(引きずり歳差の較正ノブ — 共通補正の1値)",
-      "D0pull=0.001(第298便e の周期優先 —— 恒星月へ。探索範囲 [1×10⁻⁵, 1×10⁻³] で根を挟めず範囲の端。第298便b は 3.06883×10⁻⁵〔近点回転の周期へ〕・第297便a は 3.14447×10⁻⁵・第296便までは 3.24204×10⁻⁵ —— 引きずり歳差の pull 用量)"],
+      "D0pull=0.001(第299便b: 朔望月〔恒星月の 8 公転窓の一様換算〕へ探索範囲 [1×10⁻⁵, 1×10⁻³] —— 根は挟めず範囲の端・29.53375 日は許容 0.005 日の門の中。第298便e の周期優先 —— 恒星月へ。探索範囲 [1×10⁻⁵, 1×10⁻³] で根を挟めず範囲の端。第298便b は 3.06883×10⁻⁵〔近点回転の周期へ〕・第297便a は 3.14447×10⁻⁵・第296便までは 3.24204×10⁻⁵ —— 引きずり歳差の pull 用量)"],
     derived:["q=8.2358(qLock 自動算出 — 厳密一致式 q_exact。地球スピン項の混入を除く役)","κ=G/c₀²=7.4258×10⁻⁹"],
     numerical:["ソフトニング ε=0.1","時間倍率 timeScale=1・画面の刻み stepDt=65.5721","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["D0","kFrame","dispMag"],
@@ -33343,10 +33359,13 @@ const LMS_FIT_Q={
   perihelionRateDrag:{est:"apsBRate"},   // 検出器 B の近点方位の時刻への直線 fit(°/時間 × 1 世紀 × 3600 ″)—— 対照(gain 0)との差は窓の文が宣言する
   orbitalPeriodMean:{est:"revMean"},     // 同方向の周回の通過時刻の平均間隔(窓の N 公転)
   apsidalPeriod118:{est:"apsBYear"},     // 検出器 B の近点方位の直線 fit から 360°/ϖ̇(ユリウス年)
+  // 第299便b(原仮定者の裁定(第89報)①・R170): 朔望月(朔望月の時計 SYNODIC_CLOCK_VERSION —— 器 tests/exp-w299b-synodic.mjs と同じ関数)
+  synodicMonthUniform:{est:"synB", lapsPlus:1},   // 同方向の通過の平均間隔(窓の「N 公転」= N 間隔 → 通過 N+1 回)を恒星年で一様換算 1/P_syn=1/P_sid−1/T_year
 };
 // 慣性決定力版の本の相手の組(フィット器・移送の器の ci/oi の転記 —— 派生本は fitRecord.parent の組を使う)
 // 第298便b(原仮定者の裁定(第88報)・R166): 係数移送版 3 本は退役(lmsSpecOf は退役の本を対象にしない)—— 組は派生本(fitRecord.parent)が引くので残す
 const LMS_PAIRS={earthMoonInertial:{c:0,o:1},
+  earthMoonRealKF1:{c:0,o:1},   // 第299便b(R170): 🌘 の朔望月の標的(器 tests/exp-w299b-synodic.mjs の ci/oi)
   earthMoonSunInertial:{c:1,o:2},
   mercurySunInertial:{c:0,o:1},
   plutoCharonInertial:{c:0,o:1}};
@@ -33359,7 +33378,8 @@ const LMS_REF_TARGETS={
 // 判定器が**写しにだけ**当てた条件(calaudit の CFG の calPhysics の転記 —— 正本の転記の行には載らない。QA が正本 calaudit の calPhysics.rows と突き合わせる)。
 // いまの本と違えば行に「判定器は … の写しで測った —— いまの … と違う」を出す(実測は**いまの本の条件**で測る —— 写しの条件へは替えない)
 const LMS_JUDGE_COND={mercuryReal:{softening:0.01}};
-const LMS_EST_UNIT={rev:"s", peri:"s", aps:"s", prec:"deg/orbit", precYr:"deg/yr", eProxy:"-", revMean:"s", apsBRate:"″/世紀", apsBYear:"年", apsBSec:"s"};
+const LMS_EST_UNIT={rev:"s", peri:"s", aps:"s", prec:"deg/orbit", precYr:"deg/yr", eProxy:"-", revMean:"s", apsBRate:"″/世紀", apsBYear:"年", apsBSec:"s", synB:"d"};
+const LMS_REV_EST={revMean:1, synB:1};   // 第299便b: 同方向の通過時刻(revK)を積む推定器
 const LMS_B_EST={apsBRate:1, apsBYear:1, apsBSec:1};
 // 本の宣言から実測の対象を**機械で**組み立てる(手書きの量の一覧を持たない)。退役の本は対象外
 function lmsSpecOf(p){
@@ -33405,7 +33425,7 @@ function lmsSpecOf(p){
       if(!d){ it.why="fitQ"; return; }
       if(!pair){ it.why="noTarget"; return; }
       if(!mW || !isNum(fr.dt) || !(fr.dt>0)){ it.why="fitWindow"; return; }
-      it.est=d.est; it.c=pair.c; it.o=pair.o; it.dt=fr.dt; it.win={laps:Number(mW[1])};
+      it.est=d.est; it.c=pair.c; it.o=pair.o; it.dt=fr.dt; it.win={laps:Number(mW[1])+(d.lapsPlus||0)};
     });
   }
   const rf=LMS_REF_TARGETS[p.id];
@@ -33476,6 +33496,58 @@ function lmsFitB(raw,rMin,rMax,pRef,dt){
   for(let i=0;i<n;i++){ tsy+=(ts[i]-mt)*(ang[i]-my); tsx+=(ts[i]-mt)*(ts[i]-mt); }
   return {nPeri:n, slopeDegPerPeri:sxy/sxx*180/Math.PI, slopeDegPerTime:tsy/tsx*180/Math.PI};
 }
+// ===== 第299便b(原仮定者の裁定(第89報)①「geoPN=2 は近似であり、近似として扱いやすい基準を探す。earthMoonRealKF1 で合わせる『公転周期』は、
+//   『恒星月』の代わりに『朔望月』を検証する」・統括の検証項目 R170): **朔望月の時計**(抽出器 SYNODIC_CLOCK_VERSION —— 純関数・sim を書かない)。
+//   器 tests/exp-w299b-synodic.mjs とアプリ内実測(lms* の推定器 synB —— 一様換算 synUniform・synYearUnits)が**同じこの関数**を読む(手続きの写しを持たない)。
+//   (A) 仮想の太陽の時計: λ☉(t)=λ☉0+2πt/T_year(T_year = 恒星年 SYN_YEAR_SID_DAYS を本の時間単位へ換算・時刻は sim の座標時 t=k·dt)。
+//       地心の離角 E(t)=unwrap(λ_M(t)−2πt/T_year)(λ_M = 地心から見た月の方位 —— 三次元は黄道〔xy 面〕への射影)が λ☉0+2πk を**下から越えた**時刻を
+//       合(朔 —— 幾何学的な合)とする(段の間は線形補間・t=0 ちょうどの合は数えない)。初期位相の格子 λ☉0=j·360°/N(j=0…N−1)は 1 本の E(t) の
+//       水準 m·2π/N で同時に数える(位相 j = m mod N)。窓 W = 各位相の最初の合から W 間隔(捨てる初期間隔 skip —— 既定 0)。
+//   (B) 一様換算: 1/P_syn = 1/P_sid − 1/T_year(P_sid = 同方向 1 周の平均 —— 恒星月の抽出器と同じ通過時刻・同じ窓)。
+//   (C) 実際の太陽がある本: λ☉(t) = 地心から太陽への方位(N=1)。
+//   拒否(値を出さない): 離角が 1 標本で減る(逆行 —— 合の順序が定まらない)・1 標本の増分が SYN_MAX_STEP_RAD を超える(刻みが粗い —— 連続化があいまい)・非有限。
+const SYNODIC_CLOCK_VERSION="w299b-syn-1";
+const SYN_YEAR_SID_DAYS=365.256363004;   // 恒星年 [日](IERS の有用定数 —— Simon et al. 1994 A&A 282 663・J2000.0 の平均。観測 CSV の SOL-b851fd96)
+const SYN_MAX_STEP_RAD=Math.PI/8;         // 1 標本の離角の増分の上限(刻みの拒否)
+function synYearUnits(toSec){ return SYN_YEAR_SID_DAYS*86400/toSec; }   // 恒星年を本の時間単位へ(toSec = 10^scaleExp.T)
+function synUniform(pSid,tYear){ return (pSid>0 && tYear>pSid)? 1/(1/pSid-1/tYear) : null; }
+function synWrap(a){ while(a>Math.PI) a-=2*Math.PI; while(a<=-Math.PI) a+=2*Math.PI; return a; }
+// o = {phases:N(仮想の太陽の初期位相の格子の点数 —— 実際の太陽は 1), tYear(本の時間単位 —— 仮想の太陽)か real:true(実際の太陽), maxStep}
+function synClockNew(o){
+  const N=Math.max(1, (o && o.phases)|0), real=!!(o && o.real===true);
+  return {v:SYNODIC_CLOCK_VERSION, N, dP:2*Math.PI/N, real, om:real? 0 : 2*Math.PI/o.tYear, maxStep:(o && o.maxStep>0)? o.maxStep : SYN_MAX_STEP_RAD,
+    E:null, idx:0, tp:0, lm:0, ls:0, conj:Array.from({length:N},()=>[]), err:null, n:0};
+}
+// 1 標本(時刻 t・地心の月の方位 lamM・地心の太陽の方位 lamS〔実際の太陽だけ —— 仮想は無視〕)。戻り値は拒否の理由か null
+function synClockFeed(C,t,lamM,lamS){
+  if(C.err) return C.err;
+  if(!(isFinite(t) && isFinite(lamM) && (!C.real || isFinite(lamS)))){ C.err="nonfinite"; return C.err; }
+  if(C.E===null){
+    C.E=synWrap(lamM-(C.real? lamS : 0)); C.idx=Math.floor(C.E/C.dP); C.tp=t; C.lm=lamM; C.ls=C.real? lamS : 0; C.n=1; return null;
+  }
+  const d=synWrap(lamM-C.lm)-(C.real? synWrap(lamS-C.ls) : C.om*(t-C.tp));
+  if(!(d>=0)){ C.err="retrograde"; return C.err; }
+  if(d>C.maxStep){ C.err="coarse"; return C.err; }
+  const E0=C.E, E1=E0+d, t0=C.tp;
+  const i1=Math.floor(E1/C.dP);
+  while(C.idx<i1){
+    C.idx++;
+    const L=C.idx*C.dP, fr=(d>0)? (L-E0)/d : 1;
+    C.conj[((C.idx%C.N)+C.N)%C.N].push(t0+fr*(t-t0));
+  }
+  C.E=E1; C.tp=t; C.lm=lamM; if(C.real) C.ls=lamS; C.n++;
+  return null;
+}
+// 位相 j の W 間隔の平均(skip 間隔を捨てる)—— 足りなければ null
+function synMean(C,j,W,skip){ const a=C.conj[j], s=skip|0; return (W>=1 && a && a.length>s+W)? (a[s+W]-a[s])/W : null; }
+// 全位相の W 間隔の平均の統計(位相平均・最小・最大・標準偏差)。どれかの位相が足りなければ null
+function synPhaseStats(C,W,skip){
+  const v=[]; for(let j=0;j<C.N;j++){ const m=synMean(C,j,W,skip); if(m===null) return null; v.push(m); }
+  const mean=v.reduce((s,x)=>s+x,0)/v.length, sd=Math.sqrt(v.reduce((s,x)=>s+(x-mean)*(x-mean),0)/v.length);
+  return {mean, min:Math.min(...v), max:Math.max(...v), sd, n:v.length, values:v};
+}
+// 窓が埋まったか(全位相が skip+W+1 回の合を持つ)
+function synWindowDone(C,W,skip){ const need=(skip|0)+W+1; for(let j=0;j<C.N;j++) if(C.conj[j].length<need) return false; return true; }
 function lmsLapsOf(item){ return (item.win && item.win.laps)? item.win.laps : 0; }
 function lmsWindowDone(G,item){
   const w=item.win;
@@ -33494,6 +33566,7 @@ function lmsValueOf(G,item,toSec,dt){
   }
   const W=lmsLapsOf(item); if(!(W>=2) || G.revK.length<W) return null;
   if(e==="revMean") return (G.revK[W-1]-G.revK[0])/(W-1)*toSec;
+  if(e==="synB"){ const ps=synUniform((G.revK[W-1]-G.revK[0])/(W-1), synYearUnits(toSec)); return ps===null? null : ps*toSec/86400; }   // 第299便b: 日
   if(LMS_B_EST[e]){
     const tCut=G.revK[W-1], fb=lmsFitB(G.B.filter(p=>p.k*dt<=tCut), G.rMinW, G.rMaxW, G.P0, dt);
     if(!fb.slopeDegPerTime) return null;
@@ -33538,7 +33611,7 @@ function lmsStart(key,opts){
   return {ok:true, seq:J.seq, result:lmsRes[key]};
 }
 function lmsRunSteps(R,J,maxN){
-  const S=R.S, dt=R.dt, G=R.G, item=J.item, W=(LMS_B_EST[item.est] || item.est==="revMean")? lmsLapsOf(item) : 0;
+  const S=R.S, dt=R.dt, G=R.G, item=J.item, W=(LMS_B_EST[item.est] || LMS_REV_EST[item.est])? lmsLapsOf(item) : 0;
   for(let n=0;n<maxN;n++){
     if(G.k>=LMS_STEP_CAP){ R.status="steps-cap"; return; }
     S.step(dt);
@@ -33610,7 +33683,7 @@ function lmsResultOf(key){
 }
 // ---- 表示(文はこの関数だけが作る —— 説明タブの箱と照合の行が同じ 1 つを読む)----
 function lmsFmt(x){ return (x===null || x===undefined || !isFinite(x))? "—" : lcFmt(x); }
-function lmsWinTxt(it){ return it.win? (it.win.laps? T("lmsWinLaps")(it.win.laps) : T("lmsWinPeri")(it.win.peri)) : "—"; }
+function lmsWinTxt(it){ return it.win? (it.est==="synB"? T("lmsWinSynB")(it.win.laps) : it.win.laps? T("lmsWinLaps")(it.win.laps) : T("lmsWinPeri")(it.win.peri)) : "—"; }
 function lmsUnitOf(it){ const u=it.unit||LMS_EST_UNIT[it.est]||""; return (u && u!=="-")? " "+u : ""; }
 function lmsResultText(it,r){
   if(!it.est) return T("lmsUnsupported")+" —— "+(T("lmsWhy")[it.why]||it.why||"");
@@ -57015,6 +57088,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     meterNew:lmsMeterNew, feedStep:lmsFeedStep, fitB:lmsFitB, valueOf:lmsValueOf, screenDt:lmsScreenDt,
     tables:{targets:LMS_TARGETS, periBooks:LMS_PERIASTRON_BOOKS, judgeCond:LMS_JUDGE_COND, condDiffOf:lmsCondDiffOf, fitQ:LMS_FIT_Q, pairs:LMS_PAIRS, refs:LMS_REF_TARGETS, stageDiv:LMS_STAGE_DIV, estUnit:LMS_EST_UNIT},
     consts:{dtBase:LMS_DT_BASE, yearSec:LMS_YEAR_SEC, chunkMs:LMS_CHUNK_MS, wallCapSec:LMS_WALL_CAP_SEC, stepCap:LMS_STEP_CAP} },
+  // 第299便b(原仮定者の裁定(第89報)①・R170): 朔望月の時計(抽出器)の読み口 —— 器 tests/exp-w299b-synodic.mjs と QA behavior.synodicClock299 が読む(純関数)
+  synodic:{ version:SYNODIC_CLOCK_VERSION, yearDays:SYN_YEAR_SID_DAYS, maxStep:SYN_MAX_STEP_RAD, yearUnits:synYearUnits, uniform:synUniform, wrap:synWrap,
+    clockNew:synClockNew, feed:synClockFeed, mean:synMean, phaseStats:synPhaseStats, windowDone:synWindowDone },
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); const lcOn=(sim.overlays.liveCompare===true && !ab), dt=appStepDt(sim); for(let s2=0;s2<Math.min(k,HP_TICK_CAP);s2++){ sim.step(dt); if(lcOn) lcAfterStep(); } } render(); },   // 第297便c(R163): 画面の刻み appStepDt
   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準の読み口(QA preset.timeStd297/behavior.timeStd297)
   timeStd:{ version:TIME_STD_VERSION, orbitSteps:ORBIT_STEPS_STD, observeSteps:OBSERVE_STEPS_STD, dtRange:STEP_DT_RANGE, orbitMin:STEP_DT_ORBIT_MIN,
