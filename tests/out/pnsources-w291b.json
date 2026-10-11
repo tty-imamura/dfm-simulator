@@ -3,68 +3,68 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:58:10.630Z",
+  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "generatedAt": "2026-10-11T15:10:08.127Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6567878,
+    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+    "mtime": "2026-10-11T15:03:27.403Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 25885,
-    "sha256": "d37fdd4fa6982682eef73b41af21f1c93cc4ff89cf35c681793ee48f2b060efb",
-    "mtime": "2026-10-09T16:59:23.994Z"
+    "bytes": 27491,
+    "sha256": "02c9351e54046efe76c1034fac565bfd69fa8184cd190ddd59cd166364619308",
+    "mtime": "2026-10-11T15:06:34.203Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19554,
     "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-11T15:03:27.699Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-09T10:19:35.518Z"
+    "mtime": "2026-10-11T15:03:27.699Z"
    },
    {
     "file": "tests/lib-w280d-charoninput.mjs",
     "bytes": 22952,
     "sha256": "53d308ce7d3f14067cb8dc8f038d1b5faad5b80dec087c7fe0835de6cad3150d",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-11T15:03:27.695Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-11T15:03:27.691Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-11T15:03:27.695Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-11T15:03:27.691Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-11T15:03:27.695Z"
    }
   ],
-  "codeSha256": "a6b49af07c37b013d53f914c10ab384f66ff26759c1ecbfed4eba6a692a2ac3b",
-  "harnessVersion": "w291b-pnsources-5",
+  "codeSha256": "f048ac640b8099d90286f711df6b9697033d154baa7d98ef6e8070d263b015f6",
+  "harnessVersion": "w291b-pnsources-6",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
   "reading": "統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)",
@@ -113,11 +113,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1151,
-   "segments": 1051,
-   "closureShare": 0.3249
+   "names": 1193,
+   "segments": 1086,
+   "closureShare": 0.319
   },
-  "scopeSha256": "e5a12ef04ad8414bfe20f507fa3462303f550a03ddd19e9cae4a6527a4e72490",
+  "scopeSha256": "8ad6c9c030b841dc73371628195a040f418ffe426351e5964141ae7ad320bb17",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -168,9 +168,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+ "nowSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
  "A": {
-  "n": 164,
+  "n": 173,
   "kf0Books": 28,
   "increased": [
    "earthMoonReal",
@@ -200,7 +200,7 @@
  "B": {
   "steps": 24,
   "dt": 0.016,
-  "bitSame": 108,
+  "bitSame": 100,
   "changed": [
    "earthMoonReal",
    "emAuditNewton",
@@ -227,7 +227,7 @@
   "increasedUnchanged": [
    "saturnD68ObsOrbit"
   ],
-  "sigSame": 77,
+  "sigSame": 69,
   "sigDiff": [],
   "newInNow": [
    "earthMoonTide",
@@ -237,11 +237,20 @@
    "earthMoonSunInertial3d",
    "mercurySunInertial",
    "mercurySunInertialFit",
+   "mercurySunInertial3d",
+   "venusSunInertial3d",
+   "marsSunInertial3d",
+   "jupiterSunInertial3d",
+   "saturnSunInertial3d",
+   "uranusSunInertial3d",
+   "neptuneSunInertial3d",
+   "mercuryMeshMigrate3d",
    "plutoCharonInertial",
    "plutoCharonInertialFit",
    "chainDiskToy",
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
    "coord3dKeplerTilt",
    "coord3dSpinPrecess"
   ],
@@ -356,6 +365,26 @@
    "fig8",
    "pulsarSolo",
    "spinDipoleBinary"
+  ],
+  "changedByCoord3d299": [
+   "shapeToyCluster",
+   "shapeToyDisk",
+   "shapeToyArm",
+   "shapeToySpiral",
+   "shapeToyClusterCore",
+   "shapeToyDiskCore",
+   "shapeToyArmCore",
+   "shapeToySpiralCore"
+  ],
+  "sigChangedByCoord3d299": [
+   "shapeToyCluster",
+   "shapeToyDisk",
+   "shapeToyArm",
+   "shapeToySpiral",
+   "shapeToyClusterCore",
+   "shapeToyDiskCore",
+   "shapeToyArmCore",
+   "shapeToySpiralCore"
   ],
   "nullPhysicsKF0": [],
   "errors": [],
@@ -745,7 +774,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "grcal",
@@ -771,7 +801,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "grcalGps",
@@ -797,7 +828,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "grcalLight",
@@ -823,7 +855,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "grcalShapiro",
@@ -849,7 +882,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "projectile",
@@ -875,7 +909,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "echo",
@@ -901,7 +936,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxtrans",
@@ -927,7 +963,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "boxrot",
@@ -953,7 +990,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxexpand",
@@ -979,7 +1017,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxcomoving",
@@ -1005,7 +1044,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxbound",
@@ -1031,7 +1071,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxbreath",
@@ -1057,7 +1098,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxredshift",
@@ -1083,7 +1125,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "probeH",
@@ -1109,7 +1152,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "freebox",
@@ -1135,7 +1179,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "cosmicweb",
@@ -1161,7 +1206,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxy",
@@ -1187,7 +1233,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyStd",
@@ -1213,7 +1260,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyGeo2",
@@ -1239,7 +1287,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyDB",
@@ -1265,7 +1314,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "darkrotor",
@@ -1291,7 +1341,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "rotorSolo",
@@ -1317,7 +1368,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "nebulaRotor",
@@ -1343,7 +1395,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "nebulaShell",
@@ -1369,7 +1422,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "nebulaBipolar",
@@ -1395,7 +1449,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "bhCore",
@@ -1421,7 +1476,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "bhCoreTilt",
@@ -1447,7 +1503,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "massLadder",
@@ -1473,7 +1530,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "collapse",
@@ -1499,7 +1557,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "axisBarStill",
@@ -1525,7 +1584,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "axisBarArms",
@@ -1551,7 +1611,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "axisBarReach",
@@ -1577,7 +1638,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "selfRotor",
@@ -1603,7 +1665,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1629,7 +1692,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1655,7 +1719,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1681,7 +1746,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyAnalogyBH",
@@ -1707,7 +1773,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyAnalogyBHCompose",
@@ -1733,7 +1800,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyAnalogyBHTilt90",
@@ -1759,7 +1827,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "galaxyAnalogyBHTilt90Layers",
@@ -1785,7 +1854,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "clusterAnalogyBH",
@@ -1811,7 +1881,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "clusterGrowthCopy",
@@ -1837,7 +1908,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "fixedCaptureCopy",
@@ -1863,7 +1935,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "shapeToyCluster",
@@ -1882,14 +1955,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToyDisk",
@@ -1908,14 +1982,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToyArm",
@@ -1934,14 +2009,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToySpiral",
@@ -1960,14 +2036,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToyClusterCore",
@@ -1986,14 +2063,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToyDiskCore",
@@ -2012,14 +2090,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToyArmCore",
@@ -2038,14 +2117,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "shapeToySpiralCore",
@@ -2064,14 +2144,15 @@
    "inBase": true,
    "inertialLaw": false,
    "geo4Migrated": false,
-   "bitSame": true,
-   "sigSame": true,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": true
   },
   {
    "id": "lensing",
@@ -2097,7 +2178,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "spinlens",
@@ -2123,7 +2205,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "blens",
@@ -2149,7 +2232,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "reddening",
@@ -2175,7 +2259,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "gas",
@@ -2201,7 +2286,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "pressure",
@@ -2227,7 +2313,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "conduction",
@@ -2253,7 +2340,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "frictionHeat",
@@ -2279,7 +2367,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "coolrace",
@@ -2305,7 +2394,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "convection",
@@ -2331,7 +2421,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "buoyancy",
@@ -2357,7 +2448,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "cooling",
@@ -2383,7 +2475,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "emergent",
@@ -2409,7 +2502,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "emergent2",
@@ -2435,7 +2529,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "chain2",
@@ -2461,7 +2556,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "chaincycle",
@@ -2487,7 +2583,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoon",
@@ -2513,7 +2610,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "earthMoonFree",
@@ -2539,7 +2637,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "earthMoonReal",
@@ -2568,7 +2667,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "earthMoonTide",
@@ -2597,7 +2697,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoonRealKF1",
@@ -2623,7 +2724,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoonInertial",
@@ -2649,7 +2751,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "emAuditNewton",
@@ -2678,7 +2781,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "emAuditDFM",
@@ -2704,7 +2808,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "emAuditSolar",
@@ -2735,7 +2840,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "earthMoonSunInertial",
@@ -2761,7 +2867,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoonSunInertialFit",
@@ -2787,12 +2894,13 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoonSunInertial3d",
    "emoji": "🌦️",
-   "role": null,
+   "role": "variant",
    "cls": "principle",
    "n": 3,
    "geoPN": 3,
@@ -2813,7 +2921,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "earthMoonDiagOne",
@@ -2844,7 +2953,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "qLockRadialAudit",
@@ -2870,7 +2980,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2896,7 +3007,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "mercury",
@@ -2927,7 +3039,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "mercuryReal",
@@ -2958,7 +3071,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "mercurySunInertial",
@@ -2984,7 +3098,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "mercurySunInertialFit",
@@ -3010,7 +3125,197 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "mercuryGeoToy3",
@@ -3036,7 +3341,35 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "mercuryMeshMigrate3d",
+   "emoji": "🔂",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 4,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "mercuryRealKF1",
@@ -3062,7 +3395,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "solarInner",
@@ -3093,7 +3427,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "jupiterGalilean",
@@ -3124,7 +3459,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "venusReal",
@@ -3153,7 +3489,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "marsMoonsReal",
@@ -3184,7 +3521,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonReal",
@@ -3213,7 +3551,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonDFM",
@@ -3244,7 +3583,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonKF0Control",
@@ -3273,7 +3613,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonDiagInput",
@@ -3302,7 +3643,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonInertial",
@@ -3328,7 +3670,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonInertialFit",
@@ -3354,7 +3697,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "plutoCharonSyncZero",
@@ -3380,7 +3724,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "charonGeoToy3",
@@ -3406,7 +3751,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "uranusReal",
@@ -3437,7 +3783,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "neptuneReal",
@@ -3466,7 +3813,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "alphaCenAB",
@@ -3495,7 +3843,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "alphaCenABDFM",
@@ -3521,7 +3870,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "siriusAB",
@@ -3550,7 +3900,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "siriusABDFM",
@@ -3576,7 +3927,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleAB",
@@ -3605,7 +3957,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleABDFM",
@@ -3631,7 +3984,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleABGeoToy",
@@ -3657,7 +4011,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -3683,7 +4038,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrJ1757DFM",
@@ -3712,7 +4068,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "psrJ1946DFM",
@@ -3741,7 +4098,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleABPN",
@@ -3767,7 +4125,8 @@
    "err": null,
    "lambdaBase": 0.5000144330801174,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrJ1757PN",
@@ -3793,7 +4152,8 @@
    "err": null,
    "lambdaBase": 0.5000260856666837,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrJ1946PN",
@@ -3819,7 +4179,8 @@
    "err": null,
    "lambdaBase": 0.5000086177580901,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrDoubleABCF",
@@ -3845,7 +4206,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrJ1757CF",
@@ -3871,7 +4233,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrJ1946CF",
@@ -3897,7 +4260,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrB1534",
@@ -3926,7 +4290,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "psrB1534DFM",
@@ -3952,7 +4317,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "psrB1534CF",
@@ -3978,7 +4344,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "compactForceToy",
@@ -4004,7 +4371,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "inertialDragPair",
@@ -4030,7 +4398,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "chainDiskToy",
@@ -4056,7 +4425,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "chainDiskToy3d",
@@ -4082,7 +4452,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "chainDiskToy3dTilt",
@@ -4108,7 +4479,35 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "chainSpreadToy3d",
+   "emoji": "🍥",
+   "role": null,
+   "cls": "principle",
+   "n": 81,
+   "geoPN": 4,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 0.005,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 0,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "coord3dKeplerTilt",
@@ -4134,7 +4533,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "coord3dSpinPrecess",
@@ -4160,7 +4560,8 @@
    "err": null,
    "lambdaBase": null,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "boxBinaryToy",
@@ -4186,7 +4587,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -4212,7 +4614,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "gw150914",
@@ -4238,7 +4641,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "gw150914DFM",
@@ -4264,7 +4668,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "gw150914Merge4s",
@@ -4290,7 +4695,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "gw150914SpinDipole",
@@ -4316,7 +4722,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "tuc47",
@@ -4342,7 +4749,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "tuc47DFM",
@@ -4368,7 +4776,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "ngc3198",
@@ -4394,7 +4803,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "ngc3198DFM",
@@ -4420,7 +4830,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "supernovaProg",
@@ -4446,7 +4857,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "supernovaProgDFM",
@@ -4472,7 +4884,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "crabRemnant",
@@ -4498,7 +4911,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "saturn",
@@ -4524,7 +4938,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "saturnLayered",
@@ -4550,7 +4965,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "saturnZonalD68",
@@ -4582,7 +4998,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "saturnD68Consistent",
@@ -4614,7 +5031,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -4646,7 +5064,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "saturnRingReal",
@@ -4677,7 +5096,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "saturnRingRealKF1",
@@ -4703,7 +5123,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": true,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "binary",
@@ -4734,7 +5155,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "fig8",
@@ -4760,7 +5182,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "counterring",
@@ -4786,7 +5209,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "spinup",
@@ -4812,7 +5236,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "pulsarSolo",
@@ -4838,7 +5263,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "supernovaCore",
@@ -4864,7 +5290,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "whiteDwarfDFM",
@@ -4890,7 +5317,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -4916,7 +5344,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "envelopeShedDFM",
@@ -4942,7 +5371,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "lfbotTrap",
@@ -4968,7 +5398,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "layeredCoreDFM",
@@ -4994,7 +5425,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "spinDipoleBinary",
@@ -5020,7 +5452,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": true
+   "timeStdOnly": true,
+   "coord3d299": false
   },
   {
    "id": "gasCohSurface",
@@ -5046,7 +5479,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "mmPhaseToy",
@@ -5072,7 +5506,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   },
   {
    "id": "starSeed",
@@ -5098,7 +5533,8 @@
    "err": null,
    "lambdaBase": 1,
    "lam297": false,
-   "timeStdOnly": false
+   "timeStdOnly": false,
+   "coord3d299": false
   }
  ],
  "verdict": {
@@ -5124,13 +5560,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.079,
+   "wallSec": 0.088,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.138,
+   "wallSec": 0.2,
    "errors": 0
   }
  },
- "elapsedS": 154.898
+ "elapsedS": 207.195
 }

@@ -17,6 +17,13 @@
 //   W297C_PLAN  移行案の上書き JSON({id:{timeScale, stepDt, timeRef}} —— 移行前の器の試走用。正本の生成では使わない)
 //   W297C_IDS   本の部分集合(カンマ区切り)/ W297C_ORBITS(既定 8)/ W297C_OBS_STEPS(既定 600)
 //   W297C_BASE  旧 html(在れば旧 timeScale を表に写す —— 無くても正本は作れる)
+//   W299A_OUT   出力(W297C_OUT の別名 —— 第299便a。両方あれば W299A_OUT)
+// ■ 第299便a(統括の検証項目 R169・器の版 w299a-timestd-2): **三次元の本(physics.coord:"3d")の量を三次元で数える**。
+//   旧版(w297c-timestd-1)の osc は dx/dy だけ —— 傾いた軌道面の本(🌐)は面への投影の a・e・P(e 0.025・P 163.3)を記録していた。
+//   三次元の本だけ: r・v²・比角運動量 |r×v|・対の外の粒子の半径・観察の本の最大半径を 3 成分で数え、公転の位相(同方向の公転数)は
+//   **初期の軌道面の基底**(HP.coord3d.planeOf —— n̂=r×v/|r×v|・ê₁=r̂・ê₂=n̂×ê₁)へ射影した角で数える。三次元の行には coord:"3d"・phase:"plane0" を付ける。
+//   **二次元の本の計算は旧版と同じ式・同じ順序**(osc2 —— 二次元の行は旧器とビット同一。第299便a の枝で全行を照合した)。
+//   面が強く動く系(歳差・摂動で軌道面が回る)では初期の面への射影の位相は公転数を数え落とし得る —— 記録だけ(門は変えない)。
 // 使い方: node tests/exp-w297c-timestd.mjs
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,12 +31,12 @@ import { fileURLToPath } from 'node:url';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.timeStd","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
-export const TIMESTD_VERSION = 'w297c-timestd-1';
+export const TIMESTD_VERSION = 'w299a-timestd-2';   // 第299便a: 三次元の本を三次元で数える(二次元の行は w297c-timestd-1 とビット同一)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = path.resolve(ROOT, process.env.W297C_HTML || 'beta/index.html');
-const OUT = path.resolve(ROOT, process.env.W297C_OUT || 'tests/out/timestd-w297c.json');
+const OUT = path.resolve(ROOT, process.env.W299A_OUT || process.env.W297C_OUT || 'tests/out/timestd-w297c.json');
 const PLAN = process.env.W297C_PLAN ? JSON.parse(fs.readFileSync(process.env.W297C_PLAN, 'utf8')) : null;
 const IDS = process.env.W297C_IDS ? process.env.W297C_IDS.split(',').filter(Boolean) : null;
 const ORBITS = Number(process.env.W297C_ORBITS || 8);
@@ -62,7 +69,19 @@ const TS = HP.timeStd;
 if (!TS) throw new Error('HP.timeStd が無い(第297便c 以前の html)');
 const DT_APP = TS.appStepDt({ params: {} });   // 未宣言の刻み = html の DT(器は値を持たない)
 
-function osc(S, c, o) {
+// 第299便a: 三次元の本は osc3(B = 初期の軌道面の基底 —— 位相の角をその面で数える)。二次元の本は osc2(旧版と同じ式・同じ順序)
+function osc(S, c, o, B) { return S.coord3d === true ? osc3(S, c, o, B) : osc2(S, c, o); }
+function osc3(S, c, o, B) {
+  const dx = S.x[o] - S.x[c], dy = S.y[o] - S.y[c], dz = S.z[o] - S.z[c], dvx = S.vx[o] - S.vx[c], dvy = S.vy[o] - S.vy[c], dvz = S.vz[o] - S.vz[c];
+  const r = Math.hypot(dx, dy, dz), v2 = dvx * dvx + dvy * dvy + dvz * dvz, mu = S.params.G * (S.m[c] + S.m[o]);
+  const hx = dy * dvz - dz * dvy, hy = dz * dvx - dx * dvz, hz = dx * dvy - dy * dvx;
+  const E = v2 / 2 - mu / r, h = Math.hypot(hx, hy, hz), inv = 2 / r - v2 / mu, a = inv !== 0 ? 1 / inv : Infinity;
+  const e = Math.sqrt(Math.max(0, 1 - h * h / (mu * a)));
+  const ang = B ? Math.atan2(B.e2[0] * dx + B.e2[1] * dy + B.e2[2] * dz, B.e1[0] * dx + B.e1[1] * dy + B.e1[2] * dz) : Math.atan2(dy, dx);
+  return { r, E, h, a, e, P: a > 0 ? 2 * Math.PI * Math.sqrt(a * a * a / mu) : null, ang };
+}
+const rad = (S, i, c) => S.coord3d === true ? Math.hypot(S.x[i] - S.x[c], S.y[i] - S.y[c], S.z[i] - S.z[c]) : Math.hypot(S.x[i] - S.x[c], S.y[i] - S.y[c]);
+function osc2(S, c, o) {
   const dx = S.x[o] - S.x[c], dy = S.y[o] - S.y[c], dvx = S.vx[o] - S.vx[c], dvy = S.vy[o] - S.vy[c];
   const r = Math.hypot(dx, dy), v2 = dvx * dvx + dvy * dvy, mu = S.params.G * (S.m[c] + S.m[o]);
   const E = v2 / 2 - mu / r, h = dx * dvy - dy * dvx, inv = 2 / r - v2 / mu, a = inv !== 0 ? 1 / inv : Infinity;
@@ -79,16 +98,17 @@ function runOrbit(p, dt, nSteps, pair) {
   const { S } = build(p);
   const [c, o] = pair;
   if (!(c < S.n && o < S.n)) return { err: 'pair が粒子数の外' };
-  const o0 = osc(S, c, o);
+  const c3 = S.coord3d === true, B = c3 ? HP.coord3d.planeOf(S, c, o) : null;   // 第299便a: 初期の軌道面の基底(三次元の本だけ)
+  const o0 = osc(S, c, o, B);
   const others = [];
   for (let i = 0; i < S.n; i++) if (i !== c && i !== o) {
-    const q = osc(S, c, i); others.push({ i, r0: q.r, P: q.P });
+    const q = osc(S, c, i, null); others.push({ i, r0: q.r, P: q.P });
   }
   let maxE = 0, maxL = 0, rMin = Infinity, angAcc = 0, angPrev = o0.ang, rev = 0, tRev1 = null, tRevN = null;
   for (let k = 0; k < nSteps; k++) {
     S.step(dt);
-    if ((k & 7) === 7 || k === nSteps - 1) { if (S.hasNaN()) return { nan: true, k }; }
-    const q = osc(S, c, o);
+    if ((k & 7) === 7 || k === nSteps - 1) { if (S.hasNaN()) return { nan: true, k, c3 }; }
+    const q = osc(S, c, o, B);
     if (q.r < rMin) rMin = q.r;
     const dE = Math.abs(q.E - o0.E) / Math.abs(o0.E), dL = Math.abs(q.h - o0.h) / Math.abs(o0.h);
     if (dE > maxE) maxE = dE; if (dL > maxL) maxL = dL;
@@ -97,20 +117,20 @@ function runOrbit(p, dt, nSteps, pair) {
     const nr = Math.floor(Math.abs(angAcc) / (2 * Math.PI));
     if (nr > rev) { rev = nr; const t = (k + 1) * dt; if (rev === 1) tRev1 = t; tRevN = t; }
   }
-  const q1 = osc(S, c, o);
-  const rEnd = others.map((z) => Math.hypot(S.x[z.i] - S.x[c], S.y[z.i] - S.y[c]));
-  return { nan: S.hasNaN(), osc0: { a: o0.a, e: o0.e, P: o0.P, r: o0.r }, end: { a: q1.a, e: q1.e }, maxE, maxL, rMin, rev,
+  const q1 = osc(S, c, o, B);
+  const rEnd = others.map((z) => rad(S, z.i, c));
+  return { c3, nan: S.hasNaN(), osc0: { a: o0.a, e: o0.e, P: o0.P, r: o0.r }, end: { a: q1.a, e: q1.e }, maxE, maxL, rMin, rev,
     pMeas: rev >= 2 ? (tRevN - tRev1) / (rev - 1) : null, clampV: S.clampVN || 0, clampS: S.clampSN || 0,
     solveFail: S.inertialDragSolveFail || 0, others, rEnd, n: S.n, t: S.t };
 }
 function runObserve(p, dt, nSteps) {
   const { S } = build(p);
   let maxR = 0;
-  for (let k = 0; k < nSteps; k++) { S.step(dt); if ((k & 15) === 15 && S.hasNaN()) return { nan: true, k }; }
-  for (let i = 0; i < S.n; i++) { const r = Math.hypot(S.x[i], S.y[i]); if (r > maxR) maxR = r; }
+  for (let k = 0; k < nSteps; k++) { S.step(dt); if ((k & 15) === 15 && S.hasNaN()) return { nan: true, k, c3: S.coord3d === true }; }
+  for (let i = 0; i < S.n; i++) { const r = S.coord3d === true ? Math.hypot(S.x[i], S.y[i], S.z[i]) : Math.hypot(S.x[i], S.y[i]); if (r > maxR) maxR = r; }   // 第299便a: 三次元の本は 3 成分
   // 3 体以下は粒子ごとの状態(質量・半径・自転)も返す(単一天体の内部の進化は位置が動かない —— 刻みの効きは状態で見る)
   const st = S.n <= 3 ? Array.from({ length: S.n }, (_, i) => [S.m[i], S.R[i], S.spin[i]]) : null;
-  return { nan: S.hasNaN(), maxR, st, clampV: S.clampVN || 0, clampS: S.clampSN || 0, solveFail: S.inertialDragSolveFail || 0, n: S.n, t: S.t };
+  return { c3: S.coord3d === true, nan: S.hasNaN(), maxR, st, clampV: S.clampVN || 0, clampS: S.clampSN || 0, solveFail: S.inertialDragSolveFail || 0, n: S.n, t: S.t };
 }
 const relDiff = (a, b) => { const sc = Math.max(Math.abs(a), Math.abs(b)); return sc > 0 ? Math.abs(a - b) / sc : 0; };
 const r6 = (x) => (x === null || x === undefined || !Number.isFinite(x)) ? x : Number(x.toPrecision(6));
@@ -144,6 +164,7 @@ for (const p0 of HP.allPresets()) {
       const n = Math.ceil(ORBITS * tr.pRef / dtApp);
       const A = runOrbit(p, dtApp, n, tr.pair);
       const B = A.nan ? null : runOrbit(p, dtApp / 2, 2 * n, tr.pair);
+      if (A.c3) { row.coord = '3d'; row.phase = 'plane0'; }   // 第299便a: 三次元の行だけ(二次元の行の鍵は旧版と同じ)
       row.steps = n; row.stepsPerOrbit = r6(tr.pRef / dtApp); row.stepsPerOrbitOsc = A.osc0 ? r6(A.osc0.P / dtApp) : null;
       if (A.err) { row.status = 'error'; row.err = A.err; }
       else if (A.nan) { row.status = 'nan'; row.nanAt = A.k; }
@@ -173,6 +194,7 @@ for (const p0 of HP.allPresets()) {
       }
     } else {
       const A = runObserve(p, dtApp, OBS_STEPS);
+      if (A.c3) row.coord = '3d';   // 第299便a
       row.steps = OBS_STEPS; row.tObsSteps = r6(tr.tObs / dtApp);
       if (A.nan) { row.status = 'nan'; row.nanAt = A.k; }
       else {
@@ -206,6 +228,8 @@ const CODE = ['tests/exp-w297c-timestd.mjs', 'tests/lib-w280b-emgrid.mjs', 'test
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第297便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     version: TIMESTD_VERSION, timeStdVersion: TS.version,
+    coord3d: { revisedBy: '第299便a(統括の検証項目 R169)', rule: '三次元の本(physics.coord:\"3d\")は r・v²・|r×v|・他粒子と観察の半径を 3 成分・公転の位相は初期の軌道面の基底(HP.coord3d.planeOf)へ射影した角(行に coord:\"3d\"・phase:\"plane0\")/ 二次元の本は旧版 w297c-timestd-1 と同じ式(行はビット同一)',
+      rows: rows.filter((r) => r.coord === '3d').map((r) => r.id) },
     ruling: '原仮定者の裁定(第87報)③ 時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す',
     reading: '統括の検証項目 R163(physics.stepDt・timeRef・timeScale=1・全在位本の移行・A/B 停止)',
     rule: '公転の本: timeScale=1・stepDt=pRef/stepsPerOrbit(pRef は観測対象なら採用出典の周期・無ければ初期状態の二体の接触軌道 —— 実測周期で正規化しない)/ 観察の本: timeRef basis observe・timeScale 1〜4 / 退役: physics を変えない記録',

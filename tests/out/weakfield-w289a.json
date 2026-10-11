@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:02:04.020Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:28:15.790Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1148,
-   "segments": 1048,
-   "closureShare": 0.3234
+   "names": 1190,
+   "segments": 1083,
+   "closureShare": 0.3177
   },
-  "scopeSha256": "9debb642919e77816d017dc9039d828fd01a87a2cc48c81e52de2b6b34076c80",
+  "scopeSha256": "65408f1f72f562e1080aee175e8cb09d92c762ac14cf2181163c0e4c5cc0cf68",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.053
+    "wallSec": 0.056
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.034
+    "wallSec": 0.062
    }
   ],
   "clocksOk": true,
@@ -487,11 +487,11 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 164,
+  "n": 173,
   "tally": {
    "active:default(pull)": 4,
    "active:pull": 14,
-   "active:share": 105,
+   "active:share": 114,
    "retired:default(pull)": 2,
    "retired:pull": 14,
    "retired:share": 25
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.455
+ "elapsedS": 2.25
 }

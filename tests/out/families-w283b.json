@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:24:58.667Z",
+  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "generatedAt": "2026-10-11T13:48:20.795Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6567878,
+    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+    "mtime": "2026-10-11T11:59:41.552Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1821704,
-    "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
-    "mtime": "2026-10-10T20:02:14.146Z"
+    "bytes": 1823723,
+    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
+    "mtime": "2026-10-11T12:49:27.596Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,9 +50,9 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 64841,
-    "sha256": "947c21770d55b8e61ef894b94cc7689ae5d888fb595c614dbe3a73475c958952",
-    "mtime": "2026-10-10T21:24:58.647Z"
+    "bytes": 64988,
+    "sha256": "d0a985a66e6fcdd9403761d3d8350624d0fbc069e489056e00c7724844075d4c",
+    "mtime": "2026-10-11T13:48:20.611Z"
    }
   ],
   "code": [
@@ -60,7 +60,7 @@
     "file": "tests/exp-w283b-families.mjs",
     "bytes": 43603,
     "sha256": "d6fefcb1086420471e509bcc4a426ce178bdb28275c343b8ed172646fe514e27",
-    "mtime": "2026-10-10T16:52:47.814Z"
+    "mtime": "2026-10-11T00:52:29.981Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 270385,
-    "sha256": "38efa1d4eb053b0f4a73f964525e885e2637d23585832ed62200feb580f83f01",
-    "mtime": "2026-10-10T19:21:09.918Z"
+    "bytes": 277223,
+    "sha256": "2b917f8862d2655238a0930e945bbe87a14187955fa749531b84049767d347b1",
+    "mtime": "2026-10-11T08:52:45.892Z"
    }
   ],
-  "codeSha256": "ef79ad7a2152d9918b927182d9bcc96ba253ff6573f9a7c98fa475e8edbd45d5",
+  "codeSha256": "ac3277e2a183d2d486873b46e164c6c0ac40d6b23ef11bc555d59d135d8a2b73",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1152,
-   "segments": 1052,
-   "closureShare": 0.3512
+   "names": 1194,
+   "segments": 1087,
+   "closureShare": 0.3459
   },
-  "scopeSha256": "de877bc3f7aba8898b4d92873920dd9d1c2fcfb58857281ec10bd5cec383e93e",
+  "scopeSha256": "acf8f5f767c7592a70d5c46323f3bef1fed609e2a1f6002b4a52394a97d3b485",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "dda6759e030343a93f7e1752391195c1a6e82e5a7c89f177e36678877ae2f124",
+    "stableSha256": "60393af84c3ed77fc8afd659621204b8391dda5fe7bcc1c5ba161802f34e650f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "db57ed70193a03fd538edcf4dcd64c0c2dc901251ef48f9d8167a95f5bad2115",
+    "stableSha256": "769c9f455642d333d0c4f4634f218cbc9a770cf72eb409a86fcdbb1346343f33",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -3327,9 +3327,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "指定した 3D 正規分布を保つ参照模型",
+     "purpose": "指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標)",
      "gates": [],
-     "presetSigHash": "38156713",
+     "presetSigHash": "4a6639e0",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の入口(primary)",
@@ -3358,9 +3358,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "指定した薄い回転円盤を保つ参照模型",
+     "purpose": "指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言)",
      "gates": [],
-     "presetSigHash": "b5673bea",
+     "presetSigHash": "99bacdbd",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3401,9 +3401,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "腕の軸に対する正規分布を保つ参照模型",
+     "purpose": "腕の軸に対する正規分布を保つ参照模型(三次元)",
      "gates": [],
-     "presetSigHash": "ffbcf715",
+     "presetSigHash": "4dfb50fa",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3446,9 +3446,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)",
+     "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない)",
      "gates": [],
-     "presetSigHash": "79d7026e",
+     "presetSigHash": "dde465e5",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3587,7 +3587,7 @@
      }
     }
    ],
-   "physicsSameKeys": 25,
+   "physicsSameKeys": 27,
    "candidates": [],
    "keepApart": [],
    "history": []
@@ -3626,9 +3626,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "中心スピンに依存する力学で星団を束ねる",
+     "purpose": "中心スピンに依存する力学で星団を束ねる(三次元)",
      "gates": [],
-     "presetSigHash": "e5fffafa",
+     "presetSigHash": "1f4f8e11",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の入口(primary)",
@@ -3657,9 +3657,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "中心スピンから薄さと円盤の回転を作る",
+     "purpose": "中心スピンから薄さと円盤の回転を作る(三次元)",
      "gates": [],
-     "presetSigHash": "762ea0c6",
+     "presetSigHash": "e41e5e03",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3700,9 +3700,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "面内の自転軸に沿った棒を作る",
+     "purpose": "面内の自転軸に沿った棒を作る(三次元)",
      "gates": [],
-     "presetSigHash": "76132401",
+     "presetSigHash": "6a2285ee",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3745,9 +3745,9 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)",
+     "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない)",
      "gates": [],
-     "presetSigHash": "4639ec41",
+     "presetSigHash": "7254217c",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3974,7 +3974,7 @@
      }
     }
    ],
-   "physicsSameKeys": 27,
+   "physicsSameKeys": 29,
    "candidates": [],
    "keepApart": [],
    "history": []
@@ -6352,7 +6352,7 @@
   ],
   "qaRefs": {
    "darkrotor": 144,
-   "bhCore": 44,
+   "bhCore": 46,
    "nebulaRotor": 17,
    "nebulaShell": 14,
    "nebulaBipolar": 21,
@@ -6420,5 +6420,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.755
+ "elapsedS": 0.859
 }

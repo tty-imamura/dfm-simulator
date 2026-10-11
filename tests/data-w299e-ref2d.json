@@ -1,0 +1,822 @@
+{
+ "meta": {
+  "version": "w299e-ref2d-1",
+  "role": "fixture",
+  "frozen": true,
+  "source": "第298便の main(4964704)の内蔵の参照模型 8 本の二次元の宣言(id・emoji・seed・world・camera・timeRef・physics・bodies —— 説明文は含めない)",
+  "sourceSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "note": "第299便e(原仮定者の裁定(第89報)④・R174)で在位の 8 本を三次元(physics.coord:\"3d\"・stateCarry:\"double\")にした。二次元の宣言は凍結の写しとしてここに残す —— QA preset.ref3d299・behavior.ref3d299 と器 tests/exp-w299e-ref3d.mjs が二次元の規定運動のビット同一の相手として読む(書き換えない)"
+ },
+ "books": {
+  "shapeToyCluster": {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "seed": 20260919,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 160
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "shapeToy": {
+     "shape": "cluster",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "omega0": 0.1,
+     "gamma": 0.25,
+     "sigma": 36,
+     "sigma0": 36,
+     "tauGrow": 0,
+     "center": "fixed",
+     "cx": 0,
+     "cy": 0
+    }
+   },
+   "bodies": [
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 240,
+     "cx": 0,
+     "cy": 0,
+     "radius": 72,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToyDisk": {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "seed": 20260919,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 200
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "shapeToy": {
+     "shape": "disk",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "omega0": 0.01,
+     "gamma": 0.02,
+     "sigma": 44,
+     "sigmaZ": 14,
+     "sigma0": 44,
+     "tauGrow": 0,
+     "omegaSpin": 0.05,
+     "center": "fixed",
+     "cx": 0,
+     "cy": 0
+    }
+   },
+   "bodies": [
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 300,
+     "cx": 0,
+     "cy": 0,
+     "radius": 88,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0.05,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToyArm": {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "seed": 20260919,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 180
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "shapeToy": {
+     "shape": "arm",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "omega0": 0.12,
+     "gamma": 0.24,
+     "sigma": 7.2,
+     "sigmaZ": 4.8,
+     "sigma0": 7.2,
+     "tauGrow": 0,
+     "armLength": 120,
+     "armLength0": 120,
+     "center": "fixed",
+     "cx": 0,
+     "cy": 0
+    }
+   },
+   "bodies": [
+    {
+     "type": "box",
+     "rMul": 1.4,
+     "n": 180,
+     "cx": 60,
+     "cy": 0,
+     "w": 120,
+     "h": 25,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vScale": 0,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToySpiral": {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "seed": 20260919,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 230
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "shapeToy": {
+     "shape": "spiral",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "omega0": 0.01,
+     "gamma": 0.02,
+     "sigma": 44,
+     "sigmaZ": 14,
+     "sigma0": 44,
+     "tauGrow": 0,
+     "center": "fixed",
+     "cx": 0,
+     "cy": 0,
+     "spiral": {
+      "nArm": 2,
+      "pitchDeg": 20,
+      "rMin": 24,
+      "rMax": 144,
+      "r0": 24,
+      "phi0Deg": 0,
+      "armWidth": 7.2,
+      "armSigmaZ": 4.8,
+      "armOmega0": 0.12,
+      "armGamma": 0.24,
+      "omegaP": 0.05,
+      "massRatio": 2,
+      "nDisk": 300,
+      "nArmParticles": 150,
+      "density": "uniform-s"
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 300,
+     "cx": 0,
+     "cy": 0,
+     "radius": 88,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0.05,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    },
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 150,
+     "cx": 0,
+     "cy": 0,
+     "radius": 144,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToyClusterCore": {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "seed": 20260920,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 160
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "contactK": 0,
+    "contactCap": 0,
+    "shapeToy": {
+     "shape": "cluster",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "law": "coreField",
+     "omega0": 0.1,
+     "gamma": 0.25,
+     "sigma": 36,
+     "sigma0": 36,
+     "tauGrow": 0,
+     "center": "pinned",
+     "cx": 0,
+     "cy": 0,
+     "coreField": {
+      "coreRc": 125,
+      "coreMass": 10,
+      "alpha": 1.1,
+      "beta": 0.1,
+      "axis": [
+       0,
+       0,
+       1
+      ],
+      "W0": 0.00064,
+      "temp": 19.44,
+      "omegaP": 0,
+      "init": "thermal",
+      "centreGravity": "phi",
+      "exchange": {
+       "mode": "rotating-bath",
+       "rate": 0.02,
+       "capacity": 20000
+      }
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 10,
+     "radius": 5,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 1,
+     "pinned": true
+    },
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 240,
+     "cx": 0,
+     "cy": 0,
+     "radius": 72,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToyDiskCore": {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "seed": 20260920,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 200
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "contactK": 0,
+    "contactCap": 0,
+    "shapeToy": {
+     "shape": "disk",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "law": "coreField",
+     "omega0": 0.01,
+     "gamma": 0.02,
+     "sigma": 44,
+     "sigmaZ": 14,
+     "sigma0": 44,
+     "tauGrow": 0,
+     "omegaSpin": 0.05,
+     "center": "pinned",
+     "cx": 0,
+     "cy": 0,
+     "coreField": {
+      "coreRc": 160,
+      "coreMass": 10,
+      "alpha": 1.05,
+      "beta": 7.8,
+      "axis": [
+       0,
+       0,
+       1
+      ],
+      "W0": 0.0044921875,
+      "temp": 3.624,
+      "omegaP": 0.14,
+      "init": "thermal",
+      "centreGravity": "phi",
+      "exchange": {
+       "mode": "rotating-bath",
+       "rate": 0.02,
+       "capacity": 20000
+      }
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 10,
+     "radius": 5,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 1,
+     "pinned": true
+    },
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 300,
+     "cx": 0,
+     "cy": 0,
+     "radius": 88,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0.05,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToyArmCore": {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "seed": 20260920,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 260
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 箱・気体・格子の粒子群"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "contactK": 0,
+    "contactCap": 0,
+    "shapeToy": {
+     "shape": "arm",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "law": "coreField",
+     "omega0": 0.12,
+     "gamma": 0.24,
+     "sigma": 7.2,
+     "sigmaZ": 4.8,
+     "sigma0": 7.2,
+     "tauGrow": 0,
+     "armLength": 120,
+     "armLength0": 120,
+     "center": "pinned",
+     "cx": 0,
+     "cy": 0,
+     "coreField": {
+      "coreRc": 250,
+      "coreMass": 10,
+      "alpha": 2,
+      "beta": 0.0108,
+      "axis": [
+       1,
+       0,
+       0
+      ],
+      "W0": 0.00016,
+      "temp": 7.776,
+      "omegaP": 0,
+      "init": "thermal",
+      "centreGravity": "phi",
+      "exchange": {
+       "mode": "rotating-bath",
+       "rate": 0.02,
+       "capacity": 20000
+      }
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 10,
+     "radius": 5,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 1,
+     "pinned": true
+    },
+    {
+     "type": "box",
+     "rMul": 1.4,
+     "n": 180,
+     "cx": 0,
+     "cy": 0,
+     "w": 240,
+     "h": 25,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vScale": 0,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  },
+  "shapeToySpiralCore": {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "seed": 20260920,
+   "world": {
+    "boundary": "none",
+    "size": 0
+   },
+   "camera": {
+    "scale": 230
+   },
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 9.6,
+    "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+   },
+   "physics": {
+    "contactMode": "none",
+    "G": 0,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.016666666666666666,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 3,
+    "frameWeight": "share",
+    "contactK": 0,
+    "contactCap": 0,
+    "shapeToy": {
+     "shape": "spiral",
+     "supply": "external-bath",
+     "coupling": "prescribed",
+     "law": "coreField",
+     "omega0": 0.01,
+     "gamma": 0.02,
+     "sigma": 44,
+     "sigmaZ": 14,
+     "sigma0": 44,
+     "tauGrow": 0,
+     "center": "pinned",
+     "cx": 0,
+     "cy": 0,
+     "coreField": {
+      "coreRc": 160,
+      "coreMass": 10,
+      "alpha": 1.05,
+      "beta": 7.8,
+      "axis": [
+       0,
+       0,
+       1
+      ],
+      "W0": 0.0044921875,
+      "temp": 3.624,
+      "omegaP": 0.14,
+      "init": "thermal",
+      "centreGravity": "phi",
+      "exchange": {
+       "mode": "rotating-bath",
+       "rate": 0.02,
+       "capacity": 20000
+      }
+     },
+     "spiral": {
+      "nArm": 2,
+      "pitchDeg": 20,
+      "rMin": 24,
+      "rMax": 144,
+      "r0": 24,
+      "phi0Deg": 0,
+      "armWidth": 7.2,
+      "armSigmaZ": 7.2,
+      "armOmega0": 0.12,
+      "armGamma": 0.24,
+      "omegaP": 0.14,
+      "massRatio": 2,
+      "nDisk": 300,
+      "nArmParticles": 150,
+      "density": "uniform-s"
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 10,
+     "radius": 5,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 1,
+     "pinned": true
+    },
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 300,
+     "cx": 0,
+     "cy": 0,
+     "radius": 88,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0.05,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    },
+    {
+     "type": "disk",
+     "rMul": 1.4,
+     "n": 150,
+     "cx": 0,
+     "cy": 0,
+     "radius": 144,
+     "mMin": 0.6,
+     "mMax": 0.6,
+     "spinMin": 0,
+     "spinMax": 0,
+     "vMode": "rigid",
+     "vScale": 0,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0
+    }
+   ]
+  }
+ }
+}

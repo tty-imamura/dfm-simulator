@@ -1,0 +1,1685 @@
+{
+ "version": "w299d-geo4stable-1",
+ "conditionsDeclared": [
+  {
+   "key": "layout",
+   "ja": "配置: 宣言半径の重なり 0(粒子どうし・中心と粒子)・最短の粒子間距離 ≥ 4 R_p・内縁 ≥ 3 R_C",
+   "thr": {
+    "dMinOverRp": 4,
+    "rInOverRC": 3
+   }
+  },
+  {
+   "key": "solver",
+   "ja": "連鎖解: 2000 步で元の式の相対残差の最大 ≤ 解法の門・未収束 0・NaN 0・履歴なしの步 ≤ 1・一致点の拒否 0(本 A と対照 B)",
+   "thr": {
+    "res": 1e-10
+   }
+  },
+  {
+   "key": "resume",
+   "ja": "停止と再開: チェックポイント(1000 步で保存 → 100 步 → 復帰 → 1000 步)と複製(cloneSimState)が通しの 2000 步とビット同一・A/B(appStepFn と stepCarryFrame)で両側 2000 步・停止 0・各側が単独の走行とビット同一",
+   "thr": {}
+  },
+  {
+   "key": "budget",
+   "ja": "三次元の収支: |ΔL − 移送の帳簿 dL3| / |L₀| ≤ 1e-10(本・中心は固定)・|ΔP| / Σ|m v| ≤ 1e-12(中心を固定しない写し)",
+   "thr": {
+    "L": 1e-10,
+    "P": 1e-12
+   }
+  },
+  {
+   "key": "step",
+   "ja": "刻みの依存: h と h/2(同じ時刻 32)で帯ごとの平均 Δθ と Δθ_u の差 ≤ 1%(帯の最大の大きさで割る)",
+   "thr": {
+    "rel": 0.01
+   }
+  },
+  {
+   "key": "count",
+   "ja": "粒子数の依存: 円盤の総質量 400 を保って n=40/80/160 —— 帯ごとの平均 Δθ_u の n=160 と n=80 の差 ≤ 20%(帯の最大の大きさで割る)",
+   "thr": {
+    "rel": 0.2
+   }
+  },
+  {
+   "key": "seed",
+   "ja": "配置の依存: 散布の種 0〜3(n=80・各種の配置も layout の条件を満たす)の帯ごとの平均 Δθ_u の幅(最大−最小)≤ 20%(帯の最大の大きさで割る)",
+   "thr": {
+    "rel": 0.2
+   }
+  },
+  {
+   "key": "display",
+   "ja": "表示の非干渉: 10 步ごとに受動プローブ(格子・流線・点)を引いても 600 步の状態の指紋が引かない走行と同じ",
+   "thr": {}
+  }
+ ],
+ "migConditionsDeclared": [
+  {
+   "key": "planar",
+   "ja": "平面の三次元の写し(傾き 0)の近点率 = 二次元の 🟫(gain 同じ)とビット同一(gain 0 の対照も)",
+   "thr": {}
+  },
+  {
+   "key": "tilt",
+   "ja": "軌道面を 30° 傾けた写しと平面の写しの近点率の差(gain 0 との差)≤ 🟫 の照合許容 0.0009″/世紀",
+   "thr": {
+    "arcsec": 0.0009
+   }
+  },
+  {
+   "key": "boost",
+   "ja": "一様な速度 V=(2.3,0,0)(中心を固定しない写し)で近点率の差(gain 0 との差)の変化 ≤ 0.0009″/世紀",
+   "thr": {
+    "arcsec": 0.0009
+   }
+  },
+  {
+   "key": "rate",
+   "ja": "本(三次元・傾き 30°)の gain 0 との差の |値 − 43| + |h − h/2| ≤ 0.0009″/世紀(🟫 の門と同じ形 —— 合わせ直さない)",
+   "thr": {
+    "arcsec": 0.0009,
+    "obs": 43
+   }
+  }
+ ],
+ "spreadDefault": {
+  "n": 80,
+  "rIn": 18,
+  "rOut": 72,
+  "m": 5,
+  "mC": 100,
+  "RC": 6,
+  "spinC": 0.5,
+  "G": 0.005,
+  "soft": 0.5,
+  "seed": 0,
+  "jitter": 0.5,
+  "floorRp": 4,
+  "strict": true,
+  "tries": 64
+ },
+ "bands": [
+  [
+   18,
+   36
+  ],
+  [
+   36,
+   54
+  ],
+  [
+   54,
+   72.5
+  ]
+ ],
+ "dt": 0.016,
+ "steps": 2000,
+ "stable": {
+  "conditions": {
+   "layout": {
+    "pass": true,
+    "value": {
+     "overlapPairs": 0,
+     "overlapCentre": 0,
+     "dMinOverRp": 5.77473,
+     "rInOverRC": 3
+    }
+   },
+   "solver": {
+    "pass": true,
+    "value": {
+     "tol": 1e-10,
+     "A": {
+      "resMax": 6.32365e-12,
+      "itersMax": 7,
+      "fail": 0,
+      "noHistory": 1
+     },
+     "B": {
+      "resMax": 4.88346e-12,
+      "itersMax": 7,
+      "fail": 0,
+      "noHistory": 1
+     }
+    }
+   },
+   "resume": {
+    "pass": true,
+    "value": {
+     "checkpoint": {
+      "moved": true,
+      "restored": true,
+      "same2000": true
+     },
+     "clone": true,
+     "ab": {
+      "kRun": 2000,
+      "halts": 0,
+      "tEqual": true,
+      "sideSame": true
+     },
+     "appAb": {
+      "ready": true,
+      "same": true,
+      "same200": true
+     }
+    }
+   },
+   "budget": {
+    "pass": true,
+    "value": {
+     "relLresid": 6.87458e-16,
+     "Lscale": 4471.04,
+     "dL3": [
+      0.0879703,
+      -1.9588,
+      -0.0864576
+     ],
+     "relP": 2.37253e-17,
+     "Pscale": 69.0917,
+     "energy": {
+      "dE": -0.000735177,
+      "work": -0.000734503,
+      "resid": -6.74828e-7,
+      "relResid": -5.43848e-8
+     }
+    }
+   },
+   "step": {
+    "pass": true,
+    "value": {
+     "relA": 0.000236762,
+     "relB": 0.000218996,
+     "A_h2": [
+      {
+       "band": [
+        18,
+        36
+       ],
+       "n": 16,
+       "dth": 0.172307,
+       "dthU": 0.0126671,
+       "dr": 0.0240241
+      },
+      {
+       "band": [
+        36,
+        54
+       ],
+       "n": 27,
+       "dth": 0.105908,
+       "dthU": 0.0000310148,
+       "dr": 0.000795852
+      },
+      {
+       "band": [
+        54,
+        72.5
+       ],
+       "n": 37,
+       "dth": 0.102275,
+       "dthU": -0.00135338,
+       "dr": -0.00469708
+      }
+     ],
+     "B_h2": [
+      {
+       "band": [
+        18,
+        36
+       ],
+       "n": 16,
+       "dth": 0.023651,
+       "dthU": 0.0234038,
+       "dr": -0.322112
+      },
+      {
+       "band": [
+        36,
+        54
+       ],
+       "n": 27,
+       "dth": 0.00153686,
+       "dthU": 0.00159067,
+       "dr": -0.252359
+      },
+      {
+       "band": [
+        54,
+        72.5
+       ],
+       "n": 37,
+       "dth": 0.000316846,
+       "dthU": 0.000285874,
+       "dr": -0.336888
+      }
+     ],
+     "solverH2": {
+      "A": 6.32433e-12,
+      "B": 4.88359e-12,
+      "failA": 0,
+      "failB": 0
+     }
+    }
+   },
+   "count": {
+    "pass": true,
+    "value": {
+     "rel160A": 0.0149161,
+     "rel160B": 0.000893216,
+     "rel40A": 0.0277159,
+     "rel40B": 0.0105776,
+     "rows": {
+      "40": {
+       "m": 10,
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 8,
+         "dth": 0.174292,
+         "dthU": 0.0123132,
+         "dr": 0.0222785
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 13,
+         "dth": 0.106129,
+         "dthU": -0.0000919955,
+         "dr": 0.00277929
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 19,
+         "dth": 0.098985,
+         "dthU": -0.00115351,
+         "dr": -0.00416689
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 8,
+         "dth": 0.0235486,
+         "dthU": 0.0231511,
+         "dr": -0.33174
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 13,
+         "dth": 0.00146531,
+         "dthU": 0.00163231,
+         "dr": -0.25221
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 19,
+         "dth": 0.000308323,
+         "dthU": 0.000295694,
+         "dr": -0.312756
+        }
+       ],
+       "A_early": [
+        {
+         "n": 8,
+         "uT": 0.0088398,
+         "directT": 0.00876264,
+         "ratio": 1.00881
+        },
+        {
+         "n": 13,
+         "uT": -0.000233702,
+         "directT": -0.000281548,
+         "ratio": 0.83006
+        },
+        {
+         "n": 19,
+         "uT": -0.00228471,
+         "directT": -0.00226262,
+         "ratio": 1.00976
+        }
+       ],
+       "B_early": [
+        {
+         "n": 8,
+         "uT": 0.0164752,
+         "directT": 0.0162528,
+         "ratio": 1.01369
+        },
+        {
+         "n": 13,
+         "uT": 0.00212344,
+         "directT": 0.0018833,
+         "ratio": 1.12751
+        },
+        {
+         "n": 19,
+         "uT": 0.000559957,
+         "directT": 0.000480528,
+         "ratio": 1.1653
+        }
+       ],
+       "itersMax": [
+        0,
+        0
+       ],
+       "resMax": [
+        1.22853e-15,
+        8.36763e-16
+       ],
+       "fail": [
+        0,
+        0
+       ],
+       "timing": {
+        "A": {
+         "wallSec": 0.355
+        },
+        "B": {
+         "wallSec": 0.309
+        }
+       }
+      },
+      "80": {
+       "m": 5,
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.172305,
+         "dthU": 0.0126642,
+         "dr": 0.0239211
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.105908,
+         "dthU": 0.0000310126,
+         "dr": 0.000732308
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.102275,
+         "dthU": -0.00135305,
+         "dr": -0.00477889
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.0236458,
+         "dthU": 0.0233986,
+         "dr": -0.322188
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.00153647,
+         "dthU": 0.00159029,
+         "dr": -0.252423
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.000316784,
+         "dthU": 0.000285804,
+         "dr": -0.336972
+        }
+       ],
+       "A_early": [
+        {
+         "n": 16,
+         "uT": 0.00904742,
+         "directT": 0.00876356,
+         "ratio": 1.03239
+        },
+        {
+         "n": 27,
+         "uT": -0.0000380353,
+         "directT": -0.0000742829,
+         "ratio": 0.512033
+        },
+        {
+         "n": 37,
+         "uT": -0.00272125,
+         "directT": -0.00263541,
+         "ratio": 1.03257
+        }
+       ],
+       "B_early": [
+        {
+         "n": 16,
+         "uT": 0.0166,
+         "directT": 0.0159963,
+         "ratio": 1.03774
+        },
+        {
+         "n": 27,
+         "uT": 0.00209281,
+         "directT": 0.00178161,
+         "ratio": 1.17467
+        },
+        {
+         "n": 37,
+         "uT": 0.000550752,
+         "directT": 0.000456773,
+         "ratio": 1.20575
+        }
+       ],
+       "itersMax": [
+        7,
+        7
+       ],
+       "resMax": [
+        6.32365e-12,
+        4.88346e-12
+       ],
+       "fail": [
+        0,
+        0
+       ],
+       "timing": {
+        "A": {
+         "wallSec": 1.765
+        },
+        "B": {
+         "wallSec": 1.653
+        }
+       }
+      },
+      "160": {
+       "m": 2.5,
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 32,
+         "dth": 0.170312,
+         "dthU": 0.0128531,
+         "dr": 0.0241306
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 53,
+         "dth": 0.106331,
+         "dthU": 0.000100132,
+         "dr": -0.000839865
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 75,
+         "dth": 0.104303,
+         "dthU": -0.00143172,
+         "dr": -0.00448532
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 32,
+         "dth": 0.0234624,
+         "dthU": 0.0233777,
+         "dr": -0.314042
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 53,
+         "dth": 0.00173334,
+         "dthU": 0.00159534,
+         "dr": -0.252835
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 75,
+         "dth": 0.000259546,
+         "dthU": 0.000299491,
+         "dr": -0.351926
+        }
+       ],
+       "A_early": [
+        {
+         "n": 32,
+         "uT": 0.0091562,
+         "directT": 0.00858124,
+         "ratio": 1.067
+        },
+        {
+         "n": 53,
+         "uT": 0.0000939667,
+         "directT": 0.0000411202,
+         "ratio": 2.28517
+        },
+        {
+         "n": 75,
+         "uT": -0.00294091,
+         "directT": -0.00274869,
+         "ratio": 1.06993
+        }
+       ],
+       "B_early": [
+        {
+         "n": 32,
+         "uT": 0.0165989,
+         "directT": 0.0154602,
+         "ratio": 1.07365
+        },
+        {
+         "n": 53,
+         "uT": 0.00212857,
+         "directT": 0.00171576,
+         "ratio": 1.2406
+        },
+        {
+         "n": 75,
+         "uT": 0.000559124,
+         "directT": 0.000441368,
+         "ratio": 1.2668
+        }
+       ],
+       "itersMax": [
+        8,
+        7
+       ],
+       "resMax": [
+        9.62132e-11,
+        7.2716e-11
+       ],
+       "fail": [
+        0,
+        0
+       ],
+       "timing": {
+        "A": {
+         "wallSec": 6.181
+        },
+        "B": {
+         "wallSec": 6.692
+        }
+       }
+      }
+     }
+    }
+   },
+   "seed": {
+    "pass": true,
+    "value": {
+     "relA": 0.0522418,
+     "relB": 0.0373783,
+     "seedLayoutOk": true,
+     "rows": {
+      "0": {
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.172305,
+         "dthU": 0.0126642,
+         "dr": 0.0239211
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.105908,
+         "dthU": 0.0000310126,
+         "dr": 0.000732308
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.102275,
+         "dthU": -0.00135305,
+         "dr": -0.00477889
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.0236458,
+         "dthU": 0.0233986,
+         "dr": -0.322188
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.00153647,
+         "dthU": 0.00159029,
+         "dr": -0.252423
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.000316784,
+         "dthU": 0.000285804,
+         "dr": -0.336972
+        }
+       ]
+      },
+      "1": {
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.168901,
+         "dthU": 0.0127328,
+         "dr": 0.0226013
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.102968,
+         "dthU": 0.000536333,
+         "dr": -0.0000374195
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103566,
+         "dthU": -0.00161505,
+         "dr": -0.00396891
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.0232492,
+         "dthU": 0.0229826,
+         "dr": -0.311
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.00166589,
+         "dthU": 0.00157814,
+         "dr": -0.243852
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.00021121,
+         "dthU": 0.00029605,
+         "dr": -0.350019
+        }
+       ],
+       "dMin": 8.95403,
+       "overlapPairs": 0,
+       "fail": [
+        0,
+        0
+       ]
+      },
+      "2": {
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.169003,
+         "dthU": 0.0132825,
+         "dr": 0.0241773
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.104709,
+         "dthU": 0.00012527,
+         "dr": 0.00399568
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103439,
+         "dthU": -0.00147357,
+         "dr": -0.00568437
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.0242359,
+         "dthU": 0.0232647,
+         "dr": -0.306425
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.00133137,
+         "dthU": 0.00162371,
+         "dr": -0.249812
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.000331547,
+         "dthU": 0.000286465,
+         "dr": -0.346288
+        }
+       ],
+       "dMin": 8.97074,
+       "overlapPairs": 0,
+       "fail": [
+        0,
+        0
+       ]
+      },
+      "3": {
+       "A": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.168378,
+         "dthU": 0.0126209,
+         "dr": 0.0222486
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.104453,
+         "dthU": 0.000393144,
+         "dr": 0.00301874
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103025,
+         "dthU": -0.00156736,
+         "dr": -0.00734041
+        }
+       ],
+       "B": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.0225806,
+         "dthU": 0.022524,
+         "dr": -0.310492
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.00134832,
+         "dthU": 0.00161883,
+         "dr": -0.249339
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.000385959,
+         "dthU": 0.000282503,
+         "dr": -0.346061
+        }
+       ],
+       "dMin": 9.01155,
+       "overlapPairs": 0,
+       "fail": [
+        0,
+        0
+       ]
+      }
+     },
+     "generatorV1": {
+      "note": "生成器 w299d-spread-1(床なし)の種 1〜3 —— 配置が layout の条件を割る(重なり・最短距離)。最初の測定の記録で判定には入れない",
+      "relA": 1.13912,
+      "rows": {
+       "1": {
+        "dMin": 2.54949,
+        "overlapPairs": 5,
+        "A": [
+         {
+          "band": [
+           18,
+           36
+          ],
+          "n": 16,
+          "dth": 0.148998,
+          "dthU": 0.0189417,
+          "dr": 0.0375788
+         },
+         {
+          "band": [
+           36,
+           54
+          ],
+          "n": 27,
+          "dth": 0.101182,
+          "dthU": 0.0016514,
+          "dr": 0.0325082
+         },
+         {
+          "band": [
+           54,
+           72.5
+          ],
+          "n": 37,
+          "dth": 0.102495,
+          "dthU": -0.00336566,
+          "dr": 0.00187404
+         }
+        ]
+       },
+       "2": {
+        "dMin": 1.53367,
+        "overlapPairs": 7,
+        "A": [
+         {
+          "band": [
+           18,
+           36
+          ],
+          "n": 16,
+          "dth": 0.1595,
+          "dthU": 0.0184486,
+          "dr": 0.0516712
+         },
+         {
+          "band": [
+           36,
+           54
+          ],
+          "n": 27,
+          "dth": 0.108226,
+          "dthU": 0.00116739,
+          "dr": 0.0231564
+         },
+         {
+          "band": [
+           54,
+           72.5
+          ],
+          "n": 37,
+          "dth": 0.100084,
+          "dthU": -0.00304663,
+          "dr": 0.0258043
+         }
+        ]
+       },
+       "3": {
+        "dMin": 2.17777,
+        "overlapPairs": 11,
+        "A": [
+         {
+          "band": [
+           18,
+           36
+          ],
+          "n": 16,
+          "dth": 0.15707,
+          "dthU": 0.0270903,
+          "dr": 0.0725804
+         },
+         {
+          "band": [
+           36,
+           54
+          ],
+          "n": 27,
+          "dth": 0.103861,
+          "dthU": -0.00612276,
+          "dr": -0.00507388
+         },
+         {
+          "band": [
+           54,
+           72.5
+          ],
+          "n": 37,
+          "dth": 0.0998,
+          "dthU": -0.00164385,
+          "dr": 0.00865047
+         }
+        ]
+       }
+      }
+     },
+     "probeEps": {
+      "eps": 6,
+      "relA": 0.0587063,
+      "rows": {
+       "0": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.168635,
+         "dthU": 0.00894265,
+         "dr": 0.0167956
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.105776,
+         "dthU": -0.000102304,
+         "dr": 0.000172574
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.102398,
+         "dthU": -0.00123005,
+         "dr": -0.00425695
+        }
+       ],
+       "1": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.165277,
+         "dthU": 0.0090612,
+         "dr": 0.0166487
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.10269,
+         "dthU": 0.000256524,
+         "dr": -0.000860971
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103774,
+         "dthU": -0.00140495,
+         "dr": -0.00362997
+        }
+       ],
+       "2": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.165234,
+         "dthU": 0.00946764,
+         "dr": 0.018181
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.104559,
+         "dthU": -0.0000284515,
+         "dr": 0.00174647
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103597,
+         "dthU": -0.00131372,
+         "dr": -0.00491581
+        }
+       ],
+       "3": [
+        {
+         "band": [
+          18,
+          36
+         ],
+         "n": 16,
+         "dth": 0.164859,
+         "dthU": 0.00905542,
+         "dr": 0.0160269
+        },
+        {
+         "band": [
+          36,
+          54
+         ],
+         "n": 27,
+         "dth": 0.104192,
+         "dthU": 0.000129165,
+         "dr": 0.0010368
+        },
+        {
+         "band": [
+          54,
+          72.5
+         ],
+         "n": 37,
+         "dth": 0.103231,
+         "dthU": -0.00135877,
+         "dr": -0.00583035
+        }
+       ]
+      },
+      "note": "探索の記録 —— 条件の判定に入れない・本の ε は 1 のまま"
+     }
+    }
+   },
+   "display": {
+    "pass": true,
+    "value": {
+     "steps": 600,
+     "calls": 60,
+     "drawn": 60,
+     "same": true,
+     "probeReady": true,
+     "probeRel": 4.41717e-12
+    }
+   }
+  },
+  "runs": {
+   "A": {
+    "wallSec": 1.765,
+    "bands": [
+     {
+      "band": [
+       18,
+       36
+      ],
+      "n": 16,
+      "dth": 0.172305,
+      "dthU": 0.0126642,
+      "dr": 0.0239211
+     },
+     {
+      "band": [
+       36,
+       54
+      ],
+      "n": 27,
+      "dth": 0.105908,
+      "dthU": 0.0000310126,
+      "dr": 0.000732308
+     },
+     {
+      "band": [
+       54,
+       72.5
+      ],
+      "n": 37,
+      "dth": 0.102275,
+      "dthU": -0.00135305,
+      "dr": -0.00477889
+     }
+    ],
+    "early": [
+     {
+      "n": 16,
+      "uT": 0.00904742,
+      "directT": 0.00876356,
+      "ratio": 1.03239
+     },
+     {
+      "n": 27,
+      "uT": -0.0000380353,
+      "directT": -0.0000742829,
+      "ratio": 0.512033
+     },
+     {
+      "n": 37,
+      "uT": -0.00272125,
+      "directT": -0.00263541,
+      "ratio": 1.03257
+     }
+    ],
+    "zMax": 0.535731,
+    "solver": {
+     "method": "pcg",
+     "itersMax": 7,
+     "resMax": 6.32365e-12,
+     "fail": 0,
+     "restarts": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "nan": false,
+     "spinTerms": 159920,
+     "rotMax": 0.0635893
+    },
+    "circulation": [
+     {
+      "r": 27,
+      "G": 9.26277
+     },
+     {
+      "r": 45,
+      "G": 14.9379
+     },
+     {
+      "r": 63,
+      "G": 26.4714
+     }
+    ]
+   },
+   "B": {
+    "wallSec": 1.653,
+    "bands": [
+     {
+      "band": [
+       18,
+       36
+      ],
+      "n": 16,
+      "dth": 0.0236458,
+      "dthU": 0.0233986,
+      "dr": -0.322188
+     },
+     {
+      "band": [
+       36,
+       54
+      ],
+      "n": 27,
+      "dth": 0.00153647,
+      "dthU": 0.00159029,
+      "dr": -0.252423
+     },
+     {
+      "band": [
+       54,
+       72.5
+      ],
+      "n": 37,
+      "dth": 0.000316784,
+      "dthU": 0.000285804,
+      "dr": -0.336972
+     }
+    ],
+    "early": [
+     {
+      "n": 16,
+      "uT": 0.0166,
+      "directT": 0.0159963,
+      "ratio": 1.03774
+     },
+     {
+      "n": 27,
+      "uT": 0.00209281,
+      "directT": 0.00178161,
+      "ratio": 1.17467
+     },
+     {
+      "n": 37,
+      "uT": 0.000550752,
+      "directT": 0.000456773,
+      "ratio": 1.20575
+     }
+    ],
+    "zMax": 0.559716,
+    "solver": {
+     "method": "pcg",
+     "itersMax": 7,
+     "resMax": 4.88346e-12,
+     "fail": 0,
+     "restarts": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "nan": false,
+     "spinTerms": 159920,
+     "rotMax": 0.0716143
+    },
+    "circulation": [
+     {
+      "r": 27,
+      "G": 2.38799
+     },
+     {
+      "r": 45,
+      "G": 0.558026
+     },
+     {
+      "r": 63,
+      "G": 0.190012
+     }
+    ]
+   }
+  },
+  "circulationEarly": [
+   {
+    "r": 27,
+    "withSpin": 2.3471,
+    "spin0": 0.0000218396
+   },
+   {
+    "r": 45,
+    "withSpin": 0.558954,
+    "spin0": -0.00000599521
+   },
+   {
+    "r": 63,
+    "withSpin": 0.212533,
+    "spin0": -0.0000154139
+   }
+  ],
+  "layout": {
+   "chainDisk": {
+    "n": 80,
+    "rcMin": 7.55376,
+    "rcMed": 16.9432,
+    "rcMax": 23.7907,
+    "dMin": 0.234104,
+    "overlapPairs": 108,
+    "overlapCentre": 5,
+    "Rp": 2.23607,
+    "RC": 6
+   },
+   "spread": {
+    "version": "w299d-spread-2",
+    "rIn": 18,
+    "rOut": 72,
+    "n": 80,
+    "rcMin": 18.8249,
+    "rcMed": 52.7672,
+    "rcMax": 71.7888,
+    "dMin": 12.9127,
+    "overlapPairs": 0,
+    "overlapCentre": 0,
+    "Rp": 2.23607,
+    "RC": 6,
+    "mDisk": 400,
+    "mCentre": 100,
+    "centreAt": [
+     0,
+     0,
+     0
+    ],
+    "seedRadialNonPos": 0,
+    "seedTanOverRadialMax": 0.12607
+   },
+   "htmlBook": true,
+   "htmlSame": true
+  },
+  "allPass": true,
+  "table": [
+   {
+    "key": "layout",
+    "ja": "配置: 宣言半径の重なり 0(粒子どうし・中心と粒子)・最短の粒子間距離 ≥ 4 R_p・内縁 ≥ 3 R_C",
+    "pass": true
+   },
+   {
+    "key": "solver",
+    "ja": "連鎖解: 2000 步で元の式の相対残差の最大 ≤ 解法の門・未収束 0・NaN 0・履歴なしの步 ≤ 1・一致点の拒否 0(本 A と対照 B)",
+    "pass": true
+   },
+   {
+    "key": "resume",
+    "ja": "停止と再開: チェックポイント(1000 步で保存 → 100 步 → 復帰 → 1000 步)と複製(cloneSimState)が通しの 2000 步とビット同一・A/B(appStepFn と stepCarryFrame)で両側 2000 步・停止 0・各側が単独の走行とビット同一",
+    "pass": true
+   },
+   {
+    "key": "budget",
+    "ja": "三次元の収支: |ΔL − 移送の帳簿 dL3| / |L₀| ≤ 1e-10(本・中心は固定)・|ΔP| / Σ|m v| ≤ 1e-12(中心を固定しない写し)",
+    "pass": true
+   },
+   {
+    "key": "step",
+    "ja": "刻みの依存: h と h/2(同じ時刻 32)で帯ごとの平均 Δθ と Δθ_u の差 ≤ 1%(帯の最大の大きさで割る)",
+    "pass": true
+   },
+   {
+    "key": "count",
+    "ja": "粒子数の依存: 円盤の総質量 400 を保って n=40/80/160 —— 帯ごとの平均 Δθ_u の n=160 と n=80 の差 ≤ 20%(帯の最大の大きさで割る)",
+    "pass": true
+   },
+   {
+    "key": "seed",
+    "ja": "配置の依存: 散布の種 0〜3(n=80・各種の配置も layout の条件を満たす)の帯ごとの平均 Δθ_u の幅(最大−最小)≤ 20%(帯の最大の大きさで割る)",
+    "pass": true
+   },
+   {
+    "key": "display",
+    "ja": "表示の非干渉: 10 步ごとに受動プローブ(格子・流線・点)を引いても 600 步の状態の指紋が引かない走行と同じ",
+    "pass": true
+   }
+  ]
+ },
+ "migrate": {
+  "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)を初期の軌道面の基底で・dt 0.016 と 0.008",
+  "conditions": {
+   "planar": {
+    "pass": true,
+    "value": {
+     "arcsec": 43.00001270306585,
+     "sameAs2d": true
+    }
+   },
+   "tilt": {
+    "pass": true,
+    "value": {
+     "arcsec": 0.00004952835967486635
+    }
+   },
+   "boost": {
+    "pass": true,
+    "value": {
+     "effect": -0.0005344027669309526
+    }
+   },
+   "rate": {
+    "pass": true,
+    "value": {
+     "arcsec": 43.000062231425524,
+     "h2": 43.00007944954301,
+     "gate": 0.0000794495
+    }
+   }
+  },
+  "legacy": {
+   "law": "legacy-spaceMesh:vMinusU(一様な u=V・mutual 0・pn off)",
+   "dDegPerOrbit": -2.76713e-10,
+   "dDegPerOrbitH2": -1.28498e-9,
+   "dArcsecCentury": -0.000413611,
+   "newtonDegPerOrbit": -0.00000620039,
+   "steps": 380027
+  },
+  "rows": {
+   "twoD": {
+    "arcsec": 43.00001270306585,
+    "degPerOrbit": 0.0000287678
+   },
+   "planar3d": {
+    "arcsec": 43.00001270306585,
+    "sameAs2d": true
+   },
+   "book": {
+    "arcsec": 43.000062231425524,
+    "arcsecH2": 43.00007944954301,
+    "degPerOrbit": 0.0000287678,
+    "outOfPlane": 1.95826e-11,
+    "steps": 380027,
+    "nPeri": 8
+   },
+   "axisOff": {
+    "sameRate": true,
+    "sameState": false
+   },
+   "tiltEffect": {
+    "arcsec": 0.00004952835967486635
+   },
+   "unpinned": {
+    "arcsec": 43.00008149062407
+   },
+   "boost": {
+    "arcsec": 42.99954708785714,
+    "effect": -0.0005344027669309526,
+    "newtonEffectDegPerOrbit": 1.52561e-10,
+    "dragEffectDegPerOrbit": -3.57525e-10
+   },
+   "kernelEps": {
+    "eps0p025": 43.00004219006215,
+    "eps0p1": 43.00007316546925,
+    "eps0p05": 43.000062231425524
+   },
+   "sourceSet": {
+    "sunOnly": 43.00008149062407,
+    "all": 43.00008149062407
+   },
+   "solve": {
+    "solve2d": 43.00001270306585,
+    "sum2d": 42.99999262445735,
+    "diff": -0.000020078608500284645
+   }
+  },
+  "allPass": true,
+  "htmlBook": true,
+  "htmlSame": true,
+  "legacyDecl": {
+   "familyRole": "variant",
+   "lawVersion": "vMinusU",
+   "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.1,\"kFrame\":0,\"q\":3,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.425826474101849e-9,\"cLight\":29979.2458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":4,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":10,\"massFloor\":0.000001,\"stepDt\":2.11126,\"stateCarry\":\"double\",\"frameWeight\":\"share\",\"spaceMesh\":{\"mode\":\"vertex\",\"gravity\":false,\"inertia\":false,\"lawVersion\":\"vMinusU\",\"pn\":\"off\",\"velocityMeaning\":\"v\"},\"backgroundComplex\":{\"background\":\"declared\",\"W0\":1,\"A0\":[2.3,0],\"gradW\":[0,0],\"gradA\":[0,0,0,0],\"dWdt\":0,\"dAdt\":[0,0],\"note\":\"第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)\",\"sources\":[{\"id\":\"uniform-u\",\"kind\":\"field\",\"excludedExplicit\":true}],\"frame\":{\"origin\":\"barycenter\",\"epoch\":\"t0(第280便c の診断コピー)\",\"rotation\":\"none\",\"translation\":\"comoving\"}},\"meshVelocity\":{\"law\":\"vMinusU\",\"field\":\"backgroundComplex\",\"mutual\":0,\"frame\":{\"origin\":\"barycenter\",\"epoch\":\"t0(第280便c の診断コピー)\",\"rotation\":\"none\",\"translation\":\"comoving\"}}},\"bodies\":[{\"type\":\"single\",\"m\":1988.5,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0.029031,\"pinned\":true,\"radius\":6.95,\"pnSource\":true},{\"type\":\"single\",\"m\":0.00033011,\"x\":460.012,\"y\":0,\"vx\":0,\"vy\":5.897643,\"spin\":0.0124,\"pinned\":false,\"radius\":0.0244}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":800,\"follow\":0},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
+  }
+ },
+ "migrated": true,
+ "gate": {
+  "stableAll": true,
+  "migrateAll": true,
+  "layoutHtml": true,
+  "migHtml": true
+ },
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第299便d",
+  "target": "beta/index.html",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:26:57.446Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w299d-geo4stable.mjs",
+    "bytes": 41712,
+    "sha256": "e05271c352e7f51536a9e410fd6d0c815cc6a63db6520184f90f2bab1c9e2cea",
+    "mtime": "2026-10-11T08:32:39.850Z"
+   },
+   {
+    "file": "tests/lib-w299d-spread.mjs",
+    "bytes": 6222,
+    "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
+    "mtime": "2026-10-11T08:32:39.850Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:35.506Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:35.514Z"
+   }
+  ],
+  "codeSha256": "5c2b3152886f8caeec5d8a364ba2f4160e2eb03aada9e1363d3358ff75334698",
+  "harnessVersion": "w299d-geo4stable-1",
+  "spreadVersion": "w299d-spread-2",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」",
+  "reading": "統括の検証項目 R173・DECISIONS v58 の AN278・AN285",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "chainDiskToy3d",
+    "chainSpreadToy3d",
+    "mercuryGeoToy3",
+    "mercuryMeshMigrate3d",
+    "mercurySunInertialFit"
+   ],
+   "roots": [
+    "DT",
+    "HP.REL_DRAG_SOLVER_TOL_DEFAULT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeReady",
+    "HP.inertialDragProbeSample",
+    "HP.inertialDragProbeStreamlines",
+    "HP.inertialDragState",
+    "HP.loadPreset",
+    "HP.presetSig",
+    "HP.sim",
+    "HP.stepCarryFrame",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "abStart",
+    "abStop",
+    "appStepFn",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "cw",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1207,
+   "segments": 1100,
+   "closureShare": 0.3221
+  },
+  "scopeSha256": "53b9cec6836057c219cf3e94d5962f633621a8d24d9fb3628645a6796396dbc7",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "elapsedS": 96.658
+}

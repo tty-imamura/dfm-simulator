@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便b",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:01:47.252Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:27:53.026Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -30,7 +30,7 @@
     "file": "tests/exp-w288c-bgrange.mjs",
     "bytes": 18401,
     "sha256": "abb7ca24aa8dac779fb92beb3a6641834743a829b572434e3a40cb59b55f4bf6",
-    "mtime": "2026-10-09T17:00:53.838Z"
+    "mtime": "2026-10-11T00:52:29.981Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1145,
-   "segments": 1045,
-   "closureShare": 0.323
+   "names": 1187,
+   "segments": 1080,
+   "closureShare": 0.3173
   },
-  "scopeSha256": "08b42b2b2cda4a46d03891c41eb43bfa80cd89be9576e6a584870581dc704d02",
+  "scopeSha256": "ce9c78280f1af7bb53ae42499ce95570a3117d1bb5d52bd88461b73cd2f37827",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -173,7 +173,7 @@
   }
  ],
  "D": {
-  "nPresets": 164,
+  "nPresets": 173,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -187,10 +187,17 @@
    "earthMoonSunInertial3d",
    "mercurySunInertial",
    "mercurySunInertialFit",
+   "mercurySunInertial3d",
+   "venusSunInertial3d",
+   "marsSunInertial3d",
+   "jupiterSunInertial3d",
+   "saturnSunInertial3d",
+   "uranusSunInertial3d",
+   "neptuneSunInertial3d",
    "plutoCharonInertial",
    "plutoCharonInertialFit"
   ]
  },
  "ok": true,
- "elapsedS": 8.146
+ "elapsedS": 9.328
 }

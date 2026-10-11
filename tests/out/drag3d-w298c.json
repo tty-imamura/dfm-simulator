@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 2.381,
+   "wallSec": 3.355,
    "itersMax": 40,
    "resMax": 9.9975e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 4.028,
+   "wallSec": 5.386,
    "itersMax": 40,
    "resMax": 9.98881e-11,
    "fail": 0,
@@ -942,14 +942,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:01:40.085Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:27:59.268Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -957,7 +957,7 @@
     "file": "tests/exp-w298c-drag3d.mjs",
     "bytes": 31836,
     "sha256": "7a068bbc4dd138992894b3f23465d2104b923da1b3319f8db0724794254f84af",
-    "mtime": "2026-10-10T19:21:09.918Z"
+    "mtime": "2026-10-11T00:52:30.081Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -1017,14 +1017,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1158,
-   "segments": 1058,
-   "closureShare": 0.3256
+   "names": 1202,
+   "segments": 1095,
+   "closureShare": 0.3207
   },
-  "scopeSha256": "cd9a1f7cbb905bb41aea10d744313b55470438cc9c3464969668d49ed3630c79",
+  "scopeSha256": "734185d61d406c13f4ad5b0229f8b12ee7d2a89533d364e4ff00d03ea083d80e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 18.492
+ "elapsedS": 24.049
 }

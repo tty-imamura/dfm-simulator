@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:56:59.336Z",
+  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "generatedAt": "2026-10-11T13:22:48.482Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6567878,
+    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+    "mtime": "2026-10-11T11:59:41.552Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1821704,
-    "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
-    "mtime": "2026-10-10T20:02:14.146Z"
+    "bytes": 1823723,
+    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
+    "mtime": "2026-10-11T12:49:27.596Z"
    }
   ],
   "code": [
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1147,
-   "segments": 1047,
-   "closureShare": 0.3234
+   "names": 1189,
+   "segments": 1082,
+   "closureShare": 0.3175
   },
-  "scopeSha256": "c636274e9bbfc3e11ce22e67223206347f51866d681b833030ca4d612f77d875",
+  "scopeSha256": "10a622159e869efe471c744c52a1d61f13494e7f0a845f6e1bcb9c9831533152",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "dda6759e030343a93f7e1752391195c1a6e82e5a7c89f177e36678877ae2f124",
+    "stableSha256": "60393af84c3ed77fc8afd659621204b8391dda5fe7bcc1c5ba161802f34e650f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "db57ed70193a03fd538edcf4dcd64c0c2dc901251ef48f9d8167a95f5bad2115",
+    "stableSha256": "769c9f455642d333d0c4f4634f218cbc9a770cf72eb409a86fcdbb1346343f33",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -536,9 +536,9 @@
  "oneStep": {
   "baseRev": "b92ffa1",
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "n": 164,
+  "n": 173,
   "nBase": 142,
-  "identical": 86,
+  "identical": 80,
   "differ": [
    "galaxy",
    "galaxyStd",
@@ -552,7 +552,13 @@
    "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
+   "shapeToyCluster",
+   "shapeToyDisk",
+   "shapeToyArm",
    "shapeToySpiral",
+   "shapeToyClusterCore",
+   "shapeToyDiskCore",
+   "shapeToyArmCore",
    "shapeToySpiralCore",
    "earthMoonReal",
    "earthMoonTide",
@@ -571,7 +577,15 @@
    "mercuryReal",
    "mercurySunInertial",
    "mercurySunInertialFit",
+   "mercurySunInertial3d",
+   "venusSunInertial3d",
+   "marsSunInertial3d",
+   "jupiterSunInertial3d",
+   "saturnSunInertial3d",
+   "uranusSunInertial3d",
+   "neptuneSunInertial3d",
    "mercuryGeoToy3",
+   "mercuryMeshMigrate3d",
    "mercuryRealKF1",
    "solarInner",
    "jupiterGalilean",
@@ -608,6 +622,7 @@
    "chainDiskToy",
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
    "coord3dKeplerTilt",
    "coord3dSpinPrecess",
    "gw150914Merge4s",
@@ -645,6 +660,7 @@
    "chainDiskToy",
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
+   "chainSpreadToy3d",
    "saturnRingReal",
    "saturnRingRealKF1"
   ]
@@ -775,25 +791,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "2e45e281",
-    "dynHash": "5586c821",
+    "hash": "8cfbf403",
+    "dynHash": "c0417f63",
     "t0": {
-     "rHalf": 46.78075639474446,
-     "vtOuter": 0.0017861489840583615,
-     "sigma": 0.016047158100496336,
+     "rHalf": 46.780754912839356,
+     "vtOuter": 0.0017861489659621109,
+     "sigma": 0.016047158103174763,
      "overlapPairs": 23,
      "radE": 0
     },
     "end": {
-     "rHalf": 43.308200450801486,
-     "vtOuter": 0.12208643038136845,
-     "sigma": 4.910350669122815,
+     "rHalf": 43.30819866987164,
+     "vtOuter": 0.12208643634356302,
+     "sigma": 4.910350675139289,
      "overlapPairs": 30,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -829,25 +845,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "82550cfd",
-    "dynHash": "e21ef765",
+    "hash": "94e9de6f",
+    "dynHash": "9c1b2cc7",
     "t0": {
-     "rHalf": 57.604734453712474,
-     "vtOuter": 3.6511929744040548,
-     "sigma": 2.960451807449477,
+     "rHalf": 57.604732743733166,
+     "vtOuter": 3.651192964503364,
+     "sigma": 2.960451802264457,
      "overlapPairs": 28,
      "radE": 0
     },
     "end": {
-     "rHalf": 55.55790857066648,
-     "vtOuter": 3.619856041201356,
-     "sigma": 2.9716469734987716,
+     "rHalf": 55.55790859091021,
+     "vtOuter": 3.6198560224905783,
+     "sigma": 2.9716469581357012,
      "overlapPairs": 28,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -883,25 +899,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "1e8f7e79",
-    "dynHash": "c82ea5d1",
+    "hash": "c35e0b68",
+    "dynHash": "7b4e6940",
     "t0": {
-     "rHalf": 60.21634892540914,
+     "rHalf": 60.21634907192785,
      "vtOuter": 0,
      "sigma": 0,
      "overlapPairs": 75,
      "radE": 0
     },
     "end": {
-     "rHalf": 60.333464438065995,
-     "vtOuter": 0.028602709069737647,
-     "sigma": 0.893663891641873,
+     "rHalf": 60.33346500555238,
+     "vtOuter": 0.02860271012103636,
+     "sigma": 0.8936638901027344,
      "overlapPairs": 73,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -939,25 +955,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "5cfd146e",
-    "dynHash": "e2240efe",
+    "hash": "b5676764",
+    "dynHash": "b8c06154",
     "t0": {
-     "rHalf": 54.046576404537404,
-     "vtOuter": 0.27064516273571454,
-     "sigma": 7.7942893558811575,
+     "rHalf": 54.0465769577576,
+     "vtOuter": 0.2706451670610881,
+     "sigma": 7.794289329815503,
      "overlapPairs": 23,
      "radE": 0
     },
     "end": {
-     "rHalf": 50.84195087700987,
-     "vtOuter": 0.4357369226586832,
-     "sigma": 8.03468752714044,
+     "rHalf": 50.84195382329774,
+     "vtOuter": 0.4357369298777548,
+     "sigma": 8.034687534614292,
      "overlapPairs": 28,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -995,25 +1011,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "d17cade5",
-    "dynHash": "ab9234dd",
+    "hash": "253d2855",
+    "dynHash": "8c9bd8ad",
     "t0": {
-     "rHalf": 63.39283243282744,
-     "vtOuter": 10.636721205169533,
-     "sigma": 9.399796242807511,
+     "rHalf": 63.39283152819122,
+     "vtOuter": 10.636721178572818,
+     "sigma": 9.399796222846627,
      "overlapPairs": 18,
      "radE": 0
     },
     "end": {
-     "rHalf": 55.37578749278799,
-     "vtOuter": 10.935234137378249,
-     "sigma": 9.58739275196108,
+     "rHalf": 55.37578597326706,
+     "vtOuter": 10.935234136499737,
+     "sigma": 9.587392742589268,
      "overlapPairs": 26,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -1051,25 +1067,25 @@
     "contactMode": null
    },
    "after": {
-    "hash": "c3a0cde4",
-    "dynHash": "193061ac",
+    "hash": "2a7ed94d",
+    "dynHash": "6643bc95",
     "t0": {
-     "rHalf": 67.64797507858303,
-     "vtOuter": 0.2026990473794349,
-     "sigma": 4.896368016055888,
+     "rHalf": 67.64797367769604,
+     "vtOuter": 0.20269904110269912,
+     "sigma": 4.896368015555413,
      "overlapPairs": 29,
      "radE": 0
     },
     "end": {
-     "rHalf": 44.68489216309808,
-     "vtOuter": 0.3378984773800883,
-     "sigma": 5.082522643467476,
+     "rHalf": 44.684890923319536,
+     "vtOuter": 0.337898459726722,
+     "sigma": 5.08252263174847,
      "overlapPairs": 51,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -1692,7 +1708,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5"
+   "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9"
   },
   "table": [
    {
@@ -1894,7 +1910,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 124.852,
+      "wallSec": 153.029,
       "tags": [
        "dt"
       ],
@@ -1909,5 +1925,5 @@
   ],
   "note": null
  },
- "elapsedS": 297.205
+ "elapsedS": 250.575
 }

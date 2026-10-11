@@ -103,6 +103,9 @@ export const SAVE_CODE_W296A = Object.freeze({ loadSave: "8578ce020421ad48d94f17
 /** 第297便a(原仮定者の裁定(第87報)・R161・AN255 の残り): 読込 loadSave に geoPN=0 ∧ 旧メッシュが走る保存の通知 1 行(geo0LegacyLoadNoteOf —— 値は書き換えない)を足した後の指紋
  *  (保存の鍵・保存ボタンの handler は第296便a と同じ —— 走行の状態は運ばない。html の MODE_SAVE_WARN_CODES に `"lambdaPnOnDrag"` があるときだけこの指紋を許す) */
 export const SAVE_CODE_W297A = Object.freeze({ loadSave: "503760701e2768acd21511def596fe21033fd09fac6d1f3b74c9d774d3129724", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45", saveHandler: "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6" });
+/** 第299便f(原仮定者の裁定(第89報)⑥・R172): 読込 loadSave が保存の physics.coord と本の宣言の座標の違いを見て、三次元の切り替えの写し(coordSwitchPlanOf)で開く
+ *  (作れなければ中止)行を足した後の指紋。保存の鍵と保存ボタンの handler は第297便a と同じ(physics に coord が入るのは従来どおり)。 */
+export const SAVE_CODE_W299F = Object.freeze({ loadSave: "d812391c0692efe552538cd9d3e095ee0dadd6f30b6fa0950133b01d470b77f7", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45", saveHandler: "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6" });
 /** 基点 f03bf5a の値(枝の実測 —— 同じ器の probe を基点の beta/index.html で子プロセスで走らせ summaryOf で要約した値。基点 html は CI に無いので宣言値で持つ)。 */
 export const BEFORE_F03 = Object.freeze({ rev: 'f03bf5a', how: '枝の実測(W290D_BASE=beta/_w290_base.html で本器の probe を子プロセスで走らせ summaryOf で要約した値)',
   summary: {"repro":{"savedStepN":0,"afterStepsStepN":2,"restoredStepN":2,"savedRI":1.5,"restoredRI":0.75,"tRestored":true},"overflow":{"steps":1,"nSame":true,"restoredBitSame":false,"rerunBitSame":false,"twiceBitSame":false,"restoredNCap":1,"restoredNEject":1,"restoredRI":0.005,"restoredLog":1,"restoredEjLog":1,"restoredEself":-14.689627726449768,"savedEself":0,"snapHasFixcap":false,"rerunNDiff":14},"atStep":{"tRef":0.048,"tTest":0.032,"restoredStepN":2,"savedStepN":1,"sameEjectTime":false,"stateBitSame":false},"twice":{"savedI":2.875,"savedE":0.359375,"restoredI":25.875,"restoredE":3.234375,"restoredRI":1.5,"restoredBitSame":false},"ab":{"abPrint":"4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75","aEqualsNewB":true,"legacyBEqualsNewB":true,"logRowShared":true,"ckRestoredBitSame":false,"ckRerunBitSame":false},"inventory":[["fixcap","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.rInertia","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.accounts","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["relDrag","運ばない","動いた 2 鍵のうち 2 鍵が戻らない",false],["coreV2","一部","窓の中で動かない",true],["layers","一部","窓の中で動かない",true],["spaceMesh","運ばない","動いた 4 鍵のうち 4 鍵が戻らない",false],["shapeToy","運ばない","動いた 15 鍵のうち 15 鍵が戻らない",false],["capture","運ばない","窓の中で動かない",false]]} });
@@ -363,7 +366,13 @@ export function inventory(H, X) {
   const ckObj = new Set(['params', 'phase', 'twall', 'wallRest', 'phHist', 'fixcap'].filter((k) => new RegExp('\\b' + (k === 'twall' ? 'tw' : k === 'wallRest' ? 'wr' : k) + ':').test(ckSrc)));
   const ckSet = new Set(CK_ARRS.concat(CK_SC).concat([...ckObj]));
   const abSrc = H.evalExpr('cloneSimState.toString()');
-  const abHas = (k) => new RegExp('simB\\.' + k.replace(/\$/g, '\\$') + '\\s*=').test(abSrc) || new RegExp('"' + k + '"').test(abSrc);
+  const abHas0 = (k) => new RegExp('simB\\.' + k.replace(/\$/g, '\\$') + '\\s*=').test(abSrc) || new RegExp('"' + k + '"').test(abSrc);
+  // 第299便e(R174): 参照模型の写し(shapeToyCkSnap/shapeToyCkRestore —— 潜在の配列 SHAPE_TOY_CK_ARRS と shapeToy*・coreField*・spiral* の帳簿のスカラー)を
+  //   チェックポイント(ckSnapOne が呼ぶ)・複製(cloneSimState が呼ぶ)の名簿として数える(名簿の外の 1 組の写し —— 呼ばない世代では従来どおり)
+  const stCk = /shapeToyCkSnap\(/.test(ckSrc), stAb = /shapeToyCkRestore\(/.test(abSrc);
+  const stArrs = (stCk || stAb) ? clone(H.evalExpr("typeof SHAPE_TOY_CK_ARRS!=='undefined' ? SHAPE_TOY_CK_ARRS : []")) : [];
+  const stHas = (k) => stArrs.includes(k) || /^(shapeToy|coreField|spiral)[A-Z0-9]/.test(k);
+  const abHas = (k) => abHas0(k) || (stAb && stHas(k));
   const fixtures = [];
   for (const F of INVENTORY_FIXTURES) {
     const p = fixtureOf(HP, F);
@@ -389,7 +398,7 @@ export function inventory(H, X) {
       const d = diffBits(Object.assign(Fnoreset, { fixcap: null }), Object.assign(fp(S), { fixcap: null }));
       rerunBitSame = d.same;
     }
-    const rows = catKeys.map((k) => ({ key: k, moved: moved.includes(k), checkpoint: ckSet.has(k), abClone: abHas(k), saveJson: (saveKeys || []).includes(k) }));
+    const rows = catKeys.map((k) => ({ key: k, moved: moved.includes(k), checkpoint: ckSet.has(k) || (stCk && stHas(k)), abClone: abHas(k), saveJson: (saveKeys || []).includes(k) }));
     const byCat = {};
     for (const k of diffKeys || []) { const c = catOf(k) || 'other'; (byCat[c] = byCat[c] || []).push(k); }
     fixtures.push({ cat: F.cat, id: p.id || F.id, retiredFixture: p.familyRole === 'retired', flagOn: !!S[F.flag], n: n0, nSame, keys: rows,
@@ -424,7 +433,9 @@ export function inventory(H, X) {
     // 第296便(統合): MODE_SAVE_WARN_CODES は a の geo1Fitted の後ろに c の geo4Solver・geo4Both が続く(19 本)—— 世代の印は `"geo1Fitted"` の有無(指紋は a と同じ)
     || (!!htmlText && htmlText.indexOf('"geo1Fitted"') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W296A))
     // 第297便a(R161・AN255): 世代の印は `"lambdaPnOnDrag"`(読込の通知 1 行 —— 保存の鍵と handler は第296便a と同じ)
-    || (!!htmlText && htmlText.indexOf('"lambdaPnOnDrag"') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W297A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
+    || (!!htmlText && htmlText.indexOf('"lambdaPnOnDrag"') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W297A))
+    // 第299便f(R172): 世代の印は `function coordSwitchPlanOf(`(三次元の切り替えの写しで保存を開く —— 保存の鍵と handler は第297便a と同じ)
+    || (!!htmlText && htmlText.indexOf('function coordSwitchPlanOf(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W299F)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
     'phaseParams', 'twallHeat', 'wallRest', 'graphOverlays', 'scaleExps', 'physLock', 'qLock', 'kappaT', 'modePolicy', 'lawResolved'].includes(k)) ? false : null,   // 第291便c: 保存の版と解決した法則(設定 —— 状態ではない)
   checkpointSets: { arrs: CK_ARRS.length, sc: CK_SC.length, objects: [...ckObj].sort() }, fixtures, table };
 }

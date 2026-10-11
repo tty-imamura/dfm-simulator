@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:08:07.750Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T10:11:47.716Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -106,11 +106,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1157,
-   "segments": 1057,
-   "closureShare": 0.3256
+   "names": 1199,
+   "segments": 1092,
+   "closureShare": 0.3201
   },
-  "scopeSha256": "c48a00d04d61e36541afc7a31c42639483476aaa5efb6dc51592ddb7c717018a",
+  "scopeSha256": "855ac35f45f5328f3f0b8e7fe654ed48eb6ebed693cea87bdaca85019f521ec4",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -448,11 +448,11 @@
    "stateCarryDouble": {
     "declared": {
      "restoreSame": true,
-     "cloneSame": false
+     "cloneSame": true
     },
     "undeclared": {
      "restoreSame": true,
-     "cloneSame": false
+     "cloneSame": true
     },
     "note": "基点からある既存の欠落(宣言の有無に依らない)—— 門に使わない"
    }
@@ -783,5 +783,5 @@
   "ok": true
  },
  "ok": true,
- "elapsedS": 3.372
+ "elapsedS": 3.717
 }

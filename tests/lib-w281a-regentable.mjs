@@ -44,6 +44,8 @@
 //   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w298b-branch' … 第298便b の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・段 3 つを並走・Chromium なし・他の枝と同じ容器で並走 —— 段 fit が最長)。
 //   'w298e-branch' … 第298便e の枝で器(版 w298b-refit-2)を段ごとに走らせた実測の和(Node の headless 4 本 —— scan / fitaps / scanwide+qprobe / limit+fitmonth を並走・Chromium なし・他の枝と同じ容器で並走)。
+//   'w299a-branch' … 第299便a の枝で器(timestd の版 w299a-timestd-2)を 1 回走らせた実測(正本の meta.wallSec 347.3 —— Node の headless 1 本・Chromium なし・他の枝の器と同じ容器で並走〔負荷平均 3 超〕)。
+//   'w299b-branch' … 第299便b の枝で器(版 w299b-synodic-1)を段ごとに走らせた実測の和(Node の headless 3 本 —— long / longh2 / scan+sun3d+fit+aps を並走・Chromium なし・他の 3 枝と同じ容器で並走〔負荷平均 6〜14〕—— 段 long が最長 4793 s。単独なら約 1/4〜1/5 —— 推定)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -797,11 +799,21 @@ export const REGEN_STEPS = [
       '/parts/limit/rows/*/wallSec', '/parts/limit/kFrame0/h/wallSec', '/parts/limit/kFrame0/half/wallSec', '/parts/fitmonth/evals/*/wallSec', '/parts/fitaps/evals/*/wallSec', '/parts/qprobe/rows/*/wallSec']) },
     note: '第298便b・第298便e: 🌘 の f=1 再フィット —— 周期優先(恒星月が第一の標的・近点回転は照合だけ・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
       + 'D0pull の格子(scan・scanwide)・範囲の外の参照(limit)・第298便b の近点回転優先(fitaps —— 履歴)・q の感度(値だけ —— 届かない量は次の見直しへ)' }),
+  // ---- 第299便b(原仮定者の裁定(第89報)①「geoPN=2 は近似であり、近似として扱いやすい基準を探す。earthMoonRealKF1 で合わせる『公転周期』は、『恒星月』の代わりに『朔望月』を検証する」・
+  //   統括の検証項目 R170): **🌘 の朔望月**の器 —— html の朔望月の時計(HP.synodic・版 w299b-syn-1)で、段 scan(D0pull の格子と kFrame=0 の床 —— 仮想の太陽 36 位相の 8 間隔と一様換算)・
+  //   long(採用値の長い走行 —— 窓 8・118・354 と位相・始点の格子)・longh2(h/2 と床)・sun3d(🌦️ の実際の太陽の方向)・fit(一様換算の朔望月へ D0pull —— 根を挟めなければ範囲の端・h と h/2・
+  //   fitRecord w298b-1 の標的 1 件)・aps(近点回転優先の D0pull が門に入るか)。Node の headless・html だけを読む(🌘・🌙・🌦️ —— 他の正本は読まない・after なし)。所要は第299便b の枝の実測(段の和)
+  S('synodic-299b', 'node tests/exp-w299b-synodic.mjs', ['tests/out/synodic-w299b.json'], 13055, { secSource: 'w299b-branch', node: true,
+    volatilePaths: { 'tests/out/synodic-w299b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/long/*/wallSec', '/parts/longh2/*/wallSec']) },
+    note: '第299便b: 🌘 の朔望月 —— 標的は恒星月の 8 公転窓を恒星年で一様換算した朔望月(許容 0.005 日の宣言・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
+      + '仮想の太陽の時計の合(36 位相・窓 8/118/354 —— 照合)・床(kFrame=0)・🌦️ の実際の太陽の方向・近点回転優先の D0pull(値だけ)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
   //   所要は第297便c の枝の実測(正本の meta.wallSec —— 他の枝と同じ容器で並走)
-  S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 180, { secSource: 'w297c-branch', node: true,
+  //   第299便a(R169): 器の版 w299a-timestd-2(三次元の本を三次元で数える —— 二次元の行は旧版とビット同一)。所要は第299便a の枝の実測(正本の meta.wallSec 347.3 s ——
+  //   他の枝の器と同じ容器で並走〔負荷平均 3〜9〕。並走の少ない試走は 259.6 s)
+  S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 347, { secSource: 'w299a-branch', node: true,
     volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/wallSec']) },
     note: '第297便c: 時間の標準 —— 在位の公転の本の 8 公転(画面の刻み stepDt と 1/2)・観察の本の 600 步・退役は記録だけ —— 刻みの妥当性の物差し(物理の合否ではない)' }),
   // ---- 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。二次元の設定に Z の位置・速度が入っていたら警告。
@@ -823,6 +835,27 @@ export const REGEN_STEPS = [
   S('moon3d-298c', 'node tests/exp-w298c-moon3d.mjs', ['tests/out/moon3d-w298c.json'], 300, { secSource: 'w298c-branch', node: true,
     volatilePaths: { 'tests/out/moon3d-w298c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ref/flat/wallSec', '/ref/incl/wallSec']) },
     note: '第298便c: 🌥️ の三次元の写し —— 月の軌道傾斜 5.145° の初期配置(3 元 Newton)・軌道面の中の近点経度・gain の探索(挟めたら fitRecord w298b-1 の 3 標的)' }),
+  // ---- 第299便c(原仮定者の裁定(第89報)②「太陽系の各惑星の geoPN=3 版を、それぞれ三次元で用意する」・統括の検証項目 R171): **惑星の geoPN=3 三次元の本 7 本**
+  //   (太陽+水星〜海王星の二体)の初期状態(JPL SSD の近似要素の種・IAU WGCCRE 2009 の極)・gain 0 の測定(h と h/2・8 と 64 公転)・水星の gain の探索
+  //   (近点率の差 43.0″/世紀 —— fitRecord w298b-1 の 2 標的)・移送の診断。html だけを読む(after なし・子プロセス 2 本 —— 結果は並列数に依らない)。
+  //   所要は第299便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('planets3d-299c', 'node tests/exp-w299c-planets3d.mjs', ['tests/out/planets3d-w299c.json'], 195, { secSource: 'w299c-branch', node: true,
+    volatilePaths: { 'tests/out/planets3d-w299c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第299便c: 惑星の geoPN=3 三次元の本 7 本 —— 近似要素の種の初期状態・gain 0 の恒星周期と近点率(h と h/2)・水星の gain の探索(fitRecord w298b-1)・移送の診断(宣言しない)' }),
+  // ---- 第299便d(原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」・
+  //   統括の検証項目 R173): **geoPN=4 の安定の条件**(先に宣言した 8 項目 —— 配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)を広げた円盤 🍥 で測り、
+  //   全部満たしたときだけ旧 spaceMesh の 🔁 を 🔂 へ移した記録(移行の条件 4 項目・何を変えたら何が動いたか)。Node 1 プロセス・html だけを読む(after なし)。
+  //   所要は第299便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('geo4stable-299d', 'node tests/exp-w299d-geo4stable.mjs', ['tests/out/geo4stable-w299d.json'], 90, { secSource: 'w299d-branch', node: true,
+    volatilePaths: { 'tests/out/geo4stable-w299d.json': META_RUN.concat(['/elapsedS', '/stable/runs/A/wallSec', '/stable/runs/B/wallSec', '/stable/conditions/count/value/rows/*/timing/*/wallSec']) },
+    note: '第299便d: geoPN=4 の安定の条件(宣言 8 項目)・広げた円盤 🍥 の帯の診断・旧 spaceMesh 🔁 → 🔂 の移行の記録(値だけ —— gain は 🟫 から移した宣言値)' }),
+  // ---- 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・DECISIONS v58 §1 の AN286・統括の検証項目 R174): **参照模型の三次元化**
+  //   (在位の 8 本 🔮🥏🧵🍭🎱📀🧹🎢 —— xy が凍結の二次元の写し〔+stateCarry:"double"〕とビット同一・z の厚みと v_z の分散・G に対する不感と Core 系の門・
+  //   Core 力学の三次元の共変・三次元の P/L/E の収支・チェックポイントと複製・保存往復・受理と走行の門・feedback と成長の写し)。
+  //   Node の headless(1 プロセス)・html と凍結の写し tests/data-w299e-ref2d.json を読む(他の正本は読まない —— after なし)。所要は第299便e の枝の実測(正本の elapsedS —— 他の枝と並走)
+  S('ref3d-299e', 'node tests/exp-w299e-ref3d.mjs', ['tests/out/ref3d-w299e.json'], 80, { secSource: 'w299e-branch', node: true,
+    volatilePaths: { 'tests/out/ref3d-w299e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第299便e: 参照模型 8 本の三次元化 —— xy のビット同一(凍結の二次元の写し)・z の厚み・G の不感・共変・三次元の収支・チェックポイント/複製・保存往復(値だけ —— 扁平は宣言)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -903,6 +936,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/cluster-w285a-preset.json': [],
   // 第286便b(原仮定者の裁定(第76報)AN59): cLight の真値化の一覧と従属値(手で書いた宣言の表 —— 除く欄は無い。現行の正本 pnsource-w286b の入力)
   'tests/data-w286b-clight.json': [],
+  // 第299便e(R174): 参照模型 8 本の凍結の二次元の写し(書き換えない fixture —— 除く欄は無い。現行の正本 ref3d-w299e の入力)
+  'tests/data-w299e-ref2d.json': [],
   // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)

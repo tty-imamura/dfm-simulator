@@ -15,7 +15,8 @@
 //   ・「変換可能」(coreV2MigrateReport の convertible/naked)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定である。
 //     本器の「コアなし対照で 8 量差 0」は **2000 步の短期一致**であって、光線・描画・帳簿・長期イベントまで不変とは判定しない。
 //     層への置換の同等性(近傍重力が変わる)とも別である。
-export const CORECENSUS_LIB_VERSION = 'w293c-corecensus-lib-1';
+// 第299便f(DECISIONS v58 §0 の AN282 ③): 点粒子の軸 `spinAxis` の行を「二次元の表示専用」「三次元の有効化した軸」「規定歳差」の 3 行に分けた(lib-2 —— 数え方の単位は同じ body の宣言数)
+export const CORECENSUS_LIB_VERSION = 'w293c-corecensus-lib-2';
 export const QUANTITIES = Object.freeze(['x', 'y', 'vx', 'vy', 'spin', 'm', 'mEff', 'R']);
 export const AUX = Object.freeze(['Tobs', 'Q', 'lSw']);
 export const RUN = Object.freeze({ steps: 2000, dt: 0.016 });
@@ -86,6 +87,10 @@ export function censusRow(p, mig, rep, textHits) {
     coreField: !!(ph.shapeToy && ph.shapeToy.coreField),
     relDragLaw: rd ? (rd.law || 'kernel') : null,
     spinAxis: bs.filter((b) => b && b.spinAxis).length,
+    // 第299便f(AN282 ③): spinAxis の 3 区分(enable の無い宣言 = 二次元の表示専用 / enable:true = 三次元の有効化した軸 / その中で precessionRate≠0 = 規定歳差)
+    spinAxisKind: { display2d: bs.filter((b) => b && b.spinAxis && b.spinAxis.enable !== true).length,
+      enable3d: bs.filter((b) => b && b.spinAxis && b.spinAxis.enable === true).length,
+      precess3d: bs.filter((b) => b && b.spinAxis && b.spinAxis.enable === true && typeof b.spinAxis.precessionRate === 'number' && b.spinAxis.precessionRate !== 0).length },
     coreAxis: axis,
     tide: { book: !!ph.tide, bodies: bs.filter((b) => b && b.tide).length },
     coupleSinkCore: ph.coupleSink === 'core',
@@ -100,7 +105,7 @@ export function censusTotals(rows) {
     t.books++; t.decl += nDecl; if (r.retired) t.retired++; else { t.active++; t.declActive += nDecl; } };
   for (const r of rows) {
     add('coreV2', r, r.v2.n); add('layers', r, r.layers.n); add('dragCore', r, r.dragCore); add('coreField', r, r.coreField ? 1 : 0);
-    add('relDrag:' + (r.relDragLaw || ''), r, r.relDragLaw ? 1 : 0); add('spinAxis', r, r.spinAxis);
+    add('relDrag:' + (r.relDragLaw || ''), r, r.relDragLaw ? 1 : 0); add('spinAxis:display2d', r, r.spinAxisKind.display2d); add('spinAxis:enable3d', r, r.spinAxisKind.enable3d); add('spinAxis:precess3d', r, r.spinAxisKind.precess3d);   // 第299便f(AN282 ③): 旧 1 行 spinAxis を 3 区分へ
     add('coreAxis:tilt', r, r.coreAxis.tilt); add('coreAxis:axisMode', r, r.coreAxis.axisMode); add('coreAxis:precessionRate', r, r.coreAxis.precessionRate);
     add('coreAxis:Kalign', r, r.coreAxis.Kalign); add('layerAxis', r, r.layers.axisDecl); add('tide:book', r, r.tide.book ? 1 : 0); add('tide:body', r, r.tide.bodies);
     add('coreTextOnly', r, (r.v2.n === 0 && r.textHits > 0) ? 1 : 0);
@@ -176,7 +181,8 @@ const e3 = (x) => (x === null || x === undefined) ? '—' : (Number.isNaN(x) ? '
 export function docRows(J) {
   const out = { totals: [], control: [], layers: [], counts: [] };
   const lab = { coreV2: 'コア V2 `core`', layers: '親子コア `layers`', dragCore: '構造核 `dragCore`', coreField: '形状トイの `shapeToy.coreField`',
-    'relDrag:inertial': '慣性引きずり `relativeDrag.law:"inertial"`', 'relDrag:pairSlip': '相対すべり `relativeDrag.law:"pairSlip"`', spinAxis: '点粒子の軸 `spinAxis`(表示専用)',
+    'relDrag:inertial': '慣性引きずり `relativeDrag.law:"inertial"`', 'relDrag:pairSlip': '相対すべり `relativeDrag.law:"pairSlip"`', 'spinAxis:display2d': '点粒子の軸 `spinAxis`(二次元の表示専用)', 'spinAxis:enable3d': '点粒子の軸 `spinAxis.enable:true`(三次元の有効化した軸)',
+    'spinAxis:precess3d': '点粒子の軸の規定歳差 `spinAxis.precessionRate`≠0(三次元の有効化した軸のうち)',
     'coreAxis:tilt': 'コアの傾き `core.tilt`≠0', 'coreAxis:axisMode': 'コア軸の宣言 `core.axisMode`', 'coreAxis:precessionRate': 'コア軸の歳差 `core.precessionRate`',
     'coreAxis:Kalign': 'コアの整列 `core.Kalign`', layerAxis: '層の軸の宣言(tilt/azimuthDeg/precessionRate)', 'tide:book': '明示潮汐 `physics.tide`', 'tide:body': '天体の潮汐 `tide`',
     coreTextOnly: '本文に `core:{` があるが body に宣言なし(履歴・コメント)' };

@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:00:34.046Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:25:48.418Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w293c-corecensus.mjs",
-    "bytes": 15161,
-    "sha256": "45ccba1b4516823010164b035bdcb181d81c9347df3c9f8224d0e2e50c9d9dec",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "bytes": 15375,
+    "sha256": "56e5099dca0ef8a35c3813ab419921bcab4c7ed0da57dfb8ca83920a6d51b8f7",
+    "mtime": "2026-10-11T06:38:07.872Z"
    },
    {
     "file": "tests/lib-w293c-corecensus.mjs",
-    "bytes": 14336,
-    "sha256": "81e7fbf59c0ecdb877e37c1b720c9c73272ebbb639bd2f61b657bd203cf50ba0",
-    "mtime": "2026-10-09T10:19:35.522Z"
+    "bytes": 15598,
+    "sha256": "dbe1e7d4013919926a574a3b46105cb6bade14042d8311805b3b432e7957afdf",
+    "mtime": "2026-10-11T06:38:07.872Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -51,9 +51,9 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "b528079e0ab1b208e2614aadff91248c98d7d9006ce935ea4acce77cdf71cc24",
-  "harnessVersion": "w293c-corecensus-1",
-  "libVersion": "w293c-corecensus-lib-1",
+  "codeSha256": "544ba1808b050ddf0b3296808cd3d2dbe43346faae281667d39394ec75a3e0e0",
+  "harnessVersion": "w293c-corecensus-2",
+  "libVersion": "w293c-corecensus-lib-2",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第83報)(どの処理で何ができるのかを整理し統合先を見定める・有効に働いていないサンプルでは撤去を検討・コア V2 の数が整理された時点で親子コアへの移行を進める)",
   "reading": "統括の検証項目 R143(4 経路の棚卸し・コアなし対照 2000 步・A〜D の分類・撤去は条件をすべて満たす本だけ・層への変換はしない)",
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1148,
-   "segments": 1048,
-   "closureShare": 0.3243
+   "names": 1190,
+   "segments": 1083,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "b4dce5330b68407aaf25e44176f33b014485357082ec78a9d2c60cdbdc004587",
+  "scopeSha256": "1c3f7a7850e6f449c1a69e80ea6094866c8da4458e5f4db2274fe5b08aa0520c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -141,7 +141,7 @@
   "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
  },
  "census": {
-  "nPresets": 164,
+  "nPresets": 173,
   "nRetired": 41,
   "rows": [
    {
@@ -172,6 +172,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -215,6 +220,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -258,6 +268,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -301,6 +316,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -344,6 +364,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -387,6 +412,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -430,6 +460,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -473,6 +508,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -516,6 +556,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -559,6 +604,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -602,6 +652,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -645,6 +700,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -688,6 +748,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -731,6 +796,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -774,6 +844,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -817,6 +892,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -860,6 +940,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -903,6 +988,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -946,6 +1036,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -989,6 +1084,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1032,6 +1132,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1075,6 +1180,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1118,6 +1228,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1161,6 +1276,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1218,6 +1338,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1355,6 +1480,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1405,6 +1535,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1454,6 +1589,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 1,
      "axisMode": 0,
@@ -1497,6 +1637,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1540,6 +1685,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1583,6 +1733,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1626,6 +1781,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1669,6 +1829,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1718,6 +1883,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1763,6 +1933,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1806,6 +1981,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1849,6 +2029,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1892,6 +2077,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1937,6 +2127,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -1988,6 +2183,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 1,
      "axisMode": 1,
@@ -2033,6 +2233,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2078,6 +2283,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2123,6 +2333,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2166,6 +2381,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2209,6 +2429,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2252,6 +2477,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2295,6 +2525,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2338,6 +2573,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2381,6 +2621,11 @@
     "coreField": true,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2424,6 +2669,11 @@
     "coreField": true,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2467,6 +2717,11 @@
     "coreField": true,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2510,6 +2765,11 @@
     "coreField": true,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2553,6 +2813,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2596,6 +2861,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2639,6 +2909,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2682,6 +2957,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2725,6 +3005,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2768,6 +3053,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2811,6 +3101,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2854,6 +3149,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2897,6 +3197,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2940,6 +3245,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -2983,6 +3293,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3026,6 +3341,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3069,6 +3389,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3112,6 +3437,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3155,6 +3485,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3198,6 +3533,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3247,6 +3587,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3296,6 +3641,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3339,6 +3689,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3382,6 +3737,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3425,6 +3785,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3468,6 +3833,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3511,6 +3881,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3554,6 +3929,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3597,6 +3977,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3640,6 +4025,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3683,6 +4073,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3726,6 +4121,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3769,6 +4169,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3812,6 +4217,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3855,6 +4265,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3898,6 +4313,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3941,6 +4361,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -3984,6 +4409,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4027,6 +4457,347 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4070,6 +4841,59 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercuryMeshMigrate3d",
+    "emoji": "🔂",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4113,6 +4937,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4156,6 +4985,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4199,6 +5033,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4242,6 +5081,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4285,6 +5129,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4328,6 +5177,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4371,6 +5225,11 @@
     "coreField": false,
     "relDragLaw": "pairSlip",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4414,6 +5273,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4457,6 +5321,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4500,6 +5369,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4543,6 +5417,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4586,6 +5465,11 @@
     "coreField": false,
     "relDragLaw": "pairSlip",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4629,6 +5513,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4672,6 +5561,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4715,6 +5609,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4758,6 +5657,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4801,6 +5705,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4844,6 +5753,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4887,6 +5801,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4930,6 +5849,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 1,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -4973,6 +5897,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5018,6 +5947,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5069,6 +6003,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5112,6 +6051,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5157,6 +6101,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5210,6 +6159,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5259,6 +6213,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5308,6 +6267,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5359,6 +6323,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5408,6 +6377,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5457,6 +6431,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5506,6 +6485,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5549,6 +6533,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5600,6 +6589,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5643,6 +6637,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5686,6 +6685,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5729,6 +6733,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5772,6 +6781,11 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5815,6 +6829,59 @@
     "coreField": false,
     "relDragLaw": "inertial",
     "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "chainSpreadToy3d",
+    "emoji": "🍥",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 81,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5858,6 +6925,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5901,6 +6973,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 1
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5944,6 +7021,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -5987,6 +7069,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6030,6 +7117,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6079,6 +7171,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6122,6 +7219,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6167,6 +7269,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6210,6 +7317,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6253,6 +7365,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6296,6 +7413,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6346,6 +7468,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6395,6 +7522,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6444,6 +7576,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6491,6 +7628,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6534,6 +7676,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6583,6 +7730,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6626,6 +7778,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6669,6 +7826,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6712,6 +7874,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6755,6 +7922,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6798,6 +7970,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6841,6 +8018,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6884,6 +8066,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6927,6 +8114,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -6970,6 +8162,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7019,6 +8216,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 1,
      "axisMode": 0,
@@ -7071,6 +8273,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7122,6 +8329,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7175,6 +8387,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7226,6 +8443,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7279,6 +8501,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7322,6 +8549,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7365,6 +8597,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7408,6 +8645,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7451,6 +8693,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7506,6 +8753,11 @@
     "coreField": false,
     "relDragLaw": null,
     "spinAxis": 0,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 0,
+     "precess3d": 0
+    },
     "coreAxis": {
      "tilt": 0,
      "axisMode": 0,
@@ -7601,11 +8853,18 @@
     "declActive": 5
    },
    "relDrag:inertial": {
-    "books": 12,
-    "active": 9,
+    "books": 21,
+    "active": 18,
     "retired": 3,
-    "decl": 12,
-    "declActive": 9
+    "decl": 21,
+    "declActive": 18
+   },
+   "spinAxis:enable3d": {
+    "books": 12,
+    "active": 12,
+    "retired": 0,
+    "decl": 19,
+    "declActive": 19
    },
    "relDrag:pairSlip": {
     "books": 2,
@@ -7614,12 +8873,19 @@
     "decl": 2,
     "declActive": 0
    },
-   "spinAxis": {
-    "books": 4,
-    "active": 4,
+   "spinAxis:display2d": {
+    "books": 1,
+    "active": 1,
     "retired": 0,
-    "decl": 4,
-    "declActive": 4
+    "decl": 1,
+    "declActive": 1
+   },
+   "spinAxis:precess3d": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
    }
   }
  },
@@ -7688,7 +8954,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 6.126,
+    "wallSec": 6.964,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -7764,7 +9030,7 @@
      "desc": 33,
      "physics": []
     },
-    "wallSec": 13.021,
+    "wallSec": 17.011000000000003,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt,axisMode,azimuthDeg,precessionRate)",
     "removable": false,
@@ -7834,7 +9100,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.125,
+    "wallSec": 0.14100000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7905,7 +9171,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 13.488,
+    "wallSec": 14.869,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -7975,7 +9241,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.018000000000000002,
+    "wallSec": 0.044,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -8045,7 +9311,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.6559999999999999,
+    "wallSec": 0.6910000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -8117,7 +9383,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.038,
+    "wallSec": 0.07400000000000001,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -8191,7 +9457,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.432,
+    "wallSec": 1.664,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8263,7 +9529,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.182,
+    "wallSec": 0.20099999999999998,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8337,7 +9603,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.157,
+    "wallSec": 0.156,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8409,7 +9675,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.13,
+    "wallSec": 0.13799999999999998,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8483,7 +9749,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.47,
+    "wallSec": 0.604,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -8549,7 +9815,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 13.126999999999999
+    "wallSec": 15.888
    },
    {
     "id": "layeredCoreDFM",
@@ -8603,7 +9869,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.09
+    "wallSec": 0.119
    }
   ]
  },
@@ -8644,7 +9910,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.16099999999999998
+    "wallSec": 0.181
    },
    {
     "id": "earthMoonSunInertialFit",
@@ -8681,7 +9947,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.07500000000000001
+    "wallSec": 0.152
    },
    {
     "id": "earthMoonSunInertial3d",
@@ -8718,7 +9984,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.129
+    "wallSec": 0.22199999999999998
    },
    {
     "id": "plutoCharonInertialFit",
@@ -8755,7 +10021,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.16
+    "wallSec": 0.221
    }
   ]
  },
@@ -8885,5 +10151,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 50.631
+ "elapsedS": 60.591
 }
