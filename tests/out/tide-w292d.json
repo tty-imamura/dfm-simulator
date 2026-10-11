@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T21:01:43.954Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:27:37.888Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w292d-tide.mjs",
-    "bytes": 31702,
-    "sha256": "5cd70a359cee26f61d94bc26409307040fc9be9b19000bd93d2ea414ef18659a",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "bytes": 32174,
+    "sha256": "091e98567f1a076cbf093d5103a0326266a9505ac6f83cbf2bec45e732312899",
+    "mtime": "2026-10-11T08:52:32.276Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "f5999c2040a1b0adfe6b5eb1642867db26db86994efca3ffb38904edea0b1132",
+  "codeSha256": "302499b343cf1fa3dcf5f02ca5c609352a0a68a32308efb46cfe71467e7e5575",
   "harnessVersion": "w292d-tide-1",
   "libVersion": "w292d-tide-lib-1",
   "engineVersion": "w292d-tide-1",
@@ -90,11 +90,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1158,
-   "segments": 1058,
-   "closureShare": 0.3262
+   "names": 1200,
+   "segments": 1093,
+   "closureShare": 0.3206
   },
-  "scopeSha256": "6f775cccb45cda466604ff40dae6dcaee1d957d3a80cdd36d0f4ebb8b18f245e",
+  "scopeSha256": "0e33ec81a6bacc1fb2eaec20d8e7aa9ac4309370a951f86a045feb9acfa30249",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -359,7 +359,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 5.304,
+   "wallSec": 6.105,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -409,7 +409,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 9.97,
+   "wallSec": 12.312,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -488,7 +488,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 5.497,
+   "wallSec": 6.393,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -506,7 +506,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 7.009,
+   "wallSec": 7.488,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -730,71 +730,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.497
+    "wallSec": 6.393
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.009
+    "wallSec": 7.488
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.977
+    "wallSec": 6.427
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.53
+    "wallSec": 8.644
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.699
+    "wallSec": 7.922
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.964
+    "wallSec": 6.178
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.318
+    "wallSec": 8.51
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.395
+    "wallSec": 8.353
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.821
+    "wallSec": 6.729
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.35
+    "wallSec": 8.371
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.646
+    "wallSec": 8.275
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 93.253
+ "elapsedS": 105.505
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
-  "generatedAt": "2026-10-11T06:29:55.916Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:25:48.418Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6378738,
-    "sha256": "480c76954554a6e6f293bed537256458a98048206c2a0587ef5619bc6941a3a0",
-    "mtime": "2026-10-11T06:28:33.904Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w293c-corecensus.mjs",
     "bytes": 15375,
     "sha256": "56e5099dca0ef8a35c3813ab419921bcab4c7ed0da57dfb8ca83920a6d51b8f7",
-    "mtime": "2026-10-11T05:10:05.417Z"
+    "mtime": "2026-10-11T06:38:07.872Z"
    },
    {
     "file": "tests/lib-w293c-corecensus.mjs",
     "bytes": 15598,
     "sha256": "dbe1e7d4013919926a574a3b46105cb6bade14042d8311805b3b432e7957afdf",
-    "mtime": "2026-10-11T05:10:05.416Z"
+    "mtime": "2026-10-11T06:38:07.872Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-11T05:00:25.812Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-11T05:00:25.808Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-11T05:00:25.804Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-11T05:00:25.816Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "544ba1808b050ddf0b3296808cd3d2dbe43346faae281667d39394ec75a3e0e0",
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1166,
-   "segments": 1059,
-   "closureShare": 0.3248
+   "names": 1190,
+   "segments": 1083,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "5e9f6394a23310ce3f973c4f06b8a4442d3744dd3a402a2be31c8d9de9416c89",
+  "scopeSha256": "1c3f7a7850e6f449c1a69e80ea6094866c8da4458e5f4db2274fe5b08aa0520c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -141,7 +141,7 @@
   "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
  },
  "census": {
-  "nPresets": 164,
+  "nPresets": 173,
   "nRetired": 41,
   "rows": [
    {
@@ -4478,6 +4478,342 @@
     "textHits": 0
    },
    {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 2,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 2,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
     "id": "mercuryGeoToy3",
     "emoji": "🔁",
     "retired": false,
@@ -4508,6 +4844,54 @@
     "spinAxisKind": {
      "display2d": 0,
      "enable3d": 0,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercuryMeshMigrate3d",
+    "emoji": "🔂",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
      "precess3d": 0
     },
     "coreAxis": {
@@ -6424,6 +6808,54 @@
     "group": "運動と時空",
     "sampleClass": "principle",
     "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "spinAxisKind": {
+     "display2d": 0,
+     "enable3d": 1,
+     "precess3d": 0
+    },
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "chainSpreadToy3d",
+    "emoji": "🍥",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 81,
     "v2": {
      "n": 0,
      "convertible": 0,
@@ -8421,11 +8853,18 @@
     "declActive": 5
    },
    "relDrag:inertial": {
-    "books": 12,
-    "active": 9,
+    "books": 21,
+    "active": 18,
     "retired": 3,
-    "decl": 12,
-    "declActive": 9
+    "decl": 21,
+    "declActive": 18
+   },
+   "spinAxis:enable3d": {
+    "books": 12,
+    "active": 12,
+    "retired": 0,
+    "decl": 19,
+    "declActive": 19
    },
    "relDrag:pairSlip": {
     "books": 2,
@@ -8440,13 +8879,6 @@
     "retired": 0,
     "decl": 1,
     "declActive": 1
-   },
-   "spinAxis:enable3d": {
-    "books": 3,
-    "active": 3,
-    "retired": 0,
-    "decl": 3,
-    "declActive": 3
    },
    "spinAxis:precess3d": {
     "books": 1,
@@ -8522,7 +8954,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 7.186,
+    "wallSec": 6.964,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -8598,7 +9030,7 @@
      "desc": 33,
      "physics": []
     },
-    "wallSec": 16.744,
+    "wallSec": 17.011000000000003,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt,axisMode,azimuthDeg,precessionRate)",
     "removable": false,
@@ -8668,7 +9100,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.182,
+    "wallSec": 0.14100000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -8739,7 +9171,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 14.962,
+    "wallSec": 14.869,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -8809,7 +9241,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.023,
+    "wallSec": 0.044,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -8879,7 +9311,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.611,
+    "wallSec": 0.6910000000000001,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -8951,7 +9383,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.075,
+    "wallSec": 0.07400000000000001,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -9025,7 +9457,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.734,
+    "wallSec": 1.664,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9097,7 +9529,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.234,
+    "wallSec": 0.20099999999999998,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9171,7 +9603,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.19899999999999998,
+    "wallSec": 0.156,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9243,7 +9675,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.157,
+    "wallSec": 0.13799999999999998,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9317,7 +9749,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.587,
+    "wallSec": 0.604,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9383,7 +9815,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 15.146
+    "wallSec": 15.888
    },
    {
     "id": "layeredCoreDFM",
@@ -9437,7 +9869,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.178
+    "wallSec": 0.119
    }
   ]
  },
@@ -9478,7 +9910,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.187
+    "wallSec": 0.181
    },
    {
     "id": "earthMoonSunInertialFit",
@@ -9515,7 +9947,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.097
+    "wallSec": 0.152
    },
    {
     "id": "earthMoonSunInertial3d",
@@ -9552,7 +9984,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.19999999999999998
+    "wallSec": 0.22199999999999998
    },
    {
     "id": "plutoCharonInertialFit",
@@ -9589,7 +10021,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.30000000000000004
+    "wallSec": 0.221
    }
   ]
  },
@@ -9719,5 +10151,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 60.045
+ "elapsedS": 60.591
 }

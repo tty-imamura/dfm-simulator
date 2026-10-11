@@ -393,10 +393,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 0.345
+         "wallSec": 0.355
         },
         "B": {
-         "wallSec": 0.332
+         "wallSec": 0.309
         }
        }
       },
@@ -520,10 +520,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 1.537
+         "wallSec": 1.765
         },
         "B": {
-         "wallSec": 1.497
+         "wallSec": 1.653
         }
        }
       },
@@ -647,10 +647,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 5.863
+         "wallSec": 6.181
         },
         "B": {
-         "wallSec": 5.664
+         "wallSec": 6.692
         }
        }
       }
@@ -1212,7 +1212,7 @@
   },
   "runs": {
    "A": {
-    "wallSec": 1.537,
+    "wallSec": 1.765,
     "bands": [
      {
       "band": [
@@ -1294,7 +1294,7 @@
     ]
    },
    "B": {
-    "wallSec": 1.497,
+    "wallSec": 1.653,
     "bands": [
      {
       "band": [
@@ -1582,14 +1582,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便d",
   "target": "beta/index.html",
-  "targetSha256": "b618d719c7773bfa2002fa67192cdcd73f3a9ace4d49b3c2964be4a017ace1d6",
-  "generatedAt": "2026-10-11T08:29:52.086Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:26:57.446Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6422541,
-    "sha256": "b618d719c7773bfa2002fa67192cdcd73f3a9ace4d49b3c2964be4a017ace1d6",
-    "mtime": "2026-10-11T08:25:52.164Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -1597,31 +1597,31 @@
     "file": "tests/exp-w299d-geo4stable.mjs",
     "bytes": 41712,
     "sha256": "e05271c352e7f51536a9e410fd6d0c815cc6a63db6520184f90f2bab1c9e2cea",
-    "mtime": "2026-10-11T08:28:19.792Z"
+    "mtime": "2026-10-11T08:32:39.850Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
     "bytes": 6222,
     "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
-    "mtime": "2026-10-11T07:12:55.681Z"
+    "mtime": "2026-10-11T08:32:39.850Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-11T06:46:31.660Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-11T06:46:31.652Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-11T06:46:31.664Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "5c2b3152886f8caeec5d8a364ba2f4160e2eb03aada9e1363d3358ff75334698",
@@ -1672,14 +1672,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1189,
-   "segments": 1082,
-   "closureShare": 0.3262
+   "names": 1207,
+   "segments": 1100,
+   "closureShare": 0.3221
   },
-  "scopeSha256": "2a21f12c21c35e36c60123baff622e9bf9f46ba1b7ff8aa2b932a3754a5a6b0c",
+  "scopeSha256": "53b9cec6836057c219cf3e94d5962f633621a8d24d9fb3628645a6796396dbc7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 90.672
+ "elapsedS": 96.658
 }

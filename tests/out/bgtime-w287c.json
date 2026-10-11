@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-10T20:59:39.416Z",
+  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+  "generatedAt": "2026-10-11T11:24:43.312Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-10T19:49:18.958Z"
+    "bytes": 6565065,
+    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+    "mtime": "2026-10-11T08:52:32.228Z"
    }
   ],
   "code": [
@@ -18,7 +18,7 @@
     "file": "tests/exp-w287c-bgtime.mjs",
     "bytes": 32648,
     "sha256": "5b698e1e3d031229205389aaf4d175cd3fbe3ed90c9825bf022cd86a0890603e",
-    "mtime": "2026-10-09T16:59:55.643Z"
+    "mtime": "2026-10-11T00:52:29.981Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -80,11 +80,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1146,
-   "segments": 1046,
-   "closureShare": 0.3232
+   "names": 1188,
+   "segments": 1081,
+   "closureShare": 0.3174
   },
-  "scopeSha256": "b4af47e558e90130ef196733473232f8f28dab0d9520064022112d23178c891a",
+  "scopeSha256": "3d88d2efe45114d057db56efceed1eb9c877d1d79c94e91c2c945954b3f503f9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -803,7 +803,7 @@
   "ok": true
  },
  "census": {
-  "nPresets": 164,
+  "nPresets": 173,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -1187,5 +1187,5 @@
   "maxAbsDiff": 0,
   "ok": true
  },
- "elapsedS": 49.732
+ "elapsedS": 57.124
 }
