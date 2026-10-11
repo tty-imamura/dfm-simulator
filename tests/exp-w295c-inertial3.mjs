@@ -98,9 +98,11 @@ export function declGate(HP) {
     const prim = HP.allPresets().find((q) => q.familyId === p.familyId && q.familyRole === 'primary');
     const cls = { group: p.group, primary: prim ? prim.id : null, primaryGroup: prim ? prim.group : null, familyId: p.familyId, familyRole: p.familyRole, sampleClass: p.sampleClass, fidelity: p.fidelity, referenceKind: p.referenceKind, notClaim: p.notClaim,
       activeParams: p.activeParams, emoji: p.emoji, parentGroup: par.group, parentRole: par.familyRole, parentFamily: par.familyId };
-    if (!(prim && p.group === prim.group && p.familyId === par.familyId && p.familyRole === 'variant' && p.sampleClass === 'principle' && p.fidelity === 'real'
+    // 第299便a(AN282 ②・統括の検証項目 R169): 3 本は第298便b で退役(familyRole "retired")—— 分類の門は variant と退役の両方を受ける
+    //   (退役は家族の役割だけが変わる —— 群・家族・principle・real・絵文字・notClaim・activeParams は従来どおり見る)
+    if (!(prim && p.group === prim.group && p.familyId === par.familyId && (p.familyRole === 'variant' || p.familyRole === 'retired') && p.sampleClass === 'principle' && p.fidelity === 'real'
       && p.emoji === b.emoji && JSON.stringify(p.notClaim) === JSON.stringify(b.notClaim) && JSON.stringify(p.activeParams) === JSON.stringify(['geoPN', 'dispMag'])))
-      bad.push('分類(群・家族・variant・principle・real・絵文字・notClaim・activeParams)');
+      bad.push('分類(群・家族・variant/退役・principle・real・絵文字・notClaim・activeParams)');
     const v = HP.validatePreset(clone(p));
     if (!(v.ok && (v.warnings || []).length === 0)) bad.push('受理の警告: ' + JSON.stringify(v.warnings || v.errors).slice(0, 120));
     let run = null;

@@ -97,21 +97,41 @@ export function inPlaneLongitude(v, h) {
   const Om = Math.atan2(ny, nx), nu = [nx / nn, ny / nn, 0], hu = [h[0] / hn, h[1] / hn, h[2] / hn];
   return Om + Math.atan2(dot(cross(nu, v), hu), dot(nu, v));
 }
+// 第299便a(統括の検証項目 R169): 走行の上限と打ち切り。旧版は上限なしの for(;;) —— 走行中の門(coord3dRuntimeWhy)で步が止まる・
+//   連鎖の解法が止まる・束縛が解ける場合に公転数が増えず終わらなかった。打ち切りの理由 stop を返し、窓が揃わない走行は childTask が
+//   **成功値として渡さない**(例外 —— 子プロセスが非 0 で終わり鎖が止まる)。数値の抽出は 1 命令も変えていない(正本の値は不変)。
+//   上限 = 初期の接触周期 × revMax × EMX3_STEP_FACTOR / dt(o.maxSteps で上書き)。束縛していない初期状態(a≤0)は走らせない。
+export const EMX3_STEP_FACTOR = 3;
+export const EMX3_STOPS = Object.freeze(['revMax', 'nan', 'coord3dHalt', 'solveHalt', 'maxSteps', 'unbound']);
+export function emx3MaxSteps(S, ci, oi, dt, revMax) {
+  const c3 = S.coord3d === true, mu = S.params.G * (S.m[ci] + S.m[oi]);
+  const dx = S.x[oi] - S.x[ci], dy = S.y[oi] - S.y[ci], dz = c3 ? S.z[oi] - S.z[ci] : 0, dvx = S.vx[oi] - S.vx[ci], dvy = S.vy[oi] - S.vy[ci], dvz = c3 ? S.vz[oi] - S.vz[ci] : 0;
+  const inv = 2 / Math.hypot(dx, dy, dz) - (dvx * dvx + dvy * dvy + dvz * dvz) / mu;
+  if (!(inv > 0) || !Number.isFinite(inv)) return 0;
+  const P0 = 2 * Math.PI * Math.sqrt(1 / (inv * inv * inv) / mu);
+  return Math.ceil(EMX3_STEP_FACTOR * revMax * P0 / dt);
+}
 export function runEmx3(HP, preset, o) {
   const v = HP.validatePreset(clone(preset));
   if (!v.ok) throw new Error('validatePreset: ' + JSON.stringify(v.errors).slice(0, 300));
   const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
   const c3 = S.coord3d === true, dt = o.dt, revMax = o.revMax, ci = 1, oi = 2, EV = 64, mu = S.params.G * (S.m[ci] + S.m[oi]);
+  const maxSteps = (Number.isFinite(o.maxSteps) && o.maxSteps > 0) ? o.maxSteps : emx3MaxSteps(S, ci, oi, dt, revMax);
   const rel = () => [S.x[oi] - S.x[ci], S.y[oi] - S.y[ci], c3 ? S.z[oi] - S.z[ci] : 0];
-  let p0 = rel();
+  let p0 = rel(), stop = maxSteps > 0 ? null : 'unbound';
   let angPrev = Math.atan2(p0[1], p0[0]), angAcc = 0, r1 = Math.hypot(...p0), r2 = r1, P1 = p0, P2 = p0, PP = p0, nan = false, k = 0;
   let hPrev = null;
   const ev = { rev: [], peri: [], apo: [], ecc: [] };
   const lonOf = (q, h) => inPlaneLongitude(q, h);
-  for (; ; k++) {
+  for (; stop === null; k++) {
+    if (k >= maxSteps) { stop = 'maxSteps'; break; }
+    const t0 = S.t;
     S.step(dt);
+    if (c3 && S.coord3dHalt) { stop = 'coord3dHalt'; break; }   // 走行中の門で步が止まった(時刻が進まない)
+    if (S.inertialDragHalt === true) { stop = 'solveHalt'; break; }   // 連鎖の解法の未収束(その步の u は採用されていない)
+    if (!(S.t > t0)) { stop = 'coord3dHalt'; break; }
     const d = rel(), rr = Math.hypot(...d), th = Math.atan2(d[1], d[0]);
-    if (!Number.isFinite(rr)) { nan = true; break; }
+    if (!Number.isFinite(rr)) { nan = true; stop = 'nan'; break; }
     let dd = th - angPrev; while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
     const prevAcc = angAcc; angAcc += dd; angPrev = th;
     const nP = Math.floor(Math.abs(prevAcc) / (2 * Math.PI)), nN = Math.floor(Math.abs(angAcc) / (2 * Math.PI));
@@ -132,10 +152,10 @@ export function runEmx3(HP, preset, o) {
       ev.ecc.push([k * dt, lonOf(e, hv), Math.hypot(...e), 1 / (2 / r - dot(w, w) / mu), Math.acos(Math.max(-1, Math.min(1, hv[2] / Math.hypot(...hv)))) * 180 / Math.PI]);
     }
     PP = P1; P2 = P1; P1 = d; r2 = r1; r1 = rr; hPrev = h;
-    if (ev.rev.length >= revMax) { k++; break; }
+    if (ev.rev.length >= revMax) { k++; stop = 'revMax'; break; }
   }
   const st = HP.inertialDragState(S);
-  return { ev, steps: k, nan: nan || S.hasNaN(), coord3d: c3, warnings: v.warnings || [],
+  return { ev, steps: k, stop, maxSteps, complete: stop === 'revMax' && ev.rev.length >= revMax, nan: nan || S.hasNaN(), coord3d: c3, warnings: v.warnings || [],
     drag: st ? { boundMax: st.boundMax, boundOver: st.boundOver, reject: st.reject, noHistory: st.noHistory, uMax: st.uMax } : null };
 }
 // 窓ごとの 3 方式(lib の emMethods —— 事象列は三次元の ϖ)と傾斜の平均
@@ -196,7 +216,10 @@ export function childTask(HP, spec) {
   if (spec.kind === 'flat2d') { q = clone(find(HP, SRC_ID)); delete q.fitRecord; delete q.id; }
   else q = variant3(HP, spec);
   const R = runEmx3(HP, q, { dt: spec.dt, revMax: spec.revMax });
+  // 第299便a: 窓が揃わない走行(打ち切り・NaN・門で停止)は成功値として返さない(子プロセスが非 0 で終わる —— 親の pool が拒否して鎖が止まる)
+  if (!R.complete || R.nan) throw new Error(`runEmx3 の走行が窓を満たさない(${spec.key}: stop=${R.stop}・公転 ${R.ev.rev.length}/${spec.revMax}・步 ${R.steps}/${R.maxSteps})`);
   const windows = windowsOf(R, spec.wins || [118]);
+  if (windows.some((w) => !w.complete)) throw new Error(`窓が未完了(${spec.key}: ${windows.filter((w) => !w.complete).map((w) => w.N).join(',')})`);
   const w118 = windows.find((w) => w.N === 118) || null;
   return { key: spec.key, kind: spec.kind || 'app3d', gain: spec.gain, rp: spec.rp, e0: spec.e0, inc: spec.inc, dt: spec.dt, revN: R.ev.rev.length, steps: R.steps, nan: R.nan, coord3d: R.coord3d,
     warnings: R.warnings, drag: R.drag, windows, y: w118 ? w118.T1 : null, wallSec: (Date.now() - t0) / 1000 };

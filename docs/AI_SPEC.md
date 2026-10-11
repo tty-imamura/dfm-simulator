@@ -3489,7 +3489,15 @@ SYSTEM_PROMPT の規則 12(逐語):
 - **claims**: id・role・prov は変えない(`earthMoonRealKF1.apsidal-period` は role "fit_target" のまま —— 照合だけになったことは roleNote に書く)。窓は恒星月 27.32〜27.33・近点回転 285〜305(descPattern は「近点回転の周期は約(数)年」)。
 - QA: `docs.refit298`・`behavior.fitCond298`・`behavior.framePull`(🌘 の宣言の D0pull と p=2 の近点移動の窓 —— 正本の段 fitmonth から読む)・`wave120.ui`(🌘 の 1 公転の正味の順行の門 —— 正本の段 fitmonth の傾き×3600″ の 0.5〜2 倍)・`preset.revived292b`(claims の追記を第298便b の文へ戻して照合)の世代追従(世代切替 = 🌘 の `fitRecord.procedure` が「周期優先(第298便e)」で始まる —— html の正規表現)。
 
-## 72. 第299便f —— 選択粒子の編集の出し分けと編集の入口・パラメータタブの三次元の切り替え・家族の畳み・spinAxis の棚卸しの行名(原仮定者の裁定(第89報)⑤⑥・DECISIONS v58 §0 の AN281 ①・AN282 ③・統括の検証項目 R172・**UI と編集の入口だけ** —— 本の JSON の鍵は増やしていない・**SYSTEM_PROMPT には載せない**)
+## 72. 第299便a —— 三次元の頑健化: 未対応で両側を止める・チェックポイントと複製の三次元の帳簿・時間の標準器の三次元化(原仮定者の裁定(第89報)③ の前提・統括の検証項目 R169・AN275 ⑤・AN277 ⑥・AN282・**本の宣言と物理の式は不変**・**SYSTEM_PROMPT には載せない**)
+
+- **未対応で両側を止める**: 三次元の本の画面の步の関数は `appStepFn3`(`appStepFn` が A か B のどちらかが三次元のときに選ぶ)。進める前に両側の門 `coord3dRuntimeWhy` を見て、どちらかが立てば両方とも進めず `STEP_PRE_HALT` を返す。`stepCarryFrame` はその步を実行 0 步として数え、残りは繰越さず破棄し、戻り値に `halt:"pre"` を足す。再生ループは一時停止して通知(`coord3dHaltPause`)・HUD の ⛔ は止めた側と、設定を戻したかを出す(`coord3dHaltHud`)。設定を戻して ▶ で両側が同じ時刻から再開する。二次元の本の步の関数は従来どおり。
+- **チェックポイントと複製**: 慣性決定力の直近の步の値・累計(三次元の dL3・軸引きずりの帳簿 `INERTIAL_DRAG3_SC` を含む)・核の標本 `_rd*` は `inertialDragCkSnap`/`inertialDragCkRestore` の 1 組の写しで運ぶ(チェックポイントの `rd`・A/B とアプリ内実測の複製 `cloneSimState`)。配列は写しで戻す。複製は stateCarry:"double" の繰り越し `carVx/carVy` も写す。
+- **時間の標準器**: 器 `tests/exp-w297c-timestd.mjs` の版 `w299a-timestd-2` —— 三次元の本は r・v²・|r×v|・半径を 3 成分で、公転の位相は初期の軌道面の基底(`HP.coord3d.planeOf`)へ射影した角で数える(行に `coord:"3d"`・`phase:"plane0"`)。二次元の行は旧版とビット同一。timeRef の宣言(pRef・stepsPerOrbit)は変えていない。
+- **器の上限**: `tests/exp-w298c-moon3d.mjs` の `runEmx3` は最大步数・走行中の門・連鎖の解法の停止・有限値・束縛なしで打ち切り(`stop`)、窓が揃わない走行は例外(成功値として渡さない)。
+- QA: `behavior.coord3dHaltAB299`・`behavior.ckDrag3d299`・`docs.timeStd3d299`(root は SKIP)。
+
+## 73. 第299便f —— 選択粒子の編集の出し分けと編集の入口・パラメータタブの三次元の切り替え・家族の畳み・spinAxis の棚卸しの行名(原仮定者の裁定(第89報)⑤⑥・DECISIONS v58 §0 の AN281 ①・AN282 ③・統括の検証項目 R172・**UI と編集の入口だけ** —— 本の JSON の鍵は増やしていない・**SYSTEM_PROMPT には載せない**)
 
 - **出し分け** `selEditVisOf(S, i)` → `{coord, dragQ, coreV2, coreV2Edit, coreAxisV2, z3, spinAxis3, dragCore}`(読むだけ): dragQ = `physics.kFrame`≠0・coreV2 = `S.coreMd[i]`≠0(「コア有効」のトグルも —— コアの無い粒子への付与の入口は閉じた)・coreAxisV2 = 二次元の本 ∧ コア V2(cavity 以外)・z3/spinAxis3 = `S.coord3d===true`・dragCore = `relativeDrag.law:"inertial"`。DOM: `#beDqRow`・`#beZRow`(`#beZ`・`#beVz`)・`#beDcBox`(`#beDcOn`・`#beDcMF`・`#beDcR`・`#beDcNote`)・`#beSaBox`(`#beSaOn`・`#beSaTilt`・`#beSaAz`・`#beSaOm`・`#beSaPTilt`・`#beSaPAz`・`#beSaNote`)・`#beCvAxBox`(`#beCvAxOn`・`#beCvAxAz`・`#beCvAxOm`)。
 - **編集の入口**(押したときだけ書く): `dragCoreEdit(S, i, {on|massFrac|radius})`(受理器 `validateDragCoreBody` を通す —— 拒否は `{ok:false, err}`・既定 `DRAG_CORE_EDIT_DEFAULT`={massFrac:0.5, radiusFrac:0.5})/ `coreAxisEdit(S, i, {prescribed|azimuthDeg|precessionRate})`(値域 `CORE_AXIS_AZ_CLAMP`・`CORE_AXIS_RATE_CLAMP`・今の方位から続く・付けるときの歳差の既定は殻スピン)/ `coord3dSpinAxisEdit(S, i, {enable|tiltDeg|azimuthDeg|precessionRate|pTiltDeg|pAzimuthDeg})`(値域 `SPIN_AXIS_TILT_CLAMP`・`SPIN_AXIS_AZ_CLAMP`・`SPIN_AXIS3_RATE_CLAMP`・â₀ = R(p̂, −Ω_p t)·â・二次元の本は `{ok:false, reason:"coord2d"}`)。三次元の本で步が止まる編集(減光の自動算出)は `beDeny3dOf` で拒否して理由。z ±5000・vz ±100。

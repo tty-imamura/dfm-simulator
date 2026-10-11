@@ -2014,6 +2014,8 @@ ja: {
   modeWarn_coord2dZ:(keys)=>"二次元の本(physics.coord 未宣言・\"2d\")に Z の宣言 "+keys+" —— 走行は二次元のまま(z は積分しない)。三次元で走らせるなら physics.coord:\"3d\" を宣言する。値は捨てていない。",
   hudSpin3:(rot,ax,k,w)=>"三次元の慣性決定力: 並進"+(rot? "・回転引きずり(赤道で最大・軸上で 0)" : "")+(ax? "・軸引きずり κ="+k+"(|ω|max "+w+" —— 姿勢だけを回す)" : ""),   // 第298便c(R167)
   hudMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定 —— この本は互換で走る(新しく作る設定は慣性決定力 relativeDrag.law:\"inertial\" と三次元で)",   // 第298便c
+  coord3dHaltCleared:"(設定は戻っています —— ▶ で再開)",
+  coord3dHaltPause:(wa,wb,isAB)=>"三次元では未対応の設定で再生を止めました("+(isAB? "A: "+(wa||"—")+" / B: "+(wb||"—") : (wa||"—"))+")。その設定を 0/OFF に戻してから ▶ で再開してください(A/B は両側とも同じ時刻で止まっています)",
   hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の奥)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
   loadGeo0Legacy:(lv)=>"geoPN=0 で spaceMesh.lawVersion:\""+lv+"\" を宣言した設定です —— 第296便から geoPN=0 でも旧空間メッシュ(legacy-spaceMesh:"+lv+")で走ります(第295便までは宣言が残るだけでニュートン等の他の宣言で走っていました)。値は保存どおり",
   geo4NoMesh:(law)=>"測地線モード geoPN=4(空間メッシュ・連鎖): 旧メッシュ(physics.spaceMesh.lawVersion)も慣性の連鎖の宣言(relativeDrag.law:\"inertial\")も走っていません —— 旧メッシュか慣性の連鎖の宣言が要ります。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
@@ -3246,6 +3248,8 @@ en: {
   modeWarn_coord2dZ:(keys)=>"a 2D book (physics.coord undeclared or \"2d\") carries Z declarations "+keys+" - it still runs in 2D (z is not integrated). Declare physics.coord:\"3d\" to run in 3D. The values have not been discarded.",
   hudSpin3:(rot,ax,k,w)=>"3D inertial determinacy: translation"+(rot? ", rotational drag (largest on the equator, zero on the axis)" : "")+(ax? ", axial drag kappa="+k+" (|omega|max "+w+" - turns the attitude only)" : ""),
   hudMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is scheduled for retirement - this sample runs for compatibility (new setups use the inertial determinacy relativeDrag.law:\"inertial\" in 3D)",
+  coord3dHaltCleared:" (setting restored - press ▶ to resume)",
+  coord3dHaltPause:(wa,wb,isAB)=>"Playback paused on a setting 3D does not support ("+(isAB? "A: "+(wa||"-")+" / B: "+(wb||"-") : (wa||"-"))+"). Set it back to 0/off, then press ▶ to resume (in A/B both sides stopped at the same time)",
   hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points into the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
   loadGeo0Legacy:(lv)=>"This setting declares spaceMesh.lawVersion:\""+lv+"\" with geoPN=0 - since wave 296 geoPN=0 also runs the legacy space mesh (legacy-spaceMesh:"+lv+") (up to wave 295 the declaration was only kept and the other declarations, e.g. Newton, ran). Values are as saved",
   geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (space mesh / chain): neither the legacy mesh (physics.spaceMesh.lawVersion) nor the inertial chain declaration (relativeDrag.law:\"inertial\") is running - one of them is needed. It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
@@ -8047,6 +8051,8 @@ function spinAxisOf(S,i){
 // 力の経路: `S._core` は 1 命令も変えず、三次元の本だけが別の步 `dfmStep3`(核 `dfmCore3`)を通る —— build が S.step を差し替える
 //   (二次元の本では差し替えない = 二次元の 1 步に命令は 1 つも増えない)。対応しない機能は**受理で拒否**(coord3dDenyOf)し、
 //   走行中の編集で立ったら**步を止めて理由を出す**(coord3dRuntimeWhy —— 黙って二次元の式で動かさない)。
+//   第299便a(R169・AN275 ⑤): 画面の步の関数(appStepFn3)は A と B の門を**進める前に**見て両側とも進めず(片側停止の漏れを塞いだ)、
+//   再生ループは一時停止して通知する(HUD の ⛔ には止めた側と、設定を戻したかを出す)。
 const COORD_KEY="coord", COORD_VALUES=["2d","3d"], COORD3D_VERSION="w298a-coord3d-1";
 // A/B の複製(cloneSimState)が写す三次元の配列(チェックポイントは CK_ARRS)
 const COORD3D_ARRS=["z","vz","carVz","sax","say","saz","sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","saOn"];
@@ -31488,25 +31494,55 @@ function stepGenBump(reason){
 // 中身は第175便の会計と同じ(最低 1 步・打ち切りは 2 步目以降の前で判定・上限 = capFrames×kNew)—— step の回数と順は 1 bit も変えない
 const perfNow=()=>performance.now();   // loop() が stepCarryFrame に渡す実時計
 const HP_TICK_CAP=24;   // 第297便c: HP.tick(QA の手回し)の 1 フレームの步数の上限(従来の 24 —— 再生ループの上限は stepBudget の 2000 と予算 ms)
+// 第299便a(統括の検証項目 R169・AN275 ⑤): 步の関数が**進める前に止めた**(三次元の未対応の設定 —— 実行 0 步)ことを返す印。
+// stepCarryFrame はこの步を kRun に数えず、残りは繰越さず全量 cancelled(破棄)へ回す。戻り値に halt:"pre" を足す(印の無いフレームの戻り値は従来の 5 鍵のまま)
+const STEP_PRE_HALT="preHalt";
 function stepCarryFrame(kNew, pending, carryOn, capFrames, budgetMs, now, stepFn){
   const kReq=kNew+pending, t0=now();
-  let kRun=0;
+  let kRun=0, preHalt=false;
   for(let s2=0;s2<kReq;s2++){
-    const go=stepFn(); kRun=s2+1;
+    const go=stepFn();
+    if(go===STEP_PRE_HALT){ preHalt=true; break; }   // 第299便a: 進める前の停止は「実行 0 步」(kRun に数えない)
+    kRun=s2+1;
     if(go===false) break;   // 第296便c(R159): 步の関数が false を返したら打ち切る(連鎖の解法の未収束 —— 残りは繰越/破棄の会計どおり)
     if(s2+1<kReq && now()-t0>budgetMs) break;
   }
   const ms=now()-t0, left=kReq-kRun;
-  const keep=carryOn? Math.min(left,capFrames*kNew) : 0;   // 繰越 OFF(否定対照)は全量破棄 = 第171便の挙動
-  return {kReq, kRun, pending:keep, cancel:left-keep, ms};
+  const keep=(carryOn && !preHalt)? Math.min(left,capFrames*kNew) : 0;   // 繰越 OFF(否定対照)は全量破棄 = 第171便の挙動 / 第299便a: 進める前の停止も全量破棄
+  return preHalt? {kReq, kRun, pending:keep, cancel:left-keep, ms, halt:"pre"} : {kReq, kRun, pending:keep, cancel:left-keep, ms};
 }
 // 第297便c(原仮定者の裁定(第87報)③・R163/AN261 の残り): **画面の 1 macrostep の関数**(loop と QA が同じこの 1 本を通る)。
 // A(S)を刻み dt で 1 步 → A/B なら B(SB)も同じ dt で 1 步(同じ座標時間)→ どちらかの inertialDragHalt で false(stepCarryFrame が直後に打ち切る)。
 // 両方とも同じ步・同じ時刻で止まる(A 失敗でも B は同じ步まで進んでいる)。ライブ比較の採取は A/B では走らない(lcOn は呼び出し側が !ab で決める)
 function appStepFn(S, SB, dt, lcOn){
+  if((S && S.coord3d===true) || (SB && SB.coord3d===true)) return appStepFn3(S, SB, dt, lcOn);   // 第299便a: 三次元の本だけ(二次元の本の步の関数は従来と同じ)
   if(SB) return ()=>{ S.step(dt); SB.step(dt); return S.inertialDragHalt!==true && SB.inertialDragHalt!==true; };
   if(lcOn) return ()=>{ S.step(dt); lcAfterStep(); return S.inertialDragHalt!==true; };
   return ()=>{ S.step(dt); return S.inertialDragHalt!==true; };
+}
+// 第299便a(統括の検証項目 R169・AN275 ⑤): **三次元の本の步の関数**。両側(A と、A/B なら B)の走行中の門 coord3dRuntimeWhy を**進める前に**見て、
+// どちらかが立っていれば**どちらも進めず** STEP_PRE_HALT を返す(旧: A は dfmStep3 の中で止まるが B だけ時刻が進んだ —— 片側停止の漏れ)。
+// 理由は各側の S.coord3dHalt に書く(HUD の ⛔・再生ループの一時停止と通知)。立っていなければ従来と同じ順で 1 macrostep(dfmStep3 の門は残す —— 直接 S.step を呼ぶ器のため)
+function coord3dPreHalt(S, SB){
+  const wa=(S && S.coord3d===true)? coord3dRuntimeWhy(S) : null, wb=(SB && SB.coord3d===true)? coord3dRuntimeWhy(SB) : null;
+  if(S && S.coord3d===true) S.coord3dHalt=wa;
+  if(SB && SB.coord3d===true) SB.coord3dHalt=wb;
+  return wa || wb;
+}
+// HUD の ⛔ の文(読むだけ —— 状態を書かない): 止まった側の理由。A/B は「A: …/B: …」。止めた後に設定を戻していれば「戻した —— ▶ で再開」を添える
+function coord3dHaltHud(){
+  const sides=[[sim, ab? "A: " : ""]].concat(ab? [[ab.simB, "B: "]] : []), out=[];
+  for(const [S,lab] of sides){
+    if(!S || S.coord3d!==true || !S.coord3dHalt) continue;
+    const now=coord3dRuntimeWhy(S);
+    out.push(lab+(now || S.coord3dHalt+T("coord3dHaltCleared")));
+  }
+  return out.length? out.join(" / ") : null;
+}
+function appStepFn3(S, SB, dt, lcOn){
+  if(SB) return ()=>{ if(coord3dPreHalt(S,SB)) return STEP_PRE_HALT; S.step(dt); SB.step(dt); return S.inertialDragHalt!==true && SB.inertialDragHalt!==true; };
+  if(lcOn) return ()=>{ if(coord3dPreHalt(S,null)) return STEP_PRE_HALT; S.step(dt); lcAfterStep(); return S.inertialDragHalt!==true; };
+  return ()=>{ if(coord3dPreHalt(S,null)) return STEP_PRE_HALT; S.step(dt); return S.inertialDragHalt!==true; };
 }
 // 診断の集計窓(60フレーム)。trim 率・ms/步・実効倍率はこの窓の実測から出す。
 //
@@ -36045,7 +36081,7 @@ function syncHud(){
   // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
   let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/appStepDt(sim))}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;   // 第297便c: 步数 = t/画面の刻み
   { const tl=timeStdHudLine(); if(tl) txt+="\n"+tl; }   // 第297便c(R163): 時間の標準(1 公転 ≈ N 步・倍率・頭打ちなら実効倍率)
-  if(sim.coord3d===true){ let nAx=0; for(let i=0;i<sim.n;i++) if(sim.saOn[i]) nAx++; txt+="\n"+T("hudCoord3d")(nAx, sim.coord3dHalt||null);
+  if(sim.coord3d===true){ let nAx=0; for(let i=0;i<sim.n;i++) if(sim.saOn[i]) nAx++; txt+="\n"+T("hudCoord3d")(nAx, coord3dHaltHud());
     const sd3=relDrag3SpinOf(sim.relDrag); if(sd3) txt+="\n"+T("hudSpin3")(sd3.rot, sd3.axial, sd3.kappa, Number(sim.inertialDrag3AxOmMax||0).toExponential(2)); }   // 第298便c(R167): 三次元の慣性決定力の宣言の本だけ
   if(sim.params && sim.params[SPACE_MESH_KEY] && typeof sim.params[SPACE_MESH_KEY]==="object" && sim.params[SPACE_MESH_KEY].lawVersion!==undefined) txt+="\n"+T("hudMeshDeprecated");   // 第298便c(原仮定者の裁定(第88報)「精度の低い physics.spaceMesh は廃止予定」): 旧法則版を宣言した本だけ   // 第298便a(R165): 三次元の本だけ 1 行(二次元の本は 1 文字も増えない)
   // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
@@ -36247,6 +36283,13 @@ function loop(now){
       sim.inertialDragHalt=false; if(ab) ab.simB.inertialDragHalt=false;
       running=false; stepGenBump("diverged"); updatePlayBtn();
       notify(T("chainSolveFail")(hs.inertialDragSolveFail, fa.res, fa.iters, fa.tol), 12000);
+    }
+    // 第299便a(統括の検証項目 R169・AN275 ⑤): 三次元の未対応の設定で**進める前に**止めた(A/B は両側とも 0 步・繰越は破棄)—— 再生を一時停止して通知する
+    //   (HUD の ⛔ だけにしない)。設定を戻して ▶ を押せば両側が同じ時刻から再開する
+    if(fr.halt==="pre"){
+      const wa=sim.coord3dHalt||null, wb=(ab && ab.simB.coord3dHalt)||null;
+      running=false; stepGenBump("coord3dHalt"); updatePlayBtn();
+      notify(T("coord3dHaltPause")(wa, wb, !!ab), 12000);
     }
     if((frameCount%30)===0){
       const bad=sim.hasNaN() || (ab && ab.simB.hasNaN());
@@ -38054,6 +38097,11 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     if(sim.inertialDragDL3){ simB.inertialDragDL3=sim.inertialDragDL3.slice(); simB.inertialDrag3AxL=sim.inertialDrag3AxL.slice();
       for(const k of INERTIAL_DRAG3_SC) simB[k]=sim[k]; }
   }
+  // 第299便a(R169): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— チェックポイントの CK_ARRS には第290便d から入っていたが
+  //   複製には無く、A/B の B とアプリ内実測の複製だけが繰り越し 0 から走って A と分かれた)。宣言の無い本は carVx が無いので素通り
+  if(sim.carVx && simB.carVx && simB.carVx.length>=sim.n){ simB.carVx.set(sim.carVx.subarray(0,sim.n)); simB.carVy.set(sim.carVy.subarray(0,sim.n)); }
+  // 第299便a(R169・AN277 ⑥): 慣性決定力の直近の步の値・累計・核の標本(チェックポイントと同じ 1 組の写し —— 二次元・三次元とも。宣言の無い本は素通り)
+  if(sim.rdPrevX && simB.rdPrevX && simB.rdPrevX.length>=sim.n) inertialDragCkRestore(simB, inertialDragCkSnap(sim));
   // 第299便f: 選択粒子の編集で付け外しした構造核(dragCore)も B へ(表は読むだけの共有 —— 宣言どおりの本は build と同じ中身なので素通り)
   if(JSON.stringify(sim.dragCoreD||null)!==JSON.stringify(simB.dragCoreD||null)){
     simB.dragCoreD=sim.dragCoreD? sim.dragCoreD.map((d)=>d? Object.assign({},d) : null) : null;
@@ -38287,6 +38335,32 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
   "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll",
   "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+// 第299便a(統括の検証項目 R169・AN277 ⑥): 慣性決定力の**直近の步の値・累計・核の標本**(CK_SC・CK_ARRS の外 —— 宣言した本だけ鍵・配列がある)。
+// チェックポイントと A/B・アプリ内実測の複製(cloneSimState)が**同じ 1 組の写し**で運ぶ(旧: 三次元の帳簿 dL3・軸引きずりの帳簿・累計と
+// 受動プローブ/核が読む標本 _rd* が復帰しなかった —— 保存した瞬間に戻らず、復帰の後の走行で帳簿が「後の步のまま」から積み上がった)。
+// 配列は**写しで戻す**(作業配列を null にしない —— 長さが同じなら set・違えば写しを置く)。宣言の無い本(rdPrevX が無い)は null で素通り
+const INERTIAL_DRAG_CK_LAST=["inertialDragWhy","inertialDragBound","inertialDragUMax","inertialDragPx","inertialDragPy","inertialDragPz","inertialDragJx","inertialDragJy","inertialDragJz",
+  "inertialDragDU","inertialDragSolveRes","inertialDragSolveMethod","inertialDragUSumMax","inertialDragUSolveMax","inertialDragSolveFail","inertialDragSolveIters",
+  "inertialDragSolveItersMax","inertialDragSolveRestarts","inertialDragSpinSrc","inertialDragSpinN","inertialDragSpinSkip","inertialDragSpinMax"];
+const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ"];
+function inertialDragCkSnap(S){
+  if(!S || !S.rdPrevX) return null;
+  const o={sc:{}, arrs:{}};
+  for(const k of INERTIAL_DRAG_CK_LAST.concat(INERTIAL_DRAG3_SC)) if(S[k]!==undefined) o.sc[k]=S[k];
+  for(const k of INERTIAL_DRAG_CK_SAMPLES) if(S[k]) o.arrs[k]=S[k].slice();
+  if(S.inertialDragSolveFailAt!==undefined) o.failAt=S.inertialDragSolveFailAt? Object.assign({},S.inertialDragSolveFailAt) : null;
+  if(S.inertialDragDL3) o.dl3=S.inertialDragDL3.slice();
+  if(S.inertialDrag3AxL) o.axL=S.inertialDrag3AxL.slice();
+  return o;
+}
+function inertialDragCkRestore(S,o){
+  if(!S || !o) return;
+  for(const k of Object.keys(o.sc)) S[k]=o.sc[k];
+  for(const k of Object.keys(o.arrs)){ const c=o.arrs[k]; if(S[k] && S[k].length===c.length) S[k].set(c); else S[k]=c.slice(); }
+  if("failAt" in o) S.inertialDragSolveFailAt=o.failAt? Object.assign({},o.failAt) : null;
+  if(o.dl3) S.inertialDragDL3=o.dl3.slice();
+  if(o.axL) S.inertialDrag3AxL=o.axL.slice();
+}
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
 // A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
@@ -38300,13 +38374,15 @@ function ckSnapOne(S){
     fixcap:S.fixcap? cloneFixedCaptureState(S.fixcap) : null};   // 第290便d(R128): 固定中心の状態(R_I・stepN・捕獲/離散の回数・口座・ログ)
   for(const k of CK_ARRS) if(S[k]) o.arrs[k]=S[k].slice();
   for(const k of CK_SC) o.sc[k]=S[k];
-  if(S.coord3d===true) o.c3={L:S.spin3PrescL.slice(), N:S.spin3PrescN};   // 第298便a: 歳差の拘束の帳簿(配列なので写しで持つ)
+  if(S.coord3d===true) o.c3={L:S.spin3PrescL.slice(), N:S.spin3PrescN, halt:S.coord3dHalt||null};   // 第298便a: 歳差の拘束の帳簿(配列なので写しで持つ)/ 第299便a: 走行中の門の理由
+  const rdk=inertialDragCkSnap(S); if(rdk) o.rd=rdk;   // 第299便a: 慣性決定力の直近の步の値・累計・核の標本(三次元の dL3・軸引きずりの帳簿を含む)
   return o;
 }
 function ckRestoreOne(S,o){
   for(const k of CK_ARRS) if(S[k] && o.arrs[k]) S[k].set(o.arrs[k]);
   for(const k of CK_SC) if(o.sc[k]!==undefined) S[k]=o.sc[k];
-  if(o.c3 && S.coord3d===true){ S.spin3PrescL=o.c3.L.slice(); S.spin3PrescN=o.c3.N; }   // 第298便a
+  if(o.c3 && S.coord3d===true){ S.spin3PrescL=o.c3.L.slice(); S.spin3PrescN=o.c3.N; if("halt" in o.c3) S.coord3dHalt=o.c3.halt; }   // 第298便a / 第299便a
+  if(o.rd) inertialDragCkRestore(S, o.rd);   // 第299便a
   S.params=fastParams(o.params);   // 第250便e
   if(S.phase && o.phase) Object.assign(S.phase, o.phase);
   if(S.twall && o.tw) for(let k=0;k<4;k++) S.twall[k]=o.tw[k]? Object.assign({},o.tw[k]) : null;
@@ -53239,10 +53315,13 @@ function coord3dRelInPlane(S,ci,oi,B){
 // ===== 慣性決定力の並進(三次元 —— dfmInertialDragStep と同じ式・同じ順序に z を足した別の関数)=====
 //   核 K_ε(r)=r/(r²+ε²)²(r=|x_j−x_i| は三次元の距離)・a_ij=C m_j K_ε・s_i=Σ_j a_ij (v_j−v_i)(3 成分)・(I+L)u=s を x・y・z それぞれ同じ行列で解く
 //   (n=2 の展開形・n≤64 の直接法・PCG〔宣言した本の n>64 —— z は同じ関数を 2 度目に呼ぶ〕・Gauss–Seidel)・x+=u·dt(v は触らない)。
-//   構造核 dragCore と自転する源 spinSource は**三次元では未対応**(受理で拒否 —— 第 2 段で回転引きずり・軸引きずりと一緒に扱う)。
-//   **第 2 段(三次元の慣性決定力 3 成分)の差し込み場所**: 下の「s を組む」段(dfmInertialDrag3Build の後・Solve の前)で、自転する源の
-//   回転引きずり(赤道面で最大・軸方向で 0)と軸引きずり(軸方向で最大・赤道面で 0)の項を s_i(UX/UY/UZ)へ足す —— 源の軸は S.sax/S.say/S.saz、
-//   角速度は S.spin(軸まわり)。二次元の表裏核 inertialDragSpinTerm は「軸=+z・受け手が赤道面」の特別な場合にあたる。
+//   第299便a(R169): コメントを実装に合わせた(第298便c で構造核 dragCore と自転する源〔spinSource・spinDrag〕は三次元で対応済み):
+//   ・構造核 dragCore: 表は r だけの関数 —— 三次元の距離で引く(二次元と同じ規約: 粒子が入れ替わったら表を捨てて点源へ)。
+//   ・回転引きずり(inertialDrag3RotTerm): s を組んだ後・解く前に s_i(UX/UY/UZ)へ C m_j Ω_j M1(r)(â_j×ê) を足す(赤道面で最大・軸上で 0)。
+//     二次元の表裏核 inertialDragSpinTerm は「軸=+z・受け手が赤道面」の特別な場合。
+//   ・軸引きずり(inertialDrag3AxialOmega → inertialDrag3AxialApply): **s には足さない** —— 受け手の自転の角速度 ω_i = Σ κ m_j Ω_j K_ε μ² â_j を
+//     解く前の相で組み、移送の後に**姿勢だけ**(rotA と有効化した軸)を回す(位置・速度・u は触らない)。
+//   ・帳簿: 移送の dL3(Σ m u×v dt)・回転/軸の項の数と最大・軸が回った I s Δâ(inertialDrag3AxL)—— チェックポイントと複製は inertialDragCkSnap の 1 組で運ぶ。
 function dfmInertialDragStep3(S,dt){
   const rd=S.relDrag, n=S.n;
   if(!S.rdPrevX || S.rdPrevX.length<n) inertialDragInit(S);
@@ -53290,8 +53369,8 @@ function dfmInertialDragStep3(S,dt){
   if(bound>=1) S.inertialDragOver++;
   let dU=0, Px=0, Py=0, Pz=0, Jx=0, Jy=0, Jz=0, dL=0, dLx=0, dLy=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
-  // ---- 第 2 段の差し込み場所(s を組んだ後・解く前): 三次元の回転引きずり・軸引きずりの項を UX/UY/UZ(= s)へ足す ----
-  // 第298便c(R167): 回転引きずり(s へ —— 二次元の inertialDragSpinTerm と同じ位置)・軸引きずり(受け手の自転の角速度 ω —— s には足さない・移送の後で姿勢へ)
+  // ---- s を組んだ後・解く前(第299便a: 旧「第 2 段の差し込み場所」の目印を実装に合わせた) ----
+  // 第298便c(R167): 回転引きずりは s へ(二次元の inertialDragSpinTerm と同じ位置)・軸引きずりは受け手の自転の角速度 ω(s には足さない —— 移送の後で姿勢へ)
   const sd3=(hist && comp)? relDrag3SpinOf(rd) : null;
   if(sd3){   // 核が使った源の軸の写し(受動プローブ inertialDragProbeAt が同じ軸で読む —— 移送の後の軸引きずり・歳差で軸が回っても標本は步の相のまま)
     if(!S._rdSAX || S._rdSAX.length<n){ S._rdSAX=new Float64Array(n); S._rdSAY=new Float64Array(n); S._rdSAZ=new Float64Array(n); }
