@@ -54,6 +54,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.lambdaPN297 behavior.lambdaPnOnDrag29
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.spinAxisDecl"
 # 第298便c: 枝 c の新設 4 本(三次元の慣性決定力・空間メッシュの受動プローブ・geoPN=4 の三次元の標準・🌥️ の三次元の写し)と世代切替の behavior.meshDisplayBitsame
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.drag3d298 behavior.meshField298 preset.geo4Std298 docs.moon3d298 behavior.meshDisplayBitsame"
+# 第299便c: 枝 c の新設 2 本(preset.planets3d299・docs.planets3d299 —— 惑星の geoPN=3 三次元の本 7 本)を末尾に足した(他枝の新設と世代切替の分の差し替えは統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.planets3d299 docs.planets3d299"
 # 第298便b(原仮定者の裁定(第88報)・R166): 退役 8 本・🌘 の f=1 再フィット・フィット記録 w298b-1・比較器の共通化の新設 4 本と、追従した在位の集合のブロック
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.retire298 behavior.fitCond298 docs.refit298 lint.near298 docs.retired docs.noRetiredMention294 preset.revived292b"
 # 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 🌘 の周期優先で追従したブロック(docs.refit298・behavior.fitCond298・preset.revived292b は上にある)—— behavior.framePull・wave120.ui
