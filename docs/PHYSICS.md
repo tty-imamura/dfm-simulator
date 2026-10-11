@@ -31021,6 +31021,8 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 | earthMoonSunInertial3d | 🌦️ | 3 | 在位 | 新本(0 で宣言 —— 第298便c の三次元の写し・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | chainDiskToy3d | 🔩 | 4 | 在位 | 新本(0 で宣言 —— 第298便c の三次元の写し・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | chainDiskToy3dTilt | 🪛 | 4 | 在位 | 新本(0 で宣言 —— 第298便c の三次元の写し・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| chainSpreadToy3d | 🍥 | 4 | 在位 | 新本(0 で宣言 —— 第299便d の広げた円盤・🔩 の写し) | 走っていない(新本) | `inertial-drag` |
+| mercuryMeshMigrate3d | 🔂 | 4 | 在位 | 新本(0 で宣言 —— 第299便d の 🔁 の移行の写し・🟫 の physics の写し) | 走っていない(新本) | `inertial-drag` |
 
 **③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
 (**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。

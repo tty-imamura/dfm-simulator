@@ -391,10 +391,14 @@
         0,
         0
        ],
-       "wallSec": [
-        0.809,
-        0.489
-       ]
+       "timing": {
+        "A": {
+         "wallSec": 0.345
+        },
+        "B": {
+         "wallSec": 0.332
+        }
+       }
       },
       "80": {
        "m": 5,
@@ -514,10 +518,14 @@
         0,
         0
        ],
-       "wallSec": [
-        1.98,
-        2.242
-       ]
+       "timing": {
+        "A": {
+         "wallSec": 1.537
+        },
+        "B": {
+         "wallSec": 1.497
+        }
+       }
       },
       "160": {
        "m": 2.5,
@@ -637,10 +645,14 @@
         0,
         0
        ],
-       "wallSec": [
-        5.965,
-        5.572
-       ]
+       "timing": {
+        "A": {
+         "wallSec": 5.863
+        },
+        "B": {
+         "wallSec": 5.664
+        }
+       }
       }
      }
     }
@@ -1200,7 +1212,7 @@
   },
   "runs": {
    "A": {
-    "wallSec": 1.98,
+    "wallSec": 1.537,
     "bands": [
      {
       "band": [
@@ -1282,7 +1294,7 @@
     ]
    },
    "B": {
-    "wallSec": 2.242,
+    "wallSec": 1.497,
     "bands": [
      {
       "band": [
@@ -1570,22 +1582,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便d",
   "target": "beta/index.html",
-  "targetSha256": "94f4dad09ef7796af31f3bc9055f39d8ff18c343b87db2de8ae551abfa1b0a2e",
-  "generatedAt": "2026-10-11T07:30:30.259Z",
+  "targetSha256": "b618d719c7773bfa2002fa67192cdcd73f3a9ace4d49b3c2964be4a017ace1d6",
+  "generatedAt": "2026-10-11T08:29:52.086Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6422222,
-    "sha256": "94f4dad09ef7796af31f3bc9055f39d8ff18c343b87db2de8ae551abfa1b0a2e",
-    "mtime": "2026-10-11T07:24:02.580Z"
+    "bytes": 6422541,
+    "sha256": "b618d719c7773bfa2002fa67192cdcd73f3a9ace4d49b3c2964be4a017ace1d6",
+    "mtime": "2026-10-11T08:25:52.164Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 41679,
-    "sha256": "dce769f1239cab86a7df09f40cbf8def5ccf39c5cac1449ca95ea6acb7b7bd17",
-    "mtime": "2026-10-11T07:28:03.390Z"
+    "bytes": 41712,
+    "sha256": "e05271c352e7f51536a9e410fd6d0c815cc6a63db6520184f90f2bab1c9e2cea",
+    "mtime": "2026-10-11T08:28:19.792Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
@@ -1612,7 +1624,7 @@
     "mtime": "2026-10-11T06:46:31.664Z"
    }
   ],
-  "codeSha256": "0c22012a22fe6283d746f1b24e17baf67f4ab35c6b5af67bb61bf08ca44b6eb4",
+  "codeSha256": "5c2b3152886f8caeec5d8a364ba2f4160e2eb03aada9e1363d3358ff75334698",
   "harnessVersion": "w299d-geo4stable-1",
   "spreadVersion": "w299d-spread-2",
   "loadErrors": 0,
@@ -1669,5 +1681,5 @@
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 97.11
+ "elapsedS": 90.672
 }

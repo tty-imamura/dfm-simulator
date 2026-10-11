@@ -282,7 +282,7 @@ function partStable(HP, E) {
     const rows = {};
     for (const nn of [40, 80, 160]) { const m = 400 / nn;
       const a = nn === 80 ? A : runBands(HP, spreadPreset(HP, { vel: 'radial', spread: { n: nn, m } })), b = nn === 80 ? B : runBands(HP, spreadPreset(HP, { vel: 'zero', spread: { n: nn, m } }));
-      rows[nn] = { m, A: bandsOut(a), B: bandsOut(b), A_early: a.early, B_early: b.early, itersMax: [a.solver.itersMax, b.solver.itersMax], resMax: [sci(a.solver.resMax), sci(b.solver.resMax)], fail: [a.solver.fail, b.solver.fail], wallSec: [a.wallSec, b.wallSec] }; }
+      rows[nn] = { m, A: bandsOut(a), B: bandsOut(b), A_early: a.early, B_early: b.early, itersMax: [a.solver.itersMax, b.solver.itersMax], resMax: [sci(a.solver.resMax), sci(b.solver.resMax)], fail: [a.solver.fail, b.solver.fail], timing: { A: { wallSec: a.wallSec }, B: { wallSec: b.wallSec } } }; }
     const rA = relBand(rows[80].A, rows[160].A, 'dthU'), rB = relBand(rows[80].B, rows[160].B, 'dthU');
     const rA40 = relBand(rows[80].A, rows[40].A, 'dthU'), rB40 = relBand(rows[80].B, rows[40].B, 'dthU');
     C.count = { pass: rA <= thr.count.rel && rB <= thr.count.rel, value: { rel160A: sci(rA), rel160B: sci(rB), rel40A: sci(rA40), rel40B: sci(rB40), rows } };
