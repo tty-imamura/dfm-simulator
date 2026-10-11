@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:55:25.295Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:00:34.046Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1077,
-   "segments": 986,
-   "closureShare": 0.3199
+   "names": 1148,
+   "segments": 1048,
+   "closureShare": 0.3243
   },
-  "scopeSha256": "01b85c99281a51d8c80e2b90fa38e04ac10ad2fc1ea1442cc43e03b693ca6b21",
+  "scopeSha256": "b4dce5330b68407aaf25e44176f33b014485357082ec78a9d2c60cdbdc004587",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -141,8 +141,8 @@
   "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
  },
  "census": {
-  "nPresets": 159,
-  "nRetired": 33,
+  "nPresets": 164,
+  "nRetired": 41,
   "rows": [
    {
     "id": "gclock",
@@ -3216,7 +3216,7 @@
    {
     "id": "earthMoon",
     "emoji": "🌍",
-    "retired": false,
+    "retired": true,
     "group": "天体の機構",
     "sampleClass": "composite",
     "nBodies": 2,
@@ -3265,7 +3265,7 @@
    {
     "id": "earthMoonFree",
     "emoji": "🌕",
-    "retired": false,
+    "retired": true,
     "group": "天体の機構",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -3615,7 +3615,7 @@
    {
     "id": "earthMoonSunInertial",
     "emoji": "🌤️",
-    "retired": false,
+    "retired": true,
     "group": "現実較正",
     "sampleClass": "principle",
     "nBodies": 3,
@@ -3699,9 +3699,52 @@
     "textHits": 0
    },
    {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 1,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
     "id": "earthMoonDiagOne",
     "emoji": "🌓",
-    "retired": false,
+    "retired": true,
     "group": "現実較正",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -3916,7 +3959,7 @@
    {
     "id": "mercurySunInertial",
     "emoji": "🟤",
-    "retired": false,
+    "retired": true,
     "group": "現実較正",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -4432,7 +4475,7 @@
    {
     "id": "plutoCharonInertial",
     "emoji": "🟣",
-    "retired": false,
+    "retired": true,
     "group": "現実較正",
     "sampleClass": "principle",
     "nBodies": 2,
@@ -5702,6 +5745,178 @@
     "textHits": 0
    },
    {
+    "id": "chainDiskToy3d",
+    "emoji": "🔩",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "chainDiskToy3dTilt",
+    "emoji": "🪛",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 1,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "coord3dKeplerTilt",
+    "emoji": "🌐",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "coord3dSpinPrecess",
+    "emoji": "🎲",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 1,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
     "id": "boxBinaryToy",
     "emoji": "🫂",
     "retired": false,
@@ -6294,7 +6509,7 @@
    {
     "id": "saturn",
     "emoji": "🪐",
-    "retired": false,
+    "retired": true,
     "group": "天体の機構",
     "sampleClass": "composite",
     "nBodies": 4,
@@ -6337,7 +6552,7 @@
    {
     "id": "saturnLayered",
     "emoji": "🎯",
-    "retired": false,
+    "retired": true,
     "group": "天体の機構",
     "sampleClass": "composite",
     "nBodies": 4,
@@ -7317,10 +7532,10 @@
    },
    "coreV2": {
     "books": 30,
-    "active": 15,
-    "retired": 15,
+    "active": 12,
+    "retired": 18,
     "decl": 67,
-    "declActive": 18
+    "declActive": 13
    },
    "coreAxis:tilt": {
     "books": 3,
@@ -7379,17 +7594,17 @@
     "declActive": 2
    },
    "dragCore": {
-    "books": 4,
+    "books": 5,
     "active": 4,
-    "retired": 0,
-    "decl": 5,
+    "retired": 1,
+    "decl": 6,
     "declActive": 5
    },
    "relDrag:inertial": {
-    "books": 9,
+    "books": 12,
     "active": 9,
-    "retired": 0,
-    "decl": 9,
+    "retired": 3,
+    "decl": 12,
     "declActive": 9
    },
    "relDrag:pairSlip": {
@@ -7400,11 +7615,11 @@
     "declActive": 0
    },
    "spinAxis": {
-    "books": 1,
-    "active": 1,
+    "books": 4,
+    "active": 4,
     "retired": 0,
-    "decl": 1,
-    "declActive": 1
+    "decl": 4,
+    "declActive": 4
    }
   }
  },
@@ -7473,7 +7688,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 6.127,
+    "wallSec": 6.126,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -7549,7 +7764,7 @@
      "desc": 33,
      "physics": []
     },
-    "wallSec": 13.015,
+    "wallSec": 13.021,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt,axisMode,azimuthDeg,precessionRate)",
     "removable": false,
@@ -7557,144 +7772,6 @@
      "分類 C",
      "説明文がコアに触れる(33 箇所)",
      "観測層が変わる(Q)"
-    ]
-   },
-   {
-    "id": "earthMoon",
-    "emoji": "🌍",
-    "retired": false,
-    "calibration": false,
-    "nCoreBodies": 2,
-    "n0": 2,
-    "nEnd": [
-     2,
-     2
-    ],
-    "events": [
-     "0/0/0",
-     "0/0/0"
-    ],
-    "nan": [
-     false,
-     false
-    ],
-    "flags": {
-     "withDecl": {
-      "hasCoreV2": true,
-      "hasBodyLayers": false
-     },
-     "without": {
-      "hasCoreV2": false,
-      "hasBodyLayers": false
-     }
-    },
-    "active": [],
-    "axis": [],
-    "cmp": {
-     "steps": 2000,
-     "nMismatchSteps": 0,
-     "evMismatchSteps": 0,
-     "firstDiffStep": null,
-     "firstNDiffStep": null,
-     "maxDiff": {
-      "x": 0,
-      "y": 0,
-      "vx": 0,
-      "vy": 0,
-      "spin": 0,
-      "m": 0,
-      "mEff": 0,
-      "R": 0
-     },
-     "auxDiff": {
-      "Tobs": 914.0625342603967,
-      "Q": 0,
-      "lSw": 0
-     }
-    },
-    "readers": {
-     "claims": [
-      "earthMoon.core-mass-ratio-earth",
-      "earthMoon.radius-drift"
-     ],
-     "desc": 30,
-     "physics": []
-    },
-    "wallSec": 0.124,
-    "cls": "A",
-    "why": "差 0・能動の鍵なし",
-    "removable": false,
-    "blockers": [
-     "主張がコアを読む(earthMoon.core-mass-ratio-earth,earthMoon.radius-drift)",
-     "説明文がコアに触れる(30 箇所)",
-     "観測層が変わる(Tobs)"
-    ]
-   },
-   {
-    "id": "earthMoonFree",
-    "emoji": "🌕",
-    "retired": false,
-    "calibration": false,
-    "nCoreBodies": 2,
-    "n0": 2,
-    "nEnd": [
-     2,
-     2
-    ],
-    "events": [
-     "0/0/0",
-     "0/0/0"
-    ],
-    "nan": [
-     false,
-     false
-    ],
-    "flags": {
-     "withDecl": {
-      "hasCoreV2": true,
-      "hasBodyLayers": false
-     },
-     "without": {
-      "hasCoreV2": false,
-      "hasBodyLayers": false
-     }
-    },
-    "active": [],
-    "axis": [],
-    "cmp": {
-     "steps": 2000,
-     "nMismatchSteps": 0,
-     "evMismatchSteps": 0,
-     "firstDiffStep": null,
-     "firstNDiffStep": null,
-     "maxDiff": {
-      "x": 0,
-      "y": 0,
-      "vx": 0,
-      "vy": 0,
-      "spin": 0,
-      "m": 0,
-      "mEff": 0,
-      "R": 0
-     },
-     "auxDiff": {
-      "Tobs": 47625.143372944,
-      "Q": 0,
-      "lSw": 0
-     }
-    },
-    "readers": {
-     "claims": [],
-     "desc": 6,
-     "physics": []
-    },
-    "wallSec": 0.077,
-    "cls": "A",
-    "why": "差 0・能動の鍵なし",
-    "removable": false,
-    "blockers": [
-     "説明文がコアに触れる(6 箇所)",
-     "観測層が変わる(Tobs)"
     ]
    },
    {
@@ -7828,7 +7905,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 11.986,
+    "wallSec": 13.488,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -7898,7 +7975,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.021,
+    "wallSec": 0.018000000000000002,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -7968,86 +8045,12 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.581,
+    "wallSec": 0.6559999999999999,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
     "blockers": [
      "本の宣言がコアを参照(physics.coupleSink:\"core\")"
-    ]
-   },
-   {
-    "id": "saturnLayered",
-    "emoji": "🎯",
-    "retired": false,
-    "calibration": false,
-    "nCoreBodies": 1,
-    "n0": 241,
-    "nEnd": [
-     241,
-     241
-    ],
-    "events": [
-     "0/0/0",
-     "0/0/0"
-    ],
-    "nan": [
-     false,
-     false
-    ],
-    "flags": {
-     "withDecl": {
-      "hasCoreV2": true,
-      "hasBodyLayers": false
-     },
-     "without": {
-      "hasCoreV2": false,
-      "hasBodyLayers": false
-     }
-    },
-    "active": [
-     "omega"
-    ],
-    "axis": [],
-    "cmp": {
-     "steps": 2000,
-     "nMismatchSteps": 0,
-     "evMismatchSteps": 0,
-     "firstDiffStep": 1,
-     "firstNDiffStep": null,
-     "maxDiff": {
-      "x": 0.01624298095703125,
-      "y": 0.01554107666015625,
-      "vx": 0.0014139413833618164,
-      "vy": 0.0012388229370117188,
-      "spin": 0.0004356738645583391,
-      "m": 0,
-      "mEff": 0,
-      "R": 0
-     },
-     "auxDiff": {
-      "Tobs": 1640.2500721374618,
-      "Q": 6200.1449999999895,
-      "lSw": 0
-     }
-    },
-    "readers": {
-     "claims": [
-      "saturnLayered.core-mass-ratio",
-      "saturnLayered.core-radius-ratio"
-     ],
-     "desc": 64,
-     "physics": []
-    },
-    "wallSec": 11.407,
-    "cls": "B",
-    "why": "8 量が動いた",
-    "removable": false,
-    "blockers": [
-     "分類 B",
-     "主張がコアを読む(saturnLayered.core-mass-ratio,saturnLayered.core-radius-ratio)",
-     "説明文がコアに触れる(64 箇所)",
-     "観測層が変わる(Tobs,Q)"
     ]
    },
    {
@@ -8114,7 +8117,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.046,
+    "wallSec": 0.038,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -8188,7 +8191,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.591,
+    "wallSec": 1.432,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8260,7 +8263,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.122,
+    "wallSec": 0.182,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8334,7 +8337,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.188,
+    "wallSec": 0.157,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8406,7 +8409,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.131,
+    "wallSec": 0.13,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -8480,7 +8483,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.541,
+    "wallSec": 0.47,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -8546,7 +8549,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 11.622
+    "wallSec": 13.126999999999999
    },
    {
     "id": "layeredCoreDFM",
@@ -8600,7 +8603,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.106
+    "wallSec": 0.09
    }
   ]
  },
@@ -8641,44 +8644,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.10999999999999999
-   },
-   {
-    "id": "earthMoonSunInertial",
-    "emoji": "🌤️",
-    "dragCoreBodies": 1,
-    "n0": 3,
-    "nEnd": [
-     3,
-     3
-    ],
-    "nan": [
-     false,
-     false
-    ],
-    "cmp": {
-     "steps": 2000,
-     "nMismatchSteps": 0,
-     "evMismatchSteps": 0,
-     "firstDiffStep": 2,
-     "firstNDiffStep": null,
-     "maxDiff": {
-      "x": 9.700702321424615e-7,
-      "y": 0.0000026004917543787087,
-      "vx": 3.9614762803452663e-8,
-      "vy": 1.4679828019836805e-8,
-      "spin": 0,
-      "m": 0,
-      "mEff": 0,
-      "R": 0
-     },
-     "auxDiff": {
-      "Tobs": 0,
-      "Q": 0,
-      "lSw": 0
-     }
-    },
-    "wallSec": 0.125
+    "wallSec": 0.16099999999999998
    },
    {
     "id": "earthMoonSunInertialFit",
@@ -8715,7 +8681,44 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.061
+    "wallSec": 0.07500000000000001
+   },
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "dragCoreBodies": 1,
+    "n0": 3,
+    "nEnd": [
+     3,
+     3
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 2,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 5.300989869283512e-9,
+      "y": 1.463408239033015e-8,
+      "vx": 2.4498769679581756e-10,
+      "vy": 8.051426192423605e-11,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "wallSec": 0.129
    },
    {
     "id": "plutoCharonInertialFit",
@@ -8752,7 +8755,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.16599999999999998
+    "wallSec": 0.16
    }
   ]
  },
@@ -8790,15 +8793,13 @@
  ],
  "classes": {
   "counts": {
-   "A": 5,
-   "B": 8,
+   "A": 3,
+   "B": 7,
    "C": 2,
    "D": 2
   },
   "ids": {
    "A": [
-    "earthMoon",
-    "earthMoonFree",
     "psrB1534",
     "supernovaProg",
     "crabRemnant"
@@ -8806,7 +8807,6 @@
    "B": [
     "selfRotor",
     "ngc3198DFM",
-    "saturnLayered",
     "supernovaCore",
     "whiteDwarfDFM",
     "whiteDwarfBareDFM",
@@ -8832,38 +8832,6 @@
  "removal": {
   "applied": [],
   "candidates": [
-   {
-    "id": "earthMoon",
-    "emoji": "🌍",
-    "removable": false,
-    "blockers": [
-     "主張がコアを読む(earthMoon.core-mass-ratio-earth,earthMoon.radius-drift)",
-     "説明文がコアに触れる(30 箇所)",
-     "観測層が変わる(Tobs)"
-    ],
-    "readers": {
-     "claims": [
-      "earthMoon.core-mass-ratio-earth",
-      "earthMoon.radius-drift"
-     ],
-     "desc": 30,
-     "physics": []
-    }
-   },
-   {
-    "id": "earthMoonFree",
-    "emoji": "🌕",
-    "removable": false,
-    "blockers": [
-     "説明文がコアに触れる(6 箇所)",
-     "観測層が変わる(Tobs)"
-    ],
-    "readers": {
-     "claims": [],
-     "desc": 6,
-     "physics": []
-    }
-   },
    {
     "id": "psrB1534",
     "emoji": "📿",
@@ -8917,5 +8885,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 59.506
+ "elapsedS": 50.631
 }

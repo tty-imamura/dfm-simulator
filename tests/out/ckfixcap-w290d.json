@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
-  "generatedAt": "2026-10-09T14:20:22.222Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:26:17.944Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "0f34870b8a9bf4bfd0691e157d9eafffa8d97fed25e4d2fa05f29835bebb0700",
-    "mtime": "2026-10-09T14:14:50.711Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1078,
-   "segments": 987,
-   "closureShare": 0.3195
+   "names": 1149,
+   "segments": 1049,
+   "closureShare": 0.324
   },
-  "scopeSha256": "87165892520e3cfe2b05118699bc0c1812f6efbab4a91cc98c1a941507ffc602",
+  "scopeSha256": "b99d36e72f1db498c1139a3f870de19d9032c7cb614fbcaa894c6f6411c7c34d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -706,7 +706,7 @@
    ],
    "saveCarriesState": false,
    "checkpointSets": {
-    "arrs": 116,
+    "arrs": 123,
     "sc": 84,
     "objects": [
      "fixcap",
@@ -990,7 +990,7 @@
     {
      "cat": "coreV2",
      "id": "earthMoon",
-     "retiredFixture": false,
+     "retiredFixture": true,
      "flagOn": true,
      "n": 2,
      "nSame": true,
@@ -2697,5 +2697,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.319
+ "elapsedS": 0.494
 }

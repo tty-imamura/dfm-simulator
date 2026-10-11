@@ -42,6 +42,8 @@
 //   'w296b-branch' … 第296便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
 //   'w297a-branch' … 第297便a の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・Chromium なし・他の 3 枝と同じ容器で並走 —— 段 galaxy が最長)。
 //   'w297b-branch' … 第297便b の枝で器を走らせた実測(正本の elapsedS —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w298b-branch' … 第298便b の枝で器を段ごとに走らせた実測の和(Node の headless 1 本ずつ・段 3 つを並走・Chromium なし・他の枝と同じ容器で並走 —— 段 fit が最長)。
+//   'w298e-branch' … 第298便e の枝で器(版 w298b-refit-2)を段ごとに走らせた実測の和(Node の headless 4 本 —— scan / fitaps / scanwide+qprobe / limit+fitmonth を並走・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -784,6 +786,17 @@ export const REGEN_STEPS = [
       '/parts/qlock/books/*/rows/*/wallSec', '/parts/galaxy/rows/*/wallSec', '/parts/geotoy/*/rows/*/wallSec', '/parts/retired/*/rows/*/wallSec']) },
     note: '第297便a: geoPN=2・3・4 の λ_PN=0 —— 🌘 の再フィット(D0pull・初速の係数 f → 恒星月 27.3217 日・8 公転窓の近点回転 8.85 年・h と h/2・fitRecord)と、'
       + '💫 の外縁の増強・📶📐 の Δϖ_drag・🔁🌒 の零試験・退役 geoPN=2 の近点移動と周期の λ 前後(値だけ —— 届かない本は次の見直しへ)' }),
+  // ---- 第298便b(原仮定者の裁定(第88報)「earthMoonRealKF1 は f=1 で可能な範囲でフィット」・統括の検証項目 R166): 🌘 の f=1 再フィット ——
+  //   段 scan(f=1 で D0pull の格子 6 点)・fit(近点回転の周期へ D0pull の根を Illinois → h と h/2 → 記録 w298b-1)・qprobe(qLock を外した q の感度)。
+  //   Node の headless(1 プロセスずつ)・html だけを読む(🌘 と 🌙 —— 他の正本は読まない・after なし)。所要は第298便b の枝の実測(段の和 —— 段は並走)
+  // 第298便e(原仮定者の追加指示(第88報の追補)「earthMoonRealKF1 は、公転周期を優先して合わせる」・統括の検証項目 R166′): 器を版 w298b-refit-2 へ(周期優先)——
+  //   段 scanwide(D0pull の格子を上へ 5 点)・limit(探索範囲の外の参照と kFrame=0 の床)・fitmonth(恒星月へ —— 根を挟めなければ範囲の端・h と h/2・記録 w298b-1 の標的 1 件)を足し、
+  //   第298便b の段 fit は fitaps(履歴)へ。所要は第298便e の枝の実測(段の和 —— 4 プロセスで並走)
+  S('refit-298b', 'node tests/exp-w298b-refit.mjs', ['tests/out/refit-w298b.json'], 2891, { secSource: 'w298e-branch', node: true,
+    volatilePaths: { 'tests/out/refit-w298b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/scanwide/rows/*/wallSec',
+      '/parts/limit/rows/*/wallSec', '/parts/limit/kFrame0/h/wallSec', '/parts/limit/kFrame0/half/wallSec', '/parts/fitmonth/evals/*/wallSec', '/parts/fitaps/evals/*/wallSec', '/parts/qprobe/rows/*/wallSec']) },
+    note: '第298便b・第298便e: 🌘 の f=1 再フィット —— 周期優先(恒星月が第一の標的・近点回転は照合だけ・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
+      + 'D0pull の格子(scan・scanwide)・範囲の外の参照(limit)・第298便b の近点回転優先(fitaps —— 履歴)・q の感度(値だけ —— 届かない量は次の見直しへ)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
@@ -791,6 +804,25 @@ export const REGEN_STEPS = [
   S('timestd-297c', 'node tests/exp-w297c-timestd.mjs', ['tests/out/timestd-w297c.json'], 180, { secSource: 'w297c-branch', node: true,
     volatilePaths: { 'tests/out/timestd-w297c.json': META_RUN.concat(['/meta/wallSec', '/rows/*/wallSec']) },
     note: '第297便c: 時間の標準 —— 在位の公転の本の 8 公転(画面の刻み stepDt と 1/2)・観察の本の 600 步・退役は記録だけ —— 刻みの妥当性の物差し(物理の合否ではない)' }),
+  // ---- 第298便a(原仮定者の裁定(第88報)「三次元座標化する。右手系。サンプルごとの選択。二次元の設定に Z の位置・速度が入っていたら警告。
+  //   三次元では自転軸の傾きを粒子ごとに有効化・歳差にも対応」・統括の検証項目 R165): **三次元座標の土台**の零試験(三次元の z=0 の走行と二次元の本の
+  //   全状態のビット一致 —— 二体 semi/leapfrog・接触 γn・慣性決定力の並進 n=2/3/PCG・stateCarry double)・共変(任意の回転)・保存(P・L 3 成分・E)・
+  //   未対応の拒否と走行中の停止・二次元の Z の警告(coord2dZ)・軸と歳差(規定運動)・保存往復/A/B の複製/チェックポイント・新本 🌐🎲 の実測。
+  //   Node の headless(1 プロセス)・html だけを読む(他の正本は読まない —— after なし)。所要は第298便a の枝の実測(正本の elapsedS)
+  S('coord3d-298a', 'node tests/exp-w298a-coord3d.mjs', ['tests/out/coord3d-w298a.json'], 5, { secSource: 'w298a-branch', node: true,
+    volatilePaths: { 'tests/out/coord3d-w298a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第298便a: 三次元座標の土台 —— 零試験(二次元とビット同一)・共変・保存・未対応の拒否・二次元の Z の警告・軸と歳差・保存往復・🌐🎲 の実測(値だけ —— 三次元の慣性決定力 3 成分は第 2 段)' }),
+  // ---- 第298便c(原仮定者の裁定(第88報)「三次元の慣性決定力: 回転引きずりは赤道面で最大・自転軸方向でゼロ/軸引きずり —— 自転軸方向で最大・赤道面でゼロ」
+  //   「geoPN=4 は慣性決定力の多粒子版・三次元が既定・表示の空間メッシュで渦状の引きずりが見えるよう物理と表示の両面で精度を上げる」・統括の検証項目 R167):
+  //   (1) 三次元の慣性決定力 3 成分の零試験 6 つ・有限球の収束・受動プローブ(門・表示 ON/OFF の指紋・格子の収束・循環)・🔩🪛 の 2000 步・受理の開閉
+  //   (Node の headless 1 プロセス・html だけ)/(2) 🌥️ の三次元の写し(月の軌道傾斜)の初期配置の 3 元 Newton・抽出器・gain の探索(子プロセス 3 本 —— 結果は並列数に依らない)。
+  //   所要は第298便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('drag3d-298c', 'node tests/exp-w298c-drag3d.mjs', ['tests/out/drag3d-w298c.json'], 15, { secSource: 'w298c-branch', node: true,
+    volatilePaths: { 'tests/out/drag3d-w298c.json': META_RUN.concat(['/elapsedS', '/part4/chain3d/wallSec', '/part4/chain3dTilt/wallSec']) },
+    note: '第298便c: 三次元の慣性決定力 3 成分(並進・回転引きずり・軸引きずり)の零試験・有限球の収束・受動プローブ・🔩🪛 の実測(値だけ —— 軸引きずりの係数は未較正)' }),
+  S('moon3d-298c', 'node tests/exp-w298c-moon3d.mjs', ['tests/out/moon3d-w298c.json'], 300, { secSource: 'w298c-branch', node: true,
+    volatilePaths: { 'tests/out/moon3d-w298c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/ref/flat/wallSec', '/ref/incl/wallSec']) },
+    note: '第298便c: 🌥️ の三次元の写し —— 月の軌道傾斜 5.145° の初期配置(3 元 Newton)・軌道面の中の近点経度・gain の探索(挟めたら fitRecord w298b-1 の 3 標的)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

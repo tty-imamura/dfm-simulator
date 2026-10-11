@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
-  "generatedAt": "2026-10-09T14:37:15.208Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:41:42.035Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146159,
-    "sha256": "a40e07a50dad576782d6ef751b4651972f8b3503e80d0644a8d938d8706ebcdb",
-    "mtime": "2026-10-09T14:26:31.783Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538251,
-    "sha256": "df90665d9d016b51a2b546811a9c6a407f0bb24fa01314a2c1da93e27fbe6f56",
-    "mtime": "2026-10-09T14:26:28.483Z"
+    "bytes": 538264,
+    "sha256": "8f0a4b5eefefa096f321d92cd6add4d948c0da52974b505d8346224b386ebe5e",
+    "mtime": "2026-10-10T21:40:26.131Z"
    }
   ],
   "code": [
@@ -107,16 +107,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1079,
-   "segments": 988,
-   "closureShare": 0.3196
+   "names": 1153,
+   "segments": 1053,
+   "closureShare": 0.3246
   },
-  "scopeSha256": "2af74c8b160f9b80713d91fcce7df273e4af8ec6d3d333e67c4462bcdeabf3a9",
+  "scopeSha256": "8c948c67e649c783fc2e571c7610ef23fd57f0e02ddd2e88df95422e033558ee",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "184862cc068c316410444bc0fa2b9d7699975507f087319ae947eea6f33c1032",
+    "stableSha256": "61fd5a51ac5e68b389c5fc53c85f83520213148ff0c713a638a710a215f6c818",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -195,8 +195,10 @@
    "id": "earthMoonSunInertial",
    "parent": "emAuditSolar",
    "emoji": "🌤️",
-   "ok": true,
-   "bad": [],
+   "ok": false,
+   "bad": [
+    "分類(群・家族・variant・principle・real・絵文字・notClaim・activeParams)"
+   ],
    "bodiesSame": true,
    "coreOk": true,
    "physDiff": [
@@ -221,7 +223,7 @@
     "primary": "earthMoonReal",
     "primaryGroup": "現実較正",
     "familyId": "earthmoon",
-    "familyRole": "variant",
+    "familyRole": "retired",
     "sampleClass": "principle",
     "fidelity": "real",
     "referenceKind": "coefficient-transfer",
@@ -276,8 +278,10 @@
    "id": "mercurySunInertial",
    "parent": "mercuryReal",
    "emoji": "🟤",
-   "ok": true,
-   "bad": [],
+   "ok": false,
+   "bad": [
+    "分類(群・家族・variant・principle・real・絵文字・notClaim・activeParams)"
+   ],
    "bodiesSame": true,
    "coreOk": true,
    "physDiff": [
@@ -297,7 +301,7 @@
     "primary": "mercuryReal",
     "primaryGroup": "現実較正",
     "familyId": "mercury",
-    "familyRole": "variant",
+    "familyRole": "retired",
     "sampleClass": "principle",
     "fidelity": "real",
     "referenceKind": "coefficient-transfer",
@@ -337,8 +341,10 @@
    "id": "plutoCharonInertial",
    "parent": "plutoCharonDiagInput",
    "emoji": "🟣",
-   "ok": true,
-   "bad": [],
+   "ok": false,
+   "bad": [
+    "分類(群・家族・variant・principle・real・絵文字・notClaim・activeParams)"
+   ],
    "bodiesSame": true,
    "coreOk": true,
    "physDiff": [
@@ -358,7 +364,7 @@
     "primary": "plutoCharonDiagInput",
     "primaryGroup": "現実較正",
     "familyId": "pluto",
-    "familyRole": "variant",
+    "familyRole": "retired",
     "sampleClass": "principle",
     "fidelity": "real",
     "referenceKind": "coefficient-transfer",
@@ -1938,61 +1944,61 @@
   }
  },
  "gates": {
-  "declOk": true,
+  "declOk": false,
   "proxySame": true,
   "runsOk": true,
   "warnFree": true,
   "emComplete": true,
   "twoComplete": true,
   "runRowSame": true,
-  "ok": true
+  "ok": false
  },
- "ok": true,
+ "ok": false,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 13.351
-  },
-  "em-A1-0.008": {
-   "wallSec": 15.515
+   "wallSec": 13.411
   },
   "em-A2-0.008": {
-   "wallSec": 15.793
+   "wallSec": 14.881
+  },
+  "em-A1-0.008": {
+   "wallSec": 14.914
   },
   "em-A1-0.016": {
-   "wallSec": 7.297
+   "wallSec": 7.308
   },
   "em-G0-0.016": {
-   "wallSec": 6.47
-  },
-  "mer-gain0-h2": {
-   "wallSec": 2.139
+   "wallSec": 6.812
   },
   "em-A2-0.016": {
-   "wallSec": 7.728
+   "wallSec": 7.482
+  },
+  "mer-gain0-h2": {
+   "wallSec": 2.455
   },
   "mer-gain-h2": {
-   "wallSec": 2.687
+   "wallSec": 2.77
   },
   "mer-gain0-h": {
-   "wallSec": 2.492
+   "wallSec": 2.677
   },
   "mer-gain-h": {
-   "wallSec": 2.654
+   "wallSec": 2.891
   },
   "plu-gain-h2": {
-   "wallSec": 20.12
+   "wallSec": 23.5
   },
   "plu-gain0-h2": {
-   "wallSec": 20.864
+   "wallSec": 24.659
   },
   "plu-gain0-h": {
-   "wallSec": 21.342
+   "wallSec": 24.535
   },
   "plu-gain-h": {
-   "wallSec": 20.796
+   "wallSec": 22.824
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 68.047
+ "elapsedS": 72.934
 }

@@ -71,6 +71,18 @@ const DECL = BUILTIN.filter((p) => ((p.physics || {}).geoPN || 0) >= 2).map((p) 
 // ---------------------------------------------------------------------------------------------------------------
 // em —— 🌘(1 単位 = 10⁶ m / 10² s / 10²⁵ kg)。恒星月 = 同方向 1 周の平均・近点回転 = 検出器 B の 8 公転窓の直線 fit
 const EM_ID = 'earthMoonRealKF1', EM_TARGET = { siderealMonthDays: 27.3217, apsidalPeriodYr: 8.85 };
+// 第298便b(原仮定者の裁定(第88報)・R166): 🌘 は f=1(観測の初速)へ再フィットされた(器 tests/exp-w298b-refit.mjs)。本器の段 em・emfit は
+//   **第297便a の宣言**(D0pull 3.14447e-5・初速の係数 f 0.998777511 を焼き込んだ速度 —— 正本 refit-w297a.json の emfit.adopted)を履歴として測る:
+//   本の fitRecord が第297便a の形(w296b-1)でなければ、その 3 値を写しへ戻す(他の宣言は本のまま —— 第297便a と同じ入力)
+const EM_W297A_DECL = { D0pull: 3.14447e-5, f: 0.998777511, bodies: [{ vx: 0, vy: -0.0013130046017774757 }, { vx: 0, vy: 0.10674855666868635 }] };
+function emBook297a() {
+  const p = presetOf(EM_ID);
+  if (p.fitRecord && p.fitRecord.version === 'w296b-1') return p;
+  p.physics.D0pull = EM_W297A_DECL.D0pull;
+  p.bodies.forEach((b, i) => { b.vx = EM_W297A_DECL.bodies[i].vx; b.vy = EM_W297A_DECL.bodies[i].vy; });
+  p.fitRecord = { version: 'w296b-1', knobs: [{ key: 'physics.D0pull', final: EM_W297A_DECL.D0pull }, { key: 'bodies[*].v(初速の係数 f —— 地球と月の速度に同じ倍率)', final: EM_W297A_DECL.f }] };
+  return p;
+}
 function emRun(p, dt, revMax = 9) {
   const r = runRow(HP, p, { ci: 0, oi: 1, dt, revMax, windows: [8], maxSteps: 4e7 });
   const w = r.windows[0];
@@ -85,7 +97,7 @@ function emScaled(p, s, d0pull) {
   return q;
 }
 async function partEm() {
-  const base = presetOf(EM_ID);
+  const base = emBook297a();
   const rows = [];
   for (const [lam, dt] of [[lambdaBefore(EM_ID), 0.016], [0, 0.016], [0, 0.008]]) {
     const t = Date.now(); const r = emRun(withPhys(base, { lambdaPN: lam }), dt);
@@ -114,7 +126,7 @@ const EM_TOL = 2e-5;
 const EM_HISTORY = { wave: '第120便〜第296便', D0pull: 3.24204e-5, f: 0.99880, lambdaPN: 1, note: '旧フィット(exp-kf1b の窓・λ_PN=1)の値 —— 宣言の bodies は f=0.99880 を焼き込んだ速度' };
 const round = (x, sig) => Number(x.toPrecision(sig));
 async function partEmFit() {
-  const base = presetOf(EM_ID);
+  const base = emBook297a();
   const fBook = Number(((base.fitRecord && base.fitRecord.knobs) || []).find((k) => /初速|bodies/.test(k.key))?.final ?? EM_HISTORY.f);
   const d0 = base.physics.D0pull;
   const T = EM_TARGET;

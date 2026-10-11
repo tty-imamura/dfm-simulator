@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便c",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:56:52.844Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:02:03.094Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -117,11 +117,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1075,
-   "segments": 984,
-   "closureShare": 0.3189
+   "names": 1146,
+   "segments": 1046,
+   "closureShare": 0.3233
   },
-  "scopeSha256": "a056d70fab802ec1b7a89376abd9ed847aecb13934f0fcf1aa281396c01ce195",
+  "scopeSha256": "a868e078ca76d4ea80b7e3d6745ca56aefaeb7f1f93e307fe4e3873b7d82b280",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -407,25 +407,25 @@
     "kF1DragQ2vs8": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.0315415011064033e-7,
-      "vel": 1.0073616458613414e-7,
+      "pos": 4.215621629555244e-9,
+      "vel": 4.1166879311362904e-9,
       "spin": 0
      },
      "sha": [
-      "7cade4f3357e364a",
-      "467a24b7c5cd6e71"
+      "2c42ac0a30ad8250",
+      "936c8a545caace1b"
      ]
     },
     "kFrame0vs1": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.0726729549048741e-7,
-      "vel": 1.0475396754544763e-7,
+      "pos": 3.3852565195502393e-9,
+      "vel": 3.30591436206497e-9,
       "spin": 0
      },
      "sha": [
-      "db6e86c5c225e993",
-      "a0c9101197463ce4"
+      "09bcef79d85765a8",
+      "80bbe13c6b56a656"
      ]
     }
    },
@@ -436,25 +436,25 @@
     "kF1DragQ2vs8": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.0315415011064033e-7,
-      "vel": 1.0073616458613414e-7,
+      "pos": 4.215621629555244e-9,
+      "vel": 4.1166879311362904e-9,
       "spin": 0
      },
      "sha": [
-      "7cade4f3357e364a",
-      "467a24b7c5cd6e71"
+      "2c42ac0a30ad8250",
+      "936c8a545caace1b"
      ]
     },
     "kFrame0vs1": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.0726729549048741e-7,
-      "vel": 1.0475396754544763e-7,
+      "pos": 3.3852565195502393e-9,
+      "vel": 3.30591436206497e-9,
       "spin": 0
      },
      "sha": [
-      "db6e86c5c225e993",
-      "a0c9101197463ce4"
+      "09bcef79d85765a8",
+      "80bbe13c6b56a656"
      ]
     }
    }
@@ -1172,15 +1172,15 @@
       "R_drag": null,
       "R_dragStatus": "densityClass 未宣言 —— 計算しない",
       "pinned": false,
-      "dOmega": 0.006994921681200683,
-      "omegaOrb": 0.0002971783187993174,
-      "dOmegaRatio": 23.53779276180746,
+      "dOmega": 0.006994559113683282,
+      "omegaOrb": 0.00029754088631671734,
+      "dOmegaRatio": 23.507892311102164,
       "sense": "faster",
       "senseInst": "faster",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.00026725514942764803,
-      "dOmegaMean": 0.007024844850572352,
-      "dOmegaMeanRatio": 26.285161822388513,
+      "omegaMean": 0.00026616901165347877,
+      "dOmegaMean": 0.0070259309883465215,
+      "dOmegaMeanRatio": 26.396502525596294,
       "observedSpin": null,
       "partner": 1
      },
@@ -1202,15 +1202,15 @@
       "R_drag": null,
       "R_dragStatus": "densityClass 未宣言 —— 計算しない",
       "pinned": false,
-      "dOmega": -0.000031008318799317415,
-      "omegaOrb": 0.0002971783187993174,
-      "dOmegaRatio": -0.10434246658571729,
+      "dOmega": -0.00003137088631671736,
+      "omegaOrb": 0.00029754088631671734,
+      "dOmegaRatio": -0.10543386727471338,
       "sense": "sync",
       "senseInst": "slower",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.00026725514942764803,
-      "dOmegaMean": -0.0000010851494276480512,
-      "dOmegaMeanRatio": -0.004060349931411988,
+      "omegaMean": 0.00026616901165347877,
+      "dOmegaMean": 9.883465212153116e-10,
+      "dOmegaMeanRatio": 0.0000037132291061065527,
       "observedSpin": null,
       "partner": 0
      }
@@ -3301,8 +3301,8 @@
   "note": "同じ初期状態の月で、速度の意味(🌘 座標速度 / 🌓 慣性速度 v=ẋ−u(0))だけで平均運動 n と分類が変わる —— v_rel の定義は法則版に明記する(未決)",
   "earthMoonRealKF1": {
    "velocityMeaning": "coordinate",
-   "omegaMean": 0.00026725514942764803,
-   "dOmegaMeanRatio": -0.004060349931411988,
+   "omegaMean": 0.00026616901165347877,
+   "dOmegaMeanRatio": 0.0000037132291061065527,
    "sense": "sync"
   },
   "earthMoonDiagOne": {
@@ -3321,7 +3321,7 @@
   "引きずり消失を確認した",
   "新発見"
  ],
- "headlessMs": 70,
+ "headlessMs": 89,
  "headlessErrors": 0,
- "elapsedS": 1.273
+ "elapsedS": 1.333
 }

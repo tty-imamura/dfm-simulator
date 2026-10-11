@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
-  "generatedAt": "2026-10-09T19:11:28.254Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:25:19.594Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838852,
-    "sha256": "b36744464cb484c023b3e751ba6c8f66ecb1bea30f81aea16ad8d131bd06f932",
-    "mtime": "2026-10-09T18:34:48.808Z"
+    "bytes": 1821704,
+    "sha256": "6467c592e7c97e403c56de5f98a62bcaa01a5a6550c782ecc125ca0b2a7dc548",
+    "mtime": "2026-10-10T20:02:14.146Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174471,
-    "sha256": "fb03b2a8a3e4c308cad46a90cd89a0ea53a67df2ce3c286aad09d5449bbae267",
-    "mtime": "2026-10-09T19:09:12.252Z"
+    "bytes": 174469,
+    "sha256": "f88abf9971f852bfc94379bae6dd7c570148b8b38f46d4a1d1068350791221f1",
+    "mtime": "2026-10-10T20:47:25.983Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "2560d404d09876fcd3e01f8f3bb00a3824696bb98950a0e37d3c49960da79e0b",
-    "mtime": "2026-10-09T18:11:45.800Z"
+    "sha256": "9c7ca985091b1b17c98e6445eff97eaf8dcbd496263f4a49869c0bc19c1a4d7f",
+    "mtime": "2026-10-10T21:25:15.015Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223872,
-    "sha256": "424391587517815ce1e3d2c27e1b4c35588795ef4fc7bd514ff27151e5689c15",
-    "mtime": "2026-10-09T13:45:10.991Z"
+    "sha256": "35129308526ed4a19bcd4dc14e3154216674380d36add327ae57a87b450c61d0",
+    "mtime": "2026-10-10T20:51:54.583Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 127105,
-    "sha256": "3e5ada94663decca9239b5ede4a36534677f820ec32298ff3d0746a4011feb2d",
-    "mtime": "2026-10-09T18:56:44.868Z"
+    "bytes": 129818,
+    "sha256": "05202b76e6ade562f92f39cade3e160a898181ac663d61fc8a2dd49e8729bb7a",
+    "mtime": "2026-10-10T21:01:57.963Z"
    }
   ],
   "code": [
@@ -2339,7 +2339,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "f18c75125bcfb528edbb39cb95844923982e6647355dcc3bd70f38493e0094be",
+   "fileSha256": "fb03b2a8a3e4c308cad46a90cd89a0ea53a67df2ce3c286aad09d5449bbae267",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,

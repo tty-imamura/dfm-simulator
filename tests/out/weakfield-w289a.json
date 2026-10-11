@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:56:54.787Z",
+  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+  "generatedAt": "2026-10-10T21:02:04.020Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6337385,
+    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
+    "mtime": "2026-10-10T19:49:18.958Z"
    }
   ],
   "code": [
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1077,
-   "segments": 986,
-   "closureShare": 0.319
+   "names": 1148,
+   "segments": 1048,
+   "closureShare": 0.3234
   },
-  "scopeSha256": "b5786cabaf6f261e2a454e95337b4d3a504c375371bdd077c0c40c6889bd917c",
+  "scopeSha256": "9debb642919e77816d017dc9039d828fd01a87a2cc48c81e52de2b6b34076c80",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.039
+    "wallSec": 0.053
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.018
+    "wallSec": 0.034
    }
   ],
   "clocksOk": true,
@@ -487,14 +487,14 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 159,
+  "n": 164,
   "tally": {
-   "active:default(pull)": 5,
+   "active:default(pull)": 4,
    "active:pull": 14,
-   "active:share": 107,
-   "retired:default(pull)": 1,
+   "active:share": 105,
+   "retired:default(pull)": 2,
    "retired:pull": 14,
-   "retired:share": 18
+   "retired:share": 25
   },
   "analogies": [
    {
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.485
+ "elapsedS": 1.455
 }

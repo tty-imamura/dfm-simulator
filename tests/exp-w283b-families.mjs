@@ -89,7 +89,8 @@ export const FAMILIES = [
   { key: 'axisBar', ja: '棒と腕(軸力・DFM の外)', ref: 'axisBarStill', ids: ['axisBarStill', 'axisBarArms', 'axisBarReach'] },
   { key: 'supernova', ja: '超新星', ref: 'supernovaProg', ids: ['supernovaProg', 'supernovaCore', 'supernovaProgDFM'] },
   { key: 'whiteDwarf', ja: '白色矮星', ref: 'whiteDwarfDFM', ids: ['whiteDwarfDFM', 'whiteDwarfBareDFM'] },
-  { key: 'saturnToy', ja: '土星(天体の機構)', ref: 'saturn', ids: ['saturn', 'saturnLayered'] },
+  // 第298便b(原仮定者の裁定(第88報)・統括の検証項目 R166): 家族 saturnToy(🪐🎯)は 2 本とも退役して在位 0 —— 空の家族の表を出さない(宣言から外した。
+  //   2 本は末尾の「退役」節の本数に数える)。earthmoon・mercury・pluto の退役(🌓🌤️🟤🟣)は宣言の ids に記録として残す(build が退役を外す)
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },
   { key: 'rotor', ja: '光学迷彩矮星', ref: 'rotorSolo',
     ids: ['rotorSolo', 'massLadder', 'selfRotor', 'darkrotor', 'bhCore', 'bhCoreTilt', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'] },

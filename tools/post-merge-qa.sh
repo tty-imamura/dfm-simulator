@@ -45,9 +45,18 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第297便b: behavior.claimEffort297・preset.fitCond297・docs.fit297(新設)と世代切替の docs.claimScope
 # 第297便c: 枝 c の新設 3 本(preset.timeStd297・behavior.timeStd297・docs.timeStd297 —— 時間の標準)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
 # 第297便d: 枝 d の新設 1 本(ui.liveMeasure297 —— アプリ内実測〔精密〕)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
-DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297"
+# 第298便d: 枝 d の新設 2 本(ui.fitTargetRow298 —— 説明タブのフィットの標的の行のはみ出し・ui.viewTilt298 —— 視点の傾き θ)を末尾に足した(他枝の新設と第297便の分の差し替えは統合で)
+DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297 ui.fitTargetRow298 ui.viewTilt298"
 # 第297便a: 枝 a の新設 3 本(preset.lambdaPN297・behavior.lambdaPnOnDrag297・docs.refit297)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.lambdaPN297 behavior.lambdaPnOnDrag297 docs.refit297"
+# 第298便a: 枝 a の新設 3 本(behavior.coord3d298・preset.coord3d298・docs.coord3d298 —— 三次元座標の土台)と世代切替の behavior.spinAxisDecl を末尾に足した(他枝の新設の差し替えは統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.spinAxisDecl"
+# 第298便c: 枝 c の新設 4 本(三次元の慣性決定力・空間メッシュの受動プローブ・geoPN=4 の三次元の標準・🌥️ の三次元の写し)と世代切替の behavior.meshDisplayBitsame
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.drag3d298 behavior.meshField298 preset.geo4Std298 docs.moon3d298 behavior.meshDisplayBitsame"
+# 第298便b(原仮定者の裁定(第88報)・R166): 退役 8 本・🌘 の f=1 再フィット・フィット記録 w298b-1・比較器の共通化の新設 4 本と、追従した在位の集合のブロック
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.retire298 behavior.fitCond298 docs.refit298 lint.near298 docs.retired docs.noRetiredMention294 preset.revived292b"
+# 第298便e(原仮定者の追加指示(第88報の追補)・R166′): 🌘 の周期優先で追従したブロック(docs.refit298・behavior.fitCond298・preset.revived292b は上にある)—— behavior.framePull・wave120.ui
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.framePull wave120.ui"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

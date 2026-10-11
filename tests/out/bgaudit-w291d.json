@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-  "generatedAt": "2026-10-09T13:56:48.163Z",
+  "targetSha256": "62f923d6c6c4f367ab54d3fe401f4f55abd950c302c804656fe270d544ed06c5",
+  "generatedAt": "2026-10-10T19:01:02.872Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6146028,
-    "sha256": "4ceba0a915f55974e9b9de831cc07344ccb1ff1f8c6093c07197c56d7bf27abd",
-    "mtime": "2026-10-09T12:30:16.151Z"
+    "bytes": 6332724,
+    "sha256": "62f923d6c6c4f367ab54d3fe401f4f55abd950c302c804656fe270d544ed06c5",
+    "mtime": "2026-10-10T19:00:14.910Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w291d-bgaudit.mjs",
     "bytes": 26181,
     "sha256": "8134a254b6004233c24cb6a95f80f1fdd164402ce9992ae63ecbf5c4f2ebb6be",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "mtime": "2026-10-10T17:00:39.214Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-10T17:00:39.230Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-10T17:00:39.226Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-10T17:00:39.234Z"
    }
   ],
   "codeSha256": "5f4126d0b96a31cf085b2189ac5316b438dc79f884a885c0c135087dc2766d18",
@@ -101,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1081,
-   "segments": 990,
-   "closureShare": 0.3199
+   "names": 1155,
+   "segments": 1055,
+   "closureShare": 0.3251
   },
-  "scopeSha256": "58013380c64a54f3844435b8e7c4b6a4fa0378c085a076d2892cc04620e5a780",
+  "scopeSha256": "229a679fc96b5bd23155c99de78d104729e250e5364c1df9e7d1529a8d921280",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -775,6 +775,7 @@
      "dragCoreLookup",
      "dragCoreTableBuild",
      "dragCoreWeight",
+     "inertialDrag3LedgerInit",
      "inertialDragComposeBuild",
      "inertialDragComposeSolve",
      "inertialDragEpoch",
@@ -825,5 +826,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.326
+ "elapsedS": 2.046
 }

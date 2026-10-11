@@ -1,0 +1,3278 @@
+{
+ "fixtureVersion": "w298b-retired-1",
+ "note": "退役 8 本(🟤🌤️🟣🌍🌕🪐🎯🌓 —— 原仮定者の裁定(第88報))の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本・派生本 🟫🟪🌥️ の fitRecord.parent の参照が残る)。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差。presetSig は基点と同じ(宣言の欄は署名の外)。8 本はどれも sampleClass が calibration でない —— 較正母集団(calibration ∧ 退役でない)の数は変わらない。",
+ "ids": [
+  "mercurySunInertial",
+  "earthMoonSunInertial",
+  "plutoCharonInertial",
+  "earthMoon",
+  "earthMoonFree",
+  "saturn",
+  "saturnLayered",
+  "earthMoonDiagOne"
+ ],
+ "presets": {
+  "mercurySunInertial": {
+   "emoji": "🟤",
+   "name": "水星と太陽(慣性決定力版)— 移送した gain の応答",
+   "familyId": "mercury",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "8ab2b5d8",
+   "presetSigSha256": "087e693e028dad14fad8fe3d6a4be1e361f628ded1f8b375ac139f45c7d82407",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "8ab2b5d8",
+    "name": "水星と太陽(慣性決定力版)— 移送した gain の応答",
+    "sigSame": true
+   },
+   "successor": "mercurySunInertialFit",
+   "reason": "未フィットの慣性決定力版(係数の移送だけ)—— 継続は gain を近点率へフィットした 🟫",
+   "retiredNotice": {
+    "ja": "第88報: 未フィットの慣性決定力版(係数を移送しただけの本)の廃止 —— 同じ系の継続は gain を近点率へフィットした 🟫",
+    "en": "ruling 88: the unfitted inertial-determinacy builds (gain only transferred) are retired — the same system continues in 🟫, whose gain is fitted to the perihelion rate",
+    "see": [
+     "mercurySunInertialFit"
+    ]
+   },
+   "pairDiff": {
+    "successor": "mercurySunInertialFit",
+    "successorEmoji": "🟫",
+    "diff": {
+     "physics.relativeDrag": [
+      {
+       "law": "inertial",
+       "gain": 51.4182,
+       "eps": 0.05,
+       "history": "positions",
+       "pairs": "all"
+      },
+      {
+       "law": "inertial",
+       "gain": 0.004522415,
+       "eps": 0.05,
+       "history": "positions",
+       "pairs": "all"
+      }
+     ]
+    },
+    "n": 1,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 0
+    }
+   },
+   "raw": {
+    "id": "mercurySunInertial",
+    "name": "水星と太陽(慣性決定力版)— 移送した gain の応答",
+    "emoji": "🟤",
+    "group": "現実較正",
+    "familyId": "mercury",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "sampleClass": "principle",
+    "referenceKind": "coefficient-transfer",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal",
+     "perihelion_43",
+     "gain_universal"
+    ],
+    "orbitObs": {
+     "center": 0,
+     "orbiter": 1,
+     "ghostAmp": 20
+    },
+    "abBody": {
+     "label": {
+      "ja": "慣性引きずりを切る(gain 0 —— 重力だけの二体)",
+      "en": "switch the inertial drag off (gain 0 — the gravity-only two-body system)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 0,
+       "eps": 0.05,
+       "history": "positions",
+       "pairs": "all"
+      }
+     }
+    },
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "☄️ の太陽と水星(初期状態も ☄️ のまま —— vx/vy は力学速度 v に与えた)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・点源",
+      "obs": "—(原理サンプル —— 較正母集団の外)"
+     },
+     {
+      "q": "gain(C_d)",
+      "model": "51.4182 [L³/M](L8/M27)= 🌛 の 514182 と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない",
+      "obs": "—"
+     },
+     {
+      "q": "公転周期(実測・8 公転の平均)",
+      "model": "87.892 日(gain 0 の対照は 87.969 日 —— 差 -0.088%)",
+      "obs": "87.969 日(参照 —— ☄️ の観測欄)"
+     },
+     {
+      "q": "近点率(実測・8 公転)",
+      "model": "0.3279°/公転(h=0.016)・0.3279°/公転(h/2)≈ 4.90×10⁵″/世紀 / gain 0 の対照は -9″/世紀(重力の軟化の逆行)",
+      "obs": "42.98″/世紀(参照 —— 1PN の量・この本は 1PN を入れていない)"
+     },
+     {
+      "q": "離心率の代理・u(実測)",
+      "model": "eProxy 0.20488(gain 0 は 0.20563)・|u|/|v| の平均 5.62e-4",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "43″/世紀をこの本が出したとは言わない(1PN の量)。gain は移送した宣言値・近点率は測った値の記録。入力は親の速度を v に与えた",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**慣性決定力版の水星と太陽**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。☄️ mercuryReal の実単位の太陽(pinned)と水星(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として 1 単位=10⁸m/10⁴s/10²⁷kg へ換算した 51.4182 [L³/M]**(移送 —— 近日点前進にも公転周期にも合わせない)。核の軟化 ε は ☄️ の重力の軟化と同じ 0.05(=5×10⁶m)。太陽と水星は点源(内部核は宣言しない)。**43″/世紀は 1PN の量であってこの本の目的ではない**(この本は 1PN を入れていない)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.016 と h/2): 近日点は 1 公転あたり 0.3279°(≈4.90×10⁵″/世紀)順行に回り、gain 0 の対照は −9″/世紀(重力の軟化の逆行)。公転周期は 87.892 日(gain 0 の対照は 87.969 日 —— −0.088%)。|u|/|v| の平均は 5.62×10⁻⁴。**入力速度の写像の限界**: ☄️ の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)ので、近日点の座標速度は観測の 58.98 km/s と同一ではない(観測の座標速度との比較ではない)。数は値の記録であって、合否の判定ではない。",
+     "observe": "トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、近日点が 1 公転あたり約 0.33° ずつ順行に回るのを見る(gain 0 では回らない)。離心率の代理は 0.20488(gain 0 の対照は 0.20563)。HUD の t は日に換算される。",
+     "control": "ワンタップの対照は gain 0(慣性引きずりを切る —— ☄️ と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。1PN の近日点前進は ☄️ で見る。gain を下げて 43″/世紀へ寄せることはしない(gain は 🌛 から移送した宣言値)。dt を半分にした差は近点率で 1.4×10⁻⁶°/公転。",
+     "brief": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る。達・近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ。較正対象外。"
+    },
+    "en": {
+     "name": "Mercury & Sun (inertial determinacy) — the response to a transferred gain",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "☄️'s Sun and Mercury (☄️'s state; vx/vy given to the dynamical v); geoPN=3 (no geodesic, no 1PN), kFrame=0; points",
+       "obs": "- (a principle sample, outside the calibration population)"
+      },
+      {
+       "q": "gain (C_d)",
+       "model": "51.4182 [L^3/M] (L8/M27) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)",
+       "obs": "-"
+      },
+      {
+       "q": "Orbital period (measured, mean of 8 orbits)",
+       "model": "87.892 d (gain-0 control 87.969 d; difference -0.088%)",
+       "obs": "87.969 d (reference - ☄️'s observation column)"
+      },
+      {
+       "q": "Apsidal rate (measured, 8 orbits)",
+       "model": "0.3279 deg/orbit (h=0.016), 0.3279 deg/orbit (h/2) ~ 4.90e5 arcsec/century; gain 0: -9 arcsec/century",
+       "obs": "42.98 arcsec/century (reference - a 1PN quantity; this sample has no 1PN)"
+      },
+      {
+       "q": "Eccentricity proxy, u (measured)",
+       "model": "eProxy 0.20488 (gain 0: 0.20563); mean |u|/|v| 5.62e-4",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "This sample is not said to produce 43 arcsec/century (1PN). The gain is transferred; parent speeds were given to v",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE INERTIAL-DETERMINACY VERSION OF MERCURY AND THE SUN (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). ☄️ mercuryReal's real-unit Sun (pinned) and Mercury (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, fitted neither to the perihelion advance nor to the period. The kernel softening eps equals ☄️'s gravitational softening 0.05 (= 5e6 m). The Sun and Mercury are points (no internal core is declared). THE 43 ARCSEC/CENTURY IS A 1PN QUANTITY AND NOT THE AIM OF THIS SAMPLE (it has no 1PN). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.016 and h/2): the perihelion turns prograde by 0.3279 deg per orbit (~4.90e5 arcsec/century), against -9 arcsec/century for the gain-0 control (the softening's retrograde term). The period is 87.892 d (gain-0 control 87.969 d; -0.088%). The mean |u|/|v| is 5.62e-4. THE LIMIT OF THE INPUT-VELOCITY MAPPING: ☄️'s vx/vy are given to the dynamical velocity v as they are (x-dot = v + u), so the perihelion coordinate speed is not the observed 58.98 km/s (this is not a comparison with the observed coordinate speed). The numbers are a record, not a pass/fail verdict.",
+      "observe": "Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the perihelion turn prograde by about 0.33 deg per orbit (with gain 0 it stays still). The eccentricity proxy is 0.20488 (gain-0 control 0.20563). The HUD time is shown in days.",
+      "control": "The one-tap control is gain 0 (the inertial drag off - ☄️'s gravity-only two-body system; with geoPN 3 there is no 1PN either). The 1PN perihelion advance is seen in ☄️. The gain is not lowered towards 43 arcsec/century (it is the declaration transferred from 🌛). Halving dt moves the apsidal rate by 1.4e-6 deg/orbit.",
+      "brief": "Carry 🌛's gain in SI units; measure Mercury's apse and period. Met: apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c0=29979.2458",
+       "the Sun's and Mercury's real masses, radii and rotations (copied from ☄️)",
+       "Mercury's perihelion distance 4.60e10 m and perihelion speed 58.98 km/s (copied from ☄️ - given to the dynamical velocity v, not refitted)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)",
+       "geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+       "inertial drag relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.05, history:\"positions\", pairs:\"all\"} (compose not declared = the default solve(velocity))",
+       "point sources (no internal core is declared for the Sun or Mercury)",
+       "kRep=muF=gammaN=kappaS=0",
+       "stateCarry:\"double\", massFloor=1e-6",
+       "the Sun is pinned (as in ☄️)"
+      ],
+      "fitted": [
+       "none in this sample (the gain is transferred, not refitted)"
+      ],
+      "derived": [
+       "gain 51.4182 [L^3/M] = C_d,SI / (10^24 m^3 / 10^27 kg), C_d,SI = 0.0514182 m^3/kg (🌛's fit estimate carried as the same SI coefficient)",
+       "kappa=G/c0^2=7.4258e-9"
+      ],
+      "numerical": [
+       "softening eps=0.05 = 5x10^6 m (gravity and the drag kernel)",
+       "time multiplier timeScale=1, screen step stepDt=2.11126",
+       "display magnification dispMag=10 (display only)"
+      ]
+     },
+     "description": "THE INERTIAL-DETERMINACY VERSION OF MERCURY AND THE SUN (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). ☄️ mercuryReal's real-unit Sun (pinned) and Mercury (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, fitted neither to the perihelion advance nor to the period. The kernel softening eps equals ☄️'s gravitational softening 0.05 (= 5e6 m). The Sun and Mercury are points (no internal core is declared). THE 43 ARCSEC/CENTURY IS A 1PN QUANTITY AND NOT THE AIM OF THIS SAMPLE (it has no 1PN). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.016 and h/2): the perihelion turns prograde by 0.3279 deg per orbit (~4.90e5 arcsec/century), against -9 arcsec/century for the gain-0 control (the softening's retrograde term). The period is 87.892 d (gain-0 control 87.969 d; -0.088%). The mean |u|/|v| is 5.62e-4. THE LIMIT OF THE INPUT-VELOCITY MAPPING: ☄️'s vx/vy are given to the dynamical velocity v as they are (x-dot = v + u), so the perihelion coordinate speed is not the observed 58.98 km/s (this is not a comparison with the observed coordinate speed). The numbers are a record, not a pass/fail verdict.Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the perihelion turn prograde by about 0.33 deg per orbit (with gain 0 it stays still). The eccentricity proxy is 0.20488 (gain-0 control 0.20563). The HUD time is shown in days.The one-tap control is gain 0 (the inertial drag off - ☄️'s gravity-only two-body system; with geoPN 3 there is no 1PN either). The 1PN perihelion advance is seen in ☄️. The gain is not lowered towards 43 arcsec/century (it is the declaration transferred from 🌛). Halving dt moves the apsidal rate by 1.4e-6 deg/orbit.",
+     "status": {
+      "purpose": "Carry 🌛's gain in SI units; measure Mercury's apse and period",
+      "state": "apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "太陽・水星の実質量・実半径・実自転(☄️ の写し)",
+      "水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s(☄️ の写し —— 力学速度 v に与えた・合わせ直していない)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)",
+      "geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.05, history:\"positions\", pairs:\"all\"}(compose は書かない = 既定 solve(velocity))",
+      "点源(太陽・水星の内部核は宣言しない)",
+      "kRep=muF=γN=κ_S=0",
+      "stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(☄️ と同じ)"
+     ],
+     "fitted": [
+      "この本ではなし(gain は移送 —— 合わせ直していない)"
+     ],
+     "derived": [
+      "gain 51.4182 [L³/M] = C_d,SI ÷ (10²⁴m³/10²⁷kg)・C_d,SI = 0.0514182 m³/kg(🌛 のフィットの推定値を同じ SI 係数として移送)",
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05 = 5×10⁶m(重力と引きずりの核)",
+      "時間倍率 timeScale=1・画面の刻み stepDt=2.11126",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 800
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 760.05216,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 100
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 2.11126,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 51.4182,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 1988.5,
+      "radius": 6.95,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.029031,
+      "pinned": true,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.00033011,
+      "radius": 0.0244,
+      "x": 460.012,
+      "y": 0,
+      "vx": 0,
+      "vy": 5.897643,
+      "spin": 0.0124,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**慣性決定力版の水星と太陽**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。☄️ mercuryReal の実単位の太陽(pinned)と水星(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として 1 単位=10⁸m/10⁴s/10²⁷kg へ換算した 51.4182 [L³/M]**(移送 —— 近日点前進にも公転周期にも合わせない)。核の軟化 ε は ☄️ の重力の軟化と同じ 0.05(=5×10⁶m)。太陽と水星は点源(内部核は宣言しない)。**43″/世紀は 1PN の量であってこの本の目的ではない**(この本は 1PN を入れていない)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.016 と h/2): 近日点は 1 公転あたり 0.3279°(≈4.90×10⁵″/世紀)順行に回り、gain 0 の対照は −9″/世紀(重力の軟化の逆行)。公転周期は 87.892 日(gain 0 の対照は 87.969 日 —— −0.088%)。|u|/|v| の平均は 5.62×10⁻⁴。**入力速度の写像の限界**: ☄️ の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)ので、近日点の座標速度は観測の 58.98 km/s と同一ではない(観測の座標速度との比較ではない)。数は値の記録であって、合否の判定ではない。トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、近日点が 1 公転あたり約 0.33° ずつ順行に回るのを見る(gain 0 では回らない)。離心率の代理は 0.20488(gain 0 の対照は 0.20563)。HUD の t は日に換算される。ワンタップの対照は gain 0(慣性引きずりを切る —— ☄️ と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。1PN の近日点前進は ☄️ で見る。gain を下げて 43″/世紀へ寄せることはしない(gain は 🌛 から移送した宣言値)。dt を半分にした差は近点率で 1.4×10⁻⁶°/公転。",
+    "status": {
+     "purpose": "🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る",
+     "objective": "met",
+     "state": "近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/inertial3-w295c.json"
+     ]
+    }
+   }
+  },
+  "earthMoonSunInertial": {
+   "emoji": "🌤️",
+   "name": "太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動",
+   "familyId": "earthmoon",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "c6e13783",
+   "presetSigSha256": "bf3753a7bbbb6da757ff79b415ed7e646c34fb58cb3e7a72e3b0807fa5ebcb81",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "c6e13783",
+    "name": "太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動",
+    "sigSame": true
+   },
+   "successor": "earthMoonSunInertialFit",
+   "reason": "未フィットの慣性決定力版(係数の移送だけ)—— 継続は再現作業の 🌥️ と機構判別の 🔆",
+   "retiredNotice": {
+    "ja": "第88報: 未フィットの慣性決定力版(係数を移送しただけの本)の廃止 —— 太陽・地球・月の継続は再現作業の 🌥️ と機構判別の 🔆",
+    "en": "ruling 88: the unfitted inertial-determinacy builds (gain only transferred) are retired — the Sun–Earth–Moon line continues in the reproduction effort 🌥️ and the mechanism audit 🔆",
+    "see": [
+     "earthMoonSunInertialFit",
+     "emAuditSolar"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonSunInertialFit",
+    "successorEmoji": "🌥️",
+    "diff": {
+     "physics.relativeDrag": [
+      {
+       "law": "inertial",
+       "gain": 51.4182,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      },
+      {
+       "law": "inertial",
+       "gain": 0,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      }
+     ],
+     "bodies[1].x": [
+      1495.9356292,
+      1495.9366168783547
+     ],
+     "bodies[1].vy": [
+      2.97715665,
+      2.977128872386798
+     ],
+     "bodies[2].x": [
+      1499.587409,
+      1499.5071093783547
+     ],
+     "bodies[2].vy": [
+      3.08512,
+      3.087378358522817
+     ]
+    },
+    "n": 5,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 4
+    }
+   },
+   "raw": {
+    "id": "earthMoonSunInertial",
+    "name": "太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動",
+    "emoji": "🌤️",
+    "group": "現実較正",
+    "familyId": "earthmoon",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "sampleClass": "principle",
+    "referenceKind": "coefficient-transfer",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal",
+     "gain_universal",
+     "apsidal_8p85_transfer"
+    ],
+    "orbitObs": {
+     "center": 1,
+     "orbiter": 2,
+     "ghostAmp": 20
+    },
+    "abBody": {
+     "label": {
+      "ja": "慣性引きずりを切る(gain 0 —— 🔆 と同じ重力だけの三体)",
+      "en": "switch the inertial drag off (gain 0 — the gravity-only three-body system of 🔆)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 0,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      }
+     }
+    },
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🔆 の太陽・地球・月(初期状態も 🔆 のまま)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・慣性の対は地球と月だけ(太陽は重力の第三体)",
+      "obs": "—(原理サンプル —— 較正母集団の外)"
+     },
+     {
+      "q": "構造核",
+      "model": "地球に dragCore{f=0.325, R_c=0.0348}(🌛 の起点の宣言 3.48×10⁶m の写し)・太陽と月は点源",
+      "obs": "—"
+     },
+     {
+      "q": "gain(C_d)",
+      "model": "51.4182 [L³/M](L8/M27)= 🌛 の 514182(L6/M25)と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない",
+      "obs": "—"
+     },
+     {
+      "q": "近点周期(実測・本の宣言 A1)",
+      "model": "27 公転窓 4.727 年・118 公転窓 4.262 年(Δϖ 0.11146 rad/公転)・近点方位の直線 fit の残差 RMS 25.5°",
+      "obs": "8.85 年(参照 —— 🔆 の観測欄)"
+     },
+     {
+      "q": "恒星月・離心率(実測・A1)",
+      "model": "118 公転の区間平均 27.139 日・離心率の代理 0.0322",
+      "obs": "27.3217 日・e 0.0549(参照)"
+     },
+     {
+      "q": "対照(実測・118 公転窓)",
+      "model": "A2(太陽も慣性の源)4.261 年 / gain 0(🔆 と同じ重力だけの三体)8.778 年・恒星月 27.319 日・離心率の代理 0.0374",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "8.85 年をこの本が出したとは言わない。gain は移送した宣言値で、この本の近点周期は測った値の記録である",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**慣性決定力版の太陽・地球・月**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🔆 emAuditSolar の実単位の太陽(pinned)・地球・月(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 既定の合成則 solve(velocity): 力学速度 v の差から (I+L)u=s を解き、位置だけを x+=u·dt で動かす)で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182(1 単位=10⁶m/10²s/10²⁵kg)を同じ SI 係数 C_d,SI=0.0514182 m³/kg として単位換算した 51.4182 [L³/M](1 単位=10⁸m/10⁴s/10²⁷kg)**で、移送であってフィットではない —— この本で近点周期にも恒星月にも合わせ直していない(🌛 の gain 自体が近点周期への 1 次元フィットの推定である)。**慣性の対は地球と月だけ**(pairs:[[1,2]] —— 太陽は重力の第三体だけで、慣性の対和に入れない)。地球には 🌛 と同じ起点の構造核 dragCore:{massFrac:0.325, radius:0.0348}(=3.48×10⁶m)を宣言し、太陽と月は点源。核の軟化 ε はこの本の重力の軟化と同じ 0.01(=10⁶m —— 🌛 の核の ε 10⁵m の 10 倍)。測った値(器 tests/exp-w295c-inertial3.mjs・正本 tests/out/inertial3-w295c.json —— 118 公転の窓は測る前に宣言した): 近点周期は 27 公転窓 4.727 年・118 公転窓 4.262 年で、慣性引きずりを切った対照(gain 0 = 🔆 の重力だけの三体)の 8.778 年より短い —— 太陽摂動の近点前進に慣性引きずりの前進が重なる。27 公転ごとの近点周期は 4.727/4.618/4.549/4.305 年と窓で動く(定常とは書かない)。数は値の記録であって、合否の判定ではない。",
+     "observe": "トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが順行に回るのを見る。カメラは地球追従・視野 ±10 単位(🔆 と同じ)。118 公転の区間平均で恒星月 27.139 日・離心率の代理 0.0322(gain 0 の対照は 27.319 日・0.0374)。近点方位の直線 fit の残差 RMS は 25.5°(太陽摂動による近点の揺れ —— 短い窓の近点率は揺れるので読まない)。HUD の t は日・年に換算される。",
+     "control": "ワンタップの対照は gain 0(慣性引きずりを切る —— 🔆 と同じ重力だけの三体・geoPN 3)。もう 1 つの対照 A2(pairs:\"all\" —— 太陽も慣性の源。pinned の太陽は u=0 のまま源になり Σmu は閉じない)は器の中だけで走らせ、118 公転窓 4.261 年(本の宣言 A1 との差 −2.6×10⁻⁴)。本の宣言は A1 のまま(A2 を既定にしない)。dt を半分にした差は 118 公転窓の近点周期で 5.7×10⁻⁴。太陽を入れない二体の版は 🌛、慣性引きずりのない三体は 🔆 で見る。",
+     "brief": "🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"
+    },
+    "en": {
+     "name": "Sun, Earth & Moon (inertial determinacy) — a transferred gain under the solar perturbation",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🔆's Sun, Earth and Moon (🔆's initial state); geoPN=3 (no geodesic, no 1PN), kFrame=0; drag pair Earth-Moon only",
+       "obs": "- (a principle sample, outside the calibration population)"
+      },
+      {
+       "q": "Structure core",
+       "model": "Earth dragCore{f=0.325, R_c=0.0348} (🌛's starting declaration, 3.48e6 m); the Sun and the Moon are points",
+       "obs": "-"
+      },
+      {
+       "q": "gain (C_d)",
+       "model": "51.4182 [L^3/M] (L8/M27) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)",
+       "obs": "-"
+      },
+      {
+       "q": "Apsidal period (measured, A1)",
+       "model": "27-orbit window 4.727 yr, 118-orbit window 4.262 yr (0.11146 rad/orbit); RMS residual of the line fit 25.5 deg",
+       "obs": "8.85 yr (reference - 🔆's observation column)"
+      },
+      {
+       "q": "Sidereal month, eccentricity (measured, A1)",
+       "model": "118-orbit mean 27.139 d; eccentricity proxy 0.0322",
+       "obs": "27.3217 d, e 0.0549 (reference)"
+      },
+      {
+       "q": "Controls (measured, 118 orbits)",
+       "model": "A2 (Sun also a drag source) 4.261 yr / gain 0 (🔆's gravity-only system) 8.778 yr, 27.319 d, e proxy 0.0374",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "This sample is not said to produce the 8.85 yr. The gain is transferred; the apsidal period is a recorded measurement",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE INERTIAL-DETERMINACY VERSION OF THE SUN, EARTH AND MOON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🔆 emAuditSolar's real-unit Sun (pinned), Earth and Moon (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (physics.relativeDrag.law:\"inertial\"; the default composition rule solve(velocity) solves (I+L)u = s from the dynamical-velocity differences and moves positions only, x += u dt). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 (1 unit = 10^6 m / 10^2 s / 10^25 kg) CONVERTED AS THE SAME SI COEFFICIENT C_d,SI = 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, not a fit - nothing is refitted here to the apsidal period or the sidereal month (🌛's gain is itself an estimate from a one-dimensional fit of the apsidal period). THE DRAG PAIR IS THE EARTH-MOON PAIR ONLY (pairs:[[1,2]] - the Sun is a gravitational third body only and is kept out of the drag sum). The Earth declares 🌛's starting structure core dragCore:{massFrac:0.325, radius:0.0348} (= 3.48e6 m); the Sun and the Moon are points. The kernel softening eps equals this sample's gravitational softening 0.01 (= 10^6 m - ten times 🌛's kernel eps of 10^5 m). Measured (harness tests/exp-w295c-inertial3.mjs, output tests/out/inertial3-w295c.json; the 118-orbit window was declared before measuring): the apsidal period is 4.727 yr over 27 orbits and 4.262 yr over 118 orbits, shorter than the drag-off control (gain 0 = 🔆's gravity-only three-body system) at 8.778 yr - the drag's advance adds to the solar perturbation's. The period per 27 orbits moves with the window, 4.727/4.618/4.549/4.305 yr (not called steady). The numbers are a record, not a pass/fail verdict.",
+      "observe": "Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde. The camera follows the Earth with a +/-10-unit field (as in 🔆). Over 118 orbits the sidereal month is 27.139 d and the eccentricity proxy 0.0322 (the gain-0 control: 27.319 d, 0.0374). The RMS residual of the straight-line fit of the apse direction is 25.5 deg (the solar wobble of the apse - short-window rates wobble and are not read). The HUD time is shown in days and years.",
+      "control": "The one-tap control is gain 0 (the inertial drag off - 🔆's gravity-only three-body system with geoPN 3). The other control, A2 (pairs:\"all\" - the Sun is a drag source too; the pinned Sun keeps u = 0 yet acts as a source, and sum m u does not close), runs only inside the harness: 4.261 yr over 118 orbits (-2.6e-4 from the declared A1). The declaration stays A1 (A2 is not made the default). Halving dt moves the 118-orbit apsidal period by 5.7e-4. The two-body version without the Sun is 🌛; the three-body system without the drag is 🔆.",
+      "brief": "Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c0=29979.2458",
+       "the Sun's, the Earth's and the Moon's real masses, radii and rotations (copied from 🔆)",
+       "the Sun–Earth distance 1 au and the Moon's eccentricity 0.0549 (copied from 🔆 — the initial perigee separation is 🔆's inversion on the sidereal month)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)",
+       "geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+       "inertial drag relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.01, history:\"positions\", pairs:[[1,2]]} (the Earth-Moon pair only - the Sun is a gravitational third body only; compose not declared = the default solve(velocity))",
+       "the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (🌛's starting declaration, 3.48e6 m, in L8 units); the Sun and the Moon are points",
+       "kRep=muF=gammaN=kappaS=0",
+       "stateCarry:\"double\", massFloor=1e-6",
+       "the Sun is pinned (as in 🔆)"
+      ],
+      "fitted": [
+       "none in this sample (the gain is transferred, not refitted)"
+      ],
+      "derived": [
+       "gain 51.4182 [L^3/M] = C_d,SI / (10^24 m^3 / 10^27 kg), C_d,SI = 514182 x (10^6 m)^3 / 10^25 kg = 0.0514182 m^3/kg (🌛's one-dimensional fit estimate, carried as the same SI coefficient)",
+       "kappa=G/c0^2=7.4258e-9"
+      ],
+      "numerical": [
+       "softening eps=0.01 = 10^6 m (gravity and the drag kernel; 🌛's kernel eps is 10^5 m)",
+       "structure-core table 1024 points, r_max = 4 x the farthest initial body (the default rule)",
+       "time multiplier timeScale=1",
+       "display magnification dispMag=10 (display only)"
+      ]
+     },
+     "description": "THE INERTIAL-DETERMINACY VERSION OF THE SUN, EARTH AND MOON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🔆 emAuditSolar's real-unit Sun (pinned), Earth and Moon (masses, radii, positions, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG (physics.relativeDrag.law:\"inertial\"; the default composition rule solve(velocity) solves (I+L)u = s from the dynamical-velocity differences and moves positions only, x += u dt). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 (1 unit = 10^6 m / 10^2 s / 10^25 kg) CONVERTED AS THE SAME SI COEFFICIENT C_d,SI = 0.0514182 m^3/kg INTO 51.4182 [L^3/M] (1 unit = 10^8 m / 10^4 s / 10^27 kg): a transfer, not a fit - nothing is refitted here to the apsidal period or the sidereal month (🌛's gain is itself an estimate from a one-dimensional fit of the apsidal period). THE DRAG PAIR IS THE EARTH-MOON PAIR ONLY (pairs:[[1,2]] - the Sun is a gravitational third body only and is kept out of the drag sum). The Earth declares 🌛's starting structure core dragCore:{massFrac:0.325, radius:0.0348} (= 3.48e6 m); the Sun and the Moon are points. The kernel softening eps equals this sample's gravitational softening 0.01 (= 10^6 m - ten times 🌛's kernel eps of 10^5 m). Measured (harness tests/exp-w295c-inertial3.mjs, output tests/out/inertial3-w295c.json; the 118-orbit window was declared before measuring): the apsidal period is 4.727 yr over 27 orbits and 4.262 yr over 118 orbits, shorter than the drag-off control (gain 0 = 🔆's gravity-only three-body system) at 8.778 yr - the drag's advance adds to the solar perturbation's. The period per 27 orbits moves with the window, 4.727/4.618/4.549/4.305 yr (not called steady). The numbers are a record, not a pass/fail verdict.Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde. The camera follows the Earth with a +/-10-unit field (as in 🔆). Over 118 orbits the sidereal month is 27.139 d and the eccentricity proxy 0.0322 (the gain-0 control: 27.319 d, 0.0374). The RMS residual of the straight-line fit of the apse direction is 25.5 deg (the solar wobble of the apse - short-window rates wobble and are not read). The HUD time is shown in days and years.The one-tap control is gain 0 (the inertial drag off - 🔆's gravity-only three-body system with geoPN 3). The other control, A2 (pairs:\"all\" - the Sun is a drag source too; the pinned Sun keeps u = 0 yet acts as a source, and sum m u does not close), runs only inside the harness: 4.261 yr over 118 orbits (-2.6e-4 from the declared A1). The declaration stays A1 (A2 is not made the default). Halving dt moves the 118-orbit apsidal period by 5.7e-4. The two-body version without the Sun is 🌛; the three-body system without the drag is 🔆.",
+     "status": {
+      "purpose": "Carry 🌛's gain in SI units; measure the lunar apse with the Sun",
+      "state": "Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "太陽・地球・月の実質量・実半径・実自転(🔆 の写し)",
+      "太陽–地球距離 1au・月の離心率 0.0549(🔆 の写し —— 初期近地点距離は 🔆 が恒星月から逆算した値)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)",
+      "geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:51.4182, eps:0.01, history:\"positions\", pairs:[[1,2]]}(対は地球と月だけ —— 太陽は重力の第三体だけ・compose は書かない = 既定 solve(velocity))",
+      "地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌛 の起点の宣言 3.48×10⁶m を L8 で)・太陽と月は点源",
+      "kRep=muF=γN=κ_S=0",
+      "stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(🔆 と同じ)"
+     ],
+     "fitted": [
+      "この本ではなし(gain は移送 —— 合わせ直していない)"
+     ],
+     "derived": [
+      "gain 51.4182 [L³/M] = C_d,SI ÷ (10²⁴m³/10²⁷kg)・C_d,SI = 514182 × (10⁶m)³/10²⁵kg = 0.0514182 m³/kg(🌛 の 1 次元フィットの推定値を同じ SI 係数として移送)",
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核 —— 🌛 の核の ε は 10⁵m)",
+      "構造核の表 1024 点・r_max=初期配置で最も遠い天体までの距離の 4 倍(既定の規則)",
+      "時間倍率 timeScale=1",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 10,
+     "follow": 1
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 236.059488,
+     "pair": [
+      1,
+      2
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 1
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1,
+     "stepDt": 0.655721,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 51.4182,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 1988.5,
+      "radius": 6.96,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.029031,
+      "pinned": true,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0059724,
+      "radius": 0.06371,
+      "x": 1495.9356292,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.97715665,
+      "spin": 0.729212,
+      "pinned": false,
+      "pnSource": true,
+      "dragCore": {
+       "massFrac": 0.325,
+       "radius": 0.0348
+      }
+     },
+     {
+      "type": "single",
+      "m": 0.00007346,
+      "radius": 0.0174,
+      "x": 1499.587409,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.08512,
+      "spin": 0.026617,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false
+    },
+    "description": "**慣性決定力版の太陽・地球・月**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🔆 emAuditSolar の実単位の太陽(pinned)・地球・月(質量・半径・位置・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 既定の合成則 solve(velocity): 力学速度 v の差から (I+L)u=s を解き、位置だけを x+=u·dt で動かす)で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182(1 単位=10⁶m/10²s/10²⁵kg)を同じ SI 係数 C_d,SI=0.0514182 m³/kg として単位換算した 51.4182 [L³/M](1 単位=10⁸m/10⁴s/10²⁷kg)**で、移送であってフィットではない —— この本で近点周期にも恒星月にも合わせ直していない(🌛 の gain 自体が近点周期への 1 次元フィットの推定である)。**慣性の対は地球と月だけ**(pairs:[[1,2]] —— 太陽は重力の第三体だけで、慣性の対和に入れない)。地球には 🌛 と同じ起点の構造核 dragCore:{massFrac:0.325, radius:0.0348}(=3.48×10⁶m)を宣言し、太陽と月は点源。核の軟化 ε はこの本の重力の軟化と同じ 0.01(=10⁶m —— 🌛 の核の ε 10⁵m の 10 倍)。測った値(器 tests/exp-w295c-inertial3.mjs・正本 tests/out/inertial3-w295c.json —— 118 公転の窓は測る前に宣言した): 近点周期は 27 公転窓 4.727 年・118 公転窓 4.262 年で、慣性引きずりを切った対照(gain 0 = 🔆 の重力だけの三体)の 8.778 年より短い —— 太陽摂動の近点前進に慣性引きずりの前進が重なる。27 公転ごとの近点周期は 4.727/4.618/4.549/4.305 年と窓で動く(定常とは書かない)。数は値の記録であって、合否の判定ではない。トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが順行に回るのを見る。カメラは地球追従・視野 ±10 単位(🔆 と同じ)。118 公転の区間平均で恒星月 27.139 日・離心率の代理 0.0322(gain 0 の対照は 27.319 日・0.0374)。近点方位の直線 fit の残差 RMS は 25.5°(太陽摂動による近点の揺れ —— 短い窓の近点率は揺れるので読まない)。HUD の t は日・年に換算される。ワンタップの対照は gain 0(慣性引きずりを切る —— 🔆 と同じ重力だけの三体・geoPN 3)。もう 1 つの対照 A2(pairs:\"all\" —— 太陽も慣性の源。pinned の太陽は u=0 のまま源になり Σmu は閉じない)は器の中だけで走らせ、118 公転窓 4.261 年(本の宣言 A1 との差 −2.6×10⁻⁴)。本の宣言は A1 のまま(A2 を既定にしない)。dt を半分にした差は 118 公転窓の近点周期で 5.7×10⁻⁴。太陽を入れない二体の版は 🌛、慣性引きずりのない三体は 🔆 で見る。",
+    "status": {
+     "purpose": "🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る",
+     "objective": "met",
+     "state": "慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/inertial3-w295c.json"
+     ]
+    }
+   }
+  },
+  "plutoCharonInertial": {
+   "emoji": "🟣",
+   "name": "冥王星とカロン(慣性決定力版)— 移送した gain と公転周期",
+   "familyId": "pluto",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "d9dc259c",
+   "presetSigSha256": "17c156054ccf4b550827c8082258950c75d167f3e58a9e58dd9460216afb40e1",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "d9dc259c",
+    "name": "冥王星とカロン(慣性決定力版)— 移送した gain と公転周期",
+    "sigSame": true
+   },
+   "successor": "plutoCharonInertialFit",
+   "reason": "未フィットの慣性決定力版(係数の移送だけ)—— 継続は gain を公転周期へフィットした 🟪",
+   "retiredNotice": {
+    "ja": "第88報: 未フィットの慣性決定力版(係数を移送しただけの本)の廃止 —— 同じ系の継続は gain を公転周期へフィットした 🟪",
+    "en": "ruling 88: the unfitted inertial-determinacy builds (gain only transferred) are retired — the same system continues in 🟪, whose gain is fitted to the orbital period",
+    "see": [
+     "plutoCharonInertialFit"
+    ]
+   },
+   "pairDiff": {
+    "successor": "plutoCharonInertialFit",
+    "successorEmoji": "🟪",
+    "diff": {
+     "physics.relativeDrag": [
+      {
+       "law": "inertial",
+       "gain": 51418200,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": "all"
+      },
+      {
+       "law": "inertial",
+       "gain": 6729.009,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": "all",
+       "coreTable": {
+        "n": 4096
+       }
+      }
+     ]
+    },
+    "n": 1,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 0
+    }
+   },
+   "raw": {
+    "id": "plutoCharonInertial",
+    "name": "冥王星とカロン(慣性決定力版)— 移送した gain と公転周期",
+    "emoji": "🟣",
+    "group": "現実較正",
+    "familyId": "pluto",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 5,
+     "T": 1,
+     "M": 24
+    },
+    "integrator": "leapfrog",
+    "sampleClass": "principle",
+    "referenceKind": "coefficient-transfer",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal",
+     "period_fit",
+     "gain_universal"
+    ],
+    "abBody": {
+     "label": {
+      "ja": "慣性引きずりを切る(gain 0 —— 重力だけの二体)",
+      "en": "switch the inertial drag off (gain 0 — the gravity-only two-body system)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 0,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": "all"
+      }
+     }
+    },
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🥶 の冥王星とカロン(円軌道のケプラー初速を力学速度 v に与えた)・geoPN=3(測地線 OFF・1PN なし)・kFrame=0・点源",
+      "obs": "—(原理サンプル —— 較正母集団の外)"
+     },
+     {
+      "q": "gain(C_d)",
+      "model": "5.14182×10⁷ [L³/M](L5/M24)= 🌛 の 514182 と同じ SI 係数 0.0514182 m³/kg の単位換算(移送)。この本で合わせ直していない",
+      "obs": "—"
+     },
+     {
+      "q": "同方向 1 周(第 2 周・実測)",
+      "model": "502286.499 s(h=0.16)—— gain 0 の対照は 551863.660 s・差 -49577.161 s(-8.984%)",
+      "obs": "551856.43872±0.02592 s(参照 —— Buie 2012 の二体の値)"
+     },
+     {
+      "q": "軌道の形(実測・8 公転)",
+      "model": "eProxy 1.36e-1・距離振幅 2352.032 km(gain 0 は eProxy 3.99e-9)—— 入力の写像で円にならない",
+      "obs": "—"
+     },
+     {
+      "q": "u(実測)",
+      "model": "|u|/|v| の平均 1.31e-1(相対速度の 1 割を超える)",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "周期の残差を gain で埋めない(gain は移送した宣言値・動いた量の記録)。潮汐ロックはこの法則を零にしない",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**慣性決定力版の冥王星とカロン**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🥶 plutoCharonDiagInput の二体(PLU060 の GM と 400 年平均の a・重心系・円軌道・ε=0 のケプラー初速・同期自転の値 —— bodies と指数 1 単位=10⁵m/10s/10²⁴kg は 1 字も変えない写し・積分器も leapfrog)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として換算した 5.14182×10⁷ [L³/M]**(移送 —— 周期に合わせない)。ε は 🥶 の軟化と同じ 0.01(=1km)・両天体とも点源。**潮汐ロックはこの法則を零にしない**(慣性決定力は力学速度の差を読む —— 同期円でも公転の相対速度は残る)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.16 と h/2): 同方向 1 周(第 2 周)は 502286.499 s で、gain 0 の対照 551863.660 s より −49577.161 s(−8.984%)。|u|/|v| の平均は 1.31×10⁻¹ と大きい。🥶 の台帳の周期の残差(Buie 2012 比 +0.00131%)は元期と GM の写像の問題で、慣性を足すと周期が動く —— 動いた量を記録し、gain で埋めない。**入力速度の写像の限界**: 🥶 の円軌道のケプラー初速を力学速度 v にそのまま与えた(ẋ=v+u)ので、座標速度は円軌道の速さより遅く、軌道は円にならない(離心率の代理 1.36×10⁻¹・距離振幅 2352.032 km —— gain 0 の対照は 3.99×10⁻⁹)。数は値の記録であって、合否の判定ではない。",
+     "observe": "トレイルで、冥王星とカロンが重心のまわりに描く軌道が円から外れ、近点の向きが大きく回るのを見る(検出器 B の近点ごとに約 106°)。gain 0 の対照は円軌道のままで、近点の向きの定義が弱い(離心率の代理 4×10⁻⁹)。粒子表示は実半径のまま(dispMag=1)。",
+     "control": "ワンタップの対照は gain 0(慣性引きずりを切る —— 🥶 と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。gain 0 の第 2 周 551863.660 s は 🥶 の第 2 周(dt 0.16)551863.659899 s と 2×10⁻⁶ s 以内。座標速度を円軌道にそろえた入力(v=ẋ−u)は本便では作らない。",
+     "brief": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る。達・第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ。較正対象外。"
+    },
+    "en": {
+     "name": "Pluto & Charon (inertial determinacy) — a transferred gain and the orbital period",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🥶's Pluto and Charon (circular Kepler speed given to the dynamical v); geoPN=3 (no geodesic, no 1PN), kFrame=0; points",
+       "obs": "- (a principle sample, outside the calibration population)"
+      },
+      {
+       "q": "gain (C_d)",
+       "model": "5.14182e7 [L^3/M] (L5/M24) = 🌛's 514182 as the same SI coefficient 0.0514182 m^3/kg (a transfer, not refitted)",
+       "obs": "-"
+      },
+      {
+       "q": "Same-direction revolution (rev 2, measured)",
+       "model": "502286.499 s (h=0.16); gain-0 control 551863.660 s; difference -49577.161 s (-8.984%)",
+       "obs": "551856.43872 +/- 0.02592 s (reference - Buie 2012 two-body value)"
+      },
+      {
+       "q": "Orbit shape (measured, 8 orbits)",
+       "model": "eProxy 1.36e-1, distance amplitude 2352.032 km (gain 0: eProxy 3.99e-9) - the input mapping does not give a circle",
+       "obs": "-"
+      },
+      {
+       "q": "u (measured)",
+       "model": "mean |u|/|v| 1.31e-1 (above a tenth of the relative speed)",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "The period residual is not filled with the gain (transferred; the shift is recorded). Tidal locking does not null it",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE INERTIAL-DETERMINACY VERSION OF PLUTO AND CHARON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🥶 plutoCharonDiagInput's pair (PLU060 GM and the 400-year mean a; barycentric, circular, epsilon-0 Kepler speed; the synchronous spin values - bodies and the exponents 1 unit = 10^5 m / 10 s / 10^24 kg copied without a single change; the integrator is leapfrog too) runs under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 5.14182e7 [L^3/M] (a transfer - not fitted to the period). eps equals 🥶's softening 0.01 (= 1 km); both bodies are points. TIDAL LOCKING DOES NOT NULL THIS LAW (the inertial determinacy reads differences of dynamical velocity - on a synchronous circle the orbital relative velocity remains). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.16 and h/2): the same-direction revolution (rev 2) is 502286.499 s, -49577.161 s (-8.984%) from the gain-0 control 551863.660 s. The mean |u|/|v| is large, 1.31e-1. The period residual in 🥶's ledger (+0.00131% from Buie 2012) is a matter of the epoch and GM mapping; adding the drag moves the period - the shift is recorded and is not filled with the gain. THE LIMIT OF THE INPUT-VELOCITY MAPPING: 🥶's circular Kepler speed is given to the dynamical velocity v as it is (x-dot = v + u), so the coordinate speed is below the circular speed and the orbit is not a circle (eccentricity proxy 1.36e-1, distance amplitude 2352.032 km; the gain-0 control 3.99e-9). The numbers are a record, not a pass/fail verdict.",
+      "observe": "Use the trail to watch the orbits Pluto and Charon draw about the barycentre leave the circle while the apse line turns fast (about 106 deg per periapsis of detector B). The gain-0 control stays circular, where the apse direction is ill-defined (eccentricity proxy 4e-9). Bodies are drawn at real radii (dispMag=1).",
+      "control": "The one-tap control is gain 0 (the inertial drag off - 🥶's gravity-only two-body system; with geoPN 3 there is no 1PN either). The gain-0 revolution 2, 551863.660 s, is within 2e-6 s of 🥶's revolution 2 (dt 0.16), 551863.659899 s. An input with the coordinate speed set to the circular one (v = x-dot - u) is not built in this wave.",
+      "brief": "Carry 🌛's gain in SI units; measure the Pluto-Charon period. Met: rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the built-in G=6.674 and c0=29979.2458",
+       "GM of Pluto and Charon and the 400-year mean semi-major axis 19595.764 km (copied from 🥶: Brozovic & Jacobson 2024 Tables 8 and 10)",
+       "the declared mutual synchronism omega = 2 pi / 551855.8944 s (copied from 🥶 - kept, not read by the law)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
+       "geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0",
+       "inertial drag relativeDrag:{law:\"inertial\", gain:5.14182e7, eps:0.01, history:\"positions\", pairs:\"all\"} (compose not declared = the default solve(velocity))",
+       "point sources (no internal core is declared for Pluto or Charon)",
+       "two free bodies, barycentric, circular, epsilon-0 Kepler speed (🥶's state given to the dynamical velocity v)",
+       "kRep=muF=gammaN=kappaS=0 / stateCarry:\"double\", massPrecision:\"double\"",
+       "2D"
+      ],
+      "fitted": [
+       "none in this sample (the gain is transferred, not refitted)"
+      ],
+      "derived": [
+       "gain 5.14182e7 [L^3/M] = C_d,SI / (10^15 m^3 / 10^24 kg), C_d,SI = 0.0514182 m^3/kg (🌛's fit estimate carried as the same SI coefficient)",
+       "kappa_T=G/c0^2=7.4258e-9"
+      ],
+      "numerical": [
+       "softening epsilon=0.01 unit = 1 km (gravity and the drag kernel)",
+       "integrator:\"leapfrog\"",
+       "time multiplier timeScale=1, screen step stepDt=153.293",
+       "display magnification dispMag=1 (display only)"
+      ]
+     },
+     "description": "THE INERTIAL-DETERMINACY VERSION OF PLUTO AND CHARON (wave 295c; the originator's ruling in report 85; the coordinator's check item R155). 🥶 plutoCharonDiagInput's pair (PLU060 GM and the 400-year mean a; barycentric, circular, epsilon-0 Kepler speed; the synchronous spin values - bodies and the exponents 1 unit = 10^5 m / 10 s / 10^24 kg copied without a single change; the integrator is leapfrog too) runs under gravity (E4) and the INERTIAL DRAG (the default composition rule solve(velocity)). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0. THE GAIN IS 🌛 earthMoonInertial's 514182 CONVERTED AS THE SAME SI COEFFICIENT 0.0514182 m^3/kg INTO 5.14182e7 [L^3/M] (a transfer - not fitted to the period). eps equals 🥶's softening 0.01 (= 1 km); both bodies are points. TIDAL LOCKING DOES NOT NULL THIS LAW (the inertial determinacy reads differences of dynamical velocity - on a synchronous circle the orbital relative velocity remains). Measured (harness tests/exp-w295c-inertial3.mjs, 8 orbits, h=0.16 and h/2): the same-direction revolution (rev 2) is 502286.499 s, -49577.161 s (-8.984%) from the gain-0 control 551863.660 s. The mean |u|/|v| is large, 1.31e-1. The period residual in 🥶's ledger (+0.00131% from Buie 2012) is a matter of the epoch and GM mapping; adding the drag moves the period - the shift is recorded and is not filled with the gain. THE LIMIT OF THE INPUT-VELOCITY MAPPING: 🥶's circular Kepler speed is given to the dynamical velocity v as it is (x-dot = v + u), so the coordinate speed is below the circular speed and the orbit is not a circle (eccentricity proxy 1.36e-1, distance amplitude 2352.032 km; the gain-0 control 3.99e-9). The numbers are a record, not a pass/fail verdict.Use the trail to watch the orbits Pluto and Charon draw about the barycentre leave the circle while the apse line turns fast (about 106 deg per periapsis of detector B). The gain-0 control stays circular, where the apse direction is ill-defined (eccentricity proxy 4e-9). Bodies are drawn at real radii (dispMag=1).The one-tap control is gain 0 (the inertial drag off - 🥶's gravity-only two-body system; with geoPN 3 there is no 1PN either). The gain-0 revolution 2, 551863.660 s, is within 2e-6 s of 🥶's revolution 2 (dt 0.16), 551863.659899 s. An input with the coordinate speed set to the circular one (v = x-dot - u) is not built in this wave.",
+     "status": {
+      "purpose": "Carry 🌛's gain in SI units; measure the Pluto-Charon period",
+      "state": "rev 2 -8.984%; the input mapping leaves e proxy 0.136; record only",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "内蔵 G=6.674・c₀=29979.2458",
+      "冥王星・カロンの GM と 400 年平均の軌道長半径 19595.764km(🥶 の写し —— Brozović & Jacobson 2024 Table 8・10)",
+      "相互同期の宣言 ω=2π/551855.8944s(🥶 の写し —— 保持するが法則は読まない)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
+      "geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:5.14182e7, eps:0.01, history:\"positions\", pairs:\"all\"}(compose は書かない = 既定 solve(velocity))",
+      "点源(冥王星・カロンの内部核は宣言しない)",
+      "二体の自由天体・重心系・円軌道・ε=0 のケプラー初速(🥶 の状態を力学速度 v に与えた)",
+      "kRep=muF=γN=κ_S=0 / stateCarry:\"double\"・massPrecision:\"double\"",
+      "2D"
+     ],
+     "fitted": [
+      "この本ではなし(gain は移送 —— 合わせ直していない)"
+     ],
+     "derived": [
+      "gain 5.14182×10⁷ [L³/M] = C_d,SI ÷ (10¹⁵m³/10²⁴kg)・C_d,SI = 0.0514182 m³/kg(🌛 のフィットの推定値を同じ SI 係数として移送)",
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 単位=1km(重力と引きずりの核)",
+      "integrator:\"leapfrog\"",
+      "時間倍率 timeScale=1・画面の刻み stepDt=153.293",
+      "粒子表示倍率 dispMag=1(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 210
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 55185.6439,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(plutoCharonDiagInput の カロン の周期 551856.43872 s ÷ 10^1 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 1000
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 11.9386,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1,
+     "stepDt": 153.293,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameReaction": "pairReduced",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 51418200,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": "all"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.013025172310458496,
+      "radius": 11.88,
+      "x": -21.315466069304904,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.0024268498546968042,
+      "spin": 0.00011385554400956285,
+      "pinned": false,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0015897512735990414,
+      "radius": 6.06,
+      "x": 174.6421739306951,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.019883700081884368,
+      "spin": 0.00011385554400956285,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**慣性決定力版の冥王星とカロン**(第295便c・原仮定者の裁定〔第85報〕・統括の検証項目 R155)。🥶 plutoCharonDiagInput の二体(PLU060 の GM と 400 年平均の a・重心系・円軌道・ε=0 のケプラー初速・同期自転の値 —— bodies と指数 1 単位=10⁵m/10s/10²⁴kg は 1 字も変えない写し・積分器も leapfrog)を、重力(E4)と**慣性引きずり**(既定の合成則 solve(velocity))で回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0。**gain は 🌛 earthMoonInertial の 514182 を同じ SI 係数 0.0514182 m³/kg として換算した 5.14182×10⁷ [L³/M]**(移送 —— 周期に合わせない)。ε は 🥶 の軟化と同じ 0.01(=1km)・両天体とも点源。**潮汐ロックはこの法則を零にしない**(慣性決定力は力学速度の差を読む —— 同期円でも公転の相対速度は残る)。測った値(器 tests/exp-w295c-inertial3.mjs・8 公転・h=0.16 と h/2): 同方向 1 周(第 2 周)は 502286.499 s で、gain 0 の対照 551863.660 s より −49577.161 s(−8.984%)。|u|/|v| の平均は 1.31×10⁻¹ と大きい。🥶 の台帳の周期の残差(Buie 2012 比 +0.00131%)は元期と GM の写像の問題で、慣性を足すと周期が動く —— 動いた量を記録し、gain で埋めない。**入力速度の写像の限界**: 🥶 の円軌道のケプラー初速を力学速度 v にそのまま与えた(ẋ=v+u)ので、座標速度は円軌道の速さより遅く、軌道は円にならない(離心率の代理 1.36×10⁻¹・距離振幅 2352.032 km —— gain 0 の対照は 3.99×10⁻⁹)。数は値の記録であって、合否の判定ではない。トレイルで、冥王星とカロンが重心のまわりに描く軌道が円から外れ、近点の向きが大きく回るのを見る(検出器 B の近点ごとに約 106°)。gain 0 の対照は円軌道のままで、近点の向きの定義が弱い(離心率の代理 4×10⁻⁹)。粒子表示は実半径のまま(dispMag=1)。ワンタップの対照は gain 0(慣性引きずりを切る —— 🥶 と同じ重力だけの二体・geoPN 3 なので 1PN も入らない)。gain 0 の第 2 周 551863.660 s は 🥶 の第 2 周(dt 0.16)551863.659899 s と 2×10⁻⁶ s 以内。座標速度を円軌道にそろえた入力(v=ẋ−u)は本便では作らない。",
+    "status": {
+     "purpose": "🌛 の gain を同じ SI 係数で移送し冥王星とカロンの周期の応答を測る",
+     "objective": "met",
+     "state": "第 2 周 −8.984%・入力の写像で円にならない(離心率の代理 0.136)・潮汐ロックは法則を零にしない・値の記録だけ",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/inertial3-w295c.json"
+     ]
+    }
+   }
+  },
+  "earthMoon": {
+   "emoji": "🌍",
+   "name": "地球と月",
+   "familyId": "earthmoonToy",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "composite",
+   "presetSigHash": "33e940ad",
+   "presetSigSha256": "64c6359f4c56aef011d945930e92c47958880fdb939690aab8e09edff090f13d",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "33e940ad",
+    "name": "地球と月",
+    "sigSame": true
+   },
+   "successor": "earthMoonReal",
+   "reason": "geoPN=0 の古い展示(地球を固定した kFrame=1 の玩具)—— 入口は 🌙 と 🌛",
+   "retiredNotice": {
+    "ja": "第88報: geoPN=0 の古い展示(地球を固定した kFrame=1 の玩具)の廃止 —— 地球と月の入口は実単位の 🌙 と慣性決定力版の 🌛",
+    "en": "ruling 88: the old geoPN=0 exhibit (a kFrame=1 toy with the Earth pinned) is retired — the Earth–Moon entry points are the real-unit 🌙 and the inertial-determinacy 🌛",
+    "see": [
+     "earthMoonReal",
+     "earthMoonInertial"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonReal",
+    "successorEmoji": "🌙",
+    "diff": {
+     "physics.D0": [
+      2,
+      0.1
+     ],
+     "physics.G": [
+      1,
+      6.674
+     ],
+     "physics.cLight": [
+      30,
+      29979.2458
+     ],
+     "physics.dispMag": [
+      null,
+      10
+     ],
+     "physics.geoPN": [
+      0,
+      1
+     ],
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "physics.kappaT": [
+      0.0001,
+      7.425826474101849e-9
+     ],
+     "physics.massFloor": [
+      null,
+      0.000001
+     ],
+     "physics.q": [
+      2,
+      3
+     ],
+     "physics.softening": [
+      2,
+      0.1
+     ],
+     "physics.stateCarry": [
+      null,
+      "double"
+     ],
+     "physics.stepDt": [
+      0.3985,
+      65.5721
+     ],
+     "bodies[0].m": [
+      1000,
+      0.59724
+     ],
+     "bodies[0].radius": [
+      null,
+      6.38
+     ],
+     "bodies[0].x": [
+      0,
+      -4.41822
+     ],
+     "bodies[0].vy": [
+      0,
+      -0.0013146
+     ],
+     "bodies[0].spin": [
+      0.05,
+      0.0072921
+     ],
+     "bodies[0].pinned": [
+      true,
+      false
+     ],
+     "bodies[0].core": [
+      {
+       "mode": "rigid",
+       "massFrac": 0.325,
+       "radius": 27.04163456597992
+      },
+      null
+     ],
+     "bodies[1].m": [
+      12.3,
+      0.007346
+     ],
+     "bodies[1].radius": [
+      null,
+      1.74
+     ],
+     "bodies[1].x": [
+      180,
+      359.2071
+     ],
+     "bodies[1].vy": [
+      2.5053,
+      0.1068788
+     ],
+     "bodies[1].spin": [
+      0.013908,
+      0.00026617
+     ],
+     "bodies[1].core": [
+      {
+       "mode": "rigid",
+       "massFrac": 0.0168,
+       "radius": 0.6818650892955291
+      },
+      null
+     ]
+    },
+    "n": 25,
+    "named": {
+     "D0": [
+      2,
+      0.1
+     ],
+     "q": [
+      2,
+      3
+     ],
+     "bodies": 13
+    }
+   },
+   "raw": {
+    "id": "earthMoon",
+    "name": "地球と月",
+    "emoji": "🌍",
+    "group": "天体の機構",
+    "scaleTier": "planetary",
+    "sampleClass": "composite",
+    "notClaim": [
+     "solar"
+    ],
+    "familyId": "earthmoonToy",
+    "familyRole": "retired",
+    "descStruct": {
+     "summary": "月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
+     "observe": "コアは観測値: 地球 Mc/m=0.325(PREM系の全コア質量比 32.5%)・月 Mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。コアv2 の mode=\"rigid\"(殻と剛体回転 Ω_c≡s)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは剛体回転を中立既定とする(差動なし=単層と厳密等価)。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。κ=1×10⁻⁴(旧表記 Kt=10000)は物理対応ロック κ=G/c² の成立値。",
+     "control": "地球をタップすると「コア内訳(v2)」に Ω_c/Ω_s と J_core・慣性が出る(剛体コアなので差動はゼロ)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。実スケール較正(実G値+実c値・実距離/実質量で恒星月 27.32日を再現する版)は 🌙(実単位・kFrame=0)と 🌘(実単位・kFrame=1 — 近点回転 8.85年まで較正した雛形)を参照 — 本サンプルは較正版ではなく、コア比だけを観測値に合わせた物語トイである。",
+     "brief": "同期自転する月の公転を見せる誇張模型。達・距離 ±2%・同期誤差 0.10°/周が門内。較正対象外。"
+    },
+    "en": {
+     "name": "Earth & Moon",
+     "descStruct": {
+      "summary": "A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously — its spin equals the measured orbital angular velocity ω=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). ",
+      "observe": "Cores use observed values: Earth Mc/m=0.325 (PREM whole-core mass fraction) and Moon Mc/m=0.0168 (lunar-laser-ranging median of 1.59–1.77%). Core v2's mode=\"rigid\" (the core co-rotates with the shell, Ω_c≡s) is the neutral default — Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts rigid rotation as its neutral default (no differential = exactly equivalent to a single layer). The circular-orbit speed is calibrated with E6′ included: v=1.063× Keplerian (Plummer-softened) — radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6′-stable regime — at the real ratio (27.4× the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). κ=1×10⁻⁴ (legacy notation Kt=10000) satisfies the GR-calibration lock κ=G/c².",
+      "control": "Tap Earth to see the Core (v2) readout — Ω_c/Ω_s, J_core and the core moment of inertia (a rigid core has zero differential). For the real spin ratio, see 🌕 (free two-body, kFrame=0). For the real-scale calibration (real G and real c, real distances and masses, reproducing the 27.32-day sidereal month) see 🌙 (real units, kFrame=0) and 🌘 (real units, kFrame=1 — the template calibrated all the way to the 8.85-year apsidal precession); this sample is not a calibration but a storytelling toy whose only observed-value fit is the core mass fraction.",
+      "brief": "An exaggerated model of the Moon's orbit with synchronous rotation. Met: distance within ±2% and synchronisation error 0.10°/orbit pass the gate. Out of calibration scope."
+     },
+     "description": "A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously — its spin equals the measured orbital angular velocity ω=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). Cores use observed values: Earth Mc/m=0.325 (PREM whole-core mass fraction) and Moon Mc/m=0.0168 (lunar-laser-ranging median of 1.59–1.77%). Core v2's mode=\"rigid\" (the core co-rotates with the shell, Ω_c≡s) is the neutral default — Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts rigid rotation as its neutral default (no differential = exactly equivalent to a single layer). The circular-orbit speed is calibrated with E6′ included: v=1.063× Keplerian (Plummer-softened) — radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6′-stable regime — at the real ratio (27.4× the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). κ=1×10⁻⁴ (legacy notation Kt=10000) satisfies the GR-calibration lock κ=G/c².Tap Earth to see the Core (v2) readout — Ω_c/Ω_s, J_core and the core moment of inertia (a rigid core has zero differential). For the real spin ratio, see 🌕 (free two-body, kFrame=0). For the real-scale calibration (real G and real c, real distances and masses, reproducing the 27.32-day sidereal month) see 🌙 (real units, kFrame=0) and 🌘 (real units, kFrame=1 — the template calibrated all the way to the 8.85-year apsidal precession); this sample is not a calibration but a storytelling toy whose only observed-value fit is the core mass fraction.",
+     "status": {
+      "purpose": "An exaggerated model of the Moon's orbit with synchronous rotation",
+      "state": "distance within ±2% and synchronisation error 0.10°/orbit pass the gate",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "G",
+     "D0"
+    ],
+    "claims": [
+     {
+      "id": "earthMoon.core-mass-ratio-earth",
+      "kind": "semantic",
+      "prov": "calibrated",
+      "metric": "coreMassRatioEarth",
+      "chain": {
+       "note": "地球のコア質量比 32.5%(PREM)を宣言へ写した較正入力 — 公理から導かれる量ではなく、現実の観測値への対応付けそのもの。",
+       "noteEn": "Earth's core mass fraction of 32.5% (PREM) copied into the declaration — a calibration input, not a quantity derived from the axioms."
+      },
+      "expected": {
+       "min": 0.32,
+       "max": 0.33
+      },
+      "descPattern": "地球 Mc/m=(\\d+\\.\\d+)\\(PREM",
+      "testId": "behavior.earthMoon"
+     },
+     {
+      "id": "earthMoon.radius-drift",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "radiusDriftFraction",
+      "chain": {
+       "ax": [
+        "A4",
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "較正入力(コア比)を置いたうえで、軌道半径が実走で保たれるかを見る無較正の検証項目。",
+       "noteEn": "With the calibration input (core ratio) in place, this is an uncalibrated check that the orbital radius survives an actual run."
+      },
+      "expected": {
+       "min": 0.00072,
+       "max": 0.00108
+      },
+      "descScale": 0.01,
+      "descPattern": "半径ドリフト(\\d+\\.\\d+)%",
+      "testId": "behavior.earthMoon"
+     }
+    ],
+    "camera": {
+     "scale": 220
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 573.839936,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "osculating",
+     "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+     "stepsPerOrbit": 1440,
+     "note": "360 步では刻み 1/2 との 8 公転の長半径の差 dA=0.047(門 0.02)—— 1440 步で 0.017",
+     "legacyTimeScale": 5
+    },
+    "physics": {
+     "G": 1,
+     "D0": 2,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 2,
+     "timeScale": 1,
+     "stepDt": 0.3985,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "rMul": 1.5,
+      "m": 1000,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.05,
+      "pinned": true,
+      "core": {
+       "mode": "rigid",
+       "massFrac": 0.325,
+       "radius": 27.04163456597992
+      }
+     },
+     {
+      "type": "single",
+      "rMul": 1.5,
+      "m": 12.3,
+      "x": 180,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.5053,
+      "spin": 0.013908,
+      "pinned": false,
+      "core": {
+       "mode": "rigid",
+       "massFrac": 0.0168,
+       "radius": 0.6818650892955291
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。コアは観測値: 地球 Mc/m=0.325(PREM系の全コア質量比 32.5%)・月 Mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。コアv2 の mode=\"rigid\"(殻と剛体回転 Ω_c≡s)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは剛体回転を中立既定とする(差動なし=単層と厳密等価)。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。κ=1×10⁻⁴(旧表記 Kt=10000)は物理対応ロック κ=G/c² の成立値。地球をタップすると「コア内訳(v2)」に Ω_c/Ω_s と J_core・慣性が出る(剛体コアなので差動はゼロ)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。実スケール較正(実G値+実c値・実距離/実質量で恒星月 27.32日を再現する版)は 🌙(実単位・kFrame=0)と 🌘(実単位・kFrame=1 — 近点回転 8.85年まで較正した雛形)を参照 — 本サンプルは較正版ではなく、コア比だけを観測値に合わせた物語トイである。",
+    "status": {
+     "purpose": "同期自転する月の公転を見せる誇張模型",
+     "objective": "met",
+     "state": "距離 ±2%・同期誤差 0.10°/周が門内",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.earthMoon"
+     ]
+    }
+   }
+  },
+  "earthMoonFree": {
+   "emoji": "🌕",
+   "name": "地球と月(自由二体・物理比)",
+   "familyId": "earthmoonToy",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "principle",
+   "presetSigHash": "9d077da9",
+   "presetSigSha256": "f372b02c6146682993106c2f87cf2f8b0bd4cc97dc1b5588d1e51f820df47646",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "9d077da9",
+    "name": "地球と月(自由二体・物理比)",
+    "sigSame": true
+   },
+   "successor": "earthMoonReal",
+   "reason": "geoPN=0 の古い自由二体(kFrame=0 の対照)—— 二体ニュートンの地球と月は 🌙",
+   "retiredNotice": {
+    "ja": "第88報: geoPN=0 の古い自由二体(kFrame=0 の対照)の廃止 —— 二体ニュートンの地球と月は実単位の 🌙",
+    "en": "ruling 88: the old geoPN=0 free two-body (a kFrame=0 control) is retired — the two-body Newtonian Earth–Moon is the real-unit 🌙",
+    "see": [
+     "earthMoonReal"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonReal",
+    "successorEmoji": "🌙",
+    "diff": {
+     "physics.D0": [
+      2,
+      0.1
+     ],
+     "physics.G": [
+      1,
+      6.674
+     ],
+     "physics.cLight": [
+      30,
+      29979.2458
+     ],
+     "physics.dispMag": [
+      null,
+      10
+     ],
+     "physics.geoPN": [
+      0,
+      1
+     ],
+     "physics.kappaT": [
+      0.0001,
+      7.425826474101849e-9
+     ],
+     "physics.massFloor": [
+      null,
+      0.000001
+     ],
+     "physics.q": [
+      2,
+      3
+     ],
+     "physics.softening": [
+      2,
+      0.1
+     ],
+     "physics.stateCarry": [
+      null,
+      "double"
+     ],
+     "physics.stepDt": [
+      1.32437,
+      65.5721
+     ],
+     "bodies[0].m": [
+      1000,
+      0.59724
+     ],
+     "bodies[0].radius": [
+      null,
+      6.38
+     ],
+     "bodies[0].x": [
+      -2.187105191,
+      -4.41822
+     ],
+     "bodies[0].vy": [
+      -0.028812128,
+      -0.0013146
+     ],
+     "bodies[0].spin": [
+      0.36091106,
+      0.0072921
+     ],
+     "bodies[0].core": [
+      {
+       "mode": "rigid",
+       "massFrac": 0.325,
+       "radius": 27.04163456597992
+      },
+      null
+     ],
+     "bodies[1].m": [
+      12.300037,
+      0.007346
+     ],
+     "bodies[1].radius": [
+      null,
+      1.74
+     ],
+     "bodies[1].x": [
+      177.812894809,
+      359.2071
+     ],
+     "bodies[1].vy": [
+      2.342442349,
+      0.1068788
+     ],
+     "bodies[1].spin": [
+      0.013173636,
+      0.00026617
+     ],
+     "bodies[1].core": [
+      {
+       "mode": "rigid",
+       "massFrac": 0.0168,
+       "radius": 0.6818661148642011
+      },
+      null
+     ]
+    },
+    "n": 23,
+    "named": {
+     "D0": [
+      2,
+      0.1
+     ],
+     "q": [
+      2,
+      3
+     ],
+     "bodies": 12
+    }
+   },
+   "raw": {
+    "id": "earthMoonFree",
+    "name": "地球と月(自由二体・物理比)",
+    "emoji": "🌕",
+    "group": "天体の機構",
+    "scaleTier": "planetary",
+    "sampleClass": "principle",
+    "notClaim": [
+     "solar"
+    ],
+    "familyId": "earthmoonToy",
+    "familyRole": "retired",
+    "descStruct": {
+     "summary": "地球も月も、どちらも固定しない二体の力学問題(2つの重心を基準に置く)。",
+     "observe": "kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(コアv2 rigid: 地球 Mc/m=0.325・月 Mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
+     "control": "A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。",
+     "brief": "どちらも固定しない地球–月の二体を保つ。達・10 周で距離 ±1%・重心移動が門内。較正対象外。"
+    },
+    "en": {
+     "name": "Earth & Moon (Free Two-Body)",
+     "descStruct": {
+      "summary": "A two-body problem where neither Earth nor the Moon is pinned — everything is measured from their shared center of mass. ",
+      "observe": "With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4× the Moon's orbital rate — the actual ratio) and the Moon rotates synchronously at spin=ω=0.013174. Mass ratio 0.0123; cores at observed values (Core v2 rigid: Earth Mc/m=0.325, Moon Mc/m=0.0168). Initialized at the barycenter with zero total momentum — a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97–180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31°/orbit. Gravity (E4) uses the Plummer-softened circular speed.",
+      "control": "A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit — which is exactly why 🌍 (the exhibit version) compresses Earth's spin into the stable regime.",
+      "brief": "Keep an Earth–Moon two-body system with neither body pinned. Met: over 10 orbits the distance stays within ±1% and the barycentre drift passes. Out of calibration scope."
+     },
+     "description": "A two-body problem where neither Earth nor the Moon is pinned — everything is measured from their shared center of mass. With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4× the Moon's orbital rate — the actual ratio) and the Moon rotates synchronously at spin=ω=0.013174. Mass ratio 0.0123; cores at observed values (Core v2 rigid: Earth Mc/m=0.325, Moon Mc/m=0.0168). Initialized at the barycenter with zero total momentum — a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97–180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31°/orbit. Gravity (E4) uses the Plummer-softened circular speed.A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit — which is exactly why 🌍 (the exhibit version) compresses Earth's spin into the stable regime.",
+     "status": {
+      "purpose": "Keep an Earth–Moon two-body system with neither body pinned",
+      "state": "over 10 orbits the distance stays within ±1% and the barycentre drift passes",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "G",
+     "kFrame",
+     "D0"
+    ],
+    "claims": [
+     {
+      "id": "earthMoonFree.radius-range",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "radiusRangeFraction",
+      "chain": {
+       "ax": [
+        "A4",
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "自由二体(重心系)の円軌道が10周にわたって保たれるかの無較正検証 — 初期条件は解析式から決めており較正ノブを持たない。",
+       "noteEn": "An uncalibrated check that the free two-body circular orbit survives ten revolutions — the initial condition comes from a closed-form expression, with no calibration knob."
+      },
+      "expected": {
+       "min": 0.00024,
+       "max": 0.00036
+      },
+      "descScale": 0.01,
+      "descPattern": "半径 179\\.97〜180\\.02\\((\\d+\\.\\d+)%\\)",
+      "testId": "behavior.earthMoonFree"
+     },
+     {
+      "id": "earthMoonFree.spin-ratio",
+      "kind": "semantic",
+      "prov": "calibrated",
+      "metric": "earthMoonSpinRatio",
+      "chain": {
+       "note": "地球自転/月公転の実比 27.396 を初期スピンへ写した較正入力(観測値そのもの)。",
+       "noteEn": "The real Earth-spin / Moon-orbit ratio 27.396 copied into the initial spins — a calibration input (the observed value itself)."
+      },
+      "expected": {
+       "min": 27,
+       "max": 27.8
+      },
+      "descPattern": "月の公転の(\\d+\\.\\d+)倍=実比",
+      "testId": "behavior.earthMoonFree"
+     },
+     {
+      "id": "earthMoonFree.sync-error",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "syncErrorDegPerOrbit",
+      "chain": {
+       "ax": [
+        "A4",
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "潮汐固定(同期自転)の残差 — 較正入力の比を置いたまま、実走で同期が崩れないことを見る無較正の検証項目。",
+       "noteEn": "The residual of tidal locking — with the calibrated ratio in place, an uncalibrated check that synchronization does not drift in an actual run."
+      },
+      "expected": {
+       "min": 0.22,
+       "max": 0.4
+      },
+      "descPattern": "同期誤差 (\\d+\\.\\d+)°/周",
+      "testId": "behavior.earthMoonFree"
+     }
+    ],
+    "camera": {
+     "scale": 220
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 476.774878,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "osculating",
+     "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 5
+    },
+    "physics": {
+     "G": 1,
+     "D0": 2,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.0001,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 2,
+     "timeScale": 1,
+     "stepDt": 1.32437,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "rMul": 1.5,
+      "m": 1000,
+      "x": -2.187105191,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.028812128,
+      "spin": 0.36091106,
+      "pinned": false,
+      "core": {
+       "mode": "rigid",
+       "massFrac": 0.325,
+       "radius": 27.04163456597992
+      }
+     },
+     {
+      "type": "single",
+      "rMul": 1.5,
+      "m": 12.300037,
+      "x": 177.812894809,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.342442349,
+      "spin": 0.013173636,
+      "pinned": false,
+      "core": {
+       "mode": "rigid",
+       "massFrac": 0.0168,
+       "radius": 0.6818661148642011
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "地球も月も、どちらも固定しない二体の力学問題(2つの重心を基準に置く)。kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(コアv2 rigid: 地球 Mc/m=0.325・月 Mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。",
+    "status": {
+     "purpose": "どちらも固定しない地球–月の二体を保つ",
+     "objective": "met",
+     "state": "10 周で距離 ±1%・重心移動が門内",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.earthMoonFree"
+     ]
+    }
+   }
+  },
+  "saturn": {
+   "emoji": "🪐",
+   "name": "土星の環(実験)",
+   "familyId": "saturnToy",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "composite",
+   "presetSigHash": "da6f5cab",
+   "presetSigSha256": "63550f45c0484c5cdc2b44f97d832f81369856dc1eed0cf7cd2a46045b1b23c0",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "da6f5cab",
+    "name": "土星の環(実験)",
+    "sigSame": true
+   },
+   "successor": "saturnRingReal",
+   "reason": "geoPN=0 の古い環の実験 —— 土星の環は 💍・近点移動の照合は 📡",
+   "retiredNotice": {
+    "ja": "第88報: geoPN=0 の古い環の実験の廃止 —— 土星の環は実単位の 💍、近点移動の照合は 📡",
+    "en": "ruling 88: the old geoPN=0 ring experiment is retired — Saturn's rings are the real-unit 💍 and the apsidal comparison is 📡",
+    "see": [
+     "saturnRingReal",
+     "saturnZonalD68"
+    ]
+   },
+   "pairDiff": {
+    "successor": "saturnRingReal",
+    "successorEmoji": "💍",
+    "diff": {
+     "physics.D0": [
+      2,
+      0.1
+     ],
+     "physics.G": [
+      1,
+      6.674
+     ],
+     "physics.cLight": [
+      30,
+      29979.2458
+     ],
+     "physics.contactMode": [
+      null,
+      "none"
+     ],
+     "physics.dispMag": [
+      null,
+      1
+     ],
+     "physics.gammaN": [
+      0.15,
+      0
+     ],
+     "physics.geoPN": [
+      0,
+      1
+     ],
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "physics.kRep": [
+      1.2,
+      0
+     ],
+     "physics.kappaS": [
+      0.08,
+      0
+     ],
+     "physics.kappaT": [
+      0.0002777777777777778,
+      7.425826474101849e-9
+     ],
+     "physics.massFloor": [
+      null,
+      0.000001
+     ],
+     "physics.muF": [
+      0.2,
+      0
+     ],
+     "physics.q": [
+      2,
+      3
+     ],
+     "physics.softening": [
+      2,
+      0.05
+     ],
+     "physics.stateCarry": [
+      null,
+      "double"
+     ],
+     "physics.stepDt": [
+      null,
+      0.58
+     ],
+     "physics.timeScale": [
+      3,
+      1
+     ],
+     "bodies.length": [
+      4,
+      10
+     ],
+     "bodies[0].m": [
+      1500,
+      56.834
+     ],
+     "bodies[0].radius": [
+      null,
+      60.3
+     ],
+     "bodies[0].spin": [
+      0.05,
+      0.016528
+     ],
+     "bodies[1].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[1].m": [
+      null,
+      0.00000375
+     ],
+     "bodies[1].radius": [
+      null,
+      0.198
+     ],
+     "bodies[1].x": [
+      null,
+      185.5
+     ],
+     "bodies[1].y": [
+      null,
+      0
+     ],
+     "bodies[1].vx": [
+      null,
+      0
+     ],
+     "bodies[1].vy": [
+      null,
+      1.43
+     ],
+     "bodies[1].spin": [
+      null,
+      0
+     ],
+     "bodies[1].n": [
+      60,
+      null
+     ],
+     "bodies[1].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[1].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[1].rIn": [
+      104,
+      null
+     ],
+     "bodies[1].rOut": [
+      132,
+      null
+     ],
+     "bodies[2].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[2].m": [
+      null,
+      0.0000108
+     ],
+     "bodies[2].radius": [
+      null,
+      0.252
+     ],
+     "bodies[2].x": [
+      null,
+      119
+     ],
+     "bodies[2].y": [
+      null,
+      206.1
+     ],
+     "bodies[2].vx": [
+      null,
+      -1.0933
+     ],
+     "bodies[2].vy": [
+      null,
+      0.6312
+     ],
+     "bodies[2].spin": [
+      null,
+      0
+     ],
+     "bodies[2].n": [
+      120,
+      null
+     ],
+     "bodies[2].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[2].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[2].rIn": [
+      132,
+      null
+     ],
+     "bodies[2].rOut": [
+      190,
+      null
+     ],
+     "bodies[3].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[3].m": [
+      null,
+      0.0000617
+     ],
+     "bodies[3].radius": [
+      null,
+      0.531
+     ],
+     "bodies[3].x": [
+      null,
+      -147.3
+     ],
+     "bodies[3].y": [
+      null,
+      255.1311
+     ],
+     "bodies[3].vx": [
+      null,
+      -0.9825
+     ],
+     "bodies[3].vy": [
+      null,
+      -0.5673
+     ],
+     "bodies[3].spin": [
+      null,
+      0
+     ],
+     "bodies[3].n": [
+      60,
+      null
+     ],
+     "bodies[3].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[3].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[3].rIn": [
+      190,
+      null
+     ],
+     "bodies[3].rOut": [
+      212,
+      null
+     ]
+    },
+    "n": 61,
+    "named": {
+     "D0": [
+      2,
+      0.1
+     ],
+     "q": [
+      2,
+      3
+     ],
+     "bodies": 43
+    }
+   },
+   "raw": {
+    "id": "saturn",
+    "name": "土星の環(実験)",
+    "emoji": "🪐",
+    "group": "天体の機構",
+    "scaleTier": "planetary",
+    "sampleClass": "composite",
+    "notClaim": [
+     "solar"
+    ],
+    "familyId": "saturnToy",
+    "familyRole": "retired",
+    "descStruct": {
+     "summary": "氷の粒でできた土星の環を再現するサンプル。240個の氷粒(3つの環帯・60/120/60個、軽くて衝突でもエネルギーをあまり失わない muF=0.2/γN=0.15)を配置し、中心星のスピンが空間を引きずる(kFrame=1・A8空間の引きずり)条件のもとで、長時間安定な環になるかを見る。初期配置は t=300〜600 で落ち着いた分布に合わせてある。",
+     "observe": "実測(環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。κ=1/3600(旧表記 Kt=3600)は物理対応ロック κ=G/c² の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。",
+     "control": "おすすめA/Bは kFrame=1⇄0(環の内向き移動と離心率の差)。実在天体との照合の近点移動は 📡 を参照。",
+     "brief": "氷粒の環が長時間残るかを測る。達・帯内 97.1%・落下 0.4% が門内。較正対象外。"
+    },
+    "en": {
+     "name": "Saturn's Rings (Experimental)",
+     "descStruct": {
+      "summary": "A sample reproducing Saturn's icy rings. 240 icy grains (three bands of 60/120/60; low mass, low energy loss on collision: muF=0.2/γN=0.15) are set up under a condition where the central star's spin drags nearby space (kFrame=1, A8 frame dragging), to see whether the ring stays stable over time. The initial layout matches the settled distribution measured at t=300–600. ",
+      "observe": "Measured (the new 240-grain build): at t≈360, 97.1% stay in the band (90≤r≤290), 1 grain of 240 falls (r<85) and none escape (r>320); even at t≈1200 it is 98.8% in band, 1 fallen, 0 escaped (QA behavior.saturnExp). Note that the account of WHY it is stable has been weakened to match the measurements: with the same initial layout and only kFrame switched to 0, the ring is still 100% retained after 3000 steps and its RMS eccentricity is in fact LOWER (0.063 vs 0.142 at kFrame=1). Dragging pulls the ring inward (band median 159 vs 171) and raises eccentricity, so it cannot be said that dragging keeps the ring round (QA behavior.saturn-kframe-control). Friction muF barely acts either: the grain radii R=rMul·√m≈0.18–0.31 are tiny against the 104–212 ring span, so contacts are rare — at 3000 steps muF=0.2, 0 and 1.0 agree to full double precision, and even at 6000 steps switching muF off changes mean |spin| by only 1.7% and RMS eccentricity by 0.02% (QA behavior.saturn-muf-control). κ=1/3600 (legacy notation Kt=3600) satisfies the GR-calibration lock κ=G/c²; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. ",
+      "control": "Suggested A/B: kFrame 1 vs 0 (inward migration and the eccentricity difference). See 🛰️ for the observed-body comparison of the apsidal precession.",
+      "brief": "Measure whether a ring of ice grains survives a long run. Met: 97.1% stay in the band and 0.4% fall in, within the gate. Out of calibration scope."
+     },
+     "description": "A sample reproducing Saturn's icy rings. 240 icy grains (three bands of 60/120/60; low mass, low energy loss on collision: muF=0.2/γN=0.15) are set up under a condition where the central star's spin drags nearby space (kFrame=1, A8 frame dragging), to see whether the ring stays stable over time. The initial layout matches the settled distribution measured at t=300–600. Measured (the new 240-grain build): at t≈360, 97.1% stay in the band (90≤r≤290), 1 grain of 240 falls (r<85) and none escape (r>320); even at t≈1200 it is 98.8% in band, 1 fallen, 0 escaped (QA behavior.saturnExp). Note that the account of WHY it is stable has been weakened to match the measurements: with the same initial layout and only kFrame switched to 0, the ring is still 100% retained after 3000 steps and its RMS eccentricity is in fact LOWER (0.063 vs 0.142 at kFrame=1). Dragging pulls the ring inward (band median 159 vs 171) and raises eccentricity, so it cannot be said that dragging keeps the ring round (QA behavior.saturn-kframe-control). Friction muF barely acts either: the grain radii R=rMul·√m≈0.18–0.31 are tiny against the 104–212 ring span, so contacts are rare — at 3000 steps muF=0.2, 0 and 1.0 agree to full double precision, and even at 6000 steps switching muF off changes mean |spin| by only 1.7% and RMS eccentricity by 0.02% (QA behavior.saturn-muf-control). κ=1/3600 (legacy notation Kt=3600) satisfies the GR-calibration lock κ=G/c²; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. Suggested A/B: kFrame 1 vs 0 (inward migration and the eccentricity difference). See 🛰️ for the observed-body comparison of the apsidal precession.",
+     "status": {
+      "purpose": "Measure whether a ring of ice grains survives a long run",
+      "state": "97.1% stay in the band and 0.4% fall in, within the gate",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "muF",
+     "kFrame",
+     "kappaS"
+    ],
+    "claims": [
+     {
+      "id": "saturn.band-retention-t360",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "bandRetentionFraction",
+      "expected": {
+       "min": 0.95,
+       "max": 0.99
+      },
+      "descScale": 0.01,
+      "descPattern": "t≈360 で帯内\\(90≤r≤290\\)(\\d+\\.\\d+)%",
+      "testId": "behavior.saturnExp"
+     },
+     {
+      "id": "saturn.eccentricity-rms",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "metric": "eccentricityRMS",
+      "expected": {
+       "min": 0.1207,
+       "max": 0.1633
+      },
+      "descPattern": "kFrame=1 の (\\d+\\.\\d+)\\)",
+      "control": {
+       "patch": {
+        "kFrame": 0
+       },
+       "expected": {
+        "min": 0.0536,
+        "max": 0.0725
+       },
+       "descPattern": "離心率RMSはむしろ小さい\\((\\d+\\.\\d+) 対"
+      },
+      "testId": "behavior.saturn-kframe-control"
+     }
+    ],
+    "camera": {
+     "scale": 340
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "G": 1,
+     "D0": 2,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 1.2,
+     "muF": 0.2,
+     "gammaN": 0.15,
+     "kappaS": 0.08,
+     "kappaT": 0.0002777777777777778,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 2,
+     "timeScale": 3,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "rMul": 1.8,
+      "m": 1500,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.05,
+      "pinned": true
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 60,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 104,
+      "rOut": 132,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 120,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 132,
+      "rOut": 190,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 60,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 190,
+      "rOut": 212,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false
+    },
+    "description": "氷の粒でできた土星の環を再現するサンプル。240個の氷粒(3つの環帯・60/120/60個、軽くて衝突でもエネルギーをあまり失わない muF=0.2/γN=0.15)を配置し、中心星のスピンが空間を引きずる(kFrame=1・A8空間の引きずり)条件のもとで、長時間安定な環になるかを見る。初期配置は t=300〜600 で落ち着いた分布に合わせてある。実測(環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。κ=1/3600(旧表記 Kt=3600)は物理対応ロック κ=G/c² の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。おすすめA/Bは kFrame=1⇄0(環の内向き移動と離心率の差)。実在天体との照合の近点移動は 📡 を参照。",
+    "status": {
+     "purpose": "氷粒の環が長時間残るかを測る",
+     "objective": "met",
+     "state": "帯内 97.1%・落下 0.4% が門内",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.saturnExp"
+     ]
+    }
+   }
+  },
+  "saturnLayered": {
+   "emoji": "🎯",
+   "name": "土星の環(主星2層)",
+   "familyId": "saturnToy",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "composite",
+   "presetSigHash": "923ffdc6",
+   "presetSigSha256": "ecf11719ce1a24823b25de4c831f0e03b633aaf4a73468946ae755f52a945c87",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "923ffdc6",
+    "name": "土星の環(主星2層)",
+    "sigSame": true
+   },
+   "successor": "saturnRingReal",
+   "reason": "geoPN=0 の古い環の実験(主星 2 層の変種)—— 土星の環は 💍",
+   "retiredNotice": {
+    "ja": "第88報: geoPN=0 の古い環の実験(主星 2 層の変種)の廃止 —— 土星の環は実単位の 💍",
+    "en": "ruling 88: the old geoPN=0 ring experiment (the two-layer-primary variant) is retired — Saturn's rings are the real-unit 💍",
+    "see": [
+     "saturnRingReal"
+    ]
+   },
+   "pairDiff": {
+    "successor": "saturnRingReal",
+    "successorEmoji": "💍",
+    "diff": {
+     "physics.D0": [
+      2,
+      0.1
+     ],
+     "physics.G": [
+      1,
+      6.674
+     ],
+     "physics.cLight": [
+      30,
+      29979.2458
+     ],
+     "physics.contactMode": [
+      null,
+      "none"
+     ],
+     "physics.dispMag": [
+      null,
+      1
+     ],
+     "physics.gammaN": [
+      0.15,
+      0
+     ],
+     "physics.geoPN": [
+      0,
+      1
+     ],
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "physics.kRep": [
+      1.2,
+      0
+     ],
+     "physics.kappaS": [
+      0.08,
+      0
+     ],
+     "physics.kappaT": [
+      0.0002777777777777778,
+      7.425826474101849e-9
+     ],
+     "physics.massFloor": [
+      null,
+      0.000001
+     ],
+     "physics.muF": [
+      0.2,
+      0
+     ],
+     "physics.q": [
+      2,
+      3
+     ],
+     "physics.softening": [
+      2,
+      0.05
+     ],
+     "physics.stateCarry": [
+      null,
+      "double"
+     ],
+     "physics.stepDt": [
+      null,
+      0.58
+     ],
+     "physics.timeScale": [
+      3,
+      1
+     ],
+     "bodies.length": [
+      4,
+      10
+     ],
+     "bodies[0].m": [
+      1500,
+      56.834
+     ],
+     "bodies[0].radius": [
+      null,
+      60.3
+     ],
+     "bodies[0].spin": [
+      0.05,
+      0.016528
+     ],
+     "bodies[0].core": [
+      {
+       "mode": "differential",
+       "massFrac": 0.18,
+       "radius": 29.57701810527897,
+       "omega": 0.0525,
+       "Kcs": 0
+      },
+      null
+     ],
+     "bodies[1].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[1].m": [
+      null,
+      0.00000375
+     ],
+     "bodies[1].radius": [
+      null,
+      0.198
+     ],
+     "bodies[1].x": [
+      null,
+      185.5
+     ],
+     "bodies[1].y": [
+      null,
+      0
+     ],
+     "bodies[1].vx": [
+      null,
+      0
+     ],
+     "bodies[1].vy": [
+      null,
+      1.43
+     ],
+     "bodies[1].spin": [
+      null,
+      0
+     ],
+     "bodies[1].n": [
+      60,
+      null
+     ],
+     "bodies[1].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[1].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[1].rIn": [
+      104,
+      null
+     ],
+     "bodies[1].rOut": [
+      132,
+      null
+     ],
+     "bodies[2].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[2].m": [
+      null,
+      0.0000108
+     ],
+     "bodies[2].radius": [
+      null,
+      0.252
+     ],
+     "bodies[2].x": [
+      null,
+      119
+     ],
+     "bodies[2].y": [
+      null,
+      206.1
+     ],
+     "bodies[2].vx": [
+      null,
+      -1.0933
+     ],
+     "bodies[2].vy": [
+      null,
+      0.6312
+     ],
+     "bodies[2].spin": [
+      null,
+      0
+     ],
+     "bodies[2].n": [
+      120,
+      null
+     ],
+     "bodies[2].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[2].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[2].rIn": [
+      132,
+      null
+     ],
+     "bodies[2].rOut": [
+      190,
+      null
+     ],
+     "bodies[3].type": [
+      "ring",
+      "single"
+     ],
+     "bodies[3].m": [
+      null,
+      0.0000617
+     ],
+     "bodies[3].radius": [
+      null,
+      0.531
+     ],
+     "bodies[3].x": [
+      null,
+      -147.3
+     ],
+     "bodies[3].y": [
+      null,
+      255.1311
+     ],
+     "bodies[3].vx": [
+      null,
+      -0.9825
+     ],
+     "bodies[3].vy": [
+      null,
+      -0.5673
+     ],
+     "bodies[3].spin": [
+      null,
+      0
+     ],
+     "bodies[3].n": [
+      60,
+      null
+     ],
+     "bodies[3].mMin": [
+      0.01,
+      null
+     ],
+     "bodies[3].mMax": [
+      0.03,
+      null
+     ],
+     "bodies[3].rIn": [
+      190,
+      null
+     ],
+     "bodies[3].rOut": [
+      212,
+      null
+     ]
+    },
+    "n": 62,
+    "named": {
+     "D0": [
+      2,
+      0.1
+     ],
+     "q": [
+      2,
+      3
+     ],
+     "bodies": 44
+    }
+   },
+   "raw": {
+    "id": "saturnLayered",
+    "name": "土星の環(主星2層)",
+    "emoji": "🎯",
+    "group": "天体の機構",
+    "scaleTier": "planetary",
+    "sampleClass": "composite",
+    "notClaim": [
+     "solar"
+    ],
+    "familyId": "saturnToy",
+    "familyRole": "retired",
+    "seed": 1501780989,
+    "descStruct": {
+     "summary": "🪐 土星の環の姉妹版 — 中心星に**コア(核)**を入れ(コアv2・質量比 Mc/m=0.18・全体の質量 1500 は不変)、**コアと殻の差動 Ω_c−s だけが追加の空間引きずり(A8)として環に効く**ことを見る。**効き目は「あるが微弱」が正直な結論**: 剛体回転(mode=\"rigid\"・差動ゼロ)との帯中央値差は t≈150 で 0.036(QA behavior.saturnLayered)。環は 🪐 と同一(氷粒 240・3帯 60/120/60)で、衝突円形化(T3)も同じ。",
+     "observe": "コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は旧既定写像 Rc/R=√|Mc/m| により質量比から算出したモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。コアv2 は独立した角運動量 J_core を持ち、コア角速度 Ω_c と殻スピン s の差動分だけが ω += (Mc/m)·(Ω_c−s)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 Ω_c=0.0525=1.05×0.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、コア対表層のスピン比としては確定していない。mode=\"rigid\" が剛体回転=差動ゼロの中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。氷粒の衝突円形化(T3)は 🪐 と同一。",
+     "control": "中心天体をタップすると「コア内訳(v2)」に Ω_c/Ω_s/差動・J_core・慣性・K_cs が出る。A/B比較で kFrame=1 vs 0 にすると引きずりの寄与そのものを消せる。高速コア・逆回転コア・空洞(cavity)を試すときは JSON の core:{omega:…} / core:{mode:\"cavity\", voidFraction:…} を編集する。",
+     "brief": "主星のコアと殻の差動が環に効くかを見る。達・等価性と差動コアの効果を検査で確認。較正対象外。"
+    },
+    "en": {
+     "name": "Saturn's Rings (Two-Layer Primary)",
+     "descStruct": {
+      "summary": "A sister sample to 🪐 Saturn's Rings, giving the central star an inner 'core' (Core v2 — mass fraction Mc/m=0.18; the total mass m stays 1500) to see that ONLY THE CORE–SHELL DIFFERENTIAL Ω_c−s adds frame dragging (A8) on the ring. THE HONEST CONCLUSION IS 'PRESENT BUT FAINT': the band-median difference against rigid rotation (mode=\"rigid\", zero differential) is 0.036 at t≈150 (QA behavior.saturnLayered). The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60) and so is the collisional circularization (T3). ",
+      "observe": "Measured: at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (mode=\"rigid\") is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio Mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value derived from that mass ratio by the legacy default mapping Rc/R=√|Mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). Core v2 gives the core its own angular momentum J_core, and only the differential between the core's angular velocity Ω_c and the shell spin s adds frame dragging (A8) through the smaller core kernel: ω += (Mc/m)·(Ω_c−s)·f(Rc,d). The default Ω_c=0.0525 (=1.05×0.05) is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and a core-vs-envelope spin ratio is not established (mode=\"rigid\" is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Icy-grain circularization (T3) is identical to 🪐. ",
+      "control": "Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0.",
+      "brief": "See whether the primary's core–shell differential acts on the ring. Met: the equivalences and the differential-core effect are checked. Out of calibration scope."
+     },
+     "description": "A sister sample to 🪐 Saturn's Rings, giving the central star an inner 'core' (Core v2 — mass fraction Mc/m=0.18; the total mass m stays 1500) to see that ONLY THE CORE–SHELL DIFFERENTIAL Ω_c−s adds frame dragging (A8) on the ring. THE HONEST CONCLUSION IS 'PRESENT BUT FAINT': the band-median difference against rigid rotation (mode=\"rigid\", zero differential) is 0.036 at t≈150 (QA behavior.saturnLayered). The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60) and so is the collisional circularization (T3). Measured: at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (mode=\"rigid\") is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio Mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value derived from that mass ratio by the legacy default mapping Rc/R=√|Mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). Core v2 gives the core its own angular momentum J_core, and only the differential between the core's angular velocity Ω_c and the shell spin s adds frame dragging (A8) through the smaller core kernel: ω += (Mc/m)·(Ω_c−s)·f(Rc,d). The default Ω_c=0.0525 (=1.05×0.05) is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and a core-vs-envelope spin ratio is not established (mode=\"rigid\" is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Icy-grain circularization (T3) is identical to 🪐. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0.",
+     "status": {
+      "purpose": "See whether the primary's core–shell differential acts on the ring",
+      "state": "the equivalences and the differential-core effect are checked",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "muF",
+     "kappaS"
+    ],
+    "claims": [
+     {
+      "id": "saturnLayered.core-mass-ratio",
+      "kind": "semantic",
+      "prov": "definition",
+      "metric": "coreMassRatio",
+      "expected": {
+       "min": 0.17,
+       "max": 0.19
+      },
+      "descScale": 0.01,
+      "descPattern": "コア質量比 (\\d+)%",
+      "testId": "core.twolayer"
+     },
+     {
+      "id": "saturnLayered.core-radius-ratio",
+      "kind": "semantic",
+      "prov": "definition",
+      "metric": "coreRadiusRatio",
+      "expected": {
+       "min": 0.4,
+       "max": 0.45
+      },
+      "descScale": 0.01,
+      "descPattern": "コア半径比 Rc/R=(\\d+)%",
+      "testId": "core.twolayer"
+     }
+    ],
+    "camera": {
+     "scale": 340
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "observe",
+     "tObs": 9.6,
+     "note": "観察の基準 600 步 —— 円盤・環の粒子群(1 公転を与えない)"
+    },
+    "physics": {
+     "G": 1,
+     "D0": 2,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 1.2,
+     "muF": 0.2,
+     "gammaN": 0.15,
+     "kappaS": 0.08,
+     "kappaT": 0.0002777777777777778,
+     "cLight": 30,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 2,
+     "timeScale": 3,
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "rMul": 1.8,
+      "m": 1500,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.05,
+      "pinned": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.18,
+       "radius": 29.57701810527897,
+       "omega": 0.0525,
+       "Kcs": 0
+      }
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 60,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 104,
+      "rOut": 132,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 120,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 132,
+      "rOut": 190,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "rMul": 1.8,
+      "n": 60,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 190,
+      "rOut": 212,
+      "mMin": 0.01,
+      "mMax": 0.03,
+      "spinMin": 0,
+      "spinMax": 0.25,
+      "vMode": "kepler",
+      "aroundMass": 1500,
+      "omega": 0,
+      "vNoise": 0.01,
+      "direction": 1,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false
+    },
+    "description": "🪐 土星の環の姉妹版 — 中心星に**コア(核)**を入れ(コアv2・質量比 Mc/m=0.18・全体の質量 1500 は不変)、**コアと殻の差動 Ω_c−s だけが追加の空間引きずり(A8)として環に効く**ことを見る。**効き目は「あるが微弱」が正直な結論**: 剛体回転(mode=\"rigid\"・差動ゼロ)との帯中央値差は t≈150 で 0.036(QA behavior.saturnLayered)。環は 🪐 と同一(氷粒 240・3帯 60/120/60)で、衝突円形化(T3)も同じ。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は旧既定写像 Rc/R=√|Mc/m| により質量比から算出したモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。コアv2 は独立した角運動量 J_core を持ち、コア角速度 Ω_c と殻スピン s の差動分だけが ω += (Mc/m)·(Ω_c−s)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 Ω_c=0.0525=1.05×0.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、コア対表層のスピン比としては確定していない。mode=\"rigid\" が剛体回転=差動ゼロの中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。氷粒の衝突円形化(T3)は 🪐 と同一。中心天体をタップすると「コア内訳(v2)」に Ω_c/Ω_s/差動・J_core・慣性・K_cs が出る。A/B比較で kFrame=1 vs 0 にすると引きずりの寄与そのものを消せる。高速コア・逆回転コア・空洞(cavity)を試すときは JSON の core:{omega:…} / core:{mode:\"cavity\", voidFraction:…} を編集する。",
+    "status": {
+     "purpose": "主星のコアと殻の差動が環に効くかを見る",
+     "objective": "met",
+     "state": "等価性と差動コアの効果を検査で確認",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "core.twolayer"
+     ]
+    }
+   }
+  },
+  "earthMoonDiagOne": {
+   "emoji": "🌓",
+   "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+   "familyId": "earthmoon",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "21245e6c",
+   "presetSigSha256": "260abce179e1e9b184113d2e90a6eecb64c46b61e14cac9a8e6769362ddebfab",
+   "base": {
+    "rev": "581ad5d",
+    "presetSigHash": "21245e6c",
+    "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+    "sigSame": true
+   },
+   "successor": "earthMoonReal",
+   "reason": "geoPN=1 の不要な診断コピー(表裏核への経路の置換)—— 入口は 🌙・機構実験は 🌘",
+   "retiredNotice": {
+    "ja": "第88報: geoPN=1 の不要な診断コピー(表裏核への経路の置換)の廃止 —— 地球と月の入口は 🌙、引きずりの機構実験は 🌘",
+    "en": "ruling 88: the unneeded geoPN=1 diagnostic copy (the route swapped to the front–back kernel) is retired — the Earth–Moon entry point is 🌙 and the dragging mechanism experiment is 🌘",
+    "see": [
+     "earthMoonReal",
+     "earthMoonRealKF1"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonReal",
+    "successorEmoji": "🌙",
+    "diff": {
+     "physics.D0": [
+      0.006,
+      0.1
+     ],
+     "physics.frameWeight": [
+      null,
+      "share"
+     ],
+     "physics.meshVelocity": [
+      {
+       "law": "vMinusU",
+       "field": "explicit",
+       "mutual": 0,
+       "external": [
+        "body:0"
+       ],
+       "frame": {
+        "origin": "barycenter",
+        "epoch": "🌘 t=0",
+        "rotation": "none",
+        "translation": "comoving"
+       }
+      },
+      null
+     ],
+     "physics.q": [
+      8.2358,
+      3
+     ],
+     "physics.qLock": [
+      {
+       "kernel": "frontBack",
+       "epsC": 0,
+       "nodes": 16
+      },
+      null
+     ],
+     "bodies[0].vy": [
+      -0.0013130341660799998,
+      -0.0013146
+     ],
+     "bodies[1].vy": [
+      0.10778098964585296,
+      0.1068788
+     ]
+    },
+    "n": 7,
+    "named": {
+     "D0": [
+      0.006,
+      0.1
+     ],
+     "q": [
+      8.2358,
+      3
+     ],
+     "bodies": 2
+    }
+   },
+   "raw": {
+    "id": "earthMoonDiagOne",
+    "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+    "emoji": "🌓",
+    "group": "現実較正",
+    "familyId": "earthmoon",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    },
+    "sampleClass": "principle",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "近点移動(27 周窓・dt 0.016・近点検出器 B)",
+      "model": "1.072×10⁻³ °/周(周期 2.57×10⁴ 年・8 公転窓も同値)・点源 −3.598×10⁻⁵ との差 +1.11×10⁻³ —— 🌘 は 2.7322",
+      "obs": "🌘 と同じ抽出器の値を並記(PHYSICS〔第280便b〕の 1 表)"
+     },
+     {
+      "q": "月の座標での移送 u_φ(t=0)",
+      "model": "u_φ=2.830 m/s(地球の並進 V_E に上乗せ)・恒星月 27.950 日(🌘 27.317 日 —— 並進の移送で月の質量の寄与が抜ける)",
+      "obs": "—(c² 抑制なし — 導出できていない)"
+     },
+     {
+      "q": "表裏核の振幅 / 現行核(a=月)",
+      "model": "3.56×10¹⁰ 倍(表裏核 1.067×10⁻⁴・現行 3.000×10⁻¹⁵)・同じ振幅の単一べき q 相当 2.2523(fit ではない)",
+      "obs": "—(一致は期待しない)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**表裏核には c² の抑制が無い**: 地球の自転が月の位置に作る移送の角速度は、現行の q_exact=8.2358 の核(=レンズ=サーリング級)の 約 3.56×10¹⁰ 倍になる。旧 q に合わせて振幅を縮める操作(再 fit)は**していない** —— 弱場振幅をどう置くかは**導出できていない**(決断事項)。",
+     "pass": "🌘 と同じ初期状態から**経路だけ**を置き換えた診断コピーで、同じ抽出器・同じ窓で並べられる(PHYSICS〔第280便b〕の 1 表)。表裏核は遠方で W→M/r²・A_φ→IΩ/r³ に一致し(相対誤差は r⁻² で縮む)、密度クラスは同じ積分則への物理入力(ρ・Ω)として入る。"
+    },
+    "descStruct": {
+     "summary": "🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した慣性決定力モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。",
+     "observe": "月の近点移動は 27 公転窓で 1.072×10⁻³ °/周(近点回転の周期 2.57×10⁴ 年)で、🌘(2.7322 °/周)の約 1/2500 —— 地球の自転が作る表裏核の移送 u_φ=2.830 m/s(公転速度の 0.26%)があっても近点はほとんど回らない。恒星月は 27.950 日(🌘 より 2.3% 長い)—— 外部の場を地球だけにした mutual:0 では月が地球の並進ごと運ばれ、相対加速度から月自身の質量の寄与が抜ける。判定は門の外(principle の診断コピー)。",
+     "control": "ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と 🌙(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=1)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。",
+     "brief": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"
+    },
+    "en": {
+     "name": "Earth & Moon (front–back kernel diagnostic) — same initial state, only the route replaced",
+     "obsCard": [
+      {
+       "q": "Apsidal advance (27-orbit window, dt 0.016, detector B)",
+       "model": "1.072e-3 deg/orbit (apsidal period 2.57e4 yr; same over 8 orbits); +1.11e-3 above the point source (-3.598e-5) — 🌘 gives 2.7322",
+       "obs": "listed next to 🌘 with the same extractor (PHYSICS [wave 280b] table)"
+      },
+      {
+       "q": "Transport u_φ at the Moon (t=0)",
+       "model": "u_φ = 2.830 m/s on top of the Earth's translation; sidereal month 27.950 d (🌘 27.317 d — translation transport removes the Moon's own mass from the relative pull)",
+       "obs": "— (no c² suppression — not derived)"
+      },
+      {
+       "q": "Front–back amplitude / current kernel (a = Moon)",
+       "model": "3.56e10 times (front–back 1.067e-4 vs current 3.000e-15); single power with the same amplitude q ≈ 2.2523 (not a fit)",
+       "obs": "— (agreement is not expected)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THE FRONT–BACK KERNEL HAS NO c² SUPPRESSION: the angular velocity of the transport that the Earth's spin produces at the Moon is about 3.56e10 times that of the current q_exact=8.2358 kernel (Lense–Thirring class). The amplitude is NOT shrunk to match the old q (no refit) — how to set the weak-field amplitude is NOT DERIVED (a decision item).",
+      "pass": "A diagnostic copy that replaces ONLY THE ROUTE from 🌘's initial state, so it can be listed with the same extractor and the same window (PHYSICS [wave 280b] table). Far away the kernel matches W→M/r² and A_φ→IΩ/r³ (the relative error shrinks as r⁻²); the density class enters as physical input (ρ, Ω) to one integration rule."
+     },
+     "descStruct": {
+      "summary": "The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE INERTIAL-DETERMINACY MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).",
+      "observe": "The Moon's apsidal advance over the 27-orbit window is 1.072e-3 deg/orbit (apsidal period 2.57e4 yr), about 1/2500 of 🌘 (2.7322 deg/orbit): even with the front–back transport u_φ = 2.830 m/s from the Earth's spin (0.26% of the orbital speed) the apse barely turns. The sidereal month is 27.950 d (2.3% longer than 🌘): with mutual:0 and the Earth as the only external field, the Moon is carried along with the Earth's translation and its own mass drops out of the relative pull. Outside the gates (a principle diagnostic copy).",
+      "control": "The one-tap controls are 🌘 (kFrame=1, q_exact) and 🌙 (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=1) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived).",
+      "brief": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport. Met: apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the same real values as 🌘 (Earth 5.9724e24 kg / 6.38e6 m / 23.93 h; Moon 7.346e22 kg / 1.74e6 m)",
+       "real G=6.674 and c₀=3e4"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 1e6 m / 1e2 s / 1e25 kg)",
+       "kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[Earth]}",
+       "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}",
+       "the Earth densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44} (illustrative — the source is a decision item), rigid rotation",
+       "geoPN=1, λ_PN=1, pnα=1.5 (reads the inertial velocity v)",
+       "stateCarry:\"double\", massFloor=1e-6"
+      ],
+      "fitted": [],
+      "derived": [
+       "the Moon's inertial velocity v=ẋ−u(0) (ẋ = 🌘's declared value)",
+       "κ=G/c₀²=7.4258e-9"
+      ],
+      "numerical": [
+       "softening ε=0.1 (gravity) — ε_c=0 for the inertial determinacy field (a separate declaration)",
+       "timeScale=1 (≈360 steps/orbit)",
+       "dispMag=10 (display only)"
+      ]
+     },
+     "description": "The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE INERTIAL-DETERMINACY MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).The Moon's apsidal advance over the 27-orbit window is 1.072e-3 deg/orbit (apsidal period 2.57e4 yr), about 1/2500 of 🌘 (2.7322 deg/orbit): even with the front–back transport u_φ = 2.830 m/s from the Earth's spin (0.26% of the orbital speed) the apse barely turns. The sidereal month is 27.950 d (2.3% longer than 🌘): with mutual:0 and the Earth as the only external field, the Moon is carried along with the Earth's translation and its own mass drops out of the relative pull. Outside the gates (a principle diagnostic copy).The one-tap controls are 🌘 (kFrame=1, q_exact) and 🌙 (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=1) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived).",
+     "status": {
+      "purpose": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport",
+      "state": "apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "🌘 と同じ実値(地球 5.9724×10²⁴kg・6.38×10⁶m・23.93時間/月 7.346×10²²kg・1.74×10⁶m)",
+      "実 G=6.674・c₀=29979.2458"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)",
+      "kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[地球]}",
+      "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}",
+      "地球 densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44}(形の例示 — 出典は決断事項)・剛体回転",
+      "geoPN=1・λ_PN=1・pnα=1.5(慣性速度 v を読む)",
+      "stateCarry:\"double\"・massFloor=1e-6"
+     ],
+     "fitted": [],
+     "derived": [
+      "月の慣性速度 v=ẋ−u(0)(ẋ は 🌘 の宣言値)",
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.1(重力)— 慣性決定力場は ε_c=0(別の宣言)",
+      "時間倍率 timeScale=1・画面の刻み stepDt=65.5721",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 450
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 23605.9488,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 100
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 8.2358,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.1,
+     "timeScale": 1,
+     "stepDt": 65.5721,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "meshVelocity": {
+      "law": "vMinusU",
+      "field": "explicit",
+      "mutual": 0,
+      "external": [
+       "body:0"
+      ],
+      "frame": {
+       "origin": "barycenter",
+       "epoch": "🌘 t=0",
+       "rotation": "none",
+       "translation": "comoving"
+      }
+     },
+     "qLock": {
+      "kernel": "frontBack",
+      "epsC": 0,
+      "nodes": 16
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.59724,
+      "radius": 6.38,
+      "x": -4.41822,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.0013130341660799998,
+      "spin": 0.0072921,
+      "pinned": false,
+      "pnSource": true,
+      "densityClass": "solid",
+      "densityProfile": {
+       "coreFrac": 0.546,
+       "coreRatio": 2.44
+      },
+      "rotationProfile": {
+       "law": "rigid"
+      }
+     },
+     {
+      "type": "single",
+      "m": 0.007346,
+      "radius": 1.74,
+      "x": 359.2071,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.10778098964585296,
+      "spin": 0.00026617,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した慣性決定力モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。月の近点移動は 27 公転窓で 1.072×10⁻³ °/周(近点回転の周期 2.57×10⁴ 年)で、🌘(2.7322 °/周)の約 1/2500 —— 地球の自転が作る表裏核の移送 u_φ=2.830 m/s(公転速度の 0.26%)があっても近点はほとんど回らない。恒星月は 27.950 日(🌘 より 2.3% 長い)—— 外部の場を地球だけにした mutual:0 では月が地球の並進ごと運ばれ、相対加速度から月自身の質量の寄与が抜ける。判定は門の外(principle の診断コピー)。ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と 🌙(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=1)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。",
+    "status": {
+     "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
+     "objective": "met",
+     "state": "近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/emgrid-w280b.json",
+      "tests/out/spherekernel-w280b.json"
+     ]
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "earthMoon",
+   "emoji": "🌍",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "33e940ad",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonFree",
+   "emoji": "🌕",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "9d077da9",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "change": {
+    "obsCardRows": [
+     7,
+     8
+    ]
+   },
+   "presetSigSame": false,
+   "presetSigHash": "158e541b",
+   "physicsSame": false,
+   "bodiesSame": false,
+   "obsCardAdded": [
+    {
+     "q": "補正の共通性(第296便までの値 —— 第297便a で D0pull と初速は再フィット・他の本と共通でなくなった)",
+     "model": "第242便 pull: D0pull=3.24×10⁻⁵(3.24×10⁸ kg/m² — 共通の pull 用量)+初速 −0.12% の共同 fit・D₀=0.006(E1′)・q は qLock 自動算出",
+     "obs": "—"
+    }
+   ]
+  },
+  {
+   "id": "earthMoonSunInertial",
+   "emoji": "🌤️",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "c6e13783",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "21245e6c",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "mercurySunInertial",
+   "emoji": "🟤",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "8ab2b5d8",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "plutoCharonInertial",
+   "emoji": "🟣",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "d9dc259c",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "saturn",
+   "emoji": "🪐",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "da6f5cab",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "saturnLayered",
+   "emoji": "🎯",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "923ffdc6",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "wave": "第298便b",
+ "ruling": "原仮定者の裁定(第88報)・統括の検証項目 R166",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "048053fedcfa72b4267cf8830eeb06a53ee4fa8532c8b85d11a646a01aae0b48",
+  "note": "第298便b の html(8 本の退役の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "581ad5d",
+  "commit": "581ad5daa03e6486ee9249e64ad0d37c5ca3003e",
+  "file": "beta/index.html",
+  "sha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb"
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "581ad5d",
+   "commit": "823fd5223ecc44d6ac65950172fc6da60d9f227c",
+   "date": "2026-10-09T19:57:22.414Z",
+   "targetSha256": "f4c2cf751d0d3b57e0981f29510ce35b72283dfb32b83f07fd3952c8850159bb",
+   "total": 1092
+  },
+  "tests": []
+ }
+}
