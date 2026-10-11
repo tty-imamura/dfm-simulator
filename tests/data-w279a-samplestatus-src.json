@@ -137,6 +137,18 @@
     "state": "out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285"
    }
   },
+  "chainSpreadToy3d": {
+   "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
+   "objective": "met",
+   "state": "重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす",
+   "evidence": [
+    "tests/out/geo4stable-w299d.json"
+   ],
+   "en": {
+    "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
+    "state": "no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met"
+   }
+  },
   "coord3dKeplerTilt": {
    "purpose": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る",
    "objective": "met",
@@ -1488,6 +1500,18 @@
    "en": {
     "purpose": "geoPN=4 check: a uniform coordinate change keeps the periapsis advance",
     "state": "null test (pn off, λ_PN=0): differs from Newton by ~1e-11 deg/orbit"
+   }
+  },
+  "mercuryMeshMigrate3d": {
+   "purpose": "🔁 の零試験を三次元の慣性決定力へ移し座標の回転と一様な速度で近点率を見る",
+   "objective": "met",
+   "state": "平面は 🟫 とビット同一・30° の差 5.0e-5″/世紀・一様な速度 −5.3e-4″/世紀",
+   "evidence": [
+    "tests/out/geo4stable-w299d.json"
+   ],
+   "en": {
+    "purpose": "Move 🔁's null test to 3D inertial determinacy; check rotation, uniform velocity",
+    "state": "planar copy bit-identical to 🟫; 30 deg tilt 5.0e-5 arcsec/cy; uniform velocity -5.3e-4"
    }
   },
   "solarInner": {
