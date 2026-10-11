@@ -30,7 +30,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import { inPlaneLongitude } from './exp-w298c-moon3d.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.fitCondSig","HP.inertialDragState","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w299c-planets3d-1';
@@ -334,7 +334,7 @@ export function emitBooks(HP, J) {
         physicsPatch: { relativeDrag: { law: 'inertial', gain: 0, eps: 0.05, history: 'positions', pairs: 'all' } } };
       fittedJ = [`gain(relativeDrag.gain)= ${f.gain} [L³/M] —— gain 0 の対照との近点率の差を 43.0″/世紀に合わせた 1 次元フィット(三次元・対数格子で挟む → Illinois → 7 桁・残差 ${ne(t0.residual, 2)}″/世紀・h/2 の差 ${ne(t0.numerics.h2, 2)})。記録は fitRecord`];
       fittedE = [`gain (relativeDrag.gain) = ${f.gain} [L^3/M] - a one-dimensional fit (in 3D) of the apsidal-rate difference from the gain-0 control to 43.0 arcsec/century (log-grid bracket, Illinois, 7 digits; residual ${ne(t0.residual, 2)}, h/2 gap ${ne(t0.numerics.h2, 2)}). The record is fitRecord`];
-      notClaim = ['perihelion_43_fit', 'gain_universal_fit', 'planet3d_seed'];
+      notClaim = ['solar_cal', 'perihelion_43_fit', 'gain_universal_fit', 'planet3d_seed'];
     } else {
       const t = b.transfer, nt = NO_TARGET[b.key];
       name = `太陽と${pl.ja}(慣性決定力版・三次元)— gain 0 の基準`; nameE = `Sun & ${pl.en} (inertial determinacy, 3D) — the gain-0 baseline`;
@@ -356,7 +356,7 @@ export function emitBooks(HP, J) {
       ab = { label: { ja: `水星の三次元のフィット値を移送(gain ${t.gain} —— 同じ SI・合わせていない)`, en: `carry Mercury's 3D fitted value (gain ${t.gain} - the same SI, not a fit)` },
         physicsPatch: { relativeDrag: { law: 'inertial', gain: t.gain, eps: 0.05, history: 'positions', pairs: 'all' } } };
       fittedJ = ['**無し** —— 標的の観測行なし(gain 0・次の見直し)']; fittedE = ['NOTHING - no observational target row (gain 0; next review)'];
-      notClaim = ['planet3d_no_target', 'gain_universal_fit', 'planet3d_seed'];
+      notClaim = ['solar_cal', 'planet3d_no_target', 'gain_universal_fit', 'planet3d_seed'];
     }
     const observeJ = `トレイルで${pl.ja}の楕円が閉じるのを見る。視点のスライダーで横から見ると、軌道面が黄道(xy 面)に対して ${el.I}° 傾いているのが見える。数は説明タブの観測カード${mer ? 'と「フィットの記録」' : ''}。`;
     const observeE = `Use the trail to watch ${pl.en}'s ellipse close. Turn the view slider to look side-on and the orbital plane is seen tilted ${el.I} deg to the ecliptic (the xy plane). The numbers are in the observation card${mer ? ' and the fit record' : ''} of the explanation tab.`;

@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便c",
   "target": "beta/index.html",
-  "targetSha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-  "generatedAt": "2026-10-11T05:16:41.284Z",
+  "targetSha256": "4264c624d0d46a049ad44803aa9a4de6c9116aa0129731dab7abcaabb196708e",
+  "generatedAt": "2026-10-11T06:38:28.294Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6337385,
-    "sha256": "f5c615e6f5c7a62d98405b6f8c2ab3bc3495a2c2931f496f49e8c2dc4beecdf5",
-    "mtime": "2026-10-11T05:00:24.160Z"
+    "bytes": 6440370,
+    "sha256": "4264c624d0d46a049ad44803aa9a4de6c9116aa0129731dab7abcaabb196708e",
+    "mtime": "2026-10-11T06:34:02.320Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 27325,
-    "sha256": "3b65027eba16f05c9297eacbd56a3f1074f6eaca2bbc06e13edda24b01a68068",
-    "mtime": "2026-10-11T05:13:07.319Z"
+    "bytes": 50761,
+    "sha256": "d6ec37c28ee432a5afffc3569806c1700f7a73d19bc011d0b4fbea2273d844c4",
+    "mtime": "2026-10-11T06:23:21.264Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-11T05:00:24.796Z"
    }
   ],
-  "codeSha256": "ba949cd369453535755ac92d2befe9c190162eeff562355fa9c3fe6c7d97570c",
+  "codeSha256": "187f026baeb9cdc1aa18548e7fc8b61718f639c58314ea3922b6c841b13c82d0",
   "harnessVersion": "w299c-planets3d-1",
   "extractorVersion": "w299c-plx3-1",
   "loadErrors": 0,
@@ -75,23 +75,26 @@
    "roots": [
     "$",
     "DT",
+    "FIT_RECORD_VERSION",
     "HP.FIT_COND_VERSION",
     "HP.REL_DRAG_INERTIAL_VERSION",
     "HP.allPresets",
     "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
     "HP.fitCondSig",
     "HP.inertialDragState",
+    "HP.sim",
     "HP.validateFitRecord",
     "HP.validatePreset"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1158,
-   "segments": 1058,
-   "closureShare": 0.3256
+   "names": 1159,
+   "segments": 1059,
+   "closureShare": 0.3201
   },
-  "scopeSha256": "cbe96dacf106ac73101040be7a279d555159cf7b41cbec57e08a6139464e8931",
+  "scopeSha256": "a7afd392e4cf73454b4dc719b10d9023cef407ab468fc98c2d0c0bd208126451",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1310,172 +1313,172 @@
  "ok": true,
  "timing": {
   "mercury-g0-h": {
-   "wallSec": 10.192
+   "wallSec": 19.13
   },
   "mercury-g0-h2": {
-   "wallSec": 19.902
+   "wallSec": 35.639
   },
   "venus-g0-h": {
-   "wallSec": 9.135
+   "wallSec": 17.09
   },
   "mars-g0-h": {
-   "wallSec": 9.144
+   "wallSec": 21.821
   },
   "venus-g0-h2": {
-   "wallSec": 20.383
+   "wallSec": 28.869
   },
   "jupiter-g0-h": {
-   "wallSec": 8.113
+   "wallSec": 17.275
   },
   "mars-g0-h2": {
-   "wallSec": 19.282
-  },
-  "saturn-g0-h": {
-   "wallSec": 9.306
+   "wallSec": 33.08
   },
   "jupiter-g0-h2": {
-   "wallSec": 21.693
+   "wallSec": 28.915
+  },
+  "saturn-g0-h": {
+   "wallSec": 19.405
   },
   "uranus-g0-h": {
-   "wallSec": 15.002
+   "wallSec": 16.914
   },
   "saturn-g0-h2": {
-   "wallSec": 29.836
+   "wallSec": 33.456
   },
   "neptune-g0-h": {
-   "wallSec": 12.84
+   "wallSec": 8.244
   },
   "uranus-g0-h2": {
-   "wallSec": 22.783
+   "wallSec": 24.902
   },
   "neptune-g0-h2": {
-   "wallSec": 16.694
-  },
-  "mer-grid1": {
-   "wallSec": 1.409
+   "wallSec": 14.404
   },
   "mer-grid0": {
-   "wallSec": 1.911
+   "wallSec": 1.135
+  },
+  "mer-grid1": {
+   "wallSec": 1.993
   },
   "mer-grid2": {
-   "wallSec": 1.629
+   "wallSec": 1.996
   },
   "mer-grid3": {
-   "wallSec": 1.634
-  },
-  "mer-grid4": {
-   "wallSec": 1.829
+   "wallSec": 1.917
   },
   "mer-grid5": {
-   "wallSec": 1.577
+   "wallSec": 1.194
   },
-  "mer-grid6": {
-   "wallSec": 1.453
+  "mer-grid4": {
+   "wallSec": 2.006
   },
   "mer-grid7": {
-   "wallSec": 1.471
+   "wallSec": 1.592
+  },
+  "mer-grid6": {
+   "wallSec": 2.457
   },
   "mer-grid8": {
-   "wallSec": 1.521
+   "wallSec": 1.357
   },
   "mer-grid9": {
-   "wallSec": 1.291
+   "wallSec": 1.419
   },
   "mer-grid10": {
-   "wallSec": 1.49
+   "wallSec": 1.823
   },
   "mer-grid11": {
-   "wallSec": 1.969
+   "wallSec": 1.806
   },
   "mer-grid12": {
-   "wallSec": 1.217
+   "wallSec": 1.135
   },
   "mer-it0": {
-   "wallSec": 1.225
+   "wallSec": 1.431
   },
   "mer-it1": {
-   "wallSec": 1.165
+   "wallSec": 1.275
   },
   "mer-it2": {
-   "wallSec": 1.248
+   "wallSec": 1.364
   },
   "mer-it3": {
-   "wallSec": 1.207
+   "wallSec": 1.226
   },
   "mer-it4": {
-   "wallSec": 1.346
+   "wallSec": 1.202
   },
   "mer-it5": {
-   "wallSec": 1.254
+   "wallSec": 1.246
   },
   "mer-it6": {
-   "wallSec": 1.325
-  },
-  "mer-it7": {
-   "wallSec": 1.397
-  },
-  "mer-it8": {
-   "wallSec": 1.107
-  },
-  "mer-it9": {
-   "wallSec": 1.267
-  },
-  "mer-it10": {
-   "wallSec": 1.28
-  },
-  "mer-it11": {
-   "wallSec": 1.306
-  },
-  "mer-it12": {
-   "wallSec": 1.237
-  },
-  "mer-it13": {
    "wallSec": 1.308
   },
+  "mer-it7": {
+   "wallSec": 1.247
+  },
+  "mer-it8": {
+   "wallSec": 1.4
+  },
+  "mer-it9": {
+   "wallSec": 1.746
+  },
+  "mer-it10": {
+   "wallSec": 1.272
+  },
+  "mer-it11": {
+   "wallSec": 1.285
+  },
+  "mer-it12": {
+   "wallSec": 1.199
+  },
+  "mer-it13": {
+   "wallSec": 1.231
+  },
   "mer-it14": {
-   "wallSec": 1.204
+   "wallSec": 1.276
   },
   "mer-fit-h": {
-   "wallSec": 8.975
+   "wallSec": 10.118
   },
   "mer-fit-h2": {
-   "wallSec": 17.682
+   "wallSec": 19.158
   },
   "venus-tr-h": {
-   "wallSec": 1.54
+   "wallSec": 1.353
   },
   "venus-tr-h2": {
-   "wallSec": 2.943
+   "wallSec": 2.931
   },
   "mars-tr-h": {
-   "wallSec": 1.673
-  },
-  "mars-tr-h2": {
-   "wallSec": 2.463
+   "wallSec": 1.655
   },
   "jupiter-tr-h": {
-   "wallSec": 2.382
+   "wallSec": 1.847
+  },
+  "mars-tr-h2": {
+   "wallSec": 4.326
   },
   "jupiter-tr-h2": {
-   "wallSec": 2.27
+   "wallSec": 2.238
   },
   "saturn-tr-h": {
-   "wallSec": 1.338
+   "wallSec": 1.516
   },
   "saturn-tr-h2": {
-   "wallSec": 2.416
+   "wallSec": 3.378
   },
   "uranus-tr-h": {
-   "wallSec": 2.784
+   "wallSec": 2.082
   },
   "neptune-tr-h": {
-   "wallSec": 2.12
+   "wallSec": 1.337
   },
   "uranus-tr-h2": {
-   "wallSec": 4.658
+   "wallSec": 2.222
   },
   "neptune-tr-h2": {
-   "wallSec": 2.256
+   "wallSec": 2.588
   }
  },
  "notClaim": [
@@ -1484,5 +1487,5 @@
   "「gain は普遍定数」",
   "「二次元の値を写して fitted」"
  ],
- "elapsedS": 195.44
+ "elapsedS": 249.941
 }
