@@ -913,6 +913,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/cluster-w285a-preset.json': [],
   // 第286便b(原仮定者の裁定(第76報)AN59): cLight の真値化の一覧と従属値(手で書いた宣言の表 —— 除く欄は無い。現行の正本 pnsource-w286b の入力)
   'tests/data-w286b-clight.json': [],
+  // 第299便e(R174): 参照模型 8 本の凍結の二次元の写し(書き換えない fixture —— 除く欄は無い。現行の正本 ref3d-w299e の入力)
+  'tests/data-w299e-ref2d.json': [],
   // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
