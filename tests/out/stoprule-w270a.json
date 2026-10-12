@@ -1,5 +1,5 @@
 {
- "when": "2026-10-11T13:24:15.520Z",
+ "when": "2026-10-12T07:55:25.504Z",
  "wave": "第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)",
  "baseSource": {
   "commit": "743ad9b",
@@ -342,12 +342,12 @@
   "finding": "**旧規則では 4 例で走行長が步/秒で変わった**(同じ入力・同じコードでも機種が違えば近点の本数が変わる)。新しい規則は步/秒を入力に取らないので、定義上この揺れが無い。"
  },
  "replay": {
-  "nStages": 40,
-  "compared": 38,
+  "nStages": 39,
+  "compared": 37,
   "identical": 25,
-  "differing": 13,
+  "differing": 12,
   "newStages": 2,
-  "differingDeclared": 13,
+  "differingDeclared": 12,
   "differingUndeclared": 0,
   "declaredExceptions": [
    {
@@ -445,44 +445,14 @@
      27
     ],
     "baseWallSec": 21.962,
-    "nowWallSec": 113.656,
+    "nowWallSec": 110.139,
     "baseRate": 1666667,
-    "nowRate": 740741,
+    "nowRate": 588235,
     "inBase": true,
     "same": false,
     "declaredException": true,
     "exceptionWhy": "第285便f(TARGET_TIME_RULE): h/2 の步数上限を ceil(T/dt) = 80,000,000 步にした(h と同じ物理時間 —— 旧規約は h と同じ 40,000,000 步で近点 13 個)",
     "exceptionSince": "w285f"
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "tag": "dt",
-    "baseMaxSteps": 866426,
-    "nowMaxSteps": 866426,
-    "baseStepsRun": 866426,
-    "nowStepsRun": 866426,
-    "basePeriFoundA": [
-     9,
-     5,
-     3,
-     2
-    ],
-    "nowPeriFoundA": [
-     9,
-     4,
-     5,
-     3
-    ],
-    "baseWallSec": 463.498,
-    "nowWallSec": 53.293,
-    "baseRate": 1804,
-    "nowRate": 17498,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "第288便b で kFrame=0・geoPN=1 へ在位移行 —— 宣言した步数上限(866,426 步)で止まるのは同じだが、近点の本数が 9/5/3/2 → 9/4/5/3 に変わった",
-    "exceptionSince": "w288b"
    },
    {
     "id": "jupiterGalilean",
@@ -505,9 +475,9 @@
      59
     ],
     "baseWallSec": 11.709,
-    "nowWallSec": 20.064,
+    "nowWallSec": 19.173,
     "baseRate": 425532,
-    "nowRate": 263158,
+    "nowRate": 317460,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -535,9 +505,9 @@
      59
     ],
     "baseWallSec": 23.7,
-    "nowWallSec": 37.655,
+    "nowWallSec": 37.285,
     "baseRate": 454545,
-    "nowRate": 322581,
+    "nowRate": 363636,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -559,9 +529,9 @@
      22
     ],
     "baseWallSec": 4.82,
-    "nowWallSec": 3.48,
+    "nowWallSec": 3.06,
     "baseRate": 769231,
-    "nowRate": 555556,
+    "nowRate": 689655,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -583,9 +553,9 @@
      22
     ],
     "baseWallSec": 9.279,
-    "nowWallSec": 6.568,
+    "nowWallSec": 6.471,
     "baseRate": 800000,
-    "nowRate": 800000,
+    "nowRate": 833333,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -607,9 +577,9 @@
      22
     ],
     "baseWallSec": 1.31,
-    "nowWallSec": 1.412,
+    "nowWallSec": 1.257,
     "baseRate": 833333,
-    "nowRate": 909091,
+    "nowRate": 869565,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -631,9 +601,9 @@
      22
     ],
     "baseWallSec": 2.707,
-    "nowWallSec": 2.686,
+    "nowWallSec": 2.434,
     "baseRate": 869565,
-    "nowRate": 869565,
+    "nowRate": 625000,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -655,9 +625,9 @@
      60
     ],
     "baseWallSec": 10.023,
-    "nowWallSec": 23.249,
+    "nowWallSec": 21.932,
     "baseRate": 1538462,
-    "nowRate": 307692,
+    "nowRate": 250000,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -679,9 +649,9 @@
      60
     ],
     "baseWallSec": 21.148,
-    "nowWallSec": 47.444,
+    "nowWallSec": 43.943,
     "baseRate": 1538462,
-    "nowRate": 425532,
+    "nowRate": 740741,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -703,9 +673,9 @@
      3
     ],
     "baseWallSec": 0.03,
-    "nowWallSec": 0.106,
+    "nowWallSec": 0.174,
     "baseRate": 540541,
-    "nowRate": 333333,
+    "nowRate": 392157,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -727,9 +697,9 @@
      3
     ],
     "baseWallSec": 0.051,
-    "nowWallSec": 0.129,
+    "nowWallSec": 0.173,
     "baseRate": 800000,
-    "nowRate": 500000,
+    "nowRate": 689655,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -755,9 +725,9 @@
      3
     ],
     "baseWallSec": 435.531,
-    "nowWallSec": 153.029,
+    "nowWallSec": 151.428,
     "baseRate": 4832,
-    "nowRate": 11299,
+    "nowRate": 12853,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -801,9 +771,9 @@
      27
     ],
     "baseWallSec": 21.129,
-    "nowWallSec": 54.032,
+    "nowWallSec": 54.394,
     "baseRate": 1428571,
-    "nowRate": 444444,
+    "nowRate": 273973,
     "inBase": true,
     "same": true
    },
@@ -822,9 +792,9 @@
      27
     ],
     "baseWallSec": 21.962,
-    "nowWallSec": 113.656,
+    "nowWallSec": 110.139,
     "baseRate": 1666667,
-    "nowRate": 740741,
+    "nowRate": 588235,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -846,9 +816,9 @@
      59
     ],
     "baseWallSec": 0.698,
-    "nowWallSec": 1.417,
+    "nowWallSec": 1.598,
     "baseRate": 869565,
-    "nowRate": 526316,
+    "nowRate": 454545,
     "inBase": true,
     "same": true
    },
@@ -867,9 +837,9 @@
      59
     ],
     "baseWallSec": 1.183,
-    "nowWallSec": 3.236,
+    "nowWallSec": 3.034,
     "baseRate": 1428571,
-    "nowRate": 588235,
+    "nowRate": 377358,
     "inBase": true,
     "same": true
    },
@@ -888,9 +858,9 @@
      59
     ],
     "baseWallSec": 1.276,
-    "nowWallSec": 3.342,
+    "nowWallSec": 3.699,
     "baseRate": 2222222,
-    "nowRate": 952381,
+    "nowRate": 1000000,
     "inBase": true,
     "same": true
    },
@@ -909,41 +879,11 @@
      59
     ],
     "baseWallSec": 3.106,
-    "nowWallSec": 7.036,
+    "nowWallSec": 7.764,
     "baseRate": 1538462,
-    "nowRate": 571429,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "tag": "dt",
-    "baseMaxSteps": 866426,
-    "nowMaxSteps": 866426,
-    "baseStepsRun": 866426,
-    "nowStepsRun": 866426,
-    "basePeriFoundA": [
-     9,
-     5,
-     3,
-     2
-    ],
-    "nowPeriFoundA": [
-     9,
-     4,
-     5,
-     3
-    ],
-    "baseWallSec": 463.498,
-    "nowWallSec": 53.293,
-    "baseRate": 1804,
-    "nowRate": 17498,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "第288便b で kFrame=0・geoPN=1 へ在位移行 —— 宣言した步数上限(866,426 步)で止まるのは同じだが、近点の本数が 9/5/3/2 → 9/4/5/3 に変わった",
-    "exceptionSince": "w288b"
    },
    {
     "id": "jupiterGalilean",
@@ -966,9 +906,9 @@
      59
     ],
     "baseWallSec": 11.709,
-    "nowWallSec": 20.064,
+    "nowWallSec": 19.173,
     "baseRate": 425532,
-    "nowRate": 263158,
+    "nowRate": 317460,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -996,9 +936,9 @@
      59
     ],
     "baseWallSec": 23.7,
-    "nowWallSec": 37.655,
+    "nowWallSec": 37.285,
     "baseRate": 454545,
-    "nowRate": 322581,
+    "nowRate": 363636,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1020,9 +960,9 @@
      59
     ],
     "baseWallSec": 6.877,
-    "nowWallSec": 10.859,
+    "nowWallSec": 10.023,
     "baseRate": 833333,
-    "nowRate": 740741,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
    },
@@ -1041,9 +981,9 @@
      59
     ],
     "baseWallSec": 13.486,
-    "nowWallSec": 21.652,
+    "nowWallSec": 21.557,
     "baseRate": 1000000,
-    "nowRate": 769231,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -1064,9 +1004,9 @@
      59
     ],
     "baseWallSec": 4.632,
-    "nowWallSec": 7.398,
+    "nowWallSec": 7.107,
     "baseRate": 952381,
-    "nowRate": 588235,
+    "nowRate": 240964,
     "inBase": true,
     "same": true
    },
@@ -1087,9 +1027,9 @@
      59
     ],
     "baseWallSec": 8.781,
-    "nowWallSec": 15.306,
+    "nowWallSec": 14.276,
     "baseRate": 1000000,
-    "nowRate": 408163,
+    "nowRate": 487805,
     "inBase": true,
     "same": true
    },
@@ -1106,9 +1046,9 @@
      11
     ],
     "baseWallSec": null,
-    "nowWallSec": 100.589,
+    "nowWallSec": 99.798,
     "baseRate": null,
-    "nowRate": 303030,
+    "nowRate": 285714,
     "inBase": false,
     "same": null
    },
@@ -1125,9 +1065,9 @@
      11
     ],
     "baseWallSec": null,
-    "nowWallSec": 208.948,
+    "nowWallSec": 196.194,
     "baseRate": null,
-    "nowRate": 377358,
+    "nowRate": 434783,
     "inBase": false,
     "same": null
    },
@@ -1154,9 +1094,9 @@
      1
     ],
     "baseWallSec": 468.879,
-    "nowWallSec": 67.609,
+    "nowWallSec": 65.457,
     "baseRate": 2190,
-    "nowRate": 16736,
+    "nowRate": 16694,
     "inBase": true,
     "same": true
    },
@@ -1175,9 +1115,9 @@
      59
     ],
     "baseWallSec": 1.846,
-    "nowWallSec": 2.697,
+    "nowWallSec": 2.686,
     "baseRate": 1000000,
-    "nowRate": 416667,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
    },
@@ -1196,9 +1136,9 @@
      59
     ],
     "baseWallSec": 3.602,
-    "nowWallSec": 4.933,
+    "nowWallSec": 5.158,
     "baseRate": 1000000,
-    "nowRate": 833333,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
    },
@@ -1217,9 +1157,9 @@
      60
     ],
     "baseWallSec": 5.762,
-    "nowWallSec": 14.586,
+    "nowWallSec": 13.741,
     "baseRate": 1176471,
-    "nowRate": 425532,
+    "nowRate": 370370,
     "inBase": true,
     "same": true
    },
@@ -1238,9 +1178,9 @@
      60
     ],
     "baseWallSec": 11.685,
-    "nowWallSec": 29.109,
+    "nowWallSec": 27.436,
     "baseRate": 1666667,
-    "nowRate": 540541,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -1259,9 +1199,9 @@
      60
     ],
     "baseWallSec": 22.453,
-    "nowWallSec": 56.181,
+    "nowWallSec": 56.545,
     "baseRate": 1818182,
-    "nowRate": 606061,
+    "nowRate": 377358,
     "inBase": true,
     "same": true
    },
@@ -1280,9 +1220,9 @@
      60
     ],
     "baseWallSec": 3.672,
-    "nowWallSec": 8.37,
+    "nowWallSec": 8.287,
     "baseRate": 2000000,
-    "nowRate": 500000,
+    "nowRate": 454545,
     "inBase": true,
     "same": true
    },
@@ -1301,9 +1241,9 @@
      60
     ],
     "baseWallSec": 7.295,
-    "nowWallSec": 17.695,
+    "nowWallSec": 17.247,
     "baseRate": 1666667,
-    "nowRate": 833333,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -1322,9 +1262,9 @@
      60
     ],
     "baseWallSec": 14.438,
-    "nowWallSec": 32.489,
+    "nowWallSec": 31.418,
     "baseRate": 1818182,
-    "nowRate": 588235,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -1343,9 +1283,9 @@
      60
     ],
     "baseWallSec": 2.037,
-    "nowWallSec": 6.18,
+    "nowWallSec": 4.772,
     "baseRate": 1111111,
-    "nowRate": 666667,
+    "nowRate": 555556,
     "inBase": true,
     "same": true
    },
@@ -1364,9 +1304,9 @@
      60
     ],
     "baseWallSec": 4.003,
-    "nowWallSec": 9.849,
+    "nowWallSec": 8.577,
     "baseRate": 2000000,
-    "nowRate": 800000,
+    "nowRate": 909091,
     "inBase": true,
     "same": true
    },
@@ -1385,9 +1325,9 @@
      22
     ],
     "baseWallSec": 4.82,
-    "nowWallSec": 3.48,
+    "nowWallSec": 3.06,
     "baseRate": 769231,
-    "nowRate": 555556,
+    "nowRate": 689655,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1409,9 +1349,9 @@
      22
     ],
     "baseWallSec": 9.279,
-    "nowWallSec": 6.568,
+    "nowWallSec": 6.471,
     "baseRate": 800000,
-    "nowRate": 800000,
+    "nowRate": 833333,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1433,9 +1373,9 @@
      22
     ],
     "baseWallSec": 1.31,
-    "nowWallSec": 1.412,
+    "nowWallSec": 1.257,
     "baseRate": 833333,
-    "nowRate": 909091,
+    "nowRate": 869565,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1457,9 +1397,9 @@
      22
     ],
     "baseWallSec": 2.707,
-    "nowWallSec": 2.686,
+    "nowWallSec": 2.434,
     "baseRate": 869565,
-    "nowRate": 869565,
+    "nowRate": 625000,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1481,9 +1421,9 @@
      60
     ],
     "baseWallSec": 10.023,
-    "nowWallSec": 23.249,
+    "nowWallSec": 21.932,
     "baseRate": 1538462,
-    "nowRate": 307692,
+    "nowRate": 250000,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1505,9 +1445,9 @@
      60
     ],
     "baseWallSec": 21.148,
-    "nowWallSec": 47.444,
+    "nowWallSec": 43.943,
     "baseRate": 1538462,
-    "nowRate": 425532,
+    "nowRate": 740741,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1529,9 +1469,9 @@
      60
     ],
     "baseWallSec": 0.439,
-    "nowWallSec": 0.741,
+    "nowWallSec": 0.642,
     "baseRate": 1666667,
-    "nowRate": 689655,
+    "nowRate": 909091,
     "inBase": true,
     "same": true
    },
@@ -1550,9 +1490,9 @@
      60
     ],
     "baseWallSec": 0.819,
-    "nowWallSec": 1.81,
+    "nowWallSec": 1.502,
     "baseRate": 2222222,
-    "nowRate": 1176471,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -1571,9 +1511,9 @@
      3
     ],
     "baseWallSec": 0.03,
-    "nowWallSec": 0.106,
+    "nowWallSec": 0.174,
     "baseRate": 540541,
-    "nowRate": 333333,
+    "nowRate": 392157,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1595,9 +1535,9 @@
      3
     ],
     "baseWallSec": 0.051,
-    "nowWallSec": 0.129,
+    "nowWallSec": 0.173,
     "baseRate": 800000,
-    "nowRate": 500000,
+    "nowRate": 689655,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1619,9 +1559,9 @@
      58
     ],
     "baseWallSec": 2.927,
-    "nowWallSec": 7.678,
+    "nowWallSec": 7.925,
     "baseRate": 137931,
-    "nowRate": 70922,
+    "nowRate": 72464,
     "inBase": true,
     "same": true
    },
@@ -1640,9 +1580,9 @@
      58
     ],
     "baseWallSec": 5.281,
-    "nowWallSec": 14.446,
+    "nowWallSec": 14.585,
     "baseRate": 238095,
-    "nowRate": 105820,
+    "nowRate": 88106,
     "inBase": true,
     "same": true
    },
@@ -1661,9 +1601,9 @@
      58
     ],
     "baseWallSec": 11.188,
-    "nowWallSec": 28.42,
+    "nowWallSec": 30.935,
     "baseRate": 240964,
-    "nowRate": 88106,
+    "nowRate": 103627,
     "inBase": true,
     "same": true
    },
@@ -1686,9 +1626,9 @@
      3
     ],
     "baseWallSec": 435.531,
-    "nowWallSec": 153.029,
+    "nowWallSec": 151.428,
     "baseRate": 4832,
-    "nowRate": 11299,
+    "nowRate": 12853,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1696,11 +1636,11 @@
     "exceptionSince": "w284e"
    }
   ],
-  "finding": "**13 段で基点と違う**(うち宣言した例外 13 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
+  "finding": "**12 段で基点と違う**(うち宣言した例外 12 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
  },
  "recalc": {
-  "n": 40,
-  "ok": 40,
+  "n": 39,
+  "ok": 39,
   "bad": [],
   "rows": [
    {
@@ -1722,7 +1662,7 @@
      27
     ],
     "periastraOk": true,
-    "wallSec": 54.032,
+    "wallSec": 54.394,
     "resourceExceeded": false
    },
    {
@@ -1744,7 +1684,7 @@
      27
     ],
     "periastraOk": true,
-    "wallSec": 113.656,
+    "wallSec": 110.139,
     "resourceExceeded": false
    },
    {
@@ -1766,7 +1706,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 1.417,
+    "wallSec": 1.598,
     "resourceExceeded": false
    },
    {
@@ -1788,7 +1728,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 3.236,
+    "wallSec": 3.034,
     "resourceExceeded": false
    },
    {
@@ -1810,7 +1750,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 3.342,
+    "wallSec": 3.699,
     "resourceExceeded": false
    },
    {
@@ -1832,32 +1772,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 7.036,
-    "resourceExceeded": false
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "tag": "dt",
-    "dt": 0.016,
-    "declared": 866426,
-    "source": "preset",
-    "recorded": 866426,
-    "recomputed": 866426,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "declared-max-steps",
-    "stoppedBy": "declared-max-steps",
-    "tol": 0,
-    "periFoundA": [
-     9,
-     4,
-     5,
-     3
-    ],
-    "periastraOk": false,
-    "wallSec": 53.293,
+    "wallSec": 7.764,
     "resourceExceeded": false
    },
    {
@@ -1882,7 +1797,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 20.064,
+    "wallSec": 19.173,
     "resourceExceeded": false
    },
    {
@@ -1907,7 +1822,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 37.655,
+    "wallSec": 37.285,
     "resourceExceeded": false
    },
    {
@@ -1929,7 +1844,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 10.859,
+    "wallSec": 10.023,
     "resourceExceeded": false
    },
    {
@@ -1951,7 +1866,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 21.652,
+    "wallSec": 21.557,
     "resourceExceeded": false
    },
    {
@@ -1974,7 +1889,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 7.398,
+    "wallSec": 7.107,
     "resourceExceeded": false
    },
    {
@@ -1997,7 +1912,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 15.306,
+    "wallSec": 14.276,
     "resourceExceeded": false
    },
    {
@@ -2019,7 +1934,7 @@
      11
     ],
     "periastraOk": false,
-    "wallSec": 100.589,
+    "wallSec": 99.798,
     "resourceExceeded": false
    },
    {
@@ -2041,7 +1956,7 @@
      11
     ],
     "periastraOk": false,
-    "wallSec": 208.948,
+    "wallSec": 196.194,
     "resourceExceeded": false
    },
    {
@@ -2067,7 +1982,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 67.609,
+    "wallSec": 65.457,
     "resourceExceeded": false
    },
    {
@@ -2089,7 +2004,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 2.697,
+    "wallSec": 2.686,
     "resourceExceeded": false
    },
    {
@@ -2111,7 +2026,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 4.933,
+    "wallSec": 5.158,
     "resourceExceeded": false
    },
    {
@@ -2133,7 +2048,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 14.586,
+    "wallSec": 13.741,
     "resourceExceeded": false
    },
    {
@@ -2155,7 +2070,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 29.109,
+    "wallSec": 27.436,
     "resourceExceeded": false
    },
    {
@@ -2177,7 +2092,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 56.181,
+    "wallSec": 56.545,
     "resourceExceeded": false
    },
    {
@@ -2199,7 +2114,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 8.37,
+    "wallSec": 8.287,
     "resourceExceeded": false
    },
    {
@@ -2221,7 +2136,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 17.695,
+    "wallSec": 17.247,
     "resourceExceeded": false
    },
    {
@@ -2243,7 +2158,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 32.489,
+    "wallSec": 31.418,
     "resourceExceeded": false
    },
    {
@@ -2265,7 +2180,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 6.18,
+    "wallSec": 4.772,
     "resourceExceeded": false
    },
    {
@@ -2287,7 +2202,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 9.849,
+    "wallSec": 8.577,
     "resourceExceeded": false
    },
    {
@@ -2309,7 +2224,7 @@
      22
     ],
     "periastraOk": true,
-    "wallSec": 3.48,
+    "wallSec": 3.06,
     "resourceExceeded": false
    },
    {
@@ -2331,7 +2246,7 @@
      22
     ],
     "periastraOk": true,
-    "wallSec": 6.568,
+    "wallSec": 6.471,
     "resourceExceeded": false
    },
    {
@@ -2353,7 +2268,7 @@
      22
     ],
     "periastraOk": true,
-    "wallSec": 1.412,
+    "wallSec": 1.257,
     "resourceExceeded": false
    },
    {
@@ -2375,7 +2290,7 @@
      22
     ],
     "periastraOk": true,
-    "wallSec": 2.686,
+    "wallSec": 2.434,
     "resourceExceeded": false
    },
    {
@@ -2397,7 +2312,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 23.249,
+    "wallSec": 21.932,
     "resourceExceeded": false
    },
    {
@@ -2419,7 +2334,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 47.444,
+    "wallSec": 43.943,
     "resourceExceeded": false
    },
    {
@@ -2441,7 +2356,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 0.741,
+    "wallSec": 0.642,
     "resourceExceeded": false
    },
    {
@@ -2463,7 +2378,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 1.81,
+    "wallSec": 1.502,
     "resourceExceeded": false
    },
    {
@@ -2485,7 +2400,7 @@
      3
     ],
     "periastraOk": false,
-    "wallSec": 0.106,
+    "wallSec": 0.174,
     "resourceExceeded": false
    },
    {
@@ -2507,7 +2422,7 @@
      3
     ],
     "periastraOk": false,
-    "wallSec": 0.129,
+    "wallSec": 0.173,
     "resourceExceeded": false
    },
    {
@@ -2529,7 +2444,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 7.678,
+    "wallSec": 7.925,
     "resourceExceeded": false
    },
    {
@@ -2551,7 +2466,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 14.446,
+    "wallSec": 14.585,
     "resourceExceeded": false
    },
    {
@@ -2573,7 +2488,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 28.42,
+    "wallSec": 30.935,
     "resourceExceeded": false
    },
    {
@@ -2597,7 +2512,7 @@
      3
     ],
     "periastraOk": false,
-    "wallSec": 153.029,
+    "wallSec": 151.428,
     "resourceExceeded": false
    }
   ],
@@ -2606,27 +2521,13 @@
  "resource": {
   "ceilingSec": 900,
   "exceeded": [],
-  "maxWallSec": 208.948,
-  "stages": 40,
-  "finding": "**資源上限を超えた段は 0 である**(最長 208.9 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
+  "maxWallSec": 196.194,
+  "stages": 39,
+  "finding": "**資源上限を超えた段は 0 である**(最長 196.2 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
  },
  "shortPeriastra": {
-  "n": 7,
+  "n": 6,
   "rows": [
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "tag": "dt",
-    "found": [
-     9,
-     4,
-     5,
-     3
-    ],
-    "need": 20,
-    "reason": "max-steps",
-    "stoppedBy": "declared-max-steps"
-   },
    {
     "id": "plutoCharonDiagInput",
     "emoji": "🥶",

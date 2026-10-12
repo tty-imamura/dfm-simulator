@@ -2,6 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
+  "betaBuild": "v1.45-b300",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -12,97 +13,97 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
-  "generatedAt": "2026-10-12T02:38:11.374Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T08:16:43.507Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 109026,
-    "sha256": "da76998c69f2a142a2ca15bd6493f24bc9204d0a6ea281b38e576925f1f41894",
-    "mtime": "2026-10-12T01:09:02.088Z"
+    "bytes": 110457,
+    "sha256": "62cf3cccd3f419b75e519a3be1120be107b7fcb74c44be9e4ccf5e9132f4088a",
+    "mtime": "2026-10-12T05:11:05.890Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-12T00:50:25.471Z"
+    "bytes": 1720014,
+    "sha256": "15e27b29aab78212418a705ff86a26cd3627dfbd8b016c3d65612116c3a7afc9",
+    "mtime": "2026-10-12T06:00:41.282Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90731,
-    "sha256": "0f7b639e55db0073a8b745e3cae5b3bcb773729e15a94ee773d230794f46e4f6",
-    "mtime": "2026-10-12T00:50:25.483Z"
+    "bytes": 90759,
+    "sha256": "797b427f2929aa435db333c38e1d5bd3aab89165f90ec1ba1c03b9f42e5fb438",
+    "mtime": "2026-10-12T06:03:49.666Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 161383,
-    "sha256": "e21ecf642027c60d9c26b8e4e1a70503c3b0fecdf96091d1d461d7abf7ff313c",
-    "mtime": "2026-10-12T02:38:11.338Z"
+    "bytes": 150885,
+    "sha256": "095c3e66f537866a62ac8ed61ae49ff4a18153ad338b0fc755f3989b77edee9b",
+    "mtime": "2026-10-12T08:16:43.474Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-12T00:50:25.403Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-12T00:50:25.407Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-12T00:50:25.407Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-12T00:50:25.407Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-12T00:50:25.407Z"
+    "mtime": "2026-10-09T10:19:35.502Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 31972,
-    "sha256": "704b6480397c90d305c68715513f5c76474c1f32c7e5f95ece91a67346af33a6",
-    "mtime": "2026-10-12T00:50:25.367Z"
+    "bytes": 32401,
+    "sha256": "51bcdbd8f9bc0da0028f077c72686005763922816ad13f2f2e65584aa1669963",
+    "mtime": "2026-10-12T02:08:13.367Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 26924,
     "sha256": "1e392bdbaaad2a21ce04eda6696502b557b2a780b5d8cad8daf03b7ff67b6d18",
-    "mtime": "2026-10-12T00:50:25.427Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-12T00:50:25.419Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-12T00:50:25.431Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-12T00:50:25.435Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    }
   ],
-  "codeSha256": "9aa0769c20def6904b1c04663c7218397de9b87d07b26772222a8090330b3015",
+  "codeSha256": "e0e17584b27ff4cc9dd693845632b0264526dea9c2f17b374c5ea8fa29cc4ca4",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
    "commit": "2e893032df6f85dda2e3acd333afc444e4ce7132",
@@ -112,35 +113,35 @@
  },
  "tally": {
   "objective": {
-   "met": 85,
-   "partial": 40,
-   "unmet": 5,
+   "met": 81,
+   "partial": 35,
+   "unmet": 3,
    "n/a": 0
   },
   "calibration": {
    "pass": 0,
    "pass-limited": 2,
    "fail": 1,
-   "hold": 17,
+   "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 110
+   "out-of-scope": 100
   },
   "four": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
-   "保留": 17
+   "保留": 16
   },
   "byGroup": [
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 12
+    "n": 11
    },
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 20
+    "n": 6
    },
    {
     "group": "天体の機構",
@@ -175,12 +176,12 @@
    {
     "group": "腕と渦伸長(軸力)",
     "icon": "🌀",
-    "n": 3
+    "n": 11
    },
    {
     "group": "現実較正",
     "icon": "🎯",
-    "n": 40
+    "n": 36
    },
    {
     "group": "実在天体のアナロジー",
@@ -203,13 +204,13 @@
     "n": 0
    }
   ],
-  "n": 130,
+  "n": 119,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 174,
+   "n": 175,
    "objective": {
-    "met": 106,
+    "met": 107,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -218,19 +219,19 @@
     "pass": 0,
     "pass-limited": 2,
     "fail": 1,
-    "hold": 17,
+    "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 152
+    "out-of-scope": 154
    },
    "four": {
     "合": 0,
     "量限定合": 2,
     "否": 1,
-    "保留": 17
+    "保留": 16
    }
   },
   "retired": {
-   "n": 44,
+   "n": 56,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -238,7 +239,13 @@
     "nebulaBipolar",
     "bhCore",
     "bhCoreTilt",
+    "galaxyMeshSpiralGeoToy",
     "galaxyMeshSpiralGeoToyLite",
+    "galaxyAnalogyBH",
+    "galaxyAnalogyBHCompose",
+    "galaxyAnalogyBHTilt90",
+    "galaxyAnalogyBHTilt90Layers",
+    "clusterAnalogyBH",
     "clusterGrowthCopy",
     "fixedCaptureCopy",
     "earthMoon",
@@ -251,15 +258,20 @@
     "earthMoonSunInertialFit",
     "earthMoonDiagOne",
     "mercurySunInertial",
+    "mercuryGeoToy3",
+    "mercuryMeshMigrate3d",
     "mercuryRealKF1",
+    "solarInner",
     "plutoCharonReal",
     "plutoCharonDFM",
     "plutoCharonKF0Control",
     "plutoCharonInertial",
     "plutoCharonSyncZero",
+    "charonGeoToy3",
     "alphaCenABDFM",
     "siriusABDFM",
     "psrDoubleABDFM",
+    "psrDoubleABGeoToy",
     "psrDoubleABSpinCal",
     "psrDoubleABPN",
     "psrJ1757PN",
@@ -269,6 +281,7 @@
     "psrJ1946CF",
     "psrB1534DFM",
     "psrB1534CF",
+    "spaceMeshBinaryToy",
     "gw150914DFM",
     "tuc47DFM",
     "supernovaProgDFM",
@@ -282,9 +295,11 @@
    ]
   },
   "holdRemedy": {
-   "declared": 18,
-   "hold": 19,
-   "dropped": []
+   "declared": 17,
+   "hold": 18,
+   "dropped": [
+    "solarInner"
+   ]
   }
  },
  "rows": [
@@ -500,6 +515,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -750,6 +771,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -1009,6 +1036,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1252,6 +1285,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1491,6 +1530,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -1739,6 +1784,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1979,6 +2030,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -2244,6 +2301,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2477,6 +2540,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -2718,6 +2787,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2951,6 +3026,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -3198,6 +3279,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3441,6 +3528,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3674,6 +3767,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -3927,6 +4026,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4166,6 +4271,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -4427,6 +4538,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -4698,6 +4815,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4947,6 +5070,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5186,6 +5315,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -5433,6 +5568,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5672,6 +5813,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -5931,6 +6078,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6170,6 +6323,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -6417,6 +6576,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6656,6 +6821,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -6905,6 +7076,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -7164,6 +7341,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7397,6 +7580,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -7640,6 +7829,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -7894,6 +8089,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8128,6 +8329,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -8370,6 +8577,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8603,6 +8816,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -8858,6 +9077,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -9118,6 +9343,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9357,6 +9588,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -9652,6 +9889,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9901,6 +10144,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10139,6 +10388,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -10382,6 +10637,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -10648,6 +10909,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10908,6 +11175,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11156,6 +11429,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11174,7 +11453,7 @@
    "id": "shapeToyCluster",
    "emoji": "🔮",
    "name": "球状星団トイ — 3D 正規分布の参照モデル(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "指定した 3D 正規分布を保つ参照模型(三次元の本 —— z は座標)",
@@ -11406,6 +11685,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11431,7 +11716,7 @@
    "id": "shapeToyDisk",
    "emoji": "🥏",
    "name": "腕なし回転円盤トイ — 扁平は σ_z の宣言(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "指定した薄い回転円盤を保つ参照模型(三次元 —— 厚みは σ_z の宣言)",
@@ -11663,6 +11948,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11688,7 +11979,7 @@
    "id": "shapeToyArm",
    "emoji": "🧵",
    "name": "腕単体トイ — 腕の軸に対して正規分布(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "腕の軸に対する正規分布を保つ参照模型(三次元)",
@@ -11932,6 +12223,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11957,7 +12254,7 @@
    "id": "shapeToySpiral",
    "emoji": "🍭",
    "name": "渦巻の参照模型 — 円盤+対数螺旋の腕(宣言した形・較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(三次元・創発ではない)",
@@ -12182,6 +12479,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12225,7 +12528,7 @@
    "id": "shapeToyClusterCore",
    "emoji": "🎱",
    "name": "球状星団トイ(中心天体つき)— 中心スピンが束ねる構成仮説(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "中心スピンに依存する力学で星団を束ねる(三次元)",
@@ -12451,6 +12754,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12476,7 +12785,7 @@
    "id": "shapeToyDiskCore",
    "emoji": "📀",
    "name": "腕なし回転円盤トイ(中心天体つき)— 薄さも回転も中心スピンの帰結(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "中心スピンから薄さと円盤の回転を作る(三次元)",
@@ -12708,6 +13017,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12733,7 +13048,7 @@
    "id": "shapeToyArmCore",
    "emoji": "🧹",
    "name": "棒トイ(中心天体つき)— 面内の自転軸に沿って伸びる(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "面内の自転軸に沿った棒を作る(三次元)",
@@ -12965,6 +13280,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12990,7 +13311,7 @@
    "id": "shapeToySpiralCore",
    "emoji": "🎢",
    "name": "中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(三次元・創発ではない)",
@@ -13212,6 +13533,12 @@
       "key": "ref3d-299e",
       "sec": 80,
       "share": 8,
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
       "always": false
      },
      {
@@ -13471,6 +13798,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13710,6 +14043,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -13957,6 +14296,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14196,6 +14541,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -14485,6 +14836,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14734,6 +15091,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14979,6 +15342,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -15238,6 +15607,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15471,6 +15846,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -15714,6 +16095,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -15973,6 +16360,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16216,6 +16609,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16455,6 +16854,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -16708,6 +17113,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16953,6 +17364,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -17203,6 +17620,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -17462,6 +17885,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17717,6 +18146,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17782,17 +18217,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 167.688,
+     "wallSec": 164.533,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 54.032,
+       "wallSec": 54.394,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 113.656,
+       "wallSec": 110.139,
        "reused": false,
        "reusedBy": null
       }
@@ -17931,7 +18366,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -18027,6 +18462,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -18270,6 +18711,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -18580,6 +19027,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18837,6 +19290,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -19104,6 +19563,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -19377,6 +19842,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19442,17 +19913,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.6530000000000005,
+     "wallSec": 4.632,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.417,
+       "wallSec": 1.598,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.236,
+       "wallSec": 3.034,
        "reused": false,
        "reusedBy": null
       }
@@ -19591,7 +20062,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -19669,6 +20140,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -19922,6 +20399,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20161,6 +20644,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -20407,6 +20896,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20639,6 +21134,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -20882,6 +21383,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -21131,6 +21638,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -21390,6 +21903,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21639,6 +22158,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21705,17 +22230,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.378,
+     "wallSec": 11.463000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.342,
+       "wallSec": 3.699,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.036,
+       "wallSec": 7.764,
        "reused": false,
        "reusedBy": null
       }
@@ -21866,7 +22391,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -21938,6 +22463,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -22181,6 +22712,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -22434,6 +22971,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22660,6 +23203,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -22894,6 +23443,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23120,6 +23675,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -23354,6 +23915,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23580,6 +24147,248 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "saturnRingInertial3d",
+   "emoji": "🍩",
+   "name": "土星の輪(慣性決定力版・三次元)— gain 0 の基準",
+   "group": "現実較正",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "土星の輪を三次元の赤道面に置き面の保持と損失を測る",
+    "objective": "met",
+    "state": "C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/saturnring3d-w300c.json"
+    ],
+    "en": {
+     "purpose": "Saturn's rings on the 3D equator; measure plane and loss",
+     "state": "C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Saturn's rings on the 3D equator; measure plane and loss. Met: C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains. Out of calibration scope."
+    },
+    "brief": "土星の輪を三次元の赤道面に置き面の保持と損失を測る。達・C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -23814,6 +24623,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24040,6 +24855,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -24287,6 +25108,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24527,6 +25354,12 @@
       "key": "geo4stable-299d",
       "sec": 90,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
       "always": false
      },
      {
@@ -24774,6 +25607,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24805,9 +25644,9 @@
     "purpose": "内惑星 4 つの周期を実単位で照合する",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)",
-    "calibration": "hold",
+    "calibration": "out-of-scope",
     "mismatch": null,
-    "outlook": "σ 未接続",
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "behavior.solarInner",
@@ -24818,32 +25657,16 @@
      "purpose": "Compare the periods of the four inner planets in real units",
      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
      "mismatch": null,
-     "outlook": "no σ connected",
-     "holdRemedy": "add the observed σ of the four planets' orbital periods to the σ connector (residuals ≤ 4e-5). The eccentricities come from circular-orbit idealisation (Venus −99.6%), so the e ↔ eProxy and initial-state mapping comes first. The apsidal motions are made by the other planets (third bodies): a 1PN fix cannot resolve them",
-     "brief": "Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
+     "outlook": null,
+     "brief": "Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Out of calibration scope."
     },
-    "holdRemedy": "4 惑星の公転周期は観測 σ を σ 接続器に入れる(残差 ≤4×10⁻⁵)。離心率は円軌道の理想化(金星 −99.6%)で、e↔eProxy と初期状態の写像が先。近点は他の惑星(第三体)が作る量で、1PN の是正では解けない",
-    "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
+    "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[3]",
-    "mismatch": null,
-    "lastDiffInSigma": null,
-    "missing": [
-     "σ 未接続"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 53.293,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 53.293,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -24976,12 +25799,6 @@
       "always": false
      },
      {
-      "key": "calcause292",
-      "sec": 2,
-      "share": 20,
-      "always": false
-     },
-     {
       "key": "corecensus293",
       "sec": 106,
       "share": "all",
@@ -25048,6 +25865,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25104,7 +25927,7 @@
     "brief": "木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[4]",
+    "row": "verdictLedger.rows[3]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -25113,17 +25936,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 57.719,
+     "wallSec": 56.458,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.064,
+       "wallSec": 19.173,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 37.655,
+       "wallSec": 37.285,
        "reused": false,
        "reusedBy": null
       }
@@ -25274,7 +26097,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -25344,6 +26167,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25400,7 +26229,7 @@
     "brief": "自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[5]",
+    "row": "verdictLedger.rows[4]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -25409,17 +26238,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 32.511,
+     "wallSec": 31.58,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.859,
+       "wallSec": 10.023,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 21.652,
+       "wallSec": 21.557,
        "reused": false,
        "reusedBy": null
       }
@@ -25606,7 +26435,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -25676,6 +26505,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25732,7 +26567,7 @@
     "brief": "火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[6]",
+    "row": "verdictLedger.rows[5]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -25741,17 +26576,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.704,
+     "wallSec": 21.383,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.398,
+       "wallSec": 7.107,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.306,
+       "wallSec": 14.276,
        "reused": false,
        "reusedBy": null
       }
@@ -25902,7 +26737,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -25968,6 +26803,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -26307,6 +27148,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26580,6 +27427,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26848,6 +27701,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26898,7 +27757,7 @@
     "brief": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(家族の入口)。部分・入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める。較正は保留・周期 +0.00131%(279σ)・数値未解決。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[7]",
+    "row": "verdictLedger.rows[6]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 0.002013562882411075,
     "missing": [
@@ -26907,17 +27766,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 309.53700000000003,
+     "wallSec": 295.99199999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 100.589,
+       "wallSec": 99.798,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 208.948,
+       "wallSec": 196.194,
        "reused": false,
        "reusedBy": null
       }
@@ -27116,7 +27975,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -27188,6 +28047,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -27435,6 +28300,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27678,6 +28549,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27910,6 +28787,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -28164,6 +29047,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28216,7 +29105,7 @@
     "brief": "天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[8]",
+    "row": "verdictLedger.rows[7]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -28225,11 +29114,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 67.609,
+     "wallSec": 65.457,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 67.609,
+       "wallSec": 65.457,
        "reused": false,
        "reusedBy": null
       }
@@ -28368,7 +29257,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -28438,6 +29327,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28494,7 +29389,7 @@
     "brief": "逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[9]",
+    "row": "verdictLedger.rows[8]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -28503,17 +29398,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.63,
+     "wallSec": 7.844,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.697,
+       "wallSec": 2.686,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.933,
+       "wallSec": 5.158,
        "reused": false,
        "reusedBy": null
       }
@@ -28700,7 +29595,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -28770,6 +29665,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28824,7 +29725,7 @@
     "brief": "α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[10]",
+    "row": "verdictLedger.rows[9]",
     "mismatch": null,
     "lastDiffInSigma": 0.0000023396795135692717,
     "missing": [
@@ -28833,30 +29734,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.586,
+     "wallSec": 70.286,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.586,
+       "wallSec": 13.741,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.109,
+       "wallSec": 27.436,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 56.181,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 56.545,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 85.28999999999999,
-     "reusedH2Sec": 29.109,
-     "reusedH4Sec": 56.18099999999999
+     "reusedSec": 27.436,
+     "reusedH2Sec": 27.436,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -29036,7 +29937,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -29102,6 +30003,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -29380,6 +30287,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29434,7 +30347,7 @@
     "brief": "シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[11]",
+    "row": "verdictLedger.rows[10]",
     "mismatch": null,
     "lastDiffInSigma": 0.000027352535753897184,
     "missing": [
@@ -29443,30 +30356,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.37,
+     "wallSec": 39.705,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.37,
+       "wallSec": 8.287,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 17.695,
+       "wallSec": 17.247,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 32.489,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 31.418,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 50.184,
-     "reusedH2Sec": 17.695,
-     "reusedH4Sec": 32.489
+     "reusedSec": 17.247,
+     "reusedH2Sec": 17.247,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -29646,7 +30559,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -29712,6 +30625,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -29990,6 +30909,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30046,7 +30971,7 @@
     "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[12]",
+    "row": "verdictLedger.rows[11]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 3140.7591208077497,
     "missing": [
@@ -30056,17 +30981,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.029,
+     "wallSec": 13.349,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.18,
+       "wallSec": 4.772,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.849,
+       "wallSec": 8.577,
        "reused": false,
        "reusedBy": null
       }
@@ -30229,7 +31154,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -30295,6 +31220,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -30609,6 +31540,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30849,6 +31786,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -31109,6 +32052,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31159,7 +32108,7 @@
     "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[13]",
+    "row": "verdictLedger.rows[12]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 1390.4488603791967,
     "missing": [
@@ -31169,17 +32118,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.048,
+     "wallSec": 9.531,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.48,
+       "wallSec": 3.06,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.568,
+       "wallSec": 6.471,
        "reused": false,
        "reusedBy": null
       }
@@ -31372,7 +32321,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -31438,6 +32387,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -31492,7 +32447,7 @@
     "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[14]",
+    "row": "verdictLedger.rows[13]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 526.5506149288302,
     "missing": [
@@ -31502,17 +32457,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.098,
+     "wallSec": 3.691,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.412,
+       "wallSec": 1.257,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.686,
+       "wallSec": 2.434,
        "reused": false,
        "reusedBy": null
       }
@@ -31705,7 +32660,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -31771,6 +32726,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -32031,6 +32992,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32283,6 +33250,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -32543,6 +33516,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32795,6 +33774,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -33055,6 +34040,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33311,6 +34302,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33361,7 +34358,7 @@
     "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[15]",
+    "row": "verdictLedger.rows[14]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 558.7033447901141,
     "missing": [
@@ -33371,17 +34368,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 70.693,
+     "wallSec": 65.875,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 23.249,
+       "wallSec": 21.932,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 47.444,
+       "wallSec": 43.943,
        "reused": false,
        "reusedBy": null
       }
@@ -33526,7 +34523,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -33592,6 +34589,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -33900,6 +34903,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34156,6 +35165,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34395,6 +35410,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -34648,6 +35669,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34893,6 +35920,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -35146,6 +36179,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35372,6 +36411,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -35612,6 +36657,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35842,6 +36893,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36068,6 +37125,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -36304,6 +37367,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -36551,6 +37620,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36601,7 +37676,7 @@
     "brief": "GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[16]",
+    "row": "verdictLedger.rows[15]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -36610,17 +37685,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.551,
+     "wallSec": 2.144,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.741,
+       "wallSec": 0.642,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.81,
+       "wallSec": 1.502,
        "reused": false,
        "reusedBy": null
       }
@@ -36753,7 +37828,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -36819,6 +37894,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -37097,6 +38178,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37153,7 +38240,7 @@
     "brief": "放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[17]",
+    "row": "verdictLedger.rows[16]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -37162,17 +38249,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.235,
+     "wallSec": 0.347,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.106,
+       "wallSec": 0.174,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.129,
+       "wallSec": 0.173,
        "reused": false,
        "reusedBy": null
       }
@@ -37305,7 +38392,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -37371,6 +38458,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -37608,6 +38701,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -37851,6 +38950,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -38104,6 +39209,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38349,6 +39460,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -38614,6 +39731,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38847,6 +39970,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -39088,6 +40217,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39321,6 +40456,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -39570,6 +40711,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -39835,6 +40982,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39901,7 +41054,7 @@
     "brief": "帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[18]",
+    "row": "verdictLedger.rows[17]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 0.003992089344117096,
     "missing": [
@@ -39910,30 +41063,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.678,
+     "wallSec": 38.86,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.678,
+       "wallSec": 7.925,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.446,
+       "wallSec": 14.585,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 28.42,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 30.935,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 42.866,
-     "reusedH2Sec": 14.446,
-     "reusedH4Sec": 28.42
+     "reusedSec": 14.585,
+     "reusedH2Sec": 14.585,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -40077,7 +41230,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -40143,6 +41296,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -40402,6 +41561,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40639,6 +41804,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40691,7 +41862,7 @@
     "brief": "実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[19]",
+    "row": "verdictLedger.rows[18]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -40700,11 +41871,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 153.029,
+     "wallSec": 151.428,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 153.029,
+       "wallSec": 151.428,
        "reused": false,
        "reusedBy": null
       }
@@ -40849,7 +42020,7 @@
      {
       "key": "calcause292",
       "sec": 2,
-      "share": 20,
+      "share": 19,
       "always": false
      },
      {
@@ -40915,6 +42086,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -41177,6 +42354,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41410,6 +42593,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -41670,6 +42859,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41913,6 +43108,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42152,6 +43353,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -42405,6 +43612,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42638,6 +43851,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -42879,6 +44098,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43112,6 +44337,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -43353,6 +44584,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43586,6 +44823,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -43839,6 +45082,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44076,6 +45325,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44309,6 +45564,12 @@
      {
       "key": "planets3d-299c",
       "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
       "share": "all",
       "always": false
      },
@@ -44556,6 +45817,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44793,6 +46060,12 @@
       "always": false
      },
      {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44824,8 +46097,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 138,
-  "regenSecSum": 54486,
+  "regenSteps": 139,
+  "regenSecSum": 54651,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
@@ -44835,18 +46108,18 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 61.25
+    "sec": 59.268
    },
    "h4": {
-    "n": 3,
-    "sec": 117.08999999999999
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",
-   "unattributed": 22
+   "unattributed": 23
   }
  }
 }

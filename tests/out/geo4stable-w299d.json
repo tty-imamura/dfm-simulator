@@ -393,10 +393,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 0.355
+         "wallSec": 0.459
         },
         "B": {
-         "wallSec": 0.309
+         "wallSec": 0.337
         }
        }
       },
@@ -520,10 +520,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 1.765
+         "wallSec": 1.529
         },
         "B": {
-         "wallSec": 1.653
+         "wallSec": 1.456
         }
        }
       },
@@ -647,10 +647,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 6.181
+         "wallSec": 6.028
         },
         "B": {
-         "wallSec": 6.692
+         "wallSec": 5.775
         }
        }
       }
@@ -1212,7 +1212,7 @@
   },
   "runs": {
    "A": {
-    "wallSec": 1.765,
+    "wallSec": 1.529,
     "bands": [
      {
       "band": [
@@ -1294,7 +1294,7 @@
     ]
    },
    "B": {
-    "wallSec": 1.653,
+    "wallSec": 1.456,
     "bands": [
      {
       "band": [
@@ -1566,7 +1566,7 @@
   "htmlBook": true,
   "htmlSame": true,
   "legacyDecl": {
-   "familyRole": "variant",
+   "familyRole": "retired",
    "lawVersion": "vMinusU",
    "sig": "{\"physics\":{\"G\":6.674,\"D0\":0.1,\"kFrame\":0,\"q\":3,\"kRep\":0,\"muF\":0,\"gammaN\":0,\"kappaS\":0,\"kappaT\":7.425826474101849e-9,\"cLight\":29979.2458,\"bM\":1,\"etaRad\":0,\"pRad\":4,\"cHeat\":1,\"gravityX\":0,\"gravityY\":0,\"geoPN\":4,\"lambdaPN\":0,\"pnAlpha\":1.5,\"radiusScale\":1,\"softening\":0.05,\"timeScale\":1,\"dispMag\":10,\"massFloor\":0.000001,\"stepDt\":2.11126,\"stateCarry\":\"double\",\"frameWeight\":\"share\",\"spaceMesh\":{\"mode\":\"vertex\",\"gravity\":false,\"inertia\":false,\"lawVersion\":\"vMinusU\",\"pn\":\"off\",\"velocityMeaning\":\"v\"},\"backgroundComplex\":{\"background\":\"declared\",\"W0\":1,\"A0\":[2.3,0],\"gradW\":[0,0],\"gradA\":[0,0,0,0],\"dWdt\":0,\"dAdt\":[0,0],\"note\":\"第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)\",\"sources\":[{\"id\":\"uniform-u\",\"kind\":\"field\",\"excludedExplicit\":true}],\"frame\":{\"origin\":\"barycenter\",\"epoch\":\"t0(第280便c の診断コピー)\",\"rotation\":\"none\",\"translation\":\"comoving\"}},\"meshVelocity\":{\"law\":\"vMinusU\",\"field\":\"backgroundComplex\",\"mutual\":0,\"frame\":{\"origin\":\"barycenter\",\"epoch\":\"t0(第280便c の診断コピー)\",\"rotation\":\"none\",\"translation\":\"comoving\"}}},\"bodies\":[{\"type\":\"single\",\"m\":1988.5,\"x\":0,\"y\":0,\"vx\":0,\"vy\":0,\"spin\":0.029031,\"pinned\":true,\"radius\":6.95,\"pnSource\":true},{\"type\":\"single\",\"m\":0.00033011,\"x\":460.012,\"y\":0,\"vx\":0,\"vy\":5.897643,\"spin\":0.0124,\"pinned\":false,\"radius\":0.0244}],\"world\":{\"boundary\":\"none\",\"size\":0},\"camera\":{\"scale\":800,\"follow\":0},\"seed\":null,\"rays\":null,\"overlays\":{\"rotationCurve\":false,\"tempHistogram\":false,\"field\":false,\"spectrum\":false,\"trail\":true,\"monitor\":false,\"boxGraph\":false,\"phaseGraph\":false,\"mechSpectrum\":false,\"emergence\":false},\"universeBox\":null,\"photonEmit\":null,\"integrator\":\"semi\",\"echoFlipAt\":null,\"measureBox\":false,\"thermal\":\"spin\",\"phaseChange\":null,\"fusion\":null}"
   }
@@ -1582,14 +1582,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便d",
   "target": "beta/index.html",
-  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
-  "generatedAt": "2026-10-11T11:26:57.446Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:54:03.500Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6565065,
-    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
-    "mtime": "2026-10-11T08:52:32.228Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    }
   ],
   "code": [
@@ -1597,13 +1597,13 @@
     "file": "tests/exp-w299d-geo4stable.mjs",
     "bytes": 41712,
     "sha256": "e05271c352e7f51536a9e410fd6d0c815cc6a63db6520184f90f2bab1c9e2cea",
-    "mtime": "2026-10-11T08:32:39.850Z"
+    "mtime": "2026-10-11T18:40:40.191Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
     "bytes": 6222,
     "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
-    "mtime": "2026-10-11T08:32:39.850Z"
+    "mtime": "2026-10-11T18:40:40.195Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -1672,14 +1672,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1207,
-   "segments": 1100,
-   "closureShare": 0.3221
+   "names": 1218,
+   "segments": 1109,
+   "closureShare": 0.3197
   },
-  "scopeSha256": "53b9cec6836057c219cf3e94d5962f633621a8d24d9fb3628645a6796396dbc7",
+  "scopeSha256": "5e7901bacde7528381e36ca571e3560f1c8047b0ff998ab6e31812c44bfe4d9d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 96.658
+ "elapsedS": 95.734
 }

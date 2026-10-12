@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T13:24:11.762Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:55:13.238Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T11:59:41.552Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-11T12:49:27.596Z"
+    "bytes": 1720014,
+    "sha256": "15e27b29aab78212418a705ff86a26cd3627dfbd8b016c3d65612116c3a7afc9",
+    "mtime": "2026-10-12T06:00:41.282Z"
    }
   ],
   "code": [
@@ -60,11 +60,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1190,
-   "segments": 1083,
-   "closureShare": 0.3195
+   "names": 1201,
+   "segments": 1092,
+   "closureShare": 0.3172
   },
-  "scopeSha256": "d398fbb1988dcc17ca6a7d66dcedaa451d1b05d82533bf673b772cc6135e8f0a",
+  "scopeSha256": "b4e8f7b548257d25f9d31364c4eb0ca3d36ca1e40ac4f0daa7001bb70ab18b7c",
   "scopeComplete": true,
   "tableVersion": "w282a-1",
   "contractVersion": "w288b-1",
@@ -212,7 +212,7 @@
    }
   }
  },
- "nPresets": 173,
+ "nPresets": 175,
  "rows": [
   {
    "id": "gclock",
@@ -1978,6 +1978,28 @@
    "oldRepresentative": null
   },
   {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "sampleClass": "principle",
+   "oldPopulation": false,
+   "system": "outside",
+   "target": null,
+   "kFrame": 0,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "lambdaPN": 0,
+   "fDeclared": null,
+   "law": null,
+   "fEffective": null,
+   "fRatios": null,
+   "fSource": "出典不明",
+   "fSourceKind": "unknown",
+   "lawVersion": "kF0・geoPN3・share・f=出典不明・λ_PN=0",
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
+  },
+  {
    "id": "earthMoonDiagOne",
    "emoji": "🌓",
    "sampleClass": "principle",
@@ -2256,6 +2278,28 @@
    "oldRepresentative": null
   },
   {
+   "id": "saturnRingInertial3d",
+   "emoji": "🍩",
+   "sampleClass": "principle",
+   "oldPopulation": false,
+   "system": "outside",
+   "target": null,
+   "kFrame": 0,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "lambdaPN": 0,
+   "fDeclared": null,
+   "law": null,
+   "fEffective": null,
+   "fRatios": null,
+   "fSource": "出典不明",
+   "fSourceKind": "unknown",
+   "lawVersion": "kF0・geoPN3・share・f=出典不明・λ_PN=0",
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
+  },
+  {
    "id": "uranusSunInertial3d",
    "emoji": "🔷",
    "sampleClass": "principle",
@@ -2372,7 +2416,7 @@
    "id": "solarInner",
    "emoji": "🌞",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "kf0",
    "target": "solar-system",
    "kFrame": 0,
@@ -2387,7 +2431,7 @@
    "fSourceKind": "unknown",
    "lawVersion": "kF0・geoPN1・share・f=出典不明",
    "observables": [],
-   "oldVerdict4": "保留",
+   "oldVerdict4": null,
    "oldRepresentative": null
   },
   {
@@ -4323,11 +4367,12 @@
  "sampleClassAudit": {
   "htmlOccurrences": 56,
   "presets": 37,
-  "population": 20,
+  "population": 19,
   "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
   "retiredCalibration": [
    "emAuditDFM",
    "mercuryRealKF1",
+   "solarInner",
    "plutoCharonReal",
    "alphaCenABDFM",
    "siriusABDFM",
@@ -4348,112 +4393,112 @@
   "populationNotPresets": [],
   "nonPresetOccurrences": [
    {
-    "line": 6048,
+    "line": 6102,
     "text": "//   ・`sampleClass:\"calibration\"` では**拒否**(下の geoPN 門と同じ場所で機械固定する)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 6060,
+    "line": 6114,
     "text": "// **診断であって採用則ではない** —— 宣言すると警告を 1 行出し、`sampleClass:\"calibration\"` では拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 7296,
+    "line": 7375,
     "text": "// geoPN=3(トイの輸送)・spaceMesh の宣言(座標変換慣性/織り込み)・sampleClass:\"calibration\"・single 以外の天体。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 7338,
+    "line": 7417,
     "text": "return 'physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 7890,
+    "line": 7969,
     "text": "//    **`sampleClass:\"calibration\"` では拒否**する(現実較正の受理契約は内蔵のまま)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 9276,
+    "line": 9359,
     "text": "//   ② `sampleClass:\"calibration\"`(現実較正)で **0<kFrame<1 の分数**を書くときだけ、",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 9307,
+    "line": 9390,
     "text": "// (無ければ従来どおり 2 へ丸めて警告)。`sampleClass:\"calibration\"` では**拒否**する",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 23445,
+    "line": 23656,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 23449,
+    "line": 23660,
     "text": "bad('physics.softeningFloor は sampleClass:\"calibration\" では使えません(現実較正の ε 下限 '",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23602,
+    "line": 23825,
     "text": "//   `modeSaveWarnings` の \"kFrameFraction\" と同じ文)を出す。較正クラス(sampleClass:\"calibration\")でも同じ(受理して警告)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 23611,
+    "line": 23834,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 23622,
+    "line": 23845,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 23642,
+    "line": 23865,
     "text": "warnings.push('physics.geoPN='+G3+(gm3.mode===4? '(空間メッシュ —— 旧法則版の置き場)' : '(主に慣性決定力の引きずり用)')+'を sampleClass:\"calibration\" で使います —— 現実較正の主な用途",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23699,
+    "line": 23922,
     "text": "bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23702,
+    "line": 23925,
     "text": "bad('physics.spaceMesh.centerSpin:\"read\"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23704,
+    "line": 23927,
     "text": "bad('physics.spaceMesh.toyClosure:\"iterate\"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23709,
+    "line": 23932,
     "text": "bad('physics.spaceMesh.diskSupport:\"band-pressure\"(帯平均の近似 variant)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 23717,
+    "line": 23940,
     "text": "bad('physics.spaceMesh.law:\"mesh-v2\"(引きずりの完全置換の候補・最小代数実装)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 37482,
+    "line": 37760,
     "text": "//   calTarget … sampleClass:\"calibration\" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    }
   ],
-  "rule": "`sampleClass:\"calibration\"` の文字列は html に 56 回出るが、**プリセットの宣言は 37 本**で、残りは検証器のコメントと拒否文言である(ID を持たない)。旧母集団 20 本(calaudit の走行対象 —— 第288便b から sampleClass:\"calibration\" ∧ familyRole≠\"retired\")と、退役を除くプリセットの宣言は ID の集合として一致する(差 0 本・退役の較正クラス 17 本は母集団の外)。"
+  "rule": "`sampleClass:\"calibration\"` の文字列は html に 56 回出るが、**プリセットの宣言は 37 本**で、残りは検証器のコメントと拒否文言である(ID を持たない)。旧母集団 19 本(calaudit の走行対象 —— 第288便b から sampleClass:\"calibration\" ∧ familyRole≠\"retired\")と、退役を除くプリセットの宣言は ID の集合として一致する(差 0 本・退役の較正クラス 18 本は母集団の外)。"
  },
  "legacyFourValues": {
   "label": "旧契約(第281便まで)の履歴",
-  "population": 20,
+  "population": 19,
   "current": {
    "counts": {
     "合": 0,
     "量限定合": 2,
     "否": 1,
-    "保留": 17
+    "保留": 16
    },
    "gate": {
     "合(3σ)": 2,
@@ -4461,7 +4506,7 @@
     "数値未解決": 10,
     "mapping-unresolved": 6,
     "condition-mismatch": 0,
-    "未判定": 165
+    "未判定": 151
    },
    "commit": "第274便a(署名便)"
   },
@@ -4507,7 +4552,7 @@
     }
    }
   ],
-  "rule": "旧 4 値は**単一母集団**の数である(第287便までは較正 37 本・kFrame を混ぜた 1 列 —— 第288便b から一本化後の母集団 20 本)。新集計は系統ごとの別欄で、旧 4 値を置き換えない(合否は 1 つも動かしていない)。"
+  "rule": "旧 4 値は**単一母集団**の数である(第287便までは較正 37 本・kFrame を混ぜた 1 列 —— 第288便b から一本化後の母集団 19 本)。新集計は系統ごとの別欄で、旧 4 値を置き換えない(合否は 1 つも動かしていない)。"
  },
  "newTally": {
   "kf0": {
@@ -4536,7 +4581,7 @@
     "saturnZonalD68",
     "saturnRingReal"
    ],
-   "oldPopulationMembers": 20,
+   "oldPopulationMembers": 19,
    "byTarget": {
     "solar-system": 13,
     "stellar-binary": 2,
@@ -4554,7 +4599,7 @@
     "合": 0,
     "量限定合": 2,
     "否": 1,
-    "保留": 17
+    "保留": 16
    },
    "newVocabularyApplied": false
   },
@@ -4697,7 +4742,7 @@
   },
   "outside": {
    "system": "outside",
-   "population": 98,
+   "population": 100,
    "ids": [
     "gclock",
     "grcal",
@@ -4746,6 +4791,7 @@
     "earthMoonSunInertial",
     "earthMoonSunInertialFit",
     "earthMoonSunInertial3d",
+    "earthMoonOnly3d",
     "earthMoonDiagOne",
     "qLockRadialAudit",
     "qLockRadialAuditQ3",
@@ -4757,6 +4803,7 @@
     "marsSunInertial3d",
     "jupiterSunInertial3d",
     "saturnSunInertial3d",
+    "saturnRingInertial3d",
     "uranusSunInertial3d",
     "neptuneSunInertial3d",
     "mercuryGeoToy3",
@@ -4800,14 +4847,14 @@
    ],
    "oldPopulationMembers": 0,
    "byTarget": {
-    "—": 98
+    "—": 100
    },
    "lawVersions": {
     "kF0・geoPN0・share・f=出典不明": 32,
     "kF1・geoPN0・share・f=出典不明": 27,
     "kF0・geoPN1・share・f=出典不明": 8,
     "kF1・geoPN2・pull・f=1・λ_PN=0": 1,
-    "kF0・geoPN3・share・f=出典不明・λ_PN=0": 15,
+    "kF0・geoPN3・share・f=出典不明・λ_PN=0": 17,
     "kF0・geoPN1・pull・f=出典不明": 1,
     "kF1・geoPN2・share・f=出典不明・λ_PN=0": 2,
     "kF0・geoPN4・share・f=出典不明・λ_PN=0": 7,

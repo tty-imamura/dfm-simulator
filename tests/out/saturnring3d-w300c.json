@@ -261,7 +261,7 @@
      "max": 0
     }
    },
-   "wallSec": 68.471
+   "wallSec": 94.554
   },
   "m5h2": {
    "key": "m5h2",
@@ -487,7 +487,7 @@
      "max": 0
     }
    },
-   "wallSec": 66.225
+   "wallSec": 92.278
   },
   "h": {
    "key": "h",
@@ -713,7 +713,7 @@
      "max": 0
     }
    },
-   "wallSec": 32.942
+   "wallSec": 42.66
   },
   "m5": {
    "key": "m5",
@@ -939,7 +939,7 @@
      "max": 0
     }
    },
-   "wallSec": 35.323
+   "wallSec": 45.389
   },
   "transfer": {
    "key": "transfer",
@@ -1165,7 +1165,7 @@
      "max": 0.008851027752601897
     }
    },
-   "wallSec": 62.457
+   "wallSec": 69.751
   },
   "flat2d": {
    "key": "flat2d",
@@ -1378,7 +1378,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 5.344
+   "wallSec": 5.612
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1591,7 +1591,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 10.085
+   "wallSec": 12.278
   },
   "probe": {
    "key": "probe",
@@ -1657,7 +1657,7 @@
      ]
     }
    },
-   "wallSec": 1.537
+   "wallSec": 2.549
   }
  },
  "stepDependence": {
@@ -1903,28 +1903,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 68.471
+   "wallSec": 94.554
   },
   "m5h2": {
-   "wallSec": 66.225
+   "wallSec": 92.278
   },
   "h": {
-   "wallSec": 32.942
+   "wallSec": 42.66
   },
   "m5": {
-   "wallSec": 35.323
+   "wallSec": 45.389
   },
   "transfer": {
-   "wallSec": 62.457
+   "wallSec": 69.751
   },
   "flat2d": {
-   "wallSec": 5.344
+   "wallSec": 5.612
   },
   "flat2dh2": {
-   "wallSec": 10.085
+   "wallSec": 12.278
   },
   "probe": {
-   "wallSec": 1.537
+   "wallSec": 2.549
   }
  },
  "notClaim": [
@@ -1936,14 +1936,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "64fbbc670664af99e12e7c2f54346f28f3aa5029effd2cd012928810288cd031",
-  "generatedAt": "2026-10-12T02:34:55.520Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:52:03.626Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6586920,
-    "sha256": "64fbbc670664af99e12e7c2f54346f28f3aa5029effd2cd012928810288cd031",
-    "mtime": "2026-10-12T02:29:12.278Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    }
   ],
   "code": [
@@ -1951,31 +1951,31 @@
     "file": "tests/exp-w300c-saturnring3d.mjs",
     "bytes": 40219,
     "sha256": "3ba278ef4ea2647a574884e0767dabe15c7b0eeaaa5a17d01b1e1824bc63f81b",
-    "mtime": "2026-10-12T02:25:59.486Z"
+    "mtime": "2026-10-12T05:11:05.893Z"
    },
    {
     "file": "tests/lib-w300c-saturnring3d.mjs",
     "bytes": 9305,
     "sha256": "2f2e2aa4b5c24fa4bf9f38a5a9a029bdd7c2b450ce9c9d2e19614084b5b9538a",
-    "mtime": "2026-10-12T01:14:48.797Z"
+    "mtime": "2026-10-12T05:11:05.894Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-12T00:50:27.147Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-12T00:50:27.143Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-12T00:50:27.151Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "e476397bf833a4c5c8e9267cbc2bce0c4e06dd2999e21d2cd24b5b65d3ab1f4b",
@@ -1999,14 +1999,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1205,
-   "segments": 1096,
-   "closureShare": 0.3199
+   "names": 1213,
+   "segments": 1104,
+   "closureShare": 0.3183
   },
-  "scopeSha256": "21404f385737b0c6f2952cef68aa46e3dac997558ce5a3b53b647254648dd059",
+  "scopeSha256": "0261ac48a476fbfd1b8376b5b3cc4d51f26091e14d0d161e8ada27ed54d03064",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 162.741
+ "elapsedS": 206.241
 }

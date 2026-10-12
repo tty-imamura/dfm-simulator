@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T15:10:08.127Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:48:33.336Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T15:03:27.403Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    }
   ],
   "code": [
@@ -18,49 +18,49 @@
     "file": "tests/exp-w291b-pnsources.mjs",
     "bytes": 27491,
     "sha256": "02c9351e54046efe76c1034fac565bfd69fa8184cd190ddd59cd166364619308",
-    "mtime": "2026-10-11T15:06:34.203Z"
+    "mtime": "2026-10-11T18:40:40.051Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19554,
     "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
-    "mtime": "2026-10-11T15:03:27.699Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-11T15:03:27.699Z"
+    "mtime": "2026-10-09T10:19:35.518Z"
    },
    {
     "file": "tests/lib-w280d-charoninput.mjs",
     "bytes": 22952,
     "sha256": "53d308ce7d3f14067cb8dc8f038d1b5faad5b80dec087c7fe0835de6cad3150d",
-    "mtime": "2026-10-11T15:03:27.695Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-10-11T15:03:27.691Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-11T15:03:27.695Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-11T15:03:27.691Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-11T15:03:27.695Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "f048ac640b8099d90286f711df6b9697033d154baa7d98ef6e8070d263b015f6",
@@ -113,11 +113,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1193,
-   "segments": 1086,
-   "closureShare": 0.319
+   "names": 1204,
+   "segments": 1095,
+   "closureShare": 0.3168
   },
-  "scopeSha256": "8ad6c9c030b841dc73371628195a040f418ffe426351e5964141ae7ad320bb17",
+  "scopeSha256": "9d8e46ac18b37469337fdeffc3b2bccd0f5046a424e311b2dd5bd7399eac7b77",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -168,9 +168,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+ "nowSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
  "A": {
-  "n": 173,
+  "n": 175,
   "kf0Books": 28,
   "increased": [
    "earthMoonReal",
@@ -235,6 +235,7 @@
    "earthMoonSunInertial",
    "earthMoonSunInertialFit",
    "earthMoonSunInertial3d",
+   "earthMoonOnly3d",
    "mercurySunInertial",
    "mercurySunInertialFit",
    "mercurySunInertial3d",
@@ -242,6 +243,7 @@
    "marsSunInertial3d",
    "jupiterSunInertial3d",
    "saturnSunInertial3d",
+   "saturnRingInertial3d",
    "uranusSunInertial3d",
    "neptuneSunInertial3d",
    "mercuryMeshMigrate3d",
@@ -1698,7 +1700,7 @@
   {
    "id": "galaxyMeshSpiralGeoToy",
    "emoji": "🪁",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 351,
    "geoPN": 4,
@@ -1752,7 +1754,7 @@
   {
    "id": "galaxyAnalogyBH",
    "emoji": "🌚",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 211,
    "geoPN": 4,
@@ -1779,7 +1781,7 @@
   {
    "id": "galaxyAnalogyBHCompose",
    "emoji": "🧩",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 211,
    "geoPN": 4,
@@ -1806,7 +1808,7 @@
   {
    "id": "galaxyAnalogyBHTilt90",
    "emoji": "🛸",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 211,
    "geoPN": 4,
@@ -1833,7 +1835,7 @@
   {
    "id": "galaxyAnalogyBHTilt90Layers",
    "emoji": "🪆",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 211,
    "geoPN": 4,
@@ -1860,7 +1862,7 @@
   {
    "id": "clusterAnalogyBH",
    "emoji": "💮",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 526,
    "geoPN": 4,
@@ -2673,7 +2675,7 @@
   {
    "id": "earthMoonTide",
    "emoji": "🌜",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 1,
@@ -2730,7 +2732,7 @@
   {
    "id": "earthMoonInertial",
    "emoji": "🌛",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 3,
@@ -2873,7 +2875,7 @@
   {
    "id": "earthMoonSunInertialFit",
    "emoji": "🌥️",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 3,
    "geoPN": 3,
@@ -2910,6 +2912,33 @@
    "kf0": false,
    "srcBase": null,
    "srcNow": 2,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
    "srcIncreased": false,
    "inBase": false,
    "inertialLaw": true,
@@ -3264,6 +3293,33 @@
    "coord3d299": false
   },
   {
+   "id": "saturnRingInertial3d",
+   "emoji": "🍩",
+   "role": "variant",
+   "cls": "principle",
+   "n": 127,
+   "geoPN": 3,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
    "id": "uranusSunInertial3d",
    "emoji": "🔷",
    "role": "variant",
@@ -3320,7 +3376,7 @@
   {
    "id": "mercuryGeoToy3",
    "emoji": "🔁",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 4,
@@ -3347,7 +3403,7 @@
   {
    "id": "mercuryMeshMigrate3d",
    "emoji": "🔂",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 4,
@@ -3401,7 +3457,7 @@
   {
    "id": "solarInner",
    "emoji": "🌞",
-   "role": "primary",
+   "role": "retired",
    "cls": "calibration",
    "n": 105,
    "geoPN": 1,
@@ -3730,7 +3786,7 @@
   {
    "id": "charonGeoToy3",
    "emoji": "🌒",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 4,
@@ -3990,7 +4046,7 @@
   {
    "id": "psrDoubleABGeoToy",
    "emoji": "🩻",
-   "role": "variant",
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 4,
@@ -4593,7 +4649,7 @@
   {
    "id": "spaceMeshBinaryToy",
    "emoji": "🪟",
-   "role": null,
+   "role": "retired",
    "cls": "principle",
    "n": 2,
    "geoPN": 0,
@@ -5560,13 +5616,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.088,
+   "wallSec": 0.093,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.2,
+   "wallSec": 0.163,
    "errors": 0
   }
  },
- "elapsedS": 207.195
+ "elapsedS": 211.26
 }

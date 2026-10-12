@@ -1,10 +1,10 @@
 {
- "when": "2026-10-11T12:49:28.191Z",
+ "when": "2026-10-12T06:03:50.080Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-10-11T12:49:27.305Z"
+  "calauditWhen": "2026-10-12T06:00:41.021Z"
  },
  "gate": {
   "nSigma": 3,
@@ -173,65 +173,9 @@
      "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "水星",
-    "measDegPerOrbit": -0.25646478267682027,
-    "obs": 0.00159808333333333,
-    "sigma": 4.167e-9,
-    "primary": {
-     "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 13260428.676563405,
-     "periodDef": "periastron-same-window",
-     "simDegPerYear": -0.6103432417766698,
-     "residual": -0.6119413251100031,
-     "nSigma": -146854169.69282532
-    },
-    "controls": [
-     {
-      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": null,
-      "periodDef": "periastron-20window",
-      "simDegPerYear": null,
-      "residual": null,
-      "nSigma": null
-     },
-     {
-      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600506.159807752,
-      "periodDef": "revolution",
-      "simDegPerYear": -1.0648518474467943,
-      "residual": -1.0664499307801276,
-      "nSigma": -255927509.1864957
-     },
-     {
-      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
-      "periodSec": 7600521.6,
-      "periodDef": "observed-rounded",
-      "simDegPerYear": -1.064849684237727,
-      "residual": -1.0664477675710604,
-      "nSigma": -255926990.05784985
-     }
-    ],
-    "inverseCheck": {
-     "obsDegPerOrbit": 0.0006715108265796931,
-     "sigmaDegPerOrbit": 1.7509635173536551e-9,
-     "nSigma": -146854169.69282532
-    },
-    "previous": {
-     "contract": "20-periastron period window(第268便a)",
-     "periodSec": null,
-     "simDegPerYear": null,
-     "residual": null,
-     "nSigma": null,
-     "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
-    },
-    "verdict": "保留(数値収束が未確認)"
    }
   ],
-  "cutPreserved": 2,
+  "cutPreserved": 1,
   "movedToOfficial": [
    {
     "id": "saturnZonalD68",
@@ -295,47 +239,6 @@
    "Oberon|eccentricity(第279便e: AM7′ の裁定は**周期だけ**である(e の判定行は裁定の外)。Jacobson 2014 Table 2 の e は候補行のまま(1σ は印字されていない))"
   ],
   "rows": [
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "金星",
-    "kind": "ecc",
-    "meas": 0.000026642730432596792,
-    "key": "Venus|eccentricity",
-    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
-    "declaredValue": 0.00677672,
-    "declaredSigma": null,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 0.007,
-     "sigma": null,
-     "unit": "1",
-     "source": "dfm-simulator solarInner declaration (committed)",
-     "primaryVerified": false
-    },
-    "valueDelta": -0.00022328000000000018,
-    "residual": 0.006750077269567403,
-    "nSigma": null,
-    "assessedStage": "h",
-    "primaryVerified": false,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "観測量対応が未確定",
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": false,
-     "convergenceOk": false,
-     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   },
    {
     "id": "venusReal",
     "emoji": "🌇",
@@ -821,13 +724,13 @@
   "note": "**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、門へは 1 bit も入らない。"
  },
  "cutTally": {
-  "csv-sigma-empty": 86,
-  "kind-not-gated": 26,
-  "unit-not-converted": 2,
+  "csv-sigma-empty": 75,
+  "kind-not-gated": 24,
+  "unit-not-converted": 1,
   "connected": 2
  },
  "fourTally": {
-  "保留": 11,
+  "保留": 10,
   "否": 1
  },
  "presets": [
@@ -889,16 +792,7 @@
   {
    "id": "solarInner",
    "emoji": "🌞",
-   "nQuantities": 14,
-   "nGatable": 12,
-   "nCondMismatch": 0,
-   "nSigmaConnected": 0,
-   "cuts": {
-    "csv-sigma-empty": 11,
-    "kind-not-gated": 2,
-    "unit-not-converted": 1
-   },
-   "four": "保留"
+   "missing": true
   },
   {
    "id": "jupiterGalilean",
@@ -1529,593 +1423,6 @@
    "csvRow": {
     "value": 0.20563593,
     "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "公転周期(水/金/地/火)(水星)",
-   "kind": "period",
-   "target": "水星",
-   "unit": "s",
-   "obs": 7600521.6,
-   "meas": 7600506.159807752,
-   "sigmaCard": null,
-   "csvBody": "Mercury",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 7600521.6,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "公転周期(水/金/地/火)(金星)",
-   "kind": "period",
-   "target": "金星",
-   "unit": "s",
-   "obs": 19414166.4,
-   "meas": 19414650.471987583,
-   "sigmaCard": null,
-   "csvBody": "Venus",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 19414166.4,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "公転周期(水/金/地/火)(地球)",
-   "kind": "period",
-   "target": "地球",
-   "unit": "s",
-   "obs": 31558118.4,
-   "meas": 31558162.210483246,
-   "sigmaCard": null,
-   "csvBody": "Earth",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 31558149.7635456,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "公転周期(水/金/地/火)(火星)",
-   "kind": "period",
-   "target": "火星",
-   "unit": "s",
-   "obs": 59355072,
-   "meas": 59352853.69590237,
-   "sigmaCard": null,
-   "csvBody": "Mars",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 59355072,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "軌道速度(地球)",
-   "kind": "other",
-   "target": null,
-   "unit": null,
-   "obs": null,
-   "meas": null,
-   "sigmaCard": null,
-   "csvBody": null,
-   "csvQuantity": null,
-   "csvRow": null,
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "kind-not-gated",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "円軌道の維持(2水星周窓)",
-   "kind": "other",
-   "target": null,
-   "unit": null,
-   "obs": null,
-   "meas": null,
-   "sigmaCard": null,
-   "csvBody": null,
-   "csvQuantity": null,
-   "csvRow": null,
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "kind-not-gated",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 離心率(水星)",
-   "kind": "ecc",
-   "target": "水星",
-   "unit": "-",
-   "obs": null,
-   "meas": 0.00006545777917126629,
-   "sigmaCard": null,
-   "csvBody": "Mercury",
-   "csvQuantity": "eccentricity",
-   "csvRow": {
-    "value": 0.20563593,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 近点移動(水星)",
-   "kind": "precession",
-   "target": "水星",
-   "unit": "deg/orbit",
-   "obs": null,
-   "meas": -0.25646478267682027,
-   "sigmaCard": null,
-   "csvBody": "Mercury",
-   "csvQuantity": "periastron_advance",
-   "csvRow": {
-    "value": 0.00159808333333333,
-    "unit": "deg/yr",
-    "sigma": 4.167e-9,
-    "primaryVerified": true
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "unit-not-converted",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ の単位が obsCard と違う・未換算)",
-   "guards": null,
-   "unitConvertedFirst": {
-    "from": "deg/orbit",
-    "to": "deg/yr",
-    "yearSec": 31557600,
-    "obsValue": 0.00159808333333333,
-    "obsSigma": 4.167e-9,
-    "primary": {
-     "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 13260428.676563405,
-     "periodDef": "periastron-same-window",
-     "simDegPerYear": -0.6103432417766698,
-     "residual": -0.6119413251100031,
-     "nSigma": -146854169.69282532
-    },
-    "controls": [
-     {
-      "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": null,
-      "periodDef": "periastron-20window",
-      "simDegPerYear": null,
-      "residual": null,
-      "nSigma": null
-     },
-     {
-      "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600506.159807752,
-      "periodDef": "revolution",
-      "simDegPerYear": -1.0648518474467943,
-      "residual": -1.0664499307801276,
-      "nSigma": -255927509.1864957
-     },
-     {
-      "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
-      "periodSec": 7600521.6,
-      "periodDef": "observed-rounded",
-      "simDegPerYear": -1.064849684237727,
-      "residual": -1.0664477675710604,
-      "nSigma": -255926990.05784985
-     }
-    ],
-    "previous": {
-     "contract": "20-periastron period window(第268便a)",
-     "periodSec": null,
-     "simDegPerYear": null,
-     "residual": null,
-     "nSigma": null,
-     "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
-    },
-    "inverseCheck": {
-     "obsDegPerOrbit": 0.0006715108265796931,
-     "sigmaDegPerOrbit": 1.7509635173536551e-9,
-     "nSigma": -146854169.69282532
-    },
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
-   },
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 離心率(金星)",
-   "kind": "ecc",
-   "target": "金星",
-   "unit": "-",
-   "obs": 0.00677672,
-   "meas": 0.000026642730432596792,
-   "sigmaCard": null,
-   "csvBody": "Venus",
-   "csvQuantity": "eccentricity",
-   "csvRow": {
-    "value": 0.00677672,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": true,
-   "csvRowLegacy": {
-    "value": 0.007,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false,
-    "source": "dfm-simulator solarInner declaration (committed)"
-   },
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": {
-    "key": "Venus|eccentricity",
-    "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
-    "declaredValue": 0.00677672,
-    "declaredSigma": null,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 0.007,
-     "sigma": null,
-     "unit": "1",
-     "source": "dfm-simulator solarInner declaration (committed)",
-     "primaryVerified": false
-    },
-    "valueDelta": -0.00022328000000000018,
-    "residual": 0.006750077269567403,
-    "nSigma": null,
-    "assessedStage": "h",
-    "primaryVerified": false,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "観測量対応が未確定",
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": false,
-     "convergenceOk": false,
-     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   },
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 近点移動(金星)",
-   "kind": "precession",
-   "target": "金星",
-   "unit": "deg/orbit",
-   "obs": null,
-   "meas": 12.729298887137313,
-   "sigmaCard": null,
-   "csvBody": "Venus",
-   "csvQuantity": "periastron_advance",
-   "csvRow": {
-    "value": 0.0000268329,
-    "unit": "deg/yr",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 離心率(地球)",
-   "kind": "ecc",
-   "target": "地球",
-   "unit": "-",
-   "obs": null,
-   "meas": 0.000029829736226796292,
-   "sigmaCard": null,
-   "csvBody": "Earth",
-   "csvQuantity": "eccentricity",
-   "csvRow": {
-    "value": 0.01671123,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 近点移動(地球)",
-   "kind": "precession",
-   "target": "地球",
-   "unit": "deg/orbit",
-   "obs": null,
-   "meas": 2.2363988431300164,
-   "sigmaCard": null,
-   "csvBody": "Earth",
-   "csvQuantity": "periastron_advance",
-   "csvRow": {
-    "value": 0.0032327364,
-    "unit": "deg/yr",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 離心率(火星)",
-   "kind": "ecc",
-   "target": "火星",
-   "unit": "-",
-   "obs": null,
-   "meas": 0.0000173076656164526,
-   "sigmaCard": null,
-   "csvBody": "Mars",
-   "csvQuantity": "eccentricity",
-   "csvRow": {
-    "value": 0.0933941,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null,
-   "sigmaProvenance": null
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "実測(標準検出器): 近点移動(火星)",
-   "kind": "precession",
-   "target": "火星",
-   "unit": "deg/orbit",
-   "obs": null,
-   "meas": null,
-   "sigmaCard": null,
-   "csvBody": "Mars",
-   "csvQuantity": "periastron_advance",
-   "csvRow": {
-    "value": 0.0044441088,
-    "unit": "deg/yr",
     "sigma": null,
     "primaryVerified": false
    },
@@ -5637,20 +4944,6 @@
  ],
  "missingForJudgement": [
   {
-   "key": "Venus|orbital_period",
-   "body": "Venus",
-   "target": "金星",
-   "quantity": "orbital_period",
-   "kind": "period",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞",
-    "🌇"
-   ],
-   "nQuantities": 4,
-   "obsPresent": 3
-  },
-  {
    "key": "Io|orbital_period",
    "body": "Io",
    "target": "イオ",
@@ -5659,6 +4952,19 @@
    "cut": "csv-sigma-empty",
    "presets": [
     "🟠"
+   ],
+   "nQuantities": 3,
+   "obsPresent": 2
+  },
+  {
+   "key": "Venus|orbital_period",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "orbital_period",
+   "kind": "period",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌇"
    ],
    "nQuantities": 3,
    "obsPresent": 2
@@ -5717,62 +5023,6 @@
    ],
    "nQuantities": 2,
    "obsPresent": 1
-  },
-  {
-   "key": "Mercury|orbital_period",
-   "body": "Mercury",
-   "target": "水星",
-   "quantity": "orbital_period",
-   "kind": "period",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "☄️",
-    "🌞"
-   ],
-   "nQuantities": 2,
-   "obsPresent": 2
-  },
-  {
-   "key": "Mercury|eccentricity",
-   "body": "Mercury",
-   "target": "水星",
-   "quantity": "eccentricity",
-   "kind": "ecc",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "☄️",
-    "🌞"
-   ],
-   "nQuantities": 2,
-   "obsPresent": 0
-  },
-  {
-   "key": "Venus|eccentricity",
-   "body": "Venus",
-   "target": "金星",
-   "quantity": "eccentricity",
-   "kind": "ecc",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞",
-    "🌇"
-   ],
-   "nQuantities": 2,
-   "obsPresent": 2
-  },
-  {
-   "key": "Venus|periastron_advance",
-   "body": "Venus",
-   "target": "金星",
-   "quantity": "periastron_advance",
-   "kind": "precession",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞",
-    "🌇"
-   ],
-   "nQuantities": 2,
-   "obsPresent": 0
   },
   {
    "key": "Europa|orbital_period",
@@ -5866,79 +5116,27 @@
    "obsPresent": 2
   },
   {
-   "key": "Earth|orbital_period",
-   "body": "Earth",
-   "target": "地球",
+   "key": "Mercury|orbital_period",
+   "body": "Mercury",
+   "target": "水星",
    "quantity": "orbital_period",
    "kind": "period",
    "cut": "csv-sigma-empty",
    "presets": [
-    "🌞"
+    "☄️"
    ],
    "nQuantities": 1,
    "obsPresent": 1
   },
   {
-   "key": "Mars|orbital_period",
-   "body": "Mars",
-   "target": "火星",
-   "quantity": "orbital_period",
-   "kind": "period",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 1
-  },
-  {
-   "key": "Earth|eccentricity",
-   "body": "Earth",
-   "target": "地球",
+   "key": "Mercury|eccentricity",
+   "body": "Mercury",
+   "target": "水星",
    "quantity": "eccentricity",
    "kind": "ecc",
    "cut": "csv-sigma-empty",
    "presets": [
-    "🌞"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 0
-  },
-  {
-   "key": "Earth|periastron_advance",
-   "body": "Earth",
-   "target": "地球",
-   "quantity": "periastron_advance",
-   "kind": "precession",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 0
-  },
-  {
-   "key": "Mars|eccentricity",
-   "body": "Mars",
-   "target": "火星",
-   "quantity": "eccentricity",
-   "kind": "ecc",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 0
-  },
-  {
-   "key": "Mars|periastron_advance",
-   "body": "Mars",
-   "target": "火星",
-   "quantity": "periastron_advance",
-   "kind": "precession",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "🌞"
+    "☄️"
    ],
    "nQuantities": 1,
    "obsPresent": 0
@@ -6043,6 +5241,32 @@
    "cut": "csv-sigma-empty",
    "presets": [
     "🟠"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Venus|eccentricity",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌇"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 1
+  },
+  {
+   "key": "Venus|periastron_advance",
+   "body": "Venus",
+   "target": "金星",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🌇"
    ],
    "nQuantities": 1,
    "obsPresent": 0
@@ -6539,7 +5763,7 @@
  "conclusion": {
   "connected": 2,
   "unverified": 0,
-  "missingForJudgement": 65,
+  "missingForJudgement": 59,
   "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 2 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
   "doNotWrite": [
    "太陽系の現実較正を完了した",

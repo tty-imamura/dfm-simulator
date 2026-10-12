@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T13:22:48.482Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:48:00.819Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T11:59:41.552Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-11T12:49:27.596Z"
+    "bytes": 1720014,
+    "sha256": "15e27b29aab78212418a705ff86a26cd3627dfbd8b016c3d65612116c3a7afc9",
+    "mtime": "2026-10-12T06:00:41.282Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 364342,
-    "sha256": "a481d697c9239500990ce9217bc6976c9243ffcc34f42a139b39c309a1a5207a",
-    "mtime": "2026-10-09T10:19:35.462Z"
+    "bytes": 364454,
+    "sha256": "68ad7c7411c1451ae2a56b10770a2223c8fdb1dbdee5c5eeef7181b970a0faa5",
+    "mtime": "2026-10-12T05:10:54.634Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "e540dbe4d4c58d80515825b4471baf7090a1b8d4bd969b221a04ada3dbb43f0c",
+  "codeSha256": "f7e0226a030bf7ccf0cd1ee8c8bb37ad9e0b8b51cb07975650901111f76d4c5d",
   "harnessVersion": "w285a-contact-1",
   "loadErrors": 0,
   "dt": 0.016,
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1189,
-   "segments": 1082,
-   "closureShare": 0.3175
+   "names": 1200,
+   "segments": 1091,
+   "closureShare": 0.3153
   },
-  "scopeSha256": "10a622159e869efe471c744c52a1d61f13494e7f0a845f6e1bcb9c9831533152",
+  "scopeSha256": "0956ebbe4b60531d7d2dd505d3f19d09dfd3d68fb52098fec293c5518d5acbf3",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "60393af84c3ed77fc8afd659621204b8391dda5fe7bcc1c5ba161802f34e650f",
+    "stableSha256": "4c884f83bd04157cde9bd11f34c22580ae0ae2b4939752bb3dfe7f15ed4d4490",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "769c9f455642d333d0c4f4634f218cbc9a770cf72eb409a86fcdbb1346343f33",
+    "stableSha256": "e8f4e8bbb4dad9373bed66fdde20ae3ecd8c77a27ce16bff65decb754436bad3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -536,7 +536,7 @@
  "oneStep": {
   "baseRev": "b92ffa1",
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "n": 173,
+  "n": 175,
   "nBase": 142,
   "identical": 80,
   "differ": [
@@ -570,6 +570,7 @@
    "earthMoonSunInertial",
    "earthMoonSunInertialFit",
    "earthMoonSunInertial3d",
+   "earthMoonOnly3d",
    "earthMoonDiagOne",
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
@@ -582,6 +583,7 @@
    "marsSunInertial3d",
    "jupiterSunInertial3d",
    "saturnSunInertial3d",
+   "saturnRingInertial3d",
    "uranusSunInertial3d",
    "neptuneSunInertial3d",
    "mercuryGeoToy3",
@@ -657,6 +659,7 @@
    "shapeToyDiskCore",
    "shapeToyArmCore",
    "shapeToySpiralCore",
+   "saturnRingInertial3d",
    "chainDiskToy",
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
@@ -1708,7 +1711,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9"
+   "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2"
   },
   "table": [
    {
@@ -1910,7 +1913,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 153.029,
+      "wallSec": 151.428,
       "tags": [
        "dt"
       ],
@@ -1925,5 +1928,5 @@
   ],
   "note": null
  },
- "elapsedS": 250.575
+ "elapsedS": 307.649
 }
