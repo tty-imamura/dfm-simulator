@@ -72437,6 +72437,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
               'mercuryGeoToy3', 'mercuryMeshMigrate3d', 'charonGeoToy3', 'psrDoubleABGeoToy', 'spaceMeshBinaryToy'] : []);
           // 第300便b(原仮定者の裁定(第90報)③・R176): 第300便b で退役した 3 本(🌥️🌛🌜)も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🌜 の行が「第90報」)
           if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonTide && /^第90報/.test(RETIRED_PRESETS.earthMoonTide.ja)) RET298T.push('earthMoonSunInertialFit', 'earthMoonInertial', 'earthMoonTide');
+          // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner も第297便c の在位の時間の宣言のまま凍結(世代切替 = RETIRED_PRESETS の 🌞 の行が「第90報」)
+          if (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) RET298T.push('solarInner');
           if (p.familyRole === 'retired' && RET298T.includes(p.id)) rows.ret298 = (rows.ret298 || 0) + 1;
           if (p.familyRole === 'retired' && !RET298T.includes(p.id)) {
             rows.retired++;
