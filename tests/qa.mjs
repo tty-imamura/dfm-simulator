@@ -73611,6 +73611,160 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
+// ---- 第300便c(原仮定者の裁定(第90報)④⑥・統括の検証項目 R177): **🍩 土星の輪の geoPN=3 三次元**と**太陽系 16 体の三次元の器**(入力の契約・検査・生成器 —— 数値は別途の観測レコード)。
+// ----   世代切替は html の宣言(🍩 は `{ id:"saturnRingInertial3d"`・器は `RADIUS_FLOOR_KEY = "radiusFloor"`)。root 等は SKIP。
+// ----   ① preset.saturnRing3d300 …… 内蔵の 🍩 = 生成器 ringDecl3 の写し(physics・bodies・timeRef・camera・seed・scaleExp)・三次元・geoPN 3・λ_PN 0・kFrame 0・double・timeScale 1・
+// ----      gain 0・spinDrag rot surfaceFlip/axial off・刻みと timeRef は 💍 の写し・帯は試験粒子でない有限粒子(合計 = 実環の総質量)・衛星と帯が 🟡 の土星の極の赤道面・
+// ----      💍 は試験粒子のまま(変えない)・受理の警告 0・拒否の門 空・家族・絵文字・clight の表・samplestatus の原稿・正本(来歴・門・観測カードの数)・文書と禁句
+// ----   ② docs.solar16Contract300 …… スキーマの成員と NAIF の天体中心 = 生成器の表・人工の入力(実際の配置ではない)の受理・宣言の受理と三次元の門・360 步の有限値・
+// ----      刻みの検査(h・h/2・h/4)・不正な入力の拒否(符号ごと)・radiusFloor の受理契約(未宣言は 0.01 に丸める・較正クラスは拒否)・予約 id が内蔵に無いこと・文書
+{
+  const html300c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has300cR = TARGET.startsWith('beta/') && html300c.indexOf('{ id:"saturnRingInertial3d"') >= 0;
+  const has300cS = TARGET.startsWith('beta/') && html300c.indexOf('RADIUS_FLOOR_KEY = "radiusFloor"') >= 0;
+  if (!has300cR && !has300cS) {
+    console.log('SKIP preset.saturnRing3d300 / docs.solar16Contract300(第300便c 未適用 — ' + TARGET + ')');
+  } else {
+    let R3c = null, X3r = null, S16 = null, X16 = null, J30 = null, H30 = null, err30 = null;
+    try {
+      R3c = await import('file://' + path.join(ROOT, 'tests', 'lib-w300c-saturnring3d.mjs'));
+      X3r = await import('file://' + path.join(ROOT, 'tests', 'exp-w300c-saturnring3d.mjs'));
+      S16 = await import('file://' + path.join(ROOT, 'tests', 'lib-w300c-solar16.mjs'));
+      X16 = await import('file://' + path.join(ROOT, 'tests', 'exp-w300c-solar16.mjs'));
+      J30 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'saturnring3d-w300c.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      H30 = loadHtmlHeadless(path.join(ROOT, TARGET));
+    } catch (e) { err30 = String(e && e.stack || e).slice(0, 200); }
+    const near30 = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near30(x, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => near30(a[k], b[k], tol)); }
+      return a === b; };
+    const Pd30 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const a30 = Pd30.indexOf('〔第300便c — ');
+    const e30 = (a30 >= 0) ? [Pd30.indexOf('\n〔第', a30 + 10), Pd30.indexOf('\n## 7. 論文', a30)].filter((k) => k > a30) : [];
+    const psec30 = (a30 >= 0) ? Pd30.slice(a30, e30.length ? Math.min(...e30) : undefined) : '';
+    const Ai30 = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+    const ai30 = Ai30.indexOf('第300便c —— 土星の輪の geoPN=3 三次元');
+    const aiSec30 = (ai30 >= 0) ? Ai30.slice(ai30, ai30 + 8000) : '';
+    const NG30 = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+    const strip30 = (t) => t.replace(/「[^」]*」/g, '');
+    // ---- ① preset.saturnRing3d300
+    {
+      const bad = [], cases = [];
+      if (err30) bad.push('器/正本/html が読めない: ' + err30);
+      else if (!has300cR) bad.push('🍩 saturnRingInertial3d が内蔵に無い');
+      else {
+        const HP = H30.HP, all = HP.allPresets(), id = R3c.ID;
+        const p = all.find((q) => q.id === id), src = all.find((q) => q.id === R3c.SRC_ID), pol = all.find((q) => q.id === R3c.POLE_ID);
+        const ph = p.physics || {}, rd = ph.relativeDrag || {};
+        if (!(ph.coord === '3d' && ph.geoPN === 3 && ph.lambdaPN === 0 && ph.kFrame === 0 && ph.stateCarry === 'double' && ph.timeScale === 1)) bad.push('physics(coord/geoPN/λ/kFrame/stateCarry/timeScale)');
+        if (!(rd.law === 'inertial' && rd.gain === 0 && rd.spinDrag && rd.spinDrag.rot === 'surfaceFlip' && rd.spinDrag.axial === 'off')) bad.push('慣性引きずり(gain 0・spinDrag rot surfaceFlip/axial off)');
+        if (!(ph.stepDt === src.physics.stepDt && p.timeRef.pRef === src.timeRef.pRef && JSON.stringify(p.timeRef.pair) === JSON.stringify(src.timeRef.pair) && p.timeRef.legacyTimeScale === undefined)) bad.push('刻みと timeRef が 💍 の時間の基準の写しでない');
+        const d = R3c.ringDecl3(HP, {});
+        if (!(near30(d.physics, p.physics, 1e-12) && near30(d.bodies, p.bodies, 1e-12) && near30(d.timeRef, p.timeRef, 0) && near30(d.camera, p.camera, 0) && p.seed === d.seed && JSON.stringify(d.scaleExp) === JSON.stringify(p.scaleExp))) bad.push('宣言が生成器 ringDecl3 の写しと違う');
+        if (p.seed !== ((R3c.hashStr(R3c.SRC_ID) + 7) >>> 0)) bad.push('乱数の種が 💍 と同じでない');
+        const sa = pol.bodies[R3c.POLE_INDEX].spinAxis, u = R3c.poleUnit(sa.tiltDeg, sa.azimuthDeg);
+        const B = p.bodies, rings = B.filter((b) => b.type === 'ring'), sing = B.filter((b) => b.type === 'single');
+        if (!(B[0].pinned === true && B[0].spinAxis && B[0].spinAxis.enable === true && B[0].spinAxis.tiltDeg === sa.tiltDeg && B[0].spinAxis.azimuthDeg === sa.azimuthDeg)) bad.push('土星(pinned・極は 🟡 の写し)');
+        let oop = 0, dr = 0;
+        sing.slice(1).forEach((b, k) => { const r = Math.hypot(b.x, b.y, b.z), sb = src.bodies.filter((z) => z.type === 'single')[k + 1];
+          oop = Math.max(oop, Math.abs(b.x * u[0] + b.y * u[1] + b.z * u[2]) / r, Math.abs(b.vx * u[0] + b.vy * u[1] + b.vz * u[2]) / Math.hypot(b.vx, b.vy, b.vz));
+          dr = Math.max(dr, Math.abs(r - Math.hypot(sb.x, sb.y)) / r); if (b.spin !== 0 && !(b.spinAxis && b.spinAxis.enable === true)) bad.push('自転する衛星の軸の有効化'); });
+        if (!(oop < 1e-12 && dr < 1e-12)) bad.push('衛星が土星の赤道面に無い/半径が 💍 と違う ' + oop + ' ' + dr);
+        const inn = R3c.inclNodeOf(sa.tiltDeg, sa.azimuthDeg);
+        if (!(rings.length === 3 && rings.every((b) => b.incl === inn.incl && b.node === inn.node && b.testParticle === undefined && b.mMin === R3c.GRAIN_MASS && b.mMax === R3c.GRAIN_MASS))) bad.push('帯(incl・node・試験粒子でない・粒の質量)');
+        const tot = rings.reduce((s, b) => s + b.n * b.mMin, 0) * 1e25;
+        if (!(Math.abs(tot - R3c.RING_TOTAL_KG) <= 1e-9 * R3c.RING_TOTAL_KG && ph.massFloor === R3c.MASS_FLOOR_LOW)) bad.push('帯の合計の質量 ' + tot + ' kg / massFloor');
+        if (!(src.bodies.filter((b) => b.type === 'ring').every((b) => b.testParticle === true) && src.physics.geoPN === 1)) bad.push('💍 が変わった(帯は試験粒子のまま・geoPN 1)');
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok || (v.warnings || []).length) bad.push('受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 160));
+        else if (HP.coord3d.denyOf(v.preset).length) bad.push('三次元の拒否の門 ' + JSON.stringify(HP.coord3d.denyOf(v.preset)).slice(0, 120));
+        if (!(p.familyId === 'saturn' && p.familyRole === 'variant' && all.some((q) => q.familyId === 'saturn' && q.familyRole === 'primary'))) bad.push('家族');
+        if (all.filter((q) => q.emoji === p.emoji).length !== 1) bad.push('絵文字 ' + p.emoji + ' が他の本と重なる');
+        if (p.sampleClass !== 'principle' || p.fidelity !== 'real') bad.push('sampleClass/fidelity');
+        if ((p.notClaim || []).indexOf('ring3d_grains') < 0) bad.push('notClaim ring3d_grains');
+        if (!/\n  nc_ring3d_grains:"/.test(html300c.slice(0, html300c.indexOf('nc_planet3d_seed:"The'))) || !/\n  nc_ring3d_grains:"The/.test(html300c)) bad.push('i18n nc_ring3d_grains(ja/en)');
+        const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8'));
+        if (!(CL.exact || []).some((z) => z.id === id && z.c === ph.cLight)) bad.push('clight の表の exact に行が無い');
+        const ss = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        const row = ss.rows && ss.rows[id];
+        if (!(row && (row.evidence || []).indexOf('tests/out/saturnring3d-w300c.json') >= 0)) bad.push('samplestatus の原稿の行');
+        const J = J30;
+        if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X3r.HARNESS_VERSION && J.lib === R3c.LIB_VERSION)) bad.push('正本の来歴/器の版/生成器の版');
+        if (!(J.ok === true && Object.values(J.gates || {}).every(Boolean))) bad.push('正本の門 ' + JSON.stringify(J.gates));
+        const txt = JSON.stringify(p.obsCard), txtE = JSON.stringify(p.en && p.en.obsCard);
+        for (const w of X3r.obsNumbers(J)) { if (txt.indexOf(w) < 0) bad.push('観測カードに正本の値 ' + w + ' が無い'); if (txtE.indexOf(w) < 0) bad.push('観測カード(en)に正本の値 ' + w + ' が無い'); }
+        if (!(p.abBody && p.abBody.physicsPatch.relativeDrag.gain === J.decl.transferGain)) bad.push('A/B の移送の gain が正本と違う');
+        cases.push(`🍩 = ringDecl3 の写し・赤道面(傾き ${sa.tiltDeg.toFixed(2)}°)・帯 ${rings.length} 群は有限粒子(合計 ${tot.toExponential(2)} kg)・💍 は試験粒子のまま・C環内縁 ${J.runs.h.periods.cIn.periodSec.toFixed(1)} s(h/2 ${J.runs.h2.periods.cIn.periodSec.toFixed(1)})・面 ${J.runs.h.plane.planeMaxDeg.toExponential(1)}°・損失 ${J.runs.h.loss.lost}・二次元の試験粒子との離心率の差 ≤ ${J.testParticle.vs2d.h.grainsEcc.maxAbsDiff.toExponential(1)}`);
+      }
+      if (!psec30) bad.push('PHYSICS〔第300便c〕が無い');
+      else {
+        if (!(a30 < Pd30.indexOf('\n## 7. '))) bad.push('〔第300便c〕が「## 7.」の前に無い');
+        for (const w of ['saturnRingInertial3d', 'saturnring3d-w300c.json', 'testParticle', '1.25×10⁻⁸', 'massFloor', 'pinned', '局所の近似', 'h/2', '受動プローブ', 'seed', 'bitsame', 'S._core'])
+          if (psec30.indexOf(w) < 0) bad.push('PHYSICS〔第300便c〕に「' + w + '」が無い');
+      }
+      if (!aiSec30) bad.push('AI_SPEC に第300便c の節が無い');
+      else for (const w of ['ringDecl3', 'preset.saturnRing3d300', 'ring3d_grains']) if (aiSec30.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
+      if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第300便c') < 0) bad.push('CHANGELOG');
+      if (fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8').indexOf('第300便c') < 0) bad.push('README');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      if (RT.indexOf("S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json']") < 0 || !/secSource: 'w300c-branch'/.test(RT)) bad.push('再生成の段 saturnring3d-300c');
+      if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/saturnring3d-w300c.json') < 0) bad.push('.gitignore の例外');
+      const blk = (() => { const i0 = html300c.indexOf('{ id:"saturnRingInertial3d"'), i1 = html300c.indexOf('\n{ id:"', i0 + 5); return i0 >= 0 ? html300c.slice(i0, i1 > i0 ? i1 : undefined) : ''; })();
+      const harn = ['exp-w300c-saturnring3d.mjs', 'lib-w300c-saturnring3d.mjs'].map((f) => fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8')).join('');
+      for (const [nm, tx] of [['PHYSICS', psec30], ['新本', blk], ['器', harn], ['AI_SPEC', aiSec30]]) for (const re of NG30) if (re.test(strip30(tx))) bad.push(nm + ' に禁句 ' + re.source);
+      add('preset.saturnRing3d300', bad.length === 0,
+        `**土星の輪の geoPN=3 三次元**(第300便c・原仮定者の裁定(第90報)⑥・R177 —— 宣言は生成器の写し・帯は数値の質量の有限粒子): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.solar16Contract300
+    {
+      const bad = [], cases = [];
+      if (err30) bad.push('器/html が読めない: ' + err30);
+      else if (!has300cS) bad.push('受理器の radiusFloor が無い');
+      else {
+        const HP = H30.HP, all = HP.allPresets();
+        const sch = S16.loadSchema();
+        if (JSON.stringify(sch['x-members']) !== JSON.stringify(S16.MEMBERS.map((z) => z.key)) || S16.MEMBERS.length !== 16) bad.push('スキーマの成員が生成器の表と違う');
+        if (!S16.MEMBERS.every((z) => sch['x-naifBodyCenter'][z.key] === z.naif && !(z.naif >= 0 && z.naif <= 9))) bad.push('NAIF の天体中心の表');
+        if (JSON.stringify(sch.properties.bodies.items.properties.key.enum) !== JSON.stringify(sch['x-members'])) bad.push('スキーマの key の列挙');
+        if (all.some((q) => q.id === S16.RESERVED_ID)) bad.push('予約 id ' + S16.RESERVED_ID + ' が内蔵にある(観測レコードが届く便まで入れない)');
+        const suite = X16.syntheticSuite(HP), t = suite.trial;
+        if (!(t.accepted && t.validate.ok && t.validate.warnings.length === 0 && t.deny.length === 0)) bad.push('人工の入力の受理 ' + JSON.stringify([t.errors, t.validate, t.deny]).slice(0, 200));
+        else {
+          if (!(t.run.finite && t.run.n === 16 && t.run.coord3d && t.run.steps === 360)) bad.push('360 步の有限値');
+          if (!(t.stepCheck.ok && t.stepCheck.maxKm.h2_h4 < t.stepCheck.maxKm.h_h4)) bad.push('刻みの検査 h/h2/h4');
+          if (!(t.decl.radiusAccepted === t.decl.radiusMin && t.decl.radiusMin < 0.01 && t.decl.softening === S16.SOFTENING)) bad.push('半径/軟化の受理(radiusFloor・softeningFloor)');
+          const d = S16.solar16Decl(S16.syntheticRecord());
+          if (!(Math.abs(d.physics.stepDt - d.timeRef.pRef / 360) <= 1e-9 * d.physics.stepDt && d.timeRef.pair[0] === 6 && d.timeRef.pair[1] === 7)) bad.push('刻み = イオの接触軌道の周期 / 360');
+          if (!(d.bodies.every((b) => b.pinned === false && b.spinAxis && b.spinAxis.enable === true) && d.physics.relativeDrag.gain === 0 && d.integrator === 'leapfrog')) bad.push('全天体 free・自転軸・gain 0・leapfrog');
+          cases.push(`人工の入力(実際の配置ではない)を受理・360 步 有限・h/h2/h4 の終わりの位置の差 ${t.stepCheck.maxKm.h_h4.toFixed(1)}/${t.stepCheck.maxKm.h2_h4.toFixed(1)} km・stepDt ${t.decl.stepDt}`);
+        }
+        const miss = suite.bad.filter((z) => !(z.rejected && z.hit));
+        if (miss.length) bad.push('不正な入力が拒否されない/符号が違う: ' + miss.map((z) => z.name + '→' + z.codes.join('+')).join(' / '));
+        cases.push(`不正な入力 ${suite.bad.length} 種を符号どおり拒否(${[...new Set(suite.bad.map((z) => z.expect))].join('・')})`);
+        // radiusFloor の受理契約
+        const mk = (o) => ({ name: 'r', description: 'r', sampleClass: o.cls || 'principle', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+          physics: Object.assign({ coord: '3d', kFrame: 0, kRep: 0, muF: 0, kappaS: 0, etaRad: 0 }, o.ph || {}), bodies: [{ type: 'single', m: 1, radius: 0.0014, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+        const v0 = HP.validatePreset(mk({})), v1 = HP.validatePreset(mk({ ph: { radiusFloor: 0.001 } })), v2 = HP.validatePreset(mk({ cls: 'calibration', ph: { radiusFloor: 0.001 } })), v3 = HP.validatePreset(mk({ ph: { radiusFloor: 0.01 } }));
+        if (!(v0.ok && v0.preset.bodies[0].radius === 0.01 && (v0.warnings || []).length > 0)) bad.push('radiusFloor 未宣言で 0.01 に丸めない');
+        if (!(v1.ok && v1.preset.bodies[0].radius === 0.0014 && v1.preset.physics.radiusFloor === 0.001 && HP.coord3d.denyOf(v1.preset).length === 0)) bad.push('radiusFloor 0.001 の受理');
+        if (v2.ok) bad.push('較正クラスの radiusFloor を拒否しない');
+        if (!(v3.ok && v3.preset.physics.radiusFloor === undefined)) bad.push('radiusFloor 0.01(下限と同値)の宣言を落とさない');
+        cases.push('radiusFloor: 未宣言は 0.01 に丸める・0.001 を受理・較正クラスは拒否・0.01 は落とす');
+      }
+      if (psec30) for (const w of ['data-w300c-solar16-schema.json', 'lib-w300c-solar16.mjs', 'checkSolar16', 'solar16Decl', '--record', 'radiusFloor', 'softeningFloor', 'camera.scale', 'イオ', '人工の入力', '実際の配置ではない', 'leapfrog', S16 ? S16.RESERVED_ID : 'solarSystem16Inertial3d'])
+        if (psec30.indexOf(w) < 0) bad.push('PHYSICS〔第300便c〕に「' + w + '」が無い');
+      if (aiSec30) for (const w of ['radiusFloor', 'docs.solar16Contract300', 'checkSolar16']) if (aiSec30.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
+      if (S16) { const tx = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w300c-solar16.mjs'), 'utf8') + fs.readFileSync(path.join(ROOT, 'tests', 'exp-w300c-solar16.mjs'), 'utf8') + fs.readFileSync(path.join(ROOT, S16.SCHEMA_PATH), 'utf8');
+        for (const re of NG30) if (re.test(strip30(tx))) bad.push('器/スキーマに禁句 ' + re.source); }
+      add('docs.solar16Contract300', bad.length === 0,
+        `**太陽系 16 体の三次元の器**(第300便c・原仮定者の裁定(第90報)④・R177 —— 入力の契約・検査・生成器・刻みの検査。数値の観測レコードは別途 —— 内蔵に入れない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 第299便e(原仮定者の裁定(第89報)④「参照模型サンプルを三次元化する」・DECISIONS v58 §1 の AN286・統括の検証項目 R174): **参照模型の三次元化**。
 // ----   世代切替 has299e = html の `SHAPE_TOY3_VERSION="w299e`(root 等は SKIP)。本は宣言から列挙(W299E_IDS —— physics に shapeToy と coord:"3d" を持つ本)。
 // ----   器 tests/exp-w299e-ref3d.mjs・正本 tests/out/ref3d-w299e.json・凍結の二次元の写し tests/data-w299e-ref2d.json(書き換えない)。

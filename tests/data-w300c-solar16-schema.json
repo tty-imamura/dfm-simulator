@@ -1,0 +1,91 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "tests/data-w300c-solar16-schema.json",
+ "title": "太陽系 16 体の三次元の本の入力の契約(第300便c)",
+ "description": "原仮定者の裁定(第90報)④「太陽・全惑星・トリトン以上の 7 大衛星を 1 つにまとめた三次元サンプル —— 特定の日時の観測値で開始」「観測レコードは別途プロンプトで取得する」の入力の契約。成員 = 太陽・8 惑星・月・イオ・エウロパ・ガニメデ・カリスト・タイタン・トリトン。全天体で同じ元期(JD・TDB)・太陽系重心が原点・ICRF に揃えた J2000 の黄道・幾何学的な状態(光行時間と光行差の補正なし)・km と km/s・天体中心(系の重心と混ぜない)・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ。構造の検査はこのスキーマ、意味の検査(欠測・重複・元期の混在・重心と天体中心の混在・光行時間補正・単位・原点・衛星の中心)は生成器 tests/lib-w300c-solar16.mjs の checkSolar16 が行う。本スキーマは数値を持たない(観測レコードは別途取得)。",
+ "x-version": "w300c-solar16-schema-1",
+ "x-members": ["sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "io", "europa", "ganymede", "callisto", "saturn", "titan", "uranus", "neptune", "triton"],
+ "x-naifBodyCenter": {"sun": 10, "mercury": 199, "venus": 299, "earth": 399, "moon": 301, "mars": 499, "jupiter": 599, "io": 501, "europa": 502, "ganymede": 503, "callisto": 504, "saturn": 699, "titan": 606, "uranus": 799, "neptune": 899, "triton": 801},
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["schema", "epoch", "frame", "units", "correction", "source", "bodies"],
+ "properties": {
+  "schema": {"const": "w300c-solar16-1"},
+  "epoch": {
+   "type": "object", "additionalProperties": false, "required": ["jdTdb", "timeScale"],
+   "properties": {
+    "jdTdb": {"type": "number", "description": "元期のユリウス日(TDB)。全天体で同じ値(天体の欄に epochJdTdb を書くなら同じ値でなければ拒否)"},
+    "timeScale": {"const": "TDB"},
+    "calendar": {"type": "string", "maxLength": 64, "description": "暦の表記(表示用 —— 例 2000-01-01T12:00:00 TDB)"}
+   }
+  },
+  "frame": {
+   "type": "object", "additionalProperties": false, "required": ["origin", "naifOrigin", "reference", "plane", "equinox", "obliquityArcsec"],
+   "properties": {
+    "origin": {"const": "SSB", "description": "太陽系重心(Solar System Barycenter)"},
+    "naifOrigin": {"const": 0},
+    "reference": {"const": "ICRF"},
+    "plane": {"const": "ecliptic"},
+    "equinox": {"const": "J2000"},
+    "obliquityArcsec": {"type": "number", "minimum": 84381, "maximum": 84382, "description": "資料が黄道へ回すのに使った J2000 の黄道傾斜角(秒)。極(赤道座標の α0・δ0)を同じ角で黄道へ回す"}
+   }
+  },
+  "units": {
+   "type": "object", "additionalProperties": false, "required": ["position", "velocity", "mass", "radius", "angle", "spinRate"],
+   "properties": {
+    "position": {"const": "km"}, "velocity": {"const": "km/s"}, "mass": {"const": "kg"}, "radius": {"const": "km"}, "angle": {"const": "deg"}, "spinRate": {"const": "deg/d"}
+   }
+  },
+  "correction": {"const": "NONE", "description": "幾何学的な状態(光行時間・光行差の補正なし)。LT・LT+S・CN 等は拒否"},
+  "source": {
+   "type": "object", "additionalProperties": false, "required": ["ephemeris", "provider", "retrieved"],
+   "properties": {
+    "ephemeris": {"type": "string", "minLength": 1, "maxLength": 64, "description": "暦表の版(例 DE440)"},
+    "provider": {"type": "string", "minLength": 1, "maxLength": 120},
+    "retrieved": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "取得日(YYYY-MM-DD)"},
+    "reference": {"type": "string", "maxLength": 240},
+    "note": {"type": "string", "maxLength": 480}
+   }
+  },
+  "bodies": {
+   "type": "array", "minItems": 16, "maxItems": 16,
+   "items": {
+    "type": "object", "additionalProperties": false,
+    "required": ["key", "naifId", "center", "state", "mass", "radius", "pole", "spin"],
+    "properties": {
+     "key": {"enum": ["sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "io", "europa", "ganymede", "callisto", "saturn", "titan", "uranus", "neptune", "triton"]},
+     "naifId": {"type": "integer", "description": "天体中心の NAIF ID(x-naifBodyCenter)。系の重心(1〜9)は拒否"},
+     "center": {"const": "body", "description": "天体中心(系の重心 barycenter と混ぜない)"},
+     "epochJdTdb": {"type": "number"},
+     "state": {
+      "type": "object", "additionalProperties": false, "required": ["x", "y", "z", "vx", "vy", "vz"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}, "vx": {"type": "number"}, "vy": {"type": "number"}, "vz": {"type": "number"}}
+     },
+     "mass": {
+      "type": "object", "additionalProperties": false, "required": ["kg", "includes", "source"],
+      "properties": {"kg": {"type": "number", "exclusiveMinimum": 0}, "includes": {"const": "body", "description": "天体自身の質量(衛星を含む系の質量は拒否)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240}}
+     },
+     "radius": {
+      "type": "object", "additionalProperties": false, "required": ["km", "source"],
+      "properties": {"km": {"type": "number", "exclusiveMinimum": 0}, "source": {"type": "string", "minLength": 1, "maxLength": 240}}
+     },
+     "pole": {
+      "type": "object", "additionalProperties": false, "required": ["raDeg", "decDeg", "source"],
+      "properties": {"raDeg": {"type": "number"}, "decDeg": {"type": "number", "minimum": -90, "maximum": 90}, "source": {"type": "string", "minLength": 1, "maxLength": 240}},
+      "description": "IAU の北極(ICRF の赤道座標 α0・δ0 —— 元期の値)"
+     },
+     "spin": {
+      "type": "object", "additionalProperties": false, "required": ["rateDegPerDay", "source"],
+      "properties": {"rateDegPerDay": {"type": "number", "description": "IAU の自転角 W の率(符号つき —— 負は IAU の北極に対して逆行)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240}}
+     },
+     "uncertainty": {
+      "type": "object", "additionalProperties": false, "required": ["source"],
+      "properties": {"positionKm": {"type": "number", "minimum": 0}, "velocityKmS": {"type": "number", "minimum": 0}, "massKg": {"type": "number", "minimum": 0}, "source": {"type": "string", "minLength": 1, "maxLength": 240}},
+      "description": "資料が示す不確かさだけ(出典つき)。資料に無ければ書かない(作らない)"
+     },
+     "note": {"type": "string", "maxLength": 240}
+    }
+   }
+  }
+ }
+}
