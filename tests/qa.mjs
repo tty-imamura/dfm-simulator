@@ -3845,10 +3845,16 @@ lastAddAt = Date.now();
       // ④ 切断点と 4 値
       const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
       cut = S.cutTally || {}; four = S.fourTally || {};
+      // 第300便m(原仮定者の裁定(第90報)④・R176): σ 接続器の正本に 🌞 の行が無い世代(鎖の後 —— 🌞 は退役して判定器の母集団の外)は、凍結の写し retired-w300m.json の 🌞 の分(切断点の内訳・4 値)を引く
+      const ss300m = (() => { try { const S0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+        if ((S0.rows || []).some((z) => z.id === 'solarInner')) return null;
+        const F0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8'));
+        return (((F0.calibration || {}).rows || {}).solarInner || {}).solarsigma || null; } catch (e) { return null; } })();
+      const sub300m = (k) => (ss300m ? ((ss300m.cuts || {})[k] || 0) : 0), hold300m = (k) => (ss300m && k === ss300m.four ? 1 : 0);
       for (const [k, v] of Object.entries(EXPECT.cut))
-        if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
+        if (cut[k] !== v - sub300m(k)) bad.push(`④切断点 ${k} が ${v - sub300m(k)} でない(${cut[k]})`);
       for (const [k, v] of Object.entries(EXPECT.four))
-        if (four[k] !== v) bad.push(`④太陽系 4 値 ${k} が ${v} でない(${four[k]})`);
+        if (four[k] !== v - hold300m(k)) bad.push(`④太陽系 4 値 ${k} が ${v - hold300m(k)} でない(${four[k]})`);
       // ① 会計器の行数
       const OI = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json'), 'utf8'));
       const oiRows = Object.values(OI.csvAudit || {}).reduce((a, x) => a + (x.rows || 0), 0) || null;
@@ -3973,8 +3979,14 @@ lastAddAt = Date.now();
       // ④ 切断点と 4 値
       const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
       cut = S.cutTally || {}; four = S.fourTally || {};
-      for (const [k, v] of Object.entries(EXPECT.cut)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
-      for (const [k, v] of Object.entries(EXPECT.four)) if (four[k] !== v) bad.push(`④太陽系 4 値 ${k} が ${v} でない(${four[k]})`);
+      // 第300便m(原仮定者の裁定(第90報)④・R176): σ 接続器の正本に 🌞 の行が無い世代(鎖の後 —— 🌞 は退役して判定器の母集団の外)は、凍結の写し retired-w300m.json の 🌞 の分(切断点の内訳・4 値)を引く
+      const ss300m = (() => { try { const S0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+        if ((S0.rows || []).some((z) => z.id === 'solarInner')) return null;
+        const F0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8'));
+        return (((F0.calibration || {}).rows || {}).solarInner || {}).solarsigma || null; } catch (e) { return null; } })();
+      const sub300m = (k) => (ss300m ? ((ss300m.cuts || {})[k] || 0) : 0), hold300m = (k) => (ss300m && k === ss300m.four ? 1 : 0);
+      for (const [k, v] of Object.entries(EXPECT.cut)) if (cut[k] !== v - sub300m(k)) bad.push(`④切断点 ${k} が ${v - sub300m(k)} でない(${cut[k]})`);
+      for (const [k, v] of Object.entries(EXPECT.four)) if (four[k] !== v - hold300m(k)) bad.push(`④太陽系 4 値 ${k} が ${v - hold300m(k)} でない(${four[k]})`);
       // ⑦ 会計器と台帳の器
       const OI = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obsintake-w263c.json'), 'utf8'));
       const oiRows = Object.values(OI.csvAudit || {}).reduce((a, x) => a + (x.rows || 0), 0);
@@ -4309,6 +4321,12 @@ lastAddAt = Date.now();
       const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
       const EC = has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 26, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
       const EF = has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
+      // 第300便m(原仮定者の裁定(第90報)④・R176): σ 接続器の正本に 🌞 の行が無い世代(鎖の後 —— 🌞 は退役して判定器の母集団の外)は、凍結の写し retired-w300m.json の 🌞 の分(切断点の内訳・4 値)を引く
+      const ss300m = (() => { try { const S0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+        if ((S0.rows || []).some((z) => z.id === 'solarInner')) return null;
+        const F0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8'));
+        return (((F0.calibration || {}).rows || {}).solarInner || {}).solarsigma || null; } catch (e) { return null; } })();
+      if (ss300m) { for (const k of Object.keys(EC)) EC[k] -= (ss300m.cuts || {})[k] || 0; if (ss300m.four in EF) EF[ss300m.four] -= 1; }
       for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
       if (four['否'] !== EF['否'] || four['保留'] !== EF['保留']) bad.push(`④太陽系 4 値が 否 ${EF['否']}・保留 ${EF['保留']} でない(${JSON.stringify(four)})`);
       // ⑥ CALIBRATION_VERDICT §5.31
@@ -5198,7 +5216,12 @@ lastAddAt = Date.now();
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化)。退役 🌘🧲🪨💿 が母集団の外へ出て太陽系は 12 本、
     //   ❄️ は自身が kFrame=0 へ在位移行したので kF0 の対照行は無く、❄️ の行は条件不一致(条 17)の保留 —— 否 1(📡)/保留 11
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15;
+    // 第300便m(原仮定者の裁定(第90報)④・R176): σ 接続器の正本に 🌞 の行が無い世代(鎖の後 —— 🌞 は退役して判定器の母集団の外)は、凍結の写し retired-w300m.json の 🌞 の分(切断点の内訳・4 値)を引く
+    const ss300m = (() => { try { const S0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+        if ((S0.rows || []).some((z) => z.id === 'solarInner')) return null;
+        const F0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8'));
+        return (((F0.calibration || {}).rows || {}).solarInner || {}).solarsigma || null; } catch (e) { return null; } })();
+    const wantNg = (has288b ? 1 : kf0GenS ? 2 : 1) - (ss300m && ss300m.four === '否' ? 1 : 0), wantHold = (has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15) - (ss300m && ss300m.four === '保留' ? 1 : 0);
     if ((ft['否'] || 0) !== wantNg || (ft['保留'] || 0) !== wantHold)
       bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has290b ? 'だけ(第290便b の世代 —— ❄️ は退役して σ 接続器の対象外)' : has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
@@ -5237,7 +5260,12 @@ lastAddAt = Date.now();
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化)。換算していない水星の行は
     //   ☄️🌞 の 2 行(🪨 mercuryRealKF1 は退役して母集団の外)・太陽系 4 値は 否 1/保留 11(退役 🌘🧲🪨💿・❄️ は在位移行で条件不一致の保留)
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const wantUnc = has288b ? 2 : 3;
+    // 第300便m(原仮定者の裁定(第90報)④・R176): σ 接続器の正本に 🌞 の行が無い世代(鎖の後 —— 🌞 は退役して判定器の母集団の外)は、凍結の写し retired-w300m.json の 🌞 の分(切断点の内訳・4 値)を引く
+    const ss300mU = (() => { try { const S0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8'));
+        if ((S0.rows || []).some((z) => z.id === 'solarInner')) return null;
+        const F0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8'));
+        return (((F0.calibration || {}).rows || {}).solarInner || {}).solarsigma || null; } catch (e) { return null; } })();
+    const wantUnc = (has288b ? 2 : 3) - (ss300mU ? ((ss300mU.cuts || {})['unit-not-converted'] || 0) : 0);
     if ((J.cutTally || {})['unit-not-converted'] !== wantUnc)
       bad.push(`①切断点 unit-not-converted が ${wantUnc} でない(${(J.cutTally || {})['unit-not-converted']})`);
     // 第271便a: history は**積む**(先頭が直前の便 ef2cd45)。基点 f6c19b4 は commit で引く。
@@ -5267,7 +5295,7 @@ lastAddAt = Date.now();
     //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
     //   **接続数が増えたことと合否の改善を同一視しない**
     const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
-    const wantHoldU = has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
+    const wantHoldU = (has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15) - (ss300mU && ss300mU.four === '保留' ? 1 : 0), wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
     if ((J.fourTally || {})['保留'] !== wantHoldU)
       bad.push(`①太陽系 4 値の保留が ${wantHoldU} でない(${(J.fourTally || {})['保留']})`);
     if ((J.fourTally || {})['否'] !== wantNgU)
@@ -10766,7 +10794,10 @@ if (!TARGET.startsWith('beta/')) {
       const got = (j.presets || []).map((p) => p.id).sort();
       const want = calIds.slice().sort();
       const miss = want.filter((x) => !got.includes(x));
-      const extra = got.filter((x) => !want.includes(x));
+      // 第300便m(原仮定者の裁定(第90報)④・R176): 判定器の正本に退役の 🌞 が居る(鎖の前)—— 鎖の calaudit の段で母集団の外へ出るので鎖待ちとして数えない(NOTE)
+      const wait300m = got.filter((x) => !want.includes(x) && x === 'solarInner' && retiredCal.includes(x));
+      if (wait300m.length) console.log('NOTE docs.calaudit-sync: 判定器の正本に退役の 🌞 が居る —— 鎖の calaudit の段で母集団の外へ(第300便m)');
+      const extra = got.filter((x) => !want.includes(x) && !wait300m.includes(x));
       const badVerdict = [];
       let nQ = 0;
       for (const p of (j.presets || [])) for (const q of (p.quantities || [])) {
@@ -22123,7 +22154,9 @@ if (!FAST) {
       // ③
       const calIds = (J.cal.presets || []).map((p) => p.id).sort();
       const bookIds = (canon.books || []).map((b) => b.id).sort();
-      if (calIds.length !== 20 || JSON.stringify(calIds) !== JSON.stringify(bookIds)) bad.push(`③ 本の集合が較正母集団(calaudit の presets ${calIds.length} 本)と違う`);
+      // 第300便m(原仮定者の裁定(第90報)④・R176): 母集団の数は判定器が宣言から数える(🌞 の退役で 20 → 19)—— 固定の 20 をやめ、規則の宣言と 4 値の台帳の行数で見る
+      const nLed300m = (((J.cal.verdictLedger || {}).rows) || []).length;
+      if (!((J.cal.meta || {}).populationRule) || calIds.length !== nLed300m || JSON.stringify(calIds) !== JSON.stringify(bookIds)) bad.push(`③ 本の集合が較正母集団(calaudit の presets ${calIds.length} 本)と違う`);
       const noCls = (canon.books || []).filter((b) => !(b.classes || []).length).map((b) => b.id);
       if (noCls.length) bad.push('③ 分類の無い本: ' + noCls.join(','));
       const ruleIds = new Set(L.RULES.map((r) => r.id)), candIds = new Set(L.CANDIDATE_RULES.map((r) => r.id));
@@ -22137,12 +22170,19 @@ if (!FAST) {
       }
       if (nOut) bad.push(`③ 語彙・規則の外 ${nOut} 件`);
       const prim = Object.entries(canon.tally.primary).filter(([, n]) => n).map(([k, n]) => k + ' ' + n).join('・');
-      cases.push(`③ 20 本すべてに分類・語彙の外 ${nOut}・首位 ${prim}・門の中 ${canon.tally.inGate}・合へ進みうる ${canon.tally.candidates}`);
+      cases.push(`③ ${calIds.length} 本すべてに分類・語彙の外 ${nOut}・首位 ${prim}・門の中 ${canon.tally.inGate}・合へ進みうる ${canon.tally.candidates}`);
       // ④
       const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
       const b0 = V.indexOf('<!-- calcause-w292a:table:begin -->\n'), b1 = V.indexOf('<!-- calcause-w292a:table:end -->', b0);
       if (!(b0 >= 0 && b1 > b0)) bad.push('④ VERDICT に表の印が無い');
-      else if (V.slice(b0 + '<!-- calcause-w292a:table:begin -->\n'.length, b1) !== L.renderVerdictTable(canon)) bad.push('④ VERDICT §5.40 の表が正本から作った表と違う(正本から転記し直すこと)');
+      else {
+        // 第300便m(R176): 文書の表は 🌞 の退役の後(鎖の後)の正本から作った表。鎖の前(正本の本に 🌞 が居て html では退役)は 🌞 の行を除いて照合する(NOTE)
+        const tbl = V.slice(b0 + '<!-- calcause-w292a:table:begin -->\n'.length, b1);
+        let want = L.renderVerdictTable(canon);
+        const pre300m = (canon.books || []).some((b) => b.id === 'solarInner') && /^\s+solarInner:\{ja:"第90報/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        if (pre300m) { want = want.split('\n').filter((l) => !l.startsWith('| 🌞 |')).join('\n'); console.log('NOTE docs.calCause ④: 主因分類の正本は 🌞 の退役の前 —— 文書の表は鎖の後の表(🌞 の行を除いて照合)'); }
+        if (tbl !== want) bad.push('④ VERDICT §5.40 の表が正本から作った表と違う(正本から転記し直すこと)');
+      }
       if (V.indexOf('### 5.40 第292便a') < 0) bad.push('④ VERDICT に §5.40 が無い');
       cases.push(`④ VERDICT §5.40 の表 ${(canon.rows || []).length} 行が転記一致`);
       // ⑤
@@ -23569,7 +23609,10 @@ if (!FAST) {
           for (const key of ['stepSec', 'extractSec', 'rateProbeSec', 'usPerStepLive']) if (!(key in got)) bad.push(`上位 ${k + 1} に ${key} の欄が無い`); });
         if (JSON.stringify(J.calibration.table && J.calibration.table.top5) !== JSON.stringify(T.top5)) bad.push('表の top5 が calaudit と違う');
         const sw = J.calibration.solarInnerWindow;
-        if (!sw || !Array.isArray(sw.rows) || sw.rows.length !== 4 || !sw.dictatedBy) bad.push('🌞 の必要窓の行が無い');
+        // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 は退役して判定器の母集団の外 —— 判定器の正本に 🌞 が無い世代(鎖の後)は必要窓の行が無いのが正
+        const sun300m = (C.presets || []).some((p) => p.id === 'solarInner');
+        if (sun300m && (!sw || !Array.isArray(sw.rows) || sw.rows.length !== 4 || !sw.dictatedBy)) bad.push('🌞 の必要窓の行が無い');
+        if (!sun300m && sw && Array.isArray(sw.rows) && sw.rows.length) bad.push('判定器の母集団に無い 🌞 の必要窓の行がある');
         cases.push('上位 5 本 ' + top.map((z) => `${z.emoji} ${z.wallSec} s(step ${z.stepSec ?? '—'}・抽出 ${z.extractSec ?? '—'})`).join('・')
           + (sw ? ` / 🌞 の窓は ${sw.dictatedBy}(20 近点に ${sw.rows.map((z) => z.windowOverRun).join('/')} 倍の步数)` : ''));
         // QA の内訳
@@ -68558,7 +68601,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       for (const z of srcRows) {
         const p = BUILTIN_PRESETS.find((q) => q.id === z.id);
         if (!p) { o.srcBad.push(z.id + ':内蔵に無い'); continue; }
-        if (HOLD.indexOf((p.status || {}).calibration) < 0) { o.srcBad.push(z.id + ':保留でない(原稿の行が転記されない)'); continue; }
+        // 第300便m(原仮定者の裁定(第90報)④・R176): 退役の本(🌞)の原稿の行は退役の前の status のまま(履歴)—— 鎖の後は判定器の母集団の外(out-of-scope)で
+        //   転記されない(保留のまま退役した本〔🌨️ の hold-definition〕は従来どおり転記を見る)
+        if (HOLD.indexOf((p.status || {}).calibration) < 0) {
+          if (p.familyRole === 'retired') { o.srcRetired = (o.srcRetired || 0) + 1; continue; }
+          o.srcBad.push(z.id + ':保留でない(原稿の行が転記されない)'); continue; }
         const row = SAMPLE_STATUS[z.id] || {};
         if (row.holdRemedy !== undefined || (row.en || {}).holdRemedy !== undefined) {
           o.transcribed++;
@@ -68599,7 +68646,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (chainPending && r.diffRows.length ? `・原稿が正本 samplestatus の入力より新しい(鎖待ち ${r.diffRows.length} 行 —— 鎖の samplestatus の段で更新)` : '')
       + `・較正母集団の保留 ${holdCal.length} 本(正本 calaudit)のうち原稿に解き方 ${holdCal.length - holdNoRemedy.length} 本`;
     const ok = bad.length === 0 && r.other.length === 0 && r.srcBad.length === 0 && r.textsOk && r.nHold > 0 && r.enOk && errs.length === 0
-      && (r.transcribed === 0 || r.transcribed === srcRows.length);
+      && (r.transcribed === 0 || r.transcribed === srcRows.length - (r.srcRetired || 0));
     add('ui.holdRemedy', ok,
       `**保留の解き方**(原仮定者の裁定(第81報)⑦・R136): 保留/判定保留 ${r.nHold} 本すべてに #stHoldRemedy(#descStatus の直後)・保留でない本には無い / 既定表 [${r.ruleKeys}] が網羅(hr_other に落ちる本 ${r.other.length})`
       + ` / 出所 原稿 ${r.nDeclared}・既定表 ${r.nRule}・${regen}・原稿の検査(ja/en・上限・禁止語・約束なし・内蔵にあり保留)=${r.srcBad.length === 0}`
@@ -68988,7 +69035,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const has288b = !!((J.meta || {}).populationRule);
       // 第289便b(AN104・R120): 世代切替 has289b = 正本の condRowsRedeclared —— 17 行は条件欄で kFrame=0 の行へ宣言し直したので条件不一致 0
       const has289b = !!(J.condRowsRedeclared && Array.isArray(J.condRowsRedeclared.rows));
-      const wantApplied = has288b ? 0 : 8, wantCond = has289b ? 0 : (has288b ? 17 : 0), wantCorrK = has288b ? 0 : 1, wantN = has288b ? 20 : 37;
+      const wantApplied = has288b ? 0 : 8, wantCond = has289b ? 0 : (has288b ? 17 : 0), wantCorrK = has288b ? 0 : 1,
+        // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 の退役の後の正本(母集団に 🌞 が無く 4 値の台帳の行数と同じ —— 鎖の後)は 19 本
+        wantN = has288b ? (((J.presets || []).some((p) => p.id === 'solarInner') || ((J.verdictLedger || {}).rows || []).length !== 19) ? 20 : 19) : 37;
       if (!K) bad.push('① 正本に kf0Runs が無い(--kf0-runs を通していない走行)');
       else {
         if (K.on !== true) bad.push('① kf0Runs.on が true でない');
@@ -72610,8 +72659,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const cfg = {};
       for (const m of calSrc.matchAll(/^ {2}(\w+):\s*\{ c: (\d+), o: (\[\[.*?\]\])(?:, ringInner: '([^']+)')?/gm)) cfg[m[1]] = { c: Number(m[2]), o: JSON.parse(m[3].replace(/'/g, '"')), ringInner: m[4] || undefined };
       const calIds = pres.map((p) => p.id);
+      // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 は退役して表と判定器の CFG から外した —— 鎖の前の正本(母集団に 🌞 が居る)では 🌞 の行を鎖待ちとして数えない(NOTE)
+      const ret300mL = /^\s+solarInner:\{ja:"第90報/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? ['solarInner'] : [];
       for (const id of calIds) {
         const a = T0.tables.targets[id], b = cfg[id];
+        if (!a && ret300mL.includes(id) && !b) { console.log('NOTE ui.liveMeasure297 ⓪: 判定器の正本の母集団に退役の ' + id + ' が居る —— 鎖の calaudit の段で外れる(第300便m)'); continue; }
         if (!a) { bad.push(`⓪相手の組の表に判定器の本 ${id} が無い`); continue; }
         if (!b || a.c !== b.c || JSON.stringify(a.o) !== JSON.stringify(b.o) || (a.ringInner || undefined) !== b.ringInner) bad.push(`⓪相手の組 ${id} が calaudit の CFG と違う`);
       }

@@ -33,7 +33,7 @@ const OUT_R = process.env.W300M_FX_OUT ? path.resolve(process.env.W300M_FX_OUT) 
 const QAF = 'tests/out/qa-results-full-beta.json';
 
 export const FIXTURE_VERSION = 'w300m-retired-1';
-const CALAUDIT = 'tests/out/calaudit-w249.json';
+const CALAUDIT = 'tests/out/calaudit-w249.json', SOLARSIGMA = 'tests/out/solarsigma-w262d.json';
 /** 退役 1 本(原仮定者の裁定(第90報)④)—— successor は「代わりに見る本」(RETIRED_PRESETS の see の先頭 —— 対の差を取る相手)。理由は RETIRED_PRESETS の ja と同じ趣旨 */
 export const RETIRE = [
   { id: 'solarInner', successor: 'mercurySunInertial3d', reason: '特定の日時で開始していない(内惑星 4 つを円軌道で同じ位相から置いた) —— 惑星の三次元は 🌡️🌋🌦️🔴 など 7 本、太陽系をまとめた三次元(太陽系 16 体)は特定の日時の観測レコードを待つ' },
@@ -101,12 +101,19 @@ try {
     populationAtBase: CA ? (CA.presets || []).map((z) => z.id) : null,
     populationNow: Bn.filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired').map((p) => p.id),
     fourValuesAtBase: CA && CA.fourValues && CA.fourValues.current ? CA.fourValues.current.counts : null, rows: {} };
+  // σ 接続器の正本(基点の版)の 🌞 の分 —— 切断点の内訳と 4 値(鎖の後の σ 接続器の正本は判定器の母集団から 🌞 を外す —— QA が鎖の後の期待値をこの分で引く)
+  let SS = null;
+  try { SS = JSON.parse(execSync(`git -C ${JSON.stringify(ROOT)} show ${BASE_REV}:${SOLARSIGMA}`, { maxBuffer: 256 << 20 }).toString()); } catch (e) { SS = null; }
+  calibration.solarsigma = { file: SOLARSIGMA, rev: BASE_REV, cutTallyAtBase: SS ? SS.cutTally : null, fourTallyAtBase: SS ? SS.fourTally : null };
   for (const row of RETIRE) {
     const pr = CA ? (CA.presets || []).find((z) => z.id === row.id) : null;
+    const sp = SS ? (SS.presets || []).find((z) => z.id === row.id) : null;
     const vr = CA && CA.verdictLedger ? (CA.verdictLedger.rows || []).find((z) => z.id === row.id) : null;
     calibration.rows[row.id] = { inPopulationAtBase: !!pr, inPopulationNow: calibration.populationNow.includes(row.id),
       tally: pr ? pr.tally : null, run: pr && pr.run ? { n: pr.run.n, dt: pr.run.dt, steps: pr.run.steps, orbits: pr.run.orbits } : null,
-      quantities: pr ? (pr.quantities || []).length : null, verdictLedger: vr || null };
+      quantities: pr ? (pr.quantities || []).length : null, verdictLedger: vr || null,
+      solarsigma: sp && !sp.missing ? { cuts: sp.cuts || {}, four: sp.four || null, nQuantities: sp.nQuantities, nSigmaConnected: sp.nSigmaConnected,
+        rows: SS ? (SS.rows || []).filter((z) => z.id === row.id).length : null } : null };
   }
   // ③ 宣言を動かした本の前後(全本を比べる —— 手で並べない)
   const declChanges = [];

@@ -636,7 +636,32 @@
      "classProposal": null,
      "classProposalReason": null,
      "predictionEligible": 0
+    },
+    "solarsigma": {
+     "cuts": {
+      "csv-sigma-empty": 11,
+      "kind-not-gated": 2,
+      "unit-not-converted": 1
+     },
+     "four": "保留",
+     "nQuantities": 14,
+     "nSigmaConnected": 0,
+     "rows": 14
     }
+   }
+  },
+  "solarsigma": {
+   "file": "tests/out/solarsigma-w262d.json",
+   "rev": "881667c",
+   "cutTallyAtBase": {
+    "csv-sigma-empty": 86,
+    "kind-not-gated": 26,
+    "unit-not-converted": 2,
+    "connected": 2
+   },
+   "fourTallyAtBase": {
+    "保留": 11,
+    "否": 1
    }
   }
  },
@@ -862,7 +887,7 @@
  "frozen": true,
  "source": {
   "file": "beta/index.html",
-  "sha256": "0b378f2c1771ac8da7c1b60b6daf56b148533f9d2d5f12f2454e317cf4959c76",
+  "sha256": "0f673b02ca43c19d4d1b2bec5e6c866de5b4d0031b947b7f7001e03f2f2bc0cd",
   "note": "第300便m の html(🌞 の退役の宣言を入れた後 —— 枝 a・b・d の統合の上)"
  },
  "base": {

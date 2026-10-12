@@ -4770,18 +4770,6 @@ QA: `preset.unifyTable`(移行表と内蔵の宣言・機械抽出・母集団�
 | ☄️ | 水星(period) | 合 | 未判定 | 1.966×10⁻⁴% | 2.55×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
 | ☄️ | 水星(precession) | 否 | 数値未解決 | -6.909%(1979σ) | 1 | 真 | numerics・pinned | C3: 軟化と刻み(数値未解決) |
 | ☄️ | 水星(ecc) | 転 | 未判定 | — | 2.55×10⁻⁸ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
-| 🌞 | 水星(period) | 合 | 未判定 | -2.031×10⁻⁴% | 2.55×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
-| 🌞 | 金星(period) | 合 | 未判定 | 0.002493% | 1.365×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
-| 🌞 | 地球(period) | 合 | 未判定 | 1.388×10⁻⁴% | 9.871×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
-| 🌞 | 火星(period) | 合 | 未判定 | -0.003737% | 6.478×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
-| 🌞 | 水星(ecc) | 転 | 未判定 | — | 2.55×10⁻⁸ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
-| 🌞 | 水星(precession) | 転 | 未判定 | — | 0.07155 | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
-| 🌞 | 金星(ecc) | 否 | 未判定 | -99.61% | 1.365×10⁻⁸ | 偽 | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
-| 🌞 | 金星(precession) | 転 | 未判定 | — | 0.8928 | — | sigma-unconnected・pinned | σ 未接続 |
-| 🌞 | 地球(ecc) | 転 | 未判定 | — | 9.871×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
-| 🌞 | 地球(precession) | 転 | 未判定 | — | 0.003298 | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
-| 🌞 | 火星(ecc) | 転 | 未判定 | — | 6.478×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
-| 🌞 | 火星(precession) | 転 | 未判定 | — | 8.444×10⁻⁴ | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
 | 🟠 | イオ(period)(3 行) | 合/転 | 未判定 | 0.04938% | 3.341×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
 | 🟠 | エウロパ(period)(2 行) | 合 | 未判定 | 0.001196% | 2.1×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
 | 🟠 | ガニメデ(period)(2 行) | 合 | 未判定 | -0.01064% | 1.316×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |

@@ -34103,9 +34103,9 @@ const LMS_CHUNK_MS=14;                           // 1 チャンクの計算時�
 const LMS_WALL_CAP_SEC=240;                      // 1 回の実測の壁時計の上限(超えたら打ち切り —— 決断事項候補)
 const LMS_STEP_CAP=4e8;                          // 1 走行の步数の上限(判定器の階級上限 4e7 の 10 倍 —— 窓が埋まらなければ値を出さない)
 // 判定器の対象の組(calaudit の CFG の転記 —— 中心 c と周回 o は**宣言 index**・ラベルは正本の行の t。QA が calaudit の CFG と突き合わせる)
+// 第300便m(原仮定者の裁定(第90報)④・統括の検証項目 R176): 🌞 solarInner は退役して判定器の母集団の外 —— 相手の組の表から外した(判定器の CFG と同じ)
 const LMS_TARGETS={
   earthMoonReal:{c:0, o:[[1,"月"]]}, emAuditSolar:{c:1, o:[[2,"月"]]}, mercuryReal:{c:0, o:[[1,"水星"]]},
-  solarInner:{c:0, o:[[1,"水星"],[2,"金星"],[3,"地球"],[4,"火星"]]},
   jupiterGalilean:{c:0, o:[[1,"イオ"],[2,"エウロパ"],[3,"ガニメデ"],[4,"カリスト"]]},
   venusReal:{c:0, o:[[1,"金星"]]}, marsMoonsReal:{c:0, o:[[1,"フォボス"],[2,"ダイモス"]]}, plutoCharonDiagInput:{c:0, o:[[1,"カロン"]]},
   uranusReal:{c:0, o:[[1,"ミランダ"],[2,"アリエル"],[3,"ウンブリエル"],[4,"チタニア"],[5,"オベロン"]]}, neptuneReal:{c:0, o:[[1,"トリトン"]]},

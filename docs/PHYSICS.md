@@ -31999,17 +31999,28 @@ QA: `preset.spaceMeshRetired300`(新設 —— 世代切替 = html の `function
 | geoPN の在位 0/1/2/3/4 | 78/22/4/11/4 | 78/**21**/4/11/4 |
 | 群「現実較正」の在位 | 36 | **35** |
 
-基点の判定器の正本の 4 値は 合 0 / 量限定合 2 / 否 1 / 保留 17 で、🌞 は「保留」(σ 未接続)。**退役の後の 4 値は判定器の再走(鎖の calaudit の段)が決める**(🌞 の行が抜けるだけなら 保留 16 —— 推定。実測は統合の報告に記す)。
+基点の判定器の正本の 4 値は 合 0 / 量限定合 2 / 否 1 / 保留 17 で、🌞 は「保留」(σ 未接続)。**退役の後の 4 値は判定器の再走(鎖の calaudit の段)が決める** —— 一時ファイルへの試走(calaudit → dt3 → kf0 → solarsigma・この html と器)では次のとおりだった(実測 —— 正本は統合の鎖が書く):
+
+| 判定器の正本 | 退役の前(基点の正本) | 試走(🌞 の退役の後) |
+|---|---|---|
+| 母集団 | 20 | 19 |
+| 4 値 合/量限定合/否/保留 | 0/2/1/17 | 0/2/1/**16** |
+| 門 合(3σ)/否(3σ)/数値未解決/写像未確定/条件不一致/未判定 | 2/1/10/6/0/165 | 2/1/10/6/0/**151** |
+| σ 接続器の切断点 csv-sigma-empty/kind-not-gated/unit-not-converted/connected | 86/26/2/2 | **75/24/1**/2 |
+| σ 接続器の太陽系 4 値 否/保留 | 1/11 | 1/**10** |
+
+🌞 の分(14 量・未判定 14・切断点 11/2/1/0・保留 1)が抜けただけで、他の本の判定は動いていない。
 
 **3. 退役に伴って直したところ(表示と文書だけ —— 力学と presetSig は不変)。**
 - AI 生成のカタログの例「太陽系の惑星 → {"system":"solarInner"}」を在位の本を出典に持つ系の例「水星の近日点移動 → {"system":"mercury"}」に替えた(ja/en)。カタログの系 `solarInner` そのものは 🌞 の宣言のビット写しのまま残した(出典 src の参照 —— 系の存廃は決断事項)。
 - 在位の本の本文と注記から 🌞 への言及を外した(🔆 emAuditSolar の指数系・🟠 jupiterGalilean の qLock の既存裁定・🌇 venusReal の定数の出典・🔴 marsSunInertial3d の周期の出典)。🔴 の `timeRef.source` は生成器 `tests/lib-w299c-planets3d.mjs` の周期の出典と同じ文「内蔵の宣言値 59355072 s(NASA NSSDC Mars Fact Sheet の 686.980 日 —— 第131便に内蔵へ転記した観測値)」にした(観測の正本 OBS_COMPARE_ROWS の 🌞 の行は鎖の calaudit → obscompare で消える)。README・SAMPLE_RANKING・この文書のサンプル一覧表と §7 の対応表の行も同じ。
-- 残したもの: ID を鍵にした表(UNIFY_MIGRATED・LMS_TARGETS・AUDIT_FAMILY・CAL_CONTRACT・判定器の CFG —— 母集団は familyRole で外れる)・観測レコードの出典の名「dfm-simulator solarInner declaration (committed)」(`paper/data/solar-observations.csv` の 🌇 の行の source 欄 —— レコードの同一性に入る)。QA `docs.noRetiredMention294` の除外リストに (e′) 出典が退役の本のカタログの系の見出しと (j) 観測レコードの出典の名を足した。
+- 判定器の相手の組の表から外したもの: 判定器 `tests/exp-w249b-calaudit.mjs` の CFG の 🌞 の行と、その転記 LMS_TARGETS(アプリ内実測)の 🌞 の行(退役の本を外す先例 —— ❄️ などと同じ)。主因分類の器 `tests/lib-w292a-calcause.mjs` の固定の「母集団 20 本」の検査を、規則の宣言と 4 値の台帳の行数で見る形に改め、領域の宣言 REGEN_SCOPE.presets から 🌞 を外した(鎖の段 calcause292 がそのままでは止まる —— 試走で確かめた)。CALIBRATION_VERDICT §5.40 の表は試走の正本から作り直した表(🌞 の 12 行を除いた 99 行)にした。
+- 残したもの: ID を鍵にした表(UNIFY_MIGRATED・AUDIT_FAMILY・CAL_CONTRACT —— 母集団は familyRole で外れる)・観測レコードの出典の名「dfm-simulator solarInner declaration (committed)」(`paper/data/solar-observations.csv` の 🌇 の行の source 欄 —— レコードの同一性に入る)。QA `docs.noRetiredMention294` の除外リストに (e′) 出典が退役の本のカタログの系の見出しと (j) 観測レコードの出典の名を足した。
 - 原稿 `tests/data-w279a-samplestatus-src.json` の retired.ids に 🌞(56 本)。CALIBRATION_VERDICT の 🌞 の行の「版」に「退役(第300便m・較正母集団の外)」の印。
 
-**4. 鎖で直るもの。** 判定器 calaudit(母集団 19)→ dt3・kf0・solarsigma・obscompare(🌞 の 14 行が消える)・calcontract・calcause・samplestatus/SAMPLE_STATUS・families/FAMILIES・planets3d(🔴 の周期の出典の文)。QA は鎖の前(🌞 が母集団に居る正本)と後の両方を受ける(前は NOTE)。
+**4. 鎖で直るもの。** 判定器 calaudit(母集団 19)→ dt3・kf0・solarsigma・obscompare(🌞 の 14 行が消える)・calcontract・calcause・samplestatus/SAMPLE_STATUS・families/FAMILIES・planets3d(🔴 の周期の出典の文)。QA は鎖の前(🌞 が母集団に居る正本)と後の両方を受ける(前は NOTE)—— 鎖の後の世代は上の試走の正本(calaudit・dt3・kf0・solarsigma・obscompare・calcontract・calcause・samplestatus・families・issues・timing294 を一時に置き換えた状態)で、判定器の正本を読む QA ブロック 83 個を走らせて確かめた(html の刻印が試走の後に動いたことによるものを除いて PASS)。
 
-QA: **`preset.solarInnerRetired300`**(新設 —— root は SKIP・世代切替 = html の RETIRED_PRESETS の 🌞 の行が「第90報」)。世代切替で追従: `docs.retired`(写し FX14・正本の世代)・`preset.revived292b`(退役 +1・母集団 −1)・`preset.unifyTable`(🌞 は在位移行の行で familyRole だけが動いた)・`ui.samplePicker`(単独家族 🌞 は退役)・`docs.noRetiredMention294`(除外 (e′)(j))・`docs.calibration-verdict-sync`(第300便m の印)。
+QA: **`preset.solarInnerRetired300`**(新設 —— root は SKIP・世代切替 = html の RETIRED_PRESETS の 🌞 の行が「第90報」)。世代切替で追従: `docs.retired`(写し FX14・正本の世代)・`preset.revived292b`(退役 +1・母集団 −1)・`preset.unifyTable`(🌞 は在位移行の行で familyRole だけが動いた)・`ui.samplePicker`(単独家族 🌞 は退役)・`docs.noRetiredMention294`(除外 (e′)(j))・`docs.calibration-verdict-sync`(第300便m の印)・`docs.calaudit-sync`・`ui.liveMeasure297`(相手の組)・`docs.calCause`(母集団の数と §5.40 の表)・`lint.kf0RunsCondition`(正本の本数)・`ui.holdRemedy`(退役の本の原稿の行)・`docs.timingContract294`(🌞 の必要窓)・σ 接続器の切断点と 4 値を見る 5 個(`docs.intakeC`・`docs.intakeD`・`docs.uranusSwap`・`behavior.solarsigmaGuards`・`behavior.unitConvertedFirst` —— 鎖の後は凍結の写しの 🌞 の分を引く)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
