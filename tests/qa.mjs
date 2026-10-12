@@ -5897,6 +5897,7 @@ lastAddAt = Date.now();
     + `40,000,000 步まで走れたときの数である)/ preset ${nPresets} 本に宣言あり / `
     + `**基点 f6c19b4 との照合 ${rep ? rep.identical : '—'}/${rep ? rep.compared : '—'} 段が同じ步数・同じ近点数**`
     + `(違い ${rep ? rep.differing : '—'} 段 = **宣言した例外 ${rep ? rep.differingDeclared : '—'} 段**`
+    + `${rep && (rep.declaredExceptionsOutPop || []).length ? '・母集団の外の宣言例外 ' + rep.declaredExceptionsOutPop.map((z) => z.id + ' ' + z.tag).join('・') + '(退役 —— 段が走らないので照合の外・第300便g)' : ''}`
     + `〔第271便a: ❄️ の dt/2 — 步数上限を階級から preset 宣言へ移したので基点より長く走る〕`
     + `+ 宣言の無い差 ${rep ? rep.differingUndeclared : '—'} 段)/ `
     + `宣言から再計算できた段 ${rc ? rc.ok : '—'}/${rc ? rc.n : '—'} / `
@@ -49133,12 +49134,17 @@ if (!FAST) {
       if (D.ok !== true) bad.push('⑤ (d) 正しい宣言が拒否された');
       const E = C.e_saveLoad || {};
       if (!(E.idempotent && E.sigDiffers && E.sigDiffers.pnOff && E.sigDiffers.pnVelocityXdot && E.sigDiffers.velocityMeaningXdot && E.plainHasNoKeys)) bad.push('⑤ (e) 正準形/署名');
+      // 第300便g: 第300便a(原仮定者の裁定(第90報)⑤・R175)で physics.spaceMesh(廃止)を含むセーブは読まない —— 世代切替 = html に受理の拒否
+      //   `function spaceMeshRetiredDenyOf(`。その世代では退役の 2 本の保存の往復は「拒否が正」(loadSave が false・sim と状態を 1 bit も変えない —— 器が記録)
+      const ret300g = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('\nfunction spaceMeshRetiredDenyOf(') >= 0;
       for (const id of ['mercuryGeoToy3', 'charonGeoToy3']) { const s = E['save_' + id] || {};
-        if (!(s.spaceMesh && s.meshVelocity && s.hasGeo3 && s.stateBitSameAsFreshBuild)) bad.push('⑤ (e) 保存の往復 ' + id + ': ' + JSON.stringify(s).slice(0, 120)); }
+        if (ret300g) { if (!(s.retiredDenyGen === true && s.rejected === true && s.loadSaveReturned === false && s.simKeptOnReject === true))
+          bad.push('⑤ (e) 保存の往復(廃止の世代 —— 拒否が正)' + id + ': ' + JSON.stringify(s).slice(0, 160)); }
+        else if (!(s.spaceMesh && s.meshVelocity && s.hasGeo3 && s.stateBitSameAsFreshBuild)) bad.push('⑤ (e) 保存の往復 ' + id + ': ' + JSON.stringify(s).slice(0, 120)); }
       const F = C.f_builtinCopies || {};
       for (const id of ['mercuryGeoToy3', 'charonGeoToy3']) { const f = F[id] || {};
         if (!(f.bitSame && f.hasGeo3 && f.physicsSameAsHarnessCopy && f.bodiesSameAsHarnessCopy && f.sampleClass === 'principle')) bad.push('⑤ (f) ' + id + ': ' + JSON.stringify(f).slice(0, 120)); }
-      cases.push('(c) 変換の往復・(d) 拒否 17 件・(e) 保存の往復・(f) 診断コピー 2 本の 1 bit 再現性と器の複製との同一性');
+      cases.push('(c) 変換の往復・(d) 拒否 17 件・(e) 保存の往復' + (ret300g ? '(physics.spaceMesh の廃止の世代 —— 退役の 2 本のセーブは読まない・sim と状態は不変)' : '') + '・(f) 診断コピー 2 本の 1 bit 再現性と器の複製との同一性');
       const G = C.g_nanAcceptance || {};
       if (!(G.target && ['NaN', 'false', 'empty', 'null', 'Infinity'].every((k) => G.target[k] === 'rejected'))) bad.push('⑥ (g) 本便で NaN 等を受理');
       if (!(G.base && ['NaN', 'false', 'empty', 'null'].every((k) => /^accepted/.test(G.base[k])))) bad.push('⑥ (g) 基点の受理(修正前の記録)が無い');
@@ -73423,7 +73429,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const HP = H299.HP;
         if (!(ver && J.meta && J.meta.version === ver && ver !== 'w297c-timestd-1')) bad.push('正本の版 ' + (J.meta && J.meta.version) + ' ⇔ 器 ' + ver);
         // 第299便e(R174): 三次元の参照模型(W299E_IDS)は正本に三次元の行(coord "3d")が入った世代(鎖で作り直した後)だけ三次元の本に数える
-        const ids3 = HP.allPresets().filter((p) => W298A_IDS.indexOf(p.id) >= 0 || (W299E_IDS.indexOf(p.id) >= 0 && J.rows.some((r) => r.id === p.id && r.coord === '3d'))).map((p) => p.id);
+        // 第300便g: 退役した三次元の本(第300便a の 🔂 mercuryMeshMigrate3d —— familyRole:"retired")は、正本の行が退役の記録(retired・coord なし —— 在位の時間の宣言のまま凍結)
+        //   の世代では三次元の行に数えない(宣言から数える —— 退役は本の familyRole と正本の行の retired の両方で見る)
+        const retRec3 = (p) => p.familyRole === 'retired' && J.rows.some((r) => r.id === p.id && r.retired === true && r.coord !== '3d');
+        const ids3 = HP.allPresets().filter((p) => (W298A_IDS.indexOf(p.id) >= 0 || (W299E_IDS.indexOf(p.id) >= 0 && J.rows.some((r) => r.id === p.id && r.coord === '3d'))) && !retRec3(p)).map((p) => p.id);
+        const ret3 = HP.allPresets().filter((p) => W298A_IDS.indexOf(p.id) >= 0 && retRec3(p)).map((p) => p.emoji || p.id);
+        if (ret3.length) cases.push(`退役の三次元の本 ${ret3.join('')} は退役の記録の行(三次元の行に数えない)`);
         const rows3 = J.rows.filter((r) => r.coord === '3d').map((r) => r.id);
         if (JSON.stringify(rows3.slice().sort()) !== JSON.stringify(ids3.slice().sort())) bad.push('三次元の行 ' + rows3.join(',') + ' ⇔ 三次元の本 ' + ids3.join(','));
         if (!(J.meta.coord3d && JSON.stringify(J.meta.coord3d.rows) === JSON.stringify(rows3))) bad.push('meta.coord3d.rows');

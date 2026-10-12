@@ -39,7 +39,7 @@ import { avgK as libAvgK, gaussLegendre01 as libGL } from './lib-w292c-dragcore.
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w297b-fit-1';
+export const HARNESS_VERSION = 'w297b-fit-2';   // 第300便g: 派生本の照合が退役した派生本(🌥️)を受ける(分類の語 retired)
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 const fnv = (t) => { let a = 0x811c9dc5; for (let i = 0; i < t.length; i++) { a ^= t.charCodeAt(i) & 0xff; a = Math.imul(a, 0x01000193) >>> 0; } return a.toString(16); };
@@ -387,7 +387,11 @@ export function derivedCheck(HP, s, rec) {
   if (JSON.stringify(lam0(d.physics)) !== JSON.stringify(lam0(q.physics))) bad.push('physics が親の写し+ノブでない');
   if (b.key === 'ems' && d.physics.lambdaPN !== 0) bad.push('新しい派生本の λ_PN が 0 でない');
   for (const k of ['scaleExp', 'integrator', 'orbitObs', 'group', 'familyId', 'scaleTier', 'fidelity']) if (JSON.stringify(d[k]) !== JSON.stringify(par[k])) bad.push(k + ' が親と違う');
-  if (!(d.familyRole === 'variant' && d.sampleClass === 'principle' && d.referenceKind === 'observation-fit')) bad.push('分類(variant・principle・observation-fit)');
+  // 第300便g(第300便b の退役の後のゲート): 退役した派生本(familyRole:"retired" —— 定義と署名は不変・退役の行は html の RETIRED_PRESETS)は、分類の語だけを
+  //   retired として受ける(sampleClass・referenceKind・親の写し+ノブ・記録の照合は従来どおり)。退役したかどうかは結果の retired に書く
+  const retired = d.familyRole === 'retired';
+  if (!((d.familyRole === 'variant' || retired) && d.sampleClass === 'principle' && d.referenceKind === 'observation-fit'))
+    bad.push('分類(' + (retired ? 'retired' : 'variant') + '・principle・observation-fit)');
   if (JSON.stringify(d.notClaim) !== JSON.stringify(b.fitNotClaim)) bad.push('notClaim がフィット版の鍵の並びでない');
   if (!par.notClaim.includes('solar_cal') || !d.notClaim.includes('solar_cal')) bad.push('solar_cal が親と派生本の両方に無い');
   if (JSON.stringify(d.activeParams) !== JSON.stringify(['geoPN', 'dispMag'])) bad.push('activeParams');
@@ -403,7 +407,7 @@ export function derivedCheck(HP, s, rec) {
   const ab = d.abBody && d.abBody.physicsPatch && d.abBody.physicsPatch.relativeDrag;
   const wantAb = b.key === 'ems' ? par.physics.relativeDrag.gain : 0;
   if (!(ab && ab.gain === wantAb)) bad.push('ワンタップの対照(gain ' + wantAb + ')');
-  return { id: d.id, present: true, emoji: d.emoji, ok: bad.length === 0, bad, condState, sigFnv: fnv(HP.presetSig(clone(d))) };
+  return { id: d.id, present: true, emoji: d.emoji, retired, ok: bad.length === 0, bad, condState, sigFnv: fnv(HP.presetSig(clone(d))) };
 }
 
 /* ── 段 6: gain の妥当性の表 ─────────────────────────────────── */

@@ -357,10 +357,15 @@ if (!PART || PART === 'checks') {
       let S = HP.sim;
       for (let i = 0; i < 300; i++) S.step(0.016);
       const item = JSON.parse(JSON.stringify({ name: 'w280c', presetId: id, physics: Object.assign({}, S.params) }));
-      loadSave(JSON.parse(JSON.stringify(item)));
+      // 第300便g: 第300便a(原仮定者の裁定(第90報)⑤)で physics.spaceMesh(廃止)を含むセーブは読まない(loadSave が false を返し、状態を 1 bit も変えない)。
+      //   読込の戻り値と、読込の前後で sim と状態が同じか(拒否なら同じ)を記録する(世代は html の受理の拒否 spaceMeshRetiredDenyOf の有無)
+      const S0 = S, st0 = [Array.from(S.x), Array.from(S.y), Array.from(S.vx), Array.from(S.vy)];
+      const ret = loadSave(JSON.parse(JSON.stringify(item)));
       S = HP.sim;
+      const simKept = S === S0 && [Array.from(S.x), Array.from(S.y), Array.from(S.vx), Array.from(S.vy)].every((a, k) => a.every((z, i) => Object.is(z, st0[k][i])));
       const kept = { spaceMesh: JSON.stringify(item.physics.spaceMesh) === JSON.stringify(S.params.spaceMesh),
-        meshVelocity: JSON.stringify(item.physics.meshVelocity) === JSON.stringify(S.params.meshVelocity), hasGeo3: S.hasGeo3 === true };
+        meshVelocity: JSON.stringify(item.physics.meshVelocity) === JSON.stringify(S.params.meshVelocity), hasGeo3: S.hasGeo3 === true,
+        retiredDenyGen: typeof spaceMeshRetiredDenyOf === 'function', loadSaveReturned: ret === false ? false : true, rejected: ret === false, simKeptOnReject: ret === false ? simKept : null };
       for (let i = 0; i < 300; i++) S.step(0.016);
       const A = [Array.from(S.x), Array.from(S.y), Array.from(S.vx), Array.from(S.vy)];
       HP.loadPreset(id, false);

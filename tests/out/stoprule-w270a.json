@@ -1,5 +1,5 @@
 {
- "when": "2026-10-12T09:46:28.151Z",
+ "when": "2026-10-12T12:08:48.314Z",
  "wave": "第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)",
  "baseSource": {
   "commit": "743ad9b",
@@ -393,12 +393,6 @@
     "why": "第285便b(原仮定者の裁定(第75報)⑦・R97)の EIH 型 1PN で kF0 の軌道が僅かに変わり、60 近点までの步数が 8 步・19 步違う(近点数 60 と步数上限は同じ)"
    },
    {
-    "id": "solarInner",
-    "tag": "dt",
-    "since": "w288b",
-    "why": "第288便b で kFrame=0・geoPN=1 へ在位移行 —— 宣言した步数上限(866,426 步)で止まるのは同じだが、近点の本数が 9/5/3/2 → 9/4/5/3 に変わった"
-   },
-   {
     "id": "jupiterGalilean",
     "tag": "dt",
     "since": "w288b",
@@ -427,6 +421,15 @@
     "tag": "dt",
     "since": "w284e",
     "why": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)"
+   }
+  ],
+  "declaredExceptionsOutPop": [
+   {
+    "id": "solarInner",
+    "tag": "dt",
+    "since": "w288b",
+    "why": "第288便b で kFrame=0・geoPN=1 へ在位移行 —— 宣言した步数上限(866,426 步)で止まるのは同じだが、近点の本数が 9/5/3/2 → 9/4/5/3 に変わった",
+    "outOfPopulation": "本が正本の母集団(sampleClass:\"calibration\" ∧ familyRole≠\"retired\")に無い —— 段が走らないので照合の外(差ではない)"
    }
   ],
   "differingRows": [

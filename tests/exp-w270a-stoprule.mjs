@@ -77,7 +77,15 @@ const differing = compared.filter((r) => r.same === false);
 const newStages = rows.filter((r) => !r.inBase);
 // 第271便a(AF2): **違ってよい段は宣言列挙**である(自動判定ではない)。宣言を足した段は
 // 基点より長く走るので差が出る —— 宣言に無い差は **1 段でも隠さない**(QA が落とす)。
-const exByKey = new Map(BASE_REPLAY_EXCEPTIONS.map((z) => [z.id + '|' + z.tag, z]));
+// 第300便g(第300便の鎖 2 の後のゲート 1): 宣言例外の行のうち、**本が正本の母集団(走行 JSON の presets)に無い行**(退役 —— 判定器の母集団の外で
+//   段が走らない)は照合の外に置く(基点に対応する段が無い —— 差ではない)。第288便b は同じ事情の行を lib の履歴(BASE_REPLAY_EXCEPTIONS_HISTORY)へ
+//   移したが、lib は較正走行の測定コードの hash(calaudit の measurementCodeSha256)に入るので、退役の便ごとに lib を書き換えると較正走行の作り直しが要る。
+//   そこで母集団から機械で分ける(手書きの ID 一覧を足さない)。外した行は replay.declaredExceptionsOutPop に理由つきで残す
+const popIds = new Set((cal.presets || []).map((p) => p.id));
+const exInPop = BASE_REPLAY_EXCEPTIONS.filter((z) => popIds.has(z.id));
+const exOutPop = BASE_REPLAY_EXCEPTIONS.filter((z) => !popIds.has(z.id)).map((z) => Object.assign({}, z,
+  { outOfPopulation: '本が正本の母集団(sampleClass:"calibration" ∧ familyRole≠"retired")に無い —— 段が走らないので照合の外(差ではない)' }));
+const exByKey = new Map(exInPop.map((z) => [z.id + '|' + z.tag, z]));
 for (const r of differing) {
   const ex = exByKey.get(r.id + '|' + r.tag) || null;
   r.declaredException = !!ex; r.exceptionWhy = ex ? ex.why : null; r.exceptionSince = ex ? ex.since : null;
@@ -149,7 +157,7 @@ const out = {
   replay: { nStages: rows.length, compared: compared.length,
     identical: identical.length, differing: differing.length, newStages: newStages.length,
     differingDeclared: differingDeclared.length, differingUndeclared: differingUndeclared.length,
-    declaredExceptions: BASE_REPLAY_EXCEPTIONS,
+    declaredExceptions: exInPop, declaredExceptionsOutPop: exOutPop,
     differingRows: differing, newStageRows: newStages.map((r) => ({ id: r.id, tag: r.tag,
       maxSteps: r.nowMaxSteps, stepsRun: r.nowStepsRun, periFoundA: r.nowPeriFoundA })),
     rows,
