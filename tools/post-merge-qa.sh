@@ -71,6 +71,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.synodicClock299 docs.synodic299 doc
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ref3d299 preset.ref3d299 docs.ref3d299"
 # 第300便a(原仮定者の裁定(第90報)⑤・R175): physics.spaceMesh の全面廃止の新設 1 本(preset.spaceMeshRetired300)と世代切替で追従した 3 本(preset.geo4Std298・preset.meshMigrate299・ui.charonFamily —— docs.retired・docs.noRetiredMention294 は上にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.spaceMeshRetired300 preset.meshMigrate299 ui.charonFamily"
+# 第300便b(原仮定者の裁定(第90報)①②③・R176): 地球の整理と近似の原則の新設 2 本(preset.earthReorg300・docs.approx300)と世代切替で追従したブロック(docs.retired・docs.noRetiredMention294・preset.retire298・behavior.fitCond298・preset.revived292b は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.earthReorg300 docs.approx300 preset.earthMoonInertial preset.earthMoonTide behavior.dragCoreGate preset.fitCond297 docs.inertial3Contract295 docs.fitContract296"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

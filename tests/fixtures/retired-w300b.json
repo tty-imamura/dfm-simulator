@@ -1,0 +1,1291 @@
+{
+ "fixtureVersion": "w300b-retired-1",
+ "note": "退役 3 本(🌥️🌛🌜 —— 原仮定者の裁定(第90報)③)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本・🌦️ の fitRecord.parent の参照が残る)。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差と新本。presetSig は基点と同じ(宣言の欄は署名の外)。3 本はどれも sampleClass が calibration でない —— 較正母集団(calibration ∧ 退役でない)の数は変わらない。",
+ "ids": [
+  "earthMoonSunInertialFit",
+  "earthMoonInertial",
+  "earthMoonTide"
+ ],
+ "presets": {
+  "earthMoonSunInertialFit": {
+   "emoji": "🌥️",
+   "name": "太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索",
+   "familyId": "earthmoon",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "ca4386ef",
+   "presetSigSha256": "b71ab25e391bcee387b98c7b1d9c066a3bd7d25c9584a0a67781211f6252ed59",
+   "base": {
+    "rev": "881667c",
+    "presetSigHash": "ca4386ef",
+    "name": "太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索",
+    "sigSame": true
+   },
+   "successor": "earthMoonSunInertial3d",
+   "reason": "地球の三次元版 🌦️ の採用に伴う整理 —— 二次元の再現作業は三次元の 🌦️ が引き継ぐ(🌦️ の fitRecord の親)",
+   "retiredNotice": {
+    "ja": "第90報: 地球の三次元版 🌦️ の採用に伴う整理 —— 二次元の再現作業(平均要素の初期配置)は三次元の 🌦️ が引き継ぐ(🌦️ の fitRecord の親として履歴に残る)",
+    "en": "ruling 90: tidied up with the adoption of the Earth's 3D build 🌦️ — the 2D reproduction effort (the mean-element initial state) is carried on by the 3D 🌦️ (it stays in the history as the parent of 🌦️'s fitRecord)",
+    "see": [
+     "earthMoonSunInertial3d",
+     "earthMoonOnly3d"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonSunInertial3d",
+    "successorEmoji": "🌦️",
+    "diff": {
+     "physics.coord": [
+      null,
+      "3d"
+     ],
+     "physics.relativeDrag": [
+      {
+       "law": "inertial",
+       "gain": 0,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      },
+      {
+       "law": "inertial",
+       "gain": 0.259335,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      }
+     ],
+     "bodies[1].x": [
+      1495.9366168783547,
+      1495.936602568754
+     ],
+     "bodies[1].vy": [
+      2.977128872386798,
+      2.977134946107245
+     ],
+     "bodies[2].x": [
+      1499.5071093783547,
+      1499.508272768754
+     ],
+     "bodies[2].vy": [
+      3.087378358522817,
+      3.086884556617057
+     ]
+    },
+    "n": 6,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 4
+    }
+   },
+   "raw": {
+    "id": "earthMoonSunInertialFit",
+    "name": "太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索",
+    "emoji": "🌥️",
+    "group": "現実較正",
+    "familyId": "earthmoon",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "sampleClass": "principle",
+    "referenceKind": "observation-fit",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal",
+     "apsidal_8p85_effort",
+     "gain_universal_fit"
+    ],
+    "orbitObs": {
+     "center": 1,
+     "orbiter": 2,
+     "ghostAmp": 20
+    },
+    "abBody": {
+     "label": {
+      "ja": "移送した gain に戻す(係数移送版の宣言値 51.4182)",
+      "en": "restore the transferred gain (the coefficient-transfer build's declaration 51.4182)"
+     },
+     "physicsPatch": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 51.4182,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      }
+     }
+    },
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "係数移送版(第298便b で退役)の写しで、地球→月の相対ベクトルだけを平均要素に合わせて置き直した(重心の位置・速度・質量・半径・自転・地球の構造核は係数移送版のまま)・geoPN=3・λ_PN=0・gain 0",
+      "obs": "—(原理サンプル —— 較正母集団の外)"
+     },
+     {
+      "q": "初期配置の見直し(入力)",
+      "model": "近地点距離 3.570492・t=0 の接触離心率 0.075566(係数移送版は 3.651780・0.054900)→ 118 公転の平均離心率 0.0549・恒星月 27.3217 日(係数移送版の平均離心率は 0.0375)",
+      "obs": "平均離心率 0.0549・恒星月 27.321661 日(平均要素)"
+     },
+     {
+      "q": "近点周期(実測・118 公転窓)",
+      "model": "gain 0 で 8.7873 年(近点の方位)/ 8.7665 年(離心ベクトル)/ 8.5138 年(位相の回帰)・h と h/2 の差 2.22e-4 年",
+      "obs": "8.85 年"
+     },
+     {
+      "q": "gain の探索",
+      "model": "gain 0〜51.4182 で近点周期は 8.7873 → 4.2598 年(gain を上げると短くなる)—— この探索範囲では未達 —— 次の見直しへ。本の gain は標的に最も近い点(境界 0)",
+      "obs": "8.85 年"
+     },
+     {
+      "q": "次に疑う実装(器の中だけの 3 次元の参照)",
+      "model": "平面 8.765 年(本のエンジンとの差 8.9e-7)・月の軌道傾斜 5.145° を入れると 8.864 年(+1.13%)—— 2 次元の射影が残りの差の候補",
+      "obs": "8.85 年(慣性系の平均の率 8.8504 年)"
+     },
+     {
+      "q": "言わないこと",
+      "model": "8.85 年をこの本が出したとは言わない。初期配置は観測入力(平均要素)に合わせた入力の見直しで、法則の予言ではない",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**慣性決定力版の太陽・地球・月 —— 8.85 年を再現するための初期配置と計算の見直し**(第297便b・原仮定者の裁定〔第87報〕・統括の検証項目 R162)。係数移送版(親 —— 第298便b で退役・宣言は 1 字も変えていない)の写しで、**初期配置の点検**の結果を直した派生本。係数移送版(と 🔆)は月の離心率 0.0549(平均要素 —— NASA NSSDC・JPL SSD は 0.0554)を t=0 の接触要素(近地点を太陽の反対方向に置いた)として置いており、走行の平均離心率は 0.0375 だった(太陽摂動〔出差〕の分だけ接触値と平均がずれる)。この本は地球–月の重心の位置・速度を保ち(丸めの差は速度で 1 ulp)、地球→月の相対ベクトルだけを、118 公転・h・gain 0 の走行の平均で**離心率 0.0549 と恒星月 27.321661 日(Chapront 2002)**を満たす (近地点距離 3.570492, t=0 の接触離心率 0.075566) に置き直した(2 元の Newton —— 入力の見直しであって法則の予言ではない)。physics は係数移送版の写し(重力 E4 と慣性引きずり)に λ_PN=0(原仮定者の裁定〔第87報〕)と gain 0。**gain の探索**(生成器 tests/exp-w297b-fit.mjs —— SI で 10⁻⁶〜0.0514182 m³/kg の対数格子+0・h と h/2): 118 公転窓の近点周期は gain 0 で 8.7873 年・移送 gain で 4.2598 年と単調に短くなり、標的 8.85 年は格子の全点で片側 —— **この探索範囲では未達 —— 次の見直しへ**。本の gain は探索範囲で標的に最も近い点(境界 0)。抽出器 3 方式(近点の方位・離心ベクトル・位相の回帰)の 118 公転窓は 8.7873/8.7665/8.5138 年・354 公転窓は 8.7681/8.7650/8.7368 年。太陽の位相 φ=0/90/180/270° で同じ平均要素に合わせ直すと 118 公転窓は 8.7873/8.7522/8.7836/8.7549 年。**次に疑う実装は 2 次元の射影**: 器の中だけの 3 次元のニュートンの参照積分器(アプリの物理ではない)は平面で 8.7650 年(本のエンジンとの差 8.9e-7)・月の軌道傾斜 5.145° を入れると 8.8643 年(+1.13%)。記録は fitRecord(説明タブの「フィットの記録」—— 条件の署名つき)。",
+     "observe": "トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが順行に回るのを見る(係数移送版より離心率が大きい —— 平均 0.0549)。カメラは地球追従・視野 ±10 単位。数は説明タブの「フィットの記録」(条件の署名の行 —— 編集すると「以前の条件でのフィット(未再測定)」になる)。",
+     "control": "ワンタップの対照は移送した gain 51.4182(係数移送版の宣言値 —— 118 公転窓 4.2598 年)。初期配置を直していない係数移送版(第298便b で退役)は gain 0 の 118 公転窓で 8.7779 年。速度の規約 v=(I+L)W の対照(移送 gain・直した初期配置)は器の中だけ(118 公転窓 4.3196 年 —— v=W は 4.2598 年)。地球の公転離心率 0.01671123 の対照は 8.7883 年(本の宣言は円のまま)。",
+     "brief": "係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する。部分・gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%。較正対象外。"
+    },
+    "en": {
+     "name": "Sun, Earth & Moon (inertial determinacy, reproduction effort) — mean-element initial configuration and the search toward 8.85 yr",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "a copy of the coefficient-transfer build (retired in wave 298b) with only the Earth-to-Moon relative vector re-placed to match the mean elements (barycentre position and velocity, masses, radii, spins and the Earth's structure core as in the coefficient-transfer build); geoPN=3, lambda_PN=0, gain 0",
+       "obs": "- (a principle sample, outside the calibration population)"
+      },
+      {
+       "q": "Initial-configuration revision (inputs)",
+       "model": "perigee distance 3.570492, osculating eccentricity at t=0 0.075566 (coefficient-transfer build: 3.651780, 0.054900) -> 118-orbit mean eccentricity 0.0549, sidereal month 27.3217 d (the coefficient-transfer build's mean eccentricity is 0.0375)",
+       "obs": "mean eccentricity 0.0549, sidereal month 27.321661 d (mean elements)"
+      },
+      {
+       "q": "Apsidal period (measured, 118-orbit window)",
+       "model": "gain 0: 8.7873 yr (apse direction) / 8.7665 yr (eccentricity vector) / 8.5138 yr (phase regression); h vs h/2 2.22e-4 yr",
+       "obs": "8.85 yr"
+      },
+      {
+       "q": "Gain search",
+       "model": "over gain 0 to 51.4182 the apsidal period goes 8.7873 -> 4.2598 yr (a larger gain shortens it) - not yet reached in this search range; carried to the next revision. The sample's gain is the point nearest the target (the boundary 0)",
+       "obs": "8.85 yr"
+      },
+      {
+       "q": "Implementation to revisit next (a 3-D reference inside the harness only)",
+       "model": "planar 8.765 yr (vs the sample's engine 8.9e-7); with the Moon's orbital inclination 5.145 deg 8.864 yr (+1.13%) - the two-dimensional projection is the candidate for the remaining gap",
+       "obs": "8.85 yr (inertial mean rate 8.8504 yr)"
+      },
+      {
+       "q": "Not claimed",
+       "model": "This sample is not said to produce the 8.85 yr. The initial configuration is an input revision to the observed inputs (mean elements), not a prediction of the law",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE INERTIAL-DETERMINACY SUN, EARTH AND MOON - REVISING THE INITIAL CONFIGURATION AND THE CALCULATION TO REPRODUCE 8.85 YR (wave 297b; the originator's ruling in report 87; the coordinator's check item R162). A copy of the coefficient-transfer build (the parent, retired in wave 298b; its declaration is unchanged) with the result of the INITIAL-CONFIGURATION AUDIT applied. The coefficient-transfer build (and 🔆) place the Moon's eccentricity 0.0549 (a mean element - NASA NSSDC; JPL SSD gives 0.0554) as the osculating value at t=0 (perigee on the anti-Sun side), and the run's mean eccentricity was 0.0375 (the osculating and mean values differ by the solar perturbation, the evection). This sample keeps the Earth-Moon barycentre position and velocity (rounding differences of 1 ulp in the velocity) and re-places only the Earth-to-Moon relative vector at (perigee distance 3.570492, osculating eccentricity at t=0 0.075566), which satisfies ECCENTRICITY 0.0549 AND SIDEREAL MONTH 27.321661 D (Chapront 2002) as averages over a 118-orbit run at h with gain 0 (a two-variable Newton - an input revision, not a prediction of the law). physics is the coefficient-transfer build's copy with lambda_PN=0 (the originator's ruling in report 87) and gain 0. THE GAIN SEARCH (generator tests/exp-w297b-fit.mjs - log grid 1e-6 to 0.0514182 m^3/kg in SI plus 0, h and h/2): the 118-orbit apsidal period falls monotonically from 8.7873 yr at gain 0 to 4.2598 yr at the transferred gain, and the 8.85-yr target stays on one side of every grid point - NOT YET REACHED IN THIS SEARCH RANGE; CARRIED TO THE NEXT REVISION. The sample's gain is the point of the search range nearest the target (the boundary 0). The three extractors (apse direction, eccentricity vector, phase regression) give 8.7873/8.7665/8.5138 yr over 118 orbits and 8.7681/8.7650/8.7368 yr over 354 orbits. Re-matching the same mean elements at solar phase phi = 0/90/180/270 deg gives 8.7873/8.7522/8.7836/8.7549 yr over 118 orbits. THE IMPLEMENTATION TO REVISIT NEXT IS THE TWO-DIMENSIONAL PROJECTION: a three-dimensional Newtonian reference integrator inside the harness only (not the app's physics) gives 8.7650 yr in the plane (8.9e-7 from the sample's engine) and 8.8643 yr with the Moon's orbital inclination 5.145 deg (+1.13%). The record is fitRecord (the \"fit record\" card of the explanation tab - with a condition signature).",
+      "observe": "Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde (a larger eccentricity than the coefficient-transfer build - mean 0.0549). The camera follows the Earth with a +/-10-unit field. The numbers are in the \"fit record\" card of the explanation tab (the condition-signature row turns to \"fitted under earlier conditions\" after an edit).",
+      "control": "The one-tap control is the transferred gain 51.4182 (the coefficient-transfer build's declaration - 4.2598 yr over 118 orbits). Without the revised initial configuration the coefficient-transfer build (retired in wave 298b) gives 8.7779 yr over 118 orbits at gain 0. The velocity-convention control v = (I+L)W (transferred gain, revised configuration) runs inside the harness only (4.3196 yr over 118 orbits; v = W gives 4.2598 yr). The control with the Earth's orbital eccentricity 0.01671123 gives 8.7883 yr (the declaration keeps the circle).",
+      "brief": "parent copy with mean-element initial state; search the gain toward 8.85 yr. Partial: gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c0=29979.2458",
+       "the Sun's, the Earth's and the Moon's real masses, radii and rotations (copied from 🔆 - the same as the coefficient-transfer build)",
+       "the Sun-Earth distance 1 au and the barycentre motion (copied from 🔆 - the same as the coefficient-transfer build)",
+       "the Moon's mean eccentricity 0.0549 (NASA NSSDC; JPL SSD 0.0554) and sidereal month 27.321661 d (Chapront 2002) - matched as run averages through the initial relative vector"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)",
+       "geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0, lambda_PN=0",
+       "inertial drag relativeDrag:{law:\"inertial\", gain:0, eps:0.01, history:\"positions\", pairs:[[1,2]]} (gain at the boundary of the search range nearest the target)",
+       "the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in the coefficient-transfer build); the Sun and the Moon are points",
+       "kRep=muF=gammaN=kappaS=0",
+       "stateCarry:\"double\", massFloor=1e-6",
+       "the Sun is pinned (as in 🔆)"
+      ],
+      "fitted": [
+       "initial relative vector: perigee distance 3.570492 and osculating eccentricity at t=0 0.075566 - a two-variable Newton on the 118-orbit run averages (eccentricity 0.0549, sidereal month 27.321661 d); an input revision, not a prediction",
+       "gain: the search over 0 to 51.4182 [L^3/M] does not reach 8.85 yr (not yet reached in this search range) - the declared 0 is the nearest point"
+      ],
+      "derived": [
+       "kappa=G/c0^2=7.4258e-9"
+      ],
+      "numerical": [
+       "softening eps=0.01 = 10^6 m (gravity and the drag kernel)",
+       "time multiplier timeScale=1",
+       "display magnification dispMag=10 (display only)"
+      ]
+     },
+     "description": "THE INERTIAL-DETERMINACY SUN, EARTH AND MOON - REVISING THE INITIAL CONFIGURATION AND THE CALCULATION TO REPRODUCE 8.85 YR (wave 297b; the originator's ruling in report 87; the coordinator's check item R162). A copy of the coefficient-transfer build (the parent, retired in wave 298b; its declaration is unchanged) with the result of the INITIAL-CONFIGURATION AUDIT applied. The coefficient-transfer build (and 🔆) place the Moon's eccentricity 0.0549 (a mean element - NASA NSSDC; JPL SSD gives 0.0554) as the osculating value at t=0 (perigee on the anti-Sun side), and the run's mean eccentricity was 0.0375 (the osculating and mean values differ by the solar perturbation, the evection). This sample keeps the Earth-Moon barycentre position and velocity (rounding differences of 1 ulp in the velocity) and re-places only the Earth-to-Moon relative vector at (perigee distance 3.570492, osculating eccentricity at t=0 0.075566), which satisfies ECCENTRICITY 0.0549 AND SIDEREAL MONTH 27.321661 D (Chapront 2002) as averages over a 118-orbit run at h with gain 0 (a two-variable Newton - an input revision, not a prediction of the law). physics is the coefficient-transfer build's copy with lambda_PN=0 (the originator's ruling in report 87) and gain 0. THE GAIN SEARCH (generator tests/exp-w297b-fit.mjs - log grid 1e-6 to 0.0514182 m^3/kg in SI plus 0, h and h/2): the 118-orbit apsidal period falls monotonically from 8.7873 yr at gain 0 to 4.2598 yr at the transferred gain, and the 8.85-yr target stays on one side of every grid point - NOT YET REACHED IN THIS SEARCH RANGE; CARRIED TO THE NEXT REVISION. The sample's gain is the point of the search range nearest the target (the boundary 0). The three extractors (apse direction, eccentricity vector, phase regression) give 8.7873/8.7665/8.5138 yr over 118 orbits and 8.7681/8.7650/8.7368 yr over 354 orbits. Re-matching the same mean elements at solar phase phi = 0/90/180/270 deg gives 8.7873/8.7522/8.7836/8.7549 yr over 118 orbits. THE IMPLEMENTATION TO REVISIT NEXT IS THE TWO-DIMENSIONAL PROJECTION: a three-dimensional Newtonian reference integrator inside the harness only (not the app's physics) gives 8.7650 yr in the plane (8.9e-7 from the sample's engine) and 8.8643 yr with the Moon's orbital inclination 5.145 deg (+1.13%). The record is fitRecord (the \"fit record\" card of the explanation tab - with a condition signature).Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde (a larger eccentricity than the coefficient-transfer build - mean 0.0549). The camera follows the Earth with a +/-10-unit field. The numbers are in the \"fit record\" card of the explanation tab (the condition-signature row turns to \"fitted under earlier conditions\" after an edit).The one-tap control is the transferred gain 51.4182 (the coefficient-transfer build's declaration - 4.2598 yr over 118 orbits). Without the revised initial configuration the coefficient-transfer build (retired in wave 298b) gives 8.7779 yr over 118 orbits at gain 0. The velocity-convention control v = (I+L)W (transferred gain, revised configuration) runs inside the harness only (4.3196 yr over 118 orbits; v = W gives 4.2598 yr). The control with the Earth's orbital eccentricity 0.01671123 gives 8.7883 yr (the declaration keeps the circle).",
+     "status": {
+      "purpose": "parent copy with mean-element initial state; search the gain toward 8.85 yr",
+      "state": "gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "太陽・地球・月の実質量・実半径・実自転(🔆 の写し —— 係数移送版と同じ)",
+      "太陽–地球距離 1au と重心の運動(🔆 の写し —— 係数移送版と同じ)",
+      "月の平均離心率 0.0549(NASA NSSDC・JPL SSD は 0.0554)と恒星月 27.321661 日(Chapront 2002)—— 初期の相対ベクトルで走行の平均に合わせた"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)",
+      "geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0・λ_PN=0",
+      "慣性引きずり relativeDrag:{law:\"inertial\", gain:0, eps:0.01, history:\"positions\", pairs:[[1,2]]}(gain は探索範囲で標的に最も近い境界)",
+      "地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(係数移送版のまま)・太陽と月は点源",
+      "kRep=muF=γN=κ_S=0",
+      "stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(🔆 と同じ)"
+     ],
+     "fitted": [
+      "初期の相対ベクトル: 近地点距離 3.570492・t=0 の接触離心率 0.075566 —— 118 公転の走行の平均(離心率 0.0549・恒星月 27.321661 日)への 2 元の Newton(入力の見直し —— 予言ではない)",
+      "gain: 0〜51.4182 [L³/M] の探索で 8.85 年に届かない(この探索範囲では未達)—— 宣言の 0 は最も近い点"
+     ],
+     "derived": [
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核)",
+      "時間倍率 timeScale=1",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "fitRecord": {
+     "version": "w297b-1",
+     "parent": "earthMoonSunInertial",
+     "law": "inertial-drag",
+     "targets": [
+      {
+       "q": "apsidalPeriod118",
+       "obs": 8.85,
+       "unit": "年",
+       "source": "月の近地点経度の周期 8.85 年(🌛・🔆 の観測欄の値 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし。慣性系の平均の率は Chapront 2002 Table 4 の SOL-c34be08a 40.67616758°/年 = 8.85038 年)",
+       "window": "A1(慣性の対は地球と月だけ)・118 公転の窓 [0,118] の近点方位の時刻への直線 fit(検出器 B —— 位置だけ)",
+       "tol": {
+        "value": 0.005,
+        "kind": "declared",
+        "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・SOL-c34be08a の 40.67616758°/年 → 8.85038 年)はこの幅の中"
+       }
+      }
+     ],
+     "knobs": [
+      {
+       "key": "physics.relativeDrag.gain",
+       "range": [
+        0,
+        51.4182
+       ],
+       "final": 0
+      },
+      {
+       "key": "initial.moonPerigeeDistance",
+       "range": [
+        3.4,
+        3.8
+       ],
+       "final": 3.5704925
+      },
+      {
+       "key": "initial.moonOscEccentricity0",
+       "range": [
+        0.02,
+        0.12
+       ],
+       "final": 0.0755658
+      }
+     ],
+     "fixed": [
+      "太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は親 🌤️ の写し(重心は保つ —— 丸めの差は速度で 1 ulp〔4.4e-16〕・地球→月の相対ベクトルだけを置き直した)",
+      "geoPN=3・kFrame=0・積分器 semi・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](親のまま)",
+      "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+      "初期配置は平均要素に合わせた: 月の離心率 0.0549(SOL-47b082ec)と恒星月 27.321662 日(SOL-432f643e)を 118 公転・h・gain 0 の走行の平均で満たす (近地点距離, t=0 の接触離心率) —— 太陽の位相 φ=0(近地点を太陽の反対方向に置く親の向き)",
+      "最終値は根ではない: gain の探索範囲 [0, 51.4182] で標的に最も近い点(境界 0)を本の宣言にした —— 移送 gain は A/B のワンタップ"
+     ],
+     "procedure": "7b 初期配置の点検(親の走行の平均離心率 0.0375 —— 0.0549 は平均要素) → 7d (近地点距離, e0) の 2 元 Newton(φ=0/90/180/270°・e 0.0549/0.0554) → 7c 抽出器 3 方式 × 窓 8/27/60/118 × h/h2/h4 → 7f gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点+0)× h/h2 で根を挟む → 7e 器の中だけの 3 次元の参照積分器で傾斜の効果を測る",
+     "dt": 0.016,
+     "steps": 1741364,
+     "residual": {
+      "value": -0.06269729348664832,
+      "unit": "年",
+      "model": 8.787302706513351,
+      "rel": -0.007084439941994161
+     },
+     "numerics": {
+      "h2": 0.0002222212871245688,
+      "dtHalf": 0.008
+     },
+     "status": "unreachable-in-bounds",
+     "notFitted": [
+      "この探索範囲では未達 —— 次の見直しへ: 直した初期配置で gain 0 の 118 公転窓 8.7873 年(gain を上げると短くなる —— 格子の全点で標的の片側)",
+      "次に疑う実装: 2 次元の射影(月の軌道傾斜なし)—— 器の中だけの 3 次元の参照積分器で、平面 8.765 年(本のエンジンとの差 8.9e-7)・傾斜 5.145° で 8.864 年(+1.13%)",
+      "次に疑う配置: 太陽の位相 φ(元期の宣言なし —— φ=0/90/180/270° で 118 公転窓 8.7873/8.7522/8.7836/8.7549 年)・地球の公転離心率(親は円 —— e′ 0.01671123 の対照で 8.7883 年)",
+      "抽出器と窓: 3 方式の 118 公転窓 8.7873/8.7665/8.5138 年・354 公転窓 8.7681/8.7650/8.7368 年",
+      "恒星月と離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)"
+     ],
+     "cond": {
+      "version": "w297b-cond-1",
+      "sig": "86a6be4193d30125",
+      "extractor": "tests/exp-w297b-fit.mjs runEmx(検出器 B の 3 点放物線・位置だけ)→ tests/lib-w297b-fit.mjs emMethods M1・w297b-emx-1"
+     }
+    },
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 10,
+     "follow": 1
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 236.059488,
+     "pair": [
+      1,
+      2
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+     "stepsPerOrbit": 360
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1,
+     "stepDt": 0.655721,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 0,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 1988.5,
+      "radius": 6.96,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.029031,
+      "pinned": true,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0059724,
+      "radius": 0.06371,
+      "x": 1495.9366168783547,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.977128872386798,
+      "spin": 0.729212,
+      "pinned": false,
+      "pnSource": true,
+      "dragCore": {
+       "massFrac": 0.325,
+       "radius": 0.0348
+      }
+     },
+     {
+      "type": "single",
+      "m": 0.00007346,
+      "radius": 0.0174,
+      "x": 1499.5071093783547,
+      "y": 0,
+      "vx": 0,
+      "vy": 3.087378358522817,
+      "spin": 0.026617,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false
+    },
+    "description": "**慣性決定力版の太陽・地球・月 —— 8.85 年を再現するための初期配置と計算の見直し**(第297便b・原仮定者の裁定〔第87報〕・統括の検証項目 R162)。係数移送版(親 —— 第298便b で退役・宣言は 1 字も変えていない)の写しで、**初期配置の点検**の結果を直した派生本。係数移送版(と 🔆)は月の離心率 0.0549(平均要素 —— NASA NSSDC・JPL SSD は 0.0554)を t=0 の接触要素(近地点を太陽の反対方向に置いた)として置いており、走行の平均離心率は 0.0375 だった(太陽摂動〔出差〕の分だけ接触値と平均がずれる)。この本は地球–月の重心の位置・速度を保ち(丸めの差は速度で 1 ulp)、地球→月の相対ベクトルだけを、118 公転・h・gain 0 の走行の平均で**離心率 0.0549 と恒星月 27.321661 日(Chapront 2002)**を満たす (近地点距離 3.570492, t=0 の接触離心率 0.075566) に置き直した(2 元の Newton —— 入力の見直しであって法則の予言ではない)。physics は係数移送版の写し(重力 E4 と慣性引きずり)に λ_PN=0(原仮定者の裁定〔第87報〕)と gain 0。**gain の探索**(生成器 tests/exp-w297b-fit.mjs —— SI で 10⁻⁶〜0.0514182 m³/kg の対数格子+0・h と h/2): 118 公転窓の近点周期は gain 0 で 8.7873 年・移送 gain で 4.2598 年と単調に短くなり、標的 8.85 年は格子の全点で片側 —— **この探索範囲では未達 —— 次の見直しへ**。本の gain は探索範囲で標的に最も近い点(境界 0)。抽出器 3 方式(近点の方位・離心ベクトル・位相の回帰)の 118 公転窓は 8.7873/8.7665/8.5138 年・354 公転窓は 8.7681/8.7650/8.7368 年。太陽の位相 φ=0/90/180/270° で同じ平均要素に合わせ直すと 118 公転窓は 8.7873/8.7522/8.7836/8.7549 年。**次に疑う実装は 2 次元の射影**: 器の中だけの 3 次元のニュートンの参照積分器(アプリの物理ではない)は平面で 8.7650 年(本のエンジンとの差 8.9e-7)・月の軌道傾斜 5.145° を入れると 8.8643 年(+1.13%)。記録は fitRecord(説明タブの「フィットの記録」—— 条件の署名つき)。トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが順行に回るのを見る(係数移送版より離心率が大きい —— 平均 0.0549)。カメラは地球追従・視野 ±10 単位。数は説明タブの「フィットの記録」(条件の署名の行 —— 編集すると「以前の条件でのフィット(未再測定)」になる)。ワンタップの対照は移送した gain 51.4182(係数移送版の宣言値 —— 118 公転窓 4.2598 年)。初期配置を直していない係数移送版(第298便b で退役)は gain 0 の 118 公転窓で 8.7779 年。速度の規約 v=(I+L)W の対照(移送 gain・直した初期配置)は器の中だけ(118 公転窓 4.3196 年 —— v=W は 4.2598 年)。地球の公転離心率 0.01671123 の対照は 8.7883 年(本の宣言は円のまま)。",
+    "status": {
+     "purpose": "係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する",
+     "objective": "partial",
+     "state": "gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/fit-w297b.json"
+     ]
+    }
+   }
+  },
+  "earthMoonInertial": {
+   "emoji": "🌛",
+   "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+   "familyId": "earthmoon",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "principle",
+   "presetSigHash": "ed1b7fb9",
+   "presetSigSha256": "9259a10a5e3012fd83191bb60e04cec8acdb16962b35e91ee5742b5b14bb3d2f",
+   "base": {
+    "rev": "881667c",
+    "presetSigHash": "ed1b7fb9",
+    "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+    "sigSame": true
+   },
+   "successor": "earthMoonSunInertial3d",
+   "reason": "地球の三次元版 🌦️ の採用に伴う整理 —— 慣性決定力版の地球と月(二次元・太陽なし)は 🌦️ と対照 🌔 が引き継ぐ",
+   "retiredNotice": {
+    "ja": "第90報: 地球の三次元版 🌦️ の採用に伴う整理 —— 慣性決定力版の地球と月(二次元・太陽なし)は、🌦️ と地球と月だけの三次元の対照 🌔 が引き継ぐ",
+    "en": "ruling 90: tidied up with the adoption of the Earth's 3D build 🌦️ — the inertial-determinacy Earth and Moon (2D, no Sun) is carried on by 🌦️ and the Earth–Moon-only 3D control 🌔",
+    "see": [
+     "earthMoonSunInertial3d",
+     "earthMoonOnly3d"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonSunInertial3d",
+    "successorEmoji": "🌦️",
+    "diff": {
+     "physics.coord": [
+      null,
+      "3d"
+     ],
+     "physics.relativeDrag": [
+      {
+       "law": "inertial",
+       "gain": 514182,
+       "eps": 0.1,
+       "history": "positions"
+      },
+      {
+       "law": "inertial",
+       "gain": 0.259335,
+       "eps": 0.01,
+       "history": "positions",
+       "pairs": [
+        [
+         1,
+         2
+        ]
+       ]
+      }
+     ],
+     "physics.softening": [
+      0.1,
+      0.01
+     ],
+     "physics.stepDt": [
+      65.5721,
+      0.655721
+     ],
+     "bodies.length": [
+      2,
+      3
+     ],
+     "bodies[0].m": [
+      0.59724,
+      1988.5
+     ],
+     "bodies[0].radius": [
+      6.38,
+      6.96
+     ],
+     "bodies[0].x": [
+      -4.41822,
+      0
+     ],
+     "bodies[0].vy": [
+      -0.0013146,
+      0
+     ],
+     "bodies[0].spin": [
+      0.0072921,
+      0.029031
+     ],
+     "bodies[0].pinned": [
+      false,
+      true
+     ],
+     "bodies[1].m": [
+      0.007346,
+      0.0059724
+     ],
+     "bodies[1].radius": [
+      1.74,
+      0.06371
+     ],
+     "bodies[1].x": [
+      359.2071,
+      1495.936602568754
+     ],
+     "bodies[1].vy": [
+      0.1068788,
+      2.977134946107245
+     ],
+     "bodies[1].spin": [
+      0.00026617,
+      0.729212
+     ]
+    },
+    "n": 16,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 12
+    }
+   },
+   "raw": {
+    "id": "earthMoonInertial",
+    "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+    "emoji": "🌛",
+    "group": "天体の機構",
+    "familyId": "earthmoon",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    },
+    "sampleClass": "principle",
+    "referenceKind": "structure-sensitivity",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal",
+     "apsidal_8p85",
+     "apsidal_8p85_fit"
+    ],
+    "orbitObs": {
+     "center": 0,
+     "orbiter": 1,
+     "ghostAmp": 20
+    },
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🌙 の地球と月(初速も 🌙 のまま)・geoPN=3(慣性決定力の有効化 —— 測地線 OFF・1PN なし)・kFrame=0・慣性引きずり・地球に構造核 dragCore{f=0.325, R_c=3.48}",
+      "obs": "—(原理サンプル —— 較正母集団の外)"
+     },
+     {
+      "q": "gain(C_d)",
+      "model": "514182 [L³/M] —— 27 公転窓の近点周期を 8.85 年に合わせた推定(フィット)。較正の合ではない(AN117 と同じ扱い)",
+      "obs": "8.85 年(フィットの対象)"
+     },
+     {
+      "q": "近点回転(実測)",
+      "model": "8 公転窓 Δϖ=0.053207 rad/公転(🌘 の +0.05308 の 1.0024 倍)・8・27・118 公転窓とも 8.850 年",
+      "obs": "8.85 年(主因は太陽摂動 —— 🔆)"
+     },
+     {
+      "q": "恒星月(実測)",
+      "model": "118 公転の区間平均 27.143 日(-0.66% —— 初速は 🌙 のまま合わせていない)・離心率の代理 0.0490",
+      "obs": "27.3217 日・e 0.0549"
+     },
+     {
+      "q": "構造核の効き(実測)",
+      "model": "月の距離で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6e-4・点源でフィットすると gain は 2.4e-4 大きいだけ・3×3 の Δϖ の差 ≤ 3.3e-4",
+      "obs": "—"
+     },
+     {
+      "q": "118 公転(実測)",
+      "model": "27 公転ごとの近点周期 8.850/8.850/8.850/8.850 年・離心率の代理 0.0490(4 区間で同じ) —— 窓に依らず定常(二体の性質)",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "8.85 年を慣性決定力が較正ゼロで出したとは言わない。C_d・f・R_c を 8.85 年の 1 量から一意決定していない(1 次は ⟨ρ²⟩ だけ)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 第293便g から既定の合成則 solve: 力学速度 v の差 s_i=C_d Σ_j m_j 𝒦_j(r)(v_j−v_i) から (I+L)u=s を解き、位置だけを x+=u·dt で動かす。旧加算 u_i=Σ_j a_ij(V_j−V_i)〔V は座標の差分の移動ベクトル〕は compose:\"sum\" の明示だけ)だけで回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0(1PN も E6′ の q 引きずりも使わない —— 第294便a で geoPN=0 から 3 へ。力学はビット同一)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
+     "observe": "トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(kFrame=1・D₀=0.006・qLock の q 引きずりは窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
+     "control": "比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。",
+     "brief": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"
+    },
+    "en": {
+     "name": "Earth & Moon (inertial determinacy) — structure core and a fitted apsidal cycle",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🌙's Earth-Moon/speeds; geoPN=3 (inertial drag on: no geodesic, no 1PN), kFrame=0; Earth dragCore{f=0.325, R_c=3.48}",
+       "obs": "- (a principle sample, outside the calibration population)"
+      },
+      {
+       "q": "gain (C_d)",
+       "model": "514182 [L^3/M]: an estimate (fit) of the 27-orbit apsidal period to 8.85 yr; not a calibration agreement (as AN117)",
+       "obs": "8.85 yr (the fit target)"
+      },
+      {
+       "q": "Apsidal advance (measured)",
+       "model": "8-orbit 0.053207 rad/orbit (1.0024 x 🌘's +0.05308); 8.850 yr in the 8-, 27-, 118-orbit windows",
+       "obs": "8.85 yr (main cause: the Sun - 🔆)"
+      },
+      {
+       "q": "Sidereal month (measured)",
+       "model": "118-orbit mean 27.143 d (-0.66%; 🌙's speeds kept, not refitted); eccentricity proxy 0.0490",
+       "obs": "27.3217 d, e 0.0549"
+      },
+      {
+       "q": "Structure core (measured)",
+       "model": "<K>/K-1 ~ <rho^2>/a^2 ~ 1.6e-4 at the Moon; point-source fit: gain +2.4e-4; 3x3 (f, R_c) grid: advance moves <= 3.3e-4",
+       "obs": "-"
+      },
+      {
+       "q": "118 orbits (measured)",
+       "model": "apsidal period per 27 orbits 8.850/8.850/8.850/8.850 yr; e proxy 0.0490 in all four: steady (a two-body property)",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "8.85 yr is not produced with zero calibration; C_d, f, R_c are not fixed by one number (first order: <rho^2> only)",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from wave 293g the default composition rule solve takes the dynamical-velocity differences s_i = C_d sum_j m_j K_j(r)(v_j - v_i), solves (I+L)u = s and moves positions only, x += u dt; the former sum u_i = sum_j a_ij(V_j - V_i) over the coordinate-difference movement V runs only when compose:\"sum\" is declared). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0 (no 1PN, no E6' q dragging - moved from geoPN=0 to 3 in wave 294a; the dynamics is bit-identical). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
+      "observe": "Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging with kFrame=1, D₀=0.006 and qLock slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
+      "control": "Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c).",
+      "brief": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c0=29979.2458",
+       "the Earth's real mass, radius and rotation (23.93 h)",
+       "the Moon's real mass, radius and synchronous rotation",
+       "semi-major axis 3.84748e8 m, eccentricity 0.0549, perigee relative speed 1.082 km/s (copied from 🌙 - no speed correction)",
+       "the Moon's 8.85-year apsidal cycle (the observation used as the gain's fit target)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)",
+       "geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0 (no 1PN, no E6' q dragging)",
+       "inertial drag relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}",
+       "the Earth's structure core dragCore:{massFrac:0.325, radius:3.48} (the starting point of a sensitivity experiment - not an identification of the Earth's core); the Moon is a point",
+       "kRep=muF=gammaN=kappaS=0",
+       "stateCarry:\"double\", massFloor=1e-6",
+       "a free binary about the barycenter (nothing pinned, no Sun)"
+      ],
+      "fitted": [
+       "gain (C_d)=514182 [L^3/M] (a one-dimensional fit of the apsidal period - detector B, 27-orbit window - to 8.85 yr; an estimate, not a calibration agreement)"
+      ],
+      "derived": [
+       "kappa=G/c0^2=7.4258e-9",
+       "<rho^2>=0.518R^2 (from the two-layer starting declaration - a moment-of-inertia factor of 0.345)"
+      ],
+      "numerical": [
+       "softening eps=0.1 (gravity and the drag kernel)",
+       "structure-core table 1024 points, r_max = 4 x the initial span, Gauss-Legendre 32 points",
+       "time multiplier timeScale=1, screen step stepDt=65.5721",
+       "display magnification dispMag=10 (display only)"
+      ]
+     },
+     "description": "THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from wave 293g the default composition rule solve takes the dynamical-velocity differences s_i = C_d sum_j m_j K_j(r)(v_j - v_i), solves (I+L)u = s and moves positions only, x += u dt; the former sum u_i = sum_j a_ij(V_j - V_i) over the coordinate-difference movement V runs only when compose:\"sum\" is declared). geoPN=3 (the mark for enabling the inertial-determinacy drag - geodesic off, no 1PN), kFrame=0 (no 1PN, no E6' q dragging - moved from geoPN=0 to 3 in wave 294a; the dynamics is bit-identical). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging with kFrame=1, D₀=0.006 and qLock slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c).",
+     "status": {
+      "purpose": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect",
+      "state": "solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "地球の実質量・実半径・実自転(23.93時間)",
+      "月の実質量・実半径・同期自転",
+      "軌道長半径 3.84748×10⁸m・離心率 0.0549・近地点の相対速度 1.082km/s(🌙 の写し —— 初速の補正なし)",
+      "月の近点回転の周期 8.85年(gain のフィットの対象にした観測値)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)",
+      "geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0(1PN も E6′ の q 引きずりも使わない)",
+      "慣性引きずり relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}",
+      "地球の構造核 dragCore:{massFrac:0.325, radius:3.48}(感度実験の起点の宣言 —— 地球の核の同定ではない)・月は点源",
+      "kRep=muF=γN=κ_S=0",
+      "stateCarry:\"double\"・massFloor=1e-6",
+      "自由二体を重心系で配置(pinned なし・太陽なし)"
+     ],
+     "fitted": [
+      "gain(C_d)=514182 [L³/M](近点回転の周期〔検出器 B・27 公転窓〕を 8.85 年に合わせた 1 次元フィット —— 推定であって較正の合ではない)"
+     ],
+     "derived": [
+      "κ=G/c₀²=7.4258×10⁻⁹",
+      "⟨ρ²⟩=0.518R²(起点の 2 層の宣言から —— 慣性モーメント係数 0.345 に当たる)"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.1(重力と引きずりの核)",
+      "構造核の表 1024 点・r_max=初期配置の 4 倍・Gauss–Legendre 32 点",
+      "時間倍率 timeScale=1・画面の刻み stepDt=65.5721",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "geoPN",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 450
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 23605.9488,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 100
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.1,
+     "timeScale": 1,
+     "stepDt": 65.5721,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 514182,
+      "eps": 0.1,
+      "history": "positions"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.59724,
+      "radius": 6.38,
+      "x": -4.41822,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.0013146,
+      "spin": 0.0072921,
+      "pinned": false,
+      "pnSource": true,
+      "dragCore": {
+       "massFrac": 0.325,
+       "radius": 3.48
+      }
+     },
+     {
+      "type": "single",
+      "m": 0.007346,
+      "radius": 1.74,
+      "x": 359.2071,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.1068788,
+      "spin": 0.00026617,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 第293便g から既定の合成則 solve: 力学速度 v の差 s_i=C_d Σ_j m_j 𝒦_j(r)(v_j−v_i) から (I+L)u=s を解き、位置だけを x+=u·dt で動かす。旧加算 u_i=Σ_j a_ij(V_j−V_i)〔V は座標の差分の移動ベクトル〕は compose:\"sum\" の明示だけ)だけで回す。geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)・kFrame=0(1PN も E6′ の q 引きずりも使わない —— 第294便a で geoPN=0 から 3 へ。力学はビット同一)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(kFrame=1・D₀=0.006・qLock の q 引きずりは窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。",
+    "status": {
+     "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
+     "objective": "met",
+     "state": "合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/dragcore-w292c.json"
+     ]
+    }
+   }
+  },
+  "earthMoonTide": {
+   "emoji": "🌜",
+   "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+   "familyId": "earthmoon",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "天体の機構",
+   "groupAtBase": "天体の機構",
+   "sampleClass": "principle",
+   "presetSigHash": "4b79e5b5",
+   "presetSigSha256": "71e475bd128c4a3eb3b018bca330f288a81c2022f5e169f07dbdf2871bb2d201",
+   "base": {
+    "rev": "881667c",
+    "presetSigHash": "4b79e5b5",
+    "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+    "sigSame": true
+   },
+   "successor": "earthMoonReal",
+   "reason": "地球の三次元版 🌦️ の採用に伴う整理 —— 定時間遅延の潮汐の診断(二次元)の記録は正本と PHYSICS に履歴",
+   "retiredNotice": {
+    "ja": "第90報: 地球の三次元版 🌦️ の採用に伴う整理 —— 定時間遅延の潮汐の診断(二次元)の記録は正本と PHYSICS に履歴として残る。地球と月の入口は 🌙 と 🌦️",
+    "en": "ruling 90: tidied up with the adoption of the Earth's 3D build 🌦️ — the record of the constant-time-lag tide diagnostic (2D) stays as history in the canonical output and PHYSICS; the Earth–Moon entry points are 🌙 and 🌦️",
+    "see": [
+     "earthMoonReal",
+     "earthMoonSunInertial3d"
+    ]
+   },
+   "pairDiff": {
+    "successor": "earthMoonReal",
+    "successorEmoji": "🌙",
+    "diff": {
+     "physics.tide": [
+      {
+       "maxN": 8
+      },
+      null
+     ]
+    },
+    "n": 1,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 0
+    }
+   },
+   "raw": {
+    "id": "earthMoonTide",
+    "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+    "emoji": "🌜",
+    "group": "天体の機構",
+    "familyId": "earthmoon",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    },
+    "sampleClass": "principle",
+    "fidelity": "real",
+    "referenceKind": "tide-diagnostic",
+    "orbitObs": {
+     "center": 0,
+     "orbiter": 1,
+     "ghostAmp": 1000000
+    },
+    "notClaim": [
+     "solar_cal",
+     "apsidal_8p85"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🌙 の実単位の地球・月をそのまま写し、地球 k₂=0.3・月 k₂=0.024・遅延 lag=6(600 s —— 感度の起点の宣言)",
+      "obs": "—(診断本 —— 観測と照合しない)"
+     },
+     {
+      "q": "則(1 步)",
+      "model": "CTL: F_cons=−3Br/r⁸・F_diss=−(3BΔt/r¹⁰){2r(r·V)+r²(V−Ω×r)}・τ=−r×F_diss(B=Gk₂m_j²R⁵)",
+      "obs": "—"
+     },
+     {
+      "q": "自転の更新",
+      "model": "角運動量 J=IΩ を補償和で更新して Ω=J/I に戻す(I=½mR²)。素朴な spin+=τ/I·dt では 1 步の増分が ulp 未満で消える",
+      "obs": "—"
+     },
+     {
+      "q": "地球の自転(実測)",
+      "model": "1 恒星月で ΔJ/J=-1.212e-11・ΔΩ=-8.839e-14 rad/単位(円軌道の解析式との比 1.0221)",
+      "obs": "—"
+     },
+     {
+      "q": "帳簿(実測)",
+      "model": "発熱 7.544e-15・軌道⇄自転の交換の相対残差 6.541e-14・仕事と熱の相対残差 -2.614e-14(丸め床)",
+      "obs": "—"
+     },
+     {
+      "q": "引きずりとの交差項(実測)",
+      "model": "器の一時プリセット 4 条件: gain 100 で地球の ΔJ の 6.117e-6(結合 a の 5.8 倍・gain に比例)。この本には引きずりを宣言しない",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "月の後退率・地球の自転減速の観測値を再現したとは書かない。全系の保存則が閉じたとは書かない(u の移送は別帳簿)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**明示潮汐(定時間遅延 CTL)を宣言した本だけで走らせる診断**(第292便d・原仮定者の裁定〔第82報〕⑦・統括の検証項目 R140)。🌙 earthMoonReal の実単位の地球・月を 1 字も変えずに写し、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した(lag=6 単位=600 s は感度実験の起点の宣言 —— 実在地球の同定ではなく、月の後退率にも合わせていない)。潮汐は三つの意味を分けて扱う: (1) 外部重力の潮汐テンソル(内部を粒子で解く系では対重力が既に持つ —— 宣言専用の physics.backgroundTidal とは別の鍵)・(2) 保存的な変形(Love 数 k₂ による誘起四重極・U=−B/(2r⁶))・(3) 散逸(遅延 Δt による軌道⇄自転の角運動量交換と熱)。軌道は 🌙 と同じ重力(E4)と kF0 の 1PN で回り、本は (2)(3) を受け手(物理半径と k₂ を宣言した天体)ごとに足し、自転は角運動量 J=IΩ を更新して Ω=J/I に戻す。粒子を近似した多粒子の本(maxN 8 を超える本・群・形状トイ・光学迷彩矮星)には足さない(二重計上を避ける最適化)。慣性決定力の引きずり(relativeDrag)はこの本には宣言しない —— 引きずりとの交差項は器の中の一時プリセットで測る。",
+     "observe": "見た目は 🌙 と同じ(潮汐の力は重力の 10⁻¹¹ 程度で、画面では見えないのが正しい)。読むのは帳簿: 地球の自転は 1 恒星月で ΔΩ/Ω ≈ 10⁻¹¹ だけ減速し、その角運動量は月の軌道へ移る(交換の残差は丸め床)。発熱は正で、潮汐力が軌道と自転にした仕事と熱の和は丸め床で 0 になる。値は正本 tests/out/tide-w292d.json。",
+     "control": "対照は 🌙 earthMoonReal(潮汐なし —— 同じ bodies・同じ physics)。器の中で、遅延を 0 にすると散逸のトルクと熱が 0 になり保存的な変形だけが残ることを確かめる。",
+     "brief": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る。達・1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録。較正対象外。"
+    },
+    "en": {
+     "name": "Earth & Moon (real units, tide diagnostic) — a sample that declares constant-time-lag tides",
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "🌙's real Earth and Moon copied as is; Earth k2=0.3, Moon k2=0.024, lag=6 (600 s - a declared starting point)",
+       "obs": "- (a diagnostic; not matched to observation)"
+      },
+      {
+       "q": "The law (one step)",
+       "model": "CTL: F_cons=-3Br/r^8; F_diss=-(3B dt/r^10){2r(r.V)+r^2(V-Omega x r)}; tau=-r x F_diss (B=G k2 m_j^2 R^5)",
+       "obs": "-"
+      },
+      {
+       "q": "Spin update",
+       "model": "J=I Omega updated with compensated sums, then Omega=J/I (I=1/2 m R^2); naive spin+=tau/I dt loses sub-ulp steps",
+       "obs": "-"
+      },
+      {
+       "q": "Earth spin (measured)",
+       "model": "over one sidereal month dJ/J=-1.212e-11, dOmega=-8.839e-14 rad/unit (ratio to the circular formula 1.0221)",
+       "obs": "-"
+      },
+      {
+       "q": "Ledger (measured)",
+       "model": "heat 7.544e-15; orbit-spin exchange rel. residual 6.541e-14; work-plus-heat rel. residual -2.614e-14 (rounding floor)",
+       "obs": "-"
+      },
+      {
+       "q": "Cross term with dragging (measured)",
+       "model": "harness, 4 conditions: gain 100 gives 6.117e-6 of the Earth dJ (5.8 x coupling a, linear in gain); none declared here",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "not the observed lunar recession or day lengthening; full-system conservation not claimed (u transport booked apart)",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A DIAGNOSTIC THAT RUNS EXPLICIT TIDES (CONSTANT TIME LAG, CTL) ONLY IN A SAMPLE THAT DECLARES THEM (wave 292d, the originator's ruling in report 82 item 7, the coordinator's check item R140). 🌙 earthMoonReal's real Earth and Moon are copied without changing a character, with tide:{k2:0.3, lag:6} on the Earth and tide:{k2:0.024, lag:6} on the Moon (lag=6 units = 600 s is a declared starting point for sensitivity runs, not an identification of the real Earth, and not tuned to the lunar recession rate). Tides are kept in three separate meanings: (1) the external tidal tensor (a system resolved into particles already has it through pair gravity - and the declaration-only physics.backgroundTidal is a different key), (2) conservative deformation (the induced quadrupole of Love number k2, U=-B/(2r^6)), (3) dissipation (orbit-spin angular-momentum exchange and heat through the lag). The orbit runs on gravity (E4) and kF0's 1PN as in 🌙; the sample adds (2) and (3) per receiver (a body that declares a physical radius and k2) and updates the spin through its angular momentum J=I Omega, then Omega=J/I. Many-particle samples (more than maxN 8 particles, groups, shape toys, optical-camouflage dwarfs) get no explicit tide (an optimisation that avoids double counting). This sample declares NO inertial dragging (relativeDrag); the cross term with dragging is measured inside the harness with temporary presets.",
+      "observe": "It looks the same as 🌙 (the tidal force is about 1e-11 of gravity, invisible on screen, as it should be). Read the ledger instead: the Earth's spin slows by about 1e-11 of itself per sidereal month and that angular momentum moves into the lunar orbit (the exchange residual is at the rounding floor). The heat is positive, and work plus heat sums to zero at the rounding floor. Values are in tests/out/tide-w292d.json.",
+      "control": "The control is 🌙 earthMoonReal (no tides - same bodies, same physics). In the harness, setting the lag to 0 removes the dissipative torque and heat and leaves only the conservative deformation.",
+      "brief": "Run constant-time-lag tides only where declared; measure spin-down. Met: Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the same real Earth and Moon as 🌙 (masses, radii, spins, distance, velocity)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)",
+       "kF0 as in 🌙 (geoPN=1, kFrame=0)",
+       "physics.tide:{maxN:8} (model ctl, velocity v, inertia half = I=1/2 m R^2, split full)"
+      ],
+      "fitted": [
+       "NOTHING - k2 and lag are declarations; nothing is fitted to the lunar recession or to day lengthening"
+      ],
+      "derived": [
+       "B_Earth = G k2 m_Moon^2 R_Earth^5, B_Moon = G k2 m_Earth^2 R_Moon^5"
+      ],
+      "numerical": [
+       "softening eps=0.1",
+       "stateCarry:\"double\" (tidal kicks go through the velocity carry)",
+       "spin in Float64 only in a sample where the tide acts"
+      ]
+     },
+     "description": "A DIAGNOSTIC THAT RUNS EXPLICIT TIDES (CONSTANT TIME LAG, CTL) ONLY IN A SAMPLE THAT DECLARES THEM (wave 292d, the originator's ruling in report 82 item 7, the coordinator's check item R140). 🌙 earthMoonReal's real Earth and Moon are copied without changing a character, with tide:{k2:0.3, lag:6} on the Earth and tide:{k2:0.024, lag:6} on the Moon (lag=6 units = 600 s is a declared starting point for sensitivity runs, not an identification of the real Earth, and not tuned to the lunar recession rate). Tides are kept in three separate meanings: (1) the external tidal tensor (a system resolved into particles already has it through pair gravity - and the declaration-only physics.backgroundTidal is a different key), (2) conservative deformation (the induced quadrupole of Love number k2, U=-B/(2r^6)), (3) dissipation (orbit-spin angular-momentum exchange and heat through the lag). The orbit runs on gravity (E4) and kF0's 1PN as in 🌙; the sample adds (2) and (3) per receiver (a body that declares a physical radius and k2) and updates the spin through its angular momentum J=I Omega, then Omega=J/I. Many-particle samples (more than maxN 8 particles, groups, shape toys, optical-camouflage dwarfs) get no explicit tide (an optimisation that avoids double counting). This sample declares NO inertial dragging (relativeDrag); the cross term with dragging is measured inside the harness with temporary presets.It looks the same as 🌙 (the tidal force is about 1e-11 of gravity, invisible on screen, as it should be). Read the ledger instead: the Earth's spin slows by about 1e-11 of itself per sidereal month and that angular momentum moves into the lunar orbit (the exchange residual is at the rounding floor). The heat is positive, and work plus heat sums to zero at the rounding floor. Values are in tests/out/tide-w292d.json.The control is 🌙 earthMoonReal (no tides - same bodies, same physics). In the harness, setting the lag to 0 removes the dissipative torque and heat and leaves only the conservative deformation.",
+     "status": {
+      "purpose": "Run constant-time-lag tides only where declared; measure spin-down",
+      "state": "Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "🌙 と同じ実在の地球・月(質量・半径・自転・距離・速度)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)",
+      "🌙 と同じ kF0(geoPN=1・kFrame=0)",
+      "physics.tide:{maxN:8}(model ctl・velocity v・inertia half = I=½mR²・split full)"
+     ],
+     "fitted": [
+      "**無し** —— k₂ と lag は宣言で、月の後退率・自転の減速に合わせていない"
+     ],
+     "derived": [
+      "B_地球=G k₂ m_月² R_地球⁵・B_月=G k₂ m_地球² R_月⁵"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.1",
+      "stateCarry:\"double\"(潮汐のキックも速度の繰り越しへ)",
+      "自転は潮汐が働く本だけ Float64"
+     ]
+    },
+    "activeParams": [
+     "dispMag",
+     "lambdaPN",
+     "cLight"
+    ],
+    "camera": {
+     "scale": 450
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 23605.9488,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 100
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.1,
+     "timeScale": 1,
+     "stepDt": 65.5721,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "tide": {
+      "maxN": 8
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.59724,
+      "radius": 6.38,
+      "x": -4.41822,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.0013146,
+      "spin": 0.0072921,
+      "pinned": false,
+      "pnSource": true,
+      "tide": {
+       "k2": 0.3,
+       "lag": 6
+      }
+     },
+     {
+      "type": "single",
+      "m": 0.007346,
+      "radius": 1.74,
+      "x": 359.2071,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.1068788,
+      "spin": 0.00026617,
+      "pinned": false,
+      "tide": {
+       "k2": 0.024,
+       "lag": 6
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**明示潮汐(定時間遅延 CTL)を宣言した本だけで走らせる診断**(第292便d・原仮定者の裁定〔第82報〕⑦・統括の検証項目 R140)。🌙 earthMoonReal の実単位の地球・月を 1 字も変えずに写し、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した(lag=6 単位=600 s は感度実験の起点の宣言 —— 実在地球の同定ではなく、月の後退率にも合わせていない)。潮汐は三つの意味を分けて扱う: (1) 外部重力の潮汐テンソル(内部を粒子で解く系では対重力が既に持つ —— 宣言専用の physics.backgroundTidal とは別の鍵)・(2) 保存的な変形(Love 数 k₂ による誘起四重極・U=−B/(2r⁶))・(3) 散逸(遅延 Δt による軌道⇄自転の角運動量交換と熱)。軌道は 🌙 と同じ重力(E4)と kF0 の 1PN で回り、本は (2)(3) を受け手(物理半径と k₂ を宣言した天体)ごとに足し、自転は角運動量 J=IΩ を更新して Ω=J/I に戻す。粒子を近似した多粒子の本(maxN 8 を超える本・群・形状トイ・光学迷彩矮星)には足さない(二重計上を避ける最適化)。慣性決定力の引きずり(relativeDrag)はこの本には宣言しない —— 引きずりとの交差項は器の中の一時プリセットで測る。見た目は 🌙 と同じ(潮汐の力は重力の 10⁻¹¹ 程度で、画面では見えないのが正しい)。読むのは帳簿: 地球の自転は 1 恒星月で ΔΩ/Ω ≈ 10⁻¹¹ だけ減速し、その角運動量は月の軌道へ移る(交換の残差は丸め床)。発熱は正で、潮汐力が軌道と自転にした仕事と熱の和は丸め床で 0 になる。値は正本 tests/out/tide-w292d.json。対照は 🌙 earthMoonReal(潮汐なし —— 同じ bodies・同じ physics)。器の中で、遅延を 0 にすると散逸のトルクと熱が 0 になり保存的な変形だけが残ることを確かめる。",
+    "status": {
+     "purpose": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る",
+     "objective": "met",
+     "state": "1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/tide-w292d.json"
+     ]
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "4b79e5b5",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ed1b7fb9",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ca4386ef",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "added": true
+  }
+ ],
+ "wave": "第300便b",
+ "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+  "note": "第300便b の html(3 本の退役の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "881667c",
+  "commit": "881667cb2b8d11fc0d2a303ad55c30e5b477351a",
+  "file": "beta/index.html",
+  "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9"
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "881667c",
+   "commit": "2e893032df6f85dda2e3acd333afc444e4ce7132",
+   "date": "2026-10-11T16:30:51.257Z",
+   "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+   "total": 1134
+  },
+  "tests": []
+ }
+}

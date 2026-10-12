@@ -1,0 +1,467 @@
+{
+ "version": "w300b-emonly-1",
+ "extractorVersion": "w300b-em3-1",
+ "generator": "tests/exp-w300b-emonly.mjs",
+ "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
+ "target": "beta/index.html",
+ "targetSha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+ "parts": {
+  "decl": {
+   "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
+   "srcBodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.96,
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0,
+     "vz": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": 1495.936602568754,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 2.977134946107245,
+     "vz": -0.0001234441189683723,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 1499.508272768754,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.086884556617057,
+     "vz": 0.010036178275615391,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": -0.04339744765707408,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": -0.0013335086138367054,
+     "vz": -0.0001234441189683723,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 3.528272752342897,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0.10841610189597521,
+     "vz": 0.010036178275615391,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "relativeDrag": {
+    "law": "inertial",
+    "gain": 0.259335,
+    "eps": 0.01,
+    "history": "positions",
+    "pairs": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "ok": true,
+   "bad": [],
+   "comRel": 2.510445750533509e-18,
+   "momRel": 0,
+   "relPosRel": 0,
+   "relVelRel": 0,
+   "wallSec": 0.005
+  },
+  "run": {
+   "short": false,
+   "runs": {
+    "ctrlH": {
+     "key": "ctrl-h",
+     "dt": 0.016,
+     "revN": 354,
+     "steps": 5253631,
+     "nan": false,
+     "warnings": [],
+     "com": {
+      "xMax": 0.000008129689722297647,
+      "pMax": 5.902344296551857e-13,
+      "mt": 0.006045859845471568
+     },
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 118,
+       "T1": 2398.8095793503344,
+       "rms1": 4.41307371989194e-9,
+       "T2": 2397.904784902781,
+       "rms2": 0.020096083324037874,
+       "T3": 2797.501412805641,
+       "sid": 27.482892087800575,
+       "anom": 27.483631311713644,
+       "eOsc": 0.07529709112814498,
+       "ePA": 0.07530445303573509,
+       "aOsc": 3.8623857227523217,
+       "incMean": 5.288849999999277,
+       "synUniform": 29.719033829367607
+      },
+      {
+       "N": 354,
+       "complete": true,
+       "nPeri": 354,
+       "T1": 2398.8097916125007,
+       "rms1": 3.9558059363230755e-8,
+       "T2": 2398.7094022094698,
+       "rms2": 0.020096288485686988,
+       "T3": 2797.222160057586,
+       "sid": 27.482895130900566,
+       "anom": 27.483634428777666,
+       "eOsc": 0.0752975897000005,
+       "ePA": 0.07530495225029478,
+       "aOsc": 3.8623860137757484,
+       "incMean": 5.288850000007582,
+       "synUniform": 29.71903738781651
+      }
+     ],
+     "wallSec": 16.284
+    },
+    "ctrlH2": {
+     "key": "ctrl-h2",
+     "dt": 0.008,
+     "revN": 118,
+     "steps": 3502420,
+     "nan": false,
+     "warnings": [],
+     "com": {
+      "xMax": 0.0000027098932320589506,
+      "pMax": 5.902344296454261e-13,
+      "mt": 0.006045859845471568
+     },
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 118,
+       "T1": 2396.193567303217,
+       "rms1": 2.2001233360731925e-9,
+       "T2": 2395.2915104002036,
+       "rms2": 0.020077252097979628,
+       "T3": 2794.4060102374633,
+       "sid": 27.4828880302815,
+       "anom": 27.483628072846756,
+       "eOsc": 0.07529662085423287,
+       "ePA": 0.0753039879366555,
+       "aOsc": 3.8623854466178953,
+       "incMean": 5.2888500000055165,
+       "synUniform": 29.719029084707874
+      }
+     ],
+     "wallSec": 10.674
+    },
+    "ctrlG0": {
+     "key": "ctrl-gain0",
+     "dt": 0.016,
+     "revN": 118,
+     "steps": 1751262,
+     "nan": false,
+     "warnings": [],
+     "com": {
+      "xMax": 0.00000273546188737132,
+      "pMax": 5.902344296454261e-13,
+      "mt": 0.006045859845471568
+     },
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 119,
+       "T1": -7366.880325000443,
+       "rms1": 1.9114130830718893e-10,
+       "T2": -7369.156528853986,
+       "rms2": 0.005555320156761719,
+       "T3": -8591.665784734929,
+       "sid": 27.483694710192182,
+       "anom": 27.48345400867448,
+       "eOsc": 0.07533452357648093,
+       "ePA": 0.07533413699162926,
+       "aOsc": 3.862619629610638,
+       "incMean": 5.288849999999292,
+       "synUniform": 29.71997237806438
+      }
+     ],
+     "wallSec": 4.694
+    },
+    "sunH": {
+     "key": "sun3d-h",
+     "dt": 0.016,
+     "revN": 118,
+     "steps": 1741368,
+     "nan": false,
+     "warnings": [],
+     "com": null,
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 118,
+       "T1": 8.850002272639843,
+       "rms1": 16.731516378201334,
+       "T2": 8.827582086590809,
+       "rms2": 13.47386183890457,
+       "T3": 8.562899111550692,
+       "sid": 27.321661471052362,
+       "anom": 27.56243773974957,
+       "eOsc": 0.05490000752940848,
+       "ePA": 0.05517692442170445,
+       "aOsc": 3.834514660539988,
+       "incMean": 5.145001530890854,
+       "synUniform": 29.530588764262017
+      }
+     ],
+     "wallSec": 5.976
+    }
+   },
+   "check": {
+    "moon3dT1": 8.850002272639843,
+    "sunT1": 8.850002272639843,
+    "sameAsMoon3d": true,
+    "moon3dSid": 27.321661471052362,
+    "sunSid": 27.321661471052362
+   },
+   "realSunSynodic": {
+    "source": "tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)",
+    "windows": {
+     "8": {
+      "mean": 29.497844662831636,
+      "residual": -0.032744194878688404,
+      "startMin": 29.43839452368282,
+      "startMax": 29.6377050802326,
+      "nStarts": 91
+     },
+     "118": {
+      "mean": 29.538989085305786,
+      "residual": 0.00840022759546244,
+      "startMin": 29.53308220913006,
+      "startMax": 29.546586453818783,
+      "nStarts": 64
+     },
+     "354": {
+      "mean": 29.539924632692276,
+      "residual": 0.009335774981952483,
+      "startMin": 29.53765683232143,
+      "startMax": 29.541497768197576,
+      "nStarts": 5
+     }
+    }
+   },
+   "sunEffect": {
+    "note": "太陽の有無の差 = 🌦️(太陽あり)− 対照(太陽なし)—— 同じ抽出器・h・118 公転窓",
+    "T1": -2389.9595770776946,
+    "sid": -0.16123061674821315,
+    "synUniform": -0.18844506510559,
+    "eOsc": -0.020397083598736494,
+    "incMean": -0.14384846910842342
+   },
+   "h2": {
+    "note": "対照の h/2 差(118 公転窓)",
+    "T1": 2.6160120471172377,
+    "sid": 0.000004057519074507354,
+    "synUniform": 0.000004744659733546541
+   },
+   "wallSec": 37.63
+  }
+ },
+ "timing": {
+  "wallSec": 39.338
+ },
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第300便b",
+  "target": "beta/index.html",
+  "targetSha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+  "generatedAt": "2026-10-12T02:38:09.037Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6599129,
+    "sha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+    "mtime": "2026-10-12T02:13:52.870Z"
+   },
+   {
+    "file": "tests/out/moon3d-w298c.json",
+    "bytes": 26117,
+    "sha256": "fb5c185f5aa9bf507ae8e09204afdf2962bd939b38df3ea2dfe469d877ad3d71",
+    "mtime": "2026-10-12T00:50:25.631Z"
+   },
+   {
+    "file": "tests/out/synodic-w299b.json",
+    "bytes": 34314,
+    "sha256": "f10f1b9d6bac3e94ff9173b6db3f23d6dff57f3000ac74e5d8e8439cfb6e66ae",
+    "mtime": "2026-10-12T00:50:25.707Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w300b-emonly.mjs",
+    "bytes": 21252,
+    "sha256": "686b6f2d0270e02e3f40f0b314b3a030411df405900f49f5f0b9e3227e0c4d4b",
+    "mtime": "2026-10-12T01:18:27.056Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-12T00:50:25.427Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-12T00:50:25.427Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-12T00:50:25.435Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-12T00:50:25.419Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-12T00:50:25.431Z"
+   }
+  ],
+  "codeSha256": "17a33d2e552069fb12855b5f5321baf06cc078b8e81a7362fa1597986c1ae226",
+  "harnessVersion": "w300b-emonly-1",
+  "extractorVersion": "w300b-em3-1",
+  "parts": [
+   "decl",
+   "run"
+  ],
+  "ruling": "原仮定者の裁定(第90報)③(🌦️ を地球の三次元版として採用・🌦️ の値で地球と月だけの対照を用意)",
+  "reading": "統括の検証項目 R176(🌦️ の地球・月の相対位置と速度・質量・半径・gain・刻み・倍精度・λ=0・geoPN 3・coord 3d を写し、太陽を外して重心 0・重心速度 0。gain は移送 —— fitted と呼ばない。恒星月・朔望月〔一様換算〕・近点回転〔118 窓〕を記録)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス・HP.coord3d.makeSim)",
+  "notClaim": [
+   "現実を再現した",
+   "8.85 年を再現した",
+   "gain は普遍定数",
+   "この本の gain はフィット"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.synodic",
+    "HP.validatePreset",
+    "T",
+    "ctx",
+    "cw",
+    "synUniform",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1211,
+   "segments": 1104,
+   "closureShare": 0.3187
+  },
+  "scopeSha256": "7d2686d6fa9406f334f5ab55190d348df927492ebbfe143a378ac4be1970705d",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/moon3d-w298c.json",
+    "stableSha256": "3cd43dcb64850cab1afb4a67ebe6c9f693b393acf1a9a32923a9bd093d4d6f6d",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/ref/flat/wallSec",
+     "/ref/incl/wallSec",
+     "/timing/*/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/synodic-w299b.json",
+    "stableSha256": "673aea9867593d27a59081e10afd5b34d6c786d1e3eb5ee1024d1b3ccbc22cf7",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/parts/*/wallSec",
+     "/parts/long/*/wallSec",
+     "/parts/longh2/*/wallSec",
+     "/parts/scan/rows/*/wallSec",
+     "/timing/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "elapsedS": 39.338
+}

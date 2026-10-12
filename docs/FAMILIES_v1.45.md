@@ -20,13 +20,13 @@
 
 ## 集計
 
-- 家族 **22**・本 **57**(在位の本)・推定の列: 主系列 26・比較 20・診断 11。
-- 候補: 規則 A 7・規則 B 0・規則 C(要裁定)1・畳まない組 0。
+- 家族 **22**・本 **55**(在位の本)・推定の列: 主系列 26・比較 20・診断 9。
+- 候補: 規則 A 5・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|
 | 冥王星–カロン(`pluto`) | 3 | `plutoCharonDiagInput` | 1 | 0 | 2 | 1/0/0 | 0 |
-| 地球–月(現実との照合)(`earthmoon`) | 5 | `earthMoonRealKF1` | 2 | 1 | 2 | 2/0/0 | 0 |
+| 地球–月(現実との照合)(`earthmoon`) | 3 | `earthMoonRealKF1` | 2 | 1 | 0 | 0/0/0 | 0 |
 | 水星(現実との照合)(`mercury`) | 3 | `mercuryReal` | 1 | 0 | 2 | 2/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 4 | `saturnRingReal` | 2 | 0 | 2 | 0/0/0 | 0 |
 | 二重パルサー J0737−3039(`psrDoubleAB`) | 2 | `psrDoubleAB` | 1 | 0 | 1 | 1/0/0 | 0 |
@@ -82,45 +82,37 @@
 |---|---|---|---|---|
 | A | `plutoCharonDiagInput` | `plutoCharonInertialFit` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が plutoCharonDiagInput と同じ・違うのは physics の geoPN・lambdaPN・relativeDrag |
 
-## 地球–月(現実との照合)(`earthmoon`・5 本)
+## 地球–月(現実との照合)(`earthmoon`・3 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🌘 | `earthMoonRealKF1` | variant | 比較(上のどれでもない) | 基準 | principle | — | 2 | 1 | 0.006 | 0.001 | 8.2358 | — | — | — | kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照 | — |
 | 🌙 | `earthMoonReal` | primary | 主系列(較正母集団) | 同じ入力 | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 実単位の地球と月を kF0 で照合する | — |
 | 🔆 | `emAuditSolar` | variant | 主系列(較正母集団) | 違う入力(本数・質量・位置・速度) | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 太陽摂動だけで月の近点回転を出す | `behavior.emAudit` |
-| 🌛 | `earthMoonInertial` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.1 | — | 3 | — | inertial | — | 慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る | — |
-| 🌜 | `earthMoonTide` | variant | 診断(principle・「診断」) | 同じ入力 | principle | — | 1 | 0 | 0.1 | — | 3 | — | — | — | 定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 19):
 
-- `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1 / earthMoonInertial=0.1 / earthMoonTide=0.1
-- `physics.D0pull`: earthMoonRealKF1=0.001 / earthMoonReal=— / emAuditSolar=— / earthMoonInertial=— / earthMoonTide=—
-- `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share / earthMoonInertial=share / earthMoonTide=share
-- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1 / earthMoonInertial=3 / earthMoonTide=1
-- `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0 / earthMoonInertial=0 / earthMoonTide=0
-- `physics.lambdaPN`: earthMoonRealKF1=0 / earthMoonReal=1 / emAuditSolar=1 / earthMoonInertial=0 / earthMoonTide=1
-- `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditSolar=3 / earthMoonInertial=3 / earthMoonTide=3
-- `physics.relativeDrag`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonInertial={"law":"inertial","gain":514182,"eps":0.1,"pairs":"all","history":"positions"} / earthMoonTide=—
-- `physics.softening`: earthMoonRealKF1=0.1 / earthMoonReal=0.1 / emAuditSolar=0.01 / earthMoonInertial=0.1 / earthMoonTide=0.1
-- `physics.stepDt`: earthMoonRealKF1=65.5721 / earthMoonReal=65.5721 / emAuditSolar=0.655721 / earthMoonInertial=65.5721 / earthMoonTide=65.5721
-- `physics.tide`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonInertial=— / earthMoonTide={"model":"ctl","maxN":8,"velocity":"v","inertia":"half","split":"full"}
-- `fitRecord`: earthMoonRealKF1=(宣言あり) / earthMoonReal=— / emAuditSolar=— / earthMoonInertial=— / earthMoonTide=—
-- `qLock`: earthMoonRealKF1=true / earthMoonReal=— / emAuditSolar=— / earthMoonInertial=— / earthMoonTide=—
-- `scaleExp`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり) / earthMoonInertial=(宣言あり) / earthMoonTide=(宣言あり)
-- `timeRef`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり) / earthMoonInertial=(宣言あり) / earthMoonTide=(宣言あり)
-- `sampleClass`: earthMoonRealKF1=principle / earthMoonReal=calibration / emAuditSolar=calibration / earthMoonInertial=principle / earthMoonTide=principle
-- `calVariant`: earthMoonRealKF1=— / earthMoonReal=kf0 / emAuditSolar=kf0 / earthMoonInertial=— / earthMoonTide=—
-- `familyRole`: earthMoonRealKF1=variant / earthMoonReal=primary / emAuditSolar=variant / earthMoonInertial=variant / earthMoonTide=variant
-- `gates(testId)`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=behavior.emAudit / earthMoonInertial=— / earthMoonTide=—
-- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=同じ入力 / emAuditSolar=違う入力(本数・質量・位置・速度) / earthMoonInertial=同じ入力 / earthMoonTide=同じ入力
+- `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1
+- `physics.D0pull`: earthMoonRealKF1=0.001 / earthMoonReal=— / emAuditSolar=—
+- `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share
+- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1
+- `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0
+- `physics.lambdaPN`: earthMoonRealKF1=0 / earthMoonReal=1 / emAuditSolar=1
+- `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditSolar=3
+- `physics.softening`: earthMoonRealKF1=0.1 / earthMoonReal=0.1 / emAuditSolar=0.01
+- `physics.stepDt`: earthMoonRealKF1=65.5721 / earthMoonReal=65.5721 / emAuditSolar=0.655721
+- `approximation`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=—
+- `fitRecord`: earthMoonRealKF1=(宣言あり) / earthMoonReal=— / emAuditSolar=—
+- `qLock`: earthMoonRealKF1=true / earthMoonReal=— / emAuditSolar=—
+- `scaleExp`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり)
+- `timeRef`: earthMoonRealKF1=(宣言あり) / earthMoonReal=(宣言あり) / emAuditSolar=(宣言あり)
+- `sampleClass`: earthMoonRealKF1=principle / earthMoonReal=calibration / emAuditSolar=calibration
+- `calVariant`: earthMoonRealKF1=— / earthMoonReal=kf0 / emAuditSolar=kf0
+- `familyRole`: earthMoonRealKF1=variant / earthMoonReal=primary / emAuditSolar=variant
+- `gates(testId)`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=behavior.emAudit
+- `bodies(vs 基準)`: earthMoonRealKF1=基準 / earthMoonReal=同じ入力 / emAuditSolar=違う入力(本数・質量・位置・速度)
 
-**統廃合の候補**(実行ではない):
-
-| 規則 | 残す | 畳む | どう | 理由 |
-|---|---|---|---|---|
-| A | `earthMoonRealKF1` | `earthMoonInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonRealKF1 と同じ・違うのは physics の D0・D0pull・frameWeight・geoPN・kFrame・q・relativeDrag |
-| A | `earthMoonRealKF1` | `earthMoonTide` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonRealKF1 と同じ・違うのは physics の D0・D0pull・frameWeight・geoPN・kFrame・lambdaPN・q・tide |
+**統廃合の候補**: 規則に当たる組は無い。
 
 ## 水星(現実との照合)(`mercury`・3 本)
 
@@ -532,7 +524,7 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 退役 41 本の棚卸し(統括の検証項目 R84)
+## 退役 44 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 

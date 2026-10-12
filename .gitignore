@@ -859,6 +859,8 @@ tests/out/regen-plan-w281a.json
 !tests/out/refit-w298b.json
 # 第299便b(原仮定者の裁定(第89報)①・統括の検証項目 R170): 🌘 の朔望月の正本(tests/exp-w299b-synodic.mjs —— 段 scan・long・sun3d・fit・aps)。QA docs.synodic299・behavior.synodicClock299 が読むのでコミットする
 !tests/out/synodic-w299b.json
+# 第300便b(原仮定者の裁定(第90報)③・統括の検証項目 R176): 地球と月だけの三次元の対照 🌔 の正本(tests/exp-w300b-emonly.mjs —— 段 decl・run)。QA preset.earthReorg300 が読むのでコミットする
+!tests/out/emonly-w300b.json
 !tests/out/timestd-w297c.json
 # 第298便a(原仮定者の裁定(第88報)・統括の検証項目 R165): **三次元座標の土台便**の正本(tests/exp-w298a-coord3d.mjs —— 零試験・共変・保存・拒否・
 #   二次元の Z の警告・軸と歳差・保存往復・🌐🎲 の実測)。QA behavior.coord3d298・preset.coord3d298・docs.coord3d298 が読み、lint.provenanceMeta が来歴を固定するのでコミットする

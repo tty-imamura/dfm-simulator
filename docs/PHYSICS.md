@@ -5852,7 +5852,8 @@ NaN 0・安全クランプ 0・帳簿 L 残差 3.1×10⁻¹⁵。QA `behavior.gw
 | earthMoonInertial | 🌛 地球と月(慣性決定力版)— 構造核と近点回転のフィット | **第292便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は「天体の機構」—— 宣言した跨ぎ〕・`referenceKind:"structure-sensitivity"`・較正母集団に入れない —— 原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139)。bodies は 🌙 earthMoonReal の宣言を 1 字も変えずに写し(初速も 🌙 のまま —— 🌘 の −0.12% の初速・qLock・D₀・D0pull は使わない)、地球にだけ構造核 `dragCore:{massFrac:0.325, radius:3.48}`(感度実験の起点の宣言 —— 地球の核の同定ではない)。physics は geoPN=0・kFrame=0 に慣性引きずり `relativeDrag:{law:"inertial", gain, eps:0.1}` だけ。gain は近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた **1 次元フィットの推定**であって較正の合ではない(式・表・感度は〔第292便c〕)。 |
 | earthMoonSunInertial | 🌤️ 太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動 | **第295便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は primary 🌙 と同じ「現実較正」〕・`referenceKind:"coefficient-transfer"`・較正母集団に入れない —— 原仮定者の裁定(第85報)・統括の検証項目 R155)。bodies は 🔆 emAuditSolar の写し+地球の `dragCore:{massFrac:0.325, radius:0.0348}`(🌛 の起点の宣言を L8 で)。physics は 🔆 から geoPN を 3 にし `relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}` を足しただけ(慣性の対は地球と月だけ —— 太陽は重力の第三体)。gain は 🌛 の 514182 を同じ SI 係数 0.0514182 m³/kg として単位換算で移送した値(フィットではない)。測った値は〔第295便c〕。 |
 | earthMoonSunInertialFit | 🌥️ 太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索 | **第297便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・`referenceKind:"observation-fit"`・較正母集団に入れない)。係数移送版(第298便b で退役)の写しで地球→月の初期の相対ベクトルだけを平均要素(離心率 0.0549・恒星月 27.321661 日 —— 走行の平均)に直し、λ_PN=0・gain 0(探索範囲で 8.85 年に最も近い点 —— この探索範囲では未達・次の見直しへ)。記録は fitRecord(w297b-1)。詳細は〔第297便b〕。 |
-| earthMoonSunInertial3d | 🌦️ 太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索 | **第298便c 新設**(`sampleClass:"principle"`・家族には入れない(earthmoon の畳みの閾値 —— 決断事項)・`referenceKind:"observation-fit"`・較正母集団に入れない —— 統括の検証項目 R167)。🌥️ の写しを **physics.coord:"3d"** で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(離心率 0.0549・恒星月 27.321661 日・傾斜 5.145° —— 走行の平均)の 3 元 Newton・λ_PN=0。gain の探索で 118 公転窓の 8.85 年を挟み gain 0.259335 で 8.8500 年(fitRecord w298b-1 の 3 標的)。詳細は〔第298便c〕。器 tests/exp-w298c-moon3d.mjs・正本 tests/out/moon3d-w298c.json。QA `docs.moon3d298` |
+| earthMoonSunInertial3d | 🌦️ 太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索 | **第298便c 新設・第300便b で地球の三次元版として採用**(`sampleClass:"principle"`・family `earthmoon` の variant〔第299便f で編入〕・`referenceKind:"observation-fit"`・較正母集団に入れない —— 統括の検証項目 R167)。二次元の再現作業の版(第297便b —— 第300便b で退役)の写しを **physics.coord:"3d"** で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(離心率 0.0549・恒星月 27.321661 日・傾斜 5.145° —— 走行の平均)の 3 元 Newton・λ_PN=0。gain の探索で 118 公転窓の 8.85 年を挟み gain 0.259335 で 8.8500 年(fitRecord w298b-1 の 3 標的)。詳細は〔第298便c〕。器 tests/exp-w298c-moon3d.mjs・正本 tests/out/moon3d-w298c.json。QA `docs.moon3d298`。**地球の geoPN=3 三次元の行**(惑星の三次元 🌡️〜💙 と並ぶ —— 原仮定者の裁定(第90報)③・統括の検証項目 R176)。太陽の有無の差は対照 🌔 earthMoonOnly3d。QA `preset.earthReorg300` |
+| earthMoonOnly3d | 🌔 地球と月だけ(慣性決定力版・三次元)— 🌦️ から太陽を外した対照 | **第300便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・較正母集団に入れない —— 原仮定者の裁定(第90報)③・統括の検証項目 R176)。🌦️ の地球と月の相対位置・相対速度・質量・半径・自転・構造核・gain 0.259335(**移送** —— fitRecord なし)・刻み・倍精度・λ_PN=0・geoPN=3 を写し、太陽を外して地球–月の重心を原点・重心速度 0 に置いた三次元の二体。近似の宣言 `approximation:{background:"dominant-direction-fixed", periodBasis:"sidereal"}`。測った値は〔第300便b〕。器 tests/exp-w300b-emonly.mjs・正本 tests/out/emonly-w300b.json。QA `preset.earthReorg300` |
 | qLockRadialAudit | 📶 qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる | **第136便 新設**(論文3 Cost 2 の可視化・将来 Fig.4 の生成元データ)。ファミリー `qlockAudit` の primary。地球(実質量・実半径・実自転 23.93h)を pinned にし、質量床級(m=10⁻⁶・e=0.05)の試験粒子を 1.5R_地球〜2a_月 の対数等間隔9点+qLock 参照半径(363.6253)の計10半径に置く。規約は 🌘 と同一で **q=8.25 は直値宣言**(qLock を実行時に掛けるとプローブ配置で参照軌道が動くため)。`fitted` は空=**較正ゼロ**。実測(exp-qlockradial): 参照点で素の引きずり率が Ω_LT の **0.944倍**(χ=0.2149 を掛けた実効フレーム回転は 0.203倍)、外側域の ω_DFM 傾きは **−8.99乗**(LT は −3.00乗)、最外(2a_月)の |Δϖ_drag| は参照点の **2.42%**(r⁻³ なら 12.5%)、ω_DFM/Ω_LT は 1.5R_地球 で 2.89×10⁶・r≈276.6 で 1 を横切る。Δϖ_drag は全10半径で**逆行**で 参照点では LT 解析値 −4GJ/(c₀²a³(1−e²)^{3/2}) の 3.55倍・同符号。事前登録窓は W1・W4 が PASS、W2(参照点 8.85年)・W3(順行)・W5(文字どおりの帯)が FAIL — いずれも実測を PHYSICS §5 に記録。ワンタップ対照は kFrame=0(差分の土台)。QA `behavior.qlockRadial` |
 | qLockRadialAuditQ3 | 📐 qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し | **第136便 新設**。ファミリー `qlockAudit` の variant。📶 と物理・幾何・プローブ配置が **bit 一致**で **q だけ 8.25→3**(=LT と同じ r⁻³ の半径依存)。`fitted` は空。実測: 外側域の傾きは **−3.81乗**で 📶 との傾き差 **5.19**(q の差 5.25 とほぼ一致 = 外側傾き差は指数 q の差そのもの)、参照点の近点回転周期 **617.7年**(📶 は 1.28×10¹¹年)、最外プローブでは 📶 の **1.70×10⁹倍以上**。ただし振幅を合わせる規則が無いので参照点では Ω_LT の 3.67×10⁸倍 — **r⁻³ 則と参照点の振幅一致は 単一の指数 q では両立しない**。ワンタップ対照は q=8.25。QA `behavior.qlockRadial` |
 | mercuryRealKF1 | **退役(履歴)** 🪨 水星(実単位・kFrame=1)— 共通補正で43″成立 | **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 mercuryReal ☄️・対の差は凍結の写し tests/fixtures/retired-w288b.json)。第120→第121便 D₀=10⁴→第122便で共通補正→**第123便で qLock 自動算出(q*=6.16)へ**: 逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 — qLock の幾何減衰(q*=3+ln(1.25c₀²R/(GM))/ln((R+a)/R)=6.16)で引きずり −5.6e-10 rad/公転(LT級・1PN の約1/900)に落ち、kF1 のまま 43″/世紀成立。D₀ は 🌘💿 と共通の 0.006・q は同一算出則=**「同じ値」ではなく同じ規則が全系を満たす**(exp-kf1c/kf1d)。被引きずり側スピンは×10⁴でも無関与。ワンタップ c₀=30(歳差誇張)・主役ノブ q(5⇄3 で逆行引きずりの対照)。**第172便: 運用規約を厳密一致式へ(q=6.16→6.1471・引きずり −5.6e-10→−5.8e-10 = 1PN の約1/860。窓 5.0〜6.2e-10 は不変で PASS)** |
@@ -31058,6 +31059,7 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 | saturnSunInertial3d | 🟡 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | uranusSunInertial3d | 🔷 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | neptuneSunInertial3d | 💙 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| earthMoonOnly3d | 🌔 | 3 | 在位 | 新本(0 で宣言 —— 第300便b の地球と月だけの対照・統合で追加) | 走っていない(新本) | `inertial-drag` |
 
 **③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
 (**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。
@@ -31914,6 +31916,73 @@ QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 �
 **5. ビット同一。** 退役は familyRole(presetSig の外)と RETIRED_PRESETS だけなので、11 本を含む全 173 本の presetSig は基点と同じ(sigsame 173/173 同一・差 0 —— 基点 881667c の html と比べた)。力学は 1 命令も変えていない(bitsame 600 步 173/173 同一・差 0)。`S._core` 不変(lint.coreBudget)。
 
 QA: `preset.spaceMeshRetired300`(新設 —— 世代切替 = html の `function spaceMeshRetiredDenyOf(`・root は SKIP)。世代切替で固定値を改めた: `preset.geo4Std298`(規則 12 の「廃止」・旧 spaceMesh の在位 0 本)・`preset.meshMigrate299`(🔁🔂 は退役)・`ui.charonFamily`(🌒 は退役)・`docs.retired`(52 本・写し retired-w300a.json)・`docs.noRetiredMention294`(記号「🔁 較正要再確認」・コードの表 GEO4_MIGRATED)。
+
+〔第300便b — 地球の整理と近似の原則: 🌘 の claims の役割(標的は朔望月の 1 件)・背景宇宙の近似の宣言 `approximation`(直属の支配天体の方向の固定・朔望月/恒星月・一様重力)・🌦️ を地球の三次元版として採用・地球と月だけの三次元の対照 🌔 earthMoonOnly3d・退役 3 本(🌥️🌛🌜)(原仮定者の裁定(第90報)①②③・DECISIONS v59 §0 の AN283・AN284 ①・統括の検証項目 R176)(**既存の本の力学と署名は 1 bit も変えていない** —— 宣言は presetSig の外・bitsame/sigsame は既存の本で同一・added は 🌔 だけ・`S._core` は不変)〕
+
+**1. 🌘 は近似として現状の精度で目的を果たしている**(原仮定者の裁定(第90報)①)。physics・bodies・fitRecord は第299便b のまま(再フィットしない)。claims の役割を文に合わせた —— 標的は朔望月の 1 件だけ:
+
+| claim | 役割(前 → 後) | 理由 |
+|---|---|---|
+| `earthMoonRealKF1.synodic-month` | fit_target(不変) | 標的(fitRecord の標的 synodicMonthUniform と同じ 1 件) |
+| `earthMoonRealKF1.sidereal-month-kf1` | fit_target → retrospective_check | 照合・履歴(第298便e の周期優先の記録 —— 朔望月はこの恒星月の一様換算) |
+| `earthMoonRealKF1.apsidal-period` | fit_target → retrospective_check | 照合・履歴(第298便b までのフィットの対象 —— 8 公転窓 293.85 年は照合だけ) |
+
+窓・metric・prov(calibrated —— 過去のフィットで払った較正の記録)は変えていない。説明(control)の先頭に「近似として現状の精度で目的を果たしている(第90報)」の 1 文。較正台帳の表示(roles の数)は宣言から数える(fit_target 3 → 1・retrospective_check 0 → 2)。
+
+**2. 近似の原則の宣言**(原仮定者の裁定(第90報)②「背景宇宙の近似として、直属の支配天体の方向を固定する」)。プリセットの任意鍵 `approximation:{background, periodBasis, uniformGravity, note}`(版 `APPROX_VERSION`=w300b-approx-1・**presetSig の外** —— 署名・保存の物理・600 步の状態は 1 bit も変わらない・**力学は読まない**)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `background` | `"dominant-direction-fixed"` | 本に置かない背景(直属の支配天体 —— 地球にとっての太陽)の方向を慣性系で固定した近似の本 |
+| `periodBasis` | `"synodic"` / `"sidereal"` | 地球が支配天体の本で月の周期を何で読むか —— 公転周期を標的にする本は朔望月(恒星月の窓を恒星年 365.256363004 日で一様換算 1/P_syn=1/P_sid−1/T_year —— 抽出器 HP.synodic)、公転周期を標的にしない本は恒星月でよい。background の宣言が要る |
+| `uniformGravity` | `"dominant-direction-fixed"` | 天体表面の本の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトル(毎步回さない)。一様重力が 0 の本と三次元の本では拒否(**三次元の一様重力は未対応 —— 宣言しない**) |
+| `note` | 240 字以内 | 任意 |
+
+受理器 `validateApproximation`(正準形は鍵の順・不正は警告して削除 —— 本は受理のまま)。宣言した本(宣言から数え直す —— QA `docs.approx300`):
+
+| 宣言 | 本 |
+|---|---|
+| uniformGravity(在位の二次元で一様重力が 0 でない本の全部) | ⚾ projectile・♨️ convection・🧪 buoyancy・☕ cooling・🧬 emergent・🧊 emergent2・⛓️ chain2・♻️ chaincycle |
+| background + periodBasis sidereal | 🌙 earthMoonReal(恒星月は入力の照合)・🌔 earthMoonOnly3d(対照) |
+| background + periodBasis synodic | 🌘 earthMoonRealKF1(標的は朔望月) |
+
+太陽を置いた本(🔆 emAuditSolar・🌦️ earthMoonSunInertial3d)は背景を近似していないので宣言しない。SYSTEM_PROMPT に規則 13(近似の原則)を足した。HP の読み口 `HP.approximation`(version・keys・語彙・validate・of)。
+
+**3. 🌦️ earthMoonSunInertial3d を地球の三次元版として採用**(原仮定者の裁定(第90報)③)。physics・bodies・fitRecord は第298便c のまま。家族 earthmoon の役割名「地球の三次元版」(FAMILY_VARIANT_LABEL —— 表示専用)・本文から退役の本への言及を外した(二次元の版は「第297便b —— 第300便b で退役」と書く —— fitRecord.parent は退役の id のまま〔履歴の条件〕)。惑星の三次元(〔第299便c〕)と並ぶ地球の行:
+
+| 惑星 | 本 | 構成 | gain | 記録 |
+|---|---|---|---|---|
+| 地球 | 🌦️ earthMoonSunInertial3d | 太陽(pinned)・地球・月の三次元(月の軌道傾斜 5.145° —— 平均要素) | 0.259335(fitted —— 118 公転窓の近点周期 8.85 年) | 118 公転窓 8.8500 年・恒星月 27.32166 日・平均離心率 0.05490 |
+
+**4. 地球と月だけの三次元の対照 🌔 earthMoonOnly3d**(新本)。🌦️ の地球と月の**相対**位置・相対速度・質量・半径・自転・地球の構造核・gain 0.259335・刻み・倍精度・λ_PN=0・geoPN=3・coord 3d を写し、太陽を外して**地球–月の重心を原点・重心速度 0** に置き直した(器 `tests/exp-w300b-emonly.mjs` の `emOnlyBodies` —— 相対ベクトルを質量比で分ける。太陽中心の速度を残すと重心が慣性系の画面を歩く)。gain は**移送**(fitRecord なし —— fitted と呼ばない・notClaim `emonly_control`)。近似の宣言は background(太陽の方向の固定)・periodBasis sidereal。測った値(正本 `tests/out/emonly-w300b.json`・抽出器 w300b-em3-1 = 第298便c の runEmx3 と同じ式・h=0.016):
+
+| 走行 | 窓 | 恒星月 [日] | 朔望月(一様換算)[日] | 近点周期 B [年] | 離心ベクトル [年] | 平均離心率 | 平均傾斜 [°] |
+|---|---|---|---|---|---|---|---|
+| 🌔(gain 0.259335・h) | 118 | 27.48289 | 29.71903 | 2398.81 | 2397.90 | 0.075297 | 5.2888 |
+| 🌔(h) | 354 | 27.48290 | 29.71904 | 2398.81 | 2398.71 | 0.075298 | 5.2889 |
+| 🌔(h/2) | 118 | 27.48289 | 29.71903 | 2396.19 | 2395.29 | 0.075297 | 5.2889 |
+| 🌔 gain 0(h) | 118 | 27.48369 | 29.71997 | −7366.88 | −7369.16 | 0.075335 | 5.2888 |
+| 🌦️(太陽あり・h) | 118 | 27.32166 | 29.53059 | 8.8500 | 8.8276 | 0.054900 | 5.1450 |
+
+- 太陽の有無の差(🌦️ − 🌔・118 公転窓): 恒星月 −0.16123 日・朔望月(一様換算)−0.18845 日・近点周期 −2389.96 年・平均離心率 −0.02040・平均傾斜 −0.1438°。太陽を外すと近点は慣性引きずりだけでごく遅く順行する(gain 0 では −7367 年の逆行)・離心率は t=0 の接触離心率のまま・軌道面は回らない。
+- 🌦️ の 118 公転窓の近点周期は第298便c の正本 `moon3d-w298c.json` の final.h.w118 と同じ値(写した抽出器の照合)。🌦️ の実際の太陽の方向で数えた朔望月は第299便b の正本 `synodic-w299b.json` の段 sun3d(118 窓 29.53899 日)。
+- 重心の移動は 354 公転で 8.1×10⁻⁶ 単位(約 0.8 km)・118 公転で 2.7×10⁻⁶ 単位 —— 走行の長さに比例する(初期の全運動量の丸めの床 5.9×10⁻¹³ —— 推定)。走行の壁時計: 🌔 354 公転 15.4 s・h/2 10.7 s・gain 0 5.0 s・🌦️ 5.8 s(段 run 36.8 s)。
+
+**5. 退役 3 本**(原仮定者の裁定(第90報)③ —— 内蔵に残す・ID・物理・claims・保存 JSON は不変 —— 変えたのは familyRole と RETIRED_PRESETS の行だけ)。凍結の写し `tests/fixtures/retired-w300b.json`(器 `tests/exp-w300b-retiredfx.mjs`・版 w300b-retired-1・基点 881667c —— 3 本とも presetSig は基点と同じ)。
+
+| 本 | 理由(RETIRED_PRESETS) | 代わりに見る本 |
+|---|---|---|
+| `earthMoonSunInertialFit` 🌥️ | 地球の三次元版 🌦️ の採用に伴う整理 —— 二次元の再現作業は 🌦️ が引き継ぐ(🌦️ の fitRecord の親として履歴に残る) | 🌦️・🌔 |
+| `earthMoonInertial` 🌛 | 同 —— 慣性決定力版の地球と月(二次元・太陽なし)は 🌦️ と 🌔 が引き継ぐ | 🌦️・🌔 |
+| `earthMoonTide` 🌜 | 同 —— 定時間遅延の潮汐の診断(二次元)の記録は正本 tide-w292d.json と〔第292便d〕に履歴 | 🌙・🌦️ |
+
+- 旧い行の「代わりに見る本」が退役の本を指していた 🌤️(🌥️ → 🌦️)と 🌍(🌛 → 🌦️・🌔)の see を在位の本へ付け替え、理由の文に第90報の追記を足した。退役の告知の範囲は「第73報〜第90報」。
+- 家族 earthmoon の在位は 🌙(primary)・🌘・🔆・🌦️・🌔(variant 4 —— 畳みの閾値 6 の下・畳む家族は規則で数え直す)。較正母集団の本数は動かない(20 本 —— 3 本とも原理の分類)。
+- **🌞 solarInner は退役させていない**(この便の範囲では止めた —— 較正の分類の在位の本で、退役させると較正母集団が 20 → 19 に動く・AI 生成のカタログの鍵 `{"system":"solarInner"}`・較正の判定器の母集団と正本の鎖に及ぶ。決断事項)。
+
+**6. 器と正本・QA。** 器 `tests/exp-w300b-emonly.mjs`(版 w300b-emonly-1・段 decl・run・`W300B_OUT`・`W300B_TARGET`・`W300B_REV` は試走)→ 正本 `tests/out/emonly-w300b.json`(段 emonly-300b)。QA **`preset.earthReorg300`**(退役 3 本・凍結の写し・家族・計数・🌦️ の読み込み・🌔 の写しの規則と宣言・正本の値と obsCard・文書)・**`docs.approx300`**(読み口・受理器・presetSig の外・宣言の集合・🌘 の claims の役割・SYSTEM_PROMPT と文書)—— root は SKIP。
+
+**7. 言わないこと。** 現実や 8.85 年の再現を主張しない・gain の普遍性を主張しない(再現の努力は高い優先度の目標 —— 届かない量は「この探索範囲では未達 —— 次の見直し」)。🌔 の gain をフィットと呼ばない(移送)。近似の宣言は力学を変えない —— 朔望月の一様換算は抽出器の仕事で、宣言は「何を近似として固定したか」の記録である。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
