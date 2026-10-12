@@ -68121,7 +68121,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       return { nMine: mine.length, nTopics: BUILTIN_PRESETS.filter((p) => ok(p) && topicsOf(p).indexOf('inertial') >= 0).length,
         emo: mine.map((p) => p.emoji || p.id).join(''), lbl: HP.T('ppTopic_inertial'), lblEn: I18N.en.ppTopic_inertial };
     }));
-    await pg.evaluate(() => { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); HP.loadPreset('earthMoonInertial', false); });
+    // 第300便b(原仮定者の裁定(第90報)③・R176): 🌛 は退役(読み込み中の退役の本は一覧に出るので行が 1 本増える)—— 退役の世代は在位の 🌦️(慣性決定力・地球の三次元版)で開く
+    const BOOK293 = await pg.evaluate(() => ((BUILTIN_PRESETS.find((p) => p.id === 'earthMoonInertial') || {}).familyRole === 'retired') ? 'earthMoonSunInertial3d' : 'earthMoonInertial');
+    await pg.evaluate((b) => { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); HP.loadPreset(b, false); }, BOOK293);
     const SEL = '#descTopics button.topicChip[data-topic="inertial"]';
     const chipSt = () => pg.evaluate((sel) => { const c = document.querySelector(sel);
       return c ? { tag: c.tagName, aria: c.getAttribute('aria-label'), pressed: c.getAttribute('aria-pressed'), state: c.dataset.state || '' } : null; }, SEL);
@@ -68176,7 +68178,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     await pg.fill('#ppSearch', ''); await pg.waitForTimeout(20);
     await pg.evaluate(() => hidePresetPicker());
     // ⑥ en
-    await pg.evaluate(() => { HP.setLang('en'); HP.loadPreset('earthMoonInertial', false); });
+    await pg.evaluate((b) => { HP.setLang('en'); HP.loadPreset(b, false); }, BOOK293);
     const c6 = await chipSt();
     r.en = c6 && c6.aria;
     if (!(c6 && c6.aria === (has294e ? 'Filter the list by topic ' + r.lblEn + ' (include it in the Topic section of Other)' : 'Filter the list by topic ' + r.lblEn))) r.bad.push('⑥ en の aria-label');

@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "42c52520140acdd0a66decd261b0463cd130c9285f547d113d39cf97df547d9e",
+ "targetSha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -106,7 +106,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.048
+   "wallSec": 0.005
   },
   "run": {
    "short": false,
@@ -159,7 +159,7 @@
        "synUniform": 29.71903738781651
       }
      ],
-     "wallSec": 20.639
+     "wallSec": 16.284
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -192,7 +192,7 @@
        "synUniform": 29.719029084707874
       }
      ],
-     "wallSec": 15.308
+     "wallSec": 10.674
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -225,7 +225,7 @@
        "synUniform": 29.71997237806438
       }
      ],
-     "wallSec": 6.62
+     "wallSec": 4.694
     },
     "sunH": {
      "key": "sun3d-h",
@@ -254,7 +254,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 8.916
+     "wallSec": 5.976
     }
    },
    "check": {
@@ -304,24 +304,24 @@
     "sid": 0.000004057519074507354,
     "synUniform": 0.000004744659733546541
    },
-   "wallSec": 51.486
+   "wallSec": 37.63
   }
  },
  "timing": {
-  "wallSec": 54.524
+  "wallSec": 39.338
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "42c52520140acdd0a66decd261b0463cd130c9285f547d113d39cf97df547d9e",
-  "generatedAt": "2026-10-12T01:44:42.771Z",
+  "targetSha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+  "generatedAt": "2026-10-12T02:38:09.037Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6599041,
-    "sha256": "42c52520140acdd0a66decd261b0463cd130c9285f547d113d39cf97df547d9e",
-    "mtime": "2026-10-12T01:29:31.442Z"
+    "bytes": 6599129,
+    "sha256": "493c5ec84f7edae03b255f9d8ead6e54e8e150896099885c152fd55850f7f8be",
+    "mtime": "2026-10-12T02:13:52.870Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
@@ -463,5 +463,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 54.524
+ "elapsedS": 39.338
 }
