@@ -72004,10 +72004,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           o.bad.push(`⑤区画 ${o.calHeadName}・並び ${calSeq.join('|')}・件数 ${calBooks}/${o.calExp}`);
         // ④ 群の表示名(DOM と表)
         o.axDecl = B.filter((p) => p.group === AXG).map((p) => p.id);
+        // 第300便d(原仮定者の裁定(第90報)⑦・R178 —— 世代切替 = html の tiltSwipeClassify): 参照模型(宣言 physics.shapeToy)もこの群の員(本数は宣言から —— 統合の第300便m で追従)
+        const axRef300 = (typeof tiltSwipeClassify === 'function') ? B.filter((p) => p.physics && p.physics.shapeToy && p.group === AXG).length : 0;
         o.axDispDecl = B.filter((p) => p.group === AXN).length;
         const probe = JSON.parse(JSON.stringify(B.find((p) => p.id === 'axisBarStill'))); probe.group = AXN;
         o.probe = { canon: gCanon(probe.group), name: gName(probe.group), id: groupIdOf(probe.group), disp: ppDispGroup(probe), sigSame: presetSig(probe) === presetSig(B.find((p) => p.id === 'axisBarStill')) };
-        if (!(gName(AXG) === AXN && outNames.indexOf(AXN) >= 0 && outNames.indexOf(AXG) < 0 && GROUP_ALIASES[AXN] === AXG && o.axDecl.length === 3 && o.axDispDecl === 0
+        if (!(gName(AXG) === AXN && outNames.indexOf(AXN) >= 0 && outNames.indexOf(AXG) < 0 && GROUP_ALIASES[AXN] === AXG && o.axDecl.length === 3 + axRef300 && o.axDispDecl === 0
           && o.probe.canon === AXG && o.probe.name === AXN && o.probe.id === 'armsVortex' && o.probe.disp === AXG && o.probe.sigSame && groupIdOf(AXG) === 'armsVortex'))
           o.bad.push(`④群の表示名 ${gName(AXG)}・外の区画 ${outNames.join('|')}・宣言 ${o.axDecl.length}・probe ${JSON.stringify(o.probe)}`);
         // ⑥ ⓘ
