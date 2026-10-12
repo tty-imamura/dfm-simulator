@@ -31854,6 +31854,24 @@ QA: `behavior.geo4Stable299`(正本の条件の宣言 = 器の定数・合否を
 
 QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 —— xy の不変・z の厚み・帳簿・再開)・**`preset.ref3d299`**(宣言・凍結の二次元の写し・受理の門)・**`docs.ref3d299`**(root は SKIP —— 世代切替 = html の `SHAPE_TOY3_VERSION="w299e`)。
 
+〔第300便d — 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦「二本指の上下スワイプで『視点の傾き θ』を調整する」「『サンプルを選ぶ』で参照模型を『腕と軸力』グループへ」「beta 版の名前に便名 —— v1.45 の beta で第300便なら v1.45-b300」・統括の検証項目 R178)(**表示・一覧の置き場所・版名だけ** —— 物理の式・presetSig・保存 JSON は 1 bit も変えていない・`S._core` は不変)〕
+
+**二本指の縦スワイプ → 視点の傾き θ。** タッチの画面で 2 本の指をそろえて上下に動かすと、第298便d の視点の傾き θ(共通設定のスライダー)が変わる。既存の二本指のピンチ(拡大縮小)と共存させるため、**2 本目の指が触れた時点の中点 m₀・指の間隔 d₀・θ₀ を控え、最初に動きが閾値に達した touchmove でその二本指の操作を 1 回だけ判定して固定する**(純関数 `tiltSwipeClassify(Δm_x, Δm_y, Δd)`):
+
+- 未決: max(|Δm_x|, |Δm_y|, |Δd|) < `VIEW_TILT_SWIPE_DECIDE_PX` = **12 px**(この間は何も動かさない)
+- 傾き: |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(= **2**)·|Δd| かつ |Δm_y| ≥ |Δm_x|(中点がおもに縦に動き、間隔の変化が小さい)
+- ピンチ: それ以外(間隔の変化が大きい・横の移動)。判定までの間隔の変化はピンチへ繰り越す(拡大縮小の量は従来と同じ d₀/d)
+
+傾きの値は **θ = θ₀ − Δm_y · `VIEW_TILT_SWIPE_DEG_PER_H` / H**(`tiltSwipeDeg` —— H は canvas の CSS の高さ・`VIEW_TILT_SWIPE_DEG_PER_H` = **180°**: 画面の高さぶん指を動かすと 180°)。指を**上へ**動かすと θ が**増える**(−90 の真上から 0 の横からへ —— 地図アプリの二本指の傾けと同じ向き)。値は `setViewTilt` を通すので、−90〜+90 のクランプ・整数への丸め・localStorage `hp_view_tilt` への保存・スライダーと数値欄の同期は第298便d のまま。指が 2 本未満(または 3 本)になると判定は捨て、3 本 → 2 本は新しい二本指の操作として控え直す。**マウスの操作は変えない**(Shift+ホイールなどは決断事項候補)。二次元の本の縦ドラッグの規則(横から ±5.7° 以内は無効)は 1 本指のパンの規則で、この操作は θ だけを変える(カメラの位置・camZ・倍率は動かさない)。HP: `HP.viewTilt().swipe`(degPerH・decidePx・ratio)・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+
+**参照模型の群。** 参照模型 8 本(`physics.shapeToy` を宣言した本 —— 🔮 shapeToyCluster・🥏 shapeToyDisk・🧵 shapeToyArm・🍭 shapeToySpiral・🎱 shapeToyClusterCore・📀 shapeToyDiskCore・🧹 shapeToyArmCore・🎢 shapeToySpiralCore)の宣言の `group` を「銀河の力学」から「腕と渦伸長(軸力)」へ移した。この群の**表示名はすでに「腕と軸力」**(第295便d —— en "Arms & Axis Force"・別名「腕と軸力」→ 宣言の値の正規化も第295便d のまま)なので、**新しい群は作らず、群の改名もしない**。群の員は軸力の 3 本(🥢🎏🎚️)と参照模型 8 本の 11 本、区画は「DFM の外のアナロジー」(群の区画は第290便f のまま —— 参照模型も DFM の公理の帰結ではなく、較正でもない)。家族 shapeToy・shapeToyCore は 4 本ずつ丸ごと移るので群を跨がない。`presetSig` は group を見ない(署名・走行は不変 —— sigsame で確認)。群の説明(ja/en)と「サンプルを選ぶ」の説明に移動を書いた。
+
+**beta 版の名前に便名。** `BETA_BUILD` を **"v1.45-b1" → "v1.45-b300"** にした。規則は **BETA_BUILD = "v<beta 線>-b<便の番号>"**(beta 線 = APP_VERSION の minor + 1)で、**便の番号は CHANGELOG.md の行頭「- **第NNN便」の最大**(本文の中の言及は数えない —— 手で番号を持つ表を別に置かない)。便の基点で先に上げた状態(最大 + 1 —— その便の行がまだ無い)も一致と見なす。同じ値を 3 か所に書く: `beta/index.html` の `const BETA_BUILD`・`beta/sw.js` の CACHE 接尾辞(版ごとに旧キャッシュを捨てる)・CHANGELOG の beta 節の見出し `## v1.45-b300(開発中 — beta)`。器 **`tools/beta-build.mjs`**(既定は検査だけ・`--apply --wave <NNN>` で 3 か所を書き換える —— 統括が便の基点で 1 回)。昇格の器 `tests/release-promote.mjs` は次期 beta 線を "v<次の minor>-b<NNN>" で切り(`--wave`・既定は同じ規則)、`--check` の見出しの式は `-b\d+` を受ける。生成文書の見出し(`docs/SAMPLE_STATUS_v1.45.md`・`docs/FAMILIES_v1.45.md`)は各生成器が html の BETA_BUILD を読んで書く(正本に `meta.betaBuild`/`betaBuild` を刻む —— 版名を持たない旧正本は v1.45-b1 のまま)ので、鎖で作り直すと追従する。設計文書・README の過去の「v1.45-b1・第NNN便」の記述は履歴として残す。
+
+確認: bitsame **173/173(差分 ID なし)**(600 步)・sigsame **173/173(差分 ID なし)**(宣言した範囲は表示・群・版名だけなので、差分の ID は宣言から導いても 0 本)。QA: **`ui.tiltSwipe300`**(合成のタッチイベントで 390×844 と 1280×800 —— 上へ H/4 で −90 → −45・ピンチは拡大縮小のまま・閾値未満は不動・クランプ・三次元の本・状態/params/presetSig 不変)・**`ui.refModelGroup300`**(宣言から導いた参照模型の群・群の員・家族の跨ぎ・presetSig・一覧の見出しの件数・説明)・**`lint.betaBuild300`**(形・beta 線・CHANGELOG の便・SW・見出し・生成文書の見出し)を新設(root は SKIP)、`ui.pickerScope`(群の員に参照模型 —— 世代切替)・`preset.shapeToySpiral`(群 —— 世代切替)・`docs.nsGridCriteria`(beta 節の見出しの式)を更新。
+
+**未決(決断事項候補)。** スワイプの感度(180°/画面の高さ)と判定の閾値・比(12 px・2)/ マウスでの θ(Shift+ホイール等 —— 本便は変えない)/ 参照模型の区画(群の移動で「DFM 本体」から「DFM の外のアナロジー」の区画へ移った —— 別の群「参照模型」を置くか)/ 版名の便の番号の上げ方(統括が便の基点で `--apply --wave` —— 枝が先に CHANGELOG に行を足すと検査が落ちる窓)/ 生成文書の見出しを毎便変えるか(SAMPLE_STATUS は鎖で毎便作り直す・FAMILIES は html が動けば作り直す)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

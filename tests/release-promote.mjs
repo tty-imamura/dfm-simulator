@@ -18,7 +18,8 @@
 // 主な引数:
 //   --root <dir>        … 対象リポジトリのルート(既定: このファイルの 1 つ上)
 //   --version <1.44>    … 昇格先の APP_VERSION(既定: 現 APP_VERSION の minor +1)
-//   --beta-build <v1.45-b1> … 次期 beta 線(既定: 昇格先の minor +1 に "-b1")
+//   --beta-build <v1.45-b300> … 次期 beta 線(既定: 昇格先の minor +1 に "-b<便の番号>" —— 第300便d)
+//   --wave <300>        … 次期 beta 線の便の番号(既定: CHANGELOG.md の行頭「- **第NNN便」の最大 —— tools/beta-build.mjs と同じ規則)
 //   --date <2026-09-14> … CITATION.cff の date-released と CHANGELOG 見出しの日付(既定: 実行日 UTC)
 //   --json              … 結果を 1 行 JSON でも出す
 // 終了コード: dry-run/apply は計画が立たなければ 1。--check は 1 件でも落ちれば 1。
@@ -26,6 +27,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+// 第300便d(原仮定者の裁定(第90報)⑦・R178): beta 版の名前は便名(v<線>-b<便の番号>)。便の番号の規則は tools/beta-build.mjs の 1 か所
+import { changelogMaxWave } from '../tools/beta-build.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -78,7 +81,9 @@ function bumpMinor(v) {                      // "1.43" → "1.44"
   return m[1] + '.' + (Number(m[2]) + 1);
 }
 const NEXT_APP = opt('version', bumpMinor(curApp));            // 1.44
-const NEXT_BETA = opt('beta-build', 'v' + bumpMinor(NEXT_APP) + '-b1'); // v1.45-b1
+// 第300便d: 次期 beta 線の番号は便名(旧: 常に "-b1")。--wave が無ければ CHANGELOG の行頭の最大の便
+const NEXT_WAVE = Number(opt('wave', String(changelogMaxWave(rd('CHANGELOG.md')) || 1)));
+const NEXT_BETA = opt('beta-build', 'v' + bumpMinor(NEXT_APP) + '-b' + NEXT_WAVE); // 例 v1.46-b310
 const NEXT_PKG = NEXT_APP + '.0';                              // 1.44.0
 const DATE = opt('date', new Date().toISOString().slice(0, 10));
 
@@ -200,9 +205,10 @@ function check() {
   // ⑦ CHANGELOG の見出し 2 本
   const cl = rd('CHANGELOG.md');
   const hasRC = cl.includes(`## v${rApp}.0(`);   // QA release.no-beta-identifiers と同じ式
-  const hasNextBeta = new RegExp('^## v\\d+\\.\\d+-b1(?:\\(|\\()開発中', 'm').test(cl);
+  // 第300便d: beta 線の番号は便名(-b<便の番号>)—— 旧 -b1 も同じ式で受ける
+  const hasNextBeta = new RegExp('^## v\\d+\\.\\d+-b\\d+(?:\\(|\\()開発中', 'm').test(cl);
   put('promote.changelog-heading', hasRC && hasNextBeta,
-    `RC 見出し「## v${rApp}.0(…」=${hasRC}(QA release.no-beta-identifiers と同じ式)/ 次期 beta 見出し「## vX.Y-b1(開発中 — beta)」=${hasNextBeta}`);
+    `RC 見出し「## v${rApp}.0(…」=${hasRC}(QA release.no-beta-identifiers と同じ式)/ 次期 beta 見出し「## vX.Y-bNNN(開発中 — beta)」=${hasNextBeta}`);
   const failed = res.filter((r) => !r.pass);
   console.log(`\n--check: ${res.length - failed.length}/${res.length} PASS` + (failed.length ? `  FAIL: ${failed.map((f) => f.id).join(' , ')}` : ''));
   if (WANT_JSON) console.log(JSON.stringify({ mode: 'check', res }));

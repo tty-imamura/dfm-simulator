@@ -166,7 +166,10 @@ const orphan = got.rows.filter((r) => !(got.groupOrder || []).includes(r.group))
 if (orphan.length) { console.error('群の無い本: ' + orphan.join(' ')); process.exit(1); }
 
 const md = [];
-md.push('# サンプル状況一覧(v1.45-b1・第279便a)');
+// 第300便d(原仮定者の裁定(第90報)⑦・R178): 見出しの版名は html の BETA_BUILD(便名 —— v1.45-b<便の番号>)を読む(旧: "v1.45-b1" の固定)。
+//   正本の meta.betaBuild に同じ値を刻む(QA lint.betaBuild300 が見出し ↔ 正本を照合する)
+const BETA_BUILD_W300D = (html0.match(/const BETA_BUILD = "([^"]+)"/) || [])[1] || 'v1.45-b1';
+md.push('# サンプル状況一覧(' + BETA_BUILD_W300D + '・第279便a)');
 md.push('');
 md.push('> **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w279a-samplestatus.mjs` が、原稿 `' + SRC + '`(目的・状況・根拠 ID)と正本 `' + CAL + '`(verdictLedger)・`' + WIN + '`(冥王星–カロンの同一定義の比較値)から作り、`beta/index.html` の生成領域 `sample-status` と正本 `' + OUT + '` を同時に書く。QA `docs.sampleStatus-sync`(この表 ↔ html ↔ 正本)と `preset.statusLedger-sync`(html の較正欄 ↔ calaudit)が照合する。');
 md.push('> 原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する(一覧の情報はサンプルの『概要』で利用する)」への対応。アプリの「説明」タブの 🔖概要(1 行 3 節「目的。状況。較正。」)と状態チップは、この表と同じ宣言から出ている。');
@@ -284,7 +287,7 @@ const mdBad = mdText.split('\n').filter((l) => L.FORBIDDEN.test(l.replace(/[「�
 if (mdBad.length) { console.error('一覧に禁止語: ' + mdBad.slice(0, 3).join(' / ')); process.exit(1); }
 
 const canon = {
-  meta: Object.assign({ wave: '第279便a', statusVersion: L.STATUS_VERSION,
+  meta: Object.assign({ wave: '第279便a', statusVersion: L.STATUS_VERSION, betaBuild: BETA_BUILD_W300D,
     rule: '較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。',
     doNotWrite: ['較正した', '較正を完了', '観測と一致した', '精度を上げれば合格', '判定が増えた'] },
   provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html', code: CODE,

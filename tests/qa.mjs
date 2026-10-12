@@ -25306,7 +25306,8 @@ if (!FAST) {
           if (!p) { bad.push(id + ' が無い'); continue; }
           const st = p.physics.shapeToy, sp = st.spiral;
           if (p.emoji !== w.emoji || all.filter((q) => q.emoji === w.emoji).length !== 1) bad.push(id + ' の絵文字 ' + p.emoji + ' が唯一でない/違う');
-          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy' || p.group !== '銀河の力学' || p.familyId !== w.famId || p.familyRole !== 'variant') bad.push(id + ' の分類 ' + [p.sampleClass, p.fidelity, p.group, p.familyId, p.familyRole].join('/'));
+          // 第300便d(原仮定者の裁定(第90報)⑦・R178 —— 世代切替 = html の tiltSwipeClassify): 参照模型の群は「腕と渦伸長(軸力)」(表示名「腕と軸力」)
+          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy' || p.group !== (html290e.indexOf('function tiltSwipeClassify(') >= 0 ? '腕と渦伸長(軸力)' : '銀河の力学') || p.familyId !== w.famId || p.familyRole !== 'variant') bad.push(id + ' の分類 ' + [p.sampleClass, p.fidelity, p.group, p.familyId, p.familyRole].join('/'));
           if (p.physics.G !== 0 || st.shape !== 'spiral' || st.coupling !== 'prescribed' || st.supply !== 'external-bath' || st.law !== w.law) bad.push(id + ' の宣言 ' + JSON.stringify([p.physics.G, st.shape, st.coupling, st.law]));
           if (!(sp.nArm === 2 && sp.pitchDeg === 20 && sp.rMin === 24 && sp.rMax === 144 && sp.r0 === 24 && sp.phi0Deg === 0 && sp.armWidth === w.armWidth && sp.armSigmaZ === w.armSigmaZ
             && sp.armOmega0 === 0.12 && sp.armGamma === 0.24 && sp.omegaP === w.omegaP && sp.massRatio === 2 && sp.nDisk === 300 && sp.nArmParticles === 150 && sp.density === 'uniform-s'))
@@ -46190,9 +46191,12 @@ if (!FAST) {
       o.axb = AXB.map((id) => { const p = ps.find((q) => q.id === id); return p ? p.emoji + ':' + p.group : id + ':なし'; });
       o.newMembers = ps.filter((p) => gCanon(p.group) === NG).map((p) => p.id);
       o.galaxyAxb = ps.filter((p) => gCanon(p.group) === '銀河の力学' && AXB.indexOf(p.id) >= 0).length;
+      // 第300便d(原仮定者の裁定(第90報)⑦・R178 —— 世代切替 has300d = html の tiltSwipeClassify): 参照模型(宣言 physics.shapeToy)もこの群の員(ID は宣言から)
+      const REF300 = (typeof tiltSwipeClassify === 'function') ? ps.filter((p) => p.physics && p.physics.shapeToy).map((p) => p.id) : [];
+      o.ref300 = REF300.length;
       const nj = (I18N.ja.groupNotes || {})[NG] || '', ne = (I18N.en.groupNotes || {})[NG] || '';
       o.newOk = AXB.every((id) => (ps.find((q) => q.id === id) || {}).group === NG)
-        && JSON.stringify(o.newMembers.slice().sort()) === JSON.stringify(AXB.slice().sort()) && o.galaxyAxb === 0
+        && JSON.stringify(o.newMembers.slice().sort()) === JSON.stringify(AXB.concat(REF300).sort()) && o.galaxyAxb === 0
         && groupIdOf(NG) === 'armsVortex' && I18N.en.groups[NG] === (has295d ? 'Arms & Axis Force' : 'Arms & Vortex Stretching (Axis Force)') && gIcon(NG) === '🌀'
         && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne)
         && GROUP_ORDER.indexOf(NG) >= 0;
@@ -46287,7 +46291,7 @@ if (!FAST) {
     r.ok = r.tableOk && r.notRenamed && r.newOk && r.domOk && r.contig && r.selOk && r.allOk && r.retOk && r.searchOk && r.layOk && r.enOk && r.same && errs.length === 0;
     add('ui.pickerScope', r.ok,
       `**区画 3 つ**(原仮定者の裁定(第80報)⑦・R130 —— 表示専用): 表 GROUP_SCOPE = この場の対応表(外 = スピンと熱・自転と減光・腕と渦伸長(軸力)/ 較正 = 現実較正・現実との照合 / 残り本体)=${r.tableOk}`
-      + `・群は改名しない=${r.notRenamed} / 新群「腕と渦伸長(軸力)」(armsVortex・🌀・en・説明に「DFM の公理の帰結ではない」)= [${r.axb.join(' ')}]・員 ${r.newMembers.length}・銀河の力学に残る axisBar ${r.galaxyAxb}=${r.newOk}`
+      + `・群は改名しない=${r.notRenamed} / 新群「腕と渦伸長(軸力)」(armsVortex・🌀・en・説明に「DFM の公理の帰結ではない」)= [${r.axb.join(' ')}]・員 ${r.newMembers.length}(第300便d の参照模型 ${r.ref300 || 0} を含む)・銀河の力学に残る axisBar ${r.galaxyAxb}=${r.newOk}`
       + ` / 360×640: 見出し 本体 → 外 → 較正・語 = T・表示行(role=heading・button でない・data-n なし)・群はその区画の下=${r.domOk}(${r.counts} —— 退役を除く宣言からの数え直しと一致)・区画は一続き=${r.contig}`
       + `・隠し #presetSelect の optgroup も区画順=${r.selOk}・すべて表示=${r.allOk}・退役の本 ${r.retId || 'なし'} を読み込む → 行 ${r.retRows === undefined ? '-' : r.retRows}・区画の数に入らない=${r.retOk}`
       + `・検索「🥢」→ 外の区画だけ=${r.searchOk}・箱の内側/横はみ出し 0=${r.layOk}・en [${(r.enNames || []).join(' | ')}]=${r.enOk}・presetSig/params 不変=${r.same}`
@@ -65975,9 +65979,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       bad.push('④禁止語(§5.27): ' + line.slice(0, 40));
   }
   // ⑤ CHANGELOG
-  const iv = chg.indexOf('## v1.45-b1');
+  // 第300便d(原仮定者の裁定(第90報)⑦・R178): beta 節の見出しは便名(## v1.45-b<便の番号>)—— 旧 -b1 も同じ式で受ける
+  const ivM = /^## v1\.45-b\d+\(/m.exec(chg), iv = ivM ? ivM.index : -1;
   const head = (iv < 0) ? '' : chg.slice(iv, chg.indexOf('\n## ', iv + 5) > 0 ? chg.indexOf('\n## ', iv + 5) : chg.length);
-  if (head.indexOf('第277便c') < 0) bad.push('⑤CHANGELOG の v1.45-b1 節に第277便c の行が無い');
+  if (head.indexOf('第277便c') < 0) bad.push('⑤CHANGELOG の v1.45 の beta 節に第277便c の行が無い');
   // ⑥ 言わないこと
   if (sec.indexOf('言わないこと') < 0) bad.push('⑥節に「言わないこと」が無い');
   for (const w of ['NS の平衡を実証した', '較正を完了した'])
@@ -66027,7 +66032,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       bad.push('⑧禁止語(§5.30): ' + line.slice(0, 40));
   }
   // ⑨ CHANGELOG
-  if (head.indexOf('第278便c') < 0) bad.push('⑨CHANGELOG の v1.45-b1 節に第278便c の行が無い');
+  if (head.indexOf('第278便c') < 0) bad.push('⑨CHANGELOG の v1.45 の beta 節に第278便c の行が無い');
   add('docs.nsGridCriteria', bad.length === 0,
     `**診断格子の文書同期**(第277便c): docs/PHYSICS.md 〔第277便c〕節 ${sec.length} 字 / `
     + `正本 tests/out/nsgrid-w277c.json の主要数値 ${need.length} 個が**そのまま節に載っている** `
@@ -66035,7 +66040,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     + `無減衰の局所試作を NS へ延長した否定対照の倍率)/ `
     + `門の定義(**永年**変位・小摂動の**有界**性・復帰・**収支**の閉じ)が節にある / `
     + `docs/CALIBRATION_VERDICT_v1.44.md §5.27(${sec27.length} 字・**禁止語なし**)/ `
-    + `CHANGELOG の v1.45-b1 節に第277便c の行 / `
+    + `CHANGELOG の v1.45 の beta 節に第277便c の行 / `
     + `**言わないこと**の明記(「NS の平衡を実証した」「較正を完了した」等)/ `
     + `第278便c: 〔第278便c〕節 ${sec278len} 字に why 内訳・数え方(252 設定・走行 1512 本・504 分類)・係数表の数が`
     + `そのまま載る / §5.30(${sec30len} 字・内訳表・**禁止語なし**)/ CHANGELOG に第278便c の行`
@@ -74366,6 +74371,301 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
   await vctx.close();
+}
+
+// ---- 第300便d(原仮定者の裁定(第90報)⑦「二本指の上下スワイプで『視点の傾き θ』」・統括の検証項目 R178): ui.tiltSwipe300 —— **二本指の縦スワイプ → θ**(表示専用)。
+// ----   世代切替 has300d = html の tiltSwipeClassify・VIEW_TILT_SWIPE_DEG_PER_H(root 等は SKIP)。閾値・感度・比は html の宣言(HP.viewTilt().swipe)から読む。
+// ----   ① 判定の純関数: 閾値未満は未決(null)・縦の中点の移動だけ → 傾き・間隔の変化だけ → ピンチ・横の移動 → ピンチ・比の境界(|Δm_y| = 比·|Δd| は傾き・その少し下はピンチ)/
+// ----      値の純関数: 感度(画面の高さ H ぶんの移動 = 宣言の度)・上へで θ が増える・−90〜+90 のクランプ・整数
+// ----   ② 合成のタッチイベント(canvas の touchstart/touchmove/touchend —— 実際の経路)を 390×844(isMobile)と 1280×800 で: 二本指の中点を間隔そのままで
+// ----      上へ H/4 → θ = −90 + 宣言の度/4・camScale 不変・スライダーと数値欄が同じ値・localStorage hp_view_tilt に保存・タップの選択は起きない
+// ----   ③ ピンチは拡大縮小のまま(中点を動かさず間隔を 2 倍 → camScale が 1/2・θ 不変)・閾値未満の揺れは何も動かさない・縦に動いても間隔が大きく変わればピンチ
+// ----   ④ クランプ(上へ 2H → +90・下へ 2H → −90)
+// ----   ⑤ 三次元の本(宣言 physics.coord:"3d" の在位の最初の本)でも θ だけが変わる(camZ・camY 不変)
+// ----   ⑥ 表示専用: 走行の状態・params・presetSig がスワイプで 1 bit も変わらない
+// ----   ⑦ 説明(helpOpsBody・tgFlipYDesc の ja/en に二本指の上下スワイプ)・文書(PHYSICS〔第300便d〕)
+{
+  const probe = await browser.newPage();
+  await probe.goto(INDEX, { waitUntil: 'load' });
+  await probe.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has300d = await probe.evaluate(() => typeof tiltSwipeClassify === 'function' && typeof VIEW_TILT_SWIPE_DEG_PER_H !== 'undefined' && typeof setViewTilt === 'function');
+  await probe.close();
+  if (!has300d) {
+    console.log('SKIP ui.tiltSwipe300(第300便d 未適用 — tiltSwipeClassify なし — root 等)');
+  } else {
+    const bad = [], info = { vp: [] };
+    // ① 純関数
+    {
+      const pg = await browser.newPage();
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const U = await pg.evaluate(() => {
+        const sw = HP.viewTilt().swipe, C = HP.tiltSwipeClassify, D = HP.tiltSwipeDeg, e = sw.decidePx, r = sw.ratio;
+        const o = { sw };
+        o.cls = { small: C(0, e - 0.5, 0) === null && C(e - 0.5, 0, 0) === null && C(0, 0, e - 0.5) === null,
+          up: C(0, -e, 0) === 'tilt' && C(0, e, 0) === 'tilt' && C(2, -40, 5) === 'tilt',
+          spread: C(0, 0, e) === 'pinch' && C(0, 0, -e) === 'pinch',
+          horiz: C(e, 0, 0) === 'pinch' && C(-30, 20, 0) === 'pinch',
+          edge: C(0, -r * 10, 10) === 'tilt' && C(0, -(r * 10 - 0.5), 10) === 'pinch' };
+        o.deg = { up4: D(-90, -1000 / 4, 1000) === -90 + sw.degPerH / 4, down: D(0, 100, 1000) === Math.round(-100 * sw.degPerH / 1000),
+          clampHi: D(-90, -3000, 1000) === 90, clampLo: D(90, 3000, 1000) === -90, int: Number.isInteger(D(-90, -7, 1000)),
+          zero: D(37, 0, 1000) === 37 };
+        return o;
+      });
+      info.sw = U.sw;
+      if (!(U.sw && U.sw.degPerH > 0 && U.sw.decidePx > 0 && U.sw.ratio >= 1)) bad.push('①宣言の閾値・感度・比 ' + JSON.stringify(U.sw));
+      for (const [k, v] of Object.entries(U.cls)) if (v !== true) bad.push('①判定 ' + k);
+      for (const [k, v] of Object.entries(U.deg)) if (v !== true) bad.push('①値 ' + k);
+      await pg.close();
+    }
+    // ②〜⑥ 実際の経路(合成のタッチイベント)
+    for (const vp of [{ width: 390, height: 844, isMobile: true }, { width: 1280, height: 800, isMobile: false }]) {
+      const tctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.isMobile, hasTouch: true });
+      const tp = await tctx.newPage();
+      const errs = [];
+      tp.on('pageerror', (e) => errs.push(String(e.message || e)));
+      try {
+        await tp.goto(INDEX, { waitUntil: 'load' });
+        await tp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+        const R = await tp.evaluate(() => {
+          const o = { bad: [] };
+          const sw = HP.viewTilt().swipe;
+          const rect = () => cv.getBoundingClientRect();
+          let tid = 100;
+          const mk = (id, x, y) => new Touch({ identifier: id, target: cv, clientX: x, clientY: y });
+          const fire = (type, cur, changed) => cv.dispatchEvent(new TouchEvent(type, { touches: cur, targetTouches: cur, changedTouches: changed, bubbles: true, cancelable: true }));
+          // 二本指の操作: (x0±s0/2, y0) → 各段で中点 (x0+dx, y0+dy)・間隔 s0·k
+          const gesture = (x0, y0, s0, dx, dy, k, steps) => {
+            const a = tid++, b = tid++;
+            let A = mk(a, x0 - s0 / 2, y0), B = mk(b, x0 + s0 / 2, y0);
+            fire('touchstart', [A], [A]); fire('touchstart', [A, B], [B]);
+            for (let i = 1; i <= steps; i++) {
+              const f = i / steps, s = s0 * (1 + (k - 1) * f), mx = x0 + dx * f, my = y0 + dy * f;
+              A = mk(a, mx - s / 2, my); B = mk(b, mx + s / 2, my);
+              fire('touchmove', [A, B], [A, B]);
+            }
+            fire('touchend', [], [A, B]);
+          };
+          const st = () => ({ t: viewTiltDeg, cs: camScale, cy: camY, cz: camZ, sl: (document.getElementById('viewTiltSlider') || {}).value,
+            num: (document.getElementById('viewTiltIn') || {}).value, ls: localStorage.getItem('hp_view_tilt') });
+          const dump = () => { const S = HP.sim; const a = []; for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) a.push(Array.prototype.join.call(S[k].subarray(0, S.n), ','));
+            return a.join('|') + '|' + S.t + '|' + JSON.stringify(S.params); };
+          HP.loadPreset('earthMoonReal', false); camFollowMode = 'none';
+          if (typeof setPlaying === 'function') setPlaying(false);
+          setViewTilt(-90); selIdx = -1;
+          const r0 = rect(), H = r0.height, cx = r0.left + r0.width / 2, cy = r0.top + r0.height / 2;
+          o.H = H;
+          const sig0 = presetSig(HP.currentPreset()), d0 = dump();
+          // ② 上へ H/4(間隔 120px のまま)
+          const s0 = st();
+          gesture(cx, cy, 120, 0, -H / 4, 1, 8);
+          const s1 = st();
+          o.up = { from: s0.t, to: s1.t, want: -90 + Math.round(sw.degPerH / 4) };
+          if (s1.t !== o.up.want) o.bad.push('②上へ H/4 で θ ' + s0.t + ' → ' + s1.t + '(期待 ' + o.up.want + ')');
+          if (s1.cs !== s0.cs) o.bad.push('②傾きのスワイプで camScale が動いた');
+          if (!(s1.sl === String(s1.t) && s1.num === String(s1.t) && s1.ls === String(s1.t))) o.bad.push('②スライダー/数値欄/保存 ' + JSON.stringify(s1));
+          if (selIdx !== -1) o.bad.push('②スワイプでタップの選択が起きた');
+          // 下へ H/4 で戻る
+          gesture(cx, cy, 120, 0, H / 4, 1, 8);
+          if (viewTiltDeg !== -90) o.bad.push('②下へ H/4 で戻らない ' + viewTiltDeg);
+          // ③ ピンチ(中点固定・間隔 2 倍)
+          { const c0 = camScale; gesture(cx, cy, 100, 0, 0, 2, 6);
+            o.pinch = { from: c0, to: camScale };
+            if (!(Math.abs(camScale - Math.max(20, c0 / 2)) <= 1e-9 * c0)) o.bad.push('③ピンチ(間隔 2 倍)で camScale ' + c0 + ' → ' + camScale);
+            if (viewTiltDeg !== -90) o.bad.push('③ピンチで θ が動いた ' + viewTiltDeg);
+            camScale = c0; }
+          // ③′ 閾値未満の揺れ
+          { const c0 = camScale; gesture(cx, cy, 100, 0, -(sw.decidePx - 2), 1 + (sw.decidePx - 2) / 100 / 2, 3);
+            if (!(camScale === c0 && viewTiltDeg === -90)) o.bad.push('③′閾値未満で動いた θ ' + viewTiltDeg + '・scale ' + camScale + '/' + c0); camScale = c0; }
+          // ③″ 縦に動いても間隔が大きく変わればピンチ(中点 −20px・間隔 +40px)
+          { const c0 = camScale; gesture(cx, cy, 100, 0, -20, 1.4, 4);
+            if (!(viewTiltDeg === -90 && Math.abs(camScale - Math.max(20, c0 / 1.4)) <= 1e-9 * c0)) o.bad.push('③″縦+間隔の大きな変化 θ ' + viewTiltDeg + '・scale ' + camScale + '/' + c0 / 1.4); camScale = c0; }
+          // ④ クランプ
+          gesture(cx, cy, 120, 0, -2 * H, 1, 10);
+          o.hi = viewTiltDeg;
+          gesture(cx, cy, 120, 0, 2 * H, 1, 10);
+          o.lo = viewTiltDeg;
+          if (!(o.hi === 90 && o.lo === -90)) o.bad.push('④クランプ ' + o.hi + '/' + o.lo);
+          // ⑥ 表示専用
+          if (!(dump() === d0 && presetSig(HP.currentPreset()) === sig0 && !/tilt|flip/i.test(JSON.stringify(HP.sim.params)))) o.bad.push('⑥状態・params・presetSig が動いた');
+          // ⑤ 三次元の本
+          const p3 = HP.allPresets().find((p) => (p.physics || {}).coord === '3d' && p.familyRole !== 'retired' && !String(p.id).startsWith('custom_'));
+          o.id3 = p3 ? p3.id : null;
+          if (p3) {
+            HP.loadPreset(p3.id, false); camFollowMode = 'none'; setViewTilt(-90);
+            const z0 = camZ, y0 = camY, c0 = camScale;
+            gesture(cx, cy, 120, 0, -H / 2, 1, 8);
+            o.t3 = viewTiltDeg;
+            if (!(viewTiltDeg === -90 + Math.round(sw.degPerH / 2) && camZ === z0 && camY === y0 && camScale === c0)) o.bad.push('⑤三次元の本 ' + p3.id + ' θ ' + viewTiltDeg + '・camZ/camY/scale の変化');
+          } else o.bad.push('⑤三次元の在位の本が無い');
+          setViewTilt(-90);
+          try { localStorage.removeItem('hp_view_tilt'); localStorage.removeItem('hp_flip_y'); } catch (_) {}
+          return o;
+        });
+        info.vp.push(`${vp.width}×${vp.height}: H=${Math.round(R.H)} 上へ H/4 ${R.up.from}→${R.up.to}・ピンチ scale ${R.pinch.from.toFixed(1)}→${R.pinch.to.toFixed(1)}・クランプ ${R.hi}/${R.lo}・三次元 ${R.id3} → ${R.t3}`);
+        for (const b of R.bad) bad.push(`${vp.width}×${vp.height}: ${b}`);
+      } catch (e) { bad.push(`${vp.width}×${vp.height}: 実行に失敗 ` + String(e).slice(0, 160)); }
+      if (errs.length) bad.push(`${vp.width}×${vp.height}: ページのエラー ` + errs[0].slice(0, 100));
+      await tctx.close();
+    }
+    // ⑦ 説明と文書
+    try {
+      const pg = await browser.newPage();
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const T7 = await pg.evaluate(() => ({ hj: I18N.ja.helpOpsBody, he: I18N.en.helpOpsBody, fj: I18N.ja.tgFlipYDesc, fe: I18N.en.tgFlipYDesc }));
+      await pg.close();
+      if (!/2本指をそろえて上下にスワイプ/.test(T7.hj) || !/視点の傾き θ/.test(T7.hj)) bad.push('⑦helpOpsBody(ja)に二本指の上下スワイプ');
+      if (!/swipe two fingers up or down/.test(T7.he) || !/view tilt/.test(T7.he)) bad.push('⑦helpOpsBody(en)に two-finger swipe');
+      if (!/2 本指をそろえて上下にスワイプ/.test(T7.fj)) bad.push('⑦tgFlipYDesc(ja)');
+      if (!/swipe two fingers up or down/.test(T7.fe)) bad.push('⑦tgFlipYDesc(en)');
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      if (!/〔第300便d/.test(PH) || PH.indexOf('VIEW_TILT_SWIPE_DEG_PER_H') < 0) bad.push('⑦PHYSICS に〔第300便d〕(VIEW_TILT_SWIPE_DEG_PER_H)が無い');
+    } catch (e) { bad.push('⑦読めない ' + String(e).slice(0, 120)); }
+    add('ui.tiltSwipe300', bad.length === 0,
+      `**二本指の縦スワイプ → 視点の傾き θ**(第300便d・原仮定者の裁定(第90報)⑦・R178 —— 表示専用): 宣言 ${info.sw ? `${info.sw.degPerH}°/画面の高さ・判定 ${info.sw.decidePx}px・比 ${info.sw.ratio}` : '—'}`
+      + ` / ① 判定(未決・傾き・ピンチ・横・比の境界)と値(感度・上で増える・クランプ・整数)/ ②〜⑥ 合成のタッチ: ${info.vp.join(' / ')}`
+      + `(camScale 不変・スライダー/数値欄/hp_view_tilt 同期・タップの選択なし・ピンチは拡大縮小のまま・閾値未満は不動・状態/params/presetSig 不変)/ ⑦ 説明 ja/en・PHYSICS`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第300便d(原仮定者の裁定(第90報)⑦「『サンプルを選ぶ』で参照模型を『腕と軸力』グループへ」・統括の検証項目 R178): ui.refModelGroup300 —— **参照模型の群**。
+// ----   世代切替 has300d = html の tiltSwipeClassify(第300便d の印 —— root 等は SKIP)。参照模型の ID は宣言から導く(physics.shapeToy を宣言した在位の本 ——
+// ----   題材チップ「参照模型」と同じ規則)・軸力の本は physics.axisForce を宣言した本。手書きの ID 一覧を持たない。
+// ----   ① 参照模型は全部 group:"腕と渦伸長(軸力)"(表示名「腕と軸力」・en "Arms & Axis Force")・「銀河の力学」に参照模型は残らない・群の員 = 軸力の本 ∪ 参照模型(宣言から)
+// ----   ② 家族の跨ぎなし(参照模型の家族は全員この群)・区画は DFM の外のアナロジー(outside)・群 id armsVortex・絵文字 🌀(第290便f のまま —— 新しい群は作らない)
+// ----   ③ presetSig は group を見ない(各参照模型で group を「銀河の力学」に戻した写しと署名が一致)
+// ----   ④ 一覧(#ppList)の群「腕と軸力」の見出しの件数 = 宣言から数えた在位の員の数・参照模型の行が全部この群の中にあり、「銀河の力学」の中に無い
+// ----   ⑤ 群の説明(ja/en)に第300便d の移動・physics.shapeToy・「DFM の公理の帰結ではない」・physics.axisForce
+{
+  const pg = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const errs = [];
+  pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+  pg.on('dialog', (d) => d.accept());
+  await pg.goto(INDEX, { waitUntil: 'load' });
+  await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has300d = await pg.evaluate(() => typeof tiltSwipeClassify === 'function');
+  if (!has300d) {
+    console.log('SKIP ui.refModelGroup300(第300便d 未適用 — tiltSwipeClassify なし — root 等)');
+  } else {
+    const bad = [];
+    let R = null;
+    try {
+      R = await pg.evaluate(() => {
+        const o = { bad: [] };
+        const NG = '腕と渦伸長(軸力)', GAL = '銀河の力学';
+        const ps = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+        const live = (p) => p.familyRole !== 'retired';
+        const ref = ps.filter((p) => live(p) && p.physics && p.physics.shapeToy);
+        const axb = ps.filter((p) => live(p) && p.physics && p.physics.axisForce);
+        o.ref = ref.map((p) => p.emoji).join('');
+        o.nRef = ref.length; o.nAxb = axb.length;
+        // ①
+        for (const p of ref) if (p.group !== NG) o.bad.push('①' + p.id + ' の group ' + p.group);
+        if (ps.some((p) => p.physics && p.physics.shapeToy && gCanon(p.group) === GAL)) o.bad.push('①「銀河の力学」に参照模型が残る');
+        const mem = ps.filter((p) => live(p) && gCanon(p.group) === NG).map((p) => p.id).sort();
+        const want = ref.concat(axb).map((p) => p.id).sort();
+        o.members = mem.length;
+        if (JSON.stringify(mem) !== JSON.stringify(want)) o.bad.push('①群の員 ' + mem.join(',') + ' ≠ 宣言 ' + want.join(','));
+        if (!(ref.length > 0 && axb.length > 0)) o.bad.push('①参照模型/軸力の本が宣言から 1 本も引けない');
+        if (!(I18N.ja.groups[NG] === '腕と軸力' && I18N.en.groups[NG] === 'Arms & Axis Force' && gCanon('腕と軸力') === NG)) o.bad.push('①表示名・別名');
+        // ②
+        const fams = [...new Set(ref.map((p) => p.familyId).filter(Boolean))];
+        o.fams = fams.join(',');
+        for (const f of fams) { const gs = [...new Set(ps.filter((p) => p.familyId === f).map((p) => gCanon(p.group)))];
+          if (gs.length !== 1) o.bad.push('②家族 ' + f + ' が群を跨ぐ ' + gs.join('/')); }
+        if (!(gScope(NG) === 'outside' && groupIdOf(NG) === 'armsVortex' && gIcon(NG) === '🌀' && GROUP_ORDER.indexOf(NG) >= 0)) o.bad.push('②区画/id/絵文字');
+        // ③
+        for (const p of ref) { const q = JSON.parse(JSON.stringify(p)); q.group = GAL; if (presetSig(q) !== presetSig(p)) o.bad.push('③presetSig が group を見る ' + p.id); }
+        // ④ 一覧
+        ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        showPresetPicker();
+        const list = document.getElementById('ppList');
+        const bodyOf = (name) => { const kids = [...list.children];
+          const i = kids.findIndex((e) => e.classList.contains('ppGroupHead') && (e.querySelector('span:not([class])') || {}).textContent === name);
+          return i < 0 ? null : { head: kids[i], body: kids[i + 1] }; };
+        const bNG = bodyOf(gName(NG)), bGal = bodyOf(gName(GAL));
+        if (!bNG || !bGal) o.bad.push('④群の見出しが無い ' + (!bNG ? gName(NG) : gName(GAL)));
+        else {
+          const expN = BUILTIN_PRESETS.filter((p) => gCanon(p.group) === NG && !catalogHidden(p) && p.familyRole !== 'retired').length;
+          o.headCount = bNG.head.querySelector('.ppGroupCount').textContent; o.expN = expN;
+          if (o.headCount !== String(expN)) o.bad.push('④見出しの件数 ' + o.headCount + ' ≠ 宣言 ' + expN);
+          const txt = (b) => [...b.body.querySelectorAll('.ppRow')].map((r) => r.textContent);
+          const tNG = txt(bNG), tGal = txt(bGal);
+          o.rowsNG = tNG.length;
+          for (const p of ref) {
+            if (!tNG.some((t) => t.indexOf(p.emoji) === 0 || t.indexOf(p.emoji + ' ') >= 0 || t.startsWith(p.emoji))) o.bad.push('④「腕と軸力」に行が無い ' + p.emoji);
+            if (tGal.some((t) => t.startsWith(p.emoji))) o.bad.push('④「銀河の力学」に行が残る ' + p.emoji);
+          }
+        }
+        hidePresetPicker();
+        // ⑤
+        const nj = (I18N.ja.groupNotes || {})[NG] || '', ne = (I18N.en.groupNotes || {})[NG] || '';
+        if (!(/第300便d/.test(nj) && /physics\.shapeToy/.test(nj) && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj))) o.bad.push('⑤群の説明(ja)');
+        if (!(/wave 300d/.test(ne) && /physics\.shapeToy/.test(ne) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne))) o.bad.push('⑤群の説明(en)');
+        if (!(/第300便d/.test(I18N.ja.helpPickerScope) && /wave 300d/.test(I18N.en.helpPickerScope))) o.bad.push('⑤一覧の説明(helpPickerScope ja/en)');
+        return o;
+      });
+      bad.push(...R.bad);
+    } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+    if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+    add('ui.refModelGroup300', bad.length === 0,
+      `**参照模型の群**(第300便d・原仮定者の裁定(第90報)⑦・R178): 参照模型(宣言 physics.shapeToy の在位)${R ? R.nRef : '—'} 本 ${R ? R.ref : ''} → group「腕と渦伸長(軸力)」(表示名「腕と軸力」)`
+      + ` / ① 群の員 ${R ? R.members : '—'} = 軸力の本 ${R ? R.nAxb : '—'} ∪ 参照模型・「銀河の力学」に残らない / ② 家族 ${R ? R.fams : '—'} は跨がない・区画 outside・id armsVortex・🌀`
+      + ` / ③ presetSig は group を見ない / ④ 一覧の見出しの件数 ${R ? R.headCount : '—'}(宣言 ${R ? R.expN : '—'})・行 ${R ? R.rowsNG : '—'} / ⑤ 説明 ja/en`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  await pg.close();
+}
+
+// ---- 第300便d(原仮定者の裁定(第90報)⑦「beta 版の名前に便名 —— v1.45 の beta で第300便なら v1.45-b300」・統括の検証項目 R178): lint.betaBuild300 —— **beta 版の名前**。
+// ----   beta 対象のみ(root は BETA_BUILD を使わない)。世代切替 = html の BETA_BUILD が "v<X>.<Y>-b<NNN>" で NNN ≥ 300(旧 "-b1" の世代は SKIP)。
+// ----   規則は tools/beta-build.mjs の betaBuildState(器と同じ関数): ① 形 ② beta 線 = APP_VERSION の minor + 1 ③ 便の番号 ∈ [CHANGELOG の行頭「- **第NNN便」の最大, +1]
+// ----   ④ beta/sw.js の CACHE 接尾辞 ⑤ CHANGELOG の先頭の節の見出し `## <BETA_BUILD>(開発中 — beta)`。
+// ----   ⑥ 生成文書の見出しの版名: docs/SAMPLE_STATUS_v1.45.md(正本 meta.betaBuild —— 無い旧正本は v1.45-b1)・docs/FAMILIES_v1.45.md(正本 betaBuild —— 同)と
+// ----      一致し、同じ beta 線で番号が BETA_BUILD 以下(鎖で作り直すと BETA_BUILD に追従する —— 生成器は html の BETA_BUILD を読む: ⑦)
+// ----   ⑦ 生成器(samplestatus・families)が版名を固定で書かない・昇格の器(tests/release-promote.mjs)が便名の規則(changelogMaxWave・-b\d+)を使う
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const bb = (html.match(/const BETA_BUILD = "([^"]+)"/) || [])[1] || '';
+  const bm = bb.match(/^v(\d+)\.(\d+)-b(\d+)$/);
+  if (!TARGET.startsWith('beta/') || !bm || Number(bm[3]) < 300) {
+    console.log('SKIP lint.betaBuild300(beta 対象で BETA_BUILD が便名〔-b300 以上〕の世代のみ — ' + TARGET + ' の BETA_BUILD=' + (bb || 'なし') + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const BB = await import('file://' + path.join(ROOT, 'tools', 'beta-build.mjs'));
+      const st = BB.betaBuildState(ROOT, { html: TARGET });
+      for (const [k, v] of Object.entries(st.checks)) if (v !== true) bad.push('規則 ' + k + ' が成り立たない');
+      cases.push(`BETA_BUILD=${st.betaBuild}・APP_VERSION ${st.appVersion}・CHANGELOG の行頭の最大 第${st.changelogMaxWave}便・SW ${st.swCache}・見出し ${st.changelogHead} → `
+        + Object.entries(st.checks).map(([k, v]) => (v ? '○' : '×') + k).join(' '));
+      // ⑥ 生成文書
+      const line = 'v' + bm[1] + '.' + bm[2] + '-b', nnn = Number(bm[3]);
+      const headVer = (rel) => { const h = (fs.readFileSync(path.join(ROOT, rel), 'utf8').match(/^# [^\n]*/) || [''])[0]; return (h.match(/\((v\d+\.\d+-b\d+)・/) || [])[1] || null; };
+      const docs = [
+        ['docs/SAMPLE_STATUS_v1.45.md', (() => { const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8')); return (J.meta && J.meta.betaBuild) || 'v1.45-b1'; })()],
+        ['docs/FAMILIES_v1.45.md', (() => { const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'families-w283b.json'), 'utf8')); return J.betaBuild || 'v1.45-b1'; })()],
+      ];
+      for (const [rel, rec] of docs) {
+        const v = headVer(rel);
+        const ok = v === rec && v.startsWith(line) && Number(v.slice(line.length)) <= nnn;
+        if (!ok) bad.push(`⑥${rel} の見出しの版名 ${v}(正本 ${rec}・BETA_BUILD ${bb})`);
+        cases.push(`${rel.replace('docs/', '')} ${v}${v === bb ? '' : '(鎖の前 —— 正本の版名と一致)'}`);
+      }
+      // ⑦ 生成器と昇格の器
+      const ss = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w279a-samplestatus.mjs'), 'utf8');
+      const fa = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w283b-families.mjs'), 'utf8');
+      const rp = fs.readFileSync(path.join(ROOT, 'tests', 'release-promote.mjs'), 'utf8');
+      if (!/const BETA_BUILD = /.test(ss) || /md\.push\('# サンプル状況一覧\(v\d/.test(ss)) bad.push('⑦samplestatus の生成器が版名を固定で書く');
+      if (!/J\.betaBuild/.test(fa) || /L\.push\('# 同一天体の家族の差分表と統廃合の候補\(v\d/.test(fa)) bad.push('⑦families の生成器が版名を固定で書く');
+      if (!/changelogMaxWave/.test(rp) || !/-b\\\\d\+\(\?:/.test(rp)) bad.push('⑦release-promote が便名の規則を使わない');
+      cases.push('生成器 2 本・昇格の器が便名の規則');
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+    add('lint.betaBuild300', bad.length === 0,
+      `**beta 版の名前に便名**(第300便d・原仮定者の裁定(第90報)⑦・R178 —— 規則は tools/beta-build.mjs): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
 }
 
 // ---- 第299便f(原仮定者の裁定(第89報)⑤「選択粒子の編集: kFrame=0 では『引きずり q』を出さない/『コア内訳(v2)』は切り替えも含めて現在有効な場合のみ出す/

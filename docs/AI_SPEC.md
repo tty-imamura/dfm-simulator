@@ -3541,3 +3541,10 @@ SYSTEM_PROMPT の規則 12(逐語):
 - **HP**: `HP.coord3d.ref3d` = `{version:SHAPE_TOY3_VERSION("w299e-ref3d-1"), sc, ckArrs, write, state(S) → {stats:{all|disk|arm:{n, meanZ, rmsZ, sigmaZ, meanVz, sigmaVz, rmsR}}, ledger}, ckSnap, ckRestore, rng}`。
 - **器と正本**: `tests/exp-w299e-ref3d.mjs`(版 w299e-ref3d-1・`W299E_OUT`)→ `tests/out/ref3d-w299e.json`(段 ref3d-299e)。
 - QA: `behavior.ref3d299`・`preset.ref3d299`・`docs.ref3d299`(root は SKIP —— 世代切替 = html の `SHAPE_TOY3_VERSION="w299e`)。
+
+## 78. 第300便d —— 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦・統括の検証項目 R178・**表示・一覧の置き場所・版名だけ** —— 物理・presetSig・保存 JSON は不変・**SYSTEM_PROMPT には載せない**)
+
+- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ − Δm_y·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— 上へで θ が増える・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは不変。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+- **群**: 参照模型(`physics.shapeToy` を宣言した本 —— 内蔵の 8 本)の `group` は `"腕と渦伸長(軸力)"`(表示名「腕と軸力」・en "Arms & Axis Force" —— 第295便d の別名「腕と軸力」はそのまま受理して正規化)。AI が生成する参照模型の JSON も、群を書くならこの値(表示名で書いてもよい)。`presetSig` は group を見ない。
+- **版名**: `BETA_BUILD = "v<beta 線>-b<便の番号>"`(便の番号 = CHANGELOG.md の行頭「- **第NNN便」の最大 —— 便の基点の「最大 + 1」も可)。`beta/sw.js` の CACHE 接尾辞・CHANGELOG の beta 節の見出しと同じ値(器 `tools/beta-build.mjs` —— 既定は検査・`--apply --wave <NNN>`)。エクスポートの `appBuild`(beta 配信時)もこの値になる。
+- QA: **`ui.tiltSwipe300`**・**`ui.refModelGroup300`**・**`lint.betaBuild300`**(新設 —— root は SKIP)。
