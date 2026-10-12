@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "b3c65c3abada6854b1f9fc239c646897f9ddfa805c2e0c63f6df3db0b0639cc4",
-  "generatedAt": "2026-10-12T07:56:44.368Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T10:10:03.157Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1720014,
-    "sha256": "15e27b29aab78212418a705ff86a26cd3627dfbd8b016c3d65612116c3a7afc9",
-    "mtime": "2026-10-12T06:00:41.282Z"
+    "bytes": 1721927,
+    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
+    "mtime": "2026-10-12T09:11:05.462Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 51463,
-    "sha256": "e07b53efbddf3704caed4b312a97e693f9a8bc024f6bcda7c62badabb42c0181",
-    "mtime": "2026-10-12T06:08:12.958Z"
+    "sha256": "5989478c1fde2ac938c3cc075843af0596e07f698ff5092cee58d909d08b77f2",
+    "mtime": "2026-10-12T09:19:01.214Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 6644968,
-    "sha256": "b3c65c3abada6854b1f9fc239c646897f9ddfa805c2e0c63f6df3db0b0639cc4",
-    "mtime": "2026-10-12T05:11:05.850Z"
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-12T08:16:45.878Z"
    }
   ],
   "code": [
@@ -132,14 +132,14 @@
    "complete": true,
    "names": 1216,
    "segments": 1107,
-   "closureShare": 0.3265
+   "closureShare": 0.3266
   },
   "scopeSha256": "1beaac78a94b7bf0478e771ecab93ac1c238c85bc3dcc65521c23f18797f8060",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "4c884f83bd04157cde9bd11f34c22580ae0ae2b4939752bb3dfe7f15ed4d4490",
+    "stableSha256": "a31a5652e10d95964a5d3f5e80ee1a99b8cde6835c77dbbde0fcb9a9934ae1c3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -167,7 +167,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "e8f4e8bbb4dad9373bed66fdde20ae3ecd8c77a27ce16bff65decb754436bad3",
+    "stableSha256": "97cf79bae07218e8e6c6c1b636133bb1b8720b826bd03323af0a349ad70bd933",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -195,7 +195,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "81c5b5e7632e86020d691ae1a380797f147fdc8671feb097b543a6a5006ce3f5",
+    "stableSha256": "d0a8c4b22cb26f7c828869a008d6c8728fec12fc295f954392df5b2a7a81fd1a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -251,7 +251,7 @@
   "shownDefault": 181,
   "pageErrors": 0
  },
- "htmlChanged": true,
+ "htmlChanged": false,
  "rule": "**転記だけ**(判定しない)。値は gate.assessedValue(判定段の値)・観測は quantities[].obs・σ は gate.sigma・合否語は gate.status。欠測は null(0 に置換しない)。古い verdict は転記しない。帯は σ の目盛りであって門ではない。",
  "doNotWrite": [
   "合った",
@@ -259,5 +259,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 3.097
+ "elapsedS": 3.268
 }
