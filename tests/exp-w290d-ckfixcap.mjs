@@ -106,6 +106,9 @@ export const SAVE_CODE_W297A = Object.freeze({ loadSave: "503760701e2768acd21511
 /** 第299便f(原仮定者の裁定(第89報)⑥・R172): 読込 loadSave が保存の physics.coord と本の宣言の座標の違いを見て、三次元の切り替えの写し(coordSwitchPlanOf)で開く
  *  (作れなければ中止)行を足した後の指紋。保存の鍵と保存ボタンの handler は第297便a と同じ(physics に coord が入るのは従来どおり)。 */
 export const SAVE_CODE_W299F = Object.freeze({ loadSave: "d812391c0692efe552538cd9d3e095ee0dadd6f30b6fa0950133b01d470b77f7", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45", saveHandler: "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6" });
+/** 第300便a(原仮定者の裁定(第90報)⑤・R175): 読込 loadSave と保存ボタンの handler に physics.spaceMesh(廃止)の受理の拒否(spaceMeshRetiredDenyOf —— 理由を出して止める・
+ *  状態は変えない)を足した後の指紋。保存の鍵は第299便f と同じ(読込の受理器 loadSaveBgcAccept は不変)。 */
+export const SAVE_CODE_W300A = Object.freeze({ loadSave: "bfcb885a6781ac0aac4afb53d1ecaf83a0c96c93f4927eed463c8b068bcd4f15", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45", saveHandler: "0a9170f4168fa628e30e780e992e9081445dd96e68a9386453870407c5179f4e" });
 /** 基点 f03bf5a の値(枝の実測 —— 同じ器の probe を基点の beta/index.html で子プロセスで走らせ summaryOf で要約した値。基点 html は CI に無いので宣言値で持つ)。 */
 export const BEFORE_F03 = Object.freeze({ rev: 'f03bf5a', how: '枝の実測(W290D_BASE=beta/_w290_base.html で本器の probe を子プロセスで走らせ summaryOf で要約した値)',
   summary: {"repro":{"savedStepN":0,"afterStepsStepN":2,"restoredStepN":2,"savedRI":1.5,"restoredRI":0.75,"tRestored":true},"overflow":{"steps":1,"nSame":true,"restoredBitSame":false,"rerunBitSame":false,"twiceBitSame":false,"restoredNCap":1,"restoredNEject":1,"restoredRI":0.005,"restoredLog":1,"restoredEjLog":1,"restoredEself":-14.689627726449768,"savedEself":0,"snapHasFixcap":false,"rerunNDiff":14},"atStep":{"tRef":0.048,"tTest":0.032,"restoredStepN":2,"savedStepN":1,"sameEjectTime":false,"stateBitSame":false},"twice":{"savedI":2.875,"savedE":0.359375,"restoredI":25.875,"restoredE":3.234375,"restoredRI":1.5,"restoredBitSame":false},"ab":{"abPrint":"4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75","aEqualsNewB":true,"legacyBEqualsNewB":true,"logRowShared":true,"ckRestoredBitSame":false,"ckRerunBitSame":false},"inventory":[["fixcap","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.rInertia","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.accounts","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["relDrag","運ばない","動いた 2 鍵のうち 2 鍵が戻らない",false],["coreV2","一部","窓の中で動かない",true],["layers","一部","窓の中で動かない",true],["spaceMesh","運ばない","動いた 4 鍵のうち 4 鍵が戻らない",false],["shapeToy","運ばない","動いた 15 鍵のうち 15 鍵が戻らない",false],["capture","運ばない","窓の中で動かない",false]]} });
@@ -435,7 +438,9 @@ export function inventory(H, X) {
     // 第297便a(R161・AN255): 世代の印は `"lambdaPnOnDrag"`(読込の通知 1 行 —— 保存の鍵と handler は第296便a と同じ)
     || (!!htmlText && htmlText.indexOf('"lambdaPnOnDrag"') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W297A))
     // 第299便f(R172): 世代の印は `function coordSwitchPlanOf(`(三次元の切り替えの写しで保存を開く —— 保存の鍵と handler は第297便a と同じ)
-    || (!!htmlText && htmlText.indexOf('function coordSwitchPlanOf(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W299F)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
+    || (!!htmlText && htmlText.indexOf('function coordSwitchPlanOf(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W299F))
+    // 第300便a(R175): 世代の印は `function spaceMeshRetiredDenyOf(`(physics.spaceMesh の受理の拒否 —— 保存の鍵は第299便f と同じ)
+    || (!!htmlText && htmlText.indexOf('\nfunction spaceMeshRetiredDenyOf(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W300A)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
     'phaseParams', 'twallHeat', 'wallRest', 'graphOverlays', 'scaleExps', 'physLock', 'qLock', 'kappaT', 'modePolicy', 'lawResolved'].includes(k)) ? false : null,   // 第291便c: 保存の版と解決した法則(設定 —— 状態ではない)
   checkpointSets: { arrs: CK_ARRS.length, sc: CK_SC.length, objects: [...ckObj].sort() }, fixtures, table };
 }

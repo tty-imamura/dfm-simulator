@@ -31872,6 +31872,49 @@ QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 �
 
 **未決(決断事項候補)。** スワイプの感度(180°/画面の高さ)と判定の閾値・比(12 px・2)/ マウスでの θ(Shift+ホイール等 —— 本便は変えない)/ 参照模型の区画(群の移動で「DFM 本体」から「DFM の外のアナロジー」の区画へ移った —— 別の群「参照模型」を置くか)/ 版名の便の番号の上げ方(統括が便の基点で `--apply --wave` —— 枝が先に CHANGELOG に行を足すと検査が落ちる窓)/ 生成文書の見出しを毎便変えるか(SAMPLE_STATUS は鎖で毎便作り直す・FAMILIES は html が動けば作り直す)。
 
+〔第300便a — physics.spaceMesh とサンプルの全面廃止(原仮定者の裁定(第90報)⑤「mercuryGeoToy3 は慣性系の画面に対して重心が移動して行くので誤り。mercuryMeshMigrate3d は明らかに軌道がおかしい。改善の見込みが立たないので physics.spaceMesh とサンプルは全面廃止」・DECISIONS v59 §0 の AN285・統括の検証項目 R175)(**退役は familyRole だけ** —— ID・物理・claims・presetSig・保存 JSON は不変・`S._core` は不変・物理コードは凍結して残す・宣言した範囲の外の本は 1 bit 不変)〕
+
+**1. 廃止の理由の実測(器 `tests/exp-w300a-retiredfx.mjs` → 凍結の写し `tests/fixtures/retired-w300a.json` の evidence —— 内蔵の本を宣言の刻み physics.stepDt で 360 步・判定はしない)。**
+- 🔁 `mercuryGeoToy3`(geoPN=4・`lawVersion:"vMinusU"`・背景 `backgroundComplex.A0=(2.3,0)`・W0=1・太陽は固定): 刻み 2.11126 × 360 步(t=760.0536)で、質量の重心の x が 0.0000764 → **1748.12**、固定した太陽の x が 0 → **1748.12328**。宣言した一様な移送 u=V の積分 V·t = 2.3 × 760.0536 = **1748.12328** と相対 10⁻¹² の桁で同じ —— 移送 ẋ=v+u は固定した太陽も含めて系全体を慣性系の画面の上で流す。二体の相対の軌道(a 579.091 → 579.077・e 0.20563 → 0.20558)は ☄️ `mercuryReal` と 10⁻⁸ の桁で同じで、動いているのは座標だけ —— 「一様な座標変換で近点移動が変わらない」の零試験は通るが、慣性系の画面で見る本としては誤り(原仮定者の裁定(第90報)⑤)。
+- 🔂 `mercuryMeshMigrate3d`(第299便d の移行の写し): ☄️ の近日点の状態(x=460.012・v=5.8976)を x 軸まわりに 30° 回した楕円で、**傾斜 30.000°・昇交点 0°・太陽は固定**(重心は 360 步で 1.92×10⁻⁴ 動く —— 固定した太陽と水星の公転)。実在の水星の三次元の本 🌡️ `mercurySunInertial3d` は特定の日時の近似要素の種から始まり **傾斜 7.00498°・昇交点 48.3308°・太陽は自由**(重心の移動 1.0×10⁻¹¹)。🔂 は特定の日時で始まらず、傾斜と向きが実在と違う(軌道の形 a・e は ☄️ と同じ)。
+- 改善の見込み: 🔁 の誤りは旧 vMinusU 契約の移送そのもの(慣性系の画面では背景 u=V の宣言が系を流す)で、宣言を外すと ☄️ と同じ二体ニュートンになる。🔂 の役目(spaceMesh の移行先)は全面廃止で消えた。水星の三次元は 🌡️、二次元の観測の照合は ☄️ が持つ。
+
+**2. 退役 11 本(physics.spaceMesh を宣言した在位 10 本+移行の写し 1 本 —— 宣言から列挙: `BUILTIN_PRESETS` の `spaceMeshDeclPathsOf(p)` が空でない在位の本+🔂)。** 理由と代わりに見る本は `RETIRED_PRESETS`(ja「第90報: …」/en「ruling 90: …」)。
+
+| ID | 絵文字 | 宣言(基点 881667c) | 代わりに見る本(see) |
+|---|---|---|---|
+| `galaxyMeshSpiralGeoToy` | 🪁 | geoPN=4・lawVersion scalar | 🎠 galaxyMeshSpiral・🍥 chainSpreadToy3d |
+| `galaxyAnalogyBH` | 🌚 | geoPN=4・scalar・centerSpin read | 🎢 shapeToySpiralCore・🛞 ngc3198DFM |
+| `galaxyAnalogyBHCompose` | 🧩 | geoPN=4・scalar・D0 1.5 | 🎢・🍥 |
+| `galaxyAnalogyBHTilt90` | 🛸 | geoPN=4・scalar | 🎲 coord3dSpinPrecess・🎢 |
+| `galaxyAnalogyBHTilt90Layers` | 🪆 | geoPN=4・scalar | 🧅 layeredCoreDFM・🎲 |
+| `clusterAnalogyBH` | 💮 | geoPN=4・scalar・dragR 1.5 | 🍇 tuc47・🎱 shapeToyClusterCore |
+| `mercuryGeoToy3` | 🔁 | geoPN=4・vMinusU・meshVelocity | 🌡️ mercurySunInertial3d・☄️ mercuryReal |
+| `mercuryMeshMigrate3d` | 🔂 | geoPN=4・coord 3d・relativeDrag inertial(spaceMesh なし) | 🌡️ |
+| `charonGeoToy3` | 🌒 | geoPN=4・vMinusU・meshVelocity | 🟪 plutoCharonInertialFit・🥶 plutoCharonDiagInput |
+| `psrDoubleABGeoToy` | 🩻 | geoPN=4・lawVersion local | 📻 psrDoubleAB |
+| `spaceMeshBinaryToy` | 🪟 | geoPN=0・gravity:true(lawVersion なし) | ⭐ binary |
+
+- 計数: 内蔵 173(不変)・退役 41 → **52**・在位 132 → **121**(達 81・部分 37・未達 3 —— 原稿の行は退役の前のまま)・較正母集団 20(11 本はどれも calibration でない)。geoPN の桶(総数)94/28/19/18/14 は不変・在位は 78/23/4/12/4(在位の geoPN=4 は 🔗🔩🪛🍥 の 4 本 —— 慣性決定力の多粒子版だけ)。
+- 家族: mercury の在位は ☄️🟫🌡️(🔁🔂 退役)・pluto は 🥶🟪(🌒 退役)・psr は 📻(🩻 退役)。群「銀河の力学」の在位は 14 本。
+- 先に退役していた本の see が退役の本を指していたので在位の本へ付け替えた(🕶️ darkrotor → 🕳️🛞・⚫ bhCore → 🕳️🧅・🎋 → 🎠🎢・🌰🥜 → 🍇🎱 —— 理由の文は退役の時点の履歴のまま)。
+- 在位の本の本文・ヘルプ・I18N から 11 本への言及を消した(🍥 の観測カードと概要・🔬 probeH の「🔁で再構築」は旧い再構築の記号 → ⏮初めから・🥢 axisBarStill の第248便c の 3 本の記号・コア軸の投影線と線の軌跡の追従の説明・README・SAMPLE_RANKING の 3 行)。較正の状態の印「🔁 較正要再確認」は記号であって本への言及ではない(QA docs.noRetiredMention294 の記号の除外に足した)。
+
+**3. 受理の拒否(`spaceMeshRetiredDenyOf(p, where)` —— 見るのは `physics.spaceMesh` と `abBody.physicsPatch.spaceMesh`・null/未宣言は「なし」)。**
+- 拒否する入口: 保存(#btnSave —— 退役の本を履歴として開いた状態は保存しない)・セーブの読込(loadSave)・JSON の取り込み(doImportText —— カスタムの本とセーブ)・貼り付けと AI 生成の取り込み(stabilizePreset —— 検証の段の誤りとして再試行の指示にも載る)・保存したカスタムの本の読込(loadPreset —— 内蔵でない本)。理由の文 `smRetiredReject` を 1 行出し、**別の法則へは自動で変換しない**(宣言を黙って外して走らせない)。拒否したときは状態を 1 bit も変えない。
+- **内蔵の退役の本は ID で履歴として開く**(決断事項候補 —— 凍結の写し・鎖の正本の器・QA の履歴の試験が ID で開く)。説明の退役の行に `smRetiredOpenNote`・パラメータの geoPN 行の情報の行 `smMeshDeprecated` と HUD の `hudMeshDeprecated` は「廃止(第300便a)」。
+- `validatePreset` は変えていない(presetSig・凍結の写し・内蔵の受理は不変)。SYSTEM_PROMPT の規則 12 と値域の行の geoPN=4 は「physics.spaceMesh は廃止(第300便a —— 受理で拒否される)」。法則の選択(geoPN=0)の旧空間メッシュの選択肢は宣言がある本だけに出る(在位の本では 0 本 —— 語は「廃止」)。
+
+**4. 撤去の範囲(実測の一覧 —— 凍結の写しの removalInventory。本便は撤去しない)。**
+- `S._core` に spaceMesh 専用の経路は**無い**(`S._core` の中の共通フック `dragHookKick`/`dragHookApply` は `S._hookOn` —— 帳簿 dragWork と共用)。力の経路は `S._core` の外の関数 14 個(`validateSpaceMesh`・`_spaceMeshForce`・`_meshCoordForce`・`dfmGeoToyStep`・`dfmGeoToyFinish`・`dfmGeoToyBgLawStep`・`dfmGeoToySpinStep`・`dfmGeoToyBandStep`・`spaceMeshResOf`・`spaceMeshDragFrameOf`・`geo3TransportAt`・`dfmGeo3PNKick`・`geo3InitVelocity`・`geo3HudText`)。蓄積格子の `dfmSpaceMeshState`・`dfmSpaceMeshAt`・`dfmSpaceMeshCapture` は表示と共用。関連する行(鍵の名前と法則の語で数えた —— 表示と受理の門を含む)は html の約 1280 行。
+- 退役の本か physics.spaceMesh を読む器 74 本・正本(tests/out)52 本・鎖の段 42 段・QA ブロック 111 個。
+- **撤去は次便以降**(決断事項候補): 経路を消すと退役の本が開けなくなり(凍結の写し・履歴の正本の再生成・QA の履歴の試験が止まる)、鎖の 42 段と QA の約 111 ブロックを同時に「凍結の写しを読む形」へ移す必要がある。順序の案: ① 退役の本の走行に依存する正本を凍結の写し(fixtures)へ移す ② 鎖の段を履歴(role:"history")へ ③ QA を「廃止の世代では SKIP+退役の照合」へ ④ 経路を撤去(`S._core` は触らない —— bitsame/sigsame/jitprobe で在位の本のビット同一を確かめる)。
+- **残すもの**: 表示の空間メッシュ(`overlays.spaceMesh` —— 第298便c の慣性決定力の受動プローブ `inertialDragProbe*`・蓄積格子の表示 `drawSpaceMesh`・`dfmSpaceMesh*`)・`physics.meshVelocity`(表裏核の輸送 —— spaceMesh とは別の鍵)・`GEO4_MIGRATED`(第295便b の移住の名簿 —— 世代の判定と器が読む)・モード表の旧法則版の行(退役の本を履歴として開いたときの解決の表)。
+
+**5. ビット同一。** 退役は familyRole(presetSig の外)と RETIRED_PRESETS だけなので、11 本を含む全 173 本の presetSig は基点と同じ(sigsame 173/173 同一・差 0 —— 基点 881667c の html と比べた)。力学は 1 命令も変えていない(bitsame 600 步 173/173 同一・差 0)。`S._core` 不変(lint.coreBudget)。
+
+QA: `preset.spaceMeshRetired300`(新設 —— 世代切替 = html の `function spaceMeshRetiredDenyOf(`・root は SKIP)。世代切替で固定値を改めた: `preset.geo4Std298`(規則 12 の「廃止」・旧 spaceMesh の在位 0 本)・`preset.meshMigrate299`(🔁🔂 は退役)・`ui.charonFamily`(🌒 は退役)・`docs.retired`(52 本・写し retired-w300a.json)・`docs.noRetiredMention294`(記号「🔁 較正要再確認」・コードの表 GEO4_MIGRATED)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
