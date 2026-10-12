@@ -305,6 +305,18 @@
     "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy (h/2 -0.01302); no target row"
    }
   },
+  "saturnRingInertial3d": {
+   "purpose": "土星の輪を三次元の赤道面に置き面の保持と損失を測る",
+   "objective": "met",
+   "state": "C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒",
+   "evidence": [
+    "tests/out/saturnring3d-w300c.json"
+   ],
+   "en": {
+    "purpose": "Saturn's rings on the 3D equator; measure plane and loss",
+    "state": "C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains"
+   }
+  },
   "uranusSunInertial3d": {
    "purpose": "太陽と天王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
    "objective": "met",

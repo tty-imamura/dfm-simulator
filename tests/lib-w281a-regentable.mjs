@@ -856,6 +856,13 @@ export const REGEN_STEPS = [
   S('ref3d-299e', 'node tests/exp-w299e-ref3d.mjs', ['tests/out/ref3d-w299e.json'], 80, { secSource: 'w299e-branch', node: true,
     volatilePaths: { 'tests/out/ref3d-w299e.json': META_RUN.concat(['/elapsedS']) },
     note: '第299便e: 参照模型 8 本の三次元化 —— xy のビット同一(凍結の二次元の写し)・z の厚み・G の不感・共変・三次元の収支・チェックポイント/複製・保存往復(値だけ —— 扁平は宣言)' }),
+  // ---- 第300便c(原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」・統括の検証項目 R177): **🍩 土星の輪の三次元**
+  //   (💍 の幾何を 🟡 の土星の極の赤道面へ回した本 —— 面の保持・粒子の損失・刻み依存 h/h2・帯の粒の質量〔本の 1.25×10⁻⁸ / 💍 の 10⁻⁵ の写し〕と二次元の 💍〔試験粒子〕の粒ごとの差・
+  //   環と衛星の重心・回転引きずりの受動プローブ〔gain 0 と移送の側〕)。html だけを読む(after なし・子プロセス 2 本 —— 結果は並列数に依らない)。
+  //   所要は第300便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
+    volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
+    note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
