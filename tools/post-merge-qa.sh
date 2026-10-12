@@ -68,6 +68,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3dHaltAB299 behavior.ckDrag3d2
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.synodicClock299 docs.synodic299 docs.emgrid-sync claims.sync"
 # 第299便e: 枝 e の新設 3 本(behavior.ref3d299 —— 参照模型の三次元化・preset.ref3d299 —— 宣言と凍結の二次元の写し・docs.ref3d299)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ref3d299 preset.ref3d299 docs.ref3d299"
+# 第300便b(原仮定者の裁定(第90報)①②③・R176): 地球の整理と近似の原則の新設 2 本(preset.earthReorg300・docs.approx300)と世代切替で追従したブロック(docs.retired・docs.noRetiredMention294・preset.retire298・behavior.fitCond298・preset.revived292b は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.earthReorg300 docs.approx300 preset.earthMoonInertial preset.earthMoonTide behavior.dragCoreGate preset.fitCond297 docs.inertial3Contract295 docs.fitContract296"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

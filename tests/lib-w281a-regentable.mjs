@@ -807,6 +807,13 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/synodic-w299b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/long/*/wallSec', '/parts/longh2/*/wallSec']) },
     note: '第299便b: 🌘 の朔望月 —— 標的は恒星月の 8 公転窓を恒星年で一様換算した朔望月(許容 0.005 日の宣言・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
       + '仮想の太陽の時計の合(36 位相・窓 8/118/354 —— 照合)・床(kFrame=0)・🌦️ の実際の太陽の方向・近点回転優先の D0pull(値だけ)' }),
+  // ---- 第300便b(原仮定者の裁定(第90報)③「🌦️ earthMoonSunInertial3d を地球の三次元版として採用。🌦️ の値で地球と月だけの対照を用意」・統括の検証項目 R176):
+  //   **地球と月だけの三次元の対照 🌔 earthMoonOnly3d** の器 —— 段 decl(写しの規則 emOnlyBodies と本の照合・重心 0・全運動量 0)・run(🌔 の h と h/2・gain 0・🌦️ の h を
+  //   同じ抽出器〔第298便c の runEmx3 と同じ式〕で 118/354 公転窓 —— 恒星月・朔望月の一様換算・近点周期・離心率・傾斜・重心の移動)。Node の headless 1 プロセス。
+  //   🌦️ の照合に第298便c の正本 moon3d-w298c.json・参照値に第299便b の正本 synodic-w299b.json(段 sun3d)を読む(after)。所要は第300便b の枝の実測(段の和)
+  S('emonly-300b', 'node tests/exp-w300b-emonly.mjs', ['tests/out/emonly-w300b.json'], 39, { secSource: 'w300b-branch', node: true, after: ['moon3d-298c', 'synodic-299b'],
+    volatilePaths: { 'tests/out/emonly-w300b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/run/runs/*/wallSec']) },
+    note: '第300便b: 地球と月だけの三次元の対照 —— 写しの規則(相対ベクトルを質量比で分け重心 0・重心速度 0)・恒星月・朔望月の一様換算・近点周期(118/354 公転窓・h と h/2・gain 0)・🌦️ との差(値だけ —— gain は移送)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
