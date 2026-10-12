@@ -1399,7 +1399,7 @@ ja: {
   familyRowLabel:"この仲間:",
   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
   retiredTag:"退役(履歴)",
-  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第88報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第90報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
   tgFlipY:"視点の傾き θ(°)",
@@ -1409,7 +1409,7 @@ ja: {
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
   tgCoreAxis:"コア軸の投影線を表示(宣言した粒子だけ)",
-  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(**既定は「宣言した粒子だけ ON」** —— トグル自体は ON だが、宣言の無い粒子には何も描かない。内蔵サンプルで宣言しているのは第288便e の原理コピー 🛸 の中心コアだけなので、他の本は実質 OFF と同じ見え方になる。永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。**第288便e**: 同じトグルで、点粒子の自転軸の表示専用の宣言 **body.spinAxis**(公転面の法線からの傾き tiltDeg・方位 azimuthDeg・歳差率 deg/yr・出所)も同じ正射影で描く(橙の線。方位が記録に無い宣言は 0 規約の破線・歳差率では方位を回さない)。内蔵で宣言しているのは 📻 の B(観測記録の傾き 40.6°)だけで、他の本の画面は変わらない。**第289便e**: 同じトグルで、親子コアの**層の軸の宣言**(body.layers[] の tilt・azimuthDeg・precessionRate —— 軸は層の J ベクトルから導く)も同じ見た目の線で描く(表示の方位は宣言した歳差で回るが、層の J は回さない)。内蔵で宣言しているのは 🪆 の中心だけ。層は J の z 射影だけを読み、軸は力に入らない。",
+  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(**既定は「宣言した粒子だけ ON」** —— トグル自体は ON だが、宣言の無い粒子には何も描かない。在位の内蔵サンプルに宣言している本は無い(第300便a —— 宣言していた原理コピーは退役)ので、内蔵の本は実質 OFF と同じ見え方になる。永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。**第288便e**: 同じトグルで、点粒子の自転軸の表示専用の宣言 **body.spinAxis**(公転面の法線からの傾き tiltDeg・方位 azimuthDeg・歳差率 deg/yr・出所)も同じ正射影で描く(橙の線。方位が記録に無い宣言は 0 規約の破線・歳差率では方位を回さない)。内蔵で宣言しているのは 📻 の B(観測記録の傾き 40.6°)だけで、他の本の画面は変わらない。**第289便e**: 同じトグルで、親子コアの**層の軸の宣言**(body.layers[] の tilt・azimuthDeg・precessionRate —— 軸は層の J ベクトルから導く)も同じ見た目の線で描く(表示の方位は宣言した歳差で回るが、層の J は回さない)。在位の内蔵の本で宣言しているものは無い(第300便a —— 宣言していた本は退役)。層は J の z 射影だけを読み、軸は力に入らない。",
   saCardHead:"自転軸の宣言(表示専用)",
   saDeclared:"宣言あり",
   saUndeclared:"未宣言",
@@ -1469,8 +1469,8 @@ ja: {
   /* 第288便f(原仮定者の裁定(第78報)⑨・R118): 「背景決定力 D₀」の次の読み取り専用の行 —— 静止背景相当 Wbg(式は bgWbgOf 1 か所) */
   wbgLabel:"静止背景相当 Wbg",
   /* 第289便f(原仮定者の裁定(第79報)・AN103「Wbg は A/B へ写さない・単位と説明は直す」・統括の検証項目 R124): 「kFrame=0 では力に入らない」は
-     広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで Wbg 1.5→4.5 の 1 步で vx の最大差 7.4e-4)。
-     現実較正の geoPN=1・kFrame=0 の軌道力に限定し、単位は採用した核の M/L^p(wbgConvStr)と書く */
+   * 広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで Wbg 1.5→4.5 の 1 步で vx の最大差 7.4e-4)。
+   * 現実較正の geoPN=1・kFrame=0 の軌道力に限定し、単位は採用した核の M/L^p(wbgConvStr)と書く */
   wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(旧空間メッシュ(geoPN=3 の旧宣言、または geoPN=4)の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
   wbgDesc:"静止背景相当 Wbg — 慣性決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
     +"(中心の自転を読むトイ〔geoPN=3・lawVersion scalar・centerSpin read〕だけ)→ frameWeight pull の D0pull → D₀ の順。"
@@ -1589,7 +1589,10 @@ ja: {
   smProbePlane:"面 Z=0(源が面外なら距離に dz を含める)・u を XY へ投影・流線は凍結場の RK4",
   smProbeAxial:(w)=>"点の色 = 軸引きずりの角速度 ω_z(暖色 +・寒色 −・|ω|max="+w+")—— 速度の矢印には足さない",
   smProbeNote:"矢印 = 質量ゼロ・反作用なしの受け手の u(同じ步の解 u_j と同じ核 —— 連立は解き直さない)",
-  smMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定 —— 新しく作る設定では使わない(在位の本は互換のまま)",
+  smMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a)—— 宣言した本は全部退役(履歴)。新しい設定・読込・保存では受理しない(表示の空間メッシュ overlays.spaceMesh は残る)",   // 第300便a: 廃止予定 → 廃止(鍵の名前は互換のため据え置き)
+  smRetiredReject:(where)=>"physics.spaceMesh(空間メッシュの力の法則)は廃止(原仮定者の裁定(第90報)⑤・第300便a)—— 受理しません("+where+")。別の法則へは自動で変換しません(慣性決定力の引きずりは physics.relativeDrag.law:\"inertial\" を自分で宣言してください)。表示の空間メッシュ overlays.spaceMesh は使えます",   // 第300便a
+  smRetiredOpenNote:"ただしこの本は physics.spaceMesh(廃止)を宣言しているので、内蔵の履歴として ID で開いて走らせるだけ —— 保存・セーブの読込・JSON の取り込み・AI 生成では physics.spaceMesh を受理しない",   // 第300便a
+  smRetiredWhere_save:"保存", smRetiredWhere_loadSave:"セーブの読込", smRetiredWhere_import:"JSON の取り込み", smRetiredWhere_intake:"貼り付け・AI 生成の取り込み", smRetiredWhere_custom:"保存したカスタムの本の読込",   // 第300便a
   geo4CoordNote:"geoPN=4 の既定は三次元(physics.coord:\"3d\")—— この本は二次元(互換・逸脱ではない)",
   smRulerTitle:"光の物差し(局所目盛り dℓ=A|dx|・A=e^ψ・表示専用)",
   smRulerNote:"目盛りの長さ ∝ (A_min/A)^g(A_min は視野の最小・g は誇張)\n格子は歪めない・n=e^(2ψ) は光の所要時間の側(長さの倍率ではない)",
@@ -1643,7 +1646,7 @@ ja: {
   lcDefLineShort:(m,o,rel)=>rel==="same"? "定義 今回・観測とも "+m : "定義 今回="+m+"・観測="+o+(rel==="differ"? "(別量)" : ""),
   // 第287便d(AN72): 線の軌跡の追従フレーム・🔁 の HUD 1 行
   tgTrailFollow:"線の軌跡を追従フレームで",
-  tgTrailFollowDesc:"線の軌跡を、カメラ追従の既定の天体(camera.follow)から見た相対位置で積んで描く(表示専用 —— 力学・保存 JSON・署名は変わらない)。宣言した本(🔁)だけ既定 ON・他は世界座標のまま。切り替えると積んだ線は引き直す。",
+  tgTrailFollowDesc:"線の軌跡を、カメラ追従の既定の天体(camera.follow)から見た相対位置で積んで描く(表示専用 —— 力学・保存 JSON・署名は変わらない)。宣言した本だけ既定 ON(いまの在位の内蔵の本には宣言が無い —— 第300便a)・他は世界座標のまま。切り替えると積んだ線は引き直す。",
   hudTrailFollowNull:"相対近点は零試験済み(☄️ との差 10⁻¹² °/周の桁)・画面の流れは u=V(≈23 km/s)の一様な移送 —— 線の軌跡は太陽を原点にした追従フレーム",
   // 第288便c(AN86): 背景の時間の契約を宣言した本(🌒)だけ観測結果カードに 1 行(表示専用 —— 署名・判定は変えない)
   bgRangeRow:(n,w,mode)=>"⏱ 背景の時間の契約("+mode+"・有効幅 widthT="+w+"): 範囲外 "+n+" 歩"+(n>0? " —— この走行を含む観測比較は「契約範囲外」(再展開しない・判定は変えない)" : "(範囲内)"),
@@ -1987,10 +1990,10 @@ ja: {
   modeWarn_geo3LegacyMesh:(lv,runs)=>"geoPN=3「"+T("ppGeo3")+"」に旧空間メッシュ(physics.spaceMesh.lawVersion:\""+lv+"\")が共存しています("+(runs? "旧法則版で走っています" : "入場条件で無効")+" —— この組は慣性決定力で、旧メッシュなしが標準)",
   modeWarn_inertialCompose:()=>"geoPN=3「"+T("ppGeo3")+"」の慣性引きずりが compose:\"sum\"(旧加算則 —— 比較用の対照)です(この組の標準は既定の solve(velocity))",
   modeWarn_inertialSolveFrom:()=>"geoPN=3「"+T("ppGeo3")+"」の慣性引きずりが solveFrom:\"history\"(座標差分の移動ベクトル —— 比較用)です(この組の標準は既定の solve(velocity))",
-  modeLawName_geodesic:"測地線(physics.geodesic:true)", modeLawName_relativeDrag:"慣性決定力(relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"旧空間メッシュ(spaceMesh.lawVersion)",
+  modeLawName_geodesic:"測地線(physics.geodesic:true)", modeLawName_relativeDrag:"慣性決定力(relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"旧空間メッシュ(spaceMesh.lawVersion —— 廃止・第300便a)",
   geo0ChoiceLabel:"geoPN=0 の基底(排他な宣言を選ぶ)",
   geo0Choice_newton:"ニュートンだけ", geo0Choice_geodesic:"測地線(1PN)", geo0Choice_inertial:"慣性決定力(gain)",
-  geo0Choice_legacy:"旧空間メッシュ(spaceMesh.lawVersion —— geoPN=0 でも走ります)", geo0Choice_stack:"重ねる(宣言を残す・警告だけ)",
+  geo0Choice_legacy:"旧空間メッシュ(spaceMesh.lawVersion —— 廃止・第300便a。退役の本を履歴として開いたときだけ出る)", geo0Choice_stack:"重ねる(宣言を残す・警告だけ)",
   geo0ChoiceApply:"適用",
   geo0ChoiceConfirm:(lab,rm,ad)=>"geoPN=0 の基底を「"+lab+"」にします。\n外す宣言: "+(rm||"なし")+"\n足す宣言: "+(ad||"なし")+"\nkFrame は変えません。よろしいですか?",
   geo0ChoiceDone:(lab,law)=>"geoPN=0 の基底を「"+lab+"」にしました(走る法則 "+law+" —— 慣性の履歴は作り直し・最初の步は u=0)",
@@ -2020,7 +2023,7 @@ ja: {
   // 第298便a(原仮定者の裁定(第88報)・R165): 二次元の本の Z の宣言(coord2dZ)・三次元の HUD
   modeWarn_coord2dZ:(keys)=>"二次元の本(physics.coord 未宣言・\"2d\")に Z の宣言 "+keys+" —— 走行は二次元のまま(z は積分しない)。三次元で走らせるなら physics.coord:\"3d\" を宣言する。値は捨てていない。",
   hudSpin3:(rot,ax,k,w)=>"三次元の慣性決定力: 並進"+(rot? "・回転引きずり(赤道で最大・軸上で 0)" : "")+(ax? "・軸引きずり κ="+k+"(|ω|max "+w+" —— 姿勢だけを回す)" : ""),   // 第298便c(R167)
-  hudMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定 —— この本は互換で走る(新しく作る設定は慣性決定力 relativeDrag.law:\"inertial\" と三次元で)",   // 第298便c
+  hudMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a)—— この本は退役の履歴として走る(新しく作る設定は慣性決定力 relativeDrag.law:\"inertial\" と三次元で)",   // 第298便c
   coord3dHaltCleared:"(設定は戻っています —— ▶ で再開)",
   coord3dHaltPause:(wa,wb,isAB)=>"三次元では未対応の設定で再生を止めました("+(isAB? "A: "+(wa||"—")+" / B: "+(wb||"—") : (wa||"—"))+")。その設定を 0/OFF に戻してから ▶ で再開してください(A/B は両側とも同じ時刻で止まっています)",
   hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の奥)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
@@ -2033,11 +2036,11 @@ ja: {
   geo3InertialBad:(e)=>"宣言できません: "+e,
   geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ) 第296便c: geoPN=4(空間メッシュ・連鎖)で旧法則版の宣言が無い本にも出し、4 では連鎖の解法 solver:\"network-pcg-v1\" も一緒に宣言します。",
   loadComposeLegacy:"このセーブは第293便より前の保存です —— 慣性引きずり(law:\"inertial\")の合成則が未宣言で、保存したときは加算(sum)で走っていました。いまは既定の solve(velocity)で走ります(加算で比べるなら relativeDrag.compose:\"sum\" を明示。値は保存どおり)",
-  modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 空間メッシュ —— 旧法則版の置き場)。値は保存どおりに読み込み、走る法則は宣言(physics.spaceMesh.lawVersion・physics.relativeDrag・physics.geodesic)から決まります。用途と違う組み合わせは保存時に警告します。",
+  modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 空間メッシュ・連鎖 —— 慣性決定力の多粒子版)。値は保存どおりに読み込み、走る法則は宣言(physics.relativeDrag・physics.geodesic)から決まります(physics.spaceMesh.lawVersion などの physics.spaceMesh は第300便a で廃止 —— 保存・読込で受理しません)。用途と違う組み合わせは保存時に警告します。",
   // 第296便d(原仮定者の裁定(第86報)・R160): 用途文 0〜3 を短く —— 番号は目的別の推奨構成・設定の逸脱は保存時に警告(ppGeoN の語は繰り返さない)
   ppGeoUse0:"推奨は法則 1 つの実験台(測地線・慣性の引きずり・旧メッシュを重ねると保存時に警告)", ppGeoUse1:"推奨は GR 1PN・kFrame=0(観測再現の組 —— 逸脱は保存時に警告)",
   ppGeoUse2:"推奨は q の引きずり・kFrame=1(逸脱は保存時に警告)", ppGeoUse3:"推奨は relativeDrag.law:\"inertial\" の宣言・kFrame=0(逸脱は保存時に警告)",
-  ppGeoUse4:"空間メッシュ・連鎖 —— 多粒子の連鎖引きずり(慣性 + solver:network-pcg-v1・標準 kFrame=0)と、旧法則版(spaceMesh.lawVersion)の互換の置き場",
+  ppGeoUse4:"空間メッシュ・連鎖 —— 多粒子の連鎖引きずり(慣性 + solver:network-pcg-v1・標準 kFrame=0・三次元が既定)。旧法則版(spaceMesh.lawVersion)は廃止(第300便a —— 宣言した本は退役の履歴)",
   bdgMeshStop_undeclared:"旧法則版の宣言なし(physics.spaceMesh.lawVersion)—— 測地線の法則で走っている",
   saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
   contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
@@ -2655,7 +2658,7 @@ en: {
   familyRowLabel:"Family:",
   // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
   retiredTag:"retired (history)",
-  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–88). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–90). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
   tgFlipY:"View tilt θ (°)",
@@ -2664,7 +2667,7 @@ en: {
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
   tgCoreAxis:"Show the core axis projection (declared bodies only)",
-  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (the default is 'on for declared bodies only': the toggle itself is on, but nothing is drawn for bodies without the declaration, and among the built-ins only the central core of the wave-288e principle copy 🛸 declares it, so every other sample looks the same as off; persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched. WAVE 288e: the same toggle also draws the display-only spin-axis declaration of point particles, body.spinAxis (tilt from the orbit normal tiltDeg, azimuthDeg, precession rate in deg/yr, source), with the same projection (orange line; a declaration without a recorded azimuth is drawn dashed by the 0 convention, and the precession rate does not turn the drawn azimuth). Among the built-ins only B of 📻 declares it (the recorded tilt of 40.6 degrees); every other sample looks unchanged. WAVE 289e: the same toggle also draws the parent-child core LAYER AXIS declaration (tilt, azimuthDeg, precessionRate in body.layers[] - the axis is derived from the layer J vector) with the same look (the drawn azimuth turns at the declared precession, but the layer J is not rotated). Among the built-ins only the centre of 🪆 declares it. Layers read only the z projection of J; the axis enters no force.",
+  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (the default is 'on for declared bodies only': the toggle itself is on, but nothing is drawn for bodies without the declaration, and no in-place built-in declares it (wave 300a: the principle copy that did is retired), so the built-ins look the same as off; persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched. WAVE 288e: the same toggle also draws the display-only spin-axis declaration of point particles, body.spinAxis (tilt from the orbit normal tiltDeg, azimuthDeg, precession rate in deg/yr, source), with the same projection (orange line; a declaration without a recorded azimuth is drawn dashed by the 0 convention, and the precession rate does not turn the drawn azimuth). Among the built-ins only B of 📻 declares it (the recorded tilt of 40.6 degrees); every other sample looks unchanged. WAVE 289e: the same toggle also draws the parent-child core LAYER AXIS declaration (tilt, azimuthDeg, precessionRate in body.layers[] - the axis is derived from the layer J vector) with the same look (the drawn azimuth turns at the declared precession, but the layer J is not rotated). No in-place built-in declares it (wave 300a - the sample that did is retired). Layers read only the z projection of J; the axis enters no force.",
   saCardHead:"Spin-axis declaration (display only)",
   saDeclared:"declared",
   saUndeclared:"undeclared",
@@ -2723,7 +2726,7 @@ en: {
   /* Wave 288f (originator's ruling, report 78 (9), R118): read-only row next to "Background determinacy D0" - the static-background equivalent Wbg */
   wbgLabel:"Static-background equiv. Wbg",
   /* Wave 289f (the originator's ruling, report 79; AN103; the coordinator's check item R124): "does not enter the force when kFrame=0" was too broad
-     (🧩 reads Wbg at geoPN=3, kFrame=0). Limited to the orbital force of the reality calibration (geoPN=1, kFrame=0); unit M/L^p of the adopted kernel */
+   * (the background-and-centre composition copy reads Wbg at geoPN=3, kFrame=0). Limited to the orbital force of the reality calibration (geoPN=1, kFrame=0); unit M/L^p of the adopted kernel */
   wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the legacy space-mesh field (a legacy geoPN=3 declaration, or geoPN=4) and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
   wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the inertial determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
     +"(only for the toys that read the centre's spin - geoPN=3, lawVersion scalar, centerSpin read) -> D0pull of frameWeight pull -> D0. "
@@ -2838,7 +2841,10 @@ en: {
   smProbePlane:"plane Z=0 (dz enters the distance for sources off the plane); u projected on XY; streamlines are RK4 in the frozen field",
   smProbeAxial:(w)=>"dot colour = axial-drag angular velocity omega_z (warm +, cool -, |omega|max="+w+") - not added to the velocity arrows",
   smProbeNote:"arrows = u of a massless receiver with no reaction (the same step's solution u_j and the same kernel - the system is not re-solved)",
-  smMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is scheduled for retirement - do not use it in new setups (existing samples stay compatible)",
+  smMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is retired (wave 300a) - every sample declaring it is retired (history). New setups, loads and saves do not accept it (the display space mesh overlays.spaceMesh stays)",
+  smRetiredReject:(where)=>"physics.spaceMesh (the space-mesh force law) is retired (the originator's ruling, report 90 (5); wave 300a) - not accepted ("+where+"). It is not converted to another law automatically (declare the inertial-determinacy drag physics.relativeDrag.law:\"inertial\" yourself). The display space mesh overlays.spaceMesh is still available",
+  smRetiredOpenNote:"However, this sample declares physics.spaceMesh (retired), so it only opens and runs by ID as built-in history - saving, loading saves, JSON import and AI generation do not accept physics.spaceMesh",
+  smRetiredWhere_save:"save", smRetiredWhere_loadSave:"loading a save", smRetiredWhere_import:"JSON import", smRetiredWhere_intake:"paste / AI generation intake", smRetiredWhere_custom:"loading a saved custom sample",
   geo4CoordNote:"The default of geoPN=4 is 3D (physics.coord:\"3d\") - this sample is 2D (compatible; not a deviation)",
   smRulerTitle:"Light ruler (local ticks dl = A|dx|, A = e^psi; display only)",
   smRulerNote:"tick length ~ (A_min/A)^g (A_min = smallest in view; g exaggerates)\nthe grid is not warped; n = e^(2psi) is the light-travel-time side (not a length factor)",
@@ -2890,7 +2896,7 @@ en: {
   lcDefShort:{revolution:"same-dir rev", periastron:"peri-to-peri", undeclared:"undeclared"},
   lcDefLineShort:(m,o,rel)=>rel==="same"? "Def: now & obs both "+m : "Def: now "+m+", obs "+o+(rel==="differ"? " (differ)" : ""),
   tgTrailFollow:"Line trails in the follow frame",
-  tgTrailFollowDesc:"Record and draw the line trails as positions relative to the default camera-follow body (camera.follow). Display only — the dynamics, the save JSON and the signature do not change. ON by default only where declared (🔁); elsewhere trails stay in world coordinates. Switching redraws the trails from scratch.",
+  tgTrailFollowDesc:"Record and draw the line trails as positions relative to the default camera-follow body (camera.follow). Display only — the dynamics, the save JSON and the signature do not change. ON by default only where declared (no in-place built-in declares it now - wave 300a); elsewhere trails stay in world coordinates. Switching redraws the trails from scratch.",
   hudTrailFollowNull:"Relative periapsis passed its null test (difference from ☄️ of order 10⁻¹² deg/orbit); the drift on screen is the uniform transport u=V (≈23 km/s) — line trails are in the follow frame centred on the Sun",
   bgRangeRow:(n,w,mode)=>"⏱ Background time contract ("+mode+", valid width widthT="+w+"): "+n+" steps out of range"+(n>0? " — any observation comparison that includes this run is OUTSIDE THE CONTRACT (not re-expanded; the verdict is unchanged)" : " (in range)"),
   bgRangeTip:"Steps where |t−t₀| exceeded the valid width widthT of the time contract (timeContract) that moves the background value in time (wave 288c, AN86). Nothing is rebuilt (no re-expansion); the steps are only counted and flagged. Read any observation comparison that includes such a run as outside the contract — the pass/fail verdict is not changed.",
@@ -3225,10 +3231,10 @@ en: {
   modeWarn_geo3LegacyMesh:(lv,runs)=>"geoPN=3 \""+T("ppGeo3")+"\" carries a legacy space mesh (physics.spaceMesh.lawVersion:\""+lv+"\") ("+(runs? "the legacy law runs" : "disabled by its entry conditions")+" - this set is the inertial determinacy, standard without the legacy mesh)",
   modeWarn_inertialCompose:()=>"The inertial drag under geoPN=3 \""+T("ppGeo3")+"\" uses compose:\"sum\" (the legacy additive law - a comparison control; this set's standard is the default solve(velocity))",
   modeWarn_inertialSolveFrom:()=>"The inertial drag under geoPN=3 \""+T("ppGeo3")+"\" uses solveFrom:\"history\" (the coordinate-difference displacement - for comparison; this set's standard is the default solve(velocity))",
-  modeLawName_geodesic:"geodesic (physics.geodesic:true)", modeLawName_relativeDrag:"inertial determinacy (relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"legacy space mesh (spaceMesh.lawVersion)",
+  modeLawName_geodesic:"geodesic (physics.geodesic:true)", modeLawName_relativeDrag:"inertial determinacy (relativeDrag.law:\"inertial\")", modeLawName_spaceMesh:"legacy space mesh (spaceMesh.lawVersion - retired, wave 300a)",
   geo0ChoiceLabel:"geoPN=0 basis (pick one exclusive declaration)",
   geo0Choice_newton:"Newton only", geo0Choice_geodesic:"Geodesic (1PN)", geo0Choice_inertial:"Inertial determinacy (gain)",
-  geo0Choice_legacy:"Legacy space mesh (spaceMesh.lawVersion - it runs at geoPN=0 too)", geo0Choice_stack:"Stack (keep the declarations; warning only)",
+  geo0Choice_legacy:"Legacy space mesh (spaceMesh.lawVersion - retired, wave 300a; shown only when a retired sample is opened as history)", geo0Choice_stack:"Stack (keep the declarations; warning only)",
   geo0ChoiceApply:"Apply",
   geo0ChoiceConfirm:(lab,rm,ad)=>"Set the geoPN=0 basis to \""+lab+"\".\nDeclarations removed: "+(rm||"none")+"\nDeclarations added: "+(ad||"none")+"\nkFrame is not changed. Continue?",
   geo0ChoiceDone:(lab,law)=>"Set the geoPN=0 basis to \""+lab+"\" (law run: "+law+" - the inertial history restarts; the first step has u=0)",
@@ -3257,7 +3263,7 @@ en: {
   // wave 298a: Z declarations in a 2D book (coord2dZ) and the 3D HUD
   modeWarn_coord2dZ:(keys)=>"a 2D book (physics.coord undeclared or \"2d\") carries Z declarations "+keys+" - it still runs in 2D (z is not integrated). Declare physics.coord:\"3d\" to run in 3D. The values have not been discarded.",
   hudSpin3:(rot,ax,k,w)=>"3D inertial determinacy: translation"+(rot? ", rotational drag (largest on the equator, zero on the axis)" : "")+(ax? ", axial drag kappa="+k+" (|omega|max "+w+" - turns the attitude only)" : ""),
-  hudMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is scheduled for retirement - this sample runs for compatibility (new setups use the inertial determinacy relativeDrag.law:\"inertial\" in 3D)",
+  hudMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is retired (wave 300a) - this sample runs as retired history (new setups use the inertial determinacy relativeDrag.law:\"inertial\" in 3D)",
   coord3dHaltCleared:" (setting restored - press ▶ to resume)",
   coord3dHaltPause:(wa,wb,isAB)=>"Playback paused on a setting 3D does not support ("+(isAB? "A: "+(wa||"-")+" / B: "+(wb||"-") : (wa||"-"))+"). Set it back to 0/off, then press ▶ to resume (in A/B both sides stopped at the same time)",
   hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points into the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
@@ -3270,11 +3276,11 @@ en: {
   geo3InertialBad:(e)=>"Cannot declare: "+e,
   geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept) Wave 296c: it is also offered on geoPN=4 (space mesh / chain) without a legacy law, where the chain solver solver:\"network-pcg-v1\" is declared together.",
   loadComposeLegacy:"This save predates wave 293 - its inertial drag (law:\"inertial\") declares no composition rule and ran as a plain sum when saved. It now runs with the default solve (velocity) (declare relativeDrag.compose:\"sum\" to compare with the sum; values are as saved)",
-  modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 space mesh - the home of the legacy laws). Values load as saved; the law that runs is resolved from the declarations (physics.spaceMesh.lawVersion, physics.relativeDrag, physics.geodesic). Combinations outside the main use raise a warning on save.",
+  modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 space mesh / chain - the many-body inertial determinacy). Values load as saved; the law that runs is resolved from the declarations (physics.relativeDrag, physics.geodesic) (physics.spaceMesh, including spaceMesh.lawVersion, is retired in wave 300a - saves and loads do not accept it). Combinations outside the main use raise a warning on save.",
   // wave 296d: the use lines 0-3 shortened - each number is a recommended set per purpose; a deviating setup is warned on save
   ppGeoUse0:"recommended: one law per experiment (stacking the geodesic, the inertial drag or a legacy mesh is warned on save)", ppGeoUse1:"recommended: GR 1PN with kFrame=0 (the observation-reproduction set; deviations are warned on save)",
   ppGeoUse2:"recommended: q dragging with kFrame=1 (deviations are warned on save)", ppGeoUse3:"recommended: declare relativeDrag.law:\"inertial\" with kFrame=0 (deviations are warned on save)",
-  ppGeoUse4:"space mesh / chain - many-particle chain dragging (inertial + solver:network-pcg-v1; standard kFrame=0) and the compatibility home of the legacy spaceMesh law versions",
+  ppGeoUse4:"space mesh / chain - many-particle chain dragging (inertial + solver:network-pcg-v1; standard kFrame=0; 3D by default). The legacy spaceMesh law versions are retired (wave 300a - samples declaring them are retired history)",
   bdgMeshStop_undeclared:"no legacy law declared (physics.spaceMesh.lawVersion) - running the geodesic law",
   saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
   contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
@@ -6251,6 +6257,31 @@ function validateSpaceMesh(a){
   }
   return {ok:true, spaceMesh:out, warn};
 }
+// ===== 第300便a(原仮定者の裁定(第90報)⑤「mercuryGeoToy3 は慣性系の画面に対して重心が移動して行くので誤り。mercuryMeshMigrate3d は明らかに軌道が
+//   おかしい。改善の見込みが立たないので physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **physics.spaceMesh の受理の拒否** =====
+// 宣言した内蔵の本は全部退役(familyRole "retired" —— RETIRED_PRESETS の「第90報」の行)。**拒否するのは外から入る宣言**だけ:
+//   保存(#btnSave)・セーブの読込(loadSave)・JSON の取り込み(doImportText —— カスタムの本とセーブ)・貼り付けと AI 生成の取り込み(stabilizePreset)・
+//   保存したカスタムの本の読込(loadPreset —— 内蔵でない本)。理由を 1 行で出し、**別の法則へは自動で変換しない**(宣言を黙って外して走らせない)。
+// **内蔵の退役の本を ID で開くのは履歴として許す**(決断事項候補 —— 凍結の写し tests/fixtures/retired-w300a.json・鎖の正本の器がこの本を開く)。
+// validatePreset は変えない(presetSig・凍結の写し・内蔵の受理は 1 bit も動かない)。物理コード(validateSpaceMesh・_meshCoordForce・dfmGeoToyStep・
+// geo3 の経路)は退役の本の履歴の走行のために凍結して残す —— 撤去の範囲と時期は PHYSICS〔第300便a〕の一覧(決断事項候補)。
+// 見るのは physics.spaceMesh と abBody.physicsPatch.spaceMesh(B 側の宣言)。null/未宣言は「なし」(validateSpaceMesh の正規化と同じ)。
+const SPACE_MESH_RETIRED_PATHS=["physics.spaceMesh","abBody.physicsPatch.spaceMesh"];
+function spaceMeshDeclPathsOf(p){
+  const out=[], has=(o)=>!!(o && typeof o==="object" && !Array.isArray(o) && o[SPACE_MESH_KEY]!==undefined && o[SPACE_MESH_KEY]!==null);
+  if(!p || typeof p!=="object") return out;
+  if(has(p.physics)) out.push(SPACE_MESH_RETIRED_PATHS[0]);
+  if(p.abBody && typeof p.abBody==="object" && has(p.abBody.physicsPatch)) out.push(SPACE_MESH_RETIRED_PATHS[1]);
+  return out;
+}
+// 受理の門(where = smRetiredWhere_* の語)。拒否なら {deny:true, paths, msg}。内蔵の本(BUILTIN_PRESETS の要素そのもの)は呼び手が門に通さない
+function spaceMeshRetiredDenyOf(p, where){
+  const paths=spaceMeshDeclPathsOf(p);
+  if(!paths.length) return {deny:false, paths};
+  const w=T("smRetiredWhere_"+where);
+  return {deny:true, paths, msg:T("smRetiredReject")((typeof w==="string")? w : String(where))+" —— "+paths.join("・")};
+}
+function spaceMeshRetiredBuiltinOf(p){ return !!(p && BUILTIN_PRESETS.indexOf(p)>=0 && retiredOf(p) && spaceMeshDeclPathsOf(p).length>0); }
 // ===== 第252便b(第44報): physics.periSubsteps — 近点近傍だけ刻みを細かくする薄い包み(opt-in・既定 OFF)=====
 // 第251便a ⑨(設計ノート)の持ち越し。3 審査 v10 の一致点(K7/K8/K8′)どおり **`S.step` を呼ぶ側の薄い包み**
 // として書き、**`S._core` には 1 命令も足していない**(JIT 崖 — 第239便 §4.5)。
@@ -10034,11 +10065,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
     observe:"粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D·κ)/aとなり、時刻aと較正D·κに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(exp-4-66.mjsの対照則)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。既定D·κ=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
-    control:"κスライダーや「箱宇宙」セクションのDでD·κを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。"},
+    control:"κスライダーや「箱宇宙」セクションのDでD·κを動かすと比が比例してスケールする(変更後は⏮初めからで再構築してから読む — 累積測定はt=0基準)。"},
   en:{name:"Box Universe — Two H Estimators (a Hubble-Tension Analogue)", descStruct:{
     summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D·κ)/a, depending on the epoch a and the calibration D·κ. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (the exp-4-66.mjs control law) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D·κ=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
-    control:"Move D·κ with the κ slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0)."}},
+    control:"Move D·κ with the κ slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with ⏮ Restart after changing — the cumulative measurement is referenced to t=0)."}},
   activeParams:["kappaT","cLight","kFrame"],
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
@@ -11053,7 +11084,7 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。案A は DFM の公理からの帰結ではない外部オーバーレイの玩具である", obs:"—"}],
   descStruct:{
     summary:"**回転していない円盤に「軸へ引き寄せる力」を入れると、恒星が真っ直ぐな棒に集まる**ことを、配置則ではなく**力**で見せる原理サンプル(第249便c)。原仮定者(第41報)の見立て「銀河が回転していなければ、真っ直ぐな棒状に恒星が集まる。まるで静電気の様に棒状に恒星を引き寄せる力を仮定する」をそのまま式にした。足したのは **physics.axisForce**(3審査 v7 の第一候補「案A」— **有限範囲の二極軸ポテンシャル**)ひとつだけである。単位質量あたり **Φ_A=−A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)**(d=中心天体からの相対位置・u=e·d・v=e⊥·d・e=(cosφ,sinφ)=軸)で、力は F=−m∇Φ_A。u²−v²=|d|²cos2(θ−φ) なので **π 回転で同じ = 二極**(腕の本数を増やすノブは持たない — 見立てが 2 極だからである)、exp(−|d|²/R_b²) が **有限の到達長 R_b**(= 棒は外縁まで届かない)、r_c が中心の正則化である。本サンプルは **A=300・R_b=120・r_c=6・軸は x 方向で固定**。初期条件は中心天体 1 体(m=2500・R=15・スピン 1.2・**pinned ではない**)+**軸対称の円盤 320 体**(r≤260・速度ゼロ = 回転支持なし)だけで、腕も棒も**置いていない**。**反作用を取る**: 各星への力の合計 −ΣF_i を中心天体へ(運動量厳密)、軸トルク −Σ(d_i×F_i)_z を中心天体の殻スピンへ(角運動量厳密)返すので、この宇宙の帳簿は閉じたままである。Ω_axis を宣言していないので**保存力**で、外部駆動の仕事は厳密に 0。**案A は DFM の公理からの帰結ではない**(petersGW・spinSpin と同じ外部オーバーレイの枠の玩具である)。",
-    observe:"実測(tests/exp-w249c.mjs・3000 步=t48・dt=0.016 固定・321 体): ①**軸対称から棒が生える** — A₂ 帯平均(環帯[40,80][80,120][120,160][160,200])は t=0 で 0.121 = **雑音床 0.137 を下回る**(=構造なし)ところから、500 步 0.557・1000 步 0.775・1500 步 0.788(峰)へ立ち上がる。全域 A₂ も 0.073→0.565(3000 步)。**置いた形が減衰する第248便c の 3 本(🍥🪁🍢 — 第251便で廃止)とは向きが逆である。** ②**棒の端は R_b が決める** — 500 步の半径プロファイルは r<140 で A₂ 0.78〜0.93、r>150 では 0.06〜0.29(雑音床 0.2 級)。**棒の長さ 140 は R_b=120 の 1.17 倍**で、その外側は軸対称のまま残る = 見立ての「棒は銀河の外縁までは届かない」がそのまま出る。③**濃さは A・長さは R_b** — 同じ円盤・同じ 500 步で A を半分(150)にしても棒長はほとんど動かない(R_b=60 で 80・R_b=120 で 120)。R_b を変えると 60→80・80→120・120→140・200→180 と**単調に伸びる**(🎚️ を参照)。④**回転支持が無いので円盤は縮む** — 保持は 1000 步まで 100%、3000 步で 86.3%(自由落下で中心へ落ち、一部が散る)。ピッチ角の当てはめは 500 步 54.8°→1500 步 89.9°で、**90° に近づく = 巻いていない直線**という読み方をする。⑤健全性: NaN 0・速度クランプ 0・スピンクランプ 0・|ΔP|/P=6.0×10⁻⁶・|ΔL|/L=1.3×10⁻⁶(321 体 Float32 の床)・**外部駆動の仕事 axisWorkE=0(厳密)**。重力を切った玩具では反作用の残差が |ΔP|/P=3.3×10⁻¹⁷・|ΔL|/L=1.4×10⁻¹⁶(QA behavior.axisForce-conservation)。⑥**第250便c 追記**: E6′ 反作用の速度上限 clampRN が本サンプルでは **500 步(dt=0.016)で 11 回**発動しており、刻みを細かくすると増える(dt/2 で 135・dt/4 で 397)—— **反作用上限が発動している以上、NaN が無いことは形の生成を保証しない**(①〜⑤の長時間の数値は第249便c〔帳簿修正前〕の測定である)。※**実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。**claim 窓(regression window)は 1 つも張っていない。**",
+    observe:"実測(tests/exp-w249c.mjs・3000 步=t48・dt=0.016 固定・321 体): ①**軸対称から棒が生える** — A₂ 帯平均(環帯[40,80][80,120][120,160][160,200])は t=0 で 0.121 = **雑音床 0.137 を下回る**(=構造なし)ところから、500 步 0.557・1000 步 0.775・1500 步 0.788(峰)へ立ち上がる。全域 A₂ も 0.073→0.565(3000 步)。**置いた形が減衰する第248便c の 3 本(第251便で廃止)とは向きが逆である。** ②**棒の端は R_b が決める** — 500 步の半径プロファイルは r<140 で A₂ 0.78〜0.93、r>150 では 0.06〜0.29(雑音床 0.2 級)。**棒の長さ 140 は R_b=120 の 1.17 倍**で、その外側は軸対称のまま残る = 見立ての「棒は銀河の外縁までは届かない」がそのまま出る。③**濃さは A・長さは R_b** — 同じ円盤・同じ 500 步で A を半分(150)にしても棒長はほとんど動かない(R_b=60 で 80・R_b=120 で 120)。R_b を変えると 60→80・80→120・120→140・200→180 と**単調に伸びる**(🎚️ を参照)。④**回転支持が無いので円盤は縮む** — 保持は 1000 步まで 100%、3000 步で 86.3%(自由落下で中心へ落ち、一部が散る)。ピッチ角の当てはめは 500 步 54.8°→1500 步 89.9°で、**90° に近づく = 巻いていない直線**という読み方をする。⑤健全性: NaN 0・速度クランプ 0・スピンクランプ 0・|ΔP|/P=6.0×10⁻⁶・|ΔL|/L=1.3×10⁻⁶(321 体 Float32 の床)・**外部駆動の仕事 axisWorkE=0(厳密)**。重力を切った玩具では反作用の残差が |ΔP|/P=3.3×10⁻¹⁷・|ΔL|/L=1.4×10⁻¹⁶(QA behavior.axisForce-conservation)。⑥**第250便c 追記**: E6′ 反作用の速度上限 clampRN が本サンプルでは **500 步(dt=0.016)で 11 回**発動しており、刻みを細かくすると増える(dt/2 で 135・dt/4 で 397)—— **反作用上限が発動している以上、NaN が無いことは形の生成を保証しない**(①〜⑤の長時間の数値は第249便c〔帳簿修正前〕の測定である)。※**実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。**claim 窓(regression window)は 1 つも張っていない。**",
     control:"おすすめA/B: JSON の **physics.axisForce.A を 0** にすると軸の力が完全に消え、**未宣言とビット同一**の自由落下する軸対称円盤に戻る(= 棒は軸力だけが作っている、の否定対照)。**R_b** を変えると棒の長さが変わる(🎚️ が R_b=60 の対照)。**axis** に角度(rad)を入れると棒の向きが変わる。回転を入れた版が 🎏 で、**同じ強さ A=300 を回転円盤に入れると円盤の 12.5% が散る**(だから 🎏 は A=15 である)。"},
   en:{name:"A Bar With No Rotation — Stars Gathering Onto the Axis", obsCard:[
     {q:"What is being tried?", model:"A BAR MADE BY A FORCE, not by a placement rule: physics.axisForce (proposal A) is declared on an axisymmetric disk that is given no rotation at all", obs:"— (a principle sample; no observation is transcribed)"},
@@ -11331,6 +11362,7 @@ const BUILTIN_PRESETS = [
 //     加速度の修正が内蔵に届く最初の経路 —— だから `behavior.geoToyPinned` ④ の契約を本便で書き換えた)。
 { id:"galaxyMeshSpiralGeoToy", name:"銀河の空間メッシュ — geoPN=4 原理コピー(較正ではない)", emoji:"🪁",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を替えたか", model:"🎠 の初期条件・粒子・表示をそのままに、**法則だけ** geoPN=4 のトイ測地線モードへ替えた(kFrame=0・lawVersion:scalar・η=1)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -11462,6 +11494,7 @@ const BUILTIN_PRESETS = [
 // f=1(massCalibration を持たない —— 旧 f≈2 の質量補正を使わない)。**観測回転曲線は 1 つも入力していない。**
 { id:"galaxyAnalogyBH", name:"銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"🌚",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を置いたか", model:"幾何(pinned 中心 m=2500・spin 1.2・R=15/バルジ 90/円盤 80)+恒星質量 DR の代表粒子 40 体(1 体 53.125・計 2125)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -11542,6 +11575,7 @@ const BUILTIN_PRESETS = [
 // share-p1(背景法則版)の規約(centerSpin・spaceMesh.D0・meshVelocity との併用の拒否)は**変えない** —— 本コピーは backgroundComplex を持たない。
 { id:"galaxyAnalogyBHCompose", name:"銀河アナロジー — 背景と中心の合成の診断コピー(較正ではない)", emoji:"🧩",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を替えたか", model:"🌚 の写し。静止背景 W_bg=1.5 を spaceMesh.D0 に明示(旧 W_bg=D₀ と同じ数)・中心(body:0)を台帳の 1 源と宣言(bgCompose —— 表示と器だけ)", obs:"—(診断コピー — 観測転写はしない)"},
@@ -11622,6 +11656,7 @@ const BUILTIN_PRESETS = [
 // **候補の診断量**(tests/lib-w288e-tilt90.mjs)として比較器で並べるだけで、場には足さない。「コア V3」は作らない(既存の core.axisMode を使う)。
 { id:"galaxyAnalogyBHTilt90", name:"銀河アナロジー(中心 BH の軸 90°・宣言した歳差)", emoji:"🛸",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を置いたか", model:"🌚 の写し(pinned 中心 m=2500・R=15/バルジ 90/円盤 80/DR 40)。中心の自転を殻 spin 1.2 からコア(|J|=337500・傾き 90°・方位 0・歳差 Ω_p=0.12 の宣言)へ移した", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -11696,6 +11731,7 @@ const BUILTIN_PRESETS = [
 // (器 tests/exp-w289e-tilt90layers.mjs が実測 —— 「コア V3」は作らない・読み手〔z 射影・所有者規約〕は変えない)。
 { id:"galaxyAnalogyBHTilt90Layers", name:"銀河アナロジー(中心 BH の軸 90°・親子コアの層)", emoji:"🪆",
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["galaxy","dm"],
   obsCard:[
     {q:"何を置いたか", model:"🛸 の写し。中心のコア V2 を親子コアの 2 層(コア m=750・r=7.5・J=(337500,0,0)・傾き 90°・歳差 0.12 の宣言/殻 m=1750・r=15)に置き換え、V2 は持たない", obs:"—(原理サンプル —— 観測転写はしない)"},
@@ -11784,6 +11820,7 @@ const BUILTIN_PRESETS = [
 //    (わずかな回転 jeansRot 0.1 —— 候補 0/0.1/0.25/0.47 は器が走査)。形状の門は第283便f のまま(器 tests/exp-w286a-cluster.mjs)。
 { id:"clusterAnalogyBH", name:"球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"💮",
   group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   notClaim:["cluster","dm"],
   obsCard:[
     {q:"星団スケールの単位(第286便a)", model:"L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg —— G=6.6743・c=29979.2458 を一組で。Plummer 尺度 10(3.24 pc)・切断 40(13.0 pc)", obs:"—(原理サンプル —— 2D 投影のアナロジー)"},
@@ -15167,7 +15204,7 @@ const BUILTIN_PRESETS = [
 // `pnVelocity:"v"`。**純粋な座標の変更は近点を変えない**ことを、☄️ と同じ抽出器・同じ窓で確かめる本である
 // (器 tests/exp-w280c-geo3.mjs・正本 tests/out/geo3-w280c.json)。**☄️ 本体は 1 bit も動かない。**
 { id:"mercuryGeoToy3", name:"水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)", emoji:"🔁", group:"現実較正",
-  familyId:"mercury", familyRole:"variant",   // 仲間のメインは ☄️(primary)。本サンプルは法則の契約を確かめる診断の枝
+  familyId:"mercury", familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)(旧 variant)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同じ単位系(1単位=10⁸m/10⁴s/10²⁷kg)
   sampleClass:"principle",
@@ -15237,7 +15274,7 @@ const BUILTIN_PRESETS = [
 // 軌道面を x 軸まわりに 30° 傾け、太陽の自転軸も同じ回転で有効化した(三次元の座標の回転は近点率を変えない —— 器の条件 tilt)。
 // physics・bodies は器 tests/exp-w299d-geo4stable.mjs の migPreset の出力そのまま(QA preset.meshMigrate299 が照合)。数は正本 tests/out/geo4stable-w299d.json の実測。
 { id:"mercuryMeshMigrate3d", name:"水星 — 旧空間メッシュの零試験の三次元の慣性決定力への移行(傾けた軌道面・較正ではない)", emoji:"🔂", group:"現実較正",
-  familyId:"mercury", familyRole:"variant",   // 仲間のメインは ☄️(primary)。🔁 の移行の写し(🔁 は互換のまま残す)
+  familyId:"mercury", familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)(旧 variant)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同じ単位系(1単位=10⁸m/10⁴s/10²⁷kg)
   sampleClass:"principle",
@@ -16608,7 +16645,7 @@ const BUILTIN_PRESETS = [
 // `mutual:0` で置き、bodies の vx,vy は**観測の座標速度 ẋ** と読む(`velocityMeaning:"xdot"` —— build で v=ẋ−u(0)
 // へ変換する)。1PN は `pn:"reference-1PN"`・`pnVelocity:"v"`(ẋ を読む版は器で並べる)。
 { id:"charonGeoToy3", name:"冥王星とカロン — geoPN=4 契約の診断コピー(太陽の背景・mutual:0・較正ではない)", emoji:"🌒", group:"現実較正",
-  familyId:"pluto", familyRole:"variant",   // 第290便b: 仲間のメインは 🥶(primary・入力の対照)。本サンプルは geoPN=4 の診断の枝(bodies は旧入力の二体の写しのまま)
+  familyId:"pluto", familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)(旧 variant)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg
   sampleClass:"principle",
@@ -17938,7 +17975,7 @@ const BUILTIN_PRESETS = [
 { id:"psrDoubleABGeoToy", name:"二重パルサー J0737−3039A/B — geoPN=4 診断(f=1・較正候補ではない)", emoji:"🩻", group:"現実較正",
   // グループは**ファミリー psr の所属グループ**に合わせる(QA `groups.family-invariant`: 1 ファミリーは 1 グループ)。
   // 分類は `sampleClass:"principle"`・`fidelity:"toy"` の側が担う —— **現実較正の 1 本ではない**。
-  familyId:"psr", familyRole:"variant",   // 仲間のメインは 📻(primary)。本サンプルは法則を替えた診断の枝
+  familyId:"psr", familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)(旧 variant)
   scaleTier:"planetary",
   scaleExp:{L:6, T:1, M:27},   // 📻 と同じ単位系(1単位=10⁶m/10¹s/10²⁷kg — L−T=5 族)
   sampleClass:"principle",
@@ -19708,11 +19745,11 @@ const BUILTIN_PRESETS = [
     {q:"配置(実測)", model:"中心距離 18.8〜71.8・最短の粒子間距離 12.9・重なり 0(🔗🔩🪛 は 7.55〜23.8・0.234・重なり 108 組)", obs:"—"},
     {q:"初速の種", model:"t=0 の重力(中心+自己重力)の動径の釣り合い v=√(r a_r)・接線の力の残り ≤12.6% —— 平衡とは呼ばない。B は零初速", obs:"—"},
     {q:"安定の条件(実測 2000 步)", model:"残差 ≤6.3e-12・反復 ≤7・未収束 0・再開と複製と A/B はビット同一・L の残り 6.9e-16・h/2 の差 0.02%・n 80→160 で 1.5%", obs:"—"},
-    {q:"配置の依存(実測)", model:"散布の種 0〜3(最短距離 ≥ 4 R_p の配置)で Δθ_u の幅 A 5.2%・B 3.7%(条件 20%)—— 8 条件を全部満たした", obs:"—(🔁 を 🔂 へ移した)"},
+    {q:"配置の依存(実測)", model:"散布の種 0〜3(最短距離 ≥ 4 R_p の配置)で Δθ_u の幅 A 5.2%・B 3.7%(条件 20%)—— 8 条件を全部満たした", obs:"—"},
     {q:"帯の接線 u(t=0 直後・零初速)", model:"内/中/外 0.0166/0.00209/0.000551(直接の項の 1.04/1.17/1.21 倍 —— 🔗 は 2.4/6.5/9.7 倍)", obs:"—"},
     {q:"言わないこと", model:"円盤・銀河の形成・平坦な回転曲線とは書かない。近似初速の種を平衡と呼ばない。gain は補償しない", obs:"—"}],
   descStruct:{
-    summary:"**円盤を広げた geoPN=4(慣性決定力の多粒子版)の三次元の原理の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・第299便d・原仮定者の裁定〔第89報〕③「現状の chainDiskToy 系は、初期配置が集まりすぎている」・統括の検証項目 R173)。🔩 chainDiskToy3d の宣言(粒子数・質量・半径・G・gain・ε・解法・double)を写し、**円盤の配置だけ**を面積一様の環 r=18〜72 に黄金角で置き直した(🔗🔩🪛 の円盤は中心距離 7.55 から始まり、最短の粒子間距離 0.234・宣言半径の重なり 108 組 —— 接触力の無い本なので力ではないが、核 K_ε が最も近い対で決まる配置だった)。中心の自転軸は 30° 傾け(回転引きずりが面外の成分を持つ —— 2000 步で |z| 最大 0.54)、軸引きずりは宣言しない。初速は t=0 の重力の動径成分の釣り合いの**近似の種**(中心と円盤の自己重力を全部足す —— 円盤の総質量 400 は中心の 4 倍。接線の力の残りは打ち消していないので**平衡とは呼ばない**)。**安定の条件は器が先に宣言して測った** 8 項目(配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)で、近似初速の種(A)と零初速(B)の両方で全部を満たした(散布の種の依存は A 5.2%・B 3.7% —— 種の配置も最短距離 ≥ 4 R_p を守る。床を見ない揺らぎでは最短 1.5〜2.5 の対ができ、A の幅は 114% だった —— 速度差の引きずりは最も近い対の 1/r³ で決まる)。条件を満たしたので旧 physics.spaceMesh の 🔁 を別 id の写し 🔂 へ移した。",
+    summary:"**円盤を広げた geoPN=4(慣性決定力の多粒子版)の三次元の原理の本**(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 🔩 と同じ・第299便d・原仮定者の裁定〔第89報〕③「現状の chainDiskToy 系は、初期配置が集まりすぎている」・統括の検証項目 R173)。🔩 chainDiskToy3d の宣言(粒子数・質量・半径・G・gain・ε・解法・double)を写し、**円盤の配置だけ**を面積一様の環 r=18〜72 に黄金角で置き直した(🔗🔩🪛 の円盤は中心距離 7.55 から始まり、最短の粒子間距離 0.234・宣言半径の重なり 108 組 —— 接触力の無い本なので力ではないが、核 K_ε が最も近い対で決まる配置だった)。中心の自転軸は 30° 傾け(回転引きずりが面外の成分を持つ —— 2000 步で |z| 最大 0.54)、軸引きずりは宣言しない。初速は t=0 の重力の動径成分の釣り合いの**近似の種**(中心と円盤の自己重力を全部足す —— 円盤の総質量 400 は中心の 4 倍。接線の力の残りは打ち消していないので**平衡とは呼ばない**)。**安定の条件は器が先に宣言して測った** 8 項目(配置・連鎖解・停止と再開・三次元の収支・刻み・粒子数・散布の種・表示)で、近似初速の種(A)と零初速(B)の両方で全部を満たした(散布の種の依存は A 5.2%・B 3.7% —— 種の配置も最短距離 ≥ 4 R_p を守る。床を見ない揺らぎでは最短 1.5〜2.5 の対ができ、A の幅は 114% だった —— 速度差の引きずりは最も近い対の 1/r³ で決まる)。(第300便a: physics.spaceMesh は全面廃止 —— 移行の写しも退役した。)",
     observe:"トレイルで、A 側(近似初速の種)の円盤が中心のまわりを回りながら、内帯の粒子が少しずつ先へ引きずられるのを見る(2000 步の Δθ は内/中/外 0.172/0.106/0.102 rad・そのうち移送の分は 0.0127/0.00003/−0.0014)。表示の「空間メッシュ」を ON にすると Z=0 の面の矢印と流線(受動プローブ —— 表示を ON/OFF しても状態は 1 bit も変わらない)。🔗 に比べて連鎖の増幅は小さい(零初速の t=0 直後の接線 u は直接の項の 1.04/1.17/1.21 倍 —— 🔗 は 2.4/6.5/9.7 倍)。",
     control:"ワンタップ対照A/B: B 側は零初速(円盤の初速を 0 —— 中心の自転の回転引きずりだけで回り始め、重力で内へ落ちる: 2000 步で Δr ≈ −0.3)。比べる相手は 🔩(同じ宣言の集まった円盤)と 🔗(二次元)。"},
   en:{name:"Spread chain disc (3D) — many particles on a golden-angle ring of radius 18-72 and a tilted spin axis (principle)",
@@ -19721,11 +19758,11 @@ const BUILTIN_PRESETS = [
       {q:"Placement (measured)", model:"centre distance 18.8-71.8; closest pair 12.9; no overlap (🔗🔩🪛: 7.55-23.8, 0.234, 108 overlapping pairs)", obs:"-"},
       {q:"Velocity seed", model:"radial balance of t=0 gravity (centre+self-gravity) v=sqrt(r a_r); tangential rest <=12.6%; no equilibrium. B at rest", obs:"-"},
       {q:"Stability (measured, 2000 steps)", model:"residual <=6.3e-12, <=7 iterations, no failure; resume/clone/A-B bit-same; L rest 6.9e-16; h/2 0.02%; n 80->160 1.5%", obs:"-"},
-      {q:"Placement dependence (measured)", model:"seeds 0-3 (layouts with closest pair >= 4 R_p): dTheta_u spread A 5.2%, B 3.7% (limit 20%) - all 8 conditions met", obs:"- (🔁 moved to 🔂)"},
+      {q:"Placement dependence (measured)", model:"seeds 0-3 (layouts with closest pair >= 4 R_p): dTheta_u spread A 5.2%, B 3.7% (limit 20%) - all 8 conditions met", obs:"-"},
       {q:"Band tangential u (just after t=0, at rest)", model:"inner/middle/outer 0.0166/0.00209/0.000551 (1.04/1.17/1.21x the direct term; 🔗: 2.4/6.5/9.7x)", obs:"-"},
       {q:"Not claimed", model:"no disc/galaxy formation, no flat rotation curve; the seed is not an equilibrium; gain not compensated", obs:"-"}],
     descStruct:{
-      summary:"A 3D PRINCIPLE SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) WITH THE DISC SPREAD OUT (laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩; wave 299d; the originator's ruling in report 89, item 3: the current chainDiskToy samples are placed too densely; the coordinator's check item R173). 🔩 chainDiskToy3d's declaration (particle number, masses, radii, G, gain, eps, solver, double) is copied and ONLY THE DISC PLACEMENT is redone on an area-uniform ring r=18-72 at the golden angle (the 🔗🔩🪛 disc starts at centre distance 7.55, its closest pair is 0.234 apart and 108 pairs overlap in declared radius - no contact force in these samples, but the kernel K_eps was set by the closest pairs). The centre's spin axis is tilted 30 deg (the rotational drag gains an out-of-plane part - |z| up to 0.54 in 2000 steps); no axial drag is declared. The initial velocities are an APPROXIMATE SEED balancing the radial t=0 gravity (centre plus the disc's self-gravity - the disc mass 400 is 4x the centre; the residual tangential force is not cancelled, so IT IS NOT CALLED AN EQUILIBRIUM). THE HARNESS DECLARED 8 STABILITY CONDITIONS BEFORE MEASURING (placement, chain solver, stop and resume, 3D budget, step, particle number, scatter seed, display), and both the approximate-velocity side (A) and the at-rest side (B) meet all of them (scatter-seed spread A 5.2%, B 3.7% - the seeded layouts also keep the closest pair >= 4 R_p; jitter without that floor makes pairs 1.5-2.5 apart and the A spread reached 114%, since velocity-difference drag is set by the closest pairs through 1/r^3). With the conditions met, the legacy physics.spaceMesh sample 🔁 was moved to the separate copy 🔂.",
+      summary:"A 3D PRINCIPLE SAMPLE OF geoPN=4 (THE MANY-BODY INERTIAL-DETERMINACY MODE) WITH THE DISC SPREAD OUT (laws: the spin dragging A8 and the transport law E6′ in 3D, as 🔩; wave 299d; the originator's ruling in report 89, item 3: the current chainDiskToy samples are placed too densely; the coordinator's check item R173). 🔩 chainDiskToy3d's declaration (particle number, masses, radii, G, gain, eps, solver, double) is copied and ONLY THE DISC PLACEMENT is redone on an area-uniform ring r=18-72 at the golden angle (the 🔗🔩🪛 disc starts at centre distance 7.55, its closest pair is 0.234 apart and 108 pairs overlap in declared radius - no contact force in these samples, but the kernel K_eps was set by the closest pairs). The centre's spin axis is tilted 30 deg (the rotational drag gains an out-of-plane part - |z| up to 0.54 in 2000 steps); no axial drag is declared. The initial velocities are an APPROXIMATE SEED balancing the radial t=0 gravity (centre plus the disc's self-gravity - the disc mass 400 is 4x the centre; the residual tangential force is not cancelled, so IT IS NOT CALLED AN EQUILIBRIUM). THE HARNESS DECLARED 8 STABILITY CONDITIONS BEFORE MEASURING (placement, chain solver, stop and resume, 3D budget, step, particle number, scatter seed, display), and both the approximate-velocity side (A) and the at-rest side (B) meet all of them (scatter-seed spread A 5.2%, B 3.7% - the seeded layouts also keep the closest pair >= 4 R_p; jitter without that floor makes pairs 1.5-2.5 apart and the A spread reached 114%, since velocity-difference drag is set by the closest pairs through 1/r^3). (Wave 300a: physics.spaceMesh is retired entirely - the migration copy is retired too.)",
       observe:"Use the trail to watch side A (approximate-velocity seed) turn round the centre while the inner band is slowly dragged ahead (dTheta over 2000 steps inner/middle/outer 0.172/0.106/0.102 rad, of which the transport part is 0.0127/0.00003/-0.0014). Turn on the space mesh for arrows and streamlines on the plane Z=0 (a passive probe - switching it changes the state by not a single bit). The chain amplification is smaller than in 🔗 (right after t=0 at rest the tangential u is 1.04/1.17/1.21x the direct term - 🔗: 2.4/6.5/9.7x).",
       control:"One-tap A/B: side B starts at rest (disc velocities 0 - it starts turning only by the centre's rotational drag and falls inward under gravity: dr about -0.3 in 2000 steps). Compare with 🔩 (the same declaration with the dense disc) and 🔗 (2D)."},
     parameterAudit:{
@@ -20057,6 +20094,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",
   sampleClass:"principle",
   fidelity:"toy",
+  familyRole:"retired",   // 第300便a(原仮定者の裁定(第90報)⑤「physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   obsCard:[
     {q:"何を見るか", model:"等質量 2 体(m=500・e=0.5)に physics.spaceMesh={mode:\"vertex\",gravity:true} を足した宇宙。表示は重心原点の蓄積格子(第257便c)", obs:"—(原理サンプル・観測較正ではない)"},
     {q:"**メッシュの重力は既にある重力**", model:"A/B(spaceMesh の有無)で近点間 P=1339.718898・近点移動 +2.027112°/周 が印字桁で同一。1 步の加速度差 |Δa_g| は 0〜2.8×10⁻¹⁸", obs:"—(第46報「勾配で加速する力が重力」の実測)"},
@@ -37114,8 +37152,8 @@ function familyVariantLabel(p){
 //   退役の理由・凍結 fixture・便の印のある履歴コメントは 1 字も変えていない(表示と文書だけ —— presetSig・力学・保存の形は不変)。QA docs.noRetiredMention294
 const FAMILY_ROLES=["primary","variant","retired"];
 const RETIRED_PRESETS={
-  darkrotor:{ja:"腕と減光の長時間の門は重い走行で、減光の原器は 🕳️ rotorSolo・銀河の質量要素は 🌚/🛞 が持つ", en:"its long-run arm and dimming gate is a heavy run; the dimming prototype is 🕳️ rotorSolo and the galaxy mass elements live in 🌚/🛞", see:["rotorSolo","galaxyAnalogyBH","ngc3198DFM"]},
-  bhCore:{ja:"自由な多層の中心は 🌚 の中心 DFM BH(アナロジー)へ引き継ぎ、尺度比較の参照値は試験の固定値に移した", en:"the free multilayer centre is carried by the centre DFM BH of 🌚 (analogy); the scale-comparison reference values moved to a test fixture", see:["galaxyAnalogyBH","rotorSolo"]},
+  darkrotor:{ja:"腕と減光の長時間の門は重い走行で、減光の原器は 🕳️ rotorSolo・銀河の質量要素は 🌚/🛞 が持つ", en:"its long-run arm and dimming gate is a heavy run; the dimming prototype is 🕳️ rotorSolo and the galaxy mass elements live in 🌚/🛞", see:["rotorSolo","ngc3198DFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  bhCore:{ja:"自由な多層の中心は 🌚 の中心 DFM BH(アナロジー)へ引き継ぎ、尺度比較の参照値は試験の固定値に移した", en:"the free multilayer centre is carried by the centre DFM BH of 🌚 (analogy); the scale-comparison reference values moved to a test fixture", see:["rotorSolo","layeredCoreDFM"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
   bhCoreTilt:{ja:"⚫ の横倒しの変種で、⚫ と一緒に退役した(傾斜の機構の最小試験は QA に残す)", en:"the tipped-over variant of ⚫, retired together with it (the minimal tilt-mechanism test stays in QA)", see:["rotorSolo"]},
   nebulaRotor:{ja:"ローター群の星雲は減光の原器 🕳️ と自己形成 🥚 で見られる", en:"the rotor-swarm nebula is covered by the dimming prototype 🕳️ and the self-forming 🥚", see:["rotorSolo","selfRotor"]},
   nebulaShell:{ja:"🌑 の重殻の変種で、🌑 と一緒に退役した", en:"the heavy-shell variant of 🌑, retired together with it", see:["rotorSolo","selfRotor"]},
@@ -37123,7 +37161,7 @@ const RETIRED_PRESETS={
   starSeed:{ja:"圧縮とパワーボールの経路は 🥚 の自己形成で見られる(パワーボールの機構の最小試験は QA に残す)", en:"the compression and power-ball path is seen in the self-forming 🥚 (the minimal power-ball test stays in QA)", see:["selfRotor","rotorSolo"]},
   // 第284便b(原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」・AN35):
   //   退役 6 本(指定 4 本+⭕ emAuditNewton〔🌙 と実効 JSON 同一〕+🪝 psrDoubleABCF〔⚡ の f=1 署名と同時〕)。理由と代わりに見る本
-  galaxyMeshSpiralGeoToyLite:{ja:"円盤 80 粒の軽量コピーで、空間メッシュの原理は 🪁 が、中心 DFM BH のアナロジーは 🌚 が持つ", en:"the 80-particle light copy; the space-mesh principle lives in 🪁 and the centre DFM BH analogy in 🌚", see:["galaxyMeshSpiralGeoToy","galaxyAnalogyBH"]},
+  galaxyMeshSpiralGeoToyLite:{ja:"円盤 80 粒の軽量コピーで、空間メッシュの原理は 🪁 が、中心 DFM BH のアナロジーは 🌚 が持つ", en:"the 80-particle light copy; the space-mesh principle lives in 🪁 and the centre DFM BH analogy in 🌚", see:["galaxyMeshSpiral","shapeToySpiralCore"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
   psrDoubleABPN:{ja:"旧則(λ_PN=1/f —— 質量補正 f≈2 の上で 1PN の強さだけを観測質量へ戻す候補)の履歴。⚡ は f=1(観測質量)へ移った", en:"the history of the old rule (λ_PN=1/f — on top of the f≈2 mass correction, only the 1PN strength returned to the observed mass); ⚡ has moved to f=1 (observed masses)", see:["psrDoubleAB"]},
   psrJ1757PN:{ja:"旧則(λ_PN=1/f)を 2 例目の系へ当てた履歴。⚡ の f=1 移行で旧処方の前提が外れた", en:"the history of the old rule (λ_PN=1/f) applied to the second binary; ⚡'s move to f=1 removed the old recipe's premise", see:["psrJ1757DFM","psrDoubleAB"]},
   psrJ1946PN:{ja:"旧則(λ_PN=1/f)を 3 例目の系へ当てた履歴。⚡ の f=1 移行で旧処方の前提が外れた", en:"the history of the old rule (λ_PN=1/f) applied to the third binary; ⚡'s move to f=1 removed the old recipe's premise", see:["psrJ1946DFM","psrDoubleAB"]},
@@ -37154,8 +37192,8 @@ const RETIRED_PRESETS={
   //   凍結の写しは tests/fixtures/retired-w290b.json。❄️ の 4 値(+294σ・数値未解決・写像未確定)は 🥶 の結果と呼ばない(❄️ の行は履歴)
   tuc47DFM:{ja:"🍇 tuc47 に質量補正 f≈1.993 を掛けた版で、整理(第290便b)で退役した —— 星団の転写は 🍇 が持つ", en:"the build of 🍇 tuc47 with the f≈1.993 mass correction, retired in the clean-up (wave 290b) — 🍇 carries the cluster transcription", see:["tuc47"]},
   supernovaProgDFM:{ja:"質量台帳 f=2 の版で、整理(第290便b)で退役した —— ベテルギウスの転写は 🥀 が持つ", en:"the build with the f=2 mass ledger, retired in the clean-up (wave 290b) — 🥀 carries the Betelgeuse transcription", see:["supernovaProg","supernovaCore"]},
-  clusterGrowthCopy:{ja:"初期配置が不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。背景と中心の合成は 🧩、中心 DFM BH のアナロジーは 🌚 で見られる", en:"its initial configuration was unsuitable (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); the background-and-centre composition is seen in 🧩 and the centre DFM BH analogy in 🌚", see:["galaxyAnalogyBHCompose","galaxyAnalogyBH"]},
-  fixedCaptureCopy:{ja:"🌰 と同じ初期配置で不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。代わりに 🧩・🌚", en:"it shared 🌰's unsuitable initial configuration (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); see 🧩 and 🌚 instead", see:["galaxyAnalogyBHCompose","galaxyAnalogyBH"]},
+  clusterGrowthCopy:{ja:"初期配置が不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。背景と中心の合成は 🧩、中心 DFM BH のアナロジーは 🌚 で見られる", en:"its initial configuration was unsuitable (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); the background-and-centre composition is seen in 🧩 and the centre DFM BH analogy in 🌚", see:["tuc47","shapeToyClusterCore"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
+  fixedCaptureCopy:{ja:"🌰 と同じ初期配置で不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。代わりに 🧩・🌚", en:"it shared 🌰's unsuitable initial configuration (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); see 🧩 and 🌚 instead", see:["tuc47","shapeToyClusterCore"]},   // 第300便a: see の退役の本(🪁🌚🧩 —— 第90報で退役)を在位の本へ付け替えた(理由の文は退役の時点の履歴のまま)
   plutoCharonReal:{ja:"旧入力(丸めた a・4 桁の G・ε=50 km・Float32 の質量)の版で、入力を整えた 🥶 に現行の入口を集約した(第290便b)—— ❄️ の 4 値は 🥶 の結果ではない", en:"the build with the older inputs (rounded a, a four-digit G, epsilon 50 km, Float32 masses); the current entry point is the cleaned-input 🥶 (wave 290b) — ❄️'s four values are not 🥶's results", see:["plutoCharonDiagInput"]},
   plutoCharonDFM:{ja:"旧 pairSlip(相対すべり則)の診断で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the diagnostic of the old pairSlip (relative-slip law), retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
   plutoCharonSyncZero:{ja:"旧 pairSlip の厳密同期円の零試験で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the exact synchronous-circle zero test of the old pairSlip, retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
@@ -37173,6 +37211,21 @@ const RETIRED_PRESETS={
   saturn:{ja:"第88報: geoPN=0 の古い環の実験の廃止 —— 土星の環は実単位の 💍、近点移動の照合は 📡", en:"ruling 88: the old geoPN=0 ring experiment is retired — Saturn's rings are the real-unit 💍 and the apsidal comparison is 📡", see:["saturnRingReal","saturnZonalD68"]},
   saturnLayered:{ja:"第88報: geoPN=0 の古い環の実験(主星 2 層の変種)の廃止 —— 土星の環は実単位の 💍", en:"ruling 88: the old geoPN=0 ring experiment (the two-layer-primary variant) is retired — Saturn's rings are the real-unit 💍", see:["saturnRingReal"]},
   earthMoonDiagOne:{ja:"第88報: geoPN=1 の不要な診断コピー(表裏核への経路の置換)の廃止 —— 地球と月の入口は 🌙、引きずりの機構実験は 🌘", en:"ruling 88: the unneeded geoPN=1 diagnostic copy (the route swapped to the front–back kernel) is retired — the Earth–Moon entry point is 🌙 and the dragging mechanism experiment is 🌘", see:["earthMoonReal","earthMoonRealKF1"]},
+  // 第300便a(原仮定者の裁定(第90報)⑤「mercuryGeoToy3 は慣性系の画面に対して重心が移動して行くので誤り。mercuryMeshMigrate3d は明らかに軌道がおかしい。
+  //   改善の見込みが立たないので physics.spaceMesh とサンプルは全面廃止」・統括の検証項目 R175): **退役 11 本**(physics.spaceMesh を宣言した在位 10 本+🔂)。
+  //   内蔵に残す・ID・物理・claims・保存 JSON は不変(変えたのは familyRole と下の表だけ)。physics.spaceMesh は外から入る宣言を受理しない(spaceMeshRetiredDenyOf)。
+  //   凍結の写しは tests/fixtures/retired-w300a.json(🔁 の重心の移動・🔂 の軌道の実測と撤去の範囲の一覧を含む)。QA preset.spaceMeshRetired300
+  galaxyMeshSpiralGeoToy:{ja:"第90報: physics.spaceMesh(旧空間メッシュの法則)の全面廃止 —— 円盤の原理は 🎠(同じ初期条件の geoPN=0)、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh (the legacy space-mesh law) is retired entirely — the disc principle is 🎠 (same initial conditions at geoPN=0) and the many-body inertial-determinacy chain is 🍥", see:["galaxyMeshSpiral","chainSpreadToy3d"]},
+  galaxyAnalogyBH:{ja:"第90報: physics.spaceMesh の全面廃止 —— 中心天体つきの円盤と腕の形は参照模型 🎢、実在の銀河のアナロジーは 🛞", en:"ruling 90: physics.spaceMesh is retired entirely — the disc and arm shape with a central body is the reference model 🎢 and the real-galaxy analogy is 🛞", see:["shapeToySpiralCore","ngc3198DFM"]},
+  galaxyAnalogyBHCompose:{ja:"第90報: physics.spaceMesh の全面廃止(🌚 の写しの合成の診断)—— 中心天体つきの参照模型は 🎢、多粒子の慣性決定力の連鎖は 🍥", en:"ruling 90: physics.spaceMesh is retired entirely (a composition diagnostic copied from 🌚) — the reference model with a central body is 🎢 and the many-body inertial-determinacy chain is 🍥", see:["shapeToySpiralCore","chainSpreadToy3d"]},
+  galaxyAnalogyBHTilt90:{ja:"第90報: physics.spaceMesh の全面廃止(中心の軸 90° の写し)—— 自転軸の歳差は三次元の 🎲、中心天体つきの参照模型は 🎢", en:"ruling 90: physics.spaceMesh is retired entirely (the 90-degree central-axis copy) — spin-axis precession is the 3D 🎲 and the reference model with a central body is 🎢", see:["coord3dSpinPrecess","shapeToySpiralCore"]},
+  galaxyAnalogyBHTilt90Layers:{ja:"第90報: physics.spaceMesh の全面廃止(親子コアの層の写し)—— 層の構造は 🧅、自転軸の歳差は三次元の 🎲", en:"ruling 90: physics.spaceMesh is retired entirely (the parent–child core-layer copy) — the layered structure is 🧅 and spin-axis precession is the 3D 🎲", see:["layeredCoreDFM","coord3dSpinPrecess"]},
+  clusterAnalogyBH:{ja:"第90報: physics.spaceMesh の全面廃止 —— 球状星団の転写は 🍇、中心天体つきの星団の参照模型は 🎱", en:"ruling 90: physics.spaceMesh is retired entirely — the globular-cluster transcription is 🍇 and the cluster reference model with a central body is 🎱", see:["tuc47","shapeToyClusterCore"]},
+  mercuryGeoToy3:{ja:"第90報: 慣性系の画面に対して重心が移動して行く(宣言した一様な移送 u=V=(2.3,0) の積分 —— 360 步で重心と固定した太陽の x が 1748.12 へ)ので誤り。physics.spaceMesh の全面廃止 —— 水星の三次元は 🌡️、二次元の観測の照合は ☄️", en:"ruling 90: the barycentre drifts across the inertial screen (the integral of the declared uniform transport u=V=(2.3,0) — after 360 steps the barycentre and the pinned Sun sit at x=1748.12), so the sample is wrong. physics.spaceMesh is retired entirely — Mercury in 3D is 🌡️ and the 2D observational comparison is ☄️", see:["mercurySunInertial3d","mercuryReal"]},
+  mercuryMeshMigrate3d:{ja:"第90報: 軌道が実在の水星と違う(☄️ の近日点の速度を x 軸まわりに 30° 回した写し —— 傾斜 30°・昇交点 0°・太陽は固定。実在の三次元の 🌡️ は傾斜 7.005°・昇交点 48.33°・太陽は自由)。spaceMesh の移行先としての役目も全面廃止で消えた —— 水星の三次元は 🌡️", en:"ruling 90: the orbit is not real Mercury's (☄️'s perihelion velocity rotated 30 degrees about the x axis — inclination 30 deg, node 0 deg, Sun pinned; the real 3D 🌡️ has inclination 7.005 deg, node 48.33 deg and a free Sun). Its role as the spaceMesh migration target ended with the full retirement — Mercury in 3D is 🌡️", see:["mercurySunInertial3d"]},
+  charonGeoToy3:{ja:"第90報: physics.spaceMesh(旧 vMinusU 契約)の全面廃止 —— 冥王星とカロンの慣性決定力は gain をフィットした 🟪、入力の対照は 🥶", en:"ruling 90: physics.spaceMesh (the legacy vMinusU contract) is retired entirely — Pluto–Charon inertial determinacy is 🟪 with its fitted gain and the input control is 🥶", see:["plutoCharonInertialFit","plutoCharonDiagInput"]},
+  psrDoubleABGeoToy:{ja:"第90報: physics.spaceMesh(旧 local 法則)の全面廃止 —— 二重パルサーの観測の照合は 📻", en:"ruling 90: physics.spaceMesh (the legacy local law) is retired entirely — the double-pulsar observational comparison is 📻", see:["psrDoubleAB"]},
+  spaceMeshBinaryToy:{ja:"第90報: physics.spaceMesh の全面廃止(メッシュの重力は既にある重力 —— 結論は PHYSICS の履歴に残る)。二体の基本は ⭐、表示の空間メッシュ(受動プローブ)は在位の本で使える", en:"ruling 90: physics.spaceMesh is retired entirely (the mesh gravity is the existing gravity — the conclusion stays in the PHYSICS history). The two-body basics are ⭐ and the display space mesh (a passive probe) remains available on in-place samples", see:["binary"]},
 };
 function retiredOf(p){ return !!(p && p.familyRole==="retired"); }
 // 一覧から外す(読み込み中の本だけは選択の保持のため出す —— variant と同じ流儀)
@@ -37182,7 +37235,7 @@ function retiredNoticeText(p){
   const e=RETIRED_PRESETS[p.id]||null;
   const why=e? (LANG==="en"? e.en : e.ja) : "";
   const see=e? e.see.map(id=>{ const q=BUILTIN_PRESETS.find(z=>z.id===id); return q? (q.emoji||"")+" "+pName(q) : id; }).join(" / ") : "";
-  return T("retiredNotice")(why,see);
+  return T("retiredNotice")(why,see)+(spaceMeshRetiredBuiltinOf(p)? " "+T("smRetiredOpenNote") : "");   // 第300便a
 }
 // 第117便(外部レビュー採択・原仮定者裁定「サンプルの整理を進める」): catalog 可視性 —
 // 「すべて表示」OFF のとき catalog:"extended"/"diagnostic" は**検索・グループ/属性絞り込みでも
@@ -38321,6 +38374,9 @@ function loadSave(s, selValue){
     if(selValue && currentPreset) setPresetSelectValue(currentPreset.id);
     return false;
   }
+  // 第300便a(第90報⑤・R175): physics.spaceMesh(廃止)を含むセーブは読まない(背景と慣性の受理器の後 —— それらの拒否の理由が先に出る。状態を 1 bit も変えずに理由を出す —— 別の法則へ変換しない)
+  { const dn=spaceMeshRetiredDenyOf({physics:s.physics}, "loadSave");
+    if(dn.deny){ notify(dn.msg,9000); if(selValue && currentPreset) setPresetSelectValue(currentPreset.id); return false; } }
   // 第299便f(R172): 保存の座標(physics.coord)が本の宣言と違えば(三次元の切り替えの写しの保存)、同じ写しを作って開く。作れなければ読込を中止
   { const cdS=coordOf(s.physics), cdP=coordOf(pre.physics);
     if(cdS!==cdP){ const pl=coordSwitchPlanOf(pre,cdS);
@@ -38488,6 +38544,10 @@ function loadPreset(id, keepPhysics){
   // 同一サンプルの継続なので現状維持。セーブ読込は loadSave 側で保存時の状態を復元する
   if(physLock && !keepPhysics) setPhysLock(false);
   let p=allPresets().find(q=>q.id===id) || BUILTIN_PRESETS[0];
+  // 第300便a(第90報⑤・R175): 保存したカスタムの本(内蔵でない)が physics.spaceMesh(廃止)を宣言していれば開かない(理由を出し、いまの本のまま)。
+  //   内蔵の退役の本は履歴として開く(spaceMeshRetiredBuiltinOf —— 説明の退役の行に smRetiredOpenNote)
+  if(BUILTIN_PRESETS.indexOf(p)<0){ const dn=spaceMeshRetiredDenyOf(p, "custom");
+    if(dn.deny){ notify(dn.msg,9000); if(currentPreset){ setPresetSelectValue(currentPreset.id); return; } p=BUILTIN_PRESETS[0]; } }
   // 第299便f: 三次元の切り替えの写し —— 切り替えの適用と同じ本の ⏮初めから(coordSwitchHold)だけが使う。別の本・一覧からの読み込みでは外す
   if(coordSwitch && coordSwitchHold && coordSwitch.id===p.id) p=coordSwitch.preset;
   else { coordSwitch=null; coordSwMsg=""; coordSwConfirmKey=null; }
@@ -41030,6 +41090,8 @@ function copyJSON(data){
   } else { $("#ioArea").value=data; notify(T("copyFallback"),3500); }
 }
 $("#btnSave").addEventListener("click",()=>{
+  // 第300便a(第90報⑤・R175): physics.spaceMesh(廃止)を宣言した状態は保存しない(退役の本を履歴として開いた走行 —— 理由を出して止める)
+  { const dn=spaceMeshRetiredDenyOf({physics:sim.params}, "save"); if(dn.deny){ notify(dn.msg,9000); return; } }
   const name=($("#saveName").value.trim()||T("untitled")+" "+new Date().toLocaleString(LANG==="en"?"en-US":"ja-JP"));
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
@@ -41298,6 +41360,8 @@ function doImportText(text){
   const addedPresets=[];   // v1.17: 保存一覧への自動登録用
   const modeImp=[];        // 第295便a(R153): 目的の組と違う設定の取り込み(本の名前と判定)
   for(const c of co.customPresets){
+    // 第300便a(第90報⑤・R175): physics.spaceMesh(廃止)を宣言した本は取り込まない(不正の件数に数え、理由を最初の誤りとして出す)
+    { const dn=spaceMeshRetiredDenyOf(c, "import"); if(dn.deny){ bad++; if(!firstErr) firstErr=dn.msg; continue; } }
     const v=validatePreset(c);
     if(v.legacyCore) migFrom=(migFrom===null)? srcSchema : Math.min(migFrom,srcSchema);
     if(!v.ok){ bad++; if(!firstErr) firstErr=v.errors[0]||""; continue; }
@@ -41345,7 +41409,10 @@ function doImportText(text){
     haveSig.add(sKey(s)); if(nm) haveNames.add(nm);
     if(countIt) added++;
   };
-  for(const s of co.saves){ if(s&&typeof s==="object") acceptSave(s,true); }
+  for(const s of co.saves){ if(s&&typeof s==="object"){
+    const dn=spaceMeshRetiredDenyOf({physics:s.physics}, "import");   // 第300便a: physics.spaceMesh を含むセーブも取り込まない
+    if(dn.deny){ bad++; if(!firstErr) firstErr=dn.msg; continue; }
+    acceptSave(s,true); } }
   // v1.17: インポートしたプリセットは必ず保存一覧に載せる(バックアップ内のセーブが
   // 同じプリセットを参照している場合は二重登録しない。自動登録は件数に数えない)
   const referenced=new Set(co.saves.map(s=>s&&String(s.presetId)));
@@ -41433,12 +41500,12 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 spaceMesh.lawVersion は互換〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 physics.spaceMesh は廃止 —— 受理で拒否〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止予定なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。省略可の dragQ(粒子別の引きずり減衰指数 0.5〜40・既定は physics.q)。
@@ -43063,6 +43130,8 @@ function stabTimeStd(p, changes, notes){
 }
 function stabilizePreset(input, opts){
   const o=opts||{}, changes=[], notes=[];
+  // 第300便a(第90報⑤・R175): 貼り付け・AI 生成の取り込みは physics.spaceMesh(廃止)を受理しない(検証の段の誤り —— 再試行の指示にも理由が載る)
+  { const dn=spaceMeshRetiredDenyOf(input, "intake"); if(dn.deny) return {ok:false, stage:"validate", errors:[dn.msg], changes, notes}; }
   const v0=validatePreset(input);
   if(!v0.ok) return {ok:false, stage:"validate", errors:v0.errors, changes, notes};
   const p=JSON.parse(JSON.stringify(v0.preset));
