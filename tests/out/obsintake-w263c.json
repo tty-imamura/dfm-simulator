@@ -1,5 +1,5 @@
 {
- "when": "2026-10-11T13:24:15.073Z",
+ "when": "2026-10-12T09:46:27.756Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -107,21 +107,21 @@
  },
  "gateByTier": {
   "太陽系": {
-   "presets": 11,
-   "quantities": 105,
+   "presets": 10,
+   "quantities": 91,
    "status": {
-    "未判定": 103,
+    "未判定": 89,
     "数値未解決": 1,
     "否(3σ)": 1
    },
    "sigmaFrom": {
     "csv": 2,
     "obsCard": 0,
-    "none": 103
+    "none": 89
    },
    "sigmaVerified": 2,
-   "sigmaUnverified": 39,
-   "noSigmaSource": 44
+   "sigmaUnverified": 34,
+   "noSigmaSource": 37
   },
   "恒星": {
    "presets": 2,
@@ -1500,25 +1500,11 @@
   ]
  },
  "missingA": {
-  "n": 65,
+  "n": 59,
   "byCut": {
-   "csv-sigma-empty": 65
+   "csv-sigma-empty": 59
   },
   "rows": [
-   {
-    "key": "Venus|orbital_period",
-    "body": "Venus",
-    "target": "金星",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞",
-     "🌇"
-    ],
-    "nQuantities": 4,
-    "obsPresent": 3
-   },
    {
     "key": "Io|orbital_period",
     "body": "Io",
@@ -1528,6 +1514,19 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "🟠"
+    ],
+    "nQuantities": 3,
+    "obsPresent": 2
+   },
+   {
+    "key": "Venus|orbital_period",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌇"
     ],
     "nQuantities": 3,
     "obsPresent": 2
@@ -1586,62 +1585,6 @@
     ],
     "nQuantities": 2,
     "obsPresent": 1
-   },
-   {
-    "key": "Mercury|orbital_period",
-    "body": "Mercury",
-    "target": "水星",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "☄️",
-     "🌞"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 2
-   },
-   {
-    "key": "Mercury|eccentricity",
-    "body": "Mercury",
-    "target": "水星",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "☄️",
-     "🌞"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Venus|eccentricity",
-    "body": "Venus",
-    "target": "金星",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞",
-     "🌇"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 2
-   },
-   {
-    "key": "Venus|periastron_advance",
-    "body": "Venus",
-    "target": "金星",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞",
-     "🌇"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
    },
    {
     "key": "Europa|orbital_period",
@@ -1735,79 +1678,27 @@
     "obsPresent": 2
    },
    {
-    "key": "Earth|orbital_period",
-    "body": "Earth",
-    "target": "地球",
+    "key": "Mercury|orbital_period",
+    "body": "Mercury",
+    "target": "水星",
     "quantity": "orbital_period",
     "kind": "period",
     "cut": "csv-sigma-empty",
     "presets": [
-     "🌞"
+     "☄️"
     ],
     "nQuantities": 1,
     "obsPresent": 1
    },
    {
-    "key": "Mars|orbital_period",
-    "body": "Mars",
-    "target": "火星",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 1
-   },
-   {
-    "key": "Earth|eccentricity",
-    "body": "Earth",
-    "target": "地球",
+    "key": "Mercury|eccentricity",
+    "body": "Mercury",
+    "target": "水星",
     "quantity": "eccentricity",
     "kind": "ecc",
     "cut": "csv-sigma-empty",
     "presets": [
-     "🌞"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Earth|periastron_advance",
-    "body": "Earth",
-    "target": "地球",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Mars|eccentricity",
-    "body": "Mars",
-    "target": "火星",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Mars|periastron_advance",
-    "body": "Mars",
-    "target": "火星",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌞"
+     "☄️"
     ],
     "nQuantities": 1,
     "obsPresent": 0
@@ -1912,6 +1803,32 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "🟠"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Venus|eccentricity",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌇"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Venus|periastron_advance",
+    "body": "Venus",
+    "target": "金星",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌇"
     ],
     "nQuantities": 1,
     "obsPresent": 0

@@ -332,7 +332,9 @@ const fv = (x) => (x === null || x === undefined) ? '—' : (typeof x === 'numbe
 export const MD_FORBIDDEN = new RegExp(SS_FORBIDDEN.source + '|統合した|畳んだ|較正を完了|観測一致を達成|f=1 で合った|kF0 版が成立した|形状が安定した|腕が創発した');
 export function renderMd(J) {
   const L = [];
-  L.push('# 同一天体の家族の差分表と統廃合の候補(v1.45-b1・第283便b)');
+  // 第300便d(原仮定者の裁定(第90報)⑦・R178): 見出しの版名は正本の betaBuild(器が html の BETA_BUILD を写す —— 便名 v1.45-b<便の番号>)。
+  //   betaBuild を持たない旧正本は "v1.45-b1"(第283便b〜第299便の固定)のまま —— QA docs.families の作り直しは正本だけから引く
+  L.push('# 同一天体の家族の差分表と統廃合の候補(' + (J.betaBuild || 'v1.45-b1') + '・第283便b)');
   L.push('');
   L.push('> **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `' + CAL + '`(較正母集団)・凍結の写し `' + RETIRED_FX + '` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。');
   L.push('> 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。');
@@ -447,7 +449,8 @@ if (IS_MAIN) {
   const TARGET = process.env.QA_TARGET || 'beta/index.html';
   const t0 = Date.now();
   const B = build(ROOT, TARGET);
-  const J = { meta: null, harnessVersion: HARNESS_VERSION, rules: RULES,
+  const BB = (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').match(/const BETA_BUILD = "([^"]+)"/) || [])[1] || null;   // 第300便d
+  const J = { meta: null, harnessVersion: HARNESS_VERSION, rules: RULES, betaBuild: BB,
     ruling: '原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向',
     reading: '統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)',
     notClaim: ['統合した', '観測一致を達成した', '較正を完了した', '形状が安定した'],

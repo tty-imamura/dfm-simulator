@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T13:48:20.795Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T10:12:11.039Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T11:59:41.552Z"
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-12T08:16:45.878Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-11T12:49:27.596Z"
+    "bytes": 1721927,
+    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
+    "mtime": "2026-10-12T09:11:05.462Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 64988,
-    "sha256": "d0a985a66e6fcdd9403761d3d8350624d0fbc069e489056e00c7724844075d4c",
-    "mtime": "2026-10-11T13:48:20.611Z"
+    "bytes": 55689,
+    "sha256": "766b11f23107f6cdf2faa6b591db0ceda7185da2fe02c143b0be5ddfc5f4c37b",
+    "mtime": "2026-10-12T10:12:10.990Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 43603,
-    "sha256": "d6fefcb1086420471e509bcc4a426ce178bdb28275c343b8ed172646fe514e27",
-    "mtime": "2026-10-11T00:52:29.981Z"
+    "bytes": 44124,
+    "sha256": "59df093b0680f5aa54ba16a510c8b889e14026c93ff574430c9aec5ae51a3f85",
+    "mtime": "2026-10-12T02:08:13.367Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 277223,
-    "sha256": "2b917f8862d2655238a0930e945bbe87a14187955fa749531b84049767d347b1",
-    "mtime": "2026-10-11T08:52:45.892Z"
+    "bytes": 280023,
+    "sha256": "43564d83a6475af3c3e198b315b6b0587c7c8d06d8c1623e6dd044756848d635",
+    "mtime": "2026-10-12T05:11:05.893Z"
    }
   ],
-  "codeSha256": "ac3277e2a183d2d486873b46e164c6c0ac40d6b23ef11bc555d59d135d8a2b73",
+  "codeSha256": "2bc9fdc1747a234e26745afccf89b11216a1016e520d67eb8d2113ec06642abf",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1194,
-   "segments": 1087,
-   "closureShare": 0.3459
+   "names": 1205,
+   "segments": 1096,
+   "closureShare": 0.3454
   },
-  "scopeSha256": "acf8f5f767c7592a70d5c46323f3bef1fed609e2a1f6002b4a52394a97d3b485",
+  "scopeSha256": "eece922b1198eeb38cf1e3c255fd9458e0e042058d31463304693cd0edb1fb12",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "60393af84c3ed77fc8afd659621204b8391dda5fe7bcc1c5ba161802f34e650f",
+    "stableSha256": "a31a5652e10d95964a5d3f5e80ee1a99b8cde6835c77dbbde0fcb9a9934ae1c3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "769c9f455642d333d0c4f4634f218cbc9a770cf72eb409a86fcdbb1346343f33",
+    "stableSha256": "97cf79bae07218e8e6c6c1b636133bb1b8720b826bd03323af0a349ad70bd933",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,6 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
+ "betaBuild": "v1.45-b300",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -243,15 +244,15 @@
  "badRole": [],
  "counts": {
   "families": 22,
-  "members": 57,
+  "members": 50,
   "retiredMembers": 0,
   "role": {
    "主系列": 26,
-   "診断": 11,
-   "比較": 20
+   "診断": 5,
+   "比較": 19
   },
   "cand": {
-   "A": 7,
+   "A": 2,
    "C": 1
   },
   "keepApart": 0
@@ -263,11 +264,11 @@
    "ref": "plutoCharonDiagInput",
    "ids": [
     "plutoCharonDiagInput",
-    "charonGeoToy3",
     "plutoCharonInertialFit"
    ],
    "retiredIds": [
     "plutoCharonKF0Control",
+    "charonGeoToy3",
     "plutoCharonReal",
     "plutoCharonDFM",
     "plutoCharonSyncZero",
@@ -304,60 +305,6 @@
      "roleWhy": "較正母集団",
      "input": "基準",
      "vsRef": null
-    },
-    {
-     "id": "charonGeoToy3",
-     "emoji": "🌒",
-     "name": "冥王星とカロン — geoPN=4 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
-     "familyId": "pluto",
-     "familyRole": "variant",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "現実較正",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": "旧 vMinusU 契約の診断コピー(置き場は geoPN=4・太陽の背景)",
-     "geoPN": 4,
-     "kFrame": 0,
-     "D0": 0.006,
-     "D0pull": null,
-     "q": 11.9386,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": "vertex",
-     "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
-     "gates": [],
-     "presetSigHash": "ac555132",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「診断」",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": false,
-       "x": false,
-       "v": false,
-       "other": false
-      },
-      "physicsDiff": [
-       "backgroundComplex",
-       "geoPN",
-       "lambdaPN",
-       "massPrecision",
-       "meshVelocity",
-       "softening",
-       "spaceMesh",
-       "stepDt"
-      ],
-      "topDiff": [
-       "integrator",
-       "scaleExp",
-       "timeRef"
-      ]
-     },
-     "input": "違う入力(質量・位置・速度)"
     },
     {
      "id": "plutoCharonInertialFit",
@@ -409,78 +356,9 @@
    ],
    "keyDiff": [
     {
-     "key": "physics.backgroundComplex",
-     "values": {
-      "plutoCharonDiagInput": null,
-      "charonGeoToy3": {
-       "background": "declared",
-       "W0": 5.6999875742828215e-9,
-       "A0": [
-        0,
-        2.701885161114078e-9
-       ],
-       "gradW": [
-        -1.93009222560893e-15,
-        0
-       ],
-       "gradA": [
-        0,
-        0,
-        -9.14894545995665e-16,
-        0
-       ],
-       "dWdt": 0,
-       "dAdt": [
-        2.16837314607735e-16,
-        0
-       ],
-       "note": "第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)",
-       "refPos": [
-        0,
-        0
-       ],
-       "sources": [
-        {
-         "id": "sun",
-         "kind": "body",
-         "excludedExplicit": true
-        }
-       ],
-       "frame": {
-        "origin": "barycenter",
-        "epoch": "t0(第280便c の診断コピー)",
-        "rotation": "none",
-        "translation": "comoving"
-       },
-       "bgModel": "sources",
-       "ledger": [
-        {
-         "id": "sun",
-         "m": 198849.99999999997,
-         "x": -5906440.633928273,
-         "y": 0,
-         "vx": 0,
-         "vy": 0.4740159738776329,
-         "ax": 3.8041717070763564e-8,
-         "ay": 0
-        }
-       ],
-       "eps": 0.05,
-       "timeContract": {
-        "mode": "sources",
-        "t0": 0,
-        "derivFrame": "frame",
-        "widthT": 340000
-       }
-      },
-      "plutoCharonInertialFit": null
-     }
-    },
-    {
      "key": "physics.geoPN",
      "values": {
       "plutoCharonDiagInput": 1,
-      "charonGeoToy3": 4,
       "plutoCharonInertialFit": 3
      }
     },
@@ -488,41 +366,13 @@
      "key": "physics.lambdaPN",
      "values": {
       "plutoCharonDiagInput": 1,
-      "charonGeoToy3": 0,
       "plutoCharonInertialFit": 0
-     }
-    },
-    {
-     "key": "physics.massPrecision",
-     "values": {
-      "plutoCharonDiagInput": "double",
-      "charonGeoToy3": null,
-      "plutoCharonInertialFit": "double"
-     }
-    },
-    {
-     "key": "physics.meshVelocity",
-     "values": {
-      "plutoCharonDiagInput": null,
-      "charonGeoToy3": {
-       "law": "vMinusU",
-       "field": "backgroundComplex",
-       "mutual": 0,
-       "frame": {
-        "origin": "barycenter",
-        "epoch": "t0(第280便c の診断コピー)",
-        "rotation": "none",
-        "translation": "comoving"
-       }
-      },
-      "plutoCharonInertialFit": null
      }
     },
     {
      "key": "physics.relativeDrag",
      "values": {
       "plutoCharonDiagInput": null,
-      "charonGeoToy3": null,
       "plutoCharonInertialFit": {
        "law": "inertial",
        "gain": 6729.009,
@@ -536,65 +386,9 @@
      }
     },
     {
-     "key": "physics.softening",
-     "values": {
-      "plutoCharonDiagInput": 0.01,
-      "charonGeoToy3": 0.05,
-      "plutoCharonInertialFit": 0.01
-     }
-    },
-    {
-     "key": "physics.spaceMesh",
-     "values": {
-      "plutoCharonDiagInput": null,
-      "charonGeoToy3": {
-       "mode": "vertex",
-       "gravity": false,
-       "inertia": false,
-       "lawVersion": "vMinusU",
-       "pn": "off",
-       "velocityMeaning": "xdot"
-      },
-      "plutoCharonInertialFit": null
-     }
-    },
-    {
-     "key": "physics.stepDt",
-     "values": {
-      "plutoCharonDiagInput": 153.293,
-      "charonGeoToy3": 15.3293,
-      "plutoCharonInertialFit": 153.293
-     }
-    },
-    {
      "key": "fitRecord",
      "values": {
       "plutoCharonDiagInput": null,
-      "charonGeoToy3": null,
-      "plutoCharonInertialFit": "(宣言あり)"
-     }
-    },
-    {
-     "key": "integrator",
-     "values": {
-      "plutoCharonDiagInput": "leapfrog",
-      "charonGeoToy3": null,
-      "plutoCharonInertialFit": "leapfrog"
-     }
-    },
-    {
-     "key": "scaleExp",
-     "values": {
-      "plutoCharonDiagInput": "(宣言あり)",
-      "charonGeoToy3": "(宣言あり)",
-      "plutoCharonInertialFit": "(宣言あり)"
-     }
-    },
-    {
-     "key": "timeRef",
-     "values": {
-      "plutoCharonDiagInput": "(宣言あり)",
-      "charonGeoToy3": "(宣言あり)",
       "plutoCharonInertialFit": "(宣言あり)"
      }
     },
@@ -602,7 +396,6 @@
      "key": "sampleClass",
      "values": {
       "plutoCharonDiagInput": "calibration",
-      "charonGeoToy3": "principle",
       "plutoCharonInertialFit": "principle"
      }
     },
@@ -610,7 +403,6 @@
      "key": "calVariant",
      "values": {
       "plutoCharonDiagInput": "kf0",
-      "charonGeoToy3": null,
       "plutoCharonInertialFit": null
      }
     },
@@ -618,7 +410,6 @@
      "key": "familyRole",
      "values": {
       "plutoCharonDiagInput": "primary",
-      "charonGeoToy3": "variant",
       "plutoCharonInertialFit": "variant"
      }
     },
@@ -626,12 +417,11 @@
      "key": "bodies(vs 基準)",
      "values": {
       "plutoCharonDiagInput": "基準",
-      "charonGeoToy3": "違う入力(質量・位置・速度)",
       "plutoCharonInertialFit": "同じ入力"
      }
     }
    ],
-   "physicsSameKeys": 24,
+   "physicsSameKeys": 27,
    "candidates": [
     {
      "rule": "A",
@@ -653,14 +443,14 @@
    "ids": [
     "earthMoonRealKF1",
     "earthMoonReal",
-    "emAuditSolar",
-    "earthMoonInertial",
-    "earthMoonTide"
+    "emAuditSolar"
    ],
    "retiredIds": [
     "emAuditNewton",
     "emAuditDFM",
     "earthMoonDiagOne",
+    "earthMoonInertial",
+    "earthMoonTide",
     "earthMoonSunInertial"
    ],
    "rows": [
@@ -741,6 +531,7 @@
        "q"
       ],
       "topDiff": [
+       "approximation",
        "fitRecord",
        "qLock"
       ]
@@ -797,6 +588,7 @@
        "stepDt"
       ],
       "topDiff": [
+       "approximation",
        "fitRecord",
        "qLock",
        "scaleExp",
@@ -804,111 +596,6 @@
       ]
      },
      "input": "違う入力(本数・質量・位置・速度)"
-    },
-    {
-     "id": "earthMoonInertial",
-     "emoji": "🌛",
-     "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
-     "familyId": "earthmoon",
-     "familyRole": "variant",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "天体の機構",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 3,
-     "kFrame": 0,
-     "D0": 0.1,
-     "D0pull": null,
-     "q": 3,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": "inertial",
-     "spaceMesh": null,
-     "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
-     "gates": [],
-     "presetSigHash": "ed1b7fb9",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・geoPN=3",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": true,
-       "x": true,
-       "v": true,
-       "other": false
-      },
-      "physicsDiff": [
-       "D0",
-       "D0pull",
-       "frameWeight",
-       "geoPN",
-       "kFrame",
-       "q",
-       "relativeDrag"
-      ],
-      "topDiff": [
-       "fitRecord",
-       "qLock"
-      ]
-     },
-     "input": "同じ入力"
-    },
-    {
-     "id": "earthMoonTide",
-     "emoji": "🌜",
-     "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
-     "familyId": "earthmoon",
-     "familyRole": "variant",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "天体の機構",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 1,
-     "kFrame": 0,
-     "D0": 0.1,
-     "D0pull": null,
-     "q": 3,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": null,
-     "purpose": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る",
-     "gates": [],
-     "presetSigHash": "4b79e5b5",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「診断」",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": true,
-       "x": true,
-       "v": true,
-       "other": false
-      },
-      "physicsDiff": [
-       "D0",
-       "D0pull",
-       "frameWeight",
-       "geoPN",
-       "kFrame",
-       "lambdaPN",
-       "q",
-       "tide"
-      ],
-      "topDiff": [
-       "fitRecord",
-       "qLock"
-      ]
-     },
-     "input": "同じ入力"
     }
    ],
    "keyDiff": [
@@ -917,9 +604,7 @@
      "values": {
       "earthMoonRealKF1": 0.006,
       "earthMoonReal": 0.1,
-      "emAuditSolar": 0.1,
-      "earthMoonInertial": 0.1,
-      "earthMoonTide": 0.1
+      "emAuditSolar": 0.1
      }
     },
     {
@@ -927,9 +612,7 @@
      "values": {
       "earthMoonRealKF1": 0.001,
       "earthMoonReal": null,
-      "emAuditSolar": null,
-      "earthMoonInertial": null,
-      "earthMoonTide": null
+      "emAuditSolar": null
      }
     },
     {
@@ -937,9 +620,7 @@
      "values": {
       "earthMoonRealKF1": null,
       "earthMoonReal": "share",
-      "emAuditSolar": "share",
-      "earthMoonInertial": "share",
-      "earthMoonTide": "share"
+      "emAuditSolar": "share"
      }
     },
     {
@@ -947,9 +628,7 @@
      "values": {
       "earthMoonRealKF1": 2,
       "earthMoonReal": 1,
-      "emAuditSolar": 1,
-      "earthMoonInertial": 3,
-      "earthMoonTide": 1
+      "emAuditSolar": 1
      }
     },
     {
@@ -957,9 +636,7 @@
      "values": {
       "earthMoonRealKF1": 1,
       "earthMoonReal": 0,
-      "emAuditSolar": 0,
-      "earthMoonInertial": 0,
-      "earthMoonTide": 0
+      "emAuditSolar": 0
      }
     },
     {
@@ -967,9 +644,7 @@
      "values": {
       "earthMoonRealKF1": 0,
       "earthMoonReal": 1,
-      "emAuditSolar": 1,
-      "earthMoonInertial": 0,
-      "earthMoonTide": 1
+      "emAuditSolar": 1
      }
     },
     {
@@ -977,25 +652,7 @@
      "values": {
       "earthMoonRealKF1": 8.2358,
       "earthMoonReal": 3,
-      "emAuditSolar": 3,
-      "earthMoonInertial": 3,
-      "earthMoonTide": 3
-     }
-    },
-    {
-     "key": "physics.relativeDrag",
-     "values": {
-      "earthMoonRealKF1": null,
-      "earthMoonReal": null,
-      "emAuditSolar": null,
-      "earthMoonInertial": {
-       "law": "inertial",
-       "gain": 514182,
-       "eps": 0.1,
-       "pairs": "all",
-       "history": "positions"
-      },
-      "earthMoonTide": null
+      "emAuditSolar": 3
      }
     },
     {
@@ -1003,9 +660,7 @@
      "values": {
       "earthMoonRealKF1": 0.1,
       "earthMoonReal": 0.1,
-      "emAuditSolar": 0.01,
-      "earthMoonInertial": 0.1,
-      "earthMoonTide": 0.1
+      "emAuditSolar": 0.01
      }
     },
     {
@@ -1013,25 +668,15 @@
      "values": {
       "earthMoonRealKF1": 65.5721,
       "earthMoonReal": 65.5721,
-      "emAuditSolar": 0.655721,
-      "earthMoonInertial": 65.5721,
-      "earthMoonTide": 65.5721
+      "emAuditSolar": 0.655721
      }
     },
     {
-     "key": "physics.tide",
+     "key": "approximation",
      "values": {
-      "earthMoonRealKF1": null,
-      "earthMoonReal": null,
-      "emAuditSolar": null,
-      "earthMoonInertial": null,
-      "earthMoonTide": {
-       "model": "ctl",
-       "maxN": 8,
-       "velocity": "v",
-       "inertia": "half",
-       "split": "full"
-      }
+      "earthMoonRealKF1": "(宣言あり)",
+      "earthMoonReal": "(宣言あり)",
+      "emAuditSolar": null
      }
     },
     {
@@ -1039,9 +684,7 @@
      "values": {
       "earthMoonRealKF1": "(宣言あり)",
       "earthMoonReal": null,
-      "emAuditSolar": null,
-      "earthMoonInertial": null,
-      "earthMoonTide": null
+      "emAuditSolar": null
      }
     },
     {
@@ -1049,9 +692,7 @@
      "values": {
       "earthMoonRealKF1": true,
       "earthMoonReal": null,
-      "emAuditSolar": null,
-      "earthMoonInertial": null,
-      "earthMoonTide": null
+      "emAuditSolar": null
      }
     },
     {
@@ -1059,9 +700,7 @@
      "values": {
       "earthMoonRealKF1": "(宣言あり)",
       "earthMoonReal": "(宣言あり)",
-      "emAuditSolar": "(宣言あり)",
-      "earthMoonInertial": "(宣言あり)",
-      "earthMoonTide": "(宣言あり)"
+      "emAuditSolar": "(宣言あり)"
      }
     },
     {
@@ -1069,9 +708,7 @@
      "values": {
       "earthMoonRealKF1": "(宣言あり)",
       "earthMoonReal": "(宣言あり)",
-      "emAuditSolar": "(宣言あり)",
-      "earthMoonInertial": "(宣言あり)",
-      "earthMoonTide": "(宣言あり)"
+      "emAuditSolar": "(宣言あり)"
      }
     },
     {
@@ -1079,9 +716,7 @@
      "values": {
       "earthMoonRealKF1": "principle",
       "earthMoonReal": "calibration",
-      "emAuditSolar": "calibration",
-      "earthMoonInertial": "principle",
-      "earthMoonTide": "principle"
+      "emAuditSolar": "calibration"
      }
     },
     {
@@ -1089,9 +724,7 @@
      "values": {
       "earthMoonRealKF1": null,
       "earthMoonReal": "kf0",
-      "emAuditSolar": "kf0",
-      "earthMoonInertial": null,
-      "earthMoonTide": null
+      "emAuditSolar": "kf0"
      }
     },
     {
@@ -1099,9 +732,7 @@
      "values": {
       "earthMoonRealKF1": "variant",
       "earthMoonReal": "primary",
-      "emAuditSolar": "variant",
-      "earthMoonInertial": "variant",
-      "earthMoonTide": "variant"
+      "emAuditSolar": "variant"
      }
     },
     {
@@ -1109,9 +740,7 @@
      "values": {
       "earthMoonRealKF1": null,
       "earthMoonReal": null,
-      "emAuditSolar": "behavior.emAudit",
-      "earthMoonInertial": null,
-      "earthMoonTide": null
+      "emAuditSolar": "behavior.emAudit"
      }
     },
     {
@@ -1119,33 +748,12 @@
      "values": {
       "earthMoonRealKF1": "基準",
       "earthMoonReal": "同じ入力",
-      "emAuditSolar": "違う入力(本数・質量・位置・速度)",
-      "earthMoonInertial": "同じ入力",
-      "earthMoonTide": "同じ入力"
+      "emAuditSolar": "違う入力(本数・質量・位置・速度)"
      }
     }
    ],
    "physicsSameKeys": 19,
-   "candidates": [
-    {
-     "rule": "A",
-     "keep": "earthMoonRealKF1",
-     "fold": [
-      "earthMoonInertial"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が earthMoonRealKF1 と同じ・違うのは physics の D0・D0pull・frameWeight・geoPN・kFrame・q・relativeDrag"
-    },
-    {
-     "rule": "A",
-     "keep": "earthMoonRealKF1",
-     "fold": [
-      "earthMoonTide"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が earthMoonRealKF1 と同じ・違うのは physics の D0・D0pull・frameWeight・geoPN・kFrame・lambdaPN・q・tide"
-    }
-   ],
+   "candidates": [],
    "keepApart": [],
    "history": []
   },
@@ -1155,11 +763,11 @@
    "ref": "mercuryReal",
    "ids": [
     "mercuryReal",
-    "mercuryGeoToy3",
     "mercurySunInertialFit"
    ],
    "retiredIds": [
     "mercuryRealKF1",
+    "mercuryGeoToy3",
     "mercurySunInertial"
    ],
    "rows": [
@@ -1193,53 +801,6 @@
      "roleWhy": "較正母集団",
      "input": "基準",
      "vsRef": null
-    },
-    {
-     "id": "mercuryGeoToy3",
-     "emoji": "🔁",
-     "name": "水星 — geoPN=4 契約の零試験(一様な座標変換・較正ではない)",
-     "familyId": "mercury",
-     "familyRole": "variant",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "現実較正",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 4,
-     "kFrame": 0,
-     "D0": 0.1,
-     "D0pull": null,
-     "q": 3,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": "vertex",
-     "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=4 契約で確かめる",
-     "gates": [],
-     "presetSigHash": "ee85610",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「零」",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": true,
-       "x": true,
-       "v": true,
-       "other": true
-      },
-      "physicsDiff": [
-       "backgroundComplex",
-       "geoPN",
-       "lambdaPN",
-       "meshVelocity",
-       "spaceMesh"
-      ],
-      "topDiff": []
-     },
-     "input": "同じ入力"
     },
     {
      "id": "mercurySunInertialFit",
@@ -1291,54 +852,9 @@
    ],
    "keyDiff": [
     {
-     "key": "physics.backgroundComplex",
-     "values": {
-      "mercuryReal": null,
-      "mercuryGeoToy3": {
-       "background": "declared",
-       "W0": 1,
-       "A0": [
-        2.3,
-        0
-       ],
-       "gradW": [
-        0,
-        0
-       ],
-       "gradA": [
-        0,
-        0,
-        0,
-        0
-       ],
-       "dWdt": 0,
-       "dAdt": [
-        0,
-        0
-       ],
-       "note": "第280便c: 一様な座標変換 u=V の零試験(点源 1 個の mutual:0 の場と同じ形)",
-       "sources": [
-        {
-         "id": "uniform-u",
-         "kind": "field",
-         "excludedExplicit": true
-        }
-       ],
-       "frame": {
-        "origin": "barycenter",
-        "epoch": "t0(第280便c の診断コピー)",
-        "rotation": "none",
-        "translation": "comoving"
-       }
-      },
-      "mercurySunInertialFit": null
-     }
-    },
-    {
      "key": "physics.geoPN",
      "values": {
       "mercuryReal": 1,
-      "mercuryGeoToy3": 4,
       "mercurySunInertialFit": 3
      }
     },
@@ -1346,33 +862,13 @@
      "key": "physics.lambdaPN",
      "values": {
       "mercuryReal": 1,
-      "mercuryGeoToy3": 0,
       "mercurySunInertialFit": 0
-     }
-    },
-    {
-     "key": "physics.meshVelocity",
-     "values": {
-      "mercuryReal": null,
-      "mercuryGeoToy3": {
-       "law": "vMinusU",
-       "field": "backgroundComplex",
-       "mutual": 0,
-       "frame": {
-        "origin": "barycenter",
-        "epoch": "t0(第280便c の診断コピー)",
-        "rotation": "none",
-        "translation": "comoving"
-       }
-      },
-      "mercurySunInertialFit": null
      }
     },
     {
      "key": "physics.relativeDrag",
      "values": {
       "mercuryReal": null,
-      "mercuryGeoToy3": null,
       "mercurySunInertialFit": {
        "law": "inertial",
        "gain": 0.004522415,
@@ -1383,25 +879,9 @@
      }
     },
     {
-     "key": "physics.spaceMesh",
-     "values": {
-      "mercuryReal": null,
-      "mercuryGeoToy3": {
-       "mode": "vertex",
-       "gravity": false,
-       "inertia": false,
-       "lawVersion": "vMinusU",
-       "pn": "off",
-       "velocityMeaning": "v"
-      },
-      "mercurySunInertialFit": null
-     }
-    },
-    {
      "key": "fitRecord",
      "values": {
       "mercuryReal": null,
-      "mercuryGeoToy3": null,
       "mercurySunInertialFit": "(宣言あり)"
      }
     },
@@ -1409,7 +889,6 @@
      "key": "sampleClass",
      "values": {
       "mercuryReal": "calibration",
-      "mercuryGeoToy3": "principle",
       "mercurySunInertialFit": "principle"
      }
     },
@@ -1417,7 +896,6 @@
      "key": "calVariant",
      "values": {
       "mercuryReal": "kf0",
-      "mercuryGeoToy3": null,
       "mercurySunInertialFit": null
      }
     },
@@ -1425,7 +903,6 @@
      "key": "familyRole",
      "values": {
       "mercuryReal": "primary",
-      "mercuryGeoToy3": "variant",
       "mercurySunInertialFit": "variant"
      }
     },
@@ -1433,22 +910,12 @@
      "key": "bodies(vs 基準)",
      "values": {
       "mercuryReal": "基準",
-      "mercuryGeoToy3": "同じ入力",
       "mercurySunInertialFit": "同じ入力"
      }
     }
    ],
    "physicsSameKeys": 25,
    "candidates": [
-    {
-     "rule": "A",
-     "keep": "mercuryReal",
-     "fold": [
-      "mercuryGeoToy3"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が mercuryReal と同じ・違うのは physics の backgroundComplex・geoPN・lambdaPN・meshVelocity・spaceMesh"
-    },
     {
      "rule": "A",
      "keep": "mercuryReal",
@@ -1747,14 +1214,14 @@
    "ja": "二重パルサー J0737−3039",
    "ref": "psrDoubleAB",
    "ids": [
-    "psrDoubleAB",
-    "psrDoubleABGeoToy"
+    "psrDoubleAB"
    ],
    "retiredIds": [
     "psrDoubleABDFM",
     "psrDoubleABSpinCal",
     "psrDoubleABPN",
-    "psrDoubleABCF"
+    "psrDoubleABCF",
+    "psrDoubleABGeoToy"
    ],
    "rows": [
     {
@@ -1789,161 +1256,18 @@
      "roleWhy": "較正母集団",
      "input": "基準",
      "vsRef": null
-    },
-    {
-     "id": "psrDoubleABGeoToy",
-     "emoji": "🩻",
-     "name": "二重パルサー J0737−3039A/B — geoPN=4 診断(f=1・較正候補ではない)",
-     "familyId": "psr",
-     "familyRole": "variant",
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "現実較正",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 4,
-     "kFrame": 0,
-     "D0": 0.006,
-     "D0pull": null,
-     "q": 3.1789,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": "vertex",
-     "purpose": "観測質量のまま geoPN=4 則を当てる診断",
-     "gates": [],
-     "presetSigHash": "144992bb",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「診断」",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": true,
-       "x": true,
-       "v": true,
-       "other": false
-      },
-      "physicsDiff": [
-       "D0pull",
-       "framePrecision",
-       "geoPN",
-       "lambdaPN",
-       "spaceMesh",
-       "stepDt"
-      ],
-      "topDiff": [
-       "timeRef"
-      ]
-     },
-     "input": "同じ入力"
     }
    ],
    "keyDiff": [
     {
-     "key": "physics.D0pull",
-     "values": {
-      "psrDoubleAB": 3.24204e-7,
-      "psrDoubleABGeoToy": null
-     }
-    },
-    {
-     "key": "physics.framePrecision",
-     "values": {
-      "psrDoubleAB": null,
-      "psrDoubleABGeoToy": "double"
-     }
-    },
-    {
-     "key": "physics.geoPN",
-     "values": {
-      "psrDoubleAB": 1,
-      "psrDoubleABGeoToy": 4
-     }
-    },
-    {
-     "key": "physics.lambdaPN",
-     "values": {
-      "psrDoubleAB": 1,
-      "psrDoubleABGeoToy": 0
-     }
-    },
-    {
-     "key": "physics.spaceMesh",
-     "values": {
-      "psrDoubleAB": null,
-      "psrDoubleABGeoToy": {
-       "mode": "vertex",
-       "gravity": false,
-       "inertia": false,
-       "lawVersion": "local"
-      }
-     }
-    },
-    {
-     "key": "physics.stepDt",
-     "values": {
-      "psrDoubleAB": 2.45404,
-      "psrDoubleABGeoToy": 0.153377
-     }
-    },
-    {
-     "key": "timeRef",
-     "values": {
-      "psrDoubleAB": "(宣言あり)",
-      "psrDoubleABGeoToy": "(宣言あり)"
-     }
-    },
-    {
-     "key": "sampleClass",
-     "values": {
-      "psrDoubleAB": "calibration",
-      "psrDoubleABGeoToy": "principle"
-     }
-    },
-    {
-     "key": "calVariant",
-     "values": {
-      "psrDoubleAB": "kf0",
-      "psrDoubleABGeoToy": null
-     }
-    },
-    {
-     "key": "familyRole",
-     "values": {
-      "psrDoubleAB": "primary",
-      "psrDoubleABGeoToy": "variant"
-     }
-    },
-    {
-     "key": "gates(testId)",
-     "values": {
-      "psrDoubleAB": "behavior.psrDoubleAB",
-      "psrDoubleABGeoToy": null
-     }
-    },
-    {
      "key": "bodies(vs 基準)",
      "values": {
-      "psrDoubleAB": "基準",
-      "psrDoubleABGeoToy": "同じ入力"
+      "psrDoubleAB": "基準"
      }
     }
    ],
-   "physicsSameKeys": 25,
-   "candidates": [
-    {
-     "rule": "A",
-     "keep": "psrDoubleAB",
-     "fold": [
-      "psrDoubleABGeoToy"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が psrDoubleAB と同じ・違うのは physics の D0pull・framePrecision・geoPN・lambdaPN・spaceMesh・stepDt"
-    }
-   ],
+   "physicsSameKeys": 29,
+   "candidates": [],
    "keepApart": [],
    "history": []
   },
@@ -2502,12 +1826,12 @@
    "ja": "銀河回転(空間メッシュ・アナロジー)",
    "ref": "galaxyMeshSpiral",
    "ids": [
-    "galaxyMeshSpiral",
-    "galaxyMeshSpiralGeoToy",
-    "galaxyAnalogyBH"
+    "galaxyMeshSpiral"
    ],
    "retiredIds": [
-    "galaxyMeshSpiralGeoToyLite"
+    "galaxyMeshSpiralGeoToy",
+    "galaxyMeshSpiralGeoToyLite",
+    "galaxyAnalogyBH"
    ],
    "rows": [
     {
@@ -2540,187 +1864,18 @@
      "roleWhy": "母集団の外の家族の基準の本",
      "input": "基準",
      "vsRef": null
-    },
-    {
-     "id": "galaxyMeshSpiralGeoToy",
-     "emoji": "🪁",
-     "name": "銀河の空間メッシュ — geoPN=4 原理コピー(較正ではない)",
-     "familyId": null,
-     "familyRole": null,
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "銀河の力学",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 4,
-     "kFrame": 0,
-     "D0": 1.5,
-     "D0pull": null,
-     "q": 2,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": "vertex",
-     "purpose": "🎠 の配置で法則だけ geoPN=4 に替えて比べる",
-     "gates": [],
-     "presetSigHash": "122cba18",
-     "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「コピー」",
-     "vsRef": {
-      "bodies": {
-       "count": true,
-       "m": true,
-       "x": true,
-       "v": true,
-       "other": true
-      },
-      "physicsDiff": [
-       "geoPN",
-       "kFrame",
-       "lambdaPN",
-       "ledger",
-       "spaceMesh"
-      ],
-      "topDiff": []
-     },
-     "input": "同じ入力"
-    },
-    {
-     "id": "galaxyAnalogyBH",
-     "emoji": "🌚",
-     "name": "銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)",
-     "familyId": null,
-     "familyRole": null,
-     "retired": false,
-     "sampleClass": "principle",
-     "catalog": null,
-     "group": "銀河の力学",
-     "calVariant": null,
-     "inPopulation": false,
-     "variantLabel": null,
-     "geoPN": 4,
-     "kFrame": 0,
-     "D0": 1.5,
-     "D0pull": null,
-     "q": 2,
-     "qLock": false,
-     "massCalibration": null,
-     "relativeDrag": null,
-     "spaceMesh": "vertex",
-     "purpose": "中心 DFM 版 BH と恒星質量光学迷彩矮星を力学の質量要素に置いた銀河アナロジー",
-     "gates": [],
-     "presetSigHash": "a1ed5595",
-     "accepted": true,
-     "roleEst": "比較",
-     "roleWhy": "上のどれでもない",
-     "vsRef": {
-      "bodies": {
-       "count": false,
-       "m": false,
-       "x": false,
-       "v": false,
-       "other": false
-      },
-      "physicsDiff": [
-       "geoPN",
-       "kFrame",
-       "lambdaPN",
-       "ledger",
-       "spaceMesh"
-      ],
-      "topDiff": [
-       "seed"
-      ]
-     },
-     "input": "違う入力(本数・質量・位置・速度)"
     }
    ],
    "keyDiff": [
     {
-     "key": "physics.geoPN",
-     "values": {
-      "galaxyMeshSpiral": 0,
-      "galaxyMeshSpiralGeoToy": 4,
-      "galaxyAnalogyBH": 4
-     }
-    },
-    {
-     "key": "physics.kFrame",
-     "values": {
-      "galaxyMeshSpiral": 1,
-      "galaxyMeshSpiralGeoToy": 0,
-      "galaxyAnalogyBH": 0
-     }
-    },
-    {
-     "key": "physics.lambdaPN",
-     "values": {
-      "galaxyMeshSpiral": 1,
-      "galaxyMeshSpiralGeoToy": 0,
-      "galaxyAnalogyBH": 0
-     }
-    },
-    {
-     "key": "physics.ledger",
-     "values": {
-      "galaxyMeshSpiral": {
-       "dragWork": true
-      },
-      "galaxyMeshSpiralGeoToy": null,
-      "galaxyAnalogyBH": null
-     }
-    },
-    {
-     "key": "physics.spaceMesh",
-     "values": {
-      "galaxyMeshSpiral": null,
-      "galaxyMeshSpiralGeoToy": {
-       "mode": "vertex",
-       "gravity": false,
-       "inertia": false,
-       "lawVersion": "scalar"
-      },
-      "galaxyAnalogyBH": {
-       "mode": "vertex",
-       "gravity": false,
-       "inertia": false,
-       "lawVersion": "scalar",
-       "centerSpin": "read"
-      }
-     }
-    },
-    {
-     "key": "seed",
-     "values": {
-      "galaxyMeshSpiral": 20260910,
-      "galaxyMeshSpiralGeoToy": 20260910,
-      "galaxyAnalogyBH": 20260925
-     }
-    },
-    {
      "key": "bodies(vs 基準)",
      "values": {
-      "galaxyMeshSpiral": "基準",
-      "galaxyMeshSpiralGeoToy": "同じ入力",
-      "galaxyAnalogyBH": "違う入力(本数・質量・位置・速度)"
+      "galaxyMeshSpiral": "基準"
      }
     }
    ],
-   "physicsSameKeys": 23,
-   "candidates": [
-    {
-     "rule": "A",
-     "keep": "galaxyMeshSpiral",
-     "fold": [
-      "galaxyMeshSpiralGeoToy"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が galaxyMeshSpiral と同じ・違うのは physics の geoPN・kFrame・lambdaPN・ledger・spaceMesh"
-    }
-   ],
+   "physicsSameKeys": 27,
+   "candidates": [],
    "keepApart": [],
    "history": []
   },
@@ -3314,7 +2469,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3345,7 +2500,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3388,7 +2543,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3433,7 +2588,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3613,7 +2768,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3644,7 +2799,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3687,7 +2842,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -3732,7 +2887,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "銀河の力学",
+     "group": "腕と渦伸長(軸力)",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -5167,25 +4322,39 @@
    "nebulaBipolar",
    "bhCore",
    "bhCoreTilt",
+   "galaxyMeshSpiralGeoToy",
    "galaxyMeshSpiralGeoToyLite",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
    "earthMoon",
    "earthMoonFree",
+   "earthMoonTide",
+   "earthMoonInertial",
    "emAuditNewton",
    "emAuditDFM",
    "earthMoonSunInertial",
+   "earthMoonSunInertialFit",
    "earthMoonDiagOne",
    "mercurySunInertial",
+   "mercuryGeoToy3",
+   "mercuryMeshMigrate3d",
    "mercuryRealKF1",
+   "solarInner",
    "plutoCharonReal",
    "plutoCharonDFM",
    "plutoCharonKF0Control",
    "plutoCharonInertial",
    "plutoCharonSyncZero",
+   "charonGeoToy3",
    "alphaCenABDFM",
    "siriusABDFM",
    "psrDoubleABDFM",
+   "psrDoubleABGeoToy",
    "psrDoubleABSpinCal",
    "psrDoubleABPN",
    "psrJ1757PN",
@@ -5195,6 +4364,7 @@
    "psrJ1946CF",
    "psrB1534DFM",
    "psrB1534CF",
+   "spaceMeshBinaryToy",
    "gw150914DFM",
    "tuc47DFM",
    "supernovaProgDFM",
@@ -6284,6 +5454,14 @@
     "kind": "current"
    },
    {
+    "file": "tests/exp-w300a-retiredfx.mjs",
+    "ids": [
+     "galaxyMeshSpiralGeoToyLite"
+    ],
+    "steps": [],
+    "kind": "not-in-table"
+   },
+   {
     "file": "tests/lib-sigma-destinations.mjs",
     "ids": [
      "psrDoubleABPN",
@@ -6369,7 +5547,7 @@
    "psrB1534CF": 19
   },
   "kindCounts": {
-   "not-in-table": 17,
+   "not-in-table": 18,
    "history": 25,
    "current": 15,
    "tool": 4,
@@ -6379,17 +5557,29 @@
    "alphaCenABDFM",
    "bhCore",
    "bhCoreTilt",
+   "charonGeoToy3",
+   "clusterAnalogyBH",
    "clusterGrowthCopy",
    "darkrotor",
    "earthMoon",
    "earthMoonDiagOne",
    "earthMoonFree",
+   "earthMoonInertial",
    "earthMoonSunInertial",
+   "earthMoonSunInertialFit",
+   "earthMoonTide",
    "emAuditDFM",
    "emAuditNewton",
    "fixedCaptureCopy",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
+   "galaxyMeshSpiralGeoToy",
    "galaxyMeshSpiralGeoToyLite",
    "gw150914DFM",
+   "mercuryGeoToy3",
+   "mercuryMeshMigrate3d",
    "mercuryRealKF1",
    "mercurySunInertial",
    "nebulaBipolar",
@@ -6404,6 +5594,7 @@
    "psrB1534DFM",
    "psrDoubleABCF",
    "psrDoubleABDFM",
+   "psrDoubleABGeoToy",
    "psrDoubleABPN",
    "psrDoubleABSpinCal",
    "psrJ1757CF",
@@ -6414,11 +5605,13 @@
    "saturnLayered",
    "saturnRingRealKF1",
    "siriusABDFM",
+   "solarInner",
+   "spaceMeshBinaryToy",
    "starSeed",
    "supernovaProgDFM",
    "tuc47DFM"
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.859
+ "elapsedS": 0.87
 }

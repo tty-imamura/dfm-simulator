@@ -5847,12 +5847,13 @@ NaN 0・安全クランプ 0・帳簿 L 残差 3.1×10⁻¹⁵。QA `behavior.gw
 | earthMoonRealKF1 | 🌘 地球と月(実単位・kFrame=1)— q 引きずりの機構実験(現象論の参照・旧フィット) | **第292便b で復活(分類だけ —— 原仮定者の裁定(第82報)⑤・統括の検証項目 R138)**: family `earthmoon` の variant・`sampleClass:"principle"`・群「天体の機構」・宣言専用 `referenceKind:"phenomenological-reference"`。**較正母集団には戻さない**(20 本は不変)・physics・bodies・qLock・D₀・D0pull・初速・claims は 1 字も変えない(presetSig は基点と同一 —— 前後の写し tests/fixtures/revived-w292b.json)。8 公転窓の近点回転 ≈8.85 年は現象論のフィットの記録で、窓を延ばすと定常ではない(正本 emgrid: 8 周 9.1278 年・27 周 9.9214 年)。同じ構成の旧判別 B(二体の DFM 較正)は退役のまま。旧(履歴): **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 earthMoonReal 🌙・対の差は凍結の写し tests/fixtures/retired-w288b.json)。第119便新設→第120便で D₀=0.006 較正→第122便で共通補正→**第123便で qLock 自動算出(q*=8.25)**。運動引きずり歳差(スピン非依存・χ=w/(D₀+w) 比例 — exp-kf1b §A)を D₀ で較正し、初速−0.32% の共同フィットで**恒星月 27.33日(+0.03%)と月の近点回転 8.85年(Δϖ比 0.999)を二体だけで同時再現**。q は共通の算出則(qLock)で、地球スピン項の混入を除き比を 0.988→0.9991 に純化(exp-kf1c §C・kf1d)。実際の主因は太陽摂動 — 別機構での較正一致を明記。ワンタップ対照 D₀=0.1(回転が止まる)。安定性の単位系依存(v1.31)は前提のまま。**第172便: 運用規約を厳密一致式へ(q=8.25→8.2358・Δϖ比 0.9991→0.9992。D₀ と初速較正 f=0.9968 は不変)** |
 | emAuditNewton | **退役(履歴)** ⭕ 地球と月・機構判別A(二体ニュートン)— 閉じた楕円 | 🌙 earthMoonReal と実効 JSON が同一なので 🌙 に集約(AN35)。**第135便 新設**(外部レビュー P0-1「数値一致 ≠ 機構同定」の実験化)。ファミリー `emAudit` の陰性対照。物理・幾何は 🌙earthMoonReal と **bit 一致**で、判別意図を宣言し直したもの。実測: 20公転窓の近点回転 −6.404×10⁻⁷ rad/公転(近点通過法。RL勾配法 −6.295×10⁻⁷)= 事前登録窓 |Δϖ|<3×10⁻⁴ の 1/470 で、しかもソフトニング ε=0.1 の解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ と 0.04% 一致(残差は数値床ではなく宣言済み規約)。恒星月 27.3218日・a=384.7481 と e=0.05490 は 20公転を通して不変。ワンタップ対照は kFrame=1・D₀=0.006・qLock(=旧判別 B)。QA `behavior.emAudit` |
 | emAuditDFM | **退役(履歴)** 🧲 地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で | **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 emAuditSolar 🔆 / earthMoonReal 🌙・対の差は凍結の写し tests/fixtures/retired-w288b.json)。**第135便 新設**。ファミリー `emAudit` の variant(第137便の再編で primary は 🔆emAuditSolar へ — 第149便に記述追随)。物理・幾何は 🌘earthMoonRealKF1 と **bit 一致**。較正が使った 8公転窓では Δϖ=+0.05308 rad/公転=**8.857年**(観測 8.85年と +0.08%)・恒星月 27.331日を再現するが、**第135便の判別実測**で ①窓を延ばすと近点回転が単調に遅くなる(20公転 10.10年 / 40公転 12.42年 / 118公転 20.78年 — dt 5倍でも 0.04% 一致)②離心率が 0.0549→0.169 へ単調に汲み上げられる(実際の月は 0.026〜0.077 有界)ことを確定した。**「8.85年の一致」は較正窓に固有**で、機構としては現実の月と区別できる。ワンタップ対照は kFrame=0・D₀=0.1(=⭕A)。QA `behavior.emAudit` |
-| emAuditSolar | 🔆 地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動 | kF0 版の宣言 geoPN=1(旧宣言 geoPN=0 —— 月の 1PN 歳差は信号の 4×10⁻⁹・判定器の周期残差は 5 桁一致)。**第135便 新設**。ファミリー `emAudit` の現実側機構の対照。太陽・地球・月の三体を実定数・実質量・実半径・実自転のまま **kFrame=0・geoPN=0 の純ニュートン**で回す(scaleExp 8/4/27 = ☄️🌞 と同一指数系。太陽 1988.5 pinned・地球月重心が 1au=1495.98 を円軌道)。**近点回転側の較正はゼロ**で、118公転窓 **8.754年**・236公転窓 8.752年(観測 8.85年と −1.1%)・恒星月 27.319日・離心率 0.011〜0.055(有界)。窓を 2倍にしても dt を 1/10 にしても 5桁一致する定常な永年率で、これが旧判別 B(二体の DFM 較正 kFrame=1・D₀=0.006・qLock —— 8→118公転で 8.86→20.78年)との判別量になる。初期近地点距離 3.65178 は**観測の恒星月からの1次元逆算**(太陽摂動下では観測表の a=384,748km が接触要素ではないため — `fitted` は空)。ワンタップ対照は太陽の質量を 10⁻⁶ に(=二体ニュートンの閉じた楕円へ)。限界: 2D・太陽は円軌道・傾斜なし・他惑星なし。QA `behavior.emAudit` |
+| emAuditSolar | 🔆 地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動 | kF0 版の宣言 geoPN=1(旧宣言 geoPN=0 —— 月の 1PN 歳差は信号の 4×10⁻⁹・判定器の周期残差は 5 桁一致)。**第135便 新設**。ファミリー `emAudit` の現実側機構の対照。太陽・地球・月の三体を実定数・実質量・実半径・実自転のまま **kFrame=0・geoPN=0 の純ニュートン**で回す(scaleExp 8/4/27 = ☄️ と同一指数系。太陽 1988.5 pinned・地球月重心が 1au=1495.98 を円軌道)。**近点回転側の較正はゼロ**で、118公転窓 **8.754年**・236公転窓 8.752年(観測 8.85年と −1.1%)・恒星月 27.319日・離心率 0.011〜0.055(有界)。窓を 2倍にしても dt を 1/10 にしても 5桁一致する定常な永年率で、これが旧判別 B(二体の DFM 較正 kFrame=1・D₀=0.006・qLock —— 8→118公転で 8.86→20.78年)との判別量になる。初期近地点距離 3.65178 は**観測の恒星月からの1次元逆算**(太陽摂動下では観測表の a=384,748km が接触要素ではないため — `fitted` は空)。ワンタップ対照は太陽の質量を 10⁻⁶ に(=二体ニュートンの閉じた楕円へ)。限界: 2D・太陽は円軌道・傾斜なし・他惑星なし。QA `behavior.emAudit` |
 | earthMoonDiagOne | 🌓 地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換 | **第280便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・較正母集団に入れない)。🌘 と**同じ初期状態**(質量・半径・位置・自転・座標速度)から、引きずりを kFrame=1 の E6′(q_exact)→ kFrame=0 + `physics.meshVelocity`(field:"explicit"・外部=地球・mutual:0)+ `physics.qLock:{kernel:"frontBack"}`(地球 densityClass:"solid")へ置き換えた。月の vx,vy は慣性速度 v=ẋ−u(0)。**q は使わない・c² の抑制は入っていない**。実測(27 公転窓・近点検出器 B): 近点移動 **1.072×10⁻³ °/周**(点源 −3.598×10⁻⁵ との差 +1.11×10⁻³)・恒星月 27.950 日(並進の移送で月の質量の寄与が抜ける)・月の位置の u_φ=2.830 m/s。器 `tests/exp-w280b-emgrid.mjs`(行 E7)・QA `preset.qlockKernel`・`docs.emgrid-sync`・PHYSICS〔第280便b〕 |
 | earthMoonInertial | 🌛 地球と月(慣性決定力版)— 構造核と近点回転のフィット | **第292便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は「天体の機構」—— 宣言した跨ぎ〕・`referenceKind:"structure-sensitivity"`・較正母集団に入れない —— 原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139)。bodies は 🌙 earthMoonReal の宣言を 1 字も変えずに写し(初速も 🌙 のまま —— 🌘 の −0.12% の初速・qLock・D₀・D0pull は使わない)、地球にだけ構造核 `dragCore:{massFrac:0.325, radius:3.48}`(感度実験の起点の宣言 —— 地球の核の同定ではない)。physics は geoPN=0・kFrame=0 に慣性引きずり `relativeDrag:{law:"inertial", gain, eps:0.1}` だけ。gain は近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた **1 次元フィットの推定**であって較正の合ではない(式・表・感度は〔第292便c〕)。 |
 | earthMoonSunInertial | 🌤️ 太陽・地球・月(慣性決定力版)— 移送した gain と太陽摂動 | **第295便c 新設**(`sampleClass:"principle"`・family `earthmoon` の variant〔群は primary 🌙 と同じ「現実較正」〕・`referenceKind:"coefficient-transfer"`・較正母集団に入れない —— 原仮定者の裁定(第85報)・統括の検証項目 R155)。bodies は 🔆 emAuditSolar の写し+地球の `dragCore:{massFrac:0.325, radius:0.0348}`(🌛 の起点の宣言を L8 で)。physics は 🔆 から geoPN を 3 にし `relativeDrag:{law:"inertial", gain:51.4182, eps:0.01, history:"positions", pairs:[[1,2]]}` を足しただけ(慣性の対は地球と月だけ —— 太陽は重力の第三体)。gain は 🌛 の 514182 を同じ SI 係数 0.0514182 m³/kg として単位換算で移送した値(フィットではない)。測った値は〔第295便c〕。 |
 | earthMoonSunInertialFit | 🌥️ 太陽・地球・月(慣性決定力版・再現作業)— 平均要素の初期配置と 8.85 年への探索 | **第297便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・`referenceKind:"observation-fit"`・較正母集団に入れない)。係数移送版(第298便b で退役)の写しで地球→月の初期の相対ベクトルだけを平均要素(離心率 0.0549・恒星月 27.321661 日 —— 走行の平均)に直し、λ_PN=0・gain 0(探索範囲で 8.85 年に最も近い点 —— この探索範囲では未達・次の見直しへ)。記録は fitRecord(w297b-1)。詳細は〔第297便b〕。 |
-| earthMoonSunInertial3d | 🌦️ 太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索 | **第298便c 新設**(`sampleClass:"principle"`・家族には入れない(earthmoon の畳みの閾値 —— 決断事項)・`referenceKind:"observation-fit"`・較正母集団に入れない —— 統括の検証項目 R167)。🌥️ の写しを **physics.coord:"3d"** で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(離心率 0.0549・恒星月 27.321661 日・傾斜 5.145° —— 走行の平均)の 3 元 Newton・λ_PN=0。gain の探索で 118 公転窓の 8.85 年を挟み gain 0.259335 で 8.8500 年(fitRecord w298b-1 の 3 標的)。詳細は〔第298便c〕。器 tests/exp-w298c-moon3d.mjs・正本 tests/out/moon3d-w298c.json。QA `docs.moon3d298` |
+| earthMoonSunInertial3d | 🌦️ 太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索 | **第298便c 新設・第300便b で地球の三次元版として採用**(`sampleClass:"principle"`・family `earthmoon` の variant〔第299便f で編入〕・`referenceKind:"observation-fit"`・較正母集団に入れない —— 統括の検証項目 R167)。二次元の再現作業の版(第297便b —— 第300便b で退役)の写しを **physics.coord:"3d"** で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(離心率 0.0549・恒星月 27.321661 日・傾斜 5.145° —— 走行の平均)の 3 元 Newton・λ_PN=0。gain の探索で 118 公転窓の 8.85 年を挟み gain 0.259335 で 8.8500 年(fitRecord w298b-1 の 3 標的)。詳細は〔第298便c〕。器 tests/exp-w298c-moon3d.mjs・正本 tests/out/moon3d-w298c.json。QA `docs.moon3d298`。**地球の geoPN=3 三次元の行**(惑星の三次元 🌡️〜💙 と並ぶ —— 原仮定者の裁定(第90報)③・統括の検証項目 R176)。太陽の有無の差は対照 🌔 earthMoonOnly3d。QA `preset.earthReorg300` |
+| earthMoonOnly3d | 🌔 地球と月だけ(慣性決定力版・三次元)— 🌦️ から太陽を外した対照 | **第300便b 新設**(`sampleClass:"principle"`・family `earthmoon` の variant・較正母集団に入れない —— 原仮定者の裁定(第90報)③・統括の検証項目 R176)。🌦️ の地球と月の相対位置・相対速度・質量・半径・自転・構造核・gain 0.259335(**移送** —— fitRecord なし)・刻み・倍精度・λ_PN=0・geoPN=3 を写し、太陽を外して地球–月の重心を原点・重心速度 0 に置いた三次元の二体。近似の宣言 `approximation:{background:"dominant-direction-fixed", periodBasis:"sidereal"}`。測った値は〔第300便b〕。器 tests/exp-w300b-emonly.mjs・正本 tests/out/emonly-w300b.json。QA `preset.earthReorg300` |
 | qLockRadialAudit | 📶 qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる | **第136便 新設**(論文3 Cost 2 の可視化・将来 Fig.4 の生成元データ)。ファミリー `qlockAudit` の primary。地球(実質量・実半径・実自転 23.93h)を pinned にし、質量床級(m=10⁻⁶・e=0.05)の試験粒子を 1.5R_地球〜2a_月 の対数等間隔9点+qLock 参照半径(363.6253)の計10半径に置く。規約は 🌘 と同一で **q=8.25 は直値宣言**(qLock を実行時に掛けるとプローブ配置で参照軌道が動くため)。`fitted` は空=**較正ゼロ**。実測(exp-qlockradial): 参照点で素の引きずり率が Ω_LT の **0.944倍**(χ=0.2149 を掛けた実効フレーム回転は 0.203倍)、外側域の ω_DFM 傾きは **−8.99乗**(LT は −3.00乗)、最外(2a_月)の |Δϖ_drag| は参照点の **2.42%**(r⁻³ なら 12.5%)、ω_DFM/Ω_LT は 1.5R_地球 で 2.89×10⁶・r≈276.6 で 1 を横切る。Δϖ_drag は全10半径で**逆行**で 参照点では LT 解析値 −4GJ/(c₀²a³(1−e²)^{3/2}) の 3.55倍・同符号。事前登録窓は W1・W4 が PASS、W2(参照点 8.85年)・W3(順行)・W5(文字どおりの帯)が FAIL — いずれも実測を PHYSICS §5 に記録。ワンタップ対照は kFrame=0(差分の土台)。QA `behavior.qlockRadial` |
 | qLockRadialAuditQ3 | 📐 qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し | **第136便 新設**。ファミリー `qlockAudit` の variant。📶 と物理・幾何・プローブ配置が **bit 一致**で **q だけ 8.25→3**(=LT と同じ r⁻³ の半径依存)。`fitted` は空。実測: 外側域の傾きは **−3.81乗**で 📶 との傾き差 **5.19**(q の差 5.25 とほぼ一致 = 外側傾き差は指数 q の差そのもの)、参照点の近点回転周期 **617.7年**(📶 は 1.28×10¹¹年)、最外プローブでは 📶 の **1.70×10⁹倍以上**。ただし振幅を合わせる規則が無いので参照点では Ω_LT の 3.67×10⁸倍 — **r⁻³ 則と参照点の振幅一致は 単一の指数 q では両立しない**。ワンタップ対照は q=8.25。QA `behavior.qlockRadial` |
 | mercuryRealKF1 | **退役(履歴)** 🪨 水星(実単位・kFrame=1)— 共通補正で43″成立 | **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 mercuryReal ☄️・対の差は凍結の写し tests/fixtures/retired-w288b.json)。第120→第121便 D₀=10⁴→第122便で共通補正→**第123便で qLock 自動算出(q*=6.16)へ**: 逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 — qLock の幾何減衰(q*=3+ln(1.25c₀²R/(GM))/ln((R+a)/R)=6.16)で引きずり −5.6e-10 rad/公転(LT級・1PN の約1/900)に落ち、kF1 のまま 43″/世紀成立。D₀ は 🌘💿 と共通の 0.006・q は同一算出則=**「同じ値」ではなく同じ規則が全系を満たす**(exp-kf1c/kf1d)。被引きずり側スピンは×10⁴でも無関与。ワンタップ c₀=30(歳差誇張)・主役ノブ q(5⇄3 で逆行引きずりの対照)。**第172便: 運用規約を厳密一致式へ(q=6.16→6.1471・引きずり −5.6e-10→−5.8e-10 = 1PN の約1/860。窓 5.0〜6.2e-10 は不変で PASS)** |
@@ -5865,11 +5866,12 @@ NaN 0・安全クランプ 0・帳簿 L 残差 3.1×10⁻¹⁵。QA `behavior.gw
 | marsSunInertial3d | 🔴 太陽と火星(慣性決定力版・三次元)— gain 0 の基準 | **第299便c 新設**(`sampleClass:"principle"`・🥔 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第89報)②・R171)。太陽と火星の二体を **physics.coord:"3d"** で置いた(近似要素の種・太陽も free・自転軸を有効化・geoPN=3・λ_PN=0)。標的の観測行なし —— gain 0 の基準(fitRecord なし)。詳細は〔第299便c〕。器 tests/exp-w299c-planets3d.mjs・正本 tests/out/planets3d-w299c.json。QA `preset.planets3d299`・`docs.planets3d299` |
 | jupiterSunInertial3d | 🏀 太陽と木星(慣性決定力版・三次元)— gain 0 の基準 | **第299便c 新設**(`sampleClass:"principle"`・🟠 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第89報)②・R171)。太陽と木星の二体を **physics.coord:"3d"** で置いた(近似要素の種・太陽も free・自転軸を有効化・geoPN=3・λ_PN=0)。標的の観測行なし —— gain 0 の基準(fitRecord なし)。詳細は〔第299便c〕。器 tests/exp-w299c-planets3d.mjs・正本 tests/out/planets3d-w299c.json。QA `preset.planets3d299`・`docs.planets3d299` |
 | saturnSunInertial3d | 🟡 太陽と土星(慣性決定力版・三次元)— gain 0 の基準 | **第299便c 新設**(`sampleClass:"principle"`・💍 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第89報)②・R171)。太陽と土星の二体を **physics.coord:"3d"** で置いた(近似要素の種・太陽も free・自転軸を有効化・geoPN=3・λ_PN=0)。標的の観測行なし —— gain 0 の基準(fitRecord なし)。詳細は〔第299便c〕。器 tests/exp-w299c-planets3d.mjs・正本 tests/out/planets3d-w299c.json。QA `preset.planets3d299`・`docs.planets3d299` |
+| saturnRingInertial3d | 🍩 土星の輪(慣性決定力版・三次元)— gain 0 の基準 | **第300便c 新設**(`sampleClass:"principle"`・💍 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第90報)⑥・R177)。💍 の土星・衛星 6・C/B/A 帯を 🟡 の土星の極の赤道面へ回して **physics.coord:"3d"** で置いた(種は 💍 と同じ・土星 pinned の局所の近似・geoPN=3・λ_PN=0・帯は数値の質量の有限粒子)。gain 0 の基準(fitRecord なし)。詳細は〔第300便c〕。器 tests/exp-w300c-saturnring3d.mjs・正本 tests/out/saturnring3d-w300c.json。QA `preset.saturnRing3d300` |
 | uranusSunInertial3d | 🔷 太陽と天王星(慣性決定力版・三次元)— gain 0 の基準 | **第299便c 新設**(`sampleClass:"principle"`・💠 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第89報)②・R171)。太陽と天王星の二体を **physics.coord:"3d"** で置いた(近似要素の種・太陽も free・自転軸を有効化・geoPN=3・λ_PN=0)。標的の観測行なし —— gain 0 の基準(fitRecord なし)。詳細は〔第299便c〕。器 tests/exp-w299c-planets3d.mjs・正本 tests/out/planets3d-w299c.json。QA `preset.planets3d299`・`docs.planets3d299` |
 | neptuneSunInertial3d | 💙 太陽と海王星(慣性決定力版・三次元)— gain 0 の基準 | **第299便c 新設**(`sampleClass:"principle"`・🌊 と同じ家族の variant・較正母集団に入れない —— 原仮定者の裁定(第89報)②・R171)。太陽と海王星の二体を **physics.coord:"3d"** で置いた(近似要素の種・太陽も free・自転軸を有効化・geoPN=3・λ_PN=0)。標的の観測行なし —— gain 0 の基準(fitRecord なし)。詳細は〔第299便c〕。器 tests/exp-w299c-planets3d.mjs・正本 tests/out/planets3d-w299c.json。QA `preset.planets3d299`・`docs.planets3d299` |
 | saturnRingRealKF1 | **退役(履歴)** 💿 土星の環(実単位・kFrame=1)— qLock 較正版 | **退役**(現実較正の一本化 —— 原仮定者の裁定(第78報)④。kFrame=1 は q を使った引きずりの近似・較正母集団の外。後継 saturnRingReal 💍・対の差は凍結の写し tests/fixtures/retired-w288b.json)。第120→第121便で 💍 と同じ惑星(e6)+衛星構成→**第123便で共通補正 (D₀=0.006)+qLock 自動算出(q*=21.8)の較正版へ**(環の公転・近点移動が観測整合のまま kF1 成立 — 表面に近いほど強い引きずり=MM整合)。誇張引きずりの可視対照はワンタップB側(q=3)が担う。線の軌跡ON(寿命フェード対応)。**第172便: 運用規約を厳密一致式へ(q=21.8→20.4932・環ドリフト〔a=80〕2.09e-5→1.59e-5 で窓 1〜3e-5 は不変で PASS。随伴は h=0.5 で ×44.5→×114 になり、参照軌道 a=105 でちょうど ×1.00 を通る — claims `surface-entrainment` の窓のみ {40,50}→{105,125} へ再宣言)。テティスの初期 y の転記ずれを訂正(255.2→255.1311=294.6·sin120°)** |
-| jupiterGalilean | 🟠 木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第138便 新設**(内蔵サンプルで `role:held_out` の初使用)。ファミリー `jupiter` の primary。木星(実質量 1.898×10²⁷kg・実半径 71,492km・実自転 9.925h・pinned)+ガリレオ衛星4個(実軌道長半径 421,800/671,100/1,070,400/1,882,700km・実離心率 0.0041/0.009/0.0013/0.0074・実質量 8.93/4.80/14.8/10.76×10²²kg・同期自転)。scaleExp 7/3/26(1単位=10⁷m/10³s/10²⁶kg — 規約 L−T=4 で c₀=3×10⁴・M+2T−3L=11 で G=6.674)・fidelity:"real"。**2D 赤道面理想化**(軌道傾斜 0.04°/0.47°/0.20°/0.19° は再現しない — 宣言)。規約は DFM 版の雛形どおり(kFrame=1・kRep=muF=γN=κ_S=0・geoPN=2・λ_PN=1・pnα=1.5・stateCarry・κ=G/c₀²・massFloor=1e-6)。**規則の再フィットはゼロ**: D₀=0.006 は共通値の流用、q=12.30 は qLock 則を**参照軌道=イオで1回だけ**評価した q\*=12.3017 の直値宣言(多天体系では a_ref が一意でないため実行時 qLock は掛けない — 🌞 と同じ裁定)、初速較正係数 1.000、`parameterAudit.fitted` は共有 D₀ の1件のみ。claims は 4衛星の周期転写と木星の自転が `input_check`、参照軌道の**イオが `retrospective_check`**、規則形成に不関与の**エウロパ/ガニメデ/カリストが `held_out`**、kFrame=0 対照が `negative_control`(`fit_target` は 0 件)。実測(exp-jupiter): JW1(kF0 転写・周期 ±1%)**PASS**(1.770342/3.552263/7.154235/16.684462 日・最大ずれ 0.0681%)、JW2(kF1・20イオ公転窓)**PASS**(|Δa|/a=0.0114/0.0704/0.0721/0.1421%・周期ずれ 0.0514/0.0336/0.0244/0.0098%・NaN 0)、JW3(衛星別 fit ゼロ)**PASS**、JW4・JW5 は窓なしの記録。**一次発見**: フレーム回転は木星の自転ではなく**衛星どうしの運動引きずり**に支配され(自転チャネルは全系の 1.55×10⁻⁵〜2.96×10⁻¹²)、自転チャネルの ω は4衛星とも順行で解析形 χ·s·(R/(R+r))^q と4桁一致。χ=0.9869〜0.9442 は 🌘 の参照点(0.2149)の4倍以上=**引きずりが薄まらない領域での外挿**。JW4 の「ω の符号=自転と同方向」は全系では不成立(4衛星とも逆行の瞬時値)。q=3 対照では周期が観測から 1.4604/1.0865/0.7048/0.3545% ずれる。決定性はビット同一・收束は步幅半分で周期の相対差 2.7×10⁻⁵ 以内。ワンタップ対照は kFrame=0。QA `behavior.jupiter`。**第172便: 運用規約を厳密一致式へ(q=12.30→12.0586 — 周期ずれ・|Δa|/a は記録桁で不変)** |
-| venusReal | 🌇 太陽と金星(実単位)— 自由中心の二体転写 | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第184便 新設**。コミット済み 🌞solarInner 宣言値のビット写し(太陽 1.9885×10³⁰kg/6.96×10⁸m/自転25.05日、金星 4.8675×10²⁴kg/6,052km/自転−243.025日〔逆行〕・a=1.08208×10¹¹m・e=0.007)。scaleExp 8/4/27・fidelity:"real"・**二体重心系(太陽も自由 — pinned なし)**。本サンプルの主題は**自由中心の反作用則**: 既定の legacy 反作用(pinned 中心=反作用を吸収する外部リザーバを前提 — 第80便 A)のままでは、χ=W/(D₀+W)=0.9967 のこの系で kFrame=1 が**軌道を1公転内に破壊**する(振れ幅45%・周回不能)。E6′-R(frameReaction:"pairReduced")へ固定すると同じ初期条件のまま公転周期 224.706 日(観測 224.701 日・+0.0020%)・振れ幅 1.40%(=2e)で完走(kFrame=0 対照 224.7000 日)。フィットはゼロ(初速較正 1.000・D₀=0.006 共有値・q=5.626 は q_exact の直値)。この実測を受けて観測転写経路の二体重心系を pairReduced 標準へ固定し、自己診断へドリフト外挿検査(二体限定)を追加(QA ai.obs-freecenter)。400步診断は公転の 0.3% しか進まず legacy の破壊を検出できなかった — 診断の盲点そのものが本便の発見。QA `behavior.venusReal` |
+| jupiterGalilean | 🟠 木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第138便 新設**(内蔵サンプルで `role:held_out` の初使用)。ファミリー `jupiter` の primary。木星(実質量 1.898×10²⁷kg・実半径 71,492km・実自転 9.925h・pinned)+ガリレオ衛星4個(実軌道長半径 421,800/671,100/1,070,400/1,882,700km・実離心率 0.0041/0.009/0.0013/0.0074・実質量 8.93/4.80/14.8/10.76×10²²kg・同期自転)。scaleExp 7/3/26(1単位=10⁷m/10³s/10²⁶kg — 規約 L−T=4 で c₀=3×10⁴・M+2T−3L=11 で G=6.674)・fidelity:"real"。**2D 赤道面理想化**(軌道傾斜 0.04°/0.47°/0.20°/0.19° は再現しない — 宣言)。規約は DFM 版の雛形どおり(kFrame=1・kRep=muF=γN=κ_S=0・geoPN=2・λ_PN=1・pnα=1.5・stateCarry・κ=G/c₀²・massFloor=1e-6)。**規則の再フィットはゼロ**: D₀=0.006 は共通値の流用、q=12.30 は qLock 則を**参照軌道=イオで1回だけ**評価した q\*=12.3017 の直値宣言(多天体系では a_ref が一意でないため実行時 qLock は掛けない — 多天体系の既存裁定)、初速較正係数 1.000、`parameterAudit.fitted` は共有 D₀ の1件のみ。claims は 4衛星の周期転写と木星の自転が `input_check`、参照軌道の**イオが `retrospective_check`**、規則形成に不関与の**エウロパ/ガニメデ/カリストが `held_out`**、kFrame=0 対照が `negative_control`(`fit_target` は 0 件)。実測(exp-jupiter): JW1(kF0 転写・周期 ±1%)**PASS**(1.770342/3.552263/7.154235/16.684462 日・最大ずれ 0.0681%)、JW2(kF1・20イオ公転窓)**PASS**(|Δa|/a=0.0114/0.0704/0.0721/0.1421%・周期ずれ 0.0514/0.0336/0.0244/0.0098%・NaN 0)、JW3(衛星別 fit ゼロ)**PASS**、JW4・JW5 は窓なしの記録。**一次発見**: フレーム回転は木星の自転ではなく**衛星どうしの運動引きずり**に支配され(自転チャネルは全系の 1.55×10⁻⁵〜2.96×10⁻¹²)、自転チャネルの ω は4衛星とも順行で解析形 χ·s·(R/(R+r))^q と4桁一致。χ=0.9869〜0.9442 は 🌘 の参照点(0.2149)の4倍以上=**引きずりが薄まらない領域での外挿**。JW4 の「ω の符号=自転と同方向」は全系では不成立(4衛星とも逆行の瞬時値)。q=3 対照では周期が観測から 1.4604/1.0865/0.7048/0.3545% ずれる。決定性はビット同一・收束は步幅半分で周期の相対差 2.7×10⁻⁵ 以内。ワンタップ対照は kFrame=0。QA `behavior.jupiter`。**第172便: 運用規約を厳密一致式へ(q=12.30→12.0586 — 周期ずれ・|Δa|/a は記録桁で不変)** |
+| venusReal | 🌇 太陽と金星(実単位)— 自由中心の二体転写 | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第184便 新設**。コミット済みの内惑星の実単位の宣言値(第131便)のビット写し(太陽 1.9885×10³⁰kg/6.96×10⁸m/自転25.05日、金星 4.8675×10²⁴kg/6,052km/自転−243.025日〔逆行〕・a=1.08208×10¹¹m・e=0.007)。scaleExp 8/4/27・fidelity:"real"・**二体重心系(太陽も自由 — pinned なし)**。本サンプルの主題は**自由中心の反作用則**: 既定の legacy 反作用(pinned 中心=反作用を吸収する外部リザーバを前提 — 第80便 A)のままでは、χ=W/(D₀+W)=0.9967 のこの系で kFrame=1 が**軌道を1公転内に破壊**する(振れ幅45%・周回不能)。E6′-R(frameReaction:"pairReduced")へ固定すると同じ初期条件のまま公転周期 224.706 日(観測 224.701 日・+0.0020%)・振れ幅 1.40%(=2e)で完走(kFrame=0 対照 224.7000 日)。フィットはゼロ(初速較正 1.000・D₀=0.006 共有値・q=5.626 は q_exact の直値)。この実測を受けて観測転写経路の二体重心系を pairReduced 標準へ固定し、自己診断へドリフト外挿検査(二体限定)を追加(QA ai.obs-freecenter)。400步診断は公転の 0.3% しか進まず legacy の破壊を検出できなかった — 診断の盲点そのものが本便の発見。QA `behavior.venusReal` |
 | marsMoonsReal | 🥔 火星とフォボス・ダイモス(実単位)— テスト粒子転写 | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第184便 新設**。出典表 paper/data/solar-observations.csv(第181便実機受理レコードの転写)。火星 6.4171×10²³kg/3,389.5km/自転1.025957日(pinned)+フォボス(a=9,376km・e=0.0151・P=0.31891日)・ダイモス(23,463.2km・0.00033・1.263日)。scaleExp 6/2/25・fidelity:"real"。中心/衛星の質量比 6×10⁷・4×10⁸ は規約の1径数族で**構造的に到達不能な穴**(第181便 実機の失敗②)で、**衛星2体をテスト粒子(m=1e-6)へ降格して宣言**(フォボス実質量は火星の 1.7×10⁻⁸ 倍・ダイモス 2.4×10⁻⁹ 倍。ダイモスは半径も下限 0.01)。実測: フォボス 0.31909 日(+0.057% — a と P の出典間張力をフィットで消さず宣言)・ダイモス 1.26296 日(−0.003%)・振れ幅 3.03%(=2e)/0.066%・kFrame=0 対照との周期差 0.002% 未満(引きずりは幾何減衰 (R/(R+a))^19.6 で不可視)。QA `behavior.marsMoonsReal` |
 | plutoCharonReal | ❄️ 冥王星とカロン(実単位)— 重心が外にある二体 | **在位移行**(現実較正の一本化 —— 原仮定者の裁定(第78報)④: 既定の宣言を geoPN=2・kFrame=1 から geoPN=1・kFrame=0 へ。ID は不変・旧宣言は tests/fixtures/dfmcal-w288b.json・A/B の B 側が旧宣言〔引きずり近似 q〕。以下の数値は移行前の記録 —— 移行後の値は判定器の再走で)。**第184便 新設**。出典表 paper/data/solar-observations.csv(NSSDC アーカイブ版の転写・第181便実機受理)。冥王星 1.303×10²²kg/1,188km/自転6.3872日〔潮汐固定〕+カロン 1.586×10²¹kg/606km/同期自転・a=19,596km・e=0。scaleExp 6/2/25・fidelity:"real"・二体重心系(両天体自由・frameReaction:"pairReduced")。質量比 0.122 から**共通重心が冥王星表面の外(中心から 1.79 冥王星半径)**。2D 理想化は潮汐固定の相対幾何(同期・同方向)を保存し、黄道基準の逆行符号は転写しない(宣言)。実測: kFrame=0 で 6.3874 日(観測 6.3872 日・+0.002%)/雛形規約 kFrame=1 では 6.40293 日(**+0.246% — χ≈0.92 の近接連星で E6′ 運動引きずりが観測可能量を作る初の実在転写**。診断許容 ±1% 内なのでフィットで消さず Failure First で宣言)。QA `behavior.plutoCharonReal` |
 | plutoCharonDFM | ⛄ 冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版 | **第277便b 新設**(原仮定者の裁定〔第67報〕(1))。**内蔵 ❄️ とは別の入力**: 質量は Brozović & Jacobson 2024 AJ 167 256 Table 8 の GM(冥王星 869.3±0.4・カロン 106.1±0.3 km³/s²)を**内蔵 G=6.674 のまま**割った GM/G、初期状態は JPL Horizons PLU060/DE440(中心=冥王星系重心・ICRF・TDB)の元期 JD 2452600.5 の相対状態を**軌道面へ射影**した 2D(離角 19597.369km・相対速度 223.0903m/s)。scaleExp **5/1/24**(精密単位 1単位=10⁵m/10s/10²⁴kg)・ε=0.01 単位=1km・`massPrecision:"double"`・`stateCarry:"double"`・kFrame=0・自転は相互同期の宣言 ω=2π/551855.8944s。**新しい引きずり則** `physics.relativeDrag:{law:"pairSlip",kappa:1}`(`S._core` の外の外部ステップ。**相互同期した円軌道では 1 バイトも動かない**)。実測(3 段 dt=0.16/0.08/0.04 の 1 次外挿): 同方向1周 **551888.037 s**・観測 551856.43872±0.02592 s(Buie 2012)に対して **+31.598 s・+1219.1σ・否(3σ)**。則の寄与は kF0 対照 🌨️ との差 **+1.373 s(+53.0σ)**。QA `behavior.plutoCharonDFM` |
@@ -23824,6 +23826,10 @@ node の写しで、対の幾何(s と A)を 2 步 / 4 步に 1 度だけ作り�
 
 - 601
 
+**第300便の更新(統括の統合)。** 第299便の統合で読み口は 601 → 610(増えたのは全部 top-level の宣言 253 → 262 —— 第299便の新本の `physics.D0` など・**宣言であって読み口ではない**・群と分類は不変。この節には数の行が無かった)。第300便b の 🌔 earthMoonOnly3d・第300便c の 🍩 saturnRingInertial3d(三次元の新本 2 本)の宣言で top-level の出現がさらに 2 箇所増えた(262 → 264・群と分類は不変)。第300便a の `physics.spaceMesh` の廃止と第300便b・m の退役は定義を残すので出現は減らない。正本 tests/out/d0sites-w276a.json の数: 読み口 612・群 76(第300便の鎖 1 —— 内蔵 175 本で再集計)。q の 3 値は不変。
+
+- 612
+
 **言わないこと。** 「背景複素決定力を実装した」「背景を較正した」「D₀ を W₀ へ置き換えた」「背景の定義を解決した」「q を導出した」「❄️ が成立した」「影響箇所をすべて直した」「新発見」「v1.45.0 RC を切った」。
 
 〔第276便b — ❄️ 冥王星–カロンの kF0 の点検(**説明の訂正**・ε/単位/入力精度/小衛星/太陽の感度表)〕
@@ -30139,6 +30145,28 @@ r=x_j−x_i・V は相対速度(velocity:"v" は v_j−v_i〔既定〕・"xdot" 
 | 慣性引きずり `relativeDrag.law:"inertial"` | 18 | 3 | 18 | 21 |
 | 点粒子の軸 `spinAxis.enable:true`(三次元の有効化した軸) | 12 | 0 | 19 | 19 |
 
+**第300便の更新(統括代行の統合)。** 第300便a の `physics.spaceMesh` の全面廃止(🪁🌚🧩🛸🪆💮🔁🌒🩻🪟🔂 の退役)・第300便b の退役(🌥️🌛🌜)・🌞 の退役と、三次元の新本 2 本(第300便b の 🌔 earthMoonOnly3d —— 地球に構造核 1 body・inertial / 第300便c の 🍩 saturnRingInertial3d —— inertial・太陽と土星の軸を有効化)を足した統合で、第300便の鎖 1 が正本 `tests/out/corecensus-w293c.json` を作り直した(内蔵 175 本・退役 56 本)。次の 11 行が動いた(他の行は上の表のまま):
+
+| 経路(鍵) | 在位の本 | 退役の本 | 在位の body 宣言 | 全 body 宣言 |
+|---|---|---|---|---|
+| コア V2 `core` | 11 | 19 | 12 | 67 |
+| 親子コア `layers` | 1 | 1 | 1 | 2 |
+| 構造核 `dragCore` | 3 | 3 | 4 | 7 |
+| 慣性引きずり `relativeDrag.law:"inertial"` | 17 | 6 | 17 | 23 |
+| 点粒子の軸 `spinAxis.enable:true`(三次元の有効化した軸) | 12 | 1 | 20 | 21 |
+| コアの傾き `core.tilt`≠0 | 1 | 2 | 1 | 3 |
+| コア軸の宣言 `core.axisMode` | 0 | 1 | 0 | 1 |
+| コア軸の歳差 `core.precessionRate` | 0 | 1 | 0 | 1 |
+| 層の軸の宣言(tilt/azimuthDeg/precessionRate) | 0 | 1 | 0 | 1 |
+| 明示潮汐 `physics.tide` | 0 | 1 | 0 | 1 |
+| 天体の潮汐 `tide` | 0 | 1 | 0 | 2 |
+
+コア V2 とコア軸の 4 行は 🛸 galaxyAnalogyBHTilt90 の退役、親子コアと層の軸の行は 🪆 galaxyAnalogyBHTilt90Layers の退役、潮汐の 2 行は 🌜 earthMoonTide の退役で在位から退役の側へ移った。構造核は 🌛🌥️ が退役の側へ・🌔 の地球が在位に加わった(4 → 3)。慣性引きずりは 🌛🌥️🔂 が退役の側へ・🌔🍩 が在位に加わった(18 → 17)。三次元の有効化した軸は 🔂 の 1 body が退役の側へ・🍩 の 2 body が在位に加わった(在位の本は 12 のまま)。比較の走行の対象も同じ理由で動いた: コアなし対照(⑤)から 🛸(C)が、層の本(⑥)から 🪆(D)が外れ、
+
+分類の本数: A 3・B 7・C 1・D 1(撤去を適用 0)
+
+になった(⑤⑥ の表の 🛸・🪆 の行は第293便c の記録として残す —— 比べた値そのものは動いていない)。⑥ の `dragCore` を外した参考の対照は、🌛 の退役で 🌦️ earthMoonSunInertial3d(地球の構造核 1 body)に移った(2000 步の最大差 x 5.30e-9・y 1.46e-8・vx 2.45e-10・vy 8.05e-11 —— spin・m・R は 0)。撤去を適用した本は 0 本のまま。
+
 
 html の本文で `core:{` を含む在位の本は 19 本だが、body に宣言しているのは **15 本(18 body)** である。残る 4 本のうち 🧮 psrJ1757DFM・🩺 psrJ1946DFM・⏰ gw150914Merge4s は `massCalibration.history.core`(第285便f・第288便b で外した補正コアの履歴 —— build は読まない)、🌫️ collapse は隣の 🥚 の説明のコメントで、どれもコアなし対照の対象にならない(較正の在位 4 本のうち比べられるのは 📿 psrB1534 だけ)。置換の 6 項(`HP.coreV2ReplaceReport`)は在位の 18 body のうち置換可 4(📿 2・🏮・🛸)で、残りは m・R を build が導く(needsResolve)・Rc≥R(🦀)・殻項の差(🥀)・K_cs(🛞)で不可。
 
@@ -31056,8 +31084,10 @@ geoPN=3/4 の標準(慣性の宣言・旧メッシュ)は第294便a から測地
 | marsSunInertial3d | 🔴 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | jupiterSunInertial3d | 🏀 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | saturnSunInertial3d | 🟡 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| saturnRingInertial3d | 🍩 | 3 | 在位 | 新本(0 で宣言 —— 第300便c の土星の輪の三次元) | 走っていない(新本) | `inertial-drag` |
 | uranusSunInertial3d | 🔷 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
 | neptuneSunInertial3d | 💙 | 3 | 在位 | 新本(0 で宣言 —— 第299便c の惑星の三次元・統合で追加) | 走っていない(新本) | `inertial-drag` |
+| earthMoonOnly3d | 🌔 | 3 | 在位 | 新本(0 で宣言 —— 第300便b の地球と月だけの対照・統合で追加) | 走っていない(新本) | `inertial-drag` |
 
 **③ 逸脱 `lambdaPnOnDrag`(値は書き換えない)。** 目的の組の判定 `modeIssuesOf`(公開の入口 `modeSettingIssues`)の mode≥2 の塊に、geoPN≥2 ∧ `physics.lambdaPN`≠0 の逸脱を足した
 (**未宣言は 1** として読む —— `_core` の `p.lambdaPN!==undefined? p.lambdaPN : 1` と同じ読み `lambdaPnDeclOf`)。kind:"preset"(標準を偽にする)・fields `["lambdaPN"]`・記録に読んだ値 `lambdaPN`。
@@ -31287,6 +31317,8 @@ QA: `behavior.claimEffort297`・`preset.fitCond297`・`docs.fit297`(新設 —�
 | 🟤 mercurySunInertial | 100 | 760.05216 | 観測の正本(mercuryReal・水星 7600521.6 s) | 2.11126 | 360 | 8.6e-5 | 2.0e-4 | 0.00446 | 0.9997 | — | -3.9e-4 | ok |
 | 🟫 mercurySunInertialFit | 100 | 760.05216 | 観測の正本(mercuryReal・水星 7600521.6 s) | 2.11126 | 360 | 1.6e-4 | 3.8e-4 | 0.00468 | 0.9997 | — | 4.6e-4 | ok |
 | 🔂 mercuryMeshMigrate3d | —(新本・第299便d) | 760.052160 | 観測の正本(mercuryReal・水星 7600521.6 s) | 2.11126 | 360 | 0.00016 | 0.00038 | 0.0047 | 0.9997 | — | 0.00046 | ok |
+| 🌔 earthMoonOnly3d | —(新本・第300便b —— 🌦️ から太陽を外した地球と月) | 236.059488 | 観測の正本(emAuditSolar・月 2360594.88 s —— 🌦️ と同じ) | 0.655721 | 360 | 2.6e-4 | 0.00175 | 0.00155 | 0.9995 | — | 0.00602 | ok |
+| 🍩 saturnRingInertial3d | —(新本・第300便c) | 208.8 | 観測の正本(saturnRingReal・C環内縁 20880 s) | 0.58 | 360 | 1.4e-6 | 6.2e-4 | 3.1e-4 | 0.9957 | 0/125 | -0.00278 | ok |
 | 🔁 mercuryGeoToy3 | 100 | 760.05216 | 観測の正本(mercuryReal・水星 7600521.6 s) | 2.11126 | 360 | 1.6e-4 | 3.8e-4 | 0.00468 | 0.9997 | — | 4.6e-4 | ok |
 | 🌞 solarInner | 30 | 760.05216 | 観測の正本(solarInner・水星 7600521.6 s) | 2.11126 | 360 | 3.8e-8 | 5.2e-5 | 3.1e-4 | 0.9957 | 0/103 | 1.9e-6 | ok |
 | 🟠 jupiterGalilean | 30 | 152.853523 | 観測の正本(jupiterGalilean・イオ 152853.5232 s) | 0.424593 | 360 | 1.8e-5 | 1.1e-4 | 4.9e-4 | 0.9962 | 0/3 | 9.3e-4 | ok |
@@ -31854,6 +31886,215 @@ QA: `behavior.geo4Stable299`(正本の条件の宣言 = 器の定数・合否を
 
 QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 —— xy の不変・z の厚み・帳簿・再開)・**`preset.ref3d299`**(宣言・凍結の二次元の写し・受理の門)・**`docs.ref3d299`**(root は SKIP —— 世代切替 = html の `SHAPE_TOY3_VERSION="w299e`)。
 
+〔第300便d — 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦「二本指の上下スワイプで『視点の傾き θ』を調整する」「『サンプルを選ぶ』で参照模型を『腕と軸力』グループへ」「beta 版の名前に便名 —— v1.45 の beta で第300便なら v1.45-b300」・統括の検証項目 R178)(**表示・一覧の置き場所・版名だけ** —— 物理の式・presetSig・保存 JSON は 1 bit も変えていない・`S._core` は不変)〕
+
+**二本指の縦スワイプ → 視点の傾き θ。** タッチの画面で 2 本の指をそろえて上下に動かすと、第298便d の視点の傾き θ(共通設定のスライダー)が変わる。既存の二本指のピンチ(拡大縮小)と共存させるため、**2 本目の指が触れた時点の中点 m₀・指の間隔 d₀・θ₀ を控え、最初に動きが閾値に達した touchmove でその二本指の操作を 1 回だけ判定して固定する**(純関数 `tiltSwipeClassify(Δm_x, Δm_y, Δd)`):
+
+- 未決: max(|Δm_x|, |Δm_y|, |Δd|) < `VIEW_TILT_SWIPE_DECIDE_PX` = **12 px**(この間は何も動かさない)
+- 傾き: |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(= **2**)·|Δd| かつ |Δm_y| ≥ |Δm_x|(中点がおもに縦に動き、間隔の変化が小さい)
+- ピンチ: それ以外(間隔の変化が大きい・横の移動)。判定までの間隔の変化はピンチへ繰り越す(拡大縮小の量は従来と同じ d₀/d)
+
+傾きの値は **θ = θ₀ − Δm_y · `VIEW_TILT_SWIPE_DEG_PER_H` / H**(`tiltSwipeDeg` —— H は canvas の CSS の高さ・`VIEW_TILT_SWIPE_DEG_PER_H` = **180°**: 画面の高さぶん指を動かすと 180°)。指を**上へ**動かすと θ が**増える**(−90 の真上から 0 の横からへ —— 地図アプリの二本指の傾けと同じ向き)。値は `setViewTilt` を通すので、−90〜+90 のクランプ・整数への丸め・localStorage `hp_view_tilt` への保存・スライダーと数値欄の同期は第298便d のまま。指が 2 本未満(または 3 本)になると判定は捨て、3 本 → 2 本は新しい二本指の操作として控え直す。**マウスの操作は変えない**(Shift+ホイールなどは決断事項候補)。二次元の本の縦ドラッグの規則(横から ±5.7° 以内は無効)は 1 本指のパンの規則で、この操作は θ だけを変える(カメラの位置・camZ・倍率は動かさない)。HP: `HP.viewTilt().swipe`(degPerH・decidePx・ratio)・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+
+**参照模型の群。** 参照模型 8 本(`physics.shapeToy` を宣言した本 —— 🔮 shapeToyCluster・🥏 shapeToyDisk・🧵 shapeToyArm・🍭 shapeToySpiral・🎱 shapeToyClusterCore・📀 shapeToyDiskCore・🧹 shapeToyArmCore・🎢 shapeToySpiralCore)の宣言の `group` を「銀河の力学」から「腕と渦伸長(軸力)」へ移した。この群の**表示名はすでに「腕と軸力」**(第295便d —— en "Arms & Axis Force"・別名「腕と軸力」→ 宣言の値の正規化も第295便d のまま)なので、**新しい群は作らず、群の改名もしない**。群の員は軸力の 3 本(🥢🎏🎚️)と参照模型 8 本の 11 本、区画は「DFM の外のアナロジー」(群の区画は第290便f のまま —— 参照模型も DFM の公理の帰結ではなく、較正でもない)。家族 shapeToy・shapeToyCore は 4 本ずつ丸ごと移るので群を跨がない。`presetSig` は group を見ない(署名・走行は不変 —— sigsame で確認)。群の説明(ja/en)と「サンプルを選ぶ」の説明に移動を書いた。
+
+**beta 版の名前に便名。** `BETA_BUILD` を **"v1.45-b1" → "v1.45-b300"** にした。規則は **BETA_BUILD = "v<beta 線>-b<便の番号>"**(beta 線 = APP_VERSION の minor + 1)で、**便の番号は CHANGELOG.md の行頭「- **第NNN便」の最大**(本文の中の言及は数えない —— 手で番号を持つ表を別に置かない)。便の基点で先に上げた状態(最大 + 1 —— その便の行がまだ無い)も一致と見なす。同じ値を 3 か所に書く: `beta/index.html` の `const BETA_BUILD`・`beta/sw.js` の CACHE 接尾辞(版ごとに旧キャッシュを捨てる)・CHANGELOG の beta 節の見出し `## v1.45-b300(開発中 — beta)`。器 **`tools/beta-build.mjs`**(既定は検査だけ・`--apply --wave <NNN>` で 3 か所を書き換える —— 統括が便の基点で 1 回)。昇格の器 `tests/release-promote.mjs` は次期 beta 線を "v<次の minor>-b<NNN>" で切り(`--wave`・既定は同じ規則)、`--check` の見出しの式は `-b\d+` を受ける。生成文書の見出し(`docs/SAMPLE_STATUS_v1.45.md`・`docs/FAMILIES_v1.45.md`)は各生成器が html の BETA_BUILD を読んで書く(正本に `meta.betaBuild`/`betaBuild` を刻む —— 版名を持たない旧正本は v1.45-b1 のまま)ので、鎖で作り直すと追従する。設計文書・README の過去の「v1.45-b1・第NNN便」の記述は履歴として残す。
+
+確認: bitsame **173/173(差分 ID なし)**(600 步)・sigsame **173/173(差分 ID なし)**(宣言した範囲は表示・群・版名だけなので、差分の ID は宣言から導いても 0 本)。QA: **`ui.tiltSwipe300`**(合成のタッチイベントで 390×844 と 1280×800 —— 上へ H/4 で −90 → −45・ピンチは拡大縮小のまま・閾値未満は不動・クランプ・三次元の本・状態/params/presetSig 不変)・**`ui.refModelGroup300`**(宣言から導いた参照模型の群・群の員・家族の跨ぎ・presetSig・一覧の見出しの件数・説明)・**`lint.betaBuild300`**(形・beta 線・CHANGELOG の便・SW・見出し・生成文書の見出し)を新設(root は SKIP)、`ui.pickerScope`(群の員に参照模型 —— 世代切替)・`preset.shapeToySpiral`(群 —— 世代切替)・`docs.nsGridCriteria`(beta 節の見出しの式)を更新。
+
+**未決(決断事項候補)。** スワイプの感度(180°/画面の高さ)と判定の閾値・比(12 px・2)/ マウスでの θ(Shift+ホイール等 —— 本便は変えない)/ 参照模型の区画(群の移動で「DFM 本体」から「DFM の外のアナロジー」の区画へ移った —— 別の群「参照模型」を置くか)/ 版名の便の番号の上げ方(統括が便の基点で `--apply --wave` —— 枝が先に CHANGELOG に行を足すと検査が落ちる窓)/ 生成文書の見出しを毎便変えるか(SAMPLE_STATUS は鎖で毎便作り直す・FAMILIES は html が動けば作り直す)。
+
+〔第300便a — physics.spaceMesh とサンプルの全面廃止(原仮定者の裁定(第90報)⑤「mercuryGeoToy3 は慣性系の画面に対して重心が移動して行くので誤り。mercuryMeshMigrate3d は明らかに軌道がおかしい。改善の見込みが立たないので physics.spaceMesh とサンプルは全面廃止」・DECISIONS v59 §0 の AN285・統括の検証項目 R175)(**退役は familyRole だけ** —— ID・物理・claims・presetSig・保存 JSON は不変・`S._core` は不変・物理コードは凍結して残す・宣言した範囲の外の本は 1 bit 不変)〕
+
+**1. 廃止の理由の実測(器 `tests/exp-w300a-retiredfx.mjs` → 凍結の写し `tests/fixtures/retired-w300a.json` の evidence —— 内蔵の本を宣言の刻み physics.stepDt で 360 步・判定はしない)。**
+- 🔁 `mercuryGeoToy3`(geoPN=4・`lawVersion:"vMinusU"`・背景 `backgroundComplex.A0=(2.3,0)`・W0=1・太陽は固定): 刻み 2.11126 × 360 步(t=760.0536)で、質量の重心の x が 0.0000764 → **1748.12**、固定した太陽の x が 0 → **1748.12328**。宣言した一様な移送 u=V の積分 V·t = 2.3 × 760.0536 = **1748.12328** と相対 10⁻¹² の桁で同じ —— 移送 ẋ=v+u は固定した太陽も含めて系全体を慣性系の画面の上で流す。二体の相対の軌道(a 579.091 → 579.077・e 0.20563 → 0.20558)は ☄️ `mercuryReal` と 10⁻⁸ の桁で同じで、動いているのは座標だけ —— 「一様な座標変換で近点移動が変わらない」の零試験は通るが、慣性系の画面で見る本としては誤り(原仮定者の裁定(第90報)⑤)。
+- 🔂 `mercuryMeshMigrate3d`(第299便d の移行の写し): ☄️ の近日点の状態(x=460.012・v=5.8976)を x 軸まわりに 30° 回した楕円で、**傾斜 30.000°・昇交点 0°・太陽は固定**(重心は 360 步で 1.92×10⁻⁴ 動く —— 固定した太陽と水星の公転)。実在の水星の三次元の本 🌡️ `mercurySunInertial3d` は特定の日時の近似要素の種から始まり **傾斜 7.00498°・昇交点 48.3308°・太陽は自由**(重心の移動 1.0×10⁻¹¹)。🔂 は特定の日時で始まらず、傾斜と向きが実在と違う(軌道の形 a・e は ☄️ と同じ)。
+- 改善の見込み: 🔁 の誤りは旧 vMinusU 契約の移送そのもの(慣性系の画面では背景 u=V の宣言が系を流す)で、宣言を外すと ☄️ と同じ二体ニュートンになる。🔂 の役目(spaceMesh の移行先)は全面廃止で消えた。水星の三次元は 🌡️、二次元の観測の照合は ☄️ が持つ。
+
+**2. 退役 11 本(physics.spaceMesh を宣言した在位 10 本+移行の写し 1 本 —— 宣言から列挙: `BUILTIN_PRESETS` の `spaceMeshDeclPathsOf(p)` が空でない在位の本+🔂)。** 理由と代わりに見る本は `RETIRED_PRESETS`(ja「第90報: …」/en「ruling 90: …」)。
+
+| ID | 絵文字 | 宣言(基点 881667c) | 代わりに見る本(see) |
+|---|---|---|---|
+| `galaxyMeshSpiralGeoToy` | 🪁 | geoPN=4・lawVersion scalar | 🎠 galaxyMeshSpiral・🍥 chainSpreadToy3d |
+| `galaxyAnalogyBH` | 🌚 | geoPN=4・scalar・centerSpin read | 🎢 shapeToySpiralCore・🛞 ngc3198DFM |
+| `galaxyAnalogyBHCompose` | 🧩 | geoPN=4・scalar・D0 1.5 | 🎢・🍥 |
+| `galaxyAnalogyBHTilt90` | 🛸 | geoPN=4・scalar | 🎲 coord3dSpinPrecess・🎢 |
+| `galaxyAnalogyBHTilt90Layers` | 🪆 | geoPN=4・scalar | 🧅 layeredCoreDFM・🎲 |
+| `clusterAnalogyBH` | 💮 | geoPN=4・scalar・dragR 1.5 | 🍇 tuc47・🎱 shapeToyClusterCore |
+| `mercuryGeoToy3` | 🔁 | geoPN=4・vMinusU・meshVelocity | 🌡️ mercurySunInertial3d・☄️ mercuryReal |
+| `mercuryMeshMigrate3d` | 🔂 | geoPN=4・coord 3d・relativeDrag inertial(spaceMesh なし) | 🌡️ |
+| `charonGeoToy3` | 🌒 | geoPN=4・vMinusU・meshVelocity | 🟪 plutoCharonInertialFit・🥶 plutoCharonDiagInput |
+| `psrDoubleABGeoToy` | 🩻 | geoPN=4・lawVersion local | 📻 psrDoubleAB |
+| `spaceMeshBinaryToy` | 🪟 | geoPN=0・gravity:true(lawVersion なし) | ⭐ binary |
+
+- 計数: 内蔵 173(不変)・退役 41 → **52**・在位 132 → **121**(達 81・部分 37・未達 3 —— 原稿の行は退役の前のまま)・較正母集団 20(11 本はどれも calibration でない)。geoPN の桶(総数)94/28/19/18/14 は不変・在位は 78/23/4/12/4(在位の geoPN=4 は 🔗🔩🪛🍥 の 4 本 —— 慣性決定力の多粒子版だけ)。
+- 家族: mercury の在位は ☄️🟫🌡️(🔁🔂 退役)・pluto は 🥶🟪(🌒 退役)・psr は 📻(🩻 退役)。群「銀河の力学」の在位は 14 本。
+- 先に退役していた本の see が退役の本を指していたので在位の本へ付け替えた(🕶️ darkrotor → 🕳️🛞・⚫ bhCore → 🕳️🧅・🎋 → 🎠🎢・🌰🥜 → 🍇🎱 —— 理由の文は退役の時点の履歴のまま)。
+- 在位の本の本文・ヘルプ・I18N から 11 本への言及を消した(🍥 の観測カードと概要・🔬 probeH の「🔁で再構築」は旧い再構築の記号 → ⏮初めから・🥢 axisBarStill の第248便c の 3 本の記号・コア軸の投影線と線の軌跡の追従の説明・README・SAMPLE_RANKING の 3 行)。較正の状態の印「🔁 較正要再確認」は記号であって本への言及ではない(QA docs.noRetiredMention294 の記号の除外に足した)。
+
+**3. 受理の拒否(`spaceMeshRetiredDenyOf(p, where)` —— 見るのは `physics.spaceMesh` と `abBody.physicsPatch.spaceMesh`・null/未宣言は「なし」)。**
+- 拒否する入口: 保存(#btnSave —— 退役の本を履歴として開いた状態は保存しない)・セーブの読込(loadSave)・JSON の取り込み(doImportText —— カスタムの本とセーブ)・貼り付けと AI 生成の取り込み(stabilizePreset —— 検証の段の誤りとして再試行の指示にも載る)・保存したカスタムの本の読込(loadPreset —— 内蔵でない本)。理由の文 `smRetiredReject` を 1 行出し、**別の法則へは自動で変換しない**(宣言を黙って外して走らせない)。拒否したときは状態を 1 bit も変えない。
+- **内蔵の退役の本は ID で履歴として開く**(決断事項候補 —— 凍結の写し・鎖の正本の器・QA の履歴の試験が ID で開く)。説明の退役の行に `smRetiredOpenNote`・パラメータの geoPN 行の情報の行 `smMeshDeprecated` と HUD の `hudMeshDeprecated` は「廃止(第300便a)」。
+- `validatePreset` は変えていない(presetSig・凍結の写し・内蔵の受理は不変)。SYSTEM_PROMPT の規則 12 と値域の行の geoPN=4 は「physics.spaceMesh は廃止(第300便a —— 受理で拒否される)」。法則の選択(geoPN=0)の旧空間メッシュの選択肢は宣言がある本だけに出る(在位の本では 0 本 —— 語は「廃止」)。
+
+**4. 撤去の範囲(実測の一覧 —— 凍結の写しの removalInventory。本便は撤去しない)。**
+- `S._core` に spaceMesh 専用の経路は**無い**(`S._core` の中の共通フック `dragHookKick`/`dragHookApply` は `S._hookOn` —— 帳簿 dragWork と共用)。力の経路は `S._core` の外の関数 14 個(`validateSpaceMesh`・`_spaceMeshForce`・`_meshCoordForce`・`dfmGeoToyStep`・`dfmGeoToyFinish`・`dfmGeoToyBgLawStep`・`dfmGeoToySpinStep`・`dfmGeoToyBandStep`・`spaceMeshResOf`・`spaceMeshDragFrameOf`・`geo3TransportAt`・`dfmGeo3PNKick`・`geo3InitVelocity`・`geo3HudText`)。蓄積格子の `dfmSpaceMeshState`・`dfmSpaceMeshAt`・`dfmSpaceMeshCapture` は表示と共用。関連する行(鍵の名前と法則の語で数えた —— 表示と受理の門を含む)は html の約 1280 行。
+- 退役の本か physics.spaceMesh を読む器 74 本・正本(tests/out)52 本・鎖の段 42 段・QA ブロック 111 個。
+- **撤去は次便以降**(決断事項候補): 経路を消すと退役の本が開けなくなり(凍結の写し・履歴の正本の再生成・QA の履歴の試験が止まる)、鎖の 42 段と QA の約 111 ブロックを同時に「凍結の写しを読む形」へ移す必要がある。順序の案: ① 退役の本の走行に依存する正本を凍結の写し(fixtures)へ移す ② 鎖の段を履歴(role:"history")へ ③ QA を「廃止の世代では SKIP+退役の照合」へ ④ 経路を撤去(`S._core` は触らない —— bitsame/sigsame/jitprobe で在位の本のビット同一を確かめる)。
+- **残すもの**: 表示の空間メッシュ(`overlays.spaceMesh` —— 第298便c の慣性決定力の受動プローブ `inertialDragProbe*`・蓄積格子の表示 `drawSpaceMesh`・`dfmSpaceMesh*`)・`physics.meshVelocity`(表裏核の輸送 —— spaceMesh とは別の鍵)・`GEO4_MIGRATED`(第295便b の移住の名簿 —— 世代の判定と器が読む)・モード表の旧法則版の行(退役の本を履歴として開いたときの解決の表)。
+
+**5. ビット同一。** 退役は familyRole(presetSig の外)と RETIRED_PRESETS だけなので、11 本を含む全 173 本の presetSig は基点と同じ(sigsame 173/173 同一・差 0 —— 基点 881667c の html と比べた)。力学は 1 命令も変えていない(bitsame 600 步 173/173 同一・差 0)。`S._core` 不変(lint.coreBudget)。
+
+QA: `preset.spaceMeshRetired300`(新設 —— 世代切替 = html の `function spaceMeshRetiredDenyOf(`・root は SKIP)。世代切替で固定値を改めた: `preset.geo4Std298`(規則 12 の「廃止」・旧 spaceMesh の在位 0 本)・`preset.meshMigrate299`(🔁🔂 は退役)・`ui.charonFamily`(🌒 は退役)・`docs.retired`(52 本・写し retired-w300a.json)・`docs.noRetiredMention294`(記号「🔁 較正要再確認」・コードの表 GEO4_MIGRATED)。
+
+〔第300便b — 地球の整理と近似の原則: 🌘 の claims の役割(標的は朔望月の 1 件)・背景宇宙の近似の宣言 `approximation`(直属の支配天体の方向の固定・朔望月/恒星月・一様重力)・🌦️ を地球の三次元版として採用・地球と月だけの三次元の対照 🌔 earthMoonOnly3d・退役 3 本(🌥️🌛🌜)(原仮定者の裁定(第90報)①②③・DECISIONS v59 §0 の AN283・AN284 ①・統括の検証項目 R176)(**既存の本の力学と署名は 1 bit も変えていない** —— 宣言は presetSig の外・bitsame/sigsame は既存の本で同一・added は 🌔 だけ・`S._core` は不変)〕
+
+**1. 🌘 は近似として現状の精度で目的を果たしている**(原仮定者の裁定(第90報)①)。physics・bodies・fitRecord は第299便b のまま(再フィットしない)。claims の役割を文に合わせた —— 標的は朔望月の 1 件だけ:
+
+| claim | 役割(前 → 後) | 理由 |
+|---|---|---|
+| `earthMoonRealKF1.synodic-month` | fit_target(不変) | 標的(fitRecord の標的 synodicMonthUniform と同じ 1 件) |
+| `earthMoonRealKF1.sidereal-month-kf1` | fit_target → retrospective_check | 照合・履歴(第298便e の周期優先の記録 —— 朔望月はこの恒星月の一様換算) |
+| `earthMoonRealKF1.apsidal-period` | fit_target → retrospective_check | 照合・履歴(第298便b までのフィットの対象 —— 8 公転窓 293.85 年は照合だけ) |
+
+窓・metric・prov(calibrated —— 過去のフィットで払った較正の記録)は変えていない。説明(control)の先頭に「近似として現状の精度で目的を果たしている(第90報)」の 1 文。較正台帳の表示(roles の数)は宣言から数える(fit_target 3 → 1・retrospective_check 0 → 2)。
+
+**2. 近似の原則の宣言**(原仮定者の裁定(第90報)②「背景宇宙の近似として、直属の支配天体の方向を固定する」)。プリセットの任意鍵 `approximation:{background, periodBasis, uniformGravity, note}`(版 `APPROX_VERSION`=w300b-approx-1・**presetSig の外** —— 署名・保存の物理・600 步の状態は 1 bit も変わらない・**力学は読まない**)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `background` | `"dominant-direction-fixed"` | 本に置かない背景(直属の支配天体 —— 地球にとっての太陽)の方向を慣性系で固定した近似の本 |
+| `periodBasis` | `"synodic"` / `"sidereal"` | 地球が支配天体の本で月の周期を何で読むか —— 公転周期を標的にする本は朔望月(恒星月の窓を恒星年 365.256363004 日で一様換算 1/P_syn=1/P_sid−1/T_year —— 抽出器 HP.synodic)、公転周期を標的にしない本は恒星月でよい。background の宣言が要る |
+| `uniformGravity` | `"dominant-direction-fixed"` | 天体表面の本の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトル(毎步回さない)。一様重力が 0 の本と三次元の本では拒否(**三次元の一様重力は未対応 —— 宣言しない**) |
+| `note` | 240 字以内 | 任意 |
+
+受理器 `validateApproximation`(正準形は鍵の順・不正は警告して削除 —— 本は受理のまま)。宣言した本(宣言から数え直す —— QA `docs.approx300`):
+
+| 宣言 | 本 |
+|---|---|
+| uniformGravity(在位の二次元で一様重力が 0 でない本の全部) | ⚾ projectile・♨️ convection・🧪 buoyancy・☕ cooling・🧬 emergent・🧊 emergent2・⛓️ chain2・♻️ chaincycle |
+| background + periodBasis sidereal | 🌙 earthMoonReal(恒星月は入力の照合)・🌔 earthMoonOnly3d(対照) |
+| background + periodBasis synodic | 🌘 earthMoonRealKF1(標的は朔望月) |
+
+太陽を置いた本(🔆 emAuditSolar・🌦️ earthMoonSunInertial3d)は背景を近似していないので宣言しない。SYSTEM_PROMPT に規則 13(近似の原則)を足した。HP の読み口 `HP.approximation`(version・keys・語彙・validate・of)。
+
+**3. 🌦️ earthMoonSunInertial3d を地球の三次元版として採用**(原仮定者の裁定(第90報)③)。physics・bodies・fitRecord は第298便c のまま。家族 earthmoon の役割名「地球の三次元版」(FAMILY_VARIANT_LABEL —— 表示専用)・本文から退役の本への言及を外した(二次元の版は「第297便b —— 第300便b で退役」と書く —— fitRecord.parent は退役の id のまま〔履歴の条件〕)。惑星の三次元(〔第299便c〕)と並ぶ地球の行:
+
+| 惑星 | 本 | 構成 | gain | 記録 |
+|---|---|---|---|---|
+| 地球 | 🌦️ earthMoonSunInertial3d | 太陽(pinned)・地球・月の三次元(月の軌道傾斜 5.145° —— 平均要素) | 0.259335(fitted —— 118 公転窓の近点周期 8.85 年) | 118 公転窓 8.8500 年・恒星月 27.32166 日・平均離心率 0.05490 |
+
+**4. 地球と月だけの三次元の対照 🌔 earthMoonOnly3d**(新本)。🌦️ の地球と月の**相対**位置・相対速度・質量・半径・自転・地球の構造核・gain 0.259335・刻み・倍精度・λ_PN=0・geoPN=3・coord 3d を写し、太陽を外して**地球–月の重心を原点・重心速度 0** に置き直した(器 `tests/exp-w300b-emonly.mjs` の `emOnlyBodies` —— 相対ベクトルを質量比で分ける。太陽中心の速度を残すと重心が慣性系の画面を歩く)。gain は**移送**(fitRecord なし —— fitted と呼ばない・notClaim `emonly_control`)。近似の宣言は background(太陽の方向の固定)・periodBasis sidereal。測った値(正本 `tests/out/emonly-w300b.json`・抽出器 w300b-em3-1 = 第298便c の runEmx3 と同じ式・h=0.016):
+
+| 走行 | 窓 | 恒星月 [日] | 朔望月(一様換算)[日] | 近点周期 B [年] | 離心ベクトル [年] | 平均離心率 | 平均傾斜 [°] |
+|---|---|---|---|---|---|---|---|
+| 🌔(gain 0.259335・h) | 118 | 27.48289 | 29.71903 | 2398.81 | 2397.90 | 0.075297 | 5.2888 |
+| 🌔(h) | 354 | 27.48290 | 29.71904 | 2398.81 | 2398.71 | 0.075298 | 5.2889 |
+| 🌔(h/2) | 118 | 27.48289 | 29.71903 | 2396.19 | 2395.29 | 0.075297 | 5.2889 |
+| 🌔 gain 0(h) | 118 | 27.48369 | 29.71997 | −7366.88 | −7369.16 | 0.075335 | 5.2888 |
+| 🌦️(太陽あり・h) | 118 | 27.32166 | 29.53059 | 8.8500 | 8.8276 | 0.054900 | 5.1450 |
+
+- 太陽の有無の差(🌦️ − 🌔・118 公転窓): 恒星月 −0.16123 日・朔望月(一様換算)−0.18845 日・近点周期 −2389.96 年・平均離心率 −0.02040・平均傾斜 −0.1438°。太陽を外すと近点は慣性引きずりだけでごく遅く順行する(gain 0 では −7367 年の逆行)・離心率は t=0 の接触離心率のまま・軌道面は回らない。
+- 🌦️ の 118 公転窓の近点周期は第298便c の正本 `moon3d-w298c.json` の final.h.w118 と同じ値(写した抽出器の照合)。🌦️ の実際の太陽の方向で数えた朔望月は第299便b の正本 `synodic-w299b.json` の段 sun3d(118 窓 29.53899 日)。
+- 重心の移動は 354 公転で 8.1×10⁻⁶ 単位(約 0.8 km)・118 公転で 2.7×10⁻⁶ 単位 —— 走行の長さに比例する(初期の全運動量の丸めの床 5.9×10⁻¹³ —— 推定)。走行の壁時計: 🌔 354 公転 15.4 s・h/2 10.7 s・gain 0 5.0 s・🌦️ 5.8 s(段 run 36.8 s)。
+
+**5. 退役 3 本**(原仮定者の裁定(第90報)③ —— 内蔵に残す・ID・物理・claims・保存 JSON は不変 —— 変えたのは familyRole と RETIRED_PRESETS の行だけ)。凍結の写し `tests/fixtures/retired-w300b.json`(器 `tests/exp-w300b-retiredfx.mjs`・版 w300b-retired-1・基点 881667c —— 3 本とも presetSig は基点と同じ)。
+
+| 本 | 理由(RETIRED_PRESETS) | 代わりに見る本 |
+|---|---|---|
+| `earthMoonSunInertialFit` 🌥️ | 地球の三次元版 🌦️ の採用に伴う整理 —— 二次元の再現作業は 🌦️ が引き継ぐ(🌦️ の fitRecord の親として履歴に残る) | 🌦️・🌔 |
+| `earthMoonInertial` 🌛 | 同 —— 慣性決定力版の地球と月(二次元・太陽なし)は 🌦️ と 🌔 が引き継ぐ | 🌦️・🌔 |
+| `earthMoonTide` 🌜 | 同 —— 定時間遅延の潮汐の診断(二次元)の記録は正本 tide-w292d.json と〔第292便d〕に履歴 | 🌙・🌦️ |
+
+- 旧い行の「代わりに見る本」が退役の本を指していた 🌤️(🌥️ → 🌦️)と 🌍(🌛 → 🌦️・🌔)の see を在位の本へ付け替え、理由の文に第90報の追記を足した。退役の告知の範囲は「第73報〜第90報」。
+- 家族 earthmoon の在位は 🌙(primary)・🌘・🔆・🌦️・🌔(variant 4 —— 畳みの閾値 6 の下・畳む家族は規則で数え直す)。較正母集団の本数は動かない(20 本 —— 3 本とも原理の分類)。
+- **🌞 solarInner は退役させていない**(この便の範囲では止めた —— 較正の分類の在位の本で、退役させると較正母集団が 20 → 19 に動く・AI 生成のカタログの鍵 `{"system":"solarInner"}`・較正の判定器の母集団と正本の鎖に及ぶ。決断事項)。 —— **統合の後、〔第300便m〕で退役した**(原仮定者の明示の裁定 —— 較正母集団 20 → 19)。
+
+**6. 器と正本・QA。** 器 `tests/exp-w300b-emonly.mjs`(版 w300b-emonly-1・段 decl・run・`W300B_OUT`・`W300B_TARGET`・`W300B_REV` は試走)→ 正本 `tests/out/emonly-w300b.json`(段 emonly-300b)。QA **`preset.earthReorg300`**(退役 3 本・凍結の写し・家族・計数・🌦️ の読み込み・🌔 の写しの規則と宣言・正本の値と obsCard・文書)・**`docs.approx300`**(読み口・受理器・presetSig の外・宣言の集合・🌘 の claims の役割・SYSTEM_PROMPT と文書)—— root は SKIP。
+
+**7. 言わないこと。** 現実や 8.85 年の再現を主張しない・gain の普遍性を主張しない(再現の努力は高い優先度の目標 —— 届かない量は「この探索範囲では未達 —— 次の見直し」)。🌔 の gain をフィットと呼ばない(移送)。近似の宣言は力学を変えない —— 朔望月の一様換算は抽出器の仕事で、宣言は「何を近似として固定したか」の記録である。
+
+〔第300便m — 🌞 solarInner の退役(原仮定者の裁定(第90報)④「🌞 solarInner は特定の日時で開始していないので廃止」・統括の検証項目 R176)。枝 b(地球の整理と近似の原則)を枝 d・a の上へ統合した後の 1 本〕
+
+**1. 退役(定義と署名は不変)。** 🌞 `solarInner` の `familyRole` を `"primary"` → `"retired"` にし、`RETIRED_PRESETS` に行を足した(ja「第90報: 特定の日時で開始していない(内惑星 4 つを離心率 0 の円軌道に理想化して置いた)…」/ en「ruling 90: …」・代わりに見る本 🌡️ mercurySunInertial3d・🌋 venusSunInertial3d・🌦️ earthMoonSunInertial3d・🔴 marsSunInertial3d)。ID・physics・bodies・claims・保存 JSON・presetSig は基点 881667c と同じ(凍結の写し `tests/fixtures/retired-w300m.json` —— 器 `tests/exp-w300m-retiredfx.mjs`・版 w300m-retired-1・`W300M_FX_OUT`)。家族 solarInner の員は 🌞 だけなので、家族の在位は 0 になった。太陽系をまとめた三次元(太陽・全惑星・大衛星 —— 特定の日時の観測値で開始する本)は、観測レコードを待つ(数値の無い本は内蔵に入れない)。
+
+**2. 較正母集団。** 🌞 は `sampleClass` が calibration の在位の本だった。判定器の母集団の規則(calibration ∧ 退役でない —— `tests/exp-w249b-calaudit.mjs` の POPULATION_RULE)は宣言から数えるので、規則も判定器も変えずに母集団が 1 本減る。
+
+| 量 | 統合の前(a・b・d の上) | 🌞 の退役の後(宣言から) |
+|---|---|---|
+| 内蔵 | 174 | 174 |
+| 退役 | 55 | **56** |
+| 在位 | 119(達 80・部分 36・未達 3) | **118**(達 80・部分 35・未達 3) |
+| 較正母集団 | 20 | **19** |
+| geoPN の在位 0/1/2/3/4 | 78/22/4/11/4 | 78/**21**/4/11/4 |
+| 群「現実較正」の在位 | 36 | **35** |
+
+基点の判定器の正本の 4 値は 合 0 / 量限定合 2 / 否 1 / 保留 17 で、🌞 は「保留」(σ 未接続)。**退役の後の 4 値は判定器の再走(鎖の calaudit の段)が決める** —— 一時ファイルへの試走(calaudit → dt3 → kf0 → solarsigma・この html と器)では次のとおりだった(実測 —— 正本は統合の鎖が書く):
+
+| 判定器の正本 | 退役の前(基点の正本) | 試走(🌞 の退役の後) |
+|---|---|---|
+| 母集団 | 20 | 19 |
+| 4 値 合/量限定合/否/保留 | 0/2/1/17 | 0/2/1/**16** |
+| 門 合(3σ)/否(3σ)/数値未解決/写像未確定/条件不一致/未判定 | 2/1/10/6/0/165 | 2/1/10/6/0/**151** |
+| σ 接続器の切断点 csv-sigma-empty/kind-not-gated/unit-not-converted/connected | 86/26/2/2 | **75/24/1**/2 |
+| σ 接続器の太陽系 4 値 否/保留 | 1/11 | 1/**10** |
+
+🌞 の分(14 量・未判定 14・切断点 11/2/1/0・保留 1)が抜けただけで、他の本の判定は動いていない。
+
+**3. 退役に伴って直したところ(表示と文書だけ —— 力学と presetSig は不変)。**
+- AI 生成のカタログの例「太陽系の惑星 → {"system":"solarInner"}」を在位の本を出典に持つ系の例「水星の近日点移動 → {"system":"mercury"}」に替えた(ja/en)。カタログの系 `solarInner` そのものは 🌞 の宣言のビット写しのまま残した(出典 src の参照 —— 系の存廃は決断事項)。
+- 在位の本の本文と注記から 🌞 への言及を外した(🔆 emAuditSolar の指数系・🟠 jupiterGalilean の qLock の既存裁定・🌇 venusReal の定数の出典・🔴 marsSunInertial3d の周期の出典)。🔴 の `timeRef.source` は生成器 `tests/lib-w299c-planets3d.mjs` の周期の出典と同じ文「内蔵の宣言値 59355072 s(NASA NSSDC Mars Fact Sheet の 686.980 日 —— 第131便に内蔵へ転記した観測値)」にした(観測の正本 OBS_COMPARE_ROWS の 🌞 の行は鎖の calaudit → obscompare で消える)。README・SAMPLE_RANKING・この文書のサンプル一覧表と §7 の対応表の行も同じ。
+- 判定器の相手の組の表から外したもの: 判定器 `tests/exp-w249b-calaudit.mjs` の CFG の 🌞 の行と、その転記 LMS_TARGETS(アプリ内実測)の 🌞 の行(退役の本を外す先例 —— ❄️ などと同じ)。主因分類の器 `tests/lib-w292a-calcause.mjs` の固定の「母集団 20 本」の検査を、規則の宣言と 4 値の台帳の行数で見る形に改め、領域の宣言 REGEN_SCOPE.presets から 🌞 を外した(鎖の段 calcause292 がそのままでは止まる —— 試走で確かめた)。CALIBRATION_VERDICT §5.40 の表は試走の正本から作り直した表(🌞 の 12 行を除いた 99 行)にした。
+- 残したもの: ID を鍵にした表(UNIFY_MIGRATED・AUDIT_FAMILY・CAL_CONTRACT —— 母集団は familyRole で外れる)・観測レコードの出典の名「dfm-simulator solarInner declaration (committed)」(`paper/data/solar-observations.csv` の 🌇 の行の source 欄 —— レコードの同一性に入る)。QA `docs.noRetiredMention294` の除外リストに (e′) 出典が退役の本のカタログの系の見出しと (j) 観測レコードの出典の名を足した。
+- 原稿 `tests/data-w279a-samplestatus-src.json` の retired.ids に 🌞(56 本)。CALIBRATION_VERDICT の 🌞 の行の「版」に「退役(第300便m・較正母集団の外)」の印。
+
+**4. 鎖で直るもの。** 判定器 calaudit(母集団 19)→ dt3・kf0・solarsigma・obscompare(🌞 の 14 行が消える)・calcontract・calcause・samplestatus/SAMPLE_STATUS・families/FAMILIES・planets3d(🔴 の周期の出典の文)。QA は鎖の前(🌞 が母集団に居る正本)と後の両方を受ける(前は NOTE)—— 鎖の後の世代は上の試走の正本(calaudit・dt3・kf0・solarsigma・obscompare・calcontract・calcause・samplestatus・families・issues・timing294 を一時に置き換えた状態)で、判定器の正本を読む QA ブロック 83 個を走らせて確かめた(html の刻印が試走の後に動いたことによるものを除いて PASS)。
+
+QA: **`preset.solarInnerRetired300`**(新設 —— root は SKIP・世代切替 = html の RETIRED_PRESETS の 🌞 の行が「第90報」)。世代切替で追従: `docs.retired`(写し FX14・正本の世代)・`preset.revived292b`(退役 +1・母集団 −1)・`preset.unifyTable`(🌞 は在位移行の行で familyRole だけが動いた)・`ui.samplePicker`(単独家族 🌞 は退役)・`docs.noRetiredMention294`(除外 (e′)(j))・`docs.calibration-verdict-sync`(第300便m の印)・`docs.calaudit-sync`・`ui.liveMeasure297`(相手の組)・`docs.calCause`(母集団の数と §5.40 の表)・`lint.kf0RunsCondition`(正本の本数)・`ui.holdRemedy`(退役の本の原稿の行)・`docs.timingContract294`(🌞 の必要窓)・σ 接続器の切断点と 4 値を見る 5 個(`docs.intakeC`・`docs.intakeD`・`docs.uranusSwap`・`behavior.solarsigmaGuards`・`behavior.unitConvertedFirst` —— 鎖の後は凍結の写しの 🌞 の分を引く)。
+
+〔第300便c — 土星の輪の geoPN=3 三次元(🍩 saturnRingInertial3d)・帯の粒の扱い(三次元は試験粒子を拒否する —— 数値の質量の有限粒子として明示)・太陽系 16 体の三次元の器(入力の契約・検査・生成器 —— 数値の観測レコードは別途取得・内蔵に入れない)・受理器の radiusFloor(原仮定者の裁定(第90報)④「太陽・全惑星・トリトン以上の 7 大衛星を 1 つにまとめた三次元サンプル —— 特定の日時の観測値で開始」「観測レコードは別途プロンプトで取得する」⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」・統括の検証項目 R177)(**既存の本は 1 bit も変えていない** —— bitsame/sigsame の差分は added の 🍩 だけ・`S._core` は不変・💍 は変えない)〕
+
+**1. 🍩 saturnRingInertial3d —— 何を置いたか。** 💍 saturnRingReal の土星・主要衛星 6・C/B/A 帯(各 40 粒)を、🟡 saturnSunInertial3d が宣言する土星の極(IAU WGCCRE 2009 —— 傾き 28.0522°・方位 79.5275°)の**赤道面**へ回した三次元の本。回転は R = Rz(方位 + 90°)·Rx(傾き)で、群(ring)は受理器の incl = 28.0522°・node = 169.5275°(build の coord3dPlace と同じ式)、衛星(single)は位置と速度を同じ R で回した(生成器 `tests/lib-w300c-saturnring3d.mjs` の `ringDecl3` —— 内蔵の宣言はその写しで、QA preset.saturnRing3d300 が照合する)。群の粒は build の乱数(種の既定は本の id の hash)で作るので、**種 seed を 💍 と同じ値(2083597375)に明示**した —— 帯の粒は 💍 と同じ配置を回したもの(初期の位置の差 ≤5.9×10⁻¹⁴)。physics は coord "3d"・geoPN 3・λ_PN 0・kFrame 0・stateCarry "double"・timeScale 1・刻みと timeRef は 💍 の時間の基準(stepDt 0.58・pRef 208.8・C環内縁の 1 公転 ≈360 步)・慣性引きずりは gain 0 の基準(標的なし —— fitted と呼ばない)・自転する源(土星・同期自転のタイタン)の軸を有効化して回転引きずり `spinDrag:{rot:"surfaceFlip", axial:"off"}` を宣言。土星は **pinned(局所の近似** —— 土星の公転と太陽の潮汐は入れない)。単位は 💍 と同じ 1 単位 = 10⁶ m / 10² s / 10²⁵ kg。
+
+**2. 帯の粒 —— 三次元の試験粒子の扱い(実測で決めた)。** 三次元の受理の門(coord3dDenyOf)は `testParticle` を拒否する。黙って外さず、帯の粒を**数値の質量の有限粒子**(源になる)として明示し、1 粒の質量を帯 120 粒の合計が 💍 の説明の実環の総質量 1.5×10¹⁹ kg になる **1.25×10⁻⁸**(=1.25×10¹⁷ kg)にした。mEff の床(massFloor)が粒を持ち上げないよう **massFloor 10⁻⁹** を宣言(第244便 B7′ の契約)。表示の半径は 💍 の代表粒の 0.1 を明示半径 particleRadius で保った(接触なし・粒の自転 0 —— 力学に入らない)。正本 `tests/out/saturnring3d-w300c.json` の実測(タイタン 2 公転・同じ種・粒 k 同士):
+- 本の質量(1.25×10⁻⁸)− 二次元の 💍(試験粒子・geoPN=1・λ_PN=1): 粒ごとの離心率の代理 (r_max−r_min)/(r_max+r_min) の差 **最大 6.8×10⁻⁴**(中央 9.6×10⁻⁶)・C環内縁の公転 +0.095 s・ミマス −0.008 s・タイタン −0.076 s。
+- 💍 の宣言の質量 10⁻⁵ の写し − 二次元の 💍: 離心率の代理の差 **最大 4.9×10⁻²**(中央 1.6×10⁻²)・C環内縁 +122.1 s・タイタン −58.5 s・帯の外 9 粒 —— 10²⁰ kg の代表粒どうしの近接(ε=0.05 = 50 km)で散乱する。h/2 では C環内縁の差 −0.66 s で、刻みで大きく動く(m5 の h と h/2 の差 126.2 s)。
+- よって**試験粒子の正式な三次元の対応は入れず、実環の総質量に合わせた有限粒子**とした。試験粒子の三次元の契約(源集合・慣性決定力の受け手・反作用)は決断事項の候補。notClaim `ring3d_grains`。
+
+**3. 測定(gain 0・タイタン 2 公転と 1% = 27828.49 単位・h = 0.58 と h/2)。**
+- 初期の面外 |r·û|/r の最大 1.3×10⁻¹⁶(回転の誤差だけ)。軌道面と赤道面の角の最大 **1.48×10⁻⁶°**(h・h/2 とも)・面外の最大 1.5×10⁻¹⁴。
+- 粒子の損失(非有限・非束縛・自分の帯の [0.9 rIn, 1.1 rOut] の外・面外 > 10⁻³): **0 粒**(h・h/2)。厳密な帯の外へ出た粒 1(h)/ 0(h/2)—— 二次元の 💍 も 1。
+- 公転周期(赤道面の中の方位の周回の平均間隔): C環内縁 **20828.42 s(h/2 20824.84 s —— 差 3.58 s。二次元の 💍 の同じ差は 3.39 s)**・ミマス 81514.94 s(h/2 との差 0.86 s)・タイタン **15.94926 日**(h/2 との差 0.059 s)。💍 の観測の正本との差: C環内縁 −51.6 s(20880 s は実半径の導出ケプラー周期の転記)・タイタン +367.7 s(15.945 日)—— 合わせていない(💍 と同じ構成)。
+- 刻み依存(粒ごとの離心率の代理): h と h/2 の差 最大 4.4×10⁻³ —— 二次元の 💍 の同じ差 4.4×10⁻³ と同じ(既定の積分器 semi の一次の誤差 —— 三次元化で増えていない)。
+- 環と衛星(土星を除く)の重心: 土星からの距離は最大 1198 単位(タイタンが支配 —— タイタンの公転で回る)。タイタン 1 公転ごとの平均の位置は 0.76 → 1.24 単位(差 1.95 単位 = 最大の 0.16%)で**歩かない**(二次元の 💍 も 1.80)。系の重心(土星を含む)は最大 0.292 単位。エネルギーの相対の変化 2.8×10⁻¹¹・極まわりの角運動量 −1.2×10⁻¹⁵。
+- **回転引きずりの見え方(受動プローブ inertialDragProbeAt —— 質量ゼロ・反作用なしの受け手)**: gain 0 の本ではプローブの u と rot は**厳密に 0**(空間メッシュは何も描かない)。A/B の移送の側(水星の三次元のフィット値 0.004522419 を同じ SI 4.522419×10⁻⁶ m³/kg で本の単位へ = gain 45.22419 —— 合わせていない診断・本には宣言しない)で 600 步の後: 赤道面の点(半径 80・100・130・方位 8 点)の rot は接線 û×r̂ 向き(cos の最小 1.0000000)・面に垂直な成分 ≤1.1×10⁻¹⁶・大きさ 3.94×10⁻³(r=80)/1.26×10⁻³(100)/3.84×10⁻⁴(130)。極の軸の上は 4.9×10⁻¹⁶(0)・緯度 45° は赤道の 0.70711 倍(sin θ)。移送の側のタイタン 2 公転: 面の角 1.48×10⁻⁶°・損失 0・C環内縁の公転は gain 0 から −775.2 s・結合の上界 boundMax 0.0152(over 0)。
+
+**4. 太陽系 16 体の三次元の器(数値は別途の観測レコード —— 本便は内蔵に入れない)。** 成員 = 太陽・水星・金星・地球・月・火星・木星・イオ・エウロパ・ガニメデ・カリスト・土星・タイタン・天王星・海王星・トリトン(この並びが本の粒子の並び)。
+- **入力の契約** `tests/data-w300c-solar16-schema.json`(JSON Schema —— 数値を持たない): 全天体で同じ元期(epoch.jdTdb・timeScale "TDB" —— 天体の欄に epochJdTdb を書くなら同じ値)・原点は太陽系重心(frame.origin "SSB"・naifOrigin 0)・ICRF に揃えた J2000 の黄道(資料の黄道傾斜角 obliquityArcsec を書く —— 極を同じ角で黄道へ回す)・幾何学的な状態(correction "NONE" —— LT・LT+S・CN 等の光行時間・光行差の補正は拒否)・km と km/s・天体中心(NAIF の天体中心の ID —— 系の重心 1〜9 と center "barycenter" は拒否)・天体自身の質量(mass.includes "body" —— 衛星を含む系の質量は拒否)・半径・IAU の北極(α0・δ0)と符号つきの自転率 W の率(deg/d —— 負は IAU の北極に対し逆行)・出典(暦表の版 source.ephemeris・提供元・取得日 YYYY-MM-DD)・不確かさは資料のものだけ(uncertainty は出典が必須 —— 作らない)。
+- **検査** `checkSolar16`(`tests/lib-w300c-solar16.mjs`): 構造(スキーマ)の後に、欠測・重複・余分な成員・元期の混在・系の重心と天体中心の混在・単位の取り違え(太陽からの距離が目安 aAu の 0.5〜1.6 倍・速さが円軌道の速さの 0.5〜1.6 倍・質量 10²⁰〜10³¹ kg —— au/m・km/d の取り違えを捕まえる)・原点(16 体の重心 ≤1000 km・全運動量/全質量 ≤10⁻⁴ km/s —— 太陽中心の座標を捕まえる)・衛星の中心(親の Hill 半径の 0.5 倍の内側に束縛 —— 惑星中心の座標を捕まえる)。誤りは符号つき(missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)。
+- **生成器** `solar16Decl`: 単位系 1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg(G=6.674・c₀=29979.2458 は他の実単位の本と同じ数・座標の値域 ±5000 に海王星の遠日点が入る)。km → /10⁶・km/s → /10・kg → /10²⁸・deg/d → rad/10⁵ s。入力の 16 体の重心と全運動量を 0 へ置き直す(量を記録 —— 16 体以外の質量の分)。全天体 free・太陽だけ pnSource・自転軸はすべて有効化(IAU の北極を資料の傾斜角で黄道へ —— 軸は一定の近似)・geoPN 3・λ_PN 0・kFrame 0・double・timeScale 1・gain 0 の基準(relativeDrag eps = ソフトニング)・**刻みはイオの木星に対する接触軌道の周期(μ=G(m_J+m_Io)・vis-viva の a)/ 360**(timeRef の pair は 木星 6・イオ 7)・積分器 **leapfrog**(人工の入力のイオ 1 公転で既定の semi〔一次 —— h−h/4 と h/2−h/4 の比 3.0〕の終わりの位置の差 8597 km に対し leapfrog〔比 5.0〕は 251 km)。予約 id `solarSystem16Inertial3d`。
+- **刻みの検査** `stepCheck`(h・h/2・h/4 —— 同じ時間の終わりの位置の差 km と相対のエネルギーの変化)。
+- **人工の入力で試した(実際の配置ではない** —— `syntheticRecord`: 円軌道・丸めた数・出典 SYNTHETIC**)**: 受理・宣言の受理の警告 0・三次元の拒否の門 空・360 步(イオ 1 公転)の有限値・刻みの検査 h−h/4 251.0 km・h/2−h/4 50.2 km・エネルギーの相対の変化 −2.6×10⁻¹⁵。不正な入力 17 種(`badVariants`)がすべて符号どおり拒否される。実行 `node tests/exp-w300c-solar16.mjs`(Node 0.2 s)。
+- **受理器の限界(この単位系で確かめた)**: ① 明示半径の下限 0.01 単位 = 10⁴ km は地球型惑星・月・大衛星(1353〜6371 km = 0.0014〜0.0064 単位)より大きい → **`physics.radiusFloor`**(宣言した本だけ 0.001 まで —— `softeningFloor` と同じ型: 較正クラスは拒否・0.01 と同値なら宣言を落とす・未宣言の本は 1 bit 不変 —— 内蔵の本に 0.01 未満の明示半径は無い)を受理器に足した(三次元でも受理 —— COORD3D_PHYS_EXTRA_ALLOW)。② ソフトニングは既存の `softeningFloor`(第277便b)で 0.001 = 1000 km まで下がり、最も近い衛星(トリトン 3.5×10⁵ km)で力の相対の差 ≈1.5(ε/r)² ≈1.2×10⁻⁵ —— 帯状重力(J2 —— 三次元では未対応)を入れない近似の差(イオで 10⁻⁴ の桁)より小さいので変えない。③ **camera.scale** の上限 3000(受理器 validatePreset とズームの両方)は天王星の軌道(≈2900 単位)までを画面の短辺に収め、海王星(≈4500 単位 —— 人工の入力で必要 4954)は外 —— 受理器の上限を上げると既存の三次元の本 3 本(🔴 4500・🔷 5400・💙 8200 —— 今は 3000 に丸められている)の署名が動き、ズームの行は他の枝の手振りの変更と重なるので**本便は変えない**(決断事項の候補)。器は camera.scale を 3000 で切り、必要な値 cameraNeeded を記録する。
+- **観測レコードが届いたときの手順**: ① レコードを契約の形で `tests/data-w300c-solar16-record.json`(元期ごとに別名でもよい)に置く。② `node tests/exp-w300c-solar16.mjs --record tests/data-w300c-solar16-record.json --emit <断片.js>` —— 検査(通らなければ符号つきの理由で終了コード 1)・宣言の受理と三次元の門・360 步・h/h2/h4 を走らせ、本の宣言の断片(scaleExp・camera・timeRef・physics・bodies)を書く。③ 断片を内蔵の本 `solarSystem16Inertial3d` に写し(説明・観測カード・notClaim・parameterAudit を足す)、clight の表の exact に行・samplestatus の原稿に行・timestd の行(鎖)を足す。④ QA は docs.solar16Contract300(予約 id が内蔵に無いことの照合をその便で外す)・新設の preset の照合・bitsame/sigsame(added だけ)。
+
+**5. 言わないこと。** 現実の再現は主張しない。🍩 の gain は合わせていない(gain 0 の基準)。帯は実際の環の縮約(試験粒子ではない)。人工の入力の結果を太陽系の配置の検証と呼ばない。観測レコードの数値を作らない・補わない。
+
+**6. timestd の移行表への追補(〔第297便c〕—— 鎖の後に統括が足した: 〔第297便c〕の表の 🔂 の次に 🌔 と 🍩 の 2 行・どちらも ok):** 🍩 saturnRingInertial3d | pRef 208.8 | 出典 観測の正本 OBS_COMPARE_ROWS(saturnRingReal の C環内縁の周期 20880 s ÷ 10² s —— 💍 の時間の基準の写し)| stepDt 0.58。
+
+〔第300便g — 鎖 2 の後のゲート 1 の処置(html・物理・署名は不変 —— 器の宣言・QA の期待値・文書の転記)〕
+
+第300便の統合(枝 d・a・m・c)と鎖 1・鎖 2 の後のゲート 1 で落ちた 7 件(root は 1 件)を、原因を確かめてから正しい側で直した。**html(beta/index.html・index.html)は 1 字も変えていない**(bitsame/sigsame の対象外 —— 物理・署名は不変)。
+
+1. **behavior.stopRuleDeclared(beta・root)** —— 原因: 基点との照合の宣言例外 13 段のうち 🌞 solarInner の dt 段(第288便b の在位移行)が、第300便m の退役で較正走行の母集団の外になり段が走らない(差が出ないのではなく、段が無い)。処置: 照合の器 `tests/exp-w270a-stoprule.mjs` が、宣言例外の行のうち**本が正本の母集団(走行 JSON の presets)に無い行を照合の外**に置き、`replay.declaredExceptionsOutPop` に理由つきで残す(母集団から機械で分ける —— 手書きの ID 一覧を足さない)。宣言の表 `tests/lib-w270a-stoprule.mjs` は較正走行の測定コードの hash に入るので書き換えない(第288便b の型の履歴への移しは、較正走行を作り直す便で行う)。正本 `tests/out/stoprule-w270a.json` を作り直した(照合 37 段・違い 12 段 = 宣言例外 12 段・母集団の外 1 段)。
+2. **docs.d0sites-sync** —— 原因: 鎖で作り直した正本の読み口の数 612(第299便で 601 → 610・第300便の 🌔🍩 の `physics.D0` の宣言で 610 → 612)が〔第276便a〕に無かった(610 は別の数の桁の偶然の一致で通っていた)。処置: 〔第276便a〕に第300便の更新の段落(数は正本から)。
+3. **docs.coreCensus** —— 原因: 第300便の退役 15 本と新本 2 本で棚卸しの 11 行と分類の本数(C 2 → 1・D 2 → 1)が動いた。処置: 〔第293便c〕に第300便の更新の表(正本 `tests/out/corecensus-w293c.json` の行と同文)。
+4. **preset.fitDerived296**・5. **preset.fitCond297** —— 原因: 第300便b で 🌥️ earthMoonSunInertialFit を退役(familyRole だけ)したので、フィット生成器 `tests/exp-w297b-fit.mjs` の派生本の照合が分類の語 variant を要求して正本の門 `derived` が偽になった。処置: 器の照合が**退役した派生本の分類の語だけを retired として受ける**(sampleClass・referenceKind・親の写し+ノブ・記録の照合は従来どおり —— 結果に `retired` を書く・器の版 `w297b-fit-2`)。段 fit-297b だけを走らせて正本 `tests/out/fit-w297b.json` を作り直した(門 ok・数値の行は不変 —— 変わったのは来歴・所要と派生本の照合の行)。
+6. **docs.geo3-sync** —— 原因: 第300便a で physics.spaceMesh(廃止)を含むセーブは読まない(loadSave が false を返し状態を変えない)ので、退役した 🔁 mercuryGeoToy3・🌒 charonGeoToy3 の保存の往復が成り立たなくなった。処置: 検算器 `tests/exp-w280c-geo3.mjs` の (e) が読込の戻り値・拒否・拒否の前後で sim と状態が同じかを記録し、QA は世代切替(html の受理の拒否 `spaceMeshRetiredDenyOf`)で「拒否が正」を見る。段 geo3 だけを走らせて正本 `tests/out/geo3-w280c.json` を作り直した(2 本とも loadSave は false・拒否の前後で sim と状態はビット同一 —— 水星とカロンの表・(c)(d)(f)(g)(h) の値は不変・変わったのは来歴・所要と (e) の記録の鍵)。
+7. **docs.timeStd3d299** —— 原因: 三次元の本の期待(宣言から数える W298A_IDS)に、第300便a で退役した 🔂 mercuryMeshMigrate3d が残っていた(正本の行は退役の記録 —— 在位の時間の宣言のまま凍結・coord なし)。🌔🍩 は宣言と正本の両方にあり差ではなかった。処置: 期待から「本が退役 ∧ 正本の行が退役の記録」の本を外す(宣言から数える形のまま)。
+
+**言わないこと。** 「ゲートを緩めた」(退役の扱いを宣言と正本から機械で分けただけで、在位の本の検査は変えていない)・「退役の本の保存を直した」(拒否が正の世代へ切り替えた)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
@@ -31937,7 +32178,6 @@ QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 �
 | 同「イオ基準・3衛星外挿」(ガリレオ hold-out JW1〜JW5) | 🟠 `jupiterGalilean` | `behavior.jupiter`・`p3fig4.jw1`・`p3fig4.jw3-holdout`・`p3fig4.aref-sensitivity` | `tests/out/jupiter-results.json`・`paper/figures/p3fig4.json` |
 | §「環系の適用範囲」(タイタン 15.949 d;環 e6) | 💍 `saturnRingReal`(kF0) | `wave121.ui`・`behavior.saturn-kframe-control` | `tests/out/kf1d-results.json` |
 | 帯状重力 E13 の D68 —— 解析式への fit(較正係数 C=1.000302283)と実軌道の照合(エンジン実測 38.108°/日・第280便e で名を分けた) | 📡 `saturnZonalD68` | `zonal.analytic-d68`・`zonal.d68-preset`・`zonal.d68-realunit` | — |
-| 実単位の内惑星系(初速較正係数 1.000 = 速度側の fit ゼロ) | 🌞 `solarInner` | `behavior.solarInner` | — |
 | §「較正が許可すること---そして許可しないこと」(較正が通過すべき監査・代償1〜3) | 現実較正ファミリー全9本(`parameterAudit` 宣言) | `budget.consistency`・`claims.mainline`・`claims.role-audit`・`ui.audit-view` | — |
 | §検証対応表「サンプル主張の整合」 | 全内蔵サンプル(`descPattern` 宣言) | `claims.sync` | — |
 | §検証対応表「図が同一値で再生成される」 | — | `p3fig1.*`〜`p3fig4.*` | `paper/figures/p3figs-gates.json` |

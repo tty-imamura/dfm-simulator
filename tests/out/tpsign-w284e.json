@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T13:23:23.284Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T09:45:34.680Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T11:59:41.552Z"
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-12T08:16:45.878Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-11T12:49:27.596Z"
+    "bytes": 1721927,
+    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
+    "mtime": "2026-10-12T09:11:05.462Z"
    }
   ],
   "code": [
@@ -34,9 +34,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 364342,
-    "sha256": "a481d697c9239500990ce9217bc6976c9243ffcc34f42a139b39c309a1a5207a",
-    "mtime": "2026-10-09T10:19:35.462Z"
+    "bytes": 364454,
+    "sha256": "68ad7c7411c1451ae2a56b10770a2223c8fdb1dbdee5c5eeef7181b970a0faa5",
+    "mtime": "2026-10-12T05:10:54.634Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "40f70687a20010a23ee7d44415e2c7628bdf9579a65fbac9bed2e74ae0c5aaee",
+  "codeSha256": "39f9beb46cc6968f4698b482f4d540b9348cee3b0bb8d3a14ad79127ecc77b3a",
   "harnessVersion": "w284e-tpsign-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)AN34: 重い 4 本は試験粒子契約を宣言して署名(量ごとの前後を記録・全 54 量は未判定のまま・「区分が動かない」を受理の根拠にしない・💍 の C 環内縁は環粒子そのもの=前後を明記)",
@@ -90,16 +90,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1187,
-   "segments": 1080,
-   "closureShare": 0.3172
+   "names": 1198,
+   "segments": 1089,
+   "closureShare": 0.3152
   },
-  "scopeSha256": "8b5c8c062a164c6f3b39842ce799c42501e1e58f24ffec112e4243a0bc9005c8",
+  "scopeSha256": "be44c9710ddb670459c6d3d57940a510bf887cfd99b8aefc5654409e61cedbdb",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "60393af84c3ed77fc8afd659621204b8391dda5fe7bcc1c5ba161802f34e650f",
+    "stableSha256": "a31a5652e10d95964a5d3f5e80ee1a99b8cde6835c77dbbde0fcb9a9934ae1c3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -127,7 +127,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "769c9f455642d333d0c4f4634f218cbc9a770cf72eb409a86fcdbb1346343f33",
+    "stableSha256": "97cf79bae07218e8e6c6c1b636133bb1b8720b826bd03323af0a349ad70bd933",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -167,15 +167,15 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "when": "2026-10-11T12:49:27.305Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "when": "2026-10-12T09:11:05.208Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
-   "保留": 17
+   "保留": 16
   },
-  "wallSec": 0.017
+  "wallSec": 0.023
  },
  "signed": {
   "solarInner": {
@@ -207,282 +207,7 @@
   "presets": [
    {
     "id": "solarInner",
-    "emoji": "🌞",
-    "rows": [
-     {
-      "target": "水星",
-      "kind": "period",
-      "name": "公転周期(水/金/地/火)(水星)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 7600499.003331359,
-      "after": 7600506.159807752,
-      "absDiff": 7.156476393342018,
-      "relDiff": 9.415798081422389e-7,
-      "signFlip": false,
-      "verdictBefore": "合",
-      "verdictAfter": "合",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "金星",
-      "kind": "period",
-      "name": "公転周期(水/金/地/火)(金星)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 19413805.369073812,
-      "after": 19414650.471987583,
-      "absDiff": 845.1029137708247,
-      "relDiff": 0.00004353102844623514,
-      "signFlip": false,
-      "verdictBefore": "合",
-      "verdictAfter": "合",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "地球",
-      "kind": "period",
-      "name": "公転周期(水/金/地/火)(地球)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 31558311.799095467,
-      "after": 31558162.210483246,
-      "absDiff": -149.5886122211814,
-      "relDiff": -0.000004740070165143275,
-      "signFlip": false,
-      "verdictBefore": "合",
-      "verdictAfter": "合",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "火星",
-      "kind": "period",
-      "name": "公転周期(水/金/地/火)(火星)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 59353327.93005379,
-      "after": 59352853.69590237,
-      "absDiff": -474.23415142297745,
-      "relDiff": -0.000007990017880410158,
-      "signFlip": false,
-      "verdictBefore": "合",
-      "verdictAfter": "合",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": null,
-      "kind": "other",
-      "name": "軌道速度(地球)",
-      "unit": null,
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": null,
-      "kind": "other",
-      "name": "円軌道の維持(2水星周窓)",
-      "unit": null,
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "水星",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(水星)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.00006526977879972767,
-      "after": 0.00006545777917126629,
-      "absDiff": 1.8800037153862096e-7,
-      "relDiff": 0.002880358643706716,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "水星",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(水星)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": -0.32575336783925,
-      "after": -0.25646478267682027,
-      "absDiff": 0.06928858516242975,
-      "relDiff": 0.2127025903738981,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "金星",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(金星)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.00002443857485710003,
-      "after": 0.000026642730432596792,
-      "absDiff": 0.0000022041555754967614,
-      "relDiff": 0.0901916575899023,
-      "signFlip": false,
-      "verdictBefore": "否",
-      "verdictAfter": "否",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "金星",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(金星)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": 3.7921551009153394,
-      "after": 12.729298887137313,
-      "absDiff": 8.937143786221974,
-      "relDiff": 2.3567453198485344,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "地球",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(地球)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.00002203039246495403,
-      "after": 0.000029829736226796292,
-      "absDiff": 0.000007799343761842262,
-      "relDiff": 0.354026546474352,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "地球",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(地球)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": 26.743730362912988,
-      "after": 2.2363988431300164,
-      "absDiff": -24.507331519782973,
-      "relDiff": -0.9163767053891871,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "火星",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(火星)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.000021692327981030167,
-      "after": 0.0000173076656164526,
-      "absDiff": -0.000004384662364577568,
-      "relDiff": -0.20212963626642255,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "火星",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(火星)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": 7.803886264219639,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     }
-    ],
-    "nQuantities": 14,
-    "maxAbsRelDiffPeriod": 0.00004353102844623514,
-    "maxAbsDiffPrecession": 24.507331519782973,
-    "signFlips": [],
-    "verdictMoved": 0,
-    "gateMoved": 0,
-    "gateUndetermined": 14,
-    "verdict4": {
-     "before": "保留",
-     "after": "保留"
-    },
-    "run": {
-     "before": {
-      "steps": 866426,
-      "n": 105,
-      "periFound": [
-       9,
-       5,
-       3,
-       2
-      ],
-      "needPeriastra": 20,
-      "periastraOk": false,
-      "stoppedBy": "declared-max-steps",
-      "wallSec": 830.64,
-      "tags": [
-       "dt"
-      ],
-      "tp": null
-     },
-     "after": {
-      "steps": 866426,
-      "n": 105,
-      "periFound": [
-       9,
-       4,
-       5,
-       3
-      ],
-      "needPeriastra": 20,
-      "periastraOk": false,
-      "stoppedBy": "declared-max-steps",
-      "wallSec": 53.293,
-      "tags": [
-       "dt"
-      ],
-      "tp": null
-     }
-    }
+    "missing": true
    },
    {
     "id": "uranusReal",
@@ -823,7 +548,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 67.609,
+      "wallSec": 63.176,
       "tags": [
        "dt"
       ],
@@ -1038,7 +763,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 153.029,
+      "wallSec": 159.331,
       "tags": [
        "dt"
       ],
@@ -1051,8 +776,8 @@
     "missing": true
    }
   ],
-  "nQuantities": 42,
-  "gateUndeterminedAll": 40,
+  "nQuantities": 28,
+  "gateUndeterminedAll": 26,
   "verdictMovedAll": 0,
   "gateMovedAll": 0,
   "fourValues": {
@@ -1073,66 +798,6 @@
   }
  },
  "nextCalibration": [
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "target": "水星",
-   "kind": "precession",
-   "name": "実測(標準検出器): 近点移動(水星)",
-   "before": -0.32575336783925,
-   "after": -0.25646478267682027,
-   "relDiff": 0.2127025903738981,
-   "signFlip": false,
-   "decideNext": "必要な窓(近点数)と誤差予算"
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "target": "金星",
-   "kind": "precession",
-   "name": "実測(標準検出器): 近点移動(金星)",
-   "before": 3.7921551009153394,
-   "after": 12.729298887137313,
-   "relDiff": 2.3567453198485344,
-   "signFlip": false,
-   "decideNext": "必要な窓(近点数)と誤差予算"
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "target": "地球",
-   "kind": "ecc",
-   "name": "実測(標準検出器): 離心率(地球)",
-   "before": 0.00002203039246495403,
-   "after": 0.000029829736226796292,
-   "relDiff": 0.354026546474352,
-   "signFlip": false,
-   "decideNext": "必要な窓(近点数)と誤差予算"
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "target": "地球",
-   "kind": "precession",
-   "name": "実測(標準検出器): 近点移動(地球)",
-   "before": 26.743730362912988,
-   "after": 2.2363988431300164,
-   "relDiff": -0.9163767053891871,
-   "signFlip": false,
-   "decideNext": "必要な窓(近点数)と誤差予算"
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "target": "火星",
-   "kind": "ecc",
-   "name": "実測(標準検出器): 離心率(火星)",
-   "before": 0.000021692327981030167,
-   "after": 0.0000173076656164526,
-   "relDiff": -0.20212963626642255,
-   "signFlip": false,
-   "decideNext": "必要な窓(近点数)と誤差予算"
-  },
   {
    "id": "uranusReal",
    "emoji": "💠",
@@ -1266,5 +931,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.195
+ "elapsedS": 0.272
 }

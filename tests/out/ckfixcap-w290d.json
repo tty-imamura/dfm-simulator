@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "6dbad28416bb167bbcb5f84e6cb0d03c184afcda44c474078dd396c0002bf472",
-  "generatedAt": "2026-10-11T08:40:11.911Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T08:23:55.867Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6413423,
-    "sha256": "6dbad28416bb167bbcb5f84e6cb0d03c184afcda44c474078dd396c0002bf472",
-    "mtime": "2026-10-11T08:39:58.980Z"
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-12T08:16:45.878Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 50272,
-    "sha256": "163b491bce3ac8bccd8bb92c5a570de3cc6f6d4ea81db2f9b86636301595c9e5",
-    "mtime": "2026-10-11T07:49:12.564Z"
+    "bytes": 51225,
+    "sha256": "0f83debaaa47556350f1a8ed956c1bb0efa844c6e01282e7a5da0bb28a34f708",
+    "mtime": "2026-10-12T02:36:41.350Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-11T06:46:32.300Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-11T06:46:32.296Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-11T06:46:32.304Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
-  "codeSha256": "b554259a98ca032f14e8e1f8228426d62902a50b22b1f06f687473d301d3e069",
+  "codeSha256": "0a0c3a78484a4672c8eaaf9046b717bc297fece859ca47ec053e31f50c632282",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1191,
-   "segments": 1084,
-   "closureShare": 0.3265
+   "names": 1202,
+   "segments": 1093,
+   "closureShare": 0.3163
   },
-  "scopeSha256": "bc2e14462de0ecc63e8f885618a79b79b610a8566d1332a830cba00bfcb9ca59",
+  "scopeSha256": "24b12069f3f92aad46ac6ea6fb43a9cc0b6e6dccac672c9bcea6800c26176bf6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -663,9 +663,9 @@
   },
   "inventory": {
    "code": {
-    "loadSave": "d812391c0692efe552538cd9d3e095ee0dadd6f30b6fa0950133b01d470b77f7",
+    "loadSave": "bfcb885a6781ac0aac4afb53d1ecaf83a0c96c93f4927eed463c8b068bcd4f15",
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
-    "saveHandler": "5e6da5b9a838d7e8dbb52d438a49087bb6048c03838b8692ab5c3ecbdbbcc9d6"
+    "saveHandler": "0a9170f4168fa628e30e780e992e9081445dd96e68a9386453870407c5179f4e"
    },
    "saveCodeSameAsBase": true,
    "saveKeys": [
@@ -1435,7 +1435,7 @@
     {
      "cat": "spaceMesh",
      "id": "spaceMeshBinaryToy",
-     "retiredFixture": false,
+     "retiredFixture": true,
      "flagOn": true,
      "n": 2,
      "nSame": true,
@@ -2752,5 +2752,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.42
+ "elapsedS": 0.458
 }

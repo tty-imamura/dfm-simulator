@@ -1,0 +1,910 @@
+{
+ "fixtureVersion": "w300m-retired-1",
+ "note": "退役 1 本(🌞 solarInner —— 原仮定者の裁定(第90報)④「特定の日時で開始していないので廃止」)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本・AI 生成のカタログ solarInner の出典〔src〕の参照が残る)。presetSig は基点と同じ(宣言の欄は署名の外)。🌞 は sampleClass:\"calibration\" の在位の本だった —— 較正母集団(calibration ∧ 退役でない)は宣言から数えて 1 本減る(calibration の欄に基点の行と数を凍結)。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差と新本(同じ便の他の枝の宣言を含む —— 宣言から列挙)。",
+ "ids": [
+  "solarInner"
+ ],
+ "presets": {
+  "solarInner": {
+   "emoji": "🌞",
+   "name": "太陽系 — 内惑星(実単位)",
+   "familyId": "solarInner",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "calibration",
+   "presetSigHash": "e36f00f5",
+   "presetSigSha256": "e74f3814fcec38b2429b210ab6465b44540a118de6d9e349f2b3680452274edd",
+   "base": {
+    "rev": "881667c",
+    "presetSigHash": "e36f00f5",
+    "name": "太陽系 — 内惑星(実単位)",
+    "sigSame": true
+   },
+   "successor": "mercurySunInertial3d",
+   "reason": "特定の日時で開始していない(内惑星 4 つを円軌道で同じ位相から置いた) —— 惑星の三次元は 🌡️🌋🌦️🔴 など 7 本、太陽系をまとめた三次元(太陽系 16 体)は特定の日時の観測レコードを待つ",
+   "retiredNotice": {
+    "ja": "第90報: 特定の日時で開始していない(内惑星 4 つを離心率 0 の円軌道に理想化して置いた)—— 惑星ごとの三次元は 🌡️🌋🌦️🔴 など、太陽系をまとめた三次元は特定の日時の観測値で開始する本として観測レコードを待つ",
+    "en": "ruling 90: it does not start from a specific date (the four inner planets are placed on circular orbits idealised to zero eccentricity) — the per-planet 3D books are 🌡️🌋🌦️🔴 and others; a combined 3D solar system that starts from observed values at a specific date awaits its observation record",
+    "see": [
+     "mercurySunInertial3d",
+     "venusSunInertial3d",
+     "earthMoonSunInertial3d",
+     "marsSunInertial3d"
+    ]
+   },
+   "pairDiff": {
+    "successor": "mercurySunInertial3d",
+    "successorEmoji": "🌡️",
+    "diff": {
+     "physics.D0": [
+      0.006,
+      0.1
+     ],
+     "physics.coord": [
+      null,
+      "3d"
+     ],
+     "physics.geoPN": [
+      1,
+      3
+     ],
+     "physics.lambdaPN": [
+      1,
+      0
+     ],
+     "physics.q": [
+      5.1,
+      3
+     ],
+     "physics.relativeDrag": [
+      null,
+      {
+       "law": "inertial",
+       "gain": 0.004522419,
+       "eps": 0.05,
+       "history": "positions",
+       "pairs": "all"
+      }
+     ],
+     "physics.stepDt": [
+      2.11126,
+      2.111256
+     ],
+     "bodies.length": [
+      6,
+      2
+     ],
+     "bodies[0].radius": [
+      6.96,
+      6.95
+     ],
+     "bodies[0].x": [
+      0,
+      0.00003230708194113838
+     ],
+     "bodies[0].y": [
+      0,
+      0.00011108358383634894
+     ],
+     "bodies[0].vx": [
+      0,
+      -6.141487642024177e-7
+     ],
+     "bodies[0].vy": [
+      0,
+      1.8533724078528095e-7
+     ],
+     "bodies[0].pinned": [
+      true,
+      false
+     ],
+     "bodies[1].x": [
+      579.09,
+      -194.6097738328244
+     ],
+     "bodies[1].y": [
+      0,
+      -669.1397002774223
+     ],
+     "bodies[1].vx": [
+      0,
+      3.6994784090651835
+     ],
+     "bodies[1].vy": [
+      4.787214,
+      -1.1164251410182398
+     ]
+    },
+    "n": 18,
+    "named": {
+     "D0": [
+      0.006,
+      0.1
+     ],
+     "q": [
+      5.1,
+      3
+     ],
+     "bodies": 11
+    }
+   },
+   "raw": {
+    "id": "solarInner",
+    "name": "太陽系 — 内惑星(実単位)",
+    "emoji": "🌞",
+    "group": "現実較正",
+    "familyId": "solarInner",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "公転周期(水/金/地/火)",
+      "model": "87.972 / 224.700 / 365.263 / 686.965 日(実距離+実ケプラー初速)",
+      "obs": "87.969 / 224.701 / 365.256 / 686.980 日"
+     },
+     {
+      "q": "軌道速度(地球)",
+      "model": "29.785 km/s",
+      "obs": "29.78 km/s"
+     },
+     {
+      "q": "円軌道の維持(2水星周窓)",
+      "model": "較正係数 1.000 で半径振れ幅 0.0131%(水星)",
+      "obs": "—(旧トイ版は ×1.12 の較正が必要だった)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "第103便の旧版は距離だけが実値で、太陽質量 13266(G=1 のケプラー写像)・太陽半径 40(実 6.96 の5.7倍)・自転 0.5(実 0.029031 の17倍)・c₀=30・D₀=2・q=2 のトイ設定だった。この誇張では空間引きずりが軌道速度の1割を担い、円軌道を保つのにケプラー値×1.12/1.09/1.07/1.055 の較正係数が要る。第131便の再実測では、その較正でも2水星周窓の半径振れ幅は 1.52/0.69/0.54/0.24%(dt=0.48・3200步)、kFrame=0 の対照は 50.6/36.2/26.9/11.0% で、旧説明文の「0.06%以下」「水星2.2%の楕円化」は再現できなかった。",
+     "pass": "第131便: ☄️ と同じ指数系へ実単位化(実G=6.674・実c₀=3×10⁴・κ=G/c₀²・実質量・実半径・実自転)。すると較正係数は 1.000(実ケプラー速度そのまま)が最適になり、2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)まで下がる。公転周期は4惑星とも観測と 1×10⁻⁴ 以内で一致する。"
+    },
+    "descStruct": {
+     "summary": "内惑星系(水・金・地・火)+小惑星帯を、実定数・実質量・実距離・実半径のまま置いた観測較正サンプル(第131便でトイ→実単位化)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽 1988.5(=1.9885×10³⁰kg)・半径 6.96(=6.96×10⁸m)・自転 0.029031(25.05日)、惑星は実質量・実半径・実自転・実軌道長半径(水星579.09・金星1082.08・地球1495.98・火星2279.39 単位=10万km、太陽–地球=1au)。初速は実ケプラー速度そのまま(較正係数 1.000)。物理対応条件 κ=G/c₀² 成立・kFrame=1+共通補正 D₀=0.006(DFM 版の構成)。軌道は円に理想化してある(実離心率 水星0.206・金星0.007・地球0.017・火星0.093 はこの本の範囲の外 — 円軌道デモとしての設計)。",
+     "observe": "公転周期は実測 87.972/224.700/365.263/686.965 日(観測 87.969/224.701/365.256/686.980)。以下の軌道実測はすべて dt=0.016・帯を外した太陽+惑星4体の部分系での値(帯の総質量は太陽の 5×10⁻⁸ で力学的に無関係 — 帯込みでも水星0.0131%・金星0.00489%・地球0.00181%・火星0.00227% と3桁目まで一致する)。軌道速度は水星47.87・金星35.02・地球29.785・火星24.13 km/s(いずれも観測値)。2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)で、1火星周(687日)まで延ばしても 0.0134/0.00607/0.00445/0.00430% にとどまる。kFrame を 0 にしても 0.0131/0.00533/0.00174/0.00124% とほぼ同じ — 実スケールでは空間引きずり(A8/E6′)が円軌道条件に効かない(太陽の自転を 0 にした対照は kFrame=1 と倍精度で完全一致 = スピン項の寄与ゼロ)。旧トイ版の較正超過を実単位へ持ち込むと悪化する(f 掃引: 1.000→0.0131%・1.001→0.400%・1.005→2.00%・1.055→22.3%・1.12→50.7%)。半径が実値なので惑星は点にしか見えない — 粒子表示倍率 dispMag=10(表示専用・力学不変)で太陽を 6.96→69.6 単位に拡大している(水星軌道 579 の12%: ☄️ と同じ「太陽が視覚を支配する」妥協)。小惑星帯はケレス級のテスト質量100個の展示(各 10⁻⁶=10²¹kg・半径 0.005=5×10⁵m)で、帯の総質量は太陽の 5×10⁻⁸(実際の帯 ≈2.4×10²¹kg の約42倍)しかなく、惑星の軌道実測は帯の有無で一致する(帯粒は初期 vNoise 2% ぶんの離心率をもって回り、2水星周での半径ずれは最大2%級)。太陽は pinned の展示系(中心は固定=外部拘束)。",
+     "control": "ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の規約(有限参照正規化規約)を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=1(1 公転≈360步・画面 約3秒)。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。",
+     "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
+    },
+    "en": {
+     "name": "Solar System — Inner Planets (Real Units)",
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c₀=29979.2458",
+       "the Sun's real mass, radius and rotation (25.05 d)",
+       "the real masses, radii and rotations of Mercury, Venus, Earth and Mars",
+       "the four real semi-major axes (Mercury 579.09 – Mars 2279.39 units of 10⁵ km)",
+       "the real Kepler speeds (calibration factor 1.000 — no multiplier)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)",
+       "kFrame=0, geoPN=1 (reality calibration — migrated in place in wave 288b from the old kFrame=1, geoPN=2 declaration [the drag approximation with q]; D₀ and q do not enter the force at kFrame=0)",
+       "orbits idealized to circles (the real eccentricities 0.206/0.007/0.017/0.093 are outside this sample's scope — by design a circular-orbit demo)",
+       "kRep=muF=γN=κ_S=0",
+       "geoPN=2, λ_PN=1, pnα=1.5",
+       "pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+       "the Sun is pinned (an external constraint of the exhibit)",
+       "asteroid belt = an exhibit of 100 Ceres-class test masses (dynamically irrelevant)"
+      ],
+      "fitted": [
+       "D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here; the velocity calibration factor is 1.000, i.e. no fit on the speed side)"
+      ],
+      "derived": [
+       "q=5.1 (the qLock rule evaluated at the belt-inclusive median free-body distance a=3836, q*=5.1045, declared statically — in a multi-planet system a_ref is not unique, so qLock is not engaged. Wave-172 check: the exact-agreement form gives 5.1037, so the declared 5.1 is unchanged — with a≫R the finite-radius correction is only −0.0009)",
+       "κ=G/c₀²=7.4258×10⁻⁹"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=1, screen step stepDt=2.11126",
+       "display magnification dispMag=10 (display only)"
+      ]
+     },
+     "obsCard": [
+      {
+       "q": "Orbital periods (Me/V/E/Ma)",
+       "model": "87.972 / 224.700 / 365.263 / 686.965 d (real distances + real Kepler speeds)",
+       "obs": "87.969 / 224.701 / 365.256 / 686.980 d"
+      },
+      {
+       "q": "Orbital speed (Earth)",
+       "model": "29.785 km/s",
+       "obs": "29.78 km/s"
+      },
+      {
+       "q": "Circular-orbit maintenance (2 Mercury orbits)",
+       "model": "calibration factor 1.000, radius wobble 0.0131% (Mercury)",
+       "obs": "— (the old toy build needed a ×1.12 calibration)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "The wave-103 build had real DISTANCES only: the solar mass was the toy Kepler mapping 13266 (G=1), the solar radius 40 (5.7× the real 6.96), the spin 0.5 (17× the real 0.029031), with c₀=30, D₀=2, q=2. Under that exaggeration frame dragging carried ~10% of the orbital speed, so keeping the orbits circular needed Kepler × 1.12/1.09/1.07/1.055. Re-measured in wave 131, even with that calibration the radius wobble over two Mercury orbits is 1.52/0.69/0.54/0.24% (dt=0.48, 3200 steps) and the kFrame=0 control gives 50.6/36.2/26.9/11.0% — the old text's \"under 0.06%\" and \"2.2% ellipse\" could not be reproduced.",
+      "pass": "Wave 131: recast into ☄️'s exponent system with real constants (G=6.674, c₀=3×10⁴, κ=G/c₀²) and real masses, radii and spins. The optimal calibration factor becomes 1.000 — the real Kepler speed itself — and the radius wobble over two Mercury orbits drops to 0.0131% (Mercury) / 0.00489% (Venus) / 0.00181% (Earth) / 0.00226% (Mars). All four orbital periods match observation to within 1×10⁻⁴."
+     },
+     "descStruct": {
+      "summary": "The inner planets (Mercury–Mars) plus an asteroid belt, placed with real constants, real masses, real distances and real radii (wave 131 turned the toy build into a real-unit one). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg) the Sun is 1988.5 (=1.9885×10³⁰ kg) with radius 6.96 (=6.96×10⁸ m) and spin 0.029031 (25.05 d), and the planets carry real masses, radii, spins and semi-major axes (Mercury 579.09, Venus 1082.08, Earth 1495.98, Mars 2279.39 units of 10⁵ km; Sun–Earth = 1 au). The initial speeds are the real Kepler speeds themselves (calibration factor 1.000). κ=G/c₀² holds, with kFrame=1 and the joint correction D₀=0.006 (the DFM-build construction). The orbits are idealized to circles — the real eccentricities (Mercury 0.206, Venus 0.007, Earth 0.017, Mars 0.093) are outside this sample's scope; this sample is by design a circular-orbit demo.",
+      "observe": "Measured periods are 87.972/224.700/365.263/686.965 d (observed 87.969/224.701/365.256/686.980). All orbital measurements below are taken at dt=0.016 on the Sun-plus-four-planets subsystem with the belt removed (the belt is dynamically irrelevant — its total mass is 5×10⁻⁸ of the Sun; with the belt in, the figures are 0.0131 / 0.00489 / 0.00181 / 0.00227%, matching to three digits). Orbital speeds are 47.87/35.02/29.785/24.13 km/s — all observed values. Over a two-Mercury-orbit window the radius wobble is 0.0131% (Mercury) / 0.00489% (Venus) / 0.00181% (Earth) / 0.00226% (Mars), and stretching the window to one Mars orbit (687 d) only takes it to 0.0134/0.00607/0.00445/0.00430%. Setting kFrame to 0 gives 0.0131/0.00533/0.00174/0.00124% — essentially the same, because at real scale frame dragging (A8/E6′) does not touch the circular-orbit condition (zeroing the Sun's spin reproduces the kFrame=1 run to full double precision: the spin term contributes nothing). Carrying the old toy calibration excess into real units only makes things worse (f sweep: 1.000→0.0131%, 1.001→0.400%, 1.005→2.00%, 1.055→22.3%, 1.12→50.7%). At real radii the planets are mere dots, so the display magnification dispMag=10 (display only, dynamics untouched) draws the Sun at 6.96→69.6 units — 12% of Mercury's 579 orbit, the same \"the Sun dominates the view\" compromise as ☄️. The asteroid belt is an exhibit of 100 Ceres-class test masses (each 10⁻⁶ = 10²¹ kg, radius 0.005 = 5×10⁵ m); its total mass is 5×10⁻⁸ of the Sun (about 42× the real belt at ≈2.4×10²¹ kg), and the planetary measurements are identical with and without it (the grains carry the 2% vNoise as eccentricity, so their radii wander by at most ~2% over two Mercury orbits). The Sun is pinned (exhibit system; the center is an external constraint).",
+      "control": "One-tap A/B: side B at q=0.5 (removing the geometric falloff of the dragging) lets the Sun's real rotation drag the whole inner system, and the orbits collapse within two Mercury orbits (radius wobble 102/130/362/135%) — one tap shows that the geometric falloff in q is exactly what makes dragging invisible at real scale. Setting kFrame to 0 changes nothing on screen (real-scale dragging is below detection). Any q from 3 to 21.8 gives the same orbits (identical to full double precision for q≥5), so qLock is NOT engaged here: in a multi-planet system q* depends on the median free-body distance, so a single LT-class-amplitude convention cannot be defined (wave-131 ruling). The declared q=5.1 is the qLock rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated at the belt-inclusive median free-body distance a=3836 (q*=5.1045). With timeScale=1 (1 orbit ≈ 360 steps, about 3 wall seconds).7 days. The asteroid belt (3300–4600 units ≈ 2.2–3.1 au) appears when you zoom out.",
+      "brief": "Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
+     },
+     "description": "The inner planets (Mercury–Mars) plus an asteroid belt, placed with real constants, real masses, real distances and real radii (wave 131 turned the toy build into a real-unit one). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg) the Sun is 1988.5 (=1.9885×10³⁰ kg) with radius 6.96 (=6.96×10⁸ m) and spin 0.029031 (25.05 d), and the planets carry real masses, radii, spins and semi-major axes (Mercury 579.09, Venus 1082.08, Earth 1495.98, Mars 2279.39 units of 10⁵ km; Sun–Earth = 1 au). The initial speeds are the real Kepler speeds themselves (calibration factor 1.000). κ=G/c₀² holds, with kFrame=1 and the joint correction D₀=0.006 (the DFM-build construction). The orbits are idealized to circles — the real eccentricities (Mercury 0.206, Venus 0.007, Earth 0.017, Mars 0.093) are outside this sample's scope; this sample is by design a circular-orbit demo.Measured periods are 87.972/224.700/365.263/686.965 d (observed 87.969/224.701/365.256/686.980). All orbital measurements below are taken at dt=0.016 on the Sun-plus-four-planets subsystem with the belt removed (the belt is dynamically irrelevant — its total mass is 5×10⁻⁸ of the Sun; with the belt in, the figures are 0.0131 / 0.00489 / 0.00181 / 0.00227%, matching to three digits). Orbital speeds are 47.87/35.02/29.785/24.13 km/s — all observed values. Over a two-Mercury-orbit window the radius wobble is 0.0131% (Mercury) / 0.00489% (Venus) / 0.00181% (Earth) / 0.00226% (Mars), and stretching the window to one Mars orbit (687 d) only takes it to 0.0134/0.00607/0.00445/0.00430%. Setting kFrame to 0 gives 0.0131/0.00533/0.00174/0.00124% — essentially the same, because at real scale frame dragging (A8/E6′) does not touch the circular-orbit condition (zeroing the Sun's spin reproduces the kFrame=1 run to full double precision: the spin term contributes nothing). Carrying the old toy calibration excess into real units only makes things worse (f sweep: 1.000→0.0131%, 1.001→0.400%, 1.005→2.00%, 1.055→22.3%, 1.12→50.7%). At real radii the planets are mere dots, so the display magnification dispMag=10 (display only, dynamics untouched) draws the Sun at 6.96→69.6 units — 12% of Mercury's 579 orbit, the same \"the Sun dominates the view\" compromise as ☄️. The asteroid belt is an exhibit of 100 Ceres-class test masses (each 10⁻⁶ = 10²¹ kg, radius 0.005 = 5×10⁵ m); its total mass is 5×10⁻⁸ of the Sun (about 42× the real belt at ≈2.4×10²¹ kg), and the planetary measurements are identical with and without it (the grains carry the 2% vNoise as eccentricity, so their radii wander by at most ~2% over two Mercury orbits). The Sun is pinned (exhibit system; the center is an external constraint).One-tap A/B: side B at q=0.5 (removing the geometric falloff of the dragging) lets the Sun's real rotation drag the whole inner system, and the orbits collapse within two Mercury orbits (radius wobble 102/130/362/135%) — one tap shows that the geometric falloff in q is exactly what makes dragging invisible at real scale. Setting kFrame to 0 changes nothing on screen (real-scale dragging is below detection). Any q from 3 to 21.8 gives the same orbits (identical to full double precision for q≥5), so qLock is NOT engaged here: in a multi-planet system q* depends on the median free-body distance, so a single LT-class-amplitude convention cannot be defined (wave-131 ruling). The declared q=5.1 is the qLock rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated at the belt-inclusive median free-body distance a=3836 (q*=5.1045). With timeScale=1 (1 orbit ≈ 360 steps, about 3 wall seconds).7 days. The asteroid belt (3300–4600 units ≈ 2.2–3.1 au) appears when you zoom out.",
+     "status": {
+      "purpose": "Compare the periods of the four inner planets in real units",
+      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
+      "mismatch": null,
+      "outlook": "no σ connected"
+     }
+    },
+    "abBody": {
+     "label": {
+      "ja": "q=0.5・λ_PN=0(引きずりの幾何減衰を外した誇張対照)",
+      "en": "q=0.5, λ_PN=0 (drag without geometric falloff)"
+     },
+     "physicsPatch": {
+      "q": 0.5,
+      "kFrame": 1,
+      "geoPN": 2,
+      "lambdaPN": 0
+     }
+    },
+    "claims": [
+     {
+      "id": "solarInner.velocity-calib-factor",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "role": "retrospective_check",
+      "roleNote": "回顧的確認(fit 不使用の検証)— 較正係数 1.000 は「初速較正を1つも使っていない」ことを f 掃引で確かめた結果であって、この 1.000 に合わせて何かを決めたわけではない。旧トイ版で必要だった ×1.12 が実単位化で不要になったことの定量。",
+      "roleNoteEn": "Retrospective check (a verification that no fit was used) — the 1.000 calibration factor is the outcome of an f-sweep confirming that no velocity calibration is spent; nothing was tuned to make it 1.000. It quantifies that the ×1.12 the old toy build needed disappears in real units.",
+      "metric": "velocityCalibFactor",
+      "chain": {
+       "ax": [
+        "A6"
+       ],
+       "eq": [
+        "E4",
+        "E12"
+       ],
+       "note": "実定数(G・c₀)と実値の軌道要素だけで円軌道速度が成立するかを f 掃引で確かめた項目 — 最小が f=1.000 なので速度較正ノブは残っていない。",
+       "noteEn": "An f-sweep checking that circular-orbit speeds hold with real constants (G, c₀) and real orbital elements alone — the minimum sits at f=1.000, so no velocity-calibration knob remains."
+      },
+      "expected": {
+       "min": 0.999,
+       "max": 1.001
+      },
+      "descPattern": "較正係数 (\\d+\\.\\d+)",
+      "testId": "behavior.solarInner"
+     },
+     {
+      "id": "solarInner.circular-wobble-mercury",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "role": "retrospective_check",
+      "roleNote": "回顧的確認 — 実スケールでは引きずりが円軌道条件に効かないことの定量で、kFrame=0 の対照と同値。較正ノブは使っていない。",
+      "roleNoteEn": "Retrospective check — quantifies that dragging does not affect the circular-orbit condition at real scale (identical to the kFrame=0 control); no calibration knob is spent.",
+      "metric": "radiusWobbleFraction",
+      "chain": {
+       "ax": [
+        "A4",
+        "A5",
+        "A6"
+       ],
+       "eq": [
+        "E4",
+        "E6′",
+        "E12"
+       ],
+       "note": "実スケールでは引きずりが検出限界以下であることの定量 — kFrame=0 の対照と同値になる(引きずりに較正ノブを使っていない)。",
+       "noteEn": "Quantifies that dragging is below detection at real scale — identical to the kFrame=0 control (no calibration knob spent on dragging)."
+      },
+      "expected": {
+       "min": 0.0001,
+       "max": 0.0002
+      },
+      "descScale": 0.01,
+      "descPattern": "2水星周窓の半径振れ幅は (\\d+\\.\\d+)%",
+      "testId": "behavior.solarInner",
+      "control": {
+       "patch": {
+        "kFrame": 0
+       },
+       "expected": {
+        "min": 0.0001,
+        "max": 0.0002
+       },
+       "descScale": 0.01,
+       "descPattern": "kFrame を 0 にしても (\\d+\\.\\d+)/"
+      }
+     }
+    ],
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "太陽の実質量・実半径・実自転(25.05日)",
+      "水星・金星・地球・火星の実質量・実半径・実自転",
+      "4惑星の実軌道長半径(水星579.09〜火星2279.39 単位=10⁵km)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)",
+      "kFrame=0・geoPN=1(現実較正 —— 第288便b で旧宣言 kFrame=1・geoPN=2〔引きずり近似 q〕から在位移行。D₀・q は kFrame=0 では力に入らない)",
+      "円軌道への理想化(実離心率 0.206/0.007/0.017/0.093 はこの本の範囲の外 — 円軌道デモとしての設計)",
+      "kRep=muF=γN=κ_S=0",
+      "geoPN=2・λ_PN=1・pnα=1.5",
+      "pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(展示系の外部拘束)",
+      "小惑星帯=ケレス級テスト質量100個の展示(力学的に無関与)"
+     ],
+     "fitted": [
+      "D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ。初速の較正係数は 1.000 = 速度側の fit はゼロ)"
+     ],
+     "derived": [
+      "q=5.1(qLock 則を帯込み自由天体距離の中央値 a=3836 で評価した算出値 q*=5.1045 の静的宣言 — 多惑星系では a_ref が一意に決まらないため qLock は掛けていない。第172便 点検: 厳密一致式 q_exact でも 5.1037 で、宣言桁 5.1 は不変 — a≫R なので有限半径補正が −0.0009 しかない)",
+      "κ=G/c₀²=7.4258×10⁻⁹"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=1・画面の刻み stepDt=2.11126",
+      "粒子表示倍率 dispMag=10(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "dispMag"
+    ],
+    "camera": {
+     "scale": 1700
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "timeRef": {
+     "basis": "orbit",
+     "pRef": 760.05216,
+     "pair": [
+      0,
+      1
+     ],
+     "def": "revolution",
+     "source": "観測の正本 OBS_COMPARE_ROWS(solarInner の 水星 の周期 7600521.6 s ÷ 10^4 s)",
+     "stepsPerOrbit": 360,
+     "legacyTimeScale": 30
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 5.1,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 2.11126,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 1988.5,
+      "radius": 6.96,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.029031,
+      "pinned": true,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.00033011,
+      "radius": 0.0244,
+      "x": 579.09,
+      "y": 0,
+      "vx": 0,
+      "vy": 4.787214,
+      "spin": 0.0124,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 0.0048675,
+      "radius": 0.0605,
+      "x": -1082.08,
+      "y": 0,
+      "vx": 0,
+      "vy": -3.502081,
+      "spin": -0.002992,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 0.0059724,
+      "radius": 0.0637,
+      "x": 1495.98,
+      "y": 0,
+      "vx": 0,
+      "vy": 2.978468,
+      "spin": 0.729212,
+      "pinned": false
+     },
+     {
+      "type": "single",
+      "m": 0.00064171,
+      "radius": 0.0339,
+      "x": -2279.39,
+      "y": 0,
+      "vx": 0,
+      "vy": -2.41294,
+      "spin": 0.708822,
+      "pinned": false
+     },
+     {
+      "type": "ring",
+      "rMul": 5,
+      "n": 100,
+      "cx": 0,
+      "cy": 0,
+      "rIn": 3300,
+      "rOut": 4600,
+      "mMin": 0.000001,
+      "mMax": 0.000001,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "kepler",
+      "aroundMass": 1988.5,
+      "omega": 0,
+      "vNoise": 0.02,
+      "direction": 1,
+      "pinned": false,
+      "testParticle": true
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "内惑星系(水・金・地・火)+小惑星帯を、実定数・実質量・実距離・実半径のまま置いた観測較正サンプル(第131便でトイ→実単位化)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽 1988.5(=1.9885×10³⁰kg)・半径 6.96(=6.96×10⁸m)・自転 0.029031(25.05日)、惑星は実質量・実半径・実自転・実軌道長半径(水星579.09・金星1082.08・地球1495.98・火星2279.39 単位=10万km、太陽–地球=1au)。初速は実ケプラー速度そのまま(較正係数 1.000)。物理対応条件 κ=G/c₀² 成立・kFrame=1+共通補正 D₀=0.006(DFM 版の構成)。軌道は円に理想化してある(実離心率 水星0.206・金星0.007・地球0.017・火星0.093 はこの本の範囲の外 — 円軌道デモとしての設計)。公転周期は実測 87.972/224.700/365.263/686.965 日(観測 87.969/224.701/365.256/686.980)。以下の軌道実測はすべて dt=0.016・帯を外した太陽+惑星4体の部分系での値(帯の総質量は太陽の 5×10⁻⁸ で力学的に無関係 — 帯込みでも水星0.0131%・金星0.00489%・地球0.00181%・火星0.00227% と3桁目まで一致する)。軌道速度は水星47.87・金星35.02・地球29.785・火星24.13 km/s(いずれも観測値)。2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)で、1火星周(687日)まで延ばしても 0.0134/0.00607/0.00445/0.00430% にとどまる。kFrame を 0 にしても 0.0131/0.00533/0.00174/0.00124% とほぼ同じ — 実スケールでは空間引きずり(A8/E6′)が円軌道条件に効かない(太陽の自転を 0 にした対照は kFrame=1 と倍精度で完全一致 = スピン項の寄与ゼロ)。旧トイ版の較正超過を実単位へ持ち込むと悪化する(f 掃引: 1.000→0.0131%・1.001→0.400%・1.005→2.00%・1.055→22.3%・1.12→50.7%)。半径が実値なので惑星は点にしか見えない — 粒子表示倍率 dispMag=10(表示専用・力学不変)で太陽を 6.96→69.6 単位に拡大している(水星軌道 579 の12%: ☄️ と同じ「太陽が視覚を支配する」妥協)。小惑星帯はケレス級のテスト質量100個の展示(各 10⁻⁶=10²¹kg・半径 0.005=5×10⁵m)で、帯の総質量は太陽の 5×10⁻⁸(実際の帯 ≈2.4×10²¹kg の約42倍)しかなく、惑星の軌道実測は帯の有無で一致する(帯粒は初期 vNoise 2% ぶんの離心率をもって回り、2水星周での半径ずれは最大2%級)。太陽は pinned の展示系(中心は固定=外部拘束)。ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の規約(有限参照正規化規約)を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=1(1 公転≈360步・画面 約3秒)。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。",
+    "status": {
+     "purpose": "内惑星 4 つの周期を実単位で照合する",
+     "objective": "partial",
+     "state": "照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)",
+     "calibration": "hold",
+     "mismatch": null,
+     "outlook": "σ 未接続",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "behavior.solarInner",
+      "tests/out/tpsign-w284e.json",
+      "behavior.testParticleSigned"
+     ]
+    }
+   }
+  }
+ },
+ "calibration": {
+  "file": "tests/out/calaudit-w249.json",
+  "rev": "881667c",
+  "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
+  "populationAtBase": [
+   "earthMoonReal",
+   "emAuditSolar",
+   "mercuryReal",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonDiagInput",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "gw150914",
+   "gw150914Merge4s",
+   "saturnZonalD68",
+   "saturnRingReal"
+  ],
+  "populationNow": [
+   "earthMoonReal",
+   "emAuditSolar",
+   "mercuryReal",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonDiagInput",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "gw150914",
+   "gw150914Merge4s",
+   "saturnZonalD68",
+   "saturnRingReal"
+  ],
+  "fourValuesAtBase": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 1,
+   "保留": 17
+  },
+  "rows": {
+   "solarInner": {
+    "inPopulationAtBase": true,
+    "inPopulationNow": false,
+    "tally": {
+     "合": 4,
+     "窓": 0,
+     "否": 1,
+     "従": 0,
+     "転": 9,
+     "条": 0
+    },
+    "run": {
+     "n": 105,
+     "dt": 0.016,
+     "steps": 866426,
+     "orbits": [
+      {
+       "label": "水星",
+       "rev": 18,
+       "periA": 9,
+       "periB": 18
+      },
+      {
+       "label": "金星",
+       "rev": 7,
+       "periA": 4,
+       "periB": 7
+      },
+      {
+       "label": "地球",
+       "rev": 4,
+       "periA": 3,
+       "periB": 5
+      },
+      {
+       "label": "火星",
+       "rev": 2,
+       "periA": 1,
+       "periB": 2
+      }
+     ]
+    },
+    "quantities": 14,
+    "verdictLedger": {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "version": "obs",
+     "referenceKind": null,
+     "verdict4": "保留",
+     "gateCounts": {
+      "ok": 0,
+      "ng": 0,
+      "num": 0,
+      "map": 0,
+      "cond": 0,
+      "withSigma": 0,
+      "nQ": 14
+     },
+     "representative": null,
+     "missing": [
+      "σ 未接続"
+     ],
+     "comparedCount": 5,
+     "residualPeriodPct": -0.00020314648204856,
+     "residualWorst": {
+      "kind": "ecc",
+      "pct": -99.60684917729232
+     },
+     "classProposal": null,
+     "classProposalReason": null,
+     "predictionEligible": 0
+    },
+    "solarsigma": {
+     "cuts": {
+      "csv-sigma-empty": 11,
+      "kind-not-gated": 2,
+      "unit-not-converted": 1
+     },
+     "four": "保留",
+     "nQuantities": 14,
+     "nSigmaConnected": 0,
+     "rows": 14
+    }
+   }
+  },
+  "solarsigma": {
+   "file": "tests/out/solarsigma-w262d.json",
+   "rev": "881667c",
+   "cutTallyAtBase": {
+    "csv-sigma-empty": 86,
+    "kind-not-gated": 26,
+    "unit-not-converted": 2,
+    "connected": 2
+   },
+   "fourTallyAtBase": {
+    "保留": 11,
+    "否": 1
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "122cba18",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "a1ed5595",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "34ebaddf",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "d7a1336e",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90Layers",
+   "emoji": "🪆",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "5d68130a",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "2ba7c8a",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "4b79e5b5",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ed1b7fb9",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ca4386ef",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "added": true
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ee85610",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "mercuryMeshMigrate3d",
+   "emoji": "🔂",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "e3ee7460",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "e36f00f5",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ac555132",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "144992bb",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "spaceMeshBinaryToy",
+   "emoji": "🪟",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "354949da",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "wave": "第300便m",
+ "ruling": "原仮定者の裁定(第90報)④・統括の検証項目 R176",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "0f673b02ca43c19d4d1b2bec5e6c866de5b4d0031b947b7f7001e03f2f2bc0cd",
+  "note": "第300便m の html(🌞 の退役の宣言を入れた後 —— 枝 a・b・d の統合の上)"
+ },
+ "base": {
+  "rev": "881667c",
+  "commit": "881667cb2b8d11fc0d2a303ad55c30e5b477351a",
+  "file": "beta/index.html",
+  "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9"
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "881667c",
+   "commit": "2e893032df6f85dda2e3acd333afc444e4ce7132",
+   "date": "2026-10-11T16:30:51.257Z",
+   "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+   "total": 1134
+  },
+  "tests": []
+ }
+}

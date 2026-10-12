@@ -45,7 +45,7 @@ export const PLANETS = Object.freeze([
   Object.freeze({ key: 'mars', id: 'marsSunInertial3d', emoji: '🔴', family: 'mars', ja: '火星', en: 'Mars', src: 'marsMoonsReal', index: 0,
     el: Object.freeze({ a: 1.52371034, e: 0.09339410, I: 1.84969142, L: -4.55343205, varpi: -23.94362959, Om: 49.55953891 }),
     pole: Object.freeze({ ra: 317.68143, dec: 52.88650, wSign: 1 }),
-    period: Object.freeze({ s: 59355072, source: '観測の正本 OBS_COMPARE_ROWS(solarInner の 火星 の公転周期 59355072 s —— NASA NSSDC Mars Fact Sheet の 686.980 日)', builtIn: true }) }),
+    period: Object.freeze({ s: 59355072, source: '内蔵の宣言値 59355072 s(NASA NSSDC Mars Fact Sheet の 686.980 日 —— 第131便に内蔵へ転記した観測値)', builtIn: true }) }),
   Object.freeze({ key: 'jupiter', id: 'jupiterSunInertial3d', emoji: '🏀', family: 'jupiter', ja: '木星', en: 'Jupiter', src: 'jupiterGalilean', index: 0,
     el: Object.freeze({ a: 5.20288700, e: 0.04838624, I: 1.30439695, L: 34.39644051, varpi: 14.72847983, Om: 100.47390909 }),
     pole: Object.freeze({ ra: 268.056595, dec: 64.495303, wSign: 1 }),

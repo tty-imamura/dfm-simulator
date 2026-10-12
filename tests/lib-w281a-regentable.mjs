@@ -807,6 +807,13 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/synodic-w299b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/scan/rows/*/wallSec', '/parts/long/*/wallSec', '/parts/longh2/*/wallSec']) },
     note: '第299便b: 🌘 の朔望月 —— 標的は恒星月の 8 公転窓を恒星年で一様換算した朔望月(許容 0.005 日の宣言・ノブは D0pull だけ・探索範囲 [1e-5, 1e-3] —— 根を挟めなければ範囲の端・h と h/2・fitRecord w298b-1 の標的 1 件)・'
       + '仮想の太陽の時計の合(36 位相・窓 8/118/354 —— 照合)・床(kFrame=0)・🌦️ の実際の太陽の方向・近点回転優先の D0pull(値だけ)' }),
+  // ---- 第300便b(原仮定者の裁定(第90報)③「🌦️ earthMoonSunInertial3d を地球の三次元版として採用。🌦️ の値で地球と月だけの対照を用意」・統括の検証項目 R176):
+  //   **地球と月だけの三次元の対照 🌔 earthMoonOnly3d** の器 —— 段 decl(写しの規則 emOnlyBodies と本の照合・重心 0・全運動量 0)・run(🌔 の h と h/2・gain 0・🌦️ の h を
+  //   同じ抽出器〔第298便c の runEmx3 と同じ式〕で 118/354 公転窓 —— 恒星月・朔望月の一様換算・近点周期・離心率・傾斜・重心の移動)。Node の headless 1 プロセス。
+  //   🌦️ の照合に第298便c の正本 moon3d-w298c.json・参照値に第299便b の正本 synodic-w299b.json(段 sun3d)を読む(after)。所要は第300便b の枝の実測(段の和)
+  S('emonly-300b', 'node tests/exp-w300b-emonly.mjs', ['tests/out/emonly-w300b.json'], 39, { secSource: 'w300b-branch', node: true, after: ['moon3d-298c', 'synodic-299b'],
+    volatilePaths: { 'tests/out/emonly-w300b.json': META_RUN.concat(['/elapsedS', '/timing/wallSec', '/parts/*/wallSec', '/parts/run/runs/*/wallSec']) },
+    note: '第300便b: 地球と月だけの三次元の対照 —— 写しの規則(相対ベクトルを質量比で分け重心 0・重心速度 0)・恒星月・朔望月の一様換算・近点周期(118/354 公転窓・h と h/2・gain 0)・🌦️ との差(値だけ —— gain は移送)' }),
   // ---- 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163): **時間の標準の移行表と安定性**。
   //   内蔵の全本の宣言(timeRef・physics.stepDt・timeScale)を読み、在位の公転の本は画面の刻みで 8 公転と刻み 1/2 の参照(対の a・e の差・エネルギー/角運動量のずれ・
   //   最接近・環の保持・周期の残差〔正規化しない〕)、観察の本は 600 步(刻みを変えた本だけ 1/2 の参照)。Node の headless(1 プロセス)・html だけを読む(after なし)。
@@ -856,6 +863,13 @@ export const REGEN_STEPS = [
   S('ref3d-299e', 'node tests/exp-w299e-ref3d.mjs', ['tests/out/ref3d-w299e.json'], 80, { secSource: 'w299e-branch', node: true,
     volatilePaths: { 'tests/out/ref3d-w299e.json': META_RUN.concat(['/elapsedS']) },
     note: '第299便e: 参照模型 8 本の三次元化 —— xy のビット同一(凍結の二次元の写し)・z の厚み・G の不感・共変・三次元の収支・チェックポイント/複製・保存往復(値だけ —— 扁平は宣言)' }),
+  // ---- 第300便c(原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」・統括の検証項目 R177): **🍩 土星の輪の三次元**
+  //   (💍 の幾何を 🟡 の土星の極の赤道面へ回した本 —— 面の保持・粒子の損失・刻み依存 h/h2・帯の粒の質量〔本の 1.25×10⁻⁸ / 💍 の 10⁻⁵ の写し〕と二次元の 💍〔試験粒子〕の粒ごとの差・
+  //   環と衛星の重心・回転引きずりの受動プローブ〔gain 0 と移送の側〕)。html だけを読む(after なし・子プロセス 2 本 —— 結果は並列数に依らない)。
+  //   所要は第300便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
+    volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
+    note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

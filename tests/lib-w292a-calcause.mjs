@@ -2,7 +2,7 @@
 // できない場合はその理由を分析する」・統括の検証項目 R137)— **現実較正 20 本の量ごとの主因分類**の純関数。
 //
 // ■ 何をするか(正本を**読むだけ** —— エンジンを 1 步も走らせない・html を読まない)
-//   較正母集団 20 本(判定器の正本 calaudit-w249.json の presets —— `sampleClass:"calibration"` ∧ 退役でない)の
+//   較正母集団(判定器の正本 calaudit-w249.json の presets —— 第300便m で 20 → 19 本 —— `sampleClass:"calibration"` ∧ 退役でない)の
 //   **判定行**(門が扱う量の種類 period/ecc/precession/spin の行を、判定器の鍵 gate.key ごとに 1 行へまとめたもの)ごとに:
 //     ① 1PN の大きさの見積り —— 近点: 二体 1PN の Δϖ=6πGM/(c²a(1−e²))〔rad/公転〕・周期と離心率: O(GM/(c²a))(相対)。
 //        GM/(c²a)・e・a/R は正本の `correlates`(主対象の宣言から判定器が作った値)。主対象でない対象は**同じ主星のまわりの
@@ -108,7 +108,10 @@ export function buildCalCause(J) {
   const errors = [];
   const presets = cal.presets || [];
   const ledger = new Map(((cal.verdictLedger || {}).rows || []).map((r) => [r.id, r]));
-  if (presets.length !== 20) errors.push(`較正母集団が 20 本でない(${presets.length})`);
+  // 第300便m(原仮定者の裁定(第90報)④・R176): 母集団の数は判定器が宣言から数える(🌞 の退役で 20 → 19)—— 固定の 20 をやめ、
+  //   母集団の規則の宣言があり、presets と 4 値の台帳の行数が同じことを見る(全較正クラスの正本などを読み違えない)
+  const popRule = (cal.meta || {}).populationRule;
+  if (!popRule || presets.length < 1 || presets.length !== ledger.size) errors.push(`較正母集団が判定器の宣言と合わない(presets ${presets.length}・台帳 ${ledger.size}・規則 ${popRule || 'なし'})`);
   const srcRows = new Map(((pnsrc || {}).rows || []).map((r) => [r.id, r]));
   const solarRows = (solar || {}).rows || [];
   const mapDecl = new Set((((cal.mappingDeclarations || {}).rows) || []).map((r) => r.id + '|' + r.name));

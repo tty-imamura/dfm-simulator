@@ -1,16 +1,16 @@
 {
- "when": "2026-10-11T13:46:32.293Z",
+ "when": "2026-10-12T10:10:07.304Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
+  "calauditSha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "80947c32d75d40436db3ad418c79c7c54a0c7ee044fb77c0df4da77ed604cbc7",
+  "charonSha256": "1dcba8d7f1b897896ccb40d2992acbdada420d9d3e8ab0cc39570e7fc93cff9d",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "160f34b860fd363e9d432dab42713fefc9ca737aeb8235071afa89d46bb63433"
+  "nslockSha256": "b6342279aba32e268d6ae13865ee10ea2abab327e0f6fbfc1d01cc7abedef83c"
  },
- "nPresets": 20,
+ "nPresets": 19,
  "nTheoryControl": 0,
  "theoryControl": [
   "qLockRadialAudit",
@@ -21,7 +21,7 @@
   "合": 0,
   "量限定合": 2,
   "否": 1,
-  "保留": 17
+  "保留": 16
  },
  "gate": {
   "合(3σ)": 2,
@@ -29,7 +29,7 @@
   "数値未解決": 10,
   "mapping-unresolved": 6,
   "condition-mismatch": 0,
-  "未判定": 165
+  "未判定": 151
  },
  "rows": [
   {
@@ -166,52 +166,6 @@
     "kind-not-gated": 1
    },
    "sigmaConnected": 1
-  },
-  {
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "太陽系 — 内惑星(実単位)",
-   "version": "obs",
-   "theoryControl": false,
-   "nQ": 14,
-   "verdict4": "保留",
-   "missing": [
-    "σ 未接続"
-   ],
-   "gate": {
-    "ok": 0,
-    "ng": 0,
-    "num": 0,
-    "map": 0,
-    "cond": 0,
-    "na": 14
-   },
-   "reasons": {
-    "num": {},
-    "map": {},
-    "cond": {},
-    "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 11,
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2,
-     "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1
-    }
-   },
-   "stop": {
-    "stoppedBy": "declared-max-steps",
-    "stepsRun": 866426,
-    "maxSteps": 866426,
-    "maxStepsSource": "preset",
-    "needPeriastra": 20,
-    "minPeriastra": 3,
-    "complete": false,
-    "unmeasuredReason": "max-steps"
-   },
-   "solarCuts": {
-    "csv-sigma-empty": 11,
-    "kind-not-gated": 2,
-    "unit-not-converted": 1
-   },
-   "sigmaConnected": 0
   },
   {
    "id": "jupiterGalilean",
@@ -926,8 +880,8 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 165,
-   "presets": 20,
+   "n": 151,
+   "presets": 19,
    "rows": [
     {
      "id": "earthMoonReal",
@@ -1006,90 +960,6 @@
      "emoji": "☄️",
      "kind": "ecc",
      "name": "実測(標準検出器): 離心率(水星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "period",
-     "name": "公転周期(水/金/地/火)(水星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "period",
-     "name": "公転周期(水/金/地/火)(金星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "period",
-     "name": "公転周期(水/金/地/火)(地球)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "period",
-     "name": "公転周期(水/金/地/火)(火星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "other",
-     "name": "軌道速度(地球)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "other",
-     "name": "円軌道の維持(2水星周窓)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(水星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(水星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(金星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(金星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(地球)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(地球)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(火星)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(火星)"
     },
     {
      "id": "jupiterGalilean",
@@ -1288,6 +1158,90 @@
      "emoji": "🥔",
      "kind": "ecc",
      "name": "実測(標準検出器): 離心率(フォボス)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(フォボス)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ダイモス)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ダイモス)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "同方向1周(第2周)— 3 刻み"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "Buie 2012 二体 P との差(比較値)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "閉じた式の差と走行の残差"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "PLU060 400年平均 P との差(σ なし)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "旧入力の二体の否の要因の鎖(第2周・dt 0.004)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "残る差の由来(閉じた式)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "元期 A の状態の二体との差(同じ定義・第5周)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "1PN の源集合の是正(第291便b)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(カロン)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(カロン)"
+    },
+    {
+     "id": "uranusReal",
+     "emoji": "💠",
+     "kind": "period",
+     "name": "公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ミランダ)"
     }
    ]
   },
@@ -1480,8 +1434,8 @@
    "key": "display",
    "title": "表示(合否の対象でない宣言行)",
    "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
-   "n": 68,
-   "presets": 20,
+   "n": 66,
+   "presets": 19,
    "rows": [
     {
      "id": "earthMoonReal",
@@ -1512,18 +1466,6 @@
      "emoji": "☄️",
      "kind": "other",
      "name": "近日点速度"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "other",
-     "name": "軌道速度(地球)"
-    },
-    {
-     "id": "solarInner",
-     "emoji": "🌞",
-     "kind": "other",
-     "name": "円軌道の維持(2水星周窓)"
     },
     {
      "id": "jupiterGalilean",
@@ -1842,6 +1784,18 @@
      "emoji": "⏰",
      "kind": "other",
      "name": "用量 a=0.1313(**合わせ込みの1ノブ**)"
+    },
+    {
+     "id": "gw150914Merge4s",
+     "emoji": "⏰",
+     "kind": "other",
+     "name": "刻み収束(接線・a=0.1313)"
+    },
+    {
+     "id": "gw150914Merge4s",
+     "emoji": "⏰",
+     "kind": "other",
+     "name": "スピン–スピン(λ=1・χ=0.7 宣言)"
     }
    ]
   }
@@ -1856,9 +1810,9 @@
   },
   "cond": {},
   "na": {
-   "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 93,
-   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 68,
-   "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
+   "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 82,
+   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 66,
+   "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 3
   }
  },
  "charonIssues": [
@@ -1947,23 +1901,23 @@
   }
  ],
  "naCensus": {
-  "total": 165,
+  "total": 151,
   "byKind": {
    "declaration-row": {
-    "n": 68,
-    "presets": 20
+    "n": 66,
+    "presets": 19
    },
    "no-measurement": {
-    "n": 4,
-    "presets": 4
+    "n": 3,
+    "presets": 3
    },
    "sigma-present-no-obs": {
     "n": 0,
     "presets": 0
    },
    "sigma-missing": {
-    "n": 93,
-    "presets": 16
+    "n": 82,
+    "presets": 15
    }
   },
   "sigmaNoObsRows": []
@@ -2002,9 +1956,9 @@
   "note": "**観測側(Cassini の解析)が「D68 の周期」と呼んでいるものがこの 3 つのどれかは、本便では照合していない。** したがって **σ は 1 つも接続しない** ——接続すれば、どの定義とも分からない数と観測を比べることになる。**「D68 が合/否」とは書かない**(📡 の門の否(3σ)は**近点移動の行**であり、この 3 つの周期定義とは別の量である)。"
  },
  "mappingDeclarations": {
-  "declaredRows": 33,
+  "declaredRows": 29,
   "bySourceRow": 0,
-  "bySourceKind": 33,
+  "bySourceKind": 29,
   "gateMappingUnresolved": 6,
   "periastronRows": [
    {
@@ -2033,38 +1987,6 @@
    }
   ],
   "nearCircular": [
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "水星",
-    "eProxy": 0.00006545777917126629,
-    "hasPeriastronRow": false,
-    "declared": false
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "金星",
-    "eProxy": 0.000026642730432596792,
-    "hasPeriastronRow": false,
-    "declared": false
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "地球",
-    "eProxy": 0.000029829736226796292,
-    "hasPeriastronRow": false,
-    "declared": false
-   },
-   {
-    "id": "solarInner",
-    "emoji": "🌞",
-    "target": "火星",
-    "eProxy": 0.0000173076656164526,
-    "hasPeriastronRow": false,
-    "declared": false
-   },
    {
     "id": "jupiterGalilean",
     "emoji": "🟠",
@@ -2367,9 +2289,9 @@
   }
  ],
  "solarCutTally": {
-  "csv-sigma-empty": 86,
-  "kind-not-gated": 26,
-  "unit-not-converted": 2,
+  "csv-sigma-empty": 75,
+  "kind-not-gated": 24,
+  "unit-not-converted": 1,
   "connected": 2
  },
  "doNotWrite": [

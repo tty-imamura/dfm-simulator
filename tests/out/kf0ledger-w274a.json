@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T13:49:20.833Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T10:13:15.877Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823723,
-    "sha256": "973def5a336ded9a3c8db24540ebae54bb56957eae42f26940015cf27996f15e",
-    "mtime": "2026-10-11T12:49:27.596Z"
+    "bytes": 1721927,
+    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
+    "mtime": "2026-10-12T09:11:05.462Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174472,
-    "sha256": "80947c32d75d40436db3ad418c79c7c54a0c7ee044fb77c0df4da77ed604cbc7",
-    "mtime": "2026-10-11T13:46:16.600Z"
+    "bytes": 174471,
+    "sha256": "1dcba8d7f1b897896ccb40d2992acbdada420d9d3e8ab0cc39570e7fc93cff9d",
+    "mtime": "2026-10-12T10:09:48.990Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "b9942c5c582be7e2ea2af1081c73f50bb6243afc7a3ae7823a14c32280ecdc29",
-    "mtime": "2026-10-11T12:02:53.092Z"
+    "sha256": "814b5a4d8537550aecfaca0d4281ab03784f3be99a19b410fa6d91df727150dc",
+    "mtime": "2026-10-12T08:22:47.910Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
-    "bytes": 223873,
-    "sha256": "7a97443cd47d973804050d87d91f213e02fd40486c3f91f30a027e485472bbdc",
-    "mtime": "2026-10-11T11:13:27.836Z"
+    "bytes": 223872,
+    "sha256": "56f6a1a2a9e3e47279d287eef68597ac5f2e6d5214fc82694e2178bf563d3aa4",
+    "mtime": "2026-10-12T07:39:44.886Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 134750,
-    "sha256": "b5af18d90c73d5e52fd506842253fa97ec823c4bbb12fcc37f076e6a0f12c7d1",
-    "mtime": "2026-10-11T13:24:14.064Z"
+    "bytes": 135856,
+    "sha256": "2e25848908460a03431e2cae7dba94238d4be3614b5e3c047681ecbac2906963",
+    "mtime": "2026-10-12T09:46:26.838Z"
    }
   ],
   "code": [
@@ -100,51 +100,51 @@
   "rule": "**kF1 側の観測成立が ✗(否 3σ)**かつ **kF0 側の 4 列がすべて ✓** の行だけに付く。**候補である** —— 較正完了でも「引きずりが消えたことの確認」でもない。付けるときは**対象量・窓・作用**を添える。"
  },
  "summary": {
-  "nRows": 26,
-  "nCalibration": 20,
+  "nRows": 25,
+  "nCalibration": 19,
   "nDiagnostic": 6,
   "kf1": {
    "run": {
     "✓": 3,
     "✗": 3,
-    "未測定": 20
+    "未測定": 19
    },
    "structure": {
     "✓": 0,
     "✗": 1,
-    "未測定": 25
+    "未測定": 24
    },
    "numeric": {
     "✓": 0,
     "✗": 1,
-    "未測定": 25
+    "未測定": 24
    },
    "observation": {
     "✓": 0,
     "✗": 3,
-    "未測定": 23
+    "未測定": 22
    }
   },
   "kf0": {
    "run": {
-    "✓": 26,
+    "✓": 25,
     "✗": 0,
     "未測定": 0
    },
    "structure": {
     "✓": 0,
     "✗": 1,
-    "未測定": 25
+    "未測定": 24
    },
    "numeric": {
     "✓": 4,
     "✗": 0,
-    "未測定": 22
+    "未測定": 21
    },
    "observation": {
     "✓": 2,
     "✗": 6,
-    "未測定": 18
+    "未測定": 17
    }
   },
   "nKf0RunApplied": 0,
@@ -402,64 +402,6 @@
        "status": "数値未解決"
       }
      ]
-    }
-   },
-   "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
-   },
-   "label": null,
-   "labelBasis": null
-  },
-  {
-   "scope": "calibration",
-   "id": "solarInner",
-   "emoji": "🌞",
-   "name": "太陽系 — 内惑星(実単位)",
-   "declaredKFrame": 0,
-   "massFactor": null,
-   "massFactorSource": "出典不明",
-   "massFactorDeclared": 1,
-   "version": "obs",
-   "kf0Source": "preset(宣言そのものが kFrame=0)",
-   "kf0AppliedRows": [],
-   "kf1": {
-    "present": false,
-    "run": "未測定",
-    "structure": "未測定",
-    "numeric": "未測定",
-    "observation": "未測定",
-    "why": "この系に kFrame=1 の走行が無い(対照走行そのものが行われていない)"
-   },
-   "kf0": {
-    "present": true,
-    "run": "✓",
-    "structure": "未測定",
-    "numeric": "未測定",
-    "observation": "未測定",
-    "runEvidence": {
-     "source": "calaudit-w249.json#presets[].run",
-     "nan": false,
-     "clamp": 0,
-     "stoppedBy": "declared-max-steps",
-     "periastraOk": false
-    },
-    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
-    "nQuantities": 12,
-    "nWithSigma": 0,
-    "gateByStatus": {
-     "未判定": 12
-    },
-    "numericEvidence": {
-     "convergedKeys": [],
-     "threeStageKeys": [],
-     "orders": []
-    },
-    "observationEvidence": {
-     "okKeys": [],
-     "ngKeys": [],
-     "nSigma": []
     }
    },
    "kOnlyContrast": {
@@ -2339,7 +2281,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "ed3fcf3f0df8f3d6647af52e6d53dbb01c0f3ac95b8806ff0aed1cd42c10e7b1",
+   "fileSha256": "3692495843ed66c1bc95610480c38ec593d5d1a9f026598c055c798267863a5c",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2347,7 +2289,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
+   "citedTargetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

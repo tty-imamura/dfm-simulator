@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
-  "generatedAt": "2026-10-11T11:20:35.336Z",
+  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+  "generatedAt": "2026-10-12T07:44:59.732Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6565065,
-    "sha256": "97a7ebc0ccb98d3e3c92460a267628c113e6cc158659ffa0c8e2c46b604d76f6",
-    "mtime": "2026-10-11T08:52:32.228Z"
+    "bytes": 6644968,
+    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+    "mtime": "2026-10-12T05:11:05.850Z"
    }
   ],
   "code": [
@@ -18,7 +18,7 @@
     "file": "tests/exp-w298c-moon3d.mjs",
     "bytes": 37573,
     "sha256": "3f141998a25402b913be5e0f3987329ef27fcac4685e4fec20ad88dc354290ac",
-    "mtime": "2026-10-11T06:45:05.083Z"
+    "mtime": "2026-10-11T18:40:40.187Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -91,11 +91,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1203,
-   "segments": 1096,
-   "closureShare": 0.3207
+   "names": 1214,
+   "segments": 1105,
+   "closureShare": 0.3183
   },
-  "scopeSha256": "4b6d51a2681d0cabcefe5e41d8f28f61778792c771f21442af00de8b02310334",
+  "scopeSha256": "ee9f8be7c08897a6a387791bf84c4d2c3e6b01001f79a110170f37e1b6c920bb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -111,7 +111,7 @@
    "eMean": 0.05494176955119052,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 5.186
+   "wallSec": 5.689
   },
   "incl": {
    "key": "ref3d-inc",
@@ -122,7 +122,7 @@
    "eMean": 0.05518676069409869,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 5.292
+   "wallSec": 4.324
   },
   "rp": 3.5704925,
   "e0": 0.0755658
@@ -905,242 +905,242 @@
  },
  "ok": true,
  "timing": {
-  "ref3d-0": {
-   "wallSec": 5.186
-  },
   "ref3d-inc": {
-   "wallSec": 5.292
+   "wallSec": 4.324
+  },
+  "ref3d-0": {
+   "wallSec": 5.689
   },
   "flat-2d": {
-   "wallSec": 21.494
+   "wallSec": 24.729
   },
   "flat-3d": {
-   "wallSec": 20.89
-  },
-  "ic-g0-it0": {
-   "wallSec": 9.387
+   "wallSec": 23.126
   },
   "ic-g0-it0-de": {
-   "wallSec": 9.937
+   "wallSec": 9.96
   },
   "ic-g0-it0-dr": {
-   "wallSec": 9.955
+   "wallSec": 10.696
+  },
+  "ic-g0-it0": {
+   "wallSec": 11.239
   },
   "ic-g0-it0-di": {
-   "wallSec": 4.938
-  },
-  "ic-g0-it1-de": {
-   "wallSec": 9.977
-  },
-  "ic-g0-it1-dr": {
-   "wallSec": 10.625
+   "wallSec": 5.291
   },
   "ic-g0-it1": {
-   "wallSec": 10.863
+   "wallSec": 10.315
+  },
+  "ic-g0-it1-de": {
+   "wallSec": 10.138
+  },
+  "ic-g0-it1-dr": {
+   "wallSec": 10.533
   },
   "ic-g0-it1-di": {
-   "wallSec": 5.059
-  },
-  "ic-g0-it2-de": {
-   "wallSec": 9.885
+   "wallSec": 5.571
   },
   "ic-g0-it2-dr": {
-   "wallSec": 10.281
+   "wallSec": 10.909
+  },
+  "ic-g0-it2-de": {
+   "wallSec": 10.903
   },
   "ic-g0-it2": {
-   "wallSec": 10.389
+   "wallSec": 10.968
   },
   "ic-g0-it2-di": {
-   "wallSec": 5.253
+   "wallSec": 5.587
   },
   "fix-h": {
-   "wallSec": 9.52
+   "wallSec": 11.222
   },
   "fix-h2": {
-   "wallSec": 18.42
+   "wallSec": 19.848
   },
   "fix-h4": {
-   "wallSec": 39.939
+   "wallSec": 42.438
   },
   "fix-long": {
-   "wallSec": 30.107
+   "wallSec": 30.943
   },
   "fix-inc0": {
-   "wallSec": 25.405
+   "wallSec": 26.236
   },
   "grid0-h": {
-   "wallSec": 10.6
+   "wallSec": 11.435
   },
   "grid1-h": {
-   "wallSec": 12.134
+   "wallSec": 13.648
   },
   "grid0-h2": {
-   "wallSec": 19.55
+   "wallSec": 22.475
   },
   "grid2-h": {
-   "wallSec": 12.275
+   "wallSec": 11.93
   },
   "grid1-h2": {
-   "wallSec": 23.803
+   "wallSec": 26.537
   },
   "grid3-h": {
-   "wallSec": 12.045
+   "wallSec": 12.881
   },
   "grid2-h2": {
-   "wallSec": 22.499
+   "wallSec": 23.419
   },
   "grid4-h": {
-   "wallSec": 12.119
+   "wallSec": 13.601
   },
   "grid3-h2": {
-   "wallSec": 25.189
+   "wallSec": 27.988
   },
   "grid5-h": {
-   "wallSec": 12.188
+   "wallSec": 12.754
   },
   "grid4-h2": {
-   "wallSec": 24.063
+   "wallSec": 26.024
   },
   "grid6-h": {
-   "wallSec": 12.059
+   "wallSec": 13.391
   },
   "grid5-h2": {
-   "wallSec": 23.804
+   "wallSec": 23.52
   },
   "grid7-h": {
-   "wallSec": 12.099
+   "wallSec": 12.817
   },
   "grid6-h2": {
-   "wallSec": 23.864
+   "wallSec": 28.351
   },
   "grid8-h": {
-   "wallSec": 12.132
+   "wallSec": 14.701
   },
   "grid7-h2": {
-   "wallSec": 23.937
+   "wallSec": 26.847
   },
   "grid9-h": {
-   "wallSec": 11.893
+   "wallSec": 14.744
   },
   "grid8-h2": {
-   "wallSec": 23.796
+   "wallSec": 29.083
   },
   "grid10-h": {
-   "wallSec": 11.812
+   "wallSec": 15.043
   },
   "grid9-h2": {
-   "wallSec": 23.34
+   "wallSec": 27.902
   },
   "grid11-h": {
-   "wallSec": 13.3
+   "wallSec": 13.26
   },
   "grid10-h2": {
-   "wallSec": 25.098
+   "wallSec": 26.659
   },
   "grid12-h": {
-   "wallSec": 14.584
+   "wallSec": 13.076
   },
   "grid11-h2": {
-   "wallSec": 27.259
-  },
-  "grid12-h2": {
-   "wallSec": 24.402
+   "wallSec": 25.365
   },
   "grid13-h": {
-   "wallSec": 12.254
+   "wallSec": 13.944
+  },
+  "grid12-h2": {
+   "wallSec": 24.817
   },
   "grid13-h2": {
-   "wallSec": 14.846
+   "wallSec": 18.025
   },
   "o0-it0": {
-   "wallSec": 5.83
-  },
-  "ic-o0-it0-dr": {
-   "wallSec": 11.537
+   "wallSec": 5.784
   },
   "ic-o0-it0": {
-   "wallSec": 11.897
+   "wallSec": 12.785
+  },
+  "ic-o0-it0-dr": {
+   "wallSec": 13.207
   },
   "ic-o0-it0-de": {
-   "wallSec": 12.104
+   "wallSec": 14.471
   },
   "ic-o0-it0-di": {
-   "wallSec": 6.088
-  },
-  "ic-o0-it1-dr": {
-   "wallSec": 11.901
-  },
-  "ic-o0-it1-de": {
-   "wallSec": 12.005
+   "wallSec": 7.129
   },
   "ic-o0-it1": {
-   "wallSec": 12.174
+   "wallSec": 13.628
+  },
+  "ic-o0-it1-dr": {
+   "wallSec": 14.064
+  },
+  "ic-o0-it1-de": {
+   "wallSec": 14.306
   },
   "ic-o0-it1-di": {
-   "wallSec": 6.088
-  },
-  "ic-o0-it2-de": {
-   "wallSec": 11.38
+   "wallSec": 5.883
   },
   "ic-o0-it2": {
-   "wallSec": 12.316
+   "wallSec": 13.571
   },
   "ic-o0-it2-dr": {
-   "wallSec": 12.62
+   "wallSec": 13.774
+  },
+  "ic-o0-it2-de": {
+   "wallSec": 13.833
   },
   "ic-o0-it2-di": {
-   "wallSec": 6.105
+   "wallSec": 7.763
   },
   "o0-br-0.2353464": {
-   "wallSec": 6.092
+   "wallSec": 6.96
   },
   "o0-br-0.28764560000000006": {
-   "wallSec": 5.996
+   "wallSec": 6.701
   },
   "o1-it0": {
-   "wallSec": 6.034
-  },
-  "ic-o1-it0": {
-   "wallSec": 11.266
-  },
-  "ic-o1-it0-de": {
-   "wallSec": 11.226
+   "wallSec": 6.899
   },
   "ic-o1-it0-dr": {
-   "wallSec": 11.973
+   "wallSec": 12.67
+  },
+  "ic-o1-it0-de": {
+   "wallSec": 13.393
+  },
+  "ic-o1-it0": {
+   "wallSec": 13.274
   },
   "ic-o1-it0-di": {
-   "wallSec": 6.319
-  },
-  "ic-o1-it1": {
-   "wallSec": 9.415
-  },
-  "ic-o1-it1-dr": {
-   "wallSec": 9.713
+   "wallSec": 6.416
   },
   "ic-o1-it1-de": {
-   "wallSec": 10.397
+   "wallSec": 12.814
+  },
+  "ic-o1-it1-dr": {
+   "wallSec": 13.179
+  },
+  "ic-o1-it1": {
+   "wallSec": 12.741
   },
   "ic-o1-it1-di": {
-   "wallSec": 5.975
+   "wallSec": 6.195
   },
   "o1-br-0.23340149999999998": {
-   "wallSec": 6.332
+   "wallSec": 6.465
   },
   "o1-br-0.2852685": {
-   "wallSec": 6.4
+   "wallSec": 6.186
   },
   "final-h": {
-   "wallSec": 10.029
+   "wallSec": 14.256
   },
   "final-h2": {
-   "wallSec": 18.263
+   "wallSec": 24.403
   },
   "final-h4": {
-   "wallSec": 29.266
+   "wallSec": 39.69
   },
   "final-long": {
-   "wallSec": 22.753
+   "wallSec": 28.167
   }
  },
  "notClaim": [
@@ -1150,5 +1150,5 @@
   "「gain は普遍定数」",
   "「参照積分で fitted」"
  ],
- "elapsedS": 462.794
+ "elapsedS": 511.744
 }

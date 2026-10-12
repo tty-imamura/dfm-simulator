@@ -2,14 +2,14 @@
 // できない場合はその理由を分析する」・統括の検証項目 R137)— **主因分類の器**。
 //
 // ■ 何をするか(**正本を読むだけ** —— エンジンを 1 步も走らせない・html の本文を実行しない・Node だけ・数秒)
-//   判定器の正本 tests/out/calaudit-w249.json(較正母集団 20 本)・σ 接続器の正本 solarsigma-w262d.json(切断点と CSV の値)・
+//   判定器の正本 tests/out/calaudit-w249.json(較正母集団 —— 第300便m で 🌞 の退役により 20 → 19 本)・σ 接続器の正本 solarsigma-w262d.json(切断点と CSV の値)・
 //   ❄️/🥶 の入力の正本 charoninput-w280d.json(閉じた式の周期)・水星の分解の正本 mercury-w280a.json(刻み・軟化の分け前)・
 //   kF0 の 1PN 源の正本 pnsources-w291b.json(源の数・GR 1PN 準拠の条件外の理由)を読み、純関数 tests/lib-w292a-calcause.mjs の
 //   `buildCalCause` で**判定行ごと**に 1PN の大きさの見積り・現行の残差・「1PN の是正で動く桁か」・主因の分類(規則表 RULES)・
 //   合へ進みうる量(CANDIDATE_RULES)と合にできない量を出し、正本 tests/out/calcause-w292a.json を書く。
 //
 // ■ 鎖の中の位置(tests/lib-w281a-regentable.mjs の段 'calcause292'): calaudit を書く段(calaudit・dt3・kf0)・solarsigma・charonInput・
-//   mercury・pnsources291 の後。html は書かない(領域の宣言は較正母集団 20 本 —— 宣言が変われば読む正本も変わるので走らせ直す)。
+//   mercury・pnsources291 の後。html は書かない(領域の宣言は較正母集団 19 本〔第300便m —— 🌞 の退役の前は 20 本〕—— 宣言が変われば読む正本も変わるので走らせ直す)。
 //
 // 実行: node tests/exp-w292a-calcause.mjs          … 正本を書く
 //       node tests/exp-w292a-calcause.mjs --check  … 何も書かずに、今の入力から再導出して正本と照合する(差があれば終了コード 1)
@@ -21,8 +21,8 @@ import { scopeStamp, stableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w292a-calcause.mjs';
 import { volatileDeclared } from './lib-w281a-regentable.mjs';
 
-// 領域 hash の宣言(第281便a): 較正母集団 20 本(calaudit の presets)と、受理器・構築の閉包(lint.scopeStop ③ —— 物理側が閉包に残る)。
-const REGEN_SCOPE = {"presets":["alphaCenAB","earthMoonReal","emAuditSolar","gw150914","gw150914Merge4s","jupiterGalilean","marsMoonsReal","mercuryReal","neptuneReal","plutoCharonDiagInput","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","saturnRingReal","saturnZonalD68","siriusAB","solarInner","uranusReal","venusReal"],"roots":["$","HP.sim","HP.validatePreset","T","isNum","validatePreset"],"core":false,"consts":[],"complete":true};
+// 領域 hash の宣言(第281便a): 較正母集団 19 本(calaudit の presets —— 第300便m で 🌞 を除いた)と、受理器・構築の閉包(lint.scopeStop ③ —— 物理側が閉包に残る)。
+const REGEN_SCOPE = {"presets":["alphaCenAB","earthMoonReal","emAuditSolar","gw150914","gw150914Merge4s","jupiterGalilean","marsMoonsReal","mercuryReal","neptuneReal","plutoCharonDiagInput","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","saturnRingReal","saturnZonalD68","siriusAB","uranusReal","venusReal"],"roots":["$","HP.sim","HP.validatePreset","T","isNum","validatePreset"],"core":false,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = 'beta/index.html';

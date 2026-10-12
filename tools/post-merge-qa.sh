@@ -47,8 +47,9 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第297便d: 枝 d の新設 1 本(ui.liveMeasure297 —— アプリ内実測〔精密〕)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
 # 第299便d: 枝 d の新設 3 本(behavior.geo4Stable299 —— geoPN=4 の安定の条件・preset.chainSpread299 —— 広げた円盤の配置・preset.meshMigrate299 —— 旧 spaceMesh の 🔁 の移行)を末尾に足した
 # 第299便f: 枝 f の新設 2 本(ui.selEdit299 —— 選択粒子の編集の出し分け・ui.paramTab299 —— パラメータタブの三次元の切り替え)と、行を分けた棚卸し docs.coreCensus を末尾に足した(ui.familyFold296 は既に在る)
+# 第300便d: 枝 d の新設 3 本(ui.tiltSwipe300 —— 二本指の縦スワイプで θ・ui.refModelGroup300 —— 参照模型の群・lint.betaBuild300 —— beta 版の名前に便名)を末尾に足した
 # 第298便d: 枝 d の新設 2 本(ui.fitTargetRow298 —— 説明タブのフィットの標的の行のはみ出し・ui.viewTilt298 —— 視点の傾き θ)を末尾に足した(他枝の新設と第297便の分の差し替えは統合で)
-DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297 ui.fitTargetRow298 ui.viewTilt298 ui.selEdit299 ui.paramTab299 docs.coreCensus behavior.geo4Stable299 preset.chainSpread299 preset.meshMigrate299"
+DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297 ui.fitTargetRow298 ui.viewTilt298 ui.selEdit299 ui.paramTab299 docs.coreCensus behavior.geo4Stable299 preset.chainSpread299 preset.meshMigrate299 ui.tiltSwipe300 ui.refModelGroup300 lint.betaBuild300"
 # 第297便a: 枝 a の新設 3 本(preset.lambdaPN297・behavior.lambdaPnOnDrag297・docs.refit297)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.lambdaPN297 behavior.lambdaPnOnDrag297 docs.refit297"
 # 第298便a: 枝 a の新設 3 本(behavior.coord3d298・preset.coord3d298・docs.coord3d298 —— 三次元座標の土台)と世代切替の behavior.spinAxisDecl を末尾に足した(他枝の新設の差し替えは統合で)
@@ -68,6 +69,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coord3dHaltAB299 behavior.ckDrag3d2
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.synodicClock299 docs.synodic299 docs.emgrid-sync claims.sync"
 # 第299便e: 枝 e の新設 3 本(behavior.ref3d299 —— 参照模型の三次元化・preset.ref3d299 —— 宣言と凍結の二次元の写し・docs.ref3d299)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ref3d299 preset.ref3d299 docs.ref3d299"
+# 第300便a(原仮定者の裁定(第90報)⑤・R175): physics.spaceMesh の全面廃止の新設 1 本(preset.spaceMeshRetired300)と世代切替で追従した 3 本(preset.geo4Std298・preset.meshMigrate299・ui.charonFamily —— docs.retired・docs.noRetiredMention294 は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.spaceMeshRetired300 preset.meshMigrate299 ui.charonFamily"
+# 第300便b(原仮定者の裁定(第90報)①②③・R176): 地球の整理と近似の原則の新設 2 本(preset.earthReorg300・docs.approx300)と世代切替で追従したブロック(docs.retired・docs.noRetiredMention294・preset.retire298・behavior.fitCond298・preset.revived292b は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.earthReorg300 docs.approx300 preset.earthMoonInertial preset.earthMoonTide behavior.dragCoreGate preset.fitCond297 docs.inertial3Contract295 docs.fitContract296"
+# 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner の退役の新設 1 本(preset.solarInnerRetired300)と世代切替で追従したブロック(docs.retired・preset.revived292b・preset.earthReorg300・docs.noRetiredMention294・ui.samplePicker・ui.liveMeasure297・ui.labels295 は上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.solarInnerRetired300 preset.unifyTable docs.calibration-verdict-sync docs.calaudit-sync docs.calCause lint.kf0RunsCondition ui.holdRemedy docs.timingContract294 docs.intakeC docs.intakeD docs.uranusSwap behavior.solarsigmaGuards behavior.unitConvertedFirst"
+# 第300便c: 枝 c の新設 2 本(preset.saturnRing3d300 —— 土星の輪の三次元・docs.solar16Contract300 —— 太陽系 16 体の入力の契約と器)を末尾に足した(他枝の新設の差し替えは統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.saturnRing3d300 docs.solar16Contract300"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

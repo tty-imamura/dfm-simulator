@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-  "generatedAt": "2026-10-11T12:02:55.011Z",
+  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+  "generatedAt": "2026-10-12T08:22:49.972Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-11T11:59:41.552Z"
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-12T08:16:45.878Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 173,
+ "nPresets": 175,
  "kFrameValues": [
   0,
   1
@@ -1743,6 +1743,27 @@
    "bodiesSha256": "95b2f008c71ef4a1477cf1302da510d4c1f6b3b7924f992d2674699550428ba4"
   },
   {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "name": "地球と月だけ(慣性決定力版・三次元)— 🌦️ から太陽を外した対照",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "ba4aab48",
+   "bodiesSha256": "e5a38e154624b112fb4b82f07bc4a406c7557d14917cbdd3b07be5d1f2dc8610"
+  },
+  {
    "id": "earthMoonDiagOne",
    "emoji": "🌓",
    "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
@@ -1993,6 +2014,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "9d22af0b",
    "bodiesSha256": "4f3a538aaca88d32e3ffb35709b2efccbe86d2965deff6d525730a3b7f24006a"
+  },
+  {
+   "id": "saturnRingInertial3d",
+   "emoji": "🍩",
+   "name": "土星の輪(慣性決定力版・三次元)— gain 0 の基準",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 10,
+   "presetSigHash": "4123e22f",
+   "bodiesSha256": "ea9750a9a1514a989466958d397679d3a7998671f37526532e6773716142bd1b"
   },
   {
    "id": "uranusSunInertial3d",
