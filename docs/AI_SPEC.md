@@ -3569,3 +3569,9 @@ SYSTEM_PROMPT の規則 12(逐語):
 SYSTEM_PROMPT の規則 13(逐語):
 
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
+
+## 81. 第300便m —— 🌞 solarInner の退役(原仮定者の裁定(第90報)④「🌞 solarInner は特定の日時で開始していないので廃止」・統括の検証項目 R176・**退役は familyRole だけ** —— 定義・presetSig・保存 JSON・SYSTEM_PROMPT は不変)
+
+- **退役 1 本**: 🌞 solarInner(familyRole "retired" と RETIRED_PRESETS の行「第90報: …」/「ruling 90: …」・see 🌡️🌋🌦️🔴)。較正の分類(sampleClass calibration)の在位の本だったので、較正母集団(calibration ∧ 退役でない)は宣言から数えて 20 → 19。凍結の写し `tests/fixtures/retired-w300m.json`(器 `tests/exp-w300m-retiredfx.mjs`・版 w300m-retired-1・`W300M_FX_OUT` —— 定義と署名〔基点 881667c と同じ〕・継続先との対の差・基点の判定器の正本の母集団と 4 値と 🌞 の行)。
+- **AI 生成のカタログ**(実天体カタログ選択器の指示文 `buildAstroSpecPrompt` —— SYSTEM_PROMPT とは別): 例「太陽系の惑星 → {"system":"solarInner"}」/「The planets of the solar system」を「水星の近日点移動 → {"system":"mercury"}」/「Mercury's perihelion advance」に替えた(例の系の出典は在位の本)。カタログの系 `solarInner`(🌞 の宣言のビット写し)は残した —— 系の存廃は決断事項。
+- QA: **`preset.solarInnerRetired300`**(新設 —— root は SKIP・世代切替 = html の RETIRED_PRESETS の 🌞 の行が「第90報」)。世代切替で追従: `docs.retired`・`preset.revived292b`・`preset.unifyTable`・`ui.samplePicker`・`docs.noRetiredMention294`・`docs.calibration-verdict-sync`・`preset.earthReorg300`(第90報の行は他の写しの本を除く)。

@@ -43265,8 +43265,17 @@ if (!FAST) {
       try { FX13 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300b.json'), 'utf8')); }
       catch (e) { bad.push('第300便b の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).filter((id) => !REV292.includes(id));
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}) };
+    // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner を退役(**56 本** —— 世代切替 has300m = RETIRED_PRESETS に 🌞 の行(第90報)・typeof で守る)。
+    //   🌞 は較正の分類の在位の本だった(較正母集団は宣言から数えて 1 本減る)。写しは tests/fixtures/retired-w300m.json
+    const has300m = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja));
+    const IDS300M = has300m ? ['solarInner'] : [];
+    let FX14 = null;
+    if (has300m) {
+      try { FX14 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8')); }
+      catch (e) { bad.push('第300便m の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291).concat(IDS298).concat(IDS300).concat(IDS300B).concat(IDS300M).filter((id) => !REV292.includes(id));
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}, (FX11 || {}).presets || {}, (FX12 || {}).presets || {}, (FX13 || {}).presets || {}, (FX14 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX, BASE } = a;
       const o = {};
@@ -43409,6 +43418,10 @@ if (!FAST) {
         if (!FX13 || FX13.fixtureVersion !== 'w300b-retired-1' || IDS300B.some((id) => !FX13.presets[id] || !FX13.presets[id].raw || FX13.presets[id].base.sigSame !== true))
           bad.push('⑤第300便b の退役の写し(3 本・基点 881667c と署名同じ)が揃わない');
       }
+      if (has300m) {   // 第300便m: 退役 1 本(🌞)の写し(継続先との対の差・基点 881667c と署名同じ・較正母集団の行)
+        if (!FX14 || FX14.fixtureVersion !== 'w300m-retired-1' || IDS300M.some((id) => !FX14.presets[id] || !FX14.presets[id].raw || FX14.presets[id].base.sigSame !== true))
+          bad.push('⑤第300便m の退役の写し(🌞・基点 881667c と署名同じ)が揃わない');
+      }
       if (has287b) {   // 第287便b: 🧶 の旧則の写しと付け替えた試験の保存 QA
         const hist7 = FX7 ? ((FX7.history || {}).tests || []) : [];
         if (!hist7.length || !hist7.every((t) => t.pass)) bad.push('⑤第287便b の写しの history が PASS でない');
@@ -43445,8 +43458,9 @@ if (!FAST) {
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
-        // 第300便a・b(統合): 正本が第300便の退役の前の世代(41 本)か、枝 a(52)・枝 b(44)の片側だけを載せた世代 —— 鎖の samplestatus の段で全部を載せた世代へ
-        : ((has300a || has300b) && [IDS300.concat(IDS300B), IDS300, IDS300B].some((g) => g.length > 0 && nRetSS === IDS.length - g.length)) ? nRetSS
+        // 第300便a・b・m(統合): 正本が第300便の退役の前の世代(41 本)か、枝 a(52)・枝 b(44)・統合(55)など一部だけを載せた世代 —— 鎖の samplestatus の段で全部を載せた世代へ
+        : ((has300a || has300b || has300m) && [[IDS300], [IDS300B], [IDS300M], [IDS300, IDS300B], [IDS300, IDS300M], [IDS300B, IDS300M], [IDS300, IDS300B, IDS300M]]
+          .map((gs) => gs.reduce((n, g) => n + g.length, 0)).some((k) => k > 0 && nRetSS === IDS.length - k)) ? nRetSS
         : (has292b && nRetSS === IDS.length + REV292.length) ? IDS.length + REV292.length   // 第292便b: 正本が第291便の世代(34 本 —— 鎖の samplestatus の段で 33 本へ)
         : (has291b && nRetSS === IDS.length - IDS291.length) ? IDS.length - IDS291.length   // 第291便b: 正本が第290便の世代(33 本 —— 鎖の samplestatus の段で 34 本へ)
         : (has290b && nRetSS === IDS.length - IDS290.length) ? IDS.length - IDS290.length   // 第290便b: 正本が第288便の世代(26 本 —— 鎖の samplestatus の段で 33 本へ)
@@ -56498,6 +56512,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       //   ❄️ が無く 🥶 がある(鎖の後)。鎖の前は ❄️ が正本にまだ居るので、第290便b の印の行が JSON にあっても落とさない(鎖待ち)。
       //   🥶 の行の判定欄は**鎖の後に verdictLedger から記入する**(鎖の前は「(鎖の後に記入 —— 第290便b)」—— 鎖の後もこのままなら落とす)
       const RET_MARK290 = '退役(第290便b・較正母集団の外)', PEND290 = '(鎖の後に記入 —— 第290便b)';
+      // 第300便m(原仮定者の裁定(第90報)④・R176): 退役の印「退役(第300便m・較正母集団の外)」(🌞)。鎖の前は 🌞 が正本にまだ居る —— 印の行が JSON にあっても
+      //   落とさない(鎖待ち —— ❄️ と同じ扱い)。鎖の後は印の行が JSON に無いことを見る(従来の退役の印と同じ)
+      const RET_MARK300M = '退役(第300便m・較正母集団の外)';
+      let wait300m = 0;
       const has290bC = !byId.has('plutoCharonReal') && byId.has('plutoCharonDiagInput');
       const skip290 = !marks.some((x) => x[1] === 'plutoCharonDiagInput');
       // 第292便b(原仮定者の裁定(第82報)⑤・R138): 🌘 は**復活**して分類が原理実証へ移った(較正の分類の外)—— 台帳の行は履歴として残し、
@@ -56535,16 +56553,19 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         }
         if (V4.indexOf(v) < 0) bad.push(`②4 値の外: ${id}→${String(v).slice(0, 12)}`);
         const ret290 = has288bV && String(cells[3]).indexOf(RET_MARK290) >= 0;
-        const retMark = has288bV && (String(cells[3]).indexOf(RET_MARK) >= 0 || ret290);
+        const ret300m = has288bV && String(cells[3]).indexOf(RET_MARK300M) >= 0;
+        const retMark = has288bV && (String(cells[3]).indexOf(RET_MARK) >= 0 || ret290 || ret300m);
         if (retMark) retiredRows.push(id);
         if (!led) { if (!retMark) bad.push(`③JSON の台帳に無い: ${id}`); }
         else if (ret290 && !has290bC) wait290++;   // 第290便b: 鎖の前(❄️ は正本にまだ居る)—— 鎖待ち
+        else if (ret300m) wait300m++;   // 第300便m: 鎖の前(🌞 は正本にまだ居る)—— 鎖待ち
         else if (retMark) bad.push(`③退役の印があるのに JSON の台帳にある: ${id}`);
         else if (led.verdict4 !== v) bad.push(`③判定が JSON と食い違う: ${id} 文書=${v} JSON=${led.verdict4}`);
       }
       // 第290便b: 鎖の前は ❄️(第290便b の印)が正本に居て 🥶 が居ない —— 印の無い行(🥶 を含む)と正本の本数は 1 出 1 入で同じに数える
       const nLed = byId.size - (skip290 && byId.has('plutoCharonDiagInput') ? 1 : 0);
-      const nRows = seen.length - retiredRows.length + wait290 - pend290;
+      const nRows = seen.length - retiredRows.length + wait290 + wait300m - pend290;
+      if (wait300m) console.log(`NOTE docs.calibration-verdict-sync: 第300便m の退役の印の行 ${wait300m}(🌞)が判定器の正本にまだ居る —— 鎖の calaudit の段で母集団の外へ`);
       if (has288bV && nRows !== nLed)
         bad.push(`③印の無い行 ${nRows}(鎖待ち ❄️ ${wait290}・記入待ち 🥶 ${pend290} を勘定)が JSON の台帳 ${nLed} 本と合わない`);
       const miss = calIds.filter((x) => seen.indexOf(x) < 0);
@@ -62002,7 +62023,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         mercury: famOf('mercury').map((p) => p.emoji + ':' + p.familyRole),
         earthmoon: famOf('earthmoon').length, saturn: famOf('saturn').length,
         psr: famOf('psr').length, grcal: famOf('grcal').length };
-      o.famOk = o.fam.solarInner.length === 1 && o.fam.solarInner[0].endsWith(':primary')
+      // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 は退役(家族 solarInner は 🌞 だけ —— 世代切替 = RETIRED_PRESETS の 🌞 の行が「第90報」)
+      const ret300m = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja);
+      o.famOk = o.fam.solarInner.length === 1 && o.fam.solarInner[0].endsWith(ret300m ? ':retired' : ':primary')
         && o.fam.venusReal.length === 1 + ps.filter((q) => q.familyId === 'venusReal' && (q.physics || {}).coord === '3d').length && o.fam.venusReal.filter((x) => x.endsWith(':primary')).length === 1   // 第299便c(R171): 🌋(金星の三次元 —— venusReal の variant)を足した世代は +1(宣言から数える)
         && o.fam.mercury.length === (ps.some((q) => q.id === 'mercuryGeoToy3') ? 3 : 2) + (ps.some((q) => q.id === 'mercurySunInertial') ? 1 : 0) + ps.filter((q) => q.familyId === 'mercury' && q.referenceKind === 'observation-fit').length   // 第296便b: 🟫(フィットの派生本)も mercury の variant   // 第295便c: 🟤 も mercury の variant   // 第280便c: 🔁 mercuryGeoToy3(geoPN=3 の診断コピー)が variant で加わる
           + (ps.some((q) => q.id === 'mercuryMeshMigrate3d') ? 1 : 0)   // 第299便d: 🔂(🔁 の移行の写し —— mercury の variant)(フィットの派生本)も mercury の variant   // 第295便c: 🟤 も mercury の variant   // 第280便c: 🔁 mercuryGeoToy3(geoPN=3 の診断コピー)が variant で加わる
@@ -67284,6 +67307,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         //   移行の宣言(geoPN・kFrame・f・law)は表の「後」のまま、familyRole だけが後の便で "retired" へ動いた(表の行の照合から familyRole だけ外す)
         const R290 = (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.plutoCharonReal) ? new Set(['plutoCharonReal']) : new Set();
         o.has290b = R290.size > 0;
+        // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner(在位移行の行)も familyRole だけが "retired" へ動いた(世代切替 = RETIRED_PRESETS の 🌞 の行が「第90報」)
+        o.has300m = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja);
+        if (o.has300m) R290.add('solarInner');
         // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = RETIRED_PRESETS に 🌘 の行が無い(🎻 の行はある)。表の「退役」の行の 🌘 は**復活**した ——
         //   表の行の宣言(geoPN・kFrame・f・law)は「前」のまま(物理不変)・familyRole は variant・分類は原理実証(較正母集団の外のまま)を見る(表そのものは履歴として不変)
         const REV292 = (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.gw150914DFM && !RETIRED_PRESETS.earthMoonRealKF1) ? new Set(['earthMoonRealKF1']) : new Set();
@@ -67384,7 +67410,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         //   (第288便b の世代は 20/26 —— 第290便b は ❄️ 出・🥶 入で母集団の数は再集計が決め、退役は 33)
         let popCanon = null;
         try { popCanon = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).verdictLedger || {}).rows || []).length; } catch (e) { popCanon = null; }
-        const wantPop = r.has290b ? popCanon : 20, wantRet = r.has290b ? r.retiredDecl : 26;
+        //   第300便m: 🌞 の退役で母集団は宣言から数えて 1 本減る —— 判定器の正本を鎖で作り直す前(正本 = 宣言 + 1)も受けて NOTE を出す
+        const pre300m = r.has300m && popCanon === r.pop + 1;
+        if (pre300m) console.log(`NOTE preset.unifyTable ②: 判定器の正本の母集団は 🌞 の退役の前(${popCanon} 本)—— 鎖の calaudit の段で ${r.pop} 本へ(第300便m)`);
+        const wantPop = r.has290b ? (pre300m ? popCanon - 1 : popCanon) : 20, wantRet = r.has290b ? r.retiredDecl : 26;
         if (r.pop !== wantPop || r.retired !== wantRet) bad.push(`②母集団 ${r.pop}(期待 ${wantPop}${r.has290b ? ' —— 正本の verdictLedger の本数' : ''})・退役 ${r.retired}(期待 ${wantRet}${r.has290b ? ' —— RETIRED_PRESETS の行数' : ''})`);
         for (const z of r.fx) if (!z.sig || !(z.pair > 0) || z.kOnly !== false) bad.push(`④退役の写し ${z.id}: 署名 ${z.sig}・対の差 ${z.pair}・k だけ ${z.kOnly}`);
         for (const z of r.mig) {
@@ -67722,14 +67751,21 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const cb = FX && FX.counts ? FX.counts.base : null;
       if (!cb) bad.push('③写しに基点の本数が無い');
       else {
-        if (r.pop !== popCanon || r.pop !== cb.calibrationPopulation) bad.push(`③較正母集団 ${r.pop}(正本 ${popCanon}・基点 ${cb.calibrationPopulation})`);
+        // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 solarInner(較正の分類の在位の本)を退役した世代は基点 −1(世代切替 = RETIRED_PRESETS の 🌞 の行が「第90報」)。
+        //   判定器の正本 calaudit-w249.json は鎖の calaudit の段で作り直す —— 作り直す前の正本(基点の母集団)も受けて NOTE を出す
+        const sub300m = await page.evaluate(() => (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) ? 1 : 0);
+        const popPre300m = sub300m && popCanon === cb.calibrationPopulation;
+        if (popPre300m) console.log(`NOTE preset.revived292b ③: 判定器の正本の母集団は 🌞 の退役の前(${popCanon} 本)—— 鎖の calaudit の段で ${cb.calibrationPopulation - sub300m} 本へ(第300便m)`);
+        if (r.pop !== cb.calibrationPopulation - sub300m || !(r.pop === popCanon || popPre300m)) bad.push(`③較正母集団 ${r.pop}(正本 ${popCanon}・基点 ${cb.calibrationPopulation}${sub300m ? ' −1(第300便m の 🌞)' : ''})`);
         // 第298便b(R166): 退役 8 本を足した世代(RETIRED_PRESETS に 🌓 の行)は基点 −1 + 8
         const add298 = await page.evaluate(() => (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonDiagOne) ? 8 : 0);
         // 第300便a(原仮定者の裁定(第90報)⑤・R175): physics.spaceMesh の全面廃止で +11(世代切替 = spaceMeshRetiredDenyOf)
         // 第300便b(R176): 退役 3 本(🌥️🌛🌜)を足した世代(RETIRED_PRESETS の 🌜 の行が「第90報」)は +3
         const add300 = await page.evaluate(() => ((typeof spaceMeshRetiredDenyOf === 'function' && typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.mercuryMeshMigrate3d) ? 11 : 0)
-          + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonTide && /^第90報/.test(RETIRED_PRESETS.earthMoonTide.ja)) ? 3 : 0));
-        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b)` : ''})`);
+          + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.earthMoonTide && /^第90報/.test(RETIRED_PRESETS.earthMoonTide.ja)) ? 3 : 0)
+          // 第300便m(R176): 🌞 solarInner を退役した世代(RETIRED_PRESETS の 🌞 の行が「第90報」)は +1
+          + ((typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.solarInner && /^第90報/.test(RETIRED_PRESETS.solarInner.ja)) ? 1 : 0));
+        if (r.retired !== r.rpRows || r.retired !== cb.retired - 1 + add298 + add300) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1${add298 ? ' +8(第298便b)' : ''}${add300 ? ` +${add300}(第300便a・b・m)` : ''})`);
         // 統合(第292便): 同便の c(🌛 earthMoonInertial)と d(🌜 earthMoonTide)が内蔵を足す —— 復活は本数を変えないので基点 + その 2 本の有無で見る
         // 第295便c(R155): 🌤️🟤🟣(慣性決定力版サンプル 3 本)も内蔵を足す(復活の本数は不変)
         const add292 = await page.evaluate(() => HP.allPresets().filter((p) => ['earthMoonInertial', 'earthMoonTide', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].includes(p.id) || p.referenceKind === 'observation-fit' || ((p.physics || {}).coord === '3d' && !(p.physics || {}).shapeToy)).length);   // 第296便b: フィットの派生本(🟫🟪)も内蔵を足す / 第298便a: 三次元の本(🌐🎲 —— 宣言 physics.coord:"3d" から数える)も
@@ -71356,6 +71392,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----          実天体カタログの出典 src —— ID 互換・旧セーブ読込の経路で、表示文ではない)(f) 生成領域 obs-compare の在位の行で、行名が
 // ----          今の obsCard に無いもの(正本 calaudit の転記待ち —— 鎖の calaudit → obscompare で書き直される)
 // ----      (g) 便の印(第NNN便)のある注記の塊(コードの履歴コメント —— 在位の本の定義の中は除く)(h) 絵文字を記号として使う文(⏳ 収束確認)
+// ----      (e′)(第300便m)実天体カタログの系の見出し(src・emoji・name —— center の行より前)で系の出典 src が退役の本のもの(系 solarInner)
+// ----      (j)(第300便m)観測レコードの出典の名の表 OBS_COMPARE_SOURCES の「dfm-simulator <id> declaration (committed)」(paper/data の観測レコードの source 欄の転記)
 // ----      それ以外(在位の本の定義の中のコメントを含む)は 0 件
 // ----   ③ 文書: README は 0 件・SAMPLE_RANKING は「入口」〜「整理の方針」の節で 0 件・PHYSICS/AI_SPEC/CALIBRATION_VERDICT は履歴の節〔第NNN便〕
 // ----      (版の記録・便の見出しを含む)と退役の本自身の表の行だけ・生成物 SAMPLE_STATUS は 0 件(「退役」節を出さない)・FAMILIES は「退役」節だけ。
@@ -71487,7 +71525,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       for (let k = a; k <= b; k++) if (mark(HL[k])) return true;
       return a > 0 && mark(HL[a - 1]);
     };
-    const cnt = { retDef: 0, table: 0, side: 0, ocRetired: 0, ocStale: 0, codeTable: {}, catalog: 0, histCmt: 0, fitRec: 0 };
+    // 第300便m(原仮定者の裁定(第90報)④・R176 —— 🌞 solarInner の退役): (e′) 実天体カタログの**系の見出し**(src・emoji・name —— 系の center の行より前)で、
+    //   系の出典 src が退役の本のもの(系 solarInner は 🌞 の宣言のビット写し —— カタログの系の存廃は決断事項)。(j) 観測レコードの出典の名の表
+    //   OBS_COMPARE_SOURCES(生成領域 —— paper/data/solar-observations.csv の source 欄の転記で、レコードの同一性に入る)の「dfm-simulator <id> declaration (committed)」
+    const catHead = (() => { const a = HL.findIndex((z) => z.startsWith('const ASTRO_CATALOG = {')); if (a < 0) return () => false;
+      const heads = []; for (let i = a + 1; i < HL.length && !/^\};/.test(HL[i]); i++) { const m = HL[i].match(/^  (\w+):\{\s*$/); if (m) heads.push(i); }
+      return (i) => { const h = heads.filter((k) => k < i).pop(); if (h === undefined) return false; let src = null, cen = -1;
+        for (let k = h + 1; k < HL.length && k < h + 40; k++) { const m = HL[k].match(/\bsrc:"(\w+)"/); if (m && src === null) src = m[1]; if (/^\s+center:\{/.test(HL[k])) { cen = k; break; } }
+        return !!(src && RET.has(src) && cen > i); }; })();
+    const obsSrcLine = (s) => s.startsWith('const OBS_COMPARE_SOURCES=') && hitsOf(s.replace(/dfm-simulator \w+ declaration \(committed\)/g, '')).length === 0;
+    const cnt = { retDef: 0, table: 0, side: 0, ocRetired: 0, ocStale: 0, codeTable: {}, catalog: 0, catHead: 0, obsSrc: 0, histCmt: 0, fitRec: 0 };
     const stray = [];
     HL.forEach((raw, i) => {
       const s = dec(raw);
@@ -71502,6 +71549,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (m && RET.has(m[1])) { cnt.ocRetired++; return; }
         if (m && n !== undefined && !((r.obsQ || {})[m[1]] || []).includes(JSON.parse('"' + n + '"'))) { cnt.ocStale++; return; }
       }
+      if (obsSrcLine(s)) { cnt.obsSrc++; return; }
+      if (catHead(i)) { cnt.catHead++; return; }
       const ct = CODE_TABLES.find(([, sp]) => sp && sp[0] <= i && i <= sp[1]);
       const [code, cm] = splitCmt(s);
       const inCode = hitsOf(code).length > 0;
@@ -71514,7 +71563,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     if (stray.length) bad.push('②除外リストの外の行に言及: ' + stray.slice(0, 10).join(',') + (stray.length > 10 ? ` 他 ${stray.length - 10}` : ''));
     if (!cnt.retDef) bad.push('②退役の本の定義(凍結の対象)が見つからない');
     cases.push(`②html の言及は除外リストだけ —— 退役の本の定義 ${cnt.retDef} 行・RETIRED_PRESETS ${cnt.table} 行・side table ${cnt.side} 行・obs-compare の退役の行 ${cnt.ocRetired}・転記待ち ${cnt.ocStale}・`
-      + `コードの表 ${Object.entries(cnt.codeTable).map(([k, v]) => k + ' ' + v).join('・') || 0}・カタログの出典 ${cnt.catalog}・便の印のある注記 ${cnt.histCmt} 行・派生本の fitRecord ${cnt.fitRec} 行・外 ${stray.length} 行`);
+      + `コードの表 ${Object.entries(cnt.codeTable).map(([k, v]) => k + ' ' + v).join('・') || 0}・カタログの出典 ${cnt.catalog}・出典が退役の本のカタログの系の見出し ${cnt.catHead}・観測レコードの出典の名 ${cnt.obsSrc}・便の印のある注記 ${cnt.histCmt} 行・派生本の fitRecord ${cnt.fitRec} 行・外 ${stray.length} 行`);
     // ③ 文書
     const rd = (...p) => { try { return fs.readFileSync(path.join(ROOT, ...p), 'utf8'); } catch (e) { bad.push('③読めない: ' + p.join('/')); return ''; } };
     const histOf = (Ls, i) => {
@@ -75688,6 +75737,96 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         `**近似の原則の宣言**(第300便b・原仮定者の裁定(第90報)①②・R176 —— approximation は presetSig の外・力学は読まない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
+  }
+}
+
+// ---- 第300便m(原仮定者の裁定(第90報)④「🌞 solarInner は特定の日時で開始していないので廃止」・統括の検証項目 R176): preset.solarInnerRetired300(新設 —— root は SKIP)。
+// ----   世代切替 has300m = 対象 html の RETIRED_PRESETS に 🌞 の行(「第90報」で始まる)。固定値は宣言(内蔵・RETIRED_PRESETS・原稿・凍結の写し・判定器の正本)から数える。
+// ----   ① 🌞 は familyRole "retired"・定義と署名は基点と同じ(凍結の写し tests/fixtures/retired-w300m.json —— 版 w300m-retired-1・frozen・基点 881667c・
+// ----      署名 = 内蔵 = 基点・physics/bodies 同値)・RETIRED_PRESETS の行(ja「第90報」/en「ruling 90」・see は在位の内蔵で三次元の本を含む)・
+// ----      原稿の retired.ids に入る・隠し #presetSelect に option が無い・家族 solarInner に在位の本が無い
+// ----   ② 較正母集団 = sampleClass:"calibration" ∧ familyRole≠"retired" を宣言から数えた数 = 写しの populationNow = 写しの基点の母集団 − 1(🌞 は基点では母集団の員)。
+// ----      判定器の正本 calaudit-w249.json は鎖で作り直す —— 作り直した後(母集団 = 宣言・🌞 なし)も、前(基点の母集団・🌞 あり)も受ける(前は NOTE)
+// ----   ③ AI 生成のカタログ(buildAstroSpecPrompt —— ja/en)の例に {"system":"solarInner"} が無い・例の系はカタログにあり、出典 src は在位の本
+// ----   ④ 文書: PHYSICS〔第300便m〕・CHANGELOG に第300便m の行
+{
+  const html300m = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has300m = TARGET.startsWith('beta/') && /^\s+solarInner:\{ja:"第90報/m.test(html300m);
+  if (!has300m) {
+    console.log('SKIP preset.solarInnerRetired300(第300便m の 🌞 の退役の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let FX = null, SSRC = null, CA = null, PH = '', CL = '';
+    try { FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w300m.json'), 'utf8')); } catch (e) { bad.push('①凍結の写し tests/fixtures/retired-w300m.json が読めない'); }
+    try { SSRC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { bad.push('①原稿が読めない'); }
+    try { CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); } catch (e) { bad.push('②判定器の正本 calaudit-w249.json が読めない'); }
+    try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); } catch (e) { bad.push('④文書が読めない'); }
+    const r = await page.evaluate(() => {
+      const ps = HP.allPresets(), byId = new Map(ps.map((p) => [p.id, p]));
+      const p = byId.get('solarInner'), row = RETIRED_PRESETS.solarInner || {};
+      const L0 = LANG; const prompts = {};
+      for (const L of ['ja', 'en']) { LANG = L; try { prompts[L] = buildAstroSpecPrompt(); } finally { LANG = L0; } }
+      const ex = {}; for (const L of ['ja', 'en']) ex[L] = [...prompts[L].matchAll(/\{"system":"(\w+)"/g)].map((m) => m[1]);
+      return { role: p ? p.familyRole : null, cls: p ? p.sampleClass : null, fam: p ? p.familyId : null, sig: p ? presetSigHash(p) : null,
+        phys: p ? JSON.stringify(p.physics) : null, bodies: p ? JSON.stringify(p.bodies) : null,
+        row: { ja: row.ja || '', en: row.en || '', see: (row.see || []).map((s) => { const q = byId.get(s); return s + ':' + (q ? (q.familyRole === 'retired' ? 'retired' : ((q.physics || {}).coord === '3d' ? 'ok3d' : 'ok')) : 'missing'); }) },
+        opt: [...document.querySelectorAll('#presetSelect option')].some((o) => o.value === 'solarInner'),
+        famLive: ps.filter((q) => q.familyId === 'solarInner' && q.familyRole !== 'retired').map((q) => q.id),
+        pop: ps.filter((q) => q.sampleClass === 'calibration' && q.familyRole !== 'retired').map((q) => q.id).sort(),
+        ex, exSrc: Object.fromEntries([...new Set(ex.ja.concat(ex.en))].map((k) => { const c = HP.ASTRO_CATALOG[k]; const q = c ? byId.get(c.src) : null;
+          return [k, c ? (q ? (q.familyRole === 'retired' ? 'retired' : 'ok') : 'missing') : 'nocat']; })) };
+    }).catch((e) => ({ err: String(e).slice(0, 200) }));
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      // ①
+      if (r.role !== 'retired' || r.fam !== 'solarInner' || r.cls !== 'calibration') bad.push(`①🌞 の分類 ${r.role}・${r.fam}・${r.cls}`);
+      if (!/^第90報/.test(r.row.ja) || !/^ruling 90/.test(r.row.en)) bad.push('①RETIRED_PRESETS の行が「第90報」/「ruling 90」で始まらない');
+      if (!r.row.see.length || r.row.see.some((t) => !/:ok(3d)?$/.test(t)) || !r.row.see.some((t) => /:ok3d$/.test(t))) bad.push(`①see が在位の内蔵(三次元の本を含む)でない: ${r.row.see.join(',')}`);
+      if (r.opt) bad.push('①隠し #presetSelect に 🌞 の option がある');
+      if (r.famLive.length) bad.push('①家族 solarInner に在位の本: ' + r.famLive.join(','));
+      if (SSRC && !(((SSRC.retired || {}).ids || []).includes('solarInner'))) bad.push('①原稿の retired.ids に 🌞 が無い');
+      if (FX) {
+        const f = (FX.presets || {}).solarInner;
+        if (FX.fixtureVersion !== 'w300m-retired-1' || FX.frozen !== true || !FX.base || FX.base.rev !== '881667c' || JSON.stringify(FX.ids) !== '["solarInner"]') bad.push('①写しの版・凍結・基点・ids');
+        if (!f || f.presetSigHash !== r.sig || !f.base || f.base.sigSame !== true || JSON.stringify(f.raw.physics) !== r.phys || JSON.stringify(f.raw.bodies) !== r.bodies || f.familyRole !== 'retired' || f.familyRoleAtBase !== 'primary')
+          bad.push(`①写しの 🌞: 署名 ${f && f.presetSigHash}/${r.sig}・基点と同じ ${f && f.base && f.base.sigSame}・分類の前後 ${f && f.familyRoleAtBase}→${f && f.familyRole}`);
+        cases.push(`① 🌞 は退役(familyRole retired・較正の分類のまま・RETIRED_PRESETS の行・see ${r.row.see.join(' ')})・凍結の写し(署名 = 内蔵 = 基点 881667c)・原稿・#presetSelect に無い・家族の在位 0`);
+      }
+      // ②
+      const C = FX && FX.calibration ? FX.calibration : null;
+      if (!C) bad.push('②写しに較正母集団の欄が無い');
+      else {
+        const base = C.populationAtBase || [], now = C.populationNow || [];
+        if (!base.includes('solarInner') || now.includes('solarInner') || now.length !== base.length - 1) bad.push(`②写しの母集団 基点 ${base.length}・今 ${now.length}(🌞 は基点にあり今は無い)`);
+        if (JSON.stringify(r.pop) !== JSON.stringify(now.slice().sort())) bad.push(`②宣言から数えた母集団 ${r.pop.length} ≠ 写し ${now.length}`);
+        const fv = C.fourValuesAtBase || {}, nFv = Object.values(fv).reduce((a, b) => a + b, 0);
+        if (nFv !== base.length) bad.push(`②写しの 4 値の合計 ${nFv} ≠ 基点の母集団 ${base.length}`);
+        const v4 = ((((C.rows || {}).solarInner || {}).verdictLedger) || {}).verdict4;
+        if (!v4) bad.push('②写しに 🌞 の 4 値の行が無い');
+        const canon = CA ? (CA.presets || []).map((z) => z.id).sort() : null;
+        const post = canon && JSON.stringify(canon) === JSON.stringify(r.pop), pre = canon && JSON.stringify(canon) === JSON.stringify(base.slice().sort());
+        if (canon && !post && !pre) bad.push(`②判定器の正本の母集団 ${canon.length} が宣言(${r.pop.length})とも基点(${base.length})とも違う`);
+        if (pre) console.log(`NOTE preset.solarInnerRetired300 ②: 判定器の正本は 🌞 の退役の前の母集団(${base.length} 本)—— 鎖の calaudit の段で ${r.pop.length} 本へ`);
+        cases.push(`② 較正母集団 ${base.length} → ${r.pop.length}(宣言から数えた sampleClass:"calibration" ∧ 退役でない = 写しの populationNow)・基点の 4 値 ${Object.entries(fv).map(([k, v]) => k + ' ' + v).join('/')}`
+          + `(🌞 は ${v4})・判定器の正本は${post ? '作り直した後' : pre ? '作り直す前(鎖待ち)' : '—'}`);
+      }
+      // ③
+      for (const L of ['ja', 'en']) {
+        if (r.ex[L].includes('solarInner')) bad.push(`③AI 生成のカタログの例(${L})に {"system":"solarInner"}`);
+        if (!r.ex[L].length) bad.push(`③AI 生成のカタログの例(${L})が読めない`);
+      }
+      const exBad = Object.entries(r.exSrc).filter(([, v]) => v !== 'ok').map(([k, v]) => k + ':' + v);
+      if (exBad.length) bad.push('③例の系の出典が在位の本でない: ' + exBad.join(','));
+      cases.push(`③ AI 生成のカタログの例 ja [${r.ex.ja.join(',')}]・en [${r.ex.en.join(',')}](出典は在位)`);
+    }
+    // ④
+    const sec = (() => { const a = PH.indexOf('〔第300便m — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
+    if (!sec) bad.push('④PHYSICS に〔第300便m〕が無い(## 7. の前)');
+    else for (const w of ['solarInner', '第90報', '較正母集団', 'retired-w300m.json']) if (sec.indexOf(w) < 0) bad.push('④〔第300便m〕に「' + w + '」が無い');
+    if (!/^- \*\*第300便m/m.test(CL)) bad.push('④CHANGELOG に第300便m の行が無い');
+    add('preset.solarInnerRetired300', bad.length === 0,
+      `**🌞 solarInner の退役**(第300便m・原仮定者の裁定(第90報)④「特定の日時で開始していないので廃止」・R176 —— familyRole と RETIRED_PRESETS だけ・定義と署名は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
