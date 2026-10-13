@@ -31903,7 +31903,7 @@ QA: **`behavior.ref3d299`**(器を headless で引き直して正本と照合 �
 - 傾き: |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(= **2**)·|Δd| かつ |Δm_y| ≥ |Δm_x|(中点がおもに縦に動き、間隔の変化が小さい)
 - ピンチ: それ以外(間隔の変化が大きい・横の移動)。判定までの間隔の変化はピンチへ繰り越す(拡大縮小の量は従来と同じ d₀/d)
 
-傾きの値は **θ = θ₀ − Δm_y · `VIEW_TILT_SWIPE_DEG_PER_H` / H**(`tiltSwipeDeg` —— H は canvas の CSS の高さ・`VIEW_TILT_SWIPE_DEG_PER_H` = **180°**: 画面の高さぶん指を動かすと 180°)。指を**上へ**動かすと θ が**増える**(−90 の真上から 0 の横からへ —— 地図アプリの二本指の傾けと同じ向き)。値は `setViewTilt` を通すので、−90〜+90 のクランプ・整数への丸め・localStorage `hp_view_tilt` への保存・スライダーと数値欄の同期は第298便d のまま。指が 2 本未満(または 3 本)になると判定は捨て、3 本 → 2 本は新しい二本指の操作として控え直す。**マウスの操作は変えない**(Shift+ホイールなどは決断事項候補)。二次元の本の縦ドラッグの規則(横から ±5.7° 以内は無効)は 1 本指のパンの規則で、この操作は θ だけを変える(カメラの位置・camZ・倍率は動かさない)。HP: `HP.viewTilt().swipe`(degPerH・decidePx・ratio)・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+傾きの値は **θ = θ₀ − Δm_y · `VIEW_TILT_SWIPE_DEG_PER_H` / H**(`tiltSwipeDeg` —— H は canvas の CSS の高さ・`VIEW_TILT_SWIPE_DEG_PER_H` = **180°**: 画面の高さぶん指を動かすと 180°)。指を**上へ**動かすと θ が**増える**(−90 の真上から 0 の横からへ —— 地図アプリの二本指の傾けと同じ向き)〔**第301便e で向きを逆にした** —— 今は上へで減る(〔第301便e〕)〕。値は `setViewTilt` を通すので、−90〜+90 のクランプ・整数への丸め・localStorage `hp_view_tilt` への保存・スライダーと数値欄の同期は第298便d のまま。指が 2 本未満(または 3 本)になると判定は捨て、3 本 → 2 本は新しい二本指の操作として控え直す。**マウスの操作は変えない**(Shift+ホイールなどは決断事項候補 —— 〔第301便e〕で Shift+ホイールを実装)。二次元の本の縦ドラッグの規則(横から ±5.7° 以内は無効)は 1 本指のパンの規則で、この操作は θ だけを変える(カメラの位置・camZ・倍率は動かさない)。HP: `HP.viewTilt().swipe`(degPerH・decidePx・ratio)・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
 
 **参照模型の群。** 参照模型 8 本(`physics.shapeToy` を宣言した本 —— 🔮 shapeToyCluster・🥏 shapeToyDisk・🧵 shapeToyArm・🍭 shapeToySpiral・🎱 shapeToyClusterCore・📀 shapeToyDiskCore・🧹 shapeToyArmCore・🎢 shapeToySpiralCore)の宣言の `group` を「銀河の力学」から「腕と渦伸長(軸力)」へ移した。この群の**表示名はすでに「腕と軸力」**(第295便d —— en "Arms & Axis Force"・別名「腕と軸力」→ 宣言の値の正規化も第295便d のまま)なので、**新しい群は作らず、群の改名もしない**。群の員は軸力の 3 本(🥢🎏🎚️)と参照模型 8 本の 11 本、区画は「DFM の外のアナロジー」(群の区画は第290便f のまま —— 参照模型も DFM の公理の帰結ではなく、較正でもない)。家族 shapeToy・shapeToyCore は 4 本ずつ丸ごと移るので群を跨がない。`presetSig` は group を見ない(署名・走行は不変 —— sigsame で確認)。群の説明(ja/en)と「サンプルを選ぶ」の説明に移動を書いた。
 
@@ -32310,6 +32310,32 @@ u_i = Σ_j a_ij (W_j − v_i)/(1 + deg_i) = Σ_j w_ij (W_j − v_i)/(1/gain + Σ
 既存の QA の器 `tests/exp-w290d-ckfixcap.mjs` は、複製が `simStateCopyInto` を呼ぶ世代ではチェックポイントの名簿を複製の名簿としても数えるようにし(呼ばない世代では従来どおり)、名簿の数(配列 123 → 134・帳簿 84 → 124)・棚卸しの 2 行(相対すべり・層)・保存 → 復帰 → 再走の系譜の ID(旧: fixcap のログの id だけが違う → 同一)が動いたので正本を作り直した(〔第290便d〕に更新の表)。
 
 **言わないこと。** 「全部を写せば同一になる」(作業配列は塗っても同じ —— 写す対象ではない)・「浮動小数の非決定性」(原因は duT の写し漏れ 1 つ)・「三次元の複製を直した」(三次元の本は第299便a で同一 —— 本便は全欄と build の持ち越し)。
+
+〔第301便e — UI の 2 点(二本指の上下スワイプの向き・通知の帯の下地とスキン)と v59 の細目(Shift+ホイールの θ・ppGeo4 の表示名・題材 spaceMesh の撤去・退役の告知の一般文・退役の see・notClaim の次元・🔴 の観測カードの行・近似の 1 行・fitCond297 の補正)(原仮定者の裁定(第91報)⑥「二本指の上下スワイプの θ の向きを逆にする」「『初期配置に戻しました』などのメッセージの下地が、スキン『ライト』で黒いままで読めない」・DECISIONS v60 §0 の AN290 ①・AN292 ③・AN293 ③④⑤⑥・AN294 ②・AN295 ③・AN296 ②・統括の検証項目 R183)(**表示と文言だけ** —— 物理の式・presetSig・保存 JSON は 1 bit も変えていない・`S._core` は不変・bitsame/sigsame は全 175 本で同一)〕
+
+**二本指の上下スワイプの向き。** 〔第300便d〕の θ = θ₀ − Δm_y·`VIEW_TILT_SWIPE_DEG_PER_H`/H(上へで増える)を **θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`/H** とし、`VIEW_TILT_SWIPE_UP_SIGN` = **−1**(**指を上へ動かすと θ が減る**・下へで増える —— +90 の裏から 0 の横・−90 の真上へ)。感度 180°/画面の高さ・判定 12 px・比 2 は変えていない。向きは宣言の 1 か所(`HP.viewTilt().swipe.upSign`)で、QA `ui.tiltSwipe300` は宣言から期待を作る(宣言の無い世代は +1)。
+
+**Shift+ホイールで θ(AN294 ②)。** Shift を押したホイールは拡大縮小せず θ だけを変える(Shift なしのホイールは 1 bit も変えていない)。量はホイールの量を px に揃え(`deltaMode` 0 = px・1 = 行 × `VIEW_TILT_WHEEL_LINE_PX` = 16 px・2 = 頁 × 画面の高さ)、**`VIEW_TILT_WHEEL_DEG_PER_PX` = 0.05°/px**(マウスの 1 ノッチ 100 px で 5°)を掛けて端数を積み立てる(`tiltWheelStep` —— トラックパッドの小さな量でも整数の θ が進む・上下限に当たった分は捨てる)。Shift+ホイールは多くの環境で縦の量が横(`deltaX`)へ振り替わって届くので、|deltaY| と |deltaX| の大きい方を読む(`tiltWheelPx`)。Shift を押さない横スクロール(トラックパッドの横スワイプ)は θ に効かない。向きは**手前へ回す(deltaY > 0)と θ が増える** = 二本指の「下へ」と同じ向き(`VIEW_TILT_SWIPE_UP_SIGN` を共有)。上下限・整数・保存(`hp_view_tilt`)・スライダーと数値欄の同期は `setViewTilt`(スワイプ・スライダーと共通)。HP: `HP.viewTilt().wheel`(degPerPx・linePx・modifier "shift")・`HP.tiltWheelPx`。
+
+**通知の帯の下地とスキン。** 通知 `notify()`(「⏮ 初めから」の「初期配置に戻しました」・保存・読込・発散の警告などすべて)は 1 つの要素 `#notice` に出る。`#notice` はキャンバスの上(`#canvasWrap` の子)にあり、ライト(キャンバス固定 —— 〔第281便e〕)では `#canvasWrap` の部分木の変数がダークの値へ戻るので下地はダークのままだったが、`#notice` は文字の色を宣言しておらず、`body` で解いたライトの文字色(濃紺 #161b36)を**解いた値のまま継いで**いた —— ダークの下地の上に濃紺の文字(比 約 1.1)。処置: ① `#notice{color:var(--fg)}`(色を `#notice` の上で解く —— ダークでは今と同じ #dfe4ff)② ライトでは `#notice` の上で変数集合をライトの値へ戻す(ライトの変数の規則のセレクタの並びに `html[data-skin="light"] #notice` を足した —— 値は 1 か所)・下地を白の半透明 rgba(255,255,255,.92)(比較案「追随」と同じ見た目)。通知のボタン(発散の「直前の設定に戻す」)もライトの塗りと文字になる。同じ継承の漏れ: キャンバスの上の箱 粒子の編集 `#bodyEdit`・相図 `#pmPanel` も `color:var(--fg)` を宣言した(箱はダークのまま —— キャンバス固定の採用どおり・例 `#beCvDep` の文)。静的表 `tests/lib-w281e-skin.mjs` は部分木の変数表に `#notice` を足した(`SCOPE_CTX` —— 後の行ほど内側)。
+
+| スキン | 文字 | 下地(`#notice` の背景を `#canvasWrap` #05070f に重ねた色) | 比(実機の計算した色) | 通知のボタン(文字/塗り) | 静的表の比 |
+|---|---|---|---|---|---|
+| ダーク(今の見た目) | #dfe4ff | #13172d(rgba(20,24,48,.92)) | **14.07** | #dfe4ff / #24407e = 7.91 | 帯 13.88・ボタン 7.91 |
+| ライト(修正前) | #161b36 | #13172d | 約 1.1 | — | (色の宣言が無く表に出なかった) |
+| ライト(修正後) | #161b36 | #ebebec(rgba(255,255,255,.92)) | **14.18** | #161b36 / #d6e1fb = 12.88 | 帯 16.65・ボタン 12.88 |
+
+**v59 の細目。**
+- **AN293 ③ ppGeo4 の表示名**: 「4: 空間メッシュ・連鎖」→ **「4: 慣性決定力の多粒子」**(en "4: inertial determinacy, many-particle")。旧名と旧法則版(spaceMesh.lawVersion —— 第300便a で廃止)は `ppGeoUse4` の**履歴の注記**〔履歴: …〕へ(新しく選べる法則と混同させない)。`modeSaveNote`・`geo4NoMesh`・`geo3InertialDesc` の 4 の語も改めた。AI 生成の仕様文(SYSTEM_PROMPT)の値域の行の語は変えていない(AI の入力の契約 —— 決断事項候補)。
+- **AN293 ④ 題材 spaceMesh の撤去**: 題材の表 `TOPIC_TAGS` から `physics.spaceMesh` の行を外した(宣言した本は全部退役 —— 在位 0)。表示の空間メッシュ(受動プローブ —— 「表示」の操作 `tgSpaceMesh`)は物理の宣言ではないので残す。題材は 9 → 8。
+- **AN293 ⑤ 退役の告知の一般文**: 「ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける」→「**退役の本は ID で履歴として開く**(ID・物理は変えていない・一覧には出ない・自動で別の本へ置き換えない)。保存は今の入力の規則で読む —— **旧 physics.spaceMesh を含む保存は今の入力で拒否される**」(en も)。spaceMesh を宣言した退役の本の追記 `smRetiredOpenNote` は「ただし」を外した。
+- **AN293 ⑥ 退役の see**: 退役の行 `RETIRED_PRESETS` の全 56 行・see 93 件を宣言から列挙して確かめた —— 退役の本を指す see は **0 件**(先に退役した 🕶️⚫🎋🌰🥜 の行は第300便a、🌥️🌛 を指していた行は第300便b で付け替え済み)。付け替えの対象は無く、QA `ui.v59Text301` ④で「see は全部在位の内蔵の本」を固定した。
+- **AN292 ③ notClaim の次元**: `solar_cal` の文を宣言の次元(`physics.coord`)で出し分ける(`pNotClaims`)。二次元の本 `nc_solar_cal`「明示した観測量について、宣言した次元(二次元 —— 公転面の中だけ)・入力・計算法の条件で合わせたモデルです。太陽系全体・三次元の摂動・未掲載の観測量は別途照合します。」・三次元の本 `nc_solar_cal3d`「明示した観測量について、宣言した次元(三次元)・入力・計算法の条件で合わせたモデルです。太陽系全体・未掲載の観測量は別途照合します。」(宣言 `notClaim:["solar_cal"]` と合否の語は変えない)。三次元 11 本・二次元 60 本。
+- **AN295 ③ 🔴 の観測カード**: obsCard の観測欄の印「(観測の正本の行)」は、その値(恒星周期の日数)の行が観測の比較の行 `OBS_COMPARE_ROWS`(在位の本の行・k "period"・単位 s・表記の末位の半分 0.0005 日以内)に**今あるか**を読んで描く(`obsCardResolved` —— 宣言の obsCard は変えない)。🌡️(☄️ の水星の行)・🌋(🌇 の金星の行)は印のまま、🔴 marsSunInertial3d は「686.980 日(**観測の比較の行: 🌞 の退役で該当なし —— 観測レコードの登録待ち**)」(🌞 は `RETIRED_PRESETS` の see にこの本を挙げる退役の本 —— 宣言から)。
+- **AN290 ① 近似の 1 行**: 説明タブの注意書きの節に、近似の宣言 `approximation` を 1 行(`#approxLine`・「🧭 近似の宣言: 背景 —— … / 周期 —— … / 一様重力 —— …」・ja/en)。宣言のある在位 11 本(⚾♨️🧪☕🧬🧊⛓️♻️🌙🌘🌔)だけ。近似多粒子の契約(力学の宣言)はここに書かない。
+- **AN296 ② fitCond297 の補正**: QA `preset.fitCond297` に残っていた 🌥️ 用の補正(器 `derivedCheck` が退役を受ける前の読み替え —— 第300便g から働かない)を外し、代わりに「html で退役の派生本は器の結果も retired」の受理の試験を残した。
+
+QA: 新設 `ui.toastSkin301`(両スキンの計算した色の比 ≥ 4.5・ダークの見た目不変・ライトの下地がスキンに従う・`#bodyEdit`/`#pmPanel` の文字・静的表)・`ui.tiltWheel301`(純関数・合成のホイール・実機の Shift+wheel・Shift なしは拡大縮小)・`ui.v59Text301`(上の細目 7 つと文書)。世代切替で追従: `ui.tiltSwipe300`(upSign)・`behavior.geo4Migrate295`(ppGeo4 の語)・`ui.topicChips291`・`ui.pickerReorg294`・`ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerOtherTriState`(題材 8)・`ui.notclaim-real`(三次元の文)・`preset.fitCond297`。世代切替の目印は html の `function tiltWheelPx(`(root は SKIP)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 

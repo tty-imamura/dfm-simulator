@@ -3545,7 +3545,7 @@ SYSTEM_PROMPT の規則 12(逐語):
 
 ## 78. 第300便d —— 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦・統括の検証項目 R178・**表示・一覧の置き場所・版名だけ** —— 物理・presetSig・保存 JSON は不変・**SYSTEM_PROMPT には載せない**)
 
-- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ − Δm_y·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— 上へで θ が増える・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは不変。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— **第301便e から上へで θ が減る**〔`VIEW_TILT_SWIPE_UP_SIGN` = −1 —— 第300便d は上へで増えた〕・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは第301便e から Shift+ホイールで θ(§83)。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
 - **群**: 参照模型(`physics.shapeToy` を宣言した本 —— 内蔵の 8 本)の `group` は `"腕と渦伸長(軸力)"`(表示名「腕と軸力」・en "Arms & Axis Force" —— 第295便d の別名「腕と軸力」はそのまま受理して正規化)。AI が生成する参照模型の JSON も、群を書くならこの値(表示名で書いてもよい)。`presetSig` は group を見ない。
 - **版名**: `BETA_BUILD = "v<beta 線>-b<便の番号>"`(便の番号 = CHANGELOG.md の行頭「- **第NNN便」の最大 —— 便の基点の「最大 + 1」も可)。`beta/sw.js` の CACHE 接尾辞・CHANGELOG の beta 節の見出しと同じ値(器 `tools/beta-build.mjs` —— 既定は検査・`--apply --wave <NNN>`)。エクスポートの `appBuild`(beta 配信時)もこの値になる。
 - QA: **`ui.tiltSwipe300`**・**`ui.refModelGroup300`**・**`lint.betaBuild300`**(新設 —— root は SKIP)。
@@ -3628,3 +3628,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **build の機能ごとの初期化**: 表 `SIM_BUILD_RESET`(機能・説明・鍵)を build の先頭で `simBuildReset` が消す(本を切り替えた内蔵の sim が新しく組んだ sim と同じ鍵の集合と値になる)。
 - **器と正本**: `tests/exp-w301f-clone.mjs`(版 w301f-clone-1・`W301F_OUT`・`W301F_IDS`・`W301F_N`/`W301F_M`)→ `tests/out/clone-w301f.json`(段 clone-301f)。
 - QA: `behavior.clone2d301`(root は SKIP —— 世代切替 = html の `function simStateCopyInto(`)。
+
+## 87. 第301便e —— UI の 2 点と v59 の細目(原仮定者の裁定(第91報)⑥・DECISIONS v60 §0 の AN290 ①・AN292 ③・AN293 ③④⑤⑥・AN294 ②・AN295 ③・AN296 ②・統括の検証項目 R183・**表示と文言だけ** —— 物理・presetSig・保存 JSON・SYSTEM_PROMPT は不変)
+
+- **二本指の縦スワイプの向き**: `VIEW_TILT_SWIPE_UP_SIGN` = −1(指を上へ動かすと θ が減る)。θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`/H。HP: `HP.viewTilt().swipe.upSign`。
+- **Shift+ホイール → θ**: `VIEW_TILT_WHEEL_DEG_PER_PX` = 0.05(°/px)・`VIEW_TILT_WHEEL_LINE_PX` = 16。量 = `tiltWheelPx(deltaX, deltaY, deltaMode, H)`(縦と横の大きい方)× 度/px を積み立て(`tiltWheelStep`)・手前へ(deltaY>0)で増える。Shift なしのホイールは拡大縮小のまま。HP: `HP.viewTilt().wheel`・`HP.tiltWheelPx`。
+- **通知の帯 `#notice`**: `color:var(--fg)`・ライトでは変数集合をライトの値・下地 rgba(255,255,255,.92)。`#bodyEdit`・`#pmPanel` も `color:var(--fg)`。
+- **文言**: `ppGeo4` ja「4: 慣性決定力の多粒子」/ en "4: inertial determinacy, many-particle"(旧名は `ppGeoUse4` の履歴の注記)。`retiredNotice` の一般文(「退役の本は ID で履歴として開く」「旧 physics.spaceMesh を含む保存は今の入力で拒否」)。`nc_solar_cal3d`(三次元の本の `solar_cal` —— `pNotClaims` が `physics.coord` で選ぶ)。説明タブの `#approxLine`(`approxLineText` —— i18n `apx_*`)。obsCard の印「(観測の正本の行)」は `obsCardResolved`(HP)が `OBS_COMPARE_ROWS` から描く。
+- **題材**: `TOPIC_TAGS` から spaceMesh を撤去(8 個)。
+- **SYSTEM_PROMPT は変えていない**(値域の行の geoPN=4 の語「空間メッシュ・連鎖」は AI の入力の契約 —— 改名は決断事項候補)。
+- QA: `ui.toastSkin301`・`ui.tiltWheel301`・`ui.v59Text301`(root は SKIP —— 世代切替 = html の `function tiltWheelPx(`)。

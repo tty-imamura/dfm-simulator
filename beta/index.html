@@ -45,7 +45,15 @@
      (角丸 --rS/--rL と --sab は形なので両スキン共通)。値は tests/lib-w281e-skin.mjs の静的表
      (第279便d の ui.contrast と同じ手順)で測って決めた: WCAG 下限割れ 0・文字用アクセント ≥7・
      フォーカス ≥3。表示だけ — 物理・presetSig・保存 JSON に 1 bit も効かない(localStorage hp_skin)。 */
-  html[data-skin="light"]{
+  /* 第301便e(原仮定者の裁定(第91報)⑥「『初期配置に戻しました』などのメッセージの下地が、スキン『ライト』で黒いままで読めない」):
+     通知の帯 #notice(notify() — 「初めから」・保存・読込・発散の警告など全部の通知が同じ要素)は**スキンに従う**。
+     キャンバスの上にあるので #canvasWrap の部分木ではダークの値へ戻っていたが、文字の色を宣言していなかったため
+     body で解いたライトの文字色(濃紺)を継いで、ダークの下地の上に濃紺の文字が載っていた。ライトでは
+     #notice の上で変数集合をライトの値へ戻し(このセレクタの並び — 値は 1 か所)、下地を白の半透明にする
+     (比較案「追随」と同じ見た目)。ダークの見え方は不変(#notice の color:var(--fg) はダークでも同じ値)。
+     同じ継承の漏れ: キャンバスの上の箱 粒子の編集 #bodyEdit・相図 #pmPanel も color:var(--fg) を宣言した(箱はダークのまま
+     —— キャンバス固定の採用どおり。文字だけがライトの濃紺を継いでいた〔例 #beCvDep〕)。QA ui.toastSkin301。 */
+  html[data-skin="light"] #notice,html[data-skin="light"]{
     --bg:#e6eaf4; --panel:#f4f6fb; --panel2:#ffffff; --line:#c4cbe0;
     --fg:#161b36; --dim:#4b5378; --acc:#3461d1; --hot:#c8641c; --err:#cc3345; --ok:#1d8f5a;
     --accText:#1d3f9e; --okText:#16603a; --errText:#9c1b2b; --hotText:#843c00;
@@ -90,7 +98,7 @@
   html[data-skin="light"][data-canvas="follow"] canvas#cv{filter:invert(1) hue-rotate(180deg);}
   html[data-skin="light"][data-canvas="follow"] #canvasWrap{background:#f6f8fd;}
   html[data-skin="light"][data-canvas="follow"] #hud{text-shadow:0 1px 2px #fff;}
-  html[data-skin="light"][data-canvas="follow"] #notice{background:rgba(255,255,255,.92);}
+  html[data-skin="light"] #notice{background:rgba(255,255,255,.92);}
   html[data-skin="light"][data-canvas="follow"] #bodyEdit{background:rgba(255,255,255,.94);}
   html[data-skin="light"][data-canvas="follow"] #pmPanel{background:rgba(255,255,255,.96);}
   html[data-skin="light"][data-canvas="follow"] #pmPanel .beHead{background:rgba(255,255,255,.99);}
@@ -312,7 +320,7 @@
      全面パネル」の流儀。phaseMap を宣言したプリセットでのみ開ける — 宣言なしでは 1 度も表示されない */
   #pmPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
     background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:var(--rL);padding:10px;
-    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;}
+    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;color:var(--fg);}
   #pmPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--fg);}
   #pmPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -390,7 +398,7 @@
      従来は下端がそのまま切れていた)。最小化中は従来どおり内容の高さのまま */
   #bodyEdit{position:absolute;right:8px;top:8px;width:188px;z-index:6;background:rgba(20,24,48,.94);
     border:1px solid var(--line);border-radius:var(--rL);padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));
-    max-height:calc(100% - 16px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;}
+    max-height:calc(100% - 16px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;color:var(--fg);}
   #bodyEdit .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--fg);}
   #bodyEdit .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
@@ -440,7 +448,7 @@
   #beCvDepMore>div{padding:2px 0;overflow-wrap:anywhere;white-space:pre-line;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:var(--rL);
-    padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
+    padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;color:var(--fg);}
   #transport{display:flex;gap:6px;padding:8px 8px;background:var(--panel);
     border-top:1px solid var(--line);flex:0 0 auto;align-items:center;}
   #transport button{flex:1;min-height:46px;border-radius:var(--rL);border:1px solid var(--line);
@@ -680,6 +688,8 @@
   .roleChip[data-role=experiment]{border-color:var(--hot);color:var(--hotText);}
   #roleLegend{font-size:calc(10.5px*var(--uz,1));color:var(--dim);line-height:1.5;padding:2px 4px 8px;}
   .notClaimLine{color:var(--hotText);font-size:calc(11.5px*var(--uz,1));line-height:1.55;margin:3px 0;}
+  /* 第301便e(DECISIONS v60 §0 AN290 ①): 説明タブの近似の宣言 approximation の 1 行(宣言のある本だけ) */
+  .approxLine{color:var(--dim);font-size:calc(11.5px*var(--uz,1));line-height:1.55;margin:3px 0;}
   .ffBox{border:1px solid var(--line);border-radius:var(--rL);padding:6px 10px;margin:8px 0;background:var(--panel2);}
   .ffHead{font-weight:700;font-size:calc(12px*var(--uz,1));margin:2px 0 4px;}
   /* 第276便f(第66報(5)⑤「『失敗から見る』と『観測結果カード』は数値主張の様に畳む」):
@@ -1399,11 +1409,11 @@ ja: {
   familyRowLabel:"この仲間:",
   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
   retiredTag:"退役(履歴)",
-  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第90報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第90報)で退役した。退役の本は ID で履歴として開く(ID・物理は変えていない・サンプル一覧には出ない・自動で別の本へ置き換えない)。保存は今の入力の規則で読む —— 旧 physics.spaceMesh を含む保存は今の入力で拒否される(第301便e)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
   tgFlipY:"視点の傾き θ(°)",
-  tgFlipYDesc:"X 軸まわりにカメラを回す表示専用のスライダー(共通設定・永続 —— 旧「上下反転」)。画面右はいつも +X。−90(既定)= 画面下が +Y(これまでの見え方)/ 0 = 横から見る・画面上が +Z / +90 = 画面上が +Y(旧「上下反転」と同じ —— 見た目の公転・自転が逆回転になる)。二次元の本は z=0 の面なので、0 では x 軸上の線に潰れて見える(上下のドラッグは y に割り当て、横から ±5.7° 以内では効かない)。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で変わるだけ。タッチの画面では 2 本指をそろえて上下にスワイプしても変えられる(上へで θ が増える・画面の高さぶんで 180°・第300便d)。",
+  tgFlipYDesc:"X 軸まわりにカメラを回す表示専用のスライダー(共通設定・永続 —— 旧「上下反転」)。画面右はいつも +X。−90(既定)= 画面下が +Y(これまでの見え方)/ 0 = 横から見る・画面上が +Z / +90 = 画面上が +Y(旧「上下反転」と同じ —— 見た目の公転・自転が逆回転になる)。二次元の本は z=0 の面なので、0 では x 軸上の線に潰れて見える(上下のドラッグは y に割り当て、横から ±5.7° 以内では効かない)。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で変わるだけ。タッチの画面では 2 本指をそろえて上下にスワイプしても変えられる(上へで θ が減り下へで増える —— 第301便e で向きを逆にした・画面の高さぶんで 180°・第300便d)。マウスでは Shift+ホイールでも変えられる(手前へ回すと θ が増える・1 ノッチ 5°・Shift なしのホイールは拡大縮小のまま —— 第301便e)。",
   // 第171便(原仮定者報告「粒子が多いサンプルで fps が低い・操作レスポンスを良くしたい」)
   tgDragPause:"ドラッグ中は計算を止める",
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
@@ -1591,7 +1601,7 @@ ja: {
   smProbeNote:"矢印 = 質量ゼロ・反作用なしの受け手の u(同じ步の解 u_j と同じ核 —— 連立は解き直さない)",
   smMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a)—— 宣言した本は全部退役(履歴)。新しい設定・読込・保存では受理しない(表示の空間メッシュ overlays.spaceMesh は残る)",   // 第300便a: 廃止予定 → 廃止(鍵の名前は互換のため据え置き)
   smRetiredReject:(where)=>"physics.spaceMesh(空間メッシュの力の法則)は廃止(原仮定者の裁定(第90報)⑤・第300便a)—— 受理しません("+where+")。別の法則へは自動で変換しません(慣性決定力の引きずりは physics.relativeDrag.law:\"inertial\" を自分で宣言してください)。表示の空間メッシュ overlays.spaceMesh は使えます",   // 第300便a
-  smRetiredOpenNote:"ただしこの本は physics.spaceMesh(廃止)を宣言しているので、内蔵の履歴として ID で開いて走らせるだけ —— 保存・セーブの読込・JSON の取り込み・AI 生成では physics.spaceMesh を受理しない",   // 第300便a
+  smRetiredOpenNote:"この本は physics.spaceMesh(廃止)を宣言しているので、内蔵の履歴として ID で開いて走らせるだけ —— 保存・セーブの読込・JSON の取り込み・AI 生成では physics.spaceMesh を受理しない",   // 第300便a
   smRetiredWhere_save:"保存", smRetiredWhere_loadSave:"セーブの読込", smRetiredWhere_import:"JSON の取り込み", smRetiredWhere_intake:"貼り付け・AI 生成の取り込み", smRetiredWhere_custom:"保存したカスタムの本の読込",   // 第300便a
   geo4CoordNote:"geoPN=4 の既定は三次元(physics.coord:\"3d\")—— この本は二次元(互換・逸脱ではない)",
   smRulerTitle:"光の物差し(局所目盛り dℓ=A|dx|・A=e^ψ・表示専用)",
@@ -2028,19 +2038,19 @@ ja: {
   coord3dHaltPause:(wa,wb,isAB)=>"三次元では未対応の設定で再生を止めました("+(isAB? "A: "+(wa||"—")+" / B: "+(wb||"—") : (wa||"—"))+")。その設定を 0/OFF に戻してから ▶ で再開してください(A/B は両側とも同じ時刻で止まっています)",
   hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の奥)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
   loadGeo0Legacy:(lv)=>"geoPN=0 で spaceMesh.lawVersion:\""+lv+"\" を宣言した設定です —— 第296便から geoPN=0 でも旧空間メッシュ(legacy-spaceMesh:"+lv+")で走ります(第295便までは宣言が残るだけでニュートン等の他の宣言で走っていました)。値は保存どおり",
-  geo4NoMesh:(law)=>"測地線モード geoPN=4(空間メッシュ・連鎖): 旧メッシュ(physics.spaceMesh.lawVersion)も慣性の連鎖の宣言(relativeDrag.law:\"inertial\")も走っていません —— 旧メッシュか慣性の連鎖の宣言が要ります。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
+  geo4NoMesh:(law)=>"測地線モード geoPN=4(慣性決定力の多粒子): 慣性の連鎖の宣言(relativeDrag.law:\"inertial\")が走っていません —— 慣性の連鎖の宣言が要ります(旧メッシュ physics.spaceMesh.lawVersion は第300便a で廃止 —— 履歴)。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
   geo3InertialOn:"測地線モード geoPN=3: 慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が宣言されています —— 測地線 OFF・1PN なし・法則 inertial-drag で走ります",
   geo3InertialLabel:"慣性決定力の引きずりを宣言する(gain C_d [L³/M])",
   geo3InertialApply:"宣言",
   geo3InertialDone:(g)=>"physics.relativeDrag={law:\"inertial\", gain:"+g+"} を宣言しました(合成則は既定の solve —— 測地線 OFF・1PN なし・法則 inertial-drag。履歴は作り直し・最初の步は u=0)",
   geo3InertialBad:(e)=>"宣言できません: "+e,
-  geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ) 第296便c: geoPN=4(空間メッシュ・連鎖)で旧法則版の宣言が無い本にも出し、4 では連鎖の解法 solver:\"network-pcg-v1\" も一緒に宣言します。",
+  geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで gain を入れて慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。gain=0 では引きずりを加えません。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。宣言の後も gain はここで変えられます(他の鍵は保つ) 第296便c: geoPN=4(慣性決定力の多粒子)で旧法則版の宣言が無い本にも出し、4 では連鎖の解法 solver:\"network-pcg-v1\" も一緒に宣言します。",
   loadComposeLegacy:"このセーブは第293便より前の保存です —— 慣性引きずり(law:\"inertial\")の合成則が未宣言で、保存したときは加算(sum)で走っていました。いまは既定の solve(velocity)で走ります(加算で比べるなら relativeDrag.compose:\"sum\" を明示。値は保存どおり)",
-  modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 空間メッシュ・連鎖 —— 慣性決定力の多粒子版)。値は保存どおりに読み込み、走る法則は宣言(physics.relativeDrag・physics.geodesic)から決まります(physics.spaceMesh.lawVersion などの physics.spaceMesh は第300便a で廃止 —— 保存・読込で受理しません)。用途と違う組み合わせは保存時に警告します。",
+  modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 慣性決定力の多粒子〔旧名「空間メッシュ・連鎖」〕)。値は保存どおりに読み込み、走る法則は宣言(physics.relativeDrag・physics.geodesic)から決まります(physics.spaceMesh.lawVersion などの physics.spaceMesh は第300便a で廃止 —— 保存・読込で受理しません)。用途と違う組み合わせは保存時に警告します。",
   // 第296便d(原仮定者の裁定(第86報)・R160): 用途文 0〜3 を短く —— 番号は目的別の推奨構成・設定の逸脱は保存時に警告(ppGeoN の語は繰り返さない)
   ppGeoUse0:"推奨は法則 1 つの実験台(測地線・慣性の引きずり・旧メッシュを重ねると保存時に警告)", ppGeoUse1:"推奨は GR 1PN・kFrame=0(観測再現の組 —— 逸脱は保存時に警告)",
   ppGeoUse2:"推奨は q の引きずり・kFrame=1(逸脱は保存時に警告)", ppGeoUse3:"推奨は relativeDrag.law:\"inertial\" の宣言・kFrame=0(逸脱は保存時に警告)",
-  ppGeoUse4:"空間メッシュ・連鎖 —— 多粒子の連鎖引きずり(慣性 + solver:network-pcg-v1・標準 kFrame=0・三次元が既定)。旧法則版(spaceMesh.lawVersion)は廃止(第300便a —— 宣言した本は退役の履歴)",
+  ppGeoUse4:"慣性決定力の多粒子 —— 多粒子の連鎖引きずり(慣性 + solver:network-pcg-v1・標準 kFrame=0・三次元が既定)。〔履歴: 第301便e までの表示名は「空間メッシュ・連鎖」。旧法則版(spaceMesh.lawVersion)は第300便a で廃止 —— 宣言した本は退役の履歴で、新しく選べる法則ではない〕",
   bdgMeshStop_undeclared:"旧法則版の宣言なし(physics.spaceMesh.lawVersion)—— 測地線の法則で走っている",
   saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
   contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
@@ -2188,7 +2198,15 @@ ja: {
   nc_solar:"実在の太陽系天体の定量再現ではない(見やすさ優先の誇張アナログ)。",
   // 第157便(外部レビュー第3巡 P1): 現実較正(fidelity:"real")サンプル専用の文言。
   // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
-  nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
+  // 第301便e(DECISIONS v60 §0 AN292 ③): 「2次元モデル」の文が三次元の本にも付いていた —— 宣言の次元(physics.coord)を読んで出し分ける(pNotClaims)。
+  //   二次元の本は nc_solar_cal・三次元の本(physics.coord:"3d")は nc_solar_cal3d。宣言 notClaim:["solar_cal"] は変えない(合否の語も変えない)
+  nc_solar_cal:"明示した観測量について、宣言した次元(二次元 —— 公転面の中だけ)・入力・計算法の条件で合わせたモデルです。太陽系全体・三次元の摂動・未掲載の観測量は別途照合します。",
+  nc_solar_cal3d:"明示した観測量について、宣言した次元(三次元)・入力・計算法の条件で合わせたモデルです。太陽系全体・未掲載の観測量は別途照合します。",
+  // 第301便e(DECISIONS v60 §0 AN290 ①): 説明タブの近似の 1 行(approxLineText —— 宣言 approximation の鍵ごと)
+  apx_head:"🧭 近似の宣言: ", apx_sep:" / ",
+  "apx_background_dominant-direction-fixed":"背景 —— 本に置かない直属の支配天体(地球にとっての太陽など)の方向を慣性系で固定",
+  apx_period_synodic:"周期 —— 朔望月で読む(恒星月の窓を恒星年で一様に換算)", apx_period_sidereal:"周期 —— 恒星月で読む(公転周期を標的にしない)",
+  "apx_uniformGravity_dominant-direction-fixed":"一様重力 —— 直属の支配天体の方向に固定した一定のベクトル(毎步は回さない)",
   nc_apsidal_8p85:"月の近点回転 8.85 年(主に太陽の摂動による)を再現・説明する本ではありません(太陽は入っていません)。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
   // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
@@ -2242,7 +2260,7 @@ ja: {
   // 第284便d(原仮定者の裁定(第74報)⑦「『サンプルを選ぶ』に geoPN の絞り込みを追加」): 4 つ目の絞り込み次元。
   // 値は geoModeOf の役割(role)から導く派生値で、宣言(presetSig・保存 JSON)は 1 bit も変えない
   ppDimGeo:"geoPN", ppGeo0:"0: 汎用", ppGeo1:"1: 1PN準拠", ppGeo2:"2: 引きずり近似", ppGeo3:"3: 慣性決定力",   // 第295便d(原仮定者の裁定(第85報)・R156): 目的の組の語
-  ppGeo4:"4: 空間メッシュ・連鎖",   // 第295便b(原仮定者の裁定(第85報)・R154): 桶 4 —— 旧法則版(spaceMesh.lawVersion)の置き場
+  ppGeo4:"4: 慣性決定力の多粒子",   // 第295便b(原仮定者の裁定(第85報)・R154): 桶 4 —— 旧法則版(spaceMesh.lawVersion)の置き場。第301便e(DECISIONS v60 §0 AN293 ③): 表示名を「空間メッシュ・連鎖」から改めた(旧法則版は第300便a で廃止 —— 履歴の注記は ppGeoUse4)
   ppNoteGeoHead:"geoPN はサンプルの測地線モードの宣言(physics.geoPN)で、ここでは geoModeOf が導く役割で数える(表示専用 — 物理・保存 JSON には一切影響しない)。件数は実行時に数える(退役・非表示の本を含む全内蔵)。",
   ppNoteGeoCompat:"geoPN=2・kFrame=0 の旧宣言(互換入力)は 1PN準拠の既定(geoPN=1・kFrame=0)と同じ処理で走るので 1 に数える",
   // 第285便e(原仮定者の裁定(第75報)⑧): 絞り込みの畳み(要約行)と「その他」のチップ(複数 AND)。語は既存の宣言の名前だけ
@@ -2350,7 +2368,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小、2本指をそろえて上下にスワイプすると視点の傾き θ(上へ動かすと θ が増える・画面の高さぶんで 180°・−90〜+90 —— 指の間隔が大きく変わるときはピンチ・第300便d)。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチと「表示」のコア軸の投影線(第299便f で「表示」へ移した)は端末に永続する設定で、サンプルを変えても引き継がれます。「シミュレーション」の先頭の「三次元で走らせる」は読み込んだ本を二次元/三次元に切り替えます(本の宣言の写しで初めから再構築 —— 三次元で未対応の機能を宣言した本は理由を出して拒否・三次元→二次元で Z の宣言があれば 2 度押しで確認・第299便f)。選択粒子の編集は、kFrame=0 の本では「引きずりq」を、コア V2 の無い粒子では「コア内訳(v2)」(トグルも)を出さず、三次元の本では z・vz と自転軸(三次元)、慣性決定力の本では構造核 dragCore、コア V2 の粒子ではコア軸の宣言(prescribed)を出します(第299便f)。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0: 汎用 / 1: 1PN準拠 / 2: 引きずり近似 / 3: 慣性決定力 —— 目的の組の語は第295便d)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「geoPN(目的の組)」の行が先頭です(第284便d —— 行の名前は第295便d)。geoPN=3 は慣性決定力の引きずりの有効化の印で、慣性の宣言(relativeDrag.law:\"inertial\")がある 3 は測地線 OFF・1PN なしで走ります。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本で geoPN を 3 にすると、geoPN 行の 2 段目に「慣性決定力の引きずりを宣言する(gain)」の欄が出ます(gain 0 は何も動かない否定対照・合成則は既定の solve —— 第294便a)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘🔆 ほか)は家族の代表(入口)を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で退役し、第292便b で原理の参照として復活)—— 同じ家族の本は一覧で 🌙 の直後に並び、名前の後ろに「〔🌙 の家族〕」が付きます(説明タブの「他の仲間」からも開けます・サンプルの ID は 1 つも変えていません)。群「実在天体との照合」(宣言の値は group:\"現実較正\" —— 第294便c で表示名を改めた。第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)は、一覧では「実在天体との照合・太陽系」「実在天体との照合・連星」の 2 見出しに分けて並びます(第291便e —— 較正対象の区分から機械で分ける表示・宣言は 1 群のまま)—— 所属は合否を意味しません(合否は較正監査の判定)。絞り込みの「題材」(参照模型・ダークマターハロー など)は宣言の鍵から機械で導きます。説明の題材チップを押すと、その題材で一覧を絞り込めます(もう一度押すか、一覧の「すべて」で解除。検索欄も題材の語に当たります —— 第293便b)。分類チップの「観測再現」は観測値を再現しようとする kFrame=0 の本です(所属は合否を意味しない —— 第295便d で「実在天体との照合」から改め、在位に該当本の無い「引きずり近似(q)— 較正母集団の外」の選択肢は撤去した)。説明を開いている間の ⓘ は少し大きく二重の丸枠で囲みます(第295便d)。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「表示」の「コア軸の投影線を表示」(第299便f までは「シミュレーション」)は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */  helpLaws:"この宇宙の法則(要約)",
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小、2本指をそろえて上下にスワイプすると視点の傾き θ(上へ動かすと θ が減り下へで増える —— 第301便e で向きを逆にした・画面の高さぶんで 180°・−90〜+90 —— 指の間隔が大きく変わるときはピンチ・第300便d)。マウスでは Shift+ホイールで θ(手前へ回すと増える・1 ノッチ 5°・Shift なしのホイールは拡大縮小 —— 第301便e)。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチと「表示」のコア軸の投影線(第299便f で「表示」へ移した)は端末に永続する設定で、サンプルを変えても引き継がれます。「シミュレーション」の先頭の「三次元で走らせる」は読み込んだ本を二次元/三次元に切り替えます(本の宣言の写しで初めから再構築 —— 三次元で未対応の機能を宣言した本は理由を出して拒否・三次元→二次元で Z の宣言があれば 2 度押しで確認・第299便f)。選択粒子の編集は、kFrame=0 の本では「引きずりq」を、コア V2 の無い粒子では「コア内訳(v2)」(トグルも)を出さず、三次元の本では z・vz と自転軸(三次元)、慣性決定力の本では構造核 dragCore、コア V2 の粒子ではコア軸の宣言(prescribed)を出します(第299便f)。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0: 汎用 / 1: 1PN準拠 / 2: 引きずり近似 / 3: 慣性決定力 —— 目的の組の語は第295便d)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「geoPN(目的の組)」の行が先頭です(第284便d —— 行の名前は第295便d)。geoPN=3 は慣性決定力の引きずりの有効化の印で、慣性の宣言(relativeDrag.law:\"inertial\")がある 3 は測地線 OFF・1PN なしで走ります。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本で geoPN を 3 にすると、geoPN 行の 2 段目に「慣性決定力の引きずりを宣言する(gain)」の欄が出ます(gain 0 は何も動かない否定対照・合成則は既定の solve —— 第294便a)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘🔆 ほか)は家族の代表(入口)を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で退役し、第292便b で原理の参照として復活)—— 同じ家族の本は一覧で 🌙 の直後に並び、名前の後ろに「〔🌙 の家族〕」が付きます(説明タブの「他の仲間」からも開けます・サンプルの ID は 1 つも変えていません)。群「実在天体との照合」(宣言の値は group:\"現実較正\" —— 第294便c で表示名を改めた。第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)は、一覧では「実在天体との照合・太陽系」「実在天体との照合・連星」の 2 見出しに分けて並びます(第291便e —— 較正対象の区分から機械で分ける表示・宣言は 1 群のまま)—— 所属は合否を意味しません(合否は較正監査の判定)。絞り込みの「題材」(参照模型・ダークマターハロー など)は宣言の鍵から機械で導きます。説明の題材チップを押すと、その題材で一覧を絞り込めます(もう一度押すか、一覧の「すべて」で解除。検索欄も題材の語に当たります —— 第293便b)。分類チップの「観測再現」は観測値を再現しようとする kFrame=0 の本です(所属は合否を意味しない —— 第295便d で「実在天体との照合」から改め、在位に該当本の無い「引きずり近似(q)— 較正母集団の外」の選択肢は撤去した)。説明を開いている間の ⓘ は少し大きく二重の丸枠で囲みます(第295便d)。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「表示」の「コア軸の投影線を表示」(第299便f までは「シミュレーション」)は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */  helpLaws:"この宇宙の法則(要約)",
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力(重力決定力)=質量÷距離。その勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。慣性と引きずりを担う場は慣性決定力(旧称: 複素決定力)と呼ぶ。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2660,11 +2678,11 @@ en: {
   familyRowLabel:"Family:",
   // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
   retiredTag:"retired (history)",
-  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–90). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–90). A retired sample opens by ID as history (its ID and physics are unchanged; it is not listed in the sample picker and is never swapped for another sample automatically). Saves are read under the current input rules - a save containing the old physics.spaceMesh is rejected by the current input (wave 301e). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
   tgFlipY:"View tilt θ (°)",
-  tgFlipYDesc:"Display-only slider that rotates the camera about the X axis (General, persisted — formerly \"Flip vertically\"). Screen right is always +X. −90 (default) = screen down is +Y (the usual view) / 0 = side view, screen up is +Z / +90 = screen up is +Y (same as the old flip — apparent orbits and spins reverse). 2D samples live in the z=0 plane, so at 0 they collapse onto a line along the x axis (vertical drag pans y and is disabled within ±5.7° of the side view). Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input change, as a pair. On a touch screen you can also swipe two fingers up or down together (up raises θ; a full screen height is 180°; wave 300d).",
+  tgFlipYDesc:"Display-only slider that rotates the camera about the X axis (General, persisted — formerly \"Flip vertically\"). Screen right is always +X. −90 (default) = screen down is +Y (the usual view) / 0 = side view, screen up is +Z / +90 = screen up is +Y (same as the old flip — apparent orbits and spins reverse). 2D samples live in the z=0 plane, so at 0 they collapse onto a line along the x axis (vertical drag pans y and is disabled within ±5.7° of the side view). Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input change, as a pair. On a touch screen you can also swipe two fingers up or down together (up lowers θ and down raises it — direction reversed in wave 301e; a full screen height is 180°; wave 300d). With a mouse, Shift+wheel also changes it (rolling the wheel towards you raises θ; 5° per notch; the wheel without Shift still zooms — wave 301e).",
   tgDragPause:"Pause physics while dragging",
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
@@ -2845,7 +2863,7 @@ en: {
   smProbeNote:"arrows = u of a massless receiver with no reaction (the same step's solution u_j and the same kernel - the system is not re-solved)",
   smMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is retired (wave 300a) - every sample declaring it is retired (history). New setups, loads and saves do not accept it (the display space mesh overlays.spaceMesh stays)",
   smRetiredReject:(where)=>"physics.spaceMesh (the space-mesh force law) is retired (the originator's ruling, report 90 (5); wave 300a) - not accepted ("+where+"). It is not converted to another law automatically (declare the inertial-determinacy drag physics.relativeDrag.law:\"inertial\" yourself). The display space mesh overlays.spaceMesh is still available",
-  smRetiredOpenNote:"However, this sample declares physics.spaceMesh (retired), so it only opens and runs by ID as built-in history - saving, loading saves, JSON import and AI generation do not accept physics.spaceMesh",
+  smRetiredOpenNote:"This sample declares physics.spaceMesh (retired), so it only opens and runs by ID as built-in history - saving, loading saves, JSON import and AI generation do not accept physics.spaceMesh",
   smRetiredWhere_save:"save", smRetiredWhere_loadSave:"loading a save", smRetiredWhere_import:"JSON import", smRetiredWhere_intake:"paste / AI generation intake", smRetiredWhere_custom:"loading a saved custom sample",
   geo4CoordNote:"The default of geoPN=4 is 3D (physics.coord:\"3d\") - this sample is 2D (compatible; not a deviation)",
   smRulerTitle:"Light ruler (local ticks dl = A|dx|, A = e^psi; display only)",
@@ -3270,19 +3288,19 @@ en: {
   coord3dHaltPause:(wa,wb,isAB)=>"Playback paused on a setting 3D does not support ("+(isAB? "A: "+(wa||"-")+" / B: "+(wb||"-") : (wa||"-"))+"). Set it back to 0/off, then press ▶ to resume (in A/B both sides stopped at the same time)",
   hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points into the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
   loadGeo0Legacy:(lv)=>"This setting declares spaceMesh.lawVersion:\""+lv+"\" with geoPN=0 - since wave 296 geoPN=0 also runs the legacy space mesh (legacy-spaceMesh:"+lv+") (up to wave 295 the declaration was only kept and the other declarations, e.g. Newton, ran). Values are as saved",
-  geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (space mesh / chain): neither the legacy mesh (physics.spaceMesh.lawVersion) nor the inertial chain declaration (relativeDrag.law:\"inertial\") is running - one of them is needed. It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
+  geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (inertial determinacy, many-particle): no inertial chain declaration (relativeDrag.law:\"inertial\") is running - one is needed (the legacy mesh physics.spaceMesh.lawVersion was retired in wave 300a - history). It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
   geo3InertialOn:"Geodesic mode geoPN=3: the inertial-determinacy drag (physics.relativeDrag.law:\"inertial\") is declared - it runs with the geodesic off, no 1PN, law inertial-drag",
   geo3InertialLabel:"Declare the inertial-determinacy drag (gain C_d [L^3/M])",
   geo3InertialApply:"Declare",
   geo3InertialDone:(g)=>"Declared physics.relativeDrag={law:\"inertial\", gain:"+g+"} (default composition solve - geodesic off, no 1PN, law inertial-drag; the history restarts, the first step has u=0)",
   geo3InertialBad:(e)=>"Cannot declare: "+e,
-  geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept) Wave 296c: it is also offered on geoPN=4 (space mesh / chain) without a legacy law, where the chain solver solver:\"network-pcg-v1\" is declared together.",
+  geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, enter a gain here to declare the inertial-determinacy drag (relativeDrag.law:\"inertial\") - the same path as a JSON declaration, with the default composition solve (no plain sum). A gain of 0 adds no dragging. Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. After declaring, the gain can still be changed here (the other keys are kept) Wave 296c: it is also offered on geoPN=4 (inertial determinacy, many-particle) without a legacy law, where the chain solver solver:\"network-pcg-v1\" is declared together.",
   loadComposeLegacy:"This save predates wave 293 - its inertial drag (law:\"inertial\") declares no composition rule and ran as a plain sum when saved. It now runs with the default solve (velocity) (declare relativeDrag.compose:\"sum\" to compare with the sum; values are as saved)",
-  modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 space mesh / chain - the many-body inertial determinacy). Values load as saved; the law that runs is resolved from the declarations (physics.relativeDrag, physics.geodesic) (physics.spaceMesh, including spaceMesh.lawVersion, is retired in wave 300a - saves and loads do not accept it). Combinations outside the main use raise a warning on save.",
+  modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 inertial determinacy, many-particle [formerly \"space mesh / chain\"]). Values load as saved; the law that runs is resolved from the declarations (physics.relativeDrag, physics.geodesic) (physics.spaceMesh, including spaceMesh.lawVersion, is retired in wave 300a - saves and loads do not accept it). Combinations outside the main use raise a warning on save.",
   // wave 296d: the use lines 0-3 shortened - each number is a recommended set per purpose; a deviating setup is warned on save
   ppGeoUse0:"recommended: one law per experiment (stacking the geodesic, the inertial drag or a legacy mesh is warned on save)", ppGeoUse1:"recommended: GR 1PN with kFrame=0 (the observation-reproduction set; deviations are warned on save)",
   ppGeoUse2:"recommended: q dragging with kFrame=1 (deviations are warned on save)", ppGeoUse3:"recommended: declare relativeDrag.law:\"inertial\" with kFrame=0 (deviations are warned on save)",
-  ppGeoUse4:"space mesh / chain - many-particle chain dragging (inertial + solver:network-pcg-v1; standard kFrame=0; 3D by default). The legacy spaceMesh law versions are retired (wave 300a - samples declaring them are retired history)",
+  ppGeoUse4:"inertial determinacy, many-particle - many-particle chain dragging (inertial + solver:network-pcg-v1; standard kFrame=0; 3D by default). [History: shown as \"space mesh / chain\" until wave 301e. The legacy spaceMesh law versions were retired in wave 300a - samples declaring them are retired history, not a law you can choose]",
   bdgMeshStop_undeclared:"no legacy law declared (physics.spaceMesh.lawVersion) - running the geodesic law",
   saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
   contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
@@ -3422,7 +3440,13 @@ en: {
   nc_cal:"The numerical agreement is a correspondence via the κ=G/c² calibration, not an unadjusted prediction.",
   nc_solar:"Not a quantitative reproduction of real solar-system bodies (an exaggerated analog tuned for visibility).",
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
-  nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
+  nc_solar_cal:"A model fitted on the observables stated here under the declared dimension (two-dimensional - within the orbital plane only), inputs and method. The solar system as a whole, three-dimensional perturbations and observables not listed are checked separately.",
+  nc_solar_cal3d:"A model fitted on the observables stated here under the declared dimension (three-dimensional), inputs and method. The solar system as a whole and observables not listed are checked separately.",
+  // wave 301e: the one-line approximation declaration in the Description tab
+  apx_head:"🧭 Approximation: ", apx_sep:" / ",
+  "apx_background_dominant-direction-fixed":"background - the direction of the dominant body that is not placed in the sample (e.g. the Sun for the Earth) is held fixed in the inertial frame",
+  apx_period_synodic:"period - read as the synodic month (the sidereal-month window converted uniformly with the sidereal year)", apx_period_sidereal:"period - read as the sidereal month (the orbital period is not a target)",
+  "apx_uniformGravity_dominant-direction-fixed":"uniform gravity - a constant vector fixed toward the dominant body (not rotated each step)",
   nc_apsidal_8p85:"Not a reproduction or explanation of the Moon's 8.85-year apsidal precession (mostly a solar perturbation) — the Sun is not in this sample.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
   // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
@@ -3474,7 +3498,7 @@ en: {
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
   // wave 284d: the fourth filter dimension (derived from the geoModeOf role - declarations untouched)
   ppDimGeo:"geoPN", ppGeo0:"0: general", ppGeo1:"1: 1PN-compliant", ppGeo2:"2: drag approximation", ppGeo3:"3: inertial determinacy",   // wave 295d: purpose-set words
-  ppGeo4:"4: space mesh / chain",   // wave 295b: bucket 4 - the home of the legacy spaceMesh law versions
+  ppGeo4:"4: inertial determinacy, many-particle",   // wave 295b: bucket 4 - the home of the legacy spaceMesh law versions; wave 301e: renamed from "space mesh / chain"
   ppNoteGeoHead:"geoPN is the sample's geodesic-mode declaration (physics.geoPN); here it is counted by the role geoModeOf derives (display only - it never touches the physics or the saved JSON). Counts are taken at runtime over all built-in samples, retired and hidden ones included.",
   ppNoteGeoCompat:"a legacy geoPN=2 with kFrame=0 (compatibility input) runs exactly as the 1PN-compliant default (geoPN=1, kFrame=0), so it is counted under 1",
   // wave 285e: folded filters (summary line) and the "Other" chips (multiple, AND)
@@ -3571,7 +3595,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom, and swipe two fingers up or down together to change the view tilt θ (up raises θ; a full screen height is 180°; −90 to +90 — when the spacing between the fingers changes a lot it is a pinch; wave 300d). Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation and the core-axis projection in Display (moved there in wave 299f) are device-persistent settings that carry over between samples. \"Run in 3D\" at the top of Simulation switches the loaded book between 2D and 3D (a copy of the book's declaration rebuilt from the start - a book declaring a feature unsupported in 3D is refused with the reasons; 3D→2D with Z declarations asks for a second press; wave 299f). The selected-body editor hides drag q when kFrame=0 and the core breakdown (v2, with its toggle) for a body without core V2, and shows z/vz and the 3D spin axis in a 3D book, the structure core dragCore in an inertial-drag book and the core-axis declaration (prescribed) for a core-V2 body (wave 299f). The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0: general / 1: 1PN-compliant / 2: drag approximation / 3: inertial determinacy — purpose-set words from wave 295d), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the \"geoPN (purpose set)\" row (wave 284d; row name from wave 295d). geoPN=3 marks the inertial-determinacy drag as enabled: a 3 with an inertial declaration (relativeDrag.law:\"inertial\") runs with the geodesic off and no 1PN. Setting geoPN to 3 on a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration shows a second line in the geoPN row to declare the inertial-determinacy drag (gain; gain 0 is the negative control, the composition is the default solve - wave 294a). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘🔆 and others) now share one family representative (entry), 🌙 (the wave-280b entry was 🌘, retired by the wave-288b reality-calibration unification and revived as a principle reference in wave 292b) — the other members of the family are listed right after 🌙 with \"〔🌙 family〕\" after their names (they also open from \"family\" in the Description tab; no sample ID was changed). The \"Observed-body comparison\" group (declared value group:\"現実較正\" — display name changed in wave 294c; wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) is listed under two headings, \"Observed-body comparison — Solar System\" and \"Observed-body comparison — Binaries\" (wave 291e — a display split by the calibration target derived from the declarations; still one declared group) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The \"Topic\" filter (reference model, dark-matter halo and so on) is derived mechanically from declaration keys. Tapping a topic chip in the Description tab filters the list by that topic (tap it again, or \"All\" in the list, to clear it; the search box also matches topic words — wave 293b). The class chip \"Observation reproduction\" marks kFrame=0 samples that try to reproduce observed values (membership says nothing about pass or fail — renamed from \"Observed-body comparison\" in wave 295d, and the \"Drag approx. (q) — outside the population\" choice, which no listed sample carries, was removed). While its explanation is open, an ⓘ is drawn slightly larger inside a double ring (wave 295d). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The Display setting \"Show the core axis projection\" (in Simulation until wave 299f) also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */  helpLaws:"Laws of this universe (summary)",
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom, and swipe two fingers up or down together to change the view tilt θ (up lowers θ and down raises it — direction reversed in wave 301e; a full screen height is 180°; −90 to +90 — when the spacing between the fingers changes a lot it is a pinch; wave 300d). With a mouse, Shift+wheel changes the view tilt θ (rolling towards you raises it; 5° per notch; the wheel without Shift zooms — wave 301e). Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench in Simulation and the core-axis projection in Display (moved there in wave 299f) are device-persistent settings that carry over between samples. \"Run in 3D\" at the top of Simulation switches the loaded book between 2D and 3D (a copy of the book's declaration rebuilt from the start - a book declaring a feature unsupported in 3D is refused with the reasons; 3D→2D with Z declarations asks for a second press; wave 299f). The selected-body editor hides drag q when kFrame=0 and the core breakdown (v2, with its toggle) for a body without core V2, and shows z/vz and the 3D spin axis in a 3D book, the structure core dragCore in an inertial-drag book and the core-axis declaration (prescribed) for a core-V2 body (wave 299f). The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0: general / 1: 1PN-compliant / 2: drag approximation / 3: inertial determinacy — purpose-set words from wave 295d), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the \"geoPN (purpose set)\" row (wave 284d; row name from wave 295d). geoPN=3 marks the inertial-determinacy drag as enabled: a 3 with an inertial declaration (relativeDrag.law:\"inertial\") runs with the geodesic off and no 1PN. Setting geoPN to 3 on a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration shows a second line in the geoPN row to declare the inertial-determinacy drag (gain; gain 0 is the negative control, the composition is the default solve - wave 294a). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘🔆 and others) now share one family representative (entry), 🌙 (the wave-280b entry was 🌘, retired by the wave-288b reality-calibration unification and revived as a principle reference in wave 292b) — the other members of the family are listed right after 🌙 with \"〔🌙 family〕\" after their names (they also open from \"family\" in the Description tab; no sample ID was changed). The \"Observed-body comparison\" group (declared value group:\"現実較正\" — display name changed in wave 294c; wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) is listed under two headings, \"Observed-body comparison — Solar System\" and \"Observed-body comparison — Binaries\" (wave 291e — a display split by the calibration target derived from the declarations; still one declared group) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The \"Topic\" filter (reference model, dark-matter halo and so on) is derived mechanically from declaration keys. Tapping a topic chip in the Description tab filters the list by that topic (tap it again, or \"All\" in the list, to clear it; the search box also matches topic words — wave 293b). The class chip \"Observation reproduction\" marks kFrame=0 samples that try to reproduce observed values (membership says nothing about pass or fail — renamed from \"Observed-body comparison\" in wave 295d, and the \"Drag approx. (q) — outside the population\" choice, which no listed sample carries, was removed). While its explanation is open, an ⓘ is drawn slightly larger inside a double ring (wave 295d). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The Display setting \"Show the core axis projection\" (in Simulation until wave 299f) also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */  helpLaws:"Laws of this universe (summary)",
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy (gravitational determinacy) = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). The field behind inertia and dragging is called the inertial determinacy (formerly: complex determinacy). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -4231,7 +4255,9 @@ function sampleStatusCheck(o,tag,full,warnings){
 // 物理・保存 JSON には一切影響しない。表示の実在性は QA ui.notclaim が機械検査する。
 function pNotClaims(p){
   const v=p && p.notClaim; if(!v) return [];
-  return (Array.isArray(v)?v:[v]).map(k=>T("nc_"+k)).filter(t=>typeof t==="string" && t);
+  // 第301便e(AN292 ③): solar_cal は宣言の次元で出し分ける(三次元の本 = physics.coord:"3d" は nc_solar_cal3d)
+  const d3=!!(p.physics && p.physics.coord==="3d");
+  return (Array.isArray(v)?v:[v]).map(k=>T("nc_"+((k==="solar_cal" && d3)? "solar_cal3d" : k))).filter(t=>typeof t==="string" && t);
 }
 // 第88便 EXT-09: Failure First — failureFirst:{fail,pass} は宣言専用メタ(en は p.en 側)。
 // 「baseの失敗 → オプションでの回復」を本文より先に見せる(☿。負の結果を隠さない方針の UI 化)
@@ -4246,6 +4272,34 @@ function pObsCard(p){
   if(!p || !Array.isArray(p.obsCard)) return null;
   if(LANG==="en" && p.en && Array.isArray(p.en.obsCard)) return p.en.obsCard;
   return p.obsCard;
+}
+// 第301便e(DECISIONS v60 §0 AN295 ③): obsCard の観測欄の印「(観測の正本の行)」/「(built-in observation row)」は、その値(恒星周期の日数)の行が
+//   観測の比較の行 OBS_COMPARE_ROWS(在位の本の行・k "period"・単位 s)に**今あるか**を読んで出す(表示だけ —— 宣言の obsCard は変えない)。
+//   無いとき(🔴 marsSunInertial3d —— 行を持っていた 🌞 solarInner の退役で外れた)は「観測の比較の行(<退役の本> の退役で該当なし —— 観測レコードの登録待ち)」。
+//   <退役の本> は RETIRED_PRESETS の see にこの本を挙げる退役の本の絵文字(宣言から —— 手打ちの一覧を持たない)。値の照合は印の前の「N 日」/「N d」を
+//   秒へ直し、表記の末位の半分(0.0005 日)以内。
+const OBS_ROW_MARK={ja:"(観測の正本の行)", en:"(built-in observation row)"}, OBS_ROW_MARK_TOL_D=0.0005;
+function obsRowPeriodLive(days){
+  if(!(isFinite(days) && days>0) || typeof OBS_COMPARE_ROWS==="undefined") return false;
+  const sec=days*86400, tol=OBS_ROW_MARK_TOL_D*86400;
+  return OBS_COMPARE_ROWS.some(r=>r && r.k==="period" && r.u==="s" && typeof r.o==="number" && Math.abs(r.o-sec)<=tol
+    && !retiredOf(BUILTIN_PRESETS.find(q=>q.id===r.i)));
+}
+function obsCardResolved(p,card,lang){
+  if(!Array.isArray(card)) return card;
+  const L=(lang==="en")? "en" : "ja", mk=OBS_ROW_MARK[L];
+  if(!card.some(r=>r && typeof r.obs==="string" && r.obs.indexOf(mk)>=0)) return card;
+  const by=(typeof RETIRED_PRESETS!=="undefined" && p)? Object.keys(RETIRED_PRESETS).filter(id=>(RETIRED_PRESETS[id].see||[]).includes(p.id))
+    .map(id=>{ const q=BUILTIN_PRESETS.find(z=>z.id===id); return q? (q.emoji||id) : id; }) : [];
+  return card.map(r=>{
+    if(!r || typeof r.obs!=="string" || r.obs.indexOf(mk)<0) return r;
+    const m=/^\s*([0-9]+(?:\.[0-9]+)?)\s*(?:日|d\b)/.exec(r.obs);
+    if(m && obsRowPeriodLive(parseFloat(m[1]))) return r;
+    const w=by.length? by.join("・") : null;
+    const txt=(L==="en")? "(observation comparison row: none"+(w? " since "+w+" was retired" : "")+" - awaiting an observation record)"
+      : "(観測の比較の行: "+(w? w+" の退役で" : "")+"該当なし —— 観測レコードの登録待ち)";
+    return Object.assign({},r,{obs:r.obs.replace(mk,txt)});
+  });
 }
 // ===== 第261便c(第53報「数値精度が上がれば合格する事が予測出来る段階に達したら、その事を
 // ===== チップなどで明示して完了とする」): **較正の現在地**の宣言(presetSig の外)=====
@@ -5727,6 +5781,18 @@ function validateApproximation(ap, physics){
 }
 // 宣言の読み(受理後の preset から —— 無ければ null)
 function approximationOf(p){ const a=p && p.approximation; return (a && typeof a==="object" && !Array.isArray(a))? a : null; }
+// 第301便e(DECISIONS v60 §0 AN290 ①「説明タブに 1 行」): 説明タブの近似の 1 行(表示だけ —— 宣言の鍵ごとに I18N の語 apx_*)。宣言が無い本は ""。
+//   近似多粒子の契約(physics の力学の宣言)はここに書かない(別の鍵 —— 力学の宣言)
+function approxLineText(p){
+  const a=approximationOf(p); if(!a) return "";
+  const parts=[];
+  if(a.background) parts.push(T("apx_background_"+a.background));
+  if(a.periodBasis) parts.push(T("apx_period_"+a.periodBasis));
+  if(a.uniformGravity) parts.push(T("apx_uniformGravity_"+a.uniformGravity));
+  const txt=parts.filter(x=>typeof x==="string" && x).join(T("apx_sep"));
+  if(!txt) return "";
+  return T("apx_head")+txt+(a.note? T("apx_sep")+a.note : "");
+}
 // 第297便c: 時間の宣言を移行前へ戻した写し(timeScale=legacyTimeScale・stepDt なし —— QA が凍結した写し・基点の署名と照合するための純関数。入力は書き換えない)
 function timeStdRevert(p){
   const c=JSON.parse(JSON.stringify(p||{})), tr=c.timeRef;
@@ -32022,19 +32088,49 @@ function setFlipY(v){ setViewTilt(v? VIEW_TILT_MAX : VIEW_TILT_DEFAULT); }
 //   間隔の変化 Δd のどれかが VIEW_TILT_SWIPE_DECIDE_PX(px)に達した最初の touchmove で、その二本指の操作を 1 回だけ判定して固定する:
 //     |Δm_y| ≥ VIEW_TILT_SWIPE_RATIO·|Δd| かつ |Δm_y| ≥ |Δm_x| → 「傾き」/ それ以外 → 「ピンチ」(判定までの間隔の変化はピンチへ繰り越す ——
 //     拡大縮小の量は従来と同じ d₀/d)。指を 2 本未満(または 3 本)にすると判定は捨てる。
-//   傾き: θ = θ₀ − Δm_y · VIEW_TILT_SWIPE_DEG_PER_H / H(H = canvas の CSS の高さ —— 画面の高さぶん指を動かすと 180°)。
-//   指を上へ動かすと θ が増える(−90 の真上から 0 の横から・+90 の裏へ —— 地図アプリの二本指の傾けと同じ向き)。
+//   傾き: θ = θ₀ + VIEW_TILT_SWIPE_UP_SIGN · (−Δm_y) · VIEW_TILT_SWIPE_DEG_PER_H / H(H = canvas の CSS の高さ —— 画面の高さぶん指を動かすと 180°)。
+//   第301便e(原仮定者の裁定(第91報)⑥「二本指の上下スワイプの θ の向きを逆に」): **指を上へ動かすと θ が減る**(下へで増える ——
+//   +90 の裏から 0 の横・−90 の真上へ)。第300便d は上へで増える向き(VIEW_TILT_SWIPE_UP_SIGN=+1 に当たる)だった。
+//   向きは VIEW_TILT_SWIPE_UP_SIGN の 1 か所(QA ui.tiltSwipe300 は HP.viewTilt().swipe.upSign から期待を作る —— 宣言の無い世代は +1)。
 //   値は setViewTilt(−90〜+90 のクランプ・整数・hp_view_tilt へ保存・スライダーと数値欄を同期)を通す。マウスの操作は変えない。
 //   二次元の本の縦ドラッグの規則(横から ±5.7° 以内は無効)は 1 本指のパンの規則で、この操作は θ だけを変える(物理・保存 JSON・署名は 1 bit も変わらない)。
 const VIEW_TILT_SWIPE_DEG_PER_H=180, VIEW_TILT_SWIPE_DECIDE_PX=12, VIEW_TILT_SWIPE_RATIO=2;
+// 第301便e: 指を上へ動かしたときの θ の増減の符号(−1 = 上へで減る —— 第91報⑥)
+const VIEW_TILT_SWIPE_UP_SIGN=-1;
 // 判定(純関数 —— QA が単体で叩く): 未決は null・"tilt"・"pinch"
 function tiltSwipeClassify(dmx,dmy,dd){
   const ax=Math.abs(dmx), ay=Math.abs(dmy), ad=Math.abs(dd);
   if(!(Math.max(ax,ay,ad)>=VIEW_TILT_SWIPE_DECIDE_PX)) return null;
   return (ay>=VIEW_TILT_SWIPE_RATIO*ad && ay>=ax)? "tilt" : "pinch";
 }
-// 傾きの値(純関数): θ₀ と中点の縦の移動 dmy(px・下が正)と画面の高さ h(px)から
-function tiltSwipeDeg(th0,dmy,h){ return viewTiltNorm(th0-dmy*VIEW_TILT_SWIPE_DEG_PER_H/Math.max(1,h)); }
+// 傾きの値(純関数): θ₀ と中点の縦の移動 dmy(px・下が正)と画面の高さ h(px)から(第301便e: 上へで減る —— VIEW_TILT_SWIPE_UP_SIGN)
+function tiltSwipeDeg(th0,dmy,h){ return viewTiltNorm(th0-VIEW_TILT_SWIPE_UP_SIGN*dmy*VIEW_TILT_SWIPE_DEG_PER_H/Math.max(1,h)); }
+// 第301便e(DECISIONS v60 §0 AN294 ②「マウスで θ —— Shift+ホイール」): **Shift+ホイール → θ**(表示専用)。
+//   Shift を押さないホイールは従来どおり拡大縮小(1 bit も変えない)。Shift を押したホイールは拡大縮小せず θ だけを変える。
+//   ・量: ホイールの量を px に揃え(deltaMode 0 = px・1 = 行 × VIEW_TILT_WHEEL_LINE_PX・2 = 頁 × 画面の高さ)、
+//     VIEW_TILT_WHEEL_DEG_PER_PX(度/px)を掛けて端数を積み立てる(トラックパッドの小さな量でも整数の θ が進む)。
+//     マウスの 1 ノッチ(多くの環境で 100 px)で 5°。
+//   ・どちらの軸の量か: Shift+ホイールは多くの環境で縦の量が横(deltaX)へ振り替わって届くので、|deltaY| と |deltaX| の
+//     大きい方を読む。Shift を押さない横スクロール(トラックパッドの横スワイプ)は θ に効かない。
+//   ・向き: ホイールを手前へ回す(deltaY>0 —— ページを下へ送る向き)と θ が増える = 二本指のスワイプの「下へ」と同じ向き
+//     (VIEW_TILT_SWIPE_UP_SIGN を共有)。上下限(−90〜+90)・整数・保存(hp_view_tilt)・スライダーと数値欄の同期は
+//     setViewTilt(スワイプ・スライダーと共通)。
+const VIEW_TILT_WHEEL_DEG_PER_PX=0.05, VIEW_TILT_WHEEL_LINE_PX=16;
+// ホイールの量 → px(純関数 —— QA が単体で叩く)。Shift のときは縦と横の大きい方
+function tiltWheelPx(dx,dy,mode,h){
+  const v=(Math.abs(dy)>=Math.abs(dx))? dy : dx;
+  const k=(mode===1)? VIEW_TILT_WHEEL_LINE_PX : (mode===2)? Math.max(1,h) : 1;
+  return (+v||0)*k;
+}
+let tiltWheelAcc=0;
+// 積み立て: px の量を度へ換算して端数を持ち越し、整数ぶんだけ θ を進める(上下限に当たった分は捨てる)。戻り値は新しい θ
+function tiltWheelStep(px){
+  tiltWheelAcc+=-VIEW_TILT_SWIPE_UP_SIGN*px*VIEW_TILT_WHEEL_DEG_PER_PX;
+  const step=Math.trunc(tiltWheelAcc);
+  if(step!==0){ tiltWheelAcc-=step; const th=viewTiltNorm(viewTiltDeg+step);
+    if(th===viewTiltDeg) tiltWheelAcc=0; else setViewTilt(th); }
+  return viewTiltDeg;
+}
 try{ applyViewTilt(viewTiltFromStore(localStorage.getItem("hp_view_tilt"), localStorage.getItem("hp_flip_y"))); }catch(_){}
 // 粒子の z(三次元の本だけ —— 枝の約束: S.coord3d===true のとき S.z が長さ n の Float64Array)。二次元の本は 0
 function viewZOf(S,i){ return (S && S.coord3d===true && S.z)? S.z[i] : 0; }
@@ -38066,6 +38162,8 @@ function ppOtherCount(key,state){
 //   絞り込み(第294便e から「その他」の 4 段目「題材」—— 三状態・AND。旧 次元 details#ppFold_topic・単一選択は撤去)と説明タブのチップ行(#descTopics)はこの表だけを読む。
 //   rule は規則の機械可読の写し(tests/README の規則表と照合する)。表示専用 —— プリセット・presetSig・保存 JSON・力学は 1 bit も変えない。
 //   1 本が複数の題材に入りうる(題材は分類ではなく見出し語)。初期集合は決断事項候補(増やす/減らす)
+//   第301便e(DECISIONS v60 §0 AN293 ④): 題材「空間メッシュ」(physics.spaceMesh)の行を撤去した —— 第300便a で physics.spaceMesh は廃止・
+//   宣言した本は全部退役(在位 0)。表示の空間メッシュ(受動プローブ —— 「表示」の操作)は物理の宣言ではないので残す。語 ppTopic_spaceMesh は履歴として残す
 const TOPIC_MANY_N=100;   // 連鎖・多体の門(bodies の粒子数)
 function topicBodyCountOf(p){
   return ((p && Array.isArray(p.bodies))? p.bodies : []).reduce((s,b)=>s+(!b? 0 : ((!b.type || b.type==="single")? 1
@@ -38080,7 +38178,6 @@ const TOPIC_TAGS=[
     || (p.bodies||[]).some(b=>!!b && b.lightSweep==="auto")},
   {key:"pn1Geo",       rule:"physics.geoPN>=1",                                   test:(p)=>!!p.physics && typeof p.physics.geoPN==="number" && p.physics.geoPN>=1},
   {key:"testParticle", rule:"bodies[].testParticle=true",                         test:(p)=>(p.bodies||[]).some(b=>!!b && b.testParticle===true)},
-  {key:"spaceMesh",    rule:"physics.spaceMesh",                                  test:(p)=>!!(p.physics && p.physics.spaceMesh)},
   {key:"obsCal",       rule:"sampleClass=calibration",                            test:(p)=>!!p && p.sampleClass==="calibration"},
   {key:"manyBody",     rule:"bodies particle count>="+TOPIC_MANY_N,               test:(p)=>topicBodyCountOf(p)>=TOPIC_MANY_N}];
 // 第294便e(原仮定者の裁定(第84報)①・R152): 題材を「その他」の 4 段目の軸にする(key "topic:<鍵>"・sec "topic"・tp に題材の鍵)。旧の単一選択 ppTopic は撤去
@@ -44632,6 +44729,8 @@ function renderHelp(){
   // 第88便 EXT-04: しない主張 — notClaim 宣言のあるプリセットにだけ、タイトル直下へ「⚠ …」行を
   // 出す(実在天体名を使うサンプルの二段名称を兼ねる。宣言専用メタ — 物理・保存 JSON に無関係)
   for(const t of pNotClaims(currentPreset)) mk("p","⚠ "+t).className="notClaimLine";
+  // 第301便e(DECISIONS v60 §0 AN290 ①): 近似の宣言 approximation(presetSig の外の宣言専用メタ)を 1 行で(宣言のある本だけ —— approxLineText)
+  { const at=approxLineText(currentPreset); if(at){ const e=mk("p",at); e.className="approxLine"; e.id="approxLine"; } }
   el=SEC.failure;
   // 第88便 EXT-09: Failure First — failureFirst 宣言のあるプリセット(☿)にだけ、
   // 「base の失敗 → オプションでの回復」を本文より先に出す(FAIL 行が先・PASS 行が後)
@@ -44652,7 +44751,7 @@ function renderHelp(){
   // 第119便(原仮定者裁定「可視化提案: 全て進める」③): 観測結果カード — obsCard 宣言のある
   // プリセットのみ。ハーネス実測値と観測値を並べて見せる(宣言専用メタ・表示のみ)
   {
-    const oc=pObsCard(currentPreset);
+    const oc=obsCardResolved(currentPreset, pObsCard(currentPreset), LANG);   // 第301便e(AN295 ③): 観測の正本の行の有無を読む
     if(oc && oc.length){
       // 第276便f(第66報(5)⑤): div → details(既定は畳む)。宣言行 .ocRow の数え方は不変
       const box=document.createElement("details"); box.className="ffBox ocBox";
@@ -45135,6 +45234,8 @@ $("#aboutPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) 
     camGestureMoved(); });
   window.addEventListener("mouseup",e=>{ if(mdown){ camGestureEnd(); if(!mmoved) tapSelect(e.clientX,e.clientY); } mdown=false; });
   cv.addEventListener("wheel",e=>{ e.preventDefault();
+    // 第301便e(AN294 ②): Shift+ホイールは θ(拡大縮小しない —— tiltWheelStep の注記)
+    if(e.shiftKey){ tiltWheelStep(tiltWheelPx(e.deltaX,e.deltaY,e.deltaMode,cv.getBoundingClientRect().height)); return; }
     if(!camGestureActive()) captureCamSnapshot();   // 変更**前**の絵を基準に即時合成する
     camScale=clamp(camScale*(e.deltaY>0?1.1:0.9),20,3000); camGestureMoved(); },{passive:false});
   function tapSelect(px,py){
@@ -58835,8 +58936,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   setCamFollow:setCamFollowMode, panCam,
   // 第298便d: 視点の傾き θ(表示専用)—— 状態の読み出し・設定・永続値からの読み出し(純関数)
   viewTilt:()=>({deg:viewTiltDeg, sin:viewSn, cos:viewCs, camZ, min:VIEW_TILT_MIN, max:VIEW_TILT_MAX, def:VIEW_TILT_DEFAULT,
-    swipe:{degPerH:VIEW_TILT_SWIPE_DEG_PER_H, decidePx:VIEW_TILT_SWIPE_DECIDE_PX, ratio:VIEW_TILT_SWIPE_RATIO}}),   // 第300便d: 二本指の縦スワイプの宣言
-  setViewTilt:(d)=>{ setViewTilt(d); return viewTiltDeg; }, viewTiltFromStore, tiltSwipeClassify, tiltSwipeDeg,
+    swipe:{degPerH:VIEW_TILT_SWIPE_DEG_PER_H, decidePx:VIEW_TILT_SWIPE_DECIDE_PX, ratio:VIEW_TILT_SWIPE_RATIO, upSign:VIEW_TILT_SWIPE_UP_SIGN},   // 第300便d: 二本指の縦スワイプの宣言(第301便e: upSign)
+    wheel:{degPerPx:VIEW_TILT_WHEEL_DEG_PER_PX, linePx:VIEW_TILT_WHEEL_LINE_PX, modifier:"shift"}}),   // 第301便e: Shift+ホイールの宣言
+  setViewTilt:(d)=>{ setViewTilt(d); return viewTiltDeg; }, viewTiltFromStore, tiltSwipeClassify, tiltSwipeDeg, tiltWheelPx,
+  obsCardResolved, obsRowPeriodLive,   // 第301便e(AN295 ③): obsCard の「観測の正本の行」の印を OBS_COMPARE_ROWS から読む
   // 第256便c: ズーム(表示専用)の QA 用フック —— 線の長さが camScale に依らないことを
   // 機械で確かめるために、ホイール操作と同じ範囲でズームだけを動かす
   setCamScale:(v)=>{ camScale=clamp(Number(v)||camScale,20,3000); requestRender(); return camScale; },
