@@ -15,6 +15,7 @@
 //
 // ■ 言わないこと
 //   ・「現実を再現した」。gain は 0 の基準(標的なし —— fitted と呼ばない)。帯の粒子数は実際の環の縮約。
+import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の宣言(html の受理器が physics.approxMany を持つ世代だけ)
 export const LIB_VERSION = 'w300c-saturnring3d-lib-1';
 export const ID = 'saturnRingInertial3d';
 export const EMOJI = '🍩';
@@ -97,6 +98,9 @@ export function ringDecl3(HP, o = {}) {
       bodies.push(o2);
     } else throw new Error('想定外の粒子の型 ' + b.type);
   });
+  // 第301便b(原仮定者の裁定(第91報)①・R180): 近似多粒子の契約 —— 土星が governor・衛星 6 は天体(💍 の自転の写し —— 0 は宣言した 0)・帯 120 粒は塵
+  //   (塵どうしの重力・引きずり・接触なし)。旧世代の html(受理器に approxMany が無い)と器の対照 o.approx:false では足さない
+  if (SPA.approxOn(HP, o)) physics.approxMany = SPA.ringApproxDecl(bodies);
   const tr = src.timeRef, timeRef = { basis: tr.basis, pRef: tr.pRef, pair: tr.pair.slice(), def: tr.def, source: tr.source, stepsPerOrbit: tr.stepsPerOrbit };
   return { id: ID, emoji: EMOJI, seed: SEED, scaleExp: clone(src.scaleExp), physics, bodies, timeRef, camera: { scale: src.camera.scale }, pole, incl, node, poleU: poleUnit(pole.tiltDeg, pole.azimuthDeg) };
 }

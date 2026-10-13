@@ -3608,3 +3608,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
 - **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
 - QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。
+## 85. 第301便b —— 近似多粒子の契約 physics.approxMany(🍥 を天体型に・🍩 の帯を塵に・銀河などの本の監査)(原仮定者の裁定(第91報)①③・統括の検証項目 R180・**宣言した本 2 本の力学と署名だけが変わる** —— 他の本は 1 bit 不変・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**(physics の鍵 1 つ —— presetSig に入る・三次元の本だけ): `approxMany:{version:"v1", governor:<bodies の行>, groups:[{kind:"dust"|"body", rows:[from,to], spinZero?:"declared"}]}`。行の閉区間を受理器と build が粒子の添字へ展開する(build の行 → 粒子の対応 —— 手書きの添字を本に置かない)。説明の `approximation`(presetSig の外)とは別の鍵。
+- **対の表**(マスクは辺を作る段で効かせる): 支配天体 ↔ 塵/天体 = 重力・引きずり 有・接触は本の宣言のまま / 塵 ↔ 塵 = 重力・引きずり・接触 **無** / 天体 ↔ 天体 = 重力・引きずり 有・接触 **無** / 塵 ↔ 天体 = 重力・引きずり 有・接触 **無** / 宣言の外の粒子 = マスクしない。重力の対(`dfmCore3`)・ポテンシャル(`coord3dTotals`)・移送の ΔU 帳簿・慣性決定力の辺(`S._rdPairSet` から塵どうしを除く —— 連立の分子にも受け手の総和 deg にも入らない)・回転/軸の引きずり(同じ辺の集合)・受動プローブの格子点(塵の受け手 —— 塵の源を数えない)。
+- **受理**(`validateApproxMany`・`approxManyCrossCheck`): governor は正の質量の single で `pinned:true` が必須・行は一意で governor を含まない・天体は自転を宣言(single は 0 でない spin と `spinAxis.enable:true`・0 を置くなら群に `spinZero:"declared"`・群〔ring/disk〕は spinMin=spinMax の 1 値で 0 でない自転は拒否)と明示半径(single の `radius`・群の `particleRadius` —— 見た目の R=√m だけでは回転引きずりの源にならない)・塵は自転 0・**二次元の本は拒否**。走行中に粒子の数が宣言から変わったら三次元の步を止める(`coord3dRuntimeWhy`)。
+- **読み口**: `HP.approxManyState(S)`(塵・天体・対の数・マスクした対の数・辺の数)・`HP.approxManyPairOf(S,i,j)`(重力・引きずり・接触の有無)・`HP.approxManyDragEdges`。定数 `APPROX_MANY_KEY`・`APPROX_MANY_VERSIONS`・`APPROX_MANY_KINDS`・`APPROX_MANY_STATE_VERSION`(w301b-approxmany-1)。
+- **🍥 chainSpreadToy3d**: 天体型(粒子 80 に自転のトイの宣言値 0.5〔中心の宣言値の写し〕・軸 +z の明示・明示半径 √5)・governor = 中心(pinned)。生成器 `tests/lib-w301b-approxmany.mjs` の `spreadApprox` を器 w299d の `spreadPreset` が html の世代(受理器に approxMany がある)で当てる。
+- **🍩 saturnRingInertial3d**: 土星 = governor・衛星 6 = 天体(💍 の自転の写し —— `spinZero:"declared"`)・C/B/A 帯 120 粒 = 塵。生成器 `ringDecl3` が `ringApproxDecl` で足す。
+- **器と正本**: `tests/exp-w301b-approxmany.mjs`(版 w301b-approxmany-1・`W301B_OUT`)→ `tests/out/approxmany-w301b.json`(段 approxmany-301b —— geo4stable-299d・saturnring3d-300c の後)。測り直しは正本 `tests/out/geo4stable-w299d.json`(🍥 の 8 条件)と `tests/out/saturnring3d-w300c.json`(🍩)を器が作り直したもの。
+- QA: **`behavior.approxMany301`**・**`preset.approxMany301`**(新設 —— root は SKIP・世代切替 = html の `const APPROX_MANY_KEY="approxMany"`)。世代切替で追従(生成器が html の世代を読む): `preset.chainSpread299`・`behavior.geo4Stable299`・`preset.saturnRing3d300`。

@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as R3 from './lib-w300c-saturnring3d.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.sim","HP.validateApproxMany","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w300c-saturnring3d-1';
@@ -236,7 +236,8 @@ export async function main() {
     version: HARNESS_VERSION, lib: R3.LIB_VERSION, id: R3.ID, emoji: R3.EMOJI,
     decl: { pole: d.pole, incl: d.incl, node: d.node, poleU: d.poleU, scaleExp: d.scaleExp, seed: d.seed, stepDt: dt, durationUnits: dur, titanOrbits: TITAN_ORBITS,
       grainMass: d.bodies.filter((b) => b.type === 'ring').map((b) => b.mMin), massFloor: d.physics.massFloor, ringTotalKg: R3.RING_TOTAL_KG, nBodies: H.n, nRing: H.nRing, transferGain: gT,
-      transferGainNote: '水星の三次元のフィット値 0.004522419(10⁸ m・10²⁷ kg の単位)を同じ SI 4.522419×10⁻⁶ m³/kg で本の単位へ —— A/B の側だけ・本には宣言しない・合わせていない' },
+      transferGainNote: '水星の三次元のフィット値 0.004522419(10⁸ m・10²⁷ kg の単位)を同じ SI 4.522419×10⁻⁶ m³/kg で本の単位へ —— A/B の側だけ・本には宣言しない・合わせていない',
+      ...(d.physics.approxMany ? { approxMany: d.physics.approxMany } : null) },   // 第301便b: 測った宣言の近似多粒子の契約(宣言した世代だけ)
     runs,
     stepDependence: {
       cInPeriodSec: { h: per(H, 'cIn'), h2: per(H2, 'cIn'), diff: dif(per(H, 'cIn'), per(H2, 'cIn')) },
@@ -270,7 +271,7 @@ export async function main() {
   J.ok = Object.values(J.gates).every(Boolean);
   J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「gain をフィットした」(gain 0 の基準 —— 標的なし)', '「環の全粒子を置いた」(各帯 40 粒の縮約)'];
-  const CODE = ['tests/exp-w300c-saturnring3d.mjs', 'tests/lib-w300c-saturnring3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w300c-saturnring3d.mjs', 'tests/lib-w300c-saturnring3d.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第300便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」', reading: '統括の検証項目 R177(土星の輪の三次元の新本・試験粒子の扱い・面の保持と損失と刻み依存・回転引きずりの見え方)' });
@@ -296,13 +297,15 @@ export function emitBook(HP, J) {
   const [cH, cH2, tD] = [f(H.periods.cIn.periodSec, 1), f(H2.periods.cIn.periodSec, 1), f(H.periods.titan.periodSec / 86400, 4)];
   const pl = e1(H.plane.planeMaxDeg), gT = J.decl.transferGain;
   const card = (rows) => rows.map(([q, model, obs]) => { for (const x of [q, model, obs]) if (x.length > 120) throw new Error('観測カードの欄が 120 字を超える(' + x.length + '): ' + x); return { q, model, obs }; });
+  const AM = !!(d.physics && d.physics.approxMany);   // 第301便b: 近似多粒子の契約を宣言した世代だけ文を足す
   const rowsJ = [
     ['何を置いたか', '💍 の土星・衛星 6・C/B/A 帯(各 40 粒・同じ種)を土星の赤道面へ回した三次元。geoPN=3・λ_PN=0・gain 0・土星 pinned', '—(原理サンプル —— 較正母集団の外)'],
     ['赤道面(入力)', `土星の極 傾き ${f(d.pole.tiltDeg, 2)}°・方位 ${f(d.pole.azimuthDeg, 2)}°(🟡 の宣言)→ 群の incl ${f(d.incl, 2)}°・node ${f(d.node, 2)}°`, 'IAU WGCCRE 2009 の極(軸は一定の近似)'],
     ['C環内縁の公転(実測・h)', `${cH} s(h/2 ${cH2} s)—— 二次元の 💍 との差 ${f(TP.vs2d.h.cInPeriodSecDiff, 3)} s`, '20880 s(💍 の導出ケプラー周期の転記)'],
     ['タイタンの公転(実測・h)', `${tD} 日(h/2 との差 ${f(SD.titanPeriodSec.diff, 3)} s)`, '15.945 日'],
     ['面の保持・損失(タイタン 2 公転)', `軌道面と赤道面の角の最大 ${pl}°・損失 ${H.loss.lost} 粒(h/2 ${H2.loss.lost})・帯の外 ${H.loss.outsideBand} 粒`, '—'],
-    ['帯の粒(試験粒子の扱い)', `有限の質量 1.25×10⁻⁸(合計 = 実環 1.5×10¹⁹ kg)—— 二次元の試験粒子との離心率の差 最大 ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `💍 の質量 10⁻⁵ の写しでは ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`],
+    AM ? ['帯の粒(塵 —— 第301便b)', `有限の質量 1.25×10⁻⁸ の塵(塵どうしの重力・引きずり・接触なし)—— 二次元の試験粒子との離心率の差 最大 ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `💍 の質量 10⁻⁵ の写しでは ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`]
+      : ['帯の粒(試験粒子の扱い)', `有限の質量 1.25×10⁻⁸(合計 = 実環 1.5×10¹⁹ kg)—— 二次元の試験粒子との離心率の差 最大 ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `💍 の質量 10⁻⁵ の写しでは ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`],
     ['回転引きずり(受動プローブ・移送の側)', `赤道面で接線向き(cos ${f(PR.equatorCosTangentMin, 6)})・極の軸の上 ${e1(PR.axisRotMax)}・緯度 45° は ${f(PR.ratioLat45ToEquator, 4)} 倍`, 'gain 0 の本では 0(何も描かない)'],
     ['言わないこと', '帯は実際の環の縮約(試験粒子ではない)・gain は合わせていない・土星の公転と太陽の潮汐は入れない', '—']];
   const rowsE = [
@@ -311,20 +314,23 @@ export function emitBook(HP, J) {
     ['C-ring inner-edge period (measured, h)', `${cH} s (h/2 ${cH2} s); vs 2D 💍 ${f(TP.vs2d.h.cInPeriodSecDiff, 3)} s`, '20880 s (💍 derived Kepler period)'],
     ["Titan's period (measured, h)", `${tD} d (vs h/2 ${f(SD.titanPeriodSec.diff, 3)} s)`, '15.945 d'],
     ['Plane and loss (2 Titan orbits)', `max angle orbit/equator ${pl} deg; lost ${H.loss.lost} (h/2 ${H2.loss.lost}); outside band ${H.loss.outsideBand}`, '-'],
-    ['Band grains (test particles)', `finite mass 1.25e-8 (sum = real ring 1.5e19 kg); ecc diff vs 2D test particles <= ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `with 💍's mass 1e-5: ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`],
+    AM ? ['Band grains (dust - wave 301b)', `finite-mass dust 1.25e-8 (no gravity/drag/contact between grains); ecc diff vs 2D test particles <= ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `with 💍's mass 1e-5: ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`]
+      : ['Band grains (test particles)', `finite mass 1.25e-8 (sum = real ring 1.5e19 kg); ecc diff vs 2D test particles <= ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)}`, `with 💍's mass 1e-5: ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)}`],
     ['Rotational drag (passive probe, transfer)', `tangential on the equator (cos ${f(PR.equatorCosTangentMin, 6)}); pole axis ${e1(PR.axisRotMax)}; lat 45: ${f(PR.ratioLat45ToEquator, 4)}x`, 'zero at gain 0 (nothing drawn)'],
     ['Not claimed', 'the bands are a reduction (not test particles); gain not matched; no Saturn orbit or solar tide', '-']];
   const summaryJ = `**慣性決定力版の土星の輪の三次元の基準 —— gain 0**(第300便c・原仮定者の裁定〔第90報〕⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」・統括の検証項目 R177)。💍 saturnRingReal の土星・主要衛星 6・C/B/A 帯(各 40 粒 —— 乱数の種を 💍 と同じに明示して同じ粒を生成)を、🟡 saturnSunInertial3d の土星の極(IAU WGCCRE 2009 —— 傾き ${f(d.pole.tiltDeg, 2)}°・方位 ${f(d.pole.azimuthDeg, 2)}°)の赤道面へ回した(群は incl ${f(d.incl, 2)}°・node ${f(d.node, 2)}° —— 衛星の位置と速度は同じ回転)。physics.coord:"3d"・geoPN=3・λ_PN=0・kFrame=0・stateCarry:"double"・timeScale=1・刻みは 💍 の時間の基準(C環内縁の 1 公転 ≈360 步)。土星は pinned(**局所の近似** —— 土星の公転・太陽の潮汐は入れない)。重力(E4)で回し、慣性引きずりは gain 0 の基準(標的なし)で、自転する源(土星・同期自転のタイタン)の軸を有効化し回転引きずり spinDrag:{rot:"surfaceFlip", axial:"off"} を宣言した。**三次元の受理の門は試験粒子を拒否する**ので、帯の粒は数値の質量の有限粒子(1 粒 1.25×10⁻⁸ = 1.25×10¹⁷ kg —— 120 粒の合計を実環の総質量 1.5×10¹⁹ kg に合わせた・massFloor 10⁻⁹)として明示した。`;
   const summaryE = `THE INERTIAL-DETERMINACY SATURN RINGS IN 3D - THE GAIN-0 BASELINE (wave 300c; the originator's ruling in report 90 item 6: make a 3D geoPN=3 sample of Saturn's rings; coordinator's check R177). 💍 saturnRingReal's Saturn, six major moons and C/B/A bands (40 grains each - the random seed is declared equal to 💍's so the same grains are generated) are rotated into the equator of Saturn's pole as declared in 🟡 saturnSunInertial3d (IAU WGCCRE 2009; tilt ${f(d.pole.tiltDeg, 2)}, azimuth ${f(d.pole.azimuthDeg, 2)} deg): the groups get incl ${f(d.incl, 2)} and node ${f(d.node, 2)} deg and the moons' positions and velocities the same rotation. physics.coord 3d, geoPN=3, lambda_PN=0, kFrame=0, stateCarry double, timeScale=1, the step of 💍's time standard (about 360 steps per C-ring inner-edge orbit). Saturn is pinned (A LOCAL APPROXIMATION - no Saturn orbit or solar tide). Gravity (E4) drives the orbits; the inertial drag is the gain-0 baseline (no target); the spinning sources (Saturn and synchronously rotating Titan) have their axes enabled and the rotational drag spinDrag {rot surfaceFlip, axial off} is declared. THE 3D ACCEPTANCE GATE REFUSES TEST PARTICLES, so the band grains are declared as finite-mass grains (1.25e-8 = 1.25e17 kg each - the 120 grains sum to the real ring mass 1.5e19 kg; massFloor 1e-9).`;
-  const observeJ = `視点のスライダーで横から見ると、環と衛星の面が黄道(xy 面)に対して土星の赤道の傾き ${f(d.pole.tiltDeg, 1)}° で傾いているのが見える。環は面を保つ(タイタン 2 公転で軌道面と赤道面の角の最大 ${pl}°・損失 ${H.loss.lost} 粒)。C環内縁の公転 ${cH} s(h/2 ${cH2} s)・タイタン ${tD} 日。帯の粒の離心率の代理は二次元の 💍(試験粒子)と最大 ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)} の差(💍 の宣言の質量 10⁻⁵ の写しでは ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)} —— 粒どうしの近接で動く)。gain 0 の本では空間メッシュ(受動プローブ)は 0 で何も描かない。`;
-  const observeE = `Turn the view slider to look side-on: the ring and moon plane is tilted ${f(d.pole.tiltDeg, 1)} deg (Saturn's obliquity) to the ecliptic (the xy plane). The ring keeps its plane (over 2 Titan orbits the largest angle between an orbit plane and the equator is ${pl} deg; ${H.loss.lost} grains lost). C-ring inner edge ${cH} s (h/2 ${cH2} s); Titan ${tD} d. The grains' eccentricity proxies differ from 2D 💍 (test particles) by at most ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)} (with 💍's declared mass 1e-5 the difference is ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)} - close grain encounters move it). At gain 0 the space mesh (passive probe) is zero and draws nothing.`;
+  const amJ = AM ? '**第301便b(原仮定者の裁定〔第91報〕①・統括の検証項目 R180): 近似多粒子の契約 physics.approxMany** —— 土星が支配天体(固定)・衛星 6 は天体(自転は 💍 の宣言の写し —— タイタン 0.000456・他の 5 つは宣言した 0)・帯 120 粒は塵(**塵どうしの重力・引きずり・接触なし** —— 土星と衛星からの重力と引きずりは受ける)。数はこの宣言での測り直し(マスク前の記録は第301便b の近似多粒子の器の正本)。' : '';
+  const amE = AM ? ' WAVE 301b (the originator\'s ruling in report 91 item 1; coordinator\'s check R180): THE APPROXIMATE MANY-BODY CONTRACT physics.approxMany - Saturn is the governor (fixed), the six moons are bodies (spins copied from 💍: Titan 0.000456, the other five a declared 0) and the 120 band grains are dust (NO GRAVITY, DRAG OR CONTACT BETWEEN GRAINS - they still feel Saturn and the moons). The numbers are remeasured with this declaration (the pre-mask record is in the wave-301b approximate many-body canon).' : '';
+  const observeJ = `視点のスライダーで横から見ると、環と衛星の面が黄道(xy 面)に対して土星の赤道の傾き ${f(d.pole.tiltDeg, 1)}° で傾いているのが見える。環は面を保つ(タイタン 2 公転で軌道面と赤道面の角の最大 ${pl}°・損失 ${H.loss.lost} 粒)。C環内縁の公転 ${cH} s(h/2 ${cH2} s)・タイタン ${tD} 日。帯の粒の離心率の代理は二次元の 💍(試験粒子)と最大 ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)} の差(💍 の宣言の質量 10⁻⁵ の写しでは ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)} —— ${AM ? '塵どうしの重力と引きずりが無いので粒の質量にほとんど依らない' : '粒どうしの近接で動く'})。gain 0 の本では空間メッシュ(受動プローブ)は 0 で何も描かない。`;
+  const observeE = `Turn the view slider to look side-on: the ring and moon plane is tilted ${f(d.pole.tiltDeg, 1)} deg (Saturn's obliquity) to the ecliptic (the xy plane). The ring keeps its plane (over 2 Titan orbits the largest angle between an orbit plane and the equator is ${pl} deg; ${H.loss.lost} grains lost). C-ring inner edge ${cH} s (h/2 ${cH2} s); Titan ${tD} d. The grains' eccentricity proxies differ from 2D 💍 (test particles) by at most ${e1(TP.vs2d.h.grainsEcc.maxAbsDiff)} (with 💍's declared mass 1e-5 the difference is ${e1(TP.m5vs2d.h.grainsEcc.maxAbsDiff)} - ${AM ? 'with no gravity or drag between grains it hardly depends on the grain mass' : 'close grain encounters move it'}). At gain 0 the space mesh (passive probe) is zero and draws nothing.`;
   const controlJ = `ワンタップの対照は水星の三次元のフィット値の移送(同じ SI の gain ${gT} —— 合わせていない診断)。回転引きずりが赤道面で接線向き・極の軸の上で 0 になるのを空間メッシュで見る(C環内縁の公転は gain 0 との差 ${f(TR.cInPeriodSecDiff, 1)} s)。比べる相手は 💍(二次元・試験粒子)と 🟡(三次元・太陽と土星)。`;
   const controlE = `The one-tap control carries Mercury's 3D fitted value (the same SI gain, ${gT} here - a diagnostic, not a fit). Watch the space mesh show the rotational drag tangential on the equator and zero on the pole axis (the C-ring inner-edge period moves ${f(TR.cInPeriodSecDiff, 1)} s from gain 0). Compare with 💍 (2D, test particles) and 🟡 (3D, Sun and Saturn).`;
   const audit = (J0) => ({
     observedInputs: J0 ? ['実 G=6.674', '実 c₀=29979.2458', '土星・主要衛星 6 の実質量・実半径・実軌道半径(💍 の写し)', '環 C/B/A 帯の実半径とカッシーニの間隙(💍 の写し)', '土星の極(IAU WGCCRE 2009 —— 🟡 の宣言の写し・一定の近似)', '実環の総質量 1.5×10¹⁹ kg(💍 の説明の値 —— 粒の質量へ)']
       : ['real G=6.674', 'real c0=29979.2458', "Saturn's and the six moons' real masses, radii and orbital radii (copied from 💍)", 'real radii of the C/B/A bands and the Cassini division (from 💍)', "Saturn's pole (IAU WGCCRE 2009 - copied from 🟡; held fixed)", "the real ring mass 1.5e19 kg (💍's text - split over the grains)"],
-    fixedConventions: J0 ? ['サンプル別スケール指数(1単位=10^6m/10^2s/10^25kg —— 💍 と同じ)', 'physics.coord:"3d"(右手系・黄道は xy 面)', 'geoPN=3・kFrame=0・λ_PN=0', '慣性引きずり relativeDrag:{law:"inertial", gain:0, eps:0.05, pairs:"all", solver:"network-pcg-v1", spinDrag:{rot:"surfaceFlip", axial:"off"}}', '土星 pinned(局所の近似)', '乱数の種 seed を 💍 と同じに明示(同じ粒)', '帯は数値の質量の有限粒子(試験粒子ではない)・massFloor 10⁻⁹']
-      : ['per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg - as 💍)', 'physics.coord 3d (right-handed; the ecliptic is the xy plane)', 'geoPN=3, kFrame=0, lambda_PN=0', 'inertial drag relativeDrag {law inertial, gain 0, eps 0.05, pairs all, solver network-pcg-v1, spinDrag {rot surfaceFlip, axial off}}', 'Saturn pinned (a local approximation)', "the random seed declared equal to 💍's (the same grains)", 'band grains are finite-mass grains (not test particles); massFloor 1e-9'],
+    fixedConventions: J0 ? ['サンプル別スケール指数(1単位=10^6m/10^2s/10^25kg —— 💍 と同じ)', 'physics.coord:"3d"(右手系・黄道は xy 面)', 'geoPN=3・kFrame=0・λ_PN=0', '慣性引きずり relativeDrag:{law:"inertial", gain:0, eps:0.05, pairs:"all", solver:"network-pcg-v1", spinDrag:{rot:"surfaceFlip", axial:"off"}}', '土星 pinned(局所の近似)', '乱数の種 seed を 💍 と同じに明示(同じ粒)', '帯は数値の質量の有限粒子(試験粒子ではない)・massFloor 10⁻⁹'].concat(AM ? ['近似多粒子の契約 physics.approxMany(土星 = 支配天体・衛星 = 天体〔自転 0 は spinZero:"declared"〕・帯 = 塵 —— 塵どうしの重力・引きずり・接触なし)'] : [])
+      : ['per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg - as 💍)', 'physics.coord 3d (right-handed; the ecliptic is the xy plane)', 'geoPN=3, kFrame=0, lambda_PN=0', 'inertial drag relativeDrag {law inertial, gain 0, eps 0.05, pairs all, solver network-pcg-v1, spinDrag {rot surfaceFlip, axial off}}', 'Saturn pinned (a local approximation)', "the random seed declared equal to 💍's (the same grains)", 'band grains are finite-mass grains (not test particles); massFloor 1e-9'].concat(AM ? ['approximate many-body contract physics.approxMany (Saturn = governor, moons = bodies [zero spins with spinZero declared], bands = dust - no gravity, drag or contact between grains)'] : []),
     fitted: J0 ? ['**無し** —— gain 0 の基準(標的なし)'] : ['NOTHING - the gain-0 baseline (no target)'],
     derived: J0 ? ['κ=G/c₀²=7.4258×10⁻⁹', `群の incl ${f(d.incl, 4)}°・node ${f(d.node, 4)}°(極の傾き・方位 + 90°)`, '帯の粒の質量 1.25×10⁻⁸ = 1.5×10¹⁹ kg / 120 粒'] : ['kappa=G/c0^2=7.4258e-9', `group incl ${f(d.incl, 4)}, node ${f(d.node, 4)} deg (pole tilt, azimuth + 90)`, 'grain mass 1.25e-8 = 1.5e19 kg / 120 grains'],
     numerical: J0 ? ['ソフトニング ε=0.05(=50 km —— 重力と引きずりの核)', '時間倍率 timeScale=1・画面の刻み stepDt=0.58(💍 の時間の基準)', '粒子表示倍率 dispMag=1・帯の粒の表示半径 0.1(明示半径)'] : ['softening eps=0.05 (=50 km - gravity and the drag kernel)', "time multiplier timeScale=1, screen step stepDt=0.58 (💍's time standard)", 'display magnification dispMag=1; grain display radius 0.1 (explicit radius)'] });
@@ -332,11 +338,11 @@ export function emitBook(HP, J) {
     sampleClass: 'principle', fidelity: 'real', notClaim: ['solar_cal', 'ring3d_grains', 'gain_universal_fit'], seed: d.seed,
     abBody: { label: { ja: `水星の三次元のフィット値を移送(gain ${gT} —— 同じ SI・合わせていない)`, en: `carry Mercury's 3D fitted value (gain ${gT} - the same SI, not a fit)` },
       physicsPatch: { relativeDrag: { law: 'inertial', gain: gT, eps: d.physics.relativeDrag.eps, history: 'positions', pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } } } },
-    obsCard: card(rowsJ), descStruct: { summary: summaryJ, observe: observeJ, control: controlJ },
-    en: { name: "Saturn's Rings (inertial determinacy, 3D) — the gain-0 baseline", obsCard: card(rowsE), descStruct: { summary: summaryE, observe: observeE, control: controlE }, parameterAudit: audit(false) },
+    obsCard: card(rowsJ), descStruct: { summary: summaryJ + amJ, observe: observeJ, control: controlJ },
+    en: { name: "Saturn's Rings (inertial determinacy, 3D) — the gain-0 baseline", obsCard: card(rowsE), descStruct: { summary: summaryE + amE, observe: observeE, control: controlE }, parameterAudit: audit(false) },
     parameterAudit: audit(true) };
   const lines = ['// ===== 第300便c(原仮定者の裁定(第90報)⑥・統括の検証項目 R177): 🍩 saturnRingInertial3d —— 土星の輪の geoPN=3 三次元(gain 0 の基準 —— 標的なし)=====',
-    '// physics・bodies・timeRef・camera・seed は生成器 tests/lib-w300c-saturnring3d.mjs の ringDecl3 の写し(QA preset.saturnRing3d300 が照合)。数は正本 tests/out/saturnring3d-w300c.json の実測。'];
+    '// physics・bodies・timeRef・camera・seed は生成器 tests/lib-w300c-saturnring3d.mjs の ringDecl3 の写し(QA preset.saturnRing3d300 が照合)。数は正本 tests/out/saturnring3d-w300c.json の実測。'].concat(AM ? ['// 第301便b(原仮定者の裁定(第91報)①・R180): physics.approxMany(近似多粒子の契約 —— 土星 = 支配天体・衛星 6 = 天体・帯 = 塵)は ringDecl3 が足す。数はこの宣言での測り直し。'] : []);
   let txt = '{ ' + Object.keys(P).map((k) => `  ${k}:${jsLit(P[k])}`).join(',\n').replace(/^  /, '') + ',\n';
   txt += '  activeParams:["geoPN","dispMag"],\n';
   txt += `  camera:${jsLit(d.camera)}, world:{boundary:"none",size:0},\n`;

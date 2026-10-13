@@ -28,7 +28,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fitPeri } from './lib-w280b-emgrid.mjs';
 import * as SP from './lib-w299d-spread.mjs';
-const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
+import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の天体型(html の受理器が physics.approxMany を持つ世代だけ —— 旧世代は従来の形)
+const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w299d-geo4stable-1';
@@ -99,6 +100,10 @@ export function spreadPreset(HP, o = {}) {
   const vel = o.vel || 'radial', sp = Object.assign({}, o.spread || {});
   const axis = o.axis === undefined ? { enable: true, tiltDeg: SPREAD_TILT.tiltDeg, azimuthDeg: SPREAD_TILT.azimuthDeg, source: SRC_AXIS } : o.axis;
   q.bodies = SP.spreadBodies(sp, vel, axis ? { spinAxis: axis } : {});
+  // 第301便b(原仮定者の裁定(第91報)③・R180): 近似多粒子の天体型(粒子に自転のトイの宣言値・軸 +z・明示半径 √m —— 天体だけの宣言は接触を切るだけで、
+  //   本の contactMode:"none" と合わせて力学は宣言の鍵の有無に依らない)。中心を固定しない写し(unpin —— 収支の運動量の検査)は governor の pinned:true の
+  //   契約を満たさないので approxMany の鍵だけを外す(粒子の自転・軸・半径は残す —— 同じ力学)
+  if (SPA.approxOn(HP, o)) { SPA.spreadApprox(q, { kind: o.kind }); if (o.unpin) delete q.physics.approxMany; }
   if (o.unpin) q.bodies[0].pinned = false;
   if (o.spin0) q.bodies[0].spin = 0;
   return q;
@@ -138,6 +143,7 @@ function partLayout(HP) {
       dMin: sci(dmin2), overlapPairs: ov2, overlapCentre: ovC2, Rp: sci(S.R[1]), RC: S.R[0], mDisk, mCentre: S.m[0], centreAt: [S.x[0], S.y[0], S.z[0]],
       seedRadialNonPos: vr.nNonPos, seedTanOverRadialMax: sci(vr.tanRatioMax) },
     htmlBook: !!book, htmlSame,
+    ...(gen.physics.approxMany ? { approxMany: gen.physics.approxMany, bodySpin: gen.bodies[1].spin, bodyRadius: gen.bodies[1].radius } : null),   // 第301便b: 測った宣言の近似多粒子の契約(宣言した世代だけ)
   };
 }
 
@@ -454,7 +460,7 @@ if (IS_MAIN) {
   const t0 = Date.now();
   const M = loadHtmlMain(path.join(ROOT, TARGET));   // 本文の文脈(runInThisContext)で走らせる —— 内部関数は大域の間接 eval で引く
   const out = Object.assign({ version: HARNESS_VERSION, conditionsDeclared: STABLE_CONDITIONS, migConditionsDeclared: MIG_CONDITIONS, spreadDefault: SP.SPREAD_DEFAULT, bands: BANDS, dt: DT, steps: STEPS }, runAll(M.HP, (code) => (0, eval)(code)));
-  const CODE = ['tests/exp-w299d-geo4stable.mjs', 'tests/lib-w299d-spread.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w299d-geo4stable.mjs', 'tests/lib-w299d-spread.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, spreadVersion: SP.SPREAD_VERSION, loadErrors: M.errors.length,
     ruling: '原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」',

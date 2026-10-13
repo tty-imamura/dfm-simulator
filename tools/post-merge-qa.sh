@@ -81,6 +81,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.saturnRing3d300 docs.solar16Contract3
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragNorm301 preset.refit301"
 # 第301便c(原仮定者の裁定(第91報)②・R181): 枝 c の新設 1 本(behavior.axialSplit301 —— 軸回転 = 慣性軸回転 + 引きずり軸回転)と、🪛 の軸引きずりの数で追従した behavior.drag3d298・behavior.ckDrag3d299
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSplit301"
+# 第301便b: 枝 b の新設 2 本(behavior.approxMany301 —— 近似多粒子の対のマスク・preset.approxMany301 —— 🍥🍩 の宣言と測り直し・監査)と世代切替で追従した 3 本(preset.chainSpread299・behavior.geo4Stable299・preset.saturnRing3d300 は上にある)を末尾に足した(他枝の新設は統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.approxMany301 preset.approxMany301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

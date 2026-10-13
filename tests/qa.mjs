@@ -76177,6 +76177,129 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     }
   }
 }
+
+// ---- 第301便b(原仮定者の裁定(第91報)①③「環や銀河などの近似多粒子のサンプルでは、支配天体は固定する。近似多粒子同士は接触判定を切る。近似多粒子同士は、
+// ----   塵の場合は重力も引きずりも無しで、天体の場合は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」・統括の検証項目 R180):
+// ----   **近似多粒子の契約 physics.approxMany**(新設 2 —— root は SKIP)。世代切替 has301b = 対象 html に受理器の定数 `const APPROX_MANY_KEY="approxMany"`。
+// ----   宣言した本・数は宣言(内蔵の physics.approxMany)と正本 tests/out/approxmany-w301b.json から数える(手書きの ID 一覧を持たない)。
+// ----   ① behavior.approxMany301 …… 頭なしで器の零試験を引き直す(重力 = マスクした解析の和・ポテンシャル・慣性決定力の辺〔塵どうしの a_ij = 0・総和 deg = 行の和〕・
+// ----      受動プローブの格子点〔塵の源を数えない〕・回転源・接触〔宣言の中は無し・支配天体とは有り〕・天体だけの宣言は鍵の有無でビット同一)と拒否の例(理由の文)・
+// ----      正本の版・門・零試験の合否
+// ----   ② preset.approxMany301 …… 宣言した在位の本 = 正本の受理の行 = 監査の「移した」・🍥 = 器 w299d の生成器(天体型)・🍩 = ringDecl3(塵と天体)の写し・governor は
+// ----      pinned・測り直しの記録(正本 geo4stable-w299d.json / saturnring3d-w300c.json が近似多粒子の宣言で測ったこと・🍥 の 8 条件の表・🍩 の門)・監査(二次元の本は移さない)・
+// ----      文書(PHYSICS〔第301便b〕・AI_SPEC・CHANGELOG・README)・禁句・再生成の段・.gitignore の例外
+{
+  const html301b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has301b = TARGET.startsWith('beta/') && html301b.indexOf('const APPROX_MANY_KEY="approxMany"') >= 0;
+  if (!has301b) {
+    console.log('SKIP behavior.approxMany301 / preset.approxMany301(第301便b 未適用 — ' + TARGET + ')');
+  } else {
+    let H31 = null, X31 = null, W31 = null, R31 = null, SPA31 = null, J31 = null, err31 = null;
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      H31 = loadHtmlHeadless(path.join(ROOT, TARGET));
+      X31 = await import('file://' + path.join(ROOT, 'tests', 'exp-w301b-approxmany.mjs'));
+      W31 = await import('file://' + path.join(ROOT, 'tests', 'exp-w299d-geo4stable.mjs'));
+      R31 = await import('file://' + path.join(ROOT, 'tests', 'lib-w300c-saturnring3d.mjs'));
+      SPA31 = await import('file://' + path.join(ROOT, 'tests', 'lib-w301b-approxmany.mjs'));
+      J31 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'approxmany-w301b.json'), 'utf8'));
+    } catch (e) { err31 = String(e && e.stack || e).slice(0, 200); }
+    // ---- ① behavior.approxMany301
+    {
+      const bad = [], cases = [];
+      if (err31) bad.push('器/正本/html が読めない: ' + err31);
+      else {
+        const HP = H31.HP;
+        const A = X31.partAccept(HP), Z = X31.partZero(HP);
+        if (!(A.toyAccepted && A.spinZeroDeclaredAccepted)) bad.push('器のトイ(と spinZero:"declared")が受理されない');
+        const nr = A.rejects.filter((r) => !(r.rejected && r.matched));
+        if (nr.length) bad.push('拒否の例 ' + nr.map((r) => r.key + (r.rejected ? '(理由の文)' : '(受理された)')).join(','));
+        for (const k of ['gravity', 'potential', 'dragEdges', 'probe', 'rot', 'contact', 'bodyOnlySame']) if (!(Z[k] && Z[k].pass === true)) bad.push('零試験 ' + k + ' ' + JSON.stringify(Z[k]).slice(0, 120));
+        cases.push(`拒否 ${A.rejects.length} 例(2d・governor の固定/型/範囲・行の重なり・天体の自転/軸/明示半径・塵の自転…)`);
+        cases.push(`重力 = マスクした解析の和(相対 ${Z.gravity.rel}・塵どうしの項 ${Z.gravity.dustDustTermMax} は無い)・U 相対 ${Z.potential.rel}・辺 塵どうし ${Z.dragEdges.dustDust} 対の a=0・deg = 行の和・プローブ deg = 塵でない源の和・回転源 ${Z.rot.sources}・接触(宣言の中は無し)・🍥 の鍵の有無で 200 步ビット同一 ${Z.bodyOnlySame.same}`);
+        const J = J31;
+        if (!(J.version === X31.HARNESS_VERSION && J.lib === SPA31.LIB_VERSION && J.stateVersion === HP.APPROX_MANY_STATE_VERSION)) bad.push('正本の版(器・生成器・状態)');
+        if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X31.HARNESS_VERSION)) bad.push('正本の来歴');
+        if (!(J.ok === true && Object.values(J.gates || {}).every(Boolean))) bad.push('正本の門 ' + JSON.stringify(J.gates));
+        if (!(J.zero && J.zero.pass === true && J.accept && J.accept.allRejected === true)) bad.push('正本の零試験・拒否');
+        if (!(J.effect && J.effect.ring && J.effect.ring.maxGrainPosDiff > 0)) bad.push('正本の 🍩 の塵のマスクの効き');
+        cases.push(`正本 ${J.version}: 門 ${Object.keys(J.gates || {}).length} 全部・🍩 の塵のマスクの効き(360 步の粒の位置の差 ${J.effect && J.effect.ring && J.effect.ring.maxGrainPosDiff})`);
+      }
+      add('behavior.approxMany301', bad.length === 0,
+        `**近似多粒子の対のマスク**(第301便b・原仮定者の裁定(第91報)①③・R180 —— 塵どうしは重力・引きずり・接触なし・天体どうしは重力と引きずり有り・接触なし・支配天体は固定): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.approxMany301
+    {
+      const bad = [], cases = [];
+      if (err31) bad.push('器/正本/html が読めない: ' + err31);
+      else {
+        const HP = H31.HP, all = HP.allPresets(), J = J31;
+        const decl = all.filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.approxMany).map((p) => p.id).sort();
+        if (JSON.stringify(decl) !== JSON.stringify((J.accept.books || []).slice().sort())) bad.push('宣言した本 ' + decl.join(',') + ' ≠ 正本の受理の行');
+        if (JSON.stringify(decl) !== JSON.stringify((J.audit.moved || []).slice().sort())) bad.push('監査の「移した」が宣言した本と違う');
+        for (const id of decl) {
+          const p = all.find((q) => q.id === id), am = p.physics.approxMany, v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok || (v.warnings || []).length) bad.push(id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 100));
+          if (p.physics.coord !== '3d') bad.push(id + ' が三次元でない');
+          if (!(p.bodies[am.governor] && p.bodies[am.governor].pinned === true)) bad.push(id + ' の governor が pinned でない');
+        }
+        const sp = all.find((q) => q.id === X31.SPREAD_ID), g = W31.spreadPreset(HP);
+        if (!(sp && sp.physics.approxMany && JSON.stringify(sp.physics) === JSON.stringify(g.physics) && JSON.stringify(sp.bodies) === JSON.stringify(g.bodies))) bad.push('🍥 が生成器(天体型)の出力と違う');
+        else {
+          const G0 = sp.physics.approxMany.groups;
+          if (!(G0.length === 1 && G0[0].kind === 'body' && G0[0].rows[0] === 1 && G0[0].rows[1] === sp.bodies.length - 1)) bad.push('🍥 の群(天体 1..n)');
+          if (!sp.bodies.slice(1).every((b) => b.spin === SPA31.SPREAD_BODY_SPIN && b.radius > 0 && b.spinAxis && b.spinAxis.enable === true && b.spinAxis.tiltDeg === 0)) bad.push('🍥 の粒子(自転のトイの宣言値・明示半径・軸 +z)');
+          if (!(sp.physics.contactMode === 'none' && sp.bodies[0].spinAxis && sp.bodies[0].spinAxis.tiltDeg === 30)) bad.push('🍥 の接触なし・中心の軸 30°');
+          cases.push(`🍥 天体型(粒子 ${sp.bodies.length - 1}・自転 ${SPA31.SPREAD_BODY_SPIN}・明示半径 ${sp.bodies[1].radius})`);
+        }
+        const rg = all.find((q) => q.id === X31.RING_ID), d = R31.ringDecl3(HP, {});
+        if (!(rg && rg.physics.approxMany && JSON.stringify(rg.physics.approxMany) === JSON.stringify(d.physics.approxMany))) bad.push('🍩 の宣言が ringDecl3 の写しと違う');
+        else {
+          const kinds = rg.physics.approxMany.groups.map((z) => z.kind + '[' + z.rows.join('-') + ']').join(' ');
+          if (!rg.physics.approxMany.groups.some((z) => z.kind === 'dust' && rg.bodies.slice(z.rows[0], z.rows[1] + 1).every((b) => b.type === 'ring'))) bad.push('🍩 の帯が塵でない');
+          cases.push('🍩 ' + kinds);
+        }
+        const RM = J.remeasure || {};
+        if (!(RM.spread && RM.spread.measuredApprox === true && RM.spread.htmlSame === true)) bad.push('🍥 の測り直し(正本 geo4stable-w299d.json が近似多粒子の宣言で測った)');
+        else cases.push(`🍥 の 8 条件 ${RM.spread.table.map((z) => z.key + (z.pass ? '✓' : '✗')).join(' ')}(未達は「型を変えたので未達」${RM.spread.failed.length} 件)`);
+        if (!(RM.ring && RM.ring.measuredApprox === true && RM.ring.ok === true)) bad.push('🍩 の測り直し(正本 saturnring3d-w300c.json が近似多粒子の宣言で測り門を通った)');
+        else cases.push(`🍩 C環内縁 ${Number(RM.ring.cInPeriodSecH).toFixed(2)} s(マスク前 ${Number(RM.before.ring.cInPeriodSecH).toFixed(2)})・面 ${Number(RM.ring.planeMaxDegH).toExponential(1)}°・損失 ${RM.ring.lostH}`);
+        const au = J.audit || { rows: [] };
+        if (au.rows.some((r) => r.cls === 'moved' && r.coord !== '3d')) bad.push('監査: 二次元の本を移した');
+        if (!au.rows.filter((r) => r.cls === 'notMoved').every((r) => r.reasons && r.reasons.length)) bad.push('監査: 移さない本に理由が無い');
+        cases.push(`監査 ${au.n} 本(移した ${au.moved.length}・移さない ${au.notMoved} —— 二次元の核 ${au.byReason.core2d}・較正 ${au.byReason.calibration}・参照模型 ${au.byReason.referenceModel}・零試験の写し ${au.byReason.chainZeroTest})`);
+      }
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), a = Pd.indexOf('〔第301便b — ');
+      const e = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. ', a)].filter((k) => k > a) : [];
+      const psec = (a >= 0) ? Pd.slice(a, e.length ? Math.min(...e) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第301便b〕が無い');
+      else {
+        if (!(a < Pd.indexOf('\n## 7. '))) bad.push('〔第301便b〕が「## 7.」の前に無い');
+        for (const w of ['physics.approxMany', '塵', '天体', 'pinned', 'S._rdPairSet', 'spinZero', 'approxmany-w301b.json', 'S._core', '受動プローブ']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第301便b〕に「' + w + '」が無い');
+      }
+      const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第301便b —— 近似多粒子の契約');
+      const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 6000) : '';
+      if (!aiSec) bad.push('AI_SPEC に第301便b の節が無い');
+      else for (const w of ['physics.approxMany', 'behavior.approxMany301', 'preset.approxMany301']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
+      if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第301便b') < 0) bad.push('CHANGELOG');
+      if (fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8').indexOf('第301便b') < 0) bad.push('README');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      if (RT.indexOf("S('approxmany-301b', 'node tests/exp-w301b-approxmany.mjs', ['tests/out/approxmany-w301b.json']") < 0 || !/secSource: 'w301b-branch'/.test(RT)) bad.push('再生成の段 approxmany-301b');
+      if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/approxmany-w301b.json') < 0) bad.push('.gitignore の例外');
+      const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const blk = (id) => { const i0 = html301b.indexOf('{ id:"' + id + '"'), i1 = html301b.indexOf('\n{ id:"', i0 + 5); return i0 >= 0 ? html301b.slice(i0, i1 > i0 ? i1 : undefined) : ''; };
+      const harn = ['exp-w301b-approxmany.mjs', 'lib-w301b-approxmany.mjs'].map((f) => fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8')).join('');
+      const eng = (() => { const i0 = html301b.indexOf('// ===== 第301便b(原仮定者の裁定(第91報)①③'); return i0 >= 0 ? html301b.slice(i0, html301b.indexOf('// 三次元の自転軸(粒子ごと)', i0)) : ''; })();
+      for (const [nm, tx] of [['PHYSICS', psec], ['🍥', blk('chainSpreadToy3d')], ['🍩', blk('saturnRingInertial3d')], ['器', harn], ['受理器', eng], ['AI_SPEC', aiSec]]) for (const re of NG) if (re.test(strip(tx))) bad.push(nm + ' に禁句 ' + re.source);
+      add('preset.approxMany301', bad.length === 0,
+        `**近似多粒子の宣言と測り直し**(第301便b・原仮定者の裁定(第91報)①③・R180 —— 🍥 は天体型・🍩 の帯は塵・二次元の本は移さない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)
@@ -76191,6 +76314,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   (3) 源の自転の符号を反転すると ω_drag と引きずりの角がビットで反転 (4) 受け手の慣性 spin は変わらない・rotAIn は axial "off" の rotA とビット同一
 // ----   (5) 傾きを持つ受け手は第298便c のベクトル則のまま(引きずりの角の増分 = (ω·â)dt —— ビット)・和 rotA = rotAIn + rotADr(相対 1e-12)
 // ----   (6) 在位の本: N 步保存 → N 步 → 復帰 = 保存の瞬間(rotA・rotAIn・rotADr・_rdWS・帳簿)・その後 N 步 = 最初から 2N 步とビット同一・A/B の複製(cloneSimState)も同じ
+// ----   (7) 第301便m(a×b×c の統合 —— 世代切替は html の `const APPROX_MANY_KEY=` と `function inertialDragNormOf`): 近似多粒子の塵どうしの対(第301便b のマスク)は
+// ----       慣性決定力の分子にも分母にも入らない —— 受け手の行和 deg = gain Σ(許した源)m K_ε・傾きの無い受け手の Σw = ν(deg)·Σ(許した自転する源)κ m Ω K_ε μ²(解析と相対 1e-12)・
+// ----       別の塵の質量を変えても塵の受け手の deg・Σw・u・引きずりの角がビット同一(宣言を外した対照では変わる)・天体の受け手は変わる
 {
   const html301c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has301c = TARGET.startsWith('beta/') && html301c.indexOf('const REL_DRAG_AXIAL_SPLIT_VERSION =') >= 0;
@@ -76326,6 +76452,43 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         }
         cases.push(`(6) 軸引きずりの在位 ${books.length} 本 ${rows.join('')}: ${N} 步保存 → ${N} 步 → 復帰 = 保存の瞬間(rotA・rotAIn・rotADr・_rdWS・帳簿)・その後 ${N} 步 = 最初から ${2 * N} 步・A/B の複製も同一`);
       }
+      // (7) 第301便m: 近似多粒子のマスク × 総和正規化 × 軸回転の分解(三次元・G 0・回転引きずり off・静止 —— 位置が動かない)
+      if (html301c.indexOf('const APPROX_MANY_KEY=') >= 0 && html301c.indexOf('function inertialDragNormOf(') >= 0) {
+        const sys7 = (o) => { const q = sys({ G: 0, axial: { rot: 'off', axial: 'on', axialCoupling: 3 }, src: { pinned: true, spinAxis: { enable: true, source: SRC, tiltDeg: 30, azimuthDeg: 40 } },
+          recv: [{ x: 6, y: 1, z: 0.5 }, { x: 5, y: 2.5, z: 0.2, m: o.m2 || 1 }, { x: -4, y: 5, z: -1 },
+            { x: 1, y: -7, z: 2, m: 2, spin: 0.4, spinAxis: { enable: true, source: SRC, tiltDeg: 0 } }, { x: -6, y: -3, z: 0, m: 2, spin: -0.3, spinAxis: { enable: true, source: SRC, tiltDeg: 60, azimuthDeg: 10 } }] });
+          if (o.am) q.physics.approxMany = { version: 'v1', governor: 0, groups: [{ kind: 'dust', rows: [1, 3] }, { kind: 'body', rows: [4, 5] }] };
+          return q; };
+        const run7 = (o) => { const S = simOf(sys7(o)), x0 = [];
+          for (let i = 0; i < S.n; i++) x0.push({ x: S.x[i], y: S.y[i], z: S.z[i], ax: S.sax[i], ay: S.say[i], az: S.saz[i], sp: S.spin[i], m: S.m[i] });
+          S.step(DT); S.step(DT);
+          const g = (k) => Array.from(S[k].subarray(0, S.n));
+          return { S, x0, deg: g('_rdDeg'), ws: g('_rdWS'), ux: g('_rdUX'), dr: g('rotADr'), kind: S._amKind ? Array.from(S._amKind) : null, edges: S._rdPairSet ? S._rdPairSet.size : null }; };
+        const A = run7({ am: true }), B = run7({ am: true, m2: 7 }), C = run7({ am: false }), D = run7({ am: false, m2: 7 });
+        const nuFn7 = E('inertialDragNormOf'), DUST = E('AM_DUST');
+        const rel7 = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+        let worstDeg = 0, worstWs = 0, nFlat = 0;
+        for (const R of [A, C]) for (let i = 1; i < R.S.n; i++) {
+          let d = 0, w = 0;
+          for (let j = 0; j < R.S.n; j++) {
+            if (j === i || (R.kind && R.kind[i] === DUST && R.kind[j] === DUST)) continue;
+            const s = R.x0[j], dx = R.x0[i].x - s.x, dy = R.x0[i].y - s.y, dz = R.x0[i].z - s.z, r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), q = r2 + 0.25, Ke = r / (q * q);
+            d += 2 * s.m * Ke;
+            if (s.sp !== 0) { const mu = (dx * s.ax + dy * s.ay + dz * s.az) / r; w += 3 * s.m * s.sp * Ke * mu * mu; }
+          }
+          worstDeg = Math.max(worstDeg, rel7(R.deg[i], d));
+          if (R.S.saOn[i] === 0) { worstWs = Math.max(worstWs, rel7(R.ws[i], nuFn7(R.S.relDrag, d) * w)); nFlat++; }
+        }
+        const same7 = (a, b, idx) => idx.every((i) => Object.is(a[i], b[i]));
+        const dustSame = ['deg', 'ws', 'ux', 'dr'].every((k) => same7(A[k], B[k], [1, 3]));
+        const bodyMoves = !same7(A.deg, B.deg, [4]) && !same7(A.deg, B.deg, [5]);
+        const ctrlMoves = !same7(C.deg, D.deg, [1, 3]) && !same7(C.ws, D.ws, [1]) && !same7(C.ws, D.ws, [3]);
+        if (!(A.kind && A.kind.join('') === '011122' && A.edges === 24 && worstDeg <= 1e-12 && worstWs <= 1e-12 && nFlat === 6 && dustSame && bodyMoves && ctrlMoves))
+          bad.push('(7) 近似多粒子のマスク × 正規化 × 分解 ' + JSON.stringify({ kind: A.kind, edges: A.edges, worstDeg, worstWs, nFlat, dustSame, bodyMoves, ctrlMoves }));
+        cases.push(`(7) 近似多粒子(塵 3・天体 2・支配 1 —— 第301便b)× 総和正規化 × 分解: 辺 ${A.edges}(有向 —— 塵どうし 6 を除く)・行和 deg の解析との差 最大 ${worstDeg.toExponential(1)}・`
+          + `傾きの無い受け手の Σw = ν·Σ(許した源)の差 最大 ${worstWs.toExponential(1)}・別の塵の質量 1→7 で塵の受け手の deg・Σw・u・引きずりの角 ${dustSame ? 'ビット同一' : '変わる'}`
+          + `(天体の受け手は ${bodyMoves ? '変わる' : '変わらない'}・宣言を外した対照は ${ctrlMoves ? '変わる' : '変わらない'})・ν(塵の受け手)${[1, 2, 3].map((i) => nuFn7(A.S.relDrag, A.deg[i]).toPrecision(4)).join('・')}`);
+      } else cases.push('(7) 近似多粒子のマスクが無い世代 —— 省略');
       const coreSrc = HP.sim._core.toString();
       if (/rotAIn|rotADr|_rdWS/.test(coreSrc)) bad.push('S._core に軸回転の分解の語');
     }
