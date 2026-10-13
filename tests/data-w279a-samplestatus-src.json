@@ -164,6 +164,18 @@
     "state": "no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met"
    }
   },
+  "chainBurstShell3d": {
+   "purpose": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る",
+   "objective": "met",
+   "state": "rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・gain 0 は放出しない・超新星のアナロジー",
+   "evidence": [
+    "tests/out/chainburst-w301d.json"
+   ],
+   "en": {
+    "purpose": "Test if a shell falling on a spinning centre ejects in the converged solution",
+    "state": "rk4 h and h/2 agree (t~272, 37/40 out); app step converges; gain 0 none; analogy only"
+   }
+  },
   "coord3dKeplerTilt": {
    "purpose": "三次元の座標で傾いた軌道面の楕円を走らせ周期と軌道面の保存を測る",
    "objective": "met",

@@ -3608,3 +3608,20 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
 - **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
 - QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。
+
+## 85. 第301便d —— 連鎖円盤の 14000 步付近の飛びの記録と放出の探索の写し 🧨 chainBurstShell3d(原仮定者の裁定(第91報)④・統括の検証項目 R182・**新本 1 本と器** —— `S._core`・本体の積分器・既存の本の步と署名は不変・**SYSTEM_PROMPT には載せない**)
+
+- **記録**: 🔗 chainDiskToy(🔩 も xy がビット同一・第301便a の前の法則 norm:"none" ともビット同一)の円盤は既定の刻み 0.016 で t≈250 に大半が半径 100 の外へ飛ぶ。
+  引きずりを各段で解き直す結合積分の独立な器 rk4(`tests/lib-w301d-coupled.mjs` —— ṙ = v + u(r, v)・v̇ = a(r) を同じ段の位置で解く)では刻み h・h/2・h/4 で標本が一致し、
+  t = 480 まで大半は飛ばない —— **本体の分割(重力のキック → ドリフトの後に座標だけ u·dt で動かす)が強い引きずりの塊で放出を早めていた**。帳簿の残差 R_E = ΔE − W は
+  分割した重力の段の ΔK_kick + ΔU_drift そのもの(rk4 では 10⁻⁸ 以下)。ただし**機構は収束した解に残る**(引きずりの支える仕事 W で慣性速度 v が積み上がり、塊がほどけて放出 ——
+  🔗 の粒子 40 個の変種・三次元の殻)。
+- **探索の写し 🧨 chainBurstShell3d**: 🔩 の宣言(G 0.005・軟化 0.5・gain 8・ε 1・network-pcg-v1・double・中心 m 100 半径 6 spin 0.5 軸 +z pinned)のまま、円盤を生成器
+  `tests/lib-w301d-shell.mjs`(版 w301d-shell-1 —— 半径 6〜12 の球殻・黄金角の螺旋・体積一様の半径・静止)の single 40 個(m 10)に替えた三次元の原理の本。
+  **画面の刻み `physics.stepDt` 0.002**(本体の分割で放出が早まるので rk4 に近い刻みを宣言 —— `timeScale` 24 で座標時間の進みは 🔩 と同じ)。notClaim `supernova_analogy`
+  (表示文 `nc_supernova_analogy` —— ja/en)・観測カードの行「アナロジー」。ワンタップ B 側は gain 0(physicsPatch)。
+- **AI 生成の規則**: 変えない(宣言の形は既存のまま —— SYSTEM_PROMPT には載せない)。ただし慣性決定力の引きずりが強い本(受け手の Σw/W_bg ≫ 1 —— 塊)で放出や飛びを
+  主張するときは、器で刻みの依存(本体の刻みを細かくする・結合積分の器と比べる)を確かめてから書く。
+- **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
+- QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
+  (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。

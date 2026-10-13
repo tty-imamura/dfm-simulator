@@ -76175,6 +76175,137 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     }
   }
 }
+// ---- 第301便d(原仮定者の裁定(第91報)④「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」・統括の検証項目 R182):
+// ----   docs.chainBurst301 / preset.chainBurstShell301(新設 —— root は SKIP・世代切替は対象 html の `const REL_DRAG_NORM_VERSION`〔第301便a の法則の世代〕∧ 正本 tests/out/chainburst-w301d.json)。
+// ----   固定値は正本(器 tests/exp-w301d-chainburst.mjs —— 段 chainburst-301d)と宣言から読む(鎖で正本を作り直した後の世代も同じ照合)。
+// ----   docs.chainBurst301: ① 正本の門がすべて真・決定(🔗 の既定の刻みの飛びは本体の分割で早まった分・機構は収束した解に残る → 探索の写しを作る)② 正本の条件 = html の 🔗 の宣言
+// ----      ③ その場で 🔗 を 500 步(t = 8)走らせ、K・U・最大半径・W が正本の標本と一致 ④ 文書(PHYSICS〔第301便d〕・CHANGELOG・AI_SPEC)と再生成の段・.gitignore の例外
+// ----   preset.chainBurstShell301: 探索の写し 🧨 の宣言(principle・toy・三次元・double・stepDt・接触なし・中心 pinned と軸・notClaim の文・obsCard が受理器を通る・アナロジーの行)・
+// ----      bodies = 生成器 tests/lib-w301d-shell.mjs の出力・A/B の B(gain 0)が受理される・正本の条件 = 宣言・その場の 4000 步(宣言の刻みで t = 8)が正本の標本と一致・
+// ----      samplestatus 原稿の行(根拠に正本)
+{
+  const html301d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const cbPath301d = path.join(ROOT, 'tests', 'out', 'chainburst-w301d.json');
+  const has301d = TARGET.startsWith('beta/') && html301d.indexOf('const REL_DRAG_NORM_VERSION') >= 0 && fs.existsSync(cbPath301d);
+  if (!has301d) {
+    console.log('SKIP docs.chainBurst301 / preset.chainBurstShell301(第301便d の連鎖円盤の飛びの記録の前の世代 — ' + TARGET + ')');
+  } else {
+    let CB = null, PH = '', CL = '', AS = '', SS = null, GEN = null;
+    try { CB = JSON.parse(fs.readFileSync(cbPath301d, 'utf8')); } catch (e) { CB = null; }
+    try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); } catch (e) {}
+    try { SS = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { SS = null; }
+    try { GEN = await import('file://' + path.join(ROOT, 'tests', 'lib-w301d-shell.mjs')); } catch (e) { GEN = null; }
+    const copyId = (CB && CB.decision && CB.decision.copyId) || null;
+    const R = (CB && CB.results) || {};
+    const wantA = R['A.base'] ? R['A.base'].samples[1] : null;
+    const hc = CB && CB.cond && CB.cond.copy ? CB.cond.copy.stepDt : null;
+    const wantF = (hc && R['F.engine.' + Math.round(0.016 / hc)]) ? R['F.engine.' + Math.round(0.016 / hc)].samples[1] : null;
+    const r = await page.evaluate((copyId) => {
+      const ps = HP.allPresets(), clone = (x) => JSON.parse(JSON.stringify(x)), S = HP.sim, saved = HP.currentPreset ? HP.currentPreset() : null;
+      const p = ps.find((q) => q.id === 'chainDiskToy');
+      if (!p) return { err: 'chainDiskToy が無い' };
+      const ph = p.physics, rd = ph.relativeDrag, c = p.bodies[0], d = p.bodies[1];
+      const cond = { id: p.id, seed: p.seed, G: ph.G, softening: ph.softening, integrator: p.integrator || 'semi', gain: rd.gain, eps: rd.eps, pairs: rd.pairs, solver: rd.solver, spinSource: rd.spinSource,
+        center: { m: c.m, radius: c.radius, spin: c.spin, pinned: c.pinned }, disk: { n: d.n, m: d.mMin, radius: d.radius } };
+      const meas = (dt, k) => { for (let i = 0; i < k; i++) S.step(dt);
+        const n = S.n, G = S.params.G, e2 = (S.params.softening || 0) ** 2, Z = S.coord3d ? S.z : null, VZ = S.coord3d ? S.vz : null; let K = 0, U = 0, rMax = 0;
+        for (let i = 0; i < n; i++) { K += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i] + (VZ ? VZ[i] * VZ[i] : 0));
+          for (let j = i + 1; j < n; j++) { const dx = S.x[j] - S.x[i], dy = S.y[j] - S.y[i], dz = Z ? Z[j] - Z[i] : 0; U -= G * S.m[i] * S.m[j] / Math.sqrt(dx * dx + dy * dy + dz * dz + e2); }
+          if (i > 0) rMax = Math.max(rMax, Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0], Z ? Z[i] - Z[0] : 0)); }
+        return { t: S.t, K, U, rMax, W: S.inertialDragWork, fail: S.inertialDragSolveFail }; };
+      const v = HP.validatePreset(clone(p)); if (!v.ok) return { err: 'validatePreset: ' + JSON.stringify(v.errors).slice(0, 160) };
+      S.build(v.preset); const live = meas(0.016, 500);
+      const o = { cond, live };
+      const q = copyId ? ps.find((z) => z.id === copyId) : null;
+      if (q) {
+        const vq = HP.validatePreset(clone(q)), qp = q.physics, qr = qp.relativeDrag || {}, c0 = q.bodies[0];
+        o.copy = { ok: vq.ok, warn: (vq.warnings || []).filter((w) => /obsCard|descStruct|notClaim|parameterAudit/.test(w)), sampleClass: q.sampleClass, fidelity: q.fidelity, coord: qp.coord, stateCarry: qp.stateCarry,
+          stepDt: qp.stepDt, contactMode: qp.contactMode, gain: qr.gain, law: qr.law, rot: qr.spinDrag ? qr.spinDrag.rot : null, axial: qr.spinDrag ? qr.spinDrag.axial : null,
+          center: { pinned: c0.pinned, spin: c0.spin, axis: !!(c0.spinAxis && c0.spinAxis.enable), m: c0.m, radius: c0.radius }, notClaim: q.notClaim, nc: (q.notClaim || []).map((k) => HP.T ? HP.T('nc_' + k) : null),
+          obsN: (q.obsCard || []).length, obsEnN: ((q.en || {}).obsCard || []).length, analogy: (q.obsCard || []).some((z) => z.q.indexOf('アナロジー') >= 0), analogyEn: ((q.en || {}).obsCard || []).some((z) => /Analogy/.test(z.q)),
+          bodies: q.bodies.slice(1).map((b) => [b.m, b.x, b.y, b.z, b.vx, b.vy, b.vz, b.pinned]),
+          cond: { id: q.id, stepDt: qp.stepDt, coord: qp.coord, gain: qr.gain, eps: qr.eps, G: qp.G, softening: qp.softening, center: { m: c0.m, radius: c0.radius, spin: c0.spin, pinned: c0.pinned } } };
+        const ab = clone(q); Object.assign(ab.physics, q.abBody && q.abBody.physicsPatch ? clone(q.abBody.physicsPatch) : {}); const vb = HP.validatePreset(ab);
+        o.copy.abOk = vb.ok && vb.preset.physics.relativeDrag.gain === 0;
+        if (vq.ok) { S.build(vq.preset); o.copy.live = meas(qp.stepDt, Math.round(8 / qp.stepDt)); }
+      }
+      if (saved && HP.loadPreset) { try { HP.loadPreset(saved.id, false); } catch (e) {} }
+      return o;
+    }, copyId).catch((e) => ({ err: String(e).slice(0, 200) }));
+    const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+    // ---- docs.chainBurst301
+    {
+      const bad = [], cases = [];
+      if (!CB) bad.push('①正本 tests/out/chainburst-w301d.json が読めない');
+      else {
+        const gb = Object.entries(CB.gates || {}).filter(([k, v]) => k !== 'numbers' && v !== true).map(([k]) => k);
+        if (gb.length || CB.ok !== true) bad.push('①正本の門: ' + gb.join(','));
+        const D = CB.decision || {};
+        if (D.chainDiskBurstEarlyNumerical !== true || D.mechanismConverged !== true || D.copy !== true || !D.copyId) bad.push('①決定が正本に無い: ' + JSON.stringify(D).slice(0, 120));
+        const eb = D.escByStep || {};
+        cases.push(`①門 ${Object.keys(CB.gates || {}).filter((k) => k !== 'numbers').length} 本・🔗 の半径 100 を越えた数(t = 288)本体 h/h2/h4/h8 = ${(eb.engine || []).join('/')}・rk4 h/h2/h4 = ${(eb.rk4 || []).join('/')}`);
+      }
+      if (r.err) bad.push('ページ: ' + r.err);
+      else {
+        if (CB) { const { copy, ...c0 } = CB.cond || {}; if (JSON.stringify(c0) !== JSON.stringify(r.cond)) bad.push(`②正本の条件 ≠ html の 🔗 の宣言`); }
+        if (!wantA) bad.push('③正本の標本(A.base の t = 8)が無い');
+        else {
+          const e = Math.max(rel(r.live.K, wantA.K), rel(r.live.U, wantA.U), rel(r.live.rMax, wantA.rMax), rel(r.live.W, wantA.W));
+          if (!(e <= 1e-9) || r.live.fail !== 0) bad.push(`③その場の 500 步が正本と違う(相対 ${e.toExponential(2)}・未収束 ${r.live.fail})`);
+          cases.push(`②条件の一致 ③その場の 500 步 K ${r.live.K.toPrecision(6)}(正本との相対 ${e.toExponential(1)})`);
+        }
+      }
+      const sec = (() => { const a = PH.indexOf('〔第301便d — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
+      if (!sec) bad.push('④PHYSICS に〔第301便d〕が無い(## 7. の前)');
+      else for (const w of ['第91報', 'R182', 'chainburst-w301d.json', 'lib-w301d-coupled.mjs', 'rk4', '分割', 'chainBurstShell3d', 'アナロジー']) if (sec.indexOf(w) < 0) bad.push('④〔第301便d〕に「' + w + '」が無い');
+      if (!/^- \*\*第301便d/m.test(CL)) bad.push('④CHANGELOG に第301便d の行が無い');
+      if (!/^## \d+\. 第301便d/m.test(AS)) bad.push('④AI_SPEC に第301便d の節が無い');
+      { const RTt = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+        if (RTt.indexOf("S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json']") < 0 || !/secSource: 'w301d-branch'/.test(RTt)) bad.push('④再生成の段 chainburst-301d');
+        if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/chainburst-w301d.json') < 0) bad.push('④.gitignore の例外'); }
+      add('docs.chainBurst301', bad.length === 0,
+        `**連鎖円盤の 14000 步付近の飛び**(第301便d・原仮定者の裁定(第91報)④・R182 —— 🔗 の既定の刻みの飛びは本体の分割で早まった分・機構は結合積分 rk4 の収束した解に残る → 探索の写し): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- preset.chainBurstShell301
+    {
+      const bad = [], cases = [];
+      const C = r.copy;
+      if (r.err) bad.push('ページ: ' + r.err);
+      else if (!copyId || !C) bad.push('探索の写し ' + copyId + ' が html に無い');
+      else {
+        if (!C.ok) bad.push('受理器で拒否');
+        if (C.warn.length) bad.push('表示の宣言が受理器で削除: ' + C.warn.join(' / ').slice(0, 120));
+        if (!(C.sampleClass === 'principle' && C.fidelity === 'toy' && C.coord === '3d' && C.stateCarry === 'double' && C.contactMode === 'none')) bad.push('宣言(principle・toy・3d・double・接触なし)');
+        if (!(C.law === 'inertial' && C.gain > 0 && C.rot === 'surfaceFlip' && C.axial === 'off')) bad.push('引きずりの宣言');
+        if (!(C.center.pinned === true && C.center.spin > 0 && C.center.axis === true)) bad.push('中心(pinned・自転・軸)');
+        if (!(Array.isArray(C.notClaim) && C.notClaim.indexOf('supernova_analogy') >= 0 && C.nc.every((t) => typeof t === 'string' && t.length > 0))) bad.push('notClaim の文(supernova_analogy)');
+        if (!(C.obsN >= 5 && C.obsN === C.obsEnN && C.analogy && C.analogyEn)) bad.push(`観測カード(${C.obsN}/${C.obsEnN}・アナロジーの行 ${C.analogy}/${C.analogyEn})`);
+        if (!C.abOk) bad.push('A/B の B(gain 0)が受理されない');
+        if (!GEN) bad.push('生成器 tests/lib-w301d-shell.mjs が読めない');
+        else { const g = GEN.shellBodies().map((b) => [b.m, b.x, b.y, b.z, b.vx, b.vy, b.vz, b.pinned]);
+          if (JSON.stringify(g) !== JSON.stringify(C.bodies)) bad.push('bodies が生成器の出力と違う');
+          cases.push(`bodies = 生成器 ${GEN.SHELL_VERSION}(${g.length} 個)`); }
+        if (CB && CB.cond && CB.cond.copy) { const { shellVersion, shell, ...c1 } = CB.cond.copy; if (JSON.stringify(c1) !== JSON.stringify(C.cond)) bad.push('正本の条件 ≠ 宣言'); }
+        else bad.push('正本に写しの条件が無い');
+        if (!wantF) bad.push('正本の標本(宣言の刻みの t = 8)が無い');
+        else if (C.live) {
+          const e = Math.max(rel(C.live.K, wantF.K), rel(C.live.U, wantF.U), rel(C.live.rMax, wantF.rMax), rel(C.live.W, wantF.W));
+          if (!(e <= 1e-9) || C.live.fail !== 0) bad.push(`その場の ${Math.round(8 / C.stepDt)} 步が正本と違う(相対 ${e.toExponential(2)})`);
+          cases.push(`その場の ${Math.round(8 / C.stepDt)} 步(dt ${C.stepDt})K ${C.live.K.toPrecision(6)}(正本との相対 ${e.toExponential(1)})`);
+        }
+        if (CB && CB.gates) { const gk = Object.keys(CB.gates).filter((k) => /^copy/.test(k)); const gb = gk.filter((k) => CB.gates[k] !== true);
+          if (!gk.length || gb.length) bad.push('正本の写しの門: ' + gb.join(','));
+          const N = CB.gates.numbers || {}; cases.push(`写しの門 ${gk.length} 本(rk4 h/h2 の差 ${Number(N.copyConv).toExponential(1)}・本体の放出の時刻の差 ${(N.copyErr || []).join('/')})`); }
+        const row = SS && SS.rows ? SS.rows[copyId] : null;
+        if (!row || (row.evidence || []).indexOf('tests/out/chainburst-w301d.json') < 0) bad.push('samplestatus の原稿の行(根拠に正本)');
+      }
+      add('preset.chainBurstShell301', bad.length === 0,
+        `**探索の写し 🧨 ${copyId}**(第301便d・R182 —— 連鎖引きずりの放出・超新星のアナロジー・宣言の刻みは rk4 に近い刻み): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)
