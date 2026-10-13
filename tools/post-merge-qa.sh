@@ -86,6 +86,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSplit301"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.approxMany301 preset.approxMany301"
 # 第301便f: 枝 f の新設 1 本(behavior.clone2d301 —— 複製とチェックポイントの全本の同一・build の機能ごとの初期化)と、正本を作り直したチェックポイントの棚卸し(behavior.ckFixcapRestore —— 上にある)・三次元の複製(behavior.ckDrag3d299 —— 上にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
+# 第301便g(原仮定者の裁定 AN300・R185): 枝 g の新設 1 本(docs.wbgLaw301 —— W_bg の法則性の探索の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
