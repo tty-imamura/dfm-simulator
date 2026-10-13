@@ -876,7 +876,7 @@ export const REGEN_STEPS = [
   //   🍥 の塵型の対照〔診断〕・測り直しの記録〔🍥 の 8 条件と 🍩 の門 —— 正本 geo4stable-w299d.json・saturnring3d-w300c.json を読む〕・宣言から数えた監査)。
   //   Node 1 プロセス。2 つの正本を読むので after に 2 段。所要は第301便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
   S('approxmany-301b', 'node tests/exp-w301b-approxmany.mjs', ['tests/out/approxmany-w301b.json'], 10, { secSource: 'w301b-branch', node: true, after: ['geo4stable-299d', 'saturnring3d-300c'],
-    volatilePaths: { 'tests/out/approxmany-w301b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/effect/spreadDust/A/wallSec', '/remeasure/spread/wallSecA']) },
+    volatilePaths: { 'tests/out/approxmany-w301b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/effect/spreadDust/A/wallSec']) },
     note: '第301便b: 近似多粒子の契約(塵どうしは重力・引きずり・接触なし・天体どうしは接触なし・支配天体は固定)—— 受理・零試験・🍩 の塵のマスクの効き・🍥🍩 の測り直しの記録・監査(値だけ)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、

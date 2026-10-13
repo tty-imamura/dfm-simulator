@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 271.565
+   "wallSec": 416.736
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 271.122
+   "wallSec": 372.071
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 125.902
+   "wallSec": 219.852
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 130.39
+   "wallSec": 218.408
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.008853375831642066
     }
    },
-   "wallSec": 108.227
+   "wallSec": 248.154
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 14.475
+   "wallSec": 25.107
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 29.313
+   "wallSec": 56.067
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 3.886
+   "wallSec": 10.035
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 271.565
+   "wallSec": 416.736
   },
   "m5h2": {
-   "wallSec": 271.122
+   "wallSec": 372.071
   },
   "h": {
-   "wallSec": 125.902
+   "wallSec": 219.852
   },
   "m5": {
-   "wallSec": 130.39
+   "wallSec": 218.408
   },
   "transfer": {
-   "wallSec": 108.227
+   "wallSec": 248.154
   },
   "flat2d": {
-   "wallSec": 14.475
+   "wallSec": 25.107
   },
   "flat2dh2": {
-   "wallSec": 29.313
+   "wallSec": 56.067
   },
   "probe": {
-   "wallSec": 3.886
+   "wallSec": 10.035
   }
  },
  "notClaim": [
@@ -1957,22 +1957,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "446181fcc8efa29d02dc5d434faddb60e04eeccf04e7fa58d25cf4ff605676c6",
-  "generatedAt": "2026-10-13T01:28:53.150Z",
+  "targetSha256": "70017aab54401d79a7bd3ad0c50f99462e3349b622f4dbd389e8ed127ee869af",
+  "generatedAt": "2026-10-13T02:08:08.114Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6676206,
-    "sha256": "446181fcc8efa29d02dc5d434faddb60e04eeccf04e7fa58d25cf4ff605676c6",
-    "mtime": "2026-10-13T01:19:33.406Z"
+    "bytes": 6675861,
+    "sha256": "70017aab54401d79a7bd3ad0c50f99462e3349b622f4dbd389e8ed127ee869af",
+    "mtime": "2026-10-13T01:29:02.206Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w300c-saturnring3d.mjs",
-    "bytes": 43104,
-    "sha256": "26f1ed3f74cbb4c057449260c72cab2f217aafb7611578954f65782282af8aed",
-    "mtime": "2026-10-13T01:20:16.710Z"
+    "bytes": 43128,
+    "sha256": "f26c94d153f9f778fece1ae89e0e25f87c770b43905e9f5b55070bb83b8eb6b6",
+    "mtime": "2026-10-13T01:53:49.431Z"
    },
    {
     "file": "tests/lib-w300c-saturnring3d.mjs",
@@ -2005,7 +2005,7 @@
     "mtime": "2026-10-13T00:36:28.530Z"
    }
   ],
-  "codeSha256": "044fa64d66149166be95403e6738ae3a03a1dcf6b628c7b748ef62ae7c0fe550",
+  "codeSha256": "eeea3a9f518658913b7f02d307505f90ce648e06a3b78a5741221d888f9d21e1",
   "harnessVersion": "w300c-saturnring3d-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」",
@@ -2021,6 +2021,7 @@
     "HP.inertialDragProbeAt",
     "HP.inertialDragState",
     "HP.sim",
+    "HP.validateApproxMany",
     "HP.validatePreset"
    ],
    "core": true,
@@ -2030,10 +2031,10 @@
    "segments": 1111,
    "closureShare": 0.3189
   },
-  "scopeSha256": "345bdfb5b2536bac4a8ed5b86a5b7aa46ad74e7f31750193515c3286642603e3",
+  "scopeSha256": "27bcdd1f47c5f4fa3cbe82c27e85793e955f3ed42c6a527da2327909683766ec",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 508.115
+ "elapsedS": 845.232
 }

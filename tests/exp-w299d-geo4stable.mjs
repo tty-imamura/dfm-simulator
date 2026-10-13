@@ -29,7 +29,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri } from './lib-w280b-emgrid.mjs';
 import * as SP from './lib-w299d-spread.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の天体型(html の受理器が physics.approxMany を持つ世代だけ —— 旧世代は従来の形)
-const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w299d-geo4stable-1';

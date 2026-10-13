@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.approxManyPairOf","HP.approxManyState","HP.coord3d","HP.inertialDragProbeAt","HP.inertialDragState","HP.validatePreset","HP.validateApproxMany","HP.approxManyCrossCheck","HP.presetSig"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.APPROX_MANY_STATE_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.approxManyCrossCheck","HP.approxManyPairOf","HP.approxManyState","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.presetSig","HP.validateApproxMany","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301b-approxmany-1';
@@ -38,7 +38,7 @@ export const BEFORE = Object.freeze({
     seedRelA: 0.0522418, seedRelB: 0.0373783, budgetRelL: 6.87458e-16, budgetRelP: 2.37253e-17,
     bandsA: [{ dth: 0.172305, dthU: 0.0126642, dr: 0.0239211 }, { dth: 0.105908, dthU: 3.10126e-05, dr: 0.000732308 }, { dth: 0.102275, dthU: -0.00135305, dr: -0.00477889 }],
     bandsB: [{ dth: 0.0236458, dthU: 0.0233986, dr: -0.322188 }, { dth: 0.00153647, dthU: 0.00159029, dr: -0.252423 }, { dth: 0.000316784, dthU: 0.000285804, dr: -0.336972 }],
-    wallSecA: null },
+    },
   ring: { cInPeriodSecH: 20828.424109452153, cInPeriodSecH2: 20824.84455224721, mimasPeriodSecH: 81514.9378046243, titanPeriodDayH: 15.94925587436363,
     planeMaxDegH: 1.4787793334710982e-06, lostH: 0, lostH2: 0, outsideBandH: 1, outsideBandH2: 0, grainsEccVs2dMax: 0.00068132, cInVs2dSec: 0.09485714843685855 } });
 /** 監査の候補の規則(宣言から): 在位・粒子 ≥ 16・最も重い single が支配天体の候補で、残り全部の質量の 0.9 倍以上か pinned */
@@ -241,7 +241,7 @@ function partRemeasure(HP) {
       table: S.table.map((z) => ({ key: z.key, pass: z.pass })),
       solverResMaxA: C.solver.value.A.resMax, solverResMaxB: C.solver.value.B.resMax, stepRelA: C.step.value.relA, stepRelB: C.step.value.relB,
       countRel160A: C.count.value.rel160A, countRel160B: C.count.value.rel160B, seedRelA: C.seed.value.relA, seedRelB: C.seed.value.relB,
-      budgetRelL: C.budget.value.relLresid, budgetRelP: C.budget.value.relP, bandsA: b(S.runs.A), bandsB: b(S.runs.B), wallSecA: S.runs.A.wallSec,
+      budgetRelL: C.budget.value.relLresid, budgetRelP: C.budget.value.relP, bandsA: b(S.runs.A), bandsB: b(S.runs.B),
       failed: S.table.filter((z) => !z.pass).map((z) => ({ key: z.key, note: '型を変えたので未達(閾値は器 w299d の宣言のまま)' })) };
   }
   if (J0) {

@@ -393,10 +393,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 3.028
+         "wallSec": 7.696
         },
         "B": {
-         "wallSec": 3.682
+         "wallSec": 7.512
         }
        }
       },
@@ -520,10 +520,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 18.209
+         "wallSec": 23.285
         },
         "B": {
-         "wallSec": 17.691
+         "wallSec": 26.562
         }
        }
       },
@@ -647,10 +647,10 @@
        ],
        "timing": {
         "A": {
-         "wallSec": 46.034
+         "wallSec": 148.898
         },
         "B": {
-         "wallSec": 44.337
+         "wallSec": 103.613
         }
        }
       }
@@ -1212,7 +1212,7 @@
   },
   "runs": {
    "A": {
-    "wallSec": 18.209,
+    "wallSec": 23.285,
     "bands": [
      {
       "band": [
@@ -1294,7 +1294,7 @@
     ]
    },
    "B": {
-    "wallSec": 17.691,
+    "wallSec": 26.562,
     "bands": [
      {
       "band": [
@@ -1598,7 +1598,7 @@
   "wave": "第299便d",
   "target": "beta/index.html",
   "targetSha256": "70017aab54401d79a7bd3ad0c50f99462e3349b622f4dbd389e8ed127ee869af",
-  "generatedAt": "2026-10-13T01:30:25.067Z",
+  "generatedAt": "2026-10-13T02:12:50.521Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1610,9 +1610,9 @@
   "code": [
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 42827,
-    "sha256": "ad9425ba5fc2d4cfb8a4030bfd6e539ad927867b59d4629640524ff569d7773c",
-    "mtime": "2026-10-13T00:54:27.401Z"
+    "bytes": 42851,
+    "sha256": "3a7b9321ec7f84944a3d3c542bb5393b75890b287fcda633a5581a7f9b50d19d",
+    "mtime": "2026-10-13T01:53:49.427Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
@@ -1645,7 +1645,7 @@
     "mtime": "2026-10-13T00:36:28.530Z"
    }
   ],
-  "codeSha256": "d307f0cfbfa386a4d5b6c803d34729d531112c4a59cc751936b8581de427ac6c",
+  "codeSha256": "28d8bedd418b1a0d835b1114fa82960572904aa3e718114cccdfc06851b7cdd6",
   "harnessVersion": "w299d-geo4stable-1",
   "spreadVersion": "w299d-spread-2",
   "loadErrors": 0,
@@ -1675,6 +1675,7 @@
     "HP.presetSig",
     "HP.sim",
     "HP.stepCarryFrame",
+    "HP.validateApproxMany",
     "HP.validatePreset",
     "T",
     "ab",
@@ -1697,10 +1698,10 @@
    "segments": 1116,
    "closureShare": 0.3203
   },
-  "scopeSha256": "437b0ec8d5f88113b0e34fb4fac611d993093f5fe1dd901b82d17a42ab1504ff",
+  "scopeSha256": "aba38e815a441f2937607ef5192f4b5d06cd30f118eb803fb95460e0991ad667",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 580.169
+ "elapsedS": 1127.8
 }
