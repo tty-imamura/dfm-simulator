@@ -32263,7 +32263,7 @@ W_1PN は a とともに c²(1−e²)/(G a²) の形で下がる(応答の分解
 δ_obs に共通の起源がある族の中で W_bg ∝ c²/(G a²) などを LOO で試す (b) κ の離心率依存(0.93〜1.04 倍)を e を振った二体で測る
 (c) 🌥️ の向き(gain 0 で標的を越えている系)は正の W_bg では届かない —— 引きずりの符号の扱いは裁定事項。
 
-**⑧ 器と正本・QA。** 器 tests/exp-w301g-wbglaw.mjs(版 w301g-wbglaw-1・段 wbglaw-301g・正本 tests/out/wbglaw-w301g.json・Node 1 プロセス・枝の実測 261 s・W301G_OUT で出力先を変える)。
+**⑧ 器と正本・QA。** 器 tests/exp-w301g-wbglaw.mjs(版 w301g-wbglaw-1・段 wbglaw-301g・正本 tests/out/wbglaw-w301g.json・Node 1 プロセス・枝の実測 261〜278 s〔他の枝の QA と並走〕・W301G_OUT で出力先を変える)。
 門 10 本(選び方・有限・記録の再現・退役の記録の再現・W_bg = 1/gain・ケプラー・候補の数・LOO の走行・応答・予測)。QA `docs.wbgLaw301`(root は SKIP —— 正本の門・
 行の選び方を宣言から作り直して照合・表の gain/W_bg/質量/単位系が宣言と一致・1 パラメータの当てはめを正本の表から作り直して一致・文書)。
 

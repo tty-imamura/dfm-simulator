@@ -408,7 +408,7 @@ export function partE(HP, cls, table, B, D, log = () => {}) {
       const o = { cand: pr.key, WpredSI: pr.Wsi, gain: g, xMed: med(sw) / Wbook, xMax: Math.max(...sw) / Wbook, relPosDiff: dr / rr, nan: S.hasNaN(), halt: S.inertialDragHalt === true, uMax: st.uMax, steps, wallSec: (Date.now() - t1) / 1000 };
       out.push(o); log({ id: row.id, emoji: row.emoji }, o);
     }
-    rings.push({ id: row.id, emoji: row.emoji, n, steps, dt, aMedSI: sys.a, sumWMedSI: sys.sumW, gain0WallSec: w0, preds: out });
+    rings.push({ id: row.id, emoji: row.emoji, n, steps, dt, aMedSI: sys.a, sumWMedSI: sys.sumW, gain0: { wallSec: w0 }, preds: out });
   }
   return { keys, planets, rings };
 }

@@ -881,9 +881,9 @@ export const REGEN_STEPS = [
   //   (データの表〔宣言から選んだフィットの本・退役の記録・移送・未フィットの本 —— 系の量と局所の重み Σw̄・要る効果 δ〕/ 候補の当てはめ〔1〜2 パラメータ・LOO〕/
   //   LOO の標的の走行 / 応答 κ の検算 / 未フィットの本への予測の記録)。html を読む(器のコードの依存として inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・
   //   planets3d-299c〔runPl3〕・dragnorm-301a〔cosmicBackground〕の後・html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。所要は第301便g の枝の実測(正本の elapsedS)
-  S('wbglaw-301g', 'node tests/exp-w301g-wbglaw.mjs', ['tests/out/wbglaw-w301g.json'], 240, { secSource: 'w301g-branch', node: true,
+  S('wbglaw-301g', 'node tests/exp-w301g-wbglaw.mjs', ['tests/out/wbglaw-w301g.json'], 278, { secSource: 'w301g-branch', node: true,
     after: ['inertial3-295c', 'moon3d-298c', 'planets3d-299c', 'dragnorm-301a', 'obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/wbglaw-w301g.json': META_RUN.concat(['/elapsedS', '/table/*/base/wallSec', '/table/*/run/wallSec', '/loo/*/wallSec', '/predictions/planets/*/preds/*/wallSec', '/predictions/rings/*/preds/*/wallSec', '/predictions/rings/*/gain0WallSec']) },
+    volatilePaths: { 'tests/out/wbglaw-w301g.json': META_RUN.concat(['/elapsedS', '/table/*/base/wallSec', '/table/*/run/wallSec', '/loo/*/wallSec', '/predictions/planets/*/preds/*/wallSec', '/predictions/rings/*/preds/*/wallSec', '/predictions/rings/*/gain0/wallSec']) },
     note: '第301便g: 背景慣性決定力 W_bg の法則性の探索 —— データの表・候補の当てはめと leave-one-out・応答 κ の検算・未フィットの本への予測(値だけ —— 本の宣言は変えない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
