@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-  "generatedAt": "2026-10-12T08:22:49.972Z",
+  "targetSha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
+  "generatedAt": "2026-10-13T09:40:51.605Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6640554,
-    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-    "mtime": "2026-10-12T08:16:45.878Z"
+    "bytes": 6737635,
+    "sha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
+    "mtime": "2026-10-13T09:26:03.573Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 175,
+ "nPresets": 176,
  "kFrameValues": [
   0,
   1
@@ -2033,7 +2033,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 10,
-   "presetSigHash": "4123e22f",
+   "presetSigHash": "aab5ea0",
    "bodiesSha256": "ea9750a9a1514a989466958d397679d3a7998671f37526532e6773716142bd1b"
   },
   {
@@ -2936,7 +2936,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "fad0c72e",
+   "presetSigHash": "2884ea9c",
    "bodiesSha256": "19798ee95091b750bf253447747065e4227e2ffbb635baeeda750f0ca8cbc521"
   },
   {
@@ -2957,8 +2957,29 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 81,
-   "presetSigHash": "c03faafd",
-   "bodiesSha256": "2b09fc22147c23ae73ffbe0eee4c6a289bef93888918d176a67a4e3033789c1f"
+   "presetSigHash": "23a135e1",
+   "bodiesSha256": "8ea86231ceb0f5db7dbdd43ff93afabb2d45ff2948852abf9e63fc91cfc5118d"
+  },
+  {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "name": "連鎖引きずりの殻の放出(三次元)— 自転する中心へ落ちる殻の多粒子・超新星のアナロジーの探索(原理)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.5,
+   "geoPN": 4,
+   "nBodyDecl": 41,
+   "presetSigHash": "63f918fe",
+   "bodiesSha256": "04c87d1fd349d3f8e8b52ac6b5ddf1f31f2ca4f52db92463a3aa394fef8f942e"
   },
   {
    "id": "coord3dKeplerTilt",
