@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-  "generatedAt": "2026-10-12T07:55:14.758Z",
+  "targetSha256": "984dc3b5eca5053f7d0b7837e6d7e5b46145a76d0f2b65a8469cfc882ddb07cc",
+  "generatedAt": "2026-10-13T08:53:23.320Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6644968,
-    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-    "mtime": "2026-10-12T05:11:05.850Z"
+    "bytes": 6736507,
+    "sha256": "984dc3b5eca5053f7d0b7837e6d7e5b46145a76d0f2b65a8469cfc882ddb07cc",
+    "mtime": "2026-10-13T05:21:38.861Z"
    }
   ],
   "code": [
@@ -101,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1208,
-   "segments": 1099,
-   "closureShare": 0.3169
+   "names": 1239,
+   "segments": 1126,
+   "closureShare": 0.3185
   },
-  "scopeSha256": "f034fae6ed02de88e08c5f8cedf97208c3538e82623caffe05d9dc739b99fb4c",
+  "scopeSha256": "f2e42fe93fcbaae1667d5dbd366c8a302abc3610e2d70a64f3084f6bbe6a0ecb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -766,6 +766,7 @@
     "fn": "dfmInertialDragStep",
     "tokensFound": [],
     "callClosure": [
+     "approxManyDragEdges",
      "dfmGaussLegendre01",
      "dfmInertialDragStep",
      "dragCoreAngular",
@@ -780,10 +781,16 @@
      "inertialDragComposeSolve",
      "inertialDragEpoch",
      "inertialDragInit",
+     "inertialDragNormApply",
+     "inertialDragNormX",
      "inertialDragPCG",
      "inertialDragSpinTerm",
      "inertialSpinMoment",
+     "relDrag3SpinOf",
      "relDragComposeOf",
+     "relDragNormActive",
+     "relDragNormChanges",
+     "relDragNormOf",
      "relDragSolveFromOf",
      "relDragSolverMaxIterOf",
      "relDragSolverTolOf"
@@ -826,5 +833,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.849
+ "elapsedS": 2.896
 }

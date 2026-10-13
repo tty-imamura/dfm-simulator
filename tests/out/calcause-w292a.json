@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便a",
   "target": "beta/index.html",
-  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-  "generatedAt": "2026-10-12T09:50:02.342Z",
+  "targetSha256": "984dc3b5eca5053f7d0b7837e6d7e5b46145a76d0f2b65a8469cfc882ddb07cc",
+  "generatedAt": "2026-10-13T08:53:32.506Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1721927,
-    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
-    "mtime": "2026-10-12T09:11:05.462Z"
+    "bytes": 1719859,
+    "sha256": "858b4a362d31d0616b13dcfbb7a2b4c07ca20b088c69fa83dc6a75b6efea9102",
+    "mtime": "2026-10-13T06:16:57.677Z"
    },
    {
     "file": "tests/out/solarsigma-w262d.json",
     "bytes": 158270,
-    "sha256": "97dbc4e62d9de102129218ff41d141773c7d328fe4546ffacc01478ddb9731fb",
-    "mtime": "2026-10-12T09:11:05.954Z"
+    "sha256": "25d08cb211e7c8f21170dc21e9cdfe65b3f59f64341acce84e94323cfe38070c",
+    "mtime": "2026-10-13T06:20:26.153Z"
    },
    {
     "file": "tests/out/charoninput-w280d.json",
     "bytes": 162172,
-    "sha256": "cfa2b6d7aaf6a2bb92ece39b7c167b71bdebab6bcb9c4243b7777dd961fc74ec",
-    "mtime": "2026-10-12T09:49:46.530Z"
+    "sha256": "8da9b1c460149491f6731d0e233aafdb9826a9cf4b63e1b45fb6cfba2674b336",
+    "mtime": "2026-10-13T08:34:42.469Z"
    },
    {
     "file": "tests/out/mercury-w280a.json",
-    "bytes": 72870,
-    "sha256": "7b320693d35fa34078a33930ae4fd74b8d9b073798873b439d81ff8096599052",
-    "mtime": "2026-10-12T09:40:06.046Z"
+    "bytes": 72868,
+    "sha256": "f4cee4b69478f65e66b8d9dc2335df60d98f7c46ed1c6dd6fd38c0524a18a7f0",
+    "mtime": "2026-10-13T08:45:31.437Z"
    },
    {
     "file": "tests/out/pnsources-w291b.json",
-    "bytes": 105546,
-    "sha256": "bb06731fc39bfcb968047b053e08def142adfd71a4036826ec5ff75ea1a2604a",
-    "mtime": "2026-10-12T07:48:33.334Z"
+    "bytes": 106077,
+    "sha256": "61aafac503a780b61b3242beb195c85ed152cd7aa617ce5a7f6ff76f952c3c30",
+    "mtime": "2026-10-13T08:48:30.993Z"
    }
   ],
   "code": [
@@ -42,13 +42,13 @@
     "file": "tests/exp-w292a-calcause.mjs",
     "bytes": 7813,
     "sha256": "fd319bb6a8df7eef8afa9ecb5c7402d43a78a04614238bcb56e046ceeb33c9c0",
-    "mtime": "2026-10-12T05:10:54.634Z"
+    "mtime": "2026-10-12T15:16:39.498Z"
    },
    {
     "file": "tests/lib-w292a-calcause.mjs",
     "bytes": 28058,
     "sha256": "d0170620883d13b2ebc472224a4c84d35e4e83f805108fbffd8890b41658763a",
-    "mtime": "2026-10-12T05:10:54.638Z"
+    "mtime": "2026-10-12T15:16:39.654Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -111,16 +111,16 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1198,
-   "segments": 1089,
-   "closureShare": 0.3152
+   "names": 1226,
+   "segments": 1113,
+   "closureShare": 0.316
   },
-  "scopeSha256": "8e7464c821c80c831c9c3eb2a05e15dfb72eea672d6faa4e70f1ce290422d1ce",
+  "scopeSha256": "7600e1567bd22ed72dab7e92d2d41aa41e79e4a717aa6e27ff72733ca40b667a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a31a5652e10d95964a5d3f5e80ee1a99b8cde6835c77dbbde0fcb9a9934ae1c3",
+    "stableSha256": "a45402e42489224bb5179c45f967b265319bc07067cb2b028f8eed9e512cc2b2",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -148,7 +148,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "97cf79bae07218e8e6c6c1b636133bb1b8720b826bd03323af0a349ad70bd933",
+    "stableSha256": "67f142b54b4f78535e8612ca5d0a1e969a1188e3bab79fa5984671c4396df8ab",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -176,7 +176,7 @@
    },
    {
     "file": "tests/out/pnsources-w291b.json",
-    "stableSha256": "efc4cf2e4d1439b3883a06fdf784c84bf529ca65666aee6c1db3d98e36bb793f",
+    "stableSha256": "eea754b2cda3462a2e2f8549576068a95bf58a0017c31b8d4788c5f3dfe2253d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -8417,5 +8417,5 @@
   "新発見",
   "RC を切った"
  ],
- "elapsedS": 2.346
+ "elapsedS": 2.226
 }

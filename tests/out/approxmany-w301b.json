@@ -357,7 +357,7 @@
     ],
     "resMax": 4.5698e-16,
     "fail": 0,
-    "wallSec": 0.852
+    "wallSec": 0.933
    },
    "B": {
     "bands": [
@@ -575,12 +575,12 @@
    "minParticles": 16,
    "massRatio": 0.9
   },
-  "n": 28,
+  "n": 29,
   "moved": [
    "saturnRingInertial3d",
    "chainSpreadToy3d"
   ],
-  "notMoved": 26,
+  "notMoved": 27,
   "byReason": {
    "calibration": 2,
    "core2d": 20,
@@ -589,7 +589,7 @@
    "referenceModel": 4,
    "contactPurpose": 1,
    "chainZeroTest": 2,
-   "purposeOther": 0
+   "purposeOther": 1
   },
   "rows": [
    {
@@ -1077,6 +1077,26 @@
     "reasons": []
    },
    {
+    "id": "chainBurstShell3d",
+    "emoji": "🧨",
+    "group": "運動と時空",
+    "coord": "3d",
+    "n": 41,
+    "groups": 0,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "purposeOther"
+    ]
+   },
+   {
     "id": "saturnRingReal",
     "emoji": "💍",
     "group": "現実較正",
@@ -1173,46 +1193,46 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.023
+   "wallSec": 0.019
   },
   "zero": {
-   "wallSec": 2.108
+   "wallSec": 2.104
   },
   "effect": {
-   "wallSec": 2.212
+   "wallSec": 2.504
   },
   "remeasure": {
-   "wallSec": 0.003
+   "wallSec": 0.002
   },
   "audit": {
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.347,
+ "elapsedS": 4.63,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "aaa1577a118e89454cc1cc882841dc914e0460117331565117984b8788b61db9",
-  "generatedAt": "2026-10-13T03:16:54.112Z",
+  "targetSha256": "984dc3b5eca5053f7d0b7837e6d7e5b46145a76d0f2b65a8469cfc882ddb07cc",
+  "generatedAt": "2026-10-13T08:56:51.352Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6694990,
-    "sha256": "aaa1577a118e89454cc1cc882841dc914e0460117331565117984b8788b61db9",
-    "mtime": "2026-10-13T03:02:15.761Z"
+    "bytes": 6736507,
+    "sha256": "984dc3b5eca5053f7d0b7837e6d7e5b46145a76d0f2b65a8469cfc882ddb07cc",
+    "mtime": "2026-10-13T05:21:38.861Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
     "bytes": 35611,
-    "sha256": "55112bc33986cb736b377016e617cc7a02730863c12351cb0e9f60be7b7c5972",
-    "mtime": "2026-10-13T03:13:30.165Z"
+    "sha256": "8db4459f5305f2a50805cbe910fa09e7037403b08c8fc22d1781e8fcc5aadf0a",
+    "mtime": "2026-10-13T08:56:42.113Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
     "bytes": 40510,
-    "sha256": "6974e5b586b94c95217ff13ad627409b3c6d30f9292b82d2c99e31b3b76e0043",
-    "mtime": "2026-10-13T03:10:00.333Z"
+    "sha256": "2eb352f79cacff68a9d66fdf9b5ec09c89b6f4fe1e1a3c2d9c832a7d1b9c05d0",
+    "mtime": "2026-10-13T08:48:36.917Z"
    }
   ],
   "code": [
@@ -1220,43 +1240,43 @@
     "file": "tests/exp-w301b-approxmany.mjs",
     "bytes": 29717,
     "sha256": "405568a81824c664dcabb5a1dbed52c517a8eaaf94f54b213bb89684a7dec716",
-    "mtime": "2026-10-13T03:02:15.805Z"
+    "mtime": "2026-10-13T04:11:35.467Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
     "bytes": 5302,
     "sha256": "98d22edfa3bbdeab91f6b2d61ad1a2c2ff9bfbda45eaf9affe4ebfd2c840c23b",
-    "mtime": "2026-10-13T03:02:15.809Z"
+    "mtime": "2026-10-13T04:11:35.470Z"
    },
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
     "bytes": 42851,
     "sha256": "3a7b9321ec7f84944a3d3c542bb5393b75890b287fcda633a5581a7f9b50d19d",
-    "mtime": "2026-10-13T03:02:15.805Z"
+    "mtime": "2026-10-13T04:11:35.461Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
     "bytes": 6222,
     "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
-    "mtime": "2026-10-13T02:49:14.185Z"
+    "mtime": "2026-10-11T18:40:40.195Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-13T02:49:14.177Z"
+    "mtime": "2026-10-09T10:19:35.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-13T02:49:14.173Z"
+    "mtime": "2026-10-09T10:19:35.506Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-13T02:49:14.181Z"
+    "mtime": "2026-10-09T10:19:35.514Z"
    }
   ],
   "codeSha256": "2b2da522d98cc08b7d3d3ae7d37474a814218d2be485fa1aad431a19fb12a689",
@@ -1305,16 +1325,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1244,
-   "segments": 1131,
-   "closureShare": 0.3218
+   "names": 1251,
+   "segments": 1138,
+   "closureShare": 0.3213
   },
-  "scopeSha256": "f1435ee471ab2570b1c92129694c4f570fa4edf8463db52405ab5399f39c10ef",
+  "scopeSha256": "c3ba38aea06e2b57d332f7be906968785f668ecb04906f09f3dbdcc48b04c1d1",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "7ff22125a621ebdd1bf1b9f2c6bc5e075e5a13de5fd477b7949f8c08b0997299",
+    "stableSha256": "6544a00b2c74728e631523c3b6bc74ffc9328732c0be6d381a04194b4afd27fc",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1328,7 +1348,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "af25d89e7ff2c356c0b5d98b2b1dd7c372843e79bbd2e80f7e2fe5a3417e27ee",
+    "stableSha256": "a0038fb0e2717cef26505b33edffb0d90492464fee18c865dce94557c00c77ea",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
