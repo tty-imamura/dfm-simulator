@@ -354,7 +354,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -3584,3 +3584,17 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **太陽系 16 体の器(内蔵には入れない —— 予約 id `solarSystem16Inertial3d`)**: 入力の契約 `tests/data-w300c-solar16-schema.json`(成員 16・元期 JD TDB・太陽系重心・ICRF の J2000 の黄道・幾何学的・km と km/s・天体中心・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ)。生成器 `tests/lib-w300c-solar16.mjs`: `checkSolar16(rec)` → `{ok, errors:[{code, msg}], derived}`(符号 missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)・`toUnits`・`solar16Decl`(1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg・全天体 free・刻み = イオの接触軌道の周期 / 360・leapfrog・softening 0.001 + softeningFloor・radiusFloor 0.001)・`stepCheck`(h・h/2・h/4)・`syntheticRecord`(人工の入力 —— 実際の配置ではない)・`badVariants`。実行口 `tests/exp-w300c-solar16.mjs`(既定は人工の入力の試験・`--record <file> --emit <file>` で観測レコードの検査と宣言の断片)。
 - **受理器 `physics.radiusFloor`**(新しい鍵 —— 宣言した本だけ): single の明示半径 `radius` の下限 0.01 を 0.001 まで下げる(値域 0.001〜0.01・較正クラスは拒否・0.01 と同値なら落とす・三次元でも受理)。未宣言の本は 1 bit 不変。
 - QA: `preset.saturnRing3d300`・`docs.solar16Contract300`(root は SKIP —— 世代切替 = html の `{ id:"saturnRingInertial3d"` と `RADIUS_FLOOR_KEY = "radiusFloor"`)。
+
+## 83. 第301便a —— 引きずりの強さを慣性決定力の総和(背景を含む)で割る(原仮定者の裁定(第91報)⑤・統括の検証項目 R179・**物理の鍵 2 つと器** —— `S._core` は不変・走りが変わる在位の本は 🪛 の軸引きずりだけ)
+
+- **法則**: 受け手 i の総和 W_i = W_bg + Σ_j w_ij(w_ij = m_j 𝒦_j(r_ij) —— 並進と同じ核・宣言した対だけ)で割る: u_i = C_d Σ_j w_ij (W_j − v_i)/W_i(背景は分母にだけ)。gain = C_d/W_bg [L³/M](意味は変えない)。
+  既定の合成則 solve(第293便g)の行 (1+deg_i) u_i − Σ a_ij u_j = s_i は **W_bg = 1/gain・C_d = 1 のこの法則そのもの**(器の零試験 z8 で相対 3.3×10⁻¹⁶)—— 並進と回転引きずりは変わらない。
+- **鍵 `physics.relativeDrag.norm`**(law:"inertial"): `"total"`(既定 —— 正準形に出さない)/ `"none"`(第301便a の前の法則 —— 比較用・在位の本には書かない)。
+- **鍵 `physics.relativeDrag.background`**(W_bg [M/L³]・正の有限数・合成則 solve だけ・gain>0・C_d = gain×background ≤ 1): 行の対角を 1 + x_i(x_i = Σ_j w_ij/W_bg)に替える。既定(書かない)は W_bg = 1/gain。
+- **軸引きずり**(spinDrag.axial:"on"): 受け手の角速度 ω_i に ν_i = W_bg/(W_bg + Σ_j w_ij) を掛ける(3 成分に同じ分母)。
+- **関数(1 か所)**: `relDragNormOf(rd)`・`relDragNormActive(rd)`(total ∧ solve ∧ gain>0)・`relDragNormChanges(rd)`(背景の宣言 ∨ 軸引きずり —— presetSig の鍵 `relDragNorm` と fitCondSig の鍵 `dragNorm` はこの本だけ)・
+  `relDragBackgroundOf(rd)` → `{Wbg, Cd, from:"gain"|"declared"}`・`inertialDragNormX(rd, deg)`・`inertialDragNormOf(rd, deg)`(ν)・`inertialDragNormApply(S, n, comp, om)`(步の中 —— 解く前)・
+  読み口 `inertialDragState(S).norm`(走りが変わる本だけ —— `inertialDragNormState`)。版 `REL_DRAG_NORM_VERSION = "w301a-norm-1"`。
+- **器と正本**: `tests/exp-w301a-dragnorm.mjs`(版 w301a-dragnorm-1・`W301A_OUT`)→ `tests/out/dragnorm-w301a.json`(段 dragnorm-301a —— 零試験 z1〜z8・境目の表・🟫🟪 の新旧・候補 (iii) 宇宙の平均密度の背景・🔗 の 18000 步)。
+- QA: `behavior.dragNorm301`・`preset.refit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_NORM_VERSION`)。
+- SYSTEM_PROMPT の規則 12 に 1 文(引きずりの強さは総和〔背景を含む〕で割る —— 鍵 norm・background は書かない)。

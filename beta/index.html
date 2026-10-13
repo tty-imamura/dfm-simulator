@@ -7564,7 +7564,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag"];   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background"];   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7638,6 +7638,50 @@ const REL_DRAG_SPIN3_AXIAL = ["on", "off"];
 const REL_DRAG_AXIAL_COUPLING_RANGE = [0, 1e12];
 const REL_DRAG_SPIN3_VERSION = "w298c-spin3-1";
 const REL_DRAG_AXIAL_LAW = "mu2-pointK";   // 角度則 μ²・距離の核 K_ε(r)=r/(r²+ε²)²(並進と同じ点源)   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
+// ===== 第301便a(原仮定者の裁定(第91報)⑤「慣性決定力場が空間位置を決めているので、引きずりの強さは慣性決定力の総和で割る。総和には背景慣性決定力を含む。
+//   シミュレーション対象は背景慣性決定力場に合わせて動く慣性系なので、背景慣性決定力による相対的な引きずりの大きさはゼロ」・統括の検証項目 R179):
+//   **引きずりの強さの正規化** `relativeDrag.norm`・`relativeDrag.background`(law:"inertial" だけ)=====
+// 法則: 受け手 i が感じる慣性決定力の総和 W_i = W_bg + Σ_j w_ij(w_ij = m_j 𝒦_j(r_ij) —— 並進の a_ij と同じ核〔点源 K_ε か構造核 ⟨K⟩_j〕・宣言した対だけ・
+//   質量が正の源だけ)で割る: u_i = C_d Σ_j w_ij (W_j − v_i) / W_i(W_j = v_j + u_j は源の移動速度 —— 合成則 solve の自己無撞着)。背景は**分母にだけ**入る
+//   (背景との相対速度 0 —— 分子の背景の項は W_bg·(v_i − v_i) = 0)。gain の意味は変えない: gain = C_d/W_bg [L³/M]。
+// **実測と代数で確かめたこと(第301便a)**: 既定の合成則 solve(第293便g)の行 (1+deg_i) u_i − Σ_j a_ij u_j = s_i(a_ij = gain·w_ij・deg_i = Σ_j a_ij)は
+//   u_i = Σ_j a_ij (W_j − v_i)/(1 + deg_i) = Σ_j w_ij (W_j − v_i)/(1/gain + Σ_j w_ij) —— **すでに W_bg = 1/gain・C_d = 1 の正規化した法則そのもの**
+//   (受け手自身の v_i に重み 1/gain〔= 背景〕を置いた加重平均 W_i = (W_bg v_i + Σ w_ij W_j)/(W_bg + Σ w_ij))。回転引きずり(s に足す項)も同じ 1+deg_i で
+//   割られている。**割られていなかったのは軸引きずりの角速度 ω_i だけ**。よって本便の変更は:
+//   (1) 軸引きずり: ω_i に ν_i = W_bg/(W_bg + Σ_j w_ij) = 1/(1 + x_i)(x_i = Σ_j w_ij / W_bg)を掛ける(3 成分に同じ分母)。
+//   (2) 背景の宣言 background(W_bg [M/L³]・C_d = gain·W_bg ≤ 1): 行の対角を 1 + x_i(x_i = deg_i/(gain·W_bg))に替える —— u_i = C_d Σ w (W_j − v_i)/(W_bg + Σ w)。
+//       既定(宣言しない)は W_bg = 1/gain・C_d = 1(x_i = deg_i —— 行は 1 bit も変わらない)。C_d ≤ 1 で対角優位・質量の重みで対称正定値(連鎖の PCG はそのまま)。
+//   norm:"none" は第301便a の前の法則(軸引きずりを割らない・背景の宣言を読まない —— 比較用・在位の本には書かない)。合成則 compose:"sum"(旧法則版 —— 比較用)は
+//   第293便e の加算のまま(正規化しない)。gain 0 の本は何も変わらない。
+const REL_DRAG_NORMS = ["total", "none"];
+const REL_DRAG_NORM_DEFAULT = "total";
+const REL_DRAG_NORM_VERSION = "w301a-norm-1";
+function relDragNormOf(rd){
+  if(!rd || rd.law!=="inertial") return null;
+  return (rd.norm===undefined || rd.norm===null)? REL_DRAG_NORM_DEFAULT : rd.norm;
+}
+// 正規化が働く本か(法則が total ∧ 合成則 solve ∧ gain>0)。gain 0・compose:"sum"・norm:"none" は働かない
+function relDragNormActive(rd){ return relDragNormOf(rd)===REL_DRAG_NORM_DEFAULT && relDragComposeOf(rd)==="solve" && rd.gain>0; }
+// 第301便a の前の法則と走りが変わる本か(背景を宣言した ∨ 軸引きずり on)—— 署名と読み口の鍵はこの本だけ(他の本は 1 字も変えない)
+function relDragNormChanges(rd){
+  return relDragNormActive(rd) && ((rd.background!==undefined && rd.background!==null) || !!(rd[REL_DRAG_SPIN3_KEY] && rd[REL_DRAG_SPIN3_KEY].axial==="on"));
+}
+// 背景慣性決定力 W_bg [M/L³](既定 1/gain —— C_d = 1)と C_d
+function relDragBackgroundOf(rd){
+  if(!relDragNormActive(rd)) return null;
+  const decl=(rd.background!==undefined && rd.background!==null);
+  return {Wbg:decl? rd.background : 1/rd.gain, Cd:decl? rd.gain*rd.background : 1, from:decl? "declared" : "gain"};
+}
+// **正規化の 1 か所**: 受け手の行和 deg(= gain·Σ_j w_ij)から x = Σw/W_bg を返す(働かない本は deg のまま —— 行の対角は 1 + x)
+function inertialDragNormX(rd, deg){
+  if(!relDragNormActive(rd) || rd.background===undefined || rd.background===null) return deg;
+  return deg/(rd.gain*rd.background);
+}
+// ν = W_bg/(W_bg + Σw) = 1/(1 + x)(働かない本・deg=0 は 1)
+function inertialDragNormOf(rd, deg){
+  if(!relDragNormActive(rd) || !(deg>0)) return 1;
+  return 1/(1+inertialDragNormX(rd,deg));
+}
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -7726,6 +7770,17 @@ function validateRelativeDragInertial(a){
   const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
   if(!ctv.ok) return {ok:false, err:ctv.err};
   if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
+  // 第301便a(R179): 引きずりの強さの正規化(省略・null・"total" は既定 —— 正準形に出さない。"none" を明示した本だけ norm:"none"〔旧法則・比較用〕)
+  const nrm=(a.norm===undefined || a.norm===null)? REL_DRAG_NORM_DEFAULT : a.norm;
+  if(REL_DRAG_NORMS.indexOf(nrm)<0) return {ok:false, err:'physics.relativeDrag.norm(law:"inertial")は "total"(既定 —— 引きずりの強さを受け手の慣性決定力の総和〔背景を含む〕で割る・第301便a)か "none"(旧法則 —— 比較用)'};
+  if(nrm!==REL_DRAG_NORM_DEFAULT) out.norm=nrm;
+  if(a.background!==undefined && a.background!==null){
+    if(nrm!==REL_DRAG_NORM_DEFAULT) return {ok:false, err:'physics.relativeDrag.background は norm:"total"(既定)の本だけ(norm:"none" の旧法則は背景を読まない)'};
+    if(!isNum(a.background) || !(a.background>0)) return {ok:false, err:'physics.relativeDrag.background は正の有限数(背景慣性決定力 W_bg [M/L³] —— 核 m𝒦 と同じ単位。省略は W_bg = 1/gain〔C_d = 1〕)'};
+    if(a.compose==="sum") return {ok:false, err:'physics.relativeDrag.background は合成則 solve(既定)の本だけ(compose:"sum" は第293便e の加算のまま —— 正規化しない比較用)'};
+    if(!(a.gain>0) || !(a.gain*a.background<=1)) return {ok:false, err:'physics.relativeDrag.background は gain>0 と一緒に・C_d = gain×background ≤ 1(背景の無い極限で受け手は源の加重平均の速度まで —— 超えない)'};
+    out.background=a.background;
+  }
   // 第293便e→第293便g: 合成則(省略・null・"solve" は既定 —— 正準形に出さない。"sum" を明示した本だけ compose:"sum" を出す)
   const cmp=(a.compose===undefined || a.compose===null)? REL_DRAG_COMPOSE_DEFAULT : a.compose;
   if(REL_DRAG_COMPOSE.indexOf(cmp)<0) return {ok:false, err:'physics.relativeDrag.compose(law:"inertial")は "solve"(既定 —— 共通の移動速度を自己無撞着に解く)か "sum"(旧法則版 —— 各源の寄与を足す・比較用)'};
@@ -23218,6 +23273,7 @@ function fitCondSig(q, rec){
   const body={v:FIT_COND_VERSION, law:String(rec && rec.law), lawVersion:REL_DRAG_INERTIAL_VERSION, physics:ph, bodies:spinAxisSigBodies((q && q.bodies)||[]),
     scaleExp:(q && q.scaleExp) || null, epoch:(q && q.epoch!==undefined)? q.epoch : null, integrator:(q && q.integrator) || "semi",
     dt:rec? rec.dt : null, windows:((rec && rec.targets)||[]).map((t)=>t && t.window), extractor:(rec && rec.cond)? rec.cond.extractor : null};
+  if(relDragNormChanges(ph.relativeDrag)) body.dragNorm=REL_DRAG_NORM_VERSION;   // 第301便a: 正規化で走りが変わる条件(背景の宣言 ∨ 軸引きずり)だけ —— その条件で以前に作った記録は "changed"
   if(rec && rec.version===FIT_RECORD_VERSION_MT) body.extractors=(rec.targets||[]).map((t)=>t && t.extractor);   // 第298便b: 標的ごとの抽出器(w297b-1 の署名は不変)
   const t=fitCanonJSON(body);
   const h2=(x)=>{ let h=0x811c9dc5; for(let i=x.length-1;i>=0;i--){ h^=x.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; };
@@ -41490,7 +41546,8 @@ function presetSig(p){
     // インポートが第36便の integrator 等と同型の誤重複スキップになるのを防ぐ
     phaseChange:q.phaseChange||null, fusion:q.fusion||null,
     ...(q.centerCapture? {centerCapture:q.centerCapture} : null),   // 第287便a: 宣言した本だけ(他の本の署名は 1 字も変わらない)
-    ...(q.fixedCapture? {fixedCapture:q.fixedCapture} : null), ...(q.fixedEject? {fixedEject:q.fixedEject} : null)   // 第288便a: 同じ(宣言した本だけ)
+    ...(q.fixedCapture? {fixedCapture:q.fixedCapture} : null), ...(q.fixedEject? {fixedEject:q.fixedEject} : null),   // 第288便a: 同じ(宣言した本だけ)
+    ...((q.physics && relDragNormChanges(q.physics.relativeDrag))? {relDragNorm:REL_DRAG_NORM_VERSION} : null)   // 第301便a: 正規化で走りが変わる本だけ(背景の宣言 ∨ 軸引きずり —— 他の本の署名は 1 字も変わらない)
   });
 }
 // 第103便: 外部AIチャット返答からのJSON候補抽出(doImportText の寛容経路用)。
@@ -41716,7 +41773,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -53750,6 +53807,7 @@ function inertialDragInit(S){
       S.inertialDragSpinSrc=0; S.inertialDragSpinN=0; S.inertialDragSpinSkip=0; S.inertialDragSpinMax=0;
     }
   }
+  if(relDragNormChanges(rd)){ S.inertialDragNormN=0; S.inertialDragNormX=0; S.inertialDragNormXMax=0; }   // 第301便a: 走りが変わる本(背景の宣言 ∨ 軸引きずり)だけの帳簿(他の本には鍵を作らない)
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
   if(S.coord3d===true) inertialDrag3LedgerInit(S);   // 第298便c: 三次元の本だけ(二次元の本には鍵を作らない)
 }
@@ -53946,6 +54004,26 @@ function inertialDragComposeBuild(S,n,CT,hist,C,e2){
   }
   return {coincident:false, degMax, tooLarge:false};
 }
+// 第301便a(R179): **正規化の適用(1 か所)** —— 受け手ごとに x_i = Σw/W_bg・ν_i = 1/(1+x_i) を求め、(2) 背景を宣言した本は行の対角を 1 + x_i(DG を x_i)に、
+//   (1) 軸引きずりの角速度 ω_i(om=true の步だけ)に ν_i を掛ける。並進の s と結合 a_ij は触らない(合成則 solve の 1 + deg_i がすでに総和で割っている)。
+//   働かない本(norm:"none"・gain 0・compose:"sum")は null。戻り値 {degMax(行の対角の x の最大), xMax(Σw/W_bg の最大)}
+function inertialDragNormApply(S,n,comp,om){
+  const rd=S.relDrag;
+  if(!comp || !relDragNormActive(rd)) return null;
+  const decl=(rd.background!==undefined && rd.background!==null);
+  if(!decl && !om) return null;   // 既定の背景で軸引きずりの無い步は何も書かない(行は第293便g の solve のまま)
+  const DG=S._rdDeg, m=S.m, pin=S.pinned, WX=om? S._rdWX : null, WY=om? S._rdWY : null, WZ=om? S._rdWZ : null;
+  let degMax=0, xMax=0;
+  for(let i=0;i<n;i++){
+    const d=DG[i], x=inertialDragNormX(rd,d);
+    if(decl) DG[i]=x;
+    if(WX && d>0){ const nu=1/(1+x); WX[i]*=nu; WY[i]*=nu; WZ[i]*=nu; }
+    const mi=m[i];
+    if(mi>0 && Number.isFinite(mi) && !pin[i]){ if(Math.abs(DG[i])>degMax) degMax=Math.abs(DG[i]); if(x>xMax) xMax=x; }
+  }
+  S.inertialDragNormN=(S.inertialDragNormN||0)+1; S.inertialDragNormX=xMax; if(!(S.inertialDragNormXMax>=xMax)) S.inertialDragNormXMax=xMax;
+  return {degMax, xMax};
+}
 // (I+L)u = s を解いて UX/UY(入口では s)を u で置き換える。受け取らない行(pinned・質量が正でない)は u_i=0 に固定。
 function inertialDragComposeSolve(S,n){
   const A=S._rdA, UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg, m=S.m, pin=S.pinned;
@@ -54102,14 +54180,15 @@ function dfmInertialDragStep(S,dt){
     UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; DG[i]=okI? deg : 0;
     if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
   }
+  let dU=0, Px=0, Py=0, Jz=0, dL=0, uMax=0, nMoved=0;
+  if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
+  if(hist && comp && rd.spinSource===REL_DRAG_SPIN_SOURCES[0]) inertialDragSpinTerm(S,n,C,eps);   // 第296便c: 自転する源の表裏核を s に足す(宣言した本だけ)
+  if(!coincident){ const nq=inertialDragNormApply(S,n,comp,false); if(nq) degMax=nq.degMax; }   // 第301便a: 背景を宣言した本だけ行の対角を 1+x(既定の本は素通り —— solve の 1+deg がすでに総和で割っている)
   const bound=2*degMax;
   S.inertialDragBound=bound;
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
   if(degMax>S.inertialDragDegMax) S.inertialDragDegMax=degMax;
   if(bound>=1) S.inertialDragOver++;                        // (vii) 数える(clamp しない・飽和させない)
-  let dU=0, Px=0, Py=0, Jz=0, dL=0, uMax=0, nMoved=0;
-  if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
-  if(hist && comp && rd.spinSource===REL_DRAG_SPIN_SOURCES[0]) inertialDragSpinTerm(S,n,C,eps);   // 第296便c: 自転する源の表裏核を s に足す(宣言した本だけ)
   if(hist && comp) inertialDragComposeSolve(S,n);          // 第293便e: (I+L)u = s を解いて UX/UY を置き換える(移送・帳簿は下の共通の手続き)
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
@@ -54151,7 +54230,15 @@ function inertialDragState(S){
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
     ...(S._dragCore? {dragCore:dragCoreState(S)} : null),   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
     ...((relDragComposeOf(S.relDrag)==="solve")? {compose:inertialDragComposeState(S)} : null),
-    ...((S.coord3d===true)? {spin3:inertialDrag3SpinState(S)} : null) };   // 第298便c: 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない) / 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
+    ...((S.coord3d===true)? {spin3:inertialDrag3SpinState(S)} : null),
+    ...(relDragNormChanges(S.relDrag)? {norm:inertialDragNormState(S)} : null) };   // 第301便a: 走りが変わる本だけ(他の本の読み口は 1 鍵も変わらない —— W_bg は relDragBackgroundOf で引く)   // 第298便c: 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない) / 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
+}
+// 第301便a: 正規化の読み口(状態は 1 bit も動かさない)—— W_bg・C_d・直近の步と累計の最大の Σw/W_bg
+function inertialDragNormState(S){
+  if(!S || !S.relDrag) return null;
+  const rd=S.relDrag, bg=relDragBackgroundOf(rd);
+  return { version:REL_DRAG_NORM_VERSION, norm:relDragNormOf(rd), background:bg? bg.Wbg : null, Cd:bg? bg.Cd : null, from:bg? bg.from : null,
+    steps:S.inertialDragNormN||0, xLast:S.inertialDragNormX||0, xMax:S.inertialDragNormXMax||0 };
 }
 // 第293便e: 合成則 solve の読み口(状態は 1 bit も動かさない)
 // ===== 第298便a(原仮定者の裁定(第88報)・統括の検証項目 R165): **三次元の步**(三次元の本だけが通る —— `S._core` の外の別の核)=====
@@ -54432,11 +54519,6 @@ function dfmInertialDragStep3(S,dt){
     UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; UZ[i]=okI? uz : 0; DG[i]=okI? deg : 0;
     if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
   }
-  const bound=2*degMax;
-  S.inertialDragBound=bound;
-  if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
-  if(degMax>S.inertialDragDegMax) S.inertialDragDegMax=degMax;
-  if(bound>=1) S.inertialDragOver++;
   let dU=0, Px=0, Py=0, Pz=0, Jx=0, Jy=0, Jz=0, dL=0, dLx=0, dLy=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
   // ---- s を組んだ後・解く前(第299便a: 旧「第 2 段の差し込み場所」の目印を実装に合わせた) ----
@@ -54448,6 +54530,12 @@ function dfmInertialDragStep3(S,dt){
   }
   if(sd3 && sd3.rot) inertialDrag3RotTerm(S,n,C,eps);
   if(sd3 && sd3.axial) inertialDrag3AxialOmega(S,n,sd3.kappa,eps);
+  if(!coincident){ const nq=inertialDragNormApply(S,n,comp,!!(sd3 && sd3.axial)); if(nq) degMax=nq.degMax; }   // 第301便a: 軸引きずりの ω に ν・背景を宣言した本は行の対角を 1+x(並進・回転は solve の 1+deg で総和で割られている)
+  const bound=2*degMax;
+  S.inertialDragBound=bound;
+  if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
+  if(degMax>S.inertialDragDegMax) S.inertialDragDegMax=degMax;
+  if(bound>=1) S.inertialDragOver++;
   if(hist && comp) dfmInertialDrag3Solve(S,n);
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, NZ=S._rdNZ, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
@@ -54749,9 +54837,12 @@ function inertialDragInverseMap(S){
   if(!(n>0) || n>REL_DRAG_SOLVE_NMAX) return null;
   const T=Object.create(S);
   T._rdA=new Float64Array(n*n); T._rdUX=new Float64Array(n); T._rdUY=new Float64Array(n); T._rdDeg=new Float64Array(n);
+  T.inertialDragNormN=0; T.inertialDragNormX=0; T.inertialDragNormXMax=0;   // 第301便a: 正規化の帳簿は写しへ(S は触らない)
   const rd=S.relDrag, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
   const q=inertialDragComposeBuild(T,n,S._dragCoreT||null,false,rd.gain,eps*eps);
   if(q.coincident || q.tooLarge) return null;
+  const nq=inertialDragNormApply(T,n,true,false);   // 第301便a: 核と同じ正規化(背景を宣言した本だけ行の対角 1+x —— 既定の本は null で写しも触らない)
+  if(nq) q.degMax=nq.degMax;
   const A=T._rdA, DG=T._rdDeg, m=S.m, pin=S.pinned, WX=S.vx, WY=S.vy;
   const vx=new Float64Array(n), vy=new Float64Array(n);
   let fixed=0, relMax=0;
@@ -55066,6 +55157,9 @@ function inertialDragProbeAt(S,x,y,z,opt){
     }
   }
   if(coincident) return { u:null, reject:"coincident", frame, version:PROBE_VERSION };
+  if(relDragNormActive(rd)){ const xp=inertialDragNormX(rd,deg);   // 第301便a: 核と同じ正規化 —— 受け手 p の行の対角 1+x(既定は x=deg)・ω に ν(既定の背景で軸引きずりの無い本は 1 命令も変わらない)
+    if(sd && sd.axial && deg>0){ const nu=1/(1+xp); wx*=nu; wy*=nu; wz*=nu; }
+    deg=xp; }
   const d=1+deg;
   return { u:[(sx+rx)/d, (sy+ry)/d, (sz+rz)/d], deg, rot:[rx/d, ry/d, rz/d], omega:(sd && sd.axial)? [wx,wy,wz] : null, ref:[wpx,wpy,wpz], frame, near,
     at:[px,py,pz], gain:C, eps, version:PROBE_VERSION };
@@ -58286,6 +58380,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
+  REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化
   dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
   TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,
   MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN,

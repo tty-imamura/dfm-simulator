@@ -870,6 +870,13 @@ export const REGEN_STEPS = [
   S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
     volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
     note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
+  // ---- 第301便a(原仮定者の裁定(第91報)⑤「引きずりの強さは慣性決定力の総和〔背景を含む〕で割る」・統括の検証項目 R179): **引きずりの強さの正規化**
+  //   (零試験 z1〜z8 —— 既定の solve が W_bg = 1/gain の正規化した法則そのものであること・3 成分に同じ分母・PCG / 境目の表〔慣性決定力の引きずりを宣言した本ごとの Σw/W_bg〕/
+  //   🟫🟪 の新旧 / 候補 (iii) 宇宙の平均密度の背景 / 🔗 の 18000 步)。html を読む(器のコードの依存として inertial3-295c〔検出器 B の runPair〕の後・html の生成領域〔obs-compare・
+  //   sample-status〕の後 —— fit-297b と同じ)・1 プロセス。所要は第301便a の枝の実測(正本の elapsedS)
+  S('dragnorm-301a', 'node tests/exp-w301a-dragnorm.mjs', ['tests/out/dragnorm-w301a.json'], 191, { secSource: 'w301a-branch', node: true, after: ['inertial3-295c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/dragnorm-w301a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第301便a: 引きずりの強さの正規化 —— 零試験・境目の表(Σw/W_bg)・🟫🟪 の新旧・宇宙の平均密度の背景の候補・🔗 の 18000 步(値だけ)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
