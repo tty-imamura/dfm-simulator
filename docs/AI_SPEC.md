@@ -3584,3 +3584,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **太陽系 16 体の器(内蔵には入れない —— 予約 id `solarSystem16Inertial3d`)**: 入力の契約 `tests/data-w300c-solar16-schema.json`(成員 16・元期 JD TDB・太陽系重心・ICRF の J2000 の黄道・幾何学的・km と km/s・天体中心・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ)。生成器 `tests/lib-w300c-solar16.mjs`: `checkSolar16(rec)` → `{ok, errors:[{code, msg}], derived}`(符号 missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)・`toUnits`・`solar16Decl`(1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg・全天体 free・刻み = イオの接触軌道の周期 / 360・leapfrog・softening 0.001 + softeningFloor・radiusFloor 0.001)・`stepCheck`(h・h/2・h/4)・`syntheticRecord`(人工の入力 —— 実際の配置ではない)・`badVariants`。実行口 `tests/exp-w300c-solar16.mjs`(既定は人工の入力の試験・`--record <file> --emit <file>` で観測レコードの検査と宣言の断片)。
 - **受理器 `physics.radiusFloor`**(新しい鍵 —— 宣言した本だけ): single の明示半径 `radius` の下限 0.01 を 0.001 まで下げる(値域 0.001〜0.01・較正クラスは拒否・0.01 と同値なら落とす・三次元でも受理)。未宣言の本は 1 bit 不変。
 - QA: `preset.saturnRing3d300`・`docs.solar16Contract300`(root は SKIP —— 世代切替 = html の `{ id:"saturnRingInertial3d"` と `RADIUS_FLOOR_KEY = "radiusFloor"`)。
+
+## 83. 第301便c —— 軸回転 = 慣性軸回転 + 引きずり軸回転・傾きを持たない受け手の軸引きずり(原仮定者の裁定(第91報)②・統括の検証項目 R181・**既定 —— 宣言の鍵は足さない** —— `S._core`・位置・速度・自転・署名は不変・動くのは軸引きずりを宣言した本の姿勢の角 rotA だけ)
+
+- **規則**(三次元の本の `relativeDrag.spinDrag` の `axial:"on"` の受け手側): 受け手の姿勢の角の増分は (慣性軸回転 s + 引きずり軸回転 ω_drag)·dt。慣性軸回転は自転の状態 `spin` のまま(引きずりを足さない)・引きずり軸回転は毎步作り直す。
+- **傾きを持たない受け手**(粒子の `spinAxis.enable` が無い): ω_drag = Σ_j κ m_j Ω_j K_ε(r) μ²(符号つきのスカラー —— 受け手の軸への投影を掛けない・受け手に傾きを作らない)。旧(第298便c)は既定 +z への投影で、源の軸が 90° 傾くと 0 になった。
+- **傾きを持つ受け手**(`spinAxis.enable:true`): 第298便c のベクトル則のまま(平行成分 = 引きずり軸回転・垂直成分は軸の向き)。源の法則(μ²・K_ε・κ)は変えない。強さの正規化は別の関数が掛ける。
+- **状態と読み口**(軸引きずりを宣言した本だけ): `S.rotAIn`(慣性軸回転の角)・`S.rotADr`(引きずり軸回転の角)・`S._rdWS`(傾きの無い受け手の ω_drag)・帳簿 `inertialDrag3AxFlatN`・`inertialDrag3AxFlatMax`・`inertialDrag3AxTiltN`(`INERTIAL_DRAG3_SC`)。チェックポイントと A/B の複製は `inertialDragCkSnap`/`inertialDragCkRestore`(`INERTIAL_DRAG_CK_SAMPLES` に 3 本)。読み口 `HP.coord3d.axialSplit(S)`・`HP.coord3d.axialSplitVersion`(`REL_DRAG_AXIAL_SPLIT_VERSION = "w301c-axial-split-1"`)・`inertialDragState(S).spin3.axial.split`。
+- **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
+- **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
+- QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。

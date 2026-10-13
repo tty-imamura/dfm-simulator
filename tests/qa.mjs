@@ -76057,6 +76057,150 @@ add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '
 if (w5Pool) await w5Pool.close();
 // 第251便b: 指紋ページの後片付け(キャッシュが 1 件も使われなくても採取は完了させる)
 if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
+// ---- 第301便c(原仮定者の裁定(第91報)②「軸の傾きを持たない粒子への軸引きずりは、傾きを考慮せず軸回転を引きずる。『軸回転』=『慣性軸回転』+『引きずり軸回転』」・
+// ----   統括の検証項目 R181): behavior.axialSplit301(root では SKIP —— 世代切替は html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。headless(tests/lib-w279b-headless.mjs)で
+// ----   本文をそのまま走らせる。小さな系(源 1 個 + 受け手 —— 直接法)と、軸引きずりを宣言した在位の本(宣言から列挙 —— spinDrag.axial "on")で:
+// ----   (1) 零試験 κ=0: ω_drag=0 なら rotA = Σ s dt(步ごとに s·dt を足した値とビット同一)= 慣性軸回転の角 rotAIn・引きずりの角 rotADr は全部 0・axial "off" の走行と全状態ビット同一
+// ----   (2) 源の傾き 90°(軸 +x): 傾きの無い受け手の ω_drag は 0 に落ちない(軸上 = κ m Ω K_ε —— 旧則の +z への投影 ω_z は 0)・受け手に傾きを作らない(軸 +z・saOn 0 のまま)
+// ----   (3) 源の自転の符号を反転すると ω_drag と引きずりの角がビットで反転 (4) 受け手の慣性 spin は変わらない・rotAIn は axial "off" の rotA とビット同一
+// ----   (5) 傾きを持つ受け手は第298便c のベクトル則のまま(引きずりの角の増分 = (ω·â)dt —— ビット)・和 rotA = rotAIn + rotADr(相対 1e-12)
+// ----   (6) 在位の本: N 步保存 → N 步 → 復帰 = 保存の瞬間(rotA・rotAIn・rotADr・_rdWS・帳簿)・その後 N 步 = 最初から 2N 步とビット同一・A/B の複製(cloneSimState)も同じ
+{
+  const html301c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has301c = TARGET.startsWith('beta/') && html301c.indexOf('const REL_DRAG_AXIAL_SPLIT_VERSION =') >= 0;
+  if (!has301c) {
+    console.log('SKIP behavior.axialSplit301(第301便c 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H301c = null, err301c = null;
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H301c = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { err301c = String(e && e.stack || e).slice(0, 200); }
+    if (err301c) bad.push('headless が読めない: ' + err301c);
+    else {
+      const E = H301c.evalExpr, HP = H301c.HP, DT = 0.016;
+      const cl = (x) => JSON.parse(JSON.stringify(x));
+      const simOf = (p) => { const v = HP.validatePreset(cl(p)); if (!v.ok) throw new Error('受理されない ' + JSON.stringify(v.errors).slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(cl(v.preset)); return S; };
+      // 小さな系(第298便c の器の smallSys と同じ流儀 —— 源 1 個〔m 50・半径 2・spin Ω〕+ 受け手 m 1)
+      const sys = (o) => ({ name: 'w301c', description: 'w301c', sampleClass: 'principle', camera: { scale: 50 }, world: { boundary: 'none', size: 0 },
+        physics: { coord: '3d', G: o.G === undefined ? 0.01 : o.G, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0, geoPN: 3, lambdaPN: 0, softening: 0.3, radiusScale: 1, cLight: 30,
+          contactMode: 'none', stateCarry: 'double', massPrecision: 'double',
+          relativeDrag: { law: 'inertial', gain: 2, eps: 0.5, pairs: 'all', spinDrag: o.axial === undefined ? { rot: 'surfaceFlip', axial: 'on', axialCoupling: 3 } : o.axial } },
+        bodies: [Object.assign({ type: 'single', m: 50, radius: 2, x: 0, y: 0, vx: 0, vy: 0, spin: 0.6, pinned: false }, o.src || {})]
+          .concat(o.recv.map((r) => Object.assign({ type: 'single', m: 1, radius: 0.3, vx: 0, vy: 0, spin: 0, pinned: false }, r))) });
+      const SRC = '宣言(第301便c の零試験 —— 観測ではない)';
+      const recv = [{ x: 6, y: 1, z: 0.5, vx: 0, vy: 0.25, spin: 0.3 }, { x: -4, y: 5, z: -1, vx: 0.18, vy: 0, spin: -0.2 },
+        { x: 1, y: -7, z: 2, vx: -0.2, vy: 0.03, spin: 0.15, spinAxis: { enable: true, source: SRC, tiltDeg: 25, azimuthDeg: 60 } }];
+      const srcTilt = { spinAxis: { enable: true, source: SRC, tiltDeg: 30, azimuthDeg: 40 } };
+      const KS = ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin', 'rotA', 'sax', 'say', 'saz'];
+      const same = (A, B, keys) => keys.every((k) => { for (let i = 0; i < A.n; i++) if (!Object.is(A[k][i], B[k][i])) return false; return true; }) && Object.is(A.t, B.t);
+      const STEPS = 400;
+      // (1) κ=0
+      {
+        const S = simOf(sys({ axial: { rot: 'surfaceFlip', axial: 'on', axialCoupling: 0 }, src: srcTilt, recv })), O = simOf(sys({ axial: { rot: 'surfaceFlip', axial: 'off' }, src: srcTilt, recv }));
+        const acc = new Float64Array(S.n);
+        for (let k = 0; k < STEPS; k++) { for (let i = 0; i < S.n; i++) acc[i] += S.spin[i] * DT; S.step(DT); O.step(DT); }
+        let okAcc = true, okIn = true, okDr = true;
+        for (let i = 0; i < S.n; i++) { if (!Object.is(S.rotA[i], acc[i])) okAcc = false; if (!Object.is(S.rotA[i], S.rotAIn[i])) okIn = false; if (S.rotADr[i] !== 0) okDr = false; }
+        const okOff = same(S, O, KS), sp = HP.coord3d.axialSplit(S);
+        if (!(okAcc && okIn && okDr && okOff && sp && sp.version === E('REL_DRAG_AXIAL_SPLIT_VERSION') && O.rotAIn == null && HP.coord3d.axialSplit(O) === null))
+          bad.push('(1) κ=0 ' + JSON.stringify({ okAcc, okIn, okDr, okOff, sp: !!sp, off: O.rotAIn == null }));
+        cases.push(`(1) κ=0(${STEPS} 步・受け手 3〔傾き無し 2・傾き有り 1〕): rotA = Σ s dt ${okAcc ? 'ビット同一' : '違う'}・= rotAIn ${okIn ? 'ビット' : '違う'}・rotADr 全 0 ${okDr}・axial "off" と全状態 ${okOff ? 'ビット同一' : '違う'}`);
+      }
+      // (2) 源の傾き 90°(軸 +x)・受け手は傾き無し: 軸上(x=±6)と斜め
+      let W90 = null;
+      {
+        const r90 = [{ x: 6, y: 0, z: 0 }, { x: -6, y: 0, z: 0 }, { x: 4, y: 4, z: 1 }];   // 静止・G 0・回転引きずり off —— 位置が動かない(期待値を初期の位置で引く)
+        const S = simOf(sys({ G: 0, axial: { rot: 'off', axial: 'on', axialCoupling: 3 }, src: { spinAxis: { enable: true, source: SRC, tiltDeg: 90, azimuthDeg: 0 }, pinned: true }, recv: r90 }));
+        const x0 = [], dr0 = [];
+        for (let i = 0; i < S.n; i++) x0.push([S.x[i], S.y[i], S.z[i]]);
+        S.step(DT); for (let i = 0; i < S.n; i++) dr0.push(S.rotADr[i]);
+        S.step(DT);
+        const ws = Array.from(S._rdWS.subarray(0, S.n)), wz = Array.from(S._rdWZ.subarray(0, S.n));
+        // 期待値(軸上 μ=±1): κ m Ω K_ε(r)・K_ε = r/(r²+ε²)² —— 移送の前の位置(step 1 の後)で
+        const kap = 3, m = S.m[0], Om = S.spin[0], e2 = 0.25;   // spin は単精度の配列の値(0.6 の丸め)
+        const expOf = (i) => { const dx = x0[i][0] - x0[0][0], dy = x0[i][1] - x0[0][1], dz = x0[i][2] - x0[0][2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), mu = dx / r, s = r2 + e2; return kap * m * Om * (r / (s * s)) * mu * mu; };
+        const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+        const e1 = expOf(1), e2x = expOf(2), e3 = expOf(3);
+        const tiltNone = [1, 2, 3].every((i) => S.saOn[i] === 0 && S.sax[i] === 0 && S.say[i] === 0 && S.saz[i] === 1);
+        const dDr = [1, 2, 3].map((i) => S.rotADr[i] - dr0[i]);
+        if (!(ws[1] > 0 && ws[2] > 0 && ws[3] > 0 && rel(ws[1], e1) <= 1e-12 && rel(ws[2], e2x) <= 1e-12 && rel(ws[3], e3) <= 1e-12 && [1, 2, 3].every((i) => Math.abs(wz[i]) <= 1e-15 * ws[i])
+          && [1, 2, 3].every((i) => Object.is(dDr[i - 1], ws[i] * DT) || rel(dDr[i - 1], ws[i] * DT) <= 1e-15) && tiltNone && S.saOn[0] === 1 && [1, 2, 3].every((i) => S.x[i] === x0[i][0] && S.y[i] === x0[i][1] && S.z[i] === x0[i][2])))
+          bad.push('(2) 源の傾き 90° ' + JSON.stringify({ ws, wz, e1, e2x, e3, dDr, tiltNone }).slice(0, 260));
+        W90 = ws;
+        cases.push(`(2) 源の軸 90°(+x): 傾きの無い受け手の ω_drag = ${ws.slice(1).map((w) => w.toPrecision(6)).join('・')}(軸上 = κmΩK_ε ${e1.toPrecision(6)} —— 相対 1e-12)・旧則の ω_z ${wz.slice(1).map((w) => w.toPrecision(2)).join('・')}・受け手の軸は +z のまま`);
+      }
+      // (3) 源の自転の符号を反転
+      {
+        const r3 = [{ x: 6, y: 1, z: 0.5, vx: 0, vy: 0.25 }, { x: -4, y: 5, z: -1, vx: 0.18, vy: 0 }];   // 受け手の spin 0(源は 1 個だけ)
+        const A = simOf(sys({ src: srcTilt, recv: r3 })), B = simOf(sys({ src: Object.assign({ spin: -0.6 }, srcTilt), recv: r3 }));
+        A.step(DT); B.step(DT); A.step(DT); B.step(DT);
+        let okW = true, okD = true;
+        for (let i = 1; i < A.n; i++) { if (!(A._rdWS[i] !== 0 && Object.is(A._rdWS[i], -B._rdWS[i]))) okW = false; if (!(A.rotADr[i] !== 0 && Object.is(A.rotADr[i], -B.rotADr[i]))) okD = false; }
+        if (!(okW && okD)) bad.push('(3) 符号の反転 ' + JSON.stringify({ a: Array.from(A._rdWS.subarray(0, A.n)), b: Array.from(B._rdWS.subarray(0, B.n)) }));
+        cases.push(`(3) 源の Ω → −Ω: ω_drag ${okW ? 'ビットで反転' : '反転しない'}(${A._rdWS[1].toPrecision(6)} ↔ ${B._rdWS[1].toPrecision(6)})・引きずりの角も ${okD ? 'ビットで反転' : '違う'}`);
+      }
+      // (4)(5) 慣性 spin は不変・rotAIn = axial "off" の rotA・傾きを持つ受け手はベクトル則・和の分解
+      {
+        const r4 = recv.map((r, i) => (i === 2 ? Object.assign({}, r, { spin: 0 }) : r));   // 傾きを持つ受け手は spin 0(軸が回っても回転引きずりの源にならない —— 位置は axial "off" と同じ)
+        // 源は pinned(受け手にならない —— 傾いた源の軸が受け手の自転源から回されると回転引きずりが変わり、位置が axial "off" と分かれる)
+        const srcP = Object.assign({ pinned: true }, srcTilt);
+        const S = simOf(sys({ src: srcP, recv: r4 })), O = simOf(sys({ axial: { rot: 'surfaceFlip', axial: 'off' }, src: srcP, recv: r4 }));
+        const sp0 = Array.from(S.spin.subarray(0, S.n));
+        let okVec = true, nVec = 0, maxRes = 0;
+        for (let k = 0; k < STEPS; k++) {
+          const ax = [S.sax[3], S.say[3], S.saz[3]], d0 = S.rotADr[3], f0 = S.rotADr[1];
+          S.step(DT); O.step(DT);
+          if (k >= 1) { const wp = S._rdWX[3] * ax[0] + S._rdWY[3] * ax[1] + S._rdWZ[3] * ax[2];
+            if (!Object.is(S.rotADr[3], d0 + wp * DT)) okVec = false; nVec++;
+            if (!Object.is(S.rotADr[1], f0 + S._rdWS[1] * DT)) okVec = false; }
+        }
+        let okSpin = true, okIn = true, okPos = same(S, O, ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin']);
+        for (let i = 0; i < S.n; i++) { if (!Object.is(S.spin[i], sp0[i])) okSpin = false; if (!Object.is(S.rotAIn[i], O.rotA[i])) okIn = false;
+          maxRes = Math.max(maxRes, Math.abs(S.rotA[i] - S.rotAIn[i] - S.rotADr[i]) / Math.max(Math.abs(S.rotA[i]), 1e-300)); }
+        const turned = Math.hypot(S.sax[3] - O.sax[3], S.say[3] - O.say[3], S.saz[3] - O.saz[3]);
+        const st = HP.inertialDragState(S).spin3.axial;
+        if (!(okSpin && okIn && okPos && okVec && maxRes <= 1e-12 && turned > 0 && st.split && st.split.flatTerms > 0 && st.split.tiltTerms > 0 && st.perpSkip === 0))
+          bad.push('(4)(5) ' + JSON.stringify({ okSpin, okIn, okPos, okVec, maxRes, turned, split: st.split, perpSkip: st.perpSkip }));
+        cases.push(`(4) 受け手の慣性 spin ${okSpin ? '不変' : '変わる'}・rotAIn = axial "off" の rotA ${okIn ? 'ビット' : '違う'}・位置と速度 ${okPos ? 'ビット同一' : '違う'}`
+          + ` / (5) 傾きを持つ受け手の引きずりの角の増分 = (ω·â)dt・傾きの無い受け手 = Σw dt(${nVec} 步 ${okVec ? 'ビット' : '違う'})・軸が回る ${turned.toPrecision(3)}・和の分解の残り ${maxRes.toPrecision(2)}・項 傾き無し ${st.split.flatTerms}/傾き有り ${st.split.tiltTerms}`);
+      }
+      // (6) 在位の本(宣言から列挙): チェックポイントと A/B の複製
+      {
+        const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && (p.physics || {}).coord === '3d' && ((((p.physics || {}).relativeDrag || {}).spinDrag) || {}).axial === 'on');
+        if (!books.length) bad.push('(6) 軸引きずりを宣言した在位の本が無い');
+        const ck = E('ckSnapOne'), rs = E('ckRestoreOne'), clo = E('cloneSimState'), N = 40;
+        const fp = (S) => { const o = {}; for (const k of ['x', 'y', 'z', 'spin', 'rotA', 'rotAIn', 'rotADr', '_rdWS']) o[k] = S[k] ? Array.from(S[k].subarray(0, S.n)).map(String).join(',') : 'none';
+          for (const k of ['inertialDrag3AxFlatN', 'inertialDrag3AxFlatMax', 'inertialDrag3AxTiltN', 'inertialDrag3AxRotA', 'inertialDrag3AxN', 't']) o[k] = String(S[k]); return o; };
+        const dif = (a, b) => Object.keys(a).filter((k) => a[k] !== b[k]);
+        const rows = [];
+        for (const p of books) {
+          HP.loadPreset(p.id, false);
+          const G = E('sim'), dt = E('appStepDt')(G);
+          const A = simOf(p), S = simOf(p);
+          for (let k = 0; k < 2 * N; k++) A.step(dt);
+          for (let k = 0; k < N; k++) { S.step(dt); G.step(dt); }
+          const o = ck(S), f1 = fp(S), C = clo();
+          for (let k = 0; k < N; k++) S.step(dt);
+          const moved = dif(f1, fp(S)).length;
+          rs(S, o); const dR = dif(f1, fp(S));
+          for (let k = 0; k < N; k++) { S.step(dt); C.step(dt); }
+          const d2 = dif(fp(A), fp(S)), dC = dif(fp(A), fp(C));
+          const sp = HP.coord3d.axialSplit(A), drag = sp ? sp.drag.reduce((a, b) => a + Math.abs(b), 0) : 0;
+          if (!(moved > 0 && dR.length === 0 && d2.length === 0 && dC.length === 0 && drag > 0 && C.rotAIn && C.rotADr))
+            bad.push(`(6) ${p.id}: 復帰 [${dR.join(',')}]・2N [${d2.join(',')}]・複製 [${dC.join(',')}]・引きずりの角 ${drag}`);
+          rows.push(`${p.emoji || p.id}(引きずりの角の和 ${drag.toPrecision(4)} rad / ${2 * N} 步)`);
+        }
+        cases.push(`(6) 軸引きずりの在位 ${books.length} 本 ${rows.join('')}: ${N} 步保存 → ${N} 步 → 復帰 = 保存の瞬間(rotA・rotAIn・rotADr・_rdWS・帳簿)・その後 ${N} 步 = 最初から ${2 * N} 步・A/B の複製も同一`);
+      }
+      const coreSrc = HP.sim._core.toString();
+      if (/rotAIn|rotADr|_rdWS/.test(coreSrc)) bad.push('S._core に軸回転の分解の語');
+    }
+    add('behavior.axialSplit301', bad.length === 0,
+      `**軸回転 = 慣性軸回転 + 引きずり軸回転**(第301便c・原仮定者の裁定(第91報)②・R181 —— 傾きを持たない受け手は傾きを考慮せず符号つきのスカラー Σw・慣性 spin は触らない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
 // 第288便f(原仮定者の裁定(第78報)AN90): 結果 JSON の env に**試験した Chromium の版**を残す(CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う ——
 //   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
 let chromiumVersion = 'unknown';
