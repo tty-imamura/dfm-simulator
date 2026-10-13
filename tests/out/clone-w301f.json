@@ -2,7 +2,7 @@
  "version": "w301f-clone-1",
  "generator": "tests/exp-w301f-clone.mjs",
  "target": "beta/index.html",
- "targetSha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
+ "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
  "ruling": "DECISIONS v58 の AN288 ③④(二次元の本の複製の漏れを原因から・前の本の鍵の持ち越しは build で機能ごとに初期化)・統括の検証項目 R184",
  "steps": {
   "N": 20,
@@ -38,12 +38,12 @@
   "d3": 24,
   "cloneOk": 120,
   "ckOk": 120,
-  "freshOk": 89,
+  "freshOk": 120,
   "scratchOk": 120,
-  "allOk": 89,
-  "openCarried": 31,
+  "allOk": 120,
+  "openCarried": 0,
   "nan": 0,
-  "reverseOpenNg": 119
+  "reverseOpenNg": 0
  },
  "rows": [
   {
@@ -98,7 +98,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.046
+   "wallSec": 0.04
   },
   {
    "id": "grcal",
@@ -152,7 +152,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.028
+   "wallSec": 0.02
   },
   {
    "id": "grcalGps",
@@ -206,7 +206,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.028
+   "wallSec": 0.021
   },
   {
    "id": "grcalLight",
@@ -260,7 +260,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.055
+   "wallSec": 0.024
   },
   {
    "id": "grcalShapiro",
@@ -314,7 +314,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.042
+   "wallSec": 0.017
   },
   {
    "id": "projectile",
@@ -368,7 +368,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.029
+   "wallSec": 0.024
   },
   {
    "id": "echo",
@@ -422,7 +422,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.145
+   "wallSec": 0.104
   },
   {
    "id": "boxtrans",
@@ -476,7 +476,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.786
+   "wallSec": 0.883
   },
   {
    "id": "boxrot",
@@ -530,7 +530,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.077
+   "wallSec": 0.659
   },
   {
    "id": "boxexpand",
@@ -584,7 +584,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.939
+   "wallSec": 0.636
   },
   {
    "id": "boxcomoving",
@@ -638,7 +638,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.375
+   "wallSec": 0.21
   },
   {
    "id": "boxbound",
@@ -692,7 +692,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.161
+   "wallSec": 0.096
   },
   {
    "id": "boxbreath",
@@ -746,7 +746,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.312
+   "wallSec": 0.143
   },
   {
    "id": "boxredshift",
@@ -800,7 +800,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.047
+   "wallSec": 0.021
   },
   {
    "id": "probeH",
@@ -854,7 +854,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.174
+   "wallSec": 0.078
   },
   {
    "id": "freebox",
@@ -908,7 +908,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.11
+   "wallSec": 0.606
   },
   {
    "id": "cosmicweb",
@@ -965,7 +965,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 33.267
+   "wallSec": 24.539
   },
   {
    "id": "galaxy",
@@ -1019,7 +1019,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 20.867
+   "wallSec": 15.287
   },
   {
    "id": "galaxyStd",
@@ -1073,7 +1073,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 16.953
+   "wallSec": 13.878
   },
   {
    "id": "galaxyGeo2",
@@ -1127,7 +1127,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 17.606
+   "wallSec": 13.928
   },
   {
    "id": "galaxyDB",
@@ -1181,7 +1181,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 16.012
+   "wallSec": 12.827
   },
   {
    "id": "rotorSolo",
@@ -1235,7 +1235,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.221
+   "wallSec": 0.087
   },
   {
    "id": "massLadder",
@@ -1289,7 +1289,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.753
+   "wallSec": 1.827
   },
   {
    "id": "collapse",
@@ -1343,7 +1343,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 9.987
+   "wallSec": 7.835
   },
   {
    "id": "axisBarStill",
@@ -1397,7 +1397,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 19.103
+   "wallSec": 15.325
   },
   {
    "id": "axisBarArms",
@@ -1451,7 +1451,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 18.633
+   "wallSec": 14.395
   },
   {
    "id": "axisBarReach",
@@ -1505,7 +1505,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 19.107
+   "wallSec": 14.456
   },
   {
    "id": "selfRotor",
@@ -1562,7 +1562,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 5.226
+   "wallSec": 3.752
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1616,7 +1616,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 16.755
+   "wallSec": 11.893
   },
   {
    "id": "shapeToyCluster",
@@ -1671,7 +1671,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.999
+   "wallSec": 2.09
   },
   {
    "id": "shapeToyDisk",
@@ -1726,7 +1726,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 4.368
+   "wallSec": 3.105
   },
   {
    "id": "shapeToyArm",
@@ -1781,7 +1781,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.433
+   "wallSec": 1.127
   },
   {
    "id": "shapeToySpiral",
@@ -1836,7 +1836,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 8.599
+   "wallSec": 6.304
   },
   {
    "id": "shapeToyClusterCore",
@@ -1891,7 +1891,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.714
+   "wallSec": 1.834
   },
   {
    "id": "shapeToyDiskCore",
@@ -1946,7 +1946,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 4.059
+   "wallSec": 3.023
   },
   {
    "id": "shapeToyArmCore",
@@ -2001,7 +2001,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.814
+   "wallSec": 1.337
   },
   {
    "id": "shapeToySpiralCore",
@@ -2056,7 +2056,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 9.447
+   "wallSec": 6.423
   },
   {
    "id": "lensing",
@@ -2110,7 +2110,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.036
+   "wallSec": 0.016
   },
   {
    "id": "spinlens",
@@ -2164,7 +2164,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.036
+   "wallSec": 0.012
   },
   {
    "id": "blens",
@@ -2218,7 +2218,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.027
+   "wallSec": 0.015
   },
   {
    "id": "reddening",
@@ -2272,7 +2272,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.058
+   "wallSec": 0.734
   },
   {
    "id": "gas",
@@ -2329,7 +2329,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.176
+   "wallSec": 11.066
   },
   {
    "id": "pressure",
@@ -2386,7 +2386,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.986
+   "wallSec": 11.691
   },
   {
    "id": "conduction",
@@ -2443,7 +2443,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.098
+   "wallSec": 0.093
   },
   {
    "id": "frictionHeat",
@@ -2497,7 +2497,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.808
+   "wallSec": 2.848
   },
   {
    "id": "coolrace",
@@ -2554,7 +2554,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.034
+   "wallSec": 0.018
   },
   {
    "id": "convection",
@@ -2611,7 +2611,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 12.301
+   "wallSec": 8.9
   },
   {
    "id": "buoyancy",
@@ -2668,7 +2668,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 18.94
+   "wallSec": 13.478
   },
   {
    "id": "cooling",
@@ -2725,7 +2725,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 12.389
+   "wallSec": 10.102
   },
   {
    "id": "emergent",
@@ -2782,7 +2782,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 5.05
+   "wallSec": 2.973
   },
   {
    "id": "emergent2",
@@ -2841,7 +2841,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 4.893
+   "wallSec": 3.326
   },
   {
    "id": "chain2",
@@ -2900,7 +2900,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 4.587
+   "wallSec": 3.234
   },
   {
    "id": "chaincycle",
@@ -2959,7 +2959,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 6.103
+   "wallSec": 3.337
   },
   {
    "id": "earthMoonReal",
@@ -3013,7 +3013,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.071
+   "wallSec": 0.032
   },
   {
    "id": "earthMoonRealKF1",
@@ -3067,7 +3067,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.077
+   "wallSec": 0.055
   },
   {
    "id": "emAuditSolar",
@@ -3121,7 +3121,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.054
+   "wallSec": 0.026
   },
   {
    "id": "earthMoonSunInertial3d",
@@ -3176,7 +3176,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.855
+   "wallSec": 0.426
   },
   {
    "id": "earthMoonOnly3d",
@@ -3231,7 +3231,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.864
+   "wallSec": 0.427
   },
   {
    "id": "qLockRadialAudit",
@@ -3285,7 +3285,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.121
+   "wallSec": 0.064
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -3339,7 +3339,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.084
+   "wallSec": 0.053
   },
   {
    "id": "mercury",
@@ -3393,7 +3393,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.053
+   "wallSec": 0.019
   },
   {
    "id": "mercuryReal",
@@ -3447,7 +3447,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.046
+   "wallSec": 0.026
   },
   {
    "id": "mercurySunInertialFit",
@@ -3501,7 +3501,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.096
+   "wallSec": 0.06
   },
   {
    "id": "mercurySunInertial3d",
@@ -3556,7 +3556,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.053
+   "wallSec": 0.044
   },
   {
    "id": "venusSunInertial3d",
@@ -3611,7 +3611,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.044
+   "wallSec": 0.033
   },
   {
    "id": "marsSunInertial3d",
@@ -3666,7 +3666,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.043
+   "wallSec": 0.034
   },
   {
    "id": "jupiterSunInertial3d",
@@ -3721,7 +3721,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.044
+   "wallSec": 0.019
   },
   {
    "id": "saturnSunInertial3d",
@@ -3776,7 +3776,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.064
+   "wallSec": 0.018
   },
   {
    "id": "saturnRingInertial3d",
@@ -3831,7 +3831,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.312
+   "wallSec": 0.805
   },
   {
    "id": "uranusSunInertial3d",
@@ -3886,7 +3886,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.018
+   "wallSec": 0.017
   },
   {
    "id": "neptuneSunInertial3d",
@@ -3995,7 +3995,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.058
+   "wallSec": 0.023
   },
   {
    "id": "venusReal",
@@ -4049,7 +4049,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.035
+   "wallSec": 0.019
   },
   {
    "id": "marsMoonsReal",
@@ -4103,7 +4103,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.037
+   "wallSec": 0.015
   },
   {
    "id": "plutoCharonDiagInput",
@@ -4157,7 +4157,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.054
+   "wallSec": 0.024
   },
   {
    "id": "plutoCharonInertialFit",
@@ -4211,7 +4211,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 6.282
+   "wallSec": 3.631
   },
   {
    "id": "uranusReal",
@@ -4265,7 +4265,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.366
+   "wallSec": 0.176
   },
   {
    "id": "neptuneReal",
@@ -4319,7 +4319,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.046
+   "wallSec": 0.019
   },
   {
    "id": "alphaCenAB",
@@ -4373,7 +4373,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.047
+   "wallSec": 0.021
   },
   {
    "id": "siriusAB",
@@ -4427,7 +4427,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.062
+   "wallSec": 0.02
   },
   {
    "id": "psrDoubleAB",
@@ -4535,7 +4535,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.03
+   "wallSec": 0.041
   },
   {
    "id": "psrJ1946DFM",
@@ -4589,7 +4589,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.049
+   "wallSec": 0.044
   },
   {
    "id": "psrB1534",
@@ -4643,7 +4643,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.043
+   "wallSec": 0.041
   },
   {
    "id": "compactForceToy",
@@ -4697,7 +4697,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.064
+   "wallSec": 0.05
   },
   {
    "id": "inertialDragPair",
@@ -4751,7 +4751,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.077
+   "wallSec": 0.039
   },
   {
    "id": "chainDiskToy",
@@ -4805,7 +4805,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.187
+   "wallSec": 1.464
   },
   {
    "id": "chainDiskToy3d",
@@ -4860,7 +4860,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.906
+   "wallSec": 1.629
   },
   {
    "id": "chainDiskToy3dTilt",
@@ -4915,7 +4915,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.938
+   "wallSec": 2.246
   },
   {
    "id": "chainSpreadToy3d",
@@ -4925,20 +4925,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -4961,12 +4955,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -4978,8 +4969,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 12.695
+   "ok": true,
+   "wallSec": 9.003
   },
   {
    "id": "chainBurstShell3d",
@@ -4989,20 +4980,14 @@
    "thermal": "spin",
    "dt": 0.002,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5025,12 +5010,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5042,8 +5024,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.464
+   "ok": true,
+   "wallSec": 0.382
   },
   {
    "id": "coord3dKeplerTilt",
@@ -5053,20 +5035,14 @@
    "thermal": "spin",
    "dt": 0.803672223452726,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5089,12 +5065,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5106,8 +5079,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.024
+   "ok": true,
+   "wallSec": 0.019
   },
   {
    "id": "coord3dSpinPrecess",
@@ -5117,20 +5090,14 @@
    "thermal": "spin",
    "dt": 0.4706802966590601,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5153,12 +5120,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5170,8 +5134,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.028
+   "ok": true,
+   "wallSec": 0.017
   },
   {
    "id": "boxBinaryToy",
@@ -5181,20 +5145,14 @@
    "thermal": "spin",
    "dt": 0.679459,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5216,12 +5174,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5233,8 +5188,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.021
+   "ok": true,
+   "wallSec": 0.047
   },
   {
    "id": "gw150914",
@@ -5244,20 +5199,14 @@
    "thermal": "spin",
    "dt": 0.50505,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5279,12 +5228,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5296,8 +5242,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.018
+   "ok": true,
+   "wallSec": 0.019
   },
   {
    "id": "gw150914Merge4s",
@@ -5307,20 +5253,14 @@
    "thermal": "tint",
    "dt": 0.50505,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5345,12 +5285,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5362,8 +5299,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.023
+   "ok": true,
+   "wallSec": 0.018
   },
   {
    "id": "gw150914SpinDipole",
@@ -5373,20 +5310,14 @@
    "thermal": "spin",
    "dt": 0.50505,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5408,12 +5339,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5425,8 +5353,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.019
+   "ok": true,
+   "wallSec": 0.02
   },
   {
    "id": "tuc47",
@@ -5436,20 +5364,14 @@
    "thermal": "spin",
    "dt": 0.048,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5471,12 +5393,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5488,8 +5407,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 3.068
+   "ok": true,
+   "wallSec": 2.386
   },
   {
    "id": "ngc3198",
@@ -5499,20 +5418,14 @@
    "thermal": "spin",
    "dt": 0.048,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5534,12 +5447,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5551,8 +5461,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 4.566
+   "ok": true,
+   "wallSec": 3.163
   },
   {
    "id": "ngc3198DFM",
@@ -5562,20 +5472,14 @@
    "thermal": "spin",
    "dt": 0.032,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5597,12 +5501,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5614,8 +5515,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 11.771
+   "ok": true,
+   "wallSec": 7.992
   },
   {
    "id": "supernovaProg",
@@ -5625,20 +5526,14 @@
    "thermal": "spin",
    "dt": 0.048,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5660,12 +5555,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5677,8 +5569,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.027
+   "ok": true,
+   "wallSec": 0.016
   },
   {
    "id": "crabRemnant",
@@ -5688,20 +5580,14 @@
    "thermal": "spin",
    "dt": 0.048,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5723,12 +5609,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5740,8 +5623,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.363
+   "ok": true,
+   "wallSec": 0.256
   },
   {
    "id": "saturnZonalD68",
@@ -5751,20 +5634,14 @@
    "thermal": "spin",
    "dt": 0.498,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5786,12 +5663,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5803,8 +5677,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.071
+   "ok": true,
+   "wallSec": 0.069
   },
   {
    "id": "saturnD68Consistent",
@@ -5814,20 +5688,14 @@
    "thermal": "spin",
    "dt": 0.498,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5849,12 +5717,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5866,8 +5731,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.017
+   "ok": true,
+   "wallSec": 0.029
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -5877,20 +5742,14 @@
    "thermal": "spin",
    "dt": 0.498,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5912,12 +5771,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5929,8 +5785,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.024
+   "ok": true,
+   "wallSec": 0.027
   },
   {
    "id": "saturnRingReal",
@@ -5940,20 +5796,14 @@
    "thermal": "spin",
    "dt": 0.58,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -5975,12 +5825,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -5992,8 +5839,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.199
+   "ok": true,
+   "wallSec": 0.238
   },
   {
    "id": "binary",
@@ -6003,20 +5850,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6038,12 +5879,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6055,8 +5893,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 4.425
+   "ok": true,
+   "wallSec": 3.908
   },
   {
    "id": "fig8",
@@ -6066,20 +5904,14 @@
    "thermal": "spin",
    "dt": 0.0907412,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6101,12 +5933,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6118,8 +5947,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.021
+   "ok": true,
+   "wallSec": 0.036
   },
   {
    "id": "counterring",
@@ -6129,20 +5958,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6164,12 +5987,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6181,8 +6001,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 2.2
+   "ok": true,
+   "wallSec": 1.593
   },
   {
    "id": "spinup",
@@ -6192,20 +6012,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6230,12 +6044,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6247,8 +6058,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 4.209
+   "ok": true,
+   "wallSec": 3.167
   },
   {
    "id": "pulsarSolo",
@@ -6258,20 +6069,14 @@
    "thermal": "spin",
    "dt": 0.04,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6293,12 +6098,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6310,8 +6112,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.039
+   "ok": true,
+   "wallSec": 0.017
   },
   {
    "id": "supernovaCore",
@@ -6321,20 +6123,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6359,12 +6155,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6376,8 +6169,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.072
+   "ok": true,
+   "wallSec": 0.035
   },
   {
    "id": "whiteDwarfDFM",
@@ -6387,20 +6180,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6425,12 +6212,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6442,8 +6226,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.073
+   "ok": true,
+   "wallSec": 0.032
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -6453,20 +6237,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6491,12 +6269,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6508,8 +6283,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.056
+   "ok": true,
+   "wallSec": 0.032
   },
   {
    "id": "envelopeShedDFM",
@@ -6519,20 +6294,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6557,12 +6326,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6574,8 +6340,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.036
+   "ok": true,
+   "wallSec": 0.05
   },
   {
    "id": "lfbotTrap",
@@ -6585,20 +6351,14 @@
    "thermal": "tint",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6623,12 +6383,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6640,8 +6397,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.096
+   "ok": true,
+   "wallSec": 0.109
   },
   {
    "id": "layeredCoreDFM",
@@ -6651,20 +6408,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6686,12 +6437,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6703,8 +6451,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.024
+   "ok": true,
+   "wallSec": 0.02
   },
   {
    "id": "spinDipoleBinary",
@@ -6714,20 +6462,14 @@
    "thermal": "spin",
    "dt": 1.62231,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6749,12 +6491,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6766,8 +6505,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.024
+   "ok": true,
+   "wallSec": 0.017
   },
   {
    "id": "gasCohSurface",
@@ -6777,20 +6516,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6812,12 +6545,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6829,8 +6559,8 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.086
+   "ok": true,
+   "wallSec": 0.039
   },
   {
    "id": "mmPhaseToy",
@@ -6840,20 +6570,14 @@
    "thermal": "spin",
    "dt": 0.016,
    "open": {
-    "carried": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "carried": [],
     "missing": [],
     "val": []
    },
    "clone": {
     "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyC": [],
     "max": {}
    },
@@ -6875,12 +6599,9 @@
     "onlyC2": []
    },
    "fresh": {
-    "ok": false,
+    "ok": true,
     "val": [],
-    "onlyG": [
-     "rotADr",
-     "rotAIn"
-    ],
+    "onlyG": [],
     "onlyF": [],
     "max": {}
    },
@@ -6892,1096 +6613,24 @@
     "tSame": true
    },
    "nan": false,
-   "ok": false,
-   "wallSec": 0.058
+   "ok": true,
+   "wallSec": 0.034
   }
  ],
- "reverse": [
-  {
-   "id": "mmPhaseToy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gasCohSurface",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "spinDipoleBinary",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "layeredCoreDFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "lfbotTrap",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "envelopeShedDFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "whiteDwarfBareDFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "whiteDwarfDFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "supernovaCore",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "pulsarSolo",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "spinup",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "counterring",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "fig8",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "binary",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnRingReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnD68ObsOrbit",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnD68Consistent",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnZonalD68",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "crabRemnant",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "supernovaProg",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "ngc3198DFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "ngc3198",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "tuc47",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gw150914SpinDipole",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gw150914Merge4s",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gw150914",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxBinaryToy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "coord3dSpinPrecess",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "coord3dKeplerTilt",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chainBurstShell3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chainSpreadToy3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chainDiskToy3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chainDiskToy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "inertialDragPair",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "compactForceToy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "psrB1534",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "psrJ1946DFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "psrJ1757DFM",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "psrDoubleAB",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "siriusAB",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "alphaCenAB",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "neptuneReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "uranusReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "plutoCharonInertialFit",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "plutoCharonDiagInput",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "marsMoonsReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "venusReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "jupiterGalilean",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "neptuneSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "uranusSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnRingInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "saturnSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "jupiterSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "marsSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "venusSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "mercurySunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "mercurySunInertialFit",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "mercuryReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "mercury",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "qLockRadialAuditQ3",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "qLockRadialAudit",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "earthMoonOnly3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "earthMoonSunInertial3d",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "emAuditSolar",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "earthMoonRealKF1",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "earthMoonReal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chaincycle",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "chain2",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "emergent2",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "emergent",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "cooling",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "buoyancy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "convection",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "coolrace",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "frictionHeat",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "conduction",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "pressure",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gas",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "reddening",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "blens",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "spinlens",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "lensing",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToySpiralCore",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyArmCore",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyDiskCore",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyClusterCore",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToySpiral",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyArm",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyDisk",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "shapeToyCluster",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "galaxyMeshSpiral",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "selfRotor",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "axisBarReach",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "axisBarArms",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "axisBarStill",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "collapse",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "massLadder",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "rotorSolo",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "galaxyDB",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "galaxyGeo2",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "galaxyStd",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "galaxy",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "cosmicweb",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "freebox",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "probeH",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxredshift",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxbreath",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxbound",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxcomoving",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxexpand",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxrot",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "boxtrans",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "echo",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "projectile",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "grcalShapiro",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "grcalLight",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "grcalGps",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "grcal",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  },
-  {
-   "id": "gclock",
-   "carried": [
-    "rotADr",
-    "rotAIn"
-   ],
-   "missing": [],
-   "val": []
-  }
- ],
- "elapsedS": 415.831,
+ "reverse": [],
+ "elapsedS": 305.028,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便f",
   "target": "beta/index.html",
-  "targetSha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
-  "generatedAt": "2026-10-13T09:33:02.638Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T13:19:17.014Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737635,
-    "sha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
-    "mtime": "2026-10-13T09:26:03.573Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:13:23.385Z"
    }
   ],
   "code": [
@@ -7989,25 +6638,25 @@
     "file": "tests/exp-w301f-clone.mjs",
     "bytes": 14219,
     "sha256": "7046c0d44920eeb9472b9ee07c5d0f2fec1a30168854b4cd13f41d048527f0c3",
-    "mtime": "2026-10-13T04:11:44.342Z"
+    "mtime": "2026-10-13T13:12:00.421Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-13T13:12:00.437Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-13T13:12:00.433Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-13T13:12:00.441Z"
    }
   ],
   "codeSha256": "7f185c288181f546df814e12359b8e715604c2069ae0ffbf734ffda57a331a1a",
@@ -8043,7 +6692,7 @@
    "segments": 1116,
    "closureShare": 0.3167
   },
-  "scopeSha256": "b6a45af962e34a45115dcdb1ee43526ff2e4fc0108b07b39f82f992aca31bc3a",
+  "scopeSha256": "aaab4c1af3222447ebc8d2783dd0a2d5ab79900a6f083403c291956caa3eb988",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

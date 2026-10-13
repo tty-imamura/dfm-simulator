@@ -39674,7 +39674,7 @@ const SIM_BUILD_RESET=Object.freeze([
   {feature:"fusion", ja:"融合の作業", keys:["_fusDead","_fusInto"]},
   {feature:"pn1", ja:"1PN の源と場の作業", keys:["_pn1","_pn1K","_pn1W"]},
   {feature:"testParticle", ja:"試験粒子の控え", keys:["_tpSnap"]},
-  {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)", re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
+  {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)・軸回転の分解(慣性軸回転の角・引きずり軸回転の角 —— 軸引きずりを宣言した本だけ)", keys:["rotAIn","rotADr"], re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
   {feature:"coord3d", ja:"三次元の軸の宣言値・歳差・規定運動の帳簿(二次元の本へ持ち越さない)", keys:["sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","spin3PrescL","spin3PrescN"]},
   {feature:"shapeToy3", ja:"三次元の参照模型の帳簿と作業(SHAPE_TOY3_SC・控え)", keys:["_st3P","_st3C","_st3V","cfVzS"], list:"SHAPE_TOY3_SC"},
   {feature:"shapeToy", ja:"参照模型の潜在・Core 力学・渦巻の状態と乱数(updateRadii の遅延初期化を新しく組んだ sim と同じ順・同じ乱数にする)", keys:["_stRng","_spRng","_stG","_spG","_stSeed"], list:"SHAPE_TOY_CK_ARRS"}]);
