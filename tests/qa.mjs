@@ -76090,11 +76090,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       { const tilt = ps.find((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.spinDrag && q.physics.relativeDrag.spinDrag.axial === 'on' && q.familyRole !== 'retired');
         o.tiltId = tilt ? tilt.id : null;
         if (tilt) { const go = (patch) => { const q = clone(tilt); Object.assign(q.physics.relativeDrag, patch); const v = HP.validatePreset(q); S.build(v.preset); const dt = q.physics.stepDt || 0.016; S.step(dt); S.step(dt);
-            return { DG: Array.from(S._rdDeg.subarray(0, S.n)), UX: Array.from(S._rdUX.subarray(0, S.n)), WX: Array.from(S._rdWX.subarray(0, S.n)), WZ: Array.from(S._rdWZ.subarray(0, S.n)) }; };
-          const a = go({ norm: 'none' }), t = go({}); let bad = 0, nAx = 0, nuMin = 1;
+            return { DG: Array.from(S._rdDeg.subarray(0, S.n)), UX: Array.from(S._rdUX.subarray(0, S.n)), WX: Array.from(S._rdWX.subarray(0, S.n)), WZ: Array.from(S._rdWZ.subarray(0, S.n)),
+              WS: S._rdWS ? Array.from(S._rdWS.subarray(0, S.n)) : null }; };   // 第301便m: 第301便c の傾きを持たない受け手の Σw(_rdWS)も同じ ν(c の無い世代は null)
+          const a = go({ norm: 'none' }), t = go({}); let bad = 0, nAx = 0, nuMin = 1, nWS = 0;
           for (let i = 0; i < a.DG.length; i++) { const nu = a.DG[i] > 0 ? 1 / (1 + a.DG[i]) : 1; if (a.WZ[i] !== 0) nAx++; if (nu < nuMin) nuMin = nu;
-            if (t.DG[i] !== a.DG[i] || t.UX[i] !== a.UX[i] || t.WX[i] !== a.WX[i] * nu || t.WZ[i] !== a.WZ[i] * nu) bad++; }
-          o.tilt = { bad, nAx, nuMin }; } }
+            if (a.WS && a.WS[i] !== 0) nAx++, nWS++;
+            if (t.DG[i] !== a.DG[i] || t.UX[i] !== a.UX[i] || t.WX[i] !== a.WX[i] * nu || t.WZ[i] !== a.WZ[i] * nu || (a.WS && t.WS[i] !== a.WS[i] * nu)) bad++; }
+          o.tilt = { bad, nAx, nuMin, nWS, hasWS: !!a.WS }; } }
       const V = (rd) => HP.validatePreset(Object.assign(clone(base), { physics: Object.assign(clone(base.physics), { relativeDrag: rd }) }));
       const rd0 = { law: 'inertial', gain: 0.5, pairs: 'all', history: 'positions' };
       const vDef = V(Object.assign({}, rd0, { norm: 'total' })), vNone = V(Object.assign({}, rd0, { norm: 'none' }));
@@ -76128,7 +76130,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (A.bogus || A.sumBg || A.cdOver || A.noneBg || !A.cdOk || !A.defHidden || !A.noneKept) bad.push(`⑤受理器 ${JSON.stringify(A)}`);
         if (JSON.stringify(r.changes) !== JSON.stringify(r.axialIds)) bad.push(`⑥走りが変わる本 ${r.changes.join(',')} ≠ 軸引きずりの本 ${r.axialIds.join(',')}`);
         if (r.gain0Active.length) bad.push('⑥gain 0 の本で正規化が働く: ' + r.gain0Active.join(','));
-        cases.push(`①既定 = norm:"none"(ビット)= w/(1/gain+w)・宣言 background = C_d w/(W_bg+w) ②加重平均 ${r.mean.toExponential(1)} ③マスク ④🪛 の ω だけ ν 倍(ν 最小 ${r.tilt ? r.tilt.nuMin.toFixed(3) : '—'}) ⑤受理器 ⑥走りが変わる本 [${r.changes.join(',')}]`);
+        cases.push(`①既定 = norm:"none"(ビット)= w/(1/gain+w)・宣言 background = C_d w/(W_bg+w) ②加重平均 ${r.mean.toExponential(1)} ③マスク ④🪛 の ω だけ ν 倍(ν 最小 ${r.tilt ? r.tilt.nuMin.toFixed(3) : '—'}${r.tilt && r.tilt.hasWS ? '・傾きの無い受け手の Σw ' + r.tilt.nWS + ' 個も同じ ν' : ''}) ⑤受理器 ⑥走りが変わる本 [${r.changes.join(',')}]`);
         if (!DN) bad.push('⑦正本 tests/out/dragnorm-w301a.json が読めない');
         else {
           const gb = Object.entries(DN.gates || {}).filter(([, v]) => v !== true).map(([k]) => k);
@@ -76185,7 +76187,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   統括の検証項目 R181): behavior.axialSplit301(root では SKIP —— 世代切替は html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。headless(tests/lib-w279b-headless.mjs)で
 // ----   本文をそのまま走らせる。小さな系(源 1 個 + 受け手 —— 直接法)と、軸引きずりを宣言した在位の本(宣言から列挙 —— spinDrag.axial "on")で:
 // ----   (1) 零試験 κ=0: ω_drag=0 なら rotA = Σ s dt(步ごとに s·dt を足した値とビット同一)= 慣性軸回転の角 rotAIn・引きずりの角 rotADr は全部 0・axial "off" の走行と全状態ビット同一
-// ----   (2) 源の傾き 90°(軸 +x): 傾きの無い受け手の ω_drag は 0 に落ちない(軸上 = κ m Ω K_ε —— 旧則の +z への投影 ω_z は 0)・受け手に傾きを作らない(軸 +z・saOn 0 のまま)
+// ----   (2) 源の傾き 90°(軸 +x): 傾きの無い受け手の ω_drag は 0 に落ちない(軸上 = ν κ m Ω K_ε —— ν は第301便a の正規化 inertialDragNormOf・旧則の +z への投影 ω_z は 0)・受け手に傾きを作らない(軸 +z・saOn 0 のまま)
 // ----   (3) 源の自転の符号を反転すると ω_drag と引きずりの角がビットで反転 (4) 受け手の慣性 spin は変わらない・rotAIn は axial "off" の rotA とビット同一
 // ----   (5) 傾きを持つ受け手は第298便c のベクトル則のまま(引きずりの角の増分 = (ω·â)dt —— ビット)・和 rotA = rotAIn + rotADr(相対 1e-12)
 // ----   (6) 在位の本: N 步保存 → N 步 → 復帰 = 保存の瞬間(rotA・rotAIn・rotADr・_rdWS・帳簿)・その後 N 步 = 最初から 2N 步とビット同一・A/B の複製(cloneSimState)も同じ
@@ -76240,18 +76242,26 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         S.step(DT); for (let i = 0; i < S.n; i++) dr0.push(S.rotADr[i]);
         S.step(DT);
         const ws = Array.from(S._rdWS.subarray(0, S.n)), wz = Array.from(S._rdWZ.subarray(0, S.n));
-        // 期待値(軸上 μ=±1): κ m Ω K_ε(r)・K_ε = r/(r²+ε²)² —— 移送の前の位置(step 1 の後)で
-        const kap = 3, m = S.m[0], Om = S.spin[0], e2 = 0.25;   // spin は単精度の配列の値(0.6 の丸め)
-        const expOf = (i) => { const dx = x0[i][0] - x0[0][0], dy = x0[i][1] - x0[0][1], dz = x0[i][2] - x0[0][2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), mu = dx / r, s = r2 + e2; return kap * m * Om * (r / (s * s)) * mu * mu; };
+        // 期待値(軸上 μ=±1): ν_i · κ m Ω K_ε(r)・K_ε = r/(r²+ε²)² —— 移送の前の位置(step 1 の後)で
+        // 第301便m(a×c の統合): 強さの正規化 ν_i = W_bg/(W_bg + Σ_j w_ij)(第301便a)を**正規化の 1 か所の関数 inertialDragNormOf** から作る(受け手の行和
+        //   deg_i = gain Σ_j m_j K_ε(r_ij) —— pairs "all" の全源。器の _rdDeg とも照合)。正規化の無い世代(第301便c 単独)は ν = 1
+        const kap = 3, m = S.m[0], Om = S.spin[0], e2 = 0.25, gainA = 2;   // spin は単精度の配列の値(0.6 の丸め)
+        const KeOf = (i, j) => { const dx = x0[i][0] - x0[j][0], dy = x0[i][1] - x0[j][1], dz = x0[i][2] - x0[j][2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), s = r2 + e2; return r / (s * s); };
+        const degOf = (i) => { let d = 0; for (let j = 0; j < S.n; j++) if (j !== i) d += gainA * S.m[j] * KeOf(i, j); return d; };
+        const nuFn = E("typeof inertialDragNormOf === 'function' ? inertialDragNormOf : null");
+        const nuOf = (i) => (nuFn ? nuFn(S.relDrag, degOf(i)) : 1);
+        const expOf = (i) => { const dx = x0[i][0] - x0[0][0], dy = x0[i][1] - x0[0][1], dz = x0[i][2] - x0[0][2], r = Math.sqrt(dx * dx + dy * dy + dz * dz), mu = dx / r; return nuOf(i) * kap * m * Om * KeOf(i, 0) * mu * mu; };
         const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
-        const e1 = expOf(1), e2x = expOf(2), e3 = expOf(3);
+        const e1 = expOf(1), e2x = expOf(2), e3 = expOf(3), nus = [1, 2, 3].map(nuOf);
+        const degOk = !nuFn || [1, 2, 3].every((i) => rel(S._rdDeg[i], degOf(i)) <= 1e-12);
+        const nuOk = !nuFn || nus.every((v) => v > 0 && v < 1);   // 正規化が働く本(gain 2・solve)—— 0 < ν < 1(ω が 0 に落ちず・割られている)
         const tiltNone = [1, 2, 3].every((i) => S.saOn[i] === 0 && S.sax[i] === 0 && S.say[i] === 0 && S.saz[i] === 1);
         const dDr = [1, 2, 3].map((i) => S.rotADr[i] - dr0[i]);
-        if (!(ws[1] > 0 && ws[2] > 0 && ws[3] > 0 && rel(ws[1], e1) <= 1e-12 && rel(ws[2], e2x) <= 1e-12 && rel(ws[3], e3) <= 1e-12 && [1, 2, 3].every((i) => Math.abs(wz[i]) <= 1e-15 * ws[i])
+        if (!(degOk && nuOk && ws[1] > 0 && ws[2] > 0 && ws[3] > 0 && rel(ws[1], e1) <= 1e-12 && rel(ws[2], e2x) <= 1e-12 && rel(ws[3], e3) <= 1e-12 && [1, 2, 3].every((i) => Math.abs(wz[i]) <= 1e-15 * ws[i])
           && [1, 2, 3].every((i) => Object.is(dDr[i - 1], ws[i] * DT) || rel(dDr[i - 1], ws[i] * DT) <= 1e-15) && tiltNone && S.saOn[0] === 1 && [1, 2, 3].every((i) => S.x[i] === x0[i][0] && S.y[i] === x0[i][1] && S.z[i] === x0[i][2])))
-          bad.push('(2) 源の傾き 90° ' + JSON.stringify({ ws, wz, e1, e2x, e3, dDr, tiltNone }).slice(0, 260));
+          bad.push('(2) 源の傾き 90° ' + JSON.stringify({ degOk, nuOk, nus, ws, wz, e1, e2x, e3, dDr, tiltNone }).slice(0, 260));
         W90 = ws;
-        cases.push(`(2) 源の軸 90°(+x): 傾きの無い受け手の ω_drag = ${ws.slice(1).map((w) => w.toPrecision(6)).join('・')}(軸上 = κmΩK_ε ${e1.toPrecision(6)} —— 相対 1e-12)・旧則の ω_z ${wz.slice(1).map((w) => w.toPrecision(2)).join('・')}・受け手の軸は +z のまま`);
+        cases.push(`(2) 源の軸 90°(+x): 傾きの無い受け手の ω_drag = ${ws.slice(1).map((w) => w.toPrecision(6)).join('・')}(軸上 = ν·κmΩK_ε ${e1.toPrecision(6)} —— 相対 1e-12・ν ${nuFn ? nus.map((v) => v.toPrecision(4)).join('・') + '〔inertialDragNormOf・行和 deg は器と ' + (degOk ? '一致' : '不一致') + '〕' : '1〔正規化の無い世代〕'})・旧則の ω_z ${wz.slice(1).map((w) => w.toPrecision(2)).join('・')}・受け手の軸は +z のまま`);
       }
       // (3) 源の自転の符号を反転
       {
