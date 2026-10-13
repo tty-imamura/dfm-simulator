@@ -870,6 +870,14 @@ export const REGEN_STEPS = [
   S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
     volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
     note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
+  // ---- 第301便b(原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して
+  //   重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」・統括の検証項目 R180): **近似多粒子の契約 physics.approxMany**
+  //   (受理と拒否の例・対のマスクの零試験〔重力・ポテンシャル・慣性決定力の辺と deg・受動プローブ・回転源・接触・天体だけの宣言のビット同一〕・🍩 の塵のマスクの効き・
+  //   🍥 の塵型の対照〔診断〕・測り直しの記録〔🍥 の 8 条件と 🍩 の門 —— 正本 geo4stable-w299d.json・saturnring3d-w300c.json を読む〕・宣言から数えた監査)。
+  //   Node 1 プロセス。2 つの正本を読むので after に 2 段。所要は第301便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('approxmany-301b', 'node tests/exp-w301b-approxmany.mjs', ['tests/out/approxmany-w301b.json'], 10, { secSource: 'w301b-branch', node: true, after: ['geo4stable-299d', 'saturnring3d-300c'],
+    volatilePaths: { 'tests/out/approxmany-w301b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/effect/spreadDust/A/wallSec', '/remeasure/spread/wallSecA']) },
+    note: '第301便b: 近似多粒子の契約(塵どうしは重力・引きずり・接触なし・天体どうしは接触なし・支配天体は固定)—— 受理・零試験・🍩 の塵のマスクの効き・🍥🍩 の測り直しの記録・監査(値だけ)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
