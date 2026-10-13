@@ -31,7 +31,7 @@
 //
 // ■ しないこと・言わないこと
 //   ・本の宣言・力学・fitRecord・署名を変えない(この器は html を読むだけ)。退役の本は再フィットしない(記録として使う)。
-//   ・「法則を発見した」「W_bg が決まった」「gain は普遍定数」「現実を再現した」と書かない。点が少ない —— 候補と予測の記録。
+//   ・「法則を発見した」「W_bg が決まった」と書かない。gain を系をまたぐ定数と呼ばない・現実の再現の主張をしない。点が少ない —— 候補と予測の記録。
 //   ・届かないものは「この探索範囲では未達 —— 次の見直し」。
 //
 // 実行(Node だけ・1 プロセス):
@@ -457,7 +457,7 @@ if (IS_MAIN) {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(AN300 —— 第91報への追加): 慣性決定力は、重力決定力に比べて近距離の天体の影響が大きい為、背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う',
     reading: '統括の検証項目 R185(W_bg を近距離の天体の影響で説明する候補を次元の合う形で列挙し、自由パラメータ 1〜2 で当てはめ、leave-one-out と未フィットの本への予測で確かめる —— 本の宣言は変えない)',
-    notClaim: ['法則を発見した', 'W_bg が決まった', 'gain は普遍定数', '現実を再現した'] });
+    notClaim: ['法則を発見した', 'W_bg が決まった', 'gain を系をまたぐ定数と呼ぶ', '現実の再現の主張'] });
   out.elapsedS = (Date.now() - t0) / 1000;
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });

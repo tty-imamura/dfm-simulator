@@ -76326,7 +76326,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 
 // ---- 第301便g(原仮定者の裁定 AN300「背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う」・統括の検証項目 R185): docs.wbgLaw301(新設 —— root は SKIP)。
-// ----   世代切替 = 対象 html に `const REL_DRAG_NORM_VERSION`(第301便a の総和正規化 —— W_bg = 1/gain の読み)。探索の枝で html は変えない。
+// ----   世代切替 = 対象 html に `const REL_DRAG_NORM_VERSION`(第301便a の総和正規化 —— W_bg = 1/gain の読み)。探索の枝で html は変えない。宣言は headless(tests/lib-w279b-headless.mjs)で読む。
 // ----   正本 tests/out/wbglaw-w301g.json(器 tests/exp-w301g-wbglaw.mjs —— 段 wbglaw-301g)を読み、(1) 版と門 (2) 行の選び方を宣言から作り直して照合
 // ----   (fit = 在位 ∧ law inertial ∧ gain>0 ∧ fitRecord.status "fitted" / unfit = 在位 ∧ gain 0 ∧ scaleExp / censored = fitRecord が fitted でない —— 手書きの ID 一覧を置かない)
 // ----   (3) 表の gain・W_bg(relDragBackgroundOf)・C_d・質量・scaleExp が宣言と一致 (4) 候補の当てはめを正本の表から作り直して一致(rms・LOO —— 相対 1e-9)
@@ -76342,7 +76342,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try { WL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'wbglaw-w301g.json'), 'utf8')); } catch (e) { WL = null; }
     try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); RD = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) {}
     let H301g = null;
-    try { const { loadHtmlMain } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); H301g = loadHtmlMain(path.join(ROOT, TARGET)).HP; } catch (e) { bad.push('html の読み込み: ' + String(e).slice(0, 120)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H301g = loadHtmlHeadless(path.join(ROOT, TARGET)).HP; } catch (e) { bad.push('html の読み込み: ' + String(e).slice(0, 120)); }
     if (!WL) bad.push('正本 tests/out/wbglaw-w301g.json が読めない');
     else if (H301g) {
       if (WL.version !== 'w301g-wbglaw-1') bad.push('正本の版 ' + WL.version);
