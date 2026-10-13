@@ -899,6 +899,12 @@ export const REGEN_STEPS = [
     after: ['inertial3-295c', 'moon3d-298c', 'planets3d-299c', 'dragnorm-301a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/wbglaw-w301g.json': META_RUN.concat(['/elapsedS', '/table/*/base/wallSec', '/table/*/run/wallSec', '/loo/*/wallSec', '/predictions/planets/*/preds/*/wallSec', '/predictions/rings/*/preds/*/wallSec', '/predictions/rings/*/gain0/wallSec']) },
     note: '第301便g: 背景慣性決定力 W_bg の法則性の探索 —— データの表・候補の当てはめと leave-one-out・応答 κ の検算・未フィットの本への予測(値だけ —— 本の宣言は変えない)' }),
+  // ---- 第301便d(原仮定者の裁定(第91報)④「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」・統括の検証項目 R182):
+  //   **連鎖円盤の飛びの器**(🔗🔩 の再現と新旧の法則・本体の帳簿の分離〔重力の段のキック/ドリフトと移送〕・結合積分の独立な器 tests/lib-w301d-coupled.mjs〔rk4/rk2/split/semic〕との
+  //   刻みの比較・対照〔gain・自転・種・粒子数〕・t = 480 の長い窓)。html を読む(html の生成領域〔obs-compare・sample-status〕の後・子プロセス 2 本 —— 結果は並列数に依らない)。所要は第301便d の枝の実測(正本の elapsedS)
+  S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
+    note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

@@ -88,6 +88,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.approxMany301 preset.approxMany301"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
 # 第301便g(原仮定者の裁定 AN300・R185): 枝 g の新設 1 本(docs.wbgLaw301 —— W_bg の法則性の探索の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
+# 第301便d(原仮定者の裁定(第91報)④・R182): 枝 d の新設 2 本(docs.chainBurst301 —— 連鎖円盤の 14000 步付近の飛びの記録と正本・文書・preset.chainBurstShell301 —— 放出の探索の写し 🧨)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
