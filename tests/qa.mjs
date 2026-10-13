@@ -76325,6 +76325,77 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ---- 第301便g(原仮定者の裁定 AN300「背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う」・統括の検証項目 R185): docs.wbgLaw301(新設 —— root は SKIP)。
+// ----   世代切替 = 対象 html に `const REL_DRAG_NORM_VERSION`(第301便a の総和正規化 —— W_bg = 1/gain の読み)。探索の枝で html は変えない。
+// ----   正本 tests/out/wbglaw-w301g.json(器 tests/exp-w301g-wbglaw.mjs —— 段 wbglaw-301g)を読み、(1) 版と門 (2) 行の選び方を宣言から作り直して照合
+// ----   (fit = 在位 ∧ law inertial ∧ gain>0 ∧ fitRecord.status "fitted" / unfit = 在位 ∧ gain 0 ∧ scaleExp / censored = fitRecord が fitted でない —— 手書きの ID 一覧を置かない)
+// ----   (3) 表の gain・W_bg(relDragBackgroundOf)・C_d・質量・scaleExp が宣言と一致 (4) 候補の当てはめを正本の表から作り直して一致(rms・LOO —— 相対 1e-9)
+// ----   (5) 文書(PHYSICS〔第301便g〕・AI_SPEC・CHANGELOG・README)。正本を鎖で作り直した後の世代も同じ照合(値は正本から)。
+{
+  const html301g = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has301g = TARGET.startsWith('beta/') && html301g.indexOf('const REL_DRAG_NORM_VERSION') >= 0;
+  if (!has301g) {
+    console.log('SKIP docs.wbgLaw301(第301便a の総和正規化の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let WL = null, PH = '', CL = '', AS = '', RD = '';
+    try { WL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'wbglaw-w301g.json'), 'utf8')); } catch (e) { WL = null; }
+    try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); RD = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) {}
+    let H301g = null;
+    try { const { loadHtmlMain } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); H301g = loadHtmlMain(path.join(ROOT, TARGET)).HP; } catch (e) { bad.push('html の読み込み: ' + String(e).slice(0, 120)); }
+    if (!WL) bad.push('正本 tests/out/wbglaw-w301g.json が読めない');
+    else if (H301g) {
+      if (WL.version !== 'w301g-wbglaw-1') bad.push('正本の版 ' + WL.version);
+      const gb = Object.entries(WL.gates || {}).filter(([, v]) => v !== true).map(([k]) => k);
+      if (gb.length || WL.ok !== true) bad.push('正本の門: ' + gb.join(','));
+      const inert = H301g.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial' && p.scaleExp);
+      const want = (pred) => inert.filter(pred).map((p) => p.id).sort();
+      const fitW = want((p) => p.familyRole !== 'retired' && p.fitRecord && p.fitRecord.status === 'fitted' && p.physics.relativeDrag.gain > 0);
+      const unfitW = want((p) => p.familyRole !== 'retired' && p.physics.relativeDrag.gain === 0 && !p.fitRecord);
+      const cenW = want((p) => p.fitRecord && p.fitRecord.status !== 'fitted');
+      const sel = (WL.selection && WL.selection.rows) || [], got = (role) => sel.filter((z) => z.role === role).map((z) => z.id).sort();
+      for (const [nm, w, g] of [['fit', fitW, got('fit')], ['unfit', unfitW, got('unfit')], ['censored', cenW, got('censored')]])
+        if (JSON.stringify(w) !== JSON.stringify(g)) bad.push(`行 ${nm}: 宣言 [${w.join(',')}] ≠ 正本 [${g.join(',')}]`);
+      let nCk = 0;
+      for (const r of (WL.table || [])) {
+        const p = inert.find((q) => q.id === r.id); if (!p) { bad.push('表の本が宣言に無い ' + r.id); continue; }
+        const rd = p.physics.relativeDrag, bg = rd.gain > 0 ? H301g.relDragBackgroundOf(rd) : null, X = p.scaleExp, dens = Math.pow(10, X.M) / Math.pow(10, 3 * X.L);
+        if (r.gain !== rd.gain) bad.push(`${r.id} の gain ${r.gain} ≠ 宣言 ${rd.gain}`);
+        if (bg && (r.Wbg !== bg.Wbg || r.Cd !== bg.Cd || Math.abs(r.WbgSI / (bg.Wbg * dens) - 1) > 1e-12)) bad.push(`${r.id} の W_bg ${r.Wbg} ≠ 宣言 ${bg.Wbg}`);
+        if (!bg && r.Wbg !== null) bad.push(`${r.id} は gain 0 なのに W_bg ${r.Wbg}`);
+        const sel1 = sel.find((z) => z.id === r.id) || {}, ci = sel1.ex === 'ems' ? 1 : 0, oi = sel1.ex === 'ems' ? 2 : 1;
+        if (Math.abs(r.sys.M / (p.bodies[ci].m * Math.pow(10, X.M)) - 1) > 1e-12 || Math.abs(r.sys.m / (p.bodies[oi].m * Math.pow(10, X.M)) - 1) > 1e-12) bad.push(`${r.id} の質量が宣言と違う`);
+        if (r.sys.unit.L !== X.L || r.sys.unit.T !== X.T || r.sys.unit.M !== X.M) bad.push(`${r.id} の単位系が宣言と違う`);
+        nCk++;
+      }
+      // 候補の当てはめの作り直し(1 パラメータ: log k = 平均(log W − log X)・LOO)
+      let nFit = 0;
+      for (const sk of ['all', 'inPlace']) {
+        const S = WL.fits && WL.fits[sk]; if (!S) { bad.push('正本に当てはめ ' + sk + ' が無い'); continue; }
+        for (const c of S.cands) { if (c.missing || !c.p1) continue;
+          const pts = c.logX.map((z) => ({ x: z.logX, y: S.groups.find((g) => g.group === z.group).logW }));
+          const lk = pts.reduce((s, p) => s + p.y - p.x, 0) / pts.length, rms = Math.sqrt(pts.reduce((s, p) => s + (p.y - p.x - lk) ** 2, 0) / pts.length);
+          const loo = pts.map((p, i) => { const o = pts.filter((_, j) => j !== i), k = o.reduce((s, q) => s + q.y - q.x, 0) / o.length; return p.y - p.x - k; });
+          const looRms = Math.sqrt(loo.reduce((s, z) => s + z * z, 0) / loo.length), rel = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b));
+          if (!rel(lk, c.p1.logk) || !rel(rms, c.p1.rms) || !rel(looRms, c.p1.looRms)) bad.push(`当てはめ ${sk}/${c.key} が表から作り直した値と違う`);
+          nFit++; }
+      }
+      const b1 = WL.fits && WL.fits.all && WL.fits.all.best1;
+      cases.push(`正本の門 ${Object.keys(WL.gates || {}).length} 本・行 fit ${fitW.length}/unfit ${unfitW.length}/censored ${cenW.length}(宣言から)・表 ${nCk} 行が宣言と一致・当てはめ ${nFit} 件を作り直して一致・系の量の最良(1 パラメータ・LOO)${b1 ? b1.key + ' ' + b1.looRms.toFixed(3) + ' dex' : '—'}`);
+    }
+    const sec = (() => { const a = PH.indexOf('〔第301便g — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
+    if (!sec) bad.push('PHYSICS に〔第301便g〕が無い(## 7. の前)');
+    else for (const w of ['AN300', 'R185', 'wbglaw-w301g.json', 'leave-one-out', 'この探索範囲では未達', '言わないこと']) if (sec.indexOf(w) < 0) bad.push('〔第301便g〕に「' + w + '」が無い');
+    for (const w of ['法則を発見した', 'W_bg が決まった']) if (sec && sec.indexOf('「' + w + '」') < 0) bad.push('〔第301便g〕の言わないことに「' + w + '」が無い');
+    if (!/^- \*\*第301便g/m.test(CL)) bad.push('CHANGELOG に第301便g の行が無い');
+    if (!/^## \d+\. 第301便g/m.test(AS)) bad.push('AI_SPEC に第301便g の節が無い');
+    if (RD.indexOf('第301便g') < 0) bad.push('README に第301便g の要点が無い');
+    add('docs.wbgLaw301', bad.length === 0,
+      `**背景慣性決定力 W_bg の法則性の探索**(第301便g・原仮定者の裁定 AN300・R185 —— 本の宣言は変えない・候補と予測の記録): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // 第288便f(原仮定者の裁定(第78報)AN90): 結果 JSON の env に**試験した Chromium の版**を残す(CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う ——
 //   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
 let chromiumVersion = 'unknown';

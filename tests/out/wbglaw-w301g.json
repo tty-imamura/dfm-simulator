@@ -1,0 +1,5583 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第301便g",
+  "target": "beta/index.html",
+  "targetSha256": "74b574c156e40324f83fe3be574cc451b0c16d74e826e78f98d1efe04f917a38",
+  "generatedAt": "2026-10-13T03:57:41.225Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6658955,
+    "sha256": "74b574c156e40324f83fe3be574cc451b0c16d74e826e78f98d1efe04f917a38",
+    "mtime": "2026-10-13T03:30:00.769Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w301g-wbglaw.mjs",
+    "bytes": 41191,
+    "sha256": "324f8ce1e18a4c1a07fb6cf8d41776ab8992b727f0ce2b424c5dcd48e9545955",
+    "mtime": "2026-10-13T03:53:14.335Z"
+   },
+   {
+    "file": "tests/exp-w295c-inertial3.mjs",
+    "bytes": 35109,
+    "sha256": "981b209ba8e426f6d194bd7c51d8f288b0bd0eb0de75cfa924f49e08e5917795",
+    "mtime": "2026-10-13T03:30:01.013Z"
+   },
+   {
+    "file": "tests/exp-w298c-moon3d.mjs",
+    "bytes": 37573,
+    "sha256": "3f141998a25402b913be5e0f3987329ef27fcac4685e4fec20ad88dc354290ac",
+    "mtime": "2026-10-13T03:30:01.017Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 50761,
+    "sha256": "d6ec37c28ee432a5afffc3569806c1700f7a73d19bc011d0b4fbea2273d844c4",
+    "mtime": "2026-10-13T03:30:01.017Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16323,
+    "sha256": "77e888eb70b9009d559f54b543a3183c50602cbc9674d4d8064d367e39313dc4",
+    "mtime": "2026-10-13T03:30:01.041Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-13T03:30:01.041Z"
+   },
+   {
+    "file": "tests/exp-w301a-dragnorm.mjs",
+    "bytes": 22840,
+    "sha256": "6de043a53a8d8affec920010173b89ded8105f6aadcfd32852be877ffdb24435",
+    "mtime": "2026-10-13T03:30:01.017Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-13T03:30:01.033Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-13T03:30:01.029Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-13T03:30:01.037Z"
+   }
+  ],
+  "codeSha256": "e83fd77d5462026a59e14ab911d706b6e572dc62992acbfd4a59967e422ae32d",
+  "harnessVersion": "w301g-wbglaw-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(AN300 —— 第91報への追加): 慣性決定力は、重力決定力に比べて近距離の天体の影響が大きい為、背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う",
+  "reading": "統括の検証項目 R185(W_bg を近距離の天体の影響で説明する候補を次元の合う形で列挙し、自由パラメータ 1〜2 で当てはめ、leave-one-out と未フィットの本への予測で確かめる —— 本の宣言は変えない)",
+  "notClaim": [
+   "法則を発見した",
+   "W_bg が決まった",
+   "gain は普遍定数",
+   "現実を再現した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_NORM_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.fitCondSig",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.inertialDragState",
+    "HP.relDragBackgroundOf",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "LAWS",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "fmt",
+    "pnSource",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1226,
+   "segments": 1117,
+   "closureShare": 0.3198
+  },
+  "scopeSha256": "589d444ba260918ee63b791d011ee19a72f7c2e9d97347ef4838b3693da373be",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w301g-wbglaw-1",
+ "si": {
+  "G": 6.674e-11,
+  "c": 299792458
+ },
+ "selection": {
+  "rows": [
+   {
+    "id": "earthMoonInertial",
+    "emoji": "🌛",
+    "role": "record",
+    "group": "earthMoonInertial",
+    "ex": "pair2d",
+    "dt": 0.4969,
+    "N": 27
+   },
+   {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "role": "transfer",
+    "group": "earthMoonSunInertial",
+    "ex": "ems",
+    "dt": 0.004969,
+    "N": 118
+   },
+   {
+    "id": "earthMoonSunInertialFit",
+    "emoji": "🌥️",
+    "role": "censored",
+    "group": "earthMoonSunInertialFit",
+    "ex": "ems",
+    "dt": 0.016,
+    "N": 118
+   },
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "role": "fit",
+    "group": "earthMoonSunInertial3d",
+    "ex": "ems",
+    "dt": 0.016,
+    "N": 118
+   },
+   {
+    "id": "earthMoonOnly3d",
+    "emoji": "🌔",
+    "role": "transfer",
+    "group": "earthMoonOnly3d",
+    "ex": "pl3",
+    "dt": 0.004969,
+    "N": 8
+   },
+   {
+    "id": "mercurySunInertial",
+    "emoji": "🟤",
+    "role": "transfer",
+    "group": "mercurySunInertial",
+    "ex": "pair2d",
+    "dt": 0.016,
+    "N": 8
+   },
+   {
+    "id": "mercurySunInertialFit",
+    "emoji": "🟫",
+    "role": "fit",
+    "group": "mercurySunInertialFit",
+    "ex": "pair2d",
+    "dt": 0.016,
+    "N": 8
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "role": "fit",
+    "group": "mercurySunInertialFit",
+    "ex": "pl3",
+    "dt": 0.016,
+    "N": 8
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "role": "unfit",
+    "group": "venusSunInertial3d",
+    "ex": "pl3",
+    "dt": 0.04087,
+    "N": 8
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "role": "unfit",
+    "group": "marsSunInertial3d",
+    "ex": "pl3",
+    "dt": 0.1249,
+    "N": 8
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "role": "unfit",
+    "group": "jupiterSunInertial3d",
+    "ex": "pl3",
+    "dt": 0.0788,
+    "N": 8
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "role": "unfit",
+    "group": "saturnSunInertial3d",
+    "ex": "pl3",
+    "dt": 0.1957,
+    "N": 8
+   },
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "role": "unfit",
+    "group": "saturnRingInertial3d",
+    "ex": "ring",
+    "dt": 0.004395,
+    "N": 8
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "role": "unfit",
+    "group": "uranusSunInertial3d",
+    "ex": "pl3",
+    "dt": 0.5581,
+    "N": 8
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "role": "unfit",
+    "group": "neptuneSunInertial3d",
+    "ex": "pl3",
+    "dt": 1.095,
+    "N": 8
+   },
+   {
+    "id": "mercuryMeshMigrate3d",
+    "emoji": "🔂",
+    "role": "transfer",
+    "group": "mercuryMeshMigrate3d",
+    "ex": "pl3",
+    "dt": 0.016,
+    "N": 8
+   },
+   {
+    "id": "plutoCharonInertial",
+    "emoji": "🟣",
+    "role": "transfer",
+    "group": "plutoCharonInertial",
+    "ex": "pair2d",
+    "dt": 1.162,
+    "N": 8
+   },
+   {
+    "id": "plutoCharonInertialFit",
+    "emoji": "🟪",
+    "role": "fit",
+    "group": "plutoCharonInertialFit",
+    "ex": "pair2d",
+    "dt": 0.16,
+    "N": 8
+   }
+  ],
+  "excluded": [
+   {
+    "id": "inertialDragPair",
+    "emoji": "🐌",
+    "why": "scaleExp なし(トイ —— 本の単位が物理単位でない)"
+   },
+   {
+    "id": "chainDiskToy",
+    "emoji": "🔗",
+    "why": "scaleExp なし(トイ —— 本の単位が物理単位でない)"
+   },
+   {
+    "id": "chainDiskToy3d",
+    "emoji": "🔩",
+    "why": "scaleExp なし(トイ —— 本の単位が物理単位でない)"
+   },
+   {
+    "id": "chainDiskToy3dTilt",
+    "emoji": "🪛",
+    "why": "scaleExp なし(トイ —— 本の単位が物理単位でない)"
+   },
+   {
+    "id": "chainSpreadToy3d",
+    "emoji": "🍥",
+    "why": "scaleExp なし(トイ —— 本の単位が物理単位でない)"
+   }
+  ],
+  "retiredFitRecords": [
+   {
+    "id": "earthMoonInertial",
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr",
+    "window": 27,
+    "source": "PHYSICS〔第292便c〕(gain 514182 は 27 公転窓の近点周期 8.85 年への 1 次元フィット —— 太陽なしの地球と月)・〔第293便g〕(既定の solve(velocity) で最初の評価が許容に入る —— 再フィットなし)",
+    "note": "刻みは器の規則(1 公転 47503 步 —— stepsOf)で、記録の刻み 0.016 とは違う(門は 8.85 年に 0.001 年以内)"
+   }
+  ]
+ },
+ "candidates": [
+  {
+   "key": "const",
+   "label": "一定(W_bg = k)",
+   "kind": "scale"
+  },
+  {
+   "key": "Ma3",
+   "label": "M/a³(支配天体の局所の重み)",
+   "kind": "scale"
+  },
+  {
+   "key": "ma3",
+   "label": "m/a³(伴の局所の重み)",
+   "kind": "scale"
+  },
+  {
+   "key": "Mma3",
+   "label": "(M+m)/a³(= ω²/G —— ケプラーで同じ尺度・重ねて数えない)",
+   "kind": "scale"
+  },
+  {
+   "key": "MR3",
+   "label": "M/R³(支配天体の平均密度の尺度)",
+   "kind": "scale"
+  },
+  {
+   "key": "Ma2e",
+   "label": "M/(a²ε)(核の正則化 ε との組)",
+   "kind": "scale"
+  },
+  {
+   "key": "O2G",
+   "label": "Ω²/G(支配天体の自転)",
+   "kind": "scale"
+  },
+  {
+   "key": "wOG",
+   "label": "ωΩ/G(公転と自転)",
+   "kind": "scale"
+  },
+  {
+   "key": "sumW",
+   "label": "Σw̄_rel(実測の局所の重み —— 構造核と離心率を含む)",
+   "kind": "scale"
+  },
+  {
+   "key": "c2Ga2",
+   "label": "c²/(G a²)(1PN の近日点前進を引きずりで写す尺度)",
+   "kind": "scale"
+  },
+  {
+   "key": "ext",
+   "label": "外の天体 + 宇宙の一様な分(W_cos + Σ_ext m/d³ —— 自由パラメータ 0)",
+   "kind": "ext"
+  },
+  {
+   "key": "resp",
+   "label": "応答の分解 Σw̄_rel/δ_obs(標的の差を入力に持つ —— 系の量だけの法則ではない)",
+   "kind": "response"
+  }
+ ],
+ "table": [
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "role": "record",
+   "group": "earthMoonInertial",
+   "retired": true,
+   "coord": "2d",
+   "ex": "pair2d",
+   "dt": 0.4969,
+   "N": 27,
+   "gain": 514182,
+   "Wbg": 0.0000019448366531695005,
+   "WbgSI": 19.448366531695005,
+   "Cd": 1,
+   "pairs": "all",
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr",
+    "window": 27,
+    "source": "PHYSICS〔第292便c〕(gain 514182 は 27 公転窓の近点周期 8.85 年への 1 次元フィット —— 太陽なしの地球と月)・〔第293便g〕(既定の solve(velocity) で最初の評価が許容に入る —— 再フィットなし)",
+    "model": null
+   },
+   "recordNote": "刻みは器の規則(1 公転 47503 步 —— stepsOf)で、記録の刻み 0.016 とは違う(門は 8.85 年に 0.001 年以内)",
+   "targetMeasured": 8.850015776543133,
+   "targetBase": -703299.901763844,
+   "base": {
+    "P": 23606.006336746348,
+    "varpiRate": -1.6220266182947565e-9,
+    "a": 384.74812492703427,
+    "e": 0.0549003899282729,
+    "steps": 1282677,
+    "nan": false,
+    "complete": true,
+    "wallSec": 4.461
+   },
+   "run": {
+    "P": 23464.607892720327,
+    "varpiRate": 0.00012890046640692362,
+    "a": 382.3651264649585,
+    "e": 0.04901443886352773,
+    "steps": 1275005,
+    "nan": false,
+    "complete": true,
+    "wallSec": 5.36
+   },
+   "sys": {
+    "unit": {
+     "L": 6,
+     "T": 2,
+     "M": 25,
+     "densSI": 10000000
+    },
+    "M": 5.9724e+24,
+    "m": 7.346000000000001e+22,
+    "a": 384748124.92703426,
+    "e": 0.0549003899282729,
+    "P": 2360600.6336746346,
+    "R": 6380000,
+    "Rm": 1740000,
+    "Om": 0.000072921,
+    "Omm": 0.0000026617,
+    "w": 0.000002661689240250203,
+    "eps": 100000,
+    "rhoM": 5490.327377141877,
+    "rhoMm": 3329.0059383358825,
+    "core": {
+     "center": true,
+     "orbiter": false,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.10853654880595254,
+    "sumWo": 0.10721796888473653,
+    "sumWc": 0.00131857992121601,
+    "Wcos": 5.1653819663750444e-24,
+    "Wext": 5.1653819663750444e-24,
+    "keplerRatio": 0.9999998740153869
+   },
+   "sumWbook": 1.0853654880595254e-8,
+   "xBar": 0.005580753973814229,
+   "xi": 0.005549450264894658,
+   "dAps": 0.008452398656616747,
+   "dP": 0.005989935019457856,
+   "deltaObs": 0.00845241372418217,
+   "kappaAps": 1.5231055785986387,
+   "kappaP": 1.079374484595288
+  },
+  {
+   "id": "earthMoonSunInertial",
+   "emoji": "🌤️",
+   "role": "transfer",
+   "group": "earthMoonSunInertial",
+   "retired": true,
+   "coord": "2d",
+   "ex": "ems",
+   "dt": 0.004969,
+   "N": 118,
+   "gain": 51.4182,
+   "Wbg": 0.019448366531695002,
+   "WbgSI": 19.448366531695,
+   "Cd": 1,
+   "pairs": [
+    [
+     1,
+     2
+    ]
+   ],
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 236.0075180287143,
+    "varpiRate": 0.012991422679907109,
+    "a": 3.8338109038479433,
+    "e": 0.037484615818907656,
+    "steps": 5605428,
+    "nan": false,
+    "complete": true,
+    "wallSec": 24.11
+   },
+   "run": {
+    "P": 234.4661511892016,
+    "varpiRate": 0.02674580259694548,
+    "a": 3.788943127448598,
+    "e": 0.032369579424040645,
+    "steps": 5568468,
+    "nan": false,
+    "complete": true,
+    "wallSec": 26.344
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 5.9724e+24,
+    "m": 7.346e+22,
+    "a": 383381090.38479435,
+    "e": 0.037484615818907656,
+    "P": 2360075.1802871427,
+    "R": 6371000,
+    "Rm": 1739999.9999999998,
+    "Om": 0.0000729212,
+    "Omm": 0.0000026617,
+    "w": 0.000002662281845790663,
+    "eps": 1000000,
+    "rhoM": 5513.628012449682,
+    "rhoMm": 3329.0059383358835,
+    "core": {
+     "center": true,
+     "orbiter": false,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [
+     {
+      "index": 0,
+      "mSI": 1.9885e+30,
+      "dSI": 149593562920,
+      "inPairWithOrbiter": false,
+      "mOverD3SI": 0.0005940005911695233
+     }
+    ],
+    "sumW": 0.10814558885187966,
+    "sumWo": 0.1068317572247975,
+    "sumWc": 0.001313831627082185,
+    "Wcos": 4.918475117144814e-24,
+    "Wext": 0.0005940005911164361,
+    "keplerRatio": 0.9898191173493549
+   },
+   "sumWbook": 0.00010814558885187967,
+   "xBar": 0.0055606515167037195,
+   "xi": 0.005529723552162982,
+   "dAps": 0.009017047406233943,
+   "dP": 0.006531007369541267,
+   "deltaObs": null,
+   "kappaAps": 1.6306506683696464,
+   "kappaP": 1.1810730333863846
+  },
+  {
+   "id": "earthMoonSunInertialFit",
+   "emoji": "🌥️",
+   "role": "censored",
+   "group": "earthMoonSunInertialFit",
+   "retired": true,
+   "coord": "2d",
+   "ex": "ems",
+   "dt": 0.016,
+   "N": 118,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": [
+    [
+     1,
+     2
+    ]
+   ],
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "年",
+    "window": 118,
+    "q": "apsidalPeriod118",
+    "model": 8.787302706513351,
+    "tol": 0.005
+   },
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": 8.787302706514161,
+   "base": {
+    "P": 236.05914280353414,
+    "varpiRate": 0.012982040102696941,
+    "a": 3.834515282616092,
+    "e": 0.0549000154776765,
+    "steps": 1741364,
+    "nan": false,
+    "complete": true,
+    "wallSec": 7.593
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 5.9724e+24,
+    "m": 7.346e+22,
+    "a": 383451528.2616092,
+    "e": 0.0549000154776765,
+    "P": 2360591.4280353417,
+    "R": 6371000,
+    "Rm": 1739999.9999999998,
+    "Om": 0.0000729212,
+    "Omm": 0.0000026617,
+    "w": 0.000002661699620085851,
+    "eps": 1000000,
+    "rhoM": 5513.628012449682,
+    "rhoMm": 3329.0059383358835,
+    "core": {
+     "center": true,
+     "orbiter": false,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [
+     {
+      "index": 0,
+      "mSI": 1.9885e+30,
+      "dSI": 149593661687.83548,
+      "inPairWithOrbiter": false,
+      "mOverD3SI": 0.0005939994146200639
+     }
+    ],
+    "sumW": 0.10614905753206182,
+    "sumWo": 0.10485948012801763,
+    "sumWc": 0.001289577404044186,
+    "Wcos": 4.918475117144814e-24,
+    "Wext": 0.0005939994145669769,
+    "keplerRatio": 0.9899316635466577
+   },
+   "sumWbook": 0.00010614905753206181,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": -0.00006030687078314386,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "role": "fit",
+   "group": "earthMoonSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "ems",
+   "dt": 0.016,
+   "N": 118,
+   "gain": 0.259335,
+   "Wbg": 3.8560163495093223,
+   "WbgSI": 3856.0163495093225,
+   "Cd": 1,
+   "pairs": [
+    [
+     1,
+     2
+    ]
+   ],
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr",
+    "window": 118,
+    "q": "近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)",
+    "model": 8.850002272639843,
+    "tol": 0.005
+   },
+   "recordNote": null,
+   "targetMeasured": 8.850002272639843,
+   "targetBase": 8.898473561886753,
+   "base": {
+    "P": 236.06691075150988,
+    "varpiRate": 0.012819852229388017,
+    "a": 3.834747644417383,
+    "e": 0.05493249241130769,
+    "steps": 1741422,
+    "nan": false,
+    "complete": true,
+    "wallSec": 5.481
+   },
+   "run": {
+    "P": 236.05915510989243,
+    "varpiRate": 0.012890066309155472,
+    "a": 3.834514660539988,
+    "e": 0.05490000752940848,
+    "steps": 1741368,
+    "nan": false,
+    "complete": true,
+    "wallSec": 5.869
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 5.9724e+24,
+    "m": 7.346e+22,
+    "a": 383474764.4417383,
+    "e": 0.05493249241130769,
+    "P": 2360669.107515099,
+    "R": 6371000,
+    "Rm": 1739999.9999999998,
+    "Om": 0.0000729212,
+    "Omm": 0.0000026617,
+    "w": 0.0000026616120349850424,
+    "eps": 1000000,
+    "rhoM": 5513.628012449682,
+    "rhoMm": 3329.0059383358835,
+    "core": {
+     "center": true,
+     "orbiter": false,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [
+     {
+      "index": 0,
+      "mSI": 1.9885e+30,
+      "dSI": 149593660256.8754,
+      "inPairWithOrbiter": false,
+      "mOverD3SI": 0.0005939994316660295
+     }
+    ],
+    "sumW": 0.10613901113238,
+    "sumWo": 0.10484955575324689,
+    "sumWc": 0.0012894553791331221,
+    "Wcos": 4.918475117144814e-24,
+    "Wext": 0.0005939994316129421,
+    "keplerRatio": 0.990046476849789
+   },
+   "sumWbook": 0.00010613901113238,
+   "xBar": 0.000027525560452015768,
+   "xi": 0.00002752478959580495,
+   "dAps": 0.00004604228028323144,
+   "dP": 0.00003285357355997269,
+   "deltaObs": 0.00004604445085981307,
+   "kappaAps": 1.6727568478942612,
+   "kappaP": 1.1935994440800337
+  },
+  {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "role": "transfer",
+   "group": "earthMoonOnly3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.004969,
+   "N": 8,
+   "gain": 0.259335,
+   "Wbg": 3.8560163495093223,
+   "WbgSI": 3856.0163495093225,
+   "Cd": 1,
+   "pairs": [
+    [
+     0,
+     1
+    ]
+   ],
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 237.45908822398854,
+    "varpiRate": -0.00001542261236276456,
+    "a": 3.8626585320229223,
+    "e": 0.07533372654940984,
+    "steps": 382305,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.584
+   },
+   "run": {
+    "P": 237.45214040765293,
+    "varpiRate": 0.000047618268659638275,
+    "a": 3.862533500715367,
+    "e": 0.0753037988047203,
+    "steps": 382294,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.735
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 5.9724e+24,
+    "m": 7.346e+22,
+    "a": 386265853.2022922,
+    "e": 0.07533372654940984,
+    "P": 2374590.8822398856,
+    "R": 6371000,
+    "Rm": 1739999.9999999998,
+    "Om": 0.0000729212,
+    "Omm": 0.0000026617,
+    "w": 0.0000026460075098295804,
+    "eps": 1000000,
+    "rhoM": 5513.628012449682,
+    "rhoMm": 3329.0059383358835,
+    "core": {
+     "center": true,
+     "orbiter": false,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.1056756808845921,
+    "sumWo": 0.1043918546455914,
+    "sumWc": 0.0012838262390006865,
+    "Wcos": 4.918475117144814e-24,
+    "Wext": 4.918475117144814e-24,
+    "keplerRatio": 0.9999926499746358
+   },
+   "sumWbook": 0.0001056756808845921,
+   "xBar": 0.000027405402702205688,
+   "xi": 0.000027404632446867006,
+   "dAps": 0.00004158230591226867,
+   "dP": 0.000029259003677539778,
+   "deltaObs": null,
+   "kappaAps": 1.517345871829874,
+   "kappaP": 1.0676663419685737
+  },
+  {
+   "id": "mercurySunInertial",
+   "emoji": "🟤",
+   "role": "transfer",
+   "group": "mercurySunInertial",
+   "retired": true,
+   "coord": "2d",
+   "ex": "pair2d",
+   "dt": 0.016,
+   "N": 8,
+   "gain": 51.4182,
+   "Wbg": 0.019448366531695002,
+   "WbgSI": 19.448366531695,
+   "Cd": 1,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 760.0534161281413,
+    "varpiRate": -8.157836054223312e-9,
+    "a": 579.0909314870221,
+    "e": 0.2056308167731493,
+    "steps": 380027,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.468
+   },
+   "run": {
+    "P": 759.3882902782615,
+    "varpiRate": 0.0004315523531537229,
+    "a": 578.5420424283578,
+    "e": 0.2048775652956267,
+    "steps": 379695,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.533
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 3.3011e+23,
+    "a": 57909093148.70221,
+    "e": 0.2056308167731493,
+    "P": 7600534.161281413,
+    "R": 695000000,
+    "Rm": 2440000,
+    "Om": 0.0000029031,
+    "Omm": 0.00000124,
+    "w": 8.266768063733394e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 5425.010614606672,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": true,
+    "third": [],
+    "sumW": 0.010958346137236844,
+    "sumWo": 0.010958346137236844,
+    "sumWc": 0,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 0.9999998347802107
+   },
+   "sumWbook": 0.000010958346137236845,
+   "xBar": 0.0005634584333536715,
+   "xi": 0.0005630772625202212,
+   "dAps": 0.0009111362240105177,
+   "dP": 0.0008751040857997766,
+   "deltaObs": null,
+   "kappaAps": 1.6181371272788643,
+   "kappaP": 1.5541456635684163
+  },
+  {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "role": "fit",
+   "group": "mercurySunInertialFit",
+   "retired": false,
+   "coord": "2d",
+   "ex": "pair2d",
+   "dt": 0.016,
+   "N": 8,
+   "gain": 0.004522415,
+   "Wbg": 221.12079497348208,
+   "WbgSI": 221120.7949734821,
+   "Cd": 1,
+   "pairs": "all",
+   "target": {
+    "kind": "apsRateDiff",
+    "obs": 43,
+    "unit": "″/世紀",
+    "window": 8,
+    "q": "perihelionRateDrag",
+    "model": 43.00001270306585,
+    "tol": 0.0009
+   },
+   "recordNote": null,
+   "targetMeasured": 43.00001270306586,
+   "targetBase": 0,
+   "base": {
+    "P": 760.0534161281413,
+    "varpiRate": -8.157836054223312e-9,
+    "a": 579.0909314870221,
+    "e": 0.2056308167731493,
+    "steps": 380027,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.393
+   },
+   "run": {
+    "P": 760.0533576298459,
+    "varpiRate": 2.969183557186311e-8,
+    "a": 579.0908832099879,
+    "e": 0.205630750569371,
+    "steps": 380027,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.552
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 3.3011e+23,
+    "a": 57909093148.70221,
+    "e": 0.2056308167731493,
+    "P": 7600534.161281413,
+    "R": 695000000,
+    "Rm": 2440000,
+    "Om": 0.0000029031,
+    "Omm": 0.00000124,
+    "w": 8.266768063733394e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 5425.010614606672,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": true,
+    "third": [],
+    "sumW": 0.010928155005598308,
+    "sumWo": 0.010928155005598308,
+    "sumWc": 0,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 0.9999998347802107
+   },
+   "sumWbook": 0.000010928155005598308,
+   "xBar": 4.942165211964288e-8,
+   "xi": 4.942164918113481e-8,
+   "dAps": 7.991047838537603e-8,
+   "dP": 7.696603180917041e-8,
+   "deltaObs": 7.991045477821859e-8,
+   "kappaAps": 1.6169124201520857,
+   "kappaP": 1.5573343480927346
+  },
+  {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "role": "fit",
+   "group": "mercurySunInertialFit",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.016,
+   "N": 8,
+   "gain": 0.004522419,
+   "Wbg": 221.1205993960312,
+   "WbgSI": 221120.5993960312,
+   "Cd": 1,
+   "pairs": "all",
+   "target": {
+    "kind": "apsRateDiff",
+    "obs": 43,
+    "unit": "″/世紀",
+    "window": 8,
+    "q": "近点率の差(gain 0 の対照との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+    "model": 43.000011041822,
+    "tol": 0.0009
+   },
+   "recordNote": null,
+   "targetMeasured": 43.000011041822,
+   "targetBase": 0,
+   "base": {
+    "P": 760.0546712106787,
+    "varpiRate": -8.157823893704182e-9,
+    "a": 579.0915954518227,
+    "e": 0.20563319420179002,
+    "steps": 380028,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.521
+   },
+   "run": {
+    "P": 760.0546155261418,
+    "varpiRate": 2.969184627011443e-8,
+    "a": 579.091574481049,
+    "e": 0.20563323782803103,
+    "steps": 380028,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.618
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 3.3011e+23,
+    "a": 57909159545.182274,
+    "e": 0.20563319420179002,
+    "P": 7600546.712106788,
+    "R": 695000000,
+    "Rm": 2440000,
+    "Om": 0.0000029031,
+    "Omm": 0.00000124,
+    "w": 8.266754412772968e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 5425.010614606672,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.010923645947147195,
+    "sumWo": 0.01092364413371793,
+    "sumWc": 1.813429263773817e-9,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 0.9999999718562187
+   },
+   "sumWbook": 0.000010923645947147195,
+   "xBar": 4.940130398065147e-8,
+   "xi": 4.940130104454995e-8,
+   "dAps": 7.991060725498276e-8,
+   "dP": 7.326385728469284e-8,
+   "deltaObs": 7.991058673501823e-8,
+   "kappaAps": 1.6175810265183017,
+   "kappaP": 1.4830349755085135
+  },
+  {
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "role": "unfit",
+   "group": "venusSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.04087,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 1941.426354614841,
+    "varpiRate": -1.4050248336773098e-9,
+    "a": 1082.0939983716778,
+    "e": 0.006725032192769121,
+    "steps": 380020,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.486
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 4.8675e+24,
+    "a": 108209399837.16779,
+    "e": 0.006725032192769121,
+    "P": 19414263.546148412,
+    "R": 695000000,
+    "Rm": 6050000,
+    "Om": 0.0000029031,
+    "Omm": 2.99236919e-7,
+    "w": 3.236375818348312e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 5247.485255092886,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.0015695060305761937,
+    "sumWo": 0.0015695021887093823,
+    "sumWc": 3.841866811410491e-9,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 0.9999999983848142
+   },
+   "sumWbook": 0.0000015695060305761938,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "role": "unfit",
+   "group": "marsSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.1249,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 5935.5613957076475,
+    "varpiRate": -3.172508129743855e-10,
+    "a": 2279.4247965851146,
+    "e": 0.09336280411409484,
+    "steps": 380181,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.473
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 6.4171e+23,
+    "a": 227942479658.51144,
+    "e": 0.09336280411409484,
+    "P": 59355613.957076475,
+    "R": 695000000,
+    "Rm": 3389500,
+    "Om": 0.0000029031,
+    "Omm": 0.0000708821638,
+    "w": 1.0585663070932643e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 3934.0808693405424,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.0001701387840396086,
+    "sumWo": 0.0001701387291340389,
+    "sumWc": 5.490556968461499e-11,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 1.0000000023845672
+   },
+   "sumWbook": 1.7013878403960858e-7,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "role": "unfit",
+   "group": "jupiterSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.0788,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 3743.4307759031394,
+    "varpiRate": -1.0218355554545407e-9,
+    "a": 778.3387855820276,
+    "e": 0.04835953596345825,
+    "steps": 380044,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.413
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 9,
+     "T": 5,
+     "M": 28,
+     "densSI": 10
+    },
+    "M": 1.9885e+30,
+    "m": 1.898e+27,
+    "a": 778338785582.0276,
+    "e": 0.04835953596345825,
+    "P": 374343077.590314,
+    "R": 695000000,
+    "Rm": 71492000,
+    "Om": 0.0000029031,
+    "Omm": 0.000175851814,
+    "w": 1.6784563902250083e-8,
+    "eps": 50000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 1240.0387558750037,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 0.000004236193797136843,
+    "sumWo": 0.000004232154255629954,
+    "sumWc": 4.039541506888482e-9,
+    "Wcos": 4.498987786437538e-24,
+    "Wext": 4.498987786437538e-24,
+    "keplerRatio": 1.00000002770848
+   },
+   "sumWbook": 4.236193797136843e-7,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "role": "unfit",
+   "group": "saturnSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.1957,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 9292.856453635373,
+    "varpiRate": -2.42935633774001e-10,
+    "a": 1426.6744394870548,
+    "e": 0.0539140575609614,
+    "steps": 379882,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.455
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 9,
+     "T": 5,
+     "M": 28,
+     "densSI": 10
+    },
+    "M": 1.9885e+30,
+    "m": 5.6834e+26,
+    "a": 1426674439487.0547,
+    "e": 0.0539140575609614,
+    "P": 929285645.3635373,
+    "R": 695000000,
+    "Rm": 60300000,
+    "Om": 0.0000029031,
+    "Omm": 0.00016528,
+    "w": 6.761306750543423e-9,
+    "eps": 50000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 618.8247530833945,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 6.880295726802436e-7,
+    "sumWo": 6.878329807809106e-7,
+    "sumWc": 1.9659189933296753e-10,
+    "Wcos": 4.498987786437538e-24,
+    "Wext": 4.498987786437538e-24,
+    "keplerRatio": 1.0000000312029151
+   },
+   "sumWbook": 6.880295726802436e-8,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "role": "unfit",
+   "group": "uranusSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.5581,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 26526.78074146518,
+    "varpiRate": -6.591809630634505e-11,
+    "a": 2870.6486653220336,
+    "e": 0.04722274418479866,
+    "steps": 380245,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.533
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 9,
+     "T": 5,
+     "M": 28,
+     "densSI": 10
+    },
+    "M": 1.9885e+30,
+    "m": 8.6811e+25,
+    "a": 2870648665322.0337,
+    "e": 0.04722274418479866,
+    "P": 2652678074.1465178,
+    "R": 695000000,
+    "Rm": 25559000,
+    "Om": 0.0000029031,
+    "Omm": 0.000101237196,
+    "w": 2.3686196106556053e-9,
+    "eps": 50000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 1241.2366078677087,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 8.4347312848663e-8,
+    "sumWo": 8.434363069901083e-8,
+    "sumWc": 3.6821496521796345e-12,
+    "Wcos": 4.498987786437538e-24,
+    "Wext": 4.498987786437538e-24,
+    "keplerRatio": 1.0000000309154686
+   },
+   "sumWbook": 8.4347312848663e-9,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "role": "unfit",
+   "group": "neptuneSunInertial3d",
+   "retired": false,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 1.095,
+   "N": 8,
+   "gain": 0,
+   "Wbg": null,
+   "WbgSI": null,
+   "Cd": null,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 52035.5412612289,
+    "varpiRate": -3.153158194529154e-11,
+    "a": 4498.401318395763,
+    "e": 0.008655170984612133,
+    "steps": 380169,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.467
+   },
+   "run": null,
+   "sys": {
+    "unit": {
+     "L": 9,
+     "T": 5,
+     "M": 28,
+     "densSI": 10
+    },
+    "M": 1.9885e+30,
+    "m": 1.02409e+26,
+    "a": 4498401318395.763,
+    "e": 0.008655170984612133,
+    "P": 5203554126.12289,
+    "R": 695000000,
+    "Rm": 24764000,
+    "Om": 0.0000029031,
+    "Omm": 0.00010833825300000001,
+    "w": 1.207479571632921e-9,
+    "eps": 50000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 1609.8563687790177,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 2.1848586787280672e-8,
+    "sumWo": 2.1847461629271386e-8,
+    "sumWc": 1.125158009287462e-12,
+    "Wcos": 4.498987786437538e-24,
+    "Wext": 4.498987786437538e-24,
+    "keplerRatio": 1.0000000319375026
+   },
+   "sumWbook": 2.1848586787280673e-9,
+   "xBar": null,
+   "xi": null,
+   "dAps": null,
+   "dP": null,
+   "deltaObs": null,
+   "kappaAps": null,
+   "kappaP": null
+  },
+  {
+   "id": "mercuryMeshMigrate3d",
+   "emoji": "🔂",
+   "role": "transfer",
+   "group": "mercuryMeshMigrate3d",
+   "retired": true,
+   "coord": "3d",
+   "ex": "pl3",
+   "dt": 0.016,
+   "N": 8,
+   "gain": 0.004522415,
+   "Wbg": 221.12079497348208,
+   "WbgSI": 221120.7949734821,
+   "Cd": 1,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 760.0534161281661,
+    "varpiRate": -8.157863347939051e-9,
+    "a": 579.0909314810993,
+    "e": 0.2056308167979888,
+    "steps": 380027,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.468
+   },
+   "run": {
+    "P": 760.0533576299505,
+    "varpiRate": 2.969185187395166e-8,
+    "a": 579.0908831980257,
+    "e": 0.20563075058322555,
+    "steps": 380027,
+    "nan": false,
+    "complete": true,
+    "wallSec": 1.436
+   },
+   "sys": {
+    "unit": {
+     "L": 8,
+     "T": 4,
+     "M": 27,
+     "densSI": 1000
+    },
+    "M": 1.9885e+30,
+    "m": 3.3011e+23,
+    "a": 57909093148.10993,
+    "e": 0.2056308167979888,
+    "P": 7600534.161281661,
+    "R": 695000000,
+    "Rm": 2440000,
+    "Om": 0.0000029031,
+    "Omm": 0.00000124,
+    "w": 8.266768063733124e-7,
+    "eps": 5000000,
+    "rhoM": 1414.1079773634333,
+    "rhoMm": 5425.010614606672,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": true,
+    "third": [],
+    "sumW": 0.010928155005598893,
+    "sumWo": 0.010928155005598893,
+    "sumWc": 0,
+    "Wcos": 4.745894635667769e-24,
+    "Wext": 4.745894635667769e-24,
+    "keplerRatio": 0.9999998347494624
+   },
+   "sumWbook": 0.000010928155005598893,
+   "xBar": 4.942165211964552e-8,
+   "xi": 4.942164918113771e-8,
+   "dAps": 7.99105704274341e-8,
+   "dP": 7.696592680581104e-8,
+   "deltaObs": null,
+   "kappaAps": 1.6169142825353713,
+   "kappaP": 1.5573322234496758
+  },
+  {
+   "id": "plutoCharonInertial",
+   "emoji": "🟣",
+   "role": "transfer",
+   "group": "plutoCharonInertial",
+   "retired": true,
+   "coord": "2d",
+   "ex": "pair2d",
+   "dt": 1.162,
+   "N": 8,
+   "gain": 51418200,
+   "Wbg": 1.9448366531695003e-8,
+   "WbgSI": 19.448366531695,
+   "Cd": 1,
+   "pairs": "all",
+   "target": null,
+   "recordNote": null,
+   "targetMeasured": null,
+   "targetBase": null,
+   "base": {
+    "P": 55186.366305626754,
+    "varpiRate": -1.1136957893758233e-8,
+    "a": 195.95764162292076,
+    "e": 8.282037137993138e-9,
+    "steps": 379941,
+    "nan": false,
+    "complete": true,
+    "wallSec": 2.104
+   },
+   "run": {
+    "P": 49162.111321301716,
+    "varpiRate": 0.0016924848508431687,
+    "a": 172.43846354382814,
+    "e": 0.1364129971355787,
+    "steps": 336047,
+    "nan": false,
+    "complete": true,
+    "wallSec": 2.138
+   },
+   "sys": {
+    "unit": {
+     "L": 5,
+     "T": 1,
+     "M": 24,
+     "densSI": 1000000000
+    },
+    "M": 1.3025172310458496e+22,
+    "m": 1.5897512735990413e+21,
+    "a": 19595764.162292074,
+    "e": 8.282037137993138e-9,
+    "P": 551863.6630562675,
+    "R": 1188000,
+    "Rm": 606000,
+    "Om": 0.000011385554400956285,
+    "Omm": 0.000011385554400956285,
+    "w": 0.000011385394125032215,
+    "eps": 1000,
+    "rhoM": 1854.5798893000458,
+    "rhoMm": 1705.3860250003772,
+    "core": {
+     "center": false,
+     "orbiter": false,
+     "used": false
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 3.1204127801472303,
+    "sumWo": 2.7809871127557795,
+    "sumWc": 0.3394256673914505,
+    "Wcos": 5.6591956648355025e-24,
+    "Wext": 5.6591956648355025e-24,
+    "keplerRatio": 0.9999999975522336
+   },
+   "sumWbook": 3.1204127801472302e-9,
+   "xBar": 0.16044600841216633,
+   "xi": 0.13706585173969826,
+   "dAps": 0.25945195431553614,
+   "dP": 0.10916201568630567,
+   "deltaObs": null,
+   "kappaAps": 1.8929000259543953,
+   "kappaP": 0.7964202191922699
+  },
+  {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "role": "fit",
+   "group": "plutoCharonInertialFit",
+   "retired": false,
+   "coord": "2d",
+   "ex": "pair2d",
+   "dt": 0.16,
+   "N": 8,
+   "gain": 6729.009,
+   "Wbg": 0.00014861029313528932,
+   "WbgSI": 148610.2931352893,
+   "Cd": 1,
+   "pairs": "all",
+   "target": {
+    "kind": "period",
+    "obs": 551856.43872,
+    "unit": "s",
+    "window": 8,
+    "q": "orbitalPeriodMean",
+    "model": 551856.4387203254,
+    "tol": 0.02592
+   },
+   "recordNote": null,
+   "targetMeasured": 551856.4387203254,
+   "targetBase": 551863.6598982827,
+   "base": {
+    "P": 55186.36598982827,
+    "varpiRate": -1.9413412687597928e-7,
+    "a": 195.9576407817292,
+    "e": 3.989312767934544e-9,
+    "steps": 2759319,
+    "nan": false,
+    "complete": true,
+    "wallSec": 14.875
+   },
+   "run": {
+    "P": 55185.64387203253,
+    "varpiRate": 1.2819136873507687e-7,
+    "a": 195.9550767452433,
+    "e": 0.00001308082860743877,
+    "steps": 2759283,
+    "nan": false,
+    "complete": true,
+    "wallSec": 16.623
+   },
+   "sys": {
+    "unit": {
+     "L": 5,
+     "T": 1,
+     "M": 24,
+     "densSI": 1000000000
+    },
+    "M": 1.3025172310458496e+22,
+    "m": 1.5897512735990413e+21,
+    "a": 19595764.07817292,
+    "e": 3.989312767934544e-9,
+    "P": 551863.6598982827,
+    "R": 1188000,
+    "Rm": 606000,
+    "Om": 0.000011385554400956285,
+    "Omm": 0.000011385554400956285,
+    "w": 0.000011385394190183999,
+    "eps": 1000,
+    "rhoM": 1854.5798893000458,
+    "rhoMm": 1705.3860250003772,
+    "core": {
+     "center": true,
+     "orbiter": true,
+     "used": true
+    },
+    "centerPinned": false,
+    "third": [],
+    "sumW": 1.944564027593611,
+    "sumWo": 1.7332011113544945,
+    "sumWc": 0.21136291623911624,
+    "Wcos": 5.6591956648355025e-24,
+    "Wext": 5.6591956648355025e-24,
+    "keplerRatio": 0.9999999961188701
+   },
+   "sumWbook": 1.944564027593611e-9,
+   "xBar": 0.000013084988842753655,
+   "xi": 0.000013084817628060848,
+   "dAps": 0.000049411035468457034,
+   "dP": 0.000013085076047098351,
+   "deltaObs": 0.000013085076636570151,
+   "kappaAps": 3.77621124519866,
+   "kappaP": 1.0000197495329968
+  }
+ ],
+ "fits": {
+  "all": {
+   "groups": [
+    {
+     "group": "earthMoonInertial",
+     "members": [
+      "earthMoonInertial"
+     ],
+     "logW": 1.288883130799932
+    },
+    {
+     "group": "earthMoonSunInertial3d",
+     "members": [
+      "earthMoonSunInertial3d"
+     ],
+     "logW": 3.5861388666433003
+    },
+    {
+     "group": "mercurySunInertialFit",
+     "members": [
+      "mercurySunInertialFit",
+      "mercurySunInertial3d"
+     ],
+     "logW": 5.344629395009435
+    },
+    {
+     "group": "plutoCharonInertialFit",
+     "members": [
+      "plutoCharonInertialFit"
+     ],
+     "logW": 5.172048890831309
+    }
+   ],
+   "cands": [
+    {
+     "key": "const",
+     "label": "一定(W_bg = k)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 0,
+       "ratioW": 1.288883130799932
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 0,
+       "ratioW": 3.5861388666433003
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 0,
+       "ratioW": 5.344629395009435
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0,
+       "ratioW": 5.172048890831309
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 3.8479250708209944,
+      "beta": 1,
+      "rms": 1.6287000485239458,
+      "maxAbs": 2.5590419400210624,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.5590419400210624
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.26178620417769416
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.4967043241884408
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.324123820010315
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.4120559200280827,
+        "lk": 4.700939050828015,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.34904827223692525,
+        "lk": 3.9351871388802255,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 1.995605765584588,
+        "lk": 3.349023629424847,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 1.76549842668042,
+        "lk": 3.4065504641508895,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.1716000646985942,
+      "looMaxAbs": 3.4120559200280827,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "Ma3",
+     "label": "M/a³(支配天体の局所の重み)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": -0.9793806491218131,
+       "ratioW": 2.268263779921745
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.975061481236956,
+       "ratioW": 4.5612003478802565
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9897154435170639,
+       "ratioW": 7.3343448385264995
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.23829687083295456,
+       "ratioW": 4.933752019998355
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.774390246581714,
+      "beta": 1,
+      "rms": 1.7961683862772726,
+      "maxAbs": 2.5599545919447855,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.5061264666599685
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.2131898987014571
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 2.5599545919447855
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.15936177341664148
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.341501955546626,
+        "lk": 5.609765735468371,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.28425319826861006,
+        "lk": 4.845453546148867,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.4132727892597137,
+        "lk": 3.9210720492667854,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.21248236455552139,
+        "lk": 4.721269655442834,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.3948911817030303,
+      "looMaxAbs": 3.4132727892597137,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.8847455199926864,
+      "beta": 0.03974293922214473,
+      "rms": 1.6283978896908344,
+      "maxAbs": 2.5569389235793616,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.5569389235793616
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.2598548441627315
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.5389610149578101
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.2778327527842817
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.414366456015207,
+        "lk": 4.671176346827551,
+        "beta": -0.03274849264823432
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.34691141164385586,
+        "lk": 3.9652065878253495,
+        "beta": 0.032978750732107966
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 5.192026454923733,
+        "lk": 4.638823966140276,
+        "beta": 2.2547048326290478
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 6.21325218548634,
+        "lk": -0.3587339829669185,
+        "beta": -2.8639457551522844
+       }
+      ],
+      "looRms": 4.397154968060861,
+      "looMaxAbs": 6.21325218548634,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "ma3",
+     "label": "m/a³(伴の局所の重み)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": -2.889478611904186,
+       "ratioW": 4.1783617427041175
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -2.885159444019329,
+       "ratioW": 6.471298310662629
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -8.769582358255985,
+       "ratioW": 14.114211753265419
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": -0.6751574248908822,
+       "ratioW": 5.847206315722191
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 7.652769530588589,
+      "beta": 1,
+      "rms": 3.8235349429518486,
+      "maxAbs": 6.461442222676831,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -3.474407787884471
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.1814712199259594
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 6.461442222676831
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -1.8055632148663978
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -4.632543717179295,
+        "lk": 8.810905459883413,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.5752949599012789,
+        "lk": 8.046593270563909,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 8.61525629690244,
+        "lk": 5.498955456362979,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -2.4074176198218638,
+        "lk": 8.254623935544055,
+        "beta": 1
+       }
+      ],
+      "looRms": 5.098046590602465,
+      "looMaxAbs": 8.61525629690244,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.2297232359480983,
+      "beta": -0.16247755760051671,
+      "rms": 1.5537803038525784,
+      "maxAbs": 2.41031553274929,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.41031553274929
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.11235802905712333
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.690045836315325
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.8326277254910863
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.3163068641855764,
+        "lk": 4.3785061644607675,
+        "beta": -0.0784514651158311
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.1546379326764793,
+        "lk": 3.283360821898314,
+        "beta": -0.15854097019478317
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 10.18845287126683,
+        "lk": 6.009898650305681,
+        "beta": 1.2376555328595564
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 3.82692890811267,
+        "lk": 1.0115906042395393,
+        "beta": -0.4940023854925455
+       }
+      ],
+      "looRms": 5.68928292681601,
+      "looMaxAbs": 10.18845287126683,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "Mma3",
+     "label": "(M+m)/a³(= ω²/G —— ケプラーで同じ尺度・重ねて数えない)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": -0.9740714496266459,
+       "ratioW": 2.262954580426578
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.9697522817417887,
+       "ratioW": 4.555891148385089
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9897153714200364,
+       "ratioW": 7.334344766429472
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.28830994246332464,
+       "ratioW": 4.883738948367984
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.75923236090228,
+      "beta": 1,
+      "rms": 1.7971822526824492,
+      "maxAbs": 2.5751124055271912,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.4962777804757024
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.2033412125171914
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 2.5751124055271912
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.12450658746570475
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.328370373967604,
+        "lk": 5.591324954394182,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.2711216166895891,
+        "lk": 4.827012765074678,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.433483207369588,
+        "lk": 3.9008615590598836,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.16600878328760516,
+        "lk": 4.717730165080379,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.396243003576599,
+      "looMaxAbs": 3.433483207369588,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.9004158278500287,
+      "beta": 0.057599404284752576,
+      "rms": 1.6280354884196806,
+      "maxAbs": 2.5554267618208164,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.5554267618208164
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.2584198074746218
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.5588199872494157
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.255026582046022
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.4141079277065414,
+        "lk": 4.679106383217898,
+        "beta": -0.02452045514497921
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.3451621860505347,
+        "lk": 3.9796611538662527,
+        "beta": 0.04986850980701711
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 5.122346113801516,
+        "lk": 4.549024318026208,
+        "beta": 2.1745527521005905
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 6.32251598588846,
+        "lk": -0.3290591692685565,
+        "beta": -2.8490447425103413
+       }
+      ],
+      "looRms": 4.415538131929687,
+      "looMaxAbs": 6.32251598588846,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "MR3",
+     "label": "M/R³(支配天体の平均密度の尺度)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 4.361686850628161,
+       "ratioW": -3.0728037198282294
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 4.3635260715455235,
+       "ratioW": -0.7773872049022232
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 3.7725711815516574,
+       "ratioW": 1.5720582134577779
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 3.890334155370879,
+       "ratioW": 1.2817147354604304
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": -0.2491044939530611,
+      "beta": 1,
+      "rms": 1.864966558741866,
+      "maxAbs": 2.823699225875168,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.823699225875168
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.5282827109491626
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.821162707410839
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.5308192294134915
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.7649323011668914,
+        "lk": 0.6921285813386616,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.7043769479322162,
+        "lk": -0.07301025697000707,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.428216943214452,
+        "lk": -0.8561587297566741,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 2.0410923058846553,
+        "lk": -0.7593775704242249,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.486622078322488,
+      "looMaxAbs": 3.7649323011668914,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 25.198263219250887,
+      "beta": -5.211175025925722,
+      "rms": 0.8307887064018085,
+      "maxAbs": 1.1798665015488643,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -1.1798665015488643
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 1.1269737364062218
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.19410509941236054
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.2469978645549844
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -2.3240110302720796,
+        "lk": 17.061544572942864,
+        "beta": -3.0833599184072567
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 2.2347030677016635,
+        "lk": 33.08055620317508,
+        "beta": -7.2714405469325545
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -0.5031125998613204,
+        "lk": 27.63773121322692,
+        "beta": -5.7758987623379845
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.41015897666763124,
+        "lk": 23.89411218895104,
+        "beta": -4.917886616082577
+       }
+      ],
+      "looRms": 1.644405496212976,
+      "looMaxAbs": 2.3240110302720796,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "Ma2e",
+     "label": "M/(a²ε)(核の正則化 ε との組)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 2.6057958628493405,
+       "ratioW": -1.3169127320494085
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 1.608675308105912,
+       "ratioW": 1.9774635585373883
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 2.0740615650932717,
+       "ratioW": 3.2705678299161636
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 4.530459072990771,
+       "ratioW": 0.6415898178405381
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 1.1431771185611703,
+      "beta": 1,
+      "rms": 1.6974581729757794,
+      "maxAbs": 2.460089850610579,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.460089850610579
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.8342864399762178
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 2.1273907113549932
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.5015873007206322
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.280119800814105,
+        "lk": 1.9632070687646967,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 1.1123819199682905,
+        "lk": 0.8650816385690977,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.836520948473324,
+        "lk": 0.4340468814428393,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.6687830676275093,
+        "lk": 1.3103728854680476,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.263277563967706,
+      "looMaxAbs": 3.280119800814105,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 2.745877994535691,
+      "beta": 0.40744908425368825,
+      "rms": 1.564463569239183,
+      "maxAbs": 2.518724001805772,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.518724001805772
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.18480759095833577
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.7536769150907192
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.5802394957567154
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.367193558527802,
+        "lk": 3.770025495071469,
+        "beta": 0.34003093138976787
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.36457487262095434,
+        "lk": 2.4360403757552906,
+        "beta": 0.48830464066235174
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.6193212387524145,
+        "lk": 1.1869552798022793,
+        "beta": 0.7417103244886374
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 7.679914864152831,
+        "lk": 8.499497666934268,
+        "beta": -2.429635377544489
+       }
+      ],
+      "looRms": 4.396386111647633,
+      "looMaxAbs": 7.679914864152831,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "O2G",
+     "label": "Ω²/G(支配天体の自転)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 1.9013190290981197,
+       "ratioW": -0.6124358982981877
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 1.9013214113687211,
+       "ratioW": 1.6848174552745792
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -0.8986622107792999,
+       "ratioW": 6.243291605788735
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.2883221631327721,
+       "ratioW": 4.883726727698537
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 3.049849972615916,
+      "beta": 1,
+      "rms": 2.684996507959095,
+      "maxAbs": 3.6622858709141033,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -3.6622858709141033
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.3650325173413362
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 3.193441633172819
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.8338767550826214
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -4.883047827885471,
+        "lk": 4.270611929587283,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.8200433564551153,
+        "lk": 3.5048608117296944,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 4.257922177563759,
+        "lk": 1.985369428224976,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 2.4451690067768284,
+        "lk": 2.438557720921709,
+        "beta": 1
+       }
+      ],
+      "looRms": 3.57999534394546,
+      "looMaxAbs": 4.883047827885471,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.753901163524419,
+      "beta": -1.1352015552684485,
+      "rms": 0.9258433273397837,
+      "maxAbs": 1.306637713830805,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -1.306637713830805
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.9906207263698552
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.42943450785262716
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.7454514953135769
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -2.4579254888933426,
+        "lk": 4.980062409376222,
+        "beta": -0.6486306457827514
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 1.8634669942965072,
+        "lk": 4.582438498607125,
+        "beta": -1.5040942626326637
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -1.839726935812311,
+        "lk": 5.660843286288692,
+        "beta": -1.6953122388576873
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 1.0598219093587185,
+        "lk": 4.41158108904237,
+        "beta": -1.038262561286093
+       }
+      ],
+      "looRms": 1.8722796683250977,
+      "looMaxAbs": 2.4579254888933426,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "wOG",
+     "label": "ωΩ/G(公転と自転)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 0.463623762378524,
+       "ratioW": 0.825259368421408
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 0.4636123561352802,
+       "ratioW": 3.12252651050802
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.4441888120938526,
+       "ratioW": 6.788818207103288
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.28831605195527177,
+       "ratioW": 4.883732838876037
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 3.9050842312271885,
+      "beta": 1,
+      "rms": 2.200647206658136,
+      "maxAbs": 3.07982486280578,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -3.07982486280578
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.7825577207191685
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 2.8837339758760994
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.9786486076488492
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -4.106433150407708,
+        "lk": 4.931692518829116,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.043410294292224,
+        "lk": 4.1659368048002445,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.844978634501466,
+        "lk": 2.943839572601822,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 1.3048648101984655,
+        "lk": 3.5788680286775723,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.9341962755441817,
+      "looMaxAbs": 4.106433150407708,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.779669858622319,
+      "beta": -1.1941255209773587,
+      "rms": 1.3156485314077093,
+      "maxAbs": 1.9371617610346492,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -1.9371617610346492
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.36008035432256325
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.15958318124412862
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.7366645879562141
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.0028555494688662,
+        "lk": 4.564954746500738,
+        "beta": -0.5893055714622186
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.5581679397008799,
+        "lk": 3.633701989674871,
+        "beta": -1.3065464168856207
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -26.85396403158056,
+        "lk": 9.669753172115998,
+        "beta": -15.599650174419113
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 2.467414970476091,
+        "lk": 3.143971822471152,
+        "beta": -1.5238065974352712
+       }
+      ],
+      "looRms": 13.569747729285886,
+      "looMaxAbs": 26.85396403158056,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "sumW",
+     "label": "Σw̄_rel(実測の局所の重み —— 構造核と離心率を含む)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": -0.9644239920283333,
+       "ratioW": 2.2533071228282653
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.9741249628885748,
+       "ratioW": 4.560263829531875
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9615427690218983,
+       "ratioW": 7.3061721640313335
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.2888222474952037,
+       "ratioW": 4.883226643336106
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.750742439931895,
+      "beta": 1,
+      "rms": 1.7903378454288321,
+      "maxAbs": 2.5554297240994384,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.49743531710363
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.19047861040002
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 2.5554297240994384
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.13248420340421063
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.329913756138172,
+        "lk": 5.583220878966437,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.2539714805333597,
+        "lk": 4.814235310065235,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.4072396321325846,
+        "lk": 3.898932531898749,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.1766456045389475,
+        "lk": 4.706581038797158,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.3871171272384424,
+      "looMaxAbs": 3.4072396321325846,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.907976630494189,
+      "beta": 0.06651573366641564,
+      "rms": 1.6278340111217757,
+      "maxAbs": 2.554944130298999,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.554944130298999
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.2570431272615852
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.5671262209147905
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.2448610366457937
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.4133666072383484,
+        "lk": 4.686861073657354,
+        "beta": -0.01595632679000588
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.34363787854184835,
+        "lk": 3.985209826834159,
+        "beta": 0.05690551393389492
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 5.048821733245832,
+        "lk": 4.5384188979714875,
+        "beta": 2.1628950962529436
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 6.447108874756638,
+        "lk": -0.42403512330422055,
+        "beta": -2.9465349986075453
+       }
+      ],
+      "looRms": 4.439171440822032,
+      "looMaxAbs": 6.447108874756638,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "c2Ga2",
+     "label": "c²/(G a²)(1PN の近日点前進を引きずりで写す尺度)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 9.958902179594773,
+       "ratioW": -8.670019048794842
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 9.961781624851346,
+       "ratioW": -6.375642758208046
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 5.6037611776443725,
+       "ratioW": -0.2591317826349373
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 12.544930799221449,
+       "ratioW": -7.37288190839014
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": -5.669418874506992,
+      "beta": 1,
+      "rms": 3.227822265248267,
+      "maxAbs": 5.410287091872054,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -3.0006001742878494
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.7062238837010542
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 5.410287091872054
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -1.703463033883148
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -4.0008002323838,
+        "lk": -4.669218816411041,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.9416318449347383,
+        "lk": -5.434010913273307,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 7.213716122496072,
+        "lk": -7.472847905131009,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -2.2712840451775316,
+        "lk": -5.101597863212608,
+        "beta": 1
+       }
+      ],
+      "looRms": 4.303763020331023,
+      "looMaxAbs": 7.213716122496072,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 5.032055281152552,
+      "beta": -0.12441813778442255,
+      "rms": 1.5988742080377798,
+      "maxAbs": 2.5041040867902113,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -2.5041040867902113
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.20649009573016786
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.0097836441680395
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 1.7008105383523384
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -3.374067449065638,
+        "lk": 5.305544416150116,
+        "beta": -0.06452456552903842
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.2782663096721407,
+        "lk": 5.054303929057864,
+        "beta": -0.11944637993007394
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 7.520323208952847,
+        "lk": -8.108722249341621,
+        "beta": 1.05875826026766
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 4.458161444321737,
+        "lk": 9.081757515660472,
+        "beta": -0.6670319831234317
+       }
+      ],
+      "looRms": 4.687542744356967,
+      "looMaxAbs": 7.520323208952847,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "ext",
+     "label": "外の天体 + 宇宙の一様な分(W_cos + Σ_ext m/d³ —— 自由パラメータ 0)",
+     "kind": "ext",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": -23.286897558025213,
+       "ratioW": 24.575780688825144
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -3.226213970586956,
+       "ratioW": 6.812352837230256
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -23.323681907849828,
+       "ratioW": 28.668311302859262
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": -23.2472452902157,
+       "ratioW": 28.41929418104701
+      }
+     ],
+     "p0": {
+      "nPar": 0,
+      "logk": 0,
+      "beta": 1,
+      "rms": 23.874178008628334,
+      "maxAbs": 28.668311302859262,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": 24.575780688825144
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 6.812352837230256
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 28.668311302859262
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 28.41929418104701
+       }
+      ],
+      "dof": 4,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": 24.575780688825144,
+        "lk": 0,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 6.812352837230256,
+        "lk": 0,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 28.668311302859262,
+        "lk": 0,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 28.41929418104701,
+        "lk": 0,
+        "beta": 1
+       }
+      ],
+      "looRms": 23.874178008628334,
+      "looMaxAbs": 28.668311302859262,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "resp",
+     "label": "応答の分解 Σw̄_rel/δ_obs(標的の差を入力に持つ —— 系の量だけの法則ではない)",
+     "kind": "response",
+     "logX": [
+      {
+       "group": "earthMoonInertial",
+       "logX": 1.1085952614593653,
+       "ratioW": 0.18028786934056673
+      },
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 3.3626977393033637,
+       "ratioW": 0.2234411273399366
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 5.135853270115387,
+       "ratioW": 0.2087761248940483
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 5.172045976939475,
+       "ratioW": 0.0000029138918344884246
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 0.15312700886659653,
+      "beta": 1,
+      "rms": 0.08975745118769553,
+      "maxAbs": 0.15312409497476231,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": 0.02716086047397015
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.07031411847334024
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.055649116027451484
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.15312409497476231
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": 0.0362144806319602,
+        "lk": 0.14407338870860645,
+        "beta": 1
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.09375215796445335,
+        "lk": 0.12968896937548316,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 0.07419882136993561,
+        "lk": 0.1345773035241126,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.20416545996634916,
+        "lk": 0.20416837385818387,
+        "beta": 1
+       }
+      ],
+      "looRms": 0.11967660158359379,
+      "looMaxAbs": 0.20416545996634916,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 0.23318815088479905,
+      "beta": 0.9783313889755986,
+      "rms": 0.08220967427481876,
+      "maxAbs": 0.12111418451834322,
+      "resid": [
+       {
+        "group": "earthMoonInertial",
+        "dex": -0.028878562040174804
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.06311796576073636
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.08687478079777922
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.12111418451834322
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonInertial",
+        "err": -0.19898558446345338,
+        "lk": 0.45488866008534945,
+        "beta": 0.9317918730937126
+       },
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.08529156985868536,
+        "lk": 0.2024006253573698,
+        "beta": 0.9808929993543133
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 0.15452686340507338,
+        "lk": 0.26896329622811477,
+        "beta": 0.9581931135010179
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.2191530126259824,
+        "lk": 0.1798008304717671,
+        "beta": 1.007609193000511
+       }
+      ],
+      "looRms": 0.17231984010124557,
+      "looMaxAbs": 0.2191530126259824,
+      "looExactFit": false
+     }
+    }
+   ],
+   "best1": {
+    "key": "const",
+    "looRms": 2.1716000646985942,
+    "rms": 1.6287000485239458
+   },
+   "best2": {
+    "key": "MR3",
+    "looRms": 1.644405496212976,
+    "rms": 0.8307887064018085
+   },
+   "rank1": [
+    {
+     "key": "const",
+     "looRms": 2.1716000646985942,
+     "rms": 1.6287000485239458
+    },
+    {
+     "key": "Ma2e",
+     "looRms": 2.263277563967706,
+     "rms": 1.6974581729757794
+    },
+    {
+     "key": "sumW",
+     "looRms": 2.3871171272384424,
+     "rms": 1.7903378454288321
+    },
+    {
+     "key": "Ma3",
+     "looRms": 2.3948911817030303,
+     "rms": 1.7961683862772726
+    },
+    {
+     "key": "Mma3",
+     "looRms": 2.396243003576599,
+     "rms": 1.7971822526824492
+    },
+    {
+     "key": "MR3",
+     "looRms": 2.486622078322488,
+     "rms": 1.864966558741866
+    },
+    {
+     "key": "wOG",
+     "looRms": 2.9341962755441817,
+     "rms": 2.200647206658136
+    },
+    {
+     "key": "O2G",
+     "looRms": 3.57999534394546,
+     "rms": 2.684996507959095
+    },
+    {
+     "key": "c2Ga2",
+     "looRms": 4.303763020331023,
+     "rms": 3.227822265248267
+    },
+    {
+     "key": "ma3",
+     "looRms": 5.098046590602465,
+     "rms": 3.8235349429518486
+    }
+   ],
+   "response": {
+    "looRms": 0.11967660158359379,
+    "rms": 0.08975745118769553,
+    "kappa": 1.4227448061893195
+   }
+  },
+  "inPlace": {
+   "groups": [
+    {
+     "group": "earthMoonSunInertial3d",
+     "members": [
+      "earthMoonSunInertial3d"
+     ],
+     "logW": 3.5861388666433003
+    },
+    {
+     "group": "mercurySunInertialFit",
+     "members": [
+      "mercurySunInertialFit",
+      "mercurySunInertial3d"
+     ],
+     "logW": 5.344629395009435
+    },
+    {
+     "group": "plutoCharonInertialFit",
+     "members": [
+      "plutoCharonInertialFit"
+     ],
+     "logW": 5.172048890831309
+    }
+   ],
+   "cands": [
+    {
+     "key": "const",
+     "label": "一定(W_bg = k)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 0,
+       "ratioW": 3.5861388666433003
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 0,
+       "ratioW": 5.344629395009435
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0,
+       "ratioW": 5.172048890831309
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.700939050828015,
+      "beta": 1,
+      "rms": 0.791425126211907,
+      "maxAbs": 1.1148001841847144,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.1148001841847144
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.6436903441814206
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.4711098400032947
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6722002762770716,
+        "lk": 5.258339142920372,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 0.9655355162721309,
+        "lk": 4.379093878737304,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.7066647600049416,
+        "lk": 4.465384130826368,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.1871376893178605,
+      "looMaxAbs": 1.6722002762770716,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "Ma3",
+     "label": "M/a³(支配天体の局所の重み)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.975061481236956,
+       "ratioW": 4.5612003478802565
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9897154435170639,
+       "ratioW": 7.3343448385264995
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.23829687083295456,
+       "ratioW": 4.933752019998355
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 5.609765735468371,
+      "beta": 1,
+      "rms": 1.2289096791134497,
+      "maxAbs": 1.7245791030581281,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.0485653875881145
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.7245791030581281
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.6760137154700159
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.5728480813821708,
+        "lk": 6.134048429262427,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.5868686545871937,
+        "lk": 4.747476183939305,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -1.0140205732050234,
+        "lk": 5.9477725932033785,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.843364518670175,
+      "looMaxAbs": 2.5868686545871937,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.671176346827551,
+      "beta": -0.03274849264823432,
+      "rms": 0.7908628743023336,
+      "maxAbs": 1.1169692739341155,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.1169692739341155
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.6082928666077878
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.5086764073263286
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6798960379996304,
+        "lk": 5.190507224228994,
+        "beta": -0.07745940319386117
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.084685619137959,
+        "lk": 4.8605849316951515,
+        "beta": 1.3070417502649152
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 3.688773905815321,
+        "lk": 1.896265823150967,
+        "beta": -1.7330938366558921
+       }
+      ],
+      "looRms": 2.9407702503271373,
+      "looMaxAbs": 3.688773905815321,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "ma3",
+     "label": "m/a³(伴の局所の重み)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -2.885159444019329,
+       "ratioW": 6.471298310662629
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -8.769582358255985,
+       "ratioW": 14.114211753265419
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": -0.6751574248908822,
+       "ratioW": 5.847206315722191
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 8.810905459883413,
+      "beta": 1,
+      "rms": 3.7586492197424755,
+      "maxAbs": 5.303306293382007,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -2.3396071492207833
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 5.303306293382007
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -2.9636991441612217
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -3.5094107238311762,
+        "lk": 9.980709034493806,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 7.95495944007301,
+        "lk": 6.15925231319241,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -4.445548716241833,
+        "lk": 10.292755031964024,
+        "beta": 1
+       }
+      ],
+      "looRms": 5.637973829613713,
+      "looMaxAbs": 7.95495944007301,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.3785061644607675,
+      "beta": -0.0784514651158311,
+      "rms": 0.7446670362095305,
+      "maxAbs": 1.01871228329356,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.01871228329356
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.27813664608954003
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.7405756372040209
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6330292779751092,
+        "lk": 5.15765392025014,
+        "beta": -0.02132090983594789
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 5.981185894920521,
+        "lk": 5.656545700685663,
+        "beta": 0.7176056901583467
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 2.246343115919919,
+        "lk": 2.7239429250736844,
+        "beta": -0.29883823001770965
+       }
+      ],
+      "looRms": 3.8073361959407133,
+      "looMaxAbs": 5.981185894920521,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "Mma3",
+     "label": "(M+m)/a³(= ω²/G —— ケプラーで同じ尺度・重ねて数えない)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.9697522817417887,
+       "ratioW": 4.555891148385089
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9897153714200364,
+       "ratioW": 7.334344766429472
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.28830994246332464,
+       "ratioW": 4.883738948367984
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 5.591324954394182,
+      "beta": 1,
+      "rms": 1.2397471768735913,
+      "maxAbs": 1.74301981203529,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.0354338060090926
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.74301981203529
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.7075860060261974
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.5531507090136385,
+        "lk": 6.1090418573987275,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.6145297180529345,
+        "lk": 4.719815048376537,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -1.061379009039296,
+        "lk": 5.94511795740728,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.8596207653103864,
+      "looMaxAbs": 2.6145297180529345,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.679106383217898,
+      "beta": -0.02452045514497921,
+      "rms": 0.7910953250630268,
+      "maxAbs": 1.1167462839007891,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.1167462839007891
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.6167342852753563
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.5000119986254346
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6812193307253676,
+        "lk": 5.193890911166485,
+        "beta": -0.07575881757166564
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 3.0442533921581405,
+        "lk": 4.808606114290943,
+        "beta": 1.2605974439698648
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 3.754900772723628,
+        "lk": 1.914215421999506,
+        "beta": -1.7240727102397984
+       }
+      ],
+      "looRms": 2.9548410541951604,
+      "looMaxAbs": 3.754900772723628,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "MR3",
+     "label": "M/R³(支配天体の平均密度の尺度)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 4.3635260715455235,
+       "ratioW": -0.7773872049022232
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 3.7725711815516574,
+       "ratioW": 1.5720582134577779
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 3.890334155370879,
+       "ratioW": 1.2817147354604304
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 0.6921285813386616,
+      "beta": 1,
+      "rms": 1.0458433019378106,
+      "maxAbs": 1.4695157862408852,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.4695157862408852
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.8799296321191159
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.5895861541217684
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -2.204273679361328,
+        "lk": 1.426886474459104,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 1.3198944481786743,
+        "lk": 0.25216376527910356,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.8843792311826526,
+        "lk": 0.3973355042777773,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.568764952906716,
+      "looMaxAbs": 2.204273679361328,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 17.061544572942864,
+      "beta": -3.0833599184072567,
+      "rms": 0.07919750604465998,
+      "maxAbs": 0.10580472176976308,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.021084314371020874
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.0847204073987422
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.10580472176976308
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -0.8924518274563624,
+        "lk": 10.873296135028387,
+        "beta": -1.465490370878837
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -0.22210392358619568,
+        "lk": 18.210563970126458,
+        "beta": -3.3515154633425426
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.17784399955257513,
+        "lk": 16.570580483111076,
+        "beta": -2.975676414801115
+       }
+      ],
+      "looRms": 0.54081078187583,
+      "looMaxAbs": 0.8924518274563624,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "Ma2e",
+     "label": "M/(a²ε)(核の正則化 ε との組)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 1.608675308105912,
+       "ratioW": 1.9774635585373883
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 2.0740615650932717,
+       "ratioW": 3.2705678299161636
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 4.530459072990771,
+       "ratioW": 0.6415898178405381
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 1.9632070687646967,
+      "beta": 1,
+      "rms": 1.0733231208478202,
+      "maxAbs": 1.3216172509241586,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.014256489772691339
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.3073607611514673
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -1.3216172509241586
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.021384734659037452,
+        "lk": 1.9560788238783509,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 1.9610411417272005,
+        "lk": 1.3095266881889631,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -1.9824258763862375,
+        "lk": 2.624015694226776,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.60998468127173,
+      "looMaxAbs": 1.9824258763862375,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 3.770025495071469,
+      "beta": 0.34003093138976787,
+      "rms": 0.6605941273622941,
+      "maxAbs": 0.8693588141995816,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.7308859917471437
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.8693588141995816
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.13847282245243608
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.7911874329225945,
+        "lk": 5.49034790736318,
+        "beta": -0.0702575636163393
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 1.5058843160427275,
+        "lk": 2.7129687411020496,
+        "beta": 0.5427882936609123
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -9.454229213579644,
+        "lk": -2.4923394941767816,
+        "beta": 3.778561360512837
+       }
+      ],
+      "looRms": 5.623121612771863,
+      "looMaxAbs": 9.454229213579644,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "O2G",
+     "label": "Ω²/G(支配天体の自転)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 1.9013214113687211,
+       "ratioW": 1.6848174552745792
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -0.8986622107792999,
+       "ratioW": 6.243291605788735
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.2883221631327721,
+       "ratioW": 4.883726727698537
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.270611929587283,
+      "beta": 1,
+      "rms": 1.9108207594248936,
+      "maxAbs": 2.5857944743127037,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -2.5857944743127037
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.9726796762014516
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.6131147981112539
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -3.878691711469057,
+        "lk": 5.563509166743636,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.9590195143021765,
+        "lk": 3.2842720914865584,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.9196721971668804,
+        "lk": 3.964054530531657,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.8662311391373403,
+      "looMaxAbs": 3.878691711469057,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.980062409376222,
+      "beta": -0.6486306457827514,
+      "rms": 0.26902622272704535,
+      "maxAbs": 0.37900107232137703,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.16066820783625602
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.21833286448511924
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.37900107232137703
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.351389478157536,
+        "lk": 5.2139692272508915,
+        "beta": -0.14539408266120116
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -0.9944692754175053,
+        "lk": 5.455528879559083,
+        "beta": -0.9832056809216954
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 0.5728884201156896,
+        "lk": 4.780237170227904,
+        "beta": -0.6280360050881655
+       }
+      ],
+      "looRms": 1.0236248992879775,
+      "looMaxAbs": 1.351389478157536,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "wOG",
+     "label": "ωΩ/G(公転と自転)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 0.4636123561352802,
+       "ratioW": 3.12252651050802
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.4441888120938526,
+       "ratioW": 6.788818207103288
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.28831605195527177,
+       "ratioW": 4.883732838876037
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 4.931692518829116,
+      "beta": 1,
+      "rms": 1.4971414538617145,
+      "maxAbs": 1.8571256882741722,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.8091660083210952
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.8571256882741722
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.04795967995307837
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -2.7137490124816424,
+        "lk": 5.836275522989663,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.785688532411259,
+        "lk": 4.003129674692029,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.07193951992961711,
+        "lk": 4.955672358805654,
+        "beta": 1
+       }
+      ],
+      "looRms": 2.2457121807925717,
+      "looMaxAbs": 2.785688532411259,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.564954746500738,
+      "beta": -0.5893055714622186,
+      "rms": 0.6073733855543542,
+      "maxAbs": 0.7770004000898041,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.7056065353881911
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": -0.07139386470161302
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.7770004000898041
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.5684481831371029,
+        "lk": 5.200769000449239,
+        "beta": -0.09961328695769389
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": -15.501434094718014,
+        "lk": 7.780451384363871,
+        "beta": -9.04702487372163
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 1.4243329711430817,
+        "lk": 4.013467432467662,
+        "beta": -0.9217367918892765
+       }
+      ],
+      "looRms": 9.032962103849757,
+      "looMaxAbs": 15.501434094718014,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "sumW",
+     "label": "Σw̄_rel(実測の局所の重み —— 構造核と離心率を含む)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -0.9741249628885748,
+       "ratioW": 4.560263829531875
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -1.9615427690218983,
+       "ratioW": 7.3061721640313335
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 0.2888222474952037,
+       "ratioW": 4.883226643336106
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 5.583220878966437,
+      "beta": 1,
+      "rms": 1.2254243055108618,
+      "maxAbs": 1.7229512850648963,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.0229570494345621
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 1.7229512850648963
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.6999942356303315
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.5344355741518445,
+        "lk": 6.09469940368372,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.5844269275973426,
+        "lk": 4.721745236433991,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -1.049991353445498,
+        "lk": 5.933217996781604,
+        "beta": 1
+       }
+      ],
+      "looRms": 1.8381364582662927,
+      "looMaxAbs": 2.5844269275973426,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 4.686861073657354,
+      "beta": -0.01595632679000588,
+      "rms": 0.7912886732701727,
+      "maxAbs": 1.1162656632562067,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.1162656632562067
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.6264693039169948
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.48979635933921273
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6827654519602229,
+        "lk": 5.194198670411391,
+        "beta": -0.07669000491539339
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 2.998412342938824,
+        "lk": 4.809368571539132,
+        "beta": 1.2557215465134843
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 3.835090354430543,
+        "lk": 1.8513215380065513,
+        "beta": -1.7808981339442236
+       }
+      ],
+      "looRms": 2.9737795351620004,
+      "looMaxAbs": 3.835090354430543,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "c2Ga2",
+     "label": "c²/(G a²)(1PN の近日点前進を引きずりで写す尺度)",
+     "kind": "scale",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 9.961781624851346,
+       "ratioW": -6.375642758208046
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 5.6037611776443725,
+       "ratioW": -0.2591317826349373
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 12.544930799221449,
+       "ratioW": -7.37288190839014
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": -4.669218816411041,
+      "beta": 1,
+      "rms": 3.144865891658345,
+      "maxAbs": 4.410087033776104,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.7064239417970049
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 4.410087033776104
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -2.7036630919790987
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -2.5596359126955077,
+        "lk": -3.8160068455125384,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 6.615130550664156,
+        "lk": -6.874262333299093,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -4.055494637968648,
+        "lk": -3.3173872704214915,
+        "beta": 1
+       }
+      ],
+      "looRms": 4.717298837487518,
+      "looMaxAbs": 6.615130550664156,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 5.305544416150116,
+      "beta": -0.06452456552903842,
+      "rms": 0.7695407384067162,
+      "maxAbs": 1.0766259182681246,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -1.0766259182681246
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.40066523417531474
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 0.6759606840928098
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -1.6501356822808892,
+        "lk": 5.483957488408187,
+        "beta": -0.024863317507995798
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 4.434072868486771,
+        "lk": -2.529841385049326,
+        "beta": 0.6139444209894424
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 2.6282280700792002,
+        "lk": 7.60578467720389,
+        "beta": -0.4035067181690577
+       }
+      ],
+      "looRms": 3.1247150676149316,
+      "looMaxAbs": 4.434072868486771,
+      "looExactFit": true
+     }
+    },
+    {
+     "key": "ext",
+     "label": "外の天体 + 宇宙の一様な分(W_cos + Σ_ext m/d³ —— 自由パラメータ 0)",
+     "kind": "ext",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": -3.226213970586956,
+       "ratioW": 6.812352837230256
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": -23.323681907849828,
+       "ratioW": 28.668311302859262
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": -23.2472452902157,
+       "ratioW": 28.41929418104701
+      }
+     ],
+     "p0": {
+      "nPar": 0,
+      "logk": 0,
+      "beta": 1,
+      "rms": 23.63568281141503,
+      "maxAbs": 28.668311302859262,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 6.812352837230256
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 28.668311302859262
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": 28.41929418104701
+       }
+      ],
+      "dof": 3,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 6.812352837230256,
+        "lk": 0,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 28.668311302859262,
+        "lk": 0,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": 28.41929418104701,
+        "lk": 0,
+        "beta": 1
+       }
+      ],
+      "looRms": 23.63568281141503,
+      "looMaxAbs": 28.668311302859262,
+      "looExactFit": false
+     }
+    },
+    {
+     "key": "resp",
+     "label": "応答の分解 Σw̄_rel/δ_obs(標的の差を入力に持つ —— 系の量だけの法則ではない)",
+     "kind": "response",
+     "logX": [
+      {
+       "group": "earthMoonSunInertial3d",
+       "logX": 3.3626977393033637,
+       "ratioW": 0.2234411273399366
+      },
+      {
+       "group": "mercurySunInertialFit",
+       "logX": 5.135853270115387,
+       "ratioW": 0.2087761248940483
+      },
+      {
+       "group": "plutoCharonInertialFit",
+       "logX": 5.172045976939475,
+       "ratioW": 0.0000029138918344884246
+      }
+     ],
+     "p1": {
+      "nPar": 1,
+      "logk": 0.14407338870860645,
+      "beta": 1,
+      "rms": 0.10204898124473388,
+      "maxAbs": 0.14407047481677182,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": 0.07936773863133029
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.06470273618544198
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.14407047481677182
+       }
+      ],
+      "dof": 2,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": 0.11905160794699521,
+        "lk": 0.10438951939294139,
+        "beta": 1
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 0.09705410427816297,
+        "lk": 0.11172202061588554,
+        "beta": 1
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.21610571222515773,
+        "lk": 0.21610862611699244,
+        "beta": 1
+       }
+      ],
+      "looRms": 0.15307347186710077,
+      "looMaxAbs": 0.21610571222515773,
+      "looExactFit": false
+     },
+     "p2": {
+      "nPar": 2,
+      "logk": 0.45488866008534945,
+      "beta": 0.9317918730937126,
+      "rms": 0.0842363829380528,
+      "maxAbs": 0.10419439642880057,
+      "resid": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "dex": -0.002084218595523435
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "dex": 0.10419439642880057
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "dex": -0.10211017783327403
+       }
+      ],
+      "dof": 1,
+      "loo": [
+       {
+        "group": "earthMoonSunInertial3d",
+        "err": -10.213566214777803,
+        "lk": 29.834318741800267,
+        "beta": -4.768377922572664
+       },
+       {
+        "group": "mercurySunInertialFit",
+        "err": 0.20430373763914833,
+        "lk": 0.6387040157143438,
+        "beta": 0.8765090053974236
+       },
+       {
+        "group": "plutoCharonInertialFit",
+        "err": -0.20847387677863516,
+        "lk": 0.25125254586174073,
+        "beta": 0.9917294325336637
+       }
+      ],
+      "looRms": 5.899212834442773,
+      "looMaxAbs": 10.213566214777803,
+      "looExactFit": true
+     }
+    }
+   ],
+   "best1": {
+    "key": "const",
+    "looRms": 1.1871376893178605,
+    "rms": 0.791425126211907
+   },
+   "best2": {
+    "key": "MR3",
+    "looRms": 0.54081078187583,
+    "rms": 0.07919750604465998
+   },
+   "rank1": [
+    {
+     "key": "const",
+     "looRms": 1.1871376893178605,
+     "rms": 0.791425126211907
+    },
+    {
+     "key": "MR3",
+     "looRms": 1.568764952906716,
+     "rms": 1.0458433019378106
+    },
+    {
+     "key": "Ma2e",
+     "looRms": 1.60998468127173,
+     "rms": 1.0733231208478202
+    },
+    {
+     "key": "sumW",
+     "looRms": 1.8381364582662927,
+     "rms": 1.2254243055108618
+    },
+    {
+     "key": "Ma3",
+     "looRms": 1.843364518670175,
+     "rms": 1.2289096791134497
+    },
+    {
+     "key": "Mma3",
+     "looRms": 1.8596207653103864,
+     "rms": 1.2397471768735913
+    },
+    {
+     "key": "wOG",
+     "looRms": 2.2457121807925717,
+     "rms": 1.4971414538617145
+    },
+    {
+     "key": "O2G",
+     "looRms": 2.8662311391373403,
+     "rms": 1.9108207594248936
+    },
+    {
+     "key": "c2Ga2",
+     "looRms": 4.717298837487518,
+     "rms": 3.144865891658345
+    },
+    {
+     "key": "ma3",
+     "looRms": 5.637973829613713,
+     "rms": 3.7586492197424755
+    }
+   ],
+   "response": {
+    "looRms": 0.15307347186710077,
+    "rms": 0.10204898124473388,
+    "kappa": 1.3933922436935007
+   }
+  }
+ },
+ "loo": [
+  {
+   "cand": "const",
+   "group": "earthMoonInertial",
+   "emoji": "🌛",
+   "WpredSI": 50227.20953811303,
+   "WfitSI": 19.448366531695005,
+   "dex": 3.4120559200280827,
+   "gainPred": 199.095273099173,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 24162.48017219078,
+   "residual": 24153.63017219078,
+   "deltaRun": 0.00000320218947070807,
+   "deltaObs": 0.00845241372418217,
+   "relToEffect": -0.9996211508836174,
+   "gain0": -703299.901763844,
+   "steps": 1282675,
+   "nan": false,
+   "wallSec": 5.723
+  },
+  {
+   "cand": "const",
+   "group": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "WpredSI": 8613.648370891839,
+   "WfitSI": 3856.0163495093225,
+   "dex": 0.34904827223692525,
+   "gainPred": 0.11609482497327228,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 8.876762338985154,
+   "residual": 0.026762338985154344,
+   "deltaRun": 0.000020561051876466815,
+   "deltaObs": 0.00004604445085981307,
+   "relToEffect": -0.5534521208849468,
+   "gain0": 8.898473561886753,
+   "steps": 1741398,
+   "nan": false,
+   "wallSec": 8.778
+  },
+  {
+   "cand": "const",
+   "group": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "WpredSI": 2233.6937520347906,
+   "WfitSI": 221120.7949734821,
+   "dex": -1.9956059576475853,
+   "gainPred": 0.4476889453126897,
+   "target": {
+    "kind": "apsRateDiff",
+    "obs": 43,
+    "unit": "″/世紀"
+   },
+   "predicted": 4256.818361310211,
+   "residual": 4213.818361310211,
+   "deltaRun": 0.000007910797468850469,
+   "deltaObs": 7.991045477821859e-8,
+   "relToEffect": 97.99577584442352,
+   "gain0": 0,
+   "steps": 380024,
+   "nan": false,
+   "wallSec": 1.604
+  },
+  {
+   "cand": "const",
+   "group": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "WpredSI": 2550.0603825048493,
+   "WfitSI": 148610.2931352893,
+   "dex": -1.7654984266804195,
+   "gainPred": 392147.57692040585,
+   "target": {
+    "kind": "period",
+    "obs": 551856.43872,
+    "unit": "s"
+   },
+   "predicted": 551441.7204716725,
+   "residual": -414.71824832749553,
+   "deltaRun": 0.0007645718630721781,
+   "deltaObs": 0.000013085076636570151,
+   "relToEffect": 57.430828057617475,
+   "gain0": 551863.6598982827,
+   "steps": 2757209,
+   "nan": false,
+   "wallSec": 16.894
+  },
+  {
+   "cand": "resp",
+   "group": "earthMoonInertial",
+   "emoji": "🌛",
+   "WpredSI": 17.892402123052523,
+   "WfitSI": 19.448366531695005,
+   "dex": -0.036214480631960116,
+   "gainPred": 558896.4484045452,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 8.126324820635602,
+   "residual": -0.7236751793643972,
+   "deltaRun": 0.009205118690188951,
+   "deltaObs": 0.00845241372418217,
+   "relToEffect": 0.08905207323835901,
+   "gain0": -703299.901763844,
+   "steps": 1274278,
+   "nan": false,
+   "wallSec": 5.904
+  },
+  {
+   "cand": "resp",
+   "group": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "WpredSI": 3107.3252111160346,
+   "WfitSI": 3856.0163495093225,
+   "dex": -0.09375215796445338,
+   "gainPred": 0.32182019327189687,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 8.838337815608682,
+   "residual": -0.01166218439131761,
+   "deltaRun": 0.00005719759168278993,
+   "deltaObs": 0.00004604445085981307,
+   "relToEffect": 0.24222551501230222,
+   "gain0": 8.898473561886753,
+   "steps": 1741355,
+   "nan": false,
+   "wallSec": 9.624
+  },
+  {
+   "cand": "resp",
+   "group": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "WpredSI": 186393.41857241286,
+   "WfitSI": 221120.7949734821,
+   "dex": -0.07419901343293281,
+   "gainPred": 0.005364996294713621,
+   "target": {
+    "kind": "apsRateDiff",
+    "obs": 43,
+    "unit": "″/世紀"
+   },
+   "predicted": 51.01143931120785,
+   "residual": 8.011439311207852,
+   "deltaRun": 9.479877475000272e-8,
+   "deltaObs": 7.991045477821859e-8,
+   "relToEffect": 0.1863125421211128,
+   "gain0": 0,
+   "steps": 380027,
+   "nan": false,
+   "wallSec": 1.581
+  },
+  {
+   "cand": "resp",
+   "group": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "WpredSI": 237801.36917276226,
+   "WfitSI": 148610.2931352893,
+   "dex": 0.20416545996634952,
+   "gainPred": 4205.190253860573,
+   "target": {
+    "kind": "period",
+    "obs": 551856.43872,
+    "unit": "s"
+   },
+   "predicted": 551859.1472120811,
+   "residual": 2.7084920811466873,
+   "deltaRun": 0.0000081771758669382,
+   "deltaObs": 0.000013085076636570151,
+   "relToEffect": -0.3750761960320017,
+   "gain0": 551863.6598982827,
+   "steps": 2759296,
+   "nan": false,
+   "wallSec": 16.394
+  },
+  {
+   "cand": "respKind",
+   "group": "earthMoonInertial",
+   "emoji": "🌛",
+   "WpredSI": 21.1181037032777,
+   "WfitSI": 19.448366531695005,
+   "dex": 0.035771787409533885,
+   "gainPred": 473527.3649805934,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 9.626622730358452,
+   "residual": 0.7766227303584525,
+   "deltaRun": 0.007770528268926675,
+   "deltaObs": 0.00845241372418217,
+   "relToEffect": -0.08067345938174271,
+   "gain0": -703299.901763844,
+   "steps": 1275657,
+   "nan": false,
+   "wallSec": 5.938
+  },
+  {
+   "cand": "respKind",
+   "group": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "WpredSI": 3617.4787798168086,
+   "WfitSI": 3856.0163495093225,
+   "dex": -0.02773287442250717,
+   "gainPred": 0.27643562294804686,
+   "target": {
+    "kind": "apsPeriod",
+    "obs": 8.85,
+    "unit": "yr"
+   },
+   "predicted": 8.846809434433219,
+   "residual": -0.0031905655667809896,
+   "deltaRun": 0.000049092829293342585,
+   "deltaObs": 0.00004604445085981307,
+   "relToEffect": 0.06620512084747432,
+   "gain0": 8.898473561886753,
+   "steps": 1741365,
+   "nan": false,
+   "wallSec": 8.68
+  },
+  {
+   "cand": "respKind",
+   "group": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "WpredSI": 218240.16571300887,
+   "WfitSI": 221120.7949734821,
+   "dex": -0.005694904329652712,
+   "gainPred": 0.004582107957684674,
+   "target": {
+    "kind": "apsRateDiff",
+    "obs": 43,
+    "unit": "″/世紀"
+   },
+   "predicted": 43.56756058499269,
+   "residual": 0.567560584992691,
+   "deltaRun": 8.096519953312458e-8,
+   "deltaObs": 7.991045477821859e-8,
+   "relToEffect": 0.013199083371923053,
+   "gain0": 0,
+   "steps": 380027,
+   "nan": false,
+   "wallSec": 1.638
+  },
+  {
+   "cand": "respKind",
+   "group": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "skipped": "同じ種類の標的の系が他に無い"
+  }
+ ],
+ "response": {
+  "kappaAps": 1.6066779801256792,
+  "kappaApsFrom": [
+   {
+    "id": "earthMoonInertial",
+    "kappa": 1.5231055785986387
+   },
+   {
+    "id": "earthMoonSunInertial3d",
+    "kappa": 1.6727568478942612
+   },
+   {
+    "id": "mercurySunInertialFit",
+    "kappa": 1.6169124201520857
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "kappa": 1.6175810265183017
+   }
+  ],
+  "kappaApsSpreadDex": 0.0407028076653422,
+  "kappaP": 1.0000197495329968,
+  "kappaPFrom": [
+   {
+    "id": "plutoCharonInertialFit",
+    "kappa": 1.0000197495329968
+   }
+  ],
+  "checks": [
+   {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "WbgSI": 19.448366531695,
+    "xBar": 0.0055606515167037195,
+    "xi": 0.005529723552162982,
+    "dAps": 0.009017047406233943,
+    "dP": 0.006531007369541267,
+    "predAps": 0.008884485067442617,
+    "ratioAps": 1.0149206552529537,
+    "predP": 0.005529832761620739,
+    "ratioP": 1.1810497082062015,
+    "e": 0.037484615818907656
+   },
+   {
+    "id": "earthMoonOnly3d",
+    "emoji": "🌔",
+    "WbgSI": 3856.0163495093225,
+    "xBar": 0.000027405402702205688,
+    "xi": 0.000027404632446867006,
+    "dAps": 0.00004158230591226867,
+    "dP": 0.000029259003677539778,
+    "predAps": 0.000044030419505818935,
+    "ratioAps": 0.9443994942354177,
+    "predP": 0.00002740517367555978,
+    "ratioP": 1.067645256473352,
+    "e": 0.07533372654940984
+   },
+   {
+    "id": "mercurySunInertial",
+    "emoji": "🟤",
+    "WbgSI": 19.448366531695,
+    "xBar": 0.0005634584333536715,
+    "xi": 0.0005630772625202212,
+    "dAps": 0.0009111362240105177,
+    "dP": 0.0008751040857997766,
+    "predAps": 0.0009046838388006858,
+    "ratioAps": 1.0071321990435749,
+    "predP": 0.0005630883830331971,
+    "ratioP": 1.5541149705235253,
+    "e": 0.2056308167731493
+   },
+   {
+    "id": "mercuryMeshMigrate3d",
+    "emoji": "🔂",
+    "WbgSI": 221120.7949734821,
+    "xBar": 4.942165211964552e-8,
+    "xi": 4.942164918113771e-8,
+    "dAps": 7.99105704274341e-8,
+    "dP": 7.696592680581104e-8,
+    "predAps": 7.940467548083027e-8,
+    "ratioAps": 1.0063710977161031,
+    "predP": 4.942262523562897e-8,
+    "ratioP": 1.557301467472958,
+    "e": 0.2056308167979888
+   },
+   {
+    "id": "plutoCharonInertial",
+    "emoji": "🟣",
+    "WbgSI": 19.448366531695,
+    "xBar": 0.16044600841216633,
+    "xi": 0.13706585173969826,
+    "dAps": 0.25945195431553614,
+    "dP": 0.10916201568630567,
+    "predAps": 0.22022068581734422,
+    "ratioAps": 1.1781452471305587,
+    "predP": 0.13706855872625992,
+    "ratioP": 0.7964044905755046,
+    "e": 8.282037137993138e-9
+   }
+  ]
+ },
+ "predictions": {
+  "keys": [
+   "const",
+   "Ma3"
+  ],
+  "planets": [
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "pn1RefArcsecPerCentury": 8.624529478509743,
+    "obsPeriodDays": 224.701,
+    "obsPeriodSource": "観測の正本 OBS_COMPARE_ROWS(venusReal の 金星 の公転周期 19414166.4 s = 224.701 日)",
+    "gain0": {
+     "periodDays": 224.70212437671773,
+     "apsArcsecPerCentury": -1.5962116208851826,
+     "a": 1082.0939983716778,
+     "e": 0.006725032192769121
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.14193023739552818,
+      "xBar": 2.227603635133923e-7,
+      "apsDiffArcsecPerCentury": 70.39616131767394,
+      "respPredArcsecPerCentury": 75.39712872082418,
+      "periodShiftSec": -4.3258605387563875,
+      "periodDays": 224.7020743088874,
+      "nan": false,
+      "steps": 380020,
+      "wallSec": 1.564
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 93.3514089148487,
+      "gain": 10.712211113087308,
+      "xBar": 0.000016812879942795852,
+      "apsDiffArcsecPerCentury": 5313.508885806504,
+      "respPredArcsecPerCentury": 5690.612338844256,
+      "periodShiftSec": -326.5101197803233,
+      "periodDays": 224.69834532440547,
+      "nan": false,
+      "steps": 380014,
+      "wallSec": 1.608
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 61594.859260789024,
+      "gain": 0.016235121112397687,
+      "xBar": 2.5481120493043052e-8,
+      "apsDiffArcsecPerCentury": 8.052329003275725,
+      "respPredArcsecPerCentury": 8.624529478509745,
+      "periodShiftSec": -0.49482656322652474,
+      "periodDays": 224.70211864955843,
+      "nan": false,
+      "steps": 380020,
+      "wallSec": 1.669,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "pn1RefArcsecPerCentury": 1.3508771557417996,
+    "obsPeriodDays": 686.98,
+    "obsPeriodSource": "内蔵の宣言値 59355072 s(NASA NSSDC Mars Fact Sheet の 686.980 日 —— 第131便に内蔵へ転記した観測値)",
+    "gain0": {
+     "periodDays": 686.9862726513481,
+     "apsArcsecPerCentury": -0.3604202731987368,
+     "a": 2279.4247965851146,
+     "e": 0.09336280411409484
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.14193023739552818,
+      "xBar": 2.4147838008928148e-8,
+      "apsDiffArcsecPerCentury": 2.5340520955938852,
+      "respPredArcsecPerCentury": 2.6733404056763965,
+      "periodShiftSec": -1.5627139873686247,
+      "periodDays": 686.9862545643806,
+      "nan": false,
+      "steps": 380181,
+      "wallSec": 1.631
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 9.9871146766126,
+      "gain": 100.12901947964583,
+      "xBar": 0.000017035829621345223,
+      "apsDiffArcsecPerCentury": 1787.8477521682546,
+      "respPredArcsecPerCentury": 1885.9896134023516,
+      "periodShiftSec": -1102.429835791554,
+      "periodDays": 686.9735130467672,
+      "nan": false,
+      "steps": 380174,
+      "wallSec": 1.593
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 13943.23271208659,
+      "gain": 0.07171937961941618,
+      "xBar": 1.2202248040522554e-8,
+      "apsDiffArcsecPerCentury": 1.280485725645354,
+      "respPredArcsecPerCentury": 1.3508771557417996,
+      "periodShiftSec": -0.7896646275185049,
+      "periodDays": 686.9862635117112,
+      "nan": false,
+      "steps": 380181,
+      "wallSec": 1.553,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "pn1RefArcsecPerCentury": 0.062386887270315064,
+    "obsPeriodDays": 4332.589,
+    "obsPeriodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 4332.589 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+    "gain0": {
+     "periodDays": 4332.674509147152,
+     "apsArcsecPerCentury": -0.11608803980932397,
+     "a": 778.3387855820276,
+     "e": 0.04835953596345825
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.001419302373955282,
+      "xBar": 6.012439912810962e-10,
+      "apsDiffArcsecPerCentury": 0.009887451303757936,
+      "respPredArcsecPerCentury": 0.010554040414694555,
+      "periodShiftSec": -0.23049833544064313,
+      "periodDays": 4332.674506479347,
+      "nan": false,
+      "steps": 380044,
+      "wallSec": 1.551
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 0.2508475274570978,
+      "gain": 39.86485376743564,
+      "xBar": 0.000016887524625337814,
+      "apsDiffArcsecPerCentury": 277.8993178333683,
+      "respPredArcsecPerCentury": 296.43808501137636,
+      "periodShiftSec": -6473.231315430894,
+      "periodDays": 4332.599587488409,
+      "nan": false,
+      "steps": 380038,
+      "wallSec": 1.704
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 1191.929328787062,
+      "gain": 0.008389759156422686,
+      "xBar": 3.554064569790981e-9,
+      "apsDiffArcsecPerCentury": 0.058481612548313515,
+      "respPredArcsecPerCentury": 0.06238688727031504,
+      "periodShiftSec": -1.3623226095660357,
+      "periodDays": 4332.67449337953,
+      "nan": false,
+      "steps": 380044,
+      "wallSec": 1.568,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "pn1RefArcsecPerCentury": 0.013709285745844202,
+    "obsPeriodDays": 10759.22,
+    "obsPeriodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 10759.22 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+    "gain0": {
+     "periodDays": 10755.620895411312,
+     "apsArcsecPerCentury": -0.02759927600299109,
+     "a": 1426.6744394870548,
+     "e": 0.0539140575609614
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.001419302373955282,
+      "xBar": 9.76522005856508e-11,
+      "apsDiffArcsecPerCentury": 0.0006445034044936583,
+      "respPredArcsecPerCentury": 0.0006905110234045202,
+      "periodShiftSec": -0.09253035386791453,
+      "periodDays": 10755.620894340358,
+      "nan": false,
+      "steps": 379882,
+      "wallSec": 1.651
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 0.04073251260897894,
+      "gain": 245.50412826228725,
+      "xBar": 0.000016891410045953722,
+      "apsDiffArcsecPerCentury": 112.07827428613331,
+      "respPredArcsecPerCentury": 119.44129028968125,
+      "periodShiftSec": -16000.89673374896,
+      "periodDays": 10755.435699847263,
+      "nan": false,
+      "steps": 379876,
+      "wallSec": 1.669
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 354.8794556442857,
+      "gain": 0.028178582448073648,
+      "xBar": 1.9387698040483123e-9,
+      "apsDiffArcsecPerCentury": 0.012862286824166735,
+      "respPredArcsecPerCentury": 0.013709285745844202,
+      "periodShiftSec": -1.836409319366794,
+      "periodDays": 10755.620874156573,
+      "nan": false,
+      "steps": 379882,
+      "wallSec": 1.76,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "pn1RefArcsecPerCentury": 0.002384649399915651,
+    "obsPeriodDays": 30685.4,
+    "obsPeriodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 30685.4 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+    "gain0": {
+     "periodDays": 30702.292524843957,
+     "apsArcsecPerCentury": -0.007488780897589612,
+     "a": 2870.6486653220336,
+     "e": 0.04722274418479866
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.001419302373955282,
+      "xBar": 1.1971434136285626e-11,
+      "apsDiffArcsecPerCentury": 0.0000264473139503424,
+      "respPredArcsecPerCentury": 0.0000296551034253671,
+      "periodShiftSec": -0.0326974259223789,
+      "periodDays": 30702.292524465516,
+      "nan": false,
+      "steps": 380245,
+      "wallSec": 1.726
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 0.005000065720873003,
+      "gain": 1999.9737119963327,
+      "xBar": 0.00001686924083748565,
+      "apsDiffArcsecPerCentury": 39.16715908919377,
+      "respPredArcsecPerCentury": 41.7877320334386,
+      "periodShiftSec": -45566.268459151615,
+      "periodDays": 30701.765137477534,
+      "nan": false,
+      "steps": 380238,
+      "wallSec": 1.76
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 87.61933997543359,
+      "gain": 0.11413005396758029,
+      "xBar": 9.626563367438286e-10,
+      "apsDiffArcsecPerCentury": 0.0022340276985817337,
+      "respPredArcsecPerCentury": 0.0023846493999156513,
+      "periodShiftSec": -2.600441439426504,
+      "periodDays": 30702.292494746252,
+      "nan": false,
+      "steps": 380245,
+      "wallSec": 1.796,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "pn1RefArcsecPerCentury": 0.0007741003109945582,
+    "obsPeriodDays": 60189,
+    "obsPeriodSource": "NASA NSSDC Planetary Fact Sheet の恒星周期 60189 日(ネットワーク不通で原表は未取得 —— 公表値の転記)",
+    "gain0": {
+     "periodDays": 60226.32090420012,
+     "apsArcsecPerCentury": -0.0035822197814282366,
+     "a": 4498.401318395763,
+     "e": 0.008655170984612133
+    },
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 0.001419302373955282,
+      "xBar": 3.1009751094755466e-12,
+      "apsDiffArcsecPerCentury": 0.000005472807062587576,
+      "respPredArcsecPerCentury": 0.000003915939867273213,
+      "periodShiftSec": -0.016605918062850833,
+      "periodDays": 60226.32090400792,
+      "nan": false,
+      "steps": 380169,
+      "wallSec": 1.668
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 0.001299395171313613,
+      "gain": 7695.888226127991,
+      "xBar": 0.000016814428181376892,
+      "apsDiffArcsecPerCentury": 19.82738240035018,
+      "respPredArcsecPerCentury": 21.233414437819192,
+      "periodShiftSec": -87518.23373386287,
+      "periodDays": 60225.30796168005,
+      "nan": false,
+      "steps": 380162,
+      "wallSec": 1.696
+     },
+     {
+      "cand": "ref1pn",
+      "WpredSI": 35.64214585517324,
+      "gain": 0.2805667212247424,
+      "xBar": 6.129986358301568e-10,
+      "apsDiffArcsecPerCentury": 0.0007243790314801057,
+      "respPredArcsecPerCentury": 0.0007741003109945583,
+      "periodShiftSec": -3.190353891113773,
+      "periodDays": 60226.32086727472,
+      "nan": false,
+      "steps": 380169,
+      "wallSec": 1.582,
+      "note": "1PN の式の値を出すのに要る W(参考 —— 観測ではない)"
+     }
+    ]
+   }
+  ],
+  "rings": [
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "n": 127,
+    "steps": 720,
+    "dt": 0.58,
+    "aMedSI": 106235961.40840091,
+    "sumWMedSI": 474.98686193651787,
+    "gain0WallSec": 0.525,
+    "preds": [
+     {
+      "cand": "const",
+      "WpredSI": 7045.714981883819,
+      "gain": 1419.3023739552818,
+      "xMed": 0.06741499807440694,
+      "xMax": 0.19361012585547263,
+      "relPosDiff": 0.3455594692624966,
+      "nan": false,
+      "halt": false,
+      "uMax": 0.23452788695191978,
+      "steps": 720,
+      "wallSec": 1.03
+     },
+     {
+      "cand": "Ma3",
+      "WpredSI": 28195760.25844642,
+      "gain": 0.3546632510823809,
+      "xMed": 0.00001684603846758234,
+      "xMax": 0.00004838038598287748,
+      "relPosDiff": 0.00010256114135041914,
+      "nan": false,
+      "halt": false,
+      "uMax": 0.00006255788270967054,
+      "steps": 720,
+      "wallSec": 0.869
+     }
+    ]
+   }
+  ]
+ },
+ "gates": {
+  "selection": true,
+  "finite": true,
+  "reproduceRecord": true,
+  "reproduceRetired": true,
+  "wbgFromDecl": true,
+  "kepler": true,
+  "candidates": true,
+  "loo": true,
+  "response": true,
+  "predictions": true
+ },
+ "ok": true,
+ "elapsedS": 261.01
+}

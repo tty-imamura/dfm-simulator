@@ -81,6 +81,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.saturnRing3d300 docs.solar16Contract3
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragNorm301 preset.refit301"
 # 第301便c(原仮定者の裁定(第91報)②・R181): 枝 c の新設 1 本(behavior.axialSplit301 —— 軸回転 = 慣性軸回転 + 引きずり軸回転)と、🪛 の軸引きずりの数で追従した behavior.drag3d298・behavior.ckDrag3d299
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSplit301"
+# 第301便g(原仮定者の裁定 AN300・R185): 枝 g の新設 1 本(docs.wbgLaw301 —— W_bg の法則性の探索の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

@@ -3608,3 +3608,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
 - **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
 - QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。
+
+## 85. 第301便g —— 背景慣性決定力 W_bg の法則性の探索(原仮定者の裁定 AN300・統括の検証項目 R185・**探索だけ —— html・本の宣言・署名は変えない**)
+
+- **何をしたか**: 器 `tests/exp-w301g-wbglaw.mjs`(段 wbglaw-301g・正本 `tests/out/wbglaw-w301g.json`)が、慣性決定力の引きずりを宣言した本を宣言から機械で分類し(fit 🟫🌡️🟪🌦️・退役の記録 🌛・censored 🌥️・移送 🟤🌤️🟣🌔🔂・未フィット 🌋🔴🏀🟡🔷💙🍩)、系の量・局所の重み Σw̄_rel・gain 0 からの効果 δ を測って、W_bg の候補(一定・M/a³・m/a³・(M+m)/a³・M/R³・M/(a²ε)・Ω²/G・ωΩ/G・Σw̄_rel・c²/(Ga²)・外の天体+宇宙の一様な分・応答の分解)を自由パラメータ 0〜2 で当てはめ、leave-one-out と未フィットの本への予測を記録した。
+- **結果**: 系の量だけの候補は leave-one-out で 1.6 dex より外れる(最良は「一定」2.17 dex)—— **系の量だけで W_bg を決める法則はこの探索範囲では未達 —— 次の見直し**。規則性は応答の側にある: 1 公転あたりの近点の回転 δ_aps ≈ κ_aps ξ̄(κ_aps 1.52〜1.67・幾何平均 1.607)・周期の短縮 δ_P ≈ 1.000 ξ̄(🟪)。よって W_bg ≈ κ Σw̄_rel/δ_obs(δ_obs は標的が引きずりに求める差 —— 系の量ではない)で、本ごとの違いは 0.09 dex まで説明される(同じ種類の標的の κ で leave-one-out: 🟫 43.57″/世紀・🌦️ 8.8468 年)。
+- **AI 生成の規則**: 変えない(宣言の形は同じ —— 背景の宣言 `relativeDrag.background` の既定は第301便a のまま。法則の候補を本に当てるのは次便の裁定の後)。
+- QA: `docs.wbgLaw301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_NORM_VERSION`。正本の門・行の選び方を宣言から作り直して照合・表が宣言と一致・当てはめの作り直し・文書)。
+- 言わないこと: 「法則を発見した」「W_bg が決まった」「gain は普遍定数」「現実を再現した」。
