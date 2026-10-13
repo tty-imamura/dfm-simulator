@@ -4,7 +4,7 @@
   "wave": "第301便a",
   "target": "beta/index.html",
   "targetSha256": "1b77f8c84658a2090b7bc66248c234657fbfd26a9a52c5f6af66a2a96815c4c5",
-  "generatedAt": "2026-10-13T01:08:14.948Z",
+  "generatedAt": "2026-10-13T01:37:42.592Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -16,9 +16,9 @@
   "code": [
    {
     "file": "tests/exp-w301a-dragnorm.mjs",
-    "bytes": 22641,
-    "sha256": "a3bbed051080a7e62a851ce644bb696d0a4baa03e83eafdf06314eea3726d932",
-    "mtime": "2026-10-13T00:55:07.985Z"
+    "bytes": 22840,
+    "sha256": "6de043a53a8d8affec920010173b89ded8105f6aadcfd32852be877ffdb24435",
+    "mtime": "2026-10-13T01:19:42.211Z"
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-13T00:36:23.042Z"
    }
   ],
-  "codeSha256": "1d8d072c6ceaaa9cc5d6396848d58c094d0d1f90277dec380881b4a913448bb0",
+  "codeSha256": "febf5a0952760dbaca72e35506487acbf15246994a771e3d566ffbde7cc59909",
   "harnessVersion": "w301a-dragnorm-1",
   "normVersion": "w301a-norm-1",
   "loadErrors": 0,
@@ -60,10 +60,18 @@
    "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
     "HP.REL_DRAG_INERTIAL_VERSION",
     "HP.REL_DRAG_NORM_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
     "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
     "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
     "HP.inertialDragNormOf",
     "HP.inertialDragState",
     "HP.relDragBackgroundOf",
@@ -77,7 +85,7 @@
    "segments": 1108,
    "closureShare": 0.3178
   },
-  "scopeSha256": "ac82ce0047174c6952c17c2cdd2081ce2596e5ec34934e3aa3e3223814a84af1",
+  "scopeSha256": "de6c462916666fce89e76150f2ee1d8045fcc0b69fc70fe1e315b0110072eae2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -901,5 +909,5 @@
   "cosmicNoPrecession": true
  },
  "ok": true,
- "elapsedS": 184.56
+ "elapsedS": 213.149
 }
