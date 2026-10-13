@@ -375,7 +375,9 @@ export function inventory(H, X) {
   const stCk = /shapeToyCkSnap\(/.test(ckSrc), stAb = /shapeToyCkRestore\(/.test(abSrc);
   const stArrs = (stCk || stAb) ? clone(H.evalExpr("typeof SHAPE_TOY_CK_ARRS!=='undefined' ? SHAPE_TOY_CK_ARRS : []")) : [];
   const stHas = (k) => stArrs.includes(k) || /^(shapeToy|coreField|spiral)[A-Z0-9]/.test(k);
-  const abHas = (k) => abHas0(k) || (stAb && stHas(k));
+  // 第301便f(AN288 ③・R184): 複製が最後にチェックポイントと同じ 1 組(CK_ARRS・CK_SC —— simStateCopyInto)を重ねる世代は、その名簿も複製の名簿として数える(呼ばない世代では従来どおり)
+  const abCk = /simStateCopyInto\(/.test(abSrc);
+  const abHas = (k) => abHas0(k) || (stAb && stHas(k)) || (abCk && ckSet.has(k));
   const fixtures = [];
   for (const F of INVENTORY_FIXTURES) {
     const p = fixtureOf(HP, F);

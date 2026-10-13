@@ -3584,3 +3584,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **太陽系 16 体の器(内蔵には入れない —— 予約 id `solarSystem16Inertial3d`)**: 入力の契約 `tests/data-w300c-solar16-schema.json`(成員 16・元期 JD TDB・太陽系重心・ICRF の J2000 の黄道・幾何学的・km と km/s・天体中心・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ)。生成器 `tests/lib-w300c-solar16.mjs`: `checkSolar16(rec)` → `{ok, errors:[{code, msg}], derived}`(符号 missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)・`toUnits`・`solar16Decl`(1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg・全天体 free・刻み = イオの接触軌道の周期 / 360・leapfrog・softening 0.001 + softeningFloor・radiusFloor 0.001)・`stepCheck`(h・h/2・h/4)・`syntheticRecord`(人工の入力 —— 実際の配置ではない)・`badVariants`。実行口 `tests/exp-w300c-solar16.mjs`(既定は人工の入力の試験・`--record <file> --emit <file>` で観測レコードの検査と宣言の断片)。
 - **受理器 `physics.radiusFloor`**(新しい鍵 —— 宣言した本だけ): single の明示半径 `radius` の下限 0.01 を 0.001 まで下げる(値域 0.001〜0.01・較正クラスは拒否・0.01 と同値なら落とす・三次元でも受理)。未宣言の本は 1 bit 不変。
 - QA: `preset.saturnRing3d300`・`docs.solar16Contract300`(root は SKIP —— 世代切替 = html の `{ id:"saturnRingInertial3d"` と `RADIUS_FLOOR_KEY = "radiusFloor"`)。
+
+## 83. 第301便f —— 複製とチェックポイントの状態の契約・build の機能ごとの初期化(DECISIONS v58 の AN288 ③④・統括の検証項目 R184・**宣言の鍵は増やさない** —— 物理の既定経路・`S._core`・署名は不変・**SYSTEM_PROMPT には載せない**)
+
+- **原因**: 二次元の tint の本(kRep>0・q>1)の複製と復帰が次の 1 步目から分かれたのは、U_rep の中点補正が次の步で読む **duT**(直前サブステップの δ√T)を複製もチェックポイントも写していなかったため。
+- **状態の契約(正本)**: `CK_ARRS`(配列)・`CK_SC`(数・文字列・null の帳簿と読み口)・`CK_DEEP`(深い写し —— 光子・箱の履歴・機構スペクトル・近点検出器・系譜・コンパクト力の前の步の速度)。
+  チェックポイント(`ckSnapOne`/`ckRestoreOne` —— 復帰は updateRadii の後に CK_SC を置き直す)と A/B・アプリ内実測の複製(`cloneSimState` の最後の `simStateCopyInto`)が同じ 1 組を写す。
+  含めないもの = `SIM_STEP_SCRATCH`(毎步作り直す作業配列 —— 複製の後で NaN に塗っても走行は同じ)。
+- **build の機能ごとの初期化**: 表 `SIM_BUILD_RESET`(機能・説明・鍵)を build の先頭で `simBuildReset` が消す(本を切り替えた内蔵の sim が新しく組んだ sim と同じ鍵の集合と値になる)。
+- **器と正本**: `tests/exp-w301f-clone.mjs`(版 w301f-clone-1・`W301F_OUT`・`W301F_IDS`・`W301F_N`/`W301F_M`)→ `tests/out/clone-w301f.json`(段 clone-301f)。
+- QA: `behavior.clone2d301`(root は SKIP —— 世代切替 = html の `function simStateCopyInto(`)。

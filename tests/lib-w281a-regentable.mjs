@@ -870,6 +870,12 @@ export const REGEN_STEPS = [
   S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
     volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
     note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
+  // ---- 第301便f(DECISIONS v58 の AN288 ③④・統括の検証項目 R184): **複製とチェックポイントの全本の同一・build の機能ごとの初期化** —— 在位の全本(二次元・三次元)で
+  //   N 步 → 複製/保存 → M 步の全欄の指紋(複製・復帰・持ち越し・作業配列を塗っても同じ)と逆順の開き直し。Node の headless 1 プロセス・html だけを読む(html を書く段 obscompare・samplestatus の後)。
+  //   所要は第301便f の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('clone-301f', 'node tests/exp-w301f-clone.mjs', ['tests/out/clone-w301f.json'], 719, { secSource: 'w301f-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/clone-w301f.json': META_RUN.concat(['/elapsedS', '/rows/*/wallSec']) },
+    note: '第301便f: 複製(cloneSimState)・チェックポイント(保存→復帰)・本の切り替え(build の機能ごとの初期化)の全本の同一 —— 状態の契約 CK_ARRS/CK_SC/CK_DEEP と作業配列 SIM_STEP_SCRATCH の確かめ' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

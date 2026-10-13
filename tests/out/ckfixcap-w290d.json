@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-  "generatedAt": "2026-10-12T08:23:55.867Z",
+  "targetSha256": "9fb817d309d0ca96db7e12b25a9f47e63397191511a345b62ac2787e10723159",
+  "generatedAt": "2026-10-13T01:56:34.772Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6640554,
-    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-    "mtime": "2026-10-12T08:16:45.878Z"
+    "bytes": 6651334,
+    "sha256": "9fb817d309d0ca96db7e12b25a9f47e63397191511a345b62ac2787e10723159",
+    "mtime": "2026-10-13T01:54:24.462Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 51225,
-    "sha256": "0f83debaaa47556350f1a8ed956c1bb0efa844c6e01282e7a5da0bb28a34f708",
-    "mtime": "2026-10-12T02:36:41.350Z"
+    "bytes": 51547,
+    "sha256": "166d8558f44195de452160531c1dca77dd22e4de94eca1d3a01d00de1160f800",
+    "mtime": "2026-10-13T01:42:56.923Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-13T00:36:31.666Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-13T00:36:31.662Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-13T00:36:31.674Z"
    }
   ],
-  "codeSha256": "0a0c3a78484a4672c8eaaf9046b717bc297fece859ca47ec053e31f50c632282",
+  "codeSha256": "30d2fe705a8fe850355c1a4d9d1d8d8899477c99ef9d5076b5d7d7f464b0a398",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1202,
-   "segments": 1093,
-   "closureShare": 0.3163
+   "names": 1209,
+   "segments": 1100,
+   "closureShare": 0.3172
   },
-  "scopeSha256": "24b12069f3f92aad46ac6ea6fb43a9cc0b6e6dccac672c9bcea6800c26176bf6",
+  "scopeSha256": "dae4258ca78b1338133dc8642ff5a76c830dd346b4a4fa54d65b7db0c63bcbd9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -449,14 +449,11 @@
     "nDiff": 0,
     "first": []
    },
-   "rerunLineageOnly": true,
+   "rerunLineageOnly": false,
    "rerunLineageDiff": {
-    "same": false,
-    "nDiff": 2,
-    "first": [
-     "/fixcap/ejLog/0/id 2⇔3",
-     "/fixcap/log/0/id 1⇔2"
-    ]
+    "same": true,
+    "nDiff": 0,
+    "first": []
    },
    "twiceBitSame": true,
    "twiceDiff": {
@@ -641,14 +638,11 @@
      "nDiff": 0,
      "first": []
     },
-    "rerunLineageOnly": true,
+    "rerunLineageOnly": false,
     "rerunLineageDiff": {
-     "same": false,
-     "nDiff": 2,
-     "first": [
-      "/fixcap/ejLog/0/id 2⇔3",
-      "/fixcap/log/0/id 1⇔2"
-     ]
+     "same": true,
+     "nDiff": 0,
+     "first": []
     },
     "twiceBitSame": true,
     "twiceDiff": {
@@ -706,8 +700,8 @@
    ],
    "saveCarriesState": false,
    "checkpointSets": {
-    "arrs": 123,
-    "sc": 84,
+    "arrs": 134,
+    "sc": 127,
     "objects": [
      "fixcap",
      "params",
@@ -768,7 +762,6 @@
       "geoToyPx",
       "geoToyPy",
       "pairD",
-      "pairFuseSteps",
       "railIdx",
       "sumW",
       "uAx",
@@ -791,7 +784,6 @@
        "geoToyPx",
        "geoToyPy",
        "pairD",
-       "pairFuseSteps",
        "railIdx",
        "sumW",
        "uAx",
@@ -841,7 +833,6 @@
       "geoToyPx",
       "geoToyPy",
       "pairD",
-      "pairFuseSteps",
       "railIdx",
       "sumW",
       "uAx",
@@ -864,7 +855,6 @@
        "geoToyPx",
        "geoToyPy",
        "pairD",
-       "pairFuseSteps",
        "railIdx",
        "sumW",
        "uAx",
@@ -898,50 +888,50 @@
       {
        "key": "relDragHeat",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragKickMax",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragN",
        "moved": true,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragPos",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragResL",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragSlipMax",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
        "key": "relDragTorqueMax",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       }
      ],
@@ -949,10 +939,7 @@
       "relDragHeat",
       "relDragN"
      ],
-     "notRestored": [
-      "relDragHeat",
-      "relDragN"
-     ],
+     "notRestored": [],
      "diffKeys": [
       "_pkC",
       "_pn1",
@@ -960,11 +947,6 @@
       "ax",
       "ay",
       "railIdx",
-      "relDragHeat",
-      "relDragKickMax",
-      "relDragN",
-      "relDragSlipMax",
-      "relDragTorqueMax",
       "uAx"
      ],
      "diffByCat": {
@@ -976,13 +958,6 @@
        "ay",
        "railIdx",
        "uAx"
-      ],
-      "relDrag": [
-       "relDragHeat",
-       "relDragKickMax",
-       "relDragN",
-       "relDragSlipMax",
-       "relDragTorqueMax"
       ]
      },
      "rerunBitSame": true
@@ -1364,8 +1339,8 @@
       {
        "key": "layMassRes",
        "moved": false,
-       "checkpoint": false,
-       "abClone": false,
+       "checkpoint": true,
+       "abClone": true,
        "saveJson": false
       },
       {
@@ -1410,7 +1385,6 @@
       "_pkC",
       "ax",
       "ay",
-      "layerDv",
       "pairD",
       "railIdx",
       "sumW",
@@ -1422,7 +1396,6 @@
        "_pkC",
        "ax",
        "ay",
-       "layerDv",
        "pairD",
        "railIdx",
        "sumW",
@@ -2313,15 +2286,12 @@
       "relDragHeat",
       "relDragN"
      ],
-     "notRestored": [
-      "relDragHeat",
-      "relDragN"
-     ],
+     "notRestored": [],
      "saveJson": "運ばない",
      "rebuild": "再構築できる(t=0 の値だけ)",
-     "checkpoint": "運ばない",
-     "abClone": "運ばない",
-     "roundTrip": "動いた 2 鍵のうち 2 鍵が戻らない",
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
+     "roundTrip": "動いた 2 鍵がすべて戻る",
      "rerunBitSame": true
     },
     {
@@ -2395,8 +2365,8 @@
      "notRestored": [],
      "saveJson": "運ばない",
      "rebuild": "再構築できる(t=0 の値だけ)",
-     "checkpoint": "一部",
-     "abClone": "一部",
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
      "roundTrip": "窓の中で動かない",
      "rerunBitSame": true
     },
@@ -2588,8 +2558,8 @@
    ],
    [
     "relDrag",
-    "運ばない",
-    "動いた 2 鍵のうち 2 鍵が戻らない",
+    "運ぶ",
+    "動いた 2 鍵がすべて戻る",
     true
    ],
    [
@@ -2600,7 +2570,7 @@
    ],
    [
     "layers",
-    "一部",
+    "運ぶ",
     "窓の中で動かない",
     true
    ],
@@ -2752,5 +2722,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.458
+ "elapsedS": 2.118
 }
