@@ -3618,3 +3618,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **🍩 saturnRingInertial3d**: 土星 = governor・衛星 6 = 天体(💍 の自転の写し —— `spinZero:"declared"`)・C/B/A 帯 120 粒 = 塵。生成器 `ringDecl3` が `ringApproxDecl` で足す。
 - **器と正本**: `tests/exp-w301b-approxmany.mjs`(版 w301b-approxmany-1・`W301B_OUT`)→ `tests/out/approxmany-w301b.json`(段 approxmany-301b —— geo4stable-299d・saturnring3d-300c の後)。測り直しは正本 `tests/out/geo4stable-w299d.json`(🍥 の 8 条件)と `tests/out/saturnring3d-w300c.json`(🍩)を器が作り直したもの。
 - QA: **`behavior.approxMany301`**・**`preset.approxMany301`**(新設 —— root は SKIP・世代切替 = html の `const APPROX_MANY_KEY="approxMany"`)。世代切替で追従(生成器が html の世代を読む): `preset.chainSpread299`・`behavior.geo4Stable299`・`preset.saturnRing3d300`。
+
+## 86. 第301便f —— 複製とチェックポイントの状態の契約・build の機能ごとの初期化(DECISIONS v58 の AN288 ③④・統括の検証項目 R184・**宣言の鍵は増やさない** —— 物理の既定経路・`S._core`・署名は不変・**SYSTEM_PROMPT には載せない**)
+
+- **原因**: 二次元の tint の本(kRep>0・q>1)の複製と復帰が次の 1 步目から分かれたのは、U_rep の中点補正が次の步で読む **duT**(直前サブステップの δ√T)を複製もチェックポイントも写していなかったため。
+- **状態の契約(正本)**: `CK_ARRS`(配列)・`CK_SC`(数・文字列・null の帳簿と読み口)・`CK_DEEP`(深い写し —— 光子・箱の履歴・機構スペクトル・近点検出器・系譜・コンパクト力の前の步の速度)。
+  チェックポイント(`ckSnapOne`/`ckRestoreOne` —— 復帰は updateRadii の後に CK_SC を置き直す)と A/B・アプリ内実測の複製(`cloneSimState` の最後の `simStateCopyInto`)が同じ 1 組を写す。
+  含めないもの = `SIM_STEP_SCRATCH`(毎步作り直す作業配列 —— 複製の後で NaN に塗っても走行は同じ)。
+- **build の機能ごとの初期化**: 表 `SIM_BUILD_RESET`(機能・説明・鍵)を build の先頭で `simBuildReset` が消す(本を切り替えた内蔵の sim が新しく組んだ sim と同じ鍵の集合と値になる)。
+- **器と正本**: `tests/exp-w301f-clone.mjs`(版 w301f-clone-1・`W301F_OUT`・`W301F_IDS`・`W301F_N`/`W301F_M`)→ `tests/out/clone-w301f.json`(段 clone-301f)。
+- QA: `behavior.clone2d301`(root は SKIP —— 世代切替 = html の `function simStateCopyInto(`)。

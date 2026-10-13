@@ -76300,6 +76300,119 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
+// ---- 第301便f(DECISIONS v58 の AN288 ③④・統括の検証項目 R184): behavior.clone2d301(新設 —— root は SKIP)—— **複製とチェックポイントの全本の同一**と **build の機能ごとの初期化**。
+// ----   世代切替 has301f = 対象 html に `function simStateCopyInto(`(状態の契約 CK_ARRS・CK_SC・CK_DEEP を複製にも重ねる関数)。既存の三次元の複製の QA(behavior.ckDrag3d299 —— 慣性決定力の本・
+// ----   三次元の帳簿)とは重ねない: こちらは**在位の全本**(二次元・三次元)の全欄の指紋(sim の自前の鍵の全部 —— 器 tests/exp-w301f-clone.mjs の simPrint)で見る。
+// ----   ① 正本 tests/out/clone-w301f.json: 器の版・行の本 = 在位の本(宣言から数える —— familyRole≠"retired")・全行で 複製(N 步 → cloneSimState → 両方 M 步)・
+// ----      復帰(保存 → M 步 → 復帰 → M 步 = 保存しなかった走行)・持ち越し(本を順に開いた内蔵の sim = 同じ本を新しく組んだ sim —— 開いた直後の鍵の集合と M 步後の全欄)が同一・NaN 0
+// ----   ② その場の原因の対照(headless): tint で kRep>0・q>1 の在位の本(宣言から —— 粒子数の最小)で、複製の duT を 0 に戻すと(旧形)Tint が複製の次の 1 步目から分かれ、
+// ----      今の複製は 20 步でも全欄が同一・チェックポイントの往復も同一。CK_ARRS に duT・CK_DEEP に表示の履歴と系譜・SIM_STEP_SCRATCH(作業配列)に duT が無い
+// ----   ③ build の機能ごとの初期化: 三次元の Core 力学の本(宣言から)を走らせた後に二次元の本を開くと、SIM_BUILD_RESET の鍵が新しく組んだ sim と同じ(残らない)・全欄が同一
+// ----   ④ 文書: PHYSICS〔第301便f〕(## 7. の前)・AI_SPEC の第301便f の節・CHANGELOG に第301便f の行
+{
+  const html301f = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has301f = TARGET.startsWith('beta/') && html301f.indexOf('function simStateCopyInto(') >= 0;
+  if (!has301f) {
+    console.log('SKIP behavior.clone2d301(第301便f 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H = null, X = null, J = null;
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
+    try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w301f-clone.mjs')); } catch (e) { bad.push('器 tests/exp-w301f-clone.mjs が読めない: ' + String(e).slice(0, 120)); }
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'clone-w301f.json'), 'utf8')); } catch (e) { bad.push('①正本 tests/out/clone-w301f.json が読めない'); }
+    if (H && X) {
+      const E = H.evalExpr, HP = H.HP;
+      const live = HP.allPresets().filter((p) => p.familyRole !== 'retired');
+      // ① 正本
+      if (J) {
+        if (J.version !== X.HARNESS_VERSION) bad.push('①正本の版 ' + J.version + ' ⇔ 器 ' + X.HARNESS_VERSION);
+        const ids = (J.rows || []).map((r) => r.id).sort(), want = live.map((p) => p.id).sort();
+        if (JSON.stringify(ids) !== JSON.stringify(want)) bad.push(`①正本の行 ${ids.length} 本 ⇔ 在位 ${want.length} 本(宣言から —— 正本を鎖で作り直すこと)`);
+        const ng = (J.rows || []).filter((r) => !(r.ok && r.clone.ok && r.ck.ok && r.fresh.ok && !r.nan && r.open.carried.length === 0 && r.open.val.length === 0));
+        if (ng.length) bad.push('①同一でない本: ' + ng.slice(0, 5).map((r) => `${r.id}[複製 ${r.clone.val.slice(0, 3).join(',')}|復帰 ${r.ck.val.slice(0, 3).join(',')}|持越 ${r.fresh.val.concat(r.open.carried).slice(0, 3).join(',')}]`).join(' '));
+        const s = J.summary || {};
+        if (!(s.books === want.length && s.allOk === s.books && s.scratchOk === s.books && s.d2 + s.d3 === s.books && s.openCarried === 0 && s.nan === 0 && s.reverseOpenNg === 0)) bad.push('①要約 ' + JSON.stringify(s));
+        cases.push(`①正本: 在位 ${s.books} 本(二次元 ${s.d2}・三次元 ${s.d3})・${J.steps.N} 步 → 複製/保存 → ${J.steps.M} 步 —— 複製 ${s.cloneOk}・復帰 ${s.ckOk}・持ち越しなし ${s.freshOk}・作業配列を塗っても同じ ${s.scratchOk}・開いた直後の残り ${s.openCarried}(逆順の開き直し ${s.reverseOpenNg})・NaN ${s.nan}`);
+      }
+      // ② 原因の対照(旧形 = duT を写さない複製)
+      try {
+        const kq = (p) => { const ph = p.physics || {}; const q = (ph.q !== undefined) ? ph.q : E('DEFAULT_PHYSICS.q'); return p.thermal === 'tint' && ph.kRep > 0 && q > 1; };
+        const cand = live.filter(kq).map((p) => ({ p, n: (HP.validatePreset(JSON.parse(JSON.stringify(p))).preset.bodies || []).reduce((a, b) => a + (b.n || 1), 0) })).sort((a, b) => a.n - b.n);
+        if (!cand.length) bad.push('②tint で kRep>0・q>1 の在位の本が無い');
+        else {
+          const p = cand[0].p;
+          const run = (old) => { HP.loadPreset(p.id, false); const G = E('sim'), dt = E('appStepDt')(G);
+            for (let k = 0; k < 20; k++) G.step(dt);
+            const C = E('cloneSimState')(); if (old) C.duT.fill(0);
+            let first = 0;
+            for (let s = 1; s <= 20; s++) { G.step(dt); C.step(dt);
+              if (!first) for (let i = 0; i < G.n; i++) if (!Object.is(G.Tint[i], C.Tint[i])) { first = s; break; } }
+            const d = X.printDiff(X.simPrint(G), X.simPrint(C));
+            return { first, d }; };
+          const o = run(true), nw = run(false);
+          if (!(o.first === 1)) bad.push('②旧形(duT を写さない)の最初の差が 1 步目でない: ' + o.first);
+          if (!(nw.first === 0 && nw.d.val.length === 0 && nw.d.onlyA.length === 0 && nw.d.onlyB.length === 0)) bad.push('②今の複製が同一でない: ' + nw.d.val.concat(nw.d.onlyA, nw.d.onlyB).slice(0, 5).join(','));
+          // チェックポイントの往復
+          HP.loadPreset(p.id, false); const G = E('sim'), dt = E('appStepDt')(G);
+          for (let k = 0; k < 20; k++) G.step(dt);
+          const ck = E('ckSnapOne')(G);
+          for (let k = 0; k < 20; k++) G.step(dt);
+          const p1 = X.simPrint(G);
+          E('ckRestoreOne')(G, ck);
+          for (let k = 0; k < 20; k++) G.step(dt);
+          const dr = X.printDiff(p1, X.simPrint(G));
+          if (dr.val.length || dr.onlyA.length || dr.onlyB.length) bad.push('②チェックポイントの往復が同一でない: ' + dr.val.concat(dr.onlyA, dr.onlyB).slice(0, 5).join(','));
+          const CKA = E('CK_ARRS'), CKD = E('CK_DEEP');
+          if (CKA.indexOf('duT') < 0) bad.push('②CK_ARRS に duT が無い');
+          if (!(Array.isArray(CKD) && ['photons', 'boxHist', 'mech', 'periDet', 'linLog', '_cfVx'].every((k) => CKD.indexOf(k) >= 0))) bad.push('②CK_DEEP ' + JSON.stringify(CKD));
+          const SCR = E('SIM_STEP_SCRATCH'); if (!(Array.isArray(SCR) && SCR.indexOf('duT') < 0 && ['dQi', 'arep', 'arepD', 'ax', 'ay'].every((k) => SCR.indexOf(k) >= 0))) bad.push('②SIM_STEP_SCRATCH ' + JSON.stringify(SCR));
+          // A/B の前に宣言の旗を変える編集(contactMode:"none" —— updateRadii が contactNone を張る)をしてから複製しても同一(B は写した params で旗を張り直す)
+          { HP.loadPreset(p.id, false); const A = E('sim'), dtA = E('appStepDt')(A);
+            for (let k = 0; k < 5; k++) A.step(dtA);
+            A.params.contactMode = 'none'; A.updateRadii();
+            const B = E('cloneSimState')();
+            const fl = [A.contactNone, B.contactNone];
+            for (let k = 0; k < 10; k++) { A.step(dtA); B.step(dtA); }
+            const de = X.printDiff(X.simPrint(A), X.simPrint(B)), scr = new Set(E('SIM_STEP_SCRATCH'));
+            const dv = de.val.concat(de.onlyA, de.onlyB).filter((k) => !scr.has(k));
+            if (!(fl[0] === true && fl[1] === true && dv.length === 0)) bad.push('②編集の後の複製 ' + JSON.stringify({ fl, dv: dv.slice(0, 5) })); }
+          cases.push(`②原因の対照(${p.emoji || ''} ${p.id} —— tint・kRep>0・q>1 の在位で粒子数最小): 旧形(duT を写さない)は複製の次の ${o.first} 步目に Tint が分かれる / 今の複製は 20 步で全欄同一・チェックポイントの往復も同一・A/B の前に contactMode を "none" にしてからの複製も同一(B は写した params で旗を張り直す)`);
+        }
+      } catch (e) { bad.push('②: ' + String(e && e.stack || e).slice(0, 160)); }
+      // ③ build の機能ごとの初期化
+      try {
+        const p3 = live.find((p) => (p.physics || {}).coord === '3d' && ((p.physics || {}).shapeToy || {}).law === 'coreField');
+        const p2 = live.find((p) => (p.physics || {}).coord === undefined && !(p.physics || {}).relativeDrag && p.thermal !== 'tint' && (p.bodies || []).length >= 2 && (p.bodies || []).length <= 4 && p.bodies.every((b) => b.type === 'single'));
+        if (!p3 || !p2) bad.push('③本が見つからない ' + !!p3 + '/' + !!p2);
+        else {
+          HP.loadPreset(p3.id, false); { const S = E('sim'), dt = E('appStepDt')(S); for (let k = 0; k < 3; k++) S.step(dt); }
+          const before = E('simBuildResetKeys')(E('sim')).filter((k) => E('sim')[k] !== undefined).length;
+          HP.loadPreset(p2.id, false);
+          const G = E('sim'), F = E('makeSim')(); F.build(JSON.parse(JSON.stringify(E('currentPreset')))); F.overlays = Object.assign({}, G.overlays);
+          const d = X.printDiff(X.simPrint(G), X.simPrint(F));
+          if (d.onlyA.length || d.onlyB.length || d.val.length) bad.push('③開いた直後が新しく組んだ sim と違う: ' + d.onlyA.concat(d.onlyB, d.val).slice(0, 6).join(','));
+          const feats = E('SIM_BUILD_RESET').map((g) => g.feature);
+          if (!(feats.length >= 10 && ['pairKernel', 'inertialDrag', 'coord3d', 'shapeToy3'].every((f) => feats.indexOf(f) >= 0))) bad.push('③SIM_BUILD_RESET の機能 ' + feats.join(','));
+          cases.push(`③build の機能ごとの初期化(${feats.length} 機能): ${p3.emoji || ''} を走らせた後(機能の鍵 ${before})に ${p2.emoji || ''} を開くと新しく組んだ sim と鍵の集合・全欄が同一`);
+        }
+      } catch (e) { bad.push('③: ' + String(e && e.stack || e).slice(0, 160)); }
+    }
+    // ④ 文書
+    try {
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      const a = PH.indexOf('〔第301便f — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1;
+      if (!(a >= 0 && b > a)) bad.push('④PHYSICS に〔第301便f〕が無い(## 7. の前)');
+      else for (const w of ['duT', 'simStateCopyInto', 'SIM_BUILD_RESET', 'clone-w301f.json']) if (PH.slice(a, b).indexOf(w) < 0) bad.push('④〔第301便f〕に「' + w + '」が無い');
+      if (!/^## \d+\. 第301便f/m.test(AI)) bad.push('④AI_SPEC に第301便f の節が無い');
+      if (!/^- \*\*第301便f/m.test(CL)) bad.push('④CHANGELOG に第301便f の行が無い');
+    } catch (e) { bad.push('④文書が読めない'); }
+    add('behavior.clone2d301', bad.length === 0,
+      `**複製とチェックポイントの全本の同一・build の機能ごとの初期化**(第301便f・AN288 ③④・R184 —— 原因は U_rep の中点補正が次の步で読む duT の写し漏れ・状態の契約は CK_ARRS/CK_SC/CK_DEEP の 1 組): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーのページ/コンテキストを閉じ終えてから共有 browser を閉じる)

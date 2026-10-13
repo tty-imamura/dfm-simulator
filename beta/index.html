@@ -26901,6 +26901,7 @@ function makeSim(){
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
+    simBuildReset(S);   // 第301便f(AN288 ④): 前の本の機能の状態・作業配列を機能ごとに消す(新しく組んだ sim と同じ鍵の集合から始める)
     // v1.12: preset.seed があれば最優先(ID変更で初期配置が変わる問題の解消)。無指定は従来通り
     const rng = mulberry32(isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7));
     const P = [];
@@ -39072,6 +39073,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
+    // 第301便f(AN288 ③・R184): **直前サブステップの δ√T(duT)** —— U_rep の中点補正(arepD=Σ A_ij·duT_j)が**次の步で読む履歴**。
+    //   ここが漏れていたので、tint で kRep>0・q>1 の本(🔥🎈♨️🧬🧊⛓️♻️)は複製の次の 1 步目から Tint が分かれた(duT は B 側の build の 0 のまま)
+    if(sim.duT && simB.duT) simB.duT.set(sim.duT.subarray(0,sim.n));
     // 第53便 53D → 第60便: E14″ の状態(配位数2バッファ・share)も転写する。angNbr は毎パス
     // 再収集なので転写不要。phase 係数の実行中編集も引き継ぐ
     if(sim.coordN && simB.coordN){ simB.coordN.set(sim.coordN); simB.coordAcc.set(sim.coordAcc);
@@ -39160,6 +39164,14 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(sim.box && simB.box) Object.assign(simB.box, sim.box);
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;
   simB.overlays=Object.assign({},sim.overlays);
+  // 第301便f(AN288 ③・R184): チェックポイントと**同じ 1 組の写し**(CK_ARRS・CK_SC・CK_DEEP —— 状態の契約の正本)を最後に重ねる。
+  //   上の個別の転写に無かった帳簿(clamp*・軸力/コンパクト力/引きずりの仕事・Qcs・echo の反転・層の帳簿・明示潮汐の J …)・系譜・
+  //   表示の履歴(光子・箱の履歴・機構スペクトル・近点検出器)も A と同じ瞬間から続く。配列は確保長の短い方まで(生存粒子の外の欄も揃う)
+  //   その前に B の宣言から張る旗(contactNone・hasSpinSpin・hasAxisForce …)を**写した params で張り直す**(updateRadii —— A を A/B の前に編集していると、
+  //   B は本の宣言の旗のまま A の params で走った: 実測 —— 🔥 で contactMode を "none" にしてから A/B を始めると B だけ接触が残り 1 步目から分かれた)。
+  //   updateRadii が 0 に戻す帳簿・読み口は直後の simStateCopyInto が A の値へ置き直す
+  simB.updateRadii();
+  simStateCopyInto(simB, sim);
   return simB;
 }
 // ===== 第175便 ⑤: 簡易ベンチ(描画なしで N 步の ms/步 を測る)=====
@@ -39333,6 +39345,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf",
+  "duT","linId","linN",   // 第301便f(AN288 ③): U_rep の中点補正が次の步で読む δ√T(duT —— 二次元の tint の本の複製・復帰の差の原因)・形成系譜の安定 ID と吸収回数
+  "sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","saOn",   // 第301便f: 三次元の軸の宣言値と歳差(COORD3D_ARRS の残り —— 選択粒子の編集で書き換わる)
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ",
@@ -39350,7 +39364,13 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
   "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
   "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll",
-  "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge",
+  // 第301便f(AN288 ③・R184): build のリセット塊が張る帳簿・読み口のうち、ここに無かったもの(複製 cloneSimState も同じ 1 組を写す —— 値は数・文字列・null だけ)
+  "QcsOld","QcsExact","QcsN","axisU","axisWorkE","axisPhi","axisPhi0","compactU","compactWorkE","compactN","compactGateN","compactChiMin","compactChiMax",
+  "dragWorkE","dragWorkKE","dragSpinE","dragWorkN","dragWorkStop","echoFlipped","echoFlipT","echoRMS","geoToyStop",
+  "layMassRes","layerDv","layerN","layerPairN","layerStop","layerStopN","pairFuseSteps","photonWarn","_phI","linNext","linTrim",
+  "relDragHeat","relDragPos","relDragKickMax","relDragTorqueMax","relDragSlipMax","relDragResL","relDragN",
+  "_psRmin","periSubHits","periSubSteps"];   // 第301便f: 近点サブステップの近点半径(auto は走行中の最小値 —— 次の步が読む)と計数   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 // 第299便a(統括の検証項目 R169・AN277 ⑥): 慣性決定力の**直近の步の値・累計・核の標本**(CK_SC・CK_ARRS の外 —— 宣言した本だけ鍵・配列がある)。
 // チェックポイントと A/B・アプリ内実測の複製(cloneSimState)が**同じ 1 組の写し**で運ぶ(旧: 三次元の帳簿 dL3・軸引きずりの帳簿・累計と
 // 受動プローブ/核が読む標本 _rd* が復帰しなかった —— 保存した瞬間に戻らず、復帰の後の走行で帳簿が「後の步のまま」から積み上がった)。
@@ -39395,6 +39415,7 @@ function ckSnapOne(S){
   if(S.coord3d===true) o.c3={L:S.spin3PrescL.slice(), N:S.spin3PrescN, halt:S.coord3dHalt||null};   // 第298便a: 歳差の拘束の帳簿(配列なので写しで持つ)/ 第299便a: 走行中の門の理由
   const rdk=inertialDragCkSnap(S); if(rdk) o.rd=rdk;   // 第299便a: 慣性決定力の直近の步の値・累計・核の標本(三次元の dL3・軸引きずりの帳簿を含む)
   const stk=shapeToyCkSnap(S); if(stk) o.st=stk;   // 第299便e(R174): 参照模型の潜在・自前の状態・乱数の位置・帳簿(宣言の無い本は null)
+  o.deep={}; for(const k of CK_DEEP) if(S[k]!==undefined) o.deep[k]=ckDeep(S[k]);   // 第301便f: 表示の履歴・系譜(深い写し —— 後の走行が保存側を書き換えない)
   return o;
 }
 function ckRestoreOne(S,o){
@@ -39410,6 +39431,70 @@ function ckRestoreOne(S,o){
   if(S.phHist && o.phHist){ S.phHist.length=0; for(const p of o.phHist) S.phHist.push(Object.assign({},p)); }
   if("fixcap" in o){ S.fixcap=o.fixcap? cloneFixedCaptureState(o.fixcap) : null; S.hasFixedCapture=!!S.fixcap; }   // 第290便d(R128): 保存側を後の走行が書き換えない独立の写し
   S.railIdx=null; S.periDet=null; S.updateRadii();
+  // 第301便f(AN288 ③・R184): updateRadii は宣言から読み口・帳簿の一部を張り直す(geoToyStop の "undeclared"・相対すべりの帳簿の 0 —— build の後段は
+  //   geoToyStop を null に戻すので、保存した瞬間の値と違った)。保存した値を**張り直しの後に**もう一度置く(保存時の params と同じ宣言なので門の値は同じ)
+  for(const k of CK_SC) if(o.sc[k]!==undefined) S[k]=o.sc[k];
+  if(o.deep) for(const k of CK_DEEP) if(k in o.deep) S[k]=ckDeep(o.deep[k]);   // 第301便f: 表示の履歴・系譜・近点検出器(同じ粒子数の復帰だけ —— 添字は保存時と同じ)
+}
+// 第301便f(DECISIONS v58 の AN288 ③・統括の検証項目 R184): **複製とチェックポイントが運ぶ状態の契約**。正本は CK_ARRS(配列)・CK_SC(数・文字列・null の帳簿と読み口)・
+//   CK_DEEP(深い写しで運ぶ表示の履歴と系譜)の 3 つで、チェックポイント(ckSnapOne/ckRestoreOne)と A/B・アプリ内実測の複製(cloneSimState の最後の simStateCopyInto)が
+//   **同じ 1 組**を写す(機能ごとの写し inertialDragCkSnap・shapeToyCkSnap・fixcap・三次元の c3 はそのまま)。
+//   含めないもの: 毎步作り直す作業配列(dQi・arep・arepD・ax・ay・sumW・uAx・uAy・pairD・_Imom・_Warr …—— 步の頭で 0 から積む・次の步は読まない)と
+//   build が宣言から作る定数(echoX0 …)・キャッシュ(railIdx —— 遅延で作り直す)。光子・箱の履歴・機構スペクトル・近点検出器は**表示の履歴**として含める
+//   (第61便の「光子の放出スケジュール進行は対象外」を改めた —— 復帰と複製の後も表示が保存した瞬間から続く)。
+const CK_DEEP=["photons","photonLog","boxHist","mech","periDet","linLog",
+  "_cfVx","_cfVy"];   // コンパクト力の前の步の速度(速度依存分の外部仕事 compactWorkE を次の步が記帳する —— 最初の步が遅延確保するので null も写す)
+// **含めないもの**(毎步作り直す作業配列 —— 步の頭で 0 から積むか、読む前に同じ步で書く。次の步は読まない)。器 tests/exp-w301f-clone.mjs は
+//   この一覧を全欄の比較から外し、代わりに**複製の後でこの一覧を NaN で塗っても M 步後の全欄が同じ**ことで「読まない」を確かめる
+const SIM_STEP_SCRATCH=Object.freeze(["dQi","arep","arepD","ax","ay","az3","sumW","uAx","uAy","ds","dpx","dpy","pairD","coreOmV","angNbr","angNbrN",
+  "_Imom","_Warr","_hasD","_fusDead","_fusInto","_pkC"]);   // _pkC は対ループの核の引数の入れ物(呼ぶたびに張り直す —— 中の参照は上の作業配列)
+function ckDeep(v){
+  if(v===null || typeof v!=="object") return v;
+  if(ArrayBuffer.isView(v)) return v.slice();
+  if(Array.isArray(v)) return v.map(ckDeep);
+  const o={}; for(const k of Object.keys(v)) o[k]=ckDeep(v[k]); return o;
+}
+// ===== 第301便f(DECISIONS v58 の AN288 ④・統括の検証項目 R184): **build の機能ごとの初期化** =====
+// 内蔵の sim は本を切り替えても**同じ物体**で build し直す(loadPreset → sim.build)。步の中で遅延確保する作業配列・キャッシュ(`if(!S._x||S._x.length<n)` の形)と、
+// 宣言した本だけに作る機能の状態・帳簿の鍵は、build の既存のリセット塊が触らないと**前の本のものが残る**(第301便f の実測 —— 在位 119 本を順に開くと 118 本で
+// 前の本の鍵が残り、🥏🧵🍭🎱📀🧹🎢 では三次元の参照模型の帳簿〔SHAPE_TOY3_SC —— shapeToy3Write は「無ければ 0」〕が前の本の値から始まり、🎢 は
+// 腕成分の Core 力学の欄〔cfX …〕が updateRadii の遅延初期化の順で新しく組んだ sim と違った。走行の位置・速度・自転・Tint は全本で不変だった)。
+// build の**先頭**で機能ごとに消す(makeSim の初期形にある鍵は初期値へ・無い鍵は値を undefined へ —— 新しく組んだ sim と同じ値になる)。
+// 宣言した本は build の後段(updateRadii・coord3dPrepare・inertialDragInit・shapeToy3Write …)が従来どおり作り直す。器の対照の旗(pairFuseOff)と
+// アプリが外から張る鍵(onCompact)は消さない(この表に無い)。
+const SIM_BUILD_RESET=Object.freeze([
+  {feature:"pairKernel", ja:"対ループの作業(核の文脈・慣性モーメント・カーネル種別・チャネル分離の文脈)", keys:["_pkC","_kKind","_Imom","_chG"]},
+  {feature:"frameReaction", ja:"E6′ 反作用の作業(W_j と Δp の有無)", keys:["_Warr","_hasD"]},
+  {feature:"compactForce", ja:"コンパクト連星の追加対力の作業", keys:["_cfAx","_cfAy","_cfW"]},
+  {feature:"spinSpin", ja:"スピン双極子間力の作業", keys:["_ssAx","_ssAy","_ssQ"]},
+  {feature:"fusion", ja:"融合の作業", keys:["_fusDead","_fusInto"]},
+  {feature:"pn1", ja:"1PN の源と場の作業", keys:["_pn1","_pn1K","_pn1W"]},
+  {feature:"testParticle", ja:"試験粒子の控え", keys:["_tpSnap"]},
+  {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)", re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
+  {feature:"coord3d", ja:"三次元の軸の宣言値・歳差・規定運動の帳簿(二次元の本へ持ち越さない)", keys:["sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","spin3PrescL","spin3PrescN"]},
+  {feature:"shapeToy3", ja:"三次元の参照模型の帳簿と作業(SHAPE_TOY3_SC・控え)", keys:["_st3P","_st3C","_st3V","cfVzS"], list:"SHAPE_TOY3_SC"},
+  {feature:"shapeToy", ja:"参照模型の潜在・Core 力学・渦巻の状態と乱数(updateRadii の遅延初期化を新しく組んだ sim と同じ順・同じ乱数にする)", keys:["_stRng","_spRng","_stG","_spG","_stSeed"], list:"SHAPE_TOY_CK_ARRS"}]);
+const SIM_BUILD_INIT=Object.freeze({_pkC:null, _kKind:0});   // makeSim の初期形にある鍵(初期値へ戻す)
+function simBuildResetKeys(S){
+  const out=[], lists={SHAPE_TOY3_SC, SHAPE_TOY_CK_ARRS};
+  for(const g of SIM_BUILD_RESET){
+    if(g.keys) for(const k of g.keys) out.push(k);
+    if(g.list) for(const k of lists[g.list]) out.push(k);
+    if(g.re && S) for(const k of Object.keys(S)) if(g.re.test(k)) out.push(k);
+  }
+  return out;
+}
+// 消し方は「値を undefined に」(鍵は残す —— コードは鍵の有無を読まず値だけを読むので、新しく組んだ sim の「鍵が無い」と同じに振る舞う)。
+//   delete は sim を V8 の辞書モードへ落とし、A/B の步が遅くなった(第301便f の実測 —— tests/exp-w258e-jitprobe.mjs の bhCore で基点比 ×1.38〜1.50 → undefined で ×1.03)
+function simBuildReset(S){
+  for(const k of simBuildResetKeys(S)){ if(k in SIM_BUILD_INIT) S[k]=SIM_BUILD_INIT[k]; else if(S[k]!==undefined) S[k]=undefined; }
+}
+// D ← S(同じ本で build した D へ。配列は確保長の短い方まで —— 生存粒子の外の欄も揃う。帳簿は数・文字列・null だけ)
+function simStateCopyInto(D,S){
+  for(const k of CK_ARRS){ const a=S[k], b=D[k];
+    if(a && b && a!==b && ArrayBuffer.isView(a) && ArrayBuffer.isView(b)){ const L=Math.min(a.length,b.length); b.set(L===a.length? a : a.subarray(0,L)); } }
+  for(const k of CK_SC){ const v=S[k]; if(v!==undefined && (v===null || typeof v!=="object")) D[k]=v; }
+  for(const k of CK_DEEP) if(S[k]!==undefined) D[k]=ckDeep(S[k]);
 }
 $("#btnCkSave").addEventListener("click",()=>{
   ckSnap={a:ckSnapOne(sim), b:ab? ckSnapOne(ab.simB) : null};
