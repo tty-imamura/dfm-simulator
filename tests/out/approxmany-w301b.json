@@ -357,7 +357,7 @@
     ],
     "resMax": 4.5698e-16,
     "fail": 0,
-    "wallSec": 3.003
+    "wallSec": 1.399
    },
    "B": {
     "bands": [
@@ -1173,28 +1173,28 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.045
+   "wallSec": 0.036
   },
   "zero": {
-   "wallSec": 5.235
+   "wallSec": 3.687
   },
   "effect": {
-   "wallSec": 5.879
+   "wallSec": 4.857
   },
   "remeasure": {
-   "wallSec": 0.006
+   "wallSec": 0.008
   },
   "audit": {
    "wallSec": 0.001
   }
  },
- "elapsedS": 11.166,
+ "elapsedS": 8.589,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
   "targetSha256": "70017aab54401d79a7bd3ad0c50f99462e3349b622f4dbd389e8ed127ee869af",
-  "generatedAt": "2026-10-13T02:13:18.542Z",
+  "generatedAt": "2026-10-13T02:16:08.758Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1218,9 +1218,9 @@
   "code": [
    {
     "file": "tests/exp-w301b-approxmany.mjs",
-    "bytes": 29455,
-    "sha256": "4f38a34efdffbebd21925feb28e12b963e58b44bbf9089cb34b9e0b212f72dda",
-    "mtime": "2026-10-13T01:53:49.435Z"
+    "bytes": 29717,
+    "sha256": "405568a81824c664dcabb5a1dbed52c517a8eaaf94f54b213bb89684a7dec716",
+    "mtime": "2026-10-13T02:15:53.782Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
@@ -1259,7 +1259,7 @@
     "mtime": "2026-10-13T00:36:28.530Z"
    }
   ],
-  "codeSha256": "13de2ad61d660322d3a513bf3731d8153397e8ce0fe69c5156607eb8938163f3",
+  "codeSha256": "2b2da522d98cc08b7d3d3ae7d37474a814218d2be485fa1aad431a19fb12a689",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
@@ -1268,6 +1268,7 @@
    "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
+    "DT",
     "HP.APPROX_MANY_STATE_VERSION",
     "HP.REL_DRAG_SOLVER_TOL_DEFAULT",
     "HP.allPresets",
@@ -1277,19 +1278,38 @@
     "HP.coord3d",
     "HP.dfmMeshVelocityFieldAt",
     "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeReady",
+    "HP.inertialDragProbeSample",
+    "HP.inertialDragProbeStreamlines",
     "HP.inertialDragState",
+    "HP.loadPreset",
     "HP.presetSig",
+    "HP.sim",
+    "HP.stepCarryFrame",
     "HP.validateApproxMany",
-    "HP.validatePreset"
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "abStart",
+    "abStop",
+    "appStepFn",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "cw",
+    "sim"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1228,
-   "segments": 1115,
-   "closureShare": 0.3195
+   "names": 1232,
+   "segments": 1119,
+   "closureShare": 0.3205
   },
-  "scopeSha256": "ddcc1c975a807d4ea3d26bf4205a77f86ff5ed134444793ef2e0aa7fa11c8dd6",
+  "scopeSha256": "f822a433afe7b0e23a2916dadb9341bfcebfa00d7e62340d5a05f007b0cdf824",
   "scopeComplete": true,
   "inputsStable": [
    {
