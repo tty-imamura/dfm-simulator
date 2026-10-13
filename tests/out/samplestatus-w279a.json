@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.45-b300",
+  "betaBuild": "v1.45-b301",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,32 +13,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-  "generatedAt": "2026-10-12T10:10:10.825Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T16:17:57.370Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 110457,
-    "sha256": "62cf3cccd3f419b75e519a3be1120be107b7fcb74c44be9e4ccf5e9132f4088a",
-    "mtime": "2026-10-12T05:11:05.890Z"
+    "bytes": 111172,
+    "sha256": "f0446eebe9b011e9437d9526fda6d8cea354e00716ea96bc05e6719c8e448bb9",
+    "mtime": "2026-10-13T09:25:15.374Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1721927,
-    "sha256": "0f0f287e52ed33439efa6fa1eec351a5040014c19e3ec8e3c4d7e443c1b8b456",
-    "mtime": "2026-10-12T09:11:05.462Z"
+    "bytes": 1719829,
+    "sha256": "69ab05522ed09cb693ef1c2851c4efb370db34a3f10e3fd00bc557e20cbfa038",
+    "mtime": "2026-10-13T13:42:32.937Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90759,
-    "sha256": "797b427f2929aa435db333c38e1d5bd3aab89165f90ec1ba1c03b9f42e5fb438",
-    "mtime": "2026-10-12T06:03:49.666Z"
+    "bytes": 90752,
+    "sha256": "b00804f67882930c4d9fbd1b0b8dae7ca249fec602f35e615f6db31d3fcf118d",
+    "mtime": "2026-10-13T13:45:44.881Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 150953,
-    "sha256": "d5439e688d2ca7c1ee6ed0b946cb09f93ffd7870aef28818cd08c5d546fd6b69",
-    "mtime": "2026-10-12T10:10:10.790Z"
+    "bytes": 163572,
+    "sha256": "af9404151e320d02fad7d1e731e4b734b574f5dd62ad64988bae07724065d51e",
+    "mtime": "2026-10-13T16:17:57.332Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -76,7 +76,7 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 32401,
     "sha256": "51bcdbd8f9bc0da0028f077c72686005763922816ad13f2f2e65584aa1669963",
-    "mtime": "2026-10-12T02:08:13.367Z"
+    "mtime": "2026-10-12T15:16:39.494Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
@@ -106,14 +106,14 @@
   "codeSha256": "e0e17584b27ff4cc9dd693845632b0264526dea9c2f17b374c5ea8fa29cc4ca4",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "2e893032df6f85dda2e3acd333afc444e4ce7132",
-   "date": "2026-10-11T16:30:51.257Z",
-   "pass": 1129
+   "commit": "2db0807beb6f3cda42b3bdf1b29eaf2e6dc9b26d",
+   "date": "2026-10-13T12:41:18.747Z",
+   "pass": 1150
   }
  },
  "tally": {
   "objective": {
-   "met": 81,
+   "met": 82,
    "partial": 35,
    "unmet": 3,
    "n/a": 0
@@ -124,7 +124,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 100
+   "out-of-scope": 101
   },
   "four": {
    "合": 0,
@@ -136,7 +136,7 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 11
+    "n": 12
    },
    {
     "group": "銀河の力学",
@@ -204,13 +204,13 @@
     "n": 0
    }
   ],
-  "n": 119,
+  "n": 120,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 175,
+   "n": 176,
    "objective": {
-    "met": 107,
+    "met": 108,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -221,7 +221,7 @@
     "fail": 1,
     "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 154
+    "out-of-scope": 155
    },
    "four": {
     "合": 0,
@@ -525,6 +525,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -534,23 +558,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17027,
+     "ms": 17071,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 16780,
+       "ms": 16458,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 220,
+       "ms": 577,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 27,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -781,6 +805,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -790,17 +838,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 69,
+     "ms": 71,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 52,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 17,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       },
@@ -1042,6 +1090,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1051,17 +1123,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 132,
+     "ms": 145,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 100,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 32,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -1291,6 +1363,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1300,17 +1396,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 135,
+     "ms": 181,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 100,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 35,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       }
@@ -1540,6 +1636,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1549,17 +1669,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 122,
+     "ms": 148,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 100,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 22,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -1790,6 +1910,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1799,11 +1943,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 17,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 17,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
@@ -2040,6 +2184,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2049,23 +2217,23 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1078,
+     "ms": 1126,
      "tests": [
       {
-       "id": "echo.leapfrog-return",
-       "ms": 427,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "echo.hud",
-       "ms": 380,
+       "ms": 484,
        "pass": true,
        "via": "targetIds"
       },
       {
+       "id": "echo.leapfrog-return",
+       "ms": 404,
+       "pass": true,
+       "via": "claims+targetIds"
+      },
+      {
        "id": "shot.regress-echo",
-       "ms": 195,
+       "ms": 167,
        "pass": true,
        "via": "targetIds"
       },
@@ -2077,7 +2245,7 @@
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 11,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -2307,6 +2475,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2316,11 +2508,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 205,
+     "ms": 290,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 205,
+       "ms": 290,
        "pass": true,
        "via": "targetIds"
       }
@@ -2550,6 +2742,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2559,11 +2775,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 232,
+     "ms": 242,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 232,
+       "ms": 242,
        "pass": true,
        "via": "targetIds"
       }
@@ -2793,6 +3009,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2802,11 +3042,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 448,
+     "ms": 324,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 448,
+       "ms": 324,
        "pass": true,
        "via": "targetIds"
       }
@@ -3036,6 +3276,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3045,17 +3309,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 345,
+     "ms": 359,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 209,
+       "ms": 200,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 136,
+       "ms": 159,
        "pass": true,
        "via": "targetIds"
       }
@@ -3285,6 +3549,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3294,17 +3582,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 529,
+     "ms": 449,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 453,
+       "ms": 412,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 76,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -3534,6 +3822,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3543,11 +3855,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 153,
+     "ms": 226,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 153,
+       "ms": 226,
        "pass": true,
        "via": "targetIds"
       }
@@ -3777,6 +4089,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3786,23 +4122,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 195,
+     "ms": 193,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 133,
+       "ms": 132,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 37,
+       "ms": 45,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 25,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -4032,6 +4368,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4041,17 +4401,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 210,
+     "ms": 241,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 117,
+       "ms": 169,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 93,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -4281,6 +4641,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4290,35 +4674,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2874,
+     "ms": 2935,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1589,
+       "ms": 1680,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 589,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-freebox",
-       "ms": 343,
+       "ms": 473,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 311,
+       "ms": 422,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 313,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 35,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -4548,6 +4932,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4557,11 +4965,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4603,
+     "ms": 5096,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4602,
+       "ms": 5095,
        "pass": true,
        "via": "targetIds"
       },
@@ -4821,6 +5229,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4830,17 +5262,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13059,
+     "ms": 12847,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 8364,
+       "ms": 7287,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4695,
+       "ms": 5560,
        "pass": true,
        "via": "targetIds"
       },
@@ -5076,6 +5508,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5085,17 +5541,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 81982,
+     "ms": 89277,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 77159,
+       "ms": 83927,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4823,
+       "ms": 5350,
        "pass": true,
        "via": "targetIds"
       }
@@ -5325,6 +5781,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5334,17 +5814,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 196010,
+     "ms": 195091,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 189202,
+       "ms": 188203,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6808,
+       "ms": 6888,
        "pass": true,
        "via": "targetIds"
       }
@@ -5574,6 +6054,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5583,11 +6087,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4076,
+     "ms": 3903,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 4076,
+       "ms": 3903,
        "pass": true,
        "via": "targetIds"
       },
@@ -5823,6 +6327,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5832,29 +6360,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9217,
+     "ms": 8539,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 5820,
+       "ms": 4653,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3278,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "darkrotor.allfree",
-       "ms": 76,
+       "ms": 3763,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 43,
+       "ms": 82,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "darkrotor.allfree",
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -6084,6 +6612,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6093,17 +6645,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1086,
+     "ms": 1174,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 975,
+       "ms": 1034,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 111,
+       "ms": 140,
        "pass": true,
        "via": "targetIds"
       }
@@ -6333,6 +6885,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6342,17 +6918,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5270,
+     "ms": 4935,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4981,
+       "ms": 4638,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 289,
+       "ms": 297,
        "pass": true,
        "via": "targetIds"
       }
@@ -6582,6 +7158,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6591,17 +7191,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5775,
+     "ms": 5288,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 5347,
+       "ms": 4841,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 428,
+       "ms": 447,
        "pass": true,
        "via": "targetIds"
       }
@@ -6831,6 +7431,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6840,23 +7464,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 35161,
+     "ms": 32190,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 26368,
+       "ms": 24088,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 8595,
+       "ms": 7912,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 198,
+       "ms": 190,
        "pass": true,
        "via": "targetIds"
       }
@@ -7086,6 +7710,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7095,11 +7743,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3256,
+     "ms": 4225,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3256,
+       "ms": 4225,
        "pass": true,
        "via": "targetIds"
       },
@@ -7347,6 +7995,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7356,11 +8028,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2954,
+     "ms": 3379,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2954,
+       "ms": 3379,
        "pass": true,
        "via": "targetIds"
       }
@@ -7590,6 +8262,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7599,17 +8295,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7897,
+     "ms": 7973,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 7171,
+       "ms": 7424,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 726,
+       "ms": 549,
        "pass": true,
        "via": "targetIds"
       }
@@ -7839,6 +8535,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7848,17 +8568,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 30785,
+     "ms": 31887,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 29109,
+       "ms": 30308,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1676,
+       "ms": 1579,
        "pass": true,
        "via": "targetIds"
       },
@@ -8095,6 +8815,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8104,11 +8848,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7512,
+     "ms": 8319,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 7512,
+       "ms": 8319,
        "pass": true,
        "via": "targetIds"
       }
@@ -8339,6 +9083,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8348,11 +9116,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7225,
+     "ms": 7593,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 7225,
+       "ms": 7593,
        "pass": true,
        "via": "targetIds"
       }
@@ -8583,6 +9351,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8592,11 +9384,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6821,
+     "ms": 8670,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 6821,
+       "ms": 8670,
        "pass": true,
        "via": "targetIds"
       }
@@ -8826,6 +9618,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8835,11 +9651,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1434,
+     "ms": 1668,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1434,
+       "ms": 1668,
        "pass": true,
        "via": "targetIds"
       },
@@ -9087,6 +9903,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9096,17 +9936,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4177,
+     "ms": 5090,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 4176,
+       "ms": 5090,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -9349,6 +10189,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9358,11 +10222,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7941,
+     "ms": 9343,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7941,
+       "ms": 9343,
        "pass": true,
        "via": "targetIds"
       }
@@ -9598,6 +10462,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9607,11 +10495,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1912,
+     "ms": 2267,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1912,
+       "ms": 2267,
        "pass": true,
        "via": "targetIds"
       }
@@ -9895,6 +10783,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9904,11 +10816,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2032,
+     "ms": 2034,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 2032,
+       "ms": 2034,
        "pass": true,
        "via": "targetIds"
       }
@@ -10146,6 +11058,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -10394,6 +11330,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -10647,6 +11607,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10656,11 +11640,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13024,
+     "ms": 14991,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 13024,
+       "ms": 14991,
        "pass": true,
        "via": "targetIds"
       }
@@ -10911,6 +11895,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -11181,6 +12189,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11431,6 +12463,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -11691,6 +12747,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11700,11 +12780,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 600,
+     "ms": 867,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 600,
+       "ms": 867,
        "pass": true,
        "via": "targetIds"
       }
@@ -11954,6 +13034,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11963,11 +13067,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 830,
+     "ms": 897,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 830,
+       "ms": 897,
        "pass": true,
        "via": "targetIds"
       }
@@ -12229,6 +13333,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12238,11 +13366,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 361,
+     "ms": 440,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 361,
+       "ms": 440,
        "pass": true,
        "via": "targetIds"
       }
@@ -12485,6 +13613,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12494,29 +13646,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7825,
+     "ms": 9596,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 5910,
+       "ms": 7567,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1657,
+       "ms": 1626,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 173,
+       "ms": 309,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 85,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -12760,6 +13912,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12769,11 +13945,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 608,
+     "ms": 561,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 608,
+       "ms": 561,
        "pass": true,
        "via": "targetIds"
       }
@@ -13023,6 +14199,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13032,11 +14232,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 738,
+     "ms": 853,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 738,
+       "ms": 853,
        "pass": true,
        "via": "targetIds"
       }
@@ -13286,6 +14486,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13295,11 +14519,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 329,
+     "ms": 446,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 329,
+       "ms": 446,
        "pass": true,
        "via": "targetIds"
       }
@@ -13542,6 +14766,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13551,29 +14799,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7825,
+     "ms": 9596,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 5910,
+       "ms": 7567,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1657,
+       "ms": 1626,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 173,
+       "ms": 309,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 85,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -13804,6 +15052,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13817,13 +15089,13 @@
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 175,
+       "ms": 166,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 42,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -14053,6 +15325,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14062,11 +15358,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 24,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 24,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       },
@@ -14302,6 +15598,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14311,17 +15631,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 74,
+     "ms": 99,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 49,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 25,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -14551,6 +15871,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14560,17 +15904,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 436,
+     "ms": 514,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 398,
+       "ms": 484,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 38,
+       "ms": 30,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -14842,6 +16186,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14851,23 +16219,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 35502,
+     "ms": 35559,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 30773,
+       "ms": 30392,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2442,
+       "ms": 2958,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2287,
+       "ms": 2209,
        "pass": true,
        "via": "targetIds"
       }
@@ -15097,6 +16465,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15106,23 +16498,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 18352,
+     "ms": 18752,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 14567,
+       "ms": 14710,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2196,
+       "ms": 2362,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1589,
+       "ms": 1680,
        "pass": true,
        "via": "targetIds"
       }
@@ -15352,6 +16744,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15361,29 +16777,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 1053,
+     "ms": 1194,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 786,
+       "ms": 990,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 191,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "conduction.pinned-zero-cost",
-       "ms": 42,
+       "ms": 140,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
        "ms": 34,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "conduction.pinned-zero-cost",
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -15613,6 +17029,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15622,11 +17062,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1186,
+     "ms": 1273,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1186,
+       "ms": 1273,
        "pass": true,
        "via": "targetIds"
       }
@@ -15856,6 +17296,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15865,17 +17329,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 24,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 24,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "new.coolrace",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -16105,6 +17569,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16114,23 +17602,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4228,
+     "ms": 4078,
      "tests": [
       {
        "id": "preset.convection",
-       "ms": 2263,
+       "ms": 2247,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-convection",
-       "ms": 1941,
+       "ms": 1805,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 24,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -16366,6 +17854,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16375,17 +17887,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2975,
+     "ms": 2860,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2974,
+       "ms": 2860,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -16615,6 +18127,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16624,11 +18160,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2076,
+     "ms": 2286,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 2076,
+       "ms": 2286,
        "pass": true,
        "via": "targetIds"
       },
@@ -16864,6 +18400,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16873,25 +18433,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 943,
+     "ms": 1036,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 942,
+       "ms": 1036,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "behavior.phase-multiseed",
-       "ms": 1,
-       "pass": true,
-       "via": "claims"
       },
       {
        "id": "phasechange.emergent",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -17119,6 +18679,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17128,25 +18712,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2211,
+     "ms": 2680,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2210,
+       "ms": 2680,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "behavior.phase-multiseed",
-       "ms": 1,
-       "pass": true,
-       "via": "claims"
       },
       {
        "id": "phasechange.emergent2",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -17374,6 +18958,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17383,25 +18991,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1168,
+     "ms": 1145,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 1167,
+       "ms": 1145,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "behavior.phase-multiseed",
-       "ms": 1,
-       "pass": true,
-       "via": "claims"
       },
       {
        "id": "phasechange.chain2",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -17630,6 +19238,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17639,25 +19271,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1638,
+     "ms": 1517,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1637,
+       "ms": 1517,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "behavior.phase-multiseed",
-       "ms": 1,
-       "pass": true,
-       "via": "claims"
       },
       {
        "id": "claim.chaincycle",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -17891,6 +19523,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17900,23 +19556,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 565,
+     "ms": 519,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 346,
+       "ms": 303,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 144,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 75,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -18152,6 +19808,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18161,17 +19841,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1466,
+     "ms": 1517,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1391,
+       "ms": 1485,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 75,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -18217,17 +19897,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 151.23399999999998,
+     "wallSec": 161.22199999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 50.955,
+       "wallSec": 53.994,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 100.279,
+       "wallSec": 107.228,
        "reused": false,
        "reusedBy": null
       }
@@ -18472,6 +20152,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18481,11 +20185,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 16,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -18721,6 +20425,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18730,23 +20458,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3743,
+     "ms": 3371,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3717,
+       "ms": 3283,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 22,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 4,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -19033,6 +20761,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19042,11 +20794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 101,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 101,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       }
@@ -19300,6 +21052,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19309,29 +21085,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 826,
+     "ms": 581,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 776,
+       "ms": 442,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 32,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 16,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.dragCoreFit",
-       "ms": 2,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -19573,6 +21349,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19582,11 +21382,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 41,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 40,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
@@ -19848,6 +21648,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19857,11 +21681,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 73,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 72,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       },
@@ -19913,17 +21737,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.294,
+     "wallSec": 5.118,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.514,
+       "wallSec": 1.822,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.78,
+       "wallSec": 3.296,
        "reused": false,
        "reusedBy": null
       }
@@ -20150,6 +21974,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20159,11 +22007,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 24,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -20405,6 +22253,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20414,17 +22286,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 255,
+     "ms": 245,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 252,
+       "ms": 240,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 5,
        "pass": true,
        "via": "targetIds"
       }
@@ -20650,6 +22522,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -20902,6 +22798,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21140,6 +23060,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -21393,6 +23337,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21402,11 +23370,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 40,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -21648,6 +23616,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21657,17 +23649,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1036,
+     "ms": 1295,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 968,
+       "ms": 1253,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 68,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -21909,6 +23901,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21918,17 +23934,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1045,
+     "ms": 1299,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 968,
+       "ms": 1253,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 77,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -22164,6 +24180,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22173,17 +24213,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 787,
+     "ms": 724,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 744,
+       "ms": 706,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 43,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -22230,17 +24270,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.965,
+     "wallSec": 10.015,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.316,
+       "wallSec": 3.365,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.649,
+       "wallSec": 6.65,
        "reused": false,
        "reusedBy": null
       }
@@ -22473,6 +24513,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22482,11 +24546,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 24,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -22722,6 +24786,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22731,17 +24819,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 255,
+     "ms": 245,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 252,
+       "ms": 240,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 5,
        "pass": true,
        "via": "targetIds"
       }
@@ -22973,6 +25061,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -23213,6 +25325,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23445,6 +25581,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -23685,6 +25845,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -23917,6 +26101,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -24157,6 +26365,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24180,21 +26412,22 @@
    "status": {
     "purpose": "土星の輪を三次元の赤道面に置き面の保持と損失を測る",
     "objective": "met",
-    "state": "C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒",
+    "state": "C環内縁 20828.3 s(h/2 20824.9)・面の角 1.5e-6°・損失 0・帯は塵(有限質量の粒)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/saturnring3d-w300c.json"
+     "tests/out/saturnring3d-w300c.json",
+     "tests/out/approxmany-w301b.json"
     ],
     "en": {
      "purpose": "Saturn's rings on the 3D equator; measure plane and loss",
-     "state": "C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains",
+     "state": "C-ring inner edge 20828.3 s (h/2 20824.9); plane 1.5e-6 deg; lost 0; grains are dust (finite mass)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Saturn's rings on the 3D equator; measure plane and loss. Met: C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains. Out of calibration scope."
+     "brief": "Saturn's rings on the 3D equator; measure plane and loss. Met: C-ring inner edge 20828.3 s (h/2 20824.9); plane 1.5e-6 deg; lost 0; grains are dust (finite mass). Out of calibration scope."
     },
-    "brief": "土星の輪を三次元の赤道面に置き面の保持と損失を測る。達・C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒。較正対象外。"
+    "brief": "土星の輪を三次元の赤道面に置き面の保持と損失を測る。達・C環内縁 20828.3 s(h/2 20824.9)・面の角 1.5e-6°・損失 0・帯は塵(有限質量の粒)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -24389,6 +26622,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -24629,6 +26886,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24861,6 +27142,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -25114,6 +27419,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25123,11 +27452,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 23,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -25359,6 +27688,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -25613,6 +27966,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25622,11 +27999,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 32,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -25871,6 +28248,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25880,17 +28281,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2291,
+     "ms": 2987,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 2243,
+       "ms": 2921,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 48,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -25936,17 +28337,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 52.275000000000006,
+     "wallSec": 53.516000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.48,
+       "wallSec": 18.824,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.795,
+       "wallSec": 34.692,
        "reused": false,
        "reusedBy": null
       }
@@ -26173,6 +28574,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26182,17 +28607,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 480,
+     "ms": 645,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 455,
+       "ms": 626,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 25,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -26238,17 +28663,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 28.365000000000002,
+     "wallSec": 28.061,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.251,
+       "wallSec": 9.13,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 19.114,
+       "wallSec": 18.931,
        "reused": false,
        "reusedBy": null
       }
@@ -26511,6 +28936,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26520,17 +28969,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6129,
+     "ms": 6413,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 6116,
+       "ms": 6376,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 13,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -26576,17 +29025,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.089,
+     "wallSec": 20.630000000000003,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.712,
+       "wallSec": 7.128,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.377,
+       "wallSec": 13.502,
        "reused": false,
        "reusedBy": null
       }
@@ -26813,6 +29262,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -26822,11 +29295,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 14,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 14,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -27154,6 +29627,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27163,11 +29660,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 25,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
@@ -27433,6 +29930,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27442,17 +29963,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 17373,
+     "ms": 19440,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 17317,
+       "ms": 19394,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 56,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -27707,6 +30228,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27716,11 +30261,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 37,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 37,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -27766,17 +30311,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 279.891,
+     "wallSec": 292.88599999999997,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 93.954,
+       "wallSec": 98.972,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 185.937,
+       "wallSec": 193.914,
        "reused": false,
        "reusedBy": null
       }
@@ -28057,6 +30602,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28066,11 +30635,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 25,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -28306,6 +30875,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28315,17 +30908,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 255,
+     "ms": 245,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 252,
+       "ms": 240,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 5,
        "pass": true,
        "via": "targetIds"
       }
@@ -28551,6 +31144,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -28797,6 +31414,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -28806,11 +31447,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 47,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -29053,6 +31694,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29114,11 +31779,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 63.176,
+     "wallSec": 61.794,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 63.176,
+       "wallSec": 61.794,
        "reused": false,
        "reusedBy": null
       }
@@ -29333,6 +31998,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29342,11 +32031,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 39,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 38,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -29398,17 +32087,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.3020000000000005,
+     "wallSec": 7.694,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.253,
+       "wallSec": 2.442,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.049,
+       "wallSec": 5.252,
        "reused": false,
        "reusedBy": null
       }
@@ -29671,6 +32360,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29734,30 +32447,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.305,
+     "wallSec": 72.471,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.305,
+       "wallSec": 15.907,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 27.413,
+       "wallSec": 26.81,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 56.545,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 56.564,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 83.958,
-     "reusedH2Sec": 27.413,
-     "reusedH4Sec": 56.545
+     "reusedSec": 26.81,
+     "reusedH2Sec": 26.81,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -30013,6 +32726,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30022,17 +32759,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4666,
+     "ms": 5212,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 4646,
+       "ms": 5194,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 20,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -30293,6 +33030,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30302,17 +33063,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4701,
+     "ms": 5278,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 4646,
+       "ms": 5194,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 55,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       }
@@ -30356,30 +33117,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.777,
+     "wallSec": 43.789,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.777,
+       "wallSec": 9.5,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.333,
+       "wallSec": 15.9,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 31.418,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 34.289,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 46.751,
-     "reusedH2Sec": 15.333,
-     "reusedH4Sec": 31.418
+     "reusedSec": 15.9,
+     "reusedH2Sec": 15.9,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -30635,6 +33396,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30644,17 +33429,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3903,
+     "ms": 3973,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3884,
+       "ms": 3945,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -30915,6 +33700,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30924,17 +33733,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3952,
+     "ms": 4011,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3884,
+       "ms": 3945,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 68,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -30981,17 +33790,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.631,
+     "wallSec": 14.009,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.333,
+       "wallSec": 4.645,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.298,
+       "wallSec": 9.364,
        "reused": false,
        "reusedBy": null
       }
@@ -31230,6 +34039,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31239,11 +34072,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 30,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 29,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       },
@@ -31546,6 +34379,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31555,17 +34412,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 9916,
+     "ms": 10288,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 9852,
+       "ms": 10230,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 64,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -31796,6 +34653,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31805,11 +34686,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 45,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -32058,6 +34939,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32067,11 +34972,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 109,
+     "ms": 101,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 109,
+       "ms": 101,
        "pass": true,
        "via": "targetIds"
       }
@@ -32118,17 +35023,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.529,
+     "wallSec": 10.132,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.031,
+       "wallSec": 3.282,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.498,
+       "wallSec": 6.85,
        "reused": false,
        "reusedBy": null
       }
@@ -32397,6 +35302,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32406,11 +35335,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -32457,17 +35386,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.162,
+     "wallSec": 4.016,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.456,
+       "wallSec": 1.417,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.706,
+       "wallSec": 2.599,
        "reused": false,
        "reusedBy": null
       }
@@ -32736,6 +35665,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32745,11 +35698,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 17,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -32998,6 +35951,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33007,11 +35984,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 60,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -33260,6 +36237,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33269,11 +36270,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 34,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -33522,6 +36523,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33531,11 +36556,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 33,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -33784,6 +36809,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33793,11 +36842,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 59,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -34046,6 +37095,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34055,11 +37128,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 46,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -34308,6 +37381,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34317,11 +37414,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 60,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -34368,17 +37465,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 64.565,
+     "wallSec": 66.375,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 21.311,
+       "wallSec": 22.193,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 43.254,
+       "wallSec": 44.182,
        "reused": false,
        "reusedBy": null
       }
@@ -34599,6 +37696,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34608,11 +37729,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 17,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -34909,6 +38030,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34918,11 +38063,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 33,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -35171,6 +38316,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35180,11 +38349,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 42,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -35420,6 +38589,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35429,11 +38622,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 16,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -35675,6 +38868,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35684,23 +38901,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 4425,
+     "ms": 3626,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 3362,
+       "ms": 3142,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 1044,
+       "ms": 470,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -35930,6 +39147,36 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chainburst-301d",
+      "sec": 900,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35939,17 +39186,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 407,
+     "ms": 627,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 354,
+       "ms": 340,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 53,
+       "ms": 287,
        "pass": true,
        "via": "targetIds"
       }
@@ -36185,6 +39432,36 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chainburst-301d",
+      "sec": 900,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36208,7 +39485,7 @@
    "status": {
     "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
     "objective": "met",
-    "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)",
+    "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0213(総和正規化後・姿勢のみ)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -36217,12 +39494,12 @@
     ],
     "en": {
      "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
-     "state": "out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285",
+     "state": "z offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.0213 (normalised)",
      "mismatch": null,
      "outlook": null,
-     "brief": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag. Met: out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285. Out of calibration scope."
+     "brief": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag. Met: z offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.0213 (normalised). Out of calibration scope."
     },
-    "brief": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る。達・面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)。較正対象外。"
+    "brief": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る。達・面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0213(総和正規化後・姿勢のみ)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -36421,6 +39698,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36444,21 +39745,22 @@
    "status": {
     "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
     "objective": "met",
-    "state": "重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす",
+    "state": "天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/geo4stable-w299d.json"
+     "tests/out/geo4stable-w299d.json",
+     "tests/out/approxmany-w301b.json"
     ],
     "en": {
      "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
-     "state": "no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met",
+     "state": "body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met",
      "mismatch": null,
      "outlook": null,
-     "brief": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions. Met: no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met. Out of calibration scope."
+     "brief": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions. Met: body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met. Out of calibration scope."
     },
-    "brief": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る。達・重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす。較正対象外。"
+    "brief": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る。達・天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -36660,6 +39962,296 @@
       "key": "saturnring3d-300c",
       "sec": 165,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 95,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "name": "連鎖引きずりの殻の放出(三次元)— 自転する中心へ落ちる殻の多粒子・超新星のアナロジーの探索(原理)",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る",
+    "objective": "met",
+    "state": "rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・gain 0 は放出しない・超新星のアナロジー",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/chainburst-w301d.json"
+    ],
+    "en": {
+     "purpose": "Test if a shell falling on a spinning centre ejects in the converged solution",
+     "state": "rk4 h and h/2 agree (t~272, 37/40 out); app step converges; gain 0 none; analogy only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Test if a shell falling on a spinning centre ejects in the converged solution. Met: rk4 h and h/2 agree (t~272, 37/40 out); app step converges; gain 0 none; analogy only. Out of calibration scope."
+    },
+    "brief": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る。達・rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・gain 0 は放出しない・超新星のアナロジー。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 217,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 445,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 25,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 7032,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 347,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "coord3d-298a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "drag3d-298c",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "moon3d-298c",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planets3d-299c",
+      "sec": 195,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "saturnring3d-300c",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chainburst-301d",
+      "sec": 900,
+      "share": 3,
       "always": false
      },
      {
@@ -36899,6 +40491,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37131,6 +40747,30 @@
      {
       "key": "saturnring3d-300c",
       "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
       "share": "all",
       "always": false
      },
@@ -37377,6 +41017,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37386,11 +41050,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 27,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -37626,6 +41290,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37635,11 +41323,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 45,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -37685,17 +41373,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.512,
+     "wallSec": 2.079,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.748,
+       "wallSec": 0.731,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.764,
+       "wallSec": 1.348,
        "reused": false,
        "reusedBy": null
       }
@@ -37904,6 +41592,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37913,17 +41625,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6484,
+     "ms": 6549,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 6466,
+       "ms": 6528,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 18,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -38184,6 +41896,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38193,17 +41929,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6521,
+     "ms": 6574,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 6466,
+       "ms": 6528,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 55,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -38249,17 +41985,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.22899999999999998,
+     "wallSec": 0.28400000000000003,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.124,
+       "wallSec": 0.15,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.105,
+       "wallSec": 0.134,
        "reused": false,
        "reusedBy": null
       }
@@ -38468,6 +42204,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38477,11 +42237,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 31,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -38711,6 +42471,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38720,11 +42504,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 22,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -38960,6 +42744,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38969,17 +42777,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1405,
+     "ms": 1599,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1404,
+       "ms": 1599,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -39215,6 +43023,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39224,11 +43056,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7737,
+     "ms": 8497,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 7737,
+       "ms": 8497,
        "pass": true,
        "via": "targetIds"
       }
@@ -39470,6 +43302,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39479,11 +43335,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2872,
+     "ms": 2767,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 2872,
+       "ms": 2767,
        "pass": true,
        "via": "targetIds"
       },
@@ -39737,6 +43593,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39746,11 +43626,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5945,
+     "ms": 6097,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 5945,
+       "ms": 6097,
        "pass": true,
        "via": "targetIds"
       }
@@ -39980,6 +43860,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39989,11 +43893,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 27,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -40223,6 +44127,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40232,11 +44160,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 31,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -40466,6 +44394,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40475,11 +44427,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 227,
+     "ms": 229,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 227,
+       "ms": 229,
        "pass": true,
        "via": "targetIds"
       }
@@ -40721,6 +44673,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40730,25 +44706,25 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5359,
+     "ms": 5858,
      "tests": [
       {
-       "id": "shot.regress-saturn",
-       "ms": 2719,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "preset.saturn",
-       "ms": 2639,
+       "ms": 3045,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturnExp",
+       "id": "shot.regress-saturn",
+       "ms": 2812,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturn-kframe-control",
        "ms": 1,
        "pass": true,
-       "via": "claims"
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.saturn",
@@ -40757,10 +44733,10 @@
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturn-kframe-control",
+       "id": "behavior.saturnExp",
        "ms": 0,
        "pass": true,
-       "via": "claims+targetIds"
+       "via": "claims"
       }
      ]
     }
@@ -40988,6 +44964,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40997,29 +44997,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6133,
+     "ms": 6657,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 3237,
+       "ms": 3407,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2863,
+       "ms": 3225,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 33,
+       "ms": 24,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -41063,30 +45063,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.152,
+     "wallSec": 40.935,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.152,
+       "wallSec": 9.042,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.341,
+       "wallSec": 15.626,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 30.935,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 31.893,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 45.275999999999996,
-     "reusedH2Sec": 14.341,
-     "reusedH4Sec": 30.934999999999995
+     "reusedSec": 15.626,
+     "reusedH2Sec": 15.626,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -41306,6 +45306,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41315,29 +45339,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 12293,
+     "ms": 12019,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 12228,
+       "ms": 11938,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 32,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 28,
+       "ms": 38,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 5,
+       "ms": 4,
        "pass": true,
        "via": "claims"
       }
@@ -41567,6 +45591,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41576,11 +45624,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 18,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -41810,6 +45858,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41819,11 +45891,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 21,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -41871,11 +45943,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 159.331,
+     "wallSec": 166.079,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 159.331,
+       "wallSec": 166.079,
        "reused": false,
        "reusedBy": null
       }
@@ -42096,6 +46168,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42105,11 +46201,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 106,
+     "ms": 89,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 64,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       },
@@ -42360,6 +46456,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42369,11 +46489,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 475,
+     "ms": 468,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 475,
+       "ms": 468,
        "pass": true,
        "via": "targetIds"
       }
@@ -42603,6 +46723,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42612,28 +46756,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5599,
+     "ms": 5164,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 5451,
+       "ms": 5086,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 147,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.kframe-binary-default",
-       "ms": 1,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.binary",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.kframe-binary-default",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -42865,6 +47009,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42874,17 +47042,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 130,
+     "ms": 143,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 116,
+       "ms": 124,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 14,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -43114,6 +47282,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43123,11 +47315,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 858,
+     "ms": 1066,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 858,
+       "ms": 1066,
        "pass": true,
        "via": "targetIds"
       },
@@ -43363,6 +47555,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43372,17 +47588,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2189,
+     "ms": 2204,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1199,
+       "ms": 1178,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 989,
+       "ms": 1025,
        "pass": true,
        "via": "targetIds"
       },
@@ -43618,6 +47834,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43627,11 +47867,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 29,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -43861,6 +48101,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43870,11 +48134,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 144,
+     "ms": 78,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 144,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -44104,6 +48368,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44113,11 +48401,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 106,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 106,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -44347,6 +48635,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44356,11 +48668,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 38,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -44590,6 +48902,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44599,11 +48935,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 18,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -44833,6 +49169,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44842,17 +49202,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 198,
+     "ms": 254,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 107,
+       "ms": 168,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 91,
+       "ms": 86,
        "pass": true,
        "via": "targetIds"
       }
@@ -45088,6 +49448,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -45097,11 +49481,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 21,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -45331,6 +49715,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -45340,11 +49748,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 14,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -45574,6 +49982,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -45583,17 +50015,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 341,
+     "ms": 347,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 297,
+       "ms": 294,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 44,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -45823,6 +50255,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -45832,11 +50288,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 17,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -46066,6 +50522,30 @@
       "always": false
      },
      {
+      "key": "dragnorm-301a",
+      "sec": 191,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 719,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 278,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -46075,17 +50555,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 79,
+     "ms": 110,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 47,
+       "ms": 67,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 32,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -46097,29 +50577,29 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 139,
-  "regenSecSum": 54651,
+  "regenSteps": 144,
+  "regenSecSum": 56749,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
-  "qaTotal": 1134,
-  "qaDurationMs": 2899250,
+  "qaTotal": 1158,
+  "qaDurationMs": 3172098,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 57.087
+    "sec": 58.336
    },
    "h4": {
-    "n": 3,
-    "sec": 118.898
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",
-   "unattributed": 23
+   "unattributed": 24
   }
  }
 }

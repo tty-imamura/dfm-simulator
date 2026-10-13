@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第297便c",
   "target": "beta/index.html",
-  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-  "generatedAt": "2026-10-12T07:36:23.774Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T15:28:11.412Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6644968,
-    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-    "mtime": "2026-10-12T05:11:05.850Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
    }
   ],
   "code": [
@@ -73,6 +73,7 @@
     "chainDiskToy3d",
     "chainDiskToy3dTilt",
     "chainSpreadToy3d",
+    "chainBurstShell3d",
     "coord3dKeplerTilt",
     "coord3dSpinPrecess"
    ]
@@ -97,7 +98,7 @@
   "ids": null,
   "base": null,
   "loadErrors": [],
-  "wallSec": 159.8,
+  "wallSec": 180.8,
   "notClaim": [
    "画面の 360 步で 43″ や近点率を測った",
    "刻みの門は物理の合否",
@@ -117,23 +118,23 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1210,
-   "segments": 1101,
-   "closureShare": 0.317
+   "names": 1240,
+   "segments": 1127,
+   "closureShare": 0.3182
   },
-  "scopeSha256": "c8aa620d691327cc0095c0d7147210749bae3b6e0c8ca7e646fcbaa003b9346d",
+  "scopeSha256": "913d80256c8c9a15120362dd8e260c32e2ea0656f3a06542eb0d912257495ef3",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
  "summary": {
-  "n": 175,
-  "inService": 119,
+  "n": 176,
+  "inService": 120,
   "retired": 56,
   "orbit": 45,
-  "observe": 74,
+  "observe": 75,
   "noTimeRef": [],
-  "ok": 119,
+  "ok": 120,
   "notOk": [],
   "raised": [
    "boxBinaryToy:720",
@@ -169,7 +170,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.016
+   "wallSec": 0.03
   },
   {
    "id": "grcal",
@@ -197,7 +198,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.007
+   "wallSec": 0.01
   },
   {
    "id": "grcalGps",
@@ -225,7 +226,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.021
+   "wallSec": 0.022
   },
   {
    "id": "grcalLight",
@@ -281,7 +282,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.013
+   "wallSec": 0.015
   },
   {
    "id": "projectile",
@@ -315,7 +316,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.042
+   "wallSec": 0.049
   },
   {
    "id": "echo",
@@ -343,7 +344,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.092
+   "wallSec": 0.084
   },
   {
    "id": "boxtrans",
@@ -377,7 +378,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.663
+   "wallSec": 0.738
   },
   {
    "id": "boxrot",
@@ -405,7 +406,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.385
+   "wallSec": 0.439
   },
   {
    "id": "boxexpand",
@@ -433,7 +434,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.557
+   "wallSec": 0.453
   },
   {
    "id": "boxcomoving",
@@ -461,7 +462,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.342
+   "wallSec": 0.229
   },
   {
    "id": "boxbound",
@@ -489,7 +490,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.027
+   "wallSec": 0.014
   },
   {
    "id": "boxbreath",
@@ -517,7 +518,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.414
+   "wallSec": 0.264
   },
   {
    "id": "boxredshift",
@@ -552,7 +553,7 @@
    "stateRel": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.155
+   "wallSec": 0.1
   },
   {
    "id": "probeH",
@@ -580,7 +581,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.302
+   "wallSec": 0.317
   },
   {
    "id": "freebox",
@@ -608,7 +609,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.698
+   "wallSec": 0.616
   },
   {
    "id": "cosmicweb",
@@ -636,7 +637,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 10.87
+   "wallSec": 11.652
   },
   {
    "id": "galaxy",
@@ -664,7 +665,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.831
+   "wallSec": 5.207
   },
   {
    "id": "galaxyStd",
@@ -692,7 +693,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.772
+   "wallSec": 5.323
   },
   {
    "id": "galaxyGeo2",
@@ -720,7 +721,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 6.126
+   "wallSec": 6.494
   },
   {
    "id": "galaxyDB",
@@ -748,7 +749,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.504
+   "wallSec": 4.534
   },
   {
    "id": "darkrotor",
@@ -795,7 +796,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.044
+   "wallSec": 0.064
   },
   {
    "id": "nebulaRotor",
@@ -918,7 +919,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.833
+   "wallSec": 0.954
   },
   {
    "id": "collapse",
@@ -946,7 +947,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.619
+   "wallSec": 3.285
   },
   {
    "id": "axisBarStill",
@@ -974,7 +975,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 11.331
+   "wallSec": 13.053
   },
   {
    "id": "axisBarArms",
@@ -1002,7 +1003,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 9.097
+   "wallSec": 12.298
   },
   {
    "id": "axisBarReach",
@@ -1030,7 +1031,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 9.041
+   "wallSec": 9.628
   },
   {
    "id": "selfRotor",
@@ -1058,7 +1059,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.268
+   "wallSec": 2.688
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1086,7 +1087,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.215
+   "wallSec": 3.063
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1286,7 +1287,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.503
+   "wallSec": 0.675
   },
   {
    "id": "shapeToyDisk",
@@ -1315,7 +1316,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.574
+   "wallSec": 0.75
   },
   {
    "id": "shapeToyArm",
@@ -1344,7 +1345,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.277
+   "wallSec": 0.507
   },
   {
    "id": "shapeToySpiral",
@@ -1373,7 +1374,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.327
+   "wallSec": 1.698
   },
   {
    "id": "shapeToyClusterCore",
@@ -1402,7 +1403,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.529
+   "wallSec": 0.826
   },
   {
    "id": "shapeToyDiskCore",
@@ -1431,7 +1432,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.705
+   "wallSec": 0.729
   },
   {
    "id": "shapeToyArmCore",
@@ -1460,7 +1461,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.282
+   "wallSec": 0.42
   },
   {
    "id": "shapeToySpiralCore",
@@ -1489,7 +1490,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.336
+   "wallSec": 1.309
   },
   {
    "id": "lensing",
@@ -1517,7 +1518,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.008
+   "wallSec": 0.007
   },
   {
    "id": "spinlens",
@@ -1545,7 +1546,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.005
+   "wallSec": 0.003
   },
   {
    "id": "blens",
@@ -1573,7 +1574,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.008
+   "wallSec": 0.01
   },
   {
    "id": "reddening",
@@ -1601,7 +1602,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.261
+   "wallSec": 0.29
   },
   {
    "id": "gas",
@@ -1629,7 +1630,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.859
+   "wallSec": 5.402
   },
   {
    "id": "pressure",
@@ -1657,7 +1658,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 5.435
+   "wallSec": 6.525
   },
   {
    "id": "conduction",
@@ -1685,7 +1686,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.166
+   "wallSec": 0.252
   },
   {
    "id": "frictionHeat",
@@ -1713,7 +1714,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.122
+   "wallSec": 1.304
   },
   {
    "id": "coolrace",
@@ -1741,7 +1742,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.002
+   "wallSec": 0.003
   },
   {
    "id": "convection",
@@ -1769,7 +1770,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.806
+   "wallSec": 4.546
   },
   {
    "id": "buoyancy",
@@ -1797,7 +1798,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 7.09
+   "wallSec": 7.042
   },
   {
    "id": "cooling",
@@ -1825,7 +1826,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 4.486
+   "wallSec": 4.81
   },
   {
    "id": "emergent",
@@ -1853,7 +1854,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.505
+   "wallSec": 2.608
   },
   {
    "id": "emergent2",
@@ -1881,7 +1882,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.404
+   "wallSec": 2.145
   },
   {
    "id": "chain2",
@@ -1909,7 +1910,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.083
+   "wallSec": 1.123
   },
   {
    "id": "chaincycle",
@@ -1937,7 +1938,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 2.203
+   "wallSec": 1.935
   },
   {
    "id": "earthMoon",
@@ -2056,7 +2057,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.135
+   "wallSec": 0.159
   },
   {
    "id": "earthMoonTide",
@@ -2147,7 +2148,7 @@
    "cdtOverCam": 4368.45,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.612
+   "wallSec": 1.325
   },
   {
    "id": "earthMoonInertial",
@@ -2292,7 +2293,7 @@
    "cdtOverCam": 1965.8,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.076
+   "wallSec": 0.036
   },
   {
    "id": "earthMoonSunInertial",
@@ -2410,7 +2411,7 @@
    "cdtOverCam": 1965.8,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.265
+   "wallSec": 0.202
   },
   {
    "id": "earthMoonOnly3d",
@@ -2475,7 +2476,7 @@
    "cdtOverCam": 1965.8,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.096
+   "wallSec": 0.088
   },
   {
    "id": "earthMoonDiagOne",
@@ -2566,7 +2567,7 @@
    "cdtOverCam": 9.12805,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.218
+   "wallSec": 0.206
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2630,7 +2631,7 @@
    "cdtOverCam": 9.12805,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.209
+   "wallSec": 0.188
   },
   {
    "id": "mercury",
@@ -2694,7 +2695,7 @@
    "cdtOverCam": 0.0745774,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.083
+   "wallSec": 0.071
   },
   {
    "id": "mercuryReal",
@@ -2758,7 +2759,7 @@
    "cdtOverCam": 79.1175,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.048
+   "wallSec": 0.04
   },
   {
    "id": "mercurySunInertial",
@@ -2849,7 +2850,7 @@
    "cdtOverCam": 79.1175,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.133
+   "wallSec": 0.104
   },
   {
    "id": "mercurySunInertial3d",
@@ -2914,7 +2915,7 @@
    "cdtOverCam": 48.6876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.037
+   "wallSec": 0.039
   },
   {
    "id": "venusSunInertial3d",
@@ -2979,7 +2980,7 @@
    "cdtOverCam": 80.8364,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.059
+   "wallSec": 0.057
   },
   {
    "id": "marsSunInertial3d",
@@ -3109,7 +3110,7 @@
    "cdtOverCam": 207.82,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.031
+   "wallSec": 0.029
   },
   {
    "id": "saturnSunInertial3d",
@@ -3210,16 +3211,16 @@
    },
    "end": {
     "a": 74.6882,
-    "e": 0.00135143
+    "e": 0.00135221
    },
    "endHalf": {
     "a": 74.6881,
-    "e": 0.000733238
+    "e": 0.000733702
    },
-   "dA": 0.00000136746,
-   "dE": 0.000618194,
-   "maxRelE": 0.000306477,
-   "maxRelL": 0.0000013467,
+   "dA": 0.00000131113,
+   "dE": 0.000618511,
+   "maxRelE": 0.000306292,
+   "maxRelL": 0.00000140163,
    "rMinRatio": 0.995721,
    "rev": 8,
    "pMeas": 208.22,
@@ -3239,7 +3240,7 @@
    "cdtOverCam": 13.3754,
    "fails": [],
    "status": "ok",
-   "wallSec": 6.873
+   "wallSec": 7.95
   },
   {
    "id": "uranusSunInertial3d",
@@ -3304,7 +3305,7 @@
    "cdtOverCam": 408.856,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.031
+   "wallSec": 0.032
   },
   {
    "id": "neptuneSunInertial3d",
@@ -3541,7 +3542,7 @@
    "cdtOverCam": 57.859,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.061
+   "wallSec": 0.057
   },
   {
    "id": "venusReal",
@@ -3605,7 +3606,7 @@
    "cdtOverCam": 124.364,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.101
+   "wallSec": 0.091
   },
   {
    "id": "marsMoonsReal",
@@ -3669,7 +3670,7 @@
    "cdtOverCam": 819.487,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.109
+   "wallSec": 0.148
   },
   {
    "id": "plutoCharonReal",
@@ -3814,7 +3815,7 @@
    "cdtOverCam": 21883.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.246
+   "wallSec": 0.198
   },
   {
    "id": "plutoCharonInertial",
@@ -3905,7 +3906,7 @@
    "cdtOverCam": 21883.9,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.552
+   "wallSec": 0.302
   },
   {
    "id": "plutoCharonSyncZero",
@@ -4023,7 +4024,7 @@
    "cdtOverCam": 145.286,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.389
+   "wallSec": 1.447
   },
   {
    "id": "neptuneReal",
@@ -4087,7 +4088,7 @@
    "cdtOverCam": 1006.76,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.031
+   "wallSec": 0.032
   },
   {
    "id": "alphaCenAB",
@@ -4151,7 +4152,7 @@
    "cdtOverCam": 332.719,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.146
+   "wallSec": 0.157
   },
   {
    "id": "alphaCenABDFM",
@@ -4242,7 +4243,7 @@
    "cdtOverCam": 235.244,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.135
+   "wallSec": 0.11
   },
   {
    "id": "siriusABDFM",
@@ -4333,7 +4334,7 @@
    "cdtOverCam": 6.68821,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.064
+   "wallSec": 0.124
   },
   {
    "id": "psrDoubleABDFM",
@@ -4479,7 +4480,7 @@
    "cdtOverCam": 26.4112,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.163
+   "wallSec": 0.145
   },
   {
    "id": "psrJ1946DFM",
@@ -4543,7 +4544,7 @@
    "cdtOverCam": 4.18313,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.128
+   "wallSec": 0.145
   },
   {
    "id": "psrDoubleABPN",
@@ -4769,7 +4770,7 @@
    "cdtOverCam": 20.1814,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.307
+   "wallSec": 0.187
   },
   {
    "id": "psrB1534DFM",
@@ -4887,7 +4888,7 @@
    "cdtOverCam": 0.313597,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.239
+   "wallSec": 0.193
   },
   {
    "id": "inertialDragPair",
@@ -4951,7 +4952,7 @@
    "cdtOverCam": 0.882658,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.153
+   "wallSec": 0.154
   },
   {
    "id": "chainDiskToy",
@@ -4979,7 +4980,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.092
+   "wallSec": 1.156
   },
   {
    "id": "chainDiskToy3d",
@@ -5008,7 +5009,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.897
+   "wallSec": 1.35
   },
   {
    "id": "chainDiskToy3dTilt",
@@ -5037,7 +5038,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.416
+   "wallSec": 1.926
   },
   {
    "id": "chainSpreadToy3d",
@@ -5058,7 +5059,7 @@
    "coord": "3d",
    "steps": 600,
    "tObsSteps": 600,
-   "maxR": 71.7889,
+   "maxR": 71.7854,
    "clamp": [
     0,
     0
@@ -5066,7 +5067,41 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.461
+   "wallSec": 3.354
+  },
+  {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "retired": false,
+   "sampleClass": "principle",
+   "fit": false,
+   "timeScale": 4,
+   "tsOld": null,
+   "stepDt": 0.002,
+   "dtApp": 0.002,
+   "timeRef": {
+    "basis": "observe",
+    "tObs": 1.2,
+    "note": "観察の基準 600 步(時間の標準 —— 放出は t≈272〔約 136000 步〕なので速さの倍率で早送りして見る)"
+   },
+   "scaleT": null,
+   "coord": "3d",
+   "steps": 600,
+   "tObsSteps": 600,
+   "maxR": 12.1152,
+   "clamp": [
+    0,
+    0
+   ],
+   "solveFail": 0,
+   "maxRHalf": 12.1154,
+   "clampHalf": [
+    0,
+    0
+   ],
+   "fails": [],
+   "status": "ok",
+   "wallSec": 0.641
   },
   {
    "id": "coord3dKeplerTilt",
@@ -5131,7 +5166,7 @@
    "cdtOverCam": 2.67891,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.056
+   "wallSec": 0.092
   },
   {
    "id": "coord3dSpinPrecess",
@@ -5196,7 +5231,7 @@
    "cdtOverCam": 0.882526,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.063
+   "wallSec": 0.069
   },
   {
    "id": "boxBinaryToy",
@@ -5261,7 +5296,7 @@
    "cdtOverCam": 0.156798,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.328
+   "wallSec": 0.281
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -5353,7 +5388,7 @@
    "cdtOverCam": 0.0630876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.112
+   "wallSec": 0.12
   },
   {
    "id": "gw150914DFM",
@@ -5444,7 +5479,7 @@
    "cdtOverCam": 0.0630876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.247
+   "wallSec": 0.214
   },
   {
    "id": "gw150914SpinDipole",
@@ -5508,7 +5543,7 @@
    "cdtOverCam": 0.0630876,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.111
+   "wallSec": 0.062
   },
   {
    "id": "tuc47",
@@ -5542,7 +5577,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 2.22
+   "wallSec": 2.955
   },
   {
    "id": "tuc47DFM",
@@ -5595,7 +5630,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 3.093
+   "wallSec": 4.421
   },
   {
    "id": "ngc3198DFM",
@@ -5629,7 +5664,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 10.042
+   "wallSec": 10.801
   },
   {
    "id": "supernovaProg",
@@ -5717,7 +5752,7 @@
    ],
    "fails": [],
    "status": "ok",
-   "wallSec": 0.389
+   "wallSec": 0.486
   },
   {
    "id": "saturn",
@@ -5819,7 +5854,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.827
+   "wallSec": 0.748
   },
   {
    "id": "saturnD68Consistent",
@@ -5883,7 +5918,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.147
+   "wallSec": 0.128
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -5947,7 +5982,7 @@
    "cdtOverCam": 93.3104,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.128
+   "wallSec": 0.09
   },
   {
    "id": "saturnRingReal",
@@ -6011,7 +6046,7 @@
    "cdtOverCam": 13.3754,
    "fails": [],
    "status": "ok",
-   "wallSec": 1.474
+   "wallSec": 1.301
   },
   {
    "id": "saturnRingRealKF1",
@@ -6058,7 +6093,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 3.009
+   "wallSec": 3.598
   },
   {
    "id": "fig8",
@@ -6123,7 +6158,7 @@
    "cdtOverCam": 0.0194445,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.253
+   "wallSec": 0.319
   },
   {
    "id": "counterring",
@@ -6151,7 +6186,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.725
+   "wallSec": 0.869
   },
   {
    "id": "spinup",
@@ -6179,7 +6214,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.907
+   "wallSec": 1.225
   },
   {
    "id": "pulsarSolo",
@@ -6214,7 +6249,7 @@
    "stateRel": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.008
+   "wallSec": 0.013
   },
   {
    "id": "supernovaCore",
@@ -6242,7 +6277,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.086
+   "wallSec": 0.068
   },
   {
    "id": "whiteDwarfDFM",
@@ -6270,7 +6305,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.084
+   "wallSec": 0.075
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -6298,7 +6333,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.107
+   "wallSec": 0.135
   },
   {
    "id": "envelopeShedDFM",
@@ -6326,7 +6361,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.14
+   "wallSec": 0.067
   },
   {
    "id": "lfbotTrap",
@@ -6354,7 +6389,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.394
+   "wallSec": 0.25
   },
   {
    "id": "layeredCoreDFM",
@@ -6382,7 +6417,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.021
+   "wallSec": 0.03
   },
   {
    "id": "spinDipoleBinary",
@@ -6446,7 +6481,7 @@
    "cdtOverCam": 0.18719,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.132
+   "wallSec": 0.13
   },
   {
    "id": "gasCohSurface",
@@ -6474,7 +6509,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.121
+   "wallSec": 0.081
   },
   {
    "id": "mmPhaseToy",
@@ -6502,7 +6537,7 @@
    "solveFail": 0,
    "fails": [],
    "status": "ok",
-   "wallSec": 0.025
+   "wallSec": 0.016
   },
   {
    "id": "starSeed",

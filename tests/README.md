@@ -98,7 +98,7 @@ FAIL の実測からだけ決める(差が出たことを理由に床を足さ�
 | cloakedDwarf | 光学迷彩矮星 / Optical-camouflage dwarf | `massLedger.darkRotor`、または bodies のどれかの `lightSweep:"auto"` |
 | pn1Geo | 1PN・測地線 / 1PN / geodesic | `physics.geoPN ≥ 1` |
 | testParticle | 試験粒子 / Test particle | bodies のどれかの `testParticle:true` |
-| spaceMesh | 空間メッシュ / Space mesh | `physics.spaceMesh` |
+| ~~spaceMesh~~ | ~~空間メッシュ / Space mesh~~ | ~~`physics.spaceMesh`~~ —— **第301便e で撤去**(第300便a で `physics.spaceMesh` は廃止・宣言した本は全部退役で在位 0。表示の空間メッシュ〔受動プローブ〕は物理の宣言ではないので操作は残る) |
 | obsCal | 観測較正 / Observational calibration | `sampleClass:"calibration"`(合格の意味ではない) |
 | manyBody | 連鎖・多体 / Chains / many bodies | bodies の粒子数(単体 1+群の n の和)≥ 100(`TOPIC_MANY_N`) |
 

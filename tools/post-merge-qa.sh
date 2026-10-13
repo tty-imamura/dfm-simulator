@@ -48,8 +48,9 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第299便d: 枝 d の新設 3 本(behavior.geo4Stable299 —— geoPN=4 の安定の条件・preset.chainSpread299 —— 広げた円盤の配置・preset.meshMigrate299 —— 旧 spaceMesh の 🔁 の移行)を末尾に足した
 # 第299便f: 枝 f の新設 2 本(ui.selEdit299 —— 選択粒子の編集の出し分け・ui.paramTab299 —— パラメータタブの三次元の切り替え)と、行を分けた棚卸し docs.coreCensus を末尾に足した(ui.familyFold296 は既に在る)
 # 第300便d: 枝 d の新設 3 本(ui.tiltSwipe300 —— 二本指の縦スワイプで θ・ui.refModelGroup300 —— 参照模型の群・lint.betaBuild300 —— beta 版の名前に便名)を末尾に足した
+# 第301便e: 枝 e の新設 3 本(ui.toastSkin301 —— 通知の帯の下地とスキン・ui.tiltWheel301 —— Shift+ホイールで θ・ui.v59Text301 —— v59 の文言の細目)を末尾に足した
 # 第298便d: 枝 d の新設 2 本(ui.fitTargetRow298 —— 説明タブのフィットの標的の行のはみ出し・ui.viewTilt298 —— 視点の傾き θ)を末尾に足した(他枝の新設と第297便の分の差し替えは統合で)
-DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297 ui.fitTargetRow298 ui.viewTilt298 ui.selEdit299 ui.paramTab299 docs.coreCensus behavior.geo4Stable299 preset.chainSpread299 preset.meshMigrate299 ui.tiltSwipe300 ui.refModelGroup300 lint.betaBuild300"
+DEFAULT_WAVE_IDS="behavior.modeIssues295 behavior.geo4Migrate295 preset.inertial3_295 docs.inertial3Contract295 ui.labels295 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoMode behavior.geoModeResolve docs.geoModeTable behavior.geo3Inertial294 behavior.geoToyPinned ui.pickerGeoFilter ui.pickerSeparators ui.meshChipState preset.geo3Contract ui.pickerScope ui.observedCompare294 ui.pickerReorg294 ui.emFamily behavior.rayLensExcluded ui.familyFold296 ui.charonFamily ui.step-accounting ui.paramWbgRow behavior.sampleGenContract296 preset.modeNoRestriction prompt.spec-sync behavior.chain296 docs.chainContract296 behavior.composeGate behavior.inertialDragGate preset.clocksGravity preset.groupAnalogies preset.fitDerived296 docs.fitContract296 behavior.claimEffort297 preset.fitCond297 docs.fit297 docs.claimScope preset.timeStd297 behavior.timeStd297 docs.timeStd297 ui.liveMeasure297 ui.fitTargetRow298 ui.viewTilt298 ui.selEdit299 ui.paramTab299 docs.coreCensus behavior.geo4Stable299 preset.chainSpread299 preset.meshMigrate299 ui.tiltSwipe300 ui.refModelGroup300 lint.betaBuild300 ui.toastSkin301 ui.tiltWheel301 ui.v59Text301"
 # 第297便a: 枝 a の新設 3 本(preset.lambdaPN297・behavior.lambdaPnOnDrag297・docs.refit297)を末尾に足した(他枝の新設と第296便の分の差し替えは統合で)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.lambdaPN297 behavior.lambdaPnOnDrag297 docs.refit297"
 # 第298便a: 枝 a の新設 3 本(behavior.coord3d298・preset.coord3d298・docs.coord3d298 —— 三次元座標の土台)と世代切替の behavior.spinAxisDecl を末尾に足した(他枝の新設の差し替えは統合で)
@@ -77,6 +78,18 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.earthReorg300 docs.approx300 preset.e
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.solarInnerRetired300 preset.unifyTable docs.calibration-verdict-sync docs.calaudit-sync docs.calCause lint.kf0RunsCondition ui.holdRemedy docs.timingContract294 docs.intakeC docs.intakeD docs.uranusSwap behavior.solarsigmaGuards behavior.unitConvertedFirst"
 # 第300便c: 枝 c の新設 2 本(preset.saturnRing3d300 —— 土星の輪の三次元・docs.solar16Contract300 —— 太陽系 16 体の入力の契約と器)を末尾に足した(他枝の新設の差し替えは統合で)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.saturnRing3d300 docs.solar16Contract300"
+# 第301便a(原仮定者の裁定(第91報)⑤・R179): 引きずりの強さの総和正規化の新設 2 本(behavior.dragNorm301 —— 法則の零試験と正本・preset.refit301 —— フィットの本の記録と条件の署名)を末尾に足した(他枝の新設の差し替えは統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragNorm301 preset.refit301"
+# 第301便c(原仮定者の裁定(第91報)②・R181): 枝 c の新設 1 本(behavior.axialSplit301 —— 軸回転 = 慣性軸回転 + 引きずり軸回転)と、🪛 の軸引きずりの数で追従した behavior.drag3d298・behavior.ckDrag3d299
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSplit301"
+# 第301便b: 枝 b の新設 2 本(behavior.approxMany301 —— 近似多粒子の対のマスク・preset.approxMany301 —— 🍥🍩 の宣言と測り直し・監査)と世代切替で追従した 3 本(preset.chainSpread299・behavior.geo4Stable299・preset.saturnRing3d300 は上にある)を末尾に足した(他枝の新設は統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.approxMany301 preset.approxMany301"
+# 第301便f: 枝 f の新設 1 本(behavior.clone2d301 —— 複製とチェックポイントの全本の同一・build の機能ごとの初期化)と、正本を作り直したチェックポイントの棚卸し(behavior.ckFixcapRestore —— 上にある)・三次元の複製(behavior.ckDrag3d299 —— 上にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
+# 第301便g(原仮定者の裁定 AN300・R185): 枝 g の新設 1 本(docs.wbgLaw301 —— W_bg の法則性の探索の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
+# 第301便d(原仮定者の裁定(第91報)④・R182): 枝 d の新設 2 本(docs.chainBurst301 —— 連鎖円盤の 14000 步付近の飛びの記録と正本・文書・preset.chainBurstShell301 —— 放出の探索の写し 🧨)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

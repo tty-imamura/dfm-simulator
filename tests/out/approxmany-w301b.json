@@ -1,0 +1,1365 @@
+{
+ "version": "w301b-approxmany-1",
+ "lib": "w301b-approxmany-lib-1",
+ "stateVersion": "w301b-approxmany-1",
+ "accept": {
+  "books": [
+   "saturnRingInertial3d",
+   "chainSpreadToy3d"
+  ],
+  "rows": [
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "retired": false,
+    "ok": true,
+    "warnings": 0,
+    "decl": {
+     "version": "v1",
+     "governor": 0,
+     "groups": [
+      {
+       "kind": "body",
+       "rows": [
+        1,
+        6
+       ],
+       "spinZero": "declared"
+      },
+      {
+       "kind": "dust",
+       "rows": [
+        7,
+        9
+       ]
+      }
+     ]
+    },
+    "state": {
+     "n": 127,
+     "governor": 0,
+     "dust": 120,
+     "body": 6,
+     "pairs": {
+      "dustDust": 7140,
+      "bodyBody": 15,
+      "dustBody": 720
+     },
+     "masked": {
+      "gravity": 7140,
+      "drag": 7140,
+      "contact": 7875
+     },
+     "dragEdges": 1722
+    }
+   },
+   {
+    "id": "chainSpreadToy3d",
+    "emoji": "🍥",
+    "retired": false,
+    "ok": true,
+    "warnings": 0,
+    "decl": {
+     "version": "v1",
+     "governor": 0,
+     "groups": [
+      {
+       "kind": "body",
+       "rows": [
+        1,
+        80
+       ]
+      }
+     ]
+    },
+    "state": {
+     "n": 81,
+     "governor": 0,
+     "dust": 0,
+     "body": 80,
+     "pairs": {
+      "dustDust": 0,
+      "bodyBody": 3160,
+      "dustBody": 0
+     },
+     "masked": {
+      "gravity": 0,
+      "drag": 0,
+      "contact": 3160
+     },
+     "dragEdges": null
+    }
+   }
+  ],
+  "toyAccepted": true,
+  "spinZeroDeclaredAccepted": true,
+  "rejects": [
+   {
+    "key": "coord2d",
+    "rejected": true,
+    "matched": true,
+    "want": "三次元の本",
+    "msg": "physics.approxMany は三次元の本(physics.coord:\"3d\")だけ —— 二次元の核(S._core)にはマスクを入れない(二次元の近似多粒子は未対応・第301便b)"
+   },
+   {
+    "key": "unknownKey",
+    "rejected": true,
+    "matched": true,
+    "want": "未知の鍵",
+    "msg": "physics.approxMany に未知の鍵 extra(version・governor・groups だけ)"
+   },
+   {
+    "key": "version",
+    "rejected": true,
+    "matched": true,
+    "want": "version",
+    "msg": "physics.approxMany.version は \"v1\""
+   },
+   {
+    "key": "governorRange",
+    "rejected": true,
+    "matched": true,
+    "want": "行の外",
+    "msg": "physics.approxMany.governor 99 は bodies の行の外(行の数 7)"
+   },
+   {
+    "key": "governorGroup",
+    "rejected": true,
+    "matched": true,
+    "want": "single",
+    "msg": "physics.approxMany.governor(bodies[5])は single(支配天体は 1 粒子)"
+   },
+   {
+    "key": "governorUnpinned",
+    "rejected": true,
+    "matched": true,
+    "want": "pinned:true",
+    "msg": "physics.approxMany.governor(bodies[0])は pinned:true(原仮定者の裁定〔第91報〕①「支配天体は固定する」)"
+   },
+   {
+    "key": "governorInGroup",
+    "rejected": true,
+    "matched": true,
+    "want": "支配天体の行",
+    "msg": "physics.approxMany.groups[0] が支配天体の行 0 を含む(支配天体は群に入れない)"
+   },
+   {
+    "key": "rowTwice",
+    "rejected": true,
+    "matched": true,
+    "want": "同じ行",
+    "msg": "physics.approxMany.groups[1] と groups[0] が同じ行 2 を含む(行は 1 つの群だけ)"
+   },
+   {
+    "key": "kind",
+    "rejected": true,
+    "matched": true,
+    "want": "kind",
+    "msg": "physics.approxMany.groups[0].kind は \"dust\"(塵 —— 塵どうしは重力・引きずり・接触なし)か \"body\"(天体 —— 自転を宣言・重力と引きずり有り・接触なし)"
+   },
+   {
+    "key": "rowsForm",
+    "rejected": true,
+    "matched": true,
+    "want": "閉区間",
+    "msg": "physics.approxMany.groups[0].rows は bodies の行の閉区間 [from,to](0 ≤ from ≤ to の整数)"
+   },
+   {
+    "key": "bodySpinZero",
+    "rejected": true,
+    "matched": true,
+    "want": "spinZero",
+    "msg": "bodies[1](群 0 —— body) の自転が 0 —— 天体は自転を宣言する(0 を宣言値として置くなら群に spinZero:\"declared\")"
+   },
+   {
+    "key": "bodyNoAxis",
+    "rejected": true,
+    "matched": true,
+    "want": "spinAxis.enable",
+    "msg": "bodies[1](群 0 —— body) の自転が 0 でないのに spinAxis.enable:true が無い(自転する源は軸を明示)"
+   },
+   {
+    "key": "bodyNoRadius",
+    "rejected": true,
+    "matched": true,
+    "want": "明示半径",
+    "msg": "bodies[1](群 0 —— body) に明示半径が無い(single は radius・群は particleRadius —— 見た目の R=√m だけでは回転引きずりの源にならない)"
+   },
+   {
+    "key": "bodyGroupSpin",
+    "rejected": true,
+    "matched": true,
+    "want": "群の粒子の自転軸",
+    "msg": "bodies[5](群 2 —— body) の自転が 0 でない群 —— 群の粒子の自転軸を宣言する欄が無い(自転する源は軸を明示 —— single で置く)"
+   },
+   {
+    "key": "dustSpin",
+    "rejected": true,
+    "matched": true,
+    "want": "塵は自転しない",
+    "msg": "bodies[3](群 1 —— dust) の自転は 0(塵は自転しない —— 自転するなら kind:\"body\")"
+   },
+   {
+    "key": "spinZeroOnDust",
+    "rejected": true,
+    "matched": true,
+    "want": "spinZero",
+    "msg": "physics.approxMany.groups[1].spinZero は kind:\"body\" の群だけの \"declared\"(自転 0 を宣言値として置く印)"
+   }
+  ],
+  "allRejected": true
+ },
+ "zero": {
+  "gravity": {
+   "n": 10,
+   "dust": 6,
+   "body": 2,
+   "maxAbsErr": 2.22045e-16,
+   "scale": 1.61221,
+   "rel": 1.37727e-16,
+   "dustDustTermMax": 3.73105,
+   "pass": true
+  },
+  "potential": {
+   "U": -45.3709,
+   "Uana": -45.3709,
+   "rel": 0,
+   "pass": true
+  },
+  "dragEdges": {
+   "dustDust": 30,
+   "dustDustMaxA": 0,
+   "governorEdges": 18,
+   "bodyBody": 2,
+   "dustBody": 24,
+   "outside": 16,
+   "degRowSumRel": 0,
+   "edges": 60,
+   "rotSources": 3,
+   "method": "direct",
+   "pass": true
+  },
+  "probe": {
+   "deg": 0.0669403,
+   "degAna": 0.0669403,
+   "degAll": 0.0722312,
+   "rel": 2.07316e-16,
+   "pass": true
+  },
+  "rot": {
+   "sources": 3,
+   "expected": 3,
+   "pass": true
+  },
+  "contact": {
+   "overlaps": [
+    {
+     "i": 0,
+     "j": 3,
+     "kinds": [
+      0,
+      1
+     ],
+     "contact": true
+    },
+    {
+     "i": 0,
+     "j": 9,
+     "kinds": [
+      0,
+      0
+     ],
+     "contact": true
+    },
+    {
+     "i": 1,
+     "j": 2,
+     "kinds": [
+      2,
+      2
+     ],
+     "contact": false
+    },
+    {
+     "i": 3,
+     "j": 4,
+     "kinds": [
+      1,
+      1
+     ],
+     "contact": false
+    }
+   ],
+   "residualNoContact": [
+    {
+     "i": 1,
+     "res": 1.9984e-15
+    },
+    {
+     "i": 2,
+     "res": 9.93014e-16
+    },
+    {
+     "i": 4,
+     "res": 3.55271e-15
+    }
+   ],
+   "residualWithContact": [
+    {
+     "i": 3,
+     "res": 5.08389
+    },
+    {
+     "i": 9,
+     "res": 8
+    }
+   ],
+   "pass": true
+  },
+  "bodyOnlySame": {
+   "steps": 200,
+   "same": true,
+   "pass": true
+  },
+  "pass": true
+ },
+ "effect": {
+  "ring": {
+   "steps": 360,
+   "dt": 0.58,
+   "maxGrainPosDiff": 0.000225624,
+   "maxMoonPosDiff": 1.48366e-13,
+   "UmaskedVsFull": [
+    -0.00456189,
+    -0.00456189
+   ],
+   "note": "本(塵どうしの重力・引きずりなし)− 器の対照(approxMany を外した写し —— 第300便c の相互作用)の 360 步(C環内縁の約 1 公転)の位置の差の最大"
+  },
+  "spreadDust": {
+   "note": "診断(本にしない): 🍥 の写しで粒子を塵型に(粒子どうしの重力・引きずりなし・自転 0)—— 連鎖は中心からの 1 段だけ",
+   "A": {
+    "bands": [
+     {
+      "dth": 0.175651,
+      "dthU": 0.0160326,
+      "dr": 0.014532
+     },
+     {
+      "dth": 0.106259,
+      "dthU": 0.000504958,
+      "dr": 0.126531
+     },
+     {
+      "dth": 0.103219,
+      "dthU": -0.0000772295,
+      "dr": 0.274871
+     }
+    ],
+    "resMax": 4.5698e-16,
+    "fail": 0,
+    "wallSec": 0.805
+   },
+   "B": {
+    "bands": [
+     {
+      "dth": 0.0249622,
+      "dthU": 0.0247556,
+      "dr": -0.347972
+     },
+     {
+      "dth": 0.00148591,
+      "dthU": 0.00148415,
+      "dr": -0.126561
+     },
+     {
+      "dth": 0.000257148,
+      "dthU": 0.00025705,
+      "dr": -0.0645707
+     }
+    ],
+    "resMax": 6.0631e-16,
+    "fail": 0
+   }
+  }
+ },
+ "remeasure": {
+  "before": {
+   "source": "e20535a の正本(tests/out/geo4stable-w299d.json・tests/out/saturnring3d-w300c.json)",
+   "spread": {
+    "allPass": true,
+    "solverResMaxA": 6.32365e-12,
+    "solverResMaxB": 4.88346e-12,
+    "stepRelA": 0.000236762,
+    "stepRelB": 0.000218996,
+    "countRel160A": 0.0149161,
+    "countRel160B": 0.000893216,
+    "seedRelA": 0.0522418,
+    "seedRelB": 0.0373783,
+    "budgetRelL": 6.87458e-16,
+    "budgetRelP": 2.37253e-17,
+    "bandsA": [
+     {
+      "dth": 0.172305,
+      "dthU": 0.0126642,
+      "dr": 0.0239211
+     },
+     {
+      "dth": 0.105908,
+      "dthU": 0.0000310126,
+      "dr": 0.000732308
+     },
+     {
+      "dth": 0.102275,
+      "dthU": -0.00135305,
+      "dr": -0.00477889
+     }
+    ],
+    "bandsB": [
+     {
+      "dth": 0.0236458,
+      "dthU": 0.0233986,
+      "dr": -0.322188
+     },
+     {
+      "dth": 0.00153647,
+      "dthU": 0.00159029,
+      "dr": -0.252423
+     },
+     {
+      "dth": 0.000316784,
+      "dthU": 0.000285804,
+      "dr": -0.336972
+     }
+    ]
+   },
+   "ring": {
+    "cInPeriodSecH": 20828.424109452153,
+    "cInPeriodSecH2": 20824.84455224721,
+    "mimasPeriodSecH": 81514.9378046243,
+    "titanPeriodDayH": 15.94925587436363,
+    "planeMaxDegH": 0.0000014787793334710982,
+    "lostH": 0,
+    "lostH2": 0,
+    "outsideBandH": 1,
+    "outsideBandH2": 0,
+    "grainsEccVs2dMax": 0.00068132,
+    "cInVs2dSec": 0.09485714843685855
+   }
+  },
+  "spread": {
+   "canon": "tests/out/geo4stable-w299d.json",
+   "declApprox": true,
+   "measuredApprox": true,
+   "htmlSame": true,
+   "allPass": true,
+   "table": [
+    {
+     "key": "layout",
+     "pass": true
+    },
+    {
+     "key": "solver",
+     "pass": true
+    },
+    {
+     "key": "resume",
+     "pass": true
+    },
+    {
+     "key": "budget",
+     "pass": true
+    },
+    {
+     "key": "step",
+     "pass": true
+    },
+    {
+     "key": "count",
+     "pass": true
+    },
+    {
+     "key": "seed",
+     "pass": true
+    },
+    {
+     "key": "display",
+     "pass": true
+    }
+   ],
+   "solverResMaxA": 5.18645e-12,
+   "solverResMaxB": 4.79623e-12,
+   "stepRelA": 0.000234057,
+   "stepRelB": 0.000215674,
+   "countRel160A": 0.0445495,
+   "countRel160B": 0.0139533,
+   "seedRelA": 0.0616531,
+   "seedRelB": 0.0691407,
+   "budgetRelL": 1.18571e-15,
+   "budgetRelP": 1.92826e-17,
+   "bandsA": [
+    {
+     "dth": 0.170638,
+     "dthU": 0.0110035,
+     "dr": 0.0241907
+    },
+    {
+     "dth": 0.106064,
+     "dthU": 0.000182252,
+     "dr": -0.00133595
+    },
+    {
+     "dth": 0.103376,
+     "dthU": -0.000247056,
+     "dr": 0.000406936
+    }
+   ],
+   "bandsB": [
+    {
+     "dth": 0.0219629,
+     "dthU": 0.0217296,
+     "dr": -0.322265
+    },
+    {
+     "dth": 0.00169596,
+     "dthU": 0.00174966,
+     "dr": -0.253812
+    },
+    {
+     "dth": 0.00143311,
+     "dthU": 0.00140001,
+     "dr": -0.335433
+    }
+   ],
+   "failed": []
+  },
+  "ring": {
+   "canon": "tests/out/saturnring3d-w300c.json",
+   "declApprox": true,
+   "measuredApprox": true,
+   "ok": true,
+   "gates": {
+    "finite": true,
+    "coord3d": true,
+    "noWarn": true,
+    "rotated": true,
+    "planeKept": true,
+    "noLoss": true,
+    "comNoWalk": true,
+    "stepDep": true,
+    "nearTestParticle": true,
+    "probeZeroAtGain0": true,
+    "probeTangential": true,
+    "transferBound": true
+   },
+   "cInPeriodSecH": 20828.323342320855,
+   "cInPeriodSecH2": 20824.936511300486,
+   "mimasPeriodSecH": 81514.93780487319,
+   "titanPeriodDayH": 15.949255874363416,
+   "planeMaxDegH": 0.0000014787793334710982,
+   "lostH": 0,
+   "lostH2": 0,
+   "outsideBandH": 1,
+   "outsideBandH2": 0,
+   "grainsEccVs2dMax": 3.999999999976245e-8,
+   "cInVs2dSec": -0.005909982861339813,
+   "diff": {
+    "cInPeriodSecH": -0.100767,
+    "cInPeriodSecH2": 0.0919591,
+    "titanPeriodSecH": -1.84173e-8,
+    "mimasPeriodSecH": 2.48896e-7
+   }
+  }
+ },
+ "audit": {
+  "rule": {
+   "minParticles": 16,
+   "massRatio": 0.9
+  },
+  "n": 29,
+  "moved": [
+   "saturnRingInertial3d",
+   "chainSpreadToy3d"
+  ],
+  "notMoved": 27,
+  "byReason": {
+   "calibration": 2,
+   "core2d": 20,
+   "testParticle": 2,
+   "governorFree": 7,
+   "referenceModel": 4,
+   "contactPurpose": 1,
+   "chainZeroTest": 2,
+   "purposeOther": 1
+  },
+  "rows": [
+   {
+    "id": "boxcomoving",
+    "emoji": "🫧",
+    "group": "箱宇宙の実験",
+    "coord": "2d",
+    "n": 26,
+    "groups": 1,
+    "governorRow": 1,
+    "governorMass": 2,
+    "governorPinned": true,
+    "ratio": 0.625,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "boxbound",
+    "emoji": "🪢",
+    "group": "箱宇宙の実験",
+    "coord": "2d",
+    "n": 20,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": false,
+    "ratio": 0.99108,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "boxbreath",
+    "emoji": "🫁",
+    "group": "箱宇宙の実験",
+    "coord": "2d",
+    "n": 25,
+    "groups": 1,
+    "governorRow": 1,
+    "governorMass": 2,
+    "governorPinned": true,
+    "ratio": 1.66667,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "galaxy",
+    "emoji": "🌌",
+    "group": "銀河の力学",
+    "coord": "2d",
+    "n": 381,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": true,
+    "ratio": 19.9362,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "composite",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "galaxyStd",
+    "emoji": "🎡",
+    "group": "銀河の力学",
+    "coord": "2d",
+    "n": 381,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": true,
+    "ratio": 19.9362,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "galaxyGeo2",
+    "emoji": "💫",
+    "group": "銀河の力学",
+    "coord": "2d",
+    "n": 381,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": true,
+    "ratio": 19.9362,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "galaxyDB",
+    "emoji": "🍳",
+    "group": "銀河の力学",
+    "coord": "2d",
+    "n": 381,
+    "groups": 2,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": true,
+    "ratio": 19.9362,
+    "relativeDrag": null,
+    "contactMode": "normal",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "contactPurpose"
+    ]
+   },
+   {
+    "id": "rotorSolo",
+    "emoji": "🕳️",
+    "group": "自転と減光",
+    "coord": "2d",
+    "n": 25,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2000,
+    "governorPinned": false,
+    "ratio": 1666.67,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "massLadder",
+    "emoji": "🪜",
+    "group": "自転と減光",
+    "coord": "2d",
+    "n": 147,
+    "groups": 3,
+    "governorRow": 2,
+    "governorMass": 10000,
+    "governorPinned": true,
+    "ratio": 1.33205,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "composite",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "axisBarStill",
+    "emoji": "🥢",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "2d",
+    "n": 321,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": false,
+    "ratio": 23.6742,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "axisBarArms",
+    "emoji": "🎏",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "2d",
+    "n": 321,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": false,
+    "ratio": 23.6742,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "axisBarReach",
+    "emoji": "🎚️",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "2d",
+    "n": 321,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": false,
+    "ratio": 23.6742,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "galaxyMeshSpiral",
+    "emoji": "🎠",
+    "group": "銀河の力学",
+    "coord": "2d",
+    "n": 351,
+    "groups": 2,
+    "governorRow": 0,
+    "governorMass": 2500,
+    "governorPinned": true,
+    "ratio": 21.645,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "shapeToyClusterCore",
+    "emoji": "🎱",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "3d",
+    "n": 241,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 10,
+    "governorPinned": true,
+    "ratio": 0.0694444,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "referenceModel"
+    ]
+   },
+   {
+    "id": "shapeToyDiskCore",
+    "emoji": "📀",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "3d",
+    "n": 301,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 10,
+    "governorPinned": true,
+    "ratio": 0.0555556,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "referenceModel"
+    ]
+   },
+   {
+    "id": "shapeToyArmCore",
+    "emoji": "🧹",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "3d",
+    "n": 181,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 10,
+    "governorPinned": true,
+    "ratio": 0.0925926,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "referenceModel"
+    ]
+   },
+   {
+    "id": "shapeToySpiralCore",
+    "emoji": "🎢",
+    "group": "腕と渦伸長(軸力)",
+    "coord": "3d",
+    "n": 451,
+    "groups": 2,
+    "governorRow": 0,
+    "governorMass": 10,
+    "governorPinned": true,
+    "ratio": 0.037037,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "referenceModel"
+    ]
+   },
+   {
+    "id": "conduction",
+    "emoji": "📏",
+    "group": "スピンと熱",
+    "coord": "2d",
+    "n": 28,
+    "groups": 0,
+    "governorRow": 0,
+    "governorMass": 4,
+    "governorPinned": true,
+    "ratio": 0.037037,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "group": "現実較正",
+    "coord": "3d",
+    "n": 127,
+    "groups": 3,
+    "governorRow": 0,
+    "governorMass": 56.834,
+    "governorPinned": true,
+    "ratio": 4097.67,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "moved",
+    "reasons": []
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "group": "現実較正",
+    "coord": "2d",
+    "n": 94,
+    "groups": 11,
+    "governorRow": 0,
+    "governorMass": 8.6811,
+    "governorPinned": true,
+    "ratio": 8898.22,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": true,
+    "sampleClass": "calibration",
+    "cls": "notMoved",
+    "reasons": [
+     "calibration",
+     "core2d",
+     "testParticle"
+    ]
+   },
+   {
+    "id": "chainDiskToy",
+    "emoji": "🔗",
+    "group": "運動と時空",
+    "coord": "2d",
+    "n": 81,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "chainDiskToy3d",
+    "emoji": "🔩",
+    "group": "運動と時空",
+    "coord": "3d",
+    "n": 81,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "chainZeroTest"
+    ]
+   },
+   {
+    "id": "chainDiskToy3dTilt",
+    "emoji": "🪛",
+    "group": "運動と時空",
+    "coord": "3d",
+    "n": 81,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "chainZeroTest"
+    ]
+   },
+   {
+    "id": "chainSpreadToy3d",
+    "emoji": "🍥",
+    "group": "運動と時空",
+    "coord": "3d",
+    "n": 81,
+    "groups": 0,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "moved",
+    "reasons": []
+   },
+   {
+    "id": "chainBurstShell3d",
+    "emoji": "🧨",
+    "group": "運動と時空",
+    "coord": "3d",
+    "n": 41,
+    "groups": 0,
+    "governorRow": 0,
+    "governorMass": 100,
+    "governorPinned": true,
+    "ratio": 0.25,
+    "relativeDrag": "inertial",
+    "contactMode": "none",
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "purposeOther"
+    ]
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "group": "現実較正",
+    "coord": "2d",
+    "n": 127,
+    "groups": 3,
+    "governorRow": 0,
+    "governorMass": 56.834,
+    "governorPinned": true,
+    "ratio": 3771.75,
+    "relativeDrag": null,
+    "contactMode": "none",
+    "testParticle": true,
+    "sampleClass": "calibration",
+    "cls": "notMoved",
+    "reasons": [
+     "calibration",
+     "core2d",
+     "testParticle"
+    ]
+   },
+   {
+    "id": "binary",
+    "emoji": "⭐",
+    "group": "天体の機構",
+    "coord": "2d",
+    "n": 242,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 500,
+    "governorPinned": false,
+    "ratio": 0.943396,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "composite",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   },
+   {
+    "id": "counterring",
+    "emoji": "💥",
+    "group": "天体の機構",
+    "coord": "2d",
+    "n": 201,
+    "groups": 2,
+    "governorRow": 0,
+    "governorMass": 800,
+    "governorPinned": true,
+    "ratio": 26.6667,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d"
+    ]
+   },
+   {
+    "id": "lfbotTrap",
+    "emoji": "🐮",
+    "group": "天体の機構",
+    "coord": "2d",
+    "n": 17,
+    "groups": 1,
+    "governorRow": 0,
+    "governorMass": 600,
+    "governorPinned": false,
+    "ratio": 75,
+    "relativeDrag": null,
+    "contactMode": null,
+    "testParticle": false,
+    "sampleClass": "principle",
+    "cls": "notMoved",
+    "reasons": [
+     "core2d",
+     "governorFree"
+    ]
+   }
+  ]
+ },
+ "gates": {
+  "accept": true,
+  "zero": true,
+  "effect": true,
+  "remeasureSpread": true,
+  "remeasureRing": true,
+  "audit": true
+ },
+ "ok": true,
+ "timing": {
+  "accept": {
+   "wallSec": 0.022
+  },
+  "zero": {
+   "wallSec": 2.555
+  },
+  "effect": {
+   "wallSec": 2.513
+  },
+  "remeasure": {
+   "wallSec": 0.003
+  },
+  "audit": {
+   "wallSec": 0.001
+  }
+ },
+ "elapsedS": 5.094,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第301便b",
+  "target": "beta/index.html",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T15:48:20.316Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
+   },
+   {
+    "file": "tests/out/geo4stable-w299d.json",
+    "bytes": 35612,
+    "sha256": "04fef1583a3380be23771e9062a196961b464e47507444ab55bdd229331d2e5b",
+    "mtime": "2026-10-13T15:48:10.208Z"
+   },
+   {
+    "file": "tests/out/saturnring3d-w300c.json",
+    "bytes": 40512,
+    "sha256": "f9180bd4e4912c51d519cc1fbe56f4930f15ffbfb12bb0d2f0476469a9f31729",
+    "mtime": "2026-10-13T15:39:36.568Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w301b-approxmany.mjs",
+    "bytes": 29717,
+    "sha256": "405568a81824c664dcabb5a1dbed52c517a8eaaf94f54b213bb89684a7dec716",
+    "mtime": "2026-10-13T04:11:35.467Z"
+   },
+   {
+    "file": "tests/lib-w301b-approxmany.mjs",
+    "bytes": 5302,
+    "sha256": "98d22edfa3bbdeab91f6b2d61ad1a2c2ff9bfbda45eaf9affe4ebfd2c840c23b",
+    "mtime": "2026-10-13T04:11:35.470Z"
+   },
+   {
+    "file": "tests/exp-w299d-geo4stable.mjs",
+    "bytes": 42851,
+    "sha256": "3a7b9321ec7f84944a3d3c542bb5393b75890b287fcda633a5581a7f9b50d19d",
+    "mtime": "2026-10-13T04:11:35.461Z"
+   },
+   {
+    "file": "tests/lib-w299d-spread.mjs",
+    "bytes": 6222,
+    "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
+    "mtime": "2026-10-11T18:40:40.195Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:35.510Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:35.506Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:35.514Z"
+   }
+  ],
+  "codeSha256": "2b2da522d98cc08b7d3d3ae7d37474a814218d2be485fa1aad431a19fb12a689",
+  "harnessVersion": "w301b-approxmany-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
+  "reading": "統括の検証項目 R180(対のマスクを辺を作る段で・宣言は physics の 1 つの鍵・🍥 は天体型・🍩 の帯は塵・銀河などの本の監査)",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "DT",
+    "HP.APPROX_MANY_STATE_VERSION",
+    "HP.REL_DRAG_SOLVER_TOL_DEFAULT",
+    "HP.allPresets",
+    "HP.approxManyCrossCheck",
+    "HP.approxManyPairOf",
+    "HP.approxManyState",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeReady",
+    "HP.inertialDragProbeSample",
+    "HP.inertialDragProbeStreamlines",
+    "HP.inertialDragState",
+    "HP.loadPreset",
+    "HP.presetSig",
+    "HP.sim",
+    "HP.stepCarryFrame",
+    "HP.validateApproxMany",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "abStart",
+    "abStop",
+    "appStepFn",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "cw",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1251,
+   "segments": 1138,
+   "closureShare": 0.3212
+  },
+  "scopeSha256": "c036d57a1d31018332fdff483ff624ad936ef05802e9111a16a4c6ec4b29ba10",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/geo4stable-w299d.json",
+    "stableSha256": "cbc42a22044fa9c2e99af99500eaead74c4996ef21b3480edf5af3e16aa14df2",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/stable/conditions/count/value/rows/*/timing/*/wallSec",
+     "/stable/runs/A/wallSec",
+     "/stable/runs/B/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/saturnring3d-w300c.json",
+    "stableSha256": "6b71c47ca3c67a2661b5437a11d736f2faca0ff561cc6989d40532011c407610",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/runs/*/wallSec",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

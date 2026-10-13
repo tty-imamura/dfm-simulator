@@ -9,14 +9,14 @@
   "doNotWrite": "**「N 倍速い」「モバイルで 60fps」とは書かない。** 本器は ms/步 を測るだけで、合否も速さの主張も出さない。**V8 の最適化状態(JIT)と機械の混みぐあいに依存する**ので、同じ html でも巡ごとに数割動く(spreadRel 欄)。比は**同じ走行の中で交互に測った 2 セル**でだけ読む。",
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-  "generatedAt": "2026-10-12T08:20:59.354Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T16:23:20.319Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6640554,
-    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
-    "mtime": "2026-10-12T08:16:45.878Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
    }
   ],
   "code": [
@@ -36,28 +36,28 @@
   "codeSha256": "e7d3b7b922650759e0ca2581b7701111229b3c064eaf005efd66a77b23747fa4",
   "comparedWith": [
    {
-    "file": "beta/_w300_base.html",
-    "bytes": 6567878,
-    "sha256": "0b562ae15e18dacb5c1f07bbf08e0b6e1fe05a0f1235cebbfbeba7de93d2c7b9",
-    "mtime": "2026-10-12T00:50:15.867Z"
+    "file": "beta/_w301_base.html",
+    "bytes": 6640554,
+    "sha256": "fed3f506fb4af364e947b445917b31aaac6621070963271763dee65aac6aae08",
+    "mtime": "2026-10-13T00:32:30.242Z"
    }
   ]
  },
  "ratioLastOverFirst": {
-  "stepTotal": 1.0433059722635516,
-  "stepCoreNoToy": 1.0131712259320846,
-  "bdBuild": 0.750000004656613,
-  "pass1Gravity": 0.9129287599205236,
-  "onePassAll": 0.9625954198444846,
-  "onePassMesh": 1.0067174205105016,
-  "srcArraysOnly": 1.144329896892699,
-  "localOnly": 1.0288900152208127,
-  "localPrebuilt": 0.9746397694395668,
-  "renderFrame": 1.1432835821117926
+  "stepTotal": 0.9242596810897938,
+  "stepCoreNoToy": 0.8414151410322898,
+  "bdBuild": 1.2499999813735487,
+  "pass1Gravity": 1.048746518107873,
+  "onePassAll": 1.0485248447202162,
+  "onePassMesh": 0.9325129019172358,
+  "srcArraysOnly": 1.1793103446734363,
+  "localOnly": 1.0561622465139768,
+  "localPrebuilt": 0.9935141509346671,
+  "renderFrame": 1.4423076923076923
  },
  "targets": [
   {
-   "target": "beta/_w300_base.html",
+   "target": "beta/_w301_base.html",
    "info": {
     "n": 351,
     "geoPN": 4,
@@ -68,190 +68,190 @@
     "nPinned": 1
    },
    "warmMs": {
-    "stepTotal": 515.3000000007451,
-    "stepCoreNoToy": 410.29999999701977,
-    "bdBuild": 3,
-    "pass1Gravity": 154.29999999701977,
-    "onePassAll": 429.1000000014901,
-    "onePassMesh": 325,
-    "srcArraysOnly": 60,
-    "localOnly": 272.1000000014901,
-    "localPrebuilt": 240.39999999850988,
-    "renderFrame": 106.5
+    "stepTotal": 524.2999999970198,
+    "stepCoreNoToy": 694.8999999985099,
+    "bdBuild": 3.9000000059604645,
+    "pass1Gravity": 131.09999999403954,
+    "onePassAll": 367.70000000298023,
+    "onePassMesh": 323.69999999552965,
+    "srcArraysOnly": 75.5,
+    "localOnly": 312.30000000447035,
+    "localPrebuilt": 225.10000000149012,
+    "renderFrame": 106.10000000149012
    },
    "rounds": [
     {
-     "stepTotal": 12.426666666691501,
-     "stepCoreNoToy": 11.07000000004967,
-     "bdBuild": 0.0433333333581686,
-     "pass1Gravity": 3.7433333333581684,
-     "onePassAll": 7.893333333358169,
-     "onePassMesh": 6.886666666592161,
-     "srcArraysOnly": 0.9200000000496705,
-     "localOnly": 6.516666666666667,
-     "localPrebuilt": 6.056666666641831,
-     "renderFrame": 1.8933333333581686
+     "stepTotal": 17.90333333313465,
+     "stepCoreNoToy": 13.933333333333334,
+     "bdBuild": 0.10666666651765505,
+     "pass1Gravity": 2.393333333233992,
+     "onePassAll": 10.103333333383004,
+     "onePassMesh": 10.35,
+     "srcArraysOnly": 1.593333333482345,
+     "localOnly": 11.356666666766008,
+     "localPrebuilt": 7.57999999995033,
+     "renderFrame": 1.6133333332836628
     },
     {
-     "stepTotal": 11.866666666666667,
-     "stepCoreNoToy": 10.673333333308499,
-     "bdBuild": 0.03333333333333333,
-     "pass1Gravity": 3.219999999925494,
-     "onePassAll": 8.733333333333333,
-     "onePassMesh": 7.610000000024836,
-     "srcArraysOnly": 1.4166666666666667,
-     "localOnly": 6.576666666567325,
-     "localPrebuilt": 6.256666666641832,
-     "renderFrame": 1.3866666667163372
+     "stepTotal": 10.046666666616996,
+     "stepCoreNoToy": 9.710000000149012,
+     "bdBuild": 0.009999999900658925,
+     "pass1Gravity": 2.456666666517655,
+     "onePassAll": 8.586666666716336,
+     "onePassMesh": 8.396666666865348,
+     "srcArraysOnly": 1.240000000099341,
+     "localOnly": 6.666666666666667,
+     "localPrebuilt": 5.653333333383004,
+     "renderFrame": 0.9766666665673256
     },
     {
-     "stepTotal": 10.83666666659216,
-     "stepCoreNoToy": 9.87000000004967,
+     "stepTotal": 10.2,
+     "stepCoreNoToy": 14.22999999995033,
+     "bdBuild": 0.036666666716337205,
+     "pass1Gravity": 3.15,
+     "onePassAll": 9.656666666517655,
+     "onePassMesh": 6.7466666666169965,
+     "srcArraysOnly": 0.9666666666666667,
+     "localOnly": 6.123333333184322,
+     "localPrebuilt": 6.790000000099341,
+     "renderFrame": 0.9533333331346512
+    },
+    {
+     "stepTotal": 10.343333333233993,
+     "stepCoreNoToy": 13.473333333184321,
+     "bdBuild": 0.01999999980131785,
+     "pass1Gravity": 2.136666666716337,
+     "onePassAll": 8.476666666815678,
+     "onePassMesh": 10.380000000198683,
+     "srcArraysOnly": 0.9266666668156783,
+     "localOnly": 6.3933333332339926,
+     "localPrebuilt": 6.373333333432674,
+     "renderFrame": 0.7266666665673256
+    },
+    {
+     "stepTotal": 11.706666666766008,
+     "stepCoreNoToy": 12.826666666815678,
      "bdBuild": 0.013333333283662796,
-     "pass1Gravity": 1.9800000000745057,
-     "onePassAll": 9.726666666691502,
-     "onePassMesh": 6.760000000024835,
-     "srcArraysOnly": 1.003333333383004,
-     "localOnly": 7.103333333383004,
-     "localPrebuilt": 5.4,
-     "renderFrame": 0.9533333332588275
+     "pass1Gravity": 4.280000000198682,
+     "onePassAll": 12.106666666517656,
+     "onePassMesh": 7.209999999900659,
+     "srcArraysOnly": 0.9666666666666667,
+     "localOnly": 9.05999999990066,
+     "localPrebuilt": 5.116666666666666,
+     "renderFrame": 0.7366666667163372
     },
     {
-     "stepTotal": 9.616666666666667,
-     "stepCoreNoToy": 9.443333333358169,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 2.0533333333830037,
-     "onePassAll": 8.096666666616995,
-     "onePassMesh": 9.296666666741173,
-     "srcArraysOnly": 1.076666666691502,
-     "localOnly": 6.810000000024835,
-     "localPrebuilt": 5.783333333333333,
-     "renderFrame": 1.1166666666666667
+     "stepTotal": 11.860000000149011,
+     "stepCoreNoToy": 11.55,
+     "bdBuild": 0.013333333283662796,
+     "pass1Gravity": 2.330000000198682,
+     "onePassAll": 8.343333333233993,
+     "onePassMesh": 8.446666666616997,
+     "srcArraysOnly": 1.0333333333333334,
+     "localOnly": 6.409999999900659,
+     "localPrebuilt": 5.240000000099341,
+     "renderFrame": 0.8666666666666667
     },
     {
-     "stepTotal": 11.776666666691503,
-     "stepCoreNoToy": 9.760000000024835,
-     "bdBuild": 0.03333333333333333,
-     "pass1Gravity": 4.126666666691502,
-     "onePassAll": 10.983333333333333,
-     "onePassMesh": 7.960000000024835,
-     "srcArraysOnly": 0.9699999999254942,
-     "localOnly": 6.693333333358169,
-     "localPrebuilt": 6.133333333333334,
-     "renderFrame": 0.7533333333830039
-    },
-    {
-     "stepTotal": 12.033333333333333,
-     "stepCoreNoToy": 9.823333333308499,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 2.5266666665673254,
-     "onePassAll": 7.793333333358168,
-     "onePassMesh": 7.119999999925494,
-     "srcArraysOnly": 0.9033333333830039,
-     "localOnly": 6.336666666716337,
-     "localPrebuilt": 5.353333333383004,
-     "renderFrame": 0.7033333333830039
-    },
-    {
-     "stepTotal": 11.343333333358169,
-     "stepCoreNoToy": 10.9,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 2.513333333407839,
-     "onePassAll": 8.983333333333333,
-     "onePassMesh": 7.443333333358169,
-     "srcArraysOnly": 0.9533333333830039,
-     "localOnly": 6.456666666641832,
-     "localPrebuilt": 5.540000000099341,
-     "renderFrame": 1.4966666667411725
+     "stepTotal": 17.943333333482347,
+     "stepCoreNoToy": 14.336666666467984,
+     "bdBuild": 0.013333333532015483,
+     "pass1Gravity": 2.1799999999503297,
+     "onePassAll": 7.966666666666667,
+     "onePassMesh": 8.036666666716338,
+     "srcArraysOnly": 0.9333333333333333,
+     "localOnly": 5.706666666517655,
+     "localPrebuilt": 5.203333333383004,
+     "renderFrame": 0.6033333333830039
     }
    ],
    "cell": {
     "stepTotal": {
-     "medianMs": 11.776666666691503,
-     "minMs": 9.616666666666667,
-     "maxMs": 12.426666666691501,
-     "spreadRel": 0.23860741579554837
+     "medianMs": 11.706666666766008,
+     "minMs": 10.046666666616996,
+     "maxMs": 17.943333333482347,
+     "spreadRel": 0.6745444191456441
     },
     "stepCoreNoToy": {
-     "medianMs": 9.87000000004967,
-     "minMs": 9.443333333358169,
-     "maxMs": 11.07000000004967,
-     "spreadRel": 0.1648091860874687
+     "medianMs": 13.473333333184321,
+     "minMs": 9.710000000149012,
+     "maxMs": 14.336666666467984,
+     "spreadRel": 0.3433943592060966
     },
     "bdBuild": {
-     "medianMs": 0.013333333283662796,
-     "minMs": 0.01000000002483527,
-     "maxMs": 0.0433333333581686,
-     "spreadRel": 2.5000000093132257
+     "medianMs": 0.013333333532015483,
+     "minMs": 0.009999999900658925,
+     "maxMs": 0.10666666651765505,
+     "spreadRel": 7.249999888241293
     },
     "pass1Gravity": {
-     "medianMs": 2.5266666665673254,
-     "minMs": 1.9800000000745057,
-     "maxMs": 4.126666666691502,
-     "spreadRel": 0.8496042216496295
+     "medianMs": 2.393333333233992,
+     "minMs": 2.136666666716337,
+     "maxMs": 4.280000000198682,
+     "spreadRel": 0.8955431755868981
     },
     "onePassAll": {
-     "medianMs": 8.733333333333333,
-     "minMs": 7.793333333358168,
-     "maxMs": 10.983333333333333,
-     "spreadRel": 0.3652671755696753
+     "medianMs": 8.586666666716336,
+     "minMs": 7.966666666666667,
+     "maxMs": 12.106666666517656,
+     "spreadRel": 0.48214285712271443
     },
     "onePassMesh": {
-     "medianMs": 7.443333333358169,
-     "minMs": 6.760000000024835,
-     "maxMs": 9.296666666741173,
-     "spreadRel": 0.34079713390611827
+     "medianMs": 8.396666666865348,
+     "minMs": 6.7466666666169965,
+     "maxMs": 10.380000000198683,
+     "spreadRel": 0.4327113934294221
     },
     "srcArraysOnly": {
-     "medianMs": 0.9699999999254942,
-     "minMs": 0.9033333333830039,
-     "maxMs": 1.4166666666666667,
-     "spreadRel": 0.529209621982569
+     "medianMs": 0.9666666666666667,
+     "minMs": 0.9266666668156783,
+     "maxMs": 1.593333333482345,
+     "spreadRel": 0.689655172413793
     },
     "localOnly": {
-     "medianMs": 6.576666666567325,
-     "minMs": 6.336666666716337,
-     "maxMs": 7.103333333383004,
-     "spreadRel": 0.1165737455668901
+     "medianMs": 6.409999999900659,
+     "minMs": 5.706666666517655,
+     "maxMs": 11.356666666766008,
+     "spreadRel": 0.8814352574627015
     },
     "localPrebuilt": {
-     "medianMs": 5.783333333333333,
-     "minMs": 5.353333333383004,
-     "maxMs": 6.256666666641832,
-     "spreadRel": 0.1561959654049846
+     "medianMs": 5.653333333383004,
+     "minMs": 5.116666666666666,
+     "maxMs": 7.57999999995033,
+     "spreadRel": 0.43573113206285735
     },
     "renderFrame": {
-     "medianMs": 1.1166666666666667,
-     "minMs": 0.7033333333830039,
-     "maxMs": 1.8933333333581686,
-     "spreadRel": 1.0656716417688041
+     "medianMs": 0.8666666666666667,
+     "minMs": 0.6033333333830039,
+     "maxMs": 1.6133333332836628,
+     "spreadRel": 1.165384615269991
     }
    },
    "derived": {
-    "toyStep": 1.9066666666418328,
-    "gravityReSumInPass2": 1.289999999975164,
-    "srcArrayShare": 0.793333333233992
+    "toyStep": -1.7666666664183133,
+    "gravityReSumInPass2": 0.18999999985098803,
+    "srcArrayShare": 0.7566666665176554
    },
    "shareOfStepTotal": {
     "stepTotal": 1,
-    "stepCoreNoToy": 0.8380979337697867,
-    "bdBuild": 0.0011321822771272016,
-    "pass1Gravity": 0.21454854230642487,
-    "onePassAll": 0.7415793942809155,
-    "onePassMesh": 0.6320407585629044,
-    "srcArraysOnly": 0.08236626096151559,
-    "localOnly": 0.558448910264941,
-    "localPrebuilt": 0.4910840645333544,
-    "renderFrame": 0.09482026606263615,
-    "toyStep": 0.16190206623021328
+    "stepCoreNoToy": 1.150911161708712,
+    "bdBuild": 0.0011389521809711564,
+    "pass1Gravity": 0.2044419134294148,
+    "onePassAll": 0.7334851936198865,
+    "onePassMesh": 0.7172551252956232,
+    "srcArraysOnly": 0.08257403188995988,
+    "localOnly": 0.5475512528342481,
+    "localPrebuilt": 0.4829157175400083,
+    "renderFrame": 0.07403189065996403,
+    "toyStep": -0.15091116170871197
    },
    "perFrame": {
     "stepsPerFrame": 6,
     "SUBSTEPS": 2,
     "timeScale": 3,
-    "stepTotalMsPerFrame": 70.66000000014901,
-    "renderMsPerFrame": 1.1166666666666667,
-    "totalMsPerFrame": 71.77666666681567
+    "stepTotalMsPerFrame": 70.24000000059604,
+    "renderMsPerFrame": 0.8666666666666667,
+    "totalMsPerFrame": 71.1066666672627
    },
    "pageErrors": []
   },
@@ -267,190 +267,190 @@
     "nPinned": 1
    },
    "warmMs": {
-    "stepTotal": 557.1999999992549,
-    "stepCoreNoToy": 490.3999999985099,
-    "bdBuild": 7.300000000745058,
-    "pass1Gravity": 194.19999999925494,
-    "onePassAll": 543.0999999977648,
-    "onePassMesh": 329.80000000074506,
-    "srcArraysOnly": 35.899999998509884,
-    "localOnly": 266.6000000014901,
-    "localPrebuilt": 244.69999999925494,
-    "renderFrame": 86.89999999850988
+    "stepTotal": 510.19999999552965,
+    "stepCoreNoToy": 473.6000000014901,
+    "bdBuild": 6.299999997019768,
+    "pass1Gravity": 130.5,
+    "onePassAll": 528.3000000044703,
+    "onePassMesh": 388.6000000014901,
+    "srcArraysOnly": 65.10000000149012,
+    "localOnly": 366.70000000298023,
+    "localPrebuilt": 230.29999999701977,
+    "renderFrame": 153.39999999850988
    },
    "rounds": [
     {
-     "stepTotal": 16.623333333432676,
-     "stepCoreNoToy": 9.876666666691502,
-     "bdBuild": 0.16666666666666666,
-     "pass1Gravity": 2.223333333308498,
-     "onePassAll": 8.833333333333334,
-     "onePassMesh": 7.183333333333334,
-     "srcArraysOnly": 0.7600000000248353,
-     "localOnly": 7.176666666691502,
-     "localPrebuilt": 5.589999999975165,
-     "renderFrame": 2.75
+     "stepTotal": 11.503333333383004,
+     "stepCoreNoToy": 13.240000000099341,
+     "bdBuild": 0.08999999985098839,
+     "pass1Gravity": 2.063333333283663,
+     "onePassAll": 9.286666666716338,
+     "onePassMesh": 8.819999999801318,
+     "srcArraysOnly": 1.8200000000496706,
+     "localOnly": 6.936666666467985,
+     "localPrebuilt": 5.776666666815678,
+     "renderFrame": 2.9100000001490116
     },
     {
-     "stepTotal": 12.286666666716338,
-     "stepCoreNoToy": 9.896666666741172,
-     "bdBuild": 0.03999999997516473,
-     "pass1Gravity": 2.8066666666418314,
-     "onePassAll": 8.323333333308499,
-     "onePassMesh": 7.616666666666666,
-     "srcArraysOnly": 1.1899999999751647,
-     "localOnly": 6.413333333407839,
-     "localPrebuilt": 5.273333333308498,
-     "renderFrame": 1.5566666667660078
+     "stepTotal": 17.580000000198684,
+     "stepCoreNoToy": 10.84000000009934,
+     "bdBuild": 0.023333333432674408,
+     "pass1Gravity": 2.359999999900659,
+     "onePassAll": 9.003333333383004,
+     "onePassMesh": 7.196666666616996,
+     "srcArraysOnly": 1.1399999998509884,
+     "localOnly": 6.696666666865349,
+     "localPrebuilt": 6.389999999850988,
+     "renderFrame": 1.25
     },
     {
-     "stepTotal": 12.039999999975164,
-     "stepCoreNoToy": 10,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 2.3066666666418314,
-     "onePassAll": 7.903333333258828,
-     "onePassMesh": 7.396666666741172,
-     "srcArraysOnly": 0.8666666666666667,
-     "localOnly": 6.766666666666667,
-     "localPrebuilt": 5.636666666592161,
-     "renderFrame": 0.8433333333581686
+     "stepTotal": 10.773333333432674,
+     "stepCoreNoToy": 9.69666666686535,
+     "bdBuild": 0.03333333333333333,
+     "pass1Gravity": 2.509999999900659,
+     "onePassAll": 9.67999999995033,
+     "onePassMesh": 8.55,
+     "srcArraysOnly": 1.1033333333830038,
+     "localOnly": 6.77999999995033,
+     "localPrebuilt": 6,
+     "renderFrame": 1.3566666667660077
     },
     {
-     "stepTotal": 10.043333333358168,
-     "stepCoreNoToy": 14.506666666766007,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 1.963333333407839,
-     "onePassAll": 9.793333333358168,
-     "onePassMesh": 6.72000000004967,
-     "srcArraysOnly": 1.2966666666169961,
-     "localOnly": 7.176666666567326,
-     "localPrebuilt": 5.173333333308498,
-     "renderFrame": 0.7933333332339922
+     "stepTotal": 11.910000000149012,
+     "stepCoreNoToy": 12.356666666517656,
+     "bdBuild": 0.013333333532015483,
+     "pass1Gravity": 3.0299999999503293,
+     "onePassAll": 9.823333333432675,
+     "onePassMesh": 7.546666666616996,
+     "srcArraysOnly": 1.15,
+     "localOnly": 6.433333333333334,
+     "localPrebuilt": 5.590000000099341,
+     "renderFrame": 1.106666666517655
     },
     {
-     "stepTotal": 13.096666666616995,
-     "stepCoreNoToy": 11.426666666691501,
+     "stepTotal": 9.9,
+     "stepCoreNoToy": 11.336666666716336,
      "bdBuild": 0.013333333283662796,
-     "pass1Gravity": 2.75,
-     "onePassAll": 8.406666666641831,
-     "onePassMesh": 7.493333333358168,
-     "srcArraysOnly": 1.2233333333084981,
-     "localOnly": 8.443333333358169,
-     "localPrebuilt": 6.566666666666666,
-     "renderFrame": 1.8533333333830038
+     "pass1Gravity": 3.0799999999503296,
+     "onePassAll": 7.47000000004967,
+     "onePassMesh": 10.413333333283664,
+     "srcArraysOnly": 0.9766666665673256,
+     "localOnly": 6.153333333383004,
+     "localPrebuilt": 5.616666666666666,
+     "renderFrame": 0.6366666667163372
     },
     {
-     "stepTotal": 9.753333333383004,
-     "stepCoreNoToy": 9.6,
-     "bdBuild": 0.01000000002483527,
-     "pass1Gravity": 2.203333333383004,
-     "onePassAll": 7.820000000049671,
-     "onePassMesh": 7.629999999950329,
-     "srcArraysOnly": 1.109999999900659,
-     "localOnly": 6.416666666666667,
-     "localPrebuilt": 5.903333333383004,
-     "renderFrame": 1.2766666666915019
+     "stepTotal": 10.82000000004967,
+     "stepCoreNoToy": 13.116666666666667,
+     "bdBuild": 0.016666666666666666,
+     "pass1Gravity": 3.046666666616996,
+     "onePassAll": 8.803333333383003,
+     "onePassMesh": 7.82999999995033,
+     "srcArraysOnly": 1.1566666667660077,
+     "localOnly": 9.896666666865348,
+     "localPrebuilt": 5.370000000049671,
+     "renderFrame": 1.4899999998509883
     },
     {
-     "stepTotal": 13.703333333383004,
-     "stepCoreNoToy": 12.446666666616997,
-     "bdBuild": 0.009999999900658925,
-     "pass1Gravity": 2.3466666667411724,
-     "onePassAll": 9.489999999975165,
-     "onePassMesh": 8.089999999975165,
-     "srcArraysOnly": 1.053333333383004,
-     "localOnly": 6.033333333333333,
-     "localPrebuilt": 5.776666666691502,
-     "renderFrame": 0.7299999999503295
+     "stepTotal": 9.886666666716337,
+     "stepCoreNoToy": 10.223333333184321,
+     "bdBuild": 0.010000000149011612,
+     "pass1Gravity": 2.3366666667163374,
+     "onePassAll": 8.943333333233992,
+     "onePassMesh": 7.009999999900659,
+     "srcArraysOnly": 0.9166666666666666,
+     "localOnly": 6.770000000049671,
+     "localPrebuilt": 5.566666666666666,
+     "renderFrame": 1.1033333333830038
     }
    ],
    "cell": {
     "stepTotal": {
-     "medianMs": 12.286666666716338,
-     "minMs": 9.753333333383004,
-     "maxMs": 16.623333333432676,
-     "spreadRel": 0.5591427021178973
+     "medianMs": 10.82000000004967,
+     "minMs": 9.886666666716337,
+     "maxMs": 17.580000000198684,
+     "spreadRel": 0.7110289587289306
     },
     "stepCoreNoToy": {
-     "medianMs": 10,
-     "minMs": 9.6,
-     "maxMs": 14.506666666766007,
-     "spreadRel": 0.49066666667660075
+     "medianMs": 11.336666666716336,
+     "minMs": 9.69666666686535,
+     "maxMs": 13.240000000099341,
+     "spreadRel": 0.3125551308337372
     },
     "bdBuild": {
-     "medianMs": 0.01000000002483527,
-     "minMs": 0.009999999900658925,
-     "maxMs": 0.16666666666666666,
-     "spreadRel": 15.666666637692185
+     "medianMs": 0.016666666666666666,
+     "minMs": 0.010000000149011612,
+     "maxMs": 0.08999999985098839,
+     "spreadRel": 4.799999982118607
     },
     "pass1Gravity": {
-     "medianMs": 2.3066666666418314,
-     "minMs": 1.963333333407839,
-     "maxMs": 2.8066666666418314,
-     "spreadRel": 0.36560693637705444
+     "medianMs": 2.509999999900659,
+     "minMs": 2.063333333283663,
+     "maxMs": 3.0799999999503296,
+     "spreadRel": 0.4050464807597229
     },
     "onePassAll": {
-     "medianMs": 8.406666666641831,
-     "minMs": 7.820000000049671,
-     "maxMs": 9.793333333358168,
-     "spreadRel": 0.2347343378248605
+     "medianMs": 9.003333333383004,
+     "minMs": 7.47000000004967,
+     "maxMs": 9.823333333432675,
+     "spreadRel": 0.26138467234765145
     },
     "onePassMesh": {
-     "medianMs": 7.493333333358168,
-     "minMs": 6.72000000004967,
-     "maxMs": 8.089999999975165,
-     "spreadRel": 0.18282918148411306
+     "medianMs": 7.82999999995033,
+     "minMs": 7.009999999900659,
+     "maxMs": 10.413333333283664,
+     "spreadRel": 0.43465304385754716
     },
     "srcArraysOnly": {
-     "medianMs": 1.109999999900659,
-     "minMs": 0.7600000000248353,
-     "maxMs": 1.2966666666169961,
-     "spreadRel": 0.4834834834596312
+     "medianMs": 1.1399999998509884,
+     "minMs": 0.9166666666666666,
+     "maxMs": 1.8200000000496706,
+     "spreadRel": 0.79239766096586
     },
     "localOnly": {
-     "medianMs": 6.766666666666667,
-     "minMs": 6.033333333333333,
-     "maxMs": 8.443333333358169,
-     "spreadRel": 0.3561576354716506
+     "medianMs": 6.770000000049671,
+     "minMs": 6.153333333383004,
+     "maxMs": 9.896666666865348,
+     "spreadRel": 0.5529295913522718
     },
     "localPrebuilt": {
-     "medianMs": 5.636666666592161,
-     "minMs": 5.173333333308498,
-     "maxMs": 6.566666666666666,
-     "spreadRel": 0.2471910112436285
+     "medianMs": 5.616666666666666,
+     "minMs": 5.370000000049671,
+     "maxMs": 6.389999999850988,
+     "spreadRel": 0.18160237385186664
     },
     "renderFrame": {
-     "medianMs": 1.2766666666915019,
-     "minMs": 0.7299999999503295,
-     "maxMs": 2.75,
-     "spreadRel": 1.5822454308175262
+     "medianMs": 1.25,
+     "minMs": 0.6366666667163372,
+     "maxMs": 2.9100000001490116,
+     "spreadRel": 1.8186666667461395
     }
    },
    "derived": {
-    "toyStep": 2.2866666667163376,
-    "gravityReSumInPass2": 0.9133333332836626,
-    "srcArrayShare": 1.1300000000745056
+    "toyStep": -0.5166666666666657,
+    "gravityReSumInPass2": 1.1733333334326748,
+    "srcArrayShare": 1.1533333333830047
    },
    "shareOfStepTotal": {
     "stepTotal": 1,
-    "stepCoreNoToy": 0.8138903960900358,
-    "bdBuild": 0.0008138903981113546,
-    "pass1Gravity": 0.18773738469608028,
-    "onePassAll": 0.6842105263110021,
-    "onePassMesh": 0.6098752034721548,
-    "srcArraysOnly": 0.0903418339579087,
-    "localOnly": 0.5507325013542576,
-    "localPrebuilt": 0.45876288659001957,
-    "renderFrame": 0.10390667390284922,
-    "toyStep": 0.1861096039099642
+    "stepCoreNoToy": 1.0477510782499346,
+    "bdBuild": 0.0015403573629011234,
+    "pass1Gravity": 0.23197781884372795,
+    "onePassAll": 0.8321010474437776,
+    "onePassMesh": 0.7236598890863571,
+    "srcArraysOnly": 0.10536044360866498,
+    "localOnly": 0.625693160815027,
+    "localPrebuilt": 0.5191004312976786,
+    "renderFrame": 0.11552680221758425,
+    "toyStep": -0.04775107824993474
    },
    "perFrame": {
     "stepsPerFrame": 6,
     "SUBSTEPS": 2,
     "timeScale": 3,
-    "stepTotalMsPerFrame": 73.72000000029803,
-    "renderMsPerFrame": 1.2766666666915019,
-    "totalMsPerFrame": 74.99666666698953
+    "stepTotalMsPerFrame": 64.92000000029802,
+    "renderMsPerFrame": 1.25,
+    "totalMsPerFrame": 66.17000000029802
    },
    "pageErrors": []
   }

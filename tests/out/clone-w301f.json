@@ -1,0 +1,6700 @@
+{
+ "version": "w301f-clone-1",
+ "generator": "tests/exp-w301f-clone.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+ "ruling": "DECISIONS v58 の AN288 ③④(二次元の本の複製の漏れを原因から・前の本の鍵の持ち越しは build で機能ごとに初期化)・統括の検証項目 R184",
+ "steps": {
+  "N": 20,
+  "M": 20
+ },
+ "scratch": [
+  "dQi",
+  "arep",
+  "arepD",
+  "ax",
+  "ay",
+  "az3",
+  "sumW",
+  "uAx",
+  "uAy",
+  "ds",
+  "dpx",
+  "dpy",
+  "pairD",
+  "coreOmV",
+  "angNbr",
+  "angNbrN",
+  "_Imom",
+  "_Warr",
+  "_hasD",
+  "_fusDead",
+  "_fusInto",
+  "_pkC"
+ ],
+ "summary": {
+  "books": 120,
+  "d2": 96,
+  "d3": 24,
+  "cloneOk": 120,
+  "ckOk": 120,
+  "freshOk": 120,
+  "scratchOk": 120,
+  "allOk": 120,
+  "openCarried": 0,
+  "nan": 0,
+  "reverseOpenNg": 0
+ },
+ "rows": [
+  {
+   "id": "gclock",
+   "emoji": "⏱️",
+   "coord": "2d",
+   "n": 4,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.04
+  },
+  {
+   "id": "grcal",
+   "emoji": "🛰️",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.02
+  },
+  {
+   "id": "grcalGps",
+   "emoji": "🕰️",
+   "coord": "2d",
+   "n": 4,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.021
+  },
+  {
+   "id": "grcalLight",
+   "emoji": "🌟",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.024
+  },
+  {
+   "id": "grcalShapiro",
+   "emoji": "⏲️",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "projectile",
+   "emoji": "⚾",
+   "coord": "2d",
+   "n": 4,
+   "thermal": "spin",
+   "dt": 0.004336,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.024
+  },
+  {
+   "id": "echo",
+   "emoji": "⏪",
+   "coord": "2d",
+   "n": 31,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.104
+  },
+  {
+   "id": "boxtrans",
+   "emoji": "📦",
+   "coord": "2d",
+   "n": 86,
+   "thermal": "spin",
+   "dt": 0.0064,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.883
+  },
+  {
+   "id": "boxrot",
+   "emoji": "🌀",
+   "coord": "2d",
+   "n": 120,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.659
+  },
+  {
+   "id": "boxexpand",
+   "emoji": "📈",
+   "coord": "2d",
+   "n": 120,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.636
+  },
+  {
+   "id": "boxcomoving",
+   "emoji": "🫧",
+   "coord": "2d",
+   "n": 26,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.21
+  },
+  {
+   "id": "boxbound",
+   "emoji": "🪢",
+   "coord": "2d",
+   "n": 20,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.096
+  },
+  {
+   "id": "boxbreath",
+   "emoji": "🫁",
+   "coord": "2d",
+   "n": 25,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.143
+  },
+  {
+   "id": "boxredshift",
+   "emoji": "🔦",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.0064,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.021
+  },
+  {
+   "id": "probeH",
+   "emoji": "🧭",
+   "coord": "2d",
+   "n": 17,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.078
+  },
+  {
+   "id": "freebox",
+   "emoji": "🕊️",
+   "coord": "2d",
+   "n": 72,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.606
+  },
+  {
+   "id": "cosmicweb",
+   "emoji": "🕸️",
+   "coord": "2d",
+   "n": 320,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 24.539
+  },
+  {
+   "id": "galaxy",
+   "emoji": "🌌",
+   "coord": "2d",
+   "n": 381,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 15.287
+  },
+  {
+   "id": "galaxyStd",
+   "emoji": "🎡",
+   "coord": "2d",
+   "n": 381,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 13.878
+  },
+  {
+   "id": "galaxyGeo2",
+   "emoji": "💫",
+   "coord": "2d",
+   "n": 381,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 13.928
+  },
+  {
+   "id": "galaxyDB",
+   "emoji": "🍳",
+   "coord": "2d",
+   "n": 381,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 12.827
+  },
+  {
+   "id": "rotorSolo",
+   "emoji": "🕳️",
+   "coord": "2d",
+   "n": 25,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.087
+  },
+  {
+   "id": "massLadder",
+   "emoji": "🪜",
+   "coord": "2d",
+   "n": 147,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.827
+  },
+  {
+   "id": "collapse",
+   "emoji": "🌫️",
+   "coord": "2d",
+   "n": 260,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 7.835
+  },
+  {
+   "id": "axisBarStill",
+   "emoji": "🥢",
+   "coord": "2d",
+   "n": 321,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 15.325
+  },
+  {
+   "id": "axisBarArms",
+   "emoji": "🎏",
+   "coord": "2d",
+   "n": 321,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 14.395
+  },
+  {
+   "id": "axisBarReach",
+   "emoji": "🎚️",
+   "coord": "2d",
+   "n": 321,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 14.456
+  },
+  {
+   "id": "selfRotor",
+   "emoji": "🥚",
+   "coord": "2d",
+   "n": 180,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.752
+  },
+  {
+   "id": "galaxyMeshSpiral",
+   "emoji": "🎠",
+   "coord": "2d",
+   "n": 351,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 11.893
+  },
+  {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "coord": "3d",
+   "n": 240,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 2.09
+  },
+  {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "coord": "3d",
+   "n": 300,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.105
+  },
+  {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "coord": "3d",
+   "n": 180,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.127
+  },
+  {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "coord": "3d",
+   "n": 450,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 6.304
+  },
+  {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "coord": "3d",
+   "n": 241,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.834
+  },
+  {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "coord": "3d",
+   "n": 301,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.023
+  },
+  {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "coord": "3d",
+   "n": 181,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.337
+  },
+  {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "coord": "3d",
+   "n": 451,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 6.423
+  },
+  {
+   "id": "lensing",
+   "emoji": "💡",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.016
+  },
+  {
+   "id": "spinlens",
+   "emoji": "🌗",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.012
+  },
+  {
+   "id": "blens",
+   "emoji": "🔭",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.015
+  },
+  {
+   "id": "reddening",
+   "emoji": "🌆",
+   "coord": "2d",
+   "n": 154,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.734
+  },
+  {
+   "id": "gas",
+   "emoji": "🔥",
+   "coord": "2d",
+   "n": 240,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 11.066
+  },
+  {
+   "id": "pressure",
+   "emoji": "🎈",
+   "coord": "2d",
+   "n": 240,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 11.691
+  },
+  {
+   "id": "conduction",
+   "emoji": "📏",
+   "coord": "2d",
+   "n": 28,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.093
+  },
+  {
+   "id": "frictionHeat",
+   "emoji": "🛷",
+   "coord": "2d",
+   "n": 201,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 2.848
+  },
+  {
+   "id": "coolrace",
+   "emoji": "🌈",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.018
+  },
+  {
+   "id": "convection",
+   "emoji": "♨️",
+   "coord": "2d",
+   "n": 210,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 8.9
+  },
+  {
+   "id": "buoyancy",
+   "emoji": "🧪",
+   "coord": "2d",
+   "n": 280,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 13.478
+  },
+  {
+   "id": "cooling",
+   "emoji": "☕",
+   "coord": "2d",
+   "n": 220,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 10.102
+  },
+  {
+   "id": "emergent",
+   "emoji": "🧬",
+   "coord": "2d",
+   "n": 112,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 2.973
+  },
+  {
+   "id": "emergent2",
+   "emoji": "🧊",
+   "coord": "2d",
+   "n": 112,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV",
+     "angNbr",
+     "angNbrN"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.326
+  },
+  {
+   "id": "chain2",
+   "emoji": "⛓️",
+   "coord": "2d",
+   "n": 112,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV",
+     "angNbr",
+     "angNbrN"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.234
+  },
+  {
+   "id": "chaincycle",
+   "emoji": "♻️",
+   "coord": "2d",
+   "n": 112,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV",
+     "angNbr",
+     "angNbrN"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.337
+  },
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 65.5721,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.032
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 65.5721,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.055
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.655721,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.026
+  },
+  {
+   "id": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "coord": "3d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.655721,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.426
+  },
+  {
+   "id": "earthMoonOnly3d",
+   "emoji": "🌔",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.655721,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.427
+  },
+  {
+   "id": "qLockRadialAudit",
+   "emoji": "📶",
+   "coord": "2d",
+   "n": 11,
+   "thermal": "spin",
+   "dt": 0.258807,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.064
+  },
+  {
+   "id": "qLockRadialAuditQ3",
+   "emoji": "📐",
+   "coord": "2d",
+   "n": 11,
+   "thermal": "spin",
+   "dt": 0.258807,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.053
+  },
+  {
+   "id": "mercury",
+   "emoji": "☿",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.546901,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 2.11126,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.026
+  },
+  {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 2.11126,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.06
+  },
+  {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 2.111256,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.044
+  },
+  {
+   "id": "venusSunInertial3d",
+   "emoji": "🌋",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 5.392824,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.033
+  },
+  {
+   "id": "marsSunInertial3d",
+   "emoji": "🔴",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 16.48752,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.034
+  },
+  {
+   "id": "jupiterSunInertial3d",
+   "emoji": "🏀",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 10.3982136,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "saturnSunInertial3d",
+   "emoji": "🟡",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 25.822128,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.018
+  },
+  {
+   "id": "saturnRingInertial3d",
+   "emoji": "🍩",
+   "coord": "3d",
+   "n": 127,
+   "thermal": "spin",
+   "dt": 0.58,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.805
+  },
+  {
+   "id": "uranusSunInertial3d",
+   "emoji": "🔷",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 73.64496,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "neptuneSunInertial3d",
+   "emoji": "💙",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 144.4536,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "coord": "2d",
+   "n": 5,
+   "thermal": "spin",
+   "dt": 0.424593,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.023
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 5.39282,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.765384,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.015
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 153.293,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.024
+  },
+  {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 153.293,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.631
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "coord": "2d",
+   "n": 94,
+   "thermal": "spin",
+   "dt": 3.39235,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.176
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 1.41044,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 6.99194,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.021
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 4.39426,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.02
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 2.45404,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.023
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 4.40491,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.041
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 1.88371,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.044
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 10.0977,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.041
+  },
+  {
+   "id": "compactForceToy",
+   "emoji": "🪗",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 1.35892,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.05
+  },
+  {
+   "id": "inertialDragPair",
+   "emoji": "🐌",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.470751,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.039
+  },
+  {
+   "id": "chainDiskToy",
+   "emoji": "🔗",
+   "coord": "2d",
+   "n": 81,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.464
+  },
+  {
+   "id": "chainDiskToy3d",
+   "emoji": "🔩",
+   "coord": "3d",
+   "n": 81,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.629
+  },
+  {
+   "id": "chainDiskToy3dTilt",
+   "emoji": "🪛",
+   "coord": "3d",
+   "n": 81,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 2.246
+  },
+  {
+   "id": "chainSpreadToy3d",
+   "emoji": "🍥",
+   "coord": "3d",
+   "n": 81,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 9.003
+  },
+  {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "coord": "3d",
+   "n": 41,
+   "thermal": "spin",
+   "dt": 0.002,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.382
+  },
+  {
+   "id": "coord3dKeplerTilt",
+   "emoji": "🌐",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.803672223452726,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "coord3dSpinPrecess",
+   "emoji": "🎲",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.4706802966590601,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "boxBinaryToy",
+   "emoji": "🫂",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.679459,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.047
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.50505,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.019
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "tint",
+   "dt": 0.50505,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.018
+  },
+  {
+   "id": "gw150914SpinDipole",
+   "emoji": "⚛️",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.50505,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.02
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "coord": "2d",
+   "n": 240,
+   "thermal": "spin",
+   "dt": 0.048,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 2.386
+  },
+  {
+   "id": "ngc3198",
+   "emoji": "🌃",
+   "coord": "2d",
+   "n": 300,
+   "thermal": "spin",
+   "dt": 0.048,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.163
+  },
+  {
+   "id": "ngc3198DFM",
+   "emoji": "🛞",
+   "coord": "2d",
+   "n": 301,
+   "thermal": "spin",
+   "dt": 0.032,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 7.992
+  },
+  {
+   "id": "supernovaProg",
+   "emoji": "🥀",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "spin",
+   "dt": 0.048,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.016
+  },
+  {
+   "id": "crabRemnant",
+   "emoji": "🦀",
+   "coord": "2d",
+   "n": 73,
+   "thermal": "spin",
+   "dt": 0.048,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.256
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "coord": "2d",
+   "n": 11,
+   "thermal": "spin",
+   "dt": 0.498,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.069
+  },
+  {
+   "id": "saturnD68Consistent",
+   "emoji": "🧷",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.498,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.029
+  },
+  {
+   "id": "saturnD68ObsOrbit",
+   "emoji": "📎",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 0.498,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.027
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "coord": "2d",
+   "n": 127,
+   "thermal": "spin",
+   "dt": 0.58,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.238
+  },
+  {
+   "id": "binary",
+   "emoji": "⭐",
+   "coord": "2d",
+   "n": 242,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.908
+  },
+  {
+   "id": "fig8",
+   "emoji": "♾️",
+   "coord": "2d",
+   "n": 3,
+   "thermal": "spin",
+   "dt": 0.0907412,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.036
+  },
+  {
+   "id": "counterring",
+   "emoji": "💥",
+   "coord": "2d",
+   "n": 201,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 1.593
+  },
+  {
+   "id": "spinup",
+   "emoji": "🌪️",
+   "coord": "2d",
+   "n": 240,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 3.167
+  },
+  {
+   "id": "pulsarSolo",
+   "emoji": "🏮",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "spin",
+   "dt": 0.04,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "supernovaCore",
+   "emoji": "🎇",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.035
+  },
+  {
+   "id": "whiteDwarfDFM",
+   "emoji": "⚪",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.032
+  },
+  {
+   "id": "whiteDwarfBareDFM",
+   "emoji": "🔘",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.032
+  },
+  {
+   "id": "envelopeShedDFM",
+   "emoji": "🎆",
+   "coord": "2d",
+   "n": 1,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.05
+  },
+  {
+   "id": "lfbotTrap",
+   "emoji": "🐮",
+   "coord": "2d",
+   "n": 17,
+   "thermal": "tint",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "dQi",
+     "arep",
+     "arepD",
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.109
+  },
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "coord": "2d",
+   "n": 7,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.02
+  },
+  {
+   "id": "spinDipoleBinary",
+   "emoji": "⚙️",
+   "coord": "2d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 1.62231,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.017
+  },
+  {
+   "id": "gasCohSurface",
+   "emoji": "🌬️",
+   "coord": "2d",
+   "n": 9,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.039
+  },
+  {
+   "id": "mmPhaseToy",
+   "emoji": "🪞",
+   "coord": "2d",
+   "n": 4,
+   "thermal": "spin",
+   "dt": 0.016,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.034
+  }
+ ],
+ "reverse": [],
+ "elapsedS": 305.028,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第301便f",
+  "target": "beta/index.html",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T13:19:17.014Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:13:23.385Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w301f-clone.mjs",
+    "bytes": 14219,
+    "sha256": "7046c0d44920eeb9472b9ee07c5d0f2fec1a30168854b4cd13f41d048527f0c3",
+    "mtime": "2026-10-13T13:12:00.421Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-13T13:12:00.437Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-13T13:12:00.433Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-13T13:12:00.441Z"
+   }
+  ],
+  "codeSha256": "7f185c288181f546df814e12359b8e715604c2069ae0ffbf734ffda57a331a1a",
+  "harnessVersion": "w301f-clone-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス・アプリの入口 loadPreset/cloneSimState/ckSnapOne/ckRestoreOne)",
+  "notClaim": [
+   "全部を写せば同一になる",
+   "浮動小数の非決定性"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.loadPreset",
+    "SIM_STEP_SCRATCH",
+    "appStepDt",
+    "applyQLock",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "makeSim",
+    "qLockOn",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1229,
+   "segments": 1116,
+   "closureShare": 0.3167
+  },
+  "scopeSha256": "aaab4c1af3222447ebc8d2783dd0a2d5ab79900a6f083403c291956caa3eb988",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

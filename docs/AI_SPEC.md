@@ -354,7 +354,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -3545,7 +3545,7 @@ SYSTEM_PROMPT の規則 12(逐語):
 
 ## 78. 第300便d —— 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦・統括の検証項目 R178・**表示・一覧の置き場所・版名だけ** —— 物理・presetSig・保存 JSON は不変・**SYSTEM_PROMPT には載せない**)
 
-- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ − Δm_y·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— 上へで θ が増える・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは不変。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— **第301便e から上へで θ が減る**〔`VIEW_TILT_SWIPE_UP_SIGN` = −1 —— 第300便d は上へで増えた〕・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは第301便e から Shift+ホイールで θ(§83)。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
 - **群**: 参照模型(`physics.shapeToy` を宣言した本 —— 内蔵の 8 本)の `group` は `"腕と渦伸長(軸力)"`(表示名「腕と軸力」・en "Arms & Axis Force" —— 第295便d の別名「腕と軸力」はそのまま受理して正規化)。AI が生成する参照模型の JSON も、群を書くならこの値(表示名で書いてもよい)。`presetSig` は group を見ない。
 - **版名**: `BETA_BUILD = "v<beta 線>-b<便の番号>"`(便の番号 = CHANGELOG.md の行頭「- **第NNN便」の最大 —— 便の基点の「最大 + 1」も可)。`beta/sw.js` の CACHE 接尾辞・CHANGELOG の beta 節の見出しと同じ値(器 `tools/beta-build.mjs` —— 既定は検査・`--apply --wave <NNN>`)。エクスポートの `appBuild`(beta 配信時)もこの値になる。
 - QA: **`ui.tiltSwipe300`**・**`ui.refModelGroup300`**・**`lint.betaBuild300`**(新設 —— root は SKIP)。
@@ -3584,3 +3584,84 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **太陽系 16 体の器(内蔵には入れない —— 予約 id `solarSystem16Inertial3d`)**: 入力の契約 `tests/data-w300c-solar16-schema.json`(成員 16・元期 JD TDB・太陽系重心・ICRF の J2000 の黄道・幾何学的・km と km/s・天体中心・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ)。生成器 `tests/lib-w300c-solar16.mjs`: `checkSolar16(rec)` → `{ok, errors:[{code, msg}], derived}`(符号 missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)・`toUnits`・`solar16Decl`(1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg・全天体 free・刻み = イオの接触軌道の周期 / 360・leapfrog・softening 0.001 + softeningFloor・radiusFloor 0.001)・`stepCheck`(h・h/2・h/4)・`syntheticRecord`(人工の入力 —— 実際の配置ではない)・`badVariants`。実行口 `tests/exp-w300c-solar16.mjs`(既定は人工の入力の試験・`--record <file> --emit <file>` で観測レコードの検査と宣言の断片)。
 - **受理器 `physics.radiusFloor`**(新しい鍵 —— 宣言した本だけ): single の明示半径 `radius` の下限 0.01 を 0.001 まで下げる(値域 0.001〜0.01・較正クラスは拒否・0.01 と同値なら落とす・三次元でも受理)。未宣言の本は 1 bit 不変。
 - QA: `preset.saturnRing3d300`・`docs.solar16Contract300`(root は SKIP —— 世代切替 = html の `{ id:"saturnRingInertial3d"` と `RADIUS_FLOOR_KEY = "radiusFloor"`)。
+
+## 83. 第301便a —— 引きずりの強さを慣性決定力の総和(背景を含む)で割る(原仮定者の裁定(第91報)⑤・統括の検証項目 R179・**物理の鍵 2 つと器** —— `S._core` は不変・走りが変わる在位の本は 🪛 の軸引きずりだけ)
+
+- **法則**: 受け手 i の総和 W_i = W_bg + Σ_j w_ij(w_ij = m_j 𝒦_j(r_ij) —— 並進と同じ核・宣言した対だけ)で割る: u_i = C_d Σ_j w_ij (W_j − v_i)/W_i(背景は分母にだけ)。gain = C_d/W_bg [L³/M](意味は変えない)。
+  既定の合成則 solve(第293便g)の行 (1+deg_i) u_i − Σ a_ij u_j = s_i は **W_bg = 1/gain・C_d = 1 のこの法則そのもの**(器の零試験 z8 で相対 3.3×10⁻¹⁶)—— 並進と回転引きずりは変わらない。
+- **鍵 `physics.relativeDrag.norm`**(law:"inertial"): `"total"`(既定 —— 正準形に出さない)/ `"none"`(第301便a の前の法則 —— 比較用・在位の本には書かない)。
+- **鍵 `physics.relativeDrag.background`**(W_bg [M/L³]・正の有限数・合成則 solve だけ・gain>0・C_d = gain×background ≤ 1): 行の対角を 1 + x_i(x_i = Σ_j w_ij/W_bg)に替える。既定(書かない)は W_bg = 1/gain。
+- **軸引きずり**(spinDrag.axial:"on"): 受け手の角速度 ω_i に ν_i = W_bg/(W_bg + Σ_j w_ij) を掛ける(3 成分に同じ分母)。
+- **関数(1 か所)**: `relDragNormOf(rd)`・`relDragNormActive(rd)`(total ∧ solve ∧ gain>0)・`relDragNormChanges(rd)`(背景の宣言 ∨ 軸引きずり —— presetSig の鍵 `relDragNorm` と fitCondSig の鍵 `dragNorm` はこの本だけ)・
+  `relDragBackgroundOf(rd)` → `{Wbg, Cd, from:"gain"|"declared"}`・`inertialDragNormX(rd, deg)`・`inertialDragNormOf(rd, deg)`(ν)・`inertialDragNormApply(S, n, comp, om)`(步の中 —— 解く前)・
+  読み口 `inertialDragState(S).norm`(走りが変わる本だけ —— `inertialDragNormState`)。版 `REL_DRAG_NORM_VERSION = "w301a-norm-1"`。
+- **器と正本**: `tests/exp-w301a-dragnorm.mjs`(版 w301a-dragnorm-1・`W301A_OUT`)→ `tests/out/dragnorm-w301a.json`(段 dragnorm-301a —— 零試験 z1〜z8・境目の表・🟫🟪 の新旧・候補 (iii) 宇宙の平均密度の背景・🔗 の 18000 步)。
+- QA: `behavior.dragNorm301`・`preset.refit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_NORM_VERSION`)。
+- SYSTEM_PROMPT の規則 12 に 1 文(引きずりの強さは総和〔背景を含む〕で割る —— 鍵 norm・background は書かない)。
+
+## 84. 第301便c —— 軸回転 = 慣性軸回転 + 引きずり軸回転・傾きを持たない受け手の軸引きずり(原仮定者の裁定(第91報)②・統括の検証項目 R181・**既定 —— 宣言の鍵は足さない** —— `S._core`・位置・速度・自転・署名は不変・動くのは軸引きずりを宣言した本の姿勢の角 rotA だけ)
+
+- **規則**(三次元の本の `relativeDrag.spinDrag` の `axial:"on"` の受け手側): 受け手の姿勢の角の増分は (慣性軸回転 s + 引きずり軸回転 ω_drag)·dt。慣性軸回転は自転の状態 `spin` のまま(引きずりを足さない)・引きずり軸回転は毎步作り直す。
+- **傾きを持たない受け手**(粒子の `spinAxis.enable` が無い): ω_drag = Σ_j κ m_j Ω_j K_ε(r) μ²(符号つきのスカラー —— 受け手の軸への投影を掛けない・受け手に傾きを作らない)。旧(第298便c)は既定 +z への投影で、源の軸が 90° 傾くと 0 になった。
+- **傾きを持つ受け手**(`spinAxis.enable:true`): 第298便c のベクトル則のまま(平行成分 = 引きずり軸回転・垂直成分は軸の向き)。源の法則(μ²・K_ε・κ)は変えない。強さの正規化は別の関数が掛ける。
+- **状態と読み口**(軸引きずりを宣言した本だけ): `S.rotAIn`(慣性軸回転の角)・`S.rotADr`(引きずり軸回転の角)・`S._rdWS`(傾きの無い受け手の ω_drag)・帳簿 `inertialDrag3AxFlatN`・`inertialDrag3AxFlatMax`・`inertialDrag3AxTiltN`(`INERTIAL_DRAG3_SC`)。チェックポイントと A/B の複製は `inertialDragCkSnap`/`inertialDragCkRestore`(`INERTIAL_DRAG_CK_SAMPLES` に 3 本)。読み口 `HP.coord3d.axialSplit(S)`・`HP.coord3d.axialSplitVersion`(`REL_DRAG_AXIAL_SPLIT_VERSION = "w301c-axial-split-1"`)・`inertialDragState(S).spin3.axial.split`。
+- **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 枝 c 単独の値。第301便a の総和正規化 ν と合わせた統合後は **3.98 rad**〔第301便m〕—— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
+- **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
+- QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。
+## 85. 第301便b —— 近似多粒子の契約 physics.approxMany(🍥 を天体型に・🍩 の帯を塵に・銀河などの本の監査)(原仮定者の裁定(第91報)①③・統括の検証項目 R180・**宣言した本 2 本の力学と署名だけが変わる** —— 他の本は 1 bit 不変・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**(physics の鍵 1 つ —— presetSig に入る・三次元の本だけ): `approxMany:{version:"v1", governor:<bodies の行>, groups:[{kind:"dust"|"body", rows:[from,to], spinZero?:"declared"}]}`。行の閉区間を受理器と build が粒子の添字へ展開する(build の行 → 粒子の対応 —— 手書きの添字を本に置かない)。説明の `approximation`(presetSig の外)とは別の鍵。
+- **対の表**(マスクは辺を作る段で効かせる): 支配天体 ↔ 塵/天体 = 重力・引きずり 有・接触は本の宣言のまま / 塵 ↔ 塵 = 重力・引きずり・接触 **無** / 天体 ↔ 天体 = 重力・引きずり 有・接触 **無** / 塵 ↔ 天体 = 重力・引きずり 有・接触 **無** / 宣言の外の粒子 = マスクしない。重力の対(`dfmCore3`)・ポテンシャル(`coord3dTotals`)・移送の ΔU 帳簿・慣性決定力の辺(`S._rdPairSet` から塵どうしを除く —— 連立の分子にも受け手の総和 deg にも入らない)・回転/軸の引きずり(同じ辺の集合)・受動プローブの格子点(塵の受け手 —— 塵の源を数えない)。
+- **受理**(`validateApproxMany`・`approxManyCrossCheck`): governor は正の質量の single で `pinned:true` が必須・行は一意で governor を含まない・天体は自転を宣言(single は 0 でない spin と `spinAxis.enable:true`・0 を置くなら群に `spinZero:"declared"`・群〔ring/disk〕は spinMin=spinMax の 1 値で 0 でない自転は拒否)と明示半径(single の `radius`・群の `particleRadius` —— 見た目の R=√m だけでは回転引きずりの源にならない)・塵は自転 0・**二次元の本は拒否**。走行中に粒子の数が宣言から変わったら三次元の步を止める(`coord3dRuntimeWhy`)。
+- **読み口**: `HP.approxManyState(S)`(塵・天体・対の数・マスクした対の数・辺の数)・`HP.approxManyPairOf(S,i,j)`(重力・引きずり・接触の有無)・`HP.approxManyDragEdges`。定数 `APPROX_MANY_KEY`・`APPROX_MANY_VERSIONS`・`APPROX_MANY_KINDS`・`APPROX_MANY_STATE_VERSION`(w301b-approxmany-1)。
+- **🍥 chainSpreadToy3d**: 天体型(粒子 80 に自転のトイの宣言値 0.5〔中心の宣言値の写し〕・軸 +z の明示・明示半径 √5)・governor = 中心(pinned)。生成器 `tests/lib-w301b-approxmany.mjs` の `spreadApprox` を器 w299d の `spreadPreset` が html の世代(受理器に approxMany がある)で当てる。
+- **🍩 saturnRingInertial3d**: 土星 = governor・衛星 6 = 天体(💍 の自転の写し —— `spinZero:"declared"`)・C/B/A 帯 120 粒 = 塵。生成器 `ringDecl3` が `ringApproxDecl` で足す。
+- **器と正本**: `tests/exp-w301b-approxmany.mjs`(版 w301b-approxmany-1・`W301B_OUT`)→ `tests/out/approxmany-w301b.json`(段 approxmany-301b —— geo4stable-299d・saturnring3d-300c の後)。測り直しは正本 `tests/out/geo4stable-w299d.json`(🍥 の 8 条件)と `tests/out/saturnring3d-w300c.json`(🍩)を器が作り直したもの。
+- QA: **`behavior.approxMany301`**・**`preset.approxMany301`**(新設 —— root は SKIP・世代切替 = html の `const APPROX_MANY_KEY="approxMany"`)。世代切替で追従(生成器が html の世代を読む): `preset.chainSpread299`・`behavior.geo4Stable299`・`preset.saturnRing3d300`。
+
+## 86. 第301便f —— 複製とチェックポイントの状態の契約・build の機能ごとの初期化(DECISIONS v58 の AN288 ③④・統括の検証項目 R184・**宣言の鍵は増やさない** —— 物理の既定経路・`S._core`・署名は不変・**SYSTEM_PROMPT には載せない**)
+
+- **原因**: 二次元の tint の本(kRep>0・q>1)の複製と復帰が次の 1 步目から分かれたのは、U_rep の中点補正が次の步で読む **duT**(直前サブステップの δ√T)を複製もチェックポイントも写していなかったため。
+- **状態の契約(正本)**: `CK_ARRS`(配列)・`CK_SC`(数・文字列・null の帳簿と読み口)・`CK_DEEP`(深い写し —— 光子・箱の履歴・機構スペクトル・近点検出器・系譜・コンパクト力の前の步の速度)。
+  チェックポイント(`ckSnapOne`/`ckRestoreOne` —— 復帰は updateRadii の後に CK_SC を置き直す)と A/B・アプリ内実測の複製(`cloneSimState` の最後の `simStateCopyInto`)が同じ 1 組を写す。
+  含めないもの = `SIM_STEP_SCRATCH`(毎步作り直す作業配列 —— 複製の後で NaN に塗っても走行は同じ)。
+- **build の機能ごとの初期化**: 表 `SIM_BUILD_RESET`(機能・説明・鍵)を build の先頭で `simBuildReset` が消す(本を切り替えた内蔵の sim が新しく組んだ sim と同じ鍵の集合と値になる)。
+- **器と正本**: `tests/exp-w301f-clone.mjs`(版 w301f-clone-1・`W301F_OUT`・`W301F_IDS`・`W301F_N`/`W301F_M`)→ `tests/out/clone-w301f.json`(段 clone-301f)。
+- QA: `behavior.clone2d301`(root は SKIP —— 世代切替 = html の `function simStateCopyInto(`)。
+
+## 87. 第301便e —— UI の 2 点と v59 の細目(原仮定者の裁定(第91報)⑥・DECISIONS v60 §0 の AN290 ①・AN292 ③・AN293 ③④⑤⑥・AN294 ②・AN295 ③・AN296 ②・統括の検証項目 R183・**表示と文言だけ** —— 物理・presetSig・保存 JSON・SYSTEM_PROMPT は不変)
+
+- **二本指の縦スワイプの向き**: `VIEW_TILT_SWIPE_UP_SIGN` = −1(指を上へ動かすと θ が減る)。θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`/H。HP: `HP.viewTilt().swipe.upSign`。
+- **Shift+ホイール → θ**: `VIEW_TILT_WHEEL_DEG_PER_PX` = 0.05(°/px)・`VIEW_TILT_WHEEL_LINE_PX` = 16。量 = `tiltWheelPx(deltaX, deltaY, deltaMode, H)`(縦と横の大きい方)× 度/px を積み立て(`tiltWheelStep`)・手前へ(deltaY>0)で増える。Shift なしのホイールは拡大縮小のまま。HP: `HP.viewTilt().wheel`・`HP.tiltWheelPx`。
+- **通知の帯 `#notice`**: `color:var(--fg)`・ライトでは変数集合をライトの値・下地 rgba(255,255,255,.92)。`#bodyEdit`・`#pmPanel` も `color:var(--fg)`。
+- **文言**: `ppGeo4` ja「4: 慣性決定力の多粒子」/ en "4: inertial determinacy, many-particle"(旧名は `ppGeoUse4` の履歴の注記)。`retiredNotice` の一般文(「退役の本は ID で履歴として開く」「旧 physics.spaceMesh を含む保存は今の入力で拒否」)。`nc_solar_cal3d`(三次元の本の `solar_cal` —— `pNotClaims` が `physics.coord` で選ぶ)。説明タブの `#approxLine`(`approxLineText` —— i18n `apx_*`)。obsCard の印「(観測の正本の行)」は `obsCardResolved`(HP)が `OBS_COMPARE_ROWS` から描く。
+- **題材**: `TOPIC_TAGS` から spaceMesh を撤去(8 個)。
+- **SYSTEM_PROMPT は変えていない**(値域の行の geoPN=4 の語「空間メッシュ・連鎖」は AI の入力の契約 —— 改名は決断事項候補)。
+- QA: `ui.toastSkin301`・`ui.tiltWheel301`・`ui.v59Text301`(root は SKIP —— 世代切替 = html の `function tiltWheelPx(`)。
+
+
+## 88. 第301便g —— 背景慣性決定力 W_bg の法則性の探索(原仮定者の裁定 AN300・統括の検証項目 R185・**探索だけ —— html・本の宣言・署名は変えない**)
+
+- **何をしたか**: 器 `tests/exp-w301g-wbglaw.mjs`(段 wbglaw-301g・正本 `tests/out/wbglaw-w301g.json`)が、慣性決定力の引きずりを宣言した本を宣言から機械で分類し(fit 🟫🌡️🟪🌦️・退役の記録 🌛・censored 🌥️・移送 🟤🌤️🟣🌔🔂・未フィット 🌋🔴🏀🟡🔷💙🍩)、系の量・局所の重み Σw̄_rel・gain 0 からの効果 δ を測って、W_bg の候補(一定・M/a³・m/a³・(M+m)/a³・M/R³・M/(a²ε)・Ω²/G・ωΩ/G・Σw̄_rel・c²/(Ga²)・外の天体+宇宙の一様な分・応答の分解)を自由パラメータ 0〜2 で当てはめ、leave-one-out と未フィットの本への予測を記録した。
+- **結果**: 系の量だけの候補は leave-one-out で 1.6 dex より外れる(最良は「一定」2.17 dex)—— **系の量だけで W_bg を決める法則はこの探索範囲では未達 —— 次の見直し**。規則性は応答の側にある: 1 公転あたりの近点の回転 δ_aps ≈ κ_aps ξ̄(κ_aps 1.52〜1.67・幾何平均 1.607)・周期の短縮 δ_P ≈ 1.000 ξ̄(🟪)。よって W_bg ≈ κ Σw̄_rel/δ_obs(δ_obs は標的が引きずりに求める差 —— 系の量ではない)で、本ごとの違いは 0.09 dex まで説明される(同じ種類の標的の κ で leave-one-out: 🟫 43.57″/世紀・🌦️ 8.8468 年)。
+- **AI 生成の規則**: 変えない(宣言の形は同じ —— 背景の宣言 `relativeDrag.background` の既定は第301便a のまま。法則の候補を本に当てるのは次便の裁定の後)。
+- QA: `docs.wbgLaw301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_NORM_VERSION`。正本の門・行の選び方を宣言から作り直して照合・表が宣言と一致・当てはめの作り直し・文書)。
+- 言わないこと: 「法則を発見した」「W_bg が決まった」(gain を系をまたぐ定数と呼ばない・現実の再現の主張をしない)。
+
+
+## 89. 第301便d —— 連鎖円盤の 14000 步付近の飛びの記録と放出の探索の写し 🧨 chainBurstShell3d(原仮定者の裁定(第91報)④・統括の検証項目 R182・**新本 1 本と器** —— `S._core`・本体の積分器・既存の本の步と署名は不変・**SYSTEM_PROMPT には載せない**)
+
+- **記録**: 🔗 chainDiskToy(🔩 も xy がビット同一・第301便a の前の法則 norm:"none" ともビット同一)の円盤は既定の刻み 0.016 で t≈250 に大半が半径 100 の外へ飛ぶ。
+  引きずりを各段で解き直す結合積分の独立な器 rk4(`tests/lib-w301d-coupled.mjs` —— ṙ = v + u(r, v)・v̇ = a(r) を同じ段の位置で解く)では刻み h・h/2・h/4 で標本が一致し、
+  t = 480 まで大半は飛ばない —— **本体の分割(重力のキック → ドリフトの後に座標だけ u·dt で動かす)が強い引きずりの塊で放出を早めていた**。帳簿の残差 R_E = ΔE − W は
+  分割した重力の段の ΔK_kick + ΔU_drift そのもの(rk4 では 10⁻⁸ 以下)。ただし**機構は収束した解に残る**(引きずりの支える仕事 W で慣性速度 v が積み上がり、塊がほどけて放出 ——
+  🔗 の粒子 40 個の変種・三次元の殻)。
+- **探索の写し 🧨 chainBurstShell3d**: 🔩 の宣言(G 0.005・軟化 0.5・gain 8・ε 1・network-pcg-v1・double・中心 m 100 半径 6 spin 0.5 軸 +z pinned)のまま、円盤を生成器
+  `tests/lib-w301d-shell.mjs`(版 w301d-shell-1 —— 半径 6〜12 の球殻・黄金角の螺旋・体積一様の半径・静止)の single 40 個(m 10)に替えた三次元の原理の本。
+  **画面の刻み `physics.stepDt` 0.002**(本体の分割で放出が早まるので rk4 に近い刻みを宣言 —— 時間の標準〔第297便c〕の観察の本: `timeScale` 4・`timeRef.tObs` 1.2 = 600 步。放出 t≈272 は速さの倍率で早送りして見る)。notClaim `supernova_analogy`
+  (表示文 `nc_supernova_analogy` —— ja/en)・観測カードの行「アナロジー」。ワンタップ B 側は gain 0(physicsPatch)。
+- **AI 生成の規則**: 変えない(宣言の形は既存のまま —— SYSTEM_PROMPT には載せない)。ただし慣性決定力の引きずりが強い本(受け手の Σw/W_bg ≫ 1 —— 塊)で放出や飛びを
+  主張するときは、器で刻みの依存(本体の刻みを細かくする・結合積分の器と比べる)を確かめてから書く。
+- **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
+- QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
+  (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。

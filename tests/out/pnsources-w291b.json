@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-  "generatedAt": "2026-10-12T07:48:33.336Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T15:39:39.153Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6644968,
-    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-    "mtime": "2026-10-12T05:11:05.850Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
    }
   ],
   "code": [
@@ -113,11 +113,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1204,
-   "segments": 1095,
-   "closureShare": 0.3168
+   "names": 1232,
+   "segments": 1119,
+   "closureShare": 0.3178
   },
-  "scopeSha256": "9d8e46ac18b37469337fdeffc3b2bccd0f5046a424e311b2dd5bd7399eac7b77",
+  "scopeSha256": "0918ba486949f07b16c6418ab995d79cf0dc72f7b5f9b90dfaa2ebcfc9110043",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -168,9 +168,9 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
+ "nowSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
  "A": {
-  "n": 175,
+  "n": 176,
   "kf0Books": 28,
   "increased": [
    "earthMoonReal",
@@ -253,6 +253,7 @@
    "chainDiskToy3d",
    "chainDiskToy3dTilt",
    "chainSpreadToy3d",
+   "chainBurstShell3d",
    "coord3dKeplerTilt",
    "coord3dSpinPrecess"
   ],
@@ -4566,6 +4567,33 @@
    "coord3d299": false
   },
   {
+   "id": "chainBurstShell3d",
+   "emoji": "🧨",
+   "role": null,
+   "cls": "principle",
+   "n": 41,
+   "geoPN": 4,
+   "kFrame": 0,
+   "lambdaPN": 0,
+   "G": 0.005,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 0,
+   "srcIncreased": false,
+   "inBase": false,
+   "inertialLaw": true,
+   "geo4Migrated": false,
+   "bitSame": false,
+   "sigSame": null,
+   "nan": false,
+   "conf": null,
+   "err": null,
+   "lambdaBase": null,
+   "lam297": false,
+   "timeStdOnly": false,
+   "coord3d299": false
+  },
+  {
    "id": "coord3dKeplerTilt",
    "emoji": "🌐",
    "role": null,
@@ -5616,13 +5644,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.093,
+   "wallSec": 0.104,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.163,
+   "wallSec": 0.191,
    "errors": 0
   }
  },
- "elapsedS": 211.26
+ "elapsedS": 269.667
 }

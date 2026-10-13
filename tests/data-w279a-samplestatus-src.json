@@ -143,25 +143,38 @@
   "chainDiskToy3dTilt": {
    "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
    "objective": "met",
-   "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.285(姿勢だけ・係数は未較正)",
+   "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0213(総和正規化後・姿勢のみ)",
    "evidence": [
     "tests/out/drag3d-w298c.json"
    ],
    "en": {
     "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
-    "state": "out-of-plane offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.285"
+    "state": "z offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.0213 (normalised)"
    }
   },
   "chainSpreadToy3d": {
    "purpose": "円盤を広げた三次元の geoPN=4 で安定の条件 8 項目を測る",
    "objective": "met",
-   "state": "重なり 0・最短 12.9・残差 ≤6.3e-12・h/2 の差 0.02%・種の幅 5.2%・8 条件を満たす",
+   "state": "天体型・重なり 0・最短 12.9・残差 ≤5.2e-12・h/2 の差 0.02%・種の幅 6.9%・8 条件を満たす",
    "evidence": [
-    "tests/out/geo4stable-w299d.json"
+    "tests/out/geo4stable-w299d.json",
+    "tests/out/approxmany-w301b.json"
    ],
    "en": {
     "purpose": "Spread the geoPN=4 disc in 3D; measure 8 declared stability conditions",
-    "state": "no overlap; closest pair 12.9; residual <=6.3e-12; h/2 0.02%; seed spread 5.2%; all 8 met"
+    "state": "body type; no overlap; closest 12.9; residual <=5.2e-12; h/2 0.02%; seed spread 6.9%; all 8 met"
+   }
+  },
+  "chainBurstShell3d": {
+   "purpose": "自転する中心へ落ちる殻の放出が刻みで収束した解に残るかを測る",
+   "objective": "met",
+   "state": "rk4 の h と h/2 で同じ放出(t≈272・37/40 個)・本体の步は刻みで近づく・gain 0 は放出しない・超新星のアナロジー",
+   "evidence": [
+    "tests/out/chainburst-w301d.json"
+   ],
+   "en": {
+    "purpose": "Test if a shell falling on a spinning centre ejects in the converged solution",
+    "state": "rk4 h and h/2 agree (t~272, 37/40 out); app step converges; gain 0 none; analogy only"
    }
   },
   "coord3dKeplerTilt": {
@@ -335,13 +348,14 @@
   "saturnRingInertial3d": {
    "purpose": "土星の輪を三次元の赤道面に置き面の保持と損失を測る",
    "objective": "met",
-   "state": "C環内縁 20828.4 s(h/2 20824.8)・面の角 1.5e-6°・損失 0・帯は有限質量の粒",
+   "state": "C環内縁 20828.3 s(h/2 20824.9)・面の角 1.5e-6°・損失 0・帯は塵(有限質量の粒)",
    "evidence": [
-    "tests/out/saturnring3d-w300c.json"
+    "tests/out/saturnring3d-w300c.json",
+    "tests/out/approxmany-w301b.json"
    ],
    "en": {
     "purpose": "Saturn's rings on the 3D equator; measure plane and loss",
-    "state": "C-ring inner edge 20828.4 s (h/2 20824.8); plane 1.5e-6 deg; lost 0; finite-mass grains"
+    "state": "C-ring inner edge 20828.3 s (h/2 20824.9); plane 1.5e-6 deg; lost 0; grains are dust (finite mass)"
    }
   },
   "uranusSunInertial3d": {

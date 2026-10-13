@@ -870,6 +870,41 @@ export const REGEN_STEPS = [
   S('saturnring3d-300c', 'node tests/exp-w300c-saturnring3d.mjs', ['tests/out/saturnring3d-w300c.json'], 165, { secSource: 'w300c-branch', node: true,
     volatilePaths: { 'tests/out/saturnring3d-w300c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/runs/*/wallSec']) },
     note: '第300便c: 土星の輪の geoPN=3 三次元 —— 赤道面へ回した配置・面の保持と損失・h/h2・帯の粒の質量と試験粒子の差・重心・回転引きずりの受動プローブ(値だけ —— gain 0 の基準)' }),
+  // ---- 第301便a(原仮定者の裁定(第91報)⑤「引きずりの強さは慣性決定力の総和〔背景を含む〕で割る」・統括の検証項目 R179): **引きずりの強さの正規化**
+  //   (零試験 z1〜z8 —— 既定の solve が W_bg = 1/gain の正規化した法則そのものであること・3 成分に同じ分母・PCG / 境目の表〔慣性決定力の引きずりを宣言した本ごとの Σw/W_bg〕/
+  //   🟫🟪 の新旧 / 候補 (iii) 宇宙の平均密度の背景 / 🔗 の 18000 步)。html を読む(器のコードの依存として inertial3-295c〔検出器 B の runPair〕の後・html の生成領域〔obs-compare・
+  //   sample-status〕の後 —— fit-297b と同じ)・1 プロセス。所要は第301便a の枝の実測(正本の elapsedS)
+  S('dragnorm-301a', 'node tests/exp-w301a-dragnorm.mjs', ['tests/out/dragnorm-w301a.json'], 191, { secSource: 'w301a-branch', node: true, after: ['inertial3-295c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/dragnorm-w301a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第301便a: 引きずりの強さの正規化 —— 零試験・境目の表(Σw/W_bg)・🟫🟪 の新旧・宇宙の平均密度の背景の候補・🔗 の 18000 步(値だけ)' }),
+  // ---- 第301便b(原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して
+  //   重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」・統括の検証項目 R180): **近似多粒子の契約 physics.approxMany**
+  //   (受理と拒否の例・対のマスクの零試験〔重力・ポテンシャル・慣性決定力の辺と deg・受動プローブ・回転源・接触・天体だけの宣言のビット同一〕・🍩 の塵のマスクの効き・
+  //   🍥 の塵型の対照〔診断〕・測り直しの記録〔🍥 の 8 条件と 🍩 の門 —— 正本 geo4stable-w299d.json・saturnring3d-w300c.json を読む〕・宣言から数えた監査)。
+  //   Node 1 プロセス。2 つの正本を読むので after に 2 段。所要は第301便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('approxmany-301b', 'node tests/exp-w301b-approxmany.mjs', ['tests/out/approxmany-w301b.json'], 10, { secSource: 'w301b-branch', node: true, after: ['geo4stable-299d', 'saturnring3d-300c'],
+    volatilePaths: { 'tests/out/approxmany-w301b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/effect/spreadDust/A/wallSec']) },
+    note: '第301便b: 近似多粒子の契約(塵どうしは重力・引きずり・接触なし・天体どうしは接触なし・支配天体は固定)—— 受理・零試験・🍩 の塵のマスクの効き・🍥🍩 の測り直しの記録・監査(値だけ)' }),
+  // ---- 第301便f(DECISIONS v58 の AN288 ③④・統括の検証項目 R184): **複製とチェックポイントの全本の同一・build の機能ごとの初期化** —— 在位の全本(二次元・三次元)で
+  //   N 步 → 複製/保存 → M 步の全欄の指紋(複製・復帰・持ち越し・作業配列を塗っても同じ)と逆順の開き直し。Node の headless 1 プロセス・html だけを読む(html を書く段 obscompare・samplestatus の後)。
+  //   所要は第301便f の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('clone-301f', 'node tests/exp-w301f-clone.mjs', ['tests/out/clone-w301f.json'], 719, { secSource: 'w301f-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/clone-w301f.json': META_RUN.concat(['/elapsedS', '/rows/*/wallSec']) },
+    note: '第301便f: 複製(cloneSimState)・チェックポイント(保存→復帰)・本の切り替え(build の機能ごとの初期化)の全本の同一 —— 状態の契約 CK_ARRS/CK_SC/CK_DEEP と作業配列 SIM_STEP_SCRATCH の確かめ' }),
+  // ---- 第301便g(原仮定者の裁定 AN300「背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う」・統括の検証項目 R185): **W_bg の法則性の探索**
+  //   (データの表〔宣言から選んだフィットの本・退役の記録・移送・未フィットの本 —— 系の量と局所の重み Σw̄・要る効果 δ〕/ 候補の当てはめ〔1〜2 パラメータ・LOO〕/
+  //   LOO の標的の走行 / 応答 κ の検算 / 未フィットの本への予測の記録)。html を読む(器のコードの依存として inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・
+  //   planets3d-299c〔runPl3〕・dragnorm-301a〔cosmicBackground〕の後・html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。所要は第301便g の枝の実測(正本の elapsedS)
+  S('wbglaw-301g', 'node tests/exp-w301g-wbglaw.mjs', ['tests/out/wbglaw-w301g.json'], 278, { secSource: 'w301g-branch', node: true,
+    after: ['inertial3-295c', 'moon3d-298c', 'planets3d-299c', 'dragnorm-301a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/wbglaw-w301g.json': META_RUN.concat(['/elapsedS', '/table/*/base/wallSec', '/table/*/run/wallSec', '/loo/*/wallSec', '/predictions/planets/*/preds/*/wallSec', '/predictions/rings/*/preds/*/wallSec', '/predictions/rings/*/gain0/wallSec']) },
+    note: '第301便g: 背景慣性決定力 W_bg の法則性の探索 —— データの表・候補の当てはめと leave-one-out・応答 κ の検算・未フィットの本への予測(値だけ —— 本の宣言は変えない)' }),
+  // ---- 第301便d(原仮定者の裁定(第91報)④「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」・統括の検証項目 R182):
+  //   **連鎖円盤の飛びの器**(🔗🔩 の再現と新旧の法則・本体の帳簿の分離〔重力の段のキック/ドリフトと移送〕・結合積分の独立な器 tests/lib-w301d-coupled.mjs〔rk4/rk2/split/semic〕との
+  //   刻みの比較・対照〔gain・自転・種・粒子数〕・t = 480 の長い窓)。html を読む(html の生成領域〔obs-compare・sample-status〕の後・子プロセス 2 本 —— 結果は並列数に依らない)。所要は第301便d の枝の実測(正本の elapsedS)
+  S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
+    note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

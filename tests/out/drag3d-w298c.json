@@ -118,10 +118,10 @@
   },
   "covariance": {
    "steps": 1500,
-   "relDr": 9.39964e-14,
-   "relDv": 4.0962e-14,
-   "maxDaxis": 8.40684e-14,
-   "maxDrotA": 1.59872e-13,
+   "relDr": 3.32408e-14,
+   "relDv": 1.73125e-14,
+   "maxDaxis": 4.96369e-14,
+   "maxDrotA": 3.19744e-14,
    "shift": [
     37.5,
     -12.25,
@@ -133,23 +133,23 @@
   },
   "budget": {
    "steps": 3000,
-   "relP": 3.05803e-16,
-   "dLmax": 7.64663,
-   "Lresid": 1.86944e-14,
+   "relP": 2.29483e-16,
+   "dLmax": 7.66768,
+   "Lresid": 2.94517e-14,
    "Lscale": 59.0248,
-   "relLresid": 3.16721e-16,
+   "relLresid": 4.98972e-16,
    "dL3": [
-    1.35886,
-    2.76637,
-    0.0723387
+    1.20599,
+    2.68761,
+    0.0786469
    ],
    "dLspin": [
-    0.0709091,
-    0.586394,
-    -0.252932
+    0.738739,
+    -0.95423,
+    0.0133579
    ],
    "axisTurns": 5998,
-   "perpSkip": 5998
+   "perpSkip": 0
   },
   "allSame": true
  },
@@ -663,8 +663,8 @@
    "steps": 300,
    "calls": 30,
    "drawn": 30,
-   "fpA": "81319d2ef94e9130:517",
-   "fpB": "81319d2ef94e9130:517",
+   "fpA": "e6ac5051ece47abb:526",
+   "fpB": "e6ac5051ece47abb:526",
    "same": true
   },
   "grid": [
@@ -715,14 +715,14 @@
    "nodes": 169,
    "uMax": 1.59565,
    "uzMax": 0.920736,
-   "wzMax": 0.320276,
+   "wzMax": 0.034754,
    "streamlines": 136
   }
  },
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 3.091,
+   "wallSec": 3.426,
    "itersMax": 40,
    "resMax": 9.9975e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 5.109,
+   "wallSec": 4.799,
    "itersMax": 40,
    "resMax": 9.98881e-11,
    "fail": 0,
@@ -785,9 +785,9 @@
     "rotTerms": 159920,
     "rotMax": 8.44862,
     "axialTerms": 159920,
-    "omegaMax": 0.285216,
-    "perpSkip": 159920,
-    "rotA": 25.8163,
+    "omegaMax": 0.0213439,
+    "perpSkip": 0,
+    "rotA": 3.98254,
     "dL3": [
      97.889,
      -44.173,
@@ -831,7 +831,7 @@
   "tiltAxialOff": {
    "steps": 2000,
    "positionsVelocitiesSame": true,
-   "rotAmaxDiff": 3.54371
+   "rotAmaxDiff": 0.471852
   }
  },
  "part5": {
@@ -942,14 +942,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-  "generatedAt": "2026-10-12T07:55:01.269Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T15:44:06.610Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6644968,
-    "sha256": "0ed3f0840f84cfe570e5d2afb6293f84730c2e4d0fb4b729f597df3e3f3302a2",
-    "mtime": "2026-10-12T05:11:05.850Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
    }
   ],
   "code": [
@@ -1017,14 +1017,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1213,
-   "segments": 1104,
-   "closureShare": 0.3183
+   "names": 1245,
+   "segments": 1132,
+   "closureShare": 0.32
   },
-  "scopeSha256": "f19b53746ad7cb1dd759e455e0e0713606ba5fa0af114d17446b7e02674f3c72",
+  "scopeSha256": "fff8f22263a585dc161762f41575dec2ac422e6dfd777d90b9ee4516109a7dd1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 22.286
+ "elapsedS": 24.108
 }

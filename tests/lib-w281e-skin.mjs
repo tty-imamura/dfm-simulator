@@ -34,8 +34,9 @@ export const LAYER_SRC = {
   notice: ['#notice', '#canvasWrap'],
   canvas: ['#canvasWrap'],
 };
-/** 部分木の変数表が効く文脈(DOM の置き場所 — #canvasWrap の子: #hud・#notice・#bodyEdit・#pmPanel)。 */
-export const SCOPE_CTX = { '#canvasWrap': ['pmPanel', 'bodyEdit', 'notice', 'canvas'] };
+/** 部分木の変数表が効く文脈(DOM の置き場所 — #canvasWrap の子: #hud・#notice・#bodyEdit・#pmPanel)。
+ *  後の行ほど内側(上書きが勝つ)。第301便e: 通知の帯 #notice はライトでスキンの値へ戻す(#canvasWrap の中でもスキンに従う)。 */
+export const SCOPE_CTX = { '#canvasWrap': ['pmPanel', 'bodyEdit', 'notice', 'canvas'], '#notice': ['notice'] };
 /** 操作部(ボタン・入力欄・選択・チップ)の輪郭を --line の差し替えで持つ規則の目印(AN10′)。 */
 export const CONTROL_PROBE = '.btn';
 
