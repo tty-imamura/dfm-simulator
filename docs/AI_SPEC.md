@@ -3545,7 +3545,7 @@ SYSTEM_PROMPT の規則 12(逐語):
 
 ## 78. 第300便d —— 二本指の縦スワイプで視点の傾き θ・参照模型 8 本を群「腕と軸力」へ・beta 版の名前に便名(原仮定者の裁定(第90報)⑦・統括の検証項目 R178・**表示・一覧の置き場所・版名だけ** —— 物理・presetSig・保存 JSON は不変・**SYSTEM_PROMPT には載せない**)
 
-- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ − Δm_y·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— 上へで θ が増える・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは不変。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
+- **二本指の縦スワイプ**(表示専用): 2 本目の指が触れた時点の中点・間隔・θ を控え、最初に閾値 `VIEW_TILT_SWIPE_DECIDE_PX`(12 px)に達した touchmove で 1 回だけ判定して固定 —— |Δm_y| ≥ `VIEW_TILT_SWIPE_RATIO`(2)·|Δd| かつ |Δm_y| ≥ |Δm_x| なら傾き、それ以外はピンチ(`tiltSwipeClassify`)。傾きは θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`(180°)/H(`tiltSwipeDeg` —— **第301便e から上へで θ が減る**〔`VIEW_TILT_SWIPE_UP_SIGN` = −1 —— 第300便d は上へで増えた〕・`setViewTilt` を通す: −90〜+90・整数・`hp_view_tilt`・スライダー同期)。マウスは第301便e から Shift+ホイールで θ(§83)。HP: `HP.viewTilt().swipe`・`HP.tiltSwipeClassify`・`HP.tiltSwipeDeg`。
 - **群**: 参照模型(`physics.shapeToy` を宣言した本 —— 内蔵の 8 本)の `group` は `"腕と渦伸長(軸力)"`(表示名「腕と軸力」・en "Arms & Axis Force" —— 第295便d の別名「腕と軸力」はそのまま受理して正規化)。AI が生成する参照模型の JSON も、群を書くならこの値(表示名で書いてもよい)。`presetSig` は group を見ない。
 - **版名**: `BETA_BUILD = "v<beta 線>-b<便の番号>"`(便の番号 = CHANGELOG.md の行頭「- **第NNN便」の最大 —— 便の基点の「最大 + 1」も可)。`beta/sw.js` の CACHE 接尾辞・CHANGELOG の beta 節の見出しと同じ値(器 `tools/beta-build.mjs` —— 既定は検査・`--apply --wave <NNN>`)。エクスポートの `appBuild`(beta 配信時)もこの値になる。
 - QA: **`ui.tiltSwipe300`**・**`ui.refModelGroup300`**・**`lint.betaBuild300`**(新設 —— root は SKIP)。
@@ -3584,3 +3584,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **太陽系 16 体の器(内蔵には入れない —— 予約 id `solarSystem16Inertial3d`)**: 入力の契約 `tests/data-w300c-solar16-schema.json`(成員 16・元期 JD TDB・太陽系重心・ICRF の J2000 の黄道・幾何学的・km と km/s・天体中心・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ)。生成器 `tests/lib-w300c-solar16.mjs`: `checkSolar16(rec)` → `{ok, errors:[{code, msg}], derived}`(符号 missing・duplicate・extra・epochMix・timeScale・barycenterMix・massIncludes・lightTime・units・unitScale・origin・satelliteCenter・nonFinite・source・uncertainty・schema)・`toUnits`・`solar16Decl`(1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg・全天体 free・刻み = イオの接触軌道の周期 / 360・leapfrog・softening 0.001 + softeningFloor・radiusFloor 0.001)・`stepCheck`(h・h/2・h/4)・`syntheticRecord`(人工の入力 —— 実際の配置ではない)・`badVariants`。実行口 `tests/exp-w300c-solar16.mjs`(既定は人工の入力の試験・`--record <file> --emit <file>` で観測レコードの検査と宣言の断片)。
 - **受理器 `physics.radiusFloor`**(新しい鍵 —— 宣言した本だけ): single の明示半径 `radius` の下限 0.01 を 0.001 まで下げる(値域 0.001〜0.01・較正クラスは拒否・0.01 と同値なら落とす・三次元でも受理)。未宣言の本は 1 bit 不変。
 - QA: `preset.saturnRing3d300`・`docs.solar16Contract300`(root は SKIP —— 世代切替 = html の `{ id:"saturnRingInertial3d"` と `RADIUS_FLOOR_KEY = "radiusFloor"`)。
+
+## 83. 第301便e —— UI の 2 点と v59 の細目(原仮定者の裁定(第91報)⑥・DECISIONS v60 §0 の AN290 ①・AN292 ③・AN293 ③④⑤⑥・AN294 ②・AN295 ③・AN296 ②・統括の検証項目 R183・**表示と文言だけ** —— 物理・presetSig・保存 JSON・SYSTEM_PROMPT は不変)
+
+- **二本指の縦スワイプの向き**: `VIEW_TILT_SWIPE_UP_SIGN` = −1(指を上へ動かすと θ が減る)。θ = θ₀ + `VIEW_TILT_SWIPE_UP_SIGN`·(−Δm_y)·`VIEW_TILT_SWIPE_DEG_PER_H`/H。HP: `HP.viewTilt().swipe.upSign`。
+- **Shift+ホイール → θ**: `VIEW_TILT_WHEEL_DEG_PER_PX` = 0.05(°/px)・`VIEW_TILT_WHEEL_LINE_PX` = 16。量 = `tiltWheelPx(deltaX, deltaY, deltaMode, H)`(縦と横の大きい方)× 度/px を積み立て(`tiltWheelStep`)・手前へ(deltaY>0)で増える。Shift なしのホイールは拡大縮小のまま。HP: `HP.viewTilt().wheel`・`HP.tiltWheelPx`。
+- **通知の帯 `#notice`**: `color:var(--fg)`・ライトでは変数集合をライトの値・下地 rgba(255,255,255,.92)。`#bodyEdit`・`#pmPanel` も `color:var(--fg)`。
+- **文言**: `ppGeo4` ja「4: 慣性決定力の多粒子」/ en "4: inertial determinacy, many-particle"(旧名は `ppGeoUse4` の履歴の注記)。`retiredNotice` の一般文(「退役の本は ID で履歴として開く」「旧 physics.spaceMesh を含む保存は今の入力で拒否」)。`nc_solar_cal3d`(三次元の本の `solar_cal` —— `pNotClaims` が `physics.coord` で選ぶ)。説明タブの `#approxLine`(`approxLineText` —— i18n `apx_*`)。obsCard の印「(観測の正本の行)」は `obsCardResolved`(HP)が `OBS_COMPARE_ROWS` から描く。
+- **題材**: `TOPIC_TAGS` から spaceMesh を撤去(8 個)。
+- **SYSTEM_PROMPT は変えていない**(値域の行の geoPN=4 の語「空間メッシュ・連鎖」は AI の入力の契約 —— 改名は決断事項候補)。
+- QA: `ui.toastSkin301`・`ui.tiltWheel301`・`ui.v59Text301`(root は SKIP —— 世代切替 = html の `function tiltWheelPx(`)。
