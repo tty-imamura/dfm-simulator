@@ -3618,7 +3618,7 @@ SYSTEM_PROMPT の規則 13(逐語):
   🔗 の粒子 40 個の変種・三次元の殻)。
 - **探索の写し 🧨 chainBurstShell3d**: 🔩 の宣言(G 0.005・軟化 0.5・gain 8・ε 1・network-pcg-v1・double・中心 m 100 半径 6 spin 0.5 軸 +z pinned)のまま、円盤を生成器
   `tests/lib-w301d-shell.mjs`(版 w301d-shell-1 —— 半径 6〜12 の球殻・黄金角の螺旋・体積一様の半径・静止)の single 40 個(m 10)に替えた三次元の原理の本。
-  **画面の刻み `physics.stepDt` 0.002**(本体の分割で放出が早まるので rk4 に近い刻みを宣言 —— `timeScale` 24 で座標時間の進みは 🔩 と同じ)。notClaim `supernova_analogy`
+  **画面の刻み `physics.stepDt` 0.002**(本体の分割で放出が早まるので rk4 に近い刻みを宣言 —— 時間の標準〔第297便c〕の観察の本: `timeScale` 4・`timeRef.tObs` 1.2 = 600 步。放出 t≈272 は速さの倍率で早送りして見る)。notClaim `supernova_analogy`
   (表示文 `nc_supernova_analogy` —— ja/en)・観測カードの行「アナロジー」。ワンタップ B 側は gain 0(physicsPatch)。
 - **AI 生成の規則**: 変えない(宣言の形は既存のまま —— SYSTEM_PROMPT には載せない)。ただし慣性決定力の引きずりが強い本(受け手の Σw/W_bg ≫ 1 —— 塊)で放出や飛びを
   主張するときは、器で刻みの依存(本体の刻みを細かくする・結合積分の器と比べる)を確かめてから書く。
