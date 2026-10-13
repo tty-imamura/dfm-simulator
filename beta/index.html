@@ -7629,7 +7629,8 @@ const REL_DRAG_CHAIN_VERSION = "w296c-chain-1";
 //       なので s_i += C m_j Ω_j M1(r)(â_j×ê)。大きさ ∝ sin∠(â_j,ê) —— 赤道面で最大・軸上で 0(外積が sin を持つ —— sin² を重ねない)。二次元の spinSource は â=+z の特別な場合
 //   ・軸引きずり axial:"on": 受け手 i の**自転の向き**を â_j の向きに回す角速度 ω_i = Σ_j κ m_j Ω_j K_ε(r) μ² â_j(μ = ê·â_j —— 軸上で 1・赤道で 0・両極対称)。
 //       κ = axialCoupling [L³/M](gain とは別の宣言 —— 未較正)・K_ε は並進と同じ点源の核 r/(r²+ε²)²。**線速度 u には足さない**:
-//       受け手の姿勢を ω dt だけ回す(rotA += (ω·â_i)dt・自転軸を有効化し歳差を宣言していない粒子は軸を ω_⊥ dt だけ回す)。自転の角速度の大きさ s は変えない
+//       受け手の姿勢を ω dt だけ回す(rotA += (ω·â_i)dt・自転軸を有効化し歳差を宣言していない粒子は軸を ω_⊥ dt だけ回す —— 第301便c: 傾きを持たない受け手は
+//       投影を掛けず rotA += (Σ_j w_ij)dt —— 下の REL_DRAG_AXIAL_SPLIT_VERSION の注記)。自転の角速度の大きさ s は変えない
 //       (並進の x += u dt が v を触らないのと同じ流儀)。軸が回ったぶんの自転の角運動量 I s Δâ は帳簿 inertialDrag3AxL(受け手側の変化 —— 反作用は源・外部へ)
 const REL_DRAG_SPIN3_KEY = "spinDrag";
 const REL_DRAG_SPIN3_KEYS = ["rot", "axial", "axialCoupling"];
@@ -7682,6 +7683,17 @@ function inertialDragNormOf(rd, deg){
   if(!relDragNormActive(rd) || !(deg>0)) return 1;
   return 1/(1+inertialDragNormX(rd,deg));
 }
+// ===== 第301便c(原仮定者の裁定(第91報)②「軸の傾きを持たない粒子への軸引きずりは、傾きを考慮せず軸回転を引きずる。『移動ベクトル』=『慣性移動ベクトル』+
+//   『引きずりベクトル』と同じく、『軸回転』=『慣性軸回転』+『引きずり軸回転』として計算する」・統括の検証項目 R181): **受け手の軸回転の分解**(既定 —— 宣言の鍵は無い)=====
+//   ・慣性軸回転: 自転の状態 S.spin(s)のまま —— 引きずりを s に足さない(足すと慣性の状態へ永久に混ざり、毎步二重に積む)。核の rotA += s dt と同じ量を S.rotAIn に積む。
+//   ・引きずり軸回転 ω_drag: 毎步作り直す(並進の u と同じ —— 前の步の値を持ち越さない)。姿勢の角 rotA += ω_drag dt・同じ量を S.rotADr に積む(表示の角は和 rotA)。
+//   ・傾きを持たない受け手(三次元の軸 spinAxis を有効化していない —— saOn=0): 受け手の傾きを考慮しない。源の寄与を**符号つきのスカラー**で足す
+//       ω_drag,i = Σ_j w_ij(w_ij = κ m_j Ω_j K_ε(r_ij) μ_ij² —— 受け手の軸への投影を掛けない・絶対値にしない: 負の自転や逆向きの源の相殺を保つ)。
+//       源の側の位置の依存 μ²(源の軸からの方向)は源の法則として残す。受け手に傾きを新しく作らない(垂直成分という概念が無い —— 数えもしない)。
+//       旧(第298便c): 既定 +z への投影 ω·ẑ = Σ w_ij (â_j·ẑ) —— 源の軸が 90° 傾くと受け手の回転角に入らなかった。
+//   ・傾きを持つ受け手(saOn=1): 第298便c のベクトル則のまま(平行成分 ω·â_i は回転角 = 引きずり軸回転・垂直成分は軸の向き〔歳差を宣言した受け手は数えるだけ〕)。
+//   強さの正規化(総和+背景で割る)は別の 1 か所の関数が w_ij に掛ける(本節は寄与の受け方だけ)。式と零試験は docs/PHYSICS.md〔第301便c〕
+const REL_DRAG_AXIAL_SPLIT_VERSION = "w301c-axial-split-1";
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -19893,11 +19905,11 @@ const BUILTIN_PRESETS = [
     {q:"何を置いたか", model:"🔩 の写しで中心の自転軸を +z から 30°(方位 0)傾け、軸引きずりを宣言(axial:\"on\"・axialCoupling 4 —— 宣言値・未較正)", obs:"—(原理サンプル —— 観測転写はしない)"},
     {q:"則(1 步)", model:"回転引きずり C m Ω M1(r)(â×ê)は軸が傾くと面外の成分を持つ。軸引きずり ω = κ m Ω K_ε(r) μ² â(μ=ê·â —— 軸上で最大・赤道で 0)は受け手の姿勢を回すだけ(線速度に足さない)", obs:"—"},
     {q:"角変位(実測 2000 步)", model:"帯 r=6–12/12–18/18–24 の平均 Δθ 2.225/0.470/0.157 rad・面外の変位 最大 6.86・vz 最大 0.406・反復 最大 40・残差 最大 1.0e-10", obs:"—"},
-    {q:"軸引きずり(実測 2000 步)", model:"受け手の角速度 |ω| 最大 0.285・粒子に軸が無いので垂直成分は数えて回さない(姿勢の角 rotA に足した合計 25.8 rad)", obs:"—"},
+    {q:"軸引きずり(実測 2000 步)", model:"引きずり軸回転 |ω_drag| 最大 0.285・傾きの無い粒子は傾きを考慮せず符号つきの Σw を回転角へ(合計 29.8 rad —— 第301便c。旧 +z への投影 25.8)", obs:"—"},
     {q:"空間メッシュ(実測 50 步)", model:"Z=0 の面の |u|max 1.60・面に垂直な u_z 最大 0.921(矢印は XY へ投影)・軸引きずりの ω_z 最大 0.320(点の色)", obs:"—"},
     {q:"言わないこと", model:"円盤・銀河・歳差の再現とは書かない。gain と κ は宣言値(フィットしない)", obs:"—"}],
   descStruct:{
-    summary:"**傾いた自転軸の回転引きずりと軸引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 第298便c・原仮定者の裁定〔第88報〕「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」・統括の検証項目 R167)。🔩 の写しで、中心の自転軸を +z から 30° 傾ける。回転引きずり C m Ω M1(r)(â×ê)は粒子の面(z=0)に対して面外の成分を持つので、粒子は回りながら面から浮く。**軸引きずり**(spinDrag の axial:\"on\")は源の軸の向き â の角速度 ω = κ m Ω K_ε(r) μ² â を受け手に与え、受け手の**姿勢**(自転軸まわりの角 rotA と、軸を有効化した粒子の軸)を回す —— 線速度 u には足さない。角度則 μ²(両極対称・赤道 0)・距離の核 K_ε(並進と同じ点源)・係数 κ=4 はどれも宣言で、未較正(注記 axial_drag_unfitted)。この本の粒子は軸を有効化していないので、ω の垂直成分は数えるだけで軸は回さない(帳簿)。",
+    summary:"**傾いた自転軸の回転引きずりと軸引きずり**の原理サンプル(法則は A8 のスピン引きずりと E6′ の輸送則の三次元 —— 第298便c・原仮定者の裁定〔第88報〕「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』—— 自転軸方向で最大・同じ軸の向きに回転させる・赤道面でゼロ」・統括の検証項目 R167)。🔩 の写しで、中心の自転軸を +z から 30° 傾ける。回転引きずり C m Ω M1(r)(â×ê)は粒子の面(z=0)に対して面外の成分を持つので、粒子は回りながら面から浮く。**軸引きずり**(spinDrag の axial:\"on\")は源の軸の向き â の角速度 ω = κ m Ω K_ε(r) μ² â を受け手に与え、受け手の**姿勢**(自転軸まわりの角 rotA と、軸を有効化した粒子の軸)を回す —— 線速度 u には足さない。角度則 μ²(両極対称・赤道 0)・距離の核 K_ε(並進と同じ点源)・係数 κ=4 はどれも宣言で、未較正(注記 axial_drag_unfitted)。この本の粒子は傾きを持たない(軸を有効化していない)ので、**傾きを考慮せず**源の寄与 w = κ m Ω K_ε μ² を符号つきのスカラーのまま引きずり軸回転として回転角に足す(第301便c・原仮定者の裁定〔第91報〕②「軸回転 = 慣性軸回転 + 引きずり軸回転」—— 慣性軸回転 s は変えず、引きずり軸回転は毎步作り直す。受け手に傾きは作らない)。",
     observe:"トレイルで粒子が回りながら面から浮くのを見る(視点のスライダーを 0 に近づけると横から見える)。表示の「空間メッシュ」を ON にすると Z=0 の面の u の XY への投影と流線、軸引きずりの ω_z を点の色(暖色 +・寒色 −)で出す。",
     control:"ワンタップ対照A/B: B 側は軸引きずりを外す(axial:\"off\" —— 回転引きずりはそのまま)。B では姿勢の角だけが変わらず、位置と速度は A と同じ(軸引きずりは線速度に足さない)。比べる相手は 🔩(軸 +z)。"},
   en:{name:"Chain-dragging mini disc (3D, axis 30 deg) — rotational and axial drag of a tilted spin axis (principle)",
@@ -19905,11 +19917,11 @@ const BUILTIN_PRESETS = [
       {q:"What is placed", model:"a copy of 🔩 with the centre's axis tilted 30 deg from +z (azimuth 0) and axial drag declared (axial on, axialCoupling 4 - declared, uncalibrated)", obs:"- (a principle sample; nothing transcribed)"},
       {q:"The law (one step)", model:"the rotational drag C m Omega M1(r)(a x e) gets an out-of-plane part once the axis tilts; the axial drag omega = kappa m Omega K_eps(r) mu^2 a (mu = e.a - largest on the axis, zero on the equator) only turns the receiver's attitude (never added to the linear velocity)", obs:"-"},
       {q:"Angular displacement (measured, 2000 steps)", model:"band means r=6-12/12-18/18-24: 2.225/0.470/0.157 rad; largest out-of-plane offset 6.86, vz 0.406; at most 40 iterations; residual at most 1.0e-10", obs:"-"},
-      {q:"Axial drag (measured, 2000 steps)", model:"receiver angular velocity |omega| up to 0.285; the particles have no enabled axis, so the perpendicular part is counted, not applied (sum added to rotA 25.8 rad)", obs:"-"},
+      {q:"Axial drag (measured, 2000 steps)", model:"dragged axial rotation up to 0.285; tiltless particles add the signed sum (29.8 rad, wave 301c; old +z projection 25.8)", obs:"-"},
       {q:"Space mesh (measured, 50 steps)", model:"plane Z=0: |u|max 1.60, normal component u_z up to 0.921 (arrows projected on XY), axial omega_z up to 0.320 (dot colour)", obs:"-"},
       {q:"Not claimed", model:"no disc, galaxy or precession reproduced; gain and kappa are declared (not fitted)", obs:"-"}],
     descStruct:{
-      summary:"A PRINCIPLE SAMPLE OF THE ROTATIONAL AND AXIAL DRAG OF A TILTED SPIN AXIS (laws: the spin dragging A8 and the transport law E6′ in 3D; wave 298c; the originator's ruling in report 88: in 3D the rotational drag is largest on the equator and zero along the spin axis; besides the translational and rotational drag there is an axial drag - largest along the axis, turning bodies about the same axis, zero on the equator; the coordinator's check item R167). A copy of 🔩 with the centre's axis tilted 30 degrees from +z. The rotational drag C m Omega M1(r)(a x e) now has a component normal to the particles' plane (z=0), so the particles rise out of the plane while they turn. The AXIAL DRAG (spinDrag axial on) gives each receiver the angular velocity omega = kappa m Omega K_eps(r) mu^2 a along the source axis and turns the receiver's ATTITUDE (the angle rotA about its own axis, and the axis of a body with an enabled axis) - it is never added to the linear velocity u. The angular law mu^2 (symmetric at both poles, zero on the equator), the distance kernel K_eps (the same point kernel as the translation) and kappa=4 are all declarations, uncalibrated (note axial_drag_unfitted). The particles here have no enabled axis, so the perpendicular part of omega is counted, not applied (ledger).",
+      summary:"A PRINCIPLE SAMPLE OF THE ROTATIONAL AND AXIAL DRAG OF A TILTED SPIN AXIS (laws: the spin dragging A8 and the transport law E6′ in 3D; wave 298c; the originator's ruling in report 88: in 3D the rotational drag is largest on the equator and zero along the spin axis; besides the translational and rotational drag there is an axial drag - largest along the axis, turning bodies about the same axis, zero on the equator; the coordinator's check item R167). A copy of 🔩 with the centre's axis tilted 30 degrees from +z. The rotational drag C m Omega M1(r)(a x e) now has a component normal to the particles' plane (z=0), so the particles rise out of the plane while they turn. The AXIAL DRAG (spinDrag axial on) gives each receiver the angular velocity omega = kappa m Omega K_eps(r) mu^2 a along the source axis and turns the receiver's ATTITUDE (the angle rotA about its own axis, and the axis of a body with an enabled axis) - it is never added to the linear velocity u. The angular law mu^2 (symmetric at both poles, zero on the equator), the distance kernel K_eps (the same point kernel as the translation) and kappa=4 are all declarations, uncalibrated (note axial_drag_unfitted). The particles here carry no tilt (no enabled axis), so the source term w = kappa m Omega K_eps mu^2 is added to the rotation angle as a signed scalar, the dragged axial rotation, WITHOUT REGARD TO TILT (wave 301c; the originator's ruling in report 91 (2): axial rotation = inertial axial rotation + dragged axial rotation - the inertial rotation s is unchanged and the dragged rotation is rebuilt every step; no tilt is created on the receiver).",
       observe:"Use the trail to watch the particles rise out of the plane while turning (move the view slider towards 0 to see it side-on). With the space mesh turned on, the display shows the projection of u on XY on the plane Z=0 with streamlines, and the axial omega_z as the dot colour (warm +, cool -).",
       control:"One-tap A/B: side B drops the axial drag (axial off - the rotational drag stays). On side B only the attitude angle differs; positions and velocities match side A (the axial drag is never added to the linear velocity). Compare with 🔩 (axis +z)."},
     parameterAudit:{
@@ -38945,7 +38957,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     if(sim.rdPrevZ){ const N=sim.rdPrevZ.length; simB.rdPrevZ=Float64Array.from(sim.rdPrevZ); simB._rdVZ=new Float64Array(N); simB._rdUZ=new Float64Array(N); simB._rdNZ=new Float64Array(N); }
     // 第298便c(R167): 三次元の慣性決定力の帳簿(回転引きずり・軸引きずり・移送の dL3)
     if(sim.inertialDragDL3){ simB.inertialDragDL3=sim.inertialDragDL3.slice(); simB.inertialDrag3AxL=sim.inertialDrag3AxL.slice();
-      for(const k of INERTIAL_DRAG3_SC) simB[k]=sim[k]; }
+      for(const k of INERTIAL_DRAG3_SC) if(sim[k]!==undefined) simB[k]=sim[k]; }   // 第301便c: 軸回転の分解の帳簿は宣言した本だけ(無い鍵を undefined で作らない)
   }
   // 第299便a(R169): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— チェックポイントの CK_ARRS には第290便d から入っていたが
   //   複製には無く、A/B の B とアプリ内実測の複製だけが繰り越し 0 から走って A と分かれた)。宣言の無い本は carVx が無いので素通り
@@ -39176,7 +39188,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "z","vz","carVz","sax","say","saz","rdPrevZ"];   // 第298便a(R165): 三次元の状態(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
 const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];
 const INERTIAL_DRAG3_SC=["inertialDrag3RotSrc","inertialDrag3RotN","inertialDrag3RotSkip","inertialDrag3RotMax","inertialDrag3AxN","inertialDrag3AxOmMax","inertialDrag3AxRotA",
-  "inertialDrag3AxAxisN","inertialDrag3AxPerpSkip","inertialDrag3AxPerpSkipMax"];   // 第298便c: A/B 複製で運ぶ三次元の慣性決定力の帳簿(三次元の本だけ)   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
+  "inertialDrag3AxAxisN","inertialDrag3AxPerpSkip","inertialDrag3AxPerpSkipMax",
+  "inertialDrag3AxFlatN","inertialDrag3AxFlatMax","inertialDrag3AxTiltN"];   // 第301便c: 軸回転の分解の帳簿(軸引きずりを宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第298便c: A/B 複製で運ぶ三次元の慣性決定力の帳簿(三次元の本だけ)   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -39194,7 +39207,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
 const INERTIAL_DRAG_CK_LAST=["inertialDragWhy","inertialDragBound","inertialDragUMax","inertialDragPx","inertialDragPy","inertialDragPz","inertialDragJx","inertialDragJy","inertialDragJz",
   "inertialDragDU","inertialDragSolveRes","inertialDragSolveMethod","inertialDragUSumMax","inertialDragUSolveMax","inertialDragSolveFail","inertialDragSolveIters",
   "inertialDragSolveItersMax","inertialDragSolveRestarts","inertialDragSpinSrc","inertialDragSpinN","inertialDragSpinSkip","inertialDragSpinMax"];
-const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ"];
+const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ",
+  "_rdWS","rotAIn","rotADr"];   // 第301便c(R181): 傾きを持たない受け手の引きずり軸回転・慣性軸回転の角・引きずり軸回転の角(軸引きずりを宣言した本だけ —— 同じ 1 組の写しで戻す)
 function inertialDragCkSnap(S){
   if(!S || !S.rdPrevX) return null;
   const o={sc:{}, arrs:{}};
@@ -54012,12 +54026,12 @@ function inertialDragNormApply(S,n,comp,om){
   if(!comp || !relDragNormActive(rd)) return null;
   const decl=(rd.background!==undefined && rd.background!==null);
   if(!decl && !om) return null;   // 既定の背景で軸引きずりの無い步は何も書かない(行は第293便g の solve のまま)
-  const DG=S._rdDeg, m=S.m, pin=S.pinned, WX=om? S._rdWX : null, WY=om? S._rdWY : null, WZ=om? S._rdWZ : null;
+  const DG=S._rdDeg, m=S.m, pin=S.pinned, WX=om? S._rdWX : null, WY=om? S._rdWY : null, WZ=om? S._rdWZ : null, WS=om? S._rdWS : null;   // 第301便c の統合: 傾きを持たない受け手の Σw(S._rdWS)にも同じ ν
   let degMax=0, xMax=0;
   for(let i=0;i<n;i++){
     const d=DG[i], x=inertialDragNormX(rd,d);
     if(decl) DG[i]=x;
-    if(WX && d>0){ const nu=1/(1+x); WX[i]*=nu; WY[i]*=nu; WZ[i]*=nu; }
+    if(WX && d>0){ const nu=1/(1+x); WX[i]*=nu; WY[i]*=nu; WZ[i]*=nu; if(WS) WS[i]*=nu; }
     const mi=m[i];
     if(mi>0 && Number.isFinite(mi) && !pin[i]){ if(Math.abs(DG[i])>degMax) degMax=Math.abs(DG[i]); if(x>xMax) xMax=x; }
   }
@@ -54308,8 +54322,9 @@ function dfmCore3(S,dt,mode){
       const addZ=az[i]*kickDt+carVz[i], v0z=vz[i]; vz[i]=v0z+addZ; carVz[i]=addZ-(vz[i]-v0z);
     } else { vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt; vz[i]+=az[i]*kickDt; }
   }
+  const rIn=S.rotAIn;   // 第301便c: 慣性軸回転の角(軸引きずりを宣言した本だけ配列がある —— rotA と同じ量を同じ順に積む)
   for(let i=0;i<n;i++){
-    if(doPost) S.rotA[i]+=spin[i]*dt;
+    if(doPost){ S.rotA[i]+=spin[i]*dt; if(rIn) rIn[i]+=spin[i]*dt; }
     if(pinned[i]) continue;
     const vv2=vx[i]*vx[i]+vy[i]*vy[i]+vz[i]*vz[i];
     if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; vz[i]*=sc; S.clampVN++; }
@@ -54384,6 +54399,7 @@ function coord3dSpinAxisEdit(S,i,cfg){
 // build の後段(三次元の本だけ配列を作る —— 二次元の本では S.z=null のまま・S.step を差し替えない)。P は build の粒子の写し
 function coord3dPrepare(S,P,c3){
   S.coord3d=c3;
+  if(S.rotAIn!==undefined){ S.rotAIn=null; S.rotADr=null; }   // 第301便c: 前の本の軸回転の分解を持ち越さない(張るのは inertialDrag3LedgerInit —— 軸引きずりを宣言した本だけ)
   if(!c3){
     S.z=null; S.vz=null; S.az3=null; S.carVz=null; S.sax=null; S.say=null; S.saz=null; S.saOn=null; S.hasSpinAx3=false; S.coord3dHalt=null;
     if(S.step!==S._step2) S.step=S._step2;
@@ -54717,6 +54733,15 @@ function inertialDrag3LedgerInit(S){
   S.inertialDrag3AxN=0; S.inertialDrag3AxOmMax=0; S.inertialDrag3AxL=[0,0,0]; S.inertialDrag3AxRotA=0; S.inertialDrag3AxAxisN=0;
   S.inertialDrag3AxPerpSkip=0; S.inertialDrag3AxPerpSkipMax=0;
   S._rdWX=null; S._rdWY=null; S._rdWZ=null;
+  // 第301便c(R181): 軸回転の分解(軸引きずりを宣言した本だけ —— 宣言の無い本には配列も鍵も作らない)。慣性の角は今の rotA から始める
+  //   (走行中に宣言を張り直したときも和 rotA ≈ rotAIn + rotADr が保たれる)・引きずりの角は 0 から
+  const sdA=relDrag3SpinOf(S.relDrag);
+  if(sdA && sdA.axial){
+    const N=Math.max(S.m.length, S.n);
+    S.rotAIn=new Float64Array(N); for(let i=0;i<N && i<S.rotA.length;i++) S.rotAIn[i]=S.rotA[i];
+    S.rotADr=new Float64Array(N); S._rdWS=null;
+    S.inertialDrag3AxFlatN=0; S.inertialDrag3AxFlatMax=0; S.inertialDrag3AxTiltN=0;
+  } else if(S.rotAIn!==undefined){ S.rotAIn=null; S.rotADr=null; }
 }
 // 回転引きずり: 源 j(質量が正・スピン ≠ 0・宣言半径 > 0)ごとに、受け手 i(質量が正・宣言した対)の s_i へ C m_j Ω_j M1(r)(â_j × ê) を足す。
 //   d = x_i − x_j(源から受け手)・r = |d|・ê = d/r・M1 は二次元と同じ inertialSpinMoment(r だけの関数 —— 一様球の ⟨K_ε(|d−ρ|) ρ⟩ = M1 ê)。
@@ -54754,8 +54779,9 @@ function inertialDrag3RotTerm(S,n,C,eps){
 function inertialDrag3AxialOmega(S,n,kap,eps){
   const X=S.x, Y=S.y, Z=S.z, m=S.m, sp=S.spin, pin=S.pinned, AX=S.sax, AY=S.say, AZ=S.saz, set=S._rdPairSet, NP=S._rdPairN, e2=eps*eps;
   if(!S._rdWX || S._rdWX.length<n){ S._rdWX=new Float64Array(n); S._rdWY=new Float64Array(n); S._rdWZ=new Float64Array(n); }
-  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ;
-  for(let i=0;i<n;i++){ WX[i]=0; WY[i]=0; WZ[i]=0; }
+  if(!S._rdWS || S._rdWS.length<n) S._rdWS=new Float64Array(n);   // 第301便c: 傾きを持たない受け手の引きずり軸回転 Σ_j w_ij(符号つきのスカラー)
+  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ, WS=S._rdWS;
+  for(let i=0;i<n;i++){ WX[i]=0; WY[i]=0; WZ[i]=0; WS[i]=0; }
   for(let j=0;j<n;j++){
     const Om=sp[j], mj=m[j];
     if(Om===0 || !(mj>0) || !Number.isFinite(mj) || !Number.isFinite(Om)) continue;
@@ -54768,24 +54794,35 @@ function inertialDrag3AxialOmega(S,n,kap,eps){
       const dx=X[i]-X[j], dy=Y[i]-Y[j], dz=Z[i]-Z[j], r2=dx*dx+dy*dy+dz*dz;
       if(!(r2>0)) continue;
       const r=Math.sqrt(r2), mu=(dx*ax+dy*ay+dz*az)/r, s=r2+e2, w=kap*mj*Om*(r/(s*s))*mu*mu;
-      WX[i]+=w*ax; WY[i]+=w*ay; WZ[i]+=w*az;
+      WX[i]+=w*ax; WY[i]+=w*ay; WZ[i]+=w*az; WS[i]+=w;
     }
   }
 }
-// 軸引きずりを受け手の姿勢へ: ω の軸方向成分 ω∥ = ω·â_i は rotA へ(rotA += ω∥ dt)・垂直成分 ω⊥ は自転軸を有効化し歳差を宣言していない粒子だけ
-// 軸を回す(â ← â cos θ + (p̂×â) sin θ・θ = |ω⊥| dt・p̂ = ω⊥/|ω⊥|)。軸を持たない粒子(+z の規約)と規定運動の歳差の粒子の ω⊥ は**回さずに数える**
-// (S.inertialDrag3AxPerpSkip・最大 |ω⊥|)。自転の角速度の大きさ S.spin は変えない。軸が回った分の I s Δâ(I=½mR²)を S.inertialDrag3AxL へ
+// 軸引きずりを受け手の姿勢へ(第301便c で受け手を 2 つに分けた —— 軸回転 = 慣性軸回転 + 引きずり軸回転・慣性軸回転 S.spin は触らない):
+//   ・傾きを持たない受け手(saOn=0): 引きずり軸回転 ω_drag = Σ_j w_ij(S._rdWS —— 符号つきのスカラー・受け手の軸への投影を掛けない)を rotA へ
+//     (rotA += ω_drag dt)。垂直成分という概念が無い(傾きを新しく作らない —— 数えもしない)。
+//   ・傾きを持つ受け手(saOn=1): ω の軸方向成分 ω∥ = ω·â_i が引きずり軸回転(rotA += ω∥ dt)・垂直成分 ω⊥ は歳差を宣言していない粒子だけ
+//     軸を回す(â ← â cos θ + (p̂×â) sin θ・θ = |ω⊥| dt・p̂ = ω⊥/|ω⊥|)。規定運動の歳差の粒子の ω⊥ は**回さずに数える**(S.inertialDrag3AxPerpSkip・最大 |ω⊥|)。
+//   引きずり軸回転の角は S.rotADr にも積む(慣性軸回転の角 S.rotAIn は核が積む —— 表示の角は和 rotA)。自転の角速度の大きさ S.spin は変えない。
+//   軸が回った分の I s Δâ(I=½mR²)を S.inertialDrag3AxL へ
 function inertialDrag3AxialApply(S,n,dt){
-  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ, m=S.m, R=S.R, sp=S.spin;
+  const WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ, WS=S._rdWS, m=S.m, R=S.R, sp=S.spin, rDr=S.rotADr;
   if(!WX) return;
-  let nOm=0, omMax=0, rotA=0, nAx=0, skip=0, skipMax=0;
+  let nOm=0, omMax=0, rotA=0, nAx=0, skip=0, skipMax=0, nFlat=0, flatMax=0, nTilt=0;
   for(let i=0;i<n;i++){
     const wx=WX[i], wy=WY[i], wz=WZ[i];
-    if(wx===0 && wy===0 && wz===0) continue;
+    if(wx===0 && wy===0 && wz===0 && !(WS && WS[i]!==0)) continue;
     nOm++;
     const om=Math.hypot(wx,wy,wz); if(om>omMax) omMax=om;
+    if(!S.saOn[i] && WS){   // 傾きを持たない受け手: 符号つきのスカラー(第301便c)
+      const wd=WS[i];
+      S.rotA[i]+=wd*dt; if(rDr) rDr[i]+=wd*dt; rotA+=Math.abs(wd*dt);
+      nFlat++; const aw=Math.abs(wd); if(aw>flatMax) flatMax=aw;
+      continue;
+    }
+    nTilt++;
     const ax=S.sax[i], ay=S.say[i], az=S.saz[i], wp=wx*ax+wy*ay+wz*az;
-    S.rotA[i]+=wp*dt; rotA+=Math.abs(wp*dt);
+    S.rotA[i]+=wp*dt; if(rDr) rDr[i]+=wp*dt; rotA+=Math.abs(wp*dt);
     const px=wx-wp*ax, py=wy-wp*ay, pz=wz-wp*az, wq=Math.hypot(px,py,pz);
     if(!(wq>0)) continue;
     if(S.saOn[i] && S.saOm[i]===0){
@@ -54799,6 +54836,17 @@ function inertialDrag3AxialApply(S,n,dt){
   }
   S.inertialDrag3AxN+=nOm; if(omMax>S.inertialDrag3AxOmMax) S.inertialDrag3AxOmMax=omMax;
   S.inertialDrag3AxRotA+=rotA; S.inertialDrag3AxAxisN+=nAx; S.inertialDrag3AxPerpSkip+=skip; if(skipMax>S.inertialDrag3AxPerpSkipMax) S.inertialDrag3AxPerpSkipMax=skipMax;
+  if(S.inertialDrag3AxFlatN!==undefined){ S.inertialDrag3AxFlatN+=nFlat; if(flatMax>S.inertialDrag3AxFlatMax) S.inertialDrag3AxFlatMax=flatMax; S.inertialDrag3AxTiltN+=nTilt; }
+}
+// 第301便c(R181): 軸回転の分解の読み口(状態を 1 bit も動かさない)—— 粒子ごとの慣性軸回転の角・引きずり軸回転の角・和(表示の角 rotA)と受け手の別。
+//   軸引きずりを宣言していない本は null
+function inertialDrag3AxialSplitOf(S){
+  if(!S || S.coord3d!==true || !S.rotAIn || !S.rotADr) return null;
+  const n=S.n, inertial=[], drag=[], total=[], tiltless=[];
+  for(let i=0;i<n;i++){ inertial.push(S.rotAIn[i]); drag.push(S.rotADr[i]); total.push(S.rotA[i]); tiltless.push(!S.saOn[i]); }
+  return { version:REL_DRAG_AXIAL_SPLIT_VERSION, n, inertial, drag, total, tiltless,
+    omegaDrag:S._rdWS? Array.from(S._rdWS.subarray(0,n)).map((w,i)=>S.saOn[i]? null : w) : null,
+    flatTerms:S.inertialDrag3AxFlatN||0, flatMax:S.inertialDrag3AxFlatMax||0, tiltTerms:S.inertialDrag3AxTiltN||0 };
 }
 // 読み口(三次元の本だけ —— 状態を 1 bit も動かさない)
 function inertialDrag3SpinState(S){
@@ -54808,7 +54856,8 @@ function inertialDrag3SpinState(S){
     axialLaw:REL_DRAG_AXIAL_LAW, dL3:S.inertialDragDL3? S.inertialDragDL3.slice() : null,
     rot:{sources:S.inertialDrag3RotSrc||0, terms:S.inertialDrag3RotN||0, skip:S.inertialDrag3RotSkip||0, max:S.inertialDrag3RotMax||0},
     axial:{terms:S.inertialDrag3AxN||0, omegaMax:S.inertialDrag3AxOmMax||0, dLspin:S.inertialDrag3AxL? S.inertialDrag3AxL.slice() : null, rotA:S.inertialDrag3AxRotA||0,
-      axisTurns:S.inertialDrag3AxAxisN||0, perpSkip:S.inertialDrag3AxPerpSkip||0, perpSkipMax:S.inertialDrag3AxPerpSkipMax||0} };
+      axisTurns:S.inertialDrag3AxAxisN||0, perpSkip:S.inertialDrag3AxPerpSkip||0, perpSkipMax:S.inertialDrag3AxPerpSkipMax||0,
+      ...((S.inertialDrag3AxFlatN!==undefined)? {split:{version:REL_DRAG_AXIAL_SPLIT_VERSION, flatTerms:S.inertialDrag3AxFlatN, flatMax:S.inertialDrag3AxFlatMax, tiltTerms:S.inertialDrag3AxTiltN}} : null)} };   // 第301便c: 軸引きずりを宣言した本だけ
 }
 function inertialDragComposeState(S){
   if(!S || !S.relDrag || relDragComposeOf(S.relDrag)!=="solve") return null;
@@ -57953,6 +58002,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     state:(S)=>coord3dState(S||sim), totals:(S)=>coord3dTotals(S||sim), supported:COORD3D_SUPPORTED, rejected:COORD3D_REJECTED, arrs:COORD3D_ARRS,
     axisUnit:spinAxis3Unit, rot:rot3About, planeOf:coord3dPlaneOf, relInPlane:coord3dRelInPlane, step:dfmStep3, core:dfmCore3, makeSim:()=>makeSim(),
     // 第299便e(R174): 参照模型の三次元(器・QA の読み口 —— 状態を書くのは write と ck の restore だけ)
+    // 第301便c(R181): 軸回転の分解(慣性軸回転 + 引きずり軸回転 —— 読み口・状態を書かない)
+    axialSplit:(S)=>inertialDrag3AxialSplitOf(S||sim), axialSplitVersion:REL_DRAG_AXIAL_SPLIT_VERSION,
     ref3d:{ version:SHAPE_TOY3_VERSION, sc:SHAPE_TOY3_SC, ckArrs:SHAPE_TOY_CK_ARRS, write:shapeToy3Write, state:(S)=>shapeToy3State(S||sim),
       ckSnap:shapeToyCkSnap, ckRestore:shapeToyCkRestore, rng:mulberry32S } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)

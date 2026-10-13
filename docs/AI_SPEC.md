@@ -3598,3 +3598,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301a-dragnorm.mjs`(版 w301a-dragnorm-1・`W301A_OUT`)→ `tests/out/dragnorm-w301a.json`(段 dragnorm-301a —— 零試験 z1〜z8・境目の表・🟫🟪 の新旧・候補 (iii) 宇宙の平均密度の背景・🔗 の 18000 步)。
 - QA: `behavior.dragNorm301`・`preset.refit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_NORM_VERSION`)。
 - SYSTEM_PROMPT の規則 12 に 1 文(引きずりの強さは総和〔背景を含む〕で割る —— 鍵 norm・background は書かない)。
+
+## 84. 第301便c —— 軸回転 = 慣性軸回転 + 引きずり軸回転・傾きを持たない受け手の軸引きずり(原仮定者の裁定(第91報)②・統括の検証項目 R181・**既定 —— 宣言の鍵は足さない** —— `S._core`・位置・速度・自転・署名は不変・動くのは軸引きずりを宣言した本の姿勢の角 rotA だけ)
+
+- **規則**(三次元の本の `relativeDrag.spinDrag` の `axial:"on"` の受け手側): 受け手の姿勢の角の増分は (慣性軸回転 s + 引きずり軸回転 ω_drag)·dt。慣性軸回転は自転の状態 `spin` のまま(引きずりを足さない)・引きずり軸回転は毎步作り直す。
+- **傾きを持たない受け手**(粒子の `spinAxis.enable` が無い): ω_drag = Σ_j κ m_j Ω_j K_ε(r) μ²(符号つきのスカラー —— 受け手の軸への投影を掛けない・受け手に傾きを作らない)。旧(第298便c)は既定 +z への投影で、源の軸が 90° 傾くと 0 になった。
+- **傾きを持つ受け手**(`spinAxis.enable:true`): 第298便c のベクトル則のまま(平行成分 = 引きずり軸回転・垂直成分は軸の向き)。源の法則(μ²・K_ε・κ)は変えない。強さの正規化は別の関数が掛ける。
+- **状態と読み口**(軸引きずりを宣言した本だけ): `S.rotAIn`(慣性軸回転の角)・`S.rotADr`(引きずり軸回転の角)・`S._rdWS`(傾きの無い受け手の ω_drag)・帳簿 `inertialDrag3AxFlatN`・`inertialDrag3AxFlatMax`・`inertialDrag3AxTiltN`(`INERTIAL_DRAG3_SC`)。チェックポイントと A/B の複製は `inertialDragCkSnap`/`inertialDragCkRestore`(`INERTIAL_DRAG_CK_SAMPLES` に 3 本)。読み口 `HP.coord3d.axialSplit(S)`・`HP.coord3d.axialSplitVersion`(`REL_DRAG_AXIAL_SPLIT_VERSION = "w301c-axial-split-1"`)・`inertialDragState(S).spin3.axial.split`。
+- **動いた本**: 🪛 chainDiskToy3dTilt(姿勢の角の引きずり分 25.8 → 29.8 rad / 2000 步 —— 説明の行を更新)。正本 `tests/out/drag3d-w298c.json`(段 drag3d-298c)を作り直した(perpSkip・rotA・tiltAxialOff.rotAmaxDiff・状態の鍵の数)。
+- **AI 生成の規則**: 変えない(宣言の形は同じ —— SYSTEM_PROMPT には載せない)。
+- QA: `behavior.axialSplit301`(root は SKIP —— 世代切替 = html の `const REL_DRAG_AXIAL_SPLIT_VERSION =`)。零試験 6 項目は PHYSICS〔第301便c〕。

@@ -79,6 +79,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.solarInnerRetired300 preset.unifyTabl
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.saturnRing3d300 docs.solar16Contract300"
 # 第301便a(原仮定者の裁定(第91報)⑤・R179): 引きずりの強さの総和正規化の新設 2 本(behavior.dragNorm301 —— 法則の零試験と正本・preset.refit301 —— フィットの本の記録と条件の署名)を末尾に足した(他枝の新設の差し替えは統合で)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragNorm301 preset.refit301"
+# 第301便c(原仮定者の裁定(第91報)②・R181): 枝 c の新設 1 本(behavior.axialSplit301 —— 軸回転 = 慣性軸回転 + 引きずり軸回転)と、🪛 の軸引きずりの数で追従した behavior.drag3d298・behavior.ckDrag3d299
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSplit301"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
