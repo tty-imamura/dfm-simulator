@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
-  "generatedAt": "2026-10-13T09:29:05.734Z",
+  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+  "generatedAt": "2026-10-13T16:21:27.246Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737635,
-    "sha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
-    "mtime": "2026-10-13T09:26:03.573Z"
+    "bytes": 6737782,
+    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+    "mtime": "2026-10-13T13:26:48.341Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254774,
-    "sha256": "8552991f3748d9620a5a96a3ea77177d43aaf3ba1f6389b280c32e881b33da50",
-    "mtime": "2026-10-13T09:27:45.569Z"
+    "sha256": "e80c23a236439d56f8f62619c4a126f1a873451e1f7f0bd3555dd96db85d66f5",
+    "mtime": "2026-10-13T16:19:52.260Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -163,12 +163,12 @@
    "segments": 1116,
    "closureShare": 0.3169
   },
-  "scopeSha256": "b0bd48f4e56e01a2e75a578379540b4880a04a2ceacaf49c3e60a3d330118ced",
+  "scopeSha256": "e5eb253a8add35f1c935609452b8cd243a2b9965cfbada9243ab50258626ad55",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "7e4337916365df0da8b00596d8addd1053858566590edf8bc11257dbd89e5e56",
+    "stableSha256": "9e56c935ca0f56af7e7f223c3b4d6b6db4309fc7b33315455484de40fd65363f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.2416,
+    "msPerStep": 5.8684,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.6164,
+    "msPerStep": 6.326,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 3.2556,
+    "msPerStep": 4.0212,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 3.4208,
+    "msPerStep": 4.002,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 4.65,
+    "msPerStep": 6.112333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 4.799333333333333,
+    "msPerStep": 5.926333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 74.275
+ "elapsedSec": 89.085
 }
