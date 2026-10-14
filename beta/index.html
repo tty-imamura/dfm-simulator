@@ -23985,6 +23985,7 @@ function fitCondSig(q, rec){
   const ph=Object.assign({},DEFAULT_PHYSICS,(q && q.physics)||{});
   for(const k of FIT_COND_DROP_PHYS) delete ph[k];
   for(const k of (FIT_COND_INERT_BY_GEO[ph.geoPN]||[])) delete ph[k];
+  if(ph[GLOC_KEY]){ const g=validateGLoc(ph[GLOC_KEY]); if(g.ok && g.gLoc) ph[GLOC_KEY]=g.gLoc; }   // 第302便c: 局所重力の宣言は正規化した形で(読み込みの params は宣言の短い形のまま —— 同じ宣言で署名を変えない)
   const body={v:FIT_COND_VERSION, law:String(rec && rec.law), lawVersion:REL_DRAG_INERTIAL_VERSION, physics:ph, bodies:spinAxisSigBodies((q && q.bodies)||[]),
     scaleExp:(q && q.scaleExp) || null, epoch:(q && q.epoch!==undefined)? q.epoch : null, integrator:(q && q.integrator) || "semi",
     dt:rec? rec.dt : null, windows:((rec && rec.targets)||[]).map((t)=>t && t.window), extractor:(rec && rec.cond)? rec.cond.extractor : null};
