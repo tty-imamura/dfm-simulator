@@ -158,8 +158,11 @@ export function classifySteps(o) {
     try { text = fs.readFileSync(path.join(o.root, h.harness), 'utf8'); } catch { row.skip = '器が無い'; continue; }
     let decl = SC.readDeclaredScope(text);
     let metaCode = [];
-    for (const out of st.outs || []) { try { const J = JSON.parse(fs.readFileSync(path.join(o.root, out), 'utf8')); for (const c of ((J.meta && J.meta.code) || [])) metaCode.push(c.file); } catch { /* 正本なし */ } }
+    const targets = [];
+    for (const out of st.outs || []) { try { const J = JSON.parse(fs.readFileSync(path.join(o.root, out), 'utf8')); for (const c of ((J.meta && J.meta.code) || [])) metaCode.push(c.file); if (J.meta && J.meta.target) targets.push(String(J.meta.target)); } catch { /* 正本なし */ } }
     metaCode = [...new Set(metaCode)];
+    // 正本の対象(meta.target)が html でない器(lib・CSV を対象に刻む —— html を走らせない器)は html の差で動かない
+    if (targets.length && targets.every((t) => !/\.html$/.test(t))) { row.skip = '対象が html でない器(正本の target ' + targets[0] + ')'; continue; }
     if (decl) row.declKind = 'declared';
     else {
       try { decl = SC.deriveScope(o.now.htmlPath, SC.codeFilesOf(o.root, h.harness, metaCode)); row.declKind = 'derived'; }
@@ -211,22 +214,53 @@ export function classifySteps(o) {
 // 走行と判定
 // ---------------------------------------------------------------------------------------------
 const NAN_LINE = /(^|[^A-Za-z])NaN([^A-Za-z]|$)/;
-const NAN_OK = /NaN\s*(?:なし|無し|が無い|は無い|0\s*(?:件|本|個|回)?(?:[^\d.]|$))|no NaN|NaN(?:の数|件数)\s*0|["']?nan["']?\s*:\s*(?:false|0)\b|hasNaN\s*:\s*false|anyNaN\s*:\s*false/i;
-const GATE_LINE = /(?:\bgates?\b[^\n]*:\s*false\b)|(?:\bok\s+false\b)|(?:門[^\n]{0,80}(?:\bfalse\b|偽))/;
-const EXC_LINE = /\b(?:Error|TypeError|RangeError|ReferenceError|SyntaxError|AssertionError)\b[:\s]|Uncaught|UnhandledPromiseRejection/;
-/** 出力の文字列から判定する(純関数 —— 自己試験が缶詰の出力で照合する)。 */
+// NaN を数えない行: 「NaN なし」の類と、器がわざと入れた非有限の入力を受理器が拒否した対照(拒否・NotFinite・isNaN の行)
+const NAN_OK = /NaN\s*(?:なし|無し|が無い|は無い|0\s*(?:件|本|個|回)?(?:[^\d.]|$))|no NaN|NaN(?:の数|件数)\s*0|["']?nan["']?\s*:\s*(?:false|0)\b|hasNaN\s*:\s*false|anyNaN\s*:\s*false|拒否|reject|NotFinite|not finite|非有限|isNaN/i;
+// 門の偽: JSON の行(最初の { から読めるもの)は gates の欄(行の頭が gates のときは全体)の直下の false か、最上位の ok:false だけを数える
+// (JSON の中の文字列や対照の ok:false は数えない)。JSON でない行は「ok false」と「門 … 偽」だけ
+const GATE_TEXT = /(?:\bok\s+false\b)|(?:門[^"\n{]{0,20}偽)/;
+function gateLine(l) {
+  const k = l.indexOf('{');
+  if (k >= 0) {
+    let J = null;
+    try { J = JSON.parse(l.slice(k)); } catch { J = null; }
+    if (J && typeof J === 'object') {
+      const head = l.slice(0, k);
+      const falses = (o) => (o && typeof o === 'object' && !Array.isArray(o)) ? Object.values(o).some((v) => v === false) : false;
+      if (/\bgates?\b/.test(head) && falses(J)) return true;
+      if (J.gates && falses(J.gates)) return true;
+      return J.ok === false && /\b(?:gates?|ok)\b|門/.test(head + Object.keys(J).join(' '));
+    }
+  }
+  return GATE_TEXT.test(l);
+}
+const EXC_LINE = /\b(?:Error|TypeError|RangeError|ReferenceError|SyntaxError|AssertionError)\b[:\s]|UnhandledPromiseRejection/;
+const STACK_LINE = /^\s+at\s.+:\d+:\d+\)?\s*$/;
+const NOISE_LINE = /^\s*(?:\^+|triggerUncaughtException\(|node:internal\/\S+|Node\.js v[\d.]+)?\s*$/;
+/** 例外の文: 最初の stack の行の直前の意味のある行(Node の内部の行・^ を除く)。無ければ EXC_LINE の最初の行。 */
+function excMessage(err) {
+  const ls = String(err || '').split('\n');
+  const k = ls.findIndex((l) => STACK_LINE.test(l));
+  if (k > 0) for (let j = k - 1; j >= 0; j--) if (!NOISE_LINE.test(ls[j])) return ls[j];
+  return ls.find((l) => EXC_LINE.test(l)) || null;
+}
+/**
+ * 出力の文字列から判定する(純関数 —— 自己試験が缶詰の出力で照合する)。枠で止めた走行(killed)は、止めた時点までの出力
+ * (o.cutOut・o.cutErr —— 文字数)だけを見る(止めたことで子の Chromium が閉じた後の例外は数えない)。
+ */
 export function judgeOutput(o) {
-  const out = String(o.stdout || ''), err = String(o.stderr || '');
+  const out = String(o.stdout || '').slice(0, o.killed && Number.isFinite(o.cutOut) ? o.cutOut : undefined);
+  const err = String(o.stderr || '').slice(0, o.killed && Number.isFinite(o.cutErr) ? o.cutErr : undefined);
   const lines = (out + '\n' + err).split('\n');
   const nanLines = lines.filter((l) => NAN_LINE.test(l) && !NAN_OK.test(l));
-  const gateLines = lines.filter((l) => GATE_LINE.test(l));
-  const excLine = err.split('\n').find((l) => EXC_LINE.test(l)) || (o.rc !== 0 && !o.killed ? err.split('\n').find((l) => /\bat\s.+:\d+:\d+/.test(l)) : null) || null;
+  const gateLines = lines.filter((l) => gateLine(l));
+  const excLine = excMessage(err);
   let verdict = 'ok';
   const why = [];
   if (!o.killed && o.rc !== 0 && o.rc !== null) {
     if (excLine) { verdict = 'exception'; why.push(excLine.trim().slice(0, 240)); }
     else { verdict = 'gate'; why.push('rc ' + o.rc + (gateLines[0] ? ' —— ' + gateLines[0].trim().slice(0, 200) : '(器が門で終わった)')); }
-  } else if (excLine && /Uncaught|UnhandledPromiseRejection/.test(excLine)) { verdict = 'exception'; why.push(excLine.trim().slice(0, 240)); }
+  } else if (o.killed && excLine && STACK_LINE.test(err)) { verdict = 'exception'; why.push(excLine.trim().slice(0, 240) + '(枠で止める前)'); }
   if (verdict === 'ok' && o.outOk === false) { verdict = 'gate'; why.push('正本の写しの ok:false'); }
   if (verdict === 'ok' && gateLines.length) { verdict = 'gate'; why.push(gateLines[0].trim().slice(0, 200)); }
   if (verdict === 'ok' && nanLines.length) { verdict = 'nan'; why.push(nanLines[0].trim().slice(0, 200)); }
@@ -253,11 +287,11 @@ function runOne(row, o) {
     const cmd = row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"');
     const t0 = Date.now();
     const ch = spawn('bash', ['-c', cmd], { cwd: o.sandbox, env, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
-    let stdout = '', stderr = '', killed = false;
+    let stdout = '', stderr = '', killed = false, cutOut = null, cutErr = null;
     const cap = (s, x) => (s.length > 400000 ? s : s + x);
     ch.stdout.on('data', (d) => { stdout = cap(stdout, d.toString()); });
     ch.stderr.on('data', (d) => { stderr = cap(stderr, d.toString()); });
-    const kill = () => { killed = true; try { process.kill(-ch.pid, 'SIGTERM'); } catch { /* 終わっている */ }
+    const kill = () => { killed = true; cutOut = stdout.length; cutErr = stderr.length; try { process.kill(-ch.pid, 'SIGTERM'); } catch { /* 終わっている */ }
       setTimeout(() => { try { process.kill(-ch.pid, 'SIGKILL'); } catch { /* 終わっている */ } }, 3000).unref(); };
     const limit = full ? Math.max(o.budget, Number(row.sec) * 1.5 + 30) : o.budget;
     const tm = setTimeout(kill, limit * 1000);
@@ -270,7 +304,7 @@ function runOne(row, o) {
       if (!killed && rc === 0) for (const f of row.outs || []) {
         try { const J = JSON.parse(fs.readFileSync(path.join(o.sandbox, f), 'utf8')); if (J && J.ok === false) outOk = false; } catch { /* 書かない窓 */ }
       }
-      const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk });
+      const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk, cutOut, cutErr });
       resolve({ key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
         rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why });
     });
@@ -366,11 +400,20 @@ export async function selfTest(opt) {
     [{ stdout: 'aps NaN ″/世紀', stderr: '', rc: null, killed: true }, 'nan'],
     [{ stdout: '① {"zero":true}\n② 進行中', stderr: '', rc: null, killed: true }, 'ok'],
     [{ stdout: '', stderr: '', rc: 0, killed: false, outOk: false }, 'gate'],
+    // JSON の文字列の「門」と対照の ok:false は門の偽に数えない / 受理器がわざと非有限を拒否した行の NaN は数えない
+    [{ stdout: '{"note":"門の上限の内側","acc":{"neg":{"ok":false}}}\n拒否: cfg.Q=NaN ok=false 理由=qNotFinite', stderr: '', rc: 0, killed: false }, 'ok'],
+    [{ stdout: '① {"zero":true,"mask":false}', stderr: '', rc: null, killed: true }, 'ok'],
+    [{ stdout: 'gates {"zero":true,"mask":false}', stderr: '', rc: null, killed: true }, 'gate'],
+    // 枠で止めた後に子の Chromium が閉じて出た例外は数えない(止めた時点までの出力だけを見る)
+    [{ stdout: '① ok', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: Target page, context or browser has been closed\n    at live (file:///x/tests/exp-w294d-timing.mjs:246:23)', rc: null, killed: true, cutOut: 4, cutErr: 0 }, 'ok'],
   ];
   const got = J.map(([o]) => judgeOutput(o).verdict);
   const miss = J.map(([, w], i) => (got[i] === w ? null : i + ':' + got[i] + '≠' + w)).filter(Boolean);
   if (miss.length) bad.push('⑤ 判定が缶詰と違う: ' + miss.join(','));
-  cases.push(`⑤ 判定の缶詰 ${J.length} 件(例外・門の偽・NaN なし・NaN・枠で止めた・ok:false)が一致 ${J.length - miss.length}/${J.length}`);
+  // 例外の文は stack の直前の行(Node の内部の行を除く)
+  const msg = judgeOutput({ stdout: '', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: Target closed\n    at live (file:///x/a.mjs:1:2)', rc: 1, killed: false });
+  if (msg.verdict !== 'exception' || msg.why[0] !== 'page.evaluate: Target closed') bad.push('⑤ 例外の文の取り出し: ' + msg.why[0]);
+  cases.push(`⑤ 判定の缶詰 ${J.length} 件(例外・門の偽・NaN なし・NaN・枠で止めた・ok:false・枠で止めた後の例外)が一致 ${J.length - miss.length}/${J.length}・例外の文の取り出し ${msg.why[0] === 'page.evaluate: Target closed'}`);
   return { version: HARNESS_SMOKE_VERSION, ok: bad.length === 0, bad, cases };
 }
 
