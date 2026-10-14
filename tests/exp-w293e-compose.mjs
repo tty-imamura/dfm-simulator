@@ -63,8 +63,13 @@ export function withMode(p, modeKey, extra) {
   const q = clone(p), md = modeOf(modeKey), rd = q.physics.relativeDrag;
   // 第302便a: 凍結比較(compose:"sum")と gain の上書きは W302A.rdPatch で(Wbg の宣言を gain の宣言へ戻してから重ねる —— 係数は同じ double)
   W302A.rdPatch(rd, Object.assign({}, md.compose ? { compose: md.compose } : {}, md.solveFrom ? { solveFrom: md.solveFrom } : {}, extra || {}));
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代では、この器(合成則の比較 —— 第293便e/g の記録)の走行を分割の本体のまま測る(stepOrder:"split" を明示 ——
+  //   正本 compose-w293e.json は分割の本体の記録。semic の影響は器 tests/exp-w302d-semic.mjs が受け持つ)
+  if (orderGen302() && rd.compose !== 'sum') rd.stepOrder = 'split';
   return q;
 }
+/** 第302便d: html が stepOrder を知る世代か(loadHtmlMain は html をこの process の大域で実行する —— 関数 relDragStepOrderOf が大域にある)。 */
+const orderGen302 = () => typeof globalThis.relDragStepOrderOf === 'function';
 
 /* ── (a) 宣言の受理 ─────────────────────────────────────────── */
 export function declGate(HP) {
@@ -114,7 +119,11 @@ function pinned3Preset(HP) {
 }
 /** 1 つの事例: build して steps 步・各步で純関数と照合(hist の步だけ)。 */
 export function engineCase(HP, key, preset, opt) {
-  const v = HP.validatePreset(clone(preset));
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(HP.relDragStepOrderOf がある)では、純関数(移送の前〔核の後〕の座標で u を組む —— 分割の評価点)と
+  //   照合する事例に stepOrder:"split" を明示する(世代の判定は大域の関数 relDragStepOrderOf の有無 —— 下の orderGen302)(semic の評価点は器 tests/exp-w302d-semic.mjs の門 closedForm・libMatch が受け持つ)
+  const pre = clone(preset), rd0 = pre.physics && pre.physics.relativeDrag;
+  if (orderGen302() && rd0 && rd0.law === 'inertial' && rd0.compose !== 'sum') rd0.stepOrder = 'split';
+  const v = HP.validatePreset(pre);
   if (!v.ok) return { key, ok: false, why: 'validatePreset: ' + JSON.stringify(v.errors).slice(0, 200) };
   HP.sim.build(v.preset);
   const S = HP.sim, rd = S.relDrag, n = S.n, eps = (rd.eps !== undefined) ? rd.eps : (S.params.softening || 0);

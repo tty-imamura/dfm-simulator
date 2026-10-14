@@ -95,6 +95,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgDirect302 ui.wbgSlider302 ui.paramOrderDrag ui.paramWbgRow ui.bgComplexPanel ui.bgDerivPanel"
 # 第302便b(原仮定者の裁定(第92報)AN304 ①・R187): 枝 b の新設 1 本(behavior.gLoc302 —— 局所重力 G_loc の宣言・零試験・固定中心の近点・受理器・状態の契約・正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gLoc302"
+# 第302便d(決断事項 AN303 ①②⑤・R188): 枝 d の新設 2 本(behavior.semic302 —— 本体の積分器 semic の門・docs.semic302 —— 影響の記録と文書)と、世代切替で split を明示した behavior.composeGate(上の常設)・docs.chainBurst301(上)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.semic302 docs.semic302"
 # 第302便e(原仮定者の裁定(第92報)・R189 の細目): 枝 e の新設 4 本(behavior.axialSign302 —— 源の軸と Ω の符号の正準化・ui.wheel302 —— 横だけのホイールと θ の向きの反転・lint.stateContract302 —— 状態の契約の登録漏れと持ち越し・lint.retiredRef302 —— 説明文の退役の本の名)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSign302 ui.wheel302 lint.stateContract302 lint.retiredRef302"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"

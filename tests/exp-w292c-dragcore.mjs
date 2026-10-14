@@ -188,7 +188,10 @@ export function gates(HP) {
   const glSame = glE.x.every((z, i) => Object.is(z, glL.x[i]) && Object.is(glE.w[i], glL.w[i]));
   const rs = [0, 0.05, 0.5 * R, R, 2 * R, 10 * R, 363.62532, 384.4, 405];
   const avgRows = rs.map((r) => { const e = HP.dragCoreAvgK(r, d, R, eps, glE), l = LD.avgK(r, d, R, eps, HP.DRAG_CORE_NR, { gl: glL }); return { r, engine: e, lib: l, same: Object.is(e, l) }; });
-  HP.sim.build(HP.validatePreset(clone(p)).preset);
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(大域の関数 relDragStepOrderOf がある)では、(c) の純関数(移送の前〔核の後〕の座標 rdPrev で u を組む ——
+  //   分割の評価点)と照合する走行に stepOrder:"split" を明示する(表と核の照合 (b) は步の順序に依らない)
+  const pS = clone(p); if (typeof globalThis.relDragStepOrderOf === 'function' && pS.physics.relativeDrag && pS.physics.relativeDrag.compose !== 'sum') pS.physics.relativeDrag.stepOrder = 'split';
+  HP.sim.build(HP.validatePreset(pS).preset);
   const S = HP.sim, DC = HP.dragCoreState(S), T = S._dragCoreT && S._dragCoreT[0];
   const src = DC && DC.sources[0];
   const TLib = LD.tableBuild(d, R, eps, src.n, src.rMax, HP.DRAG_CORE_NR);

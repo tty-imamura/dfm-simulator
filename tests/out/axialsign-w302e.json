@@ -2,11 +2,8 @@
  "version": "w302e-axialsign-1",
  "generator": "tests/exp-w302e-axialsign.mjs",
  "target": "beta/index.html",
- "targetSha256": "a205b6cc7683afee47ca83d0aefe82aa204bcd5d32bdbc2fafb9bcb91b87be33",
- "base": {
-  "file": "beta/_w302_base.html",
-  "sha256": "705cd273f96f"
- },
+ "targetSha256": "275e6ff57559dd7c37b84a165e8e69b7abc81045ec2143687473f48db213eca2",
+ "base": null,
  "ruling": "原仮定者の裁定(第92報)・統括の検証項目 R189(AN298 ①⑤ —— 源の軸を上半球へ正規化して符号を Ω へ移す・赤道は y → x の順)",
  "signVersion": "w302e-axial-sign-1",
  "steps": {
@@ -251,27 +248,17 @@
   "sourceAzMin": 0.866025,
   "sigma": 1,
   "tiltless": 80,
-  "rotADragSum": 3.98254,
+  "rotADragSum": 3.98248,
   "flatTerms": 159920,
-  "flatMax": 0.0213439,
+  "flatMax": 0.0213866,
   "tiltTerms": 0,
-  "omegaMax": 0.0213439,
+  "omegaMax": 0.0213866,
   "print": {
-   "rotA": "3bc367cc17d4568f",
-   "x": "59d114464b1c7e45",
-   "y": "a145747ce58ea074",
-   "z": "df1508a63b620746",
-   "rotADr": "f7582cb57f484a6e"
-  },
-  "base": {
-   "rotA": true,
-   "x": true,
-   "y": true,
-   "z": true,
-   "vx": true,
-   "vy": true,
-   "vz": true,
-   "rotADr": true
+   "rotA": "7deadd2ec24f8981",
+   "x": "29679008de8be042",
+   "y": "0898c9b88c5a1b3d",
+   "z": "cb314e551753e856",
+   "rotADr": "3836bfc87c5de6ac"
   }
  },
  "part3": {
@@ -280,20 +267,10 @@
   "now": {
    "diffKeys": [],
    "flatRotADiff": 0,
-   "flatRotAMax": 0.136685,
+   "flatRotAMax": 0.13668,
    "flatRotAOpposite": 0,
    "flat": 80,
    "sameExceptSource": true
-  },
-  "base": {
-   "diffKeys": [
-    "rotA:80"
-   ],
-   "flatRotADiff": 0.27337,
-   "flatRotAMax": 0.136685,
-   "flatRotAOpposite": 80,
-   "flat": 80,
-   "sameExceptSource": false
   }
  },
  "part4": {
@@ -301,8 +278,8 @@
   "steps": 50,
   "nodes": 169,
   "ready": true,
-  "wsMax": 0.0401304,
-  "wzMax": 0.034754,
+  "wsMax": 0.0401307,
+  "wzMax": 0.0347542,
   "wsPos": 156,
   "wsNeg": 0,
   "receiverChecked": 63,
@@ -321,19 +298,19 @@
   "probeReady": true
  },
  "ok": true,
- "elapsedS": 61.463,
+ "elapsedS": 31.101,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "a205b6cc7683afee47ca83d0aefe82aa204bcd5d32bdbc2fafb9bcb91b87be33",
-  "generatedAt": "2026-10-14T00:30:52.423Z",
+  "targetSha256": "275e6ff57559dd7c37b84a165e8e69b7abc81045ec2143687473f48db213eca2",
+  "generatedAt": "2026-10-14T03:00:50.904Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6746670,
-    "sha256": "a205b6cc7683afee47ca83d0aefe82aa204bcd5d32bdbc2fafb9bcb91b87be33",
-    "mtime": "2026-10-14T00:25:46.589Z"
+    "bytes": 6798054,
+    "sha256": "275e6ff57559dd7c37b84a165e8e69b7abc81045ec2143687473f48db213eca2",
+    "mtime": "2026-10-14T02:36:50.478Z"
    }
   ],
   "code": [
@@ -341,25 +318,25 @@
     "file": "tests/exp-w302e-axialsign.mjs",
     "bytes": 14396,
     "sha256": "50cdd5324eefb3eab7968ec6a2304597faa0acf0175c6f1e97d82b38bd81cf31",
-    "mtime": "2026-10-14T00:21:50.415Z"
+    "mtime": "2026-10-14T02:34:43.882Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-14T00:06:01.057Z"
+    "mtime": "2026-10-14T02:34:43.894Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-14T00:06:01.049Z"
+    "mtime": "2026-10-14T02:34:43.890Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-14T00:06:01.061Z"
+    "mtime": "2026-10-14T02:34:43.898Z"
    }
   ],
   "codeSha256": "226996cab6d91a734310bba7d05c73e2b12116b5121ebce505d94044e9973cb9",
@@ -394,11 +371,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1232,
-   "segments": 1119,
-   "closureShare": 0.3165
+   "names": 1272,
+   "segments": 1154,
+   "closureShare": 0.3197
   },
-  "scopeSha256": "781e7ec7ec8c3c942027f730fa9d0497d18321af77fddeaed785e0e65593722f",
+  "scopeSha256": "b80c20bc0c98361969eb3e454e8fb248e5647f59e9ab62d47aaa95e345034b65",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

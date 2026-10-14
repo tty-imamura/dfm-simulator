@@ -139,6 +139,9 @@ function buildFor(HP, spec) {
   else if (spec.kind === 'bridge') { p = bridgePreset(HP); ci = 0; oi = 1; }
   else p = swingPreset(HP, spec.law, { drop: spec.sun === 'drop', state: spec.state || null });
   if (spec.sun === 'drop') { ci = 0; oi = 1; }
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(大域の関数 relDragStepOrderOf がある)では、この器(摂動停止の診断 —— 第293便d の記録)の
+  //   慣性決定力の本を分割の本体のまま測る(stepOrder:"split" を明示 —— semic の影響は器 tests/exp-w302d-semic.mjs が受け持つ)
+  { const rd = p.physics && p.physics.relativeDrag; if (typeof globalThis.relDragStepOrderOf === 'function' && rd && rd.law === 'inertial' && rd.compose !== 'sum') rd.stepOrder = 'split'; }
   const v = HP.validatePreset(clone(p));
   if (!v.ok) throw new Error('validatePreset: ' + JSON.stringify(v.errors).slice(0, 300));
   HP.sim.build(v.preset);
