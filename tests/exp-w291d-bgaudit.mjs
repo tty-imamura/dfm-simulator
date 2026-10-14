@@ -198,7 +198,9 @@ export function frameTerms(HP) {
 }
 
 /* ── (E) 静的: 核と読み手が背景を読まない・wbgStateOf が新核を読まない ─────── */
-const FORBID_TOKENS = /\.D0\b|\.D0pull\b|\bWbg\b|backgroundComplex|BG_COMPLEX_KEY|\.q\b|\.spin\b|\.dragQ\b|spaceMesh|\.sumW\b/;
+// 第302便a(R186): 慣性決定力の引きずり自身の背景 W_bg(宣言 relativeDrag.Wbg —— 読み口の鍵 `Wbg:relDragWbgOf(…)`)は核の法則の量で、
+//   D₀ から引いた「静止背景相当 Wbg」(bgWbgOf)ではない —— その読み口の鍵だけを禁止の語から外す(他の Wbg の読みは従来どおり拒否)
+const FORBID_TOKENS = /\.D0\b|\.D0pull\b|\bWbg\b(?!:relDragWbgOf\()|backgroundComplex|BG_COMPLEX_KEY|\.q\b|\.spin\b|\.dragQ\b|spaceMesh|\.sumW\b/;
 const FORBID_FUNCS = ['bgWbgOf', 'wbgStateOf', 'bgToyOf', 'validateBackgroundComplex', 'dfmFieldContract', 'dfmField', 'frameWeightPow', 'frameWeightIsPull', 'dragTransG', 'bgcState', 'bgcWireState'];
 const INERTIAL_FUNCS = ['dfmInertialDragStep', 'inertialDragFieldAt', 'inertialDragFieldReady', 'inertialDragInit', 'inertialDragState'];
 export function staticRefs(htmlPath) {

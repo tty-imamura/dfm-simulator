@@ -65,7 +65,7 @@ export function toyPreset(o = {}) {
     id: 'w301bToy', name: '近似多粒子の零試験(器)', description: '器の写し', emoji: '🧪', sampleClass: 'principle', seed: 301, world: { boundary: 'none', size: 0 }, camera: { scale: 1 },
     physics: { coord: '3d', G: 1, softening: 0.1, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0, gravityX: 0, gravityY: 0, geoPN: 4, lambdaPN: 0,
       stateCarry: 'double', contactMode: o.contact ? 'normal' : 'none',
-      relativeDrag: { law: 'inertial', gain: 0.5, eps: 0.2, pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } },
+      relativeDrag: Object.assign({ law: 'inertial' }, W302A.wbgDeclOf(0.5), { eps: 0.2, pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } }),   // 第302便a: 強さは Wbg(gain 0.5 = Wbg 2)
       approxMany: { version: 'v1', governor: 0, groups: [{ kind: 'body', rows: [1, 2] }, { kind: 'dust', rows: [3, 5] }] } },
     bodies: [
       { type: 'single', m: 50, radius: 1, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, spin: 0.3, pinned: true, spinAxis: ax('器のトイ') },

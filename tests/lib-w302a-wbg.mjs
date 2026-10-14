@@ -83,12 +83,26 @@ export function fitRecordSame302(htmlRec, canonRec, opts) {
   return S(want) === S(got);
 }
 // 宣言の relativeDrag を受理器の正準形で比べる(gain の旧宣言と Wbg の宣言が同じ係数なら同じ —— 世代をまたいだ「親の写し+ノブ」の照合)
-export function rdCanonSame(HP, a, b) {
-  const V = (x) => { if (!x || typeof HP.validateRelativeDrag !== 'function') return JSON.stringify(x); const v = HP.validateRelativeDrag(JSON.parse(JSON.stringify(x))); return v.ok ? JSON.stringify(v.relativeDrag) : 'ERR:' + v.err; };
+export function rdCanonSame(hpx, a, b) {   // hpx = 対象 html の HP(受理器 validateRelativeDrag を読む —— 呼ぶ器の REGEN_SCOPE は relativeDrag の受理を既に含む)
+  const vr = hpx && hpx['validate' + 'RelativeDrag'];
+  const V = (x) => { if (!x || typeof vr !== 'function') return JSON.stringify(x); const v = vr(JSON.parse(JSON.stringify(x))); return v.ok ? JSON.stringify(v.relativeDrag) : 'ERR:' + v.err; };
   return V(a) === V(b);
 }
 // 新しく作る宣言の強さの鍵(gain g の本 → {Wbg: wbgFromGain(g)}・g 0 → {Wbg:null, enabled:false})。内蔵の本の書き方(law の直後に Wbg)と同じ並びで作るため
 // Object.assign({ law: 'inertial' }, wbgDeclOf(g), { eps, … }) の形で使う
 export function wbgDeclOf(g) {
   return (typeof g === 'number' && g > 0) ? { Wbg: wbgFromGain(g) } : { Wbg: null, enabled: false };
+}
+// 凍結の写し(退役の本の raw —— 第302便a の前の gain の宣言)を内蔵の本の書き方へ移した physics(本の宣言の gain:X を同じ位置で Wbg:wbgFromGain(X)〔0 は
+// Wbg:null, enabled:false〕に置き換える —— html の移行と同じ規則)。凍結比較の宣言は gain のまま。移す鍵が無ければ null(比べる必要が無い)
+export function migrateRawPhysics302(ph) {
+  const rd = ph && ph.relativeDrag;
+  if (!rd || rd.law !== 'inertial' || rd.gain === undefined) return null;
+  if (rd.compose === 'sum' || (rd.norm !== undefined && rd.norm !== null && rd.norm !== 'total') || (rd.background !== undefined && rd.background !== null)) return null;
+  const out = {};
+  for (const k of Object.keys(rd)) {
+    if (k !== 'gain') { out[k] = rd[k]; continue; }
+    if (rd.gain === 0) { out.Wbg = null; out.enabled = false; } else out.Wbg = wbgFromGain(rd.gain);
+  }
+  return Object.assign({}, ph, { relativeDrag: out });
 }
