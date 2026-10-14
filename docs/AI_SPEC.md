@@ -3762,6 +3762,6 @@ SYSTEM_PROMPT の規則 13(逐語):
   引きずりが Wbg の形の本だけ〕・`pinChanges302(p)`・`pinDecl302(evalExpr?, ids?)`・`isGen303a`〔写しのある本のどれかが第302便の宣言から動いた〕)を歴史の記録の器(w302b・w302c・w302d・
   w301g・w297b・w301a・w299d・w299b —— 再生成範囲が本の一覧の器は ids でその本だけ)が loadHtmlMain の直後に呼ぶ(データは器の入力 meta.inputs)。w300b(🌔)は第298便c の正本と照合する分割の走りだけを `pin302` で。
 - QA: `preset.revertGLoc303`・`docs.obsA1B1303`(root は SKIP —— 世代切替 = `isGen303a`)。既存の `preset.planets3d299`・`docs.planets3d299`・`preset.gLocPlanets302`・`preset.fitCond297`・
-  `docs.fit297`・`docs.moon3d298`・`ui.liveMeasure297`・`preset.fitDerived296`・`docs.fitContract296`・`preset.refit301`・`docs.wbgLaw301`・`behavior.wbgDirect302`・`ui.wbgSlider302` は
+  `docs.fit297`・`docs.moon3d298`・`ui.liveMeasure297`・`preset.fitDerived296`・`docs.fitContract296`・`preset.refit301`・`docs.wbgLaw301`・`behavior.wbgDirect302`・`ui.wbgSlider302`・`preset.meshMigrate299` は
   第303便a の世代を受ける(歴史の正本との照合は pin302 の写し・今の宣言は refit-w303a —— 閾値は変えない)。
 - 🟫 の記録の窓の文の対照は「引きずり無しの対照」(説明タブの精密実測が窓の文 /gain 0 の対照|引きずり無しの対照/ で対照の走りを足す —— 第302便a の語)。

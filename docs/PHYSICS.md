@@ -32948,7 +32948,9 @@ preset.gLocPlanets302(在位の G_loc の宣言 0 本 —— 正本の集合と 
 preset.fitCond297・docs.fit297・docs.moon3d298(正本との照合は pin302 の写し —— 🌦️ の観測カードは分割の世代の数と semic の数の両方を持つ)・ui.liveMeasure297(再フィットの本は記録の model と h2)・
 preset.fitDerived296(派生本の照合 derivedCheck は pin302 の写し)・docs.fitContract296(再フィットした 🟫🟪 の観測カードの数は refit-w303a —— 第296便b の数は〔第296便b〕の表)・
 preset.refit301(正本の段 ③ の gain は第302便の宣言の 1/W_bg と照合)・docs.wbgLaw301(行の選び方は pin302 の上に pre302c)・behavior.wbgDirect302(① の移行表は pin302 の写し・
-⑧ の来歴は「第303便a・semic」)・ui.wbgSlider302(🌦️ の初期の W_bg は refit-w303a の値)。
+⑧ の来歴は「第303便a・semic」)・ui.wbgSlider302(🌦️ の初期の W_bg は refit-w303a の値)・preset.meshMigrate299(退役の 🔂 を作った生成器 migPreset は
+pin302 の写しの 🟫 から)。時間の標準の正本 timestd-w297c.json(段 timestd-297c)は 🌦️🌔 の初期配置の接触要素 osc0 と在位の 11 本の行が動くので枝で作り直した。
+写しのデータ tests/data-w303a-decl302.json は安定 hash の除外の宣言(EXTERNAL_VOLATILE —— 除く欄なし)に載せた。
 
 **bitsame・sigsame**(基準 7598e8e)。宣言から導いた集合 = 第302便の宣言の写し DECL302 と physics・bodies が違う在位の本 = 11 本(🌡️🌋🔴🏀🟡🔷💙🟫🟪🌦️🌔)。bitsame の差 11 本 = 集合と一致・
 sigsame の差 10 本(🟪 は W_bg の差 4.6e-8〔相対〕が署名の桁に出ない)。残り 165 本はビット同一。

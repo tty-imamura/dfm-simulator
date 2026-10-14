@@ -1033,6 +1033,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w287b.json': [],
+  // 第303便a(原仮定者の裁定(第93報)①②・R191): 第302便の本の宣言の凍結の写し(tests/lib-w303a-pre.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 refit-w303a と歴史の記録の器〔gloc-302b・wbgest-302c・semic-302d・wbglaw-301g・fit-297b・dragnorm-301a・geo4stable-299d・synodic-299b・emonly-300b〕の入力)
+  'tests/data-w303a-decl302.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

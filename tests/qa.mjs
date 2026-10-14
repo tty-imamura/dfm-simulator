@@ -76040,7 +76040,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (J.migrated) {
           if (!bk) bad.push('移行の本が無い');
           else {
-            const gen = M.migPreset(HP);
+            // 第303便a(R191): 🟫 を semic で再フィットした世代では、🔂(第300便a で退役 —— 宣言は凍結)を作った生成器 migPreset は第302便の 🟫 の宣言の写し
+            //   (tests/lib-w303a-pre.mjs の pin302 —— 器 exp-w299d-geo4stable も同じ写しで測る)から作って照合する(第303便a より前の世代では写しは元と同じ)
+            const PREm = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')).catch(() => null);
+            const HPm = (PREm && PREm.isGen303a(HP.allPresets())) ? Object.assign(Object.create(HP), { allPresets: () => HP.allPresets().map((q) => PREm.pin302(q)) }) : HP;
+            const gen = M.migPreset(HPm);
             if (JSON.stringify(bk.physics) !== JSON.stringify(gen.physics)) bad.push('🔂 の physics が migPreset と違う');
             if (JSON.stringify(bk.bodies) !== JSON.stringify(gen.bodies)) bad.push('🔂 の bodies が migPreset と違う');
             if (!(bk.physics.coord === '3d' && bk.physics.geoPN === 4 && !bk.physics.spaceMesh && bk.familyId === 'mercury' && bk.familyRole === roleMig)) bad.push('🔂 の宣言(三次元・geoPN 4・旧メッシュなし・家族・役割 ' + roleMig + ')');
