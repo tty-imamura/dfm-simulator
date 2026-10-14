@@ -163,7 +163,10 @@ export function partZero(HP) {
     // 受動プローブ(格子点 —— 塵の源を数えない): deg = Σ_{塵でない源} C m_j K_ε(r)
     const eps = S.relDrag.eps, pt = [2, 7, 0.3], pr = HP.inertialDragProbeAt(S, pt[0], pt[1], pt[2], { frame: 'coordinate' });
     let degAna = 0, degAll = 0;
-    for (let j = 0; j < n; j++) { const dx = S.rdPrevX[j] - pt[0], dy = S.rdPrevY[j] - pt[1], dz = S.rdPrevZ[j] - pt[2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), s2 = r2 + eps * eps, a = C * S.m[j] * r / (s2 * s2);
+    // 第302便(統合): semic の本ではプローブは核が使った位置(ドリフトの前の写し _rdQX/QY/QZ)で読む —— 解析の和も同じ位置で取る(分割の本は従来どおり rdPrev)
+    const semicQ = (typeof HP.relDragStepOrderOf === 'function' && HP.relDragStepOrderOf(S.relDrag) === 'semic' && S._rdQX && S._rdQX.length >= n && S._rdQZ);
+    const QX = semicQ ? S._rdQX : S.rdPrevX, QY = semicQ ? S._rdQY : S.rdPrevY, QZ = semicQ ? S._rdQZ : S.rdPrevZ;
+    for (let j = 0; j < n; j++) { const dx = QX[j] - pt[0], dy = QY[j] - pt[1], dz = QZ[j] - pt[2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), s2 = r2 + eps * eps, a = C * S.m[j] * r / (s2 * s2);
       degAll += a; if (K[j] !== 1) degAna += a; }
     out.gravity = { n, dust: K.filter((k) => k === 1).length, body: K.filter((k) => k === 2).length, maxAbsErr: sci(errM), scale: sci(scale), rel: sci(errM / scale), dustDustTermMax: sci(dustTerm),
       pass: errM <= 1e-12 * scale && dustTerm > 1e-3 * scale };
