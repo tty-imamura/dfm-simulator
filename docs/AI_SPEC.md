@@ -349,7 +349,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 physics.spaceMesh は廃止 —— 受理で拒否〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=慣性決定力の多粒子〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 physics.spaceMesh は廃止 —— 受理で拒否〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
@@ -3665,3 +3665,17 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
 - QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
   (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。
+
+## 90. 第302便e —— 源の軸と Ω の符号の正準化・受動プローブの点の色・UI の 2 点・SYSTEM_PROMPT の geoPN=4 の語・状態の契約の lint(原仮定者の裁定(第92報)・統括の検証項目 R189 の細目 —— DECISIONS v60 の AN298 ①⑤⑥・AN302 ①③④⑤・AN305 ②⑧・**宣言の鍵は増やさない** —— 在位・退役の全本の步と署名は不変・`S._core` は不変)
+
+- **軸引きずりの符号の正準化**: 傾きを持たない受け手へ渡すスカラー Σw は、源の軸 â を上半球へ正規化して符号を Ω へ移した σ_j w_ij の和(σ = sgn(a_z)・赤道は sgn(a_y)・
+  a_y も 0 なら sgn(a_x) —— `inertialDrag3AxialSign`・版 `REL_DRAG_AXIAL_SIGN_VERSION`)。(â,Ω) と (−â,−Ω) の寄与がベクトル・スカラーとも同じになる。
+  宣言の形は変えない —— 源の軸が下半球(spinAxis の tiltDeg > 90)の本でも、同じ回転として同じ姿勢の角を作る。在位で動く本は 0(🪛 の源は上半球)。
+- **受動プローブ**(表示): 点の色は正準化した符号つきの Σw(`inertialDragProbeAt` の `omegaS`・`inertialDragProbeSample` の `ws`/`wsMax`)。`omega`・`wz`/`wMax` は従来のまま残す。
+- **UI**(表示専用): Shift なしで縦の量が 0 のホイールは拡大縮小しない(`wheelZoomFactor`)・Shift+ホイールの θ の向きの反転(共通設定・`hp_tilt_wheel_inv`)。
+- **SYSTEM_PROMPT**: 値域の行の geoPN=4 の語を「慣性決定力の多粒子」へ(AI の入力の契約 —— 標準の宣言・lambdaPN=0・旧 spaceMesh の拒否 —— は変えない。上の §7 の逐語の写しも同じ)。
+- **状態の契約**: 新しい状態の鍵(步で値が変わる sim の鍵)は CK_ARRS・CK_SC・CK_DEEP・SIM_STEP_SCRATCH・SIM_BUILD_RESET か機能ごとの写しに登録する。毎步・遅延で作り直す派生の鍵は
+  `SIM_STATE_DERIVED`(key・kind〔cache/work/latch〕・ja)。CK_DEEP に `fusLog`(融合の事象の表示の記録)を足した。
+- **器と正本**: `tests/exp-w302e-axialsign.mjs`(版 w302e-axialsign-1・`W302E_OUT`・`W302E_BASE`・`W302E_N`/`W302E_N3`)→ `tests/out/axialsign-w302e.json`(段 axialsign-302e)/
+  `tests/exp-w302e-statecontract.mjs`(版 w302e-statecontract-1・`W302E_SC_OUT`・`W302E_BASE`・`W302E_SC_STEPS`)→ `tests/out/statecontract-w302e.json`(段 statecontract-302e)。
+- QA: `behavior.axialSign302`・`ui.wheel302`・`lint.stateContract302`・`lint.retiredRef302`(root では SKIP)。

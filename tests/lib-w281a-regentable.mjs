@@ -891,6 +891,17 @@ export const REGEN_STEPS = [
   S('clone-301f', 'node tests/exp-w301f-clone.mjs', ['tests/out/clone-w301f.json'], 719, { secSource: 'w301f-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/clone-w301f.json': META_RUN.concat(['/elapsedS', '/rows/*/wallSec']) },
     note: '第301便f: 複製(cloneSimState)・チェックポイント(保存→復帰)・本の切り替え(build の機能ごとの初期化)の全本の同一 —— 状態の契約 CK_ARRS/CK_SC/CK_DEEP と作業配列 SIM_STEP_SCRATCH の確かめ' }),
+  // ---- 第302便e(原仮定者の裁定(第92報)・統括の検証項目 R189 の細目 AN298 ①⑤): **源の軸と Ω の符号の正準化** —— 7 方向の対照((â,Ω) と (−â,−Ω) のベクトルとスカラー)・
+  //   🪛 の 2000 步の帳簿と指紋・源を反転した 🪛 の対照・受動プローブの点の色(正準化した Σw)と核の一致。html を読む(html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。
+  //   所要は第302便e の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('axialsign-302e', 'node tests/exp-w302e-axialsign.mjs', ['tests/out/axialsign-w302e.json'], 61, { secSource: 'w302e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/axialsign-w302e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第302便e: 源の軸と Ω の符号の正準化(傾きの無い受け手のスカラー Σw —— 上半球へ正規化・赤道は y → x)—— 7 方向の対照・🪛 の帳簿・反転の対照・受動プローブの点の色(値だけ)' }),
+  // ---- 第302便e(DECISIONS v60 AN305 ②⑧・統括の検証項目 R189): **状態の契約の lint** —— 在位の全本を順に開き、步で変わる鍵が登録(CK_ARRS・CK_SC・CK_DEEP・
+  //   SIM_STEP_SCRATCH・SIM_BUILD_RESET・機能ごとの写し)か派生の表 SIM_STATE_DERIVED にあるか・開いた直後に前の本の鍵が残らないか。html だけを読む(html を書く段の後)・1 プロセス
+  S('statecontract-302e', 'node tests/exp-w302e-statecontract.mjs', ['tests/out/statecontract-w302e.json'], 19, { secSource: 'w302e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/statecontract-w302e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第302便e: 状態の契約の lint —— 步で変わる鍵の登録漏れ・前の本の持ち越し(在位の全本・宣言から読む登録の集合)' }),
   // ---- 第301便g(原仮定者の裁定 AN300「背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う」・統括の検証項目 R185): **W_bg の法則性の探索**
   //   (データの表〔宣言から選んだフィットの本・退役の記録・移送・未フィットの本 —— 系の量と局所の重み Σw̄・要る効果 δ〕/ 候補の当てはめ〔1〜2 パラメータ・LOO〕/
   //   LOO の標的の走行 / 応答 κ の検算 / 未フィットの本への予測の記録)。html を読む(器のコードの依存として inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・
