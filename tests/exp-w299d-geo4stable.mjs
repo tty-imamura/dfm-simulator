@@ -30,6 +30,7 @@ import { fitPeri } from './lib-w280b-emgrid.mjs';
 import * as SP from './lib-w299d-spread.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の天体型(html の受理器が physics.approxMany を持つ世代だけ —— 旧世代は従来の形)
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -460,9 +461,10 @@ if (IS_MAIN) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const M = loadHtmlMain(path.join(ROOT, TARGET));   // 本文の文脈(runInThisContext)で走らせる —— 内部関数は大域の間接 eval で引く
+  pinDecl302(null, ['mercurySunInertialFit']);   // 第303便a: 🟫 の W_bg と記録を第302便の宣言に戻して測る(歴史の値を保つ —— 写すのは再生成範囲の宣言の本だけ)
   const out = Object.assign({ version: HARNESS_VERSION, conditionsDeclared: STABLE_CONDITIONS, migConditionsDeclared: MIG_CONDITIONS, spreadDefault: SP.SPREAD_DEFAULT, bands: BANDS, dt: DT, steps: STEPS }, runAll(M.HP, (code) => (0, eval)(code)));
-  const CODE = ['tests/exp-w299d-geo4stable.mjs', 'tests/lib-w299d-spread.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w299d-geo4stable.mjs', 'tests/lib-w299d-spread.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便d', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, spreadVersion: SP.SPREAD_VERSION, loadErrors: M.errors.length,
     ruling: '原仮定者の裁定(第89報)③「geoPN=4 の検証が安定したら、physics.spaceMesh サンプルの移行を進める。現状の chainDiskToy 系は、初期配置が集まりすぎている」',
     reading: '統括の検証項目 R173・DECISIONS v58 の AN278・AN285' });

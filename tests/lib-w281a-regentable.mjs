@@ -939,6 +939,14 @@ export const REGEN_STEPS = [
     after: ['planets3d-299c', 'emonly-300b', 'gloc-302b', 'semic-302d', 'dragnorm-301a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第302便c: G_loc の n(1 つの W_bg の移送の予言)・在位の惑星の本の G_loc と 🌡️ の W_bg の合わせ直しの記録・W_bg の推定 W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目' }),
+  // 第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191): 在位の惑星の本から G_loc(n=−3)を外した世代の、フィットの本 4 本(🌡️🟫🟪🌦️)の semic の再フィットの記録
+  //   (段 R〔🌡️ 割線・🟫🟪 割線と dragCore の f の掃引・🌦️ 4 元の Newton〕・T〔🌔 の移送〕・G〔本の宣言 = 正本の値と記録〕・D〔分割の世代との前後表〕)。
+  //   html だけを読む(器のコードの依存として wbgest-302c〔fitMercury〕・planets3d-299c〔runPl3〕・inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・emonly-300b〔runEm3〕の後・
+  //   html の生成領域の後)・1 プロセス。所要は第303便a の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('refit-303a', 'node tests/exp-w303a-refit.mjs', ['tests/out/refit-w303a.json'], 543, { secSource: 'w303a-branch', node: true,
+    after: ['wbgest-302c', 'planets3d-299c', 'inertial3-295c', 'moon3d-298c', 'emonly-300b', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/refit-w303a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第303便a: 在位の惑星の本の G_loc を外した世代のフィットの本 4 本の semic の再フィット(W_bg・🌦️ は初期配置も)・🌔 の移送・分割の世代との前後表' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -1025,6 +1033,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w287b.json': [],
+  // 第303便a(原仮定者の裁定(第93報)①②・R191): 第302便の本の宣言の凍結の写し(tests/lib-w303a-pre.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 refit-w303a と歴史の記録の器〔gloc-302b・wbgest-302c・semic-302d・wbglaw-301g・fit-297b・dragnorm-301a・geo4stable-299d・synodic-299b・emonly-300b〕の入力)
+  'tests/data-w303a-decl302.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

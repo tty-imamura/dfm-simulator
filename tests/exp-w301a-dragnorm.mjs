@@ -30,6 +30,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as C from './exp-w295c-inertial3.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragNormOf","HP.inertialDragState","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -211,14 +212,15 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W301A_OUT || path.join(ROOT, 'tests', 'out', 'dragnorm-w301a.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
   const r1 = part1(HP); console.log('① ' + JSON.stringify(r1.gates));
   const r2 = part2(HP); for (const z of r2) console.log('② ' + z.emoji + ' ' + z.id + ' x med/max ' + z.xMed.toExponential(3) + '/' + z.xMax.toExponential(3) + ' ' + z.regime);
   const r3 = part3(HP); console.log('③ ' + JSON.stringify({ mer: r3.mer, plu: r3.plu })); console.log('④ ' + JSON.stringify(r3.cosmic.rows));
   const r5 = part5(HP); console.log('⑤ ' + JSON.stringify({ jumpNone: r5.jumpNone, jumpTotal: r5.jumpTotal, none: r5.none.marks.slice(-3), total: r5.total.marks.slice(-3) }));
   const gates = Object.assign({}, r1.gates, { table: r2.length > 0 && r2.every((z) => !z.nan || z.regime === 'local'), cosmicNoPrecession: r3.cosmic.rows.every((z) => Math.abs(z.apsDiff) < 1) });
   const out = { meta: null, version: HP.REL_DRAG_NORM_VERSION, part1: r1, table: r2, part3: r3, chain: r5, gates, ok: Object.values(gates).every(Boolean) };
-  const CODE = ['tests/exp-w301a-dragnorm.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便a', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w301a-dragnorm.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便a', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, normVersion: HP.REL_DRAG_NORM_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第91報)⑤(引きずりの強さは慣性決定力の総和で割る。総和には背景慣性決定力を含む。背景慣性決定力による相対的な引きずりの大きさはゼロ。現状のサンプルにも適用し、結果が変わるサンプルは再フィットする)',
     reading: '統括の検証項目 R179(u_i = C_d Σ_j w_ij (v_j − v_i)/(W_bg + Σ_j w_ij)・背景は分母にだけ・3 成分に同じ分母・W_bg の既定を実測で決める)',

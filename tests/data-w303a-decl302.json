@@ -1,0 +1,1108 @@
+{
+ "version": "w303a-decl302-1",
+ "note": "第303便a(R191): 第302便の本の宣言の写し(基点 9f92262 = 第302便の確定 7598e8e と同じ宣言)—— 本ごとに physics.relativeDrag・physics.gLoc(無ければ null)・bodies・fitRecord・abBody。器 tests/lib-w303a-pre.mjs が読む(凍結 —— 書き換えない)",
+ "fields": [
+  "physics.relativeDrag",
+  "physics.gLoc",
+  "bodies",
+  "fitRecord",
+  "abBody"
+ ],
+ "decl": {
+  "mercurySunInertial3d": {
+   "emoji": "🌡️",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 489275.3,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": 0.00003230708194113838,
+     "y": 0.00011108358383634894,
+     "z": 0.000006109036145846016,
+     "vx": -6.141487642024177e-7,
+     "vy": 1.8533724078528095e-7,
+     "vz": 7.150997078544373e-8,
+     "spin": 0.029031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00033011,
+     "radius": 0.0244,
+     "x": -194.6097738328244,
+     "y": -669.1397002774223,
+     "z": -36.799304401607955,
+     "vx": 3.6994784090651835,
+     "vy": -1.1164251410182398,
+     "vz": -0.43075816214854096,
+     "spin": 0.0124,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.03769810457,
+      "azimuthDeg": 318.227318235,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の水星の極 α0 281.0097°・δ0 61.4143° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "mercurySunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・局所重力 G_loc(physics.gLoc cLocPow n=-3 —— 第302便c)・積分器 semic(第302便d)",
+    "targets": [
+     {
+      "q": "近点率の差(引きずり OFF ∧ G_loc なしの対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)",
+      "window": "8 公転・検出器 B・引きずり OFF ∧ G_loc なしの対照との差(同じ刻み)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした(🟫 と同じ)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 43.000005187146265,
+      "residual": 0.0000051871462645181055,
+      "rel": 1.2063130847716523e-7,
+      "numerics": {
+       "h2": 0.00009230453155595342,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+      "obs": 87.969,
+      "unit": "d",
+      "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+      "window": "8 公転",
+      "tol": {
+       "value": 0.0005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+      "model": 87.96926631785848,
+      "residual": 0.00026631785848962863,
+      "rel": 0.000003027405773506902,
+      "numerics": {
+       "h2": 0.00007655898417624485,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       483813,
+       494298
+      ],
+      "final": 489275.3
+     }
+    ],
+    "fixed": [
+     "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+     "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"",
+     "局所重力 physics.gLoc {law:\"cLocPow\", n:-3}(receiver・κ_g = G/c₀²・ref background —— 第302便c の移送の予言で採った n。G_loc だけの近点率の差 42.98057″/世紀)"
+    ],
+    "procedure": "第302便c: G_loc(n=-3)を入れた本で、引きずり OFF ∧ G_loc なしの対照との近点率の差(8 公転)を 43.0″/世紀に割線で合わせ(c = 1/W_bg)、W_bg を 7 桁に丸めて h と h/2 で測り直した(器 tests/exp-w302c-wbgest.mjs)。引きずりが担うのは 0.01943″/世紀だけ —— 照合許容 ±0.0009″/世紀が写る W_bg の幅は 467600〜513000(弱く同定)",
+    "dt": 0.016,
+    "steps": 380028,
+    "status": "fitted",
+    "notFitted": [
+     "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+     "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+     "G_loc の n は 🌋🔴 への移送の予言で選んだ(🌡️ には合わせていない)",
+     "機構(1PN の近日点前進の機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "f41e374edb99730e",
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり無し —— 局所重力 G_loc 入りの重力だけの二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc only, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "venusSunInertial3d": {
+   "emoji": "🌋",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": 0.002630391963679461,
+     "y": 0.00011976803709281472,
+     "z": -0.00015019450388988547,
+     "vx": -3.3856741587550674e-7,
+     "vy": 0.000008601553116962887,
+     "vz": 1.370944212702263e-7,
+     "spin": 0.029031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0048675,
+     "radius": 0.0605,
+     "x": -1074.5833425324308,
+     "y": -48.92834961665373,
+     "z": 61.358350484856125,
+     "vx": 0.13831357092315255,
+     "vy": -3.5139575496827318,
+     "vz": -0.056006626953435015,
+     "spin": -0.00299236919,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 1.23900284821,
+      "azimuthDeg": 30.1862722555,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の金星の極 α0 272.76°・δ0 67.16° を J2000 の黄道へ(軸は一定の近似・自転は IAU の北極に対し逆行 —— spin は負)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 221.1206 = 1/0.004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 221.1206 = 1/0.004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 221.1205993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "marsSunInertial3d": {
+   "emoji": "🔴",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": -0.0006713698999895783,
+     "y": 0.0000064647773846368015,
+     "z": 0.000016636793509374197,
+     "vx": -3.758169753683368e-8,
+     "vy": -8.486337209475575e-7,
+     "vz": -1.6853490204877288e-8,
+     "spin": 0.029031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00064171,
+     "radius": 0.033895,
+     "x": 2080.408667668069,
+     "y": -20.032740380156582,
+     "z": -51.55329337767931,
+     "vx": 0.11645635185986468,
+     "vy": 2.6297052470807967,
+     "vz": 0.05222478264698772,
+     "spin": 0.708821638,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 26.7179524748,
+      "azimuthDeg": 352.907615966,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の火星の極 α0 317.68143°・δ0 52.8865° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 221.1206 = 1/0.004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 221.1206 = 1/0.004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 221.1205993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "jupiterSunInertial3d": {
+   "emoji": "🏀",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 198.85,
+     "radius": 0.695,
+     "x": -0.5703735069263711,
+     "y": -0.420215257364539,
+     "z": 0.014510377609272648,
+     "vx": 0.0007548825585998603,
+     "vy": -0.001062599583261338,
+     "vz": -0.00001250382390609049,
+     "spin": 0.29031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.1898,
+     "radius": 0.071492,
+     "x": 597.5699254600048,
+     "y": 440.2518647362412,
+     "z": -15.202258101179485,
+     "vx": -0.7908766953508021,
+     "vy": 1.1132662124948214,
+     "vz": 0.013100028365258662,
+     "spin": 17.5851814,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 2.21651092308,
+      "azimuthDeg": 247.817832162,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の木星の極 α0 268.056595°・δ0 64.495303° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 22112.06 = 1/0.00004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 22112.06 = 1/0.00004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 22112.05993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "saturnSunInertial3d": {
+   "emoji": "🟡",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 198.85,
+     "radius": 0.695,
+     "x": -0.2741990845424557,
+     "y": -0.279793659500442,
+     "z": 0.015779128259034988,
+     "vx": 0.0002118272568013317,
+     "vy": -0.00019263147947674438,
+     "vz": -0.000005066906280698297,
+     "spin": 0.29031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.056834,
+     "radius": 0.0603,
+     "x": 959.3639012082082,
+     "y": 978.9381214002689,
+     "z": -55.20779206652896,
+     "vx": -0.7411382273805258,
+     "vy": 0.673976311608379,
+     "vz": 0.017728020444045044,
+     "spin": 16.528,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 28.0521622529,
+      "azimuthDeg": 79.5275088416,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の土星の極 α0 40.589°・δ0 83.537° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 22112.06 = 1/0.00004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 22112.06 = 1/0.00004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 22112.05993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "uranusSunInertial3d": {
+   "emoji": "🔷",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 198.85,
+     "radius": 0.695,
+     "x": -0.09420749681431374,
+     "y": 0.08971559230616363,
+     "z": 0.0015545081602302765,
+     "vx": -0.000020270282997734422,
+     "vy": -0.000020133424764469304,
+     "vz": 1.880322949436562e-7,
+     "spin": 0.29031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0086811,
+     "radius": 0.025559,
+     "x": 2157.9247723821045,
+     "y": -2055.032833405978,
+     "z": -35.60769345610469,
+     "vx": 0.4643127914779797,
+     "vy": 0.4611779053823502,
+     "vz": -0.004307083416795802,
+     "spin": -10.1237196,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 82.2782129109,
+      "azimuthDeg": 257.646679694,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の天王星の極 α0 257.311°・δ0 -15.175° を J2000 の黄道へ(軸は一定の近似・自転は IAU の北極に対し逆行 —— spin は負)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 22112.06 = 1/0.00004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 22112.06 = 1/0.00004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 22112.05993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "neptuneSunInertial3d": {
+   "emoji": "💙",
+   "gLoc": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": null,
+    "enabled": false,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 198.85,
+     "radius": 0.695,
+     "x": -0.12946368466409983,
+     "y": 0.19254352735954827,
+     "z": -0.0009815127532863087,
+     "vx": -0.00002303510507871738,
+     "vy": -0.000015768341244178252,
+     "vz": 8.554922556745714e-7,
+     "spin": 0.29031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0102409,
+     "radius": 0.024764,
+     "x": 2513.8272705969443,
+     "y": -3738.6636345874062,
+     "z": 19.058267436551713,
+     "vx": 0.4472781342365369,
+     "vy": 0.30617764614485493,
+     "vz": -0.016611297350905538,
+     "spin": 10.8338253,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 28.4829265636,
+      "azimuthDeg": 318.754822321,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の海王星の極 α0 299.333738959°・δ0 42.9503590218° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "水星の三次元のフィット値を移送(W_bg 22112.06 = 1/0.00004522419 —— 同じ SI・合わせていない)",
+     "en": "carry Mercury's 3D fitted value (W_bg 22112.06 = 1/0.00004522419 - the same SI, not a fit)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 22112.05993960312,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "mercurySunInertialFit": {
+   "emoji": "🟫",
+   "gLoc": null,
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 221.12079497348208,
+    "eps": 0.05,
+    "history": "positions",
+    "pairs": "all"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.00033011,
+     "radius": 0.0244,
+     "x": 460.012,
+     "y": 0,
+     "vx": 0,
+     "vy": 5.897643,
+     "spin": 0.0124,
+     "pinned": false
+    }
+   ],
+   "fitRecord": {
+    "version": "w297b-1",
+    "parent": "mercurySunInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "perihelionRateDrag",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)",
+      "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)・gain 0 の対照との差(同じ刻み)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 221.12079497348208
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟤 mercurySunInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.05・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "太陽と水星は点源(dragCore を宣言しない —— 太陽の f を R_c/R=0.3 で振った近点率の差は下の notIdentifiable)",
+     "第302便a(原仮定者の裁定(第92報)AN304 ②・R186)の同値移行: ノブを gain から背景慣性決定力 Wbg へ書き換えた(値は 1/gain —— 1/Wbg が元の gain 0.004522415 と同じ double・範囲は [51.4182, 0.001] の gain を [1/g_max, 1/g_min] へ向きを反転)。走りは基点とビット同一(bitsame)で再フィットではない。旧 cond.sig eff92242133e525a は履歴(PHYSICS〔第302便a〕の移行表)"
+    ],
+    "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)",
+    "dt": 0.016,
+    "steps": 380027,
+    "residual": {
+     "value": 0.00001270306584899572,
+     "unit": "″/世紀",
+     "model": 43.00001270306585,
+     "rel": 2.954201360231563e-7
+    },
+    "numerics": {
+     "h2": 0.00015869460099082744,
+     "dtHalf": 0.008
+    },
+    "status": "fitted",
+    "notFitted": [
+     "公転周期(8 公転の平均 —— gain 0 の対照との差と JPL/NSSDC の値との差を記録するだけ)",
+     "離心率",
+     "近日点移動の全量(重力の軟化の逆行を含む —— 合わせたのは gain 0 の対照との差)"
+    ],
+    "notIdentifiable": [
+     "dragCore(太陽の f を R_c/R=0.3 で 0.1〜1.0 に振った近点率の幅 6.03e-3″/世紀 —— 数値誤差の帯 1.59e-4″/世紀 を超えるが gain と縮退。1 量では gain と分けられない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "4222253b30138f1b",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(検出器 B —— 近点ごとの方位の直線 fit・gain 0 の対照との差)・w295c-inertial3-1"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり無し —— 重力だけの二体)",
+     "en": "switch the inertial drag off (drag off — the gravity-only two-body system)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "plutoCharonInertialFit": {
+   "emoji": "🟪",
+   "gLoc": null,
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 0.00014861029313528932,
+    "eps": 0.01,
+    "history": "positions",
+    "pairs": "all",
+    "coreTable": {
+     "n": 4096
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.013025172310458496,
+     "radius": 11.88,
+     "x": -21.315466069304904,
+     "y": 0,
+     "vx": 0,
+     "vy": -0.0024268498546968042,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.564
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0015897512735990414,
+     "radius": 6.06,
+     "x": 174.6421739306951,
+     "y": 0,
+     "vx": 0,
+     "vy": 0.019883700081884368,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.03
+     }
+    }
+   ],
+   "fitRecord": {
+    "version": "w297b-1",
+    "parent": "plutoCharonInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "orbitalPeriodMean",
+      "obs": 551856.43872,
+      "unit": "s",
+      "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)",
+      "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)",
+      "tol": {
+       "value": 0.02592,
+       "kind": "sigma",
+       "note": "Buie, Tholen & Grundy 2012 の P = 6.3872273(3) 日の 1σ(3×10⁻⁷ 日 = 0.02592 s)"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       1.9448366531695003e-8,
+       0.001
+      ],
+      "final": 0.00014861029313528932
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟣 plutoCharonInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.01・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "構造核の事前値: 冥王星 dragCore{f 0.5, R_c/R 0.3}・カロン dragCore{f 0.5, R_c/R 0.5}・表 coreTable.n 4096(固定 —— フィットしない)",
+     "第302便a(原仮定者の裁定(第92報)AN304 ②・R186)の同値移行: ノブを gain から背景慣性決定力 Wbg へ書き換えた(値は 1/gain —— 1/Wbg が元の gain 6729.009 と同じ double・範囲は [51418200, 1000] の gain を [1/g_max, 1/g_min] へ向きを反転)。走りは基点とビット同一(bitsame)で再フィットではない。旧 cond.sig a9ca77f74c73e6cf は履歴(PHYSICS〔第302便a〕の移行表)"
+    ],
+    "procedure": "gain の対数格子(SI で 0.000001〜0.0514182 m³/kg・13 点)で根を挟む → Illinois で詰める → 7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted) → 固定した gain で dragCore の f を振る(同定の可否)",
+    "dt": 0.16,
+    "steps": 2759283,
+    "residual": {
+     "value": 3.253808245062828e-7,
+     "unit": "s",
+     "model": 551856.4387203254,
+     "rel": 5.896113584558067e-13
+    },
+    "numerics": {
+     "h2": 0.00004560861270874739,
+     "dtHalf": 0.08
+    },
+    "status": "fitted",
+    "notFitted": [
+     "軌道の形(離心率の代理)",
+     "第 2 周の周期(記録だけ)",
+     "自転・潮汐"
+    ],
+    "notIdentifiable": [
+     "dragCore(固定 gain で冥王星/カロンの f を振った周期の幅 1.20e-2 s —— 観測の 1σ 0.02592 s より小さく、1 量では gain と縮退する)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "3609306e1beba808",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(同方向の周回の通過時刻の平均間隔)・w295c-inertial3-1"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり無し —— 重力だけの二体)",
+     "en": "switch the inertial drag off (drag off — the gravity-only two-body system)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": "all",
+      "coreTable": {
+       "n": 4096
+      }
+     }
+    }
+   }
+  },
+  "earthMoonSunInertial3d": {
+   "emoji": "🌦️",
+   "gLoc": null,
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 3.8560163495093223,
+    "eps": 0.01,
+    "history": "positions",
+    "pairs": [
+     [
+      1,
+      2
+     ]
+    ]
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.96,
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0,
+     "vz": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": 1495.936602568754,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 2.977134946107245,
+     "vz": -0.0001234441189683723,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 1499.508272768754,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.086884556617057,
+     "vz": 0.010036178275615391,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "earthMoonSunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0",
+    "targets": [
+     {
+      "q": "近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)",
+      "window": "118 公転の窓 [0,118]・A1(慣性の対は地球と月だけ)",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 8.850002272639843,
+      "residual": 0.00000227263984342585,
+      "rel": 2.5679546253399437e-7,
+      "numerics": {
+       "h2": 0.0001850428998722009,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星月(黄道経度の周回の平均間隔・118 公転窓)",
+      "obs": 27.321661,
+      "unit": "d",
+      "source": "恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力",
+      "window": "118 公転の窓",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(走行の平均に合わせた量 —— 予言ではない)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 黄道経度(xy の方位)の通過",
+      "model": 27.321661471052362,
+      "residual": 4.710523633377761e-7,
+      "rel": 1.724098558055369e-8,
+      "numerics": {
+       "h2": 0.00000449931718904395,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "平均離心率(接触離心率の時間平均・118 公転窓)",
+      "obs": 0.0549,
+      "unit": "無次元",
+      "source": "月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力",
+      "window": "118 公転の窓",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(走行の平均に合わせた量)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 位置の中心差分の座標速度から作る接触離心率・64 步ごと",
+      "model": 0.05490000752940848,
+      "residual": 7.52940848558481e-9,
+      "rel": 1.371476955479929e-7,
+      "numerics": {
+       "h2": 0.0000013297620823221612,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 3.8560163495093223
+     },
+     {
+      "key": "initial.moonPerigeeDistance",
+      "range": [
+       3.4,
+       3.8
+      ],
+      "final": 3.5716702
+     },
+     {
+      "key": "initial.moonOscEccentricity0",
+      "range": [
+       0.02,
+       0.12
+      ],
+      "final": 0.0753227
+     },
+     {
+      "key": "initial.moonOscInclination0",
+      "range": [
+       4.5,
+       6
+      ],
+      "final": 5.28885
+     }
+    ],
+    "fixed": [
+     "太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球の公転は円(面は xy = 黄道)",
+     "月の軌道傾斜は平均 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)5.145°)を 118 公転の走行の平均で満たす t=0 の接触傾斜 5.28885°・昇交点を t=0 の地球→月の方向(近地点・太陽の反対方向)に置いた(元期の宣言なし)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](🌥️ のまま)・地球の自転軸は有効化しない(回転引きずり・軸引きずりの宣言なし)",
+     "第302便a(原仮定者の裁定(第92報)AN304 ②・R186)の同値移行: ノブを gain から背景慣性決定力 Wbg へ書き換えた(値は 1/gain —— 1/Wbg が元の gain 0.259335 と同じ double・範囲は [51.4182, 0] の gain を [1/g_max, 1/g_min⁺ = 1/0.001] へ向きを反転 —— g_min=0 の端は OFF〔引きずり無し〕として別に探索した)。走りは基点とビット同一(bitsame)で再フィットではない。旧 cond.sig 809f083d2a43d8e5 は履歴(PHYSICS〔第302便a〕の移行表)"
+    ],
+    "procedure": "段 2 の 3 元 Newton(近地点距離・t=0 の接触離心率・接触傾斜 → 平均離心率・恒星月・平均傾斜 —— gain 0・118 公転・h)→ 段 4 の gain の対数格子(SI 10⁻⁶〜0.0514182 m³/kg・13 点+0)を h と h/2 → 挟めたら Illinois → 根の gain で初期配置を解き直す(外側 2 回)→ 6 桁に丸めて h / h/2 / h/4 と 354 公転窓で測り直した(器 tests/exp-w298c-moon3d.mjs)",
+    "dt": 0.016,
+    "steps": 1741368,
+    "status": "fitted",
+    "notFitted": [
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)",
+     "恒星月と平均離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "24d27408ea068860",
+     "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1)"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "引きずり無しに戻す(三次元の写しの探索の起点 —— 118 公転窓 8.8989 年)",
+     "en": "turn the drag off (the start of the 3D search - 8.8989 yr over 118 orbits)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    }
+   }
+  },
+  "earthMoonOnly3d": {
+   "emoji": "🌔",
+   "gLoc": null,
+   "relativeDrag": {
+    "law": "inertial",
+    "Wbg": 3.8560163495093223,
+    "eps": 0.01,
+    "history": "positions",
+    "pairs": [
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": -0.04339744765707408,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": -0.0013335086138367054,
+     "vz": -0.0001234441189683723,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 3.528272752342897,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0.10841610189597521,
+     "vz": 0.010036178275615391,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "引きずり無しに戻す(慣性引きずりを切った二体 —— 重力だけ)",
+     "en": "turn the drag off (the two-body run without the inertial drag - gravity only)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        0,
+        1
+       ]
+      ]
+     }
+    }
+   }
+  }
+ }
+}

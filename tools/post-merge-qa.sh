@@ -103,6 +103,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgEstimate302 preset.gLocPlanets30
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSign302 ui.wheel302 lint.stateContract302 lint.retiredRef302"
 # 第302便h(ゲート 1 の FAIL 12 件の処置 —— R186〜R190 の統合後): 新設なし。歴史の記録の器を分割の步に固定して正本を戻した 9 本と世代切替を足した 2 本(⑦ の照合・W_bg の同値移行の署名の記録)・再生成範囲の宣言
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenScope docs.dragCoreFit docs.composeContract docs.tideContract docs.inertial3Contract295 preset.fitDerived296 preset.fitCond297 docs.fit297 docs.pn1Contract docs.moon3d298 docs.planets3d299 preset.earthReorg300"
+# 第303便a(原仮定者の裁定(第93報)①②・R191): 枝 a の新設 2 本(preset.revertGLoc303 —— 在位の惑星の本の G_loc を外す・semic の再フィット 4 本・🌔 の移送・A1 の列・
+#   docs.obsA1B1303 —— 観測の候補の行 A1・A4・B1 の行自体の整合)と、第302便の宣言の写し(tests/lib-w303a-pre.mjs)/再フィットの記録で世代を受けた既存の 14 本(と時間の標準・安定 hash の宣言)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.revertGLoc303 docs.obsA1B1303 preset.gLocPlanets302 preset.planets3d299 docs.planets3d299 preset.fitCond297 docs.fit297 docs.moon3d298 ui.liveMeasure297"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitDerived296 docs.fitContract296 preset.refit301 docs.wbgLaw301 behavior.wbgDirect302 ui.wbgSlider302 preset.meshMigrate299 docs.timeStd297 docs.timeStd3d299 lint.stableHashPaths"
 # 第303便e(決断事項 AN312 ③・R194): 枝 e の新設 2 本(lint.canon303 —— 第302便の正本 5 本を CANON へ・lint.harnessSmoke303 —— 鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅の道具)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon303 lint.harnessSmoke303"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
