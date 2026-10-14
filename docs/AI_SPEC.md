@@ -3743,3 +3743,25 @@ SYSTEM_PROMPT の規則 13(逐語):
   「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
 - **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
 - QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。
+
+## 95. 第303便a —— 在位の惑星の本を引きずりの geoPN=3 に戻す(G_loc n=−3 を宣言から外す)・フィットの本 4 本の semic の再フィット・観測の候補の行 A1・A4・B1(原仮定者の裁定(第93報)①②・DECISIONS v61 AN306 ①・AN312 ②・AN313・統括の検証項目 R191・**宣言の値と記録だけ** —— 式・宣言の鍵・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **G_loc の在位の宣言は 0 本**: 🌡️🌋🔴🏀🟡🔷💙 から `physics.gLoc` を外した(G_loc は引きずりだけでは合わない量を埋めるため —— 引きずりが主)。宣言の鍵と受理器は残す(三次元の本だけ・省略時オフ)。
+  gain 0 だった 6 本は引きずり OFF のまま(`{Wbg:null, enabled:false}`)。第302便c の n=−3 の測定は正本 gloc-w302b・wbgest-w302c の記録。
+- **semic の再フィット**(fitRecord の law・window・procedure に semic と「第303便a」・🌡️ の law に「G_loc なし」・fixed の末尾に分割の世代の旧 cond.sig): 🌡️ W_bg 221.1204・🟫 221.1206・
+  🟪 0.0001486103・🌦️ 3.85583(初期配置 近地点距離 3.5716687・t=0 の接触離心率 0.0753231・接触傾斜 5.28885°)。🌔 は 🌦️ の宣言の写し(W_bg は移送 —— fitRecord なし)。
+  🌦️ の W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない(fitRecord の notFitted に 1 行)。
+- **A1 の列**: 水星の本(🌡️🟫)の fitRecord の標的の source に「1PN の上の追加の近日点歳差 −0.0020±0.0030″/世紀(EPM2011 —— 候補の行)・総量の参照 42.9799±0.0009(Park 2017)」。
+  標的は照合規約の 43.0″/世紀のまま。6 本の観測カードに A1 の行(木星は「0 と整合とは言わない」)。
+- **観測の候補の行** `paper/data/pn1-ephemeris-candidates.csv`(27 行 —— 観測 CSV と同じ 11 列・record_id は tests/lib-w270b-obscsv.mjs の規則・quantity は *_candidate・sigma 欄は空・
+  note に sigma_primary=unverified と幅の意味〔EPM2011 は原資料の σ / INPOP は 1σ ではない許容区間の半幅〕・派生の行に derived_from)。判定(calaudit)と本の宣言は読まない(候補)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。新しい惑星の本に G_loc を宣言しない(在位の方針 —— 宣言するなら三次元・較正の外・引きずりを主とする理由を添える)。
+  「43″ が出た」「GR と一致した」「W_bg の宇宙の値が決まった」と書かない。候補の行を verified と書かない。
+- **器と正本**: `tests/exp-w303a-refit.mjs`(版 w303a-refit-1・`W303A_OUT`・`W303A_PARTS=R,T,G,D`)→ `tests/out/refit-w303a.json`(段 refit-303a)。第302便の宣言の写し
+  `tests/lib-w303a-pre.mjs`(版 w303a-pre-1 —— `DECL302`〔凍結のデータ `tests/data-w303a-decl302.json` から読む —— lib の本文に本の ID を持たない〕・`pin302(p)`・`gate302(p)`〔本ごとの門 ——
+  引きずりが Wbg の形の本だけ〕・`pinChanges302(p)`・`pinDecl302(evalExpr?, ids?)`・`isGen303a`〔写しのある本のどれかが第302便の宣言から動いた〕)を歴史の記録の器(w302b・w302c・w302d・
+  w301g・w297b・w301a・w299d・w299b —— 再生成範囲が本の一覧の器は ids でその本だけ)が loadHtmlMain の直後に呼ぶ(データは器の入力 meta.inputs)。w300b(🌔)は第298便c の正本と照合する分割の走りだけを `pin302` で。
+- QA: `preset.revertGLoc303`・`docs.obsA1B1303`(root は SKIP —— 世代切替 = `isGen303a`)。既存の `preset.planets3d299`・`docs.planets3d299`・`preset.gLocPlanets302`・`preset.fitCond297`・
+  `docs.fit297`・`docs.moon3d298`・`ui.liveMeasure297`・`preset.fitDerived296`・`docs.fitContract296`・`preset.refit301`・`docs.wbgLaw301`・`behavior.wbgDirect302`・`ui.wbgSlider302` は
+  第303便a の世代を受ける(歴史の正本との照合は pin302 の写し・今の宣言は refit-w303a —— 閾値は変えない)。
+- 🟫 の記録の窓の文の対照は「引きずり無しの対照」(説明タブの精密実測が窓の文 /gain 0 の対照|引きずり無しの対照/ で対照の走りを足す —— 第302便a の語)。
