@@ -32603,7 +32603,11 @@ gain のまま(鎖で作り直すまで)—— QA は正本の記録を同じ規
 **⑦ QA。** `behavior.wbgDirect302`(①全宣言で 1/Wbg と移行表の旧 gain〔表は宣言から照合 —— 宣言の集合 = 表の行〕②旧 gain の JSON を読んで書き直すと Wbg だけ・
 警告 1 行 ③同時宣言・不正値の拒否 ④OFF/null の JSON 往復 ⑤編集で他の鍵を落とさない ⑥否定対照〔enabled:false・未推定・旧 gain 0〕が宣言なしとビット同一
 ⑦凍結比較の受理 ⑧フィットの記録のノブ・final・条件の署名 ⑨入口の 1 か所)・`ui.wbgSlider302`(W_bg の調整が 1 つだけ・旧 3 欄が出ない・D₀ は残る・値の反映と OFF の往復・
-未推定と未宣言の文・英語)。gain を前提にした既存の QA は世代切替(対象 html の `const REL_DRAG_WBG_VERSION`)で受ける。
+未推定と未宣言の文・英語)。gain を前提にした既存の QA は世代切替(対象 html の `const REL_DRAG_WBG_VERSION`)で受ける。既存の器(gain を動かす探索・gain 0 の対照・凍結比較の写し)は
+`tests/lib-w302a-wbg.mjs`(rdCoefOf〔核の係数〕・rdGainOf〔宣言の値 —— 15 桁〕・rdSetGain/rdWithGain/rdPatch〔Wbg で書く —— 凍結比較は gain〕・wbgDeclOf・
+fitRecordSame302〔正本の gain の記録と html の同値移行の記録の照合〕)を通す。**変えた QA の固定値**: 🌛 の 1 ulp で丸めの量が動く 2 か所だけ ——
+behavior.dragCoreGate の stepGate の res(正本と作り直しの照合を相対 1e-12 → 絶対 1e-14)・behavior.composeGate の nonRecip の sumMu(絶対 1e-18)。
+他の照合の許容は変えていない。
 
 **言わないこと**: 「W_bg の宇宙の値が決まった」とは書かない(本の宣言の値は各本の fit・移送の値を移しただけ)・「gain は普遍定数だった」とは書かない・
 「法則を発見した」とは書かない。gain を W_bg に書き換えたのは定義の置き換えで、走りは基点と同じ(🌛 の 1 ulp を除く)。W_bg の推定(背景宇宙・銀河の中の位置・
