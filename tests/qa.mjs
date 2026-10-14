@@ -72742,13 +72742,18 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return { out, half, tickSame: ref === aft };
       });
       info.r1 = [];
+      // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(html に const REL_DRAG_SEMIC_VERSION ∧ 正本 tests/out/semic-w302d.json)では、フィットの本の fitRecord は
+      //   分割の世代の記録(第 2 段 c まで再フィットしない)。精密実測は正本 semic-w302d.json の段 fit の semic の値(同じ抽出器・同じ窓)と、h/2 の差は semicNumErr と照合する
+      const SE302 = (() => { try { if (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const REL_DRAG_SEMIC_VERSION') < 0) return null;
+        return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'semic-w302d.json'), 'utf8')); } catch (e) { return null; } })();
+      const semicRow302 = (id) => (SE302 && SE302.fit && SE302.fit.rows) ? (SE302.fit.rows.find((z) => z.id === id) || null) : null;
       for (const x of R1.out) {
         const tag = `${x.id}「${String(x.n || '').slice(0, 10)}」`;
         if (x.none) { bad.push(`①${x.id}: 対象の量が見つからない`); continue; }
         if (!x.same) bad.push(`③${tag}: 測定の前後で本走行の sim が変わった`);
         if (x.status !== 'done') { bad.push(`①${tag}: 状態 ${x.status}`); continue; }
         let want = null, src = '';
-        if (x.fit) { want = x.fit.model; src = 'fitRecord'; }
+        if (x.fit) { const sr = semicRow302(x.id); if (sr && typeof sr.semic === 'number') { want = sr.semic; src = '正本 semic-w302d(semic の世代)'; } else { want = x.fit.model; src = 'fitRecord'; } }
         else { const q = qOf(x.id, x.n, x.t); want = q && q.gate ? q.gate.assessedValue : null; src = 'calaudit'; }
         const rel = (want === null) ? null : Math.abs(x.v - want) / Math.max(1e-300, Math.abs(want));
         info.r1.push(`${tag} ${x.est} h=${x.dt}・${x.win.laps ? x.win.laps + ' 周' : x.win.peri + ' 近点'}: ${x.v}(${src} ${want}・相対 ${rel === null ? '—' : rel.toExponential(2)}・${x.steps} 步・${(x.ms / 1000).toFixed(1)} s)`);
@@ -72761,7 +72766,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (!/^アプリ内実測\(刻み h=/.test(x.text || '')) bad.push(`⑦${tag}: 文が「アプリ内実測(刻み h=」で始まらない`);
       }
       info.half = R1.half;
-      if (!(R1.half.status === 'done' && R1.half.numErr !== null && R1.half.h2 !== null && Math.abs(R1.half.numErr - R1.half.h2) <= 1e-9 * Math.abs(R1.half.h2))) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ fitRecord.numerics.h2 ${R1.half.h2}`);
+      { const sr = semicRow302('mercurySunInertialFit'), h2w = (sr && typeof sr.semicNumErr === 'number') ? sr.semicNumErr : R1.half.h2, h2s = (sr && typeof sr.semicNumErr === 'number') ? '正本 semic-w302d の semicNumErr' : 'fitRecord.numerics.h2';   // 第302便d: semic の世代は正本の h/2 の差
+        if (!(R1.half.status === 'done' && R1.half.numErr !== null && h2w !== null && Math.abs(R1.half.numErr - h2w) <= 1e-9 * Math.abs(h2w))) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ ${h2s} ${h2w}`); }
       if (!R1.tickSame) bad.push('③測った後の本走行の 1 步が、測らない 1 步と違う');
       // ② G +1% の編集
       const R2 = await lp.evaluate(() => {

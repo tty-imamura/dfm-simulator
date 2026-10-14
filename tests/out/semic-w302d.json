@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
-  "generatedAt": "2026-10-14T01:01:42.837Z",
+  "targetSha256": "37fb39e679a1d53ba55bba8a792c7f3a548421c7ff9716a0ef71a5b7ed33d616",
+  "generatedAt": "2026-10-14T02:30:28.144Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6751436,
-    "sha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
-    "mtime": "2026-10-14T00:47:32.073Z"
+    "bytes": 6751386,
+    "sha256": "37fb39e679a1d53ba55bba8a792c7f3a548421c7ff9716a0ef71a5b7ed33d616",
+    "mtime": "2026-10-14T02:00:35.757Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w302d-semic.mjs",
-    "bytes": 29700,
-    "sha256": "f13ed83e8fda7f31641b2873913fb4efd5bd8f02e0f9c874c0718525db19fa46",
-    "mtime": "2026-10-14T00:30:48.039Z"
+    "bytes": 30777,
+    "sha256": "0f433dd4adb196ac0f99b5b8e5ce4b7b61017c11e9a41acc9ca159d0494cce51",
+    "mtime": "2026-10-14T02:17:56.909Z"
    },
    {
     "file": "tests/lib-w302d-orderpre.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/exp-w301d-chainburst.mjs",
-    "bytes": 27501,
-    "sha256": "9b663c0b1670923652114af9f0eea563348fe81d72d285b3b8306f11e80bcc82",
-    "mtime": "2026-10-14T00:46:16.197Z"
+    "bytes": 27563,
+    "sha256": "4ac385af8a97ea4fb00fcbc9d0d2adaa0c94c3ed09af09fc9507e4a3c3305e80",
+    "mtime": "2026-10-14T01:34:56.005Z"
    }
   ],
-  "codeSha256": "57462dd7ca11beca5e5b038d39a35072741a3705f04ae307d29e685c94160672",
+  "codeSha256": "7a4de32b461113f2b147d35297654ef3cf5e4716a6f6be5d0166e5807780281f",
   "harnessVersion": "w302d-semic-1",
   "semicVersion": "w302d-semic-1",
   "orderPreVersion": "w302d-orderpre-1",
@@ -109,41 +109,66 @@
   ],
   "scope": {
    "version": "w286d-scope-4",
-   "presets": [
-    "chainBurstShell3d",
-    "chainDiskToy",
-    "chainDiskToy3d",
-    "chainDiskToy3dTilt",
-    "chainSpreadToy3d",
-    "earthMoonOnly3d",
-    "earthMoonSunInertial3d",
-    "inertialDragPair",
-    "mercurySunInertial3d",
-    "mercurySunInertialFit",
-    "plutoCharonInertialFit"
-   ],
+   "presets": "all",
    "roots": [
+    "FIT_RECORD_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.PROBE_VERSION",
+    "HP.REL_DRAG_AXIAL_LAW",
+    "HP.REL_DRAG_CHAIN_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_INERTIAL_VERSION",
     "HP.REL_DRAG_SEMIC_VERSION",
+    "HP.REL_DRAG_SOLVER_TOL_DEFAULT",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.REL_DRAG_SPIN3_VERSION",
     "HP.REL_DRAG_SPIN_NODES",
     "HP.allPresets",
+    "HP.ckRestoreOne",
+    "HP.ckSnapOne",
+    "HP.cloneSimStateNow",
     "HP.coord3d",
     "HP.dfmGaussLegendre01",
+    "HP.dfmInertialDragStep",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondSig",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.inertialDrag3AxialOmega",
+    "HP.inertialDrag3RotTerm",
+    "HP.inertialDragComposeSolve",
+    "HP.inertialDragEpoch",
     "HP.inertialDragLedgerOf",
+    "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeBilinear",
+    "HP.inertialDragProbeReady",
+    "HP.inertialDragProbeSample",
+    "HP.inertialDragProbeStreamlines",
     "HP.inertialDragState",
     "HP.inertialSpinMoment",
+    "HP.loadPreset",
+    "HP.modeSettingIssues",
+    "HP.presetSig",
     "HP.relDragStepOrderOf",
     "HP.sim",
+    "HP.stepCarryFrame",
     "HP.synodic",
-    "HP.validatePreset"
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.validateRelativeDrag",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "dfmSphereKernelQEff"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1265,
-   "segments": 1152,
-   "closureShare": 0.3215
+   "names": 1270,
+   "segments": 1157,
+   "closureShare": 0.3227
   },
-  "scopeSha256": "e3680465626b2d5a172d39a2ad3887343aeb3f33689b4d887f6611a3197be0fe",
+  "scopeSha256": "a688f3eb798a1faf86799643c200920d437164275cbded6f8ec80b913c211517",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -454,7 +479,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 41.894
+  "wallSec": 41.709
  },
  "fit": {
   "rows": [
@@ -473,7 +498,10 @@
     "fitModel": 43.00001270306585,
     "gain0": -9.267902174331272,
     "periodDaysSplit": 87.9691386145655,
-    "periodDaysSemic": 87.96913861065843
+    "periodDaysSemic": 87.96913861065843,
+    "semicH2Value": 43.00019054837644,
+    "semicNumErr": 0.0001721758390544892,
+    "semicResidual": 0.000018372537383015697
    },
    {
     "id": "mercurySunInertial3d",
@@ -601,7 +629,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 70.767
+  "wallSec": 72.43
  },
  "chain": {
   "w296c": {
@@ -613,7 +641,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 10.828,
+    "wallSec": 10.209,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -640,7 +668,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 11.328,
+    "wallSec": 10.452,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2541,7 +2569,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 19.125,
+    "wallSec": 17.832,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2574,7 +2602,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 19.516,
+    "wallSec": 16.906,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -4494,7 +4522,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 4.805,
+    "wallSec": 4.129,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4543,7 +4571,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.226,
+    "wallSec": 3.817,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -5940,7 +5968,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 257.268,
+    "wallSec": 256.65,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -5951,7 +5979,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 262.564,
+    "wallSec": 259.125,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9114,7 +9142,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 43.164,
+    "wallSec": 26.134,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9141,7 +9169,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 31.607,
+    "wallSec": 26.771,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9171,8 +9199,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 665.454
+  "wallSec": 632.041
  },
  "ok": true,
- "elapsedS": 779.759
+ "elapsedS": 748.077
 }

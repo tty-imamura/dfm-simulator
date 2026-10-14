@@ -32563,8 +32563,8 @@ R_E −58・W 5.84×10⁴(rk4 6.5×10⁴・旧の分割 1.29×10⁴ —— R_E 3
 〔第301便d〕の器 tests/exp-w301d-chainburst.mjs は分割を明示して走る(世代切替 —— 門 ledgerMatchesEngine・splitHarnessMatches は分割の本体が前提。`W301D_ORDER=semic` と `W301D_ONLY` で semic を測る)。
 
 **⑦ 器と正本・QA。** 器 tests/exp-w302d-semic.mjs(版 w302d-semic-1・段 semic-302d・`W302D_OUT`・`W302D_PART`・基点の html は `W302D_BASE`〔無い世代は前の正本からの推移〕)→
-正本 tests/out/semic-w302d.json。前置き tests/lib-w302d-orderpre.mjs(版 w302d-orderpre-1 —— 測定専用)。世代切替で split を明示した器: tests/exp-w293e-compose.mjs(合成則の記録)・
-tests/exp-w301d-chainburst.mjs。semic の世代で作り直した正本: tests/out/drag3d-w298c.json・chain-w296c.json・inertial-w290c.json(観測カード・状態の文・本節より前の節の表の転記を新しい数に)。
+正本 tests/out/semic-w302d.json。前置き tests/lib-w302d-orderpre.mjs(版 w302d-orderpre-1 —— 測定専用)。世代切替で split を明示した器(世代は大域の関数 relDragStepOrderOf の有無で判定): tests/exp-w293e-compose.mjs(合成則の記録・エンジン≡純関数の事例)・
+tests/exp-w301d-chainburst.mjs・tests/exp-w292c-dragcore.mjs(核の u の門 —— 純関数は分割の評価点)・tests/exp-w293d-swing.mjs(摂動停止の診断)。QA ui.liveMeasure297 のアプリ内実測(🟫🟪)は semic の世代では本正本の semic の値と h/2 の差(🟫 semicNumErr)と照合する(fitRecord は分割の世代の記録 —— 第 2 段 c まで再フィットしない)。semic の世代で作り直した正本: tests/out/drag3d-w298c.json・chain-w296c.json・inertial-w290c.json(観測カード・状態の文・本節より前の節の表の転記を新しい数に)。
 QA `behavior.semic302`(gain 0 と引きずりの無い本の不変・閉形式・器との一致・明示の split の指紋・R_E の読み口・受理と署名)・`docs.semic302`(正本・影響の表・文書)。
 
 **言わないこと**: 「semic で正しくなった」「保存則が成り立つ」とは書かない(R_E は分割の誤差の大きさの診断)。フィットの本の gain は再フィットしていない。目的の門の閾値は変えていない。

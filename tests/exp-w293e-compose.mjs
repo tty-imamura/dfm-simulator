@@ -39,7 +39,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { runEM, windowFit } from './exp-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w293e-compose-2';   // 第293便g: 既定が solve(velocity) —— sum は compose:"sum" の明示
@@ -120,9 +120,9 @@ function pinned3Preset(HP) {
 /** 1 つの事例: build して steps 步・各步で純関数と照合(hist の步だけ)。 */
 export function engineCase(HP, key, preset, opt) {
   // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(HP.relDragStepOrderOf がある)では、純関数(移送の前〔核の後〕の座標で u を組む —— 分割の評価点)と
-  //   照合する事例に stepOrder:"split" を明示する(semic の評価点は器 tests/exp-w302d-semic.mjs の門 closedForm・libMatch が受け持つ)
+  //   照合する事例に stepOrder:"split" を明示する(世代の判定は大域の関数 relDragStepOrderOf の有無 —— 下の orderGen302)(semic の評価点は器 tests/exp-w302d-semic.mjs の門 closedForm・libMatch が受け持つ)
   const pre = clone(preset), rd0 = pre.physics && pre.physics.relativeDrag;
-  if ((typeof HP.relDragStepOrderOf === 'function' || orderGen302()) && rd0 && rd0.law === 'inertial' && rd0.compose !== 'sum') rd0.stepOrder = 'split';
+  if (orderGen302() && rd0 && rd0.law === 'inertial' && rd0.compose !== 'sum') rd0.stepOrder = 'split';
   const v = HP.validatePreset(pre);
   if (!v.ok) return { key, ok: false, why: 'validatePreset: ' + JSON.stringify(v.errors).slice(0, 200) };
   HP.sim.build(v.preset);

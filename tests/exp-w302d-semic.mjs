@@ -36,7 +36,7 @@ import * as L from './lib-w301d-coupled.mjs';
 import { runPl3, windowOf } from './exp-w299c-planets3d.mjs';
 import { runEm3, windowsOf } from './exp-w300b-emonly.mjs';
 import { ORDER_PRE_VERSION } from './lib-w302d-orderpre.mjs';
-const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d","chainDiskToy3dTilt","chainSpreadToy3d","earthMoonOnly3d","earthMoonSunInertial3d","inertialDragPair","mercurySunInertial3d","mercurySunInertialFit","plutoCharonInertialFit"],"roots":["HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_CHAIN_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragComposeSolve","HP.inertialDragEpoch","HP.inertialDragLedgerOf","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.loadPreset","HP.modeSettingIssues","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.stepCarryFrame","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.validateRelativeDrag","ckRestoreOne","ckSnapOne","dfmSphereKernelQEff"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w302d-semic-1';
@@ -161,7 +161,10 @@ export function fitPart(HP, log) {
   { // 🟫 二次元・8 公転・gain 0 の対照との差
     const id = 'mercurySunInertialFit', p = find(HP, id), Ts = Math.pow(10, p.scaleExp.T), f = fitTol(p, 0), o = { dt: 0.016, revMax: 8, ci: 0, oi: 1 };
     const a0 = q2(run2(HP, withOrder(g0(p), 'semic'), o), 8, Ts), as = q2(run2(HP, withOrder(p, 'split'), o), 8, Ts), am = q2(run2(HP, withOrder(p, 'semic'), o), 8, Ts);
-    rows.push(row(id, '🟫', '近点率の差(gain 0 の対照との差・8 公転・二次元)', '″/世紀', as.apsArcsecPerCentury - a0.apsArcsecPerCentury, am.apsArcsecPerCentury - a0.apsArcsecPerCentury, f.tol, f.h2, { fitModel: f.model, gain0: a0.apsArcsecPerCentury, periodDaysSplit: as.periodSec / 86400, periodDaysSemic: am.periodSec / 86400 }));
+    const oh = Object.assign({}, o, { dt: o.dt / 2 }), a0h = q2(run2(HP, withOrder(g0(p), 'semic'), oh), 8, Ts), amh = q2(run2(HP, withOrder(p, 'semic'), oh), 8, Ts);   // h/2(semic の数値誤差の帯 —— QA ui.liveMeasure297 が照合)
+    const vS = am.apsArcsecPerCentury - a0.apsArcsecPerCentury, vSh = amh.apsArcsecPerCentury - a0h.apsArcsecPerCentury;
+    rows.push(row(id, '🟫', '近点率の差(gain 0 の対照との差・8 公転・二次元)', '″/世紀', as.apsArcsecPerCentury - a0.apsArcsecPerCentury, vS, f.tol, f.h2, { fitModel: f.model, gain0: a0.apsArcsecPerCentury, periodDaysSplit: as.periodSec / 86400, periodDaysSemic: am.periodSec / 86400,
+      semicH2Value: vSh, semicNumErr: Math.abs(vS - vSh), semicResidual: vS - p.fitRecord.targets[0].obs }));
     log('🟫', JSON.stringify(rows[rows.length - 1]));
   }
   { // 🌡️ 三次元・runPl3・8 公転
