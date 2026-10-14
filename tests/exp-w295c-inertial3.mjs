@@ -31,6 +31,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fitPeri, runRow } from './lib-w280b-emgrid.mjs';
 import * as SW from './exp-w293d-swing.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonSunInertial","emAuditSolar","mercuryReal","mercurySunInertial","plutoCharonDiagInput","plutoCharonInertial"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -61,10 +62,10 @@ export function timeUnits(scaleExp) { const T = Math.pow(10, scaleExp.T); return
 
 /* ── 換算(🌛 の宣言と各本の scaleExp から)── */
 export function conversion(HP) {
-  const src = find(HP, SOURCE_ID), se = src.scaleExp, g0 = src.physics.relativeDrag.gain;
+  const src = find(HP, SOURCE_ID), se = src.scaleExp, g0 = W302A.rdGainOf(src.physics.relativeDrag);
   const cdSI = g0 * Math.pow(10, 3 * se.L) / Math.pow(10, se.M);   // [m³/kg]
   const rows = BOOKS.map((b) => { const p = find(HP, b.id), s = p.scaleExp, unit = Math.pow(10, 3 * s.L) / Math.pow(10, s.M);
-    const want = cdSI / unit, got = p.physics.relativeDrag.gain;
+    const want = cdSI / unit, got = W302A.rdGainOf(p.physics.relativeDrag);
     return { id: b.id, emoji: b.emoji, scaleExp: s, unitM3PerKg: unit, gainWant: want, gainDeclared: got, rel: (got - want) / want,
       epsMeters: p.physics.relativeDrag.eps * Math.pow(10, s.L), softeningMeters: p.physics.softening * Math.pow(10, s.L) }; });
   return { source: { id: SOURCE_ID, scaleExp: se, gain: g0, epsMeters: src.physics.relativeDrag.eps * Math.pow(10, se.L) }, cdSI, rows,
@@ -91,7 +92,7 @@ export function declGate(HP) {
     const ph = p.physics, rd = ph.relativeDrag || {};
     const rdKeys = Object.keys(rd).sort();
     if (!(ph.geoPN === 3 && ph.kFrame === 0 && ph.geodesic === undefined && rd.law === 'inertial' && rd.history === 'positions' && rd.compose === undefined
-      && rd.eps === ph.softening && JSON.stringify(rd.pairs) === JSON.stringify(b.pairs) && JSON.stringify(rdKeys) === JSON.stringify(['eps', 'gain', 'history', 'law', 'pairs'])))
+      && rd.eps === ph.softening && JSON.stringify(rd.pairs) === JSON.stringify(b.pairs) && (JSON.stringify(rdKeys) === JSON.stringify(['eps', 'gain', 'history', 'law', 'pairs']) || JSON.stringify(rdKeys) === JSON.stringify(['Wbg', 'eps', 'history', 'law', 'pairs']))))   // 第302便a: Wbg の宣言も受ける
       bad.push('relativeDrag/geoPN の宣言');
     const sameMeta = JSON.stringify(p.scaleExp) === JSON.stringify(par.scaleExp) && p.integrator === par.integrator;
     if (!sameMeta) bad.push('scaleExp/integrator が親と違う');
@@ -111,10 +112,10 @@ export function declGate(HP) {
       const S = HP.sim, law = HP.geoLawOfSim(S), eff = HP.geoEffectiveMode(S);
       for (let k = 0; k < DECL_STEPS; k++) S.step(b.dt);
       const st = HP.inertialDragState(S), core = HP.dragCoreState(S);
-      run = { law, eff, steps: DECL_STEPS, dt: b.dt, nan: S.hasNaN(), gainAfter: S.relDrag ? S.relDrag.gain : null, pairsAfter: S.relDrag ? S.relDrag.pairs : null,
+      run = { law, eff, steps: DECL_STEPS, dt: b.dt, nan: S.hasNaN(), gainAfter: S.relDrag ? W302A.rdGainOf(S.relDrag) : null, pairsAfter: S.relDrag ? S.relDrag.pairs : null,
         drag: st ? { boundMax: st.boundMax, boundOver: st.boundOver, reject: st.reject, noHistory: st.noHistory, uMax: st.uMax } : null,
         core: core ? core.sources.map((z) => ({ index: z.index, R: z.R, rMax: z.rMax, rMaxFrom: z.rMaxFrom, interpRelMax: z.interpRelMax, interpRelMaxFar: z.interpRelMaxFar, jumpAtRMax: z.jumpAtRMax })) : null };
-      if (!(law === 'inertial-drag' && eff === 0 && !run.nan && run.gainAfter === rd.gain && st && st.boundOver === 0 && st.reject === 0)) bad.push('走行(law・実効番号・NaN・gain・上界)');
+      if (!(law === 'inertial-drag' && eff === 0 && !run.nan && run.gainAfter === W302A.rdGainOf(rd) && st && st.boundOver === 0 && st.reject === 0)) bad.push('走行(law・実効番号・NaN・gain・上界)');
     }
     out.push({ id: b.id, parent: b.parent, emoji: b.emoji, ok: bad.length === 0, bad, bodiesSame, coreOk, physDiff, relativeDrag: rd, cls, run });
   }
@@ -124,7 +125,7 @@ export function declGate(HP) {
 export function emVariant(HP, cond) {
   const p = clone(find(HP, bookOf('ems').id));
   if (cond === 'A2') p.physics.relativeDrag.pairs = 'all';
-  if (cond === 'G0') p.physics.relativeDrag.gain = 0;
+  if (cond === 'G0') W302A.rdSetGain(p.physics.relativeDrag, 0);
   return p;
 }
 export function asSolarName(HP, cond) { return Object.assign(emVariant(HP, cond), { id: SW.SOLAR_ID }); }
@@ -148,7 +149,7 @@ export function proxyIdentity(HP) {
 /* ── 二体(🟤🟣)の走行: runRow と同じ検出器 B(同じ式・同じ順序)+ 距離の極値・|u|/|v| ── */
 export function twoBodyPreset(HP, key, gainKey) {
   const p = clone(find(HP, bookOf(key).id));
-  if (gainKey === 'gain0') p.physics.relativeDrag.gain = 0;
+  if (gainKey === 'gain0') W302A.rdSetGain(p.physics.relativeDrag, 0);
   return p;
 }
 export function runPair(HP, preset, o) {

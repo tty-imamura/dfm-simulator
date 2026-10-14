@@ -26,7 +26,8 @@ export function systemFromSim(S, spinMoment, gl) {
   if (sd && sd.axial === 'on') throw new Error('lib-w301d-coupled: 軸引きずり(spinDrag.axial)の本は扱わない');
   const Z = (A) => (d3 && A) ? Float64Array.from(A.subarray(0, n)) : new Float64Array(n);
   const sys = {
-    n, d3, G: S.params.G, eg2: (S.params.softening || 0) ** 2, C: rd.gain || 0, eps: (rd.eps !== undefined) ? rd.eps : (S.params.softening || 0),
+    n, d3, G: S.params.G, eg2: (S.params.softening || 0) ** 2, C: ((rd.gain !== undefined) ? rd.gain : ((rd.enabled === false || !(rd.Wbg > 0)) ? 0 : 1 / rd.Wbg)) || 0,   // 第302便a: 係数 c = 1/W_bg(凍結比較は gain)
+    eps: (rd.eps !== undefined) ? rd.eps : (S.params.softening || 0),
     m: Float64Array.from(S.m.subarray(0, n)), pin: Uint8Array.from(S.pinned.subarray(0, n)),
     spin: Float64Array.from(S.spin.subarray(0, n)), R: Float64Array.from((S.radOv || new Float64Array(n)).subarray(0, n)),
     ax: Z(S.sax), ay: Z(S.say), az: d3 && S.saz ? Float64Array.from(S.saz.subarray(0, n)) : new Float64Array(n).fill(1),

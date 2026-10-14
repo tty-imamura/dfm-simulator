@@ -31,6 +31,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as RD from './lib-w289c-reldrag.mjs';
 import * as LI from './lib-w290c-inertial.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["boxBinaryToy","compactForceToy","earthMoonFree","inertialDragPair"],"roots":["$","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragState","HP.loadPreset","HP.sim","HP.validatePreset","T","cw","sim","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -218,7 +219,7 @@ export function gateE(HP) {
 /* ── 診断本 🐌 ───────────────────────────────────────────────────── */
 function diagRun(HP, gain, dt) {
   const p = clone(find(HP, DIAG_ID));
-  p.physics.relativeDrag = Object.assign({}, p.physics.relativeDrag, { gain });
+  p.physics.relativeDrag = W302A.rdWithGain(p.physics.relativeDrag, gain);
   const S = build(HP, p), G = S.params.G, eg = S.params.softening;
   const E = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0]; let k = 0; for (let i = 0; i < S.n; i++) k += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]);
     return k - G * S.mEff[0] * S.mEff[1] / Math.sqrt(dx * dx + dy * dy + eg * eg); };
@@ -262,7 +263,7 @@ export function diagnostic(HP) {
     diffModelFull: f8.diffModel, diffModelHalf: (h8.dw - h0.dw) - f8.dwModelNet, ratio: ((h8.dw - h0.dw) - f8.dwModelNet) / f8.diffModel };
   const okRuns = runs.concat(half).every((r) => r.nPeri === DIAG.K + 1 && r.boundOverSteps === 0 && r.reject === 0 && r.noHistory === 1 && Math.abs(r.ledger.closureL) <= 1e-12);
   const ok = okRuns && rows.every((r) => Math.abs(r.relDiffModel) <= 1e-2) && Math.abs(dtHalf.relChange) <= 1e-2;
-  return { decl: { id: DIAG_ID, M, r0, eps, vc, gainDeclared: p.physics.relativeDrag.gain, K: DIAG.K, dt: DIAG.dt, dtHalf: DIAG.dtHalf },
+  return { decl: { id: DIAG_ID, M, r0, eps, vc, gainDeclared: W302A.rdGainOf(p.physics.relativeDrag), K: DIAG.K, dt: DIAG.dt, dtHalf: DIAG.dtHalf },
     model0: { dw: rk0.dw }, runs, rows, half, dtHalf, ok };
 }
 

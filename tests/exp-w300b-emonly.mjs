@@ -29,6 +29,7 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w297b-fit.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は 🌔・🌦️(id で引く)
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.synodic","HP.validatePreset","T","ctx","cw","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
@@ -213,7 +214,7 @@ export async function main() {
         log(key, `T118 ${L.fx(w.T1, 5)} 年・恒星月 ${L.fx(w.sid, 6)} 日・朔望月(一様) ${L.fx(w.synUniform, 6)} 日・e ${L.fx(w.eOsc, 6)}・傾斜 ${L.fx(w.incMean, 4)}°・${r.wallSec}s`);
         return r;
       };
-      const g0 = clone(ctrl); g0.physics.relativeDrag.gain = 0;
+      const g0 = clone(ctrl); W302A.rdSetGain(g0.physics.relativeDrag, 0);
       const ctrlH = go('ctrl-h', ctrl, { dt: DT, revMax: rv(354), wins: [118, 354], ci: 0, oi: 1, com: true });
       const ctrlH2 = go('ctrl-h2', ctrl, { dt: DT2, revMax: rv(118), wins: [118], ci: 0, oi: 1, com: true });
       const ctrlG0 = go('ctrl-gain0', g0, { dt: DT, revMax: rv(118), wins: [118], ci: 0, oi: 1, com: true });
