@@ -1,7 +1,7 @@
 // 第303便c(原仮定者の裁定(第93報)③「dragCore について、太陽と水星の関係では、太陽は質点とみなせる事を 1PN が証明している。密度が高く距離が近い
 // 地球と月の関係では、質点とはみなせず天体半径の影響が大きい」・統括の検証項目 R193)——
 // **地球–月の基線の監査と、天体半径の効き方の目録の器**(Node だけ —— 対象 html の inline script を tests/lib-w280b-emgrid.mjs の loadHtmlMain で読み、
-// アプリの三次元の步〔HP.coord3d.makeSim の step〕を走らせる。走行は子プロセス 1 本ずつ —— 118 公転の走行は同時 1 本)。
+// アプリの三次元の步〔HP.coord3d.makeSim の step〕を走らせる。走行は 1 プロセスで順に —— 118 公転の走行は同時 1 本)。
 //
 // ■ 段(正本 tests/out/earthmoon-w303c.json —— 段 earthmoon-303c)。W303C_PARTS=audit,radius,sunbg,ident(既定は全部)で段を分けて走らせられる
 //   (分けたときは既存の出力 JSON の他の段を残して上書き —— 鎖は全段で走らせる)。W303C_OUT で出力先を変える(試走は正本を書かない)。
@@ -31,10 +31,9 @@
 // 実行(Node だけ):
 //   node tests/exp-w303c-earthmoon.mjs                       → 正本 tests/out/earthmoon-w303c.json
 //   W303C_PARTS=audit node tests/exp-w303c-earthmoon.mjs     → 段 audit だけ(他の段は既存の出力から残す)
-//   W303C_OUT=<json> W303C_LONG=<公転数> で試走(正本を書かない)。W303C_WORKERS(既定 1)は子プロセスの並列数(結果は並列数に依らない)。
+//   W303C_OUT=<json> W303C_LONG=<公転数> で試走(正本を書かない)。走行は決定的(同じ html・同じ Node で同じ数 —— 壁時計の欄は volatilePaths)。
 import fs from 'node:fs';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
@@ -426,7 +425,6 @@ export function xiMoon(W, r, o = {}) {
 }
 
 /* ── 段 ── */
-const T6 = (x) => (Number.isFinite(x) ? Number(x.toPrecision(6)) : x);
 const winSummary = (w) => w && w.complete ? { N: w.N, i0: w.i0, T1: w.T1, T2: w.T2, T3: w.T3, T4p: w.T4p, T4s: w.T4s, rms1: w.rms1, rms4p: w.rms4p, amp4p: w.amp4p,
   sid: w.sid, sidH: w.sidH, anom: w.anom, node: w.node, eMean: w.eMean, incMean: w.incMean, aMean: w.aMean, nPeri: w.nPeri } : { N: w ? w.N : null, complete: false };
 function engRun(HP, o, N, hook) {
@@ -623,7 +621,8 @@ export async function stageSunBg(HP, log) {
 
 /** 段 ident: 多量の同定 —— パラメータ p = (f, R_c/R, s〔受け手の球の半径 = s × 月の宣言半径〕)・観測 y = (近点周期 M4・偏りのない恒星月・交点周期)の 118 公転窓。
  *  W_bg は固定(宣言のフィット値と r⁻² の読み n=0)。感度は中心差分(エンジンの走行)・許容で割り、パラメータの幅を掛けた行列の特異値。
- *  解の広がりは線形模型の箱つきの Gauss–Newton(減衰つき)を 8 つの初期値から —— 終点の 2 つをエンジンで測り直して線形模型を確かめる */
+ *  (A) B1 への箱つき Gauss–Newton(線形模型・減衰つき)を 8 つの初期値から —— 終点の 2 つをエンジンで測り直す(箱の隅では線形模型は合わない —— 実測の変化を記録)。
+ *  (B) 安定: 宣言の点の観測に数値の誤差(h と h/2 の差)の大きさの雑音を符号 8 通りで載せた合成の観測から 4 つの初期値で p を取り戻した広がり */
 export const IDENT = Object.freeze({ p0: Object.freeze([0.325, 0.0348 / 0.06371, 0.5]), dp: Object.freeze([0.1, 0.1, 0.5]),
   lo: Object.freeze([0.01, 0.05, 0]), hi: Object.freeze([1, 1, 2]), names: Object.freeze(['f', 'R_c/R', 's(受け手の球)']) });
 function identRun(HP, W, p, N, dt) {
