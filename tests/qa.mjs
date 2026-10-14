@@ -22516,7 +22516,8 @@ if (!FAST) {
         let aiOk = false;
         for (let ai = AS.indexOf('law:"inertial"'); ai >= 0 && !aiOk; ai = has297aP ? AS.indexOf('law:"inertial"', ai + 1) : -1) if (/既定は宣言しない/.test(AS.slice(ai, ai + 3000))) aiOk = true;
         if (!aiOk) bad.push('AI_SPEC に法則版 inertial と「既定は宣言しない」が無い');
-        const sp290 = has297aP ? String(HP290.SYSTEM_PROMPT || '').split('4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"').join('') : HP290.SYSTEM_PROMPT;
+        // 第302便e(AN302 ④): geoPN=4 の語を「空間メッシュ・連鎖」→「慣性決定力の多粒子」へ(AI の入力の契約は不変 —— どちらの世代の語も同じ句として除く)
+        const sp290 = has297aP ? String(HP290.SYSTEM_PROMPT || '').split('4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"').join('').split('4=慣性決定力の多粒子〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"').join('') : HP290.SYSTEM_PROMPT;
         if (sp290 && /inertial/.test(sp290)) bad.push('SYSTEM_PROMPT に inertial がある(AI 生成には開放しない)');
         cases.push('CHANGELOG・AI_SPEC(既定は宣言しない)・SYSTEM_PROMPT に載せない');
       }
@@ -24301,7 +24302,7 @@ if (!FAST) {
         o.pnAb = ['psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN'].filter((id) => { const p = B.find((q) => q.id === id); return !!(p && p.abBody); });
         const sp = String(HP.SYSTEM_PROMPT || '');
         o.sp = { range: sp.indexOf('geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)') >= 0,
-          def: /lambdaPN=1\(geoPN=2・3・4 では lambdaPN=0\)/.test(sp), g4: sp.indexOf('4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。' + ((typeof spaceMeshRetiredDenyOf === 'function') ? '旧 physics.spaceMesh は廃止 —— 受理で拒否〕' : '旧 spaceMesh.lawVersion は互換〕')) >= 0,   // 第300便a: 廃止の世代は語が「廃止 —— 受理で拒否」
+          def: /lambdaPN=1\(geoPN=2・3・4 では lambdaPN=0\)/.test(sp), g4: sp.indexOf('4=' + ((typeof wheelZoomFactor === 'function') ? '慣性決定力の多粒子' : '空間メッシュ・連鎖') + '〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。' + ((typeof spaceMeshRetiredDenyOf === 'function') ? '旧 physics.spaceMesh は廃止 —— 受理で拒否〕' : '旧 spaceMesh.lawVersion は互換〕')) >= 0,   // 第302便e(AN302 ④): geoPN=4 の語(世代切替 = wheelZoomFactor)   // 第300便a: 廃止の世代は語が「廃止 —— 受理で拒否」
           noOld: sp.indexOf('新しく作る設定では使わない') < 0 };
         return o;
       });
@@ -77653,6 +77654,262 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       + (r.bad.length ? ' / NG ' + r.bad.join(' ; ') : '') + (errs.length ? ' / JS ' + errs.slice(0, 2).join(' | ') : ''));
   }
 }
+
+// ---- 第302便e(原仮定者の裁定(第92報)・統括の検証項目 R189 の細目 AN298 ①⑤⑥): behavior.axialSign302 —— **源の軸と Ω の符号の正準化**(root は SKIP)。
+// ----   世代切替 has302e = 対象 html に `const REL_DRAG_AXIAL_SIGN_VERSION`。固定値は正本 tests/out/axialsign-w302e.json(器 tests/exp-w302e-axialsign.mjs —— 段 axialsign-302e)と宣言から読む。
+// ----   ① その場の 7 方向の対照(器の part1 —— html の inertialDrag3AxialOmega を最小の状態で呼ぶ): (â,Ω) と (−â,−Ω) でベクトル 7/7・スカラー 7/7 がビット一致・
+// ----      旧のスカラー(σ を掛けない Σw)は 0/7・赤道の規約 ±x・±y の σ = +1/−1/+1/−1 —— 正本と同じ
+// ----   ② その場で源を反転した 🪛(正本の步数): 源以外の全粒子の位置・速度・rotA がビット同一(正本と同じ)・受動プローブの点の色(50 步)が正本と同じで、
+// ----      実在の傾きの無い受け手の omegaS が核の S._rdWS と一致
+// ----   ③ 正本の門(基点と 🪛 の 2000 步がビット同一・基点の反転は傾きの無い受け手の rotA が逆符号)・🪛 の obsCard の点の色の数が正本の |Σw|max
+// ----   ④ 文書(PHYSICS〔第302便e〕・AI_SPEC の第302便e の節・CHANGELOG・README)・再生成の段・.gitignore の例外
+{
+  const html302e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has302e = TARGET.startsWith('beta/') && html302e.indexOf('const REL_DRAG_AXIAL_SIGN_VERSION') >= 0;
+  if (!has302e) {
+    console.log('SKIP behavior.axialSign302(第302便e 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H = null, X = null, J = null;
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
+    try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302e-axialsign.mjs')); } catch (e) { bad.push('器 tests/exp-w302e-axialsign.mjs が読めない: ' + String(e).slice(0, 120)); }
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'axialsign-w302e.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/axialsign-w302e.json が読めない'); }
+    if (H && X && J) {
+      const E = H.evalExpr;
+      if (J.version !== X.HARNESS_VERSION) bad.push('正本の版 ' + J.version + ' ⇔ 器 ' + X.HARNESS_VERSION);
+      if (J.signVersion !== E('REL_DRAG_AXIAL_SIGN_VERSION')) bad.push('正本の符号の版 ' + J.signVersion + ' ⇔ html ' + E('REL_DRAG_AXIAL_SIGN_VERSION'));
+      // ① 7 方向
+      try {
+        const p1 = X.part1(E), s = p1.summary;
+        if (JSON.stringify(p1) !== JSON.stringify(J.part1)) bad.push('①7 方向をその場で引き直すと正本と違う');
+        if (!(s.dirs === 7 && s.vectorSame === 7 && s.scalarSame === 7 && s.oldScalarSame === 0 && s.nonzeroAll && s.equatorRule === 'eqXp:1,eqXm:-1,eqYp:1,eqYm:-1')) bad.push('①' + JSON.stringify(s));
+        cases.push(`①7 方向(北・南・赤道 ±x ±y・一般): (â,Ω)⇔(−â,−Ω) ベクトル ${s.vectorSame}/7・スカラー ${s.scalarSame}/7(旧のスカラー ${s.oldScalarSame}/7)・赤道の σ ${s.equatorRule}`);
+      } catch (e) { bad.push('①: ' + String(e && e.stack || e).slice(0, 160)); }
+      // ② 反転した 🪛 と受動プローブ
+      try {
+        const p3 = X.part3(H, J.steps.N3, null), p4 = X.part4(H, J.steps.probe);
+        if (JSON.stringify(p3.now) !== JSON.stringify(J.part3.now)) bad.push('②反転の対照をその場で引き直すと正本と違う ' + JSON.stringify(p3.now).slice(0, 120));
+        if (!(p3.now.sameExceptSource && p3.now.flatRotADiff === 0 && p3.now.flat > 0)) bad.push('②反転の対照 ' + JSON.stringify(p3.now));
+        if (JSON.stringify(p4) !== JSON.stringify(J.part4)) bad.push('②受動プローブをその場で引き直すと正本と違う');
+        if (!(p4.ready && p4.receiverChecked > 0 && p4.receiverRelMax <= 1e-8 && p4.wsMax > 0 && p4.wsNeg === 0)) bad.push('②受動プローブ ' + JSON.stringify(p4));
+        cases.push(`②源を (−â,−Ω) にした 🪛 ${J.steps.N3} 步: 源以外の位置・速度・rotA がビット同一(傾きの無い受け手 ${p3.now.flat} 体)/ 点の色 |Σw|max ${p4.wsMax}(ω_z の欄 ${p4.wzMax})・受け手 ${p4.receiverChecked} 体の omegaS = 核の Σw(相対 ${p4.receiverRelMax})`);
+      } catch (e) { bad.push('②: ' + String(e && e.stack || e).slice(0, 160)); }
+      // ③ 正本の門と 🪛 の文
+      try {
+        if (!(J.ok === true && Object.values(J.gates).every(Boolean))) bad.push('③正本の門 ' + JSON.stringify(J.gates));
+        const p2 = J.part2;
+        if (!(p2.sigma === 1 && p2.sourceAzMin > 0 && p2.tiltless > 0)) bad.push('③🪛 の源 ' + JSON.stringify({ sigma: p2.sigma, azMin: p2.sourceAzMin }));
+        if (J.base && !(p2.base && Object.values(p2.base).every(Boolean) && J.part3.base && J.part3.base.flatRotAOpposite > 0)) bad.push('③基点との対照 ' + JSON.stringify({ b2: p2.base, b3: J.part3.base }));
+        const tilt = H.HP.allPresets().find((p) => p.id === X.TILT_ID);
+        const want = Number(J.part4.wsMax).toPrecision(3);
+        const row = ((tilt && tilt.obsCard) || []).find((r) => /空間メッシュ/.test(r.q || ''));
+        const rowEn = ((tilt && tilt.en && tilt.en.obsCard) || []).find((r) => /Space mesh/.test(r.q || ''));
+        if (!(row && row.model.indexOf('Σw(最大 ' + want) >= 0 && rowEn && rowEn.model.indexOf('(up to ' + want) >= 0)) bad.push('③🪛 の obsCard に点の色の数 ' + want + ' が無い');
+        cases.push(`③正本の門 ${Object.keys(J.gates).length} 個が真・🪛 の源は上半球(σ=+1・a_z 最小 ${p2.sourceAzMin})で ${p2.steps} 步が基点とビット同一(帳簿 引きずり軸回転の合計 ${p2.rotADragSum} rad)` + (J.part3.base ? `・基点の反転は傾きの無い受け手 ${J.part3.base.flatRotAOpposite} 体の rotA が逆符号` : ''));
+      } catch (e) { bad.push('③: ' + String(e && e.stack || e).slice(0, 160)); }
+    }
+    // ④ 文書と段
+    try {
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      const a = PH.indexOf('〔第302便e — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1;
+      if (!(a >= 0 && b > a)) bad.push('④PHYSICS に〔第302便e〕が無い(## 7. の前)');
+      else for (const w of ['inertialDrag3AxialSign', 'axialsign-w302e.json', 'perpSkip', 'SIM_STATE_DERIVED', 'statecontract-w302e.json']) if (PH.slice(a, b).indexOf(w) < 0) bad.push('④〔第302便e〕に「' + w + '」が無い');
+      if (!/^## \d+\. 第302便e/m.test(AS)) bad.push('④AI_SPEC に第302便e の節が無い');
+      if (!/^- \*\*第302便e/m.test(CL)) bad.push('④CHANGELOG に第302便e の行が無い');
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8'), GI = fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8');
+      for (const st of ["'axialsign-302e'", "'statecontract-302e'"]) if (RT.indexOf(st) < 0) bad.push('④再生成の段 ' + st);
+      for (const o of ['!tests/out/axialsign-w302e.json', '!tests/out/statecontract-w302e.json']) if (GI.indexOf(o) < 0) bad.push('④.gitignore の例外 ' + o);
+    } catch (e) { bad.push('④文書が読めない'); }
+    add('behavior.axialSign302', bad.length === 0,
+      `**源の軸と Ω の符号の正準化**(第302便e・原仮定者の裁定(第92報)・R189 の細目 AN298 ① —— 傾きを持たない受け手のスカラー Σw だけ・â を上半球へ・赤道は y → x・ベクトルの経路は不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第302便e(DECISIONS v60 AN302 ①⑤・統括の検証項目 R189): ui.wheel302 —— **Shift なし・横成分だけのホイールは拡大縮小しない**と **Shift+ホイールの θ の向きの反転の設定**(表示専用)。
+// ----   世代切替 = 対象 html に `function wheelZoomFactor(`(root 等は SKIP)。
+// ----   ① 純関数 wheelZoomFactor: deltaY>0 → 1.1・<0 → 0.9・0 → null(拡大縮小しない)
+// ----   ② 合成の WheelEvent(canvas —— 実際の経路)を 1280×800 で: Shift なしの横だけ(deltaX 100・deltaY 0)で camScale と θ が不変・縦 100 で 1.1 倍(従来どおり)
+// ----   ③ 反転の設定: 共通設定の行 #tiltWheelInvCb(既定 OFF)を ON にすると Shift+手前へ 100 px で θ が −(宣言の度/px × 100)・hp_tilt_wheel_inv="1" に保存・
+// ----      読み込み直しても ON・OFF に戻すと従来の向き(往復)・説明(tgTiltWheelInv/Desc の ja/en・helpOpsBody に OS の向きの違いの 1 文)
+// ----   ④ 表示専用: 状態・params・presetSig が 1 bit も変わらない・JS エラー 0
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (html.indexOf('function wheelZoomFactor(') < 0) {
+    console.log('SKIP ui.wheel302(第302便e 未適用 — wheelZoomFactor なし — root 等)');
+  } else {
+    const bad = [];
+    let R = null, R2 = null;
+    const wctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const wp = await wctx.newPage();
+    const errs = [];
+    wp.on('pageerror', (e) => errs.push(String(e.message || e)));
+    try {
+      await wp.goto(INDEX, { waitUntil: 'load' });
+      await wp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      R = await wp.evaluate(() => {
+        const o = { bad: [] };
+        const Z = HP.wheelZoomFactor;
+        if (!(Z(100) === 1.1 && Z(-3) === 0.9 && Z(0) === null && Z(-0) === null)) o.bad.push('①wheelZoomFactor');
+        const wh = HP.viewTilt().wheel, sg = (HP.viewTilt().swipe.upSign === -1) ? -1 : 1, per100 = Math.trunc(-sg * 100 * wh.degPerPx + 1e-9);
+        o.per100 = per100;
+        const dump = () => { const S = HP.sim; const a = []; for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) a.push(Array.prototype.join.call(S[k].subarray(0, S.n), ','));
+          return a.join('|') + '|' + S.t + '|' + JSON.stringify(S.params); };
+        const wheel = (dx, dy, mode, shift) => cv.dispatchEvent(new WheelEvent('wheel', { deltaX: dx, deltaY: dy, deltaMode: mode, shiftKey: shift, bubbles: true, cancelable: true }));
+        HP.loadPreset('earthMoonReal', false); camFollowMode = 'none';
+        if (typeof setPlaying === 'function') setPlaying(false);
+        setViewTilt(0); tiltWheelAcc = 0;
+        const sig0 = presetSig(HP.currentPreset()), d0 = dump(), c0 = camScale;
+        // ② 横だけ
+        wheel(100, 0, 0, false); wheel(-40, 0, 0, false);
+        o.h = { scale: camScale, tilt: viewTiltDeg };
+        if (!(camScale === c0 && viewTiltDeg === 0)) o.bad.push('②横だけのホイールで camScale ' + c0 + '→' + camScale + '・θ ' + viewTiltDeg);
+        wheel(0, 100, 0, false);
+        o.v = camScale / c0;
+        if (!(Math.abs(camScale - Math.min(3000, Math.max(20, c0 * 1.1))) < 1e-9)) o.bad.push('②縦 100 で 1.1 倍でない ' + c0 + '→' + camScale);
+        camScale = c0;
+        // ③ 反転の設定
+        const cb = document.getElementById('tiltWheelInvCb');
+        o.cb = !!cb; o.def = HP.tiltWheelInv();
+        if (!cb) o.bad.push('③共通設定の行 #tiltWheelInvCb が無い');
+        if (o.def !== false) o.bad.push('③既定が OFF でない');
+        if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
+        o.on = HP.tiltWheelInv(); o.ls = localStorage.getItem('hp_tilt_wheel_inv');
+        setViewTilt(0); tiltWheelAcc = 0;
+        wheel(0, 100, 0, true);
+        o.tInv = viewTiltDeg;
+        if (!(o.on === true && o.ls === '1' && viewTiltDeg === -per100)) o.bad.push('③反転 ON で Shift+100px の θ ' + viewTiltDeg + '(期待 ' + (-per100) + ')・保存 ' + o.ls);
+        if (camScale !== c0) o.bad.push('③Shift で camScale が動いた');
+        o.T = { ja: I18N.ja.tgTiltWheelInv, en: I18N.en.tgTiltWheelInv, dja: I18N.ja.tgTiltWheelInvDesc, den: I18N.en.tgTiltWheelInvDesc, hj: I18N.ja.helpOpsBody, he: I18N.en.helpOpsBody };
+        if (!(dump() === d0 && presetSig(HP.currentPreset()) === sig0)) o.bad.push('④状態・params・presetSig が動いた');
+        return o;
+      });
+      for (const b of R.bad) bad.push(b);
+      // 読み込み直しても ON(永続)→ OFF に戻すと従来の向き
+      await wp.reload({ waitUntil: 'load' });
+      await wp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      R2 = await wp.evaluate((per100) => {
+        const o = { bad: [] };
+        o.after = HP.tiltWheelInv();
+        const cb = document.getElementById('tiltWheelInvCb');
+        o.cbChecked = !!(cb && cb.checked);
+        if (!(o.after === true && o.cbChecked)) o.bad.push('③読み込み直した後に ON でない ' + JSON.stringify({ after: o.after, cb: o.cbChecked }));
+        HP.setTiltWheelInv(false);
+        setViewTilt(0); tiltWheelAcc = 0;
+        cv.dispatchEvent(new WheelEvent('wheel', { deltaX: 0, deltaY: 100, deltaMode: 0, shiftKey: true, bubbles: true, cancelable: true }));
+        o.tBack = viewTiltDeg;
+        if (!(viewTiltDeg === per100 && localStorage.getItem('hp_tilt_wheel_inv') === '0')) o.bad.push('③OFF に戻した Shift+100px の θ ' + viewTiltDeg + '(期待 ' + per100 + ')');
+        setViewTilt(-90);
+        try { localStorage.removeItem('hp_tilt_wheel_inv'); localStorage.removeItem('hp_view_tilt'); localStorage.removeItem('hp_flip_y'); } catch (_) {}
+        return o;
+      }, R.per100);
+      for (const b of R2.bad) bad.push(b);
+      const T = R.T;
+      if (!(/反転/.test(T.ja) && /Reverse/.test(T.en) && /ナチュラルスクロール/.test(T.dja) && /natural scrolling/.test(T.den))) bad.push('③説明 tgTiltWheelInv/Desc');
+      if (!(/ナチュラルスクロール/.test(T.hj) && /横だけのスクロール/.test(T.hj) && /natural scrolling/.test(T.he) && /horizontal-only scroll/.test(T.he))) bad.push('③helpOpsBody に OS の向きの違い・横だけのスクロールの 1 文');
+    } catch (e) { bad.push('実行に失敗 ' + String(e).slice(0, 160)); }
+    if (errs.length) bad.push('ページのエラー ' + errs[0].slice(0, 100));
+    await wctx.close();
+    add('ui.wheel302', bad.length === 0,
+      `**横だけのホイールは拡大縮小しない・Shift+ホイールの θ の向きの反転**(第302便e・DECISIONS v60 AN302 ①⑤ —— 表示専用): ① wheelZoomFactor(0)=null`
+      + ` / ② 横だけ(deltaX 100・−40)で camScale・θ 不変・縦 100 で ×${R && R.v ? R.v.toFixed(3) : '—'}`
+      + ` / ③ 反転(既定 OFF・共通設定 #tiltWheelInvCb・hp_tilt_wheel_inv): ON で Shift+100px → θ ${R ? R.tInv : '—'}・読み込み直しても ON・OFF で ${R2 ? R2.tBack : '—'} / ④ 状態・params・presetSig 不変`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第302便e(DECISIONS v60 AN305 ②⑧・統括の検証項目 R189): lint.stateContract302 —— **状態の契約の登録漏れと前の本の持ち越し**(root は SKIP)。
+// ----   世代切替 = 対象 html に `const SIM_STATE_DERIVED=`。登録の集合は html の宣言から機械で読む(器 tests/exp-w302e-statecontract.mjs の registryOf —— CK_ARRS・CK_SC・CK_DEEP・
+// ----   SIM_STEP_SCRATCH・SIM_BUILD_RESET と機能ごとの写し〔ckSnapOne・inertialDragCkSnap・shapeToyCkSnap〕)。他の枝が足した状態の鍵も、統合の後に自動で効く(鍵を手で列挙しない)。
+// ----   ① その場で在位の全本(宣言から)を順に開き 3 步: 步で値が変わる鍵のうち登録にも派生の表 SIM_STATE_DERIVED にも無い鍵 0・開いた直後の前の本の持ち越し 0
+// ----      (null が契約の値の鍵は新しく組んだ sim が決める —— 手書きの表を持たない)
+// ----   ② 否定の対照: 🪛 で rotAIn・rotADr の登録を外すと 2 鍵とも漏れとして見つかる(第301便のゲート 1 の型)
+// ----   ③ 派生の表の鍵はどれも html が代入する鍵・正本(版・門・在位の本の数・基点の初版の検出の数)
+{
+  const htmlSc = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const hasSc = TARGET.startsWith('beta/') && htmlSc.indexOf('const SIM_STATE_DERIVED=') >= 0;
+  if (!hasSc) {
+    console.log('SKIP lint.stateContract302(第302便e 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H = null, X = null, J = null;
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
+    try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302e-statecontract.mjs')); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'statecontract-w302e.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/statecontract-w302e.json が読めない'); }
+    if (H && X) {
+      try {
+        const r = X.measure(H, htmlSc, { steps: 3 });
+        const live = H.HP.allPresets().filter((p) => p.familyRole !== 'retired').length;
+        if (r.books !== live) bad.push('①在位の本 ' + r.books + ' ⇔ 宣言 ' + live);
+        if (r.dynamic.leaks.length) bad.push('①登録漏れ ' + r.dynamic.leaks.map((l) => l.key + '[' + l.sample + ']').slice(0, 8).join(','));
+        if (r.dynamic.carried.length) bad.push('①持ち越し ' + r.dynamic.carried.slice(0, 4).map((c) => c.emoji + c.id + ':' + c.carried.concat(c.val).slice(0, 4).join('|')).join(','));
+        cases.push(`①在位 ${r.books} 本 × 3 步: 步で変わる鍵 ${r.dynamic.stepChangedKeys}・登録 ${r.registry.names} 名+正規表現 ${r.registry.regex.length}・派生の表 ${r.registry.derived} 鍵 —— 登録漏れ ${r.dynamic.leaks.length}・持ち越し ${r.dynamic.carried.length}`
+          + `(静的な代入 ${r.static.assigned} 鍵のうち登録の外 ${r.static.outside} —— 在位で現れて步で変わらない ${r.static.outsideSeen - r.static.outsideStepChanged}・在位で走らない ${r.static.outsideUnseen.length})`);
+        const n = X.measure(H, htmlSc, { steps: 3, ids: ['chainDiskToy3dTilt'], drop: ['rotAIn', 'rotADr'] });
+        const ks = n.dynamic.leaks.map((l) => l.key).sort().join(',');
+        if (ks !== 'rotADr,rotAIn') bad.push('②否定の対照で見つかった鍵 ' + ks);
+        cases.push(`②否定の対照(🪛 で rotAIn・rotADr の登録を外す)→ 漏れ ${ks}`);
+        const assigned = X.assignedKeys(htmlSc), D = H.evalExpr('SIM_STATE_DERIVED');
+        const stale = D.filter((d) => !assigned.has(d.key) || ['cache', 'work', 'latch'].indexOf(d.kind) < 0 || !d.ja).map((d) => d.key);
+        if (stale.length) bad.push('③派生の表の鍵が html に無い/種別・説明が無い ' + stale.join(','));
+        if (H.evalExpr('CK_DEEP').indexOf('fusLog') < 0) bad.push('③CK_DEEP に fusLog が無い');
+      } catch (e) { bad.push('①②: ' + String(e && e.stack || e).slice(0, 160)); }
+      if (J) {
+        if (J.version !== X.HARNESS_VERSION) bad.push('③正本の版 ' + J.version);
+        if (!(J.ok === true && J.gates.leaks0 && J.gates.carried0)) bad.push('③正本の門 ' + JSON.stringify(J.gates));
+        if (J.base && !(J.base.detections > 0)) bad.push('③基点の初版の検出 ' + J.base.detections);
+        cases.push(`③正本: 検出 ${J.detections}` + (J.base ? `(基点の初版 ${J.base.detections} —— ${J.base.leaks.map((l) => l.key).join('・')})` : ''));
+      }
+    }
+    add('lint.stateContract302', bad.length === 0,
+      `**状態の契約の lint**(第302便e・DECISIONS v60 AN305 ②⑧・R189 —— 步で変わる鍵の登録漏れと前の本の持ち越し・登録は html の宣言から機械で読む): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第302便e(DECISIONS v60 AN302 ③): lint.retiredRef302 —— **説明文の中の退役の本の名**(root は SKIP —— 世代切替 = `function wheelZoomFactor(`)。
+// ----   在位の本(宣言から)の表示文(名前・summary・observe・control・brief・description・obsCard の ja/en)と I18N の文に、退役の本の ID(語の境界)と
+// ----   退役の本だけが使う絵文字(同じ絵文字の在位の本が無いもの)が現れない(履歴の記述は退役の本の側と文書に残す)。退役・在位は宣言 familyRole から数える
+{
+  const htmlRr = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && htmlRr.indexOf('function wheelZoomFactor(') >= 0)) {
+    console.log('SKIP lint.retiredRef302(第302便e 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [];
+    let nField = 0, nRet = 0, nEm = 0;
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, I = H.evalExpr('I18N');
+      const all = HP.allPresets(), ret = all.filter((p) => p.familyRole === 'retired'), live = all.filter((p) => p.familyRole !== 'retired');
+      const liveEm = new Set(live.map((p) => p.emoji)), retEm = [...new Set(ret.map((p) => p.emoji).filter((e) => e && !liveEm.has(e)))];
+      // バッジの記号(I18N の bdg* —— 本の絵文字と同じ字を使う状態の印)は本の名ではない
+      const badgeKey = (k) => /^bdg/.test(k);
+      nRet = ret.length; nEm = retEm.length;
+      const hits = [];
+      const scan = (where, t) => {
+        if (typeof t !== 'string' || !t) return;
+        nField++;
+        for (const p of ret) { let i = t.indexOf(p.id); while (i >= 0) { const nx = t[i + p.id.length] || '', pv = t[i - 1] || ''; if (!/[A-Za-z0-9_]/.test(nx) && !/[A-Za-z0-9_]/.test(pv)) hits.push(where + ':' + p.id); i = t.indexOf(p.id, i + 1); } }
+        for (const e of retEm) if (t.indexOf(e) >= 0) hits.push(where + ':' + e);
+      };
+      for (const p of live) {
+        const d = p.descStruct || {}, en = p.en || {}, de = en.descStruct || {};
+        scan(p.id + '.name', p.name); scan(p.id + '.en.name', en.name); scan(p.id + '.description', p.description); scan(p.id + '.en.description', en.description);
+        for (const k of ['summary', 'observe', 'control', 'brief']) { scan(p.id + '.' + k, d[k]); scan(p.id + '.en.' + k, de[k]); }
+        for (const [j, r] of (p.obsCard || []).entries()) scan(p.id + '.obsCard' + j, [r.q, r.model, r.obs].join(' '));
+        for (const [j, r] of (en.obsCard || []).entries()) scan(p.id + '.en.obsCard' + j, [r.q, r.model, r.obs].join(' '));
+      }
+      for (const L of ['ja', 'en']) for (const k of Object.keys(I[L])) if (!badgeKey(k) && typeof I[L][k] === 'string') scan('I18N.' + L + '.' + k, I[L][k]);
+      if (hits.length) bad.push('退役の本を指す文 ' + hits.length + ' 件: ' + hits.slice(0, 8).join(' , '));
+    } catch (e) { bad.push('実行に失敗 ' + String(e && e.stack || e).slice(0, 160)); }
+    add('lint.retiredRef302', bad.length === 0,
+      `**説明文の中の退役の本の名**(第302便e・DECISIONS v60 AN302 ③ —— 在位の本の表示文と I18N の文 ${nField} 欄に、退役 ${nRet} 本の ID と退役の本だけの絵文字 ${nEm} 字が 0 件・I18N の状態バッジ bdg* は本の名ではないので除く)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // 第288便f(原仮定者の裁定(第78報)AN90): 結果 JSON の env に**試験した Chromium の版**を残す(CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う ——
 //   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
 let chromiumVersion = 'unknown';
