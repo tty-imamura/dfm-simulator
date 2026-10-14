@@ -90,6 +90,9 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
 # 第301便d(原仮定者の裁定(第91報)④・R182): 枝 d の新設 2 本(docs.chainBurst301 —— 連鎖円盤の 14000 步付近の飛びの記録と正本・文書・preset.chainBurstShell301 —— 放出の探索の写し 🧨)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301"
+# 第302便a(原仮定者の裁定(第92報)AN304 ②⑤・R186): 枝 a の新設 2 本(behavior.wbgDirect302 —— W_bg の直接定義・gain の廃止・移行表・互換読込・ui.wbgSlider302 —— パラメータタブの W_bg の行)と
+#   世代切替で追従した UI の 4 本(ui.paramOrderDrag・ui.paramWbgRow・ui.bgComplexPanel・ui.bgDerivPanel)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgDirect302 ui.wbgSlider302 ui.paramOrderDrag ui.paramWbgRow ui.bgComplexPanel ui.bgDerivPanel"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

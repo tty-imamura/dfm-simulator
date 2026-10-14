@@ -73667,7 +73667,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           for (const w of X3c.obsNumbers(J, b.key)) { if (txt.indexOf(w) < 0) bad.push(id + ' の観測カードに正本の値 ' + w + ' が無い'); if (txtE.indexOf(w) < 0) bad.push(id + ' の観測カード(en)に正本の値 ' + w + ' が無い'); }
           if (X3c.TARGETS[b.key]) {
             nFit++;
-            if (norm9(p.fitRecord) !== norm9(b.fitRecord)) bad.push(id + ' の fitRecord が正本と違う');
+            if (norm9(p.fitRecord) !== norm9(b.fitRecord) && !(await import('file://' + path.join(ROOT, 'tests', 'lib-w302a-wbg.mjs'))).fitRecordSame302(p.fitRecord, b.fitRecord, { sortKeys: true })) bad.push(id + ' の fitRecord が正本と違う');   // 第302便a: 同値移行(Wbg のノブ)も受ける
             const vr = HP.validateFitRecord(JSON.parse(JSON.stringify(p.fitRecord || {})));
             if (!vr.ok) bad.push(id + ' の fitRecord が受理されない ' + vr.err);
             const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
@@ -76560,7 +76560,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.mask = xOf(100) === xOf(1000); }
       { const tilt = ps.find((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.spinDrag && q.physics.relativeDrag.spinDrag.axial === 'on' && q.familyRole !== 'retired');
         o.tiltId = tilt ? tilt.id : null;
-        if (tilt) { const go = (patch) => { const q = clone(tilt); Object.assign(q.physics.relativeDrag, patch); const v = HP.validatePreset(q); S.build(v.preset); const dt = q.physics.stepDt || 0.016; S.step(dt); S.step(dt);
+        if (tilt) { const go = (patch) => { const q = clone(tilt); Object.assign(q.physics.relativeDrag, patch);
+            { const z = q.physics.relativeDrag; if (z.norm === 'none' && z.gain === undefined) { const c = (z.enabled === false || z.Wbg === null || z.Wbg === undefined) ? 0 : Number((1 / z.Wbg).toPrecision(15)); delete z.Wbg; delete z.enabled; z.gain = c; } }   // 第302便a: 凍結比較(norm:"none")は gain で書く
+            const v = HP.validatePreset(q); S.build(v.preset); const dt = q.physics.stepDt || 0.016; S.step(dt); S.step(dt);
             return { DG: Array.from(S._rdDeg.subarray(0, S.n)), UX: Array.from(S._rdUX.subarray(0, S.n)), WX: Array.from(S._rdWX.subarray(0, S.n)), WZ: Array.from(S._rdWZ.subarray(0, S.n)),
               WS: S._rdWS ? Array.from(S._rdWS.subarray(0, S.n)) : null }; };   // 第301便m: 第301便c の傾きを持たない受け手の Σw(_rdWS)も同じ ν(c の無い世代は null)
           const a = go({ norm: 'none' }), t = go({}); let bad = 0, nAx = 0, nuMin = 1, nWS = 0;
@@ -77249,7 +77251,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       for (const r of (WL.table || [])) {
         const p = inert.find((q) => q.id === r.id); if (!p) { bad.push('表の本が宣言に無い ' + r.id); continue; }
         const rd = p.physics.relativeDrag, rdc = (H301g.relDragCoefficientOf ? H301g.relDragCoefficientOf(rd) : rd.gain), bg = rdc > 0 ? H301g.relDragBackgroundOf(rd) : null, X = p.scaleExp, dens = Math.pow(10, X.M) / Math.pow(10, 3 * X.L);
-        if (r.gain !== rdc) bad.push(`${r.id} の gain ${r.gain} ≠ 宣言 ${rdc}`);
+        if (r.gain !== rdc && !(rd.gain === undefined && rdc > 0 && Number(rdc.toPrecision(15)) === r.gain)) bad.push(`${r.id} の gain ${r.gain} ≠ 宣言 ${rdc}`);   // 第302便a: 🌛 は 1/Wbg が 514182 の 1 ulp 隣(宣言の値は 15 桁で同じ)
         if (bg && (r.Wbg !== bg.Wbg || r.Cd !== bg.Cd || Math.abs(r.WbgSI / (bg.Wbg * dens) - 1) > 1e-12)) bad.push(`${r.id} の W_bg ${r.Wbg} ≠ 宣言 ${bg.Wbg}`);
         if (!bg && r.Wbg !== null) bad.push(`${r.id} は gain 0 なのに W_bg ${r.Wbg}`);
         const sel1 = sel.find((z) => z.id === r.id) || {}, ci = sel1.ex === 'ems' ? 1 : 0, oi = sel1.ex === 'ems' ? 2 : 1;

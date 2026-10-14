@@ -39006,12 +39006,15 @@ function buildInertialWbgRow(parent){
     if(nx && nx.classList && nx.classList.contains("pdesc")){ nx.remove(); return; }
     const d=document.createElement("div"); d.className="pdesc open"; d.dataset.key="Wbg"; d.textContent=T("iwbgDesc"); row.after(d);
   });
+  lab.style.cssText="flex:1 1 0;min-width:0;";
   const on=document.createElement("input"); on.type="checkbox"; on.className="iwbgOn"; on.setAttribute("aria-label",T("iwbgOnLabel")); on.title=T("iwbgOnLabel");
+  on.style.cssText="flex:0 0 auto;margin:0 4px;";
   const rng=document.createElement("input"); rng.type="range"; rng.className="iwbgRange"; rng.min="0"; rng.max=String(WBG_ROW_STEPS); rng.step="1";
+  rng.style.cssText="flex:0 0 80px;width:80px;min-width:60px;";
   rng.setAttribute("aria-label",T("iwbgLabel"));
   const num=document.createElement("input"); num.type="text"; num.className="valIn iwbgNum"; num.inputMode="decimal"; num.autocomplete="off";
   num.setAttribute("aria-label",T("iwbgLabel")+" [M/L³]");
-  const unit=document.createElement("span"); unit.className="iwbgUnit"; unit.textContent="[M/L³]"; unit.style.cssText="font-size:calc(11px*var(--uz,1));color:var(--dim);";
+  const unit=document.createElement("span"); unit.className="iwbgUnit"; unit.textContent="[M/L³]"; unit.style.cssText="flex:1 0 100%;text-align:right;font-size:calc(11px*var(--uz,1));color:var(--dim);margin-top:-2px;";
   const note=document.createElement("div"); note.className="iwbgNote note"; note.style.cssText="flex:1 0 100%;font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 2px;";
   const apply=(W, en, quiet)=>{
     const S=editSim(); const r=geoInertialSetWbg(S, W, en);

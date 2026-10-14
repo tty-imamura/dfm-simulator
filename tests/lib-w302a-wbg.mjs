@@ -65,8 +65,10 @@ export function rdIsGain(rd, g) {
 // 範囲 [lo, hi] → [wbgFromGain(hi), wbgFromGain(lo>0 ? lo : MIN_POS)](MIN_POS = 0.001 —— 正本の対数格子の最小の正の gain)。cond.sig は比べない
 // (html の側は今の宣言で作り直した署名 —— 器が fitCondSig で match を別に見る)。同じ形(どちらも gain か、どちらも Wbg)なら素の一致。
 export const FIT_MIGRATE_MIN_POS = 0.001;
-export function fitRecordSame302(htmlRec, canonRec) {
-  if (JSON.stringify(htmlRec) === JSON.stringify(canonRec)) return true;
+const canonStr = (x) => JSON.stringify(x, (k, v) => (v && typeof v === 'object' && !Array.isArray(v)) ? Object.fromEntries(Object.keys(v).sort().map((q) => [q, v[q]])) : v);
+export function fitRecordSame302(htmlRec, canonRec, opts) {
+  const S = (opts && opts.sortKeys) ? canonStr : JSON.stringify;   // 鍵の並びを問わない照合(正本と html の書式が違う器 —— planets3d の norm9 と同じ)
+  if (S(htmlRec) === S(canonRec)) return true;
   if (!htmlRec || !canonRec || !Array.isArray(htmlRec.knobs) || !Array.isArray(canonRec.knobs)) return false;
   const k = canonRec.knobs.findIndex((z) => z && z.key === 'physics.relativeDrag.gain');
   if (k < 0 || !htmlRec.knobs[k] || htmlRec.knobs[k].key !== 'physics.relativeDrag.Wbg') return false;
@@ -78,10 +80,15 @@ export function fitRecordSame302(htmlRec, canonRec) {
   got.fixed = got.fixed.slice(0, -1);
   if (want.cond) delete want.cond.sig;
   if (got.cond) delete got.cond.sig;
-  return JSON.stringify(want) === JSON.stringify(got);
+  return S(want) === S(got);
 }
 // 宣言の relativeDrag を受理器の正準形で比べる(gain の旧宣言と Wbg の宣言が同じ係数なら同じ —— 世代をまたいだ「親の写し+ノブ」の照合)
 export function rdCanonSame(HP, a, b) {
   const V = (x) => { if (!x || typeof HP.validateRelativeDrag !== 'function') return JSON.stringify(x); const v = HP.validateRelativeDrag(JSON.parse(JSON.stringify(x))); return v.ok ? JSON.stringify(v.relativeDrag) : 'ERR:' + v.err; };
   return V(a) === V(b);
+}
+// 新しく作る宣言の強さの鍵(gain g の本 → {Wbg: wbgFromGain(g)}・g 0 → {Wbg:null, enabled:false})。内蔵の本の書き方(law の直後に Wbg)と同じ並びで作るため
+// Object.assign({ law: 'inertial' }, wbgDeclOf(g), { eps, … }) の形で使う
+export function wbgDeclOf(g) {
+  return (typeof g === 'number' && g > 0) ? { Wbg: wbgFromGain(g) } : { Wbg: null, enabled: false };
 }
