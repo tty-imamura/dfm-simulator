@@ -115,7 +115,7 @@ export function part1(HP) {
     }
     out.z6 = { book: 'chainDiskToy3dTilt', n: o.DG.length, bad, axialReceivers: nAx, nuMin, nuMax }; }
   // z7: 連鎖の PCG —— 背景を宣言した 🍥 の写し(C_d 0.5・W_bg = 0.5/gain —— 行の対角 1+x)の 300 步: 未収束 0・残差の最大 ≤ solverTol
-  { const p = clone(find(HP, 'chainSpreadToy3d')); const g302 = W302A.rdGainOf(p.physics.relativeDrag); W302A.rdSetGain(p.physics.relativeDrag, g302); p.physics.relativeDrag.background = 0.5 / g302;   // 第302便a: background は旧法則の凍結比較(gain で書く)
+  { const p = clone(find(HP, 'chainSpreadToy3d')); const g302 = W302A.rdGainOf(p.physics.relativeDrag); W302A.rdPatch(p.physics.relativeDrag, { gain: g302, background: 0.5 / g302 });   // 第302便a: background は旧法則の凍結比較(gain で書く)
     const dt = stepDtOf(p), S = build(HP, p); for (let k = 0; k < 300; k++) S.step(dt);
     const st = HP.inertialDragState(S), c = st.compose;
     out.z7 = { book: 'chainSpreadToy3d', steps: 300, method: c.method, resMax: c.resMax, fail: c.chain.fail, itersMax: c.chain.itersMax, tol: c.chain.solverTol }; }
@@ -124,8 +124,10 @@ export function part1(HP) {
   { const g = 0.07, rd = { law: 'inertial', gain: g, eps: 0.05, pairs: 'all', history: 'positions' };
     const S = build(HP, toy([B(0, 0, 0.3, 0, 50), B(6, 1, 0, 0.8, 20), B(-4, 5, -0.5, 0.2, 35), B(2, -7, 0.1, -0.6, 10)], rd)); S.step(0.002); S.step(0.002);
     let errMax = 0;
+    // 第302便(統合): semic の本は u をドリフトの前の写し(_rdQX/QY)で解く —— 解析の w も同じ位置で引く(分割の世代は rdPrev)
+    const sq = (typeof HP.relDragStepOrderOf === 'function' && HP.relDragStepOrderOf(S.relDrag) === 'semic' && S._rdQX), PX = sq ? S._rdQX : S.rdPrevX, PY = sq ? S._rdQY : S.rdPrevY;
     for (let i = 0; i < 4; i++) { let sw = 0, nx = 0, ny = 0;
-      for (let j = 0; j < 4; j++) { if (j === i) continue; const dx = S.rdPrevX[j] - S.rdPrevX[i], dy = S.rdPrevY[j] - S.rdPrevY[i], r2 = dx * dx + dy * dy, q = r2 + 0.0025, w = S.m[j] * Math.sqrt(r2) / (q * q);
+      for (let j = 0; j < 4; j++) { if (j === i) continue; const dx = PX[j] - PX[i], dy = PY[j] - PY[i], r2 = dx * dx + dy * dy, q = r2 + 0.0025, w = S.m[j] * Math.sqrt(r2) / (q * q);
         sw += w; nx += w * (S.vx[j] + S._rdUX[j] - S.vx[i]); ny += w * (S.vy[j] + S._rdUY[j] - S.vy[i]); }
       const ux = nx / (1 / g + sw), uy = ny / (1 / g + sw), e = Math.hypot(ux - S._rdUX[i], uy - S._rdUY[i]) / Math.hypot(ux, uy); if (e > errMax) errMax = e; }
     out.z8 = { n: 4, gain: g, relErrMax: errMax, xMax: (() => { let m = 0; for (let i = 0; i < 4; i++) m = Math.max(m, S._rdDeg[i]); return m; })() }; }
