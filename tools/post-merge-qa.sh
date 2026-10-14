@@ -107,6 +107,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenScope docs.dragCoreFit docs.compos
 #   docs.obsA1B1303 —— 観測の候補の行 A1・A4・B1 の行自体の整合)と、第302便の宣言の写し(tests/lib-w303a-pre.mjs)/再フィットの記録で世代を受けた既存の 14 本(と時間の標準・安定 hash の宣言)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.revertGLoc303 docs.obsA1B1303 preset.gLocPlanets302 preset.planets3d299 docs.planets3d299 preset.fitCond297 docs.fit297 docs.moon3d298 ui.liveMeasure297"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitDerived296 docs.fitContract296 preset.refit301 docs.wbgLaw301 behavior.wbgDirect302 ui.wbgSlider302 preset.meshMigrate299 docs.timeStd297 docs.timeStd3d299 lint.stableHashPaths"
+# 第303便b(原仮定者の裁定(第93報)④⑤・R192): 枝 b の新設 2 本(behavior.inertialR2_303 —— 源の慣性決定力 r⁻² の宣言・零試験・閉形式・解法・cRatio・状態の契約・docs.inertialR2_303 —— 正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.inertialR2_303 docs.inertialR2_303"
 # 第303便e(決断事項 AN312 ③・R194): 枝 e の新設 2 本(lint.canon303 —— 第302便の正本 5 本を CANON へ・lint.harnessSmoke303 —— 鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅の道具)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon303 lint.harnessSmoke303"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
