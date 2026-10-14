@@ -3743,3 +3743,23 @@ SYSTEM_PROMPT の規則 13(逐語):
   「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
 - **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
 - QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。
+
+## 95. 第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ `physics.relativeDrag.inertialR2`・G_loc の別名 `cRatio`(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}`(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
+  lambda と lambdaRs はどちらか 1 つ。正規化後は 4 鍵(lambda か lambdaRs・sources・self・env)を持つ。受け手 i の**分母にだけ**源の慣性決定力 w_I,ij = m_j/(λ_j (r_ij² + ε²)) を足す:
+  u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_I,ij [+ 自己の項] [+ 背景側の天体の項] + Σ_j w_ij)(分子の引きずり w_ij = m_j 𝒦_j と右辺は変えない・ε は引きずりの核の ε)。
+  lambda は普遍の長さ(w_I ∝ m_j)・lambdaRs は λ_j = k·r_s(m_j) = 2kGm_j/c₀²(w_I = c₀²/(2kG(r²+ε²)) —— 源の質量によらない・cLight > 0 と G > 0 が要る)。
+  sources の既定 "all"(質量が正の全粒子 —— 引きずりの対の宣言と別・近似多粒子の塵どうしは除く)・"pairs" は引きずりの対だけ。self:"radius" は受け手自身の m_i/(λ_i R_i²)(R_i は宣言半径)。
+  env:"bodies" は `relativeDrag.env.bodies` の背景側の天体 m_b/(λ_b(d_b² + ε²))(d は宣言の距離 —— 公転半径。env.bodies の宣言が要る)。W_bg は外部(宇宙・銀河)だけの値として読む。
+- **拒否**: lambda と lambdaRs の両方・どちらも無い・0 以下・未知の鍵・sources/self/env の値の外・env:"bodies" で env.bodies が無い・gain の旧宣言(互換読込)や旧法則の凍結比較と一緒・lambdaRs で cLight ≤ 0。
+- **力学**: 合成則 solve の行の対角に x_I,i = Σw_I/W_bg を足すだけ(B = M(I+L) は対角だけが増える —— 対称正定値のまま・直接法/Gauss–Seidel/PCG は同じ対角)。軸引きずりの ν も同じ対角から作る。
+  読み口 `HP.inertialR2State(S)`(版 w303b-inertialr2-1 —— 受け手ごとの Σw_I・Σw・ξ = Σw/(W_bg + Σw_I))・`HP.inertialDragState(S).inertialR2`(宣言した本だけ)・上界 bound は 2 max ξ(宣言した本だけ)。
+  推定の読み口 `HP.wbgEstimateOf` は源ごとの r⁻²(m/(d²+ε²) [M/L²])と r⁻³(m𝒦 [M/L³])を別の欄 `perSource` に出す(W_bg の欄 total には足さない —— 単位が違う)・宣言のある本は `inertialR2:{wI, xi}` も。
+- **G_loc の別名**: `physics.gLoc:{law:"cRatio"}` は n = +1(G_loc = G·c_loc/c₀ —— 第93報の候補)。力は law:"cLocPow", n:1 と同じ演算列(ビット同一)・正準形は law "cRatio" のまま。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— どの本に・どの読み〔普遍の長さ/λ ∝ m〕・どの n で入れるかは次便の統括の裁定)。
+  書くなら W_bg を本から本へ写さない(写すのは λ)・太陽を含めて合わせた W_bg を別の惑星に使わない。近点の量を書くときは「形が同じ(距離・離心率の依存)」と「値が合う(量・窓・σ・数値の誤差)」を分け、
+  「GR を導いた」「GR と一致した」「43″ が出た」と書かない。
+- **器と正本**: `tests/exp-w303b-inertialr2.mjs`(版 w303b-inertialr2-1・`W303B_OUT`・`W303B_PARTS`・`W303B_QUICK`)→ `tests/out/inertialr2-w303b.json`(段 inertialr2-303b)。
+- QA: `behavior.inertialR2_303`・`docs.inertialR2_303`(root は SKIP —— 世代切替 = html の `const REL_DRAG_I2_KEY="inertialR2"`。省略時オフ・λ → ∞ のビット同一・二体の閉形式・少数体の直接法と多粒子の PCG・
+  単位の別欄・cRatio のビット同一と受理器・状態の契約・正本と文書・禁句)。

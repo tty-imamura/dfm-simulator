@@ -939,6 +939,15 @@ export const REGEN_STEPS = [
     after: ['planets3d-299c', 'emonly-300b', 'gloc-302b', 'semic-302d', 'dragnorm-301a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第302便c: G_loc の n(1 つの W_bg の移送の予言)・在位の惑星の本の G_loc と 🌡️ の W_bg の合わせ直しの記録・W_bg の推定 W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目' }),
+  // ---- 第303便b(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192): **源の慣性決定力 r⁻² を引きずりの分母へ**(宣言 relativeDrag.inertialR2 —— 省略時オフ)
+  //   (段 Z〔零試験・閉形式・解法・cRatio・単位の別欄・人工二体の近点〕・M〔🌡️ の写しで変種 A・B・Bs・Br の λ を 43.0″/世紀へ〕・T〔6 本への移送の予言と標的の差〕・
+  //   N〔G_loc の候補 n の表〕・E〔🌦️🟪 の読みの予言と許容・🌔 の月の ξ〕)。html を読む(器のコードの依存として planets3d-299c〔runPl3〕・gloc-302b〔toyPreset・runCase〕・
+  //   emonly-300b〔runEm3 —— synodic-299b・moon3d-298c の正本を読む〕・inertial3-295c〔runPair —— swing293・dragcore292 の正本を読む〕の後・
+  //   html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。所要は第303便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('inertialr2-303b', 'node tests/exp-w303b-inertialr2.mjs', ['tests/out/inertialr2-w303b.json'], 1300, { secSource: 'w303b-branch', node: true,
+    after: ['planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第303便b: 源の慣性決定力 r⁻² を引きずりの分母へ —— 零試験と閉形式・水星で変種ごとの λ・6 本への移送の予言(σ と数値の誤差)・G_loc の候補の表・地球–月と冥王星–カロンの λ の逆算(値だけ —— どの本にもオンにしない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
