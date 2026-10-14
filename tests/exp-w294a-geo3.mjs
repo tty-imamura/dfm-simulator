@@ -30,6 +30,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { runEM, windowFit } from './exp-w292c-dragcore.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.MODE_POLICY_VERSION","HP.MODE_SAVE_WARN_CODES","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geo3InertialDeclare","HP.geo3InertialOfferOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragState","HP.modeSaveWarnings","HP.pnOrbitalKF0","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -109,7 +110,7 @@ if (IS_MAIN) {
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const book = find(HP, BOOK_ID), base = find(HP, BASE_ID);
-  const gainDecl = book.physics.relativeDrag.gain;
+  const gainDecl = W302A.rdGainOf(book.physics.relativeDrag);
   const declared = { book: BOOK_ID, geoPN: book.physics.geoPN, activeParams: book.activeParams || null, compose: book.physics.relativeDrag.compose === undefined ? null : book.physics.relativeDrag.compose,
     composeOf: HP.relDragComposeOf(book.physics.relativeDrag), solveFromOf: HP.relDragSolveFromOf(book.physics.relativeDrag), gain: gainDecl, baseGeoPN: base.physics.geoPN };
   const { steps, dt } = RUN;
@@ -129,15 +130,16 @@ if (IS_MAIN) {
   const u3 = runPrints(HP, withGeo(base, 3), null, 200, dt);
   const u1 = runPrints(HP, withGeo(base, 1), null, 200, dt);
   const undeclCmp = compare(u1, u3);   // 未宣言の 3 は geoPN=1(kF0)と同じ EIH の步(旧来の「2 へ丸め」と同じ数値)
-  // (e) パラメータでの宣言
+  // (e) パラメータでの宣言(第302便a: geo3InertialDeclare の引数は W_bg と ON/OFF —— gain g は W_bg = relDragWbgFromGain(g)・g 0 は未推定の OFF)
+  const declG = (S, g) => (typeof HP.relDragCoefficientOf === 'function') ? HP.geo3InertialDeclare(S, g > 0 ? HP.relDragWbgFromGain(g).Wbg : null, g > 0) : HP.geo3InertialDeclare(S, g);
   const p0 = runPrints(HP, withGeo(base, 0), null, steps, dt, PHYS);
-  const pG0 = runPrints(HP, withGeo(base, 3), (S) => { const off = HP.geo3InertialOfferOf(S); const r = HP.geo3InertialDeclare(S, 0); return { offerBefore: off, offerAfter: HP.geo3InertialOfferOf(S), ok: r.ok, relativeDrag: r.relativeDrag, law: r.law, ge: r.ge }; }, steps, dt, PHYS);
+  const pG0 = runPrints(HP, withGeo(base, 3), (S) => { const off = HP.geo3InertialOfferOf(S); const r = declG(S, 0); return { offerBefore: off, offerAfter: HP.geo3InertialOfferOf(S), ok: r.ok, relativeDrag: r.relativeDrag, law: r.law, ge: r.ge }; }, steps, dt, PHYS);
   const gainZeroCmp = compare(p0, pG0);
   const json = withGeo(base, 3); json.physics.relativeDrag = { law: 'inertial', gain: gainDecl };
   const pJ = runPrints(HP, json, null, steps, dt);
-  const pP = runPrints(HP, withGeo(base, 3), (S) => { const r = HP.geo3InertialDeclare(S, gainDecl); return { ok: r.ok, relativeDrag: r.relativeDrag, law: r.law, ge: r.ge }; }, steps, dt);
+  const pP = runPrints(HP, withGeo(base, 3), (S) => { const r = declG(S, gainDecl); return { ok: r.ok, relativeDrag: r.relativeDrag, law: r.law, ge: r.ge }; }, steps, dt);
   const paramJsonCmp = compare(pJ, pP);
-  const pPphys = runPrints(HP, withGeo(base, 3), (S) => HP.geo3InertialDeclare(S, gainDecl).ok, steps, dt, PHYS);
+  const pPphys = runPrints(HP, withGeo(base, 3), (S) => declG(S, gainDecl).ok, steps, dt, PHYS);
   const paramMovedCmp = compare(p0, pPphys);   // gain>0 は動く(門ではなく対照 —— 宣言が効いていることの確認)
 
   const gates = {

@@ -29,6 +29,7 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as C from './exp-w295c-inertial3.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragNormOf","HP.inertialDragState","HP.relDragBackgroundOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -113,7 +114,7 @@ export function part1(HP) {
     }
     out.z6 = { book: 'chainDiskToy3dTilt', n: o.DG.length, bad, axialReceivers: nAx, nuMin, nuMax }; }
   // z7: 連鎖の PCG —— 背景を宣言した 🍥 の写し(C_d 0.5・W_bg = 0.5/gain —— 行の対角 1+x)の 300 步: 未収束 0・残差の最大 ≤ solverTol
-  { const p = clone(find(HP, 'chainSpreadToy3d')); p.physics.relativeDrag.background = 0.5 / p.physics.relativeDrag.gain;
+  { const p = clone(find(HP, 'chainSpreadToy3d')); const g302 = W302A.rdGainOf(p.physics.relativeDrag); W302A.rdSetGain(p.physics.relativeDrag, g302); p.physics.relativeDrag.background = 0.5 / g302;   // 第302便a: background は旧法則の凍結比較(gain で書く)
     const dt = stepDtOf(p), S = build(HP, p); for (let k = 0; k < 300; k++) S.step(dt);
     const st = HP.inertialDragState(S), c = st.compose;
     out.z7 = { book: 'chainSpreadToy3d', steps: 300, method: c.method, resMax: c.resMax, fail: c.chain.fail, itersMax: c.chain.itersMax, tol: c.chain.solverTol }; }
@@ -154,7 +155,7 @@ export function part2(HP, o = {}) {
     const dens = p0.scaleExp ? Math.pow(10, p0.scaleExp.M) / Math.pow(10, 3 * p0.scaleExp.L) : null;
     const cos = p0.scaleExp ? cosmicBackground(p0.scaleExp, eps) : null;
     const retired = p0.familyRole === 'retired';
-    rows.push({ id: p0.id, emoji: p0.emoji, retired, gain: rd.gain, eps, n: S.n, dt, steps: STEPS, every: EVERY, samples: sw.length,
+    rows.push({ id: p0.id, emoji: p0.emoji, retired, gain: W302A.rdGainOf(rd), eps, n: S.n, dt, steps: STEPS, every: EVERY, samples: sw.length,
       sumWMed: med, sumWMax: mx, Wbg: bg ? bg.Wbg : null, WbgSI: (bg && dens) ? bg.Wbg * dens : null, Cd: bg ? bg.Cd : null,
       xMed: bg ? med / bg.Wbg : 0, xMax: bg ? mx / bg.Wbg : 0, Wcos: cos ? cos.Wbook : null, xCosMed: cos ? med / cos.Wbook : null, nan,
       regime: !bg ? 'gain0' : (mx / bg.Wbg < 1e-3 ? 'background' : (mx / bg.Wbg < 1 ? 'mixed' : 'local')) });
@@ -170,11 +171,11 @@ function twoRun(HP, p, dt) {
 }
 export function part3(HP) {
   const mer = find(HP, 'mercurySunInertialFit'), plu = find(HP, 'plutoCharonInertialFit');
-  const with_ = (p, patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); return q; };
+  const with_ = (p, patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); return q; };   // 第302便a: gain・norm:"none" は rdPatch(凍結比較は gain で書く)
   const m0 = twoRun(HP, with_(mer, { gain: 0 }), 0.016), mN = twoRun(HP, with_(mer, { norm: 'none' }), 0.016), mT = twoRun(HP, mer, 0.016);
   const p0 = twoRun(HP, with_(plu, { gain: 0 }), 0.16), pN = twoRun(HP, with_(plu, { norm: 'none' }), 0.16), pT = twoRun(HP, plu, 0.16);
-  const mer3 = { gain: mer.physics.relativeDrag.gain, dt: 0.016, apsDiffNone: mN.aps - m0.aps, apsDiffTotal: mT.aps - m0.aps, obs: 43, xMax: mT.xMax };
-  const plu3 = { gain: plu.physics.relativeDrag.gain, dt: 0.16, periodNone: pN.periodSec, periodTotal: pT.periodSec, periodGain0: p0.periodSec, obs: 551856.43872, xMax: pT.xMax };
+  const mer3 = { gain: W302A.rdGainOf(mer.physics.relativeDrag), dt: 0.016, apsDiffNone: mN.aps - m0.aps, apsDiffTotal: mT.aps - m0.aps, obs: 43, xMax: mT.xMax };
+  const plu3 = { gain: W302A.rdGainOf(plu.physics.relativeDrag), dt: 0.16, periodNone: pN.periodSec, periodTotal: pT.periodSec, periodGain0: p0.periodSec, obs: 551856.43872, xMax: pT.xMax };
   // ④ 候補 (iii): 🟫 に W_bg = W_cos を宣言し、C_d = gain·W_bg を振る
   const cos = cosmicBackground(mer.scaleExp, mer.physics.relativeDrag.eps);
   const cosRows = [1e-8, 1e-6, 1e-4, 1e-2].map((Cd) => { const r = twoRun(HP, with_(mer, { background: cos.Wbook, gain: Cd / cos.Wbook }), 0.016);

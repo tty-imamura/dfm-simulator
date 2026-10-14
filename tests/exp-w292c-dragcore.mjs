@@ -40,6 +40,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri, YEAR_UNITS_EM, DAY_UNITS_EM } from './lib-w280b-emgrid.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -120,7 +121,7 @@ export function windowFit(raw, a, b) {
 }
 export function bookPreset(HP, gain, dragCore) {
   const p = clone(find(HP, BOOK_ID));
-  p.physics.relativeDrag = Object.assign({}, p.physics.relativeDrag, { gain });
+  p.physics.relativeDrag = W302A.rdWithGain(p.physics.relativeDrag, gain);
   if (dragCore === null) delete p.bodies[0].dragCore; else if (dragCore) p.bodies[0].dragCore = dragCore;
   return p;
 }
@@ -178,7 +179,7 @@ export function gates(HP) {
     geoPN: ph.geoPN === 0 || (ph.geoPN === 3 && typeof HP.geoEffectiveMode === 'function' && HP.geoEffectiveMode.length >= 1),
     kRep: ph.kRep === 0, muF: ph.muF === 0, gammaN: ph.gammaN === 0, kappaS: ph.kappaS === 0, stateCarry: ph.stateCarry === 'double', law: rd && rd.law === 'inertial', eps: rd && rd.eps === 0.1,
     history: rd && rd.history === 'positions', noD0pull: ph.D0pull === undefined, noQLock: p.qLock === undefined };
-  const decl = { id: BOOK_ID, bodiesSameAsBase: bodiesSame, dragCore: dcDecl, moonPoint, physicsDecl, gainDeclared: rd ? rd.gain : null,
+  const decl = { id: BOOK_ID, bodiesSameAsBase: bodiesSame, dragCore: dcDecl, moonPoint, physicsDecl, gainDeclared: rd ? W302A.rdGainOf(rd) : null,
     classes: { group: p.group, familyId: p.familyId, familyRole: p.familyRole, sampleClass: p.sampleClass, fidelity: p.fidelity, referenceKind: p.referenceKind, notClaim: p.notClaim } };
   decl.ok = bodiesSame && moonPoint && !!dcDecl && Object.values(physicsDecl).every(Boolean);
   // (b) エンジン ≡ 純関数(ビット)
@@ -204,7 +205,7 @@ export function gates(HP) {
   const stepRows = [];
   for (let s = 1; s <= 4; s++) {
     S.step(RUN.dt);
-    const C = S.relDrag.gain, n = S.n, pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
+    const C = W302A.rdCoefOf(S.relDrag), n = S.n, pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
     const B = LC.buildRows({ n, x: Array.from(S.rdPrevX.subarray(0, n)), y: Array.from(S.rdPrevY.subarray(0, n)), m: S.m, pinned: pin, pairSet: S._rdPairSet, NP: S._rdPairN,
       C, eps, VX: Array.from(S.vx.slice(0, n)), VY: Array.from(S.vy.slice(0, n)), hist: true, kernel });
     const fixed = pin.map((z, i) => (z || !(S.m[i] > 0)) ? 1 : 0);
@@ -213,12 +214,12 @@ export function gates(HP) {
     stepRows.push({ step: s, hist: S.inertialDragN, compose: HP.relDragComposeOf(S.relDrag), solveFrom: HP.relDragSolveFromOf(S.relDrag), same, res: q.res,
       uMoon: [S._rdUX[1], S._rdUY[1]], uEarth: [S._rdUX[0], S._rdUY[0]] });
   }
-  const pSum = clone(p); pSum.physics.relativeDrag.compose = 'sum';
+  const pSum = clone(p); W302A.rdPatch(pSum.physics.relativeDrag, { compose: 'sum' });
   HP.sim.build(HP.validatePreset(pSum).preset);
   const S2 = HP.sim, sumRows = [];
   for (let s = 1; s <= 4; s++) {
     S2.step(RUN.dt);
-    const C = S2.relDrag.gain, e2 = eps * eps, n = S2.n, u = [];
+    const C = W302A.rdCoefOf(S2.relDrag), e2 = eps * eps, n = S2.n, u = [];
     for (let i = 0; i < n; i++) {
       let ux = 0, uy = 0;
       for (let j = 0; j < n; j++) { if (j === i) continue;

@@ -30,6 +30,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w297b-fit.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -76,7 +77,7 @@ export function variant3(HP, o) {
   const q = clone(find(HP, SRC_ID));
   delete q.fitRecord; delete q.id;
   q.physics.coord = '3d';
-  q.physics.relativeDrag.gain = o.gain;
+  W302A.rdSetGain(q.physics.relativeDrag, o.gain);
   q.bodies = icBodies3(q.bodies, q.physics.G, { rp: o.rp, e0: o.e0, inc: o.inc });
   return q;
 }
@@ -378,7 +379,7 @@ export async function main() {
   rec.cond.sig = v.ok ? HP.fitCondSig(v.preset, rec) : '';
   const vr = HP.validateFitRecord(clone(rec));
   J.fitRecord = rec; J.recordAccepted = !!vr.ok; J.recordErr = vr.ok ? null : vr.err; J.status = rec.status;
-  J.derived = { bodies: dp.bodies, gain: dp.physics.relativeDrag.gain };
+  J.derived = { bodies: dp.bodies, gain: W302A.rdGainOf(dp.physics.relativeDrag) };
   const all = Object.values(runs);
   J.gates = { runsOk: all.every((r) => r.kind === 'ref3d' || (!r.nan && (!r.drag || (r.drag.boundOver === 0 && r.drag.reject === 0)))),
     complete: all.every((r) => r.kind === 'ref3d' || r.revN >= 118), coord3d: all.every((r) => r.kind === 'ref3d' || r.kind === 'flat2d' || r.coord3d === true),

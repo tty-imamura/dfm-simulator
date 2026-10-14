@@ -48,6 +48,7 @@ import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as L from './lib-w297b-fit.mjs';
 import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragBackgroundOf","HP.sim","HP.validateFitRecord","HP.validatePreset","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -81,7 +82,7 @@ export const CANDIDATES = Object.freeze([
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 const T = (x, d = 6) => (x === null || x === undefined || !Number.isFinite(x)) ? null : Number(x.toPrecision(d));
 const lg = (x) => (x > 0 && Number.isFinite(x)) ? Math.log10(x) : null;
-const withGain = (p, g) => { const q = clone(p); q.physics.relativeDrag.gain = g; delete q.physics.relativeDrag.background; delete q.fitRecord; return q; };
+const withGain = (p, g) => { const q = clone(p); W302A.rdSetGain(q.physics.relativeDrag, g); delete q.physics.relativeDrag.background; delete q.fitRecord; return q; };
 const unitsOf = (X) => { const Lm = Math.pow(10, X.L), Ms = Math.pow(10, X.M), Ts = Math.pow(10, X.T); return { Lm, Ms, Ts, dens: Ms / (Lm * Lm * Lm), U: C.timeUnits(X) }; };
 
 /* ── 宣言から行の種類・抽出器・刻み・窓を決める ── */
@@ -111,12 +112,12 @@ export function classify(HP) {
     const rd = p.physics.relativeDrag, retired = p.familyRole === 'retired', f = p.fitRecord || null;
     if (!p.scaleExp) { excluded.push({ id: p.id, emoji: p.emoji, why: 'scaleExp なし(トイ —— 本の単位が物理単位でない)' }); continue; }
     let role;
-    if (f && f.status === 'fitted' && rd.gain > 0 && !retired) role = 'fit';
+    if (f && f.status === 'fitted' && W302A.rdGainOf(rd) > 0 && !retired) role = 'fit';
     else if (f && f.status !== 'fitted') role = 'censored';
     else if (recIds.has(p.id)) role = 'record';
-    else if (rd.gain > 0 && !f) role = 'transfer';
-    else if (rd.gain === 0 && !retired) role = 'unfit';
-    else { excluded.push({ id: p.id, emoji: p.emoji, why: '分類の外(gain ' + rd.gain + '・retired ' + retired + ')' }); continue; }
+    else if (W302A.rdGainOf(rd) > 0 && !f) role = 'transfer';
+    else if (W302A.rdGainOf(rd) === 0 && !retired) role = 'unfit';
+    else { excluded.push({ id: p.id, emoji: p.emoji, why: '分類の外(gain ' + W302A.rdGainOf(rd) + '・retired ' + retired + ')' }); continue; }
     const n = p.bodies.length, c3 = p.physics.coord === '3d';
     const ci = p.orbitObs ? p.orbitObs.center : (p.timeRef && p.timeRef.pair ? p.timeRef.pair[0] : 0);
     const oi = p.orbitObs ? p.orbitObs.orbiter : (p.timeRef && p.timeRef.pair ? p.timeRef.pair[1] : 1);
@@ -132,7 +133,7 @@ export function classify(HP) {
         tol: t0.tol ? t0.tol.value : null } : null);
     const N = (target && target.window) || (ex === 'ems' ? 118 : 8);
     const dt = (f && typeof f.dt === 'number') ? f.dt : P3.stepsOf(p.timeRef.pRef).h;
-    rows.push({ id: p.id, emoji: p.emoji, role, retired, coord: c3 ? '3d' : '2d', ex, ci, oi, N, dt, gain: rd.gain, parent: f ? f.parent : null, target, recordNote: rec ? rec.note : null });
+    rows.push({ id: p.id, emoji: p.emoji, role, retired, coord: c3 ? '3d' : '2d', ex, ci, oi, N, dt, gain: W302A.rdGainOf(rd), parent: f ? f.parent : null, target, recordNote: rec ? rec.note : null });
   }
   // 系の束ね: fit の行は fitRecord.parent を fit の行の中で辿った根(🌡️ → 🟫)
   const byId = new Map(rows.map((r) => [r.id, r]));

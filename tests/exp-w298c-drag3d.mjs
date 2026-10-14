@@ -25,6 +25,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.PROBE_VERSION","HP.REL_DRAG_AXIAL_LAW","HP.REL_DRAG_SPIN3_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3AxialOmega","HP.inertialDrag3RotTerm","HP.inertialDragProbeAt","HP.inertialDragProbeBilinear","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset","T","ch","cw"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -119,7 +120,7 @@ function part1(HP) {
     if (o.axis) { S.sax[0] = o.axis[0]; S.say[0] = o.axis[1]; S.saz[0] = o.axis[2]; }
     S._rdUX = new Float64Array(n); S._rdUY = new Float64Array(n); S._rdUZ = new Float64Array(n);
     S._rdPairSet = null; S._rdPairN = n;
-    HP.inertialDrag3RotTerm(S, n, S.relDrag.gain, S.relDrag.eps);
+    HP.inertialDrag3RotTerm(S, n, W302A.rdCoefOf(S.relDrag), S.relDrag.eps);
     HP.inertialDrag3AxialOmega(S, n, 3, S.relDrag.eps);
     return { u: [...Array(n).keys()].map((i) => [S._rdUX[i], S._rdUY[i], S._rdUZ[i]]), w: [...Array(n).keys()].map((i) => [S._rdWX[i], S._rdWY[i], S._rdWZ[i]]),
       axis: [S.sax[0], S.say[0], S.saz[0]], S };
@@ -322,7 +323,7 @@ function part5(HP) {
   const sd2 = clone(c2); delete sd2.physics.relativeDrag.spinSource; sd2.physics.relativeDrag.spinDrag = { rot: 'surfaceFlip', axial: 'off' };
   const both = chain3dPreset(HP, false); both.physics.relativeDrag.spinSource = 'surfaceFlip';
   const bad = (sd) => { const p = chain3dPreset(HP, false); p.physics.relativeDrag.spinDrag = sd; return V(p); };
-  const sum3 = chain3dPreset(HP, false); sum3.physics.relativeDrag.compose = 'sum'; delete sum3.physics.relativeDrag.solver;
+  const sum3 = chain3dPreset(HP, false); W302A.rdPatch(sum3.physics.relativeDrag, { compose: 'sum' }); delete sum3.physics.relativeDrag.solver;
   const r = { spinSource3d: V(s3), dragCore3d: V(d3), spinDrag2d: V(sd2), spinDrag3d: V(chain3dPreset(HP, false)), spinDragTilt3d: V(chain3dPreset(HP, true)), both: V(both),
     noCoupling: bad({ rot: 'surfaceFlip', axial: 'on' }), couplingOff: bad({ rot: 'surfaceFlip', axial: 'off', axialCoupling: 1 }), allOff: bad({ rot: 'off', axial: 'off' }), unknownKey: bad({ rot: 'surfaceFlip', x: 1 }),
     sum: V(sum3) };

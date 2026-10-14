@@ -33,6 +33,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs, parseTopLevel } from './lib-w281a-scope.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["charonGeoToy3","galaxyAnalogyBH","inertialDragPair"],"roots":["$","HP.REL_DRAG_INERTIAL_VERSION","HP.SPACE_MESH_SAMPLER_VERSION","HP.allPresets","HP.dfmField","HP.dfmFieldContract","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragFieldAt","HP.inertialDragFieldReady","HP.inertialDragState","HP.sim","HP.validatePreset","T","bgToyOf","bgWbgOf","bgcState","bgcWireState","cw","dfmField","dfmFieldContract","dfmInertialDragStep","dragTransG","frameWeightIsPull","frameWeightPow","inertialDragFieldAt","inertialDragFieldReady","inertialDragInit","inertialDragState","sim","validateBackgroundComplex","validatePreset","wbgStateOf"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -92,12 +93,12 @@ function liveSim(HP, id) {
   const p = clone(find(HP, id));
   const copy = !(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
   if (copy) p.physics.relativeDrag = { law: 'inertial', gain: LIVE.gainCopy[id], pairs: 'all', history: 'positions' };
-  p.physics.relativeDrag.compose = 'sum';   // 第293便g: 読み手(サンプラー)は加算の局所場 —— 既定 solve の本では描かない(why:"composeSolve")ので比較用の旧加算を明示する
+  W302A.rdPatch(p.physics.relativeDrag, { compose: 'sum' });   // 第293便g: 読み手(サンプラー)は加算の局所場 —— 既定 solve の本では描かない(why:"composeSolve")ので比較用の旧加算を明示する
   const b = build(HP, p);
   if (b.err) return { id, copy, err: b.err };
   const S = b.S;
   for (let k = 0; k < LIVE.steps; k++) S.step(LIVE.dt);
-  return { id, copy, S, gain: p.physics.relativeDrag.gain };
+  return { id, copy, S, gain: W302A.rdGainOf(p.physics.relativeDrag) };
 }
 export function translationLive(HP) {
   const G = globalThis;

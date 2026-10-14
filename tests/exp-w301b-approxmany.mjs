@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.APPROX_MANY_STATE_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.approxManyCrossCheck","HP.approxManyPairOf","HP.approxManyState","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -150,7 +151,7 @@ export function partZero(HP) {
       for (let c = 0; c < 3; c++) { errM = Math.max(errM, Math.abs(a[c] - anaM[i][c])); scale = Math.max(scale, Math.abs(anaM[i][c])); }
       if (K[i] === 1) dustTerm = Math.max(dustTerm, Math.hypot(anaF[i][0] - anaM[i][0], anaF[i][1] - anaM[i][1], anaF[i][2] - anaM[i][2])); }
     void x0;
-    const A = S._rdA, DG = S._rdDeg, C = S.relDrag.gain;
+    const A = S._rdA, DG = S._rdDeg, C = W302A.rdCoefOf(S.relDrag);
     let dd = 0, ddMax = 0, gd = 0, bb = 0, db = 0, od = 0, degErr = 0;
     for (let i = 0; i < n; i++) { let s = 0;
       for (let j = 0; j < n; j++) { if (i === j) continue; const a = A[i * n + j]; s += a;

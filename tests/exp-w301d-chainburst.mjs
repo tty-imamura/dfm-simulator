@@ -33,6 +33,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w301d-coupled.mjs';
 import { shellBodies, shellStats, SHELL_VERSION } from './lib-w301d-shell.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,15 +51,15 @@ const fpXY = (x, y, vx, vy, n) => { let h = 0x811c9dc5; const f = new Float64Arr
 const reMass = (d, n) => { const M = d.n * d.mMin; d.n = n; d.mMin = d.mMax = M / n; };
 export const VARIANTS = {
   base: (p) => p,
-  normNone: (p) => { p.physics.relativeDrag.norm = 'none'; return p; },
-  gain0: (p) => { p.physics.relativeDrag.gain = 0; delete p.physics.relativeDrag.spinSource; delete p.physics.relativeDrag.spinDrag; return p; },
+  normNone: (p) => { W302A.rdPatch(p.physics.relativeDrag, { norm: 'none' }); return p; },
+  gain0: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 0); delete p.physics.relativeDrag.spinSource; delete p.physics.relativeDrag.spinDrag; return p; },
   spin0: (p) => { p.bodies[0].spin = 0; return p; },
   seedA: (p) => { p.seed = 20261009; return p; },
   seedB: (p) => { p.seed = 20261010; return p; },
   n40: (p) => { reMass(p.bodies[1], 40); return p; },
   n120: (p) => { reMass(p.bodies[1], 120); return p; },
-  gain4: (p) => { p.physics.relativeDrag.gain = 4; return p; },
-  gain16: (p) => { p.physics.relativeDrag.gain = 16; return p; },
+  gain4: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 4); return p; },
+  gain16: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 16); return p; },
   // 🧨 の変種(殻の生成器から —— 中心は宣言のまま)
   rot1: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ rot: 1 })]; return p; },
   rot2: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ rot: 2 })]; return p; },
@@ -236,9 +237,9 @@ export function gatesOf(R, HP) {
 export function condOf(HP) {
   const p = find(HP, 'chainDiskToy'), ph = p.physics, rd = ph.relativeDrag, c = p.bodies[0], d = p.bodies[1];
   const q = find(HP, COPY_ID);
-  const copy = q ? { id: q.id, stepDt: q.physics.stepDt, coord: q.physics.coord, gain: q.physics.relativeDrag.gain, eps: q.physics.relativeDrag.eps, G: q.physics.G, softening: q.physics.softening,
+  const copy = q ? { id: q.id, stepDt: q.physics.stepDt, coord: q.physics.coord, gain: W302A.rdGainOf(q.physics.relativeDrag), eps: q.physics.relativeDrag.eps, G: q.physics.G, softening: q.physics.softening,
     center: { m: q.bodies[0].m, radius: q.bodies[0].radius, spin: q.bodies[0].spin, pinned: q.bodies[0].pinned }, shellVersion: SHELL_VERSION, shell: shellStats(q.bodies.slice(1)) } : null;
-  return { id: p.id, seed: p.seed, G: ph.G, softening: ph.softening, integrator: p.integrator || 'semi', gain: rd.gain, eps: rd.eps, pairs: rd.pairs, solver: rd.solver, spinSource: rd.spinSource,
+  return { id: p.id, seed: p.seed, G: ph.G, softening: ph.softening, integrator: p.integrator || 'semi', gain: W302A.rdGainOf(rd), eps: rd.eps, pairs: rd.pairs, solver: rd.solver, spinSource: rd.spinSource,
     center: { m: c.m, radius: c.radius, spin: c.spin, pinned: c.pinned }, disk: { n: d.n, m: d.mMin, radius: d.radius }, copy };
 }
 /* 写しを作るか(R182 の規則: 飛びが刻みで収束して残るなら探索の写し 1 本・刻みで消えるなら「数値の飛び」と記録して写しは作らない) */

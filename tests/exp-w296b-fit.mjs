@@ -40,6 +40,7 @@ import * as C from './exp-w295c-inertial3.mjs';
 import * as SW from './exp-w293d-swing.mjs';
 import * as L from './lib-w296b-fit.mjs';
 import { avgK as libAvgK, gaussLegendre01 as libGL } from './lib-w292c-dragcore.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -73,7 +74,7 @@ const bookOf = (k) => BOOKS.find((b) => b.key === k);
 /** 本の単位の gain の格子(SI の格子を各本の単位へ)。🌤️ は 0 も格子に入れる。 */
 export function gainGrid(HP, b) {
   const p = find(HP, b.parent), unit = Math.pow(10, 3 * p.scaleExp.L) / Math.pow(10, p.scaleExp.M);
-  const lo = Number((SI_RANGE[0] / unit).toPrecision(12)), hi = p.physics.relativeDrag.gain;
+  const lo = Number((SI_RANGE[0] / unit).toPrecision(12)), hi = W302A.rdGainOf(p.physics.relativeDrag);
   const g = L.logGrid(lo, hi, GRID_N).map((x, i) => (i === 0 || i === GRID_N - 1) ? x : Number(x.toPrecision(6)));
   return b.key === 'ems' ? [0].concat(g) : g;
 }
@@ -81,7 +82,7 @@ export function gainGrid(HP, b) {
 /* ── 子プロセスの仕事: 親の写し(gain・dragCore・初速だけ変える)を親の名前で返す HP の写しを作り、第295便c の childTask をそのまま呼ぶ ── */
 export function variantPreset(HP, b, o) {
   const q = clone(find(HP, b.parent));
-  q.physics.relativeDrag.gain = o.gain;
+  W302A.rdSetGain(q.physics.relativeDrag, o.gain);
   if (o.core) {
     for (const [i, c] of Object.entries(o.core)) { if (i === 'tableN') continue; q.bodies[+i].dragCore = { massFrac: c.f, radius: L.coreRadius(c.x, q.bodies[+i].radius) }; }
     if (o.core.tableN) q.physics.relativeDrag.coreTable = { n: o.core.tableN };
@@ -110,7 +111,7 @@ export function inverseMapped(HP, q) {
     for (let i = 0; i < n; i++) {
       if (S.pinned[i]) continue;
       let vx = S.vx[i], vy = S.vy[i];
-      for (let j = 0; j < n; j++) { if (j === i) continue; const dx = S.x[j] - S.x[i], dy = S.y[j] - S.y[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), s = r2 + e2, a = rd.gain * S.m[j] * (r / (s * s));
+      for (let j = 0; j < n; j++) { if (j === i) continue; const dx = S.x[j] - S.x[i], dy = S.y[j] - S.y[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), s = r2 + e2, a = W302A.rdCoefOf(rd) * S.m[j] * (r / (s * s));
         vx += a * (S.vx[i] - S.vx[j]); vy += a * (S.vy[i] - S.vy[j]); }
       const d = Math.hypot(vx - M.vx[i], vy - M.vy[i]) / Math.hypot(vx, vy); if (d > indepRel) indepRel = d;
     }
@@ -180,7 +181,7 @@ export function sensitivity(HP, fitGains) {
       const ratios = rows.map((z) => z.ratio);
       const fg = fitGains[b.key];
       out.push({ book: b.key, emoji: b.parentEmoji, source: name[b.key][src], receiver: name[b.key][rcv], srcIndex: src, rcvIndex: rcv, R, r, eps,
-        ratioMin: Math.min(...ratios), ratioMax: Math.max(...ratios), farBound: L.farBound(R, r), need: (fg && fg.gain !== null) ? fg.gain / p.physics.relativeDrag.gain : null,
+        ratioMin: Math.min(...ratios), ratioMax: Math.max(...ratios), farBound: L.farBound(R, r), need: (fg && fg.gain !== null) ? fg.gain / W302A.rdGainOf(p.physics.relativeDrag) : null,
         needNote: (fg && fg.gain !== null) ? 'フィットした gain ÷ 移送 gain(移送 gain のまま核で標的に届くのに要る倍率)' : (fg && fg.note) || null, rows });
     }
   }
@@ -299,7 +300,7 @@ export function fitRecordOf(HP, s, scans, conv) {
     numerics: { h2: s.h2, dtHalf: b.dt / 2 },
     status: s.status, notFitted };
   if (s.status === 'fitted' && notIdent.length) rec.notIdentifiable = notIdent;
-  if (s.status === 'unreachable-in-bounds') rec.notFitted = ['gain の範囲 [0, ' + p.physics.relativeDrag.gain + '] で根を挟めない(格子の全点で ' + b.target.unit + ' の値が標的の片側)—— 初期条件・元期・配置は変えない(決断事項)'].concat(notFitted);
+  if (s.status === 'unreachable-in-bounds') rec.notFitted = ['gain の範囲 [0, ' + W302A.rdGainOf(p.physics.relativeDrag) + '] で根を挟めない(格子の全点で ' + b.target.unit + ' の値が標的の片側)—— 初期条件・元期・配置は変えない(決断事項)'].concat(notFitted);
   return { rec, fSpan: span };
 }
 
@@ -310,7 +311,8 @@ export function derivedCheck(HP, s, rec) {
   const bad = [];
   const q = variantPreset(HP, b, { gain: s.final, core: b.priors || null });
   if (JSON.stringify(d.bodies) !== JSON.stringify(q.bodies)) bad.push('bodies が親の写し+ノブでない');
-  if (JSON.stringify(d.physics) !== JSON.stringify(q.physics)) bad.push('physics が親の写し+ノブでない');
+  const rdOut = (ph) => { const z = clone(ph); delete z.relativeDrag; return JSON.stringify(z); };   // 第302便a: relativeDrag は受理器の正準形で比べる
+  if (rdOut(d.physics) !== rdOut(q.physics) || !W302A.rdCanonSame(HP, d.physics.relativeDrag, q.physics.relativeDrag)) bad.push('physics が親の写し+ノブでない');
   for (const k of ['scaleExp', 'integrator', 'orbitObs', 'group', 'familyId', 'scaleTier', 'fidelity']) if (JSON.stringify(d[k]) !== JSON.stringify(par[k])) bad.push(k + ' が親と違う');
   if (!(d.familyRole === 'variant' && d.sampleClass === 'principle' && d.referenceKind === 'observation-fit')) bad.push('分類(variant・principle・observation-fit)');
   // 親の注記のうちフィットと食い違う鍵(🟤 perihelion_43・🟣 period_fit・gain_universal)はフィット版の鍵へ置き換え、single_quantity_fit を足す(solar_cal は親のまま)
@@ -320,12 +322,12 @@ export function derivedCheck(HP, s, rec) {
   if (d.emoji !== b.emoji) bad.push('絵文字');
   const others = HP.allPresets().filter((z) => z.id !== d.id && z.emoji === d.emoji).map((z) => z.id);
   if (others.length) bad.push('絵文字が他の本にある: ' + others.join(','));
-  if (JSON.stringify(d.fitRecord) !== JSON.stringify(rec)) bad.push('fitRecord が正本と違う');
+  if (!W302A.fitRecordSame302(d.fitRecord, rec)) bad.push('fitRecord が正本と違う');
   const v = HP.validatePreset(clone(d));
   if (!(v.ok && (v.warnings || []).length === 0)) bad.push('受理の警告: ' + JSON.stringify(v.warnings || v.errors).slice(0, 160));
-  else if (JSON.stringify(v.preset.fitRecord) !== JSON.stringify(rec)) bad.push('受理後の fitRecord が正本と違う');
+  else if (!W302A.fitRecordSame302(v.preset.fitRecord, rec)) bad.push('受理後の fitRecord が正本と違う');
   const ab = d.abBody && d.abBody.physicsPatch && d.abBody.physicsPatch.relativeDrag;
-  if (!(ab && ab.gain === 0)) bad.push('ワンタップの対照(gain 0)');
+  if (!(ab && W302A.rdIsGain(ab, 0))) bad.push('ワンタップの対照(gain 0)');
   return { id: d.id, present: true, emoji: d.emoji, ok: bad.length === 0, bad, sigFnv: fnv(HP.presetSig(clone(d))) };
 }
 
@@ -399,8 +401,8 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const plu = searched.find((z) => z.res.key === 'plu');
   if (plu) {
     const b = bookOf('plu'), p = find(HP, b.parent), specs = [
-      { key: 'plu-inv-transfer-W', book: 'plu', gain: p.physics.relativeDrag.gain, dt: b.dt, revMax: b.revMax, core: null },
-      { key: 'plu-inv-transfer-V', book: 'plu', gain: p.physics.relativeDrag.gain, dt: b.dt, revMax: b.revMax, core: null, inverse: true }];
+      { key: 'plu-inv-transfer-W', book: 'plu', gain: W302A.rdGainOf(p.physics.relativeDrag), dt: b.dt, revMax: b.revMax, core: null },
+      { key: 'plu-inv-transfer-V', book: 'plu', gain: W302A.rdGainOf(p.physics.relativeDrag), dt: b.dt, revMax: b.revMax, core: null, inverse: true }];
     if (plu.res.final !== null) specs.push({ key: 'plu-inv-fit-V', book: 'plu', gain: plu.res.final, dt: b.dt, revMax: b.revMax, core: b.priors, inverse: true });
     const rs = await Promise.all(specs.map((sp) => run(sp).then((r) => { log(r); runsAll[r.key] = r; return r; })));
     for (const r of rs) inverse.push({ key: r.key, gain: r.gain, inverse: !!r.inverse, gate: r.inverse, periodMeanSec: r.periodMeanSec, period2Sec: r.period2Sec, eProxy: r.eProxy,
