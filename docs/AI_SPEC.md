@@ -3727,3 +3727,19 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w302e-axialsign.mjs`(版 w302e-axialsign-1・`W302E_OUT`・`W302E_BASE`・`W302E_N`/`W302E_N3`)→ `tests/out/axialsign-w302e.json`(段 axialsign-302e)/
   `tests/exp-w302e-statecontract.mjs`(版 w302e-statecontract-1・`W302E_SC_OUT`・`W302E_BASE`・`W302E_SC_STEPS`)→ `tests/out/statecontract-w302e.json`(段 statecontract-302e)。
 - QA: `behavior.axialSign302`・`ui.wheel302`・`lint.stateContract302`・`lint.retiredRef302`(root では SKIP)。
+
+## 94. 第302便c —— G_loc の n(移送の予言)・在位の惑星の本への `physics.gLoc`・背景慣性決定力 W_bg の推定 `wbgEstimateOf`・環境の宣言 `relativeDrag.env`・帳簿の継ぎ目(原仮定者の裁定(第92報)AN304 ①③・統括の検証項目 R190・**SYSTEM_PROMPT には載せない**)
+
+- **G_loc の在位の宣言**: 🌡️🌋🔴🏀🟡🔷💙(三次元・太陽+惑星)に `physics.gLoc:{law:"cLocPow", n:-3}`(n は 🌡️ で合わせた 1 つの W_bg を 🌋🔴 へ移送した予言と 1PN の写しの残差で選んだ —— 裁定の式 n=2 は表に記録)。
+  🌡️ の W_bg は G_loc の上で 489275.3 [M/L³] に合わせ直した(fitRecord w298b-1・law に G_loc と semic)。gain 0 だった 6 本は引きずり OFF のまま(移送した W_bg で ON にするかは決断事項)。
+  🌦️🌔 と二次元の本には宣言しない(二次元は受理しない —— 二次元の重力は核 S._core の中)。
+- **推定の読み口** `HP.wbgEstimateOf(本 | sim)`(版 w302c-wbgest-1 —— 状態・宣言を動かさない): {Wcos, Wgal, Wsys, total(本の単位 book と SI)・sources:{drag, background, overlap}・sumW・Wdecl・ratioToDecl・xi}。
+  W_cos = 2πρ_c[ln((R_H²+ε²)/ε²) + ε²/(R_H²+ε²) − 1](H₀ = 67.4 km/s/Mpc・R_H = c/H₀)・W_gal は宣言があるときだけ・W_sys は背景側(pairs の外の粒子と env.bodies)の Σ m𝒦_ε(d)。
+  源(受け手と対を組む粒子)は重ねない。scaleExp の無い本は {ok:false, why:"noScale"}。`HP.wbgEstimateApply(S)` は推定の 7 桁を Wbg に写す(ON/OFF・他の鍵を保つ)。
+- **環境の宣言** `physics.relativeDrag.env:{galaxy?:{rhoSI, RSI, source?}, bodies?:[{m, d, label?}]}`(推定にだけ使う —— 力学は読まない・bodies は ≤ 16・粒子の番号は書けない)。在位の本の宣言は 0。
+- **帳簿の継ぎ目**: G_loc と引きずりを両方宣言した本の `HP.inertialDragLedgerOf(S)` は R_E = ΔE − W − gLocWork を返し、鍵 gLocWork・REnoGLoc・ledgerSeam(`GLOC_LEDGER_SEAM_VERSION` = "w302c-seam-1")を足す(G_loc の無い本は従来のまま)。
+- **UI**: パラメータタブ「引きずり・測地線」の W_bg の行の下に読み取り行「推定 W_cos+W_gal+W_sys = …」と「推定を入れる」(押したときだけ写す —— スライダーではない)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(推定は読み取りで、宣言の W_bg はフィット値 —— 推定とフィットは別の来歴)。新しい本に G_loc を入れるときは三次元・較正の外・n の符号の意味(n < 0 は順行)を添え、
+  「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
+- **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
+- QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。

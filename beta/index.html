@@ -2048,7 +2048,7 @@ ja: {
   iwbgLabel:"背景慣性決定力 W_bg",
   iwbgTip:"慣性決定力の引きずりの背景 W_bg [M/L³](本の単位)—— 受け手の総和 W_bg+Σw で引きずりの強さを割る。タップで説明",
   iwbgOnLabel:"慣性決定力の引きずり ON/OFF(OFF は引きずり無し —— W_bg の値は保つ)",
-  iwbgDesc:"背景慣性決定力 W_bg [M/L³](本の単位 —— 核 m𝒦 と同じ)。慣性決定力の引きずりは u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij)(w_ij = m_j 𝒦_j(r_ij))で、W_bg は受け手が感じる慣性決定力の総和のうち背景(背景宇宙・銀河の中の位置・恒星系の中の位置などの合算と推定されるもの)の分です。W_bg が小さいほど引きずりは強く、大きいほど弱くなります(C_d は 1 に固定)。第302便a で直接の定義になりました —— 以前の gain は 1/W_bg に相当し、gain の欄は廃止しました(旧宣言の gain は Wbg = 1/gain として読みます)。スライダーは今の値の ±4 桁(対数)・数値欄に範囲外の値を入れると範囲を広げます(物理の事前制約ではありません)。チェックを外すと引きずり無し(宣言なしとビット同一の経路)—— W_bg の値は保ちます。未推定の本は値を入れてから ON にします。値の変更で引きずりの履歴は作り直されます(最初の步は u=0)。宣言は保存 JSON の physics.relativeDrag.Wbg / enabled に書かれます。",
+  iwbgDesc:"背景慣性決定力 W_bg [M/L³](本の単位 —— 核 m𝒦 と同じ)。慣性決定力の引きずりは u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij)(w_ij = m_j 𝒦_j(r_ij))で、W_bg は受け手が感じる慣性決定力の総和のうち背景(背景宇宙・銀河の中の位置・恒星系の中の位置などの合算と推定されるもの)の分です。W_bg が小さいほど引きずりは強く、大きいほど弱くなります(C_d は 1 に固定)。第302便a で直接の定義になりました —— 以前の gain は 1/W_bg に相当し、gain の欄は廃止しました(旧宣言の gain は Wbg = 1/gain として読みます)。スライダーは今の値の ±4 桁(対数)・数値欄に範囲外の値を入れると範囲を広げます(物理の事前制約ではありません)。チェックを外すと引きずり無し(宣言なしとビット同一の経路)—— W_bg の値は保ちます。未推定の本は値を入れてから ON にします。値の変更で引きずりの履歴は作り直されます(最初の步は u=0)。宣言は保存 JSON の physics.relativeDrag.Wbg / enabled に書かれます。行の下の「推定」は W_cos(背景宇宙 —— 臨界密度を地平で切った球の核の積分)+ W_gal(銀河 —— 宣言 relativeDrag.env.galaxy があるときだけ)+ W_sys(恒星系 —— 引きずりの対を組まない背景側の天体と宣言 env.bodies の Σ m𝒦)の読み取りで、「推定を入れる」を押したときだけ W_bg に写します(推定とフィットは別の来歴 —— 第302便c)。",
   iwbgDone:(rd)=>"physics.relativeDrag の W_bg を更新しました: Wbg="+((rd && rd.Wbg!==undefined)? rd.Wbg : "—")+((rd && rd.enabled===false)? "・OFF(引きずり無し)" : "・ON")+"(他の鍵は保持 —— 履歴は作り直し・最初の步は u=0)",
   iwbgBad:(e)=>"W_bg を変えられません: "+e,
   iwbgBadValue:"W_bg は正の有限数 [M/L³](0・負・Infinity は受理しない)",
@@ -3317,7 +3317,7 @@ en: {
   iwbgLabel:"Background inertial determinacy W_bg",
   iwbgTip:"Background W_bg [M/L^3] (sample units) of the inertial-determinacy drag - the drag strength is divided by the receiver's total W_bg+Σw. Tap for details",
   iwbgOnLabel:"Inertial-determinacy drag on/off (off = no dragging - the W_bg value is kept)",
-  iwbgDesc:"Background inertial determinacy W_bg [M/L^3] (sample units - the same as the kernel m𝒦). The inertial-determinacy drag is u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij) (w_ij = m_j 𝒦_j(r_ij)); W_bg is the background share of the total inertial determinacy felt by the receiver (estimated to be the sum of the background universe, the position in the galaxy, the position in the star system and so on). A smaller W_bg drags more strongly, a larger one more weakly (C_d is fixed at 1). Wave 302a made it a direct definition - the former gain corresponded to 1/W_bg and the gain input is gone (an old gain declaration is read as Wbg = 1/gain). The slider spans +-4 decades around the current value (log); typing a value outside the range widens it (not a physical prior). Unticking turns the drag off (the same path as no declaration, bit for bit) and keeps the W_bg value. For an unestimated sample, type a value first and then turn it on. Changing the value restarts the drag history (the first step has u=0). The declaration is written to physics.relativeDrag.Wbg / enabled of the save JSON.",
+  iwbgDesc:"Background inertial determinacy W_bg [M/L^3] (sample units - the same as the kernel m𝒦). The inertial-determinacy drag is u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij) (w_ij = m_j 𝒦_j(r_ij)); W_bg is the background share of the total inertial determinacy felt by the receiver (estimated to be the sum of the background universe, the position in the galaxy, the position in the star system and so on). A smaller W_bg drags more strongly, a larger one more weakly (C_d is fixed at 1). Wave 302a made it a direct definition - the former gain corresponded to 1/W_bg and the gain input is gone (an old gain declaration is read as Wbg = 1/gain). The slider spans +-4 decades around the current value (log); typing a value outside the range widens it (not a physical prior). Unticking turns the drag off (the same path as no declaration, bit for bit) and keeps the W_bg value. For an unestimated sample, type a value first and then turn it on. Changing the value restarts the drag history (the first step has u=0). The declaration is written to physics.relativeDrag.Wbg / enabled of the save JSON. The estimate line below reads W_cos (background universe - the kernel integral of the critical density cut at the horizon) + W_gal (galaxy - only with a relativeDrag.env.galaxy declaration) + W_sys (stellar system - the sum m K over background-side bodies that form no drag pair, plus env.bodies); \"Use the estimate\" copies it into W_bg only when pressed (the estimate and the fit are separate records - wave 302c).",
   iwbgDone:(rd)=>"Updated W_bg of physics.relativeDrag: Wbg="+((rd && rd.Wbg!==undefined)? rd.Wbg : "-")+((rd && rd.enabled===false)? ", off (no dragging)" : ", on")+" (other keys kept - the history restarts; the first step has u=0)",
   iwbgBad:(e)=>"Cannot change W_bg: "+e,
   iwbgBadValue:"W_bg must be a positive finite number [M/L^3] (0, negative and Infinity are not accepted)",
@@ -8821,6 +8821,7 @@ function approxManyState(S){
 //   二次元の本では拒否する(二次元の重力は核 S._core の中 —— 核の外に置けないので初版は三次元だけ)。較正の本(sampleClass が calibration)でも拒否する
 //   (EIH の 1PN と二重計上になる)。geoPN≥2 の「λ_PN は 0」(第297便a)は変えない —— これは λ_PN を戻すことではない。
 const GLOC_KEY="gLoc", GLOC_VERSION="w302b-gloc-1";
+const GLOC_LEDGER_SEAM_VERSION="w302c-seam-1";   // 第302便c: inertialDragLedgerOf の R_E が gLocWork を引く(G_loc と引きずりの両方を宣言した本だけ)
 const GLOC_LAWS=["cLocPow","kappaC2","timeRatio"], GLOC_LAW_N={kappaC2:2, timeRatio:-2};
 const GLOC_PAIRS=["receiver","symmetric"], GLOC_KAPPAS=["lock","kappaT"], GLOC_REFS=["background"];
 const GLOC_KEYS=["law","n","pair","kappa","ref"], GLOC_N_RANGE=[-8,8];
@@ -54861,8 +54862,12 @@ function inertialDragLedgerOf(S){
   if(order!=="semic") return {version:REL_DRAG_SEMIC_VERSION, stepOrder:order, work:S.inertialDragWork||0, workDef:"transportDeltaU", E0:null, K:null, U:null, E:null, RE:null, semicMiss:null};
   const e=inertialDragEnergy(S), W=S.inertialDragWork||0, E0=S.inertialDragE0;
   const has=(typeof E0==="number" && Number.isFinite(E0));
-  return {version:REL_DRAG_SEMIC_VERSION, stepOrder:order, work:W, workDef:"-sum m aN(x0).u h", E0:has? E0 : null, K:e.K, U:e.U, E:e.E, RE:has? e.E-E0-W : null,
+  const out={version:REL_DRAG_SEMIC_VERSION, stepOrder:order, work:W, workDef:"-sum m aN(x0).u h", E0:has? E0 : null, K:e.K, U:e.U, E:e.E, RE:has? e.E-E0-W : null,
     semicMiss:S.inertialDragSemicMiss||0};
+  // 第302便c(R190 —— 帳簿の継ぎ目): G_loc と引きずりを両方宣言した本は、K+U(素の G の U)の変化に G_loc の補正の力の仕事 gLocWork(gLocLedger3 —— キックの中点の v)が入る。
+  //   R_E = ΔE − W − gLocWork(ẋ = v + u・v̇ = a_N + δa の系で d(K+U)/dt = Σ m v·δa − Σ m a_N·u)。G_loc の無い本は従来の R_E のまま(鍵も足さない)
+  if(S._gLoc){ const gw=S.gLocWork||0; out.gLocWork=gw; out.REnoGLoc=out.RE; out.RE=has? e.E-E0-W-gw : null; out.ledgerSeam=GLOC_LEDGER_SEAM_VERSION; }
+  return out;
 }
 function inertialDragClear(S){
   S.rdPrevX=null; S.rdPrevY=null; S.rdPrevT=null; S._rdVX=S._rdVY=S._rdUX=S._rdUY=S._rdDeg=S._rdNX=S._rdNY=null;
@@ -59501,7 +59506,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
-  WBG_EST_VERSION, wbgEstimateOf, validateWbgEnv, wbgUniformBall, wbgEstimateApply,   // 第302便c(R190)
+  WBG_EST_VERSION, wbgEstimateOf, validateWbgEnv, wbgUniformBall, wbgEstimateApply, GLOC_LEDGER_SEAM_VERSION,   // 第302便c(R190)
   REL_DRAG_WBG_KEY, REL_DRAG_WBG_VERSION, relDragLegacyFrozen, relDragWbgFromGain, relDragCoefficientOf, relDragWbgOf, relDragEnabledOf, relDragLegacyGainWarn,   // 第302便a(R186)
   REL_DRAG_STEP_ORDERS, REL_DRAG_STEP_ORDER_DEFAULT, REL_DRAG_SEMIC_VERSION, relDragStepOrderOf, relDragSemicOn, inertialDragSemicPre, inertialDragEnergy, inertialDragSemicWork, inertialDragLedgerOf,   // 第302便d: 步の順序 semic
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化

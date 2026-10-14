@@ -33,7 +33,10 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as B302 from './exp-w302b-gloc.mjs';
+import * as PRE from './lib-w302c-pre.mjs';
 import { runEm3, windowsOf } from './exp-w300b-emonly.mjs';
+import { run2 as run2d } from './exp-w302d-semic.mjs';
+import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.sim","HP.validatePreset","HP.gLocState","HP.inertialDragLedgerOf","HP.wbgEstimateOf","HP.WBG_EST_VERSION","HP.fitCondSig","HP.validateFitRecord","HP.dragCoreLookup","HP.inertialDragState","HP.GLOC_VERSION"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -120,7 +123,8 @@ export function fitMercury(HP, gl, log = () => {}) {
   const ctl = measure(HP, variantOf(p0, { Wbg: null, gl: null }), h), ctl2 = measure(HP, variantOf(p0, { Wbg: null, gl: null }), h / 2);
   const glOnly = measure(HP, variantOf(p0, { Wbg: null, gl }), h);
   const gPart = glOnly.aps - ctl.aps;
-  const book = p0.physics.relativeDrag, cBook = 1 / book.Wbg;
+  // 割線の初期値は G_loc の前の 🌡️ の係数(第299便c のフィット —— tests/lib-w302c-pre.mjs の PRE302C_GAIN)から作る(本の今の宣言に依らない —— 正本の再生成で同じ根)
+  const cBook = PRE.PRE302C_GAIN[MERCURY];
   // 引きずりの近点の傾き(今の本 —— G_loc なしの 43.0 を c_book で)を初期の比に
   const need = TARGET_APS - gPart, iters = [];
   if (!(need > 0)) return { gl, h, ctl: ctl.aps, gLocPart: gPart, need, reachable: false, why: 'G_loc だけで 43.0″/世紀を越える —— 正の W_bg では届かない(引きずりは近点を進める向き)' };
@@ -251,6 +255,182 @@ export function partG(HP, gl, log = console.log) {
   return { gl, rows: out, rule: '効果が照合許容の 1/10 未満なら宣言しない(再フィットの利点が無い —— 太陽の ψ は地球と月にほぼ一様で G の定数倍に近い)' };
 }
 
+/* ── 段 E: W_bg の推定(html の wbgEstimateOf —— 宣言のまま)と試算(銀河の局所密度・恒星を背景側にした場合・系の外の太陽) ── */
+export const MSUN = 1.98847e30, PC = 3.0857e16, KPC = 3.0857e19, AU = 1.495978707e11;
+/** 器の中だけの試算(本に宣言しない): 太陽近傍の局所の全密度(恒星・ガス・暗黒物質の和)を銀河中心距離で切った一様な球。 */
+export const GAL_TRIAL = Object.freeze({ rhoSI: 0.097 * 1.98847e30 / Math.pow(3.0857e16, 3), RSI: 8.2 * 3.0857e19,
+  source: '太陽近傍の局所の全密度 0.097 M☉/pc³(McKee, Parravano & Hollenbach 2015, ApJ 814, 13 —— 恒星・ガス・暗黒物質の和)と銀河中心距離 R₀ = 8.2 kpc(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529)の転記 —— 本便のコンテナはネットワークに出られず原表は未取得(公表値の転記・照合は次の見直し)' });
+const kEps = (d, eps) => { const q = d * d + eps * eps; return d / (q * q); };
+export function partE(HP, log = console.log) {
+  const books = HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.scaleExp && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+  const rows = [];
+  for (const p of books) {
+    const e = HP.wbgEstimateOf(p); if (!e.ok) continue;
+    const X = p.scaleExp, dens = e.densSI, Lm = Math.pow(10, X.L), Mk = Math.pow(10, X.M), rd = p.physics.relativeDrag;
+    const gq = clone(p); gq.physics.relativeDrag.env = { galaxy: { rhoSI: GAL_TRIAL.rhoSI, RSI: GAL_TRIAL.RSI } };
+    const eg = HP.wbgEstimateOf(gq);
+    // 恒星を背景側にした場合(源の集合から恒星を外す試算 —— 受け手と対を組む最も重い粒子を恒星とする)
+    const B = p.bodies, ri = e.receiver, star = e.sources.drag.length ? e.sources.drag.reduce((a, j) => (B[j].m > B[a].m ? j : a), e.sources.drag[0]) : null;
+    const dStar = star === null ? null : Math.hypot(B[star].x - B[ri].x, B[star].y - B[ri].y, (B[star].z || 0) - (B[ri].z || 0));
+    const wStar = star === null ? 0 : B[star].m * kEps(dStar, e.eps);
+    const r = { id: p.id, emoji: p.emoji, receiver: ri, eps: e.eps, densSI: dens, coord: p.physics.coord === '3d' ? '3d' : '2d', fitted: !!(p.fitRecord && p.fitRecord.status === 'fitted'),
+      WcosSI: e.Wcos.SI, WgalTrialSI: eg.Wgal.SI, WsysSI: e.Wsys.SI, sysTerms: e.Wsys.terms, totalSI: e.total.SI, totalTrialSI: eg.total.SI,
+      sources: e.sources, sumWSI: e.sumW.SI, WdeclSI: e.Wdecl === null ? null : e.Wdecl * dens, enabled: rd.enabled !== false && e.Wdecl !== null,
+      ratioToDecl: e.ratioToDecl, ratioTrialToDecl: e.Wdecl ? eg.total.book / e.Wdecl : null, xi: e.xi, xiTrial: eg.xi,
+      starAsBackground: star === null ? null : { star, mSI: B[star].m * Mk, dSI: dStar * Lm, WstarSI: wStar * dens, totalSI: eg.total.SI + wStar * dens, sumWLeftSI: e.sumW.SI - wStar * dens,
+        ratioToDecl: e.Wdecl ? (eg.total.book + wStar) / e.Wdecl : null } };
+    r.gapDex = (r.WdeclSI && r.totalTrialSI > 0) ? Math.log10(r.WdeclSI / r.totalTrialSI) : null;
+    rows.push(r);
+    log(`E ${p.emoji} ${p.id}: W_cos ${r.WcosSI.toExponential(3)}・W_gal(試算)${r.WgalTrialSI.toExponential(3)}・W_sys ${r.WsysSI.toExponential(3)}・計 ${r.totalTrialSI.toExponential(3)} kg/m³・宣言 ${r.WdeclSI === null ? '—' : r.WdeclSI.toExponential(3)}(差 ${r.gapDex === null ? '—' : r.gapDex.toFixed(2)} dex)・ξ ${r.xiTrial === null ? '—' : r.xiTrial.toExponential(2)}`
+      + (r.starAsBackground ? `・恒星を背景側 ${r.starAsBackground.totalSI.toExponential(3)}` : ''));
+  }
+  return { galTrial: GAL_TRIAL, cosmo: { H0kmsMpc: 67.4, note: '第301便a の COSMO と同じ値(臨界密度・地平 c/H₀ で切断・核の ε の対数)' }, rows };
+}
+
+/* ── 段 C: 推定で固定したときの dragCore の探索(🌡️〔G_loc 入り〕・🌦️ の月・🟪) ── */
+// 走行は歩数の上限つき(公転が成り立たない走りで止まらないように)。目的の量: 🌡️ 近点率の差(対照: 引きずり OFF ∧ G_loc なし)・🌦️ 近点回転の周期と恒星月・🟪 公転周期
+export const C_BOOKS = Object.freeze([
+  { id: 'mercurySunInertial3d', core: 0, kind: 'pl3' },
+  { id: 'earthMoonSunInertial3d', core: 1, kind: 'ems', ci: 1, oi: 2, env: null },
+  { id: 'plutoCharonInertialFit', core: 0, kind: 'pair2d', ci: 0, oi: 1 },
+]);
+const MF_GRID = [0.05, 0.2, 0.4, 0.6, 0.8, 1.0], RF_GRID = [0.1, 0.25, 0.5, 0.75, 1.0];
+function guardPl3(HP, q, h, maxSteps) {   // runPl3 の写し(上限つき —— 器 exp-w299c の runPl3 と同じ抽出)
+  const v = HP.validatePreset(clone(q)); if (!v.ok) return { err: v.errors };
+  const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
+  const rel = () => [S.x[1] - S.x[0], S.y[1] - S.y[0], S.z[1] - S.z[0]];
+  let k = 0, nan = false; const ev = { rev: [], peri: [], apo: [] };
+  const p0 = rel(), r0 = Math.hypot(...p0); let rMin = r0, rMax = r0;
+  // 公転の数え(初期の軌道面の中の方位)だけ —— 目的の量が定義されるかの判定に使う(定義されれば runPl3 で測り直す)
+  const vv = [S.vx[1] - S.vx[0], S.vy[1] - S.vy[0], S.vz[1] - S.vz[0]], W0 = [p0[1] * vv[2] - p0[2] * vv[1], p0[2] * vv[0] - p0[0] * vv[2], p0[0] * vv[1] - p0[1] * vv[0]];
+  const nW = Math.hypot(...W0), Wu = W0.map((x) => x / nW), Pu = p0.map((x) => x / r0), Qu = [Wu[1] * Pu[2] - Wu[2] * Pu[1], Wu[2] * Pu[0] - Wu[0] * Pu[2], Wu[0] * Pu[1] - Wu[1] * Pu[0]];
+  const ang = (d) => Math.atan2(d[0] * Qu[0] + d[1] * Qu[1] + d[2] * Qu[2], d[0] * Pu[0] + d[1] * Pu[1] + d[2] * Pu[2]);
+  let aPrev = ang(p0), acc = 0;
+  for (; k < maxSteps; k++) { S.step(h); const d = rel(), rr = Math.hypot(...d); if (!Number.isFinite(rr)) { nan = true; break; }
+    if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
+    const a = ang(d); let da = a - aPrev; while (da > Math.PI) da -= 2 * Math.PI; while (da < -Math.PI) da += 2 * Math.PI; acc += da; aPrev = a;
+    if (Math.abs(acc) >= 2 * Math.PI * (ev.rev.length + 1)) ev.rev.push(k * h);
+    if (ev.rev.length >= N_WIN) break; }
+  const st = HP.inertialDragState(S);
+  return { steps: k, revs: ev.rev.length, nan: nan || S.hasNaN(), rMin, rMax, r0, halt: S.inertialDragHalt === true, uMax: st ? st.uMax : null, boundOver: st ? st.boundOver : null };
+}
+function guard2d(HP, q, dt, maxSteps, ci, oi) {
+  const v = HP.validatePreset(clone(q)); if (!v.ok) return { err: v.errors };
+  HP.sim.build(v.preset); const S = HP.sim;
+  const rel = () => [S.x[oi] - S.x[ci], S.y[oi] - S.y[ci]];
+  let k = 0, aPrev = Math.atan2(rel()[1], rel()[0]), acc = 0, revs = 0, nan = false; const r0 = Math.hypot(...rel()); let rMin = r0, rMax = r0;
+  for (; k < maxSteps; k++) { S.step(dt); const d = rel(), rr = Math.hypot(...d); if (!Number.isFinite(rr)) { nan = true; break; }
+    if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
+    const a = Math.atan2(d[1], d[0]); let da = a - aPrev; while (da > Math.PI) da -= 2 * Math.PI; while (da < -Math.PI) da += 2 * Math.PI; acc += da; aPrev = a;
+    if (Math.abs(acc) >= 2 * Math.PI * (revs + 1)) revs++;
+    if (revs >= N_WIN) break; }
+  return { steps: k, revs, nan: nan || S.hasNaN(), rMin, rMax, r0 };
+}
+/** 目的の量(本ごと)。q は走らせる本。戻り値 y(配列)と付帯。公転が成り立たなければ y = null。 */
+export function targetOf(HP, B, q) {
+  if (B.kind === 'pl3') {
+    const h = hOf(q), g = guardPl3(HP, q, h, 2 * 47600 * N_WIN);
+    if (g.err || g.nan || g.revs < N_WIN) return { y: null, guard: g };
+    const ctl = measure(HP, variantOf(q, { Wbg: null, gl: null }), h), m = measure(HP, q, h);
+    return { y: [m.aps - ctl.aps], names: ['近点率の差 ″/世紀'], guard: g, periodDays: m.periodDays };
+  }
+  if (B.kind === 'ems') {
+    const R = runEm3(HP, q, { dt: 0.016, revMax: 118, ci: B.ci, oi: B.oi }), w = windowsOf(R, [118], HP)[0];
+    if (!w || !Number.isFinite(w.T1) || !Number.isFinite(w.sid)) return { y: null, guard: { stop: R.stop, revs: (R.ev && R.ev.rev) ? R.ev.rev.length : null, steps: R.steps } };
+    return { y: [w.T1, w.sid], names: ['近点回転の周期 年', '恒星月 日'], guard: { stop: R.stop, steps: R.steps } };
+  }
+  const g = guard2d(HP, q, 0.16, 2 * 345000 * N_WIN, B.ci, B.oi);
+  if (g.err || g.nan || g.revs < N_WIN) return { y: null, guard: g };
+  const R = run2d(HP, q, { dt: 0.16, revMax: N_WIN, ci: B.ci, oi: B.oi }), rev = R.ev.rev;
+  return { y: [(rev[N_WIN - 1] - rev[0]) / (N_WIN - 1) * Math.pow(10, q.scaleExp.T)], names: ['公転周期 s'], guard: g };
+}
+const svd2 = (J) => {   // J は m×2 —— JᵀJ の固有値の平方根(特異値)
+  let a = 0, b = 0, c = 0; for (const r of J) { a += r[0] * r[0]; b += r[0] * r[1]; c += r[1] * r[1]; }
+  const tr = a + c, det = a * c - b * b, d = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+  return [Math.sqrt(Math.max(0, tr / 2 + d)), Math.sqrt(Math.max(0, tr / 2 - d))];
+};
+export function partC(HP, E, log = console.log) {
+  const out = [];
+  for (const B of C_BOOKS) {
+    const p0 = find(HP, B.id), er = E.rows.find((r) => r.id === B.id), X = p0.scaleExp, dens = er.densSI, body = p0.bodies[B.core];
+    const rec = p0.fitRecord, tg = rec.targets.map((t) => ({ obs: t.obs, tol: t.tol.value, unit: t.unit }));
+    // 推定(宣言のまま + 銀河の試算 + 系の外の太陽〔🟪 —— 冥王星の軌道長半径 39.48 au の太陽を env で〕)
+    let q0 = clone(p0); if (B.id === 'plutoCharonInertialFit') q0.physics.relativeDrag.env = { bodies: [{ m: MSUN / Math.pow(10, X.M), d: 39.482 * AU / Math.pow(10, X.L), label: '太陽(39.48 au —— 系の外の背景側)' }] };
+    q0.physics.relativeDrag.env = Object.assign({}, q0.physics.relativeDrag.env || {}, { galaxy: { rhoSI: GAL_TRIAL.rhoSI, RSI: GAL_TRIAL.RSI } });
+    const est = HP.wbgEstimateOf(q0), Wfit = p0.physics.relativeDrag.Wbg, West = est.total.book;
+    // ① 推定で固定した走り(dragCore は宣言のまま)
+    const qE = variantOf(q0, { Wbg: West }), tE = targetOf(HP, B, qE);
+    log(`C ${p0.emoji} 推定 W ${(West * dens).toExponential(3)} kg/m³(フィット ${(Wfit * dens).toExponential(3)}・比 ${(West / Wfit).toExponential(2)})→ ${tE.y ? tE.y.map((v) => v.toPrecision(8)).join(' / ') : '目的の量が定義されない ' + JSON.stringify(tE.guard).slice(0, 160)}`);
+    // ② dragCore の格子 —— 受け手の距離での核の比 ⟨K⟩/K(Σw の変わり方 —— 走らせない)
+    const ri = er.receiver, d = Math.hypot(body.x - p0.bodies[ri].x, body.y - p0.bodies[ri].y, (body.z || 0) - (p0.bodies[ri].z || 0)), eps = er.eps;
+    const grid = [];
+    for (const mf of MF_GRID) for (const rf of RF_GRID) {
+      if (rf === 1 && mf < 1) continue;
+      const q = variantOf(p0, { dragCore: { [B.core]: { massFrac: mf, radius: Number((rf * body.radius).toPrecision(12)) } } });
+      const v = HP.validatePreset(clone(q)); if (!v.ok) { grid.push({ mf, rf, err: String(v.errors).slice(0, 120) }); continue; }
+      const S = (p0.physics.coord === '3d') ? HP.coord3d.makeSim() : HP.sim; S.build(clone(v.preset));
+      const T = S._dragCoreT && S._dragCoreT[B.core]; grid.push({ mf, rf, ratio: T ? HP.dragCoreLookup(T, d) / kEps(d, eps) : null });
+    }
+    const rs = grid.filter((g) => g.ratio !== null && g.ratio !== undefined).map((g) => g.ratio);
+    const need = West / Wfit;   // 推定で同じ応答を出すのに Σw に要る倍率(X = Σw/W_bg を保つ)
+    // ③ 感度行列(フィットの W_bg と推定の W_bg で —— dragCore の (massFrac, radius/R) の有限差分)
+    const base = body.dragCore ? { mf: body.dragCore.massFrac, rf: body.dragCore.radius / body.radius } : { mf: 0.5, rf: 0.5 };
+    const at = (W, mf, rf) => targetOf(HP, B, variantOf(p0, { Wbg: W, dragCore: { [B.core]: { massFrac: mf, radius: Number((rf * body.radius).toPrecision(12)) } } }));
+    const sens = (W) => { const y0 = at(W, base.mf, base.rf); if (!y0.y) return { defined: false, guard: y0.guard };
+      const y1 = at(W, base.mf + 0.1, base.rf), y2 = at(W, base.mf, base.rf + 0.1); if (!y1.y || !y2.y) return { defined: false };
+      const J = y0.y.map((v, i) => [(y1.y[i] - v) / 0.1, (y2.y[i] - v) / 0.1]), sv = svd2(J);
+      // 複数の初期値(格子の 3 点)から 1 次の最小ノルムの解 —— 目的の値に届く dragCore があるか・解の広がり
+      const starts = [[0.2, 0.25], [0.6, 0.5], [0.9, 0.75]];
+      const sols = starts.map(([m0, r0]) => { const res = y0.y.map((v, i) => (tg[i].obs - (v + J[i][0] * (m0 - base.mf) + J[i][1] * (r0 - base.rf))));
+        // 最小ノルムの一次の一歩(J⁺ res)
+        let a = 0, b = 0, c = 0, u0 = 0, u1 = 0; for (let i = 0; i < J.length; i++) { a += J[i][0] ** 2; b += J[i][0] * J[i][1]; c += J[i][1] ** 2; u0 += J[i][0] * res[i]; u1 += J[i][1] * res[i]; }
+        const det = a * c - b * b; let dm, dr;
+        if (Math.abs(det) > 1e-30 * (a * c + 1e-300)) { dm = (c * u0 - b * u1) / det; dr = (a * u1 - b * u0) / det; } else { const n2 = a + c; dm = n2 > 0 ? u0 / n2 : Infinity; dr = n2 > 0 ? u1 / n2 : Infinity; }
+        const m1 = m0 + dm, r1 = r0 + dr; return { start: [m0, r0], solution: [m1, r1], inRange: m1 > 0 && m1 <= 1 && r1 > 0 && r1 <= 1 }; });
+      const fin = sols.filter((z) => Number.isFinite(z.solution[0]) && Number.isFinite(z.solution[1]));
+      const spread = fin.length >= 2 ? Math.max(...fin.flatMap((a) => fin.map((b) => Math.hypot(a.solution[0] - b.solution[0], a.solution[1] - b.solution[1])))) : null;
+      return { defined: true, y0: y0.y, J, singular: sv, cond: sv[1] > 0 ? sv[0] / sv[1] : null, sols, spread, anyInRange: sols.some((z) => z.inRange),
+        resid0: y0.y.map((v, i) => v - tg[i].obs), relSens: J.map((r, i) => Math.hypot(r[0], r[1]) / tg[i].tol) }; };
+    const sFit = sens(Wfit), sEst = tE.y ? sens(West) : { defined: false, guard: tE.guard };
+    const o = { id: B.id, emoji: p0.emoji, coreBody: B.core, receiver: ri, dReceiver: d, bodyRadius: body.radius, eps, targets: tg,
+      estimate: { WSI: West * dens, Wbook: West, WcosSI: est.Wcos.SI, WgalSI: est.Wgal.SI, WsysSI: est.Wsys.SI, terms: est.Wsys.terms, sources: est.sources }, WfitSI: Wfit * dens, ratio: West / Wfit,
+      atEstimate: { y: tE.y, guard: tE.guard }, coreGrid: grid, kernelRatioRange: rs.length ? [Math.min(...rs), Math.max(...rs)] : null, needSigmaFactor: need,
+      gapDex: rs.length ? Math.log10(Math.min(...rs)) - Math.log10(need) : null, sensAtFit: sFit, sensAtEstimate: sEst };
+    out.push(o);
+    log(`C ${p0.emoji} dragCore の核の比 ⟨K⟩/K ${o.kernelRatioRange ? o.kernelRatioRange.map((x) => x.toFixed(6)).join('〜') : '—'}・要る Σw の倍率 ${need.toExponential(2)}(届かない桁 ${o.gapDex === null ? '—' : o.gapDex.toFixed(1)} dex)`
+      + `・フィットの W での特異値 ${sFit.defined ? sFit.singular.map((x) => x.toExponential(2)).join(', ') : '—'}・許容に対する感度 ${sFit.defined ? sFit.relSens.map((x) => x.toExponential(2)).join(', ') : '—'}・解の広がり ${sFit.defined && sFit.spread !== null ? sFit.spread.toExponential(2) : '—'}`);
+  }
+  return { books: out, grid: { massFrac: MF_GRID, radiusFrac: RF_GRID } };
+}
+
+/* ── 段 L: 帳簿の継ぎ目(G_loc と引きずりを両方宣言した本 —— R_E = ΔE − W − gLocWork が刻みで 1 次に 0 へ) ── */
+// 🌡️ の写し(G_loc n=−3)に引きずりが見える強さ(W_bg = G_loc の前の 221.1205993960312 —— 引きずりの分 43″/世紀)を置き、画面の刻み stepDt(1 公転 360 步)の
+// h・h/2・h/4 で 1 公転走らせる。読み口 inertialDragLedgerOf の R_E(gLocWork を引く)と REnoGLoc(従来の式)を並べる
+export function partL(HP, gl, log = console.log) {
+  const run = (q, h0, T, d) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error('L validatePreset ' + JSON.stringify(v.errors).slice(0, 200));
+    HP.sim.build(v.preset); const S = HP.sim, dt = h0 / d, N = Math.round(T / dt);
+    for (let k = 0; k < N; k++) S.step(dt);
+    const g = HP.inertialDragLedgerOf(S);
+    return { d, dt, steps: N, RE: g.RE, REnoGLoc: g.REnoGLoc, gLocWork: g.gLocWork, W: g.work, E0: g.E0, seam: g.ledgerSeam || null }; };
+  const conv = (rows, k) => [rows[0][k] / rows[1][k], rows[1][k] / rows[2][k]];
+  // ① 人工二体(器 exp-w302b-gloc の toyPreset —— μ=1・c₀=30・自由な二体 m₂/m₁=0.25・三次元)に G_loc と引きずり(W_bg 100・ε 0.05)を両方宣言 —— gLocWork が積分器の誤差より大きい条件
+  const toy = B302.toyPreset({ pinned: false, m: 0.25, d3: true, gl, drag: { law: 'inertial', Wbg: 100, eps: 0.05, pairs: 'all', history: 'positions' } });
+  const P = 2 * Math.PI * Math.sqrt(1 / toy.mu), toyRows = [1, 2, 4].map((d) => run(toy, P / 400, 3 * P, d));
+  for (const r of toyRows) log(`L 人工二体 h/${r.d}: R_E ${r.RE.toExponential(3)}(gLocWork を引かない式 ${r.REnoGLoc.toExponential(3)})・gLocWork ${r.gLocWork.toExponential(3)}・W ${r.W.toExponential(3)}`);
+  // ② 🌡️ の写し(G_loc + G_loc の前の W_bg 221.1205993960312 —— 引きずりの分 43″/世紀)・画面の刻み stepDt の h・h/2・h/4 で 1 公転(記録 —— gLocWork は積分器の誤差より小さい)
+  const p0 = find(HP, MERCURY), q = variantOf(p0, { Wbg: 221.1205993960312, gl });
+  const merRows = [1, 2, 4].map((d) => run(q, q.physics.stepDt, q.timeRef.pRef, d));
+  for (const r of merRows) log(`L 🌡️ h/${r.d}: R_E ${r.RE.toExponential(3)}(gLocWork を引かない式 ${r.REnoGLoc.toExponential(3)})・gLocWork ${r.gLocWork.toExponential(3)}`);
+  const ratio = conv(toyRows, 'RE'), ratioNo = conv(toyRows, 'REnoGLoc');
+  const out = { gl, toy: { mu: toy.mu, c: 30, m2: 0.25, Wbg: 100, eps: 0.05, orbits: 3, perOrbit: 400, rows: toyRows, ratio, ratioNoGLoc: ratioNo },
+    mercury: { book: MERCURY, Wbg: 221.1205993960312, rows: merRows, ratio: conv(merRows, 'RE') },
+    // 刻み 0 への外挿(一次の Richardson: 2R(h/4) − R(h/2)): gLocWork を引く R_E は 0 へ・引かない式は gLocWork へ(継ぎ目が無いと残る量)
+    richardson: { RE: 2 * toyRows[2].RE - toyRows[1].RE, REnoGLoc: 2 * toyRows[2].REnoGLoc - toyRows[1].REnoGLoc, gLocWork: toyRows[2].gLocWork },
+    converges: ratio.every((r) => r > 1.6), seamVersion: toyRows[0].seam };
+  out.seamCloses = Math.abs(out.richardson.RE) < 0.1 * Math.abs(out.richardson.gLocWork) && Math.abs(out.richardson.REnoGLoc - out.richardson.gLocWork) < 0.1 * Math.abs(out.richardson.gLocWork);
+  return out;
+}
+
 /* ── 本の文面に転記する数(QA preset.gLocPlanets302 が同じ関数で照合する) ── */
 export const fmtAps = (x) => Number(x).toPrecision(6);
 export const fmtDays = (x) => Number(x).toExponential(2);
@@ -279,11 +459,24 @@ if (IS_MAIN) {
   else if (process.env.W302C_N_FROM) out.nChoice = JSON.parse(fs.readFileSync(process.env.W302C_N_FROM, 'utf8')).nChoice;   // 試走だけ(正本は全段)
   if (PARTS.includes('P') && out.nChoice) out.planets = timed('P', () => partP(HP, out.nChoice));
   if (PARTS.includes('G') && out.nChoice) out.earthMoon = timed('G', () => partG(HP, out.nChoice.chosenGl));
+  if (PARTS.includes('E')) out.estimate = timed('E', () => partE(HP));
+  if (PARTS.includes('C') && out.estimate) out.dragCore = timed('C', () => partC(HP, out.estimate));
+  if (PARTS.includes('L') && out.nChoice) out.ledger = timed('L', () => partL(HP, out.nChoice.chosenGl));
   const gates = {};
   if (out.nChoice) { gates.nChosen = out.nChoice.chosen !== null; gates.nFitsGate = out.nChoice.rows.filter((r) => r.fit.reachable).every((r) => r.fit.gate); gates.n2Listed = out.nChoice.rows.some((r) => r.n === 2 && r.transfer.length === TRANSFER.length); }
   if (out.planets) { gates.recordAccepted = out.planets.mercury.recordAccepted; gates.fitted = out.planets.mercury.status === 'fitted'; gates.declaredSet = out.planets.ids.length > 0; }
+  if (out.earthMoon) gates.earthMoonMeasured = out.earthMoon.rows.length === 2 && out.earthMoon.rows.every((r) => Number.isFinite(r.dT1) && Number.isFinite(r.dSid));
+  if (out.estimate) {
+    gates.estimateRows = out.estimate.rows.filter((r) => r.fitted).length >= 3;
+    gates.sourcesDisjoint = out.estimate.rows.every((r) => r.sources.overlap === 0 && r.sources.drag.every((j) => r.sources.background.indexOf(j) < 0));
+    // W_cos の閉形式(第301便a の器 cosmicBackground)と html の wbgEstimateOf の一致
+    gates.wcosClosedForm = out.estimate.rows.every((r) => { const p = HP.allPresets().find((q) => q.id === r.id), c = cosmicBackground(p.scaleExp, r.eps); return Math.abs(c.WSI / r.WcosSI - 1) < 1e-12; });
+  }
+  if (out.dragCore) { gates.dragCoreSearched = out.dragCore.books.length === C_BOOKS.length && out.dragCore.books.every((b) => b.kernelRatioRange && b.sensAtFit && b.sensAtFit.defined);
+    gates.kernelNotBelowPoint = out.dragCore.books.every((b) => b.kernelRatioRange[0] >= 1 - 1e-9); }
+  if (out.ledger) { gates.ledgerConverges = out.ledger.converges; gates.ledgerSeamCloses = out.ledger.seamCloses; }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
-  const CODE = ['tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w302d-semic.mjs', 'tests/exp-w301a-dragnorm.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)',
