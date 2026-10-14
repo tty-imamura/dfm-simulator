@@ -905,6 +905,13 @@ export const REGEN_STEPS = [
   S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
     note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
+  // ---- 第302便b(原仮定者の裁定(第92報)AN304 ①・補足・統括の検証項目 R187): **局所重力 G_loc の族の実測**(零試験〔n=0 と未宣言のビット同一・κ→0・c₀ の走査・
+  //   symmetric の運動量・二次元の拒否〕/ 人工二体〔固定中心・自由な二体・自由な軽い二体 —— A・B〔n=2,−2,−3,1,−1・receiver/symmetric〕・E〔二次元の EIH〕・h/h2/h4〕/
+  //   実単位の惑星の本〔🌡️ A・B・C・D と 🌞 の EIH の対照・🌋🔴 A・B〕)。html だけを読む(html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。
+  //   所要は第302便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('gloc-302b', 'node tests/exp-w302b-gloc.mjs', ['tests/out/gloc-w302b.json'], 23, { secSource: 'w302b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/gloc-w302b.json': META_RUN.concat(['/elapsedS', '/toy/rows/*/runs/*/wallSec', '/planets/*/rows/*/runs/*/wallSec', '/planets/*/E/runsE/*/wallSec', '/planets/*/E/runsA/*/wallSec', '/planets/*/dragNeed/*/wallSec']) },
+    note: '第302便b: 局所重力 G_loc = G·(c_loc/c₀)^n の族 —— 零試験・人工二体の近点と周期(解析と実測)・🌡️🌋🔴 の近点の ″/世紀と 🌞 の EIH の対照(値だけ —— どの本にもオンにしない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

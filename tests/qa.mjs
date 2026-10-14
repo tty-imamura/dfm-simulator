@@ -76787,6 +76787,123 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
+// ---- 第302便b(原仮定者の裁定(第92報)AN304 ①「局所光速が変化する事で、局所重力が変化する。G_loc = κ·c_loc²」・補足「G_loc = G·(c/c_loc)² ほかも広く検討する」・
+// ----   統括の検証項目 R187): behavior.gLoc302(新設 —— root は SKIP)—— **局所重力 G_loc の宣言 physics.gLoc**(三次元の本だけ・省略時オフ)。
+// ----   世代切替 has302b = 対象 html に受理器の定数 `const GLOC_KEY="gLoc"`。固定値は正本 tests/out/gloc-w302b.json(器 tests/exp-w302b-gloc.mjs —— 段 gloc-302b)と宣言から読む。
+// ----   ① 省略時オフ: 在位の本で physics.gLoc を宣言した本の数(宣言から数える —— 本便は 0)・代表の三次元の本(器の part3 の 4 本)で n=0 の宣言が未宣言とビット同一
+// ----   ② n=0 で G 一定とビット同一(①と同じ走行)③ κ→0(kappa:"kappaT" で κ_T=0)はビット同一・c₀ の走査で差が c₀⁻² で縮む
+// ----   ④ 固定中心の弱場(μ=1・c₀=30・a=1・e=0.2・20 公転)で B−A の近点の移動が解析 −2nπμ/(c₀²a(1−e²)) と相対 3% 以内(n=2, −2)
+// ----   ⑤ 受理器: 不正値の拒否の理由の文・二次元の本と較正の本の拒否 ⑥ 帳簿・作業の鍵が状態の契約(CK_SC・SIM_STEP_SCRATCH・SIM_BUILD_RESET)にある・走行後の sim の gLoc 系の鍵がすべて登録済み
+// ----   ⑦ 正本の版と門・文書(PHYSICS〔第302便b〕の位置と語・AI_SPEC の §90 の節・CHANGELOG・README)・禁句・再生成の段・.gitignore の例外
+{
+  const html302b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has302b = TARGET.startsWith('beta/') && html302b.indexOf('const GLOC_KEY="gLoc"') >= 0;
+  if (!has302b) {
+    console.log('SKIP behavior.gLoc302(第302便b 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H = null, X = null, J = null;
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
+    try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302b-gloc.mjs')); } catch (e) { bad.push('器 tests/exp-w302b-gloc.mjs が読めない: ' + String(e).slice(0, 120)); }
+    try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'gloc-w302b.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/gloc-w302b.json が読めない'); }
+    if (H && X) {
+      const HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      // ① 宣言の数(在位)と ②③ 零試験
+      const live = HP.allPresets().filter((p) => p.familyRole !== 'retired'), declN = live.filter((p) => p.physics && p.physics.gLoc).length;
+      const Z = X.part3(HP);
+      if (!Z.gates.offBitSame) bad.push('①② n=0 の宣言が未宣言とビット同一でない: ' + JSON.stringify(Z.offBitSame).slice(0, 160));
+      if (!Z.gates.cInf) bad.push('③ κ→0・c₀ の走査: ' + JSON.stringify(Z.cInf).slice(0, 160));
+      if (!Z.gates.symMomentum) bad.push('symmetric の運動量: ' + JSON.stringify(Z.momentum).slice(0, 120));
+      cases.push(`①在位の宣言 ${declN} 本・代表 ${Z.offBitSame.length} 本(${Z.offBitSame.map((z) => z.id).join('・')})で n=0 = 未宣言(ビット)`);
+      cases.push(`③ κ_T=0 ビット同一 ${Z.cInf.kappa0Same}・c₀ 10⁴→10⁶ の差の対数の傾き ${Z.cInf.logSlope.toFixed(3)}・symmetric の |ΔP| ${Z.momentum.symDPNorm}(receiver の交換 ${Z.momentum.recDPNorm.toExponential(2)})`);
+      // ④ 固定中心の近点(器の toyPreset・runCase を 1 刻みで)
+      const P = 2 * Math.PI, toy = (gl) => X.runCase(HP, X.toyPreset(Object.assign({ pinned: true, m: 1e-6, d3: true }, gl ? { gl } : {})), { dt: P / X.TOY.perOrbit, tEnd: X.TOY.orbits * P, ci: 0, oi: 1, mu: 1 });
+      const A0 = toy(null);
+      for (const [gl, n] of [[{ law: 'kappaC2' }, 2], [{ law: 'timeRatio' }, -2]]) {
+        const B = toy(gl), d = B.dVarpiPeri - A0.dVarpiPeri, an = HP.gLocPeriAdvance(n, 1, X.TOY.c, X.TOY.a, X.TOY.e), r = d / an;
+        if (!(Math.abs(r - 1) <= 0.03)) bad.push(`④ n=${n} の近点 ${d.toExponential(4)} / 解析 ${an.toExponential(4)} = ${r.toFixed(4)}`);
+        if (!(B.gLoc && Math.abs(B.ledgerResid) <= 0.02 * Math.abs(B.gLoc.work))) bad.push(`④ n=${n} の仕事の帳簿 ΔE_N ${B.dEN} ⇔ gLocWork ${B.gLoc && B.gLoc.work}`);
+        cases.push(`④ n=${n}: B−A ${d.toExponential(4)} rad/周 ÷ 解析 ${an.toExponential(4)} = ${r.toFixed(4)}・ΔE_N − 仕事 ${B.ledgerResid.toExponential(2)}`);
+      }
+      // ⑤ 受理器
+      const base = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
+      const tryGl = (gl, mut) => { const q = clone(base); q.physics.gLoc = gl; if (mut) mut(q); const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' ') }; };
+      const rej = [[{ law: 'x' }, /law は/], [{ law: 'cLocPow' }, /n は有限/], [{ law: 'kappaC2', n: 3 }, /n は 2/], [{ law: 'cLocPow', n: 99 }, /n は/], [{ law: 'timeRatio', foo: 1 }, /未知の鍵/],
+        [{ law: 'timeRatio', pair: 'both' }, /pair は/], [{ law: 'timeRatio', kappa: 'x' }, /kappa は/], [{ law: 'timeRatio', ref: 'absolute' }, /ref は/], [[1], /physics\.gLoc は/]];
+      for (const [gl, re] of rej) { const r = tryGl(gl); if (r.ok || !re.test(r.msg)) bad.push('⑤ 拒否されない/理由の文 ' + JSON.stringify(gl) + ' → ' + r.msg.slice(0, 80)); }
+      const r2d = (() => { const q = clone(HP.allPresets().find((z) => z.id === 'mercurySunInertialFit')); q.physics.gLoc = { law: 'kappaC2' }; const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' ') }; })();
+      if (r2d.ok || !/三次元の本/.test(r2d.msg) || !/S\._core/.test(r2d.msg)) bad.push('⑤ 二次元の本の拒否(理由の文) ' + r2d.msg.slice(0, 80));
+      const rcal = tryGl({ law: 'kappaC2' }, (q) => { q.sampleClass = 'calibration'; });
+      if (rcal.ok || !/較正/.test(rcal.msg)) bad.push('⑤ 較正の本の拒否 ' + rcal.msg.slice(0, 80));
+      const acc = tryGl({ law: 'cLocPow', n: -3, pair: 'symmetric', kappa: 'kappaT' });
+      if (!acc.ok) bad.push('⑤ 正しい宣言が受理されない ' + acc.msg.slice(0, 80));
+      cases.push(`⑤ 拒否 ${rej.length} 例 + 二次元(核 S._core の中)+ 較正の本・受理の例 1`);
+      // ⑥ 状態の契約
+      const CKSC = E('CK_SC'), SCR = E('SIM_STEP_SCRATCH'), RST = E('simBuildResetKeys')(null);
+      for (const k of ['gLocN', 'gLocWork', 'gLocPx', 'gLocPy', 'gLocPz', 'gLocPsiMax', 'gLocDGMax']) if (CKSC.indexOf(k) < 0) bad.push('⑥ CK_SC に ' + k + ' が無い');
+      for (const k of ['_glPsi', '_glAx', '_glAy', '_glAz']) { if (SCR.indexOf(k) < 0) bad.push('⑥ SIM_STEP_SCRATCH に ' + k + ' が無い'); if (RST.indexOf(k) < 0) bad.push('⑥ SIM_BUILD_RESET に ' + k + ' が無い'); }
+      if (RST.indexOf('_gLoc') < 0) bad.push('⑥ SIM_BUILD_RESET に _gLoc が無い');
+      { const q = clone(base); q.physics.gLoc = { law: 'kappaC2' }; const v = HP.validatePreset(q); HP.sim.build(v.preset); const S = HP.sim; for (let k = 0; k < 20; k++) S.step(q.physics.stepDt);
+        const keys = Object.keys(S).filter((k) => /^(gLoc|_gl|_gLoc)/.test(k)), miss = keys.filter((k) => CKSC.indexOf(k) < 0 && SCR.indexOf(k) < 0 && RST.indexOf(k) < 0);
+        if (miss.length) bad.push('⑥ 登録の無い鍵 ' + miss.join(','));
+        cases.push(`⑥ 走行後の gLoc 系の鍵 ${keys.length}(未登録 ${miss.length})`); }
+      // ⑥′ 複製(cloneSimState)とチェックポイントの往復が gLoc の本でも全欄同一(器 exp-w301f-clone の simPrint —— 帳簿を含む sim の自前の鍵の全部)
+      try {
+        const XF = await import('file://' + path.join(ROOT, 'tests', 'exp-w301f-clone.mjs'));
+        const q = clone(base); q.physics.gLoc = { law: 'kappaC2' }; const v = HP.validatePreset(q);
+        E('(p)=>{ currentPreset=p; }')(clone(v.preset)); HP.sim.build(v.preset); const G = E('sim'), dt = q.physics.stepDt;
+        for (let k = 0; k < 20; k++) G.step(dt);
+        const C = E('cloneSimState')(); for (let k = 0; k < 20; k++) { G.step(dt); C.step(dt); }
+        const d1 = XF.printDiff(XF.simPrint(G), XF.simPrint(C));
+        const ck = E('ckSnapOne')(G); for (let k = 0; k < 20; k++) G.step(dt); const p1 = XF.simPrint(G); E('ckRestoreOne')(G, ck); for (let k = 0; k < 20; k++) G.step(dt);
+        const d2 = XF.printDiff(p1, XF.simPrint(G));
+        const n1 = d1.val.length + d1.onlyA.length + d1.onlyB.length, n2 = d2.val.length + d2.onlyA.length + d2.onlyB.length;
+        if (n1 || n2) bad.push('⑥′ 複製/復帰が同一でない: ' + d1.val.concat(d1.onlyA, d1.onlyB, d2.val, d2.onlyA, d2.onlyB).slice(0, 5).join(','));
+        HP.loadPreset('venusSunInertial3d', false); const S3 = E('sim');
+        if (!(S3._gLoc === null && S3.gLocN === undefined && S3.gLocWork === undefined)) bad.push('⑥′ 本の切り替えで gLoc の帳簿が残る');
+        cases.push(`⑥′ 🌡️+gLoc の複製・チェックポイントの往復 全欄同一(差 ${n1}/${n2})・切り替えで帳簿が残らない`);
+      } catch (e) { bad.push('⑥′ 複製の確かめが走らない: ' + String(e).slice(0, 120)); }
+      // ⑦ 正本
+      if (J) {
+        if (!(J.version === HP.GLOC_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion === 'w272e-1')) bad.push('⑦ 正本の版・来歴');
+        if (!(J.ok === true && Object.values(J.gates || {}).every(Boolean))) bad.push('⑦ 正本の門 ' + JSON.stringify(J.gates));
+        if (J.meta && J.meta.quick) bad.push('⑦ 正本が試走(W302B_QUICK)');
+        const mer = (J.planets || []).find((z) => z.id === 'mercurySunInertial3d');
+        const row = (k) => mer && mer.rows.find((r) => r.key === k);
+        if (!(mer && row('B_n2') && row('B_nm2') && row('B_nm3') && row('C') && mer.E)) bad.push('⑦ 正本に 🌡️ の A〜E の行が無い');
+        else { const last = (r) => r.diff[r.diff.length - 1].arcsecCyPeri;
+          cases.push(`⑦ 正本 ${J.version}: 🌡️ ″/世紀 n=2 ${last(row('B_n2')).toFixed(2)}・n=−2 ${last(row('B_nm2')).toFixed(2)}・n=−3 ${last(row('B_nm3')).toFixed(2)}・C ${last(row('C')).toFixed(2)}・E(🌞 の EIH)${mer.E.diff[mer.E.diff.length - 1].arcsecCyPeri.toFixed(2)}`); }
+      }
+    }
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), a = Pd.indexOf('〔第302便b — ');
+    const e = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. ', a)].filter((k) => k > a) : [];
+    const psec = (a >= 0) ? Pd.slice(a, e.length ? Math.min(...e) : undefined) : '';
+    if (!psec) bad.push('PHYSICS〔第302便b〕が無い');
+    else {
+      if (!(a < Pd.indexOf('\n## 7. '))) bad.push('〔第302便b〕が「## 7.」の前に無い');
+      for (const w of ['physics.gLoc', 'κ_g', 'receiver', 'symmetric', 'gLocWork', 'gloc-w302b.json', 'S._core', '近点の一次だけ']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第302便b〕に「' + w + '」が無い');
+    }
+    const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'), ai = Ai.indexOf('第302便b —— 局所重力');
+    const aiSec = (ai >= 0) ? Ai.slice(ai, ai + 5000) : '';
+    if (!aiSec) bad.push('AI_SPEC に第302便b の節が無い');
+    else for (const w of ['physics.gLoc', 'behavior.gLoc302']) if (aiSec.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い');
+    if (fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8').indexOf('第302便b') < 0) bad.push('CHANGELOG');
+    if (fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8').indexOf('第302便b') < 0) bad.push('README');
+    const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+    if (RT.indexOf("S('gloc-302b', 'node tests/exp-w302b-gloc.mjs', ['tests/out/gloc-w302b.json']") < 0 || !/secSource: 'w302b-branch'/.test(RT)) bad.push('再生成の段 gloc-302b');
+    if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/gloc-w302b.json') < 0) bad.push('.gitignore の例外');
+    const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /普遍定数/, /43″[^。]*が出た/, /GR と一致/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+    const strip = (t) => t.replace(/「[^」]*」/g, '').split('\n').filter((l) => !/notClaim/.test(l)).join('\n');   // 「」の引用と notClaim(言わないことの一覧)の行は除く
+    const harn = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w302b-gloc.mjs'), 'utf8');
+    const eng = (() => { const i0 = html302b.indexOf('// ===== 第302便b(原仮定者の裁定(第92報)AN304 ①'); return i0 >= 0 ? html302b.slice(i0, html302b.indexOf('function gLocPeriAdvance(', i0)) : ''; })();
+    for (const [nm, tx] of [['PHYSICS', psec], ['器', harn], ['受理器', eng], ['AI_SPEC', aiSec]]) for (const re of NG) if (re.test(strip(tx))) bad.push(nm + ' に禁句 ' + re.source);
+    add('behavior.gLoc302', bad.length === 0,
+      `**局所重力 G_loc の宣言 physics.gLoc**(第302便b・原仮定者の裁定(第92報)AN304 ①・補足・R187 —— 族 G·(c_loc/c₀)^n・三次元の本だけ・省略時オフ・どの本にもオンにしない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // ---- 第301便d(原仮定者の裁定(第91報)④「chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る」・統括の検証項目 R182):
 // ----   docs.chainBurst301 / preset.chainBurstShell301(新設 —— root は SKIP・世代切替は対象 html の `const REL_DRAG_NORM_VERSION`〔第301便a の法則の世代〕∧ 正本 tests/out/chainburst-w301d.json)。
 // ----   固定値は正本(器 tests/exp-w301d-chainburst.mjs —— 段 chainburst-301d)と宣言から読む(鎖で正本を作り直した後の世代も同じ照合)。

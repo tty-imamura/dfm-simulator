@@ -3665,3 +3665,18 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
 - QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
   (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。
+
+
+## 90. 第302便b —— 局所重力 G_loc の宣言 `physics.gLoc`(原仮定者の裁定(第92報)AN304 ①・補足・統括の検証項目 R187・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**)
+
+- **鍵**: `physics.gLoc:{law:"cLocPow"|"kappaC2"|"timeRatio", n?, pair?:"receiver"|"symmetric", kappa?:"lock"|"kappaT", ref?:"background"}`(三次元の本 `physics.coord:"3d"` だけ)。
+  族 G_loc = G·(c_loc/c₀)^n = G·e^(−2nψ)・ψ_i = κ_g Σ_{j≠i} m_j/√(d²+ε²)(κ_g = G/c₀² —— 既定 kappa:"lock"。"kappaT" は光学の κ_T で作る比較用)。
+  kappaC2 は n = 2(κ·c_loc²)・timeRatio は n = −2(G·(c₀/c_loc)²)・cLocPow は n を必ず書く(−8〜8)。pair の既定は receiver(受け手ごとの G_i —— 作用反作用の差は帳簿
+  gLocPx/Py/Pz)・symmetric は G_ij = G·e^(−n(ψ_i+ψ_j))。ref は "background" だけ(背景 D₀ を含めない)。正規化後は 5 鍵すべてを持つ。
+- **拒否**: 二次元の本(重力が核 S._core の中 —— 理由の文で拒否)・較正の本(sampleClass:"calibration" —— EIH の 1PN と二重計上)・kappa:"lock" で cLight ≤ 0・未知の鍵・law と n の矛盾・値域の外。
+- **力学**: `dfmCore3` の全対の後に補正 δa_i = −(G_i − G) Σ_j m_j d_ij/r³ を足す(ψ はその力の評価の位置で 1 回)。慣性速度 v のキックだけ —— 引きずりの u・移送の ΔU・接触には掛けない。
+  力は −G_loc m_j r/r³ の宣言(ポテンシャルの勾配ではない)—— 仕事は帳簿 gLocWork。読み口 `HP.gLocState(S)`(版 w302b-gloc-1)。解析 `HP.gLocPeriAdvance(n, μ_eff, c₀, a, e)` = −2nπμ_eff/(c₀²a(1−e²))。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— どの本に・どの n で入れるかは第 2 段 c の統括の裁定)。宣言するときは較正の本に入れない・
+  近点の量を書くなら n の符号(n > 0 は逆行・n < 0 は順行)と、n = −3 の近点の係数が GR の試験粒子と同じなのは近点の一次だけ(周期・離心率の変化は符号から違う)を添える。
+- **器と正本**: `tests/exp-w302b-gloc.mjs`(版 w302b-gloc-1・`W302B_OUT`・`W302B_QUICK`)→ `tests/out/gloc-w302b.json`(段 gloc-302b)。
+- QA: `behavior.gLoc302`(root は SKIP —— 世代切替 = html の `const GLOC_KEY="gLoc"`。省略時オフ・n=0 のビット同一・κ→0 と c₀ の走査・固定中心の近点が解析と 3% 以内〔n=2, −2〕・受理器・状態の契約・正本と文書)。
