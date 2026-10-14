@@ -8565,7 +8565,7 @@ function approxManyState(S){
 //   ⑤ 力を −G_loc m_j r/r³ と**宣言**する(ポテンシャル −G_loc M/r の勾配ではない —— G′ の項は無い)。エネルギーは補正の力の仕事を帳簿 gLocWork に積む
 //      (ニュートンの E_N の変化 − gLocWork が積分器の誤差の大きさ)。
 //   ⑥ 慣性速度 v のキックだけに掛ける(引きずりの移動速度 u・移送の ΔU 帳簿・接触には掛けない)。
-//   二次元の本では拒否する(二次元の重力は核 S._core の中 —— 核の外に置けないので初版は三次元だけ)。較正の本(sampleClass:"calibration")でも拒否する
+//   二次元の本では拒否する(二次元の重力は核 S._core の中 —— 核の外に置けないので初版は三次元だけ)。較正の本(sampleClass が calibration)でも拒否する
 //   (EIH の 1PN と二重計上になる)。geoPN≥2 の「λ_PN は 0」(第297便a)は変えない —— これは λ_PN を戻すことではない。
 const GLOC_KEY="gLoc", GLOC_VERSION="w302b-gloc-1";
 const GLOC_LAWS=["cLocPow","kappaC2","timeRatio"], GLOC_LAW_N={kappaC2:2, timeRatio:-2};
@@ -8599,7 +8599,7 @@ function validateGLoc(a){
 function gLocCrossCheck(g, ph, sampleClass){
   if(!g) return null;
   if(coordOf(ph)!=="3d") return 'physics.gLoc は三次元の本(physics.coord:"3d")だけ —— 二次元の重力は核(S._core)の中にあり、核の外に置けない(初版は三次元だけ・第302便b)';
-  if(sampleClass==="calibration") return 'physics.gLoc は較正の本(sampleClass:"calibration")では使えない —— EIH の 1PN と二重計上になる(第302便b)';
+  if(sampleClass==="calibration") return 'physics.gLoc は較正の本(sampleClass が "calibration" の本)では使えない —— EIH の 1PN と二重計上になる(第302便b)';
   if(g.kappa==="lock" && !(typeof ph.cLight==="number" && ph.cLight>0)) return 'physics.gLoc(kappa:"lock")は physics.cLight > 0 が要る(κ_g = G/c₀²)';
   return null;
 }
