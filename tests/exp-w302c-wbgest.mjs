@@ -23,7 +23,7 @@
 //   ・届かないものは「この探索範囲では未達 —— 次の見直し」。
 //
 // 実行(Node だけ・1 プロセス):
-//   node tests/exp-w302c-wbgest.mjs          → 正本 tests/out/wbgest-w302c.json(W302C_OUT で出力先を変える・W302C_PARTS=N,P,E,C,L で段を選ぶ —— 正本は全段)
+//   node tests/exp-w302c-wbgest.mjs          → 正本 tests/out/wbgest-w302c.json(W302C_OUT で出力先を変える・W302C_PARTS=N,P,G,E,C,L で段を選ぶ —— 正本は全段)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,12 +33,13 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as B302 from './exp-w302b-gloc.mjs';
+import { runEm3, windowsOf } from './exp-w300b-emonly.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.sim","HP.validatePreset","HP.gLocState","HP.inertialDragLedgerOf","HP.wbgEstimateOf","HP.WBG_EST_VERSION","HP.fitCondSig","HP.validateFitRecord","HP.dragCoreLookup","HP.inertialDragState","HP.GLOC_VERSION"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w302c-wbgest-1';
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
-const PARTS = (process.env.W302C_PARTS || 'N,P,E,C,L').split(',');
+const PARTS = (process.env.W302C_PARTS || 'N,P,G,E,C,L').split(',');
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 const ARCSEC = 180 * 3600 / Math.PI;
@@ -176,6 +177,95 @@ export function partN(HP, log = console.log) {
     rule: '🌡️ で合わせ直した 1 つの W_bg と同じ G_loc を 🌋🔴 へ移送した近点率の差の予言と 1PN の写しの残差の二乗和(″/世紀)が最小の案(🌡️ のフィットが門を通る案だけ)' };
 }
 
+/* ── 段 P: 惑星の本の記録(G_loc を宣言した本 —— 宣言から選ぶ) ── */
+/** G_loc を宣言した在位の本(宣言から —— 手書きの一覧を持たない)。 */
+export function gLocBooks(HP) { return HP.allPresets().filter((p) => p.familyRole !== 'retired' && p.physics && p.physics.gLoc).map((p) => p.id); }
+/** 🌡️ の W_bg の同定の幅: 照合許容 ±tol が写る W_bg の範囲(引きずりの近点 ∝ 1/W_bg と置いた一次)。 */
+export function wbgBand(fit) { const d = fit.dragPart; return d > TOL_APS ? [fit.Wbg * d / (d + TOL_APS), fit.Wbg * d / (d - TOL_APS)] : [fit.Wbg * d / (d + TOL_APS), null]; }
+/** fitRecord(w298b-1 —— 近点率の差〔引きずり OFF ∧ G_loc なしの対照との差〕・恒星周期)。fit は fitMercury の戻り値。 */
+export function fitRecordOf302c(HP, fit, n) {
+  const p0 = find(HP, MERCURY), old = p0.fitRecord, ex = 'tests/exp-w299c-planets3d.mjs runPl3(' + PL.EXTRACTOR_VERSION + ')';
+  const obsD = P3.planetOf('mercury').period.s / P3.DAY_S, TG = PL.TARGETS.mercury;
+  const targets = [
+    { q: '近点率の差(引きずり OFF ∧ G_loc なしの対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)', obs: TG.aps.obs, unit: TG.aps.unit, source: TG.aps.source,
+      window: '8 公転・検出器 B・引きずり OFF ∧ G_loc なしの対照との差(同じ刻み)', tol: clone(TG.aps.tol), extractor: ex + ' —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ',
+      model: fit.diff, residual: fit.diff - TG.aps.obs, rel: (fit.diff - TG.aps.obs) / TG.aps.obs, numerics: { h2: Math.abs(fit.diffH2 - fit.diff), dtHalf: fit.h / 2 } },
+    { q: '恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)', obs: obsD, unit: TG.sid.unit, source: P3.planetOf('mercury').period.source,
+      window: '8 公転', tol: clone(TG.sid.tol), extractor: ex + ' —— 初期の軌道面(位置と速度の外積)の中の方位の通過',
+      model: fit.periodDays, residual: fit.periodDays - obsD, rel: (fit.periodDays - obsD) / obsD, numerics: { h2: Math.abs(fit.periodDaysH2 - fit.periodDays), dtHalf: fit.h / 2 } }];
+  const gateOk = targets.every((t) => Math.abs(t.residual) + t.numerics.h2 <= t.tol.value);
+  const ws = fit.iters.map((z) => z.Wbg).concat([fit.Wbg]), lo = Number((Math.min(...ws) * 0.99).toPrecision(6)), hi = Number((Math.max(...ws) * 1.01).toPrecision(6));
+  return { version: 'w298b-1', parent: 'mercurySunInertialFit',
+    law: 'inertial-drag(三次元 —— physics.coord:"3d"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・局所重力 G_loc(physics.gLoc cLocPow n=' + n + ' —— 第302便c)・積分器 semic(第302便d)',
+    targets, knobs: [{ key: 'physics.relativeDrag.Wbg', range: [lo, hi], final: fit.Wbg }],
+    fixed: (old && old.fixed ? old.fixed.slice(0, 2) : []).concat([
+      'geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.05・核の ε 0.05・pairs "all"・stateCarry "double"',
+      '局所重力 physics.gLoc {law:"cLocPow", n:' + n + '}(receiver・κ_g = G/c₀²・ref background —— 第302便c の移送の予言で採った n。G_loc だけの近点率の差 ' + fit.gLocPart.toFixed(5) + '″/世紀)']),
+    procedure: '第302便c: G_loc(n=' + n + ')を入れた本で、引きずり OFF ∧ G_loc なしの対照との近点率の差(8 公転)を 43.0″/世紀に割線で合わせ(c = 1/W_bg)、W_bg を 7 桁に丸めて h と h/2 で測り直した(器 tests/exp-w302c-wbgest.mjs)。'
+      + '引きずりが担うのは ' + fit.dragPart.toFixed(5) + '″/世紀だけ —— 照合許容 ±' + TOL_APS + '″/世紀が写る W_bg の幅は ' + wbgBand(fit).map((x) => x === null ? '∞' : Number(x.toPrecision(4))).join('〜') + '(弱く同定)',
+    dt: fit.h, steps: fit.stepsH, status: gateOk ? 'fitted' : 'not-identifiable',
+    notFitted: ['恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)', '離心率・軌道傾斜は近似要素の種のまま(合わせていない)', 'G_loc の n は 🌋🔴 への移送の予言で選んだ(🌡️ には合わせていない)', '機構(1PN の近日点前進の機構の同定ではない)'],
+    cond: { version: HP.FIT_COND_VERSION, sig: '', extractor: ex } };
+}
+export function partP(HP, NC, log = console.log) {
+  const ids = gLocBooks(HP), rows = [];
+  const chosen = NC.rows.find((r) => r.key === NC.chosen), fit = chosen.fit, gl = NC.chosenGl;
+  const mer = find(HP, MERCURY), WbgSI = fit.Wbg * Math.pow(10, mer.scaleExp.M) / Math.pow(10, 3 * mer.scaleExp.L);
+  for (const id of ids) {
+    const p = find(HP, id), h = hOf(p), X = p.scaleExp, dens = Math.pow(10, X.M) / Math.pow(10, 3 * X.L);
+    const declGl = p.physics.gLoc, rd = p.physics.relativeDrag;
+    const ctl = measure(HP, variantOf(p, { Wbg: null, gl: null }), h), ctl2 = measure(HP, variantOf(p, { Wbg: null, gl: null }), h / 2);
+    const bk = measure(HP, p, h), bk2 = measure(HP, p, h / 2);
+    const o = { id, emoji: p.emoji, gl: declGl, h, WbgDecl: (rd.enabled === false) ? null : rd.Wbg, ctl: { aps: ctl.aps, apsH2: ctl2.aps, periodDays: ctl.periodDays },
+      book: { aps: bk.aps - ctl.aps, apsH2: bk2.aps - ctl2.aps, periodShiftDays: bk.periodDays - ctl.periodDays, periodDays: bk.periodDays, periodDaysH2: bk2.periodDays },
+      pn1: pn1Formula(p).arcsecCy };
+    if (id !== MERCURY) {   // 移送の予言(記録 —— 本には宣言しない): 🌡️ の W_bg(同じ SI)を引きずり ON で
+      const Wt = Number((WbgSI / dens).toPrecision(12)), t = measure(HP, variantOf(p, { Wbg: Wt }), h), t2 = measure(HP, variantOf(p, { Wbg: Wt }), h / 2);
+      o.transfer = { Wbg: Wt, WbgSI, aps: t.aps - ctl.aps, apsH2: t2.aps - ctl2.aps, dragPart: (t.aps - ctl.aps) - (bk.aps - ctl.aps), periodShiftDays: t.periodDays - ctl.periodDays };
+    }
+    rows.push(o);
+    log(`P ${p.emoji} 本(G_loc ${JSON.stringify(declGl)}・W_bg ${o.WbgDecl})近点率の差 ${o.book.aps.toFixed(5)}(h/2 ${o.book.apsH2.toFixed(5)})・1PN の式 ${o.pn1.toFixed(5)}・周期の差 ${o.book.periodShiftDays.toExponential(3)} 日`
+      + (o.transfer ? `・移送 ${o.transfer.aps.toFixed(5)}(引きずり分 ${o.transfer.dragPart.toExponential(3)})` : ''));
+  }
+  const rec = fitRecordOf302c(HP, fit, NC.chosenN);
+  const dp = clone(mer); dp.physics.relativeDrag.Wbg = fit.Wbg; delete dp.physics.relativeDrag.enabled; dp.physics.gLoc = clone(gl); dp.fitRecord = rec;
+  const v = HP.validatePreset(clone(dp));
+  rec.cond.sig = v.ok ? HP.fitCondSig(v.preset, rec) : '';
+  const vr = HP.validateFitRecord(clone(rec));
+  return { ids, gl, rows, mercury: { Wbg: fit.Wbg, WbgSI, band: wbgBand(fit), fitRecord: rec, recordAccepted: !!vr.ok, recordErr: vr.ok ? null : vr.err, status: rec.status } };
+}
+
+/* ── 段 G: 🌦️🌔(地球と月 —— 118 公転の窓)に G_loc を入れたときの効果の大きさ(入れるかの判断の材料 —— 本には宣言しない) ── */
+export function partG(HP, gl, log = console.log) {
+  const out = [];
+  for (const [id, ci, oi] of [['earthMoonSunInertial3d', 1, 2], ['earthMoonOnly3d', 0, 1]]) {
+    const p = find(HP, id), rec = p.fitRecord || null, o = { dt: 0.016, revMax: 118, ci, oi };
+    const W = (q, dt) => windowsOf(runEm3(HP, q, Object.assign({}, o, { dt })), [118], HP)[0];
+    const a = W(p, 0.016), b = W(variantOf(p, { gl }), 0.016), a2 = W(p, 0.008), b2 = W(variantOf(p, { gl }), 0.008);
+    const tol = rec ? rec.targets.map((t) => ({ q: t.q, unit: t.unit, tol: t.tol.value, h2: t.numerics ? t.numerics.h2 : null })) : null;
+    const r = { id, emoji: p.emoji, dT1: b.T1 - a.T1, dT1H2: b2.T1 - a2.T1, dSid: b.sid - a.sid, dSidH2: b2.sid - a2.sid, T1: a.T1, sid: a.sid, tol,
+      ratioT1: tol ? Math.abs(b.T1 - a.T1) / tol[0].tol : null, ratioSid: tol ? Math.abs(b.sid - a.sid) / tol[1].tol : null };
+    out.push(r);
+    log(`G ${p.emoji} G_loc の効果: 近点回転の周期 ${r.dT1.toExponential(3)} 年(h/2 ${r.dT1H2.toExponential(3)})・恒星月 ${r.dSid.toExponential(3)} 日(h/2 ${r.dSidH2.toExponential(3)})` + (tol ? `・許容との比 ${r.ratioT1.toExponential(2)} / ${r.ratioSid.toExponential(2)}` : ''));
+  }
+  return { gl, rows: out, rule: '効果が照合許容の 1/10 未満なら宣言しない(再フィットの利点が無い —— 太陽の ψ は地球と月にほぼ一様で G の定数倍に近い)' };
+}
+
+/* ── 本の文面に転記する数(QA preset.gLocPlanets302 が同じ関数で照合する) ── */
+export const fmtAps = (x) => Number(x).toPrecision(6);
+export const fmtDays = (x) => Number(x).toExponential(2);
+/** G_loc だけの本(引きずり OFF)の観測カードの行に入る数の文字列。 */
+export function glocRowNumbers(r) {
+  return [fmtAps(r.book.aps), fmtAps(r.book.apsH2), fmtDays(r.book.periodShiftDays), fmtAps(r.transfer.aps), Number(r.transfer.dragPart).toExponential(2), Number(r.pn1).toPrecision(4)];
+}
+/** 🌡️ の観測カードに入る数の文字列(n の表の rms・フィット)。 */
+export function mercuryNumbers(NC) {
+  const R = Object.fromEntries(NC.rows.map((r) => [r.key, r])), f = R[NC.chosen].fit, b = wbgBand(f);
+  return [String(f.Wbg), f.diff.toFixed(5), f.diffH2.toFixed(5), f.gLocPart.toFixed(5), f.dragPart.toFixed(5), Math.abs(f.residual).toExponential(2), f.h2gap.toExponential(2),
+    Number(b[0]).toExponential(3), Number(b[1]).toExponential(3), R[NC.chosen].rms.toExponential(2), R.n2.rms.toFixed(3), R.nm2.rms.toFixed(3), R.none.rms.toFixed(3),
+    NC.grRef.venusSunInertial3d.measured.toFixed(4), NC.grRef.marsSunInertial3d.measured.toFixed(4)];
+}
+
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (IS_MAIN) {
   const t0 = Date.now();
@@ -186,8 +276,12 @@ if (IS_MAIN) {
   const tp = {};
   const timed = (k, f) => { const t = Date.now(); const r = f(); tp[k] = (Date.now() - t) / 1000; return r; };
   if (PARTS.includes('N')) out.nChoice = timed('N', () => partN(HP));
+  else if (process.env.W302C_N_FROM) out.nChoice = JSON.parse(fs.readFileSync(process.env.W302C_N_FROM, 'utf8')).nChoice;   // 試走だけ(正本は全段)
+  if (PARTS.includes('P') && out.nChoice) out.planets = timed('P', () => partP(HP, out.nChoice));
+  if (PARTS.includes('G') && out.nChoice) out.earthMoon = timed('G', () => partG(HP, out.nChoice.chosenGl));
   const gates = {};
   if (out.nChoice) { gates.nChosen = out.nChoice.chosen !== null; gates.nFitsGate = out.nChoice.rows.filter((r) => r.fit.reachable).every((r) => r.fit.gate); gates.n2Listed = out.nChoice.rows.some((r) => r.n === 2 && r.transfer.length === TRANSFER.length); }
+  if (out.planets) { gates.recordAccepted = out.planets.mercury.recordAccepted; gates.fitted = out.planets.mercury.status === 'fitted'; gates.declaredSet = out.planets.ids.length > 0; }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
   const CODE = ['tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便c', target: TARGET, code: CODE, inputs: [TARGET] }), {

@@ -25,6 +25,7 @@
 //   ・「semic で正しくなった」「保存則が成り立つ」と書かない(R_E は分割の誤差の大きさの診断 —— 外部支持を含む帳簿で孤立系の保存ではない)。
 //
 // 実行: node tests/exp-w302d-semic.mjs → 正本 tests/out/semic-w302d.json(W302D_OUT で出力先・W302D_PART=gates,fit,chain で段を絞る〔絞ったら正本にしない〕)
+import { pre302c } from './lib-w302c-pre.mjs';   // 第302便c
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
@@ -47,7 +48,7 @@ const OUT_PATH = process.env.W302D_OUT || path.join(ROOT, 'tests', 'out', 'semic
 const PARTS = String(process.env.W302D_PART || 'gates,fit,chain').split(',').filter(Boolean);
 const H0 = 0.016, FP_STEPS = 600;
 const clone = (x) => JSON.parse(JSON.stringify(x));
-const find = (HP, id) => { const p = HP.allPresets().find((q) => q.id === id); if (!p) throw new Error('no preset ' + id); return clone(p); };
+const find = (HP, id) => { const p = HP.allPresets().find((q) => q.id === id); if (!p) throw new Error('no preset ' + id); return pre302c(p, { keepFit: true }); };   // 第302便c: G_loc の前の宣言の写し(G_loc を宣言しない本は clone と同じ)
 const fnvState = (S) => { let h = 0x811c9dc5; const f = new Float64Array(1), u8 = new Uint8Array(f.buffer);
   for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const A = S[k]; if (!A) continue; for (let i = 0; i < S.n; i++) { f[0] = A[i]; for (let j = 0; j < 8; j++) h = Math.imul(h ^ u8[j], 16777619) >>> 0; } }
   f[0] = S.t; for (let j = 0; j < 8; j++) h = Math.imul(h ^ u8[j], 16777619) >>> 0;
@@ -301,7 +302,7 @@ if (IS_MAIN && process.argv.includes('--base-fp')) {   // 子プロセス: 基�
   if (PARTS.includes('fit')) { const tf = Date.now(); out.fit = fitPart(HP, log); out.fit.wallSec = (Date.now() - tf) / 1000; }
   if (PARTS.includes('chain')) { const tc = Date.now(); out.chain = chainPart(log); out.chain.wallSec = (Date.now() - tc) / 1000; }
   out.ok = out.gates ? Object.values(out.gates.ok).every(Boolean) : null;
-  const CODE = ['tests/exp-w302d-semic.mjs', 'tests/lib-w302d-orderpre.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'].concat(SUBS.map((s) => s.script));
+  const CODE = ['tests/exp-w302d-semic.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w302d-orderpre.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'].concat(SUBS.map((s) => s.script));
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, semicVersion: HP.REL_DRAG_SEMIC_VERSION, orderPreVersion: ORDER_PRE_VERSION, coupledLibVersion: L.COUPLED_LIB_VERSION, loadErrors: errors.length,
     ruling: '決断事項 AN303 ①②⑤(semic を既定に・R_E を読み口に・inertialDragWork の記帳の定義)—— 原仮定者の裁定(第92報)で概ね同意',
