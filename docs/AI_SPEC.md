@@ -354,7 +354,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。背景慣性決定力は鍵 Wbg [M/L³](正の数 —— 引きずりは W_bg が小さいほど強い。未推定は {Wbg:null, enabled:false}・引きずり無しは enabled:false)で直接書く(第302便a —— gain は廃止・書かない。旧 gain は Wbg = 1/gain として読まれる)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -3665,3 +3665,22 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
 - QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
   (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。
+
+## 90. 第302便a —— 背景慣性決定力 W_bg の直接定義・gain の廃止・パラメータタブの W_bg の行(原仮定者の裁定(第92報)AN304 ②⑤・統括の検証項目 R186・**宣言の形と UI** —— 式・`S._core`・内蔵の本の步は不変)
+
+- **正準形**: `physics.relativeDrag:{law:"inertial", Wbg:<正の有限数 [M/L³]>|null, enabled?:false, eps, pairs, history, coreTable, solver, spinDrag …}`。
+  `Wbg` は背景慣性決定力 W_bg(核 m𝒦 と同じ単位 —— 本の単位)。式 u_i = C_d Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij) の **C_d は 1 に固定**(gain 相当の自由係数は無い)。
+  `enabled` は既定 true(正準形には false のときだけ)—— OFF は引きずり無し(宣言なしとビット同一)。未推定の OFF は `{Wbg:null, enabled:false}`・推定済みの OFF は `{Wbg:<正>, enabled:false}`。
+  受理しない: Wbg の 0・負・NaN・Infinity・文字列・`Wbg:null` で enabled が false でない宣言・`Wbg` と `gain`/`background` の同時・`Wbg` と `compose:"sum"`/`norm:"none"`。
+- **互換(1 波)**: `gain` だけの旧宣言は gain>0 → `Wbg`(1/Wbg が gain と同じ double —— 無ければ最近接・`legacyGain.exact:false`)・gain 0 → `{Wbg:null, enabled:false}` として読む
+  (validatePreset・A/B・保存の読込が警告 1 行)。保存し直すと Wbg だけを書く。旧法則の凍結比較(`background`・`compose:"sum"`・`norm:"none"`)は今の受理のまま `gain` で書く。
+- **関数(HP)**: `relDragCoefficientOf(rd)`(力学の入口 —— c = 1/W_bg・OFF と未推定は 0・凍結比較は gain)・`relDragWbgOf(rd)`(読み口の W_bg)・`relDragEnabledOf(rd)`・
+  `relDragWbgFromGain(g)`・`relDragLegacyFrozen(rd)`・`geoInertialSetWbg(S, Wbg, enabled)`(継続編集 —— 他の鍵を落とさない・OFF で値を保つ・未推定の ON は拒否 —— 旧 `geoInertialSetGain` は廃止)。
+  読み口 `inertialDragState`・サンプラー・プローブの鍵 `gain` → `Wbg`(三次元・二次元とも)。
+- **内蔵の本の移行**: 宣言 46 か所を 1/Wbg が元の gain と同じ double になる Wbg へ(🌛 earthMoonInertial〔退役〕の 514182 だけ 1 ulp)。表は docs/PHYSICS.md〔第302便a〕。
+  フィットの記録 5 本のノブ `physics.relativeDrag.gain` → `physics.relativeDrag.Wbg`(値は 1/gain・範囲は向きを反転・来歴「同値移行」・条件の署名を作り直し)。
+- **UI**: パラメータタブ「引きずり・測地線」の geoPN 行の直後に「背景慣性決定力 W_bg」の行 `#inertialWbgRow`(対数スライダー〔今の値の ±4 桁〕・数値欄〔範囲外で範囲を広げる〕・ON/OFF・単位 [M/L³]・
+  慣性の宣言が無い本と凍結比較の本では調整を出さず理由を 1 行)。削除: gain の入力(`.geo3InertialGain`・`.geo0ChoiceGain`)・`#bgcPanel`(背景慣性決定力 W₀・A₀ の宣言欄 —— 受理器と保存の拒否は残す)・
+  `#wbgRow`(静止背景相当 Wbg の読み取り行)。D₀ のスライダーは残す。geoPN=0 の選択「慣性決定力」と geoPN 3・4 の「宣言」は未推定の OFF で置く。
+- **AI 生成の規則**: SYSTEM_PROMPT の規則 12 に 1 文(背景慣性決定力は鍵 Wbg で直接書く・gain は廃止 —— 書かない)。
+- QA: `behavior.wbgDirect302`・`ui.wbgSlider302`(root は SKIP —— 世代切替 = html の `const REL_DRAG_WBG_VERSION`)。gain を前提にした既存の QA は同じ世代切替で受ける。

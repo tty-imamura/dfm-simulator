@@ -77187,6 +77187,237 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ---- 第302便a(原仮定者の裁定(第92報)AN304 ②⑤「背景慣性決定力 W_bg は、現状は 1/gain が相当するが、シンプルに直接定義して gain は廃止する」
+// ----   「W_bg は『パラメータ』タブの『引きずり・測地線』でスライダーで調整可能にする」・統括の検証項目 R186): behavior.wbgDirect302・ui.wbgSlider302(新設 —— root は SKIP)。
+// ----   世代切替 = 対象 html に `const REL_DRAG_WBG_VERSION`。宣言は headless(tests/lib-w279b-headless.mjs)で読む。移行表は docs/PHYSICS.md〔第302便a〕の表 ——
+// ----   **宣言から作った集合 = 表の行**(手書きの ID 一覧を置かない)。
+// ----   behavior.wbgDirect302 … ①全宣言(本と A/B の B 側)で 1/Wbg === 表の旧 gain(表が「1 ulp 違う」と宣言した行だけ差を照合)・gain 0 ↔ {Wbg:null, enabled:false}
+// ----     ②旧 gain の JSON を読むと正準形は Wbg だけ・警告 1 行・正準形の再受理で同じ ③同時宣言・不正値の拒否 ④OFF/null の JSON 往復と係数 0
+// ----     ⑤geoInertialSetWbg で他の鍵(pairs/eps/coreTable/solver/spinDrag)を落とさない・OFF で値を保つ・未推定の ON を拒否
+// ----     ⑥否定対照(enabled:false・未推定・旧 gain 0)が宣言なしとビット同一(二次元 🐌・三次元 🔩)・ON は旧 gain と同一
+// ----     ⑦凍結比較(compose:"sum"・norm:"none"・background)は gain のまま受理・Wbg との併用は拒否
+// ----     ⑧在位のフィットの記録のノブは Wbg・final は宣言の Wbg・条件の署名 match・来歴「同値移行」 ⑨力学の入口の 1 か所(旧形の読みが残っていない)・文書。
+// ----   ui.wbgSlider302 … 390×844: 🌦️ で「引きずり・測地線」の W_bg の行が 1 つだけ・gain の欄・#bgcPanel・#wbgRow が無い・D₀ は残る・数値欄の反映(他の鍵を保つ)・
+// ----     OFF/ON の往復(値を保つ)・スライダーの input で値が範囲の中で動く・タブを開いただけでは params/presetSig 不変・未推定(🌋)と未宣言(☿)の文・英語の見出し。
+{
+  const html302a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has302a = TARGET.startsWith('beta/') && html302a.indexOf('const REL_DRAG_WBG_VERSION') >= 0;
+  if (!has302a) {
+    console.log('SKIP behavior.wbgDirect302(第302便a の W_bg の直接定義の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let H = null, PH = '', CL = '', AS = '', RD = '';
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
+    try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); RD = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) { bad.push('文書が読めない'); }
+    const sec = (() => { const a = PH.indexOf('〔第302便a — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
+    if (H && H.HP) {
+      const HP = H.HP, E = H.evalExpr, clone = (o) => JSON.parse(JSON.stringify(o));
+      const VR = HP.validateRelativeDrag, coef = HP.relDragCoefficientOf;
+      const all = HP.allPresets();
+      // ① 宣言から作る集合と表
+      const decls = [];
+      for (const p of all) for (const [where, rd] of [['本', p.physics && p.physics.relativeDrag], ['A/B の B 側', p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag]])
+        if (rd && rd.law === 'inertial') decls.push({ id: p.id, where, retired: p.familyRole === 'retired', rd });
+      const rows = [];
+      for (const l of sec.split('\n')) { const m = /^\| \S+ `([\w$]+)` \| (本|A\/B の B 側) \| (在位|退役) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|$/.exec(l); if (m) rows.push({ id: m[1], where: m[2], retired: m[3] === '退役', gain: Number(m[4].trim()), W: m[5].trim(), same: m[6].trim() === '同一' }); }
+      if (!sec) bad.push('PHYSICS に〔第302便a〕が無い(## 7. の前)');
+      const key = (z) => z.id + '|' + z.where;
+      const dk = decls.map(key).sort(), rk = rows.map(key).sort();
+      if (JSON.stringify(dk) !== JSON.stringify(rk)) bad.push(`①移行表の行 ${rk.length} ⇔ 宣言 ${dk.length}(宣言から —— 差 ${dk.filter((k) => rk.indexOf(k) < 0).concat(rk.filter((k) => dk.indexOf(k) < 0)).slice(0, 4).join(',')})`);
+      let nSame = 0, nUlp = 0, nOff = 0;
+      for (const d of decls) {
+        const r = rows.find((z) => key(z) === key(d)); if (!r) continue;
+        const v = VR(d.rd);
+        if (!v.ok || v.legacyGain || v.relativeDrag.gain !== undefined) { bad.push(`①${key(d)} が Wbg の正準形でない(${v.err || 'gain/legacy'})`); continue; }
+        const rd = v.relativeDrag;
+        if (r.retired !== d.retired) bad.push(`①${key(d)} の在位/退役が表と違う`);
+        if (r.gain === 0) { if (!(rd.Wbg === null && rd.enabled === false && coef(rd) === 0 && /^null/.test(r.W))) bad.push(`①${key(d)} gain 0 ↔ {Wbg:null, enabled:false}`); else nOff++; }
+        else if (String(rd.Wbg) !== r.W) bad.push(`①${key(d)} の Wbg ${rd.Wbg} ≠ 表 ${r.W}`);
+        else if (r.same ? coef(rd) !== r.gain : coef(rd) === r.gain || Math.abs(coef(rd) / r.gain - 1) > 4 * Number.EPSILON) bad.push(`①${key(d)} の 1/Wbg ${coef(rd)} と旧 gain ${r.gain}(表 ${r.same ? '同一' : '1 ulp'})`);
+        else if (r.same) nSame++; else nUlp++;
+        if (r.same && r.gain > 0 && HP.relDragWbgFromGain(r.gain).Wbg !== rd.Wbg) bad.push(`①${key(d)} の Wbg が relDragWbgFromGain(旧 gain)と違う`);
+      }
+      const inPos = decls.filter((d) => !d.retired && d.where === '本');
+      cases.push(`①宣言 ${decls.length} か所(在位の本 ${inPos.length}・退役の本 ${decls.filter((d) => d.retired && d.where === '本').length}・B 側 ${decls.filter((d) => d.where !== '本').length})= 表の行・1/Wbg === 旧 gain ${nSame}・OFF(旧 gain 0)${nOff}・1 ulp(表で宣言)${nUlp}`);
+      if (inPos.length !== 18) bad.push(`①在位の慣性の本 ${inPos.length}(第302便a の時点の 18 —— 増減は宣言から数え直す)`);
+      if (rows.filter((r) => !r.same).some((r) => !r.retired)) bad.push('①在位の本に 1 ulp の行がある(在位はビット同一)');
+      // ② 旧 gain の JSON の互換読込
+      const old = { law: 'inertial', gain: 0.259335, eps: 0.01, history: 'positions', pairs: [[2, 1]] };
+      const vo = VR(clone(old)), vo0 = VR({ law: 'inertial', gain: 0, pairs: 'all' });
+      const base = all.find((p) => p.id === 'earthMoonSunInertial3d');
+      const pv = base && HP.validatePreset(Object.assign(clone(base), { physics: Object.assign(clone(base.physics), { relativeDrag: clone(old) }) }));
+      const okOld = vo.ok && vo.relativeDrag.gain === undefined && vo.relativeDrag.Wbg === 3.8560163495093223 && coef(vo.relativeDrag) === 0.259335 && vo.legacyGain && vo.legacyGain.exact === true
+        && JSON.stringify(Object.keys(vo.relativeDrag)) === '["law","Wbg","eps","pairs","history"]' && JSON.stringify(vo.relativeDrag.pairs) === '[[1,2]]';
+      const okOld0 = vo0.ok && JSON.stringify(vo0.relativeDrag) === '{"law":"inertial","Wbg":null,"enabled":false,"pairs":"all","history":"positions"}';
+      const reV = vo.ok && VR(clone(vo.relativeDrag));
+      const okRe = reV && reV.ok && !reV.legacyGain && JSON.stringify(reV.relativeDrag) === JSON.stringify(vo.relativeDrag);
+      const warnOld = pv && pv.ok ? (pv.warnings || []).filter((w) => /gain/.test(w) && /Wbg/.test(w)).length : -1;
+      const inexact = VR({ law: 'inertial', gain: 514182 });
+      if (!(okOld && okOld0 && okRe && warnOld === 1 && inexact.ok && inexact.legacyGain && inexact.legacyGain.exact === false)) bad.push(`②互換読込 ${JSON.stringify({ okOld, okOld0, okRe, warnOld, inexact: inexact.legacyGain })}`);
+      cases.push(`②旧 gain 0.259335 → Wbg 3.8560163495093223(1/Wbg が同じ double・正準形は Wbg だけ・再受理で同じ・警告 ${warnOld} 行)・gain 0 → {Wbg:null, enabled:false}・514182 は exact:false`);
+      // ③ 拒否
+      const REJ = [{ Wbg: 1, gain: 1 }, { Wbg: 1, background: 1 }, { Wbg: 0 }, { Wbg: -1 }, { Wbg: NaN }, { Wbg: Infinity }, { Wbg: '1' }, { Wbg: 1e-320 }, { Wbg: null }, { Wbg: null, enabled: true },
+        { Wbg: 1, enabled: 'no' }, { Wbg: 1, compose: 'sum' }, { Wbg: 1, norm: 'none' }, { gain: 1, enabled: false }, {}, { gain: -1 }];
+      const nRej = REJ.filter((a) => VR(Object.assign({ law: 'inertial' }, a)).ok === false).length;
+      if (nRej !== REJ.length) bad.push(`③拒否 ${nRej}/${REJ.length}: ${REJ.filter((a) => VR(Object.assign({ law: 'inertial' }, a)).ok).map((a) => JSON.stringify(a)).join(' ')}`);
+      cases.push(`③拒否 ${nRej}/${REJ.length}(Wbg と gain/background の同時・0・負・NaN・Infinity・文字列・1/Wbg が Infinity・null で ON・enabled の型・Wbg と sum/none・gain と enabled・鍵なし・負の gain)`);
+      // ④ OFF/null の JSON 往復
+      const rt = (a) => { const v1 = VR(a); if (!v1.ok) return false; const v2 = VR(JSON.parse(JSON.stringify(v1.relativeDrag))); return v2.ok && JSON.stringify(v2.relativeDrag) === JSON.stringify(v1.relativeDrag) && coef(v2.relativeDrag) === 0; };
+      const okRt = rt({ law: 'inertial', Wbg: null, enabled: false, pairs: [[0, 1]] }) && rt({ law: 'inertial', Wbg: 2.5, enabled: false, eps: 0.1 });
+      const vOn = VR({ law: 'inertial', Wbg: 2.5, enabled: true });
+      if (!(okRt && vOn.ok && vOn.relativeDrag.enabled === undefined && coef(vOn.relativeDrag) === 0.4)) bad.push('④OFF/null の往復・enabled:true は正準形に出さない');
+      cases.push(`④OFF の往復(未推定 {Wbg:null, enabled:false}・推定済み {Wbg:2.5, enabled:false} —— 係数 0)・enabled:true は正準形に出さない=${okRt && vOn.ok}`);
+      // ⑤ 編集で他の鍵を落とさない(🪛 —— solver・spinDrag・pairs・eps / 🟪 —— coreTable)
+      const S = E('sim');
+      const keepOf = (id, W2) => { HP.loadPreset(id, false); const rd0 = clone(S.params.relativeDrag); const W0 = rd0.Wbg;
+        const r1 = HP.geoInertialSetWbg(S, W2), rd1 = clone(S.params.relativeDrag);
+        const r2 = HP.geoInertialSetWbg(S, undefined, false), rd2 = clone(S.params.relativeDrag);
+        const r3 = HP.geoInertialSetWbg(S, undefined, true), rd3 = clone(S.params.relativeDrag);
+        const r4 = HP.geoInertialSetWbg(S, W0), rd4 = clone(S.params.relativeDrag);
+        const others = (o) => { const z = clone(o); delete z.Wbg; delete z.enabled; return JSON.stringify(z); };
+        return { ok: r1.ok && r2.ok && r3.ok && r4.ok && rd1.Wbg === W2 && others(rd1) === others(rd0) && rd2.Wbg === W2 && rd2.enabled === false && others(rd2) === others(rd0)
+          && rd3.enabled === undefined && rd3.Wbg === W2 && JSON.stringify(rd4) === JSON.stringify(rd0) && S.relDrag === S.params.relativeDrag, keys: Object.keys(rd0).join(',') }; };
+      const k1 = keepOf('chainDiskToy3dTilt', 0.25), k2 = keepOf('plutoCharonInertialFit', 3e-4);
+      HP.loadPreset('venusSunInertial3d', false);
+      const un = HP.geoInertialSetWbg(S, undefined, true), un2 = HP.geoInertialSetWbg(S, 100), unRd = clone(S.params.relativeDrag);
+      if (!(k1.ok && k2.ok && !un.ok && un2.ok && unRd.Wbg === 100 && unRd.enabled === false)) bad.push(`⑤編集 ${JSON.stringify({ k1, k2, un: un.ok, un2: un2.ok, unRd })}`);
+      cases.push(`⑤geoInertialSetWbg: 🪛(${k1.keys})・🟪(${k2.keys})で他の鍵を保つ・OFF で値を保つ・元の値で元の宣言に戻る=${k1.ok && k2.ok}・未推定の ON は拒否・未推定へ値を入れても OFF のまま`);
+      // ⑥ 否定対照のビット同一(二次元 🐌・三次元 🔩)と ON の旧 gain 同一
+      const runOf = (p0, rd, steps) => { const q = clone(p0); if (rd === undefined) delete q.physics.relativeDrag; else q.physics.relativeDrag = rd;
+        if (q.abBody) delete q.abBody; const v = HP.validatePreset(q); if (!v.ok) return 'invalid:' + (v.errors || []).join(';');
+        S.build(v.preset); const dt = E('appStepDt')(S); for (let k = 0; k < steps; k++) S.step(dt);
+        const h = []; for (const nm of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin']) if (S[nm]) for (let i = 0; i < S.n; i++) h.push(S[nm][i]);
+        return h.map((v) => Object.is(v, -0) ? '-0' : String(v)).join(',') + '|' + S.t; };
+      const six = (id, steps, wOn, gOn) => { const p0 = all.find((p) => p.id === id); const rd = p0.physics.relativeDrag;
+        const none = runOf(p0, undefined, steps), off = runOf(p0, Object.assign(clone(rd), { Wbg: wOn, enabled: false }), steps),
+          offNull = runOf(p0, Object.assign(clone(rd), { Wbg: null, enabled: false }), steps), g0 = (() => { const z = clone(rd); delete z.Wbg; delete z.enabled; z.gain = 0; return runOf(p0, z, steps); })(),
+          on = runOf(p0, clone(rd), steps), gon = (() => { const z = clone(rd); delete z.Wbg; delete z.enabled; z.gain = gOn; return runOf(p0, z, steps); })();
+        const noneInvalid = /^invalid:/.test(none);   // 三次元の 4 は慣性の宣言が無いと受理しない —— OFF の 3 形どうしを比べる
+        return { offSame: !/^invalid:/.test(off) && off === offNull && off === g0 && (noneInvalid || none === off), noneInvalid, onSame: on === gon, onDiffers: on !== off }; };
+      const s2 = six('inertialDragPair', 300, 1.25, 0.8), s3 = six('chainDiskToy3d', 60, 0.125, 8);
+      if (!(s2.offSame && s2.onSame && s2.onDiffers && s3.offSame && s3.onSame && s3.onDiffers)) bad.push(`⑥否定対照/ON ${JSON.stringify({ s2, s3 })}`);
+      cases.push(`⑥否定対照(enabled:false・未推定・旧 gain 0)と宣言なしがビット同一: 二次元 🐌 300 步 ${s2.offSame}・三次元 🔩 60 步 ${s3.offSame}${s3.noneInvalid ? '(三次元の 4 は宣言なしを受理しない —— OFF の 3 形どうし)' : ''} / ON は旧 gain の宣言とビット同一 ${s2.onSame && s3.onSame}(ON は引きずりで走りが変わる ${s2.onDiffers && s3.onDiffers})`);
+      // ⑦ 凍結比較
+      const fz = [{ gain: 0.5, compose: 'sum' }, { gain: 0.5, norm: 'none' }, { gain: 0.5, background: 1 }].map((a) => VR(Object.assign({ law: 'inertial' }, a)));
+      const okFz = fz.every((v) => v.ok && v.relativeDrag.gain === 0.5 && v.relativeDrag.Wbg === undefined && !v.legacyGain && coef(v.relativeDrag) === 0.5);
+      if (!okFz) bad.push('⑦凍結比較の受理(gain のまま)');
+      cases.push(`⑦凍結比較(compose:"sum"・norm:"none"・background)は gain のまま受理・係数 = gain=${okFz}`);
+      // ⑧ フィットの記録
+      const fits = all.filter((p) => p.familyRole !== 'retired' && p.fitRecord && p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
+      const fr8 = [];
+      for (const p of fits) {
+        const ks = p.fitRecord.knobs.map((k) => k.key);
+        if (ks.some((k) => /relativeDrag\.gain$/.test(k))) bad.push(`⑧${p.id} の記録に gain のノブ`);
+        const kn = p.fitRecord.knobs.find((k) => k.key === 'physics.relativeDrag.Wbg');
+        if (!kn) continue;
+        const v = HP.validatePreset(clone(p)); S.build(v.preset);
+        const st = HP.fitCondStateOf(HP.fitCondInputsOf(v.preset, S.params), v.preset.fitRecord).state;
+        const ok = v.ok && (v.warnings || []).length === 0 && kn.final === p.physics.relativeDrag.Wbg && kn.range[0] < kn.range[1] && st === 'match' && p.fitRecord.fixed.some((f) => /同値移行/.test(f));
+        if (!ok) bad.push(`⑧${p.id} の記録(final ${kn.final}・宣言 ${p.physics.relativeDrag.Wbg}・署名 ${st}・警告 ${(v.warnings || []).length})`);
+        fr8.push(p.emoji + ' ' + st);
+      }
+      if (fr8.length !== 4) bad.push(`⑧在位の W_bg のノブを持つ記録 ${fr8.length}(🌦️🟫🌡️🟪 —— 宣言から)`);
+      cases.push(`⑧在位のフィットの記録 ${fr8.join('・')}(ノブ physics.relativeDrag.Wbg・final = 宣言・来歴「同値移行」・gain のノブ 0)`);
+      // ⑨ 入口の 1 か所・旧 UI の名・SYSTEM_PROMPT
+      const n9 = { cRd: (html302a.match(/const C=rd\.gain/g) || []).length, gainArg: (html302a.match(/,rd\.gain,/g) || []).length, coefUse: (html302a.match(/relDragCoefficientOf\(rd\)/g) || []).length,
+        setGain: (html302a.match(/geoInertialSetGain/g) || []).length, gIn: (html302a.match(/geo3InertialGain|geo0ChoiceGain/g) || []).length,
+        prompt: HP.SYSTEM_PROMPT.indexOf('背景慣性決定力は鍵 Wbg') >= 0 && HP.SYSTEM_PROMPT.indexOf('gain は廃止') >= 0 };
+      if (!(n9.cRd === 0 && n9.gainArg === 0 && n9.coefUse >= 5 && n9.setGain === 0 && n9.gIn === 0 && n9.prompt)) bad.push('⑨' + JSON.stringify(n9));
+      cases.push(`⑨力学の入口 relDragCoefficientOf ${n9.coefUse} か所・旧形の読み 0・geoInertialSetGain 0・gain の欄 0・SYSTEM_PROMPT の Wbg=${n9.prompt}`);
+      // 文書
+      for (const w of ['AN304', 'R186', 'relDragCoefficientOf', '同値移行', '言わないこと', 'IWBG_ESTIMATE_SLOT']) if (sec.indexOf(w) < 0) bad.push('〔第302便a〕に「' + w + '」が無い');
+      for (const w of ['W_bg の宇宙の値が決まった', 'gain は普遍定数だった']) if (sec && sec.indexOf('「' + w + '」') < 0) bad.push('〔第302便a〕の言わないことに「' + w + '」');
+      if (!/^- \*\*第302便a/m.test(CL)) bad.push('CHANGELOG に第302便a の行が無い');
+      if (!/^## \d+\. 第302便a/m.test(AS)) bad.push('AI_SPEC に第302便a の節が無い');
+      if (RD.indexOf('第302便a') < 0) bad.push('README に第302便a の要点が無い');
+    }
+    add('behavior.wbgDirect302', bad.length === 0,
+      `**背景慣性決定力 W_bg の直接定義・gain の廃止**(第302便a・原仮定者の裁定(第92報)AN304 ②⑤・R186 —— 式は不変・C_d = 1・係数 c = 1/W_bg は派生値): ` + cases.join(' / ')
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const html302u = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has302u = TARGET.startsWith('beta/') && html302u.indexOf('function buildInertialWbgRow(') >= 0;
+  if (!has302u) {
+    console.log('SKIP ui.wbgSlider302(第302便a の W_bg の行の前の世代 — ' + TARGET + ')');
+  } else {
+    const ctxW = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const pw = await ctxW.newPage();
+    const errs = [];
+    pw.on('pageerror', (e) => errs.push(String(e.message || e).slice(0, 120)));
+    pw.on('dialog', (d) => d.accept());
+    await pw.goto(INDEX, { waitUntil: 'load' });
+    await pw.waitForFunction(() => !!window.HP && !!HP.loadPreset && !!HP.sim);
+    const r = await pw.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { bad: [] };
+      const openDrag = async () => {
+        document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(80);
+        const dg = [...document.querySelectorAll('#paramRows details')].find((d) => d.querySelector('summary').textContent.indexOf(HP.T('grpDrag')) >= 0);
+        if (dg && !dg.open) { dg.open = true; await wait(30); }
+        return dg; };
+      HP.setLang('ja');
+      HP.loadPreset('earthMoonSunInertial3d', false);
+      const sig0 = presetSig(HP.currentPreset()), par0 = JSON.stringify(HP.sim.params);
+      const dg = await openDrag();
+      if (!dg) { o.bad.push('引きずり・測地線のカテゴリが無い'); return o; }
+      o.rows = document.querySelectorAll('#inertialWbgRow').length;
+      o.inDrag = !!dg.querySelector('#inertialWbgRow');
+      o.old = { gainIn: document.querySelectorAll('.geo3InertialGain, .geo0ChoiceGain').length, bgc: document.querySelectorAll('#bgcPanel').length, wbgRow: document.querySelectorAll('#wbgRow').length };
+      o.d0 = [...dg.querySelectorAll('.prow')].some((rw) => { const l = rw.querySelector('label'); return l && l.textContent.indexOf(paramLabel(PARAM_DEFS.find((z) => z.key === 'D0'))) === 0; });
+      o.unchanged = presetSig(HP.currentPreset()) === sig0 && JSON.stringify(HP.sim.params) === par0;
+      const row = document.getElementById('inertialWbgRow');
+      const on = row.querySelector('.iwbgOn'), rng = row.querySelector('.iwbgRange'), num = row.querySelector('.iwbgNum');
+      o.init = { state: row.dataset.state, wbg: row.dataset.wbg, on: on.checked, num: num.value, lo: Number(rng.dataset.lo), hi: Number(rng.dataset.hi), unit: row.querySelector('.iwbgUnit').textContent };
+      const rd0 = JSON.parse(JSON.stringify(HP.sim.params.relativeDrag)), others = (z) => { const q = JSON.parse(JSON.stringify(z)); delete q.Wbg; delete q.enabled; return JSON.stringify(q); };
+      num.value = '7.5'; num.dispatchEvent(new Event('change')); await wait(20);
+      const rd1 = JSON.parse(JSON.stringify(HP.sim.params.relativeDrag));
+      o.num = rd1.Wbg === 7.5 && others(rd1) === others(rd0) && HP.sim.relDrag === HP.sim.params.relativeDrag && Math.abs(HP.relDragCoefficientOf(HP.sim.relDrag) - 1 / 7.5) < 1e-15;
+      on.checked = false; on.dispatchEvent(new Event('change')); await wait(20);
+      const rd2 = JSON.parse(JSON.stringify(HP.sim.params.relativeDrag));
+      o.off = rd2.Wbg === 7.5 && rd2.enabled === false && HP.relDragCoefficientOf(HP.sim.relDrag) === 0 && row.dataset.enabled === 'false';
+      on.checked = true; on.dispatchEvent(new Event('change')); await wait(20);
+      const rd3 = JSON.parse(JSON.stringify(HP.sim.params.relativeDrag));
+      o.onAgain = rd3.Wbg === 7.5 && rd3.enabled === undefined;
+      rng.value = '900'; rng.dispatchEvent(new Event('input')); await wait(20);
+      const w4 = HP.sim.params.relativeDrag.Wbg;
+      o.slide = w4 > 7.5 && w4 >= Number(rng.dataset.lo) && w4 <= Number(rng.dataset.hi) && others(HP.sim.params.relativeDrag) === others(rd0);
+      num.value = '1e9'; num.dispatchEvent(new Event('change')); await wait(20);
+      o.widen = HP.sim.params.relativeDrag.Wbg === 1e9 && Number(rng.dataset.hi) >= 1e9 * 1e3 && Number(rng.value) > 0 && Number(rng.value) < 1000;
+      num.value = '0'; num.dispatchEvent(new Event('change')); await wait(20);
+      o.rejZero = HP.sim.params.relativeDrag.Wbg === 1e9;
+      o.dirty = true;
+      // 未推定(🌋)と未宣言(☿ mercury)と英語
+      HP.loadPreset('venusSunInertial3d', false); await openDrag();
+      const rv = document.getElementById('inertialWbgRow');
+      o.unest = { state: rv.dataset.state, on: rv.querySelector('.iwbgOn').checked, rngDis: rv.querySelector('.iwbgRange').disabled, note: rv.querySelector('.iwbgNote').textContent.length > 0 };
+      rv.querySelector('.iwbgOn').checked = true; rv.querySelector('.iwbgOn').dispatchEvent(new Event('change')); await wait(20);
+      o.unestOnRejected = HP.sim.params.relativeDrag.Wbg === null && HP.sim.params.relativeDrag.enabled === false;
+      HP.loadPreset('mercury', false); await openDrag();
+      const rm = document.getElementById('inertialWbgRow');
+      o.undecl = { state: rm.dataset.state, hidden: rm.querySelector('.iwbgOn').style.display === 'none' && rm.querySelector('.iwbgRange').style.display === 'none', note: rm.querySelector('.iwbgNote').textContent };
+      HP.setLang('en'); HP.loadPreset('earthMoonSunInertial3d', false); await openDrag();
+      const re = document.getElementById('inertialWbgRow');
+      o.en = re.querySelector('label').textContent;
+      HP.setLang('ja');
+      return o;
+    }).catch((e) => ({ bad: ['ページ: ' + String(e).slice(0, 200)] }));
+    await ctxW.close();
+    const ok = r.bad.length === 0 && r.rows === 1 && r.inDrag && r.old && r.old.gainIn === 0 && r.old.bgc === 0 && r.old.wbgRow === 0 && r.d0 && r.unchanged
+      && r.init && r.init.state === 'declared' && r.init.wbg === '3.8560163495093223' && r.init.on === true && r.init.unit === '[M/L³]' && r.init.lo < 3.86 && r.init.hi > 3.86
+      && r.num && r.off && r.onAgain && r.slide && r.widen && r.rejZero
+      && r.unest && r.unest.state === 'unestimated' && r.unest.on === false && r.unest.rngDis && r.unest.note && r.unestOnRejected
+      && r.undecl && r.undecl.state === 'undeclared' && r.undecl.hidden && r.undecl.note.length > 0 && /Background inertial determinacy W_bg/.test(r.en || '') && errs.length === 0;
+    add('ui.wbgSlider302', ok,
+      `**パラメータタブ「引きずり・測地線」の背景慣性決定力 W_bg の行**(第302便a・原仮定者の裁定(第92報)AN304 ⑤・R186): 390×844・🌦️ で行 ${r.rows} 本(カテゴリの中 ${r.inDrag})・`
+      + `旧の欄 gain ${r.old && r.old.gainIn}・#bgcPanel ${r.old && r.old.bgc}・#wbgRow ${r.old && r.old.wbgRow}(全部 0)・D₀ の行 ${r.d0}・タブを開いても params/presetSig 不変 ${r.unchanged} / `
+      + `初期 ${JSON.stringify(r.init)} / 数値欄 7.5 の反映(他の鍵を保つ)${r.num}・OFF(値 7.5 を保つ・係数 0)${r.off}・ON ${r.onAgain}・スライダー ${r.slide}・範囲外 1e9 で範囲を広げる ${r.widen}・0 は拒否 ${r.rejZero} / `
+      + `未推定 🌋 ${JSON.stringify(r.unest)}・値の無い ON は拒否 ${r.unestOnRejected} / 未宣言 ☿ ${r.undecl && r.undecl.state}・調整を隠す ${r.undecl && r.undecl.hidden}・理由 1 行 / en「${r.en}」`
+      + (r.bad.length ? ' / NG ' + r.bad.join(' ; ') : '') + (errs.length ? ' / JS ' + errs.slice(0, 2).join(' | ') : ''));
+  }
+}
 // 第288便f(原仮定者の裁定(第78報)AN90): 結果 JSON の env に**試験した Chromium の版**を残す(CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う ——
 //   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
 let chromiumVersion = 'unknown';

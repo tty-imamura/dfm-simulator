@@ -32506,6 +32506,109 @@ QA `docs.chainBurst301`(門と決定・条件の照合・その場の 🔗 500 �
 
 **言わないこと**: 超新星の機構を導出したとは書かない・爆発の観測量に合わせたとは書かない・gain を普遍の定数とは呼ばない。🔗🔩🪛🍥 は 1 字も書き換えていない(🔗 の説明に早い飛びの注記を足すかは決断事項)。
 
+〔第302便a — 背景慣性決定力 W_bg の直接定義・gain の廃止・パラメータタブの W_bg の行(原仮定者の裁定(第92報)AN304 ②⑤・統括の検証項目 R186)〕
+
+**① 裁定と式。** 原仮定者の裁定(第92報)AN304 ②「背景慣性決定力 W_bg は、現状は 1/gain が相当するが、シンプルに直接定義して gain は廃止する」・
+⑤「W_bg は『パラメータ』タブの『引きずり・測地線』でスライダーで調整可能にする。『gain』『背景慣性決定力 W₀・A₀(宣言)』『静止背景相当 Wbg』の調整は削除する」。
+**式は変えない**(第301便a の正規化した法則のまま): u_i = C_d Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij)・w_ij = m_j 𝒦_j(r_ij)・**C_d = 1 に固定**
+(gain 相当の自由係数を別名で戻さない)。実装の行 (1+deg_i) u_i − Σ_j a_ij u_j = s_i(a_ij = c·w_ij)の係数 c は**派生値** c = 1/W_bg で、
+力学の入口は `relDragCoefficientOf(rd)` の 1 か所(二次元・三次元の solve・加算の旧経路・サンプラー・プローブ・写しの 6 か所がこの関数を読む ——
+`rd.gain` を読む箇所は受理器と凍結比較の 3 関数〔relDragCoefficientOf・relDragWbgOf・relDragBackgroundOf〕と正規化の x〔background の旧法則〕だけ)。
+
+**② 正準形。** `relativeDrag:{law:"inertial", Wbg:<正の有限数 [M/L³]>|null, enabled?:false, eps, pairs, history, coreTable, solver, spinDrag …}`。
+単位は核 m𝒦 と同じ [M/L³](本の単位)。`enabled` は既定 true(正準形には false のときだけ出す)。**OFF** は引きずり無し(宣言なしとビット同一の経路 ——
+大きな有限値で代替しない): 未推定の OFF は `{Wbg:null, enabled:false}`・推定済みの OFF は `{Wbg:<正>, enabled:false}`(OFF で値を捨てない)。
+受理しない: Wbg の 0・負・NaN・Infinity・文字列・1/Wbg が Infinity になる値・`Wbg:null` で enabled が false でない宣言・`enabled` の真偽値でない値・
+`Wbg` と `gain`/`background` の同時宣言・`Wbg` と compose:"sum"/norm:"none" の併用。
+
+**③ 読込の互換(1 波)と凍結比較。** `gain` だけの旧宣言(外部 JSON・保存・AI の出力)は gain>0 → Wbg(1/Wbg が gain と同じ double になる Wbg を
+近傍 ±64 ulp で探す —— `relDragWbgFromGain`。無ければ最近接の 1/gain で、係数が最下位 1 ulp ずれる)・gain 0 → `{Wbg:null, enabled:false}` として読み、
+保存し直すと Wbg だけを書く。受理器は読み替えを `legacyGain:{gain, Wbg, exact}` で返し、validatePreset・A/B の差し替え・保存の読込が警告 1 行を出す
+(署名に印は付けない —— 読み替えた後の正準形は Wbg で書いた宣言と同じ文字列で、同じ走りになる。決断事項候補)。**旧法則の凍結比較**
+(`background`〔C_d = gain×background〕・`compose:"sum"`・`norm:"none"`)は今の受理のまま `gain` で書く(在位 0 —— UI の調整には出さない)。
+
+**④ 既存の本の移行(ビット同一)。** 在位 18 本・退役 6 本の宣言(本の physics とワンタップ A/B の B 側)46 か所を Wbg へ書き換えた。
+gain>0 は 1/Wbg が元の gain と**同じ double** になる Wbg を選んだ(🌛 の 514182 だけは該当する double が無い —— 最近接の Wbg で 1/Wbg = 514181.99999999994・
+1 ulp 違う〔退役の本 —— 凍結の写しの照合は世代切替で受ける〕)。gain 0 は `{Wbg:null, enabled:false}`(第 2 段 c が推定値を入れる)。
+器 `tests/exp-w302a-wbgsig.mjs`(枝の実測)で全 176 本の 600 步の指紋(x・y・z・vx・vy・vz・自転・R・m・t)が基点と同一(🌛 も 600 步では同一 —— 係数の 1 ulp は
+この窓の指紋に現れなかった)、署名の差は慣性の 24 本だけで中身は relativeDrag の gain/Wbg/enabled の鍵だけ(他の鍵は 1 字も変わらない)を確かめた。移行表(本・場所・在位/退役・旧 gain・Wbg・1/Wbg と旧 gain):
+
+| 本 | 場所 | 区分 | 旧 gain [L³/M] | Wbg [M/L³] | 1/Wbg と旧 gain |
+|---|---|---|---|---|---|
+| 🌛 `earthMoonInertial` | 本 | 退役 | 514182 | 0.0000019448366531695005 | 1 ulp 違う(1/Wbg = 514181.99999999994) |
+| 🌤️ `earthMoonSunInertial` | 本 | 退役 | 51.4182 | 0.019448366531695002 | 同一 |
+| 🌤️ `earthMoonSunInertial` | A/B の B 側 | 退役 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌥️ `earthMoonSunInertialFit` | 本 | 退役 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌥️ `earthMoonSunInertialFit` | A/B の B 側 | 退役 | 51.4182 | 0.019448366531695002 | 同一 |
+| 🌦️ `earthMoonSunInertial3d` | 本 | 在位 | 0.259335 | 3.8560163495093223 | 同一 |
+| 🌦️ `earthMoonSunInertial3d` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌔 `earthMoonOnly3d` | 本 | 在位 | 0.259335 | 3.8560163495093223 | 同一 |
+| 🌔 `earthMoonOnly3d` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🟤 `mercurySunInertial` | 本 | 退役 | 51.4182 | 0.019448366531695002 | 同一 |
+| 🟤 `mercurySunInertial` | A/B の B 側 | 退役 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🟫 `mercurySunInertialFit` | 本 | 在位 | 0.004522415 | 221.12079497348208 | 同一 |
+| 🟫 `mercurySunInertialFit` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌡️ `mercurySunInertial3d` | 本 | 在位 | 0.004522419 | 221.1205993960312 | 同一 |
+| 🌡️ `mercurySunInertial3d` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌋 `venusSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🌋 `venusSunInertial3d` | A/B の B 側 | 在位 | 0.004522419 | 221.1205993960312 | 同一 |
+| 🔴 `marsSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🔴 `marsSunInertial3d` | A/B の B 側 | 在位 | 0.004522419 | 221.1205993960312 | 同一 |
+| 🏀 `jupiterSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🏀 `jupiterSunInertial3d` | A/B の B 側 | 在位 | 0.00004522419 | 22112.05993960312 | 同一 |
+| 🟡 `saturnSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🟡 `saturnSunInertial3d` | A/B の B 側 | 在位 | 0.00004522419 | 22112.05993960312 | 同一 |
+| 🍩 `saturnRingInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🍩 `saturnRingInertial3d` | A/B の B 側 | 在位 | 45.22419 | 0.02211205993960312 | 同一 |
+| 🔷 `uranusSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🔷 `uranusSunInertial3d` | A/B の B 側 | 在位 | 0.00004522419 | 22112.05993960312 | 同一 |
+| 💙 `neptuneSunInertial3d` | 本 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 💙 `neptuneSunInertial3d` | A/B の B 側 | 在位 | 0.00004522419 | 22112.05993960312 | 同一 |
+| 🔂 `mercuryMeshMigrate3d` | 本 | 退役 | 0.004522415 | 221.12079497348208 | 同一 |
+| 🔂 `mercuryMeshMigrate3d` | A/B の B 側 | 退役 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🟣 `plutoCharonInertial` | 本 | 退役 | 51418200 | 1.9448366531695003e-8 | 同一 |
+| 🟣 `plutoCharonInertial` | A/B の B 側 | 退役 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🟪 `plutoCharonInertialFit` | 本 | 在位 | 6729.009 | 0.00014861029313528932 | 同一 |
+| 🟪 `plutoCharonInertialFit` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🐌 `inertialDragPair` | 本 | 在位 | 0.8 | 1.25 | 同一 |
+| 🐌 `inertialDragPair` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+| 🔗 `chainDiskToy` | 本 | 在位 | 8 | 0.125 | 同一 |
+| 🔗 `chainDiskToy` | A/B の B 側 | 在位 | 8 | 0.125 | 同一 |
+| 🔩 `chainDiskToy3d` | 本 | 在位 | 8 | 0.125 | 同一 |
+| 🔩 `chainDiskToy3d` | A/B の B 側 | 在位 | 8 | 0.125 | 同一 |
+| 🪛 `chainDiskToy3dTilt` | 本 | 在位 | 8 | 0.125 | 同一 |
+| 🪛 `chainDiskToy3dTilt` | A/B の B 側 | 在位 | 8 | 0.125 | 同一 |
+| 🍥 `chainSpreadToy3d` | 本 | 在位 | 8 | 0.125 | 同一 |
+| 🧨 `chainBurstShell3d` | 本 | 在位 | 8 | 0.125 | 同一 |
+| 🧨 `chainBurstShell3d` | A/B の B 側 | 在位 | 0 | null・enabled:false(未推定の OFF) | 同一 |
+
+**⑤ フィットの記録。** ノブを持つ 5 本(🌥️〔退役〕・🌦️・🟫・🌡️・🟪)の `fitRecord.knobs` の鍵 `physics.relativeDrag.gain` → `physics.relativeDrag.Wbg`
+(値は 1/gain・範囲は [1/g_max, 1/g_min] と向きを反転 —— g_min=0 の範囲は OFF〔引きずり無し〕と有限の探索範囲 [1/51.4182, 1/0.001] に分けた〔0.001 は正本の
+対数格子の最小の正の gain〕・🌥️ の final は gain 0 の境界 → null〔OFF〕)。`fixed` に「同値移行」の来歴 1 行(旧 cond.sig を履歴として書く)を足し、条件の署名
+cond.sig は新しい宣言で作り直した(旧署名を新宣言へ付け替えて合格にしていない —— 走りが基点とビット同一であることを bitsame で確かめたうえでの同値移行・再フィットではない)。
+旧 → 新の cond.sig: 🌥️ 86a6be4193d30125 → b7b43c5912336ab9・🌦️ 809f083d2a43d8e5 → 24d27408ea068860・🟫 eff92242133e525a → 4222253b30138f1b・
+🌡️ 8d25ffd57cc23e15 → 6aca8bae6788f7c0・🟪 a9ca77f74c73e6cf → 3609306e1beba808。正本(fit-w297b.json・moon3d-w298c.json・planets3d-w299c.json)の記録は
+gain のまま(鎖で作り直すまで)—— QA は正本の記録を同じ規則で移した形と html の記録を照合する。🌔 の「🌦️ からの移送」は Wbg の移送(同じ 3.8560163495093223)。
+
+**⑥ UI(パラメータタブ「引きずり・測地線」)。** geoPN 行(と保存の注記)の直後に「背景慣性決定力 W_bg」の行 `#inertialWbgRow` を 1 行だけ置いた ——
+対数スライダー(今の値の ±4 桁・1000 刻み・スライダーから作る値は 7 桁に丸める)+数値欄(範囲外を入れたら範囲を広げる —— 物理の事前制約ではない)+
+独立の ON/OFF(OFF は引きずり無し・値は保つ)+単位 [M/L³]。慣性の宣言が無い本・凍結比較の本では調整を出さず理由を 1 行。値の反映は
+`geoInertialSetWbg`(pairs・eps・coreTable・solver・spinDrag などを落とさない・履歴は作り直し —— 最初の步は u=0)。**削除**: gain の入力(geoPN 行の
+`.geo3InertialGain`・geoPN=0 の選択肢の `.geo0ChoiceGain`・「gain を更新」の文言)・「背景慣性決定力 W₀・A₀(宣言)」の欄(`#bgcPanel` を作らない ——
+`validateBackgroundComplex` と保存の拒否は残す)・「静止背景相当 Wbg」の行(`#wbgRow` —— D₀ から引いた別量 [M/L^p] で慣性の W_bg ではない)。
+「背景決定力 D₀」のスライダーは残す(別の量)。geoPN=0 の選択「慣性決定力」と geoPN 3・4 の「宣言」は未推定の OFF で置く(gain の初期値の欄は置かない)。
+ワンタップ A/B の B 側の文言は「gain 0」→「引きずり無し」・移送の文言は W_bg の値に言い換えた。読み口(inertialDragState・サンプラー・プローブ)の鍵 gain → Wbg
+(HUD の凡例も C_d= → W_bg=)。第 2 段 c の「推定 W_cos+W_gal+W_sys」の読み取り行と「推定を入れる」は、この行の直下に差し込む(目印 IWBG_ESTIMATE_SLOT)。
+
+**⑦ QA。** `behavior.wbgDirect302`(①全宣言で 1/Wbg と移行表の旧 gain〔表は宣言から照合 —— 宣言の集合 = 表の行〕②旧 gain の JSON を読んで書き直すと Wbg だけ・
+警告 1 行 ③同時宣言・不正値の拒否 ④OFF/null の JSON 往復 ⑤編集で他の鍵を落とさない ⑥否定対照〔enabled:false・未推定・旧 gain 0〕が宣言なしとビット同一
+⑦凍結比較の受理 ⑧フィットの記録のノブ・final・条件の署名 ⑨入口の 1 か所)・`ui.wbgSlider302`(W_bg の調整が 1 つだけ・旧 3 欄が出ない・D₀ は残る・値の反映と OFF の往復・
+未推定と未宣言の文・英語)。gain を前提にした既存の QA は世代切替(対象 html の `const REL_DRAG_WBG_VERSION`)で受ける。
+
+**言わないこと**: 「W_bg の宇宙の値が決まった」とは書かない(本の宣言の値は各本の fit・移送の値を移しただけ)・「gain は普遍定数だった」とは書かない・
+「法則を発見した」とは書かない。gain を W_bg に書き換えたのは定義の置き換えで、走りは基点と同じ(🌛 の 1 ulp を除く)。W_bg の推定(背景宇宙・銀河の中の位置・
+恒星系の中の位置などの合算)と dragCore のフィットは第 2 段 c の仕事 —— 本便は宣言の形と UI だけ。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
