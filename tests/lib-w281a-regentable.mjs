@@ -937,7 +937,7 @@ export const REGEN_STEPS = [
   //   所要は第302便c の枝の実測(正本の elapsedS)
   S('wbgest-302c', 'node tests/exp-w302c-wbgest.mjs', ['tests/out/wbgest-w302c.json'], 560, { secSource: 'w302c-branch', node: true,
     after: ['planets3d-299c', 'emonly-300b', 'gloc-302b', 'semic-302d', 'dragnorm-301a', 'obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing']) },
+    volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第302便c: G_loc の n(1 つの W_bg の移送の予言)・在位の惑星の本の G_loc と 🌡️ の W_bg の合わせ直しの記録・W_bg の推定 W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、

@@ -4,7 +4,7 @@
   "wave": "第302便c",
   "target": "beta/index.html",
   "targetSha256": "927edc783093496a8d8314e3c42a64504fca41a46217c774b2bce1da520b561d",
-  "generatedAt": "2026-10-14T04:00:53.924Z",
+  "generatedAt": "2026-10-14T04:21:27.108Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -16,9 +16,9 @@
   "code": [
    {
     "file": "tests/exp-w302c-wbgest.mjs",
-    "bytes": 48813,
-    "sha256": "f5a1e5b875c96d13847d8dea84464e7ab14cf9ab737ba1ea858b741639b4ee8f",
-    "mtime": "2026-10-14T03:38:34.410Z"
+    "bytes": 49668,
+    "sha256": "f7e8e300f3a8e6f0a3fb620c61e07d29a9b167525872f9c5c39040e8c76f0da9",
+    "mtime": "2026-10-14T04:12:30.192Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -81,7 +81,7 @@
     "mtime": "2026-10-14T03:03:02.102Z"
    }
   ],
-  "codeSha256": "a867b9248ce1a599818751eac8c36c961d20b021cfdc5a54b12eaba57560804c",
+  "codeSha256": "3e78981a4447b5dde3c893c9dbc5b16112fd092e7325c3d3be716bb7caf28299",
   "harnessVersion": "w302c-wbgest-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)",
@@ -97,28 +97,74 @@
    "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.GLOC_LEDGER_SEAM_VERSION",
+    "HP.GLOC_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_NORM_VERSION",
+    "HP.REL_DRAG_SEMIC_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.REL_DRAG_SPIN_NODES",
+    "HP.WBG_EST_VERSION",
     "HP.allPresets",
     "HP.coord3d",
-    "HP.sim",
-    "HP.validatePreset",
-    "HP.gLocState",
-    "HP.inertialDragLedgerOf",
-    "HP.wbgEstimateOf",
-    "HP.WBG_EST_VERSION",
-    "HP.fitCondSig",
-    "HP.validateFitRecord",
+    "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
     "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.fitCondSig",
+    "HP.gLocPeriAdvance",
+    "HP.gLocState",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.inertialDragLedgerOf",
     "HP.inertialDragState",
-    "HP.GLOC_VERSION"
+    "HP.inertialSpinMoment",
+    "HP.relDragBackgroundOf",
+    "HP.relDragCoefficientOf",
+    "HP.sim",
+    "HP.synodic",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.wbgEstimateApply",
+    "HP.wbgEstimateOf",
+    "LAWS",
+    "T",
+    "ab",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "dfmSphereKernelQEff",
+    "fmt",
+    "pnSource",
+    "synUniform",
+    "validateFitRecord"
    ],
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1299,
-   "segments": 1178,
-   "closureShare": 0.3237
+   "names": 1315,
+   "segments": 1194,
+   "closureShare": 0.3251
   },
-  "scopeSha256": "81b10e682ed5b42e5415ef931c5ca573059c78faf064b049f6fb5e14fd146b7a",
+  "scopeSha256": "ea3aad6d6405fe1cca086aa0dbb50bc31f2c6430c0df51369a7768f6b5ec8016",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2482,12 +2528,24 @@
  },
  "ok": true,
  "timing": {
-  "N": 183.112,
-  "P": 74.589,
-  "G": 80.372,
-  "E": 0.006,
-  "C": 167.545,
-  "L": 0.088
+  "N": {
+   "wallSec": 184.57
+  },
+  "P": {
+   "wallSec": 80.008
+  },
+  "G": {
+   "wallSec": 87.85
+  },
+  "E": {
+   "wallSec": 0.004
+  },
+  "C": {
+   "wallSec": 174.085
+  },
+  "L": {
+   "wallSec": 0.124
+  }
  },
- "elapsedS": 507.366
+ "elapsedS": 528.335
 }

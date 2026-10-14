@@ -37,7 +37,7 @@ import * as PRE from './lib-w302c-pre.mjs';
 import { runEm3, windowsOf } from './exp-w300b-emonly.mjs';
 import { run2 as run2d } from './exp-w302d-semic.mjs';
 import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.coord3d","HP.sim","HP.validatePreset","HP.gLocState","HP.inertialDragLedgerOf","HP.wbgEstimateOf","HP.WBG_EST_VERSION","HP.fitCondSig","HP.validateFitRecord","HP.dragCoreLookup","HP.inertialDragState","HP.GLOC_VERSION"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_LEDGER_SEAM_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.WBG_EST_VERSION","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragBackgroundOf","HP.relDragCoefficientOf","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateApply","HP.wbgEstimateOf","LAWS","T","ab","ch","ckRestoreOne","ckSnapOne","ctx","cw","dfmSphereKernelQEff","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w302c-wbgest-1';
@@ -454,7 +454,7 @@ if (IS_MAIN) {
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const out = { meta: null, version: HARNESS_VERSION, parts: PARTS };
   const tp = {};
-  const timed = (k, f) => { const t = Date.now(); const r = f(); tp[k] = (Date.now() - t) / 1000; return r; };
+  const timed = (k, f) => { const t = Date.now(); const r = f(); tp[k] = { wallSec: (Date.now() - t) / 1000 }; return r; };
   if (PARTS.includes('N')) out.nChoice = timed('N', () => partN(HP));
   else if (process.env.W302C_N_FROM) out.nChoice = JSON.parse(fs.readFileSync(process.env.W302C_N_FROM, 'utf8')).nChoice;   // 試走だけ(正本は全段)
   if (PARTS.includes('P') && out.nChoice) out.planets = timed('P', () => partP(HP, out.nChoice));
