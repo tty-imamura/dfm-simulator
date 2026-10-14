@@ -3,56 +3,57 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便d",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T16:42:33.429Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T08:11:05.535Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301d-chainburst.mjs",
-    "bytes": 26304,
-    "sha256": "9cc657025eaefe0a75717d05aea62cc57d17669ea85c30861580a9202c8e90f3",
-    "mtime": "2026-10-13T05:21:38.909Z"
+    "bytes": 27741,
+    "sha256": "b95c5ae498fe391c17cbbe2bf5c199fe64be8b1c64f99727aeac409d1da6709e",
+    "mtime": "2026-10-14T03:02:55.174Z"
    },
    {
     "file": "tests/lib-w301d-coupled.mjs",
-    "bytes": 12458,
-    "sha256": "ebd1d6a579169fe89dd5e444054b0850ef31f00c0355be02914e40fc917694cf",
-    "mtime": "2026-10-13T05:21:38.909Z"
+    "bytes": 12608,
+    "sha256": "1025f9e75c77bcb27d6e89abf5ba5a045f4cfa60c54d19b906f52d3bfd21a179",
+    "mtime": "2026-10-14T01:39:42.929Z"
    },
    {
     "file": "tests/lib-w301d-shell.mjs",
     "bytes": 2488,
     "sha256": "be2aa1f62c794ed799af09332c12ca8ef098ff84fbfec8a3a2f78896dab0c8c2",
-    "mtime": "2026-10-13T05:21:38.909Z"
+    "mtime": "2026-10-14T00:03:21.997Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "539a2d4e94ceece7bafec539fbc8da86f2e112ad0a9d51165cd175f089b1f808",
+  "codeSha256": "cd92044f76e7cb1bd279f9833c57c7eae311e33d13d1793b6a32cc83906bd7d3",
   "harnessVersion": "w301d-chainburst-1",
+  "engineOrder": "split",
   "coupledLibVersion": "w301d-coupled-1",
   "shellVersion": "w301d-shell-1",
   "dragVersion": "w290c-inertial-1",
@@ -86,11 +87,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1237,
-   "segments": 1124,
-   "closureShare": 0.3182
+   "names": 1290,
+   "segments": 1169,
+   "closureShare": 0.3218
   },
-  "scopeSha256": "7d71357cc8993165bd6e8893a4cbcc805182f4d9fa5e01b100608f66303e6f3e",
+  "scopeSha256": "f64120603073013b03303e1e128711f00e7f67e792a13db15d112e3e99330301",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -702,7 +703,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 28.095,
+   "wallSec": 21.056,
    "key": "A.base"
   },
   "A.normNone": {
@@ -1255,7 +1256,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 27.252,
+   "wallSec": 24.26,
    "key": "A.normNone"
   },
   "A.3d": {
@@ -1808,7 +1809,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 30.648,
+   "wallSec": 22.057,
    "key": "A.3d"
   },
   "B.validate": {
@@ -1818,7 +1819,7 @@
    "posDiffMax": 3.911517405957856e-9,
    "uRelDiffMax": 1.040417014494552e-9,
    "solverTol": 1e-10,
-   "wallSec": 6.798,
+   "wallSec": 4.604,
    "key": "B.validate"
   },
   "B.validate3d": {
@@ -1828,7 +1829,7 @@
    "posDiffMax": 7.343065778278117e-14,
    "uRelDiffMax": 2.5628084562239517e-16,
    "solverTol": 1e-10,
-   "wallSec": 1.175,
+   "wallSec": 1.089,
    "key": "B.validate3d"
   },
   "C.engine.2": {
@@ -2350,7 +2351,7 @@
     "WT": -42191.446098783,
     "vMaxT": 38.639716920128656
    },
-   "wallSec": 58.969,
+   "wallSec": 45.566,
    "key": "C.engine.2"
   },
   "C.engine.4": {
@@ -2872,7 +2873,7 @@
     "WT": 42453.58501737319,
     "vMaxT": 42.38995962509873
    },
-   "wallSec": 111.538,
+   "wallSec": 88.427,
    "key": "C.engine.4"
   },
   "C.engine.8": {
@@ -3394,7 +3395,7 @@
     "WT": 73346.63356417941,
     "vMaxT": 44.124140473880935
    },
-   "wallSec": 230.405,
+   "wallSec": 171.165,
    "key": "C.engine.8"
   },
   "C.rk4.1": {
@@ -3906,7 +3907,7 @@
     "WT": 106578.61845407613,
     "vMaxT": 45.13252261194844
    },
-   "wallSec": 66.011,
+   "wallSec": 50.724,
    "key": "C.rk4.1"
   },
   "C.rk4.2": {
@@ -4418,7 +4419,7 @@
     "WT": 106578.61617625387,
     "vMaxT": 45.13252341390879
    },
-   "wallSec": 137.161,
+   "wallSec": 103.529,
    "key": "C.rk4.2"
   },
   "C.rk4.4": {
@@ -4930,7 +4931,7 @@
     "WT": 106578.61694458411,
     "vMaxT": 45.132523176756344
    },
-   "wallSec": 219.701,
+   "wallSec": 231.275,
    "key": "C.rk4.4"
   },
   "C.rk2.1": {
@@ -5442,7 +5443,7 @@
     "WT": 106582.33882182698,
     "vMaxT": 45.130812919358206
    },
-   "wallSec": 34.551,
+   "wallSec": 27.112,
    "key": "C.rk2.1"
   },
   "C.rk2.2": {
@@ -5954,7 +5955,7 @@
     "WT": 106579.54417030419,
     "vMaxT": 45.132094886280754
    },
-   "wallSec": 58.303,
+   "wallSec": 55.677,
    "key": "C.rk2.2"
   },
   "C.split.1": {
@@ -6472,7 +6473,7 @@
     "WT": -41844.695502095215,
     "vMaxT": 48.59117003869891
    },
-   "wallSec": 11.441,
+   "wallSec": 17.052,
    "key": "C.split.1"
   },
   "C.semic.1": {
@@ -6984,7 +6985,7 @@
     "WT": 99577.99521260727,
     "vMaxT": 48.061682499458534
    },
-   "wallSec": 11.405,
+   "wallSec": 17.989,
    "key": "C.semic.1"
   },
   "C.semic.2": {
@@ -7496,7 +7497,7 @@
     "WT": 104644.65756743045,
     "vMaxT": 47.00672040048217
    },
-   "wallSec": 21.432,
+   "wallSec": 36.585,
    "key": "C.semic.2"
   },
   "C.semic.4": {
@@ -8008,7 +8009,7 @@
     "WT": 106387.92055381023,
     "vMaxT": 45.09318199630117
    },
-   "wallSec": 43.558,
+   "wallSec": 56.75,
    "key": "C.semic.4"
   },
   "D.engine.gain0": {
@@ -8522,7 +8523,7 @@
     "WT": 0,
     "vMaxT": 1.0792495224074543
    },
-   "wallSec": 4.435,
+   "wallSec": 6.916,
    "key": "D.engine.gain0"
   },
   "D.rk4.gain0": {
@@ -9034,7 +9035,7 @@
     "WT": 0,
     "vMaxT": 1.2721078968072699
    },
-   "wallSec": 12.032,
+   "wallSec": 22.005,
    "key": "D.rk4.gain0"
   },
   "D.engine.spin0": {
@@ -9548,7 +9549,7 @@
     "WT": 4568.09842207619,
     "vMaxT": 61.12116026003265
    },
-   "wallSec": 18.353,
+   "wallSec": 32.607,
    "key": "D.engine.spin0"
   },
   "D.rk4.spin0": {
@@ -10060,7 +10061,7 @@
     "WT": 99113.49972323352,
     "vMaxT": 43.698637056671075
    },
-   "wallSec": 48.667,
+   "wallSec": 81.431,
    "key": "D.rk4.spin0"
   },
   "D.engine.seedA": {
@@ -10574,7 +10575,7 @@
     "WT": -10067.304951371905,
     "vMaxT": 22.96975346554436
    },
-   "wallSec": 28.712,
+   "wallSec": 40.568,
    "key": "D.engine.seedA"
   },
   "D.rk4.seedA": {
@@ -11086,7 +11087,7 @@
     "WT": 14386.850105065902,
     "vMaxT": 17.81042343051859
    },
-   "wallSec": 71.453,
+   "wallSec": 91.826,
    "key": "D.rk4.seedA"
   },
   "D.engine.seedB": {
@@ -11600,7 +11601,7 @@
     "WT": -14734.37864163063,
     "vMaxT": 26.756514678972174
    },
-   "wallSec": 33.342,
+   "wallSec": 45.011,
    "key": "D.engine.seedB"
   },
   "D.rk4.seedB": {
@@ -12112,7 +12113,7 @@
     "WT": 19351.363755920458,
     "vMaxT": 20.800839285271408
    },
-   "wallSec": 68.922,
+   "wallSec": 81.721,
    "key": "D.rk4.seedB"
   },
   "D.engine.n40": {
@@ -12626,7 +12627,7 @@
     "WT": -33493.063139831174,
     "vMaxT": 37.274136545152814
    },
-   "wallSec": 5.445,
+   "wallSec": 4.562,
    "key": "D.engine.n40"
   },
   "D.rk4.n40": {
@@ -13138,7 +13139,7 @@
     "WT": 36839.259900733865,
     "vMaxT": 29.849043825021614
    },
-   "wallSec": 15.22,
+   "wallSec": 15.526,
    "key": "D.rk4.n40"
   },
   "D.engine.n120": {
@@ -13652,7 +13653,7 @@
     "WT": -44848.43875158271,
     "vMaxT": 47.430273488967906
    },
-   "wallSec": 69.366,
+   "wallSec": 86.704,
    "key": "D.engine.n120"
   },
   "D.rk4.n120": {
@@ -14164,7 +14165,7 @@
     "WT": 56379.10197697007,
     "vMaxT": 34.52644255419727
    },
-   "wallSec": 191.28,
+   "wallSec": 247.031,
    "key": "D.rk4.n120"
   },
   "D.engine.gain4": {
@@ -14678,7 +14679,7 @@
     "WT": -27795.003524861597,
     "vMaxT": 24.19092154235251
    },
-   "wallSec": 34.067,
+   "wallSec": 37.74,
    "key": "D.engine.gain4"
   },
   "D.rk4.gain4": {
@@ -15190,7 +15191,7 @@
     "WT": 30935.940009312915,
     "vMaxT": 27.091428987225303
    },
-   "wallSec": 72.427,
+   "wallSec": 91.628,
    "key": "D.rk4.gain4"
   },
   "D.engine.gain16": {
@@ -15704,7 +15705,7 @@
     "WT": -7347.736176869599,
     "vMaxT": 51.04036769905371
    },
-   "wallSec": 36.836,
+   "wallSec": 41.2,
    "key": "D.engine.gain16"
   },
   "D.rk4.gain16": {
@@ -16216,7 +16217,7 @@
     "WT": 109421.86357580891,
     "vMaxT": 58.560095704251715
    },
-   "wallSec": 69.338,
+   "wallSec": 66.681,
    "key": "D.rk4.gain16"
   },
   "D.rk4.n40.2": {
@@ -16728,7 +16729,7 @@
     "WT": 36839.25991029691,
     "vMaxT": 29.849043823781233
    },
-   "wallSec": 30.205,
+   "wallSec": 26.795,
    "key": "D.rk4.n40.2"
   },
   "E.rk4.1": {
@@ -17552,7 +17553,7 @@
     "WT": 48352.51956862345,
     "vMaxT": 38.96050708148253
    },
-   "wallSec": 120.931,
+   "wallSec": 82.198,
    "key": "E.rk4.1"
   },
   "E.rk4.2": {
@@ -18376,7 +18377,7 @@
     "WT": 48352.251663299394,
     "vMaxT": 38.96056077569481
    },
-   "wallSec": 206.32,
+   "wallSec": 137.177,
    "key": "E.rk4.2"
   },
   "F.engine.1": {
@@ -18942,7 +18943,7 @@
     "WT": -17676.571260308898,
     "vMaxT": 42.39184516719606
    },
-   "wallSec": 6.615,
+   "wallSec": 4.19,
    "key": "F.engine.1"
   },
   "F.engine.2": {
@@ -19508,7 +19509,7 @@
     "WT": -38618.72382047893,
     "vMaxT": 40.05633441941244
    },
-   "wallSec": 13.497,
+   "wallSec": 6.729,
    "key": "F.engine.2"
   },
   "F.engine.4": {
@@ -20074,7 +20075,7 @@
     "WT": -16639.107925052398,
     "vMaxT": 35.17421822389231
    },
-   "wallSec": 28.431,
+   "wallSec": 14.678,
    "key": "F.engine.4"
   },
   "F.engine.8": {
@@ -20648,7 +20649,7 @@
     "WT": 12928.993208948177,
     "vMaxT": 33.06412263585457
    },
-   "wallSec": 39.065,
+   "wallSec": 28.818,
    "key": "F.engine.8"
   },
   "F.engine.16": {
@@ -21214,7 +21215,7 @@
     "WT": 45832.45244217023,
     "vMaxT": 37.78516152255162
    },
-   "wallSec": 63.553,
+   "wallSec": 60.041,
    "key": "F.engine.16"
   },
   "F.rk4.1": {
@@ -21778,7 +21779,7 @@
     "WT": 65234.90783091443,
     "vMaxT": 34.819805256427706
    },
-   "wallSec": 11.211,
+   "wallSec": 10.005,
    "key": "F.rk4.1"
   },
   "F.rk4.2": {
@@ -22342,7 +22343,7 @@
     "WT": 65234.90770053548,
     "vMaxT": 34.81980517747573
    },
-   "wallSec": 23.935,
+   "wallSec": 21.847,
    "key": "F.rk4.2"
   },
   "G.engine.gain0": {
@@ -22908,7 +22909,7 @@
     "WT": 0,
     "vMaxT": 1.1096727297414206
    },
-   "wallSec": 11.45,
+   "wallSec": 10.712,
    "key": "G.engine.gain0"
   },
   "G.rk4.gain0": {
@@ -23472,7 +23473,7 @@
     "WT": 0,
     "vMaxT": 0.8525979850510819
    },
-   "wallSec": 3.495,
+   "wallSec": 3.304,
    "key": "G.rk4.gain0"
   },
   "G.engine.spin0": {
@@ -24038,7 +24039,7 @@
     "WT": -14915.826133029575,
     "vMaxT": 38.50110293665895
    },
-   "wallSec": 23.707,
+   "wallSec": 21.176,
    "key": "G.engine.spin0"
   },
   "G.rk4.spin0": {
@@ -24602,7 +24603,7 @@
     "WT": 103407.36180152198,
     "vMaxT": 37.89347435424876
    },
-   "wallSec": 6.955,
+   "wallSec": 6.115,
    "key": "G.rk4.spin0"
   },
   "G.engine.rot1": {
@@ -25168,7 +25169,7 @@
     "WT": 20513.298833347148,
     "vMaxT": 31.37536545439579
    },
-   "wallSec": 31.223,
+   "wallSec": 29.247,
    "key": "G.engine.rot1"
   },
   "G.rk4.rot1": {
@@ -25732,7 +25733,7 @@
     "WT": 57306.67454614236,
     "vMaxT": 30.089391266457106
    },
-   "wallSec": 10.958,
+   "wallSec": 11.656,
    "key": "G.rk4.rot1"
   },
   "G.engine.rot2": {
@@ -26298,7 +26299,7 @@
     "WT": 35632.95024364564,
     "vMaxT": 40.64490843080031
    },
-   "wallSec": 30.834,
+   "wallSec": 29.217,
    "key": "G.engine.rot2"
   },
   "G.rk4.rot2": {
@@ -26862,7 +26863,7 @@
     "WT": 68180.17612145755,
     "vMaxT": 36.15288632172859
    },
-   "wallSec": 10.861,
+   "wallSec": 8.378,
    "key": "G.rk4.rot2"
   },
   "G.engine.shell80": {
@@ -27428,7 +27429,7 @@
     "WT": 11009.42194507971,
     "vMaxT": 31.915161571919946
    },
-   "wallSec": 187.504,
+   "wallSec": 171.82,
    "key": "G.engine.shell80"
   },
   "G.rk4.shell80": {
@@ -27992,7 +27993,7 @@
     "WT": 46391.425970832934,
     "vMaxT": 32.31728764736278
    },
-   "wallSec": 51.043,
+   "wallSec": 45.761,
    "key": "G.rk4.shell80"
   }
  },
@@ -28062,5 +28063,5 @@
   },
   "why": "🔗 の既定の刻み(h = 0.016)で円盤の大半が飛ぶのは本体の分割で早まった分(刻みを細かくすると半径 100 を越える数が減り、結合積分 rk4 では t = 480 まで大半は飛ばない)。ただし機構(引きずりの支える仕事で慣性速度が積み上がり、塊がほどけて放出する)は刻みで収束した解に残る(🔗 の粒子 40 個の変種・三次元の殻)—— 探索の写し 1 本(🧨)を作る"
  },
- "elapsedS": 1471.45
+ "elapsedS": 1417.408
 }

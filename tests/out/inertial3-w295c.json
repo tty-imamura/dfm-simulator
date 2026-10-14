@@ -3,61 +3,61 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T16:47:25.306Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T08:11:13.325Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538299,
-    "sha256": "2c8ef3ef07027b712878bc7ba1f42c8a614f5c10c9120d2da1f882ba28baf0f9",
-    "mtime": "2026-10-13T16:45:56.084Z"
+    "bytes": 538335,
+    "sha256": "7844f24182699d5f7010db6feaf07d6ca7c4b086553a398df81ed2a9401d8888",
+    "mtime": "2026-10-14T07:39:09.203Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w295c-inertial3.mjs",
-    "bytes": 35109,
-    "sha256": "981b209ba8e426f6d194bd7c51d8f288b0bd0eb0de75cfa924f49e08e5917795",
-    "mtime": "2026-10-11T18:40:40.183Z"
+    "bytes": 35412,
+    "sha256": "adb21414cd315e99c5dd9ddf0aad73ed72fe6356f03edf2c45689d4d3ce093da",
+    "mtime": "2026-10-14T01:39:42.773Z"
    },
    {
     "file": "tests/exp-w293d-swing.mjs",
-    "bytes": 49884,
-    "sha256": "7f678a1d04628774d8784a3d36dabad0017371e291cfb7b8f239503380412440",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "bytes": 50599,
+    "sha256": "dc004efcb4f2edf6227ed3300b9f5973ece83ef104a96e93cef835eb616ad2f5",
+    "mtime": "2026-10-14T03:02:55.170Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "7de609a1f071d8cb5e7b521cb9e2d5a7ef391b93c559e7b7569957f759b88c15",
+  "codeSha256": "e88316dd81014b0289b4b1ae84d5eb18860984dac72941534bb545146809ee31",
   "harnessVersion": "w295c-inertial3-1",
   "swingVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
@@ -107,16 +107,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1237,
-   "segments": 1124,
-   "closureShare": 0.3182
+   "names": 1290,
+   "segments": 1169,
+   "closureShare": 0.3218
   },
-  "scopeSha256": "247594e75406f12d6f9d018c29d2ee999e60269d11c08c37b50873cd1f417e55",
+  "scopeSha256": "41bd10d98e1506a195c6322b882764c3e9d61bf9634804a3ce82d7eeae65234b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "d80d7d8cd581cad549f4df4c04465602ffe85cd56ecb0649e3d8838e14c65780",
+    "stableSha256": "6a973877e090754242205164b884c35804659c6149bfe5d2a66698d1222b2b60",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -206,7 +206,7 @@
    ],
    "relativeDrag": {
     "law": "inertial",
-    "gain": 51.4182,
+    "Wbg": 0.019448366531695002,
     "eps": 0.01,
     "history": "positions",
     "pairs": [
@@ -253,11 +253,11 @@
      ]
     ],
     "drag": {
-     "boundMax": 0.012613761276589393,
+     "boundMax": 0.012613761300630912,
      "boundOver": 0,
      "reject": 0,
      "noHistory": 1,
-     "uMax": 0.0006206322162048501
+     "uMax": 0.0006206655889918959
     },
     "core": [
      {
@@ -287,7 +287,7 @@
    ],
    "relativeDrag": {
     "law": "inertial",
-    "gain": 51.4182,
+    "Wbg": 0.019448366531695002,
     "eps": 0.05,
     "history": "positions",
     "pairs": "all"
@@ -324,11 +324,11 @@
     "gainAfter": 51.4182,
     "pairsAfter": "all",
     "drag": {
-     "boundMax": 0.0021007046357839998,
+     "boundMax": 0.0021007046358787664,
      "boundOver": 0,
      "reject": 0,
      "noHistory": 1,
-     "uMax": 0.005868129679661538
+     "uMax": 0.005868367865925904
     },
     "core": null
    }
@@ -348,7 +348,7 @@
    ],
    "relativeDrag": {
     "law": "inertial",
-    "gain": 51418200,
+    "Wbg": 1.9448366531695003e-8,
     "eps": 0.01,
     "history": "positions",
     "pairs": "all"
@@ -385,11 +385,11 @@
     "gainAfter": 51418200,
     "pairsAfter": "all",
     "drag": {
-     "boundMax": 0.17803894815328095,
+     "boundMax": 0.1780389159979353,
      "boundOver": 0,
      "reject": 0,
      "noHistory": 1,
-     "uMax": 0.001805819545899786
+     "uMax": 0.0018058192493660265
     },
     "core": null
    }
@@ -397,8 +397,8 @@
  ],
  "proxyIdentity": {
   "steps": 200,
-  "direct": "d1eb03fe598eb1e0",
-  "viaProxy": "d1eb03fe598eb1e0",
+  "direct": "2bfe9b8e575e2158",
+  "viaProxy": "2bfe9b8e575e2158",
   "same": true
  },
  "run": {
@@ -1483,30 +1483,30 @@
    "gain": {
     "h": {
      "dt": 0.016,
-     "steps": 379695,
+     "steps": 379694,
      "revN": 8,
      "nan": false,
-     "periodMeanDays": 87.89216322665062,
-     "periodMeanSec": 7593882.902782614,
-     "period2Sec": 7593882.184727606,
-     "period2Days": 87.89215491582877,
-     "apsDegPerOrbit": 0.32790865781826156,
-     "apsArcsecPerCentury": 490275.2354358213,
+     "periodMeanDays": 87.89211892884661,
+     "periodMeanSec": 7593879.075452348,
+     "period2Sec": 7593880.908874255,
+     "period2Days": 87.89214014900757,
+     "apsDegPerOrbit": 0.3279086374275962,
+     "apsArcsecPerCentury": 490275.3964543638,
      "nPeri": 8,
-     "residRmsDeg": 3.5193610437820166e-8,
-     "ampUnits": 118.53028507388112,
-     "ampKm": 11853028.507388111,
-     "rMin": 460.01175735447674,
-     "rMax": 697.072327502239,
-     "eProxy": 0.2048775652956267,
-     "uRatioMean": 0.0005620628860377872,
-     "uRatioMax": 0.0010492504322012653,
+     "residRmsDeg": 3.528480132560096e-8,
+     "ampUnits": 118.52986285224233,
+     "ampKm": 11852986.285224233,
+     "rMin": 460.0119905408203,
+     "rMax": 697.071716245305,
+     "eProxy": 0.20487690243511714,
+     "uRatioMean": 0.0005620633557202061,
+     "uRatioMax": 0.0010492494045865638,
      "drag": {
-      "boundMax": 0.0021007078304093344,
+      "boundMax": 0.0021007046358787664,
       "boundOver": 0,
       "reject": 0,
       "noHistory": 1,
-      "uMax": 0.006183843666150185
+      "uMax": 0.006183753642141587
      }
     },
     "h2": {
@@ -1514,65 +1514,65 @@
      "steps": 759389,
      "revN": 8,
      "nan": false,
-     "periodMeanDays": 87.8921505022124,
-     "periodMeanSec": 7593881.803391152,
-     "period2Sec": 7593881.717163216,
-     "period2Days": 87.89214950420389,
-     "apsDegPerOrbit": 0.32791002066926433,
-     "apsArcsecPerCentury": 490277.3296028235,
+     "periodMeanDays": 87.89212835362338,
+     "periodMeanSec": 7593879.88975306,
+     "period2Sec": 7593881.07926343,
+     "period2Days": 87.8921421211045,
+     "apsDegPerOrbit": 0.32791001040750734,
+     "apsArcsecPerCentury": 490277.4100133035,
      "nPeri": 8,
-     "residRmsDeg": 1.7409926688307438e-8,
-     "ampUnits": 118.53006790600992,
-     "ampKm": 11853006.790600993,
-     "rMin": 460.0118810409792,
-     "rMax": 697.072016852999,
-     "eProxy": 0.20487722302894001,
-     "uRatioMean": 0.0005622525385681665,
-     "uRatioMax": 0.001049250236349972,
+     "residRmsDeg": 1.767876722836757e-8,
+     "ampUnits": 118.52985680409569,
+     "ampKm": 11852985.68040957,
+     "rMin": 460.0119976352049,
+     "rMax": 697.0717112433963,
+     "eProxy": 0.20487689161049558,
+     "uRatioMean": 0.0005622527742223772,
+     "uRatioMax": 0.001049249979218916,
      "drag": {
-      "boundMax": 0.002100706135988083,
+      "boundMax": 0.0021007045386864792,
       "boundOver": 0,
       "reject": 0,
       "noHistory": 1,
-      "uMax": 0.0061838672851588245
+      "uMax": 0.0061838413878508944
      }
     },
     "check": {
      "slopeDegPerPeri": [
-      0.32790865781826156,
-      0.32790865781826156
+      0.3279086374275962,
+      0.3279086374275962
      ],
      "slopeDegPerTime": [
-      0.0004315523531537229,
-      0.0004315523531537229
+      0.000431552494886215,
+      0.000431552494886215
      ],
      "eProxy": [
-      0.2048775652956267,
-      0.2048775652956267
+      0.20487690243511714,
+      0.20487690243511714
      ],
      "sidMean": [
-      0.8789216322665063,
-      759.3882902782615
+      0.8789211892884663,
+      759.3879075452348
      ],
      "same": true
     }
    },
    "delta": {
     "h": {
-     "periodRel": -0.0008751040857998967,
-     "period2Rel": -0.0008751985601222113,
-     "period2DiffSec": -6651.97655411344,
-     "apsDiffDegPerOrbit": 0.32791485820935395,
-     "apsDiffArcsecPerCentury": 490284.5033379956,
-     "eProxyRel": -0.003663125446579196
+     "periodRel": -0.0008756076464950939,
+     "period2Rel": -0.0008753664237650312,
+     "period2DiffSec": -6653.25240746513,
+     "apsDiffDegPerOrbit": 0.3279148378186886,
+     "apsDiffArcsecPerCentury": 490284.66435653815,
+     "eProxyRel": -0.003666348993127164
     },
     "h2": {
-     "periodRel": -0.0008752287299060584,
-     "period2Rel": -0.0008752400749447758,
-     "period2DiffSec": -6652.2919557616115,
-     "apsDiffDegPerOrbit": 0.32791486262631814,
-     "apsDiffArcsecPerCentury": 490284.5670148556,
-     "eProxyRel": -0.00366467276859283
+     "periodRel": -0.0008754805067008666,
+     "period2Rel": -0.000875324003230008,
+     "period2DiffSec": -6652.929855547845,
+     "apsDiffDegPerOrbit": 0.32791485236456114,
+     "apsDiffArcsecPerCentury": 490284.64742533566,
+     "eProxyRel": -0.00366628448462162
     }
    },
    "hh": {
@@ -1582,9 +1582,9 @@
      "eProxyRel": -1.1758063694839685e-7
     },
     "gain": {
-     "periodRel": -1.44773296659407e-7,
-     "apsDiff": 0.0000013628510027730023,
-     "eProxyRel": -0.000001670591341678378
+     "periodRel": 1.0723119292619408e-7,
+     "apsDiff": 0.000001372979911151706,
+     "eProxyRel": -5.28347580012864e-8
     }
    }
   },
@@ -1669,96 +1669,96 @@
    "gain": {
     "h": {
      "dt": 0.16,
-     "steps": 2440533,
+     "steps": 2440521,
      "revN": 8,
      "nan": false,
-     "periodMeanDays": 5.69004634047798,
-     "periodMeanSec": 491620.00381729746,
-     "period2Sec": 502286.498855866,
-     "period2Days": 5.813501144165116,
-     "apsDegPerOrbit": 106.48166287035615,
-     "apsArcsecPerCentury": 1922787044.1027045,
+     "periodMeanDays": 5.690013256954976,
+     "periodMeanSec": 491617.14540090994,
+     "period2Sec": 502285.4241558059,
+     "period2Days": 5.813488705507012,
+     "apsDegPerOrbit": 106.48107574742082,
+     "apsArcsecPerCentury": 1922785680.243319,
      "nPeri": 6,
-     "residRmsDeg": 0.0000022179822201261216,
-     "ampUnits": 23.520319617297602,
-     "ampKm": 2352.0319617297605,
-     "rMin": 148.91750622268847,
-     "rMax": 195.95814545728368,
-     "eProxy": 0.1363988411633264,
-     "uRatioMean": 0.13059705532856314,
-     "uRatioMax": 0.18536899112573516,
+     "residRmsDeg": 0.000029178991344936443,
+     "ampUnits": 23.51973462589568,
+     "ampKm": 2351.973462589568,
+     "rMin": 148.91817074847668,
+     "rMax": 195.95764000026804,
+     "eProxy": 0.13639538577572616,
+     "uRatioMean": 0.13059749228331016,
+     "uRatioMax": 0.18536696981997763,
      "drag": {
-      "boundMax": 0.40559544921323565,
+      "boundMax": 0.4055900195021137,
       "boundOver": 0,
       "reject": 0,
       "noHistory": 1,
-      "uMax": 0.0024871917013763486
+      "uMax": 0.0024873438877359194
      }
     },
     "h2": {
      "dt": 0.08,
-     "steps": 4881064,
+     "steps": 4881052,
      "revN": 8,
      "nan": false,
-     "periodMeanDays": 5.690045322555668,
-     "periodMeanSec": 491619.9158688097,
-     "period2Sec": 502286.22648558585,
-     "period2Days": 5.813497991731318,
-     "apsDegPerOrbit": 106.48164240721259,
-     "apsArcsecPerCentury": 1922787000.182754,
+     "periodMeanDays": 5.690028779601164,
+     "periodMeanSec": 491618.48655754054,
+     "period2Sec": 502285.6891352112,
+     "period2Days": 5.813491772398278,
+     "apsDegPerOrbit": 106.48134882265812,
+     "apsArcsecPerCentury": 1922786318.1462104,
      "nPeri": 6,
-     "residRmsDeg": 0.000001108667777855823,
-     "ampUnits": 23.52011764919095,
-     "ampKm": 2352.011764919095,
-     "rMin": 148.91765742845354,
-     "rMax": 195.95789272683544,
-     "eProxy": 0.13639771006440102,
-     "uRatioMean": 0.1306033077826327,
-     "uRatioMax": 0.18536853108618828,
+     "residRmsDeg": 0.0000145915508722956,
+     "ampUnits": 23.519825153921516,
+     "ampKm": 2351.9825153921515,
+     "rMin": 148.917989692224,
+     "rMax": 195.95764000006704,
+     "eProxy": 0.1363959823714227,
+     "uRatioMean": 0.13060352611777365,
+     "uRatioMax": 0.18536752061189454,
      "drag": {
-      "boundMax": 0.4055942137305351,
+      "boundMax": 0.4055914988673277,
       "boundOver": 0,
       "reject": 0,
       "noHistory": 1,
-      "uMax": 0.0024872002929914572
+      "uMax": 0.0024872763993776916
      }
     },
     "check": {
      "slopeDegPerPeri": [
-      106.48166287035615,
-      106.48166287035615
+      106.48107574742082,
+      106.48107574742082
      ],
      "slopeDegPerTime": [
-      0.0016924845750334349,
-      0.0016924845750334349
+      0.001692483374530769,
+      0.001692483374530769
      ],
      "eProxy": [
-      0.1363988411633264,
-      0.1363988411633264
+      0.13639538577572616,
+      0.13639538577572616
      ],
      "sidMean": [
-      56.9004634047798,
-      49162.00038172975
+      56.90013256954976,
+      49161.714540090994
      ],
      "same": true
     }
    },
    "delta": {
     "h": {
-     "periodRel": -0.10916402085995142,
-     "period2Rel": -0.08983588636865496,
-     "period2DiffSec": -49577.16104153276,
-     "apsDiffDegPerOrbit": 106.49237791397218,
-     "apsDiffArcsecPerCentury": 1923007594.7591074,
-     "eProxyRel": 34191061.24502586
+     "periodRel": -0.1091692004298257,
+     "period2Rel": -0.08983783377004813,
+     "period2DiffSec": -49578.235741592885,
+     "apsDiffDegPerOrbit": 106.49179079103685,
+     "apsDiffArcsecPerCentury": 1923006230.8997219,
+     "eProxyRel": 34190195.083909586
     },
     "h2": {
-     "periodRel": -0.10916418014720748,
-     "period2Rel": -0.0898363798382487,
-     "period2DiffSec": -49577.4333652893,
-     "apsDiffDegPerOrbit": 106.4919676145422,
-     "apsDiffArcsecPerCentury": 1922999389.821633,
-     "eProxyRel": 34731932.33953729
+     "periodRel": -0.10916677011892174,
+     "period2Rel": -0.08983735353956972,
+     "period2DiffSec": -49577.97071566392,
+     "apsDiffDegPerOrbit": 106.49167402998773,
+     "apsDiffArcsecPerCentury": 1922998707.7850895,
+     "eProxyRel": 34731492.40460491
     }
    },
    "hh": {
@@ -1768,9 +1768,9 @@
      "eProxyRel": -0.015580895583793063
     },
     "gain": {
-     "periodRel": -1.788952587315938e-7,
-     "apsDiff": -0.00002046314355652612,
-     "eProxyRel": -0.000008292584568433493
+     "periodRel": 0.0000027280509704528242,
+     "apsDiff": 0.000273075237302578,
+     "eProxyRel": 0.00000437401670992174
     }
    }
   }
@@ -1950,49 +1950,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 16.176
+   "wallSec": 15.094
   },
   "em-A1-0.008": {
-   "wallSec": 18.054
+   "wallSec": 18.418
   },
   "em-A2-0.008": {
-   "wallSec": 18.772
+   "wallSec": 18.92
   },
   "em-A1-0.016": {
-   "wallSec": 9.206
+   "wallSec": 8.386
   },
   "em-G0-0.016": {
-   "wallSec": 8.11
-  },
-  "em-A2-0.016": {
-   "wallSec": 9.514
+   "wallSec": 7.613
   },
   "mer-gain0-h2": {
-   "wallSec": 2.593
+   "wallSec": 2.913
+  },
+  "em-A2-0.016": {
+   "wallSec": 9.992
   },
   "mer-gain-h2": {
-   "wallSec": 3.253
+   "wallSec": 2.971
   },
   "mer-gain0-h": {
-   "wallSec": 2.878
+   "wallSec": 2.698
   },
   "mer-gain-h": {
-   "wallSec": 3.402
-  },
-  "plu-gain0-h2": {
-   "wallSec": 27.253
+   "wallSec": 3.663
   },
   "plu-gain-h2": {
-   "wallSec": 27.51
+   "wallSec": 26.253
+  },
+  "plu-gain0-h2": {
+   "wallSec": 29.137
   },
   "plu-gain0-h": {
-   "wallSec": 28.929
+   "wallSec": 28.08
   },
   "plu-gain-h": {
-   "wallSec": 26.343
+   "wallSec": 24.961
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 85.577
+ "elapsedS": 82.577
 }

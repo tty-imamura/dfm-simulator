@@ -3,50 +3,50 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T16:25:45.187Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T08:02:58.769Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 100715,
-    "sha256": "8c7a16c1f941eff14258e1f58b2e3bedbc9a057d7062837568fcee7213354db0",
-    "mtime": "2026-10-13T16:25:38.516Z"
+    "bytes": 100724,
+    "sha256": "c2238c6bf127d7c404231441341fc9c3957e313221eeb8b5a74d8025cb55c2f1",
+    "mtime": "2026-10-14T08:02:51.431Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719829,
-    "sha256": "69ab05522ed09cb693ef1c2851c4efb370db34a3f10e3fd00bc557e20cbfa038",
-    "mtime": "2026-10-13T13:42:32.937Z"
+    "bytes": 1719865,
+    "sha256": "9092b619fc814ac6dd029772a3db486f293fbfe37959bf72c9b2024523a41342",
+    "mtime": "2026-10-14T05:35:09.930Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174478,
-    "sha256": "15e58188fa77fbb1cd68b3b7abba185d93c90553b73a4c7550411e740ea87fcb",
-    "mtime": "2026-10-13T15:11:49.708Z"
+    "bytes": 174475,
+    "sha256": "634e244ab3fd5e8ce68d098b170f45786bcd0183036395657daf251757e9c5db",
+    "mtime": "2026-10-14T06:54:10.006Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "cff3e2a47c46aa2fbe7b344e244e8eca809761482d8f918fee57801840a89281",
-    "mtime": "2026-10-13T16:25:35.968Z"
+    "sha256": "37d5c95b1f3279134dbbf6a08d6cebf15ff9c87410f6e927a225653b38ed71db",
+    "mtime": "2026-10-14T08:02:48.019Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
-    "bytes": 223872,
-    "sha256": "e9fee43b47a521e9ea2a42d3b5280b4b77e976353c725fff3328682aa498b1ec",
-    "mtime": "2026-10-13T15:31:49.808Z"
+    "bytes": 223873,
+    "sha256": "3e50ee573a7b547be44ca7ada3832170a92c5d924c6e897d302fd1f690a37c93",
+    "mtime": "2026-10-14T07:03:50.534Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
     "bytes": 9323,
     "sha256": "ae207310de5a2ed3d39d2a20de8fdc2eb7be4323dfba70bcf3997384a0cec694",
-    "mtime": "2026-10-09T10:19:35.682Z"
+    "mtime": "2026-10-09T10:19:39.867Z"
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 136400,
-    "sha256": "26468a7848285d9acfd47a169442f37bc619fa20a91c541d42b6c6fb383a941f",
-    "mtime": "2026-10-13T15:44:37.652Z"
+    "bytes": 136402,
+    "sha256": "bfceef03ef1f567cf0925d04cc2d3ef875d6f4afb9513aefd1d5c85d1bb1316e",
+    "mtime": "2026-10-14T07:14:24.755Z"
    }
   ],
   "code": [
@@ -54,13 +54,13 @@
     "file": "tests/exp-w275a-kf0ledger.mjs",
     "bytes": 46187,
     "sha256": "4197f8b8045e6f133394e44a60d11b3b8bce1792a802797f1c02cecd1b79a9a9",
-    "mtime": "2026-10-09T10:19:35.482Z"
+    "mtime": "2026-10-09T10:19:39.527Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    }
   ],
   "codeSha256": "f8aaa6173abbd73e388eb90c2ce94fd4f3146cf1f730e4331af89560498332d5",
@@ -2567,7 +2567,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "93c3bfe69c1a1e4aa9ef39319931c27565a131f9a1494ccb1c4e20b1a4254117",
+   "fileSha256": "15e58188fa77fbb1cd68b3b7abba185d93c90553b73a4c7550411e740ea87fcb",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2575,7 +2575,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "c90bf0972dc0d1848a88bfad25268b5bc09b7ae7fff33e8daf32dd4aaa8c44b1",
+   "citedTargetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
