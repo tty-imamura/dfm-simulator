@@ -78721,7 +78721,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try { X = await import('file://' + em303Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
     const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
     const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
-    const i0 = PH.indexOf('〔第303便c'), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const i0 = PH.indexOf('〔第303便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 統合(第303便): 節の見出しで探す —— 先の節の本文の参照「〔第303便c〕」に当たらない
     const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
     if (J && X) {
       // ①
