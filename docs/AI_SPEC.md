@@ -3743,3 +3743,12 @@ SYSTEM_PROMPT の規則 13(逐語):
   「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
 - **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
 - QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。
+
+## 95. 第303便c —— 地球–月の基線の監査と天体半径の効き方の目録(原仮定者の裁定(第93報)③・統括の検証項目 R193・**探索の器だけ —— html・本の宣言・署名・エンジンの式は変えない**・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w303c-earthmoon.mjs`(版 w303c-earthmoon-1・抽出器 w303c-emx4-1・`W303C_PARTS`=audit,radius,sunbg,ident・`W303C_OUT`・`W303C_LONG`)→ `tests/out/earthmoon-w303c.json`(段 earthmoon-303c)。🌦️🌔 の physics と bodies は基点 9f92262 の写し `PIN_DECL` に器の中で固定(生きている宣言と同じかは `pin.liveSame`)。
+- **抽出器**(器の関数): `winOf`(M1〜M3 は第298便c の runEmx3 と同じ式)・`harmonicRate`(M4 —— 近点の方位の直線に φ = 2(λ☉ − ϖ̄) の 1〜3 倍の調和を同時に回帰)・`sidHarmonic`(偏りのない恒星月 —— 黄経 0 の通過の時刻を中心差・出差・二均差・黄道への還元の項と同時に回帰)・交点の周期(接触の Ω)。
+- **器の中だけの差し替え**(本の宣言と html は変えない): `rcvBallHook`(エンジンの構造核の表を受け手の一様球の平均〔月の行〕か二重平均〔対称〕の表に差し替える)・`installDenWrap`(エンジンの関数 inertialDragNormApply を process の中で包み、`S.__w303cDen` の慣性決定力を行の分母に足す —— 自己の慣性決定力・瞬間の距離の太陽の r⁻²)・`refRun`(参照積分器 —— 太陽固定・速度 Verlet・軟化・e′・惑星・J₂・潮汐の保存項。アプリの物理ではない)・`solveMeanIc`(長窓の平均の要素へ初期配置を合わせる 3 元 Newton)。
+- **主要な数**(実測): 引きずり OFF の 118 公転窓 M1 8.8985 年 − B1 8.850391 年 = +0.0481 年の内訳 = 窓の偏り +0.0327・軟化 ε 0.01 +0.0113・平均の要素 -0.0045・e′ +0.0092・J₂ +0.00038・惑星 +0.00002・潮汐 +0.000000 年。全部入りの純ニュートン(参照積分)8.84938 年(B1 -0.00101 年 —— 照合許容の内)。天体半径: 源の構造核と点源の差 366 s・受け手の球 32 s(118 公転窓 M1)・自己の慣性決定力は分母を 710 倍(λ = 3r_s☉)にして引きずりを消す。太陽が背景側 w_I = c²/((6+2n)G d²)(d = 1 au・n=0 で 10.0289 [M/L³])。同定の特異値 4.7e-3・8.7e-5・2.6e-7(許容の倍・箱の全幅)。
+- **QA**: `docs.earthMoon303`(root は SKIP —— 世代切替 = 正本と器の有無。正本の門・表の行〔器の行の関数で正本から作り直して PHYSICS〔第303便c〕と逐語照合〕・主張の整合・文書・段・.gitignore・post-merge の ③′・書かない語)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(主因は太陽摂動 —— 器の監査では引き算の残りは照合許容の内)。118 公転窓の直線 fit の近点周期・恒星月を「平均」と呼ばない(窓の位置で動く —— 調和の回帰か長窓)。「地球の核を同定した」と書かない。
