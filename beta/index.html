@@ -2057,6 +2057,11 @@ ja: {
   iwbgFrozen:"この本の引きずりは旧法則の凍結比較(gain の宣言 —— background・compose:\"sum\"・norm:\"none\")なので、W_bg の調整には出しません。",
   iwbgUnestNote:"W_bg は未推定(OFF —— 引きずり無し)。数値欄に値を入れてから ON にします。",
   iwbgOffNote:"OFF —— 引きずり無し(W_bg の値は保持)。",
+  iwbgEstLine:(e)=>"推定 W_cos+W_gal+W_sys = "+wbgFmt(e.total.book)+" [M/L³](= "+wbgFmt(e.total.SI)+" kg/m³・W_cos "+wbgFmt(e.Wcos.book)+"・W_gal "+(e.Wgal.declared? wbgFmt(e.Wgal.book) : "0(宣言なし)")+"・W_sys "+wbgFmt(e.Wsys.book)+(e.ratioToDecl!==null? "・今の W_bg との比 "+wbgFmt(e.ratioToDecl) : "")+")—— 推定とフィットは別の来歴(第302便c)",
+  iwbgEstNone:"推定に要る宣言が無い(scaleExp —— 本の単位を物理単位に結ぶ宣言が無いので W_cos を作れない)。",
+  iwbgEstBtn:"推定を入れる",
+  iwbgEstTip:"推定 W_cos+W_gal+W_sys を W_bg の値に写します(ON/OFF はそのまま —— 履歴は作り直し)。宣言のフィット値には戻しません(元に戻すには本を読み直す)。",
+  iwbgEstDone:(W)=>"W_bg に推定 "+W+" [M/L³] を入れました(ON/OFF はそのまま —— 第302便c)。",
   geo3InertialDesc:"geoPN=3 は慣性決定力の有効化の印です(第294便a)。旧法則版(spaceMesh.lawVersion)も慣性の宣言も無い本では、ここで慣性決定力の引きずり(relativeDrag.law:\"inertial\")を宣言できます —— JSON で宣言したのと同じ経路で、合成則は既定の solve(単純加算しない)。宣言は未推定の OFF({Wbg:null, enabled:false} —— 引きずり無し)で置き、背景慣性決定力 W_bg の値と ON/OFF は「引きずり・測地線」の「背景慣性決定力 W_bg」の行(スライダー・数値欄)で調整します(第302便a —— gain の入力は廃止)。未宣言の geoPN=3 から慣性の構成を宣言すると、基底はニュートンへ変わります(測地線 ON → OFF)。宣言は保存 JSON の physics.relativeDrag に書かれます。第296便c: geoPN=4(慣性決定力の多粒子)で旧法則版の宣言が無い本にも出し、4 では連鎖の解法 solver:\"network-pcg-v1\" も一緒に宣言します。",
   loadComposeLegacy:"このセーブは第293便より前の保存です —— 慣性引きずり(law:\"inertial\")の合成則が未宣言で、保存したときは加算(sum)で走っていました。いまは既定の solve(velocity)で走ります(加算で比べるなら relativeDrag.compose:\"sum\" を明示。値は保存どおり)",
   modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり/4 慣性決定力の多粒子〔旧名「空間メッシュ・連鎖」〕)。値は保存どおりに読み込み、走る法則は宣言(physics.relativeDrag・physics.geodesic)から決まります(physics.spaceMesh.lawVersion などの physics.spaceMesh は第300便a で廃止 —— 保存・読込で受理しません)。用途と違う組み合わせは保存時に警告します。",
@@ -3321,6 +3326,11 @@ en: {
   iwbgFrozen:"This sample's drag is a frozen comparison of an older law (a gain declaration - background, compose:\"sum\" or norm:\"none\"), so it is not offered for W_bg adjustment.",
   iwbgUnestNote:"W_bg is unestimated (off - no dragging). Type a value, then turn it on.",
   iwbgOffNote:"Off - no dragging (the W_bg value is kept).",
+  iwbgEstLine:(e)=>"estimate W_cos+W_gal+W_sys = "+wbgFmt(e.total.book)+" [M/L^3] (= "+wbgFmt(e.total.SI)+" kg/m^3; W_cos "+wbgFmt(e.Wcos.book)+", W_gal "+(e.Wgal.declared? wbgFmt(e.Wgal.book) : "0 (not declared)")+", W_sys "+wbgFmt(e.Wsys.book)+(e.ratioToDecl!==null? ", ratio to the current W_bg "+wbgFmt(e.ratioToDecl) : "")+") - the estimate and the fit are separate records (wave 302c)",
+  iwbgEstNone:"The declarations needed for an estimate are missing (scaleExp - nothing ties the sample units to physical units, so W_cos cannot be formed).",
+  iwbgEstBtn:"Use the estimate",
+  iwbgEstTip:"Copies the estimate W_cos+W_gal+W_sys into W_bg (on/off unchanged - the history is rebuilt). It does not restore the declared fit value (reload the sample for that).",
+  iwbgEstDone:(W)=>"Put the estimate "+W+" [M/L^3] into W_bg (on/off unchanged - wave 302c).",
   geo3InertialDesc:"geoPN=3 marks the inertial-determinacy drag as enabled (wave 294a). For a sample with neither a legacy law (spaceMesh.lawVersion) nor an inertial declaration, the inertial-determinacy drag (relativeDrag.law:\"inertial\") can be declared here - the same path as a JSON declaration, with the default composition solve (no plain sum). It is placed unestimated and off ({Wbg:null, enabled:false} - no dragging); set the background inertial determinacy W_bg and on/off in the \"Background inertial determinacy W_bg\" row of \"Drag / geodesic\" (slider and number box - wave 302a; the gain input is gone). Declaring the inertial set from an undeclared geoPN=3 changes the basis to Newton (geodesic on -> off). The declaration is written to physics.relativeDrag of the save JSON. Wave 296c: it is also offered on geoPN=4 (inertial determinacy, many-particle) without a legacy law, where the chain solver solver:\"network-pcg-v1\" is declared together.",
   loadComposeLegacy:"This save predates wave 293 - its inertial drag (law:\"inertial\") declares no composition rule and ran as a plain sum when saved. It now runs with the default solve (velocity) (declare relativeDrag.compose:\"sum\" to compare with the sum; values are as saved)",
   modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy / 4 inertial determinacy, many-particle [formerly \"space mesh / chain\"]). Values load as saved; the law that runs is resolved from the declarations (physics.relativeDrag, physics.geodesic) (physics.spaceMesh, including spaceMesh.lawVersion, is retired in wave 300a - saves and loads do not accept it). Combinations outside the main use raise a warning on save.",
@@ -7677,7 +7687,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder"];   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env"];   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7849,6 +7859,102 @@ function relDragBackgroundOf(rd){
   if(rd.gain===undefined) return {Wbg:rd.Wbg, Cd:1, from:"Wbg"};
   return {Wbg:decl? rd.background : 1/rd.gain, Cd:decl? rd.gain*rd.background : 1, from:decl? "declared" : "gain"};
 }
+// ===== 第302便c(原仮定者の裁定(第92報)AN304 ③「背景慣性決定力 W_bg は、背景宇宙、銀河の中の位置、恒星系の中の位置、などの合算で決まると推定。
+//   惑星の場合、恒星が背景側か否かの差が大きい。背景慣性決定力に推定値を用いる事で、dragCore のフィットが安定する」・統括の検証項目 R190):
+//   **W_bg の推定 wbgEstimateOf = W_cos + W_gal + W_sys**(単位は核 m𝒦 と同じ [M/L³] —— 本の単位と SI)。**推定は読み取りだけ**(宣言・力学は変えない ——
+//   「推定を入れる」ボタンが押されたときだけ Wbg に写す)。式と値は docs/PHYSICS.md〔第302便c〕。
+//   ・W_cos(背景宇宙): 一様な臨界密度 ρ_c = 3H₀²/(8πG)(H₀ = 67.4 km/s/Mpc)を地平 R_H = c/H₀ で切った球の核の積分
+//       W_cos = ∫ ρ_c 4πr² 𝒦_ε(r) dr = 2πρ_c [ln((R_H²+ε²)/ε²) + ε²/(R_H²+ε²) − 1](𝒦_ε(r) = r/(r²+ε²)²・ε は引きずりの核の ε —— 第301便a の式)。
+//   ・W_gal(銀河の中の位置): 宣言 relativeDrag.env.galaxy:{rhoSI [kg/m³], RSI [m], source} があるときだけ —— 局所の一様密度 ρ を半径 R で切った同じ積分。
+//       無ければ 0(天の川の質量・位置はエンジンに埋め込まない)。
+//   ・W_sys(恒星系の中の位置 —— 背景側の天体): Σ m_j 𝒦_ε(d_j)。背景側 = ①宣言 relativeDrag.env.bodies:[{m, d, label}](系の中で粒子として計算しない天体 ——
+//       本の単位の質量と受け手からの距離)②粒子だが受け手と引きずりの対を組まない天体(pairs の宣言の外 —— 例 🌦️ の太陽)。
+//       **引きずりの源(受け手と対を組む粒子)は重ねない** —— 源の集合と背景側の集合は重複 0(読み口 overlap が数える)。
+//   受け手は orbitObs.orbiter(無ければ timeRef.pair[1]・それも無ければ 1)。粒子の距離は宣言の初期位置(本)か今の位置(sim)。
+const WBG_EST_VERSION="w302c-wbgest-1";
+const WBG_EST_COSMO=Object.freeze({H0kmsMpc:67.4, Mpc:3.0857e22, G:6.674e-11, c:2.99792458e8});   // 第301便a の COSMO と同じ値(tests/exp-w301a-dragnorm.mjs)
+const WBG_ENV_KEYS=["galaxy","bodies"], WBG_ENV_GAL_KEYS=["rhoSI","RSI","source"], WBG_ENV_BODY_KEYS=["m","d","label"], WBG_ENV_BODIES_MAX=16;
+function validateWbgEnv(e){
+  const form='physics.relativeDrag.env は {galaxy?:{rhoSI, RSI, source?}, bodies?:[{m, d, label?}]}(第302便c —— W_bg の推定にだけ使う環境の宣言・力学は読まない)';
+  if(typeof e!=="object" || Array.isArray(e)) return {ok:false, err:form};
+  for(const k of Object.keys(e)) if(WBG_ENV_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.env に未知の鍵 '+k+'('+WBG_ENV_KEYS.join("・")+' だけ)'};
+  const out={};
+  if(e.galaxy!==undefined){
+    const g=e.galaxy;
+    if(!g || typeof g!=="object" || Array.isArray(g)) return {ok:false, err:form};
+    for(const k of Object.keys(g)) if(WBG_ENV_GAL_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.env.galaxy に未知の鍵 '+k};
+    if(!(isNum(g.rhoSI) && g.rhoSI>0) || !(isNum(g.RSI) && g.RSI>0)) return {ok:false, err:'physics.relativeDrag.env.galaxy の rhoSI(局所の密度 kg/m³)と RSI(切断の半径 m)は正の有限数'};
+    if(g.source!==undefined && typeof g.source!=="string") return {ok:false, err:'physics.relativeDrag.env.galaxy.source は文字列(出典)'};
+    out.galaxy={rhoSI:g.rhoSI, RSI:g.RSI}; if(g.source!==undefined) out.galaxy.source=g.source;
+  }
+  if(e.bodies!==undefined){
+    if(!Array.isArray(e.bodies) || e.bodies.length>WBG_ENV_BODIES_MAX) return {ok:false, err:'physics.relativeDrag.env.bodies は配列(≤'+WBG_ENV_BODIES_MAX+' 個)'};
+    out.bodies=[];
+    for(const b of e.bodies){
+      if(!b || typeof b!=="object" || Array.isArray(b)) return {ok:false, err:form};
+      for(const k of Object.keys(b)) if(WBG_ENV_BODY_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.env.bodies の要素に未知の鍵 '+k+'(粒子の番号は書けない —— 粒子として計算する天体は重ねない)'};
+      if(!(isNum(b.m) && b.m>0) || !(isNum(b.d) && b.d>0)) return {ok:false, err:'physics.relativeDrag.env.bodies の m(本の質量)と d(受け手からの距離・本の長さ)は正の有限数'};
+      const o={m:b.m, d:b.d}; if(b.label!==undefined){ if(typeof b.label!=="string") return {ok:false, err:'physics.relativeDrag.env.bodies の label は文字列'}; o.label=b.label; }
+      out.bodies.push(o);
+    }
+  }
+  return {ok:true, env:out};
+}
+// 一様密度 ρ を半径 R で切った球の核の積分(点源の核 𝒦_ε —— 同じ単位で ρ・R・ε を渡す)
+function wbgUniformBall(rho, R, eps){ const e2=eps*eps; return 2*Math.PI*rho*(Math.log((R*R+e2)/e2)+e2/(R*R+e2)-1); }
+// 推定の読み口(状態・宣言を 1 bit も動かさない)。x は sim(今の位置・params)か本(宣言の初期位置)。戻り値の数は本の単位 [M/L³] と SI [kg/m³]
+function wbgEstimateOf(x){
+  const isSim=!!(x && x.params && x.x && typeof x.n==="number");
+  const ph=isSim? x.params : (x && x.physics), rd=ph && ph.relativeDrag;
+  const X=isSim? ((typeof currentPreset!=="undefined" && currentPreset && currentPreset.scaleExp)? currentPreset.scaleExp : null) : (x && x.scaleExp);
+  const base={version:WBG_EST_VERSION, ok:false};
+  if(!rd || rd.law!=="inertial") return Object.assign(base, {why:"noInertial"});
+  if(!X || !isNum(X.L) || !isNum(X.M)) return Object.assign(base, {why:"noScale"});
+  const ref=isSim? (typeof currentPreset!=="undefined" ? currentPreset : null) : x;
+  const n=isSim? x.n : ((x.bodies||[]).length);
+  const bx=(j,k)=>isSim? ((k==="z")? (x.z? x.z[j] : 0) : x[k][j]) : ((x.bodies[j][k]===undefined)? 0 : x.bodies[j][k]);
+  const mOf=(j)=>isSim? x.m[j] : x.bodies[j].m;
+  let ri=(ref && ref.orbitObs && Number.isInteger(ref.orbitObs.orbiter))? ref.orbitObs.orbiter : ((ref && ref.timeRef && Array.isArray(ref.timeRef.pair))? ref.timeRef.pair[1] : 1);
+  if(!(ri>=0 && ri<n)) ri=Math.min(1, n-1);
+  const eps=isNum(rd.eps)? rd.eps : ((ph && isNum(ph.softening))? ph.softening : 0);
+  const dens=Math.pow(10, X.M)/Math.pow(10, 3*X.L), Lm=Math.pow(10, X.L);
+  const C=WBG_EST_COSMO, H0=C.H0kmsMpc*1e3/C.Mpc, rhoC=3*H0*H0/(8*Math.PI*C.G), RH=C.c/H0;
+  const Wcos=wbgUniformBall(rhoC/dens, RH/Lm, eps);
+  const env=rd.env||null, gal=env && env.galaxy;
+  const Wgal=gal? wbgUniformBall(gal.rhoSI/dens, gal.RSI/Lm, eps) : 0;
+  const K=(d)=>{ const q=d*d+eps*eps; return d/(q*q); };
+  const pairsAll=!Array.isArray(rd.pairs), pset=new Set();
+  if(!pairsAll) for(const q of rd.pairs){ pset.add(q[0]+":"+q[1]); pset.add(q[1]+":"+q[0]); }
+  const paired=(i,j)=>pairsAll || pset.has(i+":"+j);
+  const src=[], bgP=[], terms=[];
+  let Wsys=0, sumW=0;
+  for(let j=0;j<n;j++){
+    if(j===ri || !(mOf(j)>0)) continue;
+    const d=Math.hypot(bx(j,"x")-bx(ri,"x"), bx(j,"y")-bx(ri,"y"), bx(j,"z")-bx(ri,"z")), w=mOf(j)*K(d);
+    if(paired(ri,j)){ src.push(j); sumW+=w; }
+    else { bgP.push(j); Wsys+=w; terms.push({kind:"particle", index:j, m:mOf(j), d, w}); }
+  }
+  if(env && Array.isArray(env.bodies)) for(const b of env.bodies){ const w=b.m*K(b.d); Wsys+=w; terms.push({kind:"env", label:b.label||"", m:b.m, d:b.d, w}); }
+  const overlap=src.filter((j)=>bgP.indexOf(j)>=0).length;
+  const total=Wcos+Wgal+Wsys, Wdecl=relDragWbgOf(rd);
+  const si=(v)=>v*dens;
+  return {version:WBG_EST_VERSION, ok:true, receiver:ri, eps, densSI:dens,
+    Wcos:{book:Wcos, SI:si(Wcos), rhoSI:rhoC, RSI:RH, H0kmsMpc:C.H0kmsMpc},
+    Wgal:{book:Wgal, SI:si(Wgal), declared:!!gal, rhoSI:gal? gal.rhoSI : null, RSI:gal? gal.RSI : null, source:gal && gal.source || null},
+    Wsys:{book:Wsys, SI:si(Wsys), terms}, total:{book:total, SI:si(total)},
+    sources:{drag:src, background:bgP, overlap}, sumW:{book:sumW, SI:si(sumW)},
+    Wdecl:isNum(Wdecl)? Wdecl : null, ratioToDecl:(isNum(Wdecl) && Wdecl>0)? total/Wdecl : null, xi:(total>0)? sumW/total : null};
+}
+// 「推定を入れる」(UI のボタン・HP): 推定 total を 7 桁に丸めて Wbg に写す(geoInertialSetWbg —— ON/OFF はそのまま・他の鍵を保つ)。推定が作れない本は {ok:false}
+function wbgEstimateApply(S){
+  const e=wbgEstimateOf(S);
+  if(!e.ok) return {ok:false, err:e.why, est:e};
+  const W=Number(e.total.book.toPrecision(WBG_ROW_PREC_EST));
+  const r=geoInertialSetWbg(S, W);
+  return Object.assign({}, r, {W, est:e});
+}
+const WBG_ROW_PREC_EST=7;
+function wbgFmt(v){ return (v===null || v===undefined || !isNum(v))? "—" : (v===0? "0" : Number(v).toExponential(3)); }
 // **正規化の 1 か所**: 受け手の行和 deg(= gain·Σ_j w_ij)から x = Σw/W_bg を返す(働かない本は deg のまま —— 行の対角は 1 + x)
 function inertialDragNormX(rd, deg){
   if(!relDragNormActive(rd) || rd.background===undefined || rd.background===null) return deg;
@@ -8061,6 +8167,11 @@ function validateRelativeDragInertial(a){
       if(rot==="off" && ax==="off") return {ok:false, err:'physics.relativeDrag.spinDrag の rot と axial が両方 "off"(何もしない宣言は書かない)'};
       out.spinDrag=o2;
     }
+  }
+  if(a.env!==undefined && a.env!==null){   // 第302便c(R190): W_bg の推定の環境の宣言(力学は読まない —— 読み取り行と器だけ)
+    const ev=validateWbgEnv(a.env);
+    if(!ev.ok) return {ok:false, err:ev.err};
+    out.env=ev.env;
   }
   return legacyGain? {ok:true, relativeDrag:out, legacyGain} : {ok:true, relativeDrag:out};
 }
@@ -39228,7 +39339,19 @@ function buildInertialWbgRow(parent){
   });
   on.addEventListener("change",()=>{ apply(undefined, on.checked, false); });
   // 第302便a: 第 2 段 c が「推定 W_cos+W_gal+W_sys」の読み取り行と「推定を入れる」をこの行の直下に足す(差し込む場所の目印 —— IWBG_ESTIMATE_SLOT)
-  row.appendChild(lab); row.appendChild(on); row.appendChild(rng); row.appendChild(num); row.appendChild(unit); row.appendChild(note);
+  // 第302便c(R190): 推定の読み取り行(wbgEstimateOf —— 読むだけ)と「推定を入れる」ボタン(押したときだけ Wbg に写す —— スライダーではない)
+  const est=document.createElement("div"); est.className="iwbgEst note"; est.style.cssText="flex:1 0 100%;display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap;font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 2px;";
+  const estTxt=document.createElement("span"); estTxt.className="iwbgEstTxt"; estTxt.style.cssText="flex:1 1 200px;min-width:0;overflow-wrap:anywhere;";
+  const estBtn=document.createElement("button"); estBtn.type="button"; estBtn.className="iwbgEstBtn"; estBtn.textContent=T("iwbgEstBtn"); estBtn.title=T("iwbgEstTip");
+  estBtn.style.cssText="flex:0 0 auto;font-size:calc(11px*var(--uz,1));";
+  estBtn.addEventListener("click",()=>{
+    const S=editSim(), r=wbgEstimateApply(S);
+    if(!r.ok){ notify(T("iwbgBad")(r.err || "estimate"),6000); inertialWbgRowSync(); return; }
+    _wbgRowRange=null; notify(T("iwbgEstDone")(r.W),5000);
+    setParamsDirty(true); refreshModeDeviation(); requestRender(); inertialWbgRowSync();
+  });
+  est.appendChild(estTxt); est.appendChild(estBtn);
+  row.appendChild(lab); row.appendChild(on); row.appendChild(rng); row.appendChild(num); row.appendChild(unit); row.appendChild(note); row.appendChild(est);
   parent.appendChild(row);
   inertialWbgRowSync();
 }
@@ -39250,6 +39373,15 @@ function inertialWbgRowSync(){
     const nt=(st.state==="undeclared")? T("iwbgNoDecl") : (st.state==="frozen")? T("iwbgFrozen")
       : (st.state==="unestimated")? T("iwbgUnestNote") : (!st.enabled? T("iwbgOffNote") : "");
     if(note){ if(note.textContent!==nt) note.textContent=nt; note.style.display=nt? "" : "none"; }
+    const est=row.querySelector(".iwbgEst"), estTxt=row.querySelector(".iwbgEstTxt"), estBtn=row.querySelector(".iwbgEstBtn");   // 第302便c: 推定の読み取り行
+    if(est){
+      let e=null; try{ e=edit? wbgEstimateOf(S) : null; }catch(err){ e=null; }
+      est.style.display=edit? "flex" : "none";
+      est.dataset.ok=String(!!(e && e.ok)); est.dataset.total=(e && e.ok)? String(e.total.book) : "";
+      const tx=(e && e.ok)? T("iwbgEstLine")(e) : T("iwbgEstNone");
+      if(estTxt && estTxt.textContent!==tx) estTxt.textContent=tx;
+      if(estBtn) estBtn.style.display=(e && e.ok)? "" : "none";
+    }
   });
 }
 // ===== 第295便a(原仮定者の裁定(第85報)「geoPN=0 では…全ての設定を試せる様にする。排他的な宣言がある場合は、宣言を選択肢で用意する」・R153) =====
@@ -59369,6 +59501,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
+  WBG_EST_VERSION, wbgEstimateOf, validateWbgEnv, wbgUniformBall, wbgEstimateApply,   // 第302便c(R190)
   REL_DRAG_WBG_KEY, REL_DRAG_WBG_VERSION, relDragLegacyFrozen, relDragWbgFromGain, relDragCoefficientOf, relDragWbgOf, relDragEnabledOf, relDragLegacyGainWarn,   // 第302便a(R186)
   REL_DRAG_STEP_ORDERS, REL_DRAG_STEP_ORDER_DEFAULT, REL_DRAG_SEMIC_VERSION, relDragStepOrderOf, relDragSemicOn, inertialDragSemicPre, inertialDragEnergy, inertialDragSemicWork, inertialDragLedgerOf,   // 第302便d: 步の順序 semic
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化
