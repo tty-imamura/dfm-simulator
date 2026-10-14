@@ -1,0 +1,2493 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第302便c",
+  "target": "beta/index.html",
+  "targetSha256": "927edc783093496a8d8314e3c42a64504fca41a46217c774b2bce1da520b561d",
+  "generatedAt": "2026-10-14T04:00:53.924Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6825776,
+    "sha256": "927edc783093496a8d8314e3c42a64504fca41a46217c774b2bce1da520b561d",
+    "mtime": "2026-10-14T03:52:19.242Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w302c-wbgest.mjs",
+    "bytes": 48813,
+    "sha256": "f5a1e5b875c96d13847d8dea84464e7ab14cf9ab737ba1ea858b741639b4ee8f",
+    "mtime": "2026-10-14T03:38:34.410Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 50865,
+    "sha256": "0dc20bf811554dab4ba5648a2aeda235c5c3d04186faf06993d57185a8bb9d9b",
+    "mtime": "2026-10-14T03:03:02.078Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-14T03:03:02.110Z"
+   },
+   {
+    "file": "tests/exp-w302b-gloc.mjs",
+    "bytes": 30923,
+    "sha256": "b9c71181c2e208907fad64140bd91ba491bb6e4731caf1647a2cc84dbb5801c2",
+    "mtime": "2026-10-14T03:20:57.475Z"
+   },
+   {
+    "file": "tests/exp-w300b-emonly.mjs",
+    "bytes": 21367,
+    "sha256": "de0e4fdaa6918c62b2fd9f860c669c7fd7d724160afb2d6a07ed505fb0081f66",
+    "mtime": "2026-10-14T03:03:02.078Z"
+   },
+   {
+    "file": "tests/exp-w302d-semic.mjs",
+    "bytes": 31442,
+    "sha256": "db645dea88c3a6cf085727da6d7224698d31ba36c8b895a89663335107f0c09d",
+    "mtime": "2026-10-14T03:20:57.476Z"
+   },
+   {
+    "file": "tests/exp-w301a-dragnorm.mjs",
+    "bytes": 23206,
+    "sha256": "05daece9a1ba8f1e4a39a5f0d51ccf45180e2499ab9b4b1db50932433948d3f0",
+    "mtime": "2026-10-14T03:03:02.078Z"
+   },
+   {
+    "file": "tests/lib-w302c-pre.mjs",
+    "bytes": 1541,
+    "sha256": "876585c235f02902b2411c34572546095a49cfda3eb3d8aa9a79e299a7ed40bf",
+    "mtime": "2026-10-14T03:20:57.446Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-14T03:03:02.098Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-14T03:03:02.094Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-14T03:03:02.102Z"
+   }
+  ],
+  "codeSha256": "a867b9248ce1a599818751eac8c36c961d20b021cfdc5a54b12eaba57560804c",
+  "harnessVersion": "w302c-wbgest-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)",
+  "reading": "統括の検証項目 R190(n は 1 つの W_bg の移送の予言で決める・推定は W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目)",
+  "notClaim": [
+   "43″/世紀が出た",
+   "GR と一致した",
+   "dragCore が一意に決まった",
+   "W_bg の宇宙の値が決まった",
+   "推定とフィットが一致した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.sim",
+    "HP.validatePreset",
+    "HP.gLocState",
+    "HP.inertialDragLedgerOf",
+    "HP.wbgEstimateOf",
+    "HP.WBG_EST_VERSION",
+    "HP.fitCondSig",
+    "HP.validateFitRecord",
+    "HP.dragCoreLookup",
+    "HP.inertialDragState",
+    "HP.GLOC_VERSION"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1299,
+   "segments": 1178,
+   "closureShare": 0.3237
+  },
+  "scopeSha256": "81b10e682ed5b42e5415ef931c5ca573059c78faf064b049f6fb5e14fd146b7a",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w302c-wbgest-1",
+ "parts": [
+  "N",
+  "P",
+  "G",
+  "E",
+  "C",
+  "L"
+ ],
+ "nChoice": {
+  "grRef": {
+   "mercurySunInertial3d": {
+    "emoji": "🌡️",
+    "formula": 42.98051038206748,
+    "a": 579.0922654152438,
+    "e": 0.20563592999999875,
+    "measured": 42.98056423869767,
+    "measuredH2": 42.98049370132402,
+    "h": 0.016,
+    "nPeri": 9,
+    "note": "既存の 1PN の経路(二次元の geoPN=1 の EIH − geoPN=0・☄️ mercuryReal の宣言の器に初期の軌道面へ射影した相対の状態・太陽 pinned・同じ刻み h・近点の頂点)—— 比較の物差し・観測値ではない"
+   },
+   "venusSunInertial3d": {
+    "emoji": "🌋",
+    "formula": 8.62452062017885,
+    "a": 1082.094745373791,
+    "e": 0.006776719999992832,
+    "measured": 8.624734508352272,
+    "measuredH2": 8.627024188224611,
+    "h": 0.04087,
+    "nPeri": 8,
+    "note": "既存の 1PN の経路(二次元の geoPN=1 の EIH − geoPN=0・☄️ mercuryReal の宣言の器に初期の軌道面へ射影した相対の状態・太陽 pinned・同じ刻み h・近点の頂点)—— 比較の物差し・観測値ではない"
+   },
+   "marsSunInertial3d": {
+    "emoji": "🔴",
+    "formula": 1.3508652247462132,
+    "a": 2279.438224275731,
+    "e": 0.09339409999999983,
+    "measured": 1.3508861251764002,
+    "measuredH2": 1.350853876430266,
+    "h": 0.1249,
+    "nPeri": 8,
+    "note": "既存の 1PN の経路(二次元の geoPN=1 の EIH − geoPN=0・☄️ mercuryReal の宣言の器に初期の軌道面へ射影した相対の状態・太陽 pinned・同じ刻み h・近点の頂点)—— 比較の物差し・観測値ではない"
+   }
+  },
+  "rows": [
+   {
+    "key": "none",
+    "n": null,
+    "gl": null,
+    "label": "G_loc なし(引きずりだけ —— 今の宣言)",
+    "fit": {
+     "gl": null,
+     "h": 0.016,
+     "ctl": -9.267888359086529,
+     "ctlH2": -7.237235699023904,
+     "ctlPeriodDays": 87.96929064938412,
+     "gLocPart": 0,
+     "need": 43,
+     "reachable": true,
+     "iters": [
+      {
+       "Wbg": 221.1205993960312,
+       "f": -0.00010099029211829702
+      },
+      {
+       "Wbg": 221.12008006966082,
+       "f": 0.00008956978361851498
+      },
+      {
+       "Wbg": 221.12032417059615,
+       "f": 0.000024073579353967034
+      },
+      {
+       "Wbg": 221.12041389170554,
+       "f": -0.000013790455184903294
+      },
+      {
+       "Wbg": 221.12038121438334,
+       "f": 0.000019131170283515075
+      },
+      {
+       "Wbg": 221.12040020358475,
+       "f": -0.0000046167077414338564
+      },
+      {
+       "Wbg": 221.12039651198756,
+       "f": 0.000059788779857683494
+      },
+      {
+       "Wbg": 221.12039993896403,
+       "f": 0.000042672586012315605
+      },
+      {
+       "Wbg": 221.1204084828002,
+       "f": 0.000002384433550162157
+      },
+      {
+       "Wbg": 221.12040898846274,
+       "f": -0.0000350904471559943
+      },
+      {
+       "Wbg": 221.12040851497423,
+       "f": 0.000024395269491606086
+      },
+      {
+       "Wbg": 221.1204087091533,
+       "f": -0.000002248961763484658
+      },
+      {
+       "Wbg": 221.1204086927632,
+       "f": 0.00003767176870894673
+      },
+      {
+       "Wbg": 221.12040870822997,
+       "f": -0.000002248961763484658
+      }
+     ],
+     "Wbg": 221.1204,
+     "WbgSI": 221120.4,
+     "diff": 43.000022517644176,
+     "diffH2": 42.999986779991616,
+     "residual": 0.000022517644175934493,
+     "h2gap": 0.000035737652559930666,
+     "periodDays": 87.96928420053625,
+     "periodDaysH2": 87.96936076054709,
+     "stepsH": 380028,
+     "gate": true,
+     "dragPart": 43.000022517644176,
+     "dragRatioToBook": 1.0000009017532132
+    },
+    "transfer": [
+     {
+      "id": "venusSunInertial3d",
+      "emoji": "🌋",
+      "h": 0.04087,
+      "Wbg": 221.1204,
+      "pred": 2.242906388318738,
+      "predH2": 2.245248584152396,
+      "h2gap": 0.002342195833657801,
+      "gLocPart": 0,
+      "dragPart": 2.242906388318738,
+      "ref": 8.624734508352272,
+      "refFormula": 8.62452062017885,
+      "resid": -6.381828120033534,
+      "relResid": -0.7399448775905291,
+      "periodShiftDays": -0.0000015953553997860581
+     },
+     {
+      "id": "marsSunInertial3d",
+      "emoji": "🔴",
+      "h": 0.1249,
+      "Wbg": 221.1204,
+      "pred": 0.08073836608365731,
+      "predH2": 0.08075372926875732,
+      "h2gap": 0.000015363185100009114,
+      "gLocPart": 0,
+      "dragPart": 0.08073836608365731,
+      "ref": 1.3508861251764002,
+      "refFormula": 1.3508652247462132,
+      "resid": -1.2701477590927428,
+      "relResid": -0.9402330332816806,
+      "periodShiftDays": -5.76366232962755e-7
+     }
+    ],
+    "sumSq": 42.34100548357906,
+    "rms": 4.601141460745315,
+    "relRms": 0.8460368132494392
+   },
+   {
+    "key": "n2",
+    "n": 2,
+    "gl": {
+     "law": "kappaC2"
+    },
+    "label": "κ·c_loc²(n=2 —— 裁定の式)",
+    "fit": {
+     "gl": {
+      "law": "kappaC2"
+     },
+     "h": 0.016,
+     "ctl": -9.267888359086529,
+     "ctlH2": -7.237235699023904,
+     "ctlPeriodDays": 87.96929064938412,
+     "gLocPart": -28.65369650238931,
+     "need": 71.65369650238931,
+     "reachable": true,
+     "iters": [
+      {
+       "Wbg": 132.6963748996856,
+       "f": -0.00012012776189607166
+      },
+      {
+       "Wbg": 132.69615243358396,
+       "f": 0.00003982317954864811
+      },
+      {
+       "Wbg": 132.69620782116888,
+       "f": 0.00002483816324883037
+      },
+      {
+       "Wbg": 132.69629962803617,
+       "f": 0.000005280197228785255
+      },
+      {
+       "Wbg": 132.6963244137829,
+       "f": -0.00009915557600237435
+      },
+      {
+       "Wbg": 132.69630088118538,
+       "f": -0.00008171248703092715
+      },
+      {
+       "Wbg": 132.6961906423892,
+       "f": 0.00007240612981007644
+      },
+      {
+       "Wbg": 132.69624243341377,
+       "f": 0.00001714043762746087
+      },
+      {
+       "Wbg": 132.6962584962051,
+       "f": 0.00002314073715581344
+      },
+      {
+       "Wbg": 132.69619654851374,
+       "f": 0.00005515071268291649
+      },
+      {
+       "Wbg": 132.69630327963188,
+       "f": -0.00007150824256996202
+      },
+      {
+       "Wbg": 132.69624302208953,
+       "f": 0.000010861685865393156
+      },
+      {
+       "Wbg": 132.69625096792913,
+       "f": -0.000005228534909917926
+      },
+      {
+       "Wbg": 132.69624838591974,
+       "f": -0.00000414777884572004
+      }
+     ],
+     "Wbg": 132.6962,
+     "WbgSI": 132696.2,
+     "diff": 43.00001371185883,
+     "diffH2": 42.999947065468774,
+     "residual": 0.000013711858827036849,
+     "h2gap": 0.00006664639005293793,
+     "periodDays": 87.96929612234631,
+     "periodDaysH2": 87.96937268299946,
+     "stepsH": 380028,
+     "gate": true,
+     "dragPart": 71.65371021424814,
+     "dragRatioToBook": 1.6663672312849291
+    },
+    "transfer": [
+     {
+      "id": "venusSunInertial3d",
+      "emoji": "🌋",
+      "h": 0.04087,
+      "Wbg": 132.6962,
+      "pred": -2.0121329230135494,
+      "predH2": -2.0125634129920096,
+      "h2gap": 0.0004304899784601801,
+      "gLocPart": -5.7497426716819815,
+      "dragPart": 3.737609748668432,
+      "ref": 8.624734508352272,
+      "refFormula": 8.62452062017885,
+      "resid": -10.636867431365822,
+      "relResid": -1.2332979549764669,
+      "periodShiftDays": 0.000021978688209856045
+     },
+     {
+      "id": "marsSunInertial3d",
+      "emoji": "🔴",
+      "h": 0.1249,
+      "Wbg": 132.6962,
+      "pred": -0.7660236613385435,
+      "predH2": -0.7660577109701131,
+      "h2gap": 0.000034049631569610384,
+      "gLocPart": -0.9005765324061984,
+      "dragPart": 0.1345528710676549,
+      "ref": 1.3508861251764002,
+      "refFormula": 1.3508652247462132,
+      "resid": -2.1169097865149435,
+      "relResid": -1.5670527271412424,
+      "periodShiftDays": 0.00003858992431560182
+     }
+    ],
+    "sumSq": 117.62425579669367,
+    "rms": 7.668906564716175,
+    "relRms": 1.4100847661381817
+   },
+   {
+    "key": "nm2",
+    "n": -2,
+    "gl": {
+     "law": "timeRatio"
+    },
+    "label": "G·(c₀/c_loc)²(n=−2 —— 補足の例)",
+    "fit": {
+     "gl": {
+      "law": "timeRatio"
+     },
+     "h": 0.016,
+     "ctl": -9.267888359086529,
+     "ctlH2": -7.237235699023904,
+     "ctlPeriodDays": 87.96929064938412,
+     "gLocPart": 28.653691026008097,
+     "need": 14.346308973991903,
+     "reachable": true,
+     "iters": [
+      {
+       "Wbg": 662.7618149913344,
+       "f": -0.000012700513060792673
+      },
+      {
+       "Wbg": 662.7612282609703,
+       "f": 0.00005706801528759797
+      },
+      {
+       "Wbg": 662.7617081841217,
+       "f": 0.000053302799386756305
+      },
+      {
+       "Wbg": 662.768502357126,
+       "f": -0.00009972015988068961
+      },
+      {
+       "Wbg": 662.7640747964463,
+       "f": 8.757192091479737e-7
+      },
+      {
+       "Wbg": 662.7641133395188,
+       "f": -0.0000026040252407710796
+      },
+      {
+       "Wbg": 662.76408449627,
+       "f": -0.000006370598846672237
+      },
+      {
+       "Wbg": 662.7641332803354,
+       "f": -0.00002329934805800349
+      },
+      {
+       "Wbg": 662.7640661379331,
+       "f": -0.00009692070021571908
+      },
+      {
+       "Wbg": 662.764154529258,
+       "f": -0.0001020351616389803
+      },
+      {
+       "Wbg": 662.7623910981607,
+       "f": 0.00005916908316550007
+      },
+      {
+       "Wbg": 662.7630383542281,
+       "f": -0.000042766085257994746
+      },
+      {
+       "Wbg": 662.7627668029639,
+       "f": 0.000022114363204650545
+      },
+      {
+       "Wbg": 662.7628593606112,
+       "f": -0.000050743169751399364
+      }
+     ],
+     "Wbg": 662.7629,
+     "WbgSI": 662762.8999999999,
+     "diff": 42.99991953332161,
+     "diffH2": 42.99988705583139,
+     "residual": -0.00008046667839067823,
+     "h2gap": 0.00003247749022250446,
+     "periodDays": 87.96927227874805,
+     "periodDaysH2": 87.96934883811547,
+     "stepsH": 380028,
+     "gate": true,
+     "dragPart": 14.346228507313512,
+     "dragRatioToBook": 0.33363454622464717
+    },
+    "transfer": [
+     {
+      "id": "venusSunInertial3d",
+      "emoji": "🌋",
+      "h": 0.04087,
+      "Wbg": 662.7629,
+      "pred": 6.497979865148266,
+      "predH2": 6.497650083156719,
+      "h2gap": 0.0003297819915468736,
+      "gLocPart": 5.750425256470062,
+      "dragPart": 0.7475546086782039,
+      "ref": 8.624734508352272,
+      "refFormula": 8.62452062017885,
+      "resid": -2.1267546432040065,
+      "relResid": -0.24658783886558336,
+      "periodShiftDays": -0.000025169352966258884
+     },
+     {
+      "id": "marsSunInertial3d",
+      "emoji": "🔴",
+      "h": 0.1249,
+      "Wbg": 662.7629,
+      "pred": 0.9275273534610017,
+      "predH2": 0.9274808230957299,
+      "h2gap": 0.00004653036527180188,
+      "gLocPart": 0.9005781236269216,
+      "dragPart": 0.026949229834080102,
+      "ref": 1.3508861251764002,
+      "refFormula": 1.3508652247462132,
+      "resid": -0.4233587717153985,
+      "relResid": -0.313393382184687,
+      "periodShiftDays": -0.00003974279388785362
+     }
+    ],
+    "sumSq": 4.702317961978172,
+    "rms": 1.5333489429966962,
+    "relRms": 0.28197604000478144
+   },
+   {
+    "key": "nm3",
+    "n": -3,
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "label": "G·(c₀/c_loc)³(n=−3)",
+    "fit": {
+     "gl": {
+      "law": "cLocPow",
+      "n": -3
+     },
+     "h": 0.016,
+     "ctl": -9.267888359086529,
+     "ctlH2": -7.237235699023904,
+     "ctlPeriodDays": 87.96929064938412,
+     "gLocPart": 42.98057178885942,
+     "need": 0.019428211140578355,
+     "reachable": true,
+     "iters": [
+      {
+       "Wbg": 489400.9904066904,
+       "f": -0.000027837263957053437
+      },
+      {
+       "Wbg": 488699.7634922711,
+       "f": 0.00007524024144345276
+      },
+      {
+       "Wbg": 489211.4177569663,
+       "f": -0.000017011366530539362
+      },
+      {
+       "Wbg": 489116.9872169859,
+       "f": -0.000037453594238456844
+      },
+      {
+       "Wbg": 489290.02762580087,
+       "f": 0.000021506698402617985
+      },
+      {
+       "Wbg": 489226.8942191843,
+       "f": 0.000058764485380891074
+      },
+      {
+       "Wbg": 489326.47819436307,
+       "f": 0.000025741433610448894
+      },
+      {
+       "Wbg": 489404.13191902696,
+       "f": 0.000036547410161347216
+      },
+      {
+       "Wbg": 489141.5947750731,
+       "f": -0.000014466813709645976
+      },
+      {
+       "Wbg": 489216.0174709796,
+       "f": 0.00004749329063713503
+      },
+      {
+       "Wbg": 489158.96940247674,
+       "f": 0.000020799475237254228
+      },
+      {
+       "Wbg": 489114.5275079267,
+       "f": 0.000033016500964322404
+      },
+      {
+       "Wbg": 489234.65026977874,
+       "f": 0.000008351764066105716
+      },
+      {
+       "Wbg": 489275.3385939385,
+       "f": 0.000006050800308798898
+      }
+     ],
+     "Wbg": 489275.3,
+     "WbgSI": 489275300,
+     "diff": 43.000005187146265,
+     "diffH2": 42.99991288261471,
+     "residual": 0.0000051871462645181055,
+     "h2gap": 0.00009230453155595342,
+     "periodDays": 87.96926631785848,
+     "periodDaysH2": 87.96934287684266,
+     "stepsH": 380028,
+     "gate": true,
+     "dragPart": 0.019433398286842873,
+     "dragRatioToBook": 0.0004519349319208045
+    },
+    "transfer": [
+     {
+      "id": "venusSunInertial3d",
+      "emoji": "🌋",
+      "h": 0.04087,
+      "Wbg": 489275.3,
+      "pred": 8.625875062519789,
+      "predH2": 8.624346631002703,
+      "h2gap": 0.0015284315170855933,
+      "gLocPart": 8.623499679328066,
+      "dragPart": 0.002375383191722591,
+      "ref": 8.624734508352272,
+      "refFormula": 8.62452062017885,
+      "resid": 0.001140554167516683,
+      "relResid": 0.0001322422349826722,
+      "periodShiftDays": -0.000036956420274236734
+     },
+     {
+      "id": "marsSunInertial3d",
+      "emoji": "🔴",
+      "h": 0.1249,
+      "Wbg": 489275.3,
+      "pred": 1.3509229210124056,
+      "predH2": 1.3509165643184113,
+      "h2gap": 0.000006356693994291618,
+      "gLocPart": 1.3508573202645644,
+      "dragPart": 0.00006560074784123238,
+      "ref": 1.3508861251764002,
+      "refFormula": 1.3508652247462132,
+      "resid": 0.00003679583600546543,
+      "relResid": 0.000027238295900522772,
+      "periodShiftDays": -0.000059325846677893423
+     }
+    ],
+    "sumSq": 0.0000013022177425870148,
+    "rms": 0.0008069131745693011,
+    "relRms": 0.00009547233493734383
+   }
+  ],
+  "chosen": "nm3",
+  "chosenN": -3,
+  "chosenGl": {
+   "law": "cLocPow",
+   "n": -3
+  },
+  "margin": 1900.2650983052029,
+  "rule": "🌡️ で合わせ直した 1 つの W_bg と同じ G_loc を 🌋🔴 へ移送した近点率の差の予言と 1PN の写しの残差の二乗和(″/世紀)が最小の案(🌡️ のフィットが門を通る案だけ)"
+ },
+ "planets": {
+  "ids": [
+   "mercurySunInertial3d",
+   "venusSunInertial3d",
+   "marsSunInertial3d",
+   "jupiterSunInertial3d",
+   "saturnSunInertial3d",
+   "uranusSunInertial3d",
+   "neptuneSunInertial3d"
+  ],
+  "gl": {
+   "law": "cLocPow",
+   "n": -3
+  },
+  "rows": [
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.016,
+    "WbgDecl": 489275.3,
+    "ctl": {
+     "aps": -9.267888359086529,
+     "apsH2": -7.237235699023904,
+     "periodDays": 87.96929064938412
+    },
+    "book": {
+     "aps": 43.000005187146265,
+     "apsH2": 42.99991288261471,
+     "periodShiftDays": -0.000024331525636966944,
+     "periodDays": 87.96926631785848,
+     "periodDaysH2": 87.96934287684266
+    },
+    "pn1": 42.98051038206748
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.04087,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -1.5962116208851826,
+     "apsH2": -0.9053605357595742,
+     "periodDays": 224.70212437671773
+    },
+    "book": {
+     "aps": 8.623499679328066,
+     "apsH2": 8.624553314234943,
+     "periodShiftDays": -0.00003695563847827543,
+     "periodDays": 224.70208742107926,
+     "periodDaysH2": 224.70220368684593
+    },
+    "pn1": 8.62452062017885,
+    "transfer": {
+     "Wbg": 489275.3,
+     "WbgSI": 489275300.00000006,
+     "aps": 8.625875062519789,
+     "apsH2": 8.624346631002703,
+     "dragPart": 0.002375383191722591,
+     "periodShiftDays": -0.000036956420274236734
+    }
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.1249,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -0.3604202731987368,
+     "apsH2": -0.12804787943911766,
+     "periodDays": 686.9862726513481
+    },
+    "book": {
+     "aps": 1.3508573202645644,
+     "apsH2": 1.3508740464916071,
+     "periodShiftDays": -0.000059325694337530877,
+     "periodDays": 686.9862133256538,
+     "periodDaysH2": 686.9892466831413
+    },
+    "pn1": 1.3508652247462132,
+    "transfer": {
+     "Wbg": 489275.3,
+     "WbgSI": 489275300.00000006,
+     "aps": 1.3509229210124056,
+     "apsH2": 1.3509165643184113,
+     "dragPart": 0.00006560074784123238,
+     "periodShiftDays": -0.000059325846677893423
+    }
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.0788,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -0.11608803980932397,
+     "apsH2": -0.07997845846857217,
+     "periodDays": 4332.674509147152
+    },
+    "book": {
+     "aps": 0.06226635448124366,
+     "apsH2": 0.06225470183298623,
+     "periodShiftDays": -0.00010361802196712233,
+     "periodDays": 4332.67440552913,
+     "periodDaysH2": 4332.682785575571
+    },
+    "pn1": 0.06238664095813723,
+    "transfer": {
+     "Wbg": 48927530,
+     "WbgSI": 489275300.00000006,
+     "aps": 0.062265267257639874,
+     "apsH2": 0.062270101515056214,
+     "dragPart": -0.0000010872236037851035,
+     "periodShiftDays": -0.00010361792283219984
+    }
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.1957,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -0.02759927600299109,
+     "apsH2": -0.013019315957404057,
+     "periodDays": 10755.620895411312
+    },
+    "book": {
+     "aps": 0.013698326604908906,
+     "apsH2": 0.013707915727246318,
+     "periodShiftDays": -0.00013929823398939334,
+     "periodDays": 10755.620756113078,
+     "periodDaysH2": 10755.575096745843
+    },
+    "pn1": 0.013709400874347216,
+    "transfer": {
+     "Wbg": 48927530,
+     "WbgSI": 489275300.00000006,
+     "aps": 0.013698724030222372,
+     "apsH2": 0.013704633230056098,
+     "dragPart": 3.9742531346594057e-7,
+     "periodShiftDays": -0.0001392985741404118
+    }
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 0.5581,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -0.0074887808975896124,
+     "apsH2": -0.002400347369199774,
+     "periodDays": 30702.292524843957
+    },
+    "book": {
+     "aps": 0.002383961309423784,
+     "apsH2": 0.002382190996971764,
+     "periodShiftDays": -0.00018310786981601268,
+     "periodDays": 30702.292341736087,
+     "periodDaysH2": 30702.367861427156
+    },
+    "pn1": 0.002384637457426602,
+    "transfer": {
+     "Wbg": 48927530,
+     "WbgSI": 489275300.00000006,
+     "aps": 0.002383961309423784,
+     "apsH2": 0.002382190996971764,
+     "dragPart": 0,
+     "periodShiftDays": -0.0001831078807299491
+    }
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "gl": {
+     "law": "cLocPow",
+     "n": -3
+    },
+    "h": 1.095,
+    "WbgDecl": null,
+    "ctl": {
+     "aps": -0.0035822197814282366,
+     "apsH2": -0.0010042688675717234,
+     "periodDays": 60226.32090420012
+    },
+    "book": {
+     "aps": 0.0007740170467459002,
+     "apsH2": 0.0007759491650566764,
+     "periodShiftDays": -0.00023684950429014862,
+     "periodDays": 60226.320667350614,
+     "periodDaysH2": 60226.2699131795
+    },
+    "pn1": 0.0007741015435735884,
+    "transfer": {
+     "Wbg": 48927530,
+     "WbgSI": 489275300.00000006,
+     "aps": 0.0007740170467459002,
+     "apsH2": 0.0007759491650566764,
+     "dragPart": 0,
+     "periodShiftDays": -0.00023684950429014862
+    }
+   }
+  ],
+  "mercury": {
+   "Wbg": 489275.3,
+   "WbgSI": 489275300.00000006,
+   "band": [
+    467618.92147497315,
+    513034.9884923479
+   ],
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "mercurySunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・局所重力 G_loc(physics.gLoc cLocPow n=-3 —— 第302便c)・積分器 semic(第302便d)",
+    "targets": [
+     {
+      "q": "近点率の差(引きずり OFF ∧ G_loc なしの対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)",
+      "window": "8 公転・検出器 B・引きずり OFF ∧ G_loc なしの対照との差(同じ刻み)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした(🟫 と同じ)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 43.000005187146265,
+      "residual": 0.0000051871462645181055,
+      "rel": 1.2063130847716523e-7,
+      "numerics": {
+       "h2": 0.00009230453155595342,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+      "obs": 87.969,
+      "unit": "d",
+      "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+      "window": "8 公転",
+      "tol": {
+       "value": 0.0005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+      "model": 87.96926631785848,
+      "residual": 0.00026631785848962863,
+      "rel": 0.000003027405773506902,
+      "numerics": {
+       "h2": 0.00007655898417624485,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       483813,
+       494298
+      ],
+      "final": 489275.3
+     }
+    ],
+    "fixed": [
+     "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+     "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"",
+     "局所重力 physics.gLoc {law:\"cLocPow\", n:-3}(receiver・κ_g = G/c₀²・ref background —— 第302便c の移送の予言で採った n。G_loc だけの近点率の差 42.98057″/世紀)"
+    ],
+    "procedure": "第302便c: G_loc(n=-3)を入れた本で、引きずり OFF ∧ G_loc なしの対照との近点率の差(8 公転)を 43.0″/世紀に割線で合わせ(c = 1/W_bg)、W_bg を 7 桁に丸めて h と h/2 で測り直した(器 tests/exp-w302c-wbgest.mjs)。引きずりが担うのは 0.01943″/世紀だけ —— 照合許容 ±0.0009″/世紀が写る W_bg の幅は 467600〜513000(弱く同定)",
+    "dt": 0.016,
+    "steps": 380028,
+    "status": "fitted",
+    "notFitted": [
+     "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+     "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+     "G_loc の n は 🌋🔴 への移送の予言で選んだ(🌡️ には合わせていない)",
+     "機構(1PN の近日点前進の機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "f41e374edb99730e",
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+    }
+   },
+   "recordAccepted": true,
+   "recordErr": null,
+   "status": "fitted"
+  }
+ },
+ "earthMoon": {
+  "gl": {
+   "law": "cLocPow",
+   "n": -3
+  },
+  "rows": [
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "dT1": -0.0000014321354413482368,
+    "dT1H2": -0.0000014300297213054591,
+    "dSid": -0.0000036264582661260647,
+    "dSidH2": -0.0000036317482461356576,
+    "T1": 8.85000284789113,
+    "sid": 27.32165960940924,
+    "tol": [
+     {
+      "q": "近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)",
+      "unit": "yr",
+      "tol": 0.005,
+      "h2": 0.0001850428998722009
+     },
+     {
+      "q": "恒星月(黄道経度の周回の平均間隔・118 公転窓)",
+      "unit": "d",
+      "tol": 0.00005,
+      "h2": 0.00000449931718904395
+     },
+     {
+      "q": "平均離心率(接触離心率の時間平均・118 公転窓)",
+      "unit": "無次元",
+      "tol": 0.00005,
+      "h2": 0.0000013297620823221612
+     }
+    ],
+    "ratioT1": 0.00028642708826964736,
+    "ratioSid": 0.0725291653225213
+   },
+   {
+    "id": "earthMoonOnly3d",
+    "emoji": "🌔",
+    "dT1": -0.0026184021480730735,
+    "dT1H2": -0.0026119593235307548,
+    "dSid": -4.08273592711339e-9,
+    "dSidH2": -4.091521788041064e-9,
+    "T1": 2398.8093685401677,
+    "sid": 27.48288894290838,
+    "tol": null,
+    "ratioT1": null,
+    "ratioSid": null
+   }
+  ],
+  "rule": "効果が照合許容の 1/10 未満なら宣言しない(再フィットの利点が無い —— 太陽の ψ は地球と月にほぼ一様で G の定数倍に近い)"
+ },
+ "estimate": {
+  "galTrial": {
+   "rhoSI": 6.564923594140125e-21,
+   "RSI": 253027399999999970000,
+   "source": "太陽近傍の局所の全密度 0.097 M☉/pc³(McKee, Parravano & Hollenbach 2015, ApJ 814, 13 —— 恒星・ガス・暗黒物質の和)と銀河中心距離 R₀ = 8.2 kpc(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529)の転記 —— 本便のコンテナはネットワークに出られず原表は未取得(公表値の転記・照合は次の見直し)"
+  },
+  "cosmo": {
+   "H0kmsMpc": 67.4,
+   "note": "第301便a の COSMO と同じ値(臨界密度・地平 c/H₀ で切断・核の ε の対数)"
+  },
+  "rows": [
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "receiver": 2,
+    "eps": 0.01,
+    "densSI": 1000,
+    "coord": "3d",
+    "fitted": true,
+    "WcosSI": 4.918475117144814e-24,
+    "WgalTrialSI": 2.6947334043994316e-18,
+    "WsysSI": 0.0005897650020398014,
+    "sysTerms": [
+     {
+      "kind": "particle",
+      "index": 0,
+      "m": 1988.5,
+      "d": 1499.508272768754,
+      "w": 5.897650020398014e-7
+     }
+    ],
+    "totalSI": 0.0005897650020398014,
+    "totalTrialSI": 0.000589765002039804,
+    "sources": {
+     "drag": [
+      1
+     ],
+     "background": [
+      0
+     ],
+     "overlap": 0
+    },
+    "sumWSI": 0.13107746302776113,
+    "WdeclSI": 3856.0163495093225,
+    "enabled": true,
+    "ratioToDecl": 1.5294670680399189e-7,
+    "ratioTrialToDecl": 1.5294670680399257e-7,
+    "xi": 222.25371558910362,
+    "xiTrial": 222.25371558910263,
+    "starAsBackground": {
+     "star": 1,
+     "mSI": 5.9724e+24,
+     "dSI": 357167019.99999714,
+     "WstarSI": 0.13107746302776113,
+     "totalSI": 0.13166722802980094,
+     "sumWLeftSI": 0,
+     "ratioToDecl": 0.00003414592058110842
+    },
+    "gapDex": 6.815459869658389
+   },
+   {
+    "id": "earthMoonOnly3d",
+    "emoji": "🌔",
+    "receiver": 1,
+    "eps": 0.01,
+    "densSI": 1000,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.918475117144814e-24,
+    "WgalTrialSI": 2.6947334043994316e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.918475117144814e-24,
+    "totalTrialSI": 2.694738322874549e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.13107746302776113,
+    "WdeclSI": 3856.0163495093225,
+    "enabled": true,
+    "ratioToDecl": 1.2755327445047504e-27,
+    "ratioTrialToDecl": 6.988399629626711e-22,
+    "xi": 2.6650020566506775e+22,
+    "xiTrial": 48642000566473304,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 5.9724e+24,
+     "dSI": 357167019.99999714,
+     "WstarSI": 0.13107746302776113,
+     "totalSI": 0.13107746302776113,
+     "sumWLeftSI": 0,
+     "ratioToDecl": 0.00003399297387430443
+    },
+    "gapDex": 21.155622267973712
+   },
+   {
+    "id": "mercurySunInertialFit",
+    "emoji": "🟫",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 1000,
+    "coord": "2d",
+    "fitted": true,
+    "WcosSI": 4.745894635667769e-24,
+    "WgalTrialSI": 2.5619591817534962e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.745894635667769e-24,
+    "totalTrialSI": 2.5619639276481323e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.020427635606546403,
+    "WdeclSI": 221120.7949734821,
+    "enabled": true,
+    "ratioToDecl": 2.1462905088763453e-29,
+    "ratioTrialToDecl": 1.1586264095854828e-23,
+    "xi": 4.304274994438881e+21,
+    "xiTrial": 7973428269655167,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 46001200000,
+     "WstarSI": 0.020427635606546403,
+     "totalSI": 0.020427635606546406,
+     "sumWLeftSI": 0,
+     "ratioToDecl": 9.238224568157957e-8
+    },
+    "gapDex": 22.93605657647003
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 1000,
+    "coord": "3d",
+    "fitted": true,
+    "WcosSI": 4.745894635667769e-24,
+    "WgalTrialSI": 2.5619591817534962e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.745894635667769e-24,
+    "totalTrialSI": 2.5619639276481323e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.005851473640198142,
+    "WdeclSI": 489275300,
+    "enabled": true,
+    "ratioToDecl": 9.699845129455276e-33,
+    "ratioTrialToDecl": 5.236242106740586e-27,
+    "xi": 1.2329548145088167e+21,
+    "xiTrial": 2283979714565989.5,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 69783612191.41022,
+     "WstarSI": 0.005851473640198142,
+     "totalSI": 0.005851473640198145,
+     "sumWLeftSI": 0,
+     "ratioToDecl": 1.1959470752351784e-11
+    },
+    "gapDex": 26.280980281298014
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 1000,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.745894635667769e-24,
+    "WgalTrialSI": 2.5619591817534962e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.745894635667769e-24,
+    "totalTrialSI": 2.5619639276481323e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.0015897792137926812,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 334979879630006200000,
+    "xiTrial": 620531458946843.6,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 107744785206.88669,
+     "WstarSI": 0.0015897792137926812,
+     "totalSI": 0.0015897792137926838,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 1000,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.745894635667769e-24,
+    "WgalTrialSI": 2.5619591817534962e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.745894635667769e-24,
+    "totalTrialSI": 2.5619639276481323e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.00022060682372022032,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 46483717118844110000,
+    "xiTrial": 86108481598621.12,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 208114441418.08133,
+     "WstarSI": 0.00022060682372022032,
+     "totalSI": 0.0002206068237202229,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 10,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.498987786437538e-24,
+    "WgalTrialSI": 2.372002213897539e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.498987786437538e-24,
+    "totalTrialSI": 2.3720067128853254e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 0.000004846035512233421,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 1077139068223763300,
+    "xiTrial": 2043010875942.5347,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 743098411636.7614,
+     "WstarSI": 0.000004846035512233421,
+     "totalSI": 0.000004846035512235793,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 10,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.498987786437538e-24,
+    "WgalTrialSI": 2.372002213897539e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.498987786437538e-24,
+    "totalTrialSI": 2.3720067128853254e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 7.696822521516336e-7,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 171078982359517800,
+    "xiTrial": 324485697266.59283,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 1372159849114.886,
+     "WstarSI": 7.696822521516336e-7,
+     "totalSI": 7.696822521540056e-7,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 10000000,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 5.239708334128227e-24,
+    "WgalTrialSI": 2.941873117465411e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 5.239708334128227e-24,
+    "totalTrialSI": 2.9418783571737454e-18,
+    "sources": {
+     "drag": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 89.0383340777474,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 1.6992994342415326e+25,
+    "xiTrial": 30265810909763883000,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 5.683400000000001e+26,
+     "dSI": 185500000.00000003,
+     "WstarSI": 89.03820948904442,
+     "totalSI": 89.03820948904442,
+     "sumWLeftSI": 0.00012458870297393787,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 10,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.498987786437538e-24,
+    "WgalTrialSI": 2.372002213897539e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.498987786437538e-24,
+    "totalTrialSI": 2.3720067128853254e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 7.512266465348902e-8,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 16697681394012822,
+    "xiTrial": 31670510983.549995,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 2980242041757.588,
+     "WstarSI": 7.512266465348902e-8,
+     "totalSI": 7.512266465586103e-8,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "receiver": 1,
+    "eps": 0.05,
+    "densSI": 10,
+    "coord": "3d",
+    "fitted": false,
+    "WcosSI": 4.498987786437538e-24,
+    "WgalTrialSI": 2.372002213897539e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 4.498987786437538e-24,
+    "totalTrialSI": 2.3720067128853254e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 2.1742085669155252e-8,
+    "WdeclSI": null,
+    "enabled": false,
+    "ratioToDecl": null,
+    "ratioTrialToDecl": null,
+    "xi": 4832661634400974,
+    "xiTrial": 9166114729.375292,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.9885e+30,
+     "dSI": 4505484129085.056,
+     "WstarSI": 2.1742085669155252e-8,
+     "totalSI": 2.174208567152726e-8,
+     "sumWLeftSI": 0,
+     "ratioToDecl": null
+    },
+    "gapDex": null
+   },
+   {
+    "id": "plutoCharonInertialFit",
+    "emoji": "🟪",
+    "receiver": 1,
+    "eps": 0.01,
+    "densSI": 1000000000,
+    "coord": "2d",
+    "fitted": true,
+    "WcosSI": 5.6591956648355025e-24,
+    "WgalTrialSI": 3.2646043079673037e-18,
+    "WsysSI": 0,
+    "sysTerms": [],
+    "totalSI": 5.6591956648355025e-24,
+    "totalTrialSI": 3.2646099671629685e-18,
+    "sources": {
+     "drag": [
+      0
+     ],
+     "background": [],
+     "overlap": 0
+    },
+    "sumWSI": 1.7309992263339302,
+    "WdeclSI": 148610.2931352893,
+    "enabled": true,
+    "ratioToDecl": 3.808077856143908e-29,
+    "ratioTrialToDecl": 2.1967589850529318e-23,
+    "xi": 3.058737193148888e+23,
+    "xiTrial": 530231557137042560,
+    "starAsBackground": {
+     "star": 0,
+     "mSI": 1.3025172310458496e+22,
+     "dSI": 19595764,
+     "WstarSI": 1.7309992263339302,
+     "totalSI": 1.7309992263339302,
+     "sumWLeftSI": 0,
+     "ratioToDecl": 0.000011647909372994052
+    },
+    "gapDex": 22.658217588597612
+   }
+  ]
+ },
+ "dragCore": {
+  "books": [
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "coreBody": 0,
+    "receiver": 1,
+    "dReceiver": 697.8361219141021,
+    "bodyRadius": 6.95,
+    "eps": 0.05,
+    "targets": [
+     {
+      "obs": 43,
+      "tol": 0.0009,
+      "unit": "″/世紀"
+     },
+     {
+      "obs": 87.969,
+      "tol": 0.0005,
+      "unit": "d"
+     }
+    ],
+    "estimate": {
+     "WSI": 2.5619639276481323e-18,
+     "Wbook": 2.5619639276481322e-21,
+     "WcosSI": 4.745894635667769e-24,
+     "WgalSI": 2.5619591817534962e-18,
+     "WsysSI": 0,
+     "terms": [],
+     "sources": {
+      "drag": [
+       0
+      ],
+      "background": [],
+      "overlap": 0
+     }
+    },
+    "WfitSI": 489275300,
+    "ratio": 5.236242106740586e-27,
+    "atEstimate": {
+     "y": null,
+     "guard": {
+      "steps": 761600,
+      "revs": 0,
+      "nan": false,
+      "rMin": 697.8361219141021,
+      "rMax": 697.8371022697665,
+      "r0": 697.8361219141021,
+      "halt": false,
+      "uMax": 100.00004124906359,
+      "boundOver": 761600
+     }
+    },
+    "coreGrid": [
+     {
+      "mf": 0.05,
+      "rf": 0.1,
+      "ratio": 1.0000566295154982
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.25,
+      "ratio": 1.0000575711130573
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.5,
+      "ratio": 1.0000633458636101
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.75,
+      "ratio": 1.0000762698222216
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.1,
+      "ratio": 1.0000477822220186
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.25,
+      "ratio": 1.0000490684876966
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.5,
+      "ratio": 1.0000556933991256
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.75,
+      "ratio": 1.0000695134427182
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.1,
+      "ratio": 1.0000359858307126
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.25,
+      "ratio": 1.000037731653881
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.5,
+      "ratio": 1.0000454901131453
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.75,
+      "ratio": 1.000060504936713
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.1,
+      "ratio": 1.0000241894394062
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.25,
+      "ratio": 1.000026394820066
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.5,
+      "ratio": 1.0000352868271654
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.75,
+      "ratio": 1.0000514964307083
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.1,
+      "ratio": 1.0000123930481006
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.25,
+      "ratio": 1.0000150579862512
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.5,
+      "ratio": 1.000025083541185
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.75,
+      "ratio": 1.0000424879247034
+     },
+     {
+      "mf": 1,
+      "rf": 0.1,
+      "ratio": 1.0000005966567949
+     },
+     {
+      "mf": 1,
+      "rf": 0.25,
+      "ratio": 1.000003721152436
+     },
+     {
+      "mf": 1,
+      "rf": 0.5,
+      "ratio": 1.0000148802552051
+     },
+     {
+      "mf": 1,
+      "rf": 0.75,
+      "ratio": 1.0000334794186985
+     },
+     {
+      "mf": 1,
+      "rf": 1,
+      "ratio": 1.0000595196313689
+     }
+    ],
+    "kernelRatioRange": [
+     1.0000005966567949,
+     1.0000762698222216
+    ],
+    "needSigmaFactor": 5.236242106740586e-27,
+    "gapDex": 26.28098054042269,
+    "sensAtFit": {
+     "defined": true,
+     "y0": [
+      43.00004158852251
+     ],
+     "J": [
+      [
+       -0.0003926264128040202,
+       -0.0005137236134800105
+      ]
+     ],
+     "singular": [
+      0.0006465813568904628,
+      5.1448789686149945e-12
+     ],
+     "cond": 125674745.8656978,
+     "sols": [
+      {
+       "start": [
+        0.2,
+        0.25
+       ],
+       "solution": [
+        0.2,
+        0.75
+       ],
+       "inRange": true
+      },
+      {
+       "start": [
+        0.6,
+        0.5
+       ],
+       "solution": [
+        0.6,
+        0.50390625
+       ],
+       "inRange": true
+      },
+      {
+       "start": [
+        0.9,
+        0.75
+       ],
+       "solution": [
+        0.9,
+        0.25
+       ],
+       "inRange": true
+      }
+     ],
+     "spread": 0.8602325267042626,
+     "anyInRange": true,
+     "resid0": [
+      0.000041588522506685877
+     ],
+     "relSens": [
+      0.7184237298782921
+     ]
+    },
+    "sensAtEstimate": {
+     "defined": false,
+     "guard": {
+      "steps": 761600,
+      "revs": 0,
+      "nan": false,
+      "rMin": 697.8361219141021,
+      "rMax": 697.8371022697665,
+      "r0": 697.8361219141021,
+      "halt": false,
+      "uMax": 100.00004124906359,
+      "boundOver": 761600
+     }
+    }
+   },
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "coreBody": 1,
+    "receiver": 2,
+    "dReceiver": 3.5716701999999714,
+    "bodyRadius": 0.06371,
+    "eps": 0.01,
+    "targets": [
+     {
+      "obs": 8.85,
+      "tol": 0.005,
+      "unit": "yr"
+     },
+     {
+      "obs": 27.321661,
+      "tol": 0.00005,
+      "unit": "d"
+     },
+     {
+      "obs": 0.0549,
+      "tol": 0.00005,
+      "unit": "無次元"
+     }
+    ],
+    "estimate": {
+     "WSI": 0.000589765002039804,
+     "Wbook": 5.89765002039804e-7,
+     "WcosSI": 4.918475117144814e-24,
+     "WgalSI": 2.6947334043994316e-18,
+     "WsysSI": 0.0005897650020398014,
+     "terms": [
+      {
+       "kind": "particle",
+       "index": 0,
+       "m": 1988.5,
+       "d": 1499.508272768754,
+       "w": 5.897650020398014e-7
+      }
+     ],
+     "sources": {
+      "drag": [
+       1
+      ],
+      "background": [
+       0
+      ],
+      "overlap": 0
+     }
+    },
+    "WfitSI": 3856.0163495093225,
+    "ratio": 1.5294670680399257e-7,
+    "atEstimate": {
+     "y": null,
+     "guard": {
+      "stop": "maxSteps",
+      "revs": 1,
+      "steps": 5253670
+     }
+    },
+    "coreGrid": [
+     {
+      "mf": 0.05,
+      "rf": 0.1,
+      "ratio": 1.0001817085270313
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.25,
+      "ratio": 1.0001847294564048
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.5,
+      "ratio": 1.0002032574276576
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.75,
+      "ratio": 1.0002447262802507
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.1,
+      "ratio": 1.0001533232547786
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.25,
+      "ratio": 1.0001574497783137
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.5,
+      "ratio": 1.0001787046709427
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.75,
+      "ratio": 1.0002230475316327
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.1,
+      "ratio": 1.0001154762251074
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.25,
+      "ratio": 1.0001210768741922
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.5,
+      "ratio": 1.0001459676619897
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.75,
+      "ratio": 1.0001941425334746
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.1,
+      "ratio": 1.0000776291954367
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.25,
+      "ratio": 1.0000847039700707
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.5,
+      "ratio": 1.0001132306530365
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.75,
+      "ratio": 1.000165237535317
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.1,
+      "ratio": 1.000039782165766
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.25,
+      "ratio": 1.000048331065949
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.5,
+      "ratio": 1.0000804936440835
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.75,
+      "ratio": 1.0001363325371593
+     },
+     {
+      "mf": 1,
+      "rf": 0.1,
+      "ratio": 1.0000019351360951
+     },
+     {
+      "mf": 1,
+      "rf": 0.25,
+      "ratio": 1.0000119581618276
+     },
+     {
+      "mf": 1,
+      "rf": 0.5,
+      "ratio": 1.0000477566351307
+     },
+     {
+      "mf": 1,
+      "rf": 0.75,
+      "ratio": 1.0001074275390012
+     },
+     {
+      "mf": 1,
+      "rf": 1,
+      "ratio": 1.0001909810493013
+     }
+    ],
+    "kernelRatioRange": [
+     1.0000019351360951,
+     1.0002447262802507
+    ],
+    "needSigmaFactor": 1.5294670680399257e-7,
+    "gapDex": 6.815460710076503,
+    "sensAtFit": {
+     "defined": true,
+     "y0": [
+      8.85000284789113,
+      27.32165960940924
+     ],
+     "J": [
+      [
+       0.00001125182709671435,
+       -0.000012321941174064932
+      ],
+      [
+       1.1223601603660427e-7,
+       -1.142182881608278e-7
+      ]
+     ],
+     "singular": [
+      0.000016687104473280414,
+      5.860882438033093e-9
+     ],
+     "cond": 2847.1999992684705,
+     "sols": [
+      {
+       "start": [
+        0.2,
+        0.25
+       ],
+       "solution": [
+        178.85109517044748,
+        163.7991263763723
+       ],
+       "inRange": false
+      },
+      {
+       "start": [
+        0.6,
+        0.5
+       ],
+       "solution": [
+        178.85109539108348,
+        163.79912657764405
+       ],
+       "inRange": false
+      },
+      {
+       "start": [
+        0.9,
+        0.75
+       ],
+       "solution": [
+        178.85109516852836,
+        163.79912637464196
+       ],
+       "inRange": false
+      }
+     ],
+     "spread": 3.0123184966846574e-7,
+     "anyInRange": false,
+     "resid0": [
+      0.000002847891130031144,
+      -0.00000139059075721093
+     ],
+     "relSens": [
+      0.0033372674289692274,
+      0.0032026701763471542
+     ]
+    },
+    "sensAtEstimate": {
+     "defined": false,
+     "guard": {
+      "stop": "maxSteps",
+      "revs": 1,
+      "steps": 5253670
+     }
+    }
+   },
+   {
+    "id": "plutoCharonInertialFit",
+    "emoji": "🟪",
+    "coreBody": 0,
+    "receiver": 1,
+    "dReceiver": 195.95764,
+    "bodyRadius": 11.88,
+    "eps": 0.01,
+    "targets": [
+     {
+      "obs": 551856.43872,
+      "tol": 0.02592,
+      "unit": "s"
+     }
+    ],
+    "estimate": {
+     "WSI": 9.650401330012713e-9,
+     "Wbook": 9.650401330012712e-18,
+     "WcosSI": 5.6591956648355025e-24,
+     "WgalSI": 3.2646043079673037e-18,
+     "WsysSI": 9.650401326748102e-9,
+     "terms": [
+      {
+       "kind": "env",
+       "label": "太陽(39.48 au —— 系の外の背景側)",
+       "m": 1988470,
+       "d": 59064231.309774,
+       "w": 9.650401326748102e-18
+      }
+     ],
+     "sources": {
+      "drag": [
+       0
+      ],
+      "background": [],
+      "overlap": 0
+     }
+    },
+    "WfitSI": 148610.2931352893,
+    "ratio": 6.493763740326751e-14,
+    "atEstimate": {
+     "y": null,
+     "guard": {
+      "steps": 5520000,
+      "revs": 0,
+      "nan": false,
+      "rMin": 195.95764,
+      "rMax": 196.13235810422287,
+      "r0": 195.95764
+     }
+    },
+    "coreGrid": [
+     {
+      "mf": 0.05,
+      "rf": 0.1,
+      "ratio": 1.0021037013431386
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.25,
+      "ratio": 1.002138672385965
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.5,
+      "ratio": 1.0023533037979386
+     },
+     {
+      "mf": 0.05,
+      "rf": 0.75,
+      "ratio": 1.0028342270742472
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.1,
+      "ratio": 1.001775020579472
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.25,
+      "ratio": 1.0018227538115427
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.5,
+      "ratio": 1.0020688369872683
+     },
+     {
+      "mf": 0.2,
+      "rf": 0.75,
+      "ratio": 1.0025828697572818
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.1,
+      "ratio": 1.0013367795612493
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.25,
+      "ratio": 1.001401529045646
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.5,
+      "ratio": 1.0016895479063734
+     },
+     {
+      "mf": 0.4,
+      "rf": 0.75,
+      "ratio": 1.0022477266679943
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.1,
+      "ratio": 1.0008985385430271
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.25,
+      "ratio": 1.0009803042797494
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.5,
+      "ratio": 1.0013102588254792
+     },
+     {
+      "mf": 0.6,
+      "rf": 0.75,
+      "ratio": 1.0019125835787068
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.1,
+      "ratio": 1.0004602975248045
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.25,
+      "ratio": 1.0005590795138528
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.5,
+      "ratio": 1.0009309697445843
+     },
+     {
+      "mf": 0.8,
+      "rf": 0.75,
+      "ratio": 1.0015774404894202
+     },
+     {
+      "mf": 1,
+      "rf": 0.1,
+      "ratio": 1.000022056506582
+     },
+     {
+      "mf": 1,
+      "rf": 0.25,
+      "ratio": 1.000137854747956
+     },
+     {
+      "mf": 1,
+      "rf": 0.5,
+      "ratio": 1.0005516806636898
+     },
+     {
+      "mf": 1,
+      "rf": 0.75,
+      "ratio": 1.0012422974001327
+     },
+     {
+      "mf": 1,
+      "rf": 1,
+      "ratio": 1.0022110703926035
+     }
+    ],
+    "kernelRatioRange": [
+     1.000022056506582,
+     1.0028342270742472
+    ],
+    "needSigmaFactor": 6.493763740326751e-14,
+    "gapDex": 13.187513095076033,
+    "sensAtFit": {
+     "defined": true,
+     "y0": [
+      551856.4387203308
+     ],
+     "J": [
+      [
+       0.013297393452376127,
+       -0.007253591902554035
+      ]
+     ],
+     "singular": [
+      0.01514712078634395,
+      0
+     ],
+     "cond": null,
+     "sols": [
+      {
+       "start": [
+        0.2,
+        0.25
+       ],
+       "solution": [
+        0.4101643284258605,
+        0.13535751188116324
+       ],
+       "inRange": true
+      },
+      {
+       "start": [
+        0.6,
+        0.5
+       ],
+       "solution": [
+        0.6069924138990853,
+        0.49618570985213284
+       ],
+       "inRange": true
+      },
+      {
+       "start": [
+        0.9,
+        0.75
+       ],
+       "solution": [
+        0.7808882815311653,
+        0.8149742221796444
+       ],
+       "inRange": true
+      }
+     ],
+     "spread": 0.774154456373503,
+     "anyInRange": true,
+     "resid0": [
+      3.3085234463214874e-7
+     ],
+     "relSens": [
+      0.5843796599669735
+     ]
+    },
+    "sensAtEstimate": {
+     "defined": false,
+     "guard": {
+      "steps": 5520000,
+      "revs": 0,
+      "nan": false,
+      "rMin": 195.95764,
+      "rMax": 196.13235810422287,
+      "r0": 195.95764
+     }
+    }
+   }
+  ],
+  "grid": {
+   "massFrac": [
+    0.05,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1
+   ],
+   "radiusFrac": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1
+   ]
+  }
+ },
+ "ledger": {
+  "gl": {
+   "law": "cLocPow",
+   "n": -3
+  },
+  "toy": {
+   "mu": 1.25,
+   "c": 30,
+   "m2": 0.25,
+   "Wbg": 100,
+   "eps": 0.05,
+   "orbits": 3,
+   "perOrbit": 400,
+   "rows": [
+    {
+     "d": 1,
+     "dt": 0.014049629462081452,
+     "steps": 1200,
+     "RE": -0.001679796443601304,
+     "REnoGLoc": -0.0017171487111206445,
+     "gLocWork": -0.00003735226751934052,
+     "W": 0.0014794673096393623,
+     "E0": -0.124999755859661,
+     "seam": "w302c-seam-1"
+    },
+    {
+     "d": 2,
+     "dt": 0.007024814731040726,
+     "steps": 2400,
+     "RE": -0.0008419881350345207,
+     "REnoGLoc": -0.0008772282721037441,
+     "gLocWork": -0.0000352401370692235,
+     "W": 0.0006792721650668379,
+     "E0": -0.124999755859661,
+     "seam": "w302c-seam-1"
+    },
+    {
+     "d": 4,
+     "dt": 0.003512407365520363,
+     "steps": 4800,
+     "RE": -0.0004214603561522221,
+     "REnoGLoc": -0.0004555760237298721,
+     "gLocWork": -0.00003411566757764996,
+     "W": 0.000278180624927634,
+     "E0": -0.124999755859661,
+     "seam": "w302c-seam-1"
+    }
+   ],
+   "ratio": [
+    1.9950357655959534,
+    1.9977872716702525
+   ],
+   "ratioNoGLoc": [
+    1.957470781239901,
+    1.925536521702216
+   ]
+  },
+  "mercury": {
+   "book": "mercurySunInertial3d",
+   "Wbg": 221.1205993960312,
+   "rows": [
+    {
+     "d": 1,
+     "dt": 2.111256,
+     "steps": 360,
+     "RE": -7.123242481133323e-9,
+     "REnoGLoc": -7.123248316561612e-9,
+     "gLocWork": -5.835428289275313e-15,
+     "W": 2.955868476928491e-11,
+     "E0": -0.003782619938569813,
+     "seam": "w302c-seam-1"
+    },
+    {
+     "d": 2,
+     "dt": 1.055628,
+     "steps": 720,
+     "RE": -1.999211008764405e-9,
+     "REnoGLoc": -1.9992152590061347e-9,
+     "gLocWork": -4.250241729744043e-15,
+     "W": 1.479765047156265e-11,
+     "E0": -0.003782619938569813,
+     "seam": "w302c-seam-1"
+    },
+    {
+     "d": 4,
+     "dt": 0.527814,
+     "steps": 1440,
+     "RE": -5.113985053804326e-10,
+     "REnoGLoc": -5.114009143714842e-10,
+     "gLocWork": -2.408991051610112e-15,
+     "W": 7.402537484457101e-12,
+     "E0": -0.003782619938569813,
+     "seam": "w302c-seam-1"
+    }
+   ],
+   "ratio": [
+    3.5630268390407576,
+    3.90930162628688
+   ]
+  },
+  "richardson": {
+   "RE": -9.32577269923524e-7,
+   "REnoGLoc": -0.00003392377535600005,
+   "gLocWork": -0.00003411566757764996
+  },
+  "converges": true,
+  "seamVersion": "w302c-seam-1",
+  "seamCloses": true
+ },
+ "gates": {
+  "nChosen": true,
+  "nFitsGate": true,
+  "n2Listed": true,
+  "recordAccepted": true,
+  "fitted": true,
+  "declaredSet": true,
+  "earthMoonMeasured": true,
+  "estimateRows": true,
+  "sourcesDisjoint": true,
+  "wcosClosedForm": true,
+  "dragCoreSearched": true,
+  "kernelNotBelowPoint": true,
+  "ledgerConverges": true,
+  "ledgerSeamCloses": true
+ },
+ "ok": true,
+ "timing": {
+  "N": 183.112,
+  "P": 74.589,
+  "G": 80.372,
+  "E": 0.006,
+  "C": 167.545,
+  "L": 0.088
+ },
+ "elapsedS": 507.366
+}

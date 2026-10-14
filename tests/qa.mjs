@@ -77737,11 +77737,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           cases.push(`③ 🌦️ の背景側の太陽 W_sys ${e.Wsys.SI.toExponential(3)} kg/m³ = m𝒦(d)・env.bodies の寄与 = m𝒦(d)・不正 ${rej.length} 例の拒否・env で走りが不変(400 步)`); }
         // ④
         { const p = find('earthMoonSunInertial3d'), v = HP.validatePreset(clone(p)); HP.sim.build(v.preset); const S = HP.sim, rd0 = clone(S.params.relativeDrag);
-          const r = HP.wbgEstimateApply(S), rd1 = S.params.relativeDrag, oth = (z) => { const o = clone(z); delete o.Wbg; delete o.enabled; return JSON.stringify(o); };
+          const r = HP.wbgEstimateApply(S, v.preset), rd1 = S.params.relativeDrag, oth = (z) => { const o = clone(z); delete o.Wbg; delete o.enabled; return JSON.stringify(o); };
           if (!(r.ok && rd1.Wbg === Number(r.est.total.book.toPrecision(7)) && oth(rd1) === oth(rd0) && rd1.enabled === rd0.enabled && S.relDrag === S.params.relativeDrag)) bad.push('④ 🌦️ の往復 ' + JSON.stringify({ ok: r.ok, W: rd1.Wbg }));
-          const pv = find('venusSunInertial3d'), vv = HP.validatePreset(clone(pv)); HP.sim.build(vv.preset); const r2 = HP.wbgEstimateApply(HP.sim);
+          const pv = find('venusSunInertial3d'), vv = HP.validatePreset(clone(pv)); HP.sim.build(vv.preset); const r2 = HP.wbgEstimateApply(HP.sim, vv.preset);
           if (!(r2.ok && HP.sim.params.relativeDrag.enabled === false && HP.sim.params.relativeDrag.Wbg === r2.W && HP.relDragCoefficientOf(HP.sim.relDrag) === 0)) bad.push('④ OFF の本(🌋)で OFF が保たれない');
-          const pt = find('inertialDragPair'), vt = HP.validatePreset(clone(pt)); HP.sim.build(vt.preset); const r3 = HP.wbgEstimateApply(HP.sim);
+          const pt = find('inertialDragPair'), vt = HP.validatePreset(clone(pt)); HP.sim.build(vt.preset); const r3 = HP.wbgEstimateApply(HP.sim, vt.preset);
           if (r3.ok || r3.err !== 'noScale') bad.push('④ scaleExp の無い本で推定を入れられた');
           cases.push(`④ 推定を入れる: 🌦️ Wbg ${rd0.Wbg} → ${rd1.Wbg}(他の鍵・ON/OFF を保つ)・🌋 は OFF のまま値だけ・🐌(scaleExp なし)は拒否 ${r3.err}`); }
       }
