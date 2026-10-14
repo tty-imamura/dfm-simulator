@@ -16,6 +16,7 @@
 //
 // ■ 言わないこと
 //   ・「現実を再現した」「43″ を再現した」「gain は普遍定数」。初期状態は近似要素の種で、惑星どうしの摂動(多体)は入っていない(二体)。
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 export const LIB_VERSION = 'w299c-planets3d-lib-1';
 export const SCALE_EXP = Object.freeze({ L: 8, T: 4, M: 27 });   // 内惑星: 1 単位 = 10⁸ m / 10⁴ s / 10²⁷ kg(☄️・🟫 と同じ指数系)
 // 外惑星: 1 単位 = 10⁹ m / 10⁵ s / 10²⁸ kg(座標の値域 ±5000 単位に海王星の遠日点 4.54×10¹² m を収める —— G=6.674・c₀=29979.2458 は同じ数)
@@ -148,7 +149,7 @@ export function planetDecl3(HP, key, o = {}) {
   const physics = { coord: '3d', G, D0: 0.1, kFrame: 0, q: 3, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.425826474101849e-9,
     cLight: c0, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, massFloor: 1e-6,
     geoPN: 3, lambdaPN: 0, pnAlpha: 1.5, radiusScale: 1, softening: 0.05, timeScale: 1, stepDt, dispMag: 10, stateCarry: 'double', frameWeight: 'share',
-    relativeDrag: { law: 'inertial', gain, eps: 0.05, history: 'positions', pairs: 'all' } };
+    relativeDrag: Object.assign({ law: 'inertial' }, W302A.wbgDeclOf(gain), { eps: 0.05, history: 'positions', pairs: 'all' }) };   // 第302便a: 強さは Wbg(gain は廃止)
   const sunAx = 'IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)';
   const plAx = 'IAU WGCCRE 2009(Archinal et al. 2011)の' + pl.ja + 'の極 α0 ' + r12(pl.pole.ra) + '°・δ0 ' + r12(pl.pole.dec) + '° を J2000 の黄道へ(軸は一定の近似' + (pl.pole.wSign < 0 ? '・自転は IAU の北極に対し逆行 —— spin は負' : '') + ')';
   const bodies = [

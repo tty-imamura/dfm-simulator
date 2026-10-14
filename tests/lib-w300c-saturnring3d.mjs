@@ -16,6 +16,7 @@
 // ■ 言わないこと
 //   ・「現実を再現した」。gain は 0 の基準(標的なし —— fitted と呼ばない)。帯の粒子数は実際の環の縮約。
 import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の宣言(html の受理器が physics.approxMany を持つ世代だけ)
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 export const LIB_VERSION = 'w300c-saturnring3d-lib-1';
 export const ID = 'saturnRingInertial3d';
 export const EMOJI = '🍩';
@@ -76,7 +77,7 @@ export function ringDecl3(HP, o = {}) {
     cLight: s.cLight, bM: s.bM, etaRad: 0, pRad: s.pRad, gravityX: 0, gravityY: 0, massFloor: (gm0 < s.massFloor) ? MASS_FLOOR_LOW : s.massFloor,
     geoPN: 3, lambdaPN: 0, pnAlpha: s.pnAlpha, radiusScale: s.radiusScale, softening: s.softening, timeScale: 1, stepDt: s.stepDt, dispMag: s.dispMag,
     stateCarry: 'double', frameWeight: 'share', contactMode: 'none',
-    relativeDrag: { law: 'inertial', gain, eps: s.softening, history: 'positions', pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } } };
+    relativeDrag: Object.assign({ law: 'inertial' }, W302A.wbgDeclOf(gain), { eps: s.softening, history: 'positions', pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } }) };   // 第302便a: 強さは Wbg
   const bodies = [];
   const poleSrc = 'IAU WGCCRE 2009(Archinal et al. 2011)の土星の極 —— 🟡 ' + POLE_ID + ' の宣言(傾き ' + pole.tiltDeg + '°・方位 ' + pole.azimuthDeg + '°)を写す(軸は一定の近似)';
   src.bodies.forEach((b, k) => {

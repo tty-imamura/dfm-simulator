@@ -38,11 +38,13 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as O from './lib-w285b-gr1pn.mjs';
 import { definitionMixAudit } from './lib-w280d-charoninput.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便h: gain ⇔ W_bg の同値移行の判定(rdIsGain)
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO4_MIGRATED","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig","timeStdRevert"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w291b-pnsources-6';   // 第299便e(原仮定者の裁定(第89報)④・R174): 次元の宣言を基点の二次元から三次元(physics.coord:"3d")へ変えた本(参照模型 8 本 —— 宣言から導く)のうち 1PN の源が増えていない本の差・署名の差は、1PN の源集合の契約の外(別の步 dfmStep3・倍精度の状態)—— 記録だけ(changedByCoord3d299・sigChangedByCoord3d299)
+export const HARNESS_VERSION = 'w291b-pnsources-7';   // 第302便h(原仮定者の裁定(第92報)AN304 ②・R186 —— 第302便a): 慣性決定力の本の強さの鍵を gain から Wbg へ同値移行した本(宣言から —— 基点の relativeDrag.gain が今の Wbg の移行〔1/Wbg が同じ double・gain 0 は OFF〕で、署名の差が relativeDrag の強さの鍵だけ)の署名の差は記録だけ(sigChangedByWbg302 —— 差に数えない)
+// 以前の版の記録:   // w291b-pnsources-6 —— 第299便e(原仮定者の裁定(第89報)④・R174): 次元の宣言を基点の二次元から三次元(physics.coord:"3d")へ変えた本(参照模型 8 本 —— 宣言から導く)のうち 1PN の源が増えていない本の差・署名の差は、1PN の源集合の契約の外(別の步 dfmStep3・倍精度の状態)—— 記録だけ(changedByCoord3d299・sigChangedByCoord3d299)
 // 以前の版の記録:   // w291b-pnsources-5 —— // 第297便(原仮定者の裁定(第87報)・R161/R163): λ_PN の宣言が基点から変わった geoPN≥2 の本(第297便a —— λ_PN=0)の差・署名の差と、時間の宣言を移しただけの本(第297便c —— timeStdRevert の署名が基点と同じ)の署名の差は、記録だけ(changedByLambdaPn297・sigChangedByLambdaPn297・sigChangedByTimeStd297)   // 第295便b(原仮定者の裁定(第85報)・R154): geoPN 3→4(空間メッシュ)へ移住した本(GEO4_MIGRATED)の署名の差は、力学がビット同一なら sigDiff に数えず sigChangedByGeo4Migration に記録だけ   // 第293便(統合): 慣性決定力の本(relativeDrag.law:"inertial")は 1PN の源集合の契約の外(合成則の既定が変わると動く)— changedByInertialLaw に記録だけ   // 第292便(統合): 基点に無い本(newInNow)は差・署名の判定から外す(記録だけ)
 /** 本器の宣言(前後の步数・半径回帰の系・🥶 の ID)。 */
 export const SPEC = Object.freeze({
@@ -64,6 +66,20 @@ function uni(id, bodies, ph) {
     physics: Object.assign({ G: 1, cLight: 30, softening: 0.05, softeningFloor: 1e-9, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0,
       lambdaPN: 1, pnAlpha: 1.5, stateCarry: 'double', frameWeight: 'share', timeScale: 1, massFloor: 1e-9, geoPN: 1 }, ph || {}),
     bodies: bodies.map((b) => Object.assign({ type: 'single', spin: 0, radius: 0.1, pinned: false }, b)) };
+}
+
+/** 第302便h: 署名(presetSig の JSON 文字列)の差が physics.relativeDrag の強さの鍵 gain → Wbg の同値移行だけか(基点 baseSig・今 nowSig)。 */
+export function sigOnlyWbg302(nowSig, baseSig) {
+  let A, B;
+  try { A = JSON.parse(nowSig); B = JSON.parse(baseSig); } catch (e) { return false; }
+  const ra = A && A.physics && A.physics.relativeDrag, rb = B && B.physics && B.physics.relativeDrag;
+  if (!ra || !rb || ra.law !== 'inertial' || rb.law !== 'inertial' || ra.gain !== undefined || typeof rb.gain !== 'number' || !W302A.rdIsGain(ra, rb.gain)) return false;
+  const restA = Object.assign({}, ra), restB = Object.assign({}, rb);
+  delete restA.Wbg; delete restA.enabled; delete restB.gain;
+  const canon = (x) => JSON.stringify(x, (k, v) => (v && typeof v === 'object' && !Array.isArray(v)) ? Object.fromEntries(Object.keys(v).sort().map((q) => [q, v[q]])) : v);
+  if (canon(restA) !== canon(restB)) return false;
+  delete A.physics.relativeDrag; delete B.physics.relativeDrag;
+  return canon(A) === canon(B);
 }
 
 /** (A)(B)(F): 内蔵全本の源・前後の指紋・表示条件。 */
@@ -206,6 +222,14 @@ if (IS_MAIN) {
   //   1PN の源集合の契約(二次元の kF0 の源の数)の外。源が増えていない本だけ、軌道の差を changedByCoord3d299 に・署名の差を sigChangedByCoord3d299 に記録(差に数えない)
   const changedByCoord3d299 = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && r.coord3d299 && !r.srcIncreased && changedByLambdaPn297.indexOf(r.id) < 0).map((r) => r.id);
   const sigChangedByCoord3d299 = rows.filter((r) => r.inBase && r.sigSame === false && r.coord3d299 && !r.srcIncreased).map((r) => r.id);
+  // 第302便h(第302便a の同値移行 —— 原仮定者の裁定(第92報)AN304 ②・R186): 慣性決定力の本の強さの鍵 gain → Wbg(1/Wbg が同じ double・gain 0 は enabled:false)。
+  //   署名の差が physics.relativeDrag の強さの鍵だけ(基点の gain と今の Wbg が W302A.rdIsGain で同じ宣言・relativeDrag の他の鍵と relativeDrag の外は同文)の本は
+  //   署名の差に数えず記録だけ(sigChangedByWbg302)—— 軌道の差は従来どおり changedByInertialLaw(1PN の源集合の契約の外)
+  //   時間の宣言の移行(第297便c)も受けた本は、時間の宣言を移行前へ戻した写しの署名(sigTimeRevert)で同じ判定をする
+  const tnById = new Map(TN.map((t) => [t.id, t]));
+  const sigChangedByWbg302 = rows.filter((r) => { if (!(r.inBase && r.sigSame === false && r.inertialLaw)) return false;
+    const t = tnById.get(r.id) || {}, bs = (bm.get(r.id) || {}).sig;
+    return sigOnlyWbg302(t.sig, bs) || (typeof t.sigTimeRevert === 'string' && sigOnlyWbg302(t.sigTimeRevert, bs)); }).map((r) => r.id);
   const changed = rows.filter((r) => r.inBase && !r.bitSame && !r.inertialLaw && changedByLambdaPn297.indexOf(r.id) < 0 && changedByCoord3d299.indexOf(r.id) < 0).map((r) => r.id);
   const increased = rows.filter((r) => r.srcIncreased).map((r) => r.id);
   const changedNotIncreased = changed.filter((id) => !increased.includes(id));
@@ -217,8 +241,8 @@ if (IS_MAIN) {
   const A = { n: rows.length, kf0Books: rows.filter((r) => r.kf0).length, increased, increasedN: increased.length };
   const B = { steps: SPEC.bitSteps, dt: HN.evalExpr('DT'), bitSame: rows.filter((r) => r.bitSame).length, changed, changedNotIncreased, increasedUnchanged,
     sigSame: rows.filter((r) => r.sigSame === true).length,
-    sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0 && sigChangedByLambdaPn297.indexOf(r.id) < 0 && sigChangedByTimeStd297.indexOf(r.id) < 0 && sigChangedByCoord3d299.indexOf(r.id) < 0).map((r) => r.id),
-    newInNow, changedByInertialLaw, sigChangedByGeo4Migration, changedByLambdaPn297, sigChangedByLambdaPn297, sigChangedByTimeStd297, changedByCoord3d299, sigChangedByCoord3d299, nullPhysicsKF0: nullPhysics,
+    sigDiff: rows.filter((r) => r.inBase && !r.sigSame && sigChangedByGeo4Migration.indexOf(r.id) < 0 && sigChangedByLambdaPn297.indexOf(r.id) < 0 && sigChangedByTimeStd297.indexOf(r.id) < 0 && sigChangedByCoord3d299.indexOf(r.id) < 0 && sigChangedByWbg302.indexOf(r.id) < 0).map((r) => r.id),
+    newInNow, changedByInertialLaw, sigChangedByGeo4Migration, changedByLambdaPn297, sigChangedByLambdaPn297, sigChangedByTimeStd297, changedByCoord3d299, sigChangedByCoord3d299, sigChangedByWbg302, nullPhysicsKF0: nullPhysics,
     errors: rows.filter((r) => r.err && r.inBase).map((r) => r.id + ': ' + r.err), nanNow: rows.filter((r) => r.nan).map((r) => r.id) };
   const F = { conformant: confRows.filter((r) => r.conf.ok).map((r) => r.id), outside: confRows.filter((r) => !r.conf.ok).map((r) => ({ id: r.id, reasons: r.conf.reasons })),
     reasonTally, note: '表示だけ(実行は禁止しない)—— 条件内でも観測一致の主張ではない' };
@@ -270,7 +294,7 @@ if (IS_MAIN) {
     charonIsSource: cn.src.every(Boolean), pn1BelowResidual: E.periodScaleSec < 1e-3 * Math.abs(audit.closedFormResidual.sec),
   };
   const CODE = ['tests/exp-w291b-pnsources.mjs', 'tests/lib-w285b-gr1pn.mjs', 'tests/lib-w282b-geo1.mjs', 'tests/lib-w280d-charoninput.mjs', 'tests/lib-w277b-charondfm.mjs',
-    'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+    'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302a-wbg.mjs'];
   const out = {
     meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第291便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
       harnessVersion: HARNESS_VERSION, loadErrors: HN.errors.length,

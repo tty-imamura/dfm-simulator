@@ -880,8 +880,12 @@ tests/out/regen-plan-w281a.json
 !tests/out/approxmany-w301b.json
 # 第301便f(DECISIONS v58 の AN288 ③④・統括の検証項目 R184): 複製とチェックポイントの全本の同一・build の機能ごとの初期化の正本(tests/exp-w301f-clone.mjs)。QA behavior.clone2d301 が読むのでコミットする
 !tests/out/clone-w301f.json
+!tests/out/axialsign-w302e.json
+!tests/out/statecontract-w302e.json
 # 第301便d(原仮定者の裁定(第91報)④・統括の検証項目 R182): 連鎖円盤の飛びの正本(tests/exp-w301d-chainburst.mjs)。QA docs.chainBurst301 が読むのでコミットする
 !tests/out/chainburst-w301d.json
+# 第302便d(決断事項 AN303 ①②⑤・統括の検証項目 R188): 本体の積分器 semic を既定にした影響の正本(tests/exp-w302d-semic.mjs)。QA behavior.semic302・docs.semic302 が読むのでコミットする
+!tests/out/semic-w302d.json
 # 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): **GR 1PN 便**の正本(tests/exp-w291b-pnsources.mjs —— kF0 の 1PN 源 = 全質量源の
 #   源の表・基点 cf2da0a との前後・参照 EIH との照合・半径回帰・🥶 の残差の分解・表示条件の集計)。QA docs.pn1Contract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
@@ -895,3 +899,6 @@ tests/out/regen-plan-w281a.json
 !tests/out/timing-w294d.json
 # 第301便g(原仮定者の裁定 AN300・統括の検証項目 R185): 背景慣性決定力 W_bg の法則性の探索の正本(tests/exp-w301g-wbglaw.mjs)。QA docs.wbgLaw301 が読むのでコミットする
 !tests/out/wbglaw-w301g.json
+# 第302便b(原仮定者の裁定(第92報)AN304 ①・統括の検証項目 R187): 局所重力 G_loc の族の実測の正本(tests/exp-w302b-gloc.mjs)。QA behavior.gLoc302 が読むのでコミットする
+!tests/out/gloc-w302b.json
+!tests/out/wbgest-w302c.json

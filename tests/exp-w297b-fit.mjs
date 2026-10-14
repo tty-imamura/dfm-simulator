@@ -36,7 +36,9 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as C from './exp-w295c-inertial3.mjs';
 import * as L from './lib-w297b-fit.mjs';
 import { avgK as libAvgK, gaussLegendre01 as libGL } from './lib-w292c-dragcore.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第297便b のフィットの探索(親 🌤️🟤🟣 の gain の探索・派生本 🟫🟪 の記録)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w297b-fit-2';   // 第300便g: 派生本の照合が退役した派生本(🌥️)を受ける(分類の語 retired)
@@ -73,7 +75,7 @@ const bookOf = (k) => BOOKS.find((b) => b.key === k);
 /** 本の単位の gain の格子(SI の格子を各本の単位へ)。🌤️ は 0 も格子に入れる。 */
 export function gainGrid(HP, b) {
   const p = find(HP, b.parent), unit = Math.pow(10, 3 * p.scaleExp.L) / Math.pow(10, p.scaleExp.M);
-  const lo = Number((SI_RANGE[0] / unit).toPrecision(12)), hi = p.physics.relativeDrag.gain;
+  const lo = Number((SI_RANGE[0] / unit).toPrecision(12)), hi = W302A.rdGainOf(p.physics.relativeDrag);
   const g = L.logGrid(lo, hi, GRID_N).map((x, i) => (i === 0 || i === GRID_N - 1) ? x : Number(x.toPrecision(6)));
   return b.key === 'ems' ? [0].concat(g) : g;
 }
@@ -82,7 +84,7 @@ export function gainGrid(HP, b) {
 export function variantPreset(HP, b, o) {
   const q = clone(find(HP, b.parent));
   q.physics.lambdaPN = (o.lambda === undefined) ? LAMBDA_RULE : o.lambda;
-  q.physics.relativeDrag.gain = o.gain;
+  W302A.rdSetGain(q.physics.relativeDrag, o.gain);
   if (o.core) {
     for (const [i, c] of Object.entries(o.core)) { if (i === 'tableN') continue; q.bodies[+i].dragCore = { massFrac: c.f, radius: L.coreRadius(c.x, q.bodies[+i].radius) }; }
     if (o.core.tableN) q.physics.relativeDrag.coreTable = { n: o.core.tableN };
@@ -117,7 +119,7 @@ export function inverseMapped(HP, q) {
     for (let i = 0; i < n; i++) {
       if (S.pinned[i]) continue;
       let vx = S.vx[i], vy = S.vy[i];
-      for (let j = 0; j < n; j++) { if (j === i) continue; const dx = S.x[j] - S.x[i], dy = S.y[j] - S.y[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), s = r2 + e2, a = rd.gain * S.m[j] * (r / (s * s));
+      for (let j = 0; j < n; j++) { if (j === i) continue; const dx = S.x[j] - S.x[i], dy = S.y[j] - S.y[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), s = r2 + e2, a = W302A.rdCoefOf(rd) * S.m[j] * (r / (s * s));
         vx += a * (S.vx[i] - S.vx[j]); vy += a * (S.vy[i] - S.vy[j]); }
       const d = Math.hypot(vx - M.vx[i], vy - M.vy[i]) / Math.hypot(vx, vy); if (d > indepRel) indepRel = d;
     }
@@ -242,7 +244,7 @@ export function sensitivity(HP, fitGains) {
       const ratios = rows.map((z) => z.ratio);
       const fg = fitGains[b.key];
       out.push({ book: b.key, emoji: b.parentEmoji, source: name[b.key][src], receiver: name[b.key][rcv], srcIndex: src, rcvIndex: rcv, R, r, eps,
-        ratioMin: Math.min(...ratios), ratioMax: Math.max(...ratios), farBound: L.farBound(R, r), need: (fg && fg.gain !== null) ? fg.gain / p.physics.relativeDrag.gain : null,
+        ratioMin: Math.min(...ratios), ratioMax: Math.max(...ratios), farBound: L.farBound(R, r), need: (fg && fg.gain !== null) ? fg.gain / W302A.rdGainOf(p.physics.relativeDrag) : null,
         needNote: (fg && fg.gain !== null) ? 'フィットした gain ÷ 移送 gain(移送 gain のまま核で標的に届くのに要る倍率)' : (fg && fg.note) || null, rows });
     }
   }
@@ -384,7 +386,9 @@ export function derivedCheck(HP, s, rec) {
   const q = derivedPreset(HP, b, s);
   const lam0 = (ph) => Object.assign(clone(ph), { lambdaPN: 0 });
   if (JSON.stringify(d.bodies) !== JSON.stringify(q.bodies)) bad.push('bodies が親の写し+ノブ(初期配置)でない');
-  if (JSON.stringify(lam0(d.physics)) !== JSON.stringify(lam0(q.physics))) bad.push('physics が親の写し+ノブでない');
+  // 第302便a: relativeDrag は受理器の正準形で比べる(派生の写しは gain の旧宣言 —— 互換読込で Wbg)
+  const rdOut = (ph) => { const z = lam0(ph); delete z.relativeDrag; return JSON.stringify(z); };
+  if (rdOut(d.physics) !== rdOut(q.physics) || !W302A.rdCanonSame(HP, d.physics.relativeDrag, q.physics.relativeDrag)) bad.push('physics が親の写し+ノブでない');
   if (b.key === 'ems' && d.physics.lambdaPN !== 0) bad.push('新しい派生本の λ_PN が 0 でない');
   for (const k of ['scaleExp', 'integrator', 'orbitObs', 'group', 'familyId', 'scaleTier', 'fidelity']) if (JSON.stringify(d[k]) !== JSON.stringify(par[k])) bad.push(k + ' が親と違う');
   // 第300便g(第300便b の退役の後のゲート): 退役した派生本(familyRole:"retired" —— 定義と署名は不変・退役の行は html の RETIRED_PRESETS)は、分類の語だけを
@@ -398,15 +402,15 @@ export function derivedCheck(HP, s, rec) {
   if (d.emoji !== b.emoji) bad.push('絵文字');
   const others = HP.allPresets().filter((z) => z.id !== d.id && z.emoji === d.emoji).map((z) => z.id);
   if (others.length) bad.push('絵文字が他の本にある: ' + others.join(','));
-  if (JSON.stringify(d.fitRecord) !== JSON.stringify(rec)) bad.push('fitRecord が正本と違う');
+  if (!W302A.fitRecordSame302(d.fitRecord, rec)) bad.push('fitRecord が正本と違う');   // 第302便a: 同値移行(Wbg のノブ)も同じ記録として受ける
   const v = HP.validatePreset(clone(d));
   if (!(v.ok && (v.warnings || []).length === 0)) bad.push('受理の警告: ' + JSON.stringify(v.warnings || v.errors).slice(0, 160));
-  else if (JSON.stringify(v.preset.fitRecord) !== JSON.stringify(rec)) bad.push('受理後の fitRecord が正本と違う');
+  else if (!W302A.fitRecordSame302(v.preset.fitRecord, rec)) bad.push('受理後の fitRecord が正本と違う');
   let condState = null;
   if (v.ok) { HP.sim.build(v.preset); condState = HP.fitCondStateOf(HP.fitCondInputsOf(v.preset, HP.sim.params), v.preset.fitRecord).state; if (condState !== 'match') bad.push('条件の署名が今の実行入力と ' + condState); }
   const ab = d.abBody && d.abBody.physicsPatch && d.abBody.physicsPatch.relativeDrag;
-  const wantAb = b.key === 'ems' ? par.physics.relativeDrag.gain : 0;
-  if (!(ab && ab.gain === wantAb)) bad.push('ワンタップの対照(gain ' + wantAb + ')');
+  const wantAb = b.key === 'ems' ? W302A.rdGainOf(par.physics.relativeDrag) : 0;
+  if (!(ab && W302A.rdIsGain(ab, wantAb))) bad.push('ワンタップの対照(gain ' + wantAb + ')');
   return { id: d.id, present: true, emoji: d.emoji, retired, ok: bad.length === 0, bad, condState, sigFnv: fnv(HP.presetSig(clone(d))) };
 }
 
@@ -441,7 +445,7 @@ async function emsWork(HP, run, log) {
   const b = bookOf('ems'), p = find(HP, b.parent), U = C.timeUnits(p.scaleExp), G = p.physics.G;
   const sidDay = EMS.sid.valueSec / 86400;
   const R = async (tag, o) => { const sp = Object.assign({ key: `ems-${tag}`, book: 'ems', gain: 0, dt: b.dt, revMax: 118, wins: EMS.wins }, o); const r = await run(sp); log(r); return r; };
-  const transfer = p.physics.relativeDrag.gain;
+  const transfer = W302A.rdGainOf(p.physics.relativeDrag);
   // 7c 抽出器 3 方式 × 窓 × 刻み(親の初期配置 —— gain 0 と移送 gain)と長い窓
   const exSpecs = [];
   for (const [gl, g] of [['g0', 0], ['gT', transfer]]) for (const [dl, dt] of [['h', b.dt], ['h2', b.dt / 2], ['h4', b.dt / 4]]) exSpecs.push({ tag: `ex-${gl}-${dl}`, gl, dl, o: { gain: g, dt } });
@@ -528,12 +532,12 @@ function emsRecordOf(HP, s, target, lam) {
   const b = bookOf('ems'), E = s.ems, p = find(HP, b.parent), f = E.fix, sr = E.search, r3 = E.ref3d;
   const T = (x) => L.fx(x, 4);
   return { version: L.FIT_RECORD_VERSION, parent: b.parent, law: 'inertial-drag', targets: [target],
-    knobs: [{ key: 'physics.relativeDrag.gain', range: [0, p.physics.relativeDrag.gain], final: 0 },
+    knobs: [{ key: 'physics.relativeDrag.gain', range: [0, W302A.rdGainOf(p.physics.relativeDrag)], final: 0 },
       { key: 'initial.moonPerigeeDistance', range: [3.4, 3.8], final: f.rp }, { key: 'initial.moonOscEccentricity0', range: [0.02, 0.12], final: f.e0 }],
     fixed: ['太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は親 🌤️ の写し(重心は保つ —— 丸めの差は速度で 1 ulp〔4.4e-16〕・地球→月の相対ベクトルだけを置き直した)',
       'geoPN=3・kFrame=0・積分器 semi・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](親のまま)', lam,
       '初期配置は平均要素に合わせた: 月の離心率 ' + EMS.eMean.value + '(' + EMS.eMean.record + ')と恒星月 ' + (EMS.sid.valueSec / 86400).toFixed(6) + ' 日(' + EMS.sid.record + ')を 118 公転・h・gain 0 の走行の平均で満たす (近地点距離, t=0 の接触離心率) —— 太陽の位相 φ=0(近地点を太陽の反対方向に置く親の向き)',
-      '最終値は根ではない: gain の探索範囲 [0, ' + p.physics.relativeDrag.gain + '] で標的に最も近い点(境界 0)を本の宣言にした —— 移送 gain は A/B のワンタップ'],
+      '最終値は根ではない: gain の探索範囲 [0, ' + W302A.rdGainOf(p.physics.relativeDrag) + '] で標的に最も近い点(境界 0)を本の宣言にした —— 移送 gain は A/B のワンタップ'],
     procedure: '7b 初期配置の点検(親の走行の平均離心率 ' + L.fx(E.parentW118.eOsc, 4) + ' —— 0.0549 は平均要素) → 7d (近地点距離, e0) の 2 元 Newton(φ=0/90/180/270°・e 0.0549/0.0554) → 7c 抽出器 3 方式 × 窓 8/27/60/118 × h/h2/h4 → '
       + '7f gain の対数格子(SI で ' + SI_RANGE[0] + '〜' + SI_RANGE[1] + ' m³/kg・' + GRID_N + ' 点+0)× h/h2 で根を挟む → 7e 器の中だけの 3 次元の参照積分器で傾斜の効果を測る',
     dt: b.dt, steps: f.steps,
@@ -616,6 +620,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   else {
     const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
     const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+    pinSplit302();
     process.stdout.write(JSON.stringify(childTask(HP, spec)));
   }
 } else if (IS_MAIN) {
@@ -625,6 +630,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const csvText = fs.readFileSync(path.join(ROOT, CSV), 'utf8');
   const conv = conventions(HP, csvText);
   for (const c of conv) console.log(`段0 ${c.emoji} ${c.parent}: 署名 ${c.presetSigFnv}・law ${c.law}・実効 ${c.effectiveMode}・λ 宣言 ${c.lambdaDecl} → 走行 ${c.lambdaRun}・標的 ${c.target.obs} ${c.target.unit}(${c.sourceRow ? c.sourceRow.record_id : '行なし'})`);
@@ -656,8 +662,8 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const plu = searched.find((z) => z.res.key === 'plu');
   if (plu) {
     const b = bookOf('plu'), p = find(HP, b.parent), specs = [
-      { key: 'plu-inv-transfer-W', book: 'plu', gain: p.physics.relativeDrag.gain, dt: b.dt, revMax: b.revMax, core: null },
-      { key: 'plu-inv-transfer-V', book: 'plu', gain: p.physics.relativeDrag.gain, dt: b.dt, revMax: b.revMax, core: null, inverse: true }];
+      { key: 'plu-inv-transfer-W', book: 'plu', gain: W302A.rdGainOf(p.physics.relativeDrag), dt: b.dt, revMax: b.revMax, core: null },
+      { key: 'plu-inv-transfer-V', book: 'plu', gain: W302A.rdGainOf(p.physics.relativeDrag), dt: b.dt, revMax: b.revMax, core: null, inverse: true }];
     if (plu.res.final !== null) specs.push({ key: 'plu-inv-fit-V', book: 'plu', gain: plu.res.final, dt: b.dt, revMax: b.revMax, core: b.priors, inverse: true });
     const rs = await Promise.all(specs.map((sp) => run(sp).then((r) => { log(r); runsAll[r.key] = r; return r; })));
     for (const r of rs) inverse.push({ key: r.key, gain: r.gain, inverse: !!r.inverse, gate: r.inverse, periodMeanSec: r.periodMeanSec, period2Sec: r.period2Sec, eProxy: r.eProxy,
@@ -665,7 +671,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
     if (plu.res.finalRun) { const f = plu.res.finalRun.h; inverse.push({ key: 'plu-final-h(W —— 派生本の宣言)', gain: f.gain, inverse: false, gate: null, periodMeanSec: f.periodMeanSec, period2Sec: f.period2Sec, eProxy: f.eProxy,
       apsDegPerOrbit: f.apsDegPerOrbit, uRatioMean: f.uRatioMean, rMin: f.rMin, rMax: f.rMax }); }
   }
-  if (emsR) inverse.push({ key: 'ems-inv(直した初期配置・移送 gain)', gain: find(HP, 'earthMoonSunInertial').physics.relativeDrag.gain, inverse: true, gate: emsR.ems.velocityConvention.gate,
+  if (emsR) inverse.push({ key: 'ems-inv(直した初期配置・移送 gain)', gain: W302A.rdGainOf(find(HP, 'earthMoonSunInertial').physics.relativeDrag), inverse: true, gate: emsR.ems.velocityConvention.gate,
     W118: emsR.ems.velocityConvention.W, V118: emsR.ems.velocityConvention.V });
   // 段 5: 記録と受理
   const records = [], derived = [];
@@ -692,14 +698,14 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const runsForGate = Object.fromEntries(Object.entries(runsAll).filter(([, r]) => r && r.key));
   const G = gates({ runs: runsForGate, conv, sens, inverse, records, derived, lambda, ems: emsR ? emsR.ems : null });
   const timing = Object.fromEntries(Object.entries(runsForGate).map(([k, r]) => [k, { wallSec: r.wallSec }]));
-  const out = { meta: null, conventions: conv, lambda: { rule: '原仮定者の裁定(第87報): geoPN=2・3・4 は λ_PN=0', rows: lambda.rows },
+  const out = { meta: null, stepOrderPin302: PIN302, conventions: conv, lambda: { rule: '原仮定者の裁定(第87報): geoPN=2・3・4 は λ_PN=0', rows: lambda.rows },
     velocityConvention: { rule: 'solve(velocity): (I+L)u = −Lv・W = v+u ⇒ v = (I+L)W(inertialDragInverseMap)', rows: inverse,
       note: '本の既定は親の vx/vy を v に与える(v=W)まま。逆写像は対照として走らせて記録するだけ(既定にするかは決断事項)' },
     sensitivity: sens, search, ems: emsR ? emsR.ems : null, fitRecords: records, derived, gainTable: GT, gates: G, ok: G.ok, timing,
     run: { books: BOOKS, siRange: SI_RANGE, gridN: GRID_N, workers: NW, ems: EMS },
     notClaim: ['現実を再現した', '月を再現した', '8.85 年を出した', '43″ を再現した', '較正 合', 'gain は普遍定数', '全系の保存則が閉じた'] };
   const CODE = ['tests/exp-w297b-fit.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w293d-swing.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
-    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第297便b', target: TARGET, code: CODE, inputs: [TARGET, CSV] }), {
     harnessVersion: HARNESS_VERSION, libVersion: L.FIT_LIB_VERSION, fitRecordVersion: L.FIT_RECORD_VERSION, condVersion: HP.FIT_COND_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, coreVersion: HP.DRAG_CORE_VERSION,
     inverseMapVersion: HP.INERTIAL_INVERSE_MAP_VERSION || null, emExtractorVersion: L.EM_EXTRACTOR_VERSION, loadErrors: errors.length,

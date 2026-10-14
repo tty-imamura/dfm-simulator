@@ -1,0 +1,383 @@
+{
+ "version": "w302e-axialsign-1",
+ "generator": "tests/exp-w302e-axialsign.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+ "base": null,
+ "ruling": "原仮定者の裁定(第92報)・統括の検証項目 R189(AN298 ①⑤ —— 源の軸を上半球へ正規化して符号を Ω へ移す・赤道は y → x の順)",
+ "signVersion": "w302e-axial-sign-1",
+ "steps": {
+  "N": 2000,
+  "N3": 600,
+  "probe": 50
+ },
+ "part1": {
+  "kappa": 4,
+  "eps": 0.5,
+  "omega": 0.5,
+  "receivers": [
+   [
+    3,
+    1,
+    2
+   ],
+   [
+    -2,
+    4,
+    -1
+   ],
+   [
+    1,
+    -3,
+    0.5
+   ],
+   [
+    0,
+    0,
+    5
+   ],
+   [
+    4,
+    0,
+    0
+   ],
+   [
+    -1,
+    -1,
+    -3
+   ]
+  ],
+  "rows": [
+   {
+    "dir": "north",
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "sigma": [
+     1,
+     -1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 5,
+    "ws": [
+     1.05292,
+     0.0966501,
+     0.141654,
+     1.56847,
+     0,
+     4.28816
+    ],
+    "wsSign": "+"
+   },
+   {
+    "dir": "south",
+    "axis": [
+     0,
+     0,
+     -1
+    ],
+    "sigma": [
+     -1,
+     1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 5,
+    "ws": [
+     -1.05292,
+     -0.0966501,
+     -0.141654,
+     -1.56847,
+     0,
+     -4.28816
+    ],
+    "wsSign": "-"
+   },
+   {
+    "dir": "eqXp",
+    "axis": [
+     1,
+     0,
+     0
+    ],
+    "sigma": [
+     1,
+     -1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 5,
+    "ws": [
+     2.36907,
+     0.386601,
+     0.566617,
+     0,
+     3.02959,
+     0.476462
+    ],
+    "wsSign": "+"
+   },
+   {
+    "dir": "eqXm",
+    "axis": [
+     -1,
+     0,
+     0
+    ],
+    "sigma": [
+     -1,
+     1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 5,
+    "ws": [
+     -2.36907,
+     -0.386601,
+     -0.566617,
+     0,
+     -3.02959,
+     -0.476462
+    ],
+    "wsSign": "-"
+   },
+   {
+    "dir": "eqYp",
+    "axis": [
+     0,
+     1,
+     0
+    ],
+    "sigma": [
+     1,
+     -1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 4,
+    "ws": [
+     0.263231,
+     1.5464,
+     5.09955,
+     0,
+     0,
+     0.476462
+    ],
+    "wsSign": "+"
+   },
+   {
+    "dir": "eqYm",
+    "axis": [
+     0,
+     -1,
+     0
+    ],
+    "sigma": [
+     -1,
+     1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 4,
+    "ws": [
+     -0.263231,
+     -1.5464,
+     -5.09955,
+     0,
+     0,
+     -0.476462
+    ],
+    "wsSign": "-"
+   },
+   {
+    "dir": "general",
+    "axis": [
+     0.303046,
+     -0.505076,
+     -0.808122
+    ],
+    "sigma": [
+     -1,
+     1
+    ],
+    "vectorSame": true,
+    "scalarSame": true,
+    "oldScalarSame": false,
+    "nonzero": 6,
+    "ws": [
+     -0.386788,
+     -0.319537,
+     -1.13323,
+     -1.02431,
+     -0.278227,
+     -3.28662
+    ],
+    "wsSign": "-"
+   }
+  ],
+  "summary": {
+   "dirs": 7,
+   "vectorSame": 7,
+   "scalarSame": 7,
+   "oldVectorSame": 7,
+   "oldScalarSame": 0,
+   "nonzeroAll": true,
+   "equatorRule": "eqXp:1,eqXm:-1,eqYp:1,eqYm:-1"
+  }
+ },
+ "part2": {
+  "id": "chainDiskToy3dTilt",
+  "steps": 2000,
+  "dt": 0.016,
+  "n": 81,
+  "source": 0,
+  "axis0": [
+   0.5,
+   0,
+   0.866025
+  ],
+  "sourceAzMin": 0.866025,
+  "sigma": 1,
+  "tiltless": 80,
+  "rotADragSum": 3.98248,
+  "flatTerms": 159920,
+  "flatMax": 0.0213866,
+  "tiltTerms": 0,
+  "omegaMax": 0.0213866,
+  "print": {
+   "rotA": "7deadd2ec24f8981",
+   "x": "29679008de8be042",
+   "y": "0898c9b88c5a1b3d",
+   "z": "cb314e551753e856",
+   "rotADr": "3836bfc87c5de6ac"
+  }
+ },
+ "part3": {
+  "id": "chainDiskToy3dTilt",
+  "steps": 600,
+  "now": {
+   "diffKeys": [],
+   "flatRotADiff": 0,
+   "flatRotAMax": 0.13668,
+   "flatRotAOpposite": 0,
+   "flat": 80,
+   "sameExceptSource": true
+  }
+ },
+ "part4": {
+  "id": "chainDiskToy3dTilt",
+  "steps": 50,
+  "nodes": 169,
+  "ready": true,
+  "wsMax": 0.0401307,
+  "wzMax": 0.0347542,
+  "wsPos": 156,
+  "wsNeg": 0,
+  "receiverChecked": 63,
+  "receiverRelMax": 0
+ },
+ "gates": {
+  "vector7": true,
+  "scalar7": true,
+  "oldScalarAllDiffer": true,
+  "nonzero": true,
+  "equator": true,
+  "tiltUpper": true,
+  "tiltBaseSame": true,
+  "flipSame": true,
+  "flipBaseDiffers": true,
+  "probeReady": true
+ },
+ "ok": true,
+ "elapsedS": 77.031,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第302便e",
+  "target": "beta/index.html",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T07:56:52.862Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w302e-axialsign.mjs",
+    "bytes": 14396,
+    "sha256": "50cdd5324eefb3eab7968ec6a2304597faa0acf0175c6f1e97d82b38bd81cf31",
+    "mtime": "2026-10-14T02:01:14.129Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "226996cab6d91a734310bba7d05c73e2b12116b5121ebce505d94044e9973cb9",
+  "harnessVersion": "w302e-axialsign-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "🪛 の走りが変わった",
+   "軸引きずりの強さが較正された"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "chainDiskToy3dTilt"
+   ],
+   "roots": [
+    "HP.REL_DRAG_AXIAL_SIGN_VERSION",
+    "HP.inertialDrag3AxialOmega",
+    "HP.inertialDrag3AxialSign",
+    "HP.inertialDragProbeAt",
+    "HP.inertialDragProbeSample",
+    "HP.loadPreset",
+    "HP.sim",
+    "REL_DRAG_AXIAL_SIGN_VERSION",
+    "T",
+    "appStepDt",
+    "ctx",
+    "inertialDrag3AxialOmega",
+    "inertialDrag3AxialSign",
+    "inertialDrag3SpinState",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1284,
+   "segments": 1163,
+   "closureShare": 0.32
+  },
+  "scopeSha256": "e7466b46a5fccdd25d46a41dbf71e373143014deb545fdb98562e6d14d64dc1c",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

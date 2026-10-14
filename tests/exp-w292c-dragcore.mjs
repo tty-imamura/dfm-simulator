@@ -40,7 +40,9 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri, YEAR_UNITS_EM, DAY_UNITS_EM } from './lib-w280b-emgrid.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 退役の 🌛 の記録(第292便c のフィット・感度・118 公転)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292c-dragcore-1';
@@ -120,7 +122,7 @@ export function windowFit(raw, a, b) {
 }
 export function bookPreset(HP, gain, dragCore) {
   const p = clone(find(HP, BOOK_ID));
-  p.physics.relativeDrag = Object.assign({}, p.physics.relativeDrag, { gain });
+  p.physics.relativeDrag = W302A.rdWithGain(p.physics.relativeDrag, gain);
   if (dragCore === null) delete p.bodies[0].dragCore; else if (dragCore) p.bodies[0].dragCore = dragCore;
   return p;
 }
@@ -178,7 +180,7 @@ export function gates(HP) {
     geoPN: ph.geoPN === 0 || (ph.geoPN === 3 && typeof HP.geoEffectiveMode === 'function' && HP.geoEffectiveMode.length >= 1),
     kRep: ph.kRep === 0, muF: ph.muF === 0, gammaN: ph.gammaN === 0, kappaS: ph.kappaS === 0, stateCarry: ph.stateCarry === 'double', law: rd && rd.law === 'inertial', eps: rd && rd.eps === 0.1,
     history: rd && rd.history === 'positions', noD0pull: ph.D0pull === undefined, noQLock: p.qLock === undefined };
-  const decl = { id: BOOK_ID, bodiesSameAsBase: bodiesSame, dragCore: dcDecl, moonPoint, physicsDecl, gainDeclared: rd ? rd.gain : null,
+  const decl = { id: BOOK_ID, bodiesSameAsBase: bodiesSame, dragCore: dcDecl, moonPoint, physicsDecl, gainDeclared: rd ? W302A.rdGainOf(rd) : null,
     classes: { group: p.group, familyId: p.familyId, familyRole: p.familyRole, sampleClass: p.sampleClass, fidelity: p.fidelity, referenceKind: p.referenceKind, notClaim: p.notClaim } };
   decl.ok = bodiesSame && moonPoint && !!dcDecl && Object.values(physicsDecl).every(Boolean);
   // (b) エンジン ≡ 純関数(ビット)
@@ -187,7 +189,10 @@ export function gates(HP) {
   const glSame = glE.x.every((z, i) => Object.is(z, glL.x[i]) && Object.is(glE.w[i], glL.w[i]));
   const rs = [0, 0.05, 0.5 * R, R, 2 * R, 10 * R, 363.62532, 384.4, 405];
   const avgRows = rs.map((r) => { const e = HP.dragCoreAvgK(r, d, R, eps, glE), l = LD.avgK(r, d, R, eps, HP.DRAG_CORE_NR, { gl: glL }); return { r, engine: e, lib: l, same: Object.is(e, l) }; });
-  HP.sim.build(HP.validatePreset(clone(p)).preset);
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(大域の関数 relDragStepOrderOf がある)では、(c) の純関数(移送の前〔核の後〕の座標 rdPrev で u を組む ——
+  //   分割の評価点)と照合する走行に stepOrder:"split" を明示する(表と核の照合 (b) は步の順序に依らない)
+  const pS = clone(p); if (typeof globalThis.relDragStepOrderOf === 'function' && pS.physics.relativeDrag && pS.physics.relativeDrag.compose !== 'sum') pS.physics.relativeDrag.stepOrder = 'split';
+  HP.sim.build(HP.validatePreset(pS).preset);
   const S = HP.sim, DC = HP.dragCoreState(S), T = S._dragCoreT && S._dragCoreT[0];
   const src = DC && DC.sources[0];
   const TLib = LD.tableBuild(d, R, eps, src.n, src.rMax, HP.DRAG_CORE_NR);
@@ -204,7 +209,7 @@ export function gates(HP) {
   const stepRows = [];
   for (let s = 1; s <= 4; s++) {
     S.step(RUN.dt);
-    const C = S.relDrag.gain, n = S.n, pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
+    const C = W302A.rdCoefOf(S.relDrag), n = S.n, pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
     const B = LC.buildRows({ n, x: Array.from(S.rdPrevX.subarray(0, n)), y: Array.from(S.rdPrevY.subarray(0, n)), m: S.m, pinned: pin, pairSet: S._rdPairSet, NP: S._rdPairN,
       C, eps, VX: Array.from(S.vx.slice(0, n)), VY: Array.from(S.vy.slice(0, n)), hist: true, kernel });
     const fixed = pin.map((z, i) => (z || !(S.m[i] > 0)) ? 1 : 0);
@@ -213,12 +218,12 @@ export function gates(HP) {
     stepRows.push({ step: s, hist: S.inertialDragN, compose: HP.relDragComposeOf(S.relDrag), solveFrom: HP.relDragSolveFromOf(S.relDrag), same, res: q.res,
       uMoon: [S._rdUX[1], S._rdUY[1]], uEarth: [S._rdUX[0], S._rdUY[0]] });
   }
-  const pSum = clone(p); pSum.physics.relativeDrag.compose = 'sum';
+  const pSum = clone(p); W302A.rdPatch(pSum.physics.relativeDrag, { compose: 'sum' });
   HP.sim.build(HP.validatePreset(pSum).preset);
   const S2 = HP.sim, sumRows = [];
   for (let s = 1; s <= 4; s++) {
     S2.step(RUN.dt);
-    const C = S2.relDrag.gain, e2 = eps * eps, n = S2.n, u = [];
+    const C = W302A.rdCoefOf(S2.relDrag), e2 = eps * eps, n = S2.n, u = [];
     for (let i = 0; i < n; i++) {
       let ux = 0, uy = 0;
       for (let j = 0; j < n; j++) { if (j === i) continue;
@@ -279,6 +284,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinSplit302();
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN) {
   const OUT_PATH = process.env.W292C_OUT || path.join(ROOT, 'tests', 'out', 'dragcore-w292c.json');
@@ -286,6 +292,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const selfTest = LD.selfTest();
   console.log(`(a) 純関数 ${selfTest.ok}・r=10R の点源との差 ${e3(selfTest.far[0].relToPoint)}(1 次項 ${e3(selfTest.far[0].firstOrder)})`);
   const G = gates(HP);
@@ -364,10 +371,10 @@ if (IS_MAIN && process.argv.includes('--child')) {
     .every((s) => !s.nan && s.ledger && s.ledger.boundOver === 0 && s.ledger.reject === 0 && s.ledger.noHistory === 1);
   const fitOk = fitCore.converged && fitPoint.converged && Math.abs(fitRel) <= 1e-5;
   const out = {
-    meta: null, selfTest, gates: G, fit, hh, sens, long: { gain: gDecl, orbits: RUN.longOrbits, windows: long.windows, ledger: long.ledger, wallSec: long.wallSec, stationary, steps: long.steps },
+    meta: null, stepOrderPin302: PIN302, selfTest, gates: G, fit, hh, sens, long: { gain: gDecl, orbits: RUN.longOrbits, windows: long.windows, ledger: long.ledger, wallSec: long.wallSec, stationary, steps: long.steps },
     kf1, decl: { book: BOOK_ID, base: BASE_ID, run: RUN, fitDecl: FIT, sensDecl: SENS, targetYears: TARGET_YEARS, refKf1Dw8: REF_KF1_DW8 },
     ok: selfTest.ok && G.ok && fitOk && okRuns };
-  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w293e-compose.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w293e-compose.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第292便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: LD.DRAGCORE_LIB_VERSION, engineVersion: HP.DRAG_CORE_VERSION, inertialVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第82報)⑤⑥(慣性決定力版を用意し近点回転 8.85 年にフィットさせる・q に相当する引きずりが近似コアの質量と半径に依存する・🌘 のフィット結果を参考にする)',

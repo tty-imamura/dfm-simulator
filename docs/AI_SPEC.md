@@ -349,12 +349,12 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=空間メッシュ・連鎖〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 physics.spaceMesh は廃止 —— 受理で拒否〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜4(整数・目的の組 —— 0=汎用/1=1PN準拠・GR 1PN〔標準 kFrame=0・lambdaPN=1〕/2=引きずり近似 q〔標準 kFrame=1・lambdaPN=0〕/3=慣性決定力〔引きずりを慣性決定力で計算・lambdaPN=0〕/4=慣性決定力の多粒子〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。旧 physics.spaceMesh は廃止 —— 受理で拒否〕。geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)。番号は目的の組 —— 組と違う設定も受理し、保存・読込で警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
 11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
-12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。
+12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。背景慣性決定力は鍵 Wbg [M/L³](正の数 —— 引きずりは W_bg が小さいほど強い。未推定は {Wbg:null, enabled:false}・引きずり無しは enabled:false)で直接書く(第302便a —— gain は廃止・書かない。旧 gain は Wbg = 1/gain として読まれる)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -3665,3 +3665,81 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
 - QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
   (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。
+
+## 90. 第302便a —— 背景慣性決定力 W_bg の直接定義・gain の廃止・パラメータタブの W_bg の行(原仮定者の裁定(第92報)AN304 ②⑤・統括の検証項目 R186・**宣言の形と UI** —— 式・`S._core`・内蔵の本の步は不変)
+
+- **正準形**: `physics.relativeDrag:{law:"inertial", Wbg:<正の有限数 [M/L³]>|null, enabled?:false, eps, pairs, history, coreTable, solver, spinDrag …}`。
+  `Wbg` は背景慣性決定力 W_bg(核 m𝒦 と同じ単位 —— 本の単位)。式 u_i = C_d Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_ij) の **C_d は 1 に固定**(gain 相当の自由係数は無い)。
+  `enabled` は既定 true(正準形には false のときだけ)—— OFF は引きずり無し(宣言なしとビット同一)。未推定の OFF は `{Wbg:null, enabled:false}`・推定済みの OFF は `{Wbg:<正>, enabled:false}`。
+  受理しない: Wbg の 0・負・NaN・Infinity・文字列・`Wbg:null` で enabled が false でない宣言・`Wbg` と `gain`/`background` の同時・`Wbg` と `compose:"sum"`/`norm:"none"`。
+- **互換(1 波)**: `gain` だけの旧宣言は gain>0 → `Wbg`(1/Wbg が gain と同じ double —— 無ければ最近接・`legacyGain.exact:false`)・gain 0 → `{Wbg:null, enabled:false}` として読む
+  (validatePreset・A/B・保存の読込が警告 1 行)。保存し直すと Wbg だけを書く。旧法則の凍結比較(`background`・`compose:"sum"`・`norm:"none"`)は今の受理のまま `gain` で書く。
+- **関数(HP)**: `relDragCoefficientOf(rd)`(力学の入口 —— c = 1/W_bg・OFF と未推定は 0・凍結比較は gain)・`relDragWbgOf(rd)`(読み口の W_bg)・`relDragEnabledOf(rd)`・
+  `relDragWbgFromGain(g)`・`relDragLegacyFrozen(rd)`・`geoInertialSetWbg(S, Wbg, enabled)`(継続編集 —— 他の鍵を落とさない・OFF で値を保つ・未推定の ON は拒否 —— 旧 `geoInertialSetGain` は廃止)。
+  読み口 `inertialDragState`・サンプラー・プローブの鍵 `gain` → `Wbg`(三次元・二次元とも)。
+- **内蔵の本の移行**: 宣言 46 か所を 1/Wbg が元の gain と同じ double になる Wbg へ(🌛 earthMoonInertial〔退役〕の 514182 だけ 1 ulp)。表は docs/PHYSICS.md〔第302便a〕。
+  フィットの記録 5 本のノブ `physics.relativeDrag.gain` → `physics.relativeDrag.Wbg`(値は 1/gain・範囲は向きを反転・来歴「同値移行」・条件の署名を作り直し)。
+- **UI**: パラメータタブ「引きずり・測地線」の geoPN 行の直後に「背景慣性決定力 W_bg」の行 `#inertialWbgRow`(対数スライダー〔今の値の ±4 桁〕・数値欄〔範囲外で範囲を広げる〕・ON/OFF・単位 [M/L³]・
+  慣性の宣言が無い本と凍結比較の本では調整を出さず理由を 1 行)。削除: gain の入力(`.geo3InertialGain`・`.geo0ChoiceGain`)・`#bgcPanel`(背景慣性決定力 W₀・A₀ の宣言欄 —— 受理器と保存の拒否は残す)・
+  `#wbgRow`(静止背景相当 Wbg の読み取り行)。D₀ のスライダーは残す。geoPN=0 の選択「慣性決定力」と geoPN 3・4 の「宣言」は未推定の OFF で置く。
+- **AI 生成の規則**: SYSTEM_PROMPT の規則 12 に 1 文(背景慣性決定力は鍵 Wbg で直接書く・gain は廃止 —— 書かない)。
+- QA: `behavior.wbgDirect302`・`ui.wbgSlider302`(root は SKIP —— 世代切替 = html の `const REL_DRAG_WBG_VERSION`)。gain を前提にした既存の QA は同じ世代切替で受ける。
+
+## 91. 第302便b —— 局所重力 G_loc の宣言 `physics.gLoc`(原仮定者の裁定(第92報)AN304 ①・補足・統括の検証項目 R187・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**)
+
+- **鍵**: `physics.gLoc:{law:"cLocPow"|"kappaC2"|"timeRatio", n?, pair?:"receiver"|"symmetric", kappa?:"lock"|"kappaT", ref?:"background"}`(三次元の本 `physics.coord:"3d"` だけ)。
+  族 G_loc = G·(c_loc/c₀)^n = G·e^(−2nψ)・ψ_i = κ_g Σ_{j≠i} m_j/√(d²+ε²)(κ_g = G/c₀² —— 既定 kappa:"lock"。"kappaT" は光学の κ_T で作る比較用)。
+  kappaC2 は n = 2(κ·c_loc²)・timeRatio は n = −2(G·(c₀/c_loc)²)・cLocPow は n を必ず書く(−8〜8)。pair の既定は receiver(受け手ごとの G_i —— 作用反作用の差は帳簿
+  gLocPx/Py/Pz)・symmetric は G_ij = G·e^(−n(ψ_i+ψ_j))。ref は "background" だけ(背景 D₀ を含めない)。正規化後は 5 鍵すべてを持つ。
+- **拒否**: 二次元の本(重力が核 S._core の中 —— 理由の文で拒否)・較正の本(sampleClass:"calibration" —— EIH の 1PN と二重計上)・kappa:"lock" で cLight ≤ 0・未知の鍵・law と n の矛盾・値域の外。
+- **力学**: `dfmCore3` の全対の後に補正 δa_i = −(G_i − G) Σ_j m_j d_ij/r³ を足す(ψ はその力の評価の位置で 1 回)。慣性速度 v のキックだけ —— 引きずりの u・移送の ΔU・接触には掛けない。
+  力は −G_loc m_j r/r³ の宣言(ポテンシャルの勾配ではない)—— 仕事は帳簿 gLocWork。読み口 `HP.gLocState(S)`(版 w302b-gloc-1)。解析 `HP.gLocPeriAdvance(n, μ_eff, c₀, a, e)` = −2nπμ_eff/(c₀²a(1−e²))。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— どの本に・どの n で入れるかは第 2 段 c の統括の裁定)。宣言するときは較正の本に入れない・
+  近点の量を書くなら n の符号(n > 0 は逆行・n < 0 は順行)と、n = −3 の近点の係数が GR の試験粒子と同じなのは近点の一次だけ(周期・離心率の変化は符号から違う)を添える。
+- **器と正本**: `tests/exp-w302b-gloc.mjs`(版 w302b-gloc-1・`W302B_OUT`・`W302B_QUICK`)→ `tests/out/gloc-w302b.json`(段 gloc-302b)。
+- QA: `behavior.gLoc302`(root は SKIP —— 世代切替 = html の `const GLOC_KEY="gLoc"`。省略時オフ・n=0 のビット同一・κ→0 と c₀ の走査・固定中心の近点が解析と 3% 以内〔n=2, −2〕・受理器・状態の契約・正本と文書)。
+
+## 92. 第302便d —— 本体の積分器 semic(慣性決定力の引きずりの步の順序)を既定に(決断事項 AN303 ①②⑤・統括の検証項目 R188・**宣言の形は変えない**(既定は正準形に出さない)—— 動くのは慣性決定力の引きずり〔law "inertial"・合成則 solve・gain>0〕を宣言した本の走りだけ・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **步の順序**: 慣性決定力の引きずり(`physics.relativeDrag.law:"inertial"`・合成則 solve)の 1 步を「v += h a(x₀)(核)→ 引きずりの u を**ドリフトの前の位置 x₀** と新しい v で解く → x += h (v + u)」にした(半陰的の結合 semic)。
+  旧の分割(u をドリフトの後の位置で解く)は比較用の明示の鍵 **`physics.relativeDrag.stepOrder:"split"`**(省略・null・"semic" は既定 —— 正準形に出さない・署名は変わらない。"split" を書いた本だけ正準形と署名に出る)。
+  `compose:"sum"` の本では宣言しない(拒否 —— 加算の旧法則は従来の分割のまま)。既存の鍵 `integration`("explicit"|"midpoint")は law "pairSlip" 専用のまま。
+- **帳簿**: `inertialDragWork` は semic の本では Ẇ = Σ ∇U·u = −Σ m a_N(x₀)·u を h 倍して積む(同じ位置・同じ段 —— ẋ = v + u・v̇ = a_N の系で Δ(K+U) = W。外部支持・慣性場の供給口を含む帳簿で、孤立系の保存ではない)。
+  split の本は従来どおり移送の前後の ΔU。読み口 `HP.inertialDragLedgerOf(S)`(版 w302d-semic-1)が E₀(最初の步の核の前)・K・U・R_E = (K+U) − E₀ − W を返し、
+  `HP.inertialDragState(S)` は semic の本だけ `stepOrder`・`ledger` の鍵を持つ。HUD に R_E の 1 行(semic の本 ∧ gain>0)。R_E は分割の誤差の大きさの診断で、刻みで 1 次に 0 へ近づく。
+- **AI 生成の規則**: 変えない(stepOrder は比較用 —— 生成する本には書かない)。慣性決定力の引きずりの本で放出・飛びを主張するときは、器で刻みの依存を確かめてから書く(〔第301便d〕のまま)。
+- **器と正本**: `tests/exp-w302d-semic.mjs`(版 w302d-semic-1・`W302D_OUT`・`W302D_PART`)→ `tests/out/semic-w302d.json`(段 semic-302d)。連鎖の本の器は前置き `tests/lib-w302d-orderpre.mjs`(測定専用 —— 全本を split にした走行)で 2 回走らせる。
+  第301便d の器 `tests/exp-w301d-chainburst.mjs` は分割を明示して走る(`W301D_ORDER=semic` と `W301D_ONLY` で semic を測る)。
+- QA: `behavior.semic302`(gain 0 の本と引きずりの無い本の不変・閉形式の評価点・器と本体の一致・明示の split と基点のビット同一・R_E の読み口・受理と署名)・`docs.semic302`(正本・影響の表・文書)—— root は SKIP
+  (世代切替 = html の `const REL_DRAG_SEMIC_VERSION` ∧ 正本)。
+- 言わないこと: 「semic で正しくなった」「保存則が成り立つ」。フィットの本の gain は再フィットしていない(差は〔第302便d〕の表 —— 第 2 段 c が W_bg の推定と G_loc の後で行う)。
+
+## 93. 第302便e —— 源の軸と Ω の符号の正準化・受動プローブの点の色・UI の 2 点・SYSTEM_PROMPT の geoPN=4 の語・状態の契約の lint(原仮定者の裁定(第92報)・統括の検証項目 R189 の細目 —— DECISIONS v60 の AN298 ①⑤⑥・AN302 ①③④⑤・AN305 ②⑧・**宣言の鍵は増やさない** —— 在位・退役の全本の步と署名は不変・`S._core` は不変)
+
+- **軸引きずりの符号の正準化**: 傾きを持たない受け手へ渡すスカラー Σw は、源の軸 â を上半球へ正規化して符号を Ω へ移した σ_j w_ij の和(σ = sgn(a_z)・赤道は sgn(a_y)・
+  a_y も 0 なら sgn(a_x) —— `inertialDrag3AxialSign`・版 `REL_DRAG_AXIAL_SIGN_VERSION`)。(â,Ω) と (−â,−Ω) の寄与がベクトル・スカラーとも同じになる。
+  宣言の形は変えない —— 源の軸が下半球(spinAxis の tiltDeg > 90)の本でも、同じ回転として同じ姿勢の角を作る。在位で動く本は 0(🪛 の源は上半球)。
+- **受動プローブ**(表示): 点の色は正準化した符号つきの Σw(`inertialDragProbeAt` の `omegaS`・`inertialDragProbeSample` の `ws`/`wsMax`)。`omega`・`wz`/`wMax` は従来のまま残す。
+- **UI**(表示専用): Shift なしで縦の量が 0 のホイールは拡大縮小しない(`wheelZoomFactor`)・Shift+ホイールの θ の向きの反転(共通設定・`hp_tilt_wheel_inv`)。
+- **SYSTEM_PROMPT**: 値域の行の geoPN=4 の語を「慣性決定力の多粒子」へ(AI の入力の契約 —— 標準の宣言・lambdaPN=0・旧 spaceMesh の拒否 —— は変えない。上の §7 の逐語の写しも同じ)。
+- **状態の契約**: 新しい状態の鍵(步で値が変わる sim の鍵)は CK_ARRS・CK_SC・CK_DEEP・SIM_STEP_SCRATCH・SIM_BUILD_RESET か機能ごとの写しに登録する。毎步・遅延で作り直す派生の鍵は
+  `SIM_STATE_DERIVED`(key・kind〔cache/work/latch〕・ja)。CK_DEEP に `fusLog`(融合の事象の表示の記録)を足した。
+- **器と正本**: `tests/exp-w302e-axialsign.mjs`(版 w302e-axialsign-1・`W302E_OUT`・`W302E_BASE`・`W302E_N`/`W302E_N3`)→ `tests/out/axialsign-w302e.json`(段 axialsign-302e)/
+  `tests/exp-w302e-statecontract.mjs`(版 w302e-statecontract-1・`W302E_SC_OUT`・`W302E_BASE`・`W302E_SC_STEPS`)→ `tests/out/statecontract-w302e.json`(段 statecontract-302e)。
+- QA: `behavior.axialSign302`・`ui.wheel302`・`lint.stateContract302`・`lint.retiredRef302`(root では SKIP)。
+
+## 94. 第302便c —— G_loc の n(移送の予言)・在位の惑星の本への `physics.gLoc`・背景慣性決定力 W_bg の推定 `wbgEstimateOf`・環境の宣言 `relativeDrag.env`・帳簿の継ぎ目(原仮定者の裁定(第92報)AN304 ①③・統括の検証項目 R190・**SYSTEM_PROMPT には載せない**)
+
+- **G_loc の在位の宣言**: 🌡️🌋🔴🏀🟡🔷💙(三次元・太陽+惑星)に `physics.gLoc:{law:"cLocPow", n:-3}`(n は 🌡️ で合わせた 1 つの W_bg を 🌋🔴 へ移送した予言と 1PN の写しの残差で選んだ —— 裁定の式 n=2 は表に記録)。
+  🌡️ の W_bg は G_loc の上で 489275.3 [M/L³] に合わせ直した(fitRecord w298b-1・law に G_loc と semic)。gain 0 だった 6 本は引きずり OFF のまま(移送した W_bg で ON にするかは決断事項)。
+  🌦️🌔 と二次元の本には宣言しない(二次元は受理しない —— 二次元の重力は核 S._core の中)。
+- **推定の読み口** `HP.wbgEstimateOf(本 | sim)`(版 w302c-wbgest-1 —— 状態・宣言を動かさない): {Wcos, Wgal, Wsys, total(本の単位 book と SI)・sources:{drag, background, overlap}・sumW・Wdecl・ratioToDecl・xi}。
+  W_cos = 2πρ_c[ln((R_H²+ε²)/ε²) + ε²/(R_H²+ε²) − 1](H₀ = 67.4 km/s/Mpc・R_H = c/H₀)・W_gal は宣言があるときだけ・W_sys は背景側(pairs の外の粒子と env.bodies)の Σ m𝒦_ε(d)。
+  源(受け手と対を組む粒子)は重ねない。scaleExp の無い本は {ok:false, why:"noScale"}。`HP.wbgEstimateApply(S)` は推定の 7 桁を Wbg に写す(ON/OFF・他の鍵を保つ)。
+- **環境の宣言** `physics.relativeDrag.env:{galaxy?:{rhoSI, RSI, source?}, bodies?:[{m, d, label?}]}`(推定にだけ使う —— 力学は読まない・bodies は ≤ 16・粒子の番号は書けない)。在位の本の宣言は 0。
+- **帳簿の継ぎ目**: G_loc と引きずりを両方宣言した本の `HP.inertialDragLedgerOf(S)` は R_E = ΔE − W − gLocWork を返し、鍵 gLocWork・REnoGLoc・ledgerSeam(`GLOC_LEDGER_SEAM_VERSION` = "w302c-seam-1")を足す(G_loc の無い本は従来のまま)。
+- **UI**: パラメータタブ「引きずり・測地線」の W_bg の行の下に読み取り行「推定 W_cos+W_gal+W_sys = …」と「推定を入れる」(押したときだけ写す —— スライダーではない)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(推定は読み取りで、宣言の W_bg はフィット値 —— 推定とフィットは別の来歴)。新しい本に G_loc を入れるときは三次元・較正の外・n の符号の意味(n < 0 は順行)を添え、
+  「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
+- **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
+- QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。

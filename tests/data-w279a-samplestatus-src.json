@@ -107,13 +107,13 @@
   "inertialDragPair": {
    "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
    "objective": "met",
-   "state": "合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装",
+   "state": "合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 1.1e-5・上界 0.0021・回転と連鎖は未実装",
    "evidence": [
     "tests/out/inertial-w290c.json"
    ],
    "en": {
     "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
-    "state": "solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain"
+    "state": "solve default; gain 0 bit-identical; limited model to 1.1e-5; bound 0.0021; no rotation/chain"
    }
   },
   "chainDiskToy": {
@@ -131,25 +131,25 @@
   "chainDiskToy3d": {
    "purpose": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る",
    "objective": "met",
-   "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.170/0.577/0.196 rad・プローブの門 2.8e-11・循環 36.6",
+   "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・プローブの門 3.4e-11・循環 36.6",
    "evidence": [
     "tests/out/drag3d-w298c.json"
    ],
    "en": {
     "purpose": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex",
-    "state": "bit-identical to 2D 🔗; band dTheta 2.170/0.577/0.196 rad; probe gate 2.8e-11; circulation 36.6"
+    "state": "bit-identical to 2D 🔗; band dTheta 2.169/0.577/0.196 rad; probe gate 3.4e-11; circulation 36.6"
    }
   },
   "chainDiskToy3dTilt": {
    "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
    "objective": "met",
-   "state": "面外の変位 最大 6.86・帯の Δθ 2.225/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0213(総和正規化後・姿勢のみ)",
+   "state": "面外の変位 最大 6.86・帯の Δθ 2.223/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0214(総和正規化後・姿勢のみ)",
    "evidence": [
     "tests/out/drag3d-w298c.json"
    ],
    "en": {
     "purpose": "Tilt the centre's axis 30 deg; measure out-of-plane and axial drag",
-    "state": "z offset up to 6.86; band dTheta 2.225/0.470/0.157 rad; axial |omega| up to 0.0213 (normalised)"
+    "state": "z offset up to 6.86; band dTheta 2.223/0.470/0.157 rad; axial |omega| up to 0.0214 (normalised)"
    }
   },
   "chainSpreadToy3d": {
@@ -286,63 +286,68 @@
    }
   },
   "mercurySunInertial3d": {
-   "purpose": "太陽と水星を三次元で置き gain を近点率の差 43.0″/世紀に測り直して合わせる",
+   "purpose": "太陽と水星の三次元で G_loc(n=−3)の上に W_bg を近点率の差 43.0″/世紀へ合わせる",
    "objective": "met",
-   "state": "gain 0.004522419・差 43.00001(h/2 43.00002)・恒星周期の差 0.0003 日・fitted",
+   "state": "G_loc 42.98057+引きずり 0.01943・差 43.00001(h/2 42.99991)・fitted",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Mercury in 3D; re-measure the gain to the 43.0\"/cy apsidal difference",
-    "state": "gain 0.004522419; diff 43.00001 (h/2 43.00002)\"/cy; period gap 0.0003 d; fitted"
+    "purpose": "Sun and Mercury in 3D; W_bg matched on top of G_loc (n=-3) to the 43.0\"/cy apsidal difference",
+    "state": "G_loc 42.98057 + drag 0.01943; diff 43.00001 (h/2 42.99991)\"/cy; fitted"
    }
   },
   "venusSunInertial3d": {
-   "purpose": "太陽と金星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と金星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 224.7021 日(観測との差 0.0011)・近点 −1.59621″/世紀(h/2 −0.90536)・標的の観測行なし",
+   "state": "周期 224.7021 日(観測との差 0.0011)・近点(G_loc なし)−1.59621″/世紀・G_loc の差 8.623・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Venus in 3D at gain 0; measure period and apse",
-    "state": "period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy (h/2 -0.90536); no target row"
+    "purpose": "Sun and Venus in 3D, drag off; measure period and apse",
+    "state": "period 224.7021 d (0.0011 from observed); apse (no G_loc) -1.59621\"/cy; G_loc 8.623; no target"
    }
   },
   "marsSunInertial3d": {
-   "purpose": "太陽と火星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と火星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 686.9863 日(観測との差 0.0063)・近点 −0.36042″/世紀(h/2 −0.12805)・標的の観測行なし",
+   "state": "周期 686.9863 日(観測との差 0.0063)・近点(G_loc なし)−0.36042″/世紀・G_loc の差 1.351・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Mars in 3D at gain 0; measure period and apse",
-    "state": "period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy (h/2 -0.12805); no target row"
+    "purpose": "Sun and Mars in 3D, drag off; measure period and apse",
+    "state": "period 686.9863 d (0.0063 from observed); apse (no G_loc) -0.36042\"/cy; G_loc 1.351; no target"
    }
   },
   "jupiterSunInertial3d": {
-   "purpose": "太陽と木星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と木星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 4332.6745 日(観測との差 0.0855)・近点 −0.11609″/世紀(h/2 −0.07998)・標的の観測行なし",
+   "state": "周期 4332.6745 日(観測との差 0.0855)・近点(G_loc なし)−0.11609″/世紀・G_loc の差 0.06227・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Jupiter in 3D at gain 0; measure period and apse",
-    "state": "period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy (h/2 -0.07998); no target row"
+    "purpose": "Sun and Jupiter in 3D, drag off; measure period and apse",
+    "state": "period 4332.6745 d (0.0855 from observed); apse (no G_loc) -0.11609\"/cy; G_loc 0.06227; no target"
    }
   },
   "saturnSunInertial3d": {
-   "purpose": "太陽と土星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と土星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 10755.6209 日(観測との差 −3.5991)・近点 −0.02760″/世紀(h/2 −0.01302)・標的の観測行なし",
+   "state": "周期 10755.6209 日(観測との差 −3.5991)・近点(G_loc なし)−0.02760″/世紀・G_loc の差 0.0137・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Saturn in 3D at gain 0; measure period and apse",
-    "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy (h/2 -0.01302); no target row"
+    "purpose": "Sun and Saturn in 3D, drag off; measure period and apse",
+    "state": "period 10755.6209 d (-3.5991 from observed); apse (no G_loc) -0.02760\"/cy; G_loc 0.0137; no target"
    }
   },
   "saturnRingInertial3d": {
@@ -359,27 +364,29 @@
    }
   },
   "uranusSunInertial3d": {
-   "purpose": "太陽と天王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と天王星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 30702.2925 日(観測との差 16.8925)・近点 −0.00749″/世紀(h/2 −0.00240)・標的の観測行なし",
+   "state": "周期 30702.2925 日(観測との差 16.8925)・近点(G_loc なし)−0.00749″/世紀・G_loc の差 0.002384・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Uranus in 3D at gain 0; measure period and apse",
-    "state": "period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy (h/2 -0.00240); no target row"
+    "purpose": "Sun and Uranus in 3D, drag off; measure period and apse",
+    "state": "period 30702.2925 d (16.8925 from observed); apse (no G_loc) -0.00749\"/cy; G_loc 0.002384; no target"
    }
   },
   "neptuneSunInertial3d": {
-   "purpose": "太陽と海王星の三次元の基準(gain 0)で恒星周期と近点率を測る",
+   "purpose": "太陽と海王星の三次元(引きずり OFF)で周期と近点率を測る",
    "objective": "met",
-   "state": "周期 60226.3209 日(観測との差 37.3209)・近点 −0.00358″/世紀(h/2 −0.00100)・標的の観測行なし",
+   "state": "周期 60226.3209 日(観測との差 37.3209)・近点(G_loc なし)−0.00358″/世紀・G_loc の差 0.000774・標的なし",
    "evidence": [
-    "tests/out/planets3d-w299c.json"
+    "tests/out/planets3d-w299c.json",
+    "tests/out/wbgest-w302c.json"
    ],
    "en": {
-    "purpose": "Sun and Neptune in 3D at gain 0; measure period and apse",
-    "state": "period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy (h/2 -0.00100); no target row"
+    "purpose": "Sun and Neptune in 3D, drag off; measure period and apse",
+    "state": "period 60226.3209 d (37.3209 from observed); apse (no G_loc) -0.00358\"/cy; G_loc 0.000774; no target"
    }
   },
   "plutoCharonInertial": {

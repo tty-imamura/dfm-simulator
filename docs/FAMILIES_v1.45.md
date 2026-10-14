@@ -1,4 +1,4 @@
-# 同一天体の家族の差分表と統廃合の候補(v1.45-b301・第283便b)
+# 同一天体の家族の差分表と統廃合の候補(v1.45-b302・第283便b)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `tests/out/calaudit-w249.json`(較正母集団)・凍結の写し `tests/fixtures/retired-w283b.json` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。
 > 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。
@@ -59,7 +59,7 @@
 
 - `physics.geoPN`: plutoCharonDiagInput=1 / plutoCharonInertialFit=3
 - `physics.lambdaPN`: plutoCharonDiagInput=1 / plutoCharonInertialFit=0
-- `physics.relativeDrag`: plutoCharonDiagInput=— / plutoCharonInertialFit={"law":"inertial","gain":6729.009,"eps":0.01,"pairs":"all","history":"positions","coreTable":{"n":4096}}
+- `physics.relativeDrag`: plutoCharonDiagInput=— / plutoCharonInertialFit={"law":"inertial","Wbg":0.00014861029313528932,"eps":0.01,"pairs":"all","history":"positions","coreTable":{"n":4096}}
 - `fitRecord`: plutoCharonDiagInput=— / plutoCharonInertialFit=(宣言あり)
 - `sampleClass`: plutoCharonDiagInput=calibration / plutoCharonInertialFit=principle
 - `calVariant`: plutoCharonDiagInput=kf0 / plutoCharonInertialFit=—
@@ -115,7 +115,7 @@
 
 - `physics.geoPN`: mercuryReal=1 / mercurySunInertialFit=3
 - `physics.lambdaPN`: mercuryReal=1 / mercurySunInertialFit=0
-- `physics.relativeDrag`: mercuryReal=— / mercurySunInertialFit={"law":"inertial","gain":0.004522415,"eps":0.05,"pairs":"all","history":"positions"}
+- `physics.relativeDrag`: mercuryReal=— / mercurySunInertialFit={"law":"inertial","Wbg":221.12079497348208,"eps":0.05,"pairs":"all","history":"positions"}
 - `fitRecord`: mercuryReal=— / mercurySunInertialFit=(宣言あり)
 - `sampleClass`: mercuryReal=calibration / mercurySunInertialFit=principle
 - `calVariant`: mercuryReal=kf0 / mercurySunInertialFit=—

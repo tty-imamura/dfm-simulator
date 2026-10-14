@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T16:25:38.519Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T08:02:51.427Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 6278,
     "sha256": "663d7b481c38f3e3b78c67d273e5a35c8da6484ed0c40b20732c096ddedac71d",
-    "mtime": "2026-10-09T10:19:35.482Z"
+    "mtime": "2026-10-09T10:19:39.527Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    }
   ],
   "codeSha256": "05ee87040a77aa72146ec46d8c220cad3ed01d59813e78054346064ff81efb92",
@@ -1613,7 +1613,7 @@
    "softening": 0.1,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "ed1b7fb9",
+   "presetSigHash": "c3bfd2a6",
    "bodiesSha256": "9f88dd31c5b0a0626357726a7d764a39f94026d68a438a088f349fa9f6fe8614"
   },
   {
@@ -1697,7 +1697,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 3,
-   "presetSigHash": "c6e13783",
+   "presetSigHash": "3bdaee7b",
    "bodiesSha256": "fbfb34f39f467cf8ead7e66a417d0905bcfaada93bc5050905bee2d34a4bfd12"
   },
   {
@@ -1718,7 +1718,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 3,
-   "presetSigHash": "ca4386ef",
+   "presetSigHash": "1480e277",
    "bodiesSha256": "61bdab6067bddcb3e94b5bd6140bd2bad83d47b271af0d6b7459a9157bd5f2ad"
   },
   {
@@ -1739,7 +1739,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 3,
-   "presetSigHash": "eeb8ace7",
+   "presetSigHash": "ea634606",
    "bodiesSha256": "95b2f008c71ef4a1477cf1302da510d4c1f6b3b7924f992d2674699550428ba4"
   },
   {
@@ -1760,7 +1760,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "ba4aab48",
+   "presetSigHash": "b51ca1ef",
    "bodiesSha256": "e5a38e154624b112fb4b82f07bc4a406c7557d14917cbdd3b07be5d1f2dc8610"
   },
   {
@@ -1886,7 +1886,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "8ab2b5d8",
+   "presetSigHash": "52f2a70",
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
@@ -1907,13 +1907,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "1e29ced4",
+   "presetSigHash": "ab0cb7d5",
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
    "id": "mercurySunInertial3d",
    "emoji": "🌡️",
-   "name": "太陽と水星(慣性決定力版・三次元)— 近点率に合わせた gain",
+   "name": "太陽と水星(慣性決定力版・三次元)— G_loc と近点率に合わせた W_bg",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1928,7 +1928,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "329fa554",
+   "presetSigHash": "7f3126ea",
    "bodiesSha256": "30d20b8fbe1b54f138de433f673633d5467dcd4d61ca3e2c0a1cea8ab6f78727"
   },
   {
@@ -1949,7 +1949,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "7969d299",
+   "presetSigHash": "25a26875",
    "bodiesSha256": "bb61ae546955ce3cde90d6ee1ceb2a44f2bad5208da4f88d3a79d009dbd060df"
   },
   {
@@ -1970,7 +1970,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "c9b3cc9d",
+   "presetSigHash": "59cd1559",
    "bodiesSha256": "42025981779f7b055b80332a8dbe87c22a47cc175caaf17537e3bf012d05deee"
   },
   {
@@ -1991,7 +1991,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "d7df215d",
+   "presetSigHash": "2c97eba9",
    "bodiesSha256": "e6fa1c4ad765cc360d2dd63293b24e970c07ab0d26050284de9f6ead664aa83c"
   },
   {
@@ -2012,7 +2012,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "9d22af0b",
+   "presetSigHash": "129b8957",
    "bodiesSha256": "4f3a538aaca88d32e3ffb35709b2efccbe86d2965deff6d525730a3b7f24006a"
   },
   {
@@ -2033,7 +2033,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 10,
-   "presetSigHash": "aab5ea0",
+   "presetSigHash": "de24c778",
    "bodiesSha256": "ea9750a9a1514a989466958d397679d3a7998671f37526532e6773716142bd1b"
   },
   {
@@ -2054,7 +2054,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "5336396d",
+   "presetSigHash": "6c3009f5",
    "bodiesSha256": "d0ff4523c22560ab50b9c873b928da529bd7ff088ae55915d14e66250c97625b"
   },
   {
@@ -2075,7 +2075,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "32f58cb5",
+   "presetSigHash": "d088a50d",
    "bodiesSha256": "ab507834d939b278da9667dfb13a456d224cf73f993f6039e911d964709f0c08"
   },
   {
@@ -2117,7 +2117,7 @@
    "softening": 0.05,
    "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "e3ee7460",
+   "presetSigHash": "ffe5afed",
    "bodiesSha256": "97c2369de90b94544d3e249c4430d53f123a8eca37b5162a0a8ce74c182ec904"
   },
   {
@@ -2327,7 +2327,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "d9dc259c",
+   "presetSigHash": "f544e627",
    "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
   },
   {
@@ -2348,7 +2348,7 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "463e68e6",
+   "presetSigHash": "f87b5775",
    "bodiesSha256": "e730126fe3576f42a3d34f4c263b04f329cbadd668d65fdb8e81976628e5afc3"
   },
   {
@@ -2873,7 +2873,7 @@
    "softening": 0.05,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "b9e402a0",
+   "presetSigHash": "6e2dd451",
    "bodiesSha256": "9738fb3120ea587cf718dfacd5161c334dfe3262b7ca50fcb9dd58382cbf4ac2"
   },
   {
@@ -2894,7 +2894,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "8354a55a",
+   "presetSigHash": "ce34f33f",
    "bodiesSha256": "ee6f804bbb850e4ff042147823e1d6a01c71ee34cc8b591f80fd3ca9e8d5a291"
   },
   {
@@ -2915,7 +2915,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "5a011723",
+   "presetSigHash": "f0b8eba4",
    "bodiesSha256": "1820b2e2a9391e60c904988dc37f52da75a4a070545b43def6f051ad30b78656"
   },
   {
@@ -2936,7 +2936,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 2,
-   "presetSigHash": "2884ea9c",
+   "presetSigHash": "fb7f4b17",
    "bodiesSha256": "19798ee95091b750bf253447747065e4227e2ffbb635baeeda750f0ca8cbc521"
   },
   {
@@ -2957,7 +2957,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 81,
-   "presetSigHash": "23a135e1",
+   "presetSigHash": "49badcc8",
    "bodiesSha256": "8ea86231ceb0f5db7dbdd43ff93afabb2d45ff2948852abf9e63fc91cfc5118d"
   },
   {
@@ -2978,7 +2978,7 @@
    "softening": 0.5,
    "geoPN": 4,
    "nBodyDecl": 41,
-   "presetSigHash": "63f918fe",
+   "presetSigHash": "ec620e03",
    "bodiesSha256": "04c87d1fd349d3f8e8b52ac6b5ddf1f31f2ca4f52db92463a3aa394fef8f942e"
   },
   {

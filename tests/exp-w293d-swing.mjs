@@ -45,6 +45,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fitPeri } from './lib-w280b-emgrid.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["earthMoonInertial","emAuditSolar"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -88,7 +89,7 @@ export function swingPhysics(HP) {
   const out = clone(ph);
   out.softening = sol.physics.softening;                         // 0.1/100 = 0.001 は受理の値域 [0.01, 20] の外 → 🔆 と同じ 0.01
   out.massFloor = ph.massFloor / M;
-  out.relativeDrag = Object.assign({}, ph.relativeDrag, { gain: ph.relativeDrag.gain / (L * L * L / M), eps: ph.relativeDrag.eps / L });
+  out.relativeDrag = Object.assign(W302A.rdWithGain(ph.relativeDrag, W302A.rdGainOf(ph.relativeDrag) / (L * L * L / M)), { eps: ph.relativeDrag.eps / L });
   return out;
 }
 export function conversionTable(HP) {
@@ -96,7 +97,7 @@ export function conversionTable(HP) {
   return {
     units: { book: '1 単位 = 10⁶ m / 10² s / 10²⁵ kg(🌛)', solar: '1 単位 = 10⁸ m / 10⁴ s / 10²⁷ kg(🔆)', ratio: UNIT_RATIO, same: ['G', 'cLight', 'kappaT', '速度'] },
     rows: [
-      { key: 'relativeDrag.gain', dim: 'L³/M', book: book.physics.relativeDrag.gain, solar: ph.relativeDrag.gain },
+      { key: 'relativeDrag.gain', dim: 'L³/M', book: W302A.rdGainOf(book.physics.relativeDrag), solar: W302A.rdGainOf(ph.relativeDrag) },
       { key: 'relativeDrag.eps', dim: 'L', book: book.physics.relativeDrag.eps, solar: ph.relativeDrag.eps },
       { key: 'dragCore.radius', dim: 'L', book: DRAG_CORE_DECL.radius, solar: DRAG_CORE_DECL.radius / UNIT_RATIO },
       { key: 'massFloor', dim: 'M', book: book.physics.massFloor, solar: ph.massFloor },
@@ -116,7 +117,7 @@ export function swingPreset(HP, law, opts = {}) {
   bodies[1].dragCore = { massFrac: DRAG_CORE_DECL.massFrac, radius: DRAG_CORE_DECL.radius / UNIT_RATIO };
   const rEM = Math.hypot(bodies[2].x - bodies[1].x, bodies[2].y - bodies[1].y);
   p.physics.relativeDrag.coreTable = { rMax: HP.DRAG_CORE_RMAX_FACTOR * rEM };   // 🌛 と同じ規則を地球–月の初期距離に当てた値(太陽までは張らない)
-  if (L.gain === 0) p.physics.relativeDrag.gain = 0;
+  if (L.gain === 0) W302A.rdSetGain(p.physics.relativeDrag, 0);
   if (!L.sunInDrag) p.physics.relativeDrag.pairs = [[1, 2]];
   if (opts.state) opts.state.forEach((s, i) => { Object.assign(bodies[i], { x: s.x, y: s.y, vx: s.vx, vy: s.vy }); });
   p.bodies = opts.drop ? bodies.slice(1) : bodies;
@@ -138,6 +139,9 @@ function buildFor(HP, spec) {
   else if (spec.kind === 'bridge') { p = bridgePreset(HP); ci = 0; oi = 1; }
   else p = swingPreset(HP, spec.law, { drop: spec.sun === 'drop', state: spec.state || null });
   if (spec.sun === 'drop') { ci = 0; oi = 1; }
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(大域の関数 relDragStepOrderOf がある)では、この器(摂動停止の診断 —— 第293便d の記録)の
+  //   慣性決定力の本を分割の本体のまま測る(stepOrder:"split" を明示 —— semic の影響は器 tests/exp-w302d-semic.mjs が受け持つ)
+  { const rd = p.physics && p.physics.relativeDrag; if (typeof globalThis.relDragStepOrderOf === 'function' && rd && rd.law === 'inertial' && rd.compose !== 'sum') rd.stepOrder = 'split'; }
   const v = HP.validatePreset(clone(p));
   if (!v.ok) throw new Error('validatePreset: ' + JSON.stringify(v.errors).slice(0, 300));
   HP.sim.build(v.preset);
@@ -459,7 +463,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const decl = { tmpId: TMP_ID, inBuiltins: !!(find(HP, TMP_ID) || find(HP, TMP_ID + 'Bridge')), laws: LAWS, conditions: CONDITIONS, run: RUN, baseSpans: BASE_SPANS,
     conversion: conversionTable(HP), bodies: find(HP, SOLAR_ID).bodies, dragCore: { massFrac: DRAG_CORE_DECL.massFrac, radius: DRAG_CORE_DECL.radius / UNIT_RATIO }, accepted: tmpV,
     coreTableRMax: swingPreset(HP, 'sunGrav').physics.relativeDrag.coreTable.rMax, stopRule: '27 公転の後に最初に検出した近点(遠点)の步の終わり —— 瞬時は質量を 0・滑らかは 0.5(1+cos(πs))・s=(t−t_停止)/(3 × 停止までの平均恒星月)' };
-  console.log(`一時プリセット: 受理 ${Object.values(tmpV).map((z) => z.ok + '/' + z.warnings.length).join(',')}・内蔵に無い ${!decl.inBuiltins}・gain ${tmpV.sunGrav.physics.relativeDrag.gain}・eps ${tmpV.sunGrav.physics.relativeDrag.eps}・r_max ${f4(decl.coreTableRMax)}`);
+  console.log(`一時プリセット: 受理 ${Object.values(tmpV).map((z) => z.ok + '/' + z.warnings.length).join(',')}・内蔵に無い ${!decl.inBuiltins}・gain ${W302A.rdGainOf(tmpV.sunGrav.physics.relativeDrag)}・eps ${tmpV.sunGrav.physics.relativeDrag.eps}・r_max ${f4(decl.coreTableRMax)}`);
   const ONLY = process.env.W293D_ONLY ? process.env.W293D_ONLY.split(',') : null;   // 開発用(指定したら正本を書かずに終わる)
   const specs = taskSpecs().filter((z) => !ONLY || ONLY.some((o) => z.key.startsWith(o)));
   const NW = Math.max(1, Number(process.env.W293D_WORKERS) || 3);

@@ -891,6 +891,17 @@ export const REGEN_STEPS = [
   S('clone-301f', 'node tests/exp-w301f-clone.mjs', ['tests/out/clone-w301f.json'], 719, { secSource: 'w301f-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/clone-w301f.json': META_RUN.concat(['/elapsedS', '/rows/*/wallSec']) },
     note: '第301便f: 複製(cloneSimState)・チェックポイント(保存→復帰)・本の切り替え(build の機能ごとの初期化)の全本の同一 —— 状態の契約 CK_ARRS/CK_SC/CK_DEEP と作業配列 SIM_STEP_SCRATCH の確かめ' }),
+  // ---- 第302便e(原仮定者の裁定(第92報)・統括の検証項目 R189 の細目 AN298 ①⑤): **源の軸と Ω の符号の正準化** —— 7 方向の対照((â,Ω) と (−â,−Ω) のベクトルとスカラー)・
+  //   🪛 の 2000 步の帳簿と指紋・源を反転した 🪛 の対照・受動プローブの点の色(正準化した Σw)と核の一致。html を読む(html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。
+  //   所要は第302便e の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('axialsign-302e', 'node tests/exp-w302e-axialsign.mjs', ['tests/out/axialsign-w302e.json'], 61, { secSource: 'w302e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/axialsign-w302e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第302便e: 源の軸と Ω の符号の正準化(傾きの無い受け手のスカラー Σw —— 上半球へ正規化・赤道は y → x)—— 7 方向の対照・🪛 の帳簿・反転の対照・受動プローブの点の色(値だけ)' }),
+  // ---- 第302便e(DECISIONS v60 AN305 ②⑧・統括の検証項目 R189): **状態の契約の lint** —— 在位の全本を順に開き、步で変わる鍵が登録(CK_ARRS・CK_SC・CK_DEEP・
+  //   SIM_STEP_SCRATCH・SIM_BUILD_RESET・機能ごとの写し)か派生の表 SIM_STATE_DERIVED にあるか・開いた直後に前の本の鍵が残らないか。html だけを読む(html を書く段の後)・1 プロセス
+  S('statecontract-302e', 'node tests/exp-w302e-statecontract.mjs', ['tests/out/statecontract-w302e.json'], 19, { secSource: 'w302e-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/statecontract-w302e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第302便e: 状態の契約の lint —— 步で変わる鍵の登録漏れ・前の本の持ち越し(在位の全本・宣言から読む登録の集合)' }),
   // ---- 第301便g(原仮定者の裁定 AN300「背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う」・統括の検証項目 R185): **W_bg の法則性の探索**
   //   (データの表〔宣言から選んだフィットの本・退役の記録・移送・未フィットの本 —— 系の量と局所の重み Σw̄・要る効果 δ〕/ 候補の当てはめ〔1〜2 パラメータ・LOO〕/
   //   LOO の標的の走行 / 応答 κ の検算 / 未フィットの本への予測の記録)。html を読む(器のコードの依存として inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・
@@ -905,6 +916,29 @@ export const REGEN_STEPS = [
   S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
     note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
+  // ---- 第302便b(原仮定者の裁定(第92報)AN304 ①・補足・統括の検証項目 R187): **局所重力 G_loc の族の実測**(零試験〔n=0 と未宣言のビット同一・κ→0・c₀ の走査・
+  //   symmetric の運動量・二次元の拒否〕/ 人工二体〔固定中心・自由な二体・自由な軽い二体 —— A・B〔n=2,−2,−3,1,−1・receiver/symmetric〕・E〔二次元の EIH〕・h/h2/h4〕/
+  //   実単位の惑星の本〔🌡️ A・B・C・D と 🌞 の EIH の対照・🌋🔴 A・B〕)。html だけを読む(html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。
+  //   所要は第302便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('gloc-302b', 'node tests/exp-w302b-gloc.mjs', ['tests/out/gloc-w302b.json'], 23, { secSource: 'w302b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/gloc-w302b.json': META_RUN.concat(['/elapsedS', '/toy/rows/*/runs/*/wallSec', '/planets/*/rows/*/runs/*/wallSec', '/planets/*/E/runsE/*/wallSec', '/planets/*/E/runsA/*/wallSec', '/planets/*/dragNeed/*/wallSec']) },
+    note: '第302便b: 局所重力 G_loc = G·(c_loc/c₀)^n の族 —— 零試験・人工二体の近点と周期(解析と実測)・🌡️🌋🔴 の近点の ″/世紀と 🌞 の EIH の対照(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第302便d(決断事項 AN303 ①②⑤・統括の検証項目 R188): **本体の積分器 semic を既定にした影響の器**(門: 閉形式の評価点・器 lib-w301d-coupled の semic と本体の一致・
+  //   明示の split が基点とビット同一〔基点の html が無い世代は前の正本からの推移〕・R_E の読み口 / 目的の量: フィットの 4 本と 🌔🐌 の split と semic /
+  //   連鎖の 5 本: 既存の器〔chain-296c・drag3d-298c・inertial-290c・geo4stable-299d・chainburst-301d の A.base・F.engine.8〕を前置き tests/lib-w302d-orderpre.mjs の split と既定の semic で 2 回)。
+  //   html を読む(器のコードの依存として inertial3-295c〔runPair〕・planets3d-299c〔runPl3〕・emonly-300b〔runEm3〕の後・html の生成領域の後)・子プロセスを順に。所要は第302便d の枝の実測(正本の elapsedS)
+  S('semic-302d', 'node tests/exp-w302d-semic.mjs', ['tests/out/semic-w302d.json'], 1500, { secSource: 'w302d-branch', node: true,
+    after: ['planets3d-299c', 'emonly-300b', 'chainburst-301d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/semic-w302d.json': META_RUN.concat(['/elapsedS', '/gates/wallSec', '/fit/wallSec', '/chain/wallSec', '/chain/*/split/wallSec', '/chain/*/semic/wallSec']) },
+    note: '第302便d: 本体の積分器 semic(引きずりの u をドリフトの前の位置で解く)を既定にした影響 —— 器の門・目的の量の split と semic の差(再フィットしない)・連鎖の 5 本の門の反転' }),
+  // ---- 第302便c(第 2 段 —— 原仮定者の裁定(第92報)AN304 ①③・統括の検証項目 R190): **G_loc の n の移送の予言・惑星の本の記録・W_bg の推定・推定で固定した dragCore の探索・帳簿の継ぎ目**
+  //   (段 N〔4 案 × 🌡️ の割線 + 🌋🔴 の移送・1PN の写し〕・P〔G_loc を宣言した 7 本〕・G〔🌦️🌔 の G_loc の効果〕・E〔推定の表〕・C〔dragCore の格子と感度〕・L〔帳簿〕)。
+  //   html だけを読む(器のコードの依存として planets3d-299c〔runPl3〕・emonly-300b〔runEm3〕・gloc-302b〔toyPreset・runCase〕・semic-302d〔run2〕・dragnorm-301a〔cosmicBackground〕の後・html の生成領域の後)・1 プロセス。
+  //   所要は第302便c の枝の実測(正本の elapsedS)
+  S('wbgest-302c', 'node tests/exp-w302c-wbgest.mjs', ['tests/out/wbgest-w302c.json'], 560, { secSource: 'w302c-branch', node: true,
+    after: ['planets3d-299c', 'emonly-300b', 'gloc-302b', 'semic-302d', 'dragnorm-301a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第302便c: G_loc の n(1 つの W_bg の移送の予言)・在位の惑星の本の G_loc と 🌡️ の W_bg の合わせ直しの記録・W_bg の推定 W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

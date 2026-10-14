@@ -48,7 +48,9 @@ import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as L from './lib-w297b-fit.mjs';
 import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragBackgroundOf","HP.sim","HP.validateFitRecord","HP.validatePreset","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pre302c } from './lib-w302c-pre.mjs';   // 第302便c: G_loc の前の宣言の写し
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301g-wbglaw-1';
@@ -78,10 +80,10 @@ export const CANDIDATES = Object.freeze([
   { key: 'resp', label: '応答の分解 Σw̄_rel/δ_obs(標的の差を入力に持つ —— 系の量だけの法則ではない)', kind: 'response', f: (q) => (q.deltaObs > 0 ? q.sumW / q.deltaObs : null) },
 ]);
 
-const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
+const find = (HP, id) => pre302c(HP.allPresets().find((q) => q.id === id));   // 第302便c: G_loc の前の宣言の写し(この器は引きずりだけの法則性の探索 —— G_loc を宣言した本は G_loc を外し記録〔G_loc の上の条件〕も外す: 🌡️ は移送の行・G_loc を宣言しない本は clone と同じ)
 const T = (x, d = 6) => (x === null || x === undefined || !Number.isFinite(x)) ? null : Number(x.toPrecision(d));
 const lg = (x) => (x > 0 && Number.isFinite(x)) ? Math.log10(x) : null;
-const withGain = (p, g) => { const q = clone(p); q.physics.relativeDrag.gain = g; delete q.physics.relativeDrag.background; delete q.fitRecord; return q; };
+const withGain = (p, g) => { const q = clone(p); W302A.rdSetGain(q.physics.relativeDrag, g); delete q.physics.relativeDrag.background; delete q.fitRecord; return q; };
 const unitsOf = (X) => { const Lm = Math.pow(10, X.L), Ms = Math.pow(10, X.M), Ts = Math.pow(10, X.T); return { Lm, Ms, Ts, dens: Ms / (Lm * Lm * Lm), U: C.timeUnits(X) }; };
 
 /* ── 宣言から行の種類・抽出器・刻み・窓を決める ── */
@@ -105,18 +107,18 @@ function windowOfTarget(t) {
 }
 export function classify(HP) {
   const rows = [], excluded = [];
-  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial');
+  const inert = HP.allPresets().filter((p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial').map((p) => pre302c(p));   // 第302便c
   const recIds = new Set(RETIRED_FIT_RECORDS.map((r) => r.id));
   for (const p of inert) {
     const rd = p.physics.relativeDrag, retired = p.familyRole === 'retired', f = p.fitRecord || null;
     if (!p.scaleExp) { excluded.push({ id: p.id, emoji: p.emoji, why: 'scaleExp なし(トイ —— 本の単位が物理単位でない)' }); continue; }
     let role;
-    if (f && f.status === 'fitted' && rd.gain > 0 && !retired) role = 'fit';
+    if (f && f.status === 'fitted' && W302A.rdGainOf(rd) > 0 && !retired) role = 'fit';
     else if (f && f.status !== 'fitted') role = 'censored';
     else if (recIds.has(p.id)) role = 'record';
-    else if (rd.gain > 0 && !f) role = 'transfer';
-    else if (rd.gain === 0 && !retired) role = 'unfit';
-    else { excluded.push({ id: p.id, emoji: p.emoji, why: '分類の外(gain ' + rd.gain + '・retired ' + retired + ')' }); continue; }
+    else if (W302A.rdGainOf(rd) > 0 && !f) role = 'transfer';
+    else if (W302A.rdGainOf(rd) === 0 && !retired) role = 'unfit';
+    else { excluded.push({ id: p.id, emoji: p.emoji, why: '分類の外(gain ' + W302A.rdGainOf(rd) + '・retired ' + retired + ')' }); continue; }
     const n = p.bodies.length, c3 = p.physics.coord === '3d';
     const ci = p.orbitObs ? p.orbitObs.center : (p.timeRef && p.timeRef.pair ? p.timeRef.pair[0] : 0);
     const oi = p.orbitObs ? p.orbitObs.orbiter : (p.timeRef && p.timeRef.pair ? p.timeRef.pair[1] : 1);
@@ -132,7 +134,7 @@ export function classify(HP) {
         tol: t0.tol ? t0.tol.value : null } : null);
     const N = (target && target.window) || (ex === 'ems' ? 118 : 8);
     const dt = (f && typeof f.dt === 'number') ? f.dt : P3.stepsOf(p.timeRef.pRef).h;
-    rows.push({ id: p.id, emoji: p.emoji, role, retired, coord: c3 ? '3d' : '2d', ex, ci, oi, N, dt, gain: rd.gain, parent: f ? f.parent : null, target, recordNote: rec ? rec.note : null });
+    rows.push({ id: p.id, emoji: p.emoji, role, retired, coord: c3 ? '3d' : '2d', ex, ci, oi, N, dt, gain: W302A.rdGainOf(rd), parent: f ? f.parent : null, target, recordNote: rec ? rec.note : null });
   }
   // 系の束ね: fit の行は fitRecord.parent を fit の行の中で辿った根(🌡️ → 🟫)
   const byId = new Map(rows.map((r) => [r.id, r]));
@@ -451,7 +453,7 @@ if (IS_MAIN) {
   const out = { meta: null, version: HARNESS_VERSION, si: SI, selection: { rows: cls.rows.map((r) => ({ id: r.id, emoji: r.emoji, role: r.role, group: r.group, ex: r.ex, dt: r.dt, N: r.N })), excluded: cls.excluded,
       retiredFitRecords: RETIRED_FIT_RECORDS },
     candidates: CANDIDATES.map((c) => ({ key: c.key, label: c.label, kind: c.kind })), table: A, fits: B, loo: Cc, response: D, predictions: E, gates, ok: Object.values(gates).every(Boolean) };
-  const CODE = ['tests/exp-w301g-wbglaw.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w297b-fit.mjs',
+  const CODE = ['tests/exp-w301g-wbglaw.mjs', 'tests/lib-w302c-pre.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w297b-fit.mjs',
     'tests/exp-w301a-dragnorm.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便g', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,

@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:23:51.145Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T06:57:26.780Z",
   "code": [
    {
     "file": "tests/exp-w271d-galaxydiag.mjs",
     "bytes": 49363,
     "sha256": "e24a8b1b04e9348951748054e7deab99a37ee0b806da3c1049829372c6366b45",
-    "mtime": "2026-10-09T10:19:35.478Z"
+    "mtime": "2026-10-09T10:19:39.515Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.595Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
     "bytes": 14614,
     "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    }
   ],
   "codeSha256": "80fc495d523aba5379cd830e455c579c6da1a31ee86d2109f50fc31858b133e5",
-  "measuredAt": "2026-10-13T15:23:51.146Z",
+  "measuredAt": "2026-10-14T06:57:26.780Z",
   "codeVersion": "tests/exp-w271d-galaxydiag.mjs 第271便d",
   "declarationVersion": "compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 107709,
     "sha256": "4a8e4805e97f15610bbdb81fd20a2f9ff9afb25d1b2414713ec637d75406417b",
-    "mtime": "2026-10-09T10:19:35.424Z"
+    "mtime": "2026-10-09T10:19:39.357Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
     "bytes": 23302,
     "sha256": "4ad9ab853706f86d499f8283be599df247040009ced2e1ee08754785a4fc79ef",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.595Z"
    }
   ],
   "vocabulary": [
@@ -94,15 +94,15 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1226,
-   "segments": 1113,
-   "closureShare": 0.316
+   "names": 1279,
+   "segments": 1158,
+   "closureShare": 0.3193
   },
-  "scopeSha256": "560875a172f93a36431507a93ce319ef138408b92a85f7635cff0feb223436e8",
+  "scopeSha256": "2d54bb849ea6ac0857ff5ec97e137e0b42dda7afd3f72d9af185a34af80a08f0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1",
-  "spentSec": 478.6
+  "spentSec": 383.7
  },
  "declaration": {
   "what": "**銀河の器の診断 3 本**(AF5 準定常窓 variant・AF7 clampSN の切り分け・AF19 N/seed 系列)。**主判定窓 T=40 は動かさない**(準定常窓は別 variant)。**clamp の上限 ±40 は変えない**(本器は**数えるだけ**である)。**観測残差を見て窓・帯・seed を選ばない。**",

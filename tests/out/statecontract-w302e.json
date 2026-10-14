@@ -1,0 +1,235 @@
+{
+ "version": "w302e-statecontract-1",
+ "generator": "tests/exp-w302e-statecontract.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+ "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
+ "books": 120,
+ "steps": 3,
+ "registry": {
+  "names": 460,
+  "regex": [
+   "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
+   "/^gLoc[A-Z]/",
+   "/^(shapeToy|coreField|spiral)[A-Z0-9]/"
+  ],
+  "derived": 10,
+  "copyFns": [
+   "ckSnapOne",
+   "inertialDragCkSnap",
+   "shapeToyCkSnap"
+  ]
+ },
+ "static": {
+  "assigned": 831,
+  "outside": 257,
+  "outsideSeen": 218,
+  "outsideStepChanged": 0,
+  "outsideUnseen": [
+   "_capInto",
+   "_fixInto",
+   "_galTracerStale",
+   "_mcPreL",
+   "_mcPreS",
+   "_mcSnap4",
+   "_mcSnap5",
+   "_p90",
+   "_psRperi",
+   "_pwAcc",
+   "_pwDv",
+   "_pwPn",
+   "_slBuilds",
+   "_slCache",
+   "_smAncErr",
+   "_smAx",
+   "_smAy",
+   "_smBd",
+   "_smDraw",
+   "_smDrawKey",
+   "_smKeepMode",
+   "_smTrKey",
+   "_smTrStopped",
+   "_smgBuilds",
+   "_smgCache",
+   "_tdFX",
+   "_tdFY",
+   "_tdTQ",
+   "_ts",
+   "geoToyPrepared",
+   "geoToySpinSources",
+   "hasTide",
+   "tide",
+   "tideK2",
+   "tideLag",
+   "tideNsubLast",
+   "tideOff",
+   "tideRecv",
+   "tideTauMin"
+  ]
+ },
+ "dynamic": {
+  "stepChangedKeys": 342,
+  "leaks": [],
+  "carried": []
+ },
+ "derivedUsed": [
+  {
+   "key": "railIdx",
+   "kind": "cache",
+   "changed": 96,
+   "seen": true
+  },
+  {
+   "key": "boxA",
+   "kind": "cache",
+   "changed": 6,
+   "seen": true
+  },
+  {
+   "key": "accVx",
+   "kind": "work",
+   "changed": 28,
+   "seen": true
+  },
+  {
+   "key": "accVy",
+   "kind": "work",
+   "changed": 27,
+   "seen": true
+  },
+  {
+   "key": "accS",
+   "kind": "work",
+   "changed": 27,
+   "seen": true
+  },
+  {
+   "key": "sumWu",
+   "kind": "work",
+   "changed": 17,
+   "seen": true
+  },
+  {
+   "key": "_g2",
+   "kind": "work",
+   "changed": 4,
+   "seen": true
+  },
+  {
+   "key": "_pr",
+   "kind": "work",
+   "changed": 7,
+   "seen": true
+  },
+  {
+   "key": "_dragCoreEp",
+   "kind": "latch",
+   "changed": 3,
+   "seen": true
+  },
+  {
+   "key": "zonal",
+   "kind": "cache",
+   "changed": 3,
+   "seen": true
+  }
+ ],
+ "detections": 0,
+ "base": null,
+ "gates": {
+  "leaks0": true,
+  "carried0": true
+ },
+ "ok": true,
+ "elapsedS": 29.503,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第302便e",
+  "target": "beta/index.html",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T08:01:59.180Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w302e-statecontract.mjs",
+    "bytes": 10892,
+    "sha256": "f9f3e78421d1b6a7fbbb5aee3a53270c33fc28ecce67565ed6cc53a543910455",
+    "mtime": "2026-10-14T02:01:14.137Z"
+   },
+   {
+    "file": "tests/exp-w301f-clone.mjs",
+    "bytes": 14219,
+    "sha256": "7046c0d44920eeb9472b9ee07c5d0f2fec1a30168854b4cd13f41d048527f0c3",
+    "mtime": "2026-10-14T00:03:21.989Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "369ac1e8512953717dcab8894c8421e792c11fe06cfcfb0b2665757f6b888e0c",
+  "harnessVersion": "w302e-statecontract-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "状態の契約が完全になった"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "CK_ARRS",
+    "CK_DEEP",
+    "CK_SC",
+    "HP.allPresets",
+    "HP.loadPreset",
+    "SIM_BUILD_RESET",
+    "SIM_STATE_DERIVED",
+    "SIM_STEP_SCRATCH",
+    "appStepDt",
+    "applyQLock",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "inertialDragCkSnap",
+    "makeSim",
+    "qLockOn",
+    "shapeToyCkSnap",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1283,
+   "segments": 1162,
+   "closureShare": 0.3203
+  },
+  "scopeSha256": "aa83275aa37edc2632e8fbc3d39ff1d31e173e43a702734f360ec7a777b4264c",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

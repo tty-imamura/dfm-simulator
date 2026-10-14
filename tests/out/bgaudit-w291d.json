@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:44:34.613Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T07:14:23.238Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291d-bgaudit.mjs",
-    "bytes": 26181,
-    "sha256": "8134a254b6004233c24cb6a95f80f1fdd164402ce9992ae63ecbf5c4f2ebb6be",
-    "mtime": "2026-10-09T10:19:35.494Z"
+    "bytes": 26688,
+    "sha256": "e3a2b5f809449a03a323017a83a2871ce69159793aa048bebd4704208a5d91d1",
+    "mtime": "2026-10-14T01:39:42.745Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "5f4126d0b96a31cf085b2189ac5316b438dc79f884a885c0c135087dc2766d18",
+  "codeSha256": "1d78d95a79ad9da10c7d95ee5e957bd6dccb291182844e1c0ba76cd42f0f4f67",
   "harnessVersion": "w291d-bgaudit-1",
   "engineVersion": "w290c-inertial-1",
   "samplerVersion": "w291d-sampler-1",
@@ -101,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1239,
-   "segments": 1126,
-   "closureShare": 0.3184
+   "names": 1292,
+   "segments": 1171,
+   "closureShare": 0.3221
   },
-  "scopeSha256": "c9ab9b60ec3b81cd21ef28f187f9e6a43b9a6dc711220e719c58ecd63c4064e5",
+  "scopeSha256": "a67e3daef74553c5dd890370b5f47b6a725d07ce19ebba726aa8c86f3a323feb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -747,7 +747,7 @@
   "ok": true
  },
  "staticRefs": {
-  "forbidTokens": "\\.D0\\b|\\.D0pull\\b|\\bWbg\\b|backgroundComplex|BG_COMPLEX_KEY|\\.q\\b|\\.spin\\b|\\.dragQ\\b|spaceMesh|\\.sumW\\b",
+  "forbidTokens": "\\.D0\\b|\\.D0pull\\b|\\bWbg\\b(?!:relDragWbgOf\\()|backgroundComplex|BG_COMPLEX_KEY|\\.q\\b|\\.spin\\b|\\.dragQ\\b|spaceMesh|\\.sumW\\b",
   "forbidFuncs": [
    "bgWbgOf",
    "wbgStateOf",
@@ -784,16 +784,20 @@
      "inertialDragNormApply",
      "inertialDragNormX",
      "inertialDragPCG",
+     "inertialDragSemicWork",
      "inertialDragSpinTerm",
      "inertialSpinMoment",
+     "isNum",
      "relDrag3SpinOf",
+     "relDragCoefficientOf",
      "relDragComposeOf",
      "relDragNormActive",
      "relDragNormChanges",
      "relDragNormOf",
      "relDragSolveFromOf",
      "relDragSolverMaxIterOf",
-     "relDragSolverTolOf"
+     "relDragSolverTolOf",
+     "relDragStepOrderOf"
     ],
     "forbiddenInClosure": []
    },
@@ -803,7 +807,10 @@
     "callClosure": [
      "dragCoreLookup",
      "dragCoreWeight",
-     "inertialDragFieldAt"
+     "inertialDragFieldAt",
+     "isNum",
+     "relDragCoefficientOf",
+     "relDragWbgOf"
     ],
     "forbiddenInClosure": []
    }
@@ -833,5 +840,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 3.348
+ "elapsedS": 3.324
 }

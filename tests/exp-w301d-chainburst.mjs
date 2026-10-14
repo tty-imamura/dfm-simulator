@@ -33,6 +33,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w301d-coupled.mjs';
 import { shellBodies, shellStats, SHELL_VERSION } from './lib-w301d-shell.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,22 +51,29 @@ const fpXY = (x, y, vx, vy, n) => { let h = 0x811c9dc5; const f = new Float64Arr
 const reMass = (d, n) => { const M = d.n * d.mMin; d.n = n; d.mMin = d.mMax = M / n; };
 export const VARIANTS = {
   base: (p) => p,
-  normNone: (p) => { p.physics.relativeDrag.norm = 'none'; return p; },
-  gain0: (p) => { p.physics.relativeDrag.gain = 0; delete p.physics.relativeDrag.spinSource; delete p.physics.relativeDrag.spinDrag; return p; },
+  normNone: (p) => { W302A.rdPatch(p.physics.relativeDrag, { norm: 'none' }); return p; },
+  gain0: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 0); delete p.physics.relativeDrag.spinSource; delete p.physics.relativeDrag.spinDrag; return p; },
   spin0: (p) => { p.bodies[0].spin = 0; return p; },
   seedA: (p) => { p.seed = 20261009; return p; },
   seedB: (p) => { p.seed = 20261010; return p; },
   n40: (p) => { reMass(p.bodies[1], 40); return p; },
   n120: (p) => { reMass(p.bodies[1], 120); return p; },
-  gain4: (p) => { p.physics.relativeDrag.gain = 4; return p; },
-  gain16: (p) => { p.physics.relativeDrag.gain = 16; return p; },
+  gain4: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 4); return p; },
+  gain16: (p) => { W302A.rdSetGain(p.physics.relativeDrag, 16); return p; },
   // 🧨 の変種(殻の生成器から —— 中心は宣言のまま)
   rot1: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ rot: 1 })]; return p; },
   rot2: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ rot: 2 })]; return p; },
   shell80: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ n: 80, m: 5 })]; return p; },
 };
+// 第302便d(R188): 世代切替 —— 本体の既定が semic になった世代(html に relDragStepOrderOf がある)では、この器の本体の走行は
+//   **分割を明示**(stepOrder:"split" —— 世代は大域の関数 relDragStepOrderOf の有無で判定)して第301便d の記録と同じ量を測る(器の門 ledgerMatchesEngine・splitHarnessMatches は分割の本体が前提)。
+//   W301D_ORDER=semic で既定の semic の本体を測る(第302便d の影響の測定 —— 正本は出さない・W301D_ONLY と一緒に使う)。
+export const ENGINE_ORDER = process.env.W301D_ORDER || 'split';
 function buildVariant(HP, id, variant) {
   const p = VARIANTS[variant](clone(find(HP, id))); delete p.abBody;
+  if (typeof globalThis.relDragStepOrderOf === 'function' && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && p.physics.relativeDrag.compose !== 'sum') {
+    if (ENGINE_ORDER === 'split') p.physics.relativeDrag.stepOrder = 'split'; else delete p.physics.relativeDrag.stepOrder;
+  }
   const v = HP.validatePreset(p); if (!v.ok) throw new Error(id + '/' + variant + ' validatePreset: ' + JSON.stringify(v.errors).slice(0, 300));
   HP.sim.build(v.preset); return HP.sim;
 }
@@ -236,9 +244,9 @@ export function gatesOf(R, HP) {
 export function condOf(HP) {
   const p = find(HP, 'chainDiskToy'), ph = p.physics, rd = ph.relativeDrag, c = p.bodies[0], d = p.bodies[1];
   const q = find(HP, COPY_ID);
-  const copy = q ? { id: q.id, stepDt: q.physics.stepDt, coord: q.physics.coord, gain: q.physics.relativeDrag.gain, eps: q.physics.relativeDrag.eps, G: q.physics.G, softening: q.physics.softening,
+  const copy = q ? { id: q.id, stepDt: q.physics.stepDt, coord: q.physics.coord, gain: W302A.rdGainOf(q.physics.relativeDrag), eps: q.physics.relativeDrag.eps, G: q.physics.G, softening: q.physics.softening,
     center: { m: q.bodies[0].m, radius: q.bodies[0].radius, spin: q.bodies[0].spin, pinned: q.bodies[0].pinned }, shellVersion: SHELL_VERSION, shell: shellStats(q.bodies.slice(1)) } : null;
-  return { id: p.id, seed: p.seed, G: ph.G, softening: ph.softening, integrator: p.integrator || 'semi', gain: rd.gain, eps: rd.eps, pairs: rd.pairs, solver: rd.solver, spinSource: rd.spinSource,
+  return { id: p.id, seed: p.seed, G: ph.G, softening: ph.softening, integrator: p.integrator || 'semi', gain: W302A.rdGainOf(rd), eps: rd.eps, pairs: rd.pairs, solver: rd.solver, spinSource: rd.spinSource,
     center: { m: c.m, radius: c.radius, spin: c.spin, pinned: c.pinned }, disk: { n: d.n, m: d.mMin, radius: d.radius }, copy };
 }
 /* 写しを作るか(R182 の規則: 飛びが刻みで収束して残るなら探索の写し 1 本・刻みで消えるなら「数値の飛び」と記録して写しは作らない) */
@@ -266,6 +274,7 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const ONLY = process.env.W301D_ONLY ? new RegExp(process.env.W301D_ONLY) : null;
+  if (ENGINE_ORDER !== 'split' && !ONLY) { console.error('W301D_ORDER=' + ENGINE_ORDER + ' は W301D_ONLY と一緒にだけ(正本は分割の本体の記録 —— 第302便d)'); process.exit(2); }
   const list = jobs(HP).filter((j) => !ONLY || ONLY.test(j.key));
   const tmpDir = fs.mkdtempSync(path.join(path.dirname(OUT_PATH), '.w301d-'));
   const R = {};
@@ -290,7 +299,7 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
   if (!ONLY) { out.gates = gatesOf(R, HP); const { numbers, ...g } = out.gates; out.ok = Object.values(g).every(Boolean); out.decision = decisionOf(R, out.gates); }
   const CODE = ['tests/exp-w301d-chainburst.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/lib-w301d-shell.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
-    harnessVersion: HARNESS_VERSION, coupledLibVersion: L.COUPLED_LIB_VERSION, shellVersion: SHELL_VERSION, dragVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length, parallel: PAR,
+    harnessVersion: HARNESS_VERSION, engineOrder: (typeof globalThis.relDragStepOrderOf === 'function') ? ENGINE_ORDER : 'split(基点の世代 —— 鍵なし)', coupledLibVersion: L.COUPLED_LIB_VERSION, shellVersion: SHELL_VERSION, dragVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length, parallel: PAR,
     ruling: '原仮定者の裁定(第91報)④(chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る)',
     reading: '統括の検証項目 R182(新法則で飛びが残るか・結合積分の独立な器と今の分割の比較・帳簿の分離・刻みで収束するなら探索の写し 1 本 / 消えるなら数値の飛びとして記録)',
     notClaim: ['超新星の機構を導いた', '爆発を再現した', 'gain は普遍定数'] });

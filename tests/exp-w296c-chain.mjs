@@ -33,6 +33,7 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import * as L from './lib-w296c-chain.mjs';
 import * as SK from './lib-w280b-sphereKernel.mjs';
 import { buildRows } from './lib-w293e-compose.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.REL_DRAG_CHAIN_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragComposeSolve","HP.inertialDragState","HP.loadPreset","HP.modeSettingIssues","HP.sim","HP.validatePreset","HP.validateRelativeDrag","T","ab","ch","ctx","cw","dfmAddMoments","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmGaussLegendre01","dfmGeoToyStep","dfmInertialDragStep","dfmLaneEmden","dfmLocalMeshField","dfmMeshVelocityRHS","dfmSphereKernelMomentsOf","dfmSphereKernelQEff","dfmSphereKernelRadial","dfmSphereOmega","dfmSphereProfile","dfmSphereRho","inertialDragComposeBuild","inertialDragComposeSolve","inertialDragPCG","inertialSpinMoment","isNum","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -109,7 +110,7 @@ function part1(HP, P) {
   const runFP = (mut, k) => withBook(HP, BOOK_ID, mut, (S) => { for (let i = 0; i < k; i++) S.step(RUN.dt); const st = HP.inertialDragState(S);
     return { fp: fingerprint(S), fail: S.inertialDragSolveFail, halt: S.inertialDragHalt === true, why: S.inertialDragWhy, chain: st && st.compose ? st.compose.chain : null }; });
   const f1 = runFP((p) => { p.physics.relativeDrag = Object.assign({}, p.physics.relativeDrag, { solverMaxIter: 1 }); }, 3);
-  const f0 = runFP((p) => { const rd = Object.assign({}, p.physics.relativeDrag, { gain: 0 }); delete rd.spinSource; p.physics.relativeDrag = rd; }, 3);
+  const f0 = runFP((p) => { const rd = W302A.rdWithGain(p.physics.relativeDrag, 0); delete rd.spinSource; p.physics.relativeDrag = rd; }, 3);
   out.maxIter1Engine = { fail: f1.fail, halt: f1.halt, why: f1.why, failAt: f1.chain ? f1.chain.failAt : null, sameAsNoDrag: f1.fp === f0.fp, fpFail: f1.fp, fpNoDrag: f0.fp };
   // 重複辺の拒否(純関数と受理器)
   const dup = L.graphFromEdges(3, m1, [[0, 1, 1], [1, 0, 2]]);
@@ -222,11 +223,11 @@ function part4(HP, P, html) {
 function chainDiag(HP, P, S, rd, R0, Om, bins, rMaxBin) {
   // 自転源だけを入れた系の連鎖の解(lib の直接法)と直接の項 s/(1+deg) を半径の帯で
   const n = S.n, x = Array.from(S.x), y = Array.from(S.y), m = Array.from(S.m);
-  const rows = buildRows({ n, x, y, m, C: rd.gain, eps: rd.eps, VX: new Array(n).fill(0), VY: new Array(n).fill(0), hist: true });
+  const rows = buildRows({ n, x, y, m, C: W302A.rdCoefOf(rd), eps: rd.eps, VX: new Array(n).fill(0), VY: new Array(n).fill(0), hist: true });
   const FX = new Uint8Array(n); for (let i = 0; i < n; i++) FX[i] = S.pinned[i] ? 1 : 0;
   const gl = P.dfmGaussLegendre01(HP.REL_DRAG_SPIN_NODES), SX = new Float64Array(n), SY = new Float64Array(n);
   for (let i = 0; i < n; i++) { if (FX[i]) continue; const dx = x[i] - x[0], dy = y[i] - y[0], r = Math.hypot(dx, dy);
-    const M1 = P.inertialSpinMoment(r, R0, rd.eps, gl); const f = rd.gain * m[0] * Om * M1 / r; SX[i] = -f * dy; SY[i] = f * dx; }
+    const M1 = P.inertialSpinMoment(r, R0, rd.eps, gl); const f = W302A.rdCoefOf(rd) * m[0] * Om * M1 / r; SX[i] = -f * dy; SY[i] = f * dx; }
   const d = L.directSolve(n, rows.A, rows.DG, FX, SX, SY);
   const B = []; for (let b = 0; b < bins; b++) B.push({ rLo: b * rMaxBin / bins, rHi: (b + 1) * rMaxBin / bins, n: 0, uChain: 0, uDirect: 0, deg: 0, aCenter: 0 });
   for (let i = 1; i < n; i++) { const r = Math.hypot(x[i] - x[0], y[i] - y[0]); const b = Math.min(bins - 1, Math.floor(r / (rMaxBin / bins))); const tx = -(y[i] - y[0]) / r, ty = (x[i] - x[0]) / r;

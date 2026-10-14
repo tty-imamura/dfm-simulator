@@ -90,6 +90,19 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
 # 第301便d(原仮定者の裁定(第91報)④・R182): 枝 d の新設 2 本(docs.chainBurst301 —— 連鎖円盤の 14000 步付近の飛びの記録と正本・文書・preset.chainBurstShell301 —— 放出の探索の写し 🧨)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301"
+# 第302便a(原仮定者の裁定(第92報)AN304 ②⑤・R186): 枝 a の新設 2 本(behavior.wbgDirect302 —— W_bg の直接定義・gain の廃止・移行表・互換読込・ui.wbgSlider302 —— パラメータタブの W_bg の行)と
+#   世代切替で追従した UI の 4 本(ui.paramOrderDrag・ui.paramWbgRow・ui.bgComplexPanel・ui.bgDerivPanel)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgDirect302 ui.wbgSlider302 ui.paramOrderDrag ui.paramWbgRow ui.bgComplexPanel ui.bgDerivPanel"
+# 第302便b(原仮定者の裁定(第92報)AN304 ①・R187): 枝 b の新設 1 本(behavior.gLoc302 —— 局所重力 G_loc の宣言・零試験・固定中心の近点・受理器・状態の契約・正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gLoc302"
+# 第302便d(決断事項 AN303 ①②⑤・R188): 枝 d の新設 2 本(behavior.semic302 —— 本体の積分器 semic の門・docs.semic302 —— 影響の記録と文書)と、世代切替で split を明示した behavior.composeGate(上の常設)・docs.chainBurst301(上)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.semic302 docs.semic302"
+# 第302便c(原仮定者の裁定(第92報)AN304 ①③・R190): 枝 c の新設 2 本(behavior.wbgEstimate302 —— W_bg の推定・推定を入れる・preset.gLocPlanets302 —— 惑星の本の G_loc と 🌡️ の再フィット)と、世代を受けた既存の 5 本
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgEstimate302 preset.gLocPlanets302 preset.planets3d299 docs.planets3d299 behavior.wbgDirect302 docs.wbgLaw301 behavior.gLoc302"
+# 第302便e(原仮定者の裁定(第92報)・R189 の細目): 枝 e の新設 4 本(behavior.axialSign302 —— 源の軸と Ω の符号の正準化・ui.wheel302 —— 横だけのホイールと θ の向きの反転・lint.stateContract302 —— 状態の契約の登録漏れと持ち越し・lint.retiredRef302 —— 説明文の退役の本の名)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSign302 ui.wheel302 lint.stateContract302 lint.retiredRef302"
+# 第302便h(ゲート 1 の FAIL 12 件の処置 —— R186〜R190 の統合後): 新設なし。歴史の記録の器を分割の步に固定して正本を戻した 9 本と世代切替を足した 2 本(⑦ の照合・W_bg の同値移行の署名の記録)・再生成範囲の宣言
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenScope docs.dragCoreFit docs.composeContract docs.tideContract docs.inertial3Contract295 preset.fitDerived296 preset.fitCond297 docs.fit297 docs.pn1Contract docs.moon3d298 docs.planets3d299 preset.earthReorg300"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

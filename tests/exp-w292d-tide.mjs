@@ -37,7 +37,8 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as LT from './lib-w292d-tide.mjs';
-const REGEN_SCOPE = {"presets":["earthMoonReal","earthMoonTide","saturn","shapeToyArm"],"roots":["$","HP.TIDE_INERTIA_FACTOR","HP.TIDE_STEP_VERSION","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.sim","HP.tideCrossCheck","HP.tideEvalRates","HP.tideState","HP.validatePreset","T","cw"],"core":true,"consts":[],"complete":true};
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第292便d の記録(交差項の表)を分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":["earthMoonReal","earthMoonTide","saturn","shapeToyArm"],"roots":["$","HP.TIDE_INERTIA_FACTOR","HP.TIDE_STEP_VERSION","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.tideCrossCheck","HP.tideEvalRates","HP.tideState","HP.validatePreset","T","cw"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292d-tide-1';
@@ -354,12 +355,13 @@ if (IS_MAIN) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(第292便d の交差項の記録)は分割の步で測る
   const R = computeAll(HP);
   console.log(`(b) 純関数 6 項 ${R.gateB.ok}・(c) エンジン=純関数 ${R.gateC.ok}・(d) J ${R.gateD.ok}・(e) 分割 ${R.gateE.ok}(n ${R.gateE.full.nsubMin}〜${R.gateE.full.nsubMax})・(f) 足さない ${R.gateF.ok}・(g) ${R.gateG.ok}`);
   const A = R.diag.run;
   console.log(`🌜 1 恒星月: ΔJ_地球 ${e3(A.dJ[0])}(ΔJ/J ${e3(A.dJrelEarth)})・ΔΩ ${e3(A.dOmega[0])}・ΔJ_月 ${e3(A.dJ[1])}・熱 ${e3(A.heat)}・残差 E ${e3(A.residualERel)}・L ${e3(A.residualLRel)}・解析比 ${f4(A.ratioAnalytic)}・素朴 ΔΩ ${e3(A.naiveDOmega[0])}・dt 半分 ${e3(R.diag.dJrelHalf)}`);
   for (const r of R.cross.rows) console.log(`交差項 gain ${r.gain} ${r.velocity}: X_ΔJ地球 ${e3(r.X.dJEarth)}(相対 ${e3(r.XrelEarth)})・X_ΔL軌道 ${e3(r.X.dLorb)}・X_引きずり DL ${e3(r.X.dragDL)}・X_mix ${e3(r.X.tideMix)}`);
-  const CODE = ['tests/exp-w292d-tide.mjs', 'tests/lib-w292d-tide.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w292d-tide.mjs', 'tests/lib-w292d-tide.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第292便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: LT.TIDE_LIB_VERSION, engineVersion: HP.TIDE_STEP_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第82報)⑦ 慣性決定力版では引きずりの実装とともに潮汐力の実装も進める・引きずりと潮汐力が合わさることで自転速度に影響する高次の項が出現する・粒子を近似した多粒子サンプルでは潮汐力は無視するなど最適化を行う',
@@ -367,7 +369,7 @@ if (IS_MAIN) {
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)',
     gateA: '宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)',
     notClaim: ['月の後退率を再現した', '地球の自転の減速の観測値を再現した', '全系の保存則が閉じた', '交差項が GR の高次 PN に当たる', '観測一致を達成した', '新発見'] });
-  const out = { meta, ...R };
+  const out = { meta, stepOrderPin302: PIN302, ...R };
   out.ok = R.gateB.ok && R.gateC.ok && R.gateD.ok && R.gateE.ok && R.gateF.ok && R.gateG.ok && R.diag.ok && R.cross.ok;
   out.elapsedS = (Date.now() - t0) / 1000;
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));

@@ -22,6 +22,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 export const LIB_VERSION = 'w300c-solar16-lib-1';
 export const RESERVED_ID = 'solarSystem16Inertial3d';   // 観測レコードが届いた便で使う本の id(本便では内蔵に入れない —— QA docs.solar16Contract300 が照合)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -206,7 +207,7 @@ export function solar16Decl(rec, o = {}) {
   const physics = { coord: '3d', G: G_UNITS, D0: 0.1, kFrame: 0, q: 3, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: KAPPA_T, cLight: C_UNITS, bM: 1, etaRad: 0, pRad: 4,
     gravityX: 0, gravityY: 0, massFloor: 1e-6, geoPN: 3, lambdaPN: 0, pnAlpha: 1.5, radiusScale: 1, softening: SOFTENING, softeningFloor: SOFTENING, radiusFloor: RADIUS_FLOOR,
     timeScale: 1, stepDt, dispMag: 10, stateCarry: 'double', frameWeight: 'share', contactMode: 'none',
-    relativeDrag: { law: 'inertial', gain, eps: SOFTENING, history: 'positions', pairs: 'all' } };
+    relativeDrag: Object.assign({ law: 'inertial' }, W302A.wbgDeclOf(gain), { eps: SOFTENING, history: 'positions', pairs: 'all' }) };   // 第302便a: 強さは Wbg
   const ep = rec.epoch.jdTdb, eph = rec.source.ephemeris;
   const bodies = rows.map((r) => {
     const m = memberOf(r.key);

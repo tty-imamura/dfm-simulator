@@ -30,7 +30,9 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import { inPlaneLongitude } from './exp-w298c-moon3d.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第299便c の 🌡️ のフィット(G_loc の前)と移送の記録を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w299c-planets3d-1';
@@ -185,6 +187,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const NW = Math.max(1, Number(process.env.W299C_WORKERS) || 2);
   const run = makePool(NW, fileURLToPath(import.meta.url));
   const runs = {};
@@ -241,7 +244,7 @@ export async function main() {
       periodShiftSec: (a.windows[0].periodDays - b.g0.h.w8.periodDays) * P3.DAY_S };
     b.transfer.res = Math.abs(b.transfer.h - b.transfer.h2); b.transfer.ratioPn1 = b.transfer.h / b.pn1Ref; });
   mer.transfer = { gain: gFit, h: mer.fit.h.diff, h2: mer.fit.h2.diff, res: Math.abs(mer.fit.h.diff - mer.fit.h2.diff), ratioPn1: mer.fit.h.diff / mer.pn1Ref, periodShiftSec: mer.fit.h.periodShiftSec };
-  const J = { meta: null, lib: P3.LIB_VERSION, sources: { elements: P3.ELEM_SOURCE, poles: P3.POLE_SOURCE, network: P3.NETWORK_NOTE, obliquityArcsec: P3.OBLIQUITY_ARCSEC, auM: P3.AU_M },
+  const J = { meta: null, stepOrderPin302: PIN302, lib: P3.LIB_VERSION, sources: { elements: P3.ELEM_SOURCE, poles: P3.POLE_SOURCE, network: P3.NETWORK_NOTE, obliquityArcsec: P3.OBLIQUITY_ARCSEC, auM: P3.AU_M },
     wins: WINS, books };
   const rec = fitRecordOf(HP, J);
   const dp = presetOf(HP, 'mercury', gFit); dp.fitRecord = rec;
@@ -257,7 +260,7 @@ export async function main() {
   J.ok = Object.values(J.gates).every(Boolean);
   J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「43″ を再現した」', '「gain は普遍定数」', '「二次元の値を写して fitted」'];
-  const CODE = ['tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第89報)②「太陽系の各惑星の geoPN=3 版を、それぞれ三次元で用意する」', reading: '統括の検証項目 R171(惑星の geoPN=3 三次元の新本・初期状態の生成器・測定と標的のある惑星のフィット)' });
@@ -400,6 +403,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinSplit302();
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN && process.argv.includes('--emit')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');

@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
+ "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -90,7 +90,7 @@
    ],
    "relativeDrag": {
     "law": "inertial",
-    "gain": 0.259335,
+    "Wbg": 3.8560163495093223,
     "eps": 0.01,
     "history": "positions",
     "pairs": [
@@ -115,12 +115,12 @@
      "key": "ctrl-h",
      "dt": 0.016,
      "revN": 354,
-     "steps": 5253631,
+     "steps": 5253629,
      "nan": false,
      "warnings": [],
      "com": {
-      "xMax": 0.000008129689722297647,
-      "pMax": 5.902344296551857e-13,
+      "xMax": 0.0000081296923035796,
+      "pMax": 5.902344296454261e-13,
       "mt": 0.006045859845471568
      },
      "windows": [
@@ -128,38 +128,38 @@
        "N": 118,
        "complete": true,
        "nPeri": 118,
-       "T1": 2398.8095793503344,
-       "rms1": 4.41307371989194e-9,
-       "T2": 2397.904784902781,
-       "rms2": 0.020096083324037874,
-       "T3": 2797.501412805641,
-       "sid": 27.482892087800575,
-       "anom": 27.483631311713644,
-       "eOsc": 0.07529709112814498,
-       "ePA": 0.07530445303573509,
-       "aOsc": 3.8623857227523217,
-       "incMean": 5.288849999999277,
-       "synUniform": 29.719033829367607
+       "T1": 2398.8093685401677,
+       "rms1": 4.400395166231699e-9,
+       "T2": 2397.904565898147,
+       "rms2": 0.02009621926613885,
+       "T3": 2797.2949720463794,
+       "sid": 27.48288894290838,
+       "anom": 27.483628221208555,
+       "eOsc": 0.07529659198573285,
+       "ePA": 0.07530395579571462,
+       "aOsc": 3.862385430740072,
+       "incMean": 5.288849999999289,
+       "synUniform": 29.71903015188806
       },
       {
        "N": 354,
        "complete": true,
        "nPeri": 354,
-       "T1": 2398.8097916125007,
-       "rms1": 3.9558059363230755e-8,
-       "T2": 2398.7094022094698,
-       "rms2": 0.020096288485686988,
-       "T3": 2797.222160057586,
-       "sid": 27.482895130900566,
-       "anom": 27.483634428777666,
-       "eOsc": 0.0752975897000005,
-       "ePA": 0.07530495225029478,
-       "aOsc": 3.8623860137757484,
-       "incMean": 5.288850000007582,
-       "synUniform": 29.71903738781651
+       "T1": 2398.809156275405,
+       "rms1": 3.955144747754716e-8,
+       "T2": 2398.708759512512,
+       "rms2": 0.0200966963917089,
+       "T3": 2797.0042552778395,
+       "sid": 27.482885749460067,
+       "anom": 27.483625104430047,
+       "eOsc": 0.07529609228349322,
+       "ePA": 0.07530345661829577,
+       "aOsc": 3.8623851377451475,
+       "incMean": 5.288850000007586,
+       "synUniform": 29.71902641762949
       }
      ],
-     "wallSec": 17.219
+     "wallSec": 13.794
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -169,7 +169,7 @@
      "nan": false,
      "warnings": [],
      "com": {
-      "xMax": 0.0000027098932320589506,
+      "xMax": 0.0000027098933947657716,
       "pMax": 5.902344296454261e-13,
       "mt": 0.006045859845471568
      },
@@ -178,21 +178,21 @@
        "N": 118,
        "complete": true,
        "nPeri": 118,
-       "T1": 2396.193567303217,
-       "rms1": 2.2001233360731925e-9,
-       "T2": 2395.2915104002036,
-       "rms2": 0.020077252097979628,
-       "T3": 2794.4060102374633,
-       "sid": 27.4828880302815,
-       "anom": 27.483628072846756,
-       "eOsc": 0.07529662085423287,
-       "ePA": 0.0753039879366555,
-       "aOsc": 3.8623854466178953,
-       "incMean": 5.2888500000055165,
-       "synUniform": 29.719029084707874
+       "T1": 2396.1934619645644,
+       "rms1": 2.271865214619111e-9,
+       "T2": 2395.2914014759126,
+       "rms2": 0.020077320008645864,
+       "T3": 2794.303189529315,
+       "sid": 27.482886457891208,
+       "anom": 27.48362652760352,
+       "eOsc": 0.07529637128318255,
+       "ePA": 0.07530373931775096,
+       "aOsc": 3.862385300612045,
+       "incMean": 5.288850000005591,
+       "synUniform": 29.71902724603339
       }
      ],
-     "wallSec": 13.075
+     "wallSec": 9.254
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -225,7 +225,7 @@
        "synUniform": 29.71997237806438
       }
      ],
-     "wallSec": 5.176
+     "wallSec": 3.86
     },
     "sunH": {
      "key": "sun3d-h",
@@ -234,6 +234,37 @@
      "steps": 1741368,
      "nan": false,
      "warnings": [],
+     "com": null,
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 118,
+       "T1": 8.85000284789113,
+       "rms1": 16.73158294845171,
+       "T2": 8.82758296122942,
+       "rms2": 13.473934092307152,
+       "T3": 8.562900765355682,
+       "sid": 27.32165960940924,
+       "anom": 27.56243579823746,
+       "eOsc": 0.05489965654113906,
+       "ePA": 0.055176570717680326,
+       "aOsc": 3.8345144859139397,
+       "incMean": 5.145001541762029,
+       "synUniform": 29.53058658942645
+      }
+     ],
+     "wallSec": 4.685
+    },
+    "sunHsplit": {
+     "key": "sun3d-h-split",
+     "dt": 0.016,
+     "revN": 118,
+     "steps": 1741368,
+     "nan": false,
+     "warnings": [
+      "fitRecord の条件の署名が本の宣言と一致しません(以前の条件でのフィット —— 条件が変わった後は未再測定。記録は残します)"
+     ],
      "com": null,
      "windows": [
       {
@@ -254,127 +285,130 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 7.433
+     "wallSec": 6.967
     }
    },
    "check": {
     "moon3dT1": 8.850002272639843,
-    "sunT1": 8.850002272639843,
+    "sunT1": 8.85000284789113,
     "sameAsMoon3d": true,
     "moon3dSid": 27.321661471052362,
-    "sunSid": 27.321661471052362
+    "sunSid": 27.32165960940924,
+    "stepOrder302": "第302便h: 第298便c の正本は分割の步の記録 —— 照合は 🌦️ に stepOrder:\"split\" を明示した写し(sun3d-h-split)の 118 公転窓で行った",
+    "splitT1": 8.850002272639843,
+    "splitSid": 27.321661471052362
    },
    "realSunSynodic": {
     "source": "tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)",
     "windows": {
      "8": {
-      "mean": 29.497844662831636,
-      "residual": -0.032744194878688404,
-      "startMin": 29.43839452368282,
-      "startMax": 29.6377050802326,
+      "mean": 29.497844513646584,
+      "residual": -0.03274434406374027,
+      "startMin": 29.43839238368295,
+      "startMax": 29.637686585038878,
       "nStarts": 91
      },
      "118": {
-      "mean": 29.538989085305786,
-      "residual": 0.00840022759546244,
-      "startMin": 29.53308220913006,
-      "startMax": 29.546586453818783,
+      "mean": 29.538986685788416,
+      "residual": 0.008397828078091862,
+      "startMin": 29.53307036268384,
+      "startMax": 29.546581841445846,
       "nStarts": 64
      },
      "354": {
-      "mean": 29.539924632692276,
-      "residual": 0.009335774981952483,
-      "startMin": 29.53765683232143,
-      "startMax": 29.541497768197576,
+      "mean": 29.539917462189976,
+      "residual": 0.009328604479652114,
+      "startMin": 29.537649543696613,
+      "startMax": 29.54149006207498,
       "nStarts": 5
      }
     }
    },
    "sunEffect": {
     "note": "太陽の有無の差 = 🌦️(太陽あり)− 対照(太陽なし)—— 同じ抽出器・h・118 公転窓",
-    "T1": -2389.9595770776946,
-    "sid": -0.16123061674821315,
-    "synUniform": -0.18844506510559,
-    "eOsc": -0.020397083598736494,
-    "incMean": -0.14384846910842342
+    "T1": -2389.9593656922766,
+    "sid": -0.16122933349913993,
+    "synUniform": -0.18844356246161098,
+    "eOsc": -0.02039693544459379,
+    "incMean": -0.1438484582372599
    },
    "h2": {
     "note": "対照の h/2 差(118 公転窓)",
-    "T1": 2.6160120471172377,
-    "sid": 0.000004057519074507354,
-    "synUniform": 0.000004744659733546541
+    "T1": 2.615906575603276,
+    "sid": 0.000002485017173370352,
+    "synUniform": 0.0000029058546680005293
    },
-   "wallSec": 42.908
+   "wallSec": 38.565
   }
  },
  "timing": {
-  "wallSec": 45.119
+  "wallSec": 40.073
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:43:37.884Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T10:27:30.744Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T09:38:25.487Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26135,
-    "sha256": "c78348cde76d1b7954fa24e1b8eec06db740ba75b4ca1914e9b82c8aefe72f70",
-    "mtime": "2026-10-13T15:23:44.104Z"
+    "bytes": 26551,
+    "sha256": "973c6f919e0376ef9a9fd7ae7a196aa7782dd31f5fa0ef858ee7bc2dfd82aaec",
+    "mtime": "2026-10-14T09:57:39.965Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 34319,
-    "sha256": "4ce5a6e73b3c19351df69713ad01139edbe402b466a963c6b5afc3e2e1660091",
-    "mtime": "2026-10-13T15:12:47.124Z"
+    "bytes": 34325,
+    "sha256": "8aa74b8663ed1f9ac4c05b65ef25f371870436695e31ac79af01fc5e051c1ce3",
+    "mtime": "2026-10-14T09:38:25.963Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w300b-emonly.mjs",
-    "bytes": 21252,
-    "sha256": "686b6f2d0270e02e3f40f0b314b3a030411df405900f49f5f0b9e3227e0c4d4b",
-    "mtime": "2026-10-12T15:16:39.502Z"
+    "bytes": 22575,
+    "sha256": "d408ab77ae29707be906fcc8933418c9a13b65c737d04bc4798353f064bcb7f8",
+    "mtime": "2026-10-14T09:50:09.693Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-11T00:52:30.189Z"
+    "mtime": "2026-10-14T09:38:25.815Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-14T09:38:25.803Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
    }
   ],
-  "codeSha256": "17a33d2e552069fb12855b5f5321baf06cc078b8e81a7362fa1597986c1ae226",
+  "codeSha256": "250dc756cc8e6fb0b8ba2b23c9fc16c0e945a48df786fe056e4a7ac467423ee8",
   "harnessVersion": "w300b-emonly-1",
   "extractorVersion": "w300b-em3-1",
   "parts": [
@@ -411,6 +445,7 @@
     "FIT_TOL_KEYS",
     "HP.coord3d",
     "HP.dfmMeshVelocityFieldAt",
+    "HP.relDragStepOrderOf",
     "HP.sim",
     "HP.synodic",
     "HP.validatePreset",
@@ -423,16 +458,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1247,
-   "segments": 1134,
-   "closureShare": 0.3184
+   "names": 1300,
+   "segments": 1179,
+   "closureShare": 0.3218
   },
-  "scopeSha256": "c8bc3d96323231b84948947e7904a4767dab3ef3b1ae23bfb427b00c5eb2cc07",
+  "scopeSha256": "a4f402b5e8f45995611e66fa20251993758113092cd732aaa606cfa11d9444e1",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "8428fde40e2384983643a421a45f4f9346091ae572a87aceb923a5d7682b9ef3",
+    "stableSha256": "31d6e30a6180edadf8cce52521905d31e3de7dbc32f8a2d3602ce49bb2fb052e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -446,7 +481,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "d6a27fa625d406e070e069ae1dc27ed1161eed8af8509668958881cccb86340c",
+    "stableSha256": "a2b2c2d77f3c552f59d1f12d57c4af9813524019a4eb8e3a6b37a565bffd31bd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -463,5 +498,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 45.119
+ "elapsedS": 40.073
 }

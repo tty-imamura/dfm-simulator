@@ -39,6 +39,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { runEM, windowFit } from './exp-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -60,11 +61,15 @@ const modeOf = (k) => MODES.find((z) => z.key === k);
 /** 本の写しに合成則を宣言する(第293便g: solve(velocity) は宣言しない = 既定・sum と solve(history) は宣言する)。 */
 export function withMode(p, modeKey, extra) {
   const q = clone(p), md = modeOf(modeKey), rd = q.physics.relativeDrag;
-  if (md.compose) rd.compose = md.compose;
-  if (md.solveFrom) rd.solveFrom = md.solveFrom;
-  Object.assign(rd, extra || {});
+  // 第302便a: 凍結比較(compose:"sum")と gain の上書きは W302A.rdPatch で(Wbg の宣言を gain の宣言へ戻してから重ねる —— 係数は同じ double)
+  W302A.rdPatch(rd, Object.assign({}, md.compose ? { compose: md.compose } : {}, md.solveFrom ? { solveFrom: md.solveFrom } : {}, extra || {}));
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代では、この器(合成則の比較 —— 第293便e/g の記録)の走行を分割の本体のまま測る(stepOrder:"split" を明示 ——
+  //   正本 compose-w293e.json は分割の本体の記録。semic の影響は器 tests/exp-w302d-semic.mjs が受け持つ)
+  if (orderGen302() && rd.compose !== 'sum') rd.stepOrder = 'split';
   return q;
 }
+/** 第302便d: html が stepOrder を知る世代か(loadHtmlMain は html をこの process の大域で実行する —— 関数 relDragStepOrderOf が大域にある)。 */
+const orderGen302 = () => typeof globalThis.relDragStepOrderOf === 'function';
 
 /* ── (a) 宣言の受理 ─────────────────────────────────────────── */
 export function declGate(HP) {
@@ -114,7 +119,11 @@ function pinned3Preset(HP) {
 }
 /** 1 つの事例: build して steps 步・各步で純関数と照合(hist の步だけ)。 */
 export function engineCase(HP, key, preset, opt) {
-  const v = HP.validatePreset(clone(preset));
+  // 第302便d(R188): 世代切替 —— 本体の既定が semic の世代(HP.relDragStepOrderOf がある)では、純関数(移送の前〔核の後〕の座標で u を組む —— 分割の評価点)と
+  //   照合する事例に stepOrder:"split" を明示する(世代の判定は大域の関数 relDragStepOrderOf の有無 —— 下の orderGen302)(semic の評価点は器 tests/exp-w302d-semic.mjs の門 closedForm・libMatch が受け持つ)
+  const pre = clone(preset), rd0 = pre.physics && pre.physics.relativeDrag;
+  if (orderGen302() && rd0 && rd0.law === 'inertial' && rd0.compose !== 'sum') rd0.stepOrder = 'split';
+  const v = HP.validatePreset(pre);
   if (!v.ok) return { key, ok: false, why: 'validatePreset: ' + JSON.stringify(v.errors).slice(0, 200) };
   HP.sim.build(v.preset);
   const S = HP.sim, rd = S.relDrag, n = S.n, eps = (rd.eps !== undefined) ? rd.eps : (S.params.softening || 0);
@@ -136,7 +145,7 @@ export function engineCase(HP, key, preset, opt) {
     const VX = vel ? Array.from(S.vx.subarray ? S.vx.subarray(0, n) : S.vx.slice(0, n)) : Array.from(S._rdVX.subarray(0, n));
     const VY = vel ? Array.from(S.vy.subarray ? S.vy.subarray(0, n) : S.vy.slice(0, n)) : Array.from(S._rdVY.subarray(0, n));
     const pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
-    const B = LC.buildRows({ n, x: X, y: Y, m: S.m, pinned: pin, pairSet: S._rdPairSet, NP: S._rdPairN, C: rd.gain, eps, VX, VY, hist: true, kernel });
+    const B = LC.buildRows({ n, x: X, y: Y, m: S.m, pinned: pin, pairSet: S._rdPairSet, NP: S._rdPairN, C: W302A.rdCoefOf(rd), eps, VX, VY, hist: true, kernel });
     const fixed = Array.from({ length: n }, (_, i) => (!(S.m[i] > 0) || !Number.isFinite(S.m[i]) || pin[i]) ? 1 : 0);
     let U, res = null, method = 'sum';
     if (solveMode) { const q = LC.solve({ n, A: B.A, SX: B.SX, SY: B.SY, DG: B.DG, fixed, iters: rd.solveIters }); U = q; res = q.res; method = q.method; }
@@ -217,7 +226,7 @@ function summarize(HP, raw, spans) {
 export function runBook(HP, id, modeKey, gain) {
   const p = withMode(find(HP, id), modeKey, gain === undefined ? undefined : { gain });
   const raw = runEM(HP, p, { dt: RUN.dt, revMax: RUN.orbits });
-  return Object.assign(summarize(HP, raw, RUN.spans), { book: id, mode: modeKey, gain: p.physics.relativeDrag.gain });
+  return Object.assign(summarize(HP, raw, RUN.spans), { book: id, mode: modeKey, gain: W302A.rdGainOf(p.physics.relativeDrag) });
 }
 /** 1 次元フィット(割線法・log g と log P —— exp-w292c-dragcore の fitGain と同じ手順・合成則だけ違う)。 */
 export function fitGain(HP, modeKey, g0) {
@@ -290,7 +299,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   console.log(`(i) 純関数 ${selfTest.nOk}/${selfTest.nItems}・履歴則の不動点 ${selfTest.history.ok}・2 源 sum ${selfTest.items.algebra.sum2} / solve ${selfTest.items.algebra.solve2}`);
   const decl = declGate(HP), eng = engineGate(HP), rec = nonRecip(HP);
   console.log(`(a) 宣言 ${decl.ok}(拒否 ${decl.rejected}/${decl.rejectCases})・(b) エンジン≡純関数 ${eng.ok}(${eng.cases.map((c) => c.key + ':' + c.ok).join(' ')})・GS 残差 ${e3(eng.gs.res8)}→${e3(eng.gs.res30)}・(c) 非相反 ${rec.ok}`);
-  const gDecl = find(HP, BOOK_ID).physics.relativeDrag.gain;
+  const gDecl = W302A.rdGainOf(find(HP, BOOK_ID).physics.relativeDrag);
   const ONLY = process.env.W293E_ONLY ? process.env.W293E_ONLY.split(',') : null;   // 開発用(指定したら正本を書かずに終わる)
   const specs = taskSpecs(gDecl).filter((z) => !ONLY || ONLY.includes(z.key));
   const NW = Math.max(1, Number(process.env.W293E_WORKERS) || 3);

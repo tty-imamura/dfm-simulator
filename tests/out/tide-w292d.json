@@ -3,49 +3,55 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:42:54.004Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T09:47:51.715Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T09:38:25.487Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w292d-tide.mjs",
-    "bytes": 32174,
-    "sha256": "091e98567f1a076cbf093d5103a0326266a9505ac6f83cbf2bec45e732312899",
-    "mtime": "2026-10-11T18:40:40.051Z"
+    "bytes": 32604,
+    "sha256": "73a434de93b01e4b0eeda9d4e725b689304e84ddda3d1472584165d4bd2ebebf",
+    "mtime": "2026-10-14T09:45:59.450Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-09T10:19:35.522Z"
+    "mtime": "2026-10-14T09:38:25.815Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-14T09:38:25.803Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
+   },
+   {
+    "file": "tests/lib-w302h-splitrec.mjs",
+    "bytes": 2409,
+    "sha256": "b07ea5da5a2e4ac7bbe026388aac612d79ac571da2803c2be313fea7f19c20ea",
+    "mtime": "2026-10-14T09:45:27.383Z"
    }
   ],
-  "codeSha256": "302499b343cf1fa3dcf5f02ca5c609352a0a68a32308efb46cfe71467e7e5575",
+  "codeSha256": "e6f198e7f6b8b50873bf8b3e190d79ea6868ab9cede3c25c6172996e781787ee",
   "harnessVersion": "w292d-tide-1",
   "libVersion": "w292d-tide-lib-1",
   "engineVersion": "w292d-tide-1",
@@ -79,6 +85,7 @@
     "HP.ckSnapOne",
     "HP.dfmMeshVelocityFieldAt",
     "HP.inertialDragState",
+    "HP.relDragStepOrderOf",
     "HP.sim",
     "HP.tideCrossCheck",
     "HP.tideEvalRates",
@@ -90,14 +97,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1240,
-   "segments": 1127,
-   "closureShare": 0.3193
+   "names": 1293,
+   "segments": 1172,
+   "closureShare": 0.323
   },
-  "scopeSha256": "72412fb4653c0974dc2c5e54b896dfa9e9989e4c0456db41d543dba412b3f7a7",
+  "scopeSha256": "f698bbf461d0b28fabe9fbca440f888a46e7db54cda4eb52fd00c59aa8c12653",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
+ },
+ "stepOrderPin302": {
+  "version": "w302h-splitrec-1",
+  "pinned": true,
+  "order": "split",
+  "note": "合成則 solve の本の步を分割(第290便c〜第301便の步)に固定した記録 —— 本の宣言・署名は変えない"
  },
  "gateB": {
   "actionReaction": {
@@ -359,7 +372,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 6.224,
+   "wallSec": 6.683,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -409,7 +422,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 14.218,
+   "wallSec": 11.524,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -488,7 +501,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 6.798,
+   "wallSec": 6.338,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -506,7 +519,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 9.817,
+   "wallSec": 8.212,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -730,71 +743,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.798
+    "wallSec": 6.338
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 9.817
+    "wallSec": 8.212
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.695
+    "wallSec": 7.128
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 9.653
+    "wallSec": 8.623
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 9.127
+    "wallSec": 8.263
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 8.217
+    "wallSec": 6.535
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 8.737
+    "wallSec": 7.912
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 8.963
+    "wallSec": 8.467
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.68
+    "wallSec": 6.781
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 9.827
+    "wallSec": 7.135
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 9.806
+    "wallSec": 7.591
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 119.436
+ "elapsedS": 104.208
 }

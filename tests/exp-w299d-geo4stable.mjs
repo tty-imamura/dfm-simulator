@@ -29,6 +29,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri } from './lib-w280b-emgrid.mjs';
 import * as SP from './lib-w299d-spread.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';   // 第301便b: 近似多粒子の天体型(html の受理器が physics.approxMany を持つ世代だけ —— 旧世代は従来の形)
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainSpreadToy3d","mercuryGeoToy3","mercuryMeshMigrate3d","mercurySunInertialFit"],"roots":["DT","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -349,7 +350,7 @@ export function migPreset(HP, o = {}) {
     if (k === 0 && o.axis !== false) nb.spinAxis = { enable: true, tiltDeg: tilt, azimuthDeg: -90, source: SRC_AXIS };
     return nb;
   });
-  if (o.gain !== undefined) q.physics.relativeDrag.gain = o.gain;
+  if (o.gain !== undefined) W302A.rdSetGain(q.physics.relativeDrag, o.gain);
   if (o.unpin) q.bodies[0].pinned = false;
   if (o.boost) q.bodies.forEach((b) => { b.vx += o.boost[0]; b.vy += o.boost[1]; b.vz = (b.vz || 0) + o.boost[2]; });
   if (o.eps !== undefined) q.physics.relativeDrag.eps = o.eps;
@@ -405,7 +406,7 @@ function partMigrate(HP) {
   out.legacy = { law: 'legacy-spaceMesh:vMinusU(一様な u=V・mutual 0・pn off)', dDegPerOrbit: sci(l1.degPerOrbit - l0.degPerOrbit), dDegPerOrbitH2: sci(l1h.degPerOrbit - l0h.degPerOrbit),
     dArcsecCentury: sci(arc(l1) - arc(l0)), newtonDegPerOrbit: sci(l0.degPerOrbit), steps: l1.steps };
   // 二次元の 🟫(geoPN 3)・平面の三次元の写し(傾き 0)・本(傾き 30°)—— gain と gain 0
-  const g2 = clone(find(HP, BOOK_GAIN)); delete g2.id; delete g2.fitRecord; const g2z = clone(g2); g2z.physics.relativeDrag.gain = 0;
+  const g2 = clone(find(HP, BOOK_GAIN)); delete g2.id; delete g2.fitRecord; const g2z = clone(g2); W302A.rdSetGain(g2z.physics.relativeDrag, 0);
   const r2 = run(g2), r2z = run(g2z);
   const p0 = run(migPreset(HP, { tilt: 0 })), p0z = run(migPreset(HP, { tilt: 0, gain: 0 }));
   const t1 = run(migPreset(HP)), t1z = run(migPreset(HP, { gain: 0 })), t1h = run(migPreset(HP), { dt: DT / 2 }), t1hz = run(migPreset(HP, { gain: 0 }), { dt: DT / 2 });
@@ -415,7 +416,7 @@ function partMigrate(HP) {
   // 分けた記録: 有限核(ε)・源集合(太陽だけを源にする —— 中心を固定しない写し)・連立解(二次元で compose sum —— 三次元は solve だけを受理)
   const e1 = run(migPreset(HP, { eps: 0.025 })), e2 = run(migPreset(HP, { eps: 0.1 }));
   const s1 = run(migPreset(HP, { unpin: true, pairs: [[1, 0]] }));
-  const gs = clone(g2); gs.physics.relativeDrag.compose = 'sum'; const rs = run(gs);
+  const gs = clone(g2); W302A.rdPatch(gs.physics.relativeDrag, { compose: 'sum' }); const rs = run(gs);
   const D = (a, b) => arc(a) - arc(b);
   // 近点率(″/世紀)は 43 の近くで桁を落とさないよう丸めずに書く
   out.rows = {

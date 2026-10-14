@@ -22,7 +22,8 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as SPA from './lib-w301b-approxmany.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.APPROX_MANY_STATE_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.approxManyCrossCheck","HP.approxManyPairOf","HP.approxManyState","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+const REGEN_SCOPE = {"presets":"all","roots":["DT","HP.APPROX_MANY_STATE_VERSION","HP.REL_DRAG_SOLVER_TOL_DEFAULT","HP.allPresets","HP.approxManyCrossCheck","HP.approxManyPairOf","HP.approxManyState","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragProbeReady","HP.inertialDragProbeSample","HP.inertialDragProbeStreamlines","HP.inertialDragState","HP.loadPreset","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.stepCarryFrame","HP.validateApproxMany","HP.validatePreset","T","ab","abStart","abStop","appStepFn","ch","ckRestoreOne","ckSnapOne","cloneSimState","ctx","currentPreset","cw","sim"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301b-approxmany-1';
@@ -64,7 +65,7 @@ export function toyPreset(o = {}) {
     id: 'w301bToy', name: '近似多粒子の零試験(器)', description: '器の写し', emoji: '🧪', sampleClass: 'principle', seed: 301, world: { boundary: 'none', size: 0 }, camera: { scale: 1 },
     physics: { coord: '3d', G: 1, softening: 0.1, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0, gravityX: 0, gravityY: 0, geoPN: 4, lambdaPN: 0,
       stateCarry: 'double', contactMode: o.contact ? 'normal' : 'none',
-      relativeDrag: { law: 'inertial', gain: 0.5, eps: 0.2, pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } },
+      relativeDrag: Object.assign({ law: 'inertial' }, W302A.wbgDeclOf(0.5), { eps: 0.2, pairs: 'all', solver: 'network-pcg-v1', spinDrag: { rot: 'surfaceFlip', axial: 'off' } }),   // 第302便a: 強さは Wbg(gain 0.5 = Wbg 2)
       approxMany: { version: 'v1', governor: 0, groups: [{ kind: 'body', rows: [1, 2] }, { kind: 'dust', rows: [3, 5] }] } },
     bodies: [
       { type: 'single', m: 50, radius: 1, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, spin: 0.3, pinned: true, spinAxis: ax('器のトイ') },
@@ -150,7 +151,7 @@ export function partZero(HP) {
       for (let c = 0; c < 3; c++) { errM = Math.max(errM, Math.abs(a[c] - anaM[i][c])); scale = Math.max(scale, Math.abs(anaM[i][c])); }
       if (K[i] === 1) dustTerm = Math.max(dustTerm, Math.hypot(anaF[i][0] - anaM[i][0], anaF[i][1] - anaM[i][1], anaF[i][2] - anaM[i][2])); }
     void x0;
-    const A = S._rdA, DG = S._rdDeg, C = S.relDrag.gain;
+    const A = S._rdA, DG = S._rdDeg, C = W302A.rdCoefOf(S.relDrag);
     let dd = 0, ddMax = 0, gd = 0, bb = 0, db = 0, od = 0, degErr = 0;
     for (let i = 0; i < n; i++) { let s = 0;
       for (let j = 0; j < n; j++) { if (i === j) continue; const a = A[i * n + j]; s += a;
@@ -162,7 +163,10 @@ export function partZero(HP) {
     // 受動プローブ(格子点 —— 塵の源を数えない): deg = Σ_{塵でない源} C m_j K_ε(r)
     const eps = S.relDrag.eps, pt = [2, 7, 0.3], pr = HP.inertialDragProbeAt(S, pt[0], pt[1], pt[2], { frame: 'coordinate' });
     let degAna = 0, degAll = 0;
-    for (let j = 0; j < n; j++) { const dx = S.rdPrevX[j] - pt[0], dy = S.rdPrevY[j] - pt[1], dz = S.rdPrevZ[j] - pt[2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), s2 = r2 + eps * eps, a = C * S.m[j] * r / (s2 * s2);
+    // 第302便(統合): semic の本ではプローブは核が使った位置(ドリフトの前の写し _rdQX/QY/QZ)で読む —— 解析の和も同じ位置で取る(分割の本は従来どおり rdPrev)
+    const semicQ = (typeof HP.relDragStepOrderOf === 'function' && HP.relDragStepOrderOf(S.relDrag) === 'semic' && S._rdQX && S._rdQX.length >= n && S._rdQZ);
+    const QX = semicQ ? S._rdQX : S.rdPrevX, QY = semicQ ? S._rdQY : S.rdPrevY, QZ = semicQ ? S._rdQZ : S.rdPrevZ;
+    for (let j = 0; j < n; j++) { const dx = QX[j] - pt[0], dy = QY[j] - pt[1], dz = QZ[j] - pt[2], r2 = dx * dx + dy * dy + dz * dz, r = Math.sqrt(r2), s2 = r2 + eps * eps, a = C * S.m[j] * r / (s2 * s2);
       degAll += a; if (K[j] !== 1) degAna += a; }
     out.gravity = { n, dust: K.filter((k) => k === 1).length, body: K.filter((k) => k === 2).length, maxAbsErr: sci(errM), scale: sci(scale), rel: sci(errM / scale), dustDustTermMax: sci(dustTerm),
       pass: errM <= 1e-12 * scale && dustTerm > 1e-3 * scale };

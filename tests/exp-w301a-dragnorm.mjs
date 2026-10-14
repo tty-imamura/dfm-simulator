@@ -29,7 +29,8 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as C from './exp-w295c-inertial3.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragNormOf","HP.inertialDragState","HP.relDragBackgroundOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragNormOf","HP.inertialDragState","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301a-dragnorm-1';
@@ -78,7 +79,8 @@ export function part1(HP) {
   { const zL = z1({ background: 1e8, gain: 0.5 / 1e8 });
     out.z2 = { uLargeBg: zL.u, wantLinear: (0.5 / 1e8) * zL.w, relErr: rel(zL.u, (0.5 / 1e8) * zL.w), xLargeBg: zL.w / 1e8 };
     const p = find(HP, 'mercurySunInertialFit'), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 3000; k++) S.step(dt); return fp(S); };
+    // 第302便(統合): 凍結比較(norm:"none" など)は W302A.rdPatch で gain の宣言へ戻して重ねる(Wbg との併用は受理器が拒否)
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 3000; k++) S.step(dt); return fp(S); };
     out.z2.book = 'mercurySunInertialFit'; out.z2.steps = 3000; out.z2.defaultEqNone = run({ norm: 'none' }) === run({}); }
   // z3: C_d = 1(既定)で W_bg = 1/gain → 0(gain 1e9): u_i → Σ w (v_j − v_i)/Σ w(源 2 つ・pinned・速度 (1,0) と (0,2)・受け手は静止)
   { const rd = { law: 'inertial', gain: 1e9, eps: 0.05, pairs: 'all', history: 'positions' };
@@ -89,7 +91,7 @@ export function part1(HP) {
     out.z3 = { gain: 1e9, got, want, relErr: Math.hypot(got[0] - want[0], got[1] - want[1]) / Math.hypot(want[0], want[1]) }; }
   // z4: gain 0 の本は正規化の有無でビット同一(🌋・🍩 —— 400 步)
   out.z4 = ['venusSunInertial3d', 'saturnRingInertial3d'].map((id) => { const p = find(HP, id), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 400; k++) S.step(dt); return { f: fp(S), norm: !!(HP.inertialDragState(S) || {}).norm }; };
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 400; k++) S.step(dt); return { f: fp(S), norm: !!(HP.inertialDragState(S) || {}).norm }; };
     const a = run({ norm: 'none' }), b = run({}); return { id, same: a.f === b.f, normKey: b.norm }; });
   // z5: 宣言した対の外の源(pairs [[0,2]] —— 源 1 は受け手 2 の対でない)は分母に入らない: 源 1 の質量を 10 倍にしても受け手 2 の x = Σw/W_bg と u は同じ
   { const run = (m1) => { const rd = { law: 'inertial', gain: 0.02 / 50, background: 50, eps: 0.05, pairs: [[0, 2]], history: 'positions' };
@@ -100,7 +102,7 @@ export function part1(HP) {
   // z6: 3 成分に同じ分母 —— 🪛(軸引きずり on)の 2 步目: 並進・回転の行(行和 deg)は第301便a の前と同じ(solve の 1+deg がすでに総和で割る)・
   //     軸引きずりの ω は前の値 × ν(ν = 1/(1+deg) —— ビット)
   { const p = find(HP, 'chainDiskToy3dTilt'), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); S.step(dt); S.step(dt);
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); S.step(dt); S.step(dt);
       return { DG: Array.from(S._rdDeg.subarray(0, S.n)), WX: Array.from(S._rdWX.subarray(0, S.n)), WZ: Array.from(S._rdWZ.subarray(0, S.n)), UX: Array.from(S._rdUX.subarray(0, S.n)), pin: Array.from(S.pinned.subarray(0, S.n)) }; };
     const o = run({ norm: 'none' }), t = run({});
     let bad = 0, nuMin = 1, nuMax = 0, nAx = 0;
@@ -113,7 +115,7 @@ export function part1(HP) {
     }
     out.z6 = { book: 'chainDiskToy3dTilt', n: o.DG.length, bad, axialReceivers: nAx, nuMin, nuMax }; }
   // z7: 連鎖の PCG —— 背景を宣言した 🍥 の写し(C_d 0.5・W_bg = 0.5/gain —— 行の対角 1+x)の 300 步: 未収束 0・残差の最大 ≤ solverTol
-  { const p = clone(find(HP, 'chainSpreadToy3d')); p.physics.relativeDrag.background = 0.5 / p.physics.relativeDrag.gain;
+  { const p = clone(find(HP, 'chainSpreadToy3d')); const g302 = W302A.rdGainOf(p.physics.relativeDrag); W302A.rdPatch(p.physics.relativeDrag, { gain: g302, background: 0.5 / g302 });   // 第302便a: background は旧法則の凍結比較(gain で書く)
     const dt = stepDtOf(p), S = build(HP, p); for (let k = 0; k < 300; k++) S.step(dt);
     const st = HP.inertialDragState(S), c = st.compose;
     out.z7 = { book: 'chainSpreadToy3d', steps: 300, method: c.method, resMax: c.resMax, fail: c.chain.fail, itersMax: c.chain.itersMax, tol: c.chain.solverTol }; }
@@ -122,8 +124,10 @@ export function part1(HP) {
   { const g = 0.07, rd = { law: 'inertial', gain: g, eps: 0.05, pairs: 'all', history: 'positions' };
     const S = build(HP, toy([B(0, 0, 0.3, 0, 50), B(6, 1, 0, 0.8, 20), B(-4, 5, -0.5, 0.2, 35), B(2, -7, 0.1, -0.6, 10)], rd)); S.step(0.002); S.step(0.002);
     let errMax = 0;
+    // 第302便(統合): semic の本は u をドリフトの前の写し(_rdQX/QY)で解く —— 解析の w も同じ位置で引く(分割の世代は rdPrev)
+    const sq = (typeof HP.relDragStepOrderOf === 'function' && HP.relDragStepOrderOf(S.relDrag) === 'semic' && S._rdQX), PX = sq ? S._rdQX : S.rdPrevX, PY = sq ? S._rdQY : S.rdPrevY;
     for (let i = 0; i < 4; i++) { let sw = 0, nx = 0, ny = 0;
-      for (let j = 0; j < 4; j++) { if (j === i) continue; const dx = S.rdPrevX[j] - S.rdPrevX[i], dy = S.rdPrevY[j] - S.rdPrevY[i], r2 = dx * dx + dy * dy, q = r2 + 0.0025, w = S.m[j] * Math.sqrt(r2) / (q * q);
+      for (let j = 0; j < 4; j++) { if (j === i) continue; const dx = PX[j] - PX[i], dy = PY[j] - PY[i], r2 = dx * dx + dy * dy, q = r2 + 0.0025, w = S.m[j] * Math.sqrt(r2) / (q * q);
         sw += w; nx += w * (S.vx[j] + S._rdUX[j] - S.vx[i]); ny += w * (S.vy[j] + S._rdUY[j] - S.vy[i]); }
       const ux = nx / (1 / g + sw), uy = ny / (1 / g + sw), e = Math.hypot(ux - S._rdUX[i], uy - S._rdUY[i]) / Math.hypot(ux, uy); if (e > errMax) errMax = e; }
     out.z8 = { n: 4, gain: g, relErrMax: errMax, xMax: (() => { let m = 0; for (let i = 0; i < 4; i++) m = Math.max(m, S._rdDeg[i]); return m; })() }; }
@@ -154,7 +158,7 @@ export function part2(HP, o = {}) {
     const dens = p0.scaleExp ? Math.pow(10, p0.scaleExp.M) / Math.pow(10, 3 * p0.scaleExp.L) : null;
     const cos = p0.scaleExp ? cosmicBackground(p0.scaleExp, eps) : null;
     const retired = p0.familyRole === 'retired';
-    rows.push({ id: p0.id, emoji: p0.emoji, retired, gain: rd.gain, eps, n: S.n, dt, steps: STEPS, every: EVERY, samples: sw.length,
+    rows.push({ id: p0.id, emoji: p0.emoji, retired, gain: W302A.rdGainOf(rd), eps, n: S.n, dt, steps: STEPS, every: EVERY, samples: sw.length,
       sumWMed: med, sumWMax: mx, Wbg: bg ? bg.Wbg : null, WbgSI: (bg && dens) ? bg.Wbg * dens : null, Cd: bg ? bg.Cd : null,
       xMed: bg ? med / bg.Wbg : 0, xMax: bg ? mx / bg.Wbg : 0, Wcos: cos ? cos.Wbook : null, xCosMed: cos ? med / cos.Wbook : null, nan,
       regime: !bg ? 'gain0' : (mx / bg.Wbg < 1e-3 ? 'background' : (mx / bg.Wbg < 1 ? 'mixed' : 'local')) });
@@ -170,11 +174,11 @@ function twoRun(HP, p, dt) {
 }
 export function part3(HP) {
   const mer = find(HP, 'mercurySunInertialFit'), plu = find(HP, 'plutoCharonInertialFit');
-  const with_ = (p, patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); return q; };
+  const with_ = (p, patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); return q; };   // 第302便a: gain・norm:"none" は rdPatch(凍結比較は gain で書く)
   const m0 = twoRun(HP, with_(mer, { gain: 0 }), 0.016), mN = twoRun(HP, with_(mer, { norm: 'none' }), 0.016), mT = twoRun(HP, mer, 0.016);
   const p0 = twoRun(HP, with_(plu, { gain: 0 }), 0.16), pN = twoRun(HP, with_(plu, { norm: 'none' }), 0.16), pT = twoRun(HP, plu, 0.16);
-  const mer3 = { gain: mer.physics.relativeDrag.gain, dt: 0.016, apsDiffNone: mN.aps - m0.aps, apsDiffTotal: mT.aps - m0.aps, obs: 43, xMax: mT.xMax };
-  const plu3 = { gain: plu.physics.relativeDrag.gain, dt: 0.16, periodNone: pN.periodSec, periodTotal: pT.periodSec, periodGain0: p0.periodSec, obs: 551856.43872, xMax: pT.xMax };
+  const mer3 = { gain: W302A.rdGainOf(mer.physics.relativeDrag), dt: 0.016, apsDiffNone: mN.aps - m0.aps, apsDiffTotal: mT.aps - m0.aps, obs: 43, xMax: mT.xMax };
+  const plu3 = { gain: W302A.rdGainOf(plu.physics.relativeDrag), dt: 0.16, periodNone: pN.periodSec, periodTotal: pT.periodSec, periodGain0: p0.periodSec, obs: 551856.43872, xMax: pT.xMax };
   // ④ 候補 (iii): 🟫 に W_bg = W_cos を宣言し、C_d = gain·W_bg を振る
   const cos = cosmicBackground(mer.scaleExp, mer.physics.relativeDrag.eps);
   const cosRows = [1e-8, 1e-6, 1e-4, 1e-2].map((Cd) => { const r = twoRun(HP, with_(mer, { background: cos.Wbook, gain: Cd / cos.Wbook }), 0.016);
@@ -185,7 +189,7 @@ export function part3(HP) {
 /* ── ⑤ 🔗 の 18000 步 ─────────────────────────────────────── */
 export function part5(HP, o = {}) {
   const STEPS = o.steps || 18000, p = find(HP, 'chainDiskToy'), dt = 0.016;
-  const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); const marks = [];
+  const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); const marks = [];
     let nanAt = null, failAt = null;
     for (let k = 1; k <= STEPS; k++) { S.step(dt);
       if (nanAt === null && S.hasNaN()) nanAt = k;
