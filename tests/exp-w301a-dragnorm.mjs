@@ -79,7 +79,8 @@ export function part1(HP) {
   { const zL = z1({ background: 1e8, gain: 0.5 / 1e8 });
     out.z2 = { uLargeBg: zL.u, wantLinear: (0.5 / 1e8) * zL.w, relErr: rel(zL.u, (0.5 / 1e8) * zL.w), xLargeBg: zL.w / 1e8 };
     const p = find(HP, 'mercurySunInertialFit'), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 3000; k++) S.step(dt); return fp(S); };
+    // 第302便(統合): 凍結比較(norm:"none" など)は W302A.rdPatch で gain の宣言へ戻して重ねる(Wbg との併用は受理器が拒否)
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 3000; k++) S.step(dt); return fp(S); };
     out.z2.book = 'mercurySunInertialFit'; out.z2.steps = 3000; out.z2.defaultEqNone = run({ norm: 'none' }) === run({}); }
   // z3: C_d = 1(既定)で W_bg = 1/gain → 0(gain 1e9): u_i → Σ w (v_j − v_i)/Σ w(源 2 つ・pinned・速度 (1,0) と (0,2)・受け手は静止)
   { const rd = { law: 'inertial', gain: 1e9, eps: 0.05, pairs: 'all', history: 'positions' };
@@ -90,7 +91,7 @@ export function part1(HP) {
     out.z3 = { gain: 1e9, got, want, relErr: Math.hypot(got[0] - want[0], got[1] - want[1]) / Math.hypot(want[0], want[1]) }; }
   // z4: gain 0 の本は正規化の有無でビット同一(🌋・🍩 —— 400 步)
   out.z4 = ['venusSunInertial3d', 'saturnRingInertial3d'].map((id) => { const p = find(HP, id), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 400; k++) S.step(dt); return { f: fp(S), norm: !!(HP.inertialDragState(S) || {}).norm }; };
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); for (let k = 0; k < 400; k++) S.step(dt); return { f: fp(S), norm: !!(HP.inertialDragState(S) || {}).norm }; };
     const a = run({ norm: 'none' }), b = run({}); return { id, same: a.f === b.f, normKey: b.norm }; });
   // z5: 宣言した対の外の源(pairs [[0,2]] —— 源 1 は受け手 2 の対でない)は分母に入らない: 源 1 の質量を 10 倍にしても受け手 2 の x = Σw/W_bg と u は同じ
   { const run = (m1) => { const rd = { law: 'inertial', gain: 0.02 / 50, background: 50, eps: 0.05, pairs: [[0, 2]], history: 'positions' };
@@ -101,7 +102,7 @@ export function part1(HP) {
   // z6: 3 成分に同じ分母 —— 🪛(軸引きずり on)の 2 步目: 並進・回転の行(行和 deg)は第301便a の前と同じ(solve の 1+deg がすでに総和で割る)・
   //     軸引きずりの ω は前の値 × ν(ν = 1/(1+deg) —— ビット)
   { const p = find(HP, 'chainDiskToy3dTilt'), dt = stepDtOf(p);
-    const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); S.step(dt); S.step(dt);
+    const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); S.step(dt); S.step(dt);
       return { DG: Array.from(S._rdDeg.subarray(0, S.n)), WX: Array.from(S._rdWX.subarray(0, S.n)), WZ: Array.from(S._rdWZ.subarray(0, S.n)), UX: Array.from(S._rdUX.subarray(0, S.n)), pin: Array.from(S.pinned.subarray(0, S.n)) }; };
     const o = run({ norm: 'none' }), t = run({});
     let bad = 0, nuMin = 1, nuMax = 0, nAx = 0;
@@ -186,7 +187,7 @@ export function part3(HP) {
 /* ── ⑤ 🔗 の 18000 步 ─────────────────────────────────────── */
 export function part5(HP, o = {}) {
   const STEPS = o.steps || 18000, p = find(HP, 'chainDiskToy'), dt = 0.016;
-  const run = (patch) => { const q = clone(p); Object.assign(q.physics.relativeDrag, patch); const S = build(HP, q); const marks = [];
+  const run = (patch) => { const q = clone(p); W302A.rdPatch(q.physics.relativeDrag, patch); const S = build(HP, q); const marks = [];
     let nanAt = null, failAt = null;
     for (let k = 1; k <= STEPS; k++) { S.step(dt);
       if (nanAt === null && S.hasNaN()) nanAt = k;
