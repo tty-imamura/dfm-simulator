@@ -31,7 +31,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w297b-fit.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第298便c の 🌦️ のフィット(gain と初期配置の探索 —— 本の fitRecord の記録)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ch","cw","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w298c-moon3d-1';
@@ -277,6 +278,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const NW = Math.max(1, Number(process.env.W298C_WORKERS) || 3);
   const run = makePool(NW, fileURLToPath(import.meta.url));
   const runs = {};
@@ -371,7 +373,7 @@ export async function main() {
   } else {
     final = { gain: nr.g, rp: ic0.rp, e0: ic0.e0, inc: ic0.inc0, h: { w118: fix0.w118, steps: fix0.steps }, h2: { w118: fix0.h2 }, h4: { w118: fix0.h4 }, long: { w118: fix0.w118long, w354: fix0.w354 } };
   }
-  const J = { meta: null, ref, flat, ic0: { rp: ic0.rp, e0: ic0.e0, inc0: ic0.inc0, converged: ic0.converged, iters: ic0.hist }, fix0, search, outer, final, moon: MOON, tols: TOLS3 };
+  const J = { meta: null, stepOrderPin302: PIN302, ref, flat, ic0: { rp: ic0.rp, e0: ic0.e0, inc0: ic0.inc0, converged: ic0.converged, iters: ic0.hist }, fix0, search, outer, final, moon: MOON, tols: TOLS3 };
   final.windowDiff = { T1: final.long.w354.T1 - final.long.w118.T1, T2: final.long.w354.T2 - final.long.w118.T2 };
   const rec = fitRecordOf3(HP, J);
   const dp = derivedPreset3(HP, J); dp.fitRecord = rec;
@@ -387,7 +389,7 @@ export async function main() {
   J.ok = Object.values(J.gates).every(Boolean);
   J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「月を再現した」', '「8.85 年を出した」', '「gain は普遍定数」', '「参照積分で fitted」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第298便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第88報)「三次元座標化する」「geoPN=4 は慣性決定力の多粒子版・三次元が既定」', reading: '統括の検証項目 R167(🌥️ の三次元 —— 月の傾斜 5.145° の再現作業)' });
@@ -406,6 +408,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   else {
     const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
     const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+    pinSplit302();
     process.stdout.write(JSON.stringify(childTask(HP, spec)));
   }
 } else if (IS_MAIN) await main();

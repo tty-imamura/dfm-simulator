@@ -37,7 +37,8 @@ import * as C from './exp-w295c-inertial3.mjs';
 import * as L from './lib-w297b-fit.mjs';
 import { avgK as libAvgK, gaussLegendre01 as libGL } from './lib-w292c-dragcore.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第297便b のフィットの探索(親 🌤️🟤🟣 の gain の探索・派生本 🟫🟪 の記録)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w297b-fit-2';   // 第300便g: 派生本の照合が退役した派生本(🌥️)を受ける(分類の語 retired)
@@ -619,6 +620,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   else {
     const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
     const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+    pinSplit302();
     process.stdout.write(JSON.stringify(childTask(HP, spec)));
   }
 } else if (IS_MAIN) {
@@ -628,6 +630,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const csvText = fs.readFileSync(path.join(ROOT, CSV), 'utf8');
   const conv = conventions(HP, csvText);
   for (const c of conv) console.log(`段0 ${c.emoji} ${c.parent}: 署名 ${c.presetSigFnv}・law ${c.law}・実効 ${c.effectiveMode}・λ 宣言 ${c.lambdaDecl} → 走行 ${c.lambdaRun}・標的 ${c.target.obs} ${c.target.unit}(${c.sourceRow ? c.sourceRow.record_id : '行なし'})`);
@@ -695,14 +698,14 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const runsForGate = Object.fromEntries(Object.entries(runsAll).filter(([, r]) => r && r.key));
   const G = gates({ runs: runsForGate, conv, sens, inverse, records, derived, lambda, ems: emsR ? emsR.ems : null });
   const timing = Object.fromEntries(Object.entries(runsForGate).map(([k, r]) => [k, { wallSec: r.wallSec }]));
-  const out = { meta: null, conventions: conv, lambda: { rule: '原仮定者の裁定(第87報): geoPN=2・3・4 は λ_PN=0', rows: lambda.rows },
+  const out = { meta: null, stepOrderPin302: PIN302, conventions: conv, lambda: { rule: '原仮定者の裁定(第87報): geoPN=2・3・4 は λ_PN=0', rows: lambda.rows },
     velocityConvention: { rule: 'solve(velocity): (I+L)u = −Lv・W = v+u ⇒ v = (I+L)W(inertialDragInverseMap)', rows: inverse,
       note: '本の既定は親の vx/vy を v に与える(v=W)まま。逆写像は対照として走らせて記録するだけ(既定にするかは決断事項)' },
     sensitivity: sens, search, ems: emsR ? emsR.ems : null, fitRecords: records, derived, gainTable: GT, gates: G, ok: G.ok, timing,
     run: { books: BOOKS, siRange: SI_RANGE, gridN: GRID_N, workers: NW, ems: EMS },
     notClaim: ['現実を再現した', '月を再現した', '8.85 年を出した', '43″ を再現した', '較正 合', 'gain は普遍定数', '全系の保存則が閉じた'] };
   const CODE = ['tests/exp-w297b-fit.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w293d-swing.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
-    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第297便b', target: TARGET, code: CODE, inputs: [TARGET, CSV] }), {
     harnessVersion: HARNESS_VERSION, libVersion: L.FIT_LIB_VERSION, fitRecordVersion: L.FIT_RECORD_VERSION, condVersion: HP.FIT_COND_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, coreVersion: HP.DRAG_CORE_VERSION,
     inverseMapVersion: HP.INERTIAL_INVERSE_MAP_VERSION || null, emExtractorVersion: L.EM_EXTRACTOR_VERSION, loadErrors: errors.length,

@@ -41,7 +41,8 @@ import { fitPeri, YEAR_UNITS_EM, DAY_UNITS_EM } from './lib-w280b-emgrid.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 退役の 🌛 の記録(第292便c のフィット・感度・118 公転)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292c-dragcore-1';
@@ -283,6 +284,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinSplit302();
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN) {
   const OUT_PATH = process.env.W292C_OUT || path.join(ROOT, 'tests', 'out', 'dragcore-w292c.json');
@@ -290,6 +292,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const selfTest = LD.selfTest();
   console.log(`(a) 純関数 ${selfTest.ok}・r=10R の点源との差 ${e3(selfTest.far[0].relToPoint)}(1 次項 ${e3(selfTest.far[0].firstOrder)})`);
   const G = gates(HP);
@@ -368,10 +371,10 @@ if (IS_MAIN && process.argv.includes('--child')) {
     .every((s) => !s.nan && s.ledger && s.ledger.boundOver === 0 && s.ledger.reject === 0 && s.ledger.noHistory === 1);
   const fitOk = fitCore.converged && fitPoint.converged && Math.abs(fitRel) <= 1e-5;
   const out = {
-    meta: null, selfTest, gates: G, fit, hh, sens, long: { gain: gDecl, orbits: RUN.longOrbits, windows: long.windows, ledger: long.ledger, wallSec: long.wallSec, stationary, steps: long.steps },
+    meta: null, stepOrderPin302: PIN302, selfTest, gates: G, fit, hh, sens, long: { gain: gDecl, orbits: RUN.longOrbits, windows: long.windows, ledger: long.ledger, wallSec: long.wallSec, stationary, steps: long.steps },
     kf1, decl: { book: BOOK_ID, base: BASE_ID, run: RUN, fitDecl: FIT, sensDecl: SENS, targetYears: TARGET_YEARS, refKf1Dw8: REF_KF1_DW8 },
     ok: selfTest.ok && G.ok && fitOk && okRuns };
-  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w293e-compose.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w293e-compose.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第292便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: LD.DRAGCORE_LIB_VERSION, engineVersion: HP.DRAG_CORE_VERSION, inertialVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第82報)⑤⑥(慣性決定力版を用意し近点回転 8.85 年にフィットさせる・q に相当する引きずりが近似コアの質量と半径に依存する・🌘 のフィット結果を参考にする)',

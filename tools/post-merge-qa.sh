@@ -101,6 +101,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.semic302 docs.semic302"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.wbgEstimate302 preset.gLocPlanets302 preset.planets3d299 docs.planets3d299 behavior.wbgDirect302 docs.wbgLaw301 behavior.gLoc302"
 # 第302便e(原仮定者の裁定(第92報)・R189 の細目): 枝 e の新設 4 本(behavior.axialSign302 —— 源の軸と Ω の符号の正準化・ui.wheel302 —— 横だけのホイールと θ の向きの反転・lint.stateContract302 —— 状態の契約の登録漏れと持ち越し・lint.retiredRef302 —— 説明文の退役の本の名)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axialSign302 ui.wheel302 lint.stateContract302 lint.retiredRef302"
+# 第302便h(ゲート 1 の FAIL 12 件の処置 —— R186〜R190 の統合後): 新設なし。歴史の記録の器を分割の步に固定して正本を戻した 9 本と世代切替を足した 2 本(⑦ の照合・W_bg の同値移行の署名の記録)・再生成範囲の宣言
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.regenScope docs.dragCoreFit docs.composeContract docs.tideContract docs.inertial3Contract295 preset.fitDerived296 preset.fitCond297 docs.fit297 docs.pn1Contract docs.moon3d298 docs.planets3d299 preset.earthReorg300"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

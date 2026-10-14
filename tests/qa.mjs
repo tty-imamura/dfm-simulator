@@ -71339,8 +71339,18 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const r9 = (JP.rows || []).find((z) => z.id === id);
         if (!r9 || r9.srcIncreased !== false || r9.coord3d299 !== true) bad.push('② 三次元化の記録の本 ' + id + ' の行が「源が増えていない・次元の宣言を三次元へ」でない');
       }
+      // 第302便h(第302便a の同値移行 gain → Wbg —— 原仮定者の裁定(第92報)AN304 ②・R186)の世代(器の版 w291b-pnsources-7 以降): 署名の差を記録だけにした本
+      //   (B.sigChangedByWbg302 —— 器が「署名の差が relativeDrag の強さの鍵の同値移行だけ」を JSON で確かめた本)は、行が慣性決定力の本(inertialLaw)で基点にあり、
+      //   今の html の宣言の強さが Wbg(か enabled:false)で書かれていること(宣言から —— 手書きの一覧を持たない)
+      const w302s = JP.B.sigChangedByWbg302 || [];
+      for (const id of w302s) {
+        const rW = (JP.rows || []).find((z) => z.id === id);
+        const i0W = htmlP.indexOf('{ id:"' + id + '"'), i1W = htmlP.indexOf('\n{ id:', i0W + 10), segW = i0W >= 0 ? htmlP.slice(i0W, i1W > i0W ? i1W : undefined) : '';
+        if (!rW || rW.inBase !== true || rW.inertialLaw !== true) bad.push('② W_bg の移行の記録の本 ' + id + ' の行が「基点にある慣性決定力の本」でない');
+        if (!/relativeDrag:\{[^}]*law:"inertial"[^}]*(Wbg:|enabled:false)/.test(segW)) bad.push('② W_bg の移行の記録の本 ' + id + ' の宣言が Wbg で書かれていない');
+      }
       cases.push(`前後 ${JP.B.bitSame}/${JP.A.n}(差 ${JP.B.changed.length} 本 —— すべて源が増えた本・署名 ${JP.B.sigSame}/${JP.A.n})・照合 ${Number(JP.C.summary.maxRel).toExponential(2)}`
-        + (c3.length ? `・三次元へ移した参照模型 ${c3.length} 本は記録だけ(宣言した差)` : ''));
+        + (c3.length ? `・三次元へ移した参照模型 ${c3.length} 本は記録だけ(宣言した差)` : '') + (w302s.length ? `・強さの鍵を W_bg へ同値移行した慣性決定力の本 ${w302s.length} 本の署名の差は記録だけ` : ''));
       const au = CI.definitionMixAudit();
       if (!(Math.abs(JP.E.closedFormPeriod - au.closedFormPeriod) <= 1e-12 * au.closedFormPeriod && Math.abs(JP.E.closedFormResidual.sec - au.closedFormResidual.sec) <= 1e-12))
         bad.push('③ 正本の閉じた式が lib と違う');
@@ -76389,14 +76399,18 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             const c1 = W(run.runs.ctrlH, 118), c3 = W(run.runs.ctrlH, 354), s1 = W(run.runs.sunH, 118), c2 = W(run.runs.ctrlH2, 118);
             if (![c1, c3, s1, c2].every((w) => w && w.complete)) bad.push('⑦窓が揃わない');
             const m3 = M3 && M3.final && M3.final.h && M3.final.h.w118 ? M3.final.h.w118.T1 : null;
-            if (!(run.check.sameAsMoon3d === true && s1 && s1.T1 === m3)) bad.push(`⑦🌦️ の 118 窓 ${s1 && s1.T1} が第298便c の正本 ${m3} と違う`);
+            // 第302便h(R188 の続き): 本体の既定が semic の世代(器の照合の欄 splitT1 がある正本)では、第298便c の正本は分割の步の記録 —— 照合は 🌦️ に stepOrder:"split" を
+            //   明示した写しの 118 窓(splitT1)で行う(s1 は今の既定 semic の値 —— 観測カードの転記はこちら)
+            const split302 = run.check.splitT1 !== undefined;
+            if (!(run.check.sameAsMoon3d === true && (split302 ? run.check.splitT1 === m3 : (s1 && s1.T1 === m3))))
+              bad.push(`⑦🌦️ の 118 窓 ${split302 ? run.check.splitT1 + '(分割の写し)' : (s1 && s1.T1)} が第298便c の正本 ${m3} と違う`);
             if (run.runs.ctrlH.com && !(run.runs.ctrlH.com.xMax < 1e-4)) bad.push('⑦重心の移動が大きい ' + run.runs.ctrlH.com.xMax);
             const cJa = (C.obsCard || []).map((z) => z.model).join(' '), cEn = ((C.en || {}).obsCard || []).map((z) => z.model).join(' ');
             const need = [fmt(c1.sid, 5), fmt(c1.synUniform, 5), String(Math.round(c1.T1)), fmt(s1.sid, 5), fmt(s1.synUniform, 5), fmt(s1.T1, 4)];
             for (const t of need) { if (cJa.indexOf(t) < 0) bad.push('⑦obsCard(ja)に ' + t + ' が無い'); if (cEn.indexOf(t) < 0) bad.push('⑦obsCard(en)に ' + t + ' が無い'); }
             const row = SSRC && SSRC.rows.earthMoonOnly3d;
             if (!row || row.state.indexOf(fmt(c1.sid, 4)) < 0 || row.state.indexOf(fmt(c1.synUniform, 4)) < 0 || row.evidence[0] !== 'tests/out/emonly-w300b.json') bad.push('⑦原稿の 🌔 の行');
-            cases.push(`正本 ${EMJ.version}: 🌔 118 窓 恒星月 ${fmt(c1.sid, 5)} 日・朔望月(一様)${fmt(c1.synUniform, 5)} 日・近点 ${fmt(c1.T1, 1)} 年(354 窓 ${fmt(c3.T1, 1)}・h/2 ${fmt(c2.T1, 1)})/ 🌦️ ${fmt(s1.sid, 5)}・${fmt(s1.synUniform, 5)}・${fmt(s1.T1, 4)}(= 第298便c の正本)`);
+            cases.push(`正本 ${EMJ.version}: 🌔 118 窓 恒星月 ${fmt(c1.sid, 5)} 日・朔望月(一様)${fmt(c1.synUniform, 5)} 日・近点 ${fmt(c1.T1, 1)} 年(354 窓 ${fmt(c3.T1, 1)}・h/2 ${fmt(c2.T1, 1)})/ 🌦️ ${fmt(s1.sid, 5)}・${fmt(s1.synUniform, 5)}・${fmt(s1.T1, 4)}(= 第298便c の正本${run.check.splitT1 !== undefined ? ' —— 分割の写しで照合・ここは semic の値' : ''})`);
           }
         }
         // ⑧ 文書

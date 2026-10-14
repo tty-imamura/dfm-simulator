@@ -4,67 +4,73 @@
   "wave": "第291便b",
   "target": "beta/index.html",
   "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T07:09:57.635Z",
+  "generatedAt": "2026-10-14T10:45:27.778Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 6826036,
     "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T04:48:49.662Z"
+    "mtime": "2026-10-14T09:38:25.487Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291b-pnsources.mjs",
-    "bytes": 27491,
-    "sha256": "02c9351e54046efe76c1034fac565bfd69fa8184cd190ddd59cd166364619308",
-    "mtime": "2026-10-14T00:03:21.981Z"
+    "bytes": 30298,
+    "sha256": "4dbfd04f305895995e8fbc6de8a66fc689d75adc4f0587713376f5094fa77689",
+    "mtime": "2026-10-14T10:09:24.156Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19554,
     "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
-    "mtime": "2026-10-09T10:19:39.623Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
    },
    {
     "file": "tests/lib-w280d-charoninput.mjs",
     "bytes": 22952,
     "sha256": "53d308ce7d3f14067cb8dc8f038d1b5faad5b80dec087c7fe0835de6cad3150d",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-10-09T10:19:39.603Z"
+    "mtime": "2026-10-14T09:38:25.803Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-14T09:38:25.803Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-10-14T09:38:25.815Z"
    }
   ],
-  "codeSha256": "f048ac640b8099d90286f711df6b9697033d154baa7d98ef6e8070d263b015f6",
-  "harnessVersion": "w291b-pnsources-6",
+  "codeSha256": "da1b7733499ec315a032b2de080e622998ad9164bf0eaad8828152293d1829b4",
+  "harnessVersion": "w291b-pnsources-7",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
   "reading": "統括の検証項目 R133(GR 1PN の源集合 —— 軌道の EIH は全質量源・描画の光線門は不変 —— と 🥶 の残差の分解)",
@@ -228,9 +234,7 @@
    "saturnD68ObsOrbit"
   ],
   "sigSame": 69,
-  "sigDiff": [
-   "inertialDragPair"
-  ],
+  "sigDiff": [],
   "newInNow": [
    "earthMoonTide",
    "earthMoonInertial",
@@ -389,6 +393,9 @@
    "shapeToyDiskCore",
    "shapeToyArmCore",
    "shapeToySpiralCore"
+  ],
+  "sigChangedByWbg302": [
+   "inertialDragPair"
   ],
   "nullPhysicsKF0": [],
   "errors": [],
@@ -5627,7 +5634,7 @@
   "increasedButBitSame": [
    "saturnD68ObsOrbit"
   ],
-  "sigAllSame": false,
+  "sigAllSame": true,
   "oracle1e12": true,
   "mercuryDeltaZero": true,
   "radiusIndependent": true,
@@ -5645,13 +5652,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.084,
+   "wallSec": 0.088,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.148,
+   "wallSec": 0.168,
    "errors": 0
   }
  },
- "elapsedS": 216.046
+ "elapsedS": 150.643
 }

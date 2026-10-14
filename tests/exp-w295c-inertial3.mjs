@@ -32,7 +32,8 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri, runRow } from './lib-w280b-emgrid.mjs';
 import * as SW from './exp-w293d-swing.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonSunInertial","emAuditSolar","mercuryReal","mercurySunInertial","plutoCharonDiagInput","plutoCharonInertial"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 退役 3 本(🌤️🟤🟣)の記録を第295便c と同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonSunInertial","emAuditSolar","mercuryReal","mercurySunInertial","plutoCharonDiagInput","plutoCharonInertial"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w295c-inertial3-1';
@@ -330,6 +331,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinSplit302();
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN) {
   const OUT_PATH = process.env.W295C_OUT || path.join(ROOT, 'tests', 'out', 'inertial3-w295c.json');
@@ -338,6 +340,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(退役の本の記録)は分割の步で測る(子プロセスも同じ)
   const conv = conversion(HP), decl = declGate(HP), ident = proxyIdentity(HP);
   console.log(`換算: C_d,SI ${conv.cdSI} m³/kg・${conv.rows.map((r) => r.emoji + ' gain ' + r.gainDeclared + '(差 ' + ex(r.rel) + ')').join('・')}`);
   for (const d of decl) console.log(`宣言 ${d.emoji} ${d.id}: ok ${d.ok}${d.bad.length ? ' —— ' + d.bad.join(' , ') : ''}・law ${d.run && d.run.law}・実効 ${d.run && d.run.eff}`);
@@ -367,10 +370,10 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const A = assemble(HP, results, J293);
   const G = gates(decl, ident, results, A);
   const timing = Object.fromEntries(Object.entries(results).map(([k, r]) => [k, { wallSec: r.wallSec }]));
-  const out = { meta: null, conversion: conv, decl, proxyIdentity: ident, run: { em: EM_RUN, emConds: EM_CONDS, two: TWO_RUN, books: BOOKS }, ...A, gates: G, ok: G.ok, timing,
+  const out = { meta: null, stepOrderPin302: PIN302, conversion: conv, decl, proxyIdentity: ident, run: { em: EM_RUN, emConds: EM_CONDS, two: TWO_RUN, books: BOOKS }, ...A, gates: G, ok: G.ok, timing,
     inputMapping: '🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる',
     notTarget: '合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない' };
-  const CODE = ['tests/exp-w295c-inertial3.mjs', 'tests/exp-w293d-swing.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w295c-inertial3.mjs', 'tests/exp-w293d-swing.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第295便c', target: TARGET, code: CODE, inputs: [TARGET, IN293] }), {
     harnessVersion: HARNESS_VERSION, swingVersion: SW.HARNESS_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, coreVersion: HP.DRAG_CORE_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第85報)「慣性決定力版サンプルを追加する。対象は、地球と月と太陽、水星と太陽、冥王星とカロン」',

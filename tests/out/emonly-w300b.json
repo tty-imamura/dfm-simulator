@@ -106,7 +106,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.003
+   "wallSec": 0.002
   },
   "run": {
    "short": false,
@@ -159,7 +159,7 @@
        "synUniform": 29.71902641762949
       }
      ],
-     "wallSec": 16.859
+     "wallSec": 13.794
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -192,7 +192,7 @@
        "synUniform": 29.71902724603339
       }
      ],
-     "wallSec": 11.961
+     "wallSec": 9.254
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -225,7 +225,7 @@
        "synUniform": 29.71997237806438
       }
      ],
-     "wallSec": 5.162
+     "wallSec": 3.86
     },
     "sunH": {
      "key": "sun3d-h",
@@ -254,15 +254,49 @@
        "synUniform": 29.53058658942645
       }
      ],
-     "wallSec": 6.256
+     "wallSec": 4.685
+    },
+    "sunHsplit": {
+     "key": "sun3d-h-split",
+     "dt": 0.016,
+     "revN": 118,
+     "steps": 1741368,
+     "nan": false,
+     "warnings": [
+      "fitRecord の条件の署名が本の宣言と一致しません(以前の条件でのフィット —— 条件が変わった後は未再測定。記録は残します)"
+     ],
+     "com": null,
+     "windows": [
+      {
+       "N": 118,
+       "complete": true,
+       "nPeri": 118,
+       "T1": 8.850002272639843,
+       "rms1": 16.731516378201334,
+       "T2": 8.827582086590809,
+       "rms2": 13.47386183890457,
+       "T3": 8.562899111550692,
+       "sid": 27.321661471052362,
+       "anom": 27.56243773974957,
+       "eOsc": 0.05490000752940848,
+       "ePA": 0.05517692442170445,
+       "aOsc": 3.834514660539988,
+       "incMean": 5.145001530890854,
+       "synUniform": 29.530588764262017
+      }
+     ],
+     "wallSec": 6.967
     }
    },
    "check": {
-    "moon3dT1": 8.85000285367315,
+    "moon3dT1": 8.850002272639843,
     "sunT1": 8.85000284789113,
-    "sameAsMoon3d": false,
-    "moon3dSid": 27.321660565635998,
-    "sunSid": 27.32165960940924
+    "sameAsMoon3d": true,
+    "moon3dSid": 27.321661471052362,
+    "sunSid": 27.32165960940924,
+    "stepOrder302": "第302便h: 第298便c の正本は分割の步の記録 —— 照合は 🌦️ に stepOrder:\"split\" を明示した写し(sun3d-h-split)の 118 公転窓で行った",
+    "splitT1": 8.850002272639843,
+    "splitSid": 27.321661471052362
    },
    "realSunSynodic": {
     "source": "tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)",
@@ -304,77 +338,77 @@
     "sid": 0.000002485017173370352,
     "synUniform": 0.0000029058546680005293
    },
-   "wallSec": 40.241
+   "wallSec": 38.565
   }
  },
  "timing": {
-  "wallSec": 42.104
+  "wallSec": 40.073
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
   "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T06:52:41.129Z",
+  "generatedAt": "2026-10-14T10:27:30.744Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 6826036,
     "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T04:48:49.662Z"
+    "mtime": "2026-10-14T09:38:25.487Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26106,
-    "sha256": "472c6169ad6db9b876261031700bf509ae0e2f71d945df37ba935ca7f50c8b51",
-    "mtime": "2026-10-14T05:57:40.922Z"
+    "bytes": 26551,
+    "sha256": "973c6f919e0376ef9a9fd7ae7a196aa7782dd31f5fa0ef858ee7bc2dfd82aaec",
+    "mtime": "2026-10-14T09:57:39.965Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
     "bytes": 34325,
     "sha256": "8aa74b8663ed1f9ac4c05b65ef25f371870436695e31ac79af01fc5e051c1ce3",
-    "mtime": "2026-10-14T06:51:56.846Z"
+    "mtime": "2026-10-14T09:38:25.963Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w300b-emonly.mjs",
-    "bytes": 21367,
-    "sha256": "de0e4fdaa6918c62b2fd9f860c669c7fd7d724160afb2d6a07ed505fb0081f66",
-    "mtime": "2026-10-14T01:39:42.881Z"
+    "bytes": 22575,
+    "sha256": "d408ab77ae29707be906fcc8933418c9a13b65c737d04bc4798353f064bcb7f8",
+    "mtime": "2026-10-14T09:50:09.693Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-14T09:38:25.807Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-14T00:03:21.993Z"
+    "mtime": "2026-10-14T09:38:25.815Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-14T09:38:25.803Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-14T09:38:25.811Z"
    }
   ],
-  "codeSha256": "e55f1b2cb1de1c57c487a08c43fc6e43fcae1bf828bbfaa1650b6c6f607cbf7c",
+  "codeSha256": "250dc756cc8e6fb0b8ba2b23c9fc16c0e945a48df786fe056e4a7ac467423ee8",
   "harnessVersion": "w300b-emonly-1",
   "extractorVersion": "w300b-em3-1",
   "parts": [
@@ -411,6 +445,7 @@
     "FIT_TOL_KEYS",
     "HP.coord3d",
     "HP.dfmMeshVelocityFieldAt",
+    "HP.relDragStepOrderOf",
     "HP.sim",
     "HP.synodic",
     "HP.validatePreset",
@@ -427,12 +462,12 @@
    "segments": 1179,
    "closureShare": 0.3218
   },
-  "scopeSha256": "3053330f8754a1c87f007ced76b9c26460fa6aee40af4770d56b17b82d2f2a79",
+  "scopeSha256": "a4f402b5e8f45995611e66fa20251993758113092cd732aaa606cfa11d9444e1",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "f6de192d5a653ace9a0f2a4da6180b649e155a161077a604c50791f4ea671119",
+    "stableSha256": "31d6e30a6180edadf8cce52521905d31e3de7dbc32f8a2d3602ce49bb2fb052e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -463,5 +498,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 42.104
+ "elapsedS": 40.073
 }

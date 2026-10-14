@@ -31,7 +31,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は 🌔・🌦️(id で引く)
-const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.synodic","HP.validatePreset","T","ctx","cw","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validatePreset","T","ctx","cw","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w300b-emonly-1';
@@ -219,18 +219,27 @@ export async function main() {
       const ctrlH2 = go('ctrl-h2', ctrl, { dt: DT2, revMax: rv(118), wins: [118], ci: 0, oi: 1, com: true });
       const ctrlG0 = go('ctrl-gain0', g0, { dt: DT, revMax: rv(118), wins: [118], ci: 0, oi: 1, com: true });
       const sunH = go('sun3d-h', src, { dt: DT, revMax: rv(118), wins: [118], ci: 1, oi: 2, com: false });
+      // 第302便h(R188 の続き): 本体の既定が semic の世代では、第298便c の正本(🌦️ のフィットの記録)は分割の步の値(器 tests/exp-w298c-moon3d.mjs が分割に固定)。
+      //   照合は同じ 🌦️ に stepOrder:"split" を明示した写しの走りで行う(sunH は今の既定〔semic〕の値 —— 観測カードと太陽の有無の差はこちら)
+      const gen302 = typeof globalThis.relDragStepOrderOf === 'function';
+      const srcSplit = clone(src); if (gen302) srcSplit.physics.relativeDrag.stepOrder = 'split';
+      const sunHsplit = gen302 ? go('sun3d-h-split', srcSplit, { dt: DT, revMax: rv(118), wins: [118], ci: 1, oi: 2, com: false }) : null;
       // 照合: 🌦️ の 118 窓の近点周期 = 第298便c の正本(写した抽出器が同じ数を出すか)。🌦️ の実際の太陽の方向の朔望月は第299便b の正本の段 sun3d を参照値として写す
       let m3 = null, syn = null;
       try { m3 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'moon3d-w298c.json'), 'utf8')); } catch (e) { /* 無い世代 */ }
       try { syn = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'synodic-w299b.json'), 'utf8')); } catch (e) { /* 無い世代 */ }
       const ref298 = m3 && m3.final && m3.final.h && m3.final.h.w118 ? m3.final.h.w118 : null;
-      const check = { moon3dT1: ref298 ? ref298.T1 : null, sunT1: W(sunH, 118) ? W(sunH, 118).T1 : null, sameAsMoon3d: !REV && !!ref298 && W(sunH, 118) && W(sunH, 118).T1 === ref298.T1,
-        moon3dSid: ref298 ? ref298.sid : null, sunSid: W(sunH, 118) ? W(sunH, 118).sid : null };
+      const wS = sunHsplit ? W(sunHsplit, 118) : null;
+      const check = { moon3dT1: ref298 ? ref298.T1 : null, sunT1: W(sunH, 118) ? W(sunH, 118).T1 : null,
+        sameAsMoon3d: !REV && !!ref298 && (gen302 ? (!!wS && wS.T1 === ref298.T1 && wS.sid === ref298.sid) : (!!W(sunH, 118) && W(sunH, 118).T1 === ref298.T1)),
+        moon3dSid: ref298 ? ref298.sid : null, sunSid: W(sunH, 118) ? W(sunH, 118).sid : null,
+        ...(gen302 ? { stepOrder302: '第302便h: 第298便c の正本は分割の步の記録 —— 照合は 🌦️ に stepOrder:"split" を明示した写し(sun3d-h-split)の 118 公転窓で行った',
+          splitT1: wS ? wS.T1 : null, splitSid: wS ? wS.sid : null } : {}) };
       const sun3dSyn = syn && syn.parts && syn.parts.sun3d ? syn.parts.sun3d : null;
       const realSun = sun3dSyn ? { source: 'tests/out/synodic-w299b.json の段 sun3d(第299便b —— 地心から太陽への方位で数えた合)', windows: sun3dSyn.real || sun3dSyn.windows || null } : null;
       const c118 = W(ctrlH, 118), s118 = W(sunH, 118);
       const diff = (k) => (c118 && s118 && Number.isFinite(c118[k]) && Number.isFinite(s118[k])) ? s118[k] - c118[k] : null;
-      return { short: !!REV, runs: { ctrlH, ctrlH2, ctrlG0, sunH }, check, realSunSynodic: realSun,
+      return { short: !!REV, runs: Object.assign({ ctrlH, ctrlH2, ctrlG0, sunH }, sunHsplit ? { sunHsplit } : {}), check, realSunSynodic: realSun,
         sunEffect: { note: '太陽の有無の差 = 🌦️(太陽あり)− 対照(太陽なし)—— 同じ抽出器・h・118 公転窓', T1: diff('T1'), sid: diff('sid'), synUniform: diff('synUniform'), eOsc: diff('eOsc'), incMean: diff('incMean') },
         h2: { note: '対照の h/2 差(118 公転窓)', T1: Math.abs(W(ctrlH2, 118).T1 - c118.T1), sid: Math.abs(W(ctrlH2, 118).sid - c118.sid), synUniform: Math.abs(W(ctrlH2, 118).synUniform - c118.synUniform) } };
     },
