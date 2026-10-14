@@ -23,15 +23,17 @@
 //     σ と数値の誤差(h/h2/h4)の両方で(σ が数値の誤差より小さい行は「数値の精度の内」—— σ の合否と言わない)
 //   N G_loc の候補(変種 B の上): n ∈ {0, +1〔cRatio —— G·c_loc/c₀〕, −1, −2, +2, −3} —— 水星で λ を合わせ直し・移送の予言・近点のうち引きずりが担う割合
 //     (門: 引きずりが主 —— 過半)・恒星周期と近点周期と離心率の変化・帳簿(W・gLocWork・R_E)
-//   E 地球–月(🌦️ —— 定数の W_bg のフィット)と冥王星–カロン(🟪 —— 周期の標的)で各読みが要る λ の逆算(標的の量が近日点の 1PN と違う)・
+//   E 地球–月(🌦️ —— 基線の残差と照合許容に対し、各読みの予言 Δ が収まるか)と冥王星–カロン(🟪 —— 周期の標的)・
 //     🌔(太陽が背景側 —— env.bodies に 1 au の太陽)へ水星の λ を移したときの月の ξ と走行(🌦️ の W_bg を他の本へ写さない —— 写すのは λ)
+//   K 多体の一般化の注: 🌦️ の写し(pairs 全対)を 1 步 —— 地球の受け手の ξ(太陽から)を月あり/月なし/地球–月の対なし で、λ ∝ m と普遍の λ で読む・
+//     対ごとの正規化 ξ_ij = w_D,ij/(W_bg + w_I,ij) の式の値・火星と木星の衛星の解析の型
 //
 // ■ しないこと・言わないこと
 //   ・在位の本の宣言を変えない(器の写しだけ)。W_bg を本から本へ写さない(写すのは λ)。標的(照合規約 43.0″/世紀)を書き換えない。
 //   ・形が同じこと(距離・離心率の依存)と値が合うこと(量・窓・σ・数値の誤差)を分けて数で書く。届かないものは「この探索範囲では未達 —— 次の見直し」。
 //
 // 実行(Node だけ・1 プロセス):
-//   node tests/exp-w303b-inertialr2.mjs          → 正本 tests/out/inertialr2-w303b.json(W303B_OUT で出力先を変える・W303B_PARTS=Z,M,T,N,E で段を選ぶ —— 正本は全段・
+//   node tests/exp-w303b-inertialr2.mjs          → 正本 tests/out/inertialr2-w303b.json(W303B_OUT で出力先を変える・W303B_PARTS=Z,M,T,N,E,K で段を選ぶ —— 正本は全段・
 //   W303B_QUICK=1 は刻みを h・h/2 に縮めた試走 —— 正本にしない)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -49,7 +51,7 @@ const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w303b-inertialr2-1';
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
-const PARTS = (process.env.W303B_PARTS || 'Z,M,T,N,E').split(',');
+const PARTS = (process.env.W303B_PARTS || 'Z,M,T,N,E,K').split(',');
 const QUICK = process.env.W303B_QUICK === '1';
 export const DIVS = QUICK ? [1, 2] : [1, 2, 4];
 const clone = (x) => JSON.parse(JSON.stringify(x));
@@ -561,6 +563,70 @@ export function partE(HP, M, log = console.log) {
   return out;
 }
 
+/* ── 段 K: 多体の一般化の注(λ ∝ m の w_I は源の質量によらない —— 近い天体が分母を支配するか: 1 步の読み口)── */
+// 🌦️ の写し(太陽 pinned 0・地球 1・月 2 —— 宣言の写しだけ: pairs を全対・W_bg = W_ext・inertialR2 を差し替え)を 1 步走らせ、
+// inertialR2State の地球の受け手の行(w_I・w_D・ξ)を読む。地球の ξ(太陽から)= m☉K(r_E☉)/(W_bg + Σ_j w_I,j)(分母は読み口の値)。
+// 構成: 月あり(sources "all")/月なし(太陽+地球)/地球–月の対を外す(pairs [[0,1],[0,2]]・sources "pairs")。読み: λ ∝ m(水星の k)・普遍の λ(水星の λ)。
+// 対ごとの正規化 ξ_ij = w_D,ij/(W_bg + w_I,ij)(重ね合わせ —— **器の解法には入れていない・同じ位置で式だけ**)も並べる。
+// 火星–フォボス・ダイモスと木星–ガリレオ衛星は解析(本 marsMoonsReal・jupiterGalilean の初期の衛星の接触要素の a と、惑星の近似要素の a —— 太陽は本にいない)。
+export const K_READS = Object.freeze([{ key: 'Br', label: 'λ ∝ m(水星の k)' }, { key: 'B', label: '普遍の λ(水星の λ)' }]);
+export const K_CFGS = Object.freeze([
+  Object.freeze({ key: 'withMoon', label: '太陽+地球+月(pairs 全対・sources "all")', bodies: [0, 1, 2], pairs: 'all', sources: 'all' }),
+  Object.freeze({ key: 'noMoon', label: '太陽+地球(月を外す)', bodies: [0, 1], pairs: 'all', sources: 'all' }),
+  Object.freeze({ key: 'pairsNoEM', label: '太陽+地球+月(pairs [[0,1],[0,2]]・sources "pairs" —— 地球–月の対を外す)', bodies: [0, 1, 2], pairs: [[0, 1], [0, 2]], sources: 'pairs' }),
+]);
+export function partK(HP, M, log = console.log) {
+  const rB = M ? M.rows.find((r) => r.variant === 'B') : null, rBr = M ? M.rows.find((r) => r.variant === 'Br') : null;
+  const lamB = rB ? rB.x : 4431.88, kBr = rBr ? rBr.x : 3.001352;
+  const p0 = find(HP, 'earthMoonSunInertial3d'), base = clone(p0); delete base.fitRecord; delete base.physics.gLoc;
+  const L = lenM(base), G = base.physics.G, c0 = base.physics.cLight, eps = base.physics.relativeDrag.eps, e2 = eps * eps;
+  const wExt = wExtOf(HP, base).book, Kf = (r) => r / ((r * r + e2) ** 2);
+  const i2Of = (read, cfg) => Object.assign(read === 'Br' ? { lambdaRs: kBr } : { lambda: lamB / L }, { sources: cfg.sources });
+  const mk = (read, cfg) => { const q = clone(base); q.bodies = cfg.bodies.map((i) => clone(base.bodies[i]));
+    if (cfg.bodies.length === 2) { q.timeRef = Object.assign({}, q.timeRef, { pair: [0, 1] }); q.orbitObs = Object.assign({}, q.orbitObs, { center: 0, orbiter: 1 }); }
+    q.physics.relativeDrag = { law: 'inertial', Wbg: wExt, eps, history: 'positions', pairs: clone(cfg.pairs), inertialR2: i2Of(read, cfg) };
+    return q; };
+  const pn1E = pn1Formula(base).arcsecCy;   // 地球の近日点の 1PN の式(太陽と地球 —— 月は数えない)
+  const rows = [];
+  for (const rd of K_READS) for (const cfg of K_CFGS) {
+    const q = mk(rd.key, cfg), i2 = q.physics.relativeDrag.inertialR2, S = stepU(HP, q, 1), st = HP.inertialR2State(S);
+    const d = (i, j) => Math.hypot(S.x[j] - S.x[i], S.y[j] - S.y[i], S.z[j] - S.z[i]), Q = (m) => HP.inertialR2Q(i2, m, G, c0);
+    const hasM = cfg.bodies.length === 3, emPair = hasM && cfg.pairs === 'all', mS = S.m[0], mM = hasM ? S.m[2] : 0;
+    const rES = d(1, 0), rEM = hasM ? d(1, 2) : null, E = st.receivers.find((r) => r.i === 1), Mo = hasM ? st.receivers.find((r) => r.i === 2) : null;
+    const wDSun = mS * Kf(rES), wDMoon = emPair ? mM * Kf(rEM) : 0, wISun = Q(mS) / (rES * rES + e2), wIMoon = (hasM && (cfg.sources === 'all' || emPair)) ? Q(mM) / (rEM * rEM + e2) : 0;
+    const den = st.Wbg + E.wI;
+    rows.push({ read: rd.key, cfg: cfg.key, label: rd.label + '・' + cfg.label, decl: i2, i2Steps: st.steps, rES, rEM, Wbg: st.Wbg, wI: E.wI, wD: E.wD, xi: E.xi,
+      wISun, wIMoon, wDSun, wDMoon, xiSun: wDSun / den, moonShareOfDen: wIMoon / E.wI, wbgShareOfDen: st.Wbg / den,
+      relErrWI: Math.abs((wISun + wIMoon) / E.wI - 1), relErrWD: Math.abs((wDSun + wDMoon) / E.wD - 1), xiMoonReceiver: Mo ? Mo.xi : null,
+      pairNorm: { sun: wDSun / (st.Wbg + wISun), moon: hasM ? mM * Kf(rEM) / (st.Wbg + Q(mM) / (rEM * rEM + e2)) : null,
+        sunForm: (rd.key === 'Br') ? kBr * rsBook(base, mS) / rES : (lamB / L) / rES, moonForm: hasM ? ((rd.key === 'Br') ? kBr * rsBook(base, mM) / rEM : (lamB / L) / rEM) : null } });
+  }
+  for (const r of rows) { const ref = rows.find((z) => z.read === r.read && z.cfg === 'noMoon'); r.ratioToNoMoon = r.xiSun / ref.xiSun; r.pn1Times = pn1E * r.ratioToNoMoon; }
+  for (const r of rows) log(`K ${r.read} ${r.cfg}: 地球の分母 ${(r.Wbg + r.wI).toExponential(4)}(月の割合 ${r.moonShareOfDen.toExponential(3)}・W_bg の割合 ${r.wbgShareOfDen.toExponential(2)})・ξ(太陽から)${r.xiSun.toExponential(4)}・月なしとの比 ${r.ratioToNoMoon.toExponential(4)}・1PN × 比 ${r.pn1Times.toExponential(3)}″/世紀・ξ(全)${r.xi.toExponential(3)}・読み口の照合 ${r.relErrWI.toExponential(1)}/${r.relErrWD.toExponential(1)}・対ごと ξ☉ ${r.pairNorm.sun.toExponential(3)} ξ月 ${r.pairNorm.moon === null ? '—' : r.pairNorm.moon.toExponential(3)}`);
+  // 解析の型(火星・木星 —— 衛星の本には太陽がいない: 惑星の太陽からの a は近似要素・衛星の距離は本の初期の接触要素の a)
+  const oscA = (p, ci, oi) => { const b0 = p.bodies[ci], b1 = p.bodies[oi], mu = p.physics.G * (b0.m + b1.m);
+    const rv = [b1.x - b0.x, b1.y - b0.y, (b1.z || 0) - (b0.z || 0)], vv = [b1.vx - b0.vx, b1.vy - b0.vy, (b1.vz || 0) - (b0.vz || 0)];
+    const r = Math.hypot(...rv), v2 = vv[0] ** 2 + vv[1] ** 2 + vv[2] ** 2; return { a: 1 / (2 / r - v2 / mu), r }; };
+  const mSunSI = base.bodies[0].m * Math.pow(10, base.scaleExp.M);
+  const sysOf = (key, ja, aSI, pn1, moons, note) => { const Fr = moons.reduce((s, z) => s + (aSI / z.aSI) ** 2, 0), Fu = moons.reduce((s, z) => s + (z.mSI / mSunSI) * (aSI / z.aSI) ** 2, 0);
+    return { key, ja, aSI, pn1, moons, Fr, ratioR: 1 / (1 + Fr), pn1TimesR: pn1 / (1 + Fr), Fu, ratioU: 1 / (1 + Fu), note }; };
+  const systems = [];
+  { const oM = oscA(base, 1, 2); systems.push(sysOf('earth', '地球–月(🌦️ の初期)', rowOf(rows, 'Br', 'noMoon').rES * L, pn1E,
+      [{ ja: '月', aSI: oM.a * L, rSI: oM.r * L, mSI: base.bodies[2].m * Math.pow(10, base.scaleExp.M) }], '太陽からの距離は 🌦️ の初期の地球–太陽の距離')); }
+  for (const [id, pk, names] of [['marsMoonsReal', 'mars', ['フォボス', 'ダイモス']], ['jupiterGalilean', 'jupiter', ['イオ', 'エウロパ', 'ガニメデ', 'カリスト']]]) {
+    const p = find(HP, id); if (!p) continue;
+    const Lp = lenM(p), Mp = Math.pow(10, p.scaleExp.M), aSI = P3.planetOf(pk).el.a * P3.AU_M, pn1 = pn1Formula(baseOf(HP, P3.planetOf(pk).id)).arcsecCy;
+    const moons = names.map((ja, k) => { const o = oscA(p, 0, k + 1); return { ja, aSI: o.a * Lp, rSI: o.r * Lp, mSI: p.bodies[k + 1].m * Mp }; });
+    systems.push(sysOf(pk, (pk === 'mars' ? '火星–' : '木星–') + names.join('・'), aSI, pn1, moons,
+      pk === 'mars' ? '衛星の質量は本の宣言(1e19 kg —— 実の質量より大きい代用)—— 普遍の λ の欄は上限' : '衛星の質量は本の宣言'));
+  }
+  for (const s of systems) log(`K 解析 ${s.ja}: λ∝m Σ(a/r)² ${s.Fr.toExponential(3)} → 比 ${s.ratioR.toExponential(3)}(1PN ${s.pn1.toFixed(4)} × 比 = ${s.pn1TimesR.toExponential(3)}″/世紀)・普遍の λ Σ(m/M☉)(a/r)² ${s.Fu.toExponential(3)}`);
+  return { id: p0.id, emoji: p0.emoji, lambdaM: lamB, kBr, wExt, eps, lenM: L, pn1Earth: pn1E, reads: K_READS, cfgs: K_CFGS, rows, systems,
+    quantity: '1 步の後の受け手の読み口(inertialR2State —— 地球の行)と、同じ位置での式。近点の走行はしない(比は近日点の引きずり分の比 —— 変種 B・λ ∝ m の近点は ξ に比例)',
+    note: 'pairNorm は対ごとの正規化 ξ_ij = w_D,ij/(W_bg + w_I,ij) の式の値(器の解法には入れていない)。sunForm/moonForm は W_bg を落とした極限(λ ∝ m: k r_s(m_j)/r・普遍の λ: λ/r)' };
+}
+const rowOf = (rows, read, cfg) => rows.find((z) => z.read === read && z.cfg === cfg);
+
 /* ── 文書の表(docs/PHYSICS.md〔第303便b〕に貼る表と、QA docs.inertialR2_303 が照合する数の文字列 —— 同じ関数)── */
 export const fmtX = (r) => String(r.x);
 export const fmtRs = (x) => Number(x).toFixed(4);
@@ -605,8 +671,18 @@ export function physicsTables(J) {
     for (const r of E.plutoCharon.rows) out.push(`| ${r.read} | ${fmtE(r.xiCharon, 3)} | ${r.periods.map((x) => x.toFixed(5)).join(' / ')} | ${fmtE(r.diff, 3)} | ${r.judge ? r.judge.text : '—'} |`);
     out.push('');
   }
+  const K = J.manyBody;
+  if (K) {
+    out.push('| 読み・構成(🌦️ の写し・1 步の読み口) | 地球の分母 W_bg + Σw_I(うち月の割合) | 地球の ξ(太陽から) | 月なしとの比 | 1PN の式 × 比 [″/世紀] | 対ごとの正規化なら ξ(太陽から) / ξ(月から) |', '|---|---|---|---|---|---|');
+    for (const r of K.rows) out.push(`| ${KLAB[r.read]}・${KLAB[r.cfg]} | ${fmtE(r.Wbg + r.wI, 4)}(${fmtP(r.moonShareOfDen)}) | ${fmtE(r.xiSun, 4)} | ${fmtE(r.ratioToNoMoon, 4)} | ${fmtE(r.pn1Times, 3)} | ${fmtE(r.pairNorm.sun, 3)} / ${r.pairNorm.moon === null ? '—' : fmtE(r.pairNorm.moon, 3)} |`);
+    out.push('');
+    out.push('| 系(解析 —— 衛星の距離は初期の接触要素の a) | 太陽からの a [m] | 衛星の a [m] | λ ∝ m: Σ(a/r)² | ξ(太陽から)の比 1/(1+Σ) | 1PN の式 × 比 [″/世紀] | 普遍の λ: Σ(m/M☉)(a/r)² |', '|---|---|---|---|---|---|---|');
+    for (const z of K.systems) out.push(`| ${z.ja} | ${fmtE(z.aSI, 4)} | ${z.moons.map((q) => q.ja + ' ' + fmtE(q.aSI, 3)).join('・')} | ${fmtE(z.Fr, 3)} | ${fmtE(z.ratioR, 3)} | ${fmtE(z.pn1TimesR, 2)}(1PN ${z.pn1.toFixed(4)}) | ${fmtE(z.Fu, 3)}${z.key === 'mars' ? '(上限 —— 本の代用の質量)' : ''} |`);
+    out.push('');
+  }
   return out.join('\n');
 }
+const KLAB = { Br: 'λ ∝ m', B: '普遍の λ', withMoon: '月あり', noMoon: '月なし', pairsNoEM: '地球–月の対なし(sources "pairs")' };
 /** QA docs.inertialR2_303 が PHYSICS〔第303便b〕の中に探す数の文字列(表と同じ書式)。 */
 export function docNumbers(J) {
   const out = [];
@@ -616,6 +692,8 @@ export function docNumbers(J) {
     for (const id of ['venusSunInertial3d', 'marsSunInertial3d']) { const r = tb.rows.find((z) => z.id === id); if (r) out.push(fmtP(r.pred)); }
   for (const r of J.gLocTable.rows) if (r.fit.reachable) out.push(fmtRs(r.fit.lambdaOverRs), fmtPct(r.fit.dragFrac));
   if (J.earthMoon && J.earthMoon.earthMoonSun) for (const r of J.earthMoon.earthMoonSun.rows) out.push(fmtE(r.xiMoon, 3));
+  if (J.manyBody) { for (const r of J.manyBody.rows) if (r.cfg === 'withMoon') out.push(fmtE(r.ratioToNoMoon, 4), fmtE(r.xiSun, 4));
+    for (const z of J.manyBody.systems) out.push(fmtE(z.Fr, 3), fmtE(z.Fu, 3)); }
   return [...new Set(out)];
 }
 
@@ -635,6 +713,7 @@ if (IS_MAIN) {
   else if (process.env.W303B_M_FROM && out.mercury) out.transfer = JSON.parse(fs.readFileSync(process.env.W303B_M_FROM, 'utf8')).transfer;
   if (PARTS.includes('N') && out.mercury && out.transfer) out.gLocTable = timed('N', () => partN(HP, out.mercury, out.transfer));
   if (PARTS.includes('E') && out.mercury) out.earthMoon = timed('E', () => partE(HP, out.mercury));
+  if (PARTS.includes('K')) out.manyBody = timed('K', () => partK(HP, out.mercury || null));
   const gates = {};
   if (out.zero) {
     const Z = out.zero;
@@ -651,6 +730,8 @@ if (IS_MAIN) {
   if (out.transfer) gates.transferMeasured = out.transfer.table.every((t) => t.rows.length === TRANSFER.length && t.rows.every((r) => Number.isFinite(r.pred)));
   if (out.gLocTable) gates.gLocFits = out.gLocTable.rows.filter((r) => r.fit.reachable).every((r) => r.fit.gate) && out.gLocTable.rows.some((r) => r.n === 1 && r.transfer.length === TRANSFER.length);
   if (out.earthMoon) gates.earthMoonTable = out.earthMoon.earthMoonSun.rows.every((r) => Number.isFinite(r.dT1) && Number.isFinite(r.xiMoon)) && out.earthMoon.plutoCharon.rows.every((r) => Number.isFinite(r.period)) && Number.isFinite(out.earthMoon.earthMoonOnly.xiMoonB);
+  if (out.manyBody) gates.manyBodyReadout = out.manyBody.rows.length === K_READS.length * K_CFGS.length && out.manyBody.rows.every((r) => r.relErrWI < 1e-12 && r.relErrWD < 1e-12 && r.i2Steps > 0 && Number.isFinite(r.xiSun) && Number.isFinite(r.ratioToNoMoon))
+    && out.manyBody.systems.length === 3 && out.manyBody.systems.every((z) => Number.isFinite(z.Fr) && Number.isFinite(z.Fu));
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
   const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];

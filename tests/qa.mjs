@@ -78375,14 +78375,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(J.version === H.HP.REL_DRAG_I2_VERSION && J.harnessVersion === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1')) bad.push('正本の版・来歴');
         if (!(J.ok === true && Object.values(J.gates || {}).every(Boolean))) bad.push('正本の門 ' + JSON.stringify(J.gates));
         if (J.quick || (J.meta && J.meta.quick)) bad.push('正本が試走(W303B_QUICK)');
-        for (const k of ['zero', 'mercury', 'transfer', 'gLocTable', 'earthMoon']) if (!J[k]) bad.push('正本に段 ' + k + ' が無い');
+        for (const k of ['zero', 'mercury', 'transfer', 'gLocTable', 'earthMoon', 'manyBody']) if (!J[k]) bad.push('正本に段 ' + k + ' が無い');
         const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), a = Pd.indexOf('〔第303便b — ');
         const e = (a >= 0) ? [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. ', a)].filter((k) => k > a) : [];
         const psec = (a >= 0) ? Pd.slice(a, e.length ? Math.min(...e) : undefined) : '';
         if (!psec) bad.push('PHYSICS〔第303便b〕が無い');
         else {
           if (!(a < Pd.indexOf('\n## 7. '))) bad.push('〔第303便b〕が「## 7.」の前に無い');
-          for (const w of ['physics.relativeDrag.inertialR2', 'w_I', 'lambdaRs', 'self', 'env', 'cRatio', 'inertialr2-w303b.json', '変種 A', '変種 B', '形が同じ', 'EPM2011', '数値の精度の内', '引きずりが主'])
+          for (const w of ['physics.relativeDrag.inertialR2', 'w_I', 'lambdaRs', 'self', 'env', 'cRatio', 'inertialr2-w303b.json', '変種 A', '変種 B', '形が同じ', 'EPM2011', '数値の精度の内', '引きずりが主', '段 K', '対ごとの正規化'])
             if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第303便b〕に「' + w + '」が無い');
           if (J.mercury && J.transfer && J.gLocTable) { const nums = X.docNumbers(J), miss = nums.filter((t) => psec.indexOf(t) < 0); if (miss.length) bad.push('PHYSICS〔第303便b〕に正本の数が無い: ' + miss.slice(0, 6).join(' ')); else cases.push(`PHYSICS の表の数 ${nums.length} 個が正本と一致`); }
         }
