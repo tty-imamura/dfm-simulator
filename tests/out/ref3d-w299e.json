@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便e",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:42:42.813Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T07:13:08.426Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    },
    {
     "file": "tests/data-w299e-ref2d.json",
     "bytes": 15559,
     "sha256": "1fe8beae79f0dd3c127feaa6f320f77b247e1162077448bf672adaa3dac96d58",
-    "mtime": "2026-10-11T18:40:40.051Z"
+    "mtime": "2026-10-14T00:03:21.977Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w299e-ref3d.mjs",
     "bytes": 24578,
     "sha256": "56a261d2a60576545798c6618eb0fc1ccae24da29c46a8068ee92051e402205e",
-    "mtime": "2026-10-11T18:40:40.191Z"
+    "mtime": "2026-10-14T00:03:21.985Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
   "codeSha256": "839cdbc46034894ae9fa1aeaaf612077e0a1d9681abac274650df01f94b10f35",
@@ -87,11 +87,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1239,
-   "segments": 1126,
-   "closureShare": 0.3189
+   "names": 1292,
+   "segments": 1171,
+   "closureShare": 0.3223
   },
-  "scopeSha256": "e25d5c1176c2e02cddab737606a6bfe0cd63479638ca83596fa6576bf2ecbdca",
+  "scopeSha256": "d8ab75499e8fd2c48d475ea6ee0d2e6079651e956410248f32a3e7cc8f88ae99",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1125,5 +1125,5 @@
   "accepted": true
  },
  "ok": true,
- "elapsedS": 75.372
+ "elapsedS": 60.473
 }

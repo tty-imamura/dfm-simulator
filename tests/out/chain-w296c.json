@@ -3,67 +3,67 @@
   "provenanceVersion": "w272e-1",
   "wave": "第296便c",
   "target": "beta/index.html",
-  "targetSha256": "37fb39e679a1d53ba55bba8a792c7f3a548421c7ff9716a0ef71a5b7ed33d616",
-  "generatedAt": "2026-10-14T02:32:10.557Z",
+  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+  "generatedAt": "2026-10-14T07:13:24.618Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6751386,
-    "sha256": "37fb39e679a1d53ba55bba8a792c7f3a548421c7ff9716a0ef71a5b7ed33d616",
-    "mtime": "2026-10-14T02:00:35.757Z"
+    "bytes": 6826036,
+    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
+    "mtime": "2026-10-14T04:48:49.662Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w296c-chain.mjs",
-    "bytes": 34776,
-    "sha256": "bc528af2d39e11622c452c474473b5f3ccf653b7358f8b70b0060982912c94d8",
-    "mtime": "2026-10-14T00:06:00.229Z"
+    "bytes": 34891,
+    "sha256": "822a234696c97317a943dba4d6ad969be3377614e08ce5edc404b64ef90bb8fa",
+    "mtime": "2026-10-14T01:39:42.833Z"
    },
    {
     "file": "tests/lib-w296c-chain.mjs",
     "bytes": 12258,
     "sha256": "b97d6a39c925bcf1ad56705d8b31f3364940c3fcd3b5879a872e6f9042a5412e",
-    "mtime": "2026-10-14T00:06:00.269Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-14T00:06:00.261Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-10-14T00:06:00.261Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-14T00:06:00.261Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w293e-compose.mjs",
     "bytes": 22457,
     "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
-    "mtime": "2026-10-14T00:06:00.269Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-14T00:06:00.257Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-14T00:06:00.265Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "dbd6d973c19634a69e70ea66ba4dad46006c93930df6b34e245475ddb256998b",
+  "codeSha256": "c597e62508bbf825f28126e3825cf38d27d9b902e52ce93d855eb16da758dd44",
   "harnessVersion": "w296c-chain-1",
   "libVersion": "w296c-chain-lib-1",
   "chainVersion": "w296c-chain-1",
@@ -128,11 +128,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1247,
-   "segments": 1134,
-   "closureShare": 0.3194
+   "names": 1291,
+   "segments": 1170,
+   "closureShare": 0.3221
   },
-  "scopeSha256": "166fc886de92c83a16b5e53e91d9c4798c16e52130286b157fcc06104badfc79",
+  "scopeSha256": "1a3774360531b00e3511518312e7c07563e1f8a754946768618d54f144928993",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -607,7 +607,7 @@
    "kFrame": 0,
    "relativeDrag": {
     "law": "inertial",
-    "gain": 8,
+    "Wbg": 0.125,
     "eps": 1,
     "pairs": "all",
     "solver": "network-pcg-v1",
@@ -662,7 +662,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 2.007,
+   "wallSec": 2.418,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -817,7 +817,7 @@
    "steps": 4000,
    "n": 81,
    "t": 31.999999999997364,
-   "wallSec": 3.924,
+   "wallSec": 5.681,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -890,7 +890,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 0.826,
+   "wallSec": 1.052,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -1070,5 +1070,5 @@
   "toy": true
  },
  "ok": true,
- "elapsedS": 10.217
+ "elapsedS": 13.909
 }
