@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便c",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T07:14:35.026Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-14T23:04:16.691Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T04:48:49.662Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
    },
    {
     "file": "tests/out/compose-w288c.json",
-    "bytes": 9587,
-    "sha256": "b9a8871f0bf30f8fd36806d352f02ea1c91e1b9b4e038572b543bfa256ba9a03",
-    "mtime": "2026-10-14T07:14:00.627Z"
+    "bytes": 9586,
+    "sha256": "e9f266983f3307463b579783ed914f25866303fa37211d304c77176586914f1d",
+    "mtime": "2026-10-14T23:03:52.651Z"
    }
   ],
   "code": [
@@ -106,16 +106,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1280,
-   "segments": 1159,
-   "closureShare": 0.3199
+   "names": 1291,
+   "segments": 1167,
+   "closureShare": 0.3204
   },
-  "scopeSha256": "4a8e351f50252a692ba64c770be6a522d03edf8d0e42e642146fd016d68f43a7",
+  "scopeSha256": "756f0afe5f8c4e207b6a7efd7855ac6f2bd2abb5b8a8ed44379599361b6bc25e",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/compose-w288c.json",
-    "stableSha256": "7e54a637ea85ceb880d1be31c12c0eb79e91bc76bd0c03231d99815a1d89dedb",
+    "stableSha256": "f2e4f314a8d0c4b056ad1e825945acbfcffebc3d77b3038a6e3dbb15b3ff6326",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -423,5 +423,5 @@
   "how": "既存の u = HP.dfmFieldContract(toy の宣言・excludeBodyId=i)。候補は C=1 で評価し addCandidate(u, du, C) に通す —— C=0 は u をそのまま写す"
  },
  "ok": true,
- "elapsedS": 1.481
+ "elapsedS": 1.202
 }

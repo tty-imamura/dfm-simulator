@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.84
+    "wallSec": 0.762
    },
    "B": {
     "bands": [
@@ -1193,46 +1193,46 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.027
+   "wallSec": 0.025
   },
   "zero": {
-   "wallSec": 1.496
+   "wallSec": 1.695
   },
   "effect": {
-   "wallSec": 2.169
+   "wallSec": 2.356
   },
   "remeasure": {
    "wallSec": 0.002
   },
   "audit": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   }
  },
- "elapsedS": 3.695,
+ "elapsedS": 4.08,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T10:29:23.094Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-14T23:06:15.229Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T09:38:25.487Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "bytes": 35594,
-    "sha256": "f750d2e55d87c8a168f1de3fdcecfff42bd34588e6f17e651ded6868db9fa10d",
-    "mtime": "2026-10-14T09:38:25.915Z"
+    "bytes": 36192,
+    "sha256": "683974079a7bc7c1636fba1008522d406f86691f7b96953fcfaefd5075510228",
+    "mtime": "2026-10-14T23:06:06.327Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 40522,
-    "sha256": "7eb423c8d67e148818db290088d9fa40e509cf40f652cc1dd24780965c3687db",
-    "mtime": "2026-10-14T09:38:25.951Z"
+    "bytes": 40518,
+    "sha256": "063d7c56ad9e0828e947fd6be68eeae7b1b0cfe0475659438e39403c82dcd68e",
+    "mtime": "2026-10-14T23:01:17.127Z"
    }
   ],
   "code": [
@@ -1240,46 +1240,46 @@
     "file": "tests/exp-w301b-approxmany.mjs",
     "bytes": 30402,
     "sha256": "6ba31badd15b513db940a7050ed6d3ea2882aa8dfb8fe5f68695dc54f264dd01",
-    "mtime": "2026-10-14T09:46:34.217Z"
+    "mtime": "2026-10-14T11:11:27.687Z"
    },
    {
     "file": "tests/lib-w301b-approxmany.mjs",
     "bytes": 5302,
     "sha256": "98d22edfa3bbdeab91f6b2d61ad1a2c2ff9bfbda45eaf9affe4ebfd2c840c23b",
-    "mtime": "2026-10-14T09:38:25.815Z"
+    "mtime": "2026-10-14T00:03:21.993Z"
    },
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 42996,
-    "sha256": "333e2ddf10160ad80433687ba66234e3055504992b9fbe631f8eda29b7f3ed4d",
-    "mtime": "2026-10-14T09:38:25.783Z"
+    "bytes": 43485,
+    "sha256": "522a92a68e6db6943ec416569f870d275ccb5cae1f0a4749eca51e68022664eb",
+    "mtime": "2026-10-14T20:10:19.112Z"
    },
    {
     "file": "tests/lib-w299d-spread.mjs",
     "bytes": 6222,
     "sha256": "0d43db47b972cb19f98afbc826c795dff216d2609ce0934c3afd9bae1ca7d986",
-    "mtime": "2026-10-14T09:38:25.815Z"
+    "mtime": "2026-10-14T00:03:21.993Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-14T09:38:25.807Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-14T09:38:25.803Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-14T09:38:25.811Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "87a8571d25ee098052a578cb1220dc0c2680f604278c0f31dcb77fb0cc1e379c",
+  "codeSha256": "d2be0124df506e8580919c95793c6903f2622e435034687daaf41db3aa9ce214",
   "harnessVersion": "w301b-approxmany-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第91報)①③「近似多粒子のサンプルでは支配天体は固定する。近似多粒子同士は接触判定を切る。塵は重力も引きずりも無し・天体は自転を設定して重力も引きずりも有り」「chainSpreadToy3d を近似多粒子のフォーマットに合わせる」",
@@ -1326,16 +1326,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1304,
-   "segments": 1183,
-   "closureShare": 0.3251
+   "names": 1316,
+   "segments": 1192,
+   "closureShare": 0.3262
   },
-  "scopeSha256": "b69f0e18520ec6f67532c134234b718295e89ddd7c39236d9d4f76108ecaab43",
+  "scopeSha256": "d4aa860d5e81f3cc0520fc6975291f10130fcab9f14bacb92f79cc304147f5de",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "d477d8e6e9cfb70a179247fc20bf0eb956a146c1bee291e8dd18bdf0743c0ed1",
+    "stableSha256": "99fd5f4d4555705c1d02ebed2189e03373d53e6021d7ded0f513c67284590f02",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1349,7 +1349,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "ad733212dad0ecd9a1b97c3cbb4cc4d9da8f746ff0d6e9d5b7f8ba6bf9715dcf",
+    "stableSha256": "443516c9a7dd222eaa77ec733eb572efb13714e04a5cda7eba48fe7c5bce070f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
