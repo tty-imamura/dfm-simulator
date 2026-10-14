@@ -956,6 +956,16 @@ export const REGEN_STEPS = [
     after: ['planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第303便b: 源の慣性決定力 r⁻² を引きずりの分母へ —— 零試験と閉形式・水星で変種ごとの λ・6 本への移送の予言(σ と数値の誤差)・G_loc の候補の表・地球–月と冥王星–カロンの λ の逆算(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第303便c(原仮定者の裁定(第93報)③「密度が高く距離が近い地球と月の関係では、質点とはみなせず天体半径の影響が大きい」・統括の検証項目 R193):
+  //   **地球–月の基線の監査と天体半径の効き方の目録**(段 audit〔🌦️ の写しの引きずり OFF の窓と抽出器・器の中の参照積分で軟化・平均の要素・e′・J₂・惑星・潮汐の切り分け〕・
+  //   radius〔源の有限球の格子・受け手の有限球〔表の差し替え〕・自己の慣性決定力〔行の分母 —— 器の中で inertialDragNormApply を包む〕〕・sunbg〔太陽が背景側の r⁻² の読み〕・
+  //   ident〔3 量で dragCore と受け手の球の特異値・解の広がり〕)。本の宣言は基点 9f92262 の写しに器の中で固定(後の再フィットで値が動かない)。
+  //   html だけを読む(他の正本は読まない —— html の生成領域の後)・1 プロセス。W303C_PARTS で段を分けられる。所要は第303便c の枝の実測(正本の elapsedS)
+  S('earthmoon-303c', 'node tests/exp-w303c-earthmoon.mjs', ['tests/out/earthmoon-w303c.json'], 1100, { secSource: 'w303c-branch', node: true,
+    after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/earthmoon-w303c.json': META_RUN.concat(['/elapsedS', '/audit/wallSec', '/audit/engine/off/wallSec', '/audit/engine/decl/wallSec', '/audit/engineMean01/wallSec',
+      '/radius/wallSec', '/radius/rows/*/wallSec', '/radius/h2/decl/wallSec', '/radius/h2/point/wallSec', '/sunbg/wallSec', '/sunbg/rows/*/wallSec', '/ident/wallSec']) },
+    note: '第303便c: 地球–月の基線の監査(窓と抽出器・軟化・平均の要素・e′・J₂・惑星・潮汐)と天体半径の効き方の目録(源・受け手の有限球・自己の慣性決定力)・太陽が背景側の W_bg・3 量の同定(値だけ —— 本の宣言は変えない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

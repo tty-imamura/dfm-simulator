@@ -78702,6 +78702,77 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ---- 第303便c(原仮定者の裁定(第93報)③・統括の検証項目 R193): docs.earthMoon303 —— **地球–月の基線の監査と天体半径の効き方の目録**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 正本 tests/out/earthmoon-w303c.json ∧ 器 tests/exp-w303c-earthmoon.mjs。固定値は正本から読む(器の行の関数で正本から表の行を作り直す ——
+// ----   鎖で正本を作り直した後の世代も同じ照合。本の宣言は器の中で基点 9f92262 の写しに固定 —— 生きている宣言と同じかは正本の pin.liveSame に記録するだけ)。
+// ----   ① 正本の門(参照積分とエンジンの長窓の一致・平均の要素の解き直しの収束・エンジンでの確かめ・受け手の球の表と分母の包みが走行の終わりまで保たれた・同定の確かめ)・4 段・来歴
+// ----   ② 表の行(窓と抽出器・平均の要素・内訳・半径の目録・一様球の確かめ・太陽が背景側・同定の 7 表)が PHYSICS〔第303便c〕に逐語で入っている
+// ----   ③ 主張の整合(全部入りの純ニュートンと B1 の差が照合許容の内なら節に「照合許容の内」—— 外なら同じ語が無い)
+// ----   ④ 文書(節が「## 7. 論文」の前・AI_SPEC の節・CHANGELOG・README)・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて)と禁句(引用も含めて)—— 節と器
+{
+  const em303Out = path.join(ROOT, 'tests', 'out', 'earthmoon-w303c.json'), em303Harn = path.join(ROOT, 'tests', 'exp-w303c-earthmoon.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(em303Out) && fs.existsSync(em303Harn))) {
+    console.log('SKIP docs.earthMoon303(第303便c の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(em303Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + em303Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第303便c'), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      // ①
+      const G = J.gates || {};
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of ['refEngine', 'engineMean01', 'icSolved', 'tablesHeld', 'denWrapped', 'sunbgDen', 'identChecked']) if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない');
+      for (const k of X.PARTS_ALL) if (!J[k]) bad.push('正本に段 ' + k + ' が無い');
+      if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の来歴(w272e-1)/器の版');
+      if (!(J.pin && J.pin.commit === X.PIN_BASE.commit)) bad.push('正本の宣言の固定(基点の写し)の記録');
+      cases.push(`門 ${Object.keys(G).filter((k) => G[k] === true).length}/${Object.keys(G).length}・参照積分とエンジンの長窓 T4p 相対 ${J.audit ? J.audit.refGate.T4p.toExponential(1) : '-'}・宣言の写しと生きている宣言 ${J.pin ? JSON.stringify(J.pin.liveSame) : '-'}`);
+      // ②
+      if (!sec) bad.push('PHYSICS〔第303便c〕が無い');
+      else {
+        let nRow = 0;
+        for (const [nm, fn] of [['窓と抽出器', X.windowRows], ['平均の要素', X.meanRows], ['内訳', X.decompRows], ['半径の目録', X.radiusRows], ['一様球', X.uniformRows], ['太陽が背景側', X.sunbgRows], ['同定', X.identRows]]) {
+          let rows = [];
+          try { rows = fn(J); } catch (e) { bad.push(nm + ' の行が作れない: ' + String(e).slice(0, 80)); }
+          for (const r of rows) { nRow++; if (sec.indexOf(r) < 0) bad.push('PHYSICS〔第303便c〕の' + nm + 'の表に行が無い: ' + r.slice(0, 70)); }
+        }
+        cases.push(`表の行 ${nRow} 行を正本から作り直して照合`);
+        // ③
+        const D = J.audit && J.audit.decomp, within = D && Math.abs(D.residualAll) <= J.tol.aps;
+        if (D && within !== (sec.indexOf('照合許容の内') >= 0)) bad.push('主張の整合: 全部入りの純ニュートン − B1 = ' + D.residualAll.toFixed(5) + ' 年(許容 ' + J.tol.aps + ')と節の「照合許容の内」の有無が合わない');
+        if (D) cases.push(`全部入りの純ニュートン − B1 ${D.residualAll >= 0 ? '+' : ''}${D.residualAll.toFixed(5)} 年(許容 ${J.tol.aps})・引きずり OFF の 118 公転窓 M1 − B1 +${D.total.toFixed(5)} 年`);
+        // ④
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第303便c〕が「## 7. 論文」の後');
+        for (const w of ['R193', '第93報', 'exp-w303c-earthmoon.mjs', 'earthmoon-w303c.json', 'docs.earthMoon303', 'M4', '軟化', 'e′', 'J₂', '受け手の有限球', '自己の慣性決定力', '特異値', 'W303C_PARTS']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第303便c〕に「' + w + '」が無い');
+      }
+      if (AS.indexOf('第303便c') < 0 || AS.indexOf('docs.earthMoon303') < 0) bad.push('AI_SPEC に第303便c の節(docs.earthMoon303)が無い');
+      if (CL.indexOf('第303便c') < 0) bad.push('CHANGELOG に第303便c が無い');
+      if (RM.indexOf('第303便c') < 0) bad.push('README に第303便c が無い');
+      if (RT.indexOf("S('earthmoon-303c', 'node tests/exp-w303c-earthmoon.mjs', ['tests/out/earthmoon-w303c.json']") < 0 || !/secSource: 'w303c-branch'/.test(RT)) bad.push('再生成の段 earthmoon-303c');
+      if (GI.indexOf('!tests/out/earthmoon-w303c.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.earthMoon303') < 0) bad.push('post-merge の ③′ に docs.earthMoon303 が無い');
+      // ⑤ 書かない語(「」の引用を除く)と禁句(引用も含む —— 語は符号の列から作る)
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/地球の核を同定した/, /dragCore が一意に決まった/, /月を再現した/, /現実を再現した/, /再現しない/, /合わせられない/, /法則を発見した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const harn = rd('tests/exp-w303c-earthmoon.mjs');
+      for (const [nm, tx] of [['PHYSICS〔第303便c〕', sec], ['器', harn]]) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+        for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      }
+    }
+    add('docs.earthMoon303', bad.length === 0,
+      `**地球–月の基線の監査と天体半径の効き方の目録**(第303便c・原仮定者の裁定(第93報)③・R193 —— 正本 earthmoon-w303c.json・本の宣言とエンジンの式は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // ---- 第303便e(決断事項 AN312 ③・統括の検証項目 R194): lint.canon303 —— **第302便の正本 5 本を来歴の照合(CANON)へ**(root は SKIP —— beta 線の正本)。
 // ----   ① CANON(lint.provenanceMeta の本文から読む —— lint.regenScope と同じ正規表現)に 5 本(semic・wbgest・emonly・gloc・axialsign)があり、CANON に重複が無い
 // ----   ② 5 本はそれぞれ再生成表の段(semic-302d・wbgest-302c・emonly-300b・gloc-302b・axialsign-302e)の outs にあり、器が領域 REGEN_SCOPE を宣言している
