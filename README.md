@@ -854,6 +854,7 @@ QA の確認順(第279便b): **① preflight → ② 限定 QA → ③ フル**�
   本文そのまま切り出して一周し、全内蔵プリセットを Node の vm で受理・構築・1 歩だけ走らせる。
   結果は `tests/out/qa-preflight[-beta].json`(`fullQaStillRequired:true` — **フル QA の代わりではない**)。
 - ② 自分の変更に関係するブロックだけを走らせる: `node tests/exp-w258c-qapart.mjs <QA の id> …`。
+- 鎖(正本の作り直し)の前後の短い検査(第303便e): 統合の直後に `node tools/harness-smoke.mjs --base <基点 html>`(差を直接読む器の煙試験 —— 受理の例外・門の偽・NaN)、鎖の直後に `node tools/pregate-transcript.mjs --base-rev <基点>`(正本と PHYSICS・fitRecord・obsCard の転記の照合)。使い方は `tools/README.md`(フル QA・CI の代わりではない)。
 - ③ `npm test`(フル)。手元では**前回 FAIL したブロックを先に別プロセスで再実行**してから全件を走る
   (`QA_REPLAY_FAIL=1` が手元の既定・CI では OFF。`QA_BAIL=1` なら先行再実行で FAIL のとき本走行へ進まない)。
   重いブロックはワーカープール(W5c/W5b)で並列に先行し、結果は元の位置・元の順で記録される
