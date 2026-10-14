@@ -118,10 +118,10 @@
   },
   "covariance": {
    "steps": 1500,
-   "relDr": 3.32408e-14,
-   "relDv": 1.73125e-14,
-   "maxDaxis": 4.96369e-14,
-   "maxDrotA": 3.19744e-14,
+   "relDr": 1.25301e-13,
+   "relDv": 7.2798e-14,
+   "maxDaxis": 5.34729e-14,
+   "maxDrotA": 2.4869e-14,
    "shift": [
     37.5,
     -12.25,
@@ -133,20 +133,20 @@
   },
   "budget": {
    "steps": 3000,
-   "relP": 2.29483e-16,
-   "dLmax": 7.66768,
-   "Lresid": 2.94517e-14,
+   "relP": 2.88622e-16,
+   "dLmax": 7.72973,
+   "Lresid": 2.83862e-14,
    "Lscale": 59.0248,
-   "relLresid": 4.98972e-16,
+   "relLresid": 4.80921e-16,
    "dL3": [
-    1.20599,
-    2.68761,
-    0.0786469
+    1.06803,
+    2.51508,
+    -0.564349
    ],
    "dLspin": [
-    0.738739,
-    -0.95423,
-    0.0133579
+    0.749008,
+    -0.960079,
+    0.0107329
    ],
    "axisTurns": 5998,
    "perpSkip": 0
@@ -638,33 +638,33 @@
     "ready": true,
     "why": null,
     "checked": 63,
-    "relMax": 2.81928e-11
+    "relMax": 3.38408e-11
    },
    "chain2d": {
     "ready": true,
     "why": null,
     "checked": 63,
-    "relMax": 2.81928e-11
+    "relMax": 3.38408e-11
    },
    "chain3dTilt": {
     "ready": true,
     "why": null,
     "checked": 63,
-    "relMax": 2.89815e-11
+    "relMax": 2.45335e-11
    },
    "pair2d": {
     "ready": true,
     "why": null,
     "checked": 2,
-    "relMax": 1.46535e-16
+    "relMax": 2.28929e-18
    }
   },
   "displayBitsame": {
    "steps": 300,
    "calls": 30,
    "drawn": 30,
-   "fpA": "e6ac5051ece47abb:526",
-   "fpB": "e6ac5051ece47abb:526",
+   "fpA": "46b52b1143a1406b:533",
+   "fpB": "46b52b1143a1406b:533",
    "same": true
   },
   "grid": [
@@ -673,15 +673,15 @@
     "h": 5,
     "nodes": 81,
     "n": 390,
-    "maxRel": 0.368067,
-    "rmsRel": 0.0632698
+    "maxRel": 0.36806,
+    "rmsRel": 0.0632697
    },
    {
     "res": 16,
     "h": 2,
     "nodes": 625,
     "n": 390,
-    "maxRel": 0.21078,
+    "maxRel": 0.210781,
     "rmsRel": 0.0300276
    },
    {
@@ -689,8 +689,8 @@
     "h": 1,
     "nodes": 2401,
     "n": 390,
-    "maxRel": 0.0506289,
-    "rmsRel": 0.00724488
+    "maxRel": 0.0506287,
+    "rmsRel": 0.00724486
    }
   ],
   "gridMonotone": true,
@@ -698,38 +698,38 @@
    {
     "r": 8,
     "withSpin": 36.6083,
-    "spin0": 0.0000637518
+    "spin0": 0.000063752
    },
    {
     "r": 12,
     "withSpin": 24.2893,
-    "spin0": -0.0000257464
+    "spin0": -0.000025746
    },
    {
     "r": 18,
     "withSpin": 14.3757,
-    "spin0": -0.0000995978
+    "spin0": -0.0000995986
    }
   ],
   "tilt": {
    "nodes": 169,
    "uMax": 1.59565,
-   "uzMax": 0.920736,
-   "wzMax": 0.034754,
+   "uzMax": 0.920738,
+   "wzMax": 0.0347542,
    "streamlines": 136
   }
  },
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 3.426,
+   "wallSec": 2.082,
    "itersMax": 40,
-   "resMax": 9.9975e-11,
+   "resMax": 9.99311e-11,
    "fail": 0,
    "nan": false,
    "spin3": {
     "rotTerms": 159920,
-    "rotMax": 11.6231,
+    "rotMax": 11.6235,
     "axialTerms": 0,
     "omegaMax": 0,
     "perpSkip": 0,
@@ -737,7 +737,7 @@
     "dL3": [
      0,
      0,
-     206.128
+     206.061
     ]
    },
    "axis0": [
@@ -752,7 +752,7 @@
       12
      ],
      "n": 21,
-     "dthMean": 2.16965
+     "dthMean": 2.1689
     },
     {
      "band": [
@@ -760,7 +760,7 @@
       18
      ],
      "n": 26,
-     "dthMean": 0.577207
+     "dthMean": 0.577063
     },
     {
      "band": [
@@ -768,7 +768,7 @@
       24
      ],
      "n": 33,
-     "dthMean": 0.195592
+     "dthMean": 0.195527
     }
    ],
    "zMax": 0,
@@ -776,22 +776,22 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 4.799,
+   "wallSec": 3.727,
    "itersMax": 40,
-   "resMax": 9.98881e-11,
+   "resMax": 9.99383e-11,
    "fail": 0,
    "nan": false,
    "spin3": {
     "rotTerms": 159920,
-    "rotMax": 8.44862,
+    "rotMax": 8.4397,
     "axialTerms": 159920,
-    "omegaMax": 0.0213439,
+    "omegaMax": 0.0213866,
     "perpSkip": 0,
-    "rotA": 3.98254,
+    "rotA": 3.98248,
     "dL3": [
-     97.889,
-     -44.173,
-     152.959
+     97.8522,
+     -44.2144,
+     152.929
     ]
    },
    "axis0": [
@@ -806,7 +806,7 @@
       12
      ],
      "n": 21,
-     "dthMean": 2.22489
+     "dthMean": 2.2233
     },
     {
      "band": [
@@ -814,7 +814,7 @@
       18
      ],
      "n": 26,
-     "dthMean": 0.470256
+     "dthMean": 0.47011
     },
     {
      "band": [
@@ -822,16 +822,16 @@
       24
      ],
      "n": 33,
-     "dthMean": 0.157098
+     "dthMean": 0.157036
     }
    ],
-   "zMax": 6.86457,
-   "vzMax": 0.405802
+   "zMax": 6.86308,
+   "vzMax": 0.40626
   },
   "tiltAxialOff": {
    "steps": 2000,
    "positionsVelocitiesSame": true,
-   "rotAmaxDiff": 0.471852
+   "rotAmaxDiff": 0.472046
   }
  },
  "part5": {
@@ -942,14 +942,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:44:06.610Z",
+  "targetSha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
+  "generatedAt": "2026-10-14T00:48:36.987Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6751436,
+    "sha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
+    "mtime": "2026-10-14T00:47:32.073Z"
    }
   ],
   "code": [
@@ -957,25 +957,25 @@
     "file": "tests/exp-w298c-drag3d.mjs",
     "bytes": 31836,
     "sha256": "7a068bbc4dd138992894b3f23465d2104b923da1b3319f8db0724794254f84af",
-    "mtime": "2026-10-11T00:52:30.081Z"
+    "mtime": "2026-10-14T00:06:00.233Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T00:06:00.261Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-14T00:06:00.257Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-14T00:06:00.265Z"
    }
   ],
   "codeSha256": "b008b6b6c9089c8f29266d65f5cfdb413b83a351d4a9b918b0873e4b502fc94b",
@@ -1017,14 +1017,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1245,
-   "segments": 1132,
-   "closureShare": 0.32
+   "names": 1254,
+   "segments": 1141,
+   "closureShare": 0.321
   },
-  "scopeSha256": "fff8f22263a585dc161762f41575dec2ac422e6dfd777d90b9ee4516109a7dd1",
+  "scopeSha256": "82ffffdc628bc493de935dd866c7b639333e4a88df16abfa78e358c05e9d3ece",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 24.108
+ "elapsedS": 16.405
 }

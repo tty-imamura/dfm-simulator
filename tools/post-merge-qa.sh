@@ -90,6 +90,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clone2d301"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.wbgLaw301"
 # 第301便d(原仮定者の裁定(第91報)④・R182): 枝 d の新設 2 本(docs.chainBurst301 —— 連鎖円盤の 14000 步付近の飛びの記録と正本・文書・preset.chainBurstShell301 —— 放出の探索の写し 🧨)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.chainBurst301 preset.chainBurstShell301"
+# 第302便d(決断事項 AN303 ①②⑤・R188): 枝 d の新設 2 本(behavior.semic302 —— 本体の積分器 semic の門・docs.semic302 —— 影響の記録と文書)と、世代切替で split を明示した behavior.composeGate(上の常設)・docs.chainBurst301(上)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.semic302 docs.semic302"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

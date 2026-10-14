@@ -33,7 +33,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w301d-coupled.mjs';
 import { shellBodies, shellStats, SHELL_VERSION } from './lib-w301d-shell.mjs';
-const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragStepOrderOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w301d-chainburst-1';
@@ -64,8 +64,15 @@ export const VARIANTS = {
   rot2: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ rot: 2 })]; return p; },
   shell80: (p) => { p.bodies = [p.bodies[0], ...shellBodies({ n: 80, m: 5 })]; return p; },
 };
+// 第302便d(R188): 世代切替 —— 本体の既定が semic になった世代(html に relDragStepOrderOf がある)では、この器の本体の走行は
+//   **分割を明示**(stepOrder:"split")して第301便d の記録と同じ量を測る(器の門 ledgerMatchesEngine・splitHarnessMatches は分割の本体が前提)。
+//   W301D_ORDER=semic で既定の semic の本体を測る(第302便d の影響の測定 —— 正本は出さない・W301D_ONLY と一緒に使う)。
+export const ENGINE_ORDER = process.env.W301D_ORDER || 'split';
 function buildVariant(HP, id, variant) {
   const p = VARIANTS[variant](clone(find(HP, id))); delete p.abBody;
+  if (typeof HP.relDragStepOrderOf === 'function' && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial' && p.physics.relativeDrag.compose !== 'sum') {
+    if (ENGINE_ORDER === 'split') p.physics.relativeDrag.stepOrder = 'split'; else delete p.physics.relativeDrag.stepOrder;
+  }
   const v = HP.validatePreset(p); if (!v.ok) throw new Error(id + '/' + variant + ' validatePreset: ' + JSON.stringify(v.errors).slice(0, 300));
   HP.sim.build(v.preset); return HP.sim;
 }
@@ -266,6 +273,7 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const ONLY = process.env.W301D_ONLY ? new RegExp(process.env.W301D_ONLY) : null;
+  if (ENGINE_ORDER !== 'split' && !ONLY) { console.error('W301D_ORDER=' + ENGINE_ORDER + ' は W301D_ONLY と一緒にだけ(正本は分割の本体の記録 —— 第302便d)'); process.exit(2); }
   const list = jobs(HP).filter((j) => !ONLY || ONLY.test(j.key));
   const tmpDir = fs.mkdtempSync(path.join(path.dirname(OUT_PATH), '.w301d-'));
   const R = {};
@@ -290,7 +298,7 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
   if (!ONLY) { out.gates = gatesOf(R, HP); const { numbers, ...g } = out.gates; out.ok = Object.values(g).every(Boolean); out.decision = decisionOf(R, out.gates); }
   const CODE = ['tests/exp-w301d-chainburst.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/lib-w301d-shell.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
-    harnessVersion: HARNESS_VERSION, coupledLibVersion: L.COUPLED_LIB_VERSION, shellVersion: SHELL_VERSION, dragVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length, parallel: PAR,
+    harnessVersion: HARNESS_VERSION, engineOrder: (typeof HP.relDragStepOrderOf === 'function') ? ENGINE_ORDER : 'split(基点の世代 —— 鍵なし)', coupledLibVersion: L.COUPLED_LIB_VERSION, shellVersion: SHELL_VERSION, dragVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length, parallel: PAR,
     ruling: '原仮定者の裁定(第91報)④(chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る)',
     reading: '統括の検証項目 R182(新法則で飛びが残るか・結合積分の独立な器と今の分割の比較・帳簿の分離・刻みで収束するなら探索の写し 1 本 / 消えるなら数値の飛びとして記録)',
     notClaim: ['超新星の機構を導いた', '爆発を再現した', 'gain は普遍定数'] });

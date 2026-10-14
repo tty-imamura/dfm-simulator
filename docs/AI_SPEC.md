@@ -3665,3 +3665,19 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w301d-chainburst.mjs`(版 w301d-chainburst-1・`W301D_OUT`・`W301D_ONLY`・子プロセス `W301D_PAR` 本)→ `tests/out/chainburst-w301d.json`(段 chainburst-301d)。
 - QA: `docs.chainBurst301`(記録と文書・その場の 500 步が正本と一致)・`preset.chainBurstShell301`(写しの宣言・bodies = 生成器・正本の門・その場の 4000 步)—— root は SKIP
   (世代切替 = html の `const REL_DRAG_NORM_VERSION` ∧ 正本)。
+
+
+## 90. 第302便d —— 本体の積分器 semic(慣性決定力の引きずりの步の順序)を既定に(決断事項 AN303 ①②⑤・統括の検証項目 R188・**宣言の形は変えない**(既定は正準形に出さない)—— 動くのは慣性決定力の引きずり〔law "inertial"・合成則 solve・gain>0〕を宣言した本の走りだけ・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **步の順序**: 慣性決定力の引きずり(`physics.relativeDrag.law:"inertial"`・合成則 solve)の 1 步を「v += h a(x₀)(核)→ 引きずりの u を**ドリフトの前の位置 x₀** と新しい v で解く → x += h (v + u)」にした(半陰的の結合 semic)。
+  旧の分割(u をドリフトの後の位置で解く)は比較用の明示の鍵 **`physics.relativeDrag.stepOrder:"split"`**(省略・null・"semic" は既定 —— 正準形に出さない・署名は変わらない。"split" を書いた本だけ正準形と署名に出る)。
+  `compose:"sum"` の本では宣言しない(拒否 —— 加算の旧法則は従来の分割のまま)。既存の鍵 `integration`("explicit"|"midpoint")は law "pairSlip" 専用のまま。
+- **帳簿**: `inertialDragWork` は semic の本では Ẇ = Σ ∇U·u = −Σ m a_N(x₀)·u を h 倍して積む(同じ位置・同じ段 —— ẋ = v + u・v̇ = a_N の系で Δ(K+U) = W。外部支持・慣性場の供給口を含む帳簿で、孤立系の保存ではない)。
+  split の本は従来どおり移送の前後の ΔU。読み口 `HP.inertialDragLedgerOf(S)`(版 w302d-semic-1)が E₀(最初の步の核の前)・K・U・R_E = (K+U) − E₀ − W を返し、
+  `HP.inertialDragState(S)` は semic の本だけ `stepOrder`・`ledger` の鍵を持つ。HUD に R_E の 1 行(semic の本 ∧ gain>0)。R_E は分割の誤差の大きさの診断で、刻みで 1 次に 0 へ近づく。
+- **AI 生成の規則**: 変えない(stepOrder は比較用 —— 生成する本には書かない)。慣性決定力の引きずりの本で放出・飛びを主張するときは、器で刻みの依存を確かめてから書く(〔第301便d〕のまま)。
+- **器と正本**: `tests/exp-w302d-semic.mjs`(版 w302d-semic-1・`W302D_OUT`・`W302D_PART`)→ `tests/out/semic-w302d.json`(段 semic-302d)。連鎖の本の器は前置き `tests/lib-w302d-orderpre.mjs`(測定専用 —— 全本を split にした走行)で 2 回走らせる。
+  第301便d の器 `tests/exp-w301d-chainburst.mjs` は分割を明示して走る(`W301D_ORDER=semic` と `W301D_ONLY` で semic を測る)。
+- QA: `behavior.semic302`(gain 0 の本と引きずりの無い本の不変・閉形式の評価点・器と本体の一致・明示の split と基点のビット同一・R_E の読み口・受理と署名)・`docs.semic302`(正本・影響の表・文書)—— root は SKIP
+  (世代切替 = html の `const REL_DRAG_SEMIC_VERSION` ∧ 正本)。
+- 言わないこと: 「semic で正しくなった」「保存則が成り立つ」。フィットの本の gain は再フィットしていない(差は〔第302便d〕の表 —— 第 2 段 c が W_bg の推定と G_loc の後で行う)。

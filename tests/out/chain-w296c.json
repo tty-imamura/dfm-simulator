@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第296便c",
   "target": "beta/index.html",
-  "targetSha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-  "generatedAt": "2026-10-13T15:43:32.261Z",
+  "targetSha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
+  "generatedAt": "2026-10-14T00:48:14.684Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6737782,
-    "sha256": "705cd273f96fdfd00bf06d9de5324d585d7d8dc8bb7285a2832c951b01304506",
-    "mtime": "2026-10-13T13:26:48.341Z"
+    "bytes": 6751436,
+    "sha256": "3d1028e763ebe63f0c5dc06ccbce0f42f571f82237169a3a4095284bb3af98b3",
+    "mtime": "2026-10-14T00:47:32.073Z"
    }
   ],
   "code": [
@@ -18,49 +18,49 @@
     "file": "tests/exp-w296c-chain.mjs",
     "bytes": 34776,
     "sha256": "bc528af2d39e11622c452c474473b5f3ccf653b7358f8b70b0060982912c94d8",
-    "mtime": "2026-10-09T10:19:35.498Z"
+    "mtime": "2026-10-14T00:06:00.229Z"
    },
    {
     "file": "tests/lib-w296c-chain.mjs",
     "bytes": 12258,
     "sha256": "b97d6a39c925bcf1ad56705d8b31f3364940c3fcd3b5879a872e6f9042a5412e",
-    "mtime": "2026-10-09T10:19:35.522Z"
+    "mtime": "2026-10-14T00:06:00.269Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T00:06:00.261Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T00:06:00.261Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-09T10:19:35.510Z"
+    "mtime": "2026-10-14T00:06:00.261Z"
    },
    {
     "file": "tests/lib-w293e-compose.mjs",
     "bytes": 22457,
     "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
-    "mtime": "2026-10-09T10:19:35.522Z"
+    "mtime": "2026-10-14T00:06:00.269Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:35.506Z"
+    "mtime": "2026-10-14T00:06:00.257Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:35.514Z"
+    "mtime": "2026-10-14T00:06:00.265Z"
    }
   ],
   "codeSha256": "dbd6d973c19634a69e70ea66ba4dad46006c93930df6b34e245475ddb256998b",
@@ -128,11 +128,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1238,
-   "segments": 1125,
-   "closureShare": 0.3184
+   "names": 1247,
+   "segments": 1134,
+   "closureShare": 0.3194
   },
-  "scopeSha256": "d02a4a5bf07c5206320f0d528760b696e34fa941324a187030e4459dde742f30",
+  "scopeSha256": "2f7b5f5bc14ee633056cc37beec89878ce102876c7daeefd70baf2469d1e770d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -230,7 +230,7 @@
    "why": "solveNoConverge",
    "failAt": {
     "t": 0.048,
-    "res": 0.6731084999425873,
+    "res": 0.6731147270202832,
     "iters": 1,
     "breakdown": false,
     "tol": 1e-10
@@ -662,7 +662,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 3.506,
+   "wallSec": 2.167,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -673,17 +673,17 @@
     "directMax": 64,
     "solves": 1999,
     "method": "pcg",
-    "res": 7.620193561471465e-11,
-    "resMax": 9.997500941040683e-11,
-    "uSumMax": 61.88852629344092,
-    "uSolveMax": 1.7049942842232009,
+    "res": 5.65232587735817e-11,
+    "resMax": 9.993112604333186e-11,
+    "uSumMax": 62.59624082876944,
+    "uSolveMax": 1.7033118461531565,
     "tooLarge": 0,
     "chain": {
      "version": "w296c-chain-1",
      "solver": "network-pcg-v1",
      "solverTol": 1e-10,
      "solverMaxIter": 1000,
-     "iters": 39,
+     "iters": 40,
      "itersMax": 40,
      "restarts": 0,
      "fail": 0,
@@ -692,12 +692,12 @@
      "spinSources": 1,
      "spinTerms": 159920,
      "spinSkip": 0,
-     "spinMax": 11.62310473532263,
+     "spinMax": 11.623468358053085,
      "rigidRotation": "kept"
     }
    },
-   "sumMuMax": 82.47476868589798,
-   "sumMuRelMax": 0.49014628892668993,
+   "sumMuMax": 82.44770290593243,
+   "sumMuRelMax": 0.4881543588987515,
    "failSteps": 0,
    "dThetaByR0": [
     {
@@ -710,23 +710,23 @@
      "r0Lo": 6,
      "r0Hi": 12,
      "n": 21,
-     "dTheta": 2.16965
+     "dTheta": 2.1689
     },
     {
      "r0Lo": 12,
      "r0Hi": 18,
      "n": 26,
-     "dTheta": 0.577207
+     "dTheta": 0.577063
     },
     {
      "r0Lo": 18,
      "r0Hi": 24,
      "n": 33,
-     "dTheta": 0.195592
+     "dTheta": 0.195527
     }
    ],
-   "rMin": 6.115471697629286,
-   "rMax": 22.712332284186033,
+   "rMin": 6.1161826189442445,
+   "rMax": 22.711587009600542,
    "diag0": [
     {
      "rLo": 0,
@@ -784,31 +784,31 @@
      "rLo": 6,
      "rHi": 12,
      "n": 26,
-     "uChain": 0.60144,
-     "uDirect": 0.131355,
-     "ratio": 4.57874,
-     "deg": 23.4228,
-     "aCenter": 1.06728
+     "uChain": 0.601037,
+     "uDirect": 0.130942,
+     "ratio": 4.59008,
+     "deg": 23.501,
+     "aCenter": 1.06658
     },
     {
      "rLo": 12,
      "rHi": 18,
      "n": 29,
-     "uChain": 0.262865,
-     "uDirect": 0.0228696,
-     "ratio": 11.494,
-     "deg": 12.6406,
-     "aCenter": 0.222747
+     "uChain": 0.262901,
+     "uDirect": 0.0227653,
+     "ratio": 11.5483,
+     "deg": 12.7958,
+     "aCenter": 0.222752
     },
     {
      "rLo": 18,
      "rHi": 24,
      "n": 25,
-     "uChain": 0.16308,
-     "uDirect": 0.00880731,
-     "ratio": 18.5165,
-     "deg": 9.61853,
-     "aCenter": 0.10524
+     "uChain": 0.163113,
+     "uDirect": 0.00879408,
+     "ratio": 18.548,
+     "deg": 9.67603,
+     "aCenter": 0.105252
     }
    ]
   },
@@ -817,7 +817,7 @@
    "steps": 4000,
    "n": 81,
    "t": 31.999999999997364,
-   "wallSec": 5.759,
+   "wallSec": 4.002,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -828,17 +828,17 @@
     "directMax": 64,
     "solves": 3999,
     "method": "pcg",
-    "res": 8.720592382461014e-11,
-    "resMax": 9.99530592764408e-11,
-    "uSumMax": 61.951351309435545,
-    "uSolveMax": 1.7027573548661696,
+    "res": 5.545294276567691e-11,
+    "resMax": 9.999796562828284e-11,
+    "uSumMax": 62.29955468967772,
+    "uSolveMax": 1.7019426266940951,
     "tooLarge": 0,
     "chain": {
      "version": "w296c-chain-1",
      "solver": "network-pcg-v1",
      "solverTol": 1e-10,
      "solverMaxIter": 1000,
-     "iters": 39,
+     "iters": 40,
      "itersMax": 40,
      "restarts": 0,
      "fail": 0,
@@ -847,12 +847,12 @@
      "spinSources": 1,
      "spinTerms": 319920,
      "spinSkip": 0,
-     "spinMax": 11.688728734823126,
+     "spinMax": 11.688885264901993,
      "rigidRotation": "kept"
     }
    },
-   "sumMuMax": 82.7427257499904,
-   "sumMuRelMax": 0.4906609575404369,
+   "sumMuMax": 82.72901005177371,
+   "sumMuRelMax": 0.48964741086403346,
    "failSteps": 0,
    "dThetaByR0": [
     {
@@ -865,23 +865,23 @@
      "r0Lo": 6,
      "r0Hi": 12,
      "n": 21,
-     "dTheta": 2.17596
+     "dTheta": 2.17559
     },
     {
      "r0Lo": 12,
      "r0Hi": 18,
      "n": 26,
-     "dTheta": 0.577597
+     "dTheta": 0.577525
     },
     {
      "r0Lo": 18,
      "r0Hi": 24,
      "n": 33,
-     "dTheta": 0.195704
+     "dTheta": 0.195672
     }
    ],
-   "rMin": 6.112068776296343,
-   "rMax": 22.69849281730033,
+   "rMin": 6.112354361443436,
+   "rMax": 22.698141143106184,
    "diag0": null,
    "diagEnd": null
   },
@@ -890,7 +890,7 @@
    "steps": 2000,
    "n": 81,
    "t": 31.99999999999825,
-   "wallSec": 0.981,
+   "wallSec": 0.889,
    "nanStep": null,
    "method": "pcg",
    "compose": {
@@ -901,10 +901,10 @@
     "directMax": 64,
     "solves": 1999,
     "method": "pcg",
-    "res": 9.539142033223351e-17,
-    "resMax": 5.364847111192906e-16,
-    "uSumMax": 4.655441844805003,
-    "uSolveMax": 1.5281066786293325,
+    "res": 9.556215702469628e-17,
+    "resMax": 5.218253839950399e-16,
+    "uSumMax": 4.647124172127006,
+    "uSolveMax": 1.525903677209159,
     "tooLarge": 0,
     "chain": {
      "version": "w296c-chain-1",
@@ -920,12 +920,12 @@
      "spinSources": 1,
      "spinTerms": 159920,
      "spinSkip": 0,
-     "spinMax": 5.2209697356931715,
+     "spinMax": 5.216505854571195,
      "rigidRotation": "kept"
     }
    },
-   "sumMuMax": 40.17900755215912,
-   "sumMuRelMax": 0.34182328197511813,
+   "sumMuMax": 40.14155954802685,
+   "sumMuRelMax": 0.34162036839723237,
    "failSteps": 0,
    "dThetaByR0": [
     {
@@ -938,28 +938,28 @@
      "r0Lo": 6,
      "r0Hi": 12,
      "n": 21,
-     "dTheta": 3.05884
+     "dTheta": 3.05804
     },
     {
      "r0Lo": 12,
      "r0Hi": 18,
      "n": 26,
-     "dTheta": 0.506619
+     "dTheta": 0.506374
     },
     {
      "r0Lo": 18,
      "r0Hi": 24,
      "n": 33,
-     "dTheta": 0.088036
+     "dTheta": 0.0880012
     }
    ],
-   "rMin": 7.222427459647092,
-   "rMax": 20.73354995147733,
+   "rMin": 7.219786693681754,
+   "rMax": 20.733528094905004,
    "diag0": null,
    "diagEnd": null
   },
   "hHalf": {
-   "maxPosDiff": 0.16528234207495973,
+   "maxPosDiff": 0.17088683310632208,
    "dThetaA": [
     {
      "r0Lo": 0,
@@ -971,19 +971,19 @@
      "r0Lo": 6,
      "r0Hi": 12,
      "n": 21,
-     "dTheta": 2.16965
+     "dTheta": 2.1689
     },
     {
      "r0Lo": 12,
      "r0Hi": 18,
      "n": 26,
-     "dTheta": 0.577207
+     "dTheta": 0.577063
     },
     {
      "r0Lo": 18,
      "r0Hi": 24,
      "n": 33,
-     "dTheta": 0.195592
+     "dTheta": 0.195527
     }
    ],
    "dThetaHalf": [
@@ -997,19 +997,19 @@
      "r0Lo": 6,
      "r0Hi": 12,
      "n": 21,
-     "dTheta": 2.17596
+     "dTheta": 2.17559
     },
     {
      "r0Lo": 12,
      "r0Hi": 18,
      "n": 26,
-     "dTheta": 0.577597
+     "dTheta": 0.577525
     },
     {
      "r0Lo": 18,
      "r0Hi": 24,
      "n": 33,
-     "dTheta": 0.195704
+     "dTheta": 0.195672
     }
    ]
   },
@@ -1026,25 +1026,25 @@
     "r0Lo": 6,
     "r0Hi": 12,
     "n": 21,
-    "dThetaChain": 2.16965,
-    "dThetaCut": 3.05884,
-    "ratio": 0.709305
+    "dThetaChain": 2.1689,
+    "dThetaCut": 3.05804,
+    "ratio": 0.709245
    },
    {
     "r0Lo": 12,
     "r0Hi": 18,
     "n": 26,
-    "dThetaChain": 0.577207,
-    "dThetaCut": 0.506619,
-    "ratio": 1.13933
+    "dThetaChain": 0.577063,
+    "dThetaCut": 0.506374,
+    "ratio": 1.1396
    },
    {
     "r0Lo": 18,
     "r0Hi": 24,
     "n": 33,
-    "dThetaChain": 0.195592,
-    "dThetaCut": 0.088036,
-    "ratio": 2.22173
+    "dThetaChain": 0.195527,
+    "dThetaCut": 0.0880012,
+    "ratio": 2.22187
    }
   ],
   "gates": {
@@ -1070,5 +1070,5 @@
   "toy": true
  },
  "ok": true,
- "elapsedS": 16.548
+ "elapsedS": 10.691
 }

@@ -905,6 +905,14 @@ export const REGEN_STEPS = [
   S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
     note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
+  // ---- 第302便d(決断事項 AN303 ①②⑤・統括の検証項目 R188): **本体の積分器 semic を既定にした影響の器**(門: 閉形式の評価点・器 lib-w301d-coupled の semic と本体の一致・
+  //   明示の split が基点とビット同一〔基点の html が無い世代は前の正本からの推移〕・R_E の読み口 / 目的の量: フィットの 4 本と 🌔🐌 の split と semic /
+  //   連鎖の 5 本: 既存の器〔chain-296c・drag3d-298c・inertial-290c・geo4stable-299d・chainburst-301d の A.base・F.engine.8〕を前置き tests/lib-w302d-orderpre.mjs の split と既定の semic で 2 回)。
+  //   html を読む(器のコードの依存として inertial3-295c〔runPair〕・planets3d-299c〔runPl3〕・emonly-300b〔runEm3〕の後・html の生成領域の後)・子プロセスを順に。所要は第302便d の枝の実測(正本の elapsedS)
+  S('semic-302d', 'node tests/exp-w302d-semic.mjs', ['tests/out/semic-w302d.json'], 1500, { secSource: 'w302d-branch', node: true,
+    after: ['planets3d-299c', 'emonly-300b', 'chainburst-301d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/semic-w302d.json': META_RUN.concat(['/elapsedS', '/gates/wallSec', '/fit/wallSec', '/chain/wallSec', '/chain/*/split/wallSec', '/chain/*/semic/wallSec']) },
+    note: '第302便d: 本体の積分器 semic(引きずりの u をドリフトの前の位置で解く)を既定にした影響 —— 器の門・目的の量の split と semic の差(再フィットしない)・連鎖の 5 本の門の反転' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
