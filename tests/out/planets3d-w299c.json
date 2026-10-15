@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第299便c",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T09:52:55.905Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-14T21:49:18.211Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T09:38:25.487Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
    }
   ],
   "code": [
@@ -18,55 +18,55 @@
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 51360,
     "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-14T09:47:10.837Z"
+    "mtime": "2026-10-14T11:11:27.687Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-14T09:38:25.815Z"
+    "mtime": "2026-10-14T01:39:42.913Z"
    },
    {
     "file": "tests/exp-w298c-moon3d.mjs",
     "bytes": 38229,
     "sha256": "7df3ab3c8f8949a48e650de1846778dab876a97399db58967059cfea1f1731e1",
-    "mtime": "2026-10-14T09:47:10.833Z"
+    "mtime": "2026-10-14T11:11:27.683Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-14T09:38:25.815Z"
+    "mtime": "2026-10-14T00:03:21.993Z"
    },
    {
     "file": "tests/lib-w296b-fit.mjs",
     "bytes": 10522,
     "sha256": "fee34451c30b386826577ad8ebc0a3a71607e6aba14449cd9762096a0ff860de",
-    "mtime": "2026-10-14T09:38:25.815Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-14T09:38:25.807Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-14T09:38:25.803Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-14T09:38:25.811Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
     "bytes": 2409,
     "sha256": "b07ea5da5a2e4ac7bbe026388aac612d79ac571da2803c2be313fea7f19c20ea",
-    "mtime": "2026-10-14T09:45:27.383Z"
+    "mtime": "2026-10-14T11:11:27.692Z"
    }
   ],
   "codeSha256": "93534aa943902f007a326386eb5bf41bb15996b75b47e274e446cb13af5f6f11",
@@ -97,11 +97,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1299,
-   "segments": 1178,
-   "closureShare": 0.3236
+   "names": 1311,
+   "segments": 1187,
+   "closureShare": 0.3247
   },
-  "scopeSha256": "fa8992a11105bd369d700b790cd7f1a25ce1bd080e3e02a84fc98c1de60efb08",
+  "scopeSha256": "25ff7a76d5e5cbd82e8c76154511bc528ee39089f89f570212addc86a5259f86",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1326,172 +1326,172 @@
  "ok": true,
  "timing": {
   "mercury-g0-h": {
-   "wallSec": 6.769
+   "wallSec": 7.668
   },
   "mercury-g0-h2": {
-   "wallSec": 12.213
+   "wallSec": 14.229
   },
   "venus-g0-h": {
-   "wallSec": 6.308
+   "wallSec": 6.63
   },
   "mars-g0-h": {
-   "wallSec": 6.886
+   "wallSec": 6.285
   },
   "venus-g0-h2": {
-   "wallSec": 11.411
-  },
-  "jupiter-g0-h": {
-   "wallSec": 6.803
+   "wallSec": 13.783
   },
   "mars-g0-h2": {
-   "wallSec": 11.572
+   "wallSec": 13.789
+  },
+  "jupiter-g0-h": {
+   "wallSec": 7.227
   },
   "saturn-g0-h": {
-   "wallSec": 6.427
+   "wallSec": 6.647
   },
   "jupiter-g0-h2": {
-   "wallSec": 10.611
-  },
-  "uranus-g0-h": {
-   "wallSec": 7.476
+   "wallSec": 12.372
   },
   "saturn-g0-h2": {
-   "wallSec": 12.371
+   "wallSec": 11.942
+  },
+  "uranus-g0-h": {
+   "wallSec": 6.48
   },
   "neptune-g0-h": {
-   "wallSec": 5.506
+   "wallSec": 6.369
   },
   "uranus-g0-h2": {
-   "wallSec": 10.804
+   "wallSec": 13.239
   },
   "neptune-g0-h2": {
-   "wallSec": 10.912
+   "wallSec": 12.634
   },
   "mer-grid1": {
-   "wallSec": 0.953
+   "wallSec": 1.206
   },
   "mer-grid0": {
-   "wallSec": 0.899
+   "wallSec": 1.22
   },
   "mer-grid2": {
-   "wallSec": 0.887
+   "wallSec": 1.093
   },
   "mer-grid3": {
-   "wallSec": 1
+   "wallSec": 1.242
   },
   "mer-grid4": {
-   "wallSec": 1.078
+   "wallSec": 0.977
   },
   "mer-grid5": {
-   "wallSec": 0.947
-  },
-  "mer-grid7": {
-   "wallSec": 0.892
+   "wallSec": 1.268
   },
   "mer-grid6": {
-   "wallSec": 1.214
+   "wallSec": 1.15
+  },
+  "mer-grid7": {
+   "wallSec": 1.226
   },
   "mer-grid8": {
-   "wallSec": 1.212
+   "wallSec": 1.34
   },
   "mer-grid9": {
-   "wallSec": 0.972
-  },
-  "mer-grid11": {
-   "wallSec": 0.919
+   "wallSec": 1.278
   },
   "mer-grid10": {
-   "wallSec": 1.047
+   "wallSec": 1.248
+  },
+  "mer-grid11": {
+   "wallSec": 1.359
   },
   "mer-grid12": {
-   "wallSec": 0.926
+   "wallSec": 0.995
   },
   "mer-it0": {
-   "wallSec": 0.883
+   "wallSec": 0.939
   },
   "mer-it1": {
-   "wallSec": 0.921
+   "wallSec": 0.894
   },
   "mer-it2": {
-   "wallSec": 1.053
+   "wallSec": 0.978
   },
   "mer-it3": {
-   "wallSec": 1.331
-  },
-  "mer-it4": {
-   "wallSec": 0.88
-  },
-  "mer-it5": {
-   "wallSec": 0.911
-  },
-  "mer-it6": {
-   "wallSec": 0.957
-  },
-  "mer-it7": {
-   "wallSec": 1.106
-  },
-  "mer-it8": {
    "wallSec": 1.058
   },
+  "mer-it4": {
+   "wallSec": 1.033
+  },
+  "mer-it5": {
+   "wallSec": 1.042
+  },
+  "mer-it6": {
+   "wallSec": 1.104
+  },
+  "mer-it7": {
+   "wallSec": 0.997
+  },
+  "mer-it8": {
+   "wallSec": 0.922
+  },
   "mer-it9": {
-   "wallSec": 0.81
+   "wallSec": 0.852
   },
   "mer-it10": {
-   "wallSec": 0.848
+   "wallSec": 0.951
   },
   "mer-it11": {
-   "wallSec": 0.93
+   "wallSec": 1.023
   },
   "mer-it12": {
-   "wallSec": 1.04
+   "wallSec": 1.032
   },
   "mer-it13": {
-   "wallSec": 0.914
+   "wallSec": 0.961
   },
   "mer-it14": {
-   "wallSec": 1.044
+   "wallSec": 1.226
   },
   "mer-fit-h": {
-   "wallSec": 9.845
+   "wallSec": 8.149
   },
   "mer-fit-h2": {
-   "wallSec": 16.326
+   "wallSec": 13.774
   },
   "venus-tr-h": {
-   "wallSec": 1.447
+   "wallSec": 1.664
   },
   "venus-tr-h2": {
-   "wallSec": 2.161
+   "wallSec": 2.547
   },
   "mars-tr-h": {
-   "wallSec": 1.405
+   "wallSec": 1.317
   },
   "jupiter-tr-h": {
-   "wallSec": 1.232
+   "wallSec": 1.533
   },
   "mars-tr-h2": {
-   "wallSec": 2.628
+   "wallSec": 2.608
   },
   "saturn-tr-h": {
-   "wallSec": 0.959
+   "wallSec": 1.133
   },
   "jupiter-tr-h2": {
-   "wallSec": 2.237
+   "wallSec": 2.228
   },
   "saturn-tr-h2": {
-   "wallSec": 1.992
+   "wallSec": 2.062
   },
   "uranus-tr-h": {
-   "wallSec": 1.2
+   "wallSec": 1.366
   },
   "neptune-tr-h": {
-   "wallSec": 1.42
+   "wallSec": 1.558
   },
   "uranus-tr-h2": {
-   "wallSec": 2.498
+   "wallSec": 2.386
   },
   "neptune-tr-h2": {
-   "wallSec": 2.169
+   "wallSec": 1.644
   }
  },
  "notClaim": [
@@ -1500,5 +1500,5 @@
   "「gain は普遍定数」",
   "「二次元の値を写して fitted」"
  ],
- "elapsedS": 129.002
+ "elapsedS": 134.308
 }

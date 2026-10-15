@@ -70,6 +70,7 @@
 ## 3. 統合直後の部分 QA
 
 `tools/post-merge-qa.sh`(使い方は `tools/README.md`)。フル QA・CI の代わりではない。
+第303便e から、統合の直後・鎖の前に `tools/harness-smoke.mjs`(差を直接読む器の煙試験)、鎖の直後・ゲートの前に `tools/pregate-transcript.mjs`(転記の照合)を回す(使い方は `tools/README.md`)。
 第288便f から、③「前回失敗項」の次に **③′ 本便の新設ブロック**(`POST_MERGE_WAVE_IDS`)を回す。qa.mjs に無い id は「未統合」として数えるだけ
 (FAIL にしない)。④ の常設集合(統合直後の 9 本)は変えない。既定は便ごとに差し替える —— 第289便f からは第289便の contract 系 6 本
 (docs.dfmAxiomTable・preset.condRowsRenamed・behavior.relDragKernel・behavior.ejectStateCarry・preset.layerAxisDecl・ui.pickerStatusAxes)、

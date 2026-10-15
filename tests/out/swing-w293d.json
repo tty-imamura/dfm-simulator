@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便d",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T10:52:14.707Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-14T23:24:07.870Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T09:38:25.487Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
    },
    {
     "file": "tests/out/dragcore-w292c.json",
-    "bytes": 35109,
-    "sha256": "9e2d460e925f0b1617733247f1638de96f34ba30848fb008a7af8a4790bd4c19",
-    "mtime": "2026-10-14T10:26:57.076Z"
+    "bytes": 35108,
+    "sha256": "47ba9dc23b5ecf770a804f3971842acf035c59142bb8eb4d6f1b8b18ab9706d8",
+    "mtime": "2026-10-14T23:20:55.651Z"
    }
   ],
   "code": [
@@ -24,31 +24,31 @@
     "file": "tests/exp-w293d-swing.mjs",
     "bytes": 50599,
     "sha256": "dc004efcb4f2edf6227ed3300b9f5973ece83ef104a96e93cef835eb616ad2f5",
-    "mtime": "2026-10-14T09:38:25.775Z"
+    "mtime": "2026-10-14T03:02:55.170Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-14T09:38:25.807Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-14T09:38:25.807Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-14T09:38:25.803Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-14T09:38:25.811Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
   "codeSha256": "877ac9cf3ec31ea629a203b794b408b7c7352c4ce8e31d08060799a832eeb601",
@@ -96,16 +96,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1290,
-   "segments": 1169,
-   "closureShare": 0.3218
+   "names": 1302,
+   "segments": 1178,
+   "closureShare": 0.3229
   },
-  "scopeSha256": "b610895c62eb1715a409309381bc0965acbb2a2b14820048510d204b54b55851",
+  "scopeSha256": "b281e9994b4f36d0253f8ef335a394785e0c68ce503f42e63891bc62360757a6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/dragcore-w292c.json",
-    "stableSha256": "c0a4208c35bb1660507d68e3493216a97d9e17c9bb1c620b4c9f9c687defa6fe",
+    "stableSha256": "9b488a15e7afc2211e53ef20d0f6ed4fb8d34109c489082db30e01acd7ea2653",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -23510,128 +23510,128 @@
  "ok": true,
  "timing": {
   "br-A1-instant-apo-0.008": {
-   "wallSec": 20.615000000000002
+   "wallSec": 15.901
   },
   "br-A1-instant-peri-0.008": {
-   "wallSec": 21.101
+   "wallSec": 16.476
   },
   "br-A1-smooth-peri-0.008": {
-   "wallSec": 21.253
+   "wallSec": 16.541
   },
   "br-A1-smooth-apo-0.008": {
-   "wallSec": 18.756999999999998
+   "wallSec": 15.908000000000001
   },
   "br-A2-instant-peri-0.008": {
-   "wallSec": 18.426000000000002
+   "wallSec": 15.785
   },
   "br-A2-instant-apo-0.008": {
-   "wallSec": 18.732
+   "wallSec": 15.849
   },
   "br-C-instant-peri-0.008": {
-   "wallSec": 17.617
+   "wallSec": 15.178999999999998
   },
   "br-A2-smooth-peri-0.008": {
-   "wallSec": 19.898
+   "wallSec": 16.408
   },
   "br-A2-smooth-apo-0.008": {
-   "wallSec": 19.832
+   "wallSec": 17.037
   },
   "br-C-instant-apo-0.008": {
-   "wallSec": 16.735
+   "wallSec": 14.547999999999998
   },
   "br-C-smooth-peri-0.008": {
-   "wallSec": 17.549
+   "wallSec": 15.233
   },
   "br-C-smooth-apo-0.008": {
-   "wallSec": 18.41
+   "wallSec": 14.931000000000001
   },
   "br-A1-instant-peri-0.016": {
-   "wallSec": 9.415
+   "wallSec": 8.77
   },
   "br-A1-instant-apo-0.016": {
-   "wallSec": 9.591000000000001
+   "wallSec": 8.902000000000001
   },
   "br-A1-smooth-peri-0.016": {
-   "wallSec": 10.350999999999999
+   "wallSec": 9.032
   },
   "br-A1-smooth-apo-0.016": {
-   "wallSec": 10.349
+   "wallSec": 8.156
   },
   "br-A2-instant-peri-0.016": {
-   "wallSec": 10.079
+   "wallSec": 8.496
   },
   "br-A2-instant-apo-0.016": {
-   "wallSec": 9.533
+   "wallSec": 8.31
   },
   "br-A2-smooth-peri-0.016": {
-   "wallSec": 10.006
+   "wallSec": 8.395
   },
   "br-C-instant-peri-0.016": {
-   "wallSec": 9.154
+   "wallSec": 7.301
   },
   "br-A2-smooth-apo-0.016": {
-   "wallSec": 10.434000000000001
+   "wallSec": 8.345
   },
   "br-C-instant-apo-0.016": {
-   "wallSec": 7.922000000000001
+   "wallSec": 7.888
   },
   "br-C-smooth-peri-0.016": {
-   "wallSec": 8.559
+   "wallSec": 8.416
   },
   "br-C-smooth-apo-0.016": {
-   "wallSec": 8.424
+   "wallSec": 8.219999999999999
   },
   "bridge-0.0016": {
-   "wallSec": 16.032
+   "wallSec": 14.031
   },
   "cond-A1-0.008": {
-   "wallSec": 16.746
+   "wallSec": 14.984
   },
   "cond-A2-0.008": {
-   "wallSec": 17.098
+   "wallSec": 15.135
   },
   "cond-B-0.008": {
-   "wallSec": 15.069
+   "wallSec": 14.216
   },
   "cond-C-0.008": {
-   "wallSec": 13.299
+   "wallSec": 13.132
   },
   "cond-D-0.008": {
-   "wallSec": 13.056
+   "wallSec": 12.936
   },
   "bridge-0.008": {
-   "wallSec": 2.771
+   "wallSec": 2.75
   },
   "cond-S-0.008": {
-   "wallSec": 10.232
+   "wallSec": 9.716
   },
   "cond-Bdrop-0.008": {
-   "wallSec": 12.831
+   "wallSec": 11.669
   },
   "cond-A1-0.016": {
-   "wallSec": 8.053
-  },
-  "cond-C-0.016": {
-   "wallSec": 6.877
+   "wallSec": 7.01
   },
   "cond-A2-0.016": {
-   "wallSec": 8.127
+   "wallSec": 7.04
+  },
+  "cond-C-0.016": {
+   "wallSec": 6.49
   },
   "cond-B-0.016": {
-   "wallSec": 7.529
+   "wallSec": 7.481
   },
   "cond-S-0.016": {
-   "wallSec": 5.07
+   "wallSec": 4.701
   },
   "cond-Bdrop-0.016": {
-   "wallSec": 5.9
+   "wallSec": 6.084
   },
   "cond-D-0.016": {
-   "wallSec": 6.785
+   "wallSec": 6.617
   },
   "bridge-0.016": {
-   "wallSec": 1.518
+   "wallSec": 1.523
   }
  },
- "elapsedS": 174.675
+ "elapsedS": 153.05
 }

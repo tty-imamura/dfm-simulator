@@ -939,6 +939,33 @@ export const REGEN_STEPS = [
     after: ['planets3d-299c', 'emonly-300b', 'gloc-302b', 'semic-302d', 'dragnorm-301a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/wbgest-w302c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第302便c: G_loc の n(1 つの W_bg の移送の予言)・在位の惑星の本の G_loc と 🌡️ の W_bg の合わせ直しの記録・W_bg の推定 W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目' }),
+  // 第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191): 在位の惑星の本から G_loc(n=−3)を外した世代の、フィットの本 4 本(🌡️🟫🟪🌦️)の semic の再フィットの記録
+  //   (段 R〔🌡️ 割線・🟫🟪 割線と dragCore の f の掃引・🌦️ 4 元の Newton〕・T〔🌔 の移送〕・G〔本の宣言 = 正本の値と記録〕・D〔分割の世代との前後表〕)。
+  //   html だけを読む(器のコードの依存として wbgest-302c〔fitMercury〕・planets3d-299c〔runPl3〕・inertial3-295c〔runPair〕・moon3d-298c〔runEmx3〕・emonly-300b〔runEm3〕の後・
+  //   html の生成領域の後)・1 プロセス。所要は第303便a の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('refit-303a', 'node tests/exp-w303a-refit.mjs', ['tests/out/refit-w303a.json'], 543, { secSource: 'w303a-branch', node: true,
+    after: ['wbgest-302c', 'planets3d-299c', 'inertial3-295c', 'moon3d-298c', 'emonly-300b', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/refit-w303a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第303便a: 在位の惑星の本の G_loc を外した世代のフィットの本 4 本の semic の再フィット(W_bg・🌦️ は初期配置も)・🌔 の移送・分割の世代との前後表' }),
+  // ---- 第303便b(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192): **源の慣性決定力 r⁻² を引きずりの分母へ**(宣言 relativeDrag.inertialR2 —— 省略時オフ)
+  //   (段 Z〔零試験・閉形式・解法・cRatio・単位の別欄・人工二体の近点〕・M〔🌡️ の写しで変種 A・B・Bs・Br の λ を 43.0″/世紀へ〕・T〔6 本への移送の予言と標的の差〕・
+  //   N〔G_loc の候補 n の表〕・E〔🌦️🟪 の読みの予言と許容・🌔 の月の ξ〕)。html を読む(器のコードの依存として planets3d-299c〔runPl3〕・gloc-302b〔toyPreset・runCase〕・
+  //   emonly-300b〔runEm3 —— synodic-299b・moon3d-298c の正本を読む〕・inertial3-295c〔runPair —— swing293・dragcore292 の正本を読む〕の後・
+  //   html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。所要は第303便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('inertialr2-303b', 'node tests/exp-w303b-inertialr2.mjs', ['tests/out/inertialr2-w303b.json'], 1300, { secSource: 'w303b-branch', node: true,
+    after: ['planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第303便b: 源の慣性決定力 r⁻² を引きずりの分母へ —— 零試験と閉形式・水星で変種ごとの λ・6 本への移送の予言(σ と数値の誤差)・G_loc の候補の表・地球–月と冥王星–カロンの λ の逆算(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第303便c(原仮定者の裁定(第93報)③「密度が高く距離が近い地球と月の関係では、質点とはみなせず天体半径の影響が大きい」・統括の検証項目 R193):
+  //   **地球–月の基線の監査と天体半径の効き方の目録**(段 audit〔🌦️ の写しの引きずり OFF の窓と抽出器・器の中の参照積分で軟化・平均の要素・e′・J₂・惑星・潮汐の切り分け〕・
+  //   radius〔源の有限球の格子・受け手の有限球〔表の差し替え〕・自己の慣性決定力〔行の分母 —— 器の中で inertialDragNormApply を包む〕〕・sunbg〔太陽が背景側の r⁻² の読み〕・
+  //   ident〔3 量で dragCore と受け手の球の特異値・解の広がり〕)。本の宣言は基点 9f92262 の写しに器の中で固定(後の再フィットで値が動かない)。
+  //   html だけを読む(他の正本は読まない —— html の生成領域の後)・1 プロセス。W303C_PARTS で段を分けられる。所要は第303便c の枝の実測(正本の elapsedS)
+  S('earthmoon-303c', 'node tests/exp-w303c-earthmoon.mjs', ['tests/out/earthmoon-w303c.json'], 1100, { secSource: 'w303c-branch', node: true,
+    after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/earthmoon-w303c.json': META_RUN.concat(['/elapsedS', '/audit/wallSec', '/audit/engine/off/wallSec', '/audit/engine/decl/wallSec', '/audit/engineMean01/wallSec',
+      '/radius/wallSec', '/radius/rows/*/wallSec', '/radius/h2/decl/wallSec', '/radius/h2/point/wallSec', '/sunbg/wallSec', '/sunbg/rows/*/wallSec', '/ident/wallSec']) },
+    note: '第303便c: 地球–月の基線の監査(窓と抽出器・軟化・平均の要素・e′・J₂・惑星・潮汐)と天体半径の効き方の目録(源・受け手の有限球・自己の慣性決定力)・太陽が背景側の W_bg・3 量の同定(値だけ —— 本の宣言は変えない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -1025,6 +1052,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w286f.json': [],
   // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w287b.json': [],
+  // 第303便a(原仮定者の裁定(第93報)①②・R191): 第302便の本の宣言の凍結の写し(tests/lib-w303a-pre.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 refit-w303a と歴史の記録の器〔gloc-302b・wbgest-302c・semic-302d・wbglaw-301g・fit-297b・dragnorm-301a・geo4stable-299d・synodic-299b・emonly-300b〕の入力)
+  'tests/data-w303a-decl302.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

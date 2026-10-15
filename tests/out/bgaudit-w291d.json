@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T07:14:23.238Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-14T23:04:06.995Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T04:48:49.662Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
    }
   ],
   "code": [
@@ -101,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1292,
-   "segments": 1171,
-   "closureShare": 0.3221
+   "names": 1304,
+   "segments": 1180,
+   "closureShare": 0.3231
   },
-  "scopeSha256": "a67e3daef74553c5dd890370b5f47b6a725d07ce19ebba726aa8c86f3a323feb",
+  "scopeSha256": "867e3e077874a343fbb333224ab1b2855451b6421949231a0a3ca433c3fc5544",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -780,12 +780,15 @@
      "inertialDragComposeBuild",
      "inertialDragComposeSolve",
      "inertialDragEpoch",
+     "inertialDragI2Apply",
      "inertialDragInit",
      "inertialDragNormApply",
      "inertialDragNormX",
      "inertialDragPCG",
      "inertialDragSemicWork",
      "inertialDragSpinTerm",
+     "inertialR2Q",
+     "inertialR2SumOf",
      "inertialSpinMoment",
      "isNum",
      "relDrag3SpinOf",
@@ -840,5 +843,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 3.324
+ "elapsedS": 2.526
 }

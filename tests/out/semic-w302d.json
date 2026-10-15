@@ -3,22 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-  "generatedAt": "2026-10-14T12:21:49.834Z",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-15T00:03:24.012Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6826036,
-    "sha256": "18a3e903a898e5488ba15af8dbabfa46d5484a688d495017ae8998afae6cddc0",
-    "mtime": "2026-10-14T04:48:49.662Z"
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
+   },
+   {
+    "file": "tests/data-w303a-decl302.json",
+    "bytes": 36883,
+    "sha256": "4fb1c2d8ef65f910bec604ef0f6b0cafd2849700e8a52312149627f753735e30",
+    "mtime": "2026-10-14T20:10:19.112Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w302d-semic.mjs",
-    "bytes": 31442,
-    "sha256": "db645dea88c3a6cf085727da6d7224698d31ba36c8b895a89663335107f0c09d",
-    "mtime": "2026-10-14T04:48:49.726Z"
+    "bytes": 31897,
+    "sha256": "dedb692bd17af5ba57a9d0333007619bb3de5947eed95b90676fd4d813d5cc09",
+    "mtime": "2026-10-14T20:10:19.117Z"
    },
    {
     "file": "tests/lib-w302c-pre.mjs",
@@ -46,9 +52,9 @@
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
-    "bytes": 22575,
-    "sha256": "d408ab77ae29707be906fcc8933418c9a13b65c737d04bc4798353f064bcb7f8",
-    "mtime": "2026-10-14T11:11:27.687Z"
+    "bytes": 23521,
+    "sha256": "6d98db53552ad9ed5e46da2ed45bfea1c5049c501274769e2ea31786e2b1b3d8",
+    "mtime": "2026-10-14T20:10:19.114Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -67,6 +73,12 @@
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
     "mtime": "2026-10-09T10:19:39.615Z"
+   },
+   {
+    "file": "tests/lib-w303a-pre.mjs",
+    "bytes": 6401,
+    "sha256": "6270beace409df900d7328c652b9d5cf73c47d75b84fdcc60700dad50e657b7e",
+    "mtime": "2026-10-14T20:10:19.119Z"
    },
    {
     "file": "tests/exp-w296c-chain.mjs",
@@ -88,9 +100,9 @@
    },
    {
     "file": "tests/exp-w299d-geo4stable.mjs",
-    "bytes": 42996,
-    "sha256": "333e2ddf10160ad80433687ba66234e3055504992b9fbe631f8eda29b7f3ed4d",
-    "mtime": "2026-10-14T01:39:42.877Z"
+    "bytes": 43485,
+    "sha256": "522a92a68e6db6943ec416569f870d275ccb5cae1f0a4749eca51e68022664eb",
+    "mtime": "2026-10-14T20:10:19.112Z"
    },
    {
     "file": "tests/exp-w301d-chainburst.mjs",
@@ -99,7 +111,7 @@
     "mtime": "2026-10-14T03:02:55.174Z"
    }
   ],
-  "codeSha256": "4186e115e4174c40cbf35a9050c7e18e069668b2d09f5bc64cbbbde53908986e",
+  "codeSha256": "8e864ac8427a29b9fc4f49a0416c01998b7c893db80e6c8507aef4ce34738cac",
   "harnessVersion": "w302d-semic-1",
   "semicVersion": "w302d-semic-1",
   "orderPreVersion": "w302d-orderpre-1",
@@ -170,13 +182,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1314,
-   "segments": 1193,
-   "closureShare": 0.3254
+   "names": 1326,
+   "segments": 1202,
+   "closureShare": 0.3264
   },
-  "scopeSha256": "f9994334e418e28ff6b011ff0e037877b4f3a88861e6bcfaebf31374acb561c7",
+  "scopeSha256": "1717ae4b8b6079fbc3da448b062d38bd64f83d76e543d3022044bc8eb97a9641",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w303a-decl302.json",
+    "stableSha256": "15ecfb6d08875009c7deed68c2511efb7855a2c2340c51970ccd550c301bd262",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  },
  "ids": {
@@ -485,7 +504,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 53.543
+  "wallSec": 45.27
  },
  "fit": {
   "rows": [
@@ -635,7 +654,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 97.091
+  "wallSec": 73.582
  },
  "chain": {
   "w296c": {
@@ -647,7 +666,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 13.882,
+    "wallSec": 10.258,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -674,7 +693,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 14.088,
+    "wallSec": 10.407,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2575,7 +2594,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 22.826,
+    "wallSec": 17.934,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2608,7 +2627,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 21.859,
+    "wallSec": 17.405,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -4528,7 +4547,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.029,
+    "wallSec": 3.927,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4577,7 +4596,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.086,
+    "wallSec": 4.157,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -5974,7 +5993,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 343.933,
+    "wallSec": 260.37,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -5985,7 +6004,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 337.558,
+    "wallSec": 259.4,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9148,7 +9167,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 31.766,
+    "wallSec": 27.212,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9175,7 +9194,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 33.386,
+    "wallSec": 26.912,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9205,8 +9224,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 829.432
+  "wallSec": 638.003
  },
  "ok": true,
- "elapsedS": 982.432
+ "elapsedS": 759.129
 }

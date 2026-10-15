@@ -3743,3 +3743,54 @@ SYSTEM_PROMPT の規則 13(逐語):
   「43″ が出た」「GR と一致した」と書かない(n=−3 の近点の係数が 1PN の試験粒子の係数と同じなのは近点の一次だけ)。
 - **器と正本**: `tests/exp-w302c-wbgest.mjs`(版 w302c-wbgest-1・`W302C_OUT`・`W302C_PARTS`)→ `tests/out/wbgest-w302c.json`(段 wbgest-302c)。G_loc の前の宣言の写し `tests/lib-w302c-pre.mjs`(既存の器 w301g・w302b・w302d が使う)。
 - QA: `behavior.wbgEstimate302`・`preset.gLocPlanets302`(root は SKIP —— 世代切替 = html の `const WBG_EST_VERSION`)。既存の `preset.planets3d299`・`docs.planets3d299`・`behavior.wbgDirect302`・`docs.wbgLaw301`・`behavior.gLoc302` は G_loc の上の再フィットの世代を受ける。
+
+## 95. 第303便a —— 在位の惑星の本を引きずりの geoPN=3 に戻す(G_loc n=−3 を宣言から外す)・フィットの本 4 本の semic の再フィット・観測の候補の行 A1・A4・B1(原仮定者の裁定(第93報)①②・DECISIONS v61 AN306 ①・AN312 ②・AN313・統括の検証項目 R191・**宣言の値と記録だけ** —— 式・宣言の鍵・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **G_loc の在位の宣言は 0 本**: 🌡️🌋🔴🏀🟡🔷💙 から `physics.gLoc` を外した(G_loc は引きずりだけでは合わない量を埋めるため —— 引きずりが主)。宣言の鍵と受理器は残す(三次元の本だけ・省略時オフ)。
+  gain 0 だった 6 本は引きずり OFF のまま(`{Wbg:null, enabled:false}`)。第302便c の n=−3 の測定は正本 gloc-w302b・wbgest-w302c の記録。
+- **semic の再フィット**(fitRecord の law・window・procedure に semic と「第303便a」・🌡️ の law に「G_loc なし」・fixed の末尾に分割の世代の旧 cond.sig): 🌡️ W_bg 221.1204・🟫 221.1206・
+  🟪 0.0001486103・🌦️ 3.85583(初期配置 近地点距離 3.5716687・t=0 の接触離心率 0.0753231・接触傾斜 5.28885°)。🌔 は 🌦️ の宣言の写し(W_bg は移送 —— fitRecord なし)。
+  🌦️ の W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない(fitRecord の notFitted に 1 行)。
+- **A1 の列**: 水星の本(🌡️🟫)の fitRecord の標的の source に「1PN の上の追加の近日点歳差 −0.0020±0.0030″/世紀(EPM2011 —— 候補の行)・総量の参照 42.9799±0.0009(Park 2017)」。
+  標的は照合規約の 43.0″/世紀のまま。6 本の観測カードに A1 の行(木星は「0 と整合とは言わない」)。
+- **観測の候補の行** `paper/data/pn1-ephemeris-candidates.csv`(27 行 —— 観測 CSV と同じ 11 列・record_id は tests/lib-w270b-obscsv.mjs の規則・quantity は *_candidate・sigma 欄は空・
+  note に sigma_primary=unverified と幅の意味〔EPM2011 は原資料の σ / INPOP は 1σ ではない許容区間の半幅〕・派生の行に derived_from)。判定(calaudit)と本の宣言は読まない(候補)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。新しい惑星の本に G_loc を宣言しない(在位の方針 —— 宣言するなら三次元・較正の外・引きずりを主とする理由を添える)。
+  「43″ が出た」「GR と一致した」「W_bg の宇宙の値が決まった」と書かない。候補の行を verified と書かない。
+- **器と正本**: `tests/exp-w303a-refit.mjs`(版 w303a-refit-1・`W303A_OUT`・`W303A_PARTS=R,T,G,D`)→ `tests/out/refit-w303a.json`(段 refit-303a)。第302便の宣言の写し
+  `tests/lib-w303a-pre.mjs`(版 w303a-pre-1 —— `DECL302`〔凍結のデータ `tests/data-w303a-decl302.json` から読む —— lib の本文に本の ID を持たない〕・`pin302(p)`・`gate302(p)`〔本ごとの門 ——
+  引きずりが Wbg の形の本だけ〕・`pinChanges302(p)`・`pinDecl302(evalExpr?, ids?)`・`isGen303a`〔写しのある本のどれかが第302便の宣言から動いた〕)を歴史の記録の器(w302b・w302c・w302d・
+  w301g・w297b・w301a・w299d・w299b —— 再生成範囲が本の一覧の器は ids でその本だけ)が loadHtmlMain の直後に呼ぶ(データは器の入力 meta.inputs)。w300b(🌔)は第298便c の正本と照合する分割の走りだけを `pin302` で。
+- QA: `preset.revertGLoc303`・`docs.obsA1B1303`(root は SKIP —— 世代切替 = `isGen303a`)。既存の `preset.planets3d299`・`docs.planets3d299`・`preset.gLocPlanets302`・`preset.fitCond297`・
+  `docs.fit297`・`docs.moon3d298`・`ui.liveMeasure297`・`preset.fitDerived296`・`docs.fitContract296`・`preset.refit301`・`docs.wbgLaw301`・`behavior.wbgDirect302`・`ui.wbgSlider302`・`preset.meshMigrate299` は
+  第303便a の世代を受ける(歴史の正本との照合は pin302 の写し・今の宣言は refit-w303a —— 閾値は変えない)。
+- 🟫 の記録の窓の文の対照は「引きずり無しの対照」(説明タブの精密実測が窓の文 /gain 0 の対照|引きずり無しの対照/ で対照の走りを足す —— 第302便a の語)。
+
+## 96. 第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ `physics.relativeDrag.inertialR2`・G_loc の別名 `cRatio`(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}`(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
+  lambda と lambdaRs はどちらか 1 つ。正規化後は 4 鍵(lambda か lambdaRs・sources・self・env)を持つ。受け手 i の**分母にだけ**源の慣性決定力 w_I,ij = m_j/(λ_j (r_ij² + ε²)) を足す:
+  u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_I,ij [+ 自己の項] [+ 背景側の天体の項] + Σ_j w_ij)(分子の引きずり w_ij = m_j 𝒦_j と右辺は変えない・ε は引きずりの核の ε)。
+  lambda は普遍の長さ(w_I ∝ m_j)・lambdaRs は λ_j = k·r_s(m_j) = 2kGm_j/c₀²(w_I = c₀²/(2kG(r²+ε²)) —— 源の質量によらない・cLight > 0 と G > 0 が要る)。
+  sources の既定 "all"(質量が正の全粒子 —— 引きずりの対の宣言と別・近似多粒子の塵どうしは除く)・"pairs" は引きずりの対だけ。self:"radius" は受け手自身の m_i/(λ_i R_i²)(R_i は宣言半径)。
+  env:"bodies" は `relativeDrag.env.bodies` の背景側の天体 m_b/(λ_b(d_b² + ε²))(d は宣言の距離 —— 公転半径。env.bodies の宣言が要る)。W_bg は外部(宇宙・銀河)だけの値として読む。
+- **拒否**: lambda と lambdaRs の両方・どちらも無い・0 以下・未知の鍵・sources/self/env の値の外・env:"bodies" で env.bodies が無い・gain の旧宣言(互換読込)や旧法則の凍結比較と一緒・lambdaRs で cLight ≤ 0。
+- **力学**: 合成則 solve の行の対角に x_I,i = Σw_I/W_bg を足すだけ(B = M(I+L) は対角だけが増える —— 対称正定値のまま・直接法/Gauss–Seidel/PCG は同じ対角)。軸引きずりの ν も同じ対角から作る。
+  読み口 `HP.inertialR2State(S)`(版 w303b-inertialr2-1 —— 受け手ごとの Σw_I・Σw・ξ = Σw/(W_bg + Σw_I))・`HP.inertialDragState(S).inertialR2`(宣言した本だけ)・上界 bound は 2 max ξ(宣言した本だけ)。
+  推定の読み口 `HP.wbgEstimateOf` は源ごとの r⁻²(m/(d²+ε²) [M/L²])と r⁻³(m𝒦 [M/L³])を別の欄 `perSource` に出す(W_bg の欄 total には足さない —— 単位が違う)・宣言のある本は `inertialR2:{wI, xi}` も。
+- **G_loc の別名**: `physics.gLoc:{law:"cRatio"}` は n = +1(G_loc = G·c_loc/c₀ —— 第93報の候補)。力は law:"cLocPow", n:1 と同じ演算列(ビット同一)・正準形は law "cRatio" のまま。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— どの本に・どの読み〔普遍の長さ/λ ∝ m〕・どの n で入れるかは次便の統括の裁定)。
+  書くなら W_bg を本から本へ写さない(写すのは λ)・太陽を含めて合わせた W_bg を別の惑星に使わない。近点の量を書くときは「形が同じ(距離・離心率の依存)」と「値が合う(量・窓・σ・数値の誤差)」を分け、
+  「GR を導いた」「GR と一致した」「43″ が出た」と書かない。
+- **器と正本**: `tests/exp-w303b-inertialr2.mjs`(版 w303b-inertialr2-1・`W303B_OUT`・`W303B_PARTS`・`W303B_QUICK`)→ `tests/out/inertialr2-w303b.json`(段 inertialr2-303b)。
+- QA: `behavior.inertialR2_303`・`docs.inertialR2_303`(root は SKIP —— 世代切替 = html の `const REL_DRAG_I2_KEY="inertialR2"`。省略時オフ・λ → ∞ のビット同一・二体の閉形式・少数体の直接法と多粒子の PCG・
+  単位の別欄・cRatio のビット同一と受理器・状態の契約・正本と文書・禁句)。
+
+## 97. 第303便c —— 地球–月の基線の監査と天体半径の効き方の目録(原仮定者の裁定(第93報)③・統括の検証項目 R193・**探索の器だけ —— html・本の宣言・署名・エンジンの式は変えない**・**SYSTEM_PROMPT には載せない**)
+
+- **器と正本**: `tests/exp-w303c-earthmoon.mjs`(版 w303c-earthmoon-1・抽出器 w303c-emx4-1・`W303C_PARTS`=audit,radius,sunbg,ident・`W303C_OUT`・`W303C_LONG`)→ `tests/out/earthmoon-w303c.json`(段 earthmoon-303c)。🌦️🌔 の physics と bodies は基点 9f92262 の写し `PIN_DECL` に器の中で固定(生きている宣言と同じかは `pin.liveSame`)。
+- **抽出器**(器の関数): `winOf`(M1〜M3 は第298便c の runEmx3 と同じ式)・`harmonicRate`(M4 —— 近点の方位の直線に φ = 2(λ☉ − ϖ̄) の 1〜3 倍の調和を同時に回帰)・`sidHarmonic`(偏りのない恒星月 —— 黄経 0 の通過の時刻を中心差・出差・二均差・黄道への還元の項と同時に回帰)・交点の周期(接触の Ω)。
+- **器の中だけの差し替え**(本の宣言と html は変えない): `rcvBallHook`(エンジンの構造核の表を受け手の一様球の平均〔月の行〕か二重平均〔対称〕の表に差し替える)・`installDenWrap`(エンジンの関数 inertialDragNormApply を process の中で包み、`S.__w303cDen` の慣性決定力を行の分母に足す —— 自己の慣性決定力・瞬間の距離の太陽の r⁻²)・`refRun`(参照積分器 —— 太陽固定・速度 Verlet・軟化・e′・惑星・J₂・潮汐の保存項。アプリの物理ではない)・`solveMeanIc`(長窓の平均の要素へ初期配置を合わせる 3 元 Newton)。
+- **主要な数**(実測): 引きずり OFF の 118 公転窓 M1 8.8985 年 − B1 8.850391 年 = +0.0481 年の内訳 = 窓の偏り +0.0327・軟化 ε 0.01 +0.0113・平均の要素 -0.0045・e′ +0.0092・J₂ +0.00038・惑星 +0.00002・潮汐 +0.000000 年。全部入りの純ニュートン(参照積分)8.84938 年(B1 -0.00101 年 —— 照合許容の内)。天体半径: 源の構造核と点源の差 366 s・受け手の球 32 s(118 公転窓 M1)・自己の慣性決定力は分母を 710 倍(λ = 3r_s☉)にして引きずりを消す。太陽が背景側 w_I = c²/((6+2n)G d²)(d = 1 au・n=0 で 10.0289 [M/L³])。同定の特異値 4.7e-3・8.7e-5・2.6e-7(許容の倍・箱の全幅)。
+- **QA**: `docs.earthMoon303`(root は SKIP —— 世代切替 = 正本と器の有無。正本の門・表の行〔器の行の関数で正本から作り直して PHYSICS〔第303便c〕と逐語照合〕・主張の整合・文書・段・.gitignore・post-merge の ③′・書かない語)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(主因は太陽摂動 —— 器の監査では引き算の残りは照合許容の内)。118 公転窓の直線 fit の近点周期・恒星月を「平均」と呼ばない(窓の位置で動く —— 調和の回帰か長窓)。「地球の核を同定した」と書かない。

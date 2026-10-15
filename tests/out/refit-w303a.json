@@ -1,0 +1,1171 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第303便a",
+  "target": "beta/index.html",
+  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+  "generatedAt": "2026-10-15T00:18:10.663Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6854506,
+    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
+    "mtime": "2026-10-14T20:22:55.691Z"
+   },
+   {
+    "file": "tests/data-w303a-decl302.json",
+    "bytes": 36883,
+    "sha256": "4fb1c2d8ef65f910bec604ef0f6b0cafd2849700e8a52312149627f753735e30",
+    "mtime": "2026-10-14T20:10:19.112Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w303a-refit.mjs",
+    "bytes": 38128,
+    "sha256": "048eaed6dacbb867dfa5df03cff19a5586161b7b3ce8c22310d5efa510976a98",
+    "mtime": "2026-10-14T20:10:19.119Z"
+   },
+   {
+    "file": "tests/lib-w303a-pre.mjs",
+    "bytes": 6401,
+    "sha256": "6270beace409df900d7328c652b9d5cf73c47d75b84fdcc60700dad50e657b7e",
+    "mtime": "2026-10-14T20:10:19.119Z"
+   },
+   {
+    "file": "tests/exp-w302c-wbgest.mjs",
+    "bytes": 50147,
+    "sha256": "1c38092838478afd56de8994c9b5640880fc44d79d4c21cdf621bd3f11ef5506",
+    "mtime": "2026-10-14T20:10:19.117Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 51360,
+    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
+    "mtime": "2026-10-14T11:11:27.687Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-14T01:39:42.913Z"
+   },
+   {
+    "file": "tests/exp-w295c-inertial3.mjs",
+    "bytes": 35895,
+    "sha256": "f35f7e054c4967d75970891c8cdcfac37a40f9938f1abe369ee18f89da7df449",
+    "mtime": "2026-10-14T11:11:27.683Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-14T00:03:21.993Z"
+   },
+   {
+    "file": "tests/lib-w296b-fit.mjs",
+    "bytes": 10522,
+    "sha256": "fee34451c30b386826577ad8ebc0a3a71607e6aba14449cd9762096a0ff860de",
+    "mtime": "2026-10-09T10:19:39.623Z"
+   },
+   {
+    "file": "tests/exp-w298c-moon3d.mjs",
+    "bytes": 38229,
+    "sha256": "7df3ab3c8f8949a48e650de1846778dab876a97399db58967059cfea1f1731e1",
+    "mtime": "2026-10-14T11:11:27.683Z"
+   },
+   {
+    "file": "tests/exp-w300b-emonly.mjs",
+    "bytes": 23521,
+    "sha256": "6d98db53552ad9ed5e46da2ed45bfea1c5049c501274769e2ea31786e2b1b3d8",
+    "mtime": "2026-10-14T20:10:19.114Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "bc9ae25f82631e515e5012321a5c8b8ff49a94979d080cd37b19dbc13fd4df75",
+  "harnessVersion": "w303a-refit-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)",
+  "reading": "統括の検証項目 R191(在位の惑星の本から G_loc n=−3 を外す・semic での再フィット・観測の行)",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.GLOC_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_NORM_VERSION",
+    "HP.REL_DRAG_SEMIC_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.REL_DRAG_SPIN_NODES",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.fitCondInputsOf",
+    "HP.fitCondSig",
+    "HP.fitCondStateOf",
+    "HP.gLocPeriAdvance",
+    "HP.gLocState",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.inertialDragLedgerOf",
+    "HP.inertialDragState",
+    "HP.inertialSpinMoment",
+    "HP.relDragBackgroundOf",
+    "HP.relDragStepOrderOf",
+    "HP.sim",
+    "HP.synodic",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.wbgEstimateOf",
+    "LAWS",
+    "T",
+    "ab",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "dfmSphereKernelQEff",
+    "fmt",
+    "pnSource",
+    "synUniform",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1329,
+   "segments": 1205,
+   "closureShare": 0.3265
+  },
+  "scopeSha256": "f981ede07a00b55085dff50bf31c675e6bf24dea6c19de95c30885161188a6cd",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w303a-decl302.json",
+    "stableSha256": "15ecfb6d08875009c7deed68c2511efb7855a2c2340c51970ccd550c301bd262",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w303a-refit-1",
+ "preVersion": "w303a-pre-1",
+ "parts": [
+  "R",
+  "T",
+  "G",
+  "D"
+ ],
+ "refit": {
+  "mer3": {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "Wbg302": 489275.3,
+   "gLoc302": {
+    "law": "cLocPow",
+    "n": -3
+   },
+   "start": 221.1205993960312,
+   "fit": {
+    "gl": null,
+    "h": 0.016,
+    "ctl": -9.267888359086529,
+    "ctlH2": -7.237235699023904,
+    "ctlPeriodDays": 87.96929064938412,
+    "gLocPart": 0,
+    "need": 43,
+    "reachable": true,
+    "iters": [
+     {
+      "Wbg": 221.1205993960312,
+      "f": -0.00010099029211829702
+     },
+     {
+      "Wbg": 221.12008006966082,
+      "f": 0.00008956978361851498
+     },
+     {
+      "Wbg": 221.12032417059615,
+      "f": 0.000024073579353967034
+     },
+     {
+      "Wbg": 221.12041389170554,
+      "f": -0.000013790455184903294
+     },
+     {
+      "Wbg": 221.12038121438334,
+      "f": 0.000019131170283515075
+     },
+     {
+      "Wbg": 221.12040020358475,
+      "f": -0.0000046167077414338564
+     },
+     {
+      "Wbg": 221.12039651198756,
+      "f": 0.000059788779857683494
+     },
+     {
+      "Wbg": 221.12039993896403,
+      "f": 0.000042672586012315605
+     },
+     {
+      "Wbg": 221.1204084828002,
+      "f": 0.000002384433550162157
+     },
+     {
+      "Wbg": 221.12040898846274,
+      "f": -0.0000350904471559943
+     },
+     {
+      "Wbg": 221.12040851497423,
+      "f": 0.000024395269491606086
+     },
+     {
+      "Wbg": 221.1204087091533,
+      "f": -0.000002248961763484658
+     },
+     {
+      "Wbg": 221.1204086927632,
+      "f": 0.00003767176870894673
+     },
+     {
+      "Wbg": 221.12040870822997,
+      "f": -0.000002248961763484658
+     }
+    ],
+    "Wbg": 221.1204,
+    "WbgSI": 221120.4,
+    "diff": 43.000022517644176,
+    "diffH2": 42.999986779991616,
+    "residual": 0.000022517644175934493,
+    "h2gap": 0.000035737652559930666,
+    "periodDays": 87.96928420053625,
+    "periodDaysH2": 87.96936076054709,
+    "stepsH": 380028,
+    "gate": true,
+    "dragPart": 43.000022517644176,
+    "dragRatioToBook": 1.0000009017532132
+   },
+   "gate": true,
+   "rule": "第302便c の fitMercury(G_loc なし —— 割線の起点は第299便c の gain 0.004522419 = W_bg 221.1205993960312)",
+   "record": {
+    "version": "w298b-1",
+    "parent": "mercurySunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・局所重力 G_loc なし・積分器 semic(第303便a の再フィット)",
+    "targets": [
+     {
+      "q": "近点率の差(引きずり OFF の対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)。A1 の列: 1PN の上の追加の近日点歳差 −0.0020±0.0030″/世紀(EPM2011 —— Pitjeva & Pitjev 2013・原資料の σ・候補の行 sigma_primary=unverified)—— 比較の標的は「1PN の値+追加 ± σ」",
+      "window": "8 公転・検出器 B・引きずり OFF の対照との差(同じ刻み・semic)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした(🟫 と同じ)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 43.000022517644176,
+      "residual": 0.000022517644175934493,
+      "rel": 5.236661436263836e-7,
+      "numerics": {
+       "h2": 0.000035737652559930666,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+      "obs": 87.969,
+      "unit": "d",
+      "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+      "window": "8 公転",
+      "tol": {
+       "value": 0.0005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+      "model": 87.96928420053625,
+      "residual": 0.0002842005362566624,
+      "rel": 0.0000032306896322188775,
+      "numerics": {
+       "h2": 0.00007656001083944375,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 221.1204
+     }
+    ],
+    "fixed": [
+     "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+     "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"(🟫 と同じ)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 221.1205993960312(旧 gain 0.004522419 —— 第302便c の G_loc の上の値 489275.3 ではない) を起点に合わせ直した(🌡️)。分割の世代の記録(旧 cond.sig f41e374edb99730e)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 引きずり OFF の対照との近点率の差(8 公転・semic・G_loc なし)を 43.0″/世紀に割線で合わせ(c = 1/W_bg・起点は第299便c の gain 0.004522419)、W_bg を 7 桁に丸めて h と h/2 で測り直した(器 tests/exp-w303a-refit.mjs —— 割線は tests/exp-w302c-wbgest.mjs の fitMercury と同じ)",
+    "dt": 0.016,
+    "steps": 380028,
+    "status": "fitted",
+    "notFitted": [
+     "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+     "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+     "機構(1PN の近日点前進の機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "c5c425a54a51ac99",
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+    }
+   },
+   "accepted": true,
+   "err": null
+  },
+  "mer2": {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "Wbg302": 221.12079497348208,
+   "dt": 0.016,
+   "obs": 43,
+   "ctl": {
+    "aps": -9.267902174331272,
+    "apsH2": -7.2374120321551185,
+    "periodSec": 7600534.161281413
+   },
+   "secant": {
+    "iters": [
+     {
+      "Wbg": 221.12079497348208,
+      "f": 0.000018372537368804842
+     },
+     {
+      "Wbg": 221.09868510497157,
+      "f": 0.0043522042873433975
+     },
+     {
+      "Wbg": 221.12088871389534,
+      "f": -0.000031677469735313935
+     },
+     {
+      "Wbg": 221.12072825695057,
+      "f": 0.000010316758078943167
+     },
+     {
+      "Wbg": 221.12076767652465,
+      "f": 0.000015356820071588118
+     },
+     {
+      "Wbg": 221.12064756707235,
+      "f": -8.295073001818309e-7
+     }
+    ],
+    "best": {
+     "Wbg": 221.12064756707235,
+     "f": -8.295073001818309e-7
+    }
+   },
+   "Wbg": 221.1206,
+   "model": 43.00001794173484,
+   "modelH2": 43.00021445660584,
+   "residual": 0.000017941734839155288,
+   "h2": 0.00019651487099991982,
+   "steps": 380027,
+   "periodSec": 7600533.575959698,
+   "fScan": {
+    "index": 0,
+    "x": 0.3,
+    "rows": [
+     {
+      "f": 0.1,
+      "aps": 43.00663083864836,
+      "steps": 380027
+     },
+     {
+      "f": 0.3,
+      "aps": 43.00537335758045,
+      "steps": 380027
+     },
+     {
+      "f": 0.5,
+      "aps": 43.00400023843429,
+      "steps": 380027
+     },
+     {
+      "f": 0.7,
+      "aps": 43.002693161702936,
+      "steps": 380027
+     },
+     {
+      "f": 0.9,
+      "aps": 43.00141171906354,
+      "steps": 380027
+     },
+     {
+      "f": 1,
+      "aps": 43.00070550815063,
+      "steps": 380027
+     }
+    ],
+    "span": 0.005925330497731807
+   },
+   "gate": true,
+   "record": {
+    "version": "w297b-1",
+    "parent": "mercurySunInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "perihelionRateDrag",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)。A1 の列: 1PN の上の追加の近日点歳差 −0.0020±0.0030″/世紀(EPM2011 —— Pitjeva & Pitjev 2013・原資料の σ・候補の行 sigma_primary=unverified)—— 比較の標的は「1PN の値+追加 ± σ」",
+      "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)・引きずり無しの対照との差(同じ刻み・semic)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 221.1206
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟤 mercurySunInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.05・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "太陽と水星は点源(dragCore を宣言しない —— 太陽の f を R_c/R=0.3 で振った近点率の差は下の notIdentifiable)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 221.12079497348208(旧 gain 0.004522415) を起点に合わせ直した(🟫)。分割の世代の記録(旧 cond.sig 4222253b30138f1b)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 引きずり OFF の対照との近点率の差(8 公転・semic)を 43.0″/世紀に割線で合わせ(c = 1/W_bg・起点は分割の世代の W_bg)、7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted)→ 固定した W_bg で dragCore の f を振る(同定の可否 —— 器 tests/exp-w303a-refit.mjs)",
+    "dt": 0.016,
+    "steps": 380027,
+    "residual": {
+     "value": 0.000017941734839155288,
+     "unit": "″/世紀",
+     "model": 43.00001794173484,
+     "rel": 4.17249647422216e-7
+    },
+    "numerics": {
+     "h2": 0.00019651487099991982,
+     "dtHalf": 0.008
+    },
+    "status": "fitted",
+    "notFitted": [
+     "公転周期(8 公転の平均 —— 引きずり OFF の対照との差と JPL/NSSDC の値との差を記録するだけ)",
+     "離心率",
+     "近日点移動の全量(重力の軟化の逆行を含む —— 合わせたのは引きずり OFF の対照との差)"
+    ],
+    "notIdentifiable": [
+     "dragCore(太陽の f を R_c/R=0.3 で 0.1〜1.0 に振った近点率の幅 5.93e-3″/世紀 —— 数値誤差の帯 1.97e-4″/世紀 を超えるが W_bg と縮退。1 量では W_bg と分けられない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "7786fd1bac24a9ab",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(検出器 B —— 近点ごとの方位の直線 fit・gain 0 の対照との差)・w295c-inertial3-1"
+    }
+   },
+   "accepted": true,
+   "err": null
+  },
+  "plu": {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "Wbg302": 0.00014861029313528932,
+   "dt": 0.16,
+   "obs": 551856.43872,
+   "secant": {
+    "iters": [
+     {
+      "Wbg": 0.00014861029313528932,
+      "f": 3.3085234463214874e-7
+     }
+    ],
+    "best": {
+     "Wbg": 0.00014861029313528932,
+     "f": 3.3085234463214874e-7
+    }
+   },
+   "Wbg": 0.0001486103,
+   "model": 551856.43872077,
+   "modelH2": 551856.4386751712,
+   "residual": 7.699709385633469e-7,
+   "h2": 0.0000455987174063921,
+   "steps": 2759283,
+   "rev16": {
+    "y": 551856.4387206711,
+    "diffFromH": -9.883660823106766e-8,
+    "revN": 16
+   },
+   "fScan": {
+    "scans": [
+     {
+      "index": 0,
+      "x": 0.3,
+      "rows": [
+       {
+        "f": 0.1,
+        "period": 551856.4334015175,
+        "steps": 2759283
+       },
+       {
+        "f": 0.3,
+        "period": 551856.4360610513,
+        "steps": 2759283
+       },
+       {
+        "f": 0.5,
+        "period": 551856.43872077,
+        "steps": 2759283
+       },
+       {
+        "f": 0.7,
+        "period": 551856.4413801577,
+        "steps": 2759283
+       },
+       {
+        "f": 0.9,
+        "period": 551856.4440397634,
+        "steps": 2759283
+       },
+       {
+        "f": 1,
+        "period": 551856.4453696519,
+        "steps": 2759283
+       }
+      ]
+     },
+     {
+      "index": 1,
+      "x": 0.5,
+      "rows": [
+       {
+        "f": 0.3,
+        "period": 551856.4386433712,
+        "steps": 2759283
+       },
+       {
+        "f": 0.5,
+        "period": 551856.43872077,
+        "steps": 2759283
+       },
+       {
+        "f": 0.7,
+        "period": 551856.4387980693,
+        "steps": 2759283
+       },
+       {
+        "f": 0.9,
+        "period": 551856.4388751854,
+        "steps": 2759283
+       },
+       {
+        "f": 1,
+        "period": 551856.4389138316,
+        "steps": 2759283
+       }
+      ]
+     }
+    ],
+    "span": 0.011968134436756372
+   },
+   "gate": true,
+   "record": {
+    "version": "w297b-1",
+    "parent": "plutoCharonInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "orbitalPeriodMean",
+      "obs": 551856.43872,
+      "unit": "s",
+      "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)",
+      "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)・semic",
+      "tol": {
+       "value": 0.02592,
+       "kind": "sigma",
+       "note": "Buie, Tholen & Grundy 2012 の P = 6.3872273(3) 日の 1σ(3×10⁻⁷ 日 = 0.02592 s)"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       1.9448366531695003e-8,
+       0.001
+      ],
+      "final": 0.0001486103
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟣 plutoCharonInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.01・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "構造核の事前値: 冥王星 dragCore{f 0.5, R_c/R 0.3}・カロン dragCore{f 0.5, R_c/R 0.5}・表 coreTable.n 4096(固定 —— フィットしない)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 0.00014861029313528932(旧 gain 6729.009) を起点に合わせ直した(🟪)。分割の世代の記録(旧 cond.sig 3609306e1beba808)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 8 公転の平均周期(semic)を 551856.43872 s に割線で合わせ(c = 1/W_bg・起点は分割の世代の W_bg)、7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted)→ 固定した W_bg で dragCore の f を振る(同定の可否 —— 器 tests/exp-w303a-refit.mjs)",
+    "dt": 0.16,
+    "steps": 2759283,
+    "residual": {
+     "value": 7.699709385633469e-7,
+     "unit": "s",
+     "model": 551856.43872077,
+     "rel": 1.3952377548574973e-12
+    },
+    "numerics": {
+     "h2": 0.0000455987174063921,
+     "dtHalf": 0.08
+    },
+    "status": "fitted",
+    "notFitted": [
+     "軌道の形(離心率の代理)",
+     "第 2 周の周期(記録だけ)",
+     "自転・潮汐"
+    ],
+    "notIdentifiable": [
+     "dragCore(固定 W_bg で冥王星/カロンの f を振った周期の幅 1.20e-2 s —— 観測の 1σ 0.02592 s より小さく、1 量では W_bg と縮退する)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "9dad7fb42eb1c08a",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(同方向の周回の通過時刻の平均間隔)・w295c-inertial3-1"
+    }
+   },
+   "accepted": true,
+   "err": null
+  },
+  "ems3": {
+   "id": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "Wbg302": 3.8560163495093223,
+   "start": {
+    "c": 0.259335,
+    "rp": 3.5716702,
+    "e0": 0.0753227,
+    "inc": 5.28885
+   },
+   "jacobian": [
+    [
+     -0.18672163528424365,
+     -5.260297855045337,
+     -20.24831171228314,
+     0.0426045627062166
+    ],
+    [
+     -0.003452900295191796,
+     11.33938037810367,
+     44.90809523183259,
+     -0.0005791656043641069
+    ],
+    [
+     -0.00012774877269912968,
+     -0.012611161262013337,
+     0.8017669388529769,
+     0.0000925220855624298
+    ],
+    [
+     0.00025810871746349953,
+     -0.07881503289119962,
+     -0.6739306031278147,
+     0.9728052453805702
+    ]
+   ],
+   "step": {
+    "c": 0.00025933499999999997,
+    "rp": 0.0001,
+    "e0": 0.0001,
+    "inc": 0.001
+   },
+   "res0": [
+    0.000002847891130031144,
+    -0.00000139059075721093,
+    -3.434588609352307e-7,
+    0.000001541762029155791
+   ],
+   "y0": [
+    8.85000284789113,
+    27.32165960940924,
+    0.05489965654113906,
+    5.145001541762029
+   ],
+   "newton": {
+    "c": 0.2593476397444839,
+    "rp": 3.571668713829175,
+    "e0": 0.07532310717969717,
+    "inc": 5.288848573459377
+   },
+   "Wbg": 3.85583,
+   "knobs": {
+    "rp": 3.5716687,
+    "e0": 0.0753231,
+    "inc": 5.28885
+   },
+   "incMean": 5.145001409146406,
+   "incMeanH2": 5.145001872955983,
+   "targets": [
+    {
+     "key": "T1",
+     "obs": 8.85,
+     "model": 8.850000325741412,
+     "h2": 0.00018475421847341522,
+     "h4": 0.0002860414862642102,
+     "tol": 0.005,
+     "w354": 8.826056747567494,
+     "residual": 3.257414125101832e-7,
+     "gate": true
+    },
+    {
+     "key": "sid",
+     "obs": 27.321661,
+     "model": 27.321660518701943,
+     "h2": 0.0000035667574422859616,
+     "h4": 0.0000045197568887545,
+     "tol": 0.00005,
+     "w354": 27.328568351670818,
+     "residual": -4.81298055632351e-7,
+     "gate": true
+    },
+    {
+     "key": "eOsc",
+     "obs": 0.0549,
+     "model": 0.054899996905062344,
+     "h2": 0.000001154179311610437,
+     "h4": 0.0000015691280469201652,
+     "tol": 0.00005,
+     "w354": 0.05495070784813893,
+     "residual": -3.094937653380647e-9,
+     "gate": true
+    }
+   ],
+   "steps": 5224283,
+   "windows": {
+    "h": {
+     "N": 118,
+     "complete": true,
+     "nPeri": 118,
+     "T1": 8.850000325741412,
+     "rms1": 16.73151748160692,
+     "T2": 8.827580425670119,
+     "rms2": 13.473864106352423,
+     "T3": 8.562896832397078,
+     "sid": 27.321660518701943,
+     "anom": 27.56243683519099,
+     "eOsc": 0.054899996905062344,
+     "ePA": 0.05517691612052962,
+     "aOsc": 3.8345145660796343,
+     "incMean": 5.145001409146406
+    },
+    "h2": {
+     "N": 118,
+     "complete": true,
+     "nPeri": 118,
+     "T1": 8.850185079959886,
+     "rms1": 16.73350818924309,
+     "T2": 8.827639981379123,
+     "rms2": 13.474110180932865,
+     "T3": 8.563043254141382,
+     "sid": 27.3216569519445,
+     "anom": 27.562429051912524,
+     "eOsc": 0.054898842725750734,
+     "ePA": 0.055175462868395905,
+     "aOsc": 3.8345144777154703,
+     "incMean": 5.145001872955983
+    },
+    "h4": {
+     "N": 118,
+     "complete": true,
+     "nPeri": 118,
+     "T1": 8.850286367227676,
+     "rms1": 16.734482394285763,
+     "T2": 8.827679288018862,
+     "rms2": 13.47420256381779,
+     "T3": 8.56312416590215,
+     "sid": 27.321655998945054,
+     "anom": 27.562425786972327,
+     "eOsc": 0.054898427777015424,
+     "ePA": 0.05517489844681349,
+     "aOsc": 3.8345144818467922,
+     "incMean": 5.145002129120895
+    },
+    "w354": {
+     "N": 354,
+     "complete": true,
+     "nPeri": 352,
+     "T1": 8.826056747567494,
+     "rms1": 16.712697782005534,
+     "T2": 8.82228313637255,
+     "rms2": 13.481173487762767,
+     "T3": 8.793220860784455,
+     "sid": 27.328568351670818,
+     "anom": 27.56310287575424,
+     "eOsc": 0.05495070784813893,
+     "ePA": 0.05520830987913692,
+     "aOsc": 3.834501690333031,
+     "incMean": 5.145403990044655
+    }
+   },
+   "gate": true,
+   "record": {
+    "version": "w298b-1",
+    "parent": "earthMoonSunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・積分器 semic(第303便a の再フィット)",
+    "targets": [
+     {
+      "q": "近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)",
+      "window": "118 公転の窓 [0,118]・A1(慣性の対は地球と月だけ)・semic",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 8.850000325741412,
+      "residual": 3.257414125101832e-7,
+      "rel": 3.680693926668737e-8,
+      "numerics": {
+       "h2": 0.00018475421847341522,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星月(黄道経度の周回の平均間隔・118 公転窓)",
+      "obs": 27.321661,
+      "unit": "d",
+      "source": "恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力",
+      "window": "118 公転の窓・semic",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(走行の平均に合わせた量 —— 予言ではない)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 黄道経度(xy の方位)の通過",
+      "model": 27.321660518701943,
+      "residual": -4.81298055632351e-7,
+      "rel": -1.761598812137926e-8,
+      "numerics": {
+       "h2": 0.0000035667574422859616,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "平均離心率(接触離心率の時間平均・118 公転窓)",
+      "obs": 0.0549,
+      "unit": "無次元",
+      "source": "月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力",
+      "window": "118 公転の窓・semic",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(走行の平均に合わせた量)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 位置の中心差分の座標速度から作る接触離心率・64 步ごと",
+      "model": 0.054899996905062344,
+      "residual": -3.094937653380647e-9,
+      "rel": -5.637409204700633e-8,
+      "numerics": {
+       "h2": 0.000001154179311610437,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 3.85583
+     },
+     {
+      "key": "initial.moonPerigeeDistance",
+      "range": [
+       3.4,
+       3.8
+      ],
+      "final": 3.5716687
+     },
+     {
+      "key": "initial.moonOscEccentricity0",
+      "range": [
+       0.02,
+       0.12
+      ],
+      "final": 0.0753231
+     },
+     {
+      "key": "initial.moonOscInclination0",
+      "range": [
+       4.5,
+       6
+      ],
+      "final": 5.28885
+     }
+    ],
+    "fixed": [
+     "太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球の公転は円(面は xy = 黄道)",
+     "月の軌道傾斜は平均 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)5.145°)を 118 公転の走行の平均で満たす t=0 の接触傾斜 5.28885°・昇交点を t=0 の地球→月の方向(近地点・太陽の反対方向)に置いた(元期の宣言なし)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](🌥️ のまま)・地球の自転軸は有効化しない(回転引きずり・軸引きずりの宣言なし)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 3.8560163495093223(旧 gain 0.259335)と初期配置 3 つ を起点に合わせ直した(🌦️)。分割の世代の記録(旧 cond.sig 24d27408ea068860)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 分割の世代の 4 つのノブ(W_bg・近地点距離・t=0 の接触離心率・接触傾斜)を起点に、semic の 118 公転窓(h)で 4 元の Newton(差分の Jacobian —— 近点回転の周期・恒星月・平均離心率・平均傾斜)を 1 回 → W_bg を 6 桁・初期配置を元の桁に丸めて h / h/2 / h/4 と 354 公転窓で測り直した(器 tests/exp-w303a-refit.mjs —— 抽出器は tests/exp-w298c-moon3d.mjs runEmx3)",
+    "dt": 0.016,
+    "steps": 5224283,
+    "status": "fitted",
+    "notFitted": [
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)",
+     "恒星月と平均離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)",
+     "この W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "b0d29c4715d2472f",
+     "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1)"
+    }
+   },
+   "accepted": true,
+   "err": null
+  }
+ },
+ "transfer": {
+  "Wbg": 3.85583,
+  "sid": 27.482889423549235,
+  "sidH2": 27.482886938572292,
+  "synUniform": 29.71903071392542,
+  "synUniformH2": 29.719027808117783,
+  "T1": 2398.655293250343,
+  "T1H2": 2396.039722580436,
+  "eOsc": 0.07529699009926316,
+  "incMean": 5.288849999999349,
+  "rule": "🌦️ の新しい宣言(W_bg と初期配置)を器 tests/exp-w300b-emonly.mjs の emOnlyBodies・emOnlyPhysics で写した 🌔(移送 —— フィットと呼ばない)・118 公転窓・h と h/2"
+ },
+ "gates": {
+  "refitMer3": true,
+  "refitMer2": true,
+  "refitPlu": true,
+  "refitEms": true,
+  "recordsAccepted": true,
+  "recordsFitted": true,
+  "gLocZero": true,
+  "sixOff": true,
+  "htmlSame": true,
+  "emoTransfer": true
+ },
+ "diff": [
+  {
+   "emoji": "🌡️",
+   "id": "mercurySunInertial3d",
+   "q": "近点率の差(8 公転)",
+   "unit": "″/世紀",
+   "Wbg302": 489275.3,
+   "Wbg303": 221.1204,
+   "model302": 43.000005187146265,
+   "model303": 43.000022517644176,
+   "h2303": 0.000035737652559930666,
+   "note": "第302便の記録は G_loc(n=−3)の上の値 —— G_loc の前(分割の世代)の W_bg は 221.1205993960312(記録の model 43.000011041822)",
+   "dWbgRel": -0.9995480654756126,
+   "dModel": 0.000017330497911416387
+  },
+  {
+   "emoji": "🟫",
+   "id": "mercurySunInertialFit",
+   "q": "近点率の差(8 公転)",
+   "unit": "″/世紀",
+   "Wbg302": 221.12079497348208,
+   "Wbg303": 221.1206,
+   "model302": 43.00001270306585,
+   "model303": 43.00001794173484,
+   "h2303": 0.00019651487099991982,
+   "dWbgRel": -8.817509999662296e-7,
+   "dModel": 0.000005238668990159567
+  },
+  {
+   "emoji": "🟪",
+   "id": "plutoCharonInertialFit",
+   "q": "公転周期(8 公転の平均)",
+   "unit": "s",
+   "Wbg302": 0.00014861029313528932,
+   "Wbg303": 0.0001486103,
+   "model302": 551856.4387203254,
+   "model303": 551856.43872077,
+   "h2303": 0.0000455987174063921,
+   "dWbgRel": 4.619269992841044e-8,
+   "dModel": 4.4459011405706406e-7
+  },
+  {
+   "emoji": "🌦️",
+   "id": "earthMoonSunInertial3d",
+   "q": "近点回転の周期(118 公転窓)",
+   "unit": "yr",
+   "Wbg302": 3.8560163495093223,
+   "Wbg303": 3.85583,
+   "model302": 8.850002272639843,
+   "model303": 8.850000325741412,
+   "h2303": 0.00018475421847341522,
+   "dWbgRel": -0.000048326950000064974,
+   "dModel": -0.0000019468984309156667
+  },
+  {
+   "emoji": "🌦️",
+   "id": "earthMoonSunInertial3d",
+   "q": "恒星月(118 公転窓)",
+   "unit": "d",
+   "Wbg302": null,
+   "Wbg303": null,
+   "model302": 27.321661471052362,
+   "model303": 27.321660518701943,
+   "h2303": 0.0000035667574422859616,
+   "dWbgRel": null,
+   "dModel": -9.523504189701271e-7
+  },
+  {
+   "emoji": "🌦️",
+   "id": "earthMoonSunInertial3d",
+   "q": "平均離心率(118 公転窓)",
+   "unit": "無次元",
+   "Wbg302": null,
+   "Wbg303": null,
+   "model302": 0.05490000752940848,
+   "model303": 0.054899996905062344,
+   "h2303": 0.000001154179311610437,
+   "dWbgRel": null,
+   "dModel": -1.0624346138965457e-8
+  }
+ ],
+ "books": {
+  "mer3": {
+   "id": "mercurySunInertial3d",
+   "emoji": "🌡️",
+   "physicsSame": true,
+   "bodiesSame": true,
+   "recordSame": true,
+   "condState": "match",
+   "accepted": true,
+   "noGLoc": true
+  },
+  "mer2": {
+   "id": "mercurySunInertialFit",
+   "emoji": "🟫",
+   "physicsSame": true,
+   "bodiesSame": true,
+   "recordSame": true,
+   "condState": "match",
+   "accepted": true,
+   "noGLoc": true
+  },
+  "plu": {
+   "id": "plutoCharonInertialFit",
+   "emoji": "🟪",
+   "physicsSame": true,
+   "bodiesSame": true,
+   "recordSame": true,
+   "condState": "match",
+   "accepted": true,
+   "noGLoc": true
+  },
+  "ems3": {
+   "id": "earthMoonSunInertial3d",
+   "emoji": "🌦️",
+   "physicsSame": true,
+   "bodiesSame": true,
+   "recordSame": true,
+   "condState": "match",
+   "accepted": true,
+   "noGLoc": true
+  }
+ },
+ "gLocBooks": [],
+ "off6": [
+  "venusSunInertial3d",
+  "marsSunInertial3d",
+  "jupiterSunInertial3d",
+  "saturnSunInertial3d",
+  "uranusSunInertial3d",
+  "neptuneSunInertial3d"
+ ],
+ "emoWbg": 3.85583,
+ "ok": true,
+ "timing": {
+  "mer3": {
+   "wallSec": 19.611
+  },
+  "mer2": {
+   "wallSec": 23.709
+  },
+  "plu": {
+   "wallSec": 247.698
+  },
+  "ems3": {
+   "wallSec": 71.275
+  },
+  "emo": {
+   "wallSec": 14.69
+  }
+ },
+ "notClaim": [
+  "「43″ が出た」",
+  "「GR と一致した」",
+  "「現実を再現した」",
+  "「W_bg の宇宙の値が決まった」"
+ ],
+ "elapsedS": 377.119
+}
