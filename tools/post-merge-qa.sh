@@ -113,6 +113,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.inertialR2_303 docs.inertialR2_303"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.earthMoon303"
 # 第303便e(決断事項 AN312 ③・R194): 枝 e の新設 2 本(lint.canon303 —— 第302便の正本 5 本を CANON へ・lint.harnessSmoke303 —— 鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅の道具)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon303 lint.harnessSmoke303"
+# 第304便c(AN316 ①〜④・R197): 枝 c の新設 2 本(preset.emBaseline304 —— 🌦️🌔 の基線の見直しの宣言・正本の門・fitRecord と観測カードの転記・docs.emBaseline304 —— 正本と文書)と軟化の下限の世代切替の preset.softeningFloor
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emBaseline304 docs.emBaseline304 preset.softeningFloor"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

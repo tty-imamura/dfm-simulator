@@ -238,28 +238,29 @@
    }
   },
   "earthMoonSunInertial3d": {
-   "purpose": "地球の三次元版 —— 月の軌道傾斜を入れて 8.85 年へ W_bg を合わせる",
+   "purpose": "地球の三次元版 —— 月の軌道傾斜と e′ を入れ、引きずり OFF の基線を長窓で確かめる",
    "objective": "met",
-   "state": "W_bg 3.85583 で 118 窓 8.8500 年(物理の量と読まない —— 第303便c)・354 窓 8.8261 年",
+   "state": "引きずり OFF で長窓 M4 8.8498 年(B1 −0.0006 —— 許容の内・第304便c)",
    "evidence": [
-    "tests/out/refit-w303a.json",
-    "tests/out/moon3d-w298c.json"
+    "tests/out/baseline-w304c.json",
+    "tests/out/refit-w303a.json"
    ],
    "en": {
-    "purpose": "The Earth's 3D build with the lunar inclination; W_bg to 8.85 yr",
-    "state": "W_bg 3.85583: 8.8500 yr over 118 orbits (not a physical value, wave 303c); 354 orbits 8.8261 yr"
+    "purpose": "The Earth's 3D build (lunar inclination, e'); the drag-off baseline over the long window",
+    "state": "drag off: long-window M4 8.8498 yr (B1 -0.0006; within tolerance, wave 304c)"
    }
   },
   "earthMoonOnly3d": {
    "purpose": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る",
    "objective": "met",
-   "state": "恒星月 27.4829 日・朔望月(一様換算)29.7190 日・近点回転 約 2399 年(🌦️ 8.8500 年)・W_bg は移送",
+   "state": "恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体(近点は回らない)",
    "evidence": [
-    "tests/out/emonly-w300b.json"
+    "tests/out/emonly-w300b.json",
+    "tests/out/baseline-w304c.json"
    ],
    "en": {
     "purpose": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes",
-    "state": "sidereal 27.4829 d; synodic (uniform) 29.7190 d; apsides ~2399 yr (🌦️ 8.8500 yr); W_bg transferred"
+    "state": "sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body (the apse does not turn)"
    }
   },
   "mercurySunInertial": {

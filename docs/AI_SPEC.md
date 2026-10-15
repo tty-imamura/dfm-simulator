@@ -3794,3 +3794,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **主要な数**(実測): 引きずり OFF の 118 公転窓 M1 8.8985 年 − B1 8.850391 年 = +0.0481 年の内訳 = 窓の偏り +0.0327・軟化 ε 0.01 +0.0113・平均の要素 -0.0045・e′ +0.0092・J₂ +0.00038・惑星 +0.00002・潮汐 +0.000000 年。全部入りの純ニュートン(参照積分)8.84938 年(B1 -0.00101 年 —— 照合許容の内)。天体半径: 源の構造核と点源の差 366 s・受け手の球 32 s(118 公転窓 M1)・自己の慣性決定力は分母を 710 倍(λ = 3r_s☉)にして引きずりを消す。太陽が背景側 w_I = c²/((6+2n)G d²)(d = 1 au・n=0 で 10.0289 [M/L³])。同定の特異値 4.7e-3・8.7e-5・2.6e-7(許容の倍・箱の全幅)。
 - **QA**: `docs.earthMoon303`(root は SKIP —— 世代切替 = 正本と器の有無。正本の門・表の行〔器の行の関数で正本から作り直して PHYSICS〔第303便c〕と逐語照合〕・主張の整合・文書・段・.gitignore・post-merge の ③′・書かない語)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(主因は太陽摂動 —— 器の監査では引き算の残りは照合許容の内)。118 公転窓の直線 fit の近点周期・恒星月を「平均」と呼ばない(窓の位置で動く —— 調和の回帰か長窓)。「地球の核を同定した」と書かない。
+
+## 98. 第304便c —— 🌦️🌔 の基線の見直し(軟化の下限 softeningFloor の最小 0.0001・e′・長窓の平均の要素・標的の抽出器 M4)と「引きずり OFF で照合許容の内」の記録(原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意・統括の検証項目 R197・**宣言の値と受理器の定数 1 つ** —— 宣言の鍵は増やさない・引きずりの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **受理器**: `SOFTENING_FLOOR_MIN` 0.001 → 0.0001(`physics.softeningFloor` の最小 —— 宣言した本だけが軟化の下限を下げる・較正クラスでは拒否のまま)。値域表 `CLAMPS.softening` [0.01, 20] は不変(未宣言の本・較正の本は 1 bit 不変)。
+- **🌦️ earthMoonSunInertial3d**: `softening`・`softeningFloor`・`relativeDrag.eps` = 0.0005・地球–月の重心の公転離心率 0.0167086(t=0 は近日点)・初期配置 3.5685853 / 0.0762828 / 5.29073°(長窓 1062 公転の平均の要素)・**引きずり OFF**(`{law:"inertial", Wbg:null, enabled:false}`)・fitRecord(w298b-1)の標的は M4 と長窓・ノブは初期配置の 3 つ・status fitted(長窓 M4 8.84983 年 —— B1 との差 −0.00056 年)。ワンタップの対照は引きずり ON(W_bg 3.85583)。
+- **🌔 earthMoonOnly3d**: 🌦️ の写しの規則(emOnlyBodies・emOnlyPhysics)で作り直した —— 引きずり OFF の二体。
+- **器と正本**: `tests/exp-w304c-baseline.mjs`(`W304C_PARTS`=solve,measure,record,emo・`W304C_OUT`)→ `tests/out/baseline-w304c.json`(段 baseline-304c)。第303便の宣言の写し `tests/data-w304c-decl303.json`・lib `tests/lib-w304c-pre.mjs`(`pin303`・`pinDecl303`・`gate303`・`pinChanges303`・`isGen304c`)—— 歴史の器は pinDecl302 の前に pinDecl303。
+- **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(引きずり OFF で照合許容の内 —— 主因は太陽摂動)。118 公転窓の M4 を平均の近点周期と呼ばない(e′ の年周を拾う —— 長窓)。

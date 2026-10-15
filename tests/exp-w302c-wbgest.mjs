@@ -38,6 +38,7 @@ import { runEm3, windowsOf } from './exp-w300b-emonly.mjs';
 import { run2 as run2d } from './exp-w302d-semic.mjs';
 import { cosmicBackground } from './exp-w301a-dragnorm.mjs';
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
+import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_LEDGER_SEAM_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.WBG_EST_VERSION","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragBackgroundOf","HP.relDragCoefficientOf","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateApply","HP.wbgEstimateOf","LAWS","T","ab","ch","ckRestoreOne","ckSnapOne","ctx","cw","dfmSphereKernelQEff","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -453,6 +454,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W302C_OUT || path.join(ROOT, 'tests', 'out', 'wbgest-w302c.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl303();   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— 続く pinDecl302 が第302便の欄を戻す)
   pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
   const out = { meta: null, version: HARNESS_VERSION, parts: PARTS };
   const tp = {};
@@ -478,8 +480,8 @@ if (IS_MAIN) {
     gates.kernelNotBelowPoint = out.dragCore.books.every((b) => b.kernelRatioRange[0] >= 1 - 1e-9); }
   if (out.ledger) { gates.ledgerConverges = out.ledger.converges; gates.ledgerSeamCloses = out.ledger.seamCloses; }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
-  const CODE = ['tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w302d-semic.mjs', 'tests/exp-w301a-dragnorm.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便c', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE] }), {
+  const CODE = ['tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w302d-semic.mjs', 'tests/exp-w301a-dragnorm.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便c', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)',
     reading: '統括の検証項目 R190(n は 1 つの W_bg の移送の予言で決める・推定は W_cos + W_gal + W_sys・推定で固定した dragCore の探索・帳簿の継ぎ目)',
