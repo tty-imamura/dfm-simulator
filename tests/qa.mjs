@@ -2391,7 +2391,10 @@ lastAddAt = Date.now();
       'tests/out/drag3d-w298c.json', 'tests/out/moon3d-w298c.json', 'tests/out/planets3d-w299c.json', 'tests/out/geo4stable-w299d.json',
       'tests/out/ref3d-w299e.json', 'tests/out/saturnring3d-w300c.json', 'tests/out/dragnorm-w301a.json', 'tests/out/approxmany-w301b.json',
       'tests/out/clone-w301f.json', 'tests/out/statecontract-w302e.json', 'tests/out/wbglaw-w301g.json', 'tests/out/chainburst-w301d.json',
-      'tests/out/refit-w303a.json', 'tests/out/inertialr2-w303b.json', 'tests/out/earthmoon-w303c.json'];
+      'tests/out/refit-w303a.json', 'tests/out/inertialr2-w303b.json', 'tests/out/earthmoon-w303c.json',
+      // 第304便(統括の統合 —— 決断事項 AN328 ③・lint.canon304 ⑤ の「第304便以降の新しい正本は統合の時に CANON へ」): 引きずり核の球面の器(shell-304a)・
+      //   器の中の写しで測った殻の模型(shell-304b)・🌦️🌔 の基線の見直し(baseline-304c)。どれも領域 REGEN_SCOPE を刻む
+      'tests/out/shell-w304a.json', 'tests/out/shell-w304b.json', 'tests/out/baseline-w304c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
