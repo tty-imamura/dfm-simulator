@@ -113,6 +113,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.inertialR2_303 docs.inertialR2_303"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.earthMoon303"
 # 第303便e(決断事項 AN312 ③・R194): 枝 e の新設 2 本(lint.canon303 —— 第302便の正本 5 本を CANON へ・lint.harnessSmoke303 —— 鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅の道具)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon303 lint.harnessSmoke303"
+# 第304便a: 枝 a の新設 2 本(behavior.shell304 —— 引きずり核の殻・自己の項・総速度の読み口の零試験・docs.shell304 —— 正本と文書)を末尾に足した(他枝の新設の差し替えは統合で)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shell304 docs.shell304"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

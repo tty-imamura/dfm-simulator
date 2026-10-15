@@ -956,6 +956,14 @@ export const REGEN_STEPS = [
     after: ['planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第303便b: 源の慣性決定力 r⁻² を引きずりの分母へ —— 零試験と閉形式・水星で変種ごとの λ・6 本への移送の予言(σ と数値の誤差)・G_loc の候補の表・地球–月と冥王星–カロンの λ の逆算(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第304便a(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R195): **引きずり核の球面**(宣言 dragCore:{shellRatio}・relativeDrag.shellSelf・
+  //   inertialR2.self:"shell" —— 省略時オフ)の零試験(② η→0・③ 孤立した 1 体・④ 二体の閉形式・⑤ 解法・⑥ 共変・⑦ 総速度・⑧ 殻の核の閉形式と数値積分)と
+  //   🌡️ の写しで η ∈ {1, 0.5, 0.1} の近点率の差(引きずり OFF の対照との差 —— 解析の見込み 1/(W_bg + m/R_d³) との照合)・参考の行(W_bg = W_cos と η*)。
+  //   html を読む(器のコードの依存として planets3d-299c〔runPl3〕の後・html の生成領域の後)・1 プロセス。所要は第304便a の枝の実測(正本の elapsedS)
+  S('shell-304a', 'node tests/exp-w304a-shell.mjs', ['tests/out/shell-w304a.json'], 40, { secSource: 'w304a-branch', node: true,
+    after: ['planets3d-299c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/shell-w304a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第304便a: 引きずり核の球面(殻の形・自己の項 S3/S2・総速度の読み口)の零試験と 🌡️ の写しの η の近点率の差(値だけ —— どの本にもオンにしない)' }),
   // ---- 第303便c(原仮定者の裁定(第93報)③「密度が高く距離が近い地球と月の関係では、質点とはみなせず天体半径の影響が大きい」・統括の検証項目 R193):
   //   **地球–月の基線の監査と天体半径の効き方の目録**(段 audit〔🌦️ の写しの引きずり OFF の窓と抽出器・器の中の参照積分で軟化・平均の要素・e′・J₂・惑星・潮汐の切り分け〕・
   //   radius〔源の有限球の格子・受け手の有限球〔表の差し替え〕・自己の慣性決定力〔行の分母 —— 器の中で inertialDragNormApply を包む〕〕・sunbg〔太陽が背景側の r⁻² の読み〕・
