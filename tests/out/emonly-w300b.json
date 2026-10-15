@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "b810b5753da835a8d3bfb53d0b7b1e25e4c7df5b4ddb14cff5575d3acedccc2f",
+ "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -160,7 +160,7 @@
        "synUniform": 29.72771106399484
       }
      ],
-     "wallSec": 10.969
+     "wallSec": 10.864
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -193,7 +193,7 @@
        "synUniform": 29.727707224251542
       }
      ],
-     "wallSec": 8.109
+     "wallSec": 9.271
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -226,7 +226,7 @@
        "synUniform": 29.72771106399886
       }
      ],
-     "wallSec": 3.964
+     "wallSec": 4.373
     },
     "sunH": {
      "key": "sun3d-h",
@@ -255,7 +255,7 @@
        "synUniform": 29.52141828765986
       }
      ],
-     "wallSec": 5.451
+     "wallSec": 4.291
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -286,7 +286,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 6.654
+     "wallSec": 7.051
     }
    },
    "check": {
@@ -341,48 +341,48 @@
     "sid": 0.000003283515425778205,
     "synUniform": 0.000003839747318323816
    },
-   "wallSec": 35.152
+   "wallSec": 35.856
   }
  },
  "timing": {
-  "wallSec": 36.702
+  "wallSec": 37.378
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "b810b5753da835a8d3bfb53d0b7b1e25e4c7df5b4ddb14cff5575d3acedccc2f",
-  "generatedAt": "2026-10-15T05:49:58.282Z",
+  "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+  "generatedAt": "2026-10-15T10:46:38.946Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6860976,
-    "sha256": "b810b5753da835a8d3bfb53d0b7b1e25e4c7df5b4ddb14cff5575d3acedccc2f",
-    "mtime": "2026-10-15T05:46:23.956Z"
+    "bytes": 6888618,
+    "sha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+    "mtime": "2026-10-15T07:11:58.416Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26554,
-    "sha256": "cafeb524b7edaa586eea8332ab9c5097e2617e0ff7386ef838f4240c89c0f48d",
-    "mtime": "2026-10-15T04:58:16.995Z"
+    "bytes": 26567,
+    "sha256": "808a16896e424e7b83d29be6ff0efe55754e96d7d3e67ca22de27e2a1d7035ae",
+    "mtime": "2026-10-15T09:35:31.720Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 34922,
-    "sha256": "ac873aeed95a180387baebfffcb2337b305c5be60eb144bbf10506c864e0eb23",
-    "mtime": "2026-10-15T04:58:17.071Z"
+    "bytes": 35515,
+    "sha256": "80b2e181fceaa967405392b46c33e9bbb39f6fd820f099c814ec4c5c017bc880",
+    "mtime": "2026-10-15T10:45:59.457Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
     "bytes": 36883,
     "sha256": "4fb1c2d8ef65f910bec604ef0f6b0cafd2849700e8a52312149627f753735e30",
-    "mtime": "2026-10-15T04:58:16.667Z"
+    "mtime": "2026-10-14T20:10:19.112Z"
    },
    {
     "file": "tests/data-w304c-decl303.json",
     "bytes": 10656,
     "sha256": "bacc58f1a21b80ed4f28e85352b23c9f544c5525467dfaf0fb0fb4077a9c289e",
-    "mtime": "2026-10-15T05:12:39.436Z"
+    "mtime": "2026-10-15T07:11:58.475Z"
    }
   ],
   "code": [
@@ -390,49 +390,49 @@
     "file": "tests/exp-w300b-emonly.mjs",
     "bytes": 24268,
     "sha256": "627cb051af4366cf361b6b91e82a68705fadec1a10b684621c20f38c470da258",
-    "mtime": "2026-10-15T05:24:04.097Z"
+    "mtime": "2026-10-15T07:11:58.475Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-15T04:58:16.811Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-15T04:58:16.811Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-15T04:58:16.823Z"
+    "mtime": "2026-10-14T00:03:21.993Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-15T04:58:16.803Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-15T04:58:16.815Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
     "bytes": 6401,
     "sha256": "6270beace409df900d7328c652b9d5cf73c47d75b84fdcc60700dad50e657b7e",
-    "mtime": "2026-10-15T04:58:16.823Z"
+    "mtime": "2026-10-14T20:10:19.119Z"
    },
    {
     "file": "tests/lib-w304c-pre.mjs",
     "bytes": 5643,
     "sha256": "558f04ceacc63ed500da325a3a117b5c55181474bb1906d2535bb23b8f19106f",
-    "mtime": "2026-10-15T05:12:59.912Z"
+    "mtime": "2026-10-15T07:11:58.480Z"
    }
   ],
   "codeSha256": "93d7e923c8fc9471c60b9e90193a2e9b9e531a807ddd7adbf26c4f08a9cea090",
@@ -485,16 +485,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1311,
-   "segments": 1187,
-   "closureShare": 0.3221
+   "names": 1323,
+   "segments": 1197,
+   "closureShare": 0.3238
   },
-  "scopeSha256": "68dc934c44fb02232d293972915b11227debb3afbd1dfdbabd9d03b287008459",
+  "scopeSha256": "b9e6ee1b7ba4570b1178f0ec059176180d61479fa07e0833863ac1da976e1a8a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "5c714639cd7915d5c04a1526cd0e9685099a1dd2a839e3bed757a90f8be3aaad",
+    "stableSha256": "249cbff368ffc09a0bf1e59ae76dcb8b8eda0c965d6acecb9b74e28245ab3207",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -508,7 +508,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "6a94ad12666e64ce8711654b6f41512c201834f8a8d9612fdf310cdeba25b7e3",
+    "stableSha256": "5e2d5e4722d7a4fb80510b0d2721c141884bc4433f200ef6683e552775ffcbd7",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -537,5 +537,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 36.702
+ "elapsedS": 37.378
 }
