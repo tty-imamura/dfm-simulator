@@ -1,0 +1,348 @@
+{
+ "version": "w304c-decl303-1",
+ "note": "第304便c(統括の検証項目 R197): 第303便の 🌦️🌔 の宣言の写し(基点 caf1cde = public main 945f2a4 の html〔sha256 aa3257151c5a〕と同じ宣言)—— 本ごとに physics(全体)・bodies・fitRecord(あれば)・abBody。器 tests/lib-w304c-pre.mjs が読む(凍結 —— 書き換えない)",
+ "fields": [
+  "physics",
+  "bodies",
+  "fitRecord",
+  "abBody"
+ ],
+ "source": {
+  "commit": "caf1cde",
+  "publicMain": "945f2a4",
+  "htmlSha12": "aa3257151c5a"
+ },
+ "decl": {
+  "earthMoonSunInertial3d": {
+   "emoji": "🌦️",
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.01,
+    "timeScale": 1,
+    "stepDt": 0.655721,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 3.85583,
+     "eps": 0.01,
+     "history": "positions",
+     "pairs": [
+      [
+       1,
+       2
+      ]
+     ]
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.96,
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0,
+     "vz": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": 1495.9366025869797,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 2.977134945579207,
+     "vz": -0.00012344416784934998,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 1499.5082712869798,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.0868845995472918,
+     "vz": 0.01003618224970675,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "earthMoonSunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・積分器 semic(第303便a の再フィット)",
+    "targets": [
+     {
+      "q": "近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)",
+      "window": "118 公転の窓 [0,118]・A1(慣性の対は地球と月だけ)・semic",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 8.850000325741412,
+      "residual": 3.257414125101832e-7,
+      "rel": 3.680693926668737e-8,
+      "numerics": {
+       "h2": 0.00018475421847341522,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星月(黄道経度の周回の平均間隔・118 公転窓)",
+      "obs": 27.321661,
+      "unit": "d",
+      "source": "恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力",
+      "window": "118 公転の窓・semic",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(走行の平均に合わせた量 —— 予言ではない)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 黄道経度(xy の方位)の通過",
+      "model": 27.321660518701943,
+      "residual": -4.81298055632351e-7,
+      "rel": -1.761598812137926e-8,
+      "numerics": {
+       "h2": 0.0000035667574422859616,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "平均離心率(接触離心率の時間平均・118 公転窓)",
+      "obs": 0.0549,
+      "unit": "無次元",
+      "source": "月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力",
+      "window": "118 公転の窓・semic",
+      "tol": {
+       "value": 0.00005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(走行の平均に合わせた量)"
+      },
+      "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 位置の中心差分の座標速度から作る接触離心率・64 步ごと",
+      "model": 0.054899996905062344,
+      "residual": -3.094937653380647e-9,
+      "rel": -5.637409204700633e-8,
+      "numerics": {
+       "h2": 0.000001154179311610437,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 3.85583
+     },
+     {
+      "key": "initial.moonPerigeeDistance",
+      "range": [
+       3.4,
+       3.8
+      ],
+      "final": 3.5716687
+     },
+     {
+      "key": "initial.moonOscEccentricity0",
+      "range": [
+       0.02,
+       0.12
+      ],
+      "final": 0.0753231
+     },
+     {
+      "key": "initial.moonOscInclination0",
+      "range": [
+       4.5,
+       6
+      ],
+      "final": 5.28885
+     }
+    ],
+    "fixed": [
+     "太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球の公転は円(面は xy = 黄道)",
+     "月の軌道傾斜は平均 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)5.145°)を 118 公転の走行の平均で満たす t=0 の接触傾斜 5.28885°・昇交点を t=0 の地球→月の方向(近地点・太陽の反対方向)に置いた(元期の宣言なし)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](🌥️ のまま)・地球の自転軸は有効化しない(回転引きずり・軸引きずりの宣言なし)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 3.8560163495093223(旧 gain 0.259335)と初期配置 3 つ を起点に合わせ直した(🌦️)。分割の世代の記録(旧 cond.sig 24d27408ea068860)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 分割の世代の 4 つのノブ(W_bg・近地点距離・t=0 の接触離心率・接触傾斜)を起点に、semic の 118 公転窓(h)で 4 元の Newton(差分の Jacobian —— 近点回転の周期・恒星月・平均離心率・平均傾斜)を 1 回 → W_bg を 6 桁・初期配置を元の桁に丸めて h / h/2 / h/4 と 354 公転窓で測り直した(器 tests/exp-w303a-refit.mjs —— 抽出器は tests/exp-w298c-moon3d.mjs runEmx3)",
+    "dt": 0.016,
+    "steps": 5224283,
+    "status": "fitted",
+    "notFitted": [
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)",
+     "恒星月と平均離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)",
+     "この W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "b0d29c4715d2472f",
+     "extractor": "tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1)"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "引きずり無しに戻す(三次元の写しの探索の起点 —— 118 公転窓 8.8989 年)",
+     "en": "turn the drag off (the start of the 3D search - 8.8989 yr over 118 orbits)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        1,
+        2
+       ]
+      ]
+     }
+    }
+   }
+  },
+  "earthMoonOnly3d": {
+   "emoji": "🌔",
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.01,
+    "timeScale": 1,
+    "stepDt": 0.655721,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 3.85583,
+     "eps": 0.01,
+     "history": "positions",
+     "pairs": [
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": -0.043397429431381265,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": -0.001333509141874856,
+     "vz": -0.00012344416784934998,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 3.5282712705687644,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0.10841614482621004,
+     "vz": 0.01003618224970675,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "abBody": {
+    "label": {
+     "ja": "引きずり無しに戻す(慣性引きずりを切った二体 —— 重力だけ)",
+     "en": "turn the drag off (the two-body run without the inertial drag - gravity only)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": [
+       [
+        0,
+        1
+       ]
+      ]
+     }
+    }
+   }
+  }
+ }
+}

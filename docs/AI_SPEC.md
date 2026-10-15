@@ -3812,3 +3812,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w304a-shell.mjs`(版 w304a-shell-1・`W304A_OUT`・`W304A_PARTS`=Z,M・`W304A_QUICK`)→ `tests/out/shell-w304a.json`(段 shell-304a)。
 - QA: `behavior.shell304`・`docs.shell304`(root は SKIP —— 世代切替 = html の `const DRAG_SHELL_KEY="shellRatio"`。省略時オフ・η → 0・孤立した 1 体・二体の閉形式・解法・共変・総速度・
   殻の核の閉形式と数値積分・受理器・状態の契約・正本と文書・禁句)。
+
+## 99. 第304便c —— 🌦️🌔 の基線の見直し(軟化の下限 softeningFloor の最小 0.0001・e′・長窓の平均の要素・標的の抽出器 M4)と「引きずり OFF で照合許容の内」の記録(原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意・統括の検証項目 R197・**宣言の値と受理器の定数 1 つ** —— 宣言の鍵は増やさない・引きずりの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **受理器**: `SOFTENING_FLOOR_MIN` 0.001 → 0.0001(`physics.softeningFloor` の最小 —— 宣言した本だけが軟化の下限を下げる・較正クラスでは拒否のまま)。値域表 `CLAMPS.softening` [0.01, 20] は不変(未宣言の本・較正の本は 1 bit 不変)。
+- **🌦️ earthMoonSunInertial3d**: `softening`・`softeningFloor`・`relativeDrag.eps` = 0.0005・地球–月の重心の公転離心率 0.0167086(t=0 は近日点)・初期配置 3.5685853 / 0.0762828 / 5.29073°(長窓 1062 公転の平均の要素)・**引きずり OFF**(`{law:"inertial", Wbg:null, enabled:false}`)・fitRecord(w298b-1)の標的は M4 と長窓・ノブは初期配置の 3 つ・status fitted(長窓 M4 8.84983 年 —— B1 との差 −0.00056 年)。ワンタップの対照は引きずり ON(W_bg 3.85583)。
+- **🌔 earthMoonOnly3d**: 🌦️ の写しの規則(emOnlyBodies・emOnlyPhysics)で作り直した —— 引きずり OFF の二体。
+- **器と正本**: `tests/exp-w304c-baseline.mjs`(`W304C_PARTS`=solve,measure,record,emo・`W304C_OUT`)→ `tests/out/baseline-w304c.json`(段 baseline-304c)。第303便の宣言の写し `tests/data-w304c-decl303.json`・lib `tests/lib-w304c-pre.mjs`(`pin303`・`pinDecl303`・`gate303`・`pinChanges303`・`isGen304c`)—— 歴史の器は pinDecl302 の前に pinDecl303。
+- **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`・`slider.covers-builtins`・`preset.revertGLoc303`・`docs.moon3d298`・`ui.wbgSlider302`・`behavior.wbgDirect302`・`docs.semic302`。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(引きずり OFF で照合許容の内 —— 主因は太陽摂動)。118 公転窓の M4 を平均の近点周期と呼ばない(e′ の年周を拾う —— 長窓)。

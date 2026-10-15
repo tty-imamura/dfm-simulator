@@ -35,6 +35,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便c: gain ⇔ W_bg の読み書き(第302便a の後の世代)
 import { pre302c } from './lib-w302c-pre.mjs';
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
+import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 const REGEN_SCOPE = {"presets":["chainDiskToy3d","earthMoonSunInertial3d","marsSunInertial3d","mercuryReal","mercurySunInertial3d","mercurySunInertialFit","venusSunInertial3d"],"roots":["HP.GLOC_VERSION","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.gLocPeriAdvance","HP.gLocState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -319,6 +320,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W302B_OUT || path.join(ROOT, 'tests', 'out', 'gloc-w302b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl303(null, ['earthMoonSunInertial3d']);   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— 続く pinDecl302 が第302便の欄を戻す)
   pinDecl302(null, ['earthMoonSunInertial3d', 'marsSunInertial3d', 'mercurySunInertial3d', 'mercurySunInertialFit', 'venusSunInertial3d']);   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ —— 写すのは再生成範囲の宣言の本だけ)
   const r3 = part3(HP); console.log('③ ' + JSON.stringify(r3.gates));
   const r1 = part1(HP);
@@ -329,8 +331,8 @@ if (IS_MAIN) {
   const toyN2 = r1.rows.find((r) => r.cfg === 'fixed' && r.key === 'B_n2'), toyNm2 = r1.rows.find((r) => r.cfg === 'fixed' && r.key === 'B_nm2');
   const gates = Object.assign({}, r3.gates, { toyN2Within3pct: Math.abs(toyN2.ratio - 1) <= 0.03, toyNm2Within3pct: Math.abs(toyNm2.ratio - 1) <= 0.03 });
   const out = { meta: null, version: HP.GLOC_VERSION, part3: r3, toy: r1, planets: r2, gates, ok: Object.values(gates).every(Boolean) };
-  const CODE = ['tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便b', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE] }), {
+  const CODE = ['tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第302便b', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, glocVersion: HP.GLOC_VERSION, loadErrors: errors.length, quick: QUICK,
     ruling: '原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— 局所光速の変化で局所重力が変化する G_loc = κ·c_loc²)・補足(G_loc = G·(c/c_loc)² ほかも広く検討する)',
     reading: '統括の検証項目 R187(族 G_loc = G·(c_loc/c₀)^n・弱場の一次の近点 Δϖ ≈ −2nπμ/(c₀²a(1−e²))・実験の行列 A〜E・h/h2/h4)',
