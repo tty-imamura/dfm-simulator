@@ -33330,7 +33330,7 @@ CK_DEEP(と SIM_STEP_SCRATCH・SIM_BUILD_RESET)に登録する(lint.stateContrac
 
 **⑦ 書かないこと。** 引きずりの有無を決めたとは書かない。月の運動の再現の主張もしない(数は本の宣言の走りの実測 —— 参照積分は門と切り分けだけに使う)。8.85 年を法則が予言したとは書かない(主因は太陽摂動)。B1 の周期は一次資料で未確認(sigma_primary=unverified)。
 
-**⑧ 検証。** QA `preset.emBaseline304`(宣言 = 器の規則の写し・軟化と softeningFloor・引きずり OFF・fitRecord = 正本・受理・条件の署名 match・門・観測カードの転記・🌔 の写し・ワンタップの対照・正本の門)・`docs.emBaseline304`(この節の表の行を器の行の関数で正本から作り直して逐語で照合・主張の整合・文書・段・.gitignore・post-merge の ③′・書かない語と禁句)・世代切替 `preset.softeningFloor`(下限の最小を宣言から読む・内蔵の宣言の本は写しのある本だけ)。bitsame/sigsame の差は宣言から導いた 2 本(🌦️🌔)だけ。
+**⑧ 検証。** QA `preset.emBaseline304`(宣言 = 器の規則の写し・軟化と softeningFloor・引きずり OFF・fitRecord = 正本・受理・条件の署名 match・門・観測カードの転記・🌔 の写し・ワンタップの対照・正本の門)・`docs.emBaseline304`(この節の表の行を器の行の関数で正本から作り直して逐語で照合・主張の整合・文書・段・.gitignore・post-merge の ③′・書かない語と禁句)・世代切替(固定値は宣言と正本から読む・閾値は緩めない): `preset.softeningFloor`(下限の最小を宣言から読む・内蔵の宣言の本は写しのある本だけ)・`slider.covers-builtins`(softeningFloor を宣言した本の softening の下限は宣言の下限)・`preset.revertGLoc303`・`docs.moon3d298`(第303便の写し pin303 の上で第302便の写しと照合 —— 🌦️🌔 の観測カードの数は `preset.emBaseline304` へ)・`ui.wbgSlider302`(W_bg を宣言した代表の本を 🌡️ へ)・`behavior.wbgDirect302` ⑧(W_bg のノブを持つ記録の数から第304便c の引きずり OFF の記録を除く)・`docs.semic302`(正本の引きずりの本の集合から今は引きずり OFF の 2 本を除いて比べる)。bitsame/sigsame の差は宣言から導いた 2 本(🌦️🌔)だけ。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 

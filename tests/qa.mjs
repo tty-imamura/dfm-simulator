@@ -10665,7 +10665,11 @@ if (!TARGET.startsWith('beta/')) {
   if (/key:"Kt",[^}]*inv:true/.test(html) && defs.Kt) defs.Kt = { lo: 1 / defs.Kt.hi, hi: 1 / defs.Kt.lo };
   const over = [];
   const presets = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
-  for (const mm of presets.matchAll(/physics:\{([\s\S]*?)\}/g))
+  // 第304便c(R197): physics.softeningFloor を宣言した本(受理器が宣言した本だけ軟化の下限を下げる —— 第277便b・最小 SOFTENING_FLOOR_MIN)は、softening の下限を
+  //   宣言の下限で読む(世代は宣言から —— 宣言の無い本は従来どおりスライダーの下限)
+  const sfMin = (() => { const m = /SOFTENING_FLOOR_MIN = ([\d.eE+-]+)/.exec(html); return m ? +m[1] : null; })();
+  for (const mm of presets.matchAll(/physics:\{([\s\S]*?)\}/g)) {
+    const sfm = /softeningFloor:\s*([\d.eE+-]+)/.exec(mm[1]), sf = (sfm && sfMin !== null) ? Math.max(+sfm[1], sfMin) : null;
     for (const kv of mm[1].matchAll(/(\w+):\s*(-?[\d.eE+-]+)/g)) {
       // v1.27(公開前レビュー P1-2): 上限だけでなく下限・非数も検査。
       // 0 は「機能OFF」の正規状態(G=0・D0=0・etaRad=0 等。対数スライダーの lo>0 とは別に
@@ -10674,8 +10678,9 @@ if (!TARGET.startsWith('beta/')) {
       const v = +kv[2];
       if (!Number.isFinite(v)) over.push(`${kv[1]}=${kv[2]} (NaN/Inf)`);
       else if (v > defs[kv[1]].hi) over.push(`${kv[1]}=${kv[2]}>${defs[kv[1]].hi}`);
-      else if (v !== 0 && v < defs[kv[1]].lo) over.push(`${kv[1]}=${kv[2]}<${defs[kv[1]].lo}`);
+      else if (v !== 0 && v < ((kv[1] === 'softening' && sf !== null) ? Math.min(defs[kv[1]].lo, sf) : defs[kv[1]].lo)) over.push(`${kv[1]}=${kv[2]}<${defs[kv[1]].lo}`);
     }
+  }
   add('slider.covers-builtins', over.length === 0, over.slice(0, 5).join(' '));
 
   // ---- v1.27(公開前レビュー P1-1): SYSTEM_PROMPT の physics キー集合 = 正規21キー ----
@@ -78074,7 +78079,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!SE) bad.push('正本が読めない');
       else {
         if (!SE.gates || !Object.values(SE.gates.ok || {}).every(Boolean)) bad.push('正本の門が全部真でない: ' + JSON.stringify(SE.gates && SE.gates.ok));
-        if (!r.err && JSON.stringify((SE.ids || {}).drag || []) !== JSON.stringify(r.ids.drag)) bad.push('正本の本の集合が宣言から導いた集合と違う');
+        // 第304便c(R197): 🌦️🌔 を引きずり OFF の宣言にした世代では、正本(第302便の宣言の写しで測った歴史の記録 —— 器は pinDecl303 → pinDecl302)の引きずりの本の集合に
+        //   その 2 本が残る —— 第303便の宣言の写し(tests/lib-w304c-pre.mjs の DECL303)で W_bg を宣言していて、今は引きずり OFF(gain0 の集合)の本を正本の側から外して比べる(宣言から導く)
+        let moved304 = [];
+        try { const P4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w304c-pre.mjs')); moved304 = r.err ? [] : Object.keys(P4.DECL303).filter((id) => r.ids.gain0.includes(id) && ((P4.DECL303[id].physics || {}).relativeDrag || {}).Wbg > 0); } catch (e) { moved304 = []; }
+        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag)) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : ''));
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
       }

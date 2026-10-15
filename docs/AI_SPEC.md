@@ -3801,5 +3801,5 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **🌦️ earthMoonSunInertial3d**: `softening`・`softeningFloor`・`relativeDrag.eps` = 0.0005・地球–月の重心の公転離心率 0.0167086(t=0 は近日点)・初期配置 3.5685853 / 0.0762828 / 5.29073°(長窓 1062 公転の平均の要素)・**引きずり OFF**(`{law:"inertial", Wbg:null, enabled:false}`)・fitRecord(w298b-1)の標的は M4 と長窓・ノブは初期配置の 3 つ・status fitted(長窓 M4 8.84983 年 —— B1 との差 −0.00056 年)。ワンタップの対照は引きずり ON(W_bg 3.85583)。
 - **🌔 earthMoonOnly3d**: 🌦️ の写しの規則(emOnlyBodies・emOnlyPhysics)で作り直した —— 引きずり OFF の二体。
 - **器と正本**: `tests/exp-w304c-baseline.mjs`(`W304C_PARTS`=solve,measure,record,emo・`W304C_OUT`)→ `tests/out/baseline-w304c.json`(段 baseline-304c)。第303便の宣言の写し `tests/data-w304c-decl303.json`・lib `tests/lib-w304c-pre.mjs`(`pin303`・`pinDecl303`・`gate303`・`pinChanges303`・`isGen304c`)—— 歴史の器は pinDecl302 の前に pinDecl303。
-- **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`。
+- **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`・`slider.covers-builtins`・`preset.revertGLoc303`・`docs.moon3d298`・`ui.wbgSlider302`・`behavior.wbgDirect302`・`docs.semic302`。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(引きずり OFF で照合許容の内 —— 主因は太陽摂動)。118 公転窓の M4 を平均の近点周期と呼ばない(e′ の年周を拾う —— 長窓)。
