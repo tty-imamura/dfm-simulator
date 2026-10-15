@@ -78974,6 +78974,74 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ---- 第304便b(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R196): docs.shell304b —— **引きずり核の球面近似を器の中の写しで測る**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 正本 tests/out/shell-w304b.json ∧ 器 tests/exp-w304b-shell.mjs。固定値は正本から読む(器の表の関数 physicsTables で正本から表の行を作り直す ——
+// ----   鎖で正本を作り直した後の世代も同じ照合。本の宣言は器の中で基点 945f2a4 の写し〔tests/data-w304b-decl945.json〕に固定 —— 生きている宣言と同じかは正本の pin.liveSame に記録するだけ)。
+// ----   ① 正本の門(殻の核の閉形式・1 步の閉形式と直接法・総速度の式の残差・包みの素通り・水星の根の門・s の走査・移送・地球–月と冥王星–カロン・多体の読み口・解析の表)・7 段・来歴・写しの記録
+// ----   ② 表の行(physicsTables —— 水星の根・s の走査・移送・惑星ごとの η・🌦️・🟪・多体・解析)が PHYSICS〔第304便b〕に逐語で入っている
+// ----   ③ 文書(節が「## 7. 論文」の前・語・CHANGELOG・README)・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  const sh304Out = path.join(ROOT, 'tests', 'out', 'shell-w304b.json'), sh304Harn = path.join(ROOT, 'tests', 'exp-w304b-shell.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(sh304Out) && fs.existsSync(sh304Harn))) {
+    console.log('SKIP docs.shell304b(第304便b の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(sh304Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + sh304Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第304便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す(本文の参照「〔第304便b〕」に当たらない)
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      // ①
+      const G = J.gates || {};
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of ['kernelsClosedForm', 'oneStepClosedForm', 'totalVelocity', 'wrapPassThrough', 'mercuryFits', 'sScan', 'transferMeasured', 'earthMoonTable', 'manyBodyReadout', 'analyticTable']) if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない');
+      for (const k of ['zero', 'mercury', 'transfer', 'earthMoon', 'manyBody', 'pairNorm', 'analytic']) if (!J[k]) bad.push('正本に段 ' + k + ' が無い');
+      if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の来歴(w272e-1)/器の版');
+      if (!(J.meta && (J.meta.inputs || []).some((z) => z.file === X.DECL_FILE))) bad.push('正本の入力に宣言の写し ' + X.DECL_FILE + ' が無い');
+      if (!(J.pin && J.pin.base && J.pin.base.commit === '945f2a4' && J.pin.file === X.DECL_FILE)) bad.push('正本の宣言の固定(基点 945f2a4 の写し)の記録');
+      const m1 = J.mercury && J.mercury.rows.find((z) => z.key === 'M1:η∞:η☉0.1');
+      cases.push(`門 ${Object.keys(G).filter((k) => G[k] === true).length}/${Object.keys(G).length}・水星の根 ${J.mercury ? J.mercury.rows.filter((z) => z.status === 'fitted').length : '-'} 行(M1 の η ${m1 ? m1.x : '-'})・移送 ${J.transfer ? J.transfer.table.filter((t) => !t.skipped).length : '-'} 構成・宣言の写しと生きている宣言 ${J.pin ? Object.values(J.pin.liveSame).filter((z) => z.physicsBodies).length + '/' + Object.keys(J.pin.liveSame).length : '-'}`);
+      // ②
+      if (!sec) bad.push('PHYSICS〔第304便b〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第304便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第304便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        // ③
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第304便b〕が「## 7. 論文」の後');
+        for (const w of ['R196', '第94報', 'exp-w304b-shell.mjs', 'shell-w304b.json', 'data-w304b-decl945.json', 'docs.shell304b', 'S3', 'S2', 'η☉', 'W304B_PARTS', '945f2a4', 'lib-w303e-fitstop', '対ごとの正規化']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第304便b〕に「' + w + '」が無い');
+      }
+      if (CL.indexOf('第304便b') < 0) bad.push('CHANGELOG に第304便b が無い');
+      if (RM.indexOf('第304便b') < 0) bad.push('README に第304便b が無い');
+      if (RT.indexOf("S('shell-304b', 'node tests/exp-w304b-shell.mjs', ['tests/out/shell-w304b.json']") < 0 || !/secSource: 'w304b-branch'/.test(RT)) bad.push('再生成の段 shell-304b');
+      if (GI.indexOf('!tests/out/shell-w304b.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.shell304b') < 0) bad.push('post-merge の ③′ に docs.shell304b が無い');
+      // ④ 書かない語(「」の引用を除く —— 節)と禁句(引用も含む —— 節と器。語は符号の列から作る)
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/η が決まった/, /核を同定した/, /1PN を導いた/, /GR を導いた/, /GR と一致した/, /法則を発見した/, /43″ が出た/, /dragCore が一意に決まった/, /W_bg の宇宙の値が決まった/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];   // 古い節から「## 7.」までを数える QA の語(節には引用でも置かない)
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第304便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第304便b〕に禁句(' + w.length + ' 字)');
+      const harn = rd('tests/exp-w304b-shell.mjs');
+      for (const w of NG) if (harn.indexOf(w) >= 0) bad.push('器に禁句(' + w.length + ' 字)');
+    }
+    add('docs.shell304b', bad.length === 0,
+      `**引きずり核の球面近似を器の中の写しで測る**(第304便b・原仮定者の裁定(第94報)・R196 —— 正本 shell-w304b.json・html と本の宣言とエンジンの式は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // ---- 第304便c(原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意・統括の検証項目 R197): preset.emBaseline304 / docs.emBaseline304(新設 —— root は SKIP)。
 // ----   **🌦️🌔 の基線の見直し**(軟化 0.0005・e′ 0.0167086・長窓の平均の要素・標的の抽出器 M4 と長窓)と「引きずり OFF で照合許容の内」の記録。
 // ----   世代切替 = beta 対象 ∧ 正本 tests/out/baseline-w304c.json ∧ 器 tests/exp-w304c-baseline.mjs ∧ 第303便の宣言の写し(tests/lib-w304c-pre.mjs の isGen304c —— 写しのある本の宣言が
