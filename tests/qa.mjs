@@ -2043,7 +2043,9 @@ lastAddAt = Date.now();
     //   `previousRedacted:true` で説明に置き換えてあり、実名は 1 語も入れていない)。
     'paper/data/corrections.json',
     // 第277便a: 冥王星系の状態ファイル(取得依頼 C の回答の転写)も同じ走査に掛ける
-    'paper/data/pluto-system-states.csv'];
+    'paper/data/pluto-system-states.csv',
+    // 第304便e: 観測の候補の行(第303便a)と一次表との照合の記録(第304便e)も同じ走査に掛ける
+    'paper/data/pn1-ephemeris-candidates.csv', 'paper/data/pn1-primary-audit-20261015.csv'];
   const perFile = {};
   let total = 0, scanned = 0;
   for (const rel of TARGETS) {
@@ -2378,7 +2380,18 @@ lastAddAt = Date.now();
       //   W_bg の推定と G_loc の n(段 wbgest-302c)・地球と月だけの対照(第300便b の器 —— 段 emonly-300b)・G_loc の族(段 gloc-302b)・
       //   源の軸の符号の正準化(段 axialsign-302e)。どれも領域 REGEN_SCOPE を刻む(QA lint.canon303 が 5 本と来歴の形を照合する)
       'tests/out/semic-w302d.json', 'tests/out/wbgest-w302c.json', 'tests/out/emonly-w300b.json',
-      'tests/out/gloc-w302b.json', 'tests/out/axialsign-w302e.json'];
+      'tests/out/gloc-w302b.json', 'tests/out/axialsign-w302e.json',
+      // 第304便e(決断事項 AN312 ③ の続き・統括の検証項目 R198): CANON の外にあった第297便以降の現行の正本 16 本と第303便の 3 本を来歴の照合へ ——
+      //   再フィット(段 refit-297a・refit-298b)・朔望月(synodic-299b)・三次元の座標/引きずり/月/惑星(coord3d-298a・drag3d-298c・moon3d-298c・planets3d-299c)・
+      //   geoPN=4 の安定(geo4stable-299d)・参照模型の三次元(ref3d-299e)・土星の輪(saturnring3d-300c)・総和正規化(dragnorm-301a)・近似多粒子(approxmany-301b)・
+      //   二次元の複製(clone-301f)・状態の契約(statecontract-302e)・W_bg の法則性(wbglaw-301g)・🔗 の飛び(chainburst-301d)/
+      //   第303便: semic の再フィット(refit-303a)・源の慣性決定力 r⁻²(inertialr2-303b)・地球–月の基線の監査(earthmoon-303c)。
+      //   どれも領域 REGEN_SCOPE を刻む(QA lint.canon304 が 19 本と来歴の形を照合する —— 鎖で作り直した後の世代もそのまま通る形)
+      'tests/out/refit-w297a.json', 'tests/out/refit-w298b.json', 'tests/out/synodic-w299b.json', 'tests/out/coord3d-w298a.json',
+      'tests/out/drag3d-w298c.json', 'tests/out/moon3d-w298c.json', 'tests/out/planets3d-w299c.json', 'tests/out/geo4stable-w299d.json',
+      'tests/out/ref3d-w299e.json', 'tests/out/saturnring3d-w300c.json', 'tests/out/dragnorm-w301a.json', 'tests/out/approxmany-w301b.json',
+      'tests/out/clone-w301f.json', 'tests/out/statecontract-w302e.json', 'tests/out/wbglaw-w301g.json', 'tests/out/chainburst-w301d.json',
+      'tests/out/refit-w303a.json', 'tests/out/inertialr2-w303b.json', 'tests/out/earthmoon-w303c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -78865,7 +78878,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ①
       const TR = fs.readFileSync(path.join(ROOT, 'tools', 'README.md'), 'utf8');
       for (const w of ['## harness-smoke.mjs', '## pregate-transcript.mjs', 'lib-w303e-fitstop.mjs']) if (TR.indexOf(w) < 0) bad.push('① tools/README.md に「' + w + '」が無い');
-      if (HS.HARNESS_SMOKE_VERSION !== 'w303e-harness-smoke-1' || PG.PREGATE_VERSION !== 'w303e-pregate-1' || FS.FITSTOP_VERSION !== 'w303e-fitstop-1') bad.push('① 道具の版');
+      // 第304便e: 煙試験の道具は版 2(判定の直し 3 型 —— lint.harnessSmoke304)も受ける
+      if (!['w303e-harness-smoke-1', 'w304e-harness-smoke-2'].includes(HS.HARNESS_SMOKE_VERSION) || PG.PREGATE_VERSION !== 'w303e-pregate-1' || FS.FITSTOP_VERSION !== 'w303e-fitstop-1') bad.push('① 道具の版');
       cases.push(`① 道具 ${HS.HARNESS_SMOKE_VERSION}・${PG.PREGATE_VERSION}・${FS.FITSTOP_VERSION}`);
       // ②
       const st = await HS.selfTest({ root: ROOT });
@@ -78894,6 +78908,248 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     } catch (e) { bad.push('道具が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
     add('lint.harnessSmoke303', bad.length === 0,
       `**鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅**(第303便e・R194 —— 第302便の鎖とゲートの教訓 ②③ —— 道具は器を走らせずに自己試験): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第304便e(決断事項 AN312 ③ の続き・統括の検証項目 R198): lint.canon304 —— **第297便以降の現行の正本 16 本と第303便の 3 本を来歴の照合(CANON)へ**(root は SKIP)。
+// ----   ① CANON(lint.provenanceMeta の本文から読む —— lint.canon303 と同じ正規表現)に 19 本があり、CANON に重複が無い
+// ----   ② 19 本はそれぞれ再生成表の段の outs にあり、器が領域 REGEN_SCOPE(complete:true)を宣言している
+// ----   ③ 各正本の meta の形(lint.canon303 ③ と同じ: 版・wave・target beta/index.html・完全 64 桁の targetSha256・generatedAt・scope = 器の宣言・scopeComplete:true)
+// ----   ④ 各正本の来歴が今の html と器で通る(lint.provenanceMeta と同じ規則)—— 不一致は FAIL のまま(AG10 —— 鎖で作り直す段を名指す。作り直した後の世代は刻印が揃って通る)
+// ----   ⑤ meta.wave が第274〜303便の現行の正本(再生成表の outs —— 履歴を除く)で CANON の外が 0 本。第304便以降の新しい正本は数えるだけ(CANON へ入れるのは統合の判断)
+// ----   固定値を持たない(19 本の段の名と正本の名だけ)—— 鎖で作り直した後の世代もそのまま通る。履歴(role:'history')に回った本は ③ の形だけ
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.canon304(beta 対象でない: ' + TARGET + ' — 正本の来歴は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    const W304E_CANON = {
+      'tests/out/refit-w297a.json': 'refit-297a', 'tests/out/refit-w298b.json': 'refit-298b', 'tests/out/synodic-w299b.json': 'synodic-299b',
+      'tests/out/coord3d-w298a.json': 'coord3d-298a', 'tests/out/drag3d-w298c.json': 'drag3d-298c', 'tests/out/moon3d-w298c.json': 'moon3d-298c',
+      'tests/out/planets3d-w299c.json': 'planets3d-299c', 'tests/out/geo4stable-w299d.json': 'geo4stable-299d', 'tests/out/ref3d-w299e.json': 'ref3d-299e',
+      'tests/out/saturnring3d-w300c.json': 'saturnring3d-300c', 'tests/out/dragnorm-w301a.json': 'dragnorm-301a', 'tests/out/approxmany-w301b.json': 'approxmany-301b',
+      'tests/out/clone-w301f.json': 'clone-301f', 'tests/out/statecontract-w302e.json': 'statecontract-302e', 'tests/out/wbglaw-w301g.json': 'wbglaw-301g',
+      'tests/out/chainburst-w301d.json': 'chainburst-301d',
+      'tests/out/refit-w303a.json': 'refit-303a', 'tests/out/inertialr2-w303b.json': 'inertialr2-303b', 'tests/out/earthmoon-w303c.json': 'earthmoon-303c' };
+    try {
+      const P = await import('file://' + path.join(ROOT, 'tests', 'lib-w272e-provenance.mjs'));
+      const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      const HIST = new Set(RT.historyOuts());
+      const qaText = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const cm = qaText.match(/const CANON = \['tests\/out\/bh90-w269c\.json'[\s\S]*?\];/);
+      const CANON = cm ? [...cm[0].matchAll(/'(tests\/out\/[^']+\.json)'/g)].map((z) => z[1]) : [];
+      const dup = CANON.filter((f, i) => CANON.indexOf(f) !== i);
+      if (dup.length) bad.push('① CANON に重複 ' + [...new Set(dup)].join(','));
+      const N = Object.keys(W304E_CANON).length;
+      const missC = Object.keys(W304E_CANON).filter((f) => !CANON.includes(f));
+      if (missC.length) bad.push('① CANON に無い ' + missC.join(','));
+      cases.push(`① CANON ${CANON.length} 本(重複 ${dup.length})に ${N} 本 ${N - missC.length}/${N}`);
+      const HEX64 = /^[0-9a-f]{64}$/;
+      let nOk = 0, nScope = 0, nHist = 0;
+      const rowsTxt = [];
+      for (const [rel, key] of Object.entries(W304E_CANON)) {
+        const st = RT.REGEN_STEPS.find((z) => z.key === key);
+        if (!st || !(st.outs || []).includes(rel)) { bad.push(`② 段 ${key} の outs に ${rel} が無い`); continue; }
+        const hm = /node (tests\/exp-[\w.-]+\.mjs)/.exec(st.cmd);
+        const decl = hm ? SC.readDeclaredScope(fs.readFileSync(path.join(ROOT, hm[1]), 'utf8')) : null;
+        if (!decl || decl.complete !== true) bad.push(`② 段 ${key} の器が REGEN_SCOPE(complete:true)を宣言していない`);
+        let J = null;
+        try { J = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch (e) { bad.push(`③ ${rel} が読めない`); continue; }
+        const m = J.meta || {};
+        if (m.provenanceVersion !== P.PROVENANCE_VERSION || typeof m.wave !== 'string' || !m.wave || m.target !== 'beta/index.html' || !HEX64.test(String(m.targetSha256 || ''))
+          || Number.isNaN(Date.parse(m.generatedAt || ''))) bad.push(`③ ${rel} の meta の形(版 ${m.provenanceVersion}・wave・target ${m.target}・targetSha256・generatedAt)`);
+        const history = HIST.has(rel) || m.role === 'history' || st.role === 'history';
+        if (history) { nHist++; rowsTxt.push(`${key}(履歴 —— 形だけ)`); continue; }
+        if (decl) {
+          const a = SC.normalizeScope(m.scope || {}), b = SC.normalizeScope(decl);
+          delete a.note; delete b.note;
+          if (!m.scope || JSON.stringify(a) !== JSON.stringify(b) || m.scopeComplete !== true) bad.push(`③ ${rel} の meta.scope が器の宣言と違う・scopeComplete ${m.scopeComplete}(器を走らせ直すこと —— 段 ${key})`);
+        }
+        const nowSha = P.sha256File(path.join(ROOT, m.target));
+        const tgtSame = nowSha === m.targetSha256, scopeOk = tgtSame ? null : SC.scopeOkNow(ROOT, m);
+        if (!tgtSame && !scopeOk) bad.push(`④ ${rel} の対象 ${m.target} が刻印と違い領域も一致しない —— 鎖で作り直す段 ${key}`);
+        if (scopeOk) nScope++;
+        let nIn = 0, okIn = 0, nCode = 0, okCode = 0;
+        for (const s of (m.inputs || [])) {
+          if (s.missing) continue;
+          nIn++;
+          if (!HEX64.test(String(s.sha256 || ''))) { bad.push(`④ ${rel} の入力 ${s.file} に完全な sha256 が無い`); continue; }
+          if (/^beta\/_w\d+[a-z]?_base\.html$/.test(s.file) && !fs.existsSync(path.join(ROOT, s.file))) { okIn++; continue; }
+          if (fs.existsSync(path.join(ROOT, s.file)) && P.sha256File(path.join(ROOT, s.file)) === s.sha256) { okIn++; continue; }
+          if (s.file === m.target && (tgtSame || scopeOk)) { okIn++; continue; }
+          if ((m.inputsStable || []).some((z) => z.file === s.file) && SC.stableInputOk(ROOT, m.inputsStable, s.file)) { okIn++; continue; }
+          bad.push(`④ ${rel} の入力 ${s.file} が刻印と違う —— 鎖で作り直す段 ${key}`);
+        }
+        for (const c of (m.code || [])) { nCode++; if (HEX64.test(String(c.sha256 || '')) && fs.existsSync(path.join(ROOT, c.file)) && P.sha256File(path.join(ROOT, c.file)) === c.sha256) okCode++; else bad.push(`④ ${rel} のコード ${c.file} が刻印と違う —— 鎖で作り直す段 ${key}`); }
+        if (!nCode || P.digestOfStamps(m.code) !== m.codeSha256) bad.push(`④ ${rel} の codeSha256 が code[] の並びの hash と一致しない`);
+        if ((tgtSame || scopeOk) && okIn === nIn && okCode === nCode) nOk++;
+        rowsTxt.push(`${key}(${tgtSame ? '一致' : (scopeOk ? '領域一致' : '**不一致**')}・入力 ${okIn}/${nIn}・コード ${okCode}/${nCode})`);
+      }
+      cases.push(`②③④ 来歴が通る ${nOk}/${N - nHist}(領域一致 ${nScope}・履歴 ${nHist}): ${rowsTxt.join(' / ')}`);
+      // ⑤ 第274〜303便の現行の正本で CANON の外が 0 本(第304便以降は数えるだけ)
+      const out274 = [], newer = [];
+      for (const st of RT.REGEN_STEPS) {
+        if (st.role === 'history') continue;
+        for (const o of st.outs || []) {
+          if (!/\.json$/.test(o) || HIST.has(o) || CANON.includes(o)) continue;
+          let J = null;
+          try { J = JSON.parse(fs.readFileSync(path.join(ROOT, o), 'utf8')); } catch { continue; }
+          const w = /第(\d+)便/.exec(String((J && J.meta && J.meta.wave) || ''));
+          if (!w || (J.meta && J.meta.role === 'history')) continue;
+          if (+w[1] >= 274 && +w[1] <= 303) out274.push(o.replace('tests/out/', '') + '〔' + st.key + '〕');
+          else if (+w[1] >= 304) newer.push(o.replace('tests/out/', ''));
+        }
+      }
+      if (out274.length) bad.push('⑤ 第274〜303便の現行の正本で CANON の外 ' + out274.join(','));
+      cases.push(`⑤ 第274〜303便の現行の正本で CANON の外 ${out274.length} 本・第304便以降の新しい正本で CANON の外 ${newer.length} 本${newer.length ? '(' + newer.join(',') + ' —— 統合で入れるかを決める)' : ''}`);
+    } catch (e) { bad.push('来歴の器が読めない: ' + String(e && e.stack || e).slice(0, 160)); }
+    add('lint.canon304', bad.length === 0,
+      `**第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ**(第304便e・決断事項 AN312 ③ の続き・R198 —— 来歴の照合 lint.provenanceMeta の対象に): ${cases.join(' / ')}`
+      + ` —— 不一致は FAIL のまま(AG10 —— 鎖で作り直す段)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第304便e(統括の検証項目 R198 —— 第303便の煙試験の初回運用の NG 3 件はすべて道具側): lint.harnessSmoke304 —— **煙試験の判定の直し 3 型**(root は SKIP)。
+// ----   ① 道具の版 w304e-harness-smoke-2・tools/README.md の煙試験の節に「既知」と「BASE_HTML」(器に渡す基点 html は写しの相対パス)
+// ----   ② 判定(純関数 judgeOutput)の 3 型: ⓐ「NaN=false」は NaN なし(第303便の sparc)・「NaN=true」は NaN /
+// ----      ⓑ 基点の正本でも ok:false(偽の門 ⊆ 基点の偽の門)は「既知」(NG に数えない —— 第303便の spiral290 の g4)・偽の門が増えた/基点が ok:true なら門の偽 /
+// ----      ⓒ playwright の例外(stack の行の末尾が「 {」・Call log の節)は例外(第303便の galaxyprof は門の偽と読んでいた)で、例外の文は Call log の前の行
+// ----   ③ 器に渡す基点 html(baseHtmlForSandbox): 写しの中に在る基点はその相対パス・木の外の基点は写しへ複写した相対パス(絶対パスを返さない)/
+// ----      正本の ok と偽の門の読み(canonVerdictOf)
+// ----   ④ 低離心率の近点の抽出器のライブラリ tests/lib-w304e-apsis.mjs(AN322 —— 新しい器が使う)の自己試験 apsisSelfTest(合成の系列・−k/r⁴ の摂動の二体の解析の率)
+// ----   器は走らせない(第303便の状態 9d79aaa で 3 件が消え 19a4d5b の dragnorm の例外が残ることは枝の報告と PHYSICS〔第304便e〕の記録 —— 鎖の前に統括が回す)
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.harnessSmoke304(beta 対象でない: ' + TARGET + ' — 鎖と正本の道具は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const HS = await import('file://' + path.join(ROOT, 'tools', 'harness-smoke.mjs'));
+      // ①
+      const TR = fs.readFileSync(path.join(ROOT, 'tools', 'README.md'), 'utf8');
+      const sec = TR.slice(TR.indexOf('## harness-smoke.mjs'), TR.indexOf('## pregate-transcript.mjs'));
+      for (const w of ['既知', 'BASE_HTML', 'NaN=false']) if (sec.indexOf(w) < 0) bad.push('① tools/README.md の煙試験の節に「' + w + '」が無い');
+      if (HS.HARNESS_SMOKE_VERSION !== 'w304e-harness-smoke-2') bad.push('① 道具の版 ' + HS.HARNESS_SMOKE_VERSION);
+      cases.push(`① 道具 ${HS.HARNESS_SMOKE_VERSION}・README の節`);
+      // ②
+      const J = (o) => HS.judgeOutput(o);
+      const a1 = J({ stdout: '', stderr: '  🌃 🌃 ngc3198(NFW 対照・内蔵のまま) dt/1: n=300 NaN=false r_max(HI)=31.79 kpc  [3 s]', rc: null, killed: true });
+      const a2 = J({ stdout: '', stderr: '  🌃 dt/2: n=300 NaN=true', rc: null, killed: true });
+      if (a1.verdict !== 'ok' || a2.verdict !== 'nan') bad.push(`② ⓐ NaN=false → ${a1.verdict}・NaN=true → ${a2.verdict}`);
+      const b1 = J({ stdout: '→ tests/out/spiral-w290e.json・ok false {"g4":false}', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4'], baseOk: false, baseFalse: ['g4'] });
+      const b2 = J({ stdout: '', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4', 'g5'], baseOk: false, baseFalse: ['g4'] });
+      const b3 = J({ stdout: '', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4'], baseOk: true, baseFalse: [] });
+      const b4 = J({ stdout: '', stderr: '', rc: 0, killed: false, outOk: false });
+      if (b1.verdict !== 'known' || b2.verdict !== 'gate' || b3.verdict !== 'gate' || b4.verdict !== 'gate') bad.push(`② ⓑ 既知 ${b1.verdict}・門が増えた ${b2.verdict}・基点 ok ${b3.verdict}・基点不明 ${b4.verdict}`);
+      const c1 = J({ stdout: '', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.goto: net::ERR_FILE_NOT_FOUND at file:///s/root/abs/beta/_w303_base.html\nCall log:\n  - navigating to "file:///s/root/abs/beta/_w303_base.html", waiting until "load"\n\n    at /s/root/tests/exp-w274c-galaxyprof.mjs:155:14 {\n  name: \'Error\'\n}', rc: 1, killed: false });
+      if (c1.verdict !== 'exception' || !/^page\.goto: net::ERR_FILE_NOT_FOUND/.test(c1.why[0] || '')) bad.push(`② ⓒ playwright の例外 → ${c1.verdict}「${c1.why[0]}」`);
+      cases.push(`② NaN=false → ${a1.verdict}・NaN=true → ${a2.verdict} / 基点でも ok:false → ${b1.verdict}・門が増えた → ${b2.verdict}・基点 ok:true → ${b3.verdict}・基点不明 → ${b4.verdict} / playwright の例外 → ${c1.verdict}`);
+      // ③
+      const os = await import('node:os');
+      const t = fs.mkdtempSync(path.join(os.tmpdir(), 'w304e-qa-'));
+      try {
+        const rt = path.join(t, 'root'), sb = path.join(t, 'sb'), ou = path.join(t, 'outside');
+        for (const d of [path.join(rt, 'beta'), path.join(sb, 'beta'), ou]) fs.mkdirSync(d, { recursive: true });
+        fs.writeFileSync(path.join(rt, 'beta', '_w998_base.html'), 'in'); fs.writeFileSync(path.join(sb, 'beta', '_w998_base.html'), 'in'); fs.writeFileSync(path.join(ou, 'b.html'), 'out');
+        const r1 = HS.baseHtmlForSandbox(rt, sb, path.join(rt, 'beta', '_w998_base.html')), r2 = HS.baseHtmlForSandbox(rt, sb, path.join(ou, 'b.html'));
+        const r2ok = !!r2 && !path.isAbsolute(r2) && fs.readFileSync(path.join(sb, r2), 'utf8') === 'out';
+        if (r1 !== 'beta/_w998_base.html' || !r2ok || path.isAbsolute(r1 || '/')) bad.push(`③ 基点 html の相対パス ${r1}・${r2}`);
+        const v = HS.canonVerdictOf({ ok: false, gates: { g1: true, g4: false } });
+        if (!v || v.ok !== false || v.falseGates.join(',') !== 'g4') bad.push('③ 正本の偽の門の読み');
+        cases.push(`③ 基点 html: 写しの中 → ${r1}・木の外 → ${r2}(複写 ${r2ok})・偽の門の読み ${v ? v.falseGates.join(',') : '—'}`);
+      } finally { fs.rmSync(t, { recursive: true, force: true }); }
+      // ④ 低離心率の近点の抽出器のライブラリ(tests/lib-w304e-apsis.mjs —— AN322)の自己試験: 合成の系列(調和の振れ > |e|)と −k/r⁴ の摂動の二体(RK4)の解析の率
+      const AP = await import('file://' + path.join(ROOT, 'tests', 'lib-w304e-apsis.mjs'));
+      const apT = AP.apsisSelfTest();
+      if (!apT.ok || AP.APSIS_VERSION !== 'w304e-apsis-1') bad.push('④ 近点の抽出器の自己試験: ' + apT.bad.slice(0, 3).join(' / '));
+      cases.push('④ ' + AP.APSIS_VERSION + ': ' + apT.cases.join(' / '));
+    } catch (e) { bad.push('道具が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.harnessSmoke304', bad.length === 0,
+      `**煙試験の判定の直し 3 型**(第304便e・R198 —— 第303便の初回運用の NG 3 件はすべて道具側: NaN=false を NaN と数えた・基点 html を絶対パスで渡した・基点の正本から ok:false の段): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第304便e(原仮定者の裁定(第94報)・DECISIONS v62 AN321・統括の検証項目 R198): docs.primaryAudit304 —— **観測の候補の行 EPM2011 の一次表との照合の記録**(root は SKIP)。
+// ----   paper/data/pn1-primary-audit-20261015.csv(照合の記録 —— 候補の行の record_id に紐づける。候補の行の値と sigma 欄は変えない・較正の判定へ上げない):
+// ----   ① 列 16(record_id・candidate_file・body・quantity・candidate_value・candidate_sigma_source・unit・primary_source・primary_locator・primary_printed・conversion・
+// ----      primary_numeric_verified・sigma68_verified・audit_origin・audit_date・note)・6 行(水星・金星・地球・火星・木星・土星)・record_id の重複 0
+// ----   ② 各行の record_id は候補の行(paper/data/pn1-ephemeris-candidates.csv)の A1-EPM2011 の行で、body・quantity・unit・値(文字列で同じ)・sigma_source・
+// ----      原単位の printed が候補の行と同じ・換算 ×0.1(mas/yr → ″/世紀)が値と幅に一致
+// ----   ③ primary_numeric_verified=true(数値の一致)と sigma68_verified=false(68% の 1σ の定義は未確認)を分けて持つ・照合の出所は「容器からは一次資料を取得できない」
+// ----   ④ 候補の行は不変の形: quantity は *_candidate・sigma 欄は空・sigma_primary=unverified のまま(verified にしない)・候補の record_id は較正の観測 CSV
+// ----      (solar-observations.csv)と html に現れない(較正の判定へ上げていない)・Park 2017(42.9799±0.0009)の行は照合の記録に無い(未照合のまま)
+// ----   ⑤ 文書: PHYSICS〔第304便e〕に照合の記録の意味(数値の一致と 1σ の定義を分ける)・禁句なし(照合の記録・PHYSICS の節)
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.primaryAudit304(beta 対象でない: ' + TARGET + ' — 観測の候補の行は beta 線の便)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const OBS = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const AF = 'paper/data/pn1-primary-audit-20261015.csv', CF = 'paper/data/pn1-ephemeris-candidates.csv';
+      const aTxt = fs.readFileSync(path.join(ROOT, AF), 'utf8'), cTxt = fs.readFileSync(path.join(ROOT, CF), 'utf8');
+      const parse = (txt) => { const ls = txt.split('\n').filter((l) => l.trim()); const h = OBS.parseCsvLine(ls[0]).map((x) => x.trim());
+        return { h, rows: ls.slice(1).map((l) => { const c = OBS.parseCsvLine(l); const o = { _n: c.length }; h.forEach((k, i) => { o[k] = c[i] === undefined ? '' : c[i]; }); return o; }) }; };
+      const A = parse(aTxt), C = parse(cTxt);
+      const H = ['record_id', 'candidate_file', 'body', 'quantity', 'candidate_value', 'candidate_sigma_source', 'unit', 'primary_source', 'primary_locator', 'primary_printed',
+        'conversion', 'primary_numeric_verified', 'sigma68_verified', 'audit_origin', 'audit_date', 'note'];
+      if (JSON.stringify(A.h) !== JSON.stringify(H)) bad.push('① 列 ' + A.h.join(','));
+      if (A.rows.some((r) => r._n !== H.length)) bad.push('① 列の数が 16 でない行');
+      const BODIES = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'];
+      if (A.rows.length !== 6 || JSON.stringify(A.rows.map((r) => r.body)) !== JSON.stringify(BODIES)) bad.push('① 6 行(水星〜土星)でない ' + A.rows.map((r) => r.body).join(','));
+      const ids = A.rows.map((r) => r.record_id);
+      if (new Set(ids).size !== ids.length) bad.push('① record_id の重複');
+      cases.push(`① 列 ${A.h.length}・${A.rows.length} 行(${A.rows.map((r) => r.body).join('・')})・重複 ${ids.length - new Set(ids).size}`);
+      const noteKey = (note, k) => { const m = new RegExp('(?:^|; )' + k + '=([^;]*)').exec(note || ''); return m ? m[1].trim() : null; };
+      const relOk = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(Math.abs(a), Math.abs(b), 1e-12);
+      let nMatch = 0;
+      for (const r of A.rows) {
+        const tag = r.body + '(' + r.record_id + ')';
+        const c = C.rows.find((z) => z.record_id === r.record_id);
+        if (!c) { bad.push('② ' + tag + ' が候補の行に無い'); continue; }
+        if (noteKey(c.note, 'item') !== 'A1-EPM2011') bad.push('② ' + tag + ' の候補の行が A1-EPM2011 でない');
+        if (r.candidate_file !== CF || r.body !== c.body || r.quantity !== c.quantity || r.unit !== c.unit || r.candidate_value !== c.value) bad.push('② ' + tag + ' の写し(file・body・quantity・unit・値)が候補の行と違う');
+        if (r.candidate_sigma_source !== noteKey(c.note, 'sigma_source')) bad.push('② ' + tag + ' の sigma_source が候補の行と違う');
+        const pc = /printed=(-?[0-9.]+) \+\/- ([0-9.]+) mas\/yr/.exec(c.note), pa = /^(-?[0-9.]+) \+\/- ([0-9.]+) mas\/yr$/.exec(r.primary_printed);
+        if (!pc || !pa || pc[1] !== pa[1] || pc[2] !== pa[2]) bad.push('② ' + tag + ' の原単位の printed が候補の行と違う');
+        else if (!/x0\.1/.test(r.conversion) || !relOk(Number(pa[1]) * 0.1, Number(r.candidate_value)) || !relOk(Number(pa[2]) * 0.1, Number(r.candidate_sigma_source))) bad.push('② ' + tag + ' の換算 ×0.1');
+        else nMatch++;
+        if (!/EPM2011/.test(r.primary_source) || !/1306\.5534/.test(r.primary_source) || !/^Table 5\b/.test(r.primary_locator)) bad.push('② ' + tag + ' の一次資料の場所(EPM2011・arXiv:1306.5534・Table 5)');
+        // ③
+        if (r.primary_numeric_verified !== 'true' || r.sigma68_verified !== 'false') bad.push(`③ ${tag} の照合の欄 numeric ${r.primary_numeric_verified}・sigma68 ${r.sigma68_verified}`);
+        if (!/cannot be retrieved from the container/.test(r.audit_origin) || r.audit_date !== '2026-10-15') bad.push('③ ' + tag + ' の照合の出所・日付');
+        if (!/68% \(1 sigma\) level is NOT confirmed/.test(r.note) || !/not promoted to the calibration/.test(r.note)) bad.push('③ ' + tag + ' の注記(1σ の定義は未確認・較正へ上げない)');
+        // ④ 候補の行は不変の形
+        if (!/_candidate$/.test(c.quantity) || String(c.sigma || '').trim() !== '' || noteKey(c.note, 'sigma_primary') !== 'unverified') bad.push('④ ' + tag + ' の候補の行の形(*_candidate・sigma 空・sigma_primary=unverified)');
+      }
+      cases.push(`② 候補の行(A1-EPM2011)と値・幅・原単位・換算 ×0.1 が一致 ${nMatch}/${A.rows.length}`);
+      cases.push(`③ primary_numeric_verified=true ${A.rows.filter((r) => r.primary_numeric_verified === 'true').length}・sigma68_verified=false ${A.rows.filter((r) => r.sigma68_verified === 'false').length}(数値の一致と 1σ の定義を分ける)`);
+      const solar = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8'), htmlT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const leaked = ids.filter((id) => solar.includes(id) || htmlT.includes(id));
+      if (leaked.length) bad.push('④ 候補の record_id が較正の観測 CSV か html に現れる ' + leaked.join(','));
+      if (/Park/.test(aTxt) || /42\.9799/.test(aTxt)) bad.push('④ Park 2017 の行が照合の記録にある(未照合のまま —— 入れない)');
+      if (htmlT.includes('pn1-primary-audit')) bad.push('④ html が照合の記録を読む(較正の判定へ上げない)');
+      cases.push(`④ 候補の行は *_candidate・sigma 空・unverified のまま・較正の観測 CSV と html に record_id 0 件・Park 2017 は未照合のまま`);
+      // ⑤
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      // 節の終わり = 次の便の節〔第…〕の行頭か「## 」の見出し(統合で他の枝の節が後ろに続いても自分の節だけを見る)
+      const k0 = PH.indexOf('〔第304便e — ');
+      const ends = k0 >= 0 ? [PH.indexOf('\n〔第', k0 + 1), PH.indexOf('\n## ', k0 + 1)].filter((z) => z > 0) : [];
+      const ps = k0 >= 0 ? PH.slice(k0, ends.length ? Math.min(...ends) : undefined) : '';
+      if (!ps) bad.push('⑤ PHYSICS に〔第304便e — 〕の節が無い');
+      else for (const w of ['pn1-primary-audit-20261015.csv', 'primary_numeric_verified', 'sigma68_verified', 'Park 2017']) if (ps.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第304便e〕に「' + w + '」が無い');
+      // 禁句は base64 で持つ(平文で置かない —— lint.externalNamesCsv と同じ方式)
+      const NGW = Buffer.from('56eB5L+hLOa3u+S7mCzlr6nmn7ssQ2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleCxDbGF1ZGUsR1BULSxPcHVzLFNvbm5ldCxIYWlrdSxhdHRhY2htZW50LHByaXZhdGUgY29tbXVuaWNhdGlvbg==', 'base64').toString('utf8').split(',');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      for (const [nm, tx] of [['照合の記録', aTxt], ['PHYSICS〔第304便e〕', ps]]) { const low = strip(tx).toLowerCase(); for (const w of NGW) if (low.includes(w.toLowerCase())) bad.push('⑤ ' + nm + ' に禁句(base64 の表の ' + (NGW.indexOf(w) + 1) + ' 番)'); }
+      cases.push(`⑤ PHYSICS〔第304便e〕${ps.length} 字・禁句 0`);
+    } catch (e) { bad.push('照合の記録が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.primaryAudit304', bad.length === 0,
+      `**観測の候補の行 EPM2011 の一次表との照合の記録**(第304便e・原仮定者の裁定(第94報)・AN321・R198 —— 数値は一次表と一致・68% の 1σ の定義は未確認・候補の行は変えない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }

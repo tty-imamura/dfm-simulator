@@ -858,6 +858,8 @@ QA の確認順(第279便b): **① preflight → ② 限定 QA → ③ フル**�
   結果は `tests/out/qa-preflight[-beta].json`(`fullQaStillRequired:true` — **フル QA の代わりではない**)。
 - ② 自分の変更に関係するブロックだけを走らせる: `node tests/exp-w258c-qapart.mjs <QA の id> …`。
 - 鎖(正本の作り直し)の前後の短い検査(第303便e): 統合の直後に `node tools/harness-smoke.mjs --base <基点 html>`(差を直接読む器の煙試験 —— 受理の例外・門の偽・NaN)、鎖の直後に `node tools/pregate-transcript.mjs --base-rev <基点>`(正本と PHYSICS・fitRecord・obsCard の転記の照合)。使い方は `tools/README.md`(フル QA・CI の代わりではない)。
+  第304便e: 煙試験の判定を直した(`NaN=false` を数えない・器に渡す基点 html は写しの相対パス・基点の正本でも ok:false の段は「既知」で NG に数えない)。
+  低離心率の近点の抽出器 `tests/lib-w304e-apsis.mjs`(接触の離心ベクトルの成分の調和の回帰 —— `tests/README.md` §5)と観測の候補の行の一次表との照合の記録 `paper/data/pn1-primary-audit-20261015.csv`(候補の行は変えない)。
 - ③ `npm test`(フル)。手元では**前回 FAIL したブロックを先に別プロセスで再実行**してから全件を走る
   (`QA_REPLAY_FAIL=1` が手元の既定・CI では OFF。`QA_BAIL=1` なら先行再実行で FAIL のとき本走行へ進まない)。
   重いブロックはワーカープール(W5c/W5b)で並列に先行し、結果は元の位置・元の順で記録される
