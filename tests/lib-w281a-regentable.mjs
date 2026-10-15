@@ -966,6 +966,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/earthmoon-w303c.json': META_RUN.concat(['/elapsedS', '/audit/wallSec', '/audit/engine/off/wallSec', '/audit/engine/decl/wallSec', '/audit/engineMean01/wallSec',
       '/radius/wallSec', '/radius/rows/*/wallSec', '/radius/h2/decl/wallSec', '/radius/h2/point/wallSec', '/sunbg/wallSec', '/sunbg/rows/*/wallSec', '/ident/wallSec']) },
     note: '第303便c: 地球–月の基線の監査(窓と抽出器・軟化・平均の要素・e′・J₂・惑星・潮汐)と天体半径の効き方の目録(源・受け手の有限球・自己の慣性決定力)・太陽が背景側の W_bg・3 量の同定(値だけ —— 本の宣言は変えない)' }),
+  // ---- 第304便b(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R196): **引きずり核の球面近似を器の中の写しで測る**
+  //   (段 Z〔殻の核の閉形式・自己項を包んだ 1 步の閉形式と直接法・総速度の式・包みの素通り・源の殻の補正〕・M〔水星で η・λ・k の根 —— M1 S3 だけ/M2 B+S3/M3 Br+S3/
+  //   M4 B+S2/M4r Br+S2・s の走査〕・T〔6 本への移送と惑星ごとに要る η〕・E〔🌦️・🟪〕・K〔多体の読み口〕・P〔対ごとの正規化の対照〕・A〔解析の表〕)。
+  //   自己項はエンジンの inertialDragNormApply を器の process の中で包んで行の分母に足す(html は変えない)。本の宣言は基点 945f2a4 の写し
+  //   (tests/data-w304b-decl945.json)に器の中で固定。html だけを読む・1 プロセス。W304B_PARTS で段を分けられる。所要は第304便b の枝の実測(正本の elapsedS)
+  S('shell-304b', 'node tests/exp-w304b-shell.mjs', ['tests/out/shell-w304b.json'], 3000, { secSource: 'w304b-branch', node: true,
+    after: ['inertialr2-303b', 'planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/shell-w304b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第304便b: 引きずり核の球面近似(自己の項 S3 m/R_d³・S2 q/R_d² を行の分母へ —— 器の中の写し)—— 水星で η と λ/k・6 本への移送と惑星ごとの η・地球–月と冥王星–カロン・多体・対ごとの正規化の対照・解析の表(値だけ —— どの本にもオンにしない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

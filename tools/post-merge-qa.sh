@@ -111,6 +111,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitDerived296 docs.fitContract296 pre
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.inertialR2_303 docs.inertialR2_303"
 # 第303便c(原仮定者の裁定(第93報)③・R193): 枝 c の新設 1 本(docs.earthMoon303 —— 地球–月の基線の監査・天体半径の効き方の目録・太陽が背景側・多量の同定の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.earthMoon303"
+# 第304便b(原仮定者の裁定(第94報)・R196): 枝 b の新設 1 本(docs.shell304b —— 引きずり核の球面近似を器の中の写しで測った正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.shell304b"
 # 第303便e(決断事項 AN312 ③・R194): 枝 e の新設 2 本(lint.canon303 —— 第302便の正本 5 本を CANON へ・lint.harnessSmoke303 —— 鎖の前の器の煙試験・ゲートの前の転記照合・探索の停止幅の道具)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon303 lint.harnessSmoke303"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
