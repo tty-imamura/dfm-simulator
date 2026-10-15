@@ -39,6 +39,7 @@ import { loadHtmlMain, runRow, EMGRID_LIB_VERSION } from './lib-w280b-emgrid.mjs
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
+import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
 // 第281便a の領域 hash の宣言(再生成の鎖が「この器の正本を走らせ直すか」を引く)—— 読む本は 🌘・🌙・🌦️(id で引く)
 const REGEN_SCOPE = {"presets":["earthMoonRealKF1","earthMoonReal","earthMoonSunInertial3d"],"roots":["HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION_MT","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.validateFitRecord","HP.validatePreset","HP.sim","HP.synodic","isNum","sim"],"core":true,"consts":[],"complete":true};
 
@@ -52,6 +53,7 @@ export const SYNODIC_W299B_VERSION = 'w299b-synodic-1';
 const html = path.isAbsolute(TARGET) ? TARGET : path.join(ROOT, TARGET);
 const targetSha256 = crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex');
 const { HP } = loadHtmlMain(html);
+pinDecl303(null, ['earthMoonSunInertial3d']);   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— 続く pinDecl302 が第302便の欄を戻す)
 pinDecl302(null, ['earthMoonSunInertial3d']);   // 第303便a: 🌦️ の W_bg・初期配置・記録を第302便の宣言に戻して測る(歴史の値を保つ —— 写すのは再生成範囲の宣言の本だけ)
 const SYN = HP.synodic;
 if (!SYN || !SYN.version) throw new Error('HP.synodic が無い(朔望月の時計は第299便b の html から)');
@@ -348,8 +350,8 @@ for (const k of (MERGE ? [] : PARTS)) {
 }
 out.timing = MERGE ? { wallSec: Object.values(out.parts).reduce((a, p) => a + (Number(p.wallSec) || 0), 0), mode: 'merge(段ごとの壁時計の和 —— 段は別の process で並走)' }
   : { wallSec: (Date.now() - t0All) / 1000 };
-const CODE = ['tests/exp-w299b-synodic.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs'];
-out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便b', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE] }), {
+const CODE = ['tests/exp-w299b-synodic.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'];
+out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便b', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
   harnessVersion: SYNODIC_W299B_VERSION, clockVersion: SYN.version, parts: Object.keys(out.parts),
   ruling: '原仮定者の裁定(第89報)①(geoPN=2 は近似 —— 近似として扱いやすい基準を探す・earthMoonRealKF1 の公転周期は恒星月の代わりに朔望月を検証する)',
   reading: '統括の検証項目 R170(仮想の太陽の時計・一様換算・太陽のある本の実際の方向の 3 通りで測り、窓・位相・始点の依存と床を並べて基準を選ぶ・ノブは D0pull だけ・h と h/2)',

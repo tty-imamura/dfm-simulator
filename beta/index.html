@@ -1794,6 +1794,7 @@ ja: {
   beDz:"z/vz: 三次元の本(physics.coord:\"3d\")だけの位置と速度の z 成分(右手系 +z = x×y —— 既定の視点では画面の奥)。値域は z ±5000・vz ±100(vx/vy と同じ)。二次元の本には出ない。",
   beLdcOn:"構造核 dragCore",
   beDcNote:(R)=>"慣性決定力の構造核(一様のコア+マントル殻)。f=コアの質量の割合(0<f≤1)・R_c=コアの半径(0<R_c≤R"+((R===null)? " —— この粒子は半径 radius の宣言が無いので付けられない" : "="+R)+")。",
+  beDcShell:(eta,Rd)=>"引きずり核の殻(第304便a —— 読み取り): 引きずり核球面近似係数 η="+eta+"(核の半径/天体の半径)・R_d="+Rd+"。体積の構造核とは排他(本の宣言 dragCore:{shellRatio} —— ここでは付け外ししない)。",
   beDcErr:(e)=>"⛔ 受理されない —— "+e+"(何も書いていない)",
   beDdc:"構造核 dragCore: relativeDrag.law:\"inertial\" の本で、この粒子を源とする核を一様 2 層(コア+マントル殻)で体積平均した ⟨K⟩(r) に替える(〔第292便c〕)。宣言の鍵と値域は受理器と同じ(dragCore:{massFrac, radius})。ON で付け(既定 f=0.5・R_c=R/2)、OFF で外す。通らない編集は 1 bit も書かず理由を出す。⏮初めからで本の宣言に戻る。",
   beLsaOn:"自転軸(三次元)",
@@ -3061,6 +3062,7 @@ en: {
   beDz:"z/vz: the z components of position and velocity, only in a 3D book (physics.coord:\"3d\"; right-handed, +z = x×y, into the screen in the default view). Range z ±5000, vz ±100 (as vx/vy). Not shown in a 2D book.",
   beLdcOn:"Structure core dragCore",
   beDcNote:(R)=>"Inertial-determinacy structure core (uniform core + mantle shell). f = core mass fraction (0<f≤1), R_c = core radius (0<R_c≤R"+((R===null)? " - this body declares no radius, so none can be attached" : "="+R)+").",
+  beDcShell:(eta,Rd)=>"Drag-core shell (wave 304a, read-only): drag-core sphere approximation coefficient eta="+eta+" (core radius / body radius), R_d="+Rd+". Exclusive with the volume structure core (book declaration dragCore:{shellRatio} - not attached or removed here).",
   beDcErr:(e)=>"⛔ Not accepted - "+e+" (nothing was written)",
   beDdc:"Structure core dragCore: in a relativeDrag.law:\"inertial\" book, replaces the kernel of the pairs this body sources with <K>(r) volume-averaged over two uniform layers (core + mantle shell; wave 292c). Keys and ranges are those of the validator (dragCore:{massFrac, radius}). ON attaches one (default f=0.5, R_c=R/2), OFF removes it. A rejected edit writes nothing and shows why. ⏮ Restart returns to the book's declaration.",
   beLsaOn:"Spin axis (3D)",
@@ -5745,7 +5747,7 @@ const APP_VERSION = "1.44";            // エクスポートの appVersion に�
 //   BETA_BUILD・beta/sw.js の CACHE 接尾辞・CHANGELOG の beta 節の見出しの 3 か所を同じ値へ書き換える
 //   (QA lint.betaBuild300 が形・beta 線・CHANGELOG の便・SW・見出し・生成文書の見出しの一致を見る)。
 //   第219便〜第299便は "v1.4x-b1" の固定だった(v1.43.0 昇格に伴う次期プレビュー線の 1 番)。
-const BETA_BUILD = "v1.45-b303";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
+const BETA_BUILD = "v1.45-b304";   // 第219便: v1.43.0 昇格に伴い次期プレビュー線へ —— 第300便d: 便名(上の注記)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第297便c(原仮定者の裁定(第87報)「時間経過倍率 1 倍で、1 公転 360 ステップ程度を標準として、時間スケールを見直す」・統括の検証項目 R163):
 // **画面の時間の標準**。物理の入力(G・c・質量・速度・scaleExp)は 1 つも動かさず、本ごとに**画面の積分刻み** `physics.stepDt` を宣言する
@@ -7687,7 +7689,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2"];   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2", "shellSelf", "shellSelfEps"];   // 第304便a: shellSelf・shellSelfEps(引きずり核の殻の自己の項 —— 省略時オフ・正準形には宣言した本だけ)   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7967,13 +7969,28 @@ function wbgEstimateOf(x, ref0){
     i2o={decl:Object.assign({}, i2), wI:{book:qs.w, SI:si(qs.w)}, selfSkip:qs.selfSkip, WbgExt:isNum(Wdecl)? Wdecl : null, xi:(den>0)? sumW/den : null,
       note:"分母 = W_bg(外部)+ Σw_I + Σw —— w_I は宣言の λ で割った r⁻²(核 m𝒦 と同じ単位)"};
   }
+  // 第304便a(R195): 引きずり核の殻の自己の項(受け手 ri —— 単位 [M/L³]・**W_bg の欄 total へ代入しない**)。殻を宣言した本だけ別欄 shellSelf を出す(他の本の読み口は 1 鍵も変わらない)
+  const shR=(j)=>isSim? ((x._dragShellRd && x._dragShellRd[j]>0)? x._dragShellRd[j] : 0)
+    : ((x.bodies[j] && x.bodies[j].dragCore && isNum(x.bodies[j].dragCore[DRAG_SHELL_KEY]) && isNum(x.bodies[j].radius))? x.bodies[j].dragCore[DRAG_SHELL_KEY]*x.bodies[j].radius : 0);
+  let sho=null, anySh=false;
+  for(let j=0;j<n;j++) if(shR(j)>0){ anySh=true; break; }
+  if(anySh){
+    const Rd=shR(ri), mi=mOf(ri), i2s=rd[REL_DRAG_I2_KEY]||null, e2s=eps*eps;
+    const G1=ph && isNum(ph.G)? ph.G : 0, c01=ph && isNum(ph.cLight)? ph.cLight : 0;
+    const wS=(Rd>0)? mi/(Rd*Rd*Rd) : null, wSs=(Rd>0)? mi*Rd/((Rd*Rd+e2s)*(Rd*Rd+e2s)) : null, wSI=(Rd>0 && i2s)? inertialR2Q(i2s,mi,G1,c01)/(Rd*Rd) : null;
+    const W0=isNum(Wdecl)? Wdecl : 0;
+    sho={version:DRAG_SHELL_VERSION, receiver:ri, Rd:(Rd>0)? Rd : null, units:"M/L^3", declared:{shellSelf:rd.shellSelf||"off", selfI:(i2s && i2s.self==="shell")? "shell" : "off", shellSelfEps:rd.shellSelfEps===true},
+      wSelfDrag:(wS===null)? null : {book:wS, SI:si(wS)}, wSelfDragSoft:(wSs===null)? null : {book:wSs, SI:si(wSs)}, wSelfI:(wSI===null)? null : {book:wSI, SI:si(wSI)},
+      xiS3:(wS!==null && W0+wS+sumW>0)? sumW/(W0+wS+sumW) : null,
+      note:"S3 = m/R_d³(引きずりの核の殻の中心・軟化しない)・Soft = m R_d/(R_d²+ε²)²・S2 = q/R_d² —— W_bg の欄 total には足さない・xiS3 = Σw/(W_bg + S3 + Σw)(Σw は点の核)"};
+  }
   return {version:WBG_EST_VERSION, ok:true, receiver:ri, eps, densSI:dens,
     Wcos:{book:Wcos, SI:si(Wcos), rhoSI:rhoC, RSI:RH, H0kmsMpc:C.H0kmsMpc},
     Wgal:{book:Wgal, SI:si(Wgal), declared:!!gal, rhoSI:gal? gal.rhoSI : null, RSI:gal? gal.RSI : null, source:gal && gal.source || null},
     Wsys:{book:Wsys, SI:si(Wsys), terms}, total:{book:total, SI:si(total)},
     sources:{drag:src, background:bgP, overlap}, sumW:{book:sumW, SI:si(sumW)},
     Wdecl:isNum(Wdecl)? Wdecl : null, ratioToDecl:(isNum(Wdecl) && Wdecl>0)? total/Wdecl : null, xi:(total>0)? sumW/total : null,
-    perSource, ...(i2o? {inertialR2:i2o} : null)};
+    perSource, ...(i2o? {inertialR2:i2o} : null), ...(sho? {shellSelf:sho} : null)};
 }
 // 「推定を入れる」(UI のボタン・HP): 推定 total を 7 桁に丸めて Wbg に写す(geoInertialSetWbg —— ON/OFF はそのまま・他の鍵を保つ)。推定が作れない本は {ok:false}
 function wbgEstimateApply(S, ref){
@@ -8016,7 +8033,7 @@ function inertialDragNormOf(rd, deg){
 //   —— 宣言した本だけ・未宣言の本の上界は従来の 2 max deg)。式・解析と実測は docs/PHYSICS.md〔第303便b〕・器 tests/exp-w303b-inertialr2.mjs
 const REL_DRAG_I2_KEY="inertialR2", REL_DRAG_I2_VERSION="w303b-inertialr2-1";
 const REL_DRAG_I2_KEYS=["lambda","lambdaRs","sources","self","env"];
-const REL_DRAG_I2_SOURCES=["all","pairs"], REL_DRAG_I2_SELF=["off","radius"], REL_DRAG_I2_ENV=["off","bodies"];
+const REL_DRAG_I2_SOURCES=["all","pairs"], REL_DRAG_I2_SELF=["off","radius","shell"], REL_DRAG_I2_ENV=["off","bodies"];   // 第304便a: self:"shell"(受け手自身の引きずり核の殻 q_i/R_d,i² —— 足すのは inertialDragShellApply)
 // 形の受理(relativeDrag の段 —— env は同じ宣言の正規化後の env)。戻り値 {ok, inertialR2|null, err}
 function validateInertialR2(a, env){
   if(a===undefined || a===null) return {ok:true, inertialR2:null};
@@ -8030,7 +8047,7 @@ function validateInertialR2(a, env){
   const src=(a.sources===undefined)? REL_DRAG_I2_SOURCES[0] : a.sources;
   if(REL_DRAG_I2_SOURCES.indexOf(src)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.sources は "all"(既定 —— 質量が正の全粒子)か "pairs"(引きずりの対だけ)'};
   const self=(a.self===undefined)? REL_DRAG_I2_SELF[0] : a.self;
-  if(REL_DRAG_I2_SELF.indexOf(self)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.self は "off"(既定)か "radius"(受け手自身の m/(λR²) —— R は宣言半径)'};
+  if(REL_DRAG_I2_SELF.indexOf(self)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.self は "off"(既定)か "radius"(受け手自身の m/(λR²) —— R は宣言半径)か "shell"(受け手自身の引きずり核の殻 q/R_d² —— 第304便a)'};
   const ev=(a.env===undefined)? REL_DRAG_I2_ENV[0] : a.env;
   if(REL_DRAG_I2_ENV.indexOf(ev)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.env は "off"(既定)か "bodies"(relativeDrag.env.bodies の背景側の天体を分母へ)'};
   if(ev==="bodies" && !(env && Array.isArray(env.bodies) && env.bodies.length)) return {ok:false, err:'physics.relativeDrag.inertialR2.env:"bodies" は relativeDrag.env.bodies の宣言(1 個以上)と一緒にだけ'};
@@ -8092,6 +8109,7 @@ function inertialR2State(S){
   const rd=S.relDrag, i2=rd[REL_DRAG_I2_KEY], n=S.n, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;
   const Z=(S.coord3d===true)? S.z : null, G=S.params.G, c0=S.params.cLight, Wbg=relDragWbgOf(rd), CT=S._dragCoreT||null;
   const envB=(i2.env==="bodies" && rd.env && Array.isArray(rd.env.bodies))? rd.env.bodies : null, set=S._rdPairSet||null, NP=S._rdPairN;
+  const SH=S._dragShellRd||null;   // 第304便a: 殻の源は核と同じ殻の核 K3_shell で読む(殻の無い本は null —— 従来の式。分母の殻の補正と自己の項は inertialDragShellState)
   const rows=[];
   for(let i=0;i<n;i++){
     const mi=S.m[i];
@@ -8103,7 +8121,7 @@ function inertialR2State(S){
       const mj=S.m[j];
       if(!(mj>0) || !Number.isFinite(mj)) continue;
       const dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i], dz=Z? Z[j]-Z[i] : 0, r2=dx*dx+dy*dy+dz*dz, r=Math.sqrt(r2), s=r2+e2;
-      const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;
+      const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],eps) : null;
       wD+=mj*((kv===null)? r/(s*s) : kv);
     }
     const den=(isNum(Wbg)? Wbg : 0)+q.w;
@@ -8111,6 +8129,149 @@ function inertialR2State(S){
   }
   return {version:REL_DRAG_I2_VERSION, decl:Object.assign({}, i2), Wbg:isNum(Wbg)? Wbg : null, eps, steps:S.inertialDragI2N||0,
     xILast:S.inertialDragI2X||0, xIMax:S.inertialDragI2XMax||0, xiLast:S.inertialDragI2Xi||0, xiMax:S.inertialDragI2XiMax||0, selfSkip:S.inertialDragI2SelfSkip||0, receivers:rows};
+}
+// ===== 第304便a(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R195): **引きずり核の球面** —— 天体 dragCore:{shellRatio:η}・
+//   本 relativeDrag.shellSelf / shellSelfEps / inertialR2.self:"shell"(law:"inertial" ∧ W_bg の宣言 ∧ 合成則 solve の本だけ・省略時オフ —— 未宣言の本は 1 bit も変わらない)=====
+// 裁定(第94報)「中心座標をそのまま使うと、自分自身への影響が距離ゼロで無限になってしまう。引きずり核の球面に質量が集まっているとする事で、便宜上の近似を行う。
+//   これにより、自分の引きずり核の球面の移動で自分の重心を引きずる事が可能。引きずり量の分母の慣性決定力に自分自身を入れられる」
+//   「恒星の、質点に近い引きずりは、引きずり核に小さな半径を設定する事で近似する」「天体の半径と、引きずり核の半径の比率が引きずり核球面近似係数」
+//   「まずは引きずり核表面を導入して検証する。dragCore の拡張を想定」。
+// 法則: R_d = η·R_body(η = 引きずり核球面近似係数・R_body は宣言半径 radius —— radius は書き換えない)。源 j の質量 m_j が半径 R_d,j の球殻に一様に載るとして、
+//   (1) 源の殻の核: 引きずりの重み w_ij = m_j K3_shell(r_ij; R_d,j, ε)(点の核 𝒦_ε(r) = r/(r²+ε²)² の殻平均)・
+//       inertialR2 の w_I,ij = q_j K2_shell(r_ij; R_d,j, ε)(1/(r²+ε²) の殻平均)。殻の無い源は従来の点の核のまま(1 命令も変えない)。
+//   (2) 自己の項(殻を宣言した受け手 i —— 殻は重心と同じ速度で動くので**分子の自己項は 0**・**分母にだけ**足す):
+//       shellSelf:"drag"(S3)w_self = m_i K3_shell(0; R_d,i, 0) = m_i/R_d,i³ [M/L³](λ が要らない)/
+//       inertialR2.self:"shell"(S2)w_I,self = q_i/R_d,i²(q = m/λ か c₀²/(2kG))。既定は**軟化しない**(R_d > 0 が正則化)・
+//       shellSelfEps:true は核の ε で軟化した対照(m_i R/(R²+ε²)²・q_i/(R²+ε²) —— 殻の核の中心の値)。殻の無い受け手は足さない(数えて読み口に出す)。
+//   実装: 行 (1 + deg_i + x_I,i) u_i − Σ a_ij u_j = s_i の**対角にだけ** x_sh,i = c(w_self + Σ_j∈殻 q_j (K2_shell − 1/(r²+ε²)))を足す(右辺・非対角は不変 ——
+//     B = M(I+L) の対角だけが増える。inertialR2 の対角 inertialDragI2Apply と正規化 inertialDragNormApply の形と意味は変えない —— 本関数は I2 の後・正規化の前)。
+//   総速度 W_i = v_i + u_i は (I_i + Σ_j D_ij) W_i − Σ_j D_ij W_j = I_i v_i(I_i = W_bg + 自己 + Σ 外部の慣性決定力・D_ij = w_ij)と同じ式 ——
+//     「自分の殻が自分の重心を慣性の速度 v_i へ引きずる」読み。**読み口の表示を統合しただけで力学は変わらない**(位置の更新は今の x += h v → x += h u のまま)。
+//   式・零試験・測定は docs/PHYSICS.md〔第304便a〕・器 tests/exp-w304a-shell.mjs
+const DRAG_SHELL_KEY="shellRatio", DRAG_SHELL_VERSION="w304a-shell-1", DRAG_SHELL_RATIO_MAX=100;
+const REL_DRAG_SHELL_SELF=["off","drag"];
+// t − sin t(|t| < 1 は級数 —— 桁落ちしない)
+function dragShellXmSin(t){
+  if(Math.abs(t)<1){ const u=t*t; return t*u/6*(1-u/20*(1-u/42*(1-u/72*(1-u/110*(1-u/156*(1-u/210*(1-u/272*(1-u/342)))))))); }
+  return t-Math.sin(t);
+}
+// 単位質量の球殻(半径 R・中心から受け手まで r・軟化 ε)の平均の核 K3_shell(r) = ½∫₋₁¹ s/(s²+ε²)² dμ(s² = r²+R²−2rRμ)= H/(2rR)、
+//   H = ∫_{|r−R|}^{r+R} s²/(s²+ε²)² ds。s = ε tanθ で H = (Δθ − cos(θ₁+θ₂) sinΔθ)/(2ε) = ((Δθ − sinΔθ) + 2 sinΔθ sin²((θ₁+θ₂)/2))/(2ε)
+//   (θ₁ = atan(|r−R|/ε)・θ₂ = atan((r+R)/ε)・Δθ = atan(2ε·min(r,R)/(ε² + |r²−R²|)) —— 差を引き算で作らない: 球面の近く〔ε ≪ R・r ≈ R〕も
+//    軟化の内〔r, R ≪ ε〕も桁落ちしない)。中心 r=0: R/(R²+ε²)²。ε=0: 1/(max(r,R)·|r²−R²|)(r=R は発散 —— Infinity)。遠方 ≈ r⁻³(1 + R²/r²)(ε=0)
+function dragShellK3(r,R,eps){
+  if(r===0){ const q=R*R+eps*eps; return R/(q*q); }
+  if(!(eps>0)){ const d=Math.abs(r-R); return (d===0)? Infinity : 1/(Math.max(r,R)*d*(r+R)); }
+  const s1=r+R, s2=Math.abs(r-R);
+  const t1=Math.atan(s2/eps), t2=Math.atan(s1/eps), dt=Math.atan(2*eps*Math.min(r,R)/(eps*eps+s1*s2));
+  const sh=Math.sin((t1+t2)/2);
+  return (dragShellXmSin(dt)+2*Math.sin(dt)*sh*sh)/(2*eps)/(2*r*R);
+}
+// K2_shell(r) = ½∫₋₁¹ dμ/(s²+ε²) = ln(1 + 4rR/((r−R)²+ε²))/(4rR)(log1p —— 遠方も桁落ちしない)。中心 1/(R²+ε²)・ε=0 で r=R は発散(Infinity)
+function dragShellK2(r,R,eps){
+  if(r===0) return 1/(R*R+eps*eps);
+  const q=(r-R)*(r-R)+eps*eps;
+  return (q===0)? Infinity : Math.log1p(4*r*R/q)/(4*r*R);
+}
+// 殻の半径の表 S._dragShellRd(添字ごとの R_d —— 0 は殻なし)を宣言 S.dragShellD から張る(inertialDragInit から —— 殻を宣言した本だけ)。
+//   粒子が入れ替わって捨てた殻(S._dragShell.dropped)は張り直さない(添字がずれる —— 体積の核の表と同じく点の核へ落としたまま。build で作り直す)
+function dragShellInit(S){
+  const D=S.dragShellD, rd=S.relDrag;
+  if(S._dragShell && S._dragShell.dropped) return;
+  if(!D || !rd || rd.law!=="inertial"){ S._dragShellRd=null; S._dragShell=null; S._dragShellEp=null; return; }
+  const N=Math.max(S.m.length, S.n), T=new Float64Array(N), src=[];
+  for(let i=0;i<N && i<D.length;i++){
+    const d=D[i];
+    if(!d) continue;
+    if(!(d.eta>0) || !(d.R>0)){ src.push({index:i, skipped:"invalid"}); continue; }
+    T[i]=d.eta*d.R;
+    src.push({index:i, eta:d.eta, R:d.R, Rd:T[i]});
+  }
+  S._dragShellRd=T; S._dragShellEp=null;
+  S._dragShell={version:DRAG_SHELL_VERSION, sources:src, self:rd.shellSelf||"off", selfI:(rd[REL_DRAG_I2_KEY] && rd[REL_DRAG_I2_KEY].self==="shell")? "shell" : "off",
+    selfEps:rd.shellSelfEps===true, kernel:"K3_shell(r;R_d,eps)", dropped:null};
+}
+// 殻の補正の行和(受け手 i —— 純関数: 位置・質量・宣言から。状態を 1 bit も動かさない)。戻り値 {self, selfI, corrI, has}(単位 [M/L³])
+//   self = S3(shellSelf:"drag")・selfI = S2(inertialR2.self:"shell")・corrI = Σ_j∈殻 q_j (K2_shell(r_ij) − 1/(r_ij²+ε²))(inertialR2 の宣言の源の集合と同じ規則)・has = 受け手が殻を持つ
+function dragShellRowOf(rd, i, n, X, Y, Z, m, SH, eps, G, c0, set, NP, AMK){
+  const i2=rd[REL_DRAG_I2_KEY]||null, e2=eps*eps, soft=(rd.shellSelfEps===true), Ri=SH[i], has=(Ri>0);
+  let self=0, selfI=0, corrI=0;
+  if(has && rd.shellSelf==="drag") self=soft? m[i]*Ri/((Ri*Ri+e2)*(Ri*Ri+e2)) : m[i]/(Ri*Ri*Ri);
+  if(has && i2 && i2.self==="shell") selfI=inertialR2Q(i2,m[i],G,c0)/(soft? Ri*Ri+e2 : Ri*Ri);
+  if(i2){
+    const ki=(AMK!==null)? AMK[i] : 0, pr=(i2.sources==="pairs");
+    for(let j=0;j<n;j++){
+      if(j===i || !(SH[j]>0)) continue;
+      const mj=m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;
+      if(pr){ if(set && !set.has(i*NP+j)) continue; }
+      else if(AMK!==null && ki===AM_DUST && AMK[j]===AM_DUST) continue;
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z? Z[j]-Z[i] : 0, r2=dx*dx+dy*dy+dz*dz;
+      corrI+=inertialR2Q(i2,mj,G,c0)*(dragShellK2(Math.sqrt(r2),SH[j],eps)-1/(r2+e2));
+    }
+  }
+  return {self, selfI, corrI, has};
+}
+// 步の適用(合成則 solve の build と inertialDragI2Apply の後・正規化の前 —— 殻を宣言した本だけが呼ぶ): 受け手ごとに x_sh,i = c(self + selfI + corrI)を行の対角 DG に足す。
+//   受け手: 質量が正(pinned の行は解法が u=0 に固定 —— 足すが読み口の最大には数えない)。自己の項の宣言があって殻の無い受け手は足さずに数える(S.inertialDragShellSkip)。
+//   戻り値 {xMax, xiMax}(ξ_i = deg_i/(1 + x_I,i + x_sh,i)・deg_i は build が張った行 A の和 —— 上界 2 max ξ)
+function inertialDragShellApply(S,n,C,eps,KX,KY,KZ){
+  const rd=S.relDrag, SH=S._dragShellRd, X=KX||S.x, Y=KY||S.y, Z=(S.coord3d===true)? (KZ||S.z) : null;
+  const m=S.m, pin=S.pinned, DG=S._rdDeg, A=S._rdA, G=S.params.G, c0=S.params.cLight;
+  const selfOn=(rd.shellSelf==="drag") || !!(rd[REL_DRAG_I2_KEY] && rd[REL_DRAG_I2_KEY].self==="shell");
+  let xMax=0, xiMax=0, skip=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i];
+    if(!(mi>0) || !Number.isFinite(mi)) continue;
+    const q=dragShellRowOf(rd,i,n,X,Y,Z,m,SH,eps,G,c0,S._rdPairSet||null,S._rdPairN,S._amKind||null);
+    if(selfOn && !q.has) skip++;
+    const x=C*(q.self+q.selfI+q.corrI), row=i*n;
+    let deg=0; for(let j=0;j<n;j++) deg+=A[row+j];
+    DG[i]+=x;
+    if(!pin[i]){ if(x>xMax) xMax=x; const xi=deg/(1+(DG[i]-deg)); if(xi>xiMax) xiMax=xi; }
+  }
+  S.inertialDragShellN=(S.inertialDragShellN||0)+1; S.inertialDragShellX=xMax; if(!(S.inertialDragShellXMax>=xMax)) S.inertialDragShellXMax=xMax;
+  S.inertialDragShellXi=xiMax; if(!(S.inertialDragShellXiMax>=xiMax)) S.inertialDragShellXiMax=xiMax;
+  if(skip) S.inertialDragShellSkip=(S.inertialDragShellSkip||0)+skip;
+  return {xMax, xiMax};
+}
+// 読み口(状態を 1 bit も動かさない)—— 宣言・帳簿と、今の位置での受け手ごとの R_d・自己の項・Σ外部の w_I(点の和 + 殻の補正)・Σw(殻の核)・
+//   ξ = Σw/(W_bg + w_self + Σw_I + Σw)・総速度 W = v + u(直近の步の u —— 位置の更新に使った W は x += h v_new と x += h u の和)。殻の無い本は null
+function inertialDragShellState(S){
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial" || S._dragShellRd===undefined) return null;
+  const rd=S.relDrag, n=S.n, SH=S._dragShellRd, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;
+  const Z=(S.coord3d===true)? S.z : null, G=S.params.G, c0=S.params.cLight, Wbg=relDragWbgOf(rd), CT=S._dragCoreT||null, i2=rd[REL_DRAG_I2_KEY]||null;
+  const set=S._rdPairSet||null, NP=S._rdPairN, AMK=S._amKind||null;
+  const envB=(i2 && i2.env==="bodies" && rd.env && Array.isArray(rd.env.bodies))? rd.env.bodies : null;
+  const UX=S._rdUX, UY=S._rdUY, UZ=(S.coord3d===true)? S._rdUZ : null;
+  const rows=[];
+  let selfSkip=0;
+  for(let i=0;i<n;i++){
+    const mi=S.m[i];
+    if(!(mi>0) || !Number.isFinite(mi)) continue;
+    const Rd=SH? SH[i] : 0, q=SH? dragShellRowOf(rd,i,n,S.x,S.y,Z,S.m,SH,eps,G,c0,set,NP,AMK) : {self:0, selfI:0, corrI:0, has:false};
+    const wIpt=i2? inertialR2SumOf(i2,i,n,S.x,S.y,Z,S.m,S.radOv,e2,G,c0,set,NP,AMK,envB).w : 0;
+    let wD=0;
+    for(let j=0;j<n;j++){
+      if(j===i || (set && !set.has(i*NP+j))) continue;
+      const mj=S.m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;
+      const dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i], dz=Z? Z[j]-Z[i] : 0, r2=dx*dx+dy*dy+dz*dz, r=Math.sqrt(r2), s=r2+e2;
+      const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : (SH && SH[j]>0)? dragShellK3(r,SH[j],eps) : null;
+      wD+=mj*((kv===null)? r/(s*s) : kv);
+    }
+    const selfOn=(rd.shellSelf==="drag") || !!(i2 && i2.self==="shell");
+    if(selfOn && !q.has) selfSkip++;
+    const I=(isNum(Wbg)? Wbg : 0)+q.self+q.selfI+wIpt+q.corrI, den=I+wD;
+    const u=UX? [UX[i], UY[i], UZ? UZ[i] : 0] : [0,0,0], v=[S.vx[i], S.vy[i], (S.coord3d===true)? S.vz[i] : 0];
+    rows.push({i, Rd, eta:(S.dragShellD && S.dragShellD[i])? S.dragShellD[i].eta : null, shell:q.has, wSelf:q.self, wSelfI:q.selfI, wI:wIpt+q.corrI, wIPoint:wIpt, wIShellCorr:q.corrI,
+      wD, inertia:I, xi:(den>0)? wD/den : null, pinned:!!S.pinned[i], W:[v[0]+u[0], v[1]+u[1], v[2]+u[2]], u});
+  }
+  return {version:DRAG_SHELL_VERSION, decl:{shellSelf:rd.shellSelf||"off", selfI:(i2 && i2.self==="shell")? "shell" : "off", shellSelfEps:rd.shellSelfEps===true},
+    shell:S._dragShell? JSON.parse(JSON.stringify(S._dragShell)) : null, active:!!SH, Wbg:isNum(Wbg)? Wbg : null, eps, units:"M/L^3",
+    steps:S.inertialDragShellN||0, xLast:S.inertialDragShellX||0, xMax:S.inertialDragShellXMax||0, xiLast:S.inertialDragShellXi||0, xiMax:S.inertialDragShellXiMax||0,
+    selfSkip:S.inertialDragShellSkip||0, selfSkipNow:selfSkip, receivers:rows,
+    note:"inertia = W_bg + w_self(S3)+ w_self,I(S2)+ Σw_I(点の和 + 殻の補正)・xi = Σw/(inertia + Σw)・W = v + u(直近の步の u)"};
 }
 // ===== 第301便c(原仮定者の裁定(第91報)②「軸の傾きを持たない粒子への軸引きずりは、傾きを考慮せず軸回転を引きずる。『移動ベクトル』=『慣性移動ベクトル』+
 //   『引きずりベクトル』と同じく、『軸回転』=『慣性軸回転』+『引きずり軸回転』として計算する」・統括の検証項目 R181): **受け手の軸回転の分解**(既定 —— 宣言の鍵は無い)=====
@@ -8162,6 +8323,7 @@ function validateDragCoreBody(b, ph){
   if(b.dragCore===undefined) return {ok:true, dragCore:null, warn:null};
   const d=b.dragCore;
   if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, err:'dragCore は {massFrac, radius}(第292便c —— 慣性決定力の構造核)'};
+  if(d[DRAG_SHELL_KEY]!==undefined) return validateDragShellBody(b, ph);   // 第304便a(R195): 殻の形 {shellRatio:η}(体積の核とは排他 —— 下の体積の核の受理は 1 字も変えない)
   for(const k of Object.keys(d)) if(DRAG_CORE_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore に未知の鍵 '+k+'(massFrac・radius だけ —— コア v2 の core:{} とは別の鍵)'};
   if(b.core!==undefined) return {ok:false, err:'dragCore と core:{}(コア v2)は同時に宣言しない(別の鍵 —— 構造核は慣性引きずりの源の質量分布だけを宣言する)'};
   if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore は天体の半径 radius の宣言が要る(マントルの外半径 R_j)'};
@@ -8176,6 +8338,41 @@ function validateDragCoreBody(b, ph){
   const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
   if(!(eps>0)) return {ok:false, err:'dragCore は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では受け手が源の中で体積平均が発散する)'};
   return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};
+}
+// 第304便a(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R195): 天体の宣言 dragCore:{shellRatio:η} の受理(single 専用)。
+//   η = R_d/R_body(引きずり核の半径/天体の宣言半径 radius —— radius は書き換えない)。式と契約は dragShellK3 の注記・docs/PHYSICS.md〔第304便a〕。
+//   体積の核 {massFrac, radius} と排他(混在は拒否 —— massFrac:1・radius:R_d は詰まった球で殻ではない)。law:"inertial" ∧ W_bg の宣言 ∧ 合成則 solve の本だけ
+//   (他の法則は警告して無視 —— 体積の核と同じ扱い)。連鎖の PCG・自転源とは一緒に宣言しない(源ごとに核が違う —— 体積の核と同じ理由)・核の軟化 ε>0 が要る
+//   (ε=0 では殻の上 r=R_d で核が発散)。η は 0<η≤DRAG_SHELL_RATIO_MAX(1 を超える値は「天体の外 —— 測定用」の警告 1 行で受理)
+function validateDragShellBody(b, ph){
+  const d=b.dragCore;
+  for(const k of Object.keys(d)){
+    if(DRAG_CORE_KEYS.indexOf(k)>=0) return {ok:false, err:'dragCore の殻 shellRatio と体積の核 {massFrac, radius} は排他(どちらか 1 つ —— massFrac:1・radius:R_d は詰まった球で殻ではない・第304便a)'};
+    if(k!==DRAG_SHELL_KEY) return {ok:false, err:'dragCore(殻の形)に未知の鍵 '+k+'(shellRatio だけ —— 第304便a)'};
+  }
+  if(b.core!==undefined) return {ok:false, err:'dragCore と core:{}(コア v2)は同時に宣言しない(別の鍵 —— 引きずり核は慣性引きずりの源と自己の項だけを宣言する)'};
+  if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore.shellRatio は天体の半径 radius の宣言が要る(R_d = η·radius —— 第304便a)'};
+  const eta=d[DRAG_SHELL_KEY];
+  if(!isNum(eta) || !(eta>0) || !(eta<=DRAG_SHELL_RATIO_MAX)) return {ok:false, err:'dragCore.shellRatio(引きずり核球面近似係数 η = R_d/R)は 0<η≤'+DRAG_SHELL_RATIO_MAX+' の有限数(第304便a)'};
+  const rd=ph && ph[REL_DRAG_KEY];
+  if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore.shellRatio は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
+  if(rd.gain!==undefined || rd.compose==="sum") return {ok:false, err:'dragCore.shellRatio は W_bg の宣言と合成則 solve(既定)の本だけ(gain の旧法則・compose:"sum" では宣言しない —— 第304便a)'};
+  if(rd.solver!==undefined && rd.solver!==null) return {ok:false, err:'dragCore.shellRatio(殻の源)は physics.relativeDrag.solver:"network-pcg-v1" と一緒に宣言しない —— 源ごとに核が違うと結合 c_ij が非対称になる(体積の核と同じ —— 第304便a)'};
+  if((rd.spinSource!==undefined && rd.spinSource!==null) || (rd.spinDrag!==undefined && rd.spinDrag!==null)) return {ok:false, err:'dragCore.shellRatio は physics.relativeDrag.spinSource・spinDrag と一緒に宣言しない(自転源の核は一様球だけ —— 殻へ広げるのは未決・第304便a)'};
+  const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
+  if(!(eps>0)) return {ok:false, err:'dragCore.shellRatio は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では殻の上 r=R_d で核が発散する・第304便a)'};
+  return {ok:true, dragCore:{shellRatio:eta}, warn:(eta>1)? 'dragCore.shellRatio '+eta+' > 1 —— 引きずり核の球面が天体の外(測定用 —— 第304便a)' : null};
+}
+// 本の突き合わせ(bodies の確定後 —— validatePreset)。自己の項の宣言(relativeDrag.shellSelf:"drag"・inertialR2.self:"shell")は殻を宣言した天体が 1 つ以上要る
+//   (何もしない宣言は書かない)。null = 受理 / 文字列 = 拒否の理由
+function dragShellCrossCheck(ph, bodies){
+  const rd=ph && ph[REL_DRAG_KEY];
+  if(!rd || rd.law!=="inertial") return null;
+  const selfD=(rd.shellSelf==="drag"), selfI=!!(rd[REL_DRAG_I2_KEY] && rd[REL_DRAG_I2_KEY].self==="shell");
+  if(!selfD && !selfI) return null;
+  const any=Array.isArray(bodies) && bodies.some((b)=>b && b.dragCore && b.dragCore[DRAG_SHELL_KEY]!==undefined);
+  if(!any) return 'physics.relativeDrag'+(selfD? '.shellSelf:"drag"' : '.inertialR2.self:"shell"')+' は dragCore:{shellRatio} を宣言した天体が 1 つ以上要る(自己の項は引きずり核の殻の半径 R_d から作る —— 第304便a)';
+  return null;
 }
 function relativeDragPairsParse(pairs){
   if(pairs===undefined || pairs===null || pairs==="all") return {ok:true, pairs:"all"};
@@ -8326,6 +8523,21 @@ function validateRelativeDragInertial(a){
     const iv=validateInertialR2(a.inertialR2, out.env||null);
     if(!iv.ok) return {ok:false, err:iv.err};
     out.inertialR2=iv.inertialR2;
+  }
+  // 第304便a(R195): 引きずり核の殻の自己の項(分母にだけ —— Wbg の宣言 ∧ 合成則 solve の本だけ・省略と "off" は正準形に出さない)。
+  //   shellSelf:"drag"(S3 —— w_self = m_i/R_d,i³)・shellSelfEps:true(自己の項〔S3・inertialR2.self:"shell" の S2〕を核の ε で軟化した対照 —— 既定は軟化しない)
+  if(a.shellSelf!==undefined && a.shellSelf!==null){
+    if(REL_DRAG_SHELL_SELF.indexOf(a.shellSelf)<0) return {ok:false, err:'physics.relativeDrag.shellSelf は "off"(既定)か "drag"(受け手自身の引きずり核の殻 m/R_d³ を分母へ —— 第304便a)'};
+    if(!hasW) return {ok:false, err:'physics.relativeDrag.shellSelf は Wbg の宣言と一緒にだけ(gain の旧宣言・旧法則の凍結比較では宣言しない —— 第304便a)'};
+    if(out.compose==="sum") return {ok:false, err:'physics.relativeDrag.shellSelf は合成則 solve(既定)の本だけ(第304便a)'};
+    if(a.shellSelf!==REL_DRAG_SHELL_SELF[0]) out.shellSelf=a.shellSelf;
+  }
+  if(a.shellSelfEps!==undefined && a.shellSelfEps!==null){
+    if(a.shellSelfEps!==true && a.shellSelfEps!==false) return {ok:false, err:'physics.relativeDrag.shellSelfEps は true/false(既定 false —— 自己の項を軟化しない・第304便a)'};
+    if(a.shellSelfEps===true){
+      if(out.shellSelf!=="drag" && !(out.inertialR2 && out.inertialR2.self==="shell")) return {ok:false, err:'physics.relativeDrag.shellSelfEps は自己の項の宣言(shellSelf:"drag" か inertialR2.self:"shell")と一緒にだけ(第304便a)'};
+      out.shellSelfEps=true;
+    }
   }
   return legacyGain? {ok:true, relativeDrag:out, legacyGain} : {ok:true, relativeDrag:out};
 }
@@ -8493,10 +8705,12 @@ const MASS_PRECISION_KEY = "massPrecision", MASS_PRECISIONS = ["single","double"
 // ===== 第277便b(AL5/AL20/AL21): 診断単位の受理契約 =====
 // ① `massFloorScaled:true` … `massFloor`([M])を**スケール換算表示の対象**にする宣言。
 //    表示専用で、**適用値(力学が読む massFloor)は 1 bit も変わらない**。
-// ② `softeningFloor:<数>` … `CLAMPS.softening` の下限 0.01 を、**宣言した本だけ** 0.001 まで下げる。
+// ② `softeningFloor:<数>` … `CLAMPS.softening` の下限 0.01 を、**宣言した本だけ** 0.001 まで下げる(第304便c: 最小を 0.0001 へ —— 下の SOFTENING_FLOOR_MIN)。
 //    **`sampleClass:"calibration"` では拒否**する(現実較正の受理契約は内蔵のまま)。
 const MASS_FLOOR_SCALED_KEY = "massFloorScaled";
-const SOFTENING_FLOOR_KEY = "softeningFloor", SOFTENING_FLOOR_MIN = 0.001;
+// 第304便c(統括の検証項目 R197): 宣言した下限の最小を 0.001 → 0.0001 へ(🌦️ の基線の見直し —— 地球–月の距離 a ≈ 3.83 で軟化の近点への効き −3π(ε/a)² を
+//    照合許容の 1/50 以下にするには ε ≲ 9×10⁻⁴ が要る〔0.001 では 1/45〕)。値域表 CLAMPS.softening[0.01, 20] と較正クラスの拒否は変えない(未宣言の本・較正の本は 1 bit 不変)
+const SOFTENING_FLOOR_KEY = "softeningFloor", SOFTENING_FLOOR_MIN = 0.0001;
 // 第300便c(原仮定者の裁定(第90報)④・統括の検証項目 R177): ③ `radiusFloor:<数>` … single の明示半径 `radius` の下限 0.01 を、**宣言した本だけ** 0.001 まで下げる
 //    (太陽系 16 体の三次元の器 —— 1 単位 = 10⁹ m の単位系では地球型惑星・月・大衛星の半径 1353〜6371 km が 0.0014〜0.0064 単位で、下限 0.01 = 10⁴ km に丸められる)。
 //    `softeningFloor` と同じ型: **較正クラスの本では拒否**・下限と同値(0.01)なら宣言を落とす(署名不変)・未宣言の本は 1 bit 不変(内蔵の本に 0.01 未満の明示半径は無い)。
@@ -15103,6 +15317,9 @@ const BUILTIN_PRESETS = [
 // 🌥️ の写しを physics.coord:"3d" で走らせ、月の軌道面を黄道(xy 面)に対し傾けた。初期配置は平均要素(平均離心率 0.0549・恒星月 27.321661 日・平均傾斜 5.145°)を
 // 118 公転の走行の平均で満たす (近地点距離, t=0 の接触離心率, t=0 の接触傾斜) の 3 元 Newton(器 tests/exp-w298c-moon3d.mjs)。近点回転は軌道面の中の近点経度で数えた。
 // gain の探索(0 から)で 118 公転窓の 8.85 年を挟んだ(gain 0 で 8.8989 年・格子 0.226756 と 0.559953 の間)。🌥️ は 1 字も変えない。fitRecord は正本 tests/out/moon3d-w298c.json と同じ。
+// 第304便c(原仮定者の裁定(第94報)—— AN316 ①〜④ の提案に同意・統括の検証項目 R197): 基線の見直し —— 軟化 0.0005(physics.softeningFloor)・地球–月の重心の公転離心率 e′ 0.0167086(t=0 は近日点)・
+// 初期配置を長窓 1062 公転の偏りのない平均の要素へ・標的の抽出器を M4(調和の回帰)と長窓へ → 引きずり OFF で長窓の近点の周期が B1 と照合許容の内 → 引きずり OFF の宣言(引きずりの式は不変)。
+// 宣言は器 tests/exp-w304c-baseline.mjs の declFrom303(第303便の写し tests/data-w304c-decl303.json + この規則)と同一(QA preset.emBaseline304)。第303便の宣言で測った記録は tests/lib-w304c-pre.mjs の写しで測る
 { id:"earthMoonSunInertial3d", name:"太陽・地球・月(慣性決定力版・三次元)— 月の軌道傾斜 5.145° と 8.85 年への探索", emoji:"🌦️", group:"現実較正",
   familyId:"earthmoon", familyRole:"variant",   // 第299便f(DECISIONS v58 §0 の AN281 ①): 家族 earthmoon へ編入(表示専用 —— presetSig は familyRole を見ない・物理 1 bit 不変)。旧: 第298便c は畳みの閾値 6 に達するので入れなかった(ui.familyFold296 の不具合を直してから編入)
   scaleTier:"planetary",
@@ -15112,59 +15329,61 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   notClaim:["solar_cal","apsidal_8p85_3d","gain_universal_fit"],
   orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
-  abBody:{ label:{ja:"引きずり無しに戻す(三次元の写しの探索の起点 —— 118 公転窓 8.8989 年)", en:"turn the drag off (the start of the 3D search - 8.8989 yr over 118 orbits)"},
-    physicsPatch:{relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.01, history:"positions", pairs:[[1,2]]}} },
+  abBody:{ label:{ja:"引きずりを入れる(第303便a の W_bg 3.85583 —— 対照・長窓 M4 8.8039 年)", en:"turn the drag on (wave-303a W_bg 3.85583 - a control; long-window M4 8.8039 yr)"},
+    physicsPatch:{relativeDrag:{law:"inertial", Wbg:3.85583, eps:0.0005, history:"positions", pairs:[[1,2]]}} },
   obsCard:[
-      {q:"何を置いたか", model:"二次元の版(第297便b・退役)の写しを physics.coord:\"3d\" で走らせ、月の軌道面を黄道(xy 面)に対し傾けた(昇交点 = t=0 の地球→月の方向)。重心・質量・半径・自転・構造核は同じ・geoPN=3・λ_PN=0", obs:"—(原理サンプル —— 較正母集団の外)"},
-      {q:"初期配置(入力)", model:"近地点距離 3.5716687(旧 3.5716702)・接触離心率 0.0753231(旧 0.0753227)・接触傾斜 5.28885° → 平均 離心率 0.054900・恒星月 27.32166 日・傾斜 5.1450°", obs:"平均離心率 0.0549・恒星月 27.321661 日・軌道傾斜 5.145°(平均要素)"},
-      {q:"近点周期(実測・118 公転窓)", model:"軌道面の中の近点経度で数えた。gain 0 で 8.8989 年(二次元の版は 8.7873 年・傾斜 0 の三次元は二次元と同値)", obs:"8.85 年"},
-      {q:"W_bg の探索(実測 —— 第303便a)", model:"旧 0.226756→8.8565 年・0.559953→8.7943 年 → gain 0.259335。semic の Newton → W_bg 3.85583・8.8500 年(h/2 8.8502・h/4 8.8503)", obs:"8.85 年"},
-      {q:"窓と抽出器(実測)", model:"354 公転窓は 8.8261 年(118 公転窓との差 -0.0239 —— semic)・離心ベクトルの方位 8.8276 年・位相の回帰 8.5629 年・参照積分器 8.8643 年(分割の世代)", obs:"8.85 年"},
-      {q:"言わないこと", model:"8.85 年を法則が予言したとは言わない。W_bg が埋めるのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない", obs:"—"}],
+      {q:"何を置いたか", model:"第297便b の写しを三次元で走らせ月の軌道面を黄道に傾けた。第304便c: 地球–月の重心の公転に e′ 0.0167086(t=0 は近日点)・軟化 0.0005(softeningFloor)・引きずり OFF", obs:"—(原理サンプル —— 較正母集団の外)"},
+      {q:"初期配置(入力 —— 長窓の平均の要素)", model:"近地点距離 3.5685853・接触離心率 0.0762828・接触傾斜 5.29073°(t=0)→ 長窓 1062 公転の平均 恒星月 27.3216635 日・離心率 0.054900・傾斜 5.1450°", obs:"恒星月 27.321661554 日(B1)・平均離心率 0.0549・軌道傾斜 5.145°(平均要素)"},
+      {q:"近点周期(実測・長窓 M4・引きずり OFF)", model:"8.84983 年(h/2 差 3.8e-5 年)—— B1 との差 −0.00056 年(照合許容 0.005 年の 0.11 倍 —— 照合許容の内)", obs:"8.85 年(B1 8.850391 年)"},
+      {q:"窓と抽出器(実測)", model:"[0,118] の M4 8.8618 年(118 窓をずらすと 8.8412〜8.8620・sd 4.6e-3 —— e′ の年周を拾う)・[0,354] の M4 8.8502 年・長窓の M1 8.8505 年", obs:"8.85 年"},
+      {q:"引きずり ON の対照(実測)", model:"第303便a の W_bg 3.85583(118 窓の M1 に合わせた値)を入れると長窓 M4 8.8039 年(B1 との差 −0.0465 年 = 照合許容の 9.3 倍)", obs:"8.85 年"},
+      {q:"交点の周期(実測・長窓)", model:"18.6052 年(B1 との差 +0.0057 年 —— 地球の J₂ は入れていない〔第303便c の参照積分で J₂ は −0.0015 年〕)", obs:"18.599525 年(B1)"},
+      {q:"言わないこと", model:"引きずりで埋める差はこの探索範囲で照合許容の内で 0(記録 —— 引きずりの有無を決めたとは言わない)。8.85 年を法則が予言したとは言わない", obs:"—"}],
   descStruct:{
-      summary:"**第303便a(原仮定者の裁定〔第93報〕②・統括の検証項目 R191)**: semic(第302便d の既定の步)で 4 つのノブを合わせ直した(差分の Jacobian の Newton 1 回 —— 器 tests/exp-w303a-refit.mjs): W_bg 3.8560163(分割の世代 = 1/gain 0.259335)→ **3.85583 [M/L³]**・近地点距離 3.5716702 → 3.5716687・t=0 の接触離心率 0.0753227 → 0.0753231・接触傾斜 5.28885° → 5.28885°。118 公転窓の近点回転の周期 8.8500003 年(h/2 差 1.85e-4・h/4 差 2.86e-4)・恒星月 27.3216605 日・平均離心率 0.0549000。近点回転の周期の W_bg への感度は小さい(∂T/∂(1/W_bg) = -0.187 年 —— 許容 0.005 年が写る W_bg の幅 3.49〜4.30 —— 弱い同定)。観測の候補の行 B1: 恒星月 27.321661554 日・近点月 27.554549886・交点月 27.212220815(Chapront 2002)・近地点の周期 8.850391 年・交点の周期 18.599525 年(恒星系 —— Simon 1994 の係数からの換算)—— σ なし・sigma_primary=unverified。**この W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化**(基線の監査は第303便c)—— 物理の量と読まない。以下は第298便c の本の説明(gain と初期配置の数は当時の記録)。**慣性決定力版の太陽・地球・月の三次元の写し —— 月の軌道傾斜 5.145° を入れた再現作業**(法則は重力 E4 と慣性引きずり —— 第298便c・原仮定者の裁定〔第88報〕「三次元座標化する」・統括の検証項目 R167)。二次元の再現作業の版(第297便b —— 第300便b で退役)の次に疑う実装として挙げた**二次元の射影**を外すため、その版を書き換えずに写して physics.coord:\"3d\" で走らせ、月の軌道面を黄道(xy 面 —— 地球の公転面)に対して傾けた。初期配置は平均要素(平均離心率 0.0549・恒星月 27.321661 日・平均軌道傾斜 5.145°)を 118 公転・h・gain 0 の走行の平均で満たす (近地点距離 3.5716702, t=0 の接触離心率 0.0753227, t=0 の接触傾斜 5.28885°) に置いた(3 元の Newton —— 入力の見直しであって法則の予言ではない。昇交点は t=0 の地球→月の方向・元期の宣言なし)。近点の向きは**軌道面の中の近点経度** ϖ = Ω + u(瞬間の軌道面の昇交点 Ω と面内の角 u)で数える(xy の方位だけでは数えない)。gain 0 の 118 公転窓の近点周期は 8.8989 年(二次元の版は 8.7873 年 —— 傾斜 0 の三次元は二次元と全窓で同値)で、標的 8.85 年の上にある。**gain の探索**(器 tests/exp-w298c-moon3d.mjs —— SI で 10⁻⁶〜0.0514182 m³/kg の対数格子+0・h と h/2): 近点周期は gain とともに単調に短くなり、格子の 0.226756(8.8565 年)と 0.559953(8.7943 年)の間で 8.85 年を挟んだ。根を Illinois で詰め、根の gain で初期配置を解き直して 2 回繰り返した最終値が **gain 0.259335 [L³/M](SI 2.59335×10⁻⁴ m³/kg —— 地球と月の慣性決定力版〔第292便c —— 第300便b で退役〕から移送した値の 1/198)で 118 公転窓 8.8500 年**(h/2 8.8502・h/4 8.8503)。記録は fitRecord(w298b-1 の 3 標的 —— 近点回転・恒星月・平均離心率)。354 公転窓は 8.8261 年(窓の差 −0.0239 年 —— 定常の率ではない)。",
+      summary:"**第304便c(原仮定者の裁定〔第94報〕—— 決断事項 AN316 の提案に同意・統括の検証項目 R197)**: 基線を見直した —— 重力と引きずりの核の軟化 0.01 → 0.0005(physics.softeningFloor の宣言)・地球–月の重心の公転を離心率 e′ 0.0167086 の楕円(t=0 は近日点)・初期配置を長窓 1062 公転の偏りのない平均の要素へ(近地点距離 3.5685853・接触離心率 0.0762828・接触傾斜 5.29073°)・標的の抽出器を M4(調和の回帰)と長窓へ(器 tests/exp-w304c-baseline.mjs)。**引きずり OFF** で長窓の近点の周期 8.84983 年(B1 8.850391 年との差 −0.00056 年 —— 照合許容 0.005 年の内)→ 引きずりを OFF の宣言にした(引きずりの式は変えていない —— この探索範囲で引きずりで埋める差が照合許容の内で 0 だったことの記録)。第303便a の W_bg 3.85583 を入れると 8.8039 年(照合許容の 9.3 倍)。地球の構造核 dragCore は宣言に残す(引きずり OFF では走りに効かない)。以下は第303便a までの説明(数は当時の記録)。**第303便a(原仮定者の裁定〔第93報〕②・統括の検証項目 R191)**: semic(第302便d の既定の步)で 4 つのノブを合わせ直した(差分の Jacobian の Newton 1 回 —— 器 tests/exp-w303a-refit.mjs): W_bg 3.8560163(分割の世代 = 1/gain 0.259335)→ **3.85583 [M/L³]**・近地点距離 3.5716702 → 3.5716687・t=0 の接触離心率 0.0753227 → 0.0753231・接触傾斜 5.28885° → 5.28885°。118 公転窓の近点回転の周期 8.8500003 年(h/2 差 1.85e-4・h/4 差 2.86e-4)・恒星月 27.3216605 日・平均離心率 0.0549000。近点回転の周期の W_bg への感度は小さい(∂T/∂(1/W_bg) = -0.187 年 —— 許容 0.005 年が写る W_bg の幅 3.49〜4.30 —— 弱い同定)。観測の候補の行 B1: 恒星月 27.321661554 日・近点月 27.554549886・交点月 27.212220815(Chapront 2002)・近地点の周期 8.850391 年・交点の周期 18.599525 年(恒星系 —— Simon 1994 の係数からの換算)—— σ なし・sigma_primary=unverified。**この W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化**(基線の監査は第303便c)—— 物理の量と読まない。以下は第298便c の本の説明(gain と初期配置の数は当時の記録)。**慣性決定力版の太陽・地球・月の三次元の写し —— 月の軌道傾斜 5.145° を入れた再現作業**(法則は重力 E4 と慣性引きずり —— 第298便c・原仮定者の裁定〔第88報〕「三次元座標化する」・統括の検証項目 R167)。二次元の再現作業の版(第297便b —— 第300便b で退役)の次に疑う実装として挙げた**二次元の射影**を外すため、その版を書き換えずに写して physics.coord:\"3d\" で走らせ、月の軌道面を黄道(xy 面 —— 地球の公転面)に対して傾けた。初期配置は平均要素(平均離心率 0.0549・恒星月 27.321661 日・平均軌道傾斜 5.145°)を 118 公転・h・gain 0 の走行の平均で満たす (近地点距離 3.5716702, t=0 の接触離心率 0.0753227, t=0 の接触傾斜 5.28885°) に置いた(3 元の Newton —— 入力の見直しであって法則の予言ではない。昇交点は t=0 の地球→月の方向・元期の宣言なし)。近点の向きは**軌道面の中の近点経度** ϖ = Ω + u(瞬間の軌道面の昇交点 Ω と面内の角 u)で数える(xy の方位だけでは数えない)。gain 0 の 118 公転窓の近点周期は 8.8989 年(二次元の版は 8.7873 年 —— 傾斜 0 の三次元は二次元と全窓で同値)で、標的 8.85 年の上にある。**gain の探索**(器 tests/exp-w298c-moon3d.mjs —— SI で 10⁻⁶〜0.0514182 m³/kg の対数格子+0・h と h/2): 近点周期は gain とともに単調に短くなり、格子の 0.226756(8.8565 年)と 0.559953(8.7943 年)の間で 8.85 年を挟んだ。根を Illinois で詰め、根の gain で初期配置を解き直して 2 回繰り返した最終値が **gain 0.259335 [L³/M](SI 2.59335×10⁻⁴ m³/kg —— 地球と月の慣性決定力版〔第292便c —— 第300便b で退役〕から移送した値の 1/198)で 118 公転窓 8.8500 年**(h/2 8.8502・h/4 8.8503)。記録は fitRecord(w298b-1 の 3 標的 —— 近点回転・恒星月・平均離心率)。354 公転窓は 8.8261 年(窓の差 −0.0239 年 —— 定常の率ではない)。",
       observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で月の近点の向きが順行に回るのを見る。視点のスライダーで横から見ると、月の軌道面が黄道に対して傾いているのが見える。数は説明タブの「フィットの記録」(条件の署名の行)。",
-      control:"ワンタップの対照は gain 0(探索の起点 —— 118 公転窓 8.8989 年)。比べる相手は二次元の版(第300便b で退役 —— 同じ初期配置の考え方で傾斜なし・gain 0 で 8.7873 年)。**地球の三次元版として採用**(原仮定者の裁定〔第90報〕③ —— 惑星の三次元〔🌡️〜💙〕と並ぶ地球の行)。太陽の有無の差は地球と月だけの三次元の対照 🌔 earthMoonOnly3d(太陽を外し地球–月の重心を原点・重心速度 0 に置き直した写し —— gain は移送)で見る。"},
+      control:"ワンタップの対照は引きずり ON(第304便c —— 第303便a の W_bg 3.85583・長窓 M4 8.8039 年)。第303便a までの対照は gain 0(探索の起点 —— 118 公転窓 8.8989 年)。比べる相手は二次元の版(第300便b で退役 —— 同じ初期配置の考え方で傾斜なし・gain 0 で 8.7873 年)。**地球の三次元版として採用**(原仮定者の裁定〔第90報〕③ —— 惑星の三次元〔🌡️〜💙〕と並ぶ地球の行)。太陽の有無の差は地球と月だけの三次元の対照 🌔 earthMoonOnly3d(太陽を外し地球–月の重心を原点・重心速度 0 に置き直した写し —— gain は移送)で見る。"},
   en:{name:"Sun, Earth & Moon (inertial determinacy, 3D) — the lunar inclination 5.145 deg and the search toward 8.85 yr",
     obsCard:[
-      {q:"What is placed", model:"The 2D reproduction-effort build (wave 297b - retired in wave 300b) run with physics.coord 3d, the Moon's orbital plane tilted to the ecliptic (xy plane; ascending node along the Earth-to-Moon direction at t=0); barycentre, masses, radii, spins and the Earth's structure core as in the 2D build; geoPN=3, lambda_PN=0", obs:"- (a principle sample, outside the calibration population)"},
-      {q:"Initial configuration (inputs)", model:"rp 3.5716687 (split era 3.5716702), e0 0.0753231 (0.0753227), i0 5.28885 deg (t=0) -> 118-orbit mean e 0.054900, sidereal 27.32166 d, i 5.1450 deg; semic", obs:"mean eccentricity 0.0549, sidereal month 27.321661 d, inclination 5.145 deg (mean elements)"},
-      {q:"Apsidal period (measured, 118-orbit window)", model:"counted with the longitude of perigee in the orbital plane; gain 0: 8.8989 yr (the 2D build: 8.7873 yr; the 3D run at zero inclination equals 2D)", obs:"8.85 yr"},
-      {q:"W_bg search (measured)", model:"split era: grid 0.226756: 8.8565 yr, 0.559953: 8.7943 yr - bracket, gain 0.259335; 303a: semic 4-knob Newton -> W_bg 3.85583, 8.8500 yr (h/2 8.8502, h/4 8.8503)", obs:"8.85 yr"},
-      {q:"Windows and extractors (measured)", model:"354 orbits 8.8261 yr (-0.0239 from 118; semic); e-vector 8.8276, phase 8.5629, ref. integrator 8.8643 yr (split era)", obs:"8.85 yr"},
-      {q:"Not claimed", model:"no law predicts 8.85 yr; W_bg mainly fills the 118-orbit extractor bias and softening (wave 303c audit) - not physical", obs:"-"}],
+      {q:"What is placed", model:"The 2D reproduction-effort build (wave 297b - retired in wave 300b) run with physics.coord 3d, the Moon's orbital plane tilted to the ecliptic (xy plane; ascending node along the Earth-to-Moon direction at t=0). Wave 304c: the Earth-Moon barycentre on an ellipse with e' 0.0167086 (perihelion at t=0), softening of gravity and the drag kernel 0.0005 (= 50 km - softeningFloor), drag OFF; masses, radii, spins and the core as before; geoPN=3, lambda_PN=0", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"Initial configuration (inputs - long-window mean elements)", model:"rp 3.5685853, e0 0.0762828, i0 5.29073 deg (wave 303: 3.5716687, 0.0753231, 5.28885 deg) -> 1062-orbit means: sidereal 27.3216635 d (harmonic regression), e 0.054900, i 5.1450 deg", obs:"sidereal month 27.321661554 d (B1), mean eccentricity 0.0549, inclination 5.145 deg (mean elements)"},
+      {q:"Apsidal period (measured, long-window M4, drag off)", model:"8.84983 yr (h/2 gap 3.8e-5 yr) - -0.00056 yr from B1 (0.11 of the 0.005-yr tolerance - within the tolerance)", obs:"8.85 yr (B1 8.850391 yr)"},
+      {q:"Windows and extractors (measured)", model:"[0,118] M4 8.8618 yr (118-orbit windows slid by 12 orbits: 8.8412-8.8620, sd 4.6e-3 - picks up the annual terms of e'; with annual terms (M4a) sd 2.9e-3); [0,354] M4 8.8502 yr; long-window M1 8.8505 yr", obs:"8.85 yr"},
+      {q:"Drag-on control (measured)", model:"with the wave-303a W_bg 3.85583 (matched to the 118-orbit M1) the long-window M4 is 8.8039 yr (-0.0465 yr from B1 = 9.3 x the tolerance)", obs:"8.85 yr"},
+      {q:"Nodal period (measured, long window)", model:"18.6052 yr (+0.0057 yr from B1 - the Earth's J2 is not included; wave 303c's reference integration gives -0.0015 yr for J2)", obs:"18.599525 yr (B1)"},
+      {q:"Not claimed", model:"within this search the gap the drag would fill is zero within the tolerance - a record (no claim on whether the drag exists); no law predicts 8.85 yr (main cause: the solar perturbation)", obs:"-"}],
     descStruct:{
-      summary:"WAVE 303a (report 93 (2); check item R191): the four knobs are re-matched with semic (one Newton step - tests/exp-w303a-refit.mjs): W_bg 3.8560163 (split era = 1/gain 0.259335) -> **3.85583 [M/L^3]**, perigee distance -> 3.5716687, osculating e at t=0 -> 0.0753231, inclination 5.28885 deg (same); 118-orbit apsidal period 8.8500003 yr (h/2 gap 1.85e-4). Weakly identified (the 0.005-yr tolerance maps to W_bg 3.50-4.30). **This W_bg mainly fills the 118-orbit extractor bias and the softening** (baseline audit: wave 303c) - not a physical value. Candidate rows B1 (Chapront 2002 / Simon 1994; no sigma, unverified): months 27.321661554 / 27.554549886 / 27.212220815 d, perigee 8.850391 yr, node 18.599525 yr. The rest describes the wave-298c book (its gain and initial numbers are that record). THE 3D COPY OF THE INERTIAL-DETERMINACY SUN, EARTH AND MOON - A REPRODUCTION EFFORT WITH THE LUNAR INCLINATION 5.145 DEG (laws: gravity E4 and the inertial drag; wave 298c; the originator's ruling in report 88: make the coordinates 3D; the coordinator's check item R167). To remove the TWO-DIMENSIONAL PROJECTION named as the next implementation to revisit in the 2D build (the wave-297b reproduction effort - retired in wave 300b), that build is copied untouched and run with physics.coord 3d, and the Moon's orbital plane is tilted to the ecliptic (the xy plane - the Earth's orbital plane). The initial configuration (perigee distance 3.5716702, osculating eccentricity 0.0753227 and inclination 5.28885 deg at t=0) satisfies the mean elements (mean eccentricity 0.0549, sidereal month 27.321661 d, mean inclination 5.145 deg) as averages over a 118-orbit run at h with gain 0 (a three-variable Newton - an input revision, not a prediction of the law; the ascending node lies along the Earth-to-Moon direction at t=0; no epoch is declared). The apse is counted with THE LONGITUDE OF PERIGEE IN THE ORBITAL PLANE, varpi = Omega + u (node of the instantaneous plane plus the in-plane angle), not with the xy direction alone. At gain 0 the 118-orbit apsidal period is 8.8989 yr (the 2D build: 8.7873 yr - the 3D run at zero inclination equals 2D in every window), above the 8.85-yr target. THE GAIN SEARCH (harness tests/exp-w298c-moon3d.mjs - log grid 1e-6 to 0.0514182 m^3/kg in SI plus 0, h and h/2): the period shortens monotonically with the gain, and 8.85 yr is bracketed between grid points 0.226756 (8.8565 yr) and 0.559953 (8.7943 yr). The root was refined by Illinois and the initial configuration re-solved at the root gain, twice; the final value is GAIN 0.259335 [L^3/M] (SI 2.59335e-4 m^3/kg - 1/198 of the value transferred from the Earth-Moon inertial-determinacy build of wave 292c, retired in wave 300b) AT 8.8500 YR OVER 118 ORBITS (h/2 8.8502, h/4 8.8503). The record is fitRecord (version w298b-1 with three targets - apsidal period, sidereal month, mean eccentricity). The 354-orbit window gives 8.8261 yr (a window difference of -0.0239 yr - not a steady rate).",
+      summary:"WAVE 304c (report 94 - AN316; check item R197): baseline revised - softening 0.01 -> 0.0005 (physics.softeningFloor), the Earth-Moon barycentre on an ellipse e' 0.0167086 (perihelion at t=0), the initial configuration matched to long-window (1062-orbit) mean elements (rp 3.5685853, e0 0.0762828, i0 5.29073 deg), the target extractor M4 over the long window (tests/exp-w304c-baseline.mjs). With the DRAG OFF the long-window apsidal period is 8.84983 yr (-0.00056 yr from B1 8.850391 - within the 0.005-yr tolerance), so the drag is declared off (the drag law is unchanged; a record that the gap to fill is zero within the tolerance). The wave-303a W_bg 3.85583 gives 8.8039 yr. The Earth's dragCore stays (no effect with the drag off). WAVE 303a (report 93 (2); check item R191): W_bg 3.85583 re-matched with semic over the 118-orbit M1 window (a record - PHYSICS [wave 303a]). The rest describes the wave-298c book (its gain and initial numbers are that record). THE 3D COPY OF THE INERTIAL-DETERMINACY SUN, EARTH AND MOON - A REPRODUCTION EFFORT WITH THE LUNAR INCLINATION 5.145 DEG (laws: gravity E4 and the inertial drag; wave 298c; the originator's ruling in report 88: make the coordinates 3D; the coordinator's check item R167). The 2D build (wave 297b - retired in wave 300b) is copied untouched and run with physics.coord 3d, and the Moon's orbital plane is tilted to the ecliptic (the xy plane - the Earth's orbital plane). The initial configuration (perigee distance 3.5716702, osculating eccentricity 0.0753227 and inclination 5.28885 deg at t=0) satisfies the mean elements (mean eccentricity 0.0549, sidereal month 27.321661 d, mean inclination 5.145 deg) as averages over a 118-orbit run at h with gain 0 (a three-variable Newton - an input revision, not a prediction of the law; the ascending node lies along the Earth-to-Moon direction at t=0; no epoch is declared). The apse is counted with THE LONGITUDE OF PERIGEE IN THE ORBITAL PLANE, varpi = Omega + u (node of the instantaneous plane plus the in-plane angle), not with the xy direction alone. At gain 0 the 118-orbit apsidal period is 8.8989 yr (the 2D build: 8.7873 yr - the 3D run at zero inclination equals 2D in every window), above the 8.85-yr target. THE GAIN SEARCH (harness tests/exp-w298c-moon3d.mjs - log grid 1e-6 to 0.0514182 m^3/kg in SI plus 0, h and h/2): the period shortens monotonically with the gain, and 8.85 yr is bracketed between grid points 0.226756 (8.8565 yr) and 0.559953 (8.7943 yr). The root was refined by Illinois and the initial configuration re-solved at the root gain, twice; the final value is GAIN 0.259335 [L^3/M] (SI 2.59335e-4 m^3/kg - 1/198 of the value transferred from the Earth-Moon inertial-determinacy build of wave 292c, retired in wave 300b) AT 8.8500 YR OVER 118 ORBITS (h/2 8.8502, h/4 8.8503). The record is fitRecord (version w298b-1 with three targets - apsidal period, sidereal month, mean eccentricity). The 354-orbit window gives 8.8261 yr.",
       observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse turn prograde. Turn the view slider to look side-on and the lunar orbital plane is seen tilted to the ecliptic. The numbers are in the 'fit record' card of the explanation tab (the condition-signature row).",
-      control:"The one-tap control is gain 0 (the start of the search - 8.8989 yr over 118 orbits). Compare with the 2D build (retired in wave 300b - the same approach to the initial configuration without the tilt; 8.7873 yr at gain 0). ADOPTED AS THE EARTH'S 3D BUILD (the originator's ruling, report 90 (3) - the Earth row beside the planets in 3D, 🌡️ to 💙). The difference the Sun makes is seen in the Earth-Moon-only 3D control 🌔 earthMoonOnly3d (the Sun removed, re-placed with the Earth-Moon barycentre at the origin at rest - the gain is transferred)."},
+      control:"The one-tap control is the drag ON (wave 304c - the wave-303a W_bg 3.85583; long-window M4 8.8039 yr). Up to wave 303a the control was gain 0 (the start of the search - 8.8989 yr over 118 orbits). Compare with the 2D build (retired in wave 300b - the same approach to the initial configuration without the tilt; 8.7873 yr at gain 0). ADOPTED AS THE EARTH'S 3D BUILD (the originator's ruling, report 90 (3) - the Earth row beside the planets in 3D, 🌡️ to 💙). The difference the Sun makes is seen in the Earth-Moon-only 3D control 🌔 earthMoonOnly3d (the Sun removed, re-placed with the Earth-Moon barycentre at the origin at rest - the gain is transferred)."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c0=29979.2458","the Sun's, the Earth's and the Moon's masses, radii and rotations, the Sun-Earth distance and the barycentre motion (as in the 2D build)",
         "the Moon's mean eccentricity 0.0549 (NASA NSSDC), sidereal month 27.321661 d (Chapront 2002) and mean orbital inclination 5.145 deg (NASA NSSDC Moon Fact Sheet) - matched as run averages through the initial relative vector"],
       fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","physics.coord 3d (right-handed; the ecliptic is the xy plane)","geoPN=3, kFrame=0, lambda_PN=0",
-        "inertial drag relativeDrag:{law:\"inertial\", Wbg:3.85583, eps:0.01, history:\"positions\", pairs:[[1,2]]} (translation only - no rotational or axial drag declared)","the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in the 2D build); the Sun pinned"],
-      fitted:["W_bg 3.85583 (wave 303a - semic four-variable Newton; status fitted - |residual| + h/2 difference <= declared tolerance). The split-era gain 0.259335 (the root bracketed in the wave-298c search) is a record","initial relative vector: perigee distance 3.5716687, osculating eccentricity 0.0753231 and inclination 5.28885 deg at t=0 - a Newton on the 118-orbit run averages (an input revision, not a prediction; wave 303a, semic)"],
+        "drag OFF relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, history:\"positions\", pairs:[[1,2]]} (wave 304c - the gap the drag would fill is zero within the tolerance)","the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in the 2D build; no effect with the drag off); the Sun pinned","the Earth-Moon barycentre on an ellipse with e' 0.0167086 (Simon 1994, J2000), perihelion at t=0 (no epoch declared)"],
+      fitted:["initial relative vector: perigee distance 3.5685853, osculating eccentricity 0.0762828 and inclination 5.29073 deg at t=0 - a Newton on the long-window (1062-orbit) mean elements (an input revision, not a prediction; wave 304c, semic). The wave-303a W_bg 3.85583 and the split-era gain 0.259335 are records (the drag is declared off)"],
       derived:["kappa=G/c0^2=7.4258e-9","gain in SI 2.59335e-4 m^3/kg"],
-      numerical:["softening eps=0.01 = 10^6 m (gravity and the drag kernel)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
+      numerical:["softening eps=0.0005 = 5x10^4 m (gravity and the drag kernel - physics.softeningFloor 0.0005; wave 304c)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=29979.2458","太陽・地球・月の実質量・実半径・実自転・太陽–地球距離と重心の運動(二次元の版のまま)",
       "月の平均離心率 0.0549(NASA NSSDC)・恒星月 27.321661 日(Chapront 2002)・平均軌道傾斜 5.145°(NASA NSSDC Moon Fact Sheet)—— 初期の相対ベクトルで走行の平均に合わせた"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","physics.coord:\"3d\"(右手系・黄道は xy 面)","geoPN=3・kFrame=0・λ_PN=0",
-      "慣性引きずり relativeDrag:{law:\"inertial\", Wbg:3.85583, eps:0.01, history:\"positions\", pairs:[[1,2]]}(並進だけ —— 回転引きずり・軸引きずりは宣言しない)","地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(二次元の版のまま)・太陽 pinned"],
-    fitted:["W_bg 3.85583(第303便a —— semic の 4 元の Newton・status fitted —— |残差|+h/2 の差 ≤ 照合許容の宣言)。分割の世代の gain 0.259335(第298便c の探索で挟んだ根)は記録","初期の相対ベクトル: 近地点距離 3.5716687・t=0 の接触離心率 0.0753231・接触傾斜 5.28885° —— 118 公転の走行の平均への Newton(入力の見直し —— 予言ではない・第303便a の semic)"],
+      "引きずり OFF relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, history:\"positions\", pairs:[[1,2]]}(第304便c —— 引きずりで埋める差が照合許容の内で 0)","地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(二次元の版のまま —— 引きずり OFF では走りに効かない)・太陽 pinned","地球–月の重心の公転は離心率 e′ 0.0167086(Simon 1994 の J2000)の楕円で t=0 は近日点(元期の宣言なし)"],
+    fitted:["初期の相対ベクトル: 近地点距離 3.5685853・t=0 の接触離心率 0.0762828・接触傾斜 5.29073° —— 長窓 1062 公転の平均の要素への Newton(入力の見直し —— 予言ではない・第304便c の semic)。第303便a の W_bg 3.85583 と分割の世代の gain 0.259335 は記録(引きずりは OFF の宣言)"],
     derived:["κ=G/c₀²=7.4258×10⁻⁹","gain の SI 2.59335×10⁻⁴ m³/kg"],
-    numerical:["ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
-  fitRecord:{"version":"w298b-1","parent":"earthMoonSunInertialFit","law":"inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ・回転引きずりと軸引きずりは宣言しない)・λ_PN=0・積分器 semic(第303便a の再フィット)","targets":[{"q":"近点回転の周期(軌道面の中の近点経度 ϖ=Ω+u・検出器 B・118 公転窓の時刻への直線 fit)","obs":8.85,"unit":"yr","source":"月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)","window":"118 公転の窓 [0,118]・A1(慣性の対は地球と月だけ)・semic","tol":{"value":0.005,"kind":"declared","note":"照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ","model":8.850000325741412,"residual":3.257414125101832e-7,"rel":3.680693926668737e-8,"numerics":{"h2":0.00018475421847341522,"dtHalf":0.008}},{"q":"恒星月(黄道経度の周回の平均間隔・118 公転窓)","obs":27.321661,"unit":"d","source":"恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力","window":"118 公転の窓・semic","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(走行の平均に合わせた量 —— 予言ではない)"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 黄道経度(xy の方位)の通過","model":27.321660518701943,"residual":-4.81298055632351e-7,"rel":-1.761598812137926e-8,"numerics":{"h2":0.0000035667574422859616,"dtHalf":0.008}},{"q":"平均離心率(接触離心率の時間平均・118 公転窓)","obs":0.0549,"unit":"無次元","source":"月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力","window":"118 公転の窓・semic","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(走行の平均に合わせた量)"},"extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1) —— 位置の中心差分の座標速度から作る接触離心率・64 步ごと","model":0.054899996905062344,"residual":-3.094937653380647e-9,"rel":-5.637409204700633e-8,"numerics":{"h2":0.000001154179311610437,"dtHalf":0.008}}],"knobs":[{"key":"physics.relativeDrag.Wbg","range":[0.019448366531695002,1000],"final":3.85583},{"key":"initial.moonPerigeeDistance","range":[3.4,3.8],"final":3.5716687},{"key":"initial.moonOscEccentricity0","range":[0.02,0.12],"final":0.0753231},{"key":"initial.moonOscInclination0","range":[4.5,6],"final":5.28885}],"fixed":["太陽・地球–月の重心(位置・速度)・質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球の公転は円(面は xy = 黄道)","月の軌道傾斜は平均 5.145°(NASA NSSDC Moon Fact Sheet の軌道傾斜(黄道に対して)5.145°)を 118 公転の走行の平均で満たす t=0 の接触傾斜 5.28885°・昇交点を t=0 の地球→月の方向(近地点・太陽の反対方向)に置いた(元期の宣言なし)","geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic —— 第302便d の既定)・重力の軟化 0.01・核の ε 0.01・pairs [[1,2]](🌥️ のまま)・地球の自転軸は有効化しない(回転引きずり・軸引きずりの宣言なし)","第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 3.8560163495093223(旧 gain 0.259335)と初期配置 3 つ を起点に合わせ直した(🌦️)。分割の世代の記録(旧 cond.sig 24d27408ea068860)は履歴 —— 前後表は PHYSICS〔第303便a〕"],"procedure":"第303便a: 分割の世代の 4 つのノブ(W_bg・近地点距離・t=0 の接触離心率・接触傾斜)を起点に、semic の 118 公転窓(h)で 4 元の Newton(差分の Jacobian —— 近点回転の周期・恒星月・平均離心率・平均傾斜)を 1 回 → W_bg を 6 桁・初期配置を元の桁に丸めて h / h/2 / h/4 と 354 公転窓で測り直した(器 tests/exp-w303a-refit.mjs —— 抽出器は tests/exp-w298c-moon3d.mjs runEmx3)","dt":0.016,"steps":5224283,"status":"fitted","notFitted":["機構(実際の主因は太陽摂動 —— 機構の同定ではない)","恒星月と平均離心率は初期配置の入力として平均に合わせた(法則の予言として数えない)","この W_bg が埋めているのは主に 118 窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない"],"cond":{"version":"w297b-cond-1","sig":"b0d29c4715d2472f","extractor":"tests/exp-w298c-moon3d.mjs runEmx3(w298c-emx3-1)"}},
+    numerical:["ソフトニング ε=0.0005 = 5×10⁴m(重力と引きずりの核 —— physics.softeningFloor 0.0005・第304便c)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
+  fitRecord:{"version":"w298b-1","parent":"earthMoonSunInertialFit","law":"引きずり OFF(relativeDrag.enabled:false —— 第304便c の基線の見直しで埋める差が照合許容の内で 0)・重力 E4 の三体(太陽 pinned)・三次元(physics.coord:\"3d\")・λ_PN=0・積分器 semic","targets":[{"q":"近点回転の周期(軌道面の中の近点経度 ϖ・検出器 B・M4 調和の回帰・長窓)","obs":8.85,"unit":"yr","source":"月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)。B1 8.850391 年(Chapront 2002・Simon 1994 —— σ なし・unverified)との差は正本に記録","window":"1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周)・引きずり OFF・semic","tol":{"value":0.005,"kind":"declared","note":"照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"},"extractor":"tests/exp-w303c-earthmoon.mjs harmonicRate(w303c-emx4-1)—— M4 調和の回帰: 距離の極小の 3 点放物線・瞬間の軌道面で ϖ・ϖ の時刻への直線に φ = 2(λ☉ − ϖ̄) の 1〜3 倍の正弦・余弦","model":8.849834487895896,"residual":-0.00016551210410398198,"rel":-0.00001870193266711661,"numerics":{"h2":0.00003766917631509159,"dtHalf":0.008}},{"q":"恒星月(黄道経度の周回 —— 調和の回帰・長窓)","obs":27.321661,"unit":"d","source":"恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力(長窓の平均の要素の目標は B1 27.321661554 日)","window":"1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周)・引きずり OFF・semic","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(長窓の調和の回帰に合わせた量 —— 予言ではない)"},"extractor":"tests/exp-w303c-earthmoon.mjs sidHarmonic(w303c-emx4-1)—— 黄道経度の通過の時刻を周回の番号の直線と中心差・出差・二均差・黄道への還元の正弦・余弦で回帰","model":27.321663539873562,"residual":0.0000025398735630233205,"rel":9.296190165829672e-8,"numerics":{"h2":0.0000034041018110997356,"dtHalf":0.008}},{"q":"平均離心率(接触離心率の時間平均・長窓)","obs":0.0549,"unit":"無次元","source":"月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力","window":"1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周)・引きずり OFF・semic","tol":{"value":0.00005,"kind":"declared","note":"照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(長窓の平均に合わせた量)"},"extractor":"tests/exp-w303c-earthmoon.mjs makeRec(w303c-emx4-1)—— 位置の中心差分の座標速度から作る接触離心率・64 步ごとの時間平均","model":0.05490003708185889,"residual":3.708185889600424e-8,"rel":6.754436957377821e-7,"numerics":{"h2":7.08705772151097e-7,"dtHalf":0.008}}],"knobs":[{"key":"initial.moonPerigeeDistance","range":[3.4,3.8],"final":3.5685853},{"key":"initial.moonOscEccentricity0","range":[0.02,0.12],"final":0.0762828},{"key":"initial.moonOscInclination0","range":[4.5,6],"final":5.29073}],"fixed":["太陽・地球と月の質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球–月の重心の公転は離心率 e′ 0.0167086(Simon 1994 の J2000)の楕円で t=0 は近日点(長半径は円の半径のまま・面は xy = 黄道・元期の宣言なし)","月の軌道傾斜は平均 5.145°(NASA NSSDC)を長窓 1062 公転の平均で満たす t=0 の接触傾斜・昇交点を t=0 の地球→月の方向に置いた(元期の宣言なし)","重力と引きずりの核の軟化 ε 0.0005(= 50 km —— physics.softeningFloor 0.0005 の宣言)・geoPN=3・kFrame=0・λ_PN=0・積分器 semic・地球の自転軸は有効化しない","引きずり OFF(relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, pairs:[[1,2]]})—— 地球の構造核 dragCore {0.325, 0.0348} は宣言に残す(引きずり OFF では走りに効かない)","第303便a の再フィット(W_bg 3.85583・118 公転窓の M1・軟化 0.01・e′ 0・旧 cond.sig b0d29c4715d2472f)は履歴 —— 前後表は PHYSICS〔第304便c〕と正本 tests/out/baseline-w304c.json"],"procedure":"第304便c: 第303便の初期配置を起点に、ε 0.0005・e′ 0.0167086(近日点から)・引きずり OFF の写しで長窓 1062 公転の平均の要素(調和の回帰の恒星月 = B1 27.321661554 日・平均離心率 0.0549・平均傾斜 5.145°)へ 3 元の Newton(参照積分 → エンジンで仕上げ)→ 近地点距離・接触離心率を 7 桁・接触傾斜を 5 桁に丸め、h / h/2 / h/4 と窓 118・354・708・1062 で測り直した(器 tests/exp-w304c-baseline.mjs)","dt":0.016,"steps":15668354,"status":"fitted","notFitted":["近点回転の周期は合わせていない —— 引きずり OFF の純ニュートンの三体の値(ノブは初期配置の 3 つだけ・予言ではなく基線の確かめ)","恒星月・平均離心率・平均傾斜は初期配置の入力として長窓の平均に合わせた(法則の予言として数えない)","引きずり OFF で照合許容の内(第304便c の基線の見直し —— 引きずりを無くしたのではなく、この探索範囲で引きずりで埋める差が許容の内で 0 だったことの記録)","機構(主因は太陽摂動 —— 機構の同定ではない)"],"cond":{"version":"w297b-cond-1","sig":"713c591688060c60","extractor":"tests/exp-w303c-earthmoon.mjs winOf(w303c-emx4-1)・長窓 [0,1062]"}},
   activeParams:["geoPN","dispMag"],   // gain・初期配置は主役スライダーにしない
   camera:{scale:10,follow:1}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:236.059488, pair:[1,2], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)", stepsPerOrbit:360},
   physics:{coord:"3d", G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
-    relativeDrag:{law:"inertial", Wbg:3.85583, eps:0.01, history:"positions", pairs:[[1,2]]}},
-  bodies:[   // 二次元の再現作業の版(第297便b)の写し —— 地球→月の相対ベクトルを三次元で置き直し(重心の位置・速度は同じ)。並び: 0=太陽(pinned), 1=地球, 2=月
+    geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.0005, softeningFloor:0.0005, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.0005, history:"positions", pairs:[[1,2]]}},
+  bodies:[   // 第304便c: 地球→月の相対ベクトルを長窓の平均の要素へ解き直し、地球–月の重心を離心率 0.0167086 の楕円の近日点へ(器 tests/exp-w304c-baseline.mjs の declFrom303)。旧: 二次元の再現作業の版(第297便b)の写し —— 地球→月の相対ベクトルを三次元で置き直し(重心の位置・速度は同じ)。並び: 0=太陽(pinned), 1=地球, 2=月
     {type:"single", m:1988.5, radius:6.96, x:0, y:0, z:0, vx:0, vy:0, vz:0, spin:0.029031, pinned:true, pnSource:true},
-    {type:"single", m:0.0059724, radius:0.06371, x:1495.9366025869797, y:0, z:0, vx:0, vy:2.977134945579207, vz:-0.00012344416784934998, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
-    {type:"single", m:7.346e-05, radius:0.0174, x:1499.5082712869798, y:0, z:0, vx:0, vy:3.0868845995472918, vz:0.01003618224970675, spin:0.026617, pinned:false}
+    {type:"single", m:0.0059724, radius:0.06371, x:1470.9409086234439, y:0, z:0, vx:0, vy:3.0273226143774297, vz:-0.00012359637737101935, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
+    {type:"single", m:7.346e-05, radius:0.0174, x:1474.5094939234439, y:0, z:0, vx:0, vy:3.13716832312471, vz:0.010048557095163025, spin:0.026617, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
@@ -15173,6 +15392,7 @@ const BUILTIN_PRESETS = [
 // 倍精度・λ_PN=0・geoPN=3・coord 3d を写し、太陽を外して**地球–月の重心を原点・重心速度 0** に置き直した(太陽中心の速度を残すと重心が画面を歩く)。
 // bodies は器 tests/exp-w300b-emonly.mjs の emOnlyBodies(🌦️ の bodies)の写し(QA preset.earthReorg300 が照合)。gain は 🌦️ の宣言値の**移送**
 // (この本で合わせていない —— fitRecord なし・fitted と呼ばない)。数は正本 tests/out/emonly-w300b.json の実測(恒星月・朔望月の一様換算・近点回転)。
+// 第304便c(R197): 🌦️ の基線の見直しの新しい宣言から同じ写しの規則で作り直した(引きずり OFF の地球と月の二体 —— QA preset.emBaseline304 ④ が declCheck で照合)
 { id:"earthMoonOnly3d", name:"地球と月だけ(慣性決定力版・三次元)— 🌦️ から太陽を外した対照", emoji:"🌔", group:"現実較正",
   familyId:"earthmoon", familyRole:"variant",   // 第300便b: 家族 earthmoon の variant(表示専用 —— presetSig は familyRole を見ない)
   approximation:{background:"dominant-direction-fixed", periodBasis:"sidereal"},   // 第300便b(第90報②): 太陽を置かない —— 太陽の方向を固定した近似。公転周期を標的にしない対照なので恒星月で読む(朔望月は一様換算を記録)
@@ -15182,57 +15402,57 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   notClaim:["solar_cal","emonly_control"],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 0=地球, 1=月
-  abBody:{ label:{ja:"引きずり無しに戻す(慣性引きずりを切った二体 —— 重力だけ)", en:"turn the drag off (the two-body run without the inertial drag - gravity only)"},
-    physicsPatch:{relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.01, history:"positions", pairs:[[0,1]]}} },
+  abBody:{ label:{ja:"引きずりを入れる(🌦️ の第303便a の W_bg 3.85583 の移送 —— 対照)", en:"turn the drag on (the wave-303a W_bg 3.85583 of 🌦️ transferred - a control)"},
+    physicsPatch:{relativeDrag:{law:"inertial", Wbg:3.85583, eps:0.0005, history:"positions", pairs:[[0,1]]}} },
   obsCard:[
-      {q:"何を置いたか", model:"🌦️ の地球–月の相対位置・相対速度・質量・半径・自転・構造核・W_bg 3.85583(移送 —— 第303便a)を写し、太陽を外して重心を原点・速度 0 に置いた三次元の二体", obs:"—(原理サンプル —— 較正母集団の外・太陽の有無の差を見る対照)"},
-      {q:"恒星月(実測・118 公転窓)", model:"27.48289 日(h/2 差 2.5×10⁻⁶ 日)—— 🌦️(太陽あり・同じ抽出器)は 27.32166 日・太陽の有無の差 -0.16123 日", obs:"27.321661 日(Chapront 2002 —— 🌦️ の初期配置の入力)"},
-      {q:"朔望月(一様換算・実測)", model:"29.71903 日(恒星月を恒星年 365.256363004 日で一様換算)—— 🌦️ は 29.53059 日", obs:"平均朔望月 29.530589 日(IERS の Delaunay 引数 D の率)"},
-      {q:"近点回転(実測・118 公転窓)", model:"約 2399 年(h/2 2396 年・gain 0 では −7367 年の逆行)—— 🌦️ は 8.8500 年(太陽を外すと近点はほとんど回らない)", obs:"8.85 年(主因は太陽摂動 —— この対照は太陽を外した)"},
-      {q:"言わないこと", model:"W_bg は 🌦️ の値の移送(fitted と呼ばない・物理の量と読まない —— 第303便c の基線の監査)。近点回転・朔望月をこの本が出したとは言わない", obs:"—"}],
+      {q:"何を置いたか", model:"🌦️ の地球–月の相対位置・相対速度・質量・半径・自転・構造核・軟化 0.0005・引きずり OFF(第304便c の 🌦️ の宣言の写し)を写し、太陽を外して重心を原点・速度 0 に置いた三次元の二体(重力だけ)", obs:"—(原理サンプル —— 較正母集団の外・太陽の有無の差を見る対照)"},
+      {q:"恒星月(実測・118 公転窓)", model:"27.49031 日(h/2 差 3.3e-6 日)—— 🌦️(太陽あり・同じ抽出器)は 27.31381 日・太陽の有無の差 −0.17650 日", obs:"27.321661 日(Chapront 2002 —— 🌦️ の初期配置の入力)"},
+      {q:"朔望月(一様換算・実測)", model:"29.72771 日(恒星月を恒星年 365.256363004 日で一様換算)—— 🌦️ は 29.52142 日", obs:"平均朔望月 29.530589 日(IERS の Delaunay 引数 D の率)"},
+      {q:"近点回転(実測・118 公転窓)", model:"引きずり OFF の二体では近点は回らない(118 窓の傾きは数値の誤差の桁・推定 -1059091 年)・🌦️ は 118 窓の M1 8.8846 年・長窓の M4 8.8498 年", obs:"8.85 年(主因は太陽摂動 —— この対照は太陽を外した)"},
+      {q:"言わないこと", model:"引きずりは OFF(🌦️ の第304便c の宣言の写し)。近点回転・朔望月をこの本が出したとは言わない", obs:"—"}],
   descStruct:{
-      summary:"**第303便a**: 🌦️ を semic で合わせ直した W_bg 3.85583 と初期配置(近地点距離・t=0 の接触離心率)を写し直した(移送 —— fitted と呼ばない・器 tests/exp-w303a-refit.mjs の段 T と tests/exp-w300b-emonly.mjs)。🌦️ の W_bg が埋めているのは主に 118 公転窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない。以下は第300便b の本の説明(gain の数は当時の記録)。**地球と月だけの三次元の対照 —— 🌦️ から太陽を外した写し**(法則は重力 E4 と慣性引きずり —— 第300便b・原仮定者の裁定〔第90報〕③「🌦️ の値で地球と月だけの対照を用意」・統括の検証項目 R176)。🌦️(太陽・地球・月の三次元 —— 地球の三次元版)の地球と月の相対位置・相対速度・質量・半径・自転・地球の構造核・gain 0.259335・刻み・倍精度・λ_PN=0・geoPN=3 を写し、太陽を外して**地球–月の重心を原点・重心速度 0** に置き直した(太陽中心の速度を残すと重心が慣性系の画面を歩く)。gain は 🌦️ の宣言値の**移送**で、この本では合わせていない(fitRecord なし —— fitted と呼ばない)。測った値(器 tests/exp-w300b-emonly.mjs・118 公転窓・h=0.016・同じ抽出器で 🌦️ も測った): 恒星月 27.48289 日(🌦️ 27.32166 日 —— 太陽の有無の差 −0.16123 日)・朔望月の一様換算 29.71903 日(🌦️ 29.53059 日)・近点回転の周期 約 2399 年(🌦️ 8.8500 年 —— 太陽を外すと慣性引きずりだけのごく遅い順行になる。gain 0 では −7367 年の逆行)・平均離心率 0.07530(太陽が無いので t=0 の接触離心率のまま —— 🌦️ は 0.05490)・平均傾斜 5.2888°(太陽が無いので軌道面は回らない —— 🌦️ は 5.1450°)。重心は 354 公転で 8.1×10⁻⁶ 単位(約 0.8 km)動いた(初期の全運動量の丸めの床 —— 推定)。近似の宣言は背景の太陽の方向の固定・周期は恒星月で読む(periodBasis sidereal)。",
+      summary:"**第304便c(統括の検証項目 R197)**: 🌦️ の基線の見直し(軟化 0.0005・e′・長窓の平均の要素・引きずり OFF)の新しい宣言から写しの規則(器 tests/exp-w300b-emonly.mjs の emOnlyBodies・emOnlyPhysics)で作り直した —— 引きずり OFF の地球と月の二体(重力だけ)。太陽を外すと近点は回らない(🌦️ の長窓 8.8498 年は太陽摂動)。数は正本 tests/out/baseline-w304c.json と tests/out/emonly-w300b.json。以下は第303便a までの説明(数は当時の記録)。**第303便a**: 🌦️ を semic で合わせ直した W_bg 3.85583 と初期配置(近地点距離・t=0 の接触離心率)を写し直した(移送 —— fitted と呼ばない・器 tests/exp-w303a-refit.mjs の段 T と tests/exp-w300b-emonly.mjs)。🌦️ の W_bg が埋めているのは主に 118 公転窓の抽出器の偏りと軟化(基線の監査は第303便c)—— 物理の量と読まない。以下は第300便b の本の説明(gain の数は当時の記録)。**地球と月だけの三次元の対照 —— 🌦️ から太陽を外した写し**(法則は重力 E4 と慣性引きずり —— 第300便b・原仮定者の裁定〔第90報〕③「🌦️ の値で地球と月だけの対照を用意」・統括の検証項目 R176)。🌦️(太陽・地球・月の三次元 —— 地球の三次元版)の地球と月の相対位置・相対速度・質量・半径・自転・地球の構造核・gain 0.259335・刻み・倍精度・λ_PN=0・geoPN=3 を写し、太陽を外して**地球–月の重心を原点・重心速度 0** に置き直した(太陽中心の速度を残すと重心が慣性系の画面を歩く)。gain は 🌦️ の宣言値の**移送**で、この本では合わせていない(fitRecord なし —— fitted と呼ばない)。測った値(器 tests/exp-w300b-emonly.mjs・118 公転窓・h=0.016・同じ抽出器で 🌦️ も測った): 恒星月 27.48289 日(🌦️ 27.32166 日 —— 太陽の有無の差 −0.16123 日)・朔望月の一様換算 29.71903 日(🌦️ 29.53059 日)・近点回転の周期 約 2399 年(🌦️ 8.8500 年 —— 太陽を外すと慣性引きずりだけのごく遅い順行になる。gain 0 では −7367 年の逆行)・平均離心率 0.07530(太陽が無いので t=0 の接触離心率のまま —— 🌦️ は 0.05490)・平均傾斜 5.2888°(太陽が無いので軌道面は回らない —— 🌦️ は 5.1450°)。重心は 354 公転で 8.1×10⁻⁶ 単位(約 0.8 km)動いた(初期の全運動量の丸めの床 —— 推定)。近似の宣言は背景の太陽の方向の固定・周期は恒星月で読む(periodBasis sidereal)。",
       observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、太陽の無い二体では月の近点の向きがほとんど回らないのを見る。重心は原点に留まる(慣性系の画面で歩かない)。視点のスライダーで横から見ると、月の軌道面が xy 面に対して傾いたまま(太陽が無いので軌道面は回らない)なのが見える。",
-      control:"ワンタップの対照は gain 0(慣性引きずりを切った重力だけの二体)。比べる相手は 🌦️(太陽あり —— 同じ地球と月の相対の初期配置・同じ gain)。数は正本 tests/out/emonly-w300b.json。"},
+      control:"ワンタップの対照は引きずり ON(第304便c —— 🌦️ の第303便a の W_bg 3.85583 の移送)。第303便a までの対照は gain 0(慣性引きずりを切った重力だけの二体)。比べる相手は 🌦️(太陽あり —— 同じ地球と月の相対の初期配置・同じ gain)。数は正本 tests/out/emonly-w300b.json。"},
   en:{name:"Earth & Moon only (inertial determinacy, 3D) — the 🌦️ control with the Sun removed",
     obsCard:[
-      {q:"What is placed", model:"From 🌦️: Earth-Moon relative state, masses, radii, spins, the core and W_bg 3.85583 (transferred, wave 303a); Sun removed, barycentre at rest; 3D", obs:"- (a principle sample, outside the calibration population; a control for what the Sun changes)"},
-      {q:"Sidereal month (measured, 118-orbit window)", model:"27.48289 d (h/2 difference 2.5e-6 d) - 🌦️ (with the Sun, same extractor) 27.32166 d; the Sun makes -0.16123 d", obs:"27.321661 d (Chapront 2002 - an input of 🌦️'s initial configuration)"},
-      {q:"Synodic month (uniform conversion, measured)", model:"29.71903 d (the sidereal month converted with the sidereal year 365.256363004 d) - 🌦️ 29.53059 d", obs:"mean synodic month 29.530589 d (IERS rate of the Delaunay argument D)"},
-      {q:"Apsidal cycle (measured, 118-orbit window)", model:"about 2399 yr (h/2 2396 yr; at gain 0 a retrograde -7367 yr) - 🌦️ 8.8500 yr (without the Sun the apse barely turns)", obs:"8.85 yr (main cause: the solar perturbation - this control removes the Sun)"},
-      {q:"Not claimed", model:"W_bg is transferred from 🌦️ (not fitted; not a physical value - baseline audit in wave 303c); no apsidal cycle or synodic month claimed", obs:"-"}],
+      {q:"What is placed", model:"From 🌦️: Earth-Moon relative state, masses, radii, spins, the core, softening 0.0005 and the drag OFF (a copy of 🌦️'s wave-304c declaration); Sun removed, barycentre at rest; 3D two-body (gravity only)", obs:"- (a principle sample, outside the calibration population; a control for what the Sun changes)"},
+      {q:"Sidereal month (measured, 118-orbit window)", model:"27.49031 d (h/2 difference 3.3e-6 d) - 🌦️ (with the Sun, same extractor) 27.31381 d; the Sun makes -0.17650 d", obs:"27.321661 d (Chapront 2002 - an input of 🌦️'s initial configuration)"},
+      {q:"Synodic month (uniform conversion, measured)", model:"29.72771 d (the sidereal month converted with the sidereal year 365.256363004 d) - 🌦️ 29.52142 d", obs:"mean synodic month 29.530589 d (IERS rate of the Delaunay argument D)"},
+      {q:"Apsidal cycle (measured, 118-orbit window)", model:"with the drag off the two-body apse does not turn (the 118-orbit slope is at the numerical-error level; estimate -1059091 yr - no meaning); 🌦️ 118-orbit M1 8.8846 yr, long-window M4 8.8498 yr; drag on (transferred W_bg 3.85583) 1.8e+3 yr", obs:"8.85 yr (main cause: the solar perturbation - this control removes the Sun)"},
+      {q:"Not claimed", model:"the drag is off (a copy of 🌦️'s wave-304c declaration); no apsidal cycle or synodic month claimed", obs:"-"}],
     descStruct:{
-      summary:"WAVE 303a: W_bg 3.85583 and the initial configuration (perigee distance, osculating eccentricity at t=0) of 🌦️ re-matched with semic are copied again (transferred - not called fitted; harness tests/exp-w303a-refit.mjs part T and tests/exp-w300b-emonly.mjs). 🌦️'s W_bg mainly fills the 118-orbit extractor bias and the softening (baseline audit: wave 303c) - not to be read as a physical value. The rest describes the wave-300b book (the gain numbers are the record of that time). THE EARTH-MOON-ONLY 3D CONTROL - 🌦️ WITH THE SUN REMOVED (laws: gravity E4 and the inertial drag; wave 300b; the originator's ruling, report 90 (3): prepare an Earth-Moon-only control with 🌦️'s values; the coordinator's check item R176). From 🌦️ (Sun, Earth and Moon in 3D - the Earth's 3D build) the Earth-Moon relative position and velocity, masses, radii, spins, the Earth's structure core, gain 0.259335, the step, double precision, lambda_PN=0 and geoPN=3 are copied; the Sun is removed and THE EARTH-MOON BARYCENTRE IS RE-PLACED AT THE ORIGIN AT REST (keeping the heliocentric velocity would make the barycentre walk across the inertial-frame screen). The gain is TRANSFERRED from 🌦️'s declaration and not matched here (no fitRecord - not called fitted). Measured (harness tests/exp-w300b-emonly.mjs, 118-orbit window, h=0.016, 🌦️ measured with the same extractor): sidereal month 27.48289 d (🌦️ 27.32166 d - the Sun makes -0.16123 d); synodic month by uniform conversion 29.71903 d (🌦️ 29.53059 d); apsidal period about 2399 yr (🌦️ 8.8500 yr - without the Sun only the inertial drag turns the apse, very slowly and prograde; at gain 0 a retrograde -7367 yr); mean eccentricity 0.07530 (with no Sun it stays at the osculating value of t=0 - 🌦️ 0.05490); mean inclination 5.2888 deg (with no Sun the plane does not turn - 🌦️ 5.1450 deg). The barycentre moved 8.1e-6 units (about 0.8 km) over 354 orbits (the rounding floor of the initial total momentum - an estimate). The approximation declared is the fixed direction of the background Sun, with periods read as sidereal (periodBasis sidereal).",
+      summary:"WAVE 304c (check item R197): rebuilt from 🌦️'s revised baseline (softening 0.0005, e', long-window mean elements, drag off) with the copy rule (tests/exp-w300b-emonly.mjs emOnlyBodies, emOnlyPhysics) - the Earth-Moon two-body run with the drag off (gravity only). Without the Sun the apse does not turn (🌦️'s long-window 8.8498 yr is the solar perturbation). Numbers in tests/out/baseline-w304c.json and tests/out/emonly-w300b.json. The rest describes the book up to wave 303a (numbers are those records). WAVE 303a: W_bg 3.85583 and the initial configuration (perigee distance, osculating eccentricity at t=0) of 🌦️ re-matched with semic are copied again (transferred - not called fitted; harness tests/exp-w303a-refit.mjs part T and tests/exp-w300b-emonly.mjs). 🌦️'s W_bg mainly fills the 118-orbit extractor bias and the softening (baseline audit: wave 303c) - not to be read as a physical value. The rest describes the wave-300b book (the gain numbers are the record of that time). THE EARTH-MOON-ONLY 3D CONTROL - 🌦️ WITH THE SUN REMOVED (laws: gravity E4 and the inertial drag; wave 300b; the originator's ruling, report 90 (3): prepare an Earth-Moon-only control with 🌦️'s values; the coordinator's check item R176). From 🌦️ (Sun, Earth and Moon in 3D - the Earth's 3D build) the Earth-Moon relative position and velocity, masses, radii, spins, the Earth's structure core, gain 0.259335, the step, double precision, lambda_PN=0 and geoPN=3 are copied; the Sun is removed and THE EARTH-MOON BARYCENTRE IS RE-PLACED AT THE ORIGIN AT REST (keeping the heliocentric velocity would make the barycentre walk across the inertial-frame screen). The gain is TRANSFERRED from 🌦️'s declaration and not matched here (no fitRecord - not called fitted). Measured (harness tests/exp-w300b-emonly.mjs, 118-orbit window, h=0.016, 🌦️ measured with the same extractor): sidereal month 27.48289 d (🌦️ 27.32166 d - the Sun makes -0.16123 d); synodic month by uniform conversion 29.71903 d (🌦️ 29.53059 d); apsidal period about 2399 yr (🌦️ 8.8500 yr - without the Sun only the inertial drag turns the apse, very slowly and prograde; at gain 0 a retrograde -7367 yr); mean eccentricity 0.07530 (with no Sun it stays at the osculating value of t=0 - 🌦️ 0.05490); mean inclination 5.2888 deg (with no Sun the plane does not turn - 🌦️ 5.1450 deg). The barycentre moved 8.1e-6 units (about 0.8 km) over 354 orbits (the rounding floor of the initial total momentum - an estimate). The approximation declared is the fixed direction of the background Sun, with periods read as sidereal (periodBasis sidereal).",
       observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to see that without the Sun the Moon's apse barely turns. The barycentre stays at the origin (it does not walk across the inertial-frame screen). Turn the view slider to look side-on: the lunar orbital plane stays tilted to the xy plane (with no Sun, the plane does not turn).",
-      control:"The one-tap control is gain 0 (the gravity-only two-body run without the inertial drag). Compare with 🌦️ (with the Sun - the same Earth-Moon relative initial configuration and the same gain). The numbers are in tests/out/emonly-w300b.json."},
+      control:"The one-tap control is the drag ON (wave 304c - the wave-303a W_bg 3.85583 of 🌦️ transferred). Up to wave 303a the control was gain 0 (the gravity-only two-body run without the inertial drag). Compare with 🌦️ (with the Sun - the same Earth-Moon relative initial configuration and the same gain). The numbers are in tests/out/emonly-w300b.json."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c0=29979.2458","the Earth's and the Moon's masses, radii and rotations (as in 🌦️)",
         "the Earth-Moon relative position and velocity of 🌦️ (matched there to the mean eccentricity 0.0549, the sidereal month 27.321661 d and the mean inclination 5.145 deg in the presence of the Sun)"],
       fixedConventions:["per-sample scale exponents (1 unit = 10^8 m / 10^4 s / 10^27 kg)","physics.coord 3d (right-handed; the xy plane is 🌦️'s ecliptic)","geoPN=3, kFrame=0, lambda_PN=0",
-        "inertial drag relativeDrag:{law:\"inertial\", Wbg:3.85583, eps:0.01, history:\"positions\", pairs:[[0,1]]} (transferred from 🌦️; translation only - the wave-303a refit value)","the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in 🌦️); the Earth-Moon barycentre at the origin with zero total momentum",
+        "drag OFF relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, history:\"positions\", pairs:[[0,1]]} (copied from 🌦️'s wave-304c declaration)","the Earth's structure core dragCore:{massFrac:0.325, radius:0.0348} (as in 🌦️); the Earth-Moon barycentre at the origin with zero total momentum",
         "approximation: the dominant body's (the Sun's) direction held fixed - background dominant-direction-fixed, periodBasis sidereal"],
       fitted:[],
       derived:["kappa=G/c0^2=7.4258e-9","the barycentric positions and velocities (the relative vector split by the mass ratio)"],
-      numerical:["softening eps=0.01 = 10^6 m (gravity and the drag kernel)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
+      numerical:["softening eps=0.0005 = 5x10^4 m (gravity and the drag kernel - physics.softeningFloor 0.0005; wave 304c)","time multiplier timeScale=1","display magnification dispMag=10 (display only)"]}},
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=29979.2458","地球・月の実質量・実半径・実自転(🌦️ のまま)",
       "🌦️ の地球–月の相対位置と相対速度(太陽のある 🌦️ で平均離心率 0.0549・恒星月 27.321661 日・平均軌道傾斜 5.145° に合わせた値)"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","physics.coord:\"3d\"(右手系・xy 面は 🌦️ の黄道)","geoPN=3・kFrame=0・λ_PN=0",
-      "慣性引きずり relativeDrag:{law:\"inertial\", Wbg:3.85583, eps:0.01, history:\"positions\", pairs:[[0,1]]}(🌦️ から移送・並進だけ —— 第303便a の再フィットの値)","地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌦️ のまま)・地球–月の重心は原点・全運動量 0",
+      "引きずり OFF relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, history:\"positions\", pairs:[[0,1]]}(🌦️ の第304便c の宣言の写し)","地球の構造核 dragCore:{massFrac:0.325, radius:0.0348}(🌦️ のまま)・地球–月の重心は原点・全運動量 0",
       "近似: 直属の支配天体(太陽)の方向を固定 —— background dominant-direction-fixed・periodBasis sidereal"],
     fitted:[],
     derived:["κ=G/c₀²=7.4258×10⁻⁹","重心系の位置と速度(相対ベクトルを質量比で分けた値)"],
-    numerical:["ソフトニング ε=0.01 = 10⁶m(重力と引きずりの核)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
+    numerical:["ソフトニング ε=0.0005 = 5×10⁴m(重力と引きずりの核 —— physics.softeningFloor 0.0005・第304便c)","時間倍率 timeScale=1","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["geoPN","dispMag"],   // gain・初期配置は主役スライダーにしない
   camera:{scale:10}, world:{boundary:"none",size:0},
   timeRef:{basis:"orbit", pRef:236.059488, pair:[0,1], def:"revolution", source:"観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)—— 🌦️ と同じ", stepsPerOrbit:360},
   physics:{coord:"3d", G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
     cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
-    relativeDrag:{law:"inertial", Wbg:3.85583, eps:0.01, history:"positions", pairs:[[0,1]]}},
+    geoPN:3, lambdaPN:0, pnAlpha:1.5, radiusScale:1, softening:0.0005, softeningFloor:0.0005, timeScale:1, stepDt:0.655721, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.0005, history:"positions", pairs:[[0,1]]}},
   bodies:[   // 🌦️ の地球→月の相対ベクトル(位置・速度)を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(器 tests/exp-w300b-emonly.mjs の emOnlyBodies)。並び: 0=地球, 1=月
-    {type:"single", m:0.0059724, radius:0.06371, x:-0.043397429431381265, y:0, z:0, vx:0, vy:-0.001333509141874856, vz:-0.00012344416784934998, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
-    {type:"single", m:7.346e-05, radius:0.0174, x:3.5282712705687644, y:0, z:0, vx:0, vy:0.10841614482621004, vz:0.01003618224970675, spin:0.026617, pinned:false}
+    {type:"single", m:0.0059724, radius:0.06371, x:-0.043359964692864156, y:0, z:0, vx:0, vy:-0.0013346762519435148, vz:-0.00012359637737101935, spin:0.729212, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:0.0348}},
+    {type:"single", m:7.346e-05, radius:0.0174, x:3.5252253353071312, y:0, z:0, vx:0, vy:0.10851103249533688, vz:0.010048557095163025, spin:0.026617, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
@@ -23400,8 +23620,8 @@ const SAMPLE_STATUS={
 "earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "earthMoonSunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る","objective":"met","state":"慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun","state":"Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure the lunar apse with the Sun. Met: Earth-Moon drag pair only; 118-orbit apse 4.262 yr (gain 0: 8.778 yr); record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し太陽摂動の下で月の近点周期を測る。達・慣性の対は地球と月だけ・118 公転窓 4.262 年(gain 0 は 8.778 年)・窓で動く・値の記録だけ。較正対象外。"},
 "earthMoonSunInertialFit":{"purpose":"係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する","objective":"partial","state":"gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/fit-w297b.json"],"en":{"purpose":"parent copy with mean-element initial state; search the gain toward 8.85 yr","state":"gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%","mismatch":null,"outlook":null,"brief":"parent copy with mean-element initial state; search the gain toward 8.85 yr. Partial: gain 0: 8.787 yr (118 orbits); not yet reached; 3-D ref: tilt +1.13%. Out of calibration scope."},"brief":"係数移送版の初期配置を平均要素に直し 8.85 年へ gain を探索する。部分・gain 0 で 118 公転窓 8.787 年・この探索範囲では未達・3 次元の参照で傾斜 +1.13%。較正対象外。"},
-"earthMoonSunInertial3d":{"purpose":"地球の三次元版 —— 月の軌道傾斜を入れて 8.85 年へ W_bg を合わせる","objective":"met","state":"W_bg 3.85583 で 118 窓 8.8500 年(物理の量と読まない —— 第303便c)・354 窓 8.8261 年","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/refit-w303a.json","tests/out/moon3d-w298c.json"],"en":{"purpose":"The Earth's 3D build with the lunar inclination; W_bg to 8.85 yr","state":"W_bg 3.85583: 8.8500 yr over 118 orbits (not a physical value, wave 303c); 354 orbits 8.8261 yr","mismatch":null,"outlook":null,"brief":"The Earth's 3D build with the lunar inclination; W_bg to 8.85 yr. Met: W_bg 3.85583: 8.8500 yr over 118 orbits (not a physical value, wave 303c); 354 orbits 8.8261 yr. Out of calibration scope."},"brief":"地球の三次元版 —— 月の軌道傾斜を入れて 8.85 年へ W_bg を合わせる。達・W_bg 3.85583 で 118 窓 8.8500 年(物理の量と読まない —— 第303便c)・354 窓 8.8261 年。較正対象外。"},
-"earthMoonOnly3d":{"purpose":"🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る","objective":"met","state":"恒星月 27.4829 日・朔望月(一様換算)29.7190 日・近点回転 約 2399 年(🌦️ 8.8500 年)・W_bg は移送","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/emonly-w300b.json"],"en":{"purpose":"Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes","state":"sidereal 27.4829 d; synodic (uniform) 29.7190 d; apsides ~2399 yr (🌦️ 8.8500 yr); W_bg transferred","mismatch":null,"outlook":null,"brief":"Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes. Met: sidereal 27.4829 d; synodic (uniform) 29.7190 d; apsides ~2399 yr (🌦️ 8.8500 yr); W_bg transferred. Out of calibration scope."},"brief":"🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る。達・恒星月 27.4829 日・朔望月(一様換算)29.7190 日・近点回転 約 2399 年(🌦️ 8.8500 年)・W_bg は移送。較正対象外。"},
+"earthMoonSunInertial3d":{"purpose":"地球の三次元版 —— 月の軌道傾斜と e′ を入れ、引きずり OFF の基線を長窓で確かめる","objective":"met","state":"引きずり OFF で長窓 M4 8.8498 年(B1 −0.0006 —— 許容の内・第304便c)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/baseline-w304c.json","tests/out/refit-w303a.json"],"en":{"purpose":"The Earth's 3D build (lunar inclination, e'); the drag-off baseline over the long window","state":"drag off: long-window M4 8.8498 yr (B1 -0.0006; within tolerance, wave 304c)","mismatch":null,"outlook":null,"brief":"The Earth's 3D build (lunar inclination, e'); the drag-off baseline over the long window. Met: drag off: long-window M4 8.8498 yr (B1 -0.0006; within tolerance, wave 304c). Out of calibration scope."},"brief":"地球の三次元版 —— 月の軌道傾斜と e′ を入れ、引きずり OFF の基線を長窓で確かめる。達・引きずり OFF で長窓 M4 8.8498 年(B1 −0.0006 —— 許容の内・第304便c)。較正対象外。"},
+"earthMoonOnly3d":{"purpose":"🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る","objective":"met","state":"恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体(近点は回らない)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/emonly-w300b.json","tests/out/baseline-w304c.json"],"en":{"purpose":"Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes","state":"sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body (the apse does not turn)","mismatch":null,"outlook":null,"brief":"Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes. Met: sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body (the apse does not turn). Out of calibration scope."},"brief":"🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る。達・恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体(近点は回らない)。較正対象外。"},
 "mercurySunInertial":{"purpose":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る","objective":"met","state":"近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial3-w295c.json"],"en":{"purpose":"Carry 🌛's gain in SI units; measure Mercury's apse and period","state":"apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only","mismatch":null,"outlook":null,"brief":"Carry 🌛's gain in SI units; measure Mercury's apse and period. Met: apse 0.3279 deg/orbit; period -0.088%; no 1PN; record only. Out of calibration scope."},"brief":"🌛 の gain を同じ SI 係数で移送し水星の近点率と周期の応答を測る。達・近点 0.3279°/公転・周期 −0.088%・1PN なし・親の速度を力学速度に与えた・値の記録だけ。較正対象外。"},
 "mercurySunInertialFit":{"purpose":"係数移送版の写しで W_bg だけを近点率(43.0″/世紀)に合わせる(semic)","objective":"met","state":"W_bg 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/refit-w303a.json","tests/out/fit-w297b.json"],"en":{"purpose":"parent copy; only W_bg matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic)","state":"W_bg 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched","mismatch":null,"outlook":null,"brief":"parent copy; only W_bg matched to the apsidal rate (43.0 arcsec/cy vs drag off; semic). Met: W_bg 221.1206; residual 1.79e-5, h/2 1.97e-4 (fitted); period, e not matched. Out of calibration scope."},"brief":"係数移送版の写しで W_bg だけを近点率(43.0″/世紀)に合わせる(semic)。達・W_bg 221.1206・残差 1.79e-5・h/2 差 1.97e-4・周期と離心率は未調整・核は同定不可。較正対象外。"},
 "mercurySunInertial3d":{"purpose":"太陽と水星の三次元で W_bg を近点率の差 43.0″/世紀へ合わせる(semic)","objective":"met","state":"差 43.00002(h/2 42.99999)・W_bg 221.1204・A1 −0.0020±0.0030・fitted","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/refit-w303a.json","tests/out/planets3d-w299c.json"],"en":{"purpose":"Sun and Mercury in 3D; W_bg matched to the 43.0\"/cy apsidal difference (semic, no G_loc)","state":"diff 43.00002 (h/2 42.99999)\"/cy; W_bg 221.1204; A1 -0.0020+/-0.0030; fitted","mismatch":null,"outlook":null,"brief":"Sun and Mercury in 3D; W_bg matched to the 43.0\"/cy apsidal difference (semic, no G_loc). Met: diff 43.00002 (h/2 42.99999)\"/cy; W_bg 221.1204; A1 -0.0020+/-0.0030; fitted. Out of calibration scope."},"brief":"太陽と水星の三次元で W_bg を近点率の差 43.0″/世紀へ合わせる(semic)。達・差 43.00002(h/2 42.99999)・W_bg 221.1204・A1 −0.0020±0.0030・fitted。較正対象外。"},
@@ -25755,6 +25975,8 @@ function validatePreset(obj){
     if(p.physics[GLOC_KEY]){ const glx=gLocCrossCheck(p.physics[GLOC_KEY], p.physics, p.sampleClass); if(glx) bad(glx); }
     // 第303便b(R192): 源の慣性決定力 r⁻² の宣言の突き合わせ(lambdaRs は c₀・G が要る —— 未宣言は null)
     if(p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY]){ const i2x=inertialR2CrossCheck(p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY], p.physics); if(i2x) bad(i2x); }
+    // 第304便a(R195): 引きずり核の殻の自己の項は殻を宣言した天体が要る(未宣言は null —— 受理・正準形は従来どおり)
+    if(p.physics[REL_DRAG_KEY] && (p.physics[REL_DRAG_KEY].shellSelf!==undefined || (p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_I2_KEY].self==="shell"))){ const shx=dragShellCrossCheck(p.physics, p.bodies); if(shx) bad(shx); }
     // 第292便d(R140): 明示潮汐の受け手と足さない理由(群・maxN・形状トイ・光学迷彩矮星)—— 拒否はしない(警告して足さない)
     if(p.physics[TIDE_KEY] || (Array.isArray(p.bodies) && p.bodies.some(b=>b && b.tide))){
       const tdx=tideCrossCheck(p.physics, p.bodies, p);
@@ -27691,7 +27913,8 @@ function makeSim(){
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
-        if(b.dragCore && typeof b.dragCore==="object") o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
+        if(b.dragCore && typeof b.dragCore==="object" && b.dragCore[DRAG_SHELL_KEY]===undefined) o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
+        else if(b.dragCore && typeof b.dragCore==="object") o.dragShell={eta:b.dragCore[DRAG_SHELL_KEY], R:b.radius};   // 第304便a: 引きずり核の殻(R_d = η·R —— 体積の核とは別の配列)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.spinDipole) o.spinDipole=b.spinDipole;   // 第246便: 観測 Q の転写(validate 済み・spinSpin の源だけ)
         if(b.spinAxis) o.spinAxis=b.spinAxis;   // 第288便e: 自転軸の表示専用の宣言(validate 済み —— S.spinAxD にだけ写す)
@@ -27983,6 +28206,7 @@ function makeSim(){
       S.pnOv[i]=o.pnSrc?1:0;   // 第113便: 1PN源の明示フラグ(single の pnSource:true)
       if(o.pnOff){ if(!S.pnOff || S.pnOff.length!==P.length) S.pnOff=new Uint8Array(P.length); S.pnOff[i]=1; }   // 第291便b: pnSource:false(宣言が無ければ null のまま)
       if(o.dragCore){ if(!S.dragCoreD) S.dragCoreD=new Array(P.length).fill(null); S.dragCoreD[i]=o.dragCore; }   // 第292便c: 構造核の宣言(無ければ null のまま)
+      if(o.dragShell){ if(!S.dragShellD) S.dragShellD=new Array(P.length).fill(null); S.dragShellD[i]=o.dragShell; }   // 第304便a: 引きずり核の殻の宣言(宣言した本だけ鍵を作る —— 前の本の残りは build の先頭の SIM_BUILD_RESET が消す)
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -40239,7 +40463,8 @@ const INERTIAL_DRAG_CK_LAST=["inertialDragWhy","inertialDragBound","inertialDrag
   "inertialDragDU","inertialDragSolveRes","inertialDragSolveMethod","inertialDragUSumMax","inertialDragUSolveMax","inertialDragSolveFail","inertialDragSolveIters",
   "inertialDragSolveItersMax","inertialDragSolveRestarts","inertialDragSpinSrc","inertialDragSpinN","inertialDragSpinSkip","inertialDragSpinMax",
   "inertialDragNormN","inertialDragNormX","inertialDragNormXMax",
-  "inertialDragI2N","inertialDragI2X","inertialDragI2XMax","inertialDragI2Xi","inertialDragI2XiMax","inertialDragI2SelfSkip"];   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
+  "inertialDragI2N","inertialDragI2X","inertialDragI2XMax","inertialDragI2Xi","inertialDragI2XiMax","inertialDragI2SelfSkip",
+  "inertialDragShellN","inertialDragShellX","inertialDragShellXMax","inertialDragShellXi","inertialDragShellXiMax","inertialDragShellSkip"];   // 第304便a: 引きずり核の殻の帳簿(殻を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
 const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ",
   "_rdWS","rotAIn","rotADr",
   "_rdQX","_rdQY","_rdQZ"];   // 第302便d: semic の本の核が使った位置(ドリフトの前の写し —— 受動プローブが同じ位置で読む。次の步の核の前に書き直す)   // 第301便c(R181): 傾きを持たない受け手の引きずり軸回転・慣性軸回転の角・引きずり軸回転の角(軸引きずりを宣言した本だけ —— 同じ 1 組の写しで戻す)
@@ -40251,6 +40476,7 @@ function inertialDragCkSnap(S){
   if(S.inertialDragSolveFailAt!==undefined) o.failAt=S.inertialDragSolveFailAt? Object.assign({},S.inertialDragSolveFailAt) : null;
   if(S.inertialDragDL3) o.dl3=S.inertialDragDL3.slice();
   if(S.inertialDrag3AxL) o.axL=S.inertialDrag3AxL.slice();
+  if(S._dragShellRd!==undefined) o.shell={Rd:S._dragShellRd? S._dragShellRd.slice() : null, ep:S._dragShellEp, info:S._dragShell? JSON.parse(JSON.stringify(S._dragShell)) : null};   // 第304便a: 殻の半径の表・世代の印・捨てた記録(殻を宣言した本だけ)
   return o;
 }
 function inertialDragCkRestore(S,o){
@@ -40260,6 +40486,7 @@ function inertialDragCkRestore(S,o){
   if("failAt" in o) S.inertialDragSolveFailAt=o.failAt? Object.assign({},o.failAt) : null;
   if(o.dl3) S.inertialDragDL3=o.dl3.slice();
   if(o.axL) S.inertialDrag3AxL=o.axL.slice();
+  if(o.shell){ S._dragShellRd=o.shell.Rd? o.shell.Rd.slice() : null; S._dragShellEp=o.shell.ep; S._dragShell=o.shell.info? JSON.parse(JSON.stringify(o.shell.info)) : null; }   // 第304便a
 }
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
@@ -40352,6 +40579,7 @@ const SIM_BUILD_RESET=Object.freeze([
   {feature:"testParticle", ja:"試験粒子の控え", keys:["_tpSnap"]},
   {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)・軸回転の分解(慣性軸回転の角・引きずり軸回転の角 —— 軸引きずりを宣言した本だけ)", keys:["rotAIn","rotADr"], re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
   {feature:"gLoc", ja:"局所重力 G_loc の宣言・帳簿・作業(第302便b —— 宣言した三次元の本だけ)", keys:["_gLoc","_glPsi","_glAx","_glAy","_glAz"], re:/^gLoc[A-Z]/},
+  {feature:"dragShell", ja:"引きずり核の殻の宣言・半径の表・世代の印・捨てた記録(第304便a —— 殻を宣言した本だけ。帳簿 inertialDragShell* は inertialDrag の正規表現が覆う)", keys:["dragShellD","_dragShellRd","_dragShell","_dragShellEp"]},
   {feature:"coord3d", ja:"三次元の軸の宣言値・歳差・規定運動の帳簿(二次元の本へ持ち越さない)", keys:["sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","spin3PrescL","spin3PrescN"]},
   {feature:"shapeToy3", ja:"三次元の参照模型の帳簿と作業(SHAPE_TOY3_SC・控え)", keys:["_st3P","_st3C","_st3V","cfVzS"], list:"SHAPE_TOY3_SC"},
   {feature:"shapeToy", ja:"参照模型の潜在・Core 力学・渦巻の状態と乱数(updateRadii の遅延初期化を新しく組んだ sim と同じ順・同じ乱数にする)", keys:["_stRng","_spRng","_stG","_spG","_stSeed"], list:"SHAPE_TOY_CK_ARRS"}]);
@@ -46263,9 +46491,10 @@ function updateBodyEdit(){
     if(vis.dragCore){
       if(beDcSel!==i){ beDcSel=i; beDcMsg=""; }
       const d=(S.dragCoreD && S.dragCoreD[i]) || null;
-      $("#beDcOn").checked=!!d; $("#beDcEdit").style.display=d? "" : "none";
+      const sh=(S.dragShellD && S.dragShellD[i]) || null;   // 第304便a: 引きずり核の殻(読み取りだけ —— 体積の核とは排他なので ON の欄を止める)
+      $("#beDcOn").checked=!!d; $("#beDcOn").disabled=!!sh; $("#beDcEdit").style.display=d? "" : "none";
       if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt(d.radius); }
-      $("#beDcNote").textContent=beDcMsg || T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null);
+      $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null));
     } }
   { const box=$("#beSaBox"); box.style.display=vis.spinAxis3? "" : "none";
     if(vis.spinAxis3){
@@ -54913,6 +55142,7 @@ const DRAG_CORE_EDIT_DEFAULT=Object.freeze({massFrac:0.5, radiusFrac:0.5});
 function dragCoreEdit(S,i,cfg){
   if(!S || !(i>=0 && i<S.n)) return {ok:false, err:"index"};
   const c=cfg||{}, cur=(S.dragCoreD && S.dragCoreD[i])||null;
+  if(S.dragShellD && S.dragShellD[i] && c.on!==false) return {ok:false, err:'この粒子は引きずり核の殻 dragCore:{shellRatio} を宣言している —— 体積の構造核とは排他(第304便a)'};   // 第304便a
   if(c.on===false){
     if(cur){ S.dragCoreD[i]=null; if(!S.dragCoreD.some(Boolean)) S.dragCoreD=null; dragCoreInit(S); }
     return {ok:true, dragCore:null};
@@ -54961,6 +55191,8 @@ function inertialDragInit(S){
   if(rd && rd.law==="inertial" && rd[REL_DRAG_I2_KEY]){ S.inertialDragI2N=0; S.inertialDragI2X=0; S.inertialDragI2XMax=0; S.inertialDragI2Xi=0; S.inertialDragI2XiMax=0; S.inertialDragI2SelfSkip=0; }   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ —— 他の本には鍵を作らない)
   if(relDragStepOrderOf(rd)==="semic"){ S.inertialDragE0=null; S.inertialDragSemicMiss=0; S._rdQOk=false; }   // 第302便d: semic の本だけ(E0 は最初の步の核の前に取る —— 帳簿 W と同じ 0 から)   // 第301便a: 走りが変わる本(背景の宣言 ∨ 軸引きずり)だけの帳簿(他の本には鍵を作らない)
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
+  if(S.dragShellD && rd && rd.law==="inertial"){ dragShellInit(S);   // 第304便a: 引きずり核の殻の半径の表と帳簿(殻を宣言した本だけ —— 他の本には鍵を作らない)
+    S.inertialDragShellN=0; S.inertialDragShellX=0; S.inertialDragShellXMax=0; S.inertialDragShellXi=0; S.inertialDragShellXiMax=0; S.inertialDragShellSkip=0; }
   if(S.coord3d===true) inertialDrag3LedgerInit(S);   // 第298便c: 三次元の本だけ(二次元の本には鍵を作らない)
 }
 // ===== 第302便d(統括の検証項目 R188・決断事項 AN303 ①②⑤): **semic(半陰的の結合)** —— 式と契約は REL_DRAG_STEP_ORDERS の注記・docs/PHYSICS.md〔第302便d〕=====
@@ -55194,6 +55426,7 @@ function inertialDragComposeBuild(S,n,CT,hist,C,e2,KX,KY){   // 第302便d: KX/K
   const X=KX||S.x, Y=KY||S.y, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
   const vel=(relDragSolveFromOf(S.relDrag)==="velocity");   // 第293便g: 未宣言は "velocity"
   const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY;
+  const SH=S._dragShellRd||null, SE=SH? ((S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0)) : 0;   // 第304便a: 殻の源の半径の表(殻の無い本は null —— 下の核の分岐の外を 1 命令も変えない)
   const UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg;
   if(!S._rdA || S._rdA.length<n*n) S._rdA=new Float64Array(n*n);
   const A=S._rdA;
@@ -55210,7 +55443,7 @@ function inertialDragComposeBuild(S,n,CT,hist,C,e2,KX,KY){   // 第302便d: KX/K
       const dx=X[j]-X[i], dy=Y[j]-Y[i], r2=dx*dx+dy*dy;
       if(!(r2>0)) return {coincident:true, degMax};        // 一致点は拒否(ε で埋めない)
       const r=Math.sqrt(r2), s=r2+e2, Tj=CT? CT[j] : null;
-      const kv=Tj? dragCoreLookup(Tj,r) : null;              // 構造核の表(表の外・表の無い源は点源 K_ε)
+      const kv=Tj? dragCoreLookup(Tj,r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],SE) : null;   // 構造核の表(表の外・表の無い源は点源 K_ε)・第304便a: 殻の源は殻の核
       const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 現行の核と同じ式・同じ順序
       A[row+j]=a;
       if(hist){ ux+=a*(WX[j]-WX[i]); uy+=a*(WY[j]-WY[i]); }
@@ -55358,14 +55591,15 @@ function dfmInertialDragStep(S,dt){
   // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
   let CT=S._dragCoreT;
   if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
+  if(S._dragShellRd){ if(S._dragShellEp===null) S._dragShellEp=ep; else if(S._dragShellEp!==ep){ S._dragShellRd=null; if(S._dragShell) S._dragShell.dropped={t, epoch:ep}; } }   // 第304便a: 粒子が入れ替わったら殻を捨てて点の核へ(体積の核と同じ規約)
   const comp=(relDragComposeOf(rd)==="solve");   // 第293便e: 合成則 solve(第293便g: 既定 —— compose:"sum" を明示した本だけ下の従来の 2 つのループ)
   // 第302便d(R188): semic(既定)は核の前の写しで核を評価する(写しが無い・粒子数が違う步は分割の位置で評価して数える —— 黙って混ぜない)
   const ord=relDragStepOrderOf(rd), semic=(ord==="semic" && S._rdQOk===true && S._rdQN===n);
   if(ord==="semic"){ if(!semic && hist) S.inertialDragSemicMiss=(S.inertialDragSemicMiss||0)+1; S._rdQOk=false; }
   const KX=semic? S._rdQX : X, KY=semic? S._rdQY : Y;
-  let i2On=false;   // 第303便b(R192): 源の慣性決定力 r⁻² の宣言(合成則 solve の行が張れた步だけ —— 未宣言の本は偽のまま)
+  let i2On=false, shOn=false;   // 第303便b(R192): 源の慣性決定力 r⁻² の宣言(合成則 solve の行が張れた步だけ —— 未宣言の本は偽のまま)・第304便a: 引きずり核の殻(同じ)
   if(comp){ const q=semic? inertialDragComposeBuild(S,n,CT,hist,C,e2,KX,KY) : inertialDragComposeBuild(S,n,CT,hist,C,e2); coincident=q.coincident; degMax=q.degMax;
-    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } else if(rd[REL_DRAG_I2_KEY]) i2On=true; }
+    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } else { if(rd[REL_DRAG_I2_KEY]) i2On=true; if(S._dragShellRd) shOn=true; } }
   else if(CT) for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
@@ -55406,8 +55640,10 @@ function dfmInertialDragStep(S,dt){
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
   if(hist && comp && rd.spinSource===REL_DRAG_SPIN_SOURCES[0]){ if(semic) inertialDragSpinTerm(S,n,C,eps,KX,KY); else inertialDragSpinTerm(S,n,C,eps); }   // 第296便c: 自転する源の表裏核を s に足す(宣言した本だけ)・第302便d: semic は核と同じ位置
   const i2q=(i2On && !coincident)? inertialDragI2Apply(S,n,C,eps,KX,KY,null) : null;   // 第303便b(R192): 行の対角に x_I = c Σ w_I(宣言した本だけ)
+  const shq=(shOn && !coincident)? inertialDragShellApply(S,n,C,eps,KX,KY,null) : null;   // 第304便a(R195): 行の対角に殻の自己の項と inertialR2 の殻の補正(殻を宣言した本だけ —— I2 の後・正規化の前)
   if(!coincident){ const nq=inertialDragNormApply(S,n,comp,false); if(nq) degMax=nq.degMax; }   // 第301便a: 背景を宣言した本だけ行の対角を 1+x(既定の本は素通り —— solve の 1+deg がすでに総和で割っている)
   if(i2q) degMax=i2q.xiMax;   // 第303便b: 上界は 2 max ξ(宣言した本だけ)
+  if(shq) degMax=shq.xiMax;   // 第304便a: 上界は 2 max ξ(ξ = Σw/(W_bg + Σw_I + w_self) —— 殻を宣言した本だけ)
   const bound=2*degMax;
   S.inertialDragBound=bound;
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
@@ -55458,6 +55694,7 @@ function inertialDragState(S){
     ...((S.coord3d===true)? {spin3:inertialDrag3SpinState(S)} : null),
     ...(relDragNormChanges(S.relDrag)? {norm:inertialDragNormState(S)} : null),
     ...(S.relDrag[REL_DRAG_I2_KEY]? {inertialR2:inertialR2State(S)} : null),   // 第303便b: 宣言した本だけ(他の本の読み口は 1 鍵も変わらない)
+    ...((S._dragShellRd!==undefined)? {shell:inertialDragShellState(S)} : null),   // 第304便a: 引きずり核の殻を宣言した本だけ(他の本の読み口は 1 鍵も変わらない)
     ...((relDragStepOrderOf(S.relDrag)==="semic")? {stepOrder:"semic", ledger:inertialDragLedgerOf(S)} : null) };   // 第302便d: semic の本だけ(split を明示した本・compose:"sum" の本の読み口は 1 鍵も変わらない)   // 第301便a: 走りが変わる本だけ(他の本の読み口は 1 鍵も変わらない —— W_bg は relDragBackgroundOf で引く)   // 第298便c: 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない) / 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
 }
 // 第301便a: 正規化の読み口(状態は 1 bit も動かさない)—— W_bg・C_d・直近の步と累計の最大の Σw/W_bg
@@ -55737,14 +55974,15 @@ function dfmInertialDragStep3(S,dt){
   // 第298便c: 構造核(dragCore)の表 —— 二次元と同じ規約(粒子が入れ替わったら表を捨てて点源へ)。表は r だけの関数なので三次元の距離で引く
   let CT=S._dragCoreT;
   if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
+  if(S._dragShellRd){ if(S._dragShellEp===null) S._dragShellEp=ep; else if(S._dragShellEp!==ep){ S._dragShellRd=null; if(S._dragShell) S._dragShell.dropped={t, epoch:ep}; } }   // 第304便a: 二次元と同じ規約
   const comp=(relDragComposeOf(rd)==="solve");
   // 第302便d(R188): semic(既定)は核の前の写しで核・回転引きずり・軸引きずりの角速度を評価する(二次元と同じ規約)
   const ord=relDragStepOrderOf(rd), semic=(ord==="semic" && S._rdQOk===true && S._rdQN===n && !!S._rdQZ);
   if(ord==="semic"){ if(!semic && hist) S.inertialDragSemicMiss=(S.inertialDragSemicMiss||0)+1; S._rdQOk=false; }
   const KX=semic? S._rdQX : X, KY=semic? S._rdQY : Y, KZ=semic? S._rdQZ : Z;
-  let i2On=false;   // 第303便b(R192): 源の慣性決定力 r⁻² の宣言(合成則 solve の行が張れた步だけ —— 未宣言の本は偽のまま)
+  let i2On=false, shOn=false;   // 第303便b(R192): 源の慣性決定力 r⁻² の宣言(合成則 solve の行が張れた步だけ —— 未宣言の本は偽のまま)・第304便a: 引きずり核の殻(同じ)
   if(comp){ const q=semic? dfmInertialDrag3Build(S,n,hist,C,e2,CT,KX,KY,KZ) : dfmInertialDrag3Build(S,n,hist,C,e2,CT); coincident=q.coincident; degMax=q.degMax;
-    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } else if(rd[REL_DRAG_I2_KEY]) i2On=true; }
+    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } else { if(rd[REL_DRAG_I2_KEY]) i2On=true; if(S._dragShellRd) shOn=true; } }
   else for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, uz=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
@@ -55774,8 +56012,10 @@ function dfmInertialDragStep3(S,dt){
   if(sd3 && sd3.rot){ if(semic) inertialDrag3RotTerm(S,n,C,eps,KX,KY,KZ); else inertialDrag3RotTerm(S,n,C,eps); }
   if(sd3 && sd3.axial){ if(semic) inertialDrag3AxialOmega(S,n,sd3.kappa,eps,KX,KY,KZ); else inertialDrag3AxialOmega(S,n,sd3.kappa,eps); }
   const i2q=(i2On && !coincident)? inertialDragI2Apply(S,n,C,eps,KX,KY,KZ) : null;   // 第303便b(R192): 行の対角に x_I = c Σ w_I(宣言した本だけ —— 正規化の前: 軸引きずりの ν も同じ対角から)
+  const shq=(shOn && !coincident)? inertialDragShellApply(S,n,C,eps,KX,KY,KZ) : null;   // 第304便a(R195): 行の対角に殻の自己の項と inertialR2 の殻の補正(殻を宣言した本だけ —— I2 の後・正規化の前)
   if(!coincident){ const nq=inertialDragNormApply(S,n,comp,!!(sd3 && sd3.axial)); if(nq) degMax=nq.degMax; }   // 第301便a: 軸引きずりの ω に ν・背景を宣言した本は行の対角を 1+x(並進・回転は solve の 1+deg で総和で割られている)
   if(i2q) degMax=i2q.xiMax;   // 第303便b: 上界は 2 max ξ(ξ = Σw/(W_bg + Σw_I) —— 宣言した本だけ)
+  if(shq) degMax=shq.xiMax;   // 第304便a: 上界は 2 max ξ(殻を宣言した本だけ)
   const bound=2*degMax;
   S.inertialDragBound=bound;
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
@@ -55826,6 +56066,7 @@ function dfmInertialDrag3Build(S,n,hist,C,e2,CT,KX,KY,KZ){   // 第302便d: KX/K
   const X=KX||S.x, Y=KY||S.y, Z=KZ||S.z, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
   const vel=(relDragSolveFromOf(S.relDrag)==="velocity");
   const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY, WZ=vel? S.vz : S._rdVZ;
+  const SH=S._dragShellRd||null, SE=SH? ((S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0)) : 0;   // 第304便a: 殻の源の半径の表(殻の無い本は null)
   const UX=S._rdUX, UY=S._rdUY, UZ=S._rdUZ, DG=S._rdDeg;
   if(!S._rdA || S._rdA.length<n*n) S._rdA=new Float64Array(n*n);
   const A=S._rdA;
@@ -55842,7 +56083,7 @@ function dfmInertialDrag3Build(S,n,hist,C,e2,CT,KX,KY,KZ){   // 第302便d: KX/K
       const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z[j]-Z[i], r2=dx*dx+dy*dy+dz*dz;
       if(!(r2>0)) return {coincident:true, degMax};
       const r=Math.sqrt(r2), s=r2+e2, Tj=CT? CT[j] : null;
-      const kv=Tj? dragCoreLookup(Tj,r) : null;
+      const kv=Tj? dragCoreLookup(Tj,r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],SE) : null;   // 第304便a: 殻の源は殻の核
       const a=C*mj*((kv===null)? (r/(s*s)) : kv);
       A[row+j]=a;
       if(hist){ ux+=a*(WX[j]-WX[i]); uy+=a*(WY[j]-WY[i]); uz+=a*(WZ[j]-WZ[i]); }
@@ -56124,6 +56365,7 @@ function inertialDragInverseMap(S){
   const q=inertialDragComposeBuild(T,n,S._dragCoreT||null,false,relDragCoefficientOf(rd),eps*eps);
   if(q.coincident || q.tooLarge) return null;
   if(rd[REL_DRAG_I2_KEY]) inertialDragI2Apply(T,n,relDragCoefficientOf(rd),eps,null,null,null);   // 第303便b: 核と同じ対角(源の慣性決定力 r⁻² —— 宣言した本だけ・帳簿は写し T へ)
+  if(S._dragShellRd) inertialDragShellApply(T,n,relDragCoefficientOf(rd),eps,null,null,null);   // 第304便a: 核と同じ対角(引きずり核の殻 —— 殻を宣言した本だけ・帳簿は写し T へ。殻の源の核は build が S の表で読む)
   const nq=inertialDragNormApply(T,n,true,false);   // 第301便a: 核と同じ正規化(背景を宣言した本だけ行の対角 1+x —— 既定の本は null で写しも触らない)
   if(nq) q.degMax=nq.degMax;
   const A=T._rdA, DG=T._rdDeg, m=S.m, pin=S.pinned, WX=S.vx, WY=S.vy;
@@ -56335,6 +56577,7 @@ function inertialDragFieldAt(S,x,y,opt){
   const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y);
   if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
   const CT=S._dragCoreT||null;   // 第292便c: 構造核の表(直近の步の核が使った表 —— 宣言の無い本は null)
+  const SH=S._dragShellRd||null;   // 第304便a: 殻の源の半径の表(核と同じ殻の核 —— 殻の無い本は null で従来の式)
   let ux=0, uy=0, deg=0, coincident=false;
   for(let j=0;j<n;j++){
     if(j===skip) continue;                                 // 自己項なし(核の (iv))
@@ -56344,7 +56587,7 @@ function inertialDragFieldAt(S,x,y,opt){
     const dx=PX[j]-px, dy=PY[j]-py, r2=dx*dx+dy*dy;
     if(!(r2>0)){ if(skip>=0){ coincident=true; break; } continue; }   // 格子点が源に重なった点は K(0)=0(粒子の受け手は核と同じく拒否)
     const r=Math.sqrt(r2), s=r2+e2;
-    const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;   // 第292便c: 構造核の表(核と同じ —— 表の無い本は null で従来の式)
+    const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],eps) : null;   // 第292便c: 構造核の表(核と同じ —— 表の無い本は null で従来の式)・第304便a: 殻の源
     const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 核 dfmInertialDragStep と同じ式・同じ順序
     ux+=a*(VX[j]-vrx); uy+=a*(VY[j]-vry);
     deg+=a;
@@ -56415,6 +56658,7 @@ function inertialDragProbeAt(S,x,y,z,opt){
   const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y), pz=(skip>=0)? (c3? PZ[skip] : 0) : (Number(z)||0);
   if(!Number.isFinite(px) || !Number.isFinite(py) || !Number.isFinite(pz)) return null;
   const CT=S._dragCoreT||null, sd=c3? relDrag3SpinOf(rd) : ((rd.spinSource===REL_DRAG_SPIN_SOURCES[0])? {rot:true, axial:false, kappa:0} : null);
+  const SH=S._dragShellRd||null;   // 第304便a: 殻の源の半径の表(殻の無い本は null で従来の式)
   const AX=c3? (S._rdSAX||S.sax) : null, AY=c3? (S._rdSAY||S.say) : null, AZ=c3? (S._rdSAZ||S.saz) : null;
   const sp=S.spin, Rd=S.radOv;
   if(sd && sd.rot && !S._rdSpinGL) S._rdSpinGL=dfmGaussLegendre01(REL_DRAG_SPIN_NODES);
@@ -56429,7 +56673,7 @@ function inertialDragProbeAt(S,x,y,z,opt){
     if(!(mj>0) || !Number.isFinite(mj)) continue;
     const dx=PX[j]-px, dy=PY[j]-py, dz=c3? PZ[j]-pz : -pz, r2=dx*dx+dy*dy+dz*dz;
     if(!(r2>0)){ if(skip>=0){ coincident=true; break; } near++; continue; }   // 表示点が源に重なった点は足さない(数える)
-    const r=Math.sqrt(r2), s=r2+e2, kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;
+    const r=Math.sqrt(r2), s=r2+e2, kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],eps) : null;
     const a=C*mj*((kv===null)? (r/(s*s)) : kv);
     sx+=a*(WX[j]-wpx+UX[j]); sy+=a*(WY[j]-wpy+UY[j]); if(c3) sz+=a*(WZ[j]-wpz+UZ[j]);
     deg+=a;
@@ -59676,6 +59920,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   WBG_EST_VERSION, wbgEstimateOf, validateWbgEnv, wbgUniformBall, wbgEstimateApply, GLOC_LEDGER_SEAM_VERSION,   // 第302便c(R190)
   REL_DRAG_I2_KEY, REL_DRAG_I2_VERSION, REL_DRAG_I2_KEYS, REL_DRAG_I2_SOURCES, REL_DRAG_I2_SELF, REL_DRAG_I2_ENV,
   validateInertialR2, inertialR2CrossCheck, inertialR2Q, inertialR2SumOf, inertialDragI2Apply, inertialR2State,   // 第303便b(R192): 源の慣性決定力 r⁻² を引きずりの分母へ
+  DRAG_SHELL_KEY, DRAG_SHELL_VERSION, DRAG_SHELL_RATIO_MAX, REL_DRAG_SHELL_SELF, validateDragShellBody, dragShellCrossCheck, dragShellXmSin, dragShellK3, dragShellK2,   // 第304便a(R195): 引きずり核の殻
+  dragShellInit, dragShellRowOf, inertialDragShellApply, inertialDragShellState,
   REL_DRAG_WBG_KEY, REL_DRAG_WBG_VERSION, relDragLegacyFrozen, relDragWbgFromGain, relDragCoefficientOf, relDragWbgOf, relDragEnabledOf, relDragLegacyGainWarn,   // 第302便a(R186)
   REL_DRAG_STEP_ORDERS, REL_DRAG_STEP_ORDER_DEFAULT, REL_DRAG_SEMIC_VERSION, relDragStepOrderOf, relDragSemicOn, inertialDragSemicPre, inertialDragEnergy, inertialDragSemicWork, inertialDragLedgerOf,   // 第302便d: 步の順序 semic
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化

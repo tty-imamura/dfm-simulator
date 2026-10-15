@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
-  "generatedAt": "2026-10-14T23:04:24.067Z",
+  "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+  "generatedAt": "2026-10-15T11:05:47.737Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6854506,
-    "sha256": "aa3257151c5a49aa62fffe471a8aed3d2363c5f947a3868c3c4abd3dfdd4e24d",
-    "mtime": "2026-10-14T20:22:55.691Z"
+    "bytes": 6888618,
+    "sha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+    "mtime": "2026-10-15T07:11:58.416Z"
    }
   ],
   "code": [
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1294,
-   "segments": 1170,
-   "closureShare": 0.3215
+   "names": 1306,
+   "segments": 1180,
+   "closureShare": 0.323
   },
-  "scopeSha256": "ba170973a75c3461e9757ca4ad9fed365f8e229f22a0ccc0e4c6915c4d61fc76",
+  "scopeSha256": "8effe0ac30698410e1da23c17ab98c982bb1b6e2820afc6c30c97cd9ffdf4176",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2920,11 +2920,11 @@
    },
    "softFloorClamped": {
     "ok": true,
-    "applied": 0.001,
-    "declared": 0.001,
+    "applied": 0.0001,
+    "declared": 0.0001,
     "warnings": [
      "physics.softening を値域に修正",
-     "physics.softeningFloor を値域(0.001〜0.01)に修正"
+     "physics.softeningFloor を値域(0.0001〜0.01)に修正"
     ]
    },
    "softFloorDefaultClamp": {

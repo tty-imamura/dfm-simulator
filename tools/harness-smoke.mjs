@@ -31,7 +31,8 @@ import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const HARNESS_SMOKE_VERSION = 'w303e-harness-smoke-1';
+// 第304便e: 版 2 —— 判定の直し 3 型(NaN=false・器に渡す基点 html を写しの相対パスに・基点の正本でも ok:false の段を「既知」に)
+export const HARNESS_SMOKE_VERSION = 'w304e-harness-smoke-2';
 const TOOL_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
@@ -215,7 +216,8 @@ export function classifySteps(o) {
 // ---------------------------------------------------------------------------------------------
 const NAN_LINE = /(^|[^A-Za-z])NaN([^A-Za-z]|$)/;
 // NaN を数えない行: 「NaN なし」の類と、器がわざと入れた非有限の入力を受理器が拒否した対照(拒否・NotFinite・isNaN の行)
-const NAN_OK = /NaN\s*(?:なし|無し|が無い|は無い|0\s*(?:件|本|個|回)?(?:[^\d.]|$))|no NaN|NaN(?:の数|件数)\s*0|["']?nan["']?\s*:\s*(?:false|0)\b|hasNaN\s*:\s*false|anyNaN\s*:\s*false|拒否|reject|NotFinite|not finite|非有限|isNaN/i;
+// 第304便e: 「NaN=false」(器の行の書式 —— 第303便の sparc)も NaN なしに数える(`:` と `=` の両方)。「NaN=true」は数える
+const NAN_OK = /NaN\s*(?:なし|無し|が無い|は無い|0\s*(?:件|本|個|回)?(?:[^\d.]|$))|no NaN|NaN(?:の数|件数)\s*0|["']?nan["']?\s*[:=]\s*(?:false|0)\b|hasNaN\s*[:=]\s*false|anyNaN\s*[:=]\s*false|拒否|reject|NotFinite|not finite|非有限|isNaN/i;
 // 門の偽: JSON の行(最初の { から読めるもの)は gates の欄(行の頭が gates のときは全体)の直下の false か、最上位の ok:false だけを数える
 // (JSON の中の文字列や対照の ok:false は数えない)。JSON でない行は「ok false」と「門 … 偽」だけ
 const GATE_TEXT = /(?:\bok\s+false\b)|(?:門[^"\n{]{0,20}偽)/;
@@ -235,18 +237,25 @@ function gateLine(l) {
   return GATE_TEXT.test(l);
 }
 const EXC_LINE = /\b(?:Error|TypeError|RangeError|ReferenceError|SyntaxError|AssertionError)\b[:\s]|UnhandledPromiseRejection/;
-const STACK_LINE = /^\s+at\s.+:\d+:\d+\)?\s*$/;
+// 第304便e: playwright の例外は stack の行の末尾に「 {」(エラーの欄の始まり)が付く(第303便の galaxyprof —— 例外を門の偽と読んでいた)
+const STACK_LINE = /^\s+at\s.+:\d+:\d+\)?\s*\{?\s*$/;
 const NOISE_LINE = /^\s*(?:\^+|triggerUncaughtException\(|node:internal\/\S+|Node\.js v[\d.]+)?\s*$/;
 /** 例外の文: 最初の stack の行の直前の意味のある行(Node の内部の行・^ を除く)。無ければ EXC_LINE の最初の行。 */
 function excMessage(err) {
   const ls = String(err || '').split('\n');
   const k = ls.findIndex((l) => STACK_LINE.test(l));
-  if (k > 0) for (let j = k - 1; j >= 0; j--) if (!NOISE_LINE.test(ls[j])) return ls[j];
+  // playwright の「Call log:」の節(操作の記録)は飛ばして、その直前の行を例外の文に
+  let c = -1;
+  for (let j = k - 1; j >= 0; j--) if (ls[j].trim() === 'Call log:') { c = j; break; }
+  if (k > 0) for (let j = (c > 0 ? c : k) - 1; j >= 0; j--) if (!NOISE_LINE.test(ls[j])) return ls[j];
   return ls.find((l) => EXC_LINE.test(l)) || null;
 }
 /**
  * 出力の文字列から判定する(純関数 —— 自己試験が缶詰の出力で照合する)。枠で止めた走行(killed)は、止めた時点までの出力
  * (o.cutOut・o.cutErr —— 文字数)だけを見る(止めたことで子の Chromium が閉じた後の例外は数えない)。
+ * 第304便e: **既知**(verdict 'known' —— NG に数えない)= 門の偽(rc≠0 で例外なし・出力の門の行・正本の写しの ok:false)のうち、この走行で書いた
+ * 正本の写し(o.outOk === false・偽の門 o.outFalse)が**基点の正本でも ok:false**(o.baseOk === false)で、偽の門が基点の偽の門(o.baseFalse)の内に
+ * 収まるもの(第303便の spiral290 の g4 —— 基点の正本から ok:false)。偽の門が基点より増えた・基点の正本が ok:true・写しを書かなかった走行は NG のまま。
  */
 export function judgeOutput(o) {
   const out = String(o.stdout || '').slice(0, o.killed && Number.isFinite(o.cutOut) ? o.cutOut : undefined);
@@ -264,6 +273,13 @@ export function judgeOutput(o) {
   if (verdict === 'ok' && o.outOk === false) { verdict = 'gate'; why.push('正本の写しの ok:false'); }
   if (verdict === 'ok' && gateLines.length) { verdict = 'gate'; why.push(gateLines[0].trim().slice(0, 200)); }
   if (verdict === 'ok' && nanLines.length) { verdict = 'nan'; why.push(nanLines[0].trim().slice(0, 200)); }
+  if (verdict === 'gate' && o.outOk === false && o.baseOk === false) {
+    const nf = Array.isArray(o.outFalse) ? o.outFalse : [], bf = Array.isArray(o.baseFalse) ? o.baseFalse : [];
+    const extra = nf.filter((g) => !bf.includes(g));
+    if (!extra.length) return { verdict: 'known', why: [`既知 —— 基点の正本でも ok:false(偽の門 ${nf.join(',') || '—'} ⊆ 基点 ${bf.join(',') || '—'})`].concat(why),
+      nanLines: nanLines.length, gateLines: gateLines.length };
+    why.push(`偽の門が基点より増えた: ${extra.join(',')}`);
+  } else if (verdict === 'gate' && o.outOk === false && o.baseOk === true) why.push('基点の正本は ok:true');
   return { verdict, why, nanLines: nanLines.length, gateLines: gateLines.length };
 }
 
@@ -277,12 +293,54 @@ export function makeSandbox(root, dir, htmlOverride) {
   return dir;
 }
 
+/**
+ * 第304便e: 器に渡す基点 html(環境変数 BASE_HTML —— 段の cmd の `$BASE_HTML`)は**写しの根からの相対パス**にする(器は `path.join(ROOT, 引数)` で
+ * 開くので、絶対パスを渡すと写しの根と結合して見つからない —— 第303便の galaxyprof)。基点が写しの中に在る(--root の木の中 —— tar で写る)ならその相対パス、
+ * 木の外(git archive で取り出した過去の状態に別の木の基点を渡すとき)なら写しの beta/_harness_smoke_base.html へ複写して、その相対パスを返す。
+ */
+export function baseHtmlForSandbox(root, sandbox, baseHtml) {
+  if (!baseHtml) return null;
+  const abs = path.resolve(root, baseHtml);
+  const r = path.relative(path.resolve(root), abs);
+  if (r && !r.startsWith('..') && !path.isAbsolute(r) && fs.existsSync(path.join(sandbox, r))) return r.split(path.sep).join('/');
+  const dst = path.join('beta', '_harness_smoke_base.html');
+  fs.mkdirSync(path.join(sandbox, 'beta'), { recursive: true });
+  fs.copyFileSync(abs, path.join(sandbox, dst));
+  return dst.split(path.sep).join('/');
+}
+/** 正本 JSON の ok と偽の門(gates の欄の false の名前 —— 欄が無ければ空)。読めなければ null。 */
+export function canonVerdictOf(J) {
+  if (!J || typeof J !== 'object') return null;
+  const g = (J.gates && typeof J.gates === 'object' && !Array.isArray(J.gates)) ? Object.keys(J.gates).filter((k) => J.gates[k] === false) : [];
+  return { ok: J.ok === undefined ? null : J.ok === true ? true : J.ok === false ? false : null, falseGates: g.sort() };
+}
+/**
+ * 第304便e: **基点の正本**の ok と偽の門(段の outs ごと)。--base-rev があれば `git show <基点>:<正本>`(--git-dir か --root の git)、無ければ --root の木の
+ * 正本(鎖の前 —— 写しを作る前の版)。読めない正本は数えない。戻り値 { ok:true|false|null, falseGates, src }(どれかの正本が ok:false なら false)。
+ */
+export function baseCanonOf(row, o) {
+  let ok = null; const falseGates = new Set(); let src = null;
+  for (const f of row.outs || []) {
+    let J = null;
+    if (o.baseRev) {
+      try { J = JSON.parse(execFileSync('git', (o.gitDir ? ['--git-dir', o.gitDir] : ['-C', o.root]).concat(['show', o.baseRev + ':' + f]), { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 256 << 20 })); src = 'git ' + o.baseRev; }
+      catch { J = null; }
+    }
+    if (!J && !o.baseRev) { try { J = JSON.parse(fs.readFileSync(path.join(o.root, f), 'utf8')); src = '木の正本'; } catch { J = null; } }
+    const v = canonVerdictOf(J);
+    if (!v || v.ok === null) continue;
+    if (v.ok === false) { ok = false; for (const g of v.falseGates) falseGates.add(g); }
+    else if (ok === null) ok = true;
+  }
+  return { ok, falseGates: [...falseGates].sort(), src };
+}
+
 function runOne(row, o) {
   return new Promise((resolve) => {
     const knob = SMOKE_KNOBS[row.key] || null;
     const full = !(knob) && Number(row.sec) <= o.budget;
     const env = Object.assign({}, process.env, SMOKE_ENV_DEFAULTS, { TMPDIR: o.tmpDir, GIT_OPTIONAL_LOCKS: '0', QA_TARGET: 'beta/index.html' }, o.gitDir ? { GIT_DIR: o.gitDir } : {},
-      knob ? knob.env : {}, o.baseHtml ? { BASE_HTML: o.baseHtml } : {});
+      knob ? knob.env : {}, o.baseRel ? { BASE_HTML: o.baseRel } : {});
     if (!env.PLAYWRIGHT_CORE_DIR && fs.existsSync('/opt/node22/lib/node_modules/playwright')) env.PLAYWRIGHT_CORE_DIR = '/opt/node22/lib/node_modules/playwright';
     const cmd = row.cmd.split(' && ')[0].replace(/\$BASE_HTML/g, '"$BASE_HTML"');
     const t0 = Date.now();
@@ -300,11 +358,18 @@ function runOne(row, o) {
       const sec = (Date.now() - t0) / 1000;
       fs.writeFileSync(path.join(o.logDir, row.key + '.out'), stdout);
       fs.writeFileSync(path.join(o.logDir, row.key + '.err'), stderr);
-      let outOk = null;
-      if (!killed && rc === 0) for (const f of row.outs || []) {
-        try { const J = JSON.parse(fs.readFileSync(path.join(o.sandbox, f), 'utf8')); if (J && J.ok === false) outOk = false; } catch { /* 書かない窓 */ }
+      // 正本の写しは**この走行で書いたもの**だけを見る(第304便e —— 写しには鎖の前の正本が複写されているので、書かない窓〔knob〕で古い ok:false を拾わない)
+      let outOk = null; const outFalse = new Set();
+      if (!killed) for (const f of row.outs || []) {
+        try {
+          const fp = path.join(o.sandbox, f);
+          if (fs.statSync(fp).mtimeMs < t0 - 1000) continue;
+          const v = canonVerdictOf(JSON.parse(fs.readFileSync(fp, 'utf8')));
+          if (v && v.ok === false) { outOk = false; for (const g of v.falseGates) outFalse.add(g); }
+        } catch { /* 書かない窓 */ }
       }
-      const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk, cutOut, cutErr });
+      const bc = (outOk === false || (!killed && rc !== 0)) ? baseCanonOf(row, o) : { ok: null, falseGates: [] };
+      const j = judgeOutput({ stdout, stderr, rc: killed ? null : rc, killed, outOk, outFalse: [...outFalse].sort(), baseOk: bc.ok, baseFalse: bc.falseGates, cutOut, cutErr });
       resolve({ key: row.key, harness: row.harness, prio: row.prio, mode: knob ? 'knob' : (full ? 'full' : 'cap'), knob: knob ? knob.note : null,
         rc: killed ? null : rc, killed, sec: +sec.toFixed(1), limitSec: Math.round(limit), verdict: j.verdict, why: j.why });
     });
@@ -327,11 +392,11 @@ async function runPool(rows, o, log) {
   await Promise.all(Array.from({ length: Math.max(1, o.lanes) }, lane));
   return res;
 }
-const TAG = { ok: 'ok  ', exception: 'NG  ', gate: 'NG  ', nan: 'NG  ', 'not-run': '--  ' };
-const VJA = { exception: '例外', gate: '門の偽', nan: 'NaN', ok: '', 'not-run': '未実行' };
+const TAG = { ok: 'ok  ', known: '既知 ', exception: 'NG  ', gate: 'NG  ', nan: 'NG  ', 'not-run': '--  ' };
+const VJA = { exception: '例外', gate: '門の偽', nan: 'NaN', ok: '', known: '既知の門の偽(NG に数えない)', 'not-run': '未実行' };
 function fmtRow(x) {
   const how = x.verdict === 'ok' ? (x.killed ? `枠 ${x.limitSec} s で止めた(それまで問題なし)` : '完走') : VJA[x.verdict];
-  return `  ${TAG[x.verdict]}${String(x.key).padEnd(20)} ${how}${x.why && x.why.length && x.verdict !== 'ok' ? '  ' + x.why[0] : ''}`
+  return `  ${TAG[x.verdict]}${String(x.key).padEnd(20)} ${how}${x.why && x.why.length && x.verdict !== 'ok' ? '  ' + x.why.slice(0, x.verdict === 'known' ? 2 : 1).join(' / ') : ''}`
     + (x.sec !== undefined ? `  (${x.sec} s・${x.mode}${x.knob ? ' ' + x.knob : ''})` : '');
 }
 
@@ -406,6 +471,15 @@ export async function selfTest(opt) {
     [{ stdout: 'gates {"zero":true,"mask":false}', stderr: '', rc: null, killed: true }, 'gate'],
     // 枠で止めた後に子の Chromium が閉じて出た例外は数えない(止めた時点までの出力だけを見る)
     [{ stdout: '① ok', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: Target page, context or browser has been closed\n    at live (file:///x/tests/exp-w294d-timing.mjs:246:23)', rc: null, killed: true, cutOut: 4, cutErr: 0 }, 'ok'],
+    // 第304便e(第303便の初回運用の NG 3 型): ⓐ「NaN=false」は NaN なし(sparc)—— 「NaN=true」は数える
+    [{ stdout: '', stderr: '  🌃 🌃 ngc3198(NFW 対照・内蔵のまま) dt/1: n=300 NaN=false r_max(HI)=31.79 kpc  [3 s]', rc: null, killed: true }, 'ok'],
+    [{ stdout: '', stderr: '  🌃 ngc3198 dt/2: n=300 NaN=true r_max(HI)=—', rc: null, killed: true }, 'nan'],
+    // ⓑ 基点の正本でも ok:false の段は既知(spiral290 の g4)—— 偽の門が基点より増えた・基点が ok:true なら NG のまま
+    [{ stdout: '→ tests/out/spiral-w290e.json(53.8 s)・ok false {"g1":true,"g4":false}', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4'], baseOk: false, baseFalse: ['g4'] }, 'known'],
+    [{ stdout: '→ ok false', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4', 'g5'], baseOk: false, baseFalse: ['g4'] }, 'gate'],
+    [{ stdout: '→ ok false', stderr: '', rc: 0, killed: false, outOk: false, outFalse: ['g4'], baseOk: true, baseFalse: [] }, 'gate'],
+    // ⓒ 基点 html を絶対パスで渡して器が見つけられなかった(galaxyprof —— 道具の側で写しの相対パスに直す ⑥。判定は例外のまま —— 直す前の型を NG として残す)
+    [{ stdout: '', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.goto: net::ERR_FILE_NOT_FOUND at file:///s/root/home/user/x/beta/_w303_base.html\nCall log:\n  - navigating to "file:///s/root/home/user/x/beta/_w303_base.html", waiting until "load"\n\n    at /s/root/tests/exp-w274c-galaxyprof.mjs:155:14 {\n  name: \'Error\'\n}', rc: 1, killed: false }, 'exception'],
   ];
   const got = J.map(([o]) => judgeOutput(o).verdict);
   const miss = J.map(([, w], i) => (got[i] === w ? null : i + ':' + got[i] + '≠' + w)).filter(Boolean);
@@ -413,7 +487,24 @@ export async function selfTest(opt) {
   // 例外の文は stack の直前の行(Node の内部の行を除く)
   const msg = judgeOutput({ stdout: '', stderr: 'node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\npage.evaluate: Target closed\n    at live (file:///x/a.mjs:1:2)', rc: 1, killed: false });
   if (msg.verdict !== 'exception' || msg.why[0] !== 'page.evaluate: Target closed') bad.push('⑤ 例外の文の取り出し: ' + msg.why[0]);
-  cases.push(`⑤ 判定の缶詰 ${J.length} 件(例外・門の偽・NaN なし・NaN・枠で止めた・ok:false・枠で止めた後の例外)が一致 ${J.length - miss.length}/${J.length}・例外の文の取り出し ${msg.why[0] === 'page.evaluate: Target closed'}`);
+  const msg2 = judgeOutput(J[J.length - 1][0]);
+  if (!/^page\.goto: net::ERR_FILE_NOT_FOUND/.test(msg2.why[0] || '')) bad.push('⑤ 例外の文の取り出し(Call log の前): ' + msg2.why[0]);
+  cases.push(`⑤ 判定の缶詰 ${J.length} 件(例外・門の偽・NaN なし・NaN・枠で止めた・ok:false・枠で止めた後の例外・NaN=false・既知の ok:false・基点 html の不在)が一致 ${J.length - miss.length}/${J.length}・例外の文の取り出し ${msg.why[0] === 'page.evaluate: Target closed'}`);
+  // ⑥ 第304便e: 器に渡す基点 html は写しの根からの相対パス(木の中の基点 → その相対・木の外の基点 → 写しへ複写)/ 正本の ok と偽の門の読み
+  const t6 = fs.mkdtempSync(path.join((opt && opt.tmpDir) || os.tmpdir(), 'w304e-smoke-'));
+  try {
+    const rt = path.join(t6, 'root'), sb = path.join(t6, 'sandbox'), out = path.join(t6, 'outside');
+    for (const d of [path.join(rt, 'beta'), path.join(sb, 'beta'), out]) fs.mkdirSync(d, { recursive: true });
+    fs.writeFileSync(path.join(rt, 'beta', '_w999_base.html'), 'in'); fs.writeFileSync(path.join(sb, 'beta', '_w999_base.html'), 'in');
+    fs.writeFileSync(path.join(out, 'base.html'), 'out');
+    const r1 = baseHtmlForSandbox(rt, sb, path.join(rt, 'beta', '_w999_base.html'));
+    const r2 = baseHtmlForSandbox(rt, sb, path.join(out, 'base.html'));
+    const r2ok = r2 && !path.isAbsolute(r2) && fs.readFileSync(path.join(sb, r2), 'utf8') === 'out';
+    if (r1 !== 'beta/_w999_base.html' || !r2ok) bad.push(`⑥ 基点 html の相対パス: 木の中 ${r1}・木の外 ${r2}`);
+    const v = canonVerdictOf({ ok: false, gates: { g1: true, g4: false } }), v2 = canonVerdictOf({ ok: true });
+    if (!v || v.ok !== false || v.falseGates.join(',') !== 'g4' || !v2 || v2.ok !== true || v2.falseGates.length) bad.push('⑥ 正本の ok と偽の門の読み');
+    cases.push(`⑥ 器に渡す基点 html: 木の中 → ${r1}・木の外 → ${r2}(複写 ${!!r2ok})・正本の偽の門の読み ${v ? v.falseGates.join(',') : '—'}`);
+  } finally { fs.rmSync(t6, { recursive: true, force: true }); }
   return { version: HARNESS_SMOKE_VERSION, ok: bad.length === 0, bad, cases };
 }
 
@@ -487,10 +578,12 @@ async function main(argv) {
   let gitDir = gitDirArg;
   if (!gitDir) { try { gitDir = execFileSync('git', ['-C', root, 'rev-parse', '--absolute-git-dir'], { encoding: 'utf8' }).trim(); } catch { gitDir = null; } }
   console.log(`  写し ${sandbox}(git ${gitDir || 'なし'})・レーン ${lanes}・枠 ${budget} s・全体の枠 ${maxMinutes} min`);
-  const res = await runPool(sel, { sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseHtml }, console.log);
+  const baseRel = baseHtmlForSandbox(root, sandbox, baseHtml);
+  if (baseHtml) console.log(`  器に渡す基点 html(BASE_HTML —— 写しの根からの相対): ${baseRel}`);
+  const res = await runPool(sel, { root, sandbox, logDir, tmpDir, gitDir, lanes, budget, maxMinutes, baseRel, baseRev }, console.log);
   const n = (v) => res.filter((x) => x.verdict === v).length;
   const ng = n('exception') + n('gate') + n('nan');
-  const summary = `harness-smoke: 走らせた ${res.length - n('not-run')}/${sel.length} 段・例外 ${n('exception')}・門の偽 ${n('gate')}・NaN ${n('nan')}・`
+  const summary = `harness-smoke: 走らせた ${res.length - n('not-run')}/${sel.length} 段・例外 ${n('exception')}・門の偽 ${n('gate')}・NaN ${n('nan')}・既知(基点の正本でも ok:false)${n('known')}・`
     + `枠で止めた(問題なし)${res.filter((x) => x.verdict === 'ok' && x.killed).length}・完走 ${res.filter((x) => x.verdict === 'ok' && !x.killed).length}・未実行 ${n('not-run')} —— `
     + `${ng ? 'NG' : 'OK'}(所要 ${((Date.now() - T0) / 60000).toFixed(1)} min・ログ ${logDir})`;
   console.log(summary);

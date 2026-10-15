@@ -39,6 +39,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
+import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(この正本は第303便の宣言で測った歴史の記録)
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as PL from './exp-w299c-planets3d.mjs';
@@ -703,6 +704,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W303B_OUT || path.join(ROOT, 'tests', 'out', 'inertialr2-w303b.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl303();   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— この正本は第303便の宣言で測った歴史の記録)
   const out = { meta: null, version: HP.REL_DRAG_I2_VERSION, harnessVersion: HARNESS_VERSION, parts: PARTS, quick: QUICK };
   const tp = {};
   const timed = (k, f) => { const t = Date.now(); const r = f(); tp[k] = { wallSec: (Date.now() - t) / 1000 }; console.log(`[${k}] ${tp[k].wallSec.toFixed(1)} s`); return r; };
@@ -733,9 +735,9 @@ if (IS_MAIN) {
   if (out.manyBody) gates.manyBodyReadout = out.manyBody.rows.length === K_READS.length * K_CFGS.length && out.manyBody.rows.every((r) => r.relErrWI < 1e-12 && r.relErrWD < 1e-12 && r.i2Steps > 0 && Number.isFinite(r.xiSun) && Number.isFinite(r.ratioToNoMoon))
     && out.manyBody.systems.length === 3 && out.manyBody.systems.every((z) => Number.isFinite(z.Fr) && Number.isFinite(z.Fu));
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp;
-  const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
+  const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便b', target: TARGET, code: CODE, inputs: [TARGET, DECL303_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, i2Version: HP.REL_DRAG_I2_VERSION, loadErrors: errors.length, quick: QUICK,
     ruling: '原仮定者の裁定(第93報)④(太陽からの慣性決定力は r⁻²・引きずりは r⁻³・各惑星に対する太陽の影響は公転半径から・太陽が背景側に含まれる時の W_bg をそのまま別の惑星に使わない)・⑤(G_loc に迫る —— G_loc = G·c_loc/c も候補)・前便の指摘(1PN 相当は引きずりだけでは合わない量を埋める為 —— 引きずりを無くすのは本末転倒)',
     reading: '統括の検証項目 R192(分母に源の慣性決定力 w_I = m/(λr²)・変種 A〔公転半径の定数〕と B〔瞬間の距離〕・水星で λ を決めて移送の予言・G_loc の候補の表・λ の読み〔普遍の長さ / λ ∝ m〕・太陽の受け手)',

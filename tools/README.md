@@ -71,7 +71,7 @@ QA `lint.betaBuild300` が同じ関数(`betaBuildState`)で照合する。生成
 node tools/harness-smoke.mjs --base beta/_wNNN_base.html --base-rev <便の基点 sha>   # 統合の直後・鎖の前(例外・門の偽・NaN が 1 つでもあれば rc 1)
 node tools/harness-smoke.mjs --base … --list        # 選ぶだけ(走らせない)
 node tools/harness-smoke.mjs --keys dragnorm-301a   # 段を名指し
-node tools/harness-smoke.mjs --self-test            # 器を走らせない自己試験(QA lint.harnessSmoke303 と同じ関数)
+node tools/harness-smoke.mjs --self-test            # 器を走らせない自己試験(QA lint.harnessSmoke303 と同じ関数 —— 判定の缶詰 16 件・基点 html の相対パス)
 ```
 
 基点の html と今の html の差(最上位の名前・`window.HP` の口・内蔵プリセットの生と受理後・`S._core`)と、`--base-rev` からの器・lib の差から、
@@ -81,6 +81,15 @@ node tools/harness-smoke.mjs --self-test            # 器を走らせない自�
 判定: 例外 = rc ≠ 0 で stack の直前の行 / 門の偽 = rc ≠ 0(例外なし)・gates の欄(JSON の行)の false・最上位の ok:false・「ok false」/ NaN = 「NaN なし」の類と受理器がわざと非有限を拒否した対照の行を除く。枠で止めた走行は止めた時点までの出力だけを見る(止めた後に子の Chromium が閉じて出る例外は数えない)。履歴・常時群・html を書く段・鎖の脚本の段・正本の対象が html でない器(lib・CSV を刻む)は選ばない。第302便の統合直後の状態の通しは 62 段・26.7 分(混んだ箱)で NG は dragnorm の 1 段。
 多くの器が共有する名前(validatePreset など —— 宣言の 40% 以上)だけの段は `--wide`、閉包だけの段は `--indirect` で足す。全体の枠は `--max-minutes 30`(枠の外の段は「未実行」として数える)。
 過去の状態を試すとき: `git archive <rev> | tar -x -C <dir>` で取り出し `--root <dir> --head-rev <rev> --git-dir <.git>`(第302便の dragnorm の停止 2 回と同じ型の例外が統合直後の状態で出た)。
+**第304便e の直し(版 w304e-harness-smoke-2 —— 第303便の初回運用の NG 3 件はすべて道具側)**:
+- `NaN=false`(器の行の書式)は NaN なしに数える(`NaN=true` は数える —— 第303便の sparc)。
+- 器に渡す基点 html(環境変数 `BASE_HTML` —— 段の cmd の `$BASE_HTML`)は**写しの根からの相対パス**(器は `path.join(ROOT, 引数)` で開く。木の外の基点は写しの
+  `beta/_harness_smoke_base.html` へ複写 —— 第303便の galaxyprof)。playwright の例外(stack の行の末尾が「 {」・Call log の節)は門の偽でなく例外として読み、文は Call log の前の行。
+- **既知**: この走行で書いた正本の写しが ok:false でも、**基点の正本でも ok:false**(`--base-rev` があれば `git show <基点>:<正本>`・無ければ鎖の前の木の正本)で
+  偽の門が基点の偽の門の内に収まる段は「既知」として分け、NG に数えない(第303便の spiral290 の g4)。偽の門が増えた・基点が ok:true の段は NG のまま。
+  正本の写しは**この走行で書いたもの**だけを見る(書かない窓で古い写しを拾わない)。
+- 確かめ(第303便の統合の後の状態 9d79aaa を `git archive` で取り出し、基点 7598e8e で 3 段を名指し): galaxyprof 完走(27 s)・spiral290 既知・sparc 枠で止めた(問題なし)
+  —— 3 件が消えた。第302便の 19a4d5b の dragnorm-301a は 2.1 s で受理の例外のまま。QA lint.harnessSmoke304。
 
 ## pregate-transcript.mjs — ゲートの前の転記照合(第303便e)
 
