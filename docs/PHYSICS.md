@@ -33282,6 +33282,7 @@ K3_shell は s = ε tanθ で閉じる: **K3_shell = ((Δθ − sinΔθ) + 2 sin
 殻を宣言していない受け手は自己の項を足さない(数えて読み口 `selfSkip` に出す —— 宣言半径へ黙って落とさない)。第303便b の `inertialR2.self:"radius"`(宣言半径の m/(λR²))は残した。
 
 **④ 実装と契約。** 宣言は law "inertial" ∧ W_bg の宣言 ∧ 合成則 solve の本だけ(二次元・三次元とも)。受理器 `validateDragShellBody`: 体積の核との混在・未知の鍵・`radius` の無い天体・0<η≤100 の外・gain の旧法則・compose:"sum"・連鎖の PCG(`solver:"network-pcg-v1"` —— 源ごとに核が違うと結合 c_ij が非対称)・自転源(spinSource・spinDrag —— 自転源の核は一様球だけ)・ε = 0 を拒否。η > 1 は「天体の外 —— 測定用」の警告 1 行で受理。law が "inertial" でない本は警告して無視。
+規定運動(pinned)の天体は受理する —— 源としては殻の核で働き、受け手の行は解法が u = 0 に固定するので自己の項は効かない(対角に足すが読み口の最大には数えない)。引きずり OFF の対照(`{Wbg:null, enabled:false}`)と殻の宣言は一緒に受理する(力学は引きずり無し)。
 本の突き合わせ `dragShellCrossCheck`: shellSelf:"drag"・inertialR2.self:"shell" は殻を宣言した天体が 1 つ以上要る。`shellSelfEps` は自己の項の宣言と一緒にだけ。省略と "off" は正準形に出さない。
 步: 源の殻の核は build(`inertialDragComposeBuild`・`dfmInertialDrag3Build`)が殻の半径の表 `S._dragShellRd` を読んで核の位置で評価する(体積の核の表 `S._dragCoreT` の分岐の後)。
 自己の項と inertialR2 の殻の補正 Σ_j∈殻 q_j (K2_shell − 1/(r²+ε²)) は新しい関数 **`inertialDragShellApply`** が行の**対角にだけ** c·(…) を足す(**`inertialDragI2Apply` の後・`inertialDragNormApply` の前**。非対角と右辺は不変 —— B = M(I+L) は対角だけが増える)。
