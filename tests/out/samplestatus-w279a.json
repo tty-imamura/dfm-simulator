@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "efbdb9fbc2d3f9db4457f572551148c983bd732a37a1dab2ef26cb8598d63d30",
-  "generatedAt": "2026-10-16T16:38:04.577Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T22:03:19.158Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 111367,
-    "sha256": "f2a09d2de9c738be38b45cfa8bddbfcdc3487e65d70dd5b6dc5ee0b295096d1d",
-    "mtime": "2026-10-16T16:01:35.752Z"
+    "bytes": 111434,
+    "sha256": "d4ccbfae86eda8d527f07b639ec9f7bf327b1a3517f4afd49ba61e0f6c04b3da",
+    "mtime": "2026-10-16T19:11:11.226Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719874,
-    "sha256": "50f7814c3e12037103de94c71c8b31797594065693b926f424147e44cd0f995c",
-    "mtime": "2026-10-16T15:08:32.507Z"
+    "bytes": 1721932,
+    "sha256": "f97950ce423ba6d0d075d24790315edf7829e9ebbff7ece14e34d3fb53afd3fa",
+    "mtime": "2026-10-16T20:38:31.014Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90726,
     "sha256": "fadadf0194e6f7ed26db3b25af82b897919ac347290aa3ef33b1f70d9b25c0c6",
-    "mtime": "2026-10-16T15:08:32.527Z"
+    "mtime": "2026-10-16T06:24:42.769Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 190192,
-    "sha256": "726fa2302c9bc43d0efa7f2beac3d4dc80e3aa6c02b46eb191c83123f7029f5d",
-    "mtime": "2026-10-16T16:38:04.526Z"
+    "bytes": 196042,
+    "sha256": "17deb422b9324b4c8f5a601d47e3021483d80a8e8f71f0de524c8041ef152c3a",
+    "mtime": "2026-10-16T22:03:19.122Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-16T15:08:32.439Z"
+    "mtime": "2026-10-09T10:19:39.579Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-16T15:08:32.443Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-16T15:08:32.443Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-16T15:08:32.443Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-16T15:08:32.443Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    }
   ],
   "code": [
@@ -76,31 +76,31 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 32401,
     "sha256": "51bcdbd8f9bc0da0028f077c72686005763922816ad13f2f2e65584aa1669963",
-    "mtime": "2026-10-16T15:08:32.395Z"
+    "mtime": "2026-10-14T00:03:21.977Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 26924,
     "sha256": "1e392bdbaaad2a21ce04eda6696502b557b2a780b5d8cad8daf03b7ff67b6d18",
-    "mtime": "2026-10-16T15:08:32.463Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-16T15:08:32.459Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-16T15:08:32.471Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-16T15:08:32.471Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    }
   ],
   "codeSha256": "e0e17584b27ff4cc9dd693845632b0264526dea9c2f17b374c5ea8fa29cc4ca4",
@@ -597,8 +597,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -931,8 +943,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -1270,8 +1294,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -1597,8 +1633,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -1924,8 +1972,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -2252,8 +2312,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -2580,8 +2652,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -2925,8 +3009,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -3246,8 +3342,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -3567,8 +3675,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -3888,8 +4008,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -4215,8 +4347,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -4542,8 +4686,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -4863,8 +5019,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -5196,8 +5364,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -5523,8 +5703,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -5868,8 +6060,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -6219,8 +6423,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -6552,8 +6768,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -6879,8 +7107,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -7206,8 +7446,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -7533,8 +7785,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -7872,8 +8136,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -8199,8 +8475,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -8526,8 +8814,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -8853,8 +9153,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -9186,8 +9498,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -9525,8 +9849,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -9846,8 +10182,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -10173,8 +10521,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -10507,8 +10867,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -10829,8 +11201,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -11151,8 +11535,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -11472,8 +11868,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -11811,8 +12219,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -12151,8 +12571,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -12478,8 +12910,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -12853,8 +13297,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -13186,8 +13642,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -13512,8 +13980,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -13839,8 +14319,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -14185,8 +14677,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -14529,8 +15033,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -14861,8 +15377,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -15195,8 +15723,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -15536,8 +16076,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -15889,8 +16441,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -16223,8 +16787,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -16576,8 +17152,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -16917,8 +17505,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -17258,8 +17858,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -17592,8 +18204,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -17932,8 +18556,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -18259,8 +18895,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -18586,8 +19234,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -18913,8 +19573,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -19282,8 +19954,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -19615,8 +20299,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -19948,8 +20644,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -20287,8 +20995,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -20608,8 +21328,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -20935,8 +21667,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -21274,8 +22018,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -21601,8 +22357,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -21928,8 +22696,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -22261,8 +23041,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -22594,8 +23386,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -22928,8 +23732,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -23267,8 +24083,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -23606,8 +24434,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -23677,17 +24517,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 155.335,
+     "wallSec": 156.437,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 52.159,
+       "wallSec": 52.563,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 103.176,
+       "wallSec": 103.874,
        "reused": false,
        "reusedBy": null
       }
@@ -24004,8 +24844,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -24331,8 +25183,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -24721,8 +25585,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -25066,8 +25942,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -25417,8 +26305,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -25770,8 +26670,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -25841,17 +26753,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.217,
+     "wallSec": 4.316,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.724,
+       "wallSec": 1.45,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.493,
+       "wallSec": 2.866,
        "reused": false,
        "reusedBy": null
       }
@@ -26150,8 +27062,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -26483,8 +27407,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -26810,6 +27746,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
@@ -26825,6 +27767,12 @@
       "key": "emresolve-306c",
       "sec": 1500,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -27162,6 +28110,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
@@ -27183,6 +28137,12 @@
       "key": "emresolve-306c",
       "sec": 1500,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -27507,6 +28467,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
@@ -27528,6 +28494,12 @@
       "key": "emresolve-306c",
       "sec": 1500,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -27852,8 +28824,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -28185,8 +29169,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -28524,8 +29520,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -28857,8 +29865,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -28929,17 +29949,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.703,
+     "wallSec": 10.181,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.819,
+       "wallSec": 3.448,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.884,
+       "wallSec": 6.733,
        "reused": false,
        "reusedBy": null
       }
@@ -29250,8 +30270,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -29577,8 +30609,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -29917,8 +30961,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -29940,28 +30996,28 @@
   {
    "id": "mercurySunInertial3d",
    "emoji": "🌡️",
-   "name": "太陽と水星(慣性決定力版・三次元)— 近点率に合わせた W_bg",
+   "name": "太陽と水星(慣性決定力版・三次元)— 1PN + A1 の参照値に合わせた k(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と水星の三次元で W_bg を近点率の差 43.0″/世紀へ合わせる(semic)",
+    "purpose": "太陽と水星の三次元で λ ∝ m の k を 1PN + A1 の参照値へ合わせる(G_loc n = 2)",
     "objective": "met",
-    "state": "差 43.00002(h/2 42.99999)・W_bg 221.1204・A1 −0.0020±0.0030・fitted",
+    "state": "差 42.97856(h/2 42.97851)・q⋆ 42.97851・k 4.99986・fitted",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/refit-w303a.json",
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Mercury in 3D; W_bg matched to the 43.0\"/cy apsidal difference (semic, no G_loc)",
-     "state": "diff 43.00002 (h/2 42.99999)\"/cy; W_bg 221.1204; A1 -0.0020+/-0.0030; fitted",
+     "purpose": "Sun and Mercury in 3D; k (lambda ~ m) matched to the 1PN + A1 reference (G_loc n = 2)",
+     "state": "diff 42.97856 (h/2 42.97851)\"/cy; q* 42.97851; k 4.99986; fitted",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Mercury in 3D; W_bg matched to the 43.0\"/cy apsidal difference (semic, no G_loc). Met: diff 43.00002 (h/2 42.99999)\"/cy; W_bg 221.1204; A1 -0.0020+/-0.0030; fitted. Out of calibration scope."
+     "brief": "Sun and Mercury in 3D; k (lambda ~ m) matched to the 1PN + A1 reference (G_loc n = 2). Met: diff 42.97856 (h/2 42.97851)\"/cy; q* 42.97851; k 4.99986; fitted. Out of calibration scope."
     },
-    "brief": "太陽と水星の三次元で W_bg を近点率の差 43.0″/世紀へ合わせる(semic)。達・差 43.00002(h/2 42.99999)・W_bg 221.1204・A1 −0.0020±0.0030・fitted。較正対象外。"
+    "brief": "太陽と水星の三次元で λ ∝ m の k を 1PN + A1 の参照値へ合わせる(G_loc n = 2)。達・差 42.97856(h/2 42.97851)・q⋆ 42.97851・k 4.99986・fitted。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -30244,6 +31300,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
@@ -30268,6 +31330,12 @@
       "always": false
      },
      {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30285,27 +31353,28 @@
   {
    "id": "venusSunInertial3d",
    "emoji": "🌋",
-   "name": "太陽と金星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と金星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と金星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と金星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 224.7021 日(観測との差 0.0011)・近点(G_loc なし)−1.59621″/世紀・A1 +0.0026±0.0016・標的なし",
+    "state": "予言 8.624057・参照値 8.627121・幅の 1.91 倍・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Venus in 3D, drag off; measure period and apse",
-     "state": "period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy; A1 +0.0026+/-0.0016; no target",
+     "purpose": "Sun and Venus in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 8.624057\"/cy; reference 8.627121; 1.91 x the source width; not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Venus in 3D, drag off; measure period and apse. Met: period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy; A1 +0.0026+/-0.0016; no target. Out of calibration scope."
+     "brief": "Sun and Venus in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 8.624057\"/cy; reference 8.627121; 1.91 x the source width; not matched. Out of calibration scope."
     },
-    "brief": "太陽と金星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 224.7021 日(観測との差 0.0011)・近点(G_loc なし)−1.59621″/世紀・A1 +0.0026±0.0016・標的なし。較正対象外。"
+    "brief": "太陽と金星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 8.624057・参照値 8.627121・幅の 1.91 倍・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -30582,8 +31651,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -30605,27 +31686,28 @@
   {
    "id": "marsSunInertial3d",
    "emoji": "🔴",
-   "name": "太陽と火星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と火星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と火星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と火星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 686.9863 日(観測との差 0.0063)・近点(G_loc なし)−0.36042″/世紀・A1 −0.000020±0.000037・標的なし",
+    "state": "予言 1.350807・参照値 1.350845・幅の 1.03 倍・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Mars in 3D, drag off; measure period and apse",
-     "state": "period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy; A1 -0.000020+/-0.000037; no target",
+     "purpose": "Sun and Mars in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 1.350807\"/cy; reference 1.350845; 1.03 x the source width; not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Mars in 3D, drag off; measure period and apse. Met: period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy; A1 -0.000020+/-0.000037; no target. Out of calibration scope."
+     "brief": "Sun and Mars in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 1.350807\"/cy; reference 1.350845; 1.03 x the source width; not matched. Out of calibration scope."
     },
-    "brief": "太陽と火星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 686.9863 日(観測との差 0.0063)・近点(G_loc なし)−0.36042″/世紀・A1 −0.000020±0.000037・標的なし。較正対象外。"
+    "brief": "太陽と火星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 1.350807・参照値 1.350845・幅の 1.03 倍・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -30902,8 +31984,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -30925,27 +32019,28 @@
   {
    "id": "jupiterSunInertial3d",
    "emoji": "🏀",
-   "name": "太陽と木星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と木星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と木星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と木星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 4332.6745 日(観測との差 0.0855)・近点(G_loc なし)−0.11609″/世紀・A1 +0.0587±0.0283・標的なし",
+    "state": "予言 0.06246310・参照値 0.1210866・幅の 2.07 倍・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Jupiter in 3D, drag off; measure period and apse",
-     "state": "period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy; A1 +0.0587+/-0.0283 (about 2 sigma); no target",
+     "purpose": "Sun and Jupiter in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 0.06246310\"/cy; reference 0.1210866; 2.07 x the source width; not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Jupiter in 3D, drag off; measure period and apse. Met: period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy; A1 +0.0587+/-0.0283 (about 2 sigma); no target. Out of calibration scope."
+     "brief": "Sun and Jupiter in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 0.06246310\"/cy; reference 0.1210866; 2.07 x the source width; not matched. Out of calibration scope."
     },
-    "brief": "太陽と木星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 4332.6745 日(観測との差 0.0855)・近点(G_loc なし)−0.11609″/世紀・A1 +0.0587±0.0283・標的なし。較正対象外。"
+    "brief": "太陽と木星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 0.06246310・参照値 0.1210866・幅の 2.07 倍・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -31216,8 +32311,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -31239,27 +32346,28 @@
   {
    "id": "saturnSunInertial3d",
    "emoji": "🟡",
-   "name": "太陽と土星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と土星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と土星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と土星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 10755.6209 日(観測との差 −3.5991)・近点(G_loc なし)−0.02760″/世紀・A1 −0.00032±0.00047・標的なし",
+    "state": "予言 0.01371399・参照値 0.01338940・幅の 0.69 倍・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Saturn in 3D, drag off; measure period and apse",
-     "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy; A1 -0.00032+/-0.00047; no target",
+     "purpose": "Sun and Saturn in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 0.01371399\"/cy; reference 0.01338940; 0.69 x the source width; not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Saturn in 3D, drag off; measure period and apse. Met: period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy; A1 -0.00032+/-0.00047; no target. Out of calibration scope."
+     "brief": "Sun and Saturn in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 0.01371399\"/cy; reference 0.01338940; 0.69 x the source width; not matched. Out of calibration scope."
     },
-    "brief": "太陽と土星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 10755.6209 日(観測との差 −3.5991)・近点(G_loc なし)−0.02760″/世紀・A1 −0.00032±0.00047・標的なし。較正対象外。"
+    "brief": "太陽と土星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 0.01371399・参照値 0.01338940・幅の 0.69 倍・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -31530,8 +32638,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -31845,6 +32965,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
@@ -31854,6 +32980,18 @@
       "key": "spinavg-305d",
       "sec": 577,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotframe-306d",
+      "sec": 1767,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -31874,27 +33012,28 @@
   {
    "id": "uranusSunInertial3d",
    "emoji": "🔷",
-   "name": "太陽と天王星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と天王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と天王星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と天王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 30702.2925 日(観測との差 16.8925)・近点(G_loc なし)−0.00749″/世紀・A1 の行なし・標的なし",
+    "state": "予言 0.002384692・参照値 0.002384637(1PN だけ)・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Uranus in 3D, drag off; measure period and apse",
-     "state": "period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy; no A1 row; no target",
+     "purpose": "Sun and Uranus in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 0.002384692\"/cy; reference 0.002384637 (1PN only); not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Uranus in 3D, drag off; measure period and apse. Met: period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy; no A1 row; no target. Out of calibration scope."
+     "brief": "Sun and Uranus in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 0.002384692\"/cy; reference 0.002384637 (1PN only); not matched. Out of calibration scope."
     },
-    "brief": "太陽と天王星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 30702.2925 日(観測との差 16.8925)・近点(G_loc なし)−0.00749″/世紀・A1 の行なし・標的なし。較正対象外。"
+    "brief": "太陽と天王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 0.002384692・参照値 0.002384637(1PN だけ)・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -32165,8 +33304,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -32188,27 +33339,28 @@
   {
    "id": "neptuneSunInertial3d",
    "emoji": "💙",
-   "name": "太陽と海王星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と海王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "太陽と海王星の三次元(引きずり OFF)で周期と近点率を測る",
+    "purpose": "太陽と海王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
     "objective": "met",
-    "state": "周期 60226.3209 日(観測との差 37.3209)・近点(G_loc なし)−0.00358″/世紀・A1 の行なし・標的なし",
+    "state": "予言 0.0007740288・参照値 0.0007741015(1PN だけ)・合わせていない",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
+     "tests/out/an336-w306a.json",
      "tests/out/planets3d-w299c.json"
     ],
     "en": {
-     "purpose": "Sun and Neptune in 3D, drag off; measure period and apse",
-     "state": "period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy; no A1 row; no target",
+     "purpose": "Sun and Neptune in 3D; Mercury's k carried over (G_loc n = 2)",
+     "state": "predicted 0.0007740288\"/cy; reference 0.0007741015 (1PN only); not matched",
      "mismatch": null,
      "outlook": null,
-     "brief": "Sun and Neptune in 3D, drag off; measure period and apse. Met: period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy; no A1 row; no target. Out of calibration scope."
+     "brief": "Sun and Neptune in 3D; Mercury's k carried over (G_loc n = 2). Met: predicted 0.0007740288\"/cy; reference 0.0007741015 (1PN only); not matched. Out of calibration scope."
     },
-    "brief": "太陽と海王星の三次元(引きずり OFF)で周期と近点率を測る。達・周期 60226.3209 日(観測との差 37.3209)・近点(G_loc なし)−0.00358″/世紀・A1 の行なし・標的なし。較正対象外。"
+    "brief": "太陽と海王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)。達・予言 0.0007740288・参照値 0.0007741015(1PN だけ)・合わせていない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -32479,8 +33631,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -32806,8 +33970,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -33133,8 +34309,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -33461,8 +34649,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -33797,8 +34997,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -33868,17 +35080,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 55.19200000000001,
+     "wallSec": 52.495999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.702,
+       "wallSec": 17.264,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 36.49,
+       "wallSec": 35.232,
        "reused": false,
        "reusedBy": null
       }
@@ -34177,8 +35389,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -34248,17 +35472,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 29.363999999999997,
+     "wallSec": 28.792,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.298,
+       "wallSec": 9.182,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 19.066,
+       "wallSec": 19.61,
        "reused": false,
        "reusedBy": null
       }
@@ -34593,8 +35817,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -34664,17 +35900,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.19,
+     "wallSec": 20.186999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.806,
+       "wallSec": 6.805,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.384,
+       "wallSec": 13.382,
        "reused": false,
        "reusedBy": null
       }
@@ -34973,8 +36209,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -35392,8 +36640,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -35749,8 +37009,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -36101,8 +37373,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -36166,17 +37450,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 291.769,
+     "wallSec": 286.869,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 98.862,
+       "wallSec": 96.396,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 192.907,
+       "wallSec": 190.473,
        "reused": false,
        "reusedBy": null
       }
@@ -36529,9 +37813,27 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonfix-306e",
+      "sec": 200,
+      "share": 2,
       "always": false
      },
      {
@@ -36856,8 +38158,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -36892,28 +38206,28 @@
   {
    "id": "plutoCharonInertialFit",
    "emoji": "🟪",
-   "name": "冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain",
+   "name": "冥王星とカロン(慣性決定力版)— 二体のケプラーの初期状態・引きずり OFF",
    "group": "現実較正",
    "sampleClass": "principle",
    "status": {
-    "purpose": "係数移送版の写しに核の事前値を置き W_bg だけを公転周期に合わせる(semic)",
+    "purpose": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)",
     "objective": "met",
-    "state": "W_bg 0.0001486103・残差 7.70e-7 s・h/2 差 4.56e-5 s・核は同定不可",
+    "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/refit-w303a.json",
-     "tests/out/fit-w297b.json"
+     "tests/out/charonfix-w306e.json",
+     "tests/out/charonaudit-w305e.json"
     ],
     "en": {
-     "purpose": "parent copy with prior cores; only W_bg matched to the period (semic)",
-     "state": "W_bg 0.0001486103; residual 7.70e-7 s, h/2 4.56e-5 s (fitted); cores not identifiable",
+     "purpose": "two-body Kepler start, drag-off baseline (period = input check)",
+     "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history",
      "mismatch": null,
      "outlook": null,
-     "brief": "parent copy with prior cores; only W_bg matched to the period (semic). Met: W_bg 0.0001486103; residual 7.70e-7 s, h/2 4.56e-5 s (fitted); cores not identifiable. Out of calibration scope."
+     "brief": "two-body Kepler start, drag-off baseline (period = input check). Met: drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history. Out of calibration scope."
     },
-    "brief": "係数移送版の写しに核の事前値を置き W_bg だけを公転周期に合わせる(semic)。達・W_bg 0.0001486103・残差 7.70e-7 s・h/2 差 4.56e-5 s・核は同定不可。較正対象外。"
+    "brief": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)。達・引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -37190,6 +38504,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
@@ -37217,6 +38537,18 @@
       "key": "charonaudit-305e",
       "sec": 160,
       "share": 1,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonfix-306e",
+      "sec": 200,
+      "share": 2,
       "always": false
      },
      {
@@ -37534,8 +38866,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -37868,8 +39212,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -37935,11 +39291,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 60.919,
+     "wallSec": 60.561,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 60.919,
+       "wallSec": 60.561,
        "reused": false,
        "reusedBy": null
       }
@@ -38226,8 +39582,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -38297,17 +39665,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.089,
+     "wallSec": 7.783,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.744,
+       "wallSec": 2.519,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.345,
+       "wallSec": 5.264,
        "reused": false,
        "reusedBy": null
       }
@@ -38642,8 +40010,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -38711,30 +40091,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 66.706,
+     "wallSec": 14.113,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 12.867,
+       "wallSec": 14.113,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 26.645,
+       "wallSec": 26.221,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
        "wallSec": 53.839,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 26.645,
-     "reusedH2Sec": 26.645,
-     "reusedH4Sec": 0
+     "reusedSec": 80.06,
+     "reusedH2Sec": 26.221,
+     "reusedH4Sec": 53.839
     },
     "regenSteps": [
      {
@@ -39062,8 +40442,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -39420,8 +40812,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -39489,30 +40893,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 39.772,
+     "wallSec": 7.968,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.629,
+       "wallSec": 7.968,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.848,
+       "wallSec": 15.389,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
        "wallSec": 32.143,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 15.848,
-     "reusedH2Sec": 15.848,
-     "reusedH4Sec": 0
+     "reusedSec": 47.532,
+     "reusedH2Sec": 15.389,
+     "reusedH4Sec": 32.143
     },
     "regenSteps": [
      {
@@ -39840,8 +41244,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -40198,8 +41614,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -40270,17 +41698,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.111,
+     "wallSec": 13.937,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.736,
+       "wallSec": 4.318,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.375,
+       "wallSec": 9.619,
        "reused": false,
        "reusedBy": null
       }
@@ -40591,8 +42019,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -40985,8 +42425,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -41313,8 +42765,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -41653,8 +43117,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -41719,17 +43195,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.669,
+     "wallSec": 9.007,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.925,
+       "wallSec": 3.068,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.744,
+       "wallSec": 5.939,
        "reused": false,
        "reusedBy": null
       }
@@ -42070,8 +43546,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -42136,17 +43624,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.088,
+     "wallSec": 4.135,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.612,
+       "wallSec": 1.377,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.476,
+       "wallSec": 2.758,
        "reused": false,
        "reusedBy": null
       }
@@ -42487,8 +43975,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -42827,8 +44327,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -43167,8 +44679,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -43507,8 +45031,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -43847,8 +45383,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -44187,8 +45735,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -44527,8 +46087,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -44593,17 +46165,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 63.101,
+     "wallSec": 62.377,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.562,
+       "wallSec": 20.912,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 42.539,
+       "wallSec": 41.465,
        "reused": false,
        "reusedBy": null
       }
@@ -44896,8 +46468,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -45284,8 +46868,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -45624,8 +47220,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -45951,8 +47559,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -46284,8 +47904,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -46623,8 +48255,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -46968,6 +48612,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
@@ -46977,6 +48627,18 @@
       "key": "spinavg-305d",
       "sec": 577,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotframe-306d",
+      "sec": 1767,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -47294,6 +48956,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
@@ -47303,6 +48971,18 @@
       "key": "spinavg-305d",
       "sec": 577,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotframe-306d",
+      "sec": 1767,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -47621,6 +49301,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
@@ -47630,6 +49316,18 @@
       "key": "spinavg-305d",
       "sec": 577,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "rotframe-306d",
+      "sec": 1767,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -47947,6 +49645,12 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
@@ -47956,6 +49660,12 @@
       "key": "spinavg-305d",
       "sec": 577,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
+      "share": "all",
       "always": false
      },
      {
@@ -48267,8 +49977,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -48581,8 +50303,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -48901,8 +50635,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -49228,8 +50974,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -49293,17 +51051,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.671,
+     "wallSec": 2.222,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.852,
+       "wallSec": 0.689,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.819,
+       "wallSec": 1.533,
        "reused": false,
        "reusedBy": null
       }
@@ -49584,8 +51342,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -49942,8 +51712,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -50013,17 +51795,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.271,
+     "wallSec": 0.29000000000000004,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.157,
+       "wallSec": 0.131,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.114,
+       "wallSec": 0.159,
        "reused": false,
        "reusedBy": null
       }
@@ -50304,8 +52086,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -50625,8 +52419,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -50952,8 +52758,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -51285,8 +53103,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -51618,8 +53448,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -51963,8 +53805,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -52284,8 +54138,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -52605,8 +54471,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -52926,8 +54804,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -53259,8 +55149,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -53604,8 +55506,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -53685,30 +55599,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 36.397999999999996,
+     "wallSec": 7.456,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.756,
+       "wallSec": 7.456,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.041,
+       "wallSec": 14.152,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
        "wallSec": 28.642,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 15.041,
-     "reusedH2Sec": 15.041,
-     "reusedH4Sec": 0
+     "reusedSec": 42.794,
+     "reusedH2Sec": 14.152,
+     "reusedH4Sec": 28.641999999999996
     },
     "regenSteps": [
      {
@@ -54000,8 +55914,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -54339,8 +56265,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -54660,8 +56598,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -54727,11 +56677,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 151.145,
+     "wallSec": 144.599,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 151.145,
+       "wallSec": 144.599,
        "reused": false,
        "reusedBy": null
       }
@@ -55024,8 +56974,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -55366,8 +57328,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -55687,8 +57661,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -56027,8 +58013,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -56354,8 +58352,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -56681,8 +58691,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -57014,8 +59036,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -57335,8 +59369,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -57656,8 +59702,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -57977,8 +60035,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -58298,8 +60368,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -58619,8 +60701,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -58952,8 +61046,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -59273,8 +61379,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -59594,8 +61712,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -59921,8 +62051,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -60242,8 +62384,20 @@
       "always": false
      },
      {
+      "key": "periodn-306b",
+      "sec": 1800,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "an336-306a",
+      "sec": 900,
       "share": "all",
       "always": false
      },
@@ -60279,8 +62433,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 161,
-  "regenSecSum": 74332,
+  "regenSteps": 165,
+  "regenSecSum": 78999,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
@@ -60290,11 +62444,11 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 57.534000000000006
+    "sec": 55.762
    },
    "h4": {
-    "n": 0,
-    "sec": 0
+    "n": 3,
+    "sec": 114.624
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },

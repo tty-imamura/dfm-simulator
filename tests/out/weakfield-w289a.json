@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T08:12:43.755Z",
+  "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+  "generatedAt": "2026-10-16T21:51:20.416Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939892,
+    "sha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+    "mtime": "2026-10-16T19:11:27.290Z"
    }
   ],
   "code": [
@@ -94,9 +94,9 @@
    "complete": true,
    "names": 1323,
    "segments": 1192,
-   "closureShare": 0.323
+   "closureShare": 0.3223
   },
-  "scopeSha256": "521ea843bbd8c0d3a2c5e17fbaa6b71f832f563743a36e8d873509b3e365fe4e",
+  "scopeSha256": "1d7f3efd53d23c1d7fc2b77771e9cba4db70c77d6b7f56c41a050098227e62c1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.041
+    "wallSec": 0.039
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.019
+    "wallSec": 0.024
    }
   ],
   "clocksOk": true,
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 2.134
+ "elapsedS": 2.02
 }

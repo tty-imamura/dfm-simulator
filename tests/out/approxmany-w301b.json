@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.725
+    "wallSec": 0.77
    },
    "B": {
     "bands": [
@@ -1193,34 +1193,34 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.02
+   "wallSec": 0.024
   },
   "zero": {
-   "wallSec": 2.358
+   "wallSec": 2.11
   },
   "effect": {
-   "wallSec": 2.222
+   "wallSec": 2.277
   },
   "remeasure": {
    "wallSec": 0.002
   },
   "audit": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   }
  },
- "elapsedS": 4.603,
+ "elapsedS": 4.415,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T08:16:34.595Z",
+  "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+  "generatedAt": "2026-10-16T21:51:08.243Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939892,
+    "sha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+    "mtime": "2026-10-16T19:11:27.290Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
@@ -1230,9 +1230,9 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 40520,
-    "sha256": "32057f4abfcd3934c11e3440721173e7b237c154327f08a66e001a20ebd1afcc",
-    "mtime": "2026-10-16T08:08:35.144Z"
+    "bytes": 40517,
+    "sha256": "5aef9601ad7bd677b7534570e66e866e41cfde6ae4680ca9cdc8340aaccb90af",
+    "mtime": "2026-10-16T21:48:41.590Z"
    }
   ],
   "code": [
@@ -1328,9 +1328,9 @@
    "complete": true,
    "names": 1348,
    "segments": 1217,
-   "closureShare": 0.3307
+   "closureShare": 0.3299
   },
-  "scopeSha256": "145b7b27a7aa0a2d7a327658543abf4079fcb1e63ac2d7ce89e0088b4db73bd2",
+  "scopeSha256": "85e2fad25a7c06f0a9215c428a0b0550eccccbfd9ca6641e2fe2dc560002a7b5",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -1349,7 +1349,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "df41041d62bfd86138705e23d5d1eddf0c9d9a7ee5cd3a4e051a9c0eeefa7e1e",
+    "stableSha256": "ae7f00ad983573b7e84d5d157914ab599f4d45e1618d9268eb4f6f645f3ad316",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
