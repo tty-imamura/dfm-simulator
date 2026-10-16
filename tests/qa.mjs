@@ -22859,9 +22859,10 @@ if (!FAST) {
           const wantM = S.n > HP293.REL_DRAG_SOLVE_DIRECT_MAX ? (v.preset.physics.relativeDrag.solver === 'network-pcg-v1' ? 'pcg' : 'gs') : 'direct';
           if (wantM !== 'direct') nMethod[wantM] = (nMethod[wantM] || 0) + 1;
           if ('compose' in v.preset.physics.relativeDrag || 'solveFrom' in v.preset.physics.relativeDrag || !(st && st.compose && cs && cs.compose === 'solve' && cs.solveFrom === 'velocity' && cs.solves === 2 && cs.method === wantM)) nLeak++;
-          const qs = JSON.parse(JSON.stringify(q)); (() => { const z = qs.physics.relativeDrag; if (z.gain === undefined) { const c = (z.enabled === false || z.Wbg === null || z.Wbg === undefined) ? 0 : Number((1 / z.Wbg).toPrecision(15)); delete z.Wbg; delete z.enabled; z.gain = c; } z.compose = 'sum'; })();   // 第302便a: 凍結比較(compose:"sum")は gain で書く
+          const qs = JSON.parse(JSON.stringify(q)); (() => { const z = qs.physics.relativeDrag; if (z.gain === undefined) { const c = (z.enabled === false || z.Wbg === null || z.Wbg === undefined) ? 0 : Number((1 / z.Wbg).toPrecision(15)); delete z.Wbg; delete z.enabled; z.gain = c; } z.compose = 'sum'; delete z.inertialR2; })();   // 第302便a: 凍結比較(compose:"sum")は gain で書く・第306便a: inertialR2 は gain の旧宣言と組めない(受理器 —— 第303便b)ので sum の写しでは外す(在位の惑星 7 本が宣言した)
           for (const k of ['solver', 'solverTol', 'solverMaxIter', 'spinSource', 'spinDrag']) delete qs.physics.relativeDrag[k];   // 第296便c: 連鎖の宣言は solve 専用(sum の写しでは外す)・第298便c: spinDrag も
-          const vs = HP293.validatePreset(qs); HP293.sim.build(vs.preset); const S2 = HP293.sim;
+          const vs = HP293.validatePreset(qs); if (!vs.ok) { nSumLeak++; continue; }   // 第306便a: 受理されない写しで build して QA 全体を止めない(数えて FAIL にする)
+          HP293.sim.build(vs.preset); const S2 = HP293.sim;
           for (let k = 0; k < 3; k++) S2.step(0.016);
           const st2 = HP293.inertialDragState(S2);
           if (!(vs.preset.physics.relativeDrag.compose === 'sum' && st2 && !('compose' in st2) && HP293.inertialDragComposeState(S2) === null)) nSumLeak++;
