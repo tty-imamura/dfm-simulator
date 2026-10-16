@@ -1025,6 +1025,16 @@ export const REGEN_STEPS = [
   S('spinavg-305d', 'node tests/exp-w305d-spinavg.mjs', ['tests/out/spinavg-w305d.json'], 577, { secSource: 'w305d-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/spinavg-w305d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/wallSec', '/scan/rows/*/wallSec']) },
     note: '第305便d: 回転引きずり・軸引きずりと多粒子の平均の診断(契約の步ごとの確かめ・座標変換の分解・有限回転の順序・平均と二次モーメント・平均場と正確な対の和・平均の自転速度と斥力の候補の読み口 —— 値だけ・力として足さない)' }),
+  // ==== 第306便d の塊(ここから)====
+  // ---- 第306便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」・決断事項 AN338 ①③④・統括の検証項目 R207): **回転引きずりを座標変換として
+  //   器の写しで測る器**(段 P〔包みの素通り〕・G〔大域の一つの R —— 不変量・回転引きずりの項と走行の共変・時間に依る枠の読み替えの恒等式〕・L〔受け手ごとの R_i の選択肢の
+  //   写し(位置だけ/位置 + 姿勢/v ← R_i v のキック/一つの R̄ の対照)の帳簿と h・h/2・h/4〕・O〔源の並び〕・F〔揺らぎの仕事〕・D〔🍩 の步の順序の遅れと直し方の候補〕)。
+  //   spinDrag の rot を宣言した本 4 本の写し(本の宣言は変えない —— 器の中で組む)。html だけを読む・1 プロセス(html の関数を器の process の中で包む —— 素通りは段 P)。
+  //   所要は第306便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('rotframe-306d', 'node tests/exp-w306d-rotframe.mjs', ['tests/out/rotframe-w306d.json'], 1767, { secSource: 'w306d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rotframe-w306d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/runs/*/*/wallSec', '/books/*/retro/*/wallSec']) },
+    note: '第306便d: 回転引きずりの座標変換の定義の帳簿(大域の R と受け手ごとの R_i・位置/姿勢/速度の選択肢・読み替えとキック・揺らぎの仕事・🍩 の步の順序の遅れの候補 —— 値だけ・エンジンと宣言は変えない)' }),
+  // ==== 第306便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

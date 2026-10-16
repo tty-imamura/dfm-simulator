@@ -138,6 +138,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSl
 #   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
 # <<< 第306便e
+# ==== 第306便d の塊(ここから)====
+# 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
+# ==== 第306便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

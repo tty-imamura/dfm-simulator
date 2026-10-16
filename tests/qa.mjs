@@ -80062,6 +80062,103 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ==== 第306便d の塊(ここから —— docs.rotFrame306 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第306便d(原仮定者の裁定(第96報)後半・決断事項 AN338 ①③④・統括の検証項目 R207): docs.rotFrame306 —— **回転引きずりを「移動と回転の両方に効く座標変換」として
+// ----   器の写しで測る器**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/rotframe-w306d.json ∧ 器 tests/exp-w306d-rotframe.mjs。固定値は正本と器の宣言から読む
+// ----   (器の表の関数 physicsTables・数の文字列 docNumbers・門の関数 gatesOf で正本から作り直す —— 鎖で正本を作り直した後の世代も同じ照合)。html・本の宣言・エンジンの式は
+// ----   変えない便(器の process の中で html の関数を包むだけ・力として何も足さない)。
+// ----   ① 正本の門(器の gatesOf で作り直して正本の gates と一致・全部真)・試走でない(QUICK でない・步 ≥ 400)・版/来歴(w272e-1)・領域 hash(完全)・
+// ----      宣言から探した本の ID が器の領域の宣言 presets と同じ・写しの並び
+// ----   ② lib の恒等式を QA の中で作り直す(Rodrigues の直交と小角の連続・Chasles の分解・順序付きの積の h² の交換子・読み替えの恒等式 W′ = v′ + u′ と
+// ----      キック/移流なしの破れ —— 純関数だけ・html を読まない)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第306便d〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const rf306Out = path.join(ROOT, 'tests', 'out', 'rotframe-w306d.json'), rf306Harn = path.join(ROOT, 'tests', 'exp-w306d-rotframe.mjs'), rf306Lib = path.join(ROOT, 'tests', 'lib-w306d-rotframe.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(rf306Out) && fs.existsSync(rf306Harn) && fs.existsSync(rf306Lib))) {
+    console.log('SKIP docs.rotFrame306(第306便d の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, RFL = null;
+    try { J = JSON.parse(fs.readFileSync(rf306Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + rf306Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { RFL = await import('file://' + rf306Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第306便d — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && RFL) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true || !(J.steps >= 400)) bad.push('正本が試走(QUICK・步 ' + J.steps + ')');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== RFL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const declIds = (J.meta && J.meta.scope && J.meta.scope.presets) || [], foundIds = (J.ids || []).map((r) => r.id).sort();
+      if (JSON.stringify(foundIds) !== JSON.stringify(declIds.slice().sort())) bad.push('宣言から探した本 ' + foundIds.join(',') + ' が領域の宣言と違う');
+      if ((J.books || []).map((b) => b.key).join(',') !== X.CASES.map((c) => c.key).join(',')) bad.push('写しの並び');
+      cases.push(`門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・写し ${(J.books || []).length} 本(${foundIds.join('・')})・步 ${J.steps}`);
+      // ②
+      try {
+        const R = RFL.rodrigues([0.3, -0.2, 0.5]), I = RFL.matMul(R, RFL.matT(R));
+        const orth = Math.max(...I.map((v, k) => Math.abs(v - RFL.IDENT[k])));
+        const small = [0.99e-4, 1.01e-4].map((s) => Math.abs(RFL.angleOf(RFL.rodrigues([0, 0, s])) / s - 1));
+        const oms = [[0, 0, 0.01], [0.002, 0.001, 0.005], [0, -0.003, 0.002]], cs = [[1, 2, 3], [-4, 1, 0], [2, -2, 5]], x = [3, 1, -2];
+        const sc = RFL.chasles(oms, cs);
+        let s = [0, 0, 0]; for (let k = 0; k < 3; k++) s = RFL.add(s, RFL.cross(oms[k], RFL.sub(x, cs[k])));
+        const ch = RFL.norm(RFL.sub(s, RFL.add(RFL.cross(sc.Om, RFL.sub(x, sc.c)), sc.bPar))) / RFL.norm(s);
+        const fr = (h) => RFL.norm(RFL.sub(RFL.orderedProduct(oms, cs, h, x, 'fwd'), RFL.orderedProduct(oms, cs, h, x, 'rev')));
+        const ratio = fr(0.1) / fr(0.05);
+        // 読み替えの恒等式(合成の軌跡 x(t)・v + u = ẋ・回る枠 R(Ω t)・動く中心)
+        const Om = [0.01, 0.02, 0.3], c0 = [1, -1, 0.5], cd = [0.1, 0.2, -0.1], xs = (t) => [Math.cos(t) * 5, Math.sin(2 * t) * 3, t * 0.7], vs = (t) => [0.3 * t, -0.1, 0.2];
+        const Xp = (t) => RFL.rotateAbout(RFL.rodrigues(RFL.scale(Om, t)), RFL.add(c0, RFL.scale(cd, t)), xs(t));
+        const t = 0.7, d = 1e-5, Wn = RFL.scale(RFL.sub(Xp(t + d), Xp(t - d)), 1 / (2 * d)), W = RFL.scale(RFL.sub(xs(t + d), xs(t - d)), 1 / (2 * d));
+        const Rt = RFL.rodrigues(RFL.scale(Om, t)), f = { R: Rt, Rdot: RFL.rdotOf(Om, Rt), c: RFL.add(c0, RFL.scale(cd, t)), cdot: cd }, v = vs(t), u = RFL.sub(W, v);
+        const mis = {}; for (const def of ['relabel', 'kick', 'missing']) { const q = RFL.splitVelocity(def, f, xs(t), v, u); mis[def] = RFL.norm(RFL.sub(Wn, RFL.add(q.v, q.u))) / RFL.norm(Wn); }
+        if (!(orth < 1e-14 && small.every((e) => e < 1e-14) && ch < 1e-14 && ratio > 3.9 && ratio < 4.1 && mis.relabel < 1e-8 && mis.kick > 0.05 && mis.missing > 0.05)) bad.push('② lib の恒等式 ' + JSON.stringify({ orth, small, ch, ratio, mis }));
+        cases.push(`② lib の恒等式を QA の中で作り直す(直交 ${orth.toExponential(1)}・Chasles ${ch.toExponential(1)}・順序の比 ${ratio.toFixed(3)}・読み替え ${mis.relabel.toExponential(1)}/キック ${mis.kick.toFixed(3)}/移流なし ${mis.missing.toFixed(3)})`);
+      } catch (e) { bad.push('② lib の恒等式が走らない: ' + String(e).slice(0, 100)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第306便d〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第306便d〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第306便d〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第306便d〕が「## 7. 論文」の後');
+        for (const w of ['R207', '第96報', 'AN338', 'exp-w306d-rotframe.mjs', 'lib-w306d-rotframe.mjs', 'rotframe-w306d.json', 'docs.rotFrame306', 'W306D_OUT', '読み替え', 'キック', '大域', '受け手ごと', 'u′ = Ru + Ṙ(x − c)', '揺らぎの仕事', '步の順序', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第306便d〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第306便d') < 0) bad.push('CHANGELOG に第306便d が無い');
+      if (RM.indexOf('第306便d') < 0) bad.push('README に第306便d が無い');
+      if (RT.indexOf("S('rotframe-306d', 'node tests/exp-w306d-rotframe.mjs', ['tests/out/rotframe-w306d.json']") < 0 || !/secSource: 'w306d-branch'/.test(RT)) bad.push('再生成の段 rotframe-306d');
+      if (GI.indexOf('!tests/out/rotframe-w306d.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.rotFrame306') < 0) bad.push('post-merge の ③′ に docs.rotFrame306 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/熱力学を導いた/, /斥力を導いた/, /法則を発見した/, /GR を導いた/, /GR と一致した/, /43″ が出た/, /n が決まった/, /η が決まった/, /座標変換であることを示した/, /エンジンを直した/, /周期を予言した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第306便d〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第306便d〕に禁句(' + w.length + ' 字)');
+      for (const f of ['tests/exp-w306d-rotframe.mjs', 'tests/lib-w306d-rotframe.mjs']) { const tx = rd(f); for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.rotFrame306', bad.length === 0,
+      `**回転引きずりを座標変換として測る器**(第306便d・原仮定者の裁定(第96報)・AN338・R207 —— 正本 rotframe-w306d.json・html と本の宣言とエンジンの式は変えない・力として何も足さない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第306便d の塊(ここまで)====
+
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
 // ----   ① 受理: η = 0.01・0.5・1・100(100 は「天体の外」の警告)—— shellSelf:"drag" の宣言つき
