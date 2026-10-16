@@ -35,6 +35,7 @@ import * as L from './lib-w297b-fit.mjs';
 import * as EM from './exp-w303c-earthmoon.mjs';
 import { emOnlyBodies, emOnlyPhysics, declCheck as emDeclCheck, runEm3, windowsOf as emWindowsOf } from './exp-w300b-emonly.mjs';
 import { DECL303, DECL303_DATA_FILE, LIB_VERSION as PRE_VERSION } from './lib-w304c-pre.mjs';
+import { pinDecl304, DECL304_DATA_FILE } from './lib-w305c-pre.mjs';   // 第305便c(R201): 🌦️🌔 の宣言に地球の J₂ を足した世代では、この器は第304便の宣言の写しで測る(歴史の値を保つ)
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","earthMoonSunInertialFit","mercurySunInertial3d","plutoCharonInertialFit"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.fitTargetGates","HP.inertialDragState","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","T","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","inertialDragNormApply","pnSource","relDragCoefficientOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -270,11 +271,14 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  // 第305便c: 第304便の宣言の写し(本ごとの門 —— 第304便の html では no-op)。器の中の BUILTIN_PRESETS だけを書き換える(html と署名の宣言は変えない)
+  const PIN304 = pinDecl304();
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const log = (s) => console.log('  ' + s);
   const J = { meta: null, version: HARNESS_VERSION, preVersion: PRE_VERSION, base: BASE, tol: TOL, obs: OBS_B1, Wbg303: WBG303,
     decl303: { sig: DECL303[FIT_ID].fitRecord.cond.sig, Wbg: WBG303, softening: DECL303[FIT_ID].physics.softening } };
   const stages = { solve: () => stageSolve(HP, log), measure: () => stageMeasure(HP, log), record: () => stageRecord(HP, J), emo: () => stageEmo(HP, log) };
+  if (PIN304.pinned) J.decl304Pin = { changed: PIN304.changed, note: '第305便c: 🌦️🌔 の宣言(地球の J₂・fitRecord)が第304便から動いた世代 —— この器は第304便の宣言の写し(tests/lib-w305c-pre.mjs の pin304)で測った' };
   J.partsRun = [];
   for (const k of PARTS_ALL) {
     if (PARTS.includes(k)) { console.log(`段 ${k}`); J[k] = await stages[k](); J.partsRun.push(k); }
@@ -283,9 +287,9 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「月を再現した」', '「引きずりが無いことを示した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w304c-baseline.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
+  const CODE = ['tests/exp-w304c-baseline.mjs', 'tests/lib-w304c-pre.mjs', 'tests/lib-w305c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
     'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便c', target: TARGET, code: CODE, inputs: [TARGET, DECL303_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便c', target: TARGET, code: CODE, inputs: [TARGET, DECL303_DATA_FILE, DECL304_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意', reading: '統括の検証項目 R197(🌦️🌔 の基線の見直しと「引きずり OFF で許容の内」の記録)' });
   J.elapsedS = (Date.now() - t0) / 1000;
