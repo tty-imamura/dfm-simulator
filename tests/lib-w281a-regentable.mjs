@@ -1033,6 +1033,16 @@ export const REGEN_STEPS = [
     after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/charonaudit-w305e.json': META_RUN.concat(['/elapsedS', '/soft/rows/*/wallSec', '/window/run16/wallSec', '/band/rows/*/wallSec']) },
     note: '第305便e: 🟪 の基線の監査(引きずり OFF の差 +7.221 s の内訳・観察者の時計の換算は記録だけ・直す案の確かめ —— 宣言は変えない)' }),
+  // ---- 第306便a(原仮定者の裁定〔第97報〕AN336・第95報・AN332 の裁定・統括の検証項目 R204): **水星の標的を 1PN + A1 の派生した参照値へ**(生成器と契約〔段 A〕・
+  //   水星の k の再フィット n = 2/+1/0〔段 M〕・7 本への移送〔段 T —— 新しい抽出器が主 + 検出器 B・窓 8/16 × 位相 0/半公転 × h/h2/h4〕・二体の対 = 行〔段 R〕・
+  //   門〔段 G —— html に書いた在位の 7 本の宣言そのものを走らせて写しとビット同一・🌡️ の fitRecord を作り直して照合〕)。html・凍結の写し tests/data-w306a-decl305.json・
+  //   観測の記録 CSV 2 本・第305便b の正本(照合規約 43.0 の k の履歴の列)を読む。1 プロセス。所要は第306便a の枝の実測(正本の elapsedS)
+  // <<< w306a 段 an336-306a(統合で他の枝の段と混ざらないように境界を置く)
+  S('an336-306a', 'node tests/exp-w306a-an336.mjs', ['tests/out/an336-w306a.json'], 900, { secSource: 'w306a-branch', node: true,
+    after: ['gfamily-305b', 'planets3d-299c', 'inertialr2-303b', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/an336-w306a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第306便a: 水星の標的を 1PN + A1 の派生した参照値へ —— 生成器と契約・水星の k(n = 2 を宣言・n = +1/0 は対照)・7 本への移送・在位の 7 本の宣言の門(G1〜G3・fitRecord)' }),
+  // >>> w306a 段 an336-306a
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -1133,6 +1143,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
+  // 第306便a(AN336・R204): 第305便の在位の惑星 7 本の宣言の凍結の写し(tests/lib-w306a-pre.mjs の pin305 と tests/exp-w306a-an336.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 an336-w306a と歴史の記録の器の入力)
+  'tests/data-w306a-decl305.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
