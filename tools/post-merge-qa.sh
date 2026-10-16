@@ -134,6 +134,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"
+# ==== 第306便c の塊(ここから —— 他の枝の塊と混ぜない)====
+# 第306便c(AN337 ③④⑤・AN335 ①・R206): 枝 c の新設 3 本(preset.emResolve306 —— 🌦️ の J₂ ありの初期配置の解き直しの宣言・fitRecord・観測カード・🌔 の写し・対照の説明・
+#   docs.emResolve306 —— 正本と文書・docs.obsMoonNode306 —— 交点の観測の行の確認の記録)と、pin305 の世代切替を足した preset.emJ2_305・🌔 の観測カードの数を見る preset.earthReorg300
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.obsMoonNode306 preset.emJ2_305 preset.earthReorg300"
+# ==== 第306便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

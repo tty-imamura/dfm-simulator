@@ -374,6 +374,10 @@ export async function main() {
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   if (typeof HP.j2State !== 'function') throw new Error('対象の html に三次元の J₂(第305便c)が無い');
+  // 第306便c(R206): 🌦️🌔 の初期配置を J₂ ありで解き直した世代では、この器は第305便の宣言の写し(tests/lib-w306c-pre.mjs の pin305)で測る(歴史の値を保つ ——
+  //   第305便の html では no-op)。器の中の BUILTIN_PRESETS だけを書き換える(html と署名の宣言は変えない)
+  const { pinDecl305, DECL305_DATA_FILE } = await import('./lib-w306c-pre.mjs');
+  const PIN305 = pinDecl305();
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const log = (s) => console.log('  ' + s);
   const { DECL304, DECL304_DATA_FILE, LIB_VERSION: PRE_VERSION } = await import('./lib-w305c-pre.mjs');
@@ -381,6 +385,7 @@ export async function main() {
     decl304: { sig: DECL304[FIT_ID].fitRecord.cond.sig } };
   const stages = { unit: () => stageUnit(HP, log), analytic: () => stageAnalytic(HP, log), em: () => stageEm(HP, log), emo: () => stageEmo(HP, log),
     record: () => stageRecord(HP, J, DECL304[FIT_ID].fitRecord) };
+  if (PIN305.pinned) J.decl305Pin = { changed: PIN305.changed, note: '第306便c: 🌦️🌔 の宣言(初期配置・fitRecord)が第305便から動いた世代 —— この器は第305便の宣言の写し(tests/lib-w306c-pre.mjs の pin305)で測った' };
   J.partsRun = [];
   for (const k of PARTS_ALL) {
     if (PARTS.includes(k)) { console.log(`段 ${k}`); J[k] = await stages[k](); J.partsRun.push(k); }
@@ -389,9 +394,9 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「月を再現した」', '「交点を再現した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w305c-j2.mjs', 'tests/lib-w305c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
+  const CODE = ['tests/exp-w305c-j2.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w306c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
     'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便c', target: TARGET, code: CODE, inputs: [TARGET, DECL304_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便c', target: TARGET, code: CODE, inputs: [TARGET, DECL304_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: 'DECISIONS v63 AN327 ③⑤・v64 §0 AN327(交点は J₂ —— 全残差の帰属は追加の測定の後)', reading: '統括の検証項目 R201(三次元の J₂ と 🌦️ の交点・🌔 のヘルプと T1 の転記の契約)' });
   J.elapsedS = (Date.now() - t0) / 1000;
