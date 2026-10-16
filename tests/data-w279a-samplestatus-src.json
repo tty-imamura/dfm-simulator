@@ -290,64 +290,68 @@
    }
   },
   "mercurySunInertial3d": {
-   "purpose": "太陽と水星の三次元で W_bg を近点率の差 43.0″/世紀へ合わせる(semic)",
+   "purpose": "太陽と水星の三次元で λ ∝ m の k を 1PN + A1 の参照値へ合わせる(G_loc n = 2)",
    "objective": "met",
-   "state": "差 43.00002(h/2 42.99999)・W_bg 221.1204・A1 −0.0020±0.0030・fitted",
+   "state": "差 42.97856(h/2 42.97851)・q⋆ 42.97851・k 4.99986・fitted",
    "evidence": [
-    "tests/out/refit-w303a.json",
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Mercury in 3D; W_bg matched to the 43.0\"/cy apsidal difference (semic, no G_loc)",
-    "state": "diff 43.00002 (h/2 42.99999)\"/cy; W_bg 221.1204; A1 -0.0020+/-0.0030; fitted"
+    "purpose": "Sun and Mercury in 3D; k (lambda ~ m) matched to the 1PN + A1 reference (G_loc n = 2)",
+    "state": "diff 42.97856 (h/2 42.97851)\"/cy; q* 42.97851; k 4.99986; fitted"
    }
   },
   "venusSunInertial3d": {
-   "purpose": "太陽と金星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と金星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 224.7021 日(観測との差 0.0011)・近点(G_loc なし)−1.59621″/世紀・A1 +0.0026±0.0016・標的なし",
+   "state": "予言 8.624057・参照値 8.627121・幅の 1.91 倍・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Venus in 3D, drag off; measure period and apse",
-    "state": "period 224.7021 d (0.0011 from observed); apse -1.59621\"/cy; A1 +0.0026+/-0.0016; no target"
+    "purpose": "Sun and Venus in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 8.624057\"/cy; reference 8.627121; 1.91 x the source width; not matched"
    }
   },
   "marsSunInertial3d": {
-   "purpose": "太陽と火星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と火星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 686.9863 日(観測との差 0.0063)・近点(G_loc なし)−0.36042″/世紀・A1 −0.000020±0.000037・標的なし",
+   "state": "予言 1.350807・参照値 1.350845・幅の 1.03 倍・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Mars in 3D, drag off; measure period and apse",
-    "state": "period 686.9863 d (0.0063 from observed); apse -0.36042\"/cy; A1 -0.000020+/-0.000037; no target"
+    "purpose": "Sun and Mars in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 1.350807\"/cy; reference 1.350845; 1.03 x the source width; not matched"
    }
   },
   "jupiterSunInertial3d": {
-   "purpose": "太陽と木星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と木星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 4332.6745 日(観測との差 0.0855)・近点(G_loc なし)−0.11609″/世紀・A1 +0.0587±0.0283・標的なし",
+   "state": "予言 0.06246310・参照値 0.1210866・幅の 2.07 倍・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Jupiter in 3D, drag off; measure period and apse",
-    "state": "period 4332.6745 d (0.0855 from observed); apse -0.11609\"/cy; A1 +0.0587+/-0.0283 (about 2 sigma); no target"
+    "purpose": "Sun and Jupiter in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 0.06246310\"/cy; reference 0.1210866; 2.07 x the source width; not matched"
    }
   },
   "saturnSunInertial3d": {
-   "purpose": "太陽と土星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と土星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 10755.6209 日(観測との差 −3.5991)・近点(G_loc なし)−0.02760″/世紀・A1 −0.00032±0.00047・標的なし",
+   "state": "予言 0.01371399・参照値 0.01338940・幅の 0.69 倍・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Saturn in 3D, drag off; measure period and apse",
-    "state": "period 10755.6209 d (-3.5991 from observed); apse -0.02760\"/cy; A1 -0.00032+/-0.00047; no target"
+    "purpose": "Sun and Saturn in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 0.01371399\"/cy; reference 0.01338940; 0.69 x the source width; not matched"
    }
   },
   "saturnRingInertial3d": {
@@ -364,27 +368,29 @@
    }
   },
   "uranusSunInertial3d": {
-   "purpose": "太陽と天王星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と天王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 30702.2925 日(観測との差 16.8925)・近点(G_loc なし)−0.00749″/世紀・A1 の行なし・標的なし",
+   "state": "予言 0.002384692・参照値 0.002384637(1PN だけ)・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Uranus in 3D, drag off; measure period and apse",
-    "state": "period 30702.2925 d (16.8925 from observed); apse -0.00749\"/cy; no A1 row; no target"
+    "purpose": "Sun and Uranus in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 0.002384692\"/cy; reference 0.002384637 (1PN only); not matched"
    }
   },
   "neptuneSunInertial3d": {
-   "purpose": "太陽と海王星の三次元(引きずり OFF)で周期と近点率を測る",
+   "purpose": "太陽と海王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
    "objective": "met",
-   "state": "周期 60226.3209 日(観測との差 37.3209)・近点(G_loc なし)−0.00358″/世紀・A1 の行なし・標的なし",
+   "state": "予言 0.0007740288・参照値 0.0007741015(1PN だけ)・合わせていない",
    "evidence": [
+    "tests/out/an336-w306a.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Neptune in 3D, drag off; measure period and apse",
-    "state": "period 60226.3209 d (37.3209 from observed); apse -0.00358\"/cy; no A1 row; no target"
+    "purpose": "Sun and Neptune in 3D; Mercury's k carried over (G_loc n = 2)",
+    "state": "predicted 0.0007740288\"/cy; reference 0.0007741015 (1PN only); not matched"
    }
   },
   "plutoCharonInertial": {

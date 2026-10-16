@@ -1063,6 +1063,16 @@ export const REGEN_STEPS = [
     after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/charonaudit-w305e.json': META_RUN.concat(['/elapsedS', '/soft/rows/*/wallSec', '/window/run16/wallSec', '/band/rows/*/wallSec']) },
     note: '第305便e: 🟪 の基線の監査(引きずり OFF の差 +7.221 s の内訳・観察者の時計の換算は記録だけ・直す案の確かめ —— 宣言は変えない)' }),
+  // ---- 第306便a(原仮定者の裁定〔第97報〕AN336・第95報・AN332 の裁定・統括の検証項目 R204): **水星の標的を 1PN + A1 の派生した参照値へ**(生成器と契約〔段 A〕・
+  //   水星の k の再フィット n = 2/+1/0〔段 M〕・7 本への移送〔段 T —— 新しい抽出器が主 + 検出器 B・窓 8/16 × 位相 0/半公転 × h/h2/h4〕・二体の対 = 行〔段 R〕・
+  //   門〔段 G —— html に書いた在位の 7 本の宣言そのものを走らせて写しとビット同一・🌡️ の fitRecord を作り直して照合〕)。html・凍結の写し tests/data-w306a-decl305.json・
+  //   観測の記録 CSV 2 本・第305便b の正本(照合規約 43.0 の k の履歴の列)を読む。1 プロセス。所要は第306便a の枝の実測(正本の elapsedS)
+  // <<< w306a 段 an336-306a(統合で他の枝の段と混ざらないように境界を置く)
+  S('an336-306a', 'node tests/exp-w306a-an336.mjs', ['tests/out/an336-w306a.json'], 900, { secSource: 'w306a-branch', node: true,
+    after: ['gfamily-305b', 'planets3d-299c', 'inertialr2-303b', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/an336-w306a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第306便a: 水星の標的を 1PN + A1 の派生した参照値へ —— 生成器と契約・水星の k(n = 2 を宣言・n = +1/0 は対照)・7 本への移送・在位の 7 本の宣言の門(G1〜G3・fitRecord)' }),
+  // >>> w306a 段 an336-306a
   // ---- 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): **🟪 plutoCharonInertialFit の宣言の直し (A) の器**(段 decl〔第305便の宣言の写し tests/data-w306e-decl305.json から
   //   案 (A) の宣言を作り html と同じかの門〕・measure〔h/h2/h4 の 8 公転の M1〕・soft〔軟化 ε² の外挿〕・tide〔太陽の潮汐の桁・三次元の写し〕・control〔旧 W_bg の引きずり ON・
   //   第305便の宣言の ON/OFF〕・parent〔🥶 の同じ定義の点検 —— 宣言は変えない〕・record〔fitRecord を測った数から作り本の記録と同じか〕)。html と
@@ -1172,6 +1182,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
+  // 第306便a(AN336・R204): 第305便の在位の惑星 7 本の宣言の凍結の写し(tests/lib-w306a-pre.mjs の pin305 と tests/exp-w306a-an336.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 an336-w306a と歴史の記録の器の入力)
+  'tests/data-w306a-decl305.json': [],
   // 第306便b(R205): 基点 02ca93b の 🌦️ の宣言の凍結の写し(地球の J₂ を含む —— tests/exp-w306b-periodn.mjs の段 E が読む —— 書き換えない・除く欄は無い。正本 periodn-w306b の入力)
   'tests/data-w306b-decl305.json': [],
   // 第306便c(R206): 第305便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w306c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 emresolve-w306c と歴史の記録の器〔j2-305c〕の入力)

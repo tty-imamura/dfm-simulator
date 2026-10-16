@@ -3849,7 +3849,16 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 
 
-## 102. 第306便c —— 🌦️ の J₂ ありの初期配置の解き直し(恒星月 B1・平均傾斜 5.145°)・交点の観測の行の確認・J₂ × 引きずり ON の仕事の帳簿(DECISIONS v64 AN337 ③④⑤・v65 §0 AN337・AN335 ①・統括の検証項目 R206・**宣言の値と記録だけ** —— 宣言の鍵・J₂ の値と軸・引きずりの式・受理器・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+## 102. 第306便a —— 水星の標的を 1PN + A1 の派生した参照値へ・在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)に同じ k を一括で宣言(原仮定者の裁定〔第97報〕AN336・第95報・AN332 の裁定・決断事項 AN330・AN331・AN334・統括の検証項目 R204・**宣言した 7 本だけが変わる** —— エンジンの式・受理器・`S._core` は不変・🟫 は触らない・**SYSTEM_PROMPT には載せない**)
+
+- **標的**: 派生した参照値 q⋆ = q_1PN(初期の接触要素)+ A1(EPM2011・候補の行の記録 OBS-30d6c60e)= 42.978510382067476″/世紀(sigma null・原資料の幅 0.003 は 68% の定義が未確認・数値フィットの停止許容 0.0009 は宣言・照合規約 43.0 は履歴の列・calibrationEligible false)。生成器 `tests/lib-w306a-an336.mjs`(`an336Target`・`an336Targets`・`targetOfBook`・`a1Of`・`pn1Of`・`readRecords`・`planetDecl306`)と契約の器 `tests/exp-w306a-an336contract.mjs`(不正な入力 7 例の拒否)。
+- **7 本の宣言**: physics に `gLoc:{law:"kappaC2"}` と `relativeDrag:{law:"inertial", Wbg:<W_ext>, eps:0.05, history:"positions", pairs:"all", inertialR2:{lambdaRs:4.99986, sources:"all", denom:"pair"}}`(自己の項・dragCore・shellSelf は入れない・W_ext は本の単位ごとの推定の値)。k は 7 本とも同じ(水星のフィットの値 —— 7 桁)。🌡️ だけ fitRecord(w298b-1 のまま —— 来歴の版 w306a-1 は law と procedure に・ノブ `physics.relativeDrag.inertialR2.lambdaRs`・標的 q⋆・tol 0.0009 declared・fixed に照合規約 43.0 の履歴の列)。他の 6 本は fitRecord を持たない移送の記録(観測カードの移送の行・注記 `an336_k_transfer`)。注記の新語 `an336_ref_fit`・`an336_k_transfer`・`an336_k_shared`(ja/en)。abBody は「引きずりを切る」(G_loc n = 2 は B 側でも入ったまま —— physicsPatch は gLoc を持たない)。
+- **移送の数(新しい抽出器・h/4・8 公転)**: 🌋 8.624057(原資料の幅の 1.91 倍)・🔴 1.3508071(1.03 倍)・🏀 0.0624631(2.07 倍 —— 外れをそのまま記録)・🟡 0.01371399(0.69 倍)・🔷💙 は幅なし(1PN の式だけ)。幅の比を σ と呼ばない。
+- **器と正本**: `tests/exp-w306a-an336.mjs`(版 w306a-an336-1・`W306A_PARTS`=A,M,T,R,G・`W306A_OUT`・`W306A_TMP`)→ `tests/out/an336-w306a.json`(段 an336-306a)。凍結の写し `tests/data-w306a-decl305.json`・lib `tests/lib-w306a-pre.mjs`(`pin305`・`pinDecl305`・`gate305`・`pinChanges305`・`isGen306a`)—— 器 `tests/exp-w303a-refit.mjs`・`tests/exp-w304a-shell.mjs` は pin305 で第305便の宣言を測る。
+- **QA**: `docs.an336_306`・`preset.planets306`(root は SKIP)と、世代を宣言から読む既存の QA(preset.planets3d299・docs.planets3d299・preset.revertGLoc303・preset.gLocPlanets302・behavior.inertialR2_303・behavior.pairNorm305・behavior.wbgDirect302・ui.wbgSlider302・behavior.wbgEstimate302・preset.refit301)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI で作る本に inertialR2 や gLoc を既定で書かない。「43″ が出た」「移送が通った」「n が決まった」と書かない。
+## 103. 第306便c —— 🌦️ の J₂ ありの初期配置の解き直し(恒星月 B1・平均傾斜 5.145°)・交点の観測の行の確認・J₂ × 引きずり ON の仕事の帳簿(DECISIONS v64 AN337 ③④⑤・v65 §0 AN337・AN335 ①・統括の検証項目 R206・**宣言の値と記録だけ** —— 宣言の鍵・J₂ の値と軸・引きずりの式・受理器・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **🌦️ earthMoonSunInertial3d**: 第305便c の宣言(地球の J₂ を含む)の規則のまま、初期配置(t=0 の近地点距離・接触離心率・接触傾斜)だけを J₂ ありの参照積分 → エンジンで長窓 1062 公転の平均の要素(恒星月 B1 27.321661554 日・平均離心率 0.0549・平均傾斜 5.145°)へ解き直した(近地点距離 3.5685843・接触離心率 0.0762836・接触傾斜 5.28844°)。J₂ の値(1.08263×10⁻³)・赤道半径・固定の軸(23.4392911°/方位 90°)は動かしていない(交点に合わせて J₂ を動かすのを第一手にしない —— AN337)。fitRecord(w298b-1・4 標的)を測った数から作り直した(交点の標的の obs は 18.600 年のまま —— 出所と定義の確認の記録を出所の欄に)。観測カード・ワンタップの対照の表示・説明を直した。
 - **🌔 earthMoonOnly3d**: 写しの規則(`emOnlyBodies`・`emOnlyPhysics`)で 🌦️ の新しい初期配置から作り直した(引きずり OFF・地球の J₂ を含む宣言の写し —— この本で何も合わせていない)。
@@ -3859,7 +3868,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w306c-emresolve.mjs`(版 w306c-emresolve-1・`W306C_PARTS`=solve,measure,phase,attrib,ledger,emo,record・`W306C_OUT`・`W306C_LONG`)→ `tests/out/emresolve-w306c.json`(段 emresolve-306c)。第305便の宣言の写し `tests/data-w306c-decl305.json`・lib `tests/lib-w306c-pre.mjs`(`pin305`・`pinDecl305`・`gate305`・`pinChanges305`・`isGen306c`)—— 器 `tests/exp-w305c-j2.mjs` は pinDecl305 で第305便の宣言の写しで測る(歴史の値を保つ)。pin304・pin303 を呼ぶ器は全部の欄を戻すので pin305 は要らない。
 - **QA**: `preset.emResolve306`・`docs.emResolve306`・`docs.obsMoonNode306`(root は SKIP)・世代切替 `preset.emJ2_305`(第306便c の世代は pin305 の写しで照合・観測カードの数は preset.emResolve306 へ)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。初期配置の恒星月・平均傾斜を合わせたことを予言と書かない(入力)。交点の残りの差の帰属を目録の数だけで確定と書かない。
-## 102. 第306便e —— 🟪 plutoCharonInertialFit の宣言の直し (A)(GM は PLU060 のまま・初期の距離を二体のケプラーの a・引きずり OFF・旧 W_bg は履歴)(決断事項 AN339 の案 (A)・統括の検証項目 R208・**宣言の値だけ** —— 宣言の鍵・受理器・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+## 104. 第306便e —— 🟪 plutoCharonInertialFit の宣言の直し (A)(GM は PLU060 のまま・初期の距離を二体のケプラーの a・引きずり OFF・旧 W_bg は履歴)(決断事項 AN339 の案 (A)・統括の検証項目 R208・**宣言の値だけ** —— 宣言の鍵・受理器・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **🟪 plutoCharonInertialFit**: bodies の位置・速度を二体のケプラーの円の状態(初期の距離 a = (GM (P/2π)²)^(1/3) = 19595.593 km —— 標的の P 551856.43872 s と本の GM 975.40 km³/s² から・重心 0)へ・**引きずり OFF**(`relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.01, history:"positions", pairs:"all", coreTable:{n:4096}}`)。質量・半径・自転・構造核の事前値・軟化 ε 0.01 は第305便のまま。値は器の `declFrom305` の double。
 - **fitRecord**(w297b-1): ノブ `initial.keplerSemiMajorAxis`(閉じた式 —— 数値の探索ではない)・残差 +0.00437 s(軟化 1 km の分)・status は既存の "fitted"(入力の整合に対する数値の門 —— notFitted の先頭に「周期の一致は入力の整合の確かめで、独立な結果ではない」)。旧 W_bg 0.0001486103 と旧の初期の距離 19595.764 km は `fixed` の履歴の列。
