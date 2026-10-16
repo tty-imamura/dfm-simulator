@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
-  "generatedAt": "2026-10-15T11:04:27.379Z",
+  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "generatedAt": "2026-10-16T08:11:14.022Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6888618,
-    "sha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
-    "mtime": "2026-10-15T07:11:58.416Z"
+    "bytes": 6923966,
+    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+    "mtime": "2026-10-16T03:58:22.720Z"
    }
   ],
   "code": [
@@ -97,11 +97,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1318,
-   "segments": 1192,
-   "closureShare": 0.3265
+   "names": 1337,
+   "segments": 1206,
+   "closureShare": 0.3285
   },
-  "scopeSha256": "cb0ba1ddd497bcadd8c28fad3a7368f8723ddcb17cdc7bd5cf865361c7a717ea",
+  "scopeSha256": "2131919a32c0723d21d405ff4382f256570ece0b2207af82f036d0f91a5e7609",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -372,7 +372,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 5.627,
+   "wallSec": 6.017,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -422,7 +422,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 10.822,
+   "wallSec": 10.536,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -501,7 +501,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 6.677,
+   "wallSec": 6.749,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -519,7 +519,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 7.093,
+   "wallSec": 9.057,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -743,71 +743,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.677
+    "wallSec": 6.749
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.093
+    "wallSec": 9.057
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.012
+    "wallSec": 7.362
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 8.174
+    "wallSec": 8.987
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.985
+    "wallSec": 10.043
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.06
+    "wallSec": 7.54
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.417
+    "wallSec": 9.038
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.288
+    "wallSec": 9.278
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.45
+    "wallSec": 6.87
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 8.159
+    "wallSec": 9.242
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 8.31
+    "wallSec": 9.507
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 97.663
+ "elapsedS": 113.431
 }

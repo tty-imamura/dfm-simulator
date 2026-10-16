@@ -238,29 +238,29 @@
    }
   },
   "earthMoonSunInertial3d": {
-   "purpose": "地球の三次元版 —— 月の軌道傾斜と e′ を入れ、引きずり OFF の基線を長窓で確かめる",
+   "purpose": "地球の三次元版 —— 月の軌道傾斜・e′・J₂ を入れ、引きずり OFF の基線を長窓で確かめる",
    "objective": "met",
-   "state": "引きずり OFF で長窓 M4 8.8498 年(B1 −0.0006 —— 許容の内・第304便c)",
+   "state": "引きずり OFF・J₂ で長窓 M4 8.8496 年・交点 18.6037 年(B1 +0.0042 —— 許容の内)",
    "evidence": [
-    "tests/out/baseline-w304c.json",
-    "tests/out/refit-w303a.json"
+    "tests/out/j2-w305c.json",
+    "tests/out/baseline-w304c.json"
    ],
    "en": {
-    "purpose": "The Earth's 3D build (lunar inclination, e'); the drag-off baseline over the long window",
-    "state": "drag off: long-window M4 8.8498 yr (B1 -0.0006; within tolerance, wave 304c)"
+    "purpose": "The Earth's 3D build (inclination, e', J2); the drag-off long-window baseline",
+    "state": "drag off, J2: M4 8.8496 yr, node 18.6037 yr (B1 +0.0042; within tolerance, wave 305c)"
    }
   },
   "earthMoonOnly3d": {
    "purpose": "🌦️ から太陽を外した地球と月だけの三次元の対照で太陽の有無の差を見る",
    "objective": "met",
-   "state": "恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体(近点は回らない)",
+   "state": "恒星月 27.4903 日・朔望月(一様換算)29.7277 日・引きずり OFF の二体と地球の J₂(118 窓では近点の周期は読めない)",
    "evidence": [
     "tests/out/emonly-w300b.json",
-    "tests/out/baseline-w304c.json"
+    "tests/out/j2-w305c.json"
    ],
    "en": {
     "purpose": "Earth-Moon-only 3D control of 🌦️ (no Sun): what the Sun changes",
-    "state": "sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body (the apse does not turn)"
+    "state": "sidereal 27.4903 d; synodic (uniform) 29.7277 d; drag-off two-body with the Earth J2"
    }
   },
   "mercurySunInertial": {

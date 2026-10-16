@@ -1,0 +1,2759 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第305便a",
+  "target": "beta/index.html",
+  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "generatedAt": "2026-10-16T10:19:41.766Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6923966,
+    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+    "mtime": "2026-10-16T03:58:22.720Z"
+   },
+   {
+    "file": "tests/data-w305a-decl304.json",
+    "bytes": 16070,
+    "sha256": "91e2e75e84e53d99bb4a888242301a4fc8eb2912549dc082b821fdda679c80fb",
+    "mtime": "2026-10-16T03:58:09.672Z"
+   },
+   {
+    "file": "tests/out/baseline-w304c.json",
+    "bytes": 79884,
+    "sha256": "24067de13b4d16b694f1d81ad12ab4d2d1e0ddaafee3571ec3fc366b0c58e7d3",
+    "mtime": "2026-10-16T09:21:50.128Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w305a-pairnorm.mjs",
+    "bytes": 48794,
+    "sha256": "89ab0843184923566742848de47ccca14471dbde7b27bbd88954ebc61bd70112",
+    "mtime": "2026-10-16T03:58:09.672Z"
+   },
+   {
+    "file": "tests/exp-w303c-earthmoon.mjs",
+    "bytes": 72518,
+    "sha256": "8431b357a9f104c5bf64001c370d31ced6ce59b56e3fd3e4e2ccb09863c1a4ea",
+    "mtime": "2026-10-14T20:23:56.669Z"
+   },
+   {
+    "file": "tests/exp-w303b-inertialr2.mjs",
+    "bytes": 77477,
+    "sha256": "dbce6ab6d044f4692a9b2cace6c00ca87a28fa28a7a49868d1808c4f754686b0",
+    "mtime": "2026-10-15T07:11:58.476Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-14T00:03:21.993Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "de62ac2856f694772f05c6235a9a15ffb6073af729064860bf7d82eb99b0dd6e",
+  "harnessVersion": "w305a-pairnorm-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第96報)—— 分母の慣性決定力の和に自分自身・分子の引きずりの和に自分自身を入れない・決断事項 AN326",
+  "reading": "統括の検証項目 R199(対ごとの正規化のエンジン化と三体での λ ∝ m × n × 行/対)",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.GLOC_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_I2_VERSION",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_PAIRNORM_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreState",
+    "HP.fitCondSig",
+    "HP.gLocPeriAdvance",
+    "HP.gLocState",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.inertialDragLedgerOf",
+    "HP.inertialDragState",
+    "HP.inertialR2Q",
+    "HP.inertialR2State",
+    "HP.sim",
+    "HP.synodic",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.wbgEstimateOf",
+    "LAWS",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dfmInertialDrag3Build",
+    "dfmInertialDrag3Solve",
+    "dfmInertialDragStep",
+    "dfmInertialDragStep3",
+    "dragCoreAngular",
+    "dragCoreAvgK",
+    "dragCoreLookup",
+    "dragCoreTableBuild",
+    "fmt",
+    "inertialDragComposeBuild",
+    "inertialDragComposeSolve",
+    "inertialDragI2Apply",
+    "inertialDragNormApply",
+    "inertialDragPairApply",
+    "inertialDragPairState",
+    "inertialDragShellApply",
+    "pnSource",
+    "relDragCoefficientOf",
+    "relDragPairNormOf",
+    "synUniform",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1356,
+   "segments": 1225,
+   "closureShare": 0.3301
+  },
+  "scopeSha256": "6c57a9bdb1561fedfb7e0e672409a26dca4f9bfda0a9db08d63d396f091e33f0",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w305a-decl304.json",
+    "stableSha256": "b793b1bf92bd0c38305a05d82c70160ff415a2146ce4a2f5d4d9b4dd83521caf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/out/baseline-w304c.json",
+    "stableSha256": "479512d27110f5975cc642ec7971561ae41b301ce9a220941d594e1bc9c89095",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/emo/runs/h/wallSec",
+     "/emo/runs/h2/wallSec",
+     "/emo/runs/on/wallSec",
+     "/emo/wallSec",
+     "/measure/off/h/wallSec",
+     "/measure/off/h2/wallSec",
+     "/measure/off/h4/wallSec",
+     "/measure/on/h/wallSec",
+     "/measure/wallSec",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/solve/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w305a-pairnorm-1",
+ "harnessVersion": "w305a-pairnorm-1",
+ "pin": {
+  "file": "tests/data-w305a-decl304.json",
+  "base": "bdb7ae5",
+  "liveSame": {
+   "earthMoonSunInertial3d": false,
+   "mercurySunInertial3d": true,
+   "marsSunInertial3d": true,
+   "jupiterSunInertial3d": true,
+   "marsMoonsReal": true,
+   "jupiterGalilean": true,
+   "inertialDragPair": true,
+   "earthMoonInertial": true
+  }
+ },
+ "kOfN": [
+  {
+   "n": 2,
+   "law": "kappaC2",
+   "k": 5.001361
+  },
+  {
+   "n": 1,
+   "law": "cRatio",
+   "k": 4.001357
+  },
+  {
+   "n": 0,
+   "law": null,
+   "k": 3.00136
+  }
+ ],
+ "lambdaUnivM": 8863.751,
+ "tol": {
+  "aps": 0.005,
+  "sid": 0.00005,
+  "node": 0.005,
+  "e": 0.00005
+ },
+ "obs": {
+  "sid": {
+   "value": 27.321661554,
+   "unit": "d",
+   "q": "恒星月"
+  },
+  "anom": {
+   "value": 27.554549886,
+   "unit": "d",
+   "q": "近点月"
+  },
+  "drac": {
+   "value": 27.212220815,
+   "unit": "d",
+   "q": "交点月"
+  },
+  "aps": {
+   "value": 8.850391,
+   "unit": "yr",
+   "q": "近地点の周期(恒星系・派生)"
+  },
+  "node": {
+   "value": 18.599525,
+   "unit": "yr",
+   "q": "交点の周期(恒星系・派生)"
+  },
+  "source": "Chapront et al. 2002・Simon et al. 1994(恒星系の周期 —— σ なし・sigma_primary=unverified)"
+ },
+ "partsRun": [
+  "Z",
+  "K",
+  "M"
+ ],
+ "zero": {
+  "twoBody": {
+   "rows": [
+    {
+     "key": "snail2d",
+     "note": "🐌 の写し(二次元・普遍の λ 0.02 —— I ≈ W_bg の桁)",
+     "steps": 2000,
+     "dt": 0.470751,
+     "Wbg": 1.25,
+     "diffKey": null,
+     "bitSame": true,
+     "uMax": 0.00037216231867547424,
+     "rMaxAll": 1,
+     "pairSteps": 2000,
+     "sumBetaPair": [
+      0.00009127164620987988,
+      0.0005014134778293316
+     ],
+     "sumBetaRow": [
+      0.00009127164620987988,
+      0.0005014134778293316
+     ]
+    },
+    {
+     "key": "earthMoon2d",
+     "note": "🌛 の写し(二次元・λ ∝ m k 3.00136)",
+     "steps": 2000,
+     "dt": 65.5721,
+     "Wbg": 0.0000019448366531695005,
+     "diffKey": null,
+     "bitSame": true,
+     "uMax": 6.354645879463913e-12,
+     "rMaxAll": 1,
+     "pairSteps": 2000,
+     "sumBetaPair": [
+      8.065751795212737e-13,
+      6.558407124950969e-11
+     ],
+     "sumBetaRow": [
+      8.065751795212737e-13,
+      6.558407124950969e-11
+     ]
+    },
+    {
+     "key": "mercury3d",
+     "note": "🌡️ の写し(三次元・λ ∝ m k 3.00136・W_bg = W_ext)",
+     "steps": 2000,
+     "dt": 2.111256,
+     "Wbg": 2.5619639276481322e-21,
+     "diffKey": null,
+     "bitSame": true,
+     "uMax": 0.000001100627317090441,
+     "rMaxAll": 1,
+     "pairSteps": 2000,
+     "sumBetaPair": [
+      3.138617439989943e-14,
+      1.8906246122323096e-7
+     ],
+     "sumBetaRow": [
+      3.138617439989943e-14,
+      1.8906246122323096e-7
+     ]
+    }
+   ],
+   "note": "外部の源が 1 つ —— X_ij と X_i が同じ演算列なので R = 1(結合・s・対角を書き換えない)。全状態の配列と帳簿をビットで比べた"
+  },
+  "isolated": {
+   "isolated": [
+    {
+     "key": "plain",
+     "uMax": 0,
+     "W": [
+      -0.1,
+      0.6,
+      0.05
+     ],
+     "v": [
+      -0.1,
+      0.6,
+      0.05
+     ]
+    },
+    {
+     "key": "selfS3",
+     "uMax": 0,
+     "W": [
+      -0.1,
+      0.6,
+      0.05
+     ],
+     "v": [
+      -0.1,
+      0.6,
+      0.05
+     ]
+    }
+   ],
+   "translation": {
+    "uMax": 0,
+    "n": 3
+   },
+   "ok": true
+  },
+  "split": {
+   "rows": [
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 1,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.3877787807814457e-16
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 2,
+     "sumBeta0": 0.3999999999999999,
+     "u0": -0.2857142857142857,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.9428902930940244e-16
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 4,
+     "sumBeta0": 0.22222222222222218,
+     "u0": -0.1818181818181818,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 8,
+     "sumBeta0": 0.11764705882352941,
+     "u0": -0.10526315789473682,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.3183898417423734e-16
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "free",
+     "N": 1,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.380952380952381,
+     "uPiece": 0.04761904761904761,
+     "selfPiece": 0,
+     "relErrDirect": 2.9143354396410364e-16
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "free",
+     "N": 2,
+     "sumBeta0": 0.3999999999999999,
+     "u0": -0.2696629213483146,
+     "uPiece": 0.056179775280898875,
+     "selfPiece": 0,
+     "relErrDirect": 2.573173156032264e-17
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "free",
+     "N": 4,
+     "sumBeta0": 0.22222222222222218,
+     "u0": -0.17021276595744678,
+     "uPiece": 0.06382978723404255,
+     "selfPiece": 0,
+     "relErrDirect": 8.153200337090995e-17
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "free",
+     "N": 8,
+     "sumBeta0": 0.11764705882352941,
+     "u0": -0.09795918367346933,
+     "uPiece": 0.06938775510204082,
+     "selfPiece": 0,
+     "relErrDirect": 7.083454193571962e-16
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "shell",
+     "N": 1,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.4010407035629759,
+     "uPiece": 0.000031564089696287817,
+     "selfPiece": 2370.370370370371,
+     "relErrDirect": 3.4133816772250015e-13
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "shell",
+     "N": 2,
+     "sumBeta0": 0.40165807657757796,
+     "u0": -0.2865377089677299,
+     "uPiece": 0.00007514490768987152,
+     "selfPiece": 1185.1851851851854,
+     "relErrDirect": 4.068344721734948e-13
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "shell",
+     "N": 4,
+     "sumBeta0": 0.22310612658825535,
+     "u0": -0.18237808519910464,
+     "uPiece": 0.000171995392894034,
+     "selfPiece": 592.5925925925927,
+     "relErrDirect": 4.661488139756407e-13
+    },
+    {
+     "law": "propM",
+     "denom": "row",
+     "kind": "shell",
+     "N": 8,
+     "sumBeta0": 0.11810341114460433,
+     "u0": -0.10558870416620518,
+     "uPiece": 0.00037527144781425805,
+     "selfPiece": 296.29629629629636,
+     "relErrDirect": 5.099581164438752e-13
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 1,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.3877787807814457e-16
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 2,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.39999999999999997,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 4,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.39999999999999997,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 8,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.39999999999999997,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "free",
+     "N": 1,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.380952380952381,
+     "uPiece": 0.04761904761904761,
+     "selfPiece": 0,
+     "relErrDirect": 2.9143354396410364e-16
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "free",
+     "N": 2,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.38095238095238093,
+     "uPiece": 0.0476190476190476,
+     "selfPiece": 0,
+     "relErrDirect": 1.4571677198205177e-16
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "free",
+     "N": 4,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.380952380952381,
+     "uPiece": 0.047619047619047616,
+     "selfPiece": 0,
+     "relErrDirect": 5.464378949326942e-17
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "free",
+     "N": 8,
+     "sumBeta0": 0.6666666666666665,
+     "u0": -0.38095238095238076,
+     "uPiece": 0.04761904761904761,
+     "selfPiece": 0,
+     "relErrDirect": 5.828670879282071e-16
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 1,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.4010407035629759,
+     "uPiece": 0.000031564089696287817,
+     "selfPiece": 2370.370370370371,
+     "relErrDirect": 3.4133816772250015e-13
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 2,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.40102806147740955,
+     "uPiece": 0.000063086292849453,
+     "selfPiece": 1185.1851851851854,
+     "relErrDirect": 3.4121050602042553e-13
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 4,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.4010028275689164,
+     "uPiece": 0.00012600537259301305,
+     "selfPiece": 592.5925925925927,
+     "relErrDirect": 3.413704081994347e-13
+    },
+    {
+     "law": "propM",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 8,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.4009525598723887,
+     "uPiece": 0.0002513445449685917,
+     "selfPiece": 296.29629629629636,
+     "relErrDirect": 3.4141320604087607e-13
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 1,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 2,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 4,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "frozen",
+     "N": 8,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "free",
+     "N": 1,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.3571428571428571,
+     "uPiece": 0.10714285714285715,
+     "selfPiece": 0,
+     "relErrDirect": 1.554312234475219e-16
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "free",
+     "N": 2,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.3571428571428571,
+     "uPiece": 0.10714285714285715,
+     "selfPiece": 0,
+     "relErrDirect": 1.554312234475219e-16
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "free",
+     "N": 4,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.3571428571428571,
+     "uPiece": 0.10714285714285711,
+     "selfPiece": 0,
+     "relErrDirect": 1.5543122344752196e-16
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "free",
+     "N": 8,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.3571428571428573,
+     "uPiece": 0.10714285714285711,
+     "selfPiece": 0,
+     "relErrDirect": 1.942890293094023e-16
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "shell",
+     "N": 1,
+     "sumBeta0": 0.6695978194079972,
+     "u0": -0.40104069889144794,
+     "uPiece": 0.000031575737841977304,
+     "selfPiece": 2370.370370370371,
+     "relErrDirect": 3.414765894486629e-13
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "shell",
+     "N": 2,
+     "sumBeta0": 0.6695978194079972,
+     "u0": -0.40102804280920645,
+     "uPiece": 0.00006313284077775579,
+     "selfPiece": 1185.1851851851854,
+     "relErrDirect": 3.414873661409095e-13
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "shell",
+     "N": 4,
+     "sumBeta0": 0.6695978194079972,
+     "u0": -0.40100275303905053,
+     "uPiece": 0.0001261912078778515,
+     "selfPiece": 592.5925925925927,
+     "relErrDirect": 3.412320407979143e-13
+    },
+    {
+     "law": "univ",
+     "denom": "row",
+     "kind": "shell",
+     "N": 8,
+     "sumBeta0": 0.6695978194079971,
+     "u0": -0.4009522628913448,
+     "uPiece": 0.0002520850475343194,
+     "selfPiece": 296.29629629629636,
+     "relErrDirect": 3.414134589219787e-13
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 1,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.4,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 2,
+     "sumBeta0": 1,
+     "u0": -0.5,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 0
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 4,
+     "sumBeta0": 1.3333333333333333,
+     "u0": -0.5714285714285714,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.9428902930940237e-16
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "frozen",
+     "N": 8,
+     "sumBeta0": 1.5999999999999999,
+     "u0": -0.6153846153846155,
+     "uPiece": 0,
+     "selfPiece": 0,
+     "relErrDirect": 1.8041124150158794e-16
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "free",
+     "N": 1,
+     "sumBeta0": 0.6666666666666666,
+     "u0": -0.3571428571428571,
+     "uPiece": 0.10714285714285715,
+     "selfPiece": 0,
+     "relErrDirect": 1.554312234475219e-16
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "free",
+     "N": 2,
+     "sumBeta0": 1,
+     "u0": -0.4545454545454546,
+     "uPiece": 0.09090909090909091,
+     "selfPiece": 0,
+     "relErrDirect": 3.05311331771918e-17
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "free",
+     "N": 4,
+     "sumBeta0": 1.3333333333333333,
+     "u0": -0.5263157894736842,
+     "uPiece": 0.07894736842105265,
+     "selfPiece": 0,
+     "relErrDirect": 2.109423746787798e-16
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "free",
+     "N": 8,
+     "sumBeta0": 1.5999999999999999,
+     "u0": -0.5714285714285717,
+     "uPiece": 0.07142857142857138,
+     "selfPiece": 0,
+     "relErrDirect": 1.9428902930940232e-16
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 1,
+     "sumBeta0": 0.6695978194079972,
+     "u0": -0.40104069889144794,
+     "uPiece": 0.000031575737841977304,
+     "selfPiece": 2370.370370370371,
+     "relErrDirect": 3.414765894486629e-13
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 2,
+     "sumBeta0": 1.00471132846822,
+     "u0": -0.5011487123149333,
+     "uPiece": 0.00005257992221356674,
+     "selfPiece": 1185.1851851851854,
+     "relErrDirect": 2.8423023058659385e-13
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 4,
+     "sumBeta0": 1.3400348332869332,
+     "u0": -0.572604372297129,
+     "uPiece": 0.00009003976358017203,
+     "selfPiece": 592.5925925925927,
+     "relErrDirect": 2.4333203924295225e-13
+    },
+    {
+     "law": "univ",
+     "denom": "pair",
+     "kind": "shell",
+     "N": 8,
+     "sumBeta0": 1.6084449667658942,
+     "u0": -0.6165303221448282,
+     "uPiece": 0.00016136772744800064,
+     "selfPiece": 296.29629629629636,
+     "relErrDirect": 2.1807201276720468e-13
+    }
+   ],
+   "example": {
+    "propRow1": 0.6666666666666665,
+    "propRow4": 0.22222222222222218,
+    "propPair1": 0.6666666666666665,
+    "propPair4": 0.6666666666666665,
+    "univRow4": 0.6666666666666666,
+    "univPair4": 1.3333333333333333
+   },
+   "invariance": {
+    "propM:row:frozen": {
+     "sumBeta": 0.8235294117647058,
+     "u0": 0.736842105263158
+    },
+    "propM:row:free": {
+     "sumBeta": 0.8235294117647058,
+     "u0": 0.7428571428571431
+    },
+    "propM:row:shell": {
+     "sumBeta": 0.823620376707586,
+     "u0": 0.7367132482360996
+    },
+    "propM:pair:frozen": {
+     "sumBeta": 0,
+     "u0": 1.1102230246251565e-16
+    },
+    "propM:pair:free": {
+     "sumBeta": 0,
+     "u0": 5.551115123125783e-16
+    },
+    "propM:pair:shell": {
+     "sumBeta": 0,
+     "u0": 0.0002197873926613747
+    },
+    "univ:row:frozen": {
+     "sumBeta": 0,
+     "u0": 0
+    },
+    "univ:row:free": {
+     "sumBeta": 0,
+     "u0": 6.661338147750939e-16
+    },
+    "univ:row:shell": {
+     "sumBeta": 1.1102230246251565e-16,
+     "u0": 0.00022051627265662344
+    },
+    "univ:pair:frozen": {
+     "sumBeta": 1.4,
+     "u0": 0.5384615384615388
+    },
+    "univ:pair:free": {
+     "sumBeta": 1.4,
+     "u0": 0.600000000000001
+    },
+    "univ:pair:shell": {
+     "sumBeta": 1.4021060405900778,
+     "u0": 0.5373260715160186
+    }
+   },
+   "anaErr": 2.220446049250313e-16,
+   "relErrDirectMax": 5.099581164438752e-13,
+   "setup": "受け手 0(質量 1・v = (0,1,0))と源(質量 8・r 2・v 0)を同位置の N 片へ —— W_bg 0.5・ε 0・D = Σ m_j/r³ = 1・λ ∝ m(k 1・c₀ √8・G 1 → q 4 → I 1 は片ごと)/普遍の λ 2(I = m/(λr²) —— 全体で 1)。片どうしは対を組まない(同位置・同速度 —— 対称で寄与 0)",
+   "note": "frozen = 源を pinned(凍結した点源)・free = 源も受け手(受け手 0 からの引きずり)・shell = 源に殻(η 0.5・R 0.3 —— 殻の核は ε>0 が要るので ε 0.001)と自己 S3(片の自己 (M/N)/R_d³ は N で変わる)"
+  },
+  "direct": {
+   "rows": [
+    {
+     "key": "3d-S3-pair",
+     "n": 3,
+     "coord": "3d",
+     "method": "direct",
+     "res": 4.933943181298836e-17,
+     "relErrDirect": 3.8220713383010824e-14,
+     "totalVelocityResidual": 2.312964634635743e-17,
+     "readoutSumErr": 3.774758283725532e-14,
+     "readoutRowErr": 3.7969627442180354e-14,
+     "pairOverRow": [
+      1.0183194927463521,
+      1.004756564845701,
+      1.0045241632442108
+     ],
+     "uMax": 0.00006878967019611227
+    },
+    {
+     "key": "3d-S3-row",
+     "n": 3,
+     "coord": "3d",
+     "method": "direct",
+     "res": 7.72004014634186e-17,
+     "relErrDirect": 3.840586619354272e-14,
+     "totalVelocityResidual": 2.312964634635743e-17,
+     "readoutSumErr": null,
+     "readoutRowErr": null,
+     "pairOverRow": [
+      1.0183194927463521,
+      1.004756564845701,
+      1.0045241632442108
+     ],
+     "uMax": 0.00006845803854619224
+    },
+    {
+     "key": "3d-S2-pair",
+     "n": 3,
+     "coord": "3d",
+     "method": "direct",
+     "res": 5.413205616913249e-17,
+     "relErrDirect": 3.809974008784719e-14,
+     "totalVelocityResidual": 1.8503717077085943e-16,
+     "readoutSumErr": 3.752553823233029e-14,
+     "readoutRowErr": 3.774758283725532e-14,
+     "pairOverRow": [
+      1.0031022653666766,
+      1.0004011090626401,
+      1.0001907244176413
+     ],
+     "uMax": 0.000005802548750297068
+    },
+    {
+     "key": "3d-univ-pair",
+     "n": 3,
+     "coord": "3d",
+     "method": "direct",
+     "res": 4.813119512055331e-17,
+     "relErrDirect": 2.822900349304372e-16,
+     "totalVelocityResidual": 9.251858538542972e-17,
+     "readoutSumErr": 3.3306690738754696e-16,
+     "readoutRowErr": 4.440892098500626e-16,
+     "pairOverRow": [
+      1.3813772229840053,
+      1.1079120606786168,
+      1.2461520095446013
+     ],
+     "uMax": 0.01229036282775113
+    },
+    {
+     "key": "3d-pinned-pair",
+     "n": 3,
+     "coord": "3d",
+     "method": "direct",
+     "res": 6.922926055652134e-17,
+     "relErrDirect": 4.865423607478977e-16,
+     "totalVelocityResidual": 9.251858538542972e-17,
+     "readoutSumErr": 3.3306690738754696e-16,
+     "readoutRowErr": 2.220446049250313e-16,
+     "pairOverRow": [
+      1.9688883870947886,
+      1.384723617748572,
+      1.418374135507948
+     ],
+     "uMax": 0.0053481164722540605
+    },
+    {
+     "key": "2d-radius-pair",
+     "n": 3,
+     "coord": "2d",
+     "method": "direct",
+     "res": 1.2923528738076352e-16,
+     "relErrDirect": 1.7045323205341199e-16,
+     "totalVelocityResidual": 1.6467268631127714e-16,
+     "readoutSumErr": 1.1102230246251565e-16,
+     "readoutRowErr": 2.220446049250313e-16,
+     "pairOverRow": [
+      1.0038468225087684,
+      1.0009458273603045,
+      1.000364668429385
+     ],
+     "uMax": 0.0000024846491235463357
+    },
+    {
+     "key": "2d-radius-row",
+     "n": 3,
+     "coord": "2d",
+     "method": "direct",
+     "res": 1.3340986316156672e-16,
+     "relErrDirect": 1.7061558648719234e-16,
+     "totalVelocityResidual": 1.6467268631127714e-16,
+     "readoutSumErr": null,
+     "readoutRowErr": null,
+     "pairOverRow": [
+      1.0038468225087684,
+      1.0009458273603045,
+      1.000364668429385
+     ],
+     "uMax": 0.0000024822847803470897
+    }
+   ],
+   "relErrMax": 3.840586619354272e-14,
+   "totalVelocityResidualMax": 1.8503717077085943e-16
+  },
+  "gs": {
+   "n": 80,
+   "method": "gs",
+   "res": 2.730176669758324e-16,
+   "relErrDirect": 1.3379252127109224e-15,
+   "pcgRejected": true,
+   "pcgMsg": "physics.relativeDrag.inertialR2.denom:\"pair\" は solver:\"network-pcg-v1\" と一緒に宣言しない —— 対ごとの正規化は行ごとに尺度が違い結合 m_i a′_ij が非対称になる(直接法・Gauss–Seidel で解く。PCG は対称化の証明の後 —— 第305便a)",
+   "rowPcgAccepted": true,
+   "badDenomRejected": true,
+   "badDenomMsg": "physics.relativeDrag.inertialR2.denom は \"row\"(既定 —— 今の式: 受け手の行の分母に Σ_k I_ik)か \"pair\"(対ごとの正規化 β_ij = D_ij/(W_bg + 自己 + I_ij) —— 第305便a)"
+  },
+  "wallSec": 1.176
+ },
+ "manyBody": {
+  "rows": [
+   {
+    "sys": "earth",
+    "ja": "地球–月(🌦️ の写し)",
+    "read": "propM",
+    "label": "λ ∝ m(k 3.001360)",
+    "Wbg": 2.9418783571737454e-21,
+    "moons": 1,
+    "mMoonsEff": [
+     0.00007346000347752124
+    ],
+    "mMoonsDecl": [
+     0.00007346
+    ],
+    "betaSunRow": 3.5466833431888383e-13,
+    "betaSunPair": 6.025918468853898e-8,
+    "betaSunNoMoon": 6.025918468853899e-8,
+    "rowOverNoMoon": 0.000005885714122287819,
+    "pairOverNoMoon": 0.9999999999999998,
+    "moonShareRow": 0.9999941142858777,
+    "uRow": 9.72948149133429e-13,
+    "uPair": 1.8242388089816391e-7,
+    "uNoMoon": 1.8242398169087732e-7,
+    "uRowOverNoMoon": 0.00000533344432083561,
+    "uPairOverNoMoon": 0.9999994474810139
+   },
+   {
+    "sys": "earth",
+    "ja": "地球–月(🌦️ の写し)",
+    "read": "univ",
+    "label": "普遍の λ 8863.751 m",
+    "Wbg": 2.9418783571737454e-21,
+    "moons": 1,
+    "mMoonsEff": [
+     0.00007346000347752124
+    ],
+    "mMoonsDecl": [
+     0.00007346
+    ],
+    "betaSunRow": 5.988319346246843e-8,
+    "betaSunPair": 6.025905560199644e-8,
+    "betaSunNoMoon": 6.025905560199645e-8,
+    "rowOverNoMoon": 0.9937625617299656,
+    "pairOverNoMoon": 0.9999999999999998,
+    "moonShareRow": 0.006237438270034307,
+    "uRow": 1.6427541372029694e-7,
+    "uPair": 0.000002558324914221936,
+    "uNoMoon": 1.8242359090431465e-7,
+    "uRowOverNoMoon": 0.9005162813973066,
+    "uPairOverNoMoon": 14.024090313866456
+   },
+   {
+    "sys": "mars",
+    "ja": "火星–フォボス・ダイモス",
+    "read": "propM",
+    "label": "λ ∝ m(k 3.001360)",
+    "Wbg": 2.5619639276481322e-21,
+    "moons": 2,
+    "mMoonsEff": [
+     1e-9,
+     1e-9
+    ],
+    "mMoonsDecl": [
+     1.0659e-11,
+     1.4762e-12
+    ],
+    "betaSunRow": 9.099327028546086e-17,
+    "betaSunPair": 4.2590839256912894e-8,
+    "betaSunNoMoon": 4.259083925691297e-8,
+    "rowOverNoMoon": 2.136451684752646e-9,
+    "pairOverNoMoon": 0.9999999999999981,
+    "moonShareRow": 0.9999999978635483,
+    "uRow": 1.7204355603060739e-16,
+    "uPair": 1.1213321339268717e-7,
+    "uNoMoon": 1.1213321345306392e-7,
+    "uRowOverNoMoon": 1.534278299289268e-9,
+    "uPairOverNoMoon": 0.9999999994615624
+   },
+   {
+    "sys": "mars",
+    "ja": "火星–フォボス・ダイモス",
+    "read": "univ",
+    "label": "普遍の λ 8863.751 m",
+    "Wbg": 2.5619639276481322e-21,
+    "moons": 2,
+    "mMoonsEff": [
+     1e-9,
+     1e-9
+    ],
+    "mMoonsDecl": [
+     1.0659e-11,
+     1.4762e-12
+    ],
+    "betaSunRow": 4.258072509692192e-8,
+    "betaSunPair": 4.259074802102615e-8,
+    "betaSunNoMoon": 4.259074801929991e-8,
+    "rowOverNoMoon": 0.9997646690221678,
+    "pairOverNoMoon": 1.000000000040531,
+    "moonShareRow": 0.0002353310183536349,
+    "uRow": 8.053203426927297e-8,
+    "uPair": 0.00016802566048715136,
+    "uNoMoon": 1.1213296846674946e-7,
+    "uRowOverNoMoon": 0.7181833797002614,
+    "uPairOverNoMoon": 1498.4501238543028
+   },
+   {
+    "sys": "jupiter",
+    "ja": "木星–ガリレオ衛星",
+    "read": "propM",
+    "label": "λ ∝ m(k 3.001360)",
+    "Wbg": 2.3720067128853253e-19,
+    "moons": 4,
+    "mMoonsEff": [
+     0.000008930000000000001,
+     0.000004800000000000001,
+     0.0000148,
+     0.000010759999999999999
+    ],
+    "mMoonsDecl": [
+     0.000008930000000000001,
+     0.000004800000000000001,
+     0.0000148,
+     0.000010759999999999999
+    ],
+    "betaSunRow": 2.4013314460738346e-15,
+    "betaSunPair": 1.1928123152817518e-8,
+    "betaSunNoMoon": 1.1928123152829366e-8,
+    "rowOverNoMoon": 2.0131678850953476e-7,
+    "pairOverNoMoon": 0.9999999999990067,
+    "moonShareRow": 0.9999997986832115,
+    "uRow": 9.481854125273822e-13,
+    "uPair": 1.6304352482831003e-8,
+    "uNoMoon": 1.630527332166567e-8,
+    "uRowOverNoMoon": 0.000058152071039954824,
+    "uPairOverNoMoon": 0.9999435250905335
+   },
+   {
+    "sys": "jupiter",
+    "ja": "木星–ガリレオ衛星",
+    "read": "univ",
+    "label": "普遍の λ 8863.751 m",
+    "Wbg": 2.3720067128853253e-19,
+    "moons": 4,
+    "mMoonsEff": [
+     0.000008930000000000001,
+     0.000004800000000000001,
+     0.0000148,
+     0.000010759999999999999
+    ],
+    "mMoonsDecl": [
+     0.000008930000000000001,
+     0.000004800000000000001,
+     0.0000148,
+     0.000010759999999999999
+    ],
+    "betaSunRow": 9.833750961194169e-9,
+    "betaSunPair": 1.1928097600456932e-8,
+    "betaSunNoMoon": 1.1928097600539126e-8,
+    "rowOverNoMoon": 0.8244190557888882,
+    "pairOverNoMoon": 0.9999999999931093,
+    "moonShareRow": 0.17558094420543097,
+    "uRow": 0.0000038828048986421315,
+    "uPair": 0.00003084556175078787,
+    "uNoMoon": 1.6305238198389525e-8,
+    "uRowOverNoMoon": 238.13236282715806,
+    "uPairOverNoMoon": 1891.7578127643972
+   }
+  ],
+  "wallSec": 0.132,
+  "quantity": "2 步(本の stepDt の 1e-4 —— 1 步目は履歴)の後の惑星の行 —— 太陽からの β(行 D/(W_bg + Σ_k I_k)・対 D/(W_bg + I_☉))の衛星なしの写しとの比と、1 步の u の比(衛星の配置は衛星の本を惑星の位置へ平行移動 —— 面は惑星の本の xy)"
+ },
+ "threeBody": {
+  "Wbg": 2.9418783571737454e-21,
+  "rows": [
+   {
+    "key": "off",
+    "label": "引きずり OFF(第304便c の基線)",
+    "k": null,
+    "gLoc": null,
+    "denom": null,
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": false,
+    "xi": null,
+    "h": {
+     "dt": 0.016,
+     "steps": 15668354,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.8846453840517,
+       "T4p": 8.861825343321053,
+       "sid": 27.31381142877459,
+       "sidH": 27.321517342506173,
+       "anom": 27.553591103821347,
+       "node": 18.60131172380303,
+       "eMean": 0.05484774111399319,
+       "incMean": 5.144166658602219,
+       "aMean": 3.8339842365179653,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856519787376333,
+       "T4p": 8.850209944763582,
+       "sid": 27.32079028027818,
+       "sidH": 27.321663987078505,
+       "anom": 27.554387088344154,
+       "node": 18.603508531568888,
+       "eMean": 0.054902988951853686,
+       "incMean": 5.144467147631411,
+       "aMean": 3.8339721699376654,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851628110346198,
+       "T4p": 8.850117875009682,
+       "sid": 27.32144662049971,
+       "sidH": 27.3216625619827,
+       "anom": 27.554517687074775,
+       "node": 18.605206835452346,
+       "eMean": 0.054900887381691466,
+       "incMean": 5.144763961002078,
+       "aMean": 3.83397254145088,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850546785953638,
+       "T4p": 8.849834487895896,
+       "sid": 27.3215683236482,
+       "sidH": 27.321663539873562,
+       "anom": 27.554547426015592,
+       "node": 18.60518216047185,
+       "eMean": 0.05490003708185889,
+       "incMean": 5.145001658071891,
+       "aMean": 3.8339723820833362,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 0,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 0
+     },
+     "wallSec": 77.972
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336703,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884853502262153,
+       "T4p": 8.861796632362266,
+       "sid": 27.313807620679427,
+       "sidH": 27.321513735800405,
+       "anom": 27.55358228878925,
+       "node": 18.601320338633453,
+       "eMean": 0.05484647601634186,
+       "incMean": 5.144167121716993,
+       "aMean": 3.8339840896650927,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856480369304405,
+       "T4p": 8.8501671621635,
+       "sid": 27.320786881199474,
+       "sidH": 27.321660572624047,
+       "anom": 27.554384655226382,
+       "node": 18.60351557690928,
+       "eMean": 0.054902426381255594,
+       "incMean": 5.144467991303768,
+       "aMean": 3.8339721459422726,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851590411655,
+       "T4p": 8.85007872757461,
+       "sid": 27.321443226208277,
+       "sidH": 27.321659151367392,
+       "anom": 27.55451521517392,
+       "node": 18.605213526098794,
+       "eMean": 0.05490027402837502,
+       "incMean": 5.144764416825811,
+       "aMean": 3.8339724315105754,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850509922627454,
+       "T4p": 8.84979681871958,
+       "sid": 27.321564931938447,
+       "sidH": 27.32166013577175,
+       "anom": 27.554544940142875,
+       "node": 18.60518851675938,
+       "eMean": 0.05489932837608674,
+       "incMean": 5.145002554558753,
+       "aMean": 3.8339721596130376,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 0,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 0
+     },
+     "wallSec": 147.181
+    },
+    "diff": {
+     "apsB1": -0.0005565121041044563,
+     "apsOff": 0,
+     "sidOff": 0,
+     "nodeOff": 0,
+     "eOff": 0,
+     "sidB1": 0.0000019858735633704327,
+     "apsH2": 0.00003766917631509159,
+     "apsOffH2": 0,
+     "sidOffH2": 0
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n2-row",
+    "label": "λ ∝ m k 5.001361・G_loc n 2(kappaC2)・行",
+    "k": 5.001361,
+    "n": 2,
+    "gLoc": "kappaC2",
+    "denom": "row",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 5.910066502846627e-13,
+     "earthSunPair": 1.0041379124748692e-7,
+     "earthSunNoMoon": 1.0041379124950529e-7,
+     "rowOverNoMoon": 0.000005885711941860122,
+     "pairOverNoMoon": 0.9999999999798994,
+     "moonSunRow": 5.867260105653695e-13,
+     "moonSunPair": 1.0017077147548075e-7,
+     "moonEarthRow": 1.243326278804754e-10,
+     "moonEarthPair": 1.2433335613296812e-10,
+     "earthMoonRow": 1.5290277730496163e-12,
+     "earthMoonPair": 1.5290367725196081e-12
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668355,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.88464625796402,
+       "T4p": 8.861829674397127,
+       "sid": 27.3138138532779,
+       "sidH": 27.32151978406991,
+       "anom": 27.55359355288045,
+       "node": 18.601313091093633,
+       "eMean": 0.054847779922154935,
+       "incMean": 5.144166646739231,
+       "aMean": 3.8339842637719315,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85652064123078,
+       "T4p": 8.850212336336773,
+       "sid": 27.32079270846137,
+       "sidH": 27.321666416297347,
+       "anom": 27.55438953613565,
+       "node": 18.603509881327195,
+       "eMean": 0.05490302506823283,
+       "incMean": 5.144467124113635,
+       "aMean": 3.8339721929755157,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851628966826553,
+       "T4p": 8.850118765982085,
+       "sid": 27.321449052325377,
+       "sidH": 27.321664993535965,
+       "anom": 27.554520137968222,
+       "node": 18.605208167043852,
+       "eMean": 0.05490092350346101,
+       "incMean": 5.144763950565481,
+       "aMean": 3.8339725649268703,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850547642341118,
+       "T4p": 8.849835292912148,
+       "sid": 27.321570761869616,
+       "sidH": 27.321665977913636,
+       "anom": 27.5545498833145,
+       "node": 18.605183473446374,
+       "eMean": 0.054900073652564885,
+       "incMean": 5.145001648718363,
+       "aMean": 3.8339724067915455,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 2.499290403868296e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 1.2129047496592417e-11
+     },
+     "wallSec": 106.707
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336705,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884854430636363,
+       "T4p": 8.861801008924914,
+       "sid": 27.313810046155307,
+       "sidH": 27.321516186235698,
+       "anom": 27.553584737483234,
+       "node": 18.60132185819837,
+       "eMean": 0.054846514785018084,
+       "incMean": 5.144167109560501,
+       "aMean": 3.8339841172993303,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85648128024444,
+       "T4p": 8.850168322445459,
+       "sid": 27.320789306339897,
+       "sidH": 27.321662998253128,
+       "anom": 27.55438709841926,
+       "node": 18.603517082672493,
+       "eMean": 0.05490246210713772,
+       "incMean": 5.144467967393597,
+       "aMean": 3.833972169101801,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851591324205634,
+       "T4p": 8.850079646593775,
+       "sid": 27.321445638309893,
+       "sidH": 27.321661563275622,
+       "anom": 27.55451764455555,
+       "node": 18.605215028535248,
+       "eMean": 0.054900308895438864,
+       "incMean": 5.14476440644643,
+       "aMean": 3.8339724533455497,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.85051084000026,
+       "T4p": 8.849797701730742,
+       "sid": 27.32156732690191,
+       "sidH": 27.32166253062776,
+       "anom": 27.554547351881524,
+       "node": 18.605190111533272,
+       "eMean": 0.05489939649925041,
+       "incMean": 5.14500227206667,
+       "aMean": 3.83397221996101,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 2.499284401752632e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 1.2128907661062754e-11
+     },
+     "wallSec": 210.986
+    },
+    "diff": {
+     "apsB1": -0.0005557070878516868,
+     "apsOff": 8.050162527695193e-7,
+     "sidOff": 0.0000024380400738266417,
+     "nodeOff": 0.000001312974525546906,
+     "eOff": 3.6570705991278984e-8,
+     "sidB1": 0.000004423913637197074,
+     "apsH2": 0.00003759118140678197,
+     "apsOffH2": 8.830111610791391e-7,
+     "sidOffH2": 0.0000023948560077258207
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n2-pair",
+    "label": "λ ∝ m k 5.001361・G_loc n 2(kappaC2)・対",
+    "k": 5.001361,
+    "n": 2,
+    "gLoc": "kappaC2",
+    "denom": "pair",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 5.910066502846627e-13,
+     "earthSunPair": 1.0041379124748692e-7,
+     "earthSunNoMoon": 1.0041379124950529e-7,
+     "rowOverNoMoon": 0.000005885711941860122,
+     "pairOverNoMoon": 0.9999999999798994,
+     "moonSunRow": 5.867260105653695e-13,
+     "moonSunPair": 1.0017077147548075e-7,
+     "moonEarthRow": 1.243326278804754e-10,
+     "moonEarthPair": 1.2433335613296812e-10,
+     "earthMoonRow": 1.5290277730496163e-12,
+     "earthMoonPair": 1.5290367725196081e-12
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668353,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.88464317660014,
+       "T4p": 8.861822778231565,
+       "sid": 27.313810801965392,
+       "sidH": 27.32151671170425,
+       "anom": 27.55359051403561,
+       "node": 18.60132090504007,
+       "eMean": 0.05484770175176839,
+       "incMean": 5.14416660751862,
+       "aMean": 3.833983491862808,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85651770361729,
+       "T4p": 8.850208111414476,
+       "sid": 27.320789687530194,
+       "sidH": 27.32166339344952,
+       "anom": 27.5543865393517,
+       "node": 18.603517693102336,
+       "eMean": 0.05490295007465018,
+       "incMean": 5.1444670945616355,
+       "aMean": 3.8339714299321783,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851625983345961,
+       "T4p": 8.850115846623002,
+       "sid": 27.321446092425905,
+       "sidH": 27.32166203355328,
+       "anom": 27.554517205942517,
+       "node": 18.605215956228704,
+       "eMean": 0.05490084844489774,
+       "incMean": 5.144763906178091,
+       "aMean": 3.833971807560616,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850544617546056,
+       "T4p": 8.849832433824409,
+       "sid": 27.321567863267042,
+       "sidH": 27.321663079316867,
+       "anom": 27.554547015053878,
+       "node": 18.60519123822977,
+       "eMean": 0.05489999807689924,
+       "incMean": 5.145001601127144,
+       "aMean": 3.8339716542472417,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 2.0158717359476682e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 2.852404227230509e-7
+     },
+     "wallSec": 123.756
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336702,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884851300985728,
+       "T4p": 8.861795748815227,
+       "sid": 27.313806986036486,
+       "sidH": 27.321513090715083,
+       "anom": 27.553581690982092,
+       "node": 18.601329524648097,
+       "eMean": 0.05484643662486308,
+       "incMean": 5.144167071046031,
+       "aMean": 3.833983344233609,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856478304876493,
+       "T4p": 8.850164891712568,
+       "sid": 27.320786258470918,
+       "sidH": 27.321659948810368,
+       "anom": 27.55438407534198,
+       "node": 18.603524757340054,
+       "eMean": 0.05490238752335685,
+       "incMean": 5.144467939463239,
+       "aMean": 3.8339714032462084,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851588322627368,
+       "T4p": 8.850076596378921,
+       "sid": 27.32144263138235,
+       "sidH": 27.321658556156333,
+       "anom": 27.554514665251304,
+       "node": 18.605222688867705,
+       "eMean": 0.05490023515806786,
+       "incMean": 5.144764364537255,
+       "aMean": 3.833971691350553,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850507814994888,
+       "T4p": 8.849794673834223,
+       "sid": 27.32156436447486,
+       "sidH": 27.321659568226227,
+       "anom": 27.5545444187581,
+       "node": 18.60519766218424,
+       "eMean": 0.05489928943105303,
+       "incMean": 5.145002501438865,
+       "aMean": 3.8339714219749434,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 2.0158720614990672e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 2.852389490565123e-7
+     },
+     "wallSec": 241.337
+    },
+    "diff": {
+     "apsB1": -0.0005585661755915794,
+     "apsOff": -0.0000020540714871231103,
+     "sidOff": -4.605566950033335e-7,
+     "nodeOff": 0.000009077757923137142,
+     "eOff": -3.9004959651034454e-8,
+     "sidB1": 0.0000015253168683670992,
+     "apsH2": 0.00003775999018529319,
+     "apsOffH2": -0.0000021448853573247106,
+     "sidOffH2": -5.67545523466606e-7
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n1-row",
+    "label": "λ ∝ m k 4.001357・G_loc n 1(cRatio)・行",
+    "k": 4.001357,
+    "n": 1,
+    "gLoc": "cRatio",
+    "denom": "row",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 4.728370131975733e-13,
+     "earthSunPair": 8.03364177280285e-8,
+     "earthSunNoMoon": 8.033641772964333e-8,
+     "rowOverNoMoon": 0.000005885711941859479,
+     "pairOverNoMoon": 0.9999999999798992,
+     "moonSunRow": 4.694122718711088e-13,
+     "moonSunPair": 8.014198887839033e-8,
+     "moonEarthRow": 9.947276969168244e-11,
+     "moonEarthPair": 9.947335233272944e-11,
+     "earthMoonRow": 1.2233042131705402e-12,
+     "earthMoonPair": 1.2233114132291338e-12
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668354,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884645746935508,
+       "T4p": 8.861826989136638,
+       "sid": 27.313812636116044,
+       "sidH": 27.321518552469943,
+       "anom": 27.553592325259082,
+       "node": 18.601312407453445,
+       "eMean": 0.054847760328422916,
+       "incMean": 5.144166652770848,
+       "aMean": 3.833984249639902,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856520143253228,
+       "T4p": 8.850210428639087,
+       "sid": 27.320791492212788,
+       "sidH": 27.321665200916012,
+       "anom": 27.554388311906305,
+       "node": 18.603509204386402,
+       "eMean": 0.05490300681113149,
+       "incMean": 5.144467135628214,
+       "aMean": 3.8339721810875322,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.85162846761218,
+       "T4p": 8.850118335622565,
+       "sid": 27.3214478332919,
+       "sidH": 27.32166377493503,
+       "anom": 27.55451891123069,
+       "node": 18.605207499304687,
+       "eMean": 0.05490090528558896,
+       "incMean": 5.144763955777326,
+       "aMean": 3.8339725527163577,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850547143729058,
+       "T4p": 8.849834975810266,
+       "sid": 27.32156953971222,
+       "sidH": 27.32166475589047,
+       "anom": 27.55454865343966,
+       "node": 18.605182814711288,
+       "eMean": 0.05490005526959404,
+       "incMean": 5.145001653675143,
+       "aMean": 3.8339723939819166,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.9995663556820277e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 9.703894973170945e-12
+     },
+     "wallSec": 106.139
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336704,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884853917475132,
+       "T4p": 8.86179964831528,
+       "sid": 27.31380883873369,
+       "sidH": 27.32151496708148,
+       "anom": 27.55358351972049,
+       "node": 18.601321136862893,
+       "eMean": 0.05484649539681887,
+       "incMean": 5.144167115658971,
+       "aMean": 3.833984103758734,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856480777878582,
+       "T4p": 8.8501676708132,
+       "sid": 27.32078809666542,
+       "sidH": 27.321661788727994,
+       "anom": 27.55438588100841,
+       "node": 18.603516371263904,
+       "eMean": 0.054902444076886305,
+       "incMean": 5.144467979573311,
+       "aMean": 3.8339721576642893,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851590821514996,
+       "T4p": 8.850079096106132,
+       "sid": 27.321444427473974,
+       "sidH": 27.321660352478386,
+       "anom": 27.55451642624189,
+       "node": 18.605214325069607,
+       "eMean": 0.05490029101999056,
+       "incMean": 5.144764412502107,
+       "aMean": 3.8339724418177314,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.85051033744079,
+       "T4p": 8.849797218933576,
+       "sid": 27.32156611567876,
+       "sidH": 27.321661319483454,
+       "anom": 27.554546133210337,
+       "node": 18.60518932351413,
+       "eMean": 0.05489934493299778,
+       "incMean": 5.145002551301875,
+       "aMean": 3.8339721687146584,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.9995615526893235e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 9.703771512441666e-12
+     },
+     "wallSec": 214.121
+    },
+    "diff": {
+     "apsB1": -0.0005560241897342166,
+     "apsOff": 4.879143702396505e-7,
+     "sidOff": 0.0000012160169085007055,
+     "nodeOff": 6.542394395125939e-7,
+     "eOff": 1.8187735144337136e-8,
+     "sidB1": 0.0000032018904718711383,
+     "apsH2": 0.00003775687669005379,
+     "apsOffH2": 4.0021399527745416e-7,
+     "sidOffH2": 0.000001183711702879009
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n1-pair",
+    "label": "λ ∝ m k 4.001357・G_loc n 1(cRatio)・対",
+    "k": 4.001357,
+    "n": 1,
+    "gLoc": "cRatio",
+    "denom": "pair",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 4.728370131975733e-13,
+     "earthSunPair": 8.03364177280285e-8,
+     "earthSunNoMoon": 8.033641772964333e-8,
+     "rowOverNoMoon": 0.000005885711941859479,
+     "pairOverNoMoon": 0.9999999999798992,
+     "moonSunRow": 4.694122718711088e-13,
+     "moonSunPair": 8.014198887839033e-8,
+     "moonEarthRow": 9.947276969168244e-11,
+     "moonEarthPair": 9.947335233272944e-11,
+     "earthMoonRow": 1.2233042131705402e-12,
+     "earthMoonPair": 1.2233114132291338e-12
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668353,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884643332034456,
+       "T4p": 8.86182430782442,
+       "sid": 27.313810202626644,
+       "sidH": 27.321516109875265,
+       "anom": 27.553589900539848,
+       "node": 18.601318648829572,
+       "eMean": 0.05484769794978673,
+       "incMean": 5.144166621232537,
+       "aMean": 3.8339836325789802,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85651784635547,
+       "T4p": 8.850208472980482,
+       "sid": 27.32078907446404,
+       "sidH": 27.32166277984601,
+       "anom": 27.554385912085422,
+       "node": 18.603515449968327,
+       "eMean": 0.05490294699757652,
+       "incMean": 5.144467112254733,
+       "aMean": 3.833971570545245,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.85162613485754,
+       "T4p": 8.85011608625433,
+       "sid": 27.32144546286543,
+       "sidH": 27.321661403911097,
+       "anom": 27.554516561638543,
+       "node": 18.60521372789247,
+       "eMean": 0.05490084547789154,
+       "incMean": 5.144763920248817,
+       "aMean": 3.833971946610017,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850544777217705,
+       "T4p": 8.849832597448028,
+       "sid": 27.32156721936361,
+       "sidH": 27.321662435599322,
+       "anom": 27.55454635592529,
+       "node": 18.60518902298804,
+       "eMean": 0.054899995064956485,
+       "incMean": 5.145001615142103,
+       "aMean": 3.8339717919125857,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.612805489909476e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 2.2820760564307273e-7
+     },
+     "wallSec": 124.222
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336701,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884851457159137,
+       "T4p": 8.861795440220556,
+       "sid": 27.31380638368317,
+       "sidH": 27.32151248800753,
+       "anom": 27.55358107439367,
+       "node": 18.601327271476123,
+       "eMean": 0.05484643280072704,
+       "incMean": 5.144167084645976,
+       "aMean": 3.833983484712948,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85647844394983,
+       "T4p": 8.850165699223005,
+       "sid": 27.32078565237183,
+       "sidH": 27.3216593429449,
+       "anom": 27.55438345522142,
+       "node": 18.6035225102879,
+       "eMean": 0.05490238441740088,
+       "incMean": 5.144467956751018,
+       "aMean": 3.8339715444799984,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851588462100274,
+       "T4p": 8.850076788108662,
+       "sid": 27.321442023415056,
+       "sidH": 27.3216579482579,
+       "anom": 27.554514043193752,
+       "node": 18.60522044748001,
+       "eMean": 0.054900232072127526,
+       "incMean": 5.144764377809949,
+       "aMean": 3.8339718323239973,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850507955691892,
+       "T4p": 8.849794833919091,
+       "sid": 27.32156375248204,
+       "sidH": 27.321658956314653,
+       "anom": 27.55454379256364,
+       "node": 18.60519542757537,
+       "eMean": 0.05489928625910318,
+       "incMean": 5.145002514397597,
+       "aMean": 3.833971562463582,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.6128057506035781e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 2.2820647881685116e-7
+     },
+     "wallSec": 262.439
+    },
+    "diff": {
+     "apsB1": -0.000558402551972037,
+     "apsOff": -0.0000018904478675807468,
+     "sidOff": -0.000001104274240049108,
+     "nodeOff": 0.0000068625161908641985,
+     "eOff": -4.20169024087369e-8,
+     "sidB1": 8.815993233213248e-7,
+     "apsH2": 0.000037763528936807234,
+     "apsOffH2": -0.00000198480048929639,
+     "sidOffH2": -0.0000011794570973222562
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n0-row",
+    "label": "λ ∝ m k 3.00136・G_loc n 0(なし)・行",
+    "k": 3.00136,
+    "n": 0,
+    "gLoc": null,
+    "denom": "row",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 3.5466820329466105e-13,
+     "earthSunPair": 6.025918474962263e-8,
+     "earthSunNoMoon": 6.025918475083386e-8,
+     "rowOverNoMoon": 0.000005885711941858842,
+     "pairOverNoMoon": 0.9999999999798996,
+     "moonSunRow": 3.5209935436975957e-13,
+     "moonSunPair": 6.011334648221733e-8,
+     "moonEarthRow": 7.461308552119799e-11,
+     "moonEarthPair": 7.461352255181856e-11,
+     "earthMoonRow": 9.175827933477903e-13,
+     "earthMoonPair": 9.175881940075816e-13
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668354,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884645237948995,
+       "T4p": 8.861825209081147,
+       "sid": 27.313811424839923,
+       "sidH": 27.32151733907962,
+       "anom": 27.553591103398627,
+       "node": 18.601311775389995,
+       "eMean": 0.054847740873388034,
+       "incMean": 5.144166658902612,
+       "aMean": 3.833984235934922,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856519647947298,
+       "T4p": 8.85020980966885,
+       "sid": 27.320790276347836,
+       "sidH": 27.321663983335313,
+       "anom": 27.55438708801765,
+       "node": 18.603508582028006,
+       "eMean": 0.05490298856993121,
+       "incMean": 5.144467147913243,
+       "aMean": 3.8339721693012336,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851627969327186,
+       "T4p": 8.850117738640742,
+       "sid": 27.32144661477682,
+       "sidH": 27.32166255625177,
+       "anom": 27.554517684992927,
+       "node": 18.605206888667418,
+       "eMean": 0.054900886762794844,
+       "incMean": 5.14476396118603,
+       "aMean": 3.8339725407024234,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.85054664304315,
+       "T4p": 8.849834349797769,
+       "sid": 27.321568317677606,
+       "sidH": 27.321663533893886,
+       "anom": 27.554547423737507,
+       "node": 18.605182215502822,
+       "eMean": 0.05490003623041405,
+       "incMean": 5.1450016580257305,
+       "aMean": 3.833972381296395,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.4998457965406432e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 7.278738838253215e-12
+     },
+     "wallSec": 103.587
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336703,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884853466730886,
+       "T4p": 8.861796599300058,
+       "sid": 27.31380762859068,
+       "sidH": 27.321513741892165,
+       "anom": 27.55358229763322,
+       "node": 18.60132043031064,
+       "eMean": 0.05484647581368615,
+       "incMean": 5.144167121496715,
+       "aMean": 3.833984090079208,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856480332625049,
+       "T4p": 8.850167144269328,
+       "sid": 27.320786889895512,
+       "sidH": 27.32166058118325,
+       "anom": 27.554384665021757,
+       "node": 18.603515669294637,
+       "eMean": 0.05490242612261399,
+       "incMean": 5.1444679911903926,
+       "aMean": 3.8339721465987657,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851590374969335,
+       "T4p": 8.850078691247075,
+       "sid": 27.321443230988578,
+       "sidH": 27.32165915618401,
+       "anom": 27.554515221010384,
+       "node": 18.605213621582305,
+       "eMean": 0.05490027368981454,
+       "incMean": 5.144764417075665,
+       "aMean": 3.8339724316175676,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850509889455793,
+       "T4p": 8.849796785522283,
+       "sid": 27.321564927699164,
+       "sidH": 27.32166013154726,
+       "anom": 27.554544936728647,
+       "node": 18.60518861822125,
+       "eMean": 0.05489932798114717,
+       "incMean": 5.145002555339302,
+       "aMean": 3.8339721589917453,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.499842200476053e-10,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 7.278655118421429e-12
+     },
+     "wallSec": 213.04
+    },
+    "diff": {
+     "apsB1": -0.0005566502022311681,
+     "apsOff": -1.3809812671183863e-7,
+     "sidOff": -5.979675421485808e-9,
+     "nodeOff": 5.503097355585851e-8,
+     "eOff": -8.514448451846235e-10,
+     "sidB1": 0.000001979893887948947,
+     "apsH2": 0.000037564275485735266,
+     "apsOffH2": -3.319729735551391e-8,
+     "sidOffH2": -4.22448920289753e-9
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n0-pair",
+    "label": "λ ∝ m k 3.00136・G_loc n 0(なし)・対",
+    "k": 3.00136,
+    "n": 0,
+    "gLoc": null,
+    "denom": "pair",
+    "etaSun": null,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 3.5466820329466105e-13,
+     "earthSunPair": 6.025918474962263e-8,
+     "earthSunNoMoon": 6.025918475083386e-8,
+     "rowOverNoMoon": 0.000005885711941858842,
+     "pairOverNoMoon": 0.9999999999798996,
+     "moonSunRow": 3.5209935436975957e-13,
+     "moonSunPair": 6.011334648221733e-8,
+     "moonEarthRow": 7.461308552119799e-11,
+     "moonEarthPair": 7.461352255181856e-11,
+     "earthMoonRow": 9.175827933477903e-13,
+     "earthMoonPair": 9.175881940075816e-13
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668353,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.884643495037906,
+       "T4p": 8.861823573006582,
+       "sid": 27.31380959775184,
+       "sidH": 27.321515511918896,
+       "anom": 27.553589281268543,
+       "node": 18.60131639695075,
+       "eMean": 0.05484769413469918,
+       "incMean": 5.144166635053493,
+       "aMean": 3.8339837728613997,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.85651798606551,
+       "T4p": 8.850207989807377,
+       "sid": 27.320788467344475,
+       "sidH": 27.321662172475722,
+       "anom": 27.554385290920145,
+       "node": 18.60351320338645,
+       "eMean": 0.054902943921141076,
+       "incMean": 5.144467129766843,
+       "aMean": 3.8339717116264174,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851626278749222,
+       "T4p": 8.850116169703943,
+       "sid": 27.32144484930231,
+       "sidH": 27.321660790580477,
+       "anom": 27.554515933774375,
+       "node": 18.60521149021038,
+       "eMean": 0.05490084241592445,
+       "incMean": 5.144763933662019,
+       "aMean": 3.8339720870590375,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850544926210905,
+       "T4p": 8.849832662682736,
+       "sid": 27.321566596050953,
+       "sidH": 27.32166181251504,
+       "anom": 27.55454571800049,
+       "node": 18.605186795725945,
+       "eMean": 0.05489999189530946,
+       "incMean": 5.1450016284091,
+       "aMean": 3.8339719312223957,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.2097420658041555e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 1.7117520224734467e-7
+     },
+     "wallSec": 123.66
+    },
+    "h2": {
+     "dt": 0.008,
+     "steps": 31336701,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.88485161359283,
+       "T4p": 8.861797834621493,
+       "sid": 27.313805784965286,
+       "sidH": 27.321511887955886,
+       "anom": 27.553580461493574,
+       "node": 18.601325014459512,
+       "eMean": 0.05484642904537602,
+       "incMean": 5.144167098293238,
+       "aMean": 3.8339836255211748,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856478579753022,
+       "T4p": 8.85016535154293,
+       "sid": 27.320785051077404,
+       "sidH": 27.32165874149513,
+       "anom": 27.554382840070044,
+       "node": 18.603520258941963,
+       "eMean": 0.0549023814264643,
+       "incMean": 5.144467974155217,
+       "aMean": 3.8339716860120907,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851588606348738,
+       "T4p": 8.850076777465242,
+       "sid": 27.32144140922429,
+       "sidH": 27.321657333670053,
+       "anom": 27.554513414688188,
+       "node": 18.605218209160505,
+       "eMean": 0.054900229145041085,
+       "incMean": 5.144764391334464,
+       "aMean": 3.8339719727332757,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850508107061495,
+       "T4p": 8.849794863088725,
+       "sid": 27.321563126846744,
+       "sidH": 27.32165833039347,
+       "anom": 27.55454315221987,
+       "node": 18.605193200691748,
+       "eMean": 0.05489928327860978,
+       "incMean": 5.145002527822494,
+       "aMean": 3.8339717017224,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 1.2097422613706098e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 1.7117435704671918e-7
+     },
+     "wallSec": 217.596
+    },
+    "diff": {
+     "apsB1": -0.0005583373172637351,
+     "apsOff": -0.00000182521315927886,
+     "sidOff": -0.0000017273585228849697,
+     "nodeOff": 0.0000046352540969962774,
+     "eOff": -4.518654943275191e-8,
+     "sidB1": 2.5851504048546303e-7,
+     "apsH2": 0.00003779959401128963,
+     "apsOffH2": -0.0000019556308554768975,
+     "sidOffH2": -0.0000018053782824267728
+    },
+    "withinTol": true
+   },
+   {
+    "key": "n2-pair-sunEta",
+    "label": "対照: n 2・対 + 太陽の殻 η☉ 0.1 と S3",
+    "k": 5.001361,
+    "n": 2,
+    "gLoc": "kappaC2",
+    "denom": "pair",
+    "etaSun": 0.1,
+    "lambdaM": null,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 5.910067826028799e-13,
+     "earthSunPair": 1.004138062350222e-7,
+     "earthSunNoMoon": 1.0041380623704056e-7,
+     "rowOverNoMoon": 0.000005885712381101533,
+     "pairOverNoMoon": 0.9999999999798995,
+     "moonSunRow": 5.867261412901512e-13,
+     "moonSunPair": 1.0017078635446139e-7,
+     "moonEarthRow": 1.2433262788042131e-10,
+     "moonEarthPair": 1.2433335613296812e-10,
+     "earthMoonRow": 1.5290277730489448e-12,
+     "earthMoonPair": 1.5290367725196081e-12
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668353,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.88464317666027,
+       "T4p": 8.861822778314743,
+       "sid": 27.313810801861717,
+       "sidH": 27.321516711726193,
+       "anom": 27.5535905139296,
+       "node": 18.6013209051019,
+       "eMean": 0.05484770176480109,
+       "incMean": 5.144166607499365,
+       "aMean": 3.8339834918643447,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.856517703709113,
+       "T4p": 8.850208111503424,
+       "sid": 27.32078968900637,
+       "sidH": 27.321663394915788,
+       "anom": 27.55438654084562,
+       "node": 18.60351769166627,
+       "eMean": 0.054902950135926165,
+       "incMean": 5.144467094508477,
+       "aMean": 3.8339714300930683,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.851625982717545,
+       "T4p": 8.850115846011946,
+       "sid": 27.321446094462225,
+       "sidH": 27.32166203560046,
+       "anom": 27.554517208032653,
+       "node": 18.60521595404119,
+       "eMean": 0.05490084857876517,
+       "incMean": 5.144763906192786,
+       "aMean": 3.8339718077102596,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.850544616131602,
+       "T4p": 8.849832432451821,
+       "sid": 27.32156786602328,
+       "sidH": 27.3216630820674,
+       "anom": 27.55454701789662,
+       "node": 18.60519123536607,
+       "eMean": 0.05489999824397692,
+       "incMean": 5.145001601134574,
+       "aMean": 3.833971654533602,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 2.0158720381468006e-7,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 2.852404626715048e-7
+     },
+     "wallSec": 145.142
+    },
+    "diff": {
+     "apsB1": -0.0005585675481789565,
+     "apsOff": -0.000002055444074500201,
+     "sidOff": -4.578061627569241e-7,
+     "nodeOff": 0.000009074894222749208,
+     "eOff": -3.8837881972952903e-8,
+     "sidB1": 0.0000015280674006135087
+    },
+    "withinTol": true
+   },
+   {
+    "key": "univ-row",
+    "label": "対照: 普遍の λ 8863.751 m・G_loc なし・行",
+    "k": null,
+    "n": 0,
+    "gLoc": null,
+    "denom": "row",
+    "etaSun": null,
+    "lambdaM": 8863.751,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 5.988319338480386e-8,
+     "earthSunPair": 6.025905566308146e-8,
+     "earthSunNoMoon": 6.02590556642912e-8,
+     "rowOverNoMoon": 0.9937625594137867,
+     "pairOverNoMoon": 0.9999999999799244,
+     "moonSunRow": 3.973706459464346e-8,
+     "moonSunPair": 6.011321770808624e-8,
+     "moonEarthRow": 0.000008420648780471257,
+     "moonEarthPair": 0.000024842387597188242,
+     "earthMoonRow": 1.549273020543898e-7,
+     "earthMoonPair": 0.000024838281087976213
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15668233,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.874427841404248,
+       "T4p": 8.852111763725173,
+       "sid": 27.31360173879678,
+       "sidH": 27.321288413227325,
+       "anom": 27.553627971642488,
+       "node": 18.601629015400775,
+       "eMean": 0.05483918071367137,
+       "incMean": 5.144178346693512,
+       "aMean": 3.8339251353102797,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.846904824148451,
+       "T4p": 8.84057860972455,
+       "sid": 27.320563418153718,
+       "sidH": 27.321435225407456,
+       "anom": 27.55440955571475,
+       "node": 18.603817799000538,
+       "eMean": 0.05489310726917437,
+       "incMean": 5.144476088431397,
+       "aMean": 3.8339133864786406,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.84197911780032,
+       "T4p": 8.840469752094277,
+       "sid": 27.321217586103188,
+       "sidH": 27.321433223607933,
+       "anom": 27.55454072473197,
+       "node": 18.60552174382899,
+       "eMean": 0.05489088089719564,
+       "incMean": 5.144768534576033,
+       "aMean": 3.833913543137814,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.840869783822763,
+       "T4p": 8.840163585178713,
+       "sid": 27.321338419275488,
+       "sidH": 27.321433642323264,
+       "anom": 27.55457068650526,
+       "node": 18.605502292362733,
+       "eMean": 0.05489013171375643,
+       "incMean": 5.145003950842674,
+       "aMean": 3.8339132941127865,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 0.000017616373594370824,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 8.453437896489078e-7
+     },
+     "wallSec": 92.062
+    },
+    "diff": {
+     "apsB1": -0.010227414821287084,
+     "apsOff": -0.009670902717182628,
+     "sidOff": -0.0002298975502981193,
+     "nodeOff": 0.00032013189088431204,
+     "eOff": -0.00000990536810246273,
+     "sidB1": -0.00022791167673474888
+    },
+    "withinTol": false
+   },
+   {
+    "key": "univ-pair",
+    "label": "対照: 普遍の λ 8863.751 m・G_loc なし・対",
+    "k": null,
+    "n": 0,
+    "gLoc": null,
+    "denom": "pair",
+    "etaSun": null,
+    "lambdaM": 8863.751,
+    "drag": true,
+    "xi": {
+     "earthSunRow": 5.988319338480386e-8,
+     "earthSunPair": 6.025905566308146e-8,
+     "earthSunNoMoon": 6.02590556642912e-8,
+     "rowOverNoMoon": 0.9937625594137867,
+     "pairOverNoMoon": 0.9999999999799244,
+     "moonSunRow": 3.973706459464346e-8,
+     "moonSunPair": 6.011321770808624e-8,
+     "moonEarthRow": 0.000008420648780471257,
+     "moonEarthPair": 0.000024842387597188242,
+     "earthMoonRow": 1.549273020543898e-7,
+     "earthMoonPair": 0.000024838281087976213
+    },
+    "h": {
+     "dt": 0.016,
+     "steps": 15667449,
+     "fromZero": [
+      {
+       "N": 118,
+       "T1": 8.858655051584,
+       "T4p": 8.83724405566734,
+       "sid": 27.312240625367053,
+       "sidH": 27.319894962652143,
+       "anom": 27.552627469141967,
+       "node": 18.60342377374121,
+       "eMean": 0.05480385896602418,
+       "incMean": 5.1442263259959855,
+       "aMean": 3.83359866542251,
+       "nPeri": 118
+      },
+      {
+       "N": 354,
+       "T1": 8.832239326743643,
+       "T4p": 8.825896019945839,
+       "sid": 27.319173258763033,
+       "sidH": 27.32004158322975,
+       "anom": 27.553382194936614,
+       "node": 18.605592800646594,
+       "eMean": 0.05485515249028846,
+       "incMean": 5.144513162124401,
+       "aMean": 3.8335871027776474,
+       "nPeri": 352
+      },
+      {
+       "N": 708,
+       "T1": 8.82721420642358,
+       "T4p": 8.825717057575822,
+       "sid": 27.31982382373878,
+       "sidH": 27.320038585929318,
+       "anom": 27.553515378262624,
+       "node": 18.607292237935905,
+       "eMean": 0.054852924969776576,
+       "incMean": 5.1448068187081955,
+       "aMean": 3.8335871834426327,
+       "nPeri": 703
+      },
+      {
+       "N": 1062,
+       "T1": 8.826095309514393,
+       "T4p": 8.825414111843177,
+       "sid": 27.31994315390746,
+       "sidH": 27.32003801574272,
+       "anom": 27.55354472098508,
+       "node": 18.607273335512364,
+       "eMean": 0.054852480144381585,
+       "incMean": 5.145038744040297,
+       "aMean": 3.8335867494103515,
+       "nPeri": 1054
+      }
+     ],
+     "drag": {
+      "boundMax": 0.000049822751022668864,
+      "boundOver": 0,
+      "reject": 0,
+      "noHistory": 1,
+      "uMax": 0.0000028592921595841824
+     },
+     "wallSec": 105.525
+    },
+    "diff": {
+     "apsB1": -0.024976888156823307,
+     "apsOff": -0.02442037605271885,
+     "sidOff": -0.0016255241308407165,
+     "nodeOff": 0.0020911750405154805,
+     "eOff": -0.00004755693747730827,
+     "sidB1": -0.001623538257277346
+    },
+    "withinTol": false
+   }
+  ],
+  "offVsBaseline304c": {
+   "T4p": 0,
+   "sidH": 0,
+   "node": 0
+  },
+  "wallSec": 2615.679,
+  "quantity": "長窓 [0,1062] の M4(調和の回帰 —— 第304便c の抽出器)の近地点の周期・恒星月(調和)・交点の周期・平均離心率。差は同じ刻みの OFF との差(機械の差分)と B1 との差"
+ },
+ "gates": {
+  "twoBodyBitSame": true,
+  "isolatedZero": true,
+  "splitAnalytic": true,
+  "splitPairInvariant": true,
+  "direct": true,
+  "gaussSeidel": true,
+  "manyBodyPairUnit": true,
+  "threeBodyComplete": true,
+  "offSame304c": true
+ },
+ "ok": true,
+ "notClaim": [
+  "「W_bg が不要になった」",
+  "「λ ∝ m + 対が唯一」",
+  "「n が決まった」"
+ ],
+ "elapsedS": 2617.214
+}

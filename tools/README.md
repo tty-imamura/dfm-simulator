@@ -10,7 +10,7 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 
 統合(枝の取り込み)の直後に、壊れやすい所を短く一周する。順序は
 
-1. 静的受理 — `tests/qa-preflight.mjs`(beta・Chromium なし)
+1. 静的受理 — `tests/qa-preflight.mjs`(beta・Chromium なし・**heap の上限 `--max-old-space-size=6144`** —— 第305便e)
 2. 接続契約 — `node tools/regen-chain.mjs --audit` と `--self-test`
 3. 前回失敗項 — `--failed` の id(無ければ `tests/out/qa-results-full-beta.json` の FAIL)を qapart で
 3′. 本便の新設ブロック(第288便f)— `POST_MERGE_WAVE_IDS`(既定は第290便の 11 本: docs.terminologyInertial・docs.claimScope・
@@ -25,6 +25,20 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 `$POST_MERGE_LOG`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<時刻>`)。常設集合は `POST_MERGE_IDS` で差し替えられる。
 Playwright は `PLAYWRIGHT_CORE_DIR`(未設定なら `/opt/node22/lib/node_modules/playwright` があればそれ)。
 **フル QA・CI の代わりではない**。
+
+## preflight の heap の上限(第305便e —— 決断事項 AN328)
+
+`npm run test:preflight` と `tools/post-merge-qa.sh` の ① は `node --max-old-space-size=6144 tests/qa-preflight.mjs` で起動する
+(第304便e の測定: preflight の使用量は標本で最大 2141 MB〔GC の後に残る量がブロックごとに積み上がる〕・**2048 MiB の上限では 247 判定の後に
+heap out of memory で終了コード 134**)。**他の経路**(`node tests/qa-preflight.mjs` を直接・`QA_TIER=lint npm test`・CI の外の脚本)は
+フラグを付けないので、同じ上限を環境変数で渡す:
+
+```
+NODE_OPTIONS=--max-old-space-size=6144 QA_TARGET=beta/index.html node tests/qa-preflight.mjs
+NODE_OPTIONS=--max-old-space-size=6144 QA_TIER=lint npm test
+```
+
+RAM が 8 GB 未満の環境では上限を下げると同じ型で落ちる(ブロックを束ごとに子プロセスへ分けるのは未実装 —— 次の見直し)。
 
 ## regen-chain.mjs — 再生成の鎖
 

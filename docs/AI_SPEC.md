@@ -3768,7 +3768,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 ## 96. 第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ `physics.relativeDrag.inertialR2`・G_loc の別名 `cRatio`(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
 
-- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}`(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
+- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius"|"shell", env?:"off"|"bodies"}`(self:"shell" は第304便a —— 形の説明の文は第305便e で揃えた)(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
   lambda と lambdaRs はどちらか 1 つ。正規化後は 4 鍵(lambda か lambdaRs・sources・self・env)を持つ。受け手 i の**分母にだけ**源の慣性決定力 w_I,ij = m_j/(λ_j (r_ij² + ε²)) を足す:
   u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_I,ij [+ 自己の項] [+ 背景側の天体の項] + Σ_j w_ij)(分子の引きずり w_ij = m_j 𝒦_j と右辺は変えない・ε は引きずりの核の ε)。
   lambda は普遍の長さ(w_I ∝ m_j)・lambdaRs は λ_j = k·r_s(m_j) = 2kGm_j/c₀²(w_I = c₀²/(2kG(r²+ε²)) —— 源の質量によらない・cLight > 0 と G > 0 が要る)。
@@ -3821,3 +3821,28 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w304c-baseline.mjs`(`W304C_PARTS`=solve,measure,record,emo・`W304C_OUT`)→ `tests/out/baseline-w304c.json`(段 baseline-304c)。第303便の宣言の写し `tests/data-w304c-decl303.json`・lib `tests/lib-w304c-pre.mjs`(`pin303`・`pinDecl303`・`gate303`・`pinChanges303`・`isGen304c`)—— 歴史の器は pinDecl302 の前に pinDecl303。
 - **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`・`slider.covers-builtins`・`preset.revertGLoc303`・`docs.moon3d298`・`ui.wbgSlider302`・`behavior.wbgDirect302`・`docs.semic302`。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(引きずり OFF で照合許容の内 —— 主因は太陽摂動)。118 公転窓の M4 を平均の近点周期と呼ばない(e′ の年周を拾う —— 長窓)。
+
+
+## 100. 第305便a —— 対ごとの正規化 `physics.relativeDrag.inertialR2.denom:"row"|"pair"`(原仮定者の裁定(第96報)「分母の慣性決定力の和に自分自身を入れられる・分子の引きずりの和には自分自身を入れない」・決断事項 AN326・統括の検証項目 R199・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `inertialR2.denom`(inertialR2 の中 —— 源の I_ij が無い本では行と対が同じなので inertialR2 に置く。外の `relativeDrag.norm`〔第301便a の "total"|"none"〕と同じ名前にしない)。
+  `"row"`(既定 —— 今の式: 受け手の行の分母 W_bg + 自己 + Σ_k I_ik・正準形に出さない)/`"pair"`(対ごとの正規化 —— 正準形に `denom:"pair"`)。law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ(inertialR2 と同じ)・二次元・三次元とも・殻(shellSelf・inertialR2.self)・G_loc と組める。
+- **力学**: β_ij = D_ij/(W_bg + S_i + E_i + I_ij)(S_i は受け手の自己〔radius・殻の S3・S2〕・E_i は背景側の天体 —— どの対の分母にも同じ形)。**全体の solve を保つ**:
+  (1 + Σ_j β_ij) u_i − Σ_j β_ij u_j = Σ_j β_ij (v_j − v_i)(総速度 W では (1 + Σβ) W_i − Σβ W_j = v_i —— 自己の基準速度は慣性速度 v_i・分子に自己なし)。
+  実装は行の尺度のまま結合を R_ij = (1 + X_i)/(1 + X_ij) 倍(`inertialDragPairApply` —— build・I2・殻・正規化の後・解法の前)。外部の源が 1 つの二体は行とビット同一。
+  回転引きずり(spinSource・spinDrag.rot の s の項)は行の尺度のまま・軸引きずりの ν は行の対角のまま(並進の結合だけを対ごとに)。
+- **拒否**: `denom` の値の外・`solver:"network-pcg-v1"` との組(行ごとに尺度が違い結合が非対称 —— PCG は対称化の証明の後)。
+- **読み口**: `HP.inertialDragPairState(S)`(版 w305a-pairnorm-1 —— 受け手ごとの源 j の D・I・betaPair・betaRow・Σβ の対と行・帳簿)・`HP.inertialDragState(S).pairNorm`(宣言した本だけ)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— 在位へ入れる条件は次便の統括の裁定)。書くなら「W_bg が要らない」「λ ∝ m と対の組が唯一」と書かない(比較したモデルの中だけ)。
+- **器と正本**: `tests/exp-w305a-pairnorm.mjs`(版 w305a-pairnorm-1・`W305A_OUT`・`W305A_PARTS`=Z,K,M)→ `tests/out/pairnorm-w305a.json`(段 pairnorm-305a)・宣言の写し `tests/data-w305a-decl304.json`(基点 bdb7ae5)。
+- QA: `behavior.pairNorm305`・`docs.pairNorm305`(root は SKIP —— 世代切替 = html の `REL_DRAG_PAIRNORM_VERSION="w305a-pairnorm-1"`。省略時オフ・二体のビット同一・孤立と並進・粒子分割・直接法・Gauss–Seidel・PCG の拒否・状態の契約・正本と文書・禁句)。
+## 101. 第305便c —— 三次元の J₂(新しい宣言 `bodies[i].j2:{J2, req, axis?}` —— 三次元の本だけ・省略時オフ)と 🌦️🌔 の地球の J₂・🌔 のヘルプと T1 の転記の契約(DECISIONS v63 AN327 ③⑤・v64 §0 AN327・統括の検証項目 R201・**宣言した本だけが変わる** —— 引きずりの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **宣言**: `bodies[i].j2:{J2, req, axis?}`(single 専用・`physics.coord:"3d"` の本だけ —— 二次元は拒否〔二次元の帯状重力は `bodies[i].zonal`(E13)〕)。`J2` は |J2| ≤ 0.5 の有限数・`req` は係数の基準の赤道半径(本の長さ・> 0)・`axis` は省略か `"spin"`(その天体の三次元の自転軸 —— `spinAxis.enable` の軸に従い、軸を有効化していない天体は +z)か `{tiltDeg, azimuthDeg?}`(固定の軸 —— spinAxis と同じ角の定義)。未知の鍵・値域の外・不正な軸は拒否。群(ring/disk …)の j2 は警告して無視。
+- **力**: Φ_i(d) = (G m_i J₂ R²/2)(3ζ² − s²)/s⁵(d = x_j − x_i・ζ = p̂·d・s² = |d|² + ε² —— ε は重力と同じ軟化)。受け手 j(i 以外の全粒子・塵どうしは除く)へ a_j = −∇Φ_i、反作用 a_i −= (m_j/m_i) a_j(全運動量を保つ)。`dfmCore3` の全対と G_loc の後・キックの前の別関数 `j2Kick3`(慣性速度 v のキックだけ)。J₂ = 0 は走りをビット同一に保つ。
+- **帳簿と読み口**: `HP.j2State(S)`(版 w305c-j2-1 —— 源・軸の由来 fixed/spin/z・評価の数・最大の |a_J₂| と単極に対する比・図形が受けるはずの角運動量 figL・位置エネルギー U_J₂)・`HP.j2SecularRates(n, J2, R, a, e, i)`(試験粒子の交点 Ω̇ と近点の引数 ω̇ の一次の永年の式)・`HP.validateJ2Body`・`HP.j2CrossCheck`。状態の鍵 `j2N`・`j2A2Max`・`j2R2Max`・`j2FigLx/Ly/Lz`(CK_SC)・宣言 `_j2`(SIM_BUILD_RESET の feature j2)。粒子の数が宣言から変わったら三次元の步を止める(`coord3dRuntimeWhy`)。
+- **🌦️ earthMoonSunInertial3d・🌔 earthMoonOnly3d**: 地球に `j2:{J2:1.08263e-3, req:0.06378137, axis:{tiltDeg:23.4392911, azimuthDeg:90}}`(GRS80 の定義定数・IERS 2010 の J2000 の黄道傾斜・極は黄経 90° 側の固定の軸)。初期配置・軟化・引きずり OFF は第304便c のまま。🌦️ の fitRecord(w298b-1)の標的に交点の周期を足した(4 標的 —— status fitted・cond.sig 76b828ad13b9ec55)。🌔 は写しの規則で同じ j2 を持つ。
+- **🌔 のヘルプ**: `nc_emonly_control` を今の宣言(引きずり OFF・J₂ の写し —— この本で何も合わせていない)の説明に直した(「gain は移送しただけ」は第303便a までの歴史)。**T1 の転記の契約**: 引きずり OFF の二体では 118 公転窓の近点の周期の推定を観測カードへ転記しない(QA `preset.earthReorg300` ⑦ —— 転記していないことを見る)。
+- **器と正本**: `tests/exp-w305c-j2.mjs`(版 w305c-j2-1・`W305C_PARTS`=unit,analytic,em,emo,record・`W305C_OUT`)→ `tests/out/j2-w305c.json`(段 j2-305c)。第304便の宣言の写し `tests/data-w305c-decl304.json`・lib `tests/lib-w305c-pre.mjs`(`pin304`・`pinDecl304`・`gate304`・`pinChanges304`・`isGen305c`)—— 器 `tests/exp-w304c-baseline.mjs` は pinDecl304 で第304便の宣言を測る。
+- **QA**: `behavior.j2_305`・`preset.emJ2_305`・`docs.j2_305`(root は SKIP)・世代切替 `preset.emBaseline304`(①② は pin304 の写し・観測カードの数は preset.emJ2_305 へ)・`preset.earthReorg300` ⑦(T1 の転記の契約)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。J₂ を二次元の本に書かない(二次元は zonal)。交点の残りの差の帰属を J₂ だけと書かない(追加の測定の後)。

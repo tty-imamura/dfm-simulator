@@ -43,6 +43,7 @@ export const SMOKE_KNOBS = Object.freeze({
   'semic-302d': { env: { W302D_PART: 'gates' }, note: '段 gates だけ(約 55 s —— fit・chain は鎖)' },
   'gloc-302b': { env: { W302B_QUICK: '1' }, note: 'QUICK' },
   'axialsign-302e': { env: { W302E_N: '200', W302E_N3: '60' }, note: '步数 200/60(既定 2000/600)' },
+  'spinavg-305d': { env: { W305D_QUICK: '1', W305D_N: '40' }, note: 'QUICK・步 40(既定 600 —— 走査を縮める)' },
   'synodic-299b': { env: { W299B_PART: 'sun3d' }, note: '段 sun3d だけ(約 30 s)' },
   'refit-298b': { env: { W298B_PART: 'qprobe' }, note: '段 qprobe だけ' },
   'refit-297a': { env: { W297A_PART: 'geotoy' }, note: '段 geotoy だけ' },
@@ -58,6 +59,7 @@ export const SMOKE_KNOBS = Object.freeze({
   'bgbudget': { env: { W277D_STEPS: '2000' }, note: '2000 步' },
   'bgequiv': { env: { W278D_STEPS: '2000' }, note: '2000 步' },
   'bgbudget2': { env: { W279C_STEPS: '2000' }, note: '2000 步' },
+  'pairnorm-305a': { env: { W305A_PARTS: 'Z,K' }, note: '段 Z・K だけ(約 5 s —— 三体の長窓 M は鎖)' },
 });
 
 /** 煙試験の全段に渡す既定(子プロセスの並列数を 1 に —— 器の注記どおり結果は並列数に依らない・箱を 2 レーンより多く占めない)。 */

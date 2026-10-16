@@ -1,0 +1,558 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第305便e",
+  "target": "beta/index.html",
+  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "generatedAt": "2026-10-16T10:04:57.493Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6923966,
+    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+    "mtime": "2026-10-16T03:58:22.720Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 600819,
+    "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
+    "mtime": "2026-10-09T10:19:39.375Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w305e-charonaudit.mjs",
+    "bytes": 32151,
+    "sha256": "5c16f12b45187230c5d14888d2223f14c699ae147111bdb4c52d780c5a5d619b",
+    "mtime": "2026-10-16T03:33:57.220Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "d8fee9ff2c375e874cbcad379ff0b2bd31f03aaa6f4ab98c9ec748754b6db6dc",
+  "harnessVersion": "w305e-charonaudit-1",
+  "loadErrors": 0,
+  "ruling": "決断事項 AN318(🟪 の基線の監査)・AN333(観測の時間標準の記録)—— 第95報・AN332 の裁定(α = c_loc/c₀)",
+  "reading": "統括の検証項目 R203",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "plutoCharonInertialFit"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "auditRows",
+    "ch",
+    "cw",
+    "fmt"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1337,
+   "segments": 1206,
+   "closureShare": 0.3252
+  },
+  "scopeSha256": "73afc461b38ec19a4f8bd32c2d6e4c1fc04e43be46397688ddce8768237b514b",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w305e-charonaudit-1",
+ "obs": {
+  "value": 551856.43872,
+  "sigma": 0.02592,
+  "recordId": "SOL-25d4320f",
+  "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)"
+ },
+ "book": {
+  "id": "plutoCharonInertialFit",
+  "emoji": "🟪",
+  "Wbg": 0.0001486103,
+  "softening": 0.01,
+  "dt": 0.16,
+  "revMax": 8,
+  "scaleExp": {
+   "L": 5,
+   "T": 1,
+   "M": 24
+  }
+ },
+ "records": {
+  "target": {
+   "recordId": "SOL-25d4320f",
+   "body": "Charon",
+   "quantity": "orbital_period_candidate",
+   "value": 551856.43872,
+   "unit": "s",
+   "sigma": 0.02592
+  },
+  "aMean": {
+   "recordId": "SOL-5e03d54e",
+   "body": "Charon",
+   "quantity": "semi_major_axis_candidate",
+   "value": 19595764,
+   "unit": "m",
+   "sigma": null
+  },
+  "pMean": {
+   "recordId": "SOL-703bb236",
+   "body": "Charon",
+   "quantity": "sidereal_period",
+   "value": 551855.8944,
+   "unit": "s",
+   "sigma": null
+  },
+  "gmSys": {
+   "recordId": "SOL-2ed99d44",
+   "body": "Pluto-Charon system",
+   "quantity": "GM",
+   "value": 975400000000,
+   "unit": "m^3/s^2",
+   "sigma": 200000000
+  },
+  "gmP": {
+   "recordId": "SOL-89b3bd11",
+   "body": "Pluto",
+   "quantity": "GM",
+   "value": 869300000000,
+   "unit": "m^3/s^2",
+   "sigma": 400000000
+  },
+  "gmC": {
+   "recordId": "SOL-3e64c063",
+   "body": "Charon",
+   "quantity": "GM",
+   "value": 106100000000,
+   "unit": "m^3/s^2",
+   "sigma": 300000000
+  },
+  "aBuie": {
+   "recordId": "SOL-f67ddda4",
+   "body": "Charon",
+   "quantity": "semi_major_axis_candidate",
+   "value": 19573000,
+   "unit": "m",
+   "sigma": 2000
+  }
+ },
+ "const": {
+  "GMsun": 132712440018000000000,
+  "au": 149597870700,
+  "GMearth": 398600441800000,
+  "Rearth": 6378100,
+  "c": 299792458,
+  "G2018": 6.6743,
+  "note": "GM☉・GM⊕ は IAU 2015 の公称値(R1・B3)・au は IAU 2012(B2)・地球の半径は赤道の公称値 6378.1 km・c は定義値・G2018 は CODATA 2018(内蔵の G 6.674 との比較だけ)"
+ },
+ "tideDecl": {
+  "D": 4000,
+  "Dalt": 4800,
+  "DsunAu": [
+   30,
+   50
+  ],
+  "mFloor": 1e-9
+ },
+ "partsRun": [
+  "closed",
+  "soft",
+  "window",
+  "band",
+  "mass",
+  "tide",
+  "clock",
+  "fix"
+ ],
+ "closed": {
+  "r0Units": 195.95764,
+  "a0Units": 195.95764,
+  "vrelUnits": 0.022310549936581173,
+  "mu": 0.09754,
+  "gmKm": 975.4,
+  "gmPKm": 869.3,
+  "gmCKm": 106.10000000000005,
+  "aKm": 19595.764,
+  "PK": 551863.6555250505,
+  "dK": 7.216805050498806,
+  "dKSigma": 278.4261207754169,
+  "rows": {
+   "gmSys": 975.4,
+   "gmP": 869.3,
+   "gmC": 106.1,
+   "aMeanKm": 19595.764,
+   "pMean": 551855.8944,
+   "aBuieKm": 19573
+  },
+  "transcribe": {
+   "gmSame": true,
+   "gmPSame": true,
+   "gmCSame": true,
+   "aSame": true
+  },
+  "split": {
+   "PKmean": 551863.6555250504,
+   "defMix": 7.761125050368719,
+   "solDiff": -0.5443199999863282,
+   "solDiffSigma": -20.99999999947254,
+   "sum": 7.216805050382391
+  },
+  "gm": {
+   "need": 975.425511409054,
+   "dNeed": 0.025511409054047363,
+   "sigmaPub": 0.2,
+   "sigmaFormal": 0.09,
+   "dNeedPerPub": 0.1275570452702368,
+   "dNeedPerFormal": 0.2834601006005263,
+   "dPdGM": -282.89094500976546,
+   "pPerSigmaPub": -56.57818900195309,
+   "pPerSigmaFormal": -25.46018505087889
+  },
+  "a": {
+   "needKm": 19595.59316176799,
+   "dNeedKm": -0.1708382320102828,
+   "dPdaKm": 42.24359322186038,
+   "buieGmImplied": 972.0300630283296,
+   "buieGmMinusSys": -3.369936971670427,
+   "buieGmMinusSysPerPub": -16.849684858352134
+  }
+ },
+ "soft": {
+  "rows": [
+   {
+    "eps": 0.01,
+    "wallSec": 7.92,
+    "dt": 0.16,
+    "steps": 2759319,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.6598982827,
+    "d": 7.2211782827507704,
+    "rev2": 551863.6598973988,
+    "M4": 551863.6598982419,
+    "m4Harm": [
+     7.981942719224232e-9,
+     1.138685714253906e-12
+    ],
+    "eProxy": 3.989312767934544e-9,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   },
+   {
+    "eps": 0.005,
+    "wallSec": 8.044,
+    "dt": 0.16,
+    "steps": 2759319,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.6566651036,
+    "d": 7.217945103649981,
+    "rev2": 551863.6566639979,
+    "M4": 551863.6566649948,
+    "m4Harm": [
+     2.1256256506351176e-9,
+     2.083823188490161e-12
+    ],
+    "eProxy": 1.0596432277842474e-9,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   },
+   {
+    "eps": 0.0025,
+    "wallSec": 7.828,
+    "dt": 0.16,
+    "steps": 2759319,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.655851265,
+    "d": 7.217131264973432,
+    "rev2": 551863.6558559269,
+    "M4": 551863.6558519256,
+    "m4Harm": [
+     6.46501338576576e-10,
+     5.621579859815464e-12
+    ],
+    "eProxy": 3.2719639693080476e-10,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   }
+  ],
+  "extrapolated": 551863.6555873773,
+  "extrapolated2": 551863.6555799854,
+  "softEffect": 0.00431090546771884,
+  "softEffect2": 0.004318297374993563,
+  "scaling": 3.9727518413073373,
+  "analytic": {
+   "formula": "0.75(ε/a)²P(円軌道の軟化した重力の率 —— 桁の目安)",
+   "value": 0.0010778756373535728
+  }
+ },
+ "window": {
+  "run8": {
+   "dt": 0.16,
+   "revN": 8,
+   "nan": false,
+   "M1": 551863.6598982827,
+   "d": 7.2211782827507704,
+   "rev2": 551863.6598973988,
+   "M4": 551863.6598982419,
+   "m4Harm": [
+    7.981942719224232e-9,
+    1.138685714253906e-12
+   ],
+   "eProxy": 3.989360413596502e-9
+  },
+  "run16": {
+   "dt": 0.16,
+   "steps": 5518637,
+   "revN": 16,
+   "nan": false,
+   "M1": 551863.6598934275,
+   "late": 551863.6598878212,
+   "M4": 551863.6598945792,
+   "wallSec": 16.182
+  },
+  "diffs": {
+   "rev2MinusM1": -8.83941538631916e-7,
+   "m4MinusM1": -4.086177796125412e-8,
+   "m1_16MinusM1": -0.000004855217412114143,
+   "lateMinusM1": -0.00001046154648065567,
+   "m4_16MinusM1": -0.0000037035206332802773
+  }
+ },
+ "band": {
+  "rows": [
+   {
+    "wallSec": 8.373,
+    "dt": 0.16,
+    "steps": 2759319,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.6598982827,
+    "d": 7.2211782827507704,
+    "rev2": 551863.6598973988,
+    "M4": 551863.6598982419,
+    "m4Harm": [
+     7.981942719224232e-9,
+     1.138685714253906e-12
+    ],
+    "eProxy": 3.989312767934544e-9,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   },
+   {
+    "wallSec": 15.846,
+    "dt": 0.08,
+    "steps": 5518637,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.6598492954,
+    "d": 7.221129295416176,
+    "rev2": 551863.6598508751,
+    "M4": 551863.659849464,
+    "m4Harm": [
+     7.860103551706336e-9,
+     4.367733154927443e-12
+    ],
+    "eProxy": 3.927155702246264e-9,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   },
+   {
+    "wallSec": 32.164,
+    "dt": 0.04,
+    "steps": 11037274,
+    "revN": 8,
+    "nan": false,
+    "three": false,
+    "n": 2,
+    "M1": 551863.6598391525,
+    "d": 7.2211191524984315,
+    "rev2": 551863.6598393377,
+    "M4": 551863.6598391746,
+    "m4Harm": [
+     7.859551868421561e-9,
+     2.525473406023496e-12
+    ],
+    "eProxy": 3.91161378884268e-9,
+    "osc0": {
+     "aUnits": 195.95764,
+     "rUnits": 195.95764,
+     "PK": 551863.6555250505
+    }
+   }
+  ],
+  "hh2": 0.000048987334594130516,
+  "h2h4": 0.00001014291774481535,
+  "ratio": 4.8297083567665595
+ },
+ "mass": {
+  "base": 551863.6598982827,
+  "g2018": {
+   "G": 6.6743,
+   "M1": 551863.6598982731,
+   "diff": -9.66247171163559e-9
+  },
+  "gmScaled": {
+   "scale": 1.0000261548175662,
+   "gmKm": 975.425511409054,
+   "M1": 551856.443093907,
+   "d": 0.004373906995169818
+  }
+ },
+ "tide": {
+  "dsunUnits": 44879361.21,
+  "mSun": 1988499.251093797,
+  "three": {
+   "M1": 551863.6598982827,
+   "diff": 0
+  },
+  "plane": {
+   "D": 4000,
+   "where": "plane",
+   "three": false,
+   "m": 0.0000014078792412718284,
+   "M1": 551863.650899341,
+   "n": 3
+  },
+  "planeAlt": {
+   "D": 4800,
+   "where": "plane",
+   "three": false,
+   "m": 0.000002432815328917719,
+   "M1": 551863.6510987339,
+   "n": 3
+  },
+  "normal": {
+   "D": 4000,
+   "where": "normal",
+   "three": true,
+   "m": 0.0000014078792412718284,
+   "M1": 551863.6474287782,
+   "n": 3
+  },
+  "effect": {
+   "plane30": -0.008998941746540368,
+   "normal30": -0.012469504494220018,
+   "plane50": -0.001943771417252719,
+   "normal50": -0.0026934129707515235,
+   "planeAltD": -0.008799548842944205,
+   "distanceCheck": 0.9778426275875362
+  },
+  "note": "等価の質点(質量 GM☉(D/D☉)³ —— GM/D³ が D☉ の太陽と同じ)・pinned・初速 0(系は質点へ自由落下 —— 潮汐だけが相対軌道に効く)・D☉ = 30 au で作り 50 au は D⁻³ で換算"
+ },
+ "clock": {
+  "timeSystem": "TT/TDB of JDT",
+  "recordId": "SOL-25d4320f",
+  "psiSun": 9.870628715107787e-9,
+  "psiEarth": 6.95352540586957e-10,
+  "shiftSunOnly": 0.010894340021293506,
+  "shiftSunEarth": 0.011661809574699951,
+  "perSigmaSunOnly": 0.42030632798200257,
+  "perSigmaSunEarth": 0.4499154928510784,
+  "use": "record-only",
+  "note": "T_obs = α T_abs・α = e^(−2ψ)(第95報・AN332)なら絶対時間の P は観測の P より 2ψP 長い。AN333: 既定で全観測値へ適用しない —— 判定に使わない記録"
+ },
+ "fix": {
+  "A": {
+   "M1": 551856.4430940057,
+   "M1h2": 551856.4430459451,
+   "residual": 0.004374005715362728,
+   "h2gap": 0.00004806055221706629,
+   "withinSigma": true,
+   "aKm": 19595.59316176799,
+   "daKm": -0.1708382320102828
+  },
+  "B": {
+   "M1": 551856.443093907,
+   "M1h2": 551856.4430458798,
+   "residual": 0.004373906995169818,
+   "h2gap": 0.00004802714101970196,
+   "withinSigma": true,
+   "gmKm": 975.425511409054,
+   "dGm": 0.025511409054047363
+  }
+ },
+ "on": {
+  "Wbg": 0.0001486103,
+  "M1": 551856.43872077,
+  "d": 7.699709385633469e-7
+ },
+ "breakdown": {
+  "gapRun": 7.2211782827507704,
+  "closed": 7.216805050498806,
+  "soft": 0.00431090546771884,
+  "numerical": 0.00006531644612550735,
+  "sum": 7.22118127241265,
+  "rest": -0.000002989661879837513,
+  "sigma": 0.02592
+ },
+ "gates": {
+  "transcribe": true,
+  "splitSum": true,
+  "softScaling": true,
+  "bandShrinks": true,
+  "windowRuns": true,
+  "breakdownCloses": true,
+  "gIndependent": true,
+  "tideBelowSigma": true,
+  "clockRecordOnly": true,
+  "fixRuns": true
+ },
+ "ok": true,
+ "notClaim": [
+  "「カロンの周期が観測どおりになった」",
+  "「引きずりが要らないことを示した」",
+  "「観測と一致した」",
+  "「時計の換算で合った」"
+ ],
+ "elapsedS": 229.661
+}
