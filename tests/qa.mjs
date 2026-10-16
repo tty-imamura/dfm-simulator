@@ -77692,7 +77692,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         fr8.push(p.emoji + ' ' + st);
       }
       // 第304便c(R197): 引きずり OFF で照合許容の内の記録(ノブは初期配置だけ —— W_bg のノブを持たない)に替えた本は数から外す(宣言の記録の来歴「第304便c」から数える)
-      const n304w = fits.filter((p) => /第304便c/.test(String(p.fitRecord.procedure)) && !p.fitRecord.knobs.some((k) => k.key === 'physics.relativeDrag.Wbg') && p.physics.relativeDrag.Wbg === null && p.physics.relativeDrag.enabled === false).length;
+      // 第306便e(AN339 の案 (A)・R208): 🟪 も引きずり OFF の記録(ノブは初期の距離 —— 二体のケプラーの a)に替えた —— 来歴「第306便e」も同じ規則で数から外す
+      const n304w = fits.filter((p) => /第304便c|第306便e/.test(String(p.fitRecord.procedure)) && !p.fitRecord.knobs.some((k) => k.key === 'physics.relativeDrag.Wbg') && p.physics.relativeDrag.Wbg === null && p.physics.relativeDrag.enabled === false).length;
       if (fr8.length !== 4 - n304w) bad.push(`⑧在位の W_bg のノブを持つ記録 ${fr8.length}(🌦️🟫🌡️🟪 —— 宣言から${n304w ? '・第304便c の引きずり OFF の記録 ' + n304w + ' 本を除く' : ''})`);
       cases.push(`⑧在位のフィットの記録 ${fr8.join('・')}(ノブ physics.relativeDrag.Wbg・final = 宣言・来歴「同値移行」${gen303aW ? '〔第303便a の世代は「第303便a・semic」の再フィット〕' : ''}${n304w ? '〔第304便c の引きずり OFF の記録 ' + n304w + ' 本は W_bg のノブなし〕' : ''}・gain のノブ 0)`);
       // ⑨ 入口の 1 か所・旧 UI の名・SYSTEM_PROMPT
@@ -78114,7 +78115,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         //   その 2 本が残る —— 第303便の宣言の写し(tests/lib-w304c-pre.mjs の DECL303)で W_bg を宣言していて、今は引きずり OFF(gain0 の集合)の本を正本の側から外して比べる(宣言から導く)
         let moved304 = [];
         try { const P4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w304c-pre.mjs')); moved304 = r.err ? [] : Object.keys(P4.DECL303).filter((id) => r.ids.gain0.includes(id) && ((P4.DECL303[id].physics || {}).relativeDrag || {}).Wbg > 0); } catch (e) { moved304 = []; }
-        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag)) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : ''));
+        // 第306便e(AN339 の案 (A)・R208): 🟪 も引きずり OFF の宣言にした —— 第305便の宣言の写し(tests/lib-w306e-pre.mjs の DECL305)で W_bg を宣言していて、今は引きずり OFF の本を同じ規則で外す
+        try { const P6 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306e-pre.mjs')); if (!r.err) moved304 = moved304.concat(Object.keys(P6.DECL305).filter((id) => r.ids.gain0.includes(id) && ((P6.DECL305[id].physics || {}).relativeDrag || {}).Wbg > 0 && !moved304.includes(id))); } catch (e) { /* 第306便e より前の世代 */ }
+        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag)) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c・第306便e の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : ''));
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
       }
@@ -80368,7 +80371,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   (鎖で正本を作り直した後の世代も同じ照合):
 // ----   ① 宣言(physics・bodies)= 器の declFrom305(第305便の宣言の写し + 案 (A) の規則 —— 標的の P は CSV の行から)・初期の距離が二体のケプラーの a・引きずり OFF・
 // ----      GM・半径・自転・軟化・dragCore は第305便のまま ② fitRecord = 正本の記録・受理・条件の署名 match・fitted の門・旧 W_bg と旧の初期の距離が履歴の列・
-// ----      「入力の整合」の注記 ③ abBody(旧 W_bg の引きずり ON の対照)・notClaim の新しい 2 語(ja/en の表示文)・予言/再現の語なし(en は predict/reproduc)・禁句
+// ----      「入力の整合」の注記 ③ abBody(旧 W_bg の引きずり ON の対照)・notClaim の新しい 2 語(ja/en の表示文)・書かない語なし(base64 の表 —— en は predict/reproduc)・禁句
 // ----   ④ 観測カード・説明の数が正本と同じ(転記)・表示の名札 ⑤ 🥶 の宣言は不変(第305便の 🟪 と同じ初期状態のまま)・較正母集団の外・samplestatus の原稿の根拠
 {
   const X6p = path.join(ROOT, 'tests', 'exp-w306e-charonfix.mjs'), J6p = path.join(ROOT, 'tests', 'out', 'charonfix-w306e.json'), L6p = path.join(ROOT, 'tests', 'lib-w306e-pre.mjs');

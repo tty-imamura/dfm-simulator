@@ -299,7 +299,7 @@ export async function main() {
   }
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
-  J.notClaim = ['「周期を予言した」', '「カロンの周期が観測どおりになった」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
+  J.notClaim = ['「周期を独立に出した」', '「カロンの周期が観測どおりになった」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「時計の換算で合った」'];   // 書かない語(引用 —— 本文には書かない)
   const CODE = ['tests/exp-w306e-charonfix.mjs', 'tests/exp-w305e-charonaudit.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE, DECL305_DATA_FILE] }), {

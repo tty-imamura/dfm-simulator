@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便e",
   "target": "beta/index.html",
-  "targetSha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
-  "generatedAt": "2026-10-16T15:56:57.217Z",
+  "targetSha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
+  "generatedAt": "2026-10-16T17:27:25.430Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6926181,
-    "sha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
-    "mtime": "2026-10-16T15:30:57.598Z"
+    "bytes": 6926475,
+    "sha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
+    "mtime": "2026-10-16T17:23:23.114Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -28,9 +28,9 @@
   "code": [
    {
     "file": "tests/exp-w306e-charonfix.mjs",
-    "bytes": 30376,
-    "sha256": "e5c10cef5d6756e15048d3c6dd1def33939c9eb0bf1346dc3daa28f95389d377",
-    "mtime": "2026-10-16T15:48:49.398Z"
+    "bytes": 30388,
+    "sha256": "bfffdf23500c76990c331a0cb25ace3ddc452c338cec14df2917fe6cf4af8aac",
+    "mtime": "2026-10-16T16:26:28.064Z"
    },
    {
     "file": "tests/exp-w305e-charonaudit.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-16T15:08:34.823Z"
    }
   ],
-  "codeSha256": "ca5962297c1d25c61af72052a1edc56c3ceda0bba2a17ee3eb1fa494392314ed",
+  "codeSha256": "1088c813dafd35030e737141c12fddad115a00db258d4ff307b4325d579a0ed3",
   "harnessVersion": "w306e-charonfix-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④",
@@ -275,11 +275,11 @@
    "M1_16": 551856.44309496,
    "late": 551856.4430958406,
    "eProxy": 3.989633641573282e-9,
-   "wallSec": 21.086,
+   "wallSec": 17.191,
    "steps": 2759283
   },
   "h2": {
-   "wallSec": 29.742,
+   "wallSec": 19.088,
    "dt": 0.08,
    "steps": 5518565,
    "revN": 8,
@@ -302,7 +302,7 @@
    }
   },
   "h4": {
-   "wallSec": 60.071,
+   "wallSec": 33.844,
    "dt": 0.04,
    "steps": 11037129,
    "revN": 8,
@@ -350,7 +350,7 @@
     "d": 0.0011411890154704452,
     "nan": false,
     "revN": 8,
-    "wallSec": 14.788
+    "wallSec": 8.753
    },
    {
     "eps": 0.0025,
@@ -358,7 +358,7 @@
     "d": 0.0003335564397275448,
     "nan": false,
     "revN": 8,
-    "wallSec": 12.962
+    "wallSec": 10.058
    }
   ],
   "extrapolated": 551856.4387835835,
@@ -549,11 +549,11 @@
  },
  "ok": true,
  "notClaim": [
-  "「周期を予言した」",
+  "「周期を独立に出した」",
   "「カロンの周期が観測どおりになった」",
   "「引きずりが要らないことを示した」",
   "「観測と一致した」",
-  "「現実を再現した」"
+  "「時計の換算で合った」"
  ],
- "elapsedS": 335.207
+ "elapsedS": 231.025
 }
