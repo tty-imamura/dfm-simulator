@@ -79878,6 +79878,96 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ---- 第305便d(原仮定者の裁定(第96報)後半・統括の検証項目 R202): docs.spinAvg305 —— **回転引きずり・軸引きずりと多粒子の平均の診断の器**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 正本 tests/out/spinavg-w305d.json ∧ 器 tests/exp-w305d-spinavg.mjs。固定値は正本と器の宣言から読む(器の表の関数 physicsTables で
+// ----   正本から表の行を作り直す —— 鎖で正本を作り直した後の世代も同じ照合)。エンジンの式・本の宣言・html は変えない便(器の process の中で html の関数を包むだけ)。
+// ----   ① 正本の門(包みの素通り・慣性自転の不変・姿勢・自己の分子 0・源 = 慣性自転・毎步の作り直し・孤立した源・二重計上の写しとの差・解の照合・座標の一次・
+// ----      有限回転の順序・恒等式・逆回転の集団・粒子間距離・走査)・試走でない(QUICK でない・步 ≥ 600)・写し 7 本・来歴(w272e-1)・領域 hash
+// ----   ② 恒等式: 器の partIdentity を QA の中で走らせ、正本の行と一致(一様球面 R=2・Ω=(0,0,3) の diag(12,12,0)・二乗平均 24)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第305便d〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  const sa305Out = path.join(ROOT, 'tests', 'out', 'spinavg-w305d.json'), sa305Harn = path.join(ROOT, 'tests', 'exp-w305d-spinavg.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(sa305Out) && fs.existsSync(sa305Harn))) {
+    console.log('SKIP docs.spinAvg305(第305便d の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(sa305Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + sa305Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第305便d — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      // ①
+      const G = J.gates || {};
+      const GK = ['passThrough', 'spinInvariant', 'attitudeByDrag', 'selfNumeratorZero', 'sourcesInertialOnly', 'rebuiltEveryStep', 'loneSelfZero', 'variantDiffers', 'solveCheck',
+        'coordFirstOrder', 'orderEngineRounding', 'orderProductSecond', 'identity', 'pmMeanZero', 'noExpansion', 'scanFinite'];
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない');
+      if (J.quick === true || !(J.steps >= 600)) bad.push('正本が試走(QUICK・步 ' + J.steps + ')');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const keys = (J.books || []).map((r) => r.key).join(',');
+      if (keys !== X.CASES.map((c) => c.key).join(',')) bad.push('写しの並び ' + keys);
+      const live = (J.books || []).filter((r) => r.drag);
+      for (const r of live) { const c = r.contract; if (!(c.steps > 0 && c.spinSame === c.steps && c.attSame === c.steps && c.aDiagZero === c.steps && c.srcOk === c.steps && c.rotRecompute === c.steps)) bad.push('契約の步の数 ' + r.key); }
+      if (J.kappaRef !== X.KAPPA_REF) bad.push('読み口の κ');
+      cases.push(`門 ${GK.filter((k) => G[k] === true).length}/${GK.length}・写し ${(J.books || []).length} 本(引きずりの走る ${live.length})・步 ${J.steps}・走査 ${(J.scan && J.scan.rows || []).length} 行`);
+      // ②
+      try {
+        const I = X.partIdentity(), J2 = J.identity;
+        let nOk = 0;
+        for (let k = 0; k < I.rows.length; k++) {
+          const a = I.rows[k], b = J2.rows[k];
+          if (b && a.kind === b.kind && a.N === b.N && Math.abs(a.diagErrRel - b.diagErrRel) <= 1e-12 && Math.abs(a.meanSqErrRel - b.meanSqErrRel) <= 1e-12 && a.zz === b.zz) nOk++;
+        }
+        if (nOk !== I.rows.length || I.rows.length !== 6) bad.push('② 恒等式の行が正本と違う ' + nOk + '/' + I.rows.length);
+        const big = I.rows.find((r) => r.kind === 'sphere' && r.N === 10000);
+        if (!(big && JSON.stringify(big.expected.diag) === JSON.stringify([12, 12, 0]) && big.expected.meanSq === 24 && big.diagErrRel < 1e-6)) bad.push('② 一様球面の diag(12,12,0)・二乗平均 24');
+        if (!(I.pm.mean === 0 && I.pm.meanSq === 0.25)) bad.push('② 逆回転の集団の平均 0・二乗平均');
+        cases.push(`② 恒等式 ${nOk}/${I.rows.length} 行を QA の中で作り直して一致(一様球面 N 10000 の対角の相対の誤差 ${big ? big.diagErrRel.toExponential(2) : '-'})`);
+      } catch (e) { bad.push('② 恒等式が走らない: ' + String(e).slice(0, 100)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第305便d〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第305便d〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第305便d〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第305便d〕が「## 7. 論文」の後');
+        for (const w of ['R202', '第96報', 'exp-w305d-spinavg.mjs', 'spinavg-w305d.json', 'docs.spinAvg305', 'spinDrag', 'W305D_OUT', 'inertialDrag3RotTerm', 'inertialDrag3AxialOmega', '二重計上', '座標変換', '二次モーメント', '平均場', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第305便d〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第305便d') < 0) bad.push('CHANGELOG に第305便d が無い');
+      if (RM.indexOf('第305便d') < 0) bad.push('README に第305便d が無い');
+      if (RT.indexOf("S('spinavg-305d', 'node tests/exp-w305d-spinavg.mjs', ['tests/out/spinavg-w305d.json']") < 0 || !/secSource: 'w305d-branch'/.test(RT)) bad.push('再生成の段 spinavg-305d');
+      if (GI.indexOf('!tests/out/spinavg-w305d.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.spinAvg305') < 0) bad.push('post-merge の ③′ に docs.spinAvg305 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/熱力学を導いた/, /斥力を導いた/, /平均の自転速度が決まった/, /法則を発見した/, /GR を導いた/, /GR と一致した/, /43″ が出た/, /n が決まった/, /η が決まった/, /核を同定した/, /W_bg の宇宙の値が決まった/, /座標変換であることを示した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第305便d〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第305便d〕に禁句(' + w.length + ' 字)');
+      const harn = rd('tests/exp-w305d-spinavg.mjs');
+      for (const w of NG) if (harn.indexOf(w) >= 0) bad.push('器に禁句(' + w.length + ' 字)');
+    }
+    add('docs.spinAvg305', bad.length === 0,
+      `**回転引きずり・軸引きずりと多粒子の平均の診断の器**(第305便d・原仮定者の裁定(第96報)・R202 —— 正本 spinavg-w305d.json・html と本の宣言とエンジンの式は変えない・力として何も足さない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
 // ----   ① 受理: η = 0.01・0.5・1・100(100 は「天体の外」の警告)—— shellSelf:"drag" の宣言つき

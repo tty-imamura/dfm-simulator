@@ -1008,6 +1008,14 @@ export const REGEN_STEPS = [
     after: ['moon3d-298c', 'synodic-299b', 'emonly-300b', 'earthmoon-303c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/j2-w305c.json': META_RUN.concat(['/elapsedS', '/unit/wallSec', '/analytic/wallSec', '/em/wallSec', '/emo/wallSec', '/emo/runs/j2/wallSec', '/emo/runs/j2h2/wallSec', '/emo/runs/noJ2/wallSec']) },
     note: '第305便c: 三次元の J₂(bodies[i].j2)の零試験・保存・解析の歳差との一致と、🌦️🌔 の地球の J₂ の交点・近地点・恒星月(長窓 M4)—— fitRecord(交点の標的)の生成' }),
+  // ---- 第305便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」「軸引きずりは、引きずり元による様々な軸の回転」「多粒子の平均と熱力学との類似」・
+  //   統括の検証項目 R202): **回転引きずり・軸引きずりと多粒子の平均の診断の器**(段 P〔包みの素通り〕・C〔契約: 慣性自転の不変・自己の分子 0・源 = 慣性自転・毎步の作り直し・
+  //   二重計上の写し〕・X〔回転引きずりの座標の分解と h/2・有限回転の順序〕・M〔本の写しの平均と二次モーメント・恒等式・逆回転の集団・合成の集団の平均場と正確な対の和・
+  //   平均の自転速度の読み・斥力の候補・粒子間距離〕)。spinDrag を宣言した本 5 本の写し(本の宣言は変えない —— 器の中で組む)。html だけを読む・1 プロセス
+  //   (html の関数を器の process の中で包む —— 素通りは段 P)。所要は第305便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('spinavg-305d', 'node tests/exp-w305d-spinavg.mjs', ['tests/out/spinavg-w305d.json'], 577, { secSource: 'w305d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/spinavg-w305d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/wallSec', '/scan/rows/*/wallSec']) },
+    note: '第305便d: 回転引きずり・軸引きずりと多粒子の平均の診断(契約の步ごとの確かめ・座標変換の分解・有限回転の順序・平均と二次モーメント・平均場と正確な対の和・平均の自転速度と斥力の候補の読み口 —— 値だけ・力として足さない)' }),
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

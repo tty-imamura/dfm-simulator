@@ -127,6 +127,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon304 lint.harnessSmoke304 docs.primaryAudit304"
 # 第305便a(原仮定者の裁定(第96報)・AN326・R199): 枝 a の新設 2 本(behavior.pairNorm305 —— 対ごとの正規化の宣言・零試験・粒子分割・直接法・状態の契約・docs.pairNorm305 —— 正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pairNorm305 docs.pairNorm305"
+# 第305便d(原仮定者の裁定(第96報)・R202): 枝 d の新設 1 本(docs.spinAvg305 —— 回転引きずり・軸引きずりと多粒子の平均の診断の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"
