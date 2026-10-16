@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便c",
   "target": "beta/index.html",
-  "targetSha256": "d9c0623b581db355a3a90c60fa189bb7db262c984f97a747cbce16d9aca1c908",
-  "generatedAt": "2026-10-16T02:45:19.898Z",
+  "targetSha256": "3696cdbdc0f855bfd2ad6f7e26a2f656296b927377e85093437a6136b6c408e6",
+  "generatedAt": "2026-10-16T03:31:20.588Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6904364,
-    "sha256": "d9c0623b581db355a3a90c60fa189bb7db262c984f97a747cbce16d9aca1c908",
-    "mtime": "2026-10-16T02:39:05.240Z"
+    "bytes": 6904439,
+    "sha256": "3696cdbdc0f855bfd2ad6f7e26a2f656296b927377e85093437a6136b6c408e6",
+    "mtime": "2026-10-16T03:30:14.076Z"
    },
    {
     "file": "tests/data-w305c-decl304.json",
@@ -324,7 +324,7 @@
    "ok": true
   },
   "ok": true,
-  "wallSec": 1.428
+  "wallSec": 0.942
  },
  "analytic": {
   "note": "試験粒子(質量比 1e-6・中心 pinned)・J₂ 0.01・R 0.1・a 1(J₂(R/a)² = 1e-4)・400 公転・接触要素 25 步ごと。J₂ の分 = J₂ あり − J₂ なし(同じ刻み —— 積分器の近点の偽の回転を引く)。解析は一次の永年の式に走行の平均の a・e・i を入れた",
@@ -591,7 +591,7 @@
   ],
   "ok": true,
   "maxRel": 0.0003079275952162508,
-  "wallSec": 27.064
+  "wallSec": 21.793
  },
  "em": {
   "note": "🌦️ の写し: J₂ なし(本の宣言から j2 を外した写し)と J₂ あり(地球に EARTH_J2)・長窓 [0,1062] の M4・恒星月(調和)・交点・近点月。参照積分は器の中の速度 Verlet(EM.refRun)",
@@ -1440,5 +1440,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 28.626
+ "elapsedS": 22.872
 }
