@@ -78121,7 +78121,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         //   その 2 本が残る —— 第303便の宣言の写し(tests/lib-w304c-pre.mjs の DECL303)で W_bg を宣言していて、今は引きずり OFF(gain0 の集合)の本を正本の側から外して比べる(宣言から導く)
         let moved304 = [];
         try { const P4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w304c-pre.mjs')); moved304 = r.err ? [] : Object.keys(P4.DECL303).filter((id) => r.ids.gain0.includes(id) && ((P4.DECL303[id].physics || {}).relativeDrag || {}).Wbg > 0); } catch (e) { moved304 = []; }
-        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag)) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : ''));
+        // 第306便a(AN336・R204): 在位の惑星のうち第305便の宣言で引きずり OFF だった本(今は λ ∝ m の k を移送して ON —— lib-w306a-pre の DECL305)は、今の集合の側から外して比べる(宣言から導く)
+        let moved306 = [];
+        try { const P6 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs')); moved306 = r.err ? [] : Object.keys(P6.DECL305).filter((id) => r.ids.drag.includes(id) && (((P6.DECL305[id].physics || {}).relativeDrag || {}).Wbg === null)); } catch (e) { moved306 = []; }
+        if (!r.err && JSON.stringify(((SE.ids || {}).drag || []).filter((id) => !moved304.includes(id))) !== JSON.stringify(r.ids.drag.filter((id) => !moved306.includes(id)))) bad.push('正本の本の集合が宣言から導いた集合と違う' + (moved304.length ? '(第304便c の引きずり OFF の ' + moved304.join('・') + ' を除いて)' : ''));
         if (!SE.fit || !(SE.fit.rows || []).length) bad.push('正本に影響の表(fit)が無い');
         if (!SE.chain) bad.push('正本に連鎖の段(chain)が無い');
       }
@@ -80086,7 +80089,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
       const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
-      const base = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
+      // 第306便a(AN336): 🌡️ が λ ∝ m の k と G_loc を宣言した世代では、W_bg 221 の 🌡️ の写し(第305便の宣言 —— tests/lib-w306a-pre.mjs の pin305・本ごとの門)で試す
+      const PRE6s = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
+      const base = PRE6s.pin305(HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'));
       const tryQ = (eta, mut) => { const q = clone(base); delete q.physics.gLoc; delete q.fitRecord; q.bodies[1].dragCore = { shellRatio: eta }; q.physics.relativeDrag.shellSelf = 'drag'; if (mut) mut(q);
         const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' '), warn: (v.warnings || []).join(' '), v }; };
       // ①
@@ -80326,7 +80331,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           else if (!/^該当なし/.test(r.time_standard) && !TOK.test(ev) && !(r.observer_reference_clock && TOK.test(r.observer_reference_clock))) bad.push('② ' + tag + ' の時間標準「' + r.time_standard + '」の根拠に時刻系の語が無い(推測で埋めない)');
           nCsv++;
         } else if (/^beta\/index\.html#fitRecord:/.test(r.origin)) {
-          const pid = r.origin.split(':')[1], p = live.find((q) => q.id === pid);
+          // 第306便a(AN336): 在位の惑星 7 本の宣言を変えた世代では、照合規約 43.0 の行(履歴)は第305便の宣言の写し(pin305 —— 本ごとの門)の fitRecord で見る
+          const PRE6t = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
+          const pid = r.origin.split(':')[1], p = PRE6t.pin305(live.find((q) => q.id === pid));
           const tg = p && p.fitRecord && (p.fitRecord.targets || []).find((t) => String(t.obs) === r.value);
           if (!tg) bad.push('③ ' + tag + ' の fitRecord の標的(' + pid + '・' + r.value + ')が無い');
           if (r.time_standard === '不明') nUnknown++;
