@@ -983,6 +983,15 @@ export const REGEN_STEPS = [
     after: ['inertialr2-303b', 'planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/shell-w304b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第304便b: 引きずり核の球面近似(自己の項 S3 m/R_d³・S2 q/R_d² を行の分母へ —— 器の中の写し)—— 水星で η と λ/k・6 本への移送と惑星ごとの η・地球–月と冥王星–カロン・多体・対ごとの正規化の対照・解析の表(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第305便b(第95報・AN332 の裁定〔n = 2 を先・n = +1 は次点・n = 0 は対照〕・決断事項 AN331・AN330・統括の検証項目 R200): **惑星の G_loc の n の族 × λ ∝ m の写し**
+  //   (段 Z〔写しの記録・新しい抽出器の自己試験・G_loc だけの近点と一次の解析〕・M〔水星の k —— n = 2/+1/0 × 照合規約 43.0 と参考の標的・h/2 の根〕・
+  //   T〔6 本への移送 —— 低離心率は新しい抽出器 lib-w304e-apsis を主・検出器 B を併記〕・P〔恒星周期・近点周期・離心率の変化の表〕・S〔太陽の小さい η☉〕・
+  //   D〔🟫 の扱い —— 器の中の G_loc のキックで二次元の写し・三次元の写しで検証・S._core の予算〕)。本の宣言は基点 bdb7ae5 の写し
+  //   (tests/data-w305b-declbdb.json)に器の中で固定。html だけを読む・1 プロセス。W305B_PARTS で段を分けられる。所要は第305便b の枝の実測(正本の elapsedS)
+  S('gfamily-305b', 'node tests/exp-w305b-gfamily.mjs', ['tests/out/gfamily-w305b.json'], 1200, { secSource: 'w305b-branch', node: true,
+    after: ['shell-304b', 'inertialr2-303b', 'planets3d-299c', 'inertial3-295c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/gfamily-w305b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第305便b: 惑星の G_loc の n の族(n = 2/+1/0)× λ ∝ m の写し —— 水星の k・6 本への移送(新しい抽出器 + 検出器 B)・周期の表・太陽の小さい η☉・🟫(二次元)の扱いの得失(値だけ —— どの本にもオンにしない)' }),
   // ---- 第304便c(原仮定者の裁定(第94報)—— AN316 ①〜④ の提案に同意・統括の検証項目 R197): **🌦️🌔 の基線の見直し**(段 solve〔第303便の宣言の写し DECL303 から
   //   軟化 ε 0.0005・e′ 0.0167086・引きずり OFF で長窓 1062 公転の平均の要素へ —— 参照積分 → エンジン・丸めて本の宣言と同じかの門〕・measure〔本の宣言の 🌦️ の引きずり OFF/ON・
   //   窓 118/354/708/1062 とずらした 118 窓・M1/M4/M4a・h/h2/h4・参照積分 ε と ε 0・起点の位相 180°〕・record〔fitRecord を測った数から作り本の記録と同じか〕・emo〔🌔 の写しの規則と走り〕)。
@@ -1120,6 +1129,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w304c-decl303.json': [],
   // 第305便a(原仮定者の裁定(第96報)・R199): 基点 bdb7ae5 の本 8 本の宣言の凍結の写し(tests/exp-w305a-pairnorm.mjs が読む —— 書き換えない・除く欄は無い。正本 pairnorm-w305a の入力)
   'tests/data-w305a-decl304.json': [],
+  // 第305便b(第95報・AN332 の裁定・R200): 基点 bdb7ae5 の在位の惑星の本 7 本と 🟫 の宣言の凍結の写し(tests/exp-w305b-gfamily.mjs が読む —— 書き換えない・除く欄は無い。正本 gfamily-w305b の入力)
+  'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
 };

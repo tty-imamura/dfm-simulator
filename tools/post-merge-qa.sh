@@ -119,14 +119,16 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shell304 docs.shell304"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.shell304b"
 # 第304便c(AN316 ①〜④・R197): 枝 c の新設 2 本(preset.emBaseline304 —— 🌦️🌔 の基線の見直しの宣言・正本の門・fitRecord と観測カードの転記・docs.emBaseline304 —— 正本と文書)と軟化の下限の世代切替の preset.softeningFloor
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emBaseline304 docs.emBaseline304 preset.softeningFloor"
-# 第305便c(AN327 ③⑤・R201): 枝 c の新設 3 本(behavior.j2_305 —— 三次元の J₂ の受理・零試験・軸の経路・保存・解析の歳差・状態の契約・preset.emJ2_305 —— 🌦️🌔 の地球の J₂ の宣言・fitRecord・
-#   観測カードの転記・🌔 の T1 を転記しない契約・docs.j2_305 —— 正本と文書)と、T1 の転記の契約を直した preset.earthReorg300
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 preset.earthReorg300"
 # 第304便e(統括の検証項目 R198): 枝 e の新設 3 本(lint.canon304 —— 第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ・lint.harnessSmoke304 —— 煙試験の判定の直し 3 型・
 #   docs.primaryAudit304 —— 観測の候補の行 EPM2011 の一次表との照合の記録)と、版 2 を受けた lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon304 lint.harnessSmoke304 docs.primaryAudit304"
 # 第305便a(原仮定者の裁定(第96報)・AN326・R199): 枝 a の新設 2 本(behavior.pairNorm305 —— 対ごとの正規化の宣言・零試験・粒子分割・直接法・状態の契約・docs.pairNorm305 —— 正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pairNorm305 docs.pairNorm305"
+# 第305便b(第95報・AN332 の裁定・R200): 枝 b の新設 1 本(docs.gfamily305 —— 惑星の G_loc の n の族 × λ ∝ m の写しの正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.gfamily305"
+# 第305便c(AN327 ③⑤・R201): 枝 c の新設 3 本(behavior.j2_305 —— 三次元の J₂ の受理・零試験・軸の経路・保存・解析の歳差・状態の契約・preset.emJ2_305 —— 🌦️🌔 の地球の J₂ の宣言・fitRecord・
+#   観測カードの転記・🌔 の T1 を転記しない契約・docs.j2_305 —— 正本と文書)と、T1 の転記の契約を直した preset.earthReorg300
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 preset.earthReorg300"
 # 第305便d(原仮定者の裁定(第96報)・R202): 枝 d の新設 1 本(docs.spinAvg305 —— 回転引きずり・軸引きずりと多粒子の平均の診断の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
