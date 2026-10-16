@@ -1,0 +1,133 @@
+{
+ "version": "w306b-decl305-1",
+ "base": {
+  "commit": "02ca93b",
+  "branchBase": "eaeb6da",
+  "htmlSha12": "57c21ec8d54f",
+  "htmlSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "note": "第306便の基点(public main 02ca93b = 第305便の確定・html の sha256 57c21ec8d54f)の 🌦️ earthMoonSunInertial3d の physics・bodies・scaleExp・timeRef・orbitObs の写し(地球の J₂ を含む —— 第305便c の宣言)。器 exp-w306b-periodn の段 E(恒星月の n の欄の取り直し)が読む凍結のデータ(html は変えない —— 枝 c が 🌦️ の初期配置を変えても本器の数は動かない)"
+ },
+ "decl": {
+  "earthMoonSunInertial3d": {
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.0005,
+    "softeningFloor": 0.0005,
+    "timeScale": 1,
+    "stepDt": 0.655721,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": null,
+     "enabled": false,
+     "eps": 0.0005,
+     "history": "positions",
+     "pairs": [
+      [
+       1,
+       2
+      ]
+     ]
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.96,
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0,
+     "vz": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": 1470.9409086234439,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.0273226143774297,
+     "vz": -0.00012359637737101935,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     },
+     "j2": {
+      "J2": 0.00108263,
+      "req": 0.06378137,
+      "axis": {
+       "tiltDeg": 23.4392911,
+       "azimuthDeg": 90
+      }
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 1474.5094939234439,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.13716832312471,
+     "vz": 0.010048557095163025,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360
+   },
+   "orbitObs": {
+    "center": 1,
+    "orbiter": 2,
+    "ghostAmp": 20
+   }
+  }
+ }
+}

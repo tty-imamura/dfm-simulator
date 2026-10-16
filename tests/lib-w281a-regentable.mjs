@@ -992,6 +992,16 @@ export const REGEN_STEPS = [
     after: ['shell-304b', 'inertialr2-303b', 'planets3d-299c', 'inertial3-295c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/gfamily-w305b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第305便b: 惑星の G_loc の n の族(n = 2/+1/0)× λ ∝ m の写し —— 水星の k・6 本への移送(新しい抽出器 + 検出器 B)・周期の表・太陽の小さい η☉・🟫(二次元)の扱いの得失(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第306便b(DECISIONS v64 AN336 ③・AN333・AN335 ③・第95報・AN332 の裁定・原仮定者の裁定(第97報)AN336・統括の検証項目 R205): **周期による G_loc の n の識別の器**
+  //   (段 Z〔平均経度の抽出器 lib-w306b-meanlon の自己試験・写しの指紋・対 = 行・エンジンの対照のケプラー〕・P〔7 本 × n = 2/+1/0 × h/h2/h4 の平均経度の周期の表 —— 同じ初期状態〕・
+  //   R〔1 本ずつの合わせ直し —— 初速の大きさ/太陽の質量〕・G〔共通の太陽の GM で残る P²/a³ の型〕・T〔時刻系の対応の記録 —— 換算は適用しない〕・
+  //   E〔🌦️ の恒星月の n の欄 —— pairnorm-305a の正本の転記と J₂ ありの基線での 1 行の取り直し〕)。本の宣言は 02ca93b の写し(tests/data-w305b-declbdb.json〔惑星 —— 02ca93b と同一〕・
+  //   tests/data-w306b-decl305.json〔🌦️〕)に器の中で固定。k は gfamily-305b の正本の参考の行(生きている 🌡️ の宣言に n = 2 の k があればその値)。html だけを読む・1 プロセス。
+  //   W306B_PARTS で段を分けられる。所要は第306便b の枝の実測(正本の elapsedS)
+  S('periodn-306b', 'node tests/exp-w306b-periodn.mjs', ['tests/out/periodn-w306b.json'], 1800, { secSource: 'w306b-branch', node: true,
+    after: ['gfamily-305b', 'pairnorm-305a', 'inertialr2-303b', 'planets3d-299c', 'earthmoon-303c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/periodn-w306b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/moon/remeasured/wallSec']) },
+    note: '第306便b: 周期による G_loc の n の識別の器 —— 平均経度の周期の抽出器・n ごとの周期の表(同じ初期状態)・1 本ずつの合わせ直し・共通の太陽の GM で残る P²/a³ の型・時刻系の対応の記録・🌦️ の恒星月の n の欄(値だけ —— どの本にもオンにしない・換算は適用しない)' }),
   // ---- 第304便c(原仮定者の裁定(第94報)—— AN316 ①〜④ の提案に同意・統括の検証項目 R197): **🌦️🌔 の基線の見直し**(段 solve〔第303便の宣言の写し DECL303 から
   //   軟化 ε 0.0005・e′ 0.0167086・引きずり OFF で長窓 1062 公転の平均の要素へ —— 参照積分 → エンジン・丸めて本の宣言と同じかの門〕・measure〔本の宣言の 🌦️ の引きずり OFF/ON・
   //   窓 118/354/708/1062 とずらした 118 窓・M1/M4/M4a・h/h2/h4・参照積分 ε と ε 0・起点の位相 180°〕・record〔fitRecord を測った数から作り本の記録と同じか〕・emo〔🌔 の写しの規則と走り〕)。
@@ -1133,6 +1143,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
+  // 第306便b(R205): 基点 02ca93b の 🌦️ の宣言の凍結の写し(地球の J₂ を含む —— tests/exp-w306b-periodn.mjs の段 E が読む —— 書き換えない・除く欄は無い。正本 periodn-w306b の入力)
+  'tests/data-w306b-decl305.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
