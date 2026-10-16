@@ -992,6 +992,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/baseline-w304c.json': META_RUN.concat(['/elapsedS', '/solve/wallSec', '/measure/wallSec', '/measure/off/h/wallSec', '/measure/off/h2/wallSec', '/measure/off/h4/wallSec',
       '/measure/on/h/wallSec', '/emo/wallSec', '/emo/runs/h/wallSec', '/emo/runs/h2/wallSec', '/emo/runs/on/wallSec']) },
     note: '第304便c: 🌦️🌔 の基線の見直し(軟化 0.0005・e′・長窓の平均の要素・M4 と長窓の標的)と引きずり OFF の測定 —— 本の宣言の初期配置の解き直し・fitRecord の生成・🌔 の写し' }),
+  // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
+  //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
+  //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
+  //   (record_id で行を引く)を読む・他の正本は読まない(html の生成領域の後)・1 プロセス。W305E_PARTS で段を分けられる。所要は第305便e の枝の実測(正本の elapsedS)
+  S('charonaudit-305e', 'node tests/exp-w305e-charonaudit.mjs', ['tests/out/charonaudit-w305e.json'], 160, { secSource: 'w305e-branch', node: true,
+    after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/charonaudit-w305e.json': META_RUN.concat(['/elapsedS', '/soft/rows/*/wallSec', '/window/run16/wallSec', '/band/rows/*/wallSec']) },
+    note: '第305便e: 🟪 の基線の監査(引きずり OFF の差 +7.221 s の内訳・観察者の時計の換算は記録だけ・直す案の確かめ —— 宣言は変えない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・

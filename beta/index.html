@@ -8037,7 +8037,7 @@ const REL_DRAG_I2_SOURCES=["all","pairs"], REL_DRAG_I2_SELF=["off","radius","she
 // 形の受理(relativeDrag の段 —— env は同じ宣言の正規化後の env)。戻り値 {ok, inertialR2|null, err}
 function validateInertialR2(a, env){
   if(a===undefined || a===null) return {ok:true, inertialR2:null};
-  const form='physics.relativeDrag.inertialR2 は {lambda:<正の長さ> | lambdaRs:<正の数>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}(第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ)';
+  const form='physics.relativeDrag.inertialR2 は {lambda:<正の長さ> | lambdaRs:<正の数>, sources?:"all"|"pairs", self?:"off"|"radius"|"shell", env?:"off"|"bodies"}(第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ・self:"shell" は第304便a)';
   if(typeof a!=="object" || Array.isArray(a)) return {ok:false, err:form};
   for(const k of Object.keys(a)) if(REL_DRAG_I2_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.inertialR2 に未知の鍵 '+k+'('+REL_DRAG_I2_KEYS.join("・")+' だけ)'};
   const hasL=(a.lambda!==undefined), hasR=(a.lambdaRs!==undefined);
@@ -8354,6 +8354,8 @@ function validateDragShellBody(b, ph){
   if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore.shellRatio は天体の半径 radius の宣言が要る(R_d = η·radius —— 第304便a)'};
   const eta=d[DRAG_SHELL_KEY];
   if(!isNum(eta) || !(eta>0) || !(eta<=DRAG_SHELL_RATIO_MAX)) return {ok:false, err:'dragCore.shellRatio(引きずり核球面近似係数 η = R_d/R)は 0<η≤'+DRAG_SHELL_RATIO_MAX+' の有限数(第304便a)'};
+  const rdv=dragShellRdCheck(eta, b.radius);   // 第305便e(AN323): 極小 η の浮動小数点の検査(R_d・R_d²・R_d³・1/R_d³ —— 法則によらず)
+  if(rdv) return {ok:false, err:rdv};
   const rd=ph && ph[REL_DRAG_KEY];
   if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore.shellRatio は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
   if(rd.gain!==undefined || rd.compose==="sum") return {ok:false, err:'dragCore.shellRatio は W_bg の宣言と合成則 solve(既定)の本だけ(gain の旧法則・compose:"sum" では宣言しない —— 第304便a)'};
@@ -8361,7 +8363,36 @@ function validateDragShellBody(b, ph){
   if((rd.spinSource!==undefined && rd.spinSource!==null) || (rd.spinDrag!==undefined && rd.spinDrag!==null)) return {ok:false, err:'dragCore.shellRatio は physics.relativeDrag.spinSource・spinDrag と一緒に宣言しない(自転源の核は一様球だけ —— 殻へ広げるのは未決・第304便a)'};
   const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
   if(!(eps>0)) return {ok:false, err:'dragCore.shellRatio は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では殻の上 r=R_d で核が発散する・第304便a)'};
+  const swv=dragShellSelfCheck(eta, b.m, b.radius, ph, eps);   // 第305便e(AN323): 自己の重み(S3・S2)と行の対角(係数 × 自己)の有限性
+  if(swv) return {ok:false, err:swv};
   return {ok:true, dragCore:{shellRatio:eta}, warn:(eta>1)? 'dragCore.shellRatio '+eta+' > 1 —— 引きずり核の球面が天体の外(測定用 —— 第304便a)' : null};
+}
+// 第305便e(決断事項 AN323「極小 η の浮動小数点の検査を受理に足す」・統括の検証項目 R203): 引きずり核の殻の半径 R_d = η·radius の浮動小数点の検査。
+//   R_d・R_d²・R_d³ が正の有限数で 1/R_d³ も有限(η = Number.MIN_VALUE は R_d が 0 へ丸まり殻が黙って消える・η = 1e-120 は R_d³ が 0 へ丸まり S3 = m/R_d³ が Infinity)。
+//   式は dragShellInit(T[i] = η·R)・dragShellRowOf(R_d·R_d·R_d)と同じ演算。null = 受理 / 文字列 = 拒否の理由
+function dragShellRdCheck(eta, R){
+  const Rd=eta*R, Rd2=Rd*Rd, Rd3=Rd*Rd*Rd;
+  if(!(Rd>0 && Rd<Infinity && Rd2>0 && Rd2<Infinity && Rd3>0 && Rd3<Infinity && 1/Rd3<Infinity))
+    return 'dragCore.shellRatio '+eta+' は小さすぎる —— R_d = η·radius = '+Rd+' で R_d・R_d²・R_d³・1/R_d³ のどれかが正の有限数にならない(浮動小数点の 0 への丸め・Infinity —— 第305便e)';
+  return null;
+}
+// 自己の重み(S3 = m/R_d³・S2 = q/R_d²〔shellSelfEps は軟化した値〕—— 宣言した項だけ)と、行の対角に足す量 c·(S3 + S2)(c = 1/W_bg —— OFF の宣言〔enabled:false〕も
+//   宣言の W_bg の値で見る: 画面の ON/OFF で同じ値が戻るため。未推定 W_bg:null は c を作れないので重みだけ)の有限性。
+//   受理器には丸め・値域の処理の後の天体(build の o.m・o.radius)と physics(正規化した宣言)を渡す(第305便e)。null = 受理 / 文字列 = 拒否の理由
+function dragShellSelfCheck(eta, m, R, ph, eps){
+  const rd=ph && ph[REL_DRAG_KEY];
+  if(!rd || rd.law!=="inertial") return null;
+  const i2=rd[REL_DRAG_I2_KEY]||null, selfD=(rd.shellSelf==="drag"), selfI=!!(i2 && i2.self==="shell");
+  if(!selfD && !selfI) return null;
+  const Rd=eta*R, e2=eps*eps, soft=(rd.shellSelfEps===true);
+  const s3=selfD? (soft? m*Rd/((Rd*Rd+e2)*(Rd*Rd+e2)) : m/(Rd*Rd*Rd)) : 0;
+  const s2=selfI? inertialR2Q(i2,m,ph.G,ph.cLight)/(soft? Rd*Rd+e2 : Rd*Rd) : 0;
+  if(!Number.isFinite(s3) || !Number.isFinite(s2))
+    return 'dragCore.shellRatio '+eta+' の自己の重み(S3 = m/R_d³ '+s3+'・S2 = q/R_d² '+s2+')が有限数にならない(R_d = '+Rd+' —— 第305便e)';
+  const c=(isNum(rd.Wbg) && rd.Wbg>0)? 1/rd.Wbg : relDragCoefficientOf(rd), x=c*(s3+s2);
+  if(!Number.isFinite(x) || !Number.isFinite(1+x))
+    return 'dragCore.shellRatio '+eta+' の行の対角 c·(S3 + S2) = '+x+' が有限数にならない(c = 1/W_bg = '+c+'・R_d = '+Rd+' —— η か W_bg が小さすぎる・第305便e)';
+  return null;
 }
 // 本の突き合わせ(bodies の確定後 —— validatePreset)。自己の項の宣言(relativeDrag.shellSelf:"drag"・inertialR2.self:"shell")は殻を宣言した天体が 1 つ以上要る
 //   (何もしない宣言は書かない)。null = 受理 / 文字列 = 拒否の理由
@@ -10346,6 +10377,15 @@ let _monCls=null;
 function sliderPosToVal(def,pos){
   if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
   return pos;
+}
+// 第305便e(決断事項 AN327・統括の検証項目 R203): パラメータタブの softening の行の下限 —— 本が physics.softeningFloor を宣言していれば
+//   clamp(floor, SOFTENING_FLOOR_MIN, CLAMPS.softening[0])(受理器 validatePreset の softening の下限と同じ式・較正クラスの本は宣言を受理しない)。
+//   宣言の無い本・較正クラスの本は null(従来どおり PARAM_DEFS の lo 0.01 と CLAMPS の 0.01 —— 1 字も変わらない)。params は編集対象の本の S.params
+function softeningRowFloorOf(params, preset){
+  if(!params || !isNum(params[SOFTENING_FLOOR_KEY])) return null;
+  if(preset && preset.sampleClass==="calibration") return null;
+  const f=clamp(params[SOFTENING_FLOOR_KEY],SOFTENING_FLOOR_MIN,CLAMPS.softening[0]);
+  return (f<CLAMPS.softening[0])? f : null;
 }
 function valToSliderPos(def,v){
   if(def.mode==="log"){
@@ -25579,7 +25619,7 @@ function validatePreset(obj){
         // 第292便c(R139): dragCore:{massFrac, radius} —— 慣性決定力の構造核(コア v2 の core:{} とは別の鍵・両方は拒否)。
         // physics.relativeDrag.law:"inertial" の本だけで働く(それ以外は警告して無視)。未宣言はキーが無い = 署名も挙動も 1 bit 不変
         if(b.dragCore!==undefined){
-          const dc=validateDragCoreBody(b, p.physics);
+          const dc=validateDragCoreBody(Object.assign({}, b, {m:o.m, radius:o.radius}), p.physics);   // 第305便e(AN323): 丸め・値域の処理の後の天体(o.m・o.radius)と正規化した physics を渡す
           if(!dc.ok){ bad(at+"."+dc.err); return; }
           if(dc.warn) warnings.push(at+"."+dc.warn);
           if(dc.dragCore) o.dragCore=dc.dragCore;
@@ -41800,7 +41840,11 @@ function buildParamRows(){
     // という旧 κ(inv)世代の表示規約だけを引き継ぐフラグ(kappaT が使う)
     const rd=()=> def.inv? 1/showSim.params[key] : showSim.params[key];
     const wr=(v)=> def.inv? 1/v : v;
-    const v2p=(v)=> (def.zeroLeft && v<=((def.inv||def.sci)?1e-12:0))? (def.mode==="log"?0:+def.lo) : valToSliderPos(def,v);   // 第125便: 0 は左端へ
+    // 第305便e(AN327): softening の行だけ、編集対象の本の physics.softeningFloor を下限に使う(表示の参照元 showSim と書き込み先 targets の両方 ——
+    //   スライダーの対数域の左端と直値欄の丸め)。宣言の無い本は defOf(S) = def・loOf(S) = null(従来の式のまま)
+    const loOf=(S)=> (key==="softening")? softeningRowFloorOf(S && S.params, currentPreset) : null;
+    const defOf=(S)=>{ const f=loOf(S); return (f===null)? def : Object.assign({}, def, {lo:f}); };
+    const v2p=(v)=> (def.zeroLeft && v<=((def.inv||def.sci)?1e-12:0))? (def.mode==="log"?0:+def.lo) : valToSliderPos(defOf(showSim),v);   // 第125便: 0 は左端へ
     const fmtV=(v)=> ((def.inv||def.sci) && v<=1e-12)? "0"
       : ((def.inv||def.sci) && isFinite(v) && v>0 && v<1e-4)? v.toExponential(3) : fmt(v);
     rng.value=v2p(rd());
@@ -41820,14 +41864,14 @@ function buildParamRows(){
     if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true;
       num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — 有限参照正規化規約〔宣言参照軌道 a で LT 振幅×(a/(R+a))³ に正規化〕。サンプル宣言)"; }
     const setParam=(v)=>{
-      const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
+      const c=CLAMPS[key], vIn=v; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
       const targets = applyBoth ? (ab?[sim,ab.simB]:[sim]) : [editSim()];
       let clinkDone=null;   // 第100便: 相似変換連動が発火したら {k, clamped[]} を控える
       for(const S of targets){
         // 第100便(Gemini 提案2): 連動ONの c₀ 変更は k=新/旧 の相似変換を状態へ適用
         const oldC=(key==="cLight" && cLink)? S.params.cLight : null;
-        S.params[key]=v;
+        { const f=loOf(S); S.params[key]=(f===null)? v : clamp(vIn,f,c[1]); }   // 第305便e(AN327): softening の行は書き込み先の本の宣言 softeningFloor を下限に(宣言の無い本は従来の v)
         if(oldC!==null && oldC>0 && v>0 && v!==oldC){
           const cl=applyCLink(S, v/oldC);
           clinkDone={k:v/oldC, clamped:cl};
@@ -41880,7 +41924,7 @@ function buildParamRows(){
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
-      if(def.mode==="log") v=sliderPosToVal(def,v);
+      if(def.mode==="log") v=sliderPosToVal(defOf(showSim),v);   // 第305便e: softening の行は宣言の下限から(宣言の無い本は def のまま)
       if(def.zeroLeft && parseFloat(rng.value)<=+rng.min) v=0;   // 第125便: 左端=0 スナップ(G・κ)
       setParam(wr(v));
       num.value=fmtV(rd());
@@ -59921,13 +59965,14 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   REL_DRAG_I2_KEY, REL_DRAG_I2_VERSION, REL_DRAG_I2_KEYS, REL_DRAG_I2_SOURCES, REL_DRAG_I2_SELF, REL_DRAG_I2_ENV,
   validateInertialR2, inertialR2CrossCheck, inertialR2Q, inertialR2SumOf, inertialDragI2Apply, inertialR2State,   // 第303便b(R192): 源の慣性決定力 r⁻² を引きずりの分母へ
   DRAG_SHELL_KEY, DRAG_SHELL_VERSION, DRAG_SHELL_RATIO_MAX, REL_DRAG_SHELL_SELF, validateDragShellBody, dragShellCrossCheck, dragShellXmSin, dragShellK3, dragShellK2,   // 第304便a(R195): 引きずり核の殻
+  dragShellRdCheck, dragShellSelfCheck,   // 第305便e(AN323): 極小 η の浮動小数点の検査(受理器の部品)
   dragShellInit, dragShellRowOf, inertialDragShellApply, inertialDragShellState,
   REL_DRAG_WBG_KEY, REL_DRAG_WBG_VERSION, relDragLegacyFrozen, relDragWbgFromGain, relDragCoefficientOf, relDragWbgOf, relDragEnabledOf, relDragLegacyGainWarn,   // 第302便a(R186)
   REL_DRAG_STEP_ORDERS, REL_DRAG_STEP_ORDER_DEFAULT, REL_DRAG_SEMIC_VERSION, relDragStepOrderOf, relDragSemicOn, inertialDragSemicPre, inertialDragEnergy, inertialDragSemicWork, inertialDragLedgerOf,   // 第302便d: 步の順序 semic
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化
   dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
   TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,
-  MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN,
+  MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN, softeningRowFloorOf,   // 第305便e: softening の行の下限
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
   CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態
   SPIN_AXIS_VERSION, SPIN_AXIS_KEYS, SPIN_AXIS_BOOKS, spinAxisValidate, spinAxisSigBodies, spinAxisOf,   // 第288便e: 点粒子の自転軸の表示専用の宣言

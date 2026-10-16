@@ -78673,6 +78673,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           const rej = [[{ lambda: 1, lambdaRs: 3 }, /どちらか 1 つ/], [{}, /どちらか 1 つ/], [{ lambda: -1 }, /正の有限数/], [{ lambda: 1, foo: 1 }, /未知の鍵/], [{ lambda: 1, env: 'bodies' }, /env\.bodies の宣言/],
             [{ lambda: 1, sources: 'x' }, /sources は/], [{ lambda: 1, self: 'x' }, /self は/], [[1], /inertialR2 は/]];
           for (const [i2, re] of rej) { const r = tryI2(i2); if (r.ok || !re.test(r.msg)) bad.push('⑤ 拒否されない/理由の文 ' + JSON.stringify(i2) + ' → ' + r.msg.slice(0, 80)); }
+          // 第305便e(R203): 形の説明(form)の self の選択肢が受理の配列 REL_DRAG_I2_SELF と揃う(第304便a の "shell" —— 選択肢は html の配列から読む)
+          { const selfs = E('REL_DRAG_I2_SELF'), fm = tryI2([1]).msg, miss = selfs.filter((s) => fm.indexOf('"' + s + '"') < 0); if (miss.length) bad.push('⑤ 形の説明に self の選択肢 ' + miss.join(',') + ' が無い'); }
           const rg = tryI2({ lambda: 1 }, (q) => { const g = q.physics.relativeDrag; delete g.Wbg; g.gain = 0.0045; });
           if (rg.ok || !/Wbg の宣言/.test(rg.msg)) bad.push('⑤ gain の旧宣言と一緒の拒否 ' + rg.msg.slice(0, 80));
           if (HP.inertialR2CrossCheck({ lambdaRs: 3 }, { G: 6.674, cLight: 0 }) === null) bad.push('⑤ lambdaRs と c₀=0 の突き合わせ');
@@ -79536,6 +79538,305 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     } catch (e) { bad.push('照合の記録が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
     add('docs.primaryAudit304', bad.length === 0,
       `**観測の候補の行 EPM2011 の一次表との照合の記録**(第304便e・原仮定者の裁定(第94報)・AN321・R198 —— 数値は一次表と一致・68% の 1σ の定義は未確認・候補の行は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
+// ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
+// ----   ① 受理: η = 0.01・0.5・1・100(100 は「天体の外」の警告)—— shellSelf:"drag" の宣言つき
+// ----   ② 拒否: η = 1e-120(R_d³ が 0 へ丸まる —— S3 = Infinity)・η = Number.MIN_VALUE(R_d が 0 へ丸まる)・η = 1e-100 かつ W_bg = 1e-21(行の対角 c·S3 が溢れる)・
+// ----      S2(inertialR2.self:"shell")の 1e-150 —— 理由の文つき。同じ η = 1e-100 は W_bg = 221 なら受理し、20 步が有限
+// ----   ③ 受理器の部品 dragShellRdCheck・dragShellSelfCheck の境界(R_d³ の最小の正規数の前後)
+// ----   ④ 丸め・値域の処理の後の天体: 生の radius 1e-300(値域の下限へ丸まる)と η 1e-10 は、丸めた半径で検査して受理し、殻の半径の表 R_d は η·(丸めた半径)
+// ----   ⑤ 内蔵の全本の受理に第305便e の拒否の文が出ない(在位も退役も —— 署名の不変は sigsame)
+{
+  const htmlT5 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && htmlT5.indexOf('function dragShellRdCheck(') >= 0)) {
+    console.log('SKIP behavior.shellTinyEta305(第305便e の極小 η の受理の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const base = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
+      const tryQ = (eta, mut) => { const q = clone(base); delete q.physics.gLoc; delete q.fitRecord; q.bodies[1].dragCore = { shellRatio: eta }; q.physics.relativeDrag.shellSelf = 'drag'; if (mut) mut(q);
+        const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' '), warn: (v.warnings || []).join(' '), v }; };
+      // ①
+      const acc = [0.01, 0.5, 1, 100].map((eta) => ({ eta, r: tryQ(eta) }));
+      for (const a of acc) if (!a.r.ok) bad.push('① η ' + a.eta + ' が受理されない ' + a.r.msg.slice(0, 100));
+      if (!/天体の外/.test(acc[3].r.warn)) bad.push('① η 100 の警告(天体の外)が無い');
+      cases.push(`① 受理 η ${acc.filter((a) => a.r.ok).map((a) => a.eta).join('・')}(100 は警告「天体の外」)`);
+      // ②
+      const rej = [[1e-120, null, /小さすぎる.*R_d = η·radius = 2\.44e-122/], [Number.MIN_VALUE, null, /小さすぎる.*R_d = η·radius = 0 /],
+        [1e-100, (q) => { q.physics.relativeDrag.Wbg = 1e-21; }, /行の対角 c·\(S3 \+ S2\) = Infinity/],
+        [1e-150, (q) => { delete q.physics.relativeDrag.shellSelf; q.physics.relativeDrag.inertialR2 = { lambda: 4.43e-5, self: 'shell' }; }, /小さすぎる/]];
+      for (const [eta, mut, re] of rej) { const r = tryQ(eta, mut); if (r.ok || !re.test(r.msg)) bad.push('② η ' + eta + ' が拒否されない/理由の文 ' + re + ' → ' + r.msg.slice(0, 120)); }
+      const ok100 = tryQ(1e-100);
+      if (!ok100.ok) bad.push('② η 1e-100・W_bg 221 が受理されない ' + ok100.msg.slice(0, 100));
+      else { const S = HP.coord3d.makeSim(); S.build(clone(ok100.v.preset)); for (let k = 0; k < 20; k++) S.step(0.016);
+        const fin = ['x', 'y', 'z', 'vx', 'vy', 'vz'].every((k) => Array.from(S[k].slice(0, S.n)).every(Number.isFinite)) && !S.hasNaN();
+        if (!fin) bad.push('② η 1e-100・W_bg 221 の 20 步が有限でない'); }
+      cases.push(`② 拒否 ${rej.length} 例(1e-120・MIN_VALUE・1e-100 と W_bg 1e-21・S2 の 1e-150 —— 理由の文つき)・η 1e-100 は W_bg 221 で受理して 20 步が有限`);
+      // ③ 部品の境界(R_d³ の最小の正規数 2.2250738585072014e-308 の前後)
+      const Rmin = Math.cbrt(2.2250738585072014e-308);
+      const rd1 = HP.dragShellRdCheck(1, Rmin * 1.0001), rd2 = HP.dragShellRdCheck(1, Rmin * 0.5), rd3 = HP.dragShellRdCheck(0.01, 0.0244);
+      if (rd3 !== null) bad.push('③ dragShellRdCheck(0.01, 0.0244) が拒否 ' + rd3);
+      if (rd1 !== null && !/小さすぎる/.test(rd1)) bad.push('③ R_d³ が正規数の側の判定 ' + rd1);
+      const b3 = clone(base); delete b3.physics.gLoc; delete b3.fitRecord;
+      const sv = HP.validatePreset(b3), phN = sv.ok ? clone(sv.preset.physics) : null;
+      if (phN) phN.relativeDrag.shellSelf = 'drag';   // 正規化した physics に自己の項の宣言を足す(受理器の部品だけを試す)
+      const sc1 = phN ? HP.dragShellSelfCheck(0.5, 3.3011e-4, 0.0244, phN, 0.05) : 'no-ph', sc2 = phN ? HP.dragShellSelfCheck(1e-100, 3.3011e-4, 0.0244, Object.assign(clone(phN), { relativeDrag: Object.assign(clone(phN.relativeDrag), { Wbg: 1e-21 }) }), 0.05) : null;
+      if (sc1 !== null) bad.push('③ dragShellSelfCheck(η 0.5)が拒否 ' + sc1);
+      if (!(typeof sc2 === 'string' && /行の対角/.test(sc2))) bad.push('③ dragShellSelfCheck(η 1e-100・W_bg 1e-21)が拒否しない');
+      cases.push(`③ 部品: R_d³ の最小の正規数の前後(半径 ${Rmin.toExponential(3)}・×0.5 で拒否 ${rd2 !== null})・自己の重みと対角`);
+      // ④ 丸め・値域の処理の後の天体
+      const r4 = tryQ(1e-10, (q) => { q.bodies[1].radius = 1e-300; });
+      if (!r4.ok) bad.push('④ 生の radius 1e-300・η 1e-10 が受理されない(丸めた半径で検査していない)' + r4.msg.slice(0, 100));
+      else {
+        const Rc = r4.v.preset.bodies[1].radius, S = HP.coord3d.makeSim(); S.build(clone(r4.v.preset)); S.step(0.016);
+        const Rd = S._dragShellRd ? S._dragShellRd[1] : null;
+        if (!(Rc > 1e-300 && Rd === 1e-10 * Rc && Rd > 0)) bad.push('④ 殻の半径の表 ' + Rd + '・丸めた半径 ' + Rc);
+        else cases.push(`④ 生の radius 1e-300 は ${Rc} へ丸めて検査・R_d = ${Rd.toExponential(3)}(η·丸めた半径)`);
+      }
+      // ⑤ 内蔵の全本
+      const all = HP.allPresets(); let nNg = 0;
+      for (const p of all) { const v = HP.validatePreset(clone(p)); if (/第305便e/.test((v.errors || []).join(' ') + (v.warnings || []).join(' '))) { nNg++; bad.push('⑤ ' + p.id + ' に第305便e の文'); } }
+      cases.push(`⑤ 内蔵 ${all.length} 本の受理に第305便e の文 ${nNg} 件`);
+      void E;
+    } catch (e) { bad.push('実行に失敗 ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.shellTinyEta305', bad.length === 0,
+      `**極小 η の受理**(第305便e・AN323・R203 —— R_d・R_d²・R_d³・1/R_d³ と自己の重み・行の対角の有限性を、丸め・値域の処理の後の天体と physics で検査): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第305便e(決断事項 AN327・統括の検証項目 R203): ui.softeningFloorSlider305 —— **パラメータタブの軟化の行が softeningFloor に追随**(390×844・root は SKIP)。
+// ----   世代切替 = 対象 html に `function softeningRowFloorOf(`。🌦️ earthMoonSunInertial3d(softeningFloor 0.0005 の宣言 —— 宣言から読む)で:
+// ----   ① 直値 0.0006 は 0.0006 のまま(旧は 0.01 へ上がった)・スライダーの位置は宣言の下限からの対数・左端は下限・下限より下の直値は下限へ丸める
+// ----   ② 宣言の無い本(🌡️)は従来どおり 0.01 へ丸める・左端は 0.01
+// ----   ③ A/B: 編集対象 B の行は B の params の宣言を読む(B の宣言を消すと B は 0.01 へ丸め・A は変わらない)
+// ----   ④ 保存復帰: 0.0006 を保存して読み込むと行が 0.0006 とその位置・続けて直値 0.0007 も受理
+// ----   ⑤ 本の切り替え: 🌦️ → 🌡️ → 🌦️ で下限が追随・純関数 softeningRowFloorOf(較正クラス・値域の丸め・0.01 以上は null)
+{
+  const htmlS5 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && htmlS5.indexOf('function softeningRowFloorOf(') >= 0)) {
+    console.log('SKIP ui.softeningFloorSlider305(第305便e の軟化の行の前の世代 — ' + TARGET + ')');
+  } else {
+    const ctx5 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const p5 = await ctx5.newPage();
+    const errs = [];
+    p5.on('pageerror', (e) => errs.push(String(e.message || e).slice(0, 120)));
+    p5.on('dialog', (d) => d.accept());
+    await p5.goto(INDEX, { waitUntil: 'load' });
+    await p5.waitForFunction(() => !!window.HP && !!HP.loadPreset && !!HP.sim);
+    const r = await p5.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { bad: [] };
+      const book = HP.allPresets().find((p) => p.physics && typeof p.physics.softeningFloor === 'number' && p.physics.softeningFloor < 0.01 && p.familyRole !== 'retired' && p.sampleClass !== 'calibration');
+      const plain = HP.allPresets().find((p) => p.id === 'mercurySunInertial3d');
+      if (!book || !plain) { o.bad.push('代表の本が無い'); return o; }
+      o.book = book.id; o.floor = book.physics.softeningFloor;
+      const row = () => document.querySelector('.prow[data-k="softening"]');
+      const setNum = async (v) => { const n = row().querySelector('input.valIn'); n.value = String(v); n.dispatchEvent(new Event('change')); await wait(10); };
+      const setRng = async (v) => { const g = row().querySelector('input[type=range]'); g.value = String(v); g.dispatchEvent(new Event('input')); await wait(10); };
+      const pos = (lo, v) => Math.round(1000 * Math.log(v / lo) / Math.log(20 / lo));
+      HP.setLang('ja'); document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(60);
+      HP.loadPreset(book.id, false); await wait(30);
+      if (!row()) { o.bad.push('softening の行が無い'); return o; }
+      const sig0 = presetSig(HP.currentPreset());
+      // ①
+      await setNum(0.0006); o.n06 = { v: HP.sim.params.softening, num: row().querySelector('input.valIn').value, rng: Number(row().querySelector('input[type=range]').value), want: pos(o.floor, 0.0006) };
+      await setRng(0); o.left = HP.sim.params.softening;
+      await setNum(0.00001); o.below = HP.sim.params.softening;
+      await setNum(0.02); o.n02 = { v: HP.sim.params.softening, rng: Number(row().querySelector('input[type=range]').value), want: pos(o.floor, 0.02) };
+      o.sigSame = presetSig(HP.currentPreset()) === sig0;
+      // ② 宣言の無い本
+      HP.loadPreset(plain.id, false); await wait(30);
+      await setNum(0.0006); o.plain = HP.sim.params.softening; await setRng(0); o.plainLeft = HP.sim.params.softening;
+      // ⑤ 切り替えで戻る
+      HP.loadPreset(book.id, false); await wait(30); await setNum(0.0006); o.back = HP.sim.params.softening;
+      // ③ A/B
+      HP.abStart(); await wait(20); HP.setAbTarget('B'); await wait(20);
+      const A0 = HP.sim.params.softening; await setNum(0.0007);
+      o.abB = { b: HP.ab().simB.params.softening, a: HP.sim.params.softening, a0: A0 };
+      HP.ab().simB.params.softeningFloor = undefined; HP.setAbTarget('B'); await wait(20); await setNum(0.0006);
+      o.abBNoFloor = { b: HP.ab().simB.params.softening, a: HP.sim.params.softening };
+      HP.setAbTarget('A'); await wait(20); await setNum(0.0008); o.abA = HP.sim.params.softening;
+      HP.abStop(); await wait(20);
+      // ④ 保存復帰
+      HP.loadPreset(book.id, false); await wait(30); await setNum(0.0006);
+      const item = { name: 'qa_w305e', comment: '', savedAt: new Date().toISOString(), presetId: HP.currentPreset().id, presetName: HP.currentPreset().name, physics: Object.assign({}, HP.sim.params), cameraScale: 200 };
+      HP.loadPreset(plain.id, false); await wait(20);
+      const okL = HP.loadSaveItem(JSON.parse(JSON.stringify(item)), 'x'); await wait(40);
+      o.save = { ok: okL, v: HP.sim.params.softening, num: row().querySelector('input.valIn').value, rng: Number(row().querySelector('input[type=range]').value), want: pos(o.floor, 0.0006) };
+      await setNum(0.0007); o.save.after = HP.sim.params.softening;
+      // ⑤ 純関数
+      const F = HP.softeningRowFloorOf;
+      o.pure = [F({ softeningFloor: 0.0005 }, { sampleClass: 'principle' }), F({ softeningFloor: 0.0005 }, { sampleClass: 'calibration' }), F({ softeningFloor: 0.00001 }, {}), F({ softeningFloor: 0.05 }, {}), F({}, {})];
+      HP.loadPreset(book.id, false);
+      return o;
+    }).catch((e) => ({ bad: ['ページ: ' + String(e).slice(0, 200)] }));
+    await ctx5.close();
+    const fl = r.floor;
+    const ok = r.bad.length === 0 && r.n06 && r.n06.v === 0.0006 && parseFloat(r.n06.num) === 0.0006 && r.n06.rng === r.n06.want && r.left === fl && r.below === fl
+      && r.n02.v === 0.02 && r.n02.rng === r.n02.want && r.sigSame && r.plain === 0.01 && r.plainLeft === 0.01 && r.back === 0.0006
+      && r.abB.b === 0.0007 && r.abB.a === r.abB.a0 && r.abBNoFloor.b === 0.01 && r.abBNoFloor.a === r.abB.a0 && r.abA === 0.0008
+      && r.save.ok === true && r.save.v === 0.0006 && parseFloat(r.save.num) === 0.0006 && r.save.rng === r.save.want && r.save.after === 0.0007
+      && JSON.stringify(r.pure) === JSON.stringify([0.0005, null, 0.0001, null, null]) && errs.length === 0;
+    add('ui.softeningFloorSlider305', ok,
+      `**パラメータタブの軟化の行が本の softeningFloor に追随**(第305便e・AN327・R203 —— 390×844): ${r.book}(floor ${fl})で直値 0.0006 → ${r.n06 && r.n06.v}(スライダー ${r.n06 && r.n06.rng}/期待 ${r.n06 && r.n06.want})・`
+      + `左端 ${r.left}・下限より下 → ${r.below}・0.02 → ${r.n02 && r.n02.v} / 宣言の無い 🌡️: 0.0006 → ${r.plain}・左端 ${r.plainLeft} / 戻すと ${r.back} / `
+      + `A/B: B ${r.abB && r.abB.b}(A は ${r.abB && r.abB.a} のまま)・B の宣言を消すと B ${r.abBNoFloor && r.abBNoFloor.b}・A ${r.abA} / 保存復帰 ${JSON.stringify(r.save)} / 純関数 ${JSON.stringify(r.pure)}・presetSig 不変 ${r.sigSame}`
+      + (r.bad.length ? ' / NG ' + r.bad.join(' ; ') : '') + (errs.length ? ' / JS ' + errs.slice(0, 2).join(' | ') : ''));
+  }
+}
+
+// ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): docs.charonAudit305 —— **🟪 の基線の監査の正本と文書**(root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 正本 tests/out/charonaudit-w305e.json ∧ 器 tests/exp-w305e-charonaudit.mjs。固定値は正本から読む(器の表の関数で正本から行を作り直し、
+// ----   PHYSICS〔第305便e〕に逐語で照合 —— 鎖で正本を作り直した後の世代も同じ照合):
+// ----   ① 正本の版・来歴・門(10 本以上・全部真)・段の全部 ② 照合した CSV の行が今の CSV と同じ(record_id で引き直し)・閉じた式をその場で作り直して正本と同じ
+// ----   ③ 本の宣言は変えない(🟪 の W_bg・軟化が正本の記録と同じ)・観察者の時計は記録だけ(use = record-only)
+// ----   ④ PHYSICS〔第305便e〕の位置(「## 7.」の前)・表の行(内訳・監査の他の項目・直す案)・語・禁句 ⑤ 再生成の段・.gitignore の例外
+{
+  const J5p = path.join(ROOT, 'tests', 'out', 'charonaudit-w305e.json'), X5p = path.join(ROOT, 'tests', 'exp-w305e-charonaudit.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(J5p) && fs.existsSync(X5p))) {
+    console.log('SKIP docs.charonAudit305(第305便e の 🟪 の基線の監査の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + X5p), J = JSON.parse(fs.readFileSync(J5p, 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const HP = loadHtmlHeadless(path.join(ROOT, TARGET)).HP;
+      // ①
+      if (!(J.version === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1')) bad.push('① 正本の版・来歴');
+      const gk = Object.keys(J.gates || {});
+      if (!(J.ok === true && gk.length >= 10 && gk.every((k) => J.gates[k] === true))) bad.push('① 正本の門 ' + JSON.stringify(J.gates));
+      for (const k of X.PARTS_ALL) if (!J[k]) bad.push('① 正本に段 ' + k + ' が無い');
+      cases.push(`① 正本 ${J.version}・門 ${gk.length} 本 全部真 ${gk.every((k) => J.gates[k] === true)}`);
+      // ②
+      const rec = X.recordsOf(ROOT);
+      for (const [k, r] of Object.entries(rec)) { const s = J.records && J.records[k]; if (!s || s.recordId !== r.recordId || s.value !== r.value || s.sigma !== r.sigma) bad.push('② CSV の行 ' + r.recordId + ' が正本の写しと違う'); }
+      const C = X.stageClosed(HP, rec), rel = (a, b) => Math.abs(a - b) <= 1e-12 * Math.max(1, Math.abs(a), Math.abs(b));
+      if (!(rel(C.PK, J.closed.PK) && rel(C.dK, J.closed.dK) && rel(C.split.defMix, J.closed.split.defMix) && rel(C.gm.need, J.closed.gm.need))) bad.push('② 閉じた式の作り直しが正本と違う');
+      cases.push(`② CSV ${Object.keys(rec).length} 行を record_id で引き直し・閉じた式 ${C.PK.toFixed(5)} s(差 +${C.dK.toFixed(5)} s)を作り直して正本と同じ`);
+      // ③
+      const pl = HP.allPresets().find((q) => q.id === X.PLU_ID);
+      if (!(pl.physics.relativeDrag.Wbg === J.book.Wbg && pl.physics.softening === J.book.softening)) bad.push('③ 🟪 の宣言が正本の記録と違う(本便は宣言を変えない)');
+      if (!(J.clock && J.clock.use === 'record-only' && J.clock.timeSystem === rec.target.timeSystem)) bad.push('③ 観察者の時計の段が記録だけでない/時刻系が CSV の注記と違う');
+      cases.push(`③ 🟪 の W_bg ${pl.physics.relativeDrag.Wbg}・ε ${pl.physics.softening} は不変・時計の換算は記録だけ(時刻系「${J.clock && J.clock.timeSystem}」)`);
+      // ④
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), k0 = PH.indexOf('〔第305便e — ');
+      const ends = k0 >= 0 ? [PH.indexOf('\n〔第', k0 + 1), PH.indexOf('\n## ', k0 + 1)].filter((z) => z > 0) : [];
+      const ps = k0 >= 0 ? PH.slice(k0, ends.length ? Math.min(...ends) : undefined) : '';
+      if (!ps) bad.push('④ PHYSICS に〔第305便e — 〕の節が無い');
+      else {
+        if (!(k0 < PH.indexOf('\n## 7. '))) bad.push('④〔第305便e〕が「## 7.」の前に無い');
+        const rows = [...X.breakdownRows(J), ...X.auditRows(J), ...X.fixRows(J)], miss = rows.filter((t) => ps.indexOf(t) < 0);
+        if (miss.length) bad.push('④ PHYSICS〔第305便e〕に正本の表の行が無い: ' + miss.slice(0, 2).join(' / ').slice(0, 200));
+        else cases.push(`④ PHYSICS の表の行 ${rows.length} 本が正本と逐語で一致`);
+        for (const w of ['charonaudit-w305e.json', 'obs-time-standard-20261016.csv', 'AN318', 'AN333', 'AN323', 'AN327', 'AN328', '記録だけ', '言わないこと', '統括の検証項目 R203', 'softeningRowFloorOf', 'dragShellRdCheck'])
+          if (ps.indexOf(w) < 0) bad.push('④ PHYSICS〔第305便e〕に「' + w + '」が無い');
+        const NG = [/私信/, /添付/, /審査/, /再現した/, /再現しない/, /合わせられない/, /GR と一致/, /GR を導/, /法則を発見/, /n が決まった/, /η が決まった/, /ChatGPT|Grok|Gemini|Claude|GPT-|Opus|Sonnet|Haiku/];
+        const strip = (t) => t.replace(/「[^」]*」/g, '');
+        for (const [nm, t] of [['PHYSICS〔第305便e〕', ps], ['器', fs.readFileSync(X5p, 'utf8')]]) for (const re of NG) if (re.test(strip(t))) bad.push('④ 禁句 ' + re + ' が ' + nm + ' に');
+      }
+      // ⑤
+      const RT = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'), 'utf8');
+      if (RT.indexOf("S('charonaudit-305e', 'node tests/exp-w305e-charonaudit.mjs', ['tests/out/charonaudit-w305e.json']") < 0 || !/secSource: 'w305e-branch'/.test(RT)) bad.push('⑤ 再生成の段 charonaudit-305e');
+      if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/charonaudit-w305e.json') < 0) bad.push('⑤ .gitignore の例外');
+      const B = J.breakdown;
+      cases.push(`内訳: 走行の差 +${B.gapRun.toFixed(5)} s = 閉じた式 +${B.closed.toFixed(5)}(PLU060 の平均の要素の定義 +${J.closed.split.defMix.toFixed(5)}・解の違い ${J.closed.split.solDiff.toFixed(5)})+ 軟化 +${B.soft.toFixed(5)} + 数値 ${B.numerical.toExponential(2)} + 残り ${B.rest.toExponential(1)} s`);
+    } catch (e) { bad.push('正本・器が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.charonAudit305', bad.length === 0,
+      `**🟪 plutoCharonInertialFit の基線の監査**(第305便e・AN318・AN333・R203 —— 引きずり OFF の +7.221 s の内訳・宣言は変えない・観察者の時計の換算は記録だけ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第305便e(決断事項 AN333・統括の検証項目 R203): docs.obsTime305 —— **観測の時間標準の記録の取り込みの照合**(root は SKIP)。
+// ----   paper/data/obs-time-standard-20261016.csv(照合に使う標的ごとに、原資料の時間標準・モデルの時間・観察者と参照時計・換算の要否・既換算か否か・換算の版):
+// ----   ① 列 17・target_id の重複 0 ② 由来が CSV の行: record_id が原の CSV に 1 行・値・単位・quantity・source が原の行と文字列で同じ・時間標準の根拠の文が原の行の注記
+// ----      (か判定行の宣言の solution)の部分文字列・「不明」の行は原の行に時刻系の語(TDB・TT・TDT・UTC・UT1・TCB・TCG)が無い(推測で埋めない —— 取りこぼしも無い)
+// ----   ③ 由来が html の fitRecord: その本の fitRecord の標的に同じ値がある ④ 覆い: 在位の fitRecord の標的・判定行の宣言(judgement-sources.json)・
+// ----      候補の列 A1-EPM2011 と B1 の行がすべて記録にある ⑤ モデルの時間は全行「絶対時間」・絶対時間へ換算した行 0(AN333 —— 既定で適用しない)
+// ----   ⑥ 🟪 の行の時間標準と正本 charonaudit-w305e.json の段 clock の時刻系が同じ ⑦ PHYSICS〔第305便e〕に記録の意味・禁句なし
+{
+  const TF5 = 'paper/data/obs-time-standard-20261016.csv';
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, TF5)))) {
+    console.log('SKIP docs.obsTime305(第305便e の時間標準の記録の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const OBS = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+      const parse = (txt) => { const ls = txt.split('\n').filter((l) => l.trim()); const h = OBS.parseCsvLine(ls[0]).map((x) => x.trim());
+        return { h, rows: ls.slice(1).map((l) => { const c = OBS.parseCsvLine(l); const o = { _n: c.length }; h.forEach((k, i) => { o[k] = c[i] === undefined ? '' : c[i]; }); return o; }) }; };
+      const T = parse(fs.readFileSync(path.join(ROOT, TF5), 'utf8'));
+      const HEAD = ['target_id', 'books', 'quantity', 'value', 'unit', 'record_id', 'origin', 'source', 'time_standard', 'time_standard_evidence', 'time_standard_scope',
+        'model_time', 'observer_reference_clock', 'conversion_needed', 'converted_to_model_time', 'conversion_version', 'note'];
+      if (JSON.stringify(T.h) !== JSON.stringify(HEAD)) bad.push('① 列 ' + T.h.join(','));
+      if (T.rows.some((r) => r._n !== HEAD.length)) bad.push('① 列の数が 17 でない行');
+      const tids = T.rows.map((r) => r.target_id);
+      if (new Set(tids).size !== tids.length) bad.push('① target_id の重複');
+      cases.push(`① 列 ${T.h.length}・${T.rows.length} 行・重複 ${tids.length - new Set(tids).size}`);
+      const src = {};
+      for (const f of ['paper/data/solar-observations.csv', 'paper/data/pn1-ephemeris-candidates.csv']) src[f] = parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).rows;
+      const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8')), decl = JS.declarations || [];
+      const TOK = /\b(TDB|TT|TDT|UTC|UT1|TCB|TCG)\b/;
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const HP = loadHtmlHeadless(path.join(ROOT, TARGET)).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');
+      let nCsv = 0, nHtml = 0, nUnknown = 0;
+      for (const r of T.rows) {
+        const tag = r.target_id;
+        if (src[r.origin]) {
+          const hit = src[r.origin].filter((z) => z.record_id === r.record_id);
+          if (hit.length !== 1) { bad.push('② ' + tag + ' の record_id ' + r.record_id + ' が原の CSV に ' + hit.length + ' 行'); continue; }
+          const z = hit[0], d = decl.find((q) => q.record_id === r.record_id);
+          if (!(z.value === r.value && z.unit === r.unit && z.quantity === r.quantity && z.source === r.source)) bad.push('② ' + tag + ' の写し(値・単位・quantity・source)が原の行と違う');
+          const ev = r.time_standard_evidence;
+          if (!(ev === '記載なし' || ev === '—' || z.note.indexOf(ev) >= 0 || z.source.indexOf(ev) >= 0 || (d && String(d.solution).indexOf(ev) >= 0))) bad.push('② ' + tag + ' の根拠の文「' + ev + '」が原の行に無い');
+          if (r.time_standard === '不明') { nUnknown++; if (TOK.test(z.note + ' ' + z.source)) bad.push('② ' + tag + ' は「不明」なのに原の行に時刻系の語がある(取りこぼし)'); if (ev !== '記載なし' && TOK.test(ev)) bad.push('② ' + tag + ' の根拠に時刻系の語'); }
+          else if (!/^該当なし/.test(r.time_standard) && !TOK.test(ev) && !(r.observer_reference_clock && TOK.test(r.observer_reference_clock))) bad.push('② ' + tag + ' の時間標準「' + r.time_standard + '」の根拠に時刻系の語が無い(推測で埋めない)');
+          nCsv++;
+        } else if (/^beta\/index\.html#fitRecord:/.test(r.origin)) {
+          const pid = r.origin.split(':')[1], p = live.find((q) => q.id === pid);
+          const tg = p && p.fitRecord && (p.fitRecord.targets || []).find((t) => String(t.obs) === r.value);
+          if (!tg) bad.push('③ ' + tag + ' の fitRecord の標的(' + pid + '・' + r.value + ')が無い');
+          if (r.time_standard === '不明') nUnknown++;
+          nHtml++;
+        } else bad.push('② ' + tag + ' の由来 ' + r.origin + ' が知らない形');
+        // ⑤
+        if (!/^絶対時間/.test(r.model_time) || !/^いいえ/.test(r.converted_to_model_time) || r.conversion_version !== 'なし') bad.push('⑤ ' + tag + ' のモデルの時間・換算の欄');
+      }
+      cases.push(`② 原の CSV の行 ${nCsv}(値・単位・根拠の文が一致・「不明」${nUnknown} 行は原の行に時刻系の語なし)・③ html の fitRecord ${nHtml}`);
+      // ④ 覆い
+      const keys = new Set(T.rows.map((r) => r.books + '|' + r.value)), recs = new Set(T.rows.map((r) => r.record_id));
+      for (const p of live) for (const t of ((p.fitRecord && p.fitRecord.targets) || [])) {
+        const ok = T.rows.some((r) => r.books.split(';').includes(p.id) && (r.value === String(t.obs) || /fitRecord の標的/.test(r.note)));
+        if (!ok) bad.push('④ ' + p.id + ' の fitRecord の標的 ' + t.obs + ' が記録に無い');
+      }
+      for (const d of decl) if (!recs.has(d.record_id)) bad.push('④ 判定行の宣言 ' + d.record_id + ' が記録に無い');
+      for (const z of src['paper/data/pn1-ephemeris-candidates.csv']) if (/item=(A1-EPM2011|B1-)/.test(z.note) && !recs.has(z.record_id)) bad.push('④ 候補の列 ' + z.record_id + ' が記録に無い');
+      cases.push(`④ 在位の fitRecord の標的・判定行の宣言 ${decl.length}・A1-EPM2011 と B1 の候補の行をすべて覆う`);
+      cases.push(`⑤ モデルの時間は全行 絶対時間・絶対時間へ換算した行 0(AN333)`);
+      void keys;
+      // ⑥
+      const CJ = path.join(ROOT, 'tests', 'out', 'charonaudit-w305e.json');
+      const pc = T.rows.find((r) => r.record_id === 'SOL-25d4320f');
+      if (!pc) bad.push('⑥ 🟪 の行が無い');
+      else if (fs.existsSync(CJ)) { const J = JSON.parse(fs.readFileSync(CJ, 'utf8')); if (!(J.clock && pc.time_standard_evidence === 'time system ' + J.clock.timeSystem)) bad.push('⑥ 🟪 の時間標準の根拠と正本の段 clock が違う'); }
+      cases.push(`⑥ 🟪 の時間標準「${pc && pc.time_standard}」(根拠「${pc && pc.time_standard_evidence}」)と正本の段 clock が同じ`);
+      // ⑦
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), k0 = PH.indexOf('〔第305便e — ');
+      const ends = k0 >= 0 ? [PH.indexOf('\n〔第', k0 + 1), PH.indexOf('\n## ', k0 + 1)].filter((z) => z > 0) : [];
+      const ps = k0 >= 0 ? PH.slice(k0, ends.length ? Math.min(...ends) : undefined) : '';
+      for (const w of ['obs-time-standard-20261016.csv', '推測で埋めない', '不明', '絶対時間']) if (ps.indexOf(w) < 0) bad.push('⑦ PHYSICS〔第305便e〕に「' + w + '」が無い');
+      const NGW = Buffer.from('56eB5L+hLOa3u+S7mCzlr6nmn7ssQ2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleCxDbGF1ZGUsR1BULSxPcHVzLFNvbm5ldCxIYWlrdSxhdHRhY2htZW50LHByaXZhdGUgY29tbXVuaWNhdGlvbg==', 'base64').toString('utf8').split(',');
+      const low = fs.readFileSync(path.join(ROOT, TF5), 'utf8').toLowerCase();
+      for (const w of NGW) if (low.includes(w.toLowerCase())) bad.push('⑦ 記録に禁句(base64 の表の ' + (NGW.indexOf(w) + 1) + ' 番)');
+    } catch (e) { bad.push('記録が読めない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.obsTime305', bad.length === 0,
+      `**観測の時間標準の記録**(第305便e・AN333・R203 —— 原資料の時間標準・モデルの時間〔絶対時間〕・換算の要否・既換算か否か —— 未知は「不明」・推測で埋めない・判定には使わない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }

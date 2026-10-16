@@ -3768,7 +3768,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 
 ## 96. 第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ `physics.relativeDrag.inertialR2`・G_loc の別名 `cRatio`(原仮定者の裁定(第93報)④⑤・統括の検証項目 R192・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
 
-- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}`(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
+- **鍵**: `physics.relativeDrag.inertialR2:{lambda:<正の長さ [L]> | lambdaRs:<正の数 k>, sources?:"all"|"pairs", self?:"off"|"radius"|"shell", env?:"off"|"bodies"}`(self:"shell" は第304便a —— 形の説明の文は第305便e で揃えた)(law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ —— 二次元・三次元とも)。
   lambda と lambdaRs はどちらか 1 つ。正規化後は 4 鍵(lambda か lambdaRs・sources・self・env)を持つ。受け手 i の**分母にだけ**源の慣性決定力 w_I,ij = m_j/(λ_j (r_ij² + ε²)) を足す:
   u_i = Σ_j w_ij (W_j − v_i)/(W_bg + Σ_j w_I,ij [+ 自己の項] [+ 背景側の天体の項] + Σ_j w_ij)(分子の引きずり w_ij = m_j 𝒦_j と右辺は変えない・ε は引きずりの核の ε)。
   lambda は普遍の長さ(w_I ∝ m_j)・lambdaRs は λ_j = k·r_s(m_j) = 2kGm_j/c₀²(w_I = c₀²/(2kG(r²+ε²)) —— 源の質量によらない・cLight > 0 と G > 0 が要る)。
