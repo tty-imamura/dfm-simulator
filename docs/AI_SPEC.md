@@ -3846,3 +3846,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w305c-j2.mjs`(版 w305c-j2-1・`W305C_PARTS`=unit,analytic,em,emo,record・`W305C_OUT`)→ `tests/out/j2-w305c.json`(段 j2-305c)。第304便の宣言の写し `tests/data-w305c-decl304.json`・lib `tests/lib-w305c-pre.mjs`(`pin304`・`pinDecl304`・`gate304`・`pinChanges304`・`isGen305c`)—— 器 `tests/exp-w304c-baseline.mjs` は pinDecl304 で第304便の宣言を測る。
 - **QA**: `behavior.j2_305`・`preset.emJ2_305`・`docs.j2_305`(root は SKIP)・世代切替 `preset.emBaseline304`(①② は pin304 の写し・観測カードの数は preset.emJ2_305 へ)・`preset.earthReorg300` ⑦(T1 の転記の契約)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。J₂ を二次元の本に書かない(二次元は zonal)。交点の残りの差の帰属を J₂ だけと書かない(追加の測定の後)。
+
+
+## 102. 第306便e —— 🟪 plutoCharonInertialFit の宣言の直し (A)(GM は PLU060 のまま・初期の距離を二体のケプラーの a・引きずり OFF・旧 W_bg は履歴)(決断事項 AN339 の案 (A)・統括の検証項目 R208・**宣言の値だけ** —— 宣言の鍵・受理器・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **🟪 plutoCharonInertialFit**: bodies の位置・速度を二体のケプラーの円の状態(初期の距離 a = (GM (P/2π)²)^(1/3) = 19595.593 km —— 標的の P 551856.43872 s と本の GM 975.40 km³/s² から・重心 0)へ・**引きずり OFF**(`relativeDrag:{law:"inertial", Wbg:null, enabled:false, eps:0.01, history:"positions", pairs:"all", coreTable:{n:4096}}`)。質量・半径・自転・構造核の事前値・軟化 ε 0.01 は第305便のまま。値は器の `declFrom305` の double。
+- **fitRecord**(w297b-1): ノブ `initial.keplerSemiMajorAxis`(閉じた式 —— 数値の探索ではない)・残差 +0.00437 s(軟化 1 km の分)・status は既存の "fitted"(入力の整合に対する数値の門 —— notFitted の先頭に「周期の一致は入力の整合の確かめで、独立な結果ではない」)。旧 W_bg 0.0001486103 と旧の初期の距離 19595.764 km は `fixed` の履歴の列。
+- **abBody**: 旧 W_bg 0.0001486103 の引きずり ON(対照 —— 新しい初期状態では −7.217 s)。**notClaim**: `solar_cal`・`period_input_consistency`・`charon_drag_off_record`(後の 2 語は新しい表示文 `nc_*` —— ja/en)。家族の variant の名札を「慣性決定力版(二体のケプラーの a・引きずり OFF)」へ。
+- **器と正本**: `tests/exp-w306e-charonfix.mjs`(版 w306e-charonfix-1・`W306E_PARTS`=decl,measure,soft,tide,control,parent,record・`W306E_OUT`)→ `tests/out/charonfix-w306e.json`(段 charonfix-306e)。第305便の宣言の写し `tests/data-w306e-decl305.json`・lib `tests/lib-w306e-pre.mjs`(`pin305`・`pinDecl305`・`gate305`・`pinChanges305`・`isGen306e`)—— 歴史の器 4 本(charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c)は pin305 で第305便の宣言に固定。
+- **QA**: `preset.charonFix306`・`docs.charonFix306`(root は SKIP・世代切替は `isGen306e`)・世代切替 `docs.charonAudit305`(🟪 は pin305 の写しで照合)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。🟪 の周期の一致を独立な結果と書かない(標的の周期から初期の距離を作った入力の整合)。引きずり OFF を「引きずりが要らない」と書かない(σ の内で 0 の記録)。🥶 の宣言は変えていない(同じ平均の要素の a の定義のまま —— 直すかは決断事項の候補)。PCG × 対ごとの正規化は拒否のまま(条件の目録は PHYSICS〔第306便e〕⑥)。

@@ -399,16 +399,16 @@
    }
   },
   "plutoCharonInertialFit": {
-   "purpose": "係数移送版の写しに核の事前値を置き W_bg だけを公転周期に合わせる(semic)",
+   "purpose": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)",
    "objective": "met",
-   "state": "W_bg 0.0001486103・残差 7.70e-7 s・h/2 差 4.56e-5 s・核は同定不可",
+   "state": "引きずり OFF・a 19595.593 km(標的の P と GM から)・残差 +0.00437 s(軟化)・旧 W_bg は履歴",
    "evidence": [
-    "tests/out/refit-w303a.json",
-    "tests/out/fit-w297b.json"
+    "tests/out/charonfix-w306e.json",
+    "tests/out/charonaudit-w305e.json"
    ],
    "en": {
-    "purpose": "parent copy with prior cores; only W_bg matched to the period (semic)",
-    "state": "W_bg 0.0001486103; residual 7.70e-7 s, h/2 4.56e-5 s (fitted); cores not identifiable"
+    "purpose": "two-body Kepler start, drag-off baseline (period = input check)",
+    "state": "drag off; a 19595.593 km from target P and GM; residual +0.00437 s (softening); old W_bg in history"
    }
   },
   "boxBinaryToy": {

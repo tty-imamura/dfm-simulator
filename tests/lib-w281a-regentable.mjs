@@ -1033,6 +1033,15 @@ export const REGEN_STEPS = [
     after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/charonaudit-w305e.json': META_RUN.concat(['/elapsedS', '/soft/rows/*/wallSec', '/window/run16/wallSec', '/band/rows/*/wallSec']) },
     note: '第305便e: 🟪 の基線の監査(引きずり OFF の差 +7.221 s の内訳・観察者の時計の換算は記録だけ・直す案の確かめ —— 宣言は変えない)' }),
+  // ---- 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): **🟪 plutoCharonInertialFit の宣言の直し (A) の器**(段 decl〔第305便の宣言の写し tests/data-w306e-decl305.json から
+  //   案 (A) の宣言を作り html と同じかの門〕・measure〔h/h2/h4 の 8 公転の M1〕・soft〔軟化 ε² の外挿〕・tide〔太陽の潮汐の桁・三次元の写し〕・control〔旧 W_bg の引きずり ON・
+  //   第305便の宣言の ON/OFF〕・parent〔🥶 の同じ定義の点検 —— 宣言は変えない〕・record〔fitRecord を測った数から作り本の記録と同じか〕)。html と
+  //   paper/data/solar-observations.csv(record_id で行を引く)と凍結の写しを読む・他の正本は読まない(html の生成領域の後)・1 プロセス。W306E_PARTS で段を分けられる。
+  //   所要は第306便e の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('charonfix-306e', 'node tests/exp-w306e-charonfix.mjs', ['tests/out/charonfix-w306e.json'], 200, { secSource: 'w306e-branch', node: true,
+    after: ['charonaudit-305e', 'obscompare', 'samplestatus'],   // 記録(fitRecord.fixed)が第305便e の監査の正本を名指す・器の関数を import する
+    volatilePaths: { 'tests/out/charonfix-w306e.json': META_RUN.concat(['/elapsedS', '/measure/h/wallSec', '/measure/h2/wallSec', '/measure/h4/wallSec', '/soft/rows/*/wallSec']) },
+    note: '第306便e: 🟪 の宣言の直し (A)(初期の距離を二体のケプラーの a・引きずり OFF・旧 W_bg は履歴 —— 周期の一致は入力の整合の確かめ)・🥶 の同じ定義の点検' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -1133,6 +1142,9 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
+  // 第306便e(AN339 の案 (A)・R208): 第305便の 🟪 の宣言の凍結の写し(tests/lib-w306e-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 charonfix-w306e と歴史の記録の器
+  //   〔charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c〕の入力)
+  'tests/data-w306e-decl305.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

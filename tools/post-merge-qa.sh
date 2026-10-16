@@ -134,6 +134,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"
+# >>> 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): 枝 e の新設 2 本(preset.charonFix306 —— 🟪 の宣言の直し (A)・docs.charonFix306 —— 正本と文書)
+#   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
+# <<< 第306便e
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

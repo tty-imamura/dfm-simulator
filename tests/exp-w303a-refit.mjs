@@ -39,6 +39,7 @@ import * as L296 from './lib-w296b-fit.mjs';
 import * as M3 from './exp-w298c-moon3d.mjs';
 import { runEm3, windowsOf as emWindowsOf, emOnlyBodies, emOnlyPhysics, declCheck as emDeclCheck } from './exp-w300b-emonly.mjs';
 import { DECL302, DECL302_DATA_FILE, LIB_VERSION as PRE_VERSION } from './lib-w303a-pre.mjs';
+import { pinDecl305, DECL305_DATA_FILE } from './lib-w306e-pre.mjs';   // 第306便e(AN339 の案 (A)・R208): 🟪 の第305便の宣言の写し(この正本は第303便a の再フィットの記録 —— 🟪 の欄は第303便a から第305便まで不変)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(この正本は第303便a の再フィットの記録 —— 本の宣言は第304便c で基線を見直した)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SEMIC_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.coord3d","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialSpinMoment","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ckRestoreOne","ckSnapOne","ctx","cw","dfmSphereKernelQEff","fmt","pnSource","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
@@ -332,6 +333,7 @@ export async function main() {
   const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
   const { HP, errors } = loadHtmlMain(html);
   pinDecl303(null, [IDS.ems3, IDS.emo]);   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— この正本は第303便の宣言で測った歴史の記録)
+  pinDecl305(null, [IDS.plu]);   // 第306便e: 🟪 を第305便の宣言へ(= 第303便a の再フィットの宣言 —— 第305便の html では no-op)
   const J = { meta: null, version: HARNESS_VERSION, preVersion: PRE_VERSION, parts: PARTS, refit: {}, transfer: null, gates: null, diff: null };
   const T = (k, f) => { const s = Date.now(); const r = f(); timing[k] = { wallSec: (Date.now() - s) / 1000 }; return r; };
   if (PARTS.includes('R')) {
@@ -347,9 +349,9 @@ export async function main() {
   J.ok = !!J.gates && Object.values(J.gates).every(Boolean);
   J.timing = timing;
   J.notClaim = ['「43″ が出た」', '「GR と一致した」', '「現実を再現した」', '「W_bg の宇宙の値が決まった」'];
-  const CODE = ['tests/exp-w303a-refit.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w295c-inertial3.mjs',
+  const CODE = ['tests/exp-w303a-refit.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs', 'tests/lib-w306e-pre.mjs', 'tests/exp-w302c-wbgest.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w295c-inertial3.mjs',
     'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便a', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便a', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)',
     reading: '統括の検証項目 R191(在位の惑星の本から G_loc n=−3 を外す・semic での再フィット・観測の行)' });

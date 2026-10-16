@@ -3,49 +3,61 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便e",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:04:57.493Z",
+  "targetSha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
+  "generatedAt": "2026-10-16T16:07:12.330Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6926181,
+    "sha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
+    "mtime": "2026-10-16T15:30:57.598Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-09T10:19:39.375Z"
+    "mtime": "2026-10-16T15:08:34.651Z"
+   },
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "bytes": 9357,
+    "sha256": "d1f905caef307d86aae81e7681254b9c8bb8f4e0243564c28280f247752c181a",
+    "mtime": "2026-10-16T15:49:48.814Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w305e-charonaudit.mjs",
-    "bytes": 32151,
-    "sha256": "5c16f12b45187230c5d14888d2223f14c699ae147111bdb4c52d780c5a5d619b",
-    "mtime": "2026-10-16T03:33:57.220Z"
+    "bytes": 32921,
+    "sha256": "1d78a008c7dccda811df9aecfba91492b7ffd7af6ab97d2c980d2582d8c5510f",
+    "mtime": "2026-10-16T15:33:06.347Z"
+   },
+   {
+    "file": "tests/lib-w306e-pre.mjs",
+    "bytes": 6131,
+    "sha256": "aab5d86cdd4d70fd771157ecf398e4008c95aebe5d86665a6bfd7915b44d4e21",
+    "mtime": "2026-10-16T15:50:06.267Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-16T15:08:34.815Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-16T15:08:34.811Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-16T15:08:34.823Z"
    }
   ],
-  "codeSha256": "d8fee9ff2c375e874cbcad379ff0b2bd31f03aaa6f4ab98c9ec748754b6db6dc",
+  "codeSha256": "527918c56074a000772b6c06aa09f76e6d921cc09587c7349606bc44da68f769",
   "harnessVersion": "w305e-charonaudit-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN318(🟪 の基線の監査)・AN333(観測の時間標準の記録)—— 第95報・AN332 の裁定(α = c_loc/c₀)",
@@ -74,11 +86,18 @@
    "complete": true,
    "names": 1337,
    "segments": 1206,
-   "closureShare": 0.3252
+   "closureShare": 0.3251
   },
-  "scopeSha256": "73afc461b38ec19a4f8bd32c2d6e4c1fc04e43be46397688ddce8768237b514b",
+  "scopeSha256": "17d1e617057b798a93fc7559777d1b8be269534209618b27cef3c9c41fcc3904",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "stableSha256": "d0ed64828713eb59a6934d34b0562ac55329b2ed695e6607e7987030dc496f59",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  },
  "version": "w305e-charonaudit-1",
@@ -177,6 +196,12 @@
   ],
   "mFloor": 1e-9
  },
+ "decl305Pin": {
+  "changed": [
+   "plutoCharonInertialFit"
+  ],
+  "note": "第306便e: 🟪 の宣言(案 (A) —— 初期の距離・引きずり OFF)が第305便から動いた世代 —— この器は第305便の宣言の写し(tests/lib-w306e-pre.mjs の pin305)で測った"
+ },
  "partsRun": [
   "closed",
   "soft",
@@ -244,7 +269,7 @@
   "rows": [
    {
     "eps": 0.01,
-    "wallSec": 7.92,
+    "wallSec": 17.094,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -268,7 +293,7 @@
    },
    {
     "eps": 0.005,
-    "wallSec": 8.044,
+    "wallSec": 17.86,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -292,7 +317,7 @@
    },
    {
     "eps": 0.0025,
-    "wallSec": 7.828,
+    "wallSec": 16.451,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -348,7 +373,7 @@
    "M1": 551863.6598934275,
    "late": 551863.6598878212,
    "M4": 551863.6598945792,
-   "wallSec": 16.182
+   "wallSec": 36.475
   },
   "diffs": {
    "rev2MinusM1": -8.83941538631916e-7,
@@ -361,7 +386,7 @@
  "band": {
   "rows": [
    {
-    "wallSec": 8.373,
+    "wallSec": 18.831,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -384,7 +409,7 @@
     }
    },
    {
-    "wallSec": 15.846,
+    "wallSec": 36.354,
     "dt": 0.08,
     "steps": 5518637,
     "revN": 8,
@@ -407,7 +432,7 @@
     }
    },
    {
-    "wallSec": 32.164,
+    "wallSec": 69.464,
     "dt": 0.04,
     "steps": 11037274,
     "revN": 8,
@@ -554,5 +579,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 229.661
+ "elapsedS": 558.801
 }

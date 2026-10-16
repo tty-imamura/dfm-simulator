@@ -1,0 +1,559 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第306便e",
+  "target": "beta/index.html",
+  "targetSha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
+  "generatedAt": "2026-10-16T15:56:57.217Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6926181,
+    "sha256": "d1d199ea44798f281ba9e4e903c4943182351d8d8be6385fa067185e27f19381",
+    "mtime": "2026-10-16T15:30:57.598Z"
+   },
+   {
+    "file": "paper/data/solar-observations.csv",
+    "bytes": 600819,
+    "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
+    "mtime": "2026-10-16T15:08:34.651Z"
+   },
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "bytes": 9357,
+    "sha256": "d1f905caef307d86aae81e7681254b9c8bb8f4e0243564c28280f247752c181a",
+    "mtime": "2026-10-16T15:49:48.814Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w306e-charonfix.mjs",
+    "bytes": 30376,
+    "sha256": "e5c10cef5d6756e15048d3c6dd1def33939c9eb0bf1346dc3daa28f95389d377",
+    "mtime": "2026-10-16T15:48:49.398Z"
+   },
+   {
+    "file": "tests/exp-w305e-charonaudit.mjs",
+    "bytes": 32921,
+    "sha256": "1d78a008c7dccda811df9aecfba91492b7ffd7af6ab97d2c980d2582d8c5510f",
+    "mtime": "2026-10-16T15:33:06.347Z"
+   },
+   {
+    "file": "tests/lib-w306e-pre.mjs",
+    "bytes": 6131,
+    "sha256": "aab5d86cdd4d70fd771157ecf398e4008c95aebe5d86665a6bfd7915b44d4e21",
+    "mtime": "2026-10-16T15:50:06.267Z"
+   },
+   {
+    "file": "tests/lib-w303e-fitstop.mjs",
+    "bytes": 14158,
+    "sha256": "058f3e87301851548e0290cfed23e263d3dd2a2fe81272af64e7098db4f33242",
+    "mtime": "2026-10-16T15:08:34.831Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-16T15:08:34.815Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-16T15:08:34.811Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-16T15:08:34.823Z"
+   }
+  ],
+  "codeSha256": "ca5962297c1d25c61af72052a1edc56c3ceda0bba2a17ee3eb1fa494392314ed",
+  "harnessVersion": "w306e-charonfix-1",
+  "loadErrors": 0,
+  "ruling": "決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④",
+  "reading": "統括の検証項目 R208",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "plutoCharonDiagInput",
+    "plutoCharonInertialFit"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.FIT_COND_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondInputsOf",
+    "HP.fitCondSig",
+    "HP.fitCondStateOf",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "auditRows",
+    "ch",
+    "cw",
+    "fmt"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1339,
+   "segments": 1208,
+   "closureShare": 0.3254
+  },
+  "scopeSha256": "598448132c7e1f557bea3c679e45a2f9e6a01148db93b59a9cc6d1bcacf6571e",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "stableSha256": "d0ed64828713eb59a6934d34b0562ac55329b2ed695e6607e7987030dc496f59",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w306e-charonfix-1",
+ "preVersion": "w306e-pre-1",
+ "obs": {
+  "value": 551856.43872,
+  "sigma": 0.02592,
+  "recordId": "SOL-25d4320f",
+  "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+  "timeSystem": "TT/TDB of JDT"
+ },
+ "book": {
+  "id": "plutoCharonInertialFit",
+  "emoji": "🟪",
+  "softening": 0.01,
+  "dt": 0.16,
+  "revMax": 8,
+  "scaleExp": {
+   "L": 5,
+   "T": 1,
+   "M": 24
+  }
+ },
+ "gmRecord": {
+  "recordId": "SOL-2ed99d44",
+  "value": 975400000000,
+  "sigma": 200000000,
+  "formal": 90000000
+ },
+ "decl305": {
+  "Wbg": 0.0001486103,
+  "sig": "9dad7fb42eb1c08a",
+  "residual": 7.699709385633469e-7
+ },
+ "partsRun": [
+  "decl",
+  "measure",
+  "soft",
+  "tide",
+  "control",
+  "parent",
+  "record"
+ ],
+ "decl": {
+  "a": 195.9559316176799,
+  "aKm": 19595.59316176799,
+  "aOld": 195.95764,
+  "aOldKm": 19595.764,
+  "daKm": -0.17083823200891857,
+  "vc": 0.022310647190248552,
+  "mu": 0.09754,
+  "gmKm": 975.4,
+  "gmSigmaPub": 0.2,
+  "aBand": {
+   "lo": 195.94253750064448,
+   "hi": 195.96932390391748,
+   "loKm": 19594.253750064447,
+   "hiKm": 19596.932390391747,
+   "note": "GM の公表の幅(SOL-2ed99d44 の σ)に当たる二体のケプラーの a(標的の P は固定)"
+  },
+  "PK": 551856.4387200001,
+  "PKminusObs": 1.1641532182693481e-10,
+  "bary": {
+   "x": 0,
+   "p": 0
+  },
+  "decl": {
+   "physics": {
+    "G": 6.674,
+    "D0": 0.006,
+    "kFrame": 0,
+    "q": 11.9386,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.01,
+    "timeScale": 1,
+    "stepDt": 153.293,
+    "dispMag": 1,
+    "stateCarry": "double",
+    "massPrecision": "double",
+    "frameReaction": "pairReduced",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": null,
+     "enabled": false,
+     "eps": 0.01,
+     "history": "positions",
+     "pairs": "all",
+     "coreTable": {
+      "n": 4096
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.013025172310458496,
+     "radius": 11.88,
+     "x": -21.315280238503018,
+     "y": 0,
+     "vx": 0,
+     "vy": -0.0024268604335507195,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.564
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0015897512735990414,
+     "radius": 6.06,
+     "x": 174.6406513791769,
+     "y": 0,
+     "vx": 0,
+     "vy": 0.019883786756697833,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.03
+     }
+    }
+   ]
+  },
+  "htmlSame": true,
+  "massSame": true,
+  "softSame": true
+ },
+ "measure": {
+  "h": {
+   "dt": 0.16,
+   "revN": 16,
+   "nan": false,
+   "M1": 551856.4430940057,
+   "d": 0.004374005715362728,
+   "rev2": 551856.4430924469,
+   "M4": 551856.4430937405,
+   "M1_16": 551856.44309496,
+   "late": 551856.4430958406,
+   "eProxy": 3.989633641573282e-9,
+   "wallSec": 21.086,
+   "steps": 2759283
+  },
+  "h2": {
+   "wallSec": 29.742,
+   "dt": 0.08,
+   "steps": 5518565,
+   "revN": 8,
+   "nan": false,
+   "three": false,
+   "n": 2,
+   "M1": 551856.4430459451,
+   "d": 0.004325945163145661,
+   "rev2": 551856.4430467753,
+   "M4": 551856.4430460797,
+   "m4Harm": [
+    7.85161600339491e-9,
+    1.5869772240309934e-12
+   ],
+   "eProxy": 3.9272828389342815e-9,
+   "osc0": {
+    "aUnits": 195.95593161767985,
+    "rUnits": 195.9559316176799,
+    "PK": 551856.4387199997
+   }
+  },
+  "h4": {
+   "wallSec": 60.071,
+   "dt": 0.04,
+   "steps": 11037129,
+   "revN": 8,
+   "nan": false,
+   "three": false,
+   "n": 2,
+   "M1": 551856.4430241111,
+   "d": 0.004304111120291054,
+   "rev2": 551856.4430353807,
+   "M4": 551856.4430261035,
+   "m4Harm": [
+    7.818770856689654e-9,
+    1.9480642950274347e-11
+   ],
+   "eProxy": 3.9116854567641755e-9,
+   "osc0": {
+    "aUnits": 195.95593161767985,
+    "rUnits": 195.9559316176799,
+    "PK": 551856.4387199997
+   }
+  },
+  "residual": 0.004374005715362728,
+  "hh2": 0.00004806055221706629,
+  "h2h4": 0.000021834042854607105,
+  "ratio": 2.201175134495316,
+  "numerical": 0.00006408073628942172,
+  "diffs": {
+   "rev2MinusM1": -0.0000015588011592626572,
+   "m4MinusM1": -2.651941031217575e-7,
+   "m1_16MinusM1": 9.542563930153847e-7,
+   "lateMinusM1": 0.0000018349383026361465
+  }
+ },
+ "soft": {
+  "rows": [
+   {
+    "eps": 0.01,
+    "M1": 551856.4430940057,
+    "d": 0.004374005715362728,
+    "from": "measure.h"
+   },
+   {
+    "eps": 0.005,
+    "M1": 551856.439861189,
+    "d": 0.0011411890154704452,
+    "nan": false,
+    "revN": 8,
+    "wallSec": 14.788
+   },
+   {
+    "eps": 0.0025,
+    "M1": 551856.4390535564,
+    "d": 0.0003335564397275448,
+    "nan": false,
+    "revN": 8,
+    "wallSec": 12.962
+   }
+  ],
+  "extrapolated": 551856.4387835835,
+  "extrapolated2": 551856.4387843455,
+  "softEffect": 0.004310422227717936,
+  "softEffect2": 0.004309660173021257,
+  "scaling": 4.00283098650222,
+  "extMinusObs": 0.0000635834876447916
+ },
+ "tide": {
+  "dsunUnits": 44879361.21,
+  "mSun": 1988499.251093797,
+  "three": {
+   "M1": 551856.4430940057,
+   "diff": 0
+  },
+  "plane": {
+   "D": 4000,
+   "where": "plane",
+   "three": false,
+   "m": 0.0000014078792412718284,
+   "M1": 551856.4340945677,
+   "n": 3
+  },
+  "normal": {
+   "D": 4000,
+   "where": "normal",
+   "three": true,
+   "m": 0.0000014078792412718284,
+   "M1": 551856.430624573,
+   "n": 3
+  },
+  "effect": {
+   "plane30": -0.008999438025057316,
+   "normal30": -0.012469432665966451,
+   "plane50": -0.00194387861341238,
+   "normal50": -0.002693397455848753
+  },
+  "note": "第305便e の段 tide と同じ等価の質点(質量 GM☉(D/D☉)³ —— GM/D³ が D☉ の太陽と同じ)・pinned・初速 0・D☉ = 30 au で作り 50 au は D⁻³ で換算"
+ },
+ "control": {
+  "abBody": {
+   "law": "inertial",
+   "Wbg": 0.0001486103,
+   "eps": 0.01,
+   "history": "positions",
+   "pairs": "all",
+   "coreTable": {
+    "n": 4096
+   }
+  },
+  "newWithOldWbg": {
+   "M1": 551849.2218210605,
+   "d": -7.216898939455859,
+   "Wbg": 0.0001486103
+  },
+  "old305On": {
+   "M1": 551856.43872077,
+   "d": 7.699709385633469e-7,
+   "Wbg": 0.0001486103,
+   "recordModel": 551856.43872077,
+   "minusRecord": 0
+  },
+  "old305Off": {
+   "M1": 551863.6598982827,
+   "d": 7.2211782827507704
+  }
+ },
+ "parent": {
+  "id": "plutoCharonDiagInput",
+  "emoji": "🥶",
+  "sampleClass": "calibration",
+  "geoPN": 1,
+  "integrator": "leapfrog",
+  "sameDefinition": true,
+  "aKm": 19595.764,
+  "aKeplerKm": 19595.59316176799,
+  "PK": 551863.6555250505,
+  "closedMinusObs": 7.216805050498806,
+  "closedPerSigma": 278.4261207754169,
+  "run": {
+   "M1": 551863.6598999794,
+   "d": 7.221179979387671,
+   "perSigma": 278.59490661217865,
+   "h2": 551863.6598509334,
+   "h2gap": 0.00004904600791633129
+  },
+  "fixedCopy": {
+   "M1": 551856.4430957652,
+   "d": 0.00437576521653682,
+   "perSigma": 0.16881810248984647,
+   "h2": 551856.4430479689,
+   "h2gap": 0.000047796289436519146,
+   "withinSigma": true,
+   "note": "器の中だけの写し(🥶 の宣言は変えない)—— 案 (A) と同じ a・速度(本の GM と標的の P から)"
+  },
+  "sameAsFitBodiesNow": false,
+  "note": "🥶 の初期状態は PLU060 の 400 年平均の a(19595.764 km)を二体のケプラーの a として置いた円軌道(🟪 の第305便の宣言と同じ —— 同じ定義)。照合の標的は Buie 2012 の P ± σ 0.02592 s(較正の判定は calaudit の正本 —— この器は判定しない)"
+ },
+ "record": {
+  "record": {
+   "version": "w297b-1",
+   "parent": "plutoCharonInertial",
+   "law": "引きずり OFF(relativeDrag.enabled:false —— 第306便e の案 (A))・重力だけの二体(🥶 の質量の写し・geoPN=3・kFrame=0・λ_PN=0・積分器 leapfrog)",
+   "targets": [
+    {
+     "q": "orbitalPeriodMean",
+     "obs": 551856.43872,
+     "unit": "s",
+     "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)",
+     "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)・引きずり OFF",
+     "tol": {
+      "value": 0.02592,
+      "kind": "sigma",
+      "note": "Buie, Tholen & Grundy 2012 の P = 6.3872273(3) 日の 1σ(3×10⁻⁷ 日 = 0.02592 s)"
+     }
+    }
+   ],
+   "knobs": [
+    {
+     "key": "initial.keplerSemiMajorAxis",
+     "range": [
+      195.94253750064448,
+      195.96932390391748
+     ],
+     "final": 195.9559316176799
+    }
+   ],
+   "fixed": [
+    "GM(冥王星とカロン 975.4 km³/s² —— PLU060・🥶 の質量の写し)・半径・自転(相互同期の宣言 —— 走りは読まない)・構造核 dragCore の事前値(引きずり OFF では走りに効かない)は第305便の宣言のまま",
+    "初期状態は二体のケプラーの円軌道(重心 0・全運動量 0・x 軸上)—— 距離 a = (GM (P/2π)²)^(1/3) = 19595.593 km は標的の P と本の GM から閉じた式で作った(数値の探索ではない —— 合成したケプラー状態)。range は GM の公表の幅 ±0.2 km³/s² に当たる a",
+    "重力の軟化 ε 0.01(= 1 km)・geoPN=3・kFrame=0・λ_PN=0・積分器 leapfrog・stateCarry double(第305便のまま)",
+    "引きずり OFF(relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.01, history:\"positions\", pairs:\"all\", coreTable:{n:4096}})",
+    "履歴: 第303便a の W_bg のフィット(0.0001486103 [M/L³]・semic・残差 7.70e-7 s・旧 cond.sig 9dad7fb42eb1c08a)と初期の距離 19595.764 km(PLU060 の 400 年平均の要素の a —— 🥶 の写し)は履歴 —— 前後表は PHYSICS〔第306便e〕と正本 tests/out/charonfix-w306e.json",
+    "履歴: 第305便e の基線の監査(引きずり OFF の走行の差 +7.22118 s の内訳 —— 平均の要素の定義 +7.76113・解の違い −0.54432・軟化 +0.00431)—— 正本 tests/out/charonaudit-w305e.json"
+   ],
+   "procedure": "第306便e(決断事項 AN339 の案 (A)): 第305便の宣言の写しから、初期の距離を二体のケプラーの a(標的の P と本の GM から閉じた式)・速度を同じ円の状態へ置き直し、引きずりを OFF にして、h・h/2・h/4 で 8 公転の平均の周期を測った(|残差| + |h − h/2| ≤ 許容なら fitted —— 数値の探索はしていない・器 tests/exp-w306e-charonfix.mjs)",
+   "dt": 0.16,
+   "steps": 2759283,
+   "residual": {
+    "value": 0.004374005715362728,
+    "unit": "s",
+    "model": 551856.4430940057,
+    "rel": 7.925984746156062e-9
+   },
+   "numerics": {
+    "h2": 0.00004806055221706629,
+    "dtHalf": 0.08
+   },
+   "status": "fitted",
+   "notFitted": [
+    "周期の一致は入力の整合の確かめで、独立な結果ではない(標的の周期から a を作った合成のケプラー状態) —— 残差は軟化 1 km の分",
+    "軌道の形(離心率の代理)・第 2 周の周期(記録だけ)・自転・潮汐",
+    "引きずり OFF で σ の内(引きずりを無くしたのではなく、この探索範囲で引きずりで埋める差が σ の内で 0 だったことの記録 —— 第304便c の 🌦️ と同じ型)",
+    "観測の時間標準の換算(標的の時刻系 TT/TDB of JDT —— 記録だけで換算しない・決断事項 AN333)"
+   ],
+   "cond": {
+    "version": "w297b-cond-1",
+    "sig": "c28087b31eb44713",
+    "extractor": "tests/exp-w305e-charonaudit.mjs runRevs(同方向の周回の通過時刻の平均間隔 —— tests/exp-w295c-inertial3.mjs runPair と同じ定義)・w305e-charonaudit-1"
+   }
+  },
+  "accepted": true,
+  "acceptErr": null,
+  "presetOk": true,
+  "presetWarnings": [],
+  "liveSame": true,
+  "condState": "match",
+  "gate": true,
+  "fitstop": "w303e-fitstop-1"
+ },
+ "gates": {
+  "declSame": true,
+  "closedForm": true,
+  "bary": true,
+  "withinSigma": true,
+  "bandShrinks": true,
+  "runs": true,
+  "softScaling": true,
+  "residualIsSoft": true,
+  "tideBelowSigma": true,
+  "oldOnSameAsRecord": true,
+  "oldWbgOutside": true,
+  "parentSameDefinition": true,
+  "recordAccepted": true,
+  "recordFitted": true,
+  "recordLive": true
+ },
+ "ok": true,
+ "notClaim": [
+  "「周期を予言した」",
+  "「カロンの周期が観測どおりになった」",
+  "「引きずりが要らないことを示した」",
+  "「観測と一致した」",
+  "「現実を再現した」"
+ ],
+ "elapsedS": 335.207
+}
