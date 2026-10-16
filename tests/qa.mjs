@@ -81037,7 +81037,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (RT.indexOf("S('charonfix-306e', 'node tests/exp-w306e-charonfix.mjs', ['tests/out/charonfix-w306e.json']") < 0 || !/secSource: 'w306e-branch'/.test(RT)) bad.push('④ 再生成の段 charonfix-306e');
         if (RT.indexOf("'tests/data-w306e-decl305.json': []") < 0) bad.push('④ 宣言の写しの安定 hash の除外の宣言(EXTERNAL_VOLATILE)');
         if (fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8').indexOf('!tests/out/charonfix-w306e.json') < 0) bad.push('④ .gitignore の例外');
-        const pinned = ['exp-w305e-charonaudit.mjs', 'exp-w303a-refit.mjs', 'exp-w303b-inertialr2.mjs', 'exp-w303c-earthmoon.mjs'].filter((f) => /pinDecl305\(/.test(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8')));
+        const pinned = ['exp-w305e-charonaudit.mjs', 'exp-w303a-refit.mjs', 'exp-w303b-inertialr2.mjs', 'exp-w303c-earthmoon.mjs'].filter((f) => /pinDecl305e?\(/.test(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8')));   // 統合(第306便a と同居): exp-w303a-refit は e の pin を pinDecl305e の別名で呼ぶ
         if (pinned.length !== 4) bad.push('④ 歴史の器の pin305 が ' + pinned.length + ' 本');
         const v = PRE6.pin305(HP.allPresets().find((q) => q.id === X.FIT_ID));
         if (!(PRE6.gate305(HP.allPresets().find((q) => q.id === X.FIT_ID)) && X.same(v.physics, PRE6.DECL305[X.FIT_ID].physics) && X.same(v.bodies, PRE6.DECL305[X.FIT_ID].bodies) && X.same(v.fitRecord, PRE6.DECL305[X.FIT_ID].fitRecord))) bad.push('④ pin305 の写しが第305便の宣言と違う');
