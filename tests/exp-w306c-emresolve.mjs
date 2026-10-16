@@ -38,6 +38,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w297b-fit.mjs';
+import * as FS from './lib-w303e-fitstop.mjs';
 import * as EM from './exp-w303c-earthmoon.mjs';
 import { declFrom303, BASE as BASE304, baryOf } from './exp-w304c-baseline.mjs';
 import { EARTH_J2, EARTH_J2_SOURCE, twoBodyOf } from './exp-w305c-j2.mjs';
@@ -133,7 +134,9 @@ function windowsWithNode(ev, slide, nP, M0) {
 const nPOf = (decl) => { const b = baryOf(decl.bodies, decl.physics.G); return Math.sqrt(decl.physics.G * decl.bodies[0].m / Math.pow(b.a, 3)); };
 
 /* ── 平均の要素の Newton(Jacobian を返す —— 参照積分の Jacobian をエンジンの Newton に使う)── */
-const conv = (F) => Math.abs(F[0]) < 2e-6 && Math.abs(F[1]) < 2e-6 && Math.abs(F[2]) < 2e-4;
+/** 根の停止幅: 第304便c の幅(恒星月 2e-6 日・離心率 2e-6・傾斜 2e-4°)と tests/lib-w303e-fitstop.mjs の rootTolOf(照合許容の 1/10)の小さい方 */
+export const ROOT_STOP = Object.freeze({ sid: Math.min(2e-6, FS.rootTolOf(TOL.sid)), e: Math.min(2e-6, FS.rootTolOf(TOL.e)), inc: Math.min(2e-4, FS.rootTolOf(TOL.inc)) });
+const conv = (F) => Math.abs(F[0]) < ROOT_STOP.sid && Math.abs(F[1]) < ROOT_STOP.e && Math.abs(F[2]) < ROOT_STOP.inc;
 export async function newtonJ(run, x0, o = {}) {
   const tg = TARGET_MEAN, hist = [], it0 = o.iter || 6;
   let x = x0.slice(), J = o.J0 ? o.J0.map((r) => r.slice()) : null;
@@ -478,7 +481,7 @@ export async function main() {
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const log = (s) => console.log('  ' + s);
   const J = { meta: null, version: HARNESS_VERSION, preVersion: PRE_VERSION, long: LONG, wins: WINS, earthJ2: EARTH_J2, earthJ2Source: EARTH_J2_SOURCE, refJ2: REF_J2, tol: TOL, obs: OBS_B1,
-    target: TARGET_MEAN, decl305: { sig: DECL305[FIT_ID].fitRecord.cond.sig, rel: EM.relOf(DECL305[FIT_ID].bodies, DECL305[FIT_ID].physics.G) } };
+    target: TARGET_MEAN, rootStop: ROOT_STOP, decl305: { sig: DECL305[FIT_ID].fitRecord.cond.sig, rel: EM.relOf(DECL305[FIT_ID].bodies, DECL305[FIT_ID].physics.G) } };
   const stages = { solve: () => stageSolve(HP, log), measure: () => stageMeasure(HP, log, J), phase: () => stagePhase(HP, log, J), attrib: () => stageAttrib(HP, log, J),
     ledger: () => stageLedger(HP, log, J), emo: () => stageEmo(HP, log, J), record: () => stageRecord(HP, J) };
   J.partsRun = [];
@@ -490,7 +493,7 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「月を再現した」', '「交点を再現した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w306c-emresolve.mjs', 'tests/lib-w306c-pre.mjs', 'tests/exp-w305c-j2.mjs', 'tests/exp-w304c-baseline.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w304c-pre.mjs',
+  const CODE = ['tests/exp-w306c-emresolve.mjs', 'tests/lib-w306c-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w305c-j2.mjs', 'tests/exp-w304c-baseline.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w304c-pre.mjs',
     'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便c', target: TARGET, code: CODE, inputs: [TARGET, DECL305_DATA_FILE, 'tests/data-w305c-decl304.json', 'tests/data-w304c-decl303.json'] }), {

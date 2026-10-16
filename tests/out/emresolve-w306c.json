@@ -4,7 +4,7 @@
   "wave": "第306便c",
   "target": "beta/index.html",
   "targetSha256": "efbdb9fbc2d3f9db4457f572551148c983bd732a37a1dab2ef26cb8598d63d30",
-  "generatedAt": "2026-10-16T16:38:08.213Z",
+  "generatedAt": "2026-10-16T16:50:37.641Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -34,15 +34,21 @@
   "code": [
    {
     "file": "tests/exp-w306c-emresolve.mjs",
-    "bytes": 54711,
-    "sha256": "d7607a2e14f53a017f022c7ac6be586f46c1c8daac65c10e9123fa699c5eb3fc",
-    "mtime": "2026-10-16T16:19:01.498Z"
+    "bytes": 55184,
+    "sha256": "8aff7beac2744c6d3e080bbae93708cc24031905fe6f7cf17fd63606b73bea7f",
+    "mtime": "2026-10-16T16:50:23.473Z"
    },
    {
     "file": "tests/lib-w306c-pre.mjs",
     "bytes": 5796,
     "sha256": "383362b833f4649288f60ea352530596ec25ec8be45bc039811c234828074dfb",
     "mtime": "2026-10-16T15:22:40.506Z"
+   },
+   {
+    "file": "tests/lib-w303e-fitstop.mjs",
+    "bytes": 14158,
+    "sha256": "058f3e87301851548e0290cfed23e263d3dd2a2fe81272af64e7098db4f33242",
+    "mtime": "2026-10-16T15:08:32.475Z"
    },
    {
     "file": "tests/exp-w305c-j2.mjs",
@@ -117,7 +123,7 @@
     "mtime": "2026-10-16T15:08:32.467Z"
    }
   ],
-  "codeSha256": "1378be9b7ee355a4b0b66d79667e2d4e415cf7656146561bdd54dd30e04bbc62",
+  "codeSha256": "53182015e6009bbda068f7751003cff1c7d7af5f547cd71f190398946b102d46",
   "harnessVersion": "w306c-emresolve-1",
   "loadErrors": 0,
   "ruling": "DECISIONS v64 AN337 ③④⑤・v65 §0 AN337(J₂ ありで初期配置を解き直す —— J₂ を交点に合わせて動かすのを第一手にしない)・AN335 ①",
@@ -278,6 +284,11 @@
   "e": 0.0549,
   "inc": 5.145,
   "note": "恒星月は B1(27.321661554 日)・平均離心率 0.0549(NASA NSSDC —— 第298便c と同じ)・平均傾斜 5.145°(NASA NSSDC)—— 長い窓の平均で満たす"
+ },
+ "rootStop": {
+  "sid": 0.000002,
+  "e": 0.000002,
+  "inc": 0.00005
  },
  "decl305": {
   "sig": "76b828ad13b9ec55",
@@ -1930,5 +1941,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 0.233
+ "elapsedS": 0.399
 }
