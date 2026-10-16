@@ -2399,7 +2399,10 @@ lastAddAt = Date.now();
       'tests/out/shell-w304a.json', 'tests/out/shell-w304b.json', 'tests/out/baseline-w304c.json',
       // 第305便(統括の統合 —— lint.canon304 ⑤ の「第304便以降の新しい正本は統合の時に CANON へ」): 対ごとの正規化(pairnorm-305a)・惑星の G_loc の族(gfamily-305b)・
       //   三次元の J₂(j2-305c)・回転/軸の引きずりと多粒子の平均(spinavg-305d)・🟪 の基線の監査(charonaudit-305e)。どれも領域 REGEN_SCOPE を刻む
-      'tests/out/pairnorm-w305a.json', 'tests/out/gfamily-w305b.json', 'tests/out/j2-w305c.json', 'tests/out/spinavg-w305d.json', 'tests/out/charonaudit-w305e.json'];
+      'tests/out/pairnorm-w305a.json', 'tests/out/gfamily-w305b.json', 'tests/out/j2-w305c.json', 'tests/out/spinavg-w305d.json', 'tests/out/charonaudit-w305e.json',
+      // 第306便(統括の統合 —— 同じ規則): AN336 の標的の生成器と在位の惑星 7 本の門(an336-306a)・周期による n の識別(periodn-306b)・🌦️ の J₂ ありの解き直し(emresolve-306c)・
+      //   回転引きずりの座標変換の帳簿(rotframe-306d)・🟪 の宣言の直し (A)(charonfix-306e)。どれも領域 REGEN_SCOPE を刻む
+      'tests/out/an336-w306a.json', 'tests/out/periodn-w306b.json', 'tests/out/emresolve-w306c.json', 'tests/out/rotframe-w306d.json', 'tests/out/charonfix-w306e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
