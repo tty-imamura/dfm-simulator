@@ -1,0 +1,773 @@
+{
+ "version": "w305a-decl304-1",
+ "base": "bdb7ae5",
+ "note": "第305便a の器(tests/exp-w305a-pairnorm.mjs)が写しに使う本の宣言の凍結(基点 bdb7ae5 = 第304便 —— physics・bodies・scaleExp・timeRef・orbitObs)。書き換えない",
+ "decl": {
+  "earthMoonSunInertial3d": {
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.0005,
+    "softeningFloor": 0.0005,
+    "timeScale": 1,
+    "stepDt": 0.655721,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": null,
+     "enabled": false,
+     "eps": 0.0005,
+     "history": "positions",
+     "pairs": [
+      [
+       1,
+       2
+      ]
+     ]
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.96,
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 0,
+     "vz": 0,
+     "spin": 0.029031,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.0059724,
+     "radius": 0.06371,
+     "x": 1470.9409086234439,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.0273226143774297,
+     "vz": -0.00012359637737101935,
+     "spin": 0.729212,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 0.0348
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00007346,
+     "radius": 0.0174,
+     "x": 1474.5094939234439,
+     "y": 0,
+     "z": 0,
+     "vx": 0,
+     "vy": 3.13716832312471,
+     "vz": 0.010048557095163025,
+     "spin": 0.026617,
+     "pinned": false
+    }
+   ],
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 236.059488,
+    "pair": [
+     1,
+     2
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(emAuditSolar の 月 の周期 2360594.88 s ÷ 10^4 s)",
+    "stepsPerOrbit": 360
+   },
+   "orbitObs": {
+    "center": 1,
+    "orbiter": 2,
+    "ghostAmp": 20
+   }
+  },
+  "mercurySunInertial3d": {
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 2.111256,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 221.1204,
+     "eps": 0.05,
+     "history": "positions",
+     "pairs": "all"
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": 0.00003230708194113838,
+     "y": 0.00011108358383634894,
+     "z": 0.000006109036145846016,
+     "vx": -6.141487642024177e-7,
+     "vy": 1.8533724078528095e-7,
+     "vz": 7.150997078544373e-8,
+     "spin": 0.029031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00033011,
+     "radius": 0.0244,
+     "x": -194.6097738328244,
+     "y": -669.1397002774223,
+     "z": -36.799304401607955,
+     "vx": 3.6994784090651835,
+     "vy": -1.1164251410182398,
+     "vz": -0.43075816214854096,
+     "spin": 0.0124,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.03769810457,
+      "azimuthDeg": 318.227318235,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の水星の極 α0 281.0097°・δ0 61.4143° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 760.05216,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+    "stepsPerOrbit": 360
+   },
+   "orbitObs": {
+    "center": 0,
+    "orbiter": 1,
+    "ghostAmp": 20
+   }
+  },
+  "marsSunInertial3d": {
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 16.48752,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": null,
+     "enabled": false,
+     "eps": 0.05,
+     "history": "positions",
+     "pairs": "all"
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 1988.5,
+     "radius": 6.95,
+     "x": -0.0006713698999895783,
+     "y": 0.0000064647773846368015,
+     "z": 0.000016636793509374197,
+     "vx": -3.758169753683368e-8,
+     "vy": -8.486337209475575e-7,
+     "vz": -1.6853490204877288e-8,
+     "spin": 0.029031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.00064171,
+     "radius": 0.033895,
+     "x": 2080.408667668069,
+     "y": -20.032740380156582,
+     "z": -51.55329337767931,
+     "vx": 0.11645635185986468,
+     "vy": 2.6297052470807967,
+     "vz": 0.05222478264698772,
+     "spin": 0.708821638,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 26.7179524748,
+      "azimuthDeg": 352.907615966,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の火星の極 α0 317.68143°・δ0 52.8865° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 5935.5072,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "内蔵の宣言値 59355072 s(NASA NSSDC Mars Fact Sheet の 686.980 日 —— 第131便に内蔵へ転記した観測値)",
+    "stepsPerOrbit": 360
+   },
+   "orbitObs": {
+    "center": 0,
+    "orbiter": 1,
+    "ghostAmp": 20
+   }
+  },
+  "jupiterSunInertial3d": {
+   "physics": {
+    "coord": "3d",
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 10.3982136,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": null,
+     "enabled": false,
+     "eps": 0.05,
+     "history": "positions",
+     "pairs": "all"
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 198.85,
+     "radius": 0.695,
+     "x": -0.5703735069263711,
+     "y": -0.420215257364539,
+     "z": 0.014510377609272648,
+     "vx": 0.0007548825585998603,
+     "vy": -0.001062599583261338,
+     "vz": -0.00001250382390609049,
+     "spin": 0.29031,
+     "pinned": false,
+     "pnSource": true,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 7.25172967436,
+      "azimuthDeg": 345.765730644,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の太陽の極 α0 286.13°・δ0 63.87° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.1898,
+     "radius": 0.071492,
+     "x": 597.5699254600048,
+     "y": 440.2518647362412,
+     "z": -15.202258101179485,
+     "vx": -0.7908766953508021,
+     "vy": 1.1132662124948214,
+     "vz": 0.013100028365258662,
+     "spin": 17.5851814,
+     "pinned": false,
+     "spinAxis": {
+      "enable": true,
+      "tiltDeg": 2.21651092308,
+      "azimuthDeg": 247.817832162,
+      "source": "IAU WGCCRE 2009(Archinal et al. 2011)の木星の極 α0 268.056595°・δ0 64.495303° を J2000 の黄道へ(軸は一定の近似)"
+     }
+    }
+   ],
+   "scaleExp": {
+    "L": 9,
+    "T": 5,
+    "M": 28
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 3743.356896,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "NASA NSSDC Planetary Fact Sheet の木星の恒星周期 4332.589 日 × 86400 s ÷ 10^5 s(原表は未取得 —— 公表値の転記)",
+    "stepsPerOrbit": 360
+   },
+   "orbitObs": {
+    "center": 0,
+    "orbiter": 1,
+    "ghostAmp": 20
+   }
+  },
+  "marsMoonsReal": {
+   "physics": {
+    "G": 6.674,
+    "D0": 0.006,
+    "kFrame": 0,
+    "q": 19.5783,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 0.765384,
+    "dispMag": 1,
+    "stateCarry": "double",
+    "frameWeight": "share"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.064171,
+     "radius": 3.3895,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.00708821638,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.000001,
+     "radius": 0.01108,
+     "x": 9.2344224,
+     "y": 0,
+     "vx": 0,
+     "vy": 0.21697617582085113,
+     "spin": 0,
+     "pinned": false
+    },
+    {
+     "type": "single",
+     "m": 0.000001,
+     "radius": 0.01,
+     "x": 0,
+     "y": 23.455457144,
+     "vx": -0.1351488020915934,
+     "vy": 0,
+     "spin": 0,
+     "pinned": false
+    }
+   ],
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 275.538416,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(marsMoonsReal の フォボス の周期 27553.8415675 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "orbitObs": null
+  },
+  "jupiterGalilean": {
+   "physics": {
+    "G": 6.674,
+    "D0": 0.006,
+    "kFrame": 0,
+    "q": 12.0586,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 1,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 0.424593,
+    "dispMag": 3,
+    "stateCarry": "double",
+    "frameWeight": "share"
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 18.98,
+     "radius": 7.1492,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.175851814,
+     "pinned": true,
+     "pnSource": true
+    },
+    {
+     "type": "single",
+     "m": 0.000893,
+     "radius": 0.18216,
+     "x": 42.007062,
+     "y": 0,
+     "vx": 0,
+     "vy": 1.74007727,
+     "spin": 0.041105924,
+     "pinned": false
+    },
+    {
+     "type": "single",
+     "m": 0.00048,
+     "radius": 0.15608,
+     "x": 0,
+     "y": 66.50601,
+     "vx": -1.38629719,
+     "vy": 0,
+     "spin": 0.0204782725,
+     "pinned": false
+    },
+    {
+     "type": "single",
+     "m": 0.00148,
+     "radius": 0.26341,
+     "x": -106.900848,
+     "y": 0,
+     "vx": 0,
+     "vy": -1.08926297,
+     "spin": 0.0101644438,
+     "pinned": false
+    },
+    {
+     "type": "single",
+     "m": 0.001076,
+     "radius": 0.24103,
+     "x": 0,
+     "y": -186.876802,
+     "vx": 0.826350857,
+     "vy": 0,
+     "spin": 0.00435747966,
+     "pinned": false
+    }
+   ],
+   "scaleExp": {
+    "L": 7,
+    "T": 3,
+    "M": 26
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 152.853523,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(jupiterGalilean の イオ の周期 152853.5232 s ÷ 10^3 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 30
+   },
+   "orbitObs": null
+  },
+  "inertialDragPair": {
+   "physics": {
+    "G": 1,
+    "D0": 2,
+    "kFrame": 0,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 0.0001,
+    "cLight": 30,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.05,
+    "timeScale": 1,
+    "stepDt": 0.470751,
+    "dispMag": 1,
+    "stateCarry": "double",
+    "massPrecision": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 1.25,
+     "pairs": "all",
+     "history": "positions"
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 10,
+     "radius": 1,
+     "x": -1.8181818181818181,
+     "y": 0,
+     "vx": -0.0006741998624632421,
+     "vy": -0.06741998624632421,
+     "spin": 0,
+     "pinned": false
+    },
+    {
+     "type": "single",
+     "m": 1,
+     "radius": 0.5,
+     "x": 18.181818181818183,
+     "y": 0,
+     "vx": 0.00674199862463242,
+     "vy": 0.674199862463242,
+     "spin": 0,
+     "pinned": false
+    }
+   ],
+   "scaleExp": null,
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 169.470327,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "osculating",
+    "source": "初期状態の二体の接触軌道 P=2π√(a³/(G(m_c+m_o))), a=1/(2/r−v²/μ)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 20
+   },
+   "orbitObs": null
+  },
+  "earthMoonInertial": {
+   "physics": {
+    "G": 6.674,
+    "D0": 0.1,
+    "kFrame": 0,
+    "q": 3,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.1,
+    "timeScale": 1,
+    "stepDt": 65.5721,
+    "dispMag": 10,
+    "stateCarry": "double",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 0.0000019448366531695005,
+     "eps": 0.1,
+     "history": "positions"
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.59724,
+     "radius": 6.38,
+     "x": -4.41822,
+     "y": 0,
+     "vx": 0,
+     "vy": -0.0013146,
+     "spin": 0.0072921,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.325,
+      "radius": 3.48
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.007346,
+     "radius": 1.74,
+     "x": 359.2071,
+     "y": 0,
+     "vx": 0,
+     "vy": 0.1068788,
+     "spin": 0.00026617,
+     "pinned": false
+    }
+   ],
+   "scaleExp": {
+    "L": 6,
+    "T": 2,
+    "M": 25
+   },
+   "timeRef": {
+    "basis": "orbit",
+    "pRef": 23605.9488,
+    "pair": [
+     0,
+     1
+    ],
+    "def": "revolution",
+    "source": "観測の正本 OBS_COMPARE_ROWS(earthMoonReal の 月 の周期 2360594.88 s ÷ 10^2 s)",
+    "stepsPerOrbit": 360,
+    "legacyTimeScale": 100
+   },
+   "orbitObs": {
+    "center": 0,
+    "orbiter": 1,
+    "ghostAmp": 20
+   }
+  }
+ }
+}

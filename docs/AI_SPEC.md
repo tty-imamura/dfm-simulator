@@ -3822,7 +3822,21 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **QA**: `preset.emBaseline304`・`docs.emBaseline304`(root は SKIP)・世代切替 `preset.softeningFloor`・`slider.covers-builtins`・`preset.revertGLoc303`・`docs.moon3d298`・`ui.wbgSlider302`・`behavior.wbgDirect302`・`docs.semic302`。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。月の近点回転の 8.85 年を引きずりの効果として書かない(引きずり OFF で照合許容の内 —— 主因は太陽摂動)。118 公転窓の M4 を平均の近点周期と呼ばない(e′ の年周を拾う —— 長窓)。
 
-## 100. 第305便c —— 三次元の J₂(新しい宣言 `bodies[i].j2:{J2, req, axis?}` —— 三次元の本だけ・省略時オフ)と 🌦️🌔 の地球の J₂・🌔 のヘルプと T1 の転記の契約(DECISIONS v63 AN327 ③⑤・v64 §0 AN327・統括の検証項目 R201・**宣言した本だけが変わる** —— 引きずりの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+## 100. 第305便a —— 対ごとの正規化 `physics.relativeDrag.inertialR2.denom:"row"|"pair"`(原仮定者の裁定(第96報)「分母の慣性決定力の和に自分自身を入れられる・分子の引きずりの和には自分自身を入れない」・決断事項 AN326・統括の検証項目 R199・**新しい宣言鍵 —— 省略時オフ・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `inertialR2.denom`(inertialR2 の中 —— 源の I_ij が無い本では行と対が同じなので inertialR2 に置く。外の `relativeDrag.norm`〔第301便a の "total"|"none"〕と同じ名前にしない)。
+  `"row"`(既定 —— 今の式: 受け手の行の分母 W_bg + 自己 + Σ_k I_ik・正準形に出さない)/`"pair"`(対ごとの正規化 —— 正準形に `denom:"pair"`)。law "inertial" ∧ Wbg の宣言 ∧ 合成則 solve の本だけ(inertialR2 と同じ)・二次元・三次元とも・殻(shellSelf・inertialR2.self)・G_loc と組める。
+- **力学**: β_ij = D_ij/(W_bg + S_i + E_i + I_ij)(S_i は受け手の自己〔radius・殻の S3・S2〕・E_i は背景側の天体 —— どの対の分母にも同じ形)。**全体の solve を保つ**:
+  (1 + Σ_j β_ij) u_i − Σ_j β_ij u_j = Σ_j β_ij (v_j − v_i)(総速度 W では (1 + Σβ) W_i − Σβ W_j = v_i —— 自己の基準速度は慣性速度 v_i・分子に自己なし)。
+  実装は行の尺度のまま結合を R_ij = (1 + X_i)/(1 + X_ij) 倍(`inertialDragPairApply` —— build・I2・殻・正規化の後・解法の前)。外部の源が 1 つの二体は行とビット同一。
+  回転引きずり(spinSource・spinDrag.rot の s の項)は行の尺度のまま・軸引きずりの ν は行の対角のまま(並進の結合だけを対ごとに)。
+- **拒否**: `denom` の値の外・`solver:"network-pcg-v1"` との組(行ごとに尺度が違い結合が非対称 —— PCG は対称化の証明の後)。
+- **読み口**: `HP.inertialDragPairState(S)`(版 w305a-pairnorm-1 —— 受け手ごとの源 j の D・I・betaPair・betaRow・Σβ の対と行・帳簿)・`HP.inertialDragState(S).pairNorm`(宣言した本だけ)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵 —— 在位へ入れる条件は次便の統括の裁定)。書くなら「W_bg が要らない」「λ ∝ m と対の組が唯一」と書かない(比較したモデルの中だけ)。
+- **器と正本**: `tests/exp-w305a-pairnorm.mjs`(版 w305a-pairnorm-1・`W305A_OUT`・`W305A_PARTS`=Z,K,M)→ `tests/out/pairnorm-w305a.json`(段 pairnorm-305a)・宣言の写し `tests/data-w305a-decl304.json`(基点 bdb7ae5)。
+- QA: `behavior.pairNorm305`・`docs.pairNorm305`(root は SKIP —— 世代切替 = html の `REL_DRAG_PAIRNORM_VERSION="w305a-pairnorm-1"`。省略時オフ・二体のビット同一・孤立と並進・粒子分割・直接法・Gauss–Seidel・PCG の拒否・状態の契約・正本と文書・禁句)。
+## 101. 第305便c —— 三次元の J₂(新しい宣言 `bodies[i].j2:{J2, req, axis?}` —— 三次元の本だけ・省略時オフ)と 🌦️🌔 の地球の J₂・🌔 のヘルプと T1 の転記の契約(DECISIONS v63 AN327 ③⑤・v64 §0 AN327・統括の検証項目 R201・**宣言した本だけが変わる** —— 引きずりの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **宣言**: `bodies[i].j2:{J2, req, axis?}`(single 専用・`physics.coord:"3d"` の本だけ —— 二次元は拒否〔二次元の帯状重力は `bodies[i].zonal`(E13)〕)。`J2` は |J2| ≤ 0.5 の有限数・`req` は係数の基準の赤道半径(本の長さ・> 0)・`axis` は省略か `"spin"`(その天体の三次元の自転軸 —— `spinAxis.enable` の軸に従い、軸を有効化していない天体は +z)か `{tiltDeg, azimuthDeg?}`(固定の軸 —— spinAxis と同じ角の定義)。未知の鍵・値域の外・不正な軸は拒否。群(ring/disk …)の j2 は警告して無視。
 - **力**: Φ_i(d) = (G m_i J₂ R²/2)(3ζ² − s²)/s⁵(d = x_j − x_i・ζ = p̂·d・s² = |d|² + ε² —— ε は重力と同じ軟化)。受け手 j(i 以外の全粒子・塵どうしは除く)へ a_j = −∇Φ_i、反作用 a_i −= (m_j/m_i) a_j(全運動量を保つ)。`dfmCore3` の全対と G_loc の後・キックの前の別関数 `j2Kick3`(慣性速度 v のキックだけ)。J₂ = 0 は走りをビット同一に保つ。

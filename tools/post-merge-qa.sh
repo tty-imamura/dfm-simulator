@@ -125,6 +125,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 
 # 第304便e(統括の検証項目 R198): 枝 e の新設 3 本(lint.canon304 —— 第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ・lint.harnessSmoke304 —— 煙試験の判定の直し 3 型・
 #   docs.primaryAudit304 —— 観測の候補の行 EPM2011 の一次表との照合の記録)と、版 2 を受けた lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon304 lint.harnessSmoke304 docs.primaryAudit304"
+# 第305便a(原仮定者の裁定(第96報)・AN326・R199): 枝 a の新設 2 本(behavior.pairNorm305 —— 対ごとの正規化の宣言・零試験・粒子分割・直接法・状態の契約・docs.pairNorm305 —— 正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pairNorm305 docs.pairNorm305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"

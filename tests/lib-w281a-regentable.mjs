@@ -992,6 +992,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/baseline-w304c.json': META_RUN.concat(['/elapsedS', '/solve/wallSec', '/measure/wallSec', '/measure/off/h/wallSec', '/measure/off/h2/wallSec', '/measure/off/h4/wallSec',
       '/measure/on/h/wallSec', '/emo/wallSec', '/emo/runs/h/wallSec', '/emo/runs/h2/wallSec', '/emo/runs/on/wallSec']) },
     note: '第304便c: 🌦️🌔 の基線の見直し(軟化 0.0005・e′・長窓の平均の要素・M4 と長窓の標的)と引きずり OFF の測定 —— 本の宣言の初期配置の解き直し・fitRecord の生成・🌔 の写し' }),
+  // ---- 第305便a(原仮定者の裁定(第96報)・決断事項 AN326・統括の検証項目 R199): **対ごとの正規化**(エンジンの宣言 relativeDrag.inertialR2.denom:"pair" —— 省略時オフ)の
+  //   零試験(段 Z: 二体で行とビット同一・孤立と並進で u = 0・粒子分割・1 步の u と器の直接法・n = 80 の Gauss–Seidel・PCG の拒否)・多体の読み口(段 K)・
+  //   🌦️ の写しの三体(段 M: λ ∝ m × G_loc n ∈ {2, 1, 0} × {行, 対} の長窓 M4 —— h と h/2・対照)。本の宣言は基点 bdb7ae5 の写し(tests/data-w305a-decl304.json)に器の中で固定。
+  //   html と baseline-w304c(OFF の照合)を読む(器のコードの依存として inertialr2-303b〔wExtOf〕・earthmoon-303c〔runEngine・windowsOf〕の後)・1 プロセス。W305A_PARTS で段を分けられる。所要は第305便a の枝の実測(正本の elapsedS)
+  S('pairnorm-305a', 'node tests/exp-w305a-pairnorm.mjs', ['tests/out/pairnorm-w305a.json'], 2400, { secSource: 'w305a-branch', node: true,
+    after: ['baseline-304c', 'inertialr2-303b', 'earthmoon-303c', 'planets3d-299c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/pairnorm-w305a.json': META_RUN.concat(['/elapsedS', '/zero/wallSec', '/manyBody/wallSec', '/threeBody/wallSec', '/threeBody/rows/*/h/wallSec', '/threeBody/rows/*/h2/wallSec']) },
+    note: '第305便a: 対ごとの正規化(β_ij = D_ij/(W_bg + 自己 + I_ij)・全体の solve を保つ)の零試験・多体の読み口・🌦️ の写しの三体の λ ∝ m × n × 行/対(値だけ —— どの在位の本にもオンにしない)' }),
   // ---- 第305便c(DECISIONS v63 AN327 ③⑤・v64 §0 AN327・統括の検証項目 R201): **三次元の J₂**(段 unit〔零試験・軸の経路・保存・受理〕・analytic〔試験粒子の交点と
   //   近点の引数の歳差を解析の一次の永年の式と比べる〕・em〔🌦️ の写しの J₂ なし/あり・長窓 [0,1062] の M4・恒星月・交点・h/2・方位の感度・参照積分〕・emo〔🌔 の写し〕・
   //   record〔J₂ ありの 🌦️ の fitRecord を測った数から作り本の記録と同じか〕)。html と凍結の写し tests/data-w305c-decl304.json を読む(器のコードの依存として
@@ -1102,6 +1110,8 @@ export const EXTERNAL_VOLATILE = {
   // 第304便c(R197): 第303便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w304c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 baseline-w304c と歴史の記録の器
   //   〔refit-303a・inertialr2-303b・gloc-302b・wbgest-302c・semic-302d・wbglaw-301g・dragnorm-301a・synodic-299b・emonly-300b〕の入力)
   'tests/data-w304c-decl303.json': [],
+  // 第305便a(原仮定者の裁定(第96報)・R199): 基点 bdb7ae5 の本 8 本の宣言の凍結の写し(tests/exp-w305a-pairnorm.mjs が読む —— 書き換えない・除く欄は無い。正本 pairnorm-w305a の入力)
+  'tests/data-w305a-decl304.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
 };
