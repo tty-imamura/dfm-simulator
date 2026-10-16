@@ -4,13 +4,13 @@
   "wave": "第305便e",
   "target": "beta/index.html",
   "targetSha256": "df0b67235adfca5e7e3824ff6491459f0ece45afa7055093d6262a7f2cda432e",
-  "generatedAt": "2026-10-16T02:20:01.468Z",
+  "generatedAt": "2026-10-16T03:20:00.223Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 6893680,
     "sha256": "df0b67235adfca5e7e3824ff6491459f0ece45afa7055093d6262a7f2cda432e",
-    "mtime": "2026-10-16T02:02:54.376Z"
+    "mtime": "2026-10-16T02:21:23.576Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w305e-charonaudit.mjs",
-    "bytes": 32103,
-    "sha256": "4379c1c586465713dfa2eb81776a588adb79ee698e968a5f3bf0497ef6db37e7",
-    "mtime": "2026-10-16T02:13:55.777Z"
+    "bytes": 32151,
+    "sha256": "5c16f12b45187230c5d14888d2223f14c699ae147111bdb4c52d780c5a5d619b",
+    "mtime": "2026-10-16T03:17:31.860Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -45,7 +45,7 @@
     "mtime": "2026-10-16T01:50:00.508Z"
    }
   ],
-  "codeSha256": "f5c6dfad23a6d4262be22006104ce14a6a3a4743898c266d8e4dfae491ee234e",
+  "codeSha256": "d8fee9ff2c375e874cbcad379ff0b2bd31f03aaa6f4ab98c9ec748754b6db6dc",
   "harnessVersion": "w305e-charonaudit-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN318(🟪 の基線の監査)・AN333(観測の時間標準の記録)—— 第95報・AN332 の裁定(α = c_loc/c₀)",
@@ -244,7 +244,7 @@
   "rows": [
    {
     "eps": 0.01,
-    "wallSec": 5.51,
+    "wallSec": 4.622,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -268,7 +268,7 @@
    },
    {
     "eps": 0.005,
-    "wallSec": 6.404,
+    "wallSec": 4.89,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -292,7 +292,7 @@
    },
    {
     "eps": 0.0025,
-    "wallSec": 6.08,
+    "wallSec": 4.985,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -348,7 +348,7 @@
    "M1": 551863.6598934275,
    "late": 551863.6598878212,
    "M4": 551863.6598945792,
-   "wallSec": 12.515
+   "wallSec": 10.135
   },
   "diffs": {
    "rev2MinusM1": -8.83941538631916e-7,
@@ -361,7 +361,7 @@
  "band": {
   "rows": [
    {
-    "wallSec": 6.085,
+    "wallSec": 5.186,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -384,7 +384,7 @@
     }
    },
    {
-    "wallSec": 12.263,
+    "wallSec": 10.132,
     "dt": 0.08,
     "steps": 5518637,
     "revN": 8,
@@ -407,7 +407,7 @@
     }
    },
    {
-    "wallSec": 22.004,
+    "wallSec": 18.441,
     "dt": 0.04,
     "steps": 11037274,
     "revN": 8,
@@ -549,10 +549,10 @@
  },
  "ok": true,
  "notClaim": [
-  "「カロンを再現した」",
+  "「カロンの周期が観測どおりになった」",
   "「引きずりが要らないことを示した」",
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 170.022
+ "elapsedS": 143.158
 }

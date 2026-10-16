@@ -22,7 +22,7 @@
 // ■ 正本 tests/out/charonaudit-w305e.json(段 charonaudit-305e)。W305E_PARTS=closed,soft,window,band,mass,tide,clock,fix(既定は全部)・
 //   W305E_OUT で出力先を変える(試走は正本を書かない)。走行は決定的(同じ html・同じ Node で同じ数 —— 壁時計の欄は volatilePaths)。
 //
-// ■ 言わないこと: 「カロンを再現した」「引きずりが要らないことを示した」「観測と一致した」「時計の換算で合った」。
+// ■ 言わないこと: 「カロンの周期が観測どおりになった」「引きずりが要らないことを示した」「観測と一致した」「時計の換算で合った」。
 //   届かない量は「この探索範囲では未達 —— 次の見直し」と書く。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -338,7 +338,7 @@ export async function main() {
   J.breakdown = breakdownOf(J);
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
-  J.notClaim = ['「カロンを再現した」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「時計の換算で合った」'];
+  J.notClaim = ['「カロンの周期が観測どおりになった」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「時計の換算で合った」'];
   const CODE = ['tests/exp-w305e-charonaudit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
