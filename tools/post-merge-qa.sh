@@ -134,6 +134,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"
+# ==== 第306便d の塊(ここから)====
+# 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
+# ==== 第306便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
