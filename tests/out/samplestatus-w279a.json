@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "3696cdbdc0f855bfd2ad6f7e26a2f656296b927377e85093437a6136b6c408e6",
-  "generatedAt": "2026-10-16T03:31:31.010Z",
+  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "generatedAt": "2026-10-16T08:50:40.897Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 111323,
     "sha256": "0c979610576e3701b0447e591e18d43dbc5fde8ee5026a6139c6a3ec32bc7c0c",
-    "mtime": "2026-10-16T02:22:49.460Z"
+    "mtime": "2026-10-16T03:38:48.276Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719861,
-    "sha256": "2b304aa0fab7b4fb68ebac70d3a8386191da72f98e43fe0ebaae6a9c69e2e53c",
-    "mtime": "2026-10-16T01:49:58.516Z"
+    "bytes": 1719874,
+    "sha256": "50f7814c3e12037103de94c71c8b31797594065693b926f424147e44cd0f995c",
+    "mtime": "2026-10-16T06:22:27.253Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90754,
-    "sha256": "d0df1bc927df0777f076160afde2bfa56bef6ae12165d0ccc6dffd9de986b5e9",
-    "mtime": "2026-10-16T01:49:58.536Z"
+    "bytes": 90726,
+    "sha256": "fadadf0194e6f7ed26db3b25af82b897919ac347290aa3ef33b1f70d9b25c0c6",
+    "mtime": "2026-10-16T06:24:42.769Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 184044,
-    "sha256": "7f75a3f0a018cd50c1a193038587dd213c4faacf9cbbc97b94112fa4687f1bde",
-    "mtime": "2026-10-16T03:31:30.988Z"
+    "bytes": 190053,
+    "sha256": "d2b86d57a97289387f51045ffa479b7d6de104daf880af61442fb4ea227008f2",
+    "mtime": "2026-10-16T08:50:40.852Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-16T01:49:58.452Z"
+    "mtime": "2026-10-09T10:19:39.579Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-16T01:49:58.452Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-16T01:49:58.452Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-16T01:49:58.456Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-16T01:49:58.456Z"
+    "mtime": "2026-10-09T10:19:39.583Z"
    }
   ],
   "code": [
@@ -76,31 +76,31 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 32401,
     "sha256": "51bcdbd8f9bc0da0028f077c72686005763922816ad13f2f2e65584aa1669963",
-    "mtime": "2026-10-16T01:49:58.420Z"
+    "mtime": "2026-10-14T00:03:21.977Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 26924,
     "sha256": "1e392bdbaaad2a21ce04eda6696502b557b2a780b5d8cad8daf03b7ff67b6d18",
-    "mtime": "2026-10-16T01:49:58.472Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-16T01:49:58.468Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-16T01:49:58.480Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-16T01:49:58.480Z"
+    "mtime": "2026-10-09T10:19:39.623Z"
    }
   ],
   "codeSha256": "e0e17584b27ff4cc9dd693845632b0264526dea9c2f17b374c5ea8fa29cc4ca4",
@@ -591,6 +591,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -909,6 +921,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -1240,6 +1264,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1555,6 +1591,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -1866,6 +1914,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -2186,6 +2246,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -2498,6 +2570,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -2835,6 +2919,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3140,6 +3236,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -3453,6 +3561,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -3758,6 +3878,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -4077,6 +4209,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4392,6 +4536,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -4697,6 +4853,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -5022,6 +5190,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -5333,6 +5513,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -5666,6 +5858,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -6009,6 +6213,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6330,6 +6546,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -6641,6 +6869,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -6960,6 +7200,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7271,6 +7523,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -7602,6 +7866,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -7913,6 +8189,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -8232,6 +8520,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -8543,6 +8843,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -8864,6 +9176,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -9195,6 +9519,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -9500,6 +9836,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -9815,6 +10163,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -10141,6 +10501,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -10447,6 +10819,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -10761,6 +11145,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -11066,6 +11462,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -11393,6 +11801,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -11725,6 +12145,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12036,6 +12468,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -12403,6 +12847,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -12724,6 +13180,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -13034,6 +13502,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -13349,6 +13829,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -13687,6 +14179,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14019,6 +14523,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -14335,6 +14851,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -14657,6 +15185,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -14986,6 +15526,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -15331,6 +15883,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -15649,6 +16213,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -15994,6 +16570,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16319,6 +16907,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -16652,6 +17252,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -16970,6 +17582,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -17302,6 +17926,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -17613,6 +18249,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -17932,6 +18580,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18243,6 +18903,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -18604,6 +19276,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -18925,6 +19609,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19242,6 +19938,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -19573,6 +20281,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -19878,6 +20598,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -20193,6 +20925,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -20524,6 +21268,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -20839,6 +21595,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21150,6 +21918,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -21475,6 +22255,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -21792,6 +22584,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -22114,6 +22918,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -22445,6 +23261,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22772,6 +23600,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -22837,17 +23677,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 141.571,
+     "wallSec": 155.335,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 47.955,
+       "wallSec": 52.159,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 93.616,
+       "wallSec": 103.176,
        "reused": false,
        "reusedBy": null
       }
@@ -23154,6 +23994,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -23469,6 +24321,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -23851,6 +24715,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24180,6 +25056,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -24519,6 +25407,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -24864,6 +25764,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -24929,17 +25841,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.259,
+     "wallSec": 5.217,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.34,
+       "wallSec": 1.724,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.919,
+       "wallSec": 3.493,
        "reused": false,
        "reusedBy": null
       }
@@ -25228,6 +26140,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -25553,6 +26477,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -25868,9 +26804,21 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
       "always": false
      },
      {
@@ -26201,9 +27149,21 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
       "always": false
      },
      {
@@ -26528,9 +27488,21 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
       "always": false
      },
      {
@@ -26855,6 +27827,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27172,6 +28156,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -27503,6 +28499,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27824,6 +28832,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -27890,17 +28910,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.739,
+     "wallSec": 10.703,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.065,
+       "wallSec": 3.819,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.674,
+       "wallSec": 6.884,
        "reused": false,
        "reusedBy": null
       }
@@ -28201,6 +29221,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -28516,6 +29548,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -28848,6 +29892,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29163,9 +30219,21 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
       "always": false
      },
      {
@@ -29483,6 +30551,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -29791,6 +30871,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30093,6 +31185,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -30391,6 +31495,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -30698,6 +31814,24 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinavg-305d",
+      "sec": 577,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31000,6 +32134,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31298,6 +32444,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -31617,6 +32775,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -31928,6 +33098,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -32244,6 +33426,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -32572,6 +33766,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -32637,17 +33843,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 51.527,
+     "wallSec": 55.19200000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.056,
+       "wallSec": 18.702,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.471,
+       "wallSec": 36.49,
        "reused": false,
        "reusedBy": null
       }
@@ -32940,6 +34146,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33005,17 +34223,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 23.448999999999998,
+     "wallSec": 29.363999999999997,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.895,
+       "wallSec": 10.298,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.554,
+       "wallSec": 19.066,
        "reused": false,
        "reusedBy": null
       }
@@ -33344,6 +34562,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -33409,17 +34639,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 18.873,
+     "wallSec": 20.19,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.117,
+       "wallSec": 6.806,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.756,
+       "wallSec": 13.384,
        "reused": false,
        "reusedBy": null
       }
@@ -33708,6 +34938,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -34119,6 +35361,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34464,6 +35718,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34804,6 +36070,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -34863,17 +36141,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 261.89799999999997,
+     "wallSec": 291.769,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 90.567,
+       "wallSec": 98.862,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 171.331,
+       "wallSec": 192.907,
        "reused": false,
        "reusedBy": null
       }
@@ -35220,6 +36498,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -35531,6 +36821,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -35857,15 +37159,33 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "baseline-304c",
       "sec": 900,
       "share": 5,
       "always": false
      },
      {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "j2-305c",
       "sec": 900,
       "share": 4,
+      "always": false
+     },
+     {
+      "key": "charonaudit-305e",
+      "sec": 160,
+      "share": 1,
       "always": false
      },
      {
@@ -36173,6 +37493,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -36499,6 +37831,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36560,11 +37904,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 58.392,
+     "wallSec": 60.919,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 58.392,
+       "wallSec": 60.919,
        "reused": false,
        "reusedBy": null
       }
@@ -36845,6 +38189,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -36910,17 +38266,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.655,
+     "wallSec": 8.089,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.872,
+       "wallSec": 2.744,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.783,
+       "wallSec": 5.345,
        "reused": false,
        "reusedBy": null
       }
@@ -37249,6 +38605,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -37312,29 +38680,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 64.909,
+     "wallSec": 66.706,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.069,
+       "wallSec": 12.867,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.695,
+       "wallSec": 26.645,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 51.84,
+       "wallSec": 53.839,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 24.695,
-     "reusedH2Sec": 24.695,
+     "reusedSec": 26.645,
+     "reusedH2Sec": 26.645,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -37653,6 +39021,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -38003,6 +39383,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38066,29 +39458,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.984,
+     "wallSec": 39.772,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.891,
+       "wallSec": 7.629,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.309,
+       "wallSec": 15.848,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 30.093,
+       "wallSec": 32.143,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 13.309,
-     "reusedH2Sec": 13.309,
+     "reusedSec": 15.848,
+     "reusedH2Sec": 15.848,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -38407,6 +39799,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -38757,6 +40161,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -38823,17 +40239,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 12.883000000000001,
+     "wallSec": 14.111,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.849,
+       "wallSec": 4.736,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.034,
+       "wallSec": 9.375,
        "reused": false,
        "reusedBy": null
       }
@@ -39134,6 +40550,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -39520,6 +40948,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -39832,6 +41272,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -40164,6 +41616,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -40224,17 +41688,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.84,
+     "wallSec": 8.669,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.597,
+       "wallSec": 2.925,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.243,
+       "wallSec": 5.744,
        "reused": false,
        "reusedBy": null
       }
@@ -40565,6 +42029,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -40629,17 +42105,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.269,
+     "wallSec": 4.088,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.498,
+       "wallSec": 1.612,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.771,
+       "wallSec": 2.476,
        "reused": false,
        "reusedBy": null
       }
@@ -40970,6 +42446,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -41302,6 +42790,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -41626,6 +43126,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -41958,6 +43470,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42282,6 +43806,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -42614,6 +44150,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -42942,6 +44490,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -43002,17 +44562,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 59.805,
+     "wallSec": 63.101,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.39,
+       "wallSec": 20.562,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 39.415,
+       "wallSec": 42.539,
        "reused": false,
        "reusedBy": null
       }
@@ -43295,6 +44855,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -43675,6 +45247,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44003,6 +45587,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -44314,6 +45910,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -44635,6 +46243,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -44962,6 +46582,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -45299,6 +46931,24 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinavg-305d",
+      "sec": 577,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -45604,6 +47254,24 @@
       "key": "shell-304b",
       "sec": 4800,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinavg-305d",
+      "sec": 577,
+      "share": 5,
       "always": false
      },
      {
@@ -45916,6 +47584,24 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinavg-305d",
+      "sec": 577,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -46224,6 +47910,24 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinavg-305d",
+      "sec": 577,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -46526,6 +48230,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -46824,6 +48540,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -47132,6 +48860,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -47451,6 +49191,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -47510,17 +49262,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.0869999999999997,
+     "wallSec": 2.671,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.585,
+       "wallSec": 0.852,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.502,
+       "wallSec": 1.819,
        "reused": false,
        "reusedBy": null
       }
@@ -47791,6 +49543,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -48141,6 +49905,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -48206,17 +49982,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.226,
+     "wallSec": 0.271,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.134,
+       "wallSec": 0.157,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.092,
+       "wallSec": 0.114,
        "reused": false,
        "reusedBy": null
       }
@@ -48487,6 +50263,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -48796,6 +50584,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -49111,6 +50911,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -49436,6 +51248,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -49753,6 +51577,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -50090,6 +51926,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -50395,6 +52243,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -50708,6 +52568,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -51013,6 +52885,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -51334,6 +53218,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -51671,6 +53567,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -51746,29 +53654,29 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 34.408,
+     "wallSec": 36.397999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.378,
+       "wallSec": 7.756,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.41,
+       "wallSec": 15.041,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 27.03,
+       "wallSec": 28.642,
        "reused": false,
        "reusedBy": null
       }
      ],
-     "reusedSec": 13.41,
-     "reusedH2Sec": 13.41,
+     "reusedSec": 15.041,
+     "reusedH2Sec": 15.041,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -52051,6 +53959,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -52382,6 +54302,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -52691,6 +54623,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -52752,11 +54696,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 145.509,
+     "wallSec": 151.145,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 145.509,
+       "wallSec": 151.145,
        "reused": false,
        "reusedBy": null
       }
@@ -53039,6 +54983,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -53373,6 +55329,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -53678,6 +55646,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -54010,6 +55990,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -54325,6 +56317,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -54636,6 +56640,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -54961,6 +56977,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -55266,6 +57294,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -55579,6 +57619,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -55884,6 +57936,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -56197,6 +58261,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -56502,6 +58578,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -56827,6 +58915,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -57136,6 +59236,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -57441,6 +59553,18 @@
      {
       "key": "shell-304b",
       "sec": 4800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
       "share": "all",
       "always": false
      },
@@ -57760,6 +59884,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -58069,6 +60205,18 @@
       "always": false
      },
      {
+      "key": "gfamily-305b",
+      "sec": 1200,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairnorm-305a",
+      "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 95,
       "share": "all",
@@ -58100,8 +60248,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 156,
-  "regenSecSum": 68495,
+  "regenSteps": 160,
+  "regenSecSum": 72832,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
@@ -58111,7 +60259,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 51.414
+    "sec": 57.534000000000006
    },
    "h4": {
     "n": 0,
