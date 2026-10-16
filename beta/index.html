@@ -8032,12 +8032,12 @@ function inertialDragNormOf(rd, deg){
 //   軸引きずりの ν(第301便a)も同じ対角から作る(ν = W_bg/(W_bg + Σw_I + Σw))。読み口の上界 bound は 2 max ξ_i(ξ_i = deg_i/(1 + x_I,i) = Σw/(W_bg + Σw_I)
 //   —— 宣言した本だけ・未宣言の本の上界は従来の 2 max deg)。式・解析と実測は docs/PHYSICS.md〔第303便b〕・器 tests/exp-w303b-inertialr2.mjs
 const REL_DRAG_I2_KEY="inertialR2", REL_DRAG_I2_VERSION="w303b-inertialr2-1";
-const REL_DRAG_I2_KEYS=["lambda","lambdaRs","sources","self","env"];
+const REL_DRAG_I2_KEYS=["lambda","lambdaRs","sources","self","env","denom"];   // 第305便a: denom(対ごとの正規化 —— 省略と "row" は正準形に出さない)
 const REL_DRAG_I2_SOURCES=["all","pairs"], REL_DRAG_I2_SELF=["off","radius","shell"], REL_DRAG_I2_ENV=["off","bodies"];   // 第304便a: self:"shell"(受け手自身の引きずり核の殻 q_i/R_d,i² —— 足すのは inertialDragShellApply)
 // 形の受理(relativeDrag の段 —— env は同じ宣言の正規化後の env)。戻り値 {ok, inertialR2|null, err}
 function validateInertialR2(a, env){
   if(a===undefined || a===null) return {ok:true, inertialR2:null};
-  const form='physics.relativeDrag.inertialR2 は {lambda:<正の長さ> | lambdaRs:<正の数>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies"}(第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ)';
+  const form='physics.relativeDrag.inertialR2 は {lambda:<正の長さ> | lambdaRs:<正の数>, sources?:"all"|"pairs", self?:"off"|"radius", env?:"off"|"bodies", denom?:"row"|"pair"}(第303便b —— 源の慣性決定力 r⁻² を引きずりの分母へ・第305便a: denom は対ごとの正規化)';
   if(typeof a!=="object" || Array.isArray(a)) return {ok:false, err:form};
   for(const k of Object.keys(a)) if(REL_DRAG_I2_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.inertialR2 に未知の鍵 '+k+'('+REL_DRAG_I2_KEYS.join("・")+' だけ)'};
   const hasL=(a.lambda!==undefined), hasR=(a.lambdaRs!==undefined);
@@ -8051,8 +8051,11 @@ function validateInertialR2(a, env){
   const ev=(a.env===undefined)? REL_DRAG_I2_ENV[0] : a.env;
   if(REL_DRAG_I2_ENV.indexOf(ev)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.env は "off"(既定)か "bodies"(relativeDrag.env.bodies の背景側の天体を分母へ)'};
   if(ev==="bodies" && !(env && Array.isArray(env.bodies) && env.bodies.length)) return {ok:false, err:'physics.relativeDrag.inertialR2.env:"bodies" は relativeDrag.env.bodies の宣言(1 個以上)と一緒にだけ'};
+  const dn=(a.denom===undefined || a.denom===null)? REL_DRAG_I2_DENOMS[0] : a.denom;   // 第305便a: 対ごとの正規化(省略と "row" は今の式 —— 正準形に出さない)
+  if(REL_DRAG_I2_DENOMS.indexOf(dn)<0) return {ok:false, err:'physics.relativeDrag.inertialR2.denom は "row"(既定 —— 今の式: 受け手の行の分母に Σ_k I_ik)か "pair"(対ごとの正規化 β_ij = D_ij/(W_bg + 自己 + I_ij) —— 第305便a)'};
   const out=hasL? {lambda:v} : {lambdaRs:v};
   out.sources=src; out.self=self; out.env=ev;
+  if(dn!==REL_DRAG_I2_DENOMS[0]) out.denom=dn;
   return {ok:true, inertialR2:out};
 }
 // 本との突き合わせ(physics の確定後)。null = 受理 / 文字列 = 拒否の理由
@@ -8272,6 +8275,140 @@ function inertialDragShellState(S){
     steps:S.inertialDragShellN||0, xLast:S.inertialDragShellX||0, xMax:S.inertialDragShellXMax||0, xiLast:S.inertialDragShellXi||0, xiMax:S.inertialDragShellXiMax||0,
     selfSkip:S.inertialDragShellSkip||0, selfSkipNow:selfSkip, receivers:rows,
     note:"inertia = W_bg + w_self(S3)+ w_self,I(S2)+ Σw_I(点の和 + 殻の補正)・xi = Σw/(inertia + Σw)・W = v + u(直近の步の u)"};
+}
+// ===== 第305便a(原仮定者の裁定(第96報)・決断事項 AN326・統括の検証項目 R199): **対ごとの正規化** `physics.relativeDrag.inertialR2.denom:"row"|"pair"`
+//   (inertialR2 の中の鍵 —— 省略と "row" は今の式〔正準形に出さない〕・"pair" を宣言した本だけ別の結合。在位の本は宣言しない)=====
+// 裁定(第96報)「慣性速度は、自分自身の引きずりなので、引きずり計算の分母の慣性決定力の和に自分自身を入れられる」
+//   「慣性速度を座標にそのまま反映する場合は、二重計上にならない様に、引きずり計算の分子の引きずりの和には自分自身を入れない」。
+// 行(今の式 —— 変えない): (I_i + Σ_j D_ij) u_i − Σ_j D_ij u_j = Σ_j D_ij (v_j − v_i)、I_i = W_bg + S_i + E_i + Σ_k I_ik
+//   (D_ij = m_j 𝒦_j(r_ij) は引きずりの対・I_ik = q_k/(r_ik² + ε²)〔殻の源は殻の補正込み〕は inertialR2 の源・S_i は受け手の自己
+//    〔self:"radius" の q_i/R_i²・殻の S3 = m_i/R_d³・S2 = q_i/R_d²〕・E_i は背景側の天体〔env:"bodies"〕)。
+//   λ ∝ m(lambdaRs)では q が源の質量によらないので、近い衛星の I_ik が受け手の行の分母を支配し、遠い主星からの引きずりを消す(第303便b・第304便b)。
+// 対(denom:"pair"): β_ij = D_ij/(Ŵ_i + I_ij)、Ŵ_i = W_bg + S_i + E_i(背景・自己・背景側の天体 —— **どの対の分母にも同じ形で入る**)。
+//   **全体の solve を保つ**(対の速度を独立に足すだけにしない): (1 + Σ_j β_ij) u_i − Σ_j β_ij u_j = Σ_j β_ij (v_j − v_i)
+//   —— 総速度 W = v + u では (1 + Σ_j β_ij) W_i − Σ_j β_ij W_j = v_i(**自己の基準速度は慣性速度 v_i** —— 総速度 W_i を自己の源として分子へ戻さない)。
+//   自己は分母だけ(分子に j = i の項を作らない —— 位置の更新 x += h(v + u) は 1 回)。引きずりの対の外の慣性決定力の源(sources:"all" で対を組まない粒子)は
+//   対の分母に入らない(その源には D が無い)。
+// 実装: 行の尺度(c = 1/W_bg を掛けた行)を保ったまま、結合を R_ij = (1 + X_i)/(1 + X_ij) 倍する(X_i = c(I_i − W_bg)・X_ij = c(Ŵ_i − W_bg + I_ij))。
+//   行 i を (1 + X_i) で割ると上の β の式になる(解は同じ)。a′_ij = a_ij R_ij・s′_i = s_i + Σ_j (a′_ij − a_ij)(W_j − W_i)・対角 1 + Σ_j a′_ij + X_i。
+//   外部の源が 1 つ(二体)なら X_ij と X_i は同じ演算列 → R = 1 → **行とビット同一**。
+//   行ごとに尺度が違うので m_i a′_ij ≠ m_j a′_ji(非対称)—— 連鎖の PCG(solver:"network-pcg-v1")とは組まない(受理で拒否 —— 対称化の証明の後で開く)。
+//   直接法(n ≤ 64 —— 行の対角優位なのでピボットなし)・Gauss–Seidel(同じ)で解く。
+//   回転引きずり(spinSource・spinDrag.rot の s の項)は行の尺度のまま(対ごとにしない —— 並進の結合だけを対ごとにする)。軸引きずりの ν_i = 1/(1 + x_i) は
+//   行の対角のまま(本関数は inertialDragNormApply の後に走る —— ν を変えない)。pinned の源は解法が u = 0 に固定する(既知の W = v が右辺に入る —— 行と同じ)。
+//   式・零試験・粒子分割・三体の測定は docs/PHYSICS.md〔第305便a〕・器 tests/exp-w305a-pairnorm.mjs
+const REL_DRAG_I2_DENOMS=["row","pair"], REL_DRAG_PAIRNORM_VERSION="w305a-pairnorm-1";
+function relDragPairNormOf(rd){ return !!(rd && rd.law==="inertial" && rd[REL_DRAG_I2_KEY] && rd[REL_DRAG_I2_KEY].denom==="pair"); }
+// 受け手 i から見た源 j の 1 対の inertialR2 の項(inertialR2SumOf の源の規則と同じ式 —— 源でなければ 0)
+function inertialR2PairTerm(i2, i, j, X, Y, Z, m, e2, G, c0, set, NP, AMK){
+  if(j===i) return 0;
+  const mj=m[j];
+  if(!(mj>0) || !Number.isFinite(mj)) return 0;
+  if(i2.sources==="pairs"){ if(set && !set.has(i*NP+j)) return 0; }
+  else if(AMK!==null && AMK[i]===AM_DUST && AMK[j]===AM_DUST) return 0;
+  const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z? Z[j]-Z[i] : 0;
+  return inertialR2Q(i2,mj,G,c0)/(dx*dx+dy*dy+dz*dz+e2);
+}
+// 1 対の分母の X_ij(c を掛ける前 —— 源 j の項 + 受け手の自己 radius + 背景側の天体。inertialR2SumOf と同じ順序で足す)と殻の行(自己 + 源 j の殻の補正)
+function inertialR2PairDen(i2, i, j, X, Y, Z, m, R, e2, G, c0, set, NP, AMK, envB){
+  let w=0;
+  w+=inertialR2PairTerm(i2,i,j,X,Y,Z,m,e2,G,c0,set,NP,AMK);
+  if(i2.self==="radius"){ const Ri=R? R[i] : 0; if(Ri>0) w+=inertialR2Q(i2,m[i],G,c0)/(Ri*Ri); }
+  if(envB) for(const b of envB) w+=inertialR2Q(i2,b.m,G,c0)/(b.d*b.d+e2);
+  return w;
+}
+function dragShellPairCorr(i2, i, j, X, Y, Z, m, SH, eps, G, c0, set, NP, AMK){
+  if(!i2 || j===i || !(SH[j]>0)) return 0;
+  const mj=m[j];
+  if(!(mj>0) || !Number.isFinite(mj)) return 0;
+  if(i2.sources==="pairs"){ if(set && !set.has(i*NP+j)) return 0; }
+  else if(AMK!==null && AMK[i]===AM_DUST && AMK[j]===AM_DUST) return 0;
+  const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z? Z[j]-Z[i] : 0, r2=dx*dx+dy*dy+dz*dz, e2=eps*eps;
+  let c=0;
+  c+=inertialR2Q(i2,mj,G,c0)*(dragShellK2(Math.sqrt(r2),SH[j],eps)-1/(r2+e2));
+  return c;
+}
+// 步の適用(合成則 solve の build・inertialDragI2Apply・inertialDragShellApply・inertialDragNormApply の後・bound と解法の前 —— denom:"pair" を宣言した本だけが呼ぶ)。
+//   行 i の X_i(I2 と殻が対角へ足したのと同じ演算列)と対ごとの X_ij から R_ij を作り、A・s(hist の步だけ)・対角 DG を書き直す。
+//   受け手: 質量が正(pinned の行も書く —— 解法が u=0 に固定・読み口の最大には数えない)。戻り値 {xiMax(Σβ の最大), xiRowMax(行の Σβ の最大), rMax, rMin}
+function inertialDragPairApply(S,n,C,eps,KX,KY,KZ,hist){
+  const rd=S.relDrag, i2=rd[REL_DRAG_I2_KEY], X=KX||S.x, Y=KY||S.y, Z=(S.coord3d===true)? (KZ||S.z) : null;
+  const m=S.m, pin=S.pinned, A=S._rdA, DG=S._rdDeg, UX=S._rdUX, UY=S._rdUY, UZ=Z? S._rdUZ : null, G=S.params.G, c0=S.params.cLight, e2=eps*eps;
+  const SH=S._dragShellRd||null, set=S._rdPairSet||null, NP=S._rdPairN, AMK=S._amKind||null;
+  const envB=(i2.env==="bodies" && rd.env && Array.isArray(rd.env.bodies))? rd.env.bodies : null;
+  const vel=(relDragSolveFromOf(rd)==="velocity"), WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY, WZ=Z? (vel? S.vz : S._rdVZ) : null;
+  let xiMax=0, xiRowMax=0, rMax=1, rMin=1;
+  for(let i=0;i<n;i++){
+    const mi=m[i];
+    if(!(mi>0) || !Number.isFinite(mi)) continue;
+    const q=inertialR2SumOf(i2,i,n,X,Y,Z,m,S.radOv,e2,G,c0,set,NP,AMK,envB);
+    const sh=SH? dragShellRowOf(rd,i,n,X,Y,Z,m,SH,eps,G,c0,set,NP,AMK) : null;
+    const xI=C*q.w, xS=sh? C*(sh.self+sh.selfI+sh.corrI) : 0, num=1+(xI+xS), row=i*n;
+    let deg=0, deg0=0, dx=0, dy=0, dz=0, chg=false;
+    for(let j=0;j<n;j++){
+      const a=A[row+j];
+      if(a===0) continue;
+      deg0+=a;
+      const wj=inertialR2PairDen(i2,i,j,X,Y,Z,m,S.radOv,e2,G,c0,set,NP,AMK,envB);
+      const xIj=C*wj, xSj=sh? C*(sh.self+sh.selfI+dragShellPairCorr(i2,i,j,X,Y,Z,m,SH,eps,G,c0,set,NP,AMK)) : 0;
+      const R=num/(1+(xIj+xSj));
+      if(R!==1){
+        const a2=a*R;
+        A[row+j]=a2; chg=true;
+        if(hist){ const da=a2-a; dx+=da*(WX[j]-WX[i]); dy+=da*(WY[j]-WY[i]); if(Z) dz+=da*(WZ[j]-WZ[i]); }
+        if(!pin[i]){ if(R>rMax) rMax=R; if(R<rMin) rMin=R; }
+      }
+      deg+=A[row+j];
+    }
+    if(chg){
+      if(hist){ UX[i]+=dx; UY[i]+=dy; if(UZ) UZ[i]+=dz; }
+      let d=deg;
+      d=d+xI;
+      if(sh) d+=xS;
+      DG[i]=d;
+    }
+    if(!pin[i]){ const xi=deg/num, xr=deg0/num; if(xi>xiMax) xiMax=xi; if(xr>xiRowMax) xiRowMax=xr; }
+  }
+  S.inertialDragPairN=(S.inertialDragPairN||0)+1; S.inertialDragPairXi=xiMax; if(!(S.inertialDragPairXiMax>=xiMax)) S.inertialDragPairXiMax=xiMax;
+  S.inertialDragPairXiRow=xiRowMax; S.inertialDragPairRMax=rMax; if(!(S.inertialDragPairRMaxAll>=rMax)) S.inertialDragPairRMaxAll=rMax;
+  return {xiMax, xiRowMax, rMax, rMin};
+}
+// 読み口(状態を 1 bit も動かさない)—— 宣言・帳簿と、今の位置での受け手ごとの対の表(D_ij・I_ij・β_ij〔対〕・β_ij〔行〕)と和。
+//   単位 [M/L³](核 m𝒦 と同じ)。分母: 対 = Ŵ_i + I_ij・行 = Ŵ_i + Σ_k I_ik(Ŵ_i = W_bg + 自己 + 背景側の天体)。宣言の無い本は null
+function inertialDragPairState(S){
+  if(!S || !S.relDrag || !relDragPairNormOf(S.relDrag)) return null;
+  const rd=S.relDrag, i2=rd[REL_DRAG_I2_KEY], n=S.n, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;
+  const Z=(S.coord3d===true)? S.z : null, G=S.params.G, c0=S.params.cLight, Wbg0=relDragWbgOf(rd), Wbg=isNum(Wbg0)? Wbg0 : 0, CT=S._dragCoreT||null, SH=S._dragShellRd||null;
+  const envB=(i2.env==="bodies" && rd.env && Array.isArray(rd.env.bodies))? rd.env.bodies : null, set=S._rdPairSet||null, NP=S._rdPairN, AMK=S._amKind||null;
+  const rows=[];
+  for(let i=0;i<n;i++){
+    const mi=S.m[i];
+    if(!(mi>0) || !Number.isFinite(mi)) continue;
+    const q=inertialR2SumOf(i2,i,n,S.x,S.y,Z,S.m,S.radOv,e2,G,c0,set,NP,AMK,envB);
+    const sh=SH? dragShellRowOf(rd,i,n,S.x,S.y,Z,S.m,SH,eps,G,c0,set,NP,AMK) : {self:0, selfI:0, corrI:0, has:false};
+    const Irow=Wbg+q.w+sh.self+sh.selfI+sh.corrI;
+    const src=[];
+    let sumP=0, sumR=0, wSelfEnv=null;
+    for(let j=0;j<n;j++){
+      if(j===i || (set && !set.has(i*NP+j))) continue;
+      const mj=S.m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;
+      const dx=S.x[j]-S.x[i], dy=S.y[j]-S.y[i], dz=Z? Z[j]-Z[i] : 0, r2=dx*dx+dy*dy+dz*dz, r=Math.sqrt(r2), s=r2+e2;
+      const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : (SH!==null && SH[j]>0)? dragShellK3(r,SH[j],eps) : null;
+      const D=mj*((kv===null)? r/(s*s) : kv);
+      const Iij=inertialR2PairTerm(i2,i,j,S.x,S.y,Z,S.m,e2,G,c0,set,NP,AMK)+(SH? dragShellPairCorr(i2,i,j,S.x,S.y,Z,S.m,SH,eps,G,c0,set,NP,AMK) : 0);
+      const wj=inertialR2PairDen(i2,i,j,S.x,S.y,Z,S.m,S.radOv,e2,G,c0,set,NP,AMK,envB)-inertialR2PairTerm(i2,i,j,S.x,S.y,Z,S.m,e2,G,c0,set,NP,AMK);
+      if(wSelfEnv===null) wSelfEnv=wj;
+      const den=Wbg+wj+sh.self+sh.selfI+Iij, bp=(den>0)? D/den : null, br=(Irow>0)? D/Irow : null;
+      if(bp!==null) sumP+=bp; if(br!==null) sumR+=br;
+      src.push({j, D, I:Iij, betaPair:bp, betaRow:br});
+    }
+    rows.push({i, pinned:!!S.pinned[i], Wbg, selfEnv:(wSelfEnv===null)? 0 : wSelfEnv, self:sh.self+sh.selfI, inertiaRow:Irow, sumBetaPair:sumP, sumBetaRow:sumR,
+      pairOverRow:(sumR>0)? sumP/sumR : null, sources:src});
+  }
+  return {version:REL_DRAG_PAIRNORM_VERSION, decl:{denom:"pair"}, Wbg:isNum(Wbg0)? Wbg0 : null, eps, units:"M/L^3", steps:S.inertialDragPairN||0,
+    xiLast:S.inertialDragPairXi||0, xiMax:S.inertialDragPairXiMax||0, xiRowLast:S.inertialDragPairXiRow||0, rMaxLast:S.inertialDragPairRMax||1, rMaxAll:S.inertialDragPairRMaxAll||1, receivers:rows,
+    note:"betaPair = D_ij/(W_bg + 自己 + 背景側の天体 + I_ij)・betaRow = D_ij/(W_bg + 自己 + 背景側の天体 + Σ_k I_ik)・Σβ は受け手の行の和(自己の基準速度は v_i —— 分子に自己なし)"};
 }
 // ===== 第301便c(原仮定者の裁定(第91報)②「軸の傾きを持たない粒子への軸引きずりは、傾きを考慮せず軸回転を引きずる。『移動ベクトル』=『慣性移動ベクトル』+
 //   『引きずりベクトル』と同じく、『軸回転』=『慣性軸回転』+『引きずり軸回転』として計算する」・統括の検証項目 R181): **受け手の軸回転の分解**(既定 —— 宣言の鍵は無い)=====
@@ -8522,6 +8659,7 @@ function validateRelativeDragInertial(a){
     if(out.compose==="sum") return {ok:false, err:'physics.relativeDrag.inertialR2 は合成則 solve(既定)の本だけ(第303便b)'};
     const iv=validateInertialR2(a.inertialR2, out.env||null);
     if(!iv.ok) return {ok:false, err:iv.err};
+    if(iv.inertialR2.denom==="pair" && out.solver!==undefined) return {ok:false, err:'physics.relativeDrag.inertialR2.denom:"pair" は solver:"network-pcg-v1" と一緒に宣言しない —— 対ごとの正規化は行ごとに尺度が違い結合 m_i a′_ij が非対称になる(直接法・Gauss–Seidel で解く。PCG は対称化の証明の後 —— 第305便a)'};
     out.inertialR2=iv.inertialR2;
   }
   // 第304便a(R195): 引きずり核の殻の自己の項(分母にだけ —— Wbg の宣言 ∧ 合成則 solve の本だけ・省略と "off" は正準形に出さない)。
@@ -40464,7 +40602,8 @@ const INERTIAL_DRAG_CK_LAST=["inertialDragWhy","inertialDragBound","inertialDrag
   "inertialDragSolveItersMax","inertialDragSolveRestarts","inertialDragSpinSrc","inertialDragSpinN","inertialDragSpinSkip","inertialDragSpinMax",
   "inertialDragNormN","inertialDragNormX","inertialDragNormXMax",
   "inertialDragI2N","inertialDragI2X","inertialDragI2XMax","inertialDragI2Xi","inertialDragI2XiMax","inertialDragI2SelfSkip",
-  "inertialDragShellN","inertialDragShellX","inertialDragShellXMax","inertialDragShellXi","inertialDragShellXiMax","inertialDragShellSkip"];   // 第304便a: 引きずり核の殻の帳簿(殻を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
+  "inertialDragShellN","inertialDragShellX","inertialDragShellXMax","inertialDragShellXi","inertialDragShellXiMax","inertialDragShellSkip",
+  "inertialDragPairN","inertialDragPairXi","inertialDragPairXiMax","inertialDragPairXiRow","inertialDragPairRMax","inertialDragPairRMaxAll"];   // 第305便a: 対ごとの正規化の帳簿(denom:"pair" を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第304便a: 引きずり核の殻の帳簿(殻を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
 const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ",
   "_rdWS","rotAIn","rotADr",
   "_rdQX","_rdQY","_rdQZ"];   // 第302便d: semic の本の核が使った位置(ドリフトの前の写し —— 受動プローブが同じ位置で読む。次の步の核の前に書き直す)   // 第301便c(R181): 傾きを持たない受け手の引きずり軸回転・慣性軸回転の角・引きずり軸回転の角(軸引きずりを宣言した本だけ —— 同じ 1 組の写しで戻す)
@@ -55188,7 +55327,8 @@ function inertialDragInit(S){
     }
   }
   if(relDragNormChanges(rd)){ S.inertialDragNormN=0; S.inertialDragNormX=0; S.inertialDragNormXMax=0; }
-  if(rd && rd.law==="inertial" && rd[REL_DRAG_I2_KEY]){ S.inertialDragI2N=0; S.inertialDragI2X=0; S.inertialDragI2XMax=0; S.inertialDragI2Xi=0; S.inertialDragI2XiMax=0; S.inertialDragI2SelfSkip=0; }   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ —— 他の本には鍵を作らない)
+  if(rd && rd.law==="inertial" && rd[REL_DRAG_I2_KEY]){ S.inertialDragI2N=0; S.inertialDragI2X=0; S.inertialDragI2XMax=0; S.inertialDragI2Xi=0; S.inertialDragI2XiMax=0; S.inertialDragI2SelfSkip=0; }
+  if(relDragPairNormOf(rd)){ S.inertialDragPairN=0; S.inertialDragPairXi=0; S.inertialDragPairXiMax=0; S.inertialDragPairXiRow=0; S.inertialDragPairRMax=1; S.inertialDragPairRMaxAll=1; }   // 第305便a: 対ごとの正規化の帳簿(宣言した本だけ —— 他の本には鍵を作らない)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ —— 他の本には鍵を作らない)
   if(relDragStepOrderOf(rd)==="semic"){ S.inertialDragE0=null; S.inertialDragSemicMiss=0; S._rdQOk=false; }   // 第302便d: semic の本だけ(E0 は最初の步の核の前に取る —— 帳簿 W と同じ 0 から)   // 第301便a: 走りが変わる本(背景の宣言 ∨ 軸引きずり)だけの帳簿(他の本には鍵を作らない)
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
   if(S.dragShellD && rd && rd.law==="inertial"){ dragShellInit(S);   // 第304便a: 引きずり核の殻の半径の表と帳簿(殻を宣言した本だけ —— 他の本には鍵を作らない)
@@ -55642,8 +55782,10 @@ function dfmInertialDragStep(S,dt){
   const i2q=(i2On && !coincident)? inertialDragI2Apply(S,n,C,eps,KX,KY,null) : null;   // 第303便b(R192): 行の対角に x_I = c Σ w_I(宣言した本だけ)
   const shq=(shOn && !coincident)? inertialDragShellApply(S,n,C,eps,KX,KY,null) : null;   // 第304便a(R195): 行の対角に殻の自己の項と inertialR2 の殻の補正(殻を宣言した本だけ —— I2 の後・正規化の前)
   if(!coincident){ const nq=inertialDragNormApply(S,n,comp,false); if(nq) degMax=nq.degMax; }   // 第301便a: 背景を宣言した本だけ行の対角を 1+x(既定の本は素通り —— solve の 1+deg がすでに総和で割っている)
+  const pnq=(i2On && !coincident && relDragPairNormOf(rd))? inertialDragPairApply(S,n,C,eps,KX,KY,null,hist) : null;   // 第305便a(R199): 対ごとの正規化(denom:"pair" を宣言した本だけ —— 正規化の後: 結合と s と対角を対の分母へ)
   if(i2q) degMax=i2q.xiMax;   // 第303便b: 上界は 2 max ξ(宣言した本だけ)
   if(shq) degMax=shq.xiMax;   // 第304便a: 上界は 2 max ξ(ξ = Σw/(W_bg + Σw_I + w_self) —— 殻を宣言した本だけ)
+  if(pnq) degMax=pnq.xiMax;   // 第305便a: 上界は 2 max Σβ(対ごとの正規化を宣言した本だけ)
   const bound=2*degMax;
   S.inertialDragBound=bound;
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
@@ -55694,6 +55836,7 @@ function inertialDragState(S){
     ...((S.coord3d===true)? {spin3:inertialDrag3SpinState(S)} : null),
     ...(relDragNormChanges(S.relDrag)? {norm:inertialDragNormState(S)} : null),
     ...(S.relDrag[REL_DRAG_I2_KEY]? {inertialR2:inertialR2State(S)} : null),   // 第303便b: 宣言した本だけ(他の本の読み口は 1 鍵も変わらない)
+    ...(relDragPairNormOf(S.relDrag)? {pairNorm:inertialDragPairState(S)} : null),   // 第305便a: 対ごとの正規化を宣言した本だけ(他の本の読み口は 1 鍵も変わらない)
     ...((S._dragShellRd!==undefined)? {shell:inertialDragShellState(S)} : null),   // 第304便a: 引きずり核の殻を宣言した本だけ(他の本の読み口は 1 鍵も変わらない)
     ...((relDragStepOrderOf(S.relDrag)==="semic")? {stepOrder:"semic", ledger:inertialDragLedgerOf(S)} : null) };   // 第302便d: semic の本だけ(split を明示した本・compose:"sum" の本の読み口は 1 鍵も変わらない)   // 第301便a: 走りが変わる本だけ(他の本の読み口は 1 鍵も変わらない —— W_bg は relDragBackgroundOf で引く)   // 第298便c: 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない) / 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
 }
@@ -56014,8 +56157,10 @@ function dfmInertialDragStep3(S,dt){
   const i2q=(i2On && !coincident)? inertialDragI2Apply(S,n,C,eps,KX,KY,KZ) : null;   // 第303便b(R192): 行の対角に x_I = c Σ w_I(宣言した本だけ —— 正規化の前: 軸引きずりの ν も同じ対角から)
   const shq=(shOn && !coincident)? inertialDragShellApply(S,n,C,eps,KX,KY,KZ) : null;   // 第304便a(R195): 行の対角に殻の自己の項と inertialR2 の殻の補正(殻を宣言した本だけ —— I2 の後・正規化の前)
   if(!coincident){ const nq=inertialDragNormApply(S,n,comp,!!(sd3 && sd3.axial)); if(nq) degMax=nq.degMax; }   // 第301便a: 軸引きずりの ω に ν・背景を宣言した本は行の対角を 1+x(並進・回転は solve の 1+deg で総和で割られている)
+  const pnq=(i2On && !coincident && relDragPairNormOf(rd))? inertialDragPairApply(S,n,C,eps,KX,KY,KZ,hist) : null;   // 第305便a(R199): 対ごとの正規化(denom:"pair" を宣言した本だけ —— 正規化の後: 軸引きずりの ν は行の対角のまま)
   if(i2q) degMax=i2q.xiMax;   // 第303便b: 上界は 2 max ξ(ξ = Σw/(W_bg + Σw_I) —— 宣言した本だけ)
   if(shq) degMax=shq.xiMax;   // 第304便a: 上界は 2 max ξ(殻を宣言した本だけ)
+  if(pnq) degMax=pnq.xiMax;   // 第305便a: 上界は 2 max Σβ(対ごとの正規化を宣言した本だけ)
   const bound=2*degMax;
   S.inertialDragBound=bound;
   if(bound>S.inertialDragBoundMax) S.inertialDragBoundMax=bound;
@@ -56368,6 +56513,7 @@ function inertialDragInverseMap(S){
   if(S._dragShellRd) inertialDragShellApply(T,n,relDragCoefficientOf(rd),eps,null,null,null);   // 第304便a: 核と同じ対角(引きずり核の殻 —— 殻を宣言した本だけ・帳簿は写し T へ。殻の源の核は build が S の表で読む)
   const nq=inertialDragNormApply(T,n,true,false);   // 第301便a: 核と同じ正規化(背景を宣言した本だけ行の対角 1+x —— 既定の本は null で写しも触らない)
   if(nq) q.degMax=nq.degMax;
+  if(rd[REL_DRAG_I2_KEY] && relDragPairNormOf(rd)){ const pq=inertialDragPairApply(T,n,relDragCoefficientOf(rd),eps,null,null,null,false); q.degMax=pq.xiMax; }   // 第305便a: 核と同じ対ごとの正規化(宣言した本だけ・帳簿は写し T へ)
   const A=T._rdA, DG=T._rdDeg, m=S.m, pin=S.pinned, WX=S.vx, WY=S.vy;
   const vx=new Float64Array(n), vy=new Float64Array(n);
   let fixed=0, relMax=0;
@@ -59922,6 +60068,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   validateInertialR2, inertialR2CrossCheck, inertialR2Q, inertialR2SumOf, inertialDragI2Apply, inertialR2State,   // 第303便b(R192): 源の慣性決定力 r⁻² を引きずりの分母へ
   DRAG_SHELL_KEY, DRAG_SHELL_VERSION, DRAG_SHELL_RATIO_MAX, REL_DRAG_SHELL_SELF, validateDragShellBody, dragShellCrossCheck, dragShellXmSin, dragShellK3, dragShellK2,   // 第304便a(R195): 引きずり核の殻
   dragShellInit, dragShellRowOf, inertialDragShellApply, inertialDragShellState,
+  REL_DRAG_I2_DENOMS, REL_DRAG_PAIRNORM_VERSION, relDragPairNormOf, inertialR2PairTerm, inertialR2PairDen, dragShellPairCorr, inertialDragPairApply, inertialDragPairState, dfmInertialDrag3Build, dfmInertialDrag3Solve,   // 第305便a(R199): 対ごとの正規化(三次元の build・solve は器の零試験が同じ関数を 1 回だけ通すため)
   REL_DRAG_WBG_KEY, REL_DRAG_WBG_VERSION, relDragLegacyFrozen, relDragWbgFromGain, relDragCoefficientOf, relDragWbgOf, relDragEnabledOf, relDragLegacyGainWarn,   // 第302便a(R186)
   REL_DRAG_STEP_ORDERS, REL_DRAG_STEP_ORDER_DEFAULT, REL_DRAG_SEMIC_VERSION, relDragStepOrderOf, relDragSemicOn, inertialDragSemicPre, inertialDragEnergy, inertialDragSemicWork, inertialDragLedgerOf,   // 第302便d: 步の順序 semic
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化
