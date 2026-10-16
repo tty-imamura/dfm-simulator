@@ -2,15 +2,16 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+ "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 120,
  "steps": 3,
  "registry": {
-  "names": 476,
+  "names": 489,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
+   "/^j2[A-Z]/",
    "/^(shapeToy|coreField|spiral)[A-Z0-9]/"
   ],
   "derived": 10,
@@ -21,7 +22,7 @@
   ]
  },
  "static": {
-  "assigned": 847,
+  "assigned": 860,
   "outside": 257,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -68,7 +69,7 @@
   ]
  },
  "dynamic": {
-  "stepChangedKeys": 331,
+  "stepChangedKeys": 337,
   "leaks": [],
   "carried": []
  },
@@ -141,19 +142,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 17.423,
+ "elapsedS": 18.454,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
-  "generatedAt": "2026-10-15T12:23:10.118Z",
+  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+  "generatedAt": "2026-10-16T10:08:39.586Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6888618,
-    "sha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
-    "mtime": "2026-10-15T07:11:58.416Z"
+    "bytes": 6923966,
+    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+    "mtime": "2026-10-16T03:58:22.720Z"
    }
   ],
   "code": [
@@ -223,11 +224,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1306,
-   "segments": 1180,
-   "closureShare": 0.3224
+   "names": 1324,
+   "segments": 1193,
+   "closureShare": 0.3235
   },
-  "scopeSha256": "64a7407bcd03529fb987771e5aab567b9ae398418382c289cb53002edd0b64f0",
+  "scopeSha256": "0b870486c3d5add57095fe17d8bcab2dad06427e27aa4834316e289ea140a6ca",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
