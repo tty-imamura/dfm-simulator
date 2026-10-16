@@ -1027,6 +1027,16 @@ export const REGEN_STEPS = [
     after: ['moon3d-298c', 'synodic-299b', 'emonly-300b', 'earthmoon-303c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/j2-w305c.json': META_RUN.concat(['/elapsedS', '/unit/wallSec', '/analytic/wallSec', '/em/wallSec', '/emo/wallSec', '/emo/runs/j2/wallSec', '/emo/runs/j2h2/wallSec', '/emo/runs/noJ2/wallSec']) },
     note: '第305便c: 三次元の J₂(bodies[i].j2)の零試験・保存・解析の歳差との一致と、🌦️🌔 の地球の J₂ の交点・近地点・恒星月(長窓 M4)—— fitRecord(交点の標的)の生成' }),
+  // ---- 第306便c(DECISIONS v64 AN337 ③④⑤・v65 §0 AN337・AN335 ①・統括の検証項目 R206): **🌦️ の J₂ ありの初期配置の解き直し**(段 solve〔第305便の宣言の写し DECL305 から
+  //   J₂ ありの参照積分 → エンジン〔同じ Jacobian〕で長窓 1062 公転の平均の要素へ・丸めて本の宣言と同じかの門〕・measure〔前後の長窓の 4 量・J₂ あり/なし・h/2・方位 0°・参照積分・採否の門〕・
+  //   phase〔起点の位相 × J₂ あり/なし〕・attrib〔交点の残りの目録〕・ledger〔J₂ × 引きずり ON の仕事の帳簿 —— 定義と数だけ〕・emo〔🌔 の写しの規則〕・record〔fitRecord の生成〕)。
+  //   html と凍結の写し tests/data-w306c-decl305.json を読む(器のコードの依存として emonly-300b〔runEm3・declCheck〕・earthmoon-303c〔runEngine・refRun・windowsOf〕・
+  //   baseline-304c〔declFrom303〕・j2-305c〔EARTH_J2・twoBodyOf〕の後・html の生成領域の後)・1 プロセス。W306C_PARTS で段を分けられる。所要は第306便c の枝の実測(正本の elapsedS)
+  S('emresolve-306c', 'node tests/exp-w306c-emresolve.mjs', ['tests/out/emresolve-w306c.json'], 1500, { secSource: 'w306c-branch', node: true,
+    after: ['moon3d-298c', 'synodic-299b', 'emonly-300b', 'earthmoon-303c', 'baseline-304c', 'j2-305c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/emresolve-w306c.json': META_RUN.concat(['/elapsedS', '/solve/wallSec', '/measure/wallSec', '/measure/runs/*/wallSec', '/phase/wallSec', '/attrib/wallSec', '/ledger/wallSec',
+      '/emo/wallSec']) },
+    note: '第306便c: 🌦️ の初期配置を J₂ ありで解き直す(恒星月 B1・平均傾斜 5.145°・J₂ の値は動かさない)—— 前後の 4 量・採否の門・起点の位相・交点の残りの目録・J₂ × 引きずり ON の仕事の帳簿・fitRecord の生成・🌔 の写し' }),
   // ---- 第305便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」「軸引きずりは、引きずり元による様々な軸の回転」「多粒子の平均と熱力学との類似」・
   //   統括の検証項目 R202): **回転引きずり・軸引きずりと多粒子の平均の診断の器**(段 P〔包みの素通り〕・C〔契約: 慣性自転の不変・自己の分子 0・源 = 慣性自転・毎步の作り直し・
   //   二重計上の写し〕・X〔回転引きずりの座標の分解と h/2・有限回転の順序〕・M〔本の写しの平均と二次モーメント・恒等式・逆回転の集団・合成の集団の平均場と正確な対の和・
@@ -1164,6 +1174,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305c-decl304.json': [],
   // 第306便b(R205): 基点 02ca93b の 🌦️ の宣言の凍結の写し(地球の J₂ を含む —— tests/exp-w306b-periodn.mjs の段 E が読む —— 書き換えない・除く欄は無い。正本 periodn-w306b の入力)
   'tests/data-w306b-decl305.json': [],
+  // 第306便c(R206): 第305便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w306c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 emresolve-w306c と歴史の記録の器〔j2-305c〕の入力)
+  'tests/data-w306c-decl305.json': [],
   // 第306便e(AN339 の案 (A)・R208): 第305便の 🟪 の宣言の凍結の写し(tests/lib-w306e-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 charonfix-w306e と歴史の記録の器
   //   〔charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c〕の入力)
   'tests/data-w306e-decl305.json': [],

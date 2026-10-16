@@ -142,6 +142,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
 # 第306便b(AN336 ③・AN333・AN335 ③・R205): 枝 b の新設 1 本(docs.periodN306 —— 周期による G_loc の n の識別の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.periodN306"
 # ==== 第306便b の塊ここまで ====
+# ==== 第306便c の塊(ここから —— 他の枝の塊と混ぜない)====
+# 第306便c(AN337 ③④⑤・AN335 ①・R206): 枝 c の新設 3 本(preset.emResolve306 —— 🌦️ の J₂ ありの初期配置の解き直しの宣言・fitRecord・観測カード・🌔 の写し・対照の説明・
+#   docs.emResolve306 —— 正本と文書・docs.obsMoonNode306 —— 交点の観測の行の確認の記録)と、pin305 の世代切替を足した preset.emJ2_305・🌔 の観測カードの数を見る preset.earthReorg300
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.obsMoonNode306 preset.emJ2_305 preset.earthReorg300"
+# ==== 第306便c の塊(ここまで)====
 # ==== 第306便d の塊(ここから)====
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"

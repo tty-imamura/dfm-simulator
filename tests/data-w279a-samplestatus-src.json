@@ -240,14 +240,15 @@
   "earthMoonSunInertial3d": {
    "purpose": "地球の三次元版 —— 月の軌道傾斜・e′・J₂ を入れ、引きずり OFF の基線を長窓で確かめる",
    "objective": "met",
-   "state": "引きずり OFF・J₂ で長窓 M4 8.8496 年・交点 18.6037 年(B1 +0.0042 —— 許容の内)",
+   "state": "J₂ ありで解き直し・長窓 M4 8.8495 年・交点 18.6037 年(B1 +0.0041 —— 許容の内)",
    "evidence": [
+    "tests/out/emresolve-w306c.json",
     "tests/out/j2-w305c.json",
     "tests/out/baseline-w304c.json"
    ],
    "en": {
     "purpose": "The Earth's 3D build (inclination, e', J2); the drag-off long-window baseline",
-    "state": "drag off, J2: M4 8.8496 yr, node 18.6037 yr (B1 +0.0042; within tolerance, wave 305c)"
+    "state": "re-solved with J2, drag off: M4 8.8495 yr, node 18.6037 yr (B1 +0.0041; within tolerance)"
    }
   },
   "earthMoonOnly3d": {
