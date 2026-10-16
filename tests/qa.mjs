@@ -76281,7 +76281,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----     ⑥ 対照 🌔: 器 tests/exp-w300b-emonly.mjs の写しの規則(emOnlyBodies・emOnlyPhysics・declCheck)と bodies・physics が一致・重心 0・全運動量 0・pinned 0・
 // ----        三次元・倍精度・geoPN 3・λ_PN 0・fitRecord なし(gain は移送)・notClaim solar_cal と emonly_control・approximation(background・sidereal)・timeRef の組 [0,1]
 // ----     ⑦ 正本 tests/out/emonly-w300b.json: 器の版・段 decl の ok・段 run の窓が揃う・🌦️ の 118 窓の近点周期 = 第298便c の正本(写した抽出器の照合)・
-// ----        obsCard(ja/en)と原稿の行に正本の値(恒星月・朔望月の一様換算・近点周期)
+// ----        obsCard(ja/en)と原稿の行に正本の値(恒星月・朔望月の一様換算・近点周期)(第305便c の契約: 引きずり OFF の二体では近点周期を転記しない —— 118 窓では周期として読めない)
 // ----     ⑧ 文書: PHYSICS〔第300便b〕(「## 7.」の前・裁定・R176・退役の本と 🌔 の ID)・AI_SPEC の第300便b の節・CHANGELOG・README
 // ----   docs.approx300 —— **近似の原則の宣言**(approximation —— presetSig の外・力学は読まない):
 // ----     ① 読み口 HP.approximation(版・鍵・語彙)② 受理器: 正しい形は正準形(鍵の順)で受理・不正(未知の鍵・語彙の外・background なしの periodBasis・
@@ -76472,11 +76472,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
               bad.push(`⑦🌦️ の 118 窓 ${split302 ? run.check.splitT1 + '(分割の写し)' : (s1 && s1.T1)} が第298便c の正本 ${m3} と違う`);
             if (run.runs.ctrlH.com && !(run.runs.ctrlH.com.xMax < 1e-4)) bad.push('⑦重心の移動が大きい ' + run.runs.ctrlH.com.xMax);
             const cJa = (C.obsCard || []).map((z) => z.model).join(' '), cEn = ((C.en || {}).obsCard || []).map((z) => z.model).join(' ');
-            const need = [fmt(c1.sid, 5), fmt(c1.synUniform, 5), String(Math.round(c1.T1)), fmt(s1.sid, 5), fmt(s1.synUniform, 5), fmt(s1.T1, 4)];
+            // 第305便c(AN327 ⑤・R201): **T1 の転記の契約** —— 引きずり OFF の二体(🌔 の宣言 relativeDrag.enabled:false —— 第304便c から)では 118 公転窓の近点の傾きは
+            //   数値の誤差の桁(か地球の J₂ の 10⁵ 年の桁の遅い回転)で周期として読めない。T1 を観測カードへ転記しない(転記していないことを見る)。引きずり ON の世代は従来どおり転記を見る
+            const off305 = !!(C.physics && C.physics.relativeDrag && C.physics.relativeDrag.enabled === false);
+            const need = [fmt(c1.sid, 5), fmt(c1.synUniform, 5)].concat(off305 ? [] : [String(Math.round(c1.T1))]).concat([fmt(s1.sid, 5), fmt(s1.synUniform, 5), fmt(s1.T1, 4)]);
             for (const t of need) { if (cJa.indexOf(t) < 0) bad.push('⑦obsCard(ja)に ' + t + ' が無い'); if (cEn.indexOf(t) < 0) bad.push('⑦obsCard(en)に ' + t + ' が無い'); }
+            if (off305) { const t1s = String(Math.round(c1.T1)); if (cJa.indexOf(t1s) >= 0 || cEn.indexOf(t1s) >= 0) bad.push('⑦引きずり OFF の二体の 🌔 の観測カードに 118 窓の T1 ' + t1s + ' を転記している(第305便c の契約 —— 周期として読めない)'); }
             const row = SSRC && SSRC.rows.earthMoonOnly3d;
             if (!row || row.state.indexOf(fmt(c1.sid, 4)) < 0 || row.state.indexOf(fmt(c1.synUniform, 4)) < 0 || row.evidence[0] !== 'tests/out/emonly-w300b.json') bad.push('⑦原稿の 🌔 の行');
-            cases.push(`正本 ${EMJ.version}: 🌔 118 窓 恒星月 ${fmt(c1.sid, 5)} 日・朔望月(一様)${fmt(c1.synUniform, 5)} 日・近点 ${fmt(c1.T1, 1)} 年(354 窓 ${fmt(c3.T1, 1)}・h/2 ${fmt(c2.T1, 1)})/ 🌦️ ${fmt(s1.sid, 5)}・${fmt(s1.synUniform, 5)}・${fmt(s1.T1, 4)}(= 第298便c の正本${run.check.splitT1 !== undefined ? ' —— 分割の写しで照合・ここは semic の値' : ''})`);
+            cases.push(`正本 ${EMJ.version}: 🌔 118 窓 恒星月 ${fmt(c1.sid, 5)} 日・朔望月(一様)${fmt(c1.synUniform, 5)} 日・近点 ${fmt(c1.T1, 1)} 年(354 窓 ${fmt(c3.T1, 1)}・h/2 ${fmt(c2.T1, 1)}${(C.physics && C.physics.relativeDrag && C.physics.relativeDrag.enabled === false) ? ' —— 引きずり OFF の二体: 観測カードへ転記しない契約〔第305便c〕' : ''})/ 🌦️ ${fmt(s1.sid, 5)}・${fmt(s1.synUniform, 5)}・${fmt(s1.T1, 4)}(= 第298便c の正本${run.check.splitT1 !== undefined ? ' —— 分割の写しで照合・ここは semic の値' : ''})`);
           }
         }
         // ⑧ 文書
@@ -79062,6 +79066,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   let PRE4 = null; try { PRE4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w304c-pre.mjs')); } catch (e) { PRE4 = null; }
   let H4 = null; if (PRE4 && TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H4 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H4 = null; } }
   const gen304c = !!(H4 && H4.HP && PRE4 && PRE4.isGen304c(H4.HP.allPresets()));
+  // 第305便c(R201): 🌦️🌔 に地球の J₂ を宣言した世代では、①② は第304便の宣言の写し(tests/lib-w305c-pre.mjs の pin304)で照合し、③ 観測カードと ④ 🌔 の観測カードの数は
+  //   preset.emJ2_305・preset.earthReorg300 へ移す(第304便c の正本 baseline-w304c.json は第304便の宣言の記録 —— 器 exp-w304c-baseline も pin304 で測る)
+  let PRE5b = null; try { PRE5b = await import('file://' + path.join(ROOT, 'tests', 'lib-w305c-pre.mjs')); } catch (e) { PRE5b = null; }
+  const gen305c = !!(gen304c && PRE5b && PRE5b.isGen305c(H4.HP.allPresets()));
   if (!(TARGET.startsWith('beta/') && fs.existsSync(bl304Out) && fs.existsSync(bl304Harn) && gen304c)) {
     console.log('SKIP preset.emBaseline304 / docs.emBaseline304(第304便c の基線の見直しの前の世代 — ' + TARGET + ')');
   } else {
@@ -79076,7 +79084,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     {
       const bad = err0.slice(), cases = [];
       if (J && X && EMO) {
-        const HP = H4.HP, all = HP.allPresets(), find = (id) => all.find((q) => q.id === id), p = find(X.FIT_ID), c = find(X.EMO_ID);
+        const HP = H4.HP, all = HP.allPresets(), find = (id) => all.find((q) => q.id === id), pLive = find(X.FIT_ID), cLive = find(X.EMO_ID);
+        const p = gen305c ? PRE5b.pin304(pLive) : pLive, c = gen305c ? PRE5b.pin304(cLive) : cLive;   // 第305便c: 第304便の宣言の写しで照合(①②④ の写しの規則・⑤)
         // ⑥
         if (!(J.version === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.preVersion === PRE4.LIB_VERSION)) bad.push('⑥ 正本の版・来歴');
         if (!(J.ok === true && J.gates && Object.keys(J.gates).length >= 9 && Object.values(J.gates).every(Boolean))) bad.push('⑥ 正本の門 ' + JSON.stringify(J.gates));
@@ -79107,16 +79116,18 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           const M = J.measure, L4 = M.off.h.fromZero[3], W1 = M.off.h.fromZero[0], ON = M.on.h.fromZero[3], B = J.obs;
           const nums = [L4.T4p.toFixed(5), (L4.T4p - B.aps.value).toFixed(5), W1.T4p.toFixed(4), ON.T4p.toFixed(4), L4.node.toFixed(4), L4.sidH.toFixed(7), String(J.solve.rounded.rp), String(J.solve.rounded.e0), String(J.solve.rounded.inc)];
           const oc = (cards) => JSON.stringify(cards || []);
-          for (const [lg, cards] of [['ja', p.obsCard], ['en', p.en && p.en.obsCard]]) for (const n of nums) if (oc(cards).indexOf(n.replace('-', '−')) < 0 && oc(cards).indexOf(n) < 0) bad.push('③ 観測カード(' + lg + ')に正本の数 ' + n + ' が無い');
-          if (!/第304便c/.test(oc(p.obsCard)) || !/wave 304c/i.test(oc(p.en && p.en.obsCard))) bad.push('③ 観測カードに第304便c の参照が無い');
-          cases.push(`③ 観測カードの数 ${nums.length}×2(長窓 M4 ${nums[0]}・B1 との差 ${nums[1]}・118 窓 ${nums[2]}・ON ${nums[3]}・交点 ${nums[4]})`);
+          if (!gen305c) {
+            for (const [lg, cards] of [['ja', p.obsCard], ['en', p.en && p.en.obsCard]]) for (const n of nums) if (oc(cards).indexOf(n.replace('-', '−')) < 0 && oc(cards).indexOf(n) < 0) bad.push('③ 観測カード(' + lg + ')に正本の数 ' + n + ' が無い');
+            if (!/第304便c/.test(oc(p.obsCard)) || !/wave 304c/i.test(oc(p.en && p.en.obsCard))) bad.push('③ 観測カードに第304便c の参照が無い');
+            cases.push(`③ 観測カードの数 ${nums.length}×2(長窓 M4 ${nums[0]}・B1 との差 ${nums[1]}・118 窓 ${nums[2]}・ON ${nums[3]}・交点 ${nums[4]})`);
+          } else cases.push('③ 第305便c の世代: 観測カードの数は preset.emJ2_305(J₂ ありの正本 j2-w305c.json)');
           // ④ 🌔
           const ck = EMO.declCheck(p, c);
           if (!ck.ok) bad.push('④ 🌔 が 🌦️ の写しの規則と違う: ' + ck.bad.join(' / '));
           const crd = c.physics.relativeDrag || {};
           if (!(crd.Wbg === null && crd.enabled === false && c.physics.softeningFloor === X.BASE.eps)) bad.push('④ 🌔 の引きずり OFF・軟化');
           const E = J.emo, en = [E.runs.h.windows[0].sid.toFixed(5), E.runs.h.windows[0].synUniform.toFixed(5)];
-          for (const [lg, cards] of [['ja', c.obsCard], ['en', c.en && c.en.obsCard]]) for (const n of en) if (oc(cards).indexOf(n) < 0) bad.push('④ 🌔 の観測カード(' + lg + ')に正本の数 ' + n + ' が無い');
+          if (!gen305c) for (const [lg, cards] of [['ja', c.obsCard], ['en', c.en && c.en.obsCard]]) for (const n of en) if (oc(cards).indexOf(n) < 0) bad.push('④ 🌔 の観測カード(' + lg + ')に正本の数 ' + n + ' が無い');   // 第305便c の世代は preset.earthReorg300 ⑦(emonly-w300b の数)
           cases.push(`④ 🌔 = 🌦️ の写し(declCheck ${ck.ok})・恒星月 ${en[0]} 日・朔望月(一様)${en[1]} 日`);
           // ⑤ ワンタップの対照
           const ab = p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.relativeDrag;
@@ -79170,6 +79181,178 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       }
       add('docs.emBaseline304', bad.length === 0,
         `**🌦️🌔 の基線の見直しの正本と文書**(第304便c・R197): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 第305便c(DECISIONS v63 AN327 ③⑤・v64 §0 AN327「交点は J₂ —— 全残差の帰属は追加の測定の後」・統括の検証項目 R201): behavior.j2_305 / preset.emJ2_305 / docs.j2_305
+// ----   (新設 —— root は SKIP)。**三次元の J₂**(bodies[i].j2:{J2, req, axis?} —— 三次元の本だけ・省略時オフ・dfmCore3 の外の j2Kick3・反作用で運動量を保つ)と 🌦️🌔 の地球の J₂。
+// ----   世代切替 = beta 対象 ∧ html の読み口 HP.j2State ∧ 正本 tests/out/j2-w305c.json ∧ 器 tests/exp-w305c-j2.mjs。固定値は正本と宣言から読む(器の行の関数で正本から作り直す ——
+// ----   鎖で正本を作り直した後の世代も同じ照合)。
+// ----   behavior.j2_305: ① 受理(三次元で受理・正準形・二次元は拒否・値域/未知の鍵/軸の形は拒否)② 零試験(🌦️ の写しの J₂ 0 ↔ 宣言なし 3000 步で全状態がビット同一)
+// ----      ③ 軸の経路("spin" + spinAxis.enable ↔ 同じ角の固定の軸・既定 ↔ 傾き 0 の固定の軸でビット同一)④ 保存(二体とも自由・leapfrog 20000 步: 全運動量・軌道の L + 図形の帳簿・E_N + U_J₂)
+// ----      ⑤ 解析(試験粒子の 1 例をその場で走らせ正本の行と同じ・正本の全行が相対 1e-3 の内)⑥ 宣言の集合(j2 を宣言した内蔵の本 = 宣言から読んだ集合 —— 正本の em が許容の内のときの
+// ----      🌦️🌔)・状態の契約(CK_SC と SIM_BUILD_RESET に帳簿と宣言)・走行中の門(粒子の数が変わったら步を止める)
+// ----   preset.emJ2_305(宣言した世代だけ): ① 🌦️ の physics = 第304便の写し・bodies = 第304便の写し + 地球の j2 = 器の EARTH_J2 ② fitRecord = 正本の記録・受理・条件の署名 match・
+// ----      4 標的(近点 M4・恒星月・平均離心率・交点)の門 ③ 観測カード(ja/en)に正本の数 ④ 🌔 = 写しの規則(declCheck)で地球の j2 を持つ・T1 を観測カードへ転記しない(第305便c の契約)
+// ----      ⑤ ワンタップの対照(abBody の表示の長窓 M4 = 正本の引きずり ON の J₂ ありの走り)
+// ----   docs.j2_305: ① 表の行(解析・🌦️ の長窓・B1 との差・🌔)が PHYSICS〔第305便c〕に逐語 ② 主張の整合(交点の |残差| + h/2 差 ≤ 照合許容 ⇔ 節に「交点は照合許容の内」)
+// ----      ③ 文書(節が「## 7. 論文」の前・AI_SPEC の節・CHANGELOG・README)・再生成の段・.gitignore の例外・post-merge の ③′ ④ 書かない語(「」の引用を除いて)と禁句
+{
+  const j2Out = path.join(ROOT, 'tests', 'out', 'j2-w305c.json'), j2Harn = path.join(ROOT, 'tests', 'exp-w305c-j2.mjs');
+  let H5 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H5 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H5 = null; } }
+  const has305c = !!(H5 && H5.HP && typeof H5.HP.j2State === 'function');
+  if (!(TARGET.startsWith('beta/') && has305c && fs.existsSync(j2Out) && fs.existsSync(j2Harn))) {
+    console.log('SKIP behavior.j2_305 / preset.emJ2_305 / docs.j2_305(第305便c の三次元の J₂ の前の世代 — ' + TARGET + ')');
+  } else {
+    let J = null, X = null, EMO = null, PRE5 = null; const err0 = [];
+    try { J = JSON.parse(fs.readFileSync(j2Out, 'utf8')); } catch (e) { err0.push('正本が読めない'); }
+    try { X = await import('file://' + j2Harn); } catch (e) { err0.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { EMO = await import('file://' + path.join(ROOT, 'tests', 'exp-w300b-emonly.mjs')); } catch (e) { err0.push('器 exp-w300b-emonly が読めない'); }
+    try { PRE5 = await import('file://' + path.join(ROOT, 'tests', 'lib-w305c-pre.mjs')); } catch (e) { err0.push('lib-w305c-pre が読めない'); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const cl = (o) => JSON.parse(JSON.stringify(o));
+    const canon = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x)) ? Object.fromEntries(Object.keys(x).sort().map((q) => [q, x[q]])) : x);
+    const HP = H5.HP, all = HP.allPresets(), find = (id) => all.find((q) => q.id === id);
+    const declared = all.filter((p) => (p.bodies || []).some((b) => b && b.j2)).map((p) => p.id).sort();
+    // ---- behavior.j2_305
+    {
+      const bad = err0.slice(), cases = [];
+      if (J && X) {
+        // ①
+        const q = X.copyOf(HP, X.FIT_ID, { j2: X.EARTH_J2 }), vq = HP.validatePreset(cl(q));
+        const q2 = cl(q); delete q2.physics.coord; const v2 = HP.validatePreset(q2);
+        const okJ = (j2) => { const z = cl(q); z.bodies[1].j2 = j2; return HP.validatePreset(z).ok; };
+        if (!(vq.ok && (vq.warnings || []).length === 0 && canon(vq.preset.bodies[1].j2) === canon(X.EARTH_J2))) bad.push('① 三次元の受理・正準形');
+        if (v2.ok || !/三次元/.test(String((v2.errors || [])[0] || ''))) bad.push('① 二次元の本の拒否');
+        const badDecls = [{ J2: 0.6, req: 0.06 }, { J2: 1e-3, req: 0 }, { J2: 1e-3, req: 0.06, c22: 1 }, { J2: 1e-3, req: 0.06, axis: 'x' }, { J2: 1e-3, req: 0.06, axis: { tiltDeg: 200 } }];
+        if (badDecls.some((j) => okJ(j))) bad.push('① 値域・未知の鍵・軸の形の拒否');
+        cases.push(`① 受理(三次元・正準形)・二次元は拒否・不正 ${badDecls.length} 例は拒否`);
+        // ②③
+        const simOf = (p) => { const v = HP.validatePreset(cl(p)); if (!v.ok) throw new Error(JSON.stringify(v.errors).slice(0, 120)); const S = HP.coord3d.makeSim(); S.build(cl(v.preset)); return S; };
+        const bits = (a, b) => { for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin']) { const u = a[k], w = b[k]; if (u.length !== w.length) return false; for (let i = 0; i < u.length; i++) if (!Object.is(u[i], w[i])) return false; } return Object.is(a.t, b.t); };
+        try {
+          const A = simOf(X.copyOf(HP, X.FIT_ID, { j2: null })), B = simOf(X.copyOf(HP, X.FIT_ID, { j2: Object.assign(cl(X.EARTH_J2), { J2: 0 }) }));
+          for (let k = 0; k < 3000; k++) { A.step(X.DT); B.step(X.DT); }
+          if (!bits(A, B)) bad.push('② J₂ 0 の宣言 ↔ 宣言なしがビット同一でない');
+          if (!(HP.j2State(B) && HP.j2State(B).evals === 3000 && HP.j2State(A) === null)) bad.push('② 読み口(宣言なしは null・評価の数)');
+          const base = { a: 1, e: 0.2, inc: 45, Om: 20, w: 40, integ: 'semi', p: [0, 0, 1] }, sa = { enable: true, tiltDeg: 35, azimuthDeg: 120, source: 'QA の試験' };
+          const pr = [[X.twoBodyOf(HP, Object.assign({}, base, { j2: { J2: 0.01, req: 0.1, axis: 'spin' }, spinAxis: sa })), X.twoBodyOf(HP, Object.assign({}, base, { j2: { J2: 0.01, req: 0.1, axis: { tiltDeg: 35, azimuthDeg: 120 } }, spinAxis: sa }))],
+            [X.twoBodyOf(HP, Object.assign({}, base, { j2: { J2: 0.01, req: 0.1 } })), X.twoBodyOf(HP, Object.assign({}, base, { j2: { J2: 0.01, req: 0.1, axis: { tiltDeg: 0 } } }))]];
+          for (const [a, b] of pr) { const S1 = simOf(a), S2 = simOf(b); for (let k = 0; k < 5000; k++) { S1.step(2 * Math.PI / 1000); S2.step(2 * Math.PI / 1000); } if (!bits(S1, S2)) bad.push('③ 軸の経路がビット同一でない'); }
+          cases.push('② J₂ 0 ↔ 宣言なし(🌦️ の写し 3000 步)・③ 軸の経路 2 組(5000 步)ビット同一');
+          // ④
+          const S = simOf(X.twoBodyOf(HP, { a: 1, e: 0.15, inc: 40, Om: 30, w: 50, integ: 'leapfrog', pinC: false, mp: 0.3, j2: { J2: 0.05, req: 0.2, axis: { tiltDeg: 25, azimuthDeg: 60 } } }));
+          const tot = () => { const T = HP.coord3d.totals(S), st = HP.j2State(S); return { P: T.P, L: T.L, E: T.E, U: st.U, f: st.figL }; };
+          const z0 = tot(), pS = S.m[1] * Math.hypot(S.vx[1], S.vy[1], S.vz[1]), lS = Math.hypot(...z0.L), eS = Math.abs(z0.E);
+          for (let k = 0; k < 20000; k++) S.step(2 * Math.PI / 2000);
+          const z1 = tot(), dP = Math.hypot(...z1.P.map((v, i) => v - z0.P[i])) / pS, dL = Math.hypot(...z1.L.map((v, i) => v + z1.f[i] - z0.L[i] - z0.f[i])) / lS, dLo = Math.hypot(...z1.L.map((v, i) => v - z0.L[i])) / lS, dE = Math.abs(z1.E + z1.U - z0.E - z0.U) / eS;
+          if (!(dP <= 1e-12 && dL <= 1e-10 && dE <= 1e-5 && dLo > 1e3 * dL)) bad.push(`④ 保存 P ${dP.toExponential(1)}・L+図形 ${dL.toExponential(1)}(軌道だけ ${dLo.toExponential(1)})・E+U ${dE.toExponential(1)}`);
+          cases.push(`④ 保存(20000 步): P ${dP.toExponential(1)}・L + 図形の帳簿 ${dL.toExponential(1)}(軌道だけ ${dLo.toExponential(1)})・E_N + U_J₂ ${dE.toExponential(1)}`);
+          // ⑤
+          const c0 = X.CASES[0], r0 = J.analytic.rows.find((r) => r.key === c0.key && r.integ === 'semi' && r.spo === 1000);
+          const bt = { a: X.TEST_J2.a, e: c0.e, inc: c0.inc, Om: 20, w: 40, mp: 1e-6, orbits: X.TEST_J2.orbits, spo: 1000, integ: 'semi', p: c0.p };
+          const on = X.runTest(HP, Object.assign({}, bt, { j2: { J2: X.TEST_J2.J2, req: X.TEST_J2.req } })), off = X.runTest(HP, bt);
+          const same5 = !!r0 && Math.abs((on.node - off.node) - r0.nodeJ2) <= 1e-12 * Math.abs(r0.nodeJ2) && Math.abs((on.peri - off.peri) - r0.periJ2) <= 1e-12 * Math.abs(r0.periJ2);
+          if (!same5) bad.push('⑤ その場の走り(' + c0.key + ' semi 1000)が正本の行と違う');
+          if (!(J.analytic.ok === true && J.analytic.rows.length === X.CASES.length * 4 && J.analytic.rows.every((r) => Math.abs(r.nodeRel) <= X.ANALYTIC_TOL && Math.abs(r.periRel) <= X.ANALYTIC_TOL))) bad.push('⑤ 正本の解析の行が相対 ' + X.ANALYTIC_TOL + ' の内でない');
+          cases.push(`⑤ 解析の歳差 ${J.analytic.rows.length} 行(最大の相対差 ${J.analytic.maxRel.toExponential(2)} ≤ ${X.ANALYTIC_TOL})・その場の 1 例 = 正本`);
+        } catch (e) { bad.push('走行に失敗: ' + String(e).slice(0, 140)); }
+        // ⑥
+        const want = J.em && J.em.allWithin ? [X.EMO_ID, X.FIT_ID].sort() : [];
+        if (canon(declared) !== canon(want)) bad.push(`⑥ j2 を宣言した内蔵の本 ${declared.join(',') || 'なし'} ≠ ${want.join(',') || 'なし'}`);
+        const CKS = H5.evalExpr('CK_SC'), SBR = H5.evalExpr('SIM_BUILD_RESET');
+        if (!['j2N', 'j2A2Max', 'j2R2Max', 'j2FigLx', 'j2FigLy', 'j2FigLz'].every((k) => CKS.includes(k))) bad.push('⑥ CK_SC に J₂ の帳簿が無い');
+        if (!SBR.some((g) => g.feature === 'j2' && g.keys.includes('_j2') && g.re && g.re.test('j2N'))) bad.push('⑥ SIM_BUILD_RESET に J₂ が無い');
+        const Sx = HP.coord3d.makeSim(); Sx.build(cl(HP.validatePreset(cl(q)).preset)); Sx._j2.n = Sx.n + 1;
+        if (!/j2/.test(String(HP.coord3d.runtimeWhy(Sx) || ''))) bad.push('⑥ 走行中の門(粒子の数が宣言から変わった)');
+        cases.push(`⑥ 宣言した内蔵の本 ${declared.join('・') || 'なし'}(= 正本の em の門から読んだ集合)・状態の契約・走行中の門`);
+      }
+      add('behavior.j2_305', bad.length === 0,
+        `**三次元の J₂**(第305便c・R201 —— bodies[i].j2・省略時オフ): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- preset.emJ2_305(宣言した世代だけ)
+    if (!declared.length) console.log('SKIP preset.emJ2_305(🌦️🌔 に J₂ を宣言していない世代 —— 正本の em の門 ' + (J && J.em ? J.em.allWithin : '-') + ')');
+    else {
+      const bad = err0.slice(), cases = [];
+      if (J && X && EMO && PRE5) {
+        const p = find(X.FIT_ID), c = find(X.EMO_ID), d4 = PRE5.DECL304[X.FIT_ID];
+        if (!(J.ok === true && Object.values(J.gates).every(Boolean) && J.version === X.HARNESS_VERSION && J.preVersion === PRE5.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の門・版 ' + JSON.stringify(J.gates));
+        // ①
+        if (canon(p.physics) !== canon(d4.physics)) bad.push('① 🌦️ の physics が第304便の写しと違う');
+        if (canon(p.bodies) !== canon(X.withJ2(d4.bodies, 1, X.EARTH_J2))) bad.push('① 🌦️ の bodies が第304便の写し + 地球の EARTH_J2 と違う');
+        cases.push(`① 🌦️ = 第304便の宣言 + 地球の j2 {J₂ ${X.EARTH_J2.J2}・req ${X.EARTH_J2.req}・軸 ${X.EARTH_J2.axis.tiltDeg}°/${X.EARTH_J2.axis.azimuthDeg}°}`);
+        // ②
+        const fr = p.fitRecord || {}, vr = HP.validateFitRecord(cl(fr)), vp = HP.validatePreset(cl(p));
+        if (canon(fr) !== canon(J.record.record)) bad.push('② fitRecord が正本の記録と違う');
+        if (!(vr.ok && vp.ok && (vp.warnings || []).length === 0)) bad.push('② 受理');
+        else { HP.sim.build(vp.preset); const st = HP.fitCondStateOf(HP.fitCondInputsOf(vp.preset, HP.sim.params), vp.preset.fitRecord).state; if (st !== 'match') bad.push('② 条件の署名 ' + st); }
+        const tg = fr.targets || [];
+        if (!(fr.status === 'fitted' && tg.length === 4 && tg.every((t) => Math.abs(t.residual) + t.numerics.h2 <= t.tol.value) && (fr.notFitted || []).includes(X.EMS_NOTE_305C))) bad.push('② status・4 標的の門・注記');
+        cases.push(`② fitRecord = 正本(${tg.map((t) => (t.residual >= 0 ? '+' : '') + t.residual.toExponential(2) + '+' + t.numerics.h2.toExponential(1) + '≤' + t.tol.value).join(' / ')})`);
+        // ③
+        const D = J.em.diff, oc = (cards) => JSON.stringify(cards || []);
+        const nums = [D.node.model.toFixed(4), D.node.offModel.toFixed(4), D.aps.model.toFixed(5), D.sid.model.toFixed(7), J.em.dragOn.T4p.toFixed(4)];
+        for (const [lg, cards] of [['ja', p.obsCard], ['en', p.en && p.en.obsCard]]) for (const n of nums) if (oc(cards).indexOf(n) < 0) bad.push('③ 観測カード(' + lg + ')に正本の数 ' + n + ' が無い');
+        if (!/第305便c/.test(oc(p.obsCard)) || !/wave 305c/i.test(oc(p.en && p.en.obsCard))) bad.push('③ 観測カードに第305便c の参照が無い');
+        cases.push(`③ 観測カードの数 ${nums.length}×2(交点 ${nums[1]} → ${nums[0]}・M4 ${nums[2]}・恒星月 ${nums[3]})`);
+        // ④
+        const ck = EMO.declCheck(p, c);
+        if (!ck.ok) bad.push('④ 🌔 が 🌦️ の写しの規則と違う: ' + ck.bad.join(' / '));
+        if (canon(c.bodies[0].j2) !== canon(X.EARTH_J2)) bad.push('④ 🌔 の地球の j2');
+        const E5 = J.emo, t1 = E5 && E5.runs && E5.runs.j2 ? String(Math.round(E5.runs.j2.windows[0].T1)) : null;
+        if (t1 && (oc(c.obsCard).indexOf(t1) >= 0 || oc(c.en && c.en.obsCard).indexOf(t1) >= 0)) bad.push('④ 🌔 の観測カードに 118 窓の T1 ' + t1 + ' を転記している(第305便c の契約)');
+        cases.push(`④ 🌔 = 写しの規則・地球の j2・T1 を転記しない`);
+        // ⑤
+        const lab = p.abBody && p.abBody.label;
+        if (!(lab && lab.ja.indexOf(J.em.dragOn.T4p.toFixed(4)) >= 0 && lab.en.indexOf(J.em.dragOn.T4p.toFixed(4)) >= 0)) bad.push('⑤ ワンタップの対照の表示の長窓 M4 が正本(J₂ あり・引きずり ON)と違う');
+        if (canon(p.abBody.physicsPatch) !== canon(d4.abBody.physicsPatch)) bad.push('⑤ ワンタップの対照の patch が第304便と違う');
+        cases.push(`⑤ ワンタップの対照(引きずり ON・J₂ あり)長窓 M4 ${J.em.dragOn.T4p.toFixed(4)} 年`);
+      }
+      add('preset.emJ2_305', bad.length === 0,
+        `**🌦️🌔 の地球の J₂**(第305便c・AN327・R201 —— 正本 j2-w305c.json): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.j2_305
+    {
+      const bad = err0.slice(), cases = [];
+      const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('〔第305便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+      const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+      if (J && X) {
+        if (!sec) bad.push('PHYSICS〔第305便c〕が無い');
+        else {
+          let nRow = 0;
+          for (const [nm, fn] of [['解析', X.analyticRows], ['🌦️ の長窓', X.emRows], ['B1 との差', X.diffRows], ['🌔', X.emoRows]]) {
+            let rows = [];
+            try { rows = fn(J); } catch (e) { bad.push(nm + ' の行が作れない: ' + String(e).slice(0, 80)); }
+            for (const r of rows) { nRow++; if (sec.indexOf(r) < 0) bad.push('PHYSICS〔第305便c〕の' + nm + 'の表に行が無い: ' + r.slice(0, 70)); }
+          }
+          cases.push(`表の行 ${nRow} 行を正本から作り直して照合`);
+          const g = J.em.diff.node.gate;
+          if (g !== (sec.indexOf('交点は照合許容の内') >= 0)) bad.push('主張の整合: 交点の門と節の「交点は照合許容の内」の有無が合わない');
+          cases.push(`交点 − B1 ${(J.em.diff.node.residual >= 0 ? '+' : '') + J.em.diff.node.residual.toFixed(4)} 年(h/2 差 ${J.em.diff.node.h2.toExponential(1)}・許容 ${J.tol.node})→ ${g ? '照合許容の内' : '許容の外'}`);
+          if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第305便c〕が「## 7. 論文」の後');
+          for (const w of ['R201', 'AN327', 'bodies[i].j2', 'j2Kick3', 'exp-w305c-j2.mjs', 'j2-w305c.json', 'behavior.j2_305', 'docs.j2_305', 'lib-w305c-pre', 'data-w305c-decl304.json', 'W305C_PARTS', 'M4', '長窓']) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第305便c〕に「' + w + '」が無い');
+        }
+        if (AS.indexOf('第305便c') < 0 || AS.indexOf('docs.j2_305') < 0 || AS.indexOf('bodies[i].j2') < 0) bad.push('AI_SPEC に第305便c の節(bodies[i].j2・docs.j2_305)が無い');
+        if (CL.indexOf('第305便c') < 0) bad.push('CHANGELOG に第305便c が無い');
+        if (RM.indexOf('第305便c') < 0) bad.push('README に第305便c が無い');
+        if (RT.indexOf("S('j2-305c', 'node tests/exp-w305c-j2.mjs', ['tests/out/j2-w305c.json']") < 0 || !/secSource: 'w305c-branch'/.test(RT)) bad.push('再生成の段 j2-305c');
+        if (RT.indexOf("'tests/data-w305c-decl304.json': []") < 0) bad.push('再生成表の入力 tests/data-w305c-decl304.json');
+        if (GI.indexOf('!tests/out/j2-w305c.json') < 0) bad.push('.gitignore の例外');
+        if (PM.indexOf('docs.j2_305') < 0 || PM.indexOf('behavior.j2_305') < 0) bad.push('post-merge の ③′');
+        const strip = (t) => t.replace(/「[^」]*」/g, '');
+        const NOT = [/月を再現した/, /現実を再現した/, /交点を再現した/, /再現しない/, /合わせられない/, /法則を発見した/, /GR と一致した/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+        const harn = rd('tests/exp-w305c-j2.mjs') + rd('tests/lib-w305c-pre.mjs');
+        for (const [nm, tx] of [['PHYSICS〔第305便c〕', sec], ['器', harn]]) {
+          for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+          for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+        }
+      }
+      add('docs.j2_305', bad.length === 0,
+        `**三次元の J₂ の正本と文書**(第305便c・R201): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
   }
 }

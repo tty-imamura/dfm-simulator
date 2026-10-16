@@ -119,6 +119,9 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shell304 docs.shell304"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.shell304b"
 # 第304便c(AN316 ①〜④・R197): 枝 c の新設 2 本(preset.emBaseline304 —— 🌦️🌔 の基線の見直しの宣言・正本の門・fitRecord と観測カードの転記・docs.emBaseline304 —— 正本と文書)と軟化の下限の世代切替の preset.softeningFloor
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emBaseline304 docs.emBaseline304 preset.softeningFloor"
+# 第305便c(AN327 ③⑤・R201): 枝 c の新設 3 本(behavior.j2_305 —— 三次元の J₂ の受理・零試験・軸の経路・保存・解析の歳差・状態の契約・preset.emJ2_305 —— 🌦️🌔 の地球の J₂ の宣言・fitRecord・
+#   観測カードの転記・🌔 の T1 を転記しない契約・docs.j2_305 —— 正本と文書)と、T1 の転記の契約を直した preset.earthReorg300
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 preset.earthReorg300"
 # 第304便e(統括の検証項目 R198): 枝 e の新設 3 本(lint.canon304 —— 第297便以降の現行の正本 16 本と第303便の 3 本を CANON へ・lint.harnessSmoke304 —— 煙試験の判定の直し 3 型・
 #   docs.primaryAudit304 —— 観測の候補の行 EPM2011 の一次表との照合の記録)と、版 2 を受けた lint.harnessSmoke303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.canon304 lint.harnessSmoke304 docs.primaryAudit304"
