@@ -2394,7 +2394,10 @@ lastAddAt = Date.now();
       'tests/out/refit-w303a.json', 'tests/out/inertialr2-w303b.json', 'tests/out/earthmoon-w303c.json',
       // 第304便(統括の統合 —— 決断事項 AN328 ③・lint.canon304 ⑤ の「第304便以降の新しい正本は統合の時に CANON へ」): 引きずり核の球面の器(shell-304a)・
       //   器の中の写しで測った殻の模型(shell-304b)・🌦️🌔 の基線の見直し(baseline-304c)。どれも領域 REGEN_SCOPE を刻む
-      'tests/out/shell-w304a.json', 'tests/out/shell-w304b.json', 'tests/out/baseline-w304c.json'];
+      'tests/out/shell-w304a.json', 'tests/out/shell-w304b.json', 'tests/out/baseline-w304c.json',
+      // 第305便(統括の統合 —— lint.canon304 ⑤ の「第304便以降の新しい正本は統合の時に CANON へ」): 対ごとの正規化(pairnorm-305a)・惑星の G_loc の族(gfamily-305b)・
+      //   三次元の J₂(j2-305c)・回転/軸の引きずりと多粒子の平均(spinavg-305d)・🟪 の基線の監査(charonaudit-305e)。どれも領域 REGEN_SCOPE を刻む
+      'tests/out/pairnorm-w305a.json', 'tests/out/gfamily-w305b.json', 'tests/out/j2-w305c.json', 'tests/out/spinavg-w305d.json', 'tests/out/charonaudit-w305e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
