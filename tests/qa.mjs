@@ -79145,6 +79145,88 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 
+// ==== 第306便b の塊ここから(docs.periodN306 —— 他の枝の塊と混ぜない) ====
+// ---- 第306便b(DECISIONS v64 AN336 ③・AN333・AN335 ③・第95報・AN332 の裁定・原仮定者の裁定(第97報)AN336・統括の検証項目 R205): docs.periodN306 ——
+// ----   **周期による G_loc の n の識別の器**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/periodn-w306b.json ∧ 器 tests/exp-w306b-periodn.mjs。
+// ----   固定値は正本と器から読む(器の表の関数 physicsTables・docNumbers で正本から表の行と数を作り直す —— 鎖で正本を作り直した後の世代も同じ照合。
+// ----   本の宣言は器の中で 02ca93b の写しに固定 —— 惑星は tests/data-w305b-declbdb.json〔02ca93b と同一 —— 正本の pin.declSha256 と器の PIN_DECL_SHA256〕・
+// ----   🌦️ は tests/data-w306b-decl305.json)。
+// ----   ① 正本の門(抽出器の自己試験・写しの指紋・対 = 行・周期の表・エンジンの対照のケプラー・n の分離・方向の間隔の幾何・合わせ直し・x の不変・共通の GM・時刻系の行・恒星月)・
+// ----      6 段・来歴(入力に写し 2 本と転記の正本・時間標準の CSV)・k の出所・換算を適用しない記録(use: record-only)
+// ----   ② 表の行(physicsTables)と数(docNumbers)が PHYSICS〔第306便b〕に逐語で入っている
+// ----   ③ 文書(節が「## 7. 論文」の前・語・CHANGELOG・README)・再生成の段・.gitignore の例外・安定 hash の除外の宣言・post-merge の ③′
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と抽出器)
+{
+  const pn306Out = path.join(ROOT, 'tests', 'out', 'periodn-w306b.json'), pn306Harn = path.join(ROOT, 'tests', 'exp-w306b-periodn.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(pn306Out) && fs.existsSync(pn306Harn))) {
+    console.log('SKIP docs.periodN306(第306便b の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(pn306Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + pn306Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第306便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す(本文の参照「〔第306便b〕」に当たらない)
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      // ①
+      const G = J.gates || {};
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of ['selfTest', 'apsisSelfTest', 'pairRowBitSame', 'pinFrozen', 'periodTable', 'engineKepler', 'nSeparated', 'crossGeom', 'refitAbsorbsP', 'lawInvariant', 'commonGMFits', 'timeRows', 'moonTranscribed', 'moonRemeasured'])
+        if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない');
+      for (const k of ['zero', 'periods', 'refit', 'commonGM', 'timeSystems', 'moon']) if (!J[k]) bad.push('正本に段 ' + k + ' が無い');
+      if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の来歴(w272e-1)/器の版');
+      for (const f of [X.DECL_FILE, X.EM_DECL_FILE, 'tests/out/pairnorm-w305a.json', 'paper/data/obs-time-standard-20261016.csv'])
+        if (!(J.meta && (J.meta.inputs || []).some((z) => z.file === f))) bad.push('正本の入力に ' + f + ' が無い');
+      if (!(J.pin && J.pin.declSha256 === X.PIN_DECL_SHA256 && J.pin.file === X.DECL_FILE && J.pin.same02ca93b && J.pin.emBase && J.pin.emBase.commit === '02ca93b')) bad.push('正本の宣言の固定(02ca93b の写し)の記録');
+      if (!(J.k && J.k.k && ['n2', 'n1', 'n0'].every((key) => Number.isFinite(J.k.k[key]) && typeof J.k.source[key] === 'string'))) bad.push('正本の k と出所の記録');
+      else if (!(J.k.k.n2 > J.k.k.n1 && J.k.k.n1 > J.k.k.n0)) bad.push('k が n の順に並ばない');
+      if (!(J.timeSystems && J.timeSystems.use === 'record-only')) bad.push('時刻系の段が記録だけ(use: record-only)でない');
+      if (J.periods && J.periods.rows.length !== 7) bad.push('周期の表が 7 本でない');
+      if (J.commonGM) { const lv = J.commonGM.lever && J.commonGM.lever.n2; if (!(lv && Number.isFinite(lv.perUnitN) && lv.perUnitN < 0)) bad.push('共通の GM の n の梃子(D/(r_s/a) の n あたり)が負の有限値でない'); }
+      cases.push(`門 ${Object.keys(G).filter((k) => G[k] === true).length}/${Object.keys(G).length}・k(n = 2/+1/0)${J.k && J.k.k ? [J.k.k.n2, J.k.k.n1, J.k.k.n0].join('/') : '-'}・周期の表 ${J.periods ? J.periods.rows.length : '-'} 本・合わせ直し ${J.refit ? J.refit.rows.length : '-'} 行・`
+        + `共通の GM の n あたりの C ${J.commonGM ? Number(J.commonGM.lever.n2.perUnitN).toFixed(4) : '-'}・時刻系 ${J.timeSystems ? J.timeSystems.rows.length : '-'} 行・恒星月の取り直し ${J.moon && J.moon.remeasured ? X.fmtE(J.moon.remeasured.sidOffS, 3) + ' s' : '-'}`);
+      // ②
+      if (!sec) bad.push('PHYSICS〔第306便b〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第306便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第306便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        // ③
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第306便b〕が「## 7. 論文」の後');
+        for (const w of ['R205', 'AN336', 'AN333', 'AN335', '第95報', 'AN332', '第97報', 'exp-w306b-periodn.mjs', 'lib-w306b-meanlon.mjs', 'periodn-w306b.json', 'data-w305b-declbdb.json', 'data-w306b-decl305.json',
+          'docs.periodN306', 'W306B_PARTS', '02ca93b', '平均経度', '初期の方向を通る間隔', 'P²/a³', '共通の GM', '1/a', '時刻系', '換算は適用しない', '恒星月', 'pairnorm-w305a.json', 'a_geo'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第306便b〕に「' + w + '」が無い');
+      }
+      if (CL.indexOf('第306便b') < 0) bad.push('CHANGELOG に第306便b が無い');
+      if (RM.indexOf('第306便b') < 0) bad.push('README に第306便b が無い');
+      if (RT.indexOf("S('periodn-306b', 'node tests/exp-w306b-periodn.mjs', ['tests/out/periodn-w306b.json']") < 0 || !/secSource: 'w306b-branch'/.test(RT)) bad.push('再生成の段 periodn-306b');
+      if (RT.indexOf("'tests/data-w306b-decl305.json': []") < 0) bad.push('宣言の写しの安定 hash の除外の宣言(EXTERNAL_VOLATILE)');
+      if (GI.indexOf('!tests/out/periodn-w306b.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.periodN306') < 0) bad.push('post-merge の ③′ に docs.periodN306 が無い');
+      // ④ 書かない語(「」の引用を除く —— 節)と禁句(引用も含む —— 節と器と抽出器。語は符号の列から作る)
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/n が決まった/, /n = 2 が正しい/, /周期を予言した/, /GR を導いた/, /GR と一致した/, /法則を発見した/, /43″ が出た/, /観測の 1σ で較正済み/, /現実を再現した/, /移送が通った/, /η が決まった/, /熱力学を導いた/, /斥力を導いた/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];   // 古い節から「## 7.」までを数える QA の語(節には引用でも置かない)
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第306便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第306便b〕に禁句(' + w.length + ' 字)');
+      for (const f of ['tests/exp-w306b-periodn.mjs', 'tests/lib-w306b-meanlon.mjs']) { const t = rd(f); for (const w of NG) if (t.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.periodN306', bad.length === 0,
+      `**周期による G_loc の n の識別の器**(第306便b・AN336 ③・AN333・AN335 ③・R205 —— 正本 periodn-w306b.json・html と本の宣言とエンジンの式は変えない・換算は適用しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第306便b の塊ここまで ====
+
 // ---- 第304便c(原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意・統括の検証項目 R197): preset.emBaseline304 / docs.emBaseline304(新設 —— root は SKIP)。
 // ----   **🌦️🌔 の基線の見直し**(軟化 0.0005・e′ 0.0167086・長窓の平均の要素・標的の抽出器 M4 と長窓)と「引きずり OFF で照合許容の内」の記録。
 // ----   世代切替 = beta 対象 ∧ 正本 tests/out/baseline-w304c.json ∧ 器 tests/exp-w304c-baseline.mjs ∧ 第303便の宣言の写し(tests/lib-w304c-pre.mjs の isGen304c —— 写しのある本の宣言が

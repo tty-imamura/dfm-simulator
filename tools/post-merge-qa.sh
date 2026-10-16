@@ -138,6 +138,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSl
 #   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
 # <<< 第306便e
+# ==== 第306便b の塊ここから(他の枝の行と混ぜない) ====
+# 第306便b(AN336 ③・AN333・AN335 ③・R205): 枝 b の新設 1 本(docs.periodN306 —— 周期による G_loc の n の識別の器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.periodN306"
+# ==== 第306便b の塊ここまで ====
 # ==== 第306便d の塊(ここから)====
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
