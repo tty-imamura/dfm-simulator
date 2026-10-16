@@ -992,6 +992,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/baseline-w304c.json': META_RUN.concat(['/elapsedS', '/solve/wallSec', '/measure/wallSec', '/measure/off/h/wallSec', '/measure/off/h2/wallSec', '/measure/off/h4/wallSec',
       '/measure/on/h/wallSec', '/emo/wallSec', '/emo/runs/h/wallSec', '/emo/runs/h2/wallSec', '/emo/runs/on/wallSec']) },
     note: '第304便c: 🌦️🌔 の基線の見直し(軟化 0.0005・e′・長窓の平均の要素・M4 と長窓の標的)と引きずり OFF の測定 —— 本の宣言の初期配置の解き直し・fitRecord の生成・🌔 の写し' }),
+  // ---- 第305便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」「軸引きずりは、引きずり元による様々な軸の回転」「多粒子の平均と熱力学との類似」・
+  //   統括の検証項目 R202): **回転引きずり・軸引きずりと多粒子の平均の診断の器**(段 P〔包みの素通り〕・C〔契約: 慣性自転の不変・自己の分子 0・源 = 慣性自転・毎步の作り直し・
+  //   二重計上の写し〕・X〔回転引きずりの座標の分解と h/2・有限回転の順序〕・M〔本の写しの平均と二次モーメント・恒等式・逆回転の集団・合成の集団の平均場と正確な対の和・
+  //   平均の自転速度の読み・斥力の候補・粒子間距離〕)。spinDrag を宣言した本 5 本の写し(本の宣言は変えない —— 器の中で組む)。html だけを読む・1 プロセス
+  //   (html の関数を器の process の中で包む —— 素通りは段 P)。所要は第305便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('spinavg-305d', 'node tests/exp-w305d-spinavg.mjs', ['tests/out/spinavg-w305d.json'], 577, { secSource: 'w305d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/spinavg-w305d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/wallSec', '/scan/rows/*/wallSec']) },
+    note: '第305便d: 回転引きずり・軸引きずりと多粒子の平均の診断(契約の步ごとの確かめ・座標変換の分解・有限回転の順序・平均と二次モーメント・平均場と正確な対の和・平均の自転速度と斥力の候補の読み口 —— 値だけ・力として足さない)' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
