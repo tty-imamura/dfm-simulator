@@ -912,13 +912,22 @@ tests/out/regen-plan-w281a.json
 !tests/out/earthmoon-w303c.json
 !tests/out/baseline-w304c.json
 !tests/out/j2-w305c.json
+!tests/out/emresolve-w306c.json
 # 第305便e(AN318・R203): 🟪 の基線の監査の正本(段 charonaudit-305e)
 !tests/out/charonaudit-w305e.json
+# 第306便e(AN339 の案 (A)・R208): 🟪 の宣言の直し (A) の正本(段 charonfix-306e)
+!tests/out/charonfix-w306e.json
 # 第304便b(原仮定者の裁定(第94報)・統括の検証項目 R196): 引きずり核の球面近似を器の中の写しで測った正本(tests/exp-w304b-shell.mjs)。QA docs.shell304b が読むのでコミットする
 !tests/out/shell-w304b.json
 # 第305便a(原仮定者の裁定(第96報)・統括の検証項目 R199): 対ごとの正規化の零試験・多体の読み口・🌦️ の写しの三体の正本(tests/exp-w305a-pairnorm.mjs)。QA docs.pairNorm305 が読むのでコミットする
 !tests/out/pairnorm-w305a.json
 # 第305便b(第95報・AN332 の裁定・統括の検証項目 R200): 惑星の G_loc の n の族 × λ ∝ m の写し(水星の k・移送・周期の表・🟫 の扱い)の正本(tests/exp-w305b-gfamily.mjs)。QA docs.gfamily305 が読むのでコミットする
 !tests/out/gfamily-w305b.json
+# 第306便b(DECISIONS v64 AN336 ③・AN333・AN335 ③・統括の検証項目 R205): 周期による G_loc の n の識別の器(平均経度の周期・合わせ直し・共通の GM の型・時刻系の対応・🌦️ の恒星月の n の欄)の正本(tests/exp-w306b-periodn.mjs)。QA docs.periodN306 が読むのでコミットする
+!tests/out/periodn-w306b.json
 # 第305便d(原仮定者の裁定(第96報)・統括の検証項目 R202): 回転引きずり・軸引きずりと多粒子の平均の診断の正本(tests/exp-w305d-spinavg.mjs)。QA docs.spinAvg305 が読むのでコミットする
 !tests/out/spinavg-w305d.json
+# 第306便a(原仮定者の裁定〔第97報〕AN336・統括の検証項目 R204): 水星の標的を 1PN + A1 の派生した参照値へ —— 生成器と契約・水星の k・7 本への移送・在位の 7 本の宣言の門の正本(tests/exp-w306a-an336.mjs)。QA docs.an336_306・preset.planets306 が読むのでコミットする
+!tests/out/an336-w306a.json
+# 第306便d(原仮定者の裁定(第96報)・AN338・統括の検証項目 R207): 回転引きずりを座標変換として測る器の正本(tests/exp-w306d-rotframe.mjs)。QA docs.rotFrame306 が読むのでコミットする
+!tests/out/rotframe-w306d.json

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:08:54.014Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T23:07:14.006Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    }
   ],
   "code": [
@@ -1739,8 +1739,8 @@
    "softening": 0.0005,
    "geoPN": 3,
    "nBodyDecl": 3,
-   "presetSigHash": "7909f4ac",
-   "bodiesSha256": "cb8184a3a539ab405eeb840a0160b525437da6392ab43c08c6b1ca2f4abcc69a"
+   "presetSigHash": "aa288e4e",
+   "bodiesSha256": "b8c6cb5f4554eeee433bd3f950c2230e3b84fd14c3ca442287f7e1b79513243b"
   },
   {
    "id": "earthMoonOnly3d",
@@ -1760,8 +1760,8 @@
    "softening": 0.0005,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "7b76458c",
-   "bodiesSha256": "55a6b64867481e091871e8055a69ec47723a7bbb2caa6f1234bbae10cfc5193f"
+   "presetSigHash": "908bdb20",
+   "bodiesSha256": "eb37bb224cc84eebfefe2b4beefab7e53f17f571d16caec218be5f661a083a18"
   },
   {
    "id": "earthMoonDiagOne",
@@ -1913,7 +1913,7 @@
   {
    "id": "mercurySunInertial3d",
    "emoji": "🌡️",
-   "name": "太陽と水星(慣性決定力版・三次元)— 近点率に合わせた W_bg",
+   "name": "太陽と水星(慣性決定力版・三次元)— 1PN + A1 の参照値に合わせた k(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1928,13 +1928,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "d918062a",
+   "presetSigHash": "ac5169ce",
    "bodiesSha256": "30d20b8fbe1b54f138de433f673633d5467dcd4d61ca3e2c0a1cea8ab6f78727"
   },
   {
    "id": "venusSunInertial3d",
    "emoji": "🌋",
-   "name": "太陽と金星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と金星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1949,13 +1949,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "85a6d71d",
+   "presetSigHash": "bb1f8986",
    "bodiesSha256": "bb61ae546955ce3cde90d6ee1ceb2a44f2bad5208da4f88d3a79d009dbd060df"
   },
   {
    "id": "marsSunInertial3d",
    "emoji": "🔴",
-   "name": "太陽と火星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と火星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1970,13 +1970,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "958755a1",
+   "presetSigHash": "42448b8e",
    "bodiesSha256": "42025981779f7b055b80332a8dbe87c22a47cc175caaf17537e3bf012d05deee"
   },
   {
    "id": "jupiterSunInertial3d",
    "emoji": "🏀",
-   "name": "太陽と木星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と木星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1991,13 +1991,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "fff4f1",
+   "presetSigHash": "895620fb",
    "bodiesSha256": "e6fa1c4ad765cc360d2dd63293b24e970c07ab0d26050284de9f6ead664aa83c"
   },
   {
    "id": "saturnSunInertial3d",
    "emoji": "🟡",
-   "name": "太陽と土星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と土星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2012,7 +2012,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "5cff6437",
+   "presetSigHash": "9b2e1167",
    "bodiesSha256": "4f3a538aaca88d32e3ffb35709b2efccbe86d2965deff6d525730a3b7f24006a"
   },
   {
@@ -2039,7 +2039,7 @@
   {
    "id": "uranusSunInertial3d",
    "emoji": "🔷",
-   "name": "太陽と天王星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と天王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2054,13 +2054,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "fa86afb5",
+   "presetSigHash": "f6888573",
    "bodiesSha256": "d0ff4523c22560ab50b9c873b928da529bd7ff088ae55915d14e66250c97625b"
   },
   {
    "id": "neptuneSunInertial3d",
    "emoji": "💙",
-   "name": "太陽と海王星(慣性決定力版・三次元)— gain 0 の基準",
+   "name": "太陽と海王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2075,7 +2075,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "2a7cec6d",
+   "presetSigHash": "83bb8ec3",
    "bodiesSha256": "ab507834d939b278da9667dfb13a456d224cf73f993f6039e911d964709f0c08"
   },
   {
@@ -2333,7 +2333,7 @@
   {
    "id": "plutoCharonInertialFit",
    "emoji": "🟪",
-   "name": "冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain",
+   "name": "冥王星とカロン(慣性決定力版)— 二体のケプラーの初期状態・引きずり OFF",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2348,8 +2348,8 @@
    "softening": 0.01,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "9e01aebb",
-   "bodiesSha256": "e730126fe3576f42a3d34f4c263b04f329cbadd668d65fdb8e81976628e5afc3"
+   "presetSigHash": "ab108e1f",
+   "bodiesSha256": "3fcc7442697775f141cc68519e8a23c6f5768c360f00e69ebe668c502e8c2c8f"
   },
   {
    "id": "plutoCharonSyncZero",

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:08:33.572Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-17T02:45:18.780Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719874,
-    "sha256": "50f7814c3e12037103de94c71c8b31797594065693b926f424147e44cd0f995c",
-    "mtime": "2026-10-16T06:22:27.253Z"
+    "bytes": 1721937,
+    "sha256": "54279c8e89e30d532f433d6b8856611a63963ebfcd5574fffca53d897c6c03e7",
+    "mtime": "2026-10-17T01:50:12.018Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,9 +50,9 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 55883,
-    "sha256": "b27c982ea0aafcb1c8aab72304bd2a1a47e284d47acd8ea6bc350039efa12100",
-    "mtime": "2026-10-16T10:08:33.520Z"
+    "bytes": 55617,
+    "sha256": "09eacc9366bbd871aff8258254b8b7977b1a2c08b3f3dc4b6311fd36c5de07db",
+    "mtime": "2026-10-17T02:45:18.722Z"
    }
   ],
   "code": [
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 313881,
-    "sha256": "9bfa3b80b63142f0cccf226223a5ccca87d5f60dac01e663ace96a510679d892",
-    "mtime": "2026-10-16T04:33:54.763Z"
+    "bytes": 324148,
+    "sha256": "eece212ce98ab076d3e69ec6a8396bfd45717919301b39894e145fefc7bd87fa",
+    "mtime": "2026-10-16T19:11:14.396Z"
    }
   ],
-  "codeSha256": "6bb480892fb222e79aa270463a73e069c2d2a6a381a19c25f6fd44909a768c36",
+  "codeSha256": "61fa89ffde566173c51ba2c78898223d49a8bdfde7f6f31b8eb2828938677063",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -118,14 +118,14 @@
    "complete": true,
    "names": 1327,
    "segments": 1196,
-   "closureShare": 0.3519
+   "closureShare": 0.3511
   },
-  "scopeSha256": "fa20dec6f571dabae4e8f931d36a1cfb0543b3422b1a99790c4ce6caf596e6b2",
+  "scopeSha256": "c441e53c8dcc12aba2b540fea99a4acc866ee5dfd89d13f475e5d8bf102b08ec",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "e6c1079d5b809f8e8030e0a5a87b8a95caea064f07073ce263a43f93f568e876",
+    "stableSha256": "bff3aaecd5ae48fc376381af7916fddd040e4bb0ac40c56934f62881b8e6b2b5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ed73ab6b68f18eb7a1f777b1ec21d811734b14a3c1d2dde163d3c37486eb213f",
+    "stableSha256": "61da5b66dfab0762c676f0d272ffb0aee453ffb2d9b40935229d8844f7cb4daf",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,7 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.45-b305",
+ "betaBuild": "v1.45-b306",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -252,7 +252,7 @@
    "比較": 19
   },
   "cand": {
-   "A": 2,
+   "A": 1,
    "C": 1
   },
   "keepApart": 0
@@ -309,7 +309,7 @@
     {
      "id": "plutoCharonInertialFit",
      "emoji": "🟪",
-     "name": "冥王星とカロン(慣性決定力版・フィット)— 公転周期に合わせた gain",
+     "name": "冥王星とカロン(慣性決定力版)— 二体のケプラーの初期状態・引きずり OFF",
      "familyId": "pluto",
      "familyRole": "variant",
      "retired": false,
@@ -318,7 +318,7 @@
      "group": "現実較正",
      "calVariant": null,
      "inPopulation": false,
-     "variantLabel": "慣性決定力版(フィット: 周期)",
+     "variantLabel": "慣性決定力版(二体のケプラーの a・引きずり OFF)",
      "geoPN": 3,
      "kFrame": 0,
      "D0": 0.006,
@@ -328,9 +328,9 @@
      "massCalibration": null,
      "relativeDrag": "inertial",
      "spaceMesh": null,
-     "purpose": "係数移送版の写しに核の事前値を置き W_bg だけを公転周期に合わせる(semic)",
+     "purpose": "二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合)",
      "gates": [],
-     "presetSigHash": "9e01aebb",
+     "presetSigHash": "ab108e1f",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -338,8 +338,8 @@
       "bodies": {
        "count": true,
        "m": true,
-       "x": true,
-       "v": true,
+       "x": false,
+       "v": false,
        "other": false
       },
       "physicsDiff": [
@@ -351,7 +351,7 @@
        "fitRecord"
       ]
      },
-     "input": "同じ入力"
+     "input": "違う入力(位置・速度)"
     }
    ],
    "keyDiff": [
@@ -375,7 +375,8 @@
       "plutoCharonDiagInput": null,
       "plutoCharonInertialFit": {
        "law": "inertial",
-       "Wbg": 0.0001486103,
+       "Wbg": null,
+       "enabled": false,
        "eps": 0.01,
        "pairs": "all",
        "history": "positions",
@@ -417,22 +418,12 @@
      "key": "bodies(vs 基準)",
      "values": {
       "plutoCharonDiagInput": "基準",
-      "plutoCharonInertialFit": "同じ入力"
+      "plutoCharonInertialFit": "違う入力(位置・速度)"
      }
     }
    ],
    "physicsSameKeys": 27,
-   "candidates": [
-    {
-     "rule": "A",
-     "keep": "plutoCharonDiagInput",
-     "fold": [
-      "plutoCharonInertialFit"
-     ],
-     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
-     "reason": "bodies(質量・位置・速度)が plutoCharonDiagInput と同じ・違うのは physics の geoPN・lambdaPN・relativeDrag"
-    }
-   ],
+   "candidates": [],
    "keepApart": [],
    "history": []
   },
@@ -5632,5 +5623,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 1.001
+ "elapsedS": 0.785
 }

@@ -131,9 +131,30 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.gfamily305"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.j2_305 preset.emJ2_305 docs.j2_305 preset.earthReorg300"
 # 第305便d(原仮定者の裁定(第96報)・R202): 枝 d の新設 1 本(docs.spinAvg305 —— 回転引きずり・軸引きずりと多粒子の平均の診断の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinAvg305"
+# <<< 第306便a の塊(原仮定者の裁定〔第97報〕AN336・R204): 枝 a の新設 2 本(docs.an336_306 —— 派生した参照値の生成器の契約・正本の門・PHYSICS の表と正本の数・
+#   preset.planets306 —— 在位の惑星 7 本が同じ k・gLoc kappaC2・denom pair・自己なし・fitted は 🌡️ だけ・木星の注記・43.0 の履歴の列)と、第306便a の世代を受けた preset.planets3d299・docs.planets3d299
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.an336_306 preset.planets306 preset.planets3d299 docs.planets3d299"
+# >>> 第306便a の塊
 # 第305便e(決断事項 AN323・AN327・AN328・AN318・AN333・統括の検証項目 R203): 枝 e の新設 4 本(behavior.shellTinyEta305 —— 極小 η の受理・ui.softeningFloorSlider305 —— 軟化の行の下限・
 #   docs.charonAudit305 —— 🟪 の基線の監査・docs.obsTime305 —— 観測の時間標準の記録)と、形の説明を受けた behavior.inertialR2_303
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSlider305 docs.charonAudit305 docs.obsTime305 behavior.inertialR2_303"
+# >>> 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): 枝 e の新設 2 本(preset.charonFix306 —— 🟪 の宣言の直し (A)・docs.charonFix306 —— 正本と文書)
+#   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
+# <<< 第306便e
+# ==== 第306便b の塊ここから(他の枝の行と混ぜない) ====
+# 第306便b(AN336 ③・AN333・AN335 ③・R205): 枝 b の新設 1 本(docs.periodN306 —— 周期による G_loc の n の識別の器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.periodN306"
+# ==== 第306便b の塊ここまで ====
+# ==== 第306便c の塊(ここから —— 他の枝の塊と混ぜない)====
+# 第306便c(AN337 ③④⑤・AN335 ①・R206): 枝 c の新設 3 本(preset.emResolve306 —— 🌦️ の J₂ ありの初期配置の解き直しの宣言・fitRecord・観測カード・🌔 の写し・対照の説明・
+#   docs.emResolve306 —— 正本と文書・docs.obsMoonNode306 —— 交点の観測の行の確認の記録)と、pin305 の世代切替を足した preset.emJ2_305・🌔 の観測カードの数を見る preset.earthReorg300
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.obsMoonNode306 preset.emJ2_305 preset.earthReorg300"
+# ==== 第306便c の塊(ここまで)====
+# ==== 第306便d の塊(ここから)====
+# 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
+# ==== 第306便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

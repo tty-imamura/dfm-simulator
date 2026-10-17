@@ -45,6 +45,7 @@ import * as SH from './exp-w304b-shell.mjs';
 import * as PL from './exp-w299c-planets3d.mjs';
 import * as P3 from './lib-w299c-planets3d.mjs';
 import * as I3 from './exp-w295c-inertial3.mjs';
+import * as PRE305 from './lib-w306a-pre.mjs';   // 第306便a(AN336): 在位の惑星 7 本の宣言の世代の門(pin.liveSame の比べ方だけ —— 写しの値は凍結のデータのまま)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -79,9 +80,11 @@ export const lenM = (p) => Math.pow(10, p.scaleExp.L);
 export const findPreset = (HP, id) => HP.allPresets().find((q) => q.id === id);
 /** 生きている html の宣言(physics・bodies・scaleExp・timeRef)が凍結の写しと同じか */
 export function liveSame(HP) {
-  return Object.fromEntries(Object.keys(PIN.decl).map((id) => { const p = findPreset(HP, id), d = PIN.decl[id];
+  // 第306便a(AN336): 在位の惑星 7 本を一括で宣言し直した世代では、生きている宣言を第305便の宣言の写し(tests/lib-w306a-pre.mjs の pin305 —— 本ごとの門)に戻して比べる
+  //   (第305便の html では pin305 は何もしない —— 比べ方は不変)。生の比較は physicsBodiesRaw に残す
+  return Object.fromEntries(Object.keys(PIN.decl).map((id) => { const p0 = findPreset(HP, id), p = p0 ? PRE305.pin305(p0) : p0, d = PIN.decl[id];
     const pb = !!p && JSON.stringify(p.physics) === JSON.stringify(d.physics) && JSON.stringify(p.bodies) === JSON.stringify(d.bodies);
-    return [id, { physicsBodies: pb, all: pb && JSON.stringify(p.scaleExp) === JSON.stringify(d.scaleExp) && JSON.stringify(p.timeRef) === JSON.stringify(d.timeRef) }]; }));
+    return [id, { physicsBodies: pb, physicsBodiesRaw: !!p0 && JSON.stringify(p0.physics) === JSON.stringify(d.physics) && JSON.stringify(p0.bodies) === JSON.stringify(d.bodies), pin305: !!p0 && PRE305.gate305(p0), all: pb && JSON.stringify(p.scaleExp) === JSON.stringify(d.scaleExp) && JSON.stringify(p.timeRef) === JSON.stringify(d.timeRef) }]; }));
 }
 /** 本の写し(本の他の鍵は html から・physics/bodies/scaleExp/timeRef は凍結の写し・fitRecord と gLoc を外す) */
 export function pinned(HP, id) {
@@ -509,7 +512,7 @@ if (IS_MAIN) {
     gates.flat2dAnalytic = out.flat2d.twoD.gLocOnly.every((z) => Math.abs(z.ratio - 1) < 2e-3);
   }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp; out.stats = STATS;
-  const CODE = ['tests/exp-w305b-gfamily.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs',
+  const CODE = ['tests/exp-w305b-gfamily.mjs', 'tests/lib-w306a-pre.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs',
     'tests/exp-w295c-inertial3.mjs', 'tests/lib-core-budget.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便b', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,

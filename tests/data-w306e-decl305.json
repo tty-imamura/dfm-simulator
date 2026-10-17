@@ -1,0 +1,267 @@
+{
+ "version": "w306e-decl305-1",
+ "note": "第306便e(統括の検証項目 R208): 第305便の 🟪 plutoCharonInertialFit の宣言の写し(基点 eaeb6da = public main 02ca93b の html〔sha256 57c21ec8d54f〕と同じ宣言)—— physics(全体)・bodies・fitRecord・abBody・notClaim(写しで戻す)と観測カード(ja/en —— 照合の記録だけ・写しでは戻さない)。器 tests/lib-w306e-pre.mjs が読む(凍結 —— 書き換えない)",
+ "fields": [
+  "physics",
+  "bodies",
+  "fitRecord",
+  "abBody",
+  "notClaim"
+ ],
+ "source": {
+  "commit": "eaeb6da",
+  "publicMain": "02ca93b",
+  "htmlSha12": "57c21ec8d54f"
+ },
+ "decl": {
+  "plutoCharonInertialFit": {
+   "emoji": "🟪",
+   "physics": {
+    "G": 6.674,
+    "D0": 0.006,
+    "kFrame": 0,
+    "q": 11.9386,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "kappaT": 7.425826474101849e-9,
+    "cLight": 29979.2458,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "massFloor": 0.000001,
+    "geoPN": 3,
+    "lambdaPN": 0,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 0.01,
+    "timeScale": 1,
+    "stepDt": 153.293,
+    "dispMag": 1,
+    "stateCarry": "double",
+    "massPrecision": "double",
+    "frameReaction": "pairReduced",
+    "frameWeight": "share",
+    "relativeDrag": {
+     "law": "inertial",
+     "Wbg": 0.0001486103,
+     "eps": 0.01,
+     "history": "positions",
+     "pairs": "all",
+     "coreTable": {
+      "n": 4096
+     }
+    }
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "m": 0.013025172310458496,
+     "radius": 11.88,
+     "x": -21.315466069304904,
+     "y": 0,
+     "vx": 0,
+     "vy": -0.0024268498546968042,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "pnSource": true,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.564
+     }
+    },
+    {
+     "type": "single",
+     "m": 0.0015897512735990414,
+     "radius": 6.06,
+     "x": 174.6421739306951,
+     "y": 0,
+     "vx": 0,
+     "vy": 0.019883700081884368,
+     "spin": 0.00011385554400956285,
+     "pinned": false,
+     "dragCore": {
+      "massFrac": 0.5,
+      "radius": 3.03
+     }
+    }
+   ],
+   "fitRecord": {
+    "version": "w297b-1",
+    "parent": "plutoCharonInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "orbitalPeriodMean",
+      "obs": 551856.43872,
+      "unit": "s",
+      "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)",
+      "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)・semic",
+      "tol": {
+       "value": 0.02592,
+       "kind": "sigma",
+       "note": "Buie, Tholen & Grundy 2012 の P = 6.3872273(3) 日の 1σ(3×10⁻⁷ 日 = 0.02592 s)"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       1.9448366531695003e-8,
+       0.001
+      ],
+      "final": 0.0001486103
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟣 plutoCharonInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.01・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "構造核の事前値: 冥王星 dragCore{f 0.5, R_c/R 0.3}・カロン dragCore{f 0.5, R_c/R 0.5}・表 coreTable.n 4096(固定 —— フィットしない)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 0.00014861029313528932(旧 gain 6729.009) を起点に合わせ直した(🟪)。分割の世代の記録(旧 cond.sig 3609306e1beba808)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 8 公転の平均周期(semic)を 551856.43872 s に割線で合わせ(c = 1/W_bg・起点は分割の世代の W_bg)、7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted)→ 固定した W_bg で dragCore の f を振る(同定の可否 —— 器 tests/exp-w303a-refit.mjs)",
+    "dt": 0.16,
+    "steps": 2759283,
+    "residual": {
+     "value": 7.699709385633469e-7,
+     "unit": "s",
+     "model": 551856.43872077,
+     "rel": 1.3952377548574973e-12
+    },
+    "numerics": {
+     "h2": 0.0000455987174063921,
+     "dtHalf": 0.08
+    },
+    "status": "fitted",
+    "notFitted": [
+     "軌道の形(離心率の代理)",
+     "第 2 周の周期(記録だけ)",
+     "自転・潮汐"
+    ],
+    "notIdentifiable": [
+     "dragCore(固定 W_bg で冥王星/カロンの f を振った周期の幅 1.20e-2 s —— 観測の 1σ 0.02592 s より小さく、1 量では W_bg と縮退する)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "9dad7fb42eb1c08a",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(同方向の周回の通過時刻の平均間隔)・w295c-inertial3-1"
+    }
+   },
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり無し —— 重力だけの二体)",
+     "en": "switch the inertial drag off (drag off — the gravity-only two-body system)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.01,
+      "history": "positions",
+      "pairs": "all",
+      "coreTable": {
+       "n": 4096
+      }
+     }
+    }
+   },
+   "notClaim": [
+    "solar_cal",
+    "period_target_fit",
+    "gain_universal_fit",
+    "single_quantity_fit"
+   ],
+   "obsCard": [
+    {
+     "q": "何を置いたか",
+     "model": "係数移送版(第298便b で退役)の写し(🥶 の二体・geoPN=3・kFrame=0)+構造核の事前値・gain だけを合わせた派生本",
+     "obs": "—(原理サンプル —— 較正母集団の外)"
+    },
+    {
+     "q": "標的(宣言した 1 量)",
+     "model": "公転周期(8 公転の平均 —— 同方向の周回の通過時刻の平均間隔)",
+     "obs": "551856.43872±0.02592 s(Buie 2012・6.3872273 日)"
+    },
+    {
+     "q": "W_bg(フィット —— 第303便a・semic)",
+     "model": "0.0001486103 [M/L³] = 1.486103e+5 kg/m³(分割の世代 1/gain 6729.009 = 0.00014861029 から割線 —— 7 桁)",
+     "obs": "—"
+    },
+    {
+     "q": "模型・残差・数値誤差",
+     "model": "551856.4387 s・残差 7.70e-7 s・h と h/2 の差 4.56e-5 s・16 公転 551856.4387 s(残差+数値誤差 ≤ 1σ 0.02592 s・semic)",
+     "obs": "551856.43872 s"
+    },
+    {
+     "q": "構造核 dragCore(固定)",
+     "model": "冥王星 f 0.5・R_c/R 0.3/カロン f 0.5・R_c/R 0.5 —— f を振った幅 1.20e-2 s(W_bg と縮退)",
+     "obs": "—"
+    },
+    {
+     "q": "合わせていない量(実測)",
+     "model": "第 2 周 551856.4387 s・離心率の代理 1.31e-5(gain 0 は 3.99e-9)",
+     "obs": "—"
+    },
+    {
+     "q": "速度の規約(対照・移送 gain)",
+     "model": "v=(I+L)W の写し: eProxy 1.30e-1・周期 695130.0 s(v=W は eProxy 1.36e-1)",
+     "obs": "—"
+    },
+    {
+     "q": "言わないこと",
+     "model": "周期を予言したとは言わない(標的)。核の値は内部核の測定値ではない・W_bg は系ごとの経験値",
+     "obs": "—"
+    }
+   ],
+   "obsCardEn": [
+    {
+     "q": "What is placed",
+     "model": "a copy of the coefficient-transfer build (retired in wave 298b; 🥶's pair, geoPN=3, kFrame=0) with prior structure cores; only the gain matched",
+     "obs": "- (a principle sample, outside the calibration population)"
+    },
+    {
+     "q": "Target (one declared quantity)",
+     "model": "orbital period (mean over 8 orbits - mean interval of same-direction passages)",
+     "obs": "551856.43872 +/- 0.02592 s (Buie 2012, 6.3872273 d)"
+    },
+    {
+     "q": "W_bg (fitted, wave 303a, semic)",
+     "model": "0.0001486103 [M/L^3] = 1.486103e+5 kg/m^3 (secant from the split-era 1/gain 6729.009 = 0.00014861029; 7 digits)",
+     "obs": "-"
+    },
+    {
+     "q": "Model, residual, numerical error",
+     "model": "551856.4387 s; residual 7.70e-7 s; h vs h/2 4.56e-5 s; 16 orbits 551856.4387 s (residual + numerics <= 1 sigma; semic)",
+     "obs": "551856.43872 s"
+    },
+    {
+     "q": "Structure core dragCore (fixed)",
+     "model": "Pluto f 0.5, R_c/R 0.3 / Charon f 0.5, R_c/R 0.5 - sweeping f moves it 1.20e-2 s (degenerate)",
+     "obs": "-"
+    },
+    {
+     "q": "Not matched (measured)",
+     "model": "revolution 2 551856.4387 s; eccentricity proxy 1.31e-5 (gain 0: 3.99e-9)",
+     "obs": "-"
+    },
+    {
+     "q": "Velocity convention (control)",
+     "model": "copy with v=(I+L)W: eProxy 1.30e-1, period 695130.0 s (v=W: eProxy 1.36e-1)",
+     "obs": "-"
+    },
+    {
+     "q": "Not claimed",
+     "model": "The period is the target, not a prediction. Core values are not internal-core data; W_bg is per system",
+     "obs": "-"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,3394 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第306便a",
+  "target": "beta/index.html",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-17T00:20:35.170Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-16T19:11:11.231Z"
+   },
+   {
+    "file": "paper/data/pn1-ephemeris-candidates.csv",
+    "bytes": 21528,
+    "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
+    "mtime": "2026-10-14T20:10:19.106Z"
+   },
+   {
+    "file": "paper/data/pn1-primary-audit-20261015.csv",
+    "bytes": 4489,
+    "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
+    "mtime": "2026-10-15T05:47:28.831Z"
+   },
+   {
+    "file": "tests/out/gfamily-w305b.json",
+    "bytes": 109264,
+    "sha256": "bf2a60d84592c571038c7a2464eed0773806c5f54195de9260b6600aef9f0cbf",
+    "mtime": "2026-10-17T00:07:20.466Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w306a-an336.mjs",
+    "bytes": 43314,
+    "sha256": "1ab05f9a4c503156d84df40f6fee1b315a305bde47b2827747609ae5c236fd09",
+    "mtime": "2026-10-16T19:11:11.233Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-16T19:11:11.237Z"
+   },
+   {
+    "file": "tests/exp-w306a-an336contract.mjs",
+    "bytes": 6257,
+    "sha256": "73310beadf87d47b235b0ad74f4f6ab24a42097dac32264a9d04cc1ab844ec20",
+    "mtime": "2026-10-16T19:11:11.233Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-15T05:47:28.831Z"
+   },
+   {
+    "file": "tests/lib-w303e-fitstop.mjs",
+    "bytes": 14158,
+    "sha256": "058f3e87301851548e0290cfed23e263d3dd2a2fe81272af64e7098db4f33242",
+    "mtime": "2026-10-14T19:03:55.652Z"
+   },
+   {
+    "file": "tests/exp-w303b-inertialr2.mjs",
+    "bytes": 77963,
+    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
+    "mtime": "2026-10-16T17:38:33.226Z"
+   },
+   {
+    "file": "tests/lib-w297b-fit.mjs",
+    "bytes": 10451,
+    "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
+    "mtime": "2026-10-14T00:03:21.993Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 51360,
+    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
+    "mtime": "2026-10-14T11:11:27.687Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-14T01:39:42.913Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "4f3a7ce66de6bc36dc470aba644d1d563d5b53ed5dacab99a88312f4e618c78d",
+  "harnessVersion": "w306a-an336-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
+  "reading": "統括の検証項目 R204(標的の生成器と契約・水星の再フィット・7 本への移送〔新しい抽出器が主 + 検出器 B・窓/位相/h〕・門を通れば在位の惑星 7 本の宣言を同じ k で一括)・決断事項 AN330・AN331・AN334",
+  "notClaim": [
+   "43″ が出た",
+   "GR と一致した",
+   "GR を導いた",
+   "n が決まった",
+   "移送が通った",
+   "全惑星が 1σ の内",
+   "観測の 1σ で較正済み",
+   "法則を発見した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.DRAG_CORE_RMAX_FACTOR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.FIT_COND_VERSION",
+    "HP.GLOC_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_I2_VERSION",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_PAIRNORM_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreState",
+    "HP.fitCondSig",
+    "HP.gLocPeriAdvance",
+    "HP.gLocState",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.inertialDragLedgerOf",
+    "HP.inertialDragState",
+    "HP.inertialR2Q",
+    "HP.inertialR2State",
+    "HP.sim",
+    "HP.synodic",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "HP.wbgEstimateOf",
+    "LAWS",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dfmInertialDrag3Build",
+    "dfmInertialDrag3Solve",
+    "dfmInertialDragStep",
+    "dfmInertialDragStep3",
+    "dragCoreAngular",
+    "dragCoreAvgK",
+    "dragCoreLookup",
+    "dragCoreTableBuild",
+    "fmt",
+    "inertialDragComposeSolve",
+    "inertialDragI2Apply",
+    "inertialDragNormApply",
+    "inertialDragPairApply",
+    "inertialR2PairDen",
+    "inertialR2PairTerm",
+    "inertialR2SumOf",
+    "pnSource",
+    "relDragCoefficientOf",
+    "relDragPairNormOf",
+    "relDragSolveFromOf",
+    "synUniform",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1356,
+   "segments": 1225,
+   "closureShare": 0.3294
+  },
+  "scopeSha256": "90eed1cf37fa8bf4c0659284a51fff71520a2c4b106b539e7d7ad78b2d080204",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/out/gfamily-w305b.json",
+    "stableSha256": "2c7058da5397e1ad23f3684a45f750489678712ced4a93da493abbcb56a9f00f",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "harnessVersion": "w306a-an336-1",
+ "libVersion": "w306a-an336-1",
+ "contractVersion": "w306a-an336contract-1",
+ "gLocVersion": "w302b-gloc-1",
+ "i2Version": "w303b-inertialr2-1",
+ "pairNormVersion": "w305a-pairnorm-1",
+ "apsisVersion": "w304e-apsis-1",
+ "fitstopVersion": "w303e-fitstop-1",
+ "parts": [
+  "A",
+  "M",
+  "T",
+  "R",
+  "G"
+ ],
+ "pin": {
+  "file": "tests/data-w306a-decl305.json",
+  "version": "w306a-decl305-1",
+  "base": {
+   "commit": "02ca93b",
+   "branchBase": "eaeb6da",
+   "htmlSha12": "57c21ec8d54f",
+   "htmlSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+   "note": "第306便の基点(public main 02ca93b = 第305便の確定・html の sha256 57c21ec8d54f)の在位の惑星の本 7 本(🌡️🌋🔴🏀🟡🔷💙)の physics・bodies・scaleExp・timeRef・fitRecord・abBody の写し —— 第306便a で 7 本の宣言を変えた後に、歴史の器を第305便の宣言で測るための凍結のデータ(tests/lib-w306a-pre.mjs の pin305 が読む・html は読まない)"
+  }
+ },
+ "an336": {
+  "contract": {
+   "version": "w306a-an336contract-1",
+   "libVersion": "w306a-an336-1",
+   "cases": [
+    {
+     "key": "emptyValue",
+     "label": "① 値の空(候補の行の value を空に)",
+     "rejected": true,
+     "err": "AN336 契約: OBS-30d6c60e(Mercury) の値が空か数でない"
+    },
+    {
+     "key": "sigmaWritten",
+     "label": "② sigma 欄の無断の記入(候補の行の sigma に 0.003)",
+     "rejected": true,
+     "err": "AN336 契約: OBS-30d6c60e(Mercury) の候補の行の sigma 欄に記入がある(候補の行は空のまま —— 幅は注記の sigma_source)"
+    },
+    {
+     "key": "unit",
+     "label": "③ 単位違い(候補の行の unit を mas/yr に)",
+     "rejected": true,
+     "err": "AN336 契約: OBS-30d6c60e(Mercury) の単位が mas/yr/arcsec/cy(arcsec/cy が要る)"
+    },
+    {
+     "key": "auditValue",
+     "label": "④ 照合の記録の値の不一致(candidate_value を -0.0020 に —— 文字列で違う)",
+     "rejected": true,
+     "err": "AN336 契約: OBS-30d6c60e(Mercury) の照合の記録の値 -0.0020 が候補の行の値 -0.002 と違う"
+    },
+    {
+     "key": "auditFlag",
+     "label": "⑤ 照合の旗の変更(sigma68_verified を true に)",
+     "rejected": true,
+     "err": "AN336 契約: OBS-30d6c60e(Mercury) の sigma68_verified が false でない(true —— 旗が変わった: 契約を見直すまで止める)"
+    },
+    {
+     "key": "duplicate",
+     "label": "⑥ 行の重複(候補の行を 2 行に)",
+     "rejected": true,
+     "err": "AN336 契約: 候補の行に記録 OBS-30d6c60e が 2 行(ちょうど 1 行が要る)"
+    },
+    {
+     "key": "missing",
+     "label": "⑦ 行の欠落(照合の記録から水星の行を除く)",
+     "rejected": true,
+     "err": "AN336 契約: 照合の記録に記録 OBS-30d6c60e が 0 行(ちょうど 1 行が要る)"
+    }
+   ],
+   "rejectedAll": true,
+   "csvUnchanged": true,
+   "sha256": {
+    "C": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
+    "A": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+   },
+   "mercury": {
+    "value": 42.978510382067476,
+    "expected": 42.978510382067476,
+    "diff": 0,
+    "ok": true
+   },
+   "books": [
+    {
+     "id": "mercurySunInertial3d",
+     "value": 42.978510382067476,
+     "pn1": 42.98051038206748,
+     "recordId": "OBS-30d6c60e",
+     "a1": -0.002,
+     "sourceWidth": 0.003
+    },
+    {
+     "id": "venusSunInertial3d",
+     "value": 8.627120620178848,
+     "pn1": 8.62452062017885,
+     "recordId": "OBS-ffbb5e08",
+     "a1": 0.0026,
+     "sourceWidth": 0.0016
+    },
+    {
+     "id": "marsSunInertial3d",
+     "value": 1.3508452247462133,
+     "pn1": 1.3508652247462132,
+     "recordId": "OBS-865bce87",
+     "a1": -0.00002,
+     "sourceWidth": 0.000037
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "value": 0.12108664095813723,
+     "pn1": 0.06238664095813723,
+     "recordId": "OBS-7f3c18db",
+     "a1": 0.0587,
+     "sourceWidth": 0.0283
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "value": 0.013389400874347215,
+     "pn1": 0.013709400874347216,
+     "recordId": "OBS-b28b0f6e",
+     "a1": -0.00032,
+     "sourceWidth": 0.00047
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "value": 0.002384637457426602,
+     "pn1": 0.002384637457426602,
+     "recordId": null,
+     "a1": null,
+     "sourceWidth": null
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "value": 0.0007741015435735884,
+     "pn1": 0.0007741015435735884,
+     "recordId": null,
+     "a1": null,
+     "sourceWidth": null
+    }
+   ],
+   "tmpRemoved": true,
+   "ok": true
+  },
+  "targets": [
+   {
+    "kind": "derived-reference",
+    "id": "mercurySunInertial3d",
+    "key": "mercury",
+    "value": 42.978510382067476,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1": {
+     "value": 42.98051038206748,
+     "a": 579.0922654152438,
+     "e": 0.20563592999999875,
+     "P": 760.0559795008314,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      1988.5,
+      0.00033011
+     ],
+     "scaleExp": {
+      "L": 8,
+      "T": 4,
+      "M": 27
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": {
+     "recordId": "OBS-30d6c60e",
+     "value": -0.002,
+     "sourceWidth": 0.003,
+     "primaryNumericVerified": true,
+     "sigma68Verified": false,
+     "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+     "locator": "Table 5 (PDF page 13)",
+     "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+     "printed": "-0.020 +/- 0.030 mas/yr",
+     "conversion": "x0.1 (mas/yr to arcsec/cy)",
+     "auditDate": "2026-10-15"
+    },
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": 0.003,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": 43,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "venusSunInertial3d",
+    "key": "venus",
+    "value": 8.627120620178848,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1": {
+     "value": 8.62452062017885,
+     "a": 1082.094745373791,
+     "e": 0.006776719999992832,
+     "P": 1941.4283633850268,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      1988.5,
+      0.0048675
+     ],
+     "scaleExp": {
+      "L": 8,
+      "T": 4,
+      "M": 27
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": {
+     "recordId": "OBS-ffbb5e08",
+     "value": 0.0026,
+     "sourceWidth": 0.0016,
+     "primaryNumericVerified": true,
+     "sigma68Verified": false,
+     "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+     "locator": "Table 5 (PDF page 13)",
+     "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+     "printed": "0.026 +/- 0.016 mas/yr",
+     "conversion": "x0.1 (mas/yr to arcsec/cy)",
+     "auditDate": "2026-10-15"
+    },
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": 0.0016,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "marsSunInertial3d",
+    "key": "mars",
+    "value": 1.3508452247462133,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1": {
+     "value": 1.3508652247462132,
+     "a": 2279.438224275731,
+     "e": 0.09339409999999983,
+     "P": 5935.613850884352,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      1988.5,
+      0.00064171
+     ],
+     "scaleExp": {
+      "L": 8,
+      "T": 4,
+      "M": 27
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": {
+     "recordId": "OBS-865bce87",
+     "value": -0.00002,
+     "sourceWidth": 0.000037,
+     "primaryNumericVerified": true,
+     "sigma68Verified": false,
+     "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+     "locator": "Table 5 (PDF page 13)",
+     "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+     "printed": "-0.00020 +/- 0.00037 mas/yr",
+     "conversion": "x0.1 (mas/yr to arcsec/cy)",
+     "auditDate": "2026-10-15"
+    },
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": 0.000037,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "jupiterSunInertial3d",
+    "key": "jupiter",
+    "value": 0.12108664095813723,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1": {
+     "value": 0.06238664095813723,
+     "a": 778.3408166927109,
+     "e": 0.04838624000000159,
+     "P": 3743.445480756194,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      198.85,
+      0.1898
+     ],
+     "scaleExp": {
+      "L": 9,
+      "T": 5,
+      "M": 28
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": {
+     "recordId": "OBS-7f3c18db",
+     "value": 0.0587,
+     "sourceWidth": 0.0283,
+     "primaryNumericVerified": true,
+     "sigma68Verified": false,
+     "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+     "locator": "Table 5 (PDF page 13)",
+     "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+     "printed": "0.587 +/- 0.283 mas/yr",
+     "conversion": "x0.1 (mas/yr to arcsec/cy)",
+     "auditDate": "2026-10-15"
+    },
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": 0.0283,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "saturnSunInertial3d",
+    "key": "saturn",
+    "value": 0.013389400874347215,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1": {
+     "value": 0.013709400874347216,
+     "a": 1426.6664141799204,
+     "e": 0.05386178999999787,
+     "P": 9292.778187676533,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      198.85,
+      0.056834
+     ],
+     "scaleExp": {
+      "L": 9,
+      "T": 5,
+      "M": 28
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": {
+     "recordId": "OBS-b28b0f6e",
+     "value": -0.00032,
+     "sourceWidth": 0.00047,
+     "primaryNumericVerified": true,
+     "sigma68Verified": false,
+     "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+     "locator": "Table 5 (PDF page 13)",
+     "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+     "printed": "-0.0032 +/- 0.0047 mas/yr",
+     "conversion": "x0.1 (mas/yr to arcsec/cy)",
+     "auditDate": "2026-10-15"
+    },
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": 0.00047,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "uranusSunInertial3d",
+    "key": "uranus",
+    "value": 0.002384637457426602,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 —— A1 の行なし: 1PN の式だけ・幅なし)",
+    "pn1": {
+     "value": 0.002384637457426602,
+     "a": 2870.6581706557336,
+     "e": 0.047257440000000456,
+     "P": 26526.912905414723,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      198.85,
+      0.0086811
+     ],
+     "scaleExp": {
+      "L": 9,
+      "T": 5,
+      "M": 28
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": null,
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": null,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   },
+   {
+    "kind": "derived-reference",
+    "id": "neptuneSunInertial3d",
+    "key": "neptune",
+    "value": 0.0007741015435735884,
+    "unit": "″/世紀",
+    "formula": "q⋆ = q_1PN(初期の接触要素 —— A1 の行なし: 1PN の式だけ・幅なし)",
+    "pn1": {
+     "value": 0.0007741015435735884,
+     "a": 4498.396417009467,
+     "e": 0.008590480000006806,
+     "P": 52035.45704655019,
+     "G": 6.674,
+     "c0": 29979.2458,
+     "masses": [
+      198.85,
+      0.0102409
+     ],
+     "scaleExp": {
+      "L": 9,
+      "T": 5,
+      "M": 28
+     },
+     "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+    },
+    "a1": null,
+    "inputs": [
+     {
+      "file": "paper/data/pn1-ephemeris-candidates.csv",
+      "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+     },
+     {
+      "file": "paper/data/pn1-primary-audit-20261015.csv",
+      "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+     }
+    ],
+    "sigma": null,
+    "sourceWidth": null,
+    "calibrationEligible": false,
+    "numericTolerance": {
+     "value": 0.0009,
+     "kind": "declared",
+     "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+    },
+    "legacyComparison": null,
+    "libVersion": "w306a-an336-1"
+   }
+  ]
+ },
+ "mercury": {
+  "target": {
+   "kind": "derived-reference",
+   "id": "mercurySunInertial3d",
+   "key": "mercury",
+   "value": 42.978510382067476,
+   "unit": "″/世紀",
+   "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+   "pn1": {
+    "value": 42.98051038206748,
+    "a": 579.0922654152438,
+    "e": 0.20563592999999875,
+    "P": 760.0559795008314,
+    "G": 6.674,
+    "c0": 29979.2458,
+    "masses": [
+     1988.5,
+     0.00033011
+    ],
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+   },
+   "a1": {
+    "recordId": "OBS-30d6c60e",
+    "value": -0.002,
+    "sourceWidth": 0.003,
+    "primaryNumericVerified": true,
+    "sigma68Verified": false,
+    "source": "Pitjeva E.V. & Pitjev N.P. 2013 MNRAS 432 3431 / Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011)",
+    "locator": "Table 5 (PDF page 13)",
+    "primarySource": "Pitjev N.P. & Pitjeva E.V. 2013 Astronomy Letters 39 141 (EPM2011) - arXiv:1306.5534",
+    "printed": "-0.020 +/- 0.030 mas/yr",
+    "conversion": "x0.1 (mas/yr to arcsec/cy)",
+    "auditDate": "2026-10-15"
+   },
+   "inputs": [
+    {
+     "file": "paper/data/pn1-ephemeris-candidates.csv",
+     "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8"
+    },
+    {
+     "file": "paper/data/pn1-primary-audit-20261015.csv",
+     "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446"
+    }
+   ],
+   "sigma": null,
+   "sourceWidth": 0.003,
+   "calibrationEligible": false,
+   "numericTolerance": {
+    "value": 0.0009,
+    "kind": "declared",
+    "note": "数値フィットの停止許容(宣言)—— 旧い宣言の照合許容 0.0009″/世紀を数値の許容として継承した。A1 の幅でも和の統計誤差でもない"
+   },
+   "legacyComparison": 43,
+   "libVersion": "w306a-an336-1"
+  },
+  "rows": [
+   {
+    "key": "n2",
+    "n": 2,
+    "gl": {
+     "law": "kappaC2"
+    },
+    "label": "n = 2(G·(c_loc/c₀)² —— law:\"kappaC2\")",
+    "target": 42.978510382067476,
+    "x0": 4.99986,
+    "x1": 5,
+    "status": "fitted",
+    "evals": 3,
+    "rootStop": "root-tol",
+    "iters": [
+     {
+      "x": 4.99986,
+      "y": 42.97856139166631,
+      "f": 0.00005100959883463929
+     }
+    ],
+    "x": 4.99986,
+    "final": {
+     "x": 4.99986,
+     "yH": 42.97856139166631,
+     "yH2": 42.978512202502785,
+     "residual": 0.00005100959883463929,
+     "h2": 0.000049189163526364155,
+     "sum": 0.00010019876236100345,
+     "gate": true,
+     "margin": 0.0007998012376389965
+    },
+    "k": 4.99986,
+    "diffB": [
+     42.97856139166631,
+     42.978512202502785,
+     42.978455577297126
+    ],
+    "diffNew": [
+     42.97859149059901,
+     42.978551580020785,
+     42.97853894427755
+    ],
+    "gLocB": [
+     -28.65369650238931,
+     -28.653655450941407,
+     -28.653610002647763
+    ],
+    "dragB": [
+     71.63225789405561,
+     71.63216765344418,
+     71.63206557994489
+    ],
+    "periodDays": [
+     87.969288749559,
+     87.96936531008721,
+     87.96940376209666
+    ],
+    "sidShiftSec": [
+     -0.16414489055023296,
+     -0.16401723187300377,
+     -0.16395108318647544
+    ],
+    "ecc": [
+     0.20563332081516486,
+     0.20563468372932164,
+     0.20563536526329546
+    ],
+    "stepsH": 380028,
+    "nan": false,
+    "numErrB": 0.000056625205658633604,
+    "numErrNew": 0.000012635743232181085,
+    "xiMax": 3.20988882849338e-7,
+    "psiMax": 3.2099787268588315e-8,
+    "analytic": {
+     "drag": 71.6321782129613,
+     "gLoc": -28.653664074480943,
+     "total": 42.978514138480364,
+     "dragPerK": 14.326836794022494
+    },
+    "gate": true
+   },
+   {
+    "key": "n1",
+    "n": 1,
+    "gl": {
+     "law": "cRatio"
+    },
+    "label": "n = +1(G·c_loc/c₀ —— law:\"cRatio\"・対照)",
+    "target": 42.978510382067476,
+    "x0": 3.99986,
+    "x1": 4,
+    "status": "fitted",
+    "evals": 3,
+    "rootStop": "root-tol",
+    "iters": [
+     {
+      "x": 3.99986,
+      "y": 42.97855216611444,
+      "f": 0.00004178404696375537
+     }
+    ],
+    "x": 3.99986,
+    "final": {
+     "x": 3.99986,
+     "yH": 42.97855216611444,
+     "yH2": 42.978369119972946,
+     "residual": 0.00004178404696375537,
+     "h2": 0.00018304614149400322,
+     "sum": 0.0002248301884577586,
+     "gate": true,
+     "margin": 0.0006751698115422414
+    },
+    "k": 3.99986,
+    "diffB": [
+     42.97855216611444,
+     42.978369119972946,
+     42.97883633894439
+    ],
+    "diffNew": [
+     42.978594423659125,
+     42.97855721593926,
+     42.978542257369824
+    ],
+    "gLocB": [
+     -14.326867993732305,
+     -14.32680005173142,
+     -14.32658184697464
+    ],
+    "dragB": [
+     57.30542015984675,
+     57.305169171704364,
+     57.30541818591903
+    ],
+    "periodDays": [
+     87.96928426390592,
+     87.96936082414986,
+     87.96939927598932
+    ],
+    "sidShiftSec": [
+     -0.5517053165931429,
+     -0.551602219184133,
+     -0.5515507576546952
+    ],
+    "ecc": [
+     0.20563332082388402,
+     0.2056346837336187,
+     0.2056353652654388
+    ],
+    "stepsH": 380028,
+    "nan": false,
+    "numErrB": 0.0004672189714440833,
+    "numErrNew": 0.000014958569437339975,
+    "xiMax": 2.5678930869296945e-7,
+    "psiMax": 3.209978726878527e-8,
+    "analytic": {
+     "drag": 57.305341418938816,
+     "gLoc": -14.326832037240472,
+     "total": 42.978509381698345,
+     "dragPerK": 14.326836794022494
+    },
+    "gate": true
+   },
+   {
+    "key": "n0",
+    "n": 0,
+    "gl": null,
+    "label": "n = 0(G_loc なし —— 対照)",
+    "target": 42.978510382067476,
+    "x0": 2.99986,
+    "x1": 3,
+    "status": "fitted",
+    "evals": 5,
+    "rootStop": "root-tol",
+    "iters": [
+     {
+      "x": 2.99986,
+      "y": 42.97861603738092,
+      "f": 0.00010565531344042256
+     },
+     {
+      "x": 3,
+      "y": 42.980631833318895,
+      "f": 0.0021214512514191597
+     },
+     {
+      "x": 2.999852662082702,
+      "y": 42.97845642236374,
+      "f": -0.000053959703734562936
+     }
+    ],
+    "x": 2.999853,
+    "final": {
+     "x": 2.999853,
+     "yH": 42.97845594061998,
+     "yH2": 42.978473711655745,
+     "residual": -0.00005444144749588986,
+     "h2": 0.000017771035764724274,
+     "sum": 0.00007221248326061414,
+     "gate": true,
+     "margin": 0.0008277875167393858
+    },
+    "k": 2.999853,
+    "diffB": [
+     42.97845594061998,
+     42.978473711655745,
+     42.978231498495774
+    ],
+    "diffNew": [
+     42.978495949999996,
+     42.978458528171785,
+     42.97844484945479
+    ],
+    "gLocB": [
+     0,
+     0,
+     0
+    ],
+    "dragB": [
+     42.97845594061998,
+     42.978473711655745,
+     42.978231498495774
+    ],
+    "periodDays": [
+     87.96927977825447,
+     87.969356338201,
+     87.96939478990473
+    ],
+    "sidShiftSec": [
+     -0.9392656014370004,
+     -0.9391882010277186,
+     -0.9391484663865413
+    ],
+    "ecc": [
+     0.2056333208323351,
+     0.205634683737754,
+     0.20563536526729284
+    ],
+    "stepsH": 380028,
+    "nan": false,
+    "numErrB": 0.00024221315997152715,
+    "numErrNew": 0.000013678716996423645,
+    "xiMax": 1.9258928514048053e-7,
+    "psiMax": null,
+    "analytic": {
+     "drag": 42.97840433705875,
+     "gLoc": 0,
+     "total": 42.97840433705875,
+     "dragPerK": 14.32683679402249
+    },
+    "gate": true
+   }
+  ],
+  "h2root": {
+   "key": "n2",
+   "x": 4.99986,
+   "status": "fitted",
+   "final": {
+    "x": 4.99986,
+    "yH": 42.978512202502785,
+    "yH2": 42.978455577297126,
+    "residual": 0.0000018204353082751368,
+    "h2": 0.000056625205658633604,
+    "sum": 0.00005844564096690874,
+    "gate": true,
+    "margin": 0.0008415543590330912
+   },
+   "evals": 3,
+   "diffToMain": 0
+  },
+  "legacy": {
+   "file": "tests/out/gfamily-w305b.json",
+   "harnessVersion": "w305b-gfamily-1",
+   "rows": [
+    {
+     "key": "n2",
+     "n": 2,
+     "targetKind": "conv",
+     "target": 43,
+     "k": 5.001362,
+     "status": "fitted"
+    },
+    {
+     "key": "n2",
+     "n": 2,
+     "targetKind": "ref",
+     "target": 42.978510382067476,
+     "k": 4.999862,
+     "status": "fitted"
+    },
+    {
+     "key": "n1",
+     "n": 1,
+     "targetKind": "conv",
+     "target": 43,
+     "k": 4.001354,
+     "status": "fitted"
+    },
+    {
+     "key": "n1",
+     "n": 1,
+     "targetKind": "ref",
+     "target": 42.978510382067476,
+     "k": 3.999863,
+     "status": "fitted"
+    },
+    {
+     "key": "n0",
+     "n": 0,
+     "targetKind": "conv",
+     "target": 43,
+     "k": 3.00136,
+     "status": "fitted"
+    },
+    {
+     "key": "n0",
+     "n": 0,
+     "targetKind": "ref",
+     "target": 42.978510382067476,
+     "k": 2.99986,
+     "status": "fitted"
+    }
+   ]
+  },
+  "mercury": {
+   "h": 0.016,
+   "wExt": 2.5619639276481322e-21,
+   "wExtParts": {
+    "book": 2.5619639276481322e-21,
+    "SI": 2.561963927648132e-18,
+    "WcosBook": 4.745894635667769e-27,
+    "WgalBook": 2.5619591817534964e-21
+   },
+   "rsBook": 0.000029532511887503056,
+   "ctl": [
+    {
+     "div": 1,
+     "aps": -9.267888359086529,
+     "periodDays": 87.96929064938412,
+     "ecc": 0.20563319420179002
+    },
+    {
+     "div": 2,
+     "aps": -7.237235699023904,
+     "periodDays": 87.9693672084348,
+     "ecc": 0.20563455709498643
+    },
+    {
+     "div": 4,
+     "aps": -6.729663701000707,
+     "periodDays": 87.96940565967864,
+     "ecc": 0.2056352386185101
+    }
+   ]
+  }
+ },
+ "transfer": {
+  "k": 4.99986,
+  "n": 2,
+  "table": [
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "e": 0.20563592999999875,
+    "h": 0.016,
+    "wExt": 2.5619639276481322e-21,
+    "target": {
+     "value": 42.978510382067476,
+     "pn1": 42.98051038206748,
+     "a1": -0.002,
+     "recordId": "OBS-30d6c60e",
+     "sourceWidth": 0.003
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 42.97853894427755,
+    "numErr": 0.000012635743232181085,
+    "diff": 0.00002856221007618842,
+    "rel": 6.645695679603132e-7,
+    "widthRatio": 0.009520736692062806,
+    "judge": {
+     "kind": "width",
+     "ratio": 0.009520736692062806,
+     "text": "差は原資料の幅の 0.00952 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 42.978455577297126,
+     "numErr": 0.000056625205658633604,
+     "diff": -0.00005480477035035847,
+     "widthRatio": -0.018268256783452824,
+     "judge": {
+      "kind": "width",
+      "ratio": 0.018268256783452824,
+      "text": "差は原資料の幅の 0.0183 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       42.97859149059901,
+       42.978551580020785,
+       42.97853894427755
+      ],
+      "detB": [
+       42.97856139166631,
+       42.978512202502785,
+       42.978455577297126
+      ],
+      "numErrNew": 0.000012635743232181085,
+      "numErrB": 0.000056625205658633604,
+      "t1": [
+       6080.437238395701,
+       6080.4425302439695,
+       6080.445188041337
+      ],
+      "nSamples": [
+       380027,
+       760055,
+       1520111
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       42.978583600645884,
+       42.97854402140851,
+       42.97853068359836
+      ],
+      "detB": [
+       42.97856139166631,
+       42.978512202502785,
+       42.978455577297126
+      ],
+      "numErrNew": 0.00001333781015233626,
+      "numErrB": 0.000056625205658633604,
+      "t1": [
+       6460.464565795432,
+       6460.470188384217,
+       6460.473012293921
+      ],
+      "nSamples": [
+       380028,
+       760055,
+       1520112
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       42.97857523805602,
+       42.978537669427034,
+       42.97852373990817
+      ],
+      "detB": [
+       42.97856643892365,
+       42.978573537101596,
+       42.97861684508588
+      ],
+      "numErrNew": 0.000013929518864586043,
+      "numErrB": 0.000043307984284979284,
+      "t1": [
+       12160.874476405352,
+       12160.885060296989,
+       12160.890375989708
+      ],
+      "nSamples": [
+       760054,
+       1520110,
+       3040222
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       42.9785733665869,
+       42.978535734312004,
+       42.978521537266076
+      ],
+      "detB": [
+       42.97856643892365,
+       42.978573537101596,
+       42.97861684508588
+      ],
+      "numErrNew": 0.000014197045928199259,
+      "numErrB": 0.000043307984284979284,
+      "t1": [
+       12540.901803793018,
+       12540.91271843127,
+       12540.918200239386
+      ],
+      "nSamples": [
+       760055,
+       1520111,
+       3040223
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 0.00001740701147667778,
+    "spreadB": 0.00016126778875502623,
+    "analytic": {
+     "drag": 71.6321782129613,
+     "gLoc": -28.653664074480943,
+     "total": 42.978514138480364,
+     "dragPerK": 14.326836794022494
+    },
+    "analyticMinusMeasured": 0.00002480579718877607,
+    "sidShiftSec": [
+     -0.16414489055023296,
+     -0.16401723187300377,
+     -0.16395108318647544
+    ],
+    "periodDays": [
+     87.969288749559,
+     87.96936531008721,
+     87.96940376209666
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807559,
+     1615118,
+     3230237
+    ]
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "e": 0.006776719999992832,
+    "h": 0.04087,
+    "wExt": 2.5619639276481322e-21,
+    "target": {
+     "value": 8.627120620178848,
+     "pn1": 8.62452062017885,
+     "a1": 0.0026,
+     "recordId": "OBS-ffbb5e08",
+     "sourceWidth": 0.0016
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 8.624056621387558,
+    "numErr": 0.0001249076801155269,
+    "diff": -0.003063998791290601,
+    "rel": -0.00035515891410210527,
+    "widthRatio": -1.9149992445566255,
+    "judge": {
+     "kind": "width",
+     "ratio": 1.9149992445566255,
+     "text": "差は原資料の幅の 1.91 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 8.622923593479532,
+     "numErr": 0.0015431945813677572,
+     "diff": -0.004197026699316098,
+     "widthRatio": -2.623141687072561,
+     "judge": {
+      "kind": "width",
+      "ratio": 2.623141687072561,
+      "text": "差は原資料の幅の 2.62 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       8.624159735544218,
+       8.624181529067673,
+       8.624056621387558
+      ],
+      "detB": [
+       8.623206951843931,
+       8.6244667880609,
+       8.622923593479532
+      ],
+      "numErrNew": 0.0001249076801155269,
+      "numErrB": 0.0015431945813677572,
+      "t1": [
+       15531.41040201472,
+       15531.41843829632,
+       15531.422492925718
+      ],
+      "nSamples": [
+       380019,
+       760040,
+       1520080
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       8.624161664381221,
+       8.62417306096426,
+       8.624049811142967
+      ],
+      "detB": [
+       8.623206951843931,
+       8.6244667880609,
+       8.622923593479532
+      ],
+      "numErrNew": 0.000123249821292859,
+      "numErrB": 0.0015431945813677572,
+      "t1": [
+       16502.12355214064,
+       16502.13209068984,
+       16502.136398733575
+      ],
+      "nSamples": [
+       380020,
+       760040,
+       1520080
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       8.624174620391093,
+       8.624111663730298,
+       8.624119865690195
+      ],
+      "detB": [
+       8.624372120160936,
+       8.623148357331267,
+       8.626521021920516
+      ],
+      "numErrNew": 0.000008201959897036204,
+      "numErrB": 0.003372664589248231,
+      "t1": [
+       31062.820804034407,
+       31062.836876596353,
+       31062.84498585245
+      ],
+      "nSamples": [
+       760039,
+       1520080,
+       3040160
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       8.624177803840979,
+       8.624107784659463,
+       8.624124088299313
+      ],
+      "detB": [
+       8.624372120160936,
+       8.623148357331267,
+       8.626521021920516
+      ],
+      "numErrNew": 0.00001630363984972405,
+      "numErrB": 0.003372664589248231,
+      "t1": [
+       32033.53395416048,
+       32033.55052898999,
+       32033.55889166034
+      ],
+      "nSamples": [
+       760039,
+       1520080,
+       3040161
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 0.00007427715634555909,
+    "spreadB": 0.003597428440983208,
+    "analytic": {
+     "drag": 14.373798556002471,
+     "gLoc": -5.7496522651675255,
+     "total": 8.624146290834947,
+     "dragPerK": 2.8748402067262826
+    },
+    "analyticMinusMeasured": -0.00008966944738908467,
+    "sidShiftSec": [
+     -0.543632212884404,
+     -0.543638730141538,
+     -0.5436365077912342
+    ],
+    "periodDays": [
+     224.70211808467823,
+     224.70223435039088,
+     224.70229301110336
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807543,
+     1615086,
+     3230172
+    ]
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "e": 0.09339409999999983,
+    "h": 0.1249,
+    "wExt": 2.5619639276481322e-21,
+    "target": {
+     "value": 1.3508452247462133,
+     "pn1": 1.3508652247462132,
+     "a1": -0.00002,
+     "recordId": "OBS-865bce87",
+     "sourceWidth": 0.000037
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 1.3508070602802178,
+    "numErr": 0.000001958102985977206,
+    "diff": -0.00003816446599547163,
+    "rel": -0.000028252286269614408,
+    "widthRatio": -1.0314720539316657,
+    "judge": {
+     "kind": "width",
+     "ratio": 1.0314720539316657,
+     "text": "差は原資料の幅の 1.03 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 1.3507479318452014,
+     "numErr": 0.00007065595703514838,
+     "diff": -0.0000972929010119028,
+     "widthRatio": -2.6295378651865624,
+     "judge": {
+      "kind": "numeric",
+      "ratio": 2.6295378651865624,
+      "text": "数値の帯 > 原資料の幅(幅との比は数値の精度の外 —— 差は数値の帯の 1.38 倍)"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       1.3508154322278463,
+       1.3508090183832038,
+       1.3508070602802178
+      ],
+      "detB": [
+       1.3508192790421136,
+       1.3508185878022365,
+       1.3507479318452014
+      ],
+      "numErrNew": 0.000001958102985977206,
+      "numErrB": 0.00007065595703514838,
+      "t1": [
+       47484.490141461276,
+       47484.69980695978,
+       47484.80478385876
+      ],
+      "nSamples": [
+       380180,
+       760363,
+       1520730
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       1.3508155514041535,
+       1.3508091262006658,
+       1.3508068596636462
+      ],
+      "detB": [
+       1.3508192790421136,
+       1.3508185878022365,
+       1.3507479318452014
+      ],
+      "numErrNew": 0.000002266537019623982,
+      "numErrB": 0.00007065595703514838,
+      "t1": [
+       50452.270775302604,
+       50452.49354489477,
+       50452.60508284993
+      ],
+      "nSamples": [
+       380180,
+       760364,
+       1520730
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       1.350814773526632,
+       1.3508092888442744,
+       1.350805578737426
+      ],
+      "detB": [
+       1.3508309733593091,
+       1.3508177355787412,
+       1.3508239859510165
+      ],
+      "numErrNew": 0.0000037101068484091115,
+      "numErrB": 0.0000062503722753071145,
+      "t1": [
+       94968.98028278335,
+       94969.39961379017,
+       94969.60956766282
+      ],
+      "nSamples": [
+       760360,
+       1520726,
+       3041460
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       1.3508146973124504,
+       1.3508092590847984,
+       1.350805366616116
+      ],
+      "detB": [
+       1.3508309733593091,
+       1.3508177355787412,
+       1.3508239859510165
+      ],
+      "numErrNew": 0.000003892468682487049,
+      "numErrB": 0.0000062503722753071145,
+      "t1": [
+       97936.76091662033,
+       97937.19335172111,
+       97937.40986665228
+      ],
+      "nSamples": [
+       760360,
+       1520727,
+       3041461
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 0.0000016936641018538978,
+    "spreadB": 0.0000760541058151265,
+    "analytic": {
+     "drag": 2.2513790008665335,
+     "gLoc": -0.900576235246506,
+     "total": 1.3508027656200277,
+     "dragPerK": 0.45028840824873767
+    },
+    "analyticMinusMeasured": 0.000004294660190140576,
+    "sidShiftSec": [
+     -1.2804829035303555,
+     -1.2805009671865264,
+     -1.280497470361297
+    ],
+    "periodDays": [
+     686.9862578309442,
+     686.9892911880563,
+     686.990809951543
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807883,
+     1615773,
+     3231552
+    ]
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "e": 0.04838624000000159,
+    "h": 0.0788,
+    "wExt": 2.3720067128853253e-19,
+    "target": {
+     "value": 0.12108664095813723,
+     "pn1": 0.06238664095813723,
+     "a1": 0.0587,
+     "recordId": "OBS-7f3c18db",
+     "sourceWidth": 0.0283
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 0.06246309866034558,
+    "numErr": 2.776148267102929e-7,
+    "diff": -0.05862354229779165,
+    "rel": -0.4841454171485302,
+    "widthRatio": -2.0715032614060656,
+    "judge": {
+     "kind": "width",
+     "ratio": 2.0715032614060656,
+     "text": "差は原資料の幅の 2.07 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 0.06244525836618236,
+     "numErr": 0.000012168455056603411,
+     "diff": -0.05864138259195487,
+     "widthRatio": -2.072133660493105,
+     "judge": {
+      "kind": "width",
+      "ratio": 2.072133660493105,
+      "text": "差は原資料の幅の 2.07 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       0.062463279204249114,
+       0.06246337627517229,
+       0.06246309866034558
+      ],
+      "detB": [
+       0.06246237109136626,
+       0.06245742682123896,
+       0.06244525836618236
+      ],
+      "numErrNew": 2.776148267102929e-7,
+      "numErrB": 0.000012168455056603411,
+      "t1": [
+       29947.446057502028,
+       29947.50398032882,
+       29947.533020731767
+      ],
+      "nSamples": [
+       380043,
+       760088,
+       1520179
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       0.062463235537247905,
+       0.062463368467651624,
+       0.06246305549041639
+      ],
+      "detB": [
+       0.06246237109136626,
+       0.06245742682123896,
+       0.06244525836618236
+      ],
+      "numErrNew": 3.129772352325477e-7,
+      "numErrB": 0.000012168455056603411,
+      "t1": [
+       31819.161436095903,
+       31819.22297909937,
+       31819.253834527502
+      ],
+      "nSamples": [
+       380044,
+       760089,
+       1520179
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       0.06246330130137313,
+       0.06246308962911446,
+       0.062462960260429023
+      ],
+      "detB": [
+       0.06245983688944174,
+       0.06246343728572924,
+       0.06246498763842122
+      ],
+      "numErrNew": 1.293686854378362e-7,
+      "numErrB": 0.000001550352691975787,
+      "t1": [
+       59894.892114968825,
+       59895.00796064846,
+       59895.06604145978
+      ],
+      "nSamples": [
+       760087,
+       1520177,
+       3040358
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       0.062463299083053474,
+       0.06246307554795005,
+       0.06246298205667181
+      ],
+      "detB": [
+       0.06245983688944174,
+       0.06246343728572924,
+       0.06246498763842122
+      ],
+      "numErrNew": 9.34912782399322e-8,
+      "numErrB": 0.000001550352691975787,
+      "t1": [
+       61766.6074935616,
+       61766.726959418724,
+       61766.7868552554
+      ],
+      "nSamples": [
+       760088,
+       1520178,
+       3040358
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 1.3839991655495432e-7,
+    "spreadB": 0.000019729272238859508,
+    "analytic": {
+     "drag": 0.10397482355365066,
+     "gLoc": -0.04151184889547828,
+     "total": 0.06246297465817238,
+     "dragPerK": 0.020795546986045743
+    },
+    "analyticMinusMeasured": 1.2400217319630258e-7,
+    "sidShiftSec": [
+     -1.8721433356404305,
+     -1.87219645595178,
+     -1.8722762149991468
+    ],
+    "periodDays": [
+     4332.674487478826,
+     4332.6828675237,
+     4332.6870689711695
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807593,
+     1615189,
+     3230382
+    ]
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "e": 0.05386178999999787,
+    "h": 0.1957,
+    "wExt": 2.3720067128853253e-19,
+    "target": {
+     "value": 0.013389400874347215,
+     "pn1": 0.013709400874347216,
+     "a1": -0.00032,
+     "recordId": "OBS-b28b0f6e",
+     "sourceWidth": 0.00047
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 0.013713992145791814,
+    "numErr": 1.951748004533349e-9,
+    "diff": 0.0003245912714445985,
+    "rel": 0.024242404457878595,
+    "widthRatio": 0.6906197264778692,
+    "judge": {
+     "kind": "width",
+     "ratio": 0.6906197264778692,
+     "text": "差は原資料の幅の 0.691 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 0.013708528303714171,
+     "numErr": 0.000009709934623318081,
+     "diff": 0.00031912742936695583,
+     "widthRatio": 0.6789945305679912,
+     "judge": {
+      "kind": "width",
+      "ratio": 0.6789945305679912,
+      "text": "差は原資料の幅の 0.679 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       0.01371400449693715,
+       0.013713994097539818,
+       0.013713992145791814
+      ],
+      "detB": [
+       0.013710635196127849,
+       0.01371823823833749,
+       0.013708528303714171
+      ],
+      "numErrNew": 1.951748004533349e-9,
+      "numErrB": 0.000009709934623318081,
+      "t1": [
+       74342.85143484222,
+       74342.53583747285,
+       74342.3782314288
+      ],
+      "nSamples": [
+       379881,
+       759760,
+       1519517
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       0.013714006680545473,
+       0.01371398292121359,
+       0.01371395932503597
+      ],
+      "detB": [
+       0.013712594008433852,
+       0.013710932637631556,
+       0.013725203893749711
+      ],
+      "numErrNew": 2.3596177619461534e-8,
+      "numErrB": 0.000014271256118155926,
+      "t1": [
+       78989.27964951986,
+       78988.94432731491,
+       78988.7768708931
+      ],
+      "nSamples": [
+       379882,
+       759760,
+       1519518
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       0.013713911628511011,
+       0.013713987153826683,
+       0.013713920864873462
+      ],
+      "detB": [
+       0.013713087182993154,
+       0.013713206074616438,
+       0.013714142975490623
+      ],
+      "numErrNew": 6.628895322068062e-8,
+      "numErrB": 9.36900874184271e-7,
+      "t1": [
+       148685.70286983944,
+       148685.07167496585,
+       148684.7564628474
+      ],
+      "nSamples": [
+       759763,
+       1519520,
+       3039034
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       0.01371390405586885,
+       0.01371398440615934,
+       0.013713907839071887
+      ],
+      "detB": [
+       0.013713078076360094,
+       0.013712023288745287,
+       0.013716536632834814
+      ],
+      "numErrNew": 7.656708745328034e-8,
+      "numErrB": 0.0000045133440895270965,
+      "t1": [
+       153332.1310845219,
+       153331.48016480854,
+       153331.1551023114
+      ],
+      "nSamples": [
+       759764,
+       1519520,
+       3039035
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 8.430671992638861e-8,
+    "spreadB": 0.00001667559003554024,
+    "analytic": {
+     "drag": 0.022848361685204557,
+     "gLoc": -0.009134379126917344,
+     "total": 0.013713982558287213,
+     "dragPerK": 0.004569800291449072
+    },
+    "analyticMinusMeasured": 9.587504600991337e-9,
+    "sidShiftSec": [
+     -2.4258108402136713,
+     -2.425545867299661,
+     -2.4253654468338937
+    ],
+    "periodDays": [
+     10755.620867334797,
+     10755.575207967942,
+     10755.552406169814
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807249,
+     1614491,
+     3228975
+    ]
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "e": 0.047257440000000456,
+    "h": 0.5581,
+    "wExt": 2.3720067128853253e-19,
+    "target": {
+     "value": 0.002384637457426602,
+     "pn1": 0.002384637457426602,
+     "a1": null,
+     "recordId": null,
+     "sourceWidth": null
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 0.002384691913638975,
+    "numErr": 5.2026999936092416e-8,
+    "diff": 5.4456212372766544e-8,
+    "rel": 0.000022836264776086066,
+    "widthRatio": null,
+    "judge": {
+     "kind": "noWidth",
+     "ratio": null,
+     "text": "幅なし(A1 の行なし —— 1PN の式だけ)・差は数値の帯の 1.05 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 0.002389745114770105,
+     "numErr": 0.000004242188981213278,
+     "diff": 0.000005107657343502835,
+     "widthRatio": null,
+     "judge": {
+      "kind": "noWidth",
+      "ratio": null,
+      "text": "幅なし(A1 の行なし —— 1PN の式だけ)・差は数値の帯の 1.20 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       0.002384656930924118,
+       0.0023846398866390387,
+       0.002384691913638975
+      ],
+      "detB": [
+       0.0023834289907732767,
+       0.0023855029257888916,
+       0.002389745114770105
+      ],
+      "numErrNew": 5.2026999936092416e-8,
+      "numErrB": 0.000004242188981213278,
+      "t1": [
+       212214.245758115,
+       212214.76774978076,
+       212215.02919960223
+      ],
+      "nSamples": [
+       380244,
+       760490,
+       1520982
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       0.002384656200868988,
+       0.002384640193898645,
+       0.0023846745464793477
+      ],
+      "detB": [
+       0.0023834289907732767,
+       0.0023855029257888916,
+       0.002389745114770105
+      ],
+      "numErrNew": 3.435258070279973e-8,
+      "numErrB": 0.000004242188981213278,
+      "t1": [
+       225477.63611799717,
+       225478.19073414206,
+       225478.46852457736
+      ],
+      "nSamples": [
+       380244,
+       760490,
+       1520982
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       0.002384681402510685,
+       0.0023846671386000373,
+       0.002384684235480378
+      ],
+      "detB": [
+       0.0023844723823625716,
+       0.002385856443803849,
+       0.0023866649061771886
+      ],
+      "numErrNew": 1.7096880340714687e-8,
+      "numErrB": 8.084623733394143e-7,
+      "t1": [
+       424428.49151617236,
+       424429.5354995272,
+       424430.0583992331
+      ],
+      "nSamples": [
+       760488,
+       1520980,
+       3041964
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       0.0023846830665407324,
+       0.0023846679742918746,
+       0.002384680988714691
+      ],
+      "detB": [
+       0.0023844723823625716,
+       0.002385856443803849,
+       0.0023866649061771886
+      ],
+      "numErrNew": 1.301442281633619e-8,
+      "numErrB": 8.084623733394143e-7,
+      "t1": [
+       437691.88187605276,
+       437692.9584838874,
+       437693.49772420916
+      ],
+      "nSamples": [
+       760488,
+       1520980,
+       3041964
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 1.7367159627079687e-8,
+    "spreadB": 0.0000030802085929163003,
+    "analytic": {
+     "drag": 0.003974284479296323,
+     "gLoc": -0.0015896195104234774,
+     "total": 0.0023846649688728455,
+     "dragPerK": 0.0007948791524755339
+    },
+    "analyticMinusMeasured": 2.6944766129237407e-8,
+    "sidShiftSec": [
+     -2.1764673991128802,
+     -2.176926622632891,
+     -2.176659449469298
+    ],
+    "periodDays": [
+     30702.292499653362,
+     30702.36801934027,
+     30702.4058448467
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     808019,
+     1616042,
+     3232087
+    ]
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "e": 0.008590480000006806,
+    "h": 1.095,
+    "wExt": 2.3720067128853253e-19,
+    "target": {
+     "value": 0.0007741015435735884,
+     "pn1": 0.0007741015435735884,
+     "a1": null,
+     "recordId": null,
+     "sourceWidth": null
+    },
+    "k": 4.99986,
+    "primary": "new",
+    "pred": 0.00077402883153736,
+    "numErr": 6.99363235253346e-8,
+    "diff": -7.271203622842212e-8,
+    "rel": -0.00009393087616483986,
+    "widthRatio": null,
+    "judge": {
+     "kind": "noWidth",
+     "ratio": null,
+     "text": "幅なし(A1 の行なし —— 1PN の式だけ)・差は数値の帯の 1.04 倍"
+    },
+    "secondary": {
+     "extractor": "detB",
+     "pred": 0.0007829143780157112,
+     "numErr": 0.000012686976453169007,
+     "diff": 0.00000881283444212279,
+     "widthRatio": null,
+     "judge": {
+      "kind": "noWidth",
+      "ratio": null,
+      "text": "幅なし(A1 の行なし —— 1PN の式だけ)・差は数値の帯の 0.695 倍"
+     }
+    },
+    "windows": [
+     {
+      "key": "w8p0",
+      "N": 8,
+      "phase": 0,
+      "label": "8 公転・位相 0",
+      "new": [
+       0.000773863736563575,
+       0.0007740987678608853,
+       0.00077402883153736
+      ],
+      "detB": [
+       0.0007767405969065075,
+       0.0007702274015625422,
+       0.0007829143780157112
+      ],
+      "numErrNew": 6.99363235253346e-8,
+      "numErrB": 0.000012686976453169007,
+      "t1": [
+       416284.32981895446,
+       416283.97900611773,
+       416283.8045625036
+      ],
+      "nSamples": [
+       380168,
+       760336,
+       1520671
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w8p5",
+      "N": 8,
+      "phase": 0.5,
+      "label": "8 公転・位相 半公転",
+      "new": [
+       0.000773873341246541,
+       0.0007741239551874888,
+       0.0007740296060033632
+      ],
+      "detB": [
+       0.0007747881549480759,
+       0.0007674325018072407,
+       0.0007740456618229603
+      ],
+      "numErrNew": 9.434918412558682e-8,
+      "numErrB": 0.000006613160015719573,
+      "t1": [
+       442302.1004326391,
+       442301.7276940001,
+       442301.54234766006
+      ],
+      "nSamples": [
+       380168,
+       760336,
+       1520672
+      ],
+      "nPeri": [
+       8,
+       8,
+       8
+      ]
+     },
+     {
+      "key": "w16p0",
+      "N": 16,
+      "phase": 0,
+      "label": "16 公転・位相 0",
+      "new": [
+       0.0007740270383546142,
+       0.0007742327810302835,
+       0.0007739917423516712
+      ],
+      "detB": [
+       0.0007750206138288046,
+       0.000774009483257577,
+       0.000776816312945448
+      ],
+      "numErrNew": 2.4103867861239615e-7,
+      "numErrB": 0.0000028068296878710867,
+      "t1": [
+       832568.6596381692,
+       832567.9580121237,
+       832567.6091251151
+      ],
+      "nSamples": [
+       760336,
+       1520672,
+       3041342
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     },
+     {
+      "key": "w16p5",
+      "N": 16,
+      "phase": 0.5,
+      "label": "16 公転・位相 半公転",
+      "new": [
+       0.000774040457889499,
+       0.0007742451027039066,
+       0.0007739906487942792
+      ],
+      "detB": [
+       0.0007745825902143793,
+       0.000773939330551474,
+       0.0007763776197880147
+      ],
+      "numErrNew": 2.544539096274289e-7,
+      "numErrB": 0.000002438289236540757,
+      "t1": [
+       858586.430251862,
+       858585.7067000025,
+       858585.3469102749
+      ],
+      "nSamples": [
+       760337,
+       1520672,
+       3041343
+      ],
+      "nPeri": [
+       16,
+       16,
+       16
+      ]
+     }
+    ],
+    "spreadNew": 3.89572090840791e-8,
+    "spreadB": 0.000008868716192750922,
+    "analytic": {
+     "drag": 0.0012901331145506142,
+     "gLoc": -0.0005160145455689243,
+     "total": 0.0007741185689816899,
+     "dragPerK": 0.00025803384785786287
+    },
+    "analyticMinusMeasured": -8.973744432987703e-8,
+    "sidShiftSec": [
+     -3.3856761641800404,
+     -3.3858150942251086,
+     -3.388303890824318
+    ],
+    "periodDays": [
+     60226.32086501405,
+     60226.270110838246,
+     60226.2448730462
+    ],
+    "complete": true,
+    "finite": true,
+    "steps": [
+     807858,
+     1615715,
+     3231427
+    ]
+   }
+  ],
+  "sensitivity": {
+   "mercuryWidth": 0.003,
+   "dqdkAnalytic": 14.326836794022494,
+   "dk": 0.00020939723423468278,
+   "perBook": [
+    {
+     "id": "mercurySunInertial3d",
+     "emoji": "🌡️",
+     "dPred": 0.003,
+     "dPredOverWidth": 1
+    },
+    {
+     "id": "venusSunInertial3d",
+     "emoji": "🌋",
+     "dPred": 0.0006019835881551473,
+     "dPredOverWidth": 0.376239742596967
+    },
+    {
+     "id": "marsSunInertial3d",
+     "emoji": "🔴",
+     "dPred": 0.00009428914729522339,
+     "dPredOverWidth": 2.548355332303335
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "emoji": "🏀",
+     "dPred": 0.000004354530023275372,
+     "dPredOverWidth": 0.00015387031884365272
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "emoji": "🟡",
+     "dPred": 9.56903542034283e-7,
+     "dPredOverWidth": 0.002035964983051666
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "emoji": "🔷",
+     "dPred": 1.6644549607918552e-7,
+     "dPredOverWidth": null
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "emoji": "💙",
+     "dPred": 5.403157408036941e-8,
+     "dPredOverWidth": null
+    }
+   ],
+   "note": "感度の見積り(一次の解析の dq/dk —— 水星の原資料の幅 0.003″/世紀を k に写した δk の各本の予言への効き)。誤差の伝播ではない —— 惑星間の相関があるので独立な 1σ として二乗和にしない"
+  },
+  "windows": [
+   {
+    "key": "w8p0",
+    "N": 8,
+    "phase": 0,
+    "label": "8 公転・位相 0"
+   },
+   {
+    "key": "w8p5",
+    "N": 8,
+    "phase": 0.5,
+    "label": "8 公転・位相 半公転"
+   },
+   {
+    "key": "w16p0",
+    "N": 16,
+    "phase": 0,
+    "label": "16 公転・位相 0"
+   },
+   {
+    "key": "w16p5",
+    "N": 16,
+    "phase": 0.5,
+    "label": "16 公転・位相 半公転"
+   }
+  ],
+  "K": 3,
+  "mainWindow": "w8p0",
+  "mercuryMainSame": true,
+  "note": "差 = 写し − 対照(引きずり OFF・G_loc なし —— 同じ刻み・同じ初期状態)。主は新しい抽出器(離心ベクトルの調和の回帰 K=3)・検出器 B を併記。数値の帯 = |h/2 − h/4|(回帰の標準誤差で置き換えない)。窓/位相の幅 = 4 つの窓の h/4 の予言の最大 − 最小"
+ },
+ "pairRow": {
+  "steps": 2000,
+  "dt": 0.016,
+  "fpPair": "dfa015be",
+  "fpRow": "dfa015be",
+  "bitSame": true,
+  "pairNorm": {
+   "version": "w305a-pairnorm-1",
+   "decl": {
+    "denom": "pair"
+   },
+   "Wbg": 2.5619639276481322e-21,
+   "eps": 0.05,
+   "units": "M/L^3",
+   "steps": 2000,
+   "xiLast": 2.1186832247462025e-7,
+   "xiMax": 2.1186832247462025e-7,
+   "xiRowLast": 2.1186832247462025e-7,
+   "rMaxLast": 1,
+   "rMaxAll": 1,
+   "receivers": [
+    {
+     "i": 0,
+     "pinned": false,
+     "Wbg": 2.5619639276481322e-21,
+     "selfEnv": 0,
+     "self": 0,
+     "inertiaRow": 27.72587783316479,
+     "sumBetaPair": 3.517226019385227e-14,
+     "sumBetaRow": 3.517226019385227e-14,
+     "pairOverRow": 1,
+     "sources": [
+      {
+       "j": 1,
+       "D": 9.75181789251033e-13,
+       "I": 27.72587783316479,
+       "betaPair": 3.517226019385227e-14,
+       "betaRow": 3.517226019385227e-14
+      }
+     ]
+    },
+    {
+     "i": 1,
+     "pinned": false,
+     "Wbg": 2.5619639276481322e-21,
+     "selfEnv": 0,
+     "self": 0,
+     "inertiaRow": 27.72587783316479,
+     "sumBetaPair": 2.1186889470208548e-7,
+     "sumBetaRow": 2.1186889470208548e-7,
+     "pairOverRow": 1,
+     "sources": [
+      {
+       "j": 0,
+       "D": 0.000005874251091157677,
+       "I": 27.72587783316479,
+       "betaPair": 2.1186889470208548e-7,
+       "betaRow": 2.1186889470208548e-7
+      }
+     ]
+    }
+   ],
+   "note": "betaPair = D_ij/(W_bg + 自己 + 背景側の天体 + I_ij)・betaRow = D_ij/(W_bg + 自己 + 背景側の天体 + Σ_k I_ik)・Σβ は受け手の行の和(自己の基準速度は v_i —— 分子に自己なし)"
+  }
+ },
+ "declaration": {
+  "k": 4.99986,
+  "books": [
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 2.111256,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.5619639276481322e-21,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.5619639276481322e-21
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 5.392824,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.5619639276481322e-21,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.5619639276481322e-21
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 16.48752,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.5619639276481322e-21,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.5619639276481322e-21
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 10.3982136,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.3720067128853253e-19,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.3720067128853253e-19
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 25.822128,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.3720067128853253e-19,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.3720067128853253e-19
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 73.64496,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.3720067128853253e-19,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.3720067128853253e-19
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "physics": {
+     "coord": "3d",
+     "G": 6.674,
+     "D0": 0.1,
+     "kFrame": 0,
+     "q": 3,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 3,
+     "lambdaPN": 0,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1,
+     "stepDt": 144.4536,
+     "dispMag": 10,
+     "stateCarry": "double",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": 2.3720067128853253e-19,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all",
+      "inertialR2": {
+       "lambdaRs": 4.99986,
+       "sources": "all",
+       "denom": "pair"
+      }
+     },
+     "gLoc": {
+      "law": "kappaC2"
+     }
+    },
+    "wExt": 2.3720067128853253e-19
+   }
+  ],
+  "fitRecord": {
+   "version": "w298b-1",
+   "parent": "mercurySunInertialFit",
+   "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ)・λ ∝ m の inertialR2 {lambdaRs:k, sources:\"all\", denom:\"pair\"}(対ごとの正規化 —— 二体では行と同じ)・W_bg = W_ext・局所重力 G_loc n = 2(gLoc kappaC2 —— 第95報・AN332 の裁定による選択)・自己の項なし・λ_PN=0・積分器 semic(第306便a(原仮定者の裁定〔第97報〕AN336・R204) の再フィット w306a-1)",
+   "targets": [
+    {
+     "q": "近点率の差(引きずり OFF の対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+     "obs": 42.978510382067476,
+     "unit": "″/世紀",
+     "source": "派生した参照値 q⋆ = q_1PN + A1 = 42.98051038206748 − 0.002 = 42.978510382067476″/世紀(原仮定者の裁定〔第97報〕AN336 —— 独立に観測された総量ではない・calibrationEligible false)。q_1PN は初期の接触要素 a₀・e₀・ケプラー周期の二体の 1PN の式・A1 は EPM2011 の近日点の追加の歳差(候補の行 A1-EPM2011・原資料の幅 0.003・sigma null —— 来歴〔記録 ID・入力 CSV の sha256・式の版・G・c₀・質量・単位〕は正本 tests/out/an336-w306a.json)。照合規約 43.0″/世紀は履歴の列。Park 2017 の 42.9799±0.0009 とは同一視しない",
+     "window": "8 公転・検出器 B・引きずり OFF の対照との差(同じ刻み・semic)",
+     "tol": {
+      "value": 0.0009,
+      "kind": "declared",
+      "note": "数値フィットの停止許容の宣言 0.0009″/世紀 —— 旧い宣言の照合許容を数値の許容として継承した(A1 の幅でも和の統計誤差でもない)。標的は派生した参照値で σ を持たない(sigma null・原資料の幅 sourceWidth 0.003 は 68% の 1σ の定義が未確認)"
+     },
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+     "model": 42.97856139166631,
+     "residual": 0.00005100959883463929,
+     "rel": 0.0000011868628852228145,
+     "numerics": {
+      "h2": 0.000049189163526364155,
+      "dtHalf": 0.008
+     }
+    },
+    {
+     "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+     "obs": 87.969,
+     "unit": "d",
+     "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+     "window": "8 公転",
+     "tol": {
+      "value": 0.0005,
+      "kind": "declared",
+      "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+     },
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+     "model": 87.969288749559,
+     "residual": 0.0002887495590044864,
+     "rel": 0.000003282401289141475,
+     "numerics": {
+      "h2": 0.00007656052821403136,
+      "dtHalf": 0.008
+     }
+    }
+   ],
+   "knobs": [
+    {
+     "key": "physics.relativeDrag.inertialR2.lambdaRs",
+     "range": [
+      0.5,
+      50
+     ],
+     "final": 4.99986
+    }
+   ],
+   "fixed": [
+    "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+    "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+    "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic)・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"・W_bg = W_ext 2.5619639276481322e-21(W_cos + W_gal —— 第302便c の推定の値・太陽を含めない・合わせていない)・自己の項(self・dragCore・shellSelf)なし",
+    "7 本(🌡️🌋🔴🏀🟡🔷💙)は同じ k を一括で宣言(水星のフィットの値 —— 他の 6 本は移送の記録で、惑星ごとに合わせ直していない)",
+    "履歴の列(第306便a で退いた標的と模型): 照合規約 43.0″/世紀(n = 2 の k 5.001362 —— 第305便b の写し)・第303便a の W_bg 221.1204 で模型 43.00002(G_loc なし・旧 cond.sig c5c425a54a51ac99)"
+   ],
+   "procedure": "第306便a(原仮定者の裁定〔第97報〕AN336・R204): 引きずり OFF・G_loc なしの対照との近点率の差(8 公転・semic・検出器 B)を派生した参照値 q⋆ に割線で合わせ(lib-w303e-fitstop —— x0 4.99986・x1 5・停止は許容の 1/10)、k を 7 桁に丸めて h と h/2 で測り直した(|残差| + |h − h/2| ≤ 0.0009 なら fitted —— 参照値と宣言の許容に対する数値フィットで、観測の較正の合格とは別)。器 tests/exp-w306a-an336.mjs",
+   "dt": 0.016,
+   "steps": 380028,
+   "status": "fitted",
+   "notFitted": [
+    "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+    "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+    "機構(1PN の近日点前進の機構の同定ではない)",
+    "n(近点では k − n が縮退 —— n = 2 は裁定による選択で、近点では決まらない)"
+   ],
+   "cond": {
+    "version": "w297b-cond-1",
+    "sig": "0cf63b4259b48992",
+    "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+   }
+  },
+  "fitRecordAccepted": true,
+  "fitRecordErr": null,
+  "fitRecordGate": true
+ },
+ "gate": {
+  "gen": {
+   "mercurySunInertial3d": true,
+   "venusSunInertial3d": true,
+   "marsSunInertial3d": true,
+   "jupiterSunInertial3d": true,
+   "saturnSunInertial3d": true,
+   "uranusSunInertial3d": true,
+   "neptuneSunInertial3d": true
+  },
+  "G1": {
+   "k": 4.99986,
+   "status": "fitted",
+   "residual": 0.00005100959883463929,
+   "h2": 0.000049189163526364155,
+   "sum": 0.00010019876236100345,
+   "pass": true
+  },
+  "G3": {
+   "pass": true,
+   "rows": [
+    {
+     "id": "mercurySunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807559,
+      1615118,
+      3230237
+     ]
+    },
+    {
+     "id": "venusSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807543,
+      1615086,
+      3230172
+     ]
+    },
+    {
+     "id": "marsSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807883,
+      1615773,
+      3231552
+     ]
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807593,
+      1615189,
+      3230382
+     ]
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807249,
+      1614491,
+      3228975
+     ]
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      808019,
+      1616042,
+      3232087
+     ]
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "complete": true,
+     "finite": true,
+     "steps": [
+      807858,
+      1615715,
+      3231427
+     ]
+    }
+   ]
+  },
+  "declared": true,
+  "G2": {
+   "pass": true,
+   "rows": [
+    {
+     "id": "mercurySunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807559,
+     "detB": 42.97856139166631,
+     "apsNew": 42.97859149059901,
+     "copyDetB": 42.97856139166631,
+     "copyNew": 42.97859149059901,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "venusSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807543,
+     "detB": 8.623206951843931,
+     "apsNew": 8.624159735544218,
+     "copyDetB": 8.623206951843931,
+     "copyNew": 8.624159735544218,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "marsSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807883,
+     "detB": 1.3508192790421136,
+     "apsNew": 1.3508154322278463,
+     "copyDetB": 1.3508192790421136,
+     "copyNew": 1.3508154322278463,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807593,
+     "detB": 0.06246237109136626,
+     "apsNew": 0.062463279204249114,
+     "copyDetB": 0.06246237109136626,
+     "copyNew": 0.062463279204249114,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807249,
+     "detB": 0.013710635196127849,
+     "apsNew": 0.01371400449693715,
+     "copyDetB": 0.013710635196127849,
+     "copyNew": 0.01371400449693715,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 808019,
+     "detB": 0.0023834289907732767,
+     "apsNew": 0.002384656930924118,
+     "copyDetB": 0.0023834289907732767,
+     "copyNew": 0.002384656930924118,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "physSame": true,
+     "fresh": true,
+     "steps": 807858,
+     "detB": 0.0007767405969065075,
+     "apsNew": 0.000773863736563575,
+     "copyDetB": 0.0007767405969065075,
+     "copyNew": 0.000773863736563575,
+     "bitSame": true,
+     "absDiff": 0,
+     "nan": false
+    }
+   ]
+  },
+  "fitRecord": {
+   "present": true,
+   "accepted": true,
+   "sigHtml": "0cf63b4259b48992",
+   "sigRegen": "0cf63b4259b48992",
+   "same": true,
+   "status": "fitted",
+   "pass": true
+  }
+ },
+ "gates": {
+  "contract": true,
+  "targets": true,
+  "mercuryFits": true,
+  "h2root": true,
+  "transferMeasured": true,
+  "mercuryMainSame": true,
+  "pairRowBitSame": true,
+  "fitRecordAccepted": true,
+  "G1": true,
+  "G3": true,
+  "G2": true,
+  "fitRecordLive": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.026
+  },
+  "M": {
+   "wallSec": 91.915
+  },
+  "T": {
+   "wallSec": 575.297
+  },
+  "R": {
+   "wallSec": 0.071
+  },
+  "G": {
+   "wallSec": 42.4
+  }
+ },
+ "stats": {
+  "runs": 88,
+  "memoHits": 11,
+  "stepsTotal": 117870654,
+  "freshRuns": 7
+ },
+ "elapsedS": 792.369
+}

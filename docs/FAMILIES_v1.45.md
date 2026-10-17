@@ -1,4 +1,4 @@
-# 同一天体の家族の差分表と統廃合の候補(v1.45-b305・第283便b)
+# 同一天体の家族の差分表と統廃合の候補(v1.45-b306・第283便b)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w283b-families.mjs` が、対象 html の内蔵プリセットを受理した後の実効 JSON(`validatePreset` の後)と、正本 `tests/out/calaudit-w249.json`(較正母集団)・凍結の写し `tests/fixtures/retired-w283b.json` から作る。QA `docs.families` が正本からこの文書を作り直して 1 字ずつ照合する。
 > 原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」への対応(統括の検証項目 R85)。**ここに並ぶのは候補であって実行ではない** —— どの本を畳むかは原仮定者の裁定で決める。観測版と DFM 版は 1 ID にしない。
@@ -21,11 +21,11 @@
 ## 集計
 
 - 家族 **22**・本 **50**(在位の本)・推定の列: 主系列 26・比較 19・診断 5。
-- 候補: 規則 A 2・規則 B 0・規則 C(要裁定)1・畳まない組 0。
+- 候補: 規則 A 1・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|
-| 冥王星–カロン(`pluto`) | 2 | `plutoCharonDiagInput` | 1 | 0 | 1 | 1/0/0 | 0 |
+| 冥王星–カロン(`pluto`) | 2 | `plutoCharonDiagInput` | 1 | 0 | 1 | 0/0/0 | 0 |
 | 地球–月(現実との照合)(`earthmoon`) | 3 | `earthMoonRealKF1` | 2 | 1 | 0 | 0/0/0 | 0 |
 | 水星(現実との照合)(`mercury`) | 2 | `mercuryReal` | 1 | 0 | 1 | 1/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 4 | `saturnRingReal` | 2 | 0 | 2 | 0/0/0 | 0 |
@@ -53,24 +53,20 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🥶 | `plutoCharonDiagInput` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 冥王星–カロンを 1 つの観測解に揃えた入力で照合する(家族の入口) | — |
-| 🟪 | `plutoCharonInertialFit` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | inertial | — | 係数移送版の写しに核の事前値を置き W_bg だけを公転周期に合わせる(semic) | — |
+| 🟪 | `plutoCharonInertialFit` | variant | 診断(principle・geoPN=3) | 違う入力(位置・速度) | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | inertial | — | 二体のケプラーの初期状態で引きずり OFF の基線を確かめる(周期は入力の整合) | — |
 
 **鍵ごとの差**(physics の同じ鍵 27):
 
 - `physics.geoPN`: plutoCharonDiagInput=1 / plutoCharonInertialFit=3
 - `physics.lambdaPN`: plutoCharonDiagInput=1 / plutoCharonInertialFit=0
-- `physics.relativeDrag`: plutoCharonDiagInput=— / plutoCharonInertialFit={"law":"inertial","Wbg":0.0001486103,"eps":0.01,"pairs":"all","history":"positions","coreTable":{"n":4096}}
+- `physics.relativeDrag`: plutoCharonDiagInput=— / plutoCharonInertialFit={"law":"inertial","Wbg":null,"enabled":false,"eps":0.01,"pairs":"all","history":"positions","coreTable":{"n":4096}}
 - `fitRecord`: plutoCharonDiagInput=— / plutoCharonInertialFit=(宣言あり)
 - `sampleClass`: plutoCharonDiagInput=calibration / plutoCharonInertialFit=principle
 - `calVariant`: plutoCharonDiagInput=kf0 / plutoCharonInertialFit=—
 - `familyRole`: plutoCharonDiagInput=primary / plutoCharonInertialFit=variant
-- `bodies(vs 基準)`: plutoCharonDiagInput=基準 / plutoCharonInertialFit=同じ入力
+- `bodies(vs 基準)`: plutoCharonDiagInput=基準 / plutoCharonInertialFit=違う入力(位置・速度)
 
-**統廃合の候補**(実行ではない):
-
-| 規則 | 残す | 畳む | どう | 理由 |
-|---|---|---|---|---|
-| A | `plutoCharonDiagInput` | `plutoCharonInertialFit` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が plutoCharonDiagInput と同じ・違うのは physics の geoPN・lambdaPN・relativeDrag |
+**統廃合の候補**: 規則に当たる組は無い。
 
 ## 地球–月(現実との照合)(`earthmoon`・3 本)
 

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T11:05:07.362Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-17T00:07:20.463Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "tests/data-w305b-declbdb.json",
@@ -22,9 +22,15 @@
   "code": [
    {
     "file": "tests/exp-w305b-gfamily.mjs",
-    "bytes": 49041,
-    "sha256": "270a32930efeb9a4d0a7cc4c99cda0c1099f5ef0a96b7b7241c17d6c36c4c6fd",
-    "mtime": "2026-10-16T04:33:50.410Z"
+    "bytes": 49833,
+    "sha256": "7fe5ae96efbca025ed76314a726ec7ea445a60734ba127f670b98cfe32615f69",
+    "mtime": "2026-10-16T19:11:11.231Z"
+   },
+   {
+    "file": "tests/lib-w306a-pre.mjs",
+    "bytes": 5337,
+    "sha256": "29de399a2c1d1df45a31a0f197ab366b5ac7d7a89540990b64abc8acba5ac1db",
+    "mtime": "2026-10-16T19:11:11.237Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
@@ -46,9 +52,9 @@
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 77477,
-    "sha256": "dbce6ab6d044f4692a9b2cace6c00ca87a28fa28a7a49868d1808c4f754686b0",
-    "mtime": "2026-10-15T07:11:58.476Z"
+    "bytes": 77963,
+    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -93,7 +99,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "8589e6dc3874c6a877009bb49dd51c9f453e352f4404b0845c33150a3b506cc0",
+  "codeSha256": "a791ea1f6f29eb5434e8e766c2b8f3f096829c89c7460184b7ebe9a509e30987",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -180,9 +186,9 @@
    "complete": true,
    "names": 1356,
    "segments": 1225,
-   "closureShare": 0.3301
+   "closureShare": 0.3294
   },
-  "scopeSha256": "9afada51069010a908fed206dfa689341f2283a60ac8f9d0a8561c396c4f2784",
+  "scopeSha256": "79c4c7c3310ada45eccf2df8ccfb062df8d9b4b32764a60e2206e9b80e4e652b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -220,34 +226,50 @@
   "liveSame": {
    "mercurySunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "venusSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "marsSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "jupiterSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "saturnSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "uranusSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "neptuneSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "mercurySunInertialFit": {
     "physicsBodies": true,
+    "physicsBodiesRaw": true,
+    "pin305": false,
     "all": true
    }
   }
@@ -256,34 +278,50 @@
   "liveSame": {
    "mercurySunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "venusSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "marsSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "jupiterSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "saturnSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "uranusSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "neptuneSunInertial3d": {
     "physicsBodies": true,
+    "physicsBodiesRaw": false,
+    "pin305": true,
     "all": true
    },
    "mercurySunInertialFit": {
     "physicsBodies": true,
+    "physicsBodiesRaw": true,
+    "pin305": false,
     "all": true
    }
   },
@@ -4286,22 +4324,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 36.062
+   "wallSec": 35.093
   },
   "M": {
-   "wallSec": 164.803
+   "wallSec": 164.342
   },
   "T": {
-   "wallSec": 854.013
+   "wallSec": 799.749
   },
   "P": {
    "wallSec": 0.002
   },
   "S": {
-   "wallSec": 39.228
+   "wallSec": 37.773
   },
   "D": {
-   "wallSec": 100.889
+   "wallSec": 97.65
   }
  },
  "stats": {
@@ -4309,5 +4347,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1196.991
+ "elapsedS": 1136.542
 }

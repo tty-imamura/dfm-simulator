@@ -992,6 +992,16 @@ export const REGEN_STEPS = [
     after: ['shell-304b', 'inertialr2-303b', 'planets3d-299c', 'inertial3-295c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/gfamily-w305b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第305便b: 惑星の G_loc の n の族(n = 2/+1/0)× λ ∝ m の写し —— 水星の k・6 本への移送(新しい抽出器 + 検出器 B)・周期の表・太陽の小さい η☉・🟫(二次元)の扱いの得失(値だけ —— どの本にもオンにしない)' }),
+  // ---- 第306便b(DECISIONS v64 AN336 ③・AN333・AN335 ③・第95報・AN332 の裁定・原仮定者の裁定(第97報)AN336・統括の検証項目 R205): **周期による G_loc の n の識別の器**
+  //   (段 Z〔平均経度の抽出器 lib-w306b-meanlon の自己試験・写しの指紋・対 = 行・エンジンの対照のケプラー〕・P〔7 本 × n = 2/+1/0 × h/h2/h4 の平均経度の周期の表 —— 同じ初期状態〕・
+  //   R〔1 本ずつの合わせ直し —— 初速の大きさ/太陽の質量〕・G〔共通の太陽の GM で残る P²/a³ の型〕・T〔時刻系の対応の記録 —— 換算は適用しない〕・
+  //   E〔🌦️ の恒星月の n の欄 —— pairnorm-305a の正本の転記と J₂ ありの基線での 1 行の取り直し〕)。本の宣言は 02ca93b の写し(tests/data-w305b-declbdb.json〔惑星 —— 02ca93b と同一〕・
+  //   tests/data-w306b-decl305.json〔🌦️〕)に器の中で固定。k は gfamily-305b の正本の参考の行(生きている 🌡️ の宣言に n = 2 の k があればその値)。html だけを読む・1 プロセス。
+  //   W306B_PARTS で段を分けられる。所要は第306便b の枝の実測(正本の elapsedS)
+  S('periodn-306b', 'node tests/exp-w306b-periodn.mjs', ['tests/out/periodn-w306b.json'], 1800, { secSource: 'w306b-branch', node: true,
+    after: ['gfamily-305b', 'pairnorm-305a', 'inertialr2-303b', 'planets3d-299c', 'earthmoon-303c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/periodn-w306b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/moon/remeasured/wallSec']) },
+    note: '第306便b: 周期による G_loc の n の識別の器 —— 平均経度の周期の抽出器・n ごとの周期の表(同じ初期状態)・1 本ずつの合わせ直し・共通の太陽の GM で残る P²/a³ の型・時刻系の対応の記録・🌦️ の恒星月の n の欄(値だけ —— どの本にもオンにしない・換算は適用しない)' }),
   // ---- 第304便c(原仮定者の裁定(第94報)—— AN316 ①〜④ の提案に同意・統括の検証項目 R197): **🌦️🌔 の基線の見直し**(段 solve〔第303便の宣言の写し DECL303 から
   //   軟化 ε 0.0005・e′ 0.0167086・引きずり OFF で長窓 1062 公転の平均の要素へ —— 参照積分 → エンジン・丸めて本の宣言と同じかの門〕・measure〔本の宣言の 🌦️ の引きずり OFF/ON・
   //   窓 118/354/708/1062 とずらした 118 窓・M1/M4/M4a・h/h2/h4・参照積分 ε と ε 0・起点の位相 180°〕・record〔fitRecord を測った数から作り本の記録と同じか〕・emo〔🌔 の写しの規則と走り〕)。
@@ -1017,6 +1027,16 @@ export const REGEN_STEPS = [
     after: ['moon3d-298c', 'synodic-299b', 'emonly-300b', 'earthmoon-303c', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/j2-w305c.json': META_RUN.concat(['/elapsedS', '/unit/wallSec', '/analytic/wallSec', '/em/wallSec', '/emo/wallSec', '/emo/runs/j2/wallSec', '/emo/runs/j2h2/wallSec', '/emo/runs/noJ2/wallSec']) },
     note: '第305便c: 三次元の J₂(bodies[i].j2)の零試験・保存・解析の歳差との一致と、🌦️🌔 の地球の J₂ の交点・近地点・恒星月(長窓 M4)—— fitRecord(交点の標的)の生成' }),
+  // ---- 第306便c(DECISIONS v64 AN337 ③④⑤・v65 §0 AN337・AN335 ①・統括の検証項目 R206): **🌦️ の J₂ ありの初期配置の解き直し**(段 solve〔第305便の宣言の写し DECL305 から
+  //   J₂ ありの参照積分 → エンジン〔同じ Jacobian〕で長窓 1062 公転の平均の要素へ・丸めて本の宣言と同じかの門〕・measure〔前後の長窓の 4 量・J₂ あり/なし・h/2・方位 0°・参照積分・採否の門〕・
+  //   phase〔起点の位相 × J₂ あり/なし〕・attrib〔交点の残りの目録〕・ledger〔J₂ × 引きずり ON の仕事の帳簿 —— 定義と数だけ〕・emo〔🌔 の写しの規則〕・record〔fitRecord の生成〕)。
+  //   html と凍結の写し tests/data-w306c-decl305.json を読む(器のコードの依存として emonly-300b〔runEm3・declCheck〕・earthmoon-303c〔runEngine・refRun・windowsOf〕・
+  //   baseline-304c〔declFrom303〕・j2-305c〔EARTH_J2・twoBodyOf〕の後・html の生成領域の後)・1 プロセス。W306C_PARTS で段を分けられる。所要は第306便c の枝の実測(正本の elapsedS)
+  S('emresolve-306c', 'node tests/exp-w306c-emresolve.mjs', ['tests/out/emresolve-w306c.json'], 1500, { secSource: 'w306c-branch', node: true,
+    after: ['moon3d-298c', 'synodic-299b', 'emonly-300b', 'earthmoon-303c', 'baseline-304c', 'j2-305c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/emresolve-w306c.json': META_RUN.concat(['/elapsedS', '/solve/wallSec', '/measure/wallSec', '/measure/runs/*/wallSec', '/phase/wallSec', '/attrib/wallSec', '/ledger/wallSec',
+      '/emo/wallSec']) },
+    note: '第306便c: 🌦️ の初期配置を J₂ ありで解き直す(恒星月 B1・平均傾斜 5.145°・J₂ の値は動かさない)—— 前後の 4 量・採否の門・起点の位相・交点の残りの目録・J₂ × 引きずり ON の仕事の帳簿・fitRecord の生成・🌔 の写し' }),
   // ---- 第305便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」「軸引きずりは、引きずり元による様々な軸の回転」「多粒子の平均と熱力学との類似」・
   //   統括の検証項目 R202): **回転引きずり・軸引きずりと多粒子の平均の診断の器**(段 P〔包みの素通り〕・C〔契約: 慣性自転の不変・自己の分子 0・源 = 慣性自転・毎步の作り直し・
   //   二重計上の写し〕・X〔回転引きずりの座標の分解と h/2・有限回転の順序〕・M〔本の写しの平均と二次モーメント・恒等式・逆回転の集団・合成の集団の平均場と正確な対の和・
@@ -1025,6 +1045,16 @@ export const REGEN_STEPS = [
   S('spinavg-305d', 'node tests/exp-w305d-spinavg.mjs', ['tests/out/spinavg-w305d.json'], 577, { secSource: 'w305d-branch', node: true, after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/spinavg-w305d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/wallSec', '/scan/rows/*/wallSec']) },
     note: '第305便d: 回転引きずり・軸引きずりと多粒子の平均の診断(契約の步ごとの確かめ・座標変換の分解・有限回転の順序・平均と二次モーメント・平均場と正確な対の和・平均の自転速度と斥力の候補の読み口 —— 値だけ・力として足さない)' }),
+  // ==== 第306便d の塊(ここから)====
+  // ---- 第306便d(原仮定者の裁定(第96報)後半「回転引きずりは、移動と回転の両方に効く座標変換」・決断事項 AN338 ①③④・統括の検証項目 R207): **回転引きずりを座標変換として
+  //   器の写しで測る器**(段 P〔包みの素通り〕・G〔大域の一つの R —— 不変量・回転引きずりの項と走行の共変・時間に依る枠の読み替えの恒等式〕・L〔受け手ごとの R_i の選択肢の
+  //   写し(位置だけ/位置 + 姿勢/v ← R_i v のキック/一つの R̄ の対照)の帳簿と h・h/2・h/4〕・O〔源の並び〕・F〔揺らぎの仕事〕・D〔🍩 の步の順序の遅れと直し方の候補〕)。
+  //   spinDrag の rot を宣言した本 4 本の写し(本の宣言は変えない —— 器の中で組む)。html だけを読む・1 プロセス(html の関数を器の process の中で包む —— 素通りは段 P)。
+  //   所要は第306便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('rotframe-306d', 'node tests/exp-w306d-rotframe.mjs', ['tests/out/rotframe-w306d.json'], 1767, { secSource: 'w306d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rotframe-w306d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/runs/*/*/wallSec', '/books/*/retro/*/wallSec']) },
+    note: '第306便d: 回転引きずりの座標変換の定義の帳簿(大域の R と受け手ごとの R_i・位置/姿勢/速度の選択肢・読み替えとキック・揺らぎの仕事・🍩 の步の順序の遅れの候補 —— 値だけ・エンジンと宣言は変えない)' }),
+  // ==== 第306便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1033,6 +1063,25 @@ export const REGEN_STEPS = [
     after: ['obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/charonaudit-w305e.json': META_RUN.concat(['/elapsedS', '/soft/rows/*/wallSec', '/window/run16/wallSec', '/band/rows/*/wallSec']) },
     note: '第305便e: 🟪 の基線の監査(引きずり OFF の差 +7.221 s の内訳・観察者の時計の換算は記録だけ・直す案の確かめ —— 宣言は変えない)' }),
+  // ---- 第306便a(原仮定者の裁定〔第97報〕AN336・第95報・AN332 の裁定・統括の検証項目 R204): **水星の標的を 1PN + A1 の派生した参照値へ**(生成器と契約〔段 A〕・
+  //   水星の k の再フィット n = 2/+1/0〔段 M〕・7 本への移送〔段 T —— 新しい抽出器が主 + 検出器 B・窓 8/16 × 位相 0/半公転 × h/h2/h4〕・二体の対 = 行〔段 R〕・
+  //   門〔段 G —— html に書いた在位の 7 本の宣言そのものを走らせて写しとビット同一・🌡️ の fitRecord を作り直して照合〕)。html・凍結の写し tests/data-w306a-decl305.json・
+  //   観測の記録 CSV 2 本・第305便b の正本(照合規約 43.0 の k の履歴の列)を読む。1 プロセス。所要は第306便a の枝の実測(正本の elapsedS)
+  // <<< w306a 段 an336-306a(統合で他の枝の段と混ざらないように境界を置く)
+  S('an336-306a', 'node tests/exp-w306a-an336.mjs', ['tests/out/an336-w306a.json'], 900, { secSource: 'w306a-branch', node: true,
+    after: ['gfamily-305b', 'planets3d-299c', 'inertialr2-303b', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/an336-w306a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第306便a: 水星の標的を 1PN + A1 の派生した参照値へ —— 生成器と契約・水星の k(n = 2 を宣言・n = +1/0 は対照)・7 本への移送・在位の 7 本の宣言の門(G1〜G3・fitRecord)' }),
+  // >>> w306a 段 an336-306a
+  // ---- 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): **🟪 plutoCharonInertialFit の宣言の直し (A) の器**(段 decl〔第305便の宣言の写し tests/data-w306e-decl305.json から
+  //   案 (A) の宣言を作り html と同じかの門〕・measure〔h/h2/h4 の 8 公転の M1〕・soft〔軟化 ε² の外挿〕・tide〔太陽の潮汐の桁・三次元の写し〕・control〔旧 W_bg の引きずり ON・
+  //   第305便の宣言の ON/OFF〕・parent〔🥶 の同じ定義の点検 —— 宣言は変えない〕・record〔fitRecord を測った数から作り本の記録と同じか〕)。html と
+  //   paper/data/solar-observations.csv(record_id で行を引く)と凍結の写しを読む・他の正本は読まない(html の生成領域の後)・1 プロセス。W306E_PARTS で段を分けられる。
+  //   所要は第306便e の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('charonfix-306e', 'node tests/exp-w306e-charonfix.mjs', ['tests/out/charonfix-w306e.json'], 200, { secSource: 'w306e-branch', node: true,
+    after: ['charonaudit-305e', 'obscompare', 'samplestatus'],   // 記録(fitRecord.fixed)が第305便e の監査の正本を名指す・器の関数を import する
+    volatilePaths: { 'tests/out/charonfix-w306e.json': META_RUN.concat(['/elapsedS', '/measure/h/wallSec', '/measure/h2/wallSec', '/measure/h4/wallSec', '/soft/rows/*/wallSec']) },
+    note: '第306便e: 🟪 の宣言の直し (A)(初期の距離を二体のケプラーの a・引きずり OFF・旧 W_bg は履歴 —— 周期の一致は入力の整合の確かめ)・🥶 の同じ定義の点検' }),
   // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
   //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
   //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
@@ -1133,6 +1182,16 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w305b-declbdb.json': [],
   // 第305便c(R201): 第304便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w305c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 j2-w305c と歴史の記録の器〔baseline-304c〕の入力)
   'tests/data-w305c-decl304.json': [],
+  // 第306便a(AN336・R204): 第305便の在位の惑星 7 本の宣言の凍結の写し(tests/lib-w306a-pre.mjs の pin305 と tests/exp-w306a-an336.mjs が読む —— 書き換えない・除く欄は無い。
+  //   正本 an336-w306a と歴史の記録の器の入力)
+  'tests/data-w306a-decl305.json': [],
+  // 第306便b(R205): 基点 02ca93b の 🌦️ の宣言の凍結の写し(地球の J₂ を含む —— tests/exp-w306b-periodn.mjs の段 E が読む —— 書き換えない・除く欄は無い。正本 periodn-w306b の入力)
+  'tests/data-w306b-decl305.json': [],
+  // 第306便c(R206): 第305便の 🌦️🌔 の宣言の凍結の写し(tests/lib-w306c-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 emresolve-w306c と歴史の記録の器〔j2-305c〕の入力)
+  'tests/data-w306c-decl305.json': [],
+  // 第306便e(AN339 の案 (A)・R208): 第305便の 🟪 の宣言の凍結の写し(tests/lib-w306e-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 charonfix-w306e と歴史の記録の器
+  //   〔charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c〕の入力)
+  'tests/data-w306e-decl305.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

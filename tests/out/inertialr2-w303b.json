@@ -3,28 +3,40 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便b",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T09:25:11.783Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T22:30:57.474Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "tests/data-w304c-decl303.json",
     "bytes": 10656,
     "sha256": "bacc58f1a21b80ed4f28e85352b23c9f544c5525467dfaf0fb0fb4077a9c289e",
     "mtime": "2026-10-15T07:11:58.475Z"
+   },
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "bytes": 9357,
+    "sha256": "d1f905caef307d86aae81e7681254b9c8bb8f4e0243564c28280f247752c181a",
+    "mtime": "2026-10-16T17:38:33.222Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 77477,
-    "sha256": "dbce6ab6d044f4692a9b2cace6c00ca87a28fa28a7a49868d1808c4f754686b0",
-    "mtime": "2026-10-15T07:11:58.476Z"
+    "bytes": 77963,
+    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
+    "mtime": "2026-10-16T17:38:33.226Z"
+   },
+   {
+    "file": "tests/lib-w306e-pre.mjs",
+    "bytes": 6131,
+    "sha256": "aab5d86cdd4d70fd771157ecf398e4008c95aebe5d86665a6bfd7915b44d4e21",
+    "mtime": "2026-10-16T17:38:33.230Z"
    },
    {
     "file": "tests/lib-w304c-pre.mjs",
@@ -111,7 +123,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "46e7fd29b559bf662c1bfddf2d77a00287339674f7c9ee75b473ca5c08f8d86a",
+  "codeSha256": "aa301d434908a1a857beb6ae91a4a85e039e489fbad1dde620229540a3e6a4b0",
   "harnessVersion": "w303b-inertialr2-1",
   "i2Version": "w303b-inertialr2-1",
   "loadErrors": 0,
@@ -184,14 +196,20 @@
    "complete": true,
    "names": 1356,
    "segments": 1225,
-   "closureShare": 0.3301
+   "closureShare": 0.3294
   },
-  "scopeSha256": "9afada51069010a908fed206dfa689341f2283a60ac8f9d0a8561c396c4f2784",
+  "scopeSha256": "79c4c7c3310ada45eccf2df8ccfb062df8d9b4b32764a60e2206e9b80e4e652b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/data-w304c-decl303.json",
     "stableSha256": "ee2dcf7b40adc14214e6b293ef561b91c193439262352cd5e2b72701c1dd69c2",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w306e-decl305.json",
+    "stableSha256": "d0ed64828713eb59a6934d34b0562ac55329b2ed695e6607e7987030dc496f59",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -4064,23 +4082,23 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 9.082
+   "wallSec": 6.5
   },
   "M": {
-   "wallSec": 183.928
+   "wallSec": 131.983
   },
   "T": {
-   "wallSec": 633.447
+   "wallSec": 534.505
   },
   "N": {
-   "wallSec": 608.989
+   "wallSec": 535.023
   },
   "E": {
-   "wallSec": 594.43
+   "wallSec": 419.76
   },
   "K": {
-   "wallSec": 0.028
+   "wallSec": 0.029
   }
  },
- "elapsedS": 2033.031
+ "elapsedS": 1629.925
 }

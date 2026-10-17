@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:08:55.557Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-17T02:46:18.143Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719874,
-    "sha256": "50f7814c3e12037103de94c71c8b31797594065693b926f424147e44cd0f995c",
-    "mtime": "2026-10-16T06:22:27.253Z"
+    "bytes": 1721937,
+    "sha256": "54279c8e89e30d532f433d6b8856611a63963ebfcd5574fffca53d897c6c03e7",
+    "mtime": "2026-10-17T01:50:12.018Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174475,
-    "sha256": "28e68b533379fc40114b1335f9b5e43b7199629f69f9cad994b43f4bdd1ae5e7",
-    "mtime": "2026-10-16T07:45:03.472Z"
+    "bytes": 174469,
+    "sha256": "8ea737faee89ebe382c752bc627cd2ae5f8c14f852256cec22324e9cbde9ad6c",
+    "mtime": "2026-10-17T02:41:02.882Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "1265f6ffff773e3279f43b9051b75f0588ba9d5812adf6224af6440e30db31c6",
-    "mtime": "2026-10-16T10:08:52.320Z"
+    "sha256": "30e61decf1fc7693462f5e4347990972bef5e2484691cc9eb8e8134714b7c33d",
+    "mtime": "2026-10-16T23:07:12.394Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 136402,
-    "sha256": "49246647ed18357a36fd4c8bf463ed6996971fc9b008ff2569e0b66d3e698504",
-    "mtime": "2026-10-16T08:12:36.808Z"
+    "bytes": 136401,
+    "sha256": "5bb63db4428a69500a832ad14e43a29c8058d8174d5914cade51780497aec9eb",
+    "mtime": "2026-10-17T02:20:51.342Z"
    }
   ],
   "code": [
@@ -2281,7 +2281,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "2c4b4710a8133ed9908172c9d8289876c4d8940f911c657e128da7c1b618fe84",
+   "fileSha256": "55397160e7c0e90acbbce9b0d6ae0b03ce3d2c7215de48fb5e23c890c368032a",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2289,7 +2289,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "9a55a439844ad39e49d3aa0a881f9ac6dcdf5a90d5126cf51cf589fcd06b0132",
+   "citedTargetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

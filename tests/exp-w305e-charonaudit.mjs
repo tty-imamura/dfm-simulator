@@ -29,6 +29,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import { pinDecl305, DECL305_DATA_FILE } from './lib-w306e-pre.mjs';   // 第306便e(AN339 の案 (A)・R208): 🟪 の宣言を直した世代では、この器は第305便の宣言の写しで測る(基線の監査の記録 —— 歴史の値を保つ)
 const REGEN_SCOPE = {"presets":["plutoCharonInertialFit"],"roots":["$","DT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","auditRows","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -319,6 +320,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  const PIN305 = pinDecl305(null, [PLU_ID]);   // 第306便e: 第305便の宣言(引きずり ON・初期の距離 19595.764 km)へ器の中だけで戻す(第305便の html では no-op)
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const log = (s) => console.log('  ' + s);
   const rec = recordsOf(ROOT), p = findPreset(HP, PLU_ID);
@@ -329,6 +331,7 @@ export async function main() {
   const closed = (PARTS.includes('closed') || PARTS.includes('mass') || PARTS.includes('fix')) ? stageClosed(HP, rec) : prev.closed;
   const stages = { closed: () => closed, soft: () => stageSoft(HP, rec, log), window: () => stageWindow(HP, rec, log), band: () => stageBand(HP, rec, log),
     mass: () => stageMass(HP, rec, closed, log), tide: () => stageTide(HP, rec, log), clock: () => stageClock(rec), fix: () => stageFix(HP, rec, closed, log) };
+  if (PIN305.pinned) J.decl305Pin = { changed: PIN305.changed, note: '第306便e: 🟪 の宣言(案 (A) —— 初期の距離・引きずり OFF)が第305便から動いた世代 —— この器は第305便の宣言の写し(tests/lib-w306e-pre.mjs の pin305)で測った' };
   J.partsRun = [];
   for (const k of PARTS_ALL) {
     if (PARTS.includes(k)) { console.log(`段 ${k}`); const t = Date.now(); J[k] = await stages[k](); J.partsRun.push(k); console.log(`  (${((Date.now() - t) / 1000).toFixed(1)} s)`); }
@@ -339,8 +342,8 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「カロンの周期が観測どおりになった」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「時計の換算で合った」'];
-  const CODE = ['tests/exp-w305e-charonaudit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE] }), {
+  const CODE = ['tests/exp-w305e-charonaudit.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '決断事項 AN318(🟪 の基線の監査)・AN333(観測の時間標準の記録)—— 第95報・AN332 の裁定(α = c_loc/c₀)', reading: '統括の検証項目 R203' });
   J.elapsedS = (Date.now() - t0) / 1000;
