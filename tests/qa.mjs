@@ -81100,6 +81100,160 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // <<< 第306便e の QA の塊(ここまで)
+// ==== 第307便b の塊(ここから)====
+// ---- 第307便b(原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・
+// ----   統括の検証項目 R210): **三次元の明示潮汐(定時間遅延 CTL のベクトル形)と天体の内部熱・放射**(新設 2 本 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に TIDE3_STEP_VERSION(headless で読む)∧ 器 tests/exp-w307b-tide3d.mjs ∧ 正本 tests/out/tide3d-w307b.json。固定値は正本と器の宣言から読む。
+// ----   behavior.tide3d307:
+// ----     ① 受理: 三次元の本の physics.tide と天体の tide を受理(受理の門 coord3dDenyOf に tide が無い・COORD3D_REJECTED に無く COORD3D_SUPPORTED にある・走行中の門が null)・
+// ----        physics.tide.heat の正準形 {model:"linear", tau} と拒否(未知の鍵・model・tau ≤ 0・配列)・天体の coolTau の正準形と拒否・未宣言の正準形は heat/coolTau の鍵を持たない・
+// ----        heat の無い本の coolTau は警告して読まない
+// ----     ② 二次元の極限: 器の partZ(短い窓)をその場で走らせ、二次元の本の写しと coord:"3d" の写しが全状態と帳簿でビット同一(semi/leapfrog × full/half・内部熱あり)・
+// ----        内部熱の有無で軌道と自転がビット同一
+// ----     ③ 恒等式: 器の partL(短い窓)—— 仕事と熱・角運動量の帳簿(成分ごと)・全角運動量(動かさなかった τ⊥ を足して)・軸を動かせる受け手の自転の角運動量 = Σ τ h
+// ----     ④ 状態の契約: 走行で値が変わる tide*/_td* の鍵がすべて CK_ARRS・CK_SC・SIM_STEP_SCRATCH のどれか・SIM_BUILD_RESET に tide の機能・器の partK(チェックポイントの往復)
+// ----        がビット同一・潮汐を宣言しない三次元の本(🌋)には tide*/_td* の鍵が 1 つも無い
+// ----   docs.tide3d307: ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴/領域 hash ② lib の検査を QA の中で作り直す(runChecks)
+// ----     ③ 表の行(physicsTables)と数(docNumbers)が PHYSICS〔第307便b〕に逐語・節が「## 7.」の前・語 ④ AI_SPEC の節・CHANGELOG・README・再生成の段・.gitignore・post-merge の ③′
+// ----     ⑤ 書かない語(「」の引用を除いて)と禁句
+{
+  const td307Out = path.join(ROOT, 'tests', 'out', 'tide3d-w307b.json'), td307Harn = path.join(ROOT, 'tests', 'exp-w307b-tide3d.mjs'), td307Lib = path.join(ROOT, 'tests', 'lib-w307b-tide3d.mjs');
+  let H7 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H7 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H7 = null; } }
+  const has307b = !!(H7 && H7.HP && typeof H7.HP.dfmTideStep3 === 'function');
+  if (!(TARGET.startsWith('beta/') && has307b && fs.existsSync(td307Out) && fs.existsSync(td307Harn) && fs.existsSync(td307Lib))) {
+    console.log('SKIP behavior.tide3d307 / docs.tide3d307(第307便b の三次元の明示潮汐の前の世代 — ' + TARGET + ')');
+  } else {
+    let J = null, X = null, LB = null, LT = null; const err0 = [];
+    try { J = JSON.parse(fs.readFileSync(td307Out, 'utf8')); } catch (e) { err0.push('正本が読めない'); }
+    try { X = await import('file://' + td307Harn); } catch (e) { err0.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { LB = await import('file://' + td307Lib); } catch (e) { err0.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    try { LT = await import('file://' + path.join(ROOT, 'tests', 'lib-w292d-tide.mjs')); } catch (e) { err0.push('lib-w292d-tide が読めない'); }
+    const HP = H7.HP, cl = (o) => JSON.parse(JSON.stringify(o));
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    // ---- behavior.tide3d307
+    {
+      const bad = err0.slice(), cases = [];
+      if (X) {
+        try {
+          // ①
+          const q = X.toyPair({ incl: 25, satSpin: 1.0, satAxis: { enable: true, tiltDeg: 10, azimuthDeg: 30, source: 'qa' }, heat: { model: 'linear', tau: 30 }, coolTau: 7 }).preset;
+          const v = HP.validatePreset(cl(q));
+          if (!(v.ok && (v.warnings || []).length === 0)) bad.push('① 三次元の潮汐の写しが受理されない/警告 ' + JSON.stringify((v.errors || []).concat(v.warnings || [])).slice(0, 160));
+          else {
+            if (JSON.stringify(v.preset.physics.tide.heat) !== JSON.stringify({ model: 'linear', tau: 30 })) bad.push('① heat の正準形 ' + JSON.stringify(v.preset.physics.tide.heat));
+            if (JSON.stringify(v.preset.bodies[1].tide) !== JSON.stringify({ k2: X.TOY.k2, lag: X.TOY.lag, coolTau: 7 })) bad.push('① 天体の tide の正準形 ' + JSON.stringify(v.preset.bodies[1].tide));
+          }
+          if (HP.coord3d.denyOf(v.preset || q).some((z) => z.key === 'tide' || z.key === 'physicsOther')) bad.push('① 受理の門が tide を拒否する');
+          if (HP.coord3d.rejected.indexOf('tide') >= 0 || !HP.coord3d.supported.some((z) => z.key === 'tide')) bad.push('① COORD3D_REJECTED / COORD3D_SUPPORTED の tide');
+          const S0 = HP.coord3d.makeSim(); S0.build(cl(v.preset)); S0.step(0.01);
+          if (HP.coord3d.runtimeWhy(S0) !== null || S0.coord3dHalt !== null || S0.hasTide !== true) bad.push('① 走行中の門 ' + HP.coord3d.runtimeWhy(S0) + ' / hasTide ' + S0.hasTide);
+          const VT = HP.validateTide, VB = HP.validateTideBody;
+          const rej = [[VT({ heat: { model: 'linear', tau: 1, foo: 1 } }), 'heat の未知の鍵'], [VT({ heat: { model: 'T4', tau: 1 } }), 'heat.model T4'], [VT({ heat: { tau: 0 } }), 'tau 0'],
+            [VT({ heat: { tau: -1 } }), 'tau −1'], [VT({ heat: [1] }), 'heat 配列'], [VT({ heat: { tau: Infinity } }), 'tau ∞'], [VB({ k2: 0.3, lag: 1, coolTau: 0 }, 1), 'coolTau 0'], [VB({ k2: 0.3, lag: 1, coolTau: 'x' }, 1), 'coolTau 文字'],
+            [VB({ k2: 0.3, lag: 1, Q: 1 }, 1), '未知の鍵 Q']];
+          for (const [r, why] of rej) if (r.ok) bad.push('① 受理器が拒否しない: ' + why);
+          const c0 = VT({}), c1 = VT({ heat: null }), c2 = VB({ k2: 0.3, lag: 1 }, 1), c3 = VT({ heat: { tau: 2 } });
+          if (!(c0.ok && !('heat' in c0.tide) && c1.ok && !('heat' in c1.tide) && c2.ok && !('coolTau' in c2.tide) && c3.ok && c3.tide.heat.model === 'linear')) bad.push('① 未宣言の正準形に heat/coolTau の鍵がある・model の既定');
+          const q2 = cl(q); delete q2.physics.tide.heat; const w2 = HP.validatePreset(q2);
+          if (!(w2.ok && (w2.warnings || []).some((w) => /coolTau は physics\.tide\.heat/.test(w)))) bad.push('① heat の無い本の coolTau の警告');
+          cases.push(`① 三次元の受理(門・対応表・走行中の門)・heat/coolTau の正準形・拒否 ${rej.length} 例・未宣言は鍵なし・heat の無い coolTau は警告`);
+          // ②
+          const Z = X.partZ(HP, true);
+          if (!(Z.allSame === true)) bad.push('② 二次元の極限 ' + JSON.stringify(Object.fromEntries(Object.entries(Z.rows).map(([k, r]) => [k, r.nDiff]))) + ' / 熱 ' + JSON.stringify(Z.heatOff));
+          cases.push(`② 二次元の本と coord:"3d" の写し ${Object.keys(Z.rows).length} 通り × ${Z.rows.semi_full.steps} 步・差 ${Object.values(Z.rows).reduce((a, r) => a + r.nDiff, 0)} 値・内部熱の有無で差 ${Z.heatOff['2d'].nDiff + Z.heatOff['3d'].nDiff} 値`);
+          // ③
+          const Lp = X.partL(HP, true);
+          for (const [k, r] of Object.entries(Lp)) {
+            if (!(Math.abs(r.residualE) < 1e-10 && r.residualL3.every((z) => Math.abs(z) < 1e-10) && r.dLclosedRel < 1e-9)) bad.push('③ ' + k + ' の恒等式 ' + JSON.stringify({ e: r.residualE, l: r.residualL3, c: r.dLclosedRel }));
+          }
+          if (!(Lp.turnable.axisTurns > 0 && Lp.turnable.satSpinLvsImpulse < 1e-9 && Lp.fixedAxis.axisTurns === 0 && Lp.fixedAxis.perpSkip > 0)) bad.push('③ 軸の経路 ' + JSON.stringify({ t: Lp.turnable.axisTurns, s: Lp.turnable.satSpinLvsImpulse, f: Lp.fixedAxis.perpSkip }));
+          cases.push(`③ 非共面(${Lp.turnable.steps} 步): 仕事と熱 ${Lp.turnable.residualE}・角運動量 ${Lp.turnable.residualL3.join('/')}・全角運動量 ${Lp.turnable.dLclosedRel}/${Lp.fixedAxis.dLclosedRel}・軸の更新 ${Lp.turnable.axisTurns}・数えた τ⊥ ${Lp.fixedAxis.perpSkip}`);
+          // ④
+          const CKA = H7.evalExpr('CK_ARRS'), CKS = H7.evalExpr('CK_SC'), SCR = H7.evalExpr('SIM_STEP_SCRATCH'), SBR = H7.evalExpr('SIM_BUILD_RESET');
+          const S1 = HP.coord3d.makeSim(); S1.build(cl(v.preset));
+          const snap = (S) => Object.fromEntries(Object.keys(S).filter((k) => /^(tide[A-Z]|_td[A-Z])/.test(k)).map((k) => [k, ArrayBuffer.isView(S[k]) ? Array.from(S[k]) : S[k]]));
+          const a0 = snap(S1); for (let k = 0; k < 5; k++) S1.step(0.05); const a1 = snap(S1);
+          const changed = Object.keys(a1).filter((k) => JSON.stringify(a0[k]) !== JSON.stringify(a1[k]));
+          const miss = changed.filter((k) => CKA.indexOf(k) < 0 && CKS.indexOf(k) < 0 && SCR.indexOf(k) < 0);
+          if (miss.length) bad.push('④ 步で変わる潮汐の鍵が CK_ARRS/CK_SC/SIM_STEP_SCRATCH に無い: ' + miss.join(','));
+          const g = SBR.find((z) => z.feature === 'tide');
+          if (!(g && g.re && g.re.test('tideEi') && g.re.test('_tdHQ') && !g.re.test('tide'))) bad.push('④ SIM_BUILD_RESET の tide');
+          const K = X.partK(H7, true);
+          if (K.nDiff !== 0) bad.push('④ チェックポイントの往復 差 ' + K.nDiff);
+          const ven = HP.allPresets().find((z) => z.id === X.BOOKS.venus), S2 = HP.coord3d.makeSim(); S2.build(cl(HP.validatePreset(cl(ven)).preset)); S2.step(1);
+          const leak = Object.keys(S2).filter((k) => /^(tide[A-Z]|_td[A-Z])/.test(k) || k === 'hasTide');
+          if (leak.length) bad.push('④ 潮汐を宣言しない三次元の本に鍵: ' + leak.join(','));
+          cases.push(`④ 步で変わる潮汐の鍵 ${changed.length}(登録の外 ${miss.length})・SIM_BUILD_RESET の tide・チェックポイントの往復 差 ${K.nDiff}/${K.keys} 鍵・🌋 に潮汐の鍵 ${leak.length}`);
+        } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+      }
+      add('behavior.tide3d307', bad.length === 0,
+        `**三次元の明示潮汐と内部熱の受理・二次元の極限・恒等式・状態の契約**(第307便b・原仮定者の裁定(第100報)・AN345 ③⑤・R210 —— 在位の本の宣言は変えない・新しい鍵は opt-in): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.tide3d307
+    {
+      const bad = err0.slice(), cases = [];
+      const PH = rd('docs/PHYSICS.md'), AI = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('〔第307便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+      const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+      if (J && X && LB && LT) {
+        // ①
+        const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+        if (J.ok !== true) bad.push('正本の ok が真でない');
+        for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+        if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+        if (J.quick === true) bad.push('正本が試走(QUICK)');
+        if (J.version !== X.HARNESS_VERSION || J.libVersion !== LB.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+        if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+        if (J.tide3Version !== H7.evalExpr('TIDE3_STEP_VERSION') || J.heatVersion !== H7.evalExpr('TIDE_HEAT_VERSION')) bad.push('正本の步の版が html と違う');
+        cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・步の版 ${J.tide3Version}・内部熱の版 ${J.heatVersion}`);
+        // ②
+        try {
+          const r = LB.runChecks(LT.ctlPair);
+          if (!(r.ok === true)) bad.push('② lib の検査 ' + JSON.stringify(r.gates));
+          if (JSON.stringify(r.gates) !== JSON.stringify(J.P.gates)) bad.push('② lib の検査を作り直すと正本と違う');
+          cases.push(`② lib の検査 ${Object.keys(r.gates).length} 項を QA の中で作り直す(二次元の極限ビット同一・仕事と熱 ${r.workHeatResidual.toExponential(1)}・共変 ${r.rotCovRel.toExponential(1)}・半歩 2 回 ${r.heatHalfTwice.toExponential(1)})`);
+        } catch (e) { bad.push('② lib の検査が走らない: ' + String(e).slice(0, 100)); }
+        // ③
+        if (!sec) bad.push('PHYSICS〔第307便b〕が無い');
+        else {
+          let rows = [];
+          try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+          let nMiss = 0;
+          for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第307便b〕の表に行が無い: ' + r.slice(0, 70)); }
+          let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+          const missN = nums.filter((z) => sec.indexOf(z) < 0);
+          if (missN.length) bad.push('PHYSICS〔第307便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+          cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+          if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第307便b〕が「## 7. 論文」の後');
+          for (const w of ['R210', '第100報', 'AN345', 'exp-w307b-tide3d.mjs', 'lib-w307b-tide3d.mjs', 'tide3d-w307b.json', 'behavior.tide3d307', 'docs.tide3d307', 'W307B_OUT',
+            'dfmTideStep3', 'tideEvalRates3', '慣性自転', 'τ⊥', '数えて回さない', 'physics.tide.heat', 'coolTau', '線形の緩和', '初期値 0', '二次元の極限', 'ビット同一', '決断事項候補', '言わないこと'])
+            if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第307便b〕に「' + w + '」が無い');
+        }
+        // ④
+        const ai0 = AI.indexOf('三次元の明示潮汐と内部熱');
+        if (ai0 < 0 || ['physics.tide.heat', 'coolTau', 'dfmTideStep3', 'tideState', 'internalHeat', 'TIDE3_STEP_VERSION'].some((w) => AI.indexOf(w, ai0) < 0)) bad.push('AI_SPEC に「三次元の明示潮汐と内部熱」の節(heat・coolTau・dfmTideStep3・tideState の internalHeat/d3)が無い');
+        if (CL.indexOf('第307便b') < 0) bad.push('CHANGELOG に第307便b が無い');
+        if (RM.indexOf('第307便b') < 0) bad.push('README に第307便b が無い');
+        if (RT.indexOf("S('tide3d-307b', 'node tests/exp-w307b-tide3d.mjs', ['tests/out/tide3d-w307b.json']") < 0 || !/secSource: 'w307b-branch'/.test(RT)) bad.push('再生成の段 tide3d-307b');
+        if (GI.indexOf('!tests/out/tide3d-w307b.json') < 0) bad.push('.gitignore の例外');
+        if (PM.indexOf('docs.tide3d307') < 0 || PM.indexOf('behavior.tide3d307') < 0) bad.push('post-merge の ③′ に第307便b の 2 本が無い');
+        // ⑤
+        const strip = (t) => t.replace(/「[^」]*」/g, '');
+        const NOT = [/金星の逆行を説明した/, /イオの加熱を再現した/, /自転が釣り合った/, /観測の 1σ で較正済み/, /熱力学を導いた/, /法則を発見した/, /GR を導いた/, /磁気双極子と同じ/, /現実を再現した/, /斥力を導いた/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+        if (sec) { for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第307便b〕に書かない語 ' + re.source); for (const w of NG) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第307便b〕に禁句(' + w.length + ' 字)'); }
+        for (const f of ['tests/exp-w307b-tide3d.mjs', 'tests/lib-w307b-tide3d.mjs']) { const tx = rd(f); for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+        cases.push(`④⑤ AI_SPEC・CHANGELOG・README・段・.gitignore・post-merge・書かない語と禁句`);
+      }
+      add('docs.tide3d307', bad.length === 0,
+        `**三次元の明示潮汐と内部熱の器の正本と文書**(第307便b・AN345 ③⑤・R210 —— 正本 tide3d-w307b.json・規格化した率は k₂ = 1・Δt = 1 s で観測の値ではない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第307便b の塊(ここまで)====
 // ==== 第307便e の塊(ここから)====
 // ---- 第307便e(DECISIONS v66 §0 AN340 ④・AN342 ③・AN344 ①②・統括の検証項目 R213 —— 細目): behavior.gLocNull307 / preset.fitRole307 / preset.coldReason307 / docs.w307e
 // ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html の読み口(HP.gLocDetach・HP.FIT_TARGET_ROLES)∧ lib tests/lib-w307e-pre.mjs の isGen307e(本の宣言が第306便から動いた ——

@@ -8832,8 +8832,31 @@ function relativeDragMidpointBodyCheck(bodies, rd){
 // (k2∈(0,1.5]・lag≥0〔単位は本の時間単位 T〕)。**未宣言は 1 bit 不変**(build が `S.hasTide` を立てない = 外部ステップに 1 度も入らない)。
 const TIDE_KEY = "tide";
 const TIDE_STEP_VERSION = "w292d-tide-1";
-const TIDE_PHYS_KEYS = ["model","maxN","velocity","inertia","split"];
-const TIDE_BODY_KEYS = ["k2","lag"];
+const TIDE_PHYS_KEYS = ["model","maxN","velocity","inertia","split","heat"];   // 第307便b(R210): heat(天体の内部熱と放射 —— opt-in・宣言した本だけ正準形に出る)
+const TIDE_BODY_KEYS = ["k2","lag","coolTau"];   // 第307便b(R210): coolTau(内部熱の緩和の時間 τ_cool の天体ごとの上書き —— 宣言した天体だけ正準形に出る)
+// ===== 第307便b(原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われるエネルギーは内部熱・増え続けるので放射も」・
+//   決断事項 AN345 ③⑤・統括の検証項目 R210): **三次元の明示潮汐**(CTL のベクトル化 —— z の力・3 成分のトルク)と**天体の内部熱と放射**(opt-in)=====
+// 三次元の本(physics.coord:"3d")でも physics.tide と天体の tide を受理する(旧: 受理の門 coord3dDenyOf が拒否)。式は二次元と同じ定時間遅延 CTL のベクトル形:
+//   B=G k₂ m_j² R⁵・s=V−Ω_I×r(Ω_I=S.spin·â —— 受け手の**慣性自転のベクトル**。引きずり軸回転 rotADr は読まない)・F_diss=−(3BΔt/r¹⁰)[2r(r·V)+r²s]・
+//   τ_i=−r×F_diss(3 成分)・Q̇=(3BΔt/r¹⁰)[2(r·V)²+r²|s|²]≥0。τ の自転軸の成分 τ∥=τ·â は慣性自転 S.spin を(二次元と同じ J の補償和で)、垂直の成分 τ⊥ は
+//   軸を動かせる受け手(傾きを宣言し歳差の宣言が無い —— saOn=1・saOm=0)だけ慣性自転の軸を変える(J′=J∥â+τ⊥h を厳密に組んで向きと大きさへ戻す)。
+//   軸を動かせない受け手(傾きなし・規定運動の歳差)の τ⊥ は**数えて回さない**(軸引きずりの経路と同じ型 —— 帳簿 tidePerpN・tidePerpMax・tidePerpL*)。
+//   **二次元の極限**(z=vz=0・軸 +z)は二次元の步と同じ演算列(+0 を足すだけ)。内部熱: physics.tide.heat:{model:"linear", tau}・天体の tide.coolTau(上書き)——
+//   過剰の内部エネルギー E_i(初期値 0 = 診断の基準 —— 実在の天体が冷たいという意味ではない)・dE_i/dt = H_i − E_i/τ_cool(H_i は受け手 i で散逸した力学的エネルギー ——
+//   軌道の仕事を含む・回転エネルギーの減少だけではない)を一定の H の区間で解析的に積分(半歩 2 回と一致)・放射の積算 tideRad。二次元の本でも同じ鍵で使える。
+const TIDE3_STEP_VERSION = "w307b-tide3-1";
+const TIDE_HEAT_VERSION = "w307b-tideheat-1";
+const TIDE_HEAT_KEYS = ["model","tau"], TIDE_HEAT_MODELS = ["linear"];   // 線形の緩和だけ(黒体 T⁴ は熱容量・基準温度・放射率が要る —— 決断事項の候補)
+const TIDE_HEAT_SERIES_X = 1e-4;   // h/τ がこれ未満なら x−(1−e^{−x}) を級数で(相殺の丸めを避ける)
+function validateTideHeat(a){
+  if(a===null || a===undefined) return {ok:true, heat:null};
+  if(typeof a!=="object" || Array.isArray(a)) return {ok:false, err:"physics.tide.heat はオブジェクト({model:\"linear\", tau})か null"};
+  for(const k of Object.keys(a)) if(TIDE_HEAT_KEYS.indexOf(k)<0) return {ok:false, err:"physics.tide.heat に未知の鍵 "+k+"(model/tau のみ)"};
+  const model=(a.model===undefined || a.model===null)? "linear" : a.model;
+  if(TIDE_HEAT_MODELS.indexOf(model)<0) return {ok:false, err:'physics.tide.heat.model は "linear"(線形の緩和 dE/dt=H−E/τ)のみ'};
+  if(!isNum(a.tau) || !(a.tau>0)) return {ok:false, err:"physics.tide.heat.tau は正の有限数(内部熱の緩和の時間 τ_cool —— 単位は本の時間単位)"};
+  return {ok:true, heat:{model, tau:a.tau}};
+}
 const TIDE_MODELS = ["ctl"];                 // 定時間遅延(constant time lag)だけ —— 実在天体の広い周波数で正しいとは仮定しない
 const TIDE_VELOCITIES = ["v","xdot"];        // 潮汐が読む相対速度: "v"(既定)か同じ步の ẋ=v+u(慣性引きずりの u —— 宣言した本だけ)
 const TIDE_INERTIAS = ["half","sphere"];     // I=½mR²(既定 —— 現行エンジンの慣性)か 3 次元一様球の ⅖mR²(宣言で切替)
@@ -8848,7 +8871,7 @@ function validateTide(a){
   if(typeof a!=="object" || Array.isArray(a))
     return {ok:false, err:"physics.tide はオブジェクト({maxN, model, velocity, inertia, split})か null(潮汐テンソル T の宣言は別鍵 physics.backgroundTidal)"};
   for(const k of Object.keys(a)) if(TIDE_PHYS_KEYS.indexOf(k)<0)
-    return {ok:false, err:"physics.tide に未知の鍵 "+k+"(maxN/model/velocity/inertia/split のみ —— k2・lag は天体の tide に書く)"};
+    return {ok:false, err:"physics.tide に未知の鍵 "+k+"(maxN/model/velocity/inertia/split/heat のみ —— k2・lag・coolTau は天体の tide に書く)"};
   const out={model:"ctl", maxN:TIDE_MAXN_DEFAULT, velocity:"v", inertia:"half", split:"full"};
   if(a.model!==undefined && a.model!==null){
     if(TIDE_MODELS.indexOf(a.model)<0) return {ok:false, err:'physics.tide.model は "ctl"(定時間遅延)のみ'};
@@ -8864,16 +8887,27 @@ function validateTide(a){
     if(list.indexOf(a[k])<0) return {ok:false, err:"physics.tide."+k+" は "+list.map(z=>'"'+z+'"').join("/")+" のみ"};
     out[k]=a[k];
   }
+  // 第307便b(R210): 内部熱(宣言した本だけ鍵を置く —— 未宣言・null の正準形は 1 文字も変わらない)
+  if(a.heat!==undefined && a.heat!==null){
+    const hv=validateTideHeat(a.heat);
+    if(!hv.ok) return {ok:false, err:hv.err};
+    out.heat=hv.heat;
+  }
   return {ok:true, tide:out};
 }
 // 天体の宣言(single 専用)。radius は**宣言した物理半径**(radius>0 が無い天体には足さない —— 代表粒子の平滑化長を R⁵ に入れない)
 function validateTideBody(t, radius){
   if(t===null || t===undefined) return {ok:true, tide:null};
   if(typeof t!=="object" || Array.isArray(t)) return {ok:false, err:"tide はオブジェクト({k2, lag})"};
-  for(const k of Object.keys(t)) if(TIDE_BODY_KEYS.indexOf(k)<0) return {ok:false, err:"tide に未知の鍵 "+k+"(k2/lag のみ)"};
+  for(const k of Object.keys(t)) if(TIDE_BODY_KEYS.indexOf(k)<0) return {ok:false, err:"tide に未知の鍵 "+k+"(k2/lag/coolTau のみ)"};
   if(!isNum(t.k2) || !(t.k2>0) || t.k2>TIDE_K2_MAX) return {ok:false, err:"tide.k2 は 0<k2≤"+TIDE_K2_MAX+" の有限数(Love 数)"};
   if(!isNum(t.lag) || t.lag<0) return {ok:false, err:"tide.lag は 0 以上の有限数(定時間遅延 Δt —— 単位は本の時間単位)"};
   if(!isNum(radius) || !(radius>0)) return {ok:false, err:"tide は物理半径 radius>0 の宣言が要る(R⁵ は宣言した半径だけを読む)"};
+  // 第307便b(R210): coolTau(内部熱の緩和の時間の天体ごとの上書き —— 宣言した天体だけ鍵を置く。physics.tide.heat の無い本では読まない —— tideCrossCheck が警告)
+  if(t.coolTau!==undefined && t.coolTau!==null){
+    if(!isNum(t.coolTau) || !(t.coolTau>0)) return {ok:false, err:"tide.coolTau は正の有限数(内部熱の緩和の時間 τ_cool —— 単位は本の時間単位)"};
+    return {ok:true, tide:{k2:t.k2, lag:t.lag, coolTau:t.coolTau}};
+  }
   return {ok:true, tide:{k2:t.k2, lag:t.lag}};
 }
 // 受理後の相互検査(validatePreset・build が呼ぶ —— 状態は持たない)。off は足さない理由(TIDE_OFF_REASONS)か null、
@@ -8901,6 +8935,9 @@ function tideCrossCheck(ph, bodies, preset){
     });
     if(!out.receivers.length) out.off="noReceiver";
   }
+  // 第307便b(R210): 内部熱を宣言しない本の天体の coolTau は読まない(拒否はしない —— 警告)
+  if(!td.heat && bs.some(b=>b && b.tide && typeof b.tide==="object" && b.tide.coolTau!==undefined && b.tide.coolTau!==null))
+    out.warn.push("天体の tide.coolTau は physics.tide.heat を宣言した本でだけ読む(この本では内部熱を持たない)");
   if(out.off) out.warn.push("physics.tide を宣言したが潮汐は足さない(理由 "+out.off+" —— "
     +({group:"群(disk/ring 等)の本 —— 対重力が潮汐と輸送を既に持つ",maxN:"粒子数 "+n+" > maxN "+td.maxN,shapeToy:"形状トイの本",
        cloakedDwarf:"光学迷彩矮星の本",noReceiver:"tide を宣言した受け手が無い"})[out.off]+")");
@@ -9122,13 +9159,15 @@ const COORD3D_SUPPORTED=Object.freeze([
   {key:"spinDrag", ja:"慣性決定力の回転引きずり・軸引きずり relativeDrag.spinDrag(三次元だけ —— spinSource:\"surfaceFlip\" は rot だけの別名)", en:"inertial rotational and axial drag relativeDrag.spinDrag (3D only - spinSource surfaceFlip is the rot-only alias)"},
   {key:"dragCore", ja:"慣性決定力の構造核 dragCore(表は r だけの関数 —— 三次元の距離で引く)", en:"inertial structure core dragCore (the table is a function of r only - looked up at the 3D distance)"},
   // 第299便e(原仮定者の裁定(第89報)④・R174): 参照模型(形状トイ・Core 力学・渦巻)—— 潜在だった面外 z を座標へ(xy の解は二次元と同じ式・同じ乱数の順)
-  {key:"shapeToy", ja:"参照模型 physics.shapeToy(規定運動の潜在 z を座標 S.z・S.vz へ・Core 力学の cfZ/cfVz を同期し z のキックを取り込む・渦巻の円盤と腕)", en:"reference models physics.shapeToy (the latent z of the prescribed motion becomes S.z/S.vz; the core law syncs cfZ/cfVz and takes the z kicks; spiral disc and arms)"}]);
+  {key:"shapeToy", ja:"参照模型 physics.shapeToy(規定運動の潜在 z を座標 S.z・S.vz へ・Core 力学の cfZ/cfVz を同期し z のキックを取り込む・渦巻の円盤と腕)", en:"reference models physics.shapeToy (the latent z of the prescribed motion becomes S.z/S.vz; the core law syncs cfZ/cfVz and takes the z kicks; spiral disc and arms)"},
+  // 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 明示潮汐(旧 COORD3D_REJECTED の tide)—— CTL のベクトル化・慣性自転へのブレーキ・内部熱と放射
+  {key:"tide", ja:"明示潮汐 physics.tide と天体の tide(定時間遅延 CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転 S.spin とその軸へ・反作用・仕事と熱の帳簿・内部熱と放射 heat/coolTau)", en:"explicit tides physics.tide and body tide (the vector form of the constant-time-lag model - z force, three-component torque on the inertial spin S.spin and its axis, reaction, work/heat ledger, internal heat and radiation heat/coolTau)"}]);
 // 三次元で**拒否する**機能(受理の門 coord3dDenyOf の理由 —— 第 2 段以降で対応させる候補。並びは docs と同じ)
 const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","gravityXY","geoPN12","geodesic","geoLegacy","physicsOther",
   "relativeDragLaw","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
-  "capture","qLock","boundary","overlays","core","layers","pulse","spinDipole","tide","zonal","testParticle","rail","lightSweepAuto",
+  "capture","qLock","boundary","overlays","core","layers","pulse","spinDipole","zonal","testParticle","rail","lightSweepAuto",   // 第307便b(R210): tide を開けた(COORD3D_SUPPORTED へ)
   "dragQ","densityClass","spinAxisDisplay","vModeEq"]);   // box/grid の incl・node は拒否ではなく警告して落とす(受理器 coord3dBodyKeys —— 面内に置く)
-const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","radiusFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag","approxMany","gLoc"];   // 第300便c: radiusFloor / 第301便b: approxMany(近似多粒子の契約 —— 三次元だけ)
+const COORD3D_PHYS_EXTRA_ALLOW=["coord","contactK","contactCap","contactMode","massFloor","softeningFloor","radiusFloor","stateCarry","massPrecision","stepDt","frameWeight","relativeDrag","approxMany","gLoc","tide"];   // 第307便b: tide(三次元の明示潮汐)   // 第300便c: radiusFloor / 第301便b: approxMany(近似多粒子の契約 —— 三次元だけ)
 // 受理の門(純関数 —— 入力 p は validatePreset の正規化後の本。戻り値 [{key, why}] —— 空なら受理)
 function coord3dDenyOf(p){
   const out=[], add=(key,why)=>out.push({key, why});
@@ -9178,7 +9217,7 @@ function coord3dDenyOf(p){
       if(b.layers) add("layers",at+".layers(親子コア —— 二次元の層)");
       if(b.pulse) add("pulse",at+".pulse(パルス時計 —— 時計)");
       if(b.spinDipole) add("spinDipole",at+".spinDipole(スピン双極子)");
-      if(b.tide) add("tide",at+".tide(明示潮汐)");
+      // 第307便b(R210): 明示潮汐 b.tide は三次元で対応(CTL のベクトル形 —— 旧はここで拒否)
       // 第298便c(R167): dragCore(慣性決定力の構造核)は三次元で対応(表は r だけの関数 —— 第 2 段で開けた)
       if(b.zonal) add("zonal",at+".zonal(E13 帯状重力 —— 赤道面の補正)");
       if(b.railOmega) add("rail",at+".railOmega(規定運動のレール —— 面内の円)");
@@ -9207,7 +9246,7 @@ function coord3dRuntimeWhy(S){
   if(S._amKind && S._amKind.length!==S.n) return "physics.approxMany(粒子の数が宣言から変わった —— 対のマスクの添字を保証できない)";   // 第301便b   // 第298便c: spinSource・spinDrag・dragCore は三次元で対応
   if(S._j2 && S._j2.n!==S.n) return "bodies[].j2(粒子の数が宣言から変わった —— 扁平な天体の添字を保証できない・第305便c)";   // 第305便c(R201): 三次元の J₂ の源の添字(宣言した本だけ —— 未宣言は null で素通り)
   const fl=["hasSpaceMesh","hasCoordInertia","hasPairWeave","hasMeshReservoir","hasSpinSpin","hasAxisForce","hasCompactForce","hasBodyLayers","hasCoreV2",
-    "hasTide","hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasCoreAxis","hasMeshVelocity",   // 第299便e: hasShapeToy・hasCoreField・hasSpiral は三次元で対応(参照模型)
+    "hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasCoreAxis","hasMeshVelocity",   // 第299便e: hasShapeToy・hasCoreField・hasSpiral は三次元で対応(参照模型)   // 第307便b(R210): hasTide は三次元で対応(dfmTideStep3)
     "hasCenterCapture","hasFixedCapture","hasShed","hasLightTrap","hasPeriSub"];
   for(const k of fl) if(S[k]===true) return k;
   if(S.thermal==="tint" || S.fusion || S.box || S.measureBox || S.phase || S.zonal || S._phSched) return "thermal/fusion/box/phase/zonal/photon";   // 第298便c: dragCore は三次元で対応
@@ -41015,6 +41054,7 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ",
+  "tideDJx","tideDJy","tideDJz","tideEi","tideRad","tideHin",   // 第307便b(R210): 三次元の潮汐のトルクの力積(ベクトル)・内部熱 E_i・放射・入力の積算(宣言した本だけ配列がある)
   "z","vz","carVz","sax","say","saz","rdPrevZ"];   // 第298便a(R165): 三次元の状態(三次元の本だけ配列がある —— 二次元の本は素通り)   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
 const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];
 const INERTIAL_DRAG3_SC=["inertialDrag3RotSrc","inertialDrag3RotN","inertialDrag3RotSkip","inertialDrag3RotMax","inertialDrag3AxN","inertialDrag3AxOmMax","inertialDrag3AxRotA",
@@ -41029,6 +41069,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
   "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
   "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll",
+  "tideNsubLast","tideTauMin",   // 第307便b(R210): 直近の步の分割数と τ_tide(旧は写しの外 —— 步で変わる読み口)
+  "tideDLx","tideDLy","tideAxN","tideAxLx","tideAxLy","tideAxLz","tidePerpN","tidePerpMax","tidePerpLx","tidePerpLy","tidePerpLz",   // 第307便b(R210): 三次元の潮汐の帳簿(三次元の本だけ鍵がある —— 無い本は undefined で素通り)
   "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge",
   // 第301便f(AN288 ③・R184): build のリセット塊が張る帳簿・読み口のうち、ここに無かったもの(複製 cloneSimState も同じ 1 組を写す —— 値は数・文字列・null だけ)
   "QcsOld","QcsExact","QcsN","axisU","axisWorkE","axisPhi","axisPhi0","compactU","compactWorkE","compactN","compactGateN","compactChiMin","compactChiMax",
@@ -41124,6 +41166,7 @@ const CK_DEEP=["photons","photonLog","boxHist","mech","periDet","linLog",
 const SIM_STEP_SCRATCH=Object.freeze(["dQi","arep","arepD","ax","ay","az3","sumW","uAx","uAy","ds","dpx","dpy","pairD","coreOmV","angNbr","angNbrN",
   "_Imom","_Warr","_hasD","_fusDead","_fusInto","_pkC",
   "_glPsi","_glAx","_glAy","_glAz",
+  "_tdFX","_tdFY","_tdTQ","_tdFZ","_tdTX","_tdTY","_tdHQ",   // 第307便b(R210): 明示潮汐の力・トルク・受け手ごとの発熱率(評価の頭で 0 から積む —— 次の步は読まない。読み口 tideState は直近の値を見せるだけ)
   "_rdQN","_rdQOk"]);   // 第302便d: semic の写しの粒子数と旗(同じ步の核の前に書き、同じ步の引きずりが読んで _rdQOk を下ろす —— 次の步は読まない。位置の写し _rdQX/QY/QZ は核の標本 INERTIAL_DRAG_CK_SAMPLES)   // 第302便b: 局所重力の ψ と補正の加速度(力の評価ごとに 0 から積む)   // _pkC は対ループの核の引数の入れ物(呼ぶたびに張り直す —— 中の参照は上の作業配列)
 // 第302便e(DECISIONS v60 AN305 ②⑧・統括の検証項目 R189): **状態の契約の外に置く派生の鍵**(毎步・遅延で宣言と状態から作り直すキャッシュ・作業の入れ物・照合の印)。
 //   複製(cloneSimState —— 新しく組んだ sim)と復帰がこれを運ばなくても、次の步が同じ値を作り直す(在位の全本の複製・復帰・持ち越しの同一は器 tests/exp-w301f-clone.mjs が測る)。
@@ -41165,6 +41208,7 @@ const SIM_BUILD_RESET=Object.freeze([
   {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)・軸回転の分解(慣性軸回転の角・引きずり軸回転の角 —— 軸引きずりを宣言した本だけ)", keys:["rotAIn","rotADr"], re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
   {feature:"gLoc", ja:"局所重力 G_loc の宣言・帳簿・作業(第302便b —— 宣言した三次元の本だけ)", keys:["_gLoc","_glPsi","_glAx","_glAy","_glAz"], re:/^gLoc[A-Z]/},
   {feature:"j2", ja:"三次元の J₂ の宣言と帳簿(第305便c —— 宣言した三次元の本だけ)", keys:["_j2"], re:/^j2[A-Z]/},
+  {feature:"tide", ja:"明示潮汐の受け手・J の補償和・帳簿・作業(第292便d)と三次元のトルクの力積・軸の帳簿・内部熱と放射(第307便b —— 宣言した本だけ。宣言 tide と旗 hasTide は tidePrepare が張り直す)", keys:[], re:/^(tide[A-Z]|_td[A-Z])/},
   {feature:"dragShell", ja:"引きずり核の殻の宣言・半径の表・世代の印・捨てた記録(第304便a —— 殻を宣言した本だけ。帳簿 inertialDragShell* は inertialDrag の正規表現が覆う)", keys:["dragShellD","_dragShellRd","_dragShell","_dragShellEp"]},
   {feature:"coord3d", ja:"三次元の軸の宣言値・歳差・規定運動の帳簿(二次元の本へ持ち越さない)", keys:["sa0x","sa0y","sa0z","sapx","sapy","sapz","saOm","spin3PrescL","spin3PrescN"]},
   {feature:"shapeToy3", ja:"三次元の参照模型の帳簿と作業(SHAPE_TOY3_SC・控え)", keys:["_st3P","_st3C","_st3V","cfVzS"], list:"SHAPE_TOY3_SC"},
@@ -56437,6 +56481,7 @@ function dfmStep3(S,dt){
   const why=coord3dRuntimeWhy(S);
   if(why){ S.coord3dHalt=why; return; }
   S.coord3dHalt=null;
+  if(S.hasTide && S.tide.split==="half") dfmTideStep3(S,dt*0.5);   // 第307便b(R210): 三次元の明示潮汐の前半歩(二次元と同じ位置 —— split:"half" を宣言した本だけ)
   if(S.hasRelativeDrag && relDragSemicOn(S)) inertialDragSemicPre(S);   // 第302便d(R188): semic の位置の写し(二次元と同じ位置 —— 核の前)
   if(S.integrator==="leapfrog"){ dfmCore3(S,dt,1); dfmCore3(S,dt,2); }
   else dfmCore3(S,dt,0);
@@ -56445,6 +56490,7 @@ function dfmStep3(S,dt){
   if(S.hasCoreField) dfmCoreFieldStep3(S,dt);
   if(S.hasSpiral) dfmShapeToySpiralStep3(S,dt);
   if(S.hasRelativeDrag) dfmInertialDragStep3(S,dt);   // 二次元と同じ位置(核の後)・慣性決定力の並進(z へ広げた solve)
+  if(S.hasTide) dfmTideStep3(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第307便b(R210): 三次元の明示潮汐(二次元と同じ位置 —— 引きずりの直後・未宣言は真偽値 1 つ)
   if(S.hasSpinAx3) coord3dSpinAxisStep(S);
 }
 // 自転軸の歳差(**規定運動** —— 宣言した軸 p̂ のまわりに角 Ω_p·t だけ初期の軸を回す: â(t)=R(p̂, Ω_p t)·â₀。時刻の関数として毎步書き直す
@@ -57048,6 +57094,12 @@ function tideInertiaOf(S,i){ return TIDE_INERTIA_FACTOR[S.tide.inertia]*S.m[i]*S
 function tideClear(S){
   S.hasTide=false; S.tide=null; S.tideOff=null;
   S.tideK2=S.tideLag=S.tideJh=S.tideJl=S.tideOmW=S.tideDJ=S._tdFX=S._tdFY=S._tdTQ=null; S.tideRecv=null;
+  tideClear3(S);   // 第307便b: 三次元と内部熱の配列(前の本が持っていたときだけ null へ —— 鍵を足さない)
+}
+// 第307便b(R210): 三次元の配列・内部熱の配列を外す(前の本が持っていた鍵だけ null へ —— 持っていない本には鍵を足さない)
+function tideClear3(S){
+  for(const k of ["_tdFZ","_tdTX","_tdTY","tideDJx","tideDJy","tideDJz"]) if(S[k]!==undefined) S[k]=null;
+  for(const k of ["_tdHQ","tideEi","tideRad","tideHin","tideCoolTau"]) if(S[k]!==undefined) S[k]=null;
 }
 function tidePrepare(S, preset){
   const ph=(preset && preset.physics) || {};
@@ -57074,12 +57126,45 @@ function tidePrepare(S, preset){
   S.tideN=0; S.tideSubsteps=0; S.tideSubCapped=0; S.tideReject=0;
   S.tideWork=0; S.tideWorkCons=0; S.tideHeat=0; S.tideMix=0; S.tideDL=0;
   S.tideTauMin=Infinity; S.tideTauMinAll=Infinity; S.tideNsubLast=0;
+  // 第307便b(R210): 三次元の本は z の力・3 成分のトルク・ベクトルの力積の帳簿(三次元の本だけ配列と鍵を作る —— 二次元の本は鍵を足さない)
+  tideClear3(S);
+  if(S.coord3d===true){
+    S._tdFZ=new Float64Array(N); S._tdTX=new Float64Array(N); S._tdTY=new Float64Array(N);
+    S.tideDJx=new Float64Array(N); S.tideDJy=new Float64Array(N); S.tideDJz=new Float64Array(N);
+    S.tideDLx=0; S.tideDLy=0; S.tideAxN=0; S.tideAxLx=0; S.tideAxLy=0; S.tideAxLz=0;
+    S.tidePerpN=0; S.tidePerpMax=0; S.tidePerpLx=0; S.tidePerpLy=0; S.tidePerpLz=0;
+  }
+  // 第307便b(R210): 内部熱(physics.tide.heat を宣言した本だけ —— 受け手ごとの発熱率・過剰の内部エネルギー E_i〔初期値 0 = 診断の基準〕・放射・入力の積算)
+  if(td.heat || S.coord3d===true) S._tdHQ=new Float64Array(N);   // 受け手ごとの発熱率(三次元の本は読み口のため常に —— 二次元の本は内部熱を宣言したときだけ)
+  if(td.heat){
+    S.tideEi=new Float64Array(N); S.tideRad=new Float64Array(N); S.tideHin=new Float64Array(N); S.tideCoolTau=new Float64Array(N);
+    for(const i of rc){ const ct=bodies[i] && bodies[i].tide && bodies[i].tide.coolTau; S.tideCoolTau[i]=(isNum(ct) && ct>0)? ct : td.heat.tau; }
+  }
+}
+// 第307便b(R210): 内部熱の 1 区間(一定の発熱率 H の区間 h で dE/dt = H − E/τ を解析的に積分 —— 純関数)。返り値 [E′, 放射 h の間の積算]。
+//   E′ = E e^{−x} + Hτ(1 − e^{−x})(x = h/τ)・放射 = E(1 − e^{−x}) + Hτ(x − (1 − e^{−x}))(x − (1 − e^{−x}) ≥ 0 は x<1e-4 で級数)。E′ + 放射 = E + H h(丸め床まで)。
+//   E ≥ 0・H ≥ 0 なら E′ ≥ 0・放射 ≥ 0。一定の H なら半歩 2 回と 1 歩は解析的に同じ(e^{−x/2}·e^{−x/2} = e^{−x})
+function tideHeatCell(E,H,h,tau){
+  const x=h/tau, loss=-Math.expm1(-x);
+  const g=(x<TIDE_HEAT_SERIES_X)? x*x*(0.5-x*(1/6-x/24)) : x-loss;
+  return [E-E*loss+H*tau*loss, E*loss+H*tau*g];
+}
+// 受け手ごとの内部熱を 1 小步だけ進める(発熱率は小步の頭で評価した S._tdHQ —— 帳簿 tideHeat と同じ時刻)
+function tideHeatAdvance(S,h){
+  const rc=S.tideRecv, HQ=S._tdHQ, E=S.tideEi, Rd=S.tideRad, Hin=S.tideHin, TC=S.tideCoolTau;
+  for(let q=0;q<rc.length;q++){
+    const i=rc[q], H=HQ[i], tau=TC[i], e=E[i];
+    const x=h/tau, loss=-Math.expm1(-x);
+    const g=(x<TIDE_HEAT_SERIES_X)? x*x*(0.5-x*(1/6-x/24)) : x-loss;
+    E[i]=e-e*loss+H*tau*loss; Rd[i]+=e*loss+H*tau*g; Hin[i]+=H*h;
+  }
 }
 // 力・トルク・率を**今の状態**で評価して S._tdFX/_tdFY/_tdTQ に入れる(状態は書かない)。返り値は率(仕事・熱・混合)と τ_tide
 function tideEvalRates(S){
   const n=S.n, rc=S.tideRecv, G=S.params.G, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, m=S.m, pin=S.pinned, tp=S.tpFlag;
-  const FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ;
+  const FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ, HQ=S._tdHQ||null;   // 第307便b: HQ は内部熱を宣言した本だけ(受け手ごとの発熱率)
   for(let k=0;k<n;k++){ FX[k]=0; FY[k]=0; TQ[k]=0; }
+  if(HQ!==null) for(let k=0;k<n;k++) HQ[k]=0;
   const xd=(S.tide.velocity==="xdot") && S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial" && !!S._rdUX;
   const UX=xd? S._rdUX : null, UY=xd? S._rdUY : null;
   const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
@@ -57109,7 +57194,8 @@ function tideEvalRates(S){
         const dx=-d*(2*rx*rv+r2*sx), dy=-d*(2*ry*rv+r2*sy);
         fx+=dx; fy+=dy;
         TQ[i]+=-(rx*dy-ry*dx);                               // τ_i = −(r×F_diss)_z
-        heat+=d*(2*rv*rv+r2*(sx*sx+sy*sy));
+        const hq=d*(2*rv*rv+r2*(sx*sx+sy*sy));
+        heat+=hq; if(HQ!==null) HQ[i]+=hq;                   // 第307便b: 受け手 i で散逸した率(内部熱を宣言した本だけ)
         if(xd) mix+=dx*(vvx-Vx)+dy*(vvy-Vy);
         const Ks=3*B*lag/r6, Ko=9*B*lag/r8, mu=mi*mj/(mi+mj);
         const ts=(Ii>0)? Ii/Ks : Infinity, to=mu/Ko;
@@ -57142,6 +57228,7 @@ function dfmTideStep(S,dt){
     for(let k=0;k<n;k++){ const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue; pw+=fx*VX[k]+fy*VY[k]; dl+=X[k]*fy-Y[k]*fx; }
     for(let q=0;q<rc.length;q++){ const i=rc[q]; pw+=TQ[i]*S.spin[i]; }
     S.tideWork+=pw*h; S.tideWorkCons+=ev.wCons*h; S.tideHeat+=ev.heat*h; S.tideMix+=ev.mix*h; S.tideDL+=dl*h; S.tideReject+=ev.rej;
+    if(S.tideEi) tideHeatAdvance(S,h);   // 第307便b(R210): 内部熱と放射(physics.tide.heat を宣言した本だけ)
     // 速度のキック(stateCarry:"double" の本は補償和の繰り越しへ —— 核と同じ規約)
     for(let k=0;k<n;k++){
       const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue;
@@ -57166,6 +57253,139 @@ function dfmTideStep(S,dt){
   if(tauMin<S.tideTauMinAll) S.tideTauMinAll=tauMin;
   return { nsub, tauMin, version:TIDE_STEP_VERSION };
 }
+// ===== 第307便b(原仮定者の裁定(第100報)・決断事項 AN345 ③⑤・統括の検証項目 R210): **三次元の明示潮汐の步** `dfmTideStep3(S,dt)` =====
+// 三次元の本(physics.coord:"3d")で physics.tide を宣言し足さない理由の無い本だけが通る(S.hasTide —— dfmStep3 が二次元と同じ位置で呼ぶ: split:"half" は核の前に半歩・
+// 引きずり dfmInertialDragStep3 の後に残り)。式は二次元(tideEvalRates)と**同じ演算順**に z の項を足しただけ —— 慣性自転のベクトル Ω_I = S.spin·â(â = S.sax/say/saz):
+//   r = x_j − x_i・V = v_j − v_i(velocity:"xdot" は u を足す)・s = V − Ω_I×r・Ω×r = Ω(â_y r_z − â_z r_y, â_z r_x − â_x r_z, â_x r_y − â_y r_x)
+//   F_cons = −3B r/r⁸・F_diss = −(3BΔt/r¹⁰){2r(r·V) + r² s}・τ_i = −r×F_diss(3 成分)・Q̇ = (3BΔt/r¹⁰){2(r·V)² + r²|s|²}
+//   **二次元の極限**(z = vz = 0・â = +z): Ω×r の x 成分は Ω(0·0 − 1·r_y) = −Ω r_y と同じ浮動小数・z 成分の項は +0 —— 二次元の步とビット同一(器 tests/exp-w307b-tide3d.mjs)。
+// ■ 自転: τ∥ = τ·â は二次元と同じ J の補償和(tideJh/tideJl —— 慣性自転の軸方向の角運動量)で S.spin へ。τ⊥ = τ − τ∥ â は、
+//   軸を動かせる受け手(saOn=1・saOm=0 —— 傾きを宣言し歳差を宣言しない)だけ J′ = J∥ â + τ⊥ h を厳密に組み、â′ = σ J′/|J′|(σ は J∥ の符号 —— 軸を半球の外へ
+//   反転させない)・|J′| − |J∥| = |τ⊥h|²/(|J′| + |J∥|)(相殺なしの形)を補償和の低位へ。自転の角運動量のベクトルの変化は τ h と丸め床まで同じ(帳簿 tideAxL* が実際の変化)。
+//   軸を動かせない受け手(傾きなし・規定運動の歳差)の τ⊥ は**数えて回さない**(tidePerpN・tidePerpMax・Σ τ⊥ h = tidePerpL* —— 軸引きずりの経路と同じ型)。
+// ■ 帳簿: tideWork(F·v + τ∥ Ω —— τ⊥ は Ω に垂直なので仕事をしない)・tideWorkCons・tideHeat・tideMix・tideDL(軌道角運動量の z)と tideDLx/tideDLy・
+//   tideDJ(τ∥ h —— 慣性自転へ)と tideDJx/y/z(τ h のベクトル)。恒等式 tideDL* + Σ tideDJ* = 0(成分ごと)・tideWork − tideWorkCons + tideHeat − tideMix = 0 は丸め床まで。
+// ■ 引きずり軸回転(rotADr・軸引きずりの ω_D)は読まない・戻さない(第96報の契約 —— 潮汐のブレーキが効く相手は慣性軸回転そのもの〔第100報〕)。
+function tideEvalRates3(S){
+  const n=S.n, rc=S.tideRecv, G=S.params.G, X=S.x, Y=S.y, Z=S.z, VX=S.vx, VY=S.vy, VZ=S.vz, m=S.m, pin=S.pinned, tp=S.tpFlag;
+  const FX=S._tdFX, FY=S._tdFY, FZ=S._tdFZ, TX=S._tdTX, TY=S._tdTY, TQ=S._tdTQ, HQ=S._tdHQ, AX=S.sax, AY=S.say, AZ=S.saz;
+  for(let k=0;k<n;k++){ FX[k]=0; FY[k]=0; FZ[k]=0; TX[k]=0; TY[k]=0; TQ[k]=0; HQ[k]=0; }
+  const xd=(S.tide.velocity==="xdot") && S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial" && !!S._rdUX && !!S._rdUZ;
+  const UX=xd? S._rdUX : null, UY=xd? S._rdUY : null, UZ=xd? S._rdUZ : null;
+  const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  let wCons=0, heat=0, mix=0, tauMin=Infinity, rej=0;
+  for(let q=0;q<rc.length;q++){
+    const i=rc[q];
+    if(pin[i] || (tp && tp[i])) continue;
+    const k2=S.tideK2[i], lag=S.tideLag[i], R=S.R[i], R2=R*R, R5=R2*R2*R, Om=S.spin[i], mi=m[i], ax=AX[i], ay=AY[i], az=AZ[i];
+    if(!(mi>0) || !(R>0)) continue;
+    const Ii=f*mi*R2;
+    for(let j=0;j<n;j++){
+      if(j===i || pin[j] || (tp && tp[j])) continue;
+      const mj=m[j];
+      if(!(mj>0)) continue;
+      const rx=X[j]-X[i], ry=Y[j]-Y[i], rz=Z[j]-Z[i], r2=rx*rx+ry*ry+rz*rz;
+      if(!(r2>0) || !Number.isFinite(r2)){ rej++; continue; }
+      const vvx=VX[j]-VX[i], vvy=VY[j]-VY[i], vvz=VZ[j]-VZ[i];
+      let Vx=vvx, Vy=vvy, Vz=vvz;
+      if(xd){ Vx+=UX[j]-UX[i]; Vy+=UY[j]-UY[i]; Vz+=UZ[j]-UZ[i]; }
+      const B=G*k2*mj*mj*R5, r4=r2*r2, r6=r4*r2, r8=r4*r4;
+      const cc=3*B/r8;
+      let fx=-cc*rx, fy=-cc*ry, fz=-cc*rz;
+      wCons+=fx*vvx+fy*vvy+fz*vvz;
+      if(lag>0){
+        const d=3*B*lag/(r8*r2), rv=rx*Vx+ry*Vy+rz*Vz;
+        const sx=Vx-Om*(ay*rz-az*ry), sy=Vy-Om*(az*rx-ax*rz), sz=Vz-Om*(ax*ry-ay*rx);   // V − Ω_I×r
+        const dx=-d*(2*rx*rv+r2*sx), dy=-d*(2*ry*rv+r2*sy), dz=-d*(2*rz*rv+r2*sz);
+        fx+=dx; fy+=dy; fz+=dz;
+        TX[i]+=-(ry*dz-rz*dy); TY[i]+=-(rz*dx-rx*dz); TQ[i]+=-(rx*dy-ry*dx);   // τ_i = −r×F_diss(z 成分は二次元と同じ式)
+        const hq=d*(2*rv*rv+r2*(sx*sx+sy*sy+sz*sz));
+        heat+=hq; HQ[i]+=hq;
+        if(xd) mix+=dx*(vvx-Vx)+dy*(vvy-Vy)+dz*(vvz-Vz);
+        const Ks=3*B*lag/r6, Ko=9*B*lag/r8, mu=mi*mj/(mi+mj);
+        const ts=(Ii>0)? Ii/Ks : Infinity, to=mu/Ko;
+        if(ts<tauMin) tauMin=ts;
+        if(to<tauMin) tauMin=to;
+      }
+      FX[j]+=fx; FY[j]+=fy; FZ[j]+=fz; FX[i]-=fx; FY[i]-=fy; FZ[i]-=fz;
+    }
+  }
+  return {wCons, heat, mix, tauMin, rej};
+}
+function dfmTideStep3(S,dt){
+  if(!S || S.hasTide!==true || !(dt>0) || !Number.isFinite(dt)) return null;
+  const n=S.n, rc=S.tideRecv, f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  for(let q=0;q<rc.length;q++){ const i=rc[q]; if(!Object.is(S.spin[i], S.tideOmW[i])){ S.tideJh[i]=f*S.m[i]*S.R[i]*S.R[i]*S.spin[i]; S.tideJl[i]=0; S.tideOmW[i]=S.spin[i]; } }
+  let ev=tideEvalRates3(S);
+  let nsub=1;
+  if(ev.tauMin<Infinity && dt>TIDE_SUB_FRAC*ev.tauMin){
+    nsub=Math.ceil(dt/(TIDE_SUB_FRAC*ev.tauMin));
+    if(!(nsub<=TIDE_SUB_MAX)){ nsub=TIDE_SUB_MAX; S.tideSubCapped++; }
+  }
+  const h=dt/nsub, X=S.x, Y=S.y, Z=S.z, VX=S.vx, VY=S.vy, VZ=S.vz, m=S.m, FX=S._tdFX, FY=S._tdFY, FZ=S._tdFZ, TX=S._tdTX, TY=S._tdTY, TQ=S._tdTQ;
+  const AX=S.sax, AY=S.say, AZ=S.saz;
+  const carV=!!S.carVx, cX=S.carVx, cY=S.carVy, cZ=S.carVz;
+  let tauMin=ev.tauMin;
+  for(let s=0;s<nsub;s++){
+    if(s>0){ ev=tideEvalRates3(S); if(ev.tauMin<tauMin) tauMin=ev.tauMin; }
+    // 帳簿(率 × h —— キック前の状態で評価)。z の項は二次元の極限で +0
+    let pw=0, dl=0, dlx=0, dly=0;
+    for(let k=0;k<n;k++){ const fx=FX[k], fy=FY[k], fz=FZ[k]; if(fx===0 && fy===0 && fz===0) continue;
+      pw+=fx*VX[k]+fy*VY[k]+fz*VZ[k]; dl+=X[k]*fy-Y[k]*fx; dlx+=Y[k]*fz-Z[k]*fy; dly+=Z[k]*fx-X[k]*fz; }
+    for(let q=0;q<rc.length;q++){ const i=rc[q]; pw+=(TX[i]*AX[i]+TY[i]*AY[i]+TQ[i]*AZ[i])*S.spin[i]; }   // τ·Ω_I = τ∥ s(τ⊥ は仕事をしない)
+    S.tideWork+=pw*h; S.tideWorkCons+=ev.wCons*h; S.tideHeat+=ev.heat*h; S.tideMix+=ev.mix*h; S.tideDL+=dl*h; S.tideDLx+=dlx*h; S.tideDLy+=dly*h; S.tideReject+=ev.rej;
+    if(S.tideEi) tideHeatAdvance(S,h);   // 内部熱と放射(physics.tide.heat を宣言した本だけ)
+    for(let k=0;k<n;k++){
+      const fx=FX[k], fy=FY[k], fz=FZ[k]; if(fx===0 && fy===0 && fz===0) continue;
+      const mk=m[k]; if(!(mk>0)) continue;
+      const ax=fx*h/mk, ay=fy*h/mk, az=fz*h/mk;
+      if(carV){
+        const addX=ax+cX[k], v0x=VX[k]; VX[k]=v0x+addX; cX[k]=addX-(VX[k]-v0x);
+        const addY=ay+cY[k], v0y=VY[k]; VY[k]=v0y+addY; cY[k]=addY-(VY[k]-v0y);
+        const addZ=az+cZ[k], v0z=VZ[k]; VZ[k]=v0z+addZ; cZ[k]=addZ-(VZ[k]-v0z);
+      } else { VX[k]+=ax; VY[k]+=ay; VZ[k]+=az; }
+    }
+    // 自転: τ∥ は J の補償和(二次元と同じ)・τ⊥ は軸を動かせる受け手だけ軸へ(J′ = J∥ â + τ⊥ h)
+    for(let q=0;q<rc.length;q++){
+      const i=rc[q], ax=AX[i], ay=AY[i], az=AZ[i], tx=TX[i], ty=TY[i], tz=TQ[i];
+      const tp=tx*ax+ty*ay+tz*az;
+      S.tideDJx[i]+=tx*h; S.tideDJy[i]+=ty*h; S.tideDJz[i]+=tz*h;
+      const px=tx-tp*ax, py=ty-tp*ay, pz=tz-tp*az, perp=(px!==0 || py!==0 || pz!==0);
+      const dJ=tp*h;
+      if(dJ===0 && !perp) continue;
+      let hi=S.tideJh[i], lo=S.tideJl[i];
+      if(dJ!==0){
+        const sum=hi+dJ, bb=sum-hi, err=(hi-(sum-bb))+(dJ-bb);
+        lo=lo+err; const hs=sum+lo; lo=lo-(hs-sum); hi=hs;
+        S.tideDJ[i]+=dJ;
+      }
+      if(perp){
+        const qx=px*h, qy=py*h, qz=pz*h, q2=qx*qx+qy*qy+qz*qz;
+        if(S.saOn[i] && S.saOm[i]===0 && q2>0){
+          const Jp=hi+lo, Jx=Jp*ax+qx, Jy=Jp*ay+qy, Jz=Jp*az+qz, nn=Math.sqrt(Jx*Jx+Jy*Jy+Jz*Jz);
+          if(nn>0){
+            const sg=(Jp>0)? 1 : (Jp<0)? -1 : ((S.spin[i]<0)? -1 : 1);
+            const ux=sg*Jx/nn, uy=sg*Jy/nn, uz=sg*Jz/nn, dm=sg*q2/(nn+Math.abs(Jp));
+            const sum=hi+dm, bb=sum-hi, err=(hi-(sum-bb))+(dm-bb);
+            lo=lo+err; const hs=sum+lo; lo=lo-(hs-sum); hi=hs;
+            const Jn=hi+lo;
+            S.tideAxLx+=Jn*ux-Jp*ax; S.tideAxLy+=Jn*uy-Jp*ay; S.tideAxLz+=Jn*uz-Jp*az; S.tideAxN++;
+            S.sax[i]=ux; S.say[i]=uy; S.saz[i]=uz;
+          }
+        } else {
+          S.tidePerpN++; const pm=Math.sqrt(px*px+py*py+pz*pz); if(pm>S.tidePerpMax) S.tidePerpMax=pm;
+          S.tidePerpLx+=qx; S.tidePerpLy+=qy; S.tidePerpLz+=qz;
+        }
+      }
+      S.tideJh[i]=hi; S.tideJl[i]=lo;
+      const I=f*m[i]*S.R[i]*S.R[i];
+      if(I>0){ S.spin[i]=(hi+lo)/I; S.tideOmW[i]=S.spin[i]; }
+    }
+  }
+  S.tideN++; S.tideSubsteps+=nsub-1; S.tideNsubLast=nsub; S.tideTauMin=tauMin;
+  if(tauMin<S.tideTauMinAll) S.tideTauMinAll=tauMin;
+  return { nsub, tauMin, version:TIDE3_STEP_VERSION };
+}
 // 読み口(表示・器・QA —— 状態は 1 bit も動かさない)
 function tideState(S){
   if(!S || !S.tide) return null;
@@ -57176,7 +57396,28 @@ function tideState(S){
     J:rc.map(i=>S.tideJh[i]+S.tideJl[i]), Jlo:rc.map(i=>S.tideJl[i]), dJ:rc.map(i=>S.tideDJ[i]), omega:rc.map(i=>S.spin[i]),
     steps:S.tideN, substeps:S.tideSubsteps, subCapped:S.tideSubCapped, nsubLast:S.tideNsubLast, tauMin:S.tideTauMin, tauMinAll:S.tideTauMinAll,
     reject:S.tideReject, work:S.tideWork, workCons:S.tideWorkCons, heat:S.tideHeat, mix:S.tideMix, dL:S.tideDL,
-    residualE:S.tideWork-S.tideWorkCons+S.tideHeat-S.tideMix, residualL:S.tideDL+rc.reduce((a,i)=>a+S.tideDJ[i],0) };
+    residualE:S.tideWork-S.tideWorkCons+S.tideHeat-S.tideMix, residualL:S.tideDL+rc.reduce((a,i)=>a+S.tideDJ[i],0),
+    ...((S.coord3d===true && S.tideDJx)? {d3:tideState3(S,rc)} : null),   // 第307便b(R210): 三次元の本だけ(二次元の本の読み口は 1 鍵も変わらない)
+    ...(S.tideEi? {internalHeat:tideHeatState(S,rc)} : null) };   // 第307便b(R210): 内部熱を宣言した本だけ
+}
+// 第307便b(R210): 三次元の潮汐の読み口(状態を 1 bit も動かさない)。brake は直近の小步の頭のトルクの軸方向の成分 τ∥(慣性自転へのブレーキ —— 負なら正の自転を減らす)
+function tideState3(S,rc){
+  const sum=(A)=>rc.reduce((a,i)=>a+A[i],0);
+  const dL3=[S.tideDLx, S.tideDLy, S.tideDL], dJ3=[sum(S.tideDJx), sum(S.tideDJy), sum(S.tideDJz)];
+  return { version:TIDE3_STEP_VERSION,
+    axis:rc.map(i=>[S.sax[i], S.say[i], S.saz[i]]), turnable:rc.map(i=>!!(S.saOn[i] && S.saOm[i]===0)),
+    torque:rc.map(i=>[S._tdTX[i], S._tdTY[i], S._tdTQ[i]]), brake:rc.map(i=>S._tdTX[i]*S.sax[i]+S._tdTY[i]*S.say[i]+S._tdTQ[i]*S.saz[i]),
+    heatRate:rc.map(i=>S._tdHQ[i]), dJ3:rc.map(i=>[S.tideDJx[i], S.tideDJy[i], S.tideDJz[i]]), dL3, sumDJ3:dJ3,
+    residualL3:[dL3[0]+dJ3[0], dL3[1]+dJ3[1], dL3[2]+dJ3[2]],
+    axisTurns:S.tideAxN, axL:[S.tideAxLx, S.tideAxLy, S.tideAxLz], perpSkip:S.tidePerpN, perpSkipMax:S.tidePerpMax, perpL:[S.tidePerpLx, S.tidePerpLy, S.tidePerpLz] };
+}
+// 第307便b(R210): 内部熱の読み口(E_i は基準からの過剰 —— 初期値 0 は診断の基準)。residual = 入力 − (E − 0) − 放射(丸め床)・sumInput − heat は和の順の違いだけ
+function tideHeatState(S,rc){
+  const E=rc.map(i=>S.tideEi[i]), rad=rc.map(i=>S.tideRad[i]), inp=rc.map(i=>S.tideHin[i]), tau=rc.map(i=>S.tideCoolTau[i]);
+  const sumIn=inp.reduce((a,b)=>a+b,0);
+  return { version:TIDE_HEAT_VERSION, decl:Object.assign({}, S.tide.heat), receivers:rc, coolTau:tau, E, radiated:rad, input:inp,
+    luminosity:rc.map((i,k)=>E[k]/tau[k]), rate:S._tdHQ? rc.map(i=>S._tdHQ[i]) : null,
+    residual:rc.map((i,k)=>inp[k]-E[k]-rad[k]), sumInput:sumIn, sumE:E.reduce((a,b)=>a+b,0), sumRadiated:rad.reduce((a,b)=>a+b,0), inputMinusHeat:sumIn-S.tideHeat };
 }
 // ===== 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **表示メッシュの読み取り専用サンプラー** =====
 // 「空間メッシュは引きずりの可視化にとどめ、光の物差しで空間を測ったような見やすい表示計算を工夫する」。
@@ -60576,6 +60817,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   REL_DRAG_NORMS, REL_DRAG_NORM_DEFAULT, REL_DRAG_NORM_VERSION, relDragNormOf, relDragNormActive, relDragNormChanges, relDragBackgroundOf, inertialDragNormX, inertialDragNormOf, inertialDragNormApply, inertialDragNormState,   // 第301便a: 引きずりの強さの正規化
   dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
   TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,
+  dfmTideStep3, tideEvalRates3, tideState3, tideHeatState, tideHeatCell, tideHeatAdvance, validateTideHeat,   // 第307便b(R210): 三次元の明示潮汐(CTL のベクトル形)と内部熱・放射
+  TIDE3_STEP_VERSION, TIDE_HEAT_VERSION, TIDE_HEAT_KEYS, TIDE_HEAT_MODELS, TIDE_HEAT_SERIES_X,
   MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN, softeningRowFloorOf,   // 第305便e: softening の行の下限
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
   CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態

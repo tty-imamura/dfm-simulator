@@ -1055,6 +1055,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rotframe-w306d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/runs/*/*/wallSec', '/books/*/retro/*/wallSec']) },
     note: '第306便d: 回転引きずりの座標変換の定義の帳簿(大域の R と受け手ごとの R_i・位置/姿勢/速度の選択肢・読み替えとキック・揺らぎの仕事・🍩 の步の順序の遅れの候補 —— 値だけ・エンジンと宣言は変えない)' }),
   // ==== 第306便d の塊(ここまで)====
+  // ==== 第307便b の塊(ここから)====
+  // ---- 第307便b(原仮定者の裁定(第100報)・決断事項 AN345 ③⑤・統括の検証項目 R210): **三次元の明示潮汐(CTL のベクトル形)と内部熱・放射の器**(段 P〔純関数〕・E〔エンジンの 1 回の
+  //   評価 = 純関数〕・Z〔二次元の極限のビット同一〕・L〔非共面の帳簿・角運動量〕・C〔回転の共変〕・K〔チェックポイント〕・H〔内部熱〕・S〔同期へ向かう時間発展と平均した式〕・
+  //   R〔🌋🏀 と木星–イオの規格化した率 —— k₂ = 1・Δt = 1 s〕・X〔velocity:"xdot" の三次元〕)。写しは器の中で組む(在位の本の宣言は変えない)。html だけを読む・1 プロセス。
+  //   所要は第307便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('tide3d-307b', 'node tests/exp-w307b-tide3d.mjs', ['tests/out/tide3d-w307b.json'], 30, { secSource: 'w307b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/tide3d-w307b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第307便b: 三次元の明示潮汐(CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転とその軸へのブレーキ・反作用・帳簿)と天体の内部熱・放射(線形の緩和)—— 二次元の極限・恒等式・共変・状態の契約・同期への時間発展・規格化した率' }),
+  // ==== 第307便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

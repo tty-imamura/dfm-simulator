@@ -161,6 +161,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.o
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
 # ==== 第306便d の塊(ここまで)====
+# ==== 第307便b の塊(ここから)====
+# 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 枝 b の新設 2 本(behavior.tide3d307 —— 三次元の明示潮汐と内部熱の受理・二次元のビット同一・恒等式・状態の契約・
+#   docs.tide3d307 —— 正本と文書)と、三次元の受理の門の一覧が動く behavior.coord3d298
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.coord3d298"
+# ==== 第307便b の塊(ここまで)====
 # ==== 第307便d の塊(ここから)====
 # 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・R212): 枝 d の新設 6 本(スピンの表示の上限・右下の XYZ の軸・サンプルの行の geoPN・「E水準」を「その他」へ・
 #   λ_PN=0 で α の淡色・kFrame=0 で qLock と q の淡色と kFrame の並び)と、世代切替を足した既存の UI の QA(畳みの次元・「その他」の段と軸の数・パラメータの並び)
