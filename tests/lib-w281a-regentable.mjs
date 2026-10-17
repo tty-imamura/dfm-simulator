@@ -1055,6 +1055,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rotframe-w306d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/runs/*/*/wallSec', '/books/*/retro/*/wallSec']) },
     note: '第306便d: 回転引きずりの座標変換の定義の帳簿(大域の R と受け手ごとの R_i・位置/姿勢/速度の選択肢・読み替えとキック・揺らぎの仕事・🍩 の步の順序の遅れの候補 —— 値だけ・エンジンと宣言は変えない)' }),
   // ==== 第306便d の塊(ここまで)====
+  // ==== 第307便a の塊(ここから)====
+  // ---- 第307便a(原仮定者の裁定(第100報)・決断事項 AN345 ①②・AN343 ①・統括の検証項目 R209): **軸引きずりの球面の核の参照の器**(段 Q〔求積と M1〕・Z〔零と奇〕・
+  //   A〔分母の 3 つの型 × 源の球・球面の角度分布と距離則〕・L〔エンジンの閉じた式 ½∇×u と参照の求積の一致〕・F〔有限の受け手の補正〕・C〔求積の収束〕・
+  //   E〔🔩🪛🍥🍩 の写しに axialModel:"sphere" を宣言した走行・極の受け手の写し・省略のビット同一〕・R〔rotStep:"rigid" の環・🍩 の写し〕)。
+  //   本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。他の枝の段・宣言に依存しない。所要は第307便a の枝の実測(正本の elapsedS)
+  S('sphereaxial-307a', 'node tests/exp-w307a-sphereaxial.mjs', ['tests/out/sphereaxial-w307a.json'], 90, { secSource: 'w307a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/sphereaxial-w307a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第307便a: 軸引きずりの球面の核(受け手の球面の剛体回転 ½∇×u —— 赤道で逆・軸で同じ向き・角度分布は分母の距離則に依る)の参照の求積とエンジンの opt-in の一致・回転の位置の剛体の步(rotStep:"rigid")' }),
+  // ==== 第307便a の塊(ここまで)====
   // ==== 第307便b の塊(ここから)====
   // ---- 第307便b(原仮定者の裁定(第100報)・決断事項 AN345 ③⑤・統括の検証項目 R210): **三次元の明示潮汐(CTL のベクトル形)と内部熱・放射の器**(段 P〔純関数〕・E〔エンジンの 1 回の
   //   評価 = 純関数〕・Z〔二次元の極限のビット同一〕・L〔非共面の帳簿・角運動量〕・C〔回転の共変〕・K〔チェックポイント〕・H〔内部熱〕・S〔同期へ向かう時間発展と平均した式〕・

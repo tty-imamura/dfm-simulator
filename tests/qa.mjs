@@ -80316,6 +80316,136 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第306便d の塊(ここまで)====
+// ==== 第307便a の塊(ここから —— docs.sphereAxial307 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第307便a(原仮定者の裁定(第100報)・決断事項 AN345 ①②・AN343 ①・統括の検証項目 R209): docs.sphereAxial307 —— **軸引きずりの球面の核**
+// ----   (spinDrag.axialModel:"sphere"・axialGain —— 受け手の球面の剛体回転 ½∇×u)と**回転引きずりの位置の剛体の步**(spinDrag.rotStep:"rigid")の opt-in(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に REL_DRAG_AXIAL_SPHERE_VERSION="w307a-axial-sphere-1" ∧ 正本 tests/out/sphereaxial-w307a.json ∧ 器 tests/exp-w307a-sphereaxial.mjs。
+// ----   固定値は正本と器の宣言から読む(器の gatesOf・physicsTables・docNumbers で正本から作り直す)。在位の本は宣言しない(省略で今の動作 —— ビット同一は ②)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・宣言から探した本が領域の宣言 presets の中
+// ----   ② 受理の契約(正準形・拒否 8 例の理由の文)・省略と "mu2"・"linear" の明示のビット同一(🪛・🔩 の写し 20 步)・在位の本に axialModel/rotStep の宣言が無い・
+// ----      エンジンの閉じた式と lib の参照の求積(R_i → 0)を QA の中で作り直す(2 配置 —— 尺度つきの相対 1e-7)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第307便a〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・AI_SPEC の節(見出しの語で探す)・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const sa307Out = path.join(ROOT, 'tests', 'out', 'sphereaxial-w307a.json'), sa307Harn = path.join(ROOT, 'tests', 'exp-w307a-sphereaxial.mjs'), sa307Lib = path.join(ROOT, 'tests', 'lib-w307a-sphereaxial.mjs');
+  const sa307Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && sa307Html.indexOf('REL_DRAG_AXIAL_SPHERE_VERSION = "w307a-axial-sphere-1"') >= 0 && fs.existsSync(sa307Out) && fs.existsSync(sa307Harn) && fs.existsSync(sa307Lib))) {
+    console.log('SKIP docs.sphereAxial307(第307便a の球面の軸引きずりの前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, SAL = null;
+    try { J = JSON.parse(fs.readFileSync(sa307Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + sa307Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { SAL = await import('file://' + sa307Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第307便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && SAL) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== SAL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const declIds = (J.meta && J.meta.scope && J.meta.scope.presets) || [], foundIds = Object.values((J.E && J.E.ids) || {});
+      for (const id of foundIds) if (declIds.indexOf(id) < 0) bad.push('宣言から探した本 ' + id + ' が領域の宣言に無い');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・写し ${foundIds.join('・')}`);
+      // ②
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+        const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+        const tilt = HP.allPresets().find((q) => q.id === 'chainDiskToy3dTilt'), disk = HP.allPresets().find((q) => q.id === 'chainDiskToy3d');
+        const tryS = (base, sd, mut) => { const q = clone(base); q.physics.relativeDrag.spinDrag = sd; if (mut) mut(q); const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' '), sd: v.ok ? v.preset.physics.relativeDrag.spinDrag : null }; };
+        const a1 = tryS(tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere' }), a2 = tryS(tilt, { rot: 'surfaceFlip', axial: 'on', axialCoupling: 4, axialModel: 'mu2', rotStep: 'linear' }), a3 = tryS(disk, { rot: 'surfaceFlip', axial: 'off', rotStep: 'rigid' });
+        if (!(a1.ok && JSON.stringify(a1.sd) === JSON.stringify({ rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', axialGain: 1 }))) bad.push('② sphere の正準形 ' + JSON.stringify(a1.sd) + ' ' + a1.msg.slice(0, 80));
+        if (!(a2.ok && JSON.stringify(a2.sd) === JSON.stringify({ rot: 'surfaceFlip', axial: 'on', axialCoupling: 4 }))) bad.push('② "mu2"・"linear" の明示が正準形に出る ' + JSON.stringify(a2.sd));
+        if (!(a3.ok && JSON.stringify(a3.sd) === JSON.stringify({ rot: 'surfaceFlip', axial: 'off', rotStep: 'rigid' }))) bad.push('② rigid の正準形 ' + JSON.stringify(a3.sd));
+        const rej = [[tilt, { rot: 'surfaceFlip', axial: 'off', axialModel: 'sphere' }, null, /axial:"on" と一緒にだけ/], [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', axialCoupling: 4 }, null, /μ² 則の係数/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialCoupling: 4, axialGain: 2 }, null, /axialGain は axialModel:"sphere" のときだけ/], [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'x' }, null, /axialModel は "mu2"/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', axialGain: -1 }, null, /axialGain/], [tilt, { rot: 'off', axial: 'on', axialCoupling: 1, rotStep: 'rigid' }, null, /rotStep:"rigid" は rot:"surfaceFlip"/],
+          [tilt, { rot: 'surfaceFlip', axial: 'off', rotStep: 'bad' }, null, /rotStep は "linear"/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere' }, (q) => { delete q.physics.relativeDrag.solver; q.bodies[0].dragCore = { massFrac: 0.5, radius: 3 }; }, /axialModel:"sphere" と一緒に宣言しない/]];
+        let nRej = 0;
+        for (const [b, sd, mut, re] of rej) { const r = tryS(b, sd, mut); if (r.ok || !re.test(r.msg)) bad.push('② 拒否されない/理由の文 ' + JSON.stringify(sd) + ' → ' + r.msg.slice(0, 100)); else nRej++; }
+        const fpS = (S) => { const h = crypto.createHash('sha1'); for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'rotA', 'sax', 'say', 'saz', 'spin']) h.update(Buffer.from(Float64Array.from(S[k].subarray(0, S.n)).buffer)); return h.digest('hex'); };
+        const run = (base, sd) => { const q = clone(base); if (sd) q.physics.relativeDrag.spinDrag = sd; const v = HP.validatePreset(q); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S); for (let k = 0; k < 20; k++) S.step(dt); return fpS(S); };
+        const same1 = run(tilt, null) === run(tilt, { ...tilt.physics.relativeDrag.spinDrag, axialModel: 'mu2' }), same2 = run(disk, null) === run(disk, { ...disk.physics.relativeDrag.spinDrag, rotStep: 'linear' });
+        if (!same1) bad.push('② 🪛 の axialModel:"mu2" の明示が省略とビット同一でない');
+        // チェックポイントの往復(sphere + rigid の 🪛 の写し —— 帳簿の鍵 inertialDrag3AxSph*・Rigid* を含めて保存した瞬間へ戻る)
+        { const q = clone(tilt); q.physics.relativeDrag.spinDrag = { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', rotStep: 'rigid' };
+          const v = HP.validatePreset(q), S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S);
+          const fpk = (T) => fpS(T) + JSON.stringify([T.inertialDrag3AxSphN, T.inertialDrag3AxSphSkip, T.inertialDrag3RigidN, T.inertialDrag3RigidAng, T.inertialDrag3RigidCorrMax]) + fpS({ n: T.n, x: T.rotAIn, y: T.rotADr, z: T.rotA, vx: T.rotA, vy: T.rotA, vz: T.rotA, rotA: T.rotA, sax: T.sax, say: T.say, saz: T.saz, spin: T.spin });
+          for (let k = 0; k < 15; k++) S.step(dt);
+          const o = E('ckSnapOne')(S); for (let k = 0; k < 15; k++) S.step(dt); const A = fpk(S);
+          E('ckRestoreOne')(S, o); for (let k = 0; k < 15; k++) S.step(dt); const B = fpk(S);
+          if (A !== B || !(S.inertialDrag3RigidN > 0 && S.inertialDrag3AxSphN > 0)) bad.push('② チェックポイントの往復が sphere + rigid の写しで同じ瞬間へ戻らない'); }
+        if (!same2) bad.push('② 🔩 の rotStep:"linear" の明示が省略とビット同一でない');
+        const decl = HP.allPresets().filter((q) => { const s1 = ((q.physics || {}).relativeDrag || {}).spinDrag, s2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag && q.abBody.physicsPatch.relativeDrag.spinDrag;
+          return [s1, s2].some((x) => x && (x.axialModel !== undefined || x.rotStep !== undefined || x.axialGain !== undefined)); }).map((q) => q.id);
+        if (decl.length) bad.push('② 在位/内蔵の本が新しい鍵を宣言 ' + decl.join(','));
+        // エンジンの閉じた式と lib の参照(r⁻² が支配・赤道と極・r/R = 10)
+        let mx = 0;
+        for (const el of [0, 90]) {
+          const xr = SAL.scale(SAL.dirAt([0, 0, 1], el, 25), 10), lam = 1e-8;
+          const cfg = { C: 1, eps: 0, sources: [{ p: [0, 0, 0], m: 1, Om: 1, a: [0, 0, 1], R: 1, kind: 'ball' }], masses: [{ p: [0, 0, 0], m: 1 }], i2: [{ p: [0, 0, 0], q: 1 / lam }], Dconst: 0 };
+          const ref = SAL.rigidLimit(xr, 0.01, cfg, { nS: 12, nR: 12, nRec: 6 }).Om;
+          const S = { n: 2, m: Float64Array.from([1, 1e-3]), x: Float64Array.from([0, xr[0]]), y: Float64Array.from([0, xr[1]]), z: Float64Array.from([0, xr[2]]), spin: Float64Array.from([1, 0]), radOv: Float64Array.from([1, 0]),
+            sax: Float64Array.from([0, 0]), say: Float64Array.from([0, 0]), saz: Float64Array.from([1, 1]), pinned: new Uint8Array(2), relDrag: { law: 'inertial', Wbg: 1, inertialR2: { lambda: lam, sources: 'all', self: 'off', env: 'off' } },
+            params: { G: 1, cLight: 1 }, _rdPairSet: null, _rdPairN: 2, _amKind: null };
+          const q = E('inertialDrag3AxialSphereAt')(S, 2, 1, 0, S.x, S.y, S.z, S.sax, S.say, S.saz, S.x[1], S.y[1], S.z[1], 1, 1);
+          const sc = Math.abs(SAL.sourceM1(10, 1, 'ball', { nS: 12, nR: 12, eps: 0 }) / (10 * SAL.denomOf(xr, cfg)));
+          mx = Math.max(mx, SAL.norm(SAL.sub([q.wx, q.wy, q.wz], ref)) / Math.max(sc, SAL.norm(ref)));
+          if (el === 0 && !(q.wz < 0)) bad.push('② 赤道の受け手が逆回転でない ' + q.wz);
+          if (el === 90 && !(q.wz > 0)) bad.push('② 極の受け手が同じ向きでない ' + q.wz);
+        }
+        if (!(mx < 1e-7)) bad.push('② エンジンの閉じた式と参照の求積の差 ' + mx);
+        cases.push(`② 受理の契約(正準形 3・拒否 ${nRej}/${rej.length})・"mu2"/"linear" の明示 = 省略(🪛・🔩 20 步のビット同一)・チェックポイントの往復(sphere + rigid)・在位の宣言 0 本・閉じた式と参照の差 ${mx.toExponential(2)}`);
+      } catch (e) { bad.push('② が走らない: ' + String(e).slice(0, 160)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第307便a〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第307便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第307便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第307便a〕が「## 7. 論文」の後');
+        for (const w of ['R209', '第100報', 'AN345', 'AN343', 'exp-w307a-sphereaxial.mjs', 'lib-w307a-sphereaxial.mjs', 'sphereaxial-w307a.json', 'docs.sphereAxial307', 'W307A_OUT',
+          'axialModel', 'axialGain', 'rotStep', '½∇×u', '剛体回転', '距離則', '3μ² − 1', '歯車', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第307便a〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第307便a') < 0) bad.push('CHANGELOG に第307便a が無い');
+      if (RM.indexOf('第307便a') < 0) bad.push('README に第307便a が無い');
+      { const ai = AS.indexOf('第307便a —— 軸引きずりの球面の核');
+        if (ai < 0) bad.push('AI_SPEC に第307便a の節が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['axialModel', 'axialGain', 'rotStep', 'SYSTEM_PROMPT には載せない', 'docs.sphereAxial307']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('sphereaxial-307a', 'node tests/exp-w307a-sphereaxial.mjs', ['tests/out/sphereaxial-w307a.json']") < 0 || !/secSource: 'w307a-branch'/.test(RT)) bad.push('再生成の段 sphereaxial-307a');
+      if (GI.indexOf('!tests/out/sphereaxial-w307a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.sphereAxial307') < 0) bad.push('post-merge の ③′ に docs.sphereAxial307 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/磁気双極子と同じ/, /金星の逆行を説明した/, /イオの加熱を再現した/, /自転が釣り合った/, /法則を発見した/, /GR を導いた/, /観測の 1σ で較正済み/, /熱力学を導いた/, /斥力を導いた/, /n が決まった/, /現実を再現した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第307便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第307便a〕に禁句(' + w.length + ' 字)');
+      for (const f of ['tests/exp-w307a-sphereaxial.mjs', 'tests/lib-w307a-sphereaxial.mjs']) { const tx = rd(f); for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.sphereAxial307', bad.length === 0,
+      `**軸引きずりの球面の核と回転の位置の剛体の步**(第307便a・原仮定者の裁定(第100報)・AN345・AN343・R209 —— 正本 sphereaxial-w307a.json・opt-in の鍵 spinDrag.axialModel/axialGain/rotStep・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第307便a の塊(ここまで)====
 
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
