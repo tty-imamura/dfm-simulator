@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:07:56.584Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T23:06:28.693Z",
   "code": [
    {
     "file": "tests/exp-w269c-bh90.mjs",
@@ -32,15 +32,15 @@
    }
   ],
   "codeSha256": "51ef943e085aa1ee37842f6be0cc239a4644eeb72101df018afd8add8026994c",
-  "measuredAt": "2026-10-16T10:07:56.584Z",
+  "measuredAt": "2026-10-16T23:06:28.694Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 21.8
+  "spentSec": 20.8
  },
  "declaration": {
   "systemKind": "bh-binary",

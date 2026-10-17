@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便a",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:19:41.766Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T23:15:28.516Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "tests/data-w305a-decl304.json",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "bytes": 79884,
-    "sha256": "24067de13b4d16b694f1d81ad12ab4d2d1e0ddaafee3571ec3fc366b0c58e7d3",
-    "mtime": "2026-10-16T09:21:50.128Z"
+    "bytes": 79882,
+    "sha256": "4d9b16068cf72bf0056502f1e500b2308f0df8f132aca88985909874fac089e6",
+    "mtime": "2026-10-16T22:20:29.998Z"
    }
   ],
   "code": [
@@ -34,15 +34,15 @@
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
-    "bytes": 72518,
-    "sha256": "8431b357a9f104c5bf64001c370d31ced6ce59b56e3fd3e4e2ccb09863c1a4ea",
-    "mtime": "2026-10-14T20:23:56.669Z"
+    "bytes": 73010,
+    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 77477,
-    "sha256": "dbce6ab6d044f4692a9b2cace6c00ca87a28fa28a7a49868d1808c4f754686b0",
-    "mtime": "2026-10-15T07:11:58.476Z"
+    "bytes": 77963,
+    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "de62ac2856f694772f05c6235a9a15ffb6073af729064860bf7d82eb99b0dd6e",
+  "codeSha256": "1b9d331e02f1da6e97caf13f45848db7194328959aee59159ec9ddb3855329b3",
   "harnessVersion": "w305a-pairnorm-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第96報)—— 分母の慣性決定力の和に自分自身・分子の引きずりの和に自分自身を入れない・決断事項 AN326",
@@ -151,9 +151,9 @@
    "complete": true,
    "names": 1356,
    "segments": 1225,
-   "closureShare": 0.3301
+   "closureShare": 0.3294
   },
-  "scopeSha256": "6c57a9bdb1561fedfb7e0e672409a26dca4f9bfda0a9db08d63d396f091e33f0",
+  "scopeSha256": "90eed1cf37fa8bf4c0659284a51fff71520a2c4b106b539e7d7ad78b2d080204",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -164,7 +164,7 @@
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "stableSha256": "479512d27110f5975cc642ec7971561ae41b301ce9a220941d594e1bc9c89095",
+    "stableSha256": "159a287420f2857abd1b3774153b8a9ecfcc452915af3a8c172bc6fdc6f5caf3",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -193,9 +193,9 @@
   "base": "bdb7ae5",
   "liveSame": {
    "earthMoonSunInertial3d": false,
-   "mercurySunInertial3d": true,
-   "marsSunInertial3d": true,
-   "jupiterSunInertial3d": true,
+   "mercurySunInertial3d": false,
+   "marsSunInertial3d": false,
+   "jupiterSunInertial3d": false,
    "marsMoonsReal": true,
    "jupiterGalilean": true,
    "inertialDragPair": true,
@@ -1092,7 +1092,7 @@
    "badDenomRejected": true,
    "badDenomMsg": "physics.relativeDrag.inertialR2.denom は \"row\"(既定 —— 今の式: 受け手の行の分母に Σ_k I_ik)か \"pair\"(対ごとの正規化 β_ij = D_ij/(W_bg + 自己 + I_ij) —— 第305便a)"
   },
-  "wallSec": 1.176
+  "wallSec": 0.812
  },
  "manyBody": {
   "rows": [
@@ -1263,7 +1263,7 @@
     "uPairOverNoMoon": 1891.7578127643972
    }
   ],
-  "wallSec": 0.132,
+  "wallSec": 0.108,
   "quantity": "2 步(本の stepDt の 1e-4 —— 1 步目は履歴)の後の惑星の行 —— 太陽からの β(行 D/(W_bg + Σ_k I_k)・対 D/(W_bg + I_☉))の衛星なしの写しとの比と、1 步の u の比(衛星の配置は衛星の本を惑星の位置へ平行移動 —— 面は惑星の本の xy)"
  },
  "threeBody": {
@@ -1343,7 +1343,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 77.972
+     "wallSec": 70.96
     },
     "h2": {
      "dt": 0.008,
@@ -1409,7 +1409,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 147.181
+     "wallSec": 150.084
     },
     "diff": {
      "apsB1": -0.0005565121041044563,
@@ -1511,7 +1511,7 @@
       "noHistory": 1,
       "uMax": 1.2129047496592417e-11
      },
-     "wallSec": 106.707
+     "wallSec": 97.287
     },
     "h2": {
      "dt": 0.008,
@@ -1577,7 +1577,7 @@
       "noHistory": 1,
       "uMax": 1.2128907661062754e-11
      },
-     "wallSec": 210.986
+     "wallSec": 212.231
     },
     "diff": {
      "apsB1": -0.0005557070878516868,
@@ -1679,7 +1679,7 @@
       "noHistory": 1,
       "uMax": 2.852404227230509e-7
      },
-     "wallSec": 123.756
+     "wallSec": 123.027
     },
     "h2": {
      "dt": 0.008,
@@ -1745,7 +1745,7 @@
       "noHistory": 1,
       "uMax": 2.852389490565123e-7
      },
-     "wallSec": 241.337
+     "wallSec": 253.209
     },
     "diff": {
      "apsB1": -0.0005585661755915794,
@@ -1847,7 +1847,7 @@
       "noHistory": 1,
       "uMax": 9.703894973170945e-12
      },
-     "wallSec": 106.139
+     "wallSec": 106.81
     },
     "h2": {
      "dt": 0.008,
@@ -1913,7 +1913,7 @@
       "noHistory": 1,
       "uMax": 9.703771512441666e-12
      },
-     "wallSec": 214.121
+     "wallSec": 213.768
     },
     "diff": {
      "apsB1": -0.0005560241897342166,
@@ -2015,7 +2015,7 @@
       "noHistory": 1,
       "uMax": 2.2820760564307273e-7
      },
-     "wallSec": 124.222
+     "wallSec": 122.998
     },
     "h2": {
      "dt": 0.008,
@@ -2081,7 +2081,7 @@
       "noHistory": 1,
       "uMax": 2.2820647881685116e-7
      },
-     "wallSec": 262.439
+     "wallSec": 239.177
     },
     "diff": {
      "apsB1": -0.000558402551972037,
@@ -2183,7 +2183,7 @@
       "noHistory": 1,
       "uMax": 7.278738838253215e-12
      },
-     "wallSec": 103.587
+     "wallSec": 98.342
     },
     "h2": {
      "dt": 0.008,
@@ -2249,7 +2249,7 @@
       "noHistory": 1,
       "uMax": 7.278655118421429e-12
      },
-     "wallSec": 213.04
+     "wallSec": 193.783
     },
     "diff": {
      "apsB1": -0.0005566502022311681,
@@ -2351,7 +2351,7 @@
       "noHistory": 1,
       "uMax": 1.7117520224734467e-7
      },
-     "wallSec": 123.66
+     "wallSec": 113.053
     },
     "h2": {
      "dt": 0.008,
@@ -2417,7 +2417,7 @@
       "noHistory": 1,
       "uMax": 1.7117435704671918e-7
      },
-     "wallSec": 217.596
+     "wallSec": 222.531
     },
     "diff": {
      "apsB1": -0.0005583373172637351,
@@ -2519,7 +2519,7 @@
       "noHistory": 1,
       "uMax": 2.852404626715048e-7
      },
-     "wallSec": 145.142
+     "wallSec": 140.504
     },
     "diff": {
      "apsB1": -0.0005585675481789565,
@@ -2618,7 +2618,7 @@
       "noHistory": 1,
       "uMax": 8.453437896489078e-7
      },
-     "wallSec": 92.062
+     "wallSec": 89.646
     },
     "diff": {
      "apsB1": -0.010227414821287084,
@@ -2717,7 +2717,7 @@
       "noHistory": 1,
       "uMax": 0.0000028592921595841824
      },
-     "wallSec": 105.525
+     "wallSec": 103.077
     },
     "diff": {
      "apsB1": -0.024976888156823307,
@@ -2735,7 +2735,7 @@
    "sidH": 0,
    "node": 0
   },
-  "wallSec": 2615.679,
+  "wallSec": 2550.699,
   "quantity": "長窓 [0,1062] の M4(調和の回帰 —— 第304便c の抽出器)の近地点の周期・恒星月(調和)・交点の周期・平均離心率。差は同じ刻みの OFF との差(機械の差分)と B1 との差"
  },
  "gates": {
@@ -2755,5 +2755,5 @@
   "「λ ∝ m + 対が唯一」",
   "「n が決まった」"
  ],
- "elapsedS": 2617.214
+ "elapsedS": 2551.754
 }

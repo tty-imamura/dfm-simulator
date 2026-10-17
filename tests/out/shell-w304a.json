@@ -3,22 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:06:55.882Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T23:05:27.252Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-16T19:11:11.231Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w304a-shell.mjs",
-    "bytes": 36151,
-    "sha256": "f27a96afa978d33c94b9b92f10c770b75207a2d3198c5b783f8ce3e65289af31",
-    "mtime": "2026-10-15T06:35:32.243Z"
+    "bytes": 36513,
+    "sha256": "94015ccf8c8930d516ec5d8e90ce0bf5ad8474efa4250092ac703131278b2501",
+    "mtime": "2026-10-16T19:11:11.231Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -49,9 +55,15 @@
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
     "mtime": "2026-10-09T10:19:39.615Z"
+   },
+   {
+    "file": "tests/lib-w306a-pre.mjs",
+    "bytes": 5337,
+    "sha256": "29de399a2c1d1df45a31a0f197ab366b5ac7d7a89540990b64abc8acba5ac1db",
+    "mtime": "2026-10-16T19:11:11.237Z"
    }
   ],
-  "codeSha256": "b3e078d4b371c1e26046ced05a6e7441c4985d04be39e5c8d0660865a1a7659e",
+  "codeSha256": "33e3f73e10fad4f7e756dbc2a0c050cce4cdc56530ccdb3c224a1a9bc3c3aab0",
   "harnessVersion": "w304a-shell-1",
   "shellVersion": "w304a-shell-1",
   "loadErrors": 0,
@@ -109,11 +121,18 @@
    "complete": true,
    "names": 1343,
    "segments": 1212,
-   "closureShare": 0.3292
+   "closureShare": 0.3285
   },
-  "scopeSha256": "73770f573c55ddf42d62690d0d8bc06078ea75fc9f5f0cb3b2a56d2bb037f34c",
+  "scopeSha256": "5edc7cf440215db21c47f377ff185d6f5c97036f1f9dfaff00812cbd660104bf",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  },
  "version": "w304a-shell-1",
@@ -787,11 +806,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.342
+   "wallSec": 0.39
   },
   "M": {
-   "wallSec": 45.247
+   "wallSec": 39.476
   }
  },
- "elapsedS": 47.838
+ "elapsedS": 41.98
 }

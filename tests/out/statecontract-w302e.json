@@ -2,7 +2,7 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+ "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 120,
  "steps": 3,
@@ -69,7 +69,7 @@
   ]
  },
  "dynamic": {
-  "stepChangedKeys": 337,
+  "stepChangedKeys": 357,
   "leaks": [],
   "carried": []
  },
@@ -142,19 +142,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 18.454,
+ "elapsedS": 16.696,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T10:08:39.586Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T23:07:01.307Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    }
   ],
   "code": [
@@ -226,9 +226,9 @@
    "complete": true,
    "names": 1324,
    "segments": 1193,
-   "closureShare": 0.3235
+   "closureShare": 0.3228
   },
-  "scopeSha256": "0b870486c3d5add57095fe17d8bcab2dad06427e27aa4834316e289ea140a6ca",
+  "scopeSha256": "3a419e4bdd4e6753371815539040903a43d7ae95af2812728acf8407d12adf72",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

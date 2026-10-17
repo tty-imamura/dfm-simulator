@@ -3,28 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便c",
   "target": "beta/index.html",
-  "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-  "generatedAt": "2026-10-16T09:35:57.500Z",
+  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+  "generatedAt": "2026-10-16T22:32:52.584Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6923966,
-    "sha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
-    "mtime": "2026-10-16T03:58:22.720Z"
+    "bytes": 6939780,
+    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+    "mtime": "2026-10-16T22:03:21.214Z"
    },
    {
     "file": "tests/data-w305c-decl304.json",
     "bytes": 18972,
     "sha256": "a00ec38572744b682a846a3d4abd08f29355d6a8c7620f23da2fa134b0137357",
     "mtime": "2026-10-16T03:38:48.283Z"
+   },
+   {
+    "file": "tests/data-w306c-decl305.json",
+    "bytes": 21347,
+    "sha256": "9665d668b582a1b4d5ec4fb0adc3b28293fe3d2bc6be220ae81745ba989b7f55",
+    "mtime": "2026-10-16T18:38:06.424Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w305c-j2.mjs",
-    "bytes": 41219,
-    "sha256": "eb20fa33ccf49ac11d77d250e80b643b259f80bcb1b8d7e0d63f62d9fbfb6f4f",
-    "mtime": "2026-10-16T03:38:48.284Z"
+    "bytes": 41986,
+    "sha256": "eac248fd14339b8c26815b39b433436c0beacd67aec8af8b3dabc1caceefe427",
+    "mtime": "2026-10-16T18:38:06.424Z"
    },
    {
     "file": "tests/lib-w305c-pre.mjs",
@@ -33,10 +39,16 @@
     "mtime": "2026-10-16T03:38:48.284Z"
    },
    {
+    "file": "tests/lib-w306c-pre.mjs",
+    "bytes": 5796,
+    "sha256": "383362b833f4649288f60ea352530596ec25ec8be45bc039811c234828074dfb",
+    "mtime": "2026-10-16T18:38:06.429Z"
+   },
+   {
     "file": "tests/exp-w303c-earthmoon.mjs",
-    "bytes": 72518,
-    "sha256": "8431b357a9f104c5bf64001c370d31ced6ce59b56e3fd3e4e2ccb09863c1a4ea",
-    "mtime": "2026-10-14T20:23:56.669Z"
+    "bytes": 73010,
+    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
@@ -81,7 +93,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "0d74b0d85df81f727b60a5f5885bf735a19bb53d125cacd1136199bcd6218e99",
+  "codeSha256": "d4ee12706c39ba1a5fafe92760f361c634f07c1bf4f465c13829dd30536f3be6",
   "harnessVersion": "w305c-j2-1",
   "loadErrors": 0,
   "ruling": "DECISIONS v63 AN327 ③⑤・v64 §0 AN327(交点は J₂ —— 全残差の帰属は追加の測定の後)",
@@ -146,14 +158,20 @@
    "complete": true,
    "names": 1360,
    "segments": 1229,
-   "closureShare": 0.3305
+   "closureShare": 0.3298
   },
-  "scopeSha256": "cda5417cac4c214bd6518a366c33966b2170a39e7ede8997173e91a6b4a9d0ff",
+  "scopeSha256": "80853c1b6aa3a3f8a13b2a2669fe921f899479525e73f80c6dde60ea3e35ada4",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/data-w305c-decl304.json",
     "stableSha256": "f8cc5139457b52e229fc66925e213239b62608924092251f164a2cec049abcd9",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w306c-decl305.json",
+    "stableSha256": "045c97fe014d00f03b64a50b6ad3362abd001d9f324ca250dc5953edae82db5c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -207,6 +225,13 @@
  },
  "decl304": {
   "sig": "713c591688060c60"
+ },
+ "decl305Pin": {
+  "changed": [
+   "earthMoonSunInertial3d",
+   "earthMoonOnly3d"
+  ],
+  "note": "第306便c: 🌦️🌔 の宣言(初期配置・fitRecord)が第305便から動いた世代 —— この器は第305便の宣言の写し(tests/lib-w306c-pre.mjs の pin305)で測った"
  },
  "partsRun": [
   "unit",
@@ -326,7 +351,7 @@
    "ok": true
   },
   "ok": true,
-  "wallSec": 1.146
+  "wallSec": 1.097
  },
  "analytic": {
   "note": "試験粒子(質量比 1e-6・中心 pinned)・J₂ 0.01・R 0.1・a 1(J₂(R/a)² = 1e-4)・400 公転・接触要素 25 步ごと。J₂ の分 = J₂ あり − J₂ なし(同じ刻み —— 積分器の近点の偽の回転を引く)。解析は一次の永年の式に走行の平均の a・e・i を入れた",
@@ -593,7 +618,7 @@
   ],
   "ok": true,
   "maxRel": 0.0003079275952162508,
-  "wallSec": 30.578
+  "wallSec": 28.928
  },
  "em": {
   "note": "🌦️ の写し: J₂ なし(本の宣言から j2 を外した写し)と J₂ あり(地球に EARTH_J2)・長窓 [0,1062] の M4・恒星月(調和)・交点・近点月。参照積分は器の中の速度 Verlet(EM.refRun)",
@@ -1134,7 +1159,7 @@
     "uMax": 0.0000036319267904653293
    }
   },
-  "wallSec": 593.963,
+  "wallSec": 552.122,
   "allWithin": true
  },
  "emo": {
@@ -1178,7 +1203,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 23.756
+    "wallSec": 20.879
    },
    "j2h2": {
     "key": "j2-h2",
@@ -1200,7 +1225,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 21.337
+    "wallSec": 14.525
    },
    "noJ2": {
     "key": "noJ2-h",
@@ -1231,7 +1256,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 26.242
+    "wallSec": 20.901
    }
   },
   "j2Effect": {
@@ -1244,7 +1269,7 @@
    "synUniform": 0.000003839755343904017
   },
   "t1Note": "近点の 118 公転窓の傾きは数値の誤差か J₂ の遅い回転(解析で 10⁵ 年の桁)で、118 窓では周期として読めない —— 観測カードへ転記しない(第305便c の契約)",
-  "wallSec": 71.338
+  "wallSec": 56.306
  },
  "record": {
   "record": {
@@ -1442,5 +1467,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 697.224
+ "elapsedS": 638.612
 }
