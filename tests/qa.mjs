@@ -80277,6 +80277,96 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第306便d の塊(ここまで)====
+// ==== 第307便c の塊(ここから —— docs.spinDecomp307 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第307便c(原仮定者の裁定(第100報)「観測の自転を慣性軸回転と引きずり軸回転に分解する」「観測の自転が安定なら、引きずり軸回転と潮汐のブレーキが釣り合う」・
+// ----   決断事項 AN345 ④・統括の検証項目 R211): docs.spinDecomp307 —— **金星・木星の観測の自転の分解の器と「釣り合い」の式**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 正本 tests/out/spindecomp-w307c.json ∧ 器 tests/exp-w307c-spindecomp.mjs ∧ lib tests/lib-w307c-spindecomp.mjs。固定値は正本と器の宣言から読む
+// ----   (器の表の関数 physicsTables・数の文字列 docNumbers・門の関数 gatesOf で正本から作り直す —— 鎖で正本を作り直した後の世代も同じ照合)。
+// ----   html・本の宣言・エンジンの式は変えない便(軸引きずりの球面の核・三次元の CTL・内部熱は器の参照の純関数)。
+// ----   ① 正本の門(器の gatesOf で作り直して正本の gates と一致・全部真)・試走でない(QUICK でない・求積 8/12/16・時間発展 120 公転)・版/来歴(w272e-1)・
+// ----      領域 hash(完全)・宣言から探した本の ID が器の領域の宣言 presets と同じ・構成の並び SV/SJ/JIo/SJIo
+// ----   ② 作り直し: lib の純関数の確かめ(checksOf)を QA の中で走らせて全部真・正本の inputs から構成を組み直して瞬間の分解(最終の求積)と対/行の表を作り直し、
+// ----      正本と相対 1e-12 で一致(html を読まない)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第307便c〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const sd307Out = path.join(ROOT, 'tests', 'out', 'spindecomp-w307c.json'), sd307Harn = path.join(ROOT, 'tests', 'exp-w307c-spindecomp.mjs'), sd307Lib = path.join(ROOT, 'tests', 'lib-w307c-spindecomp.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(sd307Out) && fs.existsSync(sd307Harn) && fs.existsSync(sd307Lib))) {
+    console.log('SKIP docs.spinDecomp307(第307便c の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, SDL = null;
+    try { J = JSON.parse(fs.readFileSync(sd307Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + sd307Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { SDL = await import('file://' + sd307Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第307便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && SDL) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true || JSON.stringify(J.orders) !== '[8,12,16]' || !J.evolution || !J.evolution.every((z) => z.orbits === X.EVO.orbits)) bad.push('正本が試走(QUICK・求積 ' + JSON.stringify(J.orders) + ')');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== SDL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const declIds = (J.meta && J.meta.scope && J.meta.scope.presets) || [], foundIds = Object.values(J.ids || {}).sort();
+      if (JSON.stringify(foundIds) !== JSON.stringify(declIds.slice().sort())) bad.push('宣言から探した本 ' + foundIds.join(',') + ' が領域の宣言と違う');
+      if ((J.decomp || []).map((d) => d.key).join(',') !== 'SV,SJ,JIo,SJIo' || (J.evolution || []).map((d) => d.key).join(',') !== 'SV,SJ,JIo,SJIo') bad.push('構成の並び');
+      cases.push(`門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・構成 ${(J.decomp || []).length}(${foundIds.join('・')})・求積 ${JSON.stringify(J.orders)}`);
+      // ②
+      try {
+        const ck = SDL.checksOf(), ckBad = Object.entries(ck.gates).filter(([, v]) => v !== true).map(([k]) => k);
+        if (ckBad.length) bad.push('② lib の確かめが偽: ' + ckBad.join(','));
+        for (const k of ['equator', 'pole', 'bgEquator', 'bgPole', 'nullElevationDeg', 'nullMag']) { const a = ck.values[k], b = J.checks.values[k]; if (!(Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) bad.push('② lib の値 ' + k + ' が正本と違う'); }
+        const Cs = X.configsFromInputs(J), ord = J.orders[J.orders.length - 1];
+        let mx = 0;
+        Cs.forEach((C, k) => { const m = X.measure(C, ord); m.rows.forEach((r, i) => { const s = J.decomp[k].rows[i]; for (const key of ['omegaD', 'omegaI']) mx = Math.max(mx, Math.abs(r[key] - s[key]) / Math.abs(s[key])); }); });
+        const P = X.pairRow(Cs), Pd = Math.max(...['betaSJ', 'betaSJIoRow', 'omSJ', 'omSJIoRow', 'omRowOverPair', 'denCenterPairOverRow'].map((k) => Math.abs(P[k] - J.pairrow[k]) / Math.abs(J.pairrow[k])));
+        if (!(mx <= 1e-12 && Pd <= 1e-12)) bad.push('② 作り直した分解/対・行の表が正本と違う ' + JSON.stringify({ mx, Pd }));
+        cases.push(`② lib の確かめ ${Object.keys(ck.gates).length} 項・正本の inputs から分解を作り直して最大の相対差 ${mx.toExponential(1)}・対/行 ${Pd.toExponential(1)}`);
+      } catch (e) { bad.push('② 作り直しが走らない: ' + String(e).slice(0, 100)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第307便c〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第307便c〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第307便c〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第307便c〕が「## 7. 論文」の後');
+        for (const w of ['R211', '第100報', 'AN345', 'exp-w307c-spindecomp.mjs', 'lib-w307c-spindecomp.mjs', 'spindecomp-w307c.json', 'docs.spinDecomp307', 'W307C_OUT', 'ω_obs = ω_I + ω_D', 'ω̇_obs = τ/I + ω̇_D', '診断の配置', '対ごとの分母', '仮説 A', '仮説 B', '仮説 C', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第307便c〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第307便c') < 0) bad.push('CHANGELOG に第307便c が無い');
+      if (RM.indexOf('第307便c') < 0) bad.push('README に第307便c が無い');
+      if (RT.indexOf("S('spindecomp-307c', 'node tests/exp-w307c-spindecomp.mjs', ['tests/out/spindecomp-w307c.json']") < 0 || !/secSource: 'w307c-branch'/.test(RT)) bad.push('再生成の段 spindecomp-307c');
+      if (GI.indexOf('!tests/out/spindecomp-w307c.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.spinDecomp307') < 0) bad.push('post-merge の ③′ に docs.spinDecomp307 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/金星の逆行を説明した/, /イオの加熱を再現した/, /自転が釣り合った/, /磁気双極子と同じ/, /法則を発見した/, /GR を導いた/, /熱力学を導いた/, /n が決まった/, /A が決まった/, /観測の 1σ で較正済み/, /現実を再現した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第307便c〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (strip(sec).indexOf(w) >= 0) bad.push('PHYSICS〔第307便c〕に禁句(' + w.length + ' 字)');
+      for (const w of NG) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第307便c〕に禁句(引用の中 —— ' + w.length + ' 字)');
+      for (const f of ['tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs']) { const tx = rd(f); for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.spinDecomp307', bad.length === 0,
+      `**金星・木星の観測の自転の分解の器と「釣り合い」の式**(第307便c・原仮定者の裁定(第100報)・AN345 ④・R211 —— 正本 spindecomp-w307c.json・html と本の宣言とエンジンの式は変えない・参照の純関数): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第307便c の塊(ここまで)====
 
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
