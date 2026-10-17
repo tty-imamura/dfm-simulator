@@ -80336,6 +80336,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const run = (base, sd) => { const q = clone(base); if (sd) q.physics.relativeDrag.spinDrag = sd; const v = HP.validatePreset(q); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S); for (let k = 0; k < 20; k++) S.step(dt); return fpS(S); };
         const same1 = run(tilt, null) === run(tilt, { ...tilt.physics.relativeDrag.spinDrag, axialModel: 'mu2' }), same2 = run(disk, null) === run(disk, { ...disk.physics.relativeDrag.spinDrag, rotStep: 'linear' });
         if (!same1) bad.push('② 🪛 の axialModel:"mu2" の明示が省略とビット同一でない');
+        // チェックポイントの往復(sphere + rigid の 🪛 の写し —— 帳簿の鍵 inertialDrag3AxSph*・Rigid* を含めて保存した瞬間へ戻る)
+        { const q = clone(tilt); q.physics.relativeDrag.spinDrag = { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', rotStep: 'rigid' };
+          const v = HP.validatePreset(q), S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S);
+          const fpk = (T) => fpS(T) + JSON.stringify([T.inertialDrag3AxSphN, T.inertialDrag3AxSphSkip, T.inertialDrag3RigidN, T.inertialDrag3RigidAng, T.inertialDrag3RigidCorrMax]) + fpS({ n: T.n, x: T.rotAIn, y: T.rotADr, z: T.rotA, vx: T.rotA, vy: T.rotA, vz: T.rotA, rotA: T.rotA, sax: T.sax, say: T.say, saz: T.saz, spin: T.spin });
+          for (let k = 0; k < 15; k++) S.step(dt);
+          const o = E('ckSnapOne')(S); for (let k = 0; k < 15; k++) S.step(dt); const A = fpk(S);
+          E('ckRestoreOne')(S, o); for (let k = 0; k < 15; k++) S.step(dt); const B = fpk(S);
+          if (A !== B || !(S.inertialDrag3RigidN > 0 && S.inertialDrag3AxSphN > 0)) bad.push('② チェックポイントの往復が sphere + rigid の写しで同じ瞬間へ戻らない'); }
         if (!same2) bad.push('② 🔩 の rotStep:"linear" の明示が省略とビット同一でない');
         const decl = HP.allPresets().filter((q) => { const s1 = ((q.physics || {}).relativeDrag || {}).spinDrag, s2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag && q.abBody.physicsPatch.relativeDrag.spinDrag;
           return [s1, s2].some((x) => x && (x.axialModel !== undefined || x.rotStep !== undefined || x.axialGain !== undefined)); }).map((q) => q.id);
@@ -80356,7 +80364,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (el === 90 && !(q.wz > 0)) bad.push('② 極の受け手が同じ向きでない ' + q.wz);
         }
         if (!(mx < 1e-7)) bad.push('② エンジンの閉じた式と参照の求積の差 ' + mx);
-        cases.push(`② 受理の契約(正準形 3・拒否 ${nRej}/${rej.length})・"mu2"/"linear" の明示 = 省略(🪛・🔩 20 步のビット同一)・在位の宣言 0 本・閉じた式と参照の差 ${mx.toExponential(2)}`);
+        cases.push(`② 受理の契約(正準形 3・拒否 ${nRej}/${rej.length})・"mu2"/"linear" の明示 = 省略(🪛・🔩 20 步のビット同一)・チェックポイントの往復(sphere + rigid)・在位の宣言 0 本・閉じた式と参照の差 ${mx.toExponential(2)}`);
       } catch (e) { bad.push('② が走らない: ' + String(e).slice(0, 160)); }
       // ③
       if (!sec) bad.push('PHYSICS〔第307便a〕が無い');
