@@ -80286,7 +80286,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ① 正本の門(器の gatesOf で作り直して正本の gates と一致・全部真)・試走でない(QUICK でない・求積 8/12/16・時間発展 120 公転)・版/来歴(w272e-1)・
 // ----      領域 hash(完全)・宣言から探した本の ID が器の領域の宣言 presets と同じ・構成の並び SV/SJ/JIo/SJIo
 // ----   ② 作り直し: lib の純関数の確かめ(checksOf)を QA の中で走らせて全部真・正本の inputs から構成を組み直して瞬間の分解(最終の求積)と対/行の表を作り直し、
-// ----      正本と相対 1e-12 で一致(html を読まない)
+// ----      正本と相対 1e-9 で一致(html を読まない —— 受け手の球面の差が丸めを R/r で増やすので 1e-12 ではなく 1e-9)
 // ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第307便c〕に逐語で入っている・節が「## 7.」の前・語
 // ----   ④ CHANGELOG・README・再生成の段・.gitignore の例外・post-merge の ③′
 // ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
@@ -80321,12 +80321,14 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         const ck = SDL.checksOf(), ckBad = Object.entries(ck.gates).filter(([, v]) => v !== true).map(([k]) => k);
         if (ckBad.length) bad.push('② lib の確かめが偽: ' + ckBad.join(','));
-        for (const k of ['equator', 'pole', 'bgEquator', 'bgPole', 'nullElevationDeg', 'nullMag']) { const a = ck.values[k], b = J.checks.values[k]; if (!(Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) bad.push('② lib の値 ' + k + ' が正本と違う'); }
+        // 許容: 受け手の球面の差 u(d + ξ) − u(d − ξ) は R/r(1e-3〜1e-4)で丸めを増やす —— 入力の 1 ulp で相対 1.7e-12 動く(第307便c の実測)。
+        //   CI(Node 24)と鎖(Node 22)の Math の最下位の桁の違いを見込み、作り直しは相対 1e-9・lib の値は 1e-10(式が変われば桁で違う)
+        for (const k of ['equator', 'pole', 'bgEquator', 'bgPole', 'nullElevationDeg', 'nullMag']) { const a = ck.values[k], b = J.checks.values[k]; if (!(Math.abs(a - b) <= 1e-10 * Math.max(Math.abs(a), Math.abs(b)))) bad.push('② lib の値 ' + k + ' が正本と違う'); }
         const Cs = X.configsFromInputs(J), ord = J.orders[J.orders.length - 1];
         let mx = 0;
         Cs.forEach((C, k) => { const m = X.measure(C, ord); m.rows.forEach((r, i) => { const s = J.decomp[k].rows[i]; for (const key of ['omegaD', 'omegaI']) mx = Math.max(mx, Math.abs(r[key] - s[key]) / Math.abs(s[key])); }); });
         const P = X.pairRow(Cs), Pd = Math.max(...['betaSJ', 'betaSJIoRow', 'omSJ', 'omSJIoRow', 'omRowOverPair', 'denCenterPairOverRow'].map((k) => Math.abs(P[k] - J.pairrow[k]) / Math.abs(J.pairrow[k])));
-        if (!(mx <= 1e-12 && Pd <= 1e-12)) bad.push('② 作り直した分解/対・行の表が正本と違う ' + JSON.stringify({ mx, Pd }));
+        if (!(mx <= 1e-9 && Pd <= 1e-9)) bad.push('② 作り直した分解/対・行の表が正本と違う ' + JSON.stringify({ mx, Pd }));
         cases.push(`② lib の確かめ ${Object.keys(ck.gates).length} 項・正本の inputs から分解を作り直して最大の相対差 ${mx.toExponential(1)}・対/行 ${Pd.toExponential(1)}`);
       } catch (e) { bad.push('② 作り直しが走らない: ' + String(e).slice(0, 100)); }
       // ③
