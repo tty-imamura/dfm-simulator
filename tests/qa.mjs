@@ -80354,7 +80354,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (PM.indexOf('docs.spinDecomp307') < 0) bad.push('post-merge の ③′ に docs.spinDecomp307 が無い');
       // ⑤
       const strip = (t) => t.replace(/「[^」]*」/g, '');
-      const NOT = [/金星の逆行を説明した/, /イオの加熱を再現した/, /自転が釣り合った/, /磁気双極子と同じ/, /法則を発見した/, /GR を導いた/, /熱力学を導いた/, /n が決まった/, /A が決まった/, /観測の 1σ で較正済み/, /現実を再現した/];
+      const NOT = [/金星の逆行を説明した/, /イオの加熱を再現/, /イオの観測の加熱と一致した/, /自転が釣り合った/, /磁気双極子と同じ/, /法則を発見した/, /GR を導いた/, /熱力学を導いた/, /n が決まった/, /A が決まった/, /観測の 1σ で較正済み/, /現実を再現した/];
       const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
       const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
       const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];

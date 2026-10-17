@@ -1575,28 +1575,28 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.088
+   "wallSec": 0.115
   },
   "decomp": {
-   "wallSec": 0.188
+   "wallSec": 0.258
   },
   "radius": {
-   "wallSec": 0.226
+   "wallSec": 0.233
   },
   "misc": {
-   "wallSec": 0.124
+   "wallSec": 0.04
   },
   "evolution": {
-   "wallSec": 5.96
+   "wallSec": 5.267
   }
  },
- "elapsedS": 8.63,
+ "elapsedS": 7.677,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
   "targetSha256": "fdc976f0a760da6cb16a0fd4652e787b319acef4394876a2097e62a497d8827c",
-  "generatedAt": "2026-10-17T19:05:36.150Z",
+  "generatedAt": "2026-10-17T22:16:28.946Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1608,15 +1608,15 @@
   "code": [
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37746,
-    "sha256": "98c7e9b40cd23f9e8c293eebd519bb3538e17ea89a44862d6c297bfa85de7c68",
-    "mtime": "2026-10-17T19:02:22.562Z"
+    "bytes": 37764,
+    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
+    "mtime": "2026-10-17T22:06:18.679Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
-    "bytes": 21633,
-    "sha256": "d8b775113e397cd37182e46fc86d96feef5529c767e741d7a5a9cbbb34a1fb7e",
-    "mtime": "2026-10-17T18:58:44.559Z"
+    "bytes": 21642,
+    "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
+    "mtime": "2026-10-17T22:06:18.678Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
@@ -1643,12 +1643,12 @@
     "mtime": "2026-10-17T18:34:30.243Z"
    }
   ],
-  "codeSha256": "1c99b6f6e996cd5952c2d9d82fdbeb06c3a725617a1cf4e6693666c9af916c5f",
+  "codeSha256": "b2371d5478f2a92b5449c59034b7a82fc38c60dd4c60b8ab94928be50da61ba8",
   "harnessVersion": "w307c-spindecomp-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。軸引きずりの球面の核・三次元の CTL・内部熱は器の参照の純関数〔エンジンの式ではない〕)",
   "notClaim": [
    "金星の逆行を説明した",
-   "イオの加熱を再現した",
+   "イオの観測の加熱と一致した",
    "自転が釣り合った",
    "磁気双極子と同じ",
    "係数 A が決まった"
