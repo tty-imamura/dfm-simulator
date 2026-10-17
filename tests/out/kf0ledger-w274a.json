@@ -4,19 +4,19 @@
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
   "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-  "generatedAt": "2026-10-16T23:07:15.130Z",
+  "generatedAt": "2026-10-17T02:46:18.143Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1721932,
-    "sha256": "f97950ce423ba6d0d075d24790315edf7829e9ebbff7ece14e34d3fb53afd3fa",
-    "mtime": "2026-10-16T20:38:31.014Z"
+    "bytes": 1721937,
+    "sha256": "54279c8e89e30d532f433d6b8856611a63963ebfcd5574fffca53d897c6c03e7",
+    "mtime": "2026-10-17T01:50:12.018Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 174471,
-    "sha256": "55397160e7c0e90acbbce9b0d6ae0b03ce3d2c7215de48fb5e23c890c368032a",
-    "mtime": "2026-10-16T21:33:09.514Z"
+    "bytes": 174469,
+    "sha256": "8ea737faee89ebe382c752bc627cd2ae5f8c14f852256cec22324e9cbde9ad6c",
+    "mtime": "2026-10-17T02:41:02.882Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -39,8 +39,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 136401,
-    "sha256": "aa9069555a089caf0291a03dda43bf55834a70d5ce57f7880eae07acfde4db83",
-    "mtime": "2026-10-16T21:51:18.414Z"
+    "sha256": "5bb63db4428a69500a832ad14e43a29c8058d8174d5914cade51780497aec9eb",
+    "mtime": "2026-10-17T02:20:51.342Z"
    }
   ],
   "code": [
@@ -2281,7 +2281,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "28e68b533379fc40114b1335f9b5e43b7199629f69f9cad994b43f4bdd1ae5e7",
+   "fileSha256": "55397160e7c0e90acbbce9b0d6ae0b03ce3d2c7215de48fb5e23c890c368032a",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2289,7 +2289,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+   "citedTargetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
