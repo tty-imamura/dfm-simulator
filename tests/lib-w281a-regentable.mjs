@@ -1192,6 +1192,11 @@ export const EXTERNAL_VOLATILE = {
   // 第306便e(AN339 の案 (A)・R208): 第305便の 🟪 の宣言の凍結の写し(tests/lib-w306e-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 charonfix-w306e と歴史の記録の器
   //   〔charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c〕の入力)
   'tests/data-w306e-decl305.json': [],
+  // ==== 第307便e の塊(ここから)====
+  // 第307便e(AN340 ④・AN342 ③・AN344 ①・R213): 第306便の 🌦️🟪 の fitRecord と在位の惑星 7 本の abBody の凍結の写し(tests/lib-w307e-pre.mjs が読む —— 書き換えない・
+  //   除く欄は無い。歴史の記録の器〔emresolve-306c・charonfix-306e〕の段 record の「本の記録と同じか」の門と QA preset.fitRole307 の入力)
+  'tests/data-w307e-decl306.json': [],
+  // ==== 第307便e の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

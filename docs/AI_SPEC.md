@@ -3876,3 +3876,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w306e-charonfix.mjs`(版 w306e-charonfix-1・`W306E_PARTS`=decl,measure,soft,tide,control,parent,record・`W306E_OUT`)→ `tests/out/charonfix-w306e.json`(段 charonfix-306e)。第305便の宣言の写し `tests/data-w306e-decl305.json`・lib `tests/lib-w306e-pre.mjs`(`pin305`・`pinDecl305`・`gate305`・`pinChanges305`・`isGen306e`)—— 歴史の器 4 本(charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c)は pin305 で第305便の宣言に固定。
 - **QA**: `preset.charonFix306`・`docs.charonFix306`(root は SKIP・世代切替は `isGen306e`)・世代切替 `docs.charonAudit305`(🟪 は pin305 の写しで照合)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。🟪 の周期の一致を独立な結果と書かない(標的の周期から初期の距離を作った入力の整合)。引きずり OFF を「引きずりが要らない」と書かない(σ の内で 0 の記録)。🥶 の宣言は変えていない(同じ平均の要素の a の定義のまま —— 直すかは決断事項の候補)。PCG × 対ごとの正規化は拒否のまま(条件の目録は PHYSICS〔第306便e〕⑥)。
+
+## 105. 第307便e —— A/B の B 側で局所重力を切る `abBody.physicsPatch.gLoc:null`・fitRecord の標的ごとの役割 `targets[].role`・🌦️ の交点の標的 18.599525 年・🥶 の判定の理由(原仮定者の裁定(第100報)・決断事項 AN340 ④・AN342 ③・AN344 ①②・統括の検証項目 R213)
+
+- **`abBody.physicsPatch.gLoc:null`**(受理器の opt-in —— 省略で今の動作・式は不変): B 側の局所重力 G_loc(`physics.gLoc`)を切る。受理は **null だけ**(別の law・n への差し替えは警告して落とす)。A 側に gLoc の無い本では素通り。実行時は abStart と ⏮ で B の宣言の写しを外す(`gLocDetach`・版 w307e-glocnull-1)—— 引きずりだけ OFF(`relativeDrag:{…enabled:false}`)・G_loc だけ OFF(`gLoc:null`)・両方 OFF(両方)を分けられる。在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)のワンタップは**両方 OFF**(k のフィットの基線と同じ宣言 —— 画面の差は表示の刻みの値)。
+- **`fitRecord.targets[].role`**(省略可 —— 版 w297b-1・w298b-1 だけ・旧版 w296b-1 では未知の鍵): `"input-consistency"`(入力の整合 —— 標的の値から入力を作った量)/`"numerical-fit"`(数値フィット)/`"transfer"`(移送)/`"independent"`(独立の比較)。**条件の署名と門は役割を読まない**(status の語・判定は不変)。表示はフィットの記録の箱の標的の行と集計の 1 行。宣言: 🌦️ = 近点 independent・恒星月 input-consistency・平均離心率 input-consistency・交点 independent/🟪 = input-consistency。
+- **🌦️ の交点の標的**: obs 18.599525 年(恒星に対する値 —— OBS-56488774・Simon 1994)・許容 0.005 年(declared —— σ ではない)・残差 +0.00413 年(模型は第306便c の正本のまま)。JPL SSD の 18.600 年は出所の行。
+- **🥶 の判定の理由**: 宣言・判定語(保留)は不変。サンプル状況の見込みを「定義の差・同じ解の状態が未接続」へ(原稿の `definitionGap` —— 正本の数の門を通るときだけ)。合へ自動で昇格しない。
+- **器と QA**: `tests/lib-w307e-pre.mjs`(pin306e・pinDecl306e・isGen307e・record307e)・凍結の写し `tests/data-w307e-decl306.json`。QA `behavior.gLocNull307`・`preset.fitRole307`・`preset.coldReason307`・`docs.w307e`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI が作る本は abBody の physicsPatch に `gLoc:null` を書いてよい —— 別の値は受理されない)。role は省略してよい(省略は今の意味)。入力の整合の標的の一致を独立な結果と書かない。

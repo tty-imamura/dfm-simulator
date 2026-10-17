@@ -1,0 +1,362 @@
+{
+ "version": "w307e-decl306-1",
+ "base": "7da91df(public main —— 第306便・PR #307)= 第307便の基点 aebcf54 の beta/index.html",
+ "note": "第306便の宣言の写し(🌦️🟪 の fitRecord・在位の惑星 7 本の abBody)—— 第307便e で変えた欄だけ。器と QA だけが読む(html は読まない)",
+ "decl": {
+  "earthMoonSunInertial3d": {
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "earthMoonSunInertialFit",
+    "law": "引きずり OFF(relativeDrag.enabled:false —— 第304便c の基線の見直しで埋める差が照合許容の内で 0)・重力 E4 の三体(太陽 pinned)・地球の J₂(bodies[1].j2 —— 第305便c)・三次元(physics.coord:\"3d\")・λ_PN=0・積分器 semic",
+    "targets": [
+     {
+      "q": "近点回転の周期(軌道面の中の近点経度 ϖ・検出器 B・M4 調和の回帰・長窓)",
+      "obs": 8.85,
+      "unit": "yr",
+      "source": "月の近地点経度の周期 8.85 年(🌥️ と同じ観測欄 —— JPL SSD の行 SOL-59edf981 の注記が ~8.85 年の量と記す・σ なし)。B1 8.850391 年(Chapront 2002・Simon 1994 —— σ なし・unverified)との差は正本に記録",
+      "window": "1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周・交点の約 4.3 周)・引きずり OFF・地球の J₂・semic",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 8.85 年は表記の末位まで(σ なし)。慣性系の平均の近地点経度の率(Chapront 2002 Table 4・40.67616758°/年 → 8.85038 年)はこの幅の中"
+      },
+      "extractor": "tests/exp-w303c-earthmoon.mjs harmonicRate(w303c-emx4-1)—— M4 調和の回帰: 距離の極小の 3 点放物線・瞬間の軌道面で ϖ・ϖ の時刻への直線に φ = 2(λ☉ − ϖ̄) の 1〜3 倍の正弦・余弦",
+      "model": 8.849456036369448,
+      "residual": -0.0005439636305517581,
+      "rel": -6.14648170114981e-05,
+      "numerics": {
+       "h2": 3.7990624406347706e-05,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星月(黄道経度の周回 —— 調和の回帰・長窓)",
+      "obs": 27.321661,
+      "unit": "d",
+      "source": "恒星月 27.321661 日(Chapront 2002)(SOL-432f643e)—— 初期配置の入力(長窓の平均の要素の目標は B1 27.321661554 日)",
+      "window": "1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周・交点の約 4.3 周)・引きずり OFF・地球の J₂・semic",
+      "tol": {
+       "value": 5e-05,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 日 —— 恒星月 27.321661 日(Chapront 2002)の初期配置の入力(長窓の調和の回帰に合わせた量 —— 予言ではない)"
+      },
+      "extractor": "tests/exp-w303c-earthmoon.mjs sidHarmonic(w303c-emx4-1)—— 黄道経度の通過の時刻を周回の番号の直線と中心差・出差・二均差・黄道への還元の正弦・余弦で回帰",
+      "model": 27.32166198239016,
+      "residual": 9.823901621075493e-07,
+      "rel": 3.595645821487754e-08,
+      "numerics": {
+       "h2": 3.4101300840916338e-06,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "平均離心率(接触離心率の時間平均・長窓)",
+      "obs": 0.0549,
+      "unit": "無次元",
+      "source": "月の平均離心率 0.0549(NASA NSSDC —— JPL SSD は 0.0554)(SOL-47b082ec)—— 初期配置の入力",
+      "window": "1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周・交点の約 4.3 周)・引きずり OFF・地球の J₂・semic",
+      "tol": {
+       "value": 5e-05,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.00005 —— 平均離心率 0.0549 は表記の末位まで(JPL SSD は 0.0554・σ なし)。初期配置の入力(長窓の平均に合わせた量)"
+      },
+      "extractor": "tests/exp-w303c-earthmoon.mjs makeRec(w303c-emx4-1)—— 位置の中心差分の座標速度から作る接触離心率・64 步ごとの時間平均",
+      "model": 0.05490000493633454,
+      "residual": 4.936334542515741e-09,
+      "rel": 8.991501898935777e-08,
+      "numerics": {
+       "h2": 7.085704932449644e-07,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "交点の周期(黄道に対する昇交点 Ω の後退・長窓)",
+      "obs": 18.6,
+      "unit": "yr",
+      "source": "月の交点の周期 18.600 年(JPL SSD の行 SOL-59edf981 の注記 P node —— σ なし)。B1 18.599525 年(Chapront 2002・Simon 1994 —— σ なし・unverified)との差は正本に記録。出所と定義の確認の記録は paper/data/obs-moon-node-20261016.csv(第306便c —— B1 は恒星に対する値・春分点に対する値は 18.612958 年)",
+      "window": "1062 公転の窓 [0,1062](約 79.4 年 —— 近点の約 9 周・交点の約 4.3 周)・引きずり OFF・地球の J₂・semic",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 年 —— 18.600 年は表記の末位の 5 倍(σ なし)。B1 18.599525 年はこの幅の中"
+      },
+      "extractor": "tests/exp-w303c-earthmoon.mjs winOf(w303c-emx4-1)—— 接触の昇交点の経度 Ω(xy 面 = 黄道に対する)の時刻への直線(64 步ごと)の後退の周期",
+      "model": 18.60365984294644,
+      "residual": 0.003659842946436953,
+      "rel": 0.00019676574980843832,
+      "numerics": {
+       "h2": 6.368692471170334e-06,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "initial.moonPerigeeDistance",
+      "range": [
+       3.4,
+       3.8
+      ],
+      "final": 3.5685843
+     },
+     {
+      "key": "initial.moonOscEccentricity0",
+      "range": [
+       0.02,
+       0.12
+      ],
+      "final": 0.0762836
+     },
+     {
+      "key": "initial.moonOscInclination0",
+      "range": [
+       4.5,
+       6
+      ],
+      "final": 5.28844
+     }
+    ],
+    "fixed": [
+     "太陽・地球と月の質量・半径・自転・地球の構造核は 🌥️(二次元)の写し・太陽 pinned・地球–月の重心の公転は離心率 e′ 0.0167086(Simon 1994 の J2000)の楕円で t=0 は近日点(長半径は円の半径のまま・面は xy = 黄道・元期の宣言なし)",
+     "月の軌道傾斜は平均 5.145°(NASA NSSDC)を長窓 1062 公転の平均で満たす t=0 の接触傾斜・昇交点を t=0 の地球→月の方向に置いた(元期の宣言なし)",
+     "重力と引きずりの核の軟化 ε 0.0005(= 50 km —— physics.softeningFloor 0.0005 の宣言)・geoPN=3・kFrame=0・λ_PN=0・積分器 semic・地球の自転軸は有効化しない",
+     "地球の J₂ = 1.08263×10⁻³・赤道半径 0.06378137(6378137 m —— GRS80 の定義定数)・図形の軸は黄道に対して 23.4392911°(IERS 2010 の J2000 の平均の黄道傾斜)で方位 90°(極は黄経 90° 側 = 本の +x を春分点とみなした置き方・元期の宣言なし)の固定の軸(bodies[1].j2.axis —— 地球の自転軸の宣言 spinAxis は有効化しない)。反作用は地球へ(太陽は pinned)",
+     "引きずり OFF(relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.0005, pairs:[[1,2]]})—— 地球の構造核 dragCore {0.325, 0.0348} は宣言に残す(引きずり OFF では走りに効かない)",
+     "第303便a の再フィット(W_bg 3.85583・118 公転窓の M1・軟化 0.01・e′ 0・旧 cond.sig b0d29c4715d2472f)は履歴 —— 前後表は PHYSICS〔第304便c〕と正本 tests/out/baseline-w304c.json",
+     "第304便c の宣言(J₂ なし —— 長窓 M4 8.84983 年・交点 18.6052 年・cond.sig 713c591688060c60)は履歴 —— 前後表は PHYSICS〔第305便c〕と正本 tests/out/j2-w305c.json",
+     "第305便c の宣言(初期配置は J₂ なしで解いたまま —— 長窓の恒星月 27.3216363 日・平均傾斜 5.1472°・cond.sig 76b828ad13b9ec55)は履歴 —— 前後表は PHYSICS〔第306便c〕と正本 tests/out/emresolve-w306c.json"
+    ],
+    "procedure": "第306便c: 第305便c の宣言(地球の J₂ を含む)の規則のまま、初期配置だけを J₂ ありの参照積分で長窓 1062 公転の平均の要素(恒星月 = B1 27.321661554 日・平均離心率 0.0549・平均傾斜 5.145°)へ 3 元の Newton → エンジンの長窓で同じ Jacobian の Newton → 近地点距離・接触離心率 7 桁・接触傾斜 5 桁に丸め、h と h/2 で測り直した(J₂ の値と軸は動かしていない —— 器 tests/exp-w306c-emresolve.mjs)。第305便c: 地球の J₂ を足した(器 tests/exp-w305c-j2.mjs)。第304便c: ε 0.0005・e′ 0.0167086(近日点から)・引きずり OFF の写しで同じ平均の要素へ解き直した(器 tests/exp-w304c-baseline.mjs)",
+    "dt": 0.016,
+    "steps": 15668353,
+    "status": "fitted",
+    "notFitted": [
+     "近点回転の周期と交点の周期は合わせていない —— 引きずり OFF の純ニュートンの三体と地球の J₂ の値(ノブは初期配置の 3 つだけ・予言ではなく基線の確かめ)",
+     "恒星月・平均離心率・平均傾斜は初期配置の入力として長窓の平均に合わせた(第306便c —— J₂ ありで解き直した・法則の予言として数えない)",
+     "引きずり OFF で照合許容の内(第304便c の基線の見直し —— 引きずりを無くしたのではなく、この探索範囲で引きずりで埋める差が許容の内で 0 だったことの記録)",
+     "地球の J₂(第305便c —— 交点を標的に足した。J₂ を入れて残る差の帰属は追加の測定の後)",
+     "初期配置を J₂ ありで解き直した(第306便c —— 恒星月 B1・平均離心率 0.0549・平均傾斜 5.145°。J₂ の値と軸は動かしていない)",
+     "機構(主因は太陽摂動 —— 機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "26c7fa6fc6ab8947",
+     "extractor": "tests/exp-w303c-earthmoon.mjs winOf(w303c-emx4-1)・長窓 [0,1062]"
+    }
+   }
+  },
+  "plutoCharonInertialFit": {
+   "fitRecord": {
+    "version": "w297b-1",
+    "parent": "plutoCharonInertial",
+    "law": "引きずり OFF(relativeDrag.enabled:false —— 第306便e の案 (A))・重力だけの二体(🥶 の質量の写し・geoPN=3・kFrame=0・λ_PN=0・積分器 leapfrog)",
+    "targets": [
+     {
+      "q": "orbitalPeriodMean",
+      "obs": 551856.43872,
+      "unit": "s",
+      "source": "Buie, Tholen & Grundy 2012 AJ 144 15 Table 5 の P = 6.3872273(3) 日(二体ケプラーの恒星周期・1σ 0.02592 s —— 判定行の宣言 judgement-sources.json)",
+      "window": "8 公転・同方向の周回の通過時刻の平均間隔(8 公転の平均)・引きずり OFF",
+      "tol": {
+       "value": 0.02592,
+       "kind": "sigma",
+       "note": "Buie, Tholen & Grundy 2012 の P = 6.3872273(3) 日の 1σ(3×10⁻⁷ 日 = 0.02592 s)"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "initial.keplerSemiMajorAxis",
+      "range": [
+       195.94253750064448,
+       195.96932390391748
+      ],
+      "final": 195.9559316176799
+     }
+    ],
+    "fixed": [
+     "GM(冥王星とカロン 975.4 km³/s² —— PLU060・🥶 の質量の写し)・半径・自転(相互同期の宣言 —— 走りは読まない)・構造核 dragCore の事前値(引きずり OFF では走りに効かない)は第305便の宣言のまま",
+     "初期状態は二体のケプラーの円軌道(重心 0・全運動量 0・x 軸上)—— 距離 a = (GM (P/2π)²)^(1/3) = 19595.593 km は標的の P と本の GM から閉じた式で作った(数値の探索ではない —— 合成したケプラー状態)。range は GM の公表の幅 ±0.2 km³/s² に当たる a",
+     "重力の軟化 ε 0.01(= 1 km)・geoPN=3・kFrame=0・λ_PN=0・積分器 leapfrog・stateCarry double(第305便のまま)",
+     "引きずり OFF(relativeDrag:{law:\"inertial\", Wbg:null, enabled:false, eps:0.01, history:\"positions\", pairs:\"all\", coreTable:{n:4096}})",
+     "履歴: 第303便a の W_bg のフィット(0.0001486103 [M/L³]・semic・残差 7.70e-7 s・旧 cond.sig 9dad7fb42eb1c08a)と初期の距離 19595.764 km(PLU060 の 400 年平均の要素の a —— 🥶 の写し)は履歴 —— 前後表は PHYSICS〔第306便e〕と正本 tests/out/charonfix-w306e.json",
+     "履歴: 第305便e の基線の監査(引きずり OFF の走行の差 +7.22118 s の内訳 —— 平均の要素の定義 +7.76113・解の違い −0.54432・軟化 +0.00431)—— 正本 tests/out/charonaudit-w305e.json"
+    ],
+    "procedure": "第306便e(決断事項 AN339 の案 (A)): 第305便の宣言の写しから、初期の距離を二体のケプラーの a(標的の P と本の GM から閉じた式)・速度を同じ円の状態へ置き直し、引きずりを OFF にして、h・h/2・h/4 で 8 公転の平均の周期を測った(|残差| + |h − h/2| ≤ 許容なら fitted —— 数値の探索はしていない・器 tests/exp-w306e-charonfix.mjs)",
+    "dt": 0.16,
+    "steps": 2759283,
+    "residual": {
+     "value": 0.004374005715362728,
+     "unit": "s",
+     "model": 551856.4430940057,
+     "rel": 7.925984746156062e-09
+    },
+    "numerics": {
+     "h2": 4.806055221706629e-05,
+     "dtHalf": 0.08
+    },
+    "status": "fitted",
+    "notFitted": [
+     "周期の一致は入力の整合の確かめで、独立な結果ではない(標的の周期から a を作った合成のケプラー状態) —— 残差は軟化 1 km の分",
+     "軌道の形(離心率の代理)・第 2 周の周期(記録だけ)・自転・潮汐",
+     "引きずり OFF で σ の内(引きずりを無くしたのではなく、この探索範囲で引きずりで埋める差が σ の内で 0 だったことの記録 —— 第304便c の 🌦️ と同じ型)",
+     "観測の時間標準の換算(標的の時刻系 TT/TDB of JDT —— 記録だけで換算しない・決断事項 AN333)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "c28087b31eb44713",
+     "extractor": "tests/exp-w305e-charonaudit.mjs runRevs(同方向の周回の通過時刻の平均間隔 —— tests/exp-w295c-inertial3.mjs runPair と同じ定義)・w305e-charonaudit-1"
+    }
+   }
+  },
+  "mercurySunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "venusSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "marsSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "jupiterSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "saturnSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "uranusSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  },
+  "neptuneSunInertial3d": {
+   "abBody": {
+    "label": {
+     "ja": "慣性引きずりを切る(引きずり OFF —— 局所重力 G_loc n = 2 は入ったままの重力の二体の三次元)",
+     "en": "switch the inertial drag off (drag off - gravity with the local G_loc n = 2 kept, two-body in 3D)"
+    },
+    "physicsPatch": {
+     "relativeDrag": {
+      "law": "inertial",
+      "Wbg": null,
+      "enabled": false,
+      "eps": 0.05,
+      "history": "positions",
+      "pairs": "all"
+     }
+    }
+   }
+  }
+ },
+ "change": {
+  "roles": {
+   "earthMoonSunInertial3d": [
+    "independent",
+    "input-consistency",
+    "input-consistency",
+    "independent"
+   ],
+   "plutoCharonInertialFit": [
+    "input-consistency"
+   ]
+  },
+  "node": {
+   "book": "earthMoonSunInertial3d",
+   "target": 3,
+   "value": 18.599525,
+   "recordId": "OBS-56488774",
+   "source": "月の交点の周期 18.599525 年(恒星に対する値 —— 候補の行 OBS-56488774・Simon 1994・σ なし・primary_numeric_verified=false)。春分点に対する値は 18.612958 年・JPL SSD の行 SOL-59edf981 の注記 P node 18.600 年(元期 2000-01-01.5 TDB —— 恒星に対する値と末位の半分の内で一致)は出所の行。出所と定義の確認の記録は paper/data/obs-moon-node-20261016.csv(第306便c)。第307便e(決断事項 AN342)で標的を JPL の 18.600 年から替えた",
+   "tolNote": "照合許容の宣言 0.005 年(σ ではない —— 第306便c の許容のまま)。JPL SSD の 18.600 年(表記の末位)はこの幅の中",
+   "fixed": "第306便c の交点の標的 18.600 年(JPL SSD の注記 —— 残差 +0.00366 年)は履歴 —— 第307便e(決断事項 AN342)で恒星に対する 18.599525 年(OBS-56488774・Simon 1994)へ替えた(模型の値は第306便c の正本 tests/out/emresolve-w306c.json のまま —— 測り直していない)"
+  },
+  "procedure": "第307便e(決断事項 AN342・AN344): 交点の標的を恒星に対する 18.599525 年へ替え、標的ごとの役割(role)を宣言した(数は測り直していない)。"
+ }
+}

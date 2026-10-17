@@ -38,6 +38,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { recordsOf, runRevs, readRun, m1Of, m4Of, UNIT, CONST, TIDE, CSV_FILE } from './exp-w305e-charonaudit.mjs';
 import { DECL305, DECL305_DATA_FILE, LIB_VERSION as PRE_VERSION, pin305 } from './lib-w306e-pre.mjs';
+import { pinDecl306e, DECL306_DATA_FILE } from './lib-w307e-pre.mjs';   // 第307便e: 第306便の 🟪 の fitRecord(標的の役割なし)へ器の中だけで戻す(段 record の「本の記録と同じか」の門 —— 第306便の html では no-op)
 import { gateOf, statusOf, FITSTOP_VERSION } from './lib-w303e-fitstop.mjs';
 const REGEN_SCOPE = {"presets":["plutoCharonDiagInput","plutoCharonInertialFit"],"roots":["$","DT","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","auditRows","ch","cw","fmt"],"core":true,"consts":[],"complete":true};
 
@@ -282,6 +283,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl306e(null, [FIT_ID]);   // 第307便e(AN344 ①): 本の fitRecord に足した標的の役割 role は第306便の記録の外(この器の記録は第306便e の形のまま)
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
   const log = (s) => console.log('  ' + s);
   const rec = recordsOf(ROOT), p = findPreset(HP, FIT_ID);
@@ -300,9 +302,9 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「周期を独立に出した」', '「カロンの周期が観測どおりになった」', '「引きずりが要らないことを示した」', '「観測と一致した」', '「時計の換算で合った」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w306e-charonfix.mjs', 'tests/exp-w305e-charonaudit.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w280b-emgrid.mjs',
+  const CODE = ['tests/exp-w306e-charonfix.mjs', 'tests/exp-w305e-charonaudit.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w307e-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE, DECL305_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便e', target: TARGET, code: CODE, inputs: [TARGET, CSV_FILE, DECL305_DATA_FILE, DECL306_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④', reading: '統括の検証項目 R208' });
   J.elapsedS = (Date.now() - t0) / 1000;

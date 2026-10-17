@@ -142,6 +142,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSl
 #   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
 # <<< 第306便e
+# ==== 第307便e の塊(ここから)====
+# 第307便e(AN340 ④・AN342 ③・AN344 ①②・R213): 枝 e の新設 4 本(behavior.gLocNull307 —— B 側で G_loc を切る受理と実行・在位の惑星 7 本のワンタップ = 両方 OFF・
+#   preset.fitRole307 —— 標的ごとの役割の契約・🌦️ の交点の標的 18.599525・🟪 の役割・preset.coldReason307 —— 🥶 の判定の理由・docs.w307e —— 文書)と、世代切替を受けた
+#   preset.emResolve306・preset.charonFix306・docs.pn1Contract
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gLocNull307 preset.fitRole307 preset.coldReason307 docs.w307e docs.pn1Contract"
+# ==== 第307便e の塊(ここまで)====
 # ==== 第306便b の塊ここから(他の枝の行と混ぜない) ====
 # 第306便b(AN336 ③・AN333・AN335 ③・R205): 枝 b の新設 1 本(docs.periodN306 —— 周期による G_loc の n の識別の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.periodN306"
