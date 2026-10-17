@@ -81009,7 +81009,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const rec = (await import('file://' + path.join(ROOT, 'tests', 'exp-w305e-charonaudit.mjs'))).recordsOf(ROOT);
         if (!(J.obs.value === rec.target.value && J.obs.sigma === rec.target.sigma && J.obs.recordId === rec.target.recordId && J.gmRecord.value === rec.gmSys.value)) bad.push('② CSV の行が正本の写しと違う');
         const D = X.stageDecl(HP, rec);
-        if (!(D.a === J.decl.a && D.PK === J.decl.PK && D.aBand.lo === J.decl.aBand.lo && D.aBand.hi === J.decl.aBand.hi && D.htmlSame === true)) bad.push('② 段 decl の作り直しが正本と違う');
+        // 統合(CI の Node 24 と鎖の Node 22 で ** ・Math.cbrt の最下位の桁が違う —— 閉じた式の数は相対 1e-12 で照合。宣言の一致 htmlSame はそのまま)
+        const rc12 = (x, y) => Number.isFinite(x) && Number.isFinite(y) && Math.abs(x - y) <= 1e-12 * Math.max(Math.abs(x), Math.abs(y));
+        if (!(rc12(D.a, J.decl.a) && rc12(D.PK, J.decl.PK) && rc12(D.aBand.lo, J.decl.aBand.lo) && rc12(D.aBand.hi, J.decl.aBand.hi) && D.htmlSame === true)) bad.push('② 段 decl の作り直しが正本と違う(相対 1e-12)');
         cases.push(`② CSV(${rec.target.recordId}・${rec.gmSys.recordId})を引き直し・段 decl を作り直して正本と同じ(a ${F(D.aKm, 3)} km・閉じた式 − 標的 ${EX(D.PKminusObs, 1)} s)`);
         // ③ PHYSICS〔第306便e〕
         const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), k0 = PH.indexOf('〔第306便e — ');
