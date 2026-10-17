@@ -38466,6 +38466,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     S._p90=p90;
   }
   const ordV=viewDrawOrder(S);   // 第298便d: 三次元の本を傾けて見るときだけ遠い順
+  const svS=spinVisBegin(S, performance.now());   // 第307便d(R212): スピンの回転表示の上限(A/B 側も —— 状態は sim ごと)
   for(let kV=0;kV<S.n;kV++){
     const i=ordV? ordV[kV] : kV;
     const px=sx(S.x[i]), py=sy(S.y[i],viewZOf(S,i));
@@ -38475,11 +38476,12 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
-      const a0=S.rotA[i], fy=viewFy;   // 第119便: A/B側スポークも鏡像 / 第298便d: −sinθ
+      const a0=spinVisAngleOf(svS,svS.A,i,S.rotA[i]), fy=viewFy;   // 第119便: A/B側スポークも鏡像 / 第298便d: −sinθ / 第307便d: 描画の角(上限つき)
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
       for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
         ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+fy*Math.sin(a)*rr*0.3);
         ctx.lineTo(px+Math.cos(a)*rr*0.92, py+fy*Math.sin(a)*rr*0.92); ctx.stroke(); }
+      if(svS.A.fast[i]) drawSpinFastArcs(px,py,rr*0.78,a0,svS.A.dir[i],fy,1,"rgba(0,0,0,0.3)",Math.max(1,rr*0.06));   // 第307便d: 「速い」の印
       ctx.lineWidth=1;
     }
     if(S.coreMd[i]!==0 && rr>=7){   // 第81便(コアv2): コア(A/B側も同様。cavity=より暗い穴)
@@ -38496,11 +38498,12 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       if(sq<0.999999) ctx.ellipse(px,py,rc,Math.max(rc*sq,1.2),0,0,7); else ctx.arc(px,py,rc,0,7);
       ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
-        const a0=S.rotAc[i], fy=viewFy;   // 第119便: A/B側コアスポークも鏡像 / 第298便d: −sinθ
+        const a0=spinVisAngleOf(svS,svS.C,i,S.rotAc[i]), fy=viewFy;   // 第119便: A/B側コアスポークも鏡像 / 第298便d: −sinθ / 第307便d: 描画の角(上限つき)
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
           ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+fy*Math.sin(a)*rc*0.25*sq);
           ctx.lineTo(px+Math.cos(a)*rc*0.88, py+fy*Math.sin(a)*rc*0.88*sq); ctx.stroke(); }
+        if(svS.C.fast[i]) drawSpinFastArcs(px,py,rc*0.7,a0,svS.C.dir[i],fy,sq,"rgba(255,255,255,0.35)",Math.max(1,rc*0.07));   // 第307便d: 「速い」の印
         ctx.lineWidth=1;
       }
     }
@@ -38543,6 +38546,7 @@ function renderAB(){
   drawWorldInto(ab.simB, hh, hh-1, labB, trailBufB);
   ctx.strokeStyle="#2a3060"; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(0,hh); ctx.lineTo(cw,hh); ctx.stroke(); ctx.lineWidth=1;
+  drawAxisGizmo(sim);   // 第307便d(R212): 右下隅の XYZ の軸(A/B でも 1 つ —— 視点の傾きは両側で共通)
 }
 
 // ===== メインループ =====
