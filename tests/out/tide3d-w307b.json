@@ -1,0 +1,1721 @@
+{
+ "version": "w307b-tide3d-1",
+ "libVersion": "w307b-tide3d-lib-1",
+ "generator": "tests/exp-w307b-tide3d.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "98a71353c16f63e93ac29f1794703475789bf483bff86684c1c5de193a317f9d",
+ "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
+ "tide3Version": "w307b-tide3-1",
+ "heatVersion": "w307b-tideheat-1",
+ "quick": false,
+ "toy": {
+  "M": 1,
+  "m": 0.01,
+  "Rp": 0.3,
+  "Rs": 0.1,
+  "a": 2,
+  "k2": 0.5,
+  "lag": 0.5,
+  "k2p": 0.3,
+  "lagp": 0.05,
+  "stepsPerOrbit": 360
+ },
+ "P": {
+  "planarBitSame": true,
+  "workHeatResidual": -2.215069150587702e-16,
+  "heatPositive": true,
+  "angMomResidual": 0,
+  "permBitSame": true,
+  "rotCovRel": 1.1787264093491095e-15,
+  "circularRatio": [
+   1,
+   0.9999999999999999,
+   0.9999999999999999
+  ],
+  "circularSigns": {
+   "fastPrograde": true,
+   "slowPrograde": true,
+   "retrograde": true,
+   "synchronous": true
+  },
+  "heatNonNeg": true,
+  "heatBudget": 5.843279076974508e-17,
+  "heatHalfTwice": 0,
+  "heatHalfTwiceRad": 2.1202480074769601e-16,
+  "heatSeriesSeam": 6.710187960834446e-13,
+  "heatSteady": 0,
+  "domainThrows": 4,
+  "gates": {
+   "planarBitSame": true,
+   "workHeat": true,
+   "angMom": true,
+   "permBitSame": true,
+   "rotCov": true,
+   "circular": true,
+   "heatNonNeg": true,
+   "heatBudget": true,
+   "heatHalfTwice": true,
+   "heatSeries": true,
+   "domain": true
+  },
+  "ok": true
+ },
+ "E": {
+  "receivers": [
+   0,
+   1
+  ],
+  "nDiff": 0,
+  "heatBitSame": true,
+  "tauMinBitSame": true,
+  "heat": 1.537131093252807e-9,
+  "tauMin": 153746.077696309,
+  "pairs": 4,
+  "torque0": [
+   5.207e-10,
+   -6.528e-10,
+   -1.34e-9
+  ],
+  "torque1": [
+   -5.5e-10,
+   -2.523e-10,
+   1.729e-9
+  ],
+  "turnable": [
+   true,
+   false
+  ]
+ },
+ "Z": {
+  "rows": {
+   "semi_full": {
+    "nDiff": 0,
+    "steps": 4000,
+    "threeD": true,
+    "vzMax": 0,
+    "dSpinRel": -0.03165,
+    "heat": 0.000001568
+   },
+   "semi_half": {
+    "nDiff": 0,
+    "steps": 4000,
+    "threeD": true,
+    "vzMax": 0,
+    "dSpinRel": -0.03165,
+    "heat": 0.000001568
+   },
+   "leap_full": {
+    "nDiff": 0,
+    "steps": 4000,
+    "threeD": true,
+    "vzMax": 0,
+    "dSpinRel": -0.03933,
+    "heat": 0.000001551
+   },
+   "leap_half_heat": {
+    "nDiff": 0,
+    "steps": 4000,
+    "threeD": true,
+    "vzMax": 0,
+    "dSpinRel": -0.03933,
+    "heat": 0.000001551
+   }
+  },
+  "heatOff": {
+   "2d": {
+    "nDiff": 0,
+    "E1": 5.196e-8,
+    "coolTau": [
+     25,
+     7
+    ]
+   },
+   "3d": {
+    "nDiff": 0,
+    "E1": 5.196e-8,
+    "coolTau": [
+     25,
+     7
+    ]
+   }
+  },
+  "allSame": true
+ },
+ "L": {
+  "turnable": {
+   "steps": 7200,
+   "residualE": 1.95e-15,
+   "residualL3": [
+    -5.522e-17,
+    -3.452e-16,
+    6.185e-15
+   ],
+   "axisTurns": 7200,
+   "perpSkip": 7200,
+   "perpSkipMax": 2.565e-11,
+   "dLtotRel": 0.0002861,
+   "dLclosedRel": 1.976e-12,
+   "satSpinLvsImpulse": 4.516e-15,
+   "dP": 8.674e-19,
+   "heat": 0.000007817,
+   "dEplusHeatRel": 0.0001608,
+   "dErot": -0.00001239,
+   "satSpin": [
+    1,
+    0.6169
+   ],
+   "satAxis": [
+    0.145182134,
+    0.06955107,
+    0.986957343
+   ]
+  },
+  "fixedAxis": {
+   "steps": 7200,
+   "residualE": 3.681e-15,
+   "residualL3": [
+    3.994e-18,
+    4.036e-17,
+    3.659e-15
+   ],
+   "axisTurns": 0,
+   "perpSkip": 14400,
+   "perpSkipMax": 2.698e-8,
+   "dLtotRel": 0.004529,
+   "dLclosedRel": 1.86e-12,
+   "satSpinLvsImpulse": null,
+   "dP": 2.168e-19,
+   "heat": 0.000007592,
+   "dEplusHeatRel": 0.0001632,
+   "dErot": -0.00001264,
+   "satSpin": [
+    1,
+    0.6066
+   ],
+   "satAxis": [
+    0,
+    0,
+    1
+   ]
+  }
+ },
+ "C": {
+  "steps": 3000,
+  "worstRel": 1.215e-13,
+  "worstAxis": 4.15e-15,
+  "worstSpinRel": 1.667e-15,
+  "heatRel": 1.25e-15,
+  "axisTurns": [
+   6000,
+   6000
+  ]
+ },
+ "K": {
+  "steps": [
+   500,
+   500
+  ],
+  "nDiff": 0,
+  "keys": 29
+ },
+ "H": {
+  "half": [
+   {
+    "E": 1.1515908695770013e-16,
+    "rad": 2.096957517955522e-16,
+    "budget": 2.710505431213761e-16
+   },
+   {
+    "E": 0,
+    "rad": 2.150963942225081e-16,
+    "budget": 1.1344191257870093e-16
+   }
+  ],
+  "steps": 20000,
+  "Emin": 2.026776402898241e-13,
+  "negN": 0,
+  "residual": [
+   -1.89e-15,
+   4.483e-15
+  ],
+  "inputMinusHeatRel": -2.241e-15,
+  "coolTau": [
+   20,
+   5
+  ],
+  "luminosityOverRate": [
+   0.909755,
+   1.119601
+  ],
+  "E": [
+   8.012e-11,
+   7.862e-10
+  ],
+  "radiated": [
+   3.859e-9,
+   0.000008312
+  ],
+  "input": [
+   3.939e-9,
+   0.000008313
+  ],
+  "tSpanOverTau": [
+   49.1,
+   196.5
+  ]
+ },
+ "S": {
+  "n": 0.35531676008879737,
+  "tauSpin": 341.3,
+  "K": 1.1718750000000004e-7,
+  "I": 0.00004,
+  "avgFormula": "⟨τ⟩ = K[n ĥ − ½Ω − ½(ĥ·Ω)ĥ]・K = 3BΔt/a⁶",
+  "cases": {
+   "fastPrograde": {
+    "spin0OverN": 3,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": 3,
+     "obliquityDeg": 0,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 1.12334,
+     "obliquityDeg": 0,
+     "Ei": 9.684e-7
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": false,
+    "obliquityFirstUp": false,
+    "obliquityMax": 0,
+    "window": {
+     "dOmMeasured": -0.002027,
+     "dOmAvgFormula": -0.002029,
+     "dOmRel": 0.001014,
+     "dEpsMeasured": 0,
+     "dEpsAvgFormula": 0,
+     "dEpsRel": null
+    },
+    "axisTurns": 0,
+    "perpSkip": 0,
+    "residualE": 3.352e-16,
+    "heat": 0.00001011,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": 3,
+      "obliquityDeg": 0,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": 2.742437,
+      "obliquityDeg": 0,
+      "Ei": 0.000002098
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": 2.603449,
+      "obliquityDeg": 0,
+      "Ei": 0.000003473
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": 2.340349,
+      "obliquityDeg": 0,
+      "Ei": 0.000004333
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": 2.250863,
+      "obliquityDeg": 0,
+      "Ei": 0.000004812
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": 2.0725,
+      "obliquityDeg": 0,
+      "Ei": 0.000005015
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 1.943714,
+      "obliquityDeg": 0,
+      "Ei": 0.000005028
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 1.872993,
+      "obliquityDeg": 0,
+      "Ei": 0.000004907
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 1.717815,
+      "obliquityDeg": 0,
+      "Ei": 0.000004697
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 1.685751,
+      "obliquityDeg": 0,
+      "Ei": 0.000004432
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 1.578244,
+      "obliquityDeg": 0,
+      "Ei": 0.000004136
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 1.510413,
+      "obliquityDeg": 0,
+      "Ei": 0.000003826
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 1.480449,
+      "obliquityDeg": 0,
+      "Ei": 0.000003514
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 1.381988,
+      "obliquityDeg": 0,
+      "Ei": 0.000003209
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 1.379032,
+      "obliquityDeg": 0,
+      "Ei": 0.000002916
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 1.312594,
+      "obliquityDeg": 0,
+      "Ei": 0.00000264
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 1.274414,
+      "obliquityDeg": 0,
+      "Ei": 0.000002382
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 1.268534,
+      "obliquityDeg": 0,
+      "Ei": 0.000002143
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 1.200024,
+      "obliquityDeg": 0,
+      "Ei": 0.000001923
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 1.211941,
+      "obliquityDeg": 0,
+      "Ei": 0.000001722
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 1.169498,
+      "obliquityDeg": 0,
+      "Ei": 0.00000154
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 1.145367,
+      "obliquityDeg": 0,
+      "Ei": 0.000001374
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 1.153899,
+      "obliquityDeg": 0,
+      "Ei": 0.000001225
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 1.10135,
+      "obliquityDeg": 0,
+      "Ei": 0.000001091
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 1.120437,
+      "obliquityDeg": 0,
+      "Ei": 9.704e-7
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 1.12334,
+      "obliquityDeg": 0,
+      "Ei": 9.684e-7
+     }
+    ]
+   },
+   "slowPrograde": {
+    "spin0OverN": 0.3,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": 0.3,
+     "obliquityDeg": 0,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 0.967509,
+     "obliquityDeg": 0,
+     "Ei": 1.198e-7
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": false,
+    "obliquityFirstUp": false,
+    "obliquityMax": 0,
+    "window": {
+     "dOmMeasured": 0.0007103,
+     "dOmAvgFormula": 0.0007103,
+     "dOmRel": 0.00003932,
+     "dEpsMeasured": 0,
+     "dEpsAvgFormula": 0,
+     "dEpsRel": null
+    },
+    "axisTurns": 0,
+    "perpSkip": 0,
+    "residualE": 1.359e-14,
+    "heat": 0.000001247,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": 0.3,
+      "obliquityDeg": 0,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": 0.379679,
+      "obliquityDeg": 0,
+      "Ei": 2.601e-7
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": 0.462101,
+      "obliquityDeg": 0,
+      "Ei": 4.279e-7
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": 0.510292,
+      "obliquityDeg": 0,
+      "Ei": 5.345e-7
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": 0.584211,
+      "obliquityDeg": 0,
+      "Ei": 5.943e-7
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": 0.621358,
+      "obliquityDeg": 0,
+      "Ei": 6.183e-7
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 0.668569,
+      "obliquityDeg": 0,
+      "Ei": 6.213e-7
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 0.716466,
+      "obliquityDeg": 0,
+      "Ei": 6.051e-7
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 0.731136,
+      "obliquityDeg": 0,
+      "Ei": 5.798e-7
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 0.786656,
+      "obliquityDeg": 0,
+      "Ei": 5.468e-7
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 0.78988,
+      "obliquityDeg": 0,
+      "Ei": 5.098e-7
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 0.828219,
+      "obliquityDeg": 0,
+      "Ei": 4.719e-7
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 0.848037,
+      "obliquityDeg": 0,
+      "Ei": 4.327e-7
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 0.852735,
+      "obliquityDeg": 0,
+      "Ei": 3.955e-7
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 0.893881,
+      "obliquityDeg": 0,
+      "Ei": 3.591e-7
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 0.878679,
+      "obliquityDeg": 0,
+      "Ei": 3.25e-7
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 0.917075,
+      "obliquityDeg": 0,
+      "Ei": 2.933e-7
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 0.913657,
+      "obliquityDeg": 0,
+      "Ei": 2.637e-7
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 0.922504,
+      "obliquityDeg": 0,
+      "Ei": 2.369e-7
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 0.947691,
+      "obliquityDeg": 0,
+      "Ei": 2.121e-7
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 0.927536,
+      "obliquityDeg": 0,
+      "Ei": 1.897e-7
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 0.965657,
+      "obliquityDeg": 0,
+      "Ei": 1.695e-7
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 0.94535,
+      "obliquityDeg": 0,
+      "Ei": 1.511e-7
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 0.964444,
+      "obliquityDeg": 0,
+      "Ei": 1.348e-7
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 0.971665,
+      "obliquityDeg": 0,
+      "Ei": 1.2e-7
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 0.967509,
+      "obliquityDeg": 0,
+      "Ei": 1.198e-7
+     }
+    ]
+   },
+   "retrograde": {
+    "spin0OverN": -1,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": -1,
+     "obliquityDeg": 0,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 0.89336,
+     "obliquityDeg": 0,
+     "Ei": 9.567e-7
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": false,
+    "obliquityFirstUp": false,
+    "obliquityMax": 0,
+    "window": {
+     "dOmMeasured": 0.00203,
+     "dOmAvgFormula": 0.002029,
+     "dOmRel": 0.0003037,
+     "dEpsMeasured": 0,
+     "dEpsAvgFormula": 0,
+     "dEpsRel": null
+    },
+    "axisTurns": 0,
+    "perpSkip": 0,
+    "residualE": -1.021e-14,
+    "heat": 0.00001012,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": -1,
+      "obliquityDeg": 0,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": -0.756195,
+      "obliquityDeg": 0,
+      "Ei": 0.000002114
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": -0.5642,
+      "obliquityDeg": 0,
+      "Ei": 0.000003492
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": -0.364908,
+      "obliquityDeg": 0,
+      "Ei": 0.000004362
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": -0.211487,
+      "obliquityDeg": 0,
+      "Ei": 0.000004849
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": -0.065381,
+      "obliquityDeg": 0,
+      "Ei": 0.00000505
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 0.061722,
+      "obliquityDeg": 0,
+      "Ei": 0.000005068
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 0.173999,
+      "obliquityDeg": 0,
+      "Ei": 0.000004938
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 0.267519,
+      "obliquityDeg": 0,
+      "Ei": 0.000004727
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 0.364305,
+      "obliquityDeg": 0,
+      "Ei": 0.000004455
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 0.427918,
+      "obliquityDeg": 0,
+      "Ei": 0.000004153
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 0.50732,
+      "obliquityDeg": 0,
+      "Ei": 0.000003839
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 0.560316,
+      "obliquityDeg": 0,
+      "Ei": 0.00000352
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 0.610401,
+      "obliquityDeg": 0,
+      "Ei": 0.000003212
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 0.668613,
+      "obliquityDeg": 0,
+      "Ei": 0.000002914
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 0.689173,
+      "obliquityDeg": 0,
+      "Ei": 0.000002635
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 0.748843,
+      "obliquityDeg": 0,
+      "Ei": 0.000002374
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 0.75838,
+      "obliquityDeg": 0,
+      "Ei": 0.000002133
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 0.800829,
+      "obliquityDeg": 0,
+      "Ei": 0.000001913
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 0.82208,
+      "obliquityDeg": 0,
+      "Ei": 0.00000171
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 0.833968,
+      "obliquityDeg": 0,
+      "Ei": 0.000001528
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 0.873807,
+      "obliquityDeg": 0,
+      "Ei": 0.000001362
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 0.862684,
+      "obliquityDeg": 0,
+      "Ei": 0.000001213
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 0.906018,
+      "obliquityDeg": 0,
+      "Ei": 0.000001079
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 0.896051,
+      "obliquityDeg": 0,
+      "Ei": 9.587e-7
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 0.89336,
+      "obliquityDeg": 0,
+      "Ei": 9.567e-7
+     }
+    ]
+   },
+   "obliqueSlow": {
+    "spin0OverN": 1.5,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": 1.5,
+     "obliquityDeg": 30,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 1.042804,
+     "obliquityDeg": 9.3682,
+     "Ei": 2.359e-7
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": true,
+    "obliquityFirstUp": false,
+    "obliquityMax": 30,
+    "window": {
+     "dOmMeasured": -0.0004547,
+     "dOmAvgFormula": -0.0004549,
+     "dOmRel": 0.0003917,
+     "dEpsMeasured": -0.01994,
+     "dEpsAvgFormula": -0.01987,
+     "dEpsRel": 0.003736
+    },
+    "axisTurns": 20847,
+    "perpSkip": 0,
+    "residualE": 0,
+    "heat": 0.000001581,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": 1.5,
+      "obliquityDeg": 30,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": 1.434154,
+      "obliquityDeg": 29.0778,
+      "Ei": 2.089e-7
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": 1.421479,
+      "obliquityDeg": 28.1833,
+      "Ei": 3.582e-7
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": 1.333965,
+      "obliquityDeg": 27.2832,
+      "Ei": 4.628e-7
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": 1.337686,
+      "obliquityDeg": 26.3394,
+      "Ei": 5.358e-7
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": 1.27738,
+      "obliquityDeg": 25.3407,
+      "Ei": 5.859e-7
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 1.248569,
+      "obliquityDeg": 24.2757,
+      "Ei": 6.177e-7
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 1.240714,
+      "obliquityDeg": 23.254,
+      "Ei": 6.309e-7
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 1.18038,
+      "obliquityDeg": 22.265,
+      "Ei": 6.294e-7
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 1.198182,
+      "obliquityDeg": 21.3073,
+      "Ei": 6.177e-7
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 1.147265,
+      "obliquityDeg": 20.3398,
+      "Ei": 6.005e-7
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 1.142652,
+      "obliquityDeg": 19.3285,
+      "Ei": 5.803e-7
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 1.134761,
+      "obliquityDeg": 18.358,
+      "Ei": 5.562e-7
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 1.094169,
+      "obliquityDeg": 17.4298,
+      "Ei": 5.285e-7
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 1.117862,
+      "obliquityDeg": 16.5731,
+      "Ei": 4.984e-7
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 1.072818,
+      "obliquityDeg": 15.7387,
+      "Ei": 4.68e-7
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 1.08424,
+      "obliquityDeg": 14.8864,
+      "Ei": 4.388e-7
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 1.073108,
+      "obliquityDeg": 14.0645,
+      "Ei": 4.103e-7
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 1.047804,
+      "obliquityDeg": 13.2757,
+      "Ei": 3.822e-7
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 1.07204,
+      "obliquityDeg": 12.5647,
+      "Ei": 3.543e-7
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 1.031178,
+      "obliquityDeg": 11.8912,
+      "Ei": 3.274e-7
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 1.053138,
+      "obliquityDeg": 11.2226,
+      "Ei": 3.024e-7
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 1.036953,
+      "obliquityDeg": 10.5748,
+      "Ei": 2.791e-7
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 1.024373,
+      "obliquityDeg": 9.9455,
+      "Ei": 2.572e-7
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 1.045476,
+      "obliquityDeg": 9.3809,
+      "Ei": 2.362e-7
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 1.042804,
+      "obliquityDeg": 9.3682,
+      "Ei": 2.359e-7
+     }
+    ]
+   },
+   "obliqueFast": {
+    "spin0OverN": 3,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": 3,
+     "obliquityDeg": 30,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 1.156735,
+     "obliquityDeg": 17.5247,
+     "Ei": 0.000001467
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": true,
+    "obliquityFirstUp": true,
+    "obliquityMax": 30.7073,
+    "window": {
+     "dOmMeasured": -0.001788,
+     "dOmAvgFormula": -0.00179,
+     "dOmRel": 0.0007782,
+     "dEpsMeasured": 0.007784,
+     "dEpsAvgFormula": 0.007929,
+     "dEpsRel": 0.01821
+    },
+    "axisTurns": 20847,
+    "perpSkip": 0,
+    "residualE": 8.586e-16,
+    "heat": 0.00001184,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": 3,
+      "obliquityDeg": 30,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": 2.767533,
+      "obliquityDeg": 30.2565,
+      "Ei": 0.000001988
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": 2.650295,
+      "obliquityDeg": 30.4783,
+      "Ei": 0.000003337
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": 2.402826,
+      "obliquityDeg": 30.6496,
+      "Ei": 0.000004224
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": 2.328415,
+      "obliquityDeg": 30.7073,
+      "Ei": 0.000004779
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": 2.155137,
+      "obliquityDeg": 30.6154,
+      "Ei": 0.00000509
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 2.032195,
+      "obliquityDeg": 30.3868,
+      "Ei": 0.000005225
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 1.963961,
+      "obliquityDeg": 30.1183,
+      "Ei": 0.000005206
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 1.808497,
+      "obliquityDeg": 29.8137,
+      "Ei": 0.000005082
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 1.780429,
+      "obliquityDeg": 29.4286,
+      "Ei": 0.00000489
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 1.665686,
+      "obliquityDeg": 28.9161,
+      "Ei": 0.000004662
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 1.598533,
+      "obliquityDeg": 28.2707,
+      "Ei": 0.000004413
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 1.561906,
+      "obliquityDeg": 27.6082,
+      "Ei": 0.000004142
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 1.459086,
+      "obliquityDeg": 26.9367,
+      "Ei": 0.000003861
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 1.456136,
+      "obliquityDeg": 26.2284,
+      "Ei": 0.00000358
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 1.378265,
+      "obliquityDeg": 25.435,
+      "Ei": 0.000003311
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 1.341695,
+      "obliquityDeg": 24.5424,
+      "Ei": 0.000003055
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 1.325707,
+      "obliquityDeg": 23.6692,
+      "Ei": 0.000002809
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 1.253674,
+      "obliquityDeg": 22.8188,
+      "Ei": 0.000002573
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 1.265448,
+      "obliquityDeg": 21.971,
+      "Ei": 0.000002351
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 1.210556,
+      "obliquityDeg": 21.0813,
+      "Ei": 0.000002146
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 1.191351,
+      "obliquityDeg": 20.1327,
+      "Ei": 0.000001958
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 1.188684,
+      "obliquityDeg": 19.2328,
+      "Ei": 0.000001783
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 1.134668,
+      "obliquityDeg": 18.378,
+      "Ei": 0.000001619
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 1.1552,
+      "obliquityDeg": 17.5502,
+      "Ei": 0.000001469
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 1.156735,
+      "obliquityDeg": 17.5247,
+      "Ei": 0.000001467
+     }
+    ]
+   },
+   "inclinedFixed": {
+    "spin0OverN": 3,
+    "steps": 20847,
+    "first": {
+     "tOverTau": 0,
+     "spinOverN": 3,
+     "obliquityDeg": 30,
+     "Ei": 0
+    },
+    "last": {
+     "tOverTau": 3,
+     "spinOverN": 1.161517,
+     "obliquityDeg": 29.9271,
+     "Ei": 0.000001741
+    },
+    "towardSync": true,
+    "monotone": false,
+    "obliquityDecreased": true,
+    "obliquityFirstUp": false,
+    "obliquityMax": 30,
+    "window": {
+     "dOmMeasured": -0.001789,
+     "dOmAvgFormula": -0.001791,
+     "dOmRel": 0.0009529,
+     "dEpsMeasured": -0.0001251,
+     "dEpsAvgFormula": 0.007938,
+     "dEpsRel": null
+    },
+    "axisTurns": 0,
+    "perpSkip": 20847,
+    "residualE": -6.614e-15,
+    "heat": 0.00001229,
+    "series": [
+     {
+      "tOverTau": 0,
+      "spinOverN": 3,
+      "obliquityDeg": 30,
+      "Ei": 0
+     },
+     {
+      "tOverTau": 0.1249,
+      "spinOverN": 2.769989,
+      "obliquityDeg": 29.9949,
+      "Ei": 0.000001951
+     },
+     {
+      "tOverTau": 0.2498,
+      "spinOverN": 2.651699,
+      "obliquityDeg": 29.99,
+      "Ei": 0.00000331
+     },
+     {
+      "tOverTau": 0.3747,
+      "spinOverN": 2.400885,
+      "obliquityDeg": 29.9854,
+      "Ei": 0.000004232
+     },
+     {
+      "tOverTau": 0.4996,
+      "spinOverN": 2.32419,
+      "obliquityDeg": 29.981,
+      "Ei": 0.000004803
+     },
+     {
+      "tOverTau": 0.6246,
+      "spinOverN": 2.151764,
+      "obliquityDeg": 29.9771,
+      "Ei": 0.000005097
+     },
+     {
+      "tOverTau": 0.7495,
+      "spinOverN": 2.031,
+      "obliquityDeg": 29.9735,
+      "Ei": 0.000005203
+     },
+     {
+      "tOverTau": 0.8744,
+      "spinOverN": 1.963356,
+      "obliquityDeg": 29.97,
+      "Ei": 0.000005177
+     },
+     {
+      "tOverTau": 0.9993,
+      "spinOverN": 1.806446,
+      "obliquityDeg": 29.9666,
+      "Ei": 0.000005068
+     },
+     {
+      "tOverTau": 1.1242,
+      "spinOverN": 1.777044,
+      "obliquityDeg": 29.9633,
+      "Ei": 0.000004893
+     },
+     {
+      "tOverTau": 1.2491,
+      "spinOverN": 1.663442,
+      "obliquityDeg": 29.9603,
+      "Ei": 0.000004664
+     },
+     {
+      "tOverTau": 1.374,
+      "spinOverN": 1.598688,
+      "obliquityDeg": 29.9575,
+      "Ei": 0.000004407
+     },
+     {
+      "tOverTau": 1.4989,
+      "spinOverN": 1.563659,
+      "obliquityDeg": 29.9547,
+      "Ei": 0.00000414
+     },
+     {
+      "tOverTau": 1.6239,
+      "spinOverN": 1.460433,
+      "obliquityDeg": 29.952,
+      "Ei": 0.00000388
+     },
+     {
+      "tOverTau": 1.7488,
+      "spinOverN": 1.456932,
+      "obliquityDeg": 29.9493,
+      "Ei": 0.000003624
+     },
+     {
+      "tOverTau": 1.8737,
+      "spinOverN": 1.379988,
+      "obliquityDeg": 29.9469,
+      "Ei": 0.000003371
+     },
+     {
+      "tOverTau": 1.9986,
+      "spinOverN": 1.345418,
+      "obliquityDeg": 29.9445,
+      "Ei": 0.000003126
+     },
+     {
+      "tOverTau": 2.1235,
+      "spinOverN": 1.330725,
+      "obliquityDeg": 29.9422,
+      "Ei": 0.000002897
+     },
+     {
+      "tOverTau": 2.2484,
+      "spinOverN": 1.258268,
+      "obliquityDeg": 29.9399,
+      "Ei": 0.00000269
+     },
+     {
+      "tOverTau": 2.3733,
+      "spinOverN": 1.26952,
+      "obliquityDeg": 29.9376,
+      "Ei": 0.000002499
+     },
+     {
+      "tOverTau": 2.4982,
+      "spinOverN": 1.214716,
+      "obliquityDeg": 29.9354,
+      "Ei": 0.000002318
+     },
+     {
+      "tOverTau": 2.6231,
+      "spinOverN": 1.197008,
+      "obliquityDeg": 29.9333,
+      "Ei": 0.00000215
+     },
+     {
+      "tOverTau": 2.7481,
+      "spinOverN": 1.194634,
+      "obliquityDeg": 29.9313,
+      "Ei": 0.000001997
+     },
+     {
+      "tOverTau": 2.873,
+      "spinOverN": 1.139988,
+      "obliquityDeg": 29.9292,
+      "Ei": 0.000001864
+     },
+     {
+      "tOverTau": 2.9979,
+      "spinOverN": 1.159775,
+      "obliquityDeg": 29.9271,
+      "Ei": 0.000001744
+     },
+     {
+      "tOverTau": 3,
+      "spinOverN": 1.161517,
+      "obliquityDeg": 29.9271,
+      "Ei": 0.000001741
+     }
+    ]
+   }
+  }
+ },
+ "R": {
+  "norm": {
+   "k2": 1,
+   "lagSec": 1,
+   "inertia": "sphere"
+  },
+  "cases": {
+   "sunVenus": {
+    "book": "venusSunInertial3d",
+    "receivers": [
+     "金星"
+    ],
+    "n": 2,
+    "rows": [
+     {
+      "body": "金星",
+      "i": 1,
+      "spinPerSec": -2.992e-7,
+      "brakeNm": 2563000000000,
+      "alphaRadS2": 3.597e-26,
+      "perpNm": 103100000000,
+      "heatW": 1604000,
+      "bitSameLib": true
+     }
+    ]
+   },
+   "sunJupiter": {
+    "book": "jupiterSunInertial3d",
+    "receivers": [
+     "木星"
+    ],
+    "n": 2,
+    "rows": [
+     {
+      "body": "木星",
+      "i": 1,
+      "spinPerSec": 0.0001759,
+      "brakeNm": -1540000000000000,
+      "alphaRadS2": -3.968e-28,
+      "perpNm": 82420000000000,
+      "heatW": 270700000000,
+      "bitSameLib": true
+     }
+    ]
+   },
+   "jupiterIo": {
+    "book": "jupiterSunInertial3d の木星 + jupiterGalilean のイオ",
+    "receivers": [
+     "木星",
+     "イオ"
+    ],
+    "n": 2,
+    "rows": [
+     {
+      "body": "木星",
+      "i": 0,
+      "spinPerSec": 0.0001759,
+      "brakeNm": -72950000000000000000,
+      "alphaRadS2": -1.88e-23,
+      "perpNm": 244800,
+      "heatW": 9807000000000000,
+      "bitSameLib": true
+     },
+     {
+      "body": "イオ",
+      "i": 1,
+      "spinPerSec": 0.00004111,
+      "brakeNm": 836000000000000000,
+      "alphaRadS2": 7.053e-18,
+      "perpNm": 2888,
+      "heatW": 265400000000,
+      "bitSameLib": true
+     }
+    ]
+   },
+   "sunJupiterIo": {
+    "book": "jupiterSunInertial3d + イオ",
+    "receivers": [
+     "木星",
+     "イオ"
+    ],
+    "n": 3,
+    "rows": [
+     {
+      "body": "木星",
+      "i": 1,
+      "spinPerSec": 0.0001759,
+      "brakeNm": -72960000000000000000,
+      "alphaRadS2": -1.88e-23,
+      "perpNm": 82420000000000,
+      "heatW": 9807000000000000,
+      "bitSameLib": true
+     },
+     {
+      "body": "イオ",
+      "i": 2,
+      "spinPerSec": 0.00004111,
+      "brakeNm": 836000000000000000,
+      "alphaRadS2": 7.053e-18,
+      "perpNm": 208400,
+      "heatW": 265400000000,
+      "bitSameLib": true
+     }
+    ]
+   }
+  },
+  "io": {
+   "transcribedFrom": "jupiterGalilean",
+   "mSI": 8.929999999999999e+22,
+   "RSI": 1821600,
+   "aSI": 420070620,
+   "vSI": 17400.772699999998,
+   "spinSI": 0.000041105924,
+   "placement": "木星の赤道面・昇交点の方向 ẑ×â・順行の円軌道(🟠 の宣言の速さ)—— 診断の配置"
+  },
+  "jupiterIoOverSun": 47380,
+  "jupiterThreeOverIo": 1,
+  "allBitSameLib": true,
+  "ioOrbitAverage": {
+   "e": 0.004053,
+   "e0": 0.004053,
+   "aSI": 421800000,
+   "periodDays": 1.769879,
+   "steps": 8000,
+   "meanHeatW": [
+    9620000000000000,
+    249900000000
+   ],
+   "receivers": [
+    "木星",
+    "イオ"
+   ],
+   "ioSpinOverMeanMotion": 1.000419,
+   "eccFormulaW": 249400000000,
+   "ioOverFormula": 1.0019
+  }
+ },
+ "X": {
+  "steps": 1000,
+  "drag": true,
+  "mix": -5.917e-23,
+  "heat": 8.351e-16,
+  "residualE": -4.129e-16,
+  "residualL3": [
+   0,
+   -1.47e-18,
+   0
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "engineEqualsLib": true,
+  "planarLimitBitSame": true,
+  "ledgerWorkHeat": true,
+  "ledgerAngMom": true,
+  "angMomClosed": true,
+  "covariant": true,
+  "checkpoint": true,
+  "heatHalfTwice": true,
+  "heatLedger": true,
+  "syncDirection": true,
+  "obliquity": true,
+  "averagedFormula": true,
+  "ioEccentricityTide": true,
+  "ratesBitSameLib": true,
+  "xdotLedger": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.002
+  },
+  "E": {
+   "wallSec": 0.019
+  },
+  "Z": {
+   "wallSec": 2.783
+  },
+  "L": {
+   "wallSec": 0.572
+  },
+  "C": {
+   "wallSec": 0.098
+  },
+  "K": {
+   "wallSec": 0.14
+  },
+  "H": {
+   "wallSec": 0.359
+  },
+  "S": {
+   "wallSec": 1.941
+  },
+  "R": {
+   "wallSec": 0.315
+  },
+  "X": {
+   "wallSec": 0.296
+  }
+ },
+ "elapsedS": 13.2,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第307便b",
+  "target": "beta/index.html",
+  "targetSha256": "98a71353c16f63e93ac29f1794703475789bf483bff86684c1c5de193a317f9d",
+  "generatedAt": "2026-10-17T19:14:18.567Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 6962292,
+    "sha256": "98a71353c16f63e93ac29f1794703475789bf483bff86684c1c5de193a317f9d",
+    "mtime": "2026-10-17T18:53:23.571Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w307b-tide3d.mjs",
+    "bytes": 42093,
+    "sha256": "0f106e8b1849294de7b70f21f851f64533c7de5340e82d755436d7763637ef93",
+    "mtime": "2026-10-17T19:14:04.747Z"
+   },
+   {
+    "file": "tests/lib-w307b-tide3d.mjs",
+    "bytes": 12240,
+    "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
+    "mtime": "2026-10-17T18:55:29.555Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-10-17T18:34:28.879Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-17T18:34:28.863Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-17T18:34:28.855Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-17T18:34:28.871Z"
+   }
+  ],
+  "codeSha256": "f2cc31d98fcd33a544dc7cd50f2d54519227bdc399b6cc30f6c21b154d899198",
+  "harnessVersion": "w307b-tide3d-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "金星の逆行を説明した",
+   "イオの加熱を再現した",
+   "自転が釣り合った",
+   "観測の 1σ で較正済み",
+   "熱力学を導いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "CK_ARRS",
+    "CK_SC",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.tideEvalRates3",
+    "HP.tideHeatAdvance",
+    "HP.tideState",
+    "HP.validatePreset",
+    "T",
+    "TIDE3_STEP_VERSION",
+    "TIDE_HEAT_VERSION",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1344,
+   "segments": 1212,
+   "closureShare": 0.327
+  },
+  "scopeSha256": "89591bddd17834d295fdd5fb54210139fe85b172695aa6be7681bf6ead30bf51",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

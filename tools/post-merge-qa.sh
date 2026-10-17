@@ -155,6 +155,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.o
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
 # ==== 第306便d の塊(ここまで)====
+# ==== 第307便b の塊(ここから)====
+# 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 枝 b の新設 2 本(behavior.tide3d307 —— 三次元の明示潮汐と内部熱の受理・二次元のビット同一・恒等式・状態の契約・
+#   docs.tide3d307 —— 正本と文書)と、三次元の受理の門の一覧が動く behavior.coord3d298
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.coord3d298"
+# ==== 第307便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

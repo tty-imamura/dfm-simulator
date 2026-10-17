@@ -31478,7 +31478,7 @@ G を +1% 編集すると 🌙 の恒星月は 2360600.5997… s から比 0.978
 
 **力の経路(三次元の本だけ)。** `S._core` は 1 命令も変えず、build が三次元の本の `S.step` を別の步 `dfmStep3`(核 `dfmCore3`)へ差し替える(二次元の本では差し替えない —— 二次元の 1 步に命令は 1 つも増えない)。核は二次元の核(特別化 pairCorePlain と generic の接触)と**同じ式・同じ順序**に z の項を足しただけ: d²=dx²+dy²+dz²・invW=1/√(d²+ε²)・a −= G m_j invW³ (dx,dy,dz)・接触は球(法線ばね —— 換算質量・対称キャップ —— と接近時の法線減衰 γn のインパルス・散逸は radE)・速度のキック(semi は dt・leapfrog は dt/2 の KDK)・回転角 rotA・速度 100/自転 ±40 のクランプ・ドリフト・t の前進。慣性決定力の並進(`relativeDrag.law:"inertial"`)は既存の solve を z へ広げた別の関数 `dfmInertialDragStep3`(核 K_ε(r)=r/(r²+ε²)² の r は三次元の距離・(I+L)u=s を x・y・z それぞれ同じ行列で解く —— n=2 の展開形・n≤64 の直接法・宣言した本の n>64 は PCG〔z は同じ関数を 2 度目に呼ぶ〕・Gauss–Seidel・x+=u·dt)。**読まないもの**: フレーム u と決定力和(E6′・時計・減光の材料)。**時計 τ は三次元では進めない**(HUD に「時計 τ は三次元では未対応」)。
 
-**対応する物理と、拒否する機能(受理の門 `coord3dDenyOf` —— 黙って二次元の式で動かさない)。** 対応: E4 重力+軟化・積分器 semi/leapfrog・E9 接触の法線ばね(球)と γn・contactMode:"none"・stateCarry:"double"(z も補償和)・massPrecision:"double"・massFloor・pinned(静止)・慣性決定力の並進(合成則 solve/sum・solveFrom velocity/history・solver network-pcg-v1)・自転のスカラーと粒子ごとの自転軸・宣言した歳差・balanceFrame・群 ring/disk の傾き。**拒否(38 項目 —— 第 2 段以降の候補)**: kFrame>0(E6′ の引きずり近似 q)・kRep≠0(E5′)・muF≠0(E9 接線摩擦 —— 自転のベクトル化が要る)・kappaS≠0(E10′)・etaRad≠0(E11)・gravityX/Y≠0・geoPN=1/2 と慣性の宣言の無い 3/4(1PN・測地線)・physics.geodesic・physics.spaceMesh(旧法則版・空間メッシュ)・上の許可の外の physics の鍵(spinSpin・halo・tide・compactForce・axisForce・meshVelocity・backgroundComplex・frameReaction・coupleSink・cmGauge・dragRef・petersGW・periSubsteps など)・relativeDrag の law:"inertial" 以外・spinSource(自転する源の表裏核)・dragCore(構造核)・thermal:"tint"・phaseChange・fusion・universeBox・measureBox・photonEmit・rays・echoFlipAt・centerCapture/fixedCapture/fixedEject・qLock・world.boundary(箱・円)・overlays の field/spectrum/boxGraph/phaseGraph/mechSpectrum/spaceMesh/galaxyField・core(コア V2)・layers・pulse(時計)・spinDipole・tide・zonal・testParticle・レール(railOmega・規定運動のリング)・lightSweep:"auto"・dragQ/dragQTrans・densityClass・表示専用の spinAxis(enable の無い宣言)・vMode enclosed/virial/equilibrium/jeans。走行中の編集で未対応の機能が立ったら(例: kFrame=1)**步を止めて**理由を HUD に出す(`coord3dRuntimeWhy` —— 実測: kFrame=1 で t は 0.16 のまま・戻すと再開)。
+**対応する物理と、拒否する機能(受理の門 `coord3dDenyOf` —— 黙って二次元の式で動かさない)。** 対応: E4 重力+軟化・積分器 semi/leapfrog・E9 接触の法線ばね(球)と γn・contactMode:"none"・stateCarry:"double"(z も補償和)・massPrecision:"double"・massFloor・pinned(静止)・慣性決定力の並進(合成則 solve/sum・solveFrom velocity/history・solver network-pcg-v1)・自転のスカラーと粒子ごとの自転軸・宣言した歳差・balanceFrame・群 ring/disk の傾き。**拒否(38 項目 —— 第 2 段以降の候補)**: kFrame>0(E6′ の引きずり近似 q)・kRep≠0(E5′)・muF≠0(E9 接線摩擦 —— 自転のベクトル化が要る)・kappaS≠0(E10′)・etaRad≠0(E11)・gravityX/Y≠0・geoPN=1/2 と慣性の宣言の無い 3/4(1PN・測地線)・physics.geodesic・physics.spaceMesh(旧法則版・空間メッシュ)・上の許可の外の physics の鍵(spinSpin・halo・tide〔第307便b で対応〕・compactForce・axisForce・meshVelocity・backgroundComplex・frameReaction・coupleSink・cmGauge・dragRef・petersGW・periSubsteps など)・relativeDrag の law:"inertial" 以外・spinSource(自転する源の表裏核)・dragCore(構造核)・thermal:"tint"・phaseChange・fusion・universeBox・measureBox・photonEmit・rays・echoFlipAt・centerCapture/fixedCapture/fixedEject・qLock・world.boundary(箱・円)・overlays の field/spectrum/boxGraph/phaseGraph/mechSpectrum/spaceMesh/galaxyField・core(コア V2)・layers・pulse(時計)・spinDipole・tide〔第307便b で三次元に対応 —— 受理の門から外した〕・zonal・testParticle・レール(railOmega・規定運動のリング)・lightSweep:"auto"・dragQ/dragQTrans・densityClass・表示専用の spinAxis(enable の無い宣言)・vMode enclosed/virial/equilibrium/jeans。走行中の編集で未対応の機能が立ったら(例: kFrame=1)**步を止めて**理由を HUD に出す(`coord3dRuntimeWhy` —— 実測: kFrame=1 で t は 0.16 のまま・戻すと再開)。
 
 **零試験(器 `tests/exp-w298a-coord3d.mjs` → 正本 `tests/out/coord3d-w298a.json`・段 `coord3d-298a`)。** 全粒子 z=vz=0・軸 +z の三次元の走行と、同じ本の二次元の走行の全状態(x・y・vx・vy・spin・rotA と t・radE・clampVN・clampSN)を比べた —— **全 9 通りでビット同一**(差 0 値): 二体 semi 3000 步(16 値)・二体 leapfrog 3000 步(16)・接触の塊 γn=0.4 の 8 粒子 1500 步(52 —— 二次元は generic の対ループ)・同 leapfrog(52)・🐌 の写し(慣性決定力 n=2 の展開形)3000 步(16)・3 体の慣性決定力(直接法)2000 步(22)・同 solveFrom history(22)・🔗 の写し(spinSource を外す —— n=81 で PCG)200 步(490)・stateCarry:"double" の二体 3000 步(16)。z の項は +0 を足すだけなので浮動小数の演算列が二次元と同じになる。
 
@@ -34798,6 +34798,64 @@ D_ij = m_j 𝒦_j(r_ij) なので m_i β_ij = m_i m_j 𝒦_j(r_ij)/(Ŵ_i + I_ij)
 
 **言わないこと。** 「周期を独立に出した」「カロンの周期が観測どおりになった」「引きずりが要らないことを示した」「観測と一致した」「時計の換算で合った」。
 新しい宣言の周期の一致は入力の整合の確かめで、引きずり OFF は「この探索範囲で引きずりで埋める差が σ の内で 0」の記録である。PCG × 対は拒否のまま(⑥ は条件の目録)。
+
+〔第307便b — 三次元の明示潮汐(定時間遅延 CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転とその軸へのブレーキ・反作用・仕事と熱と角運動量の帳簿)と天体の内部熱・放射(線形の緩和)(原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの。ブレーキで失われる回転のエネルギーは潮汐加熱として内部熱になる。増え続けるので放射も必要」・決断事項 AN345 ③⑤・統括の検証項目 R210)(**新しい鍵と経路は opt-in** —— 在位の本は 1 本も宣言しない・内蔵の全 176 本 bitsame・sigsame 同一・`S._core` 不変・二次元の明示潮汐の本 🌜 もビット同一)〕
+
+**① 何を足したか。** 第292便d の明示潮汐 `physics.tide`(本)と天体の `tide:{k2, lag}` は二次元だけだった(三次元の本に宣言すると受理の門 coord3dDenyOf が拒否)。決断事項 AN345 ③(既存の CTL は二次元だけ —— 三次元の潮汐は z・3 成分のトルク・反作用・熱の帳簿の新しい部品)を受けて、三次元の本(`physics.coord:"3d"`)でも同じ鍵を受理し、三次元の步 `dfmTideStep3`(評価 `tideEvalRates3`)を `dfmStep3` の二次元と同じ位置(split:"half" は核の前に半歩・引きずり `dfmInertialDragStep3` の直後に残り)に置いた。受理の門の一覧 COORD3D_REJECTED から tide を外し COORD3D_SUPPORTED へ・走行中の門 coord3dRuntimeWhy から hasTide を外した。式は二次元と同じ定時間遅延 CTL のベクトル形(受け手 i の**慣性自転のベクトル** Ω_I = s â —— s は S.spin・â は自転軸 S.sax/say/saz。引きずり軸回転 rotADr・軸引きずりの ω_D は読まない —— 第96報の「慣性自転へ戻さない」契約と第100報の「ブレーキが効く相手は慣性軸回転そのもの」):
+
+- B = G k₂ m_j² R_i⁵・s_slip = V − Ω_I × r・F_cons = −3B r/r⁸・F_diss = −(3BΔt/r¹⁰)[2r(r·V) + r² s_slip]・τ_i = −r × F_diss(3 成分)・Q̇ = (3BΔt/r¹⁰)[2(r·V)² + r²|s_slip|²] ≥ 0
+- 恒等式(同じ V で): F_diss·V + τ_i·Ω_I = −Q̇ —— 散逸した力学的エネルギー(軌道の仕事を含む)が熱。回転エネルギーの減少 −τ·Ω だけを熱にすると軌道へ渡る仕事まで二重に数える(円軌道では Q̇ = −τ(Ω − n))。
+- **自転の更新**: τ の自転軸の成分 τ∥ = τ·â は二次元と同じ J の補償和(tideJh/tideJl)で慣性自転 S.spin へ。垂直の成分 τ⊥ は、軸を動かせる受け手(傾きを宣言し歳差の宣言が無い —— saOn = 1・saOm = 0)だけ J′ = J∥ â + τ⊥ h を厳密に組み、â′ = σ J′/|J′|(σ は J∥ の符号 —— 軸を半球の外へ反転させず、自転の符号が変わる)・|J′| − |J∥| = |τ⊥h|²/(|J′| + |J∥|)(相殺なしの形)を補償和の低位へ足す。軸を動かせない受け手(傾きなし・規定運動の歳差)の τ⊥ は**数えて回さない**(tidePerpN・tidePerpMax・Σ τ⊥ h = tidePerpL* —— 軸引きずりの経路と同じ型。全角運動量はこの分だけ閉じない —— 帳簿に残る)。
+- **帳簿**: tideWork(F·v + τ∥ s —— τ⊥ は Ω に垂直なので仕事をしない)・tideWorkCons・tideHeat・tideMix・tideDL(軌道角運動量の z)と tideDLx/tideDLy・tideDJ(τ∥ h)と tideDJx/y/z(τ h のベクトル)・軸の帳簿 tideAxN/tideAxL*(実際の自転の角運動量の変化)。恒等式 tideDL* + Σ tideDJ* = 0(成分ごと)・tideWork − tideWorkCons + tideHeat − tideMix = 0 は丸め床まで。
+- **二次元の極限**: z = vz = 0・â = +z では Ω×r の x 成分 s(0·0 − 1·r_y) = −s r_y が丸めずに二次元の s r_y と同じ浮動小数になり、z の項は +0 —— 二次元の步とビット同一(段 Z)。
+
+**② 天体の内部熱と放射(opt-in)。** `physics.tide.heat:{model:"linear", tau}`(本 —— model は "linear" だけ・tau は正の有限数〔本の時間単位〕)と天体の `tide.coolTau`(上書き)。過剰の内部エネルギー E_i(**初期値 0 は診断の基準** —— 実在の天体が冷たいという意味ではない)は dE_i/dt = H_i − E_i/τ_cool の**線形の緩和**(H_i は受け手 i で散逸した力学的エネルギー Q̇ の和 —— 小步の頭で評価した率 = 帳簿 tideHeat と同じ時刻)を一定の H の区間 h で解析的に積分する: E′ = E e^{−x} + Hτ(1 − e^{−x})・放射 = E(1 − e^{−x}) + Hτ(x − (1 − e^{−x}))(x = h/τ —— x < 1e-4 は級数)。E′ + 放射 = E + H h・E ≥ 0・放射 ≥ 0・一定の H では半歩 2 回と 1 歩が同じ(e^{−x/2}e^{−x/2} = e^{−x})。状態は tideEi・tideRad(放射の積算)・tideHin(入力の積算)。**熱は力学に戻らない**(内部熱の有無で軌道と自転がビット同一 —— 二次元と三次元)。二次元の本でも同じ鍵で使える。黒体 T⁴ は熱容量・基準温度・放射率・日射と内部熱源の区別が要るので入れていない(決断事項候補)。
+
+**③ 状態の契約と読み口。** CK_ARRS に tideDJx/y/z・tideEi・tideRad・tideHin、CK_SC に三次元の帳簿(tideDLx/tideDLy・tideAxN・tideAxL*・tidePerpN・tidePerpMax・tidePerpL*)と旧来写しの外だった tideNsubLast・tideTauMin、SIM_STEP_SCRATCH に作業(_tdFX/_tdFY/_tdTQ と新しい _tdFZ/_tdTX/_tdTY/_tdHQ)、SIM_BUILD_RESET に機能 tide(/^(tide[A-Z]|_td[A-Z])/)。二次元の本・潮汐を宣言しない本には鍵を足さない(🌋 の三次元の走行で tide*/_td* の鍵 0 —— QA behavior.tide3d307)。読み口 `tideState(S)` は三次元の本だけ `d3`(軸・動かせるか・直近のトルク・**ブレーキ** τ∥・受け手ごとの発熱率・力積・残差・軸の帳簿・数えた τ⊥)、内部熱を宣言した本だけ `internalHeat`(E・放射・入力・放射の率 E/τ・発熱率・収支)を足す(他の本の読み口は 1 鍵も変わらない)。
+
+**④ 器と正本。** 器 `tests/exp-w307b-tide3d.mjs`(版 w307b-tide3d-1・純関数 `tests/lib-w307b-tide3d.mjs` —— エンジンと同じ式・同じ演算順・`W307B_OUT` で出力先・`W307B_QUICK=1` は煙試験の窓)→ 正本 `tests/out/tide3d-w307b.json`(段 tide3d-307b・html だけを読む・1 プロセス)。写しはすべて器の中で組む(在位の本の宣言は変えない)。表 1(段ごとの検査 —— 正本から作った行):
+
+| 段 | 測ったもの | 値 |
+|---|---|---|
+| P | 二次元の極限(ctlPair とビット同一)・回転の共変(循環置換ビット同一・一般の回転 1.2e-15)・仕事と熱 -2.2e-16 | 通過 |
+| E | エンジンの 1 回の評価と純関数(3 体・非共面) | 差 0 値 |
+| Z | 二次元の本と coord:"3d" の写し(semi_full・semi_half・leap_full・leap_half_heat・熱あり/なし) | 差 0 値 |
+| L | 非共面の帳簿(軸を動かせる受け手): 仕事と熱 1.95e-15・全角運動量 1.976e-12 | 軸の更新 7200 回 |
+| L | 同(軸を動かせない受け手): τ⊥ を数えて回さない 14400 回・足すと閉じる 1.86e-12 | 力学的エネルギー + 熱 0.0001632 |
+| C | 回転の共変性(3000 步) | 位置と速度 1.215e-13・自転 1.667e-15 |
+| K | チェックポイントの往復(29 鍵) | 差 0 値 |
+| H | 内部熱: 半歩 2 回 1.2e-16・E の最小 2.03e-13・放射の率/発熱率 0.909755/1.119601 | 収支 -1.89e-15/4.483e-15 |
+
+表 2(同期へ向かう時間発展 —— G = 1 の規格化の惑星–衛星〔質量比 0.01・衛星の半径 0.1・a = 2・k₂ 0.5・Δt 0.5・I = ⅖mR²〕・τ_spin = I/(3BΔt/a⁶) = 341.3・3 τ_spin・円軌道)。CTL は自転を 0 へ減らす粘性ではなく公転との滑りを弱める —— 速い順行は減速・遅い順行と逆行は加速(逆行は自転の符号が変わって順行へ)。傾いた軸(30°)は Ω cos ε < 2n なら軌道の法線へ寄り、Ω cos ε > 2n では初め傾きが増える(定時間遅延の既知の性質 —— obliqueFast の最大 30.7073°)。初めの 1 公転の変化率は円軌道で平均した式 ⟨τ⟩ = K[n ĥ − ½Ω − ½(ĥ·Ω)ĥ](K = 3BΔt/a⁶)の dΩ/dt と dε/dt に 1e-2・5e-2 の内で一致(門 averagedFormula)。軸を動かせない受け手(inclinedFixed —— 軌道が 30° 傾き軸は +z)は τ⊥ を数えて回さない:
+
+| 写し | 初め Ω/n | 終わり Ω/n | 傾き(度) | 軸の更新/数えた τ⊥ |
+|---|---|---|---|---|
+| fastPrograde | 3 | 1.12334 | 0 → 0 | 0/0 |
+| slowPrograde | 0.3 | 0.967509 | 0 → 0 | 0/0 |
+| retrograde | -1 | 0.89336 | 0 → 0 | 0/0 |
+| obliqueSlow | 1.5 | 1.042804 | 30 → 9.3682 | 20847/0 |
+| obliqueFast | 3 | 1.156735 | 30 → 17.5247 | 20847/0 |
+| inclinedFixed | 3 | 1.161517 | 30 → 29.9271 | 0/20847 |
+
+表 3(規格化した率 —— **k₂ = 1・Δt = 1 s・I = ⅖mR² の規格化で、観測の k₂・遅延・熱量ではない**。🌋 venusSunInertial3d・🏀 jupiterSunInertial3d の t = 0 の状態の写し〔引きずり・局所重力の宣言を外す —— 率は相対の位置・速度・慣性自転・軸で決まる〕と、🟠 jupiterGalilean の宣言のイオを 🏀 の木星の赤道面〔昇交点の方向 ẑ×â・宣言の近点の速さ〕へ置いた**診断の配置**〔同じ元期の暦ではない〕)。木星へのブレーキはイオがあると太陽だけの 47380 倍(太陽–木星–イオは木星–イオと同じ桁 —— 太陽の寄与は 2×10⁻⁵)。イオの宣言の自転は平均運動の 1.000419 倍・離心 0.004053 で、1 公転の平均の発熱は同期の受け手の離心の潮汐の式 Ė = (21/2) k₂ G M² R⁵ n² Δt e²/a⁶ と 1.0019 倍(差は宣言の自転のずれ)—— 実在のイオの加熱と比べる値ではない:
+
+| 配置 | 受け手 | 慣性自転へのブレーキの角加速度 (rad/s²) | 発熱率 (W) | 垂直のトルク (N·m) |
+|---|---|---|---|---|
+| sunVenus | 金星 | 3.597e-26 | 1.604e+6 | 1.031e+11 |
+| sunJupiter | 木星 | -3.968e-28 | 2.707e+11 | 8.242e+13 |
+| jupiterIo | 木星 | -1.880e-23 | 9.807e+15 | 2.448e+5 |
+| jupiterIo | イオ | 7.053e-18 | 2.654e+11 | 2.888e+3 |
+| sunJupiterIo | 木星 | -1.880e-23 | 9.807e+15 | 8.242e+13 |
+| sunJupiterIo | イオ | 7.053e-18 | 2.654e+11 | 2.084e+5 |
+| jupiterIo の 1 公転の平均(e 0.004053) | イオ | — | 2.499e+11(離心の潮汐の式 2.494e+11 の 1.0019 倍) | — |
+
+ほかに: velocity:"xdot"(慣性引きずりの u を足した相対速度)を三次元で宣言した 🌋 の写し(大きな遅延の診断)で、混合の帳簿を含む恒等式の残差 -4.129e-16(段 X)。内部熱の入力の積算の和と tideHeat の差 -2.241e-15(和の順の違いだけ)。
+
+**⑤ 鎖と QA。** 新設 QA: behavior.tide3d307(受理・二次元の極限・恒等式・状態の契約)・docs.tide3d307(正本の門・lib の検査・表と数・文書・段・書かない語)。三次元の受理の門の一覧が変わるので段 coord3d-298a の正本の part4(拒否の行)から tide の行が消える(鎖で作り直す —— QA behavior.coord3d298)。
+
+**決断事項候補**(統括の推奨の案は報告に): (1) 放射の法則 —— 線形の緩和のまま/黒体 T⁴(熱容量・基準温度・放射率の宣言が要る)・内部熱の初期値(0 = 診断の基準のまま/宣言で与える)。(2) ブレーキの滑りを慣性自転で測るか、観測の自転(慣性 + 引きずり軸回転)で測るか —— 本便は慣性自転(第100報の文言)・「釣り合い」は ω̇_obs = τ/I + ω̇_D の時間発展で判定する(枝 c の式)。(3) 三次元の CTL を在位の本(🌋・🏀)へ入れる条件 —— k₂・遅延の出所の行・慣性の因子・同期の時間尺度と走行の長さの比・引きずり軸回転との釣り合いの判定。
+
+**言わないこと**: 「金星の逆行を説明した」「イオの加熱量が観測と一致した」「自転が釣り合った」(定常は時間発展で判定するまで)「観測の 1σ で較正済み」「熱力学を導いた」。規格化した率は観測の k₂・遅延の値ではない。CTL が実在天体の広い周波数で正しいとは仮定しない。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
