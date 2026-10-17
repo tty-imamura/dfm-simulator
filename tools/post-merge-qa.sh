@@ -155,6 +155,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.o
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
 # ==== 第306便d の塊(ここまで)====
+# ==== 第307便a の塊(ここから)====
+# 第307便a(原仮定者の裁定(第100報)・AN345・AN343・R209): 枝 a の新設 1 本(docs.sphereAxial307 —— 軸引きずりの球面の核・回転の位置の剛体の步の正本と文書と受理の契約)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sphereAxial307"
+# ==== 第307便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

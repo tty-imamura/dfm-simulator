@@ -3876,3 +3876,15 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w306e-charonfix.mjs`(版 w306e-charonfix-1・`W306E_PARTS`=decl,measure,soft,tide,control,parent,record・`W306E_OUT`)→ `tests/out/charonfix-w306e.json`(段 charonfix-306e)。第305便の宣言の写し `tests/data-w306e-decl305.json`・lib `tests/lib-w306e-pre.mjs`(`pin305`・`pinDecl305`・`gate305`・`pinChanges305`・`isGen306e`)—— 歴史の器 4 本(charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c)は pin305 で第305便の宣言に固定。
 - **QA**: `preset.charonFix306`・`docs.charonFix306`(root は SKIP・世代切替は `isGen306e`)・世代切替 `docs.charonAudit305`(🟪 は pin305 の写しで照合)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。🟪 の周期の一致を独立な結果と書かない(標的の周期から初期の距離を作った入力の整合)。引きずり OFF を「引きずりが要らない」と書かない(σ の内で 0 の記録)。🥶 の宣言は変えていない(同じ平均の要素の a の定義のまま —— 直すかは決断事項の候補)。PCG × 対ごとの正規化は拒否のまま(条件の目録は PHYSICS〔第306便e〕⑥)。
+
+## 105. 第307便a —— 軸引きずりの球面の核 `physics.relativeDrag.spinDrag.axialModel:"sphere"`・`axialGain`(受け手の球面の剛体回転 ½∇×u —— 赤道で逆・軸上で同じ向き)と回転引きずりの位置の剛体の步 `spinDrag.rotStep:"rigid"`(原仮定者の裁定(第100報)・決断事項 AN345 ①②・AN343 ①・統括の検証項目 R209・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `spinDrag.axialModel`(省略・`"mu2"` = 今の μ² 則 —— 正準形に出さない/`"sphere"` —— 正準形に `axialModel:"sphere", axialGain:<g>`)・`spinDrag.axialGain`(sphere だけ —— 無次元 0〜10¹²・既定 1 = 回転引きずりの係数 c からそのまま決まる)・`spinDrag.rotStep`(省略・`"linear"` = 今の x += h u —— 正準形に出さない/`"rigid"`)。`spinDrag.rotAxial` は作らない(回転引きずりから軸回転への別の経路は無い —— 第100報)。
+- **力学(sphere)**: 回転引きずりの場 u = N/D(N = Σ_j c m_j Ω_j (M1/r)(â_j × d)・D = 対ごとの正規化の前の行の対角)の ½∇×u = ½[∇×N/D − (∇D × N)/D²] を受け手ごとに(`inertialDrag3AxialSphereAt`・`inertialDrag3AxialSphere` —— M1′ は 5 点の数値微分 h = 5×10⁻⁴ r)。ν は掛けない。傾きを持たない受け手は源ごとの σ_j(ω_ij·â_j)の和を rotADr へ・傾きを持つ受け手は今の経路。慣性自転 S.spin は変えない。角度分布は分母の距離則に依る(背景が支配 q = 5・r⁻² が支配 q = 3 —— 3μ² − 1・引きずりの核が支配 q = 2)。
+- **力学(rigid)**: 解いた後・移送の前に、行の直接の回転の項 d_i = s_rot,i/(1+DG_i) を Chasles の螺旋運動の剛体の回転で置く(`inertialDrag3RigidStep`)—— 速度は書かない。
+- **拒否**: sphere で axial が "on" でない・sphere と axialCoupling・mu2 で axialGain・sphere/rigid と旧法則の凍結比較(gain のまま)・dragCore(構造核)と sphere・rigid で rot が "surfaceFlip" でない・値の外。
+- **読み口**: `HP.inertialDrag3SpinState(S)` の `axialLaw`(sphere は "sphere-rigid-halfcurl")・`sphere`(版 w307a-axial-sphere-1 —— 項の数・足さなかった対・h)・`rotStep`(版 w307a-rotstep-1 —— 受け手の数・回した角の和・線形の步との差の最大)。帳簿の鍵 inertialDrag3AxSphN・AxSphSkip・RigidN・RigidAng・RigidCorrMax(宣言した本だけ —— INERTIAL_DRAG3_SC で複製・チェックポイントが運ぶ)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら「磁気双極子と同じ」「金星の逆行を説明した」「自転が釣り合った」と書かない(候補の核の幾何と数値の一致だけ)。太陽–惑星(r/R ≳ 10³)に当てる前に M1 の遠方の級数が要る(PHYSICS〔第307便a〕⑤)。
+- **器と正本**: `tests/exp-w307a-sphereaxial.mjs`(版 w307a-sphereaxial-1・`W307A_OUT`・`W307A_QUICK`)・lib `tests/lib-w307a-sphereaxial.mjs`(参照の求積 —— 源の球・球面・受け手の球面の剛体回転)→ `tests/out/sphereaxial-w307a.json`(段 sphereaxial-307a)。
+- QA: `docs.sphereAxial307`(root は SKIP —— 世代切替 = html の `REL_DRAG_AXIAL_SPHERE_VERSION = "w307a-axial-sphere-1"`。正本の門・受理の契約・省略のビット同一・閉じた式と参照の求積・文書・禁句)。
+
