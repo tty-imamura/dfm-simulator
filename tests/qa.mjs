@@ -74697,7 +74697,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (F) {
           const fr = F.fitRecord, T = fr.targets;
           if (r.d0 !== F.adopted.D0pull) bad.push(`②D0pull ${r.d0} ⇔ 正本 ${F.adopted.D0pull}`);
-          if (r.fr !== JSON.stringify(fr)) bad.push('②fitRecord が正本と違う');
+          // 第308便d(AN351・R217): 標的の役割を宣言した世代では、本の記録 = record308d(正本の記録)(役割を各標的の末尾に置くだけ —— 数・署名は正本のまま)
+          let want299 = fr; try { const PRE8s = await import('file://' + path.join(ROOT, 'tests', 'lib-w308d-pre.mjs')); const lv = r.fr ? JSON.parse(r.fr) : null;
+            if (lv && (lv.targets || []).some((t) => t && t.role !== undefined) && PRE8s.DECL307D['earthMoonRealKF1']) want299 = PRE8s.record308d('earthMoonRealKF1', fr); } catch (e) { want299 = fr; }
+          if (r.fr !== JSON.stringify(want299)) bad.push('②fitRecord が正本と違う');
           if (!(F.fitRecordAccepted === true && r.warn.length === 0)) bad.push('②fitRecord の受理・受理の警告 ' + r.warn.join('|'));
           if (!(T.length === 1 && T[0].q === 'synodicMonthUniform' && T[0].unit === 'd' && T[0].obs === SYN_OBS && T[0].extractor.indexOf(clockV) >= 0 && fr.cond.extractor.indexOf(clockV) >= 0)) bad.push('②標的(synodicMonthUniform の 1 件・時計の版)');
           if (!/^朔望月\(第299便b/.test(fr.procedure)) bad.push('②procedure が「朔望月(第299便b」で始まらない');
@@ -80965,7 +80968,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!v.ok || (v.warnings || []).length) bad.push('① ' + id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 160));
         if (id === 'mercurySunInertial3d') {
           const fr = p.fitRecord;
-          if (!fr || JSON.stringify(fr) !== JSON.stringify(D.fitRecord)) bad.push('② 🌡️ の fitRecord が正本の記録と違う');
+          // 第308便d(AN351・R217): 標的の役割を宣言した世代では、本の記録 = record308d(正本の記録)(役割を各標的の末尾に置くだけ —— 数・署名・門は正本のまま)
+          let want306 = D.fitRecord; try { const PRE8p = await import('file://' + path.join(ROOT, 'tests', 'lib-w308d-pre.mjs'));
+            if (fr && (fr.targets || []).some((t) => t && t.role !== undefined) && PRE8p.DECL307D[id]) want306 = PRE8p.record308d(id, D.fitRecord); } catch (e) { want306 = D.fitRecord; }
+          if (!fr || JSON.stringify(fr) !== JSON.stringify(want306)) bad.push('② 🌡️ の fitRecord が正本の記録と違う');
           else {
             const vr = HP.validateFitRecord(JSON.parse(JSON.stringify(fr)));
             if (!vr.ok) bad.push('② 🌡️ の fitRecord が受理されない ' + vr.err);
@@ -81367,7 +81373,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // ①
           const q = X.toyPair({ incl: 25, satSpin: 1.0, satAxis: { enable: true, tiltDeg: 10, azimuthDeg: 30, source: 'qa' }, heat: { model: 'linear', tau: 30 }, coolTau: 7 }).preset;
           const v = HP.validatePreset(cl(q));
-          if (!(v.ok && (v.warnings || []).length === 0)) bad.push('① 三次元の潮汐の写しが受理されない/警告 ' + JSON.stringify((v.errors || []).concat(v.warnings || [])).slice(0, 160));
+          // 第308便d(AN350・R217): 三次元で潮汐を受ける天体に傾きの宣言が無い写し(ここでは主星)は受理の警告が出る(設計どおり —— 拒否はしない)。その警告を除いて数える
+          const w307b = (v.warnings || []).filter((w) => !/第308便d・決断事項 AN350/.test(w));
+          if (!(v.ok && w307b.length === 0)) bad.push('① 三次元の潮汐の写しが受理されない/警告 ' + JSON.stringify((v.errors || []).concat(w307b)).slice(0, 160));
           else {
             if (JSON.stringify(v.preset.physics.tide.heat) !== JSON.stringify({ model: 'linear', tau: 30 })) bad.push('① heat の正準形 ' + JSON.stringify(v.preset.physics.tide.heat));
             if (JSON.stringify(v.preset.bodies[1].tide) !== JSON.stringify({ k2: X.TOY.k2, lag: X.TOY.lag, coolTau: 7 })) bad.push('① 天体の tide の正準形 ' + JSON.stringify(v.preset.bodies[1].tide));

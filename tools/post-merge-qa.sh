@@ -183,8 +183,9 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.p
 # ==== 第308便d の塊(ここから)====
 # 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
 #   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
-#   第307便の fitRecord の写しで照合する世代切替の preset.revertGLoc303
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303"
+#   第307便の fitRecord の写し/record308d で照合する世代切替の preset.revertGLoc303・docs.synodic299・preset.planets306、第308便d の警告を除いて数える behavior.tide3d307、
+#   🟫 の観測カードと README の語を見る docs.fitContract296・docs.noRetiredMention294
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303 docs.synodic299 preset.planets306 behavior.tide3d307 docs.fitContract296 docs.noRetiredMention294"
 # ==== 第308便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
