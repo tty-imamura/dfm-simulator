@@ -180,6 +180,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.spinVisCap307 ui.axisGizmo307 ui.pickerGeoLine307 ui.pickerEmergence307 ui.paramAlphaGrey307 ui.paramDragGrey307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.pickerSeparators ui.pickerBadgeAxes ui.pickerOtherTriState ui.pickerOtherFold ui.pickerStatusAxes ui.presetpicker ui.samplePicker ui.paramOrderDrag wave124.ui"
 # ==== 第307便d の塊(ここまで)====
+# ==== 第308便a の塊(ここから)====
+# 第308便a(原仮定者の裁定(第101報)・AN346・AN347・AN354・R214): 枝 a の新設 1 本(docs.bevel308 —— 軸引きずりの鏡映の核の正本と文書と受理の契約)と、
+#   遠方の M1 の外部の級数で正本の数が動く docs.sphereAxial307
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
+# ==== 第308便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

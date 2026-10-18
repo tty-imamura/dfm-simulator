@@ -169,7 +169,8 @@ function partL(H, quick) {
     add1(`twoSources/${reg.key}`, two, 2, reg.C, 0.05, reg.i2q ? { i2: { lambda: 1 / reg.i2q } } : {});
     add1(`mask/${reg.key}`, two, 2, reg.C, 0.05, { ...(reg.i2q ? { i2: { lambda: 1 / reg.i2q } } : {}), pairs: [[2, 0], [2, 3]] });
   }
-  // 遠方(r/R = 10³・10⁴): エンジンの M1 の桁落ち(既存の式)が 5 点の微分で増幅される —— 記録だけ(門に入れない)
+  // 遠方(r/R = 10³・10⁴): 第307便a ではエンジンの M1 の桁落ち(既存の式)が 5 点の微分で増幅された(r/R 10⁴ で 3.21e-3)。第308便a(R214)から r ≥ 4(R+ε) は
+  //   M1 と dM1/dr を外部の級数(inertialSpinMomentFar)で作る —— 記録だけ(門に入れない)
   const far = [];
   for (const r of [300, 1000, 1e4]) {
     const before = out.length;
@@ -413,7 +414,7 @@ export function physicsTables(J) {
   for (const a of J.A) out.push(`| ${REG_JA[a.regime]} | ${a.kind === 'ball' ? '球(体積平均)' : '球面'} | ${f3(a.qEff)}(${a.qTheory}) | ${f3(a.equatorOverPole)} | ${a.zeroElevationDeg === null ? '—' : f2(a.zeroElevationDeg) + '°'}/${f2(a.zeroElevationTheoryDeg)}° | ${a.weakerTowardAxis ? 'はい' : 'いいえ'} |`);
   out.push('', '| 照合(エンジンの閉じた式 ½∇×u と参照の求積 R_i → 0) | 値 |', '|---|---|');
   out.push(`| 配置 ${J.L.rows.length} 通り(r/R 3〜100・ε 0/0.3・軸の傾き・源 2 つ・対の除外・inertialR2)の尺度つきの相対の差の最大 | ${e2s(J.L.maxRel)} |`);
-  for (const r of J.L.far) out.push(`| 遠方 ${r.name}(門の外 —— M1 の桁落ちの 5 点の微分) | ${e2s(r.relScale)} |`);
+  for (const r of J.L.far) out.push(`| 遠方 ${r.name}(門の外 —— 第308便a から M1 の外部の級数) | ${e2s(r.relScale)} |`);
   out.push('', '| 有限の受け手 Ω(R_i)/Ω(0) − 1 の (R_i/r)² の係数(r = 10R・R_i/r = 0.01) | 赤道 | 45° | 極 |', '|---|---|---|---|');
   for (const k of ['bg', 'inertial', 'drag']) { const g = (el) => J.F.find((f) => f.regime === k && f.el === el).rows[0].coef; out.push(`| ${REG_JA[k]} | ${f3(g(0))} | ${f3(g(45))} | ${f3(g(90))} |`); }
   out.push('', '| 本の写し(axialModel:"sphere") | 受け手 逆/同 | 分母を源だけにした対照 逆/同 | S.spin 不変 |', '|---|---|---|---|');

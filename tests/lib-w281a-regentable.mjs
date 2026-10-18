@@ -1083,6 +1083,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spindecomp-w307c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第307便c: 金星・木星の観測の自転の分解(太陽–金星・太陽–木星・木星–イオ・太陽–木星–イオ —— 球面の回転引きずりの場の受け手の球面の剛体回転成分)・係数の走査・対と行の分母・「釣り合い」の仮説 A/B/C の時間発展(三次元の CTL と内部熱の参照の純関数 —— 値だけ・エンジンと宣言は変えない)' }),
   // ==== 第307便c の塊(ここまで)====
+  // ==== 第308便a の塊(ここから)====
+  // ---- 第308便a(原仮定者の裁定(第101報)・決断事項 AN346・AN347・AN354・統括の検証項目 R214): **軸引きずりの鏡映の核の参照の器**(段 G〔幾何・共変・鏡映〕・
+  //   K〔分母の 3 つの型で bevel と "sphere" の比較〕・L〔エンジンの inertialDrag3AxialBevelAt と参照の求積 + 数値の微分〕・S〔遠方の M1 の外部の級数と求積〕・
+  //   V〔受け手の体積平均と中心〕・E〔🔩🪛🍥🍩 の写しに axialModel:"bevel" を宣言した走行・極の受け手の写し〕・P〔第307便c の 4 構成で ω_D/ω_obs・対ごとの分母〕)。
+  //   本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。第307便a・c の器の関数を import する(宣言から探す —— 他の段の出力は読まない)。
+  //   所要は第308便a の枝の実測(正本の elapsedS)
+  S('bevel-308a', 'node tests/exp-w308a-bevel.mjs', ['tests/out/bevel-w308a.json'], 20, { secSource: 'w308a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/bevel-w308a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第308便a: 軸引きずりの鏡映の核(源の自転を受け手への向きについて鏡映した軸 —— 角度差の 2 倍で傾く・赤道で逆・45° で 90°・軸へ sinθ で弱まる)の参照とエンジンの opt-in の一致・遠方の M1 の外部の級数・体積平均・本の写し・金星/木星/イオの ω_D/ω_obs' }),
+  // ==== 第308便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
