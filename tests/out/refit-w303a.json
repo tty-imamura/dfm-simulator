@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便a",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T04:33:02.471Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T19:50:15.488Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7021589,
-    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-    "mtime": "2026-10-17T21:20:30.763Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -35,20 +35,32 @@
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
     "mtime": "2026-10-16T19:11:11.231Z"
+   },
+   {
+    "file": "tests/data-w308d-decl307.json",
+    "bytes": 15451,
+    "sha256": "9053db10c2afb7a48b0d34f8a9aa6244eec059c383676a91052d63a776c239be",
+    "mtime": "2026-10-18T12:11:01.264Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w303a-refit.mjs",
-    "bytes": 39601,
-    "sha256": "71c4823b39353f458357fb8fc973359442c76fe5d89f1186675fa0a203c675cd",
-    "mtime": "2026-10-16T19:11:55.662Z"
+    "bytes": 40189,
+    "sha256": "5f7d57d12662c61c2af07f9985b602b09c369e065bb56eec72b00177a5dc1b4b",
+    "mtime": "2026-10-18T12:11:01.264Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
     "bytes": 6401,
     "sha256": "6270beace409df900d7328c652b9d5cf73c47d75b84fdcc60700dad50e657b7e",
     "mtime": "2026-10-14T20:10:19.119Z"
+   },
+   {
+    "file": "tests/lib-w308d-pre.mjs",
+    "bytes": 6099,
+    "sha256": "0be7bf74873dc909f05321f403aef48fa70a5979158230b8093e880af3c5ee4a",
+    "mtime": "2026-10-18T12:11:01.268Z"
    },
    {
     "file": "tests/lib-w304c-pre.mjs",
@@ -135,7 +147,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "38163d7025205ef2980ad886849d4026128664a74f56fb954f30d06b744b932f",
+  "codeSha256": "e8c0c1f5ec7ce09f8294ff818362dc917318b94338704a32c367fbaefae8ab9d",
   "harnessVersion": "w303a-refit-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第93報)①②(geoPN=3 のフィットの探索を優先・引きずりが主 —— G_loc は引きずりだけでは合わない量を埋めるため)",
@@ -206,11 +218,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1407,
-   "segments": 1274,
-   "closureShare": 0.3345
+   "names": 1436,
+   "segments": 1303,
+   "closureShare": 0.3385
   },
-  "scopeSha256": "96ee26c91c8d88b9eff42355a05c81f920273d0c29af2e5bcc81d22871cff0bd",
+  "scopeSha256": "55ec6a9c7b983019ba741dba486bb4085424ab5fb24d6f727032f03973492197",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -234,6 +246,12 @@
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w308d-decl307.json",
+    "stableSha256": "316957baa3dbb852013f895ac80b4ab19282ff16280686b0a99e9fb2a0fb8a2a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -1200,19 +1218,19 @@
  "ok": true,
  "timing": {
   "mer3": {
-   "wallSec": 24.18
+   "wallSec": 23.147
   },
   "mer2": {
-   "wallSec": 28.619
+   "wallSec": 27.321
   },
   "plu": {
-   "wallSec": 281.176
+   "wallSec": 262.951
   },
   "ems3": {
-   "wallSec": 95.072
+   "wallSec": 90.011
   },
   "emo": {
-   "wallSec": 17.556
+   "wallSec": 16.983
   }
  },
  "notClaim": [
@@ -1221,5 +1239,5 @@
   "「現実を再現した」",
   "「W_bg の宇宙の値が決まった」"
  ],
- "elapsedS": 446.797
+ "elapsedS": 420.563
 }

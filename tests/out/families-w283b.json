@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T04:35:34.807Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T19:52:40.767Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7021589,
-    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-    "mtime": "2026-10-17T21:20:30.763Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719960,
-    "sha256": "8496f4a708841b261f40479877ff9c90e1c4fa0299342223b975dbee57896a23",
-    "mtime": "2026-10-17T23:42:43.898Z"
+    "bytes": 1719961,
+    "sha256": "faeb24b3c30465f6218657a8609003457fb06790bce7fc9dbd208cc234e9152d",
+    "mtime": "2026-10-18T15:07:11.943Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -51,8 +51,8 @@
    {
     "file": "docs/FAMILIES_v1.45.md",
     "bytes": 55837,
-    "sha256": "833f7328109afcd88420df5d7ef54d0d10f6209891c256eb55cb8578da15a316",
-    "mtime": "2026-10-18T04:35:34.751Z"
+    "sha256": "0033a2716392958d0edaf96f721e8d75e320e9515195faba1e741ea9578ff485",
+    "mtime": "2026-10-18T19:52:40.744Z"
    }
   ],
   "code": [
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 329673,
-    "sha256": "e753b1efba4f0252cdcbd6c8249c8da9466fa64872ced04f0227c1653b71e25e",
-    "mtime": "2026-10-17T22:20:45.757Z"
+    "bytes": 335292,
+    "sha256": "b24cad82fe88bb68f629babfcd2525e1234a53e170963dc85cd0f1714dfe2224",
+    "mtime": "2026-10-18T12:29:26.943Z"
    }
   ],
-  "codeSha256": "bd697a5f4a74dc8e6b96b0f5e422452f525fe993842b12e212dde7c23fd1ecdc",
+  "codeSha256": "6124e39a4fce8e4cc2c7d1e76bf72122d12ef11d8e56075ef1d994bb34239b2f",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1370,
-   "segments": 1237,
-   "closureShare": 0.3544
+   "names": 1394,
+   "segments": 1261,
+   "closureShare": 0.3577
   },
-  "scopeSha256": "2629763e5143c085877cdf967c85f3fed196894b0eb2cda2985155858ef648d1",
+  "scopeSha256": "8661543b59bff9326b7b7e4668769cd327d4272b6e221c91654b9d6859b6d27b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0961b7526df833fcefcbfd1071daab80ab9ff7acac68ec27e3743e0d9a48d2c4",
+    "stableSha256": "e381cbd25010d5d396eb67683d6c7db22ac5d7ad1e6f4c8d07e766ad09b2edcd",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "bfb4038e430e6de517afb679c2d1be8bbdb49d45a89d6a87f6bd243995b18af8",
+    "stableSha256": "3f824bffafa7b23a600a40e0f6a6b0ef1f1f32caaaff51522756757c65e0321b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,7 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.45-b307",
+ "betaBuild": "v1.45-b308",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -5558,12 +5558,12 @@
    }
   ],
   "qaRefs": {
-   "darkrotor": 144,
+   "darkrotor": 145,
    "bhCore": 46,
-   "nebulaRotor": 17,
+   "nebulaRotor": 18,
    "nebulaShell": 14,
    "nebulaBipolar": 21,
-   "starSeed": 15,
+   "starSeed": 19,
    "bhCoreTilt": 20,
    "galaxyMeshSpiralGeoToyLite": 25,
    "psrDoubleABPN": 20,
@@ -5642,5 +5642,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 1.253
+ "elapsedS": 1.521
 }
