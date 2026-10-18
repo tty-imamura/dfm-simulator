@@ -357,7 +357,7 @@
     ],
     "resMax": 6.07834e-16,
     "fail": 0,
-    "wallSec": 0.802
+    "wallSec": 0.839
    },
    "B": {
     "bands": [
@@ -1193,46 +1193,46 @@
  "ok": true,
  "timing": {
   "accept": {
-   "wallSec": 0.021
+   "wallSec": 0.023
   },
   "zero": {
-   "wallSec": 2.077
+   "wallSec": 1.998
   },
   "effect": {
-   "wallSec": 2.299
+   "wallSec": 2.515
   },
   "remeasure": {
-   "wallSec": 0.002
+   "wallSec": 0.003
   },
   "audit": {
    "wallSec": 0.001
   }
  },
- "elapsedS": 4.4,
+ "elapsedS": 4.54,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便b",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T01:30:46.296Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T16:49:40.680Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7021589,
-    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-    "mtime": "2026-10-17T21:20:30.763Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    },
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "bytes": 36191,
-    "sha256": "9b8abd126bb537b27e66bf3e5ee2f0b1532707754213885f5a1d5b6ec3b1a809",
-    "mtime": "2026-10-18T01:30:37.430Z"
+    "bytes": 36192,
+    "sha256": "ac6a6bc6e7f1d7e3deac653804b01668b6da91f0d563ce20a071ba63c0f95832",
+    "mtime": "2026-10-18T16:49:31.636Z"
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "bytes": 40518,
-    "sha256": "649afe1363d1f7bcbf5e3e0ff3dfc7313432b8182f0ce66220d70e91b4d4aa47",
-    "mtime": "2026-10-18T01:23:07.482Z"
+    "bytes": 40524,
+    "sha256": "3ca297c14aa683463f8eebb405f283bcc8863ef40d74840a66234d71c743f520",
+    "mtime": "2026-10-18T16:43:42.660Z"
    }
   ],
   "code": [
@@ -1326,16 +1326,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1394,
-   "segments": 1261,
-   "closureShare": 0.3341
+   "names": 1423,
+   "segments": 1290,
+   "closureShare": 0.3382
   },
-  "scopeSha256": "b88fe883852ed05a4338912ef96ca87e2dd56138c9f36074e44cea5b2f40064e",
+  "scopeSha256": "d5cf5b2532c484ca9b0977bd43f633a6333173504f53357be5306452ca5e9ed3",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/geo4stable-w299d.json",
-    "stableSha256": "e4f4edafa46eca3bcd86d91f66e8828170ad103b8cc157911a6380d66364e933",
+    "stableSha256": "83213f384635ec30f1551d587e3c6fad8d1bd2aabe8d5d7a736825de0f56d095",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1349,7 +1349,7 @@
    },
    {
     "file": "tests/out/saturnring3d-w300c.json",
-    "stableSha256": "8f17c28c5ec898890e2852df11743e6efaac5113ed70165f6650ac27e590a627",
+    "stableSha256": "26723ab0cd9e1631c9e973453fad7388885fd54928edb3c76b7c1e254bad967d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
