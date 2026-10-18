@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便a",
   "target": "beta/index.html",
-  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-  "generatedAt": "2026-10-16T22:18:41.559Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T03:35:15.085Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6939780,
-    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-    "mtime": "2026-10-16T22:03:21.214Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    },
    {
     "file": "tests/out/cluster-w283f.json",
     "bytes": 144116,
-    "sha256": "c4abac5d742d03bbbf0321bebc716a3b5a8701863d50ce9b660164c10fcf6755",
-    "mtime": "2026-10-16T22:10:32.786Z"
+    "sha256": "13e5bb1a9bdb9f3e36cef649679ad35000730e97a442bdac37dc4020373d2951",
+    "mtime": "2026-10-18T03:16:24.271Z"
    },
    {
     "file": "tests/fixtures/cluster-w284a-preset.json",
@@ -124,16 +124,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1321,
-   "segments": 1190,
-   "closureShare": 0.3224
+   "names": 1364,
+   "segments": 1231,
+   "closureShare": 0.3261
   },
-  "scopeSha256": "80949ceed81a7000c831e188a990e573ec64ea53b5af4da0166069b11885d30b",
+  "scopeSha256": "9824dc0f627d2bb87def1c9cfe28c712a7cb694ea12359da96a7d959143c14a7",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/cluster-w283f.json",
-    "stableSha256": "2045c5795392ac53d69e3d188b8684e541114faf7a698db41869e3c869107173",
+    "stableSha256": "75a3f000b23ff1d7cf07a25a2edbe6af63952e304a6ba5abf6cfc9c0e61387f8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1283,8 +1283,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 36.228,
-   "rateStepsPerSec": 179.27294859735517
+   "wallSec": 41.757,
+   "rateStepsPerSec": 155.75051075591878
   },
   {
    "key": "n40-r20-s1",
@@ -2260,8 +2260,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 36.425,
-   "rateStepsPerSec": 178.674828356357
+   "wallSec": 42.779,
+   "rateStepsPerSec": 151.79198875614898
   },
   {
    "key": "n40-r20-s2",
@@ -3238,8 +3238,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 33.468,
-   "rateStepsPerSec": 194.09914632319905
+   "wallSec": 39.45,
+   "rateStepsPerSec": 164.7513475033052
   },
   {
    "key": "n40-r10-s0",
@@ -4215,8 +4215,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 37.636,
-   "rateStepsPerSec": 172.53774263120056
+   "wallSec": 40.604,
+   "rateStepsPerSec": 159.92102665350444
   },
   {
    "key": "n40-r10-s1",
@@ -5192,8 +5192,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 37.871,
-   "rateStepsPerSec": 171.70111287758345
+   "wallSec": 41.649,
+   "rateStepsPerSec": 156.1972713686545
   },
   {
    "key": "n40-r10-s2",
@@ -6170,8 +6170,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 36.136,
-   "rateStepsPerSec": 180.01000055558643
+   "wallSec": 38.556,
+   "rateStepsPerSec": 168.67532602753988
   },
   {
    "key": "n80-r20-s0",
@@ -7146,8 +7146,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 47.848,
-   "rateStepsPerSec": 135.87469333836572
+   "wallSec": 57.324,
+   "rateStepsPerSec": 113.2728512245005
   },
   {
    "key": "n80-r20-s1",
@@ -8122,8 +8122,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 44.235,
-   "rateStepsPerSec": 147.00877969100932
+   "wallSec": 58.473,
+   "rateStepsPerSec": 111.02354110269678
   },
   {
    "key": "n80-r20-s2",
@@ -9098,8 +9098,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 48.884,
-   "rateStepsPerSec": 133.04862023653087
+   "wallSec": 56.801,
+   "rateStepsPerSec": 114.48358715239745
   },
   {
    "key": "n80-r10-s0",
@@ -10074,8 +10074,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 50.964,
-   "rateStepsPerSec": 127.4386406544997
+   "wallSec": 61.056,
+   "rateStepsPerSec": 106.49487246910334
   },
   {
    "key": "n80-r10-s1",
@@ -11050,8 +11050,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 51.044,
-   "rateStepsPerSec": 127.3109491345606
+   "wallSec": 57.571,
+   "rateStepsPerSec": 112.75251866158585
   },
   {
    "key": "n80-r10-s2",
@@ -12026,8 +12026,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 51.736,
-   "rateStepsPerSec": 125.61791218377435
+   "wallSec": 58.838,
+   "rateStepsPerSec": 110.45203518101862
   },
   {
    "key": "n160-r20-s0",
@@ -13002,8 +13002,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 83.263,
-   "rateStepsPerSec": 77.96708056598325
+   "wallSec": 95.968,
+   "rateStepsPerSec": 67.64797995615409
   },
   {
    "key": "n160-r20-s1",
@@ -13978,8 +13978,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 85.518,
-   "rateStepsPerSec": 75.97697241144813
+   "wallSec": 99.822,
+   "rateStepsPerSec": 65.04587340145751
   },
   {
    "key": "n160-r20-s2",
@@ -14954,8 +14954,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 81.564,
-   "rateStepsPerSec": 79.64797561395314
+   "wallSec": 96.354,
+   "rateStepsPerSec": 67.38768718801997
   },
   {
    "key": "n160-r10-s0",
@@ -15930,8 +15930,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 88.618,
-   "rateStepsPerSec": 73.30897242994355
+   "wallSec": 102.136,
+   "rateStepsPerSec": 63.53501779568786
   },
   {
    "key": "n160-r10-s1",
@@ -16905,8 +16905,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 84.797,
-   "rateStepsPerSec": 76.54688496704232
+   "wallSec": 95.278,
+   "rateStepsPerSec": 68.13163705183472
   },
   {
    "key": "n160-r10-s2",
@@ -17881,8 +17881,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 83.697,
-   "rateStepsPerSec": 77.64012364908581
+   "wallSec": 98.302,
+   "rateStepsPerSec": 65.99718900861629
   },
   {
    "key": "spin0-s0",
@@ -18858,8 +18858,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 35.343,
-   "rateStepsPerSec": 183.78286394962987
+   "wallSec": 40.967,
+   "rateStepsPerSec": 158.48945849435015
   },
   {
    "key": "spin0-s1",
@@ -19835,8 +19835,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 35.941,
-   "rateStepsPerSec": 180.9449346587736
+   "wallSec": 41.26,
+   "rateStepsPerSec": 157.3732271225957
   },
   {
    "key": "spin0-s2",
@@ -20812,8 +20812,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 36.016,
-   "rateStepsPerSec": 180.40089086859686
+   "wallSec": 38.504,
+   "rateStepsPerSec": 168.64459712679576
   },
   {
    "key": "virial",
@@ -21772,8 +21772,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 35.123,
-   "rateStepsPerSec": 185.08997429305913
+   "wallSec": 40.557,
+   "rateStepsPerSec": 160.2136181575434
   },
   {
    "key": "contactOn",
@@ -22750,8 +22750,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 34.034,
-   "rateStepsPerSec": 191.21813031161474
+   "wallSec": 40.421,
+   "rateStepsPerSec": 160.8818709965738
   },
   {
    "key": "eqPinned",
@@ -23727,8 +23727,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 37.388,
-   "rateStepsPerSec": 173.84305835010062
+   "wallSec": 40.277,
+   "rateStepsPerSec": 161.30638255501344
   },
   {
    "key": "centerFree",
@@ -24704,8 +24704,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 35.934,
-   "rateStepsPerSec": 181.14726601811472
+   "wallSec": 39.773,
+   "rateStepsPerSec": 163.49598829287984
   },
   {
    "key": "toyOff",
@@ -25679,8 +25679,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 6.815,
-   "rateStepsPerSec": 968.0310726023305
+   "wallSec": 6.65,
+   "rateStepsPerSec": 997.5369458128079
   },
   {
    "key": "cut08",
@@ -26655,8 +26655,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 35.098,
-   "rateStepsPerSec": 185.42364151429305
+   "wallSec": 40.439,
+   "rateStepsPerSec": 160.95779825629052
   },
   {
    "key": "eps8",
@@ -27631,8 +27631,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 34.695,
-   "rateStepsPerSec": 187.207488299532
+   "wallSec": 36.828,
+   "rateStepsPerSec": 176.6967523791345
   }
  ],
  "summary": [
@@ -27760,5 +27760,5 @@
   "E0": -117053.79305150372,
   "E1": 1272952.8601665813
  },
- "elapsedS": 462.623
+ "elapsedS": 530.732
 }
