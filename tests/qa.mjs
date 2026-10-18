@@ -81479,6 +81479,163 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第307便b の塊(ここまで)====
+// ==== 第308便b の塊(ここから)====
+// ---- 第308便b(原仮定者の裁定(第101報)AN348 → (C)「引きずり軸回転は慣性自転に直接は作用しないが、元の自転軸を維持するトルクが生じる・エネルギーの出所は源の慣性自転」・
+// ----   (第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215):
+// ----   **元の自転軸の維持と慣性自転への駆動** spinDrag.axisHold(新設 2 本 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_AXIS_HOLD_VERSION(headless で読む)∧
+// ----   器 tests/exp-w308b-hold.mjs ∧ 正本 tests/out/hold-w308b.json。固定値は正本と器の宣言から読む。
+// ----   behavior.axisHold308: ① 受理(正準形・省略は鍵を出さない・拒否 8 例)② エンジンの 1 步 = 参照の純関数(ビット同一)③ 帳簿(全自転の角運動量 = 駆動 + 反作用 − 入れなかった力積 +
+// ----     供給・運動エネルギー・維持のトルクの仕事 0・軸をビットで保つ・供給項の天体の自転は宣言のまま)④ 二重計上の型(同じ向きの双子で (b) = 0・逆向きの双子で (b) = 2(a) = 2(c)・
+// ----     非対称で (c) = (a) の受け手の側)⑤ 状態の契約(步で変わる鍵の登録・チェックポイントの往復・宣言しない本に鍵が無い・自転の倍精度は宣言した本だけ)
+// ----   docs.axisHold308: ① 正本の門(器の gatesOf で作り直して一致)・試走でない・版/来歴/領域 hash ② lib の検査を作り直す ③ 表の行と数が PHYSICS〔第308便b〕に逐語・節が「## 7.」の前・語
+// ----     ④ AI_SPEC の節・CHANGELOG・README・再生成の段・.gitignore・post-merge の ③′ ⑤ 書かない語(「」の引用を除いて)と禁句
+{
+  const ah308Out = path.join(ROOT, 'tests', 'out', 'hold-w308b.json'), ah308Harn = path.join(ROOT, 'tests', 'exp-w308b-hold.mjs'), ah308Lib = path.join(ROOT, 'tests', 'lib-w308b-hold.mjs');
+  let H8 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H8 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H8 = null; } }
+  let has308b = false; try { has308b = !!(H8 && typeof H8.evalExpr('REL_DRAG_AXIS_HOLD_VERSION') === 'string'); } catch (e) { has308b = false; }
+  if (!(TARGET.startsWith('beta/') && has308b && fs.existsSync(ah308Out) && fs.existsSync(ah308Harn) && fs.existsSync(ah308Lib))) {
+    console.log('SKIP behavior.axisHold308 / docs.axisHold308(第308便b の元の自転軸の維持の前の世代 — ' + TARGET + ')');
+  } else {
+    let J = null, X = null, LB = null; const err0 = [];
+    try { J = JSON.parse(fs.readFileSync(ah308Out, 'utf8')); } catch (e) { err0.push('正本が読めない'); }
+    try { X = await import('file://' + ah308Harn); } catch (e) { err0.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { LB = await import('file://' + ah308Lib); } catch (e) { err0.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const HP = H8.HP, cl = (o) => JSON.parse(JSON.stringify(o));
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    // ---- behavior.axisHold308
+    {
+      const bad = err0.slice(), cases = [];
+      if (X) {
+        try {
+          // ①
+          const A = X.partA(H8);
+          if (!A.omittedHasNoKey) bad.push('① 省略の正準形に axisHold の鍵がある');
+          if (!A.allRejected) bad.push('① 拒否しない宣言 ' + JSON.stringify(A.rejects));
+          if (JSON.stringify(A.full.axisHold) !== JSON.stringify({ tauC: 2, reaction: 'source', sourceHold: [0, 1], receivers: [1] })) bad.push('① 正準形 ' + JSON.stringify(A.full.axisHold));
+          if (JSON.stringify(A.minimal.axisHold) !== JSON.stringify({ tauC: 2, reaction: 'none' })) bad.push('① 最小の正準形 ' + JSON.stringify(A.minimal.axisHold));
+          cases.push(`① 受理: 正準形・省略は鍵なし・拒否 ${Object.keys(A.rejects).length} 例`);
+          // ②
+          const E = X.partE(H8);
+          if (!E.allSame) bad.push('② エンジン ≠ 参照 ' + JSON.stringify(E.rows));
+          cases.push(`② エンジンの 1 步 = 参照(${E.rows.map((r) => r.kernel + ' ' + r.steps + ' 步 × ' + r.compared + ' 値・差 ' + r.nDiff).join('・')})`);
+          // ③
+          const Lp = X.partL(H8, true);
+          for (const r of Lp.rows) {
+            if (!(r.residualLRel < 1e-12 && r.pairLRel < 1e-12)) bad.push('③ ' + r.kernel + ' 全 L の帳簿 ' + r.residualLRel + '/' + r.pairLRel);
+            if (!(r.residualKRel < 1e-9)) bad.push('③ ' + r.kernel + ' 運動エネルギー ' + r.residualKRel);
+            if (!(r.holdWorkRel < 1e-12 && r.axesHeld > 0 && r.axisBitSame && r.heldSpinSame)) bad.push('③ ' + r.kernel + ' 維持 ' + JSON.stringify({ w: r.holdWorkRel, n: r.axesHeld, a: r.axisBitSame, s: r.heldSpinSame }));
+          }
+          cases.push(`③ 帳簿(${Lp.rows[0].steps} 步): 全 L ${Lp.rows.map((r) => r.residualLRel).join('/')}・運動エネルギー ${Lp.rows.map((r) => r.residualKRel).join('/')}・維持の仕事 ${Lp.rows.map((r) => r.holdWorkRel).join('/')}`);
+          // ④
+          const D = X.partD(H8, true), live = D.rows.filter((r) => r.rho !== null);
+          for (const r of live) {
+            if (r.config.startsWith('twinCo') && !(r.schemes.b.dSpin[0] === 0 && r.schemes.b.dSpin[1] === 0 && r.rho === 1)) bad.push('④ ' + r.kernel + ' ' + r.config + ' (b) が 0 でない');
+            if (r.config.startsWith('twinAnti') && !(r.rho === -1 && Math.abs(r.bOverA0 - 2) < 1e-9 && Math.abs(r.bOverC0 - 2) < 1e-9)) bad.push('④ ' + r.kernel + ' ' + r.config + ' (b)/(a) ' + r.bOverA0);
+            if (Math.abs(r.cOverA0 - 1) > 1e-9) bad.push('④ ' + r.kernel + ' ' + r.config + ' (c)/(a) ' + r.cOverA0);
+          }
+          if (live.length < 6) bad.push('④ 比を持つ行が少ない ' + live.length);
+          cases.push(`④ 二重計上: ${live.length} 配置 —— 同じ向きの双子 (b) = 0・逆向きの双子 (b)/(a) = (b)/(c) = 2・(c)/(a) = 1(受け手の側)`);
+          // ⑤
+          const SC = H8.evalExpr('INERTIAL_DRAG3_SC'), SA = H8.evalExpr('INERTIAL_DRAG_CK_SAMPLES'), SCR = H8.evalExpr('SIM_STEP_SCRATCH'), SBR = H8.evalExpr('SIM_BUILD_RESET');
+          const p3 = (() => { const bodies = [{ type: 'single', m: 1, radius: 0.3, x: -2, y: 0, z: 0, vx: 0, vy: 0, vz: 0, spin: 0.5, pinned: false, spinAxis: { enable: true, tiltDeg: 20, azimuthDeg: 30, source: 'qa' } },
+            { type: 'single', m: 0.5, radius: 0.2, x: 2, y: 0.3, z: 0.5, vx: 0, vy: 0, vz: 0, spin: -0.3, pinned: false }];
+            return { id: 'qa308b', name: 'qa', description: 'qa', emoji: '·', group: '運動と時空', sampleClass: 'principle', fidelity: 'toy', camera: { scale: 50 }, world: { boundary: 'none', size: 0 },
+              physics: { coord: '3d', G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.0001, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+                radiusScale: 1, softening: 0.01, stateCarry: 'double', massPrecision: 'double',
+                relativeDrag: { law: 'inertial', Wbg: 0.125, eps: 0.05, pairs: 'all', spinDrag: { rot: 'off', axial: 'on', axialModel: 'sphere', axisHold: { tauC: 0.5, reaction: 'source', sourceHold: [1] } } } }, bodies }; })();
+          const v3 = HP.validatePreset(cl(p3));
+          if (!v3.ok) bad.push('⑤ 写しが受理されない');
+          else {
+            const S1 = HP.coord3d.makeSim(); S1.build(cl(v3.preset));
+            const snap = (S) => Object.fromEntries(Object.keys(S).filter((k) => /^(inertialDrag3Hold|_rdHold)/.test(k)).map((k) => [k, ArrayBuffer.isView(S[k]) ? Array.from(S[k]) : S[k]]));
+            const a0 = snap(S1); for (let k = 0; k < 6; k++) S1.step(0.016); const a1 = snap(S1);
+            const changed = Object.keys(a1).filter((k) => JSON.stringify(a0[k]) !== JSON.stringify(a1[k]));
+            const miss = changed.filter((k) => SC.indexOf(k) < 0 && SA.indexOf(k) < 0 && SCR.indexOf(k) < 0);
+            if (!changed.length) bad.push('⑤ 步で変わる axisHold の鍵が無い');
+            if (miss.length) bad.push('⑤ 步で変わる鍵が登録の外: ' + miss.join(','));
+            const g = SBR.find((z) => z.feature === 'inertialDrag');
+            if (!(g && g.re && g.re.test('_rdHoldJh') && g.re.test('inertialDrag3HoldN'))) bad.push('⑤ SIM_BUILD_RESET の inertialDrag が axisHold の鍵を覆わない');
+            if (S1.spinPrec !== 'double') bad.push('⑤ axisHold の本の自転が倍精度でない');
+            cases.push(`⑤ 步で変わる axisHold の鍵 ${changed.length}(登録の外 ${miss.length})`);
+          }
+          const K = X.partK(H8, true);
+          if (K.nDiff !== 0) bad.push('⑤ チェックポイントの往復 差 ' + K.nDiff);
+          const tilt = HP.allPresets().find((z) => z.id === 'chainDiskToy3dTilt'), S2 = HP.coord3d.makeSim(); S2.build(cl(HP.validatePreset(cl(tilt)).preset)); S2.step(0.016); S2.step(0.016);
+          const leak = Object.keys(S2).filter((k) => /^(inertialDrag3Hold|_rdHold)/.test(k) && S2[k] !== undefined);
+          if (leak.length) bad.push('⑤ axisHold を宣言しない本に鍵: ' + leak.join(','));
+          if (S2.spinPrec !== 'single') bad.push('⑤ 🪛 の自転の精度が変わった ' + S2.spinPrec);
+          cases.push(`⑤ チェックポイントの往復 差 ${K.nDiff}/${K.keys} 鍵・🪛 に axisHold の鍵 ${leak.length}・自転の精度 ${S2.spinPrec}`);
+        } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+      }
+      add('behavior.axisHold308', bad.length === 0,
+        `**元の自転軸の維持と慣性自転への駆動の受理・参照との一致・帳簿・二重計上の型・状態の契約**(第308便b・原仮定者の裁定(第101報・第102報)・AN348・R215 —— 在位の本の宣言は変えない・新しい鍵は opt-in): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.axisHold308
+    {
+      const bad = err0.slice(), cases = [];
+      const PH = rd('docs/PHYSICS.md'), AI = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+      const i0 = PH.indexOf('〔第308便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+      const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+      if (J && X && LB) {
+        // ①
+        const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+        if (J.ok !== true) bad.push('正本の ok が真でない');
+        for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+        if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+        if (J.quick === true) bad.push('正本が試走(QUICK)');
+        if (J.version !== X.HARNESS_VERSION || J.libVersion !== LB.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+        if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+        if (J.holdVersion !== H8.evalExpr('REL_DRAG_AXIS_HOLD_VERSION')) bad.push('正本の axisHold の版が html と違う');
+        cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・版 ${J.holdVersion}`);
+        // ②
+        try {
+          const r = LB.checksOf();
+          if (!(r.pass === true)) bad.push('② lib の検査 ' + JSON.stringify(r.gates));
+          if (JSON.stringify(r.gates) !== JSON.stringify(J.P.gates)) bad.push('② lib の検査を作り直すと正本と違う');
+          cases.push(`② lib の検査 ${r.n} 項を QA の中で作り直す(維持の仕事 ${r.values.holdWorkRel.toExponential(1)}・接点の両側 ${r.values.contact.eqFactor}・逆向きの双子 (b)/(a) ${r.values.anti.bOverA})`);
+        } catch (e) { bad.push('② lib の検査が走らない: ' + String(e).slice(0, 100)); }
+        // ③
+        if (!sec) bad.push('PHYSICS〔第308便b〕が無い');
+        else {
+          let rows = [];
+          try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+          let nMiss = 0;
+          for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第308便b〕の表に行が無い: ' + r.slice(0, 70)); }
+          let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+          const missN = nums.filter((z) => sec.indexOf(z) < 0);
+          if (missN.length) bad.push('PHYSICS〔第308便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+          cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+          if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第308便b〕が「## 7. 論文」の後');
+          for (const w of ['R215', '第101報', '第102報', 'AN348', 'AN349', 'AN355', 'exp-w308b-hold.mjs', 'lib-w308b-hold.mjs', 'hold-w308b.json', 'behavior.axisHold308', 'docs.axisHold308', 'W308B_OUT',
+            'spinDrag.axisHold', 'τ_hold = −ω⊥ × J', 'P_pair', '別に要るエネルギー', '外からの駆動の近似', '候補の応答則', 'rotADr', '二重計上', '決断事項候補', '言わないこと'])
+            if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第308便b〕に「' + w + '」が無い');
+        }
+        // ④
+        const ai0 = AI.indexOf('元の自転軸の維持と慣性自転への駆動');
+        if (ai0 < 0 || ['spinDrag.axisHold', 'tauC', 'reaction', 'sourceHold', 'receivers', 'inertialDrag3SpinState', 'REL_DRAG_AXIS_HOLD_VERSION'].some((w) => AI.indexOf(w, ai0) < 0)) bad.push('AI_SPEC に「元の自転軸の維持と慣性自転への駆動」の節(鍵・読み口・版)が無い');
+        if (CL.indexOf('第308便b') < 0) bad.push('CHANGELOG に第308便b が無い');
+        if (RM.indexOf('第308便b') < 0) bad.push('README に第308便b が無い');
+        if (RT.indexOf("S('hold-308b', 'node tests/exp-w308b-hold.mjs', ['tests/out/hold-w308b.json']") < 0 || !/secSource: 'w308b-branch'/.test(RT)) bad.push('再生成の段 hold-308b');
+        if (GI.indexOf('!tests/out/hold-w308b.json') < 0) bad.push('.gitignore の例外');
+        if (PM.indexOf('docs.axisHold308') < 0 || PM.indexOf('behavior.axisHold308') < 0) bad.push('post-merge の ③′ に第308便b の 2 本が無い');
+        // ⑤
+        const strip = (t) => t.replace(/「[^」]*」/g, '');
+        const NOT = [/金星の逆行を説明した/, /イオの加熱を説明した/, /自転が釣り合った/, /帳簿が完全に閉じた/, /太陽の自転を分解した/, /観測の 1σ で較正済み/, /熱力学を導いた/, /法則を発見した/, /磁気双極子と同じ/, /銀河の自転で太陽の自転を説明した/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb]), cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044])]
+          .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+        if (sec) { for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第308便b〕に書かない語 ' + re.source); for (const w of NG) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第308便b〕に禁句(' + w.length + ' 字)'); }
+        for (const f of ['tests/exp-w308b-hold.mjs', 'tests/lib-w308b-hold.mjs']) { const tx = rd(f); for (const w of NG) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+        cases.push(`④⑤ AI_SPEC・CHANGELOG・README・段・.gitignore・post-merge・書かない語と禁句`);
+      }
+      add('docs.axisHold308', bad.length === 0,
+        `**元の自転軸の維持と慣性自転への駆動の器の正本と文書**(第308便b・AN348・R215 —— 正本 hold-w308b.json・写しの潮汐は τ_T を公転の数で置いた規格化で観測の値ではない・τ_C は候補の応答則の宣言): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第308便b の塊(ここまで)====
 // ==== 第307便e の塊(ここから)====
 // ---- 第307便e(DECISIONS v66 §0 AN340 ④・AN342 ③・AN344 ①②・統括の検証項目 R213 —— 細目): behavior.gLocNull307 / preset.fitRole307 / preset.coldReason307 / docs.w307e
 // ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html の読み口(HP.gLocDetach・HP.FIT_TARGET_ROLES)∧ lib tests/lib-w307e-pre.mjs の isGen307e(本の宣言が第306便から動いた ——

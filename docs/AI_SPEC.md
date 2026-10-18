@@ -3908,3 +3908,14 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **🥶 の判定の理由**: 宣言・判定語(保留)は不変。サンプル状況の見込みを「定義の差・同じ解の状態が未接続」へ(原稿の `definitionGap` —— 正本の数の門を通るときだけ)。合へ自動で昇格しない。
 - **器と QA**: `tests/lib-w307e-pre.mjs`(pin306e・pinDecl306e・isGen307e・record307e)・凍結の写し `tests/data-w307e-decl306.json`。QA `behavior.gLocNull307`・`preset.fitRole307`・`preset.coldReason307`・`docs.w307e`(root は SKIP)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI が作る本は abBody の physicsPatch に `gLoc:null` を書いてよい —— 別の値は受理されない)。role は省略してよい(省略は今の意味)。入力の整合の標的の一致を独立な結果と書かない。
+
+## 108. 第308便b —— 元の自転軸の維持と慣性自転への駆動 `physics.relativeDrag.spinDrag.axisHold`(原仮定者の裁定(第101報)AN348 → (C)・(第102報)①・決断事項 AN348・AN349・AN355・統括の検証項目 R215・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `spinDrag.axisHold:{tauC, reaction?, sourceHold?, receivers?}`(axial:"on" の本だけ・核は "mu2"/"sphere" —— 旧法則の凍結比較〔gain〕では拒否)。`tauC`(駆動の時定数 —— 正の有限数・1e-30〜1e30・本の時間単位)・`reaction`("none" 既定 —— 受け手の駆動だけ / "source" —— −τ を源の慣性自転へ)・`sourceHold`(慣性自転を宣言の値に保つ天体の添字の配列 —— 外からの駆動の近似)・`receivers`(平行な分の駆動を受ける天体の添字の配列 —— 省略は軸引きずりの受け手の全部)。未知の鍵・配列でない・重複・空の receivers は拒否。正準形は宣言したときだけ(`{tauC, reaction, sourceHold?, receivers?}` —— 添字は昇順)。版 `REL_DRAG_AXIS_HOLD_VERSION` = "w308b-axishold-1"。
+- **垂直な分(軸の維持)**: 傾きを持つ受け手(軸を有効化し歳差の宣言が無い)は軸引きずりの ω⊥ で軸を回さない。維持のトルク τ_hold = −ω⊥ × J(J = I s â)を帳簿に積む(仕事 0 —— 源へは返さない)。
+- **平行な分(駆動 —— 候補の応答則)**: τ_ij = (I_i p_ij/τ_C) â_i を慣性自転 S.spin へ(J の補償和 —— 明示潮汐の受け手は潮汐の和と同じ)。p_ij は源 j の ω_ij の受け手の軸への射影(傾きを持たない受け手は今の経路の符号つきのスカラー)。引きずり軸回転 rotADr はそのまま(慣性自転へ足し込まない)。I = f m R²(f は明示潮汐の inertia・無い本は ½)。axisHold の本は S.spin を倍精度にする。
+- **帳簿と読み口**: `inertialDrag3SpinState(S).axisHold`(`HP.inertialDrag3HoldStateOf`)—— driveL・reactL・outL(状態へ入れなかった力積)・supplyL/supplyE(供給項)・pairL(駆動 + 反作用)・stateL(結合が状態の自転の角運動量へ入れた分)・hold(axesHeld・L・work・torqueMax)・spinDK・Ereq/EreqPos/EreqNeg(別に要るエネルギー —— 厳密な ΔK の和)・P1(一次の仕事)・Ppair(直近の率)・lastDJ・inertia。HP: `validateAxisHold`・`inertialDrag3HoldStep`・`inertialDrag3HoldF`・`REL_DRAG_AXIS_HOLD_*`・`INERTIAL_DRAG3_HOLD_SC`。
+- **状態の契約**: INERTIAL_DRAG3_SC(帳簿のスカラー inertialDrag3Hold* —— inertialDragCkSnap の 1 組でチェックポイントと複製が運ぶ)・INERTIAL_DRAG_CK_SAMPLES(_rdHoldJh/_rdHoldJl/_rdHoldOmW —— 自前の J の補償和)・SIM_STEP_SCRATCH(_rdHoldP —— 受け手 × 源の ω_ij の記録・_rdHoldDJ/_rdHoldQX/QY/QZ)・SIM_BUILD_RESET(機能 inertialDrag の正規表現が覆う)。対の記録は n ≤ REL_DRAG_AXIS_HOLD_NMAX(256)。
+- **器と正本**: `tests/exp-w308b-hold.mjs`(版 w308b-hold-1・純関数 `tests/lib-w308b-hold.mjs`・`W308B_OUT`・`W308B_QUICK`)→ `tests/out/hold-w308b.json`(段 hold-308b)。二重計上の型 (a)/(b)/(c)・接点 1 つの散逸の結合・CTL の型・金星と木星の写し(規格化した潮汐 —— 観測の k₂・遅延ではない)。
+- **QA**: `behavior.axisHold308`・`docs.axisHold308`(root は SKIP・世代切替は html の `REL_DRAG_AXIS_HOLD_VERSION`)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。τ_C を導出した量と書かない(候補の応答則の宣言)。相互の引きずりで reaction:"source" を全部の受け手に回すと、相互の駆動が作用・反作用の対の配置で 2 倍・同じ向きの配置で 0 になる(第102報 ① の確かめ —— PHYSICS〔第308便b〕)。供給項を太陽の収縮の模型・太陽の自転の分解と書かない。自転の釣り合い・帳簿の閉じを、器が示した範囲を超えて主張しない。
