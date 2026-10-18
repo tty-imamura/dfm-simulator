@@ -179,6 +179,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.s
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
 # ==== 第307便c の塊(ここまで)====
+# ==== 第308便c の塊(ここから)====
+# 第308便c(原仮定者の裁定(第102報)②①・第101報・AN355・AN348・R216): 枝 c の新設 1 本(docs.sunSpin308 —— 要求される太陽の慣性自転と銀河を源とする引きずり軸回転の器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sunSpin308"
+# ==== 第308便c の塊(ここまで)====
 # ==== 第307便d の塊(ここから)====
 # 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・R212): 枝 d の新設 6 本(スピンの表示の上限・右下の XYZ の軸・サンプルの行の geoPN・「E水準」を「その他」へ・
 #   λ_PN=0 で α の淡色・kFrame=0 で qLock と q の淡色と kFrame の並び)と、世代切替を足した既存の UI の QA(畳みの次元・「その他」の段と軸の数・パラメータの並び)

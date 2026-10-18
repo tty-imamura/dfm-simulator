@@ -2405,7 +2405,10 @@ lastAddAt = Date.now();
       'tests/out/an336-w306a.json', 'tests/out/periodn-w306b.json', 'tests/out/emresolve-w306c.json', 'tests/out/rotframe-w306d.json', 'tests/out/charonfix-w306e.json',
       // 第307便(統括の統合 —— 同じ規則): 軸引きずりの球面の核と参照の求積(sphereaxial-307a)・三次元の明示潮汐と内部熱(tide3d-307b)・
       //   金星・木星の観測の自転の分解と釣り合いの仮説(spindecomp-307c)。どれも領域 REGEN_SCOPE を刻む(枝 d・e は新しい正本なし)
-      'tests/out/sphereaxial-w307a.json', 'tests/out/tide3d-w307b.json', 'tests/out/spindecomp-w307c.json'];
+      'tests/out/sphereaxial-w307a.json', 'tests/out/tide3d-w307b.json', 'tests/out/spindecomp-w307c.json',
+      // 第308便(統括の統合 —— 同じ規則): 軸引きずりの鏡映の核と参照の求積(bevel-308a)・(C) 元の自転軸を維持するトルクと駆動・反作用・二重計上の表(hold-308b)・
+      //   要求される太陽の慣性自転と銀河を源とする引きずり軸回転の見積もり(sunspin-308c)。どれも領域 REGEN_SCOPE を刻む(枝 d は新しい正本なし)
+      'tests/out/bevel-w308a.json', 'tests/out/hold-w308b.json', 'tests/out/sunspin-w308c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -80690,6 +80693,106 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第308便a の塊(ここまで)====
+// ==== 第308便c の塊(ここから —— docs.sunSpin308 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第308便c(原仮定者の裁定(第102報)②「太陽の観測値の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率」・①「相互の引きずりに反作用を
+// ----   返すと二重計上にならないか」・原仮定者の裁定(第101報)・決断事項 AN355・AN348・統括の検証項目 R216): docs.sunSpin308 —— **要求される太陽の慣性自転と、銀河を源とする
+// ----   引きずり軸回転の見積もりの器**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/sunspin-w308c.json ∧ 器 tests/exp-w308c-sunspin.mjs ∧ lib tests/lib-w308c-sunspin.mjs。
+// ----   固定値は正本と器の宣言から読む(器の表の関数 physicsTables・数の文字列 docNumbers・門 gatesOf・所見 findingsOf・作り直し recompute —— 鎖で正本を作り直した後の世代も同じ照合)。
+// ----   html・本の宣言・エンジンの式は変えない便(鏡映の核・curl の核・三次元の CTL は器の参照の純関数)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・版/来歴(w272e-1)・領域 hash(完全)・宣言から探した本の ID が領域の宣言 presets と同じ・惑星 7 本
+// ----   ② 作り直し: 正本の inputs から recompute(html を読まない)—— lib の確かめが全部真・要る量と見積もりの表の値が正本と相対 1e-9 で一致・所見が同じ
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第308便c〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const ss308Out = path.join(ROOT, 'tests', 'out', 'sunspin-w308c.json'), ss308Harn = path.join(ROOT, 'tests', 'exp-w308c-sunspin.mjs'), ss308Lib = path.join(ROOT, 'tests', 'lib-w308c-sunspin.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(ss308Out) && fs.existsSync(ss308Harn) && fs.existsSync(ss308Lib))) {
+    console.log('SKIP docs.sunSpin308(第308便c の正本の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, SSL = null;
+    try { J = JSON.parse(fs.readFileSync(ss308Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + ss308Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { SSL = await import('file://' + ss308Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第308便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && SSL) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J, J.inputs), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== SSL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scope.presets && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const declIds = (J.meta && J.meta.scope && J.meta.scope.presets) || [];
+      const foundIds = [...new Set((J.inputs.planets || []).map((p) => p.id).concat([J.inputs.io.preset, J.inputs.io.jovian], (J.inputs.galaxyBooks || []).map((b) => b.id)))].sort();
+      if (JSON.stringify(foundIds) !== JSON.stringify(declIds.slice().sort())) bad.push('宣言から探した本 ' + foundIds.join(',') + ' が領域の宣言と違う');
+      if ((J.inputs.planets || []).length !== 7) bad.push('在位の惑星の本が 7 本でない');
+      cases.push(`門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・本 ${foundIds.length}(惑星 ${(J.inputs.planets || []).length}・木星系・銀河 ${(J.inputs.galaxyBooks || []).length})`);
+      // ②
+      try {
+        const R = X.recompute(J), ckBad = Object.entries(R.checks.gates).filter(([, v]) => v !== true).map(([k]) => k);
+        if (ckBad.length) bad.push('② lib の確かめが偽: ' + ckBad.join(','));
+        // 許容: 公転の平均(keplerState の sin/cos)・銀河の向き(三角関数)は CI(Node 24)と鎖(Node 22)の Math の最下位の桁で動く —— 作り直しは相対 1e-9(式が変われば桁で違う)
+        let mx = 0, nC = 0; const miss = [];
+        const cmp = (a, b, tag) => { nC++; if (a === b) return; if (!(Number.isFinite(a) && Number.isFinite(b))) { miss.push(tag); return; } const d = Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)); if (d > mx) mx = d; if (d > 1e-9) miss.push(tag); };
+        J.required.rows.forEach((s, k) => { const r = R.required.rows[k];
+          for (const key of ['brakeAvg', 'brakeInst', 'lossOverGain']) cmp(r[key], s[key], s.name + '.' + key);
+          for (const key of ['diff', 'speed', 'curl']) { cmp(r.betaAvg[key], s.betaAvg[key], s.name + '.β' + key); cmp(r.r2[key].bound, s.r2[key].bound, s.name + '.R2' + key); }
+          cmp(r.r1.bound, s.r1.bound, s.name + '.R1'); for (const key of ['recv', 'src', 'pair']) cmp(r.power[key], s.power[key], s.name + '.P' + key); });
+        cmp(R.required.io.brakeAvg, J.required.io.brakeAvg, 'io.brake'); cmp(R.required.io.r2.diff.bound, J.required.io.r2.diff.bound, 'io.R2');
+        cmp(R.required.joint.r1.lo, J.required.joint.r1.lo, 'joint.lo'); cmp(R.required.joint.r1.hi, J.required.joint.r1.hi, 'joint.hi');
+        J.galaxy.central.forEach((s, k) => { for (const key of ['parDiff', 'parSpeed', 'parCurl', 'parDiffRow', 'ampDiff']) cmp(R.galaxy.central[k][key], s[key], 'gal.' + k + '.' + key); });
+        J.galaxy.extremes.forEach((s, k) => cmp(R.galaxy.extremes[k].maxAbs, s.maxAbs, 'gal.ext' + k));
+        cmp(R.galaxy.centralDecl.perUnitOm, J.galaxy.centralDecl.perUnitOm, 'gal.perUnit'); cmp(R.galaxy.geometry.sunAxisToNgpDeg, J.galaxy.geometry.sunAxisToNgpDeg, 'gal.angle');
+        J.galaxy.candidates.forEach((s, k) => { if (s.needed !== null) { cmp(R.galaxy.candidates[k].needed, s.needed, 'cand' + k); cmp(R.galaxy.candidates[k].omGalNeeded, s.omGalNeeded, 'candOm' + k); } });
+        J.doubleCount.rows.forEach((s, k) => { const r = R.doubleCount.rows[k]; for (const key of ['Dij', 'Dji', 'rhoT']) cmp(r[key], s[key], s.key + s.kern + key); for (const sc of ['a', 'b', 'c1', 'c2']) cmp(r[sc].P, s[sc].P, s.key + s.kern + sc); });
+        J.contraction.rows.forEach((s, k) => { cmp(R.contraction.rows[k].cand.coreOmegaSurfaceRadius, s.cand.coreOmegaSurfaceRadius, 'con' + k); cmp(R.contraction.rows[k].dEcore, s.dEcore, 'conE' + k); });
+        J.receiverSize.forEach((s, k) => cmp(R.receiverSize[k].par, s.par, 'rs' + k));
+        if (miss.length) bad.push('② 作り直した値が正本と違う: ' + miss.slice(0, 5).join(', ') + '(最大の相対差 ' + mx.toExponential(1) + ')');
+        if (JSON.stringify(R.findings) !== JSON.stringify(J.findings)) bad.push('② 所見を作り直すと正本と違う');
+        if (JSON.stringify(X.findingsOf(J)) !== JSON.stringify(J.findings)) bad.push('② 所見の関数を正本に当てると違う');
+        cases.push(`② 正本の inputs から作り直して ${nC} 値の最大の相対差 ${mx.toExponential(1)}・lib の確かめ ${Object.keys(R.checks.gates).length} 項・所見 ${Object.keys(J.findings).length} 個が同じ`);
+      } catch (e) { bad.push('② 作り直しが走らない: ' + String(e).slice(0, 100)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第308便c〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第308便c〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((s) => sec.indexOf(s) < 0);
+        if (missN.length) bad.push('PHYSICS〔第308便c〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第308便c〕が「## 7. 論文」の後');
+        for (const w of ['R216', '第102報', '第101報', 'AN355', 'AN348', 'exp-w308c-sunspin.mjs', 'lib-w308c-sunspin.mjs', 'sunspin-w308c.json', 'docs.sunSpin308', 'W308C_OUT', 'P_pair', 'R1', 'R2', '鏡映', 'primary_numeric_verified', '二重計上', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第308便c〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第308便c') < 0) bad.push('CHANGELOG に第308便c が無い');
+      if (RM.indexOf('第308便c') < 0) bad.push('README に第308便c が無い');
+      if (RT.indexOf("S('sunspin-308c', 'node tests/exp-w308c-sunspin.mjs', ['tests/out/sunspin-w308c.json']") < 0 || !/secSource: 'w308c-branch'/.test(RT)) bad.push('再生成の段 sunspin-308c');
+      if (GI.indexOf('!tests/out/sunspin-w308c.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.sunSpin308') < 0) bad.push('post-merge の ③′ に docs.sunSpin308 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/銀河の自転で太陽の自転を説明した/, /太陽の自転を分解した/, /金星の逆行を説明した/, /イオの加熱を説明した/, /自転が釣り合った/, /帳簿が完全に閉じた/, /磁気双極子と同じ/, /法則を発見した/, /熱力学を導いた/, /A が決まった/, /観測の 1σ で較正済み/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第308便c〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第308便c〕に禁句(引用も含めて —— ' + w.length + ' 字)');
+      for (const f of ['tests/exp-w308c-sunspin.mjs', 'tests/lib-w308c-sunspin.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.sunSpin308', bad.length === 0,
+      `**要求される太陽の慣性自転と銀河を源とする引きずり軸回転の見積もり**(第308便c・原仮定者の裁定(第102報)②①・第101報・AN355・AN348・R216 —— 正本 sunspin-w308c.json・html と本の宣言とエンジンの式は変えない・参照の純関数): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第308便c の塊(ここまで)====
 
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
