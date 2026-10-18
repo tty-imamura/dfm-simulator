@@ -8770,7 +8770,7 @@ function validateRelativeDragInertial(a){
       const sd=a.spinDrag;
       if(out.spinSource!==undefined) return {ok:false, err:'physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:"surfaceFlip" は spinDrag:{rot:"surfaceFlip", axial:"off"} と同じ —— 第298便c)'};
       if(typeof sd!=="object" || Array.isArray(sd)) return {ok:false, err:'physics.relativeDrag.spinDrag は {rot, axial, axialCoupling?}(第298便c)'};
-      for(const k of Object.keys(sd)) if(REL_DRAG_SPIN3_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.spinDrag に未知の鍵 '+k+'(rot・axial・axialCoupling —— 第298便c・axialModel・axialGain・rotStep —— 第307便a・axialNorm —— 第308便a)'};
+      for(const k of Object.keys(sd)) if(REL_DRAG_SPIN3_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.spinDrag に未知の鍵 '+k+'(rot・axial・axialCoupling —— 第298便c)'};
       const rot=(sd.rot===undefined || sd.rot===null)? REL_DRAG_SPIN3_ROT[0] : sd.rot, ax=(sd.axial===undefined || sd.axial===null)? "off" : sd.axial;
       if(REL_DRAG_SPIN3_ROT.indexOf(rot)<0) return {ok:false, err:'physics.relativeDrag.spinDrag.rot は "surfaceFlip"(回転引きずり —— 自転する源の表裏を一様球で体積平均・赤道面で最大・軸上で 0)か "off"'};
       if(REL_DRAG_SPIN3_AXIAL.indexOf(ax)<0) return {ok:false, err:'physics.relativeDrag.spinDrag.axial は "on"(軸引きずり —— 軸上で最大・赤道で 0・受け手の自転を源の軸の向きに回す)か "off"'};

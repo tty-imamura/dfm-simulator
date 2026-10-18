@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "6f92ad73d619c8c001d581cdd52bb4a1f65932a840d47f1c20317e1224318da1",
+ "targetSha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.007
+   "wallSec": 0.005
   },
   "K": {
    "wallSec": 0.005
   },
   "L": {
-   "wallSec": 0.269
+   "wallSec": 0.262
   },
   "S": {
-   "wallSec": 0.119
+   "wallSec": 0.19
   },
   "V": {
-   "wallSec": 0.591
+   "wallSec": 0.911
   },
   "E": {
-   "wallSec": 16.961
+   "wallSec": 15.48
   },
   "P": {
-   "wallSec": 0.004
+   "wallSec": 0.003
   }
  },
- "elapsedS": 19.727,
+ "elapsedS": 18.66,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "6f92ad73d619c8c001d581cdd52bb4a1f65932a840d47f1c20317e1224318da1",
-  "generatedAt": "2026-10-18T10:27:02.912Z",
+  "targetSha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
+  "generatedAt": "2026-10-18T11:30:59.012Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7041061,
-    "sha256": "6f92ad73d619c8c001d581cdd52bb4a1f65932a840d47f1c20317e1224318da1",
-    "mtime": "2026-10-18T10:11:25.875Z"
+    "bytes": 7040978,
+    "sha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
+    "mtime": "2026-10-18T11:29:44.632Z"
    }
   ],
   "code": [
@@ -4022,7 +4022,7 @@
    "segments": 1256,
    "closureShare": 0.3304
   },
-  "scopeSha256": "4850141b8702ee119e0a33a39a9728230051c629e4cf22fd5caa9373700aa2d3",
+  "scopeSha256": "00eddd0e5fe5899e45062d9d2ee89bb7bf3b17c2e536b4fad53994c41a9498bb",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
