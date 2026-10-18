@@ -20548,7 +20548,8 @@ if (!FAST) {
       if (!blk || (blk.match(/23 km\/s/g) || []).length < 4) bad.push('🔁 の宣言に 23 km/s が無い(obsCard・descStruct・parameterAudit の ja/en)');
       const hudJa = /hudTrailFollowNull:"[^"]*≈23 km\/s/.test(html288c);
       if (!hudJa) bad.push('HUD(ja/en)の 23 km/s');
-      const lines = Pd288.split('\n').filter((l) => /230 km\/s/.test(l));
+      // 第308便(統括): 銀河の回転の速さ V₀ = 230 km/s(PHYSICS〔第308便c〕の銀河の源の宣言)は 🔁 の単位とは別の量 —— 数えない
+      const lines = Pd288.split('\n').filter((l) => /230 km\/s/.test(l) && !/V₀ = 230 km\/s/.test(l));
       if (lines.some((l) => !/換算の誤記/.test(l))) bad.push('PHYSICS に 230 km/s が残る(誤記の 1 行を除く): ' + lines.filter((l) => !/換算の誤記/.test(l)).length + ' 行');
       if (lines.length !== 1) bad.push('PHYSICS の換算の誤記の 1 行 ' + lines.length);
       const A = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
