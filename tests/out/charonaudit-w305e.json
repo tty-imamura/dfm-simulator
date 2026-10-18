@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便e",
   "target": "beta/index.html",
-  "targetSha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
-  "generatedAt": "2026-10-16T17:31:16.397Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T04:30:03.810Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6926475,
-    "sha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
-    "mtime": "2026-10-16T17:23:23.114Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-16T15:08:34.651Z"
+    "mtime": "2026-10-09T10:19:39.375Z"
    },
    {
     "file": "tests/data-w306e-decl305.json",
     "bytes": 9357,
     "sha256": "d1f905caef307d86aae81e7681254b9c8bb8f4e0243564c28280f247752c181a",
-    "mtime": "2026-10-16T15:49:48.814Z"
+    "mtime": "2026-10-16T17:38:33.222Z"
    }
   ],
   "code": [
@@ -30,31 +30,31 @@
     "file": "tests/exp-w305e-charonaudit.mjs",
     "bytes": 32921,
     "sha256": "1d78a008c7dccda811df9aecfba91492b7ffd7af6ab97d2c980d2582d8c5510f",
-    "mtime": "2026-10-16T15:33:06.347Z"
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/lib-w306e-pre.mjs",
     "bytes": 6131,
     "sha256": "aab5d86cdd4d70fd771157ecf398e4008c95aebe5d86665a6bfd7915b44d4e21",
-    "mtime": "2026-10-16T15:50:06.267Z"
+    "mtime": "2026-10-16T17:38:33.230Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-16T15:08:34.815Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-16T15:08:34.811Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-16T15:08:34.823Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
   "codeSha256": "527918c56074a000772b6c06aa09f76e6d921cc09587c7349606bc44da68f769",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1337,
-   "segments": 1206,
-   "closureShare": 0.3251
+   "names": 1380,
+   "segments": 1247,
+   "closureShare": 0.3282
   },
-  "scopeSha256": "17d1e617057b798a93fc7559777d1b8be269534209618b27cef3c9c41fcc3904",
+  "scopeSha256": "12df0f598aa047032ae10a9c8bfbcafa20ca82b8beabd1e38a310ad5e27c33b9",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -269,7 +269,7 @@
   "rows": [
    {
     "eps": 0.01,
-    "wallSec": 7.704,
+    "wallSec": 7.533,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -293,7 +293,7 @@
    },
    {
     "eps": 0.005,
-    "wallSec": 8.226,
+    "wallSec": 7.871,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -317,7 +317,7 @@
    },
    {
     "eps": 0.0025,
-    "wallSec": 8.375,
+    "wallSec": 7.878,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -373,7 +373,7 @@
    "M1": 551863.6598934275,
    "late": 551863.6598878212,
    "M4": 551863.6598945792,
-   "wallSec": 15.282
+   "wallSec": 14.987
   },
   "diffs": {
    "rev2MinusM1": -8.83941538631916e-7,
@@ -386,7 +386,7 @@
  "band": {
   "rows": [
    {
-    "wallSec": 8.013,
+    "wallSec": 7.537,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -409,7 +409,7 @@
     }
    },
    {
-    "wallSec": 16.307,
+    "wallSec": 14.976,
     "dt": 0.08,
     "steps": 5518637,
     "revN": 8,
@@ -432,7 +432,7 @@
     }
    },
    {
-    "wallSec": 32.754,
+    "wallSec": 30.574,
     "dt": 0.04,
     "steps": 11037274,
     "revN": 8,
@@ -579,5 +579,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 228.729
+ "elapsedS": 217.169
 }

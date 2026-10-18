@@ -2,16 +2,17 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
+ "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 120,
  "steps": 3,
  "registry": {
-  "names": 489,
+  "names": 520,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
    "/^j2[A-Z]/",
+   "/^(tide[A-Z]|_td[A-Z])/",
    "/^(shapeToy|coreField|spiral)[A-Z0-9]/"
   ],
   "derived": 10,
@@ -22,8 +23,8 @@
   ]
  },
  "static": {
-  "assigned": 860,
-  "outside": 257,
+  "assigned": 887,
+  "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
   "outsideUnseen": [
@@ -52,20 +53,11 @@
    "_smTrStopped",
    "_smgBuilds",
    "_smgCache",
-   "_tdFX",
-   "_tdFY",
-   "_tdTQ",
    "_ts",
    "geoToyPrepared",
    "geoToySpinSources",
    "hasTide",
-   "tide",
-   "tideK2",
-   "tideLag",
-   "tideNsubLast",
-   "tideOff",
-   "tideRecv",
-   "tideTauMin"
+   "tide"
   ]
  },
  "dynamic": {
@@ -142,19 +134,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 16.696,
+ "elapsedS": 18.093,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-  "generatedAt": "2026-10-16T23:07:01.307Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T04:35:30.950Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6939780,
-    "sha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-    "mtime": "2026-10-16T22:03:21.214Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    }
   ],
   "code": [
@@ -224,11 +216,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1324,
-   "segments": 1193,
-   "closureShare": 0.3228
+   "names": 1367,
+   "segments": 1234,
+   "closureShare": 0.3265
   },
-  "scopeSha256": "3a419e4bdd4e6753371815539040903a43d7ae95af2812728acf8407d12adf72",
+  "scopeSha256": "5062494d952ca153f38d1eab3fe96367fc221bf9556e96f434f9f2b3defb36dd",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

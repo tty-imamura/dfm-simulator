@@ -722,7 +722,7 @@
  "part4": {
   "chain3d": {
    "steps": 2000,
-   "wallSec": 3.039,
+   "wallSec": 2.845,
    "itersMax": 40,
    "resMax": 9.99311e-11,
    "fail": 0,
@@ -776,7 +776,7 @@
   },
   "chain3dTilt": {
    "steps": 2000,
-   "wallSec": 4.913,
+   "wallSec": 4.705,
    "itersMax": 40,
    "resMax": 9.99383e-11,
    "fail": 0,
@@ -908,7 +908,6 @@
    "layers",
    "pulse",
    "spinDipole",
-   "tide",
    "zonal",
    "testParticle",
    "rail",
@@ -942,14 +941,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-  "generatedAt": "2026-10-16T21:51:06.125Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T01:26:36.866Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6939892,
-    "sha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-    "mtime": "2026-10-16T19:11:27.290Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    }
   ],
   "code": [
@@ -1017,14 +1016,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1342,
-   "segments": 1211,
-   "closureShare": 0.3285
+   "names": 1388,
+   "segments": 1255,
+   "closureShare": 0.3327
   },
-  "scopeSha256": "5fd0cfeca9fc760fbf8142d0c91d62c983a1953f43ee135a9456931bb0d1a71e",
+  "scopeSha256": "fbfb74a0e194bc6beb0b36bc295a289bd197e21655082125fc647ad0eed06230",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 22.537
+ "elapsedS": 22.073
 }

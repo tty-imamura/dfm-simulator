@@ -142,6 +142,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.shellTinyEta305 ui.softeningFloorSl
 #   (世代切替の docs.charonAudit305 は第305便e の行に既にある)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.charonFix306 docs.charonFix306"
 # <<< 第306便e
+# ==== 第307便e の塊(ここから)====
+# 第307便e(AN340 ④・AN342 ③・AN344 ①②・R213): 枝 e の新設 4 本(behavior.gLocNull307 —— B 側で G_loc を切る受理と実行・在位の惑星 7 本のワンタップ = 両方 OFF・
+#   preset.fitRole307 —— 標的ごとの役割の契約・🌦️ の交点の標的 18.599525・🟪 の役割・preset.coldReason307 —— 🥶 の判定の理由・docs.w307e —— 文書)と、世代切替を受けた
+#   preset.emResolve306・preset.charonFix306・docs.pn1Contract
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gLocNull307 preset.fitRole307 preset.coldReason307 docs.w307e docs.pn1Contract"
+# ==== 第307便e の塊(ここまで)====
 # ==== 第306便b の塊ここから(他の枝の行と混ぜない) ====
 # 第306便b(AN336 ③・AN333・AN335 ③・R205): 枝 b の新設 1 本(docs.periodN306 —— 周期による G_loc の n の識別の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.periodN306"
@@ -155,6 +161,25 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.emResolve306 docs.emResolve306 docs.o
 # 第306便d(原仮定者の裁定(第96報)・AN338・R207): 枝 d の新設 1 本(docs.rotFrame306 —— 回転引きずりを座標変換として測る器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rotFrame306"
 # ==== 第306便d の塊(ここまで)====
+# ==== 第307便a の塊(ここから)====
+# 第307便a(原仮定者の裁定(第100報)・AN345・AN343・R209): 枝 a の新設 1 本(docs.sphereAxial307 —— 軸引きずりの球面の核・回転の位置の剛体の步の正本と文書と受理の契約)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sphereAxial307"
+# ==== 第307便a の塊(ここまで)====
+# ==== 第307便b の塊(ここから)====
+# 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 枝 b の新設 2 本(behavior.tide3d307 —— 三次元の明示潮汐と内部熱の受理・二次元のビット同一・恒等式・状態の契約・
+#   docs.tide3d307 —— 正本と文書)と、三次元の受理の門の一覧が動く behavior.coord3d298
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.coord3d298"
+# ==== 第307便b の塊(ここまで)====
+# ==== 第307便c の塊(ここから)====
+# 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
+# ==== 第307便c の塊(ここまで)====
+# ==== 第307便d の塊(ここから)====
+# 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・R212): 枝 d の新設 6 本(スピンの表示の上限・右下の XYZ の軸・サンプルの行の geoPN・「E水準」を「その他」へ・
+#   λ_PN=0 で α の淡色・kFrame=0 で qLock と q の淡色と kFrame の並び)と、世代切替を足した既存の UI の QA(畳みの次元・「その他」の段と軸の数・パラメータの並び)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.spinVisCap307 ui.axisGizmo307 ui.pickerGeoLine307 ui.pickerEmergence307 ui.paramAlphaGrey307 ui.paramDragGrey307"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.pickerSeparators ui.pickerBadgeAxes ui.pickerOtherTriState ui.pickerOtherFold ui.pickerStatusAxes ui.presetpicker ui.samplePicker ui.paramOrderDrag wave124.ui"
+# ==== 第307便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

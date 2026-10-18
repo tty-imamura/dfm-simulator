@@ -3,7 +3,7 @@
  "generator": "tests/exp-w297a-refit.mjs",
  "ruling": "原仮定者の裁定(第87報)・統括の検証項目 R161",
  "target": "beta/index.html",
- "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+ "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
  "declared": {
   "rule": "geoPN≥2 の内蔵 = physics.lambdaPN 0(宣言から列挙)",
   "n": 54,
@@ -672,7 +672,7 @@
    "rows": [
     {
      "lambdaPN": 1,
-     "wallSec": 49.283,
+     "wallSec": 49.605,
      "dt": 0.016,
      "steps": 13278326,
      "sidMeanDays": 27.321613400739437,
@@ -683,7 +683,7 @@
     },
     {
      "lambdaPN": 0,
-     "wallSec": 47.94,
+     "wallSec": 46.032,
      "dt": 0.016,
      "steps": 13278333,
      "sidMeanDays": 27.32163005605137,
@@ -694,7 +694,7 @@
     },
     {
      "lambdaPN": 0,
-     "wallSec": 93.987,
+     "wallSec": 94.144,
      "dt": 0.008,
      "steps": 26556662,
      "sidMeanDays": 27.32162583193032,
@@ -708,7 +708,7 @@
      "history": true,
      "D0pull": 0.0000324204,
      "f": 0.9988,
-     "wallSec": 51.346,
+     "wallSec": 47.62,
      "dt": 0.016,
      "steps": 13277358,
      "sidMeanDays": 27.319623722256047,
@@ -726,7 +726,7 @@
     "h2SidMeanDays": -0.000004224121049389851,
     "h2ApsPeriodYr": -0.0004764155804242165
    },
-   "wallSec": 242.559
+   "wallSec": 237.405
   },
   "emfit": {
    "id": "earthMoonRealKF1",
@@ -766,7 +766,7 @@
      "apsPeriodYr": 8.850019234257942,
      "steps": 13278333,
      "nan": false,
-     "wallSec": 48.374,
+     "wallSec": 46.132,
      "rel": [
       -0.000002560014517039022,
       0.0000021733624793185413
@@ -780,7 +780,7 @@
      "apsPeriodYr": 8.850019234257942,
      "steps": 13278333,
      "nan": false,
-     "wallSec": 47.932,
+     "wallSec": 47.525,
      "rel": [
       -0.000002560014517039022,
       0.0000021733624793185413
@@ -794,7 +794,7 @@
      "apsPeriodYr": 8.849542818677518,
      "steps": 26556662,
      "nan": false,
-     "wallSec": 97.228,
+     "wallSec": 94.637,
      "rel": [
       -0.0000027146213332773783,
       -0.00005165890649505567
@@ -898,7 +898,7 @@
    },
    "fitRecordAccepted": false,
    "fitRecordErr": "fitRecord.targets: 単一残差の版(w296b-1)は標的 1 件だけ —— 複数の標的は \"w298b-1\"(標的ごとの残差)",
-   "wallSec": 193.536
+   "wallSec": 188.299
   },
   "qlock": {
    "procedure": "離心ベクトルの角度の累積(地球 pinned)・窓 T=24000(参照プローブの約 1 公転)・Δϖ_drag = kFrame=1 − kFrame=0",
@@ -959,7 +959,7 @@
         794.604502767208
        ],
        "nan": false,
-       "wallSec": 51.075
+       "wallSec": 48.534
       },
       {
        "lambdaPN": 0,
@@ -1015,7 +1015,7 @@
         794.6045028390672
        ],
        "nan": false,
-       "wallSec": 44.2
+       "wallSec": 41.084
       },
       {
        "lambdaPN": 0,
@@ -1071,7 +1071,7 @@
         794.6047138290672
        ],
        "nan": false,
-       "wallSec": 87.163
+       "wallSec": 83.328
       }
      ],
      "lambdaEffectRel": [
@@ -1155,7 +1155,7 @@
         794.6167416149328
        ],
        "nan": false,
-       "wallSec": 52.517
+       "wallSec": 49.842
       },
       {
        "lambdaPN": 0,
@@ -1211,7 +1211,7 @@
         794.6167412807823
        ],
        "nan": false,
-       "wallSec": 43.351
+       "wallSec": 41.287
       },
       {
        "lambdaPN": 0,
@@ -1267,7 +1267,7 @@
         794.6169536170271
        ],
        "nan": false,
-       "wallSec": 87.165
+       "wallSec": 83.958
       }
      ],
      "lambdaEffectRel": [
@@ -1296,7 +1296,7 @@
      ]
     }
    },
-   "wallSec": 365.477
+   "wallSec": 348.036
   },
   "galaxy": {
    "id": "galaxyGeo2",
@@ -1335,7 +1335,7 @@
      "lamA": 1,
      "lamB": 1,
      "kFrameB": 0,
-     "wallSec": 241.478
+     "wallSec": 230.262
     },
     {
      "lambdaPN": 0,
@@ -1358,7 +1358,7 @@
      "lamA": 0,
      "lamB": 0,
      "kFrameB": 0,
-     "wallSec": 165.519
+     "wallSec": 163.583
     },
     {
      "lambdaPN": 0,
@@ -1381,12 +1381,12 @@
      "lamA": 0,
      "lamB": 0,
      "kFrameB": 0,
-     "wallSec": 327.429
+     "wallSec": 322.644
     }
    ],
    "lambdaEffect": -0.01842714019167646,
    "h2": 0.0005903245038159088,
-   "wallSec": 734.426
+   "wallSec": 716.49
   },
   "geotoy": {
    "mercuryGeoToy3": {
@@ -1399,7 +1399,7 @@
       "nPeri": 59,
       "steps": 2850201,
       "nan": false,
-      "wallSec": 15.258
+      "wallSec": 14.909
      },
      {
       "tag": "A",
@@ -1408,7 +1408,7 @@
       "nPeri": 59,
       "steps": 5700401,
       "nan": false,
-      "wallSec": 29.19
+      "wallSec": 30.159
      },
      {
       "tag": "B",
@@ -1417,7 +1417,7 @@
       "nPeri": 59,
       "steps": 2850201,
       "nan": false,
-      "wallSec": 6.424
+      "wallSec": 6.335
      },
      {
       "tag": "B",
@@ -1426,7 +1426,7 @@
       "nPeri": 59,
       "steps": 5700401,
       "nan": false,
-      "wallSec": 13.139
+      "wallSec": 13.042
      },
      {
       "tag": "A_before",
@@ -1435,7 +1435,7 @@
       "nPeri": 59,
       "steps": 2850202,
       "nan": false,
-      "wallSec": 16.227
+      "wallSec": 15.889
      },
      {
       "tag": "A_before",
@@ -1444,7 +1444,7 @@
       "nPeri": 59,
       "steps": 5700403,
       "nan": false,
-      "wallSec": 33.038
+      "wallSec": 34.024
      },
      {
       "tag": "B_before",
@@ -1453,7 +1453,7 @@
       "nPeri": 59,
       "steps": 2850202,
       "nan": false,
-      "wallSec": 7.673
+      "wallSec": 6.936
      },
      {
       "tag": "B_before",
@@ -1462,7 +1462,7 @@
       "nPeri": 59,
       "steps": 5700403,
       "nan": false,
-      "wallSec": 15.551
+      "wallSec": 14.301
      }
     ],
     "nullDiff": {
@@ -1487,7 +1487,7 @@
       "hasGeo3": true,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 4.128
+      "wallSec": 4.102
      },
      {
       "tag": "A",
@@ -1496,7 +1496,7 @@
       "hasGeo3": true,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 7.726
+      "wallSec": 8.14
      },
      {
       "tag": "B",
@@ -1505,7 +1505,7 @@
       "hasGeo3": false,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 1.425
+      "wallSec": 1.491
      },
      {
       "tag": "B",
@@ -1514,7 +1514,7 @@
       "hasGeo3": false,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 3.161
+      "wallSec": 3.099
      },
      {
       "tag": "A_before",
@@ -1523,7 +1523,7 @@
       "hasGeo3": true,
       "hasGeo3PN": true,
       "nan": false,
-      "wallSec": 4.068
+      "wallSec": 4.433
      },
      {
       "tag": "A_before",
@@ -1532,7 +1532,7 @@
       "hasGeo3": true,
       "hasGeo3PN": true,
       "nan": false,
-      "wallSec": 8.668
+      "wallSec": 9.175
      },
      {
       "tag": "B_before",
@@ -1541,7 +1541,7 @@
       "hasGeo3": false,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 1.799
+      "wallSec": 1.661
      },
      {
       "tag": "B_before",
@@ -1550,7 +1550,7 @@
       "hasGeo3": false,
       "hasGeo3PN": false,
       "nan": false,
-      "wallSec": 3.408
+      "wallSec": 3.527
      }
     ],
     "nullDiff": {
@@ -1565,7 +1565,7 @@
      "dt": 0.00046394055243581533
     }
    },
-   "wallSec": 170.886
+   "wallSec": 171.231
   },
   "retired": {
    "emAuditDFM": {
@@ -1581,7 +1581,7 @@
       "nPeri": 3,
       "periodS": 2361399.750583582,
       "nan": false,
-      "wallSec": 18.462
+      "wallSec": 17.839
      },
      {
       "lambdaPN": 0,
@@ -1592,7 +1592,7 @@
       "nPeri": 3,
       "periodS": 2361400.640108667,
       "nan": false,
-      "wallSec": 18.246
+      "wallSec": 18.547
      }
     ],
     "advanceRatioAfterOverBefore": 1.0000200756275421,
@@ -1611,7 +1611,7 @@
       "nPeri": 20,
       "periodS": 7600536.776914166,
       "nan": false,
-      "wallSec": 3.489
+      "wallSec": 3.535
      },
      {
       "lambdaPN": 0,
@@ -1622,7 +1622,7 @@
       "nPeri": 20,
       "periodS": 7600534.1614259295,
       "nan": false,
-      "wallSec": 3.815
+      "wallSec": 3.617
      }
     ],
     "advanceRatioAfterOverBefore": -0.27652491560681003,
@@ -1641,7 +1641,7 @@
       "nPeri": 19,
       "periodS": 2502580268.9363136,
       "nan": false,
-      "wallSec": 13.89
+      "wallSec": 13.98
      },
      {
       "lambdaPN": 0,
@@ -1652,7 +1652,7 @@
       "nPeri": 19,
       "periodS": 2502580371.099477,
       "nan": false,
-      "wallSec": 12.414
+      "wallSec": 12.572
      }
     ],
     "advanceRatioAfterOverBefore": 0.999999667723914,
@@ -1671,7 +1671,7 @@
       "nPeri": 20,
       "periodS": 1560378130.6264346,
       "nan": false,
-      "wallSec": 7.956
+      "wallSec": 8.368
      },
      {
       "lambdaPN": 0,
@@ -1682,7 +1682,7 @@
       "nPeri": 20,
       "periodS": 1560378095.27041,
       "nan": false,
-      "wallSec": 7.615
+      "wallSec": 8.352
      }
     ],
     "advanceRatioAfterOverBefore": 0.9999992129364782,
@@ -1701,7 +1701,7 @@
       "nPeri": 2,
       "periodS": 189608.1602929036,
       "nan": false,
-      "wallSec": 18.639
+      "wallSec": 18.356
      },
      {
       "lambdaPN": 0,
@@ -1712,7 +1712,7 @@
       "nPeri": 2,
       "periodS": 189551.04094729264,
       "nan": false,
-      "wallSec": 16.55
+      "wallSec": 17.39
      }
     ],
     "advanceRatioAfterOverBefore": null,
@@ -1731,7 +1731,7 @@
       "nPeri": 20,
       "periodS": 8727.856599277397,
       "nan": false,
-      "wallSec": 6.131
+      "wallSec": 6.225
      },
      {
       "lambdaPN": 0,
@@ -1742,7 +1742,7 @@
       "nPeri": 20,
       "periodS": 8727.557650120116,
       "nan": false,
-      "wallSec": 5.667
+      "wallSec": 5.744
      }
     ],
     "advanceRatioAfterOverBefore": -0.9172328493150497,
@@ -1761,7 +1761,7 @@
       "nPeri": 20,
       "periodS": 8727.25939814897,
       "nan": false,
-      "wallSec": 5.797
+      "wallSec": 5.863
      },
      {
       "lambdaPN": 0,
@@ -1772,7 +1772,7 @@
       "nPeri": 20,
       "periodS": 8727.109950135782,
       "nan": false,
-      "wallSec": 5.44
+      "wallSec": 5.262
      }
     ],
     "advanceRatioAfterOverBefore": 0.034457465105001216,
@@ -1791,7 +1791,7 @@
       "nPeri": 20,
       "periodS": 15472.802416423692,
       "nan": false,
-      "wallSec": 11.259
+      "wallSec": 9.862
      },
      {
       "lambdaPN": 0,
@@ -1802,7 +1802,7 @@
       "nPeri": 20,
       "periodS": 15473.343358552429,
       "nan": false,
-      "wallSec": 9.869
+      "wallSec": 9.963
      }
     ],
     "advanceRatioAfterOverBefore": 0.005748434716877486,
@@ -1821,7 +1821,7 @@
       "nPeri": 20,
       "periodS": 6675.647899209394,
       "nan": false,
-      "wallSec": 4.391
+      "wallSec": 4.458
      },
      {
       "lambdaPN": 0,
@@ -1832,7 +1832,7 @@
       "nPeri": 20,
       "periodS": 6675.49296964219,
       "nan": false,
-      "wallSec": 4.399
+      "wallSec": 4.136
      }
     ],
     "advanceRatioAfterOverBefore": 0.08922483692327496,
@@ -1851,7 +1851,7 @@
       "nPeri": 20,
       "periodS": 8727.635378942832,
       "nan": false,
-      "wallSec": 8.125
+      "wallSec": 7.089
      },
      {
       "lambdaPN": 0,
@@ -1862,7 +1862,7 @@
       "nPeri": 20,
       "periodS": 8727.336454354734,
       "nan": false,
-      "wallSec": 7.132
+      "wallSec": 6.983
      }
     ],
     "advanceRatioAfterOverBefore": -0.9272213742375769,
@@ -1881,7 +1881,7 @@
       "nPeri": 20,
       "periodS": 15473.017519914018,
       "nan": false,
-      "wallSec": 13.629
+      "wallSec": 12.515
      },
      {
       "lambdaPN": 0,
@@ -1892,7 +1892,7 @@
       "nPeri": 20,
       "periodS": 15474.09927845309,
       "nan": false,
-      "wallSec": 13.275
+      "wallSec": 12.405
      }
     ],
     "advanceRatioAfterOverBefore": -0.9903079002349601,
@@ -1911,7 +1911,7 @@
       "nPeri": 20,
       "periodS": 6676.006775419222,
       "nan": false,
-      "wallSec": 5.887
+      "wallSec": 5.993
      },
      {
       "lambdaPN": 0,
@@ -1922,7 +1922,7 @@
       "nPeri": 20,
       "periodS": 6675.696879273691,
       "nan": false,
-      "wallSec": 5.482
+      "wallSec": 4.907
      }
     ],
     "advanceRatioAfterOverBefore": -0.8365120659591337,
@@ -1941,7 +1941,7 @@
       "nPeri": 3,
       "periodS": 180280.19105765971,
       "nan": false,
-      "wallSec": 17.77
+      "wallSec": 18.105
      },
      {
       "lambdaPN": 0,
@@ -1952,7 +1952,7 @@
       "nPeri": 3,
       "periodS": 180275.52564843482,
       "nan": false,
-      "wallSec": 16.64
+      "wallSec": 16.05
      }
     ],
     "advanceRatioAfterOverBefore": 0.8346511925011977,
@@ -1971,7 +1971,7 @@
       "nPeri": 13,
       "periodS": 36246.08507937736,
       "nan": false,
-      "wallSec": 21.555
+      "wallSec": 19.467
      },
      {
       "lambdaPN": 0,
@@ -1982,7 +1982,7 @@
       "nPeri": 13,
       "periodS": 36246.11811360562,
       "nan": false,
-      "wallSec": 20.394
+      "wallSec": 18.16
      }
     ],
     "advanceRatioAfterOverBefore": -0.9455758792056274,
@@ -1991,24 +1991,24 @@
    "saturnRingRealKF1": {
     "skipped": "二体でない(器が無い —— 次の見直しで器を作る)"
    },
-   "wallSec": 340.401
+   "wallSec": 330.855
   }
  },
  "timing": {
-  "wallSec": 2049.347
+  "wallSec": 1994.257
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第297便a",
   "target": "beta/index.html",
-  "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-  "generatedAt": "2026-10-16T21:12:46.988Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T00:16:54.414Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6939892,
-    "sha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-    "mtime": "2026-10-16T19:11:27.290Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    }
   ],
   "code": [
@@ -2084,14 +2084,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1321,
-   "segments": 1190,
-   "closureShare": 0.3219
+   "names": 1364,
+   "segments": 1231,
+   "closureShare": 0.3256
   },
-  "scopeSha256": "cefe4513bae7b258a401ad449d54ffb180923bf59bd8cfbf6364ad40b179b012",
+  "scopeSha256": "605b2e7186eb2a8b218ba80d791062ab4d3dfd68a89d5283ed90e33ee1a4d27d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 2049.347
+ "elapsedS": 1994.257
 }

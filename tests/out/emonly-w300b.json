@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
+ "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -123,7 +123,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.002
+   "wallSec": 0.008
   },
   "run": {
    "short": false,
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 13.429
+     "wallSec": 14.353
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 9.426
+     "wallSec": 9.291
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 4.496
+     "wallSec": 4.785
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 5.006
+     "wallSec": 5.384
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 6.884
+     "wallSec": 6.977
     }
    },
    "check": {
@@ -357,36 +357,36 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 39.247
+   "wallSec": 40.795
   }
  },
  "timing": {
-  "wallSec": 41.021
+  "wallSec": 42.714
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-  "generatedAt": "2026-10-16T22:02:58.599Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T01:03:02.001Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6939892,
-    "sha256": "ede3121f3e4c061080abd19858c6f65dfcf2b2f4e038045e631684aa9e1be923",
-    "mtime": "2026-10-16T19:11:27.290Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26594,
-    "sha256": "153a77091aa414a79cbb02ac54ed0862a44fffb813c61eb141b7219ee27414ac",
-    "mtime": "2026-10-16T20:35:46.130Z"
+    "bytes": 26590,
+    "sha256": "cd48fb567fd2094664b013095bf212a885992f5e1962c3aabed56e69fc77e771",
+    "mtime": "2026-10-17T23:39:16.142Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 35519,
-    "sha256": "a6ba0bf0f70b9fe1d6c960cc4efc39395e02f718166709cc7e6dff759a2c9698",
-    "mtime": "2026-10-16T22:02:03.578Z"
+    "bytes": 35515,
+    "sha256": "b77c79c44eaf8d2604d7a507863e1762c535e035d10befec6c46f5007a6bc66a",
+    "mtime": "2026-10-18T01:02:17.158Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -501,16 +501,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1341,
-   "segments": 1210,
-   "closureShare": 0.3243
+   "names": 1384,
+   "segments": 1251,
+   "closureShare": 0.328
   },
-  "scopeSha256": "cdb8db4ad0af473bc1c6017529fcc4e3e7bad9adbf4b9200b23a764affcd4cc4",
+  "scopeSha256": "7ed8a3c074deebe4b275913882c41b596a4c71d71bc4c35103e2f90f4ea35198",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "c2f1d70ec1b37505474b55f6cf5ca272e36252710b8c265a4ce0280e5eb2c209",
+    "stableSha256": "021ad0fe7a11b65d3016b1b504b8ba7e775f5c8e12c82876a862e833fb86ebc9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -524,7 +524,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "882ce4f2bc364a1820af635fb3ed444ae90fda2b5162be2d66a0338fff955459",
+    "stableSha256": "b1f64b6e647469fb3c7f16c3750bd89538cb9459b7cfce28fb3d729c4378f372",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -553,5 +553,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 41.021
+ "elapsedS": 42.714
 }

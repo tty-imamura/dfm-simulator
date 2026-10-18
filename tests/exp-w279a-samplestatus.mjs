@@ -69,7 +69,8 @@ const retiredIds = new Set(((src.retired || {}).ids) || []);
 const historyIds = new Set(RETIRED_FXS.flatMap((f) => ((rd(f).history || {}).tests || []).filter((t) => t.pass).map((t) => t.id)));
 const historyUsed = [];
 const holdRemedyDropped = [];   // 第291便e: 原稿に holdRemedy があるが正本で保留でなくなった本(転記しない —— 来歴に残す)
-const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed, holdRemedyDropped });
+const definitionGapDropped = [];   // 第307便e(AN344 ②): 原稿に definitionGap があるが正本の数の門を通らなかった本(見込みは従来の語のまま —— 来歴に残す)
+const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed, holdRemedyDropped, definitionGapDropped });
 if (built.errors.length) {
   console.error('原稿/正本の検査で止めた(何も書いていない):\n  ' + built.errors.join('\n  '));
   process.exit(1);
@@ -183,7 +184,7 @@ md.push('- **較正**の語: 較正母集団 ' + (calaudit.presets || []).length
 md.push('- **合わない量と差**: 代表量が 3σ を外れていればその量の差 %(σ 倍)。σ が無い本は、写像が確定していて目安判定が外れている量のうち差が最大のもの(「σ なし」と明記)。どれも無ければ「—」。');
 // 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136): 9 列目「保留の解き方」の読み方
 md.push('- **保留の解き方**(第291便e・原仮定者の裁定(第81報)⑦): 較正が保留/判定保留の本で、**何をすれば判定器が判定を出すか**の 1 行(原稿 `' + SRC + '` の `holdRemedy` の転記 —— 保留の理由が器の結果〔calaudit の missing・σ 接続器 `tests/exp-w262d-solarsigma.mjs` の切断点・charonwin の比較値〕に基づく本だけに書く)。原稿に行の無い保留の本は「—(既定表)」で、アプリは見込みの分類から引く既定表 `HOLD_REMEDY_RULES` で 1 行を出す。**判定が出ることまでを書き、合否は約束しない**。');
-md.push('- **精度見込み**: 正本の数から決まる語だけを書く —— 「σ 未接続」(観測の σ が繋がっていない)・「数値未解決」(刻みの収束が門の予算に入っていない)・「写像未確定」(量の対応が決まっていない)・「刻み間差 xσ・刻みでは縮まない」(門で否かつ刻みで動く幅が 1σ 未満)。**刻みを細かくすれば合格に移るという予測は、正本に証拠付きの行が 0 件である**(`predictionEligible` の合計 ' + predEligible + ')—— この一覧もその予測を書かない。');
+md.push('- **精度見込み**: 正本の数から決まる語だけを書く —— 「σ 未接続」(観測の σ が繋がっていない)・「数値未解決」(刻みの収束が門の予算に入っていない)・「写像未確定」(量の対応が決まっていない)・「刻み間差 xσ・刻みでは縮まない」(門で否かつ刻みで動く幅が 1σ 未満)・「量の定義の差・同じ解の状態が未接続」(第307便e —— 保留で門が「数値未解決」の量のうち、走行の残差が正本の閉じた式の定義の差と 1σ 以内で一致する本 —— 原稿の definitionGap・判定語は保留のまま)。**刻みを細かくすれば合格に移るという予測は、正本に証拠付きの行が 0 件である**(`predictionEligible` の合計 ' + predEligible + ')—— この一覧もその予測を書かない。');
 md.push('');
 md.push('## 集計');
 md.push('');
@@ -300,7 +301,9 @@ const canon = {
     retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed },
     // 第291便e: 保留の解き方(原稿 holdRemedy の転記本数・保留でなくなって転記しなかった本)
     holdRemedy: { declared: Object.values(table).filter((t) => t.holdRemedy).length,
-      hold: Object.values(table).filter((t) => L.HOLD_CALS.indexOf(t.calibration) >= 0).length, dropped: holdRemedyDropped } }),
+      hold: Object.values(table).filter((t) => L.HOLD_CALS.indexOf(t.calibration) >= 0).length, dropped: holdRemedyDropped },
+    // 第307便e(AN344 ②): 保留の理由が定義の差の本(原稿 definitionGap の門を通って見込みを替えた本・通らなかった本)
+    definitionGap: { version: L.DEFINITION_GAP_VERSION, applied: Object.keys(built.provenance).filter((id) => built.provenance[id] && built.provenance[id].definitionGap), dropped: definitionGapDropped } }),
   rows: got.rows.map((r) => Object.assign({ id: r.id, emoji: r.emoji, name: r.name, group: r.group,
     sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null, timing: timing[r.id] })),
   timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない',

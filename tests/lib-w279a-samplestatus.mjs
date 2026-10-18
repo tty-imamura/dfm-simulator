@@ -221,6 +221,39 @@ export function holdRemedyCheck(id, ja, en) {
   return err;
 }
 
+// 第307便e(DECISIONS v66 §0 AN344 ②・統括の検証項目 R213): **保留の理由が定義の差の本**(🥶 —— 判定語〔保留〕は動かさない・合への自動の昇格をしない)。
+//   原稿の欄 `definitionGap` = {kind, closedFormNSigma, closedFormSec, sigma, within, source, ja, en}(閉じた式の差 —— 平均の要素の a を瞬間のケプラーの a に使った
+//   二体の周期 − 比較値 —— は正本 tests/out/charonfix-w306e.json の parent の転記 —— QA preset.coldReason307 が正本と照合する)。
+//   見込み(outlook)を「数値未解決」から原稿の語へ替えるのは、正本の数から次が全部成り立つときだけ(機械の門 —— 成り立たなければ従来の語のまま・来歴 definitionGapDropped):
+//     ① 較正が保留(4 値の 保留)② 台帳の missing が「数値精度」(門の数値未解決 —— 3 段の未走行の形式)③ 代表量の kind が宣言の kind
+//     ④ 代表量の σ 倍と閉じた式の σ 倍の差が within(σ 単位)以内 —— 走行の残差は閉じた式の定義の差で説明され、刻みで動く分ではない
+//   語は ja に「定義の差」を含む(アプリの保留の解き方の既定表 HOLD_REMEDY_RULES の definition の分類が読む)。
+export const DEFINITION_GAP_VERSION = 'w307e-defgap-1';
+export const DEFINITION_GAP_KEYS = ['kind', 'closedFormNSigma', 'closedFormSec', 'sigma', 'within', 'source', 'ja', 'en'];
+/** 原稿の definitionGap の検査と門(戻り値 {errors, applies, source})。 */
+export function definitionGapOf(id, dg, calaudit) {
+  const errors = [], isNum = (x) => typeof x === 'number' && Number.isFinite(x);
+  if (!dg || typeof dg !== 'object' || Array.isArray(dg)) return { errors: [`${id}: definitionGap はオブジェクト`], applies: false };
+  const unk = Object.keys(dg).filter((k) => DEFINITION_GAP_KEYS.indexOf(k) < 0);
+  if (unk.length) errors.push(`${id}: definitionGap に未知の鍵 ${unk.join(',')}`);
+  if (!(typeof dg.kind === 'string' && isNum(dg.closedFormNSigma) && isNum(dg.closedFormSec) && isNum(dg.sigma) && dg.sigma > 0 && isNum(dg.within) && dg.within > 0 && dg.within <= 1))
+    errors.push(`${id}: definitionGap の kind・closedFormNSigma・closedFormSec・sigma・within(0〜1σ)`);
+  if (!(typeof dg.source === 'string' && /^tests\/out\//.test(dg.source))) errors.push(`${id}: definitionGap.source は正本のパス`);
+  if (!(typeof dg.ja === 'string' && dg.ja.indexOf('定義の差') >= 0 && typeof dg.en === 'string' && dg.en.trim())) errors.push(`${id}: definitionGap の ja(「定義の差」を含む)・en`);
+  if (isNum(dg.closedFormSec) && isNum(dg.sigma) && isNum(dg.closedFormNSigma) && Math.abs(dg.closedFormSec / dg.sigma - dg.closedFormNSigma) > 1e-9 * Math.abs(dg.closedFormNSigma))
+    errors.push(`${id}: definitionGap の closedFormSec/sigma と closedFormNSigma が合わない`);
+  if (FORBIDDEN.test(dg.ja || '') || FORBIDDEN.test(dg.en || '')) errors.push(`${id}: definitionGap に禁止語`);
+  if (errors.length) return { errors, applies: false };
+  const rows = ((calaudit || {}).verdictLedger || {}).rows || [], row = rows.find((r) => r.id === id) || null;
+  const rep = row && row.representative, miss = (row && row.missing) || [];
+  const gate = { hold: !!(row && VERDICT_TO_CAL[row.verdict4] === 'hold'), numerics: miss.indexOf('数値精度') >= 0, kind: !!(rep && rep.kind === dg.kind),
+    runNSigma: rep && isNum(rep.nSigma) ? rep.nSigma : null };
+  gate.gapInSigma = gate.runNSigma === null ? null : Math.abs(gate.runNSigma - dg.closedFormNSigma);
+  gate.within = gate.gapInSigma !== null && gate.gapInSigma <= dg.within;
+  const applies = gate.hold && gate.numerics && gate.kind && gate.within;
+  return { errors, applies, source: { version: DEFINITION_GAP_VERSION, canon: dg.source, closedFormNSigma: dg.closedFormNSigma, gate } };
+}
+
 /**
  * 原稿 + 正本 → 表(html の SAMPLE_STATUS に書く形)。
  * @param {object} src   {version, rows:{id:{purpose,objective,state,evidence,en:{purpose,state}}}}
@@ -250,6 +283,13 @@ export function buildTable(src, calaudit, charonwin, opt) {
       st.mismatch = s.mismatch ? s.mismatch.ja : null; st.en.mismatch = s.mismatch ? s.mismatch.en : null;
       st.outlook = s.outlook ? s.outlook.ja : null; st.en.outlook = s.outlook ? s.outlook.en : null;
       prov[id] = s.source;
+    }
+    // 第307便e(AN344 ②): 保留の理由が定義の差の本 —— 正本の数の門を通れば見込みを原稿の語へ(判定語は変えない)
+    if (r.definitionGap !== undefined) {
+      const dg = definitionGapOf(id, r.definitionGap, calaudit);
+      if (dg.errors.length) errors.push(...dg.errors);
+      else if (dg.applies) { st.outlook = r.definitionGap.ja; st.en.outlook = r.definitionGap.en; prov[id] = Object.assign({}, prov[id] || {}, { definitionGap: dg.source }); }
+      else if (o.definitionGapDropped) o.definitionGapDropped.push({ id, gate: dg.source && dg.source.gate });
     }
     // 第291便e: 保留の解き方(原稿の holdRemedy)—— 保留/判定保留の本だけに転記する
     if (r.holdRemedy !== undefined || (r.en || {}).holdRemedy !== undefined) {

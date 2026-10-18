@@ -1055,6 +1055,34 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rotframe-w306d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/books/*/runs/*/*/wallSec', '/books/*/retro/*/wallSec']) },
     note: '第306便d: 回転引きずりの座標変換の定義の帳簿(大域の R と受け手ごとの R_i・位置/姿勢/速度の選択肢・読み替えとキック・揺らぎの仕事・🍩 の步の順序の遅れの候補 —— 値だけ・エンジンと宣言は変えない)' }),
   // ==== 第306便d の塊(ここまで)====
+  // ==== 第307便a の塊(ここから)====
+  // ---- 第307便a(原仮定者の裁定(第100報)・決断事項 AN345 ①②・AN343 ①・統括の検証項目 R209): **軸引きずりの球面の核の参照の器**(段 Q〔求積と M1〕・Z〔零と奇〕・
+  //   A〔分母の 3 つの型 × 源の球・球面の角度分布と距離則〕・L〔エンジンの閉じた式 ½∇×u と参照の求積の一致〕・F〔有限の受け手の補正〕・C〔求積の収束〕・
+  //   E〔🔩🪛🍥🍩 の写しに axialModel:"sphere" を宣言した走行・極の受け手の写し・省略のビット同一〕・R〔rotStep:"rigid" の環・🍩 の写し〕)。
+  //   本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。他の枝の段・宣言に依存しない。所要は第307便a の枝の実測(正本の elapsedS)
+  S('sphereaxial-307a', 'node tests/exp-w307a-sphereaxial.mjs', ['tests/out/sphereaxial-w307a.json'], 90, { secSource: 'w307a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/sphereaxial-w307a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第307便a: 軸引きずりの球面の核(受け手の球面の剛体回転 ½∇×u —— 赤道で逆・軸で同じ向き・角度分布は分母の距離則に依る)の参照の求積とエンジンの opt-in の一致・回転の位置の剛体の步(rotStep:"rigid")' }),
+  // ==== 第307便a の塊(ここまで)====
+  // ==== 第307便b の塊(ここから)====
+  // ---- 第307便b(原仮定者の裁定(第100報)・決断事項 AN345 ③⑤・統括の検証項目 R210): **三次元の明示潮汐(CTL のベクトル形)と内部熱・放射の器**(段 P〔純関数〕・E〔エンジンの 1 回の
+  //   評価 = 純関数〕・Z〔二次元の極限のビット同一〕・L〔非共面の帳簿・角運動量〕・C〔回転の共変〕・K〔チェックポイント〕・H〔内部熱〕・S〔同期へ向かう時間発展と平均した式〕・
+  //   R〔🌋🏀 と木星–イオの規格化した率 —— k₂ = 1・Δt = 1 s〕・X〔velocity:"xdot" の三次元〕)。写しは器の中で組む(在位の本の宣言は変えない)。html だけを読む・1 プロセス。
+  //   所要は第307便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('tide3d-307b', 'node tests/exp-w307b-tide3d.mjs', ['tests/out/tide3d-w307b.json'], 30, { secSource: 'w307b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/tide3d-w307b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第307便b: 三次元の明示潮汐(CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転とその軸へのブレーキ・反作用・帳簿)と天体の内部熱・放射(線形の緩和)—— 二次元の極限・恒等式・共変・状態の契約・同期への時間発展・規格化した率' }),
+  // ==== 第307便b の塊(ここまで)====
+  // ==== 第307便c の塊(ここから)====
+  // ---- 第307便c(原仮定者の裁定(第100報)「観測の自転を慣性軸回転と引きずり軸回転に分解する」「観測の自転が安定なら、引きずり軸回転と潮汐のブレーキが釣り合う」・
+  //   決断事項 AN345 ④・統括の検証項目 R211): **金星・木星の観測の自転の分解の器と「釣り合い」の式**(段 K〔純関数の確かめ〕・D〔4 構成の瞬間の分解 × 求積 8/12/16〕・
+  //   R〔源の半径・受け手の自己・宣言の ε・分母を受け手の中心で固定〕・P〔対と行の分母〕・A〔係数の走査〕・T〔瞬間の潮汐の率〕・E〔釣り合いの仮説 A/B/C の時間発展〕)。
+  //   html は本の宣言を読むだけ(🌋・🏀・木星系の二次元の本 —— 宣言から探す)。軸引きずりの球面の核・三次元の CTL・内部熱は器の参照の純関数(エンジンの式ではない —— 他の枝の段・宣言に依存しない)。
+  //   所要は第307便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('spindecomp-307c', 'node tests/exp-w307c-spindecomp.mjs', ['tests/out/spindecomp-w307c.json'], 12, { secSource: 'w307c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/spindecomp-w307c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第307便c: 金星・木星の観測の自転の分解(太陽–金星・太陽–木星・木星–イオ・太陽–木星–イオ —— 球面の回転引きずりの場の受け手の球面の剛体回転成分)・係数の走査・対と行の分母・「釣り合い」の仮説 A/B/C の時間発展(三次元の CTL と内部熱の参照の純関数 —— 値だけ・エンジンと宣言は変えない)' }),
+  // ==== 第307便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1192,6 +1220,11 @@ export const EXTERNAL_VOLATILE = {
   // 第306便e(AN339 の案 (A)・R208): 第305便の 🟪 の宣言の凍結の写し(tests/lib-w306e-pre.mjs が読む —— 書き換えない・除く欄は無い。正本 charonfix-w306e と歴史の記録の器
   //   〔charonaudit-305e・refit-303a・inertialr2-303b・earthmoon-303c〕の入力)
   'tests/data-w306e-decl305.json': [],
+  // ==== 第307便e の塊(ここから)====
+  // 第307便e(AN340 ④・AN342 ③・AN344 ①・R213): 第306便の 🌦️🟪 の fitRecord と在位の惑星 7 本の abBody の凍結の写し(tests/lib-w307e-pre.mjs が読む —— 書き換えない・
+  //   除く欄は無い。歴史の記録の器〔emresolve-306c・charonfix-306e〕の段 record の「本の記録と同じか」の門と QA preset.fitRole307 の入力)
+  'tests/data-w307e-decl306.json': [],
+  // ==== 第307便e の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
