@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
+ "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.005
+   "wallSec": 0.007
   },
   "K": {
-   "wallSec": 0.005
+   "wallSec": 0.009
   },
   "L": {
-   "wallSec": 0.262
+   "wallSec": 0.248
   },
   "S": {
-   "wallSec": 0.19
+   "wallSec": 0.136
   },
   "V": {
-   "wallSec": 0.911
+   "wallSec": 0.594
   },
   "E": {
-   "wallSec": 15.48
+   "wallSec": 15.552
   },
   "P": {
    "wallSec": 0.003
   }
  },
- "elapsedS": 18.66,
+ "elapsedS": 18.404,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
-  "generatedAt": "2026-10-18T11:30:59.012Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T12:34:37.428Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7040978,
-    "sha256": "68ee8a3477bae58493a0a3c390096c3f86d34a40541b7b1d84db7ef173695636",
-    "mtime": "2026-10-18T11:29:44.632Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    }
   ],
   "code": [
@@ -3903,55 +3903,55 @@
     "file": "tests/exp-w308a-bevel.mjs",
     "bytes": 44864,
     "sha256": "7e98f4c743d4cb8dd07d6afbc44b854a6a2f5aaf1b41effece85d6dfc6324470",
-    "mtime": "2026-10-18T10:23:34.588Z"
+    "mtime": "2026-10-18T11:41:54.590Z"
    },
    {
     "file": "tests/lib-w308a-bevel.mjs",
     "bytes": 7642,
     "sha256": "afd3f7125050cf7a2639b6caa848c363ee915ff9c2d31a27105a8b85556ec6f1",
-    "mtime": "2026-10-18T10:13:16.735Z"
+    "mtime": "2026-10-18T11:41:54.593Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-10-18T09:53:27.675Z"
+    "mtime": "2026-10-17T21:20:30.822Z"
    },
    {
     "file": "tests/exp-w307a-sphereaxial.mjs",
     "bytes": 42108,
     "sha256": "487fd132f93bc670672f2fc12aadcd17e31732dc552f8fe07c8ea07e5557c73a",
-    "mtime": "2026-10-18T10:20:24.209Z"
+    "mtime": "2026-10-18T11:41:54.588Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 37764,
     "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-18T09:53:27.515Z"
+    "mtime": "2026-10-17T22:20:39.668Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
     "bytes": 21642,
     "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
-    "mtime": "2026-10-18T09:53:27.679Z"
+    "mtime": "2026-10-17T22:20:39.671Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-18T09:53:27.555Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-18T09:53:27.547Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-18T09:53:27.567Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
   "codeSha256": "4bd2026a174415be996f5b64647884e1fabbbf552eda520bcec74e1743d6a479",
@@ -4018,11 +4018,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1389,
-   "segments": 1256,
-   "closureShare": 0.3304
+   "names": 1407,
+   "segments": 1274,
+   "closureShare": 0.3326
   },
-  "scopeSha256": "00eddd0e5fe5899e45062d9d2ee89bb7bf3b17c2e536b4fad53994c41a9498bb",
+  "scopeSha256": "b433fdff073bc4caa1c6eb182802dc80924e78fa939e410e9b9fea6fc6b869e5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
