@@ -117,7 +117,10 @@ const ALLOW = {};
 // 第296便d(原仮定者の裁定(第86報)・統括の検証項目 R160): 比較ゲート SAMPLES の中で counterring だけが 60frames ≈ 180 ms と短く(他は 600〜2000 ms)、
 // 負荷の揺れが比に出やすい(第295便の手元の記録: ペア比 [0.854 0.993 1.094])。測定の長さを他の本と同じ桁に揃える(60→240frames ≈ 0.7 s/rep)。
 // **閾値 1.10・判定式・ペア比の中央値・走査順は不変**(比の閾値は変えない —— 長さだけ揃える)
-const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480,
+// 第308便d(統括の検証項目 R217 —— 第307便の教訓): 🌱starSeed(3 体・1 步 約 2 µs)は初回の比が 1.13〜1.33 に振れ、第307便のゲートで初回と再トスの両方が 1.169 で外れた
+// (基点 html との 1 步の比は ×0.98 —— 回帰ではない)。測定の長さを 30000→60000frames(≈ 0.3 s/rep —— 1 回の測定の先頭の JIT の立ち上がり〔+80〜100 ms〕の重みを半分に)へ。
+// **閾値 1.10・判定式・ペア比の中央値・走査順は不変**(第296便d と同じ型 —— 長さだけ)。手元の散らばり(同じ html の 2 ページ・root と beta)と長さの効果は docs/PHYSICS.md〔第308便d〕④
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 60000, merger: 240, freebox: 480,
   frictionHeat: 480, nebulaRotor: 480, counterring: 240 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。

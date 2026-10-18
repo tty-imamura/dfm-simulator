@@ -180,6 +180,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.spinVisCap307 ui.axisGizmo307 ui.pickerGeoLine307 ui.pickerEmergence307 ui.paramAlphaGrey307 ui.paramDragGrey307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.pickerSeparators ui.pickerBadgeAxes ui.pickerOtherTriState ui.pickerOtherFold ui.pickerStatusAxes ui.presetpicker ui.samplePicker ui.paramOrderDrag wave124.ui"
 # ==== 第307便d の塊(ここまで)====
+# ==== 第308便d の塊(ここから)====
+# 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
+#   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
+#   第307便の fitRecord の写しで照合する世代切替の preset.revertGLoc303
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303"
+# ==== 第308便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
