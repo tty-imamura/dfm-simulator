@@ -3920,7 +3920,18 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w308a-bevel.mjs`(版 w308a-bevel-1・`W308A_OUT`・`W308A_QUICK`)・lib `tests/lib-w308a-bevel.mjs`(参照 —— 源の一様球の求積・点の核の分母・数値の微分・体積平均)→ `tests/out/bevel-w308a.json`(段 bevel-308a)。
 - QA: `docs.bevel308`(root は SKIP —— 世代切替 = html の `REL_DRAG_AXIAL_BEVEL_VERSION = "w308a-axial-bevel-1"`。正本の門・受理の契約・gain 0 = axial off・チェックポイントの往復・閉じた式と参照・級数・文書・禁句)。`docs.sphereAxial307` は正本の遠方の数が動く(鎖で作り直す)。
 
-## 109. 第308便d —— 三次元の明示潮汐の受け手の受理の警告(傾きの宣言・半径の下限)と fitRecord の標的の役割を 🌡️🟫🌘 へ(決断事項 AN350・AN351・統括の検証項目 R217・**警告と宣言の記録だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・在位の本は三次元の潮汐を宣言しない・**SYSTEM_PROMPT には載せない**)
+
+## 109. 第308便b —— 元の自転軸の維持と慣性自転への駆動 `physics.relativeDrag.spinDrag.axisHold`(原仮定者の裁定(第101報)AN348 → (C)・(第102報)①・決断事項 AN348・AN349・AN355・統括の検証項目 R215・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `spinDrag.axisHold:{tauC, reaction?, sourceHold?, receivers?}`(axial:"on" の本だけ・核は "mu2"/"sphere" —— 旧法則の凍結比較〔gain〕では拒否)。`tauC`(駆動の時定数 —— 正の有限数・1e-30〜1e30・本の時間単位)・`reaction`("none" 既定 —— 受け手の駆動だけ / "source" —— −τ を源の慣性自転へ)・`sourceHold`(慣性自転を宣言の値に保つ天体の添字の配列 —— 外からの駆動の近似)・`receivers`(平行な分の駆動を受ける天体の添字の配列 —— 省略は軸引きずりの受け手の全部)。未知の鍵・配列でない・重複・空の receivers は拒否。正準形は宣言したときだけ(`{tauC, reaction, sourceHold?, receivers?}` —— 添字は昇順)。版 `REL_DRAG_AXIS_HOLD_VERSION` = "w308b-axishold-1"。
+- **垂直な分(軸の維持)**: 傾きを持つ受け手(軸を有効化し歳差の宣言が無い)は軸引きずりの ω⊥ で軸を回さない。維持のトルク τ_hold = −ω⊥ × J(J = I s â)を帳簿に積む(仕事 0 —— 源へは返さない)。
+- **平行な分(駆動 —— 候補の応答則)**: τ_ij = (I_i p_ij/τ_C) â_i を慣性自転 S.spin へ(J の補償和 —— 明示潮汐の受け手は潮汐の和と同じ)。p_ij は源 j の ω_ij の受け手の軸への射影(傾きを持たない受け手は今の経路の符号つきのスカラー)。引きずり軸回転 rotADr はそのまま(慣性自転へ足し込まない)。I = f m R²(f は明示潮汐の inertia・無い本は ½)。axisHold の本は S.spin を倍精度にする。
+- **帳簿と読み口**: `inertialDrag3SpinState(S).axisHold`(`HP.inertialDrag3HoldStateOf`)—— driveL・reactL・outL(状態へ入れなかった力積)・supplyL/supplyE(供給項)・pairL(駆動 + 反作用)・stateL(結合が状態の自転の角運動量へ入れた分)・hold(axesHeld・L・work・torqueMax)・spinDK・Ereq/EreqPos/EreqNeg(別に要るエネルギー —— 厳密な ΔK の和)・P1(一次の仕事)・Ppair(直近の率)・lastDJ・inertia。HP: `validateAxisHold`・`inertialDrag3HoldStep`・`inertialDrag3HoldF`・`REL_DRAG_AXIS_HOLD_*`・`INERTIAL_DRAG3_HOLD_SC`。
+- **状態の契約**: INERTIAL_DRAG3_SC(帳簿のスカラー inertialDrag3Hold* —— inertialDragCkSnap の 1 組でチェックポイントと複製が運ぶ)・INERTIAL_DRAG_CK_SAMPLES(_rdHoldJh/_rdHoldJl/_rdHoldOmW —— 自前の J の補償和)・SIM_STEP_SCRATCH(_rdHoldP —— 受け手 × 源の ω_ij の記録・_rdHoldDJ/_rdHoldQX/QY/QZ)・SIM_BUILD_RESET(機能 inertialDrag の正規表現が覆う)。対の記録は n ≤ REL_DRAG_AXIS_HOLD_NMAX(256)。
+- **器と正本**: `tests/exp-w308b-hold.mjs`(版 w308b-hold-1・純関数 `tests/lib-w308b-hold.mjs`・`W308B_OUT`・`W308B_QUICK`)→ `tests/out/hold-w308b.json`(段 hold-308b)。二重計上の型 (a)/(b)/(c)・接点 1 つの散逸の結合・CTL の型・金星と木星の写し(規格化した潮汐 —— 観測の k₂・遅延ではない)。
+- **QA**: `behavior.axisHold308`・`docs.axisHold308`(root は SKIP・世代切替は html の `REL_DRAG_AXIS_HOLD_VERSION`)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。τ_C を導出した量と書かない(候補の応答則の宣言)。相互の引きずりで reaction:"source" を全部の受け手に回すと、相互の駆動が作用・反作用の対の配置で 2 倍・同じ向きの配置で 0 になる(第102報 ① の確かめ —— PHYSICS〔第308便b〕)。供給項を太陽の収縮の模型・太陽の自転の分解と書かない。自転の釣り合い・帳簿の閉じを、器が示した範囲を超えて主張しない。
+## 110. 第308便d —— 三次元の明示潮汐の受け手の受理の警告(傾きの宣言・半径の下限)と fitRecord の標的の役割を 🌡️🟫🌘 へ(決断事項 AN350・AN351・統括の検証項目 R217・**警告と宣言の記録だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・在位の本は三次元の潮汐を宣言しない・**SYSTEM_PROMPT には載せない**)
 
 - **三次元の潮汐の受け手の警告**(`tide3ReceiverWarnings` —— 版 w308d-tide3recv-1・拒否はしない): 三次元の本(`physics.coord:"3d"`)で潮汐を受ける天体(`physics.tide` と天体の `tide:{k2, lag}` —— 足さない理由の無い本)に、軸を動かせる傾きの宣言 `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}`(歳差 `precessionRate` を宣言しない)が無いと、潮汐のトルクの軸に垂直な成分 τ⊥ は数えるだけで慣性自転の軸を回さない(帳簿 tidePerpN)—— 受理で警告する。歳差を宣言した天体(規定運動の軸)も同じ理由で別の文の警告。
 - **半径の下限の警告**: 天体の `tide` を宣言した single の `radius` が明示半径の下限(`physics.radiusFloor` —— 未宣言は 0.01・宣言で 0.001 まで・較正クラスの本では使えない)に丸められると、潮汐の B = G k₂ m² R⁵ は丸めた半径を読む(B は (下限/宣言)⁵ 倍)—— 警告の文に倍率を書く。直し方は `physics.radiusFloor` の宣言か単位の選び直し。
