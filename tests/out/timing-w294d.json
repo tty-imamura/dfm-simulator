@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便d",
   "target": "beta/index.html",
-  "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
-  "generatedAt": "2026-10-17T02:45:26.513Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T04:32:58.445Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1721937,
-    "sha256": "54279c8e89e30d532f433d6b8856611a63963ebfcd5574fffca53d897c6c03e7",
-    "mtime": "2026-10-17T01:50:12.018Z"
+    "bytes": 1719960,
+    "sha256": "8496f4a708841b261f40479877ff9c90e1c4fa0299342223b975dbee57896a23",
+    "mtime": "2026-10-17T23:42:43.898Z"
    }
   ],
   "code": [
@@ -28,9 +28,9 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 324148,
-    "sha256": "eece212ce98ab076d3e69ec6a8396bfd45717919301b39894e145fefc7bd87fa",
-    "mtime": "2026-10-16T19:11:14.396Z"
+    "bytes": 329673,
+    "sha256": "e753b1efba4f0252cdcbd6c8249c8da9466fa64872ced04f0227c1653b71e25e",
+    "mtime": "2026-10-17T22:20:45.757Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-09T10:19:39.599Z"
    }
   ],
-  "codeSha256": "08104043ab711439b118b9efc583ac3df48f35561f486d42336b9e33fb15148c",
+  "codeSha256": "c9e92b7fa82c3b0163af57580da378cd221993304a1df4de1b098ca944bb78a7",
   "harnessVersion": "w294d-timing-1",
   "ruling": "原仮定者の裁定(第84報): 較正走行と QA で時間が掛かっているサンプルについて、改善を行う",
   "reading": "統括の検証項目 R151: 先に内訳を測り、物理・入力・窓・抽出器・判定を変えずに時間を減らす(速さと判定は別の文)",
@@ -62,16 +62,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1321,
-   "segments": 1190,
-   "closureShare": 0.3259
+   "names": 1364,
+   "segments": 1231,
+   "closureShare": 0.3295
   },
-  "scopeSha256": "03e3813d72e13ed77b9dc17ef65d4569d16ee7b804c18f8d70b2b4013acd7de0",
+  "scopeSha256": "63855b8a3002d1b8d200cc03fde22cd60a9e7b52aac90e93e2e102bd57b3c19b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "bff3aaecd5ae48fc376381af7916fddd040e4bb0ac40c56934f62881b8e6b2b5",
+    "stableSha256": "0961b7526df833fcefcbfd1071daab80ab9ff7acac68ec27e3743e0d9a48d2c4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -99,7 +99,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "61da5b66dfab0762c676f0d272ffb0aee453ffb2d9b40935229d8844f7cb4daf",
+    "stableSha256": "bfb4038e430e6de517afb679c2d1be8bbdb49d45a89d6a87f6bd243995b18af8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -132,14 +132,14 @@
  "sources": {
   "calaudit": {
    "file": "tests/out/calaudit-w249.json",
-   "generatedAt": "2026-10-17T01:50:11.787Z"
+   "generatedAt": "2026-10-17T23:42:43.635Z"
   },
   "qa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "sha256": "078bedaf4e975f9ded708d7bd50689464acaae6997188a9495f86465e4ac62e7",
-   "commit": "4c0a3fe087c1b00b138aacf0f0c37698c5ad670c",
-   "date": "2026-10-16T12:15:45.891Z",
-   "targetSha256": "57c21ec8d54f1c83eca5cd59d111c9a50c2341624f8535dc8b3d8350615f1518",
+   "sha256": "7cbc790f0b9d58e2f735232a65d20c2620abf932360d9af005649bad96616752",
+   "commit": "2198f866d96fc0a4d0d9f19673c03dfffb8337da",
+   "date": "2026-10-17T03:58:47.721Z",
+   "targetSha256": "c8f732a17c82c00aeffffe25077ddf696050c2cd84670da06b8f053c95e5dad0",
    "note": "QA の記録(QA が走るたびに変わる)—— 来歴の inputs に入れず、読んだ版の sha をここに写す"
   },
   "chain": "tests/lib-w281a-regentable.mjs の REGEN_STEPS(sec —— 段の実測秒の記録)"
@@ -154,8 +154,8 @@
      "n": 127,
      "dt": 0.016,
      "steps": 2042988,
-     "wallSec": 138.362,
-     "rateStepsPerSec": 15456,
+     "wallSec": 142.897,
+     "rateStepsPerSec": 13263,
      "targets": [
       "C環内縁",
       "ミマス",
@@ -170,8 +170,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 90.688,
-     "rateStepsPerSec": 465116,
+     "wallSec": 98.994,
+     "rateStepsPerSec": 62893,
      "targets": [
       "カロン"
      ],
@@ -189,8 +189,8 @@
      "n": 94,
      "dt": 0.016,
      "steps": 1075028,
-     "wallSec": 58.035,
-     "rateStepsPerSec": 17652,
+     "wallSec": 59.103,
+     "rateStepsPerSec": 17079,
      "targets": [
       "ミランダ",
       "アリエル",
@@ -207,8 +207,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 40000000,
-     "wallSec": 48.801,
-     "rateStepsPerSec": 357143,
+     "wallSec": 52.054,
+     "rateStepsPerSec": 400000,
      "targets": [
       "月"
      ],
@@ -226,8 +226,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 13631880,
-     "wallSec": 20.415,
-     "rateStepsPerSec": 370370,
+     "wallSec": 21.29,
+     "rateStepsPerSec": 454545,
      "targets": [
       "B"
      ],
@@ -245,8 +245,8 @@
      "n": 5,
      "dt": 0.016,
      "steps": 5405815,
-     "wallSec": 16.608,
-     "rateStepsPerSec": 294118,
+     "wallSec": 18.649,
+     "rateStepsPerSec": 285714,
      "targets": [
       "イオ",
       "エウロパ",
@@ -267,8 +267,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 9439328,
-     "wallSec": 12.579,
-     "rateStepsPerSec": 526316,
+     "wallSec": 13.313,
+     "rateStepsPerSec": 198020,
      "targets": [
       "B"
      ],
@@ -276,13 +276,13 @@
       "steps": 18878657,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 24.617
+      "reusedFromWallSec": 26.014
      },
      "dtQuarter": {
       "steps": 37757313,
       "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 53.839
+      "skippedBy": null,
+      "reusedFromWallSec": 51.141
      }
     },
     {
@@ -291,8 +291,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 7280208,
-     "wallSec": 8.833,
-     "rateStepsPerSec": 714286,
+     "wallSec": 9.335,
+     "rateStepsPerSec": 487805,
      "targets": [
       "金星"
      ],
@@ -310,8 +310,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 5932383,
-     "wallSec": 7.659,
-     "rateStepsPerSec": 555556,
+     "wallSec": 7.833,
+     "rateStepsPerSec": 408163,
      "targets": [
       "B"
      ],
@@ -319,37 +319,13 @@
       "steps": 11864765,
       "wallSec": null,
       "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 14.801
+      "reusedFromWallSec": 15.894
      },
      "dtQuarter": {
       "steps": 23729530,
       "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 32.143
-     }
-    },
-    {
-     "id": "saturnZonalD68",
-     "emoji": "📡",
-     "n": 11,
-     "dt": 0.016,
-     "steps": 668676,
-     "wallSec": 6.854,
-     "rateStepsPerSec": 75758,
-     "targets": [
-      "D68"
-     ],
-     "dtHalf": {
-      "steps": 1337353,
-      "wallSec": null,
-      "skippedBy": "reuse-dt2",
-      "reusedFromWallSec": 13.061
-     },
-     "dtQuarter": {
-      "steps": 2674708,
-      "wallSec": null,
-      "skippedBy": "reuse",
-      "reusedFromWallSec": 28.642
+      "skippedBy": null,
+      "reusedFromWallSec": 30.761
      }
     },
     {
@@ -358,8 +334,8 @@
      "n": 3,
      "dt": 0.016,
      "steps": 4091814,
-     "wallSec": 6.624,
-     "rateStepsPerSec": 800000,
+     "wallSec": 6.953,
+     "rateStepsPerSec": 833333,
      "targets": [
       "フォボス",
       "ダイモス"
@@ -373,13 +349,37 @@
      "dtQuarter": null
     },
     {
+     "id": "saturnZonalD68",
+     "emoji": "📡",
+     "n": 11,
+     "dt": 0.016,
+     "steps": 668676,
+     "wallSec": 6.921,
+     "rateStepsPerSec": 72727,
+     "targets": [
+      "D68"
+     ],
+     "dtHalf": {
+      "steps": 1337353,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 13.69
+     },
+     "dtQuarter": {
+      "steps": 2674708,
+      "wallSec": null,
+      "skippedBy": null,
+      "reusedFromWallSec": 27.269
+     }
+    },
+    {
      "id": "psrDoubleAB",
      "emoji": "📻",
      "n": 2,
      "dt": 0.016,
      "steps": 3312950,
-     "wallSec": 4.26,
-     "rateStepsPerSec": 689655,
+     "wallSec": 4.376,
+     "rateStepsPerSec": 289855,
      "targets": [
       "B"
      ],
@@ -397,7 +397,7 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2850199,
-     "wallSec": 3.193,
+     "wallSec": 3.285,
      "rateStepsPerSec": 1176471,
      "targets": [
       "水星"
@@ -416,8 +416,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 2180354,
-     "wallSec": 2.873,
-     "rateStepsPerSec": 666667,
+     "wallSec": 3.1,
+     "rateStepsPerSec": 645161,
      "targets": [
       "B"
      ],
@@ -435,8 +435,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 1904169,
-     "wallSec": 2.601,
-     "rateStepsPerSec": 952381,
+     "wallSec": 2.466,
+     "rateStepsPerSec": 1000000,
      "targets": [
       "トリトン"
      ],
@@ -454,8 +454,8 @@
      "n": 3,
      "dt": 0.016,
      "steps": 885179,
-     "wallSec": 1.408,
-     "rateStepsPerSec": 444444,
+     "wallSec": 1.56,
+     "rateStepsPerSec": 281690,
      "targets": [
       "月"
      ],
@@ -473,8 +473,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 932492,
-     "wallSec": 1.262,
-     "rateStepsPerSec": 606061,
+     "wallSec": 1.22,
+     "rateStepsPerSec": 833333,
      "targets": [
       "B"
      ],
@@ -492,8 +492,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 681306,
-     "wallSec": 0.656,
-     "rateStepsPerSec": 1176471,
+     "wallSec": 0.763,
+     "rateStepsPerSec": 1111111,
      "targets": [
       "B"
      ],
@@ -511,8 +511,8 @@
      "n": 2,
      "dt": 0.016,
      "steps": 34013,
-     "wallSec": 0.123,
-     "rateStepsPerSec": 588235,
+     "wallSec": 0.104,
+     "rateStepsPerSec": 344828,
      "targets": [
       "B"
      ],
@@ -532,11 +532,11 @@
     "earthMoonReal",
     "psrB1534"
    ],
-   "wallSecDt": 431.834,
-   "wallSecRun": 431.834,
+   "wallSecDt": 454.216,
+   "wallSecRun": 454.216,
    "transcribedSec": {
-    "dtHalf": 52.479,
-    "dtQuarter": 114.624
+    "dtHalf": 55.598,
+    "dtQuarter": 0
    }
   },
   "top5": [
@@ -545,15 +545,15 @@
     "emoji": "💍",
     "n": 127,
     "steps": 2042988,
-    "wallSec": 138.362,
-    "rateStepsPerSec": 15456,
-    "usPerStepLive": 65.92,
-    "stepSecRecord": 132.181,
-    "extractShareLive": 0.03,
-    "splitFrom": "record-rate",
-    "stepSec": 132.181,
-    "extractSec": 6.181,
-    "rateProbeSec": 1.617,
+    "wallSec": 142.897,
+    "rateStepsPerSec": 13263,
+    "usPerStepLive": 69.89,
+    "stepSecRecord": 154.037,
+    "extractShareLive": 0,
+    "splitFrom": "live-ratio",
+    "stepSec": 142.897,
+    "extractSec": 0,
+    "rateProbeSec": 1.885,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -562,15 +562,15 @@
     "emoji": "🥶",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 90.688,
-    "rateStepsPerSec": 465116,
-    "usPerStepLive": 2.129,
-    "stepSecRecord": 86,
-    "extractShareLive": 0.039,
-    "splitFrom": "record-rate",
-    "stepSec": 86,
-    "extractSec": 4.688,
-    "rateProbeSec": 0.054,
+    "wallSec": 98.994,
+    "rateStepsPerSec": 62893,
+    "usPerStepLive": 1.997,
+    "stepSecRecord": 636.001,
+    "extractShareLive": 0.059,
+    "splitFrom": "live-ratio",
+    "stepSec": 93.153,
+    "extractSec": 5.841,
+    "rateProbeSec": 0.398,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
@@ -584,15 +584,15 @@
     "emoji": "💠",
     "n": 94,
     "steps": 1075028,
-    "wallSec": 58.035,
-    "rateStepsPerSec": 17652,
-    "usPerStepLive": 53.43,
-    "stepSecRecord": 60.901,
+    "wallSec": 59.103,
+    "rateStepsPerSec": 17079,
+    "usPerStepLive": 54.21,
+    "stepSecRecord": 62.944,
     "extractShareLive": 0,
     "splitFrom": "live-ratio",
-    "stepSec": 58.035,
+    "stepSec": 59.103,
     "extractSec": 0,
-    "rateProbeSec": 1.416,
+    "rateProbeSec": 1.464,
     "dtHalf": null,
     "dtQuarter": null
    },
@@ -601,15 +601,15 @@
     "emoji": "🌙",
     "n": 2,
     "steps": 40000000,
-    "wallSec": 48.801,
-    "rateStepsPerSec": 357143,
-    "usPerStepLive": 1.055,
-    "stepSecRecord": 112,
-    "extractShareLive": 0.083,
+    "wallSec": 52.054,
+    "rateStepsPerSec": 400000,
+    "usPerStepLive": 1.06,
+    "stepSecRecord": 100,
+    "extractShareLive": 0.09,
     "splitFrom": "live-ratio",
-    "stepSec": 44.751,
-    "extractSec": 4.05,
-    "rateProbeSec": 0.07,
+    "stepSec": 47.369,
+    "extractSec": 4.685,
+    "rateProbeSec": 0.063,
     "dtHalf": {
      "steps": 80000000,
      "wallSec": null,
@@ -623,15 +623,15 @@
     "emoji": "📿",
     "n": 2,
     "steps": 13631880,
-    "wallSec": 20.415,
-    "rateStepsPerSec": 370370,
-    "usPerStepLive": 1.274,
-    "stepSecRecord": 36.806,
-    "extractShareLive": 0.116,
+    "wallSec": 21.29,
+    "rateStepsPerSec": 454545,
+    "usPerStepLive": 1.309,
+    "stepSecRecord": 29.99,
+    "extractShareLive": 0.123,
     "splitFrom": "live-ratio",
-    "stepSec": 18.047,
-    "extractSec": 2.368,
-    "rateProbeSec": 0.068,
+    "stepSec": 18.671,
+    "extractSec": 2.619,
+    "rateProbeSec": 0.055,
     "dtHalf": {
      "steps": 27263758,
      "wallSec": null,
@@ -646,205 +646,205 @@
   "split": "step = 走った步数 / calaudit が走行の直前に同じ負荷で測った步/秒(record-rate)。それが壁時計を超える本(n=2 —— 20000 步の測定が短すぎる)は、live で同じページに交互に測った「step だけ」と「step + 抽出の代理」の比で壁時計を分ける(live-ratio)/ 抽出 = 壁時計 − step(步ごとの検出器・停止の検査)/ 前置の步/秒の測定 = 25000 步 ÷ 步/秒(壁時計の外 —— 走らせる段ごと)。live の μs/步 は別の時刻・別の負荷の値で、比だけを使う"
  },
  "qa": {
-  "total": 1195,
-  "durationMs": 3243701,
-  "wallDurationMs": 3243875,
+  "total": 1204,
+  "durationMs": 3031222,
+  "wallDurationMs": 3031393,
   "tier": "full",
   "prefixMs": {
-   "replay": 23,
+   "replay": 20,
    "changed": null
   },
-  "syntaxMs": 248,
+  "syntaxMs": 235,
   "syntaxNote": "第294便d より前の qa.mjs は前置(② 前回 FAIL の先行・③ 変更依存の先行)の時間を syntax に請求していた(lastAddAt の起点)。第294便d 以降の記録では syntax は node --check だけ",
   "top15": [
    {
     "id": "lint.scopeStop",
-    "ms": 241671
+    "ms": 255648
    },
    {
     "id": "preset.roundtrip-builtins",
-    "ms": 221869
-   },
-   {
-    "id": "claim.galaxygeo2-outerboost",
-    "ms": 193865
+    "ms": 201587
    },
    {
     "id": "behavior.clusterScale",
-    "ms": 185909
+    "ms": 172213
    },
    {
-    "id": "behavior.drag3d298",
-    "ms": 126881
+    "id": "claim.galaxygeo2-outerboost",
+    "ms": 170488
    },
    {
     "id": "lint.scopeClosureSame294",
-    "ms": 117169
+    "ms": 120155
    },
    {
     "id": "lint.regenChain",
-    "ms": 98695
+    "ms": 115714
+   },
+   {
+    "id": "behavior.drag3d298",
+    "ms": 110878
    },
    {
     "id": "preset.layerAxisDecl",
-    "ms": 83265
+    "ms": 77636
    },
    {
     "id": "claim.galaxystd-outerboost",
-    "ms": 81809
+    "ms": 69851
    },
    {
     "id": "behavior.ref3d299",
-    "ms": 68049
+    "ms": 60831
    },
    {
     "id": "kernel.bitident",
-    "ms": 65030
-   },
-   {
-    "id": "ui.liveMeasure297",
-    "ms": 60688
+    "ms": 56824
    },
    {
     "id": "lint.regenScope",
-    "ms": 55614
+    "ms": 56259
    },
    {
-    "id": "behavior.wave100c",
-    "ms": 46854
+    "id": "ui.liveMeasure297",
+    "ms": 53764
    },
    {
     "id": "behavior.geo4Stable299",
-    "ms": 46687
+    "ms": 40900
+   },
+   {
+    "id": "behavior.wave100c",
+    "ms": 38039
    }
   ],
   "units": [
    {
     "unit": "W5b:phaseMultiseed",
     "where": "worker",
-    "runMs": 358230
+    "runMs": 352370
    },
    {
     "unit": "W5b:phasechangeSchema",
     "where": "worker",
-    "runMs": 350081
+    "runMs": 319692
    },
    {
     "unit": "W5b:roundtripBuiltins",
     "where": "main(stolen)",
-    "runMs": 221869
+    "runMs": 201588
    },
    {
     "unit": "W5b:galaxyGeo2",
     "where": "main(stolen)",
-    "runMs": 193866
+    "runMs": 170489
    },
    {
     "unit": "W5c:galaxyAB",
     "where": "worker",
-    "runMs": 170703
+    "runMs": 151676
    },
    {
     "unit": "W5c:cosmicweb",
     "where": "worker",
-    "runMs": 159300
+    "runMs": 151271
    },
    {
     "unit": "W5c:collapseCooling",
     "where": "worker",
-    "runMs": 113880
+    "runMs": 109808
    },
    {
     "unit": "W5c:saturnLayered",
     "where": "worker",
-    "runMs": 112271
-   },
-   {
-    "unit": "W5c:convection24000",
-    "where": "worker",
-    "runMs": 105579
-   },
-   {
-    "unit": "W5b:selfrotorMultiseed",
-    "where": "worker",
-    "runMs": 94459
-   },
-   {
-    "unit": "W5c:saturn24000",
-    "where": "worker",
-    "runMs": 91342
+    "runMs": 105739
    },
    {
     "unit": "W5b:bhcoreSelfdrive",
     "where": "worker",
-    "runMs": 89668
+    "runMs": 95988
    },
    {
-    "unit": "W5b:galaxyStd",
-    "where": "main(stolen)",
-    "runMs": 81809
-   },
-   {
-    "unit": "W5c:fpDigests",
+    "unit": "W5c:convection24000",
     "where": "worker",
-    "runMs": 80484
+    "runMs": 95129
    },
    {
-    "unit": "W5b:reactionCap",
+    "unit": "W5b:selfrotorMultiseed",
     "where": "worker",
-    "runMs": 78846
+    "runMs": 93343
+   },
+   {
+    "unit": "W5c:saturn24000",
+    "where": "worker",
+    "runMs": 85270
    },
    {
     "unit": "W5c:saturnExp",
     "where": "worker",
-    "runMs": 77545
+    "runMs": 79923
+   },
+   {
+    "unit": "W5c:fpDigests",
+    "where": "worker",
+    "runMs": 75037
    },
    {
     "unit": "W5c:buoyancy",
     "where": "worker",
-    "runMs": 75566
+    "runMs": 73458
    },
    {
-    "unit": "W5b:nsThreeStage",
-    "where": "worker",
-    "runMs": 71272
+    "unit": "W5b:galaxyStd",
+    "where": "main(stolen)",
+    "runMs": 69851
    },
    {
     "unit": "W5b:bhcoreFree",
     "where": "worker",
-    "runMs": 64929
+    "runMs": 64773
+   },
+   {
+    "unit": "W5b:reactionCap",
+    "where": "worker",
+    "runMs": 64011
+   },
+   {
+    "unit": "W5b:toyLedger",
+    "where": "worker",
+    "runMs": 61010
    },
    {
     "unit": "W5b:galaxyDB",
     "where": "worker",
-    "runMs": 62581
+    "runMs": 54413
    }
   ],
   "heavy": [
    {
     "unit": "W5b:phaseMultiseed",
     "where": "worker",
-    "runMs": 358230
+    "runMs": 352370
    },
    {
     "unit": "W5b:phasechangeSchema",
     "where": "worker",
-    "runMs": 350081
+    "runMs": 319692
    },
    {
     "unit": "W5b:galaxyGeo2",
     "where": "main(stolen)",
-    "runMs": 193866
+    "runMs": 170489
    },
    {
     "unit": "W5b:roundtripBuiltins",
     "where": "main(stolen)",
-    "runMs": 221869
+    "runMs": 201588
    },
    {
     "unit": "W5c:galaxyAB",
     "where": "worker",
-    "runMs": 170703
+    "runMs": 151676
    }
   ],
   "w5": {
@@ -854,8 +854,8 @@
   }
  },
  "chain": {
-  "nCurrent": 165,
-  "secCurrent": 78999,
+  "nCurrent": 168,
+  "secCurrent": 79131,
   "nAlways": 13,
   "secAlways": 5195,
   "presetsAll": [
@@ -1487,7 +1487,7 @@
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    },
    {
     "key": "pn1",
@@ -1495,7 +1495,7 @@
     "loops": [
      "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    },
    {
     "key": "clusterAnalogy",
@@ -1503,7 +1503,7 @@
     "loops": [
      "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    },
    {
     "key": "contact285",
@@ -1511,7 +1511,7 @@
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    },
    {
     "key": "pnsources291",
@@ -1519,7 +1519,7 @@
     "loops": [
      "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    },
    {
     "key": "timing294",
@@ -1527,7 +1527,7 @@
     "loops": [
      "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
     ],
-    "retiredSecUpperPerHtml": 7.97
+    "retiredSecUpperPerHtml": 6.545
    }
   ],
   "retiredNote": "全本段のうち本ごとの走行の印がある段だけ、退役 33 本の build と loadPreset+32 步の和(1 html あたり)を上限の目安として添える。印の無い全本段(clusterStable・compose293・clusterAnalogy の門の走行等)は、領域の宣言が全本なだけで走るのは決まった本 —— 退役を外しても時間は減らない"
@@ -1540,37 +1540,37 @@
     "K": 20000,
     "nTargets": 3,
     "usPerStep": [
-     69.64,
-     63.59,
-     65.92
+     69.89,
+     70.82,
+     65.93
     ],
-    "usMedian": 65.92,
+    "usMedian": 69.89,
     "usProxy": [
-     65.03,
-     67.98,
-     72.86
+     69.535,
+     70.055,
+     65.565
     ],
-    "usProxyMedian": 67.98,
-    "extractShare": 0.03
+    "usProxyMedian": 69.535,
+    "extractShare": 0
    },
    {
     "id": "plutoCharonDiagInput",
     "n": 2,
-    "K": 465116,
+    "K": 62893,
     "nTargets": 1,
     "usPerStep": [
-     2.255,
-     2.112,
-     2.129
+     2.064,
+     1.997,
+     1.962
     ],
-    "usMedian": 2.129,
+    "usMedian": 1.997,
     "usProxy": [
-     2.132,
-     2.215,
-     2.324
+     2.14,
+     2.123,
+     2.084
     ],
-    "usProxyMedian": 2.215,
-    "extractShare": 0.039
+    "usProxyMedian": 2.123,
+    "extractShare": 0.059
    },
    {
     "id": "uranusReal",
@@ -1578,56 +1578,56 @@
     "K": 20000,
     "nTargets": 5,
     "usPerStep": [
-     54.36,
-     53.43,
-     52.54
+     55.34,
+     50.22,
+     54.21
     ],
-    "usMedian": 53.43,
+    "usMedian": 54.21,
     "usProxy": [
-     53.455,
-     55.265,
-     51.575
+     51.45,
+     53.64,
+     54.86
     ],
-    "usProxyMedian": 53.455,
+    "usProxyMedian": 53.64,
     "extractShare": 0
    },
    {
     "id": "earthMoonReal",
     "n": 2,
-    "K": 357143,
+    "K": 400000,
     "nTargets": 1,
     "usPerStep": [
-     1.276,
-     1.046,
-     1.055
+     1.06,
+     1.114,
+     1.043
     ],
-    "usMedian": 1.055,
+    "usMedian": 1.06,
     "usProxy": [
-     1.143,
-     1.15,
-     1.173
+     1.166,
+     1.183,
+     1.152
     ],
-    "usProxyMedian": 1.15,
-    "extractShare": 0.083
+    "usProxyMedian": 1.166,
+    "extractShare": 0.09
    },
    {
     "id": "psrB1534",
     "n": 2,
-    "K": 370370,
+    "K": 454545,
     "nTargets": 1,
     "usPerStep": [
-     1.386,
-     1.274,
-     1.271
+     1.538,
+     1.309,
+     1.3
     ],
-    "usMedian": 1.274,
+    "usMedian": 1.309,
     "usProxy": [
-     1.476,
-     1.442,
-     1.347
+     1.396,
+     1.56,
+     1.493
     ],
-    "usProxyMedian": 1.442,
-    "extractShare": 0.116
+    "usProxyMedian": 1.493,
+    "extractShare": 0.123
    }
   ],
   "subset": [
@@ -1635,9 +1635,9 @@
     "id": "saturnRingReal",
     "nFull": 127,
     "nStrip": 7,
-    "usFullMedian": 66.19,
-    "usStripMedian": 4.106,
-    "speedup": 16.12,
+    "usFullMedian": 74.71,
+    "usStripMedian": 4.479,
+    "speedup": 16.68,
     "singlesAfter": {
      "nSingle": 7,
      "steps": 2000,
@@ -1650,9 +1650,9 @@
     "id": "uranusReal",
     "nFull": 94,
     "nStrip": 6,
-    "usFullMedian": 54.02,
-    "usStripMedian": 3.581,
-    "speedup": 15.087,
+    "usFullMedian": 55.045,
+    "usStripMedian": 4.291,
+    "speedup": 12.828,
     "singlesAfter": {
      "nSingle": 6,
      "steps": 2000,
@@ -1667,55 +1667,55 @@
     "id": "earthMoonInertial",
     "K": 400000,
     "usPerStep": [
-     1.918,
-     2.074,
-     1.863
+     2.061,
+     1.911,
+     1.936
     ],
-    "usMedian": 1.918
+    "usMedian": 1.936
    },
    {
     "id": "inertialDragPair",
     "K": 400000,
     "usPerStep": [
-     2.178,
-     1.973,
-     1.863
+     2.051,
+     1.869,
+     1.944
     ],
-    "usMedian": 1.973
+    "usMedian": 1.944
    }
   ],
   "cost": {
    "build": {
-    "live": 405,
-    "retired": 897.2
+    "live": 443.6,
+    "retired": 491.3
    },
    "load32": {
-    "live": 18925.2,
-    "retired": 7072.3
+    "live": 14684.3,
+    "retired": 6053.4
    },
    "nRetired": 56,
    "nLive": 120
   },
   "closure": {
-   "scopes": 97,
+   "scopes": 100,
    "modes": [
     "legacy",
     "v3",
     "now"
    ],
-   "closures": 291,
-   "same": 291,
+   "closures": 300,
+   "same": 300,
    "diffs": [],
-   "digest": "a609abe53f7eded7782e8348a58c5c868990257fbd6fc54cd1b31d88c00dc73e",
+   "digest": "c006b550b7e45e4265723b2282e96339bdca4b9cec7328e5eb811a119cd4fa35",
    "msRef": [
-    20948
+    20098
    ],
    "msNew": [
-    10612
+    7612
    ],
-   "msRefMedian": 20948,
-   "msNewMedian": 10612
+   "msRefMedian": 20098,
+   "msNewMedian": 7612
   }
  },
- "elapsedS": 111.485
+ "elapsedS": 98.738
 }

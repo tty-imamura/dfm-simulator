@@ -3,73 +3,85 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便e",
   "target": "beta/index.html",
-  "targetSha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
-  "generatedAt": "2026-10-16T17:27:25.430Z",
+  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+  "generatedAt": "2026-10-18T04:33:23.667Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 6926475,
-    "sha256": "1b8d78defaf6fe7e38e2b57c1c72b6a1dc36be608041fa00d6c1cf7f8b34b1ba",
-    "mtime": "2026-10-16T17:23:23.114Z"
+    "bytes": 7021589,
+    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
+    "mtime": "2026-10-17T21:20:30.763Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-16T15:08:34.651Z"
+    "mtime": "2026-10-09T10:19:39.375Z"
    },
    {
     "file": "tests/data-w306e-decl305.json",
     "bytes": 9357,
     "sha256": "d1f905caef307d86aae81e7681254b9c8bb8f4e0243564c28280f247752c181a",
-    "mtime": "2026-10-16T15:49:48.814Z"
+    "mtime": "2026-10-16T17:38:33.222Z"
+   },
+   {
+    "file": "tests/data-w307e-decl306.json",
+    "bytes": 19645,
+    "sha256": "4b96c5ba5a6eb45808ff4b94479697dfb0ffe83ac2e47b2d2cd3f4344b15589f",
+    "mtime": "2026-10-17T20:57:03.155Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w306e-charonfix.mjs",
-    "bytes": 30388,
-    "sha256": "bfffdf23500c76990c331a0cb25ace3ddc452c338cec14df2917fe6cf4af8aac",
-    "mtime": "2026-10-16T16:26:28.064Z"
+    "bytes": 30879,
+    "sha256": "24c379dcceb9c44256cca34f5afe3da8506eb184542bd83fb8ae36c1582a617a",
+    "mtime": "2026-10-17T20:57:03.155Z"
    },
    {
     "file": "tests/exp-w305e-charonaudit.mjs",
     "bytes": 32921,
     "sha256": "1d78a008c7dccda811df9aecfba91492b7ffd7af6ab97d2c980d2582d8c5510f",
-    "mtime": "2026-10-16T15:33:06.347Z"
+    "mtime": "2026-10-16T17:38:33.226Z"
    },
    {
     "file": "tests/lib-w306e-pre.mjs",
     "bytes": 6131,
     "sha256": "aab5d86cdd4d70fd771157ecf398e4008c95aebe5d86665a6bfd7915b44d4e21",
-    "mtime": "2026-10-16T15:50:06.267Z"
+    "mtime": "2026-10-16T17:38:33.230Z"
+   },
+   {
+    "file": "tests/lib-w307e-pre.mjs",
+    "bytes": 8265,
+    "sha256": "cd33dbf2be424392ef2481beea2c5d954d1d4562859776cadef0e70f220e1ab9",
+    "mtime": "2026-10-17T20:57:03.155Z"
    },
    {
     "file": "tests/lib-w303e-fitstop.mjs",
     "bytes": 14158,
     "sha256": "058f3e87301851548e0290cfed23e263d3dd2a2fe81272af64e7098db4f33242",
-    "mtime": "2026-10-16T15:08:34.831Z"
+    "mtime": "2026-10-14T19:03:55.652Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-16T15:08:34.815Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-16T15:08:34.811Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-16T15:08:34.823Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "1088c813dafd35030e737141c12fddad115a00db258d4ff307b4325d579a0ed3",
+  "codeSha256": "b06847d10e37569e30bb41228816e3c9f57bc52615837fdf5175af6a78a7d0a9",
   "harnessVersion": "w306e-charonfix-1",
   "loadErrors": 0,
   "ruling": "決断事項 AN339(案 (A) —— DECISIONS v65 §0)・AN334 ④",
@@ -103,16 +115,22 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1339,
-   "segments": 1208,
-   "closureShare": 0.3254
+   "names": 1382,
+   "segments": 1249,
+   "closureShare": 0.3285
   },
-  "scopeSha256": "598448132c7e1f557bea3c679e45a2f9e6a01148db93b59a9cc6d1bcacf6571e",
+  "scopeSha256": "5d4bfecc2c9058ed1e7da92c2cd6eb46c06e4900b60fd3c9b3e7f28fa8cd623b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/data-w306e-decl305.json",
     "stableSha256": "d0ed64828713eb59a6934d34b0562ac55329b2ed695e6607e7987030dc496f59",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/data-w307e-decl306.json",
+    "stableSha256": "835f1fa4387ae54b21b5d976840287cb0f49c6779ddf242a27e60c295810731f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -275,11 +293,11 @@
    "M1_16": 551856.44309496,
    "late": 551856.4430958406,
    "eProxy": 3.989633641573282e-9,
-   "wallSec": 17.191,
+   "wallSec": 14.533,
    "steps": 2759283
   },
   "h2": {
-   "wallSec": 19.088,
+   "wallSec": 15.14,
    "dt": 0.08,
    "steps": 5518565,
    "revN": 8,
@@ -302,7 +320,7 @@
    }
   },
   "h4": {
-   "wallSec": 33.844,
+   "wallSec": 29.924,
    "dt": 0.04,
    "steps": 11037129,
    "revN": 8,
@@ -350,7 +368,7 @@
     "d": 0.0011411890154704452,
     "nan": false,
     "revN": 8,
-    "wallSec": 8.753
+    "wallSec": 7.644
    },
    {
     "eps": 0.0025,
@@ -358,7 +376,7 @@
     "d": 0.0003335564397275448,
     "nan": false,
     "revN": 8,
-    "wallSec": 10.058
+    "wallSec": 7.371
    }
   ],
   "extrapolated": 551856.4387835835,
@@ -555,5 +573,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 231.025
+ "elapsedS": 196.142
 }
