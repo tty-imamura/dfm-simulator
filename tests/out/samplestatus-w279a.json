@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.45-b307",
+  "betaBuild": "v1.45-b308",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T03:09:17.094Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T12:37:15.842Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 196547,
-    "sha256": "55a800db5577722c7a34e193cbebc804d433f0215256224ae6430d57acd6c3f3",
-    "mtime": "2026-10-18T03:09:17.055Z"
+    "bytes": 196978,
+    "sha256": "99e8cd241ed2ac68927e3822e86c3cd1378159e8a116460037c957511af02e1f",
+    "mtime": "2026-10-18T12:37:15.820Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -6442,6 +6442,12 @@
       "always": false
      },
      {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -6787,6 +6793,12 @@
       "always": false
      },
      {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7123,6 +7135,12 @@
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -31337,6 +31355,12 @@
       "always": false
      },
      {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -31676,9 +31700,27 @@
       "always": false
      },
      {
+      "key": "hold-308b",
+      "sec": 30,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "spindecomp-307c",
       "sec": 12,
       "share": 3,
+      "always": false
+     },
+     {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -32015,6 +32057,12 @@
       "always": false
      },
      {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -32348,9 +32396,27 @@
       "always": false
      },
      {
+      "key": "hold-308b",
+      "sec": 30,
+      "share": 2,
+      "always": false
+     },
+     {
       "key": "spindecomp-307c",
       "sec": 12,
       "share": 3,
+      "always": false
+     },
+     {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -32678,6 +32744,12 @@
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -33026,6 +33098,12 @@
       "always": false
      },
      {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -33353,6 +33431,12 @@
       "always": false
      },
      {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -33677,6 +33761,12 @@
       "key": "pairnorm-305a",
       "sec": 2400,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -35447,6 +35537,18 @@
       "key": "spindecomp-307c",
       "sec": 12,
       "share": 3,
+      "always": false
+     },
+     {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
+      "always": false
+     },
+     {
+      "key": "sunspin-308c",
+      "sec": 5,
+      "share": 11,
       "always": false
      },
      {
@@ -48705,6 +48807,12 @@
       "always": false
      },
      {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -49052,6 +49160,12 @@
       "key": "sphereaxial-307a",
       "sec": 90,
       "share": 4,
+      "always": false
+     },
+     {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
       "always": false
      },
      {
@@ -49403,6 +49517,12 @@
       "key": "sphereaxial-307a",
       "sec": 90,
       "share": 4,
+      "always": false
+     },
+     {
+      "key": "bevel-308a",
+      "sec": 20,
+      "share": 7,
       "always": false
      },
      {
@@ -62514,8 +62634,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 168,
-  "regenSecSum": 79131,
+  "regenSteps": 171,
+  "regenSecSum": 79186,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
