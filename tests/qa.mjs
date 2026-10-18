@@ -80541,6 +80541,148 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第307便c の塊(ここまで)====
+// ==== 第308便a の塊(ここから —— docs.bevel308 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第308便a(原仮定者の裁定(第101報)・決断事項 AN346・AN347・AN354・統括の検証項目 R214): docs.bevel308 —— **軸引きずりの鏡映の核**
+// ----   (spinDrag.axialModel:"bevel"・axialGain・axialNorm —— 源の自転を受け手への向きについて鏡映した軸・強さは回転引きずりの差分 × sinθ)と**遠方の M1 の外部の級数**
+// ----   (inertialSpinMomentFar —— "bevel" と "sphere" の M1・dM1/dr)の opt-in(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に REL_DRAG_AXIAL_BEVEL_VERSION = "w308a-axial-bevel-1" ∧ 正本 tests/out/bevel-w308a.json ∧ 器 tests/exp-w308a-bevel.mjs ∧ lib。
+// ----   固定値は正本と器の宣言から読む(器の gatesOf・physicsTables・docNumbers で正本から作り直す)。在位の本は宣言しない(省略で今の動作 —— ビット同一は bitsame/sigsame)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・宣言から探した本が領域の宣言 presets の中
+// ----   ② 受理の契約(正準形 2・拒否 8 例の理由の文)・在位の本に axialModel:"bevel"/axialNorm の宣言が無い・axialGain 0 と axial off の位置と速度の同一(🔩 の写し 20 步)・
+// ----      チェックポイントの往復(bevel の 🪛 の写し —— 帳簿の鍵 inertialDrag3AxBev* を含めて)・エンジンの inertialDrag3AxialBevelAt と lib の参照(求積 + 数値の微分)を
+// ----      QA の中で作り直す(2 配置 —— 尺度つきの相対 1e-8)・外部の級数と lib の級数(ε = 0・相対 1e-12)と求積(ε = 0.05・相対 1e-10)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第308便a〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG・README・AI_SPEC の節(見出しの語で探す)・再生成の段・.gitignore の例外・post-merge の ③′
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const bv308Out = path.join(ROOT, 'tests', 'out', 'bevel-w308a.json'), bv308Harn = path.join(ROOT, 'tests', 'exp-w308a-bevel.mjs'), bv308Lib = path.join(ROOT, 'tests', 'lib-w308a-bevel.mjs');
+  const bv308Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && bv308Html.indexOf('REL_DRAG_AXIAL_BEVEL_VERSION = "w308a-axial-bevel-1"') >= 0 && fs.existsSync(bv308Out) && fs.existsSync(bv308Harn) && fs.existsSync(bv308Lib))) {
+    console.log('SKIP docs.bevel308(第308便a の鏡映の軸引きずりの前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, BL = null;
+    try { J = JSON.parse(fs.readFileSync(bv308Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + bv308Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { BL = await import('file://' + bv308Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第308便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);   // 節の見出しの形で探す
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && BL) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== BL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      const declIds = (J.meta && J.meta.scope && J.meta.scope.presets) || [], foundIds = Object.values((J.E && J.E.ids) || {});
+      for (const id of foundIds) if (declIds.indexOf(id) < 0) bad.push('宣言から探した本 ' + id + ' が領域の宣言に無い');
+      if (J.axialVersion !== 'w308a-axial-bevel-1' || J.m1FarVersion !== 'w308a-m1far-1') bad.push('正本の核の版 ' + J.axialVersion + '/' + J.m1FarVersion);
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・写し ${foundIds.join('・')}`);
+      // ②
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+        const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+        const tilt = HP.allPresets().find((q) => q.id === 'chainDiskToy3dTilt'), disk = HP.allPresets().find((q) => q.id === 'chainDiskToy3d');
+        const tryS = (base, sd, mut) => { const q = clone(base); q.physics.relativeDrag.spinDrag = sd; if (mut) mut(q); const v = HP.validatePreset(q); return { ok: v.ok, msg: (v.errors || []).join(' '), sd: v.ok ? v.preset.physics.relativeDrag.spinDrag : null }; };
+        const a1 = tryS(tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' }), a2 = tryS(tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialNorm: 'speed', axialGain: 2.5 });
+        if (!(a1.ok && JSON.stringify(a1.sd) === JSON.stringify({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 1, axialNorm: 'diff' }))) bad.push('② bevel の正準形 ' + JSON.stringify(a1.sd) + ' ' + a1.msg.slice(0, 80));
+        if (!(a2.ok && JSON.stringify(a2.sd) === JSON.stringify({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 2.5, axialNorm: 'speed' }))) bad.push('② bevel(speed)の正準形 ' + JSON.stringify(a2.sd));
+        const rej = [[tilt, { rot: 'surfaceFlip', axial: 'off', axialModel: 'bevel' }, null, /axialModel:"bevel" は axial:"on" と一緒にだけ/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialCoupling: 4 }, null, /μ² 則の係数 —— axialModel:"bevel" では宣言しない/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialNorm: 'x' }, null, /axialNorm は "diff"/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'sphere', axialNorm: 'diff' }, null, /axialNorm は axialModel:"bevel" のときだけ/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialCoupling: 4, axialNorm: 'speed' }, null, /axialNorm は axialModel:"bevel" のときだけ/],
+          [tilt, { rot: 'surfaceFlip', axial: 'off', axialNorm: 'diff' }, null, /axialNorm は axialModel:"bevel"/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: -1 }, null, /axialGain/],
+          [tilt, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' }, (q) => { delete q.physics.relativeDrag.solver; q.bodies[0].dragCore = { massFrac: 0.5, radius: 3 }; }, /axialModel:"bevel" と一緒に宣言しない/]];
+        let nRej = 0;
+        for (const [b, sd, mut, re] of rej) { const r = tryS(b, sd, mut); if (r.ok || !re.test(r.msg)) bad.push('② 拒否されない/理由の文 ' + JSON.stringify(sd) + ' → ' + r.msg.slice(0, 100)); else nRej++; }
+        const decl = HP.allPresets().filter((q) => { const s1 = ((q.physics || {}).relativeDrag || {}).spinDrag, s2 = q.abBody && q.abBody.physicsPatch && q.abBody.physicsPatch.relativeDrag && q.abBody.physicsPatch.relativeDrag.spinDrag;
+          return [s1, s2].some((x) => x && (x.axialModel === 'bevel' || x.axialNorm !== undefined)); }).map((q) => q.id);
+        if (decl.length) bad.push('② 在位/内蔵の本が bevel を宣言 ' + decl.join(','));
+        const fpS = (S, keys) => { const h = crypto.createHash('sha1'); for (const k of keys) h.update(Buffer.from(Float64Array.from(S[k].subarray(0, S.n)).buffer)); return h.digest('hex'); };
+        const XV = ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin'], ALL = XV.concat(['rotA', 'sax', 'say', 'saz']);
+        const run = (base, sd, N) => { const q = clone(base); if (sd) q.physics.relativeDrag.spinDrag = sd; const v = HP.validatePreset(q); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S); for (let k = 0; k < N; k++) S.step(dt); return S; };
+        const g0 = run(disk, { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 0 }, 20), off = run(disk, { rot: 'surfaceFlip', axial: 'off' }, 20);
+        if (fpS(g0, XV) !== fpS(off, XV)) bad.push('② 🔩 の bevel axialGain 0 と axial off の位置・速度が同じでない');
+        let rz = true; for (let i = 0; i < g0.n; i++) if (g0.rotADr[i] !== 0) rz = false;
+        if (!rz) bad.push('② axialGain 0 で引きずり軸回転の角が 0 でない');
+        // チェックポイントの往復(bevel の 🪛 の写し —— 帳簿の鍵 inertialDrag3AxBev* を含めて保存した瞬間へ戻る)
+        { const q = clone(tilt); q.physics.relativeDrag.spinDrag = { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' };
+          const v = HP.validatePreset(q), S = HP.coord3d.makeSim(); S.build(clone(v.preset)); const dt = E('appStepDt')(S);
+          const fpk = (T) => fpS(T, ALL) + JSON.stringify([T.inertialDrag3AxBevN, T.inertialDrag3AxBevSkip, T.inertialDrag3AxBevFar, T.inertialDrag3AxBevNeg]) + fpS({ n: T.n, a: T.rotAIn, b: T.rotADr }, ['a', 'b']);
+          for (let k = 0; k < 15; k++) S.step(dt);
+          const o = E('ckSnapOne')(S); for (let k = 0; k < 15; k++) S.step(dt); const A = fpk(S);
+          E('ckRestoreOne')(S, o); for (let k = 0; k < 15; k++) S.step(dt); const B = fpk(S);
+          if (A !== B || !(S.inertialDrag3AxBevN > 0)) bad.push('② チェックポイントの往復が bevel の写しで同じ瞬間へ戻らない'); }
+        // エンジンの閉じた式と lib の参照(r⁻² が支配・r/R = 10・仰角 0° と 60° —— 求積 + 数値の微分)
+        let mx = 0;
+        for (const el of [0, 60]) {
+          const xr = BL.scale(BL.dirAt([0, 0, 1], el, 25), 10), lam = 1e-8;
+          const cfg = { C: 1, eps: 0, sources: [{ p: [0, 0, 0], m: 1, Om: 1, a: [0, 0, 1], R: 1 }], masses: [{ p: [0, 0, 0], m: 1 }], i2: [{ p: [0, 0, 0], q: 1 / lam }], Dconst: 0, pair: false };
+          const ref = BL.bevelRef(xr, cfg, { norm: 'diff', n: 12, hRel: 1e-3 });
+          const S = { n: 2, m: Float64Array.from([1, 1e-3]), x: Float64Array.from([0, xr[0]]), y: Float64Array.from([0, xr[1]]), z: Float64Array.from([0, xr[2]]), spin: Float64Array.from([1, 0]), radOv: Float64Array.from([1, 0]),
+            sax: Float64Array.from([0, 0]), say: Float64Array.from([0, 0]), saz: Float64Array.from([1, 1]), pinned: new Uint8Array(2), relDrag: { law: 'inertial', Wbg: 1, inertialR2: { lambda: lam, sources: 'all', self: 'off', env: 'off' } },
+            params: { G: 1, cLight: 1 }, _rdPairSet: null, _rdPairN: 2, _amKind: null };
+          const q = E('inertialDrag3AxialBevelAt')(S, 2, 1, 0, S.x, S.y, S.z, S.sax, S.say, S.saz, S.x[1], S.y[1], S.z[1], 1, 1, 'diff');
+          mx = Math.max(mx, BL.norm(BL.sub([q.wx, q.wy, q.wz], ref.omega)) / Math.abs(ref.terms[0].amp));
+          if (el === 0 && !(q.wz < 0)) bad.push('② 赤道の受け手が逆回転でない ' + q.wz);
+          if (el === 60 && !(q.wz > 0)) bad.push('② 仰角 60° の受け手の源の軸方向の成分が同じ向きでない ' + q.wz);
+        }
+        if (!(mx < 1e-8)) bad.push('② エンジンの鏡映の核と参照の差 ' + mx);
+        const far = E('inertialSpinMomentFar'), s1 = far(1e4, 1, 0), l1 = BL.m1Series(1e4, 1), s2 = far(1e3, 1, 0.05), q2 = BL.m1Quad(1e3, 1, 0.05, 16);
+        const e1 = Math.max(Math.abs(s1.M1 / l1.M - 1), Math.abs(s1.dM1 / l1.dM - 1)), e2 = Math.abs(s2.M1 / q2 - 1);
+        if (!(e1 < 1e-12)) bad.push('② 外部の級数と lib の級数の差 ' + e1);
+        if (!(e2 < 1e-10)) bad.push('② 外部の級数(ε > 0)と求積の差 ' + e2);
+        if (far(3.9, 1, 0) !== null) bad.push('② 外部の級数が r < 4(R+ε) で値を返す');
+        cases.push(`② 受理の契約(正準形 2・拒否 ${nRej}/${rej.length})・在位の宣言 0 本・gain 0 = axial off(🔩 20 步)・チェックポイントの往復(bevel)・鏡映の核と参照の差 ${mx.toExponential(2)}・級数 ${e1.toExponential(2)}/${e2.toExponential(2)}`);
+      } catch (e) { bad.push('② が走らない: ' + String(e).slice(0, 160)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第308便a〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第308便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第308便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第308便a〕が「## 7. 論文」の後');
+        for (const w of ['R214', '第101報', 'AN346', 'AN347', 'AN354', 'exp-w308a-bevel.mjs', 'lib-w308a-bevel.mjs', 'bevel-w308a.json', 'docs.bevel308', 'W308A_OUT',
+          'axialModel', 'axialGain', 'axialNorm', '2 r̂(r̂·Ω) − Ω', 'sinθ', '仮定', 'ベベルギヤ', '差分の型', '速さの型', '体積平均', 'inertialSpinMomentFar', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第308便a〕に「' + w + '」が無い');
+      }
+      // ④
+      if (CL.indexOf('第308便a') < 0) bad.push('CHANGELOG に第308便a が無い');
+      if (RM.indexOf('第308便a') < 0) bad.push('README に第308便a が無い');
+      { const ai = AS.indexOf('第308便a —— 軸引きずりの鏡映の核');
+        if (ai < 0) bad.push('AI_SPEC に第308便a の節が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['axialModel', 'axialGain', 'axialNorm', 'SYSTEM_PROMPT には載せない', 'docs.bevel308']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('bevel-308a', 'node tests/exp-w308a-bevel.mjs', ['tests/out/bevel-w308a.json']") < 0 || !/secSource: 'w308a-branch'/.test(RT)) bad.push('再生成の段 bevel-308a');
+      if (GI.indexOf('!tests/out/bevel-w308a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.bevel308') < 0) bad.push('post-merge の ③′ に docs.bevel308 が無い');
+      // ⑤
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /金星の逆行を説明した/, /イオの加熱を説明した/, /自転が釣り合った/, /帳簿が完全に閉じた/, /太陽の自転を分解した/, /銀河の自転で太陽の自転を説明した/, /磁気双極子と同じ/,
+        /熱力学を導いた/, /観測の 1σ で較正済み/, /係数 A が決まった/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第308便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第308便a〕に禁句(' + w.length + ' 字)');
+      for (const f of ['tests/exp-w308a-bevel.mjs', 'tests/lib-w308a-bevel.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    }
+    add('docs.bevel308', bad.length === 0,
+      `**軸引きずりの鏡映の核と遠方の M1 の外部の級数**(第308便a・原仮定者の裁定(第101報)・AN346・AN347・AN354・R214 —— 正本 bevel-w308a.json・opt-in の鍵 spinDrag.axialModel:"bevel"/axialGain/axialNorm・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第308便a の塊(ここまで)====
 
 // ---- 第305便e(決断事項 AN323・統括の検証項目 R203): behavior.shellTinyEta305 —— **極小 η の受理**(引きずり核の殻 dragCore:{shellRatio:η} —— root は SKIP)。
 // ----   世代切替 = 対象 html に `function dragShellRdCheck(`。🌡️ mercurySunInertial3d の写し(G_loc と記録を外す)の水星に殻を置いて:
