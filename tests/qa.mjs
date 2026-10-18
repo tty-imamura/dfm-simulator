@@ -81688,8 +81688,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const S6 = secOf('〔第306便d — ');
       if (!(S6.sec.indexOf('⑫') >= 0 && S6.sec.indexOf('第100報') >= 0 && /歯車/.test(S6.sec) && /磁力線に似/.test(S6.sec))) bad.push('PHYSICS〔第306便d〕の ⑫(第100報の訂正の注記)');
       if (!(AS.indexOf('第307便e') >= 0 && AS.indexOf('physicsPatch.gLoc') >= 0 && AS.indexOf('targets[].role') >= 0)) bad.push('AI_SPEC の第307便e の節(physicsPatch.gLoc・targets[].role)');
-      const iB = CL.indexOf('## v1.45-b307'), iN = CL.indexOf('\n## ', iB + 5), blk = iB >= 0 ? CL.slice(iB, iN > iB ? iN : undefined) : '';
-      if (blk.indexOf('第307便e') < 0) bad.push('CHANGELOG の b307 に第307便e の行が無い');
+      // 第308便(統括): 便の基点の版名の更新で見出しが b308 へ進む —— b307 以降の見出しの塊のどれかにあればよい(見出しの番号を固定しない)
+      const mB = /\n## v1\.45-b(\d+)/g; let blk = '';
+      for (let mm; (mm = mB.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      if (blk.indexOf('第307便e') < 0) bad.push('CHANGELOG の b307 以降の見出しに第307便e の行が無い');
       if (!/第306便d[^\n]*第100報/.test(CL)) bad.push('CHANGELOG の第306便d の行に第100報の訂正の 1 文が無い');
       if (RM.indexOf('第307便e') < 0) bad.push('README に第307便e が無い');
       if (['behavior.gLocNull307', 'preset.fitRole307', 'preset.coldReason307', 'docs.w307e'].some((id) => PM.indexOf(id) < 0)) bad.push('post-merge の ③′');
