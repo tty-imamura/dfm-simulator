@@ -3919,3 +3919,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら「金星の逆行を説明した」「イオの加熱を説明した」「自転が釣り合った」と書かない(A = 1 で ω_D/ω_obs は金星 6.62e-11・木星 -3.43e-16・イオ -5.20e-9 —— 候補の核の幾何と数値の一致だけ)。
 - **器と正本**: `tests/exp-w308a-bevel.mjs`(版 w308a-bevel-1・`W308A_OUT`・`W308A_QUICK`)・lib `tests/lib-w308a-bevel.mjs`(参照 —— 源の一様球の求積・点の核の分母・数値の微分・体積平均)→ `tests/out/bevel-w308a.json`(段 bevel-308a)。
 - QA: `docs.bevel308`(root は SKIP —— 世代切替 = html の `REL_DRAG_AXIAL_BEVEL_VERSION = "w308a-axial-bevel-1"`。正本の門・受理の契約・gain 0 = axial off・チェックポイントの往復・閉じた式と参照・級数・文書・禁句)。`docs.sphereAxial307` は正本の遠方の数が動く(鎖で作り直す)。
+
+## 109. 第308便d —— 三次元の明示潮汐の受け手の受理の警告(傾きの宣言・半径の下限)と fitRecord の標的の役割を 🌡️🟫🌘 へ(決断事項 AN350・AN351・統括の検証項目 R217・**警告と宣言の記録だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・在位の本は三次元の潮汐を宣言しない・**SYSTEM_PROMPT には載せない**)
+
+- **三次元の潮汐の受け手の警告**(`tide3ReceiverWarnings` —— 版 w308d-tide3recv-1・拒否はしない): 三次元の本(`physics.coord:"3d"`)で潮汐を受ける天体(`physics.tide` と天体の `tide:{k2, lag}` —— 足さない理由の無い本)に、軸を動かせる傾きの宣言 `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}`(歳差 `precessionRate` を宣言しない)が無いと、潮汐のトルクの軸に垂直な成分 τ⊥ は数えるだけで慣性自転の軸を回さない(帳簿 tidePerpN)—— 受理で警告する。歳差を宣言した天体(規定運動の軸)も同じ理由で別の文の警告。
+- **半径の下限の警告**: 天体の `tide` を宣言した single の `radius` が明示半径の下限(`physics.radiusFloor` —— 未宣言は 0.01・宣言で 0.001 まで・較正クラスの本では使えない)に丸められると、潮汐の B = G k₂ m² R⁵ は丸めた半径を読む(B は (下限/宣言)⁵ 倍)—— 警告の文に倍率を書く。直し方は `physics.radiusFloor` の宣言か単位の選び直し。
+- **`fitRecord.targets[].role` の宣言**(第307便e の契約のまま): 🌡️ mercurySunInertial3d —— 近点率の差 `numerical-fit`・恒星周期 `independent` / 🟫 mercurySunInertialFit —— 近点率の差 `numerical-fit` / 🌘 earthMoonRealKF1 —— 朔望月 `numerical-fit`。条件の署名・門・status は役割を読まない(不変)。
+- **器と QA**: `tests/lib-w308d-pre.mjs`(pin307d・pinDecl307d・isGen308d・record308d)・凍結の写し `tests/data-w308d-decl307.json`(歴史の記録の器 an336-306a・refit-303a が照合に使う)。QA `preset.fitRole308`・`behavior.tide3Recv308`・`lint.qaEvidenceStamp308`(保存 QA の刻印 —— 情報)・`docs.w308d`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が三次元で潮汐を宣言する本を作るときは、軸を潮汐で動かす受け手に `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}` を書く(書かなければ警告 —— 走りは同じ)。イオ級の小さい衛星の半径は単位の下限に注意する(警告の倍率を読む)。役割は省略してよい。

@@ -44,6 +44,7 @@ import * as P3 from './lib-w299c-planets3d.mjs';
 import * as AN from './lib-w306a-an336.mjs';
 import * as CT from './exp-w306a-an336contract.mjs';
 import * as LF from './lib-w297b-fit.mjs';
+import { pinDecl307d, DECL307D_DATA_FILE } from './lib-w308d-pre.mjs';   // 第308便d(AN351・R217): 🌡️ の fitRecord の標的の役割を宣言した世代では、段 G の「本の記録と同じか」を第307便の宣言の写しで照合する(第307便の html では no-op)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_PAIRNORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialDragPairApply","inertialR2PairDen","inertialR2PairTerm","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragPairNormOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -388,6 +389,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W306A_OUT || path.join(ROOT, 'tests', 'out', 'an336-w306a.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl307d(null, [MERCURY]);   // 第308便d: 🌡️ の fitRecord を第307便の宣言へ(標的の役割を外す —— 数・署名・門は同じ)
   const out = { meta: null, harnessVersion: HARNESS_VERSION, libVersion: AN.LIB_VERSION, contractVersion: CT.HARNESS_VERSION, gLocVersion: HP.GLOC_VERSION, i2Version: HP.REL_DRAG_I2_VERSION,
     pairNormVersion: HP.REL_DRAG_PAIRNORM_VERSION || null, apsisVersion: AP.APSIS_VERSION, fitstopVersion: FS.FITSTOP_VERSION, parts: PARTS, pin: { file: DECL_FILE, version: PIN.version, base: PIN.base } };
   const tp = {};
@@ -406,9 +408,9 @@ if (IS_MAIN) {
   if (out.declaration) gates.fitRecordAccepted = out.declaration.fitRecordAccepted === true && out.declaration.fitRecordGate === true;
   if (out.gate) { gates.G1 = out.gate.G1.pass === true; gates.G3 = out.gate.G3.pass === true; if (out.gate.declared) { gates.G2 = out.gate.G2.pass === true; gates.fitRecordLive = out.gate.fitRecord.pass === true; } }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp; out.stats = STATS;
-  const CODE = ['tests/exp-w306a-an336.mjs', 'tests/lib-w306a-an336.mjs', 'tests/exp-w306a-an336contract.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/lib-w297b-fit.mjs',
+  const CODE = ['tests/exp-w306a-an336.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w308d-pre.mjs', 'tests/exp-w306a-an336contract.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/lib-w297b-fit.mjs',
     'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE, AN.CANDIDATE_FILE, AN.AUDIT_FILE, 'tests/out/gfamily-w305b.json'] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE, AN.CANDIDATE_FILE, AN.AUDIT_FILE, 'tests/out/gfamily-w305b.json', DECL307D_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)',
     reading: '統括の検証項目 R204(標的の生成器と契約・水星の再フィット・7 本への移送〔新しい抽出器が主 + 検出器 B・窓/位相/h〕・門を通れば在位の惑星 7 本の宣言を同じ k で一括)・決断事項 AN330・AN331・AN334',

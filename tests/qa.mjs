@@ -74697,7 +74697,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (F) {
           const fr = F.fitRecord, T = fr.targets;
           if (r.d0 !== F.adopted.D0pull) bad.push(`②D0pull ${r.d0} ⇔ 正本 ${F.adopted.D0pull}`);
-          if (r.fr !== JSON.stringify(fr)) bad.push('②fitRecord が正本と違う');
+          // 第308便d(AN351・R217): 標的の役割を宣言した世代では、本の記録 = record308d(正本の記録)(役割を各標的の末尾に置くだけ —— 数・署名は正本のまま)
+          let want299 = fr; try { const PRE8s = await import('file://' + path.join(ROOT, 'tests', 'lib-w308d-pre.mjs')); const lv = r.fr ? JSON.parse(r.fr) : null;
+            if (lv && (lv.targets || []).some((t) => t && t.role !== undefined) && PRE8s.DECL307D['earthMoonRealKF1']) want299 = PRE8s.record308d('earthMoonRealKF1', fr); } catch (e) { want299 = fr; }
+          if (r.fr !== JSON.stringify(want299)) bad.push('②fitRecord が正本と違う');
           if (!(F.fitRecordAccepted === true && r.warn.length === 0)) bad.push('②fitRecord の受理・受理の警告 ' + r.warn.join('|'));
           if (!(T.length === 1 && T[0].q === 'synodicMonthUniform' && T[0].unit === 'd' && T[0].obs === SYN_OBS && T[0].extractor.indexOf(clockV) >= 0 && fr.cond.extractor.indexOf(clockV) >= 0)) bad.push('②標的(synodicMonthUniform の 1 件・時計の版)');
           if (!/^朔望月\(第299便b/.test(fr.procedure)) bad.push('②procedure が「朔望月(第299便b」で始まらない');
@@ -78525,7 +78528,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         let PRE6r = null; try { PRE6r = await import('file://' + path.join(ROOT, 'tests', 'lib-w306e-pre.mjs')); } catch (e) { PRE6r = null; }
         let PRE6a = null; try { PRE6a = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs')); } catch (e) { PRE6a = null; }
         const gen306eR = !!(PRE6r && PRE6r.isGen306e(all0)), gen306aR = !!(PRE6a && PRE6a.isGen306a(all0));
-        const HP = H.HP, all = all0.map((q) => { let z = gen304cR ? PRE4r.pin303(q) : q; if (gen306eR) z = PRE6r.pin305(z); if (gen306aR) z = PRE6a.pin305(z); return z; }), find = (id) => all.find((q) => q.id === id), live = all.filter((p) => p.familyRole !== 'retired');
+        // 第308便d(AN351・R217): 🌡️🟫🌘 の fitRecord の標的に役割を宣言した世代では、第303便a の照合は第307便の fitRecord の写し(tests/lib-w308d-pre.mjs の pin307d)で行う
+        //   (今の記録は preset.fitRole308 が record308d〔第307便の写し + 役割〕と照合)
+        let PRE8d = null; try { PRE8d = await import('file://' + path.join(ROOT, 'tests', 'lib-w308d-pre.mjs')); } catch (e) { PRE8d = null; }
+        const gen308dR = !!(PRE8d && PRE8d.isGen308d(all0));
+        const HP = H.HP, all = all0.map((q) => { let z = gen308dR ? PRE8d.pin307d(q) : q; if (gen304cR) z = PRE4r.pin303(z); if (gen306eR) z = PRE6r.pin305(z); if (gen306aR) z = PRE6a.pin305(z); return z; }), find = (id) => all.find((q) => q.id === id), live = all.filter((p) => p.familyRole !== 'retired');
         if (gen306eR) cases.push('第306便e の世代: 🟪 は第305便の宣言の写し(pin305)で照合');
         if (!(J.version === X.HARNESS_VERSION && J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.preVersion === PRE.LIB_VERSION)) bad.push('⑤ 正本の版・来歴');
         if (!(J.ok === true && J.gates && Object.keys(J.gates).length >= 10 && Object.values(J.gates).every(Boolean))) bad.push('⑤ 正本の門 ' + JSON.stringify(J.gates));
@@ -81103,7 +81110,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!v.ok || (v.warnings || []).length) bad.push('① ' + id + ' の受理 ' + JSON.stringify(v.errors || v.warnings).slice(0, 160));
         if (id === 'mercurySunInertial3d') {
           const fr = p.fitRecord;
-          if (!fr || JSON.stringify(fr) !== JSON.stringify(D.fitRecord)) bad.push('② 🌡️ の fitRecord が正本の記録と違う');
+          // 第308便d(AN351・R217): 標的の役割を宣言した世代では、本の記録 = record308d(正本の記録)(役割を各標的の末尾に置くだけ —— 数・署名・門は正本のまま)
+          let want306 = D.fitRecord; try { const PRE8p = await import('file://' + path.join(ROOT, 'tests', 'lib-w308d-pre.mjs'));
+            if (fr && (fr.targets || []).some((t) => t && t.role !== undefined) && PRE8p.DECL307D[id]) want306 = PRE8p.record308d(id, D.fitRecord); } catch (e) { want306 = D.fitRecord; }
+          if (!fr || JSON.stringify(fr) !== JSON.stringify(want306)) bad.push('② 🌡️ の fitRecord が正本の記録と違う');
           else {
             const vr = HP.validateFitRecord(JSON.parse(JSON.stringify(fr)));
             if (!vr.ok) bad.push('② 🌡️ の fitRecord が受理されない ' + vr.err);
@@ -81505,7 +81515,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // ①
           const q = X.toyPair({ incl: 25, satSpin: 1.0, satAxis: { enable: true, tiltDeg: 10, azimuthDeg: 30, source: 'qa' }, heat: { model: 'linear', tau: 30 }, coolTau: 7 }).preset;
           const v = HP.validatePreset(cl(q));
-          if (!(v.ok && (v.warnings || []).length === 0)) bad.push('① 三次元の潮汐の写しが受理されない/警告 ' + JSON.stringify((v.errors || []).concat(v.warnings || [])).slice(0, 160));
+          // 第308便d(AN350・R217): 三次元で潮汐を受ける天体に傾きの宣言が無い写し(ここでは主星)は受理の警告が出る(設計どおり —— 拒否はしない)。その警告を除いて数える
+          const w307b = (v.warnings || []).filter((w) => !/第308便d・決断事項 AN350/.test(w));
+          if (!(v.ok && w307b.length === 0)) bad.push('① 三次元の潮汐の写しが受理されない/警告 ' + JSON.stringify((v.errors || []).concat(w307b)).slice(0, 160));
           else {
             if (JSON.stringify(v.preset.physics.tide.heat) !== JSON.stringify({ model: 'linear', tau: 30 })) bad.push('① heat の正準形 ' + JSON.stringify(v.preset.physics.tide.heat));
             if (JSON.stringify(v.preset.bodies[1].tide) !== JSON.stringify({ k2: X.TOY.k2, lag: X.TOY.lag, coolTau: 7 })) bad.push('① 天体の tide の正準形 ' + JSON.stringify(v.preset.bodies[1].tide));
@@ -81769,6 +81781,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const oj = JSON.stringify(em.obsCard), oe = JSON.stringify(em.en.obsCard);
         if (!(oj.indexOf('標的の役割') >= 0 && oj.indexOf('入力の整合') >= 0 && oj.indexOf('独立の比較') >= 0 && oe.indexOf('Target roles') >= 0 && oe.indexOf('input consistency') >= 0)) bad.push('④ 🌦️ の観測カードの役割の行');
         if (!(JSON.stringify(pc.obsCard).indexOf('標的の役割') >= 0 && JSON.stringify(pc.en.obsCard).indexOf('target role') >= 0)) bad.push('④ 🟪 の観測カードの役割');
+        // 第308便d(AN351): 役割を宣言していない本は宣言から選ぶ(🌡️ が役割を宣言した世代では fitRecord を持ち役割の無い本 —— 無ければ 🌡️ のまま)
+        const noRole7 = ((all.find((q) => q.fitRecord && !HP.fitRoleSummary(q.fitRecord).declared) || {}).id) || IDS7[0];
         if (typeof page !== 'undefined' && page) {
           const dom = await page.evaluate(async (ids) => {
             const wait = (ms) => new Promise((res) => setTimeout(res, ms)), o = {};
@@ -81777,10 +81791,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
               const box = document.getElementById('fitRecordBox');
               o[id] = box ? { roles: (box.querySelector('.frRow[data-k="roles"]') || { dataset: {} }).dataset.roles || null,
                 tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
-            return o; }, [em.id, pc.id, IDS7[0]]);
+            return o; }, [em.id, pc.id, noRole7]);
           if (!(dom[em.id] && dom[em.id].roles === 'input-consistency,independent' && canon(dom[em.id].tr) === canon(PRE7.CHANGE307E.roles[em.id]))) bad.push('④ 🌦️ のフィットの記録の箱(DOM)' + JSON.stringify(dom[em.id]));
           if (!(dom[pc.id] && dom[pc.id].roles === 'input-consistency')) bad.push('④ 🟪 のフィットの記録の箱(DOM)' + JSON.stringify(dom[pc.id]));
-          if (!(dom[IDS7[0]] && dom[IDS7[0]].roles === null)) bad.push('④ 役割を宣言していない本(🌡️)に役割の行が出る');
+          if (!(dom[noRole7] && dom[noRole7].roles === null)) bad.push('④ 役割を宣言していない本(' + noRole7 + ')に役割の行が出る');
           cases.push('④ 観測カード・辞書・箱の役割の行(DOM —— 役割の無い本には出ない)');
         } else cases.push('④ 観測カード・辞書(DOM は page が無いので省略)');
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
@@ -81854,6 +81868,199 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第307便e の塊(ここまで)====
+// ==== 第308便d の塊(ここから)====
+// ---- 第308便d(決断事項 AN351・AN350・統括の検証項目 R217 —— 細目): preset.fitRole308・behavior.tide3Recv308・lint.qaEvidenceStamp308・docs.w308d(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ tests/lib-w308d-pre.mjs ∧ isGen308d(BUILTIN_PRESETS)(三本の fitRecord の標的に役割を宣言した世代)∧ HP.tide3ReceiverWarnings。
+// ----   固定値は宣言と凍結のデータ(tests/data-w308d-decl307.json —— 第307便の fitRecord の写しと役割の表)から読む(数を QA に書かない)。
+// ----   preset.fitRole308 … 🌡️🟫🌘 の記録 = record308d(第307便の宣言の写し)・役割の表・受理(警告 0・往復)・条件の署名と門と status は役割を読まない
+// ----      (役割を外した記録と同じ)・数値フィットの標的はノブを持つ・独立の比較の標的は notFitted にある・🟫 の観測カードの役割の行・フィットの記録の箱(DOM)の役割の行
+// ----   behavior.tide3Recv308 … 三次元の潮汐の受け手の受理の警告(傾きの宣言なし・歳差の宣言・半径の下限)が出る/出ない 8 例・内蔵の本に新しい警告 0・
+// ----      受理は冪等(警告は正準形を変えない)・傾きなしの受け手は τ⊥ を数えるだけ・傾きありの受け手は軸を回す(警告の文の中身を走りで確かめる)
+// ----   lint.qaEvidenceStamp308 … 保存 QA(qa-results-full-beta.json)の形(フル・beta・刻印 targetSha256)と、刻印が今の html と同じか・SAMPLE_STATUS の正本の根拠の記録
+// ----      (evidenceQa の commit・date)が保存 QA と同じか(**情報 —— 古さは FAIL にしない**。QA_EVIDENCE_STRICT=1 のときだけ古さ・食い違いで FAIL —— 確定の確かめ用)
+// ----   docs.w308d … PHYSICS〔第308便d〕・〔第307便a〕⑪・〔第307便c〕⑪(表と数の行は docs.sphereAxial307・docs.spinDecomp307 が照合)・AI_SPEC の節・CHANGELOG・README・
+// ----      post-merge の ③′・再生成表の入力・perf の starSeed の長さ(閾値 1.10・判定式・ペア比の中央値・走査順は不変)・書かない語と禁句(引用の中も)
+{
+  const pre8 = path.join(ROOT, 'tests', 'lib-w308d-pre.mjs');
+  let H8 = null, PRE8 = null, gen8 = false;
+  if (TARGET.startsWith('beta/')) {
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H8 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H8 = null; }
+    try { PRE8 = await import('file://' + pre8); gen8 = !!(H8 && H8.HP && PRE8.isGen308d(H8.evalExpr('BUILTIN_PRESETS'))); } catch (e) { PRE8 = null; gen8 = false; }
+  }
+  const has8 = !!(H8 && H8.HP && typeof H8.HP.tide3ReceiverWarnings === 'function' && PRE8);
+  if (!(TARGET.startsWith('beta/') && has8 && gen8)) {
+    console.log('SKIP preset.fitRole308 / behavior.tide3Recv308 / lint.qaEvidenceStamp308 / docs.w308d(第308便d の前の世代 — ' + TARGET + ')');
+  } else {
+    const HP = H8.HP, all = HP.allPresets(), find = (id) => all.find((q) => q.id === id);
+    const cl = (o) => JSON.parse(JSON.stringify(o));
+    const canon = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x)) ? Object.fromEntries(Object.keys(x).sort().map((q) => [q, x[q]])) : x);
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const rj = (f) => { try { return JSON.parse(rd(f)); } catch (e) { return null; } };
+    const IDS8 = Object.keys(PRE8.DECL307D), ROLES8 = PRE8.CHANGE308D.roles;
+    // ---- preset.fitRole308
+    {
+      const bad = [], cases = [];
+      try {
+        const tally = {};
+        for (const id of IDS8) {
+          const p = find(id), fr = p && p.fitRecord, d = PRE8.DECL307D[id].fitRecord;
+          if (!fr) { bad.push('① ' + id + ' に fitRecord が無い'); continue; }
+          if (canon(fr) !== canon(PRE8.record308d(id, d))) bad.push('① ' + id + ' の記録が record308d(第307便の宣言の写し)と違う(役割の外の欄が動いた)');
+          const rs = HP.fitRoleSummary(fr);
+          if (!(rs.declared && canon(rs.roles) === canon(ROLES8[id]))) bad.push('① ' + id + ' の役割 ' + JSON.stringify(rs.roles));
+          for (const r of rs.roles) tally[r] = (tally[r] || 0) + 1;
+          const v = HP.validatePreset(cl(p));
+          if (!(v.ok && (v.warnings || []).length === 0 && canon(v.preset.fitRecord) === canon(fr))) bad.push('① ' + id + ' の受理(警告 0・往復)');
+          const x = cl(fr); for (const t of x.targets) delete t.role;
+          if (HP.fitCondSig(v.preset, x) !== HP.fitCondSig(v.preset, fr) || HP.fitCondSig(v.preset, fr) !== fr.cond.sig) bad.push('① ' + id + ' の条件の署名が役割を読む/宣言と違う');
+          if (canon(HP.fitTargetGates(x)) !== canon(HP.fitTargetGates(fr))) bad.push('① ' + id + ' の門が役割を読む');
+          if (!(fr.status === d.status)) bad.push('① ' + id + ' の status が動いた');
+          HP.sim.build(v.preset);
+          const cs = HP.fitCondStateOf(HP.fitCondInputsOf(v.preset, HP.sim.params), v.preset.fitRecord).state;
+          if (cs !== 'match') bad.push('① ' + id + ' の条件の状態 ' + cs);
+          // ② 役割の意味(宣言から): 数値フィットの標的はノブを持つ記録・独立の比較の標的は notFitted に「合わせていない」とある
+          fr.targets.forEach((t, i) => {
+            if (t.role === 'numerical-fit' && !(Array.isArray(fr.knobs) && fr.knobs.length >= 1)) bad.push('② ' + id + ' の標的 ' + i + ' は数値フィットだがノブが無い');
+            if (t.role === 'independent') { const head = String(t.q).split('(')[0]; if (!(fr.notFitted || []).some((z) => z.indexOf(head) >= 0 && z.indexOf('合わせていない') >= 0)) bad.push('② ' + id + ' の標的 ' + i + '(' + head + ')は独立の比較だが notFitted に無い'); }
+            if (t.role === 'input-consistency' || t.role === 'transfer') bad.push('② ' + id + ' の標的 ' + i + ' の役割 ' + t.role + '(本便の表に無い)');
+          });
+          if (!(Array.isArray((PRE8.CHANGE308D.reasons || {})[id]) && PRE8.CHANGE308D.reasons[id].length === fr.targets.length)) bad.push('② ' + id + ' の役割の理由の行');
+        }
+        cases.push(`① 3 本(${IDS8.map((id) => find(id).emoji).join('')})の記録 = record308d(第307便の写し)・受理・署名・門・status は役割を読まない・条件 match`);
+        cases.push(`② 役割 ${Object.entries(tally).map(([k, n]) => k + ' ' + n).join('・')}(数値フィット = ノブあり・独立の比較 = notFitted)`);
+        // ③ 表示
+        const ip = find('mercurySunInertialFit');
+        if (!(ip && JSON.stringify(ip.obsCard).indexOf('標的の役割') >= 0 && JSON.stringify(ip.en.obsCard).indexOf('Target role') >= 0 && ip.obsCard.length <= 8 && ip.en.obsCard.length === ip.obsCard.length)) bad.push('③ 🟫 の観測カードの役割の行');
+        if (typeof page !== 'undefined' && page) {
+          const dom = await page.evaluate(async (ids) => {
+            const wait = (ms) => new Promise((res) => setTimeout(res, ms)), o = {};
+            HP.setLang('ja'); const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+            for (const id of ids) { HP.loadPreset(id, false); await wait(5);
+              const box = document.getElementById('fitRecordBox');
+              o[id] = box ? { roles: (box.querySelector('.frRow[data-k="roles"]') || { dataset: {} }).dataset.roles || null,
+                tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
+            return o; }, IDS8);
+          for (const id of IDS8) {
+            const want = ROLES8[id], order = HP.FIT_TARGET_ROLES.filter((r) => want.indexOf(r) >= 0).join(',');
+            if (!(dom[id] && dom[id].roles === order && canon(dom[id].tr) === canon(want))) bad.push('③ ' + id + ' のフィットの記録の箱(DOM)' + JSON.stringify(dom[id]));
+          }
+          cases.push('③ 🟫 の観測カード・フィットの記録の箱の役割の行(DOM)');
+        } else cases.push('③ 🟫 の観測カード(DOM は page が無いので省略)');
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+      add('preset.fitRole308', bad.length === 0,
+        `**標的の役割を 🌡️🟫🌘 へ**(第308便d・AN351・R217 —— 役割は表示と記録の語・status の語と門と条件の署名は不変): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- behavior.tide3Recv308
+    {
+      const bad = [], cases = [];
+      try {
+        const base = () => ({ name: 't', description: 'd', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+          physics: { coord: '3d', G: 1, kFrame: 0, kRep: 0, muF: 0, kappaS: 0, stateCarry: 'double', tide: { maxN: 8 } },
+          bodies: [{ type: 'single', m: 1, radius: 0.5, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, spin: 0, pinned: false },
+            { type: 'single', m: 0.01, radius: 0.05, x: 3, y: 0, z: 0, vx: 0, vy: 0.55, vz: 0.25, spin: 0.1, pinned: false, tide: { k2: 0.5, lag: 0.1 } }] });
+        const tilt = (q, extra) => { q.bodies[1].spinAxis = Object.assign({ enable: true, tiltDeg: 20, azimuthDeg: 0, source: 'QA の合成' }, extra || {}); return q; };
+        const mine = (v) => (v.warnings || []).filter((w) => /第308便d/.test(w));
+        const CASES = [
+          ['三次元・傾きなし', base(), /傾きの宣言.*が無い/],
+          ['三次元・傾きあり', tilt(base()), null],
+          ['三次元・歳差の宣言', tilt(base(), { precessionRate: 0.01 }), /歳差 precessionRate を宣言した天体/],
+          ['二次元', (() => { const q = base(); delete q.physics.coord; for (const b of q.bodies) { delete b.z; delete b.vz; } q.bodies[1].vy = 0.6; return q; })(), null],
+          ['半径が下限 0.01 へ', (() => { const q = tilt(base()); q.bodies[1].radius = 0.002; return q; })(), /宣言の半径 0\.002 が明示半径の下限 0\.01 に丸められた.*3130 倍/],
+          ['radiusFloor の宣言', (() => { const q = tilt(base()); q.bodies[1].radius = 0.002; q.physics.radiusFloor = 0.001; return q; })(), null],
+          ['radiusFloor の下限の下', (() => { const q = tilt(base()); q.bodies[1].radius = 0.0005; q.physics.radiusFloor = 0.001; return q; })(), /下限 0\.001 に丸められた.*32 倍/],
+          ['潮汐を足さない本(maxN)', (() => { const q = base(); q.physics.tide.maxN = 2; q.bodies.push({ type: 'single', m: 0.01, x: -3, y: 0, z: 0, vx: 0, vy: -0.6, vz: 0, spin: 0, pinned: false }); return q; })(), null]];
+        let nOk = 0;
+        for (const [nm, q, re] of CASES) {
+          const v = HP.validatePreset(cl(q)), w = mine(v);
+          if (!v.ok) { bad.push('① ' + nm + ' が受理されない ' + (v.errors || []).join(' ').slice(0, 80)); continue; }
+          if (re ? !(w.length === 1 && re.test(w[0])) : w.length !== 0) { bad.push('① ' + nm + ' の警告 ' + JSON.stringify(w).slice(0, 160)); continue; }
+          const v2 = HP.validatePreset(cl(v.preset));
+          if (canon(v2.preset) !== canon(v.preset)) bad.push('① ' + nm + ' の受理が冪等でない(警告が正準形を変えた)');
+          nOk++;
+        }
+        cases.push(`① 警告の出る/出ない ${nOk}/${CASES.length} 例(傾きなし・歳差・下限 0.01 で R⁵ が 3130 倍・下限 0.001 で 32 倍 —— 版 ${HP.TIDE3_RECEIVER_WARN_VERSION})`);
+        let nWarn = 0; for (const p of all) nWarn += mine(HP.validatePreset(cl(p))).length;
+        if (nWarn !== 0) bad.push('② 内蔵の本に新しい警告 ' + nWarn);
+        cases.push(`② 内蔵 ${all.length} 本の新しい警告 ${nWarn}`);
+        const runOf = (q) => { const v = HP.validatePreset(q); HP.sim.build(v.preset); for (let k = 0; k < 200; k++) HP.sim.step(0.016); const st = HP.tideState(HP.sim); return st && st.d3; };
+        const a = runOf(base()), b = runOf(tilt(base()));
+        if (!(a && a.perpSkip > 0 && a.axisTurns === 0 && a.turnable[0] === false)) bad.push('③ 傾きなしの受け手が τ⊥ を数えるだけでない ' + JSON.stringify(a && { p: a.perpSkip, t: a.axisTurns }));
+        if (!(b && b.perpSkip === 0 && b.axisTurns > 0 && b.turnable[0] === true)) bad.push('③ 傾きありの受け手が軸を回さない ' + JSON.stringify(b && { p: b.perpSkip, t: b.axisTurns }));
+        cases.push(`③ 200 步: 傾きなし τ⊥ を数えた ${a && a.perpSkip} 回・軸を回した ${a && a.axisTurns} 回/傾きあり ${b && b.perpSkip}・${b && b.axisTurns}`);
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+      add('behavior.tide3Recv308', bad.length === 0,
+        `**三次元の明示潮汐の受け手の受理の警告**(第308便d・AN350・R217 —— 警告だけ・拒否しない・宣言と走りは不変・在位の本は三次元の潮汐を宣言しない): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- lint.qaEvidenceStamp308
+    {
+      const bad = [], cases = [], strict = process.env.QA_EVIDENCE_STRICT === '1';
+      try {
+        const Q = rj('tests/out/qa-results-full-beta.json'), SS = rj('tests/out/samplestatus-w279a.json');
+        if (!Q) bad.push('保存 QA tests/out/qa-results-full-beta.json が読めない');
+        else {
+          if (!(Q.target === 'beta/index.html' && Q.fast === false && Array.isArray(Q.results) && Q.results.length > 0 && /^[0-9a-f]{64}$/.test(String(Q.targetSha256)))) bad.push('保存 QA の形(beta・フル・results・刻印 targetSha256)');
+          const cur = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+          const fresh = Q.targetSha256 === cur, nPass = (Q.results || []).filter((r) => r.pass).length;
+          const ev = SS && SS.meta && SS.meta.evidenceQa, same = !!(ev && ev.commit === Q.commit && ev.date === Q.date);
+          if (!ev) bad.push('SAMPLE_STATUS の正本に根拠の保存 QA の記録(meta.evidenceQa)が無い');
+          const qaIds = new Set((Q.results || []).filter((r) => r.pass).map((r) => r.id));
+          const evid = [...new Set(all.flatMap((p) => ((p.status || {}).evidence || []).filter((e) => typeof e === 'string' && !/^tests\//.test(e))))];
+          const missing = evid.filter((e) => !qaIds.has(e));
+          cases.push(`保存 QA ${nPass}/${(Q.results || []).length}・commit ${String(Q.commit || '').slice(0, 7)}・${Q.date}・刻印 ${String(Q.targetSha256).slice(0, 12)} / 今の html ${cur.slice(0, 12)} → **${fresh ? '同じ' : '古い(別の html の走行)'}**`);
+          cases.push(`SAMPLE_STATUS の根拠の記録 ${ev ? String(ev.commit || '').slice(0, 7) + '・' + ev.date : 'なし'} → 保存 QA と${same ? '同じ' : '違う'}・状況の根拠 ID ${evid.length} 件のうち保存 QA に無い ${missing.length} 件`);
+          if (strict && !(fresh && same && missing.length === 0)) bad.push('QA_EVIDENCE_STRICT=1: 刻印が古い/根拠の記録が違う/根拠 ID が無い');
+        }
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+      add('lint.qaEvidenceStamp308', bad.length === 0,
+        `**保存 QA の刻印と SAMPLE_STATUS の根拠**(第308便d・R217 —— ${strict ? '厳格(QA_EVIDENCE_STRICT=1)' : '情報 —— 古さは FAIL にしない'}): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.w308d
+    {
+      const bad = [], cases = [];
+      const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), PM = rd('tools/post-merge-qa.sh'), RT = rd('tests/lib-w281a-regentable.mjs'), PF = rd('tests/perf.mjs');
+      const secOf = (head) => { const i0 = PH.indexOf(head), i7 = PH.indexOf('\n## 7. '), i1 = PH.indexOf('\n〔第', i0 + 10);
+        return { i0, i7, sec: i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '' }; };
+      const S8 = secOf('〔第308便d — ');
+      if (!S8.sec) bad.push('PHYSICS〔第308便d〕が無い'); else if (S8.i7 >= 0 && S8.i0 > S8.i7) bad.push('PHYSICS〔第308便d〕が「## 7.」の後');
+      for (const w of ['R217', 'AN350', 'AN351', '第101報', 'tide3ReceiverWarnings', 'radiusFloor', 'τ⊥', 'starSeed', 'FRAMES_OVERRIDE', 'qa-results-full-beta.json', 'targetSha256',
+        'lib-w308d-pre', 'data-w308d-decl307.json', 'pin307d', 'preset.fitRole308', 'behavior.tide3Recv308', 'lint.qaEvidenceStamp308', 'docs.w308d']) if (S8.sec.indexOf(w) < 0) bad.push('PHYSICS〔第308便d〕に「' + w + '」が無い');
+      const Sa = secOf('〔第307便a — '), Sc = secOf('〔第307便c — ');
+      if (!(Sa.sec.indexOf('⑪ 注記(原仮定者の裁定〔第101報〕') >= 0 && Sa.sec.indexOf('axialModel:"bevel"') >= 0 && Sa.sec.indexOf('q に依るまま') >= 0 && Sa.sec.indexOf('混ぜない') >= 0)) bad.push('PHYSICS〔第307便a〕⑪(第101報の注記 —— 弱まるは鏡映の核・sphere は q に依るまま)');
+      if (!(Sc.sec.indexOf('⑪ 注記(原仮定者の裁定〔第101報〕') >= 0 && Sc.sec.indexOf('(C) に寄せた') >= 0 && Sc.sec.indexOf('元の自転軸を維持するトルク') >= 0 && Sc.sec.indexOf('第308便b') >= 0)) bad.push('PHYSICS〔第307便c〕⑪(第101報の注記 —— (C)・実装は第308便b)');
+      const ai = AS.indexOf('第308便d —— ');
+      if (ai < 0) bad.push('AI_SPEC に第308便d の節が無い');
+      else { const as = AS.slice(ai, ai + 5000); for (const w of ['tide3ReceiverWarnings', 'spinAxis', 'radiusFloor', 'targets[].role', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
+      const iB = CL.indexOf('## v1.45-b308'), iN = CL.indexOf('\n## ', iB + 5), blk = iB >= 0 ? CL.slice(iB, iN > iB ? iN : undefined) : '';
+      if (blk.indexOf('第308便d') < 0) bad.push('CHANGELOG の b308 に第308便d の行が無い');
+      for (const w of ['第307便a', '第307便c']) { const ln = (blk.split('\n').find((l) => l.startsWith('- **' + w)) || ''); if (ln.indexOf('第101報') < 0) bad.push('CHANGELOG の ' + w + ' の行に第101報の 1 文が無い'); }
+      if (RM.indexOf('第308便d') < 0) bad.push('README に第308便d が無い');
+      if (['preset.fitRole308', 'behavior.tide3Recv308', 'lint.qaEvidenceStamp308', 'docs.w308d'].some((id) => PM.indexOf(id) < 0)) bad.push('post-merge の ③′');
+      if (RT.indexOf("'tests/data-w308d-decl307.json': []") < 0) bad.push('再生成表の入力 tests/data-w308d-decl307.json');
+      // perf: 閾値・判定式・ペア比の中央値・走査順は不変(長さだけ)
+      const pfOk = PF.indexOf("const THRESH = +(process.env.PERF_THRESH || 1.10);") >= 0 && PF.indexOf('const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;') >= 0
+        && PF.indexOf("const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];") >= 0 && PF.indexOf('ratio: median(pairs.map((p) => p.ratio)),') >= 0
+        && PF.indexOf('const normRatio = +(m.ratio / tsNorm).toFixed(3);') >= 0 && PF.indexOf("pass: normRatio <= limit && !m.nan") >= 0 && PF.indexOf('第308便d') >= 0;
+      const fo = /const FRAMES_OVERRIDE = \{ echo: 720, starSeed: (\d+), merger: 240, freebox: 480,\n  frictionHeat: 480, nebulaRotor: 480, counterring: 240 \};/.exec(PF);
+      if (!pfOk || !fo) bad.push('perf.mjs の閾値・判定式・走査順・FRAMES_OVERRIDE の形');
+      cases.push(`PHYSICS〔第308便d〕・〔第307便a〕⑪・〔第307便c〕⑪・AI_SPEC・CHANGELOG(b308・第307便a/c の 1 文)・README・post-merge・perf の starSeed ${fo ? fo[1] : '?'} フレーム(閾値 1.10・判定式・走査順は不変)`);
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /金星の逆行を説明した/, /イオの加熱を説明した/, /自転が釣り合った/, /帳簿が完全に閉じた/, /太陽の自転を分解した/, /銀河の自転で太陽の自転を説明した/,
+        /磁気双極子と同じ/, /熱力学を導いた/, /観測の 1σ で較正済み/, /現実を再現した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      const ni = (t, i) => { const a = t.indexOf('⑪ 注記(原仮定者の裁定〔第101報〕'); return a >= 0 ? t.slice(a, a + 2400) : ''; };
+      for (const [nm, tx] of [['PHYSICS〔第308便d〕', S8.sec], ['〔第307便a〕⑪', ni(Sa.sec)], ['〔第307便c〕⑪', ni(Sc.sec)], ['lib・データ', rd('tests/lib-w308d-pre.mjs') + rd('tests/data-w308d-decl307.json')]]) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+        for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(引用の中も —— ' + w.length + ' 字)');
+      }
+      cases.push('書かない語・禁句(引用の中も)');
+      add('docs.w308d', bad.length === 0,
+        `**第308便d の文書**(R217 —— 細目): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第308便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
