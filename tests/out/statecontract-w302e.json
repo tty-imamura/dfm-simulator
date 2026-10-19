@@ -2,12 +2,12 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 120,
  "steps": 3,
  "registry": {
-  "names": 563,
+  "names": 605,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
@@ -15,7 +15,7 @@
    "/^(tide[A-Z]|_td[A-Z])/",
    "/^(shapeToy|coreField|spiral)[A-Z0-9]/"
   ],
-  "derived": 10,
+  "derived": 12,
   "copyFns": [
    "ckSnapOne",
    "inertialDragCkSnap",
@@ -23,7 +23,7 @@
   ]
  },
  "static": {
-  "assigned": 933,
+  "assigned": 978,
   "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -125,6 +125,18 @@
    "kind": "cache",
    "changed": 3,
    "seen": true
+  },
+  {
+   "key": "_rdRadArr",
+   "kind": "cache",
+   "changed": 0,
+   "seen": false
+  },
+  {
+   "key": "_rdLenSI",
+   "kind": "cache",
+   "changed": 0,
+   "seen": false
   }
  ],
  "detections": 0,
@@ -134,19 +146,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 16.155,
+ "elapsedS": 17.66,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T19:52:36.961Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T09:09:17.233Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    }
   ],
   "code": [
@@ -216,11 +228,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1391,
-   "segments": 1258,
-   "closureShare": 0.33
+   "names": 1453,
+   "segments": 1303,
+   "closureShare": 0.3363
   },
-  "scopeSha256": "aa6db8677ab0e2d1ad7f6c9da63c9a9ae1792224bbb5edbeab43178f26e3812f",
+  "scopeSha256": "33302b544e63c3ab83cb1f8788b254045916b746ddb23139821a5c3e6a49c15c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

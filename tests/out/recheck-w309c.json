@@ -1,0 +1,4351 @@
+{
+ "version": "w309c-recheck-1",
+ "libVersion": "w309c-recheck-lib-1",
+ "generator": "tests/exp-w309c-recheck.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+ "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
+ "initObsVersion": "w309c-initobs-1",
+ "ok": true,
+ "gates": {
+  "K.a2Closed": true,
+  "K.m2Closed": true,
+  "K.derivFD": true,
+  "K.m2Lead": true,
+  "K.selfCenter": true,
+  "K.selfDouble": true,
+  "K.coreCap": true,
+  "K.heatExamples": true,
+  "K.heatNoCancel": true,
+  "K.heatRateHalf": true,
+  "K.ledgerClose": true,
+  "K.toySpin": true,
+  "K.toyMotion": true,
+  "E.allBuilt": true,
+  "E.spinConverged": true,
+  "E.firstStepDx": true,
+  "E.firstStepRotA": true,
+  "E.motionDirectVsIter": true,
+  "E.firstUsed": true,
+  "E.stored": true,
+  "E.parallelKeepsAxis": true,
+  "E.vectorTurnsAxis": true,
+  "E.zeroFirstLacksU": true,
+  "E.checkpointNoRedo": true,
+  "E.redo": true,
+  "E.noConvergeRefused": true,
+  "E.rejectsAll": true,
+  "E.canonical": true,
+  "E.inverseMap296": true,
+  "P.built": true,
+  "P.converged": true,
+  "P.motionChecks": true,
+  "P.planets7": true,
+  "P.firstStepUsesU": true,
+  "R.converged": true,
+  "R.motionChecks": true,
+  "R.ledgerClosed": true,
+  "R.rateHalf": true,
+  "R.orderConv": true,
+  "R.configs": true
+ },
+ "lib": {
+  "gates": {
+   "a2Closed": true,
+   "m2Closed": true,
+   "derivFD": true,
+   "m2Lead": true,
+   "selfCenter": true,
+   "selfDouble": true,
+   "coreCap": true,
+   "heatExamples": true,
+   "heatNoCancel": true,
+   "heatRateHalf": true,
+   "ledgerClose": true,
+   "toySpin": true,
+   "toyMotion": true
+  },
+  "rows": [
+   {
+    "r": 1.5,
+    "A2": 0.4941,
+    "M2": 0.13821,
+    "relA2": 4.4939e-16,
+    "relM2": 1.2049e-15,
+    "dA2": 3.2007e-10,
+    "dM2": 5.3305e-10,
+    "lead": 0.16618
+   },
+   {
+    "r": 2,
+    "A2": 0.26406,
+    "M2": 0.054099,
+    "relA2": 2.7329e-15,
+    "relM2": 2.6935e-15,
+    "dA2": 2.3749e-10,
+    "dM2": 4.4265e-10,
+    "lead": 0.081988
+   },
+   {
+    "r": 2.5,
+    "A2": 0.16551,
+    "M2": 0.026874,
+    "relA2": 3.6894e-15,
+    "relM2": 2.9693e-15,
+    "dA2": 2.2048e-10,
+    "dM2": 3.6784e-10,
+    "lead": 0.049769
+   },
+   {
+    "r": 4,
+    "A2": 0.063303,
+    "M2": 0.0063652,
+    "relA2": 1.3154e-15,
+    "relM2": 4.088e-15,
+    "dA2": 2.1178e-10,
+    "dM2": 3.4929e-10,
+    "lead": 0.018437
+   },
+   {
+    "r": 10,
+    "A2": 0.01002,
+    "M2": 0.00040115,
+    "relA2": 3.2894e-15,
+    "relM2": 1.0811e-15,
+    "dA2": 1.9106e-10,
+    "dM2": 3.3541e-10,
+    "lead": 0.0028715
+   },
+   {
+    "r": 100,
+    "A2": 0.0001,
+    "M2": 4.0001e-7,
+    "relA2": 1.4907e-15,
+    "relM2": 3.1763e-15,
+    "dA2": 2.0136e-10,
+    "dM2": 3.4227e-10,
+    "lead": 0.000028573
+   },
+   {
+    "r": 10000,
+    "A2": 1e-8,
+    "M2": 4e-13,
+    "relA2": 4.6322e-15,
+    "relM2": 1.0564e-13,
+    "dA2": 2.0238e-10,
+    "dM2": 3.4027e-10,
+    "lead": 2.8571e-9
+   }
+  ],
+  "heat": {
+   "decrease": {
+    "Eaxis": 0,
+    "Espeed": -0.095,
+    "heat": 0,
+    "supply": 0.095
+   },
+   "tilt": {
+    "Eaxis": 0.005012437887910974,
+    "Espeed": 0.005000000000000001,
+    "heat": 0.010012437887910975
+   },
+   "halfStepRatio": 2
+  },
+  "toy": {
+   "spinIter": 4,
+   "spinRes": 3.5394e-21,
+   "motionIter": 7,
+   "fwd": 0,
+   "diff": 3.7007e-17
+  }
+ },
+ "engine": {
+  "toy": {
+   "rows": [
+    {
+     "model": "mu2",
+     "split": "vector",
+     "ok": true,
+     "spinIter": 10,
+     "spinRes": 7.7782e-13,
+     "motionIter": 39,
+     "fwd": 1.389e-16,
+     "diffIterDirect": 5.3592e-13,
+     "cond": 1.6067,
+     "dxOverV": 5.449e-14,
+     "rotA": 6.5781e-13,
+     "axisTurnRelOverWh": 0.40159,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "vector",
+       "dsRel": -0.011148,
+       "axisAngle": 0.014881,
+       "uRel": 0.83355
+      },
+      {
+       "mode": "flat",
+       "dsRel": -0.033785,
+       "axisAngle": 0,
+       "uRel": 0.41146
+      },
+      {
+       "mode": "vector",
+       "dsRel": -0.058624,
+       "axisAngle": 0.06931,
+       "uRel": 0.67828
+      }
+     ]
+    },
+    {
+     "model": "mu2",
+     "split": "parallel",
+     "ok": true,
+     "spinIter": 9,
+     "spinRes": 1.3415e-13,
+     "motionIter": 39,
+     "fwd": 1.2413e-16,
+     "diffIterDirect": 5.3566e-13,
+     "cond": 1.6067,
+     "dxOverV": 5.1285e-14,
+     "rotA": 1.3415e-13,
+     "axisTurnRelOverWh": 0.37354,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "parallel",
+       "dsRel": -0.013004,
+       "axisAngle": 0,
+       "uRel": 0.8332
+      },
+      {
+       "mode": "flat",
+       "dsRel": -0.032168,
+       "axisAngle": 0,
+       "uRel": 0.41152
+      },
+      {
+       "mode": "parallel",
+       "dsRel": -0.062897,
+       "axisAngle": 0,
+       "uRel": 0.67811
+      }
+     ]
+    },
+    {
+     "model": "sphere",
+     "split": "vector",
+     "ok": true,
+     "spinIter": 5,
+     "spinRes": 1.3694e-13,
+     "motionIter": 39,
+     "fwd": 1.2509e-16,
+     "diffIterDirect": 5.3536e-13,
+     "cond": 1.6067,
+     "dxOverV": 5.1285e-14,
+     "rotA": 2.2019e-14,
+     "axisTurnRelOverWh": 0.49997,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "vector",
+       "dsRel": -0.0000099267,
+       "axisAngle": 0.00087621,
+       "uRel": 0.83249
+      },
+      {
+       "mode": "flat",
+       "dsRel": 0.0008577,
+       "axisAngle": 0,
+       "uRel": 0.41155
+      },
+      {
+       "mode": "vector",
+       "dsRel": 0.00040082,
+       "axisAngle": 0.0056545,
+       "uRel": 0.67781
+      }
+     ]
+    },
+    {
+     "model": "sphere",
+     "split": "parallel",
+     "ok": true,
+     "spinIter": 4,
+     "spinRes": 1.3323e-14,
+     "motionIter": 39,
+     "fwd": 6.9389e-17,
+     "diffIterDirect": 5.3536e-13,
+     "cond": 1.6067,
+     "dxOverV": 7.6789e-14,
+     "rotA": 1.3184e-14,
+     "axisTurnRelOverWh": 0.49993,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "parallel",
+       "dsRel": -0.000015025,
+       "axisAngle": 0,
+       "uRel": 0.83255
+      },
+      {
+       "mode": "flat",
+       "dsRel": 0.00085767,
+       "axisAngle": 0,
+       "uRel": 0.41154
+      },
+      {
+       "mode": "parallel",
+       "dsRel": 0.00037961,
+       "axisAngle": 0,
+       "uRel": 0.67783
+      }
+     ]
+    },
+    {
+     "model": "bevel",
+     "split": "vector",
+     "ok": true,
+     "spinIter": 6,
+     "spinRes": 7.6622e-14,
+     "motionIter": 39,
+     "fwd": 1.4221e-16,
+     "diffIterDirect": 5.3534e-13,
+     "cond": 1.6067,
+     "dxOverV": 7.4549e-14,
+     "rotA": 5.3291e-14,
+     "axisTurnRelOverWh": 0.49986,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "vector",
+       "dsRel": -0.000051619,
+       "axisAngle": 0.0020959,
+       "uRel": 0.83239
+      },
+      {
+       "mode": "flat",
+       "dsRel": 0.0027353,
+       "axisAngle": 0,
+       "uRel": 0.41156
+      },
+      {
+       "mode": "vector",
+       "dsRel": 0.0010209,
+       "axisAngle": 0.014305,
+       "uRel": 0.67778
+      }
+     ]
+    },
+    {
+     "model": "bevel",
+     "split": "parallel",
+     "ok": true,
+     "spinIter": 4,
+     "spinRes": 5.0251e-13,
+     "motionIter": 39,
+     "fwd": 1.2509e-16,
+     "diffIterDirect": 5.3561e-13,
+     "cond": 1.6067,
+     "dxOverV": 5.1285e-14,
+     "rotA": 5.0251e-13,
+     "axisTurnRelOverWh": 0.49959,
+     "firstUsed": true,
+     "spinStored": true,
+     "motionStored": true,
+     "bodies": [
+      {
+       "mode": "parallel",
+       "dsRel": -0.000084124,
+       "axisAngle": 0,
+       "uRel": 0.83254
+      },
+      {
+       "mode": "flat",
+       "dsRel": 0.0027354,
+       "axisAngle": 0,
+       "uRel": 0.41154
+      },
+      {
+       "mode": "parallel",
+       "dsRel": 0.00088709,
+       "axisAngle": 0,
+       "uRel": 0.67783
+      }
+     ]
+    }
+   ],
+   "gates": {
+    "allBuilt": true,
+    "spinConverged": true,
+    "firstStepDx": true,
+    "firstStepRotA": true,
+    "motionDirectVsIter": true,
+    "firstUsed": true,
+    "stored": true,
+    "parallelKeepsAxis": true,
+    "vectorTurnsAxis": true,
+    "zeroFirstLacksU": true,
+    "checkpointNoRedo": true,
+    "redo": true,
+    "noConvergeRefused": true,
+    "rejectsAll": true,
+    "canonical": true,
+    "inverseMap296": true
+   },
+   "zeroFirst": {
+    "maxRelDxPlusU": 7.6246e-14,
+    "maxURel": 0.83239,
+    "used": null,
+    "flagAfter": true
+   },
+   "checkpoint": {
+    "t0": {
+     "sameV": true,
+     "sameS": true,
+     "sameF": true,
+     "rerun": true
+    },
+    "tMid": {
+     "back": true,
+     "again": true,
+     "flag": null
+    }
+   },
+   "redo": {
+    "idempotent": true,
+    "editedReadAsObserved": true,
+    "perField": true
+   },
+   "noConverge": {
+    "ok": false,
+    "why": "spinNoConverge",
+    "spinUntouched": true,
+    "halted": true
+   },
+   "accept": {
+    "rejects": {
+     "axialOff": true,
+     "badSplit": true,
+     "badMode": true,
+     "unknownKey": true,
+     "history": true,
+     "rigid": true,
+     "dragOff": true,
+     "tolRange": true,
+     "twoD": true,
+     "noDouble": true
+    },
+    "canonDefault": {
+     "initSpin": "observed",
+     "initMotion": "observed"
+    },
+    "canonOther": {
+     "initSpin": {
+      "mode": "observed",
+      "split": "parallel"
+     },
+     "initMotion": {
+      "mode": "observed",
+      "maxIter": 30,
+      "firstStep": "zero"
+     }
+    },
+    "omittedHasNoKey": true
+   },
+   "inverseMap296": {
+    "plain": {
+     "maxRelDiff": 3.5108e-16,
+     "xMax": 0
+    },
+    "inertialR2": {
+     "maxRelDiff": 1.2036,
+     "xMax": 0.86337
+    }
+   }
+  },
+  "planets": {
+   "ids": [
+    "mercurySunInertial3d",
+    "venusSunInertial3d",
+    "marsSunInertial3d",
+    "jupiterSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "neptuneSunInertial3d"
+   ],
+   "rows": [
+    {
+     "id": "mercurySunInertial3d",
+     "emoji": "🌡️",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 2,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -2.1974e-23,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -5.8777e-11,
+      "perpOverObs": 3.4404e-12,
+      "axisAngle": 3.4404e-12,
+      "omegaDparSI": -7.2884e-17
+     },
+     "motion": {
+      "uOverV": 2.1153e-7,
+      "sunUOverVplanet": 3.5127e-14,
+      "cond": 1,
+      "xMax": 1.0794e+22,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 1.0728e+22
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.014798,
+      "zeroDxMinusVOverV": 0.014798,
+      "dragMinusZeroVsUstep": 1.7941e-8,
+      "uStepVsU0": 0.014802
+     }
+    },
+    {
+     "id": "mercurySunInertial3d",
+     "emoji": "🌡️",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 2,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -5.4936e-24,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -1.4719e-11,
+      "perpOverObs": 1.6808e-12,
+      "axisAngle": 1.6808e-12,
+      "omegaDparSI": -1.8252e-17
+     },
+     "motion": {
+      "uOverV": 2.1153e-7,
+      "sunUOverVplanet": 3.5127e-14,
+      "cond": 1,
+      "xMax": 1.0794e+22,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 1.0728e+22
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.014798,
+      "zeroDxMinusVOverV": 0.014798,
+      "dragMinusZeroVsUstep": 1.7941e-8,
+      "uStepVsU0": 0.014802
+     }
+    },
+    {
+     "id": "venusSunInertial3d",
+     "emoji": "🌋",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 2,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": 1.3055e-22,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": 6.6157e-11,
+      "perpOverObs": 3.546e-12,
+      "axisAngle": 3.546e-12,
+      "omegaDparSI": -1.9797e-17
+     },
+     "motion": {
+      "uOverV": 1.3701e-7,
+      "sunUOverVplanet": 3.3546e-13,
+      "cond": 1,
+      "xMax": 4.528e+21,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 4.5274e+21
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.017529,
+      "zeroDxMinusVOverV": 0.017529,
+      "dragMinusZeroVsUstep": 2.9275e-9,
+      "uStepVsU0": 0.017533
+     }
+    },
+    {
+     "id": "venusSunInertial3d",
+     "emoji": "🌋",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 2,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": 3.2739e-23,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": 1.6614e-11,
+      "perpOverObs": 1.6888e-12,
+      "axisAngle": 1.6888e-12,
+      "omegaDparSI": -4.9715e-18
+     },
+     "motion": {
+      "uOverV": 1.3701e-7,
+      "sunUOverVplanet": 3.3546e-13,
+      "cond": 1,
+      "xMax": 4.528e+21,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 4.5274e+21
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.017529,
+      "zeroDxMinusVOverV": 0.017529,
+      "dragMinusZeroVsUstep": 2.9275e-9,
+      "uStepVsU0": 0.017533
+     }
+    },
+    {
+     "id": "marsSunInertial3d",
+     "emoji": "🔴",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 3.865e-14,
+     "sun": {
+      "dParOverObs": -1.3844e-22,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -3.3252e-14,
+      "perpOverObs": 1.9803e-14,
+      "axisAngle": 0,
+      "omegaDparSI": -2.357e-18
+     },
+     "motion": {
+      "uOverV": 7.094e-8,
+      "sunUOverVplanet": 2.2897e-14,
+      "cond": 1,
+      "xMax": 1.2136e+21,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 1.2134e+21
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.019189,
+      "zeroDxMinusVOverV": 0.019189,
+      "dragMinusZeroVsUstep": 2.1707e-8,
+      "uStepVsU0": 0.019192
+     }
+    },
+    {
+     "id": "marsSunInertial3d",
+     "emoji": "🔴",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 9.8531e-15,
+     "sun": {
+      "dParOverObs": -3.6371e-23,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -7.9489e-15,
+      "perpOverObs": 5.8367e-15,
+      "axisAngle": 0,
+      "omegaDparSI": -5.6343e-19
+     },
+     "motion": {
+      "uOverV": 7.094e-8,
+      "sunUOverVplanet": 2.2897e-14,
+      "cond": 1,
+      "xMax": 1.2136e+21,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 1.2134e+21
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.019189,
+      "zeroDxMinusVOverV": 0.019189,
+      "dragMinusZeroVsUstep": 2.1707e-8,
+      "uStepVsU0": 0.019192
+     }
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "emoji": "🏀",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 4.0594e-16,
+     "sun": {
+      "dParOverObs": -1.2704e-17,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -3.4268e-16,
+      "perpOverObs": 2.6723e-17,
+      "axisAngle": 0,
+      "omegaDparSI": -6.0261e-20
+     },
+     "motion": {
+      "uOverV": 1.9888e-8,
+      "sunUOverVplanet": 1.8983e-11,
+      "cond": 1,
+      "xMax": 102820000000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 102810000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.018299,
+      "zeroDxMinusVOverV": 0.018299,
+      "dragMinusZeroVsUstep": 7.3812e-8,
+      "uStepVsU0": 0.018301
+     }
+    },
+    {
+     "id": "jupiterSunInertial3d",
+     "emoji": "🏀",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 1.3015e-17,
+     "sun": {
+      "dParOverObs": -3.1907e-18,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -8.6099e-17,
+      "perpOverObs": 8.7704e-18,
+      "axisAngle": 0,
+      "omegaDparSI": -1.5141e-20
+     },
+     "motion": {
+      "uOverV": 1.9888e-8,
+      "sunUOverVplanet": 1.8983e-11,
+      "cond": 1,
+      "xMax": 102820000000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 102810000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.018299,
+      "zeroDxMinusVOverV": 0.018299,
+      "dragMinusZeroVsUstep": 7.3812e-8,
+      "uStepVsU0": 0.018301
+     }
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "emoji": "🟡",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 1.0748e-16,
+     "sun": {
+      "dParOverObs": -3.2442e-19,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -4.9733e-17,
+      "perpOverObs": 3.0178e-17,
+      "axisAngle": 0,
+      "omegaDparSI": -8.2198e-21
+     },
+     "motion": {
+      "uOverV": 1.0763e-8,
+      "sunUOverVplanet": 3.0765e-12,
+      "cond": 1,
+      "xMax": 30154000000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 30149000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.018166,
+      "zeroDxMinusVOverV": 0.018166,
+      "dragMinusZeroVsUstep": 2.2573e-7,
+      "uStepVsU0": 0.018167
+     }
+    },
+    {
+     "id": "saturnSunInertial3d",
+     "emoji": "🟡",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -8.5885e-20,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -1.2315e-17,
+      "perpOverObs": 7.7651e-18,
+      "axisAngle": 0,
+      "omegaDparSI": -2.0355e-21
+     },
+     "motion": {
+      "uOverV": 1.0763e-8,
+      "sunUOverVplanet": 3.0765e-12,
+      "cond": 1,
+      "xMax": 30154000000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 30149000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.018166,
+      "zeroDxMinusVOverV": 0.018166,
+      "dragMinusZeroVsUstep": 2.2573e-7,
+      "uStepVsU0": 0.018167
+     }
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "emoji": "🔷",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": 2.1046e-23,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": 3.3969e-19,
+      "perpOverObs": 9.221e-18,
+      "axisAngle": 0,
+      "omegaDparSI": -3.4389e-23
+     },
+     "motion": {
+      "uOverV": 4.9546e-9,
+      "sunUOverVplanet": 2.1631e-13,
+      "cond": 1,
+      "xMax": 6392200000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 6392000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.016814,
+      "zeroDxMinusVOverV": 0.016814,
+      "dragMinusZeroVsUstep": 4.3514e-7,
+      "uStepVsU0": 0.016815
+     }
+    },
+    {
+     "id": "uranusSunInertial3d",
+     "emoji": "🔷",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -2.2429e-24,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -3.1238e-20,
+      "perpOverObs": 2.3511e-18,
+      "axisAngle": 0,
+      "omegaDparSI": 3.1625e-24
+     },
+     "motion": {
+      "uOverV": 4.9546e-9,
+      "sunUOverVplanet": 2.1631e-13,
+      "cond": 1,
+      "xMax": 6392200000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 6392000000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.016814,
+      "zeroDxMinusVOverV": 0.016814,
+      "dragMinusZeroVsUstep": 4.3514e-7,
+      "uStepVsU0": 0.016815
+     }
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "emoji": "💙",
+     "model": "bevel",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -1.6868e-22,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -2.0819e-18,
+      "perpOverObs": 1.3759e-18,
+      "axisAngle": 0,
+      "omegaDparSI": -2.2555e-22
+     },
+     "motion": {
+      "uOverV": 3.2774e-9,
+      "sunUOverVplanet": 1.6879e-13,
+      "cond": 1,
+      "xMax": 2796800000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 2795500000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.017415,
+      "zeroDxMinusVOverV": 0.017415,
+      "dragMinusZeroVsUstep": 8.1481e-7,
+      "uStepVsU0": 0.017416
+     }
+    },
+    {
+     "id": "neptuneSunInertial3d",
+     "emoji": "💙",
+     "model": "sphere",
+     "ok": true,
+     "spinIter": 1,
+     "spinRes": 0,
+     "sun": {
+      "dParOverObs": -4.5019e-23,
+      "axisAngle": 0
+     },
+     "planet": {
+      "dParOverObs": -4.944e-19,
+      "perpOverObs": 3.9995e-19,
+      "axisAngle": 0,
+      "omegaDparSI": -5.3562e-23
+     },
+     "motion": {
+      "uOverV": 3.2774e-9,
+      "sunUOverVplanet": 1.6879e-13,
+      "cond": 1,
+      "xMax": 2796800000000000000,
+      "iter": 2,
+      "fwd": 0,
+      "diffIterDirect": 0,
+      "inverseMap296Diff": 2795500000000000000
+     },
+     "firstStep": {
+      "dragDxMinusVOverV": 0.017415,
+      "zeroDxMinusVOverV": 0.017415,
+      "dragMinusZeroVsUstep": 8.1481e-7,
+      "uStepVsU0": 0.017416
+     }
+    }
+   ],
+   "gates": {
+    "built": true,
+    "converged": true,
+    "motionChecks": true,
+    "planets7": true,
+    "firstStepUsesU": true
+   }
+  }
+ },
+ "recheck": {
+  "configs": [
+   {
+    "key": "mercurySunInertial3d",
+    "ja": "太陽–水星",
+    "kind": "pair",
+    "hSI": 21112.56,
+    "spinIter": 2,
+    "spinRes": 0,
+    "parIter": 2,
+    "spanIter": 2,
+    "Vmax": 38881.998648339366,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 7,
+     "fwd": 1.8713e-16,
+     "diffIterDirect": 1.8713e-16
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       -1.2671e-31,
+       1.1169e-31,
+       -1.3726e-30
+      ],
+      "omegaDpar": -1.3806e-30,
+      "omegaDparOverObs": -4.7556e-25,
+      "omegaDperpOverObs": 2.7836e-26,
+      "perpFloor": false,
+      "perpHiRel": 5.7111e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7111e-8,
+      "negFrac": 0.49987,
+      "sumBeta": 6.6021e-16,
+      "cond": 1,
+      "uOverV": null,
+      "uOverVmax": 6.6021e-16,
+      "u": [
+       2.4424e-11,
+       -7.3707e-12,
+       -2.8439e-12
+      ],
+      "uAbs": 2.567e-11,
+      "domSource": "水星",
+      "uOverVrel": 6.6021e-16,
+      "rot": [
+       -2.6707e-20,
+       7.5978e-21,
+       3.0838e-21
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 1.5681e-15,
+       "Espeed": -1924800000000,
+       "Q": 1.5681e-15,
+       "supply": 1924800000000,
+       "Pstep": 7.4271e-20,
+       "PhalfStep": 1.4854e-19,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 4.3557e-19
+        },
+        {
+         "tau": 86400,
+         "P": 1.8149e-20
+        },
+        {
+         "tau": 31557600,
+         "P": 4.9689e-23
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        60854000000000000,
+        -53641000000000000,
+        659180000000000000
+       ],
+       "Lbackground": [
+        -60854000000000000,
+        53641000000000000,
+        -659180000000000000
+       ],
+       "Efield": 1924800000000,
+       "Ebackground": -1924800000000,
+       "heat": 1.5681e-15,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "水星",
+      "m": 3.3011e+23,
+      "R": 2440000,
+      "Rd": 2440000,
+      "clamped": false,
+      "omegaObs": 0.00000124,
+      "omegaD": [
+       -1.0557e-17,
+       1.6255e-17,
+       -1.1471e-16
+      ],
+      "omegaDpar": -1.1614e-16,
+      "omegaDparOverObs": -9.3661e-11,
+      "omegaDperpOverObs": 5.4822e-12,
+      "perpFloor": false,
+      "perpHiRel": 5.66e-8,
+      "omegaIpar": 0.00000124,
+      "omegaIOverObsMinus1": 9.3661e-11,
+      "axisAngleRad": 5.4823e-12,
+      "parallelOmegaIOverObsMinus1": 9.3661e-11,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6599e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.003364,
+      "cond": 1.0034,
+      "uOverV": 0.0033753,
+      "uOverVmax": 0.0033753,
+      "u": [
+       -124.87,
+       37.683,
+       14.54
+      ],
+      "uAbs": 131.24,
+      "domSource": "太陽",
+      "uOverVrel": 0.0033753,
+      "rot": [
+       0.0000022536,
+       -6.3904e-7,
+       -2.9795e-7
+      ],
+      "Wmin": 83579000000,
+      "Wmax": 166740000000,
+      "heat": {
+       "I": 9.8267e+35,
+       "Eaxis": 22.706,
+       "Espeed": -141520000000000,
+       "Q": 22.706,
+       "supply": 141520000000000,
+       "Pstep": 0.0010755,
+       "PhalfStep": 0.0021509,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0.0063072
+        },
+        {
+         "tau": 86400,
+         "P": 0.0002628
+        },
+        {
+         "tau": 31557600,
+         "P": 7.195e-7
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        10374000000000000000,
+        -15973000000000000000,
+        112720000000000000000
+       ],
+       "Lbackground": [
+        -10374000000000000000,
+        15973000000000000000,
+        -112720000000000000000
+       ],
+       "Efield": 141520000000000,
+       "Ebackground": -141520000000000,
+       "heat": 22.706,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "venusSunInertial3d",
+    "ja": "太陽–金星",
+    "kind": "pair",
+    "hSI": 53928.24,
+    "spinIter": 2,
+    "spinRes": 0,
+    "parIter": 2,
+    "spanIter": 2,
+    "Vmax": 35171.24542454601,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 3.6118385950571e-17,
+    "motion": {
+     "iter": 5,
+     "fwd": 3.9482e-22,
+     "diffIterDirect": 3.9482e-22
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       5.0054e-31,
+       7.6102e-32,
+       5.2957e-30
+      ],
+      "omegaDpar": 5.3122e-30,
+      "omegaDparOverObs": 1.8298e-24,
+      "omegaDperpOverObs": 9.808e-26,
+      "perpFloor": false,
+      "perpHiRel": 5.7111e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7111e-8,
+      "negFrac": 0.5,
+      "sumBeta": 4.0836e-15,
+      "cond": 1,
+      "uOverV": 1.6683e-9,
+      "uOverVmax": 4.0836e-15,
+      "u": [
+       5.6482e-12,
+       -1.435e-10,
+       -2.2871e-12
+      ],
+      "uAbs": 1.4362e-10,
+      "domSource": "金星",
+      "uOverVrel": 4.0836e-15,
+      "rot": [
+       7.6415e-21,
+       -1.6574e-19,
+       1.6596e-21
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 1.9468e-14,
+       "Espeed": 7406300000000,
+       "Q": 7406300000000,
+       "supply": 0,
+       "Pstep": 137340000,
+       "PhalfStep": 274670000,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 2057300000
+        },
+        {
+         "tau": 86400,
+         "P": 85721000
+        },
+        {
+         "tau": 31557600,
+         "P": 234690
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -240380000000000000,
+        -36548000000000000,
+        -2543200000000000000
+       ],
+       "Lbackground": [
+        240380000000000000,
+        36548000000000000,
+        2543200000000000000
+       ],
+       "Efield": -7406300000000,
+       "Ebackground": -1.9468e-14,
+       "heat": 7406300000000,
+       "closeL": 0,
+       "closeE": -1.9468e-14
+      }
+     },
+     {
+      "body": "金星",
+      "m": 4.8675e+24,
+      "R": 6050000,
+      "Rd": 6050000,
+      "clamped": false,
+      "omegaObs": -2.99236919e-7,
+      "omegaD": [
+       4.7749e-20,
+       3.1663e-19,
+       -8.5836e-18
+      ],
+      "omegaDpar": -8.5773e-18,
+      "omegaDparOverObs": 2.8664e-11,
+      "omegaDperpOverObs": 1.5364e-12,
+      "perpFloor": false,
+      "perpHiRel": 5.6893e-8,
+      "omegaIpar": -2.9924e-7,
+      "omegaIOverObsMinus1": -2.8664e-11,
+      "axisAngleRad": 1.5364e-12,
+      "parallelOmegaIOverObsMinus1": -2.8664e-11,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6894e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.00059006,
+      "cond": 1.0006,
+      "uOverV": 0.00059041,
+      "uOverVmax": 0.00059041,
+      "u": [
+       -0.81662,
+       20.747,
+       0.33067
+      ],
+      "uAbs": 20.766,
+      "domSource": "太陽",
+      "uOverVrel": 0.00059041,
+      "rot": [
+       1.1629e-8,
+       -2.6771e-7,
+       -9.8104e-9
+      ],
+      "Wmin": 199650000000,
+      "Wmax": 399090000000,
+      "heat": {
+       "I": 8.9081e+37,
+       "Eaxis": 9.4145,
+       "Espeed": 228640000000000,
+       "Q": 228640000000000,
+       "supply": 0,
+       "Pstep": 4239700000,
+       "PhalfStep": 8479400000,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 63511000000
+        },
+        {
+         "tau": 86400,
+         "P": 2646300000
+        },
+        {
+         "tau": 31557600,
+         "P": 7245200
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -4253500000000000000,
+        -28206000000000000000,
+        764640000000000000000
+       ],
+       "Lbackground": [
+        4253500000000000000,
+        28206000000000000000,
+        -764640000000000000000
+       ],
+       "Efield": -228640000000000,
+       "Ebackground": -9.4145,
+       "heat": 228640000000000,
+       "closeL": 0,
+       "closeE": -0.0082581
+      }
+     }
+    ]
+   },
+   {
+    "key": "marsSunInertial3d",
+    "ja": "太陽–火星",
+    "kind": "pair",
+    "hSI": 164875.2,
+    "spinIter": 1,
+    "spinRes": 2.0715e-14,
+    "parIter": 1,
+    "spanIter": 1,
+    "Vmax": 26328.00637407874,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 5,
+     "fwd": 1.3818e-16,
+     "diffIterDirect": 1.3818e-16
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       1.3658e-30,
+       1.607e-31,
+       -3.1034e-30
+      ],
+      "omegaDpar": -2.9165e-30,
+      "omegaDparOverObs": -1.0046e-24,
+      "omegaDperpOverObs": 5.9827e-25,
+      "perpFloor": false,
+      "perpHiRel": 5.7113e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7113e-8,
+      "negFrac": 0.5,
+      "sumBeta": 1.443e-16,
+      "cond": 1,
+      "uOverV": null,
+      "uOverVmax": 1.443e-16,
+      "u": [
+       1.6804e-13,
+       3.7946e-12,
+       7.536e-14
+      ],
+      "uAbs": 3.7991e-12,
+      "domSource": "火星",
+      "uOverVrel": 1.443e-16,
+      "rot": [
+       -2.2525e-21,
+       -2.0416e-19,
+       -1.1563e-20
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 7.2436e-13,
+       "Espeed": -4066200000000,
+       "Q": 7.2436e-13,
+       "supply": 4066200000000,
+       "Pstep": 4.3934e-18,
+       "PhalfStep": 8.7868e-18,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 2.0121e-16
+        },
+        {
+         "tau": 86400,
+         "P": 8.3838e-18
+        },
+        {
+         "tau": 31557600,
+         "P": 2.2954e-20
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -655920000000000000,
+        -77175000000000000,
+        1490400000000000000
+       ],
+       "Lbackground": [
+        655920000000000000,
+        77175000000000000,
+        -1490400000000000000
+       ],
+       "Efield": 4066200000000,
+       "Ebackground": -4066200000000,
+       "heat": 7.2436e-13,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "火星",
+      "m": 6.4171e+23,
+      "R": 3389500,
+      "Rd": 3389500,
+      "clamped": false,
+      "omegaObs": 0.0000708821638,
+      "omegaD": [
+       1.0796e-19,
+       4.2732e-20,
+       -1.4613e-18
+      ],
+      "omegaDpar": -1.2595e-18,
+      "omegaDparOverObs": -1.7768e-14,
+      "omegaDperpOverObs": 1.0582e-14,
+      "perpFloor": false,
+      "perpHiRel": 5.6975e-8,
+      "omegaIpar": 0.000070882,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4694e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6975e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.00037663,
+      "cond": 1.0004,
+      "uOverV": 0.00037677,
+      "uOverVmax": 0.00037677,
+      "u": [
+       -0.43877,
+       -9.9079,
+       -0.19677
+      ],
+      "uAbs": 9.9196,
+      "domSource": "太陽",
+      "uOverVrel": 0.00037677,
+      "rot": [
+       9.161e-10,
+       8.8317e-8,
+       2.6503e-9
+      ],
+      "Wmin": 83830000000,
+      "Wmax": 167600000000,
+      "heat": {
+       "I": 3.6862e+36,
+       "Eaxis": 1.0369,
+       "Espeed": -329080000000000,
+       "Q": 1.0369,
+       "supply": 329080000000000,
+       "Pstep": 0.0000062889,
+       "PhalfStep": 0.000012578,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0.00028802
+        },
+        {
+         "tau": 86400,
+         "P": 0.000012001
+        },
+        {
+         "tau": 31557600,
+         "P": 3.2857e-8
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -397960000000000000,
+        -157520000000000000,
+        5386600000000000000
+       ],
+       "Lbackground": [
+        397960000000000000,
+        157520000000000000,
+        -5386600000000000000
+       ],
+       "Efield": 329080000000000,
+       "Ebackground": -329080000000000,
+       "heat": 1.0369,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "jupiterSunInertial3d",
+    "ja": "太陽–木星",
+    "kind": "pair",
+    "hSI": 1039821.36,
+    "spinIter": 1,
+    "spinRes": 0,
+    "parIter": 1,
+    "spanIter": 1,
+    "Vmax": 13656.570645204967,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 3,
+     "fwd": 6.6598e-17,
+     "diffIterDirect": 6.6598e-17
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       -4.4405e-29,
+       -1.7143e-29,
+       -6.1965e-28
+      ],
+      "omegaDpar": -6.1959e-28,
+      "omegaDparOverObs": -2.1342e-22,
+      "omegaDperpOverObs": 1.6643e-23,
+      "perpFloor": false,
+      "perpHiRel": 5.7077e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7077e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.3476e-14,
+      "cond": 1,
+      "uOverV": 3.5105e-11,
+      "uOverVmax": 3.3508e-14,
+      "u": [
+       -2.6501e-10,
+       3.7303e-10,
+       4.3895e-12
+      ],
+      "uAbs": 4.576e-10,
+      "domSource": "木星",
+      "uOverVrel": 3.3476e-14,
+      "rot": [
+       7.9236e-17,
+       -1.0764e-16,
+       -2.7001e-18
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 5.6056e-10,
+       "Espeed": -863840000000000,
+       "Q": 5.6056e-10,
+       "supply": 863840000000000,
+       "Pstep": 5.3909e-16,
+       "PhalfStep": 1.0782e-15,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 1.5571e-13
+        },
+        {
+         "tau": 86400,
+         "P": 6.4879e-15
+        },
+        {
+         "tau": 31557600,
+         "P": 1.7763e-17
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        21325000000000000000,
+        8233100000000000000,
+        297580000000000000000
+       ],
+       "Lbackground": [
+        -21325000000000000000,
+        -8233100000000000000,
+        -297580000000000000000
+       ],
+       "Efield": 863840000000000,
+       "Ebackground": -863840000000000,
+       "heat": 5.6056e-10,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.000175851814,
+      "omegaD": [
+       -2.9426e-25,
+       1.1474e-24,
+       -1.1195e-23
+      ],
+      "omegaDpar": -1.1223e-23,
+      "omegaDparOverObs": -6.3823e-20,
+      "omegaDperpOverObs": 4.977e-21,
+      "perpFloor": false,
+      "perpHiRel": 5.7112e-8,
+      "omegaIpar": 0.00017585,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 1.0842e-19,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7109e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.6744e-8,
+      "cond": 1,
+      "uOverV": 3.6779e-8,
+      "uOverVmax": 3.6779e-8,
+      "u": [
+       0.00029088,
+       -0.00040945,
+       -0.0000048181
+      ],
+      "uAbs": 0.00050228,
+      "domSource": "太陽",
+      "uOverVrel": 3.6744e-8,
+      "rot": [
+       -1.4256e-12,
+       1.9432e-12,
+       2.3664e-13
+      ],
+      "Wmin": 67385000000000,
+      "Wmax": 134760000000000,
+      "heat": {
+       "I": 4.8504e+42,
+       "Eaxis": 0.0000018577,
+       "Espeed": -9573100000000000,
+       "Q": 0.0000018577,
+       "supply": 9573100000000000,
+       "Pstep": 1.7865e-12,
+       "PhalfStep": 3.5731e-12,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 5.1602e-10
+        },
+        {
+         "tau": 86400,
+         "P": 2.1501e-11
+        },
+        {
+         "tau": 31557600,
+         "P": 5.8867e-14
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        1427300000000000000,
+        -5565400000000000000,
+        54301000000000000000
+       ],
+       "Lbackground": [
+        -1427300000000000000,
+        5565400000000000000,
+        -54301000000000000000
+       ],
+       "Efield": 9573100000000000,
+       "Ebackground": -9573100000000000,
+       "heat": 0.0000018577,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "saturnSunInertial3d",
+    "ja": "太陽–土星",
+    "kind": "pair",
+    "hSI": 2582212.8,
+    "spinIter": 1,
+    "spinRes": 0,
+    "parIter": 1,
+    "spanIter": 1,
+    "Vmax": 10019.20267986853,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 3,
+     "fwd": 2.8367e-18,
+     "diffIterDirect": 2.8367e-18
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       5.7772e-30,
+       6.087e-31,
+       -1.2835e-29
+      ],
+      "omegaDpar": -1.2045e-29,
+      "omegaDparOverObs": -4.1489e-24,
+      "omegaDperpOverObs": 2.5176e-24,
+      "perpFloor": false,
+      "perpHiRel": 5.7348e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7348e-8,
+      "negFrac": 0.5,
+      "sumBeta": 2.9399e-15,
+      "cond": 1,
+      "uOverV": 1.0289e-11,
+      "uOverVmax": 2.9407e-15,
+      "u": [
+       -2.1795e-11,
+       1.982e-11,
+       5.2133e-13
+      ],
+      "uAbs": 2.9463e-11,
+      "domSource": "土星",
+      "uOverVrel": 2.9399e-15,
+      "rot": [
+       3.8804e-18,
+       -3.7142e-18,
+       1.5704e-18
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 1.2827e-11,
+       "Espeed": -16793000000000,
+       "Q": 1.2827e-11,
+       "supply": 16793000000000,
+       "Pstep": 4.9674e-18,
+       "PhalfStep": 9.9348e-18,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 3.563e-15
+        },
+        {
+         "tau": 86400,
+         "P": 1.4846e-16
+        },
+        {
+         "tau": 31557600,
+         "P": 4.0646e-19
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -2774500000000000000,
+        -292330000000000000,
+        6164200000000000000
+       ],
+       "Lbackground": [
+        2774500000000000000,
+        292330000000000000,
+        -6164200000000000000
+       ],
+       "Efield": 16793000000000,
+       "Ebackground": -16793000000000,
+       "heat": 1.2827e-11,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "土星",
+      "m": 5.6834e+26,
+      "R": 60300000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.00016528,
+      "omegaD": [
+       -2.8982e-25,
+       2.0912e-25,
+       -3.2188e-24
+      ],
+      "omegaDpar": -2.7687e-24,
+      "omegaDparOverObs": -1.6752e-20,
+      "omegaDperpOverObs": 1.0165e-20,
+      "perpFloor": false,
+      "perpHiRel": 5.7121e-8,
+      "omegaIpar": 0.00016528,
+      "omegaIOverObsMinus1": -1.1102e-16,
+      "axisAngleRad": 5.722e-17,
+      "parallelOmegaIOverObsMinus1": -1.1102e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7121e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.5988e-8,
+      "cond": 1,
+      "uOverV": 3.5999e-8,
+      "uOverVmax": 3.5999e-8,
+      "u": [
+       0.0002668,
+       -0.00024262,
+       -0.0000063818
+      ],
+      "uAbs": 0.00036068,
+      "domSource": "太陽",
+      "uOverVrel": 3.5988e-8,
+      "rot": [
+       -9.0934e-13,
+       8.9907e-13,
+       1.4029e-13
+      ],
+      "Wmin": 20178000000000,
+      "Wmax": 40352000000000,
+      "heat": {
+       "I": 1.0333e+42,
+       "Eaxis": 0.0000014582,
+       "Espeed": -472840000000000,
+       "Q": 0.0000014582,
+       "supply": 472840000000000,
+       "Pstep": 5.6472e-13,
+       "PhalfStep": 1.1294e-12,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 4.0506e-10
+        },
+        {
+         "tau": 86400,
+         "P": 1.6878e-11
+        },
+        {
+         "tau": 31557600,
+         "P": 4.6209e-14
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        299460000000000000,
+        -216080000000000000,
+        3325900000000000000
+       ],
+       "Lbackground": [
+        -299460000000000000,
+        216080000000000000,
+        -3325900000000000000
+       ],
+       "Efield": 472840000000000,
+       "Ebackground": -472840000000000,
+       "heat": 0.0000014582,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "uranusSunInertial3d",
+    "ja": "太陽–天王星",
+    "kind": "pair",
+    "hSI": 7364496,
+    "spinIter": 1,
+    "spinRes": 0,
+    "parIter": 1,
+    "spanIter": 1,
+    "Vmax": 6544.3867528629835,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 1.270714356899523e-19,
+    "motion": {
+     "iter": 3,
+     "fwd": 1.9654e-16,
+     "diffIterDirect": 1.9654e-16
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       -5.1896e-32,
+       -1.4214e-32,
+       7.9748e-33
+      ],
+      "omegaDpar": 2.0025e-33,
+      "omegaDparOverObs": 6.8978e-28,
+      "omegaDperpOverObs": 1.8724e-26,
+      "perpFloor": false,
+      "perpHiRel": 5.705e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.705e-8,
+      "negFrac": 0.5,
+      "sumBeta": 9.5192e-17,
+      "cond": 1,
+      "uOverV": 2.1806e-12,
+      "uOverVmax": 9.5196e-17,
+      "u": [
+       4.4201e-13,
+       4.3902e-13,
+       -4.1001e-15
+      ],
+      "uAbs": 6.23e-13,
+      "domSource": "天王星",
+      "uOverVrel": 9.5192e-17,
+      "rot": [
+       5.6954e-21,
+       5.1785e-21,
+       4.6293e-20
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 7.0953e-16,
+       "Espeed": 2791900000,
+       "Q": 2791900000,
+       "supply": 0,
+       "Pstep": 379.1,
+       "PhalfStep": 758.2,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 775530
+        },
+        {
+         "tau": 86400,
+         "P": 32314
+        },
+        {
+         "tau": 31557600,
+         "P": 88.47
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        24923000000000000,
+        6826400000000000,
+        -3829900000000000
+       ],
+       "Lbackground": [
+        -24923000000000000,
+        -6826400000000000,
+        3829900000000000
+       ],
+       "Efield": -2791900000,
+       "Ebackground": -7.0953e-16,
+       "heat": 2791900000,
+       "closeL": 0,
+       "closeE": -7.0953e-16
+      }
+     },
+     {
+      "body": "天王星",
+      "m": 8.6811e+25,
+      "R": 25559000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": -0.000101237196,
+      "omegaD": [
+       1.8766e-26,
+       -9.8946e-26,
+       -9.4309e-25
+      ],
+      "omegaDpar": -3.4916e-26,
+      "omegaDparOverObs": 3.4489e-22,
+      "omegaDperpOverObs": 9.3623e-21,
+      "perpFloor": false,
+      "perpHiRel": 5.7151e-8,
+      "omegaIpar": -0.00010124,
+      "omegaIOverObsMinus1": -1.1102e-16,
+      "axisAngleRad": 0,
+      "parallelOmegaIOverObsMinus1": -1.1102e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7151e-8,
+      "negFrac": 0.5,
+      "sumBeta": 4.9946e-8,
+      "cond": 1,
+      "uOverV": 4.9948e-8,
+      "uOverVmax": 4.9948e-8,
+      "u": [
+       -0.00023192,
+       -0.00023035,
+       0.0000021513
+      ],
+      "uAbs": 0.00032688,
+      "domSource": "太陽",
+      "uOverVrel": 4.9946e-8,
+      "rot": [
+       5.6277e-13,
+       5.9183e-13,
+       -5.0895e-14
+      ],
+      "Wmin": 3082100000000,
+      "Wmax": 6163600000000,
+      "heat": {
+       "I": 2.8355e+40,
+       "Eaxis": 1.2736e-8,
+       "Espeed": 100230000000,
+       "Q": 100230000000,
+       "supply": 0,
+       "Pstep": 13610,
+       "PhalfStep": 27220,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 27842000
+        },
+        {
+         "tau": 86400,
+         "P": 1160100
+        },
+        {
+         "tau": 31557600,
+         "P": 3176.1
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -532110000000000,
+        2805600000000000,
+        26742000000000000
+       ],
+       "Lbackground": [
+        532110000000000,
+        -2805600000000000,
+        -26742000000000000
+       ],
+       "Efield": -100230000000,
+       "Ebackground": -1.2736e-8,
+       "heat": 100230000000,
+       "closeL": 0,
+       "closeE": -1.2736e-8
+      }
+     }
+    ]
+   },
+   {
+    "key": "neptuneSunInertial3d",
+    "ja": "太陽–海王星",
+    "kind": "pair",
+    "hSI": 14445360,
+    "spinIter": 1,
+    "spinRes": 0,
+    "parIter": 1,
+    "spanIter": 1,
+    "Vmax": 5422.899736899085,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 2,
+     "fwd": 2.3718e-16,
+     "diffIterDirect": 2.3718e-16
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       2.1691e-33,
+       -6.1929e-33,
+       -1.1861e-32
+      ],
+      "omegaDpar": -1.1309e-32,
+      "omegaDparOverObs": -3.8954e-27,
+      "omegaDperpOverObs": 2.5744e-27,
+      "perpFloor": false,
+      "perpHiRel": 5.7272e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7272e-8,
+      "negFrac": 0.5,
+      "sumBeta": 4.9134e-17,
+      "cond": 1,
+      "uOverV": 9.541e-13,
+      "uOverVmax": 4.9137e-17,
+      "u": [
+       2.1978e-13,
+       1.5045e-13,
+       -8.1622e-15
+      ],
+      "uAbs": 2.6646e-13,
+      "domSource": "海王星",
+      "uOverVrel": 4.9134e-17,
+      "rot": [
+       -1.4537e-20,
+       -9.7622e-21,
+       2.4385e-21
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 1.3413e-17,
+       "Espeed": -15767000000,
+       "Q": 1.3413e-17,
+       "supply": 15767000000,
+       "Pstep": 9.2853e-25,
+       "PhalfStep": 1.8571e-24,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 3.7258e-21
+        },
+        {
+         "tau": 86400,
+         "P": 1.5524e-22
+        },
+        {
+         "tau": 31557600,
+         "P": 4.2503e-25
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -1041700000000000,
+        2974100000000000,
+        5696400000000000
+       ],
+       "Lbackground": [
+        1041700000000000,
+        -2974100000000000,
+        -5696400000000000
+       ],
+       "Efield": 15767000000,
+       "Ebackground": -15767000000,
+       "heat": 1.3413e-17,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "海王星",
+      "m": 1.02409e+26,
+      "R": 24764000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.00010833825300000001,
+      "omegaD": [
+       -1.961e-27,
+       -2.0315e-26,
+       -1.5256e-25
+      ],
+      "omegaDpar": -1.2841e-25,
+      "omegaDparOverObs": -1.1853e-21,
+      "omegaDperpOverObs": 7.8332e-22,
+      "perpFloor": false,
+      "perpHiRel": 5.7111e-8,
+      "omegaIpar": 0.00010834,
+      "omegaIOverObsMinus1": 2.2204e-16,
+      "axisAngleRad": 0,
+      "parallelOmegaIOverObsMinus1": 2.2204e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.711e-8,
+      "negFrac": 0.5,
+      "sumBeta": 1.8525e-8,
+      "cond": 1,
+      "uOverV": 1.8526e-8,
+      "uOverVmax": 1.8526e-8,
+      "u": [
+       -0.000082862,
+       -0.000056722,
+       0.0000030774
+      ],
+      "uAbs": 0.00010046,
+      "domSource": "太陽",
+      "uOverVrel": 1.8525e-8,
+      "rot": [
+       1.6604e-13,
+       1.1155e-13,
+       -1.6989e-14
+      ],
+      "Wmin": 3635800000000,
+      "Wmax": 7271000000000,
+      "heat": {
+       "I": 3.1401e+40,
+       "Eaxis": 1.1307e-10,
+       "Espeed": -436850000000,
+       "Q": 1.1307e-10,
+       "supply": 436850000000,
+       "Pstep": 7.8277e-18,
+       "PhalfStep": 1.5655e-17,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 3.141e-14
+        },
+        {
+         "tau": 86400,
+         "P": 1.3087e-15
+        },
+        {
+         "tau": 31557600,
+         "P": 3.5831e-18
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        61578000000000,
+        637910000000000,
+        4790600000000000
+       ],
+       "Lbackground": [
+        -61578000000000,
+        -637910000000000,
+        -4790600000000000
+       ],
+       "Efield": 436850000000,
+       "Ebackground": -436850000000,
+       "heat": 1.1307e-10,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "JIo",
+    "ja": "木星–イオ(太陽なし)",
+    "kind": "io",
+    "hSI": 1039821.36,
+    "spinIter": 2,
+    "spinRes": 0,
+    "parIter": 2,
+    "spanIter": 2,
+    "Vmax": 13656.570645204967,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 19,
+     "fwd": 3.3558e-17,
+     "diffIterDirect": 1.4897e-16
+    },
+    "rows": [
+     {
+      "body": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.000175851814,
+      "omegaD": [
+       8.0563e-20,
+       1.9759e-19,
+       -5.5131e-18
+      ],
+      "omegaDpar": -5.5172e-18,
+      "omegaDparOverObs": -3.1374e-14,
+      "omegaDperpOverObs": null,
+      "perpFloor": true,
+      "perpHiRel": 0.66856,
+      "omegaIpar": 0.00017585,
+      "omegaIOverObsMinus1": 3.1308e-14,
+      "axisAngleRad": null,
+      "parallelOmegaIOverObsMinus1": 3.153e-14,
+      "spanOverPoint": 1.2639,
+      "orderHiRel": 5.7111e-8,
+      "negFrac": 0.46565,
+      "sumBeta": 5.164e-9,
+      "cond": 1,
+      "uOverV": 6.5798e-9,
+      "uOverVmax": 6.5798e-9,
+      "u": [
+       0.000053258,
+       -0.000072351,
+       -0.0000018148
+      ],
+      "uAbs": 0.000089857,
+      "domSource": "イオ",
+      "uOverVrel": 5.164e-9,
+      "rot": [
+       -3.9762e-10,
+       5.4017e-10,
+       1.3549e-11
+      ],
+      "Wmin": 67385000000000,
+      "Wmax": 134760000000000,
+      "heat": {
+       "I": 4.8504e+42,
+       "Eaxis": 0,
+       "Espeed": -4.7059e+21,
+       "Q": 0,
+       "supply": 4.7059e+21,
+       "Pstep": 0,
+       "PhalfStep": 0,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0
+        },
+        {
+         "tau": 86400,
+         "P": 0
+        },
+        {
+         "tau": 31557600,
+         "P": 0
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -3.9077e+23,
+        -9.5839e+23,
+        2.6741e+25
+       ],
+       "Lbackground": [
+        3.9077e+23,
+        9.5839e+23,
+        -2.6741e+25
+       ],
+       "Efield": 4.7059e+21,
+       "Ebackground": -4.7059e+21,
+       "heat": 0,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "イオ",
+      "m": 8.93e+22,
+      "R": 1821600,
+      "Rd": 1821600,
+      "clamped": false,
+      "omegaObs": 0.000041105924,
+      "omegaD": [
+       1.0582e-10,
+       2.5953e-10,
+       -7.2413e-9
+      ],
+      "omegaDpar": -7.2468e-9,
+      "omegaDparOverObs": -0.00017629,
+      "omegaDperpOverObs": null,
+      "perpFloor": true,
+      "perpHiRel": 0.44872,
+      "omegaIpar": 0.000041113,
+      "omegaIOverObsMinus1": 0.00017629,
+      "axisAngleRad": null,
+      "parallelOmegaIOverObsMinus1": 0.00017629,
+      "spanOverPoint": 1.2613,
+      "orderHiRel": 8.2985e-9,
+      "negFrac": 0.48605,
+      "sumBeta": 0.15419,
+      "cond": 1.1823,
+      "uOverV": 0.84405,
+      "uOverVmax": 0.23219,
+      "u": [
+       -1879.4,
+       2553.2,
+       64.042
+      ],
+      "uAbs": 3170.9,
+      "domSource": "木星",
+      "uOverVrel": 0.18223,
+      "rot": [
+       0.64657,
+       -0.87837,
+       -0.022033
+      ],
+      "Wmin": 51032000000,
+      "Wmax": 91487000000,
+      "heat": {
+       "I": 1.4816e+35,
+       "Eaxis": 0,
+       "Espeed": -4.4138e+22,
+       "Q": 0,
+       "supply": 4.4138e+22,
+       "Pstep": 0,
+       "PhalfStep": 0,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0
+        },
+        {
+         "tau": 86400,
+         "P": 0
+        },
+        {
+         "tau": 31557600,
+         "P": 0
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -1.5678e+25,
+        -3.8452e+25,
+        1.0729e+27
+       ],
+       "Lbackground": [
+        1.5678e+25,
+        3.8452e+25,
+        -1.0729e+27
+       ],
+       "Efield": 4.4138e+22,
+       "Ebackground": -4.4138e+22,
+       "heat": 0,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "SJIo",
+    "ja": "太陽–木星–イオ",
+    "kind": "io",
+    "hSI": 1039821.36,
+    "spinIter": 2,
+    "spinRes": 0,
+    "parIter": 2,
+    "spanIter": 2,
+    "Vmax": 13656.570645204967,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 0,
+    "motion": {
+     "iter": 19,
+     "fwd": 1.0532e-16,
+     "diffIterDirect": 6.6598e-17
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       -4.4405e-29,
+       -1.7143e-29,
+       -6.1965e-28
+      ],
+      "omegaDpar": -6.1959e-28,
+      "omegaDparOverObs": -2.1342e-22,
+      "omegaDperpOverObs": 1.6643e-23,
+      "perpFloor": false,
+      "perpHiRel": 5.7077e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7077e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.3477e-14,
+      "cond": 1,
+      "uOverV": 3.5105e-11,
+      "uOverVmax": 3.3507e-14,
+      "u": [
+       -2.65e-10,
+       3.7303e-10,
+       4.3892e-12
+      ],
+      "uAbs": 4.576e-10,
+      "domSource": "木星",
+      "uOverVrel": 3.3475e-14,
+      "rot": [
+       7.9236e-17,
+       -1.0764e-16,
+       -2.7001e-18
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 5.6056e-10,
+       "Espeed": -863840000000000,
+       "Q": 5.6056e-10,
+       "supply": 863840000000000,
+       "Pstep": 5.3909e-16,
+       "PhalfStep": 1.0782e-15,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 1.5571e-13
+        },
+        {
+         "tau": 86400,
+         "P": 6.488e-15
+        },
+        {
+         "tau": 31557600,
+         "P": 1.7763e-17
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        21325000000000000000,
+        8233100000000000000,
+        297580000000000000000
+       ],
+       "Lbackground": [
+        -21325000000000000000,
+        -8233100000000000000,
+        -297580000000000000000
+       ],
+       "Efield": 863840000000000,
+       "Ebackground": -863840000000000,
+       "heat": 5.6056e-10,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.000175851814,
+      "omegaD": [
+       8.0563e-20,
+       1.9759e-19,
+       -5.5131e-18
+      ],
+      "omegaDpar": -5.5172e-18,
+      "omegaDparOverObs": -3.1374e-14,
+      "omegaDperpOverObs": 4.9769e-21,
+      "perpFloor": false,
+      "perpHiRel": 4.0632e-8,
+      "omegaIpar": 0.00017585,
+      "omegaIOverObsMinus1": 3.1308e-14,
+      "axisAngleRad": 7.1533e-18,
+      "parallelOmegaIOverObsMinus1": 3.153e-14,
+      "spanOverPoint": 1.2639,
+      "orderHiRel": 5.7111e-8,
+      "negFrac": 0.48282,
+      "sumBeta": 4.1908e-8,
+      "cond": 1,
+      "uOverV": 4.3358e-8,
+      "uOverVmax": 4.3358e-8,
+      "u": [
+       0.00034414,
+       -0.0004818,
+       -0.0000066329
+      ],
+      "uAbs": 0.00059212,
+      "domSource": "太陽",
+      "uOverVrel": 4.3317e-8,
+      "rot": [
+       -3.9904e-10,
+       5.4211e-10,
+       1.3786e-11
+      ],
+      "Wmin": 67385000000000,
+      "Wmax": 134760000000000,
+      "heat": {
+       "I": 4.8504e+42,
+       "Eaxis": 0.0000018576,
+       "Espeed": -4.7059e+21,
+       "Q": 0.0000018576,
+       "supply": 4.7059e+21,
+       "Pstep": 1.7865e-12,
+       "PhalfStep": 3.573e-12,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 5.1601e-10
+        },
+        {
+         "tau": 86400,
+         "P": 2.1501e-11
+        },
+        {
+         "tau": 31557600,
+         "P": 5.8865e-14
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -3.9076e+23,
+        -9.584e+23,
+        2.6741e+25
+       ],
+       "Lbackground": [
+        3.9076e+23,
+        9.584e+23,
+        -2.6741e+25
+       ],
+       "Efield": 4.7059e+21,
+       "Ebackground": -4.7059e+21,
+       "heat": 0.0000018576,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "イオ",
+      "m": 8.93e+22,
+      "R": 1821600,
+      "Rd": 1821600,
+      "clamped": false,
+      "omegaObs": 0.000041105924,
+      "omegaD": [
+       1.0581e-10,
+       2.5952e-10,
+       -7.241e-9
+      ],
+      "omegaDpar": -7.2465e-9,
+      "omegaDparOverObs": -0.00017629,
+      "omegaDperpOverObs": 8.83e-15,
+      "perpFloor": false,
+      "perpHiRel": 0.00024141,
+      "omegaIpar": 0.000041113,
+      "omegaIOverObsMinus1": 0.00017629,
+      "axisAngleRad": 8.8324e-15,
+      "parallelOmegaIOverObsMinus1": 0.00017629,
+      "spanOverPoint": 1.2613,
+      "orderHiRel": 8.3008e-9,
+      "negFrac": 0.49262,
+      "sumBeta": 0.15424,
+      "cond": 1.1824,
+      "uOverV": 0.84411,
+      "uOverVmax": 0.23221,
+      "u": [
+       -1879.5,
+       2553.3,
+       64.055
+      ],
+      "uAbs": 3171.1,
+      "domSource": "木星",
+      "uOverVrel": 0.18224,
+      "rot": [
+       0.64653,
+       -0.87832,
+       -0.022031
+      ],
+      "Wmin": 51036000000,
+      "Wmax": 91491000000,
+      "heat": {
+       "I": 1.4816e+35,
+       "Eaxis": 0.0097561,
+       "Espeed": -4.4136e+22,
+       "Q": 0.0097561,
+       "supply": 4.4136e+22,
+       "Pstep": 9.3824e-9,
+       "PhalfStep": 1.8765e-8,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0.00000271
+        },
+        {
+         "tau": 86400,
+         "P": 1.1292e-7
+        },
+        {
+         "tau": 31557600,
+         "P": 3.0915e-10
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -1.5677e+25,
+        -3.845e+25,
+        1.0728e+27
+       ],
+       "Lbackground": [
+        1.5677e+25,
+        3.845e+25,
+        -1.0728e+27
+       ],
+       "Efield": 4.4136e+22,
+       "Ebackground": -4.4136e+22,
+       "heat": 0.0097561,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   },
+   {
+    "key": "S7",
+    "ja": "太陽 + 惑星 7(太陽を原点に各本の相対の位置と速度を重ねた診断の配置)",
+    "kind": "all",
+    "hSI": 21112.56,
+    "spinIter": 2,
+    "spinRes": 0,
+    "parIter": 2,
+    "spanIter": 2,
+    "Vmax": 38882.005103122654,
+    "rawRateHalfRel": 0,
+    "rawLedgerCloseRel": 3.525169189864424e-17,
+    "motion": {
+     "iter": 7,
+     "fwd": 1.8859e-16,
+     "diffIterDirect": 1.8859e-16
+    },
+    "rows": [
+     {
+      "body": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.0000029031,
+      "omegaD": [
+       -3.6938e-29,
+       -1.6207e-29,
+       -6.3167e-28
+      ],
+      "omegaDpar": -6.3063e-28,
+      "omegaDparOverObs": -2.1723e-22,
+      "omegaDperpOverObs": 1.8661e-23,
+      "perpFloor": false,
+      "perpHiRel": 5.7124e-8,
+      "omegaIpar": 0.0000029031,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 3.4964e-18,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7123e-8,
+      "negFrac": 0.49998,
+      "sumBeta": 4.1448e-14,
+      "cond": 1,
+      "uOverV": null,
+      "uOverVmax": 9.1358e-15,
+      "u": [
+       -2.559e-10,
+       2.4637e-10,
+       -1.5702e-13
+      ],
+      "uAbs": 3.5522e-10,
+      "domSource": "木星",
+      "uOverVrel": 2.5986e-14,
+      "rot": [
+       8.3087e-17,
+       -1.1172e-16,
+       -1.0877e-18
+      ],
+      "Wmin": 70598000000000000,
+      "Wmax": 141180000000000000,
+      "heat": {
+       "I": 4.8025e+47,
+       "Eaxis": 7.0477e-10,
+       "Espeed": -879230000000000,
+       "Q": 7.0477e-10,
+       "supply": 879230000000000,
+       "Pstep": 3.3382e-14,
+       "PhalfStep": 6.6763e-14,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 1.9577e-13
+        },
+        {
+         "tau": 86400,
+         "P": 8.1571e-15
+        },
+        {
+         "tau": 31557600,
+         "P": 2.2333e-17
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        17739000000000000000,
+        7783200000000000000,
+        303360000000000000000
+       ],
+       "Lbackground": [
+        -17739000000000000000,
+        -7783200000000000000,
+        -303360000000000000000
+       ],
+       "Efield": 879230000000000,
+       "Ebackground": -879230000000000,
+       "heat": 7.0477e-10,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "水星",
+      "m": 3.3011e+23,
+      "R": 2440000,
+      "Rd": 2440000,
+      "clamped": false,
+      "omegaObs": 0.00000124,
+      "omegaD": [
+       -1.0557e-17,
+       1.6255e-17,
+       -1.1471e-16
+      ],
+      "omegaDpar": -1.1614e-16,
+      "omegaDparOverObs": -9.3661e-11,
+      "omegaDperpOverObs": 5.4822e-12,
+      "perpFloor": false,
+      "perpHiRel": 5.66e-8,
+      "omegaIpar": 0.00000124,
+      "omegaIOverObsMinus1": 9.3661e-11,
+      "axisAngleRad": 5.4822e-12,
+      "parallelOmegaIOverObsMinus1": 9.3661e-11,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6599e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.003364,
+      "cond": 1.0034,
+      "uOverV": 0.0033754,
+      "uOverVmax": 0.0033754,
+      "u": [
+       -124.87,
+       37.684,
+       14.54
+      ],
+      "uAbs": 131.24,
+      "domSource": "太陽",
+      "uOverVrel": 0.0033754,
+      "rot": [
+       0.0000022536,
+       -6.3911e-7,
+       -2.9795e-7
+      ],
+      "Wmin": 83579000000,
+      "Wmax": 166740000000,
+      "heat": {
+       "I": 9.8267e+35,
+       "Eaxis": 22.706,
+       "Espeed": -141520000000000,
+       "Q": 22.706,
+       "supply": 141520000000000,
+       "Pstep": 0.0010755,
+       "PhalfStep": 0.0021509,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0.0063071
+        },
+        {
+         "tau": 86400,
+         "P": 0.0002628
+        },
+        {
+         "tau": 31557600,
+         "P": 7.195e-7
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        10374000000000000000,
+        -15973000000000000000,
+        112720000000000000000
+       ],
+       "Lbackground": [
+        -10374000000000000000,
+        15973000000000000000,
+        -112720000000000000000
+       ],
+       "Efield": 141520000000000,
+       "Ebackground": -141520000000000,
+       "heat": 22.706,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "金星",
+      "m": 4.8675e+24,
+      "R": 6050000,
+      "Rd": 6050000,
+      "clamped": false,
+      "omegaObs": -2.99236919e-7,
+      "omegaD": [
+       4.7739e-20,
+       3.1663e-19,
+       -8.5838e-18
+      ],
+      "omegaDpar": -8.5774e-18,
+      "omegaDparOverObs": 2.8664e-11,
+      "omegaDperpOverObs": 1.5364e-12,
+      "perpFloor": false,
+      "perpHiRel": 5.6893e-8,
+      "omegaIpar": -2.9924e-7,
+      "omegaIOverObsMinus1": -2.8665e-11,
+      "axisAngleRad": 1.5364e-12,
+      "parallelOmegaIOverObsMinus1": -2.8664e-11,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6894e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.00059008,
+      "cond": 1.0006,
+      "uOverV": 0.00059043,
+      "uOverVmax": 0.00053408,
+      "u": [
+       -0.81672,
+       20.747,
+       0.33068
+      ],
+      "uAbs": 20.766,
+      "domSource": "太陽",
+      "uOverVrel": 0.00059043,
+      "rot": [
+       1.1648e-8,
+       -2.6773e-7,
+       -9.8106e-9
+      ],
+      "Wmin": 199650000000,
+      "Wmax": 399090000000,
+      "heat": {
+       "I": 8.9081e+37,
+       "Eaxis": 9.4143,
+       "Espeed": 228640000000000,
+       "Q": 228640000000000,
+       "supply": 0,
+       "Pstep": 10830000000,
+       "PhalfStep": 21660000000,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 63512000000
+        },
+        {
+         "tau": 86400,
+         "P": 2646300000
+        },
+        {
+         "tau": 31557600,
+         "P": 7245300
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -4252700000000000000,
+        -28206000000000000000,
+        764650000000000000000
+       ],
+       "Lbackground": [
+        4252700000000000000,
+        28206000000000000000,
+        -764650000000000000000
+       ],
+       "Efield": -228640000000000,
+       "Ebackground": -9.4143,
+       "heat": 228640000000000,
+       "closeL": 0,
+       "closeE": -0.0080601
+      }
+     },
+     {
+      "body": "火星",
+      "m": 6.4171e+23,
+      "R": 3389500,
+      "Rd": 3389500,
+      "clamped": false,
+      "omegaObs": 0.0000708821638,
+      "omegaD": [
+       1.0789e-19,
+       4.2676e-20,
+       -1.4626e-18
+      ],
+      "omegaDpar": -1.2607e-18,
+      "omegaDparOverObs": -1.7786e-14,
+      "omegaDperpOverObs": 1.0589e-14,
+      "perpFloor": false,
+      "perpHiRel": 5.6975e-8,
+      "omegaIpar": 0.000070882,
+      "omegaIOverObsMinus1": 1.7764e-14,
+      "axisAngleRad": 1.0571e-14,
+      "parallelOmegaIOverObsMinus1": 1.7764e-14,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.6975e-8,
+      "negFrac": 0.5,
+      "sumBeta": 0.00037668,
+      "cond": 1.0004,
+      "uOverV": 0.0003768,
+      "uOverVmax": 0.00025514,
+      "u": [
+       -0.4392,
+       -9.9087,
+       -0.19679
+      ],
+      "uAbs": 9.9204,
+      "domSource": "太陽",
+      "uOverVrel": 0.0003768,
+      "rot": [
+       1.0897e-9,
+       8.8164e-8,
+       2.6489e-9
+      ],
+      "Wmin": 83830000000,
+      "Wmax": 167600000000,
+      "heat": {
+       "I": 3.6862e+36,
+       "Eaxis": 1.0384,
+       "Espeed": -329400000000000,
+       "Q": 1.0384,
+       "supply": 329400000000000,
+       "Pstep": 0.000049182,
+       "PhalfStep": 0.000098365,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 0.00028844
+        },
+        {
+         "tau": 86400,
+         "P": 0.000012018
+        },
+        {
+         "tau": 31557600,
+         "P": 3.2904e-8
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -397720000000000000,
+        -157310000000000000,
+        5391500000000000000
+       ],
+       "Lbackground": [
+        397720000000000000,
+        157310000000000000,
+        -5391500000000000000
+       ],
+       "Efield": 329400000000000,
+       "Ebackground": -329400000000000,
+       "heat": 1.0384,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.000175851814,
+      "omegaD": [
+       -1.9743e-25,
+       1.1944e-24,
+       -1.1465e-23
+      ],
+      "omegaDpar": -1.1496e-23,
+      "omegaDparOverObs": -6.5375e-20,
+      "omegaDperpOverObs": 4.9132e-21,
+      "perpFloor": false,
+      "perpHiRel": 5.7111e-8,
+      "omegaIpar": 0.00017585,
+      "omegaIOverObsMinus1": 0,
+      "axisAngleRad": 1.0842e-19,
+      "parallelOmegaIOverObsMinus1": 0,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7109e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.6758e-8,
+      "cond": 1,
+      "uOverV": 3.6749e-8,
+      "uOverVmax": 1.292e-8,
+      "u": [
+       0.00029089,
+       -0.00040952,
+       -0.0000048176
+      ],
+      "uAbs": 0.00050234,
+      "domSource": "太陽",
+      "uOverVrel": 3.6749e-8,
+      "rot": [
+       -1.3808e-12,
+       1.9139e-12,
+       2.4769e-13
+      ],
+      "Wmin": 67385000000000,
+      "Wmax": 134760000000000,
+      "heat": {
+       "I": 4.8504e+42,
+       "Eaxis": 0.0000018104,
+       "Espeed": -9805900000000000,
+       "Q": 0.0000018104,
+       "supply": 9805900000000000,
+       "Pstep": 8.575e-11,
+       "PhalfStep": 1.715e-10,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 5.0289e-10
+        },
+        {
+         "tau": 86400,
+         "P": 2.0954e-11
+        },
+        {
+         "tau": 31557600,
+         "P": 5.7368e-14
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        957600000000000000,
+        -5793200000000000000,
+        55610000000000000000
+       ],
+       "Lbackground": [
+        -957600000000000000,
+        5793200000000000000,
+        -55610000000000000000
+       ],
+       "Efield": 9805900000000000,
+       "Ebackground": -9805900000000000,
+       "heat": 0.0000018104,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "土星",
+      "m": 5.6834e+26,
+      "R": 60300000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.00016528,
+      "omegaD": [
+       -6.4513e-25,
+       -2.6797e-25,
+       -6.8752e-24
+      ],
+      "omegaDpar": -6.2466e-24,
+      "omegaDparOverObs": -3.7794e-20,
+      "omegaDperpOverObs": 1.7884e-20,
+      "perpFloor": false,
+      "perpHiRel": 5.712e-8,
+      "omegaIpar": 0.00016528,
+      "omegaIOverObsMinus1": -1.1102e-16,
+      "axisAngleRad": 5.722e-17,
+      "parallelOmegaIOverObsMinus1": -1.1102e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.712e-8,
+      "negFrac": 0.5,
+      "sumBeta": 3.6142e-8,
+      "cond": 1,
+      "uOverV": 3.5938e-8,
+      "uOverVmax": 9.2633e-9,
+      "u": [
+       0.00026673,
+       -0.00024195,
+       -0.0000063891
+      ],
+      "uAbs": 0.00036017,
+      "domSource": "太陽",
+      "uOverVrel": 3.5938e-8,
+      "rot": [
+       -1.4878e-12,
+       1.2877e-12,
+       1.4586e-13
+      ],
+      "Wmin": 20178000000000,
+      "Wmax": 40352000000000,
+      "heat": {
+       "I": 1.0333e+42,
+       "Eaxis": 0.0000045137,
+       "Espeed": -1066800000000000,
+       "Q": 0.0000045137,
+       "supply": 1066800000000000,
+       "Pstep": 2.1379e-10,
+       "PhalfStep": 4.2759e-10,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 1.2538e-9
+        },
+        {
+         "tau": 86400,
+         "P": 5.2242e-11
+        },
+        {
+         "tau": 31557600,
+         "P": 1.4303e-13
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        666590000000000000,
+        276890000000000000,
+        7103900000000000000
+       ],
+       "Lbackground": [
+        -666590000000000000,
+        -276890000000000000,
+        -7103900000000000000
+       ],
+       "Efield": 1066800000000000,
+       "Ebackground": -1066800000000000,
+       "heat": 0.0000045137,
+       "closeL": 0,
+       "closeE": 0
+      }
+     },
+     {
+      "body": "天王星",
+      "m": 8.6811e+25,
+      "R": 25559000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": -0.000101237196,
+      "omegaD": [
+       1.4019e-26,
+       -1.0304e-25,
+       -1.0226e-24
+      ],
+      "omegaDpar": -4.063e-26,
+      "omegaDparOverObs": 4.0133e-22,
+      "omegaDperpOverObs": 1.0145e-20,
+      "perpFloor": false,
+      "perpHiRel": 5.7148e-8,
+      "omegaIpar": -0.00010124,
+      "omegaIOverObsMinus1": -1.1102e-16,
+      "axisAngleRad": 0,
+      "parallelOmegaIOverObsMinus1": -1.1102e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7148e-8,
+      "negFrac": 0.5,
+      "sumBeta": 5.0015e-8,
+      "cond": 1,
+      "uOverV": 4.9993e-8,
+      "uOverVmax": 8.4149e-9,
+      "u": [
+       -0.00023267,
+       -0.00023002,
+       0.0000021614
+      ],
+      "uAbs": 0.00032719,
+      "domSource": "太陽",
+      "uOverVrel": 4.9993e-8,
+      "rot": [
+       6.0604e-13,
+       6.1987e-13,
+       -4.955e-14
+      ],
+      "Wmin": 3082100000000,
+      "Wmax": 6163600000000,
+      "heat": {
+       "I": 2.8355e+40,
+       "Eaxis": 1.4955e-8,
+       "Espeed": 116630000000,
+       "Q": 116630000000,
+       "supply": 0,
+       "Pstep": 5524300,
+       "PhalfStep": 11049000,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 32398000
+        },
+        {
+         "tau": 86400,
+         "P": 1349900
+        },
+        {
+         "tau": 31557600,
+         "P": 3695.9
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        -397510000000000,
+        2921700000000000,
+        28996000000000000
+       ],
+       "Lbackground": [
+        397510000000000,
+        -2921700000000000,
+        -28996000000000000
+       ],
+       "Efield": -116630000000,
+       "Ebackground": -1.4955e-8,
+       "heat": 116630000000,
+       "closeL": 0,
+       "closeE": -1.4955e-8
+      }
+     },
+     {
+      "body": "海王星",
+      "m": 1.02409e+26,
+      "R": 24764000,
+      "Rd": 6500000,
+      "clamped": true,
+      "omegaObs": 0.00010833825300000001,
+      "omegaD": [
+       -4.8598e-27,
+       -1.632e-26,
+       -1.6183e-25
+      ],
+      "omegaDpar": -1.3885e-25,
+      "omegaDparOverObs": -1.2817e-21,
+      "omegaDperpOverObs": 7.8314e-22,
+      "perpFloor": false,
+      "perpHiRel": 5.7111e-8,
+      "omegaIpar": 0.00010834,
+      "omegaIOverObsMinus1": 2.2204e-16,
+      "axisAngleRad": 0,
+      "parallelOmegaIOverObsMinus1": 2.2204e-16,
+      "spanOverPoint": 1.2631,
+      "orderHiRel": 5.7111e-8,
+      "negFrac": 0.5,
+      "sumBeta": 1.8552e-8,
+      "cond": 1,
+      "uOverV": 1.8548e-8,
+      "uOverVmax": 2.5871e-9,
+      "u": [
+       -0.000083124,
+       -0.000056562,
+       0.0000030846
+      ],
+      "uAbs": 0.00010059,
+      "domSource": "太陽",
+      "uOverVrel": 1.8548e-8,
+      "rot": [
+       1.7752e-13,
+       1.1661e-13,
+       -1.9474e-14
+      ],
+      "Wmin": 3635800000000,
+      "Wmax": 7271000000000,
+      "heat": {
+       "I": 3.1401e+40,
+       "Eaxis": 1.1302e-10,
+       "Espeed": -472370000000,
+       "Q": 1.1302e-10,
+       "supply": 472370000000,
+       "Pstep": 5.3533e-15,
+       "PhalfStep": 1.0707e-14,
+       "Phold": [
+        {
+         "tau": 3600,
+         "P": 3.1395e-14
+        },
+        {
+         "tau": 86400,
+         "P": 1.3081e-15
+        },
+        {
+         "tau": 31557600,
+         "P": 3.5814e-18
+        }
+       ]
+      },
+      "ledger": {
+       "Lfield": [
+        152600000000000,
+        512460000000000,
+        5081700000000000
+       ],
+       "Lbackground": [
+        -152600000000000,
+        -512460000000000,
+        -5081700000000000
+       ],
+       "Efield": 472370000000,
+       "Ebackground": -472370000000,
+       "heat": 1.1302e-10,
+       "closeL": 0,
+       "closeE": 0
+      }
+     }
+    ]
+   }
+  ],
+  "spec": {
+   "order": {
+    "nr": 16,
+    "ns": 12
+   },
+   "orderHi": {
+    "nr": 24,
+    "ns": 16
+   },
+   "quickOrder": {
+    "nr": 10,
+    "ns": 8
+   },
+   "Wbg": 0,
+   "eps": 0,
+   "gain": 1,
+   "inertiaF": 0.5,
+   "tauHold": [
+    3600,
+    86400,
+    31557600
+   ],
+   "spinTol": 1e-13,
+   "motionTol": 1e-15
+  },
+  "quick": false,
+  "ioPlacement": {
+   "from": "jupiterGalilean",
+   "index": 1,
+   "r": 420070620,
+   "v": 17400.772699999998,
+   "note": "二次元の本の木星に対する距離・速さを 🏀 の木星の赤道面へ回した診断の配置(太陽の側・順行 —— 実在の同じ元期の状態ではない)"
+  },
+  "dtSI": {
+   "mercurySunInertial3d": 21112.56,
+   "venusSunInertial3d": 53928.24,
+   "marsSunInertial3d": 164875.2,
+   "jupiterSunInertial3d": 1039821.36,
+   "saturnSunInertial3d": 2582212.8,
+   "uranusSunInertial3d": 7364496,
+   "neptuneSunInertial3d": 14445360
+  },
+  "inputs": [
+   {
+    "key": "mercurySunInertial3d",
+    "ja": "太陽–水星",
+    "kind": "pair",
+    "h": 21112.56,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       3230.7081941138376,
+       11108.358383634893,
+       610.9036145846017
+      ],
+      "v": [
+       -0.006141487642024178,
+       0.0018533724078528095,
+       0.0007150997078544374
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "水星",
+      "m": 3.3011e+23,
+      "R": 2440000,
+      "x": [
+       -19460977383.28244,
+       -66913970027.74223,
+       -3679930440.1607957
+      ],
+      "v": [
+       36994.78409065183,
+       -11164.251410182396,
+       -4307.58162148541
+      ],
+      "axis": [
+       0.09137641230000759,
+       -0.08162157871647904,
+       0.9924657521360667
+      ],
+      "omega": 0.00000124,
+      "Rd": 2440000,
+      "clamped": false
+     }
+    ]
+   },
+   {
+    "key": "venusSunInertial3d",
+    "ja": "太陽–金星",
+    "kind": "pair",
+    "h": 53928.24,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       263039.1963679461,
+       11976.803709281472,
+       -15019.450388988547
+      ],
+      "v": [
+       -0.0033856741587550672,
+       0.08601553116962887,
+       0.0013709442127022627
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "金星",
+      "m": 4.8675e+24,
+      "R": 6050000,
+      "x": [
+       -107458334253.24309,
+       -4892834961.665374,
+       6135835048.485613
+      ],
+      "v": [
+       1383.1357092315254,
+       -35139.57549682732,
+       -560.0662695343502
+      ],
+      "axis": [
+       0.018690814168946,
+       0.010872319287348872,
+       0.9997661957372913
+      ],
+      "omega": -2.99236919e-7,
+      "Rd": 6050000,
+      "clamped": false
+     }
+    ]
+   },
+   {
+    "key": "marsSunInertial3d",
+    "ja": "太陽–火星",
+    "kind": "pair",
+    "h": 164875.2,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -67136.98999895783,
+       646.4777384636801,
+       1663.6793509374197
+      ],
+      "v": [
+       -0.0003758169753683368,
+       -0.008486337209475574,
+       -0.00016853490204877289
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "火星",
+      "m": 6.4171e+23,
+      "R": 3389500,
+      "x": [
+       208040866766.80692,
+       -2003274038.0156581,
+       -5155329337.767931
+      ],
+      "v": [
+       1164.5635185986469,
+       26297.05247080797,
+       522.2478264698772
+      ],
+      "axis": [
+       0.44615872693612363,
+       -0.05551178296910845,
+       0.8932305594471833
+      ],
+      "omega": 0.0000708821638,
+      "Rd": 3389500,
+      "clamped": false
+     }
+    ]
+   },
+   {
+    "key": "jupiterSunInertial3d",
+    "ja": "太陽–木星",
+    "kind": "pair",
+    "h": 1039821.36,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -570373506.9263711,
+       -420215257.364539,
+       14510377.609272648
+      ],
+      "v": [
+       7.548825585998603,
+       -10.62599583261338,
+       -0.12503823906090492
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "x": [
+       597569925460.0048,
+       440251864736.2412,
+       -15202258101.179485
+      ],
+      "v": [
+       -7908.76695350802,
+       11132.662124948212,
+       131.00028365258663
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000175851814,
+      "Rd": 6500000,
+      "clamped": true
+     }
+    ]
+   },
+   {
+    "key": "saturnSunInertial3d",
+    "ja": "太陽–土星",
+    "kind": "pair",
+    "h": 2582212.8,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -274199084.5424557,
+       -279793659.50044197,
+       15779128.259034988
+      ],
+      "v": [
+       2.118272568013317,
+       -1.9263147947674437,
+       -0.05066906280698297
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "土星",
+      "m": 5.6834e+26,
+      "R": 60300000,
+      "x": [
+       959363901208.2081,
+       978938121400.2689,
+       -55207792066.52896
+      ],
+      "v": [
+       -7411.382273805259,
+       6739.76311608379,
+       177.28020444045043
+      ],
+      "axis": [
+       0.08547883186095037,
+       0.4624414978898747,
+       0.8825198186630464
+      ],
+      "omega": 0.00016528,
+      "Rd": 6500000,
+      "clamped": true
+     }
+    ]
+   },
+   {
+    "key": "uranusSunInertial3d",
+    "ja": "太陽–天王星",
+    "kind": "pair",
+    "h": 7364496,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -94207496.81431374,
+       89715592.30616364,
+       1554508.1602302766
+      ],
+      "v": [
+       -0.20270282997734423,
+       -0.20133424764469302,
+       0.0018803229494365622
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "天王星",
+      "m": 8.6811e+25,
+      "R": 25559000,
+      "x": [
+       2157924772382.1045,
+       -2055032833405.9783,
+       -35607693456.10469
+      ],
+      "v": [
+       4643.127914779797,
+       4611.779053823502,
+       -43.07083416795801
+      ],
+      "axis": [
+       -0.21199958153834858,
+       -0.9679890292391624,
+       0.1343630034651983
+      ],
+      "omega": -0.000101237196,
+      "Rd": 6500000,
+      "clamped": true
+     }
+    ]
+   },
+   {
+    "key": "neptuneSunInertial3d",
+    "ja": "太陽–海王星",
+    "kind": "pair",
+    "h": 14445360,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -129463684.66409983,
+       192543527.35954827,
+       -981512.7532863087
+      ],
+      "v": [
+       -0.2303510507871738,
+       -0.15768341244178252,
+       0.008554922556745715
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "海王星",
+      "m": 1.02409e+26,
+      "R": 24764000,
+      "x": [
+       2513827270596.9443,
+       -3738663634587.4062,
+       19058267436.551712
+      ],
+      "v": [
+       4472.781342365369,
+       3061.776461448549,
+       -166.11297350905537
+      ],
+      "axis": [
+       0.3585765089063292,
+       -0.3144097718476438,
+       0.8789592610737211
+      ],
+      "omega": 0.00010833825300000001,
+      "Rd": 6500000,
+      "clamped": true
+     }
+    ]
+   },
+   {
+    "key": "JIo",
+    "ja": "木星–イオ(太陽なし)",
+    "kind": "io",
+    "h": 1039821.36,
+    "bodies": [
+     {
+      "label": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "x": [
+       597569925460.0048,
+       440251864736.2412,
+       -15202258101.179485
+      ],
+      "v": [
+       -7908.76695350802,
+       11132.662124948212,
+       131.00028365258663
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000175851814,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "イオ",
+      "m": 8.93e+22,
+      "R": 1821600,
+      "x": [
+       597231643340.9093,
+       440003203195.9328,
+       -15216113499.367172
+      ],
+      "v": [
+       2404.4989509421684,
+       -2878.045531945536,
+       -220.4366157040027
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000041105924,
+      "Rd": 1821600,
+      "clamped": false
+     }
+    ]
+   },
+   {
+    "key": "SJIo",
+    "ja": "太陽–木星–イオ",
+    "kind": "io",
+    "h": 1039821.36,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       -570373506.9263711,
+       -420215257.364539,
+       14510377.609272648
+      ],
+      "v": [
+       7.548825585998603,
+       -10.62599583261338,
+       -0.12503823906090492
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "x": [
+       597569925460.0048,
+       440251864736.2412,
+       -15202258101.179485
+      ],
+      "v": [
+       -7908.76695350802,
+       11132.662124948212,
+       131.00028365258663
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000175851814,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "イオ",
+      "m": 8.93e+22,
+      "R": 1821600,
+      "x": [
+       597231643340.9093,
+       440003203195.9328,
+       -15216113499.367172
+      ],
+      "v": [
+       2404.4989509421684,
+       -2878.045531945536,
+       -220.4366157040027
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000041105924,
+      "Rd": 1821600,
+      "clamped": false
+     }
+    ]
+   },
+   {
+    "key": "S7",
+    "ja": "太陽 + 惑星 7(太陽を原点に各本の相対の位置と速度を重ねた診断の配置)",
+    "kind": "all",
+    "h": 21112.56,
+    "bodies": [
+     {
+      "label": "太陽",
+      "m": 1.9885e+30,
+      "R": 695000000,
+      "x": [
+       0,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       0,
+       0
+      ],
+      "axis": [
+       0.12235349347261153,
+       -0.031038072237276542,
+       0.9920011394685195
+      ],
+      "omega": 0.0000029031,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "水星",
+      "m": 3.3011e+23,
+      "R": 2440000,
+      "x": [
+       -19460980613.990635,
+       -66913981136.10062,
+       -3679931051.06441
+      ],
+      "v": [
+       36994.79023213947,
+       -11164.253263554805,
+       -4307.582336585118
+      ],
+      "axis": [
+       0.09137641230000759,
+       -0.08162157871647904,
+       0.9924657521360667
+      ],
+      "omega": 0.00000124,
+      "Rd": 2440000,
+      "clamped": false
+     },
+     {
+      "label": "金星",
+      "m": 4.8675e+24,
+      "R": 6050000,
+      "x": [
+       -107458597292.43945,
+       -4892846938.469083,
+       6135850067.936002
+      ],
+      "v": [
+       1383.1390949056843,
+       -35139.661512358485,
+       -560.0676404785629
+      ],
+      "axis": [
+       0.018690814168946,
+       0.010872319287348872,
+       0.9997661957372913
+      ],
+      "omega": -2.99236919e-7,
+      "Rd": 6050000,
+      "clamped": false
+     },
+     {
+      "label": "火星",
+      "m": 6.4171e+23,
+      "R": 3389500,
+      "x": [
+       208040933903.7969,
+       -2003274684.4933965,
+       -5155331001.447282
+      ],
+      "v": [
+       1164.5638944156221,
+       26297.06095714518,
+       522.2479950047792
+      ],
+      "axis": [
+       0.44615872693612363,
+       -0.05551178296910845,
+       0.8932305594471833
+      ],
+      "omega": 0.0000708821638,
+      "Rd": 3389500,
+      "clamped": false
+     },
+     {
+      "label": "木星",
+      "m": 1.898e+27,
+      "R": 71492000,
+      "x": [
+       598140298966.9312,
+       440672079993.6058,
+       -15216768478.788757
+      ],
+      "v": [
+       -7916.315779094019,
+       11143.288120780826,
+       131.12532189164753
+      ],
+      "axis": [
+       -0.014602136035353343,
+       -0.03581329956540255,
+       0.9992518127066089
+      ],
+      "omega": 0.000175851814,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "土星",
+      "m": 5.6834e+26,
+      "R": 60300000,
+      "x": [
+       959638100292.7506,
+       979217915059.7694,
+       -55223571194.787994
+      ],
+      "v": [
+       -7413.500546373272,
+       6741.689430878558,
+       177.3308735032574
+      ],
+      "axis": [
+       0.08547883186095037,
+       0.4624414978898747,
+       0.8825198186630464
+      ],
+      "omega": 0.00016528,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "天王星",
+      "m": 8.6811e+25,
+      "R": 25559000,
+      "x": [
+       2158018979878.9187,
+       -2055122548998.2844,
+       -35609247964.26492
+      ],
+      "v": [
+       4643.330617609774,
+       4611.980388071147,
+       -43.07271449090745
+      ],
+      "axis": [
+       -0.21199958153834858,
+       -0.9679890292391624,
+       0.1343630034651983
+      ],
+      "omega": -0.000101237196,
+      "Rd": 6500000,
+      "clamped": true
+     },
+     {
+      "label": "海王星",
+      "m": 1.02409e+26,
+      "R": 24764000,
+      "x": [
+       2513956734281.6084,
+       -3738856178114.7656,
+       19059248949.304996
+      ],
+      "v": [
+       4473.011693416156,
+       3061.9341448609907,
+       -166.12152843161212
+      ],
+      "axis": [
+       0.3585765089063292,
+       -0.3144097718476438,
+       0.8789592610737211
+      ],
+      "omega": 0.00010833825300000001,
+      "Rd": 6500000,
+      "clamped": true
+     }
+    ]
+   }
+  ]
+ },
+ "timing": {
+  "K": {
+   "wallSec": 0.045
+  },
+  "E": {
+   "wallSec": 0.239
+  },
+  "P": {
+   "wallSec": 0.238
+  },
+  "R": {
+   "wallSec": 1.087
+  }
+ },
+ "elapsedS": 3.341,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第309便c",
+  "target": "beta/index.html",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T04:11:02.563Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w309c-recheck.mjs",
+    "bytes": 39849,
+    "sha256": "2848dacca454de8aa9922d1fdd51051a040286cef955ec0b26fd07c57f91afb9",
+    "mtime": "2026-10-19T03:51:59.365Z"
+   },
+   {
+    "file": "tests/lib-w309c-recheck.mjs",
+    "bytes": 16023,
+    "sha256": "8cd318c64af64506b4b16bb58184ec0cae0004ee5db72aa61aa8c614a72a3da6",
+    "mtime": "2026-10-19T03:51:59.368Z"
+   },
+   {
+    "file": "tests/exp-w308c-sunspin.mjs",
+    "bytes": 49389,
+    "sha256": "95c129ac346689b7755c3abd78064045006dcc27c1c0f82bceb152f004af50ca",
+    "mtime": "2026-10-18T12:29:07.552Z"
+   },
+   {
+    "file": "tests/lib-w308c-sunspin.mjs",
+    "bytes": 23510,
+    "sha256": "a9451f371542a7096a608bef0abd7ea5b79bafe2a9a0ddf7f0b018a4f8355dec",
+    "mtime": "2026-10-18T12:29:07.556Z"
+   },
+   {
+    "file": "tests/exp-w307c-spindecomp.mjs",
+    "bytes": 37764,
+    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
+    "mtime": "2026-10-17T22:20:39.668Z"
+   },
+   {
+    "file": "tests/lib-w307c-spindecomp.mjs",
+    "bytes": 21642,
+    "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
+    "mtime": "2026-10-17T22:20:39.671Z"
+   },
+   {
+    "file": "tests/lib-w307b-tide3d.mjs",
+    "bytes": 12240,
+    "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
+    "mtime": "2026-10-17T21:16:57.789Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-10-17T21:20:30.822Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "92782fd731b19a73383df18e2962cd4c24ae4a09c25dcc0262d4d4d11eb6e1f7",
+  "harnessVersion": "w309c-recheck-1",
+  "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— validatePreset・build・step・読み口はエンジンのまま。修正版の引きずりは器の参照の純関数〔エンジンの式ではない —— 第309便a の新則と統合の後に照合〕)",
+  "notClaim": [
+   "観測の自転に合わせた",
+   "熱を説明した",
+   "法則を導いた",
+   "帳簿が完全に閉じた",
+   "自転が釣り合った",
+   "銀河の自転で太陽の自転を説明した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "REL_DRAG_INIT_OBS_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "inertialDragInitObsRedo",
+    "inertialDragInitObsState",
+    "inertialDragInverseMap",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1463,
+   "segments": 1313,
+   "closureShare": 0.3389
+  },
+  "scopeSha256": "e50abe604b61fda60e7dba8bb5aa4c7ad4e82f751d592f87afa9b444b6d77125",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

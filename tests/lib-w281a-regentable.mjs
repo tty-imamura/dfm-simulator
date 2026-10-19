@@ -1082,6 +1082,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/hold-w308b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第308便b: 元の自転軸の維持(垂直な分 —— 維持のトルクを帳簿へ・仕事 0)と慣性自転への駆動(平行な分 —— 候補の応答則)・源への反作用・供給項・別に要るエネルギーの帳簿と、相互の引きずりと反作用の二重計上の型・金星と木星の写しの時間発展' }),
   // ==== 第308便b の塊(ここまで)====
+  // ==== 第309便b の塊(ここから)====
+  // ---- 第309便b(原仮定者の裁定(第103報)AN356・AN358・(第104報)AN362・統括の検証項目 R219): **維持の型・背景の口座・内部熱の器**
+  //   (段 P〔純関数 —— 例の値・桁落ちの対照・復元の力積の和・実際の仕事 0・口座の和・赤道の歯車・熱の時間の型〕・A〔受理〕・E〔エンジンの 1 步 = 参照〕・
+  //   L〔維持の門・表示の門・口座〕・T〔dt の走査 —— 1 步の型は 1/h・τ_hold の型は不変〕・K〔チェックポイント〕・S〔状態の契約〕・D〔τ_C の駆動の型との比較〕・
+  //   V〔🌋🏀 の写し —— sphere・bevel・dt の走査・潮汐の内部熱へ〕)。写しは器の中で組む(在位の本の宣言は変えない)。html だけを読む・1 プロセス。
+  //   所要は第309便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。他の枝の段の出力・宣言には依存しない
+  S('maintain-309b', 'node tests/exp-w309b-maintain.mjs', ['tests/out/maintain-w309b.json'], 10, { secSource: 'w309b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/maintain-w309b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第309便b: 維持の型(軸も慣性自転の速さも引きずりで変えない)・1 步の量(軸のコストと実際の仕事 0・符号つきの速さの差・復元の力積)・背景の口座(流入と流出)・内部熱(潮汐の E_i へ / 帳簿だけ)・熱の時間の型("step" は 1/h・{tauHold} は刻みに依らない)の器と金星・木星の写し' }),
+  // ==== 第309便b の塊(ここまで)====
   // ==== 第307便c の塊(ここから)====
   // ---- 第307便c(原仮定者の裁定(第100報)「観測の自転を慣性軸回転と引きずり軸回転に分解する」「観測の自転が安定なら、引きずり軸回転と潮汐のブレーキが釣り合う」・
   //   決断事項 AN345 ④・統括の検証項目 R211): **金星・木星の観測の自転の分解の器と「釣り合い」の式**(段 K〔純関数の確かめ〕・D〔4 構成の瞬間の分解 × 求積 8/12/16〕・
@@ -1112,6 +1122,25 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sunspin-w308c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第308便c: 要求される太陽の慣性自転(R1 = 等しく反対のトルクで P_pair ≤ 0・R2 = 散逸の結合の鏡映の核 A = 1)と銀河を源とする引きずり軸回転の見積もり(幾何・源の宣言の走査・分解の候補)・相互の引きずりの二重計上の参照・収縮の診断(値だけ・エンジンと宣言は変えない)' }),
   // ==== 第308便c の塊(ここまで)====
+  // ==== 第309便a の塊(ここから)====
+  // ---- 第309便a(原仮定者の裁定(第103報)「正確な引きずり(修正版)」・第104報 AN363・決断事項 AN359・AN363・統括の検証項目 R218): **新しい引きずり則と dragCore の既定の参照の器**
+  //   (段 Q〔K2・M2 と導関数 —— 閉じた式と源の球の直接の 3 次元の求積〕・P〔点のエンジンと lib〕・A〔比の平均と平均の比・次数の収束〕・E〔配置の走査と本の写しの 1 步〕・
+  //   T〔2 体と 3 体〕・B〔天体の写し —— 旧則の値は第308便a の正本 bevel-w308a.json から読む〕・D〔dragCore の既定の在位の数え上げと旧則の写しの走行〕・G〔受理・enabled:false・
+  //   チェックポイント〕)。本の宣言は変えない(写しは器の中で組む)。html と第308便a の正本を読む・1 プロセス。所要は第309便a の枝の実測(正本の elapsedS)
+  S('invsq-309a', 'node tests/exp-w309a-invsq.mjs', ['tests/out/invsq-w309a.json'], 8, { secSource: 'w309a-branch', node: true, after: ['bevel-308a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/invsq-w309a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第309便a: 新しい引きずり則(分子は源の一様球の逆二乗の体積平均 m/r²・分母はトータル〔W_bg′ + 自己の体積平均 + 他の源〕・受け手の体積の比の平均・回転は M2・軸は鏡映 × sinθ × 受け手の近遠の差分)の opt-in relativeDrag.invSq と dragCore の既定 dragCoreDefault:"cap6500km" の参照の器(独立な求積・エンジンとの一致・天体の写し・在位の数え上げ)' }),
+  // ==== 第309便a の塊(ここまで)====
+  // ==== 第309便c の塊(ここから)====
+  // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
+  //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
+  //   P〔在位の惑星 7 本の写し —— 今のエンジンの法則で ω_D∥/Ω・|u(0)|/|V|・第296便b の逆写像との差・最初の步〕・R〔修正版の引きずりの参照: 惑星 7 本・木星 → イオ・太陽 –木星 –イオ・
+  //   太陽 + 惑星 7 の ω_D(0)・ω_I(0)・v(0)・熱の率・背景の口座〕)。html は本の宣言を読み(宣言から探す —— 惑星 7・木星系・銀河 3)、エンジンの build・step・読み口を呼ぶ。
+  //   同じ便の他の枝の正本に依存しない(修正版の引きずりは器の参照の純関数 —— 第309便a のエンジンとは統合の後に照合)。所要は第309便c の枝の実測(正本の elapsedS)
+  S('recheck-309c', 'node tests/exp-w309c-recheck.mjs', ['tests/out/recheck-w309c.json'], 6, { secSource: 'w309c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/recheck-w309c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第309便c: 観測の自転と移動の初期値の分解(spinDrag.initSpin・relativeDrag.initMotion —— 不動点と逆写像の照合・最初の步の u(0)・チェックポイントで分解し直さない)の門と、修正版の引きずり(m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5e6 m))での AN357 の再確認の表' }),
+  // ==== 第309便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1259,6 +1288,11 @@ export const EXTERNAL_VOLATILE = {
   //   歴史の記録の器〔an336-306a・refit-303a〕の「本の記録と同じか」の門と QA preset.fitRole308 の入力)
   'tests/data-w308d-decl307.json': [],
   // ==== 第308便d の塊(ここまで)====
+  // ==== 第309便d の塊(ここから)====
+  // 第309便d(AN361・R221): 第308便の退役の 🌥️ の fitRecord の凍結の写しと役割の表(tests/lib-w309d-pre.mjs が読む —— 書き換えない・除く欄は無い。
+  //   歴史の記録の器〔fit-297b〕の派生本の照合〔derivedCheck〕と QA preset.fitRole309 の入力)
+  'tests/data-w309d-decl308.json': [],
+  // ==== 第309便d の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

@@ -24,6 +24,7 @@
 #   環境変数: PLAYWRIGHT_CORE_DIR(既定: /opt/node22/lib/node_modules/playwright があればそれ)・POST_MERGE_LOG(ログの置き場 ——
 #             既定 ${TMPDIR:-/tmp}/post-merge-qa-<時刻>)・POST_MERGE_IDS(常設集合を差し替える —— 既定は下の 9 本)・
 #             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 11 本・空文字で飛ばす)
+#             POST_MERGE_PHYS_SCAN_IDS(③′ に必ず足す PHYSICS の全文を否定の照合で読む QA の一式 —— 第309便d・既定は下の PHYS_SCAN_IDS・空文字で外す)
 # 終了コード: 0 = ①〜④ がすべて通った / 1 = どれかが FAIL(⑤ は情報 —— 器が落ちたときだけ FAIL)/ 2 = 使い方の誤り
 # **書くもの**: ログだけ(tests/out/qa-preflight-beta.json は preflight の既定の保存物 —— .gitignore の対象)。正本・html は書かない。
 set -u
@@ -175,6 +176,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.c
 #   状態の契約・docs.axisHold308 —— 正本と文書)と、状態の契約の一覧が動く lint.stateContract302
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.stateContract302"
 # ==== 第308便b の塊(ここまで)====
+# ==== 第309便b の塊(ここから)====
+# 第309便b(原仮定者の裁定(第103報・第104報)・AN356・AN358・AN362・R219): 枝 b の新設 2 本(behavior.maintain309 —— 維持の型の受理・参照との一致・維持の門と表示の門・
+#   口座・dt の走査・状態の契約・docs.maintain309 —— 正本と文書)。axisHold の受理器が動く behavior.axisHold308 と状態の契約の lint.stateContract302 は第308便b の塊にある
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maintain309 docs.maintain309"
+# ==== 第309便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
@@ -183,6 +189,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
 # 第308便c(原仮定者の裁定(第102報)②①・第101報・AN355・AN348・R216): 枝 c の新設 1 本(docs.sunSpin308 —— 要求される太陽の慣性自転と銀河を源とする引きずり軸回転の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sunSpin308"
 # ==== 第308便c の塊(ここまで)====
+# ==== 第309便c の塊(ここから)====
+# 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第105報)AN364・R220): 枝 c の新設 2 本(behavior.initObs309 —— 観測の自転と移動の初期値の分解の受理・門・状態の契約・
+#   docs.recheck309 —— AN357 の再確認の器の正本と文書)と、状態の契約の一覧が動く lint.stateContract302・PHYSICS 全体を走査する docs.*(新しい節の数と単位)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.initObs309 docs.recheck309 lint.stateContract302 docs.mercuryUnits docs.ref3d299 preset.spaceMeshRetired300"
+# ==== 第309便c の塊(ここまで)====
 # ==== 第307便d の塊(ここから)====
 # 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・R212): 枝 d の新設 6 本(スピンの表示の上限・右下の XYZ の軸・サンプルの行の geoPN・「E水準」を「その他」へ・
 #   λ_PN=0 で α の淡色・kFrame=0 で qLock と q の淡色と kFrame の並び)と、世代切替を足した既存の UI の QA(畳みの次元・「その他」の段と軸の数・パラメータの並び)
@@ -194,6 +205,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.p
 #   遠方の M1 の外部の級数で正本の数が動く docs.sphereAxial307
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
 # ==== 第308便a の塊(ここまで)====
+# ==== 第309便a の塊(ここから)====
+# 第309便a(原仮定者の裁定(第103報)・AN359・AN363・R218): 枝 a の新設 2 本(behavior.invSq309 —— 新しい引きずり則と dragCore の既定の受理・エンジンと参照・opt-in・
+#   docs.invSq309 —— 正本と文書)と、PHYSICS 全体を走査する docs.*(新しい節の数と単位が古い docs.* に当たらないか)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.invSq309 docs.invSq309 docs.mercuryUnits docs.ref3d299 preset.spaceMeshRetired300 lint.stateContract302"
+# ==== 第309便a の塊(ここまで)====
 # ==== 第308便d の塊(ここから)====
 # 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
 #   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
@@ -202,6 +218,17 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303 docs.synodic299 preset.planets306 behavior.tide3d307 docs.fitContract296 docs.noRetiredMention294"
 # ==== 第308便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
+# ==== 第309便d の塊(ここから)====
+# 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
+#   世代切替を受けた preset.fitRole307(役割の無い本が無い世代の DOM の確かめ)・preset.fitCond297(派生本の照合を pin308d の写しで)・規則を変えた lint.qaEvidenceStamp308
+#   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS preset.fitRole309 docs.w309d preset.fitRole307 preset.fitCond297 lint.qaEvidenceStamp308"
+# PHYSICS の全文(節から「## 7.」まで —— 新しい節が置かれる範囲)を否定の照合で読む QA の一式(第308便の教訓: 新しい節の速さの数が古い単位の照合に当たり、ゲートまで見つからなかった)。
+#   統合の直後の ③′ で毎便走らせる(POST_MERGE_WAVE_IDS で一覧を差し替えても足す —— 外すときは POST_MERGE_PHYS_SCAN_IDS="" を明示)。
+#   一覧は第309便d の走査(qa.mjs の否定の語の見本を PHYSICS の「## 7.」の直前に足した写しで、FAIL に変わったブロック)で見付けた範囲 —— PHYSICS〔第309便d〕⑤ の表と同じ
+PHYS_SCAN_IDS="behavior.calauditStages docs.heavyCal docs.mercuryUnits docs.terminologyOpticalCamouflage preset.retired290b docs.ref3d299 docs.refit298 docs.synodic299 preset.spaceMeshRetired300"
+WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
+# ==== 第309便d の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in

@@ -943,6 +943,10 @@ tests/out/regen-plan-w281a.json
 # 第308便b(原仮定者の裁定(第101報・第102報)・AN348・統括の検証項目 R215): 元の自転軸の維持と慣性自転への駆動の器の正本(tests/exp-w308b-hold.mjs)。QA docs.axisHold308 が読むのでコミットする
 !tests/out/hold-w308b.json
 # ==== 第308便b の塊(ここまで)====
+# ==== 第309便b の塊(ここから)====
+# 第309便b(原仮定者の裁定(第103報・第104報)・AN356・AN358・AN362・統括の検証項目 R219): 維持の型・背景の口座・内部熱の器の正本(tests/exp-w309b-maintain.mjs)。QA docs.maintain309 が読むのでコミットする
+!tests/out/maintain-w309b.json
+# ==== 第309便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・統括の検証項目 R211): 金星・木星の観測の自転の分解の器の正本(tests/exp-w307c-spindecomp.mjs)。QA docs.spinDecomp307 が読むのでコミットする
 !tests/out/spindecomp-w307c.json
@@ -955,3 +959,11 @@ tests/out/regen-plan-w281a.json
 # 第308便c(原仮定者の裁定(第102報)②①・第101報・AN355・AN348・統括の検証項目 R216): 要求される太陽の慣性自転と銀河を源とする引きずり軸回転の器の正本(tests/exp-w308c-sunspin.mjs)。QA docs.sunSpin308 が読むのでコミットする
 !tests/out/sunspin-w308c.json
 # ==== 第308便c の塊(ここまで)====
+# ==== 第309便a の塊(ここから)====
+# 第309便a(原仮定者の裁定(第103報)・第104報 AN363・AN359・AN363・統括の検証項目 R218): 新しい引きずり則と dragCore の既定の参照の器の正本(tests/exp-w309a-invsq.mjs)。QA docs.invSq309 が読むのでコミットする
+!tests/out/invsq-w309a.json
+# ==== 第309便a の塊(ここまで)====
+# ==== 第309便c の塊(ここから)====
+# 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第105報)AN364・統括の検証項目 R220): 観測の初期値の分解の門と AN357 の再確認の器の正本(tests/exp-w309c-recheck.mjs)。QA behavior.initObs309・docs.recheck309 が読むのでコミットする
+!tests/out/recheck-w309c.json
+# ==== 第309便c の塊(ここまで)====

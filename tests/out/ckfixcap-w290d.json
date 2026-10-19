@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T19:52:50.799Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T04:11:04.625Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 51547,
-    "sha256": "166d8558f44195de452160531c1dca77dd22e4de94eca1d3a01d00de1160f800",
-    "mtime": "2026-10-14T00:03:21.981Z"
+    "bytes": 52597,
+    "sha256": "a81f0db528896b905ec26e4e2c562d206bc35636dfa3415a739308b919a984a8",
+    "mtime": "2026-10-19T03:51:59.359Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "30d2fe705a8fe850355c1a4d9d1d8d8899477c99ef9d5076b5d7d7f464b0a398",
+  "codeSha256": "59e2d257e23c7f7f77295d98a3f061216e93c84e1498fddcf4ac415e2a612e56",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1389,
-   "segments": 1256,
-   "closureShare": 0.3296
+   "names": 1451,
+   "segments": 1301,
+   "closureShare": 0.3358
   },
-  "scopeSha256": "3dc186cb14909a745cf11a268acdebd9c4c2cdac58c6d43c7897bdc4cb012f52",
+  "scopeSha256": "42bafc0fde54f55ae433945ef55091d69047781ea86928191151bbb484d769ae",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -657,7 +657,7 @@
   },
   "inventory": {
    "code": {
-    "loadSave": "bfcb885a6781ac0aac4afb53d1ecaf83a0c96c93f4927eed463c8b068bcd4f15",
+    "loadSave": "092e96b28b256de6a35bca844a769d33eb66a730c21fbd5a1131b6b493d88cf0",
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
     "saveHandler": "0a9170f4168fa628e30e780e992e9081445dd96e68a9386453870407c5179f4e"
    },
@@ -2722,5 +2722,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.718
+ "elapsedS": 0.408
 }

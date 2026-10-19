@@ -30,6 +30,10 @@ jobs:
       # 第251便b: 指紋キャッシュ(手元のフルゲート短縮用)は CI では常に無効 — CI は
       #           従来どおり全項目を実際に走らせる(CI が最終裁定者という原則は不変)
       QA_CACHE: '0'
+      # 第309便: フル QA(npm test)の node の heap の上限を 6144 MB に(第305便e の preflight と同じ値)。
+      #          Node 24 の既定の上限 ≈ 4 GB に beta のフルが届いた(Mark-Compact 4092 MB・46 分)ため。
+      #          npm test の中身(node tests/qa.mjs)は変えない(lint.qaOrder の約束)
+      NODE_OPTIONS: '--max-old-space-size=6144'
     steps:
       # P2: サプライチェーン対策 — actions をコミット SHA で固定(タグは移動しうるため)
       # 第190便: Node20 世代の v4 系 SHA(内部 runs.using が node20)がランナーの非推奨警告を

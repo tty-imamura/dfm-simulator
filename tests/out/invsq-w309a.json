@@ -1,0 +1,2552 @@
+{
+ "version": "w309a-invsq-1",
+ "libVersion": "w309a-invsq-lib-1",
+ "generator": "tests/exp-w309a-invsq.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+ "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
+ "invSqVersion": "w309a-invsq-1",
+ "invSqLaw": "invsq-ball-total-ratio",
+ "capVersion": "w309a-cap6500km-1",
+ "quick": false,
+ "Q": {
+  "ext": [
+   {
+    "rOverR": 1.05,
+    "libVsQuadK": 2.35817968e-10,
+    "libVsQuadM": 5.315371933e-10,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 6.679650193e-16,
+    "engDKVsQuadDeriv": 0.0006211929251,
+    "engDMVsQuadDeriv": 0.0009018648279,
+    "M2lead": 1.578021196,
+    "M2overM1lead": 1.104614837
+   },
+   {
+    "rOverR": 1.5,
+    "libVsQuadK": 2.471649671e-15,
+    "libVsQuadM": 4.357700258e-14,
+    "engVsLibK": 0,
+    "engVsLibM": 1.606525441e-15,
+    "engVsLibDK": 2.986245633e-16,
+    "engVsLibDM": 1.426015705e-15,
+    "engDKVsQuadDeriv": 3.311821063e-11,
+    "engDMVsQuadDeriv": 7.586670926e-11,
+    "M2lead": 1.166182188,
+    "M2overM1lead": 1.166182188
+   },
+   {
+    "rOverR": 2,
+    "libVsQuadK": 4.687923816e-14,
+    "libVsQuadM": 3.193721686e-14,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 0,
+    "engDKVsQuadDeriv": 2.131009067e-10,
+    "engDMVsQuadDeriv": 2.058128064e-11,
+    "M2lead": 1.081988196,
+    "M2overM1lead": 1.442650927
+   },
+   {
+    "rOverR": 2.9,
+    "libVsQuadK": 3.267687208e-14,
+    "libVsQuadM": 4.328196317e-14,
+    "engVsLibK": 2.732560731e-15,
+    "engVsLibM": 5.226501213e-14,
+    "engVsLibDK": 1.287488938e-15,
+    "engVsLibDM": 2.465076859e-14,
+    "engDKVsQuadDeriv": 5.187115902e-11,
+    "engDMVsQuadDeriv": 1.757060565e-11,
+    "M2lead": 1.03615127,
+    "M2overM1lead": 2.003225789
+   },
+   {
+    "rOverR": 3.1,
+    "libVsQuadK": 2.336317843e-14,
+    "libVsQuadM": 3.670312997e-14,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 0,
+    "engDKVsQuadDeriv": 1.292904576e-10,
+    "engDMVsQuadDeriv": 2.781428816e-11,
+    "M2lead": 1.031382753,
+    "M2overM1lead": 2.131524356
+   },
+   {
+    "rOverR": 5,
+    "libVsQuadK": 6.091335984e-14,
+    "libVsQuadM": 8.573624589e-15,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 0,
+    "engDKVsQuadDeriv": 4.995190921e-11,
+    "engDMVsQuadDeriv": 1.365778041e-11,
+    "M2lead": 1.011662838,
+    "M2overM1lead": 3.372209459
+   },
+   {
+    "rOverR": 30,
+    "libVsQuadK": 2.575491758e-14,
+    "libVsQuadM": 4.343899237e-15,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 0,
+    "engDKVsQuadDeriv": 1.776507668e-10,
+    "engDMVsQuadDeriv": 1.491913412e-11,
+    "M2lead": 1.000317637,
+    "M2overM1lead": 20.00635274
+   },
+   {
+    "rOverR": 1000,
+    "libVsQuadK": 8.851492529e-14,
+    "libVsQuadM": 1.214921178e-14,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 1.682902463e-16,
+    "engDKVsQuadDeriv": 2.433006042e-11,
+    "engDMVsQuadDeriv": 1.080490697e-10,
+    "M2lead": 1.000000286,
+    "M2overM1lead": 666.6668571
+   },
+   {
+    "rOverR": 1000000,
+    "libVsQuadK": 4.200526548e-14,
+    "libVsQuadM": 9.305551824e-11,
+    "engVsLibK": 0,
+    "engVsLibM": 0,
+    "engVsLibDK": 0,
+    "engVsLibDM": 0,
+    "engDKVsQuadDeriv": 1.8406151e-10,
+    "engDMVsQuadDeriv": 1.557997994e-7,
+    "M2lead": 1,
+    "M2overM1lead": 666666.6667
+   }
+  ],
+  "inn": [
+   {
+    "rOverR": 0.001,
+    "engVsLibK": 0,
+    "libVsShellQuad": 3.108082235e-10,
+    "engDKVsLibNum": 0.000002643326802
+   },
+   {
+    "rOverR": 0.1,
+    "engVsLibK": 0,
+    "libVsShellQuad": 3.118465878e-10,
+    "engDKVsLibNum": 1.334711564e-10
+   },
+   {
+    "rOverR": 0.29,
+    "engVsLibK": 0,
+    "libVsShellQuad": 3.199322638e-10,
+    "engDKVsLibNum": 2.362435426e-11
+   },
+   {
+    "rOverR": 0.31,
+    "engVsLibK": 3.060602407e-16,
+    "libVsShellQuad": 3.21304489e-10,
+    "engDKVsLibNum": 3.187163008e-11
+   },
+   {
+    "rOverR": 0.5,
+    "engVsLibK": 0,
+    "libVsShellQuad": 3.408037248e-10,
+    "engDKVsLibNum": 7.06726152e-12
+   },
+   {
+    "rOverR": 0.9,
+    "engVsLibK": 0,
+    "libVsShellQuad": 4.742228757e-10,
+    "engDKVsLibNum": 2.171528925e-13
+   },
+   {
+    "rOverR": 0.99,
+    "engVsLibK": 0,
+    "libVsShellQuad": 5.90211715e-10,
+    "engDKVsLibNum": 1.241398121e-10
+   }
+  ],
+  "centerOverTheory": 1,
+  "surfaceOverTheory": 1,
+  "doubleMean": [
+   {
+    "order": 4,
+    "nodes": 128,
+    "weightSum": 1,
+    "overTheory": 1.000185369
+   },
+   {
+    "order": 6,
+    "nodes": 432,
+    "weightSum": 1,
+    "overTheory": 1.000002752
+   },
+   {
+    "order": 8,
+    "nodes": 1024,
+    "weightSum": 1,
+    "overTheory": 1.000000289
+   },
+   {
+    "order": 12,
+    "nodes": 3456,
+    "weightSum": 1,
+    "overTheory": 1.000000013
+   },
+   {
+    "order": 16,
+    "nodes": 8192,
+    "weightSum": 1,
+    "overTheory": 1.000000001
+   },
+   {
+    "order": 24,
+    "nodes": 27648,
+    "weightSum": 1,
+    "overTheory": 1
+   }
+  ],
+  "maxLibVsQuad": 8.851492529e-14,
+  "farQuadM": 9.305551824e-11,
+  "maxEngVsLib": 5.226501213e-14,
+  "maxDerivVsQuad": 2.131009067e-10,
+  "farQuadDM": 1.557997994e-7
+ },
+ "P": {
+  "rows": [
+   {
+    "config": "toy2",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 7.083458086e-13
+   },
+   {
+    "config": "toy2",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.531997975e-16,
+    "ampNumeric": 5.614006579e-12
+   },
+   {
+    "config": "toy2",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.510732909e-16,
+    "ampNumeric": 4.299319248e-11
+   },
+   {
+    "config": "toy2",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.356350617e-16,
+    "ampNumeric": 3.496552158e-10
+   },
+   {
+    "config": "toy2",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 2.442584686e-13
+   },
+   {
+    "config": "toy2",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.375515165e-16,
+    "ampNumeric": 1.148142508e-12
+   },
+   {
+    "config": "toy2",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 6.153420659e-11
+   },
+   {
+    "config": "toy2",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 8.122803883e-10
+   },
+   {
+    "config": "toy3",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.353729729e-16,
+    "ampNumeric": 1.268866871e-12
+   },
+   {
+    "config": "toy3",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 9.005124183e-15,
+    "ampNumeric": 7.368893118e-11
+   },
+   {
+    "config": "toy3",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 8.451395448e-15,
+    "ampNumeric": 1.012508867e-10
+   },
+   {
+    "config": "toy3",
+    "recv": 0,
+    "t": 0.999,
+    "W": 1.671515165e-16,
+    "beta": 2.254843452e-16,
+    "rotC": 1.441066802e-16,
+    "ampAnalytic": 1.898007533e-15,
+    "ampNumeric": 1.593163642e-8
+   },
+   {
+    "config": "toy3",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 7.25130577e-15,
+    "ampNumeric": 2.082597678e-10
+   },
+   {
+    "config": "toy3",
+    "recv": 1,
+    "t": 0.7,
+    "W": 1.152094518e-16,
+    "beta": 1.271768827e-16,
+    "rotC": 1.903921144e-16,
+    "ampAnalytic": 3.690900487e-16,
+    "ampNumeric": 1.307660233e-11
+   },
+   {
+    "config": "toy3",
+    "recv": 1,
+    "t": 0.97,
+    "W": 1.662670484e-16,
+    "beta": 1.848170447e-16,
+    "rotC": 1.416626266e-16,
+    "ampAnalytic": 1.471921124e-16,
+    "ampNumeric": 1.957368312e-9
+   },
+   {
+    "config": "toy3",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.611568971e-16,
+    "ampNumeric": 4.250419769e-9
+   },
+   {
+    "config": "toy3",
+    "recv": 2,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.132676905e-16,
+    "ampNumeric": 2.979733135e-12
+   },
+   {
+    "config": "toy3",
+    "recv": 2,
+    "t": 0.7,
+    "W": 1.146778746e-16,
+    "beta": 1.507514469e-16,
+    "rotC": 2.013411092e-16,
+    "ampAnalytic": 4.182934848e-16,
+    "ampNumeric": 4.454267889e-12
+   },
+   {
+    "config": "toy3",
+    "recv": 2,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 2.097749023e-11
+   },
+   {
+    "config": "toy3",
+    "recv": 2,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.287928865e-16,
+    "ampNumeric": 4.869602047e-9
+   },
+   {
+    "config": "toyNear",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 1.317722539e-13
+   },
+   {
+    "config": "toyNear",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 9.122290084e-13
+   },
+   {
+    "config": "toyNear",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.219166839e-15,
+    "ampNumeric": 1.876678754e-11
+   },
+   {
+    "config": "toyNear",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 8.97585873e-10
+   },
+   {
+    "config": "toyNear",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 5.258224022e-16,
+    "rotC": 2.316495775e-15,
+    "ampAnalytic": 4.298327358e-16,
+    "ampNumeric": 4.262651241e-12
+   },
+   {
+    "config": "toyNear",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 3.911590812e-16,
+    "rotC": 0,
+    "ampAnalytic": 1.930767042e-15,
+    "ampNumeric": 1.283984217e-11
+   },
+   {
+    "config": "toyNear",
+    "recv": 1,
+    "t": 0.97,
+    "W": 1.527150733e-16,
+    "beta": 1.520401112e-16,
+    "rotC": 1.311175779e-16,
+    "ampAnalytic": 0,
+    "ampNumeric": 4.285384002e-11
+   },
+   {
+    "config": "toyNear",
+    "recv": 1,
+    "t": 0.999,
+    "W": 1.781395573e-16,
+    "beta": 1.316888948e-16,
+    "rotC": 1.611042254e-16,
+    "ampAnalytic": 1.953478497e-16,
+    "ampNumeric": 1.61176412e-9
+   },
+   {
+    "config": "toyMd",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.780768238e-16,
+    "ampNumeric": 5.442027736e-13
+   },
+   {
+    "config": "toyMd",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 5.377550605e-12
+   },
+   {
+    "config": "toyMd",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 5.131982623e-16,
+    "ampNumeric": 2.914641104e-11
+   },
+   {
+    "config": "toyMd",
+    "recv": 0,
+    "t": 0.999,
+    "W": 1.615242225e-16,
+    "beta": 1.166796431e-16,
+    "rotC": 1.803741774e-16,
+    "ampAnalytic": 3.543211919e-16,
+    "ampNumeric": 6.272087442e-11
+   },
+   {
+    "config": "toyMd",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 6.785008805e-12
+   },
+   {
+    "config": "toyMd",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.373402829e-14,
+    "ampNumeric": 5.886908649e-10
+   },
+   {
+    "config": "toyMd",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 6.699838498e-11
+   },
+   {
+    "config": "toyMd",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.771817945e-16,
+    "ampNumeric": 1.663068728e-9
+   },
+   {
+    "config": "toyPairs",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 4.236225962e-12
+   },
+   {
+    "config": "toyPairs",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.537080019e-16,
+    "ampNumeric": 2.53047993e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 9.920925878e-15,
+    "ampNumeric": 9.083924702e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 3.609190384e-16,
+    "ampNumeric": 2.029441338e-9
+   },
+   {
+    "config": "toyPairs",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 1.584705195e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 3.72282988e-16,
+    "ampNumeric": 1.944048204e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 3.9013162e-15,
+    "ampNumeric": 4.764125198e-10
+   },
+   {
+    "config": "toyPairs",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 1.322130616e-8
+   },
+   {
+    "config": "toyPairs",
+    "recv": 2,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 3.406605874e-12
+   },
+   {
+    "config": "toyPairs",
+    "recv": 2,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 3.557237191e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 2,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.282307439e-16,
+    "ampNumeric": 3.254534751e-11
+   },
+   {
+    "config": "toyPairs",
+    "recv": 2,
+    "t": 0.999,
+    "W": 1.42671046e-16,
+    "beta": 2.159387462e-16,
+    "rotC": 2.087967261e-16,
+    "ampAnalytic": 8.409479758e-16,
+    "ampNumeric": 1.796437898e-9
+   },
+   {
+    "config": "toyWbg",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.450543523e-16,
+    "ampNumeric": 3.230360425e-13
+   },
+   {
+    "config": "toyWbg",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.531713435e-16,
+    "ampNumeric": 3.759284284e-12
+   },
+   {
+    "config": "toyWbg",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 6.831650713e-16,
+    "ampNumeric": 6.914125815e-11
+   },
+   {
+    "config": "toyWbg",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 8.553544016e-10
+   },
+   {
+    "config": "toyWbg",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 2.65675848e-12
+   },
+   {
+    "config": "toyWbg",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.755247355e-16,
+    "ampNumeric": 1.835988733e-13
+   },
+   {
+    "config": "toyWbg",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 3.181288155e-11
+   },
+   {
+    "config": "toyWbg",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.992481249e-16,
+    "ampNumeric": 1.662786171e-9
+   },
+   {
+    "config": "SV",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.578012423e-16,
+    "ampNumeric": 1.677162099e-10
+   },
+   {
+    "config": "SV",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.571791689e-16,
+    "ampNumeric": 1.883260306e-9
+   },
+   {
+    "config": "SV",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 4.130208763e-16,
+    "ampNumeric": 1.141824887e-7
+   },
+   {
+    "config": "SV",
+    "recv": 0,
+    "t": 0.999,
+    "W": 1.124630543e-16,
+    "beta": 1.338433814e-16,
+    "rotC": 0,
+    "ampAnalytic": 2.094132253e-16,
+    "ampNumeric": 0.000001008357876
+   },
+   {
+    "config": "SV",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 3.312945114e-9
+   },
+   {
+    "config": "SV",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 5.926437643e-16,
+    "ampNumeric": 3.227955744e-9
+   },
+   {
+    "config": "SV",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.585591677e-16,
+    "ampNumeric": 3.0339608e-8
+   },
+   {
+    "config": "SV",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 0.000001565999078
+   },
+   {
+    "config": "SJ",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 4.791185712e-9
+   },
+   {
+    "config": "SJ",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.396511728e-16,
+    "ampNumeric": 0.000001307667343
+   },
+   {
+    "config": "SJ",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.844379591e-16,
+    "ampNumeric": 2.410569134e-7
+   },
+   {
+    "config": "SJ",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 0.00001198242927
+   },
+   {
+    "config": "SJ",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.299330431e-16,
+    "ampNumeric": 2.267224042e-8
+   },
+   {
+    "config": "SJ",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 8.799817723e-7
+   },
+   {
+    "config": "SJ",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 3.523734982e-16,
+    "ampNumeric": 3.199330462e-7
+   },
+   {
+    "config": "SJ",
+    "recv": 1,
+    "t": 0.999,
+    "W": 1.150639508e-16,
+    "beta": 1.247711533e-16,
+    "rotC": 1.755605022e-16,
+    "ampAnalytic": 2.086911625e-16,
+    "ampNumeric": 0.000003694734213
+   },
+   {
+    "config": "JIo",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 5.138920924e-9
+   },
+   {
+    "config": "JIo",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.457340557e-16,
+    "ampNumeric": 8.773825156e-8
+   },
+   {
+    "config": "JIo",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.787949709e-16,
+    "ampNumeric": 6.931635631e-7
+   },
+   {
+    "config": "JIo",
+    "recv": 0,
+    "t": 0.999,
+    "W": 1.15063956e-16,
+    "beta": 1.138391759e-16,
+    "rotC": 0,
+    "ampAnalytic": 3.431261627e-16,
+    "ampNumeric": 0.000002913679738
+   },
+   {
+    "config": "JIo",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 7.688885074e-8
+   },
+   {
+    "config": "JIo",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.856811075e-15,
+    "ampNumeric": 0.000003368812321
+   },
+   {
+    "config": "JIo",
+    "recv": 1,
+    "t": 0.97,
+    "W": 1.35713155e-16,
+    "beta": 1.457844122e-16,
+    "rotC": 1.190337909e-16,
+    "ampAnalytic": 0,
+    "ampNumeric": 0.00000249234979
+   },
+   {
+    "config": "JIo",
+    "recv": 1,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.738861592e-16,
+    "ampNumeric": 0.00002707263499
+   },
+   {
+    "config": "SJIo",
+    "recv": 0,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 1.849730085e-8
+   },
+   {
+    "config": "SJIo",
+    "recv": 0,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 4.178568575e-15,
+    "ampNumeric": 0.000001307667343
+   },
+   {
+    "config": "SJIo",
+    "recv": 0,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 7.60326364e-16,
+    "ampNumeric": 2.410569134e-7
+   },
+   {
+    "config": "SJIo",
+    "recv": 0,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.125676236e-16,
+    "ampNumeric": 0.00001198242927
+   },
+   {
+    "config": "SJIo",
+    "recv": 1,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.299330438e-16,
+    "ampNumeric": 2.267485558e-8
+   },
+   {
+    "config": "SJIo",
+    "recv": 1,
+    "t": 0.7,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 0,
+    "ampNumeric": 8.799777952e-7
+   },
+   {
+    "config": "SJIo",
+    "recv": 1,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 7.04747006e-16,
+    "ampNumeric": 6.931640298e-7
+   },
+   {
+    "config": "SJIo",
+    "recv": 1,
+    "t": 0.999,
+    "W": 1.150639499e-16,
+    "beta": 1.247711542e-16,
+    "rotC": 1.755605034e-16,
+    "ampAnalytic": 5.146892989e-16,
+    "ampNumeric": 0.000003694708623
+   },
+   {
+    "config": "SJIo",
+    "recv": 2,
+    "t": 0.2,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 1.17064585e-16,
+    "ampNumeric": 7.689319979e-8
+   },
+   {
+    "config": "SJIo",
+    "recv": 2,
+    "t": 0.7,
+    "W": 1.991159464e-16,
+    "beta": 2.88078543e-16,
+    "rotC": 2.025560815e-16,
+    "ampAnalytic": 1.114220436e-15,
+    "ampNumeric": 0.000003368957545
+   },
+   {
+    "config": "SJIo",
+    "recv": 2,
+    "t": 0.97,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 5.530083007e-16,
+    "ampNumeric": 0.000002492349449
+   },
+   {
+    "config": "SJIo",
+    "recv": 2,
+    "t": 0.999,
+    "W": 0,
+    "beta": 0,
+    "rotC": 0,
+    "ampAnalytic": 2.298844129e-16,
+    "ampNumeric": 0.00007284923853
+   }
+  ],
+  "maxW": 1.991159464e-16,
+  "maxBeta": 5.258224022e-16,
+  "maxRot": 2.316495775e-15,
+  "maxAmpAnalytic": 2.373402829e-14,
+  "maxAmpNumeric": 0.00007284923853
+ },
+ "A": {
+  "rows": [
+   {
+    "config": "SV",
+    "recv": "Sun",
+    "src": "Venus",
+    "beta": 4.083578077e-15,
+    "ratioOfMeansMinus1": -0.03040347085,
+    "centerMinus1": -0.2728023936,
+    "engVsLib": 3.863576944e-16
+   },
+   {
+    "config": "SV",
+    "recv": "Venus",
+    "src": "Sun",
+    "beta": 0.0005900645139,
+    "ratioOfMeansMinus1": -0.03036747703,
+    "centerMinus1": -0.2726713637,
+    "engVsLib": 1.837429886e-16
+   },
+   {
+    "config": "SJ",
+    "recv": "Sun",
+    "src": "Jupiter",
+    "beta": 3.347579998e-14,
+    "ratioOfMeansMinus1": -0.0304034708,
+    "centerMinus1": -0.272802393,
+    "engVsLib": 1.131125275e-15
+   },
+   {
+    "config": "SJ",
+    "recv": "Jupiter",
+    "src": "Sun",
+    "beta": 3.674427834e-8,
+    "ratioOfMeansMinus1": -0.03040346856,
+    "centerMinus1": -0.2728023849,
+    "engVsLib": 1.080567402e-15
+   },
+   {
+    "config": "JIo",
+    "recv": "Jupiter",
+    "src": "Io",
+    "beta": 5.164016767e-9,
+    "ratioOfMeansMinus1": -0.03040695569,
+    "centerMinus1": -0.2728398311,
+    "engVsLib": 3.203632559e-16
+   },
+   {
+    "config": "JIo",
+    "recv": "Io",
+    "src": "Jupiter",
+    "beta": 0.1541930242,
+    "ratioOfMeansMinus1": -0.02170935822,
+    "centerMinus1": -0.2375304754,
+    "engVsLib": 1.620048519e-15
+   },
+   {
+    "config": "SJIo",
+    "recv": "Sun",
+    "src": "Jupiter",
+    "beta": 3.347579998e-14,
+    "ratioOfMeansMinus1": -0.0304034708,
+    "centerMinus1": -0.272802393,
+    "engVsLib": 1.131125275e-15
+   },
+   {
+    "config": "SJIo",
+    "recv": "Sun",
+    "src": "Io",
+    "beta": 1.576800181e-18,
+    "ratioOfMeansMinus1": -0.0304034708,
+    "centerMinus1": -0.272802393,
+    "engVsLib": 1.221416618e-16
+   },
+   {
+    "config": "SJIo",
+    "recv": "Jupiter",
+    "src": "Sun",
+    "beta": 3.674427815e-8,
+    "ratioOfMeansMinus1": -0.03040346824,
+    "centerMinus1": -0.2728023837,
+    "engVsLib": 7.203782721e-16
+   },
+   {
+    "config": "SJIo",
+    "recv": "Jupiter",
+    "src": "Io",
+    "beta": 5.164016571e-9,
+    "ratioOfMeansMinus1": -0.03040695345,
+    "centerMinus1": -0.2728398229,
+    "engVsLib": 4.805449022e-16
+   },
+   {
+    "config": "SJIo",
+    "recv": "Io",
+    "src": "Sun",
+    "beta": 0.00005167639143,
+    "ratioOfMeansMinus1": -0.02170948958,
+    "centerMinus1": -0.2375192058,
+    "engVsLib": 2.49144734e-15
+   },
+   {
+    "config": "SJIo",
+    "recv": "Io",
+    "src": "Jupiter",
+    "beta": 0.1541848745,
+    "ratioOfMeansMinus1": -0.02170710836,
+    "centerMinus1": -0.2375202182,
+    "engVsLib": 3.420283206e-15
+   }
+  ],
+  "conv": [
+   {
+    "order": 4,
+    "recv": "Jupiter",
+    "betaSum": 0.0004447266114,
+    "omega": 0.0002910073657
+   },
+   {
+    "order": 4,
+    "recv": "Io",
+    "betaSum": 0.0002628971275,
+    "omega": 0.0000504935346
+   },
+   {
+    "order": 6,
+    "recv": "Jupiter",
+    "betaSum": 0.000001885232982,
+    "omega": 0.0002276842836
+   },
+   {
+    "order": 6,
+    "recv": "Io",
+    "betaSum": 0.00000242030525,
+    "omega": 0.00003558887725
+   },
+   {
+    "order": 8,
+    "recv": "Jupiter",
+    "betaSum": 5.968225649e-7,
+    "omega": 0.00007915021532
+   },
+   {
+    "order": 8,
+    "recv": "Io",
+    "betaSum": 4.468446655e-7,
+    "omega": 0.00001165734002
+   },
+   {
+    "order": 12,
+    "recv": "Jupiter",
+    "betaSum": 2.682555046e-8,
+    "omega": 0.00001616740874
+   },
+   {
+    "order": 12,
+    "recv": "Io",
+    "betaSum": 1.994846925e-8,
+    "omega": 0.000002364927677
+   },
+   {
+    "order": 16,
+    "recv": "Jupiter",
+    "betaSum": 2.780927633e-9,
+    "omega": 0.000004541860913
+   },
+   {
+    "order": 16,
+    "recv": "Io",
+    "betaSum": 2.060748552e-9,
+    "omega": 6.621953294e-7
+   },
+   {
+    "order": 24,
+    "recv": "Jupiter",
+    "betaSum": 0,
+    "omega": 0
+   },
+   {
+    "order": 24,
+    "recv": "Io",
+    "betaSum": 0,
+    "omega": 0
+   }
+  ],
+  "maxEngVsLib": 3.420283206e-15
+ },
+ "E": {
+  "rows": [
+   {
+    "case": 0,
+    "n": 2,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 7.263621593e-16,
+    "rot": 1.167595405e-15,
+    "omega": 1.267153917e-15,
+    "negFrac": 0.3600473833
+   },
+   {
+    "case": 1,
+    "n": 3,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 1.167688429e-15,
+    "rot": 2.444872343e-15,
+    "omega": 7.175615751e-15,
+    "negFrac": 0.3547572783
+   },
+   {
+    "case": 2,
+    "n": 2,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.946809344e-15,
+    "rot": 2.234710474e-15,
+    "omega": 2.194688804e-15,
+    "negFrac": 0.4184748819
+   },
+   {
+    "case": 3,
+    "n": 3,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 4.094414265e-16,
+    "rot": 1.61839637e-15,
+    "omega": 2.243935388e-15,
+    "negFrac": 0.3643851265
+   },
+   {
+    "case": 4,
+    "n": 2,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 1.137889192e-15,
+    "rot": 1.859381187e-15,
+    "omega": 7.20681482e-16,
+    "negFrac": 0.2842865801
+   },
+   {
+    "case": 5,
+    "n": 3,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 3.04035283e-15,
+    "rot": 2.763742736e-15,
+    "omega": 2.023078572e-15,
+    "negFrac": 0.4252885625
+   },
+   {
+    "case": 6,
+    "n": 2,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 7.353414823e-16,
+    "rot": 8.334723066e-16,
+    "omega": 1.319600278e-15,
+    "negFrac": 0.4004138969
+   },
+   {
+    "case": 7,
+    "n": 3,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 3.663304009e-15,
+    "rot": 1.445555649e-15,
+    "omega": 2.391155346e-15,
+    "negFrac": 0.3710586739
+   },
+   {
+    "case": 8,
+    "n": 2,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.964638953e-15,
+    "rot": 2.98278773e-15,
+    "omega": 2.904332576e-15,
+    "negFrac": 0.3040260324
+   },
+   {
+    "case": 9,
+    "n": 3,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": true,
+    "beta": 8.463334177e-16,
+    "rot": 1.260806169e-15,
+    "omega": 4.553303881e-15,
+    "negFrac": 0.3753663277
+   },
+   {
+    "case": 10,
+    "n": 2,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 9.578029158e-16,
+    "rot": 1.444554709e-15,
+    "omega": 1.558837285e-15,
+    "negFrac": 0.3817669399
+   },
+   {
+    "case": 11,
+    "n": 3,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 2.726510548e-15,
+    "rot": 2.946324285e-15,
+    "omega": 3.10397159e-15,
+    "negFrac": 0.3274590512
+   },
+   {
+    "case": 12,
+    "n": 2,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.055939199e-15,
+    "rot": 7.004054059e-16,
+    "omega": 2.241174901e-15,
+    "negFrac": 0.457261857
+   },
+   {
+    "case": 13,
+    "n": 3,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 2.329018954e-15,
+    "rot": 3.878510213e-15,
+    "omega": 4.006018896e-15,
+    "negFrac": 0.4077532727
+   },
+   {
+    "case": 14,
+    "n": 2,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 4.460661857e-15,
+    "rot": 2.322528026e-15,
+    "omega": 1.917667654e-15,
+    "negFrac": 0.3900417845
+   },
+   {
+    "case": 15,
+    "n": 3,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.539737553e-15,
+    "rot": 9.593966378e-16,
+    "omega": 1.664811542e-15,
+    "negFrac": 0.3509205399
+   },
+   {
+    "case": 16,
+    "n": 2,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 5.731503801e-16,
+    "rot": 1.937233351e-15,
+    "omega": 9.262040724e-16,
+    "negFrac": 0.3471383488
+   },
+   {
+    "case": 17,
+    "n": 3,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 3.991446496e-15,
+    "rot": 4.114130084e-15,
+    "omega": 3.829980114e-15,
+    "negFrac": 0.393751444
+   },
+   {
+    "case": 18,
+    "n": 2,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.180320496e-15,
+    "rot": 8.581173014e-16,
+    "omega": 2.780371308e-15,
+    "negFrac": 0.4025055081
+   },
+   {
+    "case": 19,
+    "n": 3,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": true,
+    "beta": 1.711473418e-15,
+    "rot": 2.643507758e-15,
+    "omega": 2.277389165e-15,
+    "negFrac": 0.36809046
+   },
+   {
+    "case": 20,
+    "n": 2,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 2.041383772e-15,
+    "rot": 1.279204562e-15,
+    "omega": 1.010163772e-15,
+    "negFrac": 0.4543760353
+   },
+   {
+    "case": 21,
+    "n": 3,
+    "order": 6,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.483096368e-15,
+    "rot": 7.703831007e-16,
+    "omega": 1.270338978e-15,
+    "negFrac": 0.3978356507
+   },
+   {
+    "case": 22,
+    "n": 2,
+    "order": 8,
+    "Wbg2": 0.05,
+    "pairs": false,
+    "beta": 3.530275289e-15,
+    "rot": 7.940663463e-16,
+    "omega": 2.885701614e-15,
+    "negFrac": 0.2142969335
+   },
+   {
+    "case": 23,
+    "n": 3,
+    "order": 10,
+    "Wbg2": 0,
+    "pairs": false,
+    "beta": 1.587294285e-15,
+    "rot": 3.208586322e-15,
+    "omega": 2.678887725e-15,
+    "negFrac": 0.312622986
+   }
+  ],
+  "step": {
+   "book": "jupiterSunInertial3d",
+   "steps": 3,
+   "uRel": [
+    5.858220666e-16,
+    1.865457819e-16
+   ],
+   "omegaRel": [
+    8.589458579e-12,
+    3.800417969e-13
+   ],
+   "uOverV": [
+    3.508195823e-11,
+    3.675474312e-8
+   ],
+   "ledger": {
+    "steps": 3,
+    "betaMax": 3.674428059e-8,
+    "neg": 0.5,
+    "why": null
+   }
+  },
+  "maxBeta": 4.460661857e-15,
+  "maxRot": 4.114130084e-15,
+  "maxOmega": 7.175615751e-15
+ },
+ "T": {
+  "jupiterFromSun2": 3.674427834e-8,
+  "jupiterFromSun3": 3.674427815e-8,
+  "jupiterFromSunRatioMinus1": -5.332005948e-9,
+  "ioFromJupiter2": 0.1541930242,
+  "ioFromJupiter3": 0.1541848745,
+  "ioFromJupiterRatioMinus1": -0.00005285418731,
+  "ioFromSun3": 0.00005167639143,
+  "note": "第三体は分母 W を通じて β を変える(新則の仕様 —— 旧 pair の「第三体の有無で同じビット」は求めない)"
+ },
+ "B": {
+  "rows": [
+   {
+    "config": "SV",
+    "recv": "Sun",
+    "src": "Venus",
+    "RdRecv": 6500000,
+    "RdSrc": 6050000,
+    "beta": 4.083578077e-15,
+    "omegaAxialOverObs": 1.829977962e-24,
+    "omegaPerpOverObs": 9.808793778e-26,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": null
+   },
+   {
+    "config": "SV",
+    "recv": "Sun",
+    "src": "(合計)",
+    "uOverV": 1.667267271e-9,
+    "betaSum": 4.083578077e-15
+   },
+   {
+    "config": "SV",
+    "recv": "Venus",
+    "src": "Sun",
+    "RdRecv": 6050000,
+    "RdSrc": 6500000,
+    "beta": 0.0005900645139,
+    "omegaAxialOverObs": 2.866621293e-11,
+    "omegaPerpOverObs": 1.536526538e-12,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": 6.615689023e-11
+   },
+   {
+    "config": "SV",
+    "recv": "Venus",
+    "src": "(合計)",
+    "uOverV": 0.0005900659506,
+    "betaSum": 0.0005900645139
+   },
+   {
+    "config": "SJ",
+    "recv": "Sun",
+    "src": "Jupiter",
+    "RdRecv": 6500000,
+    "RdSrc": 6500000,
+    "beta": 3.347579998e-14,
+    "omegaAxialOverObs": -2.13441618e-22,
+    "omegaPerpOverObs": 1.664430273e-23,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": null
+   },
+   {
+    "config": "SJ",
+    "recv": "Sun",
+    "src": "(合計)",
+    "uOverV": 3.510544964e-11,
+    "betaSum": 3.347579998e-14
+   },
+   {
+    "config": "SJ",
+    "recv": "Jupiter",
+    "src": "Sun",
+    "RdRecv": 6500000,
+    "RdSrc": 6500000,
+    "beta": 3.674427834e-8,
+    "omegaAxialOverObs": -6.382817727e-20,
+    "omegaPerpOverObs": 4.977358749e-21,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": -3.426827664e-16
+   },
+   {
+    "config": "SJ",
+    "recv": "Jupiter",
+    "src": "(合計)",
+    "uOverV": 3.677935015e-8,
+    "betaSum": 3.674427834e-8
+   },
+   {
+    "config": "JIo",
+    "recv": "Jupiter",
+    "src": "Io",
+    "RdRecv": 6500000,
+    "RdSrc": 1821600,
+    "beta": 5.164016767e-9,
+    "omegaAxialOverObs": -3.137111407e-14,
+    "omegaPerpOverObs": 3.392602054e-27,
+    "negFrac": 0.4625494424,
+    "oldBevelDiffPair": -8.32671465e-18
+   },
+   {
+    "config": "JIo",
+    "recv": "Jupiter",
+    "src": "(合計)",
+    "uOverV": 5.565627575e-9,
+    "betaSum": 5.164016767e-9
+   },
+   {
+    "config": "JIo",
+    "recv": "Io",
+    "src": "Jupiter",
+    "RdRecv": 1821600,
+    "RdSrc": 6500000,
+    "beta": 0.1541930242,
+    "omegaAxialOverObs": -0.0001762970681,
+    "omegaPerpOverObs": 2.919755995e-17,
+    "negFrac": 0.48951525,
+    "oldBevelDiffPair": -5.202483412e-9
+   },
+   {
+    "config": "JIo",
+    "recv": "Io",
+    "src": "(合計)",
+    "uOverV": 0.713906824,
+    "betaSum": 0.1541930242
+   },
+   {
+    "config": "SJIo",
+    "recv": "Sun",
+    "src": "Jupiter",
+    "RdRecv": 6500000,
+    "RdSrc": 6500000,
+    "beta": 3.347579998e-14,
+    "omegaAxialOverObs": -2.13441618e-22,
+    "omegaPerpOverObs": 1.664430273e-23,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": null
+   },
+   {
+    "config": "SJIo",
+    "recv": "Sun",
+    "src": "Io",
+    "RdRecv": 6500000,
+    "RdSrc": 1821600,
+    "beta": 1.576800181e-18,
+    "omegaAxialOverObs": -1.847785686e-28,
+    "omegaPerpOverObs": 1.440820822e-29,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": null
+   },
+   {
+    "config": "SJIo",
+    "recv": "Sun",
+    "src": "(合計)",
+    "uOverV": 3.510532289e-11,
+    "betaSum": 3.347737678e-14
+   },
+   {
+    "config": "SJIo",
+    "recv": "Jupiter",
+    "src": "Sun",
+    "RdRecv": 6500000,
+    "RdSrc": 6500000,
+    "beta": 3.674427815e-8,
+    "omegaAxialOverObs": -6.382746356e-20,
+    "omegaPerpOverObs": 4.977303094e-21,
+    "negFrac": 0.5,
+    "oldBevelDiffPair": -3.426827664e-16
+   },
+   {
+    "config": "SJIo",
+    "recv": "Jupiter",
+    "src": "Io",
+    "RdRecv": 6500000,
+    "RdSrc": 1821600,
+    "beta": 5.164016571e-9,
+    "omegaAxialOverObs": -3.137111267e-14,
+    "omegaPerpOverObs": 3.387975264e-27,
+    "negFrac": 0.4625494424,
+    "oldBevelDiffPair": -8.32671465e-18
+   },
+   {
+    "config": "SJIo",
+    "recv": "Jupiter",
+    "src": "(合計)",
+    "uOverV": 4.234399887e-8,
+    "betaSum": 4.190829472e-8
+   },
+   {
+    "config": "SJIo",
+    "recv": "Io",
+    "src": "Sun",
+    "RdRecv": 1821600,
+    "RdSrc": 6500000,
+    "beta": 0.00005167639143,
+    "omegaAxialOverObs": -1.132146642e-13,
+    "omegaPerpOverObs": 8.827974314e-15,
+    "negFrac": 0.4999103515,
+    "oldBevelDiffPair": -1.468491121e-15
+   },
+   {
+    "config": "SJIo",
+    "recv": "Io",
+    "src": "Jupiter",
+    "RdRecv": 1821600,
+    "RdSrc": 6500000,
+    "beta": 0.1541848745,
+    "omegaAxialOverObs": -0.0001762894336,
+    "omegaPerpOverObs": 3.026766616e-17,
+    "negFrac": 0.48951525,
+    "oldBevelDiffPair": -5.202483412e-9
+   },
+   {
+    "config": "SJIo",
+    "recv": "Io",
+    "src": "(合計)",
+    "uOverV": 0.7139204319,
+    "betaSum": 0.1542365509
+   }
+  ],
+  "books": [
+   {
+    "id": "venusSunInertial3d",
+    "steps": 20,
+    "finite": true,
+    "uOverV": [
+     1.670421162e-9,
+     0.0005911820873
+    ],
+    "omegaDrag": [
+     5.342253166e-26,
+     8.628060231e-14
+    ],
+    "betaMax": 0.0005911806478,
+    "negMax": 0.5,
+    "rotADr": [
+     5.450850235e-24,
+     -8.802173353e-12
+    ],
+    "why": null
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "steps": 20,
+    "finite": true,
+    "uOverV": [
+     3.471371614e-11,
+     3.636894231e-8
+    ],
+    "omegaDrag": [
+     6.077246971e-23,
+     1.102482235e-18
+    ],
+    "betaMax": 3.674428059e-8,
+    "negMax": 0.5,
+    "rotADr": [
+     -1.209701825e-20,
+     -2.193235882e-16
+    ],
+    "why": null
+   }
+  ],
+  "oldSource": "tests/out/bevel-w308a.json(第308便a の正本 —— P.terms の diffPair)"
+ },
+ "D": {
+  "capM": 6500000,
+  "candidates": [
+   {
+    "id": "earthMoonSunInertial",
+    "emoji": "🌤️",
+    "index": 0,
+    "retired": true,
+    "enabled": true,
+    "coord": "2d",
+    "RSI": 696000000,
+    "RdOverR2": 0.00008721842383,
+    "readsRadius": false
+   },
+   {
+    "id": "earthMoonSunInertialFit",
+    "emoji": "🌥️",
+    "index": 0,
+    "retired": true,
+    "enabled": false,
+    "coord": "2d",
+    "RSI": 696000000,
+    "RdOverR2": 0.00008721842383,
+    "readsRadius": false
+   },
+   {
+    "id": "earthMoonSunInertial3d",
+    "emoji": "🌦️",
+    "index": 0,
+    "retired": false,
+    "enabled": false,
+    "coord": "3d",
+    "RSI": 696000000,
+    "RdOverR2": 0.00008721842383,
+    "readsRadius": false
+   },
+   {
+    "id": "mercurySunInertial",
+    "emoji": "🟤",
+    "index": 0,
+    "retired": true,
+    "enabled": true,
+    "coord": "2d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "mercurySunInertialFit",
+    "emoji": "🟫",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "2d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "emoji": "🌡️",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "venusSunInertial3d",
+    "emoji": "🌋",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "marsSunInertial3d",
+    "emoji": "🔴",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "emoji": "🏀",
+    "index": 1,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 71492000,
+    "RdOverR2": 0.008266312511,
+    "readsRadius": false
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "emoji": "🟡",
+    "index": 1,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 60300000,
+    "RdOverR2": 0.01161962438,
+    "readsRadius": false
+   },
+   {
+    "id": "saturnRingInertial3d",
+    "emoji": "🍩",
+    "index": 0,
+    "retired": false,
+    "enabled": false,
+    "coord": "3d",
+    "RSI": 60300000,
+    "RdOverR2": 0.01161962438,
+    "readsRadius": true
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "emoji": "🔷",
+    "index": 1,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 25559000,
+    "RdOverR2": 0.06467538123,
+    "readsRadius": false
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "index": 0,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "emoji": "💙",
+    "index": 1,
+    "retired": false,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 24764000,
+    "RdOverR2": 0.06889459042,
+    "readsRadius": false
+   },
+   {
+    "id": "mercuryMeshMigrate3d",
+    "emoji": "🔂",
+    "index": 0,
+    "retired": true,
+    "enabled": true,
+    "coord": "3d",
+    "RSI": 695000000,
+    "RdOverR2": 0.00008746959267,
+    "readsRadius": false
+   }
+  ],
+  "liveBooks": [
+   "mercurySunInertialFit",
+   "mercurySunInertial3d",
+   "venusSunInertial3d",
+   "marsSunInertial3d",
+   "jupiterSunInertial3d",
+   "saturnSunInertial3d",
+   "uranusSunInertial3d",
+   "neptuneSunInertial3d"
+  ],
+  "liveRecords": 12,
+  "enabledBooksInclRetired": 11,
+  "enabledRecordsInclRetired": 15,
+  "allBooks": 14,
+  "allRecords": 18,
+  "runs": [
+   {
+    "id": "mercurySunInertialFit",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "venusSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "marsSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "steps": 30,
+    "bitSame": true,
+    "readsRadius": false
+   }
+  ],
+  "oldLawRatios": [
+   {
+    "id": "venusSunInertial3d",
+    "planetOmegaRatio": 0.00008746439815,
+    "sunRd2Ratio": 0.00008746959747,
+    "rotDrop": 0.00008746422382
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "planetOmegaRatio": 0.00008746948521,
+    "sunRd2Ratio": 0.00008746959447,
+    "rotDrop": 0.00008539655435
+   }
+  ],
+  "oldRotM1": [
+   {
+    "id": "venusSunInertial3d",
+    "source": "Sun",
+    "which": "R",
+    "rOverR": 155.0284679,
+    "eps": 0.05,
+    "maxRelVsFar": 1.116107207e-10
+   },
+   {
+    "id": "venusSunInertial3d",
+    "source": "Sun",
+    "which": "Rd",
+    "rOverR": 16576.1208,
+    "eps": 0.05,
+    "maxRelVsFar": 0.0001275043181
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "source": "Sun",
+    "which": "R",
+    "rOverR": 1069.206348,
+    "eps": 0.05,
+    "maxRelVsFar": 3.846747132e-8
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "source": "Sun",
+    "which": "Rd",
+    "rOverR": 114322.8326,
+    "eps": 0.05,
+    "maxRelVsFar": 0.0424798296
+   }
+  ]
+ },
+ "G": {
+  "cases": [
+   {
+    "name": "正準形",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "name": "Wbg と一緒",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.Wbg は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+   },
+   {
+    "name": "inertialR2 と一緒",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.inertialR2 は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+   },
+   {
+    "name": "eps と一緒",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.eps は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+   },
+   {
+    "name": "未知の鍵",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order だけ —— 第309便a)"
+   },
+   {
+    "name": "次数 1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 以上 —— 新しい単位 [M/L²]・既定 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>}(第309便a)"
+   },
+   {
+    "name": "次数 25",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 以上 —— 新しい単位 [M/L²]・既定 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>}(第309便a)"
+   },
+   {
+    "name": "Wbg2 負",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2(背景の慣性決定力 —— 新しい単位 [M/L²]・共通の係数 1。旧 Wbg [M/L³] の値を移さない)は 0 以上の有限数(既定 0 = 参照条件 —— 第309便a)"
+   },
+   {
+    "name": "Wbg2 正",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "name": "sphere の核",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): axial:\"on\" は axialModel:\"bevel\"(鏡映 × sinθ × 受け手の近遠の差分)を明示する —— mu2・sphere は旧則の核(第309便a)"
+   },
+   {
+    "name": "速さの型",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): axialNorm は \"diff\"(符号つきの近遠の差分)だけ(第309便a)"
+   },
+   {
+    "name": "rigid の步",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): rotStep:\"rigid\" は旧則の M1 の步 —— 新則では宣言しない(第309便a)"
+   },
+   {
+    "name": "二次元の本",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq は三次元の本(physics.coord:\"3d\")だけ(源と受け手の球の体積平均 —— 第309便a)"
+   },
+   {
+    "name": "dragCore の殻",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "bodies[0].dragCore.shellRatio(殻)は新しい引きずり則 invSq と一緒に宣言しない —— 新則の源と自己は一様球(dragCore:{massFrac, radius} か既定 —— 第309便a)"
+   },
+   {
+    "name": "dragCore の一様球",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "name": "既定の名前の誤り",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.dragCoreDefault は \"cap6500km\"(未宣言の天体の引きずりの半径 min(R, 6.5×10⁶ m)・全質量 —— 第309便a)だけ"
+   },
+   {
+    "name": "scaleExp の無い本の既定",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない・第309便a)"
+   },
+   {
+    "name": "axisHold(維持 —— 枝 b の鍵)と一緒",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "err": null
+   }
+  ],
+  "canonical": {
+   "law": "inertial",
+   "invSq": {
+    "Wbg2": 0,
+    "order": 8
+   },
+   "pairs": "all",
+   "history": "positions",
+   "dragCoreDefault": "cap6500km",
+   "spinDrag": {
+    "rot": "surfaceFlip",
+    "axial": "on",
+    "axialModel": "bevel",
+    "axialGain": 1,
+    "axialNorm": "diff"
+   }
+  },
+  "enabledFalseSameAsOldOff": true,
+  "checkpoint": {
+   "same": true
+  },
+  "allPass": true
+ },
+ "gates": {
+  "kernelClosedVsQuadrature": true,
+  "kernelEngineVsLib": true,
+  "kernelDerivVsQuadrature": true,
+  "selfCenter3overR2": true,
+  "selfDoubleMean9over4": true,
+  "interiorShellQuad": true,
+  "m2FarLead": true,
+  "pointEngineVsLib": true,
+  "pointAmpNumeric": true,
+  "meanEngineVsLib": true,
+  "sweepEngineVsLib": true,
+  "stepUMatchesLib": true,
+  "thirdBodyChangesBeta": true,
+  "booksFinite": true,
+  "defaultCensusLive": true,
+  "oldLawLiveBitSame": true,
+  "oldLawRd2": true,
+  "acceptance": true,
+  "enabledFalseSame": true,
+  "checkpointSame": true
+ },
+ "ok": true,
+ "timing": {
+  "Q": {
+   "wallSec": 1.649
+  },
+  "P": {
+   "wallSec": 0.01
+  },
+  "A": {
+   "wallSec": 0.482
+  },
+  "E": {
+   "wallSec": 0.613
+  },
+  "T": {
+   "wallSec": 0.06
+  },
+  "B": {
+   "wallSec": 0.288
+  },
+  "D": {
+   "wallSec": 0.215
+  },
+  "G": {
+   "wallSec": 0.101
+  }
+ },
+ "elapsedS": 6.365,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第309便a",
+  "target": "beta/index.html",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T09:09:39.510Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
+   },
+   {
+    "file": "tests/out/bevel-w308a.json",
+    "bytes": 86401,
+    "sha256": "526ee78d263201a0b75cbb249b45160a0dce876eea698a42bfd2b7524181e109",
+    "mtime": "2026-10-19T09:08:28.036Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w309a-invsq.mjs",
+    "bytes": 39600,
+    "sha256": "33996b632d73fb5f7ba9de1b4f67d9e77d683baabbad155d2c9fdde4e27567cf",
+    "mtime": "2026-10-19T03:47:59.587Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-10-19T03:47:59.591Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-10-17T21:20:30.822Z"
+   },
+   {
+    "file": "tests/exp-w307c-spindecomp.mjs",
+    "bytes": 37764,
+    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
+    "mtime": "2026-10-17T22:20:39.668Z"
+   },
+   {
+    "file": "tests/lib-w307c-spindecomp.mjs",
+    "bytes": 21642,
+    "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
+    "mtime": "2026-10-17T22:20:39.671Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "776cdb4f6cc7734ede7a0bcf277e39d880e921d83905b2bb1c35f157f24c76c3",
+  "harnessVersion": "w309a-invsq-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を発見した",
+   "自転が釣り合った",
+   "帳簿が完全に閉じた",
+   "2 倍角を導いた",
+   "完全に一致",
+   "W_bg′ を同定した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DRAG_CORE_DEFAULT_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "REL_DRAG_INVSQ_LAW",
+    "REL_DRAG_INVSQ_VERSION",
+    "REL_DRAG_SPIN_NODES",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dragCoreDefaultState",
+    "inertialDragIsqK2",
+    "inertialDragIsqM2",
+    "inertialDragIsqPointAt",
+    "inertialDragIsqRule",
+    "inertialDragIsqState",
+    "inertialSpinMoment",
+    "inertialSpinMomentFar",
+    "relDragEnabledOf",
+    "retiredOf",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1463,
+   "segments": 1313,
+   "closureShare": 0.3384
+  },
+  "scopeSha256": "a0c991b51b2a1422723f5a58a479909c4a7b3a282521ef396a7c5515350ac85d",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/bevel-w308a.json",
+    "stableSha256": "4697a5c557dccfa1e9fe1d7a3676df29ddf3acac8b8ca9f734be8f2b0b069782",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

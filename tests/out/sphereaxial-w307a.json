@@ -3,7 +3,7 @@
  "libVersion": "w307a-sphereaxial-lib-1",
  "generator": "tests/exp-w307a-sphereaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
  "ruling": "原仮定者の裁定(第100報)(軸引きずり = 受け手の球面の近い側と遠い側の回転引きずりの差分 —— 赤道で歯車の逆回転・軸へ近付くと弱まりつつ同じ向きへ)・決断事項 AN345 ①②(今の μ² の符号の反転では作れない・角度分布は分母の距離則に依る)・統括の検証項目 R209",
  "axialVersion": "w307a-axial-sphere-1",
  "axialLaw": "sphere-rigid-halfcurl",
@@ -3730,43 +3730,43 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 0.055
+   "wallSec": 0.039
   },
   "Z": {
-   "wallSec": 0.521
+   "wallSec": 0.494
   },
   "A": {
-   "wallSec": 3.756
+   "wallSec": 3.718
   },
   "L": {
-   "wallSec": 10.994
+   "wallSec": 12.412
   },
   "F": {
-   "wallSec": 6.764
+   "wallSec": 7.014
   },
   "C": {
-   "wallSec": 1.488
+   "wallSec": 1.539
   },
   "E": {
-   "wallSec": 12.813
+   "wallSec": 16.378
   },
   "R": {
-   "wallSec": 10.416
+   "wallSec": 13.866
   }
  },
- "elapsedS": 48.626,
+ "elapsedS": 57.833,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便a",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T19:51:06.273Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T09:07:01.864Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    }
   ],
   "code": [
@@ -3848,11 +3848,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1407,
-   "segments": 1274,
-   "closureShare": 0.3326
+   "names": 1471,
+   "segments": 1321,
+   "closureShare": 0.3396
   },
-  "scopeSha256": "3ab9b24949e913447a901c14a328222063517e9c63ae4305d06e7655ba3b09dc",
+  "scopeSha256": "6b91ba45f2edde729f14bfc92e30334c73db1f1ae9b61836ebdd9829e637577a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
