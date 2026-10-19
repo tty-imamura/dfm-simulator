@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T03:57:10.446Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T19:17:33.902Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7021589,
-    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-    "mtime": "2026-10-17T21:20:30.763Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -194,11 +194,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1404,
-   "segments": 1271,
-   "closureShare": 0.3343
+   "names": 1433,
+   "segments": 1300,
+   "closureShare": 0.3384
   },
-  "scopeSha256": "5eed6d028753ef5ac7e6047e766b5b4f52c33ddbd95f8a8e0cfd0f2ff3100999",
+  "scopeSha256": "33ebc1c8164e8dc5beecbd28824a75d4248c5bfdd5bc41035ce5f67726270b10",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -522,7 +522,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 54.82
+  "wallSec": 49.262
  },
  "fit": {
   "rows": [
@@ -672,7 +672,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 88.299
+  "wallSec": 88.199
  },
  "chain": {
   "w296c": {
@@ -684,7 +684,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 17.421,
+    "wallSec": 13.811,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -711,7 +711,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 14.024,
+    "wallSec": 13.628,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2612,7 +2612,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 24.043,
+    "wallSec": 22.974,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2645,7 +2645,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 22.985,
+    "wallSec": 22.984,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -4563,7 +4563,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.24,
+    "wallSec": 5.673,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4612,7 +4612,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.322,
+    "wallSec": 5.2,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -6009,7 +6009,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 373.451,
+    "wallSec": 319.671,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -6020,7 +6020,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 370.161,
+    "wallSec": 322.642,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9183,7 +9183,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 37.263,
+    "wallSec": 35.562,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9210,7 +9210,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 38.728,
+    "wallSec": 36.821,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9240,8 +9240,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 908.678
+  "wallSec": 798.998
  },
  "ok": true,
- "elapsedS": 1053.737
+ "elapsedS": 938.567
 }

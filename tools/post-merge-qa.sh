@@ -170,16 +170,37 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sphereAxial307"
 #   docs.tide3d307 —— 正本と文書)と、三次元の受理の門の一覧が動く behavior.coord3d298
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.coord3d298"
 # ==== 第307便b の塊(ここまで)====
+# ==== 第308便b の塊(ここから)====
+# 第308便b(原仮定者の裁定(第101報・第102報)・AN348・R215): 枝 b の新設 2 本(behavior.axisHold308 —— 元の自転軸の維持と慣性自転への駆動の受理・参照との一致・帳簿・二重計上の型・
+#   状態の契約・docs.axisHold308 —— 正本と文書)と、状態の契約の一覧が動く lint.stateContract302
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.stateContract302"
+# ==== 第308便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
 # ==== 第307便c の塊(ここまで)====
+# ==== 第308便c の塊(ここから)====
+# 第308便c(原仮定者の裁定(第102報)②①・第101報・AN355・AN348・R216): 枝 c の新設 1 本(docs.sunSpin308 —— 要求される太陽の慣性自転と銀河を源とする引きずり軸回転の器の正本と文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.sunSpin308"
+# ==== 第308便c の塊(ここまで)====
 # ==== 第307便d の塊(ここから)====
 # 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・R212): 枝 d の新設 6 本(スピンの表示の上限・右下の XYZ の軸・サンプルの行の geoPN・「E水準」を「その他」へ・
 #   λ_PN=0 で α の淡色・kFrame=0 で qLock と q の淡色と kFrame の並び)と、世代切替を足した既存の UI の QA(畳みの次元・「その他」の段と軸の数・パラメータの並び)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.spinVisCap307 ui.axisGizmo307 ui.pickerGeoLine307 ui.pickerEmergence307 ui.paramAlphaGrey307 ui.paramDragGrey307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.pickerSeparators ui.pickerBadgeAxes ui.pickerOtherTriState ui.pickerOtherFold ui.pickerStatusAxes ui.presetpicker ui.samplePicker ui.paramOrderDrag wave124.ui"
 # ==== 第307便d の塊(ここまで)====
+# ==== 第308便a の塊(ここから)====
+# 第308便a(原仮定者の裁定(第101報)・AN346・AN347・AN354・R214): 枝 a の新設 1 本(docs.bevel308 —— 軸引きずりの鏡映の核の正本と文書と受理の契約)と、
+#   遠方の M1 の外部の級数で正本の数が動く docs.sphereAxial307
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
+# ==== 第308便a の塊(ここまで)====
+# ==== 第308便d の塊(ここから)====
+# 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
+#   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
+#   第307便の fitRecord の写し/record308d で照合する世代切替の preset.revertGLoc303・docs.synodic299・preset.planets306、第308便d の警告を除いて数える behavior.tide3d307、
+#   🟫 の観測カードと README の語を見る docs.fitContract296・docs.noRetiredMention294
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303 docs.synodic299 preset.planets306 behavior.tide3d307 docs.fitContract296 docs.noRetiredMention294"
+# ==== 第308便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

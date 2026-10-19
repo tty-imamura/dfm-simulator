@@ -3908,3 +3908,33 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **🥶 の判定の理由**: 宣言・判定語(保留)は不変。サンプル状況の見込みを「定義の差・同じ解の状態が未接続」へ(原稿の `definitionGap` —— 正本の数の門を通るときだけ)。合へ自動で昇格しない。
 - **器と QA**: `tests/lib-w307e-pre.mjs`(pin306e・pinDecl306e・isGen307e・record307e)・凍結の写し `tests/data-w307e-decl306.json`。QA `behavior.gLocNull307`・`preset.fitRole307`・`preset.coldReason307`・`docs.w307e`(root は SKIP)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(AI が作る本は abBody の physicsPatch に `gLoc:null` を書いてよい —— 別の値は受理されない)。role は省略してよい(省略は今の意味)。入力の整合の標的の一致を独立な結果と書かない。
+
+## 108. 第308便a —— 軸引きずりの鏡映の核 `physics.relativeDrag.spinDrag.axialModel:"bevel"`・`axialGain`・`axialNorm`(源の自転を受け手への向きについて鏡映した軸 —— 角度差の 2 倍で傾く・赤道で逆・45° でベベルギヤの様に 90°・軸方向へ sinθ で弱まる)と遠方の M1 の外部の級数(原仮定者の裁定(第101報)・決断事項 AN346・AN347・AN354・統括の検証項目 R214・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `spinDrag.axialModel:"bevel"`(axial:"on" と一緒に —— 正準形に `axialModel:"bevel", axialGain:<A>, axialNorm:<"diff"|"speed">`)・`spinDrag.axialGain`(無次元 0〜10¹²・既定 1 = 回転引きずりの係数のまま —— μ² 則の κ = axialCoupling とは別)・`spinDrag.axialNorm`(bevel だけ —— `"diff"` 既定 = 差分の型 −∂g/∂r/`"speed"` = 速さの型 g/r)。`rotAxial` は作らない。
+- **力学**: ω_D,ij = A·amp·sinθ·b(b = 2 r̂(r̂·Ω_j) − Ω_j —— Ω_j は符号つきの自転ベクトル・sinθ = |â_j × r̂| は仮定・g = c m_j M1(r)/D —— D は行の対角〔`inertialR2.denom:"pair"` の本は対ごと〕)を受け手ごとに(`inertialDrag3AxialBevelAt`・`inertialDrag3AxialBevel`)。ν は掛けない。受け手は中心の値(体積平均の一次)。傾きを持たない受け手は源ごとの σ_j(ω_ij·â_j)の和を rotADr へ・傾きを持つ受け手は今の経路。慣性自転 S.spin は変えない。
+- **遠方の M1**: r ≥ 4(R_d + ε) では M1 と dM1/dr を外部の級数で(`inertialSpinMomentFar` —— 版 w308a-m1far-1・32 対角・ε ≥ 0)。bevel と sphere が使う(sphere の遠方の値が変わる —— 在位は宣言しない)。回転引きずりの s の項は今の式のまま。
+- **拒否**: bevel で axial が "on" でない・bevel と axialCoupling・bevel と旧法則の凍結比較(gain のまま)・dragCore(構造核)と bevel・axialNorm を bevel 以外で・値の外。
+- **読み口**: `HP.inertialDrag3SpinState(S)` の `axialLaw`(bevel は "bevel-mirror-sin")・`bevel`(版 w308a-axial-bevel-1 —— axialGain・axialNorm・denom・項の数・足さなかった対・外部の級数の対・差分の型の強さが負の対)。帳簿の鍵 inertialDrag3AxBevN・AxBevSkip・AxBevFar・AxBevNeg(宣言した本だけ —— INERTIAL_DRAG3_SC で複製・チェックポイントが運ぶ)。受動プローブ inertialDragProbeAt も同じ関数で読む。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら「金星の逆行を説明した」「イオの加熱を説明した」「自転が釣り合った」と書かない(A = 1 で ω_D/ω_obs は金星 6.62e-11・木星 -3.43e-16・イオ -5.20e-9 —— 候補の核の幾何と数値の一致だけ)。
+- **器と正本**: `tests/exp-w308a-bevel.mjs`(版 w308a-bevel-1・`W308A_OUT`・`W308A_QUICK`)・lib `tests/lib-w308a-bevel.mjs`(参照 —— 源の一様球の求積・点の核の分母・数値の微分・体積平均)→ `tests/out/bevel-w308a.json`(段 bevel-308a)。
+- QA: `docs.bevel308`(root は SKIP —— 世代切替 = html の `REL_DRAG_AXIAL_BEVEL_VERSION = "w308a-axial-bevel-1"`。正本の門・受理の契約・gain 0 = axial off・チェックポイントの往復・閉じた式と参照・級数・文書・禁句)。`docs.sphereAxial307` は正本の遠方の数が動く(鎖で作り直す)。
+
+
+## 109. 第308便b —— 元の自転軸の維持と慣性自転への駆動 `physics.relativeDrag.spinDrag.axisHold`(原仮定者の裁定(第101報)AN348 → (C)・(第102報)①・決断事項 AN348・AN349・AN355・統括の検証項目 R215・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `spinDrag.axisHold:{tauC, reaction?, sourceHold?, receivers?}`(axial:"on" の本だけ・核は "mu2"/"sphere" —— 旧法則の凍結比較〔gain〕では拒否)。`tauC`(駆動の時定数 —— 正の有限数・1e-30〜1e30・本の時間単位)・`reaction`("none" 既定 —— 受け手の駆動だけ / "source" —— −τ を源の慣性自転へ)・`sourceHold`(慣性自転を宣言の値に保つ天体の添字の配列 —— 外からの駆動の近似)・`receivers`(平行な分の駆動を受ける天体の添字の配列 —— 省略は軸引きずりの受け手の全部)。未知の鍵・配列でない・重複・空の receivers は拒否。正準形は宣言したときだけ(`{tauC, reaction, sourceHold?, receivers?}` —— 添字は昇順)。版 `REL_DRAG_AXIS_HOLD_VERSION` = "w308b-axishold-1"。
+- **垂直な分(軸の維持)**: 傾きを持つ受け手(軸を有効化し歳差の宣言が無い)は軸引きずりの ω⊥ で軸を回さない。維持のトルク τ_hold = −ω⊥ × J(J = I s â)を帳簿に積む(仕事 0 —— 源へは返さない)。
+- **平行な分(駆動 —— 候補の応答則)**: τ_ij = (I_i p_ij/τ_C) â_i を慣性自転 S.spin へ(J の補償和 —— 明示潮汐の受け手は潮汐の和と同じ)。p_ij は源 j の ω_ij の受け手の軸への射影(傾きを持たない受け手は今の経路の符号つきのスカラー)。引きずり軸回転 rotADr はそのまま(慣性自転へ足し込まない)。I = f m R²(f は明示潮汐の inertia・無い本は ½)。axisHold の本は S.spin を倍精度にする。
+- **帳簿と読み口**: `inertialDrag3SpinState(S).axisHold`(`HP.inertialDrag3HoldStateOf`)—— driveL・reactL・outL(状態へ入れなかった力積)・supplyL/supplyE(供給項)・pairL(駆動 + 反作用)・stateL(結合が状態の自転の角運動量へ入れた分)・hold(axesHeld・L・work・torqueMax)・spinDK・Ereq/EreqPos/EreqNeg(別に要るエネルギー —— 厳密な ΔK の和)・P1(一次の仕事)・Ppair(直近の率)・lastDJ・inertia。HP: `validateAxisHold`・`inertialDrag3HoldStep`・`inertialDrag3HoldF`・`REL_DRAG_AXIS_HOLD_*`・`INERTIAL_DRAG3_HOLD_SC`。
+- **状態の契約**: INERTIAL_DRAG3_SC(帳簿のスカラー inertialDrag3Hold* —— inertialDragCkSnap の 1 組でチェックポイントと複製が運ぶ)・INERTIAL_DRAG_CK_SAMPLES(_rdHoldJh/_rdHoldJl/_rdHoldOmW —— 自前の J の補償和)・SIM_STEP_SCRATCH(_rdHoldP —— 受け手 × 源の ω_ij の記録・_rdHoldDJ/_rdHoldQX/QY/QZ)・SIM_BUILD_RESET(機能 inertialDrag の正規表現が覆う)。対の記録は n ≤ REL_DRAG_AXIS_HOLD_NMAX(256)。
+- **器と正本**: `tests/exp-w308b-hold.mjs`(版 w308b-hold-1・純関数 `tests/lib-w308b-hold.mjs`・`W308B_OUT`・`W308B_QUICK`)→ `tests/out/hold-w308b.json`(段 hold-308b)。二重計上の型 (a)/(b)/(c)・接点 1 つの散逸の結合・CTL の型・金星と木星の写し(規格化した潮汐 —— 観測の k₂・遅延ではない)。
+- **QA**: `behavior.axisHold308`・`docs.axisHold308`(root は SKIP・世代切替は html の `REL_DRAG_AXIS_HOLD_VERSION`)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。τ_C を導出した量と書かない(候補の応答則の宣言)。相互の引きずりで reaction:"source" を全部の受け手に回すと、相互の駆動が作用・反作用の対の配置で 2 倍・同じ向きの配置で 0 になる(第102報 ① の確かめ —— PHYSICS〔第308便b〕)。供給項を太陽の収縮の模型・太陽の自転の分解と書かない。自転の釣り合い・帳簿の閉じを、器が示した範囲を超えて主張しない。
+## 110. 第308便d —— 三次元の明示潮汐の受け手の受理の警告(傾きの宣言・半径の下限)と fitRecord の標的の役割を 🌡️🟫🌘 へ(決断事項 AN350・AN351・統括の検証項目 R217・**警告と宣言の記録だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・在位の本は三次元の潮汐を宣言しない・**SYSTEM_PROMPT には載せない**)
+
+- **三次元の潮汐の受け手の警告**(`tide3ReceiverWarnings` —— 版 w308d-tide3recv-1・拒否はしない): 三次元の本(`physics.coord:"3d"`)で潮汐を受ける天体(`physics.tide` と天体の `tide:{k2, lag}` —— 足さない理由の無い本)に、軸を動かせる傾きの宣言 `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}`(歳差 `precessionRate` を宣言しない)が無いと、潮汐のトルクの軸に垂直な成分 τ⊥ は数えるだけで慣性自転の軸を回さない(帳簿 tidePerpN)—— 受理で警告する。歳差を宣言した天体(規定運動の軸)も同じ理由で別の文の警告。
+- **半径の下限の警告**: 天体の `tide` を宣言した single の `radius` が明示半径の下限(`physics.radiusFloor` —— 未宣言は 0.01・宣言で 0.001 まで・較正クラスの本では使えない)に丸められると、潮汐の B = G k₂ m² R⁵ は丸めた半径を読む(B は (下限/宣言)⁵ 倍)—— 警告の文に倍率を書く。直し方は `physics.radiusFloor` の宣言か単位の選び直し。
+- **`fitRecord.targets[].role` の宣言**(第307便e の契約のまま): 🌡️ mercurySunInertial3d —— 近点率の差 `numerical-fit`・恒星周期 `independent` / 🟫 mercurySunInertialFit —— 近点率の差 `numerical-fit` / 🌘 earthMoonRealKF1 —— 朔望月 `numerical-fit`。条件の署名・門・status は役割を読まない(不変)。
+- **器と QA**: `tests/lib-w308d-pre.mjs`(pin307d・pinDecl307d・isGen308d・record308d)・凍結の写し `tests/data-w308d-decl307.json`(歴史の記録の器 an336-306a・refit-303a が照合に使う)。QA `preset.fitRole308`・`behavior.tide3Recv308`・`lint.qaEvidenceStamp308`(保存 QA の刻印 —— 情報)・`docs.w308d`(root は SKIP)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が三次元で潮汐を宣言する本を作るときは、軸を潮汐で動かす受け手に `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}` を書く(書かなければ警告 —— 走りは同じ)。イオ級の小さい衛星の半径は単位の下限に注意する(警告の倍率を読む)。役割は省略してよい。

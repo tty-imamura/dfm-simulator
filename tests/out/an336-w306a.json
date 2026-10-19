@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-  "generatedAt": "2026-10-18T05:31:26.636Z",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T20:51:40.710Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7021589,
-    "sha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2",
-    "mtime": "2026-10-17T21:20:30.763Z"
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -33,22 +33,34 @@
    {
     "file": "tests/out/gfamily-w305b.json",
     "bytes": 109264,
-    "sha256": "31f4a57943c4effbb4f0a269dda9f1bb0da0d721c6dd63650ca6f7bd8239d860",
-    "mtime": "2026-10-18T05:17:47.295Z"
+    "sha256": "899c08b6b236e3cc5bba19773218a89c3b0edd4ae454d2bbd54e2ec4f56a90de",
+    "mtime": "2026-10-18T20:38:13.232Z"
+   },
+   {
+    "file": "tests/data-w308d-decl307.json",
+    "bytes": 15451,
+    "sha256": "9053db10c2afb7a48b0d34f8a9aa6244eec059c383676a91052d63a776c239be",
+    "mtime": "2026-10-18T12:11:01.264Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w306a-an336.mjs",
-    "bytes": 43314,
-    "sha256": "1ab05f9a4c503156d84df40f6fee1b315a305bde47b2827747609ae5c236fd09",
-    "mtime": "2026-10-16T19:11:11.233Z"
+    "bytes": 43807,
+    "sha256": "87c768d41a2361c2fb6270ae2272552360e73eb1f298d6ba71fe59cd4a362ed9",
+    "mtime": "2026-10-18T12:11:01.268Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
     "mtime": "2026-10-16T19:11:11.237Z"
+   },
+   {
+    "file": "tests/lib-w308d-pre.mjs",
+    "bytes": 6099,
+    "sha256": "0be7bf74873dc909f05321f403aef48fa70a5979158230b8093e880af3c5ee4a",
+    "mtime": "2026-10-18T12:11:01.268Z"
    },
    {
     "file": "tests/exp-w306a-an336contract.mjs",
@@ -111,7 +123,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "4f3a7ce66de6bc36dc470aba644d1d563d5b53ed5dacab99a88312f4e618c78d",
+  "codeSha256": "f428c1a8ff231817902fff67949bc0d73ab709d907b17409e88baaca7ea6bd81",
   "harnessVersion": "w306a-an336-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -202,11 +214,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1402,
-   "segments": 1269,
-   "closureShare": 0.3334
+   "names": 1431,
+   "segments": 1298,
+   "closureShare": 0.3374
   },
-  "scopeSha256": "eb02c809f9ba5b6556612914a977115c94e5e8748f2ff50d676cd9c4b1def89a",
+  "scopeSha256": "b9bffca4f130d8b514e22eab37d37f9193cd571723b80afcdfa9892ac145eeb4",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -217,7 +229,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "7475bdcf84d4505f15669b992a38c200dbfd0af1527998b7ba2bfb38a766ba73",
+    "stableSha256": "cd43c29f69af71d56e4afb3b5de1853a2451fd73259a9960b59cd21167652ff0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -226,6 +238,12 @@
      "/meta/inputs/*/mtime",
      "/timing/*/wallSec"
     ]
+   },
+   {
+    "file": "tests/data-w308d-decl307.json",
+    "stableSha256": "316957baa3dbb852013f895ac80b4ab19282ff16280686b0a99e9fb2a0fb8a2a",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -3369,19 +3387,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.022
+   "wallSec": 0.028
   },
   "M": {
-   "wallSec": 90.254
+   "wallSec": 98.206
   },
   "T": {
-   "wallSec": 593.551
+   "wallSec": 575.434
   },
   "R": {
-   "wallSec": 0.057
+   "wallSec": 0.048
   },
   "G": {
-   "wallSec": 46.357
+   "wallSec": 42.296
   }
  },
  "stats": {
@@ -3390,5 +3408,5 @@
   "stepsTotal": 117870654,
   "freshRuns": 7
  },
- "elapsedS": 817.214
+ "elapsedS": 805.18
 }

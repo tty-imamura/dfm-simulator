@@ -1,0 +1,248 @@
+{
+ "version": "w308d-decl307-1",
+ "note": "第308便d(決断事項 AN351・統括の検証項目 R217)—— 第307便の本の宣言の写し(基点 1724b6e = public main・beta/index.html sha256 54ec7e9a2ce9)。第308便d で変えた欄は fitRecord の標的の役割 role だけ(他の欄は第307便のまま)。器の中だけで第307便の宣言へ戻すための凍結のデータ(tests/lib-w308d-pre.mjs の pin307d・pinDecl307d)",
+ "base": {
+  "commit": "1724b6e",
+  "htmlSha256": "54ec7e9a2ce98f3f46488c89cd23bb13d1012c79382ca0d393a5f16e84bdcbd2"
+ },
+ "decl": {
+  "mercurySunInertial3d": {
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "mercurySunInertialFit",
+    "law": "inertial-drag(三次元 —— physics.coord:\"3d\"・並進だけ)・λ ∝ m の inertialR2 {lambdaRs:k, sources:\"all\", denom:\"pair\"}(対ごとの正規化 —— 二体では行と同じ)・W_bg = W_ext・局所重力 G_loc n = 2(gLoc kappaC2 —— 第95報・AN332 の裁定による選択)・自己の項なし・λ_PN=0・積分器 semic(第306便a(原仮定者の裁定〔第97報〕AN336・R204) の再フィット w306a-1)",
+    "targets": [
+     {
+      "q": "近点率の差(引きずり OFF の対照〔重力だけ〕との差・8 公転・検出器 B —— 瞬間の軌道面の中の近点経度 ϖ=Ω+u の時刻への直線 fit・同じ刻み)",
+      "obs": 42.978510382067476,
+      "unit": "″/世紀",
+      "source": "派生した参照値 q⋆ = q_1PN + A1 = 42.98051038206748 − 0.002 = 42.978510382067476″/世紀(原仮定者の裁定〔第97報〕AN336 —— 独立に観測された総量ではない・calibrationEligible false)。q_1PN は初期の接触要素 a₀・e₀・ケプラー周期の二体の 1PN の式・A1 は EPM2011 の近日点の追加の歳差(候補の行 A1-EPM2011・原資料の幅 0.003・sigma null —— 来歴〔記録 ID・入力 CSV の sha256・式の版・G・c₀・質量・単位〕は正本 tests/out/an336-w306a.json)。照合規約 43.0″/世紀は履歴の列。Park 2017 の 42.9799±0.0009 とは同一視しない",
+      "window": "8 公転・検出器 B・引きずり OFF の対照との差(同じ刻み・semic)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "数値フィットの停止許容の宣言 0.0009″/世紀 —— 旧い宣言の照合許容を数値の許容として継承した(A1 の幅でも和の統計誤差でもない)。標的は派生した参照値で σ を持たない(sigma null・原資料の幅 sourceWidth 0.003 は 68% の 1σ の定義が未確認)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 距離の極小の 3 点放物線・瞬間の軌道面(位置の外積)で ϖ",
+      "model": 42.97856139166631,
+      "residual": 0.00005100959883463929,
+      "rel": 0.0000011868628852228145,
+      "numerics": {
+       "h2": 0.000049189163526364155,
+       "dtHalf": 0.008
+      }
+     },
+     {
+      "q": "恒星周期(初期の軌道面の中の方位の周回の平均間隔・8 公転)",
+      "obs": 87.969,
+      "unit": "d",
+      "source": "観測の正本 OBS_COMPARE_ROWS(mercuryReal の 水星 の公転周期 7600521.6 s —— NASA NSSDC Mercury Fact Sheet の 87.969 日)",
+      "window": "8 公転",
+      "tol": {
+       "value": 0.0005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0005 日 —— 恒星周期 87.969 日(NASA NSSDC Mercury Fact Sheet —— 観測の正本 OBS_COMPARE_ROWS の行)は表記の末位まで・σ なし。初期状態は近似要素の種(合わせた量ではない)"
+      },
+      "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1) —— 初期の軌道面(位置と速度の外積)の中の方位の通過",
+      "model": 87.969288749559,
+      "residual": 0.0002887495590044864,
+      "rel": 0.000003282401289141475,
+      "numerics": {
+       "h2": 0.00007656052821403136,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.inertialR2.lambdaRs",
+      "range": [
+       0.5,
+       50
+      ],
+      "final": 4.99986
+     }
+    ],
+    "fixed": [
+     "初期状態は JPL SSD の近似要素(Table 1・T=0)の種から作った太陽と水星の二体(重心 0・全運動量 0・太陽も free)—— 精密な接触状態ではない・惑星どうしの摂動なし",
+     "質量・半径・自転は ☄️ mercuryReal の写し(同じ単位)・自転軸は IAU WGCCRE 2009 の極(一定の近似)を有効化(回転引きずり・軸引きずりの宣言なし —— 軸は力に入らない)",
+     "geoPN=3・kFrame=0・λ_PN=0・積分器 semi(引きずりの步は semic)・重力の軟化 0.05・核の ε 0.05・pairs \"all\"・stateCarry \"double\"・W_bg = W_ext 2.5619639276481322e-21(W_cos + W_gal —— 第302便c の推定の値・太陽を含めない・合わせていない)・自己の項(self・dragCore・shellSelf)なし",
+     "7 本(🌡️🌋🔴🏀🟡🔷💙)は同じ k を一括で宣言(水星のフィットの値 —— 他の 6 本は移送の記録で、惑星ごとに合わせ直していない)",
+     "履歴の列(第306便a で退いた標的と模型): 照合規約 43.0″/世紀(n = 2 の k 5.001362 —— 第305便b の写し)・第303便a の W_bg 221.1204 で模型 43.00002(G_loc なし・旧 cond.sig c5c425a54a51ac99)"
+    ],
+    "procedure": "第306便a(原仮定者の裁定〔第97報〕AN336・R204): 引きずり OFF・G_loc なしの対照との近点率の差(8 公転・semic・検出器 B)を派生した参照値 q⋆ に割線で合わせ(lib-w303e-fitstop —— x0 4.99986・x1 5・停止は許容の 1/10)、k を 7 桁に丸めて h と h/2 で測り直した(|残差| + |h − h/2| ≤ 0.0009 なら fitted —— 参照値と宣言の許容に対する数値フィットで、観測の較正の合格とは別)。器 tests/exp-w306a-an336.mjs",
+    "dt": 0.016,
+    "steps": 380028,
+    "status": "fitted",
+    "notFitted": [
+     "恒星周期は合わせていない(近似要素の種の周期 —— 照合だけ)",
+     "離心率・軌道傾斜は近似要素の種のまま(合わせていない)",
+     "機構(1PN の近日点前進の機構の同定ではない)",
+     "n(近点では k − n が縮退 —— n = 2 は裁定による選択で、近点では決まらない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "0cf63b4259b48992",
+     "extractor": "tests/exp-w299c-planets3d.mjs runPl3(w299c-plx3-1)"
+    }
+   }
+  },
+  "mercurySunInertialFit": {
+   "fitRecord": {
+    "version": "w297b-1",
+    "parent": "mercurySunInertial",
+    "law": "inertial-drag",
+    "targets": [
+     {
+      "q": "perihelionRateDrag",
+      "obs": 43,
+      "unit": "″/世紀",
+      "source": "照合規約の値 43.0″/世紀(☄️ mercuryReal の expected —— 観測 42.9799±0.0009″/世紀 は Park 2017 Table 3 の Gravitoelectric の行・1PN の量)。A1 の列: 1PN の上の追加の近日点歳差 −0.0020±0.0030″/世紀(EPM2011 —— Pitjeva & Pitjev 2013・原資料の σ・候補の行 sigma_primary=unverified)—— 比較の標的は「1PN の値+追加 ± σ」",
+      "window": "8 公転・検出器 B(近点ごとの方位の直線 fit)・引きずり無しの対照との差(同じ刻み・semic)",
+      "tol": {
+       "value": 0.0009,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.0009″/世紀 —— 標的 43.0″/世紀は照合規約の値で出典の σ を持たない。幅は Park 2017 Table 3 の Gravitoelectric の行(42.9799″/世紀)の 1σ と同じにした"
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.relativeDrag.Wbg",
+      "range": [
+       0.019448366531695002,
+       1000
+      ],
+      "final": 221.1206
+     }
+    ],
+    "fixed": [
+     "bodies・初期状態・元期・配置は親 🟤 mercurySunInertial の写し(1 字も変えない)",
+     "geoPN=3・kFrame=0・積分器・重力の軟化・核の ε=0.05・pairs \"all\"(親のまま)",
+     "λ_PN=0(原仮定者の裁定(第87報) —— geoPN=3 の解決〔慣性引きずり・測地線 OFF・実効 0〕は λ を読まない: λ=1 と λ=0 の 2000 步の状態の指紋が同じ)",
+     "合成則 solve(velocity)(既定)・親の vx/vy を力学速度 v に与える(速度の規約 v=W —— 逆写像 v=(I+L)W は対照だけ)",
+     "太陽と水星は点源(dragCore を宣言しない —— 太陽の f を R_c/R=0.3 で振った近点率の差は下の notIdentifiable)",
+     "第303便a(原仮定者の裁定(第93報)①②・統括の検証項目 R191)の再フィット: 積分器の步は semic(第302便d の既定)・局所重力 G_loc なしで、分割の世代の W_bg 221.12079497348208(旧 gain 0.004522415) を起点に合わせ直した(🟫)。分割の世代の記録(旧 cond.sig 4222253b30138f1b)は履歴 —— 前後表は PHYSICS〔第303便a〕"
+    ],
+    "procedure": "第303便a: 引きずり OFF の対照との近点率の差(8 公転・semic)を 43.0″/世紀に割線で合わせ(c = 1/W_bg・起点は分割の世代の W_bg)、7 桁に丸めた値を h と h/2 で測り直す(|残差| + 数値誤差の帯 |q_h − q_h/2| ≤ 許容なら fitted)→ 固定した W_bg で dragCore の f を振る(同定の可否 —— 器 tests/exp-w303a-refit.mjs)",
+    "dt": 0.016,
+    "steps": 380027,
+    "residual": {
+     "value": 0.000017941734839155288,
+     "unit": "″/世紀",
+     "model": 43.00001794173484,
+     "rel": 4.17249647422216e-7
+    },
+    "numerics": {
+     "h2": 0.00019651487099991982,
+     "dtHalf": 0.008
+    },
+    "status": "fitted",
+    "notFitted": [
+     "公転周期(8 公転の平均 —— 引きずり OFF の対照との差と JPL/NSSDC の値との差を記録するだけ)",
+     "離心率",
+     "近日点移動の全量(重力の軟化の逆行を含む —— 合わせたのは引きずり OFF の対照との差)"
+    ],
+    "notIdentifiable": [
+     "dragCore(太陽の f を R_c/R=0.3 で 0.1〜1.0 に振った近点率の幅 5.93e-3″/世紀 —— 数値誤差の帯 1.97e-4″/世紀 を超えるが W_bg と縮退。1 量では W_bg と分けられない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "7786fd1bac24a9ab",
+     "extractor": "tests/exp-w295c-inertial3.mjs runPair(検出器 B —— 近点ごとの方位の直線 fit・gain 0 の対照との差)・w295c-inertial3-1"
+    }
+   }
+  },
+  "earthMoonRealKF1": {
+   "fitRecord": {
+    "version": "w298b-1",
+    "parent": "earthMoonRealKF1",
+    "law": "geoPN=2(レガシー・近似)・kFrame=1・λ_PN=0・qLock・frameWeight:\"pull\"・初速の係数 f=1(観測の初速)",
+    "targets": [
+     {
+      "q": "synodicMonthUniform",
+      "obs": 29.530588857710324,
+      "unit": "d",
+      "source": "平均朔望月 29.530588858 日(IERS の Delaunay 引数 D の率 1602961601.2090″/世紀 —— Simon et al. 1994 A&A 282 663・J2000.0)",
+      "window": "8 公転窓(同方向 1〜9 周の通過 —— 恒星月と同じ窓)を恒星年で一様換算",
+      "tol": {
+       "value": 0.005,
+       "kind": "declared",
+       "note": "照合許容の宣言 0.005 日 —— 近似の基準(geoPN=2・太陽の無い二体)として朔望月を表示桁 29.53 日(NASA NSSDC Moon Fact Sheet の表記)の末位の半分まで読む。観測の σ ではない(平均朔望月 29.530588858 日〔IERS の D の率〕は桁がもっと多い —— 桁で読む宣言)"
+      },
+      "extractor": "tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1) の恒星月(同方向 1〜9 周の 8 間隔の平均)を一様換算 1/P_syn=1/P_sid−1/T_year(T_year = 恒星年 365.256363004 日・時計 w299b-syn-1)",
+      "model": 29.53374811246876,
+      "residual": 0.0031592547584367026,
+      "rel": 0.00010698245042315955,
+      "numerics": {
+       "h2": 9.035626575837341e-7,
+       "dtHalf": 0.008
+      }
+     }
+    ],
+    "knobs": [
+     {
+      "key": "physics.D0pull",
+      "range": [
+       0.00001,
+       0.001
+      ],
+      "final": 0.001
+     }
+    ],
+    "fixed": [
+     "初速の係数 f=1(地球と月の速度は 🌙 earthMoonReal の宣言そのもの)",
+     "G・質量・半径・自転・離角(🌙 と同じ観測入力)",
+     "D0=0.006(E1′)",
+     "q=8.2358(qLock の厳密一致式)",
+     "kFrame=1・geoPN=2・λ_PN=0",
+     "frameWeight:\"pull\"",
+     "softening 0.1・stateCarry:\"double\"",
+     "朔望月の時計 w299b-syn-1: 恒星年 365.256363004 日(IERS —— Simon et al. 1994)・時刻は sim の座標時・初期位相 36 点・捨てる初期間隔 0"
+    ],
+    "procedure": "朔望月(第299便b —— 原仮定者の裁定(第89報)①): f=1 に固定し、ノブ D0pull だけで標的(恒星月の 8 公転窓を恒星年で一様換算した朔望月)の根を探索範囲 [0.00001, 0.001] で探した。両端とも換算の朔望月が観測の平均より長く根を挟めない(引きずりを切った kFrame=0 の写しでも長い —— 段 scan の床)ので、残差が最小の範囲の端 D0pull=0.001 を採り(根ではない) h と h/2 で測り直した。許容は近似の基準の宣言 0.005 日。仮想の太陽の時計で数えた合・恒星月・近点回転は照合だけ(器 tests/exp-w299b-synodic.mjs)",
+    "dt": 0.016,
+    "steps": 13279642,
+    "status": "fitted",
+    "notFitted": [
+     "仮想の太陽の時計の朔望月(照合だけ): 初期位相 36 点の平均・8 間隔 29.539046 日(残差 +0.00846 日 —— 8 間隔の位相平均は離心の偏りで長い。位相ごとは 29.415〜29.646 日・長い窓は段 long)",
+     "恒星月(照合 —— 第298便e の第一の標的・履歴): 8 公転窓 27.324366 日・27.3217 日との残差 +0.002666 日(恒星月の許容 0.00005 日の門の外 —— 第298便e)",
+     "近点回転の周期(照合だけ): 8 公転窓 293.850 年・8.85 年との残差 +285.000 年(第298便b の近点回転優先 D0pull 3.06883e-5 は朔望月の門の外 —— 段 aps)",
+     "実際の太陽による朔望月の揺れ(🌘 は太陽の無い二体 —— 時計は仮想。太陽のある本の値は段 sun3d)",
+     "機構(実際の主因は太陽摂動 —— 機構の同定ではない)"
+    ],
+    "cond": {
+     "version": "w297b-cond-1",
+     "sig": "9117577cc878c154",
+     "extractor": "tests/lib-w280b-emgrid.mjs runRow(w280b-emgrid-1)・朔望月の時計 w299b-syn-1(一様換算)"
+    }
+   }
+  }
+ },
+ "change": {
+  "roles": {
+   "mercurySunInertial3d": [
+    "numerical-fit",
+    "independent"
+   ],
+   "mercurySunInertialFit": [
+    "numerical-fit"
+   ],
+   "earthMoonRealKF1": [
+    "numerical-fit"
+   ]
+  },
+  "reasons": {
+   "mercurySunInertial3d": [
+    "近点率の差: k(inertialR2.lambdaRs)を派生した参照値 q⋆ へ割線で合わせた(第306便a)—— 数値フィット",
+    "恒星周期: 合わせていない(notFitted —— 近似要素の種の a と GM で決まる照合)—— 独立の比較"
+   ],
+   "mercurySunInertialFit": [
+    "近点率の差: W_bg を 43.0″/世紀へ割線で合わせた(第303便a)—— 数値フィット"
+   ],
+   "earthMoonRealKF1": [
+    "朔望月(恒星月の 8 公転窓の一様換算): ノブ D0pull を探索範囲で動かした(第299便b —— 根は挟めず範囲の端)—— 数値フィット"
+   ]
+  }
+ }
+}

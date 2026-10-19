@@ -1,0 +1,4061 @@
+{
+ "version": "w308b-hold-1",
+ "libVersion": "w308b-hold-lib-1",
+ "generator": "tests/exp-w308b-hold.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+ "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
+ "holdVersion": "w308b-axishold-1",
+ "quick": false,
+ "toy": {
+  "Wbg": 0.125,
+  "eps": 0.05,
+  "kappa": 4,
+  "sep": 4,
+  "R": 0.3,
+  "m": 1,
+  "spin": 0.5,
+  "tauC": 1,
+  "steps": 400,
+  "quickSteps": 60
+ },
+ "P": {
+  "pass": true,
+  "gates": {
+   "holdNoWork": true,
+   "holdParallelZero": true,
+   "exactDK": true,
+   "exactDKvec": true,
+   "pairPowerNotZero": true,
+   "twinCancels": true,
+   "antiDoubles": true,
+   "bTwiceC": true,
+   "contactBoth2x": true,
+   "contactWork": true,
+   "contactEquatorSameSign": true,
+   "contactPoleExchange": true,
+   "kernelForms": true
+  },
+  "values": {
+   "holdWorkRel": 1.0789032507079787e-17,
+   "exactDK": 0.12083333333333333,
+   "pairPower": 118,
+   "twin": {
+    "rho": 1,
+    "bNorm": 0,
+    "aL": -0.02
+   },
+   "anti": {
+    "rho": -1,
+    "bOverA": 2
+   },
+   "gen": {
+    "bOverC": 2,
+    "symFrac": 0.5969372217872889
+   },
+   "contact": {
+    "eqFactor": 2,
+    "eqL": [
+     0,
+     0,
+     -0.4
+    ],
+    "poleL": [
+     0,
+     0,
+     0
+    ],
+    "bevFactor": 1.9999999999999998,
+    "bevSame": 6.731715880179761e-16,
+    "bevP": -0.068,
+    "bevPdiss": -0.06799999999999999
+   },
+   "kern": {
+    "sphEq": -0.5,
+    "sphPole": 1,
+    "bevEq": -1,
+    "bev45": [
+     0.7071067811865475,
+     0,
+     -1.5700924586837752e-16
+    ],
+    "mu2Eq": 0
+   }
+  },
+  "n": 13
+ },
+ "A": {
+  "omitted": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1
+  },
+  "full": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1,
+   "axisHold": {
+    "tauC": 2,
+    "reaction": "source",
+    "sourceHold": [
+     0,
+     1
+    ],
+    "receivers": [
+     1
+    ]
+   }
+  },
+  "minimal": {
+   "rot": "off",
+   "axial": "on",
+   "axialCoupling": 3,
+   "axisHold": {
+    "tauC": 2,
+    "reaction": "none"
+   }
+  },
+  "omittedHasNoKey": true,
+  "rejects": {
+   "axialOff": true,
+   "unknownKey": true,
+   "tauZero": true,
+   "tauNaN": true,
+   "reactionBad": true,
+   "sourceHoldDup": true,
+   "receiversEmpty": true,
+   "notObject": true
+  },
+  "allRejected": true,
+  "keys": [
+   "tauC",
+   "reaction",
+   "sourceHold",
+   "receivers"
+  ],
+  "reactions": [
+   "none",
+   "source"
+  ],
+  "version": "w308b-axishold-1"
+ },
+ "E": {
+  "rows": [
+   {
+    "kernel": "sphere",
+    "steps": 5,
+    "compared": 110,
+    "nDiff": 0
+   },
+   {
+    "kernel": "mu2",
+    "steps": 5,
+    "compared": 110,
+    "nDiff": 0
+   }
+  ],
+  "allSame": true
+ },
+ "L": {
+  "rows": [
+   {
+    "kernel": "sphere",
+    "steps": 2000,
+    "dJ": [
+     0.000072148,
+     0.000041655,
+     0.000017275
+    ],
+    "stateL": [
+     0.000072148,
+     0.000041655,
+     0.000017275
+    ],
+    "residualL": [
+     -1.5721e-18,
+     -1.2265e-18,
+     -1.816e-18
+    ],
+    "residualLRel": 1.357e-14,
+    "pairL": [
+     0,
+     0,
+     0
+    ],
+    "pairLRel": 0,
+    "outL": [
+     -0.00010839,
+     0.000032565,
+     0.000016941
+    ],
+    "supplyL": [
+     -0.000036238,
+     0.00007422,
+     0.000034217
+    ],
+    "dK": 0.00023425,
+    "spinDK": 0.00023425,
+    "residualKRel": 5.554e-15,
+    "Ereq": 0.00020941,
+    "supplyE": 0.000024842,
+    "P1": 0.00020941,
+    "EreqMinusP1Rel": 0.0000086936,
+    "holdWork": -2.9454551143063418e-21,
+    "holdL": [
+     -0.00034285,
+     0.0005257,
+     -0.00022679
+    ],
+    "holdWorkRel": 7.2905e-18,
+    "axesHeld": 4000,
+    "axisBitSame": true,
+    "heldSpinSame": true
+   },
+   {
+    "kernel": "mu2",
+    "steps": 2000,
+    "dJ": [
+     0.00099003,
+     0.00057159,
+     0.0083625
+    ],
+    "stateL": [
+     0.00099003,
+     0.00057159,
+     0.0083625
+    ],
+    "residualL": [
+     1.0408e-17,
+     -8.6736e-18,
+     -1.0408e-17
+    ],
+    "residualLRel": 4.155e-16,
+    "pairL": [
+     0,
+     0,
+     0
+    ],
+    "pairLRel": 0,
+    "outL": [
+     0.0073614,
+     -0.013671,
+     0.00019542
+    ],
+    "supplyL": [
+     0.0083514,
+     -0.0131,
+     0.008558
+    ],
+    "dK": 0.001745,
+    "spinDK": 0.001745,
+    "residualKRel": 2.4852e-16,
+    "Ereq": 0.0033964,
+    "supplyE": -0.0016514,
+    "P1": 0.0033919,
+    "EreqMinusP1Rel": 0.0013417,
+    "holdWork": -4.722555629781645e-20,
+    "holdL": [
+     -0.003231,
+     -0.0016709,
+     0.0013116
+    ],
+    "holdWorkRel": 1.8113e-17,
+    "axesHeld": 4000,
+    "axisBitSame": true,
+    "heldSpinSame": true
+   }
+  ]
+ },
+ "K": {
+  "steps": [
+   100,
+   100
+  ],
+  "nDiff": 0,
+  "keys": 42
+ },
+ "D": {
+  "steps": 400,
+  "rows": [
+   {
+    "kernel": "sphere",
+    "config": "twinCo",
+    "D01": [
+     0,
+     0,
+     -0.00001132
+    ],
+    "D10": [
+     0,
+     0,
+     -0.00001132
+    ],
+    "rho": 1,
+    "symFrac": 1,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       -0.0016074,
+       -0.0016074
+      ],
+      "dJ": [
+       0,
+       0,
+       -0.00014467
+      ],
+      "dK": -0.000072217,
+      "Ereq": -0.000072217,
+      "driveL": [
+       0,
+       0,
+       -0.00014467
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       -0.0016126,
+       0.0016126
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 1.1702e-7,
+      "Ereq": 1.1702e-7,
+      "P1": 1.1673e-7,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 0,
+    "bOverC0": 0,
+    "cOverA0": 1,
+    "bOverA0N": 0,
+    "bOverC0N": 0,
+    "pure": {
+     "bOverC": null,
+     "bOverA": 0,
+     "aL": [
+      0,
+      0,
+      -0.000022641
+     ],
+     "bP": 0,
+     "cP": 0,
+     "receptacle": [
+      0,
+      0,
+      -0.000022641
+     ]
+    }
+   },
+   {
+    "kernel": "sphere",
+    "config": "twinAnti",
+    "D01": [
+     0,
+     0,
+     0.00001132
+    ],
+    "D10": [
+     0,
+     0,
+     -0.00001132
+    ],
+    "rho": -1,
+    "symFrac": 0,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0.0016126,
+       -0.0016126
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0.000072683,
+      "Ereq": 0.000072683,
+      "driveL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0.0032304,
+       -0.0032304
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0.00014584,
+      "Ereq": 0.00014584,
+      "P1": 0.00014583,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0.0016126,
+       -0.0016126
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0.000072683,
+      "Ereq": 0.000072683,
+      "P1": 0.000072683,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 2,
+    "bOverC0": 2,
+    "cOverA0": 1,
+    "bOverA0N": 2.0032,
+    "bOverC0N": 2.0032,
+    "pure": {
+     "bOverC": 2,
+     "bOverA": 2,
+     "aL": [
+      0,
+      0,
+      0
+     ],
+     "bP": 0.000022641,
+     "cP": 0.00001132,
+     "receptacle": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "kernel": "sphere",
+    "config": "twinCoPole",
+    "D01": [
+     0,
+     0,
+     0.0000084674
+    ],
+    "D10": [
+     0,
+     0,
+     0.0000084674
+    ],
+    "rho": 1,
+    "symFrac": 1,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0.0012057,
+       0.0012057
+      ],
+      "dJ": [
+       0,
+       0,
+       0.00010851
+      ],
+      "dK": 0.000054322,
+      "Ereq": 0.000054322,
+      "driveL": [
+       0,
+       0,
+       0.00010851
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0.0012028,
+       -0.0012028
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 6.5104e-8,
+      "Ereq": 6.5104e-8,
+      "P1": 6.4941e-8,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 0,
+    "bOverC0": 0,
+    "cOverA0": 1,
+    "bOverA0N": 0,
+    "bOverC0N": 0,
+    "pure": {
+     "bOverC": null,
+     "bOverA": 0,
+     "aL": [
+      0,
+      0,
+      0.000016935
+     ],
+     "bP": 0,
+     "cP": 0,
+     "receptacle": [
+      0,
+      0,
+      0.000016935
+     ]
+    }
+   },
+   {
+    "kernel": "sphere",
+    "config": "twinAntiPole",
+    "D01": [
+     0,
+     0,
+     -0.0000084674
+    ],
+    "D10": [
+     0,
+     0,
+     0.0000084674
+    ],
+    "rho": -1,
+    "symFrac": 0,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       -0.0012028,
+       0.0012028
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.000054061,
+      "Ereq": -0.000054061,
+      "driveL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "b": {
+      "dSpin": [
+       -0.0024027,
+       0.0024027
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.00010786,
+      "Ereq": -0.00010786,
+      "P1": -0.00010786,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       -0.0012028,
+       0.0012028
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.000054061,
+      "Ereq": -0.000054061,
+      "P1": -0.000054061,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 2,
+    "bOverC0": 2,
+    "cOverA0": 1,
+    "bOverA0N": 1.9976,
+    "bOverC0N": 1.9976,
+    "pure": {
+     "bOverC": 2,
+     "bOverA": 2,
+     "aL": [
+      0,
+      0,
+      0
+     ],
+     "bP": -0.000016935,
+     "cP": -0.0000084674,
+     "receptacle": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "kernel": "sphere",
+    "config": "asym",
+    "D01": [
+     -4.2605e-7,
+     0,
+     -0.0000024163
+    ],
+    "D10": [
+     2.5413e-7,
+     -4.4016e-7,
+     -7.2586e-7
+    ],
+    "rho": 0.27336,
+    "symFrac": 0.62895,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       -0.00025619,
+       -0.0016799
+      ],
+      "dJ": [
+       -0.0000010988,
+       -0.0000028163,
+       -0.000020098
+      ],
+      "dK": -0.000014643,
+      "Ereq": -0.000014643,
+      "driveL": [
+       -0.0000010988,
+       -0.0000028163,
+       -0.000020098
+      ]
+     },
+     "b": {
+      "dSpin": [
+       -0.0001865,
+       0.0018443
+      ],
+      "dJ": [
+       -0.0000037687,
+       0.0000030919,
+       -0.0000061506
+      ],
+      "dK": 0.0000017647,
+      "Ereq": 0.0000017647,
+      "P1": 0.0000017647,
+      "outL": [
+       0.0000037687,
+       -0.0000030919,
+       0.0000061506
+      ]
+     },
+     "c": {
+      "dSpin": [
+       -0.00025674,
+       0.0035268
+      ],
+      "dJ": [
+       -0.0000061443,
+       0.0000059125,
+       -0.0000057365
+      ],
+      "dK": 0.0000064436,
+      "Ereq": 0.0000064436,
+      "P1": 0.0000064435,
+      "outL": [
+       0.0000061443,
+       -0.0000059125,
+       0.0000057365
+      ]
+     }
+    },
+    "bOverA0": 0.7266364234599845,
+    "bOverC0": 0.7266364234599845,
+    "cOverA0": 1,
+    "bOverA0N": 0.72796,
+    "bOverC0N": 0.72639,
+    "pure": {
+     "bOverC": 2,
+     "bOverA": 0.76401,
+     "aL": [
+      -1.7192e-7,
+      -4.4016e-7,
+      -0.0000031421
+     ],
+     "bP": 2.7376e-7,
+     "cP": 1.3688e-7,
+     "receptacle": [
+      -1.7192e-7,
+      -4.4016e-7,
+      -0.0000031421
+     ]
+    }
+   },
+   {
+    "kernel": "mu2",
+    "config": "twinCo",
+    "D01": [
+     0,
+     0,
+     0
+    ],
+    "D10": [
+     0,
+     0,
+     0
+    ],
+    "rho": null,
+    "symFrac": null,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "driveL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": null,
+    "bOverC0": null,
+    "cOverA0": null,
+    "bOverA0N": null,
+    "bOverC0N": null,
+    "pure": {
+     "bOverC": null,
+     "bOverA": null,
+     "aL": [
+      0,
+      0,
+      0
+     ],
+     "bP": 0,
+     "cP": 0,
+     "receptacle": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "kernel": "mu2",
+    "config": "twinAnti",
+    "D01": [
+     0,
+     0,
+     0
+    ],
+    "D10": [
+     0,
+     0,
+     0
+    ],
+    "rho": null,
+    "symFrac": null,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "driveL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": null,
+    "bOverC0": null,
+    "cOverA0": null,
+    "bOverA0N": null,
+    "bOverC0N": null,
+    "pure": {
+     "bOverC": null,
+     "bOverA": null,
+     "aL": [
+      0,
+      0,
+      0
+     ],
+     "bP": 0,
+     "cP": 0,
+     "receptacle": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "kernel": "mu2",
+    "config": "twinCoPole",
+    "D01": [
+     0,
+     0,
+     0.0012497
+    ],
+    "D10": [
+     0,
+     0,
+     0.0012497
+    ],
+    "rho": 1,
+    "symFrac": 1,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0.2133,
+       0.2133
+      ],
+      "dJ": [
+       0,
+       0,
+       0.019197
+      ],
+      "dK": 0.011646,
+      "Ereq": 0.011646,
+      "driveL": [
+       0,
+       0,
+       0.019197
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0,
+       0
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0,
+      "Ereq": 0,
+      "P1": 0,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0.14963,
+       -0.14963
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": 0.0010075,
+      "Ereq": 0.0010075,
+      "P1": 0.0010049,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 0,
+    "bOverC0": 0,
+    "cOverA0": 1,
+    "bOverA0N": 0,
+    "bOverC0N": 0,
+    "pure": {
+     "bOverC": null,
+     "bOverA": 0,
+     "aL": [
+      0,
+      0,
+      0.0024993
+     ],
+     "bP": 0,
+     "cP": 0,
+     "receptacle": [
+      0,
+      0,
+      0.0024993
+     ]
+    }
+   },
+   {
+    "kernel": "mu2",
+    "config": "twinAntiPole",
+    "D01": [
+     0,
+     0,
+     -0.0012497
+    ],
+    "D10": [
+     0,
+     0,
+     0.0012497
+    ],
+    "rho": -1,
+    "symFrac": 0,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       -0.14963,
+       0.14963
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.0057258,
+      "Ereq": -0.0057258,
+      "driveL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "b": {
+      "dSpin": [
+       -0.25456,
+       0.25456
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.0085391,
+      "Ereq": -0.0085391,
+      "P1": -0.0085467,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     },
+     "c": {
+      "dSpin": [
+       -0.14963,
+       0.14963
+      ],
+      "dJ": [
+       0,
+       0,
+       0
+      ],
+      "dK": -0.0057258,
+      "Ereq": -0.0057258,
+      "P1": -0.0057283,
+      "outL": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bOverA0": 2.000000000000125,
+    "bOverC0": 2.000000000000125,
+    "cOverA0": 1,
+    "bOverA0N": 1.7013,
+    "bOverC0N": 1.7013,
+    "pure": {
+     "bOverC": 2,
+     "bOverA": 2,
+     "aL": [
+      0,
+      0,
+      0
+     ],
+     "bP": -0.0024993,
+     "cP": -0.0012497,
+     "receptacle": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "kernel": "mu2",
+    "config": "asym",
+    "D01": [
+     0.0000023973,
+     0,
+     0.000013595
+    ],
+    "D10": [
+     -0.0000025496,
+     0.0000044161,
+     0.0000072825
+    ],
+    "rho": 0.48743,
+    "symFrac": 0.69977,
+    "schemes": {
+     "a": {
+      "dSpin": [
+       0.0014526,
+       0.016883
+      ],
+      "dJ": [
+       -8.911e-7,
+       0.000028304,
+       0.0001343
+      ],
+      "dK": 0.00011341,
+      "Ereq": 0.00011341,
+      "driveL": [
+       -8.911e-7,
+       0.000028304,
+       0.0001343
+      ]
+     },
+     "b": {
+      "dSpin": [
+       0.00073711,
+       -0.0029199
+      ],
+      "dJ": [
+       0.000010666,
+       -0.000004895,
+       0.00003639
+      ],
+      "dK": 0.00001078,
+      "Ereq": 0.00001078,
+      "P1": 0.00001078,
+      "outL": [
+       -0.000010666,
+       0.000004895,
+       -0.00003639
+      ]
+     },
+     "c": {
+      "dSpin": [
+       0.0014307,
+       -0.019653
+      ],
+      "dJ": [
+       0.000034239,
+       -0.000032947,
+       0.000031966
+      ],
+      "dK": -0.000035064,
+      "Ereq": -0.000035064,
+      "P1": -0.000035066,
+      "outL": [
+       -0.000034239,
+       0.000032947,
+       -0.000031966
+      ]
+     }
+    },
+    "bOverA0": 0.5125702194519287,
+    "bOverC0": 0.5125702194519287,
+    "cOverA0": 1,
+    "bOverA0N": 0.50743,
+    "bOverC0N": 0.51521,
+    "pure": {
+     "bOverC": 2,
+     "bOverA": 0.66321,
+     "aL": [
+      -1.5236e-7,
+      0.0000044161,
+      0.000020878
+     ],
+     "bP": 0.0000016672,
+     "cP": 8.3361e-7,
+     "receptacle": [
+      -1.5236e-7,
+      0.0000044161,
+      0.000020878
+     ]
+    }
+   }
+  ],
+  "contact": [
+   {
+    "geom": "equator",
+    "spins": "co",
+    "ti": [
+     0,
+     0,
+     -0.2
+    ],
+    "tj": [
+     0,
+     0,
+     -0.2
+    ],
+    "spinL": [
+     0,
+     0,
+     -0.4
+    ],
+    "P": -0.2,
+    "exchangeFrac": 0,
+    "bothViewsFactor": 2
+   },
+   {
+    "geom": "equator",
+    "spins": "anti",
+    "ti": [
+     0,
+     0,
+     0
+    ],
+    "tj": [
+     0,
+     0,
+     0
+    ],
+    "spinL": [
+     0,
+     0,
+     0
+    ],
+    "P": 0,
+    "exchangeFrac": null,
+    "bothViewsFactor": null
+   },
+   {
+    "geom": "45deg",
+    "spins": "co",
+    "ti": [
+     0.1,
+     0,
+     -0.1
+    ],
+    "tj": [
+     0.1,
+     0,
+     -0.1
+    ],
+    "spinL": [
+     0.2,
+     0,
+     -0.2
+    ],
+    "P": -0.1,
+    "exchangeFrac": 0,
+    "bothViewsFactor": 2
+   },
+   {
+    "geom": "45deg",
+    "spins": "anti",
+    "ti": [
+     -0.1,
+     0,
+     -0.1
+    ],
+    "tj": [
+     0.1,
+     0,
+     0.1
+    ],
+    "spinL": [
+     -5.5511e-17,
+     0,
+     -5.5511e-17
+    ],
+    "P": -0.1,
+    "exchangeFrac": 1,
+    "bothViewsFactor": 2
+   },
+   {
+    "geom": "pole",
+    "spins": "co",
+    "ti": [
+     0,
+     0,
+     0
+    ],
+    "tj": [
+     0,
+     0,
+     0
+    ],
+    "spinL": [
+     0,
+     0,
+     0
+    ],
+    "P": 0,
+    "exchangeFrac": null,
+    "bothViewsFactor": null
+   },
+   {
+    "geom": "pole",
+    "spins": "anti",
+    "ti": [
+     0,
+     0,
+     -0.2
+    ],
+    "tj": [
+     0,
+     0,
+     0.2
+    ],
+    "spinL": [
+     0,
+     0,
+     0
+    ],
+    "P": -0.2,
+    "exchangeFrac": 1,
+    "bothViewsFactor": 2
+   }
+  ],
+  "ctl": {
+   "tau0": [
+    0,
+    0,
+    -3.782e-8
+   ],
+   "tau1": [
+    0,
+    0,
+    -3.782e-8
+   ],
+   "rho": 1,
+   "note": "各自の潮汐のふくらみのトルク(相手の自転へは返さない —— 反作用は軌道へ)"
+  }
+ },
+ "V": {
+  "orbits": 40,
+  "norm": {
+   "tauTOrbits": {
+    "venus": 4,
+    "jupiter": 2
+   },
+   "orbits": 40,
+   "quickOrbits": 6,
+   "betas": [
+    0,
+    0.5,
+    1,
+    2
+   ],
+   "inertia": "sphere",
+   "k2": 1
+  },
+  "books": {
+   "venus": {
+    "n": 0.0032364,
+    "tauTOrbits": 4,
+    "lag": 22374000,
+    "omega": {
+     "planetFromSun": [
+      3.3891e-15,
+      2.1403e-15,
+      -4.9816e-14
+     ],
+     "planetFromSunRef": [
+      3.3892e-15,
+      2.1401e-15,
+      -4.9812e-14
+     ],
+     "relErrPS": 0.000088524,
+     "sunFromPlanet": [
+      1.6083e-25,
+      1.0167e-26,
+      9.4053e-25
+     ],
+     "sunFromPlanetRef": [
+      1.6083e-25,
+      1.0167e-26,
+      9.4053e-25
+     ],
+     "relErrSP": 6.2489e-9,
+     "parPS": -4.907e-14,
+     "parSP": 9.5237e-25,
+     "parPSRef": -4.9065e-14,
+     "parSPRef": 9.5237e-25,
+     "overSpinPS": 1.6398e-11,
+     "rOverRsun": 155.01,
+     "rOverRplanet": 17807,
+     "driveRatioSunOverPlanet": -0.10464
+    },
+    "runs": [
+     {
+      "key": "venus",
+      "beta": 0,
+      "variant": "c",
+      "tilt": false,
+      "tauC": null,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": 0.99794,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 0.42878,
+        "axisZ": 1,
+        "heat": 1.2636e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 0.82936,
+        "axisZ": 1,
+        "heat": 1.3765e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 0.94806,
+        "axisZ": 1,
+        "heat": 1.3881e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 0.98324,
+        "axisZ": 1,
+        "heat": 1.3909e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.99366,
+        "axisZ": 1,
+        "heat": 1.3929e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.99675,
+        "axisZ": 1,
+        "heat": 1.3948e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.99767,
+        "axisZ": 1,
+        "heat": 1.3967e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 0.99794,
+        "axisZ": 1,
+        "heat": 1.3986e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       }
+      ],
+      "meanTideTorque": 3.7381e-16,
+      "meanDriveTorque": 0,
+      "balanceRel": 1,
+      "predictedShiftOverN": 0,
+      "heat": 1.3986e-10,
+      "work": -1.3986e-10,
+      "tideResidualE": -8.0133e-25,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": null,
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": 0
+     },
+     {
+      "key": "venus",
+      "beta": 0.5,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 2.3549e-7,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": 0.48898,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 0.070725,
+        "axisZ": 1,
+        "heat": 1.6772e-10,
+        "Ereq": 4.2685e-10,
+        "P1": 4.2684e-10,
+        "sunSpinRel": 1.2714e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 0.3651,
+        "axisZ": 1,
+        "heat": 2.1997e-10,
+        "Ereq": 8.273e-10,
+        "P1": 8.2728e-10,
+        "sunSpinRel": 2.5435e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 0.45233,
+        "axisZ": 1,
+        "heat": 2.5095e-10,
+        "Ereq": 1.2199e-9,
+        "P1": 1.2198e-9,
+        "sunSpinRel": 3.8157e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 0.47818,
+        "axisZ": 1,
+        "heat": 2.7678e-10,
+        "Ereq": 1.6101e-9,
+        "P1": 1.61e-9,
+        "sunSpinRel": 5.0878e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.48584,
+        "axisZ": 1,
+        "heat": 3.0117e-10,
+        "Ereq": 1.9996e-9,
+        "P1": 1.9995e-9,
+        "sunSpinRel": 6.3599e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.48811,
+        "axisZ": 1,
+        "heat": 3.2514e-10,
+        "Ereq": 2.3889e-9,
+        "P1": 2.3889e-9,
+        "sunSpinRel": 7.6321e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.48878,
+        "axisZ": 1,
+        "heat": 3.4899e-10,
+        "Ereq": 2.7782e-9,
+        "P1": 2.7781e-9,
+        "sunSpinRel": 8.9042e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 0.48898,
+        "axisZ": 1,
+        "heat": 3.7281e-10,
+        "Ereq": 3.1674e-9,
+        "P1": 3.1673e-9,
+        "sunSpinRel": 1.0176e-10,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 1.4738e-12,
+      "meanDriveTorque": -1.4735e-12,
+      "balanceRel": 0.00018579,
+      "predictedShiftOverN": -0.5,
+      "heat": 3.7281e-10,
+      "work": -3.7281e-10,
+      "tideResidualE": 2.5849e-25,
+      "sunSpinRel": 1.0176e-10,
+      "sunJchange": 1.135e-7,
+      "hold": {
+       "Ereq": 3.1674e-9,
+       "EreqPos": 3.1674e-9,
+       "EreqNeg": 0,
+       "P1": 3.1673e-9,
+       "spinDK": 3.1674e-9,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -1.1442e-7
+       ],
+       "reactL": [
+        0,
+        0,
+        1.1442e-7
+       ],
+       "outL": [
+        -1.3888e-8,
+        3.5229e-9,
+        1.8231e-9
+       ],
+       "holdL": [
+        3.0081e-19,
+        1.0878e-18,
+        -3.065e-21
+       ],
+       "holdWork": -1.2371e-38,
+       "axesHeld": 14399,
+       "heatOverEreq": 0.1177
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": -0.50896
+     },
+     {
+      "key": "venus",
+      "beta": 1,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 1.1774e-7,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": -0.019979,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": -0.28733,
+        "axisZ": 1,
+        "heat": 2.1936e-10,
+        "Ereq": 8.7357e-10,
+        "P1": 8.7354e-10,
+        "sunSpinRel": 2.5428e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": -0.099164,
+        "axisZ": 1,
+        "heat": 3.4515e-10,
+        "Ereq": 1.7136e-9,
+        "P1": 1.7135e-9,
+        "sunSpinRel": 5.0871e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": -0.043404,
+        "axisZ": 1,
+        "heat": 4.4851e-10,
+        "Ereq": 2.5435e-9,
+        "P1": 2.5434e-9,
+        "sunSpinRel": 7.6314e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": -0.026881,
+        "axisZ": 1,
+        "heat": 5.4569e-10,
+        "Ereq": 3.3704e-9,
+        "P1": 3.3703e-9,
+        "sunSpinRel": 1.0176e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": -0.021985,
+        "axisZ": 1,
+        "heat": 6.4107e-10,
+        "Ereq": 4.1965e-9,
+        "P1": 4.1963e-9,
+        "sunSpinRel": 1.272e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.020535,
+        "axisZ": 1,
+        "heat": 7.3593e-10,
+        "Ereq": 5.0222e-9,
+        "P1": 5.022e-9,
+        "sunSpinRel": 1.5264e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.020106,
+        "axisZ": 1,
+        "heat": 8.3063e-10,
+        "Ereq": 5.8479e-9,
+        "P1": 5.8477e-9,
+        "sunSpinRel": 1.7808e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.019979,
+        "axisZ": 1,
+        "heat": 9.2528e-10,
+        "Ereq": 6.6736e-9,
+        "P1": 6.6733e-9,
+        "sunSpinRel": 2.0353e-10,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 2.9472e-12,
+      "meanDriveTorque": -2.947e-12,
+      "balanceRel": 0.000058981,
+      "predictedShiftOverN": -1,
+      "heat": 9.2528e-10,
+      "work": -9.2528e-10,
+      "tideResidualE": 2.6883e-24,
+      "sunSpinRel": 2.0353e-10,
+      "sunJchange": 2.2701e-7,
+      "hold": {
+       "Ereq": 6.6736e-9,
+       "EreqPos": 6.6736e-9,
+       "EreqNeg": 0,
+       "P1": 6.6733e-9,
+       "spinDK": 6.6736e-9,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -2.2884e-7
+       ],
+       "reactL": [
+        0,
+        0,
+        2.2884e-7
+       ],
+       "outL": [
+        -2.7775e-8,
+        7.0458e-9,
+        3.6462e-9
+       ],
+       "holdL": [
+        -1.1732e-19,
+        -3.6046e-19,
+        3.1917e-21
+       ],
+       "holdWork": 9.4655e-39,
+       "axesHeld": 14399,
+       "heatOverEreq": 0.13865
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": -1.0179
+     },
+     {
+      "key": "venus",
+      "beta": 2,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 5.8871e-8,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": -1.0379,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": -1.0034,
+        "axisZ": 1,
+        "heat": 3.5346e-10,
+        "Ereq": 1.8267e-9,
+        "P1": 1.8265e-9,
+        "sunSpinRel": 5.0857e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": -1.0277,
+        "axisZ": 1,
+        "heat": 7.2407e-10,
+        "Ereq": 3.6631e-9,
+        "P1": 3.6629e-9,
+        "sunSpinRel": 1.0174e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": -1.0349,
+        "axisZ": 1,
+        "heat": 1.0999e-9,
+        "Ereq": 5.5022e-9,
+        "P1": 5.5018e-9,
+        "sunSpinRel": 1.5263e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": -1.037,
+        "axisZ": 1,
+        "heat": 1.4772e-9,
+        "Ereq": 7.342e-9,
+        "P1": 7.3415e-9,
+        "sunSpinRel": 2.0351e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": -1.0376,
+        "axisZ": 1,
+        "heat": 1.855e-9,
+        "Ereq": 9.1821e-9,
+        "P1": 9.1814e-9,
+        "sunSpinRel": 2.544e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -1.0378,
+        "axisZ": 1,
+        "heat": 2.2329e-9,
+        "Ereq": 1.1022e-8,
+        "P1": 1.1021e-8,
+        "sunSpinRel": 3.0528e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -1.0379,
+        "axisZ": 1,
+        "heat": 2.6108e-9,
+        "Ereq": 1.2862e-8,
+        "P1": 1.2861e-8,
+        "sunSpinRel": 3.5617e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -1.0379,
+        "axisZ": 1,
+        "heat": 2.9888e-9,
+        "Ereq": 1.4702e-8,
+        "P1": 1.4701e-8,
+        "sunSpinRel": 4.0705e-10,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 5.8939e-12,
+      "meanDriveTorque": -5.894e-12,
+      "balanceRel": -0.000004429,
+      "predictedShiftOverN": -2,
+      "heat": 2.9888e-9,
+      "work": -2.9888e-9,
+      "tideResidualE": 1.3648e-23,
+      "sunSpinRel": 4.0705e-10,
+      "sunJchange": 4.5401e-7,
+      "hold": {
+       "Ereq": 1.4702e-8,
+       "EreqPos": 1.4702e-8,
+       "EreqNeg": 0,
+       "P1": 1.4701e-8,
+       "spinDK": 1.4702e-8,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -4.5767e-7
+       ],
+       "reactL": [
+        0,
+        0,
+        4.5767e-7
+       ],
+       "outL": [
+        -5.555e-8,
+        1.4092e-8,
+        7.2925e-9
+       ],
+       "holdL": [
+        -9.5356e-19,
+        -3.257e-18,
+        1.5705e-20
+       ],
+       "holdWork": 3.5197e-38,
+       "axesHeld": 14399,
+       "heatOverEreq": 0.20329
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": -2.0358
+     },
+     {
+      "key": "venus",
+      "beta": 1,
+      "variant": "cHold",
+      "tilt": false,
+      "tauC": 1.1774e-7,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": -0.019979,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": -0.28733,
+        "axisZ": 1,
+        "heat": 2.1936e-10,
+        "Ereq": 8.7357e-10,
+        "P1": 8.7354e-10,
+        "sunSpinRel": 0,
+        "supplyE": -8.2338e-10
+       },
+       {
+        "orbit": 10,
+        "spinOverN": -0.099164,
+        "axisZ": 1,
+        "heat": 3.4515e-10,
+        "Ereq": 1.7136e-9,
+        "P1": 1.7135e-9,
+        "sunSpinRel": 0,
+        "supplyE": -1.6472e-9
+       },
+       {
+        "orbit": 15,
+        "spinOverN": -0.043404,
+        "axisZ": 1,
+        "heat": 4.4851e-10,
+        "Ereq": 2.5435e-9,
+        "P1": 2.5434e-9,
+        "sunSpinRel": 0,
+        "supplyE": -2.471e-9
+       },
+       {
+        "orbit": 20,
+        "spinOverN": -0.026881,
+        "axisZ": 1,
+        "heat": 5.4569e-10,
+        "Ereq": 3.3704e-9,
+        "P1": 3.3703e-9,
+        "sunSpinRel": 0,
+        "supplyE": -3.2949e-9
+       },
+       {
+        "orbit": 25,
+        "spinOverN": -0.021985,
+        "axisZ": 1,
+        "heat": 6.4107e-10,
+        "Ereq": 4.1965e-9,
+        "P1": 4.1963e-9,
+        "sunSpinRel": 0,
+        "supplyE": -4.1187e-9
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.020535,
+        "axisZ": 1,
+        "heat": 7.3593e-10,
+        "Ereq": 5.0222e-9,
+        "P1": 5.022e-9,
+        "sunSpinRel": 0,
+        "supplyE": -4.9426e-9
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.020106,
+        "axisZ": 1,
+        "heat": 8.3063e-10,
+        "Ereq": 5.8479e-9,
+        "P1": 5.8477e-9,
+        "sunSpinRel": 0,
+        "supplyE": -5.7664e-9
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.019979,
+        "axisZ": 1,
+        "heat": 9.2528e-10,
+        "Ereq": 6.6736e-9,
+        "P1": 6.6733e-9,
+        "sunSpinRel": 0,
+        "supplyE": -6.5902e-9
+       }
+      ],
+      "meanTideTorque": 2.9472e-12,
+      "meanDriveTorque": -2.947e-12,
+      "balanceRel": 0.000058981,
+      "predictedShiftOverN": -1,
+      "heat": 9.2528e-10,
+      "work": -9.2528e-10,
+      "tideResidualE": -2.9985e-24,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": {
+       "Ereq": 6.6736e-9,
+       "EreqPos": 6.6736e-9,
+       "EreqNeg": 0,
+       "P1": 6.6733e-9,
+       "spinDK": 8.3369e-11,
+       "supplyE": -6.5902e-9,
+       "supplyL": [
+        0,
+        0,
+        -2.2884e-7
+       ],
+       "driveL": [
+        0,
+        0,
+        -2.2884e-7
+       ],
+       "reactL": [
+        0,
+        0,
+        2.2884e-7
+       ],
+       "outL": [
+        0,
+        0,
+        0
+       ],
+       "holdL": [
+        -1.1732e-19,
+        -3.6046e-19,
+        3.1917e-21
+       ],
+       "holdWork": 4.475e-38,
+       "axesHeld": 14399,
+       "heatOverEreq": 0.13865
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": -1.0179
+     },
+     {
+      "key": "venus",
+      "beta": 1,
+      "variant": "a",
+      "tilt": false,
+      "tauC": 1.1774e-7,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92298,
+      "spinOverN": -0.019979,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": -0.28733,
+        "axisZ": 1,
+        "heat": 2.1936e-10,
+        "Ereq": 5.0196e-11,
+        "P1": 5.0164e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": -0.099164,
+        "axisZ": 1,
+        "heat": 3.4515e-10,
+        "Ereq": 6.6371e-11,
+        "P1": 6.6307e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": -0.043404,
+        "axisZ": 1,
+        "heat": 4.4851e-10,
+        "Ereq": 7.2449e-11,
+        "P1": 7.2354e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": -0.026881,
+        "axisZ": 1,
+        "heat": 5.4569e-10,
+        "Ereq": 7.5536e-11,
+        "P1": 7.5408e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": -0.021985,
+        "axisZ": 1,
+        "heat": 6.4107e-10,
+        "Ereq": 7.7736e-11,
+        "P1": 7.7577e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.020535,
+        "axisZ": 1,
+        "heat": 7.3593e-10,
+        "Ereq": 7.9673e-11,
+        "P1": 7.9482e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.020106,
+        "axisZ": 1,
+        "heat": 8.3063e-10,
+        "Ereq": 8.1533e-11,
+        "P1": 8.1309e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.019979,
+        "axisZ": 1,
+        "heat": 9.2528e-10,
+        "Ereq": 8.3369e-11,
+        "P1": 8.3114e-11,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 2.9472e-12,
+      "meanDriveTorque": -2.947e-12,
+      "balanceRel": 0.000058981,
+      "predictedShiftOverN": -1,
+      "heat": 9.2528e-10,
+      "work": -9.2528e-10,
+      "tideResidualE": -2.9985e-24,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": {
+       "Ereq": 8.3369e-11,
+       "EreqPos": 8.3369e-11,
+       "EreqNeg": 0,
+       "P1": 8.3114e-11,
+       "spinDK": 8.3369e-11,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -2.2884e-7
+       ],
+       "reactL": [
+        0,
+        0,
+        0
+       ],
+       "outL": [
+        0,
+        0,
+        0
+       ],
+       "holdL": [
+        -1.1732e-19,
+        -3.6046e-19,
+        3.1917e-21
+       ],
+       "holdWork": 4.475e-38,
+       "axesHeld": 14399,
+       "heatOverEreq": 11.099
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420,
+      "shiftOverN": -1.0179
+     }
+    ],
+    "mutual": {
+     "key": "venus",
+     "beta": 1,
+     "variant": "b",
+     "tilt": false,
+     "tauC": 1.1774e-7,
+     "steps": 360,
+     "dt": 5.392824,
+     "orbits": 1,
+     "spin0OverN": -0.92298,
+     "spinOverN": -0.74764,
+     "rec": [
+      {
+       "orbit": 0.125,
+       "spinOverN": -0.89663,
+       "axisZ": 1,
+       "heat": 8.6564e-12,
+       "Ereq": 2.4849e-11,
+       "P1": 2.4848e-11,
+       "sunSpinRel": 6.9614e-13,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.25,
+       "spinOverN": -0.87206,
+       "axisZ": 1,
+       "heat": 1.7058e-11,
+       "Ereq": 5.0247e-11,
+       "P1": 5.0245e-11,
+       "sunSpinRel": 1.4096e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.375,
+       "spinOverN": -0.84906,
+       "axisZ": 1,
+       "heat": 2.503e-11,
+       "Ereq": 7.5169e-11,
+       "P1": 7.5167e-11,
+       "sunSpinRel": 2.1114e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.5,
+       "spinOverN": -0.82772,
+       "axisZ": 1,
+       "heat": 3.2551e-11,
+       "Ereq": 9.9527e-11,
+       "P1": 9.9524e-11,
+       "sunSpinRel": 2.7986e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.625,
+       "spinOverN": -0.80775,
+       "axisZ": 1,
+       "heat": 3.9752e-11,
+       "Ereq": 1.237e-10,
+       "P1": 1.2369e-10,
+       "sunSpinRel": 3.4822e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.75,
+       "spinOverN": -0.78831,
+       "axisZ": 1,
+       "heat": 4.6828e-11,
+       "Ereq": 1.4794e-10,
+       "P1": 1.4793e-10,
+       "sunSpinRel": 4.1692e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.875,
+       "spinOverN": -0.76837,
+       "axisZ": 1,
+       "heat": 5.3935e-11,
+       "Ereq": 1.7222e-10,
+       "P1": 1.7221e-10,
+       "sunSpinRel": 4.8586e-12,
+       "supplyE": 0
+      },
+      {
+       "orbit": 1,
+       "spinOverN": -0.74764,
+       "axisZ": 1,
+       "heat": 6.1121e-11,
+       "Ereq": 1.9655e-10,
+       "P1": 1.9654e-10,
+       "sunSpinRel": 5.5512e-12,
+       "supplyE": 0
+      }
+     ],
+     "meanTideTorque": 5.2972e-12,
+     "meanDriveTorque": -3.2105e-12,
+     "balanceRel": 0.39393,
+     "predictedShiftOverN": -1,
+     "heat": 6.1121e-11,
+     "work": -6.1121e-11,
+     "tideResidualE": 2.5849e-26,
+     "sunSpinRel": 5.5512e-12,
+     "sunJchange": 6.1916e-9,
+     "hold": {
+      "Ereq": 1.9655e-10,
+      "EreqPos": 1.9655e-10,
+      "EreqNeg": 0,
+      "P1": 1.9654e-10,
+      "spinDK": 1.9655e-10,
+      "supplyE": 0,
+      "supplyL": [
+       0,
+       0,
+       0
+      ],
+      "driveL": [
+       6.507e-11,
+       -1.6507e-11,
+       -5.1778e-9
+      ],
+      "reactL": [
+       -6.507e-11,
+       1.6507e-11,
+       5.1778e-9
+      ],
+      "outL": [
+       -7.5755e-10,
+       1.9217e-10,
+       9.0907e-11
+      ],
+      "holdL": [
+       -2.1755e-20,
+       -6.7074e-20,
+       5.8466e-22
+      ],
+      "holdWork": 4.112e-39,
+      "axesHeld": 359,
+      "heatOverEreq": 0.31097
+     },
+     "axisTurnRad": 0,
+     "Iplanet": 0.0000071265,
+     "Isun": 38420,
+     "shiftOverN": -0.23946,
+     "shiftOverNc": -0.21926,
+     "mutualOverC": 1.0921,
+     "sunSpinRelC": 5.0743e-12
+    },
+    "tilted": [
+     {
+      "key": "venus",
+      "beta": 0,
+      "variant": "c",
+      "tilt": true,
+      "tauC": null,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92362,
+      "spinOverN": 0.99968,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 0.43102,
+        "axisZ": -0.9938,
+        "heat": 1.2618e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 0.8316,
+        "axisZ": -0.99728,
+        "heat": 1.3726e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 0.95006,
+        "axisZ": -0.99781,
+        "heat": 1.3826e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 0.98508,
+        "axisZ": -0.99803,
+        "heat": 1.3838e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.99544,
+        "axisZ": -0.99813,
+        "heat": 1.3842e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.9985,
+        "axisZ": -0.99818,
+        "heat": 1.3845e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.99941,
+        "axisZ": -0.99821,
+        "heat": 1.3848e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 0.99968,
+        "axisZ": -0.99823,
+        "heat": 1.3851e-10,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       }
+      ],
+      "meanTideTorque": -3.682e-16,
+      "meanDriveTorque": 0,
+      "balanceRel": -1,
+      "predictedShiftOverN": 0,
+      "heat": 1.3851e-10,
+      "work": -1.3851e-10,
+      "tideResidualE": -9.8228e-25,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": null,
+      "axisTurnRad": 3.0952,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420
+     },
+     {
+      "key": "venus",
+      "beta": 1,
+      "variant": "c",
+      "tilt": true,
+      "tauC": 1.1774e-7,
+      "steps": 14400,
+      "dt": 5.392824,
+      "orbits": 40,
+      "spin0OverN": -0.92362,
+      "spinOverN": 0.0004964,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": -0.19761,
+        "axisZ": 0.66978,
+        "heat": 2.1699e-10,
+        "Ereq": 7.984e-10,
+        "P1": 7.9837e-10,
+        "sunSpinRel": 2.3127e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 0.11238,
+        "axisZ": -0.99744,
+        "heat": 2.9202e-10,
+        "Ereq": 1.3163e-9,
+        "P1": 1.3162e-9,
+        "sunSpinRel": 3.9416e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 0.01713,
+        "axisZ": -0.99825,
+        "heat": 3.7326e-10,
+        "Ereq": 2.1435e-9,
+        "P1": 2.1434e-9,
+        "sunSpinRel": 6.5123e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 0.00046252,
+        "axisZ": -0.99825,
+        "heat": 4.6359e-10,
+        "Ereq": 2.9652e-9,
+        "P1": 2.9651e-9,
+        "sunSpinRel": 9.0511e-11,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.00053288,
+        "axisZ": 0.99825,
+        "heat": 5.546e-10,
+        "Ereq": 3.7791e-9,
+        "P1": 3.779e-9,
+        "sunSpinRel": 1.1565e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.00020861,
+        "axisZ": 0.99825,
+        "heat": 6.4561e-10,
+        "Ereq": 4.5933e-9,
+        "P1": 4.5931e-9,
+        "sunSpinRel": 1.4079e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.00019394,
+        "axisZ": -0.99825,
+        "heat": 7.3661e-10,
+        "Ereq": 5.4072e-9,
+        "P1": 5.407e-9,
+        "sunSpinRel": 1.6593e-10,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 0.0004964,
+        "axisZ": 0.99825,
+        "heat": 8.2762e-10,
+        "Ereq": 6.2209e-9,
+        "P1": 6.2207e-9,
+        "sunSpinRel": 1.9106e-10,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": -5.3141e-13,
+      "meanDriveTorque": 5.4438e-13,
+      "balanceRel": 0.023829,
+      "predictedShiftOverN": -1,
+      "heat": 8.2762e-10,
+      "work": -8.2762e-10,
+      "tideResidualE": 1.3442e-24,
+      "sunSpinRel": 1.9106e-10,
+      "sunJchange": 2.131e-7,
+      "hold": {
+       "Ereq": 6.2209e-9,
+       "EreqPos": 6.2211e-9,
+       "EreqNeg": -1.1802e-13,
+       "P1": 6.2207e-9,
+       "spinDK": 6.2209e-9,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        -1.0468e-8,
+        1.7388e-9,
+        -2.1347e-7
+       ],
+       "reactL": [
+        1.0468e-8,
+        -1.7388e-9,
+        2.1347e-7
+       ],
+       "outL": [
+        -1.5605e-8,
+        4.8755e-9,
+        2.0773e-9
+       ],
+       "holdL": [
+        1.805e-18,
+        2.7811e-18,
+        -5.9665e-20
+       ],
+       "holdWork": -3.4021e-38,
+       "axesHeld": 28798,
+       "heatOverEreq": 0.13304
+      },
+      "axisTurnRad": 0.046035,
+      "Iplanet": 0.0000071265,
+      "Isun": 38420
+     }
+    ]
+   },
+   "jupiter": {
+    "n": 0.0016785,
+    "tauTOrbits": 2,
+    "lag": 5902200000,
+    "omega": {
+     "planetFromSun": [
+      2.4046e-17,
+      2.0733e-16,
+      -1.5063e-15
+     ],
+     "planetFromSunRef": [
+      2.4046e-17,
+      2.0733e-16,
+      -1.5063e-15
+     ],
+     "relErrPS": 0.0000018357,
+     "sunFromPlanet": [
+      -4.4694e-20,
+      -3.4265e-20,
+      -9.2455e-19
+     ],
+     "sunFromPlanetRef": [
+      -4.4694e-20,
+      -3.4265e-20,
+      -9.2455e-19
+     ],
+     "relErrSP": 7.3298e-9,
+     "parPS": -1.4978e-15,
+     "parSP": -9.2156e-19,
+     "parPSRef": -1.4978e-15,
+     "parSPRef": -9.2156e-19,
+     "overSpinPS": -8.5173e-17,
+     "rOverRsun": 1069.6,
+     "rOverRplanet": 10398,
+     "driveRatioSunOverPlanet": 60.92
+    },
+    "runs": [
+     {
+      "key": "jupiter",
+      "beta": 0,
+      "variant": "c",
+      "tilt": false,
+      "tauC": null,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": 1.0164,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1528.2,
+        "axisZ": 1,
+        "heat": 0.058743,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 223.77,
+        "axisZ": 1,
+        "heat": 0.059992,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 33.508,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 5.7541,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 1.7056,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 1.115,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 1.0289,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 1.0164,
+        "axisZ": 1,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       }
+      ],
+      "meanTideTorque": -1.7398e-13,
+      "meanDriveTorque": 0,
+      "balanceRel": -1,
+      "predictedShiftOverN": 0,
+      "heat": 0.060019,
+      "work": -0.060019,
+      "tideResidualE": -2.0817e-17,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": null,
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": 0
+     },
+     {
+      "key": "jupiter",
+      "beta": 0.5,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 1.3362e-8,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": 0.45526,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1527.7,
+        "axisZ": 1,
+        "heat": 0.058738,
+        "Ereq": -0.0000053137,
+        "P1": -0.0000053137,
+        "sunSpinRel": 6.2794e-8,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 223.22,
+        "axisZ": 1,
+        "heat": 0.059986,
+        "Ereq": -0.0000059164,
+        "P1": -0.0000059164,
+        "sunSpinRel": 1.2562e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 32.948,
+        "axisZ": 1,
+        "heat": 0.060012,
+        "Ereq": -0.000005831,
+        "P1": -0.000005831,
+        "sunSpinRel": 1.8845e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 5.1931,
+        "axisZ": 1,
+        "heat": 0.060013,
+        "Ereq": -0.0000056453,
+        "P1": -0.0000056453,
+        "sunSpinRel": 2.5128e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 1.1444,
+        "axisZ": 1,
+        "heat": 0.060013,
+        "Ereq": -0.0000054449,
+        "P1": -0.0000054449,
+        "sunSpinRel": 3.1411e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.55384,
+        "axisZ": 1,
+        "heat": 0.060013,
+        "Ereq": -0.0000052423,
+        "P1": -0.0000052423,
+        "sunSpinRel": 3.7693e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.46775,
+        "axisZ": 1,
+        "heat": 0.060013,
+        "Ereq": -0.0000050395,
+        "P1": -0.0000050395,
+        "sunSpinRel": 4.3976e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 0.45526,
+        "axisZ": 1,
+        "heat": 0.060013,
+        "Ereq": -0.0000048366,
+        "P1": -0.0000048366,
+        "sunSpinRel": 5.0259e-7,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 3.7569e-11,
+      "meanDriveTorque": -3.7742e-11,
+      "balanceRel": -0.0045807,
+      "predictedShiftOverN": -0.5,
+      "heat": 0.060013,
+      "work": -0.060013,
+      "tideResidualE": -4.1633e-17,
+      "sunSpinRel": 5.0259e-7,
+      "sunJchange": 0.0000056057,
+      "hold": {
+       "Ereq": -0.0000048366,
+       "EreqPos": 0.0000010839,
+       "EreqNeg": -0.0000059205,
+       "P1": -0.0000048366,
+       "spinDK": -0.0000048366,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -0.0000056509
+       ],
+       "reactL": [
+        0,
+        0,
+        0.0000056509
+       ],
+       "outL": [
+        -6.8588e-7,
+        1.7399e-7,
+        9.004e-8
+       ],
+       "holdL": [
+        3.3102e-15,
+        7.8951e-15,
+        -1.6126e-16
+       ],
+       "holdWork": -2.0149e-34,
+       "axesHeld": 14399,
+       "heatOverEreq": 12408
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": -0.56114
+     },
+     {
+      "key": "jupiter",
+      "beta": 1,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 6.6808e-9,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": -0.10589,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1527.2,
+        "axisZ": 1,
+        "heat": 0.058734,
+        "Ereq": -0.000010627,
+        "P1": -0.000010627,
+        "sunSpinRel": 1.2559e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 222.67,
+        "axisZ": 1,
+        "heat": 0.05998,
+        "Ereq": -0.000011831,
+        "P1": -0.000011831,
+        "sunSpinRel": 2.5125e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 32.389,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000011659,
+        "P1": -0.000011659,
+        "sunSpinRel": 3.769e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 4.632,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000011286,
+        "P1": -0.000011286,
+        "sunSpinRel": 5.0256e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.58316,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000010884,
+        "P1": -0.000010884,
+        "sunSpinRel": 6.2821e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.0073762,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000010477,
+        "P1": -0.000010477,
+        "sunSpinRel": 7.5387e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.093429,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.00001007,
+        "P1": -0.00001007,
+        "sunSpinRel": 8.7952e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.10589,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.0000096632,
+        "P1": -0.0000096632,
+        "sunSpinRel": 0.0000010052,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 7.5312e-11,
+      "meanDriveTorque": -7.5484e-11,
+      "balanceRel": -0.0022758,
+      "predictedShiftOverN": -1,
+      "heat": 0.060006,
+      "work": -0.060006,
+      "tideResidualE": -3.4694e-17,
+      "sunSpinRel": 0.0000010052,
+      "sunJchange": 0.000011211,
+      "hold": {
+       "Ereq": -0.0000096632,
+       "EreqPos": 0.0000021756,
+       "EreqNeg": -0.000011839,
+       "P1": -0.0000096632,
+       "spinDK": -0.0000096632,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -0.000011302
+       ],
+       "reactL": [
+        0,
+        0,
+        0.000011302
+       ],
+       "outL": [
+        -0.0000013718,
+        3.4798e-7,
+        1.8008e-7
+       ],
+       "holdL": [
+        3.3077e-15,
+        7.889e-15,
+        -1.6113e-16
+       ],
+       "holdWork": 6.6615e-35,
+       "axesHeld": 14399,
+       "heatOverEreq": 6209.8
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": -1.1223
+     },
+     {
+      "key": "jupiter",
+      "beta": 2,
+      "variant": "c",
+      "tilt": false,
+      "tauC": 3.3404e-9,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": -1.2282,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1526.2,
+        "axisZ": 1,
+        "heat": 0.058724,
+        "Ereq": -0.00002125,
+        "P1": -0.00002125,
+        "sunSpinRel": 2.5118e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 221.57,
+        "axisZ": 1,
+        "heat": 0.059967,
+        "Ereq": -0.000023654,
+        "P1": -0.000023654,
+        "sunSpinRel": 5.0249e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 31.27,
+        "axisZ": 1,
+        "heat": 0.059993,
+        "Ereq": -0.000023304,
+        "P1": -0.000023304,
+        "sunSpinRel": 7.538e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 3.51,
+        "axisZ": 1,
+        "heat": 0.059994,
+        "Ereq": -0.000022553,
+        "P1": -0.000022553,
+        "sunSpinRel": 0.0000010051,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": -0.53927,
+        "axisZ": 1,
+        "heat": 0.059994,
+        "Ereq": -0.000021744,
+        "P1": -0.000021744,
+        "sunSpinRel": 0.0000012564,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -1.1298,
+        "axisZ": 1,
+        "heat": 0.059994,
+        "Ereq": -0.000020925,
+        "P1": -0.000020925,
+        "sunSpinRel": 0.0000015077,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -1.2158,
+        "axisZ": 1,
+        "heat": 0.059994,
+        "Ereq": -0.000020106,
+        "P1": -0.000020106,
+        "sunSpinRel": 0.000001759,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -1.2282,
+        "axisZ": 1,
+        "heat": 0.059994,
+        "Ereq": -0.000019286,
+        "P1": -0.000019286,
+        "sunSpinRel": 0.0000020104,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 1.508e-10,
+      "meanDriveTorque": -1.5097e-10,
+      "balanceRel": -0.0011234,
+      "predictedShiftOverN": -2,
+      "heat": 0.059994,
+      "work": -0.059994,
+      "tideResidualE": -6.9389e-18,
+      "sunSpinRel": 0.0000020104,
+      "sunJchange": 0.000022423,
+      "hold": {
+       "Ereq": -0.000019286,
+       "EreqPos": 0.0000043824,
+       "EreqNeg": -0.000023669,
+       "P1": -0.000019286,
+       "spinDK": -0.000019286,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -0.000022604
+       ],
+       "reactL": [
+        0,
+        0,
+        0.000022604
+       ],
+       "outL": [
+        -0.0000027435,
+        6.9596e-7,
+        3.6016e-7
+       ],
+       "holdL": [
+        3.3026e-15,
+        7.8769e-15,
+        -1.6089e-16
+       ],
+       "holdWork": 8.2895e-35,
+       "axesHeld": 14399,
+       "heatOverEreq": 3110.7
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": -2.2446
+     },
+     {
+      "key": "jupiter",
+      "beta": 1,
+      "variant": "cHold",
+      "tilt": false,
+      "tauC": 6.6808e-9,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": -0.10589,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1527.2,
+        "axisZ": 1,
+        "heat": 0.058734,
+        "Ereq": -0.000010627,
+        "P1": -0.000010627,
+        "sunSpinRel": 0,
+        "supplyE": -4.0666e-7
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 222.67,
+        "axisZ": 1,
+        "heat": 0.05998,
+        "Ereq": -0.000011831,
+        "P1": -0.000011831,
+        "sunSpinRel": 0,
+        "supplyE": -8.1354e-7
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 32.389,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000011659,
+        "P1": -0.000011659,
+        "sunSpinRel": 0,
+        "supplyE": -0.0000012204
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 4.632,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000011286,
+        "P1": -0.000011286,
+        "sunSpinRel": 0,
+        "supplyE": -0.0000016273
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.58316,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000010884,
+        "P1": -0.000010884,
+        "sunSpinRel": 0,
+        "supplyE": -0.0000020342
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.0073754,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000010477,
+        "P1": -0.000010477,
+        "sunSpinRel": 0,
+        "supplyE": -0.000002441
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.093428,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.00001007,
+        "P1": -0.00001007,
+        "sunSpinRel": 0,
+        "supplyE": -0.0000028479
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.10589,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.0000096632,
+        "P1": -0.0000096632,
+        "sunSpinRel": 0,
+        "supplyE": -0.0000032548
+       }
+      ],
+      "meanTideTorque": 7.5312e-11,
+      "meanDriveTorque": -7.5484e-11,
+      "balanceRel": -0.0022758,
+      "predictedShiftOverN": -1,
+      "heat": 0.060006,
+      "work": -0.060006,
+      "tideResidualE": -2.0817e-17,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": {
+       "Ereq": -0.0000096632,
+       "EreqPos": 0.0000021756,
+       "EreqNeg": -0.000011839,
+       "P1": -0.0000096632,
+       "spinDK": -0.000012918,
+       "supplyE": -0.0000032548,
+       "supplyL": [
+        0,
+        0,
+        -0.000011302
+       ],
+       "driveL": [
+        0,
+        0,
+        -0.000011302
+       ],
+       "reactL": [
+        0,
+        0,
+        0.000011302
+       ],
+       "outL": [
+        0,
+        0,
+        0
+       ],
+       "holdL": [
+        3.3077e-15,
+        7.889e-15,
+        -1.6113e-16
+       ],
+       "holdWork": -4.7159e-33,
+       "axesHeld": 14399,
+       "heatOverEreq": 6209.8
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": -1.1223
+     },
+     {
+      "key": "jupiter",
+      "beta": 1,
+      "variant": "a",
+      "tilt": false,
+      "tauC": 6.6808e-9,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10474,
+      "spinOverN": -0.10589,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1527.2,
+        "axisZ": 1,
+        "heat": 0.058734,
+        "Ereq": -0.000011033,
+        "P1": -0.000011033,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 222.67,
+        "axisZ": 1,
+        "heat": 0.05998,
+        "Ereq": -0.000012644,
+        "P1": -0.000012644,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 32.389,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012879,
+        "P1": -0.000012879,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 4.632,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012913,
+        "P1": -0.000012913,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 0.58316,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012918,
+        "P1": -0.000012918,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": -0.0073754,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012918,
+        "P1": -0.000012918,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": -0.093428,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012918,
+        "P1": -0.000012918,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.10589,
+        "axisZ": 1,
+        "heat": 0.060006,
+        "Ereq": -0.000012918,
+        "P1": -0.000012918,
+        "sunSpinRel": 0,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": 7.5312e-11,
+      "meanDriveTorque": -7.5484e-11,
+      "balanceRel": -0.0022758,
+      "predictedShiftOverN": -1,
+      "heat": 0.060006,
+      "work": -0.060006,
+      "tideResidualE": -2.0817e-17,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": {
+       "Ereq": -0.000012918,
+       "EreqPos": 4.2253e-10,
+       "EreqNeg": -0.000012918,
+       "P1": -0.000012918,
+       "spinDK": -0.000012918,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0,
+        0,
+        -0.000011302
+       ],
+       "reactL": [
+        0,
+        0,
+        0
+       ],
+       "outL": [
+        0,
+        0,
+        0
+       ],
+       "holdL": [
+        3.3077e-15,
+        7.889e-15,
+        -1.6113e-16
+       ],
+       "holdWork": -4.7159e-33,
+       "axesHeld": 14399,
+       "heatOverEreq": 4645.2
+      },
+      "axisTurnRad": 0,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42,
+      "shiftOverN": -1.1223
+     }
+    ],
+    "mutual": {
+     "key": "jupiter",
+     "beta": 1,
+     "variant": "b",
+     "tilt": false,
+     "tauC": 6.6808e-9,
+     "steps": 360,
+     "dt": 10.3982136,
+     "orbits": 1,
+     "spin0OverN": 10474,
+     "spinOverN": 7143.9,
+     "rec": [
+      {
+       "orbit": 0.125,
+       "spinOverN": 9872.8,
+       "axisZ": 1,
+       "heat": 0.0067327,
+       "Ereq": 0.000037503,
+       "P1": 0.000037502,
+       "sunSpinRel": -2.0203e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.25,
+       "spinOverN": 9396.5,
+       "axisZ": 1,
+       "heat": 0.011786,
+       "Ereq": 0.000068974,
+       "P1": 0.000068974,
+       "sunSpinRel": -3.8114e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.375,
+       "spinOverN": 9023.3,
+       "axisZ": 1,
+       "heat": 0.015574,
+       "Ereq": 0.000095108,
+       "P1": 0.000095107,
+       "sunSpinRel": -5.3686e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.5,
+       "spinOverN": 8701.1,
+       "axisZ": 1,
+       "heat": 0.018721,
+       "Ereq": 0.00011799,
+       "P1": 0.00011799,
+       "sunSpinRel": -6.7866e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.625,
+       "spinOverN": 8380.3,
+       "axisZ": 1,
+       "heat": 0.021741,
+       "Ereq": 0.00013943,
+       "P1": 0.00013943,
+       "sunSpinRel": -8.1657e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.75,
+       "spinOverN": 8019.2,
+       "axisZ": 1,
+       "heat": 0.025002,
+       "Ereq": 0.00016074,
+       "P1": 0.00016074,
+       "sunSpinRel": -9.5939e-7,
+       "supplyE": 0
+      },
+      {
+       "orbit": 0.875,
+       "spinOverN": 7596.9,
+       "axisZ": 1,
+       "heat": 0.028633,
+       "Ereq": 0.00018221,
+       "P1": 0.00018221,
+       "sunSpinRel": -0.0000011107,
+       "supplyE": 0
+      },
+      {
+       "orbit": 1,
+       "spinOverN": 7143.9,
+       "axisZ": 1,
+       "heat": 0.032308,
+       "Ereq": 0.0002026,
+       "P1": 0.0002026,
+       "sunSpinRel": -0.0000012632,
+       "supplyE": 0
+      }
+     ],
+     "meanTideTorque": -5.833e-7,
+     "meanDriveTorque": 3.7325e-9,
+     "balanceRel": -0.9936,
+     "predictedShiftOverN": -1,
+     "heat": 0.032308,
+     "work": -0.032308,
+     "tideResidualE": -6.9389e-18,
+     "sunSpinRel": -0.0000012632,
+     "sunJchange": -0.000014089,
+     "hold": {
+      "Ereq": 0.0002026,
+      "EreqPos": 0.0002026,
+      "EreqNeg": 0,
+      "P1": 0.0002026,
+      "spinDK": 0.0002026,
+      "supplyE": 0,
+      "supplyL": [
+       0,
+       0,
+       0
+      ],
+      "driveL": [
+       -0.000001758,
+       4.4597e-7,
+       -0.000014535
+      ],
+      "reactL": [
+       0.000001758,
+       -4.4597e-7,
+       0.000014535
+      ],
+      "outL": [
+       0.0000017238,
+       -4.373e-7,
+       4.4887e-9
+      ],
+      "holdL": [
+       1.0537e-15,
+       2.5192e-15,
+       -5.1148e-17
+      ],
+      "holdWork": 4.8612e-34,
+      "axesHeld": 359,
+      "heatOverEreq": 159.46
+     },
+     "axisTurnRad": 0,
+     "Iplanet": 0.00038804,
+     "Isun": 38.42,
+     "shiftOverN": 17.5,
+     "shiftOverNc": -0.4,
+     "mutualOverC": -43.75,
+     "sunSpinRelC": 2.5055e-8
+    },
+    "tilted": [
+     {
+      "key": "jupiter",
+      "beta": 0,
+      "variant": "c",
+      "tilt": true,
+      "tauC": null,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10461,
+      "spinOverN": 1.0167,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1525.5,
+        "axisZ": 0.99223,
+        "heat": 0.058722,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 223.28,
+        "axisZ": 0.94276,
+        "heat": 0.059989,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 33.42,
+        "axisZ": 0.7353,
+        "heat": 0.060018,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 5.7391,
+        "axisZ": 0.44129,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 1.7033,
+        "axisZ": 0.35901,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 1.1149,
+        "axisZ": 0.54417,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 1.0291,
+        "axisZ": 0.84254,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       },
+       {
+        "orbit": 40,
+        "spinOverN": 1.0167,
+        "axisZ": 0.97251,
+        "heat": 0.060019,
+        "Ereq": null,
+        "P1": null,
+        "sunSpinRel": 0,
+        "supplyE": null
+       }
+      ],
+      "meanTideTorque": -2.792e-12,
+      "meanDriveTorque": 0,
+      "balanceRel": -1,
+      "predictedShiftOverN": 0,
+      "heat": 0.060019,
+      "work": -0.060019,
+      "tideResidualE": 6.9389e-18,
+      "sunSpinRel": 0,
+      "sunJchange": 0,
+      "hold": null,
+      "axisTurnRad": 0.19717,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42
+     },
+     {
+      "key": "jupiter",
+      "beta": 1,
+      "variant": "c",
+      "tilt": true,
+      "tauC": 6.6808e-9,
+      "steps": 14400,
+      "dt": 10.3982136,
+      "orbits": 40,
+      "spin0OverN": 10461,
+      "spinOverN": -0.026118,
+      "rec": [
+       {
+        "orbit": 5,
+        "spinOverN": 1524.6,
+        "axisZ": 0.99223,
+        "heat": 0.058713,
+        "Ereq": -0.000010742,
+        "P1": -0.000010742,
+        "sunSpinRel": 1.2593e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 10,
+        "spinOverN": 222.23,
+        "axisZ": 0.94277,
+        "heat": 0.059976,
+        "Ereq": -0.000011986,
+        "P1": -0.000011986,
+        "sunSpinRel": 2.4534e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 15,
+        "spinOverN": 32.613,
+        "axisZ": 0.73545,
+        "heat": 0.060005,
+        "Ereq": -0.000011931,
+        "P1": -0.000011931,
+        "sunSpinRel": 3.3599e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 20,
+        "spinOverN": 5.3451,
+        "axisZ": 0.44451,
+        "heat": 0.060006,
+        "Ereq": -0.000011837,
+        "P1": -0.000011837,
+        "sunSpinRel": 3.7632e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 25,
+        "spinOverN": 1.5116,
+        "axisZ": 0.38486,
+        "heat": 0.060006,
+        "Ereq": -0.00001179,
+        "P1": -0.00001179,
+        "sunSpinRel": 3.9294e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 30,
+        "spinOverN": 0.79237,
+        "axisZ": 0.69873,
+        "heat": 0.060006,
+        "Ereq": -0.000011695,
+        "P1": -0.000011695,
+        "sunSpinRel": 4.231e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 35,
+        "spinOverN": 0.097098,
+        "axisZ": 0.99979,
+        "heat": 0.060006,
+        "Ereq": -0.000011356,
+        "P1": -0.000011356,
+        "sunSpinRel": 5.2797e-7,
+        "supplyE": 0
+       },
+       {
+        "orbit": 40,
+        "spinOverN": -0.026118,
+        "axisZ": -0.99974,
+        "heat": 0.060006,
+        "Ereq": -0.000010966,
+        "P1": -0.000010966,
+        "sunSpinRel": 6.4839e-7,
+        "supplyE": 0
+       }
+      ],
+      "meanTideTorque": -6.8582e-11,
+      "meanDriveTorque": 7.6347e-11,
+      "balanceRel": 0.10171,
+      "predictedShiftOverN": -1,
+      "heat": 0.060006,
+      "work": -0.060006,
+      "tideResidualE": -6.9389e-18,
+      "sunSpinRel": 6.4839e-7,
+      "sunJchange": 0.0000072319,
+      "hold": {
+       "Ereq": -0.000010966,
+       "EreqPos": 0.0000010391,
+       "EreqNeg": -0.000012006,
+       "P1": -0.000010966,
+       "spinDK": -0.000010966,
+       "supplyE": 0,
+       "supplyL": [
+        0,
+        0,
+        0
+       ],
+       "driveL": [
+        0.0000018914,
+        0.0000025138,
+        -0.0000074449
+       ],
+       "reactL": [
+        -0.0000018914,
+        -0.0000025138,
+        0.0000074449
+       ],
+       "outL": [
+        -0.0000027762,
+        -0.0000022893,
+        2.7079e-7
+       ],
+       "holdL": [
+        1.5731e-14,
+        3.6096e-15,
+        -4.2074e-16
+       ],
+       "holdWork": -1.3165e-32,
+       "axesHeld": 28798,
+       "heatOverEreq": 5471.8
+      },
+      "axisTurnRad": 3.0871,
+      "Iplanet": 0.00038804,
+      "Isun": 38.42
+     }
+    ]
+   }
+  }
+ },
+ "gates": {
+  "pure": true,
+  "acceptCanon": true,
+  "engineEqualsRef": true,
+  "ledgerL": true,
+  "ledgerK": true,
+  "holdNoWork": true,
+  "axisHeld": true,
+  "checkpoint": true,
+  "twinCoCancels": true,
+  "twinAntiDoubles": true,
+  "contact2x": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.001
+  },
+  "A": {
+   "wallSec": 0.004
+  },
+  "E": {
+   "wallSec": 0.018
+  },
+  "L": {
+   "wallSec": 0.172
+  },
+  "K": {
+   "wallSec": 0.015
+  },
+  "D": {
+   "wallSec": 0.381
+  },
+  "V": {
+   "wallSec": 9.276
+  }
+ },
+ "elapsedS": 11.589,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第308便b",
+  "target": "beta/index.html",
+  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+  "generatedAt": "2026-10-18T12:33:09.086Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7066509,
+    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+    "mtime": "2026-10-18T12:23:59.812Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w308b-hold.mjs",
+    "bytes": 38971,
+    "sha256": "a579b524de4175d472e9da6bb74acab7998a5a55a2450ed516f40afa8552846c",
+    "mtime": "2026-10-18T12:27:29.616Z"
+   },
+   {
+    "file": "tests/lib-w308b-hold.mjs",
+    "bytes": 14098,
+    "sha256": "93cae1dfcec4f351108e8bfb476f7b207e6855ed3c0165d626564d9a959cfbbf",
+    "mtime": "2026-10-18T12:23:11.928Z"
+   },
+   {
+    "file": "tests/lib-w307b-tide3d.mjs",
+    "bytes": 12240,
+    "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
+    "mtime": "2026-10-17T21:16:57.789Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-09T10:19:39.611Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-09T10:19:39.599Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-09T10:19:39.615Z"
+   }
+  ],
+  "codeSha256": "89972430f1fecfa3868fa4e01660e58422f49046f8ade1d7f3c68958e424a0f3",
+  "harnessVersion": "w308b-hold-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "帳簿が完全に閉じた",
+   "自転が釣り合った",
+   "金星の逆行を説明した",
+   "イオの加熱を説明した",
+   "太陽の自転を分解した",
+   "τ_C の応答則の導出"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "jupiterSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "CK_ARRS",
+    "CK_SC",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.tideState",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_HOLD_SC_CK",
+    "REL_DRAG_AXIS_HOLD_KEYS",
+    "REL_DRAG_AXIS_HOLD_REACTIONS",
+    "REL_DRAG_AXIS_HOLD_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "inertialDrag3AxialSign",
+    "inertialDrag3SpinState",
+    "inertialR2Q"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1413,
+   "segments": 1280,
+   "closureShare": 0.3341
+  },
+  "scopeSha256": "e45e757a4c7b50fac0a3c9ea99bf7d9988493d822bb737be3f1fd6e466fb3eca",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
