@@ -7731,7 +7731,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2", "shellSelf", "shellSelfEps", "invSq", "dragCoreDefault"];   // 第309便a: invSq(新しい引きずり則)・dragCoreDefault(dragCore の既定 —— どちらも省略時オフ・正準形には宣言した本だけ)   // 第304便a: shellSelf・shellSelfEps(引きずり核の殻の自己の項 —— 省略時オフ・正準形には宣言した本だけ)   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2", "shellSelf", "shellSelfEps", "invSq", "dragCoreDefault", "initMotion"];   // 第309便c: initMotion(観測の移動の分解 —— opt-in・正準形には宣言した本だけ)   // 第309便a: invSq(新しい引きずり則)・dragCoreDefault(dragCore の既定 —— どちらも省略時オフ・正準形には宣言した本だけ)   // 第304便a: shellSelf・shellSelfEps(引きずり核の殻の自己の項 —— 省略時オフ・正準形には宣言した本だけ)   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7815,7 +7815,7 @@ const REL_DRAG_CHAIN_VERSION = "w296c-chain-1";
 //       投影を掛けず rotA += (Σ_j w_ij)dt —— 下の REL_DRAG_AXIAL_SPLIT_VERSION の注記)。自転の角速度の大きさ s は変えない
 //       (並進の x += u dt が v を触らないのと同じ流儀)。軸が回ったぶんの自転の角運動量 I s Δâ は帳簿 inertialDrag3AxL(受け手側の変化 —— 反作用は源・外部へ)
 const REL_DRAG_SPIN3_KEY = "spinDrag";
-const REL_DRAG_SPIN3_KEYS = ["rot", "axial", "axialCoupling", "axialModel", "axialGain", "rotStep", "axialNorm", "axisHold"];   // 第307便a: axialModel・axialGain・rotStep(opt-in —— 省略は今の動作)・第308便a: axialNorm(bevel の規格化)   // 第308便b: axisHold(opt-in)
+const REL_DRAG_SPIN3_KEYS = ["rot", "axial", "axialCoupling", "axialModel", "axialGain", "rotStep", "axialNorm", "axisHold", "initSpin"];   // 第309便c: initSpin(観測の自転の分解 —— opt-in)   // 第307便a: axialModel・axialGain・rotStep(opt-in —— 省略は今の動作)・第308便a: axialNorm(bevel の規格化)   // 第308便b: axisHold(opt-in)
 const REL_DRAG_SPIN3_ROT = ["surfaceFlip", "off"];
 const REL_DRAG_SPIN3_AXIAL = ["on", "off"];
 const REL_DRAG_AXIAL_COUPLING_RANGE = [0, 1e12];
@@ -7977,6 +7977,53 @@ function validateAxisHold(h){
     o.receivers=a.slice().sort((x,y)=>x-y);
   }
   return {ok:true, axisHold:o};
+}
+// ===== 第309便c(原仮定者の裁定(第103報)「慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値」・(第105報)「慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値」・
+//   決断事項 AN355・AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解** `spinDrag.initSpin`・`relativeDrag.initMotion`(opt-in —— 省略は今の動作とビット同一・
+//   正準形には宣言した本だけ)。式・契約は inertialDragInitObsApply の注記と docs/PHYSICS.md〔第309便c〕。
+//   宣言: "observed"(既定の組の略記)か {mode:"observed", split?:"vector"|"parallel"(initSpin だけ —— 既定 "vector"), tol?, maxIter?, firstStep?:"drag"|"zero"}。
+//   firstStep: "drag"(既定 —— 初期化した u(0)・ω_D(0) を最初の步から使う)/"zero"(比較 —— 今の「最初の步は u = 0」)。
+const REL_DRAG_INIT_SPIN_KEY="initSpin", REL_DRAG_INIT_MOTION_KEY="initMotion", REL_DRAG_INIT_OBS_VERSION="w309c-initobs-1";
+const REL_DRAG_INIT_SPIN_KEYS=["mode","split","tol","maxIter","firstStep"], REL_DRAG_INIT_MOTION_KEYS=["mode","tol","maxIter","firstStep"];
+const REL_DRAG_INIT_MODES=["observed"], REL_DRAG_INIT_SPLITS=["vector","parallel"], REL_DRAG_INIT_FIRST=["drag","zero"];
+const REL_DRAG_INIT_TOL_DEFAULT=1e-12, REL_DRAG_INIT_TOL_RANGE=[1e-15,1e-3], REL_DRAG_INIT_ITER_DEFAULT=60, REL_DRAG_INIT_ITER_RANGE=[1,1000];
+const REL_DRAG_INIT_COND_MAX=1e12;   // 移動の逆写像の条件数 (1+D_i)/(1+D_i−Σ_j A_ij) の上限(超えたら拒否 —— 観測の誤差を増幅する)
+function validateInitObs(a, kind){
+  const nm=(kind==="spin")? 'physics.relativeDrag.spinDrag.initSpin' : 'physics.relativeDrag.initMotion';
+  const keys=(kind==="spin")? REL_DRAG_INIT_SPIN_KEYS : REL_DRAG_INIT_MOTION_KEYS;
+  const form=nm+' は "observed" か {mode:"observed"'+((kind==="spin")? ', split?:"vector"|"parallel"' : '')+', tol?, maxIter?, firstStep?:"drag"|"zero"}(第309便c)';
+  if(a==="observed") return {ok:true, init:"observed"};
+  if(typeof a!=="object" || a===null || Array.isArray(a)) return {ok:false, err:form};
+  for(const k of Object.keys(a)) if(keys.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'('+keys.join("・")+' だけ —— 第309便c)'};
+  if(REL_DRAG_INIT_MODES.indexOf(a.mode)<0) return {ok:false, err:form};
+  const o={mode:"observed"};
+  if(kind==="spin" && a.split!==undefined && a.split!==null){
+    if(REL_DRAG_INIT_SPLITS.indexOf(a.split)<0) return {ok:false, err:nm+'.split は "vector"(既定 —— 全源の慣性自転をベクトルで同時に解く)か "parallel"(比較 —— 観測の軸に平行な分だけを引く・軸は観測のまま)(第309便c)'};
+    if(a.split!==REL_DRAG_INIT_SPLITS[0]) o.split=a.split;
+  }
+  if(a.tol!==undefined && a.tol!==null){
+    if(!isNum(a.tol) || a.tol<REL_DRAG_INIT_TOL_RANGE[0] || a.tol>REL_DRAG_INIT_TOL_RANGE[1]) return {ok:false, err:nm+'.tol は '+REL_DRAG_INIT_TOL_RANGE[0]+'〜'+REL_DRAG_INIT_TOL_RANGE[1]+'(不動点の相対の残りの門・既定 '+REL_DRAG_INIT_TOL_DEFAULT+')'};
+    if(a.tol!==REL_DRAG_INIT_TOL_DEFAULT) o.tol=a.tol;
+  }
+  if(a.maxIter!==undefined && a.maxIter!==null){
+    if(!isNum(a.maxIter) || a.maxIter!==Math.round(a.maxIter) || a.maxIter<REL_DRAG_INIT_ITER_RANGE[0] || a.maxIter>REL_DRAG_INIT_ITER_RANGE[1]) return {ok:false, err:nm+'.maxIter は '+REL_DRAG_INIT_ITER_RANGE[0]+'〜'+REL_DRAG_INIT_ITER_RANGE[1]+' の整数(不動点の反復の上限・既定 '+REL_DRAG_INIT_ITER_DEFAULT+' —— 収まらなければ分解しない)'};
+    if(a.maxIter!==REL_DRAG_INIT_ITER_DEFAULT) o.maxIter=a.maxIter;
+  }
+  if(a.firstStep!==undefined && a.firstStep!==null){
+    if(REL_DRAG_INIT_FIRST.indexOf(a.firstStep)<0) return {ok:false, err:nm+'.firstStep は "drag"(既定 —— 初期化した u(0)・ω_D(0) を最初の步から使う)か "zero"(比較 —— 今の「最初の步は u = 0」)(第309便c)'};
+    if(a.firstStep!==REL_DRAG_INIT_FIRST[0]) o.firstStep=a.firstStep;
+  }
+  return {ok:true, init:(Object.keys(o).length===1)? "observed" : o};
+}
+// 宣言(正準形)から分解の設定を読む(既定を埋める)。宣言の無い本は null
+function relDragInitObsOf(rd){
+  if(!rd || rd.law!=="inertial") return null;
+  const sd=rd[REL_DRAG_SPIN3_KEY], s=(sd && sd.axial==="on")? sd[REL_DRAG_INIT_SPIN_KEY] : undefined, m=rd[REL_DRAG_INIT_MOTION_KEY];
+  if((s===undefined || s===null) && (m===undefined || m===null)) return null;
+  const fill=(d, spin)=>{ const o=(d==="observed")? {} : d;
+    return {mode:"observed", split:spin? (o.split||REL_DRAG_INIT_SPLITS[0]) : null, tol:isNum(o.tol)? o.tol : REL_DRAG_INIT_TOL_DEFAULT,
+      maxIter:isNum(o.maxIter)? o.maxIter : REL_DRAG_INIT_ITER_DEFAULT, firstStep:o.firstStep||REL_DRAG_INIT_FIRST[0]}; };
+  return {spin:(s===undefined || s===null)? null : fill(s,true), motion:(m===undefined || m===null)? null : fill(m,false)};
 }
 // ===== 第301便a(原仮定者の裁定(第91報)⑤「慣性決定力場が空間位置を決めているので、引きずりの強さは慣性決定力の総和で割る。総和には背景慣性決定力を含む。
 //   シミュレーション対象は背景慣性決定力場に合わせて動く慣性系なので、背景慣性決定力による相対的な引きずりの大きさはゼロ」・統括の検証項目 R179):
@@ -9002,6 +9049,14 @@ function validateRelativeDragInertial(a){
         if(!hv.ok) return {ok:false, err:hv.err};
         o2.axisHold=hv.axisHold;
       }
+      // 第309便c(R220・AN355): 観測の自転の分解(省略は今の動作 —— 正準形に出さない)
+      if(sd.initSpin!==undefined && sd.initSpin!==null){
+        if(ax!=="on") return {ok:false, err:'physics.relativeDrag.spinDrag.initSpin は axial:"on"(軸引きずり —— 引きずり軸回転の初期値がある)と一緒にだけ(第309便c)'};
+        if(out.gain!==undefined || !(relDragCoefficientOf(out)>0)) return {ok:false, err:'physics.relativeDrag.spinDrag.initSpin は引きずりが働く Wbg の宣言(Wbg>0・enabled)の本だけ(旧法則の凍結比較・引きずり無しでは宣言しない —— 第309便c)'};
+        const iv=validateInitObs(sd.initSpin,"spin");
+        if(!iv.ok) return {ok:false, err:iv.err};
+        o2.initSpin=iv.init;
+      }
       out.spinDrag=o2;
     }
   }
@@ -9037,6 +9092,15 @@ function validateRelativeDragInertial(a){
     if(DRAG_CORE_DEFAULTS.indexOf(a[DRAG_CORE_DEFAULT_KEY])<0) return {ok:false, err:'physics.relativeDrag.dragCoreDefault は "cap6500km"(未宣言の天体の引きずりの半径 min(R, 6.5×10⁶ m) —— 第309便a)だけ'};
     if(!hasW) return {ok:false, err:'physics.relativeDrag.dragCoreDefault は Wbg の宣言の本だけ(gain の旧宣言・旧法則の凍結比較では宣言しない —— 第309便a)'};
     out[DRAG_CORE_DEFAULT_KEY]=a[DRAG_CORE_DEFAULT_KEY];
+  }
+  // 第309便c(R220・AN364): 観測の移動の分解(省略は今の動作 —— 正準形に出さない)。逆写像は合成則 solve(velocity)の約束から導く(履歴則・加算・剛体の位置の步とは組まない)
+  if(a.initMotion!==undefined && a.initMotion!==null){
+    if(!hasW || out.gain!==undefined || !(relDragCoefficientOf(out)>0)) return {ok:false, err:'physics.relativeDrag.initMotion は引きずりが働く Wbg の宣言(Wbg>0・enabled)の本だけ(旧法則の凍結比較・引きずり無しでは宣言しない —— 第309便c)'};
+    if(out.compose==="sum" || out.solveFrom!==undefined) return {ok:false, err:'physics.relativeDrag.initMotion は合成則 solve・solveFrom:"velocity"(既定)の本だけ(逆写像はその約束から導く —— 第309便c)'};
+    if(out.spinDrag && out.spinDrag.rotStep==="rigid") return {ok:false, err:'physics.relativeDrag.initMotion は spinDrag.rotStep:"rigid" と一緒に宣言しない(位置の更新が x += h u でない —— 第309便c)'};
+    const iv=validateInitObs(a.initMotion,"motion");
+    if(!iv.ok) return {ok:false, err:iv.err};
+    out.initMotion=iv.init;
   }
   return legacyGain? {ok:true, relativeDrag:out, legacyGain} : {ok:true, relativeDrag:out};
 }
@@ -9550,7 +9614,8 @@ function coord3dRuntimeWhy(S){
   if(p.petersGW===true) return "physics.petersGW";
   if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";
   if(S._amKind && S._amKind.length!==S.n) return "physics.approxMany(粒子の数が宣言から変わった —— 対のマスクの添字を保証できない)";   // 第301便b   // 第298便c: spinSource・spinDrag・dragCore は三次元で対応
-  if(S._j2 && S._j2.n!==S.n) return "bodies[].j2(粒子の数が宣言から変わった —— 扁平な天体の添字を保証できない・第305便c)";   // 第305便c(R201): 三次元の J₂ の源の添字(宣言した本だけ —— 未宣言は null で素通り)
+  if(S._j2 && S._j2.n!==S.n) return "bodies[].j2(粒子の数が宣言から変わった —— 扁平な天体の添字を保証できない・第305便c)";
+  if(S.inertialDragInitObs && S.inertialDragInitObs.ok===false) return "relativeDrag の観測の分解(initSpin・initMotion)が "+S.inertialDragInitObs.why+" —— 分解していない初期状態では走らせない(第309便c)";   // 第309便c(R220): 非収束・条件の悪い分母(宣言した本だけ —— 未宣言は undefined で素通り)   // 第305便c(R201): 三次元の J₂ の源の添字(宣言した本だけ —— 未宣言は null で素通り)
   const fl=["hasSpaceMesh","hasCoordInertia","hasPairWeave","hasMeshReservoir","hasSpinSpin","hasAxisForce","hasCompactForce","hasBodyLayers","hasCoreV2",
     "hasTestParticle","hasPulse","hasLSwAuto","hasGeoToy","hasGeo3","hasCoreAxis","hasMeshVelocity",   // 第299便e: hasShapeToy・hasCoreField・hasSpiral は三次元で対応(参照模型)   // 第307便b(R210): hasTide は三次元で対応(dfmTideStep3)
     "hasCenterCapture","hasFixedCapture","hasShed","hasLightTrap","hasPeriSub"];
@@ -27610,6 +27675,10 @@ function validatePreset(obj){
   }
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][DRAG_CORE_DEFAULT_KEY]!==undefined && !(p.scaleExp && isNum(p.scaleExp.L)))
     bad('physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない・第309便a)');
+  // 第309便c(R220): 観測の移動の分解は三次元の本・stateCarry:"double" だけ(倍精度の速度に入れないと u(0) が丸めで消える —— 二次元は次便以降)
+  if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_INIT_MOTION_KEY]!==undefined
+    && (coordOf(p.physics)!=="3d" || p.physics[STATE_CARRY_KEY]!=="double"))
+    bad('physics.relativeDrag.initMotion は三次元の本(physics.coord:"3d")で stateCarry:"double" と一緒にだけ(第309便c)');
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
   return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat}
                       : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, geoMode:geoModeOf(p.physics)};
@@ -28943,7 +29012,9 @@ function makeSim(){
       if(__tdv.ok && __tdv.tide && !tideCrossCheck(Object.assign({}, phys, {[TIDE_KEY]:__tdv.tide}), preset.bodies, preset).off){ S.spin=new Float64Array(P.length); S.spinPrec="double"; } }
     // 第308便b(R215): spinDrag.axisHold を宣言した本は慣性自転へ駆動・反作用を書く —— S.spin も Float64 へ(J の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
     { const __rdh=phys[REL_DRAG_KEY], __sdh=(__rdh && typeof __rdh==="object" && !Array.isArray(__rdh))? __rdh.spinDrag : null;
-      if(__rdh && __rdh.law==="inertial" && __sdh && typeof __sdh==="object" && __sdh.axial==="on" && __sdh[REL_DRAG_AXIS_HOLD_KEY]){ S.spin=new Float64Array(P.length); S.spinPrec="double"; } }
+      if(__rdh && __rdh.law==="inertial" && __sdh && typeof __sdh==="object" && __sdh.axial==="on" && __sdh[REL_DRAG_AXIS_HOLD_KEY]){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
+      // 第309便c(R220・AN355): spinDrag.initSpin を宣言した本も S.spin を Float64 へ(Ω_I = Ω_obs − ω_D の小さい差を Float32 の丸めで消さない —— 宣言した本だけ)
+      else if(__rdh && __rdh.law==="inertial" && __sdh && typeof __sdh==="object" && __sdh.axial==="on" && __sdh[REL_DRAG_INIT_SPIN_KEY]!==undefined && __sdh[REL_DRAG_INIT_SPIN_KEY]!==null){ S.spin=new Float64Array(P.length); S.spinPrec="double"; } }
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -29393,6 +29464,7 @@ function makeSim(){
     testParticlePrepare(S);   // 第283便c: build の最後にも張り直す(build の途中の updateRadii は積分器・融合・相の宣言より前に走る)
     pnOrbitalSync(S);         // 第291便b(R133): kF0 なら S.pnOv のビット 2 を全質量源で埋める(試験粒子契約の後 —— 受理された試験粒子は除く)
     if((preset.physics && preset.physics[TIDE_KEY]) || S.tide!==undefined) tidePrepare(S, preset);   // 第292便d(R140): 明示潮汐(宣言した本だけ —— 未宣言で前の build の残りが無ければ 1 命令も走らない・鍵を足さない)
+    if(S.relDrag && (S.relDrag[REL_DRAG_INIT_MOTION_KEY]!==undefined || (S.relDrag[REL_DRAG_SPIN3_KEY] && S.relDrag[REL_DRAG_SPIN3_KEY][REL_DRAG_INIT_SPIN_KEY]!==undefined))) inertialDragInitObsApply(S, "build");   // 第309便c(R220): 観測の自転と移動の初期値の分解(宣言した本だけ —— build の最後・潮汐の J の後)
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
@@ -40856,7 +40928,8 @@ function loadSave(s, selValue){
   // pairSlip だけの本・宣言の無い本はこの行を素通りする(従来どおり)
   if(rdi.inertial){ sim.params[REL_DRAG_KEY]=(rdi.relativeDrag===null)? undefined : rdi.relativeDrag;
     sim.relDrag=rdi.relativeDrag; sim.hasRelativeDrag=!!rdi.relativeDrag;
-    if(rdi.relativeDrag && rdi.relativeDrag.law==="inertial") inertialDragInit(sim); else if(sim.rdPrevX) inertialDragClear(sim); }
+    if(rdi.relativeDrag && rdi.relativeDrag.law==="inertial") inertialDragInit(sim); else if(sim.rdPrevX) inertialDragClear(sim);
+    inertialDragInitObsRedo(sim); }   // 第309便c(R220): 保存した宣言で観測の分解をし直す(t = 0・宣言か記録のある本だけ —— 記録の観測の値へ戻してから)
   // 第283便a(原仮定者の裁定(2026-09-26 追加)): 旧セーブの geoPN=1・kFrame≠0(旧 ⭐ など)は kFrame=0 として読む(通知 1 行)。
   // 旧 geoPN=1 では E6′ と輸送の門が閉じていたので、この読み替えで変わるのは 1PN の反作用の返し(AN23)だけである
   // 第291便c(原仮定者の裁定(第81報)⑥・R134): **読み替えを保存の版で分ける**。`modePolicy:"w291c-1"` の無い旧セーブは従来どおり kFrame=0 として読む
@@ -41309,6 +41382,7 @@ function abStart(key, valB, bodyPatch){
     ab.bodyPatch={targets:(bodyPatch.targets||[]).slice(), patch:Object.assign({},bodyPatch.patch||{}),
       physicsPatch:bodyPatch.physicsPatch? Object.assign({},bodyPatch.physicsPatch) : null};
   }
+  inertialDragInitObsRedo(ab.simB);   // 第309便c(R220): t = 0 で B のパラメータ・粒子・宣言を変えたら最後に 1 回だけ観測の分解をし直す(書いた欄は新しい観測の値 —— t > 0・宣言も記録も無い本は何もしない)
   selIdx=-1; selWorld="A"; abTarget="A"; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
 }
 function abStop(){
@@ -41444,6 +41518,8 @@ function inertialDragCkSnap(S){
   if(S.inertialDragDL3) o.dl3=S.inertialDragDL3.slice();
   if(S.inertialDrag3AxL) o.axL=S.inertialDrag3AxL.slice();
   if(S._dragShellRd!==undefined) o.shell={Rd:S._dragShellRd? S._dragShellRd.slice() : null, ep:S._dragShellEp, info:S._dragShell? JSON.parse(JSON.stringify(S._dragShell)) : null};   // 第304便a: 殻の半径の表・世代の印・捨てた記録(殻を宣言した本だけ)
+  if(S.inertialDragInitObs!==undefined) o.initObs=S.inertialDragInitObs? JSON.parse(JSON.stringify(S.inertialDragInitObs)) : null;   // 第309便c(R220): 観測の分解の記録(版・完了の印・観測の値・u(0)・ω_D(0) —— 復帰・複製で分解し直さない)
+  if(S._rdInitFirst!==undefined) o.initFirst=S._rdInitFirst;   // 第309便c: 最初の步の印(分解したときの粒子の指紋 —— 使った後は null)
   return o;
 }
 function inertialDragCkRestore(S,o){
@@ -41454,6 +41530,8 @@ function inertialDragCkRestore(S,o){
   if(o.dl3) S.inertialDragDL3=o.dl3.slice();
   if(o.axL) S.inertialDrag3AxL=o.axL.slice();
   if(o.shell){ S._dragShellRd=o.shell.Rd? o.shell.Rd.slice() : null; S._dragShellEp=o.shell.ep; S._dragShell=o.shell.info? JSON.parse(JSON.stringify(o.shell.info)) : null; }   // 第304便a
+  if("initObs" in o) S.inertialDragInitObs=o.initObs? JSON.parse(JSON.stringify(o.initObs)) : null;   // 第309便c
+  if("initFirst" in o) S._rdInitFirst=o.initFirst;   // 第309便c
 }
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
@@ -41630,6 +41708,7 @@ $("#btnReset").addEventListener("click",()=>{
     const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
     sim.build(mk2()); sim.params=fastParams(keepA); sim.updateRadii(); applyPhaseEdits(sim,snapA);   // 第250便e
     ab.simB.build(mk2()); ab.simB.params=fastParams(keepB); ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);   // 第250便e
+    inertialDragInitObsRedo(sim);   // 第309便c(R220): A の戻したパラメータで観測の分解(宣言か記録のある本だけ —— B は写しを当てた後に 1 回)
     // 第63便(原仮定者指示): 粒子patch系ワンタップA/Bは ⏮初めから でも B 側へ再適用
     // (「A/B比較を終了」するまで有効)
     if(ab.bodyPatch){
@@ -41656,6 +41735,7 @@ $("#btnReset").addEventListener("click",()=>{
         ab.simB.updateRadii();
       }
     }
+    inertialDragInitObsRedo(ab.simB);   // 第309便c(R220): B のパラメータ・粒子の写し・宣言を当てた後に 1 回だけ観測の分解(abStart と同じ —— 宣言か記録のある本だけ)
     applyGraphOverlays(sim,gsnap); applyGraphOverlays(ab.simB,gsnap);   // 第95便
     applyDisplayOverlays(sim,dsnap); applyDisplayOverlays(ab.simB,dsnap);   // 第254便c
     trailBuf=[]; trailBufB=[]; selIdx=-1; nanNotified=false;
@@ -41673,6 +41753,7 @@ $("#btnReset").addEventListener("click",()=>{
   loadPreset(currentPreset.id,false);
   sim.params=fastParams(keep); sim.updateRadii();   // 第250便e
   applyPhaseEdits(sim,snapP);            // 58B
+  inertialDragInitObsRedo(sim);          // 第309便c(R220): 戻したパラメータ(軟化など)で観測の分解をし直す(宣言か記録のある本だけ —— 他の本は何もしない)
   applyGraphOverlays(sim,gsnap);         // 第95便: グラフ表示を保持
   applyDisplayOverlays(sim,dsnap);       // 第254便c: 「表示」カテゴリのチェックボックスを保持
   setScaleExps(esnap);                   // 第95便: スケール指数の上書き値を保持(null=タグ既定も保持)
@@ -57002,10 +57083,13 @@ function dfmInertialDragStep3(S,dt){
     const tol=Math.max(1e-6*dt, 8*2.220446049250313e-16*Math.abs(t));
     for(let i=0;i<n;i++){ const g=t-PT[i]; if(!(Math.abs(g-dt)<=tol)){ hist=false; break; } }
   }
+  let first=false;   // 第309便c(R220): 観測の分解の最初の步(firstStep:"drag" —— 分解したときの粒子の指紋が今と同じときだけ・1 度きり。宣言の無い本は undefined で素通り)
+  if(S._rdInitFirst!==undefined && S._rdInitFirst!==null){ if(!hist && S._rdInitFirst===ep && dt>0 && Number.isFinite(dt)){ hist=true; first=true; if(S.inertialDragInitObs && S.inertialDragInitObs.firstStep) S.inertialDragInitObs.firstStep.used=t; } S._rdInitFirst=null; }
   const C=relDragCoefficientOf(rd), eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;   // 第302便a: 係数 c = 1/W_bg(力学の入口の 1 か所)
   const m=S.m, pin=S.pinned, VX=S._rdVX, VY=S._rdVY, VZ=S._rdVZ, UX=S._rdUX, UY=S._rdUY, UZ=S._rdUZ, DG=S._rdDeg;
   const set=S._rdPairSet, NP=S._rdPairN;
-  if(hist) for(let i=0;i<n;i++){ VX[i]=(X[i]-PX[i])/dt; VY[i]=(Y[i]-PY[i])/dt; VZ[i]=(Z[i]-PZ[i])/dt; }
+  if(first) for(let i=0;i<n;i++){ VX[i]=S.vx[i]; VY[i]=S.vy[i]; VZ[i]=S.vz[i]; }   // 第309便c: 最初の步は座標差分の履歴が無い —— 標本の移動ベクトルは力学速度(solve は velocity で W = S.vx を読む)
+  else if(hist) for(let i=0;i<n;i++){ VX[i]=(X[i]-PX[i])/dt; VY[i]=(Y[i]-PY[i])/dt; VZ[i]=(Z[i]-PZ[i])/dt; }
   let degMax=0, coincident=false;
   // 第298便c: 構造核(dragCore)の表 —— 二次元と同じ規約(粒子が入れ替わったら表を捨てて点源へ)。表は r だけの関数なので三次元の距離で引く
   let CT=S._dragCoreT;
@@ -58190,6 +58274,213 @@ function inertialDragInverseMap(S){
     const w=Math.hypot(WX[i],WY[i]), d=Math.hypot(sx-WX[i],sy-WY[i]); if(w>0 && d/w>relMax) relMax=d/w;
   }
   return {version:INERTIAL_INVERSE_MAP_VERSION, n, vx, vy, fixed, degMax:q.degMax, relMax, from:"W=S.vx/S.vy", rule:"v=(I+L)W"};
+}
+// ===== 第309便c(原仮定者の裁定(第103報)「慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値」・(第105報)「慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値」・
+//   決断事項 AN355・AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解**(宣言は REL_DRAG_INIT_* の注記 —— 宣言した三次元の本だけ・S._core の外)=====
+// ■ 自転(spinDrag.initSpin): 観測の自転 Ω_obs,i = s_obs,i â_obs,i(build が宣言から置いた spin と軸 —— 軸を有効化しない粒子は +z)を
+//   Ω_obs,i = Ω_I,i + ω_D,i({Ω_I,j})(ω_D は宣言した軸の核 mu2・sphere・bevel を**今の步と同じ順序**〔行の build → 回転引きずり → 軸の核 → inertialR2 → 殻 → 正規化 → 対〕で
+//   評価した値)で**全源の慣性自転を同時に**解く —— 不動点 Ω_I ← Ω_obs − ω_D(Ω_I)(反復の数と残りを記録。残り ≤ tol に収まらなければ**分解しない**:
+//   最後の反復を初期状態にせず、状態は観測のまま・記録 ok:false・走行の門 coord3dRuntimeWhy が理由を出して止める)。受け手ごとの型:
+//   vector(既定 —— ベクトルで引く。慣性の軸 â_I = ±Ω_I/|Ω_I|〔観測の軸の側の半球 —— 符号は s_I へ〕・観測の軸との角を記録)/
+//   parallel(比較 —— 観測の軸に平行な分だけ s_I = s_obs − ω_D·â_obs・軸は観測のまま)/flat(軸を有効化しない受け手 —— エンジンの符号つきスカラー ω_s で s_I = s_obs − ω_s)/
+//   prescribed(宣言した歳差の軸 —— 軸は規定運動なので平行な分だけ)/fixed(pinned・質量が正でない —— 受け取らない)。退化: |Ω_I| = 0 は s_I = 0・軸は観測のまま(記録 zero)。
+//   本の宣言(spin と軸の欄)は観測のまま —— 状態の S.spin(Float64)・S.sax/say/saz が慣性。
+// ■ 移動(relativeDrag.initMotion): 今の solve の約束(行 D_i u_i − Σ_j A_ij u_j = Σ_j A_ij (v_j − v_i) + R_i・D_i = 1 + DG_i〔inertialR2・殻・背景・対の正規化の後の対角〕・
+//   R_i は回転引きずりの項〔源は慣性自転 —— 自転の分解の後に評価〕・v は力学速度)に観測の座標速度 V = v + u を代入すると、**行ごとに閉じた逆写像**:
+//     u_i = [Σ_j A_ij (V_j − V_i) + R_i] / (D_i − Σ_j A_ij)、v_i = V_i − u_i(受け取らない行〔pinned・質量が正でない〕は u_i = 0)
+//   (D_i − Σ_j A_ij = 1 + 対角の足し分 ≥ 1。条件数 D_i/(D_i − Σ_j A_ij) が REL_DRAG_INIT_COND_MAX を超えたら拒否)。照合: エンジンの solve(dfmInertialDrag3Solve)で
+//   v ← V − u(v) の不動点の反復(v⁰ = V)と、逆写像の v を solve に通した前向きの残り max|v + u(v) − V|/max|V| を記録する。
+//   第296便b の inertialDragInverseMap(v = (I+L)W)は対角の足し分が 0・回転引きずりが無いときの特別な場合(inertialR2 の本では対角の足し分の分だけ違う)。
+// ■ 最初の步: firstStep:"drag"(既定)は分解したときの粒子の指紋を _rdInitFirst に置き、**最初の步だけ**履歴が無くても u と軸引きずりを使う(W は力学速度 S.vx ——
+//   力を切れば Δx/h = V_obs)。"zero" は今の「最初の步は u = 0」(比較)。
+// ■ 状態の契約: 記録 inertialDragInitObs(版・完了の印・観測の値・慣性の値・u(0)・ω_D(0)・残り・反復)と _rdInitFirst は inertialDragCkSnap の 1 組で運ぶ ——
+//   チェックポイントの復帰と A/B の写しは**分解し直さない**。分解は build の最後(本の読込)と、t = 0 で宣言・パラメータ・粒子が変わったとき(⏮ の戻したパラメータ・保存の読込・
+//   A/B の開始の B〔パラメータ・粒子の写し・宣言を当てた後に 1 回〕・A/B の ⏮ —— inertialDragInitObsRedo: 記録の観測の値へ戻してから分解し直す —— 二重に引かない)だけ。
+// 評価の写し(状態を 1 bit も動かさない —— S を原型にした T へ作業配列と帳簿を自前で持たせる。第296便b の inertialDragInverseMap と同じ作り)
+function inertialDragInitObsProto(S,n){
+  const T=Object.create(S), F=(k)=>new Float64Array(k);
+  T._rdA=F(n*n); T._rdUX=F(n); T._rdUY=F(n); T._rdUZ=F(n); T._rdDeg=F(n); T._rdVX=F(n); T._rdVY=F(n); T._rdVZ=F(n);
+  T._rdWX=F(n); T._rdWY=F(n); T._rdWZ=F(n); T._rdWS=F(n); T._rdHoldP=null;
+  T._rdFix=new Uint8Array(n); T._rdSX=F(n); T._rdSY=F(n); T._rdSZ=F(n); T._rdZ0=F(n); T._rdZT=F(n); T._rdM=F(Math.max(4,n*n)); T._rdPW=null;
+  return T;
+}
+// 步と同じ順序で行(A・対角 DG・右辺 s = 並進〔vel を渡したときだけ〕+ 回転引きずり R)と軸引きずり ω(_rdWX/WY/WZ・_rdWS)を写し T に作る。
+//   spin/ax/ay/az は源の自転(null は状態のまま)・vel は力学速度 [vx,vy,vz](null は並進の項なし —— 右辺は R だけ)
+function inertialDragInitObsEval(S,n,spin,ax,ay,az,vel){
+  const rd=S.relDrag, T=inertialDragInitObsProto(S,n);
+  if(spin){ T.spin=spin; T.sax=ax; T.say=ay; T.saz=az; }
+  if(vel){ T.vx=vel[0]; T.vy=vel[1]; T.vz=vel[2]; }
+  const hist=!!vel, C=relDragCoefficientOf(rd), eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
+  const q=dfmInertialDrag3Build(T,n,hist,C,eps*eps,S._dragCoreT||null);
+  if(q.coincident) return {T:null, why:"coincident"};
+  if(q.tooLarge) return {T:null, why:"tooLarge"};
+  const sd3=relDrag3SpinOf(rd);
+  if(sd3 && sd3.rot) inertialDrag3RotTerm(T,n,C,eps);
+  if(sd3 && sd3.axial){ if(sd3.model==="sphere") inertialDrag3AxialSphere(T,n,sd3.gain,C,eps); else if(sd3.model==="bevel") inertialDrag3AxialBevel(T,n,sd3.gain,sd3.norm,C,eps); else inertialDrag3AxialOmega(T,n,sd3.kappa,eps); }
+  if(rd[REL_DRAG_I2_KEY]) inertialDragI2Apply(T,n,C,eps);
+  if(S._dragShellRd) inertialDragShellApply(T,n,C,eps);
+  inertialDragNormApply(T,n,true,!!(sd3 && sd3.axial && sd3.model==="mu2"));
+  if(rd[REL_DRAG_I2_KEY] && relDragPairNormOf(rd)) inertialDragPairApply(T,n,C,eps,null,null,null,hist);
+  return {T, why:null};
+}
+// エンジンの solve の u(v)(写しの上 —— 状態は動かさない)。戻り値 {ux,uy,uz} か {why}
+function inertialDragInitObsU(S,n,vel){
+  const ev=inertialDragInitObsEval(S,n,null,null,null,null,vel);
+  if(!ev.T) return {why:ev.why};
+  const r=dfmInertialDrag3Solve(ev.T,n);
+  if(r.adopted===false) return {why:"solveNoConverge"};
+  return {ux:Float64Array.from(ev.T._rdUX.subarray(0,n)), uy:Float64Array.from(ev.T._rdUY.subarray(0,n)), uz:Float64Array.from(ev.T._rdUZ.subarray(0,n))};
+}
+// 自転の分解(状態は書かない —— 解 {sp, ax, ay, az, rows, iterations, residual} か {why})
+function inertialDragInitSpinSolve(S,n,dc){
+  const on=S.saOn, pin=S.pinned, m=S.m, sO=Float64Array.from(S.spin.subarray(0,n));
+  const oX=Float64Array.from(S.sax.subarray(0,n)), oY=Float64Array.from(S.say.subarray(0,n)), oZ=Float64Array.from(S.saz.subarray(0,n));
+  const mode=[];
+  for(let i=0;i<n;i++) mode.push((pin[i] || !(m[i]>0) || !Number.isFinite(m[i]))? "fixed" : !on[i]? "flat" : (S.saOm[i]!==0)? "prescribed" : dc.split);
+  let sp=Float64Array.from(sO), ax=Float64Array.from(oX), ay=Float64Array.from(oY), az=Float64Array.from(oZ), res=Infinity, it=0, T=null;
+  for(it=1; it<=dc.maxIter; it++){
+    const ev=inertialDragInitObsEval(S,n,sp,ax,ay,az,null);
+    if(!ev.T) return {why:ev.why};
+    T=ev.T;
+    const nsp=new Float64Array(n), nax=new Float64Array(n), nay=new Float64Array(n), naz=new Float64Array(n);
+    res=0;
+    for(let i=0;i<n;i++){
+      const wx=T._rdWX[i], wy=T._rdWY[i], wz=T._rdWZ[i], ws=T._rdWS[i], md=mode[i];
+      nax[i]=oX[i]; nay[i]=oY[i]; naz[i]=oZ[i];
+      let r=0, sc=Math.abs(sO[i]);
+      if(md==="fixed"){ nsp[i]=sO[i]; }
+      else if(md==="flat"){ r=Math.abs(sp[i]+ws-sO[i]); nsp[i]=sO[i]-ws; sc=Math.max(sc,Math.abs(ws)); }
+      else if(md==="parallel" || md==="prescribed"){ const wp=wx*oX[i]+wy*oY[i]+wz*oZ[i]; r=Math.abs(sp[i]+wp-sO[i]); nsp[i]=sO[i]-wp; sc=Math.max(sc,Math.hypot(wx,wy,wz)); }
+      else {   // vector
+        const Ox=sO[i]*oX[i], Oy=sO[i]*oY[i], Oz=sO[i]*oZ[i];
+        r=Math.hypot(sp[i]*ax[i]+wx-Ox, sp[i]*ay[i]+wy-Oy, sp[i]*az[i]+wz-Oz); sc=Math.max(sc,Math.hypot(wx,wy,wz));
+        const Ix=Ox-wx, Iy=Oy-wy, Iz=Oz-wz, w=Math.hypot(Ix,Iy,Iz);
+        if(w>0){ const sg=(Ix*oX[i]+Iy*oY[i]+Iz*oZ[i]<0)? -1 : 1; nax[i]=sg*Ix/w; nay[i]=sg*Iy/w; naz[i]=sg*Iz/w; nsp[i]=sg*w; }
+        else nsp[i]=0;
+      }
+      const rr=(sc>0)? r/sc : r; if(rr>res) res=rr;
+    }
+    if(res<=dc.tol) break;
+    sp=nsp; ax=nax; ay=nay; az=naz;
+  }
+  if(!(res<=dc.tol)) return {why:"spinNoConverge", iterations:dc.maxIter, residual:res};
+  const rows=[];
+  for(let i=0;i<n;i++){
+    const md=mode[i], wv=[T._rdWX[i], T._rdWY[i], T._rdWZ[i]], dot=ax[i]*oX[i]+ay[i]*oY[i]+az[i]*oZ[i];
+    const crs=Math.hypot(ay[i]*oZ[i]-az[i]*oY[i], az[i]*oX[i]-ax[i]*oZ[i], ax[i]*oY[i]-ay[i]*oX[i]);   // 角は atan2(|a×b|, a·b)(acos は 1 の近くで桁を落とす)
+    rows.push({i, mode:md, sObs:sO[i], sI:sp[i], axisObs:[oX[i],oY[i],oZ[i]], axisI:[ax[i],ay[i],az[i]], axisAngle:Math.atan2(crs,dot),
+      omegaD:(md==="flat")? null : wv, omegaDs:(md==="flat")? T._rdWS[i] : null, omegaDpar:(md==="flat")? T._rdWS[i] : wv[0]*oX[i]+wv[1]*oY[i]+wv[2]*oZ[i],
+      zero:(md==="vector" && sp[i]===0), flip:(sO[i]!==0 && sp[i]!==0 && Math.sign(sp[i])!==Math.sign(sO[i]))});
+  }
+  return {sp, ax, ay, az, rows, iterations:it, residual:res, why:null};
+}
+// 移動の分解(状態は書かない —— S.spin・軸は慣性〔自転の分解の後〕を読む)。解 {v:[vx,vy,vz], u, rows, …} か {why}
+function inertialDragInitMotionSolve(S,n,dc){
+  const m=S.m, pin=S.pinned, V=[Float64Array.from(S.vx.subarray(0,n)), Float64Array.from(S.vy.subarray(0,n)), Float64Array.from(S.vz.subarray(0,n))];
+  const ev=inertialDragInitObsEval(S,n,null,null,null,null,null);
+  if(!ev.T) return {why:ev.why};
+  const T=ev.T, A=T._rdA, DG=T._rdDeg, R=[T._rdUX, T._rdUY, T._rdUZ];
+  const u=[new Float64Array(n), new Float64Array(n), new Float64Array(n)], v=[new Float64Array(n), new Float64Array(n), new Float64Array(n)];
+  let Vmax=0, condMax=1, xMax=0;
+  for(let i=0;i<n;i++){ const w=Math.hypot(V[0][i],V[1][i],V[2][i]); if(w>Vmax) Vmax=w; }
+  const rows=[];
+  for(let i=0;i<n;i++){
+    const fixed=(pin[i] || !(m[i]>0) || !Number.isFinite(m[i]));
+    if(!fixed){
+      const row=i*n;
+      let sA=0, nx=R[0][i], ny=R[1][i], nz=R[2][i];
+      for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a===0) continue; sA+=a; nx+=a*(V[0][j]-V[0][i]); ny+=a*(V[1][j]-V[1][i]); nz+=a*(V[2][j]-V[2][i]); }
+      const den=1+DG[i]-sA, cond=(1+DG[i])/den;
+      if(!(den>0) || !Number.isFinite(cond) || cond>REL_DRAG_INIT_COND_MAX) return {why:"motionIllConditioned", at:i, cond};
+      if(cond>condMax) condMax=cond; if(den-1>xMax) xMax=den-1;
+      u[0][i]=nx/den; u[1][i]=ny/den; u[2][i]=nz/den;
+    }
+    for(let k=0;k<3;k++) v[k][i]=V[k][i]-u[k][i];
+    rows.push({i, fixed, V:[V[0][i],V[1][i],V[2][i]], v:[v[0][i],v[1][i],v[2][i]], u:[u[0][i],u[1][i],u[2][i]], rot:[R[0][i],R[1][i],R[2][i]]});
+  }
+  const sc=(Vmax>0)? Vmax : 1;
+  // 照合 1: 逆写像の v をエンジンの solve に通した前向きの残り
+  const fw=inertialDragInitObsU(S,n,v);
+  if(fw.why) return {why:fw.why};
+  let fwd=0; for(let i=0;i<n;i++){ const d=Math.hypot(v[0][i]+fw.ux[i]-V[0][i], v[1][i]+fw.uy[i]-V[1][i], v[2][i]+fw.uz[i]-V[2][i])/sc; if(d>fwd) fwd=d; }
+  // 照合 2: 不動点 v ← V − u(v)(v⁰ = V)
+  let w=[Float64Array.from(V[0]), Float64Array.from(V[1]), Float64Array.from(V[2])], it=0, step=Infinity;
+  for(it=1; it<=dc.maxIter; it++){
+    const q=inertialDragInitObsU(S,n,w);
+    if(q.why) return {why:q.why};
+    const nw=[new Float64Array(n), new Float64Array(n), new Float64Array(n)];
+    step=0;
+    for(let i=0;i<n;i++){ nw[0][i]=V[0][i]-q.ux[i]; nw[1][i]=V[1][i]-q.uy[i]; nw[2][i]=V[2][i]-q.uz[i];
+      const d=Math.hypot(nw[0][i]-w[0][i], nw[1][i]-w[1][i], nw[2][i]-w[2][i])/sc; if(d>step) step=d; }
+    w=nw;
+    if(step<=dc.tol) break;
+  }
+  let dIter=0; for(let i=0;i<n;i++){ const d=Math.hypot(w[0][i]-v[0][i], w[1][i]-v[1][i], w[2][i]-v[2][i])/sc; if(d>dIter) dIter=d; }
+  return {v, u, rows, Vmax, condMax, xMax, forwardResidual:fwd, iterations:it, iterStep:step, iterConverged:(step<=dc.tol), diffIterDirect:dIter, why:null};
+}
+// 分解の本体(build の最後・inertialDragInitObsRedo から —— 宣言した三次元の本だけ)。成功すれば状態(S.spin・軸・S.vx/vy/vz)を書き、記録と最初の步の印を置く
+function inertialDragInitObsApply(S,from){
+  const dc=relDragInitObsOf(S.relDrag);
+  if(!dc) return null;
+  const n=S.n, rec={version:REL_DRAG_INIT_OBS_VERSION, from:from||"build", t:S.t, n, done:false, ok:false, why:null, epoch:null,
+    decl:{spin:dc.spin, motion:dc.motion}, obs:null, spin:null, motion:null, firstStep:null};
+  S.inertialDragInitObs=rec; S._rdInitFirst=null;
+  if(S.coord3d!==true || !S.sax || !S.rdPrevX){ rec.why="not3d"; return rec; }
+  if(!(n>0) || n>REL_DRAG_SOLVE_NMAX){ rec.why="tooLarge"; return rec; }
+  if(dc.motion && !(S.vx instanceof Float64Array && S.vy instanceof Float64Array && S.vz instanceof Float64Array)){ rec.why="notDouble"; return rec; }   // 保存の読込などで受理器の stateCarry の門を通らなかった宣言 —— u(0) を単精度の丸めで消さない
+  const cp=(a)=>Array.from(a.subarray(0,n));
+  rec.obs={spin:cp(S.spin), ax:cp(S.sax), ay:cp(S.say), az:cp(S.saz), vx:cp(S.vx), vy:cp(S.vy), vz:cp(S.vz)};
+  let sp=null;
+  if(dc.spin){
+    sp=inertialDragInitSpinSolve(S,n,dc.spin);
+    if(sp.why){ rec.why=sp.why; rec.spin={iterations:sp.iterations||null, residual:(sp.residual!==undefined)? sp.residual : null}; return rec; }
+  }
+  // 自転を書く(移動の回転引きずりの源は慣性自転 —— 移動の分解の前)。移動が失敗したら観測へ戻す
+  if(sp){ for(let i=0;i<n;i++){ S.spin[i]=sp.sp[i]; S.sax[i]=sp.ax[i]; S.say[i]=sp.ay[i]; S.saz[i]=sp.az[i]; }
+    rec.spin={split:dc.spin.split, iterations:sp.iterations, residual:sp.residual, tol:dc.spin.tol, rows:sp.rows,
+      spinStored:sp.rows.map((r)=>S.spin[r.i]===r.sI)}; }
+  if(dc.motion){
+    const mo=inertialDragInitMotionSolve(S,n,dc.motion);
+    if(mo.why){
+      if(sp) for(let i=0;i<n;i++){ S.spin[i]=rec.obs.spin[i]; S.sax[i]=rec.obs.ax[i]; S.say[i]=rec.obs.ay[i]; S.saz[i]=rec.obs.az[i]; }
+      rec.spin=null; rec.why=mo.why; rec.motion={at:(mo.at!==undefined)? mo.at : null, cond:(mo.cond!==undefined)? mo.cond : null}; return rec;
+    }
+    for(let i=0;i<n;i++){ S.vx[i]=mo.v[0][i]; S.vy[i]=mo.v[1][i]; S.vz[i]=mo.v[2][i]; }
+    rec.motion={iterations:mo.iterations, iterConverged:mo.iterConverged, iterStep:mo.iterStep, diffIterDirect:mo.diffIterDirect, forwardResidual:mo.forwardResidual,
+      Vmax:mo.Vmax, condMax:mo.condMax, xMax:mo.xMax, tol:dc.motion.tol, rows:mo.rows, stored:mo.rows.map((r)=>S.vx[r.i]===r.v[0] && S.vy[r.i]===r.v[1] && S.vz[r.i]===r.v[2])};
+  }
+  const fs=((dc.spin && dc.spin.firstStep==="drag") || (dc.motion && dc.motion.firstStep==="drag"))? "drag" : "zero";
+  rec.state={spin:cp(S.spin), ax:cp(S.sax), ay:cp(S.say), az:cp(S.saz), vx:cp(S.vx), vy:cp(S.vy), vz:cp(S.vz)};   // 書いた慣性の値(分解し直しのとき「編集されていない欄」を見分ける)
+  rec.epoch=inertialDragEpoch(S); rec.done=true; rec.ok=true; rec.firstStep={mode:fs, used:null};
+  S._rdInitFirst=(fs==="drag")? rec.epoch : null;
+  return rec;
+}
+// t = 0 で宣言・パラメータ・粒子が変わったとき(⏮ の戻したパラメータ・保存の読込・A/B の開始の B・A/B の ⏮): 記録の観測の値へ戻してから分解し直す(二重に引かない)。
+//   t > 0・宣言も記録も無い本は何もしない。分解の後に編集された欄(A/B の粒子の写し applyBodyPatch など —— 今の値が分解で書いた値と違う欄)は**新しい観測の値**として読む
+//   (戻さない —— 欄ごとに見分ける: 自転の大きさ・軸の 3 成分の組・速度の各成分)
+function inertialDragInitObsRedo(S){
+  if(!S || S.t!==0) return null;
+  const rec=S.inertialDragInitObs, dc=relDragInitObsOf(S.relDrag);
+  if(!rec && !dc) return null;
+  if(rec && rec.ok && rec.obs && rec.state && rec.n===S.n && S.sax){
+    const o=rec.obs, w=rec.state;
+    for(let i=0;i<S.n;i++){   // 欄ごとに見分ける(自転の大きさ・軸の 3 成分の組・速度の各成分 —— vx だけを書いた写しで vy・vz を二重に引かない)
+      if(S.spin[i]===w.spin[i]) S.spin[i]=o.spin[i];
+      if(S.sax[i]===w.ax[i] && S.say[i]===w.ay[i] && S.saz[i]===w.az[i]){ S.sax[i]=o.ax[i]; S.say[i]=o.ay[i]; S.saz[i]=o.az[i]; }
+      if(S.vx[i]===w.vx[i]) S.vx[i]=o.vx[i];
+      if(S.vy[i]===w.vy[i]) S.vy[i]=o.vy[i];
+      if(S.vz[i]===w.vz[i]) S.vz[i]=o.vz[i];
+    }
+  }
+  S.inertialDragInitObs=undefined; S._rdInitFirst=undefined;
+  if(!dc) return null;
+  if(dc.spin && S.spinPrec!=="double"){ S.spin=Float64Array.from(S.spin); S.spinPrec="double"; }
+  return inertialDragInitObsApply(S,"redo");
+}
+// 読み口(状態を 1 bit も動かさない —— 記録の深い写し)。宣言していない本は null
+function inertialDragInitObsState(S){
+  if(!S || !S.inertialDragInitObs) return null;
+  return JSON.parse(JSON.stringify(S.inertialDragInitObs));
 }
 // ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
 // `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
@@ -61932,6 +62223,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   inertialDragIsqRule, inertialDragIsqK2, inertialDragIsqM2, inertialDragRadOf, inertialDragIsqCore, inertialDragIsqEval, inertialDragIsqBuild, inertialDragIsqPointAt, inertialDragIsqState, dragCoreDefaultState, inertialDragLenPrepare,
   REL_DRAG_AXIS_HOLD_MODES, REL_DRAG_AXIS_HOLD_MAINT_KEYS, REL_DRAG_AXIS_HOLD_MAINT_REACTIONS, REL_DRAG_AXIS_HOLD_HEAT_TIMINGS, REL_DRAG_AXIS_HOLD_TAUHOLD_RANGE, REL_DRAG_AXIS_HOLD_MAINT_VERSION, REL_DRAG_AXIS_HOLD_MAINT_LAST,   // 第309便b(R219)
   validateAxisHoldMaintain, inertialDrag3MaintCell, inertialDrag3MaintStep, inertialDrag3MaintStateOf, INERTIAL_DRAG3_MAINT_SC,
+  REL_DRAG_INIT_SPIN_KEY, REL_DRAG_INIT_MOTION_KEY, REL_DRAG_INIT_OBS_VERSION, REL_DRAG_INIT_SPIN_KEYS, REL_DRAG_INIT_MOTION_KEYS, REL_DRAG_INIT_SPLITS, REL_DRAG_INIT_FIRST,   // 第309便c(R220)
+  REL_DRAG_INIT_TOL_DEFAULT, REL_DRAG_INIT_ITER_DEFAULT, REL_DRAG_INIT_COND_MAX, validateInitObs, relDragInitObsOf, inertialDragInitObsApply, inertialDragInitObsRedo, inertialDragInitObsState,
+  inertialDragInitObsEval, inertialDragInitObsU,
   PROBE_VERSION, PROBE_READY_TOL, inertialDragProbeAt, inertialDragProbeReady, inertialDragProbeSample, inertialDragProbeBilinear, inertialDragProbeStreamlines,
   GLOC_KEY, GLOC_VERSION, GLOC_LAWS, GLOC_LAW_N, GLOC_PAIRS, GLOC_KAPPAS, GLOC_REFS, GLOC_N_RANGE, validateGLoc, gLocCrossCheck, gLocKappaOf, gLocState, gLocPeriAdvance, GLOC_DETACH_VERSION, gLocDetach,   // 第307便e: B 側で G_loc を切る(abBody.physicsPatch.gLoc:null)
     // 第302便b: 局所重力
