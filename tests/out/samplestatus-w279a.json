@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.45-b308",
+  "betaBuild": "v1.45-b309",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T23:25:36.715Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T04:15:40.989Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 196979,
-    "sha256": "e389ef06b1741b6fe058826560b9eeeb9a425e7c9bb64366da5f87cf5a73b393",
-    "mtime": "2026-10-18T23:25:36.697Z"
+    "bytes": 199941,
+    "sha256": "654e2aef1f8a7fe37cb51d6cf0c35beb95766573f51209314dab7c06e5fbc65f",
+    "mtime": "2026-10-19T04:15:40.967Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -616,6 +616,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -958,6 +964,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -1313,6 +1325,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -1652,6 +1670,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -1987,6 +2011,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -2331,6 +2361,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -2667,6 +2703,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -3028,6 +3070,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -3357,6 +3405,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -3694,6 +3748,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -4023,6 +4083,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -4366,6 +4432,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -4705,6 +4777,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -5034,6 +5112,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -5383,6 +5467,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -5718,6 +5808,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -6075,6 +6171,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -6448,6 +6550,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -6799,6 +6913,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7144,6 +7270,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7483,6 +7621,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7818,6 +7962,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -8173,6 +8323,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -8508,6 +8664,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -8851,6 +9013,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -9186,6 +9354,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -9531,6 +9705,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -9886,6 +10066,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -10215,6 +10401,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -10554,6 +10746,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -10904,6 +11102,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -11234,6 +11438,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -11572,6 +11782,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -11901,6 +12117,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -12252,6 +12474,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -12608,6 +12836,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -12943,6 +13177,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -13334,6 +13574,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -13679,6 +13925,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -14013,6 +14265,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -14352,6 +14610,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -14714,6 +14978,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -15070,6 +15340,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -15410,6 +15686,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -15756,6 +16038,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -16109,6 +16397,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -16478,6 +16772,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -16820,6 +17120,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -17189,6 +17495,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -17538,6 +17850,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -17895,6 +18213,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -18237,6 +18561,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -18593,6 +18923,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -18928,6 +19264,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -19271,6 +19613,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -19606,6 +19954,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -19991,6 +20345,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -20336,6 +20696,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -20677,6 +21043,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -21032,6 +21404,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -21361,6 +21739,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -21700,6 +22084,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -22055,6 +22445,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -22394,6 +22790,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -22729,6 +23131,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -23078,6 +23486,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -23419,6 +23833,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -23765,6 +24185,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -24120,6 +24546,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -24467,6 +24899,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -24881,6 +25319,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -25216,6 +25660,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -25622,6 +26072,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -25975,6 +26431,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -26342,6 +26804,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -26703,6 +27171,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -27099,6 +27573,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -27440,6 +27920,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -27792,6 +28278,12 @@
       "key": "emresolve-306c",
       "sec": 1500,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
       "always": false
      },
      {
@@ -28165,6 +28657,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -28522,6 +29020,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -28857,6 +29361,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -29202,6 +29712,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -29557,6 +30073,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -29898,6 +30420,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -30307,6 +30835,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -30642,6 +31176,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -30994,6 +31534,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -31361,6 +31907,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -31706,6 +32264,12 @@
       "always": false
      },
      {
+      "key": "maintain-309b",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "spindecomp-307c",
       "sec": 12,
       "share": 3,
@@ -31720,6 +32284,18 @@
      {
       "key": "sunspin-308c",
       "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
       "share": 11,
       "always": false
      },
@@ -32063,6 +32639,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -32402,6 +32990,12 @@
       "always": false
      },
      {
+      "key": "maintain-309b",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "spindecomp-307c",
       "sec": 12,
       "share": 3,
@@ -32416,6 +33010,18 @@
      {
       "key": "sunspin-308c",
       "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
       "share": 11,
       "always": false
      },
@@ -32749,6 +33355,18 @@
      {
       "key": "sunspin-308c",
       "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
       "share": 11,
       "always": false
      },
@@ -33104,6 +33722,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -33437,6 +34061,18 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
+      "share": 11,
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -33766,6 +34402,18 @@
      {
       "key": "sunspin-308c",
       "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
       "share": 11,
       "always": false
      },
@@ -34109,6 +34757,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -34444,6 +35098,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -34784,6 +35444,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -35132,6 +35798,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -35548,6 +36220,18 @@
      {
       "key": "sunspin-308c",
       "sec": 5,
+      "share": 11,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "recheck-309c",
+      "sec": 6,
       "share": 11,
       "always": false
      },
@@ -35980,6 +36664,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -36368,6 +37058,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -36803,6 +37499,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -37172,6 +37874,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -37532,6 +38240,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -37990,6 +38704,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -38331,6 +39051,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -38699,6 +39425,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "charonaudit-305e",
       "sec": 160,
       "share": 1,
@@ -39039,6 +39771,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -39385,6 +40123,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -39755,6 +40499,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -40183,6 +40933,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -40619,6 +41375,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -40985,6 +41747,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -41421,6 +42189,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -41787,6 +42561,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -42192,6 +42972,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -42602,6 +43388,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -42938,6 +43730,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -43290,6 +44088,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -43723,6 +44527,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -44152,6 +44962,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -44500,6 +45316,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -44856,6 +45678,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -45204,6 +46032,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -45560,6 +46394,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -45912,6 +46752,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -46260,6 +47106,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -46641,6 +47493,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -47045,6 +47903,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -47397,6 +48261,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -47732,6 +48602,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -48077,6 +48953,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -48428,6 +49310,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -48813,6 +49701,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -49163,9 +50057,21 @@
       "always": false
      },
      {
+      "key": "maintain-309b",
+      "sec": 10,
+      "share": 3,
+      "always": false
+     },
+     {
       "key": "bevel-308a",
       "sec": 20,
       "share": 7,
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
       "always": false
      },
      {
@@ -49526,6 +50432,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -49864,6 +50776,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -50190,6 +51108,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -50512,6 +51436,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -50844,6 +51774,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -51183,6 +52119,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -51555,6 +52497,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -51921,6 +52869,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -52299,6 +53253,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -52628,6 +53588,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -52967,6 +53933,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -53316,6 +54288,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -53657,6 +54635,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -54018,6 +55002,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -54347,6 +55337,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -54684,6 +55680,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -55013,6 +56015,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -55358,6 +56366,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -55715,6 +56729,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -56127,6 +57147,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -56478,6 +57504,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -56807,6 +57839,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -57187,6 +58225,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -57541,6 +58585,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -57870,6 +58920,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -58226,6 +59282,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -58565,6 +59627,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -58900,6 +59968,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -59249,6 +60323,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -59578,6 +60658,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -59915,6 +61001,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -60244,6 +61336,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -60581,6 +61679,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -60910,6 +62014,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -61259,6 +62369,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -61592,6 +62708,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -61921,6 +63043,12 @@
      {
       "key": "pairnorm-305a",
       "sec": 2400,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 8,
       "share": "all",
       "always": false
      },
@@ -62264,6 +63392,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -62597,6 +63731,12 @@
       "always": false
      },
      {
+      "key": "invsq-309a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -62634,8 +63774,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 171,
-  "regenSecSum": 79186,
+  "regenSteps": 174,
+  "regenSecSum": 79210,
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
