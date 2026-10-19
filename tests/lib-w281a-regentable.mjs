@@ -1259,6 +1259,11 @@ export const EXTERNAL_VOLATILE = {
   //   歴史の記録の器〔an336-306a・refit-303a〕の「本の記録と同じか」の門と QA preset.fitRole308 の入力)
   'tests/data-w308d-decl307.json': [],
   // ==== 第308便d の塊(ここまで)====
+  // ==== 第309便d の塊(ここから)====
+  // 第309便d(AN361・R221): 第308便の退役の 🌥️ の fitRecord の凍結の写しと役割の表(tests/lib-w309d-pre.mjs が読む —— 書き換えない・除く欄は無い。
+  //   歴史の記録の器〔fit-297b〕の派生本の照合〔derivedCheck〕と QA preset.fitRole309 の入力)
+  'tests/data-w309d-decl308.json': [],
+  // ==== 第309便d の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

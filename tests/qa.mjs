@@ -24579,7 +24579,12 @@ if (!FAST) {
     // 第306便e(AN339 の案 (A)・R208): 🟪 の宣言を直した世代では pin305(notClaim を含む第305便の宣言)を先に被せてから pin302(第305便の html では no-op)
     let PRE6f297 = null; try { PRE6f297 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306e-pre.mjs')); } catch (e) { PRE6f297 = null; }
     const gen306e297 = !!(PRE6f297 && HP297 && PRE6f297.isGen306e(HP297.allPresets()));
-    const HPd297 = gen303a297 ? Object.assign(Object.create(HP297), { allPresets: () => HP297.allPresets().map((q) => PRE297.pin302(gen306e297 ? PRE6f297.pin305(q) : q)) }) : HP297;
+    // 第309便d(AN361・R221): 退役の 🌥️ の fitRecord の標的に役割を記録した世代では、正本 fit-w297b(第308便の宣言で照合した歴史の記録)との派生本の照合は
+    //   第308便の宣言の写し(tests/lib-w309d-pre.mjs の pin308d —— 役割を外すだけ・第308便の html では no-op)を先に被せて行う(今の記録は preset.fitRole309 が照合)
+    let PRE9d297 = null; try { PRE9d297 = await import('file://' + path.join(ROOT, 'tests', 'lib-w309d-pre.mjs')); } catch (e) { PRE9d297 = null; }
+    const gen309d297 = !!(PRE9d297 && HP297 && PRE9d297.isGen309d(HP297.allPresets()));
+    const pin9d297 = (q) => (gen309d297 ? PRE9d297.pin308d(q) : q);
+    const HPd297 = (gen303a297 || gen309d297) ? Object.assign(Object.create(HP297), { allPresets: () => HP297.allPresets().map((q) => { const z = pin9d297(q); return gen303a297 ? PRE297.pin302(gen306e297 ? PRE6f297.pin305(z) : z) : z; }) }) : HP297;
     // ---- ① preset.fitCond297
     {
       const bad = [], cases = [];
@@ -82043,20 +82048,28 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!(oj.indexOf('標的の役割') >= 0 && oj.indexOf('入力の整合') >= 0 && oj.indexOf('独立の比較') >= 0 && oe.indexOf('Target roles') >= 0 && oe.indexOf('input consistency') >= 0)) bad.push('④ 🌦️ の観測カードの役割の行');
         if (!(JSON.stringify(pc.obsCard).indexOf('標的の役割') >= 0 && JSON.stringify(pc.en.obsCard).indexOf('target role') >= 0)) bad.push('④ 🟪 の観測カードの役割');
         // 第308便d(AN351): 役割を宣言していない本は宣言から選ぶ(🌡️ が役割を宣言した世代では fitRecord を持ち役割の無い本 —— 無ければ 🌡️ のまま)
-        const noRole7 = ((all.find((q) => q.fitRecord && !HP.fitRoleSummary(q.fitRecord).declared) || {}).id) || IDS7[0];
+        //   第309便d(AN361・R221): 退役の 🌥️ にも役割を記録して役割の無い本が無くなった世代では、fitRecord を持つ退役の本(宣言から選ぶ)の役割を
+        //   page の中だけで外した写しで「役割の無い本には行が出ない」を確かめる(page の BUILTIN_PRESETS の要素を読み終えたら元へ戻す —— html と宣言は変えない)
+        const noRoleDecl7 = all.find((q) => q.fitRecord && !HP.fitRoleSummary(q.fitRecord).declared);
+        const strip7 = noRoleDecl7 ? null : ((all.find((q) => q.fitRecord && q.familyRole === 'retired') || {}).id || null);
+        const noRole7 = (noRoleDecl7 || {}).id || strip7 || IDS7[0];
         if (typeof page !== 'undefined' && page) {
-          const dom = await page.evaluate(async (ids) => {
+          const dom = await page.evaluate(async ([ids, strip]) => {
             const wait = (ms) => new Promise((res) => setTimeout(res, ms)), o = {};
             HP.setLang('ja'); const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
-            for (const id of ids) { HP.loadPreset(id, false); await wait(5);
-              const box = document.getElementById('fitRecordBox');
-              o[id] = box ? { roles: (box.querySelector('.frRow[data-k="roles"]') || { dataset: {} }).dataset.roles || null,
-                tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
-            return o; }, [em.id, pc.id, noRole7]);
+            for (const id of ids) {
+              const sp = (id === strip) ? HP.allPresets().find((q) => q.id === id) : null, keep = sp ? JSON.stringify(sp.fitRecord) : null;
+              if (sp) for (const t of sp.fitRecord.targets) delete t.role;
+              try { HP.loadPreset(id, false); await wait(5);
+                const box = document.getElementById('fitRecordBox');
+                o[id] = box ? { roles: (box.querySelector('.frRow[data-k="roles"]') || { dataset: {} }).dataset.roles || null,
+                  tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
+              finally { if (sp) sp.fitRecord = JSON.parse(keep); } }
+            return o; }, [[em.id, pc.id, noRole7], strip7]);
           if (!(dom[em.id] && dom[em.id].roles === 'input-consistency,independent' && canon(dom[em.id].tr) === canon(PRE7.CHANGE307E.roles[em.id]))) bad.push('④ 🌦️ のフィットの記録の箱(DOM)' + JSON.stringify(dom[em.id]));
           if (!(dom[pc.id] && dom[pc.id].roles === 'input-consistency')) bad.push('④ 🟪 のフィットの記録の箱(DOM)' + JSON.stringify(dom[pc.id]));
-          if (!(dom[noRole7] && dom[noRole7].roles === null)) bad.push('④ 役割を宣言していない本(' + noRole7 + ')に役割の行が出る');
-          cases.push('④ 観測カード・辞書・箱の役割の行(DOM —— 役割の無い本には出ない)');
+          if (!(dom[noRole7] && dom[noRole7].roles === null)) bad.push('④ 役割を宣言していない本(' + noRole7 + (strip7 ? ' —— page の中だけで役割を外した写し' : '') + ')に役割の行が出る');
+          cases.push('④ 観測カード・辞書・箱の役割の行(DOM —— 役割の無い本には出ない' + (strip7 ? ' —— 第309便d: 役割の無い本が無いので退役の本の役割を page の中だけで外した写し' : '') + ')');
         } else cases.push('④ 観測カード・辞書(DOM は page が無いので省略)');
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
       add('preset.fitRole307', bad.length === 0,
@@ -82266,9 +82279,21 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (!ev) bad.push('SAMPLE_STATUS の正本に根拠の保存 QA の記録(meta.evidenceQa)が無い');
           const qaIds = new Set((Q.results || []).filter((r) => r.pass).map((r) => r.id));
           const evid = [...new Set(all.flatMap((p) => ((p.status || {}).evidence || []).filter((e) => typeof e === 'string' && !/^tests\//.test(e))))];
-          const missing = evid.filter((e) => !qaIds.has(e));
+          // 第309便d(統括の検証項目 R221): 退役の本の根拠 ID は SAMPLE_STATUS の生成器(tests/exp-w279a-samplestatus.mjs)と同じ規則で読む —— 保存 QA に無くても、
+          //   退役の本(familyRole:"retired")の ID で、生成器が読む凍結の写し(const RETIRED_FX… —— 器の本文から引く)の history で PASS なら「凍結の写しの履歴」として欠けに数えない
+          //   (例: 退役の 🕶️ の behavior.darkrotorLong —— ゲートから外した長い試験・最後の保存 QA の値は凍結の写しの history)。生成器と違う規則で欠けを数えない
+          const GEN9 = rd('tests/exp-w279a-samplestatus.mjs'), FXS9 = [...GEN9.matchAll(/^const RETIRED_FX\d* = '([^']+)';/mg)].map((m) => m[1]).filter((f) => fs.existsSync(path.join(ROOT, f)));
+          const histIds9 = new Set(FXS9.flatMap((f) => (((rj(f) || {}).history || {}).tests || []).filter((t) => t.pass).map((t) => t.id)));
+          const histUsed9 = [], missing = [];
+          for (const e of evid) {
+            if (qaIds.has(e)) continue;
+            const holders = all.filter((p) => ((p.status || {}).evidence || []).includes(e));
+            if (holders.length && holders.every((p) => p.familyRole === 'retired') && histIds9.has(e)) histUsed9.push(holders.map((p) => p.emoji || p.id).join('') + ' ' + e); else missing.push(e);
+          }
+          if (FXS9.length === 0) bad.push('生成器の凍結の写しの宣言(const RETIRED_FX…)が読めない');
           cases.push(`保存 QA ${nPass}/${(Q.results || []).length}・commit ${String(Q.commit || '').slice(0, 7)}・${Q.date}・刻印 ${String(Q.targetSha256).slice(0, 12)} / 今の html ${cur.slice(0, 12)} → **${fresh ? '同じ' : '古い(別の html の走行)'}**`);
-          cases.push(`SAMPLE_STATUS の根拠の記録 ${ev ? String(ev.commit || '').slice(0, 7) + '・' + ev.date : 'なし'} → 保存 QA と${same ? '同じ' : '違う'}・状況の根拠 ID ${evid.length} 件のうち保存 QA に無い ${missing.length} 件`);
+          cases.push(`SAMPLE_STATUS の根拠の記録 ${ev ? String(ev.commit || '').slice(0, 7) + '・' + ev.date : 'なし'} → 保存 QA と${same ? '同じ' : '違う'}・状況の根拠 ID ${evid.length} 件のうち保存 QA に無い ${missing.length} 件`
+            + `(退役の本の凍結の写しの履歴で裏づける ${histUsed9.length} 件${histUsed9.length ? ' —— ' + histUsed9.join('・') : ''} —— 第309便d: 生成器と同じ規則・写し ${FXS9.length} 本)` + (missing.length ? ' —— 欠け: ' + missing.slice(0, 4).join(',') : ''));
           if (strict && !(fresh && same && missing.length === 0)) bad.push('QA_EVIDENCE_STRICT=1: 刻印が古い/根拠の記録が違う/根拠 ID が無い');
         }
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
@@ -82324,6 +82349,138 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第308便d の塊(ここまで)====
+// ==== 第309便d の塊(ここから)====
+// ---- 第309便d(原仮定者の裁定(第103〜106報)・決断事項 AN360・AN361・統括の検証項目 R221 —— 細目): preset.fitRole309・docs.w309d(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ tests/lib-w309d-pre.mjs ∧ isGen309d(BUILTIN_PRESETS)(退役の 🌥️ の fitRecord の標的に役割を記録した世代)。
+// ----   固定値は宣言と凍結のデータ(tests/data-w309d-decl308.json —— 第308便の fitRecord の写しと役割の表)から読む(数を QA に書かない)。
+// ----   preset.fitRole309 … 写しのある本(退役の本)の記録 = record309d(第308便の宣言の写し)・役割の表・退役のまま(familyRole・sampleClass は写しと同じ —— 現役のフィットに戻さない)・
+// ----      受理(警告 0・往復)・条件の署名と門と status と presetSig は役割を読まない(役割を外した記録・写しと同じ)・数値フィットの標的はノブを持つ・
+// ----      写し pin308d は第308便の記録へ戻す・フィットの記録の箱(DOM)の役割の行
+// ----   docs.w309d … PHYSICS〔第309便d〕(「## 7.」の前・語・root の基準の確かめ・1 步の重さの内訳の表・post-merge の一式の表)・〔第307便c〕⑫・〔第308便b〕〔第308便c〕の注記・
+// ----      〔第308便d〕⑦・CHANGELOG(b309 の見出しの塊に第309便d・第307便c/第308便b/第308便c の行に 1 文)・README・post-merge の ③′(自分の 2 本と PHYSICS の全文を読む QA の一式
+// ----      PHYS_SCAN_IDS —— qa.mjs に在る id・PHYSICS の表と同じ)・再生成表の入力・段 fit-297b の器が pin308d を読む・書かない語と禁句(引用の中も)
+{
+  const pre9 = path.join(ROOT, 'tests', 'lib-w309d-pre.mjs');
+  let H9 = null, PRE9 = null, gen9 = false;
+  if (TARGET.startsWith('beta/')) {
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H9 = null; }
+    try { PRE9 = await import('file://' + pre9); gen9 = !!(H9 && H9.HP && PRE9.isGen309d(H9.evalExpr('BUILTIN_PRESETS'))); } catch (e) { PRE9 = null; gen9 = false; }
+  }
+  if (!(TARGET.startsWith('beta/') && H9 && H9.HP && PRE9 && gen9)) {
+    console.log('SKIP preset.fitRole309 / docs.w309d(第309便d の前の世代 — ' + TARGET + ')');
+  } else {
+    const HP = H9.HP, all = HP.allPresets(), find = (id) => all.find((q) => q.id === id);
+    const cl = (o) => JSON.parse(JSON.stringify(o));
+    const canon = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x)) ? Object.fromEntries(Object.keys(x).sort().map((q) => [q, x[q]])) : x);
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const IDS9 = Object.keys(PRE9.DECL308D), ROLES9 = PRE9.CHANGE309D.roles;
+    // ---- preset.fitRole309
+    {
+      const bad = [], cases = [];
+      try {
+        for (const id of IDS9) {
+          const p = find(id), fr = p && p.fitRecord, d = PRE9.DECL308D[id].fitRecord;
+          if (!fr) { bad.push('① ' + id + ' に fitRecord が無い'); continue; }
+          if (canon(fr) !== canon(PRE9.record309d(id, d))) bad.push('① ' + id + ' の記録が record309d(第308便の宣言の写し)と違う(役割の外の欄が動いた)');
+          const rs = HP.fitRoleSummary(fr);
+          if (!(rs.declared && canon(rs.roles) === canon(ROLES9[id]))) bad.push('① ' + id + ' の役割 ' + JSON.stringify(rs.roles));
+          if (p.familyRole !== 'retired') bad.push('② ' + id + ' が退役でない(familyRole ' + p.familyRole + ')—— 役割の記録で現役に戻さない');
+          if (p.sampleClass === 'calibration') bad.push('② ' + id + ' が較正の分類');
+          const v = HP.validatePreset(cl(p));
+          if (!(v.ok && (v.warnings || []).length === 0 && canon(v.preset.fitRecord) === canon(fr))) bad.push('① ' + id + ' の受理(警告 0・往復)');
+          const x = cl(fr); for (const t of x.targets) delete t.role;
+          if (canon(x) !== canon(d)) bad.push('① ' + id + ' の役割を外した記録が第308便の写しと違う');
+          if (HP.fitCondSig(v.preset, x) !== HP.fitCondSig(v.preset, fr) || HP.fitCondSig(v.preset, fr) !== fr.cond.sig) bad.push('① ' + id + ' の条件の署名が役割を読む/宣言と違う');
+          if (canon(HP.fitTargetGates(x)) !== canon(HP.fitTargetGates(fr))) bad.push('① ' + id + ' の門が役割を読む');
+          if (!(fr.status === d.status)) bad.push('① ' + id + ' の status が動いた');
+          const q308 = PRE9.pin308d(p);
+          if (canon(q308.fitRecord) !== canon(d)) bad.push('③ pin308d が第308便の記録へ戻さない');
+          if (HP.presetSig(cl(q308)) !== HP.presetSig(cl(p))) bad.push('① ' + id + ' の presetSig が役割を読む');
+          HP.sim.build(v.preset);
+          const cs = HP.fitCondStateOf(HP.fitCondInputsOf(v.preset, HP.sim.params), v.preset.fitRecord).state;
+          if (cs !== 'match') bad.push('① ' + id + ' の条件の状態 ' + cs);
+          fr.targets.forEach((t, i) => {
+            if (t.role === 'numerical-fit' && !(Array.isArray(fr.knobs) && fr.knobs.length >= 1)) bad.push('② ' + id + ' の標的 ' + i + ' は数値フィットだがノブが無い');
+            if (HP.FIT_TARGET_ROLES.indexOf(t.role) < 0) bad.push('② ' + id + ' の標的 ' + i + ' の役割の語 ' + t.role);
+          });
+          if (!(Array.isArray((PRE9.CHANGE309D.reasons || {})[id]) && PRE9.CHANGE309D.reasons[id].length === fr.targets.length)) bad.push('② ' + id + ' の役割の理由の行');
+          cases.push(`① ${p.emoji} の記録 = record309d(第308便の写し)・役割 ${rs.roles.join('/')}・status ${fr.status}・受理・署名・門・presetSig は役割を読まない・条件 ${cs}`);
+          cases.push(`② 退役のまま(familyRole ${p.familyRole}・${p.sampleClass})・数値フィット = ノブ ${fr.knobs.length}`);
+        }
+        const noRole = all.filter((q) => q.fitRecord && !HP.fitRoleSummary(q.fitRecord).declared).map((q) => q.id);
+        cases.push(`③ 写し pin308d・役割を宣言していない fitRecord ${noRole.length} 本`);
+        if (typeof page !== 'undefined' && page) {
+          const dom = await page.evaluate(async (ids) => {
+            const wait = (ms) => new Promise((res) => setTimeout(res, ms)), o = {};
+            HP.setLang('ja'); const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+            for (const id of ids) { HP.loadPreset(id, false); await wait(5);
+              const box = document.getElementById('fitRecordBox');
+              o[id] = box ? { roles: (box.querySelector('.frRow[data-k="roles"]') || { dataset: {} }).dataset.roles || null,
+                tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
+            return o; }, IDS9);
+          for (const id of IDS9) {
+            const want = ROLES9[id], order = HP.FIT_TARGET_ROLES.filter((r) => want.indexOf(r) >= 0).join(',');
+            if (!(dom[id] && dom[id].roles === order && canon(dom[id].tr) === canon(want))) bad.push('④ ' + id + ' のフィットの記録の箱(DOM)' + JSON.stringify(dom[id]));
+          }
+          cases.push('④ フィットの記録の箱の役割の行(DOM)');
+        } else cases.push('④ DOM は page が無いので省略');
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+      add('preset.fitRole309', bad.length === 0,
+        `**退役の本の標的の役割を記録だけ**(第309便d・AN361・R221 —— 退役のまま・役割は表示と記録の語・status の語と門と条件の署名と presetSig は不変): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- docs.w309d
+    {
+      const bad = [], cases = [];
+      const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), PM = rd('tools/post-merge-qa.sh'), RT = rd('tests/lib-w281a-regentable.mjs'), E297 = rd('tests/exp-w297b-fit.mjs'), QS = rd('tests/qa.mjs');
+      const secOf = (head) => { const i0 = PH.indexOf(head), i7 = PH.indexOf('\n## 7. '), i1 = PH.indexOf('\n〔第', i0 + 10);
+        return { i0, i7, sec: i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '' }; };
+      const S9 = secOf('〔第309便d — ');
+      if (!S9.sec) bad.push('PHYSICS〔第309便d〕が無い'); else if (S9.i7 >= 0 && S9.i0 > S9.i7) bad.push('PHYSICS〔第309便d〕が「## 7.」の後');
+      for (const w of ['R221', 'AN360', 'AN361', '第103報', '第104報', '第105報', '第106報', 'lib-w309d-pre', 'data-w309d-decl308.json', 'pin308d', 'record309d', 'preset.fitRole309', 'docs.w309d',
+        '99286dc', 'fa7cd6c', 'a78476ae', 'starSeed', 'post-merge', 'PHYS_SCAN_IDS', 'QA_EVIDENCE_STRICT=1', 'lint.qaEvidenceStamp308', 'behavior.darkrotorLong', '推定', '実測']) if (S9.sec.indexOf(w) < 0) bad.push('PHYSICS〔第309便d〕に「' + w + '」が無い');
+      const Sc = secOf('〔第307便c — '), Sb = secOf('〔第308便b — '), Sx = secOf('〔第308便c — '), Sd = secOf('〔第308便d — ');
+      if (!(Sc.sec.indexOf('⑫ 注記(原仮定者の裁定〔第103報・第104報・第105報〕') >= 0 && Sc.sec.indexOf('背景宇宙へ') >= 0 && Sc.sec.indexOf('慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値') >= 0 && Sc.sec.indexOf('第309便b') >= 0)) bad.push('PHYSICS〔第307便c〕⑫(第103〜105報の注記)');
+      if (!(Sb.sec.indexOf('注記(原仮定者の裁定〔第103報・第104報〕') >= 0 && Sb.sec.indexOf('比較の写し') >= 0 && Sb.sec.indexOf('背景宇宙へ') >= 0 && Sb.sec.indexOf('第309便b') >= 0)) bad.push('PHYSICS〔第308便b〕の注記(reaction:"source" は比較の写し・反作用は背景宇宙へ)');
+      if (!(Sx.sec.indexOf('注記(原仮定者の裁定〔第103報〕') >= 0 && Sx.sec.indexOf('R1/R2 の要求は前提ごと取り下げた') >= 0 && Sx.sec.indexOf('AN357') >= 0)) bad.push('PHYSICS〔第308便c〕の注記(R1/R2 の要求の取り下げ)');
+      if (!(Sd.sec.indexOf('⑦ 注記(第309便d') >= 0 && Sd.sec.indexOf('99286dc') >= 0 && Sd.sec.indexOf('fa7cd6c') >= 0)) bad.push('PHYSICS〔第308便d〕⑦(root の基準の訂正の注記)');
+      // CHANGELOG: b307 以降の見出しの塊(見出しの番号を固定しない —— docs.w308d と同じ型)
+      const mB9 = /\n## v1\.45-b(\d+)/g; let blk = '';
+      for (let mm; (mm = mB9.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      if (blk.indexOf('- **第309便d') < 0) bad.push('CHANGELOG の b307 以降の見出しに第309便d の行が無い');
+      for (const w of ['第307便c', '第308便b', '第308便c']) { const ln = (blk.split('\n').find((l) => l.startsWith('- **' + w)) || ''); if (ln.indexOf('第309便d の注記') < 0 || ln.indexOf('第103報') < 0) bad.push('CHANGELOG の ' + w + ' の行に第309便d の注記(第103報)が無い'); }
+      if (RM.indexOf('第309便d') < 0) bad.push('README に第309便d が無い');
+      // post-merge の ③′: 自分の 2 本と PHYSICS の全文を読む QA の一式(PHYS_SCAN_IDS)
+      const pm = /\nPHYS_SCAN_IDS="([^"]*)"/.exec(PM), scan = pm ? pm[1].trim().split(/\s+/).filter(Boolean) : [];
+      const qaIds = new Set([...QS.matchAll(/add\('([\w.\-]+)'/g)].map((m) => m[1]));
+      if (!scan.length) bad.push('post-merge に PHYS_SCAN_IDS が無い');
+      const noQa = scan.filter((id) => !qaIds.has(id)); if (noQa.length) bad.push('PHYS_SCAN_IDS に qa.mjs に無い id: ' + noQa.join(','));
+      if (!/WAVE_IDS="\$WAVE_IDS \$\{POST_MERGE_PHYS_SCAN_IDS-\$PHYS_SCAN_IDS\}"/.test(PM)) bad.push('post-merge の ③′ に PHYS_SCAN_IDS を足す行が無い');
+      const notInPh = scan.filter((id) => S9.sec.indexOf('`' + id + '`') < 0); if (notInPh.length) bad.push('PHYSICS〔第309便d〕の表に PHYS_SCAN_IDS の id が無い: ' + notInPh.join(','));
+      for (const id of ['preset.fitRole309', 'docs.w309d']) if (PM.indexOf(id) < 0) bad.push('post-merge の ③′ に ' + id + ' が無い');
+      cases.push(`post-merge の ③′: PHYSICS の全文を読む QA ${scan.length} 本(PHYS_SCAN_IDS —— qa.mjs に在る ${scan.length - noQa.length}・PHYSICS の表と同じ)・preset.fitRole309・docs.w309d`);
+      if (RT.indexOf("'tests/data-w309d-decl308.json': []") < 0) bad.push('再生成表の入力 tests/data-w309d-decl308.json');
+      if (!(E297.indexOf("from './lib-w309d-pre.mjs'") >= 0 && (E297.match(/pinDecl308d\(\);/g) || []).length >= 2 && E297.indexOf("'tests/lib-w309d-pre.mjs'") >= 0 && E297.indexOf('DECL308D_DATA_FILE]') >= 0)) bad.push('段 fit-297b の器が pin308d を読まない(親と子・meta の code と inputs)');
+      cases.push('PHYSICS〔第309便d〕・〔第307便c〕⑫・〔第308便b〕〔第308便c〕の注記・〔第308便d〕⑦・CHANGELOG(b309・3 行に 1 文)・README・再生成表の入力・段 fit-297b の pin308d');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /自転が釣り合った/, /帳簿が完全に閉じた/, /熱を説明した/, /銀河の自転で太陽の自転を説明した/, /2 倍角を導いた/, /τ_hold を導いた/, /完全に一致/, /金星の逆行を説明した/, /イオの加熱を説明した/,
+        /太陽の自転を分解した/, /昇格した/, /観測の 1σ で較正済み/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      const ni = (t, head) => { const a = t.indexOf(head); return a >= 0 ? t.slice(a, a + 2600) : ''; };
+      const cl9 = (blk.split('\n').find((l) => l.startsWith('- **第309便d')) || '');
+      for (const [nm, tx] of [['PHYSICS〔第309便d〕', S9.sec], ['〔第307便c〕⑫', ni(Sc.sec, '⑫ 注記(原仮定者の裁定〔第103報')], ['〔第308便b〕の注記', ni(Sb.sec, '注記(原仮定者の裁定〔第103報・第104報〕')],
+        ['〔第308便c〕の注記', ni(Sx.sec, '注記(原仮定者の裁定〔第103報〕')], ['〔第308便d〕⑦', ni(Sd.sec, '⑦ 注記(第309便d')], ['CHANGELOG の第309便d', cl9], ['lib・データ', rd('tests/lib-w309d-pre.mjs') + rd('tests/data-w309d-decl308.json')]]) {
+        for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+        for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(引用の中も —— ' + w.length + ' 字)');
+      }
+      cases.push('書かない語・禁句(引用の中も)');
+      add('docs.w309d', bad.length === 0,
+        `**第309便d の文書**(R221 —— 細目): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第309便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

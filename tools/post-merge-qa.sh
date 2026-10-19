@@ -24,6 +24,7 @@
 #   環境変数: PLAYWRIGHT_CORE_DIR(既定: /opt/node22/lib/node_modules/playwright があればそれ)・POST_MERGE_LOG(ログの置き場 ——
 #             既定 ${TMPDIR:-/tmp}/post-merge-qa-<時刻>)・POST_MERGE_IDS(常設集合を差し替える —— 既定は下の 9 本)・
 #             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 11 本・空文字で飛ばす)
+#             POST_MERGE_PHYS_SCAN_IDS(③′ に必ず足す PHYSICS の全文を否定の照合で読む QA の一式 —— 第309便d・既定は下の PHYS_SCAN_IDS・空文字で外す)
 # 終了コード: 0 = ①〜④ がすべて通った / 1 = どれかが FAIL(⑤ は情報 —— 器が落ちたときだけ FAIL)/ 2 = 使い方の誤り
 # **書くもの**: ログだけ(tests/out/qa-preflight-beta.json は preflight の既定の保存物 —— .gitignore の対象)。正本・html は書かない。
 set -u
@@ -202,6 +203,17 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303 docs.synodic299 preset.planets306 behavior.tide3d307 docs.fitContract296 docs.noRetiredMention294"
 # ==== 第308便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
+# ==== 第309便d の塊(ここから)====
+# 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
+#   世代切替を受けた preset.fitRole307(役割の無い本が無い世代の DOM の確かめ)・preset.fitCond297(派生本の照合を pin308d の写しで)・規則を変えた lint.qaEvidenceStamp308
+#   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS preset.fitRole309 docs.w309d preset.fitRole307 preset.fitCond297 lint.qaEvidenceStamp308"
+# PHYSICS の全文(節から「## 7.」まで —— 新しい節が置かれる範囲)を否定の照合で読む QA の一式(第308便の教訓: 新しい節の速さの数が古い単位の照合に当たり、ゲートまで見つからなかった)。
+#   統合の直後の ③′ で毎便走らせる(POST_MERGE_WAVE_IDS で一覧を差し替えても足す —— 外すときは POST_MERGE_PHYS_SCAN_IDS="" を明示)。
+#   一覧は第309便d の走査(qa.mjs の否定の語の見本を PHYSICS の「## 7.」の直前に足した写しで、FAIL に変わったブロック)で見付けた範囲 —— PHYSICS〔第309便d〕⑤ の表と同じ
+PHYS_SCAN_IDS="behavior.calauditStages docs.heavyCal docs.mercuryUnits docs.terminologyOpticalCamouflage preset.retired290b docs.ref3d299 docs.refit298 docs.synodic299 preset.spaceMeshRetired300"
+WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
+# ==== 第309便d の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in

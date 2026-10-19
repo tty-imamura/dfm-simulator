@@ -3938,3 +3938,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **`fitRecord.targets[].role` の宣言**(第307便e の契約のまま): 🌡️ mercurySunInertial3d —— 近点率の差 `numerical-fit`・恒星周期 `independent` / 🟫 mercurySunInertialFit —— 近点率の差 `numerical-fit` / 🌘 earthMoonRealKF1 —— 朔望月 `numerical-fit`。条件の署名・門・status は役割を読まない(不変)。
 - **器と QA**: `tests/lib-w308d-pre.mjs`(pin307d・pinDecl307d・isGen308d・record308d)・凍結の写し `tests/data-w308d-decl307.json`(歴史の記録の器 an336-306a・refit-303a が照合に使う)。QA `preset.fitRole308`・`behavior.tide3Recv308`・`lint.qaEvidenceStamp308`(保存 QA の刻印 —— 情報)・`docs.w308d`(root は SKIP)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が三次元で潮汐を宣言する本を作るときは、軸を潮汐で動かす受け手に `spinAxis:{enable:true, tiltDeg, azimuthDeg, source}` を書く(書かなければ警告 —— 走りは同じ)。イオ級の小さい衛星の半径は単位の下限に注意する(警告の倍率を読む)。役割は省略してよい。
+
+## 114. 第309便d —— 退役の 🌥️ の fitRecord の標的の役割の記録・SAMPLE_STATUS の根拠の退役の本の読み(厳格の照合)・統合の直後の部分 QA に PHYSICS の全文を読む QA の一式(決断事項 AN360・AN361・統括の検証項目 R221・**宣言の記録と QA・post-merge の一覧だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **`fitRecord.targets[].role` の宣言**(第307便e の契約のまま): 退役の 🌥️ earthMoonSunInertialFit —— 近点回転の周期(118 公転の窓)`numerical-fit`(gain〔第302便a で W_bg へ同値移行〕を探索して探索範囲で挟めなかった記録)。**退役のまま**(familyRole retired・現役のフィットに戻さない)・条件の署名・門・status・presetSig は役割を読まない。これで fitRecord を持つ 6 本すべてが役割を宣言した。
+- **SAMPLE_STATUS の根拠の厳格の照合**(`lint.qaEvidenceStamp308` —— `QA_EVIDENCE_STRICT=1`): 退役の本(familyRole:"retired")だけが挙げる根拠 ID は、保存 QA に無くても、SAMPLE_STATUS の生成器(tests/exp-w279a-samplestatus.mjs)が読む凍結の写し(器の本文の `const RETIRED_FX…`)の history で PASS なら欠けに数えない(生成器と同じ規則 —— 行に件数と ID を出す)。刻印と根拠の記録の条件は変えない。
+- **post-merge の ③′**: `tools/post-merge-qa.sh` の `PHYS_SCAN_IDS`(PHYSICS の節の見出しから「## 7.」までか全文を、否定の照合〔書かない語・禁句・古い単位の数・旧称〕で読む QA 9 本)を毎便の ③′ に足す(`POST_MERGE_WAVE_IDS` で一覧を差し替えても足す —— 外すのは `POST_MERGE_PHYS_SCAN_IDS=""`)。
+- **器と QA**: `tests/lib-w309d-pre.mjs`(pin308d・pinDecl308d・gate308d・isGen309d・record309d)・凍結の写し `tests/data-w309d-decl308.json`(段 fit-297b の派生本の照合が使う)。QA `preset.fitRole309`・`docs.w309d`(root は SKIP)・世代切替 `preset.fitRole307` ④・`preset.fitCond297`。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。役割は省略してよい。PHYSICS に節を足す変更では、部分 QA に `PHYS_SCAN_IDS` を入れて、新しい節の語・数・単位が古い QA の否定の照合に当たらないかを確かめる。
