@@ -175,6 +175,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tide3d307 docs.tide3d307 behavior.c
 #   状態の契約・docs.axisHold308 —— 正本と文書)と、状態の契約の一覧が動く lint.stateContract302
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.stateContract302"
 # ==== 第308便b の塊(ここまで)====
+# ==== 第309便b の塊(ここから)====
+# 第309便b(原仮定者の裁定(第103報・第104報)・AN356・AN358・AN362・R219): 枝 b の新設 2 本(behavior.maintain309 —— 維持の型の受理・参照との一致・維持の門と表示の門・
+#   口座・dt の走査・状態の契約・docs.maintain309 —— 正本と文書)。axisHold の受理器が動く behavior.axisHold308 と状態の契約の lint.stateContract302 は第308便b の塊にある
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maintain309 docs.maintain309"
+# ==== 第309便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
