@@ -3971,3 +3971,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w309c-recheck.mjs`(版 w309c-recheck-1・lib `tests/lib-w309c-recheck.mjs` —— 修正版の引きずりの参照の純関数〔m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5×10⁶ m)〕・`W309C_OUT`・`W309C_QUICK`)→ `tests/out/recheck-w309c.json`(段 recheck-309c)。初期値の門(G = 0 の写し)・在位の惑星 7 本の写し・AN357 の再確認の表(ω_D(0)・ω_I(0)・u(0)・熱の率〔1 步の型と τ_hold の型〕・背景の口座)。
 - **QA**: `behavior.initObs309`・`docs.recheck309`(root は SKIP・世代切替は html の `REL_DRAG_INIT_OBS_VERSION`)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときは initSpin・initMotion を宣言しない(在位の本への宣言は近点率・周期のフィットへの影響を数えてから —— 未決)。分解の結果を「観測の自転に合わせた」「熱を説明した」と書かない。器の修正版の引きずりは参照の条件(W_bg′ = 0・ε = 0)の診断で、W_bg′ の同定ではない。
+
+## 114. 第309便d —— 退役の 🌥️ の fitRecord の標的の役割の記録・SAMPLE_STATUS の根拠の退役の本の読み(厳格の照合)・統合の直後の部分 QA に PHYSICS の全文を読む QA の一式(決断事項 AN360・AN361・統括の検証項目 R221・**宣言の記録と QA・post-merge の一覧だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **`fitRecord.targets[].role` の宣言**(第307便e の契約のまま): 退役の 🌥️ earthMoonSunInertialFit —— 近点回転の周期(118 公転の窓)`numerical-fit`(gain〔第302便a で W_bg へ同値移行〕を探索して探索範囲で挟めなかった記録)。**退役のまま**(familyRole retired・現役のフィットに戻さない)・条件の署名・門・status・presetSig は役割を読まない。これで fitRecord を持つ 6 本すべてが役割を宣言した。
+- **SAMPLE_STATUS の根拠の厳格の照合**(`lint.qaEvidenceStamp308` —— `QA_EVIDENCE_STRICT=1`): 退役の本(familyRole:"retired")だけが挙げる根拠 ID は、保存 QA に無くても、SAMPLE_STATUS の生成器(tests/exp-w279a-samplestatus.mjs)が読む凍結の写し(器の本文の `const RETIRED_FX…`)の history で PASS なら欠けに数えない(生成器と同じ規則 —— 行に件数と ID を出す)。刻印と根拠の記録の条件は変えない。
+- **post-merge の ③′**: `tools/post-merge-qa.sh` の `PHYS_SCAN_IDS`(PHYSICS の節の見出しから「## 7.」までか全文を、否定の照合〔書かない語・禁句・古い単位の数・旧称〕で読む QA 9 本)を毎便の ③′ に足す(`POST_MERGE_WAVE_IDS` で一覧を差し替えても足す —— 外すのは `POST_MERGE_PHYS_SCAN_IDS=""`)。
+- **器と QA**: `tests/lib-w309d-pre.mjs`(pin308d・pinDecl308d・gate308d・isGen309d・record309d)・凍結の写し `tests/data-w309d-decl308.json`(段 fit-297b の派生本の照合が使う)。QA `preset.fitRole309`・`docs.w309d`(root は SKIP)・世代切替 `preset.fitRole307` ④・`preset.fitCond297`。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。役割は省略してよい。PHYSICS に節を足す変更では、部分 QA に `PHYS_SCAN_IDS` を入れて、新しい節の語・数・単位が古い QA の否定の照合に当たらないかを確かめる。

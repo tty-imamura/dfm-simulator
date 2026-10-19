@@ -40,6 +40,7 @@ import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第297便b のフィットの探索(親 🌤️🟤🟣 の gain の探索・派生本 🟫🟪 の記録)を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
 import { pinDecl305, DECL305_DATA_FILE } from './lib-w306e-pre.mjs';   // 第306便e(AN339 の案 (A)・R208): 🟪 の第305便の宣言の写し(派生本の照合 derivedCheck が notClaim を読む)
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
+import { pinDecl308d, DECL308D_DATA_FILE } from './lib-w309d-pre.mjs';   // 第309便d(AN361・R221): 退役の 🌥️ の fitRecord の標的に役割を記録した世代では、この正本(第297便b の派生本の照合)を第308便の宣言の写しで照合する(器の中だけ —— 第308便の html では no-op)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.FIT_RECORD_VERSION","HP.INERTIAL_INVERSE_MAP_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragInverseMap","HP.inertialDragState","HP.presetSig","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -623,6 +624,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
     const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
     const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
     pinSplit302();
+    pinDecl308d();   // 第309便d: 🌥️ の fitRecord を第308便の宣言へ(標的の役割を外す —— 数・署名・門は同じ)
     pinDecl305();   // 第306便e(AN339 の案 (A)・R208): 🟪 を第305便の宣言へ(notClaim を含む —— 続く pinDecl302 が第302便の欄を戻す。第305便の html では no-op)
     pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
     process.stdout.write(JSON.stringify(childTask(HP, spec)));
@@ -634,6 +636,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl308d();   // 第309便d(AN361・R221): 🌥️ の fitRecord を第308便の宣言へ(標的の役割を外す —— 数・署名・門は同じ・第308便の html では no-op)
   pinDecl305();   // 第306便e(AN339 の案 (A)・R208): 🟪 を第305便の宣言へ(notClaim を含む —— 続く pinDecl302 が第302便の欄を戻す。第305便の html では no-op)
   pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
   const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
@@ -711,8 +714,8 @@ if (IS_MAIN && process.argv.includes('--child')) {
     run: { books: BOOKS, siRange: SI_RANGE, gridN: GRID_N, workers: NW, ems: EMS },
     notClaim: ['現実を再現した', '月を再現した', '8.85 年を出した', '43″ を再現した', '較正 合', 'gain は普遍定数', '全系の保存則が閉じた'] };
   const CODE = ['tests/exp-w297b-fit.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w293d-swing.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
-    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w303a-pre.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第297便b', target: TARGET, code: CODE, inputs: [TARGET, CSV, DECL302_DATA_FILE, DECL305_DATA_FILE] }), {
+    'tests/lib-w292c-dragcore.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w309d-pre.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第297便b', target: TARGET, code: CODE, inputs: [TARGET, CSV, DECL302_DATA_FILE, DECL305_DATA_FILE, DECL308D_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, libVersion: L.FIT_LIB_VERSION, fitRecordVersion: L.FIT_RECORD_VERSION, condVersion: HP.FIT_COND_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, coreVersion: HP.DRAG_CORE_VERSION,
     inverseMapVersion: HP.INERTIAL_INVERSE_MAP_VERSION || null, emExtractorVersion: L.EM_EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第87報)「『再現しない』という主張はしない。『再現する努力』を常に優先度の高い目標に掲げる」「geoPN=2・3・4 のサンプルは全て λ_PN=0。修正したサンプルは再フィットする」',
