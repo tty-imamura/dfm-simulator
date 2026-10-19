@@ -1112,6 +1112,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sunspin-w308c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第308便c: 要求される太陽の慣性自転(R1 = 等しく反対のトルクで P_pair ≤ 0・R2 = 散逸の結合の鏡映の核 A = 1)と銀河を源とする引きずり軸回転の見積もり(幾何・源の宣言の走査・分解の候補)・相互の引きずりの二重計上の参照・収縮の診断(値だけ・エンジンと宣言は変えない)' }),
   // ==== 第308便c の塊(ここまで)====
+  // ==== 第309便c の塊(ここから)====
+  // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
+  //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
+  //   P〔在位の惑星 7 本の写し —— 今のエンジンの法則で ω_D∥/Ω・|u(0)|/|V|・第296便b の逆写像との差・最初の步〕・R〔修正版の引きずりの参照: 惑星 7 本・木星 → イオ・太陽 –木星 –イオ・
+  //   太陽 + 惑星 7 の ω_D(0)・ω_I(0)・v(0)・熱の率・背景の口座〕)。html は本の宣言を読み(宣言から探す —— 惑星 7・木星系・銀河 3)、エンジンの build・step・読み口を呼ぶ。
+  //   同じ便の他の枝の正本に依存しない(修正版の引きずりは器の参照の純関数 —— 第309便a のエンジンとは統合の後に照合)。所要は第309便c の枝の実測(正本の elapsedS)
+  S('recheck-309c', 'node tests/exp-w309c-recheck.mjs', ['tests/out/recheck-w309c.json'], 6, { secSource: 'w309c-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/recheck-w309c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第309便c: 観測の自転と移動の初期値の分解(spinDrag.initSpin・relativeDrag.initMotion —— 不動点と逆写像の照合・最初の步の u(0)・チェックポイントで分解し直さない)の門と、修正版の引きずり(m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5e6 m))での AN357 の再確認の表' }),
+  // ==== 第309便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
