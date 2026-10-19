@@ -1,0 +1,1270 @@
+{
+ "version": "w309b-maintain-1",
+ "libVersion": "w309b-maintain-lib-1",
+ "generator": "tests/exp-w309b-maintain.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "78aaca726fd1c676377c8f6596e0c17a5302f8a8653271e06b338fadf244d8b6",
+ "ruling": "原仮定者の裁定(第103報)AN356・AN358・(第104報)AN362・統括の検証項目 R219",
+ "maintainVersion": "w309b-maintain-1",
+ "quick": false,
+ "toy": {
+  "Wbg": 0.125,
+  "eps": 0.05,
+  "kappa": 4,
+  "h": 0.016,
+  "steps": 2000,
+  "quickSteps": 200,
+  "scanSteps": 64,
+  "scanDiv": [
+   1,
+   2,
+   4,
+   8
+  ]
+ },
+ "P": {
+  "pass": true,
+  "gates": {
+   "exampleValues": true,
+   "matchesNaive": true,
+   "zeroSpin": true,
+   "noCancellation": true,
+   "impulseSum": true,
+   "axisWorkZero": true,
+   "accountsClose": true,
+   "gearAxisZero": true,
+   "stepScalesInvH": true,
+   "holdInvariant": true,
+   "retrogradeSign": true
+  },
+  "values": {
+   "example": {
+    "Eax1": 0.005012437887910974,
+    "Esp1": 0.005000000000000001,
+    "heat1": 0.010012437887910975,
+    "Eax2": 0,
+    "Esp2": -0.095,
+    "heat2": 0,
+    "Eax3": 0.585786437626905,
+    "Esp3": 0.5
+   },
+   "naiveMaxRel": 3.2372160507882993e-15,
+   "zeroSpin": {
+    "Eax": 0.049999999999999996,
+    "Esp": 0.125
+   },
+   "tiny": {
+    "speedStable": 1,
+    "speedNaive": 0,
+    "speedJStable": 1,
+    "speedJNaive": 0,
+    "axisStable": 1.0000000000000002,
+    "axisNaive": 1.0000000000000002
+   },
+   "impulseSumRel": 4.532466518368395e-17,
+   "axisWorkRel": 1.245213031845055e-16,
+   "accountL": 2.53800341272953e-16,
+   "accountE": 1.0356993539254887e-16,
+   "gear": {
+    "retro": {
+     "Eax": 0,
+     "Esp": -0.03875000000000001,
+     "heat": 0,
+     "supply": 0.03875000000000001
+    },
+    "pro": {
+     "Eax": 0,
+     "Esp": 0.04125000000000001,
+     "heat": 0.04125000000000001
+    }
+   },
+   "scan": [
+    {
+     "h": 1,
+     "heatStep": 0.010012437887910975,
+     "heatHold": 0.010012437887910975,
+     "torque": 0.1
+    },
+    {
+     "h": 0.5,
+     "heatStep": 0.02002487577582195,
+     "heatHold": 0.010012437887910975,
+     "torque": 0.2
+    },
+    {
+     "h": 0.25,
+     "heatStep": 0.0400497515516439,
+     "heatHold": 0.010012437887910975,
+     "torque": 0.4
+    },
+    {
+     "h": 0.125,
+     "heatStep": 0.0800995031032878,
+     "heatHold": 0.010012437887910975,
+     "torque": 0.8
+    }
+   ],
+   "retrograde": {
+    "Eax": 0,
+    "Esp": 0.10500000000000001
+   }
+  },
+  "n": 11
+ },
+ "A": {
+  "minimal": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1,
+   "axisHold": {
+    "mode": "maintain",
+    "reaction": "none",
+    "heatTiming": "step"
+   }
+  },
+  "full": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1,
+   "axisHold": {
+    "mode": "maintain",
+    "reaction": "background",
+    "heatTiming": {
+     "tauHold": 0.5
+    },
+    "receivers": [
+     0,
+     2
+    ]
+   }
+  },
+  "bevel": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "bevel",
+   "axialGain": 1,
+   "axialNorm": "diff",
+   "axisHold": {
+    "mode": "maintain",
+    "reaction": "none",
+    "heatTiming": "step"
+   }
+  },
+  "driveExplicit": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1,
+   "axisHold": {
+    "tauC": 2,
+    "reaction": "none"
+   }
+  },
+  "driveFull": {
+   "rot": "off",
+   "axial": "on",
+   "axialModel": "sphere",
+   "axialGain": 1,
+   "axisHold": {
+    "tauC": 2,
+    "reaction": "source",
+    "sourceHold": [
+     0,
+     1
+    ],
+    "receivers": [
+     1
+    ]
+   }
+  },
+  "rejects": {
+   "maintainTauC": true,
+   "maintainSourceHold": true,
+   "maintainSource": true,
+   "maintainUnknown": true,
+   "heatTimingBad": true,
+   "tauHoldZero": true,
+   "tauHoldNaN": true,
+   "tauHoldExtra": true,
+   "receiversEmpty": true,
+   "driveHeatTiming": true,
+   "driveBackground": true,
+   "modeBad": true,
+   "maintainAxialOff": true
+  },
+  "allRejected": true,
+  "modes": [
+   "drive",
+   "maintain"
+  ],
+  "keys": [
+   "mode",
+   "reaction",
+   "heatTiming",
+   "receivers"
+  ],
+  "reactions": [
+   "none",
+   "background"
+  ],
+  "version": "w309b-maintain-1"
+ },
+ "E": {
+  "rows": [
+   {
+    "kernel": "sphere",
+    "heatTiming": "step",
+    "steps": 5,
+    "compared": 225,
+    "nDiff": 0
+   },
+   {
+    "kernel": "sphere",
+    "heatTiming": {
+     "tauHold": 0.04
+    },
+    "steps": 5,
+    "compared": 225,
+    "nDiff": 0
+   },
+   {
+    "kernel": "bevel",
+    "heatTiming": "step",
+    "steps": 5,
+    "compared": 225,
+    "nDiff": 0
+   },
+   {
+    "kernel": "bevel",
+    "heatTiming": {
+     "tauHold": 0.04
+    },
+    "steps": 5,
+    "compared": 225,
+    "nDiff": 0
+   }
+  ],
+  "allSame": true
+ },
+ "L": {
+  "rows": [
+   {
+    "kernel": "sphere",
+    "steps": 2000,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "dispDrRel": 0,
+    "dispSumRel": 1.2192e-16,
+    "dispRateRel": 1.8503e-16,
+    "heat": 0.0027728,
+    "axisCost": 0.0000754,
+    "speedSigned": 0.0012667,
+    "supply": 0.0014308,
+    "axisWorkRel": 1.2844e-16,
+    "residualLRel": 3.732e-14,
+    "residualERel": 1.2512e-15,
+    "perBodySumRel": 2.1584e-14,
+    "fieldL": [
+     -0.080148,
+     -0.043122,
+     0.069278
+    ],
+    "backgroundL": [
+     0.080148,
+     0.043122,
+     -0.069278
+    ],
+    "backgroundE": -0.0015062,
+    "inflowL": [
+     0.080148,
+     0.043122,
+     -0.069278
+    ],
+    "outflowL": [
+     0.080148,
+     0.043122,
+     -0.069278
+    ],
+    "holdWork": 0,
+    "axesHeld": 3998
+   },
+   {
+    "kernel": "bevel",
+    "steps": 2000,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "dispDrRel": 0,
+    "dispSumRel": 8.0363e-17,
+    "dispRateRel": 1.8502e-16,
+    "heat": 0.010298,
+    "axisCost": 0.00047289,
+    "speedSigned": 0.0067373,
+    "supply": 0.0030879,
+    "axisWorkRel": 1.1283e-16,
+    "residualLRel": 3.4891e-14,
+    "residualERel": 1.634e-14,
+    "perBodySumRel": 8.4226e-15,
+    "fieldL": [
+     -0.19792,
+     -0.11081,
+     0.17302
+    ],
+    "backgroundL": [
+     0.19792,
+     0.11081,
+     -0.17302
+    ],
+    "backgroundE": -0.0035608,
+    "inflowL": [
+     0.19792,
+     0.11081,
+     -0.17302
+    ],
+    "outflowL": [
+     0.19792,
+     0.11081,
+     -0.17302
+    ],
+    "holdWork": -1.6255e-20,
+    "axesHeld": 3998
+   }
+  ],
+  "noneVsBg": {
+   "stateSame": true,
+   "noneBackground": null,
+   "bgHas": true
+  }
+ },
+ "T": {
+  "T": 1.024,
+  "h0": 0.016,
+  "rows": [
+   {
+    "kernel": "sphere",
+    "div": 1,
+    "h": 0.016,
+    "steps": 64,
+    "time": 1.024,
+    "heatStep": 0.00008877500960171981,
+    "heatHold": 0.00008877500960171981,
+    "eventsStep": 64,
+    "eventsHold": 64,
+    "stepRatio": 1,
+    "holdRatio": 1,
+    "rateStep": 0.000086694,
+    "rateHold": 0.000086694,
+    "axisShare": 0.027193
+   },
+   {
+    "kernel": "sphere",
+    "div": 2,
+    "h": 0.008,
+    "steps": 128,
+    "time": 1.024,
+    "heatStep": 0.00017755001920343954,
+    "heatHold": 0.00008877500960171977,
+    "eventsStep": 128,
+    "eventsHold": 64,
+    "stepRatio": 1.9999999999999991,
+    "holdRatio": 0.9999999999999996,
+    "rateStep": 0.00017339,
+    "rateHold": 0.000086694,
+    "axisShare": 0.027193
+   },
+   {
+    "kernel": "sphere",
+    "div": 4,
+    "h": 0.004,
+    "steps": 256,
+    "time": 1.024,
+    "heatStep": 0.00035510003840688115,
+    "heatHold": 0.00008877500960172029,
+    "eventsStep": 256,
+    "eventsHold": 64,
+    "stepRatio": 4.000000000000021,
+    "holdRatio": 1.0000000000000053,
+    "rateStep": 0.00034678,
+    "rateHold": 0.000086694,
+    "axisShare": 0.027193
+   },
+   {
+    "kernel": "sphere",
+    "div": 8,
+    "h": 0.002,
+    "steps": 512,
+    "time": 1.024,
+    "heatStep": 0.000710200076813767,
+    "heatHold": 0.00008877500960172087,
+    "eventsStep": 512,
+    "eventsHold": 64,
+    "stepRatio": 8.000000000000096,
+    "holdRatio": 1.000000000000012,
+    "rateStep": 0.00069355,
+    "rateHold": 0.000086694,
+    "axisShare": 0.027193
+   },
+   {
+    "kernel": "bevel",
+    "div": 1,
+    "h": 0.016,
+    "steps": 64,
+    "time": 1.024,
+    "heatStep": 0.0003297022791439405,
+    "heatHold": 0.0003297022791439405,
+    "eventsStep": 64,
+    "eventsHold": 64,
+    "stepRatio": 1,
+    "holdRatio": 1,
+    "rateStep": 0.00032197,
+    "rateHold": 0.00032197,
+    "axisShare": 0.04592
+   },
+   {
+    "kernel": "bevel",
+    "div": 2,
+    "h": 0.008,
+    "steps": 128,
+    "time": 1.024,
+    "heatStep": 0.0006594045582878805,
+    "heatHold": 0.00032970227914394024,
+    "eventsStep": 128,
+    "eventsHold": 64,
+    "stepRatio": 1.9999999999999984,
+    "holdRatio": 0.9999999999999992,
+    "rateStep": 0.00064395,
+    "rateHold": 0.00032197,
+    "axisShare": 0.04592
+   },
+   {
+    "kernel": "bevel",
+    "div": 4,
+    "h": 0.004,
+    "steps": 256,
+    "time": 1.024,
+    "heatStep": 0.0013188091165757642,
+    "heatHold": 0.00032970227914394106,
+    "eventsStep": 256,
+    "eventsHold": 64,
+    "stepRatio": 4.000000000000006,
+    "holdRatio": 1.0000000000000016,
+    "rateStep": 0.0012879,
+    "rateHold": 0.00032197,
+    "axisShare": 0.04592
+   },
+   {
+    "kernel": "bevel",
+    "div": 8,
+    "h": 0.002,
+    "steps": 512,
+    "time": 1.024,
+    "heatStep": 0.002637618233151545,
+    "heatHold": 0.0003297022791439431,
+    "eventsStep": 512,
+    "eventsHold": 64,
+    "stepRatio": 8.000000000000064,
+    "holdRatio": 1.000000000000008,
+    "rateStep": 0.0025758,
+    "rateHold": 0.00032197,
+    "axisShare": 0.04592
+   }
+  ],
+  "gear": [
+   {
+    "kernel": "sphere",
+    "recvSpin": 0.4,
+    "sigma": -0.002621,
+    "sigmaOverSpin": -0.0065526,
+    "Eaxis": 0,
+    "Espeed": -0.0000062699,
+    "heat": 0,
+    "supply": 0.0000062699,
+    "heatTotal": 0,
+    "axisZero": true,
+    "heatIsPosSpeed": true
+   },
+   {
+    "kernel": "sphere",
+    "recvSpin": -0.4,
+    "sigma": -0.002621,
+    "sigmaOverSpin": 0.0065526,
+    "Eaxis": 0,
+    "Espeed": 0.0000063111,
+    "heat": 0.0000063111,
+    "supply": 0,
+    "heatTotal": 0.0000063111,
+    "axisZero": true,
+    "heatIsPosSpeed": true
+   },
+   {
+    "kernel": "bevel",
+    "recvSpin": 0.4,
+    "sigma": -0.0086671,
+    "sigmaOverSpin": -0.021668,
+    "Eaxis": 0,
+    "Espeed": -0.000020576,
+    "heat": 0,
+    "supply": 0.000020576,
+    "heatTotal": 0,
+    "axisZero": true,
+    "heatIsPosSpeed": true
+   },
+   {
+    "kernel": "bevel",
+    "recvSpin": -0.4,
+    "sigma": -0.0086671,
+    "sigmaOverSpin": 0.021668,
+    "Eaxis": 0,
+    "Espeed": 0.000021026,
+    "heat": 0.000021026,
+    "supply": 0,
+    "heatTotal": 0.000021026,
+    "axisZero": true,
+    "heatIsPosSpeed": true
+   }
+  ]
+ },
+ "K": {
+  "rows": [
+   {
+    "copy": "toy3",
+    "steps": [
+     100,
+     100
+    ],
+    "nDiff": 0,
+    "keys": 64
+   },
+   {
+    "copy": "venusTide",
+    "steps": [
+     100,
+     100
+    ],
+    "nDiff": 0,
+    "keys": 67
+   }
+  ],
+  "allSame": true
+ },
+ "S": {
+  "changed": 21,
+  "miss": [],
+  "resetCovers": true,
+  "leak": [],
+  "spinPrec": "double",
+  "tiltSpinPrec": "single"
+ },
+ "D": {
+  "rows": [
+   {
+    "copy": "toy3",
+    "mode": "drive-none",
+    "steps": 200,
+    "dSpinRel": [
+     0.000069592,
+     0.0039025,
+     -0.0017269
+    ],
+    "Ereq": 0.0000027355,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     0.000002064,
+     -0.0000082281,
+     -0.000018007
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "toy3",
+    "mode": "drive-source",
+    "steps": 200,
+    "dSpinRel": [
+     0.00088473,
+     0.006485,
+     -0.0012479
+    ],
+    "Ereq": 0.000020211,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     0.0000020676,
+     -0.00000823,
+     -0.000018006
+    ],
+    "reactL": [
+     -0.0000020676,
+     0.00000823,
+     0.000018006
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "toy3",
+    "mode": "maintain",
+    "steps": 200,
+    "dSpinRel": [
+     0,
+     0,
+     0
+    ],
+    "Ereq": 0,
+    "heat": 0.00027603,
+    "supply": 0.00014243,
+    "driveL": [
+     0,
+     0,
+     0
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": [
+     0.0079788,
+     0.0042928,
+     -0.0068966
+    ]
+   },
+   {
+    "copy": "venus",
+    "mode": "drive-none",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     1.6352e-11
+    ],
+    "Ereq": 1.3043e-21,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     -8.1472e-21,
+     -4.7392e-21,
+     -4.3579e-19
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "venus",
+    "mode": "drive-source",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     1.6352e-11
+    ],
+    "Ereq": 1.3879e-20,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     -8.1472e-21,
+     -4.7392e-21,
+     -4.3579e-19
+    ],
+    "reactL": [
+     8.1472e-21,
+     4.7392e-21,
+     4.3579e-19
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "venus",
+    "mode": "maintain",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     0
+    ],
+    "Ereq": 0,
+    "heat": 4.6957e-19,
+    "supply": 0,
+    "driveL": [
+     0,
+     0,
+     0
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": [
+     -3.9413e-18,
+     7.697e-19,
+     -1.5689e-16
+    ]
+   },
+   {
+    "copy": "jupiter",
+    "mode": "drive-none",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     0
+    ],
+    "Ereq": -1.1211e-17,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     9.309e-21,
+     2.2831e-20,
+     -6.3703e-19
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "jupiter",
+    "mode": "drive-source",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     0
+    ],
+    "Ereq": -1.1027e-17,
+    "heat": null,
+    "supply": null,
+    "driveL": [
+     9.309e-21,
+     2.2831e-20,
+     -6.3703e-19
+    ],
+    "reactL": [
+     -9.309e-21,
+     -2.2831e-20,
+     6.3703e-19
+    ],
+    "bgL": null
+   },
+   {
+    "copy": "jupiter",
+    "mode": "maintain",
+    "steps": 360,
+    "dSpinRel": [
+     0,
+     0
+    ],
+    "Ereq": 0,
+    "heat": 4.4226e-33,
+    "supply": 4.0359e-15,
+    "driveL": [
+     0,
+     0,
+     0
+    ],
+    "reactL": [
+     0,
+     0,
+     0
+    ],
+    "bgL": [
+     6.4154e-18,
+     -4.9979e-18,
+     -2.2976e-16
+    ]
+   }
+  ]
+ },
+ "V": {
+  "orbits": 1,
+  "norm": {
+   "orbits": 1,
+   "tideOrbits": 2,
+   "tauTOrbits": 4,
+   "coolOrbits": 1,
+   "k2": 1,
+   "inertia": "sphere",
+   "scanDiv": [
+    1,
+    2,
+    4,
+    8
+   ]
+  },
+  "rows": [
+   {
+    "book": "venus",
+    "kernel": "sphere",
+    "body": "sun",
+    "spin": 0.029031,
+    "wParOverSpin": 3.2223e-23,
+    "wPerpOverSpin": 2.4791e-24,
+    "heatPerOrbit": 4.6952e-19,
+    "heatOverSpinK": 2.3201e-20,
+    "heatRate": 2.4185e-22,
+    "lastAxisShare": 3.757e-26,
+    "lastEspeed": 1.3251e-21,
+    "lastSign": 1
+   },
+   {
+    "book": "venus",
+    "kernel": "sphere",
+    "body": "planet",
+    "spin": -0.0029924,
+    "wParOverSpin": 1.6352e-11,
+    "wPerpOverSpin": 1.6642e-12,
+    "heatPerOrbit": 4.6957e-19,
+    "heatOverSpinK": 1.1774e-8,
+    "heatRate": 2.4187e-22,
+    "lastAxisShare": 8.5803e-14,
+    "lastEspeed": 1.3252e-21,
+    "lastSign": 1
+   },
+   {
+    "book": "venus",
+    "kernel": "sphere",
+    "body": "total",
+    "heatPerOrbit": 9.3909e-19,
+    "axisCost": 4.0324e-32,
+    "speedSigned": 9.3909e-19,
+    "supply": 0,
+    "speedSunOverPlanet": 0.99991,
+    "bgL": 1.4078e-16,
+    "bgLOverJ": 5.2814e-9,
+    "bgE": -4.0324e-32,
+    "residualLRel": 1.5762e-15,
+    "residualERel": 6.1525e-16,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "steps": 360,
+    "h": 5.3928
+   },
+   {
+    "book": "venus",
+    "kernel": "bevel",
+    "body": "sun",
+    "spin": 0.029031,
+    "wParOverSpin": 1.2863e-22,
+    "wPerpOverSpin": 9.7261e-24,
+    "heatPerOrbit": 1.8743e-18,
+    "heatOverSpinK": 9.2616e-20,
+    "heatRate": 9.6544e-22,
+    "lastAxisShare": 1.8718e-25,
+    "lastEspeed": 5.2839e-21,
+    "lastSign": 1
+   },
+   {
+    "book": "venus",
+    "kernel": "bevel",
+    "body": "planet",
+    "spin": -0.0029924,
+    "wParOverSpin": 6.5236e-11,
+    "wPerpOverSpin": 4.9334e-12,
+    "heatPerOrbit": 1.8733e-18,
+    "heatOverSpinK": 4.697e-8,
+    "heatRate": 9.6491e-22,
+    "lastAxisShare": 9.486e-14,
+    "lastEspeed": 5.2771e-21,
+    "lastSign": 1
+   },
+   {
+    "book": "venus",
+    "kernel": "bevel",
+    "body": "total",
+    "heatPerOrbit": 3.7476e-18,
+    "axisCost": 4.0833e-31,
+    "speedSigned": 3.7476e-18,
+    "supply": 0,
+    "speedSunOverPlanet": 1.0013,
+    "bgL": 5.6198e-16,
+    "bgLOverJ": 2.1082e-8,
+    "bgE": -4.0833e-31,
+    "residualLRel": 3.7109e-16,
+    "residualERel": 2.0556e-16,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "steps": 360,
+    "h": 5.3928
+   },
+   {
+    "book": "jupiter",
+    "kernel": "sphere",
+    "body": "sun",
+    "spin": 0.29031,
+    "wParOverSpin": 2.7698e-18,
+    "wPerpOverSpin": 3.2376e-19,
+    "heatPerOrbit": 9.2908e-35,
+    "heatOverSpinK": 4.5909e-35,
+    "heatRate": 2.4819e-38,
+    "lastAxisShare": 1,
+    "lastEspeed": -1.2913e-17,
+    "lastSign": -1
+   },
+   {
+    "book": "jupiter",
+    "kernel": "sphere",
+    "body": "planet",
+    "spin": 17.585,
+    "wParOverSpin": 7.4741e-17,
+    "wPerpOverSpin": 1.237e-17,
+    "heatPerOrbit": 4.4226e-33,
+    "heatOverSpinK": 5.897e-32,
+    "heatRate": 1.1814e-36,
+    "lastAxisShare": 1,
+    "lastEspeed": -1.2913e-17,
+    "lastSign": -1
+   },
+   {
+    "book": "jupiter",
+    "kernel": "sphere",
+    "body": "total",
+    "heatPerOrbit": 4.5155e-33,
+    "axisCost": 4.5155e-33,
+    "speedSigned": -8.0717e-15,
+    "supply": 8.0717e-15,
+    "speedSunOverPlanet": 1,
+    "bgL": 1.4199e-14,
+    "bgLOverJ": 1.6647e-12,
+    "bgE": -8.0717e-15,
+    "residualLRel": 2.2492e-16,
+    "residualERel": 5.5942e-19,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "steps": 360,
+    "h": 10.398
+   },
+   {
+    "book": "jupiter",
+    "kernel": "bevel",
+    "body": "sun",
+    "spin": 0.29031,
+    "wParOverSpin": 1.1058e-17,
+    "wPerpOverSpin": 1.2592e-18,
+    "heatPerOrbit": 1.2899e-33,
+    "heatOverSpinK": 6.3738e-34,
+    "heatRate": 3.4458e-37,
+    "lastAxisShare": 1,
+    "lastEspeed": -5.1415e-17,
+    "lastSign": -1
+   },
+   {
+    "book": "jupiter",
+    "kernel": "bevel",
+    "body": "planet",
+    "spin": 17.585,
+    "wParOverSpin": 2.9778e-16,
+    "wPerpOverSpin": 3.3914e-17,
+    "heatPerOrbit": 3.4686e-32,
+    "heatOverSpinK": 4.625e-31,
+    "heatRate": 9.2661e-36,
+    "lastAxisShare": 1,
+    "lastEspeed": -5.1398e-17,
+    "lastSign": -1
+   },
+   {
+    "book": "jupiter",
+    "kernel": "bevel",
+    "body": "total",
+    "heatPerOrbit": 3.5976e-32,
+    "axisCost": 3.5976e-32,
+    "speedSigned": -3.2192e-14,
+    "supply": 3.2192e-14,
+    "speedSunOverPlanet": 1.0003,
+    "bgL": 5.6733e-14,
+    "bgLOverJ": 6.6513e-12,
+    "bgE": -3.2192e-14,
+    "residualLRel": 2.3415e-16,
+    "residualERel": 1.1175e-18,
+    "spinBitSame": true,
+    "axisBitSame": true,
+    "steps": 360,
+    "h": 10.398
+   }
+  ],
+  "scan": [
+   {
+    "book": "venus",
+    "div": 1,
+    "steps": 360,
+    "heatStep": 9.3909e-19,
+    "heatHold": 9.3909e-19,
+    "stepRatio": 1,
+    "holdRatio": 1,
+    "holdDevRel": 0
+   },
+   {
+    "book": "venus",
+    "div": 2,
+    "steps": 720,
+    "heatStep": 1.8785e-18,
+    "heatHold": 9.3927e-19,
+    "stepRatio": 2.0004,
+    "holdRatio": 1.0002,
+    "holdDevRel": 0.00019047
+   },
+   {
+    "book": "venus",
+    "div": 4,
+    "steps": 1440,
+    "heatStep": 3.7572e-18,
+    "heatHold": 9.393e-19,
+    "stepRatio": 4.0009,
+    "holdRatio": 1.0002,
+    "holdDevRel": 0.00022043
+   },
+   {
+    "book": "venus",
+    "div": 8,
+    "steps": 2880,
+    "heatStep": 7.5144e-18,
+    "heatHold": 9.393e-19,
+    "stepRatio": 8.0018,
+    "holdRatio": 1.0002,
+    "holdDevRel": 0.0002191
+   },
+   {
+    "book": "jupiter",
+    "div": 1,
+    "steps": 360,
+    "heatStep": 4.5155e-33,
+    "heatHold": 4.5155e-33,
+    "stepRatio": 1,
+    "holdRatio": 1,
+    "holdDevRel": 0
+   },
+   {
+    "book": "jupiter",
+    "div": 2,
+    "steps": 720,
+    "heatStep": 9.0371e-33,
+    "heatHold": 4.5185e-33,
+    "stepRatio": 2.0014,
+    "holdRatio": 1.0007,
+    "holdDevRel": 0.00067984
+   },
+   {
+    "book": "jupiter",
+    "div": 4,
+    "steps": 1440,
+    "heatStep": 1.808e-32,
+    "heatHold": 4.52e-33,
+    "stepRatio": 4.004,
+    "holdRatio": 1.001,
+    "holdDevRel": 0.001004
+   },
+   {
+    "book": "jupiter",
+    "div": 8,
+    "steps": 2880,
+    "heatStep": 3.6166e-32,
+    "heatHold": 4.5207e-33,
+    "stepRatio": 8.0093,
+    "holdRatio": 1.0012,
+    "holdDevRel": 0.001162
+   }
+  ],
+  "tide": [
+   {
+    "book": "venus",
+    "orbits": 2,
+    "maintainInput": 4.2261e-19,
+    "tideInput": 8.6186e-11,
+    "E": 3.1673e-11,
+    "radiated": 5.4512e-11,
+    "residualRel": 5.9985e-16,
+    "toInternal": 4.2261e-19,
+    "toLedger": 4.2443e-19,
+    "sink": [
+     "ledger",
+     "internal"
+    ],
+    "maintOverTide": 4.9035e-9,
+    "spinChangeRel": -0.80268,
+    "spinVsTideRel": 1.933e-16,
+    "tideHeat": 8.6186e-11,
+    "inputMinusHeat": 0
+   },
+   {
+    "book": "jupiter",
+    "orbits": 2,
+    "maintainInput": 0,
+    "tideInput": 0.032262,
+    "E": 0.012471,
+    "radiated": 0.01979,
+    "residualRel": 1.5056e-15,
+    "toInternal": 0,
+    "toLedger": 6.8078e-35,
+    "sink": [
+     "ledger",
+     "internal"
+    ],
+    "maintOverTide": 0,
+    "spinChangeRel": -0.32002,
+    "spinVsTideRel": 1.986e-16,
+    "tideHeat": 0.032262,
+    "inputMinusHeat": 0
+   }
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "acceptCanon": true,
+  "engineEqualsRef": true,
+  "maintainGate": true,
+  "displayGate": true,
+  "accounts": true,
+  "stepInvH": true,
+  "holdInvariant": true,
+  "gearAxisZero": true,
+  "checkpoint": true,
+  "stateContract": true,
+  "tideSink": true,
+  "copyAccounts": true,
+  "driveCompare": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.002
+  },
+  "A": {
+   "wallSec": 0.005
+  },
+  "E": {
+   "wallSec": 0.029
+  },
+  "L": {
+   "wallSec": 0.363
+  },
+  "T": {
+   "wallSec": 0.198
+  },
+  "K": {
+   "wallSec": 0.07
+  },
+  "S": {
+   "wallSec": 0.113
+  },
+  "D": {
+   "wallSec": 0.38
+  },
+  "V": {
+   "wallSec": 1.004
+  }
+ },
+ "elapsedS": 4.029,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第309便b",
+  "target": "beta/index.html",
+  "targetSha256": "78aaca726fd1c676377c8f6596e0c17a5302f8a8653271e06b338fadf244d8b6",
+  "generatedAt": "2026-10-19T01:32:14.948Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7084556,
+    "sha256": "78aaca726fd1c676377c8f6596e0c17a5302f8a8653271e06b338fadf244d8b6",
+    "mtime": "2026-10-19T01:23:15.602Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w309b-maintain.mjs",
+    "bytes": 40638,
+    "sha256": "9103d28f6bf1cabec09186bfad8e0e51b5224b2b7b794a384ff15be75552d85f",
+    "mtime": "2026-10-19T01:32:10.799Z"
+   },
+   {
+    "file": "tests/lib-w309b-maintain.mjs",
+    "bytes": 11770,
+    "sha256": "d43669ef5d988faff2daf3a2e572bbdd0f20bfe4275952aa77d9d488be4f4223",
+    "mtime": "2026-10-19T01:25:39.108Z"
+   },
+   {
+    "file": "tests/lib-w308b-hold.mjs",
+    "bytes": 14098,
+    "sha256": "93cae1dfcec4f351108e8bfb476f7b207e6855ed3c0165d626564d9a959cfbbf",
+    "mtime": "2026-10-19T01:07:24.678Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-19T01:07:24.658Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-19T01:07:24.654Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-19T01:07:24.666Z"
+   }
+  ],
+  "codeSha256": "009b6c7d27f451ec4bf76d9697553fea820fdc0d25d9c547b992251f2e98fcd7",
+  "harnessVersion": "w309b-maintain-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "帳簿が完全に閉じた",
+   "熱を説明した",
+   "τ_hold を導いた",
+   "イオの加熱を説明した",
+   "軸のコストはトルクの実際の仕事",
+   "背景の口座は遠方宇宙の物理の経路"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "chainDiskToy3dTilt",
+    "jupiterSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.inertialDrag3HoldF",
+    "HP.tideState",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_HOLD_SC",
+    "INERTIAL_DRAG3_MAINT_SC",
+    "INERTIAL_DRAG3_SC",
+    "INERTIAL_DRAG_CK_SAMPLES",
+    "REL_DRAG_AXIS_HOLD_MAINT_KEYS",
+    "REL_DRAG_AXIS_HOLD_MAINT_REACTIONS",
+    "REL_DRAG_AXIS_HOLD_MAINT_VERSION",
+    "REL_DRAG_AXIS_HOLD_MODES",
+    "SIM_BUILD_RESET",
+    "SIM_STEP_SCRATCH",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "inertialDrag3SpinState",
+    "tideInertiaOf"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1427,
+   "segments": 1294,
+   "closureShare": 0.336
+  },
+  "scopeSha256": "920c2af945d74b7b914be365b444ed07c9ccdb0d4a412e81baea11c5f8112601",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
