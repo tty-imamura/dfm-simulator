@@ -1112,6 +1112,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sunspin-w308c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第308便c: 要求される太陽の慣性自転(R1 = 等しく反対のトルクで P_pair ≤ 0・R2 = 散逸の結合の鏡映の核 A = 1)と銀河を源とする引きずり軸回転の見積もり(幾何・源の宣言の走査・分解の候補)・相互の引きずりの二重計上の参照・収縮の診断(値だけ・エンジンと宣言は変えない)' }),
   // ==== 第308便c の塊(ここまで)====
+  // ==== 第309便a の塊(ここから)====
+  // ---- 第309便a(原仮定者の裁定(第103報)「正確な引きずり(修正版)」・第104報 AN363・決断事項 AN359・AN363・統括の検証項目 R218): **新しい引きずり則と dragCore の既定の参照の器**
+  //   (段 Q〔K2・M2 と導関数 —— 閉じた式と源の球の直接の 3 次元の求積〕・P〔点のエンジンと lib〕・A〔比の平均と平均の比・次数の収束〕・E〔配置の走査と本の写しの 1 步〕・
+  //   T〔2 体と 3 体〕・B〔天体の写し —— 旧則の値は第308便a の正本 bevel-w308a.json から読む〕・D〔dragCore の既定の在位の数え上げと旧則の写しの走行〕・G〔受理・enabled:false・
+  //   チェックポイント〕)。本の宣言は変えない(写しは器の中で組む)。html と第308便a の正本を読む・1 プロセス。所要は第309便a の枝の実測(正本の elapsedS)
+  S('invsq-309a', 'node tests/exp-w309a-invsq.mjs', ['tests/out/invsq-w309a.json'], 8, { secSource: 'w309a-branch', node: true, after: ['bevel-308a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/invsq-w309a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第309便a: 新しい引きずり則(分子は源の一様球の逆二乗の体積平均 m/r²・分母はトータル〔W_bg′ + 自己の体積平均 + 他の源〕・受け手の体積の比の平均・回転は M2・軸は鏡映 × sinθ × 受け手の近遠の差分)の opt-in relativeDrag.invSq と dragCore の既定 dragCoreDefault:"cap6500km" の参照の器(独立な求積・エンジンとの一致・天体の写し・在位の数え上げ)' }),
+  // ==== 第309便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
