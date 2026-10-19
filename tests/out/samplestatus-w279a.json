@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.45-b309",
+  "betaBuild": "v1.46-b310",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T12:16:13.925Z",
+  "targetSha256": "df8478265464fe8196971be6c6f5291627e0f57583b21bd030bb1f357631d4ba",
+  "generatedAt": "2026-10-19T20:29:13.701Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -37,8 +37,8 @@
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
     "bytes": 199941,
-    "sha256": "af704f02e69a3aaeb05d15e0414c0d39b606325b97270604c557284eb4a0c6b8",
-    "mtime": "2026-10-19T12:16:13.909Z"
+    "sha256": "6e039240cf6dfb65c4a618d0fa2cebfe6dd18db0b037c564583ab99677974087",
+    "mtime": "2026-10-19T20:29:13.664Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
