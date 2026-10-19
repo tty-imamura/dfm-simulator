@@ -194,6 +194,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.pickerFilterFold ui.pickerOtherChips ui.p
 #   遠方の M1 の外部の級数で正本の数が動く docs.sphereAxial307
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
 # ==== 第308便a の塊(ここまで)====
+# ==== 第309便a の塊(ここから)====
+# 第309便a(原仮定者の裁定(第103報)・AN359・AN363・R218): 枝 a の新設 2 本(behavior.invSq309 —— 新しい引きずり則と dragCore の既定の受理・エンジンと参照・opt-in・
+#   docs.invSq309 —— 正本と文書)と、PHYSICS 全体を走査する docs.*(新しい節の数と単位が古い docs.* に当たらないか)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.invSq309 docs.invSq309 docs.mercuryUnits docs.ref3d299 preset.spaceMeshRetired300 lint.stateContract302"
+# ==== 第309便a の塊(ここまで)====
 # ==== 第308便d の塊(ここから)====
 # 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
 #   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
