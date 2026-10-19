@@ -2385,37 +2385,37 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.453
+   "wallSec": 1.649
   },
   "P": {
-   "wallSec": 0.011
+   "wallSec": 0.01
   },
   "A": {
-   "wallSec": 0.54
+   "wallSec": 0.482
   },
   "E": {
-   "wallSec": 0.421
+   "wallSec": 0.613
   },
   "T": {
-   "wallSec": 0.017
+   "wallSec": 0.06
   },
   "B": {
-   "wallSec": 0.206
+   "wallSec": 0.288
   },
   "D": {
-   "wallSec": 0.193
+   "wallSec": 0.215
   },
   "G": {
-   "wallSec": 0.094
+   "wallSec": 0.101
   }
  },
- "elapsedS": 5.045,
+ "elapsedS": 6.365,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
   "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T04:10:55.259Z",
+  "generatedAt": "2026-10-19T09:09:39.510Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2425,9 +2425,9 @@
    },
    {
     "file": "tests/out/bevel-w308a.json",
-    "bytes": 86402,
-    "sha256": "0888983d31ac9d93bbc8d603c4c29ea6ae58695c2a69a9f50bc6173e077dfd00",
-    "mtime": "2026-10-18T12:34:37.428Z"
+    "bytes": 86401,
+    "sha256": "526ee78d263201a0b75cbb249b45160a0dce876eea698a42bfd2b7524181e109",
+    "mtime": "2026-10-19T09:08:28.036Z"
    }
   ],
   "code": [
@@ -2536,7 +2536,7 @@
   "inputsStable": [
    {
     "file": "tests/out/bevel-w308a.json",
-    "stableSha256": "8e3ee19f7c3fd1c9339abc55bda6e4b4f4553ebcca85cce70ee250206ef4cf6a",
+    "stableSha256": "4697a5c557dccfa1e9fe1d7a3676df29ddf3acac8b8ca9f734be8f2b0b069782",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

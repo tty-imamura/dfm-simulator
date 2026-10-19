@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1592,46 +1592,46 @@
    "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.007
+   "wallSec": 0.006
   },
   "Z": {
-   "wallSec": 0.778
+   "wallSec": 0.738
   },
   "L": {
-   "wallSec": 0.125
+   "wallSec": 0.127
   },
   "C": {
-   "wallSec": 0.041
+   "wallSec": 0.038
   },
   "K": {
-   "wallSec": 0.061
+   "wallSec": 0.066
   },
   "H": {
-   "wallSec": 0.111
+   "wallSec": 0.133
   },
   "S": {
-   "wallSec": 0.61
+   "wallSec": 0.633
   },
   "R": {
-   "wallSec": 0.143
+   "wallSec": 0.151
   },
   "X": {
-   "wallSec": 0.112
+   "wallSec": 0.129
   }
  },
- "elapsedS": 3.912,
+ "elapsedS": 4.084,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T19:51:12.419Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T09:07:48.855Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    }
   ],
   "code": [
@@ -1709,11 +1709,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1402,
-   "segments": 1269,
-   "closureShare": 0.3325
+   "names": 1464,
+   "segments": 1314,
+   "closureShare": 0.3386
   },
-  "scopeSha256": "796d4cffc6fb4caa007cb5b6a59f9be04e27f68e2ae4ae8b1bf9c6838fd96bcf",
+  "scopeSha256": "0cccd1262e5e46f55f584b1f0778cbbadee1b76a6694a41bd68b15b42ccef140",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

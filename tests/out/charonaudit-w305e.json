@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便e",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T19:47:15.161Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T09:02:46.732Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1404,
-   "segments": 1271,
-   "closureShare": 0.3317
+   "names": 1466,
+   "segments": 1316,
+   "closureShare": 0.3378
   },
-  "scopeSha256": "37d0bf9da1506c13bbdb19dccc5229dd5b1e79028b747ff34705ca474b67e6e1",
+  "scopeSha256": "7bd9d4e96d7597f8b602b288e3d1fd17395b52be7617e6f40a0e1e9c13c58e6f",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -269,7 +269,7 @@
   "rows": [
    {
     "eps": 0.01,
-    "wallSec": 6.39,
+    "wallSec": 6.954,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -293,7 +293,7 @@
    },
    {
     "eps": 0.005,
-    "wallSec": 7.134,
+    "wallSec": 7.899,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -317,7 +317,7 @@
    },
    {
     "eps": 0.0025,
-    "wallSec": 7.297,
+    "wallSec": 7.96,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -373,7 +373,7 @@
    "M1": 551863.6598934275,
    "late": 551863.6598878212,
    "M4": 551863.6598945792,
-   "wallSec": 14.387
+   "wallSec": 15.025
   },
   "diffs": {
    "rev2MinusM1": -8.83941538631916e-7,
@@ -386,7 +386,7 @@
  "band": {
   "rows": [
    {
-    "wallSec": 6.779,
+    "wallSec": 7.284,
     "dt": 0.16,
     "steps": 2759319,
     "revN": 8,
@@ -409,7 +409,7 @@
     }
    },
    {
-    "wallSec": 13.829,
+    "wallSec": 15.199,
     "dt": 0.08,
     "steps": 5518637,
     "revN": 8,
@@ -432,7 +432,7 @@
     }
    },
    {
-    "wallSec": 27.155,
+    "wallSec": 29.355,
     "dt": 0.04,
     "steps": 11037274,
     "revN": 8,
@@ -579,5 +579,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 194.184
+ "elapsedS": 210.614
 }
