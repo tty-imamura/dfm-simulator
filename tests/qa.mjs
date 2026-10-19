@@ -82291,8 +82291,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const ai = AS.indexOf('第308便d —— ');
       if (ai < 0) bad.push('AI_SPEC に第308便d の節が無い');
       else { const as = AS.slice(ai, ai + 5000); for (const w of ['tide3ReceiverWarnings', 'spinAxis', 'radiusFloor', 'targets[].role', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
-      const iB = CL.indexOf('## v1.45-b308'), iN = CL.indexOf('\n## ', iB + 5), blk = iB >= 0 ? CL.slice(iB, iN > iB ? iN : undefined) : '';
-      if (blk.indexOf('第308便d') < 0) bad.push('CHANGELOG の b308 に第308便d の行が無い');
+      // 第309便(統括): 便の基点の版名の更新で見出しが b309 へ進む —— b307 以降の見出しの塊のどれかにあればよい(見出しの番号を固定しない —— 第308便の docs.w307e と同じ型)
+      const mB8 = /\n## v1\.45-b(\d+)/g; let blk = '';
+      for (let mm; (mm = mB8.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      if (blk.indexOf('第308便d') < 0) bad.push('CHANGELOG の b308 以降の見出しに第308便d の行が無い');
       for (const w of ['第307便a', '第307便c']) { const ln = (blk.split('\n').find((l) => l.startsWith('- **' + w)) || ''); if (ln.indexOf('第101報') < 0) bad.push('CHANGELOG の ' + w + ' の行に第101報の 1 文が無い'); }
       if (RM.indexOf('第308便d') < 0) bad.push('README に第308便d が無い');
       if (['preset.fitRole308', 'behavior.tide3Recv308', 'lint.qaEvidenceStamp308', 'docs.w308d'].some((id) => PM.indexOf(id) < 0)) bad.push('post-merge の ③′');
