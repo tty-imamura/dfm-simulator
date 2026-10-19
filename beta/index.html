@@ -8108,8 +8108,24 @@ function validateRelativeDragInvSq(a){
       if(nm!==REL_DRAG_AXIAL_NORMS[0]) return bad('axialNorm は "diff"(符号つきの近遠の差分)だけ');
       o2.axialModel="bevel"; o2.axialGain=g; o2.axialNorm=nm;
       if(sd.axisHold!==undefined && sd.axisHold!==null){ const hv=validateAxisHold(sd.axisHold); if(!hv.ok) return {ok:false, err:hv.err}; o2.axisHold=hv.axisHold; }
-    } else for(const k of ["axialModel","axialGain","axialNorm","axisHold"]) if(sd[k]!==undefined && sd[k]!==null) return bad(k+' は axial:"on" のときだけ');
+      // 第309便(統括の統合 —— 枝 a と c の和): 観測の自転の分解 initSpin も新則の本で受理する(旧則と同じ条件 —— 引きずりが働く本・軸引きずりと一緒に)。以前は正準形で黙って落ちていた
+      if(sd.initSpin!==undefined && sd.initSpin!==null){
+        if(out.enabled===false) return bad('initSpin は引きずりが働く本だけ(enabled:false では宣言しない —— 第309便c)');
+        const iv=validateInitObs(sd.initSpin,"spin");
+        if(!iv.ok) return {ok:false, err:iv.err};
+        o2.initSpin=iv.init;
+      }
+    } else for(const k of ["axialModel","axialGain","axialNorm","axisHold","initSpin"]) if(sd[k]!==undefined && sd[k]!==null) return bad(k+' は axial:"on" のときだけ');
     out.spinDrag=o2;
+  }
+  // 第309便(統括の統合 —— 枝 a と c の和): 観測の移動の分解 initMotion も新則の本で受理する(旧則と同じ約束 —— 合成則 solve・solveFrom:"velocity"〔既定〕・
+  //   引きずりが働く本。新則の行は対角の足し分 0〔分母のトータル W で割った β〕なので逆写像の分母は 1 − Σ_j β_ij)。以前は正準形で黙って落ちていた
+  if(a[REL_DRAG_INIT_MOTION_KEY]!==undefined && a[REL_DRAG_INIT_MOTION_KEY]!==null){
+    if(out.enabled===false) return {ok:false, err:'physics.relativeDrag.initMotion は引きずりが働く本だけ(enabled:false では宣言しない —— 第309便c)'};
+    if(out.solveFrom!==undefined) return {ok:false, err:'physics.relativeDrag.initMotion は solveFrom:"velocity"(既定)の本だけ(逆写像はその約束から導く —— 第309便c)'};
+    const iv=validateInitObs(a[REL_DRAG_INIT_MOTION_KEY],"motion");
+    if(!iv.ok) return {ok:false, err:iv.err};
+    out[REL_DRAG_INIT_MOTION_KEY]=iv.init;
   }
   return {ok:true, relativeDrag:out};
 }
@@ -58304,6 +58320,7 @@ function inertialDragInitObsProto(S,n){
   T._rdA=F(n*n); T._rdUX=F(n); T._rdUY=F(n); T._rdUZ=F(n); T._rdDeg=F(n); T._rdVX=F(n); T._rdVY=F(n); T._rdVZ=F(n);
   T._rdWX=F(n); T._rdWY=F(n); T._rdWZ=F(n); T._rdWS=F(n); T._rdHoldP=null;
   T._rdFix=new Uint8Array(n); T._rdSX=F(n); T._rdSY=F(n); T._rdSZ=F(n); T._rdZ0=F(n); T._rdZT=F(n); T._rdM=F(Math.max(4,n*n)); T._rdPW=null;
+  T._rdIsqBE=null; T._rdIsqRV=null; T._rdIsqOP=null; T._rdIsqSc=null; T._rdIsqRd=null; T._rdIsqMd=null; T._rdRadArr=null;   // 第309便(統括の統合): 新則の作業配列も写しが自前で持つ(inertialDragIsqPointAt と同じ)
   return T;
 }
 // 步と同じ順序で行(A・対角 DG・右辺 s = 並進〔vel を渡したときだけ〕+ 回転引きずり R)と軸引きずり ω(_rdWX/WY/WZ・_rdWS)を写し T に作る。
@@ -58313,6 +58330,12 @@ function inertialDragInitObsEval(S,n,spin,ax,ay,az,vel){
   if(spin){ T.spin=spin; T.sax=ax; T.say=ay; T.saz=az; }
   if(vel){ T.vx=vel[0]; T.vy=vel[1]; T.vz=vel[2]; }
   const hist=!!vel, C=relDragCoefficientOf(rd), eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
+  if(rd[REL_DRAG_INVSQ_KEY]){   // 第309便(統括の統合 —— 枝 a と c の和): 新則の本は步と同じ inertialDragIsqBuild(回転 M2・軸の鏡映 × sinθ × 近遠の差分を行と ω に —— 旧則の正規化・I2・殻・対は通らない)
+    const qi=inertialDragIsqBuild(T,n,hist,null,null,null,relDrag3SpinOf(rd));
+    if(qi.tooLarge) return {T:null, why:"tooLarge"};
+    if(qi.overlap) return {T:null, why:"invSqOverlap"};
+    return {T, why:null};
+  }
   const q=dfmInertialDrag3Build(T,n,hist,C,eps*eps,S._dragCoreT||null);
   if(q.coincident) return {T:null, why:"coincident"};
   if(q.tooLarge) return {T:null, why:"tooLarge"};

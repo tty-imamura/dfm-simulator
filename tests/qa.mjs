@@ -2408,7 +2408,10 @@ lastAddAt = Date.now();
       'tests/out/sphereaxial-w307a.json', 'tests/out/tide3d-w307b.json', 'tests/out/spindecomp-w307c.json',
       // 第308便(統括の統合 —— 同じ規則): 軸引きずりの鏡映の核と参照の求積(bevel-308a)・(C) 元の自転軸を維持するトルクと駆動・反作用・二重計上の表(hold-308b)・
       //   要求される太陽の慣性自転と銀河を源とする引きずり軸回転の見積もり(sunspin-308c)。どれも領域 REGEN_SCOPE を刻む(枝 d は新しい正本なし)
-      'tests/out/bevel-w308a.json', 'tests/out/hold-w308b.json', 'tests/out/sunspin-w308c.json'];
+      'tests/out/bevel-w308a.json', 'tests/out/hold-w308b.json', 'tests/out/sunspin-w308c.json',
+      // 第309便(統括の統合 —— 同じ規則): 新しい引きずり則(修正版)と dragCore の既定の参照の器(invsq-309a)・維持の型と背景の口座と内部熱(maintain-309b)・
+      //   AN357 の再確認の器(recheck-309c)。どれも領域 REGEN_SCOPE を刻む(枝 d は新しい正本なし)
+      'tests/out/invsq-w309a.json', 'tests/out/maintain-w309b.json', 'tests/out/recheck-w309c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -81037,6 +81040,33 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if ('initMotion' in vj.preset.physics.relativeDrag || (vj.preset.physics.relativeDrag.spinDrag && 'initSpin' in vj.preset.physics.relativeDrag.spinDrag)) bad.push('③ 在位の本の正準形に分解の鍵がある');
           Sj.step(H9.evalExpr('appStepDt')(Sj));
           if (Sj.inertialDragInitObs !== undefined || Sj._rdInitFirst !== undefined) bad.push('③ 宣言しない在位の本が步で分解の鍵を作った');
+          // ④ 第309便(統括の統合 —— 枝 a と c の和): 新しい引きずり則 invSq の本でも分解の鍵が正準形に残り、分解が新則の行と軸の ω で走る
+          //   (統合の前は invSq の受理器が initSpin・initMotion を黙って落としていた —— 受理されても分解しない)。維持の型(枝 b)と一緒にも走る
+          if (H9.evalExpr('typeof REL_DRAG_INVSQ_KEY') === 'string') {
+            const isqRd = (sdx, top) => Object.assign({ law: 'inertial', invSq: { Wbg2: 0, order: 8 }, pairs: 'all', spinDrag: Object.assign({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', initSpin: 'observed' }, sdx || {}) }, { initMotion: 'observed' }, top || {});
+            const outs = [];
+            for (const [nm, rdx] of [['vector', isqRd()], ['parallel', isqRd({ initSpin: { mode: 'observed', split: 'parallel' } })], ['maintain', isqRd({ axisHold: { mode: 'maintain', reaction: 'background' } })]]) {
+              const v4 = HP.validatePreset(cl(mk(rdx)));
+              if (!v4.ok) { bad.push('④ 新則 ' + nm + ' が受理されない: ' + String((v4.errors || [])[0]).slice(0, 120)); continue; }
+              const c4 = v4.preset.physics.relativeDrag;
+              if (!(c4.initMotion !== undefined && c4.spinDrag && c4.spinDrag.initSpin !== undefined)) { bad.push('④ 新則 ' + nm + ' の正準形に分解の鍵が無い'); continue; }
+              const S4 = HP.coord3d.makeSim(); S4.build(cl(v4.preset));
+              const st = H9.evalExpr('inertialDragInitObsState')(S4), n4 = S4.n, dt4 = H9.evalExpr('appStepDt')(S4);
+              if (!(st && st.ok === true && st.done === true)) { bad.push('④ 新則 ' + nm + ' で分解が走らない(' + (st && st.why) + ')'); continue; }
+              const x0 = Array.from(S4.x).slice(0, n4), y0 = Array.from(S4.y).slice(0, n4), z0 = Array.from(S4.z).slice(0, n4);
+              S4.step(dt4);
+              let dx = 0, um = 0;
+              for (let i = 0; i < n4; i++) {
+                const V = [st.obs.vx[i], st.obs.vy[i], st.obs.vz[i]], vn = Math.hypot(V[0], V[1], V[2]);
+                dx = Math.max(dx, Math.hypot((S4.x[i] - x0[i]) / dt4 - V[0], (S4.y[i] - y0[i]) / dt4 - V[1], (S4.z[i] - z0[i]) / dt4 - V[2]) / vn);
+                um = Math.max(um, Math.hypot(...st.motion.rows[i].u) / vn);
+              }
+              if (!(st.spin.residual <= 1e-12 && dx < 1e-12 && um > 1e-3 && st.motion.diffIterDirect < 1e-11 && st.motion.forwardResidual < 1e-14)) bad.push('④ 新則 ' + nm + ' の門(残り ' + st.spin.residual + '・Δx/h ' + dx + '・u ' + um + '・逆写像と不動点 ' + st.motion.diffIterDirect + ')');
+              outs.push(nm + ' 不動点 ' + st.spin.iterations + ' 回・Δx/h ' + dx.toExponential(1) + '・abs(u(0))/V ' + um.toExponential(1));
+            }
+            for (const [nm, rdx] of [['enabled:false', isqRd({}, { enabled: false })], ['solveFrom:"history"', isqRd({}, { solveFrom: 'history' })]]) if (HP.validatePreset(cl(mk(rdx))).ok) bad.push('④ 新則で ' + nm + ' の分解が受理された');
+            cases.push('④ 新則 invSq と一緒(統括の統合): ' + outs.join('・') + '・拒否 2 例');
+          }
         } catch (e) { bad.push('走らない: ' + String(e).slice(0, 160)); }
       }
       add('behavior.initObs309', bad.length === 0,

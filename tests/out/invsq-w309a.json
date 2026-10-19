@@ -3,7 +3,7 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "9289684a7c3876c9371fec021ba6e3bc6598b849418e1dafc23053fdc3d0f7f8",
+ "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
  "invSqVersion": "w309a-invsq-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -2385,49 +2385,49 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.089
+   "wallSec": 1.453
   },
   "P": {
-   "wallSec": 0.01
+   "wallSec": 0.011
   },
   "A": {
-   "wallSec": 0.46
+   "wallSec": 0.54
   },
   "E": {
-   "wallSec": 0.671
+   "wallSec": 0.421
   },
   "T": {
-   "wallSec": 0.111
+   "wallSec": 0.017
   },
   "B": {
-   "wallSec": 0.451
+   "wallSec": 0.206
   },
   "D": {
-   "wallSec": 0.223
+   "wallSec": 0.193
   },
   "G": {
-   "wallSec": 0.269
+   "wallSec": 0.094
   }
  },
- "elapsedS": 6.07,
+ "elapsedS": 5.045,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "9289684a7c3876c9371fec021ba6e3bc6598b849418e1dafc23053fdc3d0f7f8",
-  "generatedAt": "2026-10-19T02:17:24.700Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T04:10:55.259Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7102249,
-    "sha256": "9289684a7c3876c9371fec021ba6e3bc6598b849418e1dafc23053fdc3d0f7f8",
-    "mtime": "2026-10-19T01:53:15.975Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    },
    {
     "file": "tests/out/bevel-w308a.json",
     "bytes": 86402,
     "sha256": "0888983d31ac9d93bbc8d603c4c29ea6ae58695c2a69a9f50bc6173e077dfd00",
-    "mtime": "2026-10-19T01:07:21.914Z"
+    "mtime": "2026-10-18T12:34:37.428Z"
    }
   ],
   "code": [
@@ -2435,49 +2435,49 @@
     "file": "tests/exp-w309a-invsq.mjs",
     "bytes": 39600,
     "sha256": "33996b632d73fb5f7ba9de1b4f67d9e77d683baabbad155d2c9fdde4e27567cf",
-    "mtime": "2026-10-19T02:17:18.139Z"
+    "mtime": "2026-10-19T03:47:59.587Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-10-19T01:29:48.003Z"
+    "mtime": "2026-10-19T03:47:59.591Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-10-19T01:07:21.866Z"
+    "mtime": "2026-10-17T21:20:30.822Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 37764,
     "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-19T01:07:21.682Z"
+    "mtime": "2026-10-17T22:20:39.668Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
     "bytes": 21642,
     "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
-    "mtime": "2026-10-19T01:07:21.866Z"
+    "mtime": "2026-10-17T22:20:39.671Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-19T01:07:21.750Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-19T01:07:21.746Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-19T01:07:21.754Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
   "codeSha256": "776cdb4f6cc7734ede7a0bcf277e39d880e921d83905b2bb1c35f157f24c76c3",
@@ -2527,11 +2527,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1430,
-   "segments": 1288,
-   "closureShare": 0.3351
+   "names": 1463,
+   "segments": 1313,
+   "closureShare": 0.3384
   },
-  "scopeSha256": "0e65b653dd143b5a8f602e8818691f43942c7087b8b4f671a9a5633fff846d0d",
+  "scopeSha256": "a0c991b51b2a1422723f5a58a479909c4a7b3a282521ef396a7c5515350ac85d",
   "scopeComplete": true,
   "inputsStable": [
    {
