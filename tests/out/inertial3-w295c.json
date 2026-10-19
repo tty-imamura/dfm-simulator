@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-  "generatedAt": "2026-10-18T18:32:46.387Z",
+  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+  "generatedAt": "2026-10-19T07:43:29.999Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7066509,
-    "sha256": "3f6dc3acbc1f20142aabd7d86134cb20e5ce5c66a0fdeb1b622d633ee9c9ce54",
-    "mtime": "2026-10-18T12:23:59.812Z"
+    "bytes": 7152406,
+    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+    "mtime": "2026-10-19T04:03:56.319Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538307,
-    "sha256": "d41ed5b0b2aee883693432c23cd784f75786c3ee4a574b54b80f582f2d2b62d8",
-    "mtime": "2026-10-18T18:22:51.540Z"
+    "bytes": 538336,
+    "sha256": "e655a864bd76e7f06bd91ebdd9d2acfd96c8506779d885c94597f061c9bde56f",
+    "mtime": "2026-10-19T07:33:35.296Z"
    }
   ],
   "code": [
@@ -114,16 +114,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1409,
-   "segments": 1276,
-   "closureShare": 0.3349
+   "names": 1473,
+   "segments": 1323,
+   "closureShare": 0.3418
   },
-  "scopeSha256": "074c36146a5b2eb4adc52f94b4a67e2af38d95ba33070231513e6e68803f776b",
+  "scopeSha256": "e4a781661d802bca8cec7962a97bd8aef8323f4e5eb1831d214ac3842cf62187",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "0f415ba8cfb960c2c55e8bf6c97bab98ca93916f165287dea40f84d99317eb69",
+    "stableSha256": "4260f2d7a5021b0084c389fbb750da46bcd2186314a9339ef8e8e3c378ef8815",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1963,49 +1963,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 15.099
+   "wallSec": 15.23
   },
   "em-A1-0.008": {
-   "wallSec": 16.224
+   "wallSec": 16.626
   },
   "em-A2-0.008": {
-   "wallSec": 17.284
+   "wallSec": 17.396
   },
   "em-A1-0.016": {
-   "wallSec": 8.011
-  },
-  "em-A2-0.016": {
-   "wallSec": 8.303
+   "wallSec": 9.696
   },
   "em-G0-0.016": {
-   "wallSec": 7.304
+   "wallSec": 8.46
+  },
+  "em-A2-0.016": {
+   "wallSec": 9.662
   },
   "mer-gain0-h2": {
-   "wallSec": 2.63
-  },
-  "mer-gain0-h": {
-   "wallSec": 2.83
+   "wallSec": 2.921
   },
   "mer-gain-h2": {
-   "wallSec": 2.875
+   "wallSec": 2.829
+  },
+  "mer-gain0-h": {
+   "wallSec": 2.819
   },
   "mer-gain-h": {
-   "wallSec": 2.934
+   "wallSec": 2.967
   },
   "plu-gain-h2": {
-   "wallSec": 26.288
+   "wallSec": 25.489
   },
   "plu-gain0-h2": {
-   "wallSec": 27.898
+   "wallSec": 26.905
   },
   "plu-gain0-h": {
-   "wallSec": 27.817
+   "wallSec": 26.922
   },
   "plu-gain-h": {
-   "wallSec": 25.358
+   "wallSec": 25.682
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 80.81
+ "elapsedS": 82.157
 }
