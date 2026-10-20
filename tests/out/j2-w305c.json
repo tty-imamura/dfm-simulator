@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便c",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T08:17:50.927Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T08:09:00.417Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    },
    {
     "file": "tests/data-w305c-decl304.json",
@@ -156,11 +156,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1499,
-   "segments": 1349,
-   "closureShare": 0.3449
+   "names": 1509,
+   "segments": 1358,
+   "closureShare": 0.3464
   },
-  "scopeSha256": "2b877e18299a3a5c23c29468539e61c1fd97d1a90b7a6be0542e729b9d32d951",
+  "scopeSha256": "480b2e37c62b271c8706fc59eed8f6b50713ed0e63800c0490b656f55f537b55",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -351,7 +351,7 @@
    "ok": true
   },
   "ok": true,
-  "wallSec": 1.896
+  "wallSec": 2.183
  },
  "analytic": {
   "note": "試験粒子(質量比 1e-6・中心 pinned)・J₂ 0.01・R 0.1・a 1(J₂(R/a)² = 1e-4)・400 公転・接触要素 25 步ごと。J₂ の分 = J₂ あり − J₂ なし(同じ刻み —— 積分器の近点の偽の回転を引く)。解析は一次の永年の式に走行の平均の a・e・i を入れた",
@@ -618,7 +618,7 @@
   ],
   "ok": true,
   "maxRel": 0.0003079275952162508,
-  "wallSec": 49.822
+  "wallSec": 57.295
  },
  "em": {
   "note": "🌦️ の写し: J₂ なし(本の宣言から j2 を外した写し)と J₂ あり(地球に EARTH_J2)・長窓 [0,1062] の M4・恒星月(調和)・交点・近点月。参照積分は器の中の速度 Verlet(EM.refRun)",
@@ -1159,7 +1159,7 @@
     "uMax": 0.0000036319267904653293
    }
   },
-  "wallSec": 729.217,
+  "wallSec": 724.508,
   "allWithin": true
  },
  "emo": {
@@ -1203,7 +1203,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 22.49
+    "wallSec": 22.714
    },
    "j2h2": {
     "key": "j2-h2",
@@ -1225,7 +1225,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 15.794
+    "wallSec": 16.444
    },
    "noJ2": {
     "key": "noJ2-h",
@@ -1256,7 +1256,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 22.712
+    "wallSec": 24.156
    }
   },
   "j2Effect": {
@@ -1269,7 +1269,7 @@
    "synUniform": 0.000003839755343904017
   },
   "t1Note": "近点の 118 公転窓の傾きは数値の誤差か J₂ の遅い回転(解析で 10⁵ 年の桁)で、118 窓では周期として読めない —— 観測カードへ転記しない(第305便c の契約)",
-  "wallSec": 60.999
+  "wallSec": 63.317
  },
  "record": {
   "record": {
@@ -1467,5 +1467,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 842.162
+ "elapsedS": 847.555
 }

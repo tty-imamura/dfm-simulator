@@ -3,9 +3,9 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+ "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
- "invSqVersion": "w309a-invsq-1",
+ "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
  "capVersion": "w309a-cap6500km-1",
  "quick": false,
@@ -1157,7 +1157,8 @@
     "beta": 4.083578077e-15,
     "ratioOfMeansMinus1": -0.03040347085,
     "centerMinus1": -0.2728023936,
-    "engVsLib": 3.863576944e-16
+    "engVsLib": 3.863576944e-16,
+    "engVsLibRaw": 3.863576944e-16
    },
    {
     "config": "SV",
@@ -1166,7 +1167,8 @@
     "beta": 0.0005900645139,
     "ratioOfMeansMinus1": -0.03036747703,
     "centerMinus1": -0.2726713637,
-    "engVsLib": 1.837429886e-16
+    "engVsLib": 1.469943909e-15,
+    "engVsLibRaw": 1.120832231e-14
    },
    {
     "config": "SJ",
@@ -1175,7 +1177,8 @@
     "beta": 3.347579998e-14,
     "ratioOfMeansMinus1": -0.0304034708,
     "centerMinus1": -0.272802393,
-    "engVsLib": 1.131125275e-15
+    "engVsLib": 9.426043956e-16,
+    "engVsLibRaw": 5.655626374e-16
    },
    {
     "config": "SJ",
@@ -1184,7 +1187,8 @@
     "beta": 3.674427834e-8,
     "ratioOfMeansMinus1": -0.03040346856,
     "centerMinus1": -0.2728023849,
-    "engVsLib": 1.080567402e-15
+    "engVsLib": 9.004728354e-16,
+    "engVsLibRaw": 1.586633136e-13
    },
    {
     "config": "JIo",
@@ -1193,7 +1197,8 @@
     "beta": 5.164016767e-9,
     "ratioOfMeansMinus1": -0.03040695569,
     "centerMinus1": -0.2728398311,
-    "engVsLib": 3.203632559e-16
+    "engVsLib": 9.610897678e-16,
+    "engVsLibRaw": 1.574585403e-13
    },
    {
     "config": "JIo",
@@ -1202,7 +1207,8 @@
     "beta": 0.1541930242,
     "ratioOfMeansMinus1": -0.02170935822,
     "centerMinus1": -0.2375304754,
-    "engVsLib": 1.620048519e-15
+    "engVsLib": 3.60010782e-16,
+    "engVsLibRaw": 2.861725706e-12
    },
    {
     "config": "SJIo",
@@ -1211,7 +1217,8 @@
     "beta": 3.347579998e-14,
     "ratioOfMeansMinus1": -0.0304034708,
     "centerMinus1": -0.272802393,
-    "engVsLib": 1.131125275e-15
+    "engVsLib": 9.426043956e-16,
+    "engVsLibRaw": 5.655626374e-16
    },
    {
     "config": "SJIo",
@@ -1220,7 +1227,8 @@
     "beta": 1.576800181e-18,
     "ratioOfMeansMinus1": -0.0304034708,
     "centerMinus1": -0.272802393,
-    "engVsLib": 1.221416618e-16
+    "engVsLib": 8.549916328e-16,
+    "engVsLibRaw": 3.664249855e-16
    },
    {
     "config": "SJIo",
@@ -1229,7 +1237,8 @@
     "beta": 3.674427815e-8,
     "ratioOfMeansMinus1": -0.03040346824,
     "centerMinus1": -0.2728023837,
-    "engVsLib": 7.203782721e-16
+    "engVsLib": 7.203782721e-16,
+    "engVsLibRaw": 1.590235036e-13
    },
    {
     "config": "SJIo",
@@ -1238,7 +1247,8 @@
     "beta": 5.164016571e-9,
     "ratioOfMeansMinus1": -0.03040695345,
     "centerMinus1": -0.2728398229,
-    "engVsLib": 4.805449022e-16
+    "engVsLib": 2.723087779e-15,
+    "engVsLibRaw": 1.590603626e-13
    },
    {
     "config": "SJIo",
@@ -1247,7 +1257,8 @@
     "beta": 0.00005167639143,
     "ratioOfMeansMinus1": -0.02170948958,
     "centerMinus1": -0.2375192058,
-    "engVsLib": 2.49144734e-15
+    "engVsLib": 6.556440369e-16,
+    "engVsLibRaw": 2.861492835e-12
    },
    {
     "config": "SJIo",
@@ -1256,69 +1267,70 @@
     "beta": 0.1541848745,
     "ratioOfMeansMinus1": -0.02170710836,
     "centerMinus1": -0.2375202182,
-    "engVsLib": 3.420283206e-15
+    "engVsLib": 9.000745278e-16,
+    "engVsLibRaw": 2.85899673e-12
    }
   ],
   "conv": [
    {
     "order": 4,
     "recv": "Jupiter",
-    "betaSum": 0.0004447266114,
-    "omega": 0.0002910073657
+    "betaSum": 0.0004447266132,
+    "omega": 0.0002910073736
    },
    {
     "order": 4,
     "recv": "Io",
-    "betaSum": 0.0002628971275,
-    "omega": 0.0000504935346
+    "betaSum": 0.000262897127,
+    "omega": 0.00005049351441
    },
    {
     "order": 6,
     "recv": "Jupiter",
-    "betaSum": 0.000001885232982,
-    "omega": 0.0002276842836
+    "betaSum": 0.00000188523467,
+    "omega": 0.000227684274
    },
    {
     "order": 6,
     "recv": "Io",
-    "betaSum": 0.00000242030525,
-    "omega": 0.00003558887725
+    "betaSum": 0.00000242030399,
+    "omega": 0.00003558885731
    },
    {
     "order": 8,
     "recv": "Jupiter",
-    "betaSum": 5.968225649e-7,
-    "omega": 0.00007915021532
+    "betaSum": 5.96822875e-7,
+    "omega": 0.00007915020956
    },
    {
     "order": 8,
     "recv": "Io",
-    "betaSum": 4.468446655e-7,
-    "omega": 0.00001165734002
+    "betaSum": 4.468479682e-7,
+    "omega": 0.00001165732656
    },
    {
     "order": 12,
     "recv": "Jupiter",
-    "betaSum": 2.682555046e-8,
-    "omega": 0.00001616740874
+    "betaSum": 2.682594459e-8,
+    "omega": 0.00001616739723
    },
    {
     "order": 12,
     "recv": "Io",
-    "betaSum": 1.994846925e-8,
-    "omega": 0.000002364927677
+    "betaSum": 1.994762508e-8,
+    "omega": 0.00000236492927
    },
    {
     "order": 16,
     "recv": "Jupiter",
-    "betaSum": 2.780927633e-9,
-    "omega": 0.000004541860913
+    "betaSum": 2.780561298e-9,
+    "omega": 0.000004541860015
    },
    {
     "order": 16,
     "recv": "Io",
-    "betaSum": 2.060748552e-9,
-    "omega": 6.621953294e-7
+    "betaSum": 2.062688462e-9,
+    "omega": 6.621903227e-7
    },
    {
     "order": 24,
@@ -1333,7 +1345,7 @@
     "omega": 0
    }
   ],
-  "maxEngVsLib": 3.420283206e-15
+  "maxEngVsLib": 2.723087779e-15
  },
  "E": {
   "rows": [
@@ -1343,9 +1355,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 7.263621593e-16,
-    "rot": 1.167595405e-15,
-    "omega": 1.267153917e-15,
+    "beta": 5.447716195e-16,
+    "rot": 1.163569202e-15,
+    "omega": 1.486804832e-15,
     "negFrac": 0.3600473833
    },
    {
@@ -1355,8 +1367,8 @@
     "Wbg2": 0.05,
     "pairs": false,
     "beta": 1.167688429e-15,
-    "rot": 2.444872343e-15,
-    "omega": 7.175615751e-15,
+    "rot": 2.44866157e-15,
+    "omega": 1.050010029e-14,
     "negFrac": 0.3547572783
    },
    {
@@ -1365,9 +1377,9 @@
     "order": 10,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.946809344e-15,
-    "rot": 2.234710474e-15,
-    "omega": 2.194688804e-15,
+    "beta": 2.109043456e-15,
+    "rot": 2.239777666e-15,
+    "omega": 4.169719093e-15,
     "negFrac": 0.4184748819
    },
    {
@@ -1376,9 +1388,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 4.094414265e-16,
-    "rot": 1.61839637e-15,
-    "omega": 2.243935388e-15,
+    "beta": 6.141621398e-16,
+    "rot": 1.605287012e-15,
+    "omega": 1.940092594e-15,
     "negFrac": 0.3643851265
    },
    {
@@ -1388,8 +1400,8 @@
     "Wbg2": 0.05,
     "pairs": false,
     "beta": 1.137889192e-15,
-    "rot": 1.859381187e-15,
-    "omega": 7.20681482e-16,
+    "rot": 1.992326335e-15,
+    "omega": 1.245238179e-15,
     "negFrac": 0.2842865801
    },
    {
@@ -1398,9 +1410,9 @@
     "order": 10,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 3.04035283e-15,
-    "rot": 2.763742736e-15,
-    "omega": 2.023078572e-15,
+    "beta": 3.304731337e-15,
+    "rot": 2.772368863e-15,
+    "omega": 1.758496284e-15,
     "negFrac": 0.4252885625
    },
    {
@@ -1409,9 +1421,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 7.353414823e-16,
-    "rot": 8.334723066e-16,
-    "omega": 1.319600278e-15,
+    "beta": 5.515061118e-16,
+    "rot": 8.263383183e-16,
+    "omega": 1.616686662e-15,
     "negFrac": 0.4004138969
    },
    {
@@ -1420,9 +1432,9 @@
     "order": 8,
     "Wbg2": 0.05,
     "pairs": false,
-    "beta": 3.663304009e-15,
-    "rot": 1.445555649e-15,
-    "omega": 2.391155346e-15,
+    "beta": 3.856109483e-15,
+    "rot": 1.407064725e-15,
+    "omega": 2.029952365e-15,
     "negFrac": 0.3710586739
    },
    {
@@ -1432,8 +1444,8 @@
     "Wbg2": 0,
     "pairs": false,
     "beta": 1.964638953e-15,
-    "rot": 2.98278773e-15,
-    "omega": 2.904332576e-15,
+    "rot": 2.826233506e-15,
+    "omega": 3.257761887e-15,
     "negFrac": 0.3040260324
    },
    {
@@ -1442,9 +1454,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": true,
-    "beta": 8.463334177e-16,
-    "rot": 1.260806169e-15,
-    "omega": 4.553303881e-15,
+    "beta": 1.128444557e-15,
+    "rot": 1.292332666e-15,
+    "omega": 8.092700624e-15,
     "negFrac": 0.3753663277
    },
    {
@@ -1453,9 +1465,9 @@
     "order": 8,
     "Wbg2": 0.05,
     "pairs": false,
-    "beta": 9.578029158e-16,
+    "beta": 1.094631904e-15,
     "rot": 1.444554709e-15,
-    "omega": 1.558837285e-15,
+    "omega": 3.201652484e-15,
     "negFrac": 0.3817669399
    },
    {
@@ -1464,9 +1476,9 @@
     "order": 10,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 2.726510548e-15,
-    "rot": 2.946324285e-15,
-    "omega": 3.10397159e-15,
+    "beta": 2.607966611e-15,
+    "rot": 3.034662135e-15,
+    "omega": 3.058903757e-15,
     "negFrac": 0.3274590512
    },
    {
@@ -1475,9 +1487,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.055939199e-15,
-    "rot": 7.004054059e-16,
-    "omega": 2.241174901e-15,
+    "beta": 9.551051573e-16,
+    "rot": 5.650295264e-16,
+    "omega": 6.682806447e-15,
     "negFrac": 0.457261857
    },
    {
@@ -1486,9 +1498,9 @@
     "order": 8,
     "Wbg2": 0.05,
     "pairs": false,
-    "beta": 2.329018954e-15,
-    "rot": 3.878510213e-15,
-    "omega": 4.006018896e-15,
+    "beta": 2.574178844e-15,
+    "rot": 3.783466594e-15,
+    "omega": 5.195662681e-15,
     "negFrac": 0.4077532727
    },
    {
@@ -1498,8 +1510,8 @@
     "Wbg2": 0,
     "pairs": false,
     "beta": 4.460661857e-15,
-    "rot": 2.322528026e-15,
-    "omega": 1.917667654e-15,
+    "rot": 2.323640082e-15,
+    "omega": 2.537845075e-15,
     "negFrac": 0.3900417845
    },
    {
@@ -1508,9 +1520,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.539737553e-15,
-    "rot": 9.593966378e-16,
-    "omega": 1.664811542e-15,
+    "beta": 1.40562646e-15,
+    "rot": 1.004178784e-15,
+    "omega": 2.225401835e-15,
     "negFrac": 0.3509205399
    },
    {
@@ -1521,7 +1533,7 @@
     "pairs": false,
     "beta": 5.731503801e-16,
     "rot": 1.937233351e-15,
-    "omega": 9.262040724e-16,
+    "omega": 1.625326439e-15,
     "negFrac": 0.3471383488
    },
    {
@@ -1531,8 +1543,8 @@
     "Wbg2": 0,
     "pairs": false,
     "beta": 3.991446496e-15,
-    "rot": 4.114130084e-15,
-    "omega": 3.829980114e-15,
+    "rot": 4.147913603e-15,
+    "omega": 7.665339596e-15,
     "negFrac": 0.393751444
    },
    {
@@ -1541,9 +1553,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.180320496e-15,
+    "beta": 1.55655576e-15,
     "rot": 8.581173014e-16,
-    "omega": 2.780371308e-15,
+    "omega": 1.324038287e-14,
     "negFrac": 0.4025055081
    },
    {
@@ -1553,8 +1565,8 @@
     "Wbg2": 0.05,
     "pairs": true,
     "beta": 1.711473418e-15,
-    "rot": 2.643507758e-15,
-    "omega": 2.277389165e-15,
+    "rot": 2.529665722e-15,
+    "omega": 2.121101374e-15,
     "negFrac": 0.36809046
    },
    {
@@ -1563,9 +1575,9 @@
     "order": 10,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 2.041383772e-15,
-    "rot": 1.279204562e-15,
-    "omega": 1.010163772e-15,
+    "beta": 1.927973562e-15,
+    "rot": 1.167533583e-15,
+    "omega": 2.506202861e-15,
     "negFrac": 0.4543760353
    },
    {
@@ -1574,9 +1586,9 @@
     "order": 6,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.483096368e-15,
-    "rot": 7.703831007e-16,
-    "omega": 1.270338978e-15,
+    "beta": 1.059354548e-15,
+    "rot": 1.037301264e-15,
+    "omega": 1.553898478e-14,
     "negFrac": 0.3978356507
    },
    {
@@ -1587,7 +1599,7 @@
     "pairs": false,
     "beta": 3.530275289e-15,
     "rot": 7.940663463e-16,
-    "omega": 2.885701614e-15,
+    "omega": 2.248616704e-15,
     "negFrac": 0.2142969335
    },
    {
@@ -1596,9 +1608,9 @@
     "order": 10,
     "Wbg2": 0,
     "pairs": false,
-    "beta": 1.587294285e-15,
-    "rot": 3.208586322e-15,
-    "omega": 2.678887725e-15,
+    "beta": 1.410928254e-15,
+    "rot": 3.122204646e-15,
+    "omega": 3.041050636e-15,
     "negFrac": 0.312622986
    }
   ],
@@ -1606,12 +1618,12 @@
    "book": "jupiterSunInertial3d",
    "steps": 3,
    "uRel": [
-    5.858220666e-16,
-    1.865457819e-16
+    1.952740222e-16,
+    1.394859724e-13
    ],
    "omegaRel": [
-    8.589458579e-12,
-    3.800417969e-13
+    1.818495481e-13,
+    3.026887797e-12
    ],
    "uOverV": [
     3.508195823e-11,
@@ -1625,8 +1637,8 @@
    }
   },
   "maxBeta": 4.460661857e-15,
-  "maxRot": 4.114130084e-15,
-  "maxOmega": 7.175615751e-15
+  "maxRot": 4.147913603e-15,
+  "maxOmega": 1.553898478e-14
  },
  "T": {
   "jupiterFromSun2": 3.674427834e-8,
@@ -1865,7 +1877,7 @@
     "negMax": 0.5,
     "rotADr": [
      5.450850235e-24,
-     -8.802173353e-12
+     -8.80217334e-12
     ],
     "why": null
    },
@@ -1878,7 +1890,7 @@
      3.636894231e-8
     ],
     "omegaDrag": [
-     6.077246971e-23,
+     6.07724697e-23,
      1.102482235e-18
     ],
     "betaMax": 3.674428059e-8,
@@ -2243,35 +2255,35 @@
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order だけ —— 第309便a)"
+    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order・outerShell だけ —— 第309便a・第310便a)"
    },
    {
     "name": "次数 1",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 以上 —— 新しい単位 [M/L²]・既定 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>}(第309便a)"
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源(第"
    },
    {
     "name": "次数 25",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 以上 —— 新しい単位 [M/L²]・既定 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>}(第309便a)"
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源(第"
    },
    {
     "name": "Wbg2 負",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.Wbg2(背景の慣性決定力 —— 新しい単位 [M/L²]・共通の係数 1。旧 Wbg [M/L³] の値を移さない)は 0 以上の有限数(既定 0 = 参照条件 —— 第309便a)"
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
    },
    {
     "name": "Wbg2 正",
-    "ok": true,
-    "expectOk": true,
+    "ok": false,
+    "expectOk": false,
     "pass": true,
-    "err": null
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
    },
    {
     "name": "sphere の核",
@@ -2385,57 +2397,57 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.649
+   "wallSec": 2.376
   },
   "P": {
-   "wallSec": 0.01
+   "wallSec": 0.018
   },
   "A": {
-   "wallSec": 0.482
+   "wallSec": 0.591
   },
   "E": {
-   "wallSec": 0.613
+   "wallSec": 0.75
   },
   "T": {
-   "wallSec": 0.06
+   "wallSec": 0.039
   },
   "B": {
-   "wallSec": 0.288
+   "wallSec": 0.305
   },
   "D": {
-   "wallSec": 0.215
+   "wallSec": 0.329
   },
   "G": {
-   "wallSec": 0.101
+   "wallSec": 0.095
   }
  },
- "elapsedS": 6.365,
+ "elapsedS": 7.135,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T09:09:39.510Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T09:03:13.711Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    },
    {
     "file": "tests/out/bevel-w308a.json",
     "bytes": 86401,
-    "sha256": "526ee78d263201a0b75cbb249b45160a0dce876eea698a42bfd2b7524181e109",
-    "mtime": "2026-10-19T09:08:28.036Z"
+    "sha256": "c76a4c34b33e8926ec180dc2d5fdeae704304705067099832579afaaa4d23917",
+    "mtime": "2026-10-20T09:02:01.656Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w309a-invsq.mjs",
-    "bytes": 39600,
-    "sha256": "33996b632d73fb5f7ba9de1b4f67d9e77d683baabbad155d2c9fdde4e27567cf",
-    "mtime": "2026-10-19T03:47:59.587Z"
+    "bytes": 40437,
+    "sha256": "ac20c432b2916305a50a2c0e78d50576d6a0f83afe45374f454881e0c26481e7",
+    "mtime": "2026-10-20T03:02:01.091Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
@@ -2480,7 +2492,7 @@
     "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "776cdb4f6cc7734ede7a0bcf277e39d880e921d83905b2bb1c35f157f24c76c3",
+  "codeSha256": "3f19064c14d6bf8eae3234d26016ca5667d42ca7d94969039f40da9a6b1c0716",
   "harnessVersion": "w309a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2527,16 +2539,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1463,
-   "segments": 1313,
-   "closureShare": 0.3384
+   "names": 1470,
+   "segments": 1319,
+   "closureShare": 0.3399
   },
-  "scopeSha256": "a0c991b51b2a1422723f5a58a479909c4a7b3a282521ef396a7c5515350ac85d",
+  "scopeSha256": "dad43cc29ea715f1df385de90ee878a1e6eb2780255f022a776dfdbc2b645e19",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bevel-w308a.json",
-    "stableSha256": "4697a5c557dccfa1e9fe1d7a3676df29ddf3acac8b8ca9f734be8f2b0b069782",
+    "stableSha256": "d870fb4391d47ad513f560a50bf4d8665980c8492d9257cc9102ff093249c9e5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

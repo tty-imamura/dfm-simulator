@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便c",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T07:06:18.945Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T06:57:53.872Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    }
   ],
   "code": [
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1452,
-   "segments": 1302,
-   "closureShare": 0.3364
+   "names": 1459,
+   "segments": 1308,
+   "closureShare": 0.3375
   },
-  "scopeSha256": "e85a8e0ed018210b2cf7e788c0e6856a1a10298c82c7343989410f6d20455201",
+  "scopeSha256": "feccf2b762931504579713d5c2dca7dca8e89dc31c17051eb553ff0bcab74882",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -9098,7 +9098,7 @@
      "desc": 16,
      "physics": []
     },
-    "wallSec": 6.9750000000000005,
+    "wallSec": 6.728,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9169,7 +9169,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.201,
+    "wallSec": 0.133,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9240,7 +9240,7 @@
      "desc": 2,
      "physics": []
     },
-    "wallSec": 14.265,
+    "wallSec": 15.269000000000002,
     "cls": "B",
     "why": "8 量が動いた",
     "removable": false,
@@ -9310,7 +9310,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.022,
+    "wallSec": 0.025,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9380,7 +9380,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.763,
+    "wallSec": 0.838,
     "cls": "A",
     "why": "差 0・能動の鍵なし",
     "removable": false,
@@ -9452,7 +9452,7 @@
       "physics.coupleSink:\"core\""
      ]
     },
-    "wallSec": 0.093,
+    "wallSec": 0.069,
     "cls": "C",
     "why": "差 0・軸の鍵(tilt)",
     "removable": false,
@@ -9526,7 +9526,7 @@
      "desc": 90,
      "physics": []
     },
-    "wallSec": 1.4789999999999999,
+    "wallSec": 1.601,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9598,7 +9598,7 @@
      "desc": 80,
      "physics": []
     },
-    "wallSec": 0.156,
+    "wallSec": 0.196,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9672,7 +9672,7 @@
      "desc": 89,
      "physics": []
     },
-    "wallSec": 0.215,
+    "wallSec": 0.157,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9744,7 +9744,7 @@
      "desc": 38,
      "physics": []
     },
-    "wallSec": 0.159,
+    "wallSec": 0.166,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数が動いた",
     "removable": false,
@@ -9818,7 +9818,7 @@
      "desc": 29,
      "physics": []
     },
-    "wallSec": 0.511,
+    "wallSec": 0.5589999999999999,
     "cls": "B",
     "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
     "removable": false,
@@ -9884,7 +9884,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.158
+    "wallSec": 0.11199999999999999
    }
   ]
  },
@@ -9925,7 +9925,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.175
+    "wallSec": 0.22699999999999998
    },
    {
     "id": "earthMoonOnly3d",
@@ -9962,7 +9962,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.064
+    "wallSec": 0.059
    },
    {
     "id": "plutoCharonInertialFit",
@@ -9999,7 +9999,7 @@
       "lSw": 0
      }
     },
-    "wallSec": 0.16399999999999998
+    "wallSec": 0.178
    }
   ]
  },
@@ -10127,5 +10127,5 @@
   "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
  },
  "ok": true,
- "elapsedS": 26.296
+ "elapsedS": 27.349
 }

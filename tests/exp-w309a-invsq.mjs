@@ -140,11 +140,14 @@ function partA(H, cfgs, quick) {
     const bs = planetBodies(C), lb = libBodies(bs), S = engineState(bs, { rot: true, axial: true, order: 8 }), st = state(S);
     for (let i = 0; i < bs.length; i++) {
       const R = L.refReceiver(lb, i, { order: 8, axial: true }), P0 = L.pointTerms(lb, i, bs[i].x, {});
+      // 第310便a(§2 —— 自己の場の前計算): エンジンの自己の場は節点の動径 t そのもの(桁落ちなし)。lib は節点 − 中心の差の長さで作るので、中心の座標が大きい天体
+      //   (SI の太陽系の写し)では lib の側に |x_i|·2⁻⁵³/(t R) の桁落ちが残る —— 照合は受け手を原点に置いた lib(並進で同じ式)と取る(Raw は今の座標の lib との差)
+      const Rc = L.refReceiver(lb.map((b) => ({ ...b, x: sub(b.x, lb[i].x) })), i, { order: 8, axial: true });
       for (let j = 0; j < bs.length; j++) {
         if (j === i) continue;
-        const c0 = P0.terms.find((x) => x.j === j).beta;
+        const c0 = P0.terms.find((x) => x.j === j).beta, eb = st.receivers.find((x) => x.i === i).beta[j];
         rows.push({ config: C.key, recv: bs[i].label, src: bs[j].label, beta: r6(R.beta[j]), ratioOfMeansMinus1: r6(R.betaRatioOfMeans[j] / R.beta[j] - 1), centerMinus1: r6(c0 / R.beta[j] - 1),
-          engVsLib: r6(rel(st.receivers.find((x) => x.i === i).beta[j], R.beta[j])) });
+          engVsLib: r6(rel(eb, Rc.beta[j])), engVsLibRaw: r6(rel(eb, R.beta[j])) });
       }
     }
   }
@@ -321,7 +324,8 @@ function partG(H) {
   tryV('次数 1', (q) => { q.physics.relativeDrag.invSq.order = 1; }, false);
   tryV('次数 25', (q) => { q.physics.relativeDrag.invSq.order = 25; }, false);
   tryV('Wbg2 負', (q) => { q.physics.relativeDrag.invSq.Wbg2 = -1; }, false);
-  tryV('Wbg2 正', (q) => { q.physics.relativeDrag.invSq.Wbg2 = 3; }, true);
+  // 第310便a(AN378): 版 w310a-invsq-wbg0-1 から Wbg2 は 0 だけ —— 正は版 w309a-invsq-1 の html でだけ受理(正本の中身の invSqVersion で世代が分かる)
+  tryV('Wbg2 正', (q) => { q.physics.relativeDrag.invSq.Wbg2 = 3; }, E(H, 'REL_DRAG_INVSQ_VERSION') === 'w309a-invsq-1');
   tryV('sphere の核', (q) => { q.physics.relativeDrag.spinDrag.axialModel = 'sphere'; }, false);
   tryV('速さの型', (q) => { q.physics.relativeDrag.spinDrag.axialNorm = 'speed'; }, false);
   tryV('rigid の步', (q) => { q.physics.relativeDrag.spinDrag.rotStep = 'rigid'; }, false);

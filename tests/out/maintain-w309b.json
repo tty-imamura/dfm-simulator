@@ -3,7 +3,7 @@
  "libVersion": "w309b-maintain-lib-1",
  "generator": "tests/exp-w309b-maintain.mjs",
  "target": "beta/index.html",
- "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+ "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
  "ruling": "原仮定者の裁定(第103報)AN356・AN358・(第104報)AN362・統括の検証項目 R219",
  "maintainVersion": "w309b-maintain-1",
  "quick": false,
@@ -1132,46 +1132,46 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.003
+   "wallSec": 0.002
   },
   "A": {
-   "wallSec": 0.008
+   "wallSec": 0.006
   },
   "E": {
-   "wallSec": 0.034
+   "wallSec": 0.03
   },
   "L": {
-   "wallSec": 0.208
+   "wallSec": 0.331
   },
   "T": {
-   "wallSec": 0.17
+   "wallSec": 0.185
   },
   "K": {
-   "wallSec": 0.047
+   "wallSec": 0.051
   },
   "S": {
-   "wallSec": 0.088
+   "wallSec": 0.124
   },
   "D": {
-   "wallSec": 0.151
+   "wallSec": 0.316
   },
   "V": {
-   "wallSec": 0.79
+   "wallSec": 1.256
   }
  },
- "elapsedS": 3.627,
+ "elapsedS": 4.569,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便b",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T04:10:59.060Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T09:02:55.662Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    }
   ],
   "code": [
@@ -1258,11 +1258,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1478,
-   "segments": 1328,
-   "closureShare": 0.3414
+   "names": 1488,
+   "segments": 1337,
+   "closureShare": 0.3429
   },
-  "scopeSha256": "bcea27391d251fb4b2bd5463edb13a9004199dfaf8c4bcd18d5c02556e06ef80",
+  "scopeSha256": "7074c7145555fadbbcc947e29ff4b7a2155f3e2383ca2a93bd84103c25725064",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

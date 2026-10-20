@@ -535,13 +535,25 @@ const abJitFreshCell = async (target, pid, mode) => {
 //
 // **今この時点では root と凍結 html の中身が一致している**(昇格直後だから)。それは偶然の一致で
 // あって、`root-fallback` を凍結扱いしてよい理由にはならない。
+//
+// ---- 第310便c(統括の検証項目 R224・第264便d の前例): **凍結参照を 99286dc → 35780a1 へ付け替える** ----
+// 第310便の第1段で v1.45 検証版(RC)が root へ昇格した(PR #311 の squash **35780a1**)。
+// 昇格の後は **root `index.html` ≡ `beta/index.html` ≡ `35780a1:beta/index.html`**(sha256 df847826…)
+// なので、凍結参照を **35780a1** へ付け替える(sha・fullSha・rootSha256・how を差し替え、旧の 99286dc は
+// `previous` に残す)。**タグ v1.45.0 はまだ無い**(タグと Release は原仮定者が作る —— v1.40〜v1.44 と同じ)
+// ので `tag` は null・`tagStatus` に「未発行」と書く(タグが付いたら `tag` だけを埋める —— SHA は動かない)。
+// **しきい値(自己対照 4 / 対 html 1.5)・判定式・root-fallback の扱いは 1 つも動かしていない**。
 const ABJIT_FROZEN_REF = {
-  sha: '99286dc', tag: 'v1.44.0',
-  fullSha: '99286dca69ac0dc6ae180475077ad699fac3a2a3',
+  sha: '35780a1', tag: null,
+  tagStatus: '未発行(タグ v1.45.0 は原仮定者が作る —— 第310便では作らない。付いたら tag だけを埋める)',
+  fullSha: '35780a1e15925dec2540f45f690ecfff5e922c12',
   // 昇格コミットの root `index.html`(= `beta/index.html`)の sha256
-  rootSha256: 'f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad',
-  previous: '09899d2',
-  how: 'tests/ci-frozen-baseline.sh 99286dc tests/perf-baseline/index.html',
+  rootSha256: 'df8478265464fe8196971be6c6f5291627e0f57583b21bd030bb1f357631d4ba',
+  previous: '99286dc',
+  previousTag: 'v1.44.0',
+  previousChain: ['09899d2', '99286dc'],
+  promotedBy: 'PR #311(第310便 第1段 —— v1.45 検証版〔RC〕の root 昇格の squash)',
+  how: 'tests/ci-frozen-baseline.sh 35780a1 tests/perf-baseline/index.html',
   judgementWhenPresent: 'gate', judgementWhenAbsent: 'informational(root-fallback)',
   note: '**凍結参照の SHA を付け替えただけ**で、しきい値(自己対照 4 / 対 html 1.5)は 1 つも動かしていない。',
 };

@@ -135,7 +135,16 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //     下流の段の上流・断片の順序 = 書く段の全順序)を足した。自己試験 (r) が「中断 → 再開で html が 1 回だけ書かれる」を stub の鎖で確かめる。
 //   ・chainShell は冒頭で $REGEN_LOG/env.json に Node と Chromium の版を記録する(AN90 —— 1 ulp の切り分け用・版は固定しない)。
 //   ・`HTML_REGION_READ_DECL` から pn1 → obs-compare を外した(AN90 —— 読込依存が無いことを lint.pn1RegionDecl・自己試験 (q6)(q6b) で機械検査してから)。
-export const REGEN_TABLE_VERSION = 'w288f-regentable-9';
+// ■ 第310便c(統括の検証項目 R224・運用の正本 追記 28 ⑤): **同じ md を書く 2 段の順**(版 w310c-regentable-10)
+//   ・段 kf0ledger-old(tests/exp-w274a-kf0ledger.mjs)と kf0ledger(tests/exp-w275a-kf0ledger.mjs)は、どちらも outs の外の
+//     docs/KF0_LEDGER_v1.45.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
+//     旧の版の md が残った(前便までは順が偶然よかった)。md を読む QA は今の版(kf0ledger-w275a.json)と照合する。
+//   ・処置(**依存 —— 新を後**): kf0ledger の after に 'kf0ledger-old' を足し、2 段の `touches` に md を宣言した。器は変えない
+//     (器の code の sha が動かない —— 正本の再生成を呼ばない)。
+//   ・`tableDepsAudit` に **touches を含めた書き手の全順序**(`touchUnordered` —— outs・merges・touches のどれかで同じファイルを書く
+//     現行の段どうしが after の推移閉包で全順序か)を足した(②は outs + merges だけを見ていた —— touches の重なりは見えなかった)。
+//     書込排他の鍵(`writesOf` = outs + merges —— 済み印の契約の policy の writes)は変えない(順で排他する)。自己試験 (s)。
+export const REGEN_TABLE_VERSION = 'w310c-regentable-10';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -325,8 +334,11 @@ export const REGEN_STEPS = [
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
-  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'] }),
-  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract'] }),
+  // 第310便c(R224): 2 段とも docs/KF0_LEDGER_v1.45.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
+  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'],
+    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract', 'kf0ledger-old'],
+    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
   S('charonInput', 'node tests/exp-w280d-charonInput.mjs', ['tests/out/charoninput-w280d.json'], 603, { secSource: 'w281a-chain', after: ['kf0'] }),
   S('geo3', 'node tests/exp-w280c-geo3.mjs', ['tests/out/geo3-w280c.json'], 1016, { secSource: 'w281a-chain', after: ['kf0', 'bgbudget2'],
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
@@ -1092,6 +1104,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/maintain-w309b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第309便b: 維持の型(軸も慣性自転の速さも引きずりで変えない)・1 步の量(軸のコストと実際の仕事 0・符号つきの速さの差・復元の力積)・背景の口座(流入と流出)・内部熱(潮汐の E_i へ / 帳簿だけ)・熱の時間の型("step" は 1/h・{tauHold} は刻みに依らない)の器と金星・木星の写し' }),
   // ==== 第309便b の塊(ここまで)====
+  // ==== 第310便b の塊(ここから)====
+  // ---- 第310便b(決断事項 AN370・AN373・AN365・AN371・統括の検証項目 R223): **対の熱の相反の測定と帳簿の欄の器**
+  //   (段 P〔純関数〕・R〔維持の型の写しで対ごとの 1 次 E⁽¹⁾_{i←j} —— 新則 invsq・旧則 sphere・bevel × 太陽–惑星・木星–イオ・第三体あり〕・T〔非対称の 2 球〕・
+  //   F〔帳簿の流れ —— 受け手ごとの局所の記帳か〕・U〔AN373 の表 —— 新則の写しの abs(u(0))/abs(V_obs,i − V_obs,k)・第309便c の正本の参照を並べる〕・
+  //   H〔帳簿の欄 —— 間隔が未宣言・{tauHold} の基準・実際の内部熱/帳簿の維持のコスト/背景からの供給〕)。写しは器の中で組む(在位の本の宣言は変えない)。
+  //   html と第309便c の正本 recheck-w309c.json を読む・1 プロセス。所要は第310便b の枝の実測(正本の elapsedS)
+  S('pairheat-310b', 'node tests/exp-w310b-pairheat.mjs', ['tests/out/pairheat-w310b.json'], 5, { secSource: 'w310b-branch', node: true, after: ['recheck-309c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/pairheat-w310b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第310便b: 維持の型の E_speed の 1 次の対の両側(相反の関係 I_i c_ij = I_j c_ji の破れ —— 新則・旧則・第三体・非対称の 2 球)・帳簿の流れ(受け手ごとの局所の記帳)・AN373 の移動の指標の表・帳簿の欄(間隔が未宣言・内部熱/維持のコスト/供給)の器' }),
+  // ==== 第310便b の塊(ここまで)====
   // ==== 第307便c の塊(ここから)====
   // ---- 第307便c(原仮定者の裁定(第100報)「観測の自転を慣性軸回転と引きずり軸回転に分解する」「観測の自転が安定なら、引きずり軸回転と潮汐のブレーキが釣り合う」・
   //   決断事項 AN345 ④・統括の検証項目 R211): **金星・木星の観測の自転の分解の器と「釣り合い」の式**(段 K〔純関数の確かめ〕・D〔4 構成の瞬間の分解 × 求積 8/12/16〕・
@@ -1131,6 +1153,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/invsq-w309a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第309便a: 新しい引きずり則(分子は源の一様球の逆二乗の体積平均 m/r²・分母はトータル〔W_bg′ + 自己の体積平均 + 他の源〕・受け手の体積の比の平均・回転は M2・軸は鏡映 × sinθ × 受け手の近遠の差分)の opt-in relativeDrag.invSq と dragCore の既定 dragCoreDefault:"cap6500km" の参照の器(独立な求積・エンジンとの一致・天体の写し・在位の数え上げ)' }),
   // ==== 第309便a の塊(ここまで)====
+  // ==== 第310便a の塊(ここから)====
+  // ---- 第310便a(原仮定者の裁定(第107報)・(第109報)AN380・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222):
+  //   **新則の受理と核の直しの器**(段 A〔Wbg2 は 0 だけの受理・outerShell・内部状態の参照の比較〕・C〔中心 r = 0 の向き〕・N〔節点の t の範囲・内蔵の宣言・在位の写しの 1 步〕・
+  //   S〔外殻の核 —— 球の差・薄い殻・動径と 3 次元の求積〕・E〔外殻の受け手と源のエンジンと lib・m_d = M のビット同一・チェックポイント〕・M〔太陽–水星の写しの m_d 3 点〕・
+  //   P〔自己の場の前計算と今の経路 —— 全節点・端から端の β と ω・速さ〔揮発〕〕・Z〔AN382 の今の挙動〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。
+  //   所要は第310便a の枝の実測(正本の elapsedS)
+  S('invsq-310a', 'node tests/exp-w310a-invsq.mjs', ['tests/out/invsq-w310a.json'], 14, { secSource: 'w310a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/invsq-w310a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/speed/*/table/wallSec', '/P/speed/*/direct/wallSec']) },
+    note: '第310便a: 新則の受理(invSq.Wbg2 は 0 だけ —— 版 w310a-invsq-wbg0-1)・中心 r = 0 の向き・外殻の源 invSq.outerShell(一様の厚い殻と薄い殻 —— 源と受け手でそれぞれ計算・質量で重み)・自己の場の前計算(今の経路との照合と速さ)・太陽–水星の写しの m_d 3 点・AN382 の自己の無い受け手の今の挙動' }),
+  // ==== 第310便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
@@ -1141,6 +1173,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/recheck-w309c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第309便c: 観測の自転と移動の初期値の分解(spinDrag.initSpin・relativeDrag.initMotion —— 不動点と逆写像の照合・最初の步の u(0)・チェックポイントで分解し直さない)の門と、修正版の引きずり(m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5e6 m))での AN357 の再確認の表' }),
   // ==== 第309便c の塊(ここまで)====
+  // ==== 第310便d の塊(ここから)====
+  // ---- 第310便d(原仮定者の裁定(第109報)AN380・決断事項 AN384〜AN386・AN336・統括の検証項目 R225): **太陽の m_d の掃引の器**(段 K〔外殻の核 —— 厚い殻・薄い殻と
+  //   独立の 3 次元の求積〕・P〔近点の一次の式の自己試験〕・E〔エンジンと参照の t = 0 の照合〕・S〔m_d の対数の格子の表と近点への寄与の見積り〕・R〔エンジンの近点 ——
+  //   🌡️ の第306便a の世代の写しを新則に置き換えた E1・dragCore の球 R_obs の E2・対照 C0/C1 × h/h2〕・Z〔標的 1PN + A1 と届くか〕)。在位の本の宣言は変えない
+  //   (写しは器の中で組む)。html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(在位の値の列)・観測の記録 CSV 2 本を読む。1 プロセス。
+  //   所要は第310便d の枝の実測(正本の elapsedS)。外殻の鍵の掃引(--md)は統合の後の 2 段目(正本は別名 —— 鎖では走らせない)
+  S('mdsweep-310d', 'node tests/exp-w310d-mdsweep.mjs', ['tests/out/mdsweep-w310d.json'], 800, { secSource: 'w310d-branch', node: true, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/mdsweep-w310d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/R/rows/*/*/wallSec']) },
+    note: '第310便d: 太陽の m_d の掃引の材料(外殻〔一様の厚い殻・比較に薄い殻〕の参照の核と独立の求積・m_d の表・近点への寄与の一次の見積り・エンジンの近点 E1〔m_d = M☉〕と E2〔m_d → 0⁺ の代理〕・標的 1PN + A1 に届くか —— フィットの値を在位へ入れない)' }),
+  // ==== 第310便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1735,6 +1777,8 @@ export function tableDepsAudit(o) {
       if (!C.get(a).has(b) && !C.get(b).has(a)) unordered.push({ file: f, a, b });
     }
   }
+  // 第310便c(R224): touches(outs の外に書くファイル)を含めた書き手の全順序 —— ②で見えない重なり(kf0ledger-old と kf0ledger の md)
+  const touchUnordered = touchWritersAudit(steps, C).unordered;
   // 統括(第284便 統合): 段の鍵の重複(後の定義が先の定義を黙って消す —— 第284便e の bgfield)
   const seen = new Set(), dupKeys = [];
   for (const st of steps) { if (seen.has(st.key)) dupKeys.push(st.key); seen.add(st.key); }
@@ -1753,8 +1797,41 @@ export function tableDepsAudit(o) {
   // 第287便f(AN69 後半): html を書く段の検査(root があるときだけ —— 書く段の宣言・領域・順序・after 欠落・領域の閉包・依存の循環)
   const html = opt.root && opt.html !== false ? htmlTailAudit({ root: opt.root, steps, metaOf: opt.metaOf, htmlText: opt.htmlText }) : null;
   return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length
-      && !missingAfter.length && !staleReadDecl.length && (!html || html.ok),
-    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads, html };
+      && !missingAfter.length && !staleReadDecl.length && !touchUnordered.length && (!html || html.ok),
+    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads, touchUnordered, html };
+}
+
+/**
+ * 第310便c(統括の検証項目 R224): **touches を含めた書き手の全順序**。outs・merges・touches のどれかで同じファイルを書く現行の段どうしが
+ * after の推移閉包で全順序になっているか(並列に書かない —— 後に終わった段の版が残る型を表で防ぐ)。outs + merges だけの重なりは
+ * `tableDepsAudit` ②(unordered)が見るので、ここでは**少なくとも片方が touches で書く**ファイルだけを数える(二重に数えない)。
+ * @param {Array} [steps]
+ * @param {Map} [closure] afterClosure の戻り
+ * @returns {{writers:Array<{file:string, keys:string[]}>, unordered:Array<{file:string, a:string, b:string}>}}
+ */
+export function touchWritersAudit(steps, closure) {
+  const S0 = steps || REGEN_STEPS;
+  const C = closure || afterClosure(S0);
+  const m = new Map();
+  for (const st of S0) {
+    if (st.role === 'history') continue;
+    const own = writesOf(st);
+    for (const f of new Set(own.concat(st.touches || []))) {
+      if (!m.has(f)) m.set(f, []);
+      m.get(f).push({ key: st.key, touch: !own.includes(f) });
+    }
+  }
+  const writers = [], unordered = [];
+  for (const [f, ws] of m) {
+    if (ws.length < 2 || !ws.some((w) => w.touch)) continue;
+    writers.push({ file: f, keys: ws.map((w) => w.key) });
+    for (let i = 0; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) {
+      const a = ws[i].key, b = ws[j].key;
+      if (!ws[i].touch && !ws[j].touch) continue;   // 両方が outs/merges の重なり —— ②(unordered)が見る
+      if (!(C.get(a) || new Set()).has(b) && !(C.get(b) || new Set()).has(a)) unordered.push({ file: f, a, b });
+    }
+  }
+  return { writers, unordered };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
@@ -2763,6 +2840,42 @@ export function an43Probe(o) {
   return { ok, cases: res };
 }
 
+/**
+ * 第310便c(統括の検証項目 R224): 自己試験 (s) —— **同じ md を書く 2 段の順**(走らせない・表の写しだけ)。
+ *   s1 今の表: touches を含めた書き手の並列 0・KF0_LEDGER の md の書き手が kf0ledger-old と kf0ledger の 2 段
+ *   s2 kf0ledger の after から 'kf0ledger-old' を外した写し(第309便の型)で、md の並列が**検出される**
+ *   s3 2 段だけが常時群で走る計画(実際の便の計画の型)→ 鎖: kf0ledger の依存に kf0ledger-old・波が後・ready queue の模擬で
+ *      kf0ledger の開始 ≥ kf0ledger-old の終了(順序違反 0)
+ *   s4 全段 regen の鎖でも同じ(kf0ledger は kf0ledger-old の後)
+ */
+export function touchOrderProbe(steps) {
+  const S0 = steps || REGEN_STEPS;
+  const MD = 'docs/KF0_LEDGER_v1.45.md';
+  const now = touchWritersAudit(S0);
+  const w = now.writers.find((z) => z.file === MD);
+  const s1 = { unordered: now.unordered.map((z) => z.file + ':' + z.a + '|' + z.b), writers: now.writers.map((z) => z.file + '←' + z.keys.join('+')),
+    ok: now.unordered.length === 0 && !!w && w.keys.length === 2 && w.keys.includes('kf0ledger-old') && w.keys.includes('kf0ledger') };
+  const old = S0.map((z) => z.key === 'kf0ledger' ? Object.assign({}, z, { after: (z.after || []).filter((k) => k !== 'kf0ledger-old') }) : z);
+  const det = touchWritersAudit(old).unordered;
+  const s2 = { detected: det.map((z) => z.file + ':' + z.a + '|' + z.b),
+    ok: det.some((z) => z.file === MD && [z.a, z.b].sort().join('|') === 'kf0ledger|kf0ledger-old') };
+  const seqOk = (plan) => {
+    const deps = tableDeps({ steps: S0 });
+    const ch = buildChain(plan, { steps: S0, deps });
+    const r = ch.steps.kf0ledger, q = ch.steps['kf0ledger-old'];
+    const sim = simulateReadyQueue(ch, { lanes: 4 });
+    const ev = (k) => sim.events.find((e) => e.key === k);
+    return { inChain: !!r && !!q, dep: !!r && (r.deps || []).includes('kf0ledger-old'), waves: r && q ? [q.wave, r.wave] : null,
+      startAfterEnd: !!ev('kf0ledger') && !!ev('kf0ledger-old') && ev('kf0ledger').start >= ev('kf0ledger-old').end,
+      order: sim.check.order.length, pending: sim.pending.length };
+  };
+  const s3r = seqOk({ steps: S0.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : (z.key === 'kf0ledger' || z.key === 'kf0ledger-old') ? 'always' : 'reuse' })) });
+  const s3 = Object.assign(s3r, { ok: s3r.inChain && s3r.dep && s3r.waves[1] > s3r.waves[0] && s3r.startAfterEnd && s3r.order === 0 && s3r.pending === 0 });
+  const s4r = seqOk({ steps: S0.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) });
+  const s4 = Object.assign(s4r, { ok: s4r.inChain && s4r.dep && s4r.waves[1] > s4r.waves[0] && s4r.startAfterEnd && s4r.order === 0 && s4r.pending === 0 });
+  return { s1, s2, s3, s4, ok: s1.ok && s2.ok && s3.ok && s4.ok };
+}
+
 /** 第282便の統合で起きた順序の型を表で再現した**合成の列**(自己試験の固定入力)。 */
 export const W282_ORDER_FIXTURE = ['d0audit', 'nslockledger', 'bgbudget', 'calaudit', 'dt3', 'kf0', 'nslock', 'bgpredict', 'bgequiv',
   'kf0ledger', 'nslockledger'];
@@ -2782,7 +2895,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null, p: null, q: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null, p: null, q: null, s: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -3101,6 +3214,8 @@ export async function regenChainSelfTest(o) {
       q5: has(q5.afterMissing, /^d68three\?obscompare/), q6: has(q6.scopeReadsRegion, /^pn1→obs-compare$/), q6b: has(q6b.staleRegionDecl, /^pn1→obs-compare$/) && !has(q6b.scopeReadsRegion, /^pn1→/), q7: has(q7.regionMissing, /^samplestatus:sample-status\(html/) };
     res.q.ok = Q0.ok && ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q6b', 'q7', 'q8', 'q9', 'q10'].every((k) => res.q[k] === true);
   }
+  // (s) 第310便c(R224): 同じ md を書く 2 段(kf0ledger-old → kf0ledger)の順 —— touches を含めた書き手の全順序
+  res.s = touchOrderProbe();
   // (r) 第288便f(原仮定者の裁定(第78報)AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(htmlAggregateProbe)
   res.r = await htmlAggregateProbe({ root, tmpDir: o.tmpDir + '/r' });
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
@@ -3199,6 +3314,6 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
-  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest,
+  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest, touchWritersAudit, touchOrderProbe,
   CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe };

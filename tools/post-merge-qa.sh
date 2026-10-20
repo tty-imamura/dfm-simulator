@@ -181,6 +181,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.s
 #   口座・dt の走査・状態の契約・docs.maintain309 —— 正本と文書)。axisHold の受理器が動く behavior.axisHold308 と状態の契約の lint.stateContract302 は第308便b の塊にある
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maintain309 docs.maintain309"
 # ==== 第309便b の塊(ここまで)====
+# ==== 第310便b の塊(ここから)====
+# 第310便b(決断事項 AN370・AN373・AN365・AN371・R223): 枝 b の新設 2 本(behavior.holdLedger310 —— 維持の型の帳簿の欄〔間隔が未宣言・{tauHold} の基準・
+#   実際の内部熱/帳簿の維持のコスト/背景からの供給〕と状態を動かさないこと・docs.pairHeat310 —— 対の熱の相反の測定の正本と文書)。維持の型の器は第309便b の塊にある
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.holdLedger310 docs.pairHeat310"
+# ==== 第310便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
@@ -210,6 +215,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.bevel308 docs.sphereAxial307"
 #   docs.invSq309 —— 正本と文書)と、PHYSICS 全体を走査する docs.*(新しい節の数と単位が古い docs.* に当たらないか)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.invSq309 docs.invSq309 docs.mercuryUnits docs.ref3d299 preset.spaceMeshRetired300 lint.stateContract302"
 # ==== 第309便a の塊(ここまで)====
+# ==== 第310便a の塊(ここから)====
+# 第310便a(原仮定者の裁定(第107報)・(第109報)AN380・AN378・AN384・AN385・R222): 枝 a の新設 2 本(behavior.invSq310 —— Wbg2 は 0 だけの受理・中心の向き・外殻の源・
+#   自己の場の前計算・docs.invSq310 —— 正本と文書)と、版を上げた新則を両方の版で読む behavior.invSq309・docs.invSq309・新則の本の分解の behavior.initObs309
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.invSq310 docs.invSq310 behavior.invSq309 docs.invSq309 behavior.initObs309"
+# ==== 第310便a の塊(ここまで)====
 # ==== 第308便d の塊(ここから)====
 # 第308便d(AN351・AN350・R217 —— 細目): 枝 d の新設 4 本(preset.fitRole308 —— 🌡️🟫🌘 の標的の役割・behavior.tide3Recv308 —— 三次元の潮汐の受け手の受理の警告・
 #   lint.qaEvidenceStamp308 —— 保存 QA の刻印と SAMPLE_STATUS の根拠〔情報〕・docs.w308d —— 文書と perf の長さ)と、役割を宣言していない本の選び方を宣言からにした preset.fitRole307・
@@ -217,6 +227,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.invSq309 docs.invSq309 docs.mercury
 #   🟫 の観測カードと README の語を見る docs.fitContract296・docs.noRetiredMention294
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint.qaEvidenceStamp308 docs.w308d preset.fitRole307 preset.revertGLoc303 docs.synodic299 preset.planets306 behavior.tide3d307 docs.fitContract296 docs.noRetiredMention294"
 # ==== 第308便d の塊(ここまで)====
+# ==== 第310便d の塊(ここから)====
+# 第310便d(原仮定者の裁定(第109報)AN380・AN384〜AN386・AN336・R225): 枝 d の新設 1 本(docs.mdSweep310 —— 太陽の m_d の掃引の器の正本と文書・在位の 🌡️ の宣言が不変)と、
+#   標的 1PN + A1 と在位の 🌡️ の宣言を読む第306便a の docs.an336_306・preset.planets306
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.mdSweep310 docs.an336_306 preset.planets306"
+# ==== 第310便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -229,6 +244,13 @@ WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 PHYS_SCAN_IDS="behavior.calauditStages docs.heavyCal docs.mercuryUnits docs.terminologyOpticalCamouflage preset.retired290b docs.ref3d299 docs.refit298 docs.synodic299 preset.spaceMeshRetired300"
 WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 # ==== 第309便d の塊(ここまで)====
+# ==== 第310便c の塊(ここから)====
+# 第310便c(原仮定者の裁定(第107報・第108報・第109報)・R224 —— 文書と運用の直し): 枝 c の新設 2 本(docs.w310c —— 第107報の注記・AN365/AN372 の文言・凍結の参照の 3 か所・
+#   再生成の順・lint.qaHeapRelease310 —— headless の写しを作るブロックの包み)と、節の末尾に注記を足した〔第301便a〕〔第309便a〕〔第309便b〕〔第309便c〕を読む
+#   behavior.dragNorm301・docs.invSq309・docs.maintain309・docs.recheck309、表の版と自己試験 (s) の lint.regenChain、凍結の参照の lint.frozenBaseline・lint.perfAbJit、
+#   ブロックの包みで最上位の文の形を見る lint.qaOrder(POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS docs.w310c lint.qaHeapRelease310 behavior.dragNorm301 docs.invSq309 docs.maintain309 docs.recheck309 lint.regenChain lint.frozenBaseline lint.perfAbJit lint.qaOrder"
+# ==== 第310便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in
