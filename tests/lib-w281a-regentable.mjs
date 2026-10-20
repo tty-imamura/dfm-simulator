@@ -1183,6 +1183,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/mdsweep-w310d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/R/rows/*/*/wallSec']) },
     note: '第310便d: 太陽の m_d の掃引の材料(外殻〔一様の厚い殻・比較に薄い殻〕の参照の核と独立の求積・m_d の表・近点への寄与の一次の見積り・エンジンの近点 E1〔m_d = M☉〕と E2〔m_d → 0⁺ の代理〕・標的 1PN + A1 に届くか —— フィットの値を在位へ入れない)' }),
   // ==== 第310便d の塊(ここまで)====
+  // ==== 第311便d の塊(ここから)====
+  // ---- 第311便d(原仮定者の裁定(第110報)AN387・(第111報)AN391・決断事項 AN392・AN386・AN396・AN336・統括の検証項目 R229): **3 惑星(水星・金星・火星)の dragCore の探索の器**
+  //   (段 T〔標的 1PN + A1 と G_loc の分 —— q00・q10 × h/h2〕・S〔一次の見積り —— t = 0 の写しの β の R_d の表・rd_est・m_d の床・太陽の m_d の効き〕・E〔各惑星の q11(θ₀)・
+  //   水星の R_d の格子 3 点・代表の点の q01 —— h と h/2〕・R〔根の区間・割線・3 惑星の R_d/R の表〕・G〔数値の門 —— 観測の 3σ ではない〕)。在位の本の宣言は変えない
+  //   (写しは器の中で組む)。html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(標的の照合)・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。
+  //   所要は第311便d の枝の実測(正本の elapsedS)。重い掃引(3 惑星の格子・細分・m_d・太陽の m_d・h/4)は統合の後の 2 段目(正本は別名 —— 鎖では走らせない)
+  S('planet3-311d', 'node tests/exp-w311d-planet3.mjs', ['tests/out/planet3-w311d.json'], 1900, { secSource: 'w311d-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/planet3-w311d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/wallByKind/*/wallSec']) },
+    note: '第311便d: 3 惑星の dragCore の探索の材料(4 つの走行 q00/q10/q01/q11・G_loc の宣言を固定して差し引く・惑星の R_d の格子と根の区間・数値の門 abs(r) ≤ max(3 × 帯, 0.01″/世紀)・R_d/R が 3 惑星でそろうかの表 —— 探索の値を在位へ入れない)' }),
+  // ==== 第311便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
