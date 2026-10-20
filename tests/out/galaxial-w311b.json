@@ -1,0 +1,1166 @@
+{
+ "version": "w311b-galaxial-1",
+ "generator": "tests/exp-w311b-galaxial.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
+ "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
+ "galaxyAxialVersion": "w311b-galaxial-1",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "denMin": 0.01,
+ "constants": {
+  "ngpRaDeg": {
+   "value": 192.85948,
+   "unit": "deg",
+   "source": "銀河座標の定義(ICRS)—— 銀河の北極の赤経(Hipparcos and Tycho Catalogues, ESA SP-1200, Vol. 1 §1.5.3)",
+   "primary_numeric_verified": false
+  },
+  "ngpDecDeg": {
+   "value": 27.12825,
+   "unit": "deg",
+   "source": "同 —— 銀河の北極の赤緯",
+   "primary_numeric_verified": false
+  },
+  "gcRaDeg": {
+   "value": 266.40499,
+   "unit": "deg",
+   "source": "同 —— 銀河中心の向き(l = 0°・b = 0°)の赤経",
+   "primary_numeric_verified": false
+  },
+  "gcDecDeg": {
+   "value": -28.93617,
+   "unit": "deg",
+   "source": "同 —— 銀河中心の向きの赤緯",
+   "primary_numeric_verified": false
+  },
+  "V0kms": {
+   "value": 230,
+   "unit": "km/s",
+   "source": "太陽の位置の銀河の回転の速さ Θ₀ の中央の値(第308便c の器の走査の中央 —— 尺度だけ)",
+   "primary_numeric_verified": false
+  },
+  "R0kpc": {
+   "value": 8.2,
+   "unit": "kpc",
+   "source": "太陽と銀河中心の距離 R₀ の中央の値(Bland-Hawthorn & Gerhard 2016, ARA&A 54, 529 —— 尺度だけ)",
+   "primary_numeric_verified": false
+  },
+  "pcMeters": {
+   "value": 30856775814913670,
+   "unit": "m",
+   "source": "IAU 2015 Resolution B2(1 pc = 648000/π au)",
+   "primary_numeric_verified": false
+  }
+ },
+ "grid": [
+  0,
+  0.01,
+  0.1,
+  1,
+  10
+ ],
+ "versionReaders": [
+  {
+   "file": "tests/exp-w310a-invsq.mjs(段 Z)・正本 invsq-w310a.json",
+   "reads": "受理(質量 0 の受け手)・initMotion の記録",
+   "handling": "質量 0 + 半径の 2 行は拒否へ(AN389)・質量 1e-16 + initMotion の行は分解しない(motionDenomSmall —— 段 Z の記録を rows の無い失敗にも耐える形へ)・正本を作り直し PHYSICS〔第310便a〕の 2 行を注記つきで"
+  },
+  {
+   "file": "tests/exp-w310d-mdsweep.mjs・正本 mdsweep-w310d.json",
+   "reads": "新則 + initMotion・initSpin の写し(質量はすべて正・1 − Σβ ≥ 0.99)",
+   "handling": "変わらない(試走で照合 —— 鎖は領域 hash で判定)"
+  },
+  {
+   "file": "tests/exp-w309c-recheck.mjs・正本 recheck-w309c.json",
+   "reads": "旧則の initMotion(分母 ≥ 1)",
+   "handling": "変わらない(新則の行だけに下限)"
+  },
+  {
+   "file": "tests/exp-w309a-invsq.mjs・tests/exp-w310b-pairheat.mjs",
+   "reads": "新則の受理・build(質量はすべて正)",
+   "handling": "変わらない"
+  },
+  {
+   "file": "tests/qa.mjs behavior.invSq309・behavior.invSq310・behavior.initObs309",
+   "reads": "新則の受理・build・initMotion",
+   "handling": "変わらない(質量 0 の受け手を宣言しない)"
+  }
+ ],
+ "quick": false,
+ "A": {
+  "galaxy": [
+   {
+    "key": "galaxyAxial",
+    "name": "省略",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": null,
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "{1e-12, −2e-12, 3e-12}",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "明示の 0",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 0,
+     "wy": 0,
+     "wz": 0
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "−0 を含む",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 0,
+     "wy": 1e-12,
+     "wz": 0
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "null",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "配列",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "成分の欠け",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 vx",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 vx(wx・wy・wz だけ —— 一様並進・一様回転の鍵は作らない〔第110報〕・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 rot",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz だけ —— 一様並進・一様回転の鍵は作らない〔第110報〕・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "NaN",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "Infinity",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "文字列",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "数でない(真偽値)",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "spinDrag.axial:\"off\"",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.galaxyAxial は spinDrag.axial:\"on\"(軸の ω を使う本)だけ —— 軸を引きずらない本では効かない(第311便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "旧則の本(在位の ☿ 3D の宣言 + galaxyAxial)",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "err": "physics.relativeDrag.galaxyAxial は新しい引きずり則 invSq の本だけ(在位の移行は新則で —— 旧則の軸の核の組み合わせを増やさない・第311便b)"
+   }
+  ],
+  "receiver": [
+   {
+    "name": "質量 0・半径あり(既定の massFloor)",
+    "ok": false,
+    "expectOk": false,
+    "err": "bodies[1] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に・第311便b・AN3",
+    "mCanon": null,
+    "pass": true
+   },
+   {
+    "name": "質量 0・半径あり(massFloor 1e-30)",
+    "ok": false,
+    "expectOk": false,
+    "err": "bodies[1] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に・第311便b・AN3",
+    "mCanon": null,
+    "pass": true
+   },
+   {
+    "name": "質量 −1e-4・半径あり",
+    "ok": false,
+    "expectOk": false,
+    "err": "bodies[1] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に・第311便b・AN3",
+    "mCanon": null,
+    "pass": true
+   },
+   {
+    "name": "質量 0・pinned・半径あり(源だけの天体も持ち上げた質量で源にしない)",
+    "ok": false,
+    "expectOk": false,
+    "err": "bodies[1] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に・第311便b・AN3",
+    "mCanon": null,
+    "pass": true
+   },
+   {
+    "name": "質量 0・半径なし",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "mCanon": 0.000001,
+    "merIsReceiver": false,
+    "pass": true
+   },
+   {
+    "name": "質量 1e-12・半径あり(massFloor 1e-30 —— 正の宣言)",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "mCanon": 1e-9,
+    "merIsReceiver": true,
+    "pass": true
+   },
+   {
+    "name": "旧則の本で質量 0・半径あり(今の受理のまま)",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "mCanon": 0.000001,
+    "pass": true
+   }
+  ],
+  "motion": [
+   {
+    "name": "通常の写し(☿ 3D・新則)",
+    "ok": true,
+    "why": null,
+    "at": null,
+    "den": null,
+    "denMin": null,
+    "oneMinusSum": 0.9966360074,
+    "pass": true
+   },
+   {
+    "name": "質量 1e-16(massFloor 1e-30 —— 下限 10⁻⁹ の受け手)",
+    "ok": false,
+    "why": "motionDenomSmall",
+    "at": 1,
+    "den": 0.0009246359422,
+    "denMin": 0.01,
+    "pass": true
+   },
+   {
+    "name": "質量 1e-8(massFloor 1e-30)",
+    "ok": false,
+    "why": "motionDenomSmall",
+    "at": 1,
+    "den": 0.009167852931,
+    "denMin": 0.01,
+    "pass": true
+   }
+  ],
+  "denMin": 0.01,
+  "nPass": 25,
+  "nCases": 25,
+  "allPass": true
+ },
+ "B": {
+  "fixedState": {
+   "A": true,
+   "U": true,
+   "beta": true,
+   "rot": true,
+   "deg": true,
+   "omegaPlusG": true,
+   "omegaDiffers": true
+  },
+  "twoSteps": {
+   "xv": true,
+   "u": true,
+   "omegaPlusG": true,
+   "axesDiffer": true
+  },
+  "isolated": {
+   "omega": [
+    3.1e-11,
+    -1.7e-11,
+    4.3e-11
+   ],
+   "equalsG": true,
+   "betaSum": 0
+  },
+  "twoBody": [
+   {
+    "i": 0,
+    "dWx": 3.1e-11,
+    "dWy": -1.7e-11,
+    "dWz": 4.3e-11
+   },
+   {
+    "i": 1,
+    "dWx": 3.1e-11,
+    "dWy": -1.7e-11,
+    "dWz": 4.3e-11
+   }
+  ],
+  "twoBodySame": true,
+  "wbg2Zero": true,
+  "explicitZero": {
+   "runSame": true,
+   "declared": [
+    true,
+    false
+   ],
+   "explicitZero": [
+    true,
+    false
+   ],
+   "active": [
+    false,
+    false
+   ]
+  },
+  "runtimeMass0": {
+   "merIsReceiver": false,
+   "sunBetaFromMer": 0,
+   "uMer": [
+    0,
+    0,
+    0
+   ],
+   "pass": true
+  },
+  "badRow": {
+   "counted": 2,
+   "rowsZero": true,
+   "uZero": true,
+   "omegaIsGOnly": true,
+   "pass": true
+  },
+  "lowDen": {
+   "lowDenRows": 3,
+   "builds": 3,
+   "badRows": 0,
+   "merBetaSum": 0.9990752143,
+   "pass": true
+  },
+  "allPass": true
+ },
+ "D": {
+  "geometry": {
+   "ngp": [
+    -0.8676661490190047,
+    -0.0003516911348106222,
+    0.49714719164436194
+   ],
+   "gc": [
+    -0.054875635701955625,
+    -0.9938213617585849,
+    -0.09647676154711043
+   ],
+   "ngpDotGc": 9.860491284596762e-8,
+   "ngpEcl": {
+    "lambdaDeg": 180.0232236980042,
+    "betaDeg": 29.811438517970053
+   },
+   "omHat": [
+    0.8676661436080016,
+    0.0003515931391418637,
+    -0.497147201157447
+   ],
+   "omHatEcl": {
+    "lambdaDeg": 0.02321722706871895,
+    "betaDeg": -29.81143914616049
+   },
+   "omHatDotNgp": -0.999999999999995,
+   "OmRefSI": 9.089990689904927e-16
+  },
+  "OmRefBook": 9.08999069e-11,
+  "unitT": 100000,
+  "steps": 720,
+  "dt": 0.21112559999999997,
+  "T": 152.010432,
+  "Teff": 151.7993064,
+  "firstStepNote": "最初の步は履歴が無く u = 0・軸の ω を使わない(今の経路 —— 一次の見積りの時間は (步数 − 1) h)",
+  "orbitsMercury": 2,
+  "labels": [
+   "太陽",
+   "水星",
+   "金星",
+   "地球",
+   "火星",
+   "木星"
+  ],
+  "bodies": [
+   {
+    "i": 0,
+    "label": "太陽",
+    "omegaLocal": 1.058788379e-22,
+    "omegaLocalPerp": 1.255523843e-23,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 8.381621552e-11,
+    "ratioGperpOverLperpAtF1": 6675796402000,
+    "axisToOrbitNormal0Deg": 6.090150008
+   },
+   {
+    "i": 1,
+    "label": "水星",
+    "omegaLocal": 1.201487617e-11,
+    "omegaLocalPerp": 7.008713567e-13,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 8.27380445e-11,
+    "ratioGperpOverLperpAtF1": 118.050258,
+    "axisToOrbitNormal0Deg": 0.03586889658
+   },
+   {
+    "i": 2,
+    "label": "金星",
+    "omegaLocal": 8.780634108e-13,
+    "omegaLocalPerp": 4.659996055e-14,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 7.970330554e-11,
+    "ratioGperpOverLperpAtF1": 1710.372811,
+    "axisToOrbitNormal0Deg": 2.643595526
+   },
+   {
+    "i": 3,
+    "label": "地球",
+    "omegaLocal": 2.219139371e-13,
+    "omegaLocalPerp": 7.653314351e-14,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 8.089983207e-11,
+    "ratioGperpOverLperpAtF1": 1057.056177,
+    "axisToOrbitNormal0Deg": 23.43367554
+   },
+   {
+    "i": 4,
+    "label": "火星",
+    "omegaLocal": 1.451481074e-13,
+    "omegaLocalPerp": 7.423391838e-14,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 9.075227672e-11,
+    "ratioGperpOverLperpAtF1": 1222.517667,
+    "axisToOrbitNormal0Deg": 25.18933886
+   },
+   {
+    "i": 5,
+    "label": "木星",
+    "omegaLocal": 1.121650214e-18,
+    "omegaLocalPerp": 8.715448885e-20,
+    "omegaGPerUnitF": 9.08999069e-11,
+    "omegaGPerpPerUnitF": 7.821898383e-11,
+    "ratioGperpOverLperpAtF1": 897475102.7,
+    "axisToOrbitNormal0Deg": 3.119928188
+   }
+  ],
+  "rows": [
+   {
+    "f": 0,
+    "omegaG": 0,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "driftFromA0": 0,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": 4.477043736e-12,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     },
+     {
+      "i": 1,
+      "driftFromA0": 2.514995495e-12,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": 1.269565046e-8,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     },
+     {
+      "i": 2,
+      "driftFromA0": 7.852550649e-12,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": 2.580419396e-7,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     },
+     {
+      "i": 3,
+      "driftFromA0": 1.256662229e-11,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": -6.319895349e-7,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     },
+     {
+      "i": 4,
+      "driftFromA0": 7.26384986e-12,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": 0.000002395314033,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     },
+     {
+      "i": 5,
+      "driftFromA0": 0,
+      "vsNoGalaxy": 0,
+      "firstOrder": 0,
+      "ratio": null,
+      "orbitNormalAngleChange": -3.008661876e-8,
+      "orbitNormalVsNoGalaxy": 0,
+      "orbitNormalFirstOrder": 0
+     }
+    ],
+    "pairAngleChangeMax": 0,
+    "pairAt": null,
+    "pairOverAxisMax": null
+   },
+   {
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "driftFromA0": 1.272337011e-10,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalAngleChange": 4.491207406e-11,
+      "orbitNormalVsNoGalaxy": 4.043503032e-11,
+      "orbitNormalFirstOrder": 4.043524013e-11
+     },
+     {
+      "i": 1,
+      "driftFromA0": 1.253707706e-10,
+      "vsNoGalaxy": 1.255955967e-10,
+      "firstOrder": 1.255957777e-10,
+      "ratio": 0.9999985589,
+      "orbitNormalAngleChange": 1.281049938e-8,
+      "orbitNormalVsNoGalaxy": 1.148489253e-10,
+      "orbitNormalFirstOrder": 1.14887593e-10
+     },
+     {
+      "i": 2,
+      "driftFromA0": 1.148062298e-10,
+      "vsNoGalaxy": 1.209890652e-10,
+      "firstOrder": 1.20989065e-10,
+      "ratio": 1.000000001,
+      "orbitNormalAngleChange": 2.579769866e-7,
+      "orbitNormalVsNoGalaxy": -6.495300825e-11,
+      "orbitNormalFirstOrder": -6.49526115e-11
+     },
+     {
+      "i": 3,
+      "driftFromA0": 1.263500989e-10,
+      "vsNoGalaxy": 1.228056013e-10,
+      "firstOrder": 1.22805384e-10,
+      "ratio": 1.00000177,
+      "orbitNormalAngleChange": -6.321092595e-7,
+      "orbitNormalVsNoGalaxy": -1.197245636e-10,
+      "orbitNormalFirstOrder": -1.197243382e-10
+     },
+     {
+      "i": 4,
+      "driftFromA0": 1.450084727e-10,
+      "vsNoGalaxy": 1.377616054e-10,
+      "firstOrder": 1.377613266e-10,
+      "ratio": 1.000002024,
+      "orbitNormalAngleChange": 0.000002395323147,
+      "orbitNormalVsNoGalaxy": 9.114042854e-12,
+      "orbitNormalFirstOrder": 9.112404635e-12
+     },
+     {
+      "i": 5,
+      "driftFromA0": 1.187377729e-10,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalAngleChange": -2.999785881e-8,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11,
+      "orbitNormalFirstOrder": 8.875902471e-11
+     }
+    ],
+    "pairAngleChangeMax": 1.908195824e-15,
+    "pairAt": [
+     2,
+     5
+    ],
+    "pairOverAxisMax": 0.00001385143428
+   },
+   {
+    "f": 0.1,
+    "omegaG": 9.08999069e-12,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "driftFromA0": 1.272324556e-9,
+      "vsNoGalaxy": 1.272324556e-9,
+      "firstOrder": 1.272324338e-9,
+      "ratio": 1.000000171,
+      "orbitNormalAngleChange": 4.088234057e-10,
+      "orbitNormalVsNoGalaxy": 4.043463619e-10,
+      "orbitNormalFirstOrder": 4.043524013e-10
+     },
+     {
+      "i": 1,
+      "driftFromA0": 1.25571033e-9,
+      "vsNoGalaxy": 1.255957637e-9,
+      "firstOrder": 1.255957777e-9,
+      "ratio": 0.9999998889,
+      "orbitNormalAngleChange": 1.38441425e-8,
+      "orbitNormalVsNoGalaxy": 1.148492041e-9,
+      "orbitNormalFirstOrder": 1.14887593e-9
+     },
+     {
+      "i": 2,
+      "driftFromA0": 1.203620152e-9,
+      "vsNoGalaxy": 1.209890608e-9,
+      "firstOrder": 1.20989065e-9,
+      "ratio": 0.9999999651,
+      "orbitNormalAngleChange": 2.573924102e-7,
+      "orbitNormalVsNoGalaxy": -6.495293747e-10,
+      "orbitNormalFirstOrder": -6.49526115e-10
+     },
+     {
+      "i": 3,
+      "driftFromA0": 1.231067783e-9,
+      "vsNoGalaxy": 1.228054498e-9,
+      "firstOrder": 1.22805384e-9,
+      "ratio": 1.000000536,
+      "orbitNormalAngleChange": -6.331867787e-7,
+      "orbitNormalVsNoGalaxy": -1.197243749e-9,
+      "orbitNormalFirstOrder": -1.197243382e-9
+     },
+     {
+      "i": 4,
+      "driftFromA0": 1.384859615e-9,
+      "vsNoGalaxy": 1.377613551e-9,
+      "firstOrder": 1.377613266e-9,
+      "ratio": 1.000000207,
+      "orbitNormalAngleChange": 0.000002395405164,
+      "orbitNormalVsNoGalaxy": 9.113071409e-11,
+      "orbitNormalFirstOrder": 9.112404635e-11
+     },
+     {
+      "i": 5,
+      "driftFromA0": 1.187358662e-9,
+      "vsNoGalaxy": 1.187358662e-9,
+      "firstOrder": 1.187358749e-9,
+      "ratio": 0.9999999263,
+      "orbitNormalAngleChange": -2.919903745e-8,
+      "orbitNormalVsNoGalaxy": 8.875813071e-10,
+      "orbitNormalFirstOrder": 8.875902471e-10
+     }
+    ],
+    "pairAngleChangeMax": 8.160139231e-15,
+    "pairAt": [
+     0,
+     4
+    ],
+    "pairOverAxisMax": 0.000005923387749
+   },
+   {
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "driftFromA0": 1.272324441e-8,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalAngleChange": 4.048006819e-9,
+      "orbitNormalVsNoGalaxy": 4.043529775e-9,
+      "orbitNormalFirstOrder": 4.043524013e-9
+     },
+     {
+      "i": 1,
+      "driftFromA0": 1.255932794e-8,
+      "vsNoGalaxy": 1.255957749e-8,
+      "firstOrder": 1.255957777e-8,
+      "ratio": 0.9999999777,
+      "orbitNormalAngleChange": 2.41805917e-8,
+      "orbitNormalVsNoGalaxy": 1.148494124e-8,
+      "orbitNormalFirstOrder": 1.14887593e-8
+     },
+     {
+      "i": 2,
+      "driftFromA0": 1.20926277e-8,
+      "vsNoGalaxy": 1.209890647e-8,
+      "firstOrder": 1.20989065e-8,
+      "ratio": 0.9999999979,
+      "orbitNormalAngleChange": 2.515466476e-7,
+      "orbitNormalVsNoGalaxy": -6.495291992e-9,
+      "orbitNormalFirstOrder": -6.49526115e-9
+     },
+     {
+      "i": 3,
+      "driftFromA0": 1.228349691e-8,
+      "vsNoGalaxy": 1.22805382e-8,
+      "firstOrder": 1.22805384e-8,
+      "ratio": 0.9999999843,
+      "orbitNormalAngleChange": -6.439619658e-7,
+      "orbitNormalVsNoGalaxy": -1.197243082e-8,
+      "orbitNormalFirstOrder": -1.197243382e-8
+     },
+     {
+      "i": 4,
+      "driftFromA0": 1.378337872e-8,
+      "vsNoGalaxy": 1.377613274e-8,
+      "firstOrder": 1.377613266e-8,
+      "ratio": 1.000000006,
+      "orbitNormalAngleChange": 0.000002396225322,
+      "orbitNormalVsNoGalaxy": 9.112886556e-10,
+      "orbitNormalFirstOrder": 9.112404635e-10
+     },
+     {
+      "i": 5,
+      "driftFromA0": 1.187359036e-8,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalAngleChange": -2.121079754e-8,
+      "orbitNormalVsNoGalaxy": 8.875821217e-9,
+      "orbitNormalFirstOrder": 8.875902471e-9
+     }
+    ],
+    "pairAngleChangeMax": 5.939693182e-15,
+    "pairAt": [
+     0,
+     5
+    ],
+    "pairOverAxisMax": 4.311582426e-7
+   },
+   {
+    "f": 10,
+    "omegaG": 9.08999069e-10,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "driftFromA0": 1.27232435e-7,
+      "vsNoGalaxy": 1.27232435e-7,
+      "firstOrder": 1.272324338e-7,
+      "ratio": 1.000000009,
+      "orbitNormalAngleChange": 4.043978485e-8,
+      "orbitNormalVsNoGalaxy": 4.043530781e-8,
+      "orbitNormalFirstOrder": 4.043524013e-8
+     },
+     {
+      "i": 1,
+      "driftFromA0": 1.255955278e-7,
+      "vsNoGalaxy": 1.255957775e-7,
+      "firstOrder": 1.255957777e-7,
+      "ratio": 0.9999999989,
+      "orbitNormalAngleChange": 1.275469225e-7,
+      "orbitNormalVsNoGalaxy": 1.14851272e-7,
+      "orbitNormalFirstOrder": 1.14887593e-7
+     },
+     {
+      "i": 2,
+      "driftFromA0": 1.209827853e-7,
+      "vsNoGalaxy": 1.209890649e-7,
+      "firstOrder": 1.20989065e-7,
+      "ratio": 0.999999999,
+      "orbitNormalAngleChange": 1.930891244e-7,
+      "orbitNormalVsNoGalaxy": -6.495281516e-8,
+      "orbitNormalFirstOrder": -6.49526115e-8
+     },
+     {
+      "i": 3,
+      "driftFromA0": 1.228083376e-7,
+      "vsNoGalaxy": 1.228053843e-7,
+      "firstOrder": 1.22805384e-7,
+      "ratio": 1.000000003,
+      "orbitNormalAngleChange": -7.517138458e-7,
+      "orbitNormalVsNoGalaxy": -1.197243109e-7,
+      "orbitNormalFirstOrder": -1.197243382e-7
+     },
+     {
+      "i": 4,
+      "driftFromA0": 1.377685728e-7,
+      "vsNoGalaxy": 1.377613269e-7,
+      "firstOrder": 1.377613266e-7,
+      "ratio": 1.000000002,
+      "orbitNormalAngleChange": 0.000002404426946,
+      "orbitNormalVsNoGalaxy": 9.112913091e-9,
+      "orbitNormalFirstOrder": 9.112404635e-9
+     },
+     {
+      "i": 5,
+      "driftFromA0": 1.187358748e-7,
+      "vsNoGalaxy": 1.187358748e-7,
+      "firstOrder": 1.187358749e-7,
+      "ratio": 0.9999999989,
+      "orbitNormalAngleChange": 5.867162067e-8,
+      "orbitNormalVsNoGalaxy": 8.875823942e-8,
+      "orbitNormalFirstOrder": 8.875902471e-8
+     }
+    ],
+    "pairAngleChangeMax": 2.858824288e-15,
+    "pairAt": [
+     0,
+     5
+    ],
+    "pairOverAxisMax": 2.075200895e-8
+   }
+  ],
+  "maintain": [
+   {
+    "f": 0,
+    "axisCost": 2.057041899e-31,
+    "speed": -2.020625266e-17,
+    "heat": 1.699092544e-19,
+    "axisCostRatio": 1,
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     7.739406248e-42,
+     1.535144715e-31,
+     1.699092544e-19,
+     3.22971903e-32,
+     3.356833754e-34,
+     1.85315021e-39
+    ]
+   },
+   {
+    "f": 0.01,
+    "axisCost": 1.212897284e-20,
+    "speed": -3.529409283e-9,
+    "heat": 2.658041725e-19,
+    "axisCostRatio": 58963178340,
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-20,
+     1.776012136e-31,
+     2.536751996e-19,
+     3.02128307e-30,
+     1.209598798e-31,
+     1.0668522e-25
+    ]
+   },
+   {
+    "f": 0.1,
+    "axisCost": 1.212897283e-18,
+    "speed": -3.529409264e-8,
+    "heat": 2.22046599e-18,
+    "axisCostRatio": 5896317834000,
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-18,
+     2.570889799e-30,
+     1.007568707e-18,
+     2.865895625e-28,
+     1.102940627e-29,
+     1.066852391e-23
+    ]
+   },
+   {
+    "f": 1,
+    "axisCost": 1.212897283e-16,
+    "speed": -3.529409261e-7,
+    "heat": 1.298362322e-16,
+    "axisCostRatio": 589631783400000,
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-16,
+     2.419780584e-28,
+     8.546503823e-18,
+     2.85323456e-26,
+     1.092573904e-27,
+     1.06685241e-21
+    ]
+   },
+   {
+    "f": 10,
+    "axisCost": 1.212897283e-14,
+    "speed": -0.000003529409248,
+    "heat": 1.221290869e-14,
+    "axisCostRatio": 58963178340000000,
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-14,
+     2.418347802e-26,
+     8.393585915e-17,
+     2.85199723e-24,
+     1.091540222e-25,
+     1.066852412e-19
+    ]
+   }
+  ],
+  "initSpin": {
+   "ok": [
+    true,
+    true
+   ],
+   "rows": [
+    {
+     "i": 0,
+     "label": "太陽",
+     "axisIDiff": 2.887127997e-10,
+     "firstOrder": 2.887128088e-10,
+     "ratio": 0.9999999684
+    },
+    {
+     "i": 1,
+     "label": "水星",
+     "axisIDiff": 6.672422853e-10,
+     "firstOrder": 6.672422943e-10,
+     "ratio": 0.9999999865
+    },
+    {
+     "i": 2,
+     "label": "金星",
+     "axisIDiff": 2.663551873e-9,
+     "firstOrder": 2.663551871e-9,
+     "ratio": 1.000000001
+    },
+    {
+     "i": 3,
+     "label": "地球",
+     "axisIDiff": 1.109413568e-11,
+     "firstOrder": 1.109414437e-11,
+     "ratio": 0.9999992165
+    },
+    {
+     "i": 4,
+     "label": "火星",
+     "axisIDiff": 1.280317842e-11,
+     "firstOrder": 1.280325992e-11,
+     "ratio": 0.9999936342
+    },
+    {
+     "i": 5,
+     "label": "木星",
+     "axisIDiff": 4.448007413e-12,
+     "firstOrder": 4.448005514e-12,
+     "ratio": 1.000000427
+    }
+   ]
+  },
+  "zeroDeclaredSameAsUndeclared": true,
+  "note": "大きさは未定(AN395)・銀河の模型からの数ではない —— |ω_G| = f Ω_ref の格子(Ω_ref = V₀/R₀ は尺度だけ)"
+ },
+ "gates": {
+  "acceptance": true,
+  "receiverRestriction": true,
+  "motionDenomSmall": true,
+  "fixedStateBitSame": true,
+  "twoStepsTranslationSame": true,
+  "isolatedOmegaIsG": true,
+  "twoBodySameG": true,
+  "wbg2StaysZero": true,
+  "explicitZeroSameRun": true,
+  "runtimeMass0": true,
+  "badRowZeroed": true,
+  "lowDenCounted": true,
+  "galaxyAngularMomentumSouth": true,
+  "zeroDeclaredSameAsUndeclared": true,
+  "allFinite": true,
+  "linearResponse": true,
+  "maintainAxesHeld": true,
+  "initSpinBothOk": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.138
+  },
+  "B": {
+   "wallSec": 0.212
+  },
+  "D": {
+   "wallSec": 268.356
+  }
+ },
+ "elapsedS": 270.974,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第311便b",
+  "target": "beta/index.html",
+  "targetSha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
+  "generatedAt": "2026-10-20T17:03:07.107Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7184696,
+    "sha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
+    "mtime": "2026-10-20T16:43:42.964Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w311b-galaxial.mjs",
+    "bytes": 40328,
+    "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
+    "mtime": "2026-10-20T16:54:28.156Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-20T16:27:35.180Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-20T16:27:35.168Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T16:27:35.164Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T16:27:35.176Z"
+   }
+  ],
+  "codeSha256": "7899e53a9af24b890a410ec9c720ace770c518f049136619bf9c51ed41f5ca10",
+  "harnessVersion": "w311b-galaxial-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "天の川を較正した",
+   "フィットした",
+   "法則を発見した",
+   "完全に一致",
+   "ω_G の大きさを決めた",
+   "銀河の模型から ω_G を導いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "GALAXY_AXIAL_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.inertialDrag3HoldF",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_MAINT_SC",
+    "REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED",
+    "REL_DRAG_AXIS_HOLD_LEDGER_VERSION",
+    "REL_DRAG_AXIS_HOLD_MAINT_VERSION",
+    "REL_DRAG_INIT_DEN_MIN",
+    "REL_DRAG_INIT_OBS_VERSION",
+    "REL_DRAG_INVSQ_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "inertialDrag3SpinState",
+    "inertialDragGalaxyAxialState",
+    "inertialDragInitObsEval",
+    "inertialDragInitObsRedo",
+    "inertialDragInitObsState",
+    "inertialDragInverseMap",
+    "inertialDragIsqState",
+    "pnSource",
+    "retiredOf",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1494,
+   "segments": 1341,
+   "closureShare": 0.3444
+  },
+  "scopeSha256": "dea41e9ea4a03bc404847162197fa470309421e1b3e3492f1a92bee4e12d94a3",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
