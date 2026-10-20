@@ -1141,6 +1141,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/recheck-w309c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第309便c: 観測の自転と移動の初期値の分解(spinDrag.initSpin・relativeDrag.initMotion —— 不動点と逆写像の照合・最初の步の u(0)・チェックポイントで分解し直さない)の門と、修正版の引きずり(m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5e6 m))での AN357 の再確認の表' }),
   // ==== 第309便c の塊(ここまで)====
+  // ==== 第310便d の塊(ここから)====
+  // ---- 第310便d(原仮定者の裁定(第109報)AN380・決断事項 AN384〜AN386・AN336・統括の検証項目 R225): **太陽の m_d の掃引の器**(段 K〔外殻の核 —— 厚い殻・薄い殻と
+  //   独立の 3 次元の求積〕・P〔近点の一次の式の自己試験〕・E〔エンジンと参照の t = 0 の照合〕・S〔m_d の対数の格子の表と近点への寄与の見積り〕・R〔エンジンの近点 ——
+  //   🌡️ の第306便a の世代の写しを新則に置き換えた E1・dragCore の球 R_obs の E2・対照 C0/C1 × h/h2〕・Z〔標的 1PN + A1 と届くか〕)。在位の本の宣言は変えない
+  //   (写しは器の中で組む)。html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(在位の値の列)・観測の記録 CSV 2 本を読む。1 プロセス。
+  //   所要は第310便d の枝の実測(正本の elapsedS)。外殻の鍵の掃引(--md)は統合の後の 2 段目(正本は別名 —— 鎖では走らせない)
+  S('mdsweep-310d', 'node tests/exp-w310d-mdsweep.mjs', ['tests/out/mdsweep-w310d.json'], 800, { secSource: 'w310d-branch', node: true, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/mdsweep-w310d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/R/rows/*/*/wallSec']) },
+    note: '第310便d: 太陽の m_d の掃引の材料(外殻〔一様の厚い殻・比較に薄い殻〕の参照の核と独立の求積・m_d の表・近点への寄与の一次の見積り・エンジンの近点 E1〔m_d = M☉〕と E2〔m_d → 0⁺ の代理〕・標的 1PN + A1 に届くか —— フィットの値を在位へ入れない)' }),
+  // ==== 第310便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
