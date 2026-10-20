@@ -232,6 +232,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint
 #   標的 1PN + A1 と在位の 🌡️ の宣言を読む第306便a の docs.an336_306・preset.planets306
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.mdSweep310 docs.an336_306 preset.planets306"
 # ==== 第310便d の塊(ここまで)====
+# ==== 第311便a の塊(ここから)====
+# 第311便a(原仮定者の裁定(第110報)AN387 ④・DECISIONS v70 §1 AN397・AN384・R226): 枝 a の新設 2 本(behavior.coreSpin311 —— dragCore の自転と軸の受理・未宣言のビット同一・
+#   宣言の値 = 天体の一致・核と外殻の線形・極薄の厚い殻の受理の防御・docs.coreSpin311 —— 正本と文書)と、受理器と新則の評価を読む behavior.invSq310・behavior.invSq309・behavior.initObs309
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coreSpin311 docs.coreSpin311 behavior.invSq310 behavior.invSq309 behavior.initObs309"
+# ==== 第311便a の塊(ここまで)====
 # ==== 第311便b の塊(ここから)====
 # 第311便b(原仮定者の裁定(第110報)・AN389・AN382・AN390・AN395・R227): 枝 b の新設 2 本(behavior.galaxial311 —— 銀河の一様軸引きずりの受理とビット同一・受け手の制限・分解の拒否・
 #   docs.galaxial311 —— 正本と文書)と、受理・分解・build を読む behavior.invSq310・docs.invSq310(段 Z の 2 行が拒否へ)・behavior.invSq309・behavior.initObs309・docs.recheck309・状態の契約

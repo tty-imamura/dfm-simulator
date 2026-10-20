@@ -4021,6 +4021,15 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **QA**: `docs.mdSweep310`(root は SKIP —— 正本の門・段 K の遠方の係数と段 S の表を作り直して照合・在位の 🌡️ の宣言が第306便a の世代のまま・PHYSICS〔第310便d〕の表と数・文書・禁句)。post-merge の ③′ に docs.mdSweep310・docs.an336_306・preset.planets306。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときに太陽の dragCore の m_d・外殻を宣言しない(探索の材料 —— 在位の宣言は別便)。器の数を「m_d を決めた」「標的に合わせた」と書かない。届かないものは届かないと数で書く(AN386)。
 
+
+## 119. 第311便a —— dragCore の自転と軸 `dragCore:{massFrac, radius, spin?, spinAxis?}`(新則 invSq の本だけ・版 `REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1"`)と極薄の一様の厚い殻の受理の防御(原仮定者の裁定(第110報)AN387 ④・(第113報)・DECISIONS v70 §0c ①・§1 AN397・決断事項 AN384・統括の検証項目 R226・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **鍵**: `dragCore.spin`(天体の spin と同じ単位〔rad/本の時間〕・値域 ±20 —— 外は拒否)・`dragCore.spinAxis:{tiltDeg, azimuthDeg?}`(天体の spinAxis と同じ角の定義 —— 傾き 0〜180・方位 −360〜360・未宣言 0。歳差・有効化・出所の鍵は持たない)。**宣言の一定のベクトル**(慣性系に固定 —— 状態として進めない・核の角運動量は解かない)。片方だけの宣言は残りを天体の今の状態から読む(spin だけ → 天体の軸・spinAxis だけ → 天体の自転)。新則の本だけ —— 旧則の本・law:"inertial" でない本・殻の形 `shellRatio` と一緒には拒否。正準形は書いた鍵だけ(宣言の無い天体は第310便a と同じ形)。
+- **評価**: 宣言した源だけ、回転引きずりと軸引きずりを核の項(宣言の Ω_c)と外殻の項(天体の状態の自転)で別に合成する(回転は核と外殻の係数をそれぞれのベクトルで・軸は鏡映 × sinθ をそれぞれの軸で評価してから足す・傾きの無い受け手へのスカラーはそれぞれの軸へ射影して足す)。並進 β は変えない。観測の初期値の分解は核の自転を分解しない(宣言の値のまま)。
+- **極薄の殻**: `outerShell:"uniform"` かつ massFrac < 1 の宣言は、受け手の外殻の求積の節点(実際の次数の規則)が R_i < s < R_o の内部に表現でき、体積の差と自己の場が有限のときだけ受理(`dragCoreThinShellCheck` —— km や質量比の閾値ではない・thin へ替えない・外殻の質量を消さない)。
+- **読み口**: `inertialDragIsqState(S)` は宣言した本で `coreSpin`(版・源ごとの s・軸・宣言の有無・外殻の有無)と受け手ごとの `coreSpinSrc`(源ごとの uRotCore・uRotShell・uRot・rotCore・rotShell・omegaCore・omegaShell・omega・omegaS)を返す。`inertialDragIsqPointAt` は宣言した源の項に `coreSpin`・`shellSpin`。新関数 `inertialDragIsqCoreSpin`・`validateDragCoreSpin`・`dragCoreThinShellCheck`。作業 `_rdIsqCs` は SIM_STEP_SCRATCH。`dragCoreEdit` は宣言の spin・spinAxis を落とさない。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら新則の本の dragCore だけに(「核の運動を解いた」「観測の核の自転を同定した」とは書かない —— 宣言の一定のベクトルは入力のノブ)。
+- **器と正本**: `tests/exp-w311a-corespin.mjs`(版 w311a-corespin-1・`W311A_OUT`・`W311A_QUICK`)・lib `tests/lib-w311a-corespin.mjs` → `tests/out/corespin-w311a.json`(段 corespin-311a)。QA: `behavior.coreSpin311`(受理・未宣言のビット同一・宣言の値 = 天体の一致・線形・玩具のエンジンと lib)・`docs.coreSpin311`(正本の門・PHYSICS〔第311便a〕の表と数・文書・禁句)—— どちらも root は SKIP。
 ## 120. 第311便b —— 銀河の一様軸引きずり `physics.relativeDrag.galaxyAxial:{wx, wy, wz}`(新則の本だけ)・新則の受け手は宣言の質量 m > 0 かつ R_d > 0(質量 0 に半径を宣言した本は受理で拒否)・観測の移動の分解の分母の下限 `REL_DRAG_INIT_DEN_MIN = 1e-2`(why `motionDenomSmall`)・非有限の行の帳簿(原仮定者の裁定(第110報)・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **鍵 `galaxyAxial`**(版 `GALAXY_AXIAL_VERSION = "w311b-galaxial-1"`): `{wx, wy, wz}` —— 本の角速度の単位(1/本の時間単位)の 3 成分・3 つとも有限の数(−0 は +0 へ)。未知の鍵・成分の欠け・非有限・null・配列・文字列は拒否。**新則(`invSq`)の本だけ**(旧則の本は拒否)・`spinDrag.axial:"on"` の本だけ。明示の 0 は受理する(足さない —— 未宣言と走りがビット同一・読み口の `explicitZero` で区別)。一様並進・一様回転の鍵は作らない(原仮定者の規約(第110報)—— 太陽系の局所の慣性系そのものに吸収される)。

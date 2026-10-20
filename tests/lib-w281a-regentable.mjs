@@ -1171,6 +1171,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/invsq-w310a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/speed/*/table/wallSec', '/P/speed/*/direct/wallSec']) },
     note: '第310便a: 新則の受理(invSq.Wbg2 は 0 だけ —— 版 w310a-invsq-wbg0-1)・中心 r = 0 の向き・外殻の源 invSq.outerShell(一様の厚い殻と薄い殻 —— 源と受け手でそれぞれ計算・質量で重み)・自己の場の前計算(今の経路との照合と速さ)・太陽–水星の写しの m_d 3 点・AN382 の自己の無い受け手の今の挙動' }),
   // ==== 第310便a の塊(ここまで)====
+  // ==== 第311便a の塊(ここから)====
+  // ---- 第311便a(原仮定者の裁定(第110報)AN387 ④・(第113報)・DECISIONS v70 §0c ①・§1 AN397・決断事項 AN384・統括の検証項目 R226):
+  //   **dragCore の自転と軸(新則の本だけの opt-in —— 宣言の一定のベクトル)と極薄の厚い殻の受理の防御の器**(段 T〔極薄の殻の再現と防御〕・K〔鍵の受理〕・
+  //   B〔未宣言・宣言の値 = 天体のビット同一と分け方・Ω_c = 0・線形〕・R〔玩具の配置のエンジンと lib〕・M〔太陽–水星 —— 第310便d の写しの作り方〕・C〔状態の契約〕・P〔速さ —— 揮発〕)。
+  //   本の宣言は変えない(写しは器の中で組む)。html と凍結の写し tests/data-w306a-decl305.json を読む・1 プロセス。所要は第311便a の枝の実測(正本の elapsedS)
+  S('corespin-311a', 'node tests/exp-w311a-corespin.mjs', ['tests/out/corespin-w311a.json'], 8, { secSource: 'w311a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/corespin-w311a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/rows/*/evalSec/wallSec']) },
+    note: '第311便a: dragCore の自転と軸 dragCore:{spin?, spinAxis?}(新則の本だけ —— 版 w311a-corespin-1・宣言の一定のベクトル・核と外殻を別に合成)と極薄の一様の厚い殻の受理の防御(求積の節点が内部に表現できるか —— AN384)・太陽–水星の写しの核の自転の表' }),
+  // ==== 第311便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・

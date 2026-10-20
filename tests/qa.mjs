@@ -2415,6 +2415,10 @@ lastAddAt = Date.now();
       // 第310便(統括の統合 —— 同じ規則): 新則の受理と核の直し・外殻の源(invsq-310a)・対の熱の相反の測定(pairheat-310b)・
       //   太陽の m_d の掃引の材料(mdsweep-310d)。どれも領域 REGEN_SCOPE を刻む(枝 c は新しい正本なし)
       'tests/out/invsq-w310a.json', 'tests/out/pairheat-w310b.json', 'tests/out/mdsweep-w310d.json',
+      // ==== 第311便a の塊(ここから)====
+      // 第311便a(lint.canon304 ⑤ の「新しい正本は CANON へ」): dragCore の自転と軸・極薄の厚い殻の受理の防御の器(corespin-311a)。領域 REGEN_SCOPE を刻む
+      'tests/out/corespin-w311a.json',
+      // ==== 第311便a の塊(ここまで)====
       // ==== 第311便b の塊(ここから)==== 銀河の一様軸引きずりと新則の受け手の制限・分解の拒否の器(galaxial-311b)。領域 REGEN_SCOPE を刻む
       'tests/out/galaxial-w311b.json',
       // ==== 第311便b の塊(ここまで)====
@@ -81269,6 +81273,168 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第310便a の塊(ここまで)====
+// ==== 第311便a の塊(ここから —— behavior.coreSpin311・docs.coreSpin311 の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第311便a(原仮定者の裁定(第110報)AN387 ④・(第113報)・DECISIONS v70 §0c ①・§1 AN397・決断事項 AN384・統括の検証項目 R226): behavior.coreSpin311 ——
+// ----   **dragCore の自転と軸(新則の本だけの opt-in —— 宣言の一定のベクトル)と極薄の厚い殻の受理の防御**の振る舞い(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1" ∧ lib tests/lib-w311a-corespin.mjs。
+// ----   ① 受理: 極薄の一様の厚い殻(☿ の dragCore = R(1 − gap))の gap 10⁻¹⁴・2⁻⁵² は拒否(求積の点が丸めで内外の境界へ潰れる —— order を見直す)・10⁻²・10⁻⁶・10⁻¹⁰・10⁻¹² は受理で
+// ----      β・回転の係数・軸の ω が有限・thin と massFrac = 1 は対象外(受理)/ 鍵の型(spin の値域と型・spinAxis の形・未知の鍵)・旧則の本と殻の形 shellRatio との拒否
+// ----   ② 未宣言: 読み口に coreSpin が無い・宣言の値 = 天体の自転と軸の写しは外殻の無い源で未宣言とビット同一(読み口と 10 步)・外殻のある源で相対 < 1e-12(10 步はビット同一)
+// ----   ③ 線形: 外殻ありの源で Ω_c を 2 倍 → 核の分だけ 2 倍(相対 < 1e-12)・外殻の分はビット同一・m_d = M で Ω_c = 0 → 太陽からの u_rot と ω が 0
+// ----   ④ 参照: 玩具の配置(外殻 uniform・核の自転と軸を別に宣言)のエンジンと lib(u_rot < 1e-12・ω < 1e-9)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const cs311Lib = path.join(ROOT, 'tests', 'lib-w311a-corespin.mjs');
+  const cs311Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && cs311Html.indexOf('REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1"') >= 0 && fs.existsSync(cs311Lib))) {
+    console.log('SKIP behavior.coreSpin311(第311便a の dragCore の自転と軸の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const CL = await import('file://' + cs311Lib);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => CL.norm(CL.sub(a, b)) / Math.max(CL.norm(b), 1e-300);
+      const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'), st = E('inertialDragIsqState');
+      const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return S; };
+      const fin = (s) => s.receivers.every((r) => [r.beta, r.rot, r.omega].every((a) => a === null || a.every(Number.isFinite)));
+      // ① 受理 —— 極薄の一様の厚い殻
+      const thin = (gap, o = {}) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
+        q.physics.relativeDrag = { law: 'inertial', invSq: { outerShell: o.shell || 'uniform', order: 8 }, spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
+        q.bodies[1].dragCore = { massFrac: o.f === undefined ? 0.5 : o.f, radius: q.bodies[1].radius * (1 - gap) }; return q; };
+      let nThin = 0;
+      for (const g of [1e-14, Number.EPSILON]) { const v = HP.validatePreset(clone(thin(g))), m = (v.errors || []).join(' ');
+        if (v.ok || !/求積で解像できない/.test(m) || !/内外の境界へ潰れる/.test(m) || !/order/.test(m)) bad.push('① gap ' + g + ' が拒否されない/理由が違う: ' + (v.ok ? '受理' : m.slice(0, 80))); else nThin++; }
+      for (const g of [1e-2, 1e-6, 1e-10, 1e-12]) { const v = HP.validatePreset(clone(thin(g)));
+        if (!v.ok) { bad.push('① gap ' + g + ' が拒否された'); continue; }
+        if (!fin(st(sim(thin(g))))) bad.push('① gap ' + g + ' の β・回転・ω が有限でない'); else nThin++; }
+      for (const [n, q] of [['thin', thin(1e-14, { shell: 'thin' })], ['massFrac 1', thin(1e-14, { f: 1 })]]) { if (!HP.validatePreset(clone(q)).ok) bad.push('① 対象外の ' + n + ' が拒否された'); else nThin++; }
+      // ① 受理 —— 鍵の型
+      const cp = (f, sh, cs) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
+        q.physics.relativeDrag = { law: 'inertial', invSq: { order: 8, ...(sh ? { outerShell: sh } : {}) }, dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
+        if (f !== null) q.bodies[0].dragCore = { massFrac: f, radius: 6.5e6 / Math.pow(10, q.scaleExp.L), ...(cs || {}) }; return q; };
+      let nKey = 0, nKeyAll = 0;
+      const key = (cs, ok, re, mut) => { const q = cp(0.1, 'uniform', cs); if (mut) mut(q); nKeyAll++; const v = HP.validatePreset(clone(q)), m = (v.errors || []).join(' ');
+        if (ok ? (v.ok && JSON.stringify(v.preset.bodies[0].dragCore) === JSON.stringify({ massFrac: 0.1, radius: 0.065, ...cs })) : (!v.ok && re.test(m))) nKey++; else bad.push('① 鍵 ' + JSON.stringify(cs) + ' の受理が契約と違う: ' + (v.ok ? '受理' : m.slice(0, 80))); };
+      key({ spin: 0.29 }, true); key({ spinAxis: { tiltDeg: 97.25, azimuthDeg: 345.77 } }, true); key({ spin: -0.5, spinAxis: { tiltDeg: 30 } }, true);
+      for (const v of [NaN, Infinity, '1', null, 20.5, -21]) key({ spin: v }, false, /dragCore\.spin/);
+      for (const a of [[0, 0, 1], null, {}, { tiltDeg: 181 }, { tiltDeg: 10, azimuthDeg: 400 }]) key({ spinAxis: a }, false, /dragCore\.spinAxis/);
+      key({ spinAxis: { tiltDeg: 10, enable: true } }, false, /dragCore\.spinAxis に未知の鍵/); key({ omega: 1 }, false, /dragCore に未知の鍵 omega/);
+      key({ spin: 0.1 }, false, /新しい引きずり則 invSq の本だけ/, (q) => { q.physics.relativeDrag = clone(mer.physics.relativeDrag); });
+      key({ spin: 0.1 }, false, /殻の形 shellRatio と一緒に宣言しない/, (q) => { q.physics.relativeDrag = clone(mer.physics.relativeDrag); q.bodies[0].dragCore = { shellRatio: 0.5, spin: 0.1 }; });
+      cases.push(`① 極薄の厚い殻 ${nThin}/8(10⁻¹⁴・2⁻⁵² は拒否・10⁻²〜10⁻¹² は受理で有限・thin と massFrac 1 は対象外)・鍵の受理 ${nKey}/${nKeyAll}`);
+      // ② 未宣言・宣言の値 = 天体の自転と軸
+      const sb = mer.bodies[0], eq = { spin: sb.spin, spinAxis: { tiltDeg: sb.spinAxis.tiltDeg, azimuthDeg: sb.spinAxis.azimuthDeg } };
+      const pick = (s) => JSON.stringify(s.receivers.map((r) => [r.beta, r.rot, r.omega]));
+      const fp = (S) => { const h = crypto.createHash('sha1'); for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin', 'sax', 'say', 'saz', 'rotA']) h.update(Buffer.from(Float64Array.from(S[k].subarray(0, S.n)).buffer)); return h.digest('hex'); };
+      const run = (S, k) => { const dt = E('appStepDt')(S); for (let i = 0; i < k; i++) S.step(dt); return fp(S); };
+      const u0 = st(sim(cp(0.1, 'uniform')));
+      if ('coreSpin' in u0 || u0.receivers.some((r) => 'coreSpinSrc' in r)) bad.push('② 宣言の無い写しの読み口に coreSpin がある');
+      const A1 = sim(cp(1, null)), B1 = sim(cp(1, null, eq));
+      if (pick(st(A1)) !== pick(st(B1))) bad.push('② 外殻の無い源で宣言の値 = 天体の読み口がビット同一でない');
+      if (run(A1, 10) !== run(B1, 10)) bad.push('② 外殻の無い源で宣言の値 = 天体の 10 步がビット同一でない');
+      const A2 = sim(cp(0.1, 'uniform')), B2 = sim(cp(0.1, 'uniform', eq)), a2 = st(A2).receivers.find((r) => r.i === 1), b2 = st(B2).receivers.find((r) => r.i === 1);
+      const eo = relv(b2.omega, a2.omega), Om = A2.spin[0], ah = [A2.sax[0], A2.say[0], A2.saz[0]], uA = CL.cross(CL.scale(ah, Om), a2.rot.slice(0, 3)), eu = relv(b2.coreSpinSrc[0].uRot, uA);
+      if (!(eo < 1e-12 && eu < 1e-12)) bad.push('② 外殻のある源で宣言の値 = 天体の ω ' + eo + '・u_rot ' + eu);
+      if (run(A2, 10) !== run(B2, 10)) bad.push('② 外殻のある源で宣言の値 = 天体の 10 步がビット同一でない');
+      cases.push(`② 未宣言は coreSpin なし・宣言の値 = 天体: 外殻なしはビット同一(読み口・10 步)・外殻ありは ω ${eo.toExponential(1)}・u_rot ${eu.toExponential(1)}(10 步はビット同一)`);
+      // ③ 線形と Ω_c = 0
+      const L = (k) => { const s = st(sim(cp(0.1, 'uniform', { spin: k * sb.spin }))); return Object.assign({ s: s.coreSpin.sources[0].s }, s.receivers.find((r) => r.i === 1).coreSpinSrc.find((z) => z.j === 0)); };
+      const L1 = L(1), L2 = L(2), k2 = L2.s / L1.s, el = Math.max(relv(L2.uRotCore, CL.scale(L1.uRotCore, k2)), relv(L2.omegaCore, CL.scale(L1.omegaCore, k2)));
+      if (!(el < 1e-12)) bad.push('③ 核の分が Ω_c に比例しない ' + el);
+      if (JSON.stringify([L1.uRotShell, L1.omegaShell]) !== JSON.stringify([L2.uRotShell, L2.omegaShell])) bad.push('③ 外殻の分が Ω_c で変わる');
+      const z = st(sim(cp(1, null, { spin: 0 }))).receivers.find((r) => r.i === 1), zc = z.coreSpinSrc.find((q) => q.j === 0);
+      if (!(zc.uRot.every((v) => v === 0) && zc.omega.every((v) => v === 0) && z.omega.every((v) => v === 0))) bad.push('③ m_d = M・Ω_c = 0 で太陽からの u_rot・ω が 0 でない');
+      cases.push(`③ 核の分の比例 ${el.toExponential(1)}・外殻の分はビット同一・m_d = M で Ω_c = 0 → u_rot = ω = 0`);
+      // ④ 参照(玩具 —— エンジンと lib)
+      const T2 = [{ x: [0, 0, 0], m: 5, md: 1, Rd: 0.3, Ro: 1.2, Om: 0.8, a: CL.unit([0.2, 0.1, 1]), cs: { spin: -1.7, spinAxis: { tiltDeg: 70, azimuthDeg: 20 } } }, { x: [7, 1.5, -0.8], m: 1, Rd: 0.4, Om: -0.3, a: [0, 0, 1] }];
+      const F = (g) => Float64Array.from(T2.map(g));
+      const S2 = { n: 2, coord3d: true, m: F((b) => b.m), x: F((b) => b.x[0]), y: F((b) => b.x[1]), z: F((b) => b.x[2]), spin: F((b) => b.Om), radOv: F((b) => b.Ro || b.Rd),
+        sax: F((b) => b.a[0]), say: F((b) => b.a[1]), saz: F((b) => b.a[2]), pinned: new Uint8Array(2),
+        relDrag: { law: 'inertial', invSq: { Wbg2: 0, order: 6, outerShell: 'uniform' }, pairs: 'all', history: 'positions', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', axialGain: 1, axialNorm: 'diff' } },
+        dragCoreD: T2.map((b) => (b.md !== undefined ? { massFrac: b.md / b.m, radius: b.Rd, R: b.Ro, ...b.cs } : null)), _rdPairSet: null, _rdPairN: 2, _amKind: null, params: { G: 1, cLight: 1 } };
+      const e4 = st(S2).receivers.find((r) => r.i === 1).coreSpinSrc[0], R4 = CL.refReceiverCoreSpin(T2.map((b) => ({ ...b, Omc: b.cs ? b.cs.spin : undefined, ac: b.cs ? CL.axisOf(70, 20) : undefined })), 1, { order: 6, mode: 'uniform', axial: true });
+      const r4u = Math.max(relv(e4.uRotCore, R4.uRotCore[0]), relv(e4.uRotShell, R4.uRotShell[0])), r4o = relv(e4.omega, R4.omega[0]);
+      if (!(r4u < 1e-12 && r4o < 1e-9)) bad.push('④ 玩具のエンジンと lib u_rot ' + r4u + '・ω ' + r4o);
+      cases.push(`④ 玩具のエンジンと lib: u_rot(核・外殻)${r4u.toExponential(1)}・ω ${r4o.toExponential(1)}`);
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.coreSpin311', bad.length === 0,
+      `**dragCore の自転と軸と極薄の厚い殻の受理の防御の振る舞い**(第311便a・原仮定者の裁定(第110報)AN387 ④・AN397・AN384・R226 —— 新則の本だけの opt-in・宣言の一定のベクトル・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第311便a: docs.coreSpin311 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1" ∧ 正本 tests/out/corespin-w311a.json ∧ 器 ∧ lib。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・核の自転と新則と外殻の版
+// ----   ② 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第311便a〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ③ CHANGELOG(v1.46-b311 の節)・README・AI_SPEC §119・再生成の段・.gitignore の例外・post-merge の ③′・CANON
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  const cs311Out = path.join(ROOT, 'tests', 'out', 'corespin-w311a.json'), cs311Harn = path.join(ROOT, 'tests', 'exp-w311a-corespin.mjs'), cs311Lib = path.join(ROOT, 'tests', 'lib-w311a-corespin.mjs');
+  const cs311Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && cs311Html.indexOf('REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1"') >= 0 && fs.existsSync(cs311Out) && fs.existsSync(cs311Harn) && fs.existsSync(cs311Lib))) {
+    console.log('SKIP docs.coreSpin311(第311便a の dragCore の自転と軸の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null, CL = null;
+    try { J = JSON.parse(fs.readFileSync(cs311Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + cs311Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    try { CL = await import('file://' + cs311Lib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CLg = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第311便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X && CL) {
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== CL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      if (J.coreSpinVersion !== 'w311a-corespin-1' || J.invSqVersion !== 'w310a-invsq-wbg0-1' || J.shellVersion !== 'w310a-outershell-1') bad.push('正本の版 ' + J.coreSpinVersion + '/' + J.invSqVersion + '/' + J.shellVersion);
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
+      if (!sec) bad.push('PHYSICS〔第311便a〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第311便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第311便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`② 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第311便a〕が「## 7. 論文」の後');
+        for (const w of ['R226', '第110報', '第113報', 'AN387', 'AN397', 'AN384', 'DECISIONS v70', 'exp-w311a-corespin.mjs', 'lib-w311a-corespin.mjs', 'corespin-w311a.json', 'docs.coreSpin311', 'behavior.coreSpin311', 'W311A_OUT',
+          'w311a-corespin-1', 'dragCore', 'spinAxis', '宣言の一定のベクトル', 'dragCoreThinShellCheck', 'inertialDragIsqCoreSpin', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第311便a〕に「' + w + '」が無い');
+      }
+      { const hb = CLg.indexOf('## v1.46-b311'), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
+        if (cs.indexOf('第311便a') < 0) bad.push('CHANGELOG の v1.46-b311 の節に第311便a が無い'); }
+      if (RM.indexOf('第311便a') < 0) bad.push('README に第311便a が無い');
+      { const ai = AS.indexOf('## 119.');
+        if (ai < 0) bad.push('AI_SPEC に §119 が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['dragCore', 'spin', 'spinAxis', 'w311a-corespin-1', 'SYSTEM_PROMPT には載せない', 'docs.coreSpin311']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §119 に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('corespin-311a', 'node tests/exp-w311a-corespin.mjs', ['tests/out/corespin-w311a.json']") < 0 || !/secSource: 'w311a-branch'/.test(RT)) bad.push('再生成の段 corespin-311a');
+      if (GI.indexOf('!tests/out/corespin-w311a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.coreSpin311') < 0 || PM.indexOf('behavior.coreSpin311') < 0) bad.push('post-merge の ③′ に docs.coreSpin311/behavior.coreSpin311 が無い');
+      if (QA.indexOf("'tests/out/corespin-w311a.json',") < 0) bad.push('CANON に正本が無い');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/核の運動を解いた/, /核の角運動量を解いた/, /法則を発見した/, /完全に一致/, /フィットした/, /較正した/, /収束した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第311便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第311便a〕に禁句(' + w.length + ' 字)');
+      for (const f of ['tests/exp-w311a-corespin.mjs', 'tests/lib-w311a-corespin.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+      cases.push('③ CHANGELOG(v1.46-b311)・README・AI_SPEC §119・段・.gitignore・post-merge ③′・CANON / ④ 書かない語・禁句');
+    }
+    add('docs.coreSpin311', bad.length === 0,
+      `**dragCore の自転と軸と極薄の厚い殻の受理の防御の正本と文書**(第311便a・原仮定者の裁定(第110報)AN387 ④・AN397・AN384・R226 —— 正本 corespin-w311a.json): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第311便a の塊(ここまで)====
 // ==== 第308便c の塊(ここから —— docs.sunSpin308 の 1 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第308便c(原仮定者の裁定(第102報)②「太陽の観測値の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率」・①「相互の引きずりに反作用を
 // ----   返すと二重計上にならないか」・原仮定者の裁定(第101報)・決断事項 AN355・AN348・統括の検証項目 R216): docs.sunSpin308 —— **要求される太陽の慣性自転と、銀河を源とする
