@@ -40,7 +40,7 @@
 | 統合直後の部分 QA(`tools/post-merge-qa.sh --base` = 3e38f31 の beta) | 落ちたのは全体の hash を持つ正本の来歴・sync の型(鎖で作り直す型)と生成文書の見出しの版名 —— **ほかに CHANGELOG を節で読む QA 4 本**(`## v1.45-b<便>` の見出しだけを探していた —— 昇格で便の行が `## v1.45.0(RC・…)` の下へ移る)を、どちらの見出しでも読むように直した。全内蔵の 600 步の指紋 176/176 同一・署名 176/176 同一 |
 | 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = 3e38f31 の beta) | 計画 always 13 / regen 30 / reuse 72 / recheck 59 → **済み 104 段・段の失敗 0**(1 h 30 min)。鎖の後の html は鎖の前と byte 同一(ルートへの写し直しは要らなかった) |
 | 転記照合(`tools/pregate-transcript.mjs --base-rev 3e38f31`) | **64/64 PASS** |
-| フルゲート(手元・heap の上限 6144 MiB —— CI の qa ジョブと同じ) | 順序の検査 ok・指紋 176/176 同一・署名 176/176 同一・root と beta が byte 同一・**beta 1234/1234**・**root 943/943** ALL PASS・perf は下の行 |
+| フルゲート(手元・heap の上限 6144 MiB —— CI の qa ジョブと同じ) | 順序の検査 ok・指紋 176/176 同一・署名 176/176 同一・root と beta が byte 同一・**beta 1234/1234**・**root 943/943** ALL PASS・**perf 21/21 PASS**(root と beta は同じ html —— beta/root の比は 0.96〜1.10。nebulaShell は初回 1.284 → 器の決まりどおり 1 回だけ開き直して 0.973) |
 
 ## 3. root で SKIP する試験(昇格の後の root の QA の範囲)
 
