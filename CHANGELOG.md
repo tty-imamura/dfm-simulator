@@ -5,6 +5,7 @@
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
 ## v1.46-b310(開発中 — beta)
+- **第310便a(2026-10-20・原仮定者の裁定(第107報)・(第109報)AN380・決断事項 AN378・AN384・AN385・AN386・AN382・統括の検証項目 R222 —— 新則の受理と核の直し)**: `relativeDrag.invSq.Wbg2` は 0 だけを受理(省略・0・−0 → 正準形 0・版 `w310a-invsq-wbg0-1`)・中心 r = 0 の向きを 0 に・外殻の源の opt-in `invSq.outerShell:"uniform"|"thin"`(dragCore の m_d < M の天体は残りを外殻へ —— 源と受け手でそれぞれ計算・質量で重み・m_d = M はビット同一)・受け手の自己の場を単位の球の表から(今の経路の桁落ちを除く・評価が約 0.7 倍の時間)・器 `tests/exp-w310a-invsq.mjs` と正本 `invsq-w310a.json`(☿ 3D の m_d 3 点の表・AN382 の今の挙動)・QA `behavior.invSq310`・`docs.invSq310`・第309便a の正本を新版で作り直した(AI_SPEC §115・PHYSICS〔第310便a〕)。
 
 ## v1.45.0(RC・2026-10-20)
 

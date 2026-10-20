@@ -1131,6 +1131,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/invsq-w309a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第309便a: 新しい引きずり則(分子は源の一様球の逆二乗の体積平均 m/r²・分母はトータル〔W_bg′ + 自己の体積平均 + 他の源〕・受け手の体積の比の平均・回転は M2・軸は鏡映 × sinθ × 受け手の近遠の差分)の opt-in relativeDrag.invSq と dragCore の既定 dragCoreDefault:"cap6500km" の参照の器(独立な求積・エンジンとの一致・天体の写し・在位の数え上げ)' }),
   // ==== 第309便a の塊(ここまで)====
+  // ==== 第310便a の塊(ここから)====
+  // ---- 第310便a(原仮定者の裁定(第107報)・(第109報)AN380・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222):
+  //   **新則の受理と核の直しの器**(段 A〔Wbg2 は 0 だけの受理・outerShell・内部状態の参照の比較〕・C〔中心 r = 0 の向き〕・N〔節点の t の範囲・内蔵の宣言・在位の写しの 1 步〕・
+  //   S〔外殻の核 —— 球の差・薄い殻・動径と 3 次元の求積〕・E〔外殻の受け手と源のエンジンと lib・m_d = M のビット同一・チェックポイント〕・M〔太陽–水星の写しの m_d 3 点〕・
+  //   P〔自己の場の前計算と今の経路 —— 全節点・端から端の β と ω・速さ〔揮発〕〕・Z〔AN382 の今の挙動〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。
+  //   所要は第310便a の枝の実測(正本の elapsedS)
+  S('invsq-310a', 'node tests/exp-w310a-invsq.mjs', ['tests/out/invsq-w310a.json'], 14, { secSource: 'w310a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/invsq-w310a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/speed/*/table/wallSec', '/P/speed/*/direct/wallSec']) },
+    note: '第310便a: 新則の受理(invSq.Wbg2 は 0 だけ —— 版 w310a-invsq-wbg0-1)・中心 r = 0 の向き・外殻の源 invSq.outerShell(一様の厚い殻と薄い殻 —— 源と受け手でそれぞれ計算・質量で重み)・自己の場の前計算(今の経路との照合と速さ)・太陽–水星の写しの m_d 3 点・AN382 の自己の無い受け手の今の挙動' }),
+  // ==== 第310便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
