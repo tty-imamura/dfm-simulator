@@ -34,15 +34,27 @@
 
 ## 2. 昇格のゲート(**値は測ったものだけ**)
 
-(第310便の第1段のゲートの後に記入する)
+| 段 | 結果 |
+|---|---|
+| `release-promote --check` | **7/7 PASS**(version-sync・root-equals-beta・sw-root・sw-beta・citation・lock-sync・changelog-heading) |
+| 統合直後の部分 QA(`tools/post-merge-qa.sh --base` = 3e38f31 の beta) | 落ちたのは全体の hash を持つ正本の来歴・sync の型(鎖で作り直す型)と生成文書の見出しの版名 —— **ほかに CHANGELOG を節で読む QA 4 本**(`## v1.45-b<便>` の見出しだけを探していた —— 昇格で便の行が `## v1.45.0(RC・…)` の下へ移る)を、どちらの見出しでも読むように直した。全内蔵の 600 步の指紋 176/176 同一・署名 176/176 同一 |
+| 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = 3e38f31 の beta) | 計画 always 13 / regen 30 / reuse 72 / recheck 59 → **済み 104 段・段の失敗 0**(1 h 30 min)。鎖の後の html は鎖の前と byte 同一(ルートへの写し直しは要らなかった) |
+| 転記照合(`tools/pregate-transcript.mjs --base-rev 3e38f31`) | **64/64 PASS** |
+| フルゲート(手元・heap の上限 6144 MiB —— CI の qa ジョブと同じ) | 順序の検査 ok・指紋 176/176 同一・署名 176/176 同一・root と beta が byte 同一・**beta 1234/1234**・**root 943/943** ALL PASS・perf は下の行 |
 
 ## 3. root で SKIP する試験(昇格の後の root の QA の範囲)
 
-(ゲートの後に記入する)
+昇格の後の root のフル QA は **943 件 PASS・SKIP 202 件**(昇格の前は 749 件 —— 内容で世代を判定する試験が root でも走るようになった)。
+**SKIP 202 件のうち 196 件は beta だけの門(`TARGET.startsWith('beta/')` ほか)の試験**で、同じ html(root と beta は byte 同一)の beta のフル走行で **196/196 PASS** している。
+残り 6 件(`behavior.phase`・`merger.bulk-velocity`・`behavior.merger-causal`・`obs.attrs`・`behavior.agnjet`・`behavior.starcore`)は**廃止した本・属性を読む旧い試験**で、beta でも SKIP である。
+**root のフル QA の件数だけで第309便までの新機能をすべて試したとは言わない** —— 新機能の試験は beta の走行で数える。門を「機能の世代」で開く作り替えは次期線で行う(既存の SKIP を一括で外して旧 root に新世代の検査を当てることはしない)。
 
 ## 4. ルートで動きが変わる本(v1.44.0 のルート → v1.45.0 のルート)
 
-(測定の後に記入する)
+`node tests/exp-w258c-bitsame.mjs <v1.44.0 のルート> index.html`(600 步の指紋・共通の 122 本): **同一 55・状態が変わる 45・署名の長さだけが違う 22・新しい本 54・消える本 0**。
+
+- **状態が変わる 45 本**: galaxy・galaxyStd・galaxyGeo2・galaxyMeshSpiral・earthMoonReal・earthMoonRealKF1・emAuditNewton・emAuditDFM・emAuditSolar・qLockRadialAudit・qLockRadialAuditQ3・mercury・mercuryReal・mercuryRealKF1・solarInner・jupiterGalilean・venusReal・marsMoonsReal・plutoCharonReal・uranusReal・neptuneReal・alphaCenAB・alphaCenABDFM・siriusAB・siriusABDFM・psrDoubleAB・psrDoubleABDFM・psrDoubleABSpinCal・psrJ1757DFM・psrJ1946DFM・psrDoubleABPN・psrJ1757PN・psrJ1946PN・psrDoubleABCF・psrJ1757CF・psrJ1946CF・psrB1534・psrB1534DFM・psrB1534CF・gw150914Merge4s・gw150914SpinDipole・saturnZonalD68・saturnRingReal・saturnRingRealKF1・binary(第264〜309便の宣言・法則の変更 —— 理由は CHANGELOG と PHYSICS の便の節)。
+- **署名の長さだけが違う 22 本**(状態は同一): projectile・boxtrans・boxredshift・galaxyDB・earthMoon・earthMoonFree・psrDoubleABGeoToy・compactForceToy・boxBinaryToy・spaceMeshBinaryToy・gw150914・gw150914DFM・tuc47・tuc47DFM・ngc3198・ngc3198DFM・supernovaProg・supernovaProgDFM・crabRemnant・fig8・pulsarSolo・spinDipoleBinary。
 
 ## 5. 継ぐもの
 
