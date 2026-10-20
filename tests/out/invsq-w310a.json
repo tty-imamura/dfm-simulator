@@ -1,0 +1,2235 @@
+{
+ "version": "w310a-invsq-1",
+ "libVersion": "w310a-shell-lib-1",
+ "generator": "tests/exp-w310a-invsq.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "a321f74fcb7edbf21a65fa8c6ca531e745788ad1ada0fe4be911acecae1ca5fc",
+ "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "invSqLaw": "invsq-ball-total-ratio",
+ "shellVersion": "w310a-outershell-1",
+ "versionReaders": [
+  {
+   "file": "tests/qa.mjs behavior.invSq309",
+   "reads": "html の REL_DRAG_INVSQ_VERSION",
+   "handling": "両方の版で走る(③ の Wbg2 = 0.05 は内部状態の参照の比較 —— 公開の受理と分ける)"
+  },
+  {
+   "file": "tests/qa.mjs docs.invSq309",
+   "reads": "正本 invsq-w309a.json の invSqVersion",
+   "handling": "両方の版を受ける(正本は鎖で新版の html から作り直される)"
+  },
+  {
+   "file": "tests/exp-w309a-invsq.mjs(段 G の受理の表)",
+   "reads": "REL_DRAG_INVSQ_VERSION",
+   "handling": "Wbg2 正は版 w309a-invsq-1 のときだけ受理を期待(新版では拒否)—— 正本の契約を新版へ"
+  },
+  {
+   "file": "tests/out/invsq-w309a.json",
+   "reads": "—(invSqVersion を刻む)",
+   "handling": "新版の html で作り直した(段 A の照合は受け手を原点に置いた lib と)・PHYSICS〔第309便a〕の 2 行を正本の値へ"
+  },
+  {
+   "file": "tests/out/recheck-w309c.json・tests/out/maintain-w309b.json",
+   "reads": "版を読まない(Wbg2 を宣言しない)",
+   "handling": "そのまま(鎖が領域で判定)"
+  }
+ ],
+ "quick": false,
+ "A": {
+  "cases": [
+   {
+    "key": "Wbg2",
+    "name": "省略",
+    "ok": true,
+    "expectOk": true,
+    "canonicalPlusZero": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "Wbg2",
+    "name": "0",
+    "ok": true,
+    "expectOk": true,
+    "canonicalPlusZero": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "Wbg2",
+    "name": "−0",
+    "ok": true,
+    "expectOk": true,
+    "canonicalPlusZero": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "Wbg2",
+    "name": "正 1e-30",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "正 3",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "負 −1",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "NaN",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "+Infinity",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "−Infinity",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "null",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "文字列 \"0\"",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "文字列 \"a\"",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "true",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "false",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "配列 []",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "Wbg2",
+    "name": "オブジェクト {}",
+    "ok": false,
+    "expectOk": false,
+    "canonicalPlusZero": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+   },
+   {
+    "key": "outerShell",
+    "name": "uniform",
+    "ok": true,
+    "expectOk": true,
+    "canonical": "uniform",
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "outerShell",
+    "name": "thin",
+    "ok": true,
+    "expectOk": true,
+    "canonical": "thin",
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "outerShell",
+    "name": "null(省略)",
+    "ok": true,
+    "expectOk": true,
+    "canonical": null,
+    "pass": true,
+    "err": null
+   },
+   {
+    "key": "outerShell",
+    "name": "\"ball\"",
+    "ok": false,
+    "expectOk": false,
+    "canonical": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.outerShell は \"uniform\"(内径 R_d・外径 R の一様の厚い殻 —— 球の差)か \"thin\"(半径 R の球面 —— 比較)だけ(第310便a・AN384)"
+   },
+   {
+    "key": "outerShell",
+    "name": "1",
+    "ok": false,
+    "expectOk": false,
+    "canonical": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.outerShell は \"uniform\"(内径 R_d・外径 R の一様の厚い殻 —— 球の差)か \"thin\"(半径 R の球面 —— 比較)だけ(第310便a・AN384)"
+   },
+   {
+    "key": "outerShell",
+    "name": "true",
+    "ok": false,
+    "expectOk": false,
+    "canonical": null,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.outerShell は \"uniform\"(内径 R_d・外径 R の一様の厚い殻 —— 球の差)か \"thin\"(半径 R の球面 —— 比較)だけ(第310便a・AN384)"
+   }
+  ],
+  "nCases": 22,
+  "nPass": 22,
+  "canonicalOmittedSame": true,
+  "warnNoShellMass": 1,
+  "warnWithShellMass": 0,
+  "internal": {
+   "betaWbg0": 0.008817075973,
+   "betaWbg005": 0.008765727166,
+   "engVsLibWbg005": 3.364272984e-15
+  },
+  "allPass": true
+ },
+ "C": {
+  "rows": [
+   {
+    "case": "孤立の球の中心",
+    "W": 12.24489796,
+    "WoverTheory": 1,
+    "grad": [
+     0,
+     0,
+     0
+    ],
+    "finite": true
+   },
+   {
+    "case": "他の球を置いた中心",
+    "W": 9.025746702,
+    "gradVsOther": 0,
+    "WVsLib": 0,
+    "termsFinite": true
+   },
+   {
+    "case": "正の r の点(4 点)",
+    "engVsLib": 0
+   }
+  ],
+  "isolatedOk": true,
+  "otherOnlyRel": 0,
+  "termsFinite": true,
+  "positiveREngVsLib": 0
+ },
+ "N": {
+  "tMin": 0.00480698929,
+  "tMax": 0.000005790712839,
+  "builtins": 176,
+  "declaringInvSq": [],
+  "live3d": 10,
+  "runs": [
+   {
+    "id": "earthMoonSunInertial3d",
+    "n": 3,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 0.000287456215,
+    "nan": false
+   },
+   {
+    "id": "earthMoonOnly3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 0.0002879709167,
+    "nan": false
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 0.003363447827,
+    "nan": false
+   },
+   {
+    "id": "venusSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 0.0005901368151,
+    "nan": false
+   },
+   {
+    "id": "marsSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 0.000376229057,
+    "nan": false
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 3.673256154e-8,
+    "nan": false
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 3.605179478e-8,
+    "nan": false
+   },
+   {
+    "id": "saturnRingInertial3d",
+    "rejected": "approxMany(新則の受理が拒否 —— 第309便a)",
+    "error": "Error: validatePreset: [\"physics.relativeDrag.invSq は physics.approxMany と一緒に宣言しない(代表粒子の球を新則の源にしない —— 第309便a)\"]"
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 4.991509902e-8,
+    "nan": false
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "n": 2,
+    "finite": true,
+    "overlap": null,
+    "betaMax": 1.853603337e-8,
+    "nan": false
+   }
+  ],
+  "allFinite": true,
+  "nRun": 9,
+  "nRejected": 1
+ },
+ "S": {
+  "rows": [
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1.2,
+    "libVsQuad3": 9.914252274e-13,
+    "libVsRadial": 6.290769209e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1.5,
+    "libVsQuad3": 1.712794274e-14,
+    "libVsRadial": 1.046750876e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 2,
+    "libVsQuad3": 3.108825788e-14,
+    "libVsRadial": 5.905654723e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 5,
+    "libVsQuad3": 8.612131873e-15,
+    "libVsRadial": 5.194681399e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 30,
+    "libVsQuad3": 9.277189285e-15,
+    "libVsRadial": 9.930945725e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1000,
+    "libVsQuad3": 6.19803164e-14,
+    "libVsRadial": 1.598195342e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1.2,
+    "libVsQuad3": 1.001776124e-12,
+    "libVsRadial": 6.497656068e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1.5,
+    "libVsQuad3": 2.511998645e-14,
+    "libVsRadial": 9.035966348e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 2,
+    "libVsQuad3": 5.550258631e-15,
+    "libVsRadial": 6.128410571e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 5,
+    "libVsQuad3": 9.283801966e-15,
+    "libVsRadial": 3.438445172e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 30,
+    "libVsQuad3": 3.785102277e-14,
+    "libVsRadial": 3.902167295e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1000,
+    "libVsQuad3": 3.049317935e-14,
+    "libVsRadial": 6.352745698e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1.2,
+    "libVsQuad3": 2.150620042e-12,
+    "libVsRadial": 1.087489908e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1.5,
+    "libVsQuad3": 2.00956477e-14,
+    "libVsRadial": 1.140420467e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 2,
+    "libVsQuad3": 4.612107475e-14,
+    "libVsRadial": 2.621269716e-14
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 5,
+    "libVsQuad3": 3.251957563e-14,
+    "libVsRadial": 1.060420944e-15
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 30,
+    "libVsQuad3": 4.604143811e-14,
+    "libVsRadial": 4.53852131e-16
+   },
+   {
+    "mode": "uniform",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1000,
+    "libVsQuad3": 2.42908848e-14,
+    "libVsRadial": 8.470326913e-16
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1.2,
+    "libVsQuad3": 2.24423656e-11,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1.5,
+    "libVsQuad3": 3.748505341e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 2,
+    "libVsQuad3": 2.593189948e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 5,
+    "libVsQuad3": 7.228110341e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 30,
+    "libVsQuad3": 5.195214819e-14,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.065,
+    "Ro": 6.95,
+    "rOverRo": 1000,
+    "libVsQuad3": 1.152699956e-12,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1.2,
+    "libVsQuad3": 2.243875432e-11,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1.5,
+    "libVsQuad3": 6.829221468e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 2,
+    "libVsQuad3": 4.244387899e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 5,
+    "libVsQuad3": 3.422683612e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 30,
+    "libVsQuad3": 2.427702523e-14,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.5,
+    "Ro": 1,
+    "rOverRo": 1000,
+    "libVsQuad3": 6.793218063e-14,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1.2,
+    "libVsQuad3": 2.243875432e-11,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1.5,
+    "libVsQuad3": 6.829221468e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 2,
+    "libVsQuad3": 4.244387899e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 5,
+    "libVsQuad3": 3.422683612e-15,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 30,
+    "libVsQuad3": 2.427702523e-14,
+    "libVsRadial": null
+   },
+   {
+    "mode": "thin",
+    "Ri": 0.9,
+    "Ro": 1,
+    "rOverRo": 1000,
+    "libVsQuad3": 6.793218063e-14,
+    "libVsRadial": null
+   }
+  ],
+  "maxEngVsLib": 1.264045789e-13,
+  "maxLibVsRadial": 2.621269716e-14,
+  "maxLibVsQuad3": 1.152699956e-12,
+  "maxLibVsQuad3Near": 2.24423656e-11,
+  "far": [
+   {
+    "mode": "uniform",
+    "f": 1,
+    "rOverRo": 100,
+    "wR2overMminus1": 1.749391743e-9
+   },
+   {
+    "mode": "uniform",
+    "f": 1,
+    "rOverRo": 1000,
+    "wR2overMminus1": 1.74937842e-11
+   },
+   {
+    "mode": "uniform",
+    "f": 1,
+    "rOverRo": 1000000,
+    "wR2overMminus1": -1.110223025e-16
+   },
+   {
+    "mode": "uniform",
+    "f": 0.1,
+    "rOverRo": 100,
+    "wR2overMminus1": 0.00001800096114
+   },
+   {
+    "mode": "uniform",
+    "f": 0.1,
+    "rOverRo": 1000,
+    "wR2overMminus1": 1.800019735e-7
+   },
+   {
+    "mode": "uniform",
+    "f": 0.1,
+    "rOverRo": 1000000,
+    "wR2overMminus1": 1.7985613e-13
+   },
+   {
+    "mode": "uniform",
+    "f": 0.001,
+    "rOverRo": 100,
+    "wR2overMminus1": 0.00001998087443
+   },
+   {
+    "mode": "uniform",
+    "f": 0.001,
+    "rOverRo": 1000,
+    "wR2overMminus1": 1.998002663e-7
+   },
+   {
+    "mode": "uniform",
+    "f": 0.001,
+    "rOverRo": 1000000,
+    "wR2overMminus1": 1.998401444e-13
+   },
+   {
+    "mode": "thin",
+    "f": 1,
+    "rOverRo": 100,
+    "wR2overMminus1": 1.749391743e-9
+   },
+   {
+    "mode": "thin",
+    "f": 1,
+    "rOverRo": 1000,
+    "wR2overMminus1": 1.74937842e-11
+   },
+   {
+    "mode": "thin",
+    "f": 1,
+    "rOverRo": 1000000,
+    "wR2overMminus1": -1.110223025e-16
+   },
+   {
+    "mode": "thin",
+    "f": 0.1,
+    "rOverRo": 100,
+    "wR2overMminus1": 0.00003000197507
+   },
+   {
+    "mode": "thin",
+    "f": 0.1,
+    "rOverRo": 1000,
+    "wR2overMminus1": 3.000019297e-7
+   },
+   {
+    "mode": "thin",
+    "f": 0.1,
+    "rOverRo": 1000000,
+    "wR2overMminus1": 2.999822613e-13
+   },
+   {
+    "mode": "thin",
+    "f": 0.001,
+    "rOverRo": 100,
+    "wR2overMminus1": 0.00003330199989
+   },
+   {
+    "mode": "thin",
+    "f": 0.001,
+    "rOverRo": 1000,
+    "wR2overMminus1": 3.330002174e-7
+   },
+   {
+    "mode": "thin",
+    "f": 0.001,
+    "rOverRo": 1000000,
+    "wR2overMminus1": 3.330669074e-13
+   }
+  ],
+  "farMaxAt1e6": 3.330669074e-13,
+  "m2FarLead": {
+   "uniformLib": 2.859934511e-13,
+   "thinLib": 4.001243781e-13,
+   "uniformEngine": 2.859934511e-13,
+   "thinEngine": 4.001243781e-13
+  }
+ },
+ "E": {
+  "rows": [
+   {
+    "key": "S2u",
+    "order": 6,
+    "recv": 0,
+    "beta": [
+     0,
+     0.00222649581
+    ],
+    "betaSum": 0.00222649581,
+    "engVsLibBeta": 3.895636066e-16,
+    "engVsLibRot": 1.222275178e-15,
+    "engVsLibOmega": 4.754294421e-16,
+    "engVsLibSrcShell": 0,
+    "shellNodes": 432,
+    "recvShell": {
+     "wCore": 0.2,
+     "wShell": 0.8
+    }
+   },
+   {
+    "key": "S2u",
+    "order": 6,
+    "recv": 1,
+    "beta": [
+     0.007052621353,
+     0
+    ],
+    "betaSum": 0.007052621353,
+    "engVsLibBeta": 1.229843053e-16,
+    "engVsLibRot": 4.088238535e-16,
+    "engVsLibOmega": 4.280895921e-15,
+    "engVsLibSrcShell": 6.142646305e-16,
+    "shellNodes": 432,
+    "recvShell": null
+   },
+   {
+    "key": "S2u",
+    "order": 8,
+    "recv": 0,
+    "beta": [
+     0,
+     0.002226557501
+    ],
+    "betaSum": 0.002226557501,
+    "engVsLibBeta": 3.895528132e-16,
+    "engVsLibRot": 2.619429251e-15,
+    "engVsLibOmega": 1.151416982e-16,
+    "engVsLibSrcShell": 0,
+    "shellNodes": 1024,
+    "recvShell": {
+     "wCore": 0.2,
+     "wShell": 0.8
+    }
+   },
+   {
+    "key": "S2u",
+    "order": 8,
+    "recv": 1,
+    "beta": [
+     0.00705263077,
+     0
+    ],
+    "betaSum": 0.00705263077,
+    "engVsLibBeta": 2.21371454e-15,
+    "engVsLibRot": 1.067325543e-15,
+    "engVsLibOmega": 3.217578689e-15,
+    "engVsLibSrcShell": 1.996357384e-15,
+    "shellNodes": 1024,
+    "recvShell": null
+   },
+   {
+    "key": "S2t",
+    "order": 6,
+    "recv": 0,
+    "beta": [
+     0,
+     0.0001420534059
+    ],
+    "betaSum": 0.0001420534059,
+    "engVsLibBeta": 1.144853408e-15,
+    "engVsLibRot": 2.182726119e-15,
+    "engVsLibOmega": 3.11183923e-16,
+    "engVsLibSrcShell": 0,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.2,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S2t",
+    "order": 6,
+    "recv": 1,
+    "beta": [
+     0.007073355981,
+     0
+    ],
+    "betaSum": 0.007073355981,
+    "engVsLibBeta": 1.594109306e-15,
+    "engVsLibRot": 2.562999955e-16,
+    "engVsLibOmega": 2.247527149e-15,
+    "engVsLibSrcShell": 1.98904741e-15,
+    "shellNodes": 0,
+    "recvShell": null
+   },
+   {
+    "key": "S2t",
+    "order": 8,
+    "recv": 0,
+    "beta": [
+     0,
+     0.0001420536673
+    ],
+    "betaSum": 0.0001420536673,
+    "engVsLibBeta": 2.289702603e-15,
+    "engVsLibRot": 6.103537175e-16,
+    "engVsLibOmega": 1.495978663e-15,
+    "engVsLibSrcShell": 0,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.2,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S2t",
+    "order": 8,
+    "recv": 1,
+    "beta": [
+     0.007073365427,
+     0
+    ],
+    "betaSum": 0.007073365427,
+    "engVsLibBeta": 1.22623629e-16,
+    "engVsLibRot": 2.130165536e-15,
+    "engVsLibOmega": 4.463438408e-15,
+    "engVsLibSrcShell": 2.142048197e-15,
+    "shellNodes": 0,
+    "recvShell": null
+   },
+   {
+    "key": "S3u",
+    "order": 6,
+    "recv": 0,
+    "beta": [
+     0,
+     0.001591555965,
+     0.003343121893
+    ],
+    "betaSum": 0.004934677858,
+    "engVsLibBeta": 1.907420254e-15,
+    "engVsLibRot": 7.240907693e-16,
+    "engVsLibOmega": 1.332347392e-15,
+    "engVsLibSrcShell": 5.107096526e-16,
+    "shellNodes": 864,
+    "recvShell": {
+     "wCore": 0.1,
+     "wShell": 0.9
+    }
+   },
+   {
+    "key": "S3u",
+    "order": 6,
+    "recv": 1,
+    "beta": [
+     0.005951608572,
+     0,
+     0.0008617812246
+    ],
+    "betaSum": 0.006813389796,
+    "engVsLibBeta": 1.020149778e-15,
+    "engVsLibRot": 1.096308461e-15,
+    "engVsLibOmega": 9.464614619e-15,
+    "engVsLibSrcShell": 1.942433016e-15,
+    "shellNodes": 864,
+    "recvShell": {
+     "wCore": 0.6,
+     "wShell": 0.4
+    }
+   },
+   {
+    "key": "S3u",
+    "order": 6,
+    "recv": 2,
+    "beta": [
+     0.01174281194,
+     0.0008095413921,
+     0
+    ],
+    "betaSum": 0.01255235333,
+    "engVsLibBeta": 1.477264122e-15,
+    "engVsLibRot": 5.761764764e-16,
+    "engVsLibOmega": 3.916896079e-15,
+    "engVsLibSrcShell": 1.640771345e-16,
+    "shellNodes": 864,
+    "recvShell": null
+   },
+   {
+    "key": "S3u",
+    "order": 8,
+    "recv": 0,
+    "beta": [
+     0,
+     0.001591628636,
+     0.003343274481
+    ],
+    "betaSum": 0.004934903117,
+    "engVsLibBeta": 9.536665821e-16,
+    "engVsLibRot": 2.073804316e-15,
+    "engVsLibOmega": 1.260983757e-15,
+    "engVsLibSrcShell": 1.532059003e-15,
+    "shellNodes": 2048,
+    "recvShell": {
+     "wCore": 0.1,
+     "wShell": 0.9
+    }
+   },
+   {
+    "key": "S3u",
+    "order": 8,
+    "recv": 1,
+    "beta": [
+     0.005951606319,
+     0,
+     0.0008617809009
+    ],
+    "betaSum": 0.00681338722,
+    "engVsLibBeta": 5.829429512e-16,
+    "engVsLibRot": 3.186670978e-15,
+    "engVsLibOmega": 1.911989653e-14,
+    "engVsLibSrcShell": 8.093473963e-16,
+    "shellNodes": 2048,
+    "recvShell": {
+     "wCore": 0.6,
+     "wShell": 0.4
+    }
+   },
+   {
+    "key": "S3u",
+    "order": 8,
+    "recv": 2,
+    "beta": [
+     0.01174282805,
+     0.0008095425025,
+     0
+    ],
+    "betaSum": 0.01255237055,
+    "engVsLibBeta": 2.511345561e-15,
+    "engVsLibRot": 1.665255775e-15,
+    "engVsLibOmega": 2.854501244e-15,
+    "engVsLibSrcShell": 2.510783307e-15,
+    "shellNodes": 2048,
+    "recvShell": null
+   },
+   {
+    "key": "S3t",
+    "order": 6,
+    "recv": 0,
+    "beta": [
+     0,
+     0.00004939083725,
+     0.0001037116243
+    ],
+    "betaSum": 0.0001531024615,
+    "engVsLibBeta": 2.057951623e-15,
+    "engVsLibRot": 1.907702328e-15,
+    "engVsLibOmega": 6.124556049e-15,
+    "engVsLibSrcShell": 1.713836098e-16,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.1,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S3t",
+    "order": 6,
+    "recv": 1,
+    "beta": [
+     0.002037192763,
+     0,
+     0.0002944106507
+    ],
+    "betaSum": 0.002331603414,
+    "engVsLibBeta": 2.025440294e-15,
+    "engVsLibRot": 8.835207326e-16,
+    "engVsLibOmega": 7.805297393e-14,
+    "engVsLibSrcShell": 5.909758834e-16,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.6,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S3t",
+    "order": 6,
+    "recv": 2,
+    "beta": [
+     0.01177040643,
+     0.0008095686367,
+     0
+    ],
+    "betaSum": 0.01257997507,
+    "engVsLibBeta": 1.179040664e-15,
+    "engVsLibRot": 5.637384279e-16,
+    "engVsLibOmega": 3.108066884e-15,
+    "engVsLibSrcShell": 3.347287664e-16,
+    "shellNodes": 0,
+    "recvShell": null
+   },
+   {
+    "key": "S3t",
+    "order": 8,
+    "recv": 0,
+    "beta": [
+     0,
+     0.00004939093074,
+     0.0001037118206
+    ],
+    "betaSum": 0.0001531027513,
+    "engVsLibBeta": 1.960122831e-15,
+    "engVsLibRot": 1.115673185e-15,
+    "engVsLibOmega": 4.454924567e-15,
+    "engVsLibSrcShell": 5.312881849e-15,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.1,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S3t",
+    "order": 8,
+    "recv": 1,
+    "beta": [
+     0.002037196368,
+     0,
+     0.0002944111716
+    ],
+    "betaSum": 0.002331607539,
+    "engVsLibBeta": 2.761959151e-15,
+    "engVsLibRot": 6.285210466e-16,
+    "engVsLibOmega": 4.952192453e-14,
+    "engVsLibSrcShell": 3.545849026e-16,
+    "shellNodes": 0,
+    "recvShell": {
+     "wCore": 0.6,
+     "wShell": 0
+    }
+   },
+   {
+    "key": "S3t",
+    "order": 8,
+    "recv": 2,
+    "beta": [
+     0.01177042258,
+     0.0008095697473,
+     0
+    ],
+    "betaSum": 0.01257999233,
+    "engVsLibBeta": 9.374627983e-16,
+    "engVsLibRot": 1.425622528e-15,
+    "engVsLibOmega": 1.85511469e-15,
+    "engVsLibSrcShell": 3.10933578e-15,
+    "shellNodes": 0,
+    "recvShell": null
+   }
+  ],
+  "maxBeta": 2.761959151e-15,
+  "maxRot": 3.186670978e-15,
+  "maxOmega": 7.805297393e-14,
+  "maxSrcShell": 5.312881849e-15,
+  "mdEqualsMStateSame": true,
+  "mdEqualsMRunSame": true,
+  "shellChangesRun": true,
+  "steps": 20,
+  "checkpointSame": true
+ },
+ "M": {
+  "id": "mercurySunInertial3d",
+  "units": {
+   "L": 8,
+   "T": 4,
+   "M": 27,
+   "velocityMs": 10000
+  },
+  "RdM": 6500000,
+  "RobsM": 695000000,
+  "rows": [
+   {
+    "shell": "uniform",
+    "mdOverM": 1,
+    "mdKg": 1.9885e+30,
+    "betaMerFromSun": 0.003363992616,
+    "betaMerFromSunShell": 0,
+    "rotCoef": 8.146823226e-9,
+    "uRotBook": 2.36130319e-10,
+    "uRotMs": 0.00000236130319,
+    "uRotOverVrel": 6.072997481e-11,
+    "omegaMerAxialOverSpin": -9.366817874e-11,
+    "omegaMerNorm": 1.163473428e-12,
+    "betaSunFromMer": 6.602055985e-16,
+    "sunPartCore": 6.602055985e-16,
+    "sunPartShell": 0,
+    "sunWCore": 1,
+    "shells": 0,
+    "shellNodes": 0,
+    "betaMerRatioToMd1": 0,
+    "uRotRatioToMd1": 1
+   },
+   {
+    "shell": "uniform",
+    "mdOverM": 0.1,
+    "mdKg": 1.9885e+29,
+    "betaMerFromSun": 0.003364052465,
+    "betaMerFromSunShell": 0.003027653224,
+    "rotCoef": 0.00008382827981,
+    "uRotBook": 0.000002429707618,
+    "uRotMs": 0.02429707618,
+    "uRotOverVrel": 6.248925722e-7,
+    "omegaMerAxialOverSpin": -9.63839383e-7,
+    "omegaMerNorm": 1.197206486e-8,
+    "betaSunFromMer": 6.85303481e-12,
+    "sunPartCore": 6.594733618e-16,
+    "sunPartShell": 6.852375337e-12,
+    "sunWCore": 0.1,
+    "shells": 1,
+    "shellNodes": 1024,
+    "betaMerRatioToMd1": 0.00001779106164,
+    "uRotRatioToMd1": 10289.6893
+   },
+   {
+    "shell": "uniform",
+    "mdOverM": 0.001,
+    "mdKg": 1.9885e+27,
+    "betaMerFromSun": 0.003364059048,
+    "betaMerFromSunShell": 0.003360695056,
+    "rotCoef": 0.0000930484938,
+    "uRotBook": 0.000002696949463,
+    "uRotMs": 0.02696949463,
+    "uRotOverVrel": 6.936240701e-7,
+    "omegaMerAxialOverSpin": -0.000001069851386,
+    "omegaMerNorm": 1.328886369e-8,
+    "betaSunFromMer": 7.540725516e-12,
+    "sunPartCore": 5.879952712e-16,
+    "sunPartShell": 7.540137521e-12,
+    "sunWCore": 0.001,
+    "shells": 1,
+    "shellNodes": 1024,
+    "betaMerRatioToMd1": 0.00001974796249,
+    "uRotRatioToMd1": 11421.44505
+   },
+   {
+    "shell": "thin",
+    "mdOverM": 1,
+    "mdKg": 1.9885e+30,
+    "betaMerFromSun": 0.003363992616,
+    "betaMerFromSunShell": 0,
+    "rotCoef": 8.146823226e-9,
+    "uRotBook": 2.36130319e-10,
+    "uRotMs": 0.00000236130319,
+    "uRotOverVrel": 6.072997481e-11,
+    "omegaMerAxialOverSpin": -9.366817874e-11,
+    "omegaMerNorm": 1.163473428e-12,
+    "betaSunFromMer": 6.602055985e-16,
+    "sunPartCore": 6.602055985e-16,
+    "sunPartShell": 0,
+    "sunWCore": 1,
+    "shells": 0,
+    "shellNodes": 0,
+    "betaMerRatioToMd1": 0,
+    "uRotRatioToMd1": 1
+   },
+   {
+    "shell": "thin",
+    "mdOverM": 0.1,
+    "mdKg": 1.9885e+29,
+    "betaMerFromSun": 0.00336409237,
+    "betaMerFromSunShell": 0.003027693143,
+    "rotCoef": 0.0001397147204,
+    "uRotBook": 0.000004049539383,
+    "uRotMs": 0.04049539383,
+    "uRotOverVrel": 0.000001041494484,
+    "omegaMerAxialOverSpin": -0.000001606424777,
+    "omegaMerNorm": 1.995376196e-8,
+    "betaSunFromMer": 6.599597043e-16,
+    "sunPartCore": 6.599597043e-16,
+    "sunPartShell": 0,
+    "sunWCore": 0.1,
+    "shells": 1,
+    "shellNodes": 0,
+    "betaMerRatioToMd1": 0.00002965345391,
+    "uRotRatioToMd1": 17149.59519
+   },
+   {
+    "shell": "thin",
+    "mdOverM": 0.001,
+    "mdKg": 1.9885e+27,
+    "betaMerFromSun": 0.003364103343,
+    "betaMerFromSunShell": 0.00336073935,
+    "rotCoef": 0.0001550824417,
+    "uRotBook": 0.000004494962689,
+    "uRotMs": 0.04494962689,
+    "uRotOverVrel": 0.000001156052183,
+    "omegaMerAxialOverSpin": -0.000001783121127,
+    "omegaMerNorm": 2.21485469e-8,
+    "betaSunFromMer": 6.340178141e-16,
+    "sunPartCore": 6.340178141e-16,
+    "sunPartShell": 0,
+    "sunWCore": 0.001,
+    "shells": 1,
+    "shellNodes": 0,
+    "betaMerRatioToMd1": 0.00003291535168,
+    "uRotRatioToMd1": 19035.94044
+   }
+  ],
+  "allFinite": true
+ },
+ "P": {
+  "nodes": [
+   {
+    "order": 4,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 3.507706894e-16,
+    "maxRelGrad": 4.528901453e-15,
+    "maxGradOverCondUlp": 0.5012202363,
+    "kappaMax": 40.17048534
+   },
+   {
+    "order": 4,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 6.011508075e-12,
+    "maxRelGrad": 4.945531465e-11,
+    "maxGradOverCondUlp": 39012.95867,
+    "kappaMax": 40.17048534
+   },
+   {
+    "order": 4,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 2.876826638e-16,
+    "maxRelGrad": 4.430047257e-15,
+    "maxGradOverCondUlp": 0.4845985907,
+    "kappaMax": 40.17048534
+   },
+   {
+    "order": 4,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 1.024150283e-13,
+    "maxRelGrad": 8.388220826e-13,
+    "maxGradOverCondUlp": 772.2273562,
+    "kappaMax": 40.17048534
+   },
+   {
+    "order": 5,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 7.112962259e-16,
+    "maxRelGrad": 8.588955589e-15,
+    "maxGradOverCondUlp": 1.14504731,
+    "kappaMax": 77.1118327
+   },
+   {
+    "order": 5,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.165227695e-11,
+    "maxRelGrad": 1.56945702e-10,
+    "maxGradOverCondUlp": 55871.36576,
+    "kappaMax": 77.1118327
+   },
+   {
+    "order": 5,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 7.2920714e-16,
+    "maxRelGrad": 8.703934279e-15,
+    "maxGradOverCondUlp": 3.534193605,
+    "kappaMax": 77.1118327
+   },
+   {
+    "order": 5,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 1.343199552e-13,
+    "maxRelGrad": 1.810588346e-12,
+    "maxGradOverCondUlp": 1363.602012,
+    "kappaMax": 77.1118327
+   },
+   {
+    "order": 6,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 5.369021131e-16,
+    "maxRelGrad": 1.484915438e-14,
+    "maxGradOverCondUlp": 3.189984349,
+    "kappaMax": 134.5052577
+   },
+   {
+    "order": 6,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 9.869155676e-12,
+    "maxRelGrad": 2.069463994e-10,
+    "maxGradOverCondUlp": 53195.64749,
+    "kappaMax": 134.5052577
+   },
+   {
+    "order": 6,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 5.871164448e-16,
+    "maxRelGrad": 1.483982216e-14,
+    "maxGradOverCondUlp": 1.104975448,
+    "kappaMax": 134.5052577
+   },
+   {
+    "order": 6,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 3.058876677e-13,
+    "maxRelGrad": 6.413751499e-12,
+    "maxGradOverCondUlp": 1699.635163,
+    "kappaMax": 134.5052577
+   },
+   {
+    "order": 7,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 8.977887387e-16,
+    "maxRelGrad": 2.442224173e-14,
+    "maxGradOverCondUlp": 2.383673304,
+    "kappaMax": 218.4524231
+   },
+   {
+    "order": 7,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.114263559e-11,
+    "maxRelGrad": 3.477966412e-10,
+    "maxGradOverCondUlp": 104826.163,
+    "kappaMax": 218.4524231
+   },
+   {
+    "order": 7,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 8.835798325e-16,
+    "maxRelGrad": 2.433168284e-14,
+    "maxGradOverCondUlp": 0.9484595884,
+    "kappaMax": 218.4524231
+   },
+   {
+    "order": 7,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 2.12648213e-13,
+    "maxRelGrad": 6.625835711e-12,
+    "maxGradOverCondUlp": 2043.35013,
+    "kappaMax": 218.4524231
+   },
+   {
+    "order": 8,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 1.618984034e-15,
+    "maxRelGrad": 7.448463789e-14,
+    "maxGradOverCondUlp": 2.777545371,
+    "kappaMax": 335.7347338
+   },
+   {
+    "order": 8,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.322620012e-11,
+    "maxRelGrad": 5.915862041e-10,
+    "maxGradOverCondUlp": 135784.8835,
+    "kappaMax": 335.7347338
+   },
+   {
+    "order": 8,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 8.852006043e-16,
+    "maxRelGrad": 3.733909832e-14,
+    "maxGradOverCondUlp": 2.93428141,
+    "kappaMax": 335.7347338
+   },
+   {
+    "order": 8,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 3.946519361e-13,
+    "maxRelGrad": 1.76375084e-11,
+    "maxGradOverCondUlp": 3134.720709,
+    "kappaMax": 335.7347338
+   },
+   {
+    "order": 9,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 2.701239782e-15,
+    "maxRelGrad": 1.64311057e-13,
+    "maxGradOverCondUlp": 3.19562276,
+    "kappaMax": 493.7936907
+   },
+   {
+    "order": 9,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.346171849e-11,
+    "maxRelGrad": 8.355879844e-10,
+    "maxGradOverCondUlp": 166197.452,
+    "kappaMax": 493.7936907
+   },
+   {
+    "order": 9,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 8.861628172e-16,
+    "maxRelGrad": 5.508813598e-14,
+    "maxGradOverCondUlp": 3.121199881,
+    "kappaMax": 493.7936907
+   },
+   {
+    "order": 9,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.461829785e-13,
+    "maxRelGrad": 2.769190541e-11,
+    "maxGradOverCondUlp": 4075.438184,
+    "kappaMax": 493.7936907
+   },
+   {
+    "order": 10,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 1.229327937e-15,
+    "maxRelGrad": 7.780077373e-14,
+    "maxGradOverCondUlp": 1.388134678,
+    "kappaMax": 700.7154935
+   },
+   {
+    "order": 10,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.567727435e-11,
+    "maxRelGrad": 1.314323109e-9,
+    "maxGradOverCondUlp": 202027.0775,
+    "kappaMax": 700.7154935
+   },
+   {
+    "order": 10,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.152258959e-15,
+    "maxRelGrad": 7.779449499e-14,
+    "maxGradOverCondUlp": 1.257278225,
+    "kappaMax": 700.7154935
+   },
+   {
+    "order": 10,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 3.483503566e-13,
+    "maxRelGrad": 2.917813573e-11,
+    "maxGradOverCondUlp": 4950.66122,
+    "kappaMax": 700.7154935
+   },
+   {
+    "order": 11,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 1.983127288e-15,
+    "maxRelGrad": 2.144050555e-13,
+    "maxGradOverCondUlp": 1.732955999,
+    "kappaMax": 965.2191668
+   },
+   {
+    "order": 11,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.636386496e-11,
+    "maxRelGrad": 1.810547297e-9,
+    "maxGradOverCondUlp": 238675.1289,
+    "kappaMax": 965.2191668
+   },
+   {
+    "order": 11,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.182873459e-15,
+    "maxRelGrad": 1.07145521e-13,
+    "maxGradOverCondUlp": 1.705588664,
+    "kappaMax": 965.2191668
+   },
+   {
+    "order": 11,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.302702207e-13,
+    "maxRelGrad": 4.758441041e-11,
+    "maxGradOverCondUlp": 5866.686978,
+    "kappaMax": 965.2191668
+   },
+   {
+    "order": 12,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 1.262365623e-15,
+    "maxRelGrad": 1.444127966e-13,
+    "maxGradOverCondUlp": 4.928350761,
+    "kappaMax": 1296.648358
+   },
+   {
+    "order": 12,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 2.000560971e-11,
+    "maxRelGrad": 2.863558062e-9,
+    "maxGradOverCondUlp": 288961.2077,
+    "kappaMax": 1296.648358
+   },
+   {
+    "order": 12,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.183225447e-15,
+    "maxRelGrad": 1.441578539e-13,
+    "maxGradOverCondUlp": 2.6969949,
+    "kappaMax": 1296.648358
+   },
+   {
+    "order": 12,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.215240654e-13,
+    "maxRelGrad": 6.032060357e-11,
+    "maxGradOverCondUlp": 6623.790164,
+    "kappaMax": 1296.648358
+   },
+   {
+    "order": 13,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 2.164502791e-15,
+    "maxRelGrad": 3.788780063e-13,
+    "maxGradOverCondUlp": 5.714514372,
+    "kappaMax": 1704.96771
+   },
+   {
+    "order": 13,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 2.122042461e-11,
+    "maxRelGrad": 3.862363719e-9,
+    "maxGradOverCondUlp": 331332.2455,
+    "kappaMax": 1704.96771
+   },
+   {
+    "order": 13,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.183470089e-15,
+    "maxRelGrad": 1.89387443e-13,
+    "maxGradOverCondUlp": 6.236075672,
+    "kappaMax": 1704.96771
+   },
+   {
+    "order": 13,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.429136808e-13,
+    "maxRelGrad": 8.063570391e-11,
+    "maxGradOverCondUlp": 7780.416874,
+    "kappaMax": 1704.96771
+   },
+   {
+    "order": 14,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 2.164821872e-15,
+    "maxRelGrad": 4.886500564e-13,
+    "maxGradOverCondUlp": 3.206385748,
+    "kappaMax": 2200.765565
+   },
+   {
+    "order": 14,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.998094508e-11,
+    "maxRelGrad": 4.554647396e-9,
+    "maxGradOverCondUlp": 391300.1468,
+    "kappaMax": 2200.765565
+   },
+   {
+    "order": 14,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.466481822e-15,
+    "maxRelGrad": 2.444133503e-13,
+    "maxGradOverCondUlp": 3.452367189,
+    "kappaMax": 2200.765565
+   },
+   {
+    "order": 14,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 3.836487901e-13,
+    "maxRelGrad": 8.746249004e-11,
+    "maxGradOverCondUlp": 9347.191236,
+    "kappaMax": 2200.765565
+   },
+   {
+    "order": 15,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 1.984633344e-15,
+    "maxRelGrad": 6.204463404e-13,
+    "maxGradOverCondUlp": 3.715679799,
+    "kappaMax": 2795.265896
+   },
+   {
+    "order": 15,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.833133651e-11,
+    "maxRelGrad": 5.164107161e-9,
+    "maxGradOverCondUlp": 449860.5213,
+    "kappaMax": 2795.265896
+   },
+   {
+    "order": 15,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.183771774e-15,
+    "maxRelGrad": 3.105441338e-13,
+    "maxGradOverCondUlp": 3.910824328,
+    "kappaMax": 2795.265896
+   },
+   {
+    "order": 15,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.536805325e-13,
+    "maxRelGrad": 1.278303753e-10,
+    "maxGradOverCondUlp": 10405.17021,
+    "kappaMax": 2795.265896
+   },
+   {
+    "order": 16,
+    "Rd": 0.0244,
+    "center": "origin",
+    "maxRelW": 2.345663225e-15,
+    "maxRelGrad": 7.765269612e-13,
+    "maxGradOverCondUlp": 3.222112888,
+    "kappaMax": 3500.353766
+   },
+   {
+    "order": 16,
+    "Rd": 0.0244,
+    "center": "far",
+    "maxRelW": 1.401878115e-11,
+    "maxRelGrad": 4.735375355e-9,
+    "maxGradOverCondUlp": 489507.6821,
+    "kappaMax": 3500.353766
+   },
+   {
+    "order": 16,
+    "Rd": 1,
+    "center": "origin",
+    "maxRelW": 1.618547642e-15,
+    "maxRelGrad": 3.886058975e-13,
+    "maxGradOverCondUlp": 3.136070424,
+    "kappaMax": 3500.353766
+   },
+   {
+    "order": 16,
+    "Rd": 1,
+    "center": "far",
+    "maxRelW": 4.957440482e-13,
+    "maxRelGrad": 1.705358285e-10,
+    "maxGradOverCondUlp": 12153.71707,
+    "kappaMax": 3500.353766
+   }
+  ],
+  "maxOriginW": 3.350340008e-15,
+  "maxOriginGrad": 1.165219929e-12,
+  "maxOriginGradOverCondUlp": 6.236075672,
+  "maxFarW": 4.807996762e-10,
+  "maxFarGrad": 1.513817702e-7,
+  "e2e": [
+   {
+    "case": "toy0",
+    "order": 4,
+    "beta": 2.202625963e-16,
+    "rot": 2.136552837e-16,
+    "omega": 9.582768224e-15
+   },
+   {
+    "case": "toy0",
+    "order": 8,
+    "beta": 0,
+    "rot": 1.910164158e-16,
+    "omega": 3.454639234e-16
+   },
+   {
+    "case": "toy0",
+    "order": 16,
+    "beta": 1.967457767e-16,
+    "rot": 0,
+    "omega": 1.742114325e-15
+   },
+   {
+    "case": "toy1",
+    "order": 4,
+    "beta": 1.645607404e-16,
+    "rot": 2.827756956e-16,
+    "omega": 2.55016849e-15
+   },
+   {
+    "case": "toy1",
+    "order": 8,
+    "beta": 3.555490308e-16,
+    "rot": 1.826960878e-16,
+    "omega": 4.366769653e-15
+   },
+   {
+    "case": "toy1",
+    "order": 16,
+    "beta": 1.608674874e-16,
+    "rot": 1.8193125e-16,
+    "omega": 4.291974536e-16
+   },
+   {
+    "case": "SV",
+    "order": 8,
+    "beta": 1.139206529e-14,
+    "rot": 1.082353245e-14,
+    "omega": 7.785711034e-13,
+    "centeredBeta": 0,
+    "centeredRot": 3.646461503e-16,
+    "centeredOmega": 1.454346933e-12,
+    "cancelEstimate": 5.02899974e-11
+   },
+   {
+    "case": "SJ",
+    "order": 8,
+    "beta": 1.575827462e-13,
+    "rot": 1.575290364e-13,
+    "omega": 1.175232495e-11,
+    "centeredBeta": 1.885208791e-16,
+    "centeredRot": 1.482839253e-16,
+    "centeredOmega": 1.240916482e-12,
+    "cancelEstimate": 3.22522811e-10
+   },
+   {
+    "case": "JIo",
+    "order": 8,
+    "beta": 2.860105658e-12,
+    "rot": 2.859673622e-12,
+    "omega": 1.360148639e-11,
+    "centeredBeta": 1.440043128e-15,
+    "centeredRot": 3.226392878e-15,
+    "centeredOmega": 1.203622357e-12,
+    "cancelEstimate": 1.150205178e-9
+   },
+   {
+    "case": "SJIo",
+    "order": 8,
+    "beta": 2.862417013e-12,
+    "rot": 2.860978589e-12,
+    "omega": 1.359899447e-11,
+    "centeredBeta": 2.520208678e-15,
+    "centeredRot": 9.589416212e-16,
+    "centeredOmega": 1.204474381e-12,
+    "cancelEstimate": 1.150205178e-9
+   }
+  ],
+  "toyMax": 3.555490308e-16,
+  "siMax": 2.862417013e-12,
+  "siCenteredMax": 3.226392878e-15,
+  "speed": [
+   {
+    "order": 4,
+    "nodes": 384,
+    "msTable": 1.438096267,
+    "msDirect": 1.717622383,
+    "ratio": 0.8372598544
+   },
+   {
+    "order": 8,
+    "nodes": 3072,
+    "msTable": 5.516238,
+    "msDirect": 11.85836615,
+    "ratio": 0.4651768996
+   },
+   {
+    "order": 16,
+    "nodes": 24576,
+    "msTable": 50.0267625,
+    "msDirect": 75.8886195,
+    "ratio": 0.6592129733
+   }
+  ]
+ },
+ "Z": {
+  "rows": [
+   {
+    "name": "質量 0(既定の massFloor)",
+    "accepted": true,
+    "mCanon": 0.000001,
+    "mSim": 9.999999975e-7,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.5229169862,
+    "oneMinusSum": 0.4770830138,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.99995641e-18,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 0.00033011(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 0.00033011,
+    "mSim": 0.0003301099932,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.003363992616,
+    "oneMinusSum": 0.9966360074,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 6.602055985e-16,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 1e-8(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 1e-8,
+    "mSim": 9.999999939e-9,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9908321471,
+    "oneMinusSum": 0.009167852931,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956403e-20,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 1e-12(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 1e-9,
+    "mSim": 9.999999717e-10,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9990753641,
+    "oneMinusSum": 0.0009246359422,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956358e-21,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 1e-16(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 1e-9,
+    "mSim": 9.999999717e-10,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9990753641,
+    "oneMinusSum": 0.0009246359422,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956358e-21,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 1e-20(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 1e-9,
+    "mSim": 9.999999717e-10,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9990753641,
+    "oneMinusSum": 0.0009246359422,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956358e-21,
+    "stepFinite": true
+   },
+   {
+    "name": "質量 1e-16 + initMotion(massFloor 1e-30)",
+    "accepted": true,
+    "mCanon": 1e-9,
+    "mSim": 9.999999717e-10,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9990753641,
+    "oneMinusSum": 0.0009246359422,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956358e-21,
+    "initMotion": {
+     "ok": true,
+     "uOverVrel": 1080.506717
+    },
+    "stepFinite": true
+   },
+   {
+    "name": "質量 0(massFloor 0)",
+    "accepted": true,
+    "mCanon": 1e-9,
+    "mSim": 9.999999717e-10,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.9990753641,
+    "oneMinusSum": 0.0009246359422,
+    "merRd": 0.02439999953,
+    "sunBetaFromMer": 1.999956358e-21,
+    "stepFinite": true
+   },
+   {
+    "name": "半径の宣言なし",
+    "accepted": true,
+    "mCanon": 0.00033011,
+    "mSim": 0.0003301099932,
+    "noR": 1,
+    "merIsReceiver": false,
+    "merBetaSum": null,
+    "oneMinusSum": null,
+    "merRd": null,
+    "sunBetaFromMer": 0,
+    "stepFinite": true
+   },
+   {
+    "name": "dragCore の半径 0.001(質量は全質量)",
+    "accepted": true,
+    "mCanon": 0.00033011,
+    "mSim": 0.0003301099932,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 0.000005670009599,
+    "oneMinusSum": 0.99999433,
+    "merRd": 0.001,
+    "sunBetaFromMer": 6.602055984e-16,
+    "stepFinite": true
+   },
+   {
+    "name": "dragCore の半径 0.000001(質量は全質量)",
+    "accepted": true,
+    "mCanon": 0.00033011,
+    "mSim": 0.0003301099932,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 5.670042794e-12,
+    "oneMinusSum": 1,
+    "merRd": 0.000001,
+    "sunBetaFromMer": 6.602055984e-16,
+    "stepFinite": true
+   },
+   {
+    "name": "dragCore の半径 1e-9(質量は全質量)",
+    "accepted": true,
+    "mCanon": 0.00033011,
+    "mSim": 0.0003301099932,
+    "noR": 0,
+    "merIsReceiver": true,
+    "merBetaSum": 5.670042794e-18,
+    "oneMinusSum": 1,
+    "merRd": 1e-9,
+    "sunBetaFromMer": 6.602055984e-16,
+    "stepFinite": true
+   }
+  ]
+ },
+ "gates": {
+  "acceptanceWbg2Only0": true,
+  "internalNonzeroReference": true,
+  "centerIsolatedZeroGrad": true,
+  "centerOtherOnly": true,
+  "positiveRUnchanged": true,
+  "nodesNeverAtCenter": true,
+  "noBuiltinDeclaresInvSq": true,
+  "liveCopiesFinite": true,
+  "shellKernelEngineVsLib": true,
+  "shellLibVsRadialQuad": true,
+  "shellLibVsQuad3": true,
+  "shellFarMoverR2": true,
+  "shellM2FarLead": true,
+  "shellReceiverEngineVsLib": true,
+  "mdEqualsMBitSame": true,
+  "shellChangesRun": true,
+  "shellCheckpointSame": true,
+  "mercuryTableFinite": true,
+  "precomputeOriginNodes": true,
+  "precomputeToyEndToEnd": true,
+  "precomputeSICentered": true,
+  "an382Measured": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.214
+  },
+  "C": {
+   "wallSec": 0.003
+  },
+  "N": {
+   "wallSec": 0.5
+  },
+  "S": {
+   "wallSec": 0.406
+  },
+  "E": {
+   "wallSec": 1.26
+  },
+  "M": {
+   "wallSec": 0.036
+  },
+  "P": {
+   "wallSec": 6.328
+  },
+  "Z": {
+   "wallSec": 0.381
+  }
+ },
+ "elapsedS": 13.458,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第310便a",
+  "target": "beta/index.html",
+  "targetSha256": "a321f74fcb7edbf21a65fa8c6ca531e745788ad1ada0fe4be911acecae1ca5fc",
+  "generatedAt": "2026-10-20T01:49:10.270Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7170186,
+    "sha256": "a321f74fcb7edbf21a65fa8c6ca531e745788ad1ada0fe4be911acecae1ca5fc",
+    "mtime": "2026-10-20T01:37:19.530Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w310a-invsq.mjs",
+    "bytes": 44556,
+    "sha256": "48388b52586a35e012b7988f3f5baef0c35c9bf6d1d49d8822407a401e85b865",
+    "mtime": "2026-10-20T01:48:56.306Z"
+   },
+   {
+    "file": "tests/lib-w310a-shell.mjs",
+    "bytes": 11335,
+    "sha256": "2c5904e504c445034c516d9f816613beed2604ac5ddad93ceb0a1a5376c52611",
+    "mtime": "2026-10-20T01:41:20.015Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-10-20T01:19:02.954Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-10-20T01:19:02.422Z"
+   },
+   {
+    "file": "tests/exp-w307c-spindecomp.mjs",
+    "bytes": 37764,
+    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
+    "mtime": "2026-10-20T01:19:01.134Z"
+   },
+   {
+    "file": "tests/lib-w307c-spindecomp.mjs",
+    "bytes": 21642,
+    "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
+    "mtime": "2026-10-20T01:19:02.422Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-20T01:19:01.462Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T01:19:01.458Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T01:19:01.734Z"
+   }
+  ],
+  "codeSha256": "caa6e281f255cde900025388c829cbf4613423fb01e4f598e87733075446cf67",
+  "harnessVersion": "w310a-invsq-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を発見した",
+   "帳簿が完全に閉じた",
+   "完全に一致",
+   "二重計上を解消した",
+   "フィットした",
+   "m_d を同定した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "REL_DRAG_INVSQ_LAW",
+    "REL_DRAG_INVSQ_SHELL_VERSION",
+    "REL_DRAG_INVSQ_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "inertialDragInitObsState",
+    "inertialDragIsqEval",
+    "inertialDragIsqK2",
+    "inertialDragIsqPointAt",
+    "inertialDragIsqRule",
+    "inertialDragIsqShellK",
+    "inertialDragIsqShellM",
+    "inertialDragIsqState",
+    "retiredOf",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1470,
+   "segments": 1319,
+   "closureShare": 0.3403
+  },
+  "scopeSha256": "700b2858861ede84851e38c547cb8326c8634874c9f050e14421421a5e14cf62",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
