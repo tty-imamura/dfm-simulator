@@ -44,6 +44,7 @@ import * as P3 from './lib-w299c-planets3d.mjs';
 import * as AN from './lib-w306a-an336.mjs';
 import * as CT from './exp-w306a-an336contract.mjs';
 import * as LF from './lib-w297b-fit.mjs';
+import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 の転記の型
 import { pinDecl307d, DECL307D_DATA_FILE } from './lib-w308d-pre.mjs';   // 第308便d(AN351・R217): 🌡️ の fitRecord の標的の役割を宣言した世代では、段 G の「本の記録と同じか」を第307便の宣言の写しで照合する(第307便の html では no-op)
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_PAIRNORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialDragPairApply","inertialR2PairDen","inertialR2PairTerm","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragPairNormOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
@@ -140,6 +141,22 @@ export function measure(HP, q, dt, revMax, o = {}) {
   return r;
 }
 
+// ==== 第311便c の塊(ここから)====
+// 第311便c(決断事項 AN393 (a)・統括の検証項目 R228): **段 T の移送の行の h/4 を転記**(tests/lib-w311c-h4carry.mjs)。行の h と h/2 を先に測り、行の値の鍵
+//   (h/4 から作る欄 —— pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB ——
+//   を除き、配列は h と h/2 の 2 つ)が前の正本(書き換える前の W306A_OUT)の同じ本の行とビット同一なら、行を前の正本から写す(違えば h/4 を測る)。
+//   本ごとの対照の h/4 は要るときだけ走らせる。段 M(根の行と h/2 の根 —— 門は h/4)は測る。走行の数(stats)と所要は値の鍵ではない。H4_CARRY=0 で全部測る
+let CARRY = null;
+/** 転記の文脈を差し替える(試験用 —— 器の本走は main が前の正本で開く) */
+export function setH4Carry(c) { CARRY = c; CTX.clear(); }
+const T_H4_DROP = ['pred', 'numErr', 'diff', 'rel', 'widthRatio', 'judge', 'secondary', 'spreadNew', 'spreadB', 'analyticMinusMeasured', 'complete', 'finite'];
+const tRowView = (row) => {
+  const v = H4C.omit(row, T_H4_DROP);
+  for (const k of ['sidShiftSec', 'periodDays', 'steps']) if (Array.isArray(v[k])) v[k] = v[k].slice(0, 2);
+  v.windows = (row.windows || []).map((w) => { const z = H4C.omit(w, ['numErrNew', 'numErrB']); for (const k of ['new', 'detB', 't1', 'nSamples', 'nPeri']) if (Array.isArray(z[k])) z[k] = z[k].slice(0, 2); return z; });
+  return v;
+};
+// ==== 第311便c の塊(ここまで)====
 /* ── 本ごとの文脈(写し・刻み・W_ext・参照値・対照)── */
 const CTX = new Map();
 let RECS = null;
@@ -149,7 +166,9 @@ function ctx(HP, id, revMax = N_FIT) {
   const base = pinned(HP, id), h = hOf(base), we = B.wExtOf(HP, base), Tsec = Math.pow(10, base.scaleExp.T);
   if (!RECS) RECS = AN.readRecords(ROOT);
   const tg = id === MERCURY ? AN.an336Target(ROOT, base, RECS) : AN.targetOfBook(ROOT, base, RECS);
-  const ctl = Object.fromEntries(DIVS.map((d) => [d, measure(HP, caseOf(base, we.book, { k: null, gl: null }), h / d, revMax)]));
+  // 第311便c: h/4 の対照は要るときだけ(読まれた時に走らせる —— 転記した移送の行は読まない)
+  const ctl = Object.fromEntries(DIVS.filter((d) => d !== 4).map((d) => [d, measure(HP, caseOf(base, we.book, { k: null, gl: null }), h / d, revMax)]));
+  if (DIVS.includes(4)) { let c4 = null; Object.defineProperty(ctl, 4, { enumerable: true, configurable: true, get() { if (c4 === null) c4 = measure(HP, caseOf(base, we.book, { k: null, gl: null }), h / 4, revMax); return c4; } }); }
   const c = { id, emoji: base.emoji || PIN.decl[id].emoji, base, h, wExt: we.book, wExtParts: we, Tsec, tg, ctl, e: tg.pn1.e };
   CTX.set(ck, c);
   return c;
@@ -220,8 +239,25 @@ export function partT(HP, M, log = console.log) {
   if (k === null) return { k: null, table, note: 'n = 2 の k が未達 —— 移送しない' };
   for (const id of PLANETS) {
     const c = ctx(HP, id, N_RUN), T = c.tg, an = analyticOf(c, k, C.n);
-    const runs = DIVS.map((d) => measure(HP, caseOf(c.base, c.wExt, { k, gl: C.gl }), c.h / d, N_RUN));
+    // 第311便c(AN393 (a)): h と h/2 を先に測り、行の値の鍵が前の正本の同じ本の行と同じなら行を写す(rowOf は同じ式 —— 2 刻みの行は比べるためだけに作る)
+    const runs2 = DIVS.filter((d) => d !== 4).map((d) => measure(HP, caseOf(c.base, c.wExt, { k, gl: C.gl }), c.h / d, N_RUN));
+    if (DIVS.includes(4)) {
+      const pr = CARRY && CARRY.prev && CARRY.prev.transfer ? (CARRY.prev.transfer.table || []).find((z) => z.id === id) : null;
+      const ck = 'T:' + id;
+      if (CARRY && pr && Array.isArray(pr.periodDays) && pr.periodDays.length === 3 && H4C.canCarry(CARRY, ck, tRowView(rowOf(runs2, [1, 2].map((d) => c.ctl[d]))), tRowView(pr))) {
+        const row = JSON.parse(JSON.stringify(pr)); table.push(row); H4C.markCarried(CARRY, ck);
+        log(`T ${c.emoji}: 転記(h と h/2 の行が前の正本とビット同一)—— 予言 ${row.pred.toPrecision(8)}`);
+        continue;
+      }
+      if (CARRY) { if (!pr) H4C.canCarry(CARRY, ck, null, undefined); H4C.markMeasured(CARRY, ck); }
+    }
+    const runs = DIVS.includes(4) ? runs2.concat([measure(HP, caseOf(c.base, c.wExt, { k, gl: C.gl }), c.h / 4, N_RUN)]) : runs2;
     const ctl = DIVS.map((d) => c.ctl[d]);
+    const row = rowOf(runs, ctl);
+    table.push(row);
+    log(`T ${c.emoji}: 予言 ${row.pred.toPrecision(8)}(新・±${row.numErr.toExponential(1)})・参照値 ${T.value.toPrecision(8)}${T.sourceWidth ? '(幅 ' + T.sourceWidth + ')' : '(幅なし)'}・${row.judge.text}`);
+    continue;
+    function rowOf(runs, ctl) {
     const wtab = WINDOWS.map((W) => {
       const det = runs.map((r, i) => (r.wins[W.key] && ctl[i].wins[W.key] && r.wins[W.key].detB !== null && ctl[i].wins[W.key].detB !== null) ? r.wins[W.key].detB - ctl[i].wins[W.key].detB : null);
       const nw = runs.map((r, i) => (r.wins[W.key] && ctl[i].wins[W.key] && r.wins[W.key].apsNew !== null) ? r.wins[W.key].apsNew - ctl[i].wins[W.key].apsNew : null);
@@ -240,8 +276,8 @@ export function partT(HP, M, log = console.log) {
       sidShiftSec: runs.map((r, i) => (r.periodDays - ctl[i].periodDays) * P3.DAY_S), periodDays: runs.map((r) => r.periodDays),
       complete: runs.every((r) => r.revN >= N_RUN && r.complete && !r.nan) && ctl.every((r) => r.revN >= N_RUN && r.complete && !r.nan),
       finite: runs.every((r) => Object.values(r.wins).every((w) => w.complete && Number.isFinite(w.apsNew))), steps: runs.map((r) => r.steps) };
-    table.push(row);
-    log(`T ${c.emoji}: 予言 ${pred.toPrecision(8)}(新・±${numErr.toExponential(1)})・参照値 ${T.value.toPrecision(8)}${T.sourceWidth ? '(幅 ' + T.sourceWidth + ')' : '(幅なし)'}・${row.judge.text}・検出器 B ${predB === null ? '—' : predB.toPrecision(8)}(±${numErrB === null ? '—' : numErrB.toExponential(1)}・${row.secondary.judge.text})・窓/位相の幅 新 ${spreadNew.toExponential(2)}`);
+    return row;
+    }
   }
   // A1 の幅からの δk の感度の見積り(誤差の伝播ではない —— 惑星間の相関があるので独立な 1σ として二乗和にしない)
   const mer = table.find((t) => t.id === MERCURY), Mr = M.rows.find((r) => r.key === 'n2');
@@ -389,6 +425,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W306A_OUT || path.join(ROOT, 'tests', 'out', 'an336-w306a.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  CARRY = H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });   // 第311便c: h/4 の転記(前の正本 —— 書き換える前に開く)
   pinDecl307d(null, [MERCURY]);   // 第308便d: 🌡️ の fitRecord を第307便の宣言へ(標的の役割を外す —— 数・署名・門は同じ)
   const out = { meta: null, harnessVersion: HARNESS_VERSION, libVersion: AN.LIB_VERSION, contractVersion: CT.HARNESS_VERSION, gLocVersion: HP.GLOC_VERSION, i2Version: HP.REL_DRAG_I2_VERSION,
     pairNormVersion: HP.REL_DRAG_PAIRNORM_VERSION || null, apsisVersion: AP.APSIS_VERSION, fitstopVersion: FS.FITSTOP_VERSION, parts: PARTS, pin: { file: DECL_FILE, version: PIN.version, base: PIN.base } };
@@ -408,6 +445,9 @@ if (IS_MAIN) {
   if (out.declaration) gates.fitRecordAccepted = out.declaration.fitRecordAccepted === true && out.declaration.fitRecordGate === true;
   if (out.gate) { gates.G1 = out.gate.G1.pass === true; gates.G3 = out.gate.G3.pass === true; if (out.gate.declared) { gates.G2 = out.gate.G2.pass === true; gates.fitRecordLive = out.gate.fitRecord.pass === true; } }
   out.gates = gates; out.ok = Object.values(gates).every(Boolean); out.timing = tp; out.stats = STATS;
+  const h4c = H4C.carryStamp(CARRY, { unit: '段 T の移送の行(T:<本>)',
+    valueKeys: '行の欄から h/4 で作る欄(pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB)を除き、配列は h と h/2(走行の数 stats と所要は値の鍵ではない)' });
+  if (h4c) out.h4Carried = h4c;
   const CODE = ['tests/exp-w306a-an336.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w308d-pre.mjs', 'tests/exp-w306a-an336contract.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/lib-w297b-fit.mjs',
     'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE, AN.CANDIDATE_FILE, AN.AUDIT_FILE, 'tests/out/gfamily-w305b.json', DECL307D_DATA_FILE] }), {
