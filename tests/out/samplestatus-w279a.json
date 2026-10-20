@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "4faffe773cb230a44906a233f876d4829ac193ae1e22bc6b97be97b05b82548a",
-  "generatedAt": "2026-10-20T16:59:02.240Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-20T19:44:05.029Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 115695,
     "sha256": "ca8f4e0a090334c02aaa58371d7c605e0f1a17f86060e16f4a9b7744283b098b",
-    "mtime": "2026-10-20T16:58:50.940Z"
+    "mtime": "2026-10-20T19:41:43.604Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1719939,
     "sha256": "395e2285881b8cd943f2b83a32713b0f6072f37e4b7b5e881435071a5ca6c187",
-    "mtime": "2026-10-20T16:27:36.008Z"
+    "mtime": "2026-10-20T16:19:56.704Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90705,
     "sha256": "d74af20318a7429e121479c7af1c98a4bfec3fd4180d13ecd5b6a427c64013a1",
-    "mtime": "2026-10-20T16:27:36.036Z"
+    "mtime": "2026-10-20T16:19:56.716Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 206763,
-    "sha256": "f733e7ffe83bcf468291d7f1cb84bc2456f35a81169a463a78cc537969e2c47d",
-    "mtime": "2026-10-20T16:59:02.216Z"
+    "bytes": 212546,
+    "sha256": "c0c7e741a5ec251cac9c833dab288cdf6bf75ddc15727ea3b8319ca479788d77",
+    "mtime": "2026-10-20T19:44:05.008Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-20T16:27:35.962Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-20T16:27:35.962Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-20T16:27:35.968Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-20T16:27:35.968Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-20T16:27:35.968Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    }
   ],
   "code": [
@@ -76,31 +76,31 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 33262,
     "sha256": "7c0632edbe27cfe09a97af233cc5abbcab347181872a30580fa11a0263a97e28",
-    "mtime": "2026-10-20T16:27:35.924Z"
+    "mtime": "2026-10-20T16:19:56.628Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-10-20T16:27:35.972Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:27:35.968Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-20T16:27:35.976Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-10-20T16:27:35.980Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "8b7dffff282ac2d9640768fb92ca32364d41cff5123f9d8c2cccf8836dbd8a00",
@@ -634,6 +634,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -994,6 +1006,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -1367,6 +1391,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -1724,6 +1760,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -2077,6 +2125,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -2439,6 +2499,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -2793,6 +2865,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -3172,6 +3256,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -3519,6 +3615,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -3874,6 +3982,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -4221,6 +4341,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -4582,6 +4714,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -4939,6 +5083,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -5286,6 +5442,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -5653,6 +5821,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -6006,6 +6186,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -6381,6 +6573,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -6784,6 +6988,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7165,6 +7381,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7540,6 +7768,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -7897,6 +8137,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -8250,6 +8502,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -8623,6 +8887,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -8976,6 +9252,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -9337,6 +9625,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -9690,6 +9990,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -10053,6 +10365,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -10426,6 +10750,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -10773,6 +11109,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -11130,6 +11478,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -11498,6 +11858,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -11846,6 +12218,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -12202,6 +12586,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -12549,6 +12945,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -12918,6 +13326,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -13292,6 +13712,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -13645,6 +14077,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -14054,6 +14498,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -14417,6 +14873,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -14769,6 +15237,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -15126,6 +15606,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -15506,6 +15998,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -15880,6 +16384,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -16238,6 +16754,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -16602,6 +17130,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -16973,6 +17513,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -17360,6 +17912,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -17720,6 +18284,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -18107,6 +18683,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -18474,6 +19062,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -18849,6 +19449,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -19209,6 +19821,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -19583,6 +20207,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -19936,6 +20572,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -20297,6 +20945,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -20650,6 +21310,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -21053,6 +21725,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -21416,6 +22100,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -21775,6 +22471,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -22148,6 +22856,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -22495,6 +23215,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -22852,6 +23584,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -23225,6 +23969,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -23582,6 +24338,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -23935,6 +24703,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -24302,6 +25082,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -24661,6 +25453,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -25025,6 +25829,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -25398,6 +26214,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -25763,6 +26591,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -26195,6 +27035,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -26548,6 +27400,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -26972,6 +27836,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -27343,6 +28219,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -27728,6 +28616,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -28107,6 +29007,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -28521,6 +29433,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -28880,6 +29804,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -29249,6 +30185,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -29643,6 +30591,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -30059,6 +31019,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -30435,6 +31407,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -30794,6 +31778,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -31167,6 +32163,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -31526,6 +32534,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -31953,6 +32973,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -32306,6 +33338,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -32676,6 +33720,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -33092,6 +34148,12 @@
       "always": false
      },
      {
+      "key": "corespin-311a",
+      "sec": 8,
+      "share": 1,
+      "always": false
+     },
+     {
       "key": "recheck-309c",
       "sec": 6,
       "share": 11,
@@ -33100,6 +34162,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -33534,6 +34608,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -33906,6 +34992,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -34310,6 +35408,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -34692,6 +35802,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -35064,6 +36186,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -35462,6 +36596,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -35832,6 +36978,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -36196,6 +37354,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -36549,6 +37719,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -36907,6 +38089,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -37273,6 +38467,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -37723,6 +38929,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -38169,6 +39387,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -38575,6 +39805,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -39028,6 +40270,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -39415,6 +40669,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -39793,6 +41059,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -40269,6 +41547,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -40628,6 +41918,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -41010,6 +42312,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -41407,6 +42721,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -41767,6 +43093,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -42155,6 +43493,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -42601,6 +43951,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -43055,6 +44417,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -43439,6 +44813,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -43893,6 +45279,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -44277,6 +45675,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -44700,6 +46110,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -45128,6 +46550,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -45482,6 +46916,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -45852,6 +47298,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -46303,6 +47761,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -46750,6 +48220,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -47116,6 +48598,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -47490,6 +48984,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -47856,6 +49362,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -48230,6 +49748,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -48600,6 +50130,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -48966,6 +50508,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -49365,6 +50919,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -49787,6 +51353,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -50157,6 +51735,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -50510,6 +52100,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -50873,6 +52475,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -51242,6 +52856,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -51641,6 +53267,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -52056,6 +53694,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -52462,6 +54112,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -52837,6 +54499,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -53184,6 +54858,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -53551,6 +55237,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -53908,6 +55606,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -54261,6 +55971,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -54651,6 +56373,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -55035,6 +56769,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -55431,6 +57177,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -55778,6 +57536,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -56135,6 +57905,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -56502,6 +58284,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -56861,6 +58655,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -57240,6 +59046,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -57587,6 +59405,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -57942,6 +59772,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -58289,6 +60131,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -58652,6 +60506,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -59027,6 +60893,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -59457,6 +61335,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -59826,6 +61716,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -60173,6 +62075,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -60571,6 +62485,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -60943,6 +62869,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -61290,6 +63228,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -61664,6 +63614,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -62021,6 +63983,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -62374,6 +64348,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -62741,6 +64727,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -63088,6 +65086,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -63443,6 +65453,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -63790,6 +65812,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -64145,6 +66179,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -64492,6 +66538,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -64859,6 +66917,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -65210,6 +67280,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -65557,6 +67639,18 @@
      {
       "key": "mdsweep-310d",
       "sec": 800,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
       "share": "all",
       "always": false
      },
@@ -65918,6 +68012,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -66269,6 +68375,18 @@
       "always": false
      },
      {
+      "key": "galaxial-311b",
+      "sec": 300,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "planet3-311d",
+      "sec": 3000,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "an336-306a",
       "sec": 900,
       "share": "all",
@@ -66306,8 +68424,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 177,
-  "regenSecSum": 57150,
+  "regenSteps": 180,
+  "regenSecSum": 60458,
   "alwaysSec": 921,
   "undeclaredSteps": 45,
   "undeclaredSec": 1910,
