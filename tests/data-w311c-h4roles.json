@@ -94,7 +94,7 @@
    "sec": 1336,
    "secSource": "w310-chain2",
    "role": "a",
-   "measures": "平均経度の周期の表 7 本 × 構成 × h/h2/h4・エンジンの対照(ケプラー)の h/h2/h4",
+   "measures": "平均経度の周期の表(段 P)7 本 × 構成 × h/h2/h4・エンジンの対照(ケプラー)の h/h2/h4 —— 段 R は h/2・h/4 の 2 段(DIVS_R —— h が無いので転記の型は段 P だけに当たる)",
    "carry": "未適用",
    "readers": {
     "steps": [],
@@ -234,7 +234,8 @@
    "secSource": "w306a-branch",
    "role": "a",
    "measures": "n = 2/+1/0 の根の最後の h/h2/h4・7 本の移送 × h/h2/h4 × 窓 2 × 位相 2",
-   "carry": "未適用",
+   "carry": "applied",
+   "unit": "段 T の移送の行(段 M は測る)",
    "readers": {
     "steps": [
      "mdsweep-310d"

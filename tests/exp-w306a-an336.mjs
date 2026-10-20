@@ -449,7 +449,7 @@ if (IS_MAIN) {
     valueKeys: '行の欄から h/4 で作る欄(pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB)を除き、配列は h と h/2(走行の数 stats と所要は値の鍵ではない)' });
   if (h4c) out.h4Carried = h4c;
   const CODE = ['tests/exp-w306a-an336.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w308d-pre.mjs', 'tests/exp-w306a-an336contract.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/lib-w297b-fit.mjs',
-    'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+    'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE, AN.CANDIDATE_FILE, AN.AUDIT_FILE, 'tests/out/gfamily-w305b.json', DECL307D_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)',
