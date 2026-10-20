@@ -28,7 +28,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs, closureSame294, declaredOuts, readDeclaredScope } from './lib-w281a-scope.mjs';
-import { REGEN_STEPS, volatileDeclared } from './lib-w281a-regentable.mjs';
+import { REGEN_STEPS, volatileDeclared, REGEN_SEC_FILE } from './lib-w281a-regentable.mjs';   // 第311便c(R228): 段の sec は表の外の実測の見積り(REGEN_SEC_FILE)で上書きされる —— 入力に持つ
 // 第281便a(AN16・R71): この器が読む html の領域(live の (L4) が内蔵の全本を build する —— 全本・退役の表・受理と構築の閉包)
 const REGEN_SCOPE = {"presets":"all","roots":["HP.allPresets","HP.loadPreset","HP.sim","HP.validatePreset","RETIRED_PRESETS"],"core":true,"consts":[],"complete":true};
 
@@ -287,7 +287,7 @@ if (IS_MAIN) {
   });
   const retiredBound = L && L.cost ? chain.presetsAll.filter((z) => z.perPresetLoops.length).map((z) => ({ key: z.key, sec: z.sec, loops: z.perPresetLoops,
     retiredSecUpperPerHtml: r3((L.cost.build.retired + L.cost.load32.retired) / 1000) })) : null;
-  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第294便d', target: TARGET, inputs: [CALAUDIT],
+  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第294便d', target: TARGET, inputs: [CALAUDIT].concat(fs.existsSync(path.join(ROOT, REGEN_SEC_FILE)) ? [REGEN_SEC_FILE] : []),
     code: ['tests/exp-w294d-timing.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w281a-regentable.mjs', 'tests/lib-w272e-provenance.mjs'] }), {
     harnessVersion: HARNESS_VERSION,
     ruling: '原仮定者の裁定(第84報): 較正走行と QA で時間が掛かっているサンプルについて、改善を行う',
@@ -300,7 +300,7 @@ if (IS_MAIN) {
     sources: { calaudit: { file: CALAUDIT, generatedAt: (C.meta && (C.meta.generatedAt || C.meta.when)) || null },
       qa: Q ? { file: QA_RESULTS, sha256: sha(path.join(ROOT, QA_RESULTS)), commit: Q.commit || null, date: Q.date || null, targetSha256: Q.targetSha256 || null,
         note: 'QA の記録(QA が走るたびに変わる)—— 来歴の inputs に入れず、読んだ版の sha をここに写す' } : null,
-      chain: 'tests/lib-w281a-regentable.mjs の REGEN_STEPS(sec —— 段の実測秒の記録)' },
+      chain: 'tests/lib-w281a-regentable.mjs の REGEN_STEPS(sec —— 段の実測秒の記録。第311便c から前回の鎖の実測 ' + REGEN_SEC_FILE + ' で上書き)' },
     calibration: { table: cal, top5, solarInnerWindow: windowNeed(C, 'solarInner'), rateProbeSteps: RATE_PROBE_STEPS,
       split: 'step = 走った步数 / calaudit が走行の直前に同じ負荷で測った步/秒(record-rate)。それが壁時計を超える本(n=2 —— 20000 步の測定が短すぎる)は、'
         + 'live で同じページに交互に測った「step だけ」と「step + 抽出の代理」の比で壁時計を分ける(live-ratio)/ 抽出 = 壁時計 − step(步ごとの検出器・停止の検査)/ '

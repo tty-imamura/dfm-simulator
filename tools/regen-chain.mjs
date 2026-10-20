@@ -108,6 +108,73 @@ if (argv.includes('--env')) {
   process.exit(0);
 }
 
+// ==== 第311便c の塊(ここから)====
+// 第311便c(統括の検証項目 R228): **前回の鎖の実測で見積りを更新する**。
+//   node tools/regen-chain.mjs --calibrate <timeline.txt> [--log <REGEN_LOG>] [--source <出所の名>] [--tol 0.1] [--apply]
+//   差の一覧(段・今の見積り・表の値・実測・比・処置)を出す。--apply で tests/data-w311c-regensec.json(表の外 —— 段の sec を読み込み時に上書き)へ
+//   書く(既にある段の行は上書き・無い段は足す)。表の本文は書き換えない(表は families・timing294 の正本の meta.code —— 書き換えると 2 段が regen)。
+if (argv.includes('--calibrate')) {
+  const tlPath = resolve(getArg('--calibrate', null));
+  if (!tlPath || !fs.existsSync(tlPath)) { console.error('timeline が無い: ' + tlPath); process.exit(2); }
+  const text = fs.readFileSync(tlPath, 'utf8');
+  let marks = null;
+  const logDir = getArg('--log', null);
+  if (logDir) {
+    marks = new Map();
+    const dd = path.join(resolve(logDir), 'done');
+    if (fs.existsSync(dd)) for (const f of fs.readdirSync(dd)) if (f.endsWith('.done')) marks.set(f.replace(/\.done$/, ''), fs.readFileSync(path.join(dd, f), 'utf8').split('\n')[0]);
+  }
+  const source = getArg('--source', null) || ('chain ' + ((text.match(/^# ready-queue (\S+)/m) || [])[1] || 'measured'));
+  const r = T.calibrateSec(text, { marks, tol: Number(getArg('--tol', '0.1')), source });
+  const fmt = (x) => (x === null || x === undefined ? '—' : String(x));
+  console.log(`regen-chain --calibrate: ${r.header || '(見出しなし)'} —— 段 ${r.rows.length}・更新 ${Object.keys(r.apply).length}・`
+    + `許容の内 ${r.rows.filter((z) => z.action === 'keep').length}・飛ばした ${r.rows.filter((z) => z.action === 'skip').length}(出所の名 ${source})`);
+  for (const z of r.rows) console.log(`  ${z.action.padEnd(6)} ${z.key.padEnd(22)} 見積り ${fmt(z.sec).padStart(6)} s(表 ${fmt(z.secTable).padStart(6)})・実測 ${fmt(z.measured).padStart(8)} s・比 ${fmt(z.ratio).padStart(6)}  ${z.why}`);
+  if (argv.includes('--apply')) {
+    const file = path.join(ROOT, T.REGEN_SEC_FILE);
+    let cur = null;
+    try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { cur = null; }
+    if (!cur || cur.version !== T.REGEN_SEC_VERSION) cur = { version: T.REGEN_SEC_VERSION, steps: {} };
+    cur.what = '再生成の鎖の段の所要の見積り(秒)—— 前回の鎖の実測(timeline の start/end)。tests/lib-w281a-regentable.mjs が読み込み時に段の sec を上書きする'
+      + '(優先度〔臨界路〕・予約・模擬の見積りにだけ使う —— 済み印の契約と計画の判定には入らない)。書くのは node tools/regen-chain.mjs --calibrate <timeline> --apply';
+    cur.tool = 'tools/regen-chain.mjs --calibrate';
+    for (const [k, v] of Object.entries(r.apply)) cur.steps[k] = { sec: v.sec, source: v.source };
+    cur.steps = Object.fromEntries(Object.keys(cur.steps).sort().map((k) => [k, cur.steps[k]]));
+    // 出所の名 → timeline の見出し(鎖の開始時刻・レーン)
+    cur.sources = Object.assign({}, cur.sources || {}, Object.keys(r.apply).length ? { [source]: r.header || null } : {});
+    fs.writeFileSync(file, JSON.stringify(cur, null, 1) + '\n');
+    console.log(`  → ${T.REGEN_SEC_FILE}(段 ${Object.keys(cur.steps).length} —— 今回 ${Object.keys(r.apply).length} 段を書いた)`);
+  }
+  process.exit(0);
+}
+
+// 第311便c(R228): 鎖の計画(--json の出力)と実測の timeline で、旧の規則(greedy)と予約(easy)の壁時計を模擬する(走らせない)。
+//   node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [--lanes 4] [--workers 段=n,段=n]
+//   所要は timeline の実測(無い段は計画の sec)・見積りは計画の sec(est=plan)と実測(est=meas)の 2 通り・優先度は計画の並びと実測の臨界路の 2 通り
+if (argv.includes('--simulate')) {
+  const plan = JSON.parse(fs.readFileSync(resolve(getArg('--simulate', null)), 'utf8'));
+  const tlp = getArg('--timeline', null);
+  const meas = new Map();
+  if (tlp) for (const e of T.parseTimeline(fs.readFileSync(resolve(tlp), 'utf8')).events) if (Number.isFinite(e.end) && e.rc === 0) meas.set(e.key, e.end - e.start);
+  const lanes = Number(getArg('--lanes', '4')) || 4;
+  const over = Object.fromEntries((getArg('--workers', '') || '').split(',').filter(Boolean).map((z) => z.split('=')).map(([k, v]) => [k, v === 'all' ? 'all' : Number(v)]));
+  const rows = Object.fromEntries(Object.entries(plan.steps).map(([k, r]) => [k, Object.assign({}, r, k in over ? { workers: over[k] } : {})]));
+  const secOf = (k) => (meas.has(k) ? meas.get(k) : (rows[k].sec || 0));
+  const planOf = (k) => rows[k].sec || 0;
+  const priMeas = T.chainPriority({ steps: Object.fromEntries(Object.entries(rows).map(([k, r]) => [k, Object.assign({}, r, { sec: secOf(k) })])) });
+  const out = [];
+  for (const [pl, pri] of [['plan', plan.priority || T.chainPriority({ steps: rows })], ['meas', priMeas]])
+    for (const [el, estOf] of [['plan', planOf], ['meas', secOf]])
+      for (const rule of ['greedy', 'easy']) {
+        const s = T.simulateReadyQueue({ steps: rows, priority: pri }, { lanes, secOf, estOf, rule });
+        out.push({ rule, priority: pl, estimate: el, makespanSec: Math.round(s.makespan), makespanH: Math.round(s.makespan / 36) / 100, ok: s.check.ok, pending: s.pending.length,
+          backfills: s.events.filter((e) => e.backfill).length, reservations: s.reservations.length });
+      }
+  console.log(JSON.stringify({ steps: Object.keys(rows).length, measured: meas.size, lanes, workers: over, rule: T.READY_QUEUE_RULE, runs: out }, null, 1));
+  process.exit(0);
+}
+// ==== 第311便c の塊(ここまで)====
+
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);
   const plan = T.planRegen({ root: ROOT, html: HTML });
@@ -176,10 +243,16 @@ if (argv.includes('--audit')) {
   const all = { steps: T.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
   const ch = T.buildChain(all, { root: ROOT });
   const sim = T.simulateReadyQueue(ch, { lanes });
-  r.readyQueue = { lanes, steps: sim.events.length, pending: sim.pending, order: sim.check.order, writes: sim.check.writes, budget: sim.check.budget,
-    makespanSec: Math.round(sim.makespan), waveMakespanSec: Math.round(T.waveMakespan(ch, lanes)),
+  // 第311便c(R228): 予約つき(easy —— 既定)と旧の規則(greedy)の両方・workers all の段の見直し(laneReview311)
+  const simG = T.simulateReadyQueue(ch, { lanes, rule: 'greedy' });
+  const lr = T.laneReview311({ root: ROOT });
+  r.readyQueue = { lanes, rule: T.READY_QUEUE_RULE, steps: sim.events.length, pending: sim.pending, order: sim.check.order, writes: sim.check.writes, budget: sim.check.budget,
+    makespanSec: Math.round(sim.makespan), greedyMakespanSec: Math.round(simG.makespan), waveMakespanSec: Math.round(T.waveMakespan(ch, lanes)),
+    reservations: sim.reservations.length, backfills: sim.events.filter((e) => e.backfill).length,
+    secSource: T.REGEN_SEC ? T.REGEN_SEC_FILE + '(' + Object.keys(T.REGEN_SEC.steps || {}).length + ' 段を実測で上書き)' : '表の sec だけ',
+    lanes311: lr.rows.map((z) => `${z.key}: workers ${z.workers}・鎖で html を置き換える ${z.rewritesHtmlInChain}・順序の無い html 読み ${z.unorderedHtmlReaders}・望む ${z.want}${z.ok ? '' : ' ✗'}`),
     note: '所要は表の実測秒(見積り —— 並列度・容器の負荷で変わる)。書込排他は outs + merges の重なり' };
-  r.ok = r.ok && sim.check.ok && !sim.pending.length;
+  r.ok = r.ok && sim.check.ok && !sim.pending.length && simG.check.ok && lr.ok;
   console.log(JSON.stringify(r, null, 1));
   process.exit(r.ok ? 0 : 1);
 }
