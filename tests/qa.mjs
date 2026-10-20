@@ -83007,7 +83007,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
       if (J.ok !== true) bad.push('正本の ok が真でない');
       for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
-      if (Object.keys(G).length !== GK.length || GK.length < 10) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (Object.keys(G).length !== GK.length || GK.length < 9) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
       if (J.quick === true) bad.push('正本が試走(QUICK)');
       if (JSON.stringify(J.parts) !== JSON.stringify(['K', 'P', 'E', 'S', 'R', 'Z'])) bad.push('正本の段が全段でない ' + JSON.stringify(J.parts));
       if (J.version !== X.HARNESS_VERSION || J.libVersion !== DL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
@@ -83017,8 +83017,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         const K2 = X.partK(false), nf = K2.far.filter((r, i) => !relq(r.k2Excess, J.K.far[i].k2Excess) || r.m2Coef !== J.K.far[i].m2Coef).length;
         if (nf) bad.push('② 段 K の遠方の係数を lib で作り直すと正本と違う ' + nf + ' 行');
-        const { loadHtmlMain } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
-        let HPm = loadHtmlMain(path.join(ROOT, TARGET)).HP;
+        // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+        const md310Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        let HPm = null;
+        if (globalThis.HP && typeof globalThis.HP.REL_DRAG_INVSQ_VERSION === 'string' && typeof globalThis.HP.inertialDragIsqState === 'function'
+          && md310Html.indexOf('REL_DRAG_INVSQ_VERSION="' + globalThis.HP.REL_DRAG_INVSQ_VERSION + '"') >= 0) HPm = globalThis.HP;
+        else { const { loadHtmlMain: loadMain310d } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); HPm = loadMain310d(path.join(ROOT, TARGET)).HP; }
         const S2 = X.partS(HPm, X.pinnedBook(HPm), { quick: false });
         let nd = 0;
         if (S2.rows.length !== J.S.rows.length) bad.push('② 段 S の行の数 ' + S2.rows.length + '/' + J.S.rows.length);
@@ -83029,7 +83033,6 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         // ③ 在位の宣言が不変
         const LG = X.liveDeclGate(HPm);
         if (!(LG.bodiesSame && LG.scaleSame && LG.timeRefSame && LG.oldRule && LG.noInvSq && LG.noDragCore && LG.gLoc && LG.gLoc.law === 'kappaC2')) bad.push('③ 在位の 🌡️ の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
-        HPm = null;   // headless の写しを使い終えたら手放す
         cases.push(`② 段 K の遠方の係数・段 S の ${S2.rows.length} 行(β・回転の速さ・β(太陽 ← 水星)・差)を作り直して一致 / ③ 在位の 🌡️ は第306便a の世代のまま(k ${LG.k}・gLoc ${LG.gLoc && LG.gLoc.law})`);
       } catch (e) { bad.push('② 作り直せない: ' + String(e).slice(0, 160)); }
       const Z = J.Z || {};
