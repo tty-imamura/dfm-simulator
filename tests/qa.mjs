@@ -81055,7 +81055,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           'w310a-invsq-wbg0-1', 'outerShell', 'uniform', 'thin', 'Wbg2', '0 だけ', '前計算', '桁落ち', '〔第310便c〕', '言わないこと'])
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第310便a〕に「' + w + '」が無い');
       }
-      { const hb = CL.indexOf('## v1.46-b310'), hn = CL.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
+      { const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CL.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
         if (cs.indexOf('第310便a') < 0) bad.push('CHANGELOG の v1.46-b310 の節に第310便a が無い'); }
       if (RM.indexOf('第310便a') < 0) bad.push('README に第310便a が無い');
       { const ai = AS.indexOf('## 115.');
@@ -83648,7 +83648,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (!tw || tw.unordered.length) bad.push('⑤touches を含めた書き手の並列: ' + JSON.stringify(tw && tw.unordered).slice(0, 120));
         cases.push(`⑤ 表 ${RT.REGEN_TABLE_VERSION}: kf0ledger ← kf0ledger-old・touches を含めた書き手 ${tw ? tw.writers.map((z) => z.file + '←' + z.keys.join('+')).join(' / ') : '?'}・並列 ${tw ? tw.unordered.length : '?'}`);
         // ⑥
-        const hb = CL.indexOf('## v1.46-b310'), hn = hb >= 0 ? CL.indexOf('\n## ', hb + 5) : -1;
+        const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = hb >= 0 ? CL.indexOf('\n## ', hb + 5) : -1;   // 第311便(統括): 見出しを便名と昇格に依らずに(v1.46-b<便>・v1.46.0(RC))
         const cl310 = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
         if (cl310.indexOf('第310便c') < 0) bad.push('⑥CHANGELOG の v1.46-b310 の節に第310便c が無い');
         if (RM.indexOf('**第310便c**') < 0) bad.push('⑥README に第310便c が無い');
