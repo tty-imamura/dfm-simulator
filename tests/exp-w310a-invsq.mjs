@@ -18,7 +18,7 @@
 //   M(太陽–水星の写し —— AN380・AN386): ☿ 3D の写しで太陽の dragCore = (6.5×10⁶ m, m_d)・m_d/M = 1・0.1・0.001 × 外殻 uniform/thin の β(水星 ← 太陽)・
 //     源の外殻の分・回転引きずりの速さ u_rot と ω_D·â/Ω・太陽を受け手にした β(枝 d の掃引の照合に使う)。
 //   P(前計算 —— §2): 単位の球の表(SK・SD)と今の経路の自己の場(全節点・次数 4〜16・受け手の半径 5 通り・受け手を原点と大きい座標に)・読み口の
-//     direct(今の経路)と前計算の β・回転・ω(原点の写しと SI の太陽系の写し —— 大きい座標の差は今の経路の桁落ち)・速さ(評価の ms —— 揮発)。
+//     direct(今の経路)と前計算の β・回転・ω(原点の写しと SI の太陽系の写し —— 大きい座標の差は今の経路の桁落ち)・速さ(評価 1 回の壁時計 —— 揮発)。
 //   Z(AN382 —— 測るだけ): 質量 0 の受け手(massFloor のクランプ)・小さい質量で Σβ → 1・1 − Σβ と観測の移動の分解・半径の無い受け手(源にも受け手にも入らない)・小さい R_d で Σβ → 0。
 //
 // ■ 言わないこと: 「法則を発見した」「帳簿が完全に閉じた」「完全に一致」「二重計上を解消した」「フィットした」。外殻の形(一様の厚い殻)は統括の読み(AN384 —— 違えば次報)・
@@ -334,7 +334,7 @@ function partP(H, quick) {
     run(undefined); run({ direct: true });
     for (let r = 0; r < 3; r++) { T.push(run(undefined)); D.push(run({ direct: true })); }
     const med = (a) => a.slice().sort((x, y) => x - y)[1];
-    speed.push({ order, nodes: S.n * order * order * 2 * order, msTable: r6(med(T)), msDirect: r6(med(D)), ratio: r6(med(T) / med(D)) });
+    speed.push({ order, nodes: S.n * order * order * 2 * order, table: { wallSec: r6(med(T) / 1000) }, direct: { wallSec: r6(med(D) / 1000) } });   // 比 table/direct は読み手が作る(揮発)
   }
   return { nodes, maxOriginW: r6(maxOrigin), maxOriginGrad: r6(maxOriginG), maxOriginGradOverCondUlp: r6(maxOriginGN), maxFarW: r6(maxFar), maxFarGrad: r6(maxFarG), e2e, toyMax: r6(toyMax), siMax: r6(siMax), siCenteredMax: r6(siCenteredMax), speed };
 }
@@ -444,10 +444,10 @@ export function runAll(H, o = {}) {
 // 版を読む器・QA・正本の扱い(AN378 の版上げ —— 第310便a の枝で列挙して走らせた。正本の中身の invSqVersion で世代を見分ける)
 export const VERSION_READERS = [
   { file: 'tests/qa.mjs behavior.invSq309', reads: 'html の REL_DRAG_INVSQ_VERSION', handling: '両方の版で走る(③ の Wbg2 = 0.05 は内部状態の参照の比較 —— 公開の受理と分ける)' },
-  { file: 'tests/qa.mjs docs.invSq309', reads: '正本 invsq-w309a.json の invSqVersion', handling: '両方の版を受ける(正本は鎖で新版の html から作り直される)' },
+  { file: 'tests/qa.mjs docs.invSq309', reads: '第309便a の正本(段 invsq-309a)の invSqVersion', handling: '両方の版を受ける(正本は鎖で新版の html から作り直される)' },
   { file: 'tests/exp-w309a-invsq.mjs(段 G の受理の表)', reads: 'REL_DRAG_INVSQ_VERSION', handling: 'Wbg2 正は版 w309a-invsq-1 のときだけ受理を期待(新版では拒否)—— 正本の契約を新版へ' },
-  { file: 'tests/out/invsq-w309a.json', reads: '—(invSqVersion を刻む)', handling: '新版の html で作り直した(段 A の照合は受け手を原点に置いた lib と)・PHYSICS〔第309便a〕の 2 行を正本の値へ' },
-  { file: 'tests/out/recheck-w309c.json・tests/out/maintain-w309b.json', reads: '版を読まない(Wbg2 を宣言しない)', handling: 'そのまま(鎖が領域で判定)' },
+  { file: '段 invsq-309a の正本', reads: '—(invSqVersion を刻む)', handling: '新版の html で作り直した(段 A の照合は受け手を原点に置いた lib と)・PHYSICS〔第309便a〕の 2 行を正本の値へ' },
+  { file: '段 recheck-309c・段 maintain-309b の正本', reads: '版を読まない(Wbg2 を宣言しない)', handling: 'そのまま(鎖が領域で判定)' },
 ];
 
 export async function main() {

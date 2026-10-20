@@ -16,7 +16,7 @@
   },
   {
    "file": "tests/qa.mjs docs.invSq309",
-   "reads": "正本 invsq-w309a.json の invSqVersion",
+   "reads": "第309便a の正本(段 invsq-309a)の invSqVersion",
    "handling": "両方の版を受ける(正本は鎖で新版の html から作り直される)"
   },
   {
@@ -25,12 +25,12 @@
    "handling": "Wbg2 正は版 w309a-invsq-1 のときだけ受理を期待(新版では拒否)—— 正本の契約を新版へ"
   },
   {
-   "file": "tests/out/invsq-w309a.json",
+   "file": "段 invsq-309a の正本",
    "reads": "—(invSqVersion を刻む)",
    "handling": "新版の html で作り直した(段 A の照合は受け手を原点に置いた lib と)・PHYSICS〔第309便a〕の 2 行を正本の値へ"
   },
   {
-   "file": "tests/out/recheck-w309c.json・tests/out/maintain-w309b.json",
+   "file": "段 recheck-309c・段 maintain-309b の正本",
    "reads": "版を読まない(Wbg2 を宣言しない)",
    "handling": "そのまま(鎖が領域で判定)"
   }
@@ -1873,23 +1873,32 @@
    {
     "order": 4,
     "nodes": 384,
-    "msTable": 1.438096267,
-    "msDirect": 1.717622383,
-    "ratio": 0.8372598544
+    "table": {
+     "wallSec": 0.002432662617
+    },
+    "direct": {
+     "wallSec": 0.002444741167
+    }
    },
    {
     "order": 8,
     "nodes": 3072,
-    "msTable": 5.516238,
-    "msDirect": 11.85836615,
-    "ratio": 0.4651768996
+    "table": {
+     "wallSec": 0.0127836202
+    },
+    "direct": {
+     "wallSec": 0.0132574083
+    }
    },
    {
     "order": 16,
     "nodes": 24576,
-    "msTable": 50.0267625,
-    "msDirect": 75.8886195,
-    "ratio": 0.6592129733
+    "table": {
+     "wallSec": 0.06939162033
+    },
+    "direct": {
+     "wallSec": 0.1297580768
+    }
    }
   ]
  },
@@ -2084,37 +2093,37 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.214
+   "wallSec": 0.196
   },
   "C": {
-   "wallSec": 0.003
+   "wallSec": 0.012
   },
   "N": {
-   "wallSec": 0.5
+   "wallSec": 0.658
   },
   "S": {
-   "wallSec": 0.406
+   "wallSec": 0.522
   },
   "E": {
-   "wallSec": 1.26
+   "wallSec": 1.75
   },
   "M": {
-   "wallSec": 0.036
+   "wallSec": 0.052
   },
   "P": {
-   "wallSec": 6.328
+   "wallSec": 9.272
   },
   "Z": {
-   "wallSec": 0.381
+   "wallSec": 0.706
   }
  },
- "elapsedS": 13.458,
+ "elapsedS": 18.652,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
   "targetSha256": "a321f74fcb7edbf21a65fa8c6ca531e745788ad1ada0fe4be911acecae1ca5fc",
-  "generatedAt": "2026-10-20T01:49:10.270Z",
+  "generatedAt": "2026-10-20T02:02:20.057Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2126,9 +2135,9 @@
   "code": [
    {
     "file": "tests/exp-w310a-invsq.mjs",
-    "bytes": 44556,
-    "sha256": "48388b52586a35e012b7988f3f5baef0c35c9bf6d1d49d8822407a401e85b865",
-    "mtime": "2026-10-20T01:48:56.306Z"
+    "bytes": 44624,
+    "sha256": "90decef3f427b59ebcdb292ca96b82f13e296a6414dfecdbcf4e145fcd8eae1f",
+    "mtime": "2026-10-20T02:02:01.001Z"
    },
    {
     "file": "tests/lib-w310a-shell.mjs",
@@ -2179,7 +2188,7 @@
     "mtime": "2026-10-20T01:19:01.734Z"
    }
   ],
-  "codeSha256": "caa6e281f255cde900025388c829cbf4613423fb01e4f598e87733075446cf67",
+  "codeSha256": "1a227a9fe2dfb7cc65beeabf02cf03485039d3e5ff8620ae99cad0835a9c6ac8",
   "harnessVersion": "w310a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [

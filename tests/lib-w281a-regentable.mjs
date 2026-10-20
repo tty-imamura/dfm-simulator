@@ -1138,7 +1138,7 @@ export const REGEN_STEPS = [
   //   P〔自己の場の前計算と今の経路 —— 全節点・端から端の β と ω・速さ〔揮発〕〕・Z〔AN382 の今の挙動〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。
   //   所要は第310便a の枝の実測(正本の elapsedS)
   S('invsq-310a', 'node tests/exp-w310a-invsq.mjs', ['tests/out/invsq-w310a.json'], 14, { secSource: 'w310a-branch', node: true, after: ['obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/invsq-w310a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/speed/*/msTable', '/P/speed/*/msDirect', '/P/speed/*/ratio']) },
+    volatilePaths: { 'tests/out/invsq-w310a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/speed/*/table/wallSec', '/P/speed/*/direct/wallSec']) },
     note: '第310便a: 新則の受理(invSq.Wbg2 は 0 だけ —— 版 w310a-invsq-wbg0-1)・中心 r = 0 の向き・外殻の源 invSq.outerShell(一様の厚い殻と薄い殻 —— 源と受け手でそれぞれ計算・質量で重み)・自己の場の前計算(今の経路との照合と速さ)・太陽–水星の写しの m_d 3 点・AN382 の自己の無い受け手の今の挙動' }),
   // ==== 第310便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
