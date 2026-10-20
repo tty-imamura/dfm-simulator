@@ -62,6 +62,9 @@ export const SMOKE_KNOBS = Object.freeze({
   'bgequiv': { env: { W278D_STEPS: '2000' }, note: '2000 步' },
   'bgbudget2': { env: { W279C_STEPS: '2000' }, note: '2000 步' },
   'pairnorm-305a': { env: { W305A_PARTS: 'Z,K' }, note: '段 Z・K だけ(約 5 s —— 三体の長窓 M は鎖)' },
+  // ==== 第311便b の塊(ここから)====
+  'galaxial-311b': { env: { W311B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 35 s・全段 A・B・D)' },
+  // ==== 第311便b の塊(ここまで)====
 });
 
 /** 煙試験の全段に渡す既定(子プロセスの並列数を 1 に —— 器の注記どおり結果は並列数に依らない・箱を 2 レーンより多く占めない)。 */
