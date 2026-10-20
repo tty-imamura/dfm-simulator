@@ -3979,3 +3979,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **post-merge の ③′**: `tools/post-merge-qa.sh` の `PHYS_SCAN_IDS`(PHYSICS の節の見出しから「## 7.」までか全文を、否定の照合〔書かない語・禁句・古い単位の数・旧称〕で読む QA 9 本)を毎便の ③′ に足す(`POST_MERGE_WAVE_IDS` で一覧を差し替えても足す —— 外すのは `POST_MERGE_PHYS_SCAN_IDS=""`)。
 - **器と QA**: `tests/lib-w309d-pre.mjs`(pin308d・pinDecl308d・gate308d・isGen309d・record309d)・凍結の写し `tests/data-w309d-decl308.json`(段 fit-297b の派生本の照合が使う)。QA `preset.fitRole309`・`docs.w309d`(root は SKIP)・世代切替 `preset.fitRole307` ④・`preset.fitCond297`。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。役割は省略してよい。PHYSICS に節を足す変更では、部分 QA に `PHYS_SCAN_IDS` を入れて、新しい節の語・数・単位が古い QA の否定の照合に当たらないかを確かめる。
+
+## 115. 第310便a —— 新則の受理を `invSq.Wbg2` = 0 だけに(版 `REL_DRAG_INVSQ_VERSION = "w310a-invsq-wbg0-1"`)・中心 r = 0 の向き・外殻の源 `physics.relativeDrag.invSq.outerShell`・受け手の自己の場の前計算(原仮定者の裁定(第107報)・(第109報)AN380・決断事項 AN378・AN384・AN385・AN386・AN382・統括の検証項目 R222・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **受理(AN378)**: `invSq.Wbg2` は 0 だけ(省略・0・−0 → 正準形 0。正・負・NaN・±Infinity・null・文字列・真偽値・配列・オブジェクトは拒否 —— 理由の文「0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0」)。正準形は第309便a と同じ `{Wbg2:0, order}`(outerShell は宣言したときだけ)。エンジンの評価は状態の値を読む(器・QA の内部状態の参照の比較は公開の受理を通らない)。
+- **鍵 `outerShell`**: `"uniform"`(内径 R_d・外径 R の一様の厚い殻 —— 球の差)か `"thin"`(半径 R の球面 —— 比較)。版 `REL_DRAG_INVSQ_SHELL_VERSION = "w310a-outershell-1"`。dragCore の質量 m_d < M で天体の半径 R > R_d の天体だけが外殻(質量 M − m_d)を持つ —— 源の側は dragCore と外殻を別々の項・受け手の側は dragCore と外殻の体積でそれぞれ比の平均を取り質量で重み(thin の受け手の殻の分は 0)。外殻の質量を持つ天体が無い本は警告 1 行。
+- **前計算**: 受け手の自己の場は単位の球の表(`inertialDragIsqRule(n)` の `SK`・`SD` —— エンジンの K2 を x = t で)から引く。読み口 `inertialDragIsqState(S, {direct:true})` は今の経路(比べるためだけ)。中心 r = 0 の向きは 0。
+- **読み口**: `inertialDragIsqState(S)` は外殻を宣言した本で `outerShell`(版・外殻の数・M_s・R)と受け手ごとの `betaSrcShell`・`parts`(dragCore/外殻の体積の部分)・`shell`(重み)を返す。`inertialDragIsqPointAt` は外殻の源の `KS`・`MS`・`betaCore`/`betaShell` を返す。新関数 `inertialDragIsqThin`・`inertialDragIsqShellK`・`inertialDragIsqShellM`・`inertialDragIsqPointRecv`・`inertialDragIsqNode`。作業 `_rdIsqSh` は SIM_STEP_SCRATCH。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら Wbg2 は省略(0 だけ)・m_d を同定した・外殻の形を導いた、と書かない。
+- **器と正本**: `tests/exp-w310a-invsq.mjs`(版 w310a-invsq-1・`W310A_OUT`・`W310A_QUICK`)・lib `tests/lib-w310a-shell.mjs` → `tests/out/invsq-w310a.json`(段 invsq-310a)。QA: `behavior.invSq310`(公開の受理・旧版の参照の比較・中心・外殻・前計算)・`docs.invSq310`(正本の門・PHYSICS〔第310便a〕の表と数・文書・禁句)—— どちらも root は SKIP。
