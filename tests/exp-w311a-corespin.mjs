@@ -38,7 +38,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as CL from './lib-w311a-corespin.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限)
-const REGEN_SCOPE = {"presets":["mercurySunInertial3d"],"roots":[],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["mercurySunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.validatePreset","REL_DRAG_CORE_SPIN_VERSION","REL_DRAG_INVSQ_SHELL_VERSION","REL_DRAG_INVSQ_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","dragCoreEdit","inertialDragInitObsRedo","inertialDragInitObsState","inertialDragIsqEval","inertialDragIsqPointAt","inertialDragIsqRule","inertialDragIsqState"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w311a-corespin-1';
@@ -252,7 +252,15 @@ function partR(H, quick) {
       rows.push({ key: T.key, order, recv: i, srcs: e.coreSpinSrc.map((c) => c.j), engVsLibURot: r10(mu), engVsLibOmega: r10(mo), engVsLibOmegaS: r10(ms), engVsLibOmegaSum: r10(mw) });
     }
   }
-  return { rows, maxURot: r10(eu), maxOmega: r10(eo), maxOmegaS: r10(es), maxOmegaSum: r10(ew) };
+  // 点の読み口(inertialDragIsqPointAt): 核の自転を宣言した源の項に核の Ω_c(宣言)と外殻の自転(天体の状態)を出す・宣言の無い源の項は今と同じ形
+  const at = E(H, 'inertialDragIsqPointAt'), T0 = TOYS[0], S0 = engineState(T0.bodies, { shell: T0.mode }), pa = at(S0, 1, 7, 1.5, -0.8), t0 = pa.terms.find((z) => z.j === 0);
+  const ac = CL.axisOf(70, 20), T3 = engineState(TOYS[2].bodies, { shell: 'uniform' }), p3 = at(T3, 2, -3, 7, -2);
+  const pointAt = { version: pa.coreSpin ? pa.coreSpin.version : null, sources: pa.coreSpin ? pa.coreSpin.sources : null, coreS: t0.coreSpin ? t0.coreSpin.s : null,
+    coreAxisRel: t0.coreSpin ? r10(relv(t0.coreSpin.axis, ac)) : null, shellS: t0.shellSpin ? t0.shellSpin.s : null,
+    undeclaredSrcPlain: (() => { const u = engineState(TOYS[0].bodies.map((b) => ({ ...b, cs: undefined })), { shell: 'uniform' }), q = at(u, 1, 7, 1.5, -0.8); return !('coreSpin' in q) && q.terms.every((z) => !('coreSpin' in z)); })(),
+    s3: p3.terms.map((z) => [z.j, z.coreSpin ? z.coreSpin.s : null]) };
+  pointAt.ok = pointAt.version === 'w311a-corespin-1' && pointAt.coreS === -1.7 && pointAt.coreAxisRel < 1e-15 && pointAt.shellS === 0.8 && pointAt.undeclaredSrcPlain;
+  return { rows, maxURot: r10(eu), maxOmega: r10(eo), maxOmegaS: r10(es), maxOmegaSum: r10(ew), pointAt };
 }
 
 /* ───────── 段 M(太陽–水星 —— ⑤⑥)───────── */
@@ -339,6 +347,7 @@ export function gatesOf(J) {
     zeroCoreWithShell: J.B.zeroWithShell.coreZero && J.B.zeroWithShell.shellRotSameAsRotSrcShell && J.B.zeroWithShell.uRotShellVsUndeclaredShellPart < 1e-12,
     coreShellLinear: J.B.linear.shellBitSame && Math.max(J.B.linear.uCore2, J.B.linear.uCore10, J.B.linear.omegaCore2, J.B.linear.omegaCore10) < 1e-12 && J.B.linear.totalDiff < 1e-9 && J.B.linear.rotCorePlusShellVsRot < 1e-12,
     engineVsLib: J.R.maxURot < 1e-12 && J.R.maxOmega < 1e-9 && J.R.maxOmegaS < 1e-9 && J.R.maxOmegaSum < 1e-9,
+    pointAtReadout: J.R.pointAt.ok,
     mercuryTableFinite: J.M.allFinite,
     mercuryBetaUnchanged: J.M.betaUnchanged,
     mercuryInitOk: J.M.initAllOk,
@@ -353,8 +362,8 @@ const floor12 = (v) => (v === null || v === undefined) ? '—' : (v === 0 ? '0' 
 const yn = (b) => (b ? '有限' : '非有限');
 export function physicsTables(J) {
   const out = [];
-  out.push('| gap(dragCore.radius = R(1 − gap)) | 防御の無い写しの β・回転・ω | 1 步・3 步の状態 | 受理(次数 8) | 次数 2・24 | 節点の余裕 [ulp] | ☿ の ω の大きさ(10⁻² 比) |', '|---|---|---|---|---|---|---|');
-  for (const r of J.T.rows) out.push(`| ${r.gap} | ${yn(r.unguarded.finite)} | ${yn(r.unguarded.step1Finite)}・${yn(r.unguarded.step3Finite)} | ${r.accepted ? '受理' : '拒否'} | ${r.acceptOrder2 ? '受理' : '拒否'}・${r.acceptOrder24 ? '受理' : '拒否'} | ${r.nodeMarginUlp === null ? '—' : e2s(r.nodeMarginUlp)} | ${r.merOmegaOverGap1e2 === null ? '—' : e2s(r.merOmegaOverGap1e2)} |`);
+  out.push('| gap(dragCore.radius = R(1 − gap)) | 防御の無い写しの β・回転・ω | 1 步・3 步の状態 | 受理(次数 8) | 次数 2・24 | 節点の余裕 [ulp] | ☿ の ω の大きさ(10⁻² 比) | ☿ の ω・β の次数 8 と 12 の相対の差 |', '|---|---|---|---|---|---|---|---|');
+  for (const r of J.T.rows) out.push(`| ${r.gap} | ${yn(r.unguarded.finite)} | ${yn(r.unguarded.step1Finite)}・${yn(r.unguarded.step3Finite)} | ${r.accepted ? '受理' : '拒否'} | ${r.acceptOrder2 ? '受理' : '拒否'}・${r.acceptOrder24 ? '受理' : '拒否'} | ${r.nodeMarginUlp === null ? '—' : e2s(r.nodeMarginUlp)} | ${r.merOmegaOverGap1e2 === null ? '—' : e2s(r.merOmegaOverGap1e2)} | ${r.omegaOrder8vs12 === undefined ? '—' : e2s(r.omegaOrder8vs12) + '・' + e2s(r.betaOrder8vs12)} |`);
   out.push('', '| 照合 | 値 |', '|---|---|');
   out.push(`| 鍵 dragCore.spin・spinAxis の受理と拒否の表 | ${J.K.nPass}/${J.K.nCases} |`);
   const ns = J.B.rows.filter((r) => !r.shellSun), ws = J.B.rows.filter((r) => r.shellSun);
@@ -369,7 +378,8 @@ export function physicsTables(J) {
 }
 export function docNumbers(J) {
   const t12 = J.T.rows.find((r) => r.gapValue === 1e-12), m = J.M.rows.find((r) => r.mdOverM === 0.1 && r.decl === '観測の 10 倍');
-  return [e2s(t12.merOmegaOverGap1e2), e2s(J.B.linear.uCoreOverShell), m ? f3(m.uRotOverObs) : '—'];
+  const t10 = J.T.rows.find((r) => r.gapValue === 1e-10), m1 = J.M.rows.find((r) => r.mdOverM === 1 && r.decl === '観測と同じ');
+  return [e2s(t12.merOmegaOverGap1e2), e2s(t10.omegaOrder8vs12), e2s(J.B.linear.uCoreOverShell), e2s(m1.uRotMs), m ? e2s(m.uRotCoreMs) : '—'];
 }
 
 export function runAll(H, o = {}) {
