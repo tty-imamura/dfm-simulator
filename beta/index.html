@@ -8793,6 +8793,14 @@ function inertialDrag3AxialSign(ax,ay,az){ return (az>0)? 1 : (az<0)? -1 : (ay>0
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
 const DRAG_CORE_KEYS = ["massFrac", "radius"];
+// 第311便a(DECISIONS v70 §0c ①・§1 AN397・原仮定者の裁定(第110報)AN387 ④・統括の検証項目 R226): **dragCore の自転と軸**(新則 invSq の本だけの opt-in の鍵)。
+//   dragCore:{massFrac, radius, spin?, spinAxis?:{tiltDeg, azimuthDeg?}} —— 名と単位は天体の自転の宣言と同じ: spin は天体の spin と同じ角速度の単位〔rad/本の時間〕・
+//   同じ値域(天体の spin の SPN と同じ ±20 —— 外は拒否・丸めない)、spinAxis は天体の spinAxis と同じ角の定義(傾き tiltDeg は +z から 0〜180・方位 azimuthDeg は +x から
+//   −360〜360・未宣言 0 —— spinAxis3Unit)。**宣言の一定のベクトル**(慣性系に固定 —— 状態として進めない・核の角運動量は解かない・入力のノブ)なので、
+//   歳差・有効化・出所の鍵(precessionRate・precessAxis・enable・source)は持たない。片方だけの宣言は残りを天体の今の状態から読む(spin だけ → 軸は天体の軸・
+//   spinAxis だけ → 速さは天体の自転)。式と契約は inertialDragIsqCoreSpin の注記・docs/PHYSICS.md〔第311便a〕
+const DRAG_CORE_SPIN_KEYS = ["spin", "spinAxis"], DRAG_CORE_SPIN_AXIS_KEYS = ["tiltDeg", "azimuthDeg"], DRAG_CORE_SPIN_RANGE = [-20, 20];
+const REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1";
 const DRAG_CORE_NR = 32;
 const DRAG_CORE_TABLE_N = 1024;
 const DRAG_CORE_TABLE_N_RANGE = [16, 65536];
@@ -8822,15 +8830,27 @@ function validateDragCoreBody(b, ph){
   const d=b.dragCore;
   if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, err:'dragCore は {massFrac, radius}(第292便c —— 慣性決定力の構造核)'};
   if(d[DRAG_SHELL_KEY]!==undefined) return validateDragShellBody(b, ph);   // 第304便a(R195): 殻の形 {shellRatio:η}(体積の核とは排他 —— 下の体積の核の受理は 1 字も変えない)
-  for(const k of Object.keys(d)) if(DRAG_CORE_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore に未知の鍵 '+k+'(massFrac・radius だけ —— コア v2 の core:{} とは別の鍵)'};
+  for(const k of Object.keys(d)) if(DRAG_CORE_KEYS.indexOf(k)<0 && DRAG_CORE_SPIN_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore に未知の鍵 '+k+'(massFrac・radius だけ —— 新則 invSq の本は核の自転と軸 spin・spinAxis も〔第311便a〕・コア v2 の core:{} とは別の鍵)'};
+  const hasSpin=(d.spin!==undefined || d.spinAxis!==undefined);   // 第311便a: 核の自転と軸の宣言(新則の本だけ —— 宣言の無い天体はこの下の受理を 1 字も変えない)
   if(b.core!==undefined) return {ok:false, err:'dragCore と core:{}(コア v2)は同時に宣言しない(別の鍵 —— 構造核は慣性引きずりの源の質量分布だけを宣言する)'};
   if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore は天体の半径 radius の宣言が要る(マントルの外半径 R_j)'};
   if(!isNum(d.massFrac) || !(d.massFrac>0) || d.massFrac>1) return {ok:false, err:'dragCore.massFrac は 0<f≤1(コアの質量の割合)'};
   if(!isNum(d.radius) || !(d.radius>0) || d.radius>b.radius) return {ok:false, err:'dragCore.radius は 0<R_c≤radius(コアの半径・絶対)'};
   if(d.radius===b.radius && d.massFrac<1) return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
   const rd=ph && ph[REL_DRAG_KEY];
+  if(hasSpin && !(rd && rd.law==="inertial" && rd[REL_DRAG_INVSQ_KEY])) return {ok:false, err:'dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:"inertial" でない本とは一緒にしない —— 第311便a)'};
   if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
-  if(rd[REL_DRAG_INVSQ_KEY]) return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};   // 第309便a: 新則は {massFrac, radius} を引きずりの一様球(質量 f·m・半径 R_c)と読む(旧の構造核の表・ε>0・sphere/bevel との拒否は旧則だけ)
+  if(rd[REL_DRAG_INVSQ_KEY]){   // 第309便a: 新則は {massFrac, radius} を引きずりの一様球(質量 f·m・半径 R_c)と読む(旧の構造核の表・ε>0・sphere/bevel との拒否は旧則だけ)
+    // 第311便a(AN384): 一様の厚い殻(outerShell:"uniform")の外殻を持つ宣言(massFrac < 1)は、受け手の外殻の求積の節点が内部に表現できるかを受理で確かめる(dragCoreThinShellCheck)
+    const isq=rd[REL_DRAG_INVSQ_KEY], on=(isq.order===undefined || isq.order===null)? REL_DRAG_INVSQ_ORDER_DEFAULT : isq.order;
+    if(isq.outerShell==="uniform" && d.massFrac<1 && isNum(on) && on===Math.round(on) && on>=REL_DRAG_INVSQ_ORDER_RANGE[0] && on<=REL_DRAG_INVSQ_ORDER_RANGE[1]){
+      const why=dragCoreThinShellCheck(d.radius, b.radius, on);
+      if(why) return {ok:false, err:why};
+    }
+    const out={massFrac:d.massFrac, radius:d.radius};
+    if(hasSpin){ const cs=validateDragCoreSpin(d); if(!cs.ok) return {ok:false, err:cs.err}; Object.assign(out, cs.spin); }
+    return {ok:true, dragCore:out, warn:null};
+  }
   // 第296便c(R159): 構造核のある源は c_ij = C m_i m_j ⟨K⟩_j が非対称(源ごとに核が違う)—— 対称正定値を前提にした連鎖の解法と、一様球の自転源は使えない
   if(rd.solver!==undefined && rd.solver!==null) return {ok:false, err:'dragCore(構造核のある源)は physics.relativeDrag.solver:"network-pcg-v1" と一緒に宣言しない —— 源ごとに核が違うと結合 c_ij が非対称になり、対称正定値を前提にした共役勾配法が使えない(第296便c)'};
   if(rd.spinSource!==undefined && rd.spinSource!==null) return {ok:false, err:'dragCore(構造核のある源)は physics.relativeDrag.spinSource と一緒に宣言しない —— 自転源の表裏核は一様球(dragCore 無し)だけ(構造核へ広げるのは未決 —— 第296便c)'};
@@ -8840,6 +8860,49 @@ function validateDragCoreBody(b, ph){
   if(!(eps>0)) return {ok:false, err:'dragCore は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では受け手が源の中で体積平均が発散する)'};
   return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};
 }
+// 第311便a(AN397・R226): 核の自転と軸の鍵の受理(新則の本の validateDragCoreBody から)。正準形 {spin?, spinAxis?:{tiltDeg, azimuthDeg?}}(書いた鍵だけ)
+function validateDragCoreSpin(d){
+  const out={};
+  if(d.spin!==undefined){
+    if(!isNum(d.spin) || d.spin<DRAG_CORE_SPIN_RANGE[0] || d.spin>DRAG_CORE_SPIN_RANGE[1]) return {ok:false, err:'dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は '+DRAG_CORE_SPIN_RANGE[0]+'〜'+DRAG_CORE_SPIN_RANGE[1]+' の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)'};
+    out.spin=d.spin;
+  }
+  if(d.spinAxis!==undefined){
+    const a=d.spinAxis, form='dragCore.spinAxis(核の自転軸 —— 宣言の一定の向き)は {tiltDeg:<+z からの傾き 0〜180>, azimuthDeg?:<+x からの方位 −360〜360・既定 0>}(天体の spinAxis と同じ角の定義 —— 歳差・有効化・出所の鍵は持たない・第311便a)';
+    if(!a || typeof a!=="object" || Array.isArray(a)) return {ok:false, err:form};
+    for(const k of Object.keys(a)) if(DRAG_CORE_SPIN_AXIS_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore.spinAxis に未知の鍵 '+k+' —— '+form};
+    if(!isNum(a.tiltDeg) || a.tiltDeg<SPIN_AXIS_TILT_CLAMP[0] || a.tiltDeg>SPIN_AXIS_TILT_CLAMP[1]) return {ok:false, err:form};
+    if(a.azimuthDeg!==undefined && (!isNum(a.azimuthDeg) || a.azimuthDeg<SPIN_AXIS_AZ_CLAMP[0] || a.azimuthDeg>SPIN_AXIS_AZ_CLAMP[1])) return {ok:false, err:form};
+    out.spinAxis=(a.azimuthDeg===undefined)? {tiltDeg:a.tiltDeg} : {tiltDeg:a.tiltDeg, azimuthDeg:a.azimuthDeg};
+  }
+  return {ok:true, spin:out};
+}
+// 第311便a(DECISIONS v70 §0 AN384「数値的に解像できない薄さの厚い殻は受理で拒否」・統括の検証項目 R226): **極薄の一様の厚い殻の受理の防御**。
+//   受け手の外殻の求積(inertialDragIsqEval の part 1)の節点 s = R_i + (R_o − R_i)·h(v)(h = v²(3 − 2v)・v は実際の次数 n の規則 inertialDragIsqRule(n) の GX ——
+//   **エンジンと同じ演算の順**)が R_i < s < R_o の内部に表現できるか、体積の差 R_o³ − R_i³(R_i³ = (R_i·R_i)·R_i —— エンジンと同じ)とその逆数が有限の正か、
+//   節点の自己の場(dragCore の球の K2・外殻の K_s と動径の微分 —— エンジンの inertialDragIsqK2・inertialDragIsqShellK)と径の重みが有限か、dragCore の球の節点での
+//   外殻の自己の場が有限かを、エンジンの関数で確かめる。R_o は天体の宣言の半径(build が dragCore の R に置く倍精度の値と同じ)・R_i = dragCore.radius。
+//   **閾値を km や質量比で決めない**(浮動小数点で表現できるかだけ)・thin へ自動で替えない・外殻の質量を消さない。null = 受理 / 文字列 = 拒否の理由
+function dragCoreThinShellCheck(Ri, Ro, n){
+  const why=(s)=>'dragCore.radius '+Ri+' と天体の半径 radius '+Ro+'(間隔 '+(Ro-Ri)+')の一様の厚い殻(invSq.outerShell:"uniform")は求積で解像できない —— '+s
+    +'。厚い殻の求積の点が丸めで内外の境界へ潰れる —— radius と dragCore.radius の間隔か invSq.order('+n+')を見直す(第311便a・AN384 —— thin へは替えない・外殻の質量は消さない)';
+  const rule=inertialDragIsqRule(n), dR=Ro-Ri, R3=Ri*Ri*Ri, Vs=Ro*Ro*Ro-R3, B=new Float64Array(4), C=new Float64Array(4);
+  if(!(dR>0) || !Number.isFinite(dR)) return why('間隔 R_o − R_i = '+dR+' が正の有限数でない');
+  if(!(Vs>0) || !Number.isFinite(Vs) || !Number.isFinite(1/Vs)) return why('体積の差 R_o³ − R_i³ = '+Vs+' とその逆数が正の有限数でない');
+  for(let a=0;a<rule.n;a++){
+    const v=rule.GX[a], h=v*v*(3-2*v), s=Ri+dR*h;
+    if(!(s>Ri && s<Ro)) return why('次数 '+n+' の外殻の径の節点 '+(a+1)+'/'+n+'(v = '+v+')が s = '+s+' で R_i < s < R_o の内部にない');
+    const wa=rule.GW[a]*3*s*s*dR*6*v*(1-v)/Vs;
+    inertialDragIsqK2(s,Ri,B); const k1=B[0], d1=B[1];
+    inertialDragIsqShellK(s,Ri,Ro,false,B,C);
+    if(!(wa>0) || ![wa,k1,d1,B[0],B[1]].every(Number.isFinite)) return why('次数 '+n+' の外殻の径の節点 '+(a+1)+'/'+n+' の自己の場か重みが有限の数でない');
+  }
+  for(let a=0;a<rule.n;a++){
+    inertialDragIsqShellK(Ri*rule.TA[a],Ri,Ro,false,B,C);
+    if(!Number.isFinite(B[0]) || !Number.isFinite(B[1])) return why('次数 '+n+' の dragCore の球の節点 '+(a+1)+'/'+n+' での外殻の自己の場が有限の数でない');
+  }
+  return null;
+}
 // 第304便a(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R195): 天体の宣言 dragCore:{shellRatio:η} の受理(single 専用)。
 //   η = R_d/R_body(引きずり核の半径/天体の宣言半径 radius —— radius は書き換えない)。式と契約は dragShellK3 の注記・docs/PHYSICS.md〔第304便a〕。
 //   体積の核 {massFrac, radius} と排他(混在は拒否 —— massFrac:1・radius:R_d は詰まった球で殻ではない)。law:"inertial" ∧ W_bg の宣言 ∧ 合成則 solve の本だけ
@@ -8848,6 +8911,7 @@ function validateDragCoreBody(b, ph){
 function validateDragShellBody(b, ph){
   const d=b.dragCore;
   for(const k of Object.keys(d)){
+    if(DRAG_CORE_SPIN_KEYS.indexOf(k)>=0) return {ok:false, err:'dragCore.'+k+'(核の自転と軸)は殻の形 shellRatio と一緒に宣言しない —— 新則 invSq の dragCore:{massFrac, radius} だけ(第311便a)'};
     if(DRAG_CORE_KEYS.indexOf(k)>=0) return {ok:false, err:'dragCore の殻 shellRatio と体積の核 {massFrac, radius} は排他(どちらか 1 つ —— massFrac:1・radius:R_d は詰まった球で殻ではない・第304便a)'};
     if(k!==DRAG_SHELL_KEY) return {ok:false, err:'dragCore(殻の形)に未知の鍵 '+k+'(shellRatio だけ —— 第304便a)'};
   }
@@ -28785,7 +28849,8 @@ function makeSim(){
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         if(b.j2) o.j2=b.j2;   // 第305便c(R201): 三次元の J₂(validate 済み —— 三次元の本だけ j2Prepare が読む)
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
-        if(b.dragCore && typeof b.dragCore==="object" && b.dragCore[DRAG_SHELL_KEY]===undefined) o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
+        if(b.dragCore && typeof b.dragCore==="object" && b.dragCore[DRAG_SHELL_KEY]===undefined){ o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
+          if(b.dragCore.spin!==undefined) o.dragCore.spin=b.dragCore.spin; if(b.dragCore.spinAxis!==undefined) o.dragCore.spinAxis=b.dragCore.spinAxis; }   // 第311便a: 核の自転と軸(宣言した天体だけ鍵を足す —— 新則の本だけ受理)
         else if(b.dragCore && typeof b.dragCore==="object") o.dragShell={eta:b.dragCore[DRAG_SHELL_KEY], R:b.radius};   // 第304便a: 引きずり核の殻(R_d = η·R —— 体積の核とは別の配列)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.spinDipole) o.spinDipole=b.spinDipole;   // 第246便: 観測 Q の転写(validate 済み・spinSpin の源だけ)
