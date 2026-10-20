@@ -3,55 +3,61 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便d",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T08:07:31.440Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-20T22:53:54.034Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w301d-chainburst.mjs",
-    "bytes": 27741,
-    "sha256": "b95c5ae498fe391c17cbbe2bf5c199fe64be8b1c64f99727aeac409d1da6709e",
-    "mtime": "2026-10-14T03:02:55.174Z"
+    "bytes": 29992,
+    "sha256": "4c7d5b936db925a49ee5fdc7dc435c49798d51d1459e612885f82420db700a58",
+    "mtime": "2026-10-20T19:41:43.611Z"
    },
    {
     "file": "tests/lib-w301d-coupled.mjs",
     "bytes": 12608,
     "sha256": "1025f9e75c77bcb27d6e89abf5ba5a045f4cfa60c54d19b906f52d3bfd21a179",
-    "mtime": "2026-10-14T01:39:42.929Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w301d-shell.mjs",
     "bytes": 2488,
     "sha256": "be2aa1f62c794ed799af09332c12ca8ef098ff84fbfec8a3a2f78896dab0c8c2",
-    "mtime": "2026-10-14T00:03:21.997Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 14692,
+    "sha256": "4df20c1b73f262736071f59a3414f3d3073e417c5d6985550f89ee7bfbaf4a8d",
+    "mtime": "2026-10-20T19:41:43.616Z"
    }
   ],
-  "codeSha256": "cd92044f76e7cb1bd279f9833c57c7eae311e33d13d1793b6a32cc83906bd7d3",
+  "codeSha256": "541db44f67f073f383349c32f83bf744e516904879d31eeb070e4817f921583c",
   "harnessVersion": "w301d-chainburst-1",
   "engineOrder": "split",
   "coupledLibVersion": "w301d-coupled-1",
@@ -87,11 +93,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1483,
-   "segments": 1332,
-   "closureShare": 0.3434
+   "names": 1495,
+   "segments": 1340,
+   "closureShare": 0.3454
   },
-  "scopeSha256": "13fbafcf803c4dbce7424b0e093e1c0bdd01207a627cefac59d10e6c70367625",
+  "scopeSha256": "a0c98c41d66a2e29f1f4cb8f57fceea494e517b4ad334704fb42b4fe9767e13a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -703,7 +709,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 27.79,
+   "wallSec": 20.597,
    "key": "A.base"
   },
   "A.normNone": {
@@ -1256,7 +1262,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 28.545,
+   "wallSec": 20.835,
    "key": "A.normNone"
   },
   "A.3d": {
@@ -1809,7 +1815,7 @@
     "WT": -41273.370100939224,
     "vMaxT": 48.58876639612431
    },
-   "wallSec": 28.716,
+   "wallSec": 21.807,
    "key": "A.3d"
   },
   "B.validate": {
@@ -1819,7 +1825,7 @@
    "posDiffMax": 3.911517405957856e-9,
    "uRelDiffMax": 1.040417014494552e-9,
    "solverTol": 1e-10,
-   "wallSec": 5.122,
+   "wallSec": 4.633,
    "key": "B.validate"
   },
   "B.validate3d": {
@@ -1829,7 +1835,7 @@
    "posDiffMax": 7.343065778278117e-14,
    "uRelDiffMax": 2.5628084562239517e-16,
    "solverTol": 1e-10,
-   "wallSec": 1.474,
+   "wallSec": 0.902,
    "key": "B.validate3d"
   },
   "C.engine.2": {
@@ -2351,7 +2357,7 @@
     "WT": -42191.446098783,
     "vMaxT": 38.639716920128656
    },
-   "wallSec": 53.518,
+   "wallSec": 40.609,
    "key": "C.engine.2"
   },
   "C.engine.4": {
@@ -3907,7 +3913,7 @@
     "WT": 106578.61845407613,
     "vMaxT": 45.13252261194844
    },
-   "wallSec": 61.524,
+   "wallSec": 44.51,
    "key": "C.rk4.1"
   },
   "C.rk4.2": {
@@ -4419,7 +4425,7 @@
     "WT": 106578.61617625387,
     "vMaxT": 45.13252341390879
    },
-   "wallSec": 126.614,
+   "wallSec": 85.963,
    "key": "C.rk4.2"
   },
   "C.rk4.4": {
@@ -5443,7 +5449,7 @@
     "WT": 106582.33882182698,
     "vMaxT": 45.130812919358206
    },
-   "wallSec": 30.996,
+   "wallSec": 22.196,
    "key": "C.rk2.1"
   },
   "C.rk2.2": {
@@ -5955,7 +5961,7 @@
     "WT": 106579.54417030419,
     "vMaxT": 45.132094886280754
    },
-   "wallSec": 61.154,
+   "wallSec": 44.682,
    "key": "C.rk2.2"
   },
   "C.split.1": {
@@ -6473,7 +6479,7 @@
     "WT": -41844.695502095215,
     "vMaxT": 48.59117003869891
    },
-   "wallSec": 15.563,
+   "wallSec": 11.67,
    "key": "C.split.1"
   },
   "C.semic.1": {
@@ -6985,7 +6991,7 @@
     "WT": 99577.99521260727,
     "vMaxT": 48.061682499458534
    },
-   "wallSec": 15.121,
+   "wallSec": 10.817,
    "key": "C.semic.1"
   },
   "C.semic.2": {
@@ -7497,7 +7503,7 @@
     "WT": 104644.65756743045,
     "vMaxT": 47.00672040048217
    },
-   "wallSec": 30.568,
+   "wallSec": 22.886,
    "key": "C.semic.2"
   },
   "C.semic.4": {
@@ -8523,7 +8529,7 @@
     "WT": 0,
     "vMaxT": 1.0792495224074543
    },
-   "wallSec": 5.529,
+   "wallSec": 4.413,
    "key": "D.engine.gain0"
   },
   "D.rk4.gain0": {
@@ -9035,7 +9041,7 @@
     "WT": 0,
     "vMaxT": 1.2721078968072699
    },
-   "wallSec": 14.344,
+   "wallSec": 12.44,
    "key": "D.rk4.gain0"
   },
   "D.engine.spin0": {
@@ -9549,7 +9555,7 @@
     "WT": 4568.09842207619,
     "vMaxT": 61.12116026003265
    },
-   "wallSec": 22.12,
+   "wallSec": 17.782,
    "key": "D.engine.spin0"
   },
   "D.rk4.spin0": {
@@ -10061,7 +10067,7 @@
     "WT": 99113.49972323352,
     "vMaxT": 43.698637056671075
    },
-   "wallSec": 54.277,
+   "wallSec": 37.662,
    "key": "D.rk4.spin0"
   },
   "D.engine.seedA": {
@@ -10575,7 +10581,7 @@
     "WT": -10067.304951371905,
     "vMaxT": 22.96975346554436
    },
-   "wallSec": 26.522,
+   "wallSec": 20.373,
    "key": "D.engine.seedA"
   },
   "D.rk4.seedA": {
@@ -11087,7 +11093,7 @@
     "WT": 14386.850105065902,
     "vMaxT": 17.81042343051859
    },
-   "wallSec": 74.68,
+   "wallSec": 43.327,
    "key": "D.rk4.seedA"
   },
   "D.engine.seedB": {
@@ -11601,7 +11607,7 @@
     "WT": -14734.37864163063,
     "vMaxT": 26.756514678972174
    },
-   "wallSec": 36.205,
+   "wallSec": 21.36,
    "key": "D.engine.seedB"
   },
   "D.rk4.seedB": {
@@ -12113,7 +12119,7 @@
     "WT": 19351.363755920458,
     "vMaxT": 20.800839285271408
    },
-   "wallSec": 87.571,
+   "wallSec": 42.667,
    "key": "D.rk4.seedB"
   },
   "D.engine.n40": {
@@ -12627,7 +12633,7 @@
     "WT": -33493.063139831174,
     "vMaxT": 37.274136545152814
    },
-   "wallSec": 6.076,
+   "wallSec": 3.539,
    "key": "D.engine.n40"
   },
   "D.rk4.n40": {
@@ -13139,7 +13145,7 @@
     "WT": 36839.259900733865,
     "vMaxT": 29.849043825021614
    },
-   "wallSec": 19.264,
+   "wallSec": 8.329,
    "key": "D.rk4.n40"
   },
   "D.engine.n120": {
@@ -13653,7 +13659,7 @@
     "WT": -44848.43875158271,
     "vMaxT": 47.430273488967906
    },
-   "wallSec": 79.277,
+   "wallSec": 40.562,
    "key": "D.engine.n120"
   },
   "D.rk4.n120": {
@@ -14165,7 +14171,7 @@
     "WT": 56379.10197697007,
     "vMaxT": 34.52644255419727
    },
-   "wallSec": 232.147,
+   "wallSec": 120.79,
    "key": "D.rk4.n120"
   },
   "D.engine.gain4": {
@@ -14679,7 +14685,7 @@
     "WT": -27795.003524861597,
     "vMaxT": 24.19092154235251
    },
-   "wallSec": 36.31,
+   "wallSec": 19.328,
    "key": "D.engine.gain4"
   },
   "D.rk4.gain4": {
@@ -15191,7 +15197,7 @@
     "WT": 30935.940009312915,
     "vMaxT": 27.091428987225303
    },
-   "wallSec": 88.735,
+   "wallSec": 43.338,
    "key": "D.rk4.gain4"
   },
   "D.engine.gain16": {
@@ -15705,7 +15711,7 @@
     "WT": -7347.736176869599,
     "vMaxT": 51.04036769905371
    },
-   "wallSec": 43.454,
+   "wallSec": 21.711,
    "key": "D.engine.gain16"
   },
   "D.rk4.gain16": {
@@ -16217,7 +16223,7 @@
     "WT": 109421.86357580891,
     "vMaxT": 58.560095704251715
    },
-   "wallSec": 89.22,
+   "wallSec": 42.732,
    "key": "D.rk4.gain16"
   },
   "D.rk4.n40.2": {
@@ -16729,7 +16735,7 @@
     "WT": 36839.25991029691,
     "vMaxT": 29.849043823781233
    },
-   "wallSec": 38.222,
+   "wallSec": 18.315,
    "key": "D.rk4.n40.2"
   },
   "E.rk4.1": {
@@ -17553,7 +17559,7 @@
     "WT": 48352.51956862345,
     "vMaxT": 38.96050708148253
    },
-   "wallSec": 131.438,
+   "wallSec": 74.406,
    "key": "E.rk4.1"
   },
   "E.rk4.2": {
@@ -18377,7 +18383,7 @@
     "WT": 48352.251663299394,
     "vMaxT": 38.96056077569481
    },
-   "wallSec": 224.175,
+   "wallSec": 146.398,
    "key": "E.rk4.2"
   },
   "F.engine.1": {
@@ -18943,7 +18949,7 @@
     "WT": -17676.571260308898,
     "vMaxT": 42.39184516719606
    },
-   "wallSec": 5.622,
+   "wallSec": 4.219,
    "key": "F.engine.1"
   },
   "F.engine.2": {
@@ -19509,7 +19515,7 @@
     "WT": -38618.72382047893,
     "vMaxT": 40.05633441941244
    },
-   "wallSec": 11.643,
+   "wallSec": 8.033,
    "key": "F.engine.2"
   },
   "F.engine.4": {
@@ -21779,7 +21785,7 @@
     "WT": 65234.90783091443,
     "vMaxT": 34.819805256427706
    },
-   "wallSec": 16.086,
+   "wallSec": 11.292,
    "key": "F.rk4.1"
   },
   "F.rk4.2": {
@@ -22343,7 +22349,7 @@
     "WT": 65234.90770053548,
     "vMaxT": 34.81980517747573
    },
-   "wallSec": 30.027,
+   "wallSec": 22.067,
    "key": "F.rk4.2"
   },
   "G.engine.gain0": {
@@ -22909,7 +22915,7 @@
     "WT": 0,
     "vMaxT": 1.1096727297414206
    },
-   "wallSec": 15.621,
+   "wallSec": 12.109,
    "key": "G.engine.gain0"
   },
   "G.rk4.gain0": {
@@ -23473,7 +23479,7 @@
     "WT": 0,
     "vMaxT": 0.8525979850510819
    },
-   "wallSec": 3.973,
+   "wallSec": 3.577,
    "key": "G.rk4.gain0"
   },
   "G.engine.spin0": {
@@ -24039,7 +24045,7 @@
     "WT": -14915.826133029575,
     "vMaxT": 38.50110293665895
    },
-   "wallSec": 30.392,
+   "wallSec": 24.819,
    "key": "G.engine.spin0"
   },
   "G.rk4.spin0": {
@@ -24603,7 +24609,7 @@
     "WT": 103407.36180152198,
     "vMaxT": 37.89347435424876
    },
-   "wallSec": 10.21,
+   "wallSec": 8.019,
    "key": "G.rk4.spin0"
   },
   "G.engine.rot1": {
@@ -25169,7 +25175,7 @@
     "WT": 20513.298833347148,
     "vMaxT": 31.37536545439579
    },
-   "wallSec": 38.729,
+   "wallSec": 31.318,
    "key": "G.engine.rot1"
   },
   "G.rk4.rot1": {
@@ -25733,7 +25739,7 @@
     "WT": 57306.67454614236,
     "vMaxT": 30.089391266457106
    },
-   "wallSec": 14.685,
+   "wallSec": 11.571,
    "key": "G.rk4.rot1"
   },
   "G.engine.rot2": {
@@ -26299,7 +26305,7 @@
     "WT": 35632.95024364564,
     "vMaxT": 40.64490843080031
    },
-   "wallSec": 42.357,
+   "wallSec": 30.982,
    "key": "G.engine.rot2"
   },
   "G.rk4.rot2": {
@@ -26863,7 +26869,7 @@
     "WT": 68180.17612145755,
     "vMaxT": 36.15288632172859
    },
-   "wallSec": 15.578,
+   "wallSec": 10.876,
    "key": "G.rk4.rot2"
   },
   "G.engine.shell80": {
@@ -27429,7 +27435,7 @@
     "WT": 11009.42194507971,
     "vMaxT": 31.915161571919946
    },
-   "wallSec": 214.557,
+   "wallSec": 162.328,
    "key": "G.engine.shell80"
   },
   "G.rk4.shell80": {
@@ -27993,9 +27999,39 @@
     "WT": 46391.425970832934,
     "vMaxT": 32.31728764736278
    },
-   "wallSec": 69.027,
+   "wallSec": 44.629,
    "key": "G.rk4.shell80"
   }
+ },
+ "h4Carried": {
+  "version": "w311c-h4carry-1",
+  "rule": "h と h/2 を先に測り、前の正本の h と h/2 の値の鍵とビット同一の単位だけ h/4(より細かい刻みを含む)を転記した(違う単位は測り直した)",
+  "unit": "仕事(results の鍵)—— 族(種類・積分の型・本・変種・窓)の刻み h/4・h/8・h/16",
+  "valueKeys": "同じ族の h と h/2 の仕事の結果(所要 wallSec を除く全欄)と cond(🔗/🧨 の宣言)",
+  "origin": {
+   "fromTargetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+   "fromDate": "2026-10-20T08:07:31.440Z",
+   "fromWave": "第301便d",
+   "fromFileSha256": "b7a0e6422e261b1d3ef6b2f11bc75607fbc2d725e274328799aea5053cc5d45d"
+  },
+  "carried": [
+   "C.engine.4",
+   "C.engine.8",
+   "C.rk4.4",
+   "C.semic.4",
+   "F.engine.4",
+   "F.engine.8",
+   "F.engine.16"
+  ],
+  "measured": [
+   "G.engine.gain0",
+   "G.engine.spin0",
+   "G.engine.rot1",
+   "G.engine.rot2",
+   "G.engine.shell80"
+  ],
+  "wallSec": "転記した単位の所要は元の測定の所要(転記)",
+  "env": "H4_CARRY=0 で全部測る"
  },
  "gates": {
   "reproduced": true,
@@ -28063,5 +28099,5 @@
   },
   "why": "🔗 の既定の刻み(h = 0.016)で円盤の大半が飛ぶのは本体の分割で早まった分(刻みを細かくすると半径 100 を越える数が減り、結合積分 rk4 では t = 480 まで大半は飛ばない)。ただし機構(引きずりの支える仕事で慣性速度が積み上がり、塊がほどけて放出する)は刻みで収束した解に残る(🔗 の粒子 40 個の変種・三次元の殻)—— 探索の写し 1 本(🧨)を作る"
  },
- "elapsedS": 1622.85
+ "elapsedS": 844.686
 }
