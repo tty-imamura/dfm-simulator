@@ -66315,7 +66315,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
   // ⑤ CHANGELOG
   // 第300便d(原仮定者の裁定(第90報)⑦・R178): beta 節の見出しは便名(## v1.45-b<便の番号>)—— 旧 -b1 も同じ式で受ける
-  const ivM = /^## v1\.45-b\d+\(/m.exec(chg), iv = ivM ? ivM.index : -1;
+  // 第310便(v1.45.0 昇格): beta 節(## v1.45-b<便>)の行は昇格で RC 節 `## v1.45.0(RC・日付)` の下へ移る —— どちらの見出しでも受ける
+  const ivM = /^## v1\.45(?:-b\d+|\.0)\(/m.exec(chg), iv = ivM ? ivM.index : -1;
   const head = (iv < 0) ? '' : chg.slice(iv, chg.indexOf('\n## ', iv + 5) > 0 ? chg.indexOf('\n## ', iv + 5) : chg.length);
   if (head.indexOf('第277便c') < 0) bad.push('⑤CHANGELOG の v1.45 の beta 節に第277便c の行が無い');
   // ⑥ 言わないこと
@@ -82613,8 +82614,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(S6.sec.indexOf('⑫') >= 0 && S6.sec.indexOf('第100報') >= 0 && /歯車/.test(S6.sec) && /磁力線に似/.test(S6.sec))) bad.push('PHYSICS〔第306便d〕の ⑫(第100報の訂正の注記)');
       if (!(AS.indexOf('第307便e') >= 0 && AS.indexOf('physicsPatch.gLoc') >= 0 && AS.indexOf('targets[].role') >= 0)) bad.push('AI_SPEC の第307便e の節(physicsPatch.gLoc・targets[].role)');
       // 第308便(統括): 便の基点の版名の更新で見出しが b308 へ進む —— b307 以降の見出しの塊のどれかにあればよい(見出しの番号を固定しない)
-      const mB = /\n## v1\.45-b(\d+)/g; let blk = '';
-      for (let mm; (mm = mB.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      const mB = /\n## v1\.45(?:-b(\d+)|\.0\()/g; let blk = '';   // 第310便(v1.45.0 昇格): RC 節 `## v1.45.0(` の下へ移った行も受ける
+      for (let mm; (mm = mB.exec(CL)) !== null; ) { if (mm[1] !== undefined && +mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
       if (blk.indexOf('第307便e') < 0) bad.push('CHANGELOG の b307 以降の見出しに第307便e の行が無い');
       if (!/第306便d[^\n]*第100報/.test(CL)) bad.push('CHANGELOG の第306便d の行に第100報の訂正の 1 文が無い');
       if (RM.indexOf('第307便e') < 0) bad.push('README に第307便e が無い');
@@ -82811,8 +82812,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (ai < 0) bad.push('AI_SPEC に第308便d の節が無い');
       else { const as = AS.slice(ai, ai + 5000); for (const w of ['tide3ReceiverWarnings', 'spinAxis', 'radiusFloor', 'targets[].role', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC の節に「' + w + '」が無い'); }
       // 第309便(統括): 便の基点の版名の更新で見出しが b309 へ進む —— b307 以降の見出しの塊のどれかにあればよい(見出しの番号を固定しない —— 第308便の docs.w307e と同じ型)
-      const mB8 = /\n## v1\.45-b(\d+)/g; let blk = '';
-      for (let mm; (mm = mB8.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      const mB8 = /\n## v1\.45(?:-b(\d+)|\.0\()/g; let blk = '';   // 第310便(v1.45.0 昇格): RC 節 `## v1.45.0(` の下へ移った行も受ける
+      for (let mm; (mm = mB8.exec(CL)) !== null; ) { if (mm[1] !== undefined && +mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
       if (blk.indexOf('第308便d') < 0) bad.push('CHANGELOG の b308 以降の見出しに第308便d の行が無い');
       for (const w of ['第307便a', '第307便c']) { const ln = (blk.split('\n').find((l) => l.startsWith('- **' + w)) || ''); if (ln.indexOf('第101報') < 0) bad.push('CHANGELOG の ' + w + ' の行に第101報の 1 文が無い'); }
       if (RM.indexOf('第308便d') < 0) bad.push('README に第308便d が無い');
@@ -82938,8 +82939,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!(Sx.sec.indexOf('注記(原仮定者の裁定〔第103報〕') >= 0 && Sx.sec.indexOf('R1/R2 の要求は前提ごと取り下げた') >= 0 && Sx.sec.indexOf('AN357') >= 0)) bad.push('PHYSICS〔第308便c〕の注記(R1/R2 の要求の取り下げ)');
       if (!(Sd.sec.indexOf('⑦ 注記(第309便d') >= 0 && Sd.sec.indexOf('99286dc') >= 0 && Sd.sec.indexOf('fa7cd6c') >= 0)) bad.push('PHYSICS〔第308便d〕⑦(root の基準の訂正の注記)');
       // CHANGELOG: b307 以降の見出しの塊(見出しの番号を固定しない —— docs.w308d と同じ型)
-      const mB9 = /\n## v1\.45-b(\d+)/g; let blk = '';
-      for (let mm; (mm = mB9.exec(CL)) !== null; ) { if (+mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
+      const mB9 = /\n## v1\.45(?:-b(\d+)|\.0\()/g; let blk = '';   // 第310便(v1.45.0 昇格): RC 節 `## v1.45.0(` の下へ移った行も受ける
+      for (let mm; (mm = mB9.exec(CL)) !== null; ) { if (mm[1] !== undefined && +mm[1] < 307) continue; const iB = mm.index + 1, iN = CL.indexOf('\n## ', iB + 5); blk += CL.slice(iB, iN > iB ? iN : undefined); }
       if (blk.indexOf('- **第309便d') < 0) bad.push('CHANGELOG の b307 以降の見出しに第309便d の行が無い');
       for (const w of ['第307便c', '第308便b', '第308便c']) { const ln = (blk.split('\n').find((l) => l.startsWith('- **' + w)) || ''); if (ln.indexOf('第309便d の注記') < 0 || ln.indexOf('第103報') < 0) bad.push('CHANGELOG の ' + w + ' の行に第309便d の注記(第103報)が無い'); }
       if (RM.indexOf('第309便d') < 0) bad.push('README に第309便d が無い');

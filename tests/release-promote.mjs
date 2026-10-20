@@ -151,8 +151,13 @@ plan.push(`OK  index.html  ${copyInfo.why}\n      - 現 root  ${copyInfo.bytesFr
 const MANUAL = [
   ['CHANGELOG.md', `## v${NEXT_PKG}(RC・${DATE})の**本文**(便の主題要約・論文対応の注記・版別 DOI の扱い)`],
   ['docs/PHYSICS.md', '版に伴う本文の追記(37eefc4 の差分も版表記ではなく本文の追認記録だった)'],
-  ['docs/RELEASE_NOTES_v1.44.md', 'HOLD 6 項の最終確認と「名乗らないもの」の再読'],
+  // 第310便(v1.45 昇格): RELEASE_NOTES は昇格先の版の名前で新設する(v1.44 の名前を固定で持っていた)。
+  ['docs/RELEASE_NOTES_v' + NEXT_APP + '.md', '昇格先の版の RELEASE_NOTES(新設)—— 範囲・名乗らないもの・前の版の HOLD と Negative Claims の継承・root で SKIP する試験の一覧'],
   ['tests/out/qa-results*.json', '**ゲートを再走行した副産物**(手で編集しない・昇格後の状態で root/beta 両対象を回す)'],
+  // 第310便(v1.45 昇格): --check 7/7 は必要だが十分ではない。版の 2 行で全体の hash が変わるので、hash を持つ正本・
+  // 保存 QA・生成文書(SAMPLE_STATUS / FAMILIES の見出し)が古くなる。--apply の後に regen-plan / regen-chain
+  // (--base = 昇格前の beta)で作り直し、生成器が beta を書き換えたら最終の beta を root へもう一度写してからゲートへ。
+  ['tests/out/*.json・docs/*_v*.md', '**鎖で作り直す**(tools/regen-plan.mjs → tools/regen-chain.mjs・--base は昇格前の beta・hash・日時・件数を手で書き換えない)'],
 ];
 
 // ---- 37eefc4 との照合 ----

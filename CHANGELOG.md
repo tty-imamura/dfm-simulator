@@ -4,7 +4,28 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
-## v1.45-b309(開発中 — beta)
+## v1.46-b310(開発中 — beta)
+
+(v1.45 昇格直後 — エントリはまだ無い)
+
+## v1.45.0(RC・2026-10-20)
+
+**更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
+大きな更新の前にはセーブタブから JSON エクスポートでのバックアップを推奨する。
+
+**v1.45 は検証版(RC)である**(第264〜309便・2026-09-15〜10-19)。
+第310便の最初の段で統括が `tests/release-promote.mjs --apply --version 1.45 --wave 310 --date 2026-10-20` によりルートへ昇格した
+(基点 main 3e38f31 —— 第309便のゲート beta 1234/1234・root 749/749 と CI を通した版。昇格の後に、版の 2 行で全体の hash が変わった分の正本・生成文書を鎖で作り直し、
+最終の beta をルートへもう一度写してから root と beta のフルゲート・perf・CI を通した —— 数は `docs/RELEASE_NOTES_v1.45.md` §2)。
+ルートの中身は v1.44.0(99286dc)から beta v1.45-b309 の中身へ替わる(`APP_VERSION` と `BETA_BUILD` の 2 行のほかは beta と byte 同一)。
+**この版が名乗らないもの**: 「現実較正の完了」・「Release した」(HOLD 6 項の解除宣言は行っていない —— `docs/RELEASE_NOTES_v1.44.md` §4⁶″ を継ぐ)・
+「新しい引きずり則(`relativeDrag.invSq`)・維持の型・観測の初期値の分解・dragCore の既定を在位の本へ入れた」(第309便の鍵はすべて opt-in —— 内蔵の本は宣言していない)・
+「dragCore をフィットした」(`dragCoreDefault:"cap6500km"` は既定の値であってフィットの値ではない)。
+新しい引きずり則の分母の背景 `invSq.Wbg2` は**既定で入っていない**(既定 0 —— 原仮定者の裁定(第107報)「分母に背景宇宙を入れると二重計上・自分が分母に入れば良い」の式そのもの)。
+旧則(在位の本)の分母の背景 `Wbg` は**旧の法則・旧フィットの世代**として残る(新則への移行は次期線)。
+何が検証済みで何が未検証かは `docs/RELEASE_NOTES_v1.45.md` と、v1.44 の Negative Claims 1〜40(`docs/RELEASE_NOTES_v1.44.md`)を正とする。版別 DOI は発行しない(第150便規約を継続)。
+論文対応は `docs/PHYSICS.md` §7 と `paper/dfm-paper6-outline.md`。
+以下の便別エントリは開発線 v1.45-b1〜v1.45-b309 の記録をそのまま収載する。
 - **第309便a(2026-10-19・原仮定者の裁定(第103報)「正確な引きずり(修正版)」・第104報 AN363・第106報・決断事項 AN359・AN363・統括の検証項目 R218 —— 新しい鍵は opt-in・在位の本は宣言しない・省略で今の動作とビット同一・内蔵 176 本 bitsame/sigsame 同一・`S._core` 不変)**: 新しい引きずり則の版つきの鍵 `relativeDrag.invSq:{Wbg2, order}`(版 w309a-invsq-1 —— 分子は源の一様球〔dragCore の半径〕の逆二乗の体積平均 m_d K2〔中心 3/R²・表面 1.5/R²・遠方 1/r²〕・分母はトータル W = W_bg′〔新しい単位 [M/L²]・既定 0 = 参照条件 —— 旧 Wbg を移さない〕+ 自己の体積平均の場〔受け手の各点〕+ 他の源・受け手の体積の比の平均 ⟨N/W⟩〔次数 n —— 既定 8・2n³ 点〕・回転は源の球の M2〔遠方の先頭 2R²/(5r³) —— 旧 M1 と別の核〕・軸は鏡映 × sinθ〔仮定〕× 受け手の近遠の差分 −n̂·∇(m_d M2/W)〔符号つき・負の点の割合を帳簿へ〕・旧則の鍵〔Wbg・inertialR2・eps ほか〕と一緒にしない・三次元の本だけ・重なりの步は u = 0)と、dragCore の既定 `relativeDrag.dragCoreDefault:"cap6500km"`(版 w309a-cap6500km-1 —— 未宣言の天体の引きずりの半径 min(R, 6.5×10⁶ m)〔SI へ換算してからクランプ〕・全質量・引きずりの半径だけ・scaleExp.L の無い本は拒否)。読み口 `inertialDragIsqState`・`inertialDragIsqPointAt`・`dragCoreDefaultState`。器 tests/exp-w309a-invsq.mjs・lib・正本 tests/out/invsq-w309a.json(段 invsq-309a —— 閉じた式と源の球の直接の 3 次元の求積 8.85e-14・自己の二重体積平均 9/(4R²)・配置の走査 24 通りのエンジンと参照 7.18e-15・天体の写し〔W_bg′ = 0・既定の半径〕の β は金星 5.90e-4・木星 3.67e-8・イオ 1.54e-1・在位で既定を当てたら半径が変わる候補 8 本 12 レコード〔旧則のまま既定を足した走りは 8/8 ビット同一〕)。QA behavior.invSq309・docs.invSq309 新設・AI_SPEC §111・PHYSICS〔第309便a〕。
 - **第309便b(2026-10-19・原仮定者の裁定(第103報)AN356「反作用は太陽の慣性自転へ戻さず背景宇宙へ」・AN358「安定な天体の近似として軸も回転も維持し、失われるエネルギーを内部熱に」・(第104報)AN362「合成した自転軸を慣性自転の自転軸に 1 ステップで回すトルクの量と回転速度の差分のエネルギー量」・統括の検証項目 R219 —— 新しい鍵は opt-in・在位の本は宣言しない・省略で今の動作とビット同一・内蔵 176 本 bitsame/sigsame 同一)**: 維持の型 `spinDrag.axisHold:{mode:"maintain", reaction?:"none"|"background", heatTiming?:"step"|{tauHold}, receivers?}`(版 w309b-maintain-1 —— 軸も慣性自転の速さも引きずりで変えない・τ_C の駆動と排他・表示の自転 = Ω_I + ω_D∥)。1 步の量 —— 軸のコスト E_axis^cost = ½I abs(s â − Ω_c)²(有理化)と実際の軸の仕事 0(丸め床を別に記録)・符号つきの速さの差 E_speed = I(Ω_I·ω_D + ½abs(ω_D)²)(負は背景からの供給)・復元の力積。熱 = E_axis^cost + max(E_speed, 0) —— 明示潮汐の内部熱を宣言した本の潮汐の受け手は E_i へ(`tideHeatState` の maintainInput)・ほかは帳簿だけ。口座(合成場・背景〔流入と流出〕・内部熱 —— 和は丸め床)。熱の時間の型は "step"(熱の率 1/h)と {tauHold}(比較の仮定 —— 刻みに依らない)。bevel の本の axisHold が経路に届いていなかったのを直した。器 `tests/exp-w309b-maintain.mjs` → `tests/out/maintain-w309b.json`(段 maintain-309b —— 純関数・受理・エンジン = 参照・維持の門と表示の門・口座・dt の走査〔1 步の型は 1・2・4・8 倍・τ_hold の型は不変〕・赤道の歯車・チェックポイント・状態の契約・τ_C の駆動の型との比較・金星と木星の写し)。QA behavior.maintain309・docs.maintain309。PHYSICS〔第309便b〕・AI_SPEC §112。
 - **第309便c(2026-10-19・原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・決断事項 AN355・AN357・AN364・統括の検証項目 R220 —— 新しい鍵は opt-in・在位の本は宣言しない・省略で今の動作とビット同一・内蔵 176 本 bitsame/sigsame 同一・`S._core` 不変)**: 観測の自転と移動の初期値の分解 `spinDrag.initSpin:"observed"`(全源の慣性自転をベクトルで同時に —— 不動点・非収束は分解せず走行を止める・比較の型 split:"parallel"・宣言した本は S.spin を Float64)と `relativeDrag.initMotion:"observed"`(今の solve の約束から導いた行ごとの逆写像 v = V − u・solve を呼ぶ不動点と照合・条件数の門)。初期化した u(0)・ω_D(0) を最初の步から使う(firstStep:"drag" —— 比較の "zero" は今の「最初の步は u = 0」)。記録 `inertialDragInitObs` と最初の步の印は inertialDragCkSnap が運び、チェックポイントの復帰と A/B の写しでは分解し直さない(t = 0 の ⏮・保存の読込・A/B だけ観測の値へ戻して分解し直す —— 欄ごと)。器 `tests/exp-w309c-recheck.mjs`(lib `tests/lib-w309c-recheck.mjs` —— 修正版の引きずりの参照の純関数〔m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5×10⁶ m)〕)と正本 `tests/out/recheck-w309c.json`(段 recheck-309c): 初期値の門(G = 0 の写しで最初の步の Δx/h → V_obs・rotA の増分/h → Ω_obs·â_I)・在位の惑星 7 本の写し・AN357 の再確認の表(惑星 7 本・木星 → イオ・太陽 –木星 –イオ・太陽 + 惑星 7 の ω_D(0)・ω_I(0)・u(0)・熱の率〔1 步の型と τ_hold の型〕・背景の口座 —— 参照の条件 W_bg′ = 0・ε = 0 の診断)。QA `behavior.initObs309`・`docs.recheck309`。PHYSICS〔第309便c〕・AI_SPEC §113。
