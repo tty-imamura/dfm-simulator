@@ -1,0 +1,3992 @@
+{
+ "version": "w310b-pairheat-1",
+ "libVersion": "w310b-pairheat-lib-1",
+ "generator": "tests/exp-w310b-pairheat.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
+ "ruling": "決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223",
+ "maintainVersion": "w309b-maintain-1",
+ "ledgerVersion": "w310b-holdledger-1",
+ "invsqVersion": "w309a-invsq-1",
+ "quick": false,
+ "kernels": [
+  "invsq",
+  "sphere",
+  "bevel"
+ ],
+ "invsq": {
+  "invSq": {
+   "Wbg2": 0,
+   "order": 8
+  },
+  "dragCoreDefault": "cap6500km"
+ },
+ "P": {
+  "pass": true,
+  "gates": {
+   "firstOrder": true,
+   "reciprocity": true,
+   "dropRule": true,
+   "dominant": true,
+   "motionIndex": true,
+   "additivity": true
+  },
+  "values": {
+   "first": {
+    "tilt": 0.03,
+    "flat": -0.03
+   },
+   "recip": {
+    "equal": {
+     "Eij": 0.25,
+     "Eji": 0.25,
+     "ratio": 1,
+     "asym": 0,
+     "absLogRatio": 0,
+     "sameSign": true,
+     "sum": 0.5
+    },
+    "unequal": {
+     "Eij": 0.00002,
+     "Eji": 0.000015,
+     "ratio": 1.3333333333333335,
+     "asym": 0.25000000000000006,
+     "absLogRatio": 0.12493873660829999,
+     "sameSign": true,
+     "sum": 0.000035000000000000004
+    },
+    "opposite": {
+     "Eij": 3,
+     "Eji": -1,
+     "ratio": -3,
+     "asym": 1.3333333333333333,
+     "absLogRatio": 0.47712125471966244,
+     "sameSign": false,
+     "sum": 2
+    }
+   },
+   "drop": {
+    "equal": {
+     "keptSide": "j",
+     "kept": 0.5,
+     "dropped": 0.5,
+     "droppedOverKept": 1,
+     "currentTotal": 1,
+     "ruleTotal": 0.5,
+     "totalChangeRel": -0.5
+    },
+    "unequal": {
+     "keptSide": "i",
+     "kept": 2,
+     "dropped": 0.5,
+     "droppedOverKept": 0.25,
+     "currentTotal": 2.5,
+     "ruleTotal": 2,
+     "totalChangeRel": -0.2
+    }
+   },
+   "dominant": [
+    1,
+    3,
+    1,
+    -1
+   ],
+   "index": {
+    "m1": {
+     "uAbs": 5,
+     "denom": 1,
+     "ratio": 5
+    },
+    "m2": {
+     "uAbs": 5,
+     "denom": 0,
+     "ratio": null
+    },
+    "m3": {
+     "uAbs": 5,
+     "denom": null,
+     "ratio": null
+    }
+   }
+  },
+  "n": 6
+ },
+ "R": {
+  "rows": [
+   {
+    "key": "SMe",
+    "ja": "太陽–水星",
+    "from": "mercurySunInertial3d",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "水星",
+      "Ii": 48025,
+      "Ij": 9.8267e-8,
+      "IiOverIj": 488720000000,
+      "si": 0.029031,
+      "sj": 0.0124,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -1.925e-23,
+      "Eji": -1.4153e-21,
+      "ratio": 0.013601,
+      "asym": 0.9864,
+      "absLogRatio": 1.8664,
+      "sameSign": true,
+      "cij": -1.1135e-24,
+      "cji": -4.0008e-11,
+      "IcRatio": 0.013601,
+      "keptSide": "水星",
+      "droppedOverKept": 0.013601,
+      "totalChangeRel": -0.013419
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.3289136005894556e-16,
+    "E1": [
+     [
+      null,
+      -1.925e-23
+     ],
+     [
+      -1.4153e-21,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     9.8267e-8
+    ],
+    "espeed": [
+     -1.925e-23,
+     -1.4153e-21
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SMe",
+    "ja": "太陽–水星",
+    "from": "mercurySunInertial3d",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "水星",
+      "Ii": 48025,
+      "Ij": 9.8267e-8,
+      "IiOverIj": 488720000000,
+      "si": 0.029031,
+      "sj": 0.0124,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -2.2236e-22,
+      "Eji": -2.224e-22,
+      "ratio": 0.99979,
+      "asym": 0.0002121,
+      "absLogRatio": 0.000092122,
+      "sameSign": true,
+      "cij": -1.2862e-23,
+      "cji": -6.2871e-12,
+      "IcRatio": 0.99979,
+      "keptSide": "水星",
+      "droppedOverKept": 0.99979,
+      "totalChangeRel": -0.49995
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 2.1141675182944213e-16,
+    "E1": [
+     [
+      null,
+      -2.2236e-22
+     ],
+     [
+      -2.224e-22,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     9.8267e-8
+    ],
+    "espeed": [
+     -2.2236e-22,
+     -2.224e-22
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SMe",
+    "ja": "太陽–水星",
+    "from": "mercurySunInertial3d",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "水星",
+      "Ii": 48025,
+      "Ij": 9.8267e-8,
+      "IiOverIj": 488720000000,
+      "si": 0.029031,
+      "sj": 0.0124,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -8.894e-22,
+      "Eji": -8.881e-22,
+      "ratio": 1.0015,
+      "asym": -0.0014658,
+      "absLogRatio": 0.00063708,
+      "sameSign": true,
+      "cij": -5.1446e-23,
+      "cji": -2.5106e-11,
+      "IcRatio": 1.0015,
+      "keptSide": "水星",
+      "droppedOverKept": 1.0015,
+      "totalChangeRel": -0.50037
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 2.1177741160723338e-16,
+    "E1": [
+     [
+      null,
+      -8.894e-22
+     ],
+     [
+      -8.881e-22,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     9.8267e-8
+    ],
+    "espeed": [
+     -8.894e-22,
+     -8.881e-22
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SV",
+    "ja": "太陽–金星",
+    "from": "venusSunInertial3d",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "金星",
+      "Ii": 48025,
+      "Ij": 0.0000089081,
+      "IiOverIj": 5391100000,
+      "si": 0.029031,
+      "sj": -0.0029924,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": 7.4069e-23,
+      "Eji": 2.2866e-21,
+      "ratio": 0.032393,
+      "asym": -0.96761,
+      "absLogRatio": 1.4896,
+      "sameSign": true,
+      "cij": -1.7754e-23,
+      "cji": -2.9548e-12,
+      "IcRatio": 0.032393,
+      "keptSide": "金星",
+      "droppedOverKept": 0.032393,
+      "totalChangeRel": -0.031376
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.6450653269879097e-16,
+    "E1": [
+     [
+      null,
+      7.4069e-23
+     ],
+     [
+      2.2866e-21,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.0000089081
+    ],
+    "espeed": [
+     7.4069e-23,
+     2.2866e-21
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SV",
+    "ja": "太陽–金星",
+    "from": "venusSunInertial3d",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "金星",
+      "Ii": 48025,
+      "Ij": 0.0000089081,
+      "IiOverIj": 5391100000,
+      "si": 0.029031,
+      "sj": -0.0029924,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": 1.3251e-21,
+      "Eji": 1.3252e-21,
+      "ratio": 0.99991,
+      "asym": -0.000088589,
+      "absLogRatio": 0.000038475,
+      "sameSign": true,
+      "cij": -3.1762e-22,
+      "cji": -1.7125e-12,
+      "IcRatio": 0.99991,
+      "keptSide": "金星",
+      "droppedOverKept": 0.99991,
+      "totalChangeRel": -0.49998
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 0,
+    "E1": [
+     [
+      null,
+      1.3251e-21
+     ],
+     [
+      1.3252e-21,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.0000089081
+    ],
+    "espeed": [
+     1.3251e-21,
+     1.3252e-21
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SV",
+    "ja": "太陽–金星",
+    "from": "venusSunInertial3d",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "金星",
+      "Ii": 48025,
+      "Ij": 0.0000089081,
+      "IiOverIj": 5391100000,
+      "si": 0.029031,
+      "sj": -0.0029924,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": 5.2839e-21,
+      "Eji": 5.2771e-21,
+      "ratio": 1.0013,
+      "asym": 0.0012854,
+      "absLogRatio": 0.00055859,
+      "sameSign": true,
+      "cij": -1.2665e-21,
+      "cji": -6.8191e-12,
+      "IcRatio": 1.0013,
+      "keptSide": "金星",
+      "droppedOverKept": 1.0013,
+      "totalChangeRel": -0.50032
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.4256351466458034e-16,
+    "E1": [
+     [
+      null,
+      5.2839e-21
+     ],
+     [
+      5.2771e-21,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.0000089081
+    ],
+    "espeed": [
+     5.2839e-21,
+     5.2771e-21
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJ",
+    "ja": "太陽–木星",
+    "from": "jupiterSunInertial3d",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48.025,
+      "Ij": 0.00048504,
+      "IiOverIj": 99011,
+      "si": 0.29031,
+      "sj": 17.585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -8.6391e-22,
+      "Eji": -9.5739e-21,
+      "ratio": 0.090236,
+      "asym": 0.90976,
+      "absLogRatio": 1.0446,
+      "sameSign": true,
+      "cij": -3.5237e-24,
+      "cji": -3.8663e-18,
+      "IcRatio": 0.090236,
+      "keptSide": "木星",
+      "droppedOverKept": 0.090236,
+      "totalChangeRel": -0.082768
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 2.1770692662104739e-16,
+    "E1": [
+     [
+      null,
+      -8.6391e-22
+     ],
+     [
+      -9.5739e-21,
+      null
+     ]
+    ],
+    "I": [
+     48.025,
+     0.00048504
+    ],
+    "espeed": [
+     -8.6391e-22,
+     -9.5739e-21
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJ",
+    "ja": "太陽–木星",
+    "from": "jupiterSunInertial3d",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48.025,
+      "Ij": 0.00048504,
+      "IiOverIj": 99011,
+      "si": 0.29031,
+      "sj": 17.585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -1.2914e-17,
+      "Eji": -1.2914e-17,
+      "ratio": 1,
+      "asym": 0.0000018071,
+      "absLogRatio": 7.8482e-7,
+      "sameSign": true,
+      "cij": -5.2674e-20,
+      "cji": -5.2154e-15,
+      "IcRatio": 1,
+      "keptSide": "木星",
+      "droppedOverKept": 1,
+      "totalChangeRel": -0.5
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.193046730400849e-16,
+    "E1": [
+     [
+      null,
+      -1.2914e-17
+     ],
+     [
+      -1.2914e-17,
+      null
+     ]
+    ],
+    "I": [
+     48.025,
+     0.00048504
+    ],
+    "espeed": [
+     -1.2914e-17,
+     -1.2914e-17
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJ",
+    "ja": "太陽–木星",
+    "from": "jupiterSunInertial3d",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48.025,
+      "Ij": 0.00048504,
+      "IiOverIj": 99011,
+      "si": 0.29031,
+      "sj": 17.585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -5.1419e-17,
+      "Eji": -5.14e-17,
+      "ratio": 1.0004,
+      "asym": -0.0003572,
+      "absLogRatio": 0.00015516,
+      "sameSign": true,
+      "cij": -2.0972e-19,
+      "cji": -2.0758e-14,
+      "IcRatio": 1.0004,
+      "keptSide": "木星",
+      "droppedOverKept": 1.0004,
+      "totalChangeRel": -0.50009
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.199011614070539e-16,
+    "E1": [
+     [
+      null,
+      -5.1419e-17
+     ],
+     [
+      -5.14e-17,
+      null
+     ]
+    ],
+    "I": [
+     48.025,
+     0.00048504
+    ],
+    "espeed": [
+     -5.1419e-17,
+     -5.14e-17
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SE",
+    "ja": "太陽–地球(🌦️ の写し —— 月を外す)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -6.8902e-22,
+      "Eji": -1.8187e-19,
+      "ratio": 0.0037885,
+      "asym": 0.99621,
+      "absLogRatio": 2.4215,
+      "sameSign": true,
+      "cij": -6.7578e-25,
+      "cji": -7.0878e-13,
+      "IcRatio": 0.0037885,
+      "keptSide": "地球",
+      "droppedOverKept": 0.0037885,
+      "totalChangeRel": -0.0037742
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.3236939093759336e-16,
+    "E1": [
+     [
+      null,
+      -6.8902e-22
+     ],
+     [
+      -1.8187e-19,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121
+    ],
+    "espeed": [
+     -6.8902e-22,
+     -1.8187e-19
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SE",
+    "ja": "太陽–地球(🌦️ の写し —— 月を外す)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -1.7301e-19,
+      "Eji": -1.7301e-19,
+      "ratio": 0.99995,
+      "asym": 0.00004777,
+      "absLogRatio": 0.000020747,
+      "sameSign": true,
+      "cij": -1.6968e-22,
+      "cji": -6.7427e-13,
+      "IcRatio": 0.99995,
+      "keptSide": "地球",
+      "droppedOverKept": 0.99995,
+      "totalChangeRel": -0.49999
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.3914500352626166e-16,
+    "E1": [
+     [
+      null,
+      -1.7301e-19
+     ],
+     [
+      -1.7301e-19,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121
+    ],
+    "espeed": [
+     -1.7301e-19,
+     -1.7301e-19
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SE",
+    "ja": "太陽–地球(🌦️ の写し —— 月を外す)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -6.9203e-19,
+      "Eji": -6.9205e-19,
+      "ratio": 0.99997,
+      "asym": 0.00003183,
+      "absLogRatio": 0.000013824,
+      "sameSign": true,
+      "cij": -6.7872e-22,
+      "cji": -2.697e-12,
+      "IcRatio": 0.99997,
+      "keptSide": "地球",
+      "droppedOverKept": 0.99997,
+      "totalChangeRel": -0.49999
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.3915165061315185e-16,
+    "E1": [
+     [
+      null,
+      -6.9203e-19
+     ],
+     [
+      -6.9205e-19,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121
+    ],
+    "espeed": [
+     -6.9203e-19,
+     -6.9205e-19
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SEM",
+    "ja": "太陽–地球–月(🌦️ の写し —— 第三体あり)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -6.8902e-22,
+      "Eji": -1.8202e-19,
+      "ratio": 0.0037854,
+      "asym": 0.99621,
+      "absLogRatio": 2.4219,
+      "sameSign": true,
+      "cij": -6.7578e-25,
+      "cji": -7.0937e-13,
+      "IcRatio": 0.0037854,
+      "keptSide": "地球",
+      "droppedOverKept": 0.0037854,
+      "totalChangeRel": -0.0037711
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "月",
+      "Ii": 48163,
+      "Ij": 1.112e-8,
+      "IiOverIj": 4331100000000,
+      "si": 0.029031,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -2.3566e-25,
+      "Eji": -3.3911e-23,
+      "ratio": 0.0069493,
+      "asym": 0.99305,
+      "absLogRatio": 2.1581,
+      "sameSign": true,
+      "cij": -6.3322e-27,
+      "cji": -3.9464e-12,
+      "IcRatio": 0.0069493,
+      "keptSide": "月",
+      "droppedOverKept": 0.0069493,
+      "totalChangeRel": -0.0069014
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "地球",
+      "src": "月",
+      "Ii": 0.000012121,
+      "Ij": 1.112e-8,
+      "IiOverIj": 1090,
+      "si": 0.72921,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -1.2748e-17,
+      "Eji": -8.1451e-18,
+      "ratio": 1.5651,
+      "asym": -0.36105,
+      "absLogRatio": 0.19453,
+      "sameSign": true,
+      "cij": -5.4185e-11,
+      "cji": -3.7737e-8,
+      "IcRatio": 1.5651,
+      "keptSide": "月",
+      "droppedOverKept": 1.5651,
+      "totalChangeRel": -0.61015
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.8916139916936898e-16,
+    "E1": [
+     [
+      null,
+      -6.8902e-22,
+      -2.3566e-25
+     ],
+     [
+      -1.8202e-19,
+      null,
+      -1.2748e-17
+     ],
+     [
+      -3.3911e-23,
+      -8.1451e-18,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121,
+     1.112e-8
+    ],
+    "espeed": [
+     -6.8926e-22,
+     -1.293e-17,
+     -8.1451e-18
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SEM",
+    "ja": "太陽–地球–月(🌦️ の写し —— 第三体あり)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -8.6922e-20,
+      "Eji": -8.4251e-22,
+      "ratio": 103.17,
+      "asym": -0.99031,
+      "absLogRatio": 2.0136,
+      "sameSign": true,
+      "cij": -8.5251e-23,
+      "cji": -3.2834e-15,
+      "IcRatio": 103.17,
+      "keptSide": "地球",
+      "droppedOverKept": 103.17,
+      "totalChangeRel": -0.9904
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "月",
+      "Ii": 48163,
+      "Ij": 1.112e-8,
+      "IiOverIj": 4331100000000,
+      "si": 0.029031,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -2.8619e-24,
+      "Eji": 2.7739e-26,
+      "ratio": -103.17,
+      "asym": -1.0097,
+      "absLogRatio": 2.0136,
+      "sameSign": false,
+      "cij": -7.6899e-26,
+      "cji": 3.2282e-15,
+      "IcRatio": -103.17,
+      "keptSide": "月",
+      "droppedOverKept": -103.17,
+      "totalChangeRel": -1.0098
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "地球",
+      "src": "月",
+      "Ii": 0.000012121,
+      "Ij": 1.112e-8,
+      "IiOverIj": 1090,
+      "si": 0.72921,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -2.5615e-24,
+      "Eji": -2.5631e-24,
+      "ratio": 0.99937,
+      "asym": 0.00063095,
+      "absLogRatio": 0.00027411,
+      "sameSign": true,
+      "cij": -1.0888e-17,
+      "cji": -1.1875e-14,
+      "IcRatio": 0.99937,
+      "keptSide": "月",
+      "droppedOverKept": 0.99937,
+      "totalChangeRel": -0.49984
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.4488789408010189e-16,
+    "E1": [
+     [
+      null,
+      -8.6922e-20,
+      -2.8619e-24
+     ],
+     [
+      -8.4251e-22,
+      null,
+      -2.5615e-24
+     ],
+     [
+      2.7739e-26,
+      -2.5631e-24,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121,
+     1.112e-8
+    ],
+    "espeed": [
+     -8.6925e-20,
+     -8.4507e-22,
+     -2.5354e-24
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SEM",
+    "ja": "太陽–地球–月(🌦️ の写し —— 第三体あり)",
+    "from": "earthMoonSunInertial3d",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "地球",
+      "Ii": 48163,
+      "Ij": 0.000012121,
+      "IiOverIj": 3973600000,
+      "si": 0.029031,
+      "sj": 0.72921,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -6.9203e-19,
+      "Eji": -6.9205e-19,
+      "ratio": 0.99997,
+      "asym": 0.00003183,
+      "absLogRatio": 0.000013824,
+      "sameSign": true,
+      "cij": -6.7872e-22,
+      "cji": -2.697e-12,
+      "IcRatio": 0.99997,
+      "keptSide": "地球",
+      "droppedOverKept": 0.99997,
+      "totalChangeRel": -0.49999
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "月",
+      "Ii": 48163,
+      "Ij": 1.112e-8,
+      "IiOverIj": 4331100000000,
+      "si": 0.029031,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -2.3007e-23,
+      "Eji": -2.3008e-23,
+      "ratio": 0.99997,
+      "asym": 0.000031679,
+      "absLogRatio": 0.000013758,
+      "sameSign": true,
+      "cij": -6.1819e-25,
+      "cji": -2.6775e-12,
+      "IcRatio": 0.99997,
+      "keptSide": "月",
+      "droppedOverKept": 0.99997,
+      "totalChangeRel": -0.49999
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "地球",
+      "src": "月",
+      "Ii": 0.000012121,
+      "Ij": 1.112e-8,
+      "IiOverIj": 1090,
+      "si": 0.72921,
+      "sj": 0.026617,
+      "flat": [
+       true,
+       true
+      ],
+      "Eij": -1.025e-23,
+      "Eji": -1.0255e-23,
+      "ratio": 0.99958,
+      "asym": 0.00042069,
+      "absLogRatio": 0.00018274,
+      "sameSign": true,
+      "cij": -4.357e-17,
+      "cji": -4.7511e-14,
+      "IcRatio": 0.99958,
+      "keptSide": "月",
+      "droppedOverKept": 0.99958,
+      "totalChangeRel": -0.49989
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.7670131622286434e-16,
+    "E1": [
+     [
+      null,
+      -6.9203e-19,
+      -2.3007e-23
+     ],
+     [
+      -6.9205e-19,
+      null,
+      -1.025e-23
+     ],
+     [
+      -2.3008e-23,
+      -1.0255e-23,
+      null
+     ]
+    ],
+    "I": [
+     48163,
+     0.000012121,
+     1.112e-8
+    ],
+    "espeed": [
+     -6.9205e-19,
+     -6.9206e-19,
+     -3.3262e-23
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "JIo",
+    "ja": "木星–イオ(診断の配置)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -4.7055e-14,
+      "Eji": -4.4135e-13,
+      "ratio": 0.10662,
+      "asym": 0.89338,
+      "absLogRatio": 0.97218,
+      "sameSign": true,
+      "cij": -1.3421e-13,
+      "cji": -0.00004121,
+      "IcRatio": 0.10662,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.10662,
+      "totalChangeRel": -0.096344
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.341175554720881e-16,
+    "E1": [
+     [
+      null,
+      -4.7055e-14
+     ],
+     [
+      -4.4135e-13,
+      null
+     ]
+    ],
+    "I": [
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -4.7055e-14,
+     -4.4131e-13
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "JIo",
+    "ja": "木星–イオ(診断の配置)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -3.1193e-18,
+      "Eji": -3.3201e-18,
+      "ratio": 0.93952,
+      "asym": 0.060476,
+      "absLogRatio": 0.027092,
+      "sameSign": true,
+      "cij": -8.8967e-18,
+      "cji": -3.1001e-10,
+      "IcRatio": 0.93952,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.93952,
+      "totalChangeRel": -0.48441
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.2348291723441233e-16,
+    "E1": [
+     [
+      null,
+      -3.1193e-18
+     ],
+     [
+      -3.3201e-18,
+      null
+     ]
+    ],
+    "I": [
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -3.1193e-18,
+     -3.3201e-18
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "JIo",
+    "ja": "木星–イオ(診断の配置)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 2,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -1.2481e-17,
+      "Eji": -1.3015e-17,
+      "ratio": 0.95901,
+      "asym": 0.040992,
+      "absLogRatio": 0.018178,
+      "sameSign": true,
+      "cij": -3.5598e-17,
+      "cji": -1.2152e-9,
+      "IcRatio": 0.95901,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.95901,
+      "totalChangeRel": -0.48954
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.234437447253031e-16,
+    "E1": [
+     [
+      null,
+      -1.2481e-17
+     ],
+     [
+      -1.3015e-17,
+      null
+     ]
+    ],
+    "I": [
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -1.2481e-17,
+     -1.3015e-17
+    ],
+    "sink": [
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJIo",
+    "ja": "太陽–木星–イオ(第三体あり)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "invsq",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48025,
+      "Ij": 0.48504,
+      "IiOverIj": 99011,
+      "si": 0.029031,
+      "sj": 1.7585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -8.6391e-21,
+      "Eji": -9.5738e-20,
+      "ratio": 0.090237,
+      "asym": 0.90976,
+      "absLogRatio": 1.0446,
+      "sameSign": true,
+      "cij": -3.5237e-24,
+      "cji": -3.8663e-18,
+      "IcRatio": 0.090237,
+      "keptSide": "木星",
+      "droppedOverKept": 0.090237,
+      "totalChangeRel": -0.082768
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "イオ",
+      "Ii": 48025,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 3241400000000,
+      "si": 0.029031,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -7.479e-27,
+      "Eji": -2.8343e-22,
+      "ratio": 0.000026388,
+      "asym": 0.99997,
+      "absLogRatio": 4.5786,
+      "sameSign": true,
+      "cij": -1.305e-29,
+      "cji": -1.603e-12,
+      "IcRatio": 0.000026388,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.000026388,
+      "totalChangeRel": -0.000026387
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -4.7055e-14,
+      "Eji": -4.4133e-13,
+      "ratio": 0.10662,
+      "asym": 0.89338,
+      "absLogRatio": 0.97216,
+      "sameSign": true,
+      "cij": -1.3421e-13,
+      "cji": -0.000041208,
+      "IcRatio": 0.10662,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.10662,
+      "totalChangeRel": -0.096348
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 2.6823457713114406e-16,
+    "E1": [
+     [
+      null,
+      -8.6391e-21,
+      -7.479e-27
+     ],
+     [
+      -9.5738e-20,
+      null,
+      -4.7055e-14
+     ],
+     [
+      -2.8343e-22,
+      -4.4133e-13,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -8.6391e-21,
+     -4.7055e-14,
+     -4.4129e-13
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJIo",
+    "ja": "太陽–木星–イオ(第三体あり)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "sphere",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48025,
+      "Ij": 0.48504,
+      "IiOverIj": 99011,
+      "si": 0.029031,
+      "sj": 1.7585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -6.4499e-17,
+      "Eji": 1.4516e-19,
+      "ratio": -444.33,
+      "asym": -1.0023,
+      "absLogRatio": 2.6477,
+      "sameSign": false,
+      "cij": -2.6307e-20,
+      "cji": 5.8622e-18,
+      "IcRatio": -444.33,
+      "keptSide": "木星",
+      "droppedOverKept": -444.33,
+      "totalChangeRel": -1.0023
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "イオ",
+      "Ii": 48025,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 3241400000000,
+      "si": 0.029031,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -4.6235e-25,
+      "Eji": -1.0406e-27,
+      "ratio": 444.33,
+      "asym": -0.99775,
+      "absLogRatio": 2.6477,
+      "sameSign": true,
+      "cij": -8.0675e-28,
+      "cji": -5.8854e-18,
+      "IcRatio": 444.33,
+      "keptSide": "イオ",
+      "droppedOverKept": 444.33,
+      "totalChangeRel": -0.99775
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -3.1193e-18,
+      "Eji": -3.3201e-18,
+      "ratio": 0.93952,
+      "asym": 0.060476,
+      "absLogRatio": 0.027092,
+      "sameSign": true,
+      "cij": -8.8967e-18,
+      "cji": -3.1001e-10,
+      "IcRatio": 0.93952,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.93952,
+      "totalChangeRel": -0.48441
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.295096767866322e-16,
+    "E1": [
+     [
+      null,
+      -6.4499e-17,
+      -4.6235e-25
+     ],
+     [
+      1.4516e-19,
+      null,
+      -3.1193e-18
+     ],
+     [
+      -1.0406e-27,
+      -3.3201e-18,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -6.4499e-17,
+     -2.9742e-18,
+     -3.3201e-18
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   },
+   {
+    "key": "SJIo",
+    "ja": "太陽–木星–イオ(第三体あり)",
+    "from": "jupiterSunInertial3d+jupiterGalilean",
+    "kernel": "bevel",
+    "steps": 2,
+    "events": 1,
+    "n": 3,
+    "injectStateDiff": 0,
+    "rows": [
+     {
+      "i": 0,
+      "j": 1,
+      "recv": "太陽",
+      "src": "木星",
+      "Ii": 48025,
+      "Ij": 0.48504,
+      "IiOverIj": 99011,
+      "si": 0.029031,
+      "sj": 1.7585,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -5.1419e-16,
+      "Eji": -5.14e-16,
+      "ratio": 1.0004,
+      "asym": -0.0003572,
+      "absLogRatio": 0.00015516,
+      "sameSign": true,
+      "cij": -2.0972e-19,
+      "cji": -2.0758e-14,
+      "IcRatio": 1.0004,
+      "keptSide": "木星",
+      "droppedOverKept": 1.0004,
+      "totalChangeRel": -0.50009
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "recv": "太陽",
+      "src": "イオ",
+      "Ii": 48025,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 3241400000000,
+      "si": 0.029031,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -3.6776e-24,
+      "Eji": -3.6763e-24,
+      "ratio": 1.0004,
+      "asym": -0.00035377,
+      "absLogRatio": 0.00015367,
+      "sameSign": true,
+      "cij": -6.417e-27,
+      "cji": -2.0793e-14,
+      "IcRatio": 1.0004,
+      "keptSide": "イオ",
+      "droppedOverKept": 1.0004,
+      "totalChangeRel": -0.50009
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "recv": "木星",
+      "src": "イオ",
+      "Ii": 0.48504,
+      "Ij": 1.4816e-8,
+      "IiOverIj": 32738000,
+      "si": 1.7585,
+      "sj": 0.41106,
+      "flat": [
+       false,
+       false
+      ],
+      "Eij": -1.2481e-17,
+      "Eji": -1.3015e-17,
+      "ratio": 0.95901,
+      "asym": 0.040992,
+      "absLogRatio": 0.018178,
+      "sameSign": true,
+      "cij": -3.5598e-17,
+      "cji": -1.2152e-9,
+      "IcRatio": 0.95901,
+      "keptSide": "イオ",
+      "droppedOverKept": 0.95901,
+      "totalChangeRel": -0.48954
+     }
+    ],
+    "sumBitsDiff": 0,
+    "espRelMax": 1.9177334825619708e-16,
+    "E1": [
+     [
+      null,
+      -5.1419e-16,
+      -3.6776e-24
+     ],
+     [
+      -5.14e-16,
+      null,
+      -1.2481e-17
+     ],
+     [
+      -3.6763e-24,
+      -1.3015e-17,
+      null
+     ]
+    ],
+    "I": [
+     48025,
+     0.48504,
+     1.4816e-8
+    ],
+    "espeed": [
+     -5.1419e-16,
+     -5.2649e-16,
+     -1.3015e-17
+    ],
+    "sink": [
+     "ledger",
+     "ledger",
+     "ledger"
+    ]
+   }
+  ],
+  "ioPlacement": {
+   "from": "jupiterGalilean",
+   "index": 1,
+   "r": 420070620,
+   "v": 17400.772699999998,
+   "note": "二次元の本の木星に対する距離・速さを 🏀 の木星の赤道面へ回した診断の配置(太陽の側・順行 —— 実在の同じ元期の状態ではない)"
+  },
+  "run": {
+   "hFrac": 0.000001,
+   "maxSteps": 4
+  }
+ },
+ "T": {
+  "rows": [
+   {
+    "kernel": "invsq",
+    "case": "mirror",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": 0.6,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": -0.0000049741,
+    "Eji": -0.0000049741,
+    "ratio": 1,
+    "asym": 1.8732e-15,
+    "absLogRatio": 8.1968e-16,
+    "sameSign": true,
+    "cij": -0.00030704,
+    "cji": -0.00030704,
+    "IcRatio": 1,
+    "keptSide": "A",
+    "droppedOverKept": 1,
+    "totalChangeRel": -0.5,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.7031419823717172e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000021426,
+    "Eji": 0.0000019614,
+    "ratio": 1.0924,
+    "asym": 0.084567,
+    "absLogRatio": 0.038373,
+    "sameSign": true,
+    "cij": -0.00019839,
+    "cji": -0.00018161,
+    "IcRatio": 1.0924,
+    "keptSide": "A",
+    "droppedOverKept": 0.91543,
+    "totalChangeRel": -0.47792,
+    "sumBitsDiff": 0,
+    "espRelMax": 2.158543604007549e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0028125,
+    "IiOverIj": 16,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 1.3242e-7,
+    "Eji": 7.7034e-9,
+    "ratio": 17.19,
+    "asym": 0.94183,
+    "absLogRatio": 1.2353,
+    "sameSign": true,
+    "cij": -0.000012261,
+    "cji": -0.000011413,
+    "IcRatio": 17.19,
+    "keptSide": "B",
+    "droppedOverKept": 17.19,
+    "totalChangeRel": -0.94502,
+    "sumBitsDiff": 0,
+    "espRelMax": 0
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 2.1918e-7,
+    "Eji": 0.0000015935,
+    "ratio": 0.13755,
+    "asym": -0.86245,
+    "absLogRatio": 0.86154,
+    "sameSign": true,
+    "cij": -0.000020294,
+    "cji": -0.0014754,
+    "IcRatio": 0.13755,
+    "keptSide": "B",
+    "droppedOverKept": 0.13755,
+    "totalChangeRel": -0.12092,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.3255556017784903e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00028125,
+    "IiOverIj": 160,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 1.3545e-8,
+    "Eji": 7.5986e-9,
+    "ratio": 1.7825,
+    "asym": 0.43899,
+    "absLogRatio": 0.25103,
+    "sameSign": true,
+    "cij": -0.0000012541,
+    "cji": -0.00011257,
+    "IcRatio": 1.7825,
+    "keptSide": "B",
+    "droppedOverKept": 1.7825,
+    "totalChangeRel": -0.64061,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.2214154862625555e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00045,
+    "IiOverIj": 100,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 2.1968e-8,
+    "Eji": 5.0073e-7,
+    "ratio": 0.043873,
+    "asym": -0.95613,
+    "absLogRatio": 1.3578,
+    "sameSign": true,
+    "cij": -0.0000020341,
+    "cji": -0.0046364,
+    "IcRatio": 0.043873,
+    "keptSide": "B",
+    "droppedOverKept": 0.043873,
+    "totalChangeRel": -0.042029,
+    "sumBitsDiff": 0,
+    "espRelMax": 0
+   },
+   {
+    "kernel": "invsq",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.000028125,
+    "IiOverIj": 1600,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 1.3576e-9,
+    "Eji": 6.6725e-9,
+    "ratio": 0.20345,
+    "asym": -0.79655,
+    "absLogRatio": 0.69153,
+    "sameSign": true,
+    "cij": -1.257e-7,
+    "cji": -0.00098852,
+    "IcRatio": 0.20345,
+    "keptSide": "B",
+    "droppedOverKept": 0.20345,
+    "totalChangeRel": -0.16906,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.5232944290521305e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "third",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000020965,
+    "Eji": 0.0000019112,
+    "ratio": 1.097,
+    "asym": 0.08842,
+    "absLogRatio": 0.040205,
+    "sameSign": true,
+    "cij": -0.00019412,
+    "cji": -0.00017696,
+    "IcRatio": 1.097,
+    "keptSide": "A",
+    "droppedOverKept": 0.91158,
+    "totalChangeRel": -0.47687,
+    "sumBitsDiff": 0,
+    "espRelMax": 4.80844015765156e-16
+   },
+   {
+    "kernel": "invsq",
+    "case": "third",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 2.1437e-7,
+    "Eji": 0.0000013207,
+    "ratio": 0.16231,
+    "asym": -0.83769,
+    "absLogRatio": 0.78965,
+    "sameSign": true,
+    "cij": -0.000019849,
+    "cji": -0.0012229,
+    "IcRatio": 0.16231,
+    "keptSide": "B",
+    "droppedOverKept": 0.16231,
+    "totalChangeRel": -0.13965,
+    "sumBitsDiff": 0,
+    "espRelMax": 3.6092197526610644e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "mirror",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": 0.6,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": -0.000087207,
+    "Eji": -0.000087207,
+    "ratio": 1,
+    "asym": 0,
+    "absLogRatio": 0,
+    "sameSign": true,
+    "cij": -0.0053831,
+    "cji": -0.0053831,
+    "IcRatio": 1,
+    "keptSide": "A",
+    "droppedOverKept": 1,
+    "totalChangeRel": -0.5,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.5582888576342149e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000035722,
+    "Eji": 0.000035722,
+    "ratio": 1,
+    "asym": 0,
+    "absLogRatio": 0,
+    "sameSign": true,
+    "cij": -0.0033076,
+    "cji": -0.0033076,
+    "IcRatio": 1,
+    "keptSide": "A",
+    "droppedOverKept": 1,
+    "totalChangeRel": -0.5,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.8920302408862897e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0028125,
+    "IiOverIj": 16,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000021571,
+    "Eji": 0.0000022326,
+    "ratio": 0.96618,
+    "asym": -0.033823,
+    "absLogRatio": 0.014943,
+    "sameSign": true,
+    "cij": -0.00019973,
+    "cji": -0.0033076,
+    "IcRatio": 0.96618,
+    "keptSide": "B",
+    "droppedOverKept": 0.96618,
+    "totalChangeRel": -0.4914,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.88479996080194e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000011424,
+    "Eji": 0.0000035722,
+    "ratio": 3.198,
+    "asym": 0.6873,
+    "absLogRatio": 0.50487,
+    "sameSign": true,
+    "cij": -0.0010578,
+    "cji": -0.0033076,
+    "IcRatio": 3.198,
+    "keptSide": "B",
+    "droppedOverKept": 3.198,
+    "totalChangeRel": -0.76179,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.1779999755012125e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00028125,
+    "IiOverIj": 160,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 6.9592e-7,
+    "Eji": 2.2326e-7,
+    "ratio": 3.117,
+    "asym": 0.67918,
+    "absLogRatio": 0.49374,
+    "sameSign": true,
+    "cij": -0.000064437,
+    "cji": -0.0033076,
+    "IcRatio": 3.117,
+    "keptSide": "B",
+    "droppedOverKept": 3.117,
+    "totalChangeRel": -0.75711,
+    "sumBitsDiff": 0,
+    "espRelMax": 3.042682760030562e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00045,
+    "IiOverIj": 100,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000013454,
+    "Eji": 3.5722e-7,
+    "ratio": 3.7663,
+    "asym": 0.73449,
+    "absLogRatio": 0.57592,
+    "sameSign": true,
+    "cij": -0.00012458,
+    "cji": -0.0033076,
+    "IcRatio": 3.7663,
+    "keptSide": "B",
+    "droppedOverKept": 3.7663,
+    "totalChangeRel": -0.7902,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.573767709206871e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.000028125,
+    "IiOverIj": 1600,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 8.2032e-8,
+    "Eji": 2.2326e-8,
+    "ratio": 3.6742,
+    "asym": 0.72783,
+    "absLogRatio": 0.56517,
+    "sameSign": true,
+    "cij": -0.0000075956,
+    "cji": -0.0033076,
+    "IcRatio": 3.6742,
+    "keptSide": "B",
+    "droppedOverKept": 3.6742,
+    "totalChangeRel": -0.78606,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.4724999693765156e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "third",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000027733,
+    "Eji": 0.000024081,
+    "ratio": 1.1517,
+    "asym": 0.13171,
+    "absLogRatio": 0.061334,
+    "sameSign": true,
+    "cij": -0.0025679,
+    "cji": -0.0022297,
+    "IcRatio": 1.1517,
+    "keptSide": "A",
+    "droppedOverKept": 0.86829,
+    "totalChangeRel": -0.46475,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.7455216007861569e-16
+   },
+   {
+    "kernel": "sphere",
+    "case": "third",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000056487,
+    "Eji": 0.0000024081,
+    "ratio": 2.3457,
+    "asym": 0.5737,
+    "absLogRatio": 0.37028,
+    "sameSign": true,
+    "cij": -0.00052303,
+    "cji": -0.0022297,
+    "IcRatio": 2.3457,
+    "keptSide": "B",
+    "droppedOverKept": 2.3457,
+    "totalChangeRel": -0.70111,
+    "sumBitsDiff": 0,
+    "espRelMax": 2.2267193193435737e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "mirror",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": 0.6,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": -0.00026821,
+    "Eji": -0.00026821,
+    "ratio": 1,
+    "asym": 0,
+    "absLogRatio": 0,
+    "sameSign": true,
+    "cij": -0.016556,
+    "cji": -0.016556,
+    "IcRatio": 1,
+    "keptSide": "A",
+    "droppedOverKept": 1,
+    "totalChangeRel": -0.5,
+    "sumBitsDiff": 0,
+    "espRelMax": 0
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.00011786,
+    "Eji": 0.00010764,
+    "ratio": 1.0949,
+    "asym": 0.086692,
+    "absLogRatio": 0.039383,
+    "sameSign": true,
+    "cij": -0.010913,
+    "cji": -0.0099668,
+    "IcRatio": 1.0949,
+    "keptSide": "A",
+    "droppedOverKept": 0.91331,
+    "totalChangeRel": -0.47734,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.140310761250701e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0028125,
+    "IiOverIj": 16,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000071752,
+    "Eji": 0.0000067276,
+    "ratio": 1.0665,
+    "asym": 0.062386,
+    "absLogRatio": 0.027976,
+    "sameSign": true,
+    "cij": -0.00066437,
+    "cji": -0.0099668,
+    "IcRatio": 1.0665,
+    "keptSide": "B",
+    "droppedOverKept": 1.0665,
+    "totalChangeRel": -0.5161,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.1798940191795237e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000030843,
+    "Eji": 0.000010764,
+    "ratio": 2.8654,
+    "asym": 0.651,
+    "absLogRatio": 0.45718,
+    "sameSign": true,
+    "cij": -0.0028558,
+    "cji": -0.0099668,
+    "IcRatio": 2.8654,
+    "keptSide": "B",
+    "droppedOverKept": 2.8654,
+    "totalChangeRel": -0.74129,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.5470841411059881e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 0.1,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00028125,
+    "IiOverIj": 160,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000018847,
+    "Eji": 6.7276e-7,
+    "ratio": 2.8014,
+    "asym": 0.64304,
+    "absLogRatio": 0.44738,
+    "sameSign": true,
+    "cij": -0.00017451,
+    "cji": -0.0099668,
+    "IcRatio": 2.8014,
+    "keptSide": "B",
+    "droppedOverKept": 2.8014,
+    "totalChangeRel": -0.73694,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.5470841411059881e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.00045,
+    "IiOverIj": 100,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.0000035524,
+    "Eji": 0.0000010764,
+    "ratio": 3.3002,
+    "asym": 0.69699,
+    "absLogRatio": 0.51855,
+    "sameSign": true,
+    "cij": -0.00032893,
+    "cji": -0.0099668,
+    "IcRatio": 3.3002,
+    "keptSide": "B",
+    "droppedOverKept": 3.3002,
+    "totalChangeRel": -0.76746,
+    "sumBitsDiff": 0,
+    "espRelMax": 0
+   },
+   {
+    "kernel": "bevel",
+    "case": "pair",
+    "q": 0.01,
+    "rho": 0.25,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.000028125,
+    "IiOverIj": 1600,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 2.1717e-7,
+    "Eji": 6.7276e-8,
+    "ratio": 3.2281,
+    "asym": 0.69022,
+    "absLogRatio": 0.50895,
+    "sameSign": true,
+    "cij": -0.000020109,
+    "cji": -0.0099668,
+    "IcRatio": 3.2281,
+    "keptSide": "B",
+    "droppedOverKept": 3.2281,
+    "totalChangeRel": -0.76349,
+    "sumBitsDiff": 0,
+    "espRelMax": 1.2188068309853973e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "third",
+    "q": 1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.045,
+    "IiOverIj": 1,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000080361,
+    "Eji": 0.00006618,
+    "ratio": 1.2143,
+    "asym": 0.17647,
+    "absLogRatio": 0.084322,
+    "sameSign": true,
+    "cij": -0.0074409,
+    "cji": -0.0061277,
+    "IcRatio": 1.2143,
+    "keptSide": "A",
+    "droppedOverKept": 0.82353,
+    "totalChangeRel": -0.45161,
+    "sumBitsDiff": 0,
+    "espRelMax": 4.1912607731436243e-16
+   },
+   {
+    "kernel": "bevel",
+    "case": "third",
+    "q": 0.1,
+    "rho": 1,
+    "i": 0,
+    "j": 1,
+    "recv": "A",
+    "src": "B",
+    "Ii": 0.045,
+    "Ij": 0.0045,
+    "IiOverIj": 10,
+    "si": 0.6,
+    "sj": -0.4,
+    "flat": [
+     false,
+     false
+    ],
+    "Eij": 0.000014362,
+    "Eji": 0.000006618,
+    "ratio": 2.1702,
+    "asym": 0.53921,
+    "absLogRatio": 0.3365,
+    "sameSign": true,
+    "cij": -0.0013298,
+    "cji": -0.0061277,
+    "IcRatio": 2.1702,
+    "keptSide": "B",
+    "droppedOverKept": 2.1702,
+    "totalChangeRel": -0.68456,
+    "sumBitsDiff": 0,
+    "espRelMax": 2.6239332235618474e-16
+   }
+  ],
+  "toy": {
+   "qs": [
+    1,
+    0.1,
+    0.01
+   ],
+   "rhos": [
+    1,
+    0.25
+   ],
+   "d": 2,
+   "mA": 1,
+   "RA": 0.3,
+   "Wbg": 0.125,
+   "eps": 0.05,
+   "h": 0.016,
+   "tiltA": 20,
+   "azA": 30,
+   "tiltB": 50,
+   "azB": 100,
+   "sA": 0.6,
+   "sB": -0.4
+  }
+ },
+ "F": {
+  "rows": [
+   {
+    "key": "SMe",
+    "kernel": "invsq",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 1.4345e-21,
+     "sinkE": -1.4345e-21,
+     "heat": 2.2709e-34,
+     "supply": 1.4345e-21
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 1.925e-23,
+      "sinkE": -1.925e-23,
+      "heat": 1.5683e-50,
+      "supply": 1.925e-23,
+      "speedSigned": -1.925e-23
+     },
+     {
+      "body": "水星",
+      "fieldE": 1.4153e-21,
+      "sinkE": -1.4153e-21,
+      "heat": 2.2709e-34,
+      "supply": 1.4153e-21,
+      "speedSigned": -1.4153e-21
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 0
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SMe",
+    "kernel": "sphere",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 4.4476e-22,
+     "sinkE": -4.4476e-22,
+     "heat": 2.1343e-35,
+     "supply": 4.4476e-22
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 2.2236e-22,
+      "sinkE": -2.2236e-22,
+      "heat": 2.0619e-48,
+      "supply": 2.2236e-22,
+      "speedSigned": -2.2236e-22
+     },
+     {
+      "body": "水星",
+      "fieldE": 2.224e-22,
+      "sinkE": -2.224e-22,
+      "heat": 2.1343e-35,
+      "supply": 2.224e-22,
+      "speedSigned": -2.224e-22
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 2.1144e-16,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 0
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SMe",
+    "kernel": "bevel",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 1.7775e-21,
+     "sinkE": -1.7775e-21,
+     "heat": 8.9421e-35,
+     "supply": 1.7775e-21
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 8.894e-22,
+      "sinkE": -8.894e-22,
+      "heat": 3.3479e-47,
+      "supply": 8.894e-22,
+      "speedSigned": -8.894e-22
+     },
+     {
+      "body": "水星",
+      "fieldE": 8.881e-22,
+      "sinkE": -8.881e-22,
+      "heat": 8.9421e-35,
+      "supply": 8.881e-22,
+      "speedSigned": -8.881e-22
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 0
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJ",
+    "kernel": "invsq",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 1.0438e-20,
+     "sinkE": -1.0438e-20,
+     "heat": 1.8585e-42,
+     "supply": 1.0438e-20
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 8.6391e-22,
+      "sinkE": -8.6391e-22,
+      "heat": 5.6065e-46,
+      "supply": 8.6391e-22,
+      "speedSigned": -8.6391e-22
+     },
+     {
+      "body": "木星",
+      "fieldE": 9.5739e-21,
+      "sinkE": -9.5739e-21,
+      "heat": 1.858e-42,
+      "supply": 9.5739e-21,
+      "speedSigned": -9.5739e-21
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 1.3743e-17
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJ",
+    "kernel": "sphere",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 2.5829e-17,
+     "sinkE": -2.5829e-17,
+     "heat": 5.9384e-36,
+     "supply": 2.5829e-17
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 1.2914e-17,
+      "sinkE": -1.2914e-17,
+      "heat": 1.6962e-37,
+      "supply": 1.2914e-17,
+      "speedSigned": -1.2914e-17
+     },
+     {
+      "body": "木星",
+      "fieldE": 1.2914e-17,
+      "sinkE": -1.2914e-17,
+      "heat": 5.7688e-36,
+      "supply": 1.2914e-17,
+      "speedSigned": -1.2914e-17
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 1.3606e-16
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJ",
+    "kernel": "bevel",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 1.0282e-16,
+     "sinkE": -1.0282e-16,
+     "heat": 5.5541e-35,
+     "supply": 1.0282e-16
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 5.1419e-17,
+      "sinkE": -5.1419e-17,
+      "heat": 1.9861e-36,
+      "supply": 5.1419e-17,
+      "speedSigned": -5.1419e-17
+     },
+     {
+      "body": "木星",
+      "fieldE": 5.14e-17,
+      "sinkE": -5.14e-17,
+      "heat": 5.3555e-35,
+      "supply": 5.14e-17,
+      "speedSigned": -5.14e-17
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 9.5404e-18
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "JIo",
+    "kernel": "invsq",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 4.8836e-13,
+     "sinkE": -4.8836e-13,
+     "heat": 9.6474e-46,
+     "supply": 4.8836e-13
+    },
+    "flowParts": [
+     {
+      "body": "木星",
+      "fieldE": 4.7055e-14,
+      "sinkE": -4.7055e-14,
+      "heat": 1.4297e-56,
+      "supply": 4.7055e-14,
+      "speedSigned": -4.7055e-14
+     },
+     {
+      "body": "イオ",
+      "fieldE": 4.4131e-13,
+      "sinkE": -4.4131e-13,
+      "heat": 9.6474e-46,
+      "supply": 4.4131e-13,
+      "speedSigned": -4.4131e-13
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 0
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "JIo",
+    "kernel": "sphere",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 6.4395e-18,
+     "sinkE": -6.4395e-18,
+     "heat": 9.2213e-56,
+     "supply": 6.4395e-18
+    },
+    "flowParts": [
+     {
+      "body": "木星",
+      "fieldE": 3.1193e-18,
+      "sinkE": -3.1193e-18,
+      "heat": 1.4314e-64,
+      "supply": 3.1193e-18,
+      "speedSigned": -3.1193e-18
+     },
+     {
+      "body": "イオ",
+      "fieldE": 3.3201e-18,
+      "sinkE": -3.3201e-18,
+      "heat": 9.2213e-56,
+      "supply": 3.3201e-18,
+      "speedSigned": -3.3201e-18
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 0
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "JIo",
+    "kernel": "bevel",
+    "n": 2,
+    "flowAll": {
+     "fieldE": 2.5496e-17,
+     "sinkE": -2.5496e-17,
+     "heat": 6.6132e-55,
+     "supply": 2.5496e-17
+    },
+    "flowParts": [
+     {
+      "body": "木星",
+      "fieldE": 1.2481e-17,
+      "sinkE": -1.2481e-17,
+      "heat": 1.0181e-63,
+      "supply": 1.2481e-17,
+      "speedSigned": -1.2481e-17
+     },
+     {
+      "body": "イオ",
+      "fieldE": 1.3015e-17,
+      "sinkE": -1.3015e-17,
+      "heat": 6.6132e-55,
+      "supply": 1.3015e-17,
+      "speedSigned": -1.3015e-17
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 2.4845e-18
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJIo",
+    "kernel": "invsq",
+    "n": 3,
+    "flowAll": {
+     "fieldE": 4.8835e-13,
+     "sinkE": -4.8835e-13,
+     "heat": 9.7446e-38,
+     "supply": 4.8835e-13
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 8.6391e-21,
+      "sinkE": -8.6391e-21,
+      "heat": 5.6065e-45,
+      "supply": 8.6391e-21,
+      "speedSigned": -8.6391e-21
+     },
+     {
+      "body": "木星",
+      "fieldE": 4.7055e-14,
+      "sinkE": -4.7055e-14,
+      "heat": 1.8579e-41,
+      "supply": 4.7055e-14,
+      "speedSigned": -4.7055e-14
+     },
+     {
+      "body": "イオ",
+      "fieldE": 4.4129e-13,
+      "sinkE": -4.4129e-13,
+      "heat": 9.7427e-38,
+      "supply": 4.4129e-13,
+      "speedSigned": -4.4129e-13
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 2.8675e-18
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJIo",
+    "kernel": "sphere",
+    "n": 3,
+    "flowAll": {
+     "fieldE": 7.0793e-17,
+     "sinkE": -7.0793e-17,
+     "heat": 4.2329e-37,
+     "supply": 7.0793e-17
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 6.4499e-17,
+      "sinkE": -6.4499e-17,
+      "heat": 4.2325e-37,
+      "supply": 6.4499e-17,
+      "speedSigned": -6.4499e-17
+     },
+     {
+      "body": "木星",
+      "fieldE": 2.9742e-18,
+      "sinkE": -2.9742e-18,
+      "heat": 4.2446e-41,
+      "supply": 2.9742e-18,
+      "speedSigned": -2.9742e-18
+     },
+     {
+      "body": "イオ",
+      "fieldE": 3.3201e-18,
+      "sinkE": -3.3201e-18,
+      "heat": 2.0682e-48,
+      "supply": 3.3201e-18,
+      "speedSigned": -3.3201e-18
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 1.7639e-16
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   },
+   {
+    "key": "SJIo",
+    "kernel": "bevel",
+    "n": 3,
+    "flowAll": {
+     "fieldE": 1.0537e-15,
+     "sinkE": -1.0537e-15,
+     "heat": 5.5541e-34,
+     "supply": 1.0537e-15
+    },
+    "flowParts": [
+     {
+      "body": "太陽",
+      "fieldE": 5.1419e-16,
+      "sinkE": -5.1419e-16,
+      "heat": 1.9861e-35,
+      "supply": 5.1419e-16,
+      "speedSigned": -5.1419e-16
+     },
+     {
+      "body": "木星",
+      "fieldE": 5.2649e-16,
+      "sinkE": -5.2649e-16,
+      "heat": 5.3555e-34,
+      "supply": 5.2649e-16,
+      "speedSigned": -5.2649e-16
+     },
+     {
+      "body": "イオ",
+      "fieldE": 1.3015e-17,
+      "sinkE": -1.3015e-17,
+      "heat": 1.6412e-41,
+      "supply": 1.3015e-17,
+      "speedSigned": -1.3015e-17
+     }
+    ],
+    "additivity": {
+     "fieldE": 0,
+     "sinkE": 0,
+     "heat": 0,
+     "supply": 0,
+     "fieldL": 0,
+     "sinkL": 5.4496e-18
+    },
+    "statesSame": true,
+    "sharedAccount": false
+   }
+  ]
+ },
+ "U": {
+  "rows": [
+   {
+    "key": "mercurySunInertial3d",
+    "from": "mercurySunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "水星",
+    "betaK": 6.6021e-16,
+    "sumBeta": 6.6021e-16,
+    "uAbsSI": 2.567e-11,
+    "denomSI": 38882,
+    "ratio": 6.6021e-16,
+    "refUAbs": 2.567e-11,
+    "refRatio": 6.6021e-16,
+    "refBody": "太陽",
+    "ratioVsRef": -0.0000066678
+   },
+   {
+    "key": "mercurySunInertial3d",
+    "from": "mercurySunInertial3d",
+    "body": "水星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 0.003364,
+    "sumBeta": 0.003364,
+    "uAbsSI": 131.24,
+    "denomSI": 38882,
+    "ratio": 0.0033753,
+    "refUAbs": 131.24,
+    "refRatio": 0.0033753,
+    "refBody": "水星",
+    "ratioVsRef": 0.000013983
+   },
+   {
+    "key": "venusSunInertial3d",
+    "from": "venusSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "金星",
+    "betaK": 4.0836e-15,
+    "sumBeta": 4.0836e-15,
+    "uAbsSI": 1.4362e-10,
+    "denomSI": 35171,
+    "ratio": 4.0836e-15,
+    "refUAbs": 1.4362e-10,
+    "refRatio": 4.0836e-15,
+    "refBody": "太陽",
+    "ratioVsRef": -0.0000053346
+   },
+   {
+    "key": "venusSunInertial3d",
+    "from": "venusSunInertial3d",
+    "body": "金星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 0.00059006,
+    "sumBeta": 0.00059006,
+    "uAbsSI": 20.766,
+    "denomSI": 35171,
+    "ratio": 0.00059041,
+    "refUAbs": 20.766,
+    "refRatio": 0.00059041,
+    "refBody": "金星",
+    "ratioVsRef": 0.0000048477
+   },
+   {
+    "key": "marsSunInertial3d",
+    "from": "marsSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "火星",
+    "betaK": 1.443e-16,
+    "sumBeta": 1.443e-16,
+    "uAbsSI": 3.7991e-12,
+    "denomSI": 26328,
+    "ratio": 1.443e-16,
+    "refUAbs": 3.7991e-12,
+    "refRatio": 1.443e-16,
+    "refBody": "太陽",
+    "ratioVsRef": -0.000010487
+   },
+   {
+    "key": "marsSunInertial3d",
+    "from": "marsSunInertial3d",
+    "body": "火星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 0.00037663,
+    "sumBeta": 0.00037663,
+    "uAbsSI": 9.9196,
+    "denomSI": 26328,
+    "ratio": 0.00037677,
+    "refUAbs": 9.9196,
+    "refRatio": 0.00037677,
+    "refBody": "火星",
+    "ratioVsRef": -0.0000038926
+   },
+   {
+    "key": "jupiterSunInertial3d",
+    "from": "jupiterSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "木星",
+    "betaK": 3.3476e-14,
+    "sumBeta": 3.3476e-14,
+    "uAbsSI": 4.576e-10,
+    "denomSI": 13670,
+    "ratio": 3.3476e-14,
+    "refUAbs": 4.576e-10,
+    "refRatio": 3.3476e-14,
+    "refBody": "太陽",
+    "ratioVsRef": -0.0000063282
+   },
+   {
+    "key": "jupiterSunInertial3d",
+    "from": "jupiterSunInertial3d",
+    "body": "木星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 3.6744e-8,
+    "sumBeta": 3.6744e-8,
+    "uAbsSI": 0.00050228,
+    "denomSI": 13670,
+    "ratio": 3.6744e-8,
+    "refUAbs": 0.00050228,
+    "refRatio": 3.6744e-8,
+    "refBody": "木星",
+    "ratioVsRef": 0.0000076682
+   },
+   {
+    "key": "saturnSunInertial3d",
+    "from": "saturnSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "土星",
+    "betaK": 2.9399e-15,
+    "sumBeta": 2.9399e-15,
+    "uAbsSI": 2.9463e-11,
+    "denomSI": 10022,
+    "ratio": 2.9399e-15,
+    "refUAbs": 2.9463e-11,
+    "refRatio": 2.9399e-15,
+    "refBody": "太陽",
+    "ratioVsRef": -0.000014762
+   },
+   {
+    "key": "saturnSunInertial3d",
+    "from": "saturnSunInertial3d",
+    "body": "土星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 3.5988e-8,
+    "sumBeta": 3.5988e-8,
+    "uAbsSI": 0.00036068,
+    "denomSI": 10022,
+    "ratio": 3.5988e-8,
+    "refUAbs": 0.00036068,
+    "refRatio": 3.5988e-8,
+    "refBody": "土星",
+    "ratioVsRef": 0.0000075214
+   },
+   {
+    "key": "uranusSunInertial3d",
+    "from": "uranusSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "天王星",
+    "betaK": 9.5192e-17,
+    "sumBeta": 9.5192e-17,
+    "uAbsSI": 6.23e-13,
+    "denomSI": 6544.7,
+    "ratio": 9.5192e-17,
+    "refUAbs": 6.23e-13,
+    "refRatio": 9.5192e-17,
+    "refBody": "太陽",
+    "ratioVsRef": -0.0000031299
+   },
+   {
+    "key": "uranusSunInertial3d",
+    "from": "uranusSunInertial3d",
+    "body": "天王星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 4.9946e-8,
+    "sumBeta": 4.9946e-8,
+    "uAbsSI": 0.00032688,
+    "denomSI": 6544.7,
+    "ratio": 4.9946e-8,
+    "refUAbs": 0.00032688,
+    "refRatio": 4.9946e-8,
+    "refBody": "天王星",
+    "ratioVsRef": 1.9699e-7
+   },
+   {
+    "key": "neptuneSunInertial3d",
+    "from": "neptuneSunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "海王星",
+    "betaK": 4.9134e-17,
+    "sumBeta": 4.9134e-17,
+    "uAbsSI": 2.6646e-13,
+    "denomSI": 5423.2,
+    "ratio": 4.9134e-17,
+    "refUAbs": 2.6646e-13,
+    "refRatio": 4.9134e-17,
+    "refBody": "太陽",
+    "ratioVsRef": 0.0000010815
+   },
+   {
+    "key": "neptuneSunInertial3d",
+    "from": "neptuneSunInertial3d",
+    "body": "海王星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 1.8525e-8,
+    "sumBeta": 1.8525e-8,
+    "uAbsSI": 0.00010046,
+    "denomSI": 5423.2,
+    "ratio": 1.8525e-8,
+    "refUAbs": 0.00010046,
+    "refRatio": 1.8525e-8,
+    "refBody": "海王星",
+    "ratioVsRef": -0.0000015183
+   },
+   {
+    "key": "earthMoonSunInertial3d",
+    "from": "earthMoonSunInertial3d",
+    "body": "地球",
+    "i": 1,
+    "k": 2,
+    "src": "月",
+    "betaK": 0.0000016493,
+    "sumBeta": 0.0000016493,
+    "uAbsSI": 0.0018194,
+    "denomSI": 1103.2,
+    "ratio": 0.0000016493,
+    "refUAbs": null,
+    "refRatio": null,
+    "refBody": null,
+    "ratioVsRef": null
+   },
+   {
+    "key": "earthMoonSunInertial3d",
+    "from": "earthMoonSunInertial3d",
+    "body": "月",
+    "i": 2,
+    "k": 1,
+    "src": "地球",
+    "betaK": 0.00028736,
+    "sumBeta": 0.00028736,
+    "uAbsSI": 0.31681,
+    "denomSI": 1103.2,
+    "ratio": 0.00028718,
+    "refUAbs": null,
+    "refRatio": null,
+    "refBody": null,
+    "ratioVsRef": null
+   },
+   {
+    "key": "earthMoonOnly3d",
+    "from": "earthMoonOnly3d",
+    "body": "地球",
+    "i": 0,
+    "k": 1,
+    "src": "月",
+    "betaK": 0.0000016498,
+    "sumBeta": 0.0000016498,
+    "uAbsSI": 0.0018199,
+    "denomSI": 1103.2,
+    "ratio": 0.0000016498,
+    "refUAbs": null,
+    "refRatio": null,
+    "refBody": null,
+    "ratioVsRef": null
+   },
+   {
+    "key": "earthMoonOnly3d",
+    "from": "earthMoonOnly3d",
+    "body": "月",
+    "i": 1,
+    "k": 0,
+    "src": "地球",
+    "betaK": 0.00028787,
+    "sumBeta": 0.00028787,
+    "uAbsSI": 0.31737,
+    "denomSI": 1103.2,
+    "ratio": 0.0002877,
+    "refUAbs": null,
+    "refRatio": null,
+    "refBody": null,
+    "ratioVsRef": null
+   },
+   {
+    "key": "JIo",
+    "from": "mercurySunInertial3d",
+    "body": "木星",
+    "i": 0,
+    "k": 1,
+    "src": "イオ",
+    "betaK": 5.164e-9,
+    "sumBeta": 5.164e-9,
+    "uAbsSI": 0.000089857,
+    "denomSI": 17401,
+    "ratio": 5.164e-9,
+    "refUAbs": 0.000089857,
+    "refRatio": 5.164e-9,
+    "refBody": "木星",
+    "ratioVsRef": -0.0000041778
+   },
+   {
+    "key": "JIo",
+    "from": "mercurySunInertial3d",
+    "body": "イオ",
+    "i": 1,
+    "k": 0,
+    "src": "木星",
+    "betaK": 0.15419,
+    "sumBeta": 0.15419,
+    "uAbsSI": 3170.9,
+    "denomSI": 17401,
+    "ratio": 0.18223,
+    "refUAbs": 3170.9,
+    "refRatio": 0.18223,
+    "refBody": "イオ",
+    "ratioVsRef": -0.0000069074
+   },
+   {
+    "key": "SJIo",
+    "from": "mercurySunInertial3d",
+    "body": "太陽",
+    "i": 0,
+    "k": 1,
+    "src": "木星",
+    "betaK": 3.3476e-14,
+    "sumBeta": 3.3477e-14,
+    "uAbsSI": 4.5759e-10,
+    "denomSI": 13670,
+    "ratio": 3.3475e-14,
+    "refUAbs": 4.576e-10,
+    "refRatio": 3.3475e-14,
+    "refBody": "太陽",
+    "ratioVsRef": 0.000010762
+   },
+   {
+    "key": "SJIo",
+    "from": "mercurySunInertial3d",
+    "body": "木星",
+    "i": 1,
+    "k": 0,
+    "src": "太陽",
+    "betaK": 3.6744e-8,
+    "sumBeta": 4.1908e-8,
+    "uAbsSI": 0.00059212,
+    "denomSI": 13670,
+    "ratio": 4.3317e-8,
+    "refUAbs": 0.00059212,
+    "refRatio": 4.3317e-8,
+    "refBody": "木星",
+    "ratioVsRef": -0.0000074434
+   },
+   {
+    "key": "SJIo",
+    "from": "mercurySunInertial3d",
+    "body": "イオ",
+    "i": 2,
+    "k": 1,
+    "src": "木星",
+    "betaK": 0.15418,
+    "sumBeta": 0.15424,
+    "uAbsSI": 3171.1,
+    "denomSI": 17401,
+    "ratio": 0.18224,
+    "refUAbs": 3171.1,
+    "refRatio": 0.18224,
+    "refBody": "イオ",
+    "ratioVsRef": 0.0000087713
+   }
+  ],
+  "refSource": "tests/out/recheck-w309c.json(第309便c の修正版の参照 —— recheck.configs の rows の uAbs・uOverVrel)"
+ },
+ "H": {
+  "rows": [
+   {
+    "label": "omitted",
+    "holdInterval": {
+     "declared": false,
+     "timing": "step",
+     "label": "間隔が未宣言"
+    },
+    "ledgerVersion": "w310b-holdledger-1",
+    "heatTiming": "step",
+    "columns": {
+     "internalE": 0,
+     "ledgerCost": 0.000006935547625134371,
+     "backgroundSupply": 0.000003578714525347761
+    },
+    "sameAsSums": true,
+    "perBodyRel": 1.2213e-16,
+    "weight": 1
+   },
+   {
+    "label": "step",
+    "holdInterval": {
+     "declared": false,
+     "timing": "step",
+     "label": "間隔が未宣言"
+    },
+    "ledgerVersion": "w310b-holdledger-1",
+    "heatTiming": "step",
+    "columns": {
+     "internalE": 0,
+     "ledgerCost": 0.000006935547625134371,
+     "backgroundSupply": 0.000003578714525347761
+    },
+    "sameAsSums": true,
+    "perBodyRel": 1.2213e-16,
+    "weight": 1
+   },
+   {
+    "label": "tauHold",
+    "holdInterval": {
+     "declared": true,
+     "timing": "tauHold",
+     "tauHold": 0.04,
+     "unit": "本の時間単位",
+     "basis": {
+      "h0": null,
+      "h0Declared": false,
+      "ratio": null
+     },
+     "scaled": [
+      "heat",
+      "speed",
+      "restore",
+      "field",
+      "background"
+     ]
+    },
+    "ledgerVersion": "w310b-holdledger-1",
+    "heatTiming": {
+     "tauHold": 0.04
+    },
+    "columns": {
+     "internalE": 0,
+     "ledgerCost": 0.0000027742190500537492,
+     "backgroundSupply": 0.0000014314858101391046
+    },
+    "sameAsSums": true,
+    "perBodyRel": 1.5266e-16,
+    "weight": 0.4
+   },
+   {
+    "label": "tauHoldStepDt",
+    "holdInterval": {
+     "declared": true,
+     "timing": "tauHold",
+     "tauHold": 0.016,
+     "unit": "本の時間単位",
+     "basis": {
+      "h0": 0.016,
+      "h0Declared": true,
+      "ratio": 1
+     },
+     "scaled": [
+      "heat",
+      "speed",
+      "restore",
+      "field",
+      "background"
+     ]
+    },
+    "ledgerVersion": "w310b-holdledger-1",
+    "heatTiming": {
+     "tauHold": 0.016
+    },
+    "columns": {
+     "internalE": 0,
+     "ledgerCost": 0.000006935547625134371,
+     "backgroundSupply": 0.000003578714525347761
+    },
+    "sameAsSums": true,
+    "perBodyRel": 1.2213e-16,
+    "weight": 1
+   },
+   {
+    "label": "tauHoldStepDt2",
+    "holdInterval": {
+     "declared": true,
+     "timing": "tauHold",
+     "tauHold": 0.016,
+     "unit": "本の時間単位",
+     "basis": {
+      "h0": 0.008,
+      "h0Declared": true,
+      "ratio": 2
+     },
+     "scaled": [
+      "heat",
+      "speed",
+      "restore",
+      "field",
+      "background"
+     ]
+    },
+    "ledgerVersion": "w310b-holdledger-1",
+    "heatTiming": {
+     "tauHold": 0.016
+    },
+    "columns": {
+     "internalE": 0,
+     "ledgerCost": 0.000006935547625134371,
+     "backgroundSupply": 0.000003578714525347761
+    },
+    "sameAsSums": true,
+    "perBodyRel": 1.2213e-16,
+    "weight": 1
+   }
+  ],
+  "tide": {
+   "internalE": 1.9654e-20,
+   "ledgerCost": 1.9891e-20,
+   "backgroundSupply": 0,
+   "perBody": {
+    "internalE": [
+     0,
+     1.9654e-20
+    ],
+    "ledgerCost": [
+     1.9891e-20,
+     0
+    ]
+   },
+   "sink": [
+    "ledger",
+    "internal"
+   ],
+   "sameAsSums": true,
+   "holdInterval": {
+    "declared": false,
+    "timing": "step",
+    "label": "間隔が未宣言"
+   },
+   "stepDt": 5.392824
+  },
+  "version": "w310b-holdledger-1",
+  "label": "間隔が未宣言"
+ },
+ "gates": {
+  "pure": true,
+  "builtR": true,
+  "injectionNeutral": true,
+  "pairSumBits": true,
+  "firstPlusSecond": true,
+  "mirrorReciprocal": true,
+  "builtT": true,
+  "ledgerLocal": true,
+  "tableU": true,
+  "holdInterval": true,
+  "columns": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.001
+  },
+  "R": {
+   "wallSec": 0.239
+  },
+  "T": {
+   "wallSec": 0.103
+  },
+  "F": {
+   "wallSec": 0.196
+  },
+  "U": {
+   "wallSec": 0.562
+  },
+  "H": {
+   "wallSec": 0.053
+  }
+ },
+ "elapsedS": 3.175,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第310便b",
+  "target": "beta/index.html",
+  "targetSha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
+  "generatedAt": "2026-10-20T01:37:06.628Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7155289,
+    "sha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
+    "mtime": "2026-10-20T01:28:17.358Z"
+   },
+   {
+    "file": "tests/out/recheck-w309c.json",
+    "bytes": 96060,
+    "sha256": "dd599deb6c4a7a6da91d6de1b2aa38e7883a77ec095661bcaa4555bafac0454f",
+    "mtime": "2026-10-20T01:19:08.258Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w310b-pairheat.mjs",
+    "bytes": 38255,
+    "sha256": "3ad16ba0c79c2a1bb0543b9084c3fef0c859c83e336c83d4c007460e729d4ee2",
+    "mtime": "2026-10-20T01:36:44.334Z"
+   },
+   {
+    "file": "tests/lib-w310b-pairheat.mjs",
+    "bytes": 9717,
+    "sha256": "adc4998f51b994b8413d05e85a55c3af117eda2868bb349a77b90a2a44682c37",
+    "mtime": "2026-10-20T01:30:33.140Z"
+   },
+   {
+    "file": "tests/exp-w309c-recheck.mjs",
+    "bytes": 39849,
+    "sha256": "2848dacca454de8aa9922d1fdd51051a040286cef955ec0b26fd07c57f91afb9",
+    "mtime": "2026-10-20T01:19:07.866Z"
+   },
+   {
+    "file": "tests/exp-w307c-spindecomp.mjs",
+    "bytes": 37764,
+    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
+    "mtime": "2026-10-20T01:19:07.862Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-20T01:19:07.902Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T01:19:07.898Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T01:19:07.910Z"
+   }
+  ],
+  "codeSha256": "4cdada7130651aa0662e8c7b70721e4adff9301241b390e2af981a75c71c7a87",
+  "harnessVersion": "w310b-pairheat-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "規則を決めた",
+   "帳簿が完全に閉じた",
+   "完全に一致",
+   "内部の温度が上がった",
+   "τ_hold を導いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonOnly3d",
+    "earthMoonSunInertial3d",
+    "galaxy",
+    "galaxyGeo2",
+    "galaxyStd",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDrag3HoldF",
+    "HP.sim",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_MAINT_SC",
+    "REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED",
+    "REL_DRAG_AXIS_HOLD_LEDGER_VERSION",
+    "REL_DRAG_AXIS_HOLD_MAINT_VERSION",
+    "REL_DRAG_INIT_OBS_VERSION",
+    "REL_DRAG_INVSQ_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "inertialDrag3SpinState",
+    "inertialDragInitObsRedo",
+    "inertialDragInitObsState",
+    "inertialDragInverseMap",
+    "inertialDragIsqState",
+    "retiredOf",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1480,
+   "segments": 1330,
+   "closureShare": 0.342
+  },
+  "scopeSha256": "c9b818f12f6f17908ebf1d98ad0df0c0f04426cb8d804ef6901f1fd8e90b920d",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/recheck-w309c.json",
+    "stableSha256": "3a96b27c724cad5706fde70ccdc84bce1bb32b697d2f938ec060d11d50b5459c",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
