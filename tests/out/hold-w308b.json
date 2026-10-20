@@ -3,7 +3,7 @@
  "libVersion": "w308b-hold-lib-1",
  "generator": "tests/exp-w308b-hold.mjs",
  "target": "beta/index.html",
- "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
+ "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
  "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
  "holdVersion": "w308b-axishold-1",
  "quick": false,
@@ -3934,40 +3934,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "A": {
-   "wallSec": 0.004
+   "wallSec": 0.006
   },
   "E": {
-   "wallSec": 0.016
-  },
-  "L": {
-   "wallSec": 0.276
-  },
-  "K": {
    "wallSec": 0.021
   },
+  "L": {
+   "wallSec": 0.331
+  },
+  "K": {
+   "wallSec": 0.022
+  },
   "D": {
-   "wallSec": 0.392
+   "wallSec": 0.377
   },
   "V": {
-   "wallSec": 11.285
+   "wallSec": 12.217
   }
  },
- "elapsedS": 13.912,
+ "elapsedS": 15.142,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便b",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T09:08:04.948Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T09:01:36.451Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    }
   ],
   "code": [
@@ -4049,11 +4049,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1477,
-   "segments": 1327,
-   "closureShare": 0.3411
+   "names": 1487,
+   "segments": 1336,
+   "closureShare": 0.3426
   },
-  "scopeSha256": "602065d6f1fb0d235ebab6fae4538fb892cbf8cfe00e402a8bfff96402b07f81",
+  "scopeSha256": "67b6c581db2786472c8085f64af2e3659deb118133e9f57deb92719c934cd3a7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
