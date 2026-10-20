@@ -181,6 +181,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisHold308 docs.axisHold308 lint.s
 #   口座・dt の走査・状態の契約・docs.maintain309 —— 正本と文書)。axisHold の受理器が動く behavior.axisHold308 と状態の契約の lint.stateContract302 は第308便b の塊にある
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maintain309 docs.maintain309"
 # ==== 第309便b の塊(ここまで)====
+# ==== 第310便b の塊(ここから)====
+# 第310便b(決断事項 AN370・AN373・AN365・AN371・R223): 枝 b の新設 2 本(behavior.holdLedger310 —— 維持の型の帳簿の欄〔間隔が未宣言・{tauHold} の基準・
+#   実際の内部熱/帳簿の維持のコスト/背景からの供給〕と状態を動かさないこと・docs.pairHeat310 —— 対の熱の相反の測定の正本と文書)。維持の型の器は第309便b の塊にある
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.holdLedger310 docs.pairHeat310"
+# ==== 第310便b の塊(ここまで)====
 # ==== 第307便c の塊(ここから)====
 # 第307便c(原仮定者の裁定(第100報)・AN345 ④・R211): 枝 c の新設 1 本(docs.spinDecomp307 —— 金星・木星の観測の自転の分解の器の正本と文書)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.spinDecomp307"
