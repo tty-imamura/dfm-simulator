@@ -80715,7 +80715,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   const iq309Lib = path.join(ROOT, 'tests', 'lib-w309a-invsq.mjs');
   const iq309Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  if (!(TARGET.startsWith('beta/') && iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w309a-invsq-1"') >= 0 && fs.existsSync(iq309Lib))) {
+  // 第310便a(AN378・R222): 版 "w310a-invsq-wbg0-1"(Wbg2 は 0 だけ)の html でも走らせる(内部状態で Wbg2 = 0.05 を組む ③ は**旧版の参照の比較** —— 公開の受理を通らない)
+  if (!(TARGET.startsWith('beta/') && (iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w309a-invsq-1"') >= 0 || iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1"') >= 0) && fs.existsSync(iq309Lib))) {
     console.log('SKIP behavior.invSq309(第309便a の新しい引きずり則の前の世代 — ' + TARGET + ')');
   } else {
     const bad = [], cases = [];
@@ -80813,7 +80814,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   const iq309Out = path.join(ROOT, 'tests', 'out', 'invsq-w309a.json'), iq309Harn = path.join(ROOT, 'tests', 'exp-w309a-invsq.mjs'), iq309Lib = path.join(ROOT, 'tests', 'lib-w309a-invsq.mjs');
   const iq309Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  if (!(TARGET.startsWith('beta/') && iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w309a-invsq-1"') >= 0 && fs.existsSync(iq309Out) && fs.existsSync(iq309Harn) && fs.existsSync(iq309Lib))) {
+  if (!(TARGET.startsWith('beta/') && (iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w309a-invsq-1"') >= 0 || iq309Html.indexOf('REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1"') >= 0) && fs.existsSync(iq309Out) && fs.existsSync(iq309Harn) && fs.existsSync(iq309Lib))) {
     console.log('SKIP docs.invSq309(第309便a の新しい引きずり則の前の世代 — ' + TARGET + ')');
   } else {
     const bad = [], cases = [];
@@ -80833,7 +80834,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (J.quick === true) bad.push('正本が試走(QUICK)');
       if (J.version !== X.HARNESS_VERSION || J.libVersion !== IL.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
       if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
-      if (J.invSqVersion !== 'w309a-invsq-1' || J.capVersion !== 'w309a-cap6500km-1') bad.push('正本の版 ' + J.invSqVersion + '/' + J.capVersion);
+      // 第310便a: 正本は鎖で新版(Wbg2 は 0 だけ)の html から作り直される —— 正本の中身で世代を見分けて両方を受ける(器の受理の表は版に合わせて期待を変える)
+      if (['w309a-invsq-1', 'w310a-invsq-wbg0-1'].indexOf(J.invSqVersion) < 0 || J.capVersion !== 'w309a-cap6500km-1') bad.push('正本の版 ' + J.invSqVersion + '/' + J.capVersion);
       cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
       if (!sec) bad.push('PHYSICS〔第309便a〕が無い');
       else {

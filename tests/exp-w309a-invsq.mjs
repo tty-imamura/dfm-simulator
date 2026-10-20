@@ -321,7 +321,8 @@ function partG(H) {
   tryV('次数 1', (q) => { q.physics.relativeDrag.invSq.order = 1; }, false);
   tryV('次数 25', (q) => { q.physics.relativeDrag.invSq.order = 25; }, false);
   tryV('Wbg2 負', (q) => { q.physics.relativeDrag.invSq.Wbg2 = -1; }, false);
-  tryV('Wbg2 正', (q) => { q.physics.relativeDrag.invSq.Wbg2 = 3; }, true);
+  // 第310便a(AN378): 版 w310a-invsq-wbg0-1 から Wbg2 は 0 だけ —— 正は版 w309a-invsq-1 の html でだけ受理(正本の中身の invSqVersion で世代が分かる)
+  tryV('Wbg2 正', (q) => { q.physics.relativeDrag.invSq.Wbg2 = 3; }, E(H, 'REL_DRAG_INVSQ_VERSION') === 'w309a-invsq-1');
   tryV('sphere の核', (q) => { q.physics.relativeDrag.spinDrag.axialModel = 'sphere'; }, false);
   tryV('速さの型', (q) => { q.physics.relativeDrag.spinDrag.axialNorm = 'speed'; }, false);
   tryV('rigid の步', (q) => { q.physics.relativeDrag.spinDrag.rotStep = 'rigid'; }, false);
