@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-  "generatedAt": "2026-10-19T10:11:18.849Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T10:05:00.935Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7152406,
-    "sha256": "a89ee2ec4898fcebe74ea6fe5f9c7aa86db856e6c8b3af1a72293e076d9d53b1",
-    "mtime": "2026-10-19T04:03:56.319Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -32,9 +32,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109266,
-    "sha256": "e5e6dd5c4ecdd193fda6740336f2579a8d981fe58c2f7634784a0eefc047025d",
-    "mtime": "2026-10-19T09:57:43.224Z"
+    "bytes": 109264,
+    "sha256": "71f571f5b4856affc83d02429b124ed4f70ef03ca6415a04abc862cd86f55378",
+    "mtime": "2026-10-20T09:50:55.044Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -214,11 +214,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1495,
-   "segments": 1345,
-   "closureShare": 0.3443
+   "names": 1505,
+   "segments": 1354,
+   "closureShare": 0.3459
   },
-  "scopeSha256": "b9641f675f000596ac5684b700c59824c78a2a48725fe3b495b2e9ff39e39699",
+  "scopeSha256": "161d6119fa9af253ba0d75940a307c38891915f92d2cf34f7fc91e1b4be29e5f",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -229,7 +229,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "68881660cb3ce13e03131f60c5e331a5cc4bd86eac157797c54108ea680e838c",
+    "stableSha256": "4067cb67bb028111d0bc0914cd6efb49efc5c2cf506eba2af8ed9d9f59c6fb9d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3387,19 +3387,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.027
+   "wallSec": 0.038
   },
   "M": {
-   "wallSec": 95.554
+   "wallSec": 94.028
   },
   "T": {
-   "wallSec": 582.182
+   "wallSec": 614.339
   },
   "R": {
-   "wallSec": 0.045
+   "wallSec": 0.067
   },
   "G": {
-   "wallSec": 46.209
+   "wallSec": 46.361
   }
  },
  "stats": {
@@ -3408,5 +3408,5 @@
   "stepsTotal": 117870654,
   "freshRuns": 7
  },
- "elapsedS": 813.299
+ "elapsedS": 843.499
 }
