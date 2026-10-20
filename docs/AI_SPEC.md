@@ -3961,6 +3961,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w309b-maintain.mjs`(版 w309b-maintain-1・純関数 `tests/lib-w309b-maintain.mjs`・`W309B_OUT`・`W309B_QUICK`)→ `tests/out/maintain-w309b.json`(段 maintain-309b)。
 - **QA**: `behavior.maintain309`・`docs.maintain309`(root は SKIP・世代切替は html の `REL_DRAG_AXIS_HOLD_MAINT_VERSION`)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。軸のコストを「トルクの実際の仕事」と書かない(大きさを保つ回転の実際の仕事は 0)。1 步の型の熱は刻みに反比例する(診断)—— 熱の量を観測へフィットしない。τ_hold を導いた量と書かない(宣言の仮定)。背景の口座を遠方宇宙の物理の経路と書かない。
+- **第310便c の追記(決断事項 AN365・原仮定者の裁定(第108報))**: 在位へ入れるときの熱の標準は `heatTiming:{tauHold}`・τ_hold = その本の基準の刻み h₀(公転周期 / stepsPerOrbit)を**初回の規約**として置く(物理からの導出ではない)。宣言の後は**固定の数**(stepsPerOrbit や刻みを変えても再計算しない・単位と基準を記録)。{tauHold} は熱だけでなく背景・合成場の E・L の帳簿にも dt/τ_hold を掛ける(`inertialDrag3MaintStep` の重みが全部の累計に掛かる —— 熱の表示の単位だけの変更ではない)。**エンジンの既定 "step" は変えない**(1 步の型は診断)。基準の刻みが宣言されていない本は "step" のまま帳簿に「間隔が未宣言」と書く(黙って別の秒数を入れない —— 欄は第310便b)。反作用の行き先は `reaction:"background"` のまま(AN379 —— 分母の正規化の重みと E・L の口座は役割が別)。PHYSICS〔第309便b〕の末尾の注記・〔第310便c〕。
 ## 113. 第309便c —— 観測の自転と移動の初期値の分解 `physics.relativeDrag.spinDrag.initSpin`・`physics.relativeDrag.initMotion`(原仮定者の裁定(第103報)AN355・(第105報)AN364・決断事項 AN355・AN364・AN357・統括の検証項目 R220・**新しい宣言鍵 —— 省略時は今の動作とビット同一・在位の本は 1 本も宣言しない**・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
 - **鍵**: `spinDrag.initSpin:"observed" | {mode:"observed", split?:"vector"|"parallel", tol?, maxIter?, firstStep?:"drag"|"zero"}`(axial:"on" と Wbg > 0 の宣言の本だけ —— 旧法則の凍結比較〔gain〕・引きずり無しでは拒否)・`relativeDrag.initMotion:"observed" | {mode:"observed", tol?, maxIter?, firstStep?}`(合成則 solve・solveFrom:"velocity"・Wbg > 0・三次元・`stateCarry:"double"` の本だけ —— 履歴則・`rotStep:"rigid"`・二次元は拒否)。既定 split "vector"・tol 1e-12(範囲 1e-15〜1e-3)・maxIter 60(1〜1000)・firstStep "drag"。正準形は既定の組なら `"observed"`・省略した本には鍵が無い。版 `REL_DRAG_INIT_OBS_VERSION`。
@@ -3971,6 +3972,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **器と正本**: `tests/exp-w309c-recheck.mjs`(版 w309c-recheck-1・lib `tests/lib-w309c-recheck.mjs` —— 修正版の引きずりの参照の純関数〔m/r² の球の体積平均・トータルの分母・比の平均・M₂・鏡映 × sinθ × 近遠の差分・R_d = min(R, 6.5×10⁶ m)〕・`W309C_OUT`・`W309C_QUICK`)→ `tests/out/recheck-w309c.json`(段 recheck-309c)。初期値の門(G = 0 の写し)・在位の惑星 7 本の写し・AN357 の再確認の表(ω_D(0)・ω_I(0)・u(0)・熱の率〔1 步の型と τ_hold の型〕・背景の口座)。
 - **QA**: `behavior.initObs309`・`docs.recheck309`(root は SKIP・世代切替は html の `REL_DRAG_INIT_OBS_VERSION`)。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときは initSpin・initMotion を宣言しない(在位の本への宣言は近点率・周期のフィットへの影響を数えてから —— 未決)。分解の結果を「観測の自転に合わせた」「熱を説明した」と書かない。器の修正版の引きずりは参照の条件(W_bg′ = 0・ε = 0)の診断で、W_bg′ の同定ではない。
+- **第310便c の追記(決断事項 AN372・AN367・AN369・AN381・原仮定者の裁定(第108報))**: t = 0 の欄の手編集は**慣性の値として読む**(分解し直さない —— 今の実装のまま)。分解し直すのは本の読込・⏮・保存の読込・A/B だけ。「保存の読込」のうち**本の初期状態の読込(t = 0)は分解し、チェックポイントの復帰(t > 0)は分解しない**(`inertialDragInitObsRedo` は t ≠ 0 で何もしない)。自転の分解はベクトルが既定・parallel は比較(観測軸・慣性軸・表示の合成軸を区別)。分解を宣言した本は最初の步から u(0)・宣言の無い本は変えない・チェックポイントでは再分解しない。逆写像の「移動の差分」は今の solve の約束 V_j − v_i(AN381 —— 裁定待ち。替えるときは逆写像と一緒に)。PHYSICS〔第309便c〕の末尾の注記・〔第310便c〕。
 
 ## 114. 第309便d —— 退役の 🌥️ の fitRecord の標的の役割の記録・SAMPLE_STATUS の根拠の退役の本の読み(厳格の照合)・統合の直後の部分 QA に PHYSICS の全文を読む QA の一式(決断事項 AN360・AN361・統括の検証項目 R221・**宣言の記録と QA・post-merge の一覧だけ** —— 宣言の鍵・正準形・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
 
@@ -3979,3 +3981,15 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **post-merge の ③′**: `tools/post-merge-qa.sh` の `PHYS_SCAN_IDS`(PHYSICS の節の見出しから「## 7.」までか全文を、否定の照合〔書かない語・禁句・古い単位の数・旧称〕で読む QA 9 本)を毎便の ③′ に足す(`POST_MERGE_WAVE_IDS` で一覧を差し替えても足す —— 外すのは `POST_MERGE_PHYS_SCAN_IDS=""`)。
 - **器と QA**: `tests/lib-w309d-pre.mjs`(pin308d・pinDecl308d・gate308d・isGen309d・record309d)・凍結の写し `tests/data-w309d-decl308.json`(段 fit-297b の派生本の照合が使う)。QA `preset.fitRole309`・`docs.w309d`(root は SKIP)・世代切替 `preset.fitRole307` ④・`preset.fitCond297`。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。役割は省略してよい。PHYSICS に節を足す変更では、部分 QA に `PHYS_SCAN_IDS` を入れて、新しい節の語・数・単位が古い QA の否定の照合に当たらないかを確かめる。
+
+## 117. 第310便c —— 原仮定者の裁定(第107報)の注記と運用の直し(perf の凍結の参照を 35780a1 へ・再生成の鎖の kf0ledger-old → kf0ledger の順・QA の heap・behavior.merger-causal の削除)(原仮定者の裁定(第107報・第108報・第109報)・決断事項 AN366・AN376・AN377・AN379・AN381・AN380・AN365・AN372・統括の検証項目 R224・**文書・QA・運用の器だけ** —— html・宣言の鍵・正準形・エンジンの式・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **第107報の読み**: 「分母に背景宇宙を入れず、自分が分母に入る」「トータルの引きずり Σ(u_n w_n)/Σ(w_n)」は、第309便a の新則 `relativeDrag.invSq` で W_bg′ = 0 とした並進の式そのもの(自分の移動の差分 0・自分の重み = 自己の体積平均の場 m_d,i K2)。新しい式・鍵は足していない。比の平均 ⟨N/W⟩ を保つ(AN376 —— 中心の値・平均の比へ黙って切り替えない)。「移動の差分」は今の solve の約束 V_j − v_i(AN381 —— 裁定待ち)。第309便の参照条件の数は dragCore の既定での診断の数で、フィットの値ではない(AN366)。
+- **旧則の世代**(AN377): 在位の本の W_bg([M/L³]・自己なし)とその上のフィットは旧の法則・旧フィットの世代として残す(在位の本の数・フィット・宣言は変えない —— 新則への移行で置き換える)。旧の世代の結果を第107報の法則の結果として説明しない。反作用の口座は `reaction:"background"` のまま(AN379)。
+- **第109報 AN380**: 太陽の R_d は cap6500km 固定・太陽の m_d を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算 —— 式と数は第310便a(エンジンの外殻の源)と第310便d(m_d の掃引)。
+- **perf の凍結の参照**: `tests/perf.mjs` の `ABJIT_FROZEN_REF` = `{sha:'35780a1', tag:null, tagStatus:'未発行(…)', fullSha:'35780a1e15925dec2540f45f690ecfff5e922c12', rootSha256:'df8478265464fe81…', previous:'99286dc', previousTag:'v1.44.0', previousChain:['09899d2','99286dc'], how:'tests/ci-frozen-baseline.sh 35780a1 …'}`。`tests/ci-frozen-baseline.sh` の例と `.github/workflows/nightly.yml` の既定 frozenSha も 35780a1。タグ v1.45.0 は未発行(原仮定者が作る —— 付いたら tag だけを埋める)。しきい値・判定式は不変。
+- **再生成の表**(版 `w310c-regentable-10`): 段 kf0ledger の after に 'kf0ledger-old'・2 段の `touches` に docs/KF0_LEDGER_v1.45.md。`tableDepsAudit` の `touchUnordered`(`touchWritersAudit` —— outs・merges・touches のどれかで同じファイルを書く現行の段が after の閉包で全順序か)・自己試験 (s)(`touchOrderProbe`)。**outs の外に書く段は `touches` に宣言し、同じファイルを書く段どうしに after の順を置く**(書込排他の鍵 outs + merges は変えない)。
+- **QA の heap**: 対象の html を Node の vm で読む試験(`loadHtmlHeadless`)は、ブロックの中身を `await (async () => { … })();` で包む(本文はそのまま —— 最上位の待ちのある module ではブロックを抜けた局所の値が残り、写しの vm が最後まで手放されない)。`lint.qaHeapRelease310` が包みの無い headless のブロックを数える。
+- **behavior.merger-causal の削除**: 第251便b の約束(root 昇格時に本節ごと削除)—— root(35780a1)も beta も 🌠 を持たない。W5c ユニット mergerCausal も削除。
+- **QA**: `docs.w310c`・`lint.qaHeapRelease310`(root は SKIP)・`lint.regenChain`(表の版の世代切替と (s))。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときに第107報を理由に宣言を変えない(新則の宣言は在位の移行の便で)。「第107報の法則で在位の結果を作り直した」「m_d を決めた」と書かない。

@@ -6,6 +6,8 @@
 
 ## v1.46-b310(開発中 — beta)
 
+- **第310便c(2026-10-20・原仮定者の裁定(第107報・第108報・第109報)・統括の検証項目 R224)**: **文書と運用の直し**(html は基点とバイト同一・宣言の鍵・エンジンの式・`S._core` は不変)。PHYSICS〔第310便c〕に第107報(分母に背景を入れず自分が分母に入る・トータルの引きずり Σ(u_n w_n)/Σ(w_n))が第309便a の新則で W_bg′ = 0 とした式そのものであること・比の平均(AN376 —— 金星 ← 太陽で平均の比 −3.04e-2 は差の記録)・旧則の W_bg は旧の法則・旧フィットの世代(AN377 —— 在位の本の数とフィットは変えない)・反作用の口座は background のまま(AN379)・「移動の差分」の今の読み V_j − v_i(AN381 —— 裁定待ち)・第309便の参照条件の数は診断の数(AN366)・第109報 AN380 の記録(式と数は第310便a・第310便d)を書き、〔第301便a〕〔第309便a〕の末尾に「→〔第310便c〕」、〔第309便b〕〔第309便c〕の末尾に AN365(τ_hold = h₀ は初回の規約・宣言の後は固定・{tauHold} は E・L の帳簿にも dt/τ_hold・既定 "step" は不変・間隔が未宣言)と AN372(t = 0 の手編集は慣性の値・本の初期状態の読込は分解・チェックポイントの復帰は分解しない)の注記。perf の凍結の参照を 99286dc → **35780a1**(v1.45 RC の昇格の squash —— タグ v1.45.0 は未発行)へ(tests/perf.mjs・tests/ci-frozen-baseline.sh・nightly.yml)。再生成の表 w310c-regentable-10: kf0ledger の after に kf0ledger-old・2 段の touches に KF0_LEDGER の md・`tableDepsAudit` に touches を含めた書き手の全順序・自己試験 (s)。QA の heap: headless の写しを作る最上位のブロック 59 本の本文を `await (async () => { … })();` で包んだ(本文は不変 —— `tools/qa-heap-wrap.mjs`)。behavior.merger-causal と W5c ユニット mergerCausal を削除(root 昇格時に本節ごと削除の約束)。QA 新設 `docs.w310c`・`lint.qaHeapRelease310`(root は SKIP)・`lint.regenChain` は表の版を世代で読む。AI_SPEC §117・§112/§113 に追記。
+
 ## v1.45.0(RC・2026-10-20)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。

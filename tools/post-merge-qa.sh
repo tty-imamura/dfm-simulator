@@ -229,6 +229,13 @@ WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 PHYS_SCAN_IDS="behavior.calauditStages docs.heavyCal docs.mercuryUnits docs.terminologyOpticalCamouflage preset.retired290b docs.ref3d299 docs.refit298 docs.synodic299 preset.spaceMeshRetired300"
 WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 # ==== 第309便d の塊(ここまで)====
+# ==== 第310便c の塊(ここから)====
+# 第310便c(原仮定者の裁定(第107報・第108報・第109報)・R224 —— 文書と運用の直し): 枝 c の新設 2 本(docs.w310c —— 第107報の注記・AN365/AN372 の文言・凍結の参照の 3 か所・
+#   再生成の順・lint.qaHeapRelease310 —— headless の写しを作るブロックの包み)と、節の末尾に注記を足した〔第301便a〕〔第309便a〕〔第309便b〕〔第309便c〕を読む
+#   behavior.dragNorm301・docs.invSq309・docs.maintain309・docs.recheck309、表の版と自己試験 (s) の lint.regenChain、凍結の参照の lint.frozenBaseline・lint.perfAbJit、
+#   ブロックの包みで最上位の文の形を見る lint.qaOrder(POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS docs.w310c lint.qaHeapRelease310 behavior.dragNorm301 docs.invSq309 docs.maintain309 docs.recheck309 lint.regenChain lint.frozenBaseline lint.perfAbJit lint.qaOrder"
+# ==== 第310便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in
