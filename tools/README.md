@@ -58,6 +58,20 @@ node tools/regen-html-aggregate.mjs [--html …] [--stage $REGEN_HTML_STAGE] [--
 第288便f から、シェルは冒頭で `REGEN_HTML_STAGE`(既定 `$REGEN_LOG/html`)を置き、html を書く段は断片をそこへ置く。集約段 `htmlagg` が
 断片を順に当てて html を 1 回だけ書く(合わなければ書かずに rc 1)。
 
+第311便c(統括の検証項目 R228)から:
+
+```
+node tools/regen-chain.mjs --calibrate <timeline.txt> [--log $REGEN_LOG] [--source <出所の名>] [--tol 0.1] [--apply]
+node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [--lanes 4] [--workers 段=n,…]
+```
+
+- **予約つきの ready queue**(規則の版 `w311c-easy-backfill-1` —— `readyPick`): レーン不足で入れない最初の段に予約(走行中の段の
+  見積りの終わりから入れる最早の時刻 t_res)を置き、その後の段は「t_res までに終わる見込み」か「t_res に並んでもレーンが足りる」ときだけ入れる。
+  模擬(`simulateReadyQueue`)とシェルが同じ規則。シェルは `REGEN_RESERVE=0` で旧の規則・timeline に `# reserve <段> <t_res> <extra>` の注釈。
+- **見積りの更新**: `--calibrate` は timeline の start/end から段の所要を出し、表の `sec` との差の一覧を出す。`--apply` で
+  `tests/data-w311c-regensec.json` に書く(表の本文は書き換えない —— `sec` は済み印の契約と計画の判定に入らない。timing294 だけがこのファイルを入力に持つ)。
+- **レーンの見直し**: obscompare・samplestatus は鎖の中では一時出力だけを書く(html を置き換えない)ので workers 1。htmlagg は all のまま(`--audit` の lanes311)。
+
 ## p2fig-compare.mjs — 論文2 の図データの照合(第287便f)
 
 ```

@@ -1,0 +1,1009 @@
+{
+ "version": "w311c-h4roles-1",
+ "since": "第311便c(統括の検証項目 R228・決断事項 AN393)",
+ "what": "再生成表(tests/lib-w281a-regentable.mjs)の段のうち、刻み h/4(dt/4・h4・quarter —— 器ごとの名前を grep した上で器の本文で確かめた)を測る段の振り分けと下流の読み手。役割 a = 調べもの・フィット(h/4 は転記の型 —— tests/lib-w311c-h4carry.mjs)/ b = 3σ の判定の行(calaudit の例外の登録簿 H4_EXCEPTIONS・AD4 —— h/4 を残す)/ c = 🟪 の校正の段(charon-h4・charoneps-h4 —— b のまま)。",
+ "readersRule": "steps = 表の依存(tableDeps)でこの段の下流の現行の段 / qa = tests/qa.mjs でこの段の正本のファイル名を含む行の試験(保存 QA にある id)/ physics = docs/PHYSICS.md でファイル名に触れる節。読み手の一覧は生成時点の記録(試験を足せば増える)",
+ "order": "役割 a は第310便の鎖 2 の実測の所要(tests/data-w311c-regensec.json —— 無い段は表の sec)の大きい順",
+ "carryStates": {
+  "applied": "転記の型を当てた(器が h と h/2 を先に測り、前の正本とビット同一なら h/4 を転記)",
+  "未適用": "まだ当てていない(次の便で当てる候補)"
+ },
+ "steps": [
+  {
+   "key": "shell-304b",
+   "harness": "tests/exp-w304b-shell.mjs",
+   "out": "tests/out/shell-w304b.json",
+   "sec": 4800,
+   "secSource": "w304b-branch",
+   "role": "a",
+   "measures": "水星の根(M1〜M4)の最後の h/h2/h4・移送の T_FINE の 11 構成 × 6 本の h/4・本ごとの対照(引きずり OFF)の h/4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "gfamily-305b"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.shell304b"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "inertialr2-303b",
+   "harness": "tests/exp-w303b-inertialr2.mjs",
+   "out": "tests/out/inertialr2-w303b.json",
+   "sec": 1968,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "根の行と移送の行の h/h2/h4(DIVS)・対照(引きずり OFF)の h/4・Z6 人工二体の h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "shell-304b",
+     "gfamily-305b",
+     "periodn-306b",
+     "pairnorm-305a",
+     "an336-306a"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.inertialR2_303",
+     "docs.inertialR2_303",
+     "lint.canon304"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "chainburst-301d",
+   "harness": "tests/exp-w301d-chainburst.mjs",
+   "out": "tests/out/chainburst-w301d.json",
+   "sec": 1625,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "族ごとの仕事の刻み: 本体 h/4・h/8(🔗)・h/4・h/8・h/16(🧨)、rk4 の h/4・semic の h/4",
+   "carry": "applied",
+   "unit": "仕事(results の鍵)",
+   "readers": {
+    "steps": [
+     "semic-302d"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.chainBurst301",
+     "preset.chainBurstShell301",
+     "lint.canon304"
+    ],
+    "physics": [
+     "〔第301便d〕",
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "periodn-306b",
+   "harness": "tests/exp-w306b-periodn.mjs",
+   "out": "tests/out/periodn-w306b.json",
+   "sec": 1336,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "平均経度の周期の表 7 本 × 構成 × h/h2/h4・エンジンの対照(ケプラー)の h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.periodN306"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "gfamily-305b",
+   "harness": "tests/exp-w305b-gfamily.mjs",
+   "out": "tests/out/gfamily-w305b.json",
+   "sec": 1200,
+   "secSource": "w305b-branch",
+   "role": "a",
+   "measures": "水星の根の最後の h/h2/h4・n の族の移送の h/4(根を h/2 で取り直す確かめは門 h/4)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "periodn-306b",
+     "an336-306a"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.gfamily305",
+     "docs.an336_306"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "semic-302d",
+   "harness": "tests/exp-w302d-semic.mjs",
+   "out": "tests/out/semic-w302d.json",
+   "sec": 1087,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "🔗 の t = 48 の帳簿の h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "wbgest-302c"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "ui.liveMeasure297",
+     "behavior.semic302",
+     "docs.semic302",
+     "lint.canon303"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "baseline-304c",
+   "harness": "tests/exp-w304c-baseline.mjs",
+   "out": "tests/out/baseline-w304c.json",
+   "sec": 1027,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "🌦️ の対照(引きずり OFF)の 354 公転の h/4(off-h4)と窓の分布の h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "pairnorm-305a",
+     "emresolve-306c"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "preset.emBaseline304",
+     "docs.emBaseline304"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charonk",
+   "harness": "tests/exp-w273b-charonk.mjs",
+   "out": "tests/out/charonk-w273b.json",
+   "sec": 979,
+   "secSource": "w281a-chain",
+   "role": "a",
+   "measures": "候補 k* の 3 段(h/h2/h4・物理時間は同じ)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonKScan"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "nslock",
+   "harness": "tests/exp-w272c-nslock.mjs",
+   "out": "tests/out/nslock-w272c.json",
+   "sec": 930,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "診断コピーの 20 近点窓の 3 刻み(h/h2/h4)—— σ 倍は記録のみ",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "issues",
+     "nslockledger"
+    ],
+    "qa": [
+     "docs.issuesD68Explain",
+     "docs.nsLockBranch",
+     "docs.binlockAxisDef"
+    ],
+    "physics": [
+     "① 潮汐ロック枝(kFrame=0・f=1・λ_PN=1)—— NS 4 系 +",
+     "⑤ QA(新設 3 件)",
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "an336-306a",
+   "harness": "tests/exp-w306a-an336.mjs",
+   "out": "tests/out/an336-w306a.json",
+   "sec": 900,
+   "secSource": "w306a-branch",
+   "role": "a",
+   "measures": "n = 2/+1/0 の根の最後の h/h2/h4・7 本の移送 × h/h2/h4 × 窓 2 × 位相 2",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "mdsweep-310d"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "preset.planets3d299",
+     "docs.an336_306",
+     "preset.planets306"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "rotframe-306d",
+   "harness": "tests/exp-w306d-rotframe.mjs",
+   "out": "tests/out/rotframe-w306d.json",
+   "sec": 831,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "受け手ごとの R_i の選択肢の写しの h/h2/h4・源の並びの差の h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.rotFrame306"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charonInput",
+   "harness": "tests/exp-w280d-charonInput.mjs",
+   "out": "tests/out/charoninput-w280d.json",
+   "sec": 767,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "❄️ の要因の 1 要因ずつの 3 刻み(1.6/0.8/0.4 s)・入力を整えた二体の 3 刻み × 6 周",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "calcause292"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonInput",
+     "docs.charonSameColumn"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "wbgest-302c",
+   "harness": "tests/exp-w302c-wbgest.mjs",
+   "out": "tests/out/wbgest-w302c.json",
+   "sec": 644,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "帳簿の継ぎ目 R_E の h/h2/h4(人工二体の 1 公転)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "refit-303a"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.wbgEstimate302",
+     "preset.gLocPlanets302",
+     "lint.canon303"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "fit-297b",
+   "harness": "tests/exp-w297b-fit.mjs",
+   "out": "tests/out/fit-w297b.json",
+   "sec": 583,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "🌒 の窓 8/27/60/118 公転 × h/h2/h4・初期配置の見直しの fix-h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "preset.fitDerived296",
+     "preset.fitCond297",
+     "docs.fit297"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "refit-303a",
+   "harness": "tests/exp-w303a-refit.mjs",
+   "out": "tests/out/refit-w303a.json",
+   "sec": 443,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "🌦️ の再フィットの値を h/h2/h4 と 354 公転窓で測り直す(fh4)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "ui.wbgSlider302",
+     "preset.revertGLoc303",
+     "lint.canon304"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "moon3d-298c",
+   "harness": "tests/exp-w298c-moon3d.mjs",
+   "out": "tests/out/moon3d-w298c.json",
+   "sec": 425,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "🌦️ 三次元の fitRecord の 3 標的を h/h2/h4 と 354 公転窓で",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "emonly-300b",
+     "wbglaw-301g",
+     "refit-303a",
+     "inertialr2-303b",
+     "shell-304b",
+     "baseline-304c",
+     "j2-305c",
+     "emresolve-306c"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.drag3d298",
+     "docs.moon3d298",
+     "preset.earthReorg300",
+     "lint.canon304"
+    ],
+    "physics": [
+     "〔第299便f〕",
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charonfactors",
+   "harness": "tests/exp-w276b-charonfactors.mjs",
+   "out": "tests/out/charonfactors-w276b.json",
+   "sec": 412,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "カロンの要因の段 h/h2/h4(--stage)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonFactors"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "galaxydiag",
+   "harness": "tests/exp-w271d-galaxydiag.mjs",
+   "out": "tests/out/galaxydiag-w271d.json",
+   "sec": 406,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "h/4 の 1 段だけ(dt 0.004 —— h・h/2 が無い)",
+   "carry": "型が当たらない(h/4 の 1 段だけ)",
+   "readers": {
+    "steps": [
+     "kf0ledger-old",
+     "kf0ledger"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.quasiSteadyVariant",
+     "docs.clampSNSeparation",
+     "docs.nSeedSeries"
+    ],
+    "physics": [
+     "再走(自分の枝の html で JSON を作り直した)",
+     "① AG11 —— 正本 JSON の来歴を 1 つの形にする(統括の検証項目 "
+    ]
+   }
+  },
+  {
+   "key": "sparc",
+   "harness": "tests/exp-w269c-sparc.mjs",
+   "out": "tests/out/sparc-w269c.json",
+   "sec": 232,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "h/h2/h4 を同じ物理時刻で(N・softening・seed は別記録)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "galaxydiag"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.compareStates",
+     "behavior.sparc10",
+     "behavior.galaxyStateBranch",
+     "behavior.compareObsRequired",
+     "docs.quasiSteadyVariant"
+    ],
+    "physics": [
+     "3. 銀河(NGC 3198)—— 器 `tests/exp-w269c-spa",
+     "再走(統合後の入力から・保存 JSON の input stamp を現行 CS",
+     "R6: 比較状態の入口ガード(`tests/lib-w269c-compare.",
+     "再走(自分の枝の html で JSON を作り直した)",
+     "① AG11 —— 正本 JSON の来歴を 1 つの形にする(統括の検証項目 "
+    ]
+   }
+  },
+  {
+   "key": "charonaudit-305e",
+   "harness": "tests/exp-w305e-charonaudit.mjs",
+   "out": "tests/out/charonaudit-w305e.json",
+   "sec": 205,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "数値の帯 M1(h)−M1(h/2)・M1(h/2)−M1(h/4)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "charonfix-306e"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonAudit305",
+     "docs.obsTime305"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charonfix-306e",
+   "harness": "tests/exp-w306e-charonfix.mjs",
+   "out": "tests/out/charonfix-w306e.json",
+   "sec": 200,
+   "secSource": "w306e-branch",
+   "role": "a",
+   "measures": "本の宣言の 8 公転の M1 を h 0.16・h/2・h/4 で",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "preset.charonFix306",
+     "docs.charonFix306",
+     "preset.fitRole307",
+     "preset.coldReason307"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charonwin",
+   "harness": "tests/exp-w278b-charonwin.mjs",
+   "out": "tests/out/charonwin-w278b.json",
+   "sec": 102,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "カロンの窓の構成 × 段 h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "samplestatus"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonTwoColumns",
+     "preset.statusLedger-sync"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charondfm",
+   "harness": "tests/exp-w277b-charondfm.mjs",
+   "out": "tests/out/charondfm-w277b.json",
+   "sec": 97,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "カロンの DFM の構成 × 段 h/h2/h4(h→h2 と h2→h4 の外挿を 2 組)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.charonDfm",
+     "docs.charonTwoColumns"
+    ],
+    "physics": []
+   }
+  },
+  {
+   "key": "cluster",
+   "harness": "tests/exp-w269d-cluster.mjs",
+   "out": "tests/out/cluster-w269d.json",
+   "sec": 93,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "分散・束縛率・コア半径の 3 刻み(h/h2/h4)× seed × N",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.clusterCenterContract",
+     "behavior.clusterV1a",
+     "docs.clusterV1bDesign",
+     "behavior.clusterInjection",
+     "docs.paramAuditRestated"
+    ],
+    "physics": [
+     "5. 言わないこと",
+     "再走(統合後の入力から・保存 JSON の input stamp を現行 CS",
+     "AF11: 🫐 `parameterAudit` の言い換え(**器の出力側だ",
+     "再走(自分の枝の html で JSON を作り直した)",
+     "① AG11 —— 正本 JSON の来歴を 1 つの形にする(統括の検証項目 "
+    ]
+   }
+  },
+  {
+   "key": "spiral290",
+   "harness": "tests/exp-w290e-spiral.mjs",
+   "out": "tests/out/spiral-w290e.json",
+   "sec": 91,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "形状指標の N/2N/4N・seed・刻み h/h2/h4",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "preset.shapeToySpiral",
+     "docs.spiralRef",
+     "lint.harnessSmoke304"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "d68three",
+   "harness": "tests/exp-w268a-d68.mjs",
+   "out": "tests/out/d68-w268a.json",
+   "sec": 47,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "📡 D68 の 3 段(h/h2/h4)の器の記録(門の 3σ は calaudit の dt3 —— 例外の登録簿)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "d68",
+     "obscompare"
+    ],
+    "qa": [
+     "behavior.unitConvertedFirst",
+     "behavior.d68SameWindow",
+     "behavior.convergenceRule",
+     "docs.threeStageD68"
+    ],
+    "physics": [
+     "2. 直した契約と、**同じ契約で再走した**新しい 3 段"
+    ]
+   }
+  },
+  {
+   "key": "gloc-302b",
+   "harness": "tests/exp-w302b-gloc.mjs",
+   "out": "tests/out/gloc-w302b.json",
+   "sec": 23,
+   "secSource": "w302b-branch",
+   "role": "a",
+   "measures": "人工二体・E の対照の h/h2/h4(DIVS)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [
+     "wbgest-302c",
+     "inertialr2-303b",
+     "shell-304b"
+    ],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.gLoc302",
+     "lint.canon303"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "d0audit",
+   "harness": "tests/exp-w275b-d0audit.mjs",
+   "out": "tests/out/d0audit-w275b.json",
+   "sec": 21,
+   "secSource": "w280-chain",
+   "role": "a",
+   "measures": "3 段 h=0.016/0.008/0.004 で物理時間を揃えた監査",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "docs.d0audit-sync"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "bh90",
+   "harness": "tests/exp-w269c-bh90.mjs",
+   "out": "tests/out/bh90-w269c.json",
+   "sec": 20,
+   "secSource": "w280-chain",
+   "role": "a",
+   "measures": "初期条件の量の h/h2/h4(刻みに依らない —— 同値)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.compareStates",
+     "behavior.bh90Intervals",
+     "behavior.compareObsRequired"
+    ],
+    "physics": [
+     "2. BH 連星(GW150914)—— 器 `tests/exp-w269c-",
+     "再走(統合後の入力から・保存 JSON の input stamp を現行 CS",
+     "R6: 比較状態の入口ガード(`tests/lib-w269c-compare.",
+     "再走(自分の枝の html で JSON を作り直した)",
+     "① AG11 —— 正本 JSON の来歴を 1 つの形にする(統括の検証項目 "
+    ]
+   }
+  },
+  {
+   "key": "maintain-309b",
+   "harness": "tests/exp-w309b-maintain.mjs",
+   "out": "tests/out/maintain-w309b.json",
+   "sec": 7,
+   "secSource": "w310-chain2",
+   "role": "a",
+   "measures": "dt の走査(静止した 3 体・h〜h/8・64 步)",
+   "carry": "未適用",
+   "readers": {
+    "steps": [],
+    "qa": [
+     "lint.provenanceMeta",
+     "behavior.maintain309",
+     "docs.maintain309"
+    ],
+    "physics": [
+     "収縮の診断"
+    ]
+   }
+  },
+  {
+   "key": "dt3",
+   "harness": "tests/exp-w249b-calaudit.mjs",
+   "out": "tests/out/calaudit-w249.json",
+   "sec": 79,
+   "secSource": "w310-chain2",
+   "role": "b",
+   "measures": "較正走行の 3 段目 dt/4 —— 例外の登録簿(H4_EXCEPTIONS)の main の本だけ(--h4-exceptions)",
+   "carry": "対象外(役割 b —— AN393 (b) で h/4 を残す)",
+   "readers": {
+    "steps": [
+     "kf0",
+     "d0audit",
+     "charon-h",
+     "charon-h2",
+     "charon-h4",
+     "charonk",
+     "charoneps-h",
+     "charoneps-h2",
+     "charoneps-h4",
+     "charonfactors",
+     "kf0ledger-old",
+     "kf0ledger",
+     "charonInput",
+     "geo3",
+     "calcontract",
+     "obscompare",
+     "samplestatus",
+     "mercury",
+     "pn1",
+     "pnsource286",
+     "families",
+     "tpsign",
+     "contact285",
+     "calcause292",
+     "timing294"
+    ],
+    "qa": [
+     "lint.sigmaMark",
+     "lint.stableHashPaths",
+     "lint.pn1RegionDecl",
+     "docs.intakeC",
+     "docs.intakeD",
+     "docs.intake8",
+     "docs.uranusSwap",
+     "behavior.solarsigmaGuards",
+     "behavior.unitConvertedFirst",
+     "docs.judgementSources",
+     "behavior.declaredDiagnosticOnly",
+     "behavior.stopRuleDeclared",
+     "docs.tallySync",
+     "docs.threeStageD68",
+     "behavior.declaredApplied",
+     "docs.fourValuesHistory",
+     "docs.assessedStageH4",
+     "behavior.charonRegistered",
+     "docs.stopRuleVersion",
+     "lint.calauditDiagSplit",
+     "docs.periodContractRows",
+     "lint.calauditMergeKeyHash",
+     "docs.adoptedUnitColumns",
+     "docs.h8Rule",
+     "docs.issuesSync",
+     "behavior.orderNonPositiveNoRichardson",
+     "docs.mappingRowsDeclared",
+     "docs.charonSeries",
+     "docs.d0audit-sync",
+     "docs.bgpredict-sync",
+     "docs.calaudit-sync",
+     "docs.calaudit-period",
+     "behavior.calauditStages",
+     "behavior.testParticleSigned",
+     "docs.timingContract294",
+     "preset.inertial3_295",
+     "preset.fitDerived296",
+     "behavior.plutoCharonDFM",
+     "behavior.charonSyncZero",
+     "preset.statusLedger-sync",
+     "docs.emgrid-sync",
+     "behavior.calauditMapping",
+     "docs.calibration-verdict-sync",
+     "ui.assessedValuePanel",
+     "docs.obsCompareGraph",
+     "ui.liveCompare",
+     "ui.liveComparePeriodDef",
+     "docs.calContract",
+     "preset.unifyTable",
+     "preset.revived292b",
+     "ui.holdRemedy",
+     "preset.condRowsRenamed",
+     "behavior.contractRangeEval",
+     "lint.kf0RunsCondition",
+     "ui.observedCompare294",
+     "ui.liveMeasure297",
+     "preset.solarInnerRetired300",
+     "preset.coldReason307"
+    ],
+    "physics": [
+     "6. 実装するシミュレーション〔v1.5 全面刷新 = アプリ v1.9・付録I",
+     "第251便の廃止(第43報 原仮定者指示「説明に対して結果が釈然としないので廃止",
+     "9. 言わないこと(本節の主張の限界)",
+     "④ 太陽系 16 本の σ 接続(統括の読み (A)・統括が設定した検証仮説 (",
+     "5. `applySigma` の混在経路と、**最小修正(宣言は診断欄だけ)*",
+     "6. AF16 —— 正本 JSON の重い診断を別ファイルへ(**削っていない",
+     "⑥ 決断事項候補(統括へ)",
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "kf0",
+   "harness": "tests/exp-w249b-calaudit.mjs",
+   "out": "tests/out/kf0-w259d.json",
+   "sec": 58,
+   "secSource": "w310-chain2",
+   "role": "b",
+   "measures": "kF0 の診断コピーの dt/4 —— 例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)",
+   "carry": "対象外(役割 b —— AN393 (b) で h/4 を残す)",
+   "readers": {
+    "steps": [
+     "solarsigma",
+     "d68three",
+     "stoprule",
+     "issues",
+     "assessed",
+     "d0audit",
+     "charon-h",
+     "charon-h2",
+     "charon-h4",
+     "charonk",
+     "charoneps-h",
+     "charoneps-h2",
+     "charoneps-h4",
+     "charonfactors",
+     "confirm2",
+     "confirm3",
+     "confirm4",
+     "kf0ledger-old",
+     "kf0ledger",
+     "charonInput",
+     "geo3",
+     "calcontract",
+     "obscompare",
+     "samplestatus",
+     "mercury",
+     "pn1",
+     "pnsource286",
+     "families",
+     "tpsign",
+     "contact285",
+     "calcause292",
+     "timing294"
+    ],
+    "qa": [
+     "behavior.calauditMapping",
+     "docs.calibration-verdict-sync"
+    ],
+    "physics": [
+     "9. 言わないこと(本節の主張の限界)"
+    ]
+   }
+  },
+  {
+   "key": "charon-h4",
+   "harness": "tests/exp-w272b-charon.mjs",
+   "out": "tests/out/charon-w272b.json",
+   "sec": 700,
+   "secSource": "w272b-wallSec",
+   "role": "c",
+   "measures": "🟪 の校正の系列の h/4 段(同じ正本 charon-w272b を h → h2 → h4 の順に書く)",
+   "carry": "対象外(役割 c —— AN393 (c) で (b) のまま)",
+   "readers": {
+    "steps": [
+     "issues",
+     "kf0ledger-old",
+     "kf0ledger"
+    ],
+    "qa": [
+     "lint.regenScope",
+     "docs.issuesD68Explain",
+     "docs.charonSeries"
+    ],
+    "physics": [
+     "⑥ 決断事項候補(統括へ)",
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  },
+  {
+   "key": "charoneps-h4",
+   "harness": "tests/exp-w272b-charon.mjs",
+   "out": "tests/out/charoneps-w276b.json",
+   "sec": 1068,
+   "secSource": "w310-chain2",
+   "role": "c",
+   "measures": "🟪 の校正の系列(ε)の h/4 段",
+   "carry": "対象外(役割 c —— AN393 (c) で (b) のまま)",
+   "readers": {
+    "steps": [
+     "charonfactors"
+    ],
+    "qa": [
+     "lint.provenanceMeta"
+    ],
+    "physics": [
+     "⑤ 新設した QA ブロック(4)と、本枝が固定した数"
+    ]
+   }
+  }
+ ],
+ "readOnly": [
+  {
+   "key": "solarsigma",
+   "why": "calaudit の 3 段登録系の判定段(h/4)の値を読む",
+   "harness": "tests/exp-w262d-solarsigma.mjs"
+  },
+  {
+   "key": "pnsource286",
+   "why": "判定器の段(h・h/2・h/4)が決める較正行を読む",
+   "harness": "tests/exp-w286b-pnsource.mjs"
+  },
+  {
+   "key": "issues",
+   "why": "外挿と h/4 段の比を表に読む",
+   "harness": "tests/exp-w272a-issues.mjs"
+  },
+  {
+   "key": "nslockledger",
+   "why": "ω̇ の外挿と h/4 段の値を読む",
+   "harness": "tests/exp-w273c-nslockledger.mjs"
+  },
+  {
+   "key": "kf0ledger-old",
+   "why": "kF0 の 3 段の規則を読む",
+   "harness": "tests/exp-w274a-kf0ledger.mjs"
+  },
+  {
+   "key": "kf0ledger",
+   "why": "kF0 の 3 段の規則を読む",
+   "harness": "tests/exp-w275a-kf0ledger.mjs"
+  },
+  {
+   "key": "samplestatus",
+   "why": "較正走行の段別の壁時計(dt/4 を含む)と転記の内訳を読む",
+   "harness": "tests/exp-w279a-samplestatus.mjs"
+  },
+  {
+   "key": "timing294",
+   "why": "calaudit の dtQuarter を読む",
+   "harness": "tests/exp-w294d-timing.mjs"
+  },
+  {
+   "key": "mdsweep-310d",
+   "why": "第306便a の正本の h/4 の在位の値を読む",
+   "harness": "tests/exp-w310d-mdsweep.mjs"
+  }
+ ],
+ "excluded": [
+  {
+   "key": "bgdiff286",
+   "why": "h は中心差分の幅(刻みではない)"
+  },
+  {
+   "key": "bgtime287",
+   "why": "h は時間差分の幅"
+  },
+  {
+   "key": "compose288",
+   "why": "h は回転核の差分の幅"
+  },
+  {
+   "key": "spinprec288",
+   "why": "[1, 2, 4] は |S| の倍率"
+  },
+  {
+   "key": "pairnorm-305a",
+   "why": "[1, 2, 4, 8] は粒子数 N"
+  },
+  {
+   "key": "inertial290",
+   "why": "h8 は gain 0.8 の行の名"
+  }
+ ]
+}

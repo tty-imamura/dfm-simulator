@@ -54,6 +54,7 @@ import * as P3 from './lib-w299c-planets3d.mjs';
 import * as EMO from './exp-w300b-emonly.mjs';
 import * as I3 from './exp-w295c-inertial3.mjs';
 import * as DC from './lib-w292c-dragcore.mjs';
+import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 の転記の型
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.GLOC_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_I2_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.fitCondSig","HP.gLocPeriAdvance","HP.gLocState","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragLedgerOf","HP.inertialDragState","HP.inertialR2Q","HP.inertialR2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","HP.wbgEstimateOf","LAWS","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDrag3Build","dfmInertialDrag3Solve","dfmInertialDragStep","dfmInertialDragStep3","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragComposeSolve","inertialDragI2Apply","inertialDragNormApply","inertialR2SumOf","pnSource","relDragCoefficientOf","relDragSolveFromOf","synUniform","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -264,9 +265,40 @@ const cfgKey = (cfg) => `${cfg.fam}${cfg.target === 'ref' ? 'ref' : ''}:η${etaL
 // 解析の初期値の範囲
 const XR = { eta: [1e-3, 1e4], lambdaM: [1e-2, 1e12], k: [1e-4, 1e14] };
 
+// ==== 第311便c の塊(ここから)====
+// 第311便c(決断事項 AN393 (a)・統括の検証項目 R228): **h/4 の転記**(tests/lib-w311c-h4carry.mjs)。h/4 を測る 3 か所 —— 水星の根の行の最後の h/4(段 M)・
+//   移送の T_FINE の行の h/4(段 T)・本ごとの対照(引きずり OFF)の h/4 —— は、同じ単位の h と h/2 の値の鍵が前の正本(書き換える前の W304B_OUT)と
+//   ビット同一なら前の正本の h/4 の値を写す(違えば測る —— 古い h/4 と新しい h/h2 を混ぜない)。対照の h/4 は要るときだけ走らせる(水星の対照は
+//   正本の mercury.control に h/h2/h4 の生の値があるので、h/h2 が同じなら写す —— 他の本の対照は転記した行が読まないので走らせない)。
+//   値の鍵: 段 M の行は h/4 の欄(diffs[2]・periodShiftDays[2]・eccShift[2]・h4gap・analyticOverMeasured)を除く全欄 / 段 T の行は h/4 から作る欄
+//   (preds[2]・pred・numErr・diff・diffSigma・rel・judge・periodShiftDays・eccShift)を除く全欄と表の行の鍵(key・x・divs ほか)/ 対照は h と h/2 の
+//   aps・periodDays・ecc。走行の数(stats)と所要(timing・elapsedS)は値の鍵ではない(転記の分だけ減る)。H4_CARRY=0 で全部測る
+let CARRY = null;
+/** 転記の文脈を差し替える(試験用 —— 器の本走は main が前の正本で開く) */
+export function setH4Carry(c) { CARRY = c; CTX.clear(); }
+const pickKeys = (o, keys) => { const r = {}; for (const k of keys) if (o && Object.prototype.hasOwnProperty.call(o, k)) r[k] = o[k]; return r; };
+const M_H4_DROP = ['h4gap', 'analyticOverMeasured'];
+const mView = (row) => { const v = H4C.omit(row, M_H4_DROP); for (const k of ['diffs', 'periodShiftDays', 'eccShift']) if (Array.isArray(v[k])) v[k] = v[k].slice(0, 2); return v; };
+const T_VIEW_KEYS = ['id', 'emoji', 'preds', 'target', 'pn1', 'a1', 'sigma', 'analytic', 'analyticRel', 'analyticJudge', 'formRatioAnalytic', 'selfShare', 's', 'selfPlanet', 'e'];
+const T_TABLE_KEYS = ['key', 'fam', 'targetKind', 'etaMercury', 'etaSun', 'x', 'param', 'lambdaOverRs', 'divs'];
+const tView = (tab, row) => ({ table: pickKeys(tab, T_TABLE_KEYS), row: Object.assign(pickKeys(row, T_VIEW_KEYS), { preds: (row.preds || []).slice(0, 2) }) });
+/** 本ごとの対照の h/4(要るときだけ —— 水星は前の正本の mercury.control の h/h2 が同じなら写す) */
+function ctlH4(HP, id, off, h, ctl) {
+  const pc = id === MERCURY && CARRY && CARRY.prev && CARRY.prev.mercury ? CARRY.prev.mercury.control : null;
+  const raw = (z) => ({ aps: z.aps, periodDays: z.periodDays, ecc: z.ecc });
+  if (pc && pc.length === 3 && H4C.canCarry(CARRY, 'control:' + id, [1, 2].map((d) => Object.assign({ div: d }, raw(ctl[d]))), pc.slice(0, 2))) {
+    H4C.markCarried(CARRY, 'control:' + id); return raw(pc[2]);
+  }
+  if (CARRY) H4C.markMeasured(CARRY, 'control:' + id);
+  return meas(HP, off, h / 4);
+}
+// ==== 第311便c の塊(ここまで)====
 function ctxOf(HP, id) {
   const base = pinned(HP, id), h = hOf(base), wExt = B.wExtOf(HP, base).book, off = offCase(base);
-  const ctl = Object.fromEntries(DIVS.map((d) => [d, meas(HP, off, h / d)]));
+  // 第311便c: h/4 の対照は要るときだけ(ctlH4 —— 読まれた時に走らせるか前の正本から写す)
+  const ctl = Object.fromEntries(DIVS.filter((d) => d !== 4).map((d) => [d, meas(HP, off, h / d)]));
+  let c4 = null;
+  Object.defineProperty(ctl, 4, { enumerable: true, configurable: true, get() { if (c4 === null) c4 = ctlH4(HP, id, off, h, ctl); return c4; } });
   return { id, base, h, wExt, ctl, target: B.targetOf(base), rsBook: B.rsBook(base), L: lenM(base) };
 }
 const CTX = new Map();
@@ -284,16 +316,27 @@ export function fitMercury(HP, cfg, log = () => {}) {
   const fit = FS.fitStopSync({ yH: (x) => yAt(x, 1), yH2: (x) => yAt(x, 2), target, tol: TOL_APS, method: 'secant', x0: xa, x1: xa * 1.001, round: r7 });
   row.status = fit.status; row.evals = fit.evals; row.rootStop = fit.root.stop; row.x = fit.x;
   if (fit.x === null) { log(row); return row; }
-  const x = fit.x, cs = mk(x), runs = DIVS.map((d) => meas(HP, cs, C.h / d)), an = anaOf(HP, cs);
+  // 第311便c(AN393 (a)): h と h/2 を先に測り、行の値の鍵(h/4 の欄を除く全欄)が前の正本と同じなら h/4 を写す(欄の並びは従来と同じ)
+  const x = fit.x, cs = mk(x), runs = [1, 2].map((d) => meas(HP, cs, C.h / d)), an = anaOf(HP, cs);
   row.diffs = runs.map((r, i) => r.aps - C.ctl[DIVS[i]].aps);
   row.final = fit.final; row.gate = fit.final.gate;
-  row.h4gap = Math.abs(row.diffs[2] - row.diffs[1]);
+  row.h4gap = null;
   row.periodShiftDays = runs.map((r, i) => r.periodDays - C.ctl[DIVS[i]].periodDays);
   row.eccShift = runs.map((r, i) => r.ecc - C.ctl[DIVS[i]].ecc);
-  row.analyticRate = an.rate; row.analyticOverMeasured = an.rate / row.diffs[2];
+  row.analyticRate = an.rate; row.analyticOverMeasured = null;
   row.den = an.at;
   row.lambdaOverRs = F.param === 'lambdaM' ? (x / C.L) / C.rsBook : F.param === 'k' ? x : null;
   row.selfMercury = cs.self[1]; row.selfSun = cs.self[0];
+  const prevRow = CARRY && CARRY.prev && CARRY.prev.mercury ? (CARRY.prev.mercury.rows || []).find((z) => z.key === row.key) : undefined;
+  if (CARRY && prevRow && Array.isArray(prevRow.diffs) && prevRow.diffs.length === 3 && H4C.canCarry(CARRY, 'M:' + row.key, mView(row), mView(prevRow))) {
+    row.diffs.push(prevRow.diffs[2]); row.periodShiftDays.push(prevRow.periodShiftDays[2]); row.eccShift.push(prevRow.eccShift[2]); H4C.markCarried(CARRY, 'M:' + row.key);
+  } else {
+    const r4 = meas(HP, cs, C.h / 4);
+    row.diffs.push(r4.aps - C.ctl[4].aps); row.periodShiftDays.push(r4.periodDays - C.ctl[4].periodDays); row.eccShift.push(r4.ecc - C.ctl[4].ecc);
+    if (CARRY) H4C.markMeasured(CARRY, 'M:' + row.key);
+  }
+  row.h4gap = Math.abs(row.diffs[2] - row.diffs[1]);
+  row.analyticOverMeasured = an.rate / row.diffs[2];
   log(row);
   return row;
 }
@@ -484,14 +527,31 @@ export function partT(HP, M, log = console.log, opt = {}) {
     const x = row.x, rows = [];
     for (const id of TR) {
       const C = ctx(HP, id), cs = caseOf(HP, C.base, C.wExt, Object.assign({}, tcfg, { fam: cfg.fam === 'M1' ? 'M1' : cfg.fam }), x);
-      const runs = divs.map((d) => meas(HP, cs, C.h / d)), preds = runs.map((r, i) => r.aps - C.ctl[divs[i]].aps);
-      const best = preds[preds.length - 1], numErr = Math.abs(preds[preds.length - 1] - preds[preds.length - 2]), T = C.target, d = best - T.value;
+      // 第311便c(AN393 (a)): h と h/2 を先に測る。T_FINE の行の h/4 は、行の値の鍵(h/4 から作る欄を除く)と表の行の鍵が前の正本と同じなら写す
+      const runs = [1, 2].map((d) => meas(HP, cs, C.h / d)), preds = runs.map((r, i) => r.aps - C.ctl[divs[i]].aps);
+      let lastP = runs[1].periodDays - C.ctl[2].periodDays, lastE = runs[1].ecc - C.ctl[2].ecc;
+      const T = C.target;
       const an = anaOf(HP, cs), csB = caseOf(HP, C.base, C.wExt, Object.assign({}, tcfg, { eta: null }), FAMS[cfg.fam].param === 'eta' ? null : x);
       const anB = FAMS[cfg.fam].param === 'eta' ? null : anaOf(HP, csB);
+      if (divs.length === 3) {
+        const tab = { key: k, fam: cfg.fam, targetKind: cfg.target || 'conv', etaMercury: etaMercOf(row), etaSun: cfg.etaSun, x, param: FAMS[cfg.fam].param, lambdaOverRs: row.lambdaOverRs, divs };
+        const fresh = tView(tab, { id, emoji: C.base.emoji, preds, target: T.value, pn1: T.pn1, a1: T.a1, sigma: T.sigma, analytic: an.rate, analyticRel: an.rate / T.value - 1,
+          analyticJudge: B.judgeOf(an.rate - T.value, T.sigma, null), formRatioAnalytic: anB ? an.rate / anB.rate : null, selfShare: an.at.selfShare, s: an.at.s, selfPlanet: cs.self[1], e: an.e });
+        const pt = CARRY && CARRY.prev && CARRY.prev.transfer ? (CARRY.prev.transfer.table || []).find((z) => z.key === k) : null;
+        const pr = pt && pt.rows ? pt.rows.find((z) => z.id === id) : null;
+        const ck = 'T:' + k + ':' + id;
+        if (CARRY && pr && Array.isArray(pr.preds) && pr.preds.length === 3 && H4C.canCarry(CARRY, ck, fresh, tView(pt, pr))) {
+          preds.push(pr.preds[2]); lastP = pr.periodShiftDays; lastE = pr.eccShift; H4C.markCarried(CARRY, ck);
+        } else {
+          const r4 = meas(HP, cs, C.h / 4);
+          preds.push(r4.aps - C.ctl[4].aps); lastP = r4.periodDays - C.ctl[4].periodDays; lastE = r4.ecc - C.ctl[4].ecc; if (CARRY) H4C.markMeasured(CARRY, ck);
+        }
+      }
+      const best = preds[preds.length - 1], numErr = Math.abs(preds[preds.length - 1] - preds[preds.length - 2]), d = best - T.value;
       rows.push({ id, emoji: C.base.emoji, preds, pred: best, numErr, target: T.value, pn1: T.pn1, a1: T.a1, sigma: T.sigma, diff: d, diffSigma: T.sigma ? d / T.sigma : null,
         rel: best / T.value - 1, judge: B.judgeOf(d, T.sigma, numErr), analytic: an.rate, analyticRel: an.rate / T.value - 1, analyticJudge: B.judgeOf(an.rate - T.value, T.sigma, null),
         formRatioAnalytic: anB ? an.rate / anB.rate : null, selfShare: an.at.selfShare, s: an.at.s, selfPlanet: cs.self[1], e: an.e,
-        periodShiftDays: runs[runs.length - 1].periodDays - C.ctl[divs[divs.length - 1]].periodDays, eccShift: runs[runs.length - 1].ecc - C.ctl[divs[divs.length - 1]].ecc });
+        periodShiftDays: lastP, eccShift: lastE });
       const z = rows[rows.length - 1];
       log(`T ${k} → ${z.emoji} 予言 ${z.pred.toPrecision(7)}(${z.preds.map((v) => v.toPrecision(7)).join(' / ')})・標的 ${z.target.toPrecision(7)}${z.sigma === null ? '' : ' ± ' + z.sigma}・相対 ${(100 * z.rel).toFixed(2)}%・${z.judge.text}・解析 ${z.analytic.toPrecision(7)}・自己の割合 ${z.selfShare.toFixed(4)}${z.s === null ? '' : '・s ' + z.s.toPrecision(3)}`);
     }
@@ -772,6 +832,7 @@ if (IS_MAIN) {
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const prev = (() => { try { return JSON.parse(fs.readFileSync(OUT_PATH, 'utf8')); } catch { return null; } })();
+  CARRY = H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });   // 第311便c: h/4 の転記(前の正本 —— 書き換える前に開く)
   // 包みを入れる前の指紋(段 Z の素通りのビット同一)
   let fpBefore = null;
   if (PARTS.includes('Z')) { const S = stepSim(HP, bookCase(pinned(HP, MERCURY)).q, 2000, null); fpBefore = fpS(S); }
@@ -808,9 +869,12 @@ if (IS_MAIN) {
   if (out.manyBody) gates.manyBodyReadout = out.manyBody.rows.length >= 15 && out.manyBody.rows.every((r) => Number.isFinite(r.xiSun) && Number.isFinite(r.ratioToNoMoon)) && out.manyBody.direct.every((z) => z.relErrDirect < 1e-12 && z.totalVelocityResidual < 1e-12);
   if (out.analytic) gates.analyticTable = out.analytic.rows.length === PLANETS.length;
   out.gates = gates; out.ok = Object.values(gates).every(Boolean) && Object.keys(gates).length > 0; out.timing = tp; out.stats = Object.assign({}, STATS, { wrapCalls: WRAP.calls });
+  const h4c = H4C.carryStamp(CARRY, { unit: '段 M の水星の根の行(M:<構成>)・段 T の T_FINE の行(T:<構成>:<本>)・本ごとの対照(control:<本>)',
+    valueKeys: '段 M の行は h/4 の欄(diffs[2]・periodShiftDays[2]・eccShift[2]・h4gap・analyticOverMeasured)を除く全欄 / 段 T は h/4 から作る欄を除く行の欄と表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc(走行の数 stats と所要は値の鍵ではない)' });
+  if (h4c) out.h4Carried = h4c;
   const CODE = ['tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w303a-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs',
-    'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w292c-dragcore.mjs'];
+    'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第304便b', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length, fitstop: FS.FITSTOP_VERSION,
     ruling: '原仮定者の裁定(第94報)「引きずり核球面近似係数」(引きずり核の球面に質量が集まるとする便宜上の近似 —— 引きずり量の分母の慣性決定力に自分自身を入れる・恒星は小さい半径・似た天体では近い値を予想・まず引きずり核表面で検証)・前便の指摘(1PN 相当は引きずりだけでは合わない量を埋める為 —— 引きずりが主)',
