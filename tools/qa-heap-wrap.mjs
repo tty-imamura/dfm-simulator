@@ -27,6 +27,11 @@
 //   node tools/qa-heap-wrap.mjs --apply    … 包みの無いブロックを包む(tests/qa.mjs を書き換える)
 //   QA `lint.qaHeapRelease310` が同じ関数(`heapWrapAudit`)で包みの無いブロックを数える(新しい headless のブロックを足したら
 //   `--apply` を 1 回 —— 統合の後も同じ)。
+//   node tools/qa-heap-wrap.mjs --all [--apply] … **最上位のブロックの全部**(594 本 —— 第310便c の時点)を対象にする(**本便では適用していない**):
+//   同じ型(ブロックを抜けた局所の値が残る)は headless でないブロックの大きな値(読んだ PHYSICS.md・qa.mjs の行の配列・JSON・page.evaluate の戻り)
+//   にも当たる。第310便c の枝の実測: QA_FAST(headless の 59 本を包んだ後)の主の process は gc の後の heapUsed が 4 → 2963 MB まで単調に増え
+//   (native context は最大 5 —— vm の写しは手放されている)、headless でない 16 本(23 件)の部分実行では包む前 486 MB → 全部を包んだ後 185 MB。
+//   全部を包むのは全枝の統合の後に 1 回(他の枝が同じブロックを直すと衝突するので —— 決断事項の候補)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -48,14 +53,18 @@ export function topBlocks(lines) {
   return out;
 }
 
-/** headless の写しを作るブロック(注釈の行は除いて見る)と、包みの有無・包めない理由。 */
-export function heapWrapAudit(src) {
+/**
+ * headless の写しを作るブロック(注釈の行は除いて見る)と、包みの有無・包めない理由。
+ * opt.all = true は**最上位のブロックの全部**を対象にする(測定と次の段の候補 —— QA の lint は headless のブロックだけを数える)。
+ */
+export function heapWrapAudit(src, opt) {
+  const all = !!(opt && opt.all);
   const lines = src.split('\n');
   const rows = [];
   for (const [l0, l1] of topBlocks(lines)) {
     const body = lines.slice(l0 + 1, l1);
     const code = body.filter((l) => !/^\s*\/\//.test(l));
-    if (!code.some((l) => HEADLESS_RE.test(l))) continue;
+    if (!all && !code.some((l) => HEADLESS_RE.test(l))) continue;
     const wrapped = body.length >= 2 && body[0] === WRAP_OPEN && body[body.length - 1] === WRAP_CLOSE;
     const ids = [...body.join('\n').matchAll(/add\('([^']+)'/g)].map((m) => m[1]);
     // 包めない形: 本文の最上位の var(関数の外へ漏れていた宣言)・ラベル文
@@ -71,8 +80,8 @@ export function heapWrapAudit(src) {
 }
 
 /** 包みの無いブロックを包んだ本文(包めない形のブロックは残す —— skipped)。 */
-export function heapWrapApply(src) {
-  const a = heapWrapAudit(src);
+export function heapWrapApply(src, opt) {
+  const a = heapWrapAudit(src, opt);
   const lines = src.split('\n');
   const todo = a.unwrapped.filter((r) => !r.why.length).sort((x, y) => y.l0 - x.l0);
   for (const r of todo) {
@@ -86,15 +95,16 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   const QA = path.join(ROOT, 'tests', 'qa.mjs');
   const src = fs.readFileSync(QA, 'utf8');
+  const opt = { all: process.argv.includes('--all') };
   if (process.argv.includes('--apply')) {
-    const r = heapWrapApply(src);
+    const r = heapWrapApply(src, opt);
     if (r.applied.length) fs.writeFileSync(QA, r.src);
-    const after = heapWrapAudit(r.src);
+    const after = heapWrapAudit(r.src, opt);
     console.log(JSON.stringify({ applied: r.applied.length, skipped: r.skipped.map((z) => z.l0 + ':' + z.why.join('+')), blocks: after.blocks, wrapped: after.wrapped, ok: after.ok }));
     process.exit(after.ok ? 0 : 1);
   }
-  const a = heapWrapAudit(src);
-  console.log(JSON.stringify({ version: a.version, blocks: a.blocks, wrapped: a.wrapped,
+  const a = heapWrapAudit(src, opt);
+  console.log(JSON.stringify({ version: a.version, all: opt.all, blocks: a.blocks, wrapped: a.wrapped,
     unwrapped: a.unwrapped.map((r) => r.l0 + ':' + (r.id || '?') + (r.why.length ? '(' + r.why.join('+') + ')' : '')), ok: a.ok }));
   process.exit(a.ok ? 0 : 1);
 }
