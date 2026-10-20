@@ -21,6 +21,11 @@
 #   (informational にしない・continue-on-error を付けない)。図 8 は再生成の鎖の段にしない —— 失効したら第216便追補の形で再同期する。
 #   Chromium の版は固定しない(runner の Playwright が入れる版のまま —— 版は p2figs-gates.json の chromiumVersion に**記録**する)。
 #
+# 第310便c(統括の検証項目 R224・第264便d の前例): 凍結基準の既定を **99286dc(タグ v1.44.0)→ 35780a1**
+#   (v1.45 検証版〔RC〕の root 昇格 —— PR #311 の squash・35780a1e15925dec2540f45f690ecfff5e922c12)へ付け替えた。
+#   **タグ v1.45.0 はまだ無い**(原仮定者が作る)—— 既定は SHA で持つので、タグが付いても yaml は変えなくてよい。
+#   判定の取り決め(取得失敗は informational・不一致は FAIL)は 1 つも動かしていない。
+#
 # **書かないこと**: 「Release した」「配信を検証したので昇格してよい」。本ジョブが見るのは
 # **配られている HTML の同一性**だけで、較正にも判定にも 1 bit も触らない。
 name: Nightly collate
@@ -32,9 +37,9 @@ on:
   workflow_dispatch:
     inputs:
       frozenSha:
-        description: '凍結基準の SHA(既定は v1.44.0 昇格コミット 99286dc)'
+        description: '凍結基準の SHA(既定は v1.45 検証版〔RC〕の昇格の squash 35780a1 —— タグ v1.45.0 は未発行)'
         required: false
-        default: '99286dc'
+        default: '35780a1'
 
 permissions:
   contents: read
@@ -99,7 +104,7 @@ jobs:
       - name: 凍結基準 html を取り出す(失敗しても続ける)
         id: frozen
         run: |
-          tests/ci-frozen-baseline.sh "${{ github.event.inputs.frozenSha || '99286dc' }}" tests/perf-baseline/index.html | tee frozen.json
+          tests/ci-frozen-baseline.sh "${{ github.event.inputs.frozenSha || '35780a1' }}" tests/perf-baseline/index.html | tee frozen.json
         continue-on-error: true
       - name: Install Playwright
         run: |

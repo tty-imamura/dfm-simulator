@@ -9,9 +9,12 @@
 #
 # **PR ゲートの yaml(`.github/workflows/ci.yml`)は 1 文字も変えていない**(〔第261便d〕⑤ の約束)。
 # 第264便d(第56報 W4・統括の裁定 X13): **夜間/手動 yaml `.github/workflows/nightly.yml` からだけ呼ぶ**
-# ようにした(schedule + workflow_dispatch)。凍結参照の既定は **99286dc(タグ v1.44.0・v1.44 検証版の
-# 昇格コミット)**で、取り出した html の sha256 は root `index.html` と同じ
-# f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad である
+# ようにした(schedule + workflow_dispatch)。凍結参照の既定は〔第264便d〕で **99286dc(タグ v1.44.0・v1.44 検証版の
+# 昇格コミット)**だった(取り出した html の sha256 は f68b9cb87ef233184938b4e049432651b93296da6ff6be058f888126dccc99ad)。
+# 第310便c(統括の検証項目 R224): v1.45 検証版(RC)の root 昇格(PR #311 の squash)に合わせて、既定を
+# **35780a1**(35780a1e15925dec2540f45f690ecfff5e922c12)へ付け替えた —— 取り出した html の sha256 は
+# 昇格の後の root `index.html` と同じ df8478265464fe8196971be6c6f5291627e0f57583b21bd030bb1f357631d4ba である。
+# **タグ v1.45.0 は未発行**(原仮定者が作る —— 凍結参照は SHA で持つので、タグが付いても既定は変えない)。
 # (**それでも root-fallback を凍結扱いにはしない** —— root は次の昇格で動く)。
 #
 # 第262便d(第54報 W4・統括が設定した検証仮説 (8))の位置づけ:
@@ -31,7 +34,8 @@
 #
 # 使い方:
 #   tests/ci-frozen-baseline.sh <凍結SHA> [出力パス] [リポジトリURL]
-#   例) tests/ci-frozen-baseline.sh 99286dc tests/perf-baseline/index.html   # 第264便d の凍結参照
+#   例) tests/ci-frozen-baseline.sh 35780a1 tests/perf-baseline/index.html   # 第310便c の凍結参照(v1.45 RC の昇格)
+#       (旧: tests/ci-frozen-baseline.sh 99286dc … —— 第264便d の凍結参照・タグ v1.44.0)
 # 環境変数:
 #   FROZEN_SRC … clone 元(既定 origin の URL。ローカルの .git を指せばネットワーク無しでも測れる)
 #   KEEP_TMP=1 … 作業ディレクトリを消さない
