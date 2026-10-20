@@ -5,6 +5,7 @@
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
 ## v1.46-b310(開発中 — beta)
+- **第310便b(2026-10-20・決断事項 AN370「対の熱 —— 相反の関係をエンジンで測る(規則は裁定待ち)」・AN373・AN365・AN371・統括の検証項目 R223 —— 新しい宣言鍵なし・読み口の欄だけ・在位の本は維持の型を宣言しない・`S._core` 不変・176 本 bitsame・sigsame 同一)**: 維持の型の E_speed の 1 次を対の両側で測る器 `tests/exp-w310b-pairheat.mjs`(正本 `tests/out/pairheat-w310b.json`・段 pairheat-310b)—— 新則(Wbg2 = 0)では太陽の側の 1 次が惑星の側の 0.0038〜0.09 倍(相反の関係 I_i c_ij = I_j c_ji から外れる)・旧則は二体で比 1 に近いが第三体で符号が逆になる対もある・今の帳簿は受け手ごとの局所の記帳。移動の補正の指標 abs(u(0))/abs(V_obs,i − V_obs,k) の表(新則の写し・第309便c の参照と 1.5e-5 以内)。帳簿の欄 `holdInterval`(heatTiming を宣言しない本は「間隔が未宣言」・{tauHold} は宣言と基準 h0)と `columns`(実際の内部熱 E_i・帳簿の維持のコスト・背景からの供給)。QA `behavior.holdLedger310`・`docs.pairHeat310`(PHYSICS〔第310便b〕・AI_SPEC §116)。
 
 ## v1.45.0(RC・2026-10-20)
 
