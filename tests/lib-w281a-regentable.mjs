@@ -135,7 +135,16 @@ import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs'
 //     下流の段の上流・断片の順序 = 書く段の全順序)を足した。自己試験 (r) が「中断 → 再開で html が 1 回だけ書かれる」を stub の鎖で確かめる。
 //   ・chainShell は冒頭で $REGEN_LOG/env.json に Node と Chromium の版を記録する(AN90 —— 1 ulp の切り分け用・版は固定しない)。
 //   ・`HTML_REGION_READ_DECL` から pn1 → obs-compare を外した(AN90 —— 読込依存が無いことを lint.pn1RegionDecl・自己試験 (q6)(q6b) で機械検査してから)。
-export const REGEN_TABLE_VERSION = 'w288f-regentable-9';
+// ■ 第310便c(統括の検証項目 R224・運用の正本 追記 28 ⑤): **同じ md を書く 2 段の順**(版 w310c-regentable-10)
+//   ・段 kf0ledger-old(tests/exp-w274a-kf0ledger.mjs)と kf0ledger(tests/exp-w275a-kf0ledger.mjs)は、どちらも outs の外の
+//     docs/KF0_LEDGER_v1.45.md を書く(正本 JSON は別)。表に順が無く、第309便の鎖で同じ時刻に始まって旧の生成器が後に終わり、
+//     旧の版の md が残った(前便までは順が偶然よかった)。md を読む QA は今の版(kf0ledger-w275a.json)と照合する。
+//   ・処置(**依存 —— 新を後**): kf0ledger の after に 'kf0ledger-old' を足し、2 段の `touches` に md を宣言した。器は変えない
+//     (器の code の sha が動かない —— 正本の再生成を呼ばない)。
+//   ・`tableDepsAudit` に **touches を含めた書き手の全順序**(`touchUnordered` —— outs・merges・touches のどれかで同じファイルを書く
+//     現行の段どうしが after の推移閉包で全順序か)を足した(②は outs + merges だけを見ていた —— touches の重なりは見えなかった)。
+//     書込排他の鍵(`writesOf` = outs + merges —— 済み印の契約の policy の writes)は変えない(順で排他する)。自己試験 (s)。
+export const REGEN_TABLE_VERSION = 'w310c-regentable-10';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -325,8 +334,11 @@ export const REGEN_STEPS = [
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
   S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
-  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'] }),
-  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract'] }),
+  // 第310便c(R224): 2 段とも docs/KF0_LEDGER_v1.45.md を書く(touches)—— 今の版(kf0ledger)を後に(after に kf0ledger-old)。
+  S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'],
+    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
+  S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract', 'kf0ledger-old'],
+    touches: ['docs/KF0_LEDGER_v1.45.md'] }),
   S('charonInput', 'node tests/exp-w280d-charonInput.mjs', ['tests/out/charoninput-w280d.json'], 603, { secSource: 'w281a-chain', after: ['kf0'] }),
   S('geo3', 'node tests/exp-w280c-geo3.mjs', ['tests/out/geo3-w280c.json'], 1016, { secSource: 'w281a-chain', after: ['kf0', 'bgbudget2'],
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
@@ -1735,6 +1747,8 @@ export function tableDepsAudit(o) {
       if (!C.get(a).has(b) && !C.get(b).has(a)) unordered.push({ file: f, a, b });
     }
   }
+  // 第310便c(R224): touches(outs の外に書くファイル)を含めた書き手の全順序 —— ②で見えない重なり(kf0ledger-old と kf0ledger の md)
+  const touchUnordered = touchWritersAudit(steps, C).unordered;
   // 統括(第284便 統合): 段の鍵の重複(後の定義が先の定義を黙って消す —— 第284便e の bgfield)
   const seen = new Set(), dupKeys = [];
   for (const st of steps) { if (seen.has(st.key)) dupKeys.push(st.key); seen.add(st.key); }
@@ -1753,8 +1767,41 @@ export function tableDepsAudit(o) {
   // 第287便f(AN69 後半): html を書く段の検査(root があるときだけ —— 書く段の宣言・領域・順序・after 欠落・領域の閉包・依存の循環)
   const html = opt.root && opt.html !== false ? htmlTailAudit({ root: opt.root, steps, metaOf: opt.metaOf, htmlText: opt.htmlText }) : null;
   return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length
-      && !missingAfter.length && !staleReadDecl.length && (!html || html.ok),
-    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads, html };
+      && !missingAfter.length && !staleReadDecl.length && !touchUnordered.length && (!html || html.ok),
+    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads, touchUnordered, html };
+}
+
+/**
+ * 第310便c(統括の検証項目 R224): **touches を含めた書き手の全順序**。outs・merges・touches のどれかで同じファイルを書く現行の段どうしが
+ * after の推移閉包で全順序になっているか(並列に書かない —— 後に終わった段の版が残る型を表で防ぐ)。outs + merges だけの重なりは
+ * `tableDepsAudit` ②(unordered)が見るので、ここでは**少なくとも片方が touches で書く**ファイルだけを数える(二重に数えない)。
+ * @param {Array} [steps]
+ * @param {Map} [closure] afterClosure の戻り
+ * @returns {{writers:Array<{file:string, keys:string[]}>, unordered:Array<{file:string, a:string, b:string}>}}
+ */
+export function touchWritersAudit(steps, closure) {
+  const S0 = steps || REGEN_STEPS;
+  const C = closure || afterClosure(S0);
+  const m = new Map();
+  for (const st of S0) {
+    if (st.role === 'history') continue;
+    const own = writesOf(st);
+    for (const f of new Set(own.concat(st.touches || []))) {
+      if (!m.has(f)) m.set(f, []);
+      m.get(f).push({ key: st.key, touch: !own.includes(f) });
+    }
+  }
+  const writers = [], unordered = [];
+  for (const [f, ws] of m) {
+    if (ws.length < 2 || !ws.some((w) => w.touch)) continue;
+    writers.push({ file: f, keys: ws.map((w) => w.key) });
+    for (let i = 0; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) {
+      const a = ws[i].key, b = ws[j].key;
+      if (!ws[i].touch && !ws[j].touch) continue;   // 両方が outs/merges の重なり —— ②(unordered)が見る
+      if (!(C.get(a) || new Set()).has(b) && !(C.get(b) || new Set()).has(a)) unordered.push({ file: f, a, b });
+    }
+  }
+  return { writers, unordered };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
@@ -2763,6 +2810,42 @@ export function an43Probe(o) {
   return { ok, cases: res };
 }
 
+/**
+ * 第310便c(統括の検証項目 R224): 自己試験 (s) —— **同じ md を書く 2 段の順**(走らせない・表の写しだけ)。
+ *   s1 今の表: touches を含めた書き手の並列 0・KF0_LEDGER の md の書き手が kf0ledger-old と kf0ledger の 2 段
+ *   s2 kf0ledger の after から 'kf0ledger-old' を外した写し(第309便の型)で、md の並列が**検出される**
+ *   s3 2 段だけが常時群で走る計画(実際の便の計画の型)→ 鎖: kf0ledger の依存に kf0ledger-old・波が後・ready queue の模擬で
+ *      kf0ledger の開始 ≥ kf0ledger-old の終了(順序違反 0)
+ *   s4 全段 regen の鎖でも同じ(kf0ledger は kf0ledger-old の後)
+ */
+export function touchOrderProbe(steps) {
+  const S0 = steps || REGEN_STEPS;
+  const MD = 'docs/KF0_LEDGER_v1.45.md';
+  const now = touchWritersAudit(S0);
+  const w = now.writers.find((z) => z.file === MD);
+  const s1 = { unordered: now.unordered.map((z) => z.file + ':' + z.a + '|' + z.b), writers: now.writers.map((z) => z.file + '←' + z.keys.join('+')),
+    ok: now.unordered.length === 0 && !!w && w.keys.length === 2 && w.keys.includes('kf0ledger-old') && w.keys.includes('kf0ledger') };
+  const old = S0.map((z) => z.key === 'kf0ledger' ? Object.assign({}, z, { after: (z.after || []).filter((k) => k !== 'kf0ledger-old') }) : z);
+  const det = touchWritersAudit(old).unordered;
+  const s2 = { detected: det.map((z) => z.file + ':' + z.a + '|' + z.b),
+    ok: det.some((z) => z.file === MD && [z.a, z.b].sort().join('|') === 'kf0ledger|kf0ledger-old') };
+  const seqOk = (plan) => {
+    const deps = tableDeps({ steps: S0 });
+    const ch = buildChain(plan, { steps: S0, deps });
+    const r = ch.steps.kf0ledger, q = ch.steps['kf0ledger-old'];
+    const sim = simulateReadyQueue(ch, { lanes: 4 });
+    const ev = (k) => sim.events.find((e) => e.key === k);
+    return { inChain: !!r && !!q, dep: !!r && (r.deps || []).includes('kf0ledger-old'), waves: r && q ? [q.wave, r.wave] : null,
+      startAfterEnd: !!ev('kf0ledger') && !!ev('kf0ledger-old') && ev('kf0ledger').start >= ev('kf0ledger-old').end,
+      order: sim.check.order.length, pending: sim.pending.length };
+  };
+  const s3r = seqOk({ steps: S0.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : (z.key === 'kf0ledger' || z.key === 'kf0ledger-old') ? 'always' : 'reuse' })) });
+  const s3 = Object.assign(s3r, { ok: s3r.inChain && s3r.dep && s3r.waves[1] > s3r.waves[0] && s3r.startAfterEnd && s3r.order === 0 && s3r.pending === 0 });
+  const s4r = seqOk({ steps: S0.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) });
+  const s4 = Object.assign(s4r, { ok: s4r.inChain && s4r.dep && s4r.waves[1] > s4r.waves[0] && s4r.startAfterEnd && s4r.order === 0 && s4r.pending === 0 });
+  return { s1, s2, s3, s4, ok: s1.ok && s2.ok && s3.ok && s4.ok };
+}
+
 /** 第282便の統合で起きた順序の型を表で再現した**合成の列**(自己試験の固定入力)。 */
 export const W282_ORDER_FIXTURE = ['d0audit', 'nslockledger', 'bgbudget', 'calaudit', 'dt3', 'kf0', 'nslock', 'bgpredict', 'bgequiv',
   'kf0ledger', 'nslockledger'];
@@ -2782,7 +2865,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null, p: null, q: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null, p: null, q: null, s: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -3101,6 +3184,8 @@ export async function regenChainSelfTest(o) {
       q5: has(q5.afterMissing, /^d68three\?obscompare/), q6: has(q6.scopeReadsRegion, /^pn1→obs-compare$/), q6b: has(q6b.staleRegionDecl, /^pn1→obs-compare$/) && !has(q6b.scopeReadsRegion, /^pn1→/), q7: has(q7.regionMissing, /^samplestatus:sample-status\(html/) };
     res.q.ok = Q0.ok && ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q6b', 'q7', 'q8', 'q9', 'q10'].every((k) => res.q[k] === true);
   }
+  // (s) 第310便c(R224): 同じ md を書く 2 段(kf0ledger-old → kf0ledger)の順 —— touches を含めた書き手の全順序
+  res.s = touchOrderProbe();
   // (r) 第288便f(原仮定者の裁定(第78報)AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(htmlAggregateProbe)
   res.r = await htmlAggregateProbe({ root, tmpDir: o.tmpDir + '/r' });
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
@@ -3199,6 +3284,6 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
-  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest,
+  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest, touchWritersAudit, touchOrderProbe,
   CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe };

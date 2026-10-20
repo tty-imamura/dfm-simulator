@@ -2978,6 +2978,10 @@ lastAddAt = Date.now();
 // ----     (j) 較正走行のプリセット分割の純関数(tests/lib-w284f-calshard.mjs —— 引数・構造化複製・合流の照合・LPT・差の分類)。
 // ----     (k) QA の確認順の段(tests/lib-w284f-qastage.mjs —— 変更に依存する短い試験の選び方)と、器 tools/calaudit-split.mjs・
 // ----         tools/qa-staged.mjs・tests/exp-w284f-splitcheck.mjs がある。
+// ----   第310便c(統括の検証項目 R224・運用の正本 追記 28 ⑤)で足した 1 つ(表の版 w310c-regentable-10 のときだけ):
+// ----     (s) **同じ md を書く 2 段の順**(`touchOrderProbe`): touches を含めた書き手(outs・merges・touches)が after の閉包で全順序・
+// ----         kf0ledger の after から kf0ledger-old を外した写し(第309便の型)で docs/KF0_LEDGER_v1.45.md の並列を検出・
+// ----         2 段だけが常時群の計画と全段 regen の鎖の両方で kf0ledger が kf0ledger-old の後の波(ready queue の模擬で開始 ≥ 終了)。
 // ----   **beta 線の正本なので root は SKIP** する。
 {
   const bad = [];
@@ -2992,14 +2996,16 @@ lastAddAt = Date.now();
       // 第287便f(AN69): 表の版 w287f-regentable-8(html を書く段の宣言 htmlRegions・families/obscompare/assessed/samplestatus の after・families の touches)
       // 第288便f(AN90): 集約段 htmlagg のある表は版 w288f-regentable-9(一時出力の集約・自己試験 (r))—— 世代は表から機械で
       const has288f = RT.REGEN_STEPS.some((z) => z.key === 'htmlagg');
-      const wantVer = has288f ? 'w288f-regentable-9' : 'w287f-regentable-8';
+      // 第310便c(R224): kf0ledger の after に kf0ledger-old(同じ md を書く 2 段の順)と touches の全順序の検査の表は版 w310c-regentable-10 —— 世代は表から機械で
+      const has310c = RT.REGEN_STEPS.some((z) => z.key === 'kf0ledger' && (z.after || []).includes('kf0ledger-old'));
+      const wantVer = has310c ? 'w310c-regentable-10' : has288f ? 'w288f-regentable-9' : 'w287f-regentable-8';
       if (RT.REGEN_TABLE_VERSION !== wantVer) bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION + '(期待 ' + wantVer + ')');
       for (const f of ['tools/regen-chain.mjs', 'tools/calaudit-split.mjs', 'tools/qa-staged.mjs', 'tests/exp-w284f-splitcheck.mjs'])
         if (!fs.existsSync(path.join(ROOT, f))) bad.push(f + ' が無い');
       const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
       const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
       globalThis.__W287F_CHAIN_SELFTEST = r;   // 第287便f: lint.regenStableHash が同じ結果を読む(部分実行で単独なら自分で走らせる)
-      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q'].concat(has288f ? ['r'] : [])) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q'].concat(has288f ? ['r'] : [], has310c ? ['s'] : [])) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
       // (o) 第286便f(再生成表の after 検査)の固定値: 宣言した読み 5 本(17 組)・静的な欠落 0・古い宣言 0・第285便の型と galaxydiag←sparc を検出
       //   第288便a: 段 fixcap288 の器は exp-w287a-growth.mjs を import する(→ exp-w284a-cluster.mjs の imported-main の宣言が 1 組増えて 18 組 —— 表の段で切り替える)
       //   第289便d: 段 ejectstate289 の器は exp-w288a-fixcap.mjs を import する(→ 同じ imported-main の宣言がもう 1 組 —— 19 組)
@@ -3053,6 +3059,9 @@ lastAddAt = Date.now();
       // (r) 第288便f(AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(詳細は lint.chainAggregate)
       if (r.r) cases.push(`(r) 集約: 回 1 rc ${r.r.runs.r1.rc}(html 不変 ${r.r.runs.r1.written === 0})・回 2 再開 rc ${r.r.runs.r2.rc}(走った ${r.r.runs.r2.ran.join(',')}・html を書いた回数 ${r.r.runs.r2.written})・`
         + `回 3 済み(書いた回数 ${r.r.runs.r3.written} のまま)・別 html の断片を拒否 ${r.r.r4}・領域の外の書き込みを拒否 ${r.r.r5}・変数なしは直書き ${r.r.r6}`);
+      // (s) 第310便c(R224): 同じ md を書く 2 段(kf0ledger-old → kf0ledger)の順 —— touches を含めた書き手の全順序
+      if (r.s) cases.push(`(s) 同じファイルを書く段(touches を含む): ${r.s.s1.writers.join(' / ')}・並列 ${r.s.s1.unordered.length}・`
+        + `after を外した写し(第309便の型)で検出 ${r.s.s2.detected.join(',') || 'なし'}・常時群 2 段の鎖で波 ${(r.s.s3.waves || []).join('→')}(開始 ≥ 終了 ${r.s.s3.startAfterEnd})・全段の鎖で波 ${(r.s.s4.waves || []).join('→')}`);
       cases.push(`(j) 分割の純関数 ${Object.keys(j).filter((z) => z !== 'ok').map((z) => z + ' ' + j[z].ok).join('・')}`);
       cases.push(`(k) 確認順の段: 鍵 ${k.tokens.join(',')} → 先に走る文 ${k.selected.join(',')}・長走行は本走行へ ${k.long.join(',')}`);
       // (n) 第285便f(原仮定者の裁定(第75報)AN53): html 全体を刻む段は samplestatus の後(上流と読む正本の書き手には足さない —— 循環 0)
@@ -12053,6 +12062,8 @@ const hasStarcore = await page.evaluate(() => HP.allPresets().some(p => p.id ===
 //          **未昇格の root index.html はまだ持っており**、その claims が testId で
 //          behavior.merger-causal を指す(qa.testid-live)。第245便の ☀️starcore と同じ流儀で
 //          merger 系のテストは has* ガードつきで残置する(beta では SKIP・root 昇格時に削除)
+// 第310便c: root の昇格(35780a1・v1.45)の後、behavior.merger-causal(と W5c ユニット mergerCausal)を削除した。
+//          hasMerger を読む残りの試験(merger.bulk-velocity ほか)は本便の範囲の外 —— ガードのまま(root でも beta でも SKIP)
 const hasMerger = await page.evaluate(() => HP.allPresets().some(p => p.id === 'merger'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
@@ -12528,50 +12539,7 @@ const W5C_UNITS = {
     HP.loadPreset('saturn', false);
     return { steps: STEPS, on, off, Rmin: Math.min(...Rr), Rmax: Math.max(...Rr) };
   }) },
-  // P2-7: 🌠merger の3点セット(潮汐尾の成長 / kFrame の効き所 / muF の効き)。
-  // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
-  // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
-  mergerCausal: { enabled: !FAST && hasMerger, weight: 34, run: (pg) => pg.evaluate(() => {
-    const STEPS = 3000;   // t=48
-    // bodies 配列 [核A, 円盤A, 核B, 円盤B] から index 範囲と初期円盤半径を導出する
-    // (第50便 50I: 円盤 n を 150/120→100/80 に変えたため、旧ハードコード 1..150/152..271 を
-    // 対象のプリセット定義から取る形に置換 — root(150/120)と beta(100/80)の両方で正しく動く)
-    const MP = HP.allPresets().find((q) => q.id === 'merger');
-    const dA = MP.bodies[1], dB = MP.bodies[3];
-    const NA = 0, A0 = 1, A1 = dA.n, NB = A1 + 1, B0 = NB + 1, B1 = NB + dB.n;
-    const rdA = dA.radius, rdB = dB.radius;
-    const stat = (s) => {
-      // 潮汐尾率 = 自分の核から「初期円盤半径の mult 倍」より外に出た円盤粒子の割合
-      const tail = (mult) => { let c = 0, tot = 0;
-        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > rdA * mult) c++; }
-        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > rdB * mult) c++; }
-        return c / tot; };
-      let sp = 0, nd = 0;
-      for (let i = 0; i < s.n; i++) { if (i === NA || i === NB) continue; sp += Math.abs(s.spin[i]); nd++; }
-      return { sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]),
-        tail15: tail(1.5), tail20: tail(2), meanSpin: sp / nd, nan: s.hasNaN() };
-    };
-    // 第50便 50I: チェックポイント別の核間距離も記録する — 接近が速くなった新配置では
-    // 「引きずりは軌道にほとんど効かない」は**接近期**(核間が初期の0.72倍に達するまで)の
-    // 主張であり、深い接触期には軌道差が育つ(実測 3000步で 11.5%)ことが分かったため、
-    // 判定は接近期チェックポイントで行う(root の旧配置では 3000步時点がちょうど接近期 =
-    // 従来の判定と同じ点になる — 0.72 は root 実測 520→376 の比から)
-    const CKS = [500, 1000, 1500, 2000, 2500, 3000];
-    const run = (mod) => {
-      HP.loadPreset('merger', false);
-      const s = HP.sim; if (mod) mod(s);
-      const t0 = stat(s);
-      const cks = []; let k = 0;
-      for (const ck of CKS) {
-        for (; k < ck; k++) s.step(0.016);
-        cks.push({ ck, sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]) });
-      }
-      return { t0, end: stat(s), cks, n: s.n };
-    };
-    const base = run(null), kf0 = run((s) => { s.params.kFrame = 0; }), muf0 = run((s) => { s.params.muF = 0; });
-    HP.loadPreset('saturn', false);
-    return { steps: STEPS, base, kf0, muf0 };
-  }) },
+  // P2-7: 🌠merger の 3 点セット(mergerCausal)—— 第310便c で削除(behavior.merger-causal と一緒に —— 🌠 は第251便b で廃止・root も v1.45 へ昇格済み)。
   // P2-8: 🌫️collapse の etaRad 対照。説明文は当初「放射冷却(E11)による収縮」と書いていたが、
   // 実測では etaRad は **温度だけ** を単調に動かし、半質量半径 r50(=収縮の速さ)は変えない
   // (6000步で r50 差 0.4%・12000步でも 2.1% で符号すら一定しない)。40C で説明文を修正し、
@@ -42717,60 +42685,11 @@ await w5bRun('emAudit', true); async function W5B_emAudit(page, add, fpRun, cons
 // どちらも「説明文が主張している因果」を同一 seed の A/B で機械検証する。実測が主張を支持しない
 // 部分は、主張の側を弱めて **測れた事実の方**(効き所・否定的結果)を固定する方針(誠実性優先)。
 if (!FAST) {
-  // ---- P2-7: 🌠merger の3点セット(潮汐尾の成長 / kFrame の効き所 / muF の効き)----
-  // 実測(3000步・同一seed。**beta〔4-81適用〕と root〔v1.33〕の両方**で採った — 閾値は両者が
-  // 通る位置に置き、ばらつきの大きい量はその旨を明記する):
-  //                         beta(4-81)     root(v1.33)
-  //   潮汐尾率(1.5倍外)   0.0%→3.70%      0.0%→3.70%     (2倍外 1.11% / 1.11%)
-  //   平均|spin| kF1/kF0    0.5723/0.2639   0.5142/0.2639  → 比 **2.17倍 / 1.95倍**
-  //   平均|spin| muF差      10.1%           **0.87%**      ← 桁が違う(カオス由来・大きさは再現しない)
-  //   核間距離 kFrame差     0.55%           0.52%          ← 大きさまで再現する
-  // → 引きずりの効きは **スピン加熱に集中** していて、核どうしの接近そのものはほとんど変わらない。
-  //   説明文「kFrame=1 のフレームドラッギングが合体ダイナミクスに効く」はこの内訳を明記する形へ改めた。
-  // 閾値の根拠(実測÷余裕。カッコ内は beta/root の順):
-  //   ・潮汐尾率 >0.02(実測 0.0370/0.0370 = 1.85倍)かつ t0 では 0(尾が「育った」ことの確認)
-  //   ・平均|spin| 比 kF1/kF0 >1.4(実測 2.17/1.95 = 1.55/1.39倍の余裕)
-  //   ・muF の効き: 平均|spin| の相対差 >0.002(実測 0.101/0.0087 = 50/4.4倍)。
-  //     **向きも大きさも主張しない** — 2ビルドで 0.87% と 10.1% と一桁違い、素朴な「摩擦が加熱する」
-  //     向きにもならない(実測では muF=0 の方が高温になる時刻がある)。ここで固定しているのは
-  //     「muF は円盤に届いていて結果を変える」という **存在** だけである
-  //   ・核間距離の kFrame 差: 相対差 >1e-3(実測 5.5e-3/5.2e-3 = 5.5/5.2倍)かつ <0.05
-  //     (実測の 9.1/9.7倍下 — **「引きずりは軌道にはほとんど効かない」ことの上限側の固定**)
-  if (hasMerger) {
-  const mg = await w5cGetUnit('mergerCausal');
-  const spinRatio = mg.base.end.meanSpin / (mg.kf0.end.meanSpin || 1e-12);
-  const mufRel = Math.abs(mg.base.end.meanSpin - mg.muf0.end.meanSpin) / (mg.muf0.end.meanSpin || 1e-12);
-  // 第50便 50I: 「引きずりは軌道にほとんど効かない」は**接近期**の主張として判定する。
-  // 接近期 = 核間が初期の 0.72 倍に達した最初のチェックポイント(root 旧配置では 3000步 =
-  // 従来の判定点と同一。beta 新配置では 2000步)。深い接触期には軌道差が育つ(beta 実測
-  // 3000步で 11.5% — 説明文と claims が別途この値を固定する)
-  const sep0 = mg.base.t0.sep;
-  let apIdx = mg.base.cks.length - 1;
-  for (let i = 0; i < mg.base.cks.length; i++) if (mg.base.cks[i].sep <= 0.72 * sep0) { apIdx = i; break; }
-  const apB = mg.base.cks[apIdx], apK = mg.kf0.cks[apIdx];
-  const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
-  // 深接触期の分母は kF1(base)側 — 説明文・claims(11.5%)と同じ規約に揃える
-  const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.base.end.sep || 1e-12);
-  // 第51便 51E: beta は両円盤を軌道順行へ(潮汐尾の育ちを最優先 — 6000步で10%)。この配置では
-  // 3000步時点のスピン加熱比が 1.42(6000步では 3.35 — 深接触とともに開く)なので、閾値を
-  // 1.4→1.25 へ調整(root 旧配置は 1.9〜2.2 のまま余裕で通る。6000步側の 3.35 は claims が
-  // ±15% 窓で別途固定)
-  add('behavior.merger-causal',
-    !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
-    mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
-    spinRatio > 1.25 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
-    `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
-    `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
-    `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
-    `=${spinRatio.toFixed(2)}倍(>1.25) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
-    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは対象間で一桁違い、向きも一定しない) ` +
-    `④接近期(${apB.ck}步・核間 ${sep0.toFixed(1)}→${apB.sep.toFixed(1)})の kFrame 差=${(sepRel * 100).toFixed(2)}%` +
-    `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
-    `${(sepRelEnd * 100).toFixed(2)}% まで育つ — 効きの現れる時期の内訳ごと固定) ` +
-    `— 引きずりの効きはまずスピン加熱に集中し、接近期の軌道は変えない(第40便 40C+第50便 50I)`);
-  } else {
-    console.log('SKIP behavior.merger-causal(対象に 🌠merger なし — 第251便b で beta から廃止。root 昇格時に本節ごと削除)');
-  }
+  // ---- P2-7: 🌠merger の3点セット —— **第310便c で本節ごと削除**(第251便b で 🌠 を廃止したときの約束「root 昇格時に本節ごと削除」)。
+  //   第310便の第1段で root が v1.45(35780a1)へ昇格し、root も beta も 🌠merger を持たない(内蔵 176 本に id 'merger' 無し・
+  //   claims の testId が behavior.merger-causal を指す本 0 —— 両方で確かめた)ので、この試験は root でも beta でも SKIP だった。
+  //   W5c ユニット mergerCausal も一緒に削除した。測った事実(潮汐尾率 0%→3.70%・スピン加熱比・接近期の kFrame 差)の記録は
+  //   docs/PHYSICS.md の第251便の廃止表と CHANGELOG(第40便・第50便・第51便)に残る。
 
   // ---- P2-8: 🌫️collapse の etaRad 対照(**否定的結果の固定**)----
   // 説明文の主張「放射冷却(E11)による収縮」「etaRad/pRad を変えると冷却効率が崩壊速度に効く」を
@@ -42804,7 +42723,7 @@ if (!FAST) {
     `r50 終端=${cc.on.end.r50.toFixed(1)}/${cc.off.end.r50.toFixed(1)} 収縮 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
     `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない。収縮を駆動しているのは自己重力`);
 } else {
-  console.log('SKIP behavior.merger-causal / behavior.collapse-cooling(QA_FAST=1)');
+  console.log('SKIP behavior.collapse-cooling(QA_FAST=1)');
 }
 
 // ---- 8e) 第14次裁定 P2-1(2026-07-23): 自動ドラフトの復元/破棄 E2E(専用ページで再読込を伴う)----
