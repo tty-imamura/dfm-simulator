@@ -284,7 +284,8 @@ const T_TABLE_KEYS = ['key', 'fam', 'targetKind', 'etaMercury', 'etaSun', 'x', '
 const tView = (tab, row) => ({ table: pickKeys(tab, T_TABLE_KEYS), row: Object.assign(pickKeys(row, T_VIEW_KEYS), { preds: (row.preds || []).slice(0, 2) }) });
 /** 本ごとの対照の h/4(要るときだけ —— 水星は前の正本の mercury.control の h/h2 が同じなら写す) */
 function ctlH4(HP, id, off, h, ctl) {
-  const pc = id === MERCURY && CARRY && CARRY.prev && CARRY.prev.mercury ? CARRY.prev.mercury.control : null;
+  // 正本の水星の対照は段 M の出力の mercury.control(正本では /mercury/mercury/control)
+  const pc = id === MERCURY && CARRY && CARRY.prev && CARRY.prev.mercury && CARRY.prev.mercury.mercury ? CARRY.prev.mercury.mercury.control : null;
   const raw = (z) => ({ aps: z.aps, periodDays: z.periodDays, ecc: z.ecc });
   if (pc && pc.length === 3 && H4C.canCarry(CARRY, 'control:' + id, [1, 2].map((d) => Object.assign({ div: d }, raw(ctl[d]))), pc.slice(0, 2))) {
     H4C.markCarried(CARRY, 'control:' + id); return raw(pc[2]);
