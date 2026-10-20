@@ -261,6 +261,13 @@ WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 #   ブロックの包みで最上位の文の形を見る lint.qaOrder(POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
 [ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS docs.w310c lint.qaHeapRelease310 behavior.dragNorm301 docs.invSq309 docs.maintain309 docs.recheck309 lint.regenChain lint.frozenBaseline lint.perfAbJit lint.qaOrder"
 # ==== 第310便c の塊(ここまで)====
+# ==== 第311便c の塊(ここから)====
+# 第311便c(統括の検証項目 R228・決断事項 AN393 —— 鎖の道具と器の型): 枝 c の新設 3 本(lint.readyQueue311 —— 予約つきの ready queue・見積りの上書き・
+#   workers all の見直し・lint.h4Carry311 —— h/4 の転記の型と振り分けの一覧・docs.w311c —— 文書)と、表の版と自己試験 (g) の lint.regenChain・
+#   samplestatus の原稿の qaTargets を読む docs.sampleStatus-sync・転記を当てた器の正本を読む docs.chainBurst301・docs.shell304b
+#   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.readyQueue311 lint.h4Carry311 docs.w311c lint.regenChain docs.sampleStatus-sync docs.chainBurst301 docs.shell304b"
+# ==== 第311便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in

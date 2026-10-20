@@ -3011,7 +3011,9 @@ lastAddAt = Date.now();
       const has288f = RT.REGEN_STEPS.some((z) => z.key === 'htmlagg');
       // 第310便c(R224): kf0ledger の after に kf0ledger-old(同じ md を書く 2 段の順)と touches の全順序の検査の表は版 w310c-regentable-10 —— 世代は表から機械で
       const has310c = RT.REGEN_STEPS.some((z) => z.key === 'kf0ledger' && (z.after || []).includes('kf0ledger-old'));
-      const wantVer = has310c ? 'w310c-regentable-10' : has288f ? 'w288f-regentable-9' : 'w287f-regentable-8';
+      // 第311便c(R228): 予約つきの ready queue(readyPick)・実測の見積りのファイル・obscompare/samplestatus の workers 1 の表は版 w311c-regentable-11 —— 世代は表から機械で
+      const has311c = typeof RT.readyPick === 'function';
+      const wantVer = has311c ? 'w311c-regentable-11' : has310c ? 'w310c-regentable-10' : has288f ? 'w288f-regentable-9' : 'w287f-regentable-8';
       if (RT.REGEN_TABLE_VERSION !== wantVer) bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION + '(期待 ' + wantVer + ')');
       for (const f of ['tools/regen-chain.mjs', 'tools/calaudit-split.mjs', 'tools/qa-staged.mjs', 'tests/exp-w284f-splitcheck.mjs'])
         if (!fs.existsSync(path.join(ROOT, f))) bad.push(f + ' が無い');
@@ -3061,6 +3063,7 @@ lastAddAt = Date.now();
         if (!g.ok) bad.push('(m) AN43: ' + JSON.stringify(Object.fromEntries(Object.entries(g.cases).map(([k, v]) => [k, v.status]))));
         cases.push('(m) AN43: ' + Object.entries(g.cases).map(([k, v]) => k + ' → ' + v.status).join('・') + '(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen)');
       } finally { fs.rmSync(tmp43, { recursive: true, force: true }); }
+      // 第311便c(R228): 模擬の既定は予約つき(easy)—— 単独で走る段は集約段 htmlagg だけ(obscompare・samplestatus は一時出力 —— lint.readyQueue311)
       cases.push(`(g) ready queue の模擬 ${r.g.steps} 段(未了 ${r.g.pending})・見積り ${r.g.makespan} s(波の型 ${r.g.waveMakespan} s)・順序違反 ${r.g.order}・書込の重なり ${r.g.writes}・予算超過 ${r.g.budget}・同じファイルの書き手 ${r.g.sharedWriters.join(' / ')}・単独 ${r.g.exclusive.join(',')} ${r.g.exclusiveAlone}・合成の違反の検出 ${JSON.stringify(r.g.detect)}`);
       cases.push(`(h) stub の鎖(レーン 3): rc ${r.h.rc}・時系列 ${r.h.events} 段・順序違反 ${r.h.order}・書込の重なり ${r.h.writes}(同じファイルの 2 段が直列 ${r.h.serialF})・予算超過 ${r.h.budget}・波の境を待たない ${r.h.noWaveBarrier}・済み印の契約 ${r.h.marksOk}`);
       cases.push(`(i) 済み印の契約: 静的な契約が変わった段 ${r.i.changed.join(',')} → 走り直した ${r.i.reran.join(',')}(x6 は x2 の意味的出力が変わった —— 第287便f)・旧印 ${r.i.stale.join(',')}・契約の無い印は走り直す ${r.i.bareMarkRerun}`);
@@ -3179,6 +3182,192 @@ lastAddAt = Date.now();
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
+
+// ==== 第311便c の塊(ここから)====
+// ---- 第311便c(統括の検証項目 R228 —— 第112報 P1・決断事項 AN393): lint.readyQueue311 ----
+// ----   **予約つきの ready queue**(EASY backfill —— tests/lib-w281a-regentable.mjs の `readyPick`・規則の版 READY_QUEUE_RULE)を固定する
+// ----   (`readyQueueProbe311`)。模擬(`simulateReadyQueue`)と chainShell の bash が**同じ規則**であること・予約の性質:
+// ----     (u) 純関数 `readyPick` の 5 例: 予約の時刻 t_res(走行中の段の見積りの終わりを早い順に足す)・同じ時刻に終わる段は全部足して extra を出す・
+// ----         t_res より後に終わる段は extra の内だけ入れる(使った分だけ減らす)・旧の規則(greedy)は予約しない・見積りを過ぎた走行は「今」終わる扱い。
+// ----     (s) 小さな表(レーン 4・全レーンを取る段 H)の模擬: 予約は H を 3.8 で入れ(旧の規則は 5 —— 小さな段 C2 が先にレーンを取る)、壁時計が短い。
+// ----     (b) 同じ表で生成した bash を偽の段(sleep)で走らせ、**開始の並びが模擬と同じ**(予約・REGEN_RESERVE=0 の旧の規則の両方)・時系列の照合 0・
+// ----         予約の注釈の行(`# reserve`)は予約の回だけ。
+// ----     (t) 全段 regen の表の模擬(予約・旧の規則)で順序・書込・予算の違反 0・未了 0(壁時計は報告だけ —— 判定に使わない)。
+// ----   加えて ⑤ workers all の段の見直し(`laneReview311`): 鎖の中で html を置き換える段(集約段)は、依存の閉包で前後どちらにも並ばない段に
+// ----   html を読む段があれば all のまま・html を置き換えない段(一時出力の書く段)は workers 1 でよい ⑥ 見積りの上書きのファイル
+// ----   (tests/data-w311c-regensec.json —— 版・段が表にある・秒が非負の整数)が計画の判定と済み印の契約を動かさない(上書きの前後で同じ —— 表の写しで)。
+// ----   **beta 線の正本なので root は SKIP**。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.readyQueue311(beta 対象でない: ' + TARGET + ' — 再生成の鎖は beta 線の正本)');
+  } else {
+    await (async () => {
+      const os = await import('node:os');
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w311c-rq-'));
+      try {
+        const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+        if (typeof RT.readyQueueProbe311 !== 'function') { bad.push('表に readyQueueProbe311 が無い(第311便c 未適用)'); return; }
+        if (RT.READY_QUEUE_RULE !== 'w311c-easy-backfill-1') bad.push('規則の版が w311c-easy-backfill-1 でない: ' + RT.READY_QUEUE_RULE);
+        const r = await RT.readyQueueProbe311({ root: ROOT, tmpDir: tmp });
+        for (const k of ['u', 's', 'b', 't']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 200));
+        cases.push(`(u) readyPick ${Object.keys(r.u).filter((k) => k !== 'ok').map((k) => k + ' [' + r.u[k].starts + (r.u[k].res ? ' / 予約 ' + r.u[k].res.key + ' t=' + r.u[k].res.tRes + ' extra ' + r.u[k].res.extra : ' / 予約なし') + ']').join(' ')}`);
+        cases.push(`(s) 模擬: 優先度 ${r.s.priority}・予約 ${r.s.easy}(H の開始 ${r.s.hEasy}・壁時計 ${r.s.makespanEasy})・旧 ${r.s.greedy}(H ${r.s.hGreedy}・${r.s.makespanGreedy})`);
+        if (r.b) cases.push(`(b) bash: 予約 rc ${r.b.easy.rc} ${r.b.easy.order}(照合 ${r.b.easy.check}・予約の行 ${r.b.easy.reserveLines})・旧 rc ${r.b.greedy.rc} ${r.b.greedy.order}(照合 ${r.b.greedy.check}・予約の行 ${r.b.greedy.reserveLines})`);
+        cases.push(`(t) 全段の模擬 ${r.t.steps} 段: 予約 ${r.t.easySec} s・旧 ${r.t.greedySec} s(予約 ${r.t.reservations} 回・backfill ${r.t.backfills} 段 —— 見積りの壁時計は判定に使わない)`);
+        // ⑤ workers all の段の見直し
+        const lr = RT.laneReview311({ root: ROOT });
+        if (!lr.ok) bad.push('⑤ ' + JSON.stringify(lr.rows.filter((z) => !z.ok).map((z) => z.key)) + ' 直書き ' + lr.directWrite.join(','));
+        const agg = lr.rows.find((z) => z.key === 'htmlagg');
+        if (!agg || agg.workers !== 'all' || agg.rewritesHtmlInChain !== true) bad.push('⑤ 集約段 htmlagg が all でない・html を置き換えない');
+        for (const k of ['obscompare', 'samplestatus']) { const z = lr.rows.find((w) => w.key === k); if (!z || z.workers !== 1 || z.rewritesHtmlInChain !== false) bad.push('⑤ ' + k + ' が workers 1 の一時出力の段でない'); }
+        cases.push('⑤ ' + lr.rows.map((z) => `${z.key}(workers ${z.workers}・html を置き換える ${z.rewritesHtmlInChain}・順序の無い html 読み ${z.unorderedHtmlReaders})`).join('・'));
+        // ⑥ 見積りの上書きのファイル
+        const SEC = RT.REGEN_SEC;
+        if (!SEC || SEC.version !== RT.REGEN_SEC_VERSION) bad.push('⑥ ' + RT.REGEN_SEC_FILE + ' が無いか版が違う');
+        else {
+          const keys = Object.keys(SEC.steps || {});
+          const unknown = keys.filter((k) => !RT.REGEN_STEPS.some((z) => z.key === k));
+          const badSec = keys.filter((k) => !(Number.isInteger(SEC.steps[k].sec) && SEC.steps[k].sec >= 0) || !SEC.steps[k].source);
+          if (unknown.length) bad.push('⑥ 表に無い段: ' + unknown.slice(0, 5).join(','));
+          if (badSec.length) bad.push('⑥ 秒が非負の整数でないか出所が無い: ' + badSec.slice(0, 5).join(','));
+          const applied = RT.REGEN_STEPS.filter((z) => z.secTable !== undefined);
+          if (applied.length !== keys.filter((k) => RT.REGEN_STEPS.find((z) => z.key === k && z.role !== 'history')).length) bad.push('⑥ 上書きした段の数が合わない');
+          // sec を表の値に戻した写しで、計画の判定と済み印の静的な契約が同じ(sec は契約にも判定にも入らない)
+          const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
+          const back = RT.REGEN_STEPS.map((z) => Object.assign({}, z, z.secTable !== undefined ? { sec: z.secTable } : {}));
+          const plan0 = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html'), steps: back });
+          const sig = (p) => p.steps.map((z) => z.key + ':' + z.status + ':' + z.ownStatus).join(',');
+          if (sig(plan) !== sig(plan0)) bad.push('⑥ sec の上書きで計画の判定が動いた');
+          const all = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+          const c1 = RT.buildChain(all, { root: ROOT }), c0 = RT.buildChain(all, { root: ROOT, steps: back });
+          const diffC = Object.keys(c1.steps).filter((k) => !c0.steps[k] || c0.steps[k].contract !== c1.steps[k].contract);
+          if (diffC.length) bad.push('⑥ sec の上書きで済み印の契約が動いた: ' + diffC.slice(0, 5).join(','));
+          cases.push(`⑥ 見積りの上書き ${keys.length} 段(出所 ${Object.keys(SEC.sources || {}).join(',') || '—'})・計画の判定 ${sig(plan) === sig(plan0) ? '同じ' : '違う'}・済み印の契約の差 ${diffC.length}`);
+        }
+      } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+      finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+    })();
+    add('lint.readyQueue311', bad.length === 0,
+      `**予約つきの ready queue**(第311便c・統括の検証項目 R228 —— 第112報 P1): ${cases.join(' / ')} —— `
+      + `予約は入れる順だけを変える(走っている段は止めない・依存・書込の排他・レーンの予算が先)。**見積りは前回の鎖の実測で、外れれば予約の時刻もずれる**`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+// ---- 第311便c(決断事項 AN393・統括の検証項目 R228): lint.h4Carry311・docs.w311c ----
+// ----   lint.h4Carry311 …… h/4 の転記の型(tests/lib-w311c-h4carry.mjs)と振り分けの一覧(tests/data-w311c-h4roles.json)を固定する:
+// ----     ① 自己試験 `h4CarrySelfTest`(ビット同一の比べ方・前の正本を開く・転記できる/できない・来歴〔元の測定〕の引き継ぎ・H4_CARRY=0 ほか無効の経路・
+// ----        値の鍵の照合・丸めの床の書式 fmtFloor/fmtDiff)② 一覧の形(版・段が表の現行の段・役割 a/b/c・b に dt3/kf0・c に charon-h4/charoneps-h4・読み手の欄)
+// ----     ③ 転記を当てた段(carry "applied")の器が lib を import して前の正本を開く・code の並びに lib がある / 役割 b・c の器(較正走行・カロンの系列)は lib を使わない
+// ----     ④ 転記を当てた段の正本に `h4Carried` があれば版・元の測定の sha256・転記した単位がある(無ければ全部測った正本 —— 鎖の前の世代)。
+// ----   docs.w311c …… PHYSICS〔第311便c〕(「## 7.」の前・2 段の感度診断・h と h/2 の一致は収束の証明ではない)・AI_SPEC §121・CHANGELOG・tools/README・
+// ----     post-merge の ③′ の第311便c の塊・新しい節に禁句と言わないことの言い回しが無い。root は 2 本とも SKIP。
+{
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(path.join(ROOT, 'tests', 'lib-w311c-h4carry.mjs'))) {
+    console.log('SKIP lint.h4Carry311 / docs.w311c(beta 対象でない・第311便c 未適用 — ' + TARGET + ')');
+  } else {
+    await (async () => {
+      // ---- lint.h4Carry311
+      {
+        const bad = [], cases = [];
+        const os = await import('node:os');
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w311c-h4-'));
+        try {
+          const H4 = await import('file://' + path.join(ROOT, 'tests', 'lib-w311c-h4carry.mjs'));
+          const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          const r = H4.h4CarrySelfTest(tmp);
+          if (!r.ok) bad.push('① ' + JSON.stringify(r).slice(0, 220));
+          cases.push(`① 自己試験 ビット ${r.bits}・転記 ${r.carry}・来歴の引き継ぎ ${r.originKept}・無効の経路 ${r.off}・値の鍵 ${r.compare}・書式 ${Object.values(r.format).join(' | ')}`);
+          let J = null;
+          try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w311c-h4roles.json'), 'utf8')); } catch { bad.push('② 一覧 tests/data-w311c-h4roles.json が読めない'); }
+          if (J) {
+            if (J.version !== 'w311c-h4roles-1') bad.push('② 一覧の版 ' + J.version);
+            const cur = new Map(RT.REGEN_STEPS.filter((z) => z.role !== 'history').map((z) => [z.key, z]));
+            const by = { a: [], b: [], c: [] };
+            for (const s of (J.steps || [])) {
+              if (!cur.has(s.key)) bad.push('② 表の現行の段に無い ' + s.key);
+              if (!by[s.role]) { bad.push('② 役割が a/b/c でない ' + s.key + ':' + s.role); continue; }
+              by[s.role].push(s.key);
+              if (!s.readers || !Array.isArray(s.readers.steps) || !Array.isArray(s.readers.qa) || !Array.isArray(s.readers.physics)) bad.push('② 読み手の欄が無い ' + s.key);
+            }
+            for (const k of ['dt3', 'kf0']) if (!by.b.includes(k)) bad.push('② 役割 b に ' + k + ' が無い');
+            for (const k of ['charon-h4', 'charoneps-h4']) if (!by.c.includes(k)) bad.push('② 役割 c に ' + k + ' が無い');
+            const applied = (J.steps || []).filter((s) => s.carry === 'applied');
+            if (applied.some((s) => s.role !== 'a')) bad.push('② 役割 a の外に転記を当てた');
+            cases.push(`② 一覧 a ${by.a.length}・b ${by.b.length}(${by.b.join(',')})・c ${by.c.length}(${by.c.join(',')})・読むだけ ${(J.readOnly || []).length}・刻みでない h ${(J.excluded || []).length}・転記を当てた ${applied.map((s) => s.key).join(',') || 'なし'}・未適用 ${(J.steps || []).filter((s) => s.carry === '未適用').length}`);
+            // ③ 器
+            for (const s of applied) {
+              const h = (String((cur.get(s.key) || {}).cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
+              const tx = h && fs.existsSync(path.join(ROOT, h)) ? fs.readFileSync(path.join(ROOT, h), 'utf8') : '';
+              if (!/from '\.\/lib-w311c-h4carry\.mjs'/.test(tx) || !/openCarry\(/.test(tx) || tx.indexOf("'tests/lib-w311c-h4carry.mjs'") < 0) bad.push('③ ' + s.key + ' の器が転記の型を使っていない(import・openCarry・code の並び)');
+            }
+            for (const s of (J.steps || []).filter((z) => z.role !== 'a')) {
+              const h = (String((cur.get(s.key) || {}).cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
+              const tx = h && fs.existsSync(path.join(ROOT, h)) ? fs.readFileSync(path.join(ROOT, h), 'utf8') : '';
+              if (/lib-w311c-h4carry/.test(tx)) bad.push('③ 役割 ' + s.role + ' の ' + s.key + ' の器が転記の型を使う');
+            }
+            // ④ 正本の来歴
+            const st4 = [];
+            for (const s of applied) {
+              const out = (cur.get(s.key) || {}).outs ? cur.get(s.key).outs[0] : null;
+              let O = null; try { O = JSON.parse(fs.readFileSync(path.join(ROOT, out), 'utf8')); } catch { O = null; }
+              if (!O) { bad.push('④ ' + s.key + ' の正本が読めない'); continue; }
+              if (O.h4Carried) {
+                const c = O.h4Carried;
+                if (c.version !== H4.H4_CARRY_VERSION || !c.origin || !/^[0-9a-f]{64}$/.test(String(c.origin.fromTargetSha256 || '')) || !Array.isArray(c.carried) || !c.carried.length) bad.push('④ ' + s.key + ' の h4Carried の形');
+                st4.push(`${s.key} 転記 ${c.carried.length}・測り直し ${(c.measured || []).length}(元の測定 ${String(c.origin.fromDate)})`);
+              } else st4.push(`${s.key} 全部測った正本(転記の来歴なし)`);
+            }
+            cases.push('③ 器の import・openCarry・code の並び ok / ④ ' + st4.join('・'));
+          }
+        } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+        add('lint.h4Carry311', bad.length === 0,
+          `**h/4 の転記の型と振り分けの一覧**(第311便c・決断事項 AN393・統括の検証項目 R228): ${cases.join(' / ')} —— h と h/2 は 2 段の感度診断。`
+          + `**h と h/2 の一致は収束の証明ではない**(転記した h/4 は前の正本で測った値)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- docs.w311c
+      {
+        const bad = [], cases = [];
+        const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch { return ''; } };
+        const Ph = rd('docs/PHYSICS.md'), Ai = rd('docs/AI_SPEC.md'), Ch = rd('CHANGELOG.md'), Tr = rd('tools/README.md'), Pm = rd('tools/post-merge-qa.sh');
+        const i0 = Ph.indexOf('〔第311便c'), i7 = Ph.indexOf('\n## 7. ');
+        const sec = i0 >= 0 ? Ph.slice(i0, i7 > i0 ? i7 : undefined) : '';
+        if (!(i0 >= 0 && i7 > i0)) bad.push('① PHYSICS〔第311便c〕が「## 7.」の前に無い');
+        for (const w of ['2 段の感度診断', 'h と h/2 の一致は収束の証明ではない', 'h4Carried', 'H4_CARRY=0', 'data-w311c-h4roles.json']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第311便c〕に「' + w + '」が無い');
+        const a0 = Ai.indexOf('## 121. 第311便c'), a1 = Ai.indexOf('\n## ', a0 + 5);
+        const s121 = a0 >= 0 ? Ai.slice(a0, a1 > a0 ? a1 : undefined) : '';
+        if (!s121) bad.push('② AI_SPEC §121 が無い');
+        for (const w of ['w311c-easy-backfill-1', 'readyPick', 'data-w311c-regensec.json', 'data-w311c-h4roles.json', 'lib-w311c-h4carry.mjs', 'fmtFloor', 'lint.readyQueue311', 'lint.h4Carry311', 'docs.w311c', 'SYSTEM_PROMPT には載せない'])
+          if (s121 && s121.indexOf(w) < 0) bad.push('② AI_SPEC §121 に「' + w + '」が無い');
+        const c0 = Ch.indexOf('## v1.46-b311'), c1 = Ch.indexOf('\n## ', c0 + 5);
+        if (!(c0 >= 0 && Ch.slice(c0, c1 > c0 ? c1 : undefined).indexOf('第311便c') >= 0)) bad.push('③ CHANGELOG の v1.46-b311 に第311便c の行が無い');
+        for (const w of ['--calibrate', 'REGEN_RESERVE=0', 'w311c-easy-backfill-1']) if (Tr.indexOf(w) < 0) bad.push('④ tools/README に「' + w + '」が無い');
+        const p0 = Pm.indexOf('# ==== 第311便c の塊(ここから)'), p1 = Pm.indexOf('# ==== 第311便c の塊(ここまで)');
+        const pb = p0 >= 0 && p1 > p0 ? Pm.slice(p0, p1) : '';
+        for (const w of ['lint.readyQueue311', 'lint.h4Carry311', 'docs.w311c']) if (pb.indexOf(w) < 0) bad.push('⑤ post-merge の第311便c の塊に ' + w + ' が無い');
+        // ⑥ 書かない語(言い回し —— 鉤括弧の中は除く)と禁句(引用も含めて書かない —— 符号点と逆順の文字列で持つ・第310便c の型)
+        const strip = (x) => x.replace(/「[^」]*」/g, '');
+        const NOT = [/収束した/, /法則を発見した/, /フィットした/, /較正した/, /完全に一致/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (x) => x.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb]), cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]),
+          cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+        const clLine = (Ch.slice(c0, c1 > c0 ? c1 : undefined).split('\n').find((l) => l.indexOf('第311便c') >= 0) || '');
+        for (const [nm, tx] of [['PHYSICS〔第311便c〕', sec], ['AI_SPEC §121', s121], ['CHANGELOG', clLine]]) {
+          for (const re of NOT) if (re.test(strip(tx))) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+          for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+        }
+        cases.push(`① PHYSICS〔第311便c〕${sec.length} 字 / ② AI_SPEC §121 ${s121.length} 字 / ③ CHANGELOG / ④ tools/README / ⑤ post-merge ③′ の塊 / ⑥ 書かない語 ${NOT.length}・禁句 ${NG.length} の照合`);
+        add('docs.w311c', bad.length === 0,
+          `**第311便c の文書**(鎖の道具と器の型 —— 統括の検証項目 R228・決断事項 AN393): ${cases.join(' / ')}`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      }
+    })();
+  }
+}
+// ==== 第311便c の塊(ここまで)====
 
 // ---- 第288便f(原仮定者の裁定(第78報)で閉じた AN90「通知は GitHub の失敗メール・一時出力の集約は 27 段の刻印の版上げと同じ便・Chromium の版を
 // ---- QA 結果 JSON の env に記録・pn1 の領域宣言から OBS_COMPARE_* を外すのは実際の読込依存が無いことを検査してから」・統括の検証項目 R118):
