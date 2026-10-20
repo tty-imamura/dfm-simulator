@@ -45,6 +45,7 @@ export const SMOKE_KNOBS = Object.freeze({
   'axialsign-302e': { env: { W302E_N: '200', W302E_N3: '60' }, note: '步数 200/60(既定 2000/600)' },
   'spinavg-305d': { env: { W305D_QUICK: '1', W305D_N: '40' }, note: 'QUICK・步 40(既定 600 —— 走査を縮める)' },
   'rotframe-306d': { env: { W306D_QUICK: '1', W306D_N: '40' }, note: 'QUICK・步 40(既定 400 —— h/4 と 🍥 を縮める)' },   // 第306便d
+  'mdsweep-310d': { env: { W310D_PARTS: 'K,P,E,S,Z' }, note: '段 K・P・E・S・Z だけ(段 R のエンジンの近点は鎖 —— 約 1200 s)' },   // 第310便d
   'synodic-299b': { env: { W299B_PART: 'sun3d' }, note: '段 sun3d だけ(約 30 s)' },
   'refit-298b': { env: { W298B_PART: 'qprobe' }, note: '段 qprobe だけ' },
   'refit-297a': { env: { W297A_PART: 'geotoy' }, note: '段 geotoy だけ' },

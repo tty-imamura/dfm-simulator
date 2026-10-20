@@ -2411,7 +2411,10 @@ lastAddAt = Date.now();
       'tests/out/bevel-w308a.json', 'tests/out/hold-w308b.json', 'tests/out/sunspin-w308c.json',
       // 第309便(統括の統合 —— 同じ規則): 新しい引きずり則(修正版)と dragCore の既定の参照の器(invsq-309a)・維持の型と背景の口座と内部熱(maintain-309b)・
       //   AN357 の再確認の器(recheck-309c)。どれも領域 REGEN_SCOPE を刻む(枝 d は新しい正本なし)
-      'tests/out/invsq-w309a.json', 'tests/out/maintain-w309b.json', 'tests/out/recheck-w309c.json'];
+      'tests/out/invsq-w309a.json', 'tests/out/maintain-w309b.json', 'tests/out/recheck-w309c.json',
+      // 第310便(統括の統合 —— 同じ規則): 新則の受理と核の直し・外殻の源(invsq-310a)・対の熱の相反の測定(pairheat-310b)・
+      //   太陽の m_d の掃引の材料(mdsweep-310d)。どれも領域 REGEN_SCOPE を刻む(枝 c は新しい正本なし)
+      'tests/out/invsq-w310a.json', 'tests/out/pairheat-w310b.json', 'tests/out/mdsweep-w310d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -80896,6 +80899,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ③ 外殻の源(核のエンジンと lib・球の差と薄い殻の動径の求積・遠方で w → M/r²・外殻の受け手のエンジンと lib・**m_d = M は外殻の宣言の有無でビット同一**〔読み口と ☿ 3D の 10 步〕)
 // ----   ④ 自己の場の前計算(表 = エンジンの K2(t; 1)・原点の受け手の全節点の場・原点の写しの前計算と今の経路〔読み口の direct〕・SI の写しは受け手を原点へ移した今の経路と)
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const iq310Lib = path.join(ROOT, 'tests', 'lib-w310a-shell.mjs'), iq310Lib9 = path.join(ROOT, 'tests', 'lib-w309a-invsq.mjs');
   const iq310Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && iq310Html.indexOf('REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1"') >= 0 && fs.existsSync(iq310Lib) && fs.existsSync(iq310Lib9))) {
@@ -80996,6 +81000,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**新則の受理と核の直しの振る舞い**(第310便a・原仮定者の裁定(第107報)・(第109報)AN380・AN378・AN384・AN385・R222 —— Wbg2 は 0 だけ・外殻は opt-in・在位の本は宣言しない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
+  })();   // 第310便c(heap)
 }
 // ---- 第310便a: docs.invSq310 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1" ∧ 正本 tests/out/invsq-w310a.json ∧ 器 ∧ lib。
 // ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・新則と外殻の版
@@ -82617,6 +82622,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   docs.pairHeat310: ① 正本の門(器の gatesOf で作り直して一致)・試走でない・版/来歴/領域 hash ② lib の検査を作り直す ③ 器を QA の中で走らせ直し(門が全部真・表の数が正本と
 // ----     4 桁で同じ)④ 表の行と数が PHYSICS〔第310便b〕に逐語・節が「## 7.」の前・語 ⑤ AI_SPEC §116・CHANGELOG・README・段・.gitignore・post-merge ⑥ 書かない語(「」の引用を除いて)と禁句
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const ph310Out = path.join(ROOT, 'tests', 'out', 'pairheat-w310b.json'), ph310Harn = path.join(ROOT, 'tests', 'exp-w310b-pairheat.mjs'), ph310Lib = path.join(ROOT, 'tests', 'lib-w310b-pairheat.mjs');
   let H10 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H10 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H10 = null; } }
   let has310b = false; try { has310b = !!(H10 && typeof H10.evalExpr('REL_DRAG_AXIS_HOLD_LEDGER_VERSION') === 'string'); } catch (e) { has310b = false; }
@@ -82767,6 +82773,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
     H10 = null;   // headless の写しを手放す(heap)
   }
+  })();   // 第310便c(heap)
 }
 // ==== 第310便b の塊(ここまで)====
 // ==== 第307便e の塊(ここから)====
