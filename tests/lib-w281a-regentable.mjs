@@ -2732,7 +2732,7 @@ export async function readyQueueProbe311(o) {
       && ks(u5) === '' && u5.reservation.tRes === 5;
   }
   // (s)(b)
-  const scale = o.scale || 0.5;
+  const scale = o.scale || 1;   // 秒の倍率(1 —— 予約の判定の余裕は 1.2 s と 1.8 s。容器が混んでも段の入りの遅れがこれより小さければ並びは模擬と同じ)
   const fx = readyQueueFixture311(scale);
   const fdeps = tableDeps({ steps: fx });
   const ch = buildChain({ steps: fx.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: fx, deps: fdeps });
