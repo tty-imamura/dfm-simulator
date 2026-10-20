@@ -83085,7 +83085,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const g = (re) => { const m = re.exec(ref); return m ? m[1] : null; };
         const sha = g(/\bsha: '([0-9a-f]{7,})'/), full = g(/fullSha: '([0-9a-f]{40})'/), root = g(/rootSha256: '([0-9a-f]{64})'/), prev = g(/previous: '([0-9a-f]{7,})'/);
         if (!sha || !full || !full.startsWith(sha)) bad.push('④ABJIT_FROZEN_REF の sha と fullSha が合わない: ' + sha + ' / ' + full);
-        if (!/\btag: null\b/.test(ref) || !/tagStatus: '未発行/.test(ref)) bad.push('④ABJIT_FROZEN_REF の tag が null・tagStatus「未発行」でない(タグ v1.45.0 は原仮定者が作る)');
+        // タグ v1.45.0 は原仮定者が作る —— 未発行の間は tag null・tagStatus「未発行」、付いたら tag だけを埋める(どちらも受ける —— SHA は動かない)
+        if (!((/\btag: null\b/.test(ref) && /tagStatus: '未発行/.test(ref)) || /\btag: 'v1\.45\.0'/.test(ref))) bad.push('④ABJIT_FROZEN_REF の tag が null + tagStatus「未発行」でも v1.45.0 でもない');
         if (prev !== '99286dc') bad.push('④ABJIT_FROZEN_REF の previous が 99286dc でない: ' + prev);
         if (sha && ref.indexOf("how: 'tests/ci-frozen-baseline.sh " + sha + ' ') < 0) bad.push('④how の sha が違う');
         if (sha && SH.indexOf('tests/ci-frozen-baseline.sh ' + sha + ' tests/perf-baseline/index.html') < 0) bad.push('④ci-frozen-baseline.sh の例が ' + sha + ' でない');
