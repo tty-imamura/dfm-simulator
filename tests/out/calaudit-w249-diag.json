@@ -1,9 +1,9 @@
 {
- "when": "2026-10-20T21:27:12.978Z",
+ "when": "2026-10-20T21:28:09.069Z",
  "wave": "第271便a(第61報・AF16)",
  "of": "tests/out/calaudit-w249.json",
  "what": "**正本から移した重い診断**である(削ったのではない)。正本の `diagnosticsSplit` にこのファイルの相対パスと SHA-256 がある。単独で配ると参照先が欠ける —— 2 つで 1 組である。",
- "carriedOverFrom": "2026-10-20T21:04:29.162Z",
+ "carriedOverFrom": "2026-10-20T21:27:12.978Z",
  "fields": [
   {
    "path": "presets[].run.stopRule.machineIndependence",
@@ -1032,129 +1032,10 @@
    }
   },
   "alphaCenAB": {
-   "stopRule": {
-    "id": "alphaCenAB",
-    "declared": 9439328,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 8000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 9439328
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "alphaCenAB",
-     "declared": 9439328,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 9439328
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "alphaCenAB",
-     "declared": 18878657,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 18878657
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/4": {
-     "id": "alphaCenAB",
-     "declared": 37757313,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 37757313
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1162,52 +1043,9 @@
      },
      "predictionEligibleReasons": [
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 7.002074718475342,
-      "steps": 3,
-      "order": 1.996855092747337,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.997 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1216,15 +1054,7 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 7.621684394720774e-10,
-      "steps": 3,
-      "order": 1.9882831496787685,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.988 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "null|other|観測安定則(2026-08-25 裁定・適用第1号)": {
      "deprecatedKeys": {
@@ -1260,41 +1090,6 @@
      ]
     },
     "B|spin|自転(両星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1306,41 +1101,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1349,142 +1109,15 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 3.690697419164954e-7,
-      "steps": 3,
-      "order": 2.000000750099739,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 2.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     }
    }
   },
   "siriusAB": {
-   "stopRule": {
-    "id": "siriusAB",
-    "declared": 5932383,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 5932383
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 5932383
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "siriusAB",
-     "declared": 5932383,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5932383
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5932383
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "siriusAB",
-     "declared": 11864765,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 11864765
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/4": {
-     "id": "siriusAB",
-     "declared": 23729530,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 23729530
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1492,52 +1125,9 @@
      },
      "predictionEligibleReasons": [
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 18.517059326171875,
-      "steps": 3,
-      "order": 1.9959793317263326,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.996 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1546,15 +1136,7 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 3.2638288738340293e-9,
-      "steps": 3,
-      "order": 2.2316549006333597,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 2.232 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "null|other|観測安定則(適用第2号)": {
      "deprecatedKeys": {
@@ -1590,41 +1172,6 @@
      ]
     },
     "B|spin|自転(両星 — 転写なし)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1658,41 +1205,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1701,15 +1213,7 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 0.000001347839742870542,
-      "steps": 3,
-      "order": 2.0000007564318323,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 2.000 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     }
    }
   },
@@ -2324,129 +1828,10 @@
    }
   },
   "saturnZonalD68": {
-   "stopRule": {
-    "id": "saturnZonalD68",
-    "declared": 699401,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 699401
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 699401
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "saturnZonalD68",
-     "declared": 699401,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 699401
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 699401
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "saturnZonalD68",
-     "declared": 1398802,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 116567
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 1398802
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 1398802
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/4": {
-     "id": "saturnZonalD68",
-     "declared": 2797603,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 233134
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 2797603
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 2797603
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "D68|precession|D68 リングレットの近点移動(推定器つき宣言 — 第250便d)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2455,52 +1840,9 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 0.057671360726089915,
-      "steps": 3,
-      "order": 1.979664850440595,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.980 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "D68|period|D68 の公転周期・同方向1周(履歴)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2509,52 +1851,9 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 0.028926621514983708,
-      "steps": 3,
-      "order": 0.8621396564253685,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 0.862 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "D68|period|D68 の公転周期・近点間(第250便d)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2563,15 +1862,7 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 0.003332351363496855,
-      "steps": 3,
-      "order": 1.9730353475486784,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 1.973 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     },
     "null|other|解析式(J一次永年理論)への fit": {
      "deprecatedKeys": {
@@ -2596,41 +1887,6 @@
      ]
     },
     "D68|ecc|実測(標準検出器): 離心率(D68)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/4",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2639,15 +1895,7 @@
      "predictionEligibleReasons": [
       "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
-     ],
-     "numBoundDeclCoarse": {
-      "value": 9.992061352909198e-7,
-      "steps": 3,
-      "order": 2.0088724542860263,
-      "assessedStage": "h",
-      "basis": "dt=0.016・dt/2=0.008・dt/4=0.004 の同じ検出器の **|Q_h − Q_{h/4}|**(第252便b ③ と同じ ε_num の定義。3 段が揃ったので感度診断ではなく収束の量として使う)",
-      "orderNote": "観測次数 p_obs=log₂|(Q_h−Q_{h/2})/(Q_{h/2}−Q_{h/4})| = 2.009 を実測した(スキームの次数ではなく**この窓のこの量の観測次数**である — 第252便b ③(b))。**次数が正であることは収束条件の 1 つにすぎない** —— 収束の可否は門の `convergence.ok`(3 段・同符号の 2 段差・|p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ)が決める(第270便a AD4+AE3 / 第271便a R3 / 第272便a AG1)"
-     }
+     ]
     }
    }
   },
@@ -2805,8 +2053,8 @@
    ]
   },
   "n": 4,
-  "freshThisRun": 3,
-  "carriedFrom": "2026-10-20T21:04:29.162Z",
+  "freshThisRun": 0,
+  "carriedFrom": "2026-10-20T21:27:12.978Z",
   "entries": {
    "alphaCenAB": {
     "contract": {
@@ -4172,9 +3420,9 @@
    ]
   },
   "n": 39,
-  "freshThisRun": 0,
-  "reusedThisRun": 3,
-  "carriedFrom": "2026-10-20T21:04:29.162Z",
+  "freshThisRun": 4,
+  "reusedThisRun": 0,
+  "carriedFrom": "2026-10-20T21:27:12.978Z",
   "entries": {
    "earthMoonReal": {
     "contract": {
@@ -15779,7 +15027,7 @@
      "version": "w285f-h2reuse-2",
      "key": "jupiterGalilean:kf0",
      "presetHash": "bf320310:36153",
-     "engineSha": "0e055aa5335f6ae05d0f334104e31ce115c2066039f7b4290f0e4a4e64d4e513",
+     "engineSha": "3981f56006beeeda95afb4510b3165943c5a1d13f903b82b49bcf0f33923895e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -15816,13 +15064,13 @@
     "hSig": "dd16ea855cc23d9bf15a19db2073175a0d0ec469d314bf67a016f62b4b050293",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "5c4f26fa2730d0b72dc810efa7f83595e78387b191f8ea7b09b935c54afc08aa",
+     "sha": "2686adaf13fd393bd74f183fc05591b2b350fc9aaee38b0fa52e890ced600d2c",
      "parts": {
       "physicsDecl": "49ee9baa5145b88f94995587066f820537c7fc3c80c6d79834f20505756b1adf",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "34ddbc03c458622026b13faeee85b7ab9a8f718fac92dc7ff3f522263d30f9fc",
       "stopRule": "0e8ec6468d0535de1538c90772e3f07ddb83686ac5ce4004990df39500a87c35",
-      "numerics": "26b3a8b1436bb09f3d06724935513f727a86fdb8319dfc17b1b7e87522c18b56",
+      "numerics": "da0c7d84f41ecff1a92d620d0b622ae04746593d0ccf2c0eedb7c12b34c706a2",
       "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -16507,8 +15755,8 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 307692,
-     "wallSec": 32.666,
+     "rateStepsPerSec": 454545,
+     "wallSec": 29.455,
      "stepsPerOrbit0": [
       19115,
       38363,
@@ -16518,12 +15766,12 @@
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 32.666,
+      "wallSec": 29.455,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 10814883,
       "stepsRun": 10811628,
-      "rateStepsPerSec": 307692,
+      "rateStepsPerSec": 454545,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -16573,7 +15821,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 32.666,
+      "wallSec": 29.455,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -16605,7 +15853,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 307692,
+      "rateStepsPerSec": 454545,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "jupiterGalilean",
@@ -16630,15 +15878,15 @@
       }
      }
     },
-    "generatedAt": "2026-10-20T05:23:37.187Z",
-    "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad"
+    "generatedAt": "2026-10-20T21:28:08.927Z",
+    "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e"
    },
    "venusReal:kf0": {
     "contract": {
      "version": "w285f-h2reuse-2",
      "key": "venusReal:kf0",
      "presetHash": "140c433a:19174",
-     "engineSha": "0e055aa5335f6ae05d0f334104e31ce115c2066039f7b4290f0e4a4e64d4e513",
+     "engineSha": "3981f56006beeeda95afb4510b3165943c5a1d13f903b82b49bcf0f33923895e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -16672,13 +15920,13 @@
     "hSig": "55780d96be07f33dd13f56a3506a10e96273901f58fd2c8996b4445a6a46e05c",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "a771b4c94ca555e626724dd17ad150619e36c398d81624a8d184589a835d4bfd",
+     "sha": "6fe5e11c6e0ab74218fea39bb49f687936848ff7352bab0dc22b1bc09e301bdb",
      "parts": {
       "physicsDecl": "c24692b5651d3a86842b814f3917bf935847242b288c87d7ba3b886eb586b65b",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "f25b6fece4477d3b31b4912390653a06cf9dd2bba71bf5a3f2a24408fab941d1",
       "stopRule": "438e49f263d1075f1b684f990349ca5374669f40de3e1c1101d86f50be56c79f",
-      "numerics": "405a8e51ed3b79d763138fa5104ceae7928fadc3d5815949be3b8d2cb2f3fd29",
+      "numerics": "51adfc9abff061c0175c0fecbe21cc631abc00423b679fec84c0d71a0179b2be",
       "precision": "9b36bfd3eb64769dd76d3d21cf8436644c6e233ae83f827a9f3627cf92503094",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -16870,20 +16118,20 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 1000000,
-     "wallSec": 14.183,
+     "rateStepsPerSec": 1250000,
+     "wallSec": 16.677,
      "stepsPerOrbit0": [
       242674
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 14.183,
+      "wallSec": 16.677,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 14560415,
       "stepsRun": 14560415,
-      "rateStepsPerSec": 1000000,
+      "rateStepsPerSec": 1250000,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -16927,7 +16175,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 14.183,
+      "wallSec": 16.677,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -16947,7 +16195,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1000000,
+      "rateStepsPerSec": 1250000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "venusReal",
@@ -16972,15 +16220,15 @@
       }
      }
     },
-    "generatedAt": "2026-10-20T05:23:37.187Z",
-    "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad"
+    "generatedAt": "2026-10-20T21:28:08.927Z",
+    "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e"
    },
    "marsMoonsReal:kf0": {
     "contract": {
      "version": "w285f-h2reuse-2",
      "key": "marsMoonsReal:kf0",
      "presetHash": "2a24a68:16549",
-     "engineSha": "0e055aa5335f6ae05d0f334104e31ce115c2066039f7b4290f0e4a4e64d4e513",
+     "engineSha": "3981f56006beeeda95afb4510b3165943c5a1d13f903b82b49bcf0f33923895e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -17015,13 +16263,13 @@
     "hSig": "ebc1170cb1ce0fccbd96e884d0638a7dd7449e6ee88cdb6088ea44e7380ad0e3",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "9f56a50a5a2813923ae12b0c494476871db6281d6ca0b8d5fd5bae97ee3b5c90",
+     "sha": "521365fd75d7fab7ed91075a9fd29722b806dabd44bb0eb4a6dc3dec62e4cc70",
      "parts": {
       "physicsDecl": "24209777d6fe76d802fe841ee42872888614ebe2d11e1fdd7b57558de873dded",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "896db98b39bcac1d4cd683f80e3b44c026720f3993b802c5ea437fe1eba046b6",
       "stopRule": "9ce6a37d0769165dc644af5567b545831e4c6701c36768a8a7925a544133756d",
-      "numerics": "33e54e78b14601fe3c2147a1b8ea75da4b4ec98a10f1fa98804c47bb8ff7f41e",
+      "numerics": "91dde3d57c2d8be63c97d698d77b781bcf3353204704b7e579f30e48ccad7d33",
       "precision": "c34a4143e9449b05d24a617969f9a0e7d93835d85d51c7556c7bd2cd3bb20c63",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -17377,8 +16625,8 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 800000,
-     "wallSec": 12.064,
+     "rateStepsPerSec": 1000000,
+     "wallSec": 10.872,
      "stepsPerOrbit0": [
       34454,
       136394
@@ -17386,12 +16634,12 @@
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 12.064,
+      "wallSec": 10.872,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 8183629,
       "stepsRun": 8183629,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 1000000,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -17437,7 +16685,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 12.064,
+      "wallSec": 10.872,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -17461,7 +16709,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "marsMoonsReal",
@@ -17486,8 +16734,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-20T05:23:37.187Z",
-    "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad"
+    "generatedAt": "2026-10-20T21:28:08.927Z",
+    "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e"
    },
    "plutoCharonReal:kf0": {
     "contract": {
@@ -17836,7 +17084,7 @@
      "version": "w285f-h2reuse-2",
      "key": "neptuneReal:kf0",
      "presetHash": "5c94906b:20582",
-     "engineSha": "0e055aa5335f6ae05d0f334104e31ce115c2066039f7b4290f0e4a4e64d4e513",
+     "engineSha": "3981f56006beeeda95afb4510b3165943c5a1d13f903b82b49bcf0f33923895e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -17870,13 +17118,13 @@
     "hSig": "26bfc2e2187e486c0cfd91b64ca767a97ecf717ac152054fd51062f3c7de15d9",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "2de89b93950bde86b607e28b228b4454638d921b2d680aa6851df1f47651c41f",
+     "sha": "7a646a4385f4986f406e609ba7b5ee9f42f7fa904e4ddbf156f38eff2348bfc9",
      "parts": {
       "physicsDecl": "d3b39c89518958b4d117c72c53c93e9d30f0054fb197dff6ba65a2df46a45f6b",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "a33c4b5ee0f57c46f0df2655b431ad95af554f6e3933c9a8e534849898a1a076",
       "stopRule": "c35865024c108b1daddefa934efd14a980acf0f9252a197a0438591a808ab5b8",
-      "numerics": "0d821e0e58359182698b8a55b6ac6999dcaab9cb8e8b15b7ad21675296466191",
+      "numerics": "1ca59d3c7bf7c64d6f3c74924a302b7f25154be167ede0e9d5b0319982768302",
       "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -18068,20 +17316,20 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 1538462,
-     "wallSec": 3.145,
+     "rateStepsPerSec": 1333333,
+     "wallSec": 4.297,
      "stepsPerOrbit0": [
       63472
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.145,
+      "wallSec": 4.297,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3808338,
       "stepsRun": 3808338,
-      "rateStepsPerSec": 1538462,
+      "rateStepsPerSec": 1333333,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -18125,7 +17373,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 3.145,
+      "wallSec": 4.297,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -18145,7 +17393,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1538462,
+      "rateStepsPerSec": 1333333,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "neptuneReal",
@@ -18170,8 +17418,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-20T05:23:37.187Z",
-    "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad"
+    "generatedAt": "2026-10-20T21:28:08.927Z",
+    "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e"
    },
    "plutoCharonDiagInput": {
     "contract": {
