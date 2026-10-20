@@ -232,6 +232,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint
 #   標的 1PN + A1 と在位の 🌡️ の宣言を読む第306便a の docs.an336_306・preset.planets306
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.mdSweep310 docs.an336_306 preset.planets306"
 # ==== 第310便d の塊(ここまで)====
+# ==== 第311便b の塊(ここから)====
+# 第311便b(原仮定者の裁定(第110報)・AN389・AN382・AN390・AN395・R227): 枝 b の新設 2 本(behavior.galaxial311 —— 銀河の一様軸引きずりの受理とビット同一・受け手の制限・分解の拒否・
+#   docs.galaxial311 —— 正本と文書)と、受理・分解・build を読む behavior.invSq310・docs.invSq310(段 Z の 2 行が拒否へ)・behavior.invSq309・behavior.initObs309・docs.recheck309・状態の契約
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxial311 docs.galaxial311 behavior.invSq310 docs.invSq310 behavior.invSq309 docs.invSq309 behavior.initObs309 docs.recheck309 lint.stateContract302"
+# ==== 第311便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

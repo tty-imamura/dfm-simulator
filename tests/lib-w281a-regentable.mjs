@@ -1183,6 +1183,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/mdsweep-w310d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/R/rows/*/*/wallSec']) },
     note: '第310便d: 太陽の m_d の掃引の材料(外殻〔一様の厚い殻・比較に薄い殻〕の参照の核と独立の求積・m_d の表・近点への寄与の一次の見積り・エンジンの近点 E1〔m_d = M☉〕と E2〔m_d → 0⁺ の代理〕・標的 1PN + A1 に届くか —— フィットの値を在位へ入れない)' }),
   // ==== 第310便d の塊(ここまで)====
+  // ==== 第311便b の塊(ここから)====
+  // ---- 第311便b(原仮定者の裁定(第110報)・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227): **銀河の一様軸引きずりと新則の受け手の制限・分解の拒否の器**
+  //   (段 A〔galaxyAxial の受理・受け手の制限〔宣言の質量 m > 0〕・分母の下限の分解の拒否〕・B〔同じ状態の build のビット同一・孤立の 1 体・二体・明示の 0・実行時の質量 0・
+  //   非有限の行・分母の小さい行〕・G〔銀河の角運動量の向きと尺度 V₀/R₀〕・D〔新則の太陽系の写し —— 太陽 + 水星・金星・地球・火星・木星 × ω_G の格子 f = 0〜10 ×
+  //   水星の 2 公転: 軸の向き・軌道法線との角・天体どうしの角・維持の型のコスト・initSpin〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。
+  //   所要は第311便b の枝の実測(正本の elapsedS)
+  S('galaxial-311b', 'node tests/exp-w311b-galaxial.mjs', ['tests/out/galaxial-w311b.json'], 300, { secSource: 'w311b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/galaxial-w311b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第311便b: 銀河の一様軸引きずり relativeDrag.galaxyAxial(新則の本だけ・opt-in・受け手の軸の ω に同じ ω_G を足す —— 分母・β・並進は不変)の受理とビット同一の確かめ・新則の受け手は宣言の質量 m > 0(受理で拒否)・観測の移動の分解の分母の下限 1 − Σβ ≥ 1e-2(motionDenomSmall)・非有限の行の帳簿・ω_G の格子(尺度 V₀/R₀ —— 大きさは未定 AN395)の診断' }),
+  // ==== 第311便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
