@@ -81087,7 +81087,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ③ 線形: 外殻ありの源で Ω_c を 2 倍 → 核の分だけ 2 倍(相対 < 1e-12)・外殻の分はビット同一・m_d = M で Ω_c = 0 → 太陽からの u_rot と ω が 0
 // ----   ④ 参照: 玩具の配置(外殻 uniform・核の自転と軸を別に宣言)のエンジンと lib(u_rot < 1e-12・ω < 1e-9)
 {
-  await (async () => {   // 第310便c(heap)の型: 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const cs311Lib = path.join(ROOT, 'tests', 'lib-w311a-corespin.mjs');
   const cs311Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && cs311Html.indexOf('REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1"') >= 0 && fs.existsSync(cs311Lib))) {
@@ -81166,7 +81166,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**dragCore の自転と軸と極薄の厚い殻の受理の防御の振る舞い**(第311便a・原仮定者の裁定(第110報)AN387 ④・AN397・AN384・R226 —— 新則の本だけの opt-in・宣言の一定のベクトル・在位の本は宣言しない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
-  })();   // 第310便c(heap)の型
+  })();   // 第310便c(heap)
 }
 // ---- 第311便a: docs.coreSpin311 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_CORE_SPIN_VERSION = "w311a-corespin-1" ∧ 正本 tests/out/corespin-w311a.json ∧ 器 ∧ lib。
 // ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・核の自転と新則と外殻の版
