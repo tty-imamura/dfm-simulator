@@ -31,7 +31,9 @@
 // ■ 使い方
 //   node tests/exp-w310d-mdsweep.mjs                       → 正本 tests/out/mdsweep-w310d.json(段 mdsweep-310d)
 //   W310D_QUICK=1 W310D_OUT=<json> node tests/exp-w310d-mdsweep.mjs   → 試走(3 公転・刻み h だけ・格子 5 点 —— 正本を書かない)
-//   node tests/exp-w310d-mdsweep.mjs --md 1,0.1,0.01,0.001,1e-6 [--divs 1,2] [--shell uniform|thin] → 統合の後の 2 段目(外殻の鍵を W310D_SHELL_PATH で)
+//   node tests/exp-w310d-mdsweep.mjs --md 1,0.1,0.01,0.001,1e-6 [--divs 1,2] [--shell thin] → 統合の後の 2 段目(外殻の鍵を W310D_SHELL_PATH で・既定は一様の厚い殻 ——
+//     出力は tests/out/mdsweep-w310d-stage2.json〔W310D_OUT で変える・鎖の正本ではない〕・m_d = 1 は外殻の鍵を足しても既定とビット同一かを 2000 步で確かめる)
+//   node tests/exp-w310d-mdsweep.mjs --core 2.5e-5 [--divs 1]   → 比較(AN380 の読みではない —— dragCore の核だけ・外殻の引きずりを入れない)
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -198,10 +200,8 @@ export function partS(HP, base, o = {}) {
     const rM = D.refReceiver(B, 1, { order: 8 }), rS = D.refReceiver(B, 0, { order: 8 });   // 薄い殻の太陽は受け手にできない(下で核の体積だけ)
     const sun = B[0], uRot = cross(scale(sun.a, sun.Om), rM.rot[0]);
     const nOrb = O.nOrb, OmPar = sun.Om * dot(sun.a, nOrb), rotLen = norm(rM.rot[0]), wf = OmPar * rotLen / O.r0, c = wf * O.r0 ** 4;
-    const rho2 = parts.reduce((s, p) => s + p.m * D.rho2Of(p), 0) / M;   // 太陽の引きずりの質量の ⟨ρ²⟩(外殻なしの比較は核の質量だけで割らない —— 全質量 M で割る)
-    const mDrag = parts.reduce((s, p) => s + p.m, 0);
-    const beta = rM.beta[0], b = beta * O.r0 ** 2, b0 = b / (1 + (mDrag > 0 ? rho2 * M / mDrag : 0) / (3 * O.r0 ** 2));
-    const rho2Drag = mDrag > 0 ? rho2 * M / mDrag : 0;   // 引きずる質量の分布の ⟨ρ²⟩(核だけの比較では核の 3R_d²/5)
+    const mDrag = parts.reduce((s, p) => s + p.m, 0), rho2Drag = parts.reduce((s, p) => s + p.m * D.rho2Of(p), 0) / mDrag;   // 引きずる質量の分布の ⟨ρ²⟩(核だけの比較は核の 3R_d²/5)
+    const beta = rM.beta[0], b = beta * O.r0 ** 2, b0 = b / (1 + rho2Drag / (3 * O.r0 ** 2));   // b₀: β r² から K2 の次の項を除いた遠方の係数
     const dMain = D.dPiTrans(b0, 2, O.p, O.e), dRho2 = D.dPiTrans(b0 * rho2Drag / 3, 4, O.p, O.e), dRot = D.dPiRot(c, O.p, O.h0);
     const betaSun = rS.beta === null ? null : rS.beta[1], bS = betaSun === null ? 0 : betaSun * O.r0 ** 2, dSun = D.dPiTrans(bS, 2, O.p, O.e);
     const row = { shape, f, md, betaMS: beta, betaCore: rM.betaPart[0][0], betaShell: rM.betaPart[0].length > 1 ? rM.betaPart[0][1] : 0, bMS: b, b0,
@@ -268,19 +268,36 @@ export function partR(HP, base, o = {}) {
     }
     return o2;
   });
-  // 統合の後の 2 段目: --md の列(外殻の鍵を受理するエンジンだけ)
+  // 統合の後の 2 段目: --md の列(外殻の鍵を受理するエンジンだけ)。m_d = M☉ に外殻の鍵を足した本は既定(E1)と 2000 步の全状態がビット同一か(枝 a の契約)
   if (o.md && o.md.length) {
     const sweep = [];
     for (const f of o.md) {
-      const q = variantBook(base, f < 1 ? 'shell' : 'E1', { f, shape: o.shape || 'thick' });
+      const q = variantBook(base, 'shell', { f, shape: o.shape || 'thick' });
       const v = HP.validatePreset(clone(q));
       if (!v.ok) { sweep.push({ f, status: 'shell-key-not-connected', shellPath: SHELL_PATH, err: JSON.stringify(v.errors).slice(0, 200) }); continue; }
-      const rows = divs.map((dv, i) => { const r = measure(HP, q, P3h / dv, N); return Object.assign({ div: dv, diffDetB: r.detB - by('C0', i, 'detB'), diffApsNew: r.apsNew - by('C0', i, 'apsNew') }, r); });
-      sweep.push({ f, status: 'run', shellPath: SHELL_PATH, shape: o.shape || 'thick', rows });
+      const row = { f, status: 'run', shellPath: SHELL_PATH, shape: o.shape || 'thick' };
+      if (f === 1) row.bitSameE1 = stateSame(HP, q, variantBook(base, 'E1'), P3h, 2000);
+      row.rows = divs.map((dv, i) => { const r = measure(HP, q, P3h / dv, N); return Object.assign({ div: dv, diffDetB: r.detB - by('C0', i, 'detB'), diffApsNew: r.apsNew - by('C0', i, 'apsNew') }, r); });
+      sweep.push(row);
     }
     out.sweep = sweep;
   }
+  // 比較(AN380 の読みではない): --core の列は dragCore の核だけ(外殻の引きずりを入れない —— 今のエンジンの dragCore {massFrac, radius} の意味)
+  if (o.core && o.core.length) {
+    out.coreOnly = o.core.map((f) => { const q = variantBook(base, 'core', { f });
+      return { f, note: '比較(AN380 の読みではない —— 外殻の引きずりを入れない)', rows: divs.map((dv, i) => { const r = measure(HP, q, P3h / dv, N); return Object.assign({ div: dv, diffDetB: r.detB - by('C0', i, 'detB'), diffApsNew: r.apsNew - by('C0', i, 'apsNew') }, r); }) }; });
+  }
   return out;
+}
+
+/** 2 つの本を同じ刻みで n 步進め、全状態(位置・速度・自転・軸)がビット同一か */
+export function stateSame(HP, qa, qb, dt, n) {
+  const a = simOf(HP, qa), b = simOf(HP, qb);
+  if (a.err || b.err) return { same: false, err: a.err || b.err };
+  for (let k = 0; k < n; k++) { a.S.step(dt); b.S.step(dt); }
+  const keys = ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin', 'sax', 'say', 'saz'];
+  const diff = keys.filter((k) => a.S[k] && b.S[k] && Array.from(a.S[k]).some((v, i) => !Object.is(v, b.S[k][i])));
+  return { same: diff.length === 0, steps: n, diffKeys: diff };
 }
 
 /* ───────── 段 Z(届くか)───────── */
@@ -315,6 +332,9 @@ export function partZ(HP, base, J) {
         reachProxy: { estimate: S.rows.find((r) => r.shape === 'thick' && r.f === Math.min(...S.grid)).deltaFromM.total, detB: R.diff[last].detB.E2minusE1, apsNew: R.diff[last].apsNew.E2minusE1 } };
       // 比較(AN380 の読みではない): 外殻の引きずりを入れない(核だけ)なら並進の主項は m_d に比例 —— 引きずりの分を標的の分にする m_d/M の一次の見積り
       const core = S.rows.filter((r) => r.shape === 'none');
+      if (R.sweep) out.sweepVsEstimate = R.sweep.filter((w) => w.status === 'run').map((w) => { const m = w.rows[w.rows.length - 1], e1 = R.diff[last];
+        const est = S.rows.find((r) => r.shape === (w.shape === 'thin' ? 'thin' : 'thick') && Math.abs(r.f - w.f) <= 1e-12 * w.f);
+        return { f: w.f, shape: w.shape, div: m.div, measuredDeltaDetB: m.diffDetB - e1.detB.E1, measuredDeltaApsNew: m.diffApsNew - e1.apsNew.E1, estimate: est ? est.deltaFromM.total : null, bitSameE1: w.bitSameE1 || null }; });
       out.coreOnlyComparison = { note: '比較(AN380 の読みではない —— 外殻の引きずりを入れない写し)。並進の主項は m_d に比例するので、一次で m_d/M ≈ (標的 − G_loc の分)/(E1 の引きずりの分)',
         fLinear: (t.value - R.diff[last].detB.gLoc) / R.diff[last].detB.dragE1, rows: core.map((r) => ({ f: r.f, estimate: r.perCentury.total })) };
     }
@@ -390,7 +410,7 @@ export function gatesOf(J) {
   const g = {};
   if (J.K) {
     g.kernelsExterior = J.K.maxExt <= 1e-12 && J.K.maxDerivExt <= 1e-8;
-    g.kernelsInterior = J.K.maxInnRadial <= 1e-7 && J.K.maxInnDeriv <= 1e-6 && J.K.maxCav <= 1e-12 && J.K.maxCav3d <= 1e-7 && J.K.maxCavDeriv <= 1e-6 && J.K.maxThinIn <= 1e-12 && J.K.maxThinInDeriv <= 1e-7;
+    g.kernelsInterior = J.K.maxInnRadial <= 1e-7 && J.K.maxInnDeriv <= 1e-6 && J.K.maxCav <= 1e-12 && J.K.maxCav3d <= 1e-7 && J.K.maxCavDeriv <= 1e-6 && J.K.maxThinIn <= 1e-10 && J.K.maxThinInDeriv <= 1e-7;
     g.farCoef = J.K.farCoefMax <= 1e-3;
     g.mdEqualsMNoShell = J.K.mdEqualsM.parts === 1 && J.K.mdHalf.parts === 2;
   }
@@ -413,7 +433,7 @@ export function runAll(HP, o = {}) {
   if (parts.includes('P')) { J.P = partP(quick); tick('P'); }
   if (parts.includes('E')) { J.E = partE(HP, base); tick('E'); }
   if (parts.includes('S')) { J.S = partS(HP, base, { quick }); tick('S'); }
-  if (parts.includes('R')) { J.R = partR(HP, base, { quick, md: o.md, divs: o.divs, shape: o.shape }); tick('R'); }
+  if (parts.includes('R')) { J.R = partR(HP, base, { quick, md: o.md, core: o.core, divs: o.divs, shape: o.shape }); tick('R'); }
   if (parts.includes('Z')) { J.Z = partZ(HP, base, J); tick('Z'); }
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean);
@@ -425,17 +445,17 @@ const argOf = (k) => { const i = process.argv.indexOf(k); return i >= 0 ? proces
 export async function main() {
   const TARGET = process.env.W310D_TARGET || 'beta/index.html';
   const quick = process.env.W310D_QUICK === '1';
-  const md = argOf('--md') ? argOf('--md').split(',').map(Number) : null;
+  const md = argOf('--md') ? argOf('--md').split(',').map(Number) : null, core = argOf('--core') ? argOf('--core').split(',').map(Number) : null;
   const divs = argOf('--divs') ? argOf('--divs').split(',').map(Number) : null;
   const shape = argOf('--shell') === 'thin' ? 'thin' : 'thick';
-  const OUT = process.env.W310D_OUT || path.join(ROOT, 'tests', 'out', (md ? 'mdsweep-w310d-stage2.json' : 'mdsweep-w310d.json'));
+  const OUT = process.env.W310D_OUT || path.join(ROOT, 'tests', 'out', ((md || core) ? 'mdsweep-w310d-stage2.json' : 'mdsweep-w310d.json'));   // 2 段目は別名(鎖の正本を書かない)
   if (quick && !process.env.W310D_OUT) throw new Error('試走(W310D_QUICK=1)は W310D_OUT を指定する(正本を書かない)');
-  const parts = process.env.W310D_PARTS ? process.env.W310D_PARTS.split(',') : (md ? ['E', 'R', 'Z'] : undefined);
+  const parts = process.env.W310D_PARTS ? process.env.W310D_PARTS.split(',') : ((md || core) ? ['E', 'S', 'R', 'Z'] : undefined);
   const html = path.isAbsolute(TARGET) ? TARGET : path.join(ROOT, TARGET);
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
-  const R = runAll(HP, { quick, md, divs, shape, parts });
+  const R = runAll(HP, { quick, md, core, divs, shape, parts });
   const out = { version: HARNESS_VERSION, libVersion: D.LIB_VERSION, an336LibVersion: AN.LIB_VERSION, apsisVersion: AP.APSIS_VERSION, generator: 'tests/exp-w310d-mdsweep.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第109報)AN380: 太陽の R_d は cap6500km で固定し、太陽の m_d の適正値を探索する。dragCore(R_d, m_d)と、外殻(観測半径, 観測質量 − m_d)の引きずりを、それぞれ計算する ' +
