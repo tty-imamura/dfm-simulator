@@ -8,8 +8,9 @@
 //   Node の vm で読んだ写し(写しの中の本・状態・走行の配列のすべて)が QA の最後まで手放されない。
 //   最小の写し(3 ブロック)で確かめた: `{ const H = loadHtmlHeadless(…); … }` を 3 つ並べると gc の後も vm が 3 つとも生きている・
 //   同じ本文を `await (async () => { … })();` で包むと関数を抜けた時点で手放される。
-//   tests/qa.mjs の headless のブロック 24 本を部分実行(tests/exp-w258c-qapart.mjs)で走らせると、作った vm 24 個が終わりまで
-//   全部生きていた(gc の後の heapUsed 559 MB)。第309便の CI で beta のフル QA が heap の上限 4 GB で落ちた型の主な寄与と読む。
+//   tests/qa.mjs の headless のブロック 24 本(52 件)を部分実行(tests/exp-w258c-qapart.mjs)で走らせると、作った vm 24 個が終わりまで
+//   全部生きていた(V8 の native context 1 → 25・試験ごとの gc の後の heapUsed 4 → 543 MB)。包んだ後は native context 最大 3・
+//   heapUsed 最大 101 MB(52/52 PASS は同じ)。第309便の CI で beta のフル QA が heap の上限 4 GB で落ちた型の寄与と読む(フルの前後は未測定)。
 //
 // ■ 処置(**本文は 1 字も変えない** —— 試験の挙動・順・件数・判定は同じ)
 //   headless の写しを作る最上位のブロック(`loadHtmlHeadless(` か `vm.createContext(` を含む `{` 〜 `}` —— 列 0)の中身を
