@@ -7934,6 +7934,14 @@ const REL_DRAG_AXIS_HOLD_MAINT_REACTIONS = ["none", "background"];
 const REL_DRAG_AXIS_HOLD_HEAT_TIMINGS = ["step", "tauHold"];
 const REL_DRAG_AXIS_HOLD_TAUHOLD_RANGE = [1e-30, 1e30];
 const REL_DRAG_AXIS_HOLD_MAINT_VERSION = "w309b-maintain-1";
+// ===== 第310便b(決断事項 AN365・AN371・統括の検証項目 R223): **維持の型の帳簿の欄**(読み口 inertialDrag3MaintStateOf だけ —— 状態・熱・口座の数は 1 bit も変えない)=====
+//   holdInterval(AN365): heatTiming:"step"(既定・省略)の本は {declared:false, timing:"step", label:"間隔が未宣言"}(黙って別の秒数を入れない)/
+//     {tauHold} の本は {declared:true, timing:"tauHold", tauHold, unit, basis:{h0, h0Declared, ratio}, scaled}(τ_hold は宣言の固定の数 —— 再計算しない。
+//     基準 h0 は本の画面の刻み physics.stepDt〔= timeRef.pRef/stepsPerOrbit〕を読んだ値で、比 τ_hold/h0 を並べるだけ。重み h/τ_hold は熱と合成場・背景の E・L の口座に同じく掛かる)。
+//   columns(AN371): 実際の内部熱 E_i へ入った量(physics.tide.heat を宣言した本の潮汐の受け手)・帳簿の維持のコスト(E_i へ入れない —— tide.heat が無い本は全部)・
+//     負の E_speed に対応する背景からの供給(熱にしない)を別の欄に(どれも今の帳簿の和から作る —— 数は変えない)。
+const REL_DRAG_AXIS_HOLD_LEDGER_VERSION = "w310b-holdledger-1";
+const REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED = "間隔が未宣言";
 function validateAxisHoldMaintain(h){
   for(const k of Object.keys(h)) if(REL_DRAG_AXIS_HOLD_MAINT_KEYS.indexOf(k)<0)
     return {ok:false, err:(k==="tauC" || k==="sourceHold")? 'physics.relativeDrag.spinDrag.axisHold.'+k+' は駆動の型だけ(mode:"maintain" は軸も慣性自転の速さも変えない —— τ_C の駆動と排他・第309便b)'
@@ -58392,7 +58400,26 @@ function inertialDrag3MaintStateOf(S){
     background:(H.reaction===REL_DRAG_AXIS_HOLD_MAINT_REACTIONS[1])? {inflowL:[-fL[0], -fL[1], -fL[2]], outflowL:bL, inflowE:Esp, suppliedE:Eax+Sup, L:bL, E:bE} : null,
     residual:{L:[fL[0]+bL[0], fL[1]+bL[1], fL[2]+bL[2]], E:fE+bE+Qt},
     lastStep:Array.from({length:n}, (_,k)=>Array.from(LS.subarray(k*L9, k*L9+L9))),
-    inertia:Array.from({length:n}, (_,k)=>f*S.m[k]*S.R[k]*S.R[k]) };
+    inertia:Array.from({length:n}, (_,k)=>f*S.m[k]*S.R[k]*S.R[k]),
+    ...inertialDrag3MaintLedgerOf(S, H, Qt, Qin, Sup, rcSet) };   // 第310便b(R223): 帳簿の欄(AN365 の間隔・AN371 の欄 —— 読むだけ)
+}
+// 第310便b(AN365・AN371・R223): 維持の型の帳簿の欄(状態を 1 bit も動かさない —— 今の和と宣言から作る)。式と契約は REL_DRAG_AXIS_HOLD_LEDGER_VERSION の注記
+function inertialDrag3MaintLedgerOf(S,H,Qt,Qin,Sup,rcSet){
+  const n=S.n, ht=H.heatTiming, Q=S._rdMaintQ, rcv=S._rdMaintRcv;
+  let hold;
+  if(ht && typeof ht==="object"){
+    const h0=(S.params && typeof S.params[STEP_DT_KEY]==="number" && isFinite(S.params[STEP_DT_KEY]) && S.params[STEP_DT_KEY]>0)? S.params[STEP_DT_KEY] : null;
+    hold={declared:true, timing:REL_DRAG_AXIS_HOLD_HEAT_TIMINGS[1], tauHold:ht.tauHold, unit:"本の時間単位",
+      basis:{h0, h0Declared:h0!==null, ratio:(h0!==null)? ht.tauHold/h0 : null}, scaled:["heat","speed","restore","field","background"]};
+  } else hold={declared:false, timing:REL_DRAG_AXIS_HOLD_HEAT_TIMINGS[0], label:REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED};
+  const inE=[], led=[];
+  for(let k=0;k<n;k++){
+    if(!rcv[k]){ inE.push(null); led.push(null); continue; }
+    const tk=rcSet.indexOf(k)>=0;
+    inE.push(tk? Q[k] : 0); led.push(tk? 0 : Q[k]);
+  }
+  return { ledgerVersion:REL_DRAG_AXIS_HOLD_LEDGER_VERSION, holdInterval:hold,
+    columns:{internalE:Qin, ledgerCost:Qt-Qin, backgroundSupply:Sup, perBody:{internalE:inE, ledgerCost:led}} };
 }
 // 第301便c(R181): 軸回転の分解の読み口(状態を 1 bit も動かさない)—— 粒子ごとの慣性軸回転の角・引きずり軸回転の角・和(表示の角 rotA)と受け手の別。
 //   軸引きずりを宣言していない本は null
@@ -62427,6 +62454,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   REL_DRAG_INVSQ_SHELLS, REL_DRAG_INVSQ_SHELL_VERSION, inertialDragIsqThin, inertialDragIsqShellK, inertialDragIsqShellM, inertialDragIsqPoint, inertialDragIsqPointRecv, inertialDragIsqNode,   // 第310便a(R222)
   REL_DRAG_AXIS_HOLD_MODES, REL_DRAG_AXIS_HOLD_MAINT_KEYS, REL_DRAG_AXIS_HOLD_MAINT_REACTIONS, REL_DRAG_AXIS_HOLD_HEAT_TIMINGS, REL_DRAG_AXIS_HOLD_TAUHOLD_RANGE, REL_DRAG_AXIS_HOLD_MAINT_VERSION, REL_DRAG_AXIS_HOLD_MAINT_LAST,   // 第309便b(R219)
   validateAxisHoldMaintain, inertialDrag3MaintCell, inertialDrag3MaintStep, inertialDrag3MaintStateOf, INERTIAL_DRAG3_MAINT_SC,
+  REL_DRAG_AXIS_HOLD_LEDGER_VERSION, REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED, inertialDrag3MaintLedgerOf,   // 第310便b(R223)
   REL_DRAG_INIT_SPIN_KEY, REL_DRAG_INIT_MOTION_KEY, REL_DRAG_INIT_OBS_VERSION, REL_DRAG_INIT_SPIN_KEYS, REL_DRAG_INIT_MOTION_KEYS, REL_DRAG_INIT_SPLITS, REL_DRAG_INIT_FIRST,   // 第309便c(R220)
   REL_DRAG_INIT_TOL_DEFAULT, REL_DRAG_INIT_ITER_DEFAULT, REL_DRAG_INIT_COND_MAX, validateInitObs, relDragInitObsOf, inertialDragInitObsApply, inertialDragInitObsRedo, inertialDragInitObsState,
   inertialDragInitObsEval, inertialDragInitObsU,

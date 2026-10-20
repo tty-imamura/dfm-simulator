@@ -3988,3 +3988,13 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **読み口**: `inertialDragIsqState(S)` は外殻を宣言した本で `outerShell`(版・外殻の数・M_s・R)と受け手ごとの `betaSrcShell`・`parts`(dragCore/外殻の体積の部分)・`shell`(重み)を返す。`inertialDragIsqPointAt` は外殻の源の `KS`・`MS`・`betaCore`/`betaShell` を返す。新関数 `inertialDragIsqThin`・`inertialDragIsqShellK`・`inertialDragIsqShellM`・`inertialDragIsqPointRecv`・`inertialDragIsqNode`。作業 `_rdIsqSh` は SIM_STEP_SCRATCH。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら Wbg2 は省略(0 だけ)・m_d を同定した・外殻の形を導いた、と書かない。
 - **器と正本**: `tests/exp-w310a-invsq.mjs`(版 w310a-invsq-1・`W310A_OUT`・`W310A_QUICK`)・lib `tests/lib-w310a-shell.mjs` → `tests/out/invsq-w310a.json`(段 invsq-310a)。QA: `behavior.invSq310`(公開の受理・旧版の参照の比較・中心・外殻・前計算)・`docs.invSq310`(正本の門・PHYSICS〔第310便a〕の表と数・文書・禁句)—— どちらも root は SKIP。
+
+## 116. 第310便b —— 対の熱の相反の測定(維持の型の E_speed の 1 次を対の両側で)・移動の補正の指標の表・維持の型の帳簿の欄 `holdInterval`・`columns`(決断事項 AN370・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223・**新しい宣言鍵なし —— 読み口の欄だけ・状態と熱と口座の数は 1 bit も変えない**・在位の本は維持の型を宣言しない・**SYSTEM_PROMPT には載せない**)
+
+- **帳簿の欄**(読み口 `inertialDrag3SpinState(S).axisHold.maintain` —— `HP.inertialDrag3MaintLedgerOf`・版 `REL_DRAG_AXIS_HOLD_LEDGER_VERSION` = "w310b-holdledger-1"): `holdInterval`(AN365 —— heatTiming:"step"〔既定・省略〕は `{declared:false, timing:"step", label}`・label は `REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED` = "間隔が未宣言"/`{tauHold}` は `{declared:true, timing:"tauHold", tauHold, unit, basis:{h0, h0Declared, ratio}, scaled}` —— h0 は本の画面の刻み physics.stepDt・ratio = τ_hold/h0・τ_hold は宣言の固定の数で再計算しない・重み h/τ_hold は熱と合成場・背景の E・L に掛かる)・`columns`(AN371 —— `internalE` 実際の内部熱 E_i へ入った量・`ledgerCost` 帳簿の維持のコスト・`backgroundSupply` 負の E_speed に対応する背景からの供給・`perBody.internalE`・`perBody.ledgerCost` —— どれも今の和 heat.toInternal・heat.toLedger・speed.supply と同じビット)・`ledgerVersion`。
+- **状態の契約**: 新しい状態の鍵は無い(読み口が今の和と宣言から作る)。読み口は状態を 1 bit も動かさない(QA が読んだ走行と読まない走行をビットで比べる)。
+- **AN370 の測定**(器だけ —— エンジンの規則は変えない・規則は裁定待ち): E⁽¹⁾_{i←j} = I_i s_i (ω_ij·â_i)(ω_ij は核が対ごとに作る値 —— 器の写しの中だけ対の記録の配列を置いて読む)・相反の関係 I_i c_ij = I_j c_ji(c_ij = (ω_ij·â_i)/s_j)の破れを新則 invsq(Wbg2 = 0・cap6500km)と旧則 sphere・bevel・第三体あり・非対称の 2 球で表に。今の帳簿は受け手ごとの局所の記帳(対で共有する予算の口座は無い)。
+- **AN373 の表**: 新則の写しで abs(u(0))/abs(V_obs,i − V_obs,k)(k = 受け手の行で β_ij が最大の源・同率は質量の大きい方 → 番号の小さい方)と abs(u(0))・分母 0 は null。
+- **器と正本**: `tests/exp-w310b-pairheat.mjs`(版 w310b-pairheat-1・純関数 `tests/lib-w310b-pairheat.mjs`・`W310B_OUT`・`W310B_QUICK`・`W310B_TARGET`)→ `tests/out/pairheat-w310b.json`(段 pairheat-310b)。
+- **QA**: `behavior.holdLedger310`・`docs.pairHeat310`(root は SKIP・世代切替は html の `REL_DRAG_AXIS_HOLD_LEDGER_VERSION`)。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。帳簿の維持のコストを内部熱の状態の上がりとして書かない(E_i へ入るのは tide.heat を宣言した本の潮汐の受け手だけ)。対の熱の規則(大きい側を自動で外す・共有の予算の配分)を決まったものとして書かない(裁定待ち)。heatTiming を宣言しない本に別の秒数を黙って入れない(帳簿は「間隔が未宣言」)。
