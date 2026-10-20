@@ -2414,7 +2414,12 @@ lastAddAt = Date.now();
       'tests/out/invsq-w309a.json', 'tests/out/maintain-w309b.json', 'tests/out/recheck-w309c.json',
       // 第310便(統括の統合 —— 同じ規則): 新則の受理と核の直し・外殻の源(invsq-310a)・対の熱の相反の測定(pairheat-310b)・
       //   太陽の m_d の掃引の材料(mdsweep-310d)。どれも領域 REGEN_SCOPE を刻む(枝 c は新しい正本なし)
-      'tests/out/invsq-w310a.json', 'tests/out/pairheat-w310b.json', 'tests/out/mdsweep-w310d.json'];
+      'tests/out/invsq-w310a.json', 'tests/out/pairheat-w310b.json', 'tests/out/mdsweep-w310d.json',
+      // ==== 第311便d の塊(ここから)====
+      // 第311便d(lint.canon304 ⑤ の「第304便以降の新しい正本は CANON へ」—— 枝で足す): 3 惑星の dragCore の探索の器(planet3-311d)。領域 REGEN_SCOPE を刻む
+      'tests/out/planet3-w311d.json',
+      // ==== 第311便d の塊(ここまで)====
+    ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,

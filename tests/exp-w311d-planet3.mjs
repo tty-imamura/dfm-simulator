@@ -322,7 +322,7 @@ export function physicsTables(J) {
       const o = J.R.planets[pl.key], s = J.S && J.S.planets[pl.key]; if (!o) continue;
       const grid = o.rows.filter((r) => !Q.isTheta0(r.theta) && r.theta.md === 1 && r.theta.sunMd === 1);
       if (!grid.length) continue;
-      out.push('', `| ${pl.emoji} ${pl.ja} の R_d/R(m_d = M) | R_d [km] | r(h) [″/世紀] | r(h/${fine}) | 帯 | 門の許容 max(3 × 帯, 0.01) | 数値の門 | 交差 I |`, '|---|---|---|---|---|---|---|---|');
+      out.push('', `| ${pl.emoji} ${pl.ja}の R_d/R(m_d = M) | R_d [km] | r(h) [″/世紀] | r(h/${fine}) | 帯 | 門の許容 max(3 × 帯, 0.01) | 数値の門 | 交差 I |`, '|---|---|---|---|---|---|---|---|');
       for (const r of grid) { const b1 = r.byDiv[J.E.divs[0]];
         out.push(`| ${fmtRd(r.theta.rd)} | ${kmOf(r.theta.rd, s ? s.Rkm : null)} | ${fx(b1 ? b1.r : null, 3)} | ${fx(r.r, 3)} | ${fb(r.band)} | ${ex(r.gate.tol, 2)} | ${r.gate.pass === null ? '—' : (r.gate.pass ? '通る' : '通らない')} | ${Number.isFinite(r.I) ? fb(r.I) : '—'} |`); }
     }
@@ -467,6 +467,30 @@ export async function runAll(HP, o = {}) {
 }
 
 const argOf = (k) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : null; };
+/**
+ * 2 段目の出力をまとめる(`--merge a.json,b.json,…` —— 同じ html〔targetSha256〕・同じ器の版の行だけ)。走行はしない: E の行と段 S の惑星を合わせ、
+ * 段 T・R・G をこの器の純関数で作り直して tests/out/planet3-w311d-stage2.json(W311D_OUT で変える)へ。正本(planet3-w311d.json)を入れてもよい
+ */
+export async function mergeMain(files, TARGET) {
+  const Js = files.map((f) => JSON.parse(fs.readFileSync(path.isAbsolute(f) ? f : path.join(ROOT, f), 'utf8')));
+  const sha = Js[0].targetSha256, bad = Js.filter((j) => j.targetSha256 !== sha || j.version !== HARNESS_VERSION);
+  if (bad.length) throw new Error('--merge: html か器の版が違う出力がある(' + bad.length + ' 本)');
+  const N = Js[0].E.N; if (Js.some((j) => j.E.N !== N)) throw new Error('--merge: 窓が違う');
+  const J = { quick: false, parts: PARTS_ALL.slice(), stage2: true, merged: files.map((f) => path.relative(ROOT, path.isAbsolute(f) ? f : path.join(ROOT, f))), live: Js[0].live, book: Js[0].book };
+  J.S = { planets: {}, formula: Js[0].S ? Js[0].S.formula : null };
+  for (const j of Js) if (j.S) Object.assign(J.S.planets, j.S.planets);
+  const divs = [...new Set(Js.flatMap((j) => j.E.divs))].sort((a, b) => a - b);
+  J.E = { N, divs, rows: Object.assign({}, ...Js.map((j) => j.E.rows)) };
+  J.refine = Object.assign({}, ...Js.map((j) => j.refine || {}));
+  J.T = { targets: Js[0].T.targets }; J.T.planets = tTable(J);
+  J.R = partR(J); J.G = partG(J);
+  J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
+  const out = Object.assign({ version: HARNESS_VERSION, libVersion: Q.LIB_VERSION, generator: 'tests/exp-w311d-planet3.mjs --merge', target: TARGET, targetSha256: sha }, J);
+  const OUT = process.env.W311D_OUT ? (path.isAbsolute(process.env.W311D_OUT) ? process.env.W311D_OUT : path.join(ROOT, process.env.W311D_OUT)) : path.join(ROOT, OUT_STAGE2);
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
+  console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, '数値の門 3 対同時 ' + J.G.allPass, JSON.stringify(Object.fromEntries(Object.entries(J.G.planets).map(([k, v]) => [k, v.pass]))));
+}
 const listOf = (k) => (argOf(k) ? argOf(k).split(',').map((s) => s.trim()).filter(Boolean).map(Number) : null);
 export async function main() {
   if (process.argv.includes('--child')) {
@@ -476,6 +500,7 @@ export async function main() {
     return;
   }
   const TARGET = process.env.W311D_TARGET || 'beta/index.html';
+  if (argOf('--merge')) return mergeMain(argOf('--merge').split(','), TARGET);
   const quick = process.env.W311D_QUICK === '1';
   const plArg = argOf('--planet'), planets = plArg ? plArg.split(',').map((s) => { const p = Q.planetOf(s.trim()); if (!p) throw new Error('--planet ' + s); return p.key; }) : Q.PLANETS.map((p) => p.key);
   const rdL = listOf('--rd'), mdL = listOf('--md'), smL = listOf('--sunmd'), crL = listOf('--cross'), divL = listOf('--divs'), atL = listOf('--at');
@@ -488,7 +513,9 @@ export async function main() {
     cross[k] = crL ? crL : (stage2 ? [] : (plan.cross[k] || []).slice());
     if (atL) at[k] = atL[Math.min(planets.indexOf(k), atL.length - 1)];
   }
-  const OUT = process.env.W311D_OUT ? (path.isAbsolute(process.env.W311D_OUT) ? process.env.W311D_OUT : path.join(ROOT, process.env.W311D_OUT)) : path.join(ROOT, stage2 ? OUT_STAGE2 : OUT_MAIN);
+  // 2 段目の既定の出力: --planet を指定したら惑星ごとの別名(惑星ごとの process で並走しても書き先が重ならない —— --merge で 1 本にまとめる)
+  const out2 = plArg ? OUT_STAGE2.replace('.json', '-' + planets.join('-') + '.json') : OUT_STAGE2;
+  const OUT = process.env.W311D_OUT ? (path.isAbsolute(process.env.W311D_OUT) ? process.env.W311D_OUT : path.join(ROOT, process.env.W311D_OUT)) : path.join(ROOT, stage2 ? out2 : OUT_MAIN);
   if (quick && !process.env.W311D_OUT) throw new Error('試走(W311D_QUICK=1)は W311D_OUT を指定する(正本を書かない)');
   if (!stage2 && plArg && !process.env.W311D_OUT) throw new Error('--planet だけの走行は W311D_OUT を指定する(正本は 3 惑星)');
   const parts = process.env.W311D_PARTS ? process.env.W311D_PARTS.split(',') : PARTS_ALL.slice();
