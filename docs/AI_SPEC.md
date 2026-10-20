@@ -4027,5 +4027,5 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **評価**: 宣言した源だけ、回転引きずりと軸引きずりを核の項(宣言の Ω_c)と外殻の項(天体の状態の自転)で別に合成する(回転は核と外殻の係数をそれぞれのベクトルで・軸は鏡映 × sinθ をそれぞれの軸で評価してから足す・傾きの無い受け手へのスカラーはそれぞれの軸へ射影して足す)。並進 β は変えない。観測の初期値の分解は核の自転を分解しない(宣言の値のまま)。
 - **極薄の殻**: `outerShell:"uniform"` かつ massFrac < 1 の宣言は、受け手の外殻の求積の節点(実際の次数の規則)が R_i < s < R_o の内部に表現でき、体積の差と自己の場が有限のときだけ受理(`dragCoreThinShellCheck` —— km や質量比の閾値ではない・thin へ替えない・外殻の質量を消さない)。
 - **読み口**: `inertialDragIsqState(S)` は宣言した本で `coreSpin`(版・源ごとの s・軸・宣言の有無・外殻の有無)と受け手ごとの `coreSpinSrc`(源ごとの uRotCore・uRotShell・uRot・rotCore・rotShell・omegaCore・omegaShell・omega・omegaS)を返す。`inertialDragIsqPointAt` は宣言した源の項に `coreSpin`・`shellSpin`。新関数 `inertialDragIsqCoreSpin`・`validateDragCoreSpin`・`dragCoreThinShellCheck`。作業 `_rdIsqCs` は SIM_STEP_SCRATCH。`dragCoreEdit` は宣言の spin・spinAxis を落とさない。
-- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら新則の本の dragCore だけに・核の運動を解いた・観測の核の自転を同定した、と書かない。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない(在位の本が宣言しない実験の鍵)。書くなら新則の本の dragCore だけに(「核の運動を解いた」「観測の核の自転を同定した」とは書かない —— 宣言の一定のベクトルは入力のノブ)。
 - **器と正本**: `tests/exp-w311a-corespin.mjs`(版 w311a-corespin-1・`W311A_OUT`・`W311A_QUICK`)・lib `tests/lib-w311a-corespin.mjs` → `tests/out/corespin-w311a.json`(段 corespin-311a)。QA: `behavior.coreSpin311`(受理・未宣言のビット同一・宣言の値 = 天体の一致・線形・玩具のエンジンと lib)・`docs.coreSpin311`(正本の門・PHYSICS〔第311便a〕の表と数・文書・禁句)—— どちらも root は SKIP。
