@@ -7731,7 +7731,7 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2", "shellSelf", "shellSelfEps", "invSq", "dragCoreDefault", "initMotion"];   // 第309便c: initMotion(観測の移動の分解 —— opt-in・正準形には宣言した本だけ)   // 第309便a: invSq(新しい引きずり則)・dragCoreDefault(dragCore の既定 —— どちらも省略時オフ・正準形には宣言した本だけ)   // 第304便a: shellSelf・shellSelfEps(引きずり核の殻の自己の項 —— 省略時オフ・正準形には宣言した本だけ)   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "Wbg", "enabled", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters", "solver", "solverTol", "solverMaxIter", "spinSource", "spinDrag", "norm", "background", "stepOrder", "env", "inertialR2", "shellSelf", "shellSelfEps", "invSq", "dragCoreDefault", "initMotion", "galaxyAxial"];   // 第311便b: galaxyAxial(銀河の一様軸引きずり —— 新則の本だけ・opt-in)   // 第309便c: initMotion(観測の移動の分解 —— opt-in・正準形には宣言した本だけ)   // 第309便a: invSq(新しい引きずり則)・dragCoreDefault(dragCore の既定 —— どちらも省略時オフ・正準形には宣言した本だけ)   // 第304便a: shellSelf・shellSelfEps(引きずり核の殻の自己の項 —— 省略時オフ・正準形には宣言した本だけ)   // 第303便b: inertialR2(源の慣性決定力 r⁻² を分母へ —— 省略時オフ・正準形には宣言した本だけ)   // 第302便c: env(W_bg の推定にだけ使う環境の宣言 —— 力学は読まない)   // 第302便d: stepOrder(步の順序 —— 既定 semic は正準形に出さない)   // 第301便a: norm・background(引きずりの強さの正規化 —— 既定 total は正準形に出さない)   // 第298便c: spinDrag(三次元の本だけ —— 回転引きずり・軸引きずりの宣言)   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
@@ -7996,6 +7996,9 @@ const REL_DRAG_INIT_SPIN_KEYS=["mode","split","tol","maxIter","firstStep"], REL_
 const REL_DRAG_INIT_MODES=["observed"], REL_DRAG_INIT_SPLITS=["vector","parallel"], REL_DRAG_INIT_FIRST=["drag","zero"];
 const REL_DRAG_INIT_TOL_DEFAULT=1e-12, REL_DRAG_INIT_TOL_RANGE=[1e-15,1e-3], REL_DRAG_INIT_ITER_DEFAULT=60, REL_DRAG_INIT_ITER_RANGE=[1,1000];
 const REL_DRAG_INIT_COND_MAX=1e12;   // 移動の逆写像の条件数 (1+D_i)/(1+D_i−Σ_j A_ij) の上限(超えたら拒否 —— 観測の誤差を増幅する)
+// 第311便b(決断事項 AN389・AN382・統括の検証項目 R227): 新則(invSq)の本の行の逆写像の分母 1 − Σ_j β_ij の下限(未満は why "motionDenomSmall" で分解しない)。
+//   **暫定の運用の安全線**(第310便a の測定: 質量の下限 10⁻⁹ の受け手で 1 − Σβ = 9.25e-4・u(0) が相対速度の約 1081 倍)—— 物理の定数ではない。旧則の行(分母 ≥ 1)は読まない
+const REL_DRAG_INIT_DEN_MIN=1e-2;
 function validateInitObs(a, kind){
   const nm=(kind==="spin")? 'physics.relativeDrag.spinDrag.initSpin' : 'physics.relativeDrag.initMotion';
   const keys=(kind==="spin")? REL_DRAG_INIT_SPIN_KEYS : REL_DRAG_INIT_MOTION_KEYS;
@@ -8147,7 +8150,33 @@ function validateRelativeDragInvSq(a){
     if(!iv.ok) return {ok:false, err:iv.err};
     out[REL_DRAG_INIT_MOTION_KEY]=iv.init;
   }
+  if(a[REL_DRAG_GALAXY_AXIAL_KEY]!==undefined){ const gv=validateGalaxyAxial(a[REL_DRAG_GALAXY_AXIAL_KEY], out); if(!gv.ok) return gv; out[REL_DRAG_GALAXY_AXIAL_KEY]=gv.galaxyAxial; }   // 第311便b(R227)
   return {ok:true, relativeDrag:out};
+}
+// ===== 第311便b(原仮定者の裁定(第110報)「太陽系における天の川銀河による一様軸引きずりを検討 —— 太陽系の全ての天体の軸引きずりに影響」・
+//   「一様並進引きずりと一様回転引きずりは慣性系では無視できる」・(第107報)背景を分母に入れない・決断事項 AN390・AN395・統括の検証項目 R227):
+//   **銀河の一様軸引きずり** `physics.relativeDrag.galaxyAxial:{wx, wy, wz}`(opt-in —— 省略は今の動作とビット同一・正準形には宣言した本だけ)=====
+// 新則(invSq)の本だけ・spinDrag.axial:"on" の本だけ(軸の ω を使わない本では効かない)。値は本の角速度の単位(1/本の時間単位)の 3 成分 —— 3 つとも有限の数(−0 は +0 へ)。
+//   未知の鍵・成分の欠け・非有限・null・配列・文字列は拒否。旧則の本は拒否(在位の移行は新則で —— 旧則の軸の核の組み合わせを増やさない)。大きさの既定は置かない
+//   (未宣言 = この項を使っていない。明示の 0 は受理し、読み口 inertialDragGalaxyAxialState の explicitZero で区別する —— 0 ベクトルは足さない〔−0 を作らない〕)。
+// 評価(inertialDragIsqBuild の対の和の後 —— 1 か所): 受け手(新則の受け手 —— 宣言の質量が正〔質量 0 の受け手は受理で拒否 —— AN389〕かつ R_d > 0・pinned でない)の
+//   軸の ω(S._rdWX/WY/WZ)へ**同じベクトル ω_G を足す**(重み・axialGain で割らない・掛けない)。符号つきのスカラー S._rdWS(傾きを持たない受け手が読む)には
+//   受け手自身の軸への射影 σ_i(ω_G·â_i)(σ_i は inertialDrag3AxialSign —— 傾きを持たない受け手は â = +z なので ω_G,z)を足す。
+//   **対の重み・β・回転の係数・並進の右辺・逆写像の分母 1 − Σβ は変えない**(分母に入れない —— 第107報・第110報)。旧 W_bg・推定 W_gal の経路へは接続しない。
+//   一様並進・一様回転の鍵は作らない(太陽系の局所の慣性系そのものに吸収される —— 第110報の規約)。
+// axisHold の帳簿: 対の記録 PR(受け手 × 源の ω_ij)は源の天体の列だけ(銀河の列を足さない —— 反作用を返す天体が状態に無い)。銀河の分は読み口の別の欄
+//   (受け手ごとの ω_G)。駆動の型(τ_C)は PR だけを読むので銀河の平行な分は慣性自転を駆動しない・維持の型は ω_D = Σ_j ω_ij + ω_G(S._rdWX —— 姿勢へ適用したのと同じ値)の
+//   コストを積む。観測の初期自転の分解(initSpin)は写しで同じ inertialDragIsqBuild を呼ぶので ω_D に銀河の分も入る。
+const REL_DRAG_GALAXY_AXIAL_KEY="galaxyAxial", REL_DRAG_GALAXY_AXIAL_KEYS=["wx","wy","wz"], GALAXY_AXIAL_VERSION="w311b-galaxial-1";
+function validateGalaxyAxial(g, out){
+  const nm='physics.relativeDrag.galaxyAxial', form=nm+' は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)';
+  if(typeof g!=="object" || g===null || Array.isArray(g)) return {ok:false, err:form};
+  for(const k of Object.keys(g)) if(REL_DRAG_GALAXY_AXIAL_KEYS.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'(wx・wy・wz だけ —— 一様並進・一様回転の鍵は作らない〔第110報〕・第311便b)'};
+  const o={};
+  for(const k of REL_DRAG_GALAXY_AXIAL_KEYS){ if(!isNum(g[k])) return {ok:false, err:form}; o[k]=(g[k]===0)? 0 : g[k]; }
+  const sd=out[REL_DRAG_SPIN3_KEY];
+  if(!(sd && sd.axial==="on")) return {ok:false, err:nm+' は spinDrag.axial:"on"(軸の ω を使う本)だけ —— 軸を引きずらない本では効かない(第311便b)'};
+  return {ok:true, galaxyAxial:o};
 }
 // 引きずりの半径の既定(本の長さの単位の R → R_d)。Lm = 10^L(物理の単位の宣言が無い本は null —— クランプしない)
 function dragCoreDefaultRadius(R, Lm){
@@ -8933,6 +8962,7 @@ function validateRelativeDragInertial(a){
     if(REL_DRAG_INERTIAL_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag(law:"inertial")に未知の鍵 '+k};
   }
   if(a[REL_DRAG_INVSQ_KEY]!==undefined && a[REL_DRAG_INVSQ_KEY]!==null) return validateRelativeDragInvSq(a);   // 第309便a(R218): 新しい引きずり則は別の受理(旧則の受理は通らない)
+  if(a[REL_DRAG_GALAXY_AXIAL_KEY]!==undefined) return {ok:false, err:'physics.relativeDrag.galaxyAxial は新しい引きずり則 invSq の本だけ(在位の移行は新則で —— 旧則の軸の核の組み合わせを増やさない・第311便b)'};   // 第311便b(R227)
   // 第302便a(R186): W_bg の直接定義(正準形)・gain の読込の互換・旧法則の凍結比較(gain のまま)
   const hasW=(a.Wbg!==undefined), hasG=(a.gain!==undefined && a.gain!==null), frozen=relDragLegacyFrozen(a);
   let out, legacyGain=null;
@@ -25929,6 +25959,7 @@ function validatePreset(obj){
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push('physics.dragRef:"contact" は frameWeight:"share" 専用(第242便)— "share" に修正'); ph[FRAME_WEIGHT_KEY]="share"; }
   p.physics=ph;
+  const isqMassNonPos=[];   // 第311便b(AN389): single の宣言の質量が正でない天体の添字(質量の下限 massFloor を当てる前 —— 新則の本の受け手の判定に使う)
   // bodies
   if(!Array.isArray(p.bodies)) bad("bodies(配列)が必要です");
   else {
@@ -26354,6 +26385,7 @@ function validatePreset(obj){
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
+        if(!(b.m>0)) isqMassNonPos.push(idx);   // 第311便b(AN389): 下限を当てる前の宣言の質量
         const o={type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned};
         // 第22便(原仮定者裁定): 観測温度・半径系。スピン役割分離(sFrame/sTherm/sRep)は
         // トイモデル段階では廃止 — 旧キーは無視される(エンジンは v1.29 力学)
@@ -27719,6 +27751,10 @@ function validatePreset(obj){
   }
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][DRAG_CORE_DEFAULT_KEY]!==undefined && !(p.scaleExp && isNum(p.scaleExp.L)))
     bad('physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない・第309便a)');
+  // 第311便b(決断事項 AN389・AN382・統括の検証項目 R227): 新則(invSq)の受け手は**宣言の質量 m > 0 かつ R_d > 0**。宣言の質量が正でない天体(質量の下限 massFloor へ持ち上げる前に判定)に
+  //   引きずりの半径(明示の radius か dragCore)を宣言した本は拒否する(宣言の矛盾 —— 持ち上げた質量で受け手・源にしない)。半径の無い天体は今のまま源にも受け手にもならない(受理)
+  if(!errors.length && isqMassNonPos.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_INVSQ_KEY]!==undefined)
+    for(const k of isqMassNonPos){ const b=p.bodies[k]; if(b && ((isNum(b.radius) && b.radius>0) || b.dragCore)){ bad('bodies['+k+'] は宣言の質量が正でない(m ≤ 0)のに引きずりの半径(radius・dragCore)を宣言している —— 新しい引きずり則 invSq の受け手と源は宣言の質量 m > 0 かつ R_d > 0 の天体だけ(質量の下限で持ち上げて受け手にしない —— 半径を外すか質量を正に・第311便b・AN389)'); break; } }
   // 第309便c(R220): 観測の移動の分解は三次元の本・stateCarry:"double" だけ(倍精度の速度に入れないと u(0) が丸めで消える —— 二次元は次便以降)
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_INIT_MOTION_KEY]!==undefined
     && (coordOf(p.physics)!=="3d" || p.physics[STATE_CARRY_KEY]!=="double"))
@@ -41547,7 +41583,8 @@ const INERTIAL_DRAG_CK_LAST=["inertialDragWhy","inertialDragBound","inertialDrag
   "inertialDragShellN","inertialDragShellX","inertialDragShellXMax","inertialDragShellXi","inertialDragShellXiMax","inertialDragShellSkip",
   "inertialDragPairN","inertialDragPairXi","inertialDragPairXiMax","inertialDragPairXiRow","inertialDragPairRMax","inertialDragPairRMaxAll",
   "inertialDragIsqN","inertialDragIsqNodes","inertialDragIsqBeta","inertialDragIsqBetaMax","inertialDragIsqNeg","inertialDragIsqNegMax",
-  "inertialDragIsqOverlap","inertialDragIsqOverlapT","inertialDragIsqOverlapPair","inertialDragIsqNoR","inertialDragIsqTooLarge"];   // 第309便a: 新しい引きずり則の帳簿(invSq を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第305便a: 対ごとの正規化の帳簿(denom:"pair" を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第304便a: 引きずり核の殻の帳簿(殻を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
+  "inertialDragIsqOverlap","inertialDragIsqOverlapT","inertialDragIsqOverlapPair","inertialDragIsqNoR","inertialDragIsqTooLarge",
+  "inertialDragIsqBadRow","inertialDragIsqLowDen"];   // 第311便b(R227): 0 にした行・分母の小さい行の累計   // 第309便a: 新しい引きずり則の帳簿(invSq を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第305便a: 対ごとの正規化の帳簿(denom:"pair" を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第304便a: 引きずり核の殻の帳簿(殻を宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第303便b: 源の慣性決定力 r⁻² の帳簿(宣言した本だけ鍵がある —— 無い本は undefined で素通り)   // 第301便m: 総和正規化の帳簿(第301便a —— 走りが変わる本だけ鍵がある。写しの外にあり、復帰・複製で「後の步のまま」だった)
 const INERTIAL_DRAG_CK_SAMPLES=["_rdVX","_rdVY","_rdVZ","_rdUX","_rdUY","_rdUZ","_rdDeg","_rdSAX","_rdSAY","_rdSAZ","_rdWX","_rdWY","_rdWZ",
   "_rdWS","rotAIn","rotADr",
   "_rdHoldJh","_rdHoldJl","_rdHoldOmW",   // 第308便b(R215): axisHold の自前の慣性自転の J の補償和と最後に書いた自転(宣言した本だけ)
@@ -58022,14 +58059,67 @@ function inertialDragIsqBuild(S,n,hist,KX,KY,KZ,sd3){
       S._rdWX[i]=wx; S._rdWY[i]=wy; S._rdWZ[i]=wz; S._rdWS[i]=ws;
     }
   }
+  degMax=inertialDragIsqRowGuard(S,n,A,UX,UY,UZ,ax,degMax);   // 第311便b(R227): 非有限・Σβ ≥ 1 の行を 0 に(数える)・1 − Σβ < REL_DRAG_INIT_DEN_MIN の行を数える・銀河の一様軸引きずり
   S.inertialDragIsqN=(S.inertialDragIsqN||0)+1; S.inertialDragIsqNodes=q.nodes; S.inertialDragIsqBeta=q.rowMax; if(!(S.inertialDragIsqBetaMax>=q.rowMax)) S.inertialDragIsqBetaMax=q.rowMax;
   if(ax){ const f=(q.totW>0)? q.negW/q.totW : 0; S.inertialDragIsqNeg=f; if(!(S.inertialDragIsqNegMax>=f)) S.inertialDragIsqNegMax=f; }
   return {coincident:false, degMax, tooLarge:false, overlap:null};
+}
+// 第311便b(決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227): build の後段(対の和の後 —— 新則の本の步と観測の初期値の分解の写しが同じ関数を通る)。
+//   ① 受け手の行(pinned でない・R_d > 0)の Σ_j β_ij が非有限か ≥ 1、または右辺 u・軸の ω が非有限の行は、その行の β・右辺・軸の ω(と axisHold の対の記録)を 0 にして
+//     帳簿 inertialDragIsqBadRow に数える(行の対角 1 − Σβ が正でない行を解に入れない —— 数えた行は u = 0)。② 1 − Σβ < REL_DRAG_INIT_DEN_MIN の行は数えるだけ
+//     (inertialDragIsqLowDen —— 警告・値は変えない)。③ 銀河の一様軸引きずり galaxyAxial(宣言した本・軸の ω を作る步だけ): 受け手の軸の ω へ同じ ω_G を足す
+//     (式と契約は REL_DRAG_GALAXY_AXIAL_KEY の注記 —— β・右辺・分母は触らない)。戻り値は degMax(① で 0 にした行があるときだけ残りの行で作り直す)
+function inertialDragIsqRowGuard(S,n,A,UX,UY,UZ,ax,degMax){
+  const pin=S.pinned, RD=S._rdIsqRd, WX=S._rdWX, WY=S._rdWY, WZ=S._rdWZ, WS=S._rdWS;
+  let bad=0, low=0, dm=0;
+  for(let i=0;i<n;i++){
+    if(pin[i] || !(RD[i]>0)) continue;
+    const row=i*n;
+    let s=0; for(let j=0;j<n;j++) s+=A[row+j];
+    if(!Number.isFinite(s) || s>=1 || !Number.isFinite(UX[i]) || !Number.isFinite(UY[i]) || !Number.isFinite(UZ[i])
+      || (ax && !(Number.isFinite(WX[i]) && Number.isFinite(WY[i]) && Number.isFinite(WZ[i]) && Number.isFinite(WS[i])))){
+      for(let j=0;j<n;j++) A[row+j]=0;
+      UX[i]=0; UY[i]=0; UZ[i]=0;
+      if(ax){ WX[i]=0; WY[i]=0; WZ[i]=0; WS[i]=0; const PR=inertialDrag3HoldRec(S,n,false); if(PR) PR.fill(0,row*4,(row+n)*4); }
+      bad++; continue;
+    }
+    if(1-s<REL_DRAG_INIT_DEN_MIN) low++;
+    if(s>dm) dm=s;
+  }
+  if(bad) S.inertialDragIsqBadRow=(S.inertialDragIsqBadRow||0)+bad;
+  if(low) S.inertialDragIsqLowDen=(S.inertialDragIsqLowDen||0)+low;
+  const g=ax? S.relDrag[REL_DRAG_GALAXY_AXIAL_KEY] : null;
+  if(g && (g.wx!==0 || g.wy!==0 || g.wz!==0)){
+    const gx=g.wx, gy=g.wy, gz=g.wz, AX=S.sax, AY=S.say, AZ=S.saz;
+    for(let i=0;i<n;i++){
+      if(pin[i] || !(RD[i]>0)) continue;
+      WX[i]+=gx; WY[i]+=gy; WZ[i]+=gz;
+      const pa=gx*AX[i]+gy*AY[i]+gz*AZ[i]; WS[i]+=(inertialDrag3AxialSign(AX[i],AY[i],AZ[i])>0)? pa : -pa;   // 傾きを持たない受け手が読む符号つきのスカラー(受け手の軸への射影)
+    }
+  }
+  return bad? dm : degMax;
+}
+// 第311便b の読み口(状態を 1 bit も動かさない —— 新則の三次元の本だけ・ほかは null): 銀河の一様軸引きずりの宣言(declared・explicitZero・active)と受け手ごとの ω_G
+//   (受け手 = pinned でない・R_d > 0 —— 軸の ω を作る步だけ足す)・符号つきのスカラーへの分 σ_i(ω_G·â_i)・行の帳簿(rowGuard —— 0 にした行・分母の小さい行の累計)
+function inertialDragGalaxyAxialState(S){
+  if(!S || !S.relDrag || !S.relDrag[REL_DRAG_INVSQ_KEY] || S.coord3d!==true) return null;
+  const rd=S.relDrag, g=rd[REL_DRAG_GALAXY_AXIAL_KEY]||null, sd=relDrag3SpinOf(rd), n=S.n, T=Object.create(S);
+  T._rdIsqRd=null; T._rdIsqMd=null; T._rdIsqSc=null; T._rdRadArr=null; T._rdIsqSh=null;
+  inertialDragIsqCore(T,n);
+  const zero=!!g && g.wx===0 && g.wy===0 && g.wz===0, active=!!g && !zero && !!(sd && sd.axial) && relDragCoefficientOf(rd)>0, receivers=[];
+  for(let i=0;i<n;i++){
+    const rc=!S.pinned[i] && T._rdIsqRd[i]>0, w=(rc && active)? [g.wx, g.wy, g.wz] : [0,0,0], pa=w[0]*S.sax[i]+w[1]*S.say[i]+w[2]*S.saz[i];
+    receivers.push({i, receiver:rc, omegaG:w, omegaGs:(inertialDrag3AxialSign(S.sax[i],S.say[i],S.saz[i])>0)? pa : -pa});
+  }
+  return {version:GALAXY_AXIAL_VERSION, key:REL_DRAG_GALAXY_AXIAL_KEY, declared:!!g, decl:g? {wx:g.wx, wy:g.wy, wz:g.wz} : null, explicitZero:zero, active,
+    unit:"本の角速度の単位(1/本の時間単位)", denominator:"none", holdRecord:"pairs", receivers,
+    rowGuard:{badRows:S.inertialDragIsqBadRow||0, lowDenRows:S.inertialDragIsqLowDen||0, denMin:REL_DRAG_INIT_DEN_MIN}};
 }
 // 帳簿の鍵(新則の本だけ —— inertialDragInit が張る)
 function inertialDragIsqLedgerInit(S){
   S.inertialDragIsqN=0; S.inertialDragIsqNodes=0; S.inertialDragIsqBeta=0; S.inertialDragIsqBetaMax=0; S.inertialDragIsqNeg=0; S.inertialDragIsqNegMax=0;
   S.inertialDragIsqOverlap=0; S.inertialDragIsqOverlapT=null; S.inertialDragIsqOverlapPair=null; S.inertialDragIsqNoR=0; S.inertialDragIsqTooLarge=0;
+  S.inertialDragIsqBadRow=0; S.inertialDragIsqLowDen=0;   // 第311便b(R227): 0 にした行・1 − Σβ < REL_DRAG_INIT_DEN_MIN の行の累計(行 × 步)
 }
 // 点の読み口(器・QA —— 状態を 1 bit も動かさない): 受け手 i の体積の点 p での W・∇W と源ごとの K2・M2・導関数・β の被積分・回転の係数・軸の amp
 //   (第310便a: 外殻の源は KS・dKS・MS・dMS と betaCore/betaShell・rotCore/rotShell・ampCore/ampShell の内訳 —— beta・rotC・amp は和。外殻の無い本は今と同じ形)
@@ -58613,6 +58703,7 @@ function inertialDragInitMotionSolve(S,n,dc){
   const u=[new Float64Array(n), new Float64Array(n), new Float64Array(n)], v=[new Float64Array(n), new Float64Array(n), new Float64Array(n)];
   let Vmax=0, condMax=1, xMax=0;
   for(let i=0;i<n;i++){ const w=Math.hypot(V[0][i],V[1][i],V[2][i]); if(w>Vmax) Vmax=w; }
+  const isq=!!S.relDrag[REL_DRAG_INVSQ_KEY];   // 第311便b(AN389): 新則の行(DG = 0 —— 分母 1 − Σβ)だけに分母の下限 REL_DRAG_INIT_DEN_MIN を当てる
   const rows=[];
   for(let i=0;i<n;i++){
     const fixed=(pin[i] || !(m[i]>0) || !Number.isFinite(m[i]));
@@ -58621,6 +58712,7 @@ function inertialDragInitMotionSolve(S,n,dc){
       let sA=0, nx=R[0][i], ny=R[1][i], nz=R[2][i];
       for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a===0) continue; sA+=a; nx+=a*(V[0][j]-V[0][i]); ny+=a*(V[1][j]-V[1][i]); nz+=a*(V[2][j]-V[2][i]); }
       const den=1+DG[i]-sA, cond=(1+DG[i])/den;
+      if(isq && Number.isFinite(den) && den<REL_DRAG_INIT_DEN_MIN) return {why:"motionDenomSmall", at:i, den, cond};   // 第311便b(AN389): 暫定の運用の安全線(物理の定数ではない)
       if(!(den>0) || !Number.isFinite(cond) || cond>REL_DRAG_INIT_COND_MAX) return {why:"motionIllConditioned", at:i, cond};
       if(cond>condMax) condMax=cond; if(den-1>xMax) xMax=den-1;
       u[0][i]=nx/den; u[1][i]=ny/den; u[2][i]=nz/den;
@@ -58673,7 +58765,9 @@ function inertialDragInitObsApply(S,from){
     const mo=inertialDragInitMotionSolve(S,n,dc.motion);
     if(mo.why){
       if(sp) for(let i=0;i<n;i++){ S.spin[i]=rec.obs.spin[i]; S.sax[i]=rec.obs.ax[i]; S.say[i]=rec.obs.ay[i]; S.saz[i]=rec.obs.az[i]; }
-      rec.spin=null; rec.why=mo.why; rec.motion={at:(mo.at!==undefined)? mo.at : null, cond:(mo.cond!==undefined)? mo.cond : null}; return rec;
+      rec.spin=null; rec.why=mo.why; rec.motion={at:(mo.at!==undefined)? mo.at : null, cond:(mo.cond!==undefined)? mo.cond : null};
+      if(mo.den!==undefined){ rec.motion.den=mo.den; rec.motion.denMin=REL_DRAG_INIT_DEN_MIN; }   // 第311便b(AN389): motionDenomSmall の行の分母と下限
+      return rec;
     }
     for(let i=0;i<n;i++){ S.vx[i]=mo.v[0][i]; S.vy[i]=mo.v[1][i]; S.vz[i]=mo.v[2][i]; }
     rec.motion={iterations:mo.iterations, iterConverged:mo.iterConverged, iterStep:mo.iterStep, diffIterDirect:mo.diffIterDirect, forwardResidual:mo.forwardResidual,
