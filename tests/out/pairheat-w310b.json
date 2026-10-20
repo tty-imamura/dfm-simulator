@@ -3,11 +3,11 @@
  "libVersion": "w310b-pairheat-lib-1",
  "generator": "tests/exp-w310b-pairheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
+ "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
  "ruling": "決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223",
  "maintainVersion": "w309b-maintain-1",
  "ledgerVersion": "w310b-holdledger-1",
- "invsqVersion": "w309a-invsq-1",
+ "invsqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
  "kernels": [
   "invsq",
@@ -152,7 +152,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 1.3289136005894556e-16,
+    "espRelMax": 1.3289136005817583e-16,
     "E1": [
      [
       null,
@@ -341,7 +341,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 1.6450653269879097e-16,
+    "espRelMax": 1.6450653269935084e-16,
     "E1": [
      [
       null,
@@ -530,7 +530,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 2.1770692662104739e-16,
+    "espRelMax": 1.5716043870854666e-16,
     "E1": [
      [
       null,
@@ -719,7 +719,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 1.3236939093759336e-16,
+    "espRelMax": 0,
     "E1": [
      [
       null,
@@ -962,7 +962,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 1.8916139916936898e-16,
+    "espRelMax": 1.8916139916767248e-16,
     "E1": [
      [
       null,
@@ -1289,7 +1289,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 1.341175554720881e-16,
+    "espRelMax": 1.3411755547208823e-16,
     "E1": [
      [
       null,
@@ -1532,7 +1532,7 @@
      }
     ],
     "sumBitsDiff": 0,
-    "espRelMax": 2.6823457713114406e-16,
+    "espRelMax": 2.288157948941304e-16,
     "E1": [
      [
       null,
@@ -1856,8 +1856,8 @@
     "Eij": -0.0000049741,
     "Eji": -0.0000049741,
     "ratio": 1,
-    "asym": 1.8732e-15,
-    "absLogRatio": 8.1968e-16,
+    "asym": 3.4058e-16,
+    "absLogRatio": 1.4465e-16,
     "sameSign": true,
     "cij": -0.00030704,
     "cji": -0.00030704,
@@ -1866,7 +1866,7 @@
     "droppedOverKept": 1,
     "totalChangeRel": -0.5,
     "sumBitsDiff": 0,
-    "espRelMax": 1.7031419823717172e-16
+    "espRelMax": 1.7031419823717162e-16
    },
    {
     "kernel": "invsq",
@@ -1899,7 +1899,7 @@
     "droppedOverKept": 0.91543,
     "totalChangeRel": -0.47792,
     "sumBitsDiff": 0,
-    "espRelMax": 2.158543604007549e-16
+    "espRelMax": 0
    },
    {
     "kernel": "invsq",
@@ -1932,7 +1932,7 @@
     "droppedOverKept": 17.19,
     "totalChangeRel": -0.94502,
     "sumBitsDiff": 0,
-    "espRelMax": 0
+    "espRelMax": 2.14751780780824e-16
    },
    {
     "kernel": "invsq",
@@ -1965,7 +1965,7 @@
     "droppedOverKept": 0.13755,
     "totalChangeRel": -0.12092,
     "sumBitsDiff": 0,
-    "espRelMax": 1.3255556017784903e-16
+    "espRelMax": 0
    },
    {
     "kernel": "invsq",
@@ -1998,7 +1998,7 @@
     "droppedOverKept": 1.7825,
     "totalChangeRel": -0.64061,
     "sumBitsDiff": 0,
-    "espRelMax": 1.2214154862625555e-16
+    "espRelMax": 0
    },
    {
     "kernel": "invsq",
@@ -2031,7 +2031,7 @@
     "droppedOverKept": 0.043873,
     "totalChangeRel": -0.042029,
     "sumBitsDiff": 0,
-    "espRelMax": 0
+    "espRelMax": 1.5061378738101725e-16
    },
    {
     "kernel": "invsq",
@@ -2064,7 +2064,7 @@
     "droppedOverKept": 0.20345,
     "totalChangeRel": -0.16906,
     "sumBitsDiff": 0,
-    "espRelMax": 1.5232944290521305e-16
+    "espRelMax": 1.5232944290521298e-16
    },
    {
     "kernel": "invsq",
@@ -2097,7 +2097,7 @@
     "droppedOverKept": 0.91158,
     "totalChangeRel": -0.47687,
     "sumBitsDiff": 0,
-    "espRelMax": 4.80844015765156e-16
+    "espRelMax": 1.60281338588385e-16
    },
    {
     "kernel": "invsq",
@@ -2130,7 +2130,7 @@
     "droppedOverKept": 0.16231,
     "totalChangeRel": -0.13965,
     "sumBitsDiff": 0,
-    "espRelMax": 3.6092197526610644e-16
+    "espRelMax": 2.0320505337272434e-16
    },
    {
     "kernel": "sphere",
@@ -2787,7 +2787,7 @@
      "heat": 0,
      "supply": 0,
      "fieldL": 0,
-     "sinkL": 0
+     "sinkL": 2.6169e-17
     },
     "statesSame": true,
     "sharedAccount": false
@@ -2904,7 +2904,7 @@
      "heat": 0,
      "supply": 0,
      "fieldL": 0,
-     "sinkL": 1.3743e-17
+     "sinkL": 2.6873e-17
     },
     "statesSame": true,
     "sharedAccount": false
@@ -2994,7 +2994,7 @@
     "flowAll": {
      "fieldE": 4.8836e-13,
      "sinkE": -4.8836e-13,
-     "heat": 9.6474e-46,
+     "heat": 7.1144e-46,
      "supply": 4.8836e-13
     },
     "flowParts": [
@@ -3002,7 +3002,7 @@
       "body": "木星",
       "fieldE": 4.7055e-14,
       "sinkE": -4.7055e-14,
-      "heat": 1.4297e-56,
+      "heat": 1.4095e-56,
       "supply": 4.7055e-14,
       "speedSigned": -4.7055e-14
      },
@@ -3010,7 +3010,7 @@
       "body": "イオ",
       "fieldE": 4.4131e-13,
       "sinkE": -4.4131e-13,
-      "heat": 9.6474e-46,
+      "heat": 7.1144e-46,
       "supply": 4.4131e-13,
       "speedSigned": -4.4131e-13
      }
@@ -3021,7 +3021,7 @@
      "heat": 0,
      "supply": 0,
      "fieldL": 0,
-     "sinkL": 0
+     "sinkL": 5.7349e-18
     },
     "statesSame": true,
     "sharedAccount": false
@@ -3111,7 +3111,7 @@
     "flowAll": {
      "fieldE": 4.8835e-13,
      "sinkE": -4.8835e-13,
-     "heat": 9.7446e-38,
+     "heat": 9.7575e-38,
      "supply": 4.8835e-13
     },
     "flowParts": [
@@ -3135,7 +3135,7 @@
       "body": "イオ",
       "fieldE": 4.4129e-13,
       "sinkE": -4.4129e-13,
-      "heat": 9.7427e-38,
+      "heat": 9.7557e-38,
       "supply": 4.4129e-13,
       "speedSigned": -4.4129e-13
      }
@@ -3146,7 +3146,7 @@
      "heat": 0,
      "supply": 0,
      "fieldL": 0,
-     "sinkL": 2.8675e-18
+     "sinkL": 0
     },
     "statesSame": true,
     "sharedAccount": false
@@ -3829,87 +3829,87 @@
    "wallSec": 0.001
   },
   "R": {
-   "wallSec": 0.239
+   "wallSec": 0.272
   },
   "T": {
-   "wallSec": 0.103
+   "wallSec": 0.113
   },
   "F": {
-   "wallSec": 0.196
+   "wallSec": 0.217
   },
   "U": {
-   "wallSec": 0.562
+   "wallSec": 0.606
   },
   "H": {
-   "wallSec": 0.053
+   "wallSec": 0.051
   }
  },
- "elapsedS": 3.175,
+ "elapsedS": 3.18,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便b",
   "target": "beta/index.html",
-  "targetSha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
-  "generatedAt": "2026-10-20T01:37:06.628Z",
+  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+  "generatedAt": "2026-10-20T04:41:48.158Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7155289,
-    "sha256": "0a76bb040afed6eedbc45967b4707cf5b955e8c80c41c2b4e46625a7d30476bb",
-    "mtime": "2026-10-20T01:28:17.358Z"
+    "bytes": 7173069,
+    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+    "mtime": "2026-10-20T03:02:07.011Z"
    },
    {
     "file": "tests/out/recheck-w309c.json",
     "bytes": 96060,
     "sha256": "dd599deb6c4a7a6da91d6de1b2aa38e7883a77ec095661bcaa4555bafac0454f",
-    "mtime": "2026-10-20T01:19:08.258Z"
+    "mtime": "2026-10-19T04:11:02.559Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w310b-pairheat.mjs",
-    "bytes": 38255,
-    "sha256": "3ad16ba0c79c2a1bb0543b9084c3fef0c859c83e336c83d4c007460e729d4ee2",
-    "mtime": "2026-10-20T01:36:44.334Z"
+    "bytes": 38754,
+    "sha256": "cca84c077afee12013ab3322b81dce9e2681846b8bfbbd9a374dbe7f458bc6b9",
+    "mtime": "2026-10-20T04:41:44.875Z"
    },
    {
     "file": "tests/lib-w310b-pairheat.mjs",
     "bytes": 9717,
     "sha256": "adc4998f51b994b8413d05e85a55c3af117eda2868bb349a77b90a2a44682c37",
-    "mtime": "2026-10-20T01:30:33.140Z"
+    "mtime": "2026-10-20T03:02:07.051Z"
    },
    {
     "file": "tests/exp-w309c-recheck.mjs",
     "bytes": 39849,
     "sha256": "2848dacca454de8aa9922d1fdd51051a040286cef955ec0b26fd07c57f91afb9",
-    "mtime": "2026-10-20T01:19:07.866Z"
+    "mtime": "2026-10-19T03:51:59.365Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 37764,
     "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T01:19:07.862Z"
+    "mtime": "2026-10-17T22:20:39.668Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T01:19:07.902Z"
+    "mtime": "2026-10-09T10:19:39.611Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T01:19:07.898Z"
+    "mtime": "2026-10-09T10:19:39.599Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T01:19:07.910Z"
+    "mtime": "2026-10-09T10:19:39.615Z"
    }
   ],
-  "codeSha256": "4cdada7130651aa0662e8c7b70721e4adff9301241b390e2af981a75c71c7a87",
+  "codeSha256": "b20db178102b7e6c9d3bb50c52c8bda4d218b58110009e3308277a1cb61a82fa",
   "harnessVersion": "w310b-pairheat-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -3967,11 +3967,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1480,
-   "segments": 1330,
-   "closureShare": 0.342
+   "names": 1487,
+   "segments": 1336,
+   "closureShare": 0.3435
   },
-  "scopeSha256": "c9b818f12f6f17908ebf1d98ad0df0c0f04426cb8d804ef6901f1fd8e90b920d",
+  "scopeSha256": "0f48b0f4f4905715515c958610c621cb2e4adcc8ff6b9721b32c799bc7ae1181",
   "scopeComplete": true,
   "inputsStable": [
    {

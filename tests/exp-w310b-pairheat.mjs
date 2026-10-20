@@ -361,14 +361,17 @@ export function gatesOf(J) {
   return g;
 }
 const f4 = (x) => (x === null || x === undefined) ? '—' : (typeof x === 'number' ? (x === 0 ? '0' : (Math.abs(x) >= 1e-3 && Math.abs(x) < 1e4 ? Number(x.toPrecision(4)).toString() : x.toExponential(3).replace('e+', 'e'))) : String(x));
+// 第310便(統括の統合): 丸めの程度の欄(破れ・帳簿の和の差)は床より小さいとき「< 床」と書く —— 核の計算の丸めの順
+//   (枝 a の自己の場の前計算)や CI の Node の版で 1e-15〜1e-17 の桁が動いても、表と QA の逐語照合が揺れないように
+const fz = (x, floor) => (typeof x === 'number' && x !== 0 && Number.isFinite(x) && Math.abs(x) < floor) ? '< ' + floor.toExponential(0) : f4(x);
 /** PHYSICS〔第310便b〕の表(正本から作る —— QA docs.pairHeat310 が同じ関数で作り直して逐語照合) */
 export function physicsTables(J) {
   const L1 = ['| 構成 | 核 | 受け手 i | 源 j | I_i/I_j | E⁽¹⁾_{i←j} | E⁽¹⁾_{j←i} | 比 | 破れ (E_ij − E_ji)/max | 同符号 | 大きい I の側を外すと外れる量/残る量 |', '|---|---|---|---|---|---|---|---|---|---|---|'];
-  for (const r of J.R.rows) for (const q of r.rows) L1.push(`| ${r.key} | ${r.kernel} | ${q.recv} | ${q.src} | ${f4(q.IiOverIj)} | ${f4(q.Eij)} | ${f4(q.Eji)} | ${f4(q.ratio)} | ${f4(q.asym)} | ${q.sameSign ? '同' : '逆'} | ${f4(q.droppedOverKept)} |`);
+  for (const r of J.R.rows) for (const q of r.rows) L1.push(`| ${r.key} | ${r.kernel} | ${q.recv} | ${q.src} | ${f4(q.IiOverIj)} | ${f4(q.Eij)} | ${f4(q.Eji)} | ${f4(q.ratio)} | ${fz(q.asym, 1e-12)} | ${q.sameSign ? '同' : '逆'} | ${f4(q.droppedOverKept)} |`);
   const L2 = ['| 核 | 型 | 質量比 q | 半径比 ρ | E⁽¹⁾_{A←B} | E⁽¹⁾_{B←A} | 比 | 破れ | 同符号 |', '|---|---|---|---|---|---|---|---|---|'];
-  for (const r of J.T.rows) L2.push(`| ${r.kernel} | ${r.case} | ${f4(r.q)} | ${f4(r.rho)} | ${f4(r.Eij)} | ${f4(r.Eji)} | ${f4(r.ratio)} | ${f4(r.asym)} | ${r.sameSign ? '同' : '逆'} |`);
+  for (const r of J.T.rows) L2.push(`| ${r.kernel} | ${r.case} | ${f4(r.q)} | ${f4(r.rho)} | ${f4(r.Eij)} | ${f4(r.Eji)} | ${f4(r.ratio)} | ${fz(r.asym, 1e-12)} | ${r.sameSign ? '同' : '逆'} |`);
   const L3 = ['| 構成 | 核 | 受け手ごとの流入(合成場 ΔE = −E_speed) | 受け手ごとの供給 | 全部の受け手の走行との差(熱・流入 E・受け皿 L) | 相手の状態 |', '|---|---|---|---|---|---|'];
-  for (const r of J.F.rows) L3.push(`| ${r.key} | ${r.kernel} | ${r.flowParts.map((q) => q.body + ' ' + f4(q.fieldE)).join('・')} | ${r.flowParts.map((q) => f4(q.supply)).join('・')} | ${f4(r.additivity.heat)}・${f4(r.additivity.fieldE)}・${f4(r.additivity.sinkL)} | ${r.statesSame ? 'ビット不変' : '動いた'} |`);
+  for (const r of J.F.rows) L3.push(`| ${r.key} | ${r.kernel} | ${r.flowParts.map((q) => q.body + ' ' + f4(q.fieldE)).join('・')} | ${r.flowParts.map((q) => f4(q.supply)).join('・')} | ${fz(r.additivity.heat, 1e-14)}・${fz(r.additivity.fieldE, 1e-14)}・${fz(r.additivity.sinkL, 1e-14)} | ${r.statesSame ? 'ビット不変' : '動いた'} |`);
   const L4 = ['| 本 | 受け手 | 支配的な源 k | β_ik | Σβ | abs(u(0)) [m/s] | abs(V_obs,i − V_obs,k) [m/s] | 指標 | 第309便c の参照の指標 | 参照との差 |', '|---|---|---|---|---|---|---|---|---|---|'];
   for (const r of J.U.rows) L4.push(`| ${r.key} | ${r.body} | ${r.src || '—'} | ${f4(r.betaK)} | ${f4(r.sumBeta)} | ${f4(r.uAbsSI)} | ${f4(r.denomSI)} | ${f4(r.ratio)} | ${f4(r.refRatio)} | ${f4(r.ratioVsRef)} |`);
   return [L1, L2, L3, L4].map((x) => x.join('\n')).join('\n\n');
