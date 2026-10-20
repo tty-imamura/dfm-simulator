@@ -14,7 +14,7 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T07:33:52.327Z",
+  "generatedAt": "2026-10-20T12:31:59.473Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 205642,
-    "sha256": "f8443bab3ac4d6661bc48c6bd1265809b5ae80c948ab842e09b4b4d71dcc6fbc",
-    "mtime": "2026-10-20T07:33:52.308Z"
+    "bytes": 205653,
+    "sha256": "a11ab147852a30f3ccfc22cc502cfef8c7323c5ca38e3e9651d57b6826dbaa8a",
+    "mtime": "2026-10-20T12:31:59.457Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -106,9 +106,9 @@
   "codeSha256": "8b7dffff282ac2d9640768fb92ca32364d41cff5123f9d8c2cccf8836dbd8a00",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "440da64c84ccf60b07e1cde24e2de5f9bd83a34d",
-   "date": "2026-10-19T23:44:47.430Z",
-   "pass": 1229
+   "commit": "37369b0e7961ea7180728adcea9c124ad50cdd2a",
+   "date": "2026-10-20T11:36:24.566Z",
+   "pass": 1236
   }
  },
  "tally": {
@@ -649,23 +649,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15398,
+     "ms": 15640,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 15174,
+       "ms": 15407,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 198,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 26,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -1013,23 +1013,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 71,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 54,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 16,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.calib-text",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       },
@@ -1382,17 +1382,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 141,
+     "ms": 155,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 106,
+       "ms": 117,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 35,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -1739,17 +1739,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 140,
+     "ms": 152,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 106,
+       "ms": 117,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 34,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -2096,17 +2096,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 133,
+     "ms": 149,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 106,
+       "ms": 117,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 27,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -2454,11 +2454,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 27,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 27,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -2812,35 +2812,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 929,
+     "ms": 1149,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 371,
+       "ms": 537,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 342,
+       "ms": 369,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 158,
+       "ms": 162,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 52,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 5,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -3187,11 +3187,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 267,
+     "ms": 247,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 267,
+       "ms": 247,
        "pass": true,
        "via": "targetIds"
       }
@@ -3538,11 +3538,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 340,
+     "ms": 385,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 340,
+       "ms": 385,
        "pass": true,
        "via": "targetIds"
       }
@@ -3889,11 +3889,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 313,
+     "ms": 436,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 313,
+       "ms": 436,
        "pass": true,
        "via": "targetIds"
       }
@@ -4240,11 +4240,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 295,
+     "ms": 308,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 181,
+       "ms": 194,
        "pass": true,
        "via": "targetIds"
       },
@@ -4597,17 +4597,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 440,
+     "ms": 544,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 391,
+       "ms": 490,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 49,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -4954,11 +4954,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 131,
+     "ms": 156,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 131,
+       "ms": 156,
        "pass": true,
        "via": "targetIds"
       }
@@ -5309,19 +5309,19 @@
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 141,
+       "ms": 134,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 42,
+       "ms": 45,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 25,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -5668,17 +5668,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 214,
+     "ms": 246,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 120,
+       "ms": 154,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 94,
+       "ms": 92,
        "pass": true,
        "via": "targetIds"
       }
@@ -6025,35 +6025,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2428,
+     "ms": 2691,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1357,
+       "ms": 1632,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 442,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "freebox.graph-measured",
-       "ms": 297,
+       "ms": 440,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 290,
+       "ms": 320,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "freebox.graph-measured",
+       "ms": 244,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 36,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -6400,11 +6400,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4346,
+     "ms": 4550,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4345,
+       "ms": 4549,
        "pass": true,
        "via": "targetIds"
       },
@@ -6799,23 +6799,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10529,
+     "ms": 12878,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6210,
+       "ms": 7032,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4319,
+       "ms": 5845,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -7180,17 +7180,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 76913,
+     "ms": 84993,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 72490,
+       "ms": 81225,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4423,
+       "ms": 3768,
        "pass": true,
        "via": "targetIds"
       }
@@ -7555,17 +7555,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 175654,
+     "ms": 202527,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 169364,
+       "ms": 194788,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6290,
+       "ms": 7739,
        "pass": true,
        "via": "targetIds"
       }
@@ -7912,11 +7912,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3575,
+     "ms": 4187,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3575,
+       "ms": 4187,
        "pass": true,
        "via": "targetIds"
       },
@@ -8269,29 +8269,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7387,
+     "ms": 8558,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4196,
+       "ms": 4673,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3129,
+       "ms": 3829,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 31,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 31,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -8638,17 +8638,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1074,
+     "ms": 1435,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 955,
+       "ms": 1283,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 119,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       }
@@ -8995,17 +8995,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4484,
+     "ms": 5540,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4221,
+       "ms": 5174,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 263,
+       "ms": 366,
        "pass": true,
        "via": "targetIds"
       }
@@ -9352,17 +9352,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4859,
+     "ms": 5854,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 4392,
+       "ms": 5378,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 467,
+       "ms": 476,
        "pass": true,
        "via": "targetIds"
       }
@@ -9709,23 +9709,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 31245,
+     "ms": 37049,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 23763,
+       "ms": 28434,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 7265,
+       "ms": 8474,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 217,
+       "ms": 141,
        "pass": true,
        "via": "targetIds"
       }
@@ -10072,22 +10072,22 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3340,
+     "ms": 3216,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3339,
+       "ms": 3215,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "claim.bhcore-free",
+       "id": "claim.bhcore-selfdrive",
        "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "claim.bhcore-selfdrive",
+       "id": "claim.bhcore-free",
        "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
@@ -10441,11 +10441,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3256,
+     "ms": 2907,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3256,
+       "ms": 2907,
        "pass": true,
        "via": "targetIds"
       }
@@ -10792,17 +10792,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6445,
+     "ms": 7462,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5899,
+       "ms": 6931,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 546,
+       "ms": 531,
        "pass": true,
        "via": "targetIds"
       }
@@ -11149,17 +11149,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 27036,
+     "ms": 31834,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 25513,
+       "ms": 30396,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1523,
+       "ms": 1438,
        "pass": true,
        "via": "targetIds"
       },
@@ -11513,11 +11513,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7041,
+     "ms": 7488,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 7041,
+       "ms": 7488,
        "pass": true,
        "via": "targetIds"
       }
@@ -11865,11 +11865,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6825,
+     "ms": 6753,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 6825,
+       "ms": 6753,
        "pass": true,
        "via": "targetIds"
       }
@@ -12217,11 +12217,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6352,
+     "ms": 6703,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 6352,
+       "ms": 6703,
        "pass": true,
        "via": "targetIds"
       }
@@ -12568,11 +12568,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1237,
+     "ms": 1518,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1237,
+       "ms": 1518,
        "pass": true,
        "via": "targetIds"
       },
@@ -12937,17 +12937,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3737,
+     "ms": 4941,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3737,
+       "ms": 4940,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -13307,11 +13307,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7712,
+     "ms": 8014,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7712,
+       "ms": 8014,
        "pass": true,
        "via": "targetIds"
       }
@@ -13664,11 +13664,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1872,
+     "ms": 1651,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1872,
+       "ms": 1651,
        "pass": true,
        "via": "targetIds"
       }
@@ -14069,11 +14069,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1824,
+     "ms": 2243,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1824,
+       "ms": 2243,
        "pass": true,
        "via": "targetIds"
       }
@@ -14788,11 +14788,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 99,
+     "ms": 84,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 99,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       }
@@ -15145,11 +15145,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13197,
+     "ms": 11679,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 13197,
+       "ms": 11679,
        "pass": true,
        "via": "targetIds"
       }
@@ -16621,11 +16621,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 644,
+     "ms": 555,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 644,
+       "ms": 555,
        "pass": true,
        "via": "targetIds"
       }
@@ -16992,11 +16992,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 792,
+     "ms": 735,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 792,
+       "ms": 735,
        "pass": true,
        "via": "targetIds"
       }
@@ -17375,11 +17375,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 352,
+     "ms": 389,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 352,
+       "ms": 389,
        "pass": true,
        "via": "targetIds"
       }
@@ -17739,29 +17739,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7496,
+     "ms": 8725,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 5699,
+       "ms": 6789,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1533,
+       "ms": 1634,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 167,
+       "ms": 190,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 97,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       }
@@ -18122,11 +18122,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 585,
+     "ms": 663,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 585,
+       "ms": 663,
        "pass": true,
        "via": "targetIds"
       }
@@ -18493,11 +18493,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 775,
+     "ms": 850,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 775,
+       "ms": 850,
        "pass": true,
        "via": "targetIds"
       }
@@ -18864,11 +18864,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 363,
+     "ms": 401,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 363,
+       "ms": 401,
        "pass": true,
        "via": "targetIds"
       }
@@ -19228,29 +19228,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7496,
+     "ms": 8725,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 5699,
+       "ms": 6789,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 1533,
+       "ms": 1634,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 167,
+       "ms": 190,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 97,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       }
@@ -19598,17 +19598,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 213,
+     "ms": 477,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 170,
+       "ms": 436,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 43,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -19955,11 +19955,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 22,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
@@ -20312,17 +20312,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 72,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 51,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 21,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -20669,17 +20669,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 415,
+     "ms": 401,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 363,
+       "ms": 366,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 52,
+       "ms": 35,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -21068,23 +21068,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 31504,
+     "ms": 30582,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 27015,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-gas",
-       "ms": 2326,
+       "ms": 25708,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2163,
+       "ms": 2492,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-gas",
+       "ms": 2382,
        "pass": true,
        "via": "targetIds"
       }
@@ -21431,23 +21431,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 16775,
+     "ms": 18848,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 13176,
+       "ms": 14879,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2242,
+       "ms": 2337,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1357,
+       "ms": 1632,
        "pass": true,
        "via": "targetIds"
       }
@@ -21794,29 +21794,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 821,
+     "ms": 1033,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 667,
+       "ms": 840,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 114,
+       "ms": 141,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 24,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 16,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -22163,11 +22163,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1107,
+     "ms": 1199,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1107,
+       "ms": 1199,
        "pass": true,
        "via": "targetIds"
       }
@@ -22514,11 +22514,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 22,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       },
@@ -22871,23 +22871,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3765,
+     "ms": 4215,
      "tests": [
       {
        "id": "preset.convection",
-       "ms": 2026,
+       "ms": 2415,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-convection",
-       "ms": 1720,
+       "ms": 1764,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 19,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       },
@@ -23240,11 +23240,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2715,
+     "ms": 3072,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2715,
+       "ms": 3072,
        "pass": true,
        "via": "targetIds"
       },
@@ -23597,11 +23597,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1922,
+     "ms": 2282,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1922,
+       "ms": 2282,
        "pass": true,
        "via": "targetIds"
       },
@@ -23954,11 +23954,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 942,
+     "ms": 1030,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 942,
+       "ms": 1030,
        "pass": true,
        "via": "targetIds"
       },
@@ -24317,11 +24317,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2172,
+     "ms": 2266,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2172,
+       "ms": 2266,
        "pass": true,
        "via": "targetIds"
       },
@@ -24680,11 +24680,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1103,
+     "ms": 993,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 1103,
+       "ms": 993,
        "pass": true,
        "via": "targetIds"
       },
@@ -25044,11 +25044,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1284,
+     "ms": 1763,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1284,
+       "ms": 1763,
        "pass": true,
        "via": "targetIds"
       },
@@ -25413,23 +25413,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 518,
+     "ms": 563,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 309,
+       "ms": 324,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 131,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 78,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -25782,17 +25782,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1492,
+     "ms": 1594,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1418,
+       "ms": 1537,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 74,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -26210,11 +26210,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 15,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -26567,23 +26567,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3192,
+     "ms": 3737,
      "tests": [
       {
        "id": "behavior.tideGate",
-       "ms": 3102,
+       "ms": 3653,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 59,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonTide",
-       "ms": 31,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -26987,11 +26987,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 45,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -27362,17 +27362,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 580,
+     "ms": 537,
      "tests": [
       {
        "id": "behavior.dragCoreGate",
-       "ms": 440,
+       "ms": 396,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.earthMoonInertial",
-       "ms": 88,
+       "ms": 89,
        "pass": true,
        "via": "targetIds"
       },
@@ -27743,17 +27743,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 34,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 34,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -28126,17 +28126,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 55,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 55,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -28536,7 +28536,7 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.emAuditSolar",
@@ -28546,7 +28546,7 @@
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -28899,17 +28899,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 236,
+     "ms": 283,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 233,
+       "ms": 277,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -30400,11 +30400,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 28,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -30763,17 +30763,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1048,
+     "ms": 1095,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1015,
+       "ms": 1050,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 33,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -31132,17 +31132,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1082,
+     "ms": 1087,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1015,
+       "ms": 1050,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 67,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -31495,17 +31495,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 787,
+     "ms": 734,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 771,
+       "ms": 717,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 16,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -31918,11 +31918,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 40,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -32275,17 +32275,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 236,
+     "ms": 283,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 233,
+       "ms": 277,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -36014,11 +36014,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 22,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -36729,11 +36729,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 34,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -37095,17 +37095,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2099,
+     "ms": 2148,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 2029,
+       "ms": 2082,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 70,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -37541,17 +37541,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 469,
+     "ms": 859,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 444,
+       "ms": 840,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 25,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -37987,17 +37987,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5965,
+     "ms": 4778,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 5944,
+       "ms": 4763,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 21,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -38397,17 +38397,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 12,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 12,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -38846,11 +38846,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 31,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 31,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -39233,17 +39233,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15828,
+     "ms": 15907,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 15772,
+       "ms": 15855,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 56,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -39615,11 +39615,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 46,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -40093,11 +40093,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 15,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -40450,17 +40450,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 236,
+     "ms": 283,
      "tests": [
       {
        "id": "preset.inertial3_295",
-       "ms": 233,
+       "ms": 277,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.inertial3Contract295",
-       "ms": 3,
+       "ms": 6,
        "pass": true,
        "via": "targetIds"
       }
@@ -41194,11 +41194,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 40,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -41558,11 +41558,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 24,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -41946,7 +41946,7 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 40,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.uranusReal",
@@ -41956,7 +41956,7 @@
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -42392,17 +42392,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 15,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.neptuneReal",
-       "ms": 0,
+       "ms": 5,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -42842,17 +42842,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4075,
+     "ms": 6216,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 4056,
+       "ms": 6202,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -43230,17 +43230,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4119,
+     "ms": 6242,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 4056,
+       "ms": 6202,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 63,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -43680,17 +43680,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3153,
+     "ms": 2600,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3136,
+       "ms": 2571,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 17,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -44068,17 +44068,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3184,
+     "ms": 2623,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3136,
+       "ms": 2571,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 48,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -44491,11 +44491,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 22,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       },
@@ -44915,17 +44915,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8868,
+     "ms": 9694,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 8784,
+       "ms": 9635,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 84,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -45273,11 +45273,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 60,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -45643,11 +45643,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 77,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 77,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -46090,11 +46090,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 48,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 48,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -46907,11 +46907,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 101,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 29,
+       "ms": 101,
        "pass": true,
        "via": "targetIds"
       }
@@ -47277,11 +47277,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 35,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -47647,11 +47647,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 42,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -48017,11 +48017,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 42,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -48387,11 +48387,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 46,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -48757,11 +48757,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 49,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -49156,11 +49156,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 16,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -49574,11 +49574,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 29,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -49944,11 +49944,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 50,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -50301,11 +50301,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 27,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -50664,23 +50664,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3541,
+     "ms": 3297,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2778,
+       "ms": 2698,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 744,
+       "ms": 559,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 19,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -51033,17 +51033,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 497,
+     "ms": 367,
      "tests": [
       {
        "id": "behavior.chain296",
-       "ms": 447,
+       "ms": 315,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.chainContract296",
-       "ms": 50,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -53581,11 +53581,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 30,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -53938,11 +53938,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 52,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -54324,17 +54324,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6472,
+     "ms": 5466,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 6455,
+       "ms": 5440,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 17,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -54712,17 +54712,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6531,
+     "ms": 5497,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 6455,
+       "ms": 5440,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 76,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -55455,11 +55455,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 24,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -55812,11 +55812,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1295,
+     "ms": 1591,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 1295,
+       "ms": 1591,
        "pass": true,
        "via": "targetIds"
       },
@@ -56175,11 +56175,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6344,
+     "ms": 6316,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 6344,
+       "ms": 6316,
        "pass": true,
        "via": "targetIds"
       }
@@ -56538,11 +56538,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1904,
+     "ms": 2224,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 1904,
+       "ms": 2224,
        "pass": true,
        "via": "targetIds"
       },
@@ -56913,11 +56913,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4859,
+     "ms": 5268,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 4859,
+       "ms": 5268,
        "pass": true,
        "via": "targetIds"
       }
@@ -57264,11 +57264,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 22,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -57615,11 +57615,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 33,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -57966,11 +57966,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 207,
+     "ms": 276,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 207,
+       "ms": 276,
        "pass": true,
        "via": "targetIds"
       }
@@ -58329,17 +58329,17 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4891,
+     "ms": 6060,
      "tests": [
       {
        "id": "shot.regress-saturn",
-       "ms": 2564,
+       "ms": 3398,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturn",
-       "ms": 2327,
+       "ms": 2662,
        "pass": true,
        "via": "targetIds"
       },
@@ -58704,23 +58704,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5473,
+     "ms": 5691,
      "tests": [
       {
-       "id": "shot.regress-saturnLayered",
-       "ms": 2833,
+       "id": "preset.saturnLayered",
+       "ms": 3053,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.saturnLayered",
-       "ms": 2620,
+       "id": "shot.regress-saturnLayered",
+       "ms": 2621,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 20,
+       "ms": 17,
        "pass": true,
        "via": "claims"
       },
@@ -59130,29 +59130,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 10373,
+     "ms": 11440,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 10318,
+       "ms": 11354,
+       "pass": true,
+       "via": "claims"
+      },
+      {
+       "id": "zonal.analytic-d68",
+       "ms": 42,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 28,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "zonal.analytic-d68",
-       "ms": 25,
-       "pass": true,
-       "via": "claims"
-      },
-      {
        "id": "zonal.d68-preset",
-       "ms": 2,
+       "ms": 8,
        "pass": true,
        "via": "claims"
       }
@@ -59499,11 +59499,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 25,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -59850,11 +59850,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 13,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -60244,17 +60244,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 70,
+     "ms": 89,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 37,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 33,
+       "ms": 38,
        "pass": true,
        "via": "claims"
       }
@@ -60616,11 +60616,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 318,
+     "ms": 371,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 318,
+       "ms": 371,
        "pass": true,
        "via": "targetIds"
       }
@@ -60967,28 +60967,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4567,
+     "ms": 4834,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4490,
+       "ms": 4758,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 76,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.binary",
-       "ms": 1,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.kframe-binary-default",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.binary",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -61337,17 +61337,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 126,
+     "ms": 141,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 109,
+       "ms": 121,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 17,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -61694,11 +61694,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1358,
+     "ms": 890,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 1358,
+       "ms": 890,
        "pass": true,
        "via": "targetIds"
       },
@@ -62051,17 +62051,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1957,
+     "ms": 2086,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1034,
+       "ms": 1125,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 922,
+       "ms": 960,
        "pass": true,
        "via": "targetIds"
       },
@@ -62414,11 +62414,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 21,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -62765,11 +62765,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 120,
+     "ms": 114,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 120,
+       "ms": 114,
        "pass": true,
        "via": "targetIds"
       }
@@ -63116,11 +63116,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 99,
+     "ms": 93,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 99,
+       "ms": 93,
        "pass": true,
        "via": "targetIds"
       }
@@ -63467,11 +63467,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 29,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -63818,11 +63818,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 14,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -64169,17 +64169,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 245,
+     "ms": 226,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 165,
+       "ms": 131,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 80,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       }
@@ -64532,11 +64532,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 18,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 18,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -64883,11 +64883,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 19,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -65234,17 +65234,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 344,
+     "ms": 296,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 305,
+       "ms": 236,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 39,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -65591,11 +65591,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 36,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -65942,17 +65942,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 77,
+     "ms": 88,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 42,
+       "ms": 57,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 35,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -65969,8 +65969,8 @@
   "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
-  "qaTotal": 1234,
-  "qaDurationMs": 3188879,
+  "qaTotal": 1241,
+  "qaDurationMs": 3168776,
   "reuse": {
    "since": "第284便c",
    "h2": {
