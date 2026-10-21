@@ -72,6 +72,24 @@ node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [
   `tests/data-w311c-regensec.json` に書く(表の本文は書き換えない —— `sec` は済み印の契約と計画の判定に入らない。timing294 だけがこのファイルを入力に持つ)。
 - **レーンの見直し**: obscompare・samplestatus は鎖の中では一時出力だけを書く(html を置き換えない)ので workers 1。htmlagg は all のまま(`--audit` の lanes311)。
 
+第312便c(統括の検証項目 R232・決断事項 AN400・AN394)から:
+
+```
+node tools/regen-chain.mjs --calibrate <timeline.txt> --log $REGEN_LOG [--base-sec <見積りの file>] [--apply [--out <file>]] [--json <file>]
+node tools/regen-chain.mjs --scope-all [--write] [--check]      # REGEN_SCOPE が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)
+node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,…] [--all-files]   # 正本の値の差の記録(段ごとに changed / same)
+node tools/regen-valdiff.mjs --self-test
+```
+
+- **`--calibrate` の再起動の型**(規則の版 `w312c-calibrate-2`): `--log` の済み印の 1 行目 `run <N>s` を実測として先に読む(`reuse` —— gate の
+  再利用・`manual` —— 鎖の外の段は飛ばす)。済み印の無い段は timeline を `# ready-queue` の見出しで回に分け(`# restart` の注釈を数える)、2 回目以降の回の
+  5 s 以下の組は、前の回で rc 0 で終わっていれば済み印の確かめとして飛ばす。`--base-sec` は「今の見積り」をそのファイルから読み、`--apply` はそれを元に
+  `--out`(既定 `tests/data-w311c-regensec.json`)へ書く(前の便の見積りから引き直して照合する用途)。
+- **値の差の記録**(`tools/regen-valdiff.mjs` —— 判定ではなく測定): 鎖の後の作業木の正本と基点の rev の正本を、最上位の来歴(`/meta`・`/h4Carry`・`/h4Carried`)・
+  再生成表の `volatilePaths`・実行時の鍵の名(時刻・所要・速さ・同一性の hash・html の行番号 `line`)を除いて比べる。観測の時刻・継続時間の欄は名で除かない。
+- **h/4 の転記の既定**(`tests/lib-w311c-h4carry.mjs`・版 `w312c-h4carry-2`): 既定は全部測る(影の記録 `h4Carry` を正本に書く)。`H4_CARRY=1` は比較の実験だけ
+  (第311便c の転記 —— その正本はコミットしない)。
+
 ## p2fig-compare.mjs — 論文2 の図データの照合(第287便f)
 
 ```

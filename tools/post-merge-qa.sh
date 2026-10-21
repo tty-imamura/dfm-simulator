@@ -273,6 +273,13 @@ WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 #   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
 [ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.readyQueue311 lint.h4Carry311 docs.w311c lint.regenChain docs.sampleStatus-sync docs.chainBurst301 docs.shell304b"
 # ==== 第311便c の塊(ここまで)====
+# ==== 第312便c の塊(ここから)====
+# 第312便c(統括の検証項目 R232・決断事項 AN400・AN394 —— 鎖の道具): 枝 c の新設 3 本(lint.regenTools312 —— --calibrate の再起動の型の直しと値の差の記録の道具・
+#   lint.scopeAll312 —— REGEN_SCOPE の presets:"all" の段の理由の一覧・docs.w312c —— 文書)と、h/4 の既定(全部測る)と影の記録を見る lint.h4Carry311・
+#   影の記録の除外の鍵を見る lint.stableHashPaths・転記を当てた 4 器の正本を読む docs.chainBurst301・docs.inertialR2_303・docs.shell304b・docs.an336_306
+#   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.regenTools312 lint.scopeAll312 docs.w312c lint.h4Carry311 lint.stableHashPaths docs.chainBurst301 docs.inertialR2_303 docs.shell304b docs.an336_306"
+# ==== 第312便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in

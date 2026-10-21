@@ -4074,3 +4074,40 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **2 段目(統合の後に統括)**: `node tests/exp-w311d-planet3.mjs --planet <惑星> --rd <R_d/R の列> [--divs 1,2] [--refine N] [--h4]`・`--at <R_d/R> --md <m_d/M の列> --sunmd <m_d/M☉ の列> [--cross <列>]`・`--coreSpin '<json>'`(枝 a の鍵 dragCore.spin/axis —— 受理しなければ「未接続」と記録)。出力は `tests/out/planet3-w311d-stage2[-<惑星>].json`(鎖の正本ではない —— 正本の行は html と器の版が同じなら使い回す)・`--merge <json の列>` で 1 本にまとめて段 T・R・G を作り直す(惑星ごとの出力は門 gLocMeasured が偽 —— まとめた後に 3 惑星の段 T がそろう。`--refine` は `--rd` に書いた点の区間から細分する —— 正本の点も `--rd` に書けば使い回す)。h/4 は最終の候補だけ(決断事項 AN393 (a) —— 鎖では h と h/2 だけ)。
 - **QA**: `docs.planet3_311`(root は SKIP —— 正本の門・標的が第306便a の正本と一致・段 S を対象 html で作り直して相対 1e-9・段 T・R・G を走行の行から作り直してビット同一・在位の 🌡️🌋🔴 の宣言が第306便a の世代のまま・PHYSICS〔第311便d〕の表と数・文書・禁句)。post-merge の ③′ に docs.planet3_311・docs.mdSweep310・docs.an336_306。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときに惑星・太陽の dragCore の R_d・m_d を探索の値で宣言しない(探索の材料 —— 在位の宣言は別便)。器の数を「R_d を決めた」「標的に合わせた」と書かない。数値の門を観測の 3σ と呼ばない。届かないもの・そろわないものはそのまま数で書く(AN386・AN392)。
+## 125. 第312便c —— h/4 の転記の既定を「全部測る」へ・影の記録・`--calibrate` の再起動の型の直し・値の差の記録の道具・`REGEN_SCOPE:"all"` の理由の一覧(統括の検証項目 R232・決断事項 AN400・AN394・**道具・器・文書・QA だけ** —— html・宣言の鍵・エンジンの式・物理・正本の値・判定の門・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **h/4 の転記の既定(AN400 —— `tests/lib-w311c-h4carry.mjs`・版 `w312c-h4carry-2`・履歴 `H4_CARRY_HISTORY`)**: 〔第311便c〕の `canCarry` は h と h/2 の値が前の正本と同じなら h/4 を転記した(コード・入力・環境の契約は見ない)。**h と h/2 の一致は h/4 の一致を保証しない**(反例 old(h) = 1・new(h) = (h < 0.003 ? 2 : 1) —— h = 0.008・h/2 = 0.004 で同じ・h/4 = 0.002 で違う。自己試験 (7))。既定を全部測るへ(`carryMode()` = 'shadow' —— `H4_CARRY` が無いか 0。`H4_CARRY=1` の転記は比較の実験だけ —— その正本はコミットしない・QA が今の lib で書いた正本の `h4Carried` を落とす)。
+- **影の記録(既定の動作)**: `openCarry` は影でも前の正本を開く。`canCarry(ctx, 鍵, いまの h と h/2 の値の鍵, 前の正本の同じ形)` は転記の判定(wouldCarry)を単位に記録し、転記の実験のときだけ真を返す。器は h/4 を測った後に `shadowCompare(ctx, 鍵, 測った値, 転記していたら入った値)` を呼び、`shadowStamp` を正本の最上位 `h4Carry`(`{mode:"shadow", version, nUnits, wouldCarry, sameAsFresh, differ, unchecked, units:{鍵:{wouldCarry, sameAsFresh, why?, firstDiff?}}, prev:{generatedAt, targetSha256, fileSha256}}`)に書く —— 判定ではなく測定。**値の鍵は変えない**(h/4 は測った値)。`prev` の時刻と sha は再生成表の除外の鍵(4 段の `volatilePaths` に `V_H4_SHADOW` —— lib の `SHADOW_VOLATILE` と同じ並び)。比べる値: chainburst-301d は仕事の結果(所要を除く全欄)・inertialr2-303b は Z6 の h/4 の走行・根の行の全欄・移送の行が読む h/4 の欄・対照の h/4 / an336-306a は移送の行の全欄 / shell-304b は段 M の diffs・periodShiftDays・eccShift の [2]・段 T の h/4 の予言と周期・離心率の変化・水星の対照の h/4(水星の外の対照は正本に h/4 の記録が無い —— 転記の判定の外)。
+- **比べ方の言い方**: 「ビット同一」ではなく **JSON の表現の一致**(`jsonSame` —— 正本の書き方〔`JSON.stringify`〕で同じ文字列。−0 と 0・NaN と null を区別しない。旧名 `bitSame` は同じ関数)。`compareValueKeys` は `h4Carry` も除く。
+{{H4TABLE}}
+- **`--calibrate` の再起動の型(規則の版 `w312c-calibrate-2` —— `calibrateSec`・`timelineRuns`)**: 第311便の鎖はコンテナの再起動で 2 回再開し(timeline の見出し 3・`# restart` 2)、再開した回で済み印で飛ばした段の start/end(0.1〜4.4 s —— 済み印の契約の入力の hash を引く時間)が最後の組に残った。旧の規則は `--log` を付けても秒を timeline の最後の組から取った(済み印は種類だけ見た)。直し: ① `--log` の済み印の 1 行目 `run <N>s` を実測として先に読む(`reuse` —— gate の再利用・`manual` —— 鎖の外の段・読めない形は飛ばす)② 印の無い段は timeline を見出しで回に分け、2 回目以降の回の 5 s 以下(`RESUME_CHECK_MAX_SEC`)の組は前の回に rc 0 の組があれば済み印の確かめとして飛ばす(旧の「< 1 s かつ見積り ≥ 30 s」も残す)。CLI に `--base-sec <file>`(今の見積りをそのファイルから —— `--apply` はそれを元に書く)・`--out <file>`・`--json <file>`。自己試験 `calibrateProbe312`(再起動を挟んだ小さな timeline —— 印なし/印あり/旧の規則)。
+- **第311便の鎖 1 の timeline と済み印(165 段・全部 `run`)で引き直した差**: 旧の規則に `--log` を付けると更新 106 段のうち 46 段が再開の確かめの秒(0〜4 s)を実測と読み、うち 36 段は実際には 30 s を超える段(synodic-299b 5342 s → 1 s・emgrid 2505 → 0・charon-h2 1380 → 0・dragcore292 1068 → 0・inertialr2-303b 1062 → 2 ほか)。印なしの旧の規則でも 15 段。直した規則(`--log`)は更新 87・許容の内 78・飛ばした 0 で、c98db78 の `tests/data-w311c-regensec.json`(統括が済み印の秒で手で置き直した版)と 13 段違う —— どれも許容(±10% か ±2 s)の境の決め方の差で、値はどれも済み印の秒:
+
+| 段 | 直した道具 | c98db78 | 前の見積り | 差の型 |
+|---|---|---|---|---|
+| charon-h | (書かない —— 677 = 677) | 677 | 677(表) | 許容の内でも c98db78 は行を書いた |
+| charon-h2 | (書かない —— 1380 / 1407) | 1380 | 1407(表) | 同 |
+| tilt90layers289 | (書かない —— 128 / 135) | 128 | 135(表) | 同 |
+| gloc-302b | (書かない —— 23 = 23) | 23 | 23(表) | 同 |
+| compose288 | (書かない —— 4 / 5) | 4 | 5(表) | 同 |
+| coord3d-298a | (書かない —— 3 / 5) | 3 | 5(表) | 同 |
+| refit-303a | 398 | 443(第310便の鎖 2) | 443 | 済み印の秒(398)では許容の外・timeline の組(399.6 s —— 契約の hash の時間を含む)では許容の内 |
+| charondfm | 87 | 97(同) | 97 | 同 |
+| statecontract-302e | 15 | 19(表) | 19 | 同 |
+| approxmany-301b | 6 | 10(表) | 10 | 同 |
+| tide3d-307b | 4 | 7(第310便の鎖 2) | 7 | 同 |
+| families | 3 | 8(表) | 8 | 同 |
+| calcause292 | 2 | 5(第310便の鎖 2) | 5 | 同 |
+
+  見積りのファイルは書き換えない(timing294 の入力 —— 書き換えると timing294 が regen)。次の鎖の後は `--calibrate <timeline> --log $REGEN_LOG --apply` だけで同じ規則の値になる。
+- **値の差の記録の道具(AN394 の影の運用の基準線 —— `tools/regen-valdiff.mjs`・版 `w312c-valdiff-1`)**: `--base <rev> [--json out] [--steps] [--all-files]` —— 鎖の後の作業木の正本 JSON と基点の rev の正本(`git show`)を、最上位の来歴(`/meta`・`/h4Carry`・`/h4Carried`)・再生成表の `volatilePaths` と META_RUN・実行時の鍵の名(`VALDIFF_RUNTIME_KEYS` —— 時刻・壁時計の所要・速さ・`VALDIFF_ID_RE` の同一性の hash・整数の `line`)を除いて比べ、段ごとに changed / same / added / removed / unreadable / no-json を出す(差の Pointer の先頭 5 つと数・名で除いた値の数 `droppedByName`)。観測の時刻・継続時間の欄(`when`・`durationMs`)は名で除かない(宣言の Pointer だけ —— 第282便e の教訓)。**判定ではなく測定**(「値が同じ」は除いた鍵の外が同じことだけ)。第312便の鎖の後に統括が走らせ、段の数を DECISIONS に書く。自己試験 `valDiffSelfTest`。
+- **`REGEN_SCOPE:"all"` の理由の一覧(AN394 —— `tests/data-w312c-scopeall.json`・版 `w312c-scopeall-1`・`node tools/regen-chain.mjs --scope-all [--write] [--check]`・`scopeAllReasons312`)**: 器の宣言が presets:"all" の現行の段ごとに、器と lib(lint.regenScope と同じ集合)の本文の `allPresets()` / `BUILTIN_PRESETS` を `.find` 以外で使う箇所を使い方で分け(value・find-via-var・iterate・filter・map・count・spread・value-arg・declared-wide)、本文が名指す内蔵の本の ID(namedIds)と見込みを書く。**絞らない**(AN394 の本番の後)。
+  段 52(器 52)—— 使い方の延べ: filter 13・map 2・declared-wide 11・count 2・iterate 6・value 10・find-via-var 17(1 段に複数ある)。
+
+| 見込み | 段の数 | 段(名指しの本の数) |
+|---|---|---|
+| narrow-now —— 宣言だけが広い(器と lib の下限は all でない)—— 下限の本の集合に絞れる | 11 | clusterStable(3)・pn1(40)・pnsource286(40)・eihdiag287(32)・tpsign(35)・jeans286(3)・pnsources291(7)・refit-297a(7)・coord3d-298a(4)・drag3d-298c(5)・moon3d-298c(2) |
+| find-only —— 変数に受けて名指しで引くだけ(lib-w299c-planets3d.mjs の 1 行 11 段・lib-w300c-saturnring3d.mjs の 1 行 1 段 —— `const all = HP.allPresets(), … = all.find(…)`)—— 受け方を .find に直せば名指しの本に絞れる見込み | 12 | planets3d-299c(19)・saturnring3d-300c(4)・inertialr2-303b(28)・shell-304a(20)・shell-304b(30)・gfamily-305b(30)・periodn-306b(30)・pairnorm-305a(29)・mdsweep-310d(19)・galaxial-311b(21)・planet3-311d(19)・an336-306a(28) |
+| enumerates —— 全本を読む(条件で選ぶ・回る・写す・数える)—— 絞ると器の目的が変わる | 29 | shapecrit(3)・d68(3)・calcontract(21)・clusterAnalogy(3)・families(94)・bgfield284(4)・contact285(59)・bgdiff286(8)・bgtime287(4)・bgrange288(1)・weakfield289(7)・contractrange289(3)・corecensus293(4)・compose293(3)・geo4-295b(13)・fit-297b(10)・chain-296c(2)・timestd-297c(0)・dragnorm-301a(15)・approxmany-301b(7)・clone-301f(0)・statecontract-302e(0)・wbglaw-301g(31)・semic-302d(32)・wbgest-302c(34)・refit-303a(34)・invsq-309a(3)・invsq-310a(4)・timing294(5) |
+- **QA**: `lint.h4Carry311`(世代は lib の版で —— 既定が影・反例と影の数え方の自己試験・器が shadowCompare/shadowStamp を使う・今の lib で書いた正本に `h4Carry` があり数が整合し `h4Carried` が無い・除外の鍵の並び)・`lint.regenTools312`(`--calibrate` の自己試験と CLI の口・値の差の道具の自己試験)・`lint.scopeAll312`(一覧と今の器が段・使い方・見込みで同じ)・`docs.w312c`(本節・PHYSICS〔第312便c〕・CHANGELOG・tools/README・post-merge の ③′)。root は 4 本とも SKIP。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。鎖の運用・器の型の話で、本の宣言・判定・表示を変えない。h と h/2 は 2 段の感度診断 —— **h と h/2 の一致は収束の証明ではない**・**h と h/2 の一致は h/4 の一致を保証しない**。正本の比べ方は「JSON の表現の一致」と書く(「ビット同一」と書かない)。
