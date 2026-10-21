@@ -3483,7 +3483,7 @@ lastAddAt = Date.now();
         const bad = [], cases = [];
         const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch { return ''; } };
         const Ph = rd('docs/PHYSICS.md'), Ai = rd('docs/AI_SPEC.md'), Ch = rd('CHANGELOG.md'), Tr = rd('tools/README.md'), Pm = rd('tools/post-merge-qa.sh');
-        const i0 = Ph.indexOf('〔第312便c'), i7 = Ph.indexOf('\n## 7. ');
+        const i0 = Ph.indexOf('〔第312便c — '), i7 = Ph.indexOf('\n## 7. ');   // 第312便(統括): 節の見出しの型で探す(他の節の本文の → 注記の〔第312便c〕を節と読まない)
         const mN = i0 >= 0 ? /\n〔第\d+便[a-z]* — /.exec(Ph.slice(i0 + 5)) : null, iN = mN ? i0 + 5 + mN.index : -1;   // 次の節の見出し(段落の頭の〔第…〕は節でない)
         const sec = i0 >= 0 ? Ph.slice(i0, iN > i0 && iN < i7 ? iN : (i7 > i0 ? i7 : undefined)) : '';
         if (!(i0 >= 0 && i7 > i0)) bad.push('① PHYSICS〔第312便c〕が「## 7.」の前に無い');
