@@ -4091,25 +4091,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **影の記録の読み方**: 4 器とも「転記の判定が真の単位はすべて、転記していたら測った値と同じ」(違った単位 0)。これは今回の html と器の組での測定で、**h と h/2 の一致が h/4 の一致を保証することは意味しない**(反例は自己試験 (7))。chainburst-301d の G.engine の 5 仕事は h と h/2 の仕事が同じ族に無い(転記の判定の外)・shell-304b の水星の外の対照は正本に h/4 の記録が無い(同)。走行の数 stats は全部測った分だけ増える(an336-306a 走行 82 / 68・步数の和 1.087×10⁸ / 6.35×10⁷ —— 第310便の全部測った正本と同じ数)。所要は他の枝の器と同じ容器での 1 回の走行(負荷平均 3〜10)で、鎖の見積りには使わない。
 - **鎖で作り直す段(本枝の変更から)**: 器の本文を変えた 4 段(本枝で正本を作り直した —— 鎖では再利用の見込み)のほか、器を import する段 semic-302d(exp-w301d-chainburst.mjs)・gfamily-305b・periodn-306b・pairnorm-305a(exp-w303b-inertialr2.mjs・exp-w304b-shell.mjs)、an336-w306a.json を安定 hash で読む mdsweep-310d・planet3-311d(`h4Carried` → `h4Carry` で安定 hash が変わる)、再生成表を code に持つ families・timing294。
 - **`--calibrate` の再起動の型(規則の版 `w312c-calibrate-2` —— `calibrateSec`・`timelineRuns`)**: 第311便の鎖はコンテナの再起動で 2 回再開し(timeline の見出し 3・`# restart` 2)、再開した回で済み印で飛ばした段の start/end(0.1〜4.4 s —— 済み印の契約の入力の hash を引く時間)が最後の組に残った。旧の規則は `--log` を付けても秒を timeline の最後の組から取った(済み印は種類だけ見た)。直し: ① `--log` の済み印の 1 行目 `run <N>s` を実測として先に読む(`reuse` —— gate の再利用・`manual` —— 鎖の外の段・読めない形は飛ばす)② 印の無い段は timeline を見出しで回に分け、2 回目以降の回の 5 s 以下(`RESUME_CHECK_MAX_SEC`)の組は前の回に rc 0 の組があれば済み印の確かめとして飛ばす(旧の「< 1 s かつ見積り ≥ 30 s」も残す)。CLI に `--base-sec <file>`(今の見積りをそのファイルから —— `--apply` はそれを元に書く)・`--out <file>`・`--json <file>`。自己試験 `calibrateProbe312`(再起動を挟んだ小さな timeline —— 印なし/印あり/旧の規則)。
-- **第311便の鎖 1 の timeline と済み印(165 段・全部 `run`)で引き直した差**: 旧の規則に `--log` を付けると更新 106 段のうち 46 段が再開の確かめの秒(0〜4 s)を実測と読み、うち 36 段は実際には 30 s を超える段(synodic-299b 5342 s → 1 s・emgrid 2505 → 0・charon-h2 1380 → 0・dragcore292 1068 → 0・inertialr2-303b 1062 → 2 ほか)。印なしの旧の規則でも 15 段。直した規則(`--log`)は更新 87・許容の内 78・飛ばした 0 で、c98db78 の `tests/data-w311c-regensec.json`(統括が済み印の秒で手で置き直した版)と 13 段違う —— どれも許容(±10% か ±2 s)の境の決め方の差で、値はどれも済み印の秒:
-
-| 段 | 直した道具 | c98db78 | 前の見積り | 差の型 |
-|---|---|---|---|---|
-| charon-h | (書かない —— 677 = 677) | 677 | 677(表) | 許容の内でも c98db78 は行を書いた |
-| charon-h2 | (書かない —— 1380 / 1407) | 1380 | 1407(表) | 同 |
-| tilt90layers289 | (書かない —— 128 / 135) | 128 | 135(表) | 同 |
-| gloc-302b | (書かない —— 23 = 23) | 23 | 23(表) | 同 |
-| compose288 | (書かない —— 4 / 5) | 4 | 5(表) | 同 |
-| coord3d-298a | (書かない —— 3 / 5) | 3 | 5(表) | 同 |
-| refit-303a | 398 | 443(第310便の鎖 2) | 443 | 済み印の秒(398)では許容の外・timeline の組(399.6 s —— 契約の hash の時間を含む)では許容の内 |
-| charondfm | 87 | 97(同) | 97 | 同 |
-| statecontract-302e | 15 | 19(表) | 19 | 同 |
-| approxmany-301b | 6 | 10(表) | 10 | 同 |
-| tide3d-307b | 4 | 7(第310便の鎖 2) | 7 | 同 |
-| families | 3 | 8(表) | 8 | 同 |
-| calcause292 | 2 | 5(第310便の鎖 2) | 5 | 同 |
-
-  見積りのファイルは書き換えない(timing294 の入力 —— 書き換えると timing294 が regen)。次の鎖の後は `--calibrate <timeline> --log $REGEN_LOG --apply` だけで同じ規則の値になる。
+- **第311便の鎖の記録で引き直した照合**: 旧の規則は再開した回の済み印の確かめの秒(0〜4 s)を、実際には長い段の実測として読む段が多数あった(`--log` を付けても)。直した規則(`--log`)の値はどれも済み印の秒で、c98db78 の `tests/data-w311c-regensec.json`(統括が済み印の秒で手で置き直した版)とは、許容(±10% か ±2 s)の境の決め方(許容の内でも行を書いたか・timeline の組〔契約の hash を引く時間を含む〕と済み印の秒のどちらで境を判じたか)の段だけが違う(差の表は統括の記録)。見積りのファイルは書き換えない(timing294 の入力 —— 書き換えると timing294 が regen)。次の鎖の後は `--calibrate <timeline> --log $REGEN_LOG --apply` だけで同じ規則の値になる。
 - **値の差の記録の道具(AN394 の影の運用の基準線 —— `tools/regen-valdiff.mjs`・版 `w312c-valdiff-1`)**: `--base <rev> [--json out] [--steps] [--all-files] [--ignore 鍵,…]` —— 鎖の後の作業木の正本 JSON と基点の rev の正本(`git show`)を、最上位の来歴(`/meta`・`/h4Carry`・`/h4Carried`)・再生成表の `volatilePaths` と META_RUN・実行時の鍵の名(`VALDIFF_RUNTIME_KEYS` —— 時刻・壁時計の所要・速さ・`VALDIFF_ID_RE` の同一性の hash・整数の `line`)を除いて比べ、段ごとに changed / same / added / removed / unreadable / no-json を出す(差の Pointer の先頭 5 つと数・名で除いた値の数 `droppedByName`)。観測の時刻・継続時間の欄(`when`・`durationMs`)は名で除かない(宣言の Pointer だけ —— 第282便e の教訓)。**判定ではなく測定**(「値が同じ」は除いた鍵の外が同じことだけ)。第312便の鎖の後に統括が走らせ、段の数を DECISIONS に書く —— 基点 c98db78 の an336-306a・shell-304b は h/4 を転記した世代なので、全部測った正本とは走行の数 `stats` だけが違う(`--ignore stats` で除ける —— 足した名は結果の excluded.ignore に残る)。自己試験 `valDiffSelfTest`。
 - **`REGEN_SCOPE:"all"` の理由の一覧(AN394 —— `tests/data-w312c-scopeall.json`・版 `w312c-scopeall-1`・`node tools/regen-chain.mjs --scope-all [--write] [--check]`・`scopeAllReasons312`)**: 器の宣言が presets:"all" の現行の段ごとに、器と lib(lint.regenScope と同じ集合)の本文の `allPresets()` / `BUILTIN_PRESETS` を `.find` 以外で使う箇所を使い方で分け(value・find-via-var・iterate・filter・map・count・spread・value-arg・declared-wide)、本文が名指す内蔵の本の ID(namedIds)と見込みを書く。**絞らない**(AN394 の本番の後)。
   段 52(器 52)—— 使い方の延べ: filter 13・map 2・declared-wide 11・count 2・iterate 6・value 10・find-via-var 17(1 段に複数ある)。
