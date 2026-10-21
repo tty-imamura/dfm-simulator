@@ -35,10 +35,12 @@ export function checkRule(r) {
     for (const [b, v] of Object.entries(r.Rd)) if (!['jupiter', 'earth', 'moon'].includes(b) || !(Number.isFinite(v) && v > 0)) return 'explicit の Rd.' + b + ' は正の有限数(m)';
     return null;
   }
-  if (!(Number.isFinite(r.k) && r.k > 0)) return '--rule の k は正の有限数';
+  if (r.k !== undefined && !(Number.isFinite(r.k) && r.k > 0)) return '--rule の k は正の有限数(省略は 3 惑星の平均)';
   if (r.moonP !== undefined && !MOON_P.includes(r.moonP)) return '--rule の moonP は ' + MOON_P.join('|');
   return null;
 }
+/** k を省いた規則に 3 惑星の平均を入れる(table = ruleTable の出力 —— 6 桁) */
+export const fillRule = (r, table) => (r.type === 'explicit' || Number.isFinite(r.k)) ? r : Object.assign({}, r, { k: Number(table[r.type].mean.toPrecision(6)) });
 export const ruleKey = (r) => r.type === 'explicit' ? 'explicit:' + JSON.stringify(r.Rd) : r.type + ':' + Number(r.k).toPrecision(6) + (r.moonP ? ':moonP=' + r.moonP : '');
 
 /* ───────── 軌道の半直弦(接触の要素 —— 位置・速度は SI)───────── */
@@ -80,10 +82,12 @@ export function bodyProps(sysKey, p) {
 export function planetRows(J, books) {
   return Q.PLANETS.map((pl, i) => {
     const R0 = J.R && J.R.planets[pl.key], S = J.S && J.S.planets[pl.key], sec = R0 && R0.bracket && R0.bracket.kind === 'one' && Number.isFinite(R0.secantX) ? R0.secantX : null;
-    const rd = sec !== null ? sec : (S ? S.rdEst : null), src = sec !== null ? '区間の割線(エンジン)' : '段 S の一次の見積り';
+    // 段 S の一次の見積りは K2 の式 —— K1 の出力(J.kernel = "k1")では使わない(区間の割線が無い惑星は値なし)
+    const est = (J.kernel || 'k2') === 'k2' && S ? S.rdEst : null;
+    const rd = sec !== null ? sec : est, src = sec !== null ? '区間の割線(エンジン)' : (est !== null ? '段 S の一次の見積り' : '値なし(K1 の区間が無い)');
     const U = siOf(books[i]), B = U.B, r = B[1].x.map((x, j) => x - B[0].x[j]), v = B[1].v.map((x, j) => x - B[0].v[j]), o = oscOf(r, v, U.G * (B[0].m + B[1].m));
-    const Rd = rd * B[1].R;
-    return { key: pl.key, emoji: pl.emoji, ja: pl.ja, rd, src, Rd, m: B[1].m, R: B[1].R, p: o.p, rdOverR: rd, rdOverM: Rd / B[1].m, rd2OverMp: Rd * Rd / (B[1].m * o.p) };
+    const Rd = Number.isFinite(rd) ? rd * B[1].R : null;
+    return { key: pl.key, emoji: pl.emoji, ja: pl.ja, rd, src, Rd, m: B[1].m, R: B[1].R, p: o.p, rdOverR: Number.isFinite(rd) ? rd : null, rdOverM: Number.isFinite(Rd) ? Rd / B[1].m : null, rd2OverMp: Number.isFinite(Rd) ? Rd * Rd / (B[1].m * o.p) : null };
   });
 }
 /** 規則の比の表(3 惑星の平均と最大/最小 —— そろうかの表。どれを採るかは決めない) */

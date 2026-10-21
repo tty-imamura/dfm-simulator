@@ -31,8 +31,9 @@
 //   C 確認の表: 規則の比の表(3 惑星)・規則を確認の系へ当てた R_d と受理の目安・t = 0 の β(月の p の 2 つの選び方)・残差と数値の門・月の診断・所要と 2 段目の費用の見積り
 //
 // ■ 2 段目(統合の後に統括 —— 出力は tests/out/confirm-w312d-stage2-<系>.json〔W312D_OUT で変える・鎖の正本ではない〕)
-//   node tests/exp-w312d-confirm.mjs --system jupiter --kernel k1 --rule '{"type":"rdOverM","k":<K1 の 3 惑星の比>}' --divs 1,2 [--h4] [--kinds q00,q10,q01,q11]
-//   node tests/exp-w312d-confirm.mjs --system earthmoon --kernel k1 --rule '{…,"moonP":"earth"}' --divs 1,2 [--moon 118]
+//   node tests/exp-w312d-confirm.mjs --system jupiter --kernel k1 --planet3 <K1 の 3 惑星の --merge の出力> --rule '{"type":"rdOverM"}' --divs 1,2 [--h4] [--kinds q00,q10,q01,q11]
+//   node tests/exp-w312d-confirm.mjs --system earthmoon --kernel k1 --planet3 <同じ> --rule '{"type":"rdOverM"}' --divs 1,2 [--moon 118]
+//   (--rule の k を省けば --planet3 の 3 惑星の平均 —— 規則は 3 惑星の値から決め、確認の系では動かさない。--planet3 の既定は正本 tests/out/planet3-w311d.json)
 //   --kernel k1 は枝 a の invSq.kernel(受理しない html では「未接続」と記録して走らせない —— 門 noRejected は偽)。
 //
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「法則を確かめた」「R_d を決めた」。「確認した」は規則で置いた残差が数値の門の内のときだけ
@@ -196,7 +197,8 @@ function makePool(NW, self) {
 }
 
 /* ───────── 規則(段 C の前半 —— t = 0 だけ・純関数と写しの読み口)───────── */
-export function planet3Of() { return JSON.parse(fs.readFileSync(path.join(ROOT, PLANET3_OUT), 'utf8')); }
+/** 3 惑星の探索の出力(既定は正本 —— 2 段目は --planet3 で K1 の --merge の出力などを渡す) */
+export function planet3Of(f) { const g = f || PLANET3_OUT; return JSON.parse(fs.readFileSync(path.isAbsolute(g) ? g : path.join(ROOT, g), 'utf8')); }
 export function ruleBasis(HP, P311) {
   const books = Q.PLANETS.map((p) => Q.pinnedBook(HP, PL3.PIN, p.id)), rows = C.planetRows(P311, books);
   return { rows, table: C.ruleTable(rows), planet3: { version: P311.version, targetSha256: P311.targetSha256, kernel: P311.kernel || 'k2' } };
@@ -410,8 +412,8 @@ const costRank = (s) => (Q.KINDS[s.kind].drag ? 100 : 1) * s.div * (s.system ===
 export async function runAll(HP, o = {}) {
   const parts = o.parts || PARTS_ALL.slice(), t = {}; let t0 = Date.now();
   const tick = (k) => { t[k] = { wallSec: (Date.now() - t0) / 1000 }; t0 = Date.now(); };
-  const basis = ruleBasis(HP, planet3Of()), rule = o.rule || defaultRule(basis), kern = o.kernel || 'k2';
-  const J = { quick: !!o.quick, parts, stage2: !!o.stage2, kernel: kern, rule, systems: o.systems.slice() };
+  const basis = ruleBasis(HP, planet3Of(o.planet3File)), rule = o.rule ? C.fillRule(o.rule, basis.table) : defaultRule(basis), kern = o.kernel || 'k2';
+  const J = { quick: !!o.quick, parts, stage2: !!o.stage2, kernel: kern, rule, systems: o.systems.slice(), planet3File: o.planet3File || PLANET3_OUT };
   J.live = liveSame(HP);
   J.book = { ids: C.SYSTEMS.map((s) => s.id), newDrag: clone(Q.NEW_DRAG), gLoc: clone(Q.GLOC_FIXED), pinEM: PIN_EM_BASE, declFile: PL3.DECL_FILE, capM: C.CAP_M,
     window: { jupiter: o.nJup, earthmoonMoon: o.nMoon, earthmoonEarth: o.nEarth }, extractor: EXTRACT, sampleEvery: EM_SAMPLE_EVERY };
@@ -449,8 +451,8 @@ export async function main() {
   const rule = argOf('--rule') ? JSON.parse(argOf('--rule')) : null;
   if (rule) { const e = C.checkRule(rule); if (e) throw new Error(e); }
   const kernel = argOf('--kernel') || 'k2'; if (!Q.KERNELS.includes(kernel)) throw new Error('--kernel は ' + Q.KERNELS.join('|'));
-  const divL = listOf('--divs'), kindsL = listOf('--kinds'), h4 = process.argv.includes('--h4'), moonN = Number(argOf('--moon')) || null;
-  const stage2 = !!(sysArg || rule || kernel !== 'k2' || divL || kindsL || h4 || moonN);
+  const divL = listOf('--divs'), kindsL = listOf('--kinds'), h4 = process.argv.includes('--h4'), moonN = Number(argOf('--moon')) || null, p3f = argOf('--planet3');
+  const stage2 = !!(sysArg || rule || kernel !== 'k2' || divL || kindsL || h4 || moonN || p3f);
   const base = quick ? QUICK_PLAN : BRANCH_PLAN, plan = {};
   for (const s of systems) {
     const P = base[s], divs = (divL ? divL.map(Number) : P.divs.slice()).concat(h4 ? [4] : []).filter((x, i, a) => a.indexOf(x) === i).sort((a, b) => a - b);
@@ -468,7 +470,7 @@ export async function main() {
   const log = (r) => console.log(`  ${r.key}: ${r.status}${r.status === 'run' ? (r.spec.system === 'jupiter' ? '・新 ' + Number(r.apsNew).toFixed(6) + '・B ' + Number(r.detB).toFixed(6) + '″/世紀'
     : '・EMB ' + Number(r.emb).toFixed(6) + '・地球 ' + Number(r.earth).toFixed(6) + '″/世紀・月 ' + (r.moon ? Number(r.moon.sidH).toFixed(9) + ' d・' + Number(r.moon.T4p).toFixed(6) + ' 年・' + Number(r.moon.node).toFixed(6) + ' 年' : '—'))
     + '・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s' : '・' + (r.unconnected ? r.unconnected + '・' : '') + (r.err || '').slice(0, 120)}`);
-  const R = await runAll(HP, { quick, parts, systems, plan, rule, kernel, nJup: quick ? N_JUP_QUICK : N_JUP, nMoon: moonN || (quick ? N_MOON_QUICK : N_MOON), nEarth: quick ? N_EARTH_QUICK : N_EARTH, run, log, stage2 });
+  const R = await runAll(HP, { quick, parts, systems, plan, rule, kernel, planet3File: p3f, nJup: quick ? N_JUP_QUICK : N_JUP, nMoon: moonN || (quick ? N_MOON_QUICK : N_MOON), nEarth: quick ? N_EARTH_QUICK : N_EARTH, run, log, stage2 });
   const out = { version: HARNESS_VERSION, libVersion: C.LIB_VERSION, planet3LibVersion: Q.LIB_VERSION, planet3HarnessVersion: PL3.HARNESS_VERSION, an336LibVersion: AN.LIB_VERSION, apsisVersion: AP.APSIS_VERSION,
     emxVersion: EMX.EXTRACTOR_VERSION, generator: 'tests/exp-w312d-confirm.mjs', target: TARGET, targetSha256,
     ruling: '原仮定者の裁定(第114報): 水星・金星・火星で絞り込んだ候補を、木星と「太陽と地球と月」で確認する —— 決断事項 AN398(軌道に依る R_d を天体の性質として採らない・' +
