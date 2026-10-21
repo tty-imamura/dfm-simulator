@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
+ "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,49 +1589,49 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "E": {
-   "wallSec": 0.009
+   "wallSec": 0.006
   },
   "Z": {
-   "wallSec": 0.872
+   "wallSec": 0.7
   },
   "L": {
-   "wallSec": 0.16
+   "wallSec": 0.144
   },
   "C": {
-   "wallSec": 0.051
+   "wallSec": 0.036
   },
   "K": {
-   "wallSec": 0.077
+   "wallSec": 0.059
   },
   "H": {
-   "wallSec": 0.161
+   "wallSec": 0.117
   },
   "S": {
-   "wallSec": 0.784
+   "wallSec": 0.574
   },
   "R": {
-   "wallSec": 0.118
+   "wallSec": 0.152
   },
   "X": {
-   "wallSec": 0.122
+   "wallSec": 0.112
   }
  },
- "elapsedS": 4.472,
+ "elapsedS": 3.73,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T09:01:18.645Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:05:15.390Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    }
   ],
   "code": [
@@ -1639,37 +1639,37 @@
     "file": "tests/exp-w307b-tide3d.mjs",
     "bytes": 42093,
     "sha256": "0f106e8b1849294de7b70f21f851f64533c7de5340e82d755436d7763637ef93",
-    "mtime": "2026-10-17T21:16:57.786Z"
+    "mtime": "2026-10-20T16:19:56.656Z"
    },
    {
     "file": "tests/lib-w307b-tide3d.mjs",
     "bytes": 12240,
     "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
-    "mtime": "2026-10-17T21:16:57.789Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-09T10:19:39.623Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "f2cc31d98fcd33a544dc7cd50f2d54519227bdc399b6cc30f6c21b154d899198",
@@ -1709,11 +1709,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1471,
-   "segments": 1320,
-   "closureShare": 0.3398
+   "names": 1483,
+   "segments": 1328,
+   "closureShare": 0.3418
   },
-  "scopeSha256": "1f215ce2b18b21b5fc4f1afc25443a34d245cedf41e09e13b15f32f22c44f40e",
+  "scopeSha256": "fbce757ad29d36d0405e192e876f7189c724ee166555dbecae2928b3d00c8f3e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

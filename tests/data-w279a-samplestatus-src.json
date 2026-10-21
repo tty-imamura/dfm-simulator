@@ -3128,7 +3128,161 @@
    ],
    "spinlens.kframe-control": [
     "spinlens"
+   ],
+   "behavior.meshField298": [
+    "chainDiskToy3d"
+   ],
+   "preset.chainSpread299": [
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt",
+    "chainSpreadToy3d"
+   ],
+   "behavior.wbgDirect302": [
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt",
+    "earthMoonSunInertial3d",
+    "saturnRingInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.inertialR2_303": [
+    "chainDiskToy3d",
+    "earthMoonSunInertial3d",
+    "mercurySunInertial3d",
+    "saturnRingInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.shell304": [
+    "chainDiskToy3d",
+    "earthMoonSunInertial3d",
+    "mercurySunInertial3d",
+    "saturnRingInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.pairNorm305": [
+    "chainDiskToy3d",
+    "earthMoonSunInertial3d",
+    "mercurySunInertial3d",
+    "saturnRingInertial3d"
+   ],
+   "docs.sphereAxial307": [
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt"
+   ],
+   "docs.bevel308": [
+    "chainDiskToy3d",
+    "chainDiskToy3dTilt"
+   ],
+   "lint.stateContract302": [
+    "chainDiskToy3dTilt"
+   ],
+   "behavior.axisHold308": [
+    "chainDiskToy3dTilt"
+   ],
+   "behavior.holdLedger310": [
+    "chainDiskToy3dTilt"
+   ],
+   "behavior.geo4Stable299": [
+    "chainSpreadToy3d"
+   ],
+   "preset.approxMany301": [
+    "chainSpreadToy3d",
+    "saturnRingInertial3d"
+   ],
+   "preset.chainBurstShell301": [
+    "chainBurstShell3d"
+   ],
+   "ui.selEdit299": [
+    "coord3dKeplerTilt",
+    "coord3dSpinPrecess"
+   ],
+   "ui.paramTab299": [
+    "coord3dKeplerTilt"
+   ],
+   "ui.axisGizmo307": [
+    "coord3dKeplerTilt"
+   ],
+   "preset.planets3d299": [
+    "earthMoonSunInertial3d"
+   ],
+   "preset.earthReorg300": [
+    "earthMoonSunInertial3d",
+    "earthMoonOnly3d"
+   ],
+   "behavior.dragNorm301": [
+    "earthMoonSunInertial3d",
+    "earthMoonOnly3d",
+    "mercurySunInertialFit",
+    "mercurySunInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.wbgEstimate302": [
+    "earthMoonSunInertial3d",
+    "earthMoonOnly3d",
+    "mercurySunInertial3d",
+    "saturnRingInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.gLocNull307": [
+    "earthMoonSunInertial3d"
+   ],
+   "preset.fitRole307": [
+    "earthMoonSunInertial3d",
+    "plutoCharonInertialFit"
+   ],
+   "ui.liveMeasure297": [
+    "mercurySunInertialFit"
+   ],
+   "preset.retire298": [
+    "mercurySunInertialFit",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.fitCond298": [
+    "mercurySunInertialFit"
+   ],
+   "preset.refit301": [
+    "mercurySunInertialFit",
+    "plutoCharonInertialFit"
+   ],
+   "behavior.gLoc302": [
+    "mercurySunInertialFit",
+    "mercurySunInertial3d"
+   ],
+   "ui.wbgSlider302": [
+    "mercurySunInertialFit",
+    "saturnRingInertial3d"
+   ],
+   "preset.fitRole308": [
+    "mercurySunInertialFit"
+   ],
+   "behavior.shellTinyEta305": [
+    "mercurySunInertial3d"
+   ],
+   "ui.softeningFloorSlider305": [
+    "mercurySunInertial3d"
+   ],
+   "preset.planets306": [
+    "mercurySunInertial3d",
+    "venusSunInertial3d",
+    "marsSunInertial3d",
+    "jupiterSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "neptuneSunInertial3d"
+   ],
+   "behavior.invSq309": [
+    "mercurySunInertial3d",
+    "jupiterSunInertial3d"
+   ],
+   "behavior.invSq310": [
+    "mercurySunInertial3d"
+   ],
+   "behavior.initObs309": [
+    "jupiterSunInertial3d"
+   ],
+   "preset.saturnRing3d300": [
+    "saturnRingInertial3d"
    ]
-  }
+  },
+  "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)"
  }
 }

@@ -350,7 +350,8 @@ function partZ(H) {
     const row = { name, accepted: true, mCanon: r6(v.preset.bodies[1].m), mSim: r6(S.m[1]), noR: s.noR, merIsReceiver: !!mr, merBetaSum: mr ? r6(mr.betaSum) : null, oneMinusSum: mr ? r6(1 - mr.betaSum) : null,
       merRd: mr ? r6(mr.Rd) : null, sunBetaFromMer: r6((s.receivers.find((r) => r.i === 0) || { beta: [0, 0] }).beta[1]) };
     const io = E(H, 'inertialDragInitObsState') ? E(H, 'inertialDragInitObsState')(S) : null;
-    if (io && io.motion) { const u = io.motion.rows[1].u, V = [io.obs.vx[1] - io.obs.vx[0], io.obs.vy[1] - io.obs.vy[0], io.obs.vz[1] - io.obs.vz[0]]; row.initMotion = { ok: io.ok, uOverVrel: r6(norm(u) / norm(V)) }; }
+    if (io && io.motion && io.motion.rows) { const u = io.motion.rows[1].u, V = [io.obs.vx[1] - io.obs.vx[0], io.obs.vy[1] - io.obs.vy[0], io.obs.vz[1] - io.obs.vz[0]]; row.initMotion = { ok: io.ok, uOverVrel: r6(norm(u) / norm(V)) }; }
+    else if (io && io.motion) row.initMotion = { ok: io.ok, why: io.why, at: io.motion.at, den: r6(io.motion.den === undefined ? null : io.motion.den) };   // 第311便b(AN389): 分母 1 − Σβ < 1e-2 の行は分解しない(motionDenomSmall —— 記録だけ)
     a.S.step(a.dt); row.stepFinite = XV.every((k) => Array.from(S[k].subarray(0, S.n)).every(Number.isFinite));
     rows.push(row);
   };

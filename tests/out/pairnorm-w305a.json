@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便a",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T08:52:40.476Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T00:33:52.801Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/data-w305a-decl304.json",
     "bytes": 16070,
     "sha256": "91e2e75e84e53d99bb4a888242301a4fc8eb2912549dc082b821fdda679c80fb",
-    "mtime": "2026-10-16T03:58:09.672Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "bytes": 79884,
-    "sha256": "470fe7a60cf003600f85902960e13a01546bee7077f0976a42ba666424cab7e2",
-    "mtime": "2026-10-20T07:51:00.640Z"
+    "bytes": 79882,
+    "sha256": "e3c0f1e4bf9e3e0dc776b973b7e6e14b3ac76064c5fecf8fbbca122e2b6693bc",
+    "mtime": "2026-10-20T22:54:33.598Z"
    }
   ],
   "code": [
@@ -30,46 +30,46 @@
     "file": "tests/exp-w305a-pairnorm.mjs",
     "bytes": 48794,
     "sha256": "89ab0843184923566742848de47ccca14471dbde7b27bbd88954ebc61bd70112",
-    "mtime": "2026-10-16T03:58:09.672Z"
+    "mtime": "2026-10-20T16:19:56.652Z"
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
     "bytes": 73010,
     "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-16T17:38:33.226Z"
+    "mtime": "2026-10-20T16:19:56.648Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 77963,
-    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
-    "mtime": "2026-10-16T17:38:33.226Z"
+    "bytes": 85144,
+    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
+    "mtime": "2026-10-20T19:41:43.611Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-10-14T00:03:21.993Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "1b9d331e02f1da6e97caf13f45848db7194328959aee59159ec9ddb3855329b3",
+  "codeSha256": "6eee2f4eef4245a5c7107e3e97d0c661b9af74eb1a411dff12735246a4d0b318",
   "harnessVersion": "w305a-pairnorm-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第96報)—— 分母の慣性決定力の和に自分自身・分子の引きずりの和に自分自身を入れない・決断事項 AN326",
@@ -149,11 +149,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1505,
-   "segments": 1354,
-   "closureShare": 0.3459
+   "names": 1517,
+   "segments": 1362,
+   "closureShare": 0.3479
   },
-  "scopeSha256": "161d6119fa9af253ba0d75940a307c38891915f92d2cf34f7fc91e1b4be29e5f",
+  "scopeSha256": "d00e676662f07993954b9342f60d5140c9ade287c7c2a4740d759f64dcc90f4b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -164,7 +164,7 @@
    },
    {
     "file": "tests/out/baseline-w304c.json",
-    "stableSha256": "d4496ddaf714d4e2b5e15f679b5e05ca143ddd674f028f7402cd718e50685e4c",
+    "stableSha256": "16294771398f1b591a7c3a160869dd3f48949347c0560508416439ddcae8139e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1092,7 +1092,7 @@
    "badDenomRejected": true,
    "badDenomMsg": "physics.relativeDrag.inertialR2.denom は \"row\"(既定 —— 今の式: 受け手の行の分母に Σ_k I_ik)か \"pair\"(対ごとの正規化 β_ij = D_ij/(W_bg + 自己 + I_ij) —— 第305便a)"
   },
-  "wallSec": 0.732
+  "wallSec": 0.739
  },
  "manyBody": {
   "rows": [
@@ -1263,7 +1263,7 @@
     "uPairOverNoMoon": 1891.7578127643972
    }
   ],
-  "wallSec": 0.077,
+  "wallSec": 0.086,
   "quantity": "2 步(本の stepDt の 1e-4 —— 1 步目は履歴)の後の惑星の行 —— 太陽からの β(行 D/(W_bg + Σ_k I_k)・対 D/(W_bg + I_☉))の衛星なしの写しとの比と、1 步の u の比(衛星の配置は衛星の本を惑星の位置へ平行移動 —— 面は惑星の本の xy)"
  },
  "threeBody": {
@@ -1343,7 +1343,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 79.676
+     "wallSec": 65.635
     },
     "h2": {
      "dt": 0.008,
@@ -1409,7 +1409,7 @@
       "noHistory": 1,
       "uMax": 0
      },
-     "wallSec": 151.712
+     "wallSec": 131.257
     },
     "diff": {
      "apsB1": -0.0005565121041044563,
@@ -1511,7 +1511,7 @@
       "noHistory": 1,
       "uMax": 1.2129047496592417e-11
      },
-     "wallSec": 104.545
+     "wallSec": 89.916
     },
     "h2": {
      "dt": 0.008,
@@ -1577,7 +1577,7 @@
       "noHistory": 1,
       "uMax": 1.2128907661062754e-11
      },
-     "wallSec": 205.543
+     "wallSec": 187.352
     },
     "diff": {
      "apsB1": -0.0005557070878516868,
@@ -1679,7 +1679,7 @@
       "noHistory": 1,
       "uMax": 2.852404227230509e-7
      },
-     "wallSec": 135.351
+     "wallSec": 110.329
     },
     "h2": {
      "dt": 0.008,
@@ -1745,7 +1745,7 @@
       "noHistory": 1,
       "uMax": 2.852389490565123e-7
      },
-     "wallSec": 252.044
+     "wallSec": 229.183
     },
     "diff": {
      "apsB1": -0.0005585661755915794,
@@ -1847,7 +1847,7 @@
       "noHistory": 1,
       "uMax": 9.703894973170945e-12
      },
-     "wallSec": 107.979
+     "wallSec": 94.664
     },
     "h2": {
      "dt": 0.008,
@@ -1913,7 +1913,7 @@
       "noHistory": 1,
       "uMax": 9.703771512441666e-12
      },
-     "wallSec": 217.025
+     "wallSec": 191.135
     },
     "diff": {
      "apsB1": -0.0005560241897342166,
@@ -2015,7 +2015,7 @@
       "noHistory": 1,
       "uMax": 2.2820760564307273e-7
      },
-     "wallSec": 133.756
+     "wallSec": 109.309
     },
     "h2": {
      "dt": 0.008,
@@ -2081,7 +2081,7 @@
       "noHistory": 1,
       "uMax": 2.2820647881685116e-7
      },
-     "wallSec": 280.067
+     "wallSec": 217.091
     },
     "diff": {
      "apsB1": -0.000558402551972037,
@@ -2183,7 +2183,7 @@
       "noHistory": 1,
       "uMax": 7.278738838253215e-12
      },
-     "wallSec": 102.823
+     "wallSec": 86.504
     },
     "h2": {
      "dt": 0.008,
@@ -2249,7 +2249,7 @@
       "noHistory": 1,
       "uMax": 7.278655118421429e-12
      },
-     "wallSec": 200.28
+     "wallSec": 176.048
     },
     "diff": {
      "apsB1": -0.0005566502022311681,
@@ -2351,7 +2351,7 @@
       "noHistory": 1,
       "uMax": 1.7117520224734467e-7
      },
-     "wallSec": 121.089
+     "wallSec": 104.791
     },
     "h2": {
      "dt": 0.008,
@@ -2417,7 +2417,7 @@
       "noHistory": 1,
       "uMax": 1.7117435704671918e-7
      },
-     "wallSec": 247.635
+     "wallSec": 262.042
     },
     "diff": {
      "apsB1": -0.0005583373172637351,
@@ -2519,7 +2519,7 @@
       "noHistory": 1,
       "uMax": 2.852404626715048e-7
      },
-     "wallSec": 156.178
+     "wallSec": 186.543
     },
     "diff": {
      "apsB1": -0.0005585675481789565,
@@ -2618,7 +2618,7 @@
       "noHistory": 1,
       "uMax": 8.453437896489078e-7
      },
-     "wallSec": 96.283
+     "wallSec": 93.007
     },
     "diff": {
      "apsB1": -0.010227414821287084,
@@ -2717,7 +2717,7 @@
       "noHistory": 1,
       "uMax": 0.0000028592921595841824
      },
-     "wallSec": 110.974
+     "wallSec": 98.374
     },
     "diff": {
      "apsB1": -0.024976888156823307,
@@ -2735,7 +2735,7 @@
    "sidH": 0,
    "node": 0
   },
-  "wallSec": 2703.198,
+  "wallSec": 2433.374,
   "quantity": "長窓 [0,1062] の M4(調和の回帰 —— 第304便c の抽出器)の近地点の周期・恒星月(調和)・交点の周期・平均離心率。差は同じ刻みの OFF との差(機械の差分)と B1 との差"
  },
  "gates": {
@@ -2755,5 +2755,5 @@
   "「λ ∝ m + 対が唯一」",
   "「n が決まった」"
  ],
- "elapsedS": 2704.125
+ "elapsedS": 2434.365
 }

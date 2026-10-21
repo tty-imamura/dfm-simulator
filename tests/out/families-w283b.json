@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T09:02:59.418Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:02:54.778Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1719939,
-    "sha256": "395e2285881b8cd943f2b83a32713b0f6072f37e4b7b5e881435071a5ca6c187",
-    "mtime": "2026-10-20T05:23:37.439Z"
+    "bytes": 1719935,
+    "sha256": "22849e89df1ffc79475088a16d3f4a23c6179ee8dd1fc5b70258cda0565db738",
+    "mtime": "2026-10-20T21:28:09.137Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-09T10:19:39.579Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-09T10:19:39.583Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-09T10:19:39.583Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-09T10:19:39.583Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-09T10:19:39.583Z"
+    "mtime": "2026-10-20T16:19:56.660Z"
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 55837,
-    "sha256": "aa7d716ca7f3a68b8da5145caaa3db6b14290ca68fcaf97bfdd0fb4a54b99675",
-    "mtime": "2026-10-20T09:02:59.392Z"
+    "bytes": 55396,
+    "sha256": "258e76ceebdeb9d616431529b2fc134bb10ab5ba94f573680d3022d8044c012f",
+    "mtime": "2026-10-21T01:02:54.752Z"
    }
   ],
   "code": [
@@ -60,40 +60,40 @@
     "file": "tests/exp-w283b-families.mjs",
     "bytes": 44124,
     "sha256": "59df093b0680f5aa54ba16a510c8b889e14026c93ff574430c9aec5ae51a3f85",
-    "mtime": "2026-10-14T00:03:21.981Z"
+    "mtime": "2026-10-20T16:19:56.632Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-10-17T20:57:03.155Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 353260,
-    "sha256": "3245a9fe4ea866e52a77df9cceb05dea57fc98a92d4630306f7955b1de90e609",
-    "mtime": "2026-10-20T03:57:07.143Z"
+    "bytes": 384089,
+    "sha256": "f52536967fc1ae2fc0519006953b49b2e38349b8dfbb0285b31e2d3eab969306",
+    "mtime": "2026-10-20T19:41:54.132Z"
    }
   ],
-  "codeSha256": "f845aaa45fe5483bf38a684bd3c9efbd9e68ca98edc8b194fa3470b9b7f047d3",
+  "codeSha256": "2a03820252522736a15d955a0471c81534022b6e57b8696ed57c0c567b7805cf",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 1463,
-   "segments": 1312,
-   "closureShare": 0.3646
+   "names": 1475,
+   "segments": 1320,
+   "closureShare": 0.3665
   },
-  "scopeSha256": "6792b846c431cd65f2a25648f4bfbc2d5d1b4efca1875fb94b1f6a2cf2c19221",
+  "scopeSha256": "5e72d0bda55dfc404231f4556ad6b26d1f887327a422628f20f59fac64d045ba",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "356c0f0238cf17ac367f54525c83ef126e142469696d1f0fc13f502888ebfd94",
+    "stableSha256": "e63a413f2e0105dff3b27489603f7612ec370336fa2fb08d35dba88fa079156f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1ce7878ddb82ca884516fe4227e03f2c0d36b80dd5485f6de8120aa376ea046e",
+    "stableSha256": "a4de1f7a26706285c54de2b874d2e9ea278de1954d580a3108fbcfe3b0845f7e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,7 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.46-b310",
+ "betaBuild": "v1.46-b311",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -4683,44 +4683,6 @@
   ],
   "harnesses": [
    {
-    "file": "tests/.qa-preflight-23647.mjs",
-    "ids": [
-     "darkrotor",
-     "bhCore",
-     "nebulaRotor",
-     "bhCoreTilt",
-     "galaxyMeshSpiralGeoToyLite",
-     "psrDoubleABPN",
-     "psrJ1757PN",
-     "psrJ1946PN",
-     "psrDoubleABCF",
-     "psrJ1757CF",
-     "psrJ1946CF",
-     "psrB1534CF"
-    ],
-    "steps": [],
-    "kind": "fixture"
-   },
-   {
-    "file": "tests/.qa-preflight-5251.mjs",
-    "ids": [
-     "darkrotor",
-     "bhCore",
-     "nebulaRotor",
-     "bhCoreTilt",
-     "galaxyMeshSpiralGeoToyLite",
-     "psrDoubleABPN",
-     "psrJ1757PN",
-     "psrJ1946PN",
-     "psrDoubleABCF",
-     "psrJ1757CF",
-     "psrJ1946CF",
-     "psrB1534CF"
-    ],
-    "steps": [],
-    "kind": "fixture"
-   },
-   {
     "file": "tests/exp-4-48.mjs",
     "ids": [
      "darkrotor"
@@ -5576,11 +5538,11 @@
    "psrB1534CF": 19
   },
   "kindCounts": {
-   "fixture": 4,
    "not-in-table": 18,
    "history": 25,
    "current": 15,
-   "tool": 4
+   "tool": 4,
+   "fixture": 2
   },
   "sideTable": [
    "alphaCenABDFM",
@@ -5642,5 +5604,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.887
+ "elapsedS": 1.222
 }

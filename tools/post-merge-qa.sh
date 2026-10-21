@@ -232,6 +232,21 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.fitRole308 behavior.tide3Recv308 lint
 #   標的 1PN + A1 と在位の 🌡️ の宣言を読む第306便a の docs.an336_306・preset.planets306
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.mdSweep310 docs.an336_306 preset.planets306"
 # ==== 第310便d の塊(ここまで)====
+# ==== 第311便a の塊(ここから)====
+# 第311便a(原仮定者の裁定(第110報)AN387 ④・DECISIONS v70 §1 AN397・AN384・R226): 枝 a の新設 2 本(behavior.coreSpin311 —— dragCore の自転と軸の受理・未宣言のビット同一・
+#   宣言の値 = 天体の一致・核と外殻の線形・極薄の厚い殻の受理の防御・docs.coreSpin311 —— 正本と文書)と、受理器と新則の評価を読む behavior.invSq310・behavior.invSq309・behavior.initObs309
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coreSpin311 docs.coreSpin311 behavior.invSq310 behavior.invSq309 behavior.initObs309"
+# ==== 第311便a の塊(ここまで)====
+# ==== 第311便b の塊(ここから)====
+# 第311便b(原仮定者の裁定(第110報)・AN389・AN382・AN390・AN395・R227): 枝 b の新設 2 本(behavior.galaxial311 —— 銀河の一様軸引きずりの受理とビット同一・受け手の制限・分解の拒否・
+#   docs.galaxial311 —— 正本と文書)と、受理・分解・build を読む behavior.invSq310・docs.invSq310(段 Z の 2 行が拒否へ)・behavior.invSq309・behavior.initObs309・docs.recheck309・状態の契約
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxial311 docs.galaxial311 behavior.invSq310 docs.invSq310 behavior.invSq309 docs.invSq309 behavior.initObs309 docs.recheck309 lint.stateContract302"
+# ==== 第311便b の塊(ここまで)====
+# ==== 第311便d の塊(ここから)====
+# 第311便d(原仮定者の裁定(第110報)AN387・(第111報)AN391・AN392・AN386・AN396・R229): 枝 d の新設 1 本(docs.planet3_311 —— 3 惑星の dragCore の探索の器の正本と文書・
+#   在位の 🌡️🌋🔴 の宣言が不変)と、同じ写しの作り方と標的を読む docs.mdSweep310・docs.an336_306
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3_311 docs.mdSweep310 docs.an336_306"
+# ==== 第311便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -251,6 +266,13 @@ WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 #   ブロックの包みで最上位の文の形を見る lint.qaOrder(POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
 [ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS docs.w310c lint.qaHeapRelease310 behavior.dragNorm301 docs.invSq309 docs.maintain309 docs.recheck309 lint.regenChain lint.frozenBaseline lint.perfAbJit lint.qaOrder"
 # ==== 第310便c の塊(ここまで)====
+# ==== 第311便c の塊(ここから)====
+# 第311便c(統括の検証項目 R228・決断事項 AN393 —— 鎖の道具と器の型): 枝 c の新設 3 本(lint.readyQueue311 —— 予約つきの ready queue・見積りの上書き・
+#   workers all の見直し・lint.h4Carry311 —— h/4 の転記の型と振り分けの一覧・docs.w311c —— 文書)と、表の版と自己試験 (g) の lint.regenChain・
+#   samplestatus の原稿の qaTargets を読む docs.sampleStatus-sync・転記を当てた器の正本を読む docs.chainBurst301・docs.shell304b
+#   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.readyQueue311 lint.h4Carry311 docs.w311c lint.regenChain docs.sampleStatus-sync docs.chainBurst301 docs.shell304b"
+# ==== 第311便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in

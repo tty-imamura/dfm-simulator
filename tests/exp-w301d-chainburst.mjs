@@ -34,6 +34,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w301d-coupled.mjs';
 import { shellBodies, shellStats, SHELL_VERSION } from './lib-w301d-shell.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
+import * as H4C from './lib-w311c-h4carry.mjs';   // 第311便c(AN393 (a)・R228): h/4 より細かい刻みの仕事の転記
 const REGEN_SCOPE = {"presets":["chainBurstShell3d","chainDiskToy","chainDiskToy3d"],"roots":["HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SPIN_NODES","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.inertialDragState","HP.inertialSpinMoment","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -278,12 +279,12 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
   const list = jobs(HP).filter((j) => !ONLY || ONLY.test(j.key));
   const tmpDir = fs.mkdtempSync(path.join(path.dirname(OUT_PATH), '.w301d-'));
   const R = {};
-  await new Promise((resolve, reject) => {
+  const runPool = (sub) => new Promise((resolve, reject) => {
     let next = 0, live = 0;
     const launch = () => {
-      if (next >= list.length && live === 0) return resolve();
-      while (live < PAR && next < list.length) {
-        const job = list[next++], jo = path.join(tmpDir, job.key + '.json'); live++;
+      if (next >= sub.length && live === 0) return resolve();
+      while (live < PAR && next < sub.length) {
+        const job = sub[next++], jo = path.join(tmpDir, job.key + '.json'); live++;
         const c = spawn(process.execPath, [fileURLToPath(import.meta.url)], { env: Object.assign({}, process.env, { W301D_JOB: JSON.stringify(job), W301D_JOBOUT: jo }), stdio: ['ignore', 'ignore', 'inherit'] });
         c.on('exit', (code) => { live--; if (code !== 0) return reject(new Error(job.key + ' exit ' + code));
           R[job.key] = JSON.parse(fs.readFileSync(jo, 'utf8')); fs.unlinkSync(jo);
@@ -293,11 +294,32 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
     };
     launch();
   });
+  // 第311便c(AN393 (a)・R228): **h/4 より細かい刻みの仕事の転記**(tests/lib-w311c-h4carry.mjs)。仕事の族(種類・積分の型・本・変種・窓)ごとに、
+  //   h と h/2 の仕事を先に走らせ、その結果(所要 wallSec を除く)と 🔗/🧨 の宣言(cond)が前の正本とビット同一なら、同じ族の h/4・h/8・h/16 の仕事は
+  //   前の正本の結果を写す(違えば測る —— 古い細かい刻みと新しい h/h2 を混ぜない)。H4_CARRY=0 で全部測る。W301D_ONLY のときは使わない
+  const divOf = (j) => Math.round(H0 / j.dt), famOf = (j) => [j.kind, j.scheme || '', j.id, j.variant, j.T].join('|');
+  const isFine = (j) => j.kind !== 'validate' && j.dt !== undefined && divOf(j) >= 4;
+  const carry = ONLY ? null : H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });
+  const cond = condOf(HP);
+  await runPool(list.filter((j) => !isFine(j)));
+  const fineRun = [];
+  for (const j of list.filter(isFine)) {
+    const sib = list.filter((z) => famOf(z) === famOf(j) && (divOf(z) === 1 || divOf(z) === 2)).map((z) => z.key);
+    const prev = carry && carry.prev && carry.prev.results ? carry.prev.results : null;
+    const fresh = { cond, sib: sib.map((k) => H4C.omit(R[k], ['wallSec'])) };
+    const old = prev && prev[j.key] ? { cond: carry.prev.cond, sib: sib.map((k) => (prev[k] ? H4C.omit(prev[k], ['wallSec']) : null)) } : undefined;
+    if (carry && sib.length === 2 && H4C.canCarry(carry, j.key, fresh, old)) { R[j.key] = JSON.parse(JSON.stringify(prev[j.key])); H4C.markCarried(carry, j.key); console.log(j.key + ' 転記(h/h2 が前の正本とビット同一: ' + sib.join(',') + ')'); }
+    else { fineRun.push(j); H4C.markMeasured(carry, j.key); }
+  }
+  await runPool(fineRun);
   fs.rmSync(tmpDir, { recursive: true, force: true });
   const ordered = {}; for (const j of list) ordered[j.key] = R[j.key];
-  const out = { meta: null, rEsc: R_ESC, h: H0, every: EVERY, cond: condOf(HP), results: ordered };
+  const out = { meta: null, rEsc: R_ESC, h: H0, every: EVERY, cond, results: ordered };
+  const h4c = H4C.carryStamp(carry, { unit: '仕事(results の鍵)—— 族(種類・積分の型・本・変種・窓)の刻み h/4・h/8・h/16',
+    valueKeys: '同じ族の h と h/2 の仕事の結果(所要 wallSec を除く全欄)と cond(🔗/🧨 の宣言)' });
+  if (h4c) out.h4Carried = h4c;
   if (!ONLY) { out.gates = gatesOf(R, HP); const { numbers, ...g } = out.gates; out.ok = Object.values(g).every(Boolean); out.decision = decisionOf(R, out.gates); }
-  const CODE = ['tests/exp-w301d-chainburst.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/lib-w301d-shell.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w301d-chainburst.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/lib-w301d-shell.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, engineOrder: (typeof globalThis.relDragStepOrderOf === 'function') ? ENGINE_ORDER : 'split(基点の世代 —— 鍵なし)', coupledLibVersion: L.COUPLED_LIB_VERSION, shellVersion: SHELL_VERSION, dragVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length, parallel: PAR,
     ruling: '原仮定者の裁定(第91報)④(chainDiskToy 系が 14000 歩付近で爆発するのが興味深い。超新星爆発サンプルへの応用の可能性を探る)',

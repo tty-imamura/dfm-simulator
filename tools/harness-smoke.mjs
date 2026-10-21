@@ -46,6 +46,7 @@ export const SMOKE_KNOBS = Object.freeze({
   'spinavg-305d': { env: { W305D_QUICK: '1', W305D_N: '40' }, note: 'QUICK・步 40(既定 600 —— 走査を縮める)' },
   'rotframe-306d': { env: { W306D_QUICK: '1', W306D_N: '40' }, note: 'QUICK・步 40(既定 400 —— h/4 と 🍥 を縮める)' },   // 第306便d
   'mdsweep-310d': { env: { W310D_PARTS: 'K,P,E,S,Z' }, note: '段 K・P・E・S・Z だけ(段 R のエンジンの近点は鎖 —— 約 1200 s)' },   // 第310便d
+  'planet3-311d': { env: { W311D_PARTS: 'S' }, note: '段 S だけ(約 1 s —— 段 T・E のエンジンの走行は鎖 —— 子プロセス 2 本で約 2000 s)' },   // 第311便d
   'synodic-299b': { env: { W299B_PART: 'sun3d' }, note: '段 sun3d だけ(約 30 s)' },
   'refit-298b': { env: { W298B_PART: 'qprobe' }, note: '段 qprobe だけ' },
   'refit-297a': { env: { W297A_PART: 'geotoy' }, note: '段 geotoy だけ' },
@@ -62,6 +63,9 @@ export const SMOKE_KNOBS = Object.freeze({
   'bgequiv': { env: { W278D_STEPS: '2000' }, note: '2000 步' },
   'bgbudget2': { env: { W279C_STEPS: '2000' }, note: '2000 步' },
   'pairnorm-305a': { env: { W305A_PARTS: 'Z,K' }, note: '段 Z・K だけ(約 5 s —— 三体の長窓 M は鎖)' },
+  // ==== 第311便b の塊(ここから)====
+  'galaxial-311b': { env: { W311B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 35 s・全段 A・B・D)' },
+  // ==== 第311便b の塊(ここまで)====
 });
 
 /** 煙試験の全段に渡す既定(子プロセスの並列数を 1 に —— 器の注記どおり結果は並列数に依らない・箱を 2 レーンより多く占めない)。 */
