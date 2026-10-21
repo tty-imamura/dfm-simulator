@@ -2426,6 +2426,9 @@ lastAddAt = Date.now();
       // 第311便d(lint.canon304 ⑤ の「第304便以降の新しい正本は CANON へ」—— 枝で足す): 3 惑星の dragCore の探索の器(planet3-311d)。領域 REGEN_SCOPE を刻む
       'tests/out/planet3-w311d.json',
       // ==== 第311便d の塊(ここまで)====
+      // ==== 第312便d の塊(ここから)==== 確認の器(confirm-312d —— 🏀 木星・🌦️ 太陽と地球と月 に 3 惑星の規則で R_d を置いて残差を測る)。領域 REGEN_SCOPE を刻む
+      'tests/out/confirm-w312d.json',
+      // ==== 第312便d の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -84240,6 +84243,37 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const LG = X.liveDeclGate(HPm);
       if (!LG.every((z) => z.bodiesSame && z.scaleSame && z.timeRefSame && z.oldRule && z.noInvSq && z.noDragCore && z.gLoc && z.gLoc.law === 'kappaC2')) bad.push('⑤ 在位の 🌡️🌋🔴 の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
       cases.push('⑤ 在位の 🌡️🌋🔴 は第306便a の世代のまま(旧則・G_loc kappaC2・invSq/dragCore なし)');
+      // ==== 第312便d の塊(ここから)==== v2 の世代切替(器 w312d-planet3-2 —— 決断事項 AN396 の採用の欄・門の直し・R_d と K1 の口・係数 C₂ の実測)
+      if (typeof X.physicsTablesV2 === 'function') {
+        const AR = J.G.adoptRule || {};
+        if (!(AR.epsFit === X.ADOPT_EPS.fit && AR.epsNum === X.ADOPT_EPS.num && X.ADOPT_EPS.fit === 1e-3 && X.ADOPT_EPS.num === 3e-4)) bad.push('v2 採用の ε が器の宣言(ε_fit 1e-3・ε_num 3e-4)と違う');
+        for (const pl of QL.PLANETS) { const a = J.G.planets[pl.key] && J.G.planets[pl.key].adopt;
+          if (!a || !['rootBracketed', 'numericResolved', 'targetReached', 'declAdmissible', 'adopted'].every((k) => k in a)) bad.push('v2 採用の欄が無い ' + pl.key);
+          else if (a.adopted !== (a.rootBracketed === true && a.numericResolved === true && a.targetReached === true && a.declAdmissible === true)) bad.push('v2 採用 = 4 つの欄の積 でない ' + pl.key); }
+        // 採用の欄の純関数(候補の点そのもの —— h/4 が無ければ数値の 2 欄は null で採らない・ε の境界)
+        const ad = (rBy, br) => QL.adoptOf({ theta: { rd: 5e-3 }, rByDiv: rBy, R: 2.44e6, runs: [{ status: 'run', nan: false, betaMax: 1e-7 }] }, br, X.ADOPT_EPS);
+        const brOne = { kind: 'one', lo: 4e-3, hi: 6e-3 };
+        if (ad({ 1: 0.0004, 2: 0.0002, 4: 0.0001 }, brOne).adopted !== true) bad.push('v2 adoptOf: 門の内の候補を採らない');
+        if (ad({ 1: 0.0004, 2: 0.0002 }, brOne).numericResolved !== null || ad({ 1: 0.0004, 2: 0.0002 }, brOne).adopted !== false) bad.push('v2 adoptOf: h/4 の無い候補を採った');
+        if (ad({ 1: 0.0004, 2: 0.0002, 4: 0.0011 }, brOne).targetReached !== false) bad.push('v2 adoptOf: abs(r_h/4) > ε_fit を到達とした');
+        if (ad({ 1: 0.0010, 2: 0.0002, 4: 0.0001 }, brOne).numericResolved !== false) bad.push('v2 adoptOf: abs(r_h − r_h/2) > ε_num を解像とした');
+        if (ad({ 1: 0.0004, 2: 0.0002, 4: 0.0001 }, { kind: 'one', lo: 6e-3, hi: 7e-3 }).rootBracketed !== false) bad.push('v2 adoptOf: 区間の外の候補を区間の内とした');
+        // 門の直し: gLocMeasured は計画の惑星だけ・拒否の行があれば noRejected は偽
+        const Jm = Object.assign({}, J, { planets: ['mercury'], T: Object.assign({}, J.T, { planets: { mercury: J.T.planets.mercury } }) });
+        if (X.gatesOf(Jm).gLocMeasured !== true) bad.push('v2 門 gLocMeasured が計画の惑星(水星だけ)で真にならない');
+        const rows2 = Object.assign({}, J.E.rows, { 'x|rejected': { status: 'rejected', spec: { planet: 'mercury', kind: 'q11', theta: { rd: 5e-3, coreSpin: { body: 0, spin: 1 } } } } });
+        if (X.gatesOf(Object.assign({}, J, { E: Object.assign({}, J.E, { rows: rows2 }) })).noRejected !== false) bad.push('v2 門 noRejected が核の自転の拒否の行で偽にならない');
+        if (JSON.stringify(X.CORE_SPIN_KEYS) !== JSON.stringify(['spin', 'spinAxis']) || X.checkCoreSpin({ body: 0, axis: [0, 0, 1] }) === null) bad.push('v2 --coreSpin の鍵がエンジンの spin・spinAxis でない');
+        if (!(QL.KERNELS.includes('k1') && QL.thetaKey(QL.withKernel({ rd: 1e-9 }, 'k1')).endsWith('|kernel=k1') && QL.thetaKey({ rd: 1e-9 }) === 'rd=1e-9|md=1|sun=1')) bad.push('v2 K1 の鍵と小さい R_d の行の鍵');
+        // 係数 C₂ の実測(段 S —— エンジンの β から)と注記
+        for (const pl of QL.PLANETS) { const c2 = J.S.planets[pl.key].c2; if (!(Number.isFinite(c2) && Math.abs(c2 - QL.C2_NOTE.value) <= 1e-4)) bad.push('v2 C₂ の実測 ' + pl.key + ' ' + c2); }
+        // PHYSICS〔第312便d〕の v2 の表(逐語)
+        const j0 = PH.indexOf('〔第312便d — '), j1 = PH.indexOf('\n〔第', j0 + 10), sec312 = j0 >= 0 ? PH.slice(j0, (j1 > j0 && (i7 < 0 || j1 < i7)) ? j1 : (i7 > j0 ? i7 : undefined)) : '';
+        const rv2 = X.physicsTablesV2(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let m2 = 0; for (const r of rv2) if (sec312.indexOf(r) < 0) { m2++; if (m2 <= 3) bad.push('PHYSICS〔第312便d〕に v2 の表の行が無い: ' + r.slice(0, 60)); }
+        cases.push(`v2(${X.HARNESS_VERSION}): 採用の欄 ${QL.PLANETS.map((p) => p.key + ' ' + J.G.planets[p.key].adopt.adopted).join('・')}・ε_fit ${X.ADOPT_EPS.fit}・ε_num ${X.ADOPT_EPS.num}・adoptOf の境界 5 件・門の直し 2 件・C₂ ${QL.PLANETS.map((p) => J.S.planets[p.key].c2.toFixed(5)).join('/')}・PHYSICS〔第312便d〕の v2 の表 ${rv2.length} 行`);
+      }
+      // ==== 第312便d の塊(ここまで)====
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     // ⑥ 文書
     if (!sec) bad.push('PHYSICS〔第311便d〕が無い');
@@ -84283,6 +84317,134 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第311便d の塊(ここまで)====
+// ==== 第312便d の塊(ここから)====
+// ---- 第312便d(原仮定者の裁定(第114報)「水星、金星、火星で絞り込んだ候補を、木星、『太陽と地球と月』で確認する」・決断事項 AN398・AN396・AN336・統括の検証項目 R233):
+// ----   docs.confirm312 —— **確認の器の正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/confirm-w312d.json ∧ 器 tests/exp-w312d-confirm.mjs ∧
+// ----   lib tests/lib-w312d-confirm.mjs(html の宣言・エンジンの式は変えない —— 器の中の写しだけ)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・2 段目でない・全段・版/来歴(w272e-1)・領域 hash(完全)・窓と刻み
+// ----   ② 規則の比の表を planet3 の正本と lib で作り直して一致・既定の規則(R_d²/(m p) の平均・月の p は地球のまわり)・標的(🏀 は第306便a の正本と AN336 の生成器・
+// ----      🌦️ は 1PN の式だけ —— A1 なし)・G_loc の解析の一次
+// ----   ③ 規則を確認の系へ当てた表と t = 0 の β を対象 html で作り直して相対 1e-9 で一致
+// ----   ④ 段 C の残差・月の診断を走行の行から作り直してビット同一の JSON・「数値の門の内」は門を通ったときだけ
+// ----   ⑤ 在位の 🏀🌦️ の宣言が凍結の写しと同じ(liveSame —— 在位へ入れていない)
+// ----   ⑥ PHYSICS〔第312便d〕の表と数が逐語・節が「## 7.」の前・語・CHANGELOG・README・AI_SPEC §126・再生成の段・.gitignore・post-merge ③′・CANON
+// ----   ⑦ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器と lib)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  const cfOut = path.join(ROOT, 'tests', 'out', 'confirm-w312d.json'), cfHarn = path.join(ROOT, 'tests', 'exp-w312d-confirm.mjs'), cfLib = path.join(ROOT, 'tests', 'lib-w312d-confirm.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(cfOut) && fs.existsSync(cfHarn) && fs.existsSync(cfLib))) {
+    console.log('SKIP docs.confirm312(第312便d の確認の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const bad = [], cases = [];
+  let J = null, X = null, CL0 = null;
+  try { J = JSON.parse(fs.readFileSync(cfOut, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+  try { X = await import('file://' + cfHarn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+  try { CL0 = await import('file://' + cfLib); } catch (e) { bad.push('lib が読めない: ' + String(e).slice(0, 120)); }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const PH = rd('docs/PHYSICS.md'), CLg = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs');
+  const i0 = PH.indexOf('〔第312便d — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  const relq = (a, b) => (a === null && b === null) || (Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= 1e-9 * Math.max(Math.abs(a), Math.abs(b)) + 1e-300);
+  if (J && X && CL0) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length || GK.length < 6) bad.push('① 門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (J.stage2 === true) bad.push('① 正本が 2 段目の出力');
+      if (JSON.stringify(J.parts) !== JSON.stringify(X.PARTS_ALL)) bad.push('① 正本の段が全段でない');
+      if (J.version !== X.HARNESS_VERSION || J.libVersion !== CL0.LIB_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (!(J.E && J.E.N.jupiter === X.N_JUP && J.E.N.earthmoon === X.N_MOON && J.E.nEarth === X.N_EARTH)) bad.push('① 窓が器の宣言(🏀 8 公転・🌦️ 月 118 公転・地球 8 公転)と違う');
+      if (J.kernel !== 'k2') bad.push('① 正本の kernel が k2 でない(枝のうちは今の法則)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・窓 🏀 ${J.E.N.jupiter} 公転・🌦️ 月 ${J.E.N.earthmoon} 公転(地球 ${J.E.nEarth})`);
+      // ② 規則の比と標的
+      const loadHP = async () => {
+        const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        if (globalThis.HP && typeof globalThis.HP.REL_DRAG_INVSQ_VERSION === 'string' && typeof globalThis.HP.inertialDragIsqState === 'function'
+          && h.indexOf('REL_DRAG_INVSQ_VERSION="' + globalThis.HP.REL_DRAG_INVSQ_VERSION + '"') >= 0) return globalThis.HP;
+        const { loadHtmlMain: loadMain312d } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); return loadMain312d(path.join(ROOT, TARGET)).HP;
+      };
+      const HPc = await loadHP();
+      const B2 = X.ruleBasis(HPc, X.planet3Of());
+      if (JSON.stringify(B2.table) !== JSON.stringify(J.C.basis.table) || JSON.stringify(B2.rows) !== JSON.stringify(J.C.basis.rows)) bad.push('② 規則の比の表を planet3 の正本から作り直すと違う');
+      const R0 = X.defaultRule(B2);
+      if (JSON.stringify(R0) !== JSON.stringify(J.rule) || J.rule.type !== 'rd2OverMp' || J.rule.moonP !== 'earth') bad.push('② 既定の規則が R_d²/(m p) の平均(月の p は地球のまわり)でない');
+      const T2 = X.targetTable(HPc);
+      for (const k of ['jupiter', 'earthmoon']) if (JSON.stringify(T2[k]) !== JSON.stringify(J.T.targets[k])) bad.push('② 標的を作り直すと違う ' + k);
+      const A = JSON.parse(rd('tests/out/an336-w306a.json') || '{}'), LJ = ((A.transfer && A.transfer.table) || []).find((z) => z.id === 'jupiterSunInertial3d');
+      if (!LJ || LJ.target.value !== J.T.targets.jupiter.value || LJ.target.recordId !== J.T.targets.jupiter.recordId) bad.push('② 🏀 の標的が第306便a の正本の移送の表と違う');
+      if (J.T.targets.earthmoon.a1 !== null || J.T.targets.earthmoon.kind !== 'pn1only') bad.push('② 🌦️ の地球の標的が 1PN だけでない');
+      cases.push(`② 規則の比(3 惑星)の最大/最小 R_d/R ${J.C.basis.table.rdOverR.spread.toFixed(3)}・R_d/m ${J.C.basis.table.rdOverM.spread.toFixed(3)}・R_d²/(m p) ${J.C.basis.table.rd2OverMp.spread.toFixed(4)}(planet3 の正本から作り直して一致)・`
+        + `既定の規則 k = ${J.rule.k}・標的 🏀 ${J.T.targets.jupiter.value.toFixed(6)}(1PN + A1)・🌦️ ${J.T.targets.earthmoon.value.toFixed(6)}(EMB・1PN だけ)`);
+      // ③ 規則を確認の系へ・t = 0 の β
+      const C2 = X.partC(HPc, Object.assign({}, J, { E: null, T: null }), { basis: B2 });
+      const cmpCell = (a, b, tag) => { if (!a || !b || !relq(a.Rd, b.Rd) || a.admissible !== b.admissible) bad.push('③ 規則の R_d を作り直すと違う ' + tag); };
+      for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) for (const bk of ['jupiter', 'earth', 'moonEarthP', 'moonSunP']) if (J.C.byType[t][bk] || C2.byType[t][bk]) cmpCell(C2.byType[t][bk], J.C.byType[t][bk], t + '/' + bk);
+      for (const [k, v] of Object.entries(J.C.beta0)) for (const [kk, x] of Object.entries(v)) if (!relq(C2.beta0[k][kk], x)) bad.push('③ t = 0 の β を作り直すと違う ' + k + '/' + kk);
+      if (!(J.C.applied.jupiter.admissible === true && J.C.applied.jupiter.Rd < 6.5e6)) bad.push('③ 既定の規則で 🏀 の R_d が受理の目安の内でない(枝の記録と違う)');
+      if (J.C.byType.rdOverM.jupiter.admissible !== false) bad.push('③ R_d/m の規則で 🏀 が拒否でない(枝の記録と違う)');
+      cases.push(`③ 規則を確認の系へ(3 つの型 × 🏀・地球・月〔p 2 つ〕)と t = 0 の β を対象 html で作り直して相対 1e-9 で一致 —— R_d²/(m p) で 🏀 ${(J.C.applied.jupiter.Rd / 1e3).toPrecision(4)} km・`
+        + `月 ${(J.C.applied.moonEarthP.Rd / 1e3).toPrecision(4)} km(地球のまわり)/ ${(J.C.applied.moonSunP.Rd / 1e3).toPrecision(4)} km(太陽のまわり)`);
+      // ④ 段 C の残差・月の診断
+      for (const s of CL0.SYSTEMS) { const o2 = X.confirmOf(J, s.key, J.C.ruleKey, J.kernel);
+        if (JSON.stringify(o2) !== JSON.stringify(J.C.systems[s.key])) bad.push('④ ' + s.key + ' の残差を作り直すと違う');
+        const o = J.C.systems[s.key]; if (o && (o.verdict === '数値の門の内') !== (o.gate.pass === true)) bad.push('④ ' + s.key + ' の語「数値の門の内」が門と合わない'); }
+      if (JSON.stringify(X.moonOf(J, J.C.ruleKey, J.kernel)) !== JSON.stringify(J.C.moon)) bad.push('④ 月の診断を作り直すと違う');
+      cases.push(`④ 段 C を走行の行から作り直して一致 —— 🏀 r = ${J.C.systems.jupiter.r.toFixed(6)}(${J.C.systems.jupiter.verdict})・🌦️ r = ${J.C.systems.earthmoon.r.toFixed(6)}(${J.C.systems.earthmoon.verdict})`);
+      // ⑤
+      const LS = X.liveSame(HPc);
+      if (!(LS.earthmoon === true && LS.jupiter === true)) bad.push('⑤ 在位の 🏀🌦️ の宣言が凍結の写しと違う ' + JSON.stringify(LS));
+      cases.push('⑤ 在位の 🏀🌦️ の宣言は凍結の写しのまま(在位へ入れていない)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    // ⑥ 文書
+    if (!sec) bad.push('PHYSICS〔第312便d〕が無い');
+    else {
+      let rows = [];
+      try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+      let nMiss = 0;
+      for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第312便d〕の表に行が無い: ' + r.slice(0, 70)); }
+      let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+      const missN = nums.filter((x) => sec.indexOf(x) < 0);
+      if (missN.length) bad.push('PHYSICS〔第312便d〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+      cases.push(`⑥ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+      if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第312便d〕が「## 7. 論文」の後');
+      for (const w of ['R233', '第114報', 'AN398', 'AN396', 'AN336', 'exp-w312d-confirm.mjs', 'lib-w312d-confirm.mjs', 'confirm-w312d.json', 'docs.confirm312', 'W312D_OUT', 'W312D_QUICK',
+        '--rule', '--kernel', '--system', '1 つの天体に 1 つの宣言', '合わせない', '1PN だけの数値の参照', 'cap6500km', '規則が届かない', '2 段目', 'OBS_B1', 'emx4', '言わないこと'])
+        if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第312便d〕に「' + w + '」が無い');
+    }
+    if (CLg.indexOf('第312便d') < 0) bad.push('CHANGELOG に第312便d が無い');
+    if (RM.indexOf('第312便d') < 0) bad.push('README に第312便d が無い');
+    { const ai = AS.indexOf('## 126.');
+      if (ai < 0) bad.push('AI_SPEC に §126 が無い');
+      else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w312d-confirm.mjs', 'confirm-w312d.json', 'SYSTEM_PROMPT には載せない', 'docs.confirm312', 'w312d-planet3-2']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §126 に「' + w + '」が無い'); } }
+    if (RT.indexOf("S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json']") < 0 || !/secSource: 'w312d-branch'/.test(RT)) bad.push('再生成の段 confirm-312d');
+    if (GI.indexOf('!tests/out/confirm-w312d.json') < 0) bad.push('.gitignore の例外');
+    if (PM.indexOf('docs.confirm312') < 0) bad.push('post-merge の ③′ に docs.confirm312 が無い');
+    if (QA0.indexOf("'tests/out/confirm-w312d.json',") < 0) bad.push('CANON(lint.canon304)に confirm-w312d.json が無い');
+    cases.push('⑥ CHANGELOG・README・AI_SPEC §126・段・.gitignore・post-merge ③′・CANON');
+    // ⑦
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /法則を確かめた/, /法則を発見した/, /R_d を決めた/];
+    const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+    const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+    const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+    for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第312便d〕に書かない語 ' + re.source);
+    // 「確認した」は規則で置いた残差が数値の門の内の系があるときだけ
+    if (/確認した/.test(strip(sec)) && !(J && J.C && J.C.systems && Object.values(J.C.systems).some((o) => o.gate && o.gate.pass === true))) bad.push('PHYSICS〔第312便d〕に「確認した」(門の内の系が無い)');
+    for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第312便d〕に禁句(' + w.length + ' 字)');
+    for (const f of ['tests/exp-w312d-confirm.mjs', 'tests/lib-w312d-confirm.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+    cases.push('⑦ 書かない語・禁句');
+  }
+  add('docs.confirm312', bad.length === 0,
+    `**確認の器の正本と文書**(第312便d・原仮定者の裁定(第114報)・AN398・AN396・AN336・R233 —— 正本 confirm-w312d.json・3 惑星の規則で 🏀 と 🌦️ に R_d を置き残差を測る〔合わせない・在位へ入れない〕): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第312便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

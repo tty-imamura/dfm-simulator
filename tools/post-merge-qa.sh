@@ -247,6 +247,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxial311 docs.galaxial311 behavi
 #   在位の 🌡️🌋🔴 の宣言が不変)と、同じ写しの作り方と標的を読む docs.mdSweep310・docs.an336_306
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3_311 docs.mdSweep310 docs.an336_306"
 # ==== 第311便d の塊(ここまで)====
+# ==== 第312便d の塊(ここから)====
+# 第312便d(原仮定者の裁定(第114報)・AN398・AN396・AN336・R233): 枝 d の新設 1 本(docs.confirm312 —— 確認の器の正本と文書・在位の 🏀🌦️ の宣言が不変)と、
+#   v2 の世代切替を受けた docs.planet3_311(AN396 の採用の欄・門の直し)・同じ写しと標的を読む docs.mdSweep310・docs.an336_306・CANON の lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.confirm312 docs.planet3_311 docs.mdSweep310 docs.an336_306 lint.canon304"
+# ==== 第312便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
