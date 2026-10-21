@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+ "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 12.065
+     "wallSec": 8.99
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 7.673
+     "wallSec": 6.497
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 3.813
+     "wallSec": 2.978
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 4.138
+     "wallSec": 3.182
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 5.629
+     "wallSec": 4.535
     }
    },
    "check": {
@@ -357,36 +357,36 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 33.324
+   "wallSec": 26.186
   }
  },
  "timing": {
-  "wallSec": 35.233
+  "wallSec": 27.648
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-20T22:26:33.278Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-21T22:20:08.620Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26586,
-    "sha256": "bba14b376908d987773a229394e9b200bfa2bde5fa56a8d6f37a2a9efca6aad9",
-    "mtime": "2026-10-20T21:08:10.369Z"
+    "bytes": 26554,
+    "sha256": "f498b502a33a7b132cc3580854852b146c8c5ee93174d2aa6c1af1931c5b8a64",
+    "mtime": "2026-10-21T21:43:13.527Z"
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "bytes": 35518,
-    "sha256": "c4140d635a5d6e7c673c12f4179fda8db4b0d63fcaa45668a133232b621b3876",
-    "mtime": "2026-10-20T22:25:56.041Z"
+    "bytes": 35516,
+    "sha256": "90abd3278c223e2bc447cd364b5c5e76774d1bfba9fd46fa331aeb561e5b9fd8",
+    "mtime": "2026-10-21T22:19:39.011Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -501,16 +501,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1489,
-   "segments": 1334,
-   "closureShare": 0.3409
+   "names": 1510,
+   "segments": 1350,
+   "closureShare": 0.3424
   },
-  "scopeSha256": "4e2e3263135da4fcd0bcfb0396ec7018d2e3c629d114fdc02b65c76b660fd0e7",
+  "scopeSha256": "8209e9eaea3271e80af9f775bd3c24ca678b2b305bb8b8464065618fdd0238d0",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "7db3df6794f0ec83dde26dc89306abf3fa6a56f3649f7fa497a581bf421c4502",
+    "stableSha256": "dcb5e4d59d57f963f2ad0164a27d6ce4c545850bbe18ddf3bb8f6661079a30fc",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -524,7 +524,7 @@
    },
    {
     "file": "tests/out/synodic-w299b.json",
-    "stableSha256": "b66a29514a4afa8b6fab0a8308077b3835a013eaca3edad8360fb6b2eee3fcf3",
+    "stableSha256": "f396dd11b5141fe0084db49c9bc2f4b8c5f7bfc349d79844693306f420e6f9ab",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -553,5 +553,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 35.233
+ "elapsedS": 27.648
 }
