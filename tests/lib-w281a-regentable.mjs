@@ -1210,6 +1210,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galaxial-w311b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第311便b: 銀河の一様軸引きずり relativeDrag.galaxyAxial(新則の本だけ・opt-in・受け手の軸の ω に同じ ω_G を足す —— 分母・β・並進は不変)の受理とビット同一の確かめ・新則の受け手は宣言の質量 m > 0(受理で拒否)・観測の移動の分解の分母の下限 1 − Σβ ≥ 1e-2(motionDenomSmall)・非有限の行の帳簿・ω_G の格子(尺度 V₀/R₀ —— 大きさは未定 AN395)の診断' }),
   // ==== 第311便b の塊(ここまで)====
+  // ==== 第312便b の塊(ここから)====
+  // ---- 第312便b(原仮定者の裁定(第114報)・決断事項 AN395・統括の検証項目 R231): **銀河の一様軸引きずりの受け手の R_d の応答(galaxyAxial.rdPow・refRadius)と
+  //   今の軸の核(bevel)の自然な応答の次数の診断の器**(段 A〔rdPow・refRadius の受理・物理の単位〕・B〔省略のビット同一・同じ状態の build・孤立の比・位置の不変・
+  //   同じ R_d の双子・R_ref の既定〕・N〔二体の写しで受け手の R_d・質量・外殻を変えた軸の ω の次数 × 距離 0.0387〜387 au —— 一様の極限〕・X〔第311便b の太陽系の写し ×
+  //   rdPow 0・1・2 × ω_G = f Ω_ref〔f = 10⁻²・1〕× 水星の 2 公転: 軸の向き・軌道法線との角・同じ R_d の対と違う R_d の対の軸の角・維持の型〕)。本の宣言は変えない
+  //   (写しは器の中で組む)。html だけを読む・1 プロセス。所要は第312便b の枝の実測(正本の elapsedS)
+  S('galaxialrd-312b', 'node tests/exp-w312b-galaxialrd.mjs', ['tests/out/galaxialrd-w312b.json'], 600, { secSource: 'w312b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/galaxialrd-w312b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第312便b: 銀河の一様軸引きずりの受け手の R_d の応答 galaxyAxial.rdPow・refRadius(opt-in —— ω_G × (R_d/R_ref)^q・位置に依らない・省略は第311便b とビット同一・β と並進は不変)の受理とビット同一の確かめ・今の軸の核の自然な応答の次数(R_d・質量・外殻・距離)・同じ R_d の対と違う R_d の対の軸の角・ω_G の格子(尺度 V₀/R₀ —— 大きさと q は未定 AN395)' }),
+  // ==== 第312便b の塊(ここまで)====
   // ==== 第311便d の塊(ここから)====
   // ---- 第311便d(原仮定者の裁定(第110報)AN387・(第111報)AN391・決断事項 AN392・AN386・AN396・AN336・統括の検証項目 R229): **3 惑星(水星・金星・火星)の dragCore の探索の器**
   //   (段 T〔標的 1PN + A1 と G_loc の分 —— q00・q10 × h/h2〕・S〔一次の見積り —— t = 0 の写しの β の R_d の表・rd_est・m_d の床・太陽の m_d の効き〕・E〔各惑星の q11(θ₀)・

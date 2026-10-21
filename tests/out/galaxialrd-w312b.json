@@ -1,0 +1,2414 @@
+{
+ "version": "w312b-galaxialrd-1",
+ "generator": "tests/exp-w312b-galaxialrd.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
+ "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
+ "galaxyAxialVersion": "w311b-galaxial-1",
+ "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
+ "refRadiusDefaultM": 6500000,
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "qGrid": [
+  0,
+  1,
+  2
+ ],
+ "fGrid": [
+  0.01,
+  1
+ ],
+ "versionReaders": [
+  {
+   "file": "tests/exp-w311b-galaxial.mjs・正本 galaxial-w311b.json",
+   "reads": "galaxyAxial の受理(未知の鍵の拒否)・build・読み口 inertialDragGalaxyAxialState",
+   "handling": "変わらない(rdPow の無い宣言は第311便b とビット同一 —— 試走で正本と照合・領域 hash は変わる〔鎖で作り直す〕)"
+  },
+  {
+   "file": "tests/qa.mjs behavior.galaxial311・docs.galaxial311",
+   "reads": "GALAXY_AXIAL_VERSION の世代切替・受理・build",
+   "handling": "変わらない(GALAXY_AXIAL_VERSION は w311b-galaxial-1 のまま —— R_d の応答は別の版 GALAXY_AXIAL_RD_VERSION)"
+  },
+  {
+   "file": "tests/exp-w309a-invsq.mjs・tests/exp-w310d-mdsweep.mjs・tests/exp-w311d-planet3.mjs",
+   "reads": "新則の受理・build(galaxyAxial を宣言しない)・dragCoreDefault の 10^L",
+   "handling": "変わらない(inertialDragLenPrepare は galaxyAxial の無い本で今のまま)"
+  }
+ ],
+ "notClaim": [
+  "天の川を較正した",
+  "フィットした",
+  "法則を発見した",
+  "完全に一致",
+  "ω_G の大きさを決めた",
+  "q を決めた",
+  "銀河の模型から ω_G を導いた"
+ ],
+ "quick": false,
+ "kernel": null,
+ "stages": [
+  "A",
+  "B",
+  "N",
+  "X"
+ ],
+ "A": {
+  "galaxy": [
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 省略(第311便b の形)",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 0",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 0
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow −0(+0 へ)",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 0
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 1",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 1
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 2",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 2
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 2 + refRadius 0.0625",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 2,
+     "refRadius": 0.0625
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 0 + refRadius 0.0625",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 0,
+     "refRadius": 0.0625
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 3",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 1.5",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow −1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 文字列 \"2\"",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow 真偽値",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow null",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "rdPow NaN",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius だけ(rdPow なし)",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は rdPow と一緒にだけ(応答の基準の半径 R_ref —— rdPow の無い宣言は第311便b の同じ ω_G・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius 0",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius −0.01",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius Infinity",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius NaN",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius 文字列",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "refRadius null",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 rot(一様回転)",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 massPow",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 massPow(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+   }
+  ],
+  "units": [
+   {
+    "name": "単位なし・rdPow 2・refRadius 省略",
+    "ok": false,
+    "expectOk": false,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow(1・2)で refRadius を省略する本は物理の単位の宣言 scaleExp.L が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本は refRadius を宣言する・第312便b)",
+    "pass": true
+   },
+   {
+    "name": "単位なし・rdPow 1・refRadius 省略",
+    "ok": false,
+    "expectOk": false,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow(1・2)で refRadius を省略する本は物理の単位の宣言 scaleExp.L が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本は refRadius を宣言する・第312便b)",
+    "pass": true
+   },
+   {
+    "name": "単位なし・rdPow 2・refRadius 0.0625",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "pass": true
+   },
+   {
+    "name": "単位なし・rdPow 0",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "pass": true
+   },
+   {
+    "name": "単位あり・dragCoreDefault なし・rdPow 2(build が 10^L を控える)",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "lenSI": 100000000,
+    "pass": true
+   },
+   {
+    "name": "旧則の本 + rdPow 2",
+    "ok": false,
+    "expectOk": false,
+    "err": "physics.relativeDrag.galaxyAxial は新しい引きずり則 invSq の本だけ(在位の移行は新則で —— 旧則の軸の核の組み合わせを増やさない・第311便b)",
+    "pass": true
+   }
+  ],
+  "nPass": 29,
+  "nCases": 29,
+  "allPass": true,
+  "pows": [
+   0,
+   1,
+   2
+  ],
+  "refRadiusDefaultM": 6500000,
+  "rdVersion": "w312b-galaxial-rd-1",
+  "version": "w311b-galaxial-1"
+ },
+ "B": {
+  "omitSameAsPow0": {
+   "run": true,
+   "omegaG": true,
+   "rdRecordOnlyDeclared": true
+  },
+  "fixedState": [
+   {
+    "q": 0,
+    "A": true,
+    "U": true,
+    "beta": true,
+    "rot": true,
+    "deg": true,
+    "omegaPlusFG": true,
+    "factors": [
+     1,
+     1
+    ],
+    "Rd": [
+     0.065,
+     0.02439999953
+    ],
+    "refRadius": null,
+    "refRadiusIsDefault": true
+   },
+   {
+    "q": 1,
+    "A": true,
+    "U": true,
+    "beta": true,
+    "rot": true,
+    "deg": true,
+    "omegaPlusFG": true,
+    "factors": [
+     1,
+     0.3753846081
+    ],
+    "Rd": [
+     0.065,
+     0.02439999953
+    ],
+    "refRadius": 0.065,
+    "refRadiusIsDefault": true
+   },
+   {
+    "q": 2,
+    "A": true,
+    "U": true,
+    "beta": true,
+    "rot": true,
+    "deg": true,
+    "omegaPlusFG": true,
+    "factors": [
+     1,
+     0.140913604
+    ],
+    "Rd": [
+     0.065,
+     0.02439999953
+    ],
+    "refRadius": 0.065,
+    "refRadiusIsDefault": true
+   }
+  ],
+  "isolated": [
+   {
+    "q": 0,
+    "k": 0.5,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 0,
+    "k": 1,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 0,
+    "k": 2,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 1,
+    "k": 0.5,
+    "ratio": 0.5,
+    "expect": 0.5,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 1,
+    "k": 1,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 1,
+    "k": 2,
+    "ratio": 2,
+    "expect": 2,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 2,
+    "k": 0.5,
+    "ratio": 0.25,
+    "expect": 0.25,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 2,
+    "k": 1,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "betaSum": 0
+   },
+   {
+    "q": 2,
+    "k": 2,
+    "ratio": 4,
+    "expect": 4,
+    "exact": true,
+    "betaSum": 0
+   }
+  ],
+  "position": {
+   "rows": [
+    {
+     "scale": 1,
+     "r1": 697.8361219,
+     "omegaG1": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "omegaG2": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "factor1": 0.14091360402869055,
+     "factor2": 0.14091360402869055,
+     "sameRdSame": true,
+     "buildPlusFG": true,
+     "betaSame": true,
+     "addNorm": [
+      7.844471884e-12,
+      7.844471884e-12
+     ]
+    },
+    {
+     "scale": 0.5,
+     "r1": 348.9181189,
+     "omegaG1": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "omegaG2": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "factor1": 0.14091360402869055,
+     "factor2": 0.14091360402869055,
+     "sameRdSame": true,
+     "buildPlusFG": true,
+     "betaSame": true,
+     "addNorm": [
+      7.844471884e-12,
+      7.844471884e-12
+     ]
+    },
+    {
+     "scale": 3,
+     "r1": 2093.508134,
+     "omegaG1": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "omegaG2": [
+      4.368321724889407e-12,
+      -2.3955312684877394e-12,
+      6.0592849732336936e-12
+     ],
+     "factor1": 0.14091360402869055,
+     "factor2": 0.14091360402869055,
+     "sameRdSame": true,
+     "buildPlusFG": true,
+     "betaSame": true,
+     "addNorm": [
+      7.844471884e-12,
+      7.844471884e-12
+     ]
+    }
+   ],
+   "invariant": true,
+   "sameRdSame": true,
+   "buildPlusFG": true,
+   "betaSame": true,
+   "massRatio": 10
+  },
+  "twoSteps": {
+   "xv": true,
+   "u": true,
+   "axesDiffer": true
+  },
+  "refDefault": {
+   "lenSI": 100000000,
+   "refRadius": 0.065,
+   "expect": 0.065,
+   "ok": true,
+   "capFactorOne": true,
+   "sunRd": 0.065,
+   "merFactor": 0.140913604
+  },
+  "explicitZero": {
+   "runSame": true,
+   "explicitZero": true,
+   "active": false
+  },
+  "allPass": true
+ },
+ "N": {
+  "kernel": null,
+  "connected": true,
+  "recv": {
+   "RdM": 2440000,
+   "massFrac": 0.5,
+   "RoM": 6100000
+  },
+  "distAU": [
+   0.0387,
+   0.387,
+   3.87,
+   38.7,
+   387
+  ],
+  "plain": [
+   {
+    "dAU": 0.0387,
+    "rM": 5789437596,
+    "omega": 1.050591508e-8,
+    "betaSum": 0.3267623119,
+    "srcBeta": 0.3267623119,
+    "xi": 1.069975431,
+    "pRdLo": 1.161427517,
+    "pRdHi": 0.407598672,
+    "pmLo": -0.1375155962,
+    "pmHi": -0.6799831822,
+    "pr": -3.161428167,
+    "dirMaxRad": 5.379969346e-8,
+    "omegaHat": [
+     0.1223534754,
+     0.03103807231,
+     -0.9920011417
+    ],
+    "negFrac": 0.4999906942
+   },
+   {
+    "dAU": 0.387,
+    "rM": 57894375960,
+    "omega": 2.432442321e-12,
+    "betaSum": 0.004879852703,
+    "srcBeta": 0.004879852703,
+    "xi": 0.01069975431,
+    "pRdLo": 1.987144941,
+    "pRdHi": 1.949388697,
+    "pmLo": -0.9554078346,
+    "pmHi": -0.9953533329,
+    "pr": -3.987144948,
+    "dirMaxRad": 5.445121161e-10,
+    "omegaHat": [
+     0.1223534933,
+     0.03103807224,
+     -0.9920011395
+    ],
+    "negFrac": 0.5
+   },
+   {
+    "dAU": 3.87,
+    "rM": 578943759600,
+    "omega": 2.461250828e-16,
+    "betaSum": 0.00004904312294,
+    "srcBeta": 0.00004904312294,
+    "xi": 0.0001069975431,
+    "pRdLo": 1.999870768,
+    "pRdHi": 1.999483155,
+    "pmLo": -0.9995333335,
+    "pmHi": -0.9999533394,
+    "pr": -3.999870768,
+    "dirMaxRad": 5.42499725e-12,
+    "omegaHat": [
+     0.1223534935,
+     0.03103807224,
+     -0.9920011395
+    ],
+    "negFrac": 0.5
+   },
+   {
+    "dAU": 38.7,
+    "rM": 5789437596000,
+    "omega": 2.46154187e-20,
+    "betaSum": 4.904558169e-7,
+    "srcBeta": 4.904558169e-7,
+    "xi": 0.000001069975431,
+    "pRdLo": 1.999998708,
+    "pRdHi": 1.99999483,
+    "pmLo": -0.9999953027,
+    "pmHi": -0.9999995561,
+    "pr": -3.999998708,
+    "dirMaxRad": 1.526336908e-12,
+    "omegaHat": [
+     0.1223534935,
+     0.03103807224,
+     -0.9920011395
+    ],
+    "negFrac": 0.5
+   },
+   {
+    "dAU": 387,
+    "rM": 57894375960000,
+    "omega": 2.461544783e-24,
+    "betaSum": 4.904560628e-9,
+    "srcBeta": 4.904560628e-9,
+    "xi": 1.069975431e-8,
+    "pRdLo": 1.999999985,
+    "pRdHi": 1.999999947,
+    "pmLo": -0.9999999244,
+    "pmHi": -1.000000018,
+    "pr": -3.999999986,
+    "dirMaxRad": 4.489078836e-11,
+    "omegaHat": [
+     0.1223534935,
+     0.03103807224,
+     -0.9920011395
+    ],
+    "negFrac": 0.5
+   }
+  ],
+  "shell": [
+   {
+    "dAU": 0.0387,
+    "omega": 1.300766796e-8,
+    "betaSum": 0.6076063322,
+    "pRdLo": 0.3315268873,
+    "pRdHi": 0.1337638728,
+    "pmLo": -0.04689060598,
+    "pmHi": -0.325266233,
+    "pRoLo": 0.06585916387,
+    "pRoHi": 0.04681222198,
+    "pr": -2.480981176,
+    "omegaRatioToPlain": 1.238128031
+   },
+   {
+    "dAU": 0.387,
+    "omega": 1.020093575e-11,
+    "betaSum": 0.02062590598,
+    "pRdLo": 0.2417458163,
+    "pRdHi": 0.4934081646,
+    "pmLo": -0.7802929657,
+    "pmHi": -0.9708232811,
+    "pRoLo": 1.453315807,
+    "pRoHi": 1.478600626,
+    "pr": -3.919646644,
+    "omegaRatioToPlain": 4.193700983
+   },
+   {
+    "dAU": 3.87,
+    "omega": 1.098587088e-15,
+    "betaSum": 0.0002126017213,
+    "pRdLo": 0.2295690296,
+    "pRdHi": 0.4903049416,
+    "pmLo": -0.9969822292,
+    "pmHi": -0.999697209,
+    "pRoLo": 1.569337649,
+    "pRoHi": 1.718703484,
+    "pr": -3.999161772,
+    "omegaRatioToPlain": 4.463531613
+   },
+   {
+    "dAU": 38.7,
+    "omega": 1.099430032e-19,
+    "betaSum": 0.000002126675125,
+    "pRdLo": 0.2294436971,
+    "pRdHi": 0.4902643769,
+    "pmLo": -0.9999696794,
+    "pmHi": -0.9999969937,
+    "pRoLo": 1.570561426,
+    "pRoHi": 1.721371996,
+    "pr": -3.999991614,
+    "omegaRatioToPlain": 4.466428321
+   },
+   {
+    "dAU": 387,
+    "omega": 1.099438468e-23,
+    "betaSum": 2.126681706e-8,
+    "pRdLo": 0.2294424433,
+    "pRdHi": 0.4902639703,
+    "pmLo": -0.9999996684,
+    "pmHi": -0.9999999927,
+    "pRoLo": 1.57057367,
+    "pRoHi": 1.72139871,
+    "pr": -3.999999917,
+    "omegaRatioToPlain": 4.466457307
+   }
+  ],
+  "limit": {
+   "pRd": 1.999999947,
+   "pm": -1.000000018,
+   "pr": -3.999999986,
+   "shellPRd": 0.4902639703,
+   "shellPRo": 1.72139871,
+   "shellPm": -0.9999999927
+  },
+  "estimate": {
+   "pRd": 2,
+   "pm": -1,
+   "pr": -4,
+   "why": "一様の極限(源の場 ≪ 受け手の自己の場・受け手の上で源の M2 の場がほぼ一様な勾配)の見積り: amp = −n̂·∇(m_d,j M2_j/W) の W ≈ 受け手の自己の場 m_d,i K2(t R_d,i; R_d,i) ∝ m_d,i/R_d,i²。第 1 項 m_d,j M2′/W ∝ R_d,i²/m_d,i・第 2 項 m_d,j M2 (n̂·∇W)/W² ∝ R_d,i/m_d,i × (受け手の上の向きの変化 ∝ R_d,i/r) —— どちらも R_d,i²/m_d,i・M2′ ∝ r⁻⁴"
+  }
+ },
+ "X": {
+  "kernel": null,
+  "geometry": {
+   "omHat": [
+    0.8676661436080016,
+    0.0003515931391418637,
+    -0.497147201157447
+   ],
+   "OmRefSI": 9.089990689904927e-16,
+   "omHatDotNgp": -0.999999999999995
+  },
+  "OmRefBook": 9.08999069e-11,
+  "steps": 720,
+  "dt": 0.21112559999999997,
+  "Teff": 151.7993064,
+  "orbitsMercury": 2,
+  "refRadiusKm": 6500,
+  "sameRdPair": [
+   0,
+   5
+  ],
+  "bodies": [
+   {
+    "i": 0,
+    "label": "太陽",
+    "RdKm": 6500,
+    "f1": 1,
+    "f2": 1
+   },
+   {
+    "i": 1,
+    "label": "水星",
+    "RdKm": 2439.999953,
+    "f1": 0.3753846081,
+    "f2": 0.140913604
+   },
+   {
+    "i": 2,
+    "label": "金星",
+    "RdKm": 6049.999967,
+    "f1": 0.9307692257,
+    "f2": 0.8663313516
+   },
+   {
+    "i": 3,
+    "label": "地球",
+    "RdKm": 6370.99985,
+    "f1": 0.9801538231,
+    "f2": 0.960701517
+   },
+   {
+    "i": 4,
+    "label": "火星",
+    "RdKm": 3389.500082,
+    "f1": 0.521461551,
+    "f2": 0.2719221492
+   },
+   {
+    "i": 5,
+    "label": "木星",
+    "RdKm": 6500,
+    "f1": 1,
+    "f2": 1
+   }
+  ],
+  "rows": [
+   {
+    "q": 0,
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalVsNoGalaxy": 4.043503032e-11
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255955967e-10,
+      "firstOrder": 1.255957777e-10,
+      "ratio": 0.9999985589,
+      "orbitNormalVsNoGalaxy": 1.148489253e-10
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209890652e-10,
+      "firstOrder": 1.20989065e-10,
+      "ratio": 1.000000001,
+      "orbitNormalVsNoGalaxy": -6.495300825e-11
+     },
+     {
+      "i": 3,
+      "factor": 1,
+      "vsNoGalaxy": 1.228056013e-10,
+      "firstOrder": 1.22805384e-10,
+      "ratio": 1.00000177,
+      "orbitNormalVsNoGalaxy": -1.197245636e-10
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.377616054e-10,
+      "firstOrder": 1.377613266e-10,
+      "ratio": 1.000002024,
+      "orbitNormalVsNoGalaxy": 9.114042854e-12
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -1.45716772e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -2.081668171e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 8.326672685e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.720845688e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": -2.775557562e-17,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -3.747002708e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -4.440892099e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.498801083e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -5.689893001e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -3.330669074e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.054711873e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.908195824e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 8.881784197e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.720845688e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.498801083e-15,
+      "firstOrder": 0,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.377616054e-10,
+    "axisMin": 1.187377729e-10,
+    "ratioMin": 0.9999985589,
+    "ratioMax": 1.000015985,
+    "orbitNormalMax": 1.197245636e-10,
+    "sameRdPairMax": 2.775557562e-17,
+    "diffPairMax": 1.908195824e-15,
+    "diffPairRatioMin": null,
+    "diffPairRatioMax": null,
+    "nDiffPairs": 0,
+    "allPairMax": 1.908195824e-15
+   },
+   {
+    "q": 0,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529775e-9
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255957749e-8,
+      "firstOrder": 1.255957777e-8,
+      "ratio": 0.9999999777,
+      "orbitNormalVsNoGalaxy": 1.148494124e-8
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209890647e-8,
+      "firstOrder": 1.20989065e-8,
+      "ratio": 0.9999999979,
+      "orbitNormalVsNoGalaxy": -6.495291992e-9
+     },
+     {
+      "i": 3,
+      "factor": 1,
+      "vsNoGalaxy": 1.22805382e-8,
+      "firstOrder": 1.22805384e-8,
+      "ratio": 0.9999999843,
+      "orbitNormalVsNoGalaxy": -1.197243082e-8
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.377613274e-8,
+      "firstOrder": 1.377613266e-8,
+      "ratio": 1.000000006,
+      "orbitNormalVsNoGalaxy": 9.112886556e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821217e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.623701174e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 5.06539255e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 2.553512957e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -5.828670879e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": 5.939693182e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -5.134781489e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -1.665334537e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -2.775557562e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -8.604228441e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 1.665334537e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -7.771561172e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 2.865763182e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -1.110223025e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": 3.108624469e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": 0,
+      "change": -1.665334537e-16,
+      "firstOrder": 0,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.377613274e-8,
+    "axisMin": 1.187359036e-8,
+    "ratioMin": 0.9999999777,
+    "ratioMax": 1.000000241,
+    "orbitNormalMax": 1.197243082e-8,
+    "sameRdPairMax": 5.939693182e-15,
+    "diffPairMax": 5.828670879e-15,
+    "diffPairRatioMin": null,
+    "diffPairRatioMax": null,
+    "nDiffPairs": 0,
+    "allPairMax": 5.939693182e-15
+   },
+   {
+    "q": 1,
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalVsNoGalaxy": 4.043503032e-11
+     },
+     {
+      "i": 1,
+      "factor": 0.3753846081,
+      "vsNoGalaxy": 4.714637969e-11,
+      "firstOrder": 4.714672179e-11,
+      "ratio": 0.999992744,
+      "orbitNormalVsNoGalaxy": 4.311214276e-11
+     },
+     {
+      "i": 2,
+      "factor": 0.9307692257,
+      "vsNoGalaxy": 1.126128654e-10,
+      "firstOrder": 1.126128983e-10,
+      "ratio": 0.9999997075,
+      "orbitNormalVsNoGalaxy": -6.045629275e-11
+     },
+     {
+      "i": 3,
+      "factor": 0.9801538231,
+      "vsNoGalaxy": 1.20367887e-10,
+      "firstOrder": 1.203681666e-10,
+      "ratio": 0.9999976769,
+      "orbitNormalVsNoGalaxy": -1.173480202e-10
+     },
+     {
+      "i": 4,
+      "factor": 0.521461551,
+      "vsNoGalaxy": 7.183749023e-11,
+      "firstOrder": 7.183723504e-11,
+      "ratio": 1.000003552,
+      "orbitNormalVsNoGalaxy": 4.753974991e-12
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0.6246153919,
+      "change": -6.842478667e-11,
+      "firstOrder": -6.842327007e-11,
+      "ratio": 1.000022165
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0.06923077427,
+      "change": 3.181163666e-12,
+      "firstOrder": 3.181396924e-12,
+      "ratio": 0.9999266806
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0.01984617687,
+      "change": 2.434497048e-12,
+      "firstOrder": 2.433247868e-12,
+      "ratio": 1.00051338
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.478538449,
+      "change": -4.011568855e-12,
+      "firstOrder": -4.014163142e-12,
+      "ratio": 0.9993537165
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": -2.775557562e-17,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": -0.5553846176,
+      "change": -5.30482186e-11,
+      "firstOrder": -5.304762361e-11,
+      "ratio": 1.000011216
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.604769215,
+      "change": -7.42303996e-11,
+      "firstOrder": -7.42302138e-11,
+      "ratio": 1.000002503
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": -0.1460769429,
+      "change": -1.71418435e-12,
+      "firstOrder": -1.716571068e-12,
+      "ratio": 0.9986096017
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.6246153919,
+      "change": -2.81763779e-11,
+      "firstOrder": -2.817561051e-11,
+      "ratio": 1.000027236
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.0493845974,
+      "change": -5.97044636e-12,
+      "firstOrder": -5.970720719e-12,
+      "ratio": 0.9999540492
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.4093076747,
+      "change": -7.756129072e-12,
+      "firstOrder": -7.757951122e-12,
+      "ratio": 0.9997651378
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.06923077427,
+      "change": 6.790894236e-12,
+      "firstOrder": 6.788930121e-12,
+      "ratio": 1.000289311
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.4586922721,
+      "change": -4.624112204e-11,
+      "firstOrder": -4.624291454e-11,
+      "ratio": 0.9999612373
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.01984617687,
+      "change": 2.358446771e-12,
+      "firstOrder": 2.356327464e-12,
+      "ratio": 1.000899411
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.478538449,
+      "change": -1.748101663e-12,
+      "firstOrder": -1.75042089e-12,
+      "ratio": 0.9986750461
+     }
+    ],
+    "axisMax": 1.272337011e-10,
+    "axisMin": 4.714637969e-11,
+    "ratioMin": 0.999992744,
+    "ratioMax": 1.000015985,
+    "orbitNormalMax": 1.173480202e-10,
+    "sameRdPairMax": 2.775557562e-17,
+    "diffPairMax": 7.42303996e-11,
+    "diffPairRatioMin": 0.9986096017,
+    "diffPairRatioMax": 1.000899411,
+    "nDiffPairs": 14,
+    "allPairMax": 7.42303996e-11
+   },
+   {
+    "q": 1,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529775e-9
+     },
+     {
+      "i": 1,
+      "factor": 0.3753846081,
+      "vsNoGalaxy": 4.714671887e-9,
+      "firstOrder": 4.714672179e-9,
+      "ratio": 0.9999999381,
+      "orbitNormalVsNoGalaxy": 4.311265064e-9
+     },
+     {
+      "i": 2,
+      "factor": 0.9307692257,
+      "vsNoGalaxy": 1.126128979e-8,
+      "firstOrder": 1.126128983e-8,
+      "ratio": 0.9999999958,
+      "orbitNormalVsNoGalaxy": -6.04561802e-9
+     },
+     {
+      "i": 3,
+      "factor": 0.9801538231,
+      "vsNoGalaxy": 1.203681656e-8,
+      "firstOrder": 1.203681666e-8,
+      "ratio": 0.9999999918,
+      "orbitNormalVsNoGalaxy": -1.173482411e-8
+     },
+     {
+      "i": 4,
+      "factor": 0.521461551,
+      "vsNoGalaxy": 7.183723682e-9,
+      "firstOrder": 7.183723504e-9,
+      "ratio": 1.000000025,
+      "orbitNormalVsNoGalaxy": 4.752037097e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821217e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0.6246153919,
+      "change": -6.842325269e-9,
+      "firstOrder": -6.842327007e-9,
+      "ratio": 0.999999746
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0.06923077427,
+      "change": 3.181446773e-10,
+      "firstOrder": 3.181396924e-10,
+      "ratio": 1.000015669
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0.01984617687,
+      "change": 2.433271362e-10,
+      "firstOrder": 2.433247868e-10,
+      "ratio": 1.000009655
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.478538449,
+      "change": -4.014200083e-10,
+      "firstOrder": -4.014163142e-10,
+      "ratio": 1.000009203
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": 5.939693182e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": -0.5553846176,
+      "change": -5.304762796e-9,
+      "firstOrder": -5.304762361e-9,
+      "ratio": 1.000000082
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.604769215,
+      "change": -7.423021808e-9,
+      "firstOrder": -7.42302138e-9,
+      "ratio": 1.000000058
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": -0.1460769429,
+      "change": -1.716553566e-10,
+      "firstOrder": -1.716571068e-10,
+      "ratio": 0.9999898043
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.6246153919,
+      "change": -2.817561684e-9,
+      "firstOrder": -2.817561051e-9,
+      "ratio": 1.000000225
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.0493845974,
+      "change": -5.970720585e-10,
+      "firstOrder": -5.970720719e-10,
+      "ratio": 0.9999999776
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.4093076747,
+      "change": -7.757939846e-10,
+      "firstOrder": -7.757951122e-10,
+      "ratio": 0.9999985466
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.06923077427,
+      "change": 6.788959325e-10,
+      "firstOrder": 6.788930121e-10,
+      "ratio": 1.000004302
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.4586922721,
+      "change": -4.624290395e-9,
+      "firstOrder": -4.624291454e-9,
+      "ratio": 0.999999771
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.01984617687,
+      "change": 2.356357331e-10,
+      "firstOrder": 2.356327464e-10,
+      "ratio": 1.000012676
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.478538449,
+      "change": -1.75040149e-10,
+      "firstOrder": -1.75042089e-10,
+      "ratio": 0.9999889169
+     }
+    ],
+    "axisMax": 1.272324441e-8,
+    "axisMin": 4.714671887e-9,
+    "ratioMin": 0.9999999381,
+    "ratioMax": 1.000000241,
+    "orbitNormalMax": 1.173482411e-8,
+    "sameRdPairMax": 5.939693182e-15,
+    "diffPairMax": 7.423021808e-9,
+    "diffPairRatioMin": 0.9999889169,
+    "diffPairRatioMax": 1.000015669,
+    "nDiffPairs": 14,
+    "allPairMax": 7.423021808e-9
+   },
+   {
+    "q": 2,
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalVsNoGalaxy": 4.043503032e-11
+     },
+     {
+      "i": 1,
+      "factor": 0.140913604,
+      "vsNoGalaxy": 1.769807248e-11,
+      "firstOrder": 1.769815368e-11,
+      "ratio": 0.9999954118,
+      "orbitNormalVsNoGalaxy": 1.618362551e-11
+     },
+     {
+      "i": 2,
+      "factor": 0.8663313516,
+      "vsNoGalaxy": 1.048166114e-10,
+      "firstOrder": 1.048166202e-10,
+      "ratio": 0.9999999158,
+      "orbitNormalVsNoGalaxy": -5.627075889e-11
+     },
+     {
+      "i": 3,
+      "factor": 0.960701517,
+      "vsNoGalaxy": 1.179796519e-10,
+      "firstOrder": 1.179793187e-10,
+      "ratio": 1.000002825,
+      "orbitNormalVsNoGalaxy": -1.15019716e-10
+     },
+     {
+      "i": 4,
+      "factor": 0.2719221492,
+      "vsNoGalaxy": 3.746052289e-11,
+      "firstOrder": 3.7460356e-11,
+      "ratio": 1.000004455,
+      "orbitNormalVsNoGalaxy": 2.479461081e-12
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0.859086396,
+      "change": -9.410966451e-11,
+      "firstOrder": -9.410831249e-11,
+      "ratio": 1.000014367
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0.1336686484,
+      "change": 6.142406028e-12,
+      "firstOrder": 6.142543275e-12,
+      "ratio": 0.9999776563
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0.03929848301,
+      "change": 4.818867527e-12,
+      "firstOrder": 4.818205069e-12,
+      "ratio": 1.000137491
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.7280778508,
+      "change": -6.105338457e-12,
+      "firstOrder": -6.107394881e-12,
+      "ratio": 0.9996632896
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": -2.775557562e-17,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": -0.7254177475,
+      "change": -6.928857488e-11,
+      "firstOrder": -6.928835696e-11,
+      "ratio": 1.000003145
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.819787913,
+      "change": -1.006224548e-10,
+      "firstOrder": -1.006219076e-10,
+      "ratio": 1.000005439
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": -0.1310085451,
+      "change": -1.537603378e-12,
+      "firstOrder": -1.539500169e-12,
+      "ratio": 0.9987679177
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.859086396,
+      "change": -3.875284815e-11,
+      "firstOrder": -3.875230102e-11,
+      "ratio": 1.000014119
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.09437016543,
+      "change": -1.140992856e-11,
+      "firstOrder": -1.140958784e-11,
+      "ratio": 1.000029862
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.5944092024,
+      "change": -1.126482241e-11,
+      "firstOrder": -1.126633538e-11,
+      "ratio": 0.9998657083
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.1336686484,
+      "change": 1.310972858e-11,
+      "firstOrder": 1.310785735e-11,
+      "ratio": 1.000142756
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.6887793678,
+      "change": -6.943812192e-11,
+      "firstOrder": -6.943907142e-11,
+      "ratio": 0.9999863261
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.03929848301,
+      "change": 4.667433107e-12,
+      "firstOrder": 4.665890836e-12,
+      "ratio": 1.000330542
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.7280778508,
+      "change": -2.661149079e-12,
+      "firstOrder": -2.663198083e-12,
+      "ratio": 0.9992306227
+     }
+    ],
+    "axisMax": 1.272337011e-10,
+    "axisMin": 1.769807248e-11,
+    "ratioMin": 0.9999954118,
+    "ratioMax": 1.000015985,
+    "orbitNormalMax": 1.15019716e-10,
+    "sameRdPairMax": 2.775557562e-17,
+    "diffPairMax": 1.006224548e-10,
+    "diffPairRatioMin": 0.9987679177,
+    "diffPairRatioMax": 1.000330542,
+    "nDiffPairs": 14,
+    "allPairMax": 1.006224548e-10
+   },
+   {
+    "q": 2,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529775e-9
+     },
+     {
+      "i": 1,
+      "factor": 0.140913604,
+      "vsNoGalaxy": 1.769815254e-9,
+      "firstOrder": 1.769815368e-9,
+      "ratio": 0.9999999357,
+      "orbitNormalVsNoGalaxy": 1.618381884e-9
+     },
+     {
+      "i": 2,
+      "factor": 0.8663313516,
+      "vsNoGalaxy": 1.048166198e-8,
+      "firstOrder": 1.048166202e-8,
+      "ratio": 0.9999999966,
+      "orbitNormalVsNoGalaxy": -5.627075278e-9
+     },
+     {
+      "i": 3,
+      "factor": 0.960701517,
+      "vsNoGalaxy": 1.179793196e-8,
+      "firstOrder": 1.179793187e-8,
+      "ratio": 1.000000008,
+      "orbitNormalVsNoGalaxy": -1.150193274e-8
+     },
+     {
+      "i": 4,
+      "factor": 0.2719221492,
+      "vsNoGalaxy": 3.746035838e-9,
+      "firstOrder": 3.7460356e-9,
+      "ratio": 1.000000064,
+      "orbitNormalVsNoGalaxy": 2.478022232e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821217e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameRd": false,
+      "dfactor": 0.859086396,
+      "change": -9.410829387e-9,
+      "firstOrder": -9.410831249e-9,
+      "ratio": 0.9999998021
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": 0.1336686484,
+      "change": 6.142593378e-10,
+      "firstOrder": 6.142543275e-10,
+      "ratio": 1.000008157
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": 0.03929848301,
+      "change": 4.818226929e-10,
+      "firstOrder": 4.818205069e-10,
+      "ratio": 1.000004537
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.7280778508,
+      "change": -6.107420125e-10,
+      "firstOrder": -6.107394881e-10,
+      "ratio": 1.000004133
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameRd": true,
+      "dfactor": 0,
+      "change": 5.939693182e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameRd": false,
+      "dfactor": -0.7254177475,
+      "change": -6.928835755e-9,
+      "firstOrder": -6.928835696e-9,
+      "ratio": 1.000000009
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.819787913,
+      "change": -1.006219097e-8,
+      "firstOrder": -1.006219076e-8,
+      "ratio": 1.000000021
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": -0.1310085451,
+      "change": -1.539475214e-10,
+      "firstOrder": -1.539500169e-10,
+      "ratio": 0.9999837903
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.859086396,
+      "change": -3.875230206e-9,
+      "firstOrder": -3.875230102e-9,
+      "ratio": 1.000000027
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameRd": false,
+      "dfactor": -0.09437016543,
+      "change": -1.140959049e-9,
+      "firstOrder": -1.140958784e-9,
+      "ratio": 1.000000233
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.5944092024,
+      "change": -1.126631122e-9,
+      "firstOrder": -1.126633538e-9,
+      "ratio": 0.999997855
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.1336686484,
+      "change": 1.310788644e-9,
+      "firstOrder": 1.310785735e-9,
+      "ratio": 1.000002219
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameRd": false,
+      "dfactor": 0.6887793678,
+      "change": -6.94390534e-9,
+      "firstOrder": -6.943907142e-9,
+      "ratio": 0.9999997404
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.03929848301,
+      "change": 4.665918207e-10,
+      "firstOrder": 4.665890836e-10,
+      "ratio": 1.000005866
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameRd": false,
+      "dfactor": -0.7280778508,
+      "change": -2.663165799e-10,
+      "firstOrder": -2.663198083e-10,
+      "ratio": 0.9999878778
+     }
+    ],
+    "axisMax": 1.272324441e-8,
+    "axisMin": 1.769815254e-9,
+    "ratioMin": 0.9999999357,
+    "ratioMax": 1.000000241,
+    "orbitNormalMax": 1.150193274e-8,
+    "sameRdPairMax": 5.939693182e-15,
+    "diffPairMax": 1.006219097e-8,
+    "diffPairRatioMin": 0.9999837903,
+    "diffPairRatioMax": 1.000008157,
+    "nDiffPairs": 14,
+    "allPairMax": 1.006219097e-8
+   }
+  ],
+  "maintain": [
+   {
+    "q": 0,
+    "f": 0.01,
+    "axisCost": 1.212897284e-20,
+    "ratioToQ0": 1,
+    "speed": -3.529409283e-9,
+    "perBodyRatioToQ0": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-20,
+     1.776012136e-31,
+     2.536751996e-19,
+     3.02128307e-30,
+     1.209598798e-31,
+     1.0668522e-25
+    ]
+   },
+   {
+    "q": 0,
+    "f": 1,
+    "axisCost": 1.212897283e-16,
+    "ratioToQ0": 1,
+    "speed": -3.529409261e-7,
+    "perBodyRatioToQ0": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-16,
+     2.419780584e-28,
+     8.546503823e-18,
+     2.85323456e-26,
+     1.092573904e-27,
+     1.06685241e-21
+    ]
+   },
+   {
+    "q": 1,
+    "f": 0.01,
+    "axisCost": 1.212897283e-20,
+    "ratioToQ0": 1,
+    "speed": -3.529409282e-9,
+    "perBodyRatioToQ0": [
+     1,
+     0.8833608144,
+     0.9771393449,
+     0.9620044878,
+     0.2976292617,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-20,
+     1.568859527e-31,
+     2.478760184e-19,
+     2.906487872e-30,
+     3.60011997e-32,
+     1.0668522e-25
+    ]
+   },
+   {
+    "q": 1,
+    "f": 1,
+    "axisCost": 1.212897283e-16,
+    "ratioToQ0": 1,
+    "speed": -3.529409261e-7,
+    "perBodyRatioToQ0": [
+     1,
+     0.1414492532,
+     0.9321455717,
+     0.9607109102,
+     0.2721846092,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-16,
+     3.422761566e-29,
+     7.966585692e-18,
+     2.741133571e-26,
+     2.97381801e-28,
+     1.06685241e-21
+    ]
+   },
+   {
+    "q": 2,
+    "f": 0.01,
+    "axisCost": 1.212897283e-20,
+    "ratioToQ0": 0.9999999999,
+    "speed": -3.529409282e-9,
+    "perBodyRatioToQ0": [
+     1,
+     0.8670044902,
+     0.9558613507,
+     0.92548462,
+     0.09530416276,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-20,
+     1.539810497e-31,
+     2.424783189e-19,
+     2.796151013e-30,
+     1.152798007e-32,
+     1.0668522e-25
+    ]
+   },
+   {
+    "q": 2,
+    "f": 1,
+    "axisCost": 1.212897283e-16,
+    "ratioToQ0": 0.9999999999,
+    "speed": -3.52940926e-7,
+    "perBodyRatioToQ0": [
+     1,
+     0.02047362463,
+     0.8689887581,
+     0.9229656365,
+     0.07414999376,
+     1
+    ],
+    "axesHeld": true,
+    "finite": true,
+    "perBodyCost": [
+     1.212886614e-16,
+     4.954167935e-30,
+     7.426815743e-18,
+     2.633437452e-26,
+     8.101434814e-29,
+     1.06685241e-21
+    ]
+   }
+  ],
+  "refMaintCost": 2.057041899e-31,
+  "firstStepNote": "最初の步は履歴が無く u = 0・軸の ω を使わない(今の経路 —— 一次の見積りの時間は (步数 − 1) h)",
+  "note": "大きさは未定(AN395)・銀河の模型からの数ではない —— abs(ω_G) = f Ω_ref の格子(Ω_ref = V₀/R₀ は尺度だけ)"
+ },
+ "gates": {
+  "acceptance": true,
+  "confirm": true,
+  "naturalLimitRd2": true,
+  "naturalLimitMassMinus1": true,
+  "naturalLimitDistMinus4": true,
+  "naturalDirectionFixed": true,
+  "allFinite": true,
+  "linearResponse": true,
+  "sameRdPairUnchanged": true,
+  "q0AllPairsUnchanged": true,
+  "diffRdPairsFirstOrder": true,
+  "maintainAxesHeld": true,
+  "capFactorOne": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.032
+  },
+  "B": {
+   "wallSec": 0.471
+  },
+  "N": {
+   "wallSec": 0.544
+  },
+  "X": {
+   "wallSec": 267.482
+  }
+ },
+ "elapsedS": 270.673,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第312便b",
+  "target": "beta/index.html",
+  "targetSha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
+  "generatedAt": "2026-10-21T17:33:06.671Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7209264,
+    "sha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
+    "mtime": "2026-10-21T17:09:43.542Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w312b-galaxialrd.mjs",
+    "bytes": 45116,
+    "sha256": "7a6d24ef9b6de0b200d32c733a3498a00bf76b6cffb77443ece8a6394f422cb4",
+    "mtime": "2026-10-21T17:28:33.688Z"
+   },
+   {
+    "file": "tests/exp-w311b-galaxial.mjs",
+    "bytes": 40328,
+    "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
+    "mtime": "2026-10-21T17:00:17.326Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-21T17:00:17.342Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 14692,
+    "sha256": "4df20c1b73f262736071f59a3414f3d3073e417c5d6985550f89ee7bfbaf4a8d",
+    "mtime": "2026-10-21T17:00:17.346Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-21T17:00:17.338Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-21T17:00:17.334Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-21T17:00:17.338Z"
+   }
+  ],
+  "codeSha256": "bb4598888f54495ea52c6a0edcdf13f70c1deff8c4d201c83122793d9cad7b34",
+  "harnessVersion": "w312b-galaxialrd-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "天の川を較正した",
+   "フィットした",
+   "法則を発見した",
+   "完全に一致",
+   "ω_G の大きさを決めた",
+   "q を決めた",
+   "銀河の模型から ω_G を導いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "GALAXY_AXIAL_RD_POWS",
+    "GALAXY_AXIAL_RD_VERSION",
+    "GALAXY_AXIAL_REF_RADIUS_M",
+    "GALAXY_AXIAL_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.inertialDragIsqState",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_MAINT_SC",
+    "REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED",
+    "REL_DRAG_AXIS_HOLD_LEDGER_VERSION",
+    "REL_DRAG_AXIS_HOLD_MAINT_VERSION",
+    "REL_DRAG_INIT_DEN_MIN",
+    "REL_DRAG_INIT_OBS_VERSION",
+    "REL_DRAG_INVSQ_VERSION",
+    "T",
+    "ab",
+    "appStepDt",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "fmt",
+    "inertialDrag3AxialSign",
+    "inertialDrag3SpinState",
+    "inertialDragGalaxyAxialState",
+    "inertialDragInitObsEval",
+    "inertialDragInitObsRedo",
+    "inertialDragInitObsState",
+    "inertialDragInverseMap",
+    "inertialDragIsqState",
+    "pnSource",
+    "retiredOf",
+    "sim",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1510,
+   "segments": 1352,
+   "closureShare": 0.3466
+  },
+  "scopeSha256": "df4a6edf216a343fdd0ad1ec59b7b926488da88a8b8a5a2eafff7ad130795777",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

@@ -284,7 +284,7 @@ function runSolar(H, o, geo) {
   const res = { q: o.q === undefined ? null : o.q, f: o.f || 0, steps: o.steps, T: (o.steps - 1) * b.dt, g: gv, Rd, factors: s0 ? s0.receivers.map((r) => r.rdFactor) : null,
     omegaG: s0 ? s0.receivers.map((r) => r.omegaG) : null, refRadius: s0 ? s0.rd.refRadius : null, a0, n0, aT: axesOf(S), nT: orbitNormals(S), fp: fpS(S),
     finite: XV.every((k) => Array.from(S[k].subarray(0, n)).every(Number.isFinite)), badRows: S.inertialDragIsqBadRow || 0 };
-  if (o.maintain) { const m = E(H, 'inertialDrag3SpinState')(S).axisHold.maintain; res.maint = { axisCost: m.heat.axisCost, speed: m.speed.signed, perBody: m.heat.perBody }; }
+  if (o.maintain) { const m = E(H, 'inertialDrag3SpinState')(S).axisHold.maintain; res.maint = { axisCost: m.heat.axisCost, speed: m.speed.signed, perBody: m.heat.perBody }; }   // perBody = 受け手ごとの熱(軸のコストと速さの分の和 —— 読み口 heat.perBody)
   return res;
 }
 const PAIR_SAME = [0, 5];   // 太陽と木星(どちらも cap6500km の R_d —— 同じ R_d の対)
@@ -306,18 +306,20 @@ export function partX(H, quick, kernel) {
     for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
       const d = (ang(r.aT[i], r.aT[j]) - ang(r.a0[i], r.a0[j])) - (ang(ref.aT[i], ref.aT[j]) - ang(ref.a0[i], ref.a0[j]));
       const psi = ang(r.a0[i], r.a0[j]), dw = sub(r.omegaG[i], r.omegaG[j]), est = -dot(dw, cross(r.a0[i], r.a0[j])) * r.T / Math.sin(psi);
-      pairs.push({ i, j, sameRd: Rd[i] === Rd[j], dfactor: r10(r.factors[i] - r.factors[j]), change: r10(d), firstOrder: r10(est), ratio: r10(Math.abs(est) > 1e3 * FLOOR_ANG ? d / est : null) });
+      pairs.push({ i, j, sameRd: Rd[i] === Rd[j], dfactor: r10(r.factors[i] - r.factors[j]), change: r10(d), firstOrder: r10(est), ratio: r10(Math.abs(est) > 10 * FLOOR_ANG ? d / est : null) });   // 比は見積りが床の 10 倍より大きい対だけ
     }
     const same = pairs.filter((p) => p.sameRd), diff = pairs.filter((p) => !p.sameRd && p.ratio !== null), th = per.map((p) => p.vsNoGalaxy);
     return { q: r.q, f: r.f, omegaG: r10(r.f * OmBook), finite: r.finite, badRows: r.badRows, per, pairs,
       axisMax: r10(Math.max(...th)), axisMin: r10(Math.min(...th)), ratioMin: r10(Math.min(...per.map((p) => p.ratio))), ratioMax: r10(Math.max(...per.map((p) => p.ratio))),
       orbitNormalMax: r10(Math.max(...per.map((p) => Math.abs(p.orbitNormalVsNoGalaxy)))),
-      sameRdPairMax: r10(Math.max(...same.map((p) => Math.abs(p.change)))), diffPairMax: r10(diff.length ? Math.max(...diff.map((p) => Math.abs(p.change))) : 0),
+      sameRdPairMax: r10(Math.max(...same.map((p) => Math.abs(p.change)))), diffPairMax: r10(Math.max(...pairs.filter((p) => !p.sameRd).map((p) => Math.abs(p.change)))),
       diffPairRatioMin: r10(diff.length ? Math.min(...diff.map((p) => p.ratio)) : null), diffPairRatioMax: r10(diff.length ? Math.max(...diff.map((p) => p.ratio)) : null), nDiffPairs: diff.length,
       allPairMax: r10(Math.max(...pairs.map((p) => Math.abs(p.change)))) };
   });
   const mrows = mruns.map((m) => { const q0 = mruns.find((x) => x.q === 0 && x.f === m.f);
+    const pb = m.maint.perBody.map((c, i) => (q0.maint.perBody[i] > 0 ? c / q0.maint.perBody[i] : null));
     return { q: m.q, f: m.f, axisCost: r10(m.maint.axisCost), ratioToQ0: r10(q0.maint.axisCost > 0 ? m.maint.axisCost / q0.maint.axisCost : null), speed: r10(m.maint.speed),
+      perBodyRatioToQ0: pb.map(r10),
       axesHeld: m.aT.every((a, i) => a[0] === m.a0[i][0] && a[1] === m.a0[i][1] && a[2] === m.a0[i][2]), finite: m.finite, perBodyCost: m.maint.perBody.map(r10) }; });
   return { kernel: kernel || null, geometry: { omHat: geo.omHat, OmRefSI: geo.OmRefSI, omHatDotNgp: geo.omHatDotNgp }, OmRefBook: r10(OmBook), steps, dt, Teff: r10((steps - 1) * dt),
     orbitsMercury: quick ? G311.N_ORB_QUICK : G311.N_ORB, refRadiusKm: r10(runs.find((r) => r.q === 2).refRadius * L / 1e3), sameRdPair: PAIR_SAME, bodies, rows, maintain: mrows,
@@ -327,7 +329,10 @@ export function partX(H, quick, kernel) {
 
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
-  const g = { acceptance: !!(J.A && J.A.allPass), confirm: !!(J.B && J.B.allPass) };
+  const g = {};
+  if (J.A) g.acceptance = J.A.allPass === true;
+  if (J.B) g.confirm = J.B.allPass === true;
+  if (J.N && J.N.connected === false) g.kernelConnected = false;   // W312B_KERNEL の核を受理しない html(未接続 —— why に理由)
   if (J.N && J.N.connected) {
     const L = J.N.limit;
     g.naturalLimitRd2 = Math.abs(L.pRd - 2) < 1e-3;
@@ -366,19 +371,19 @@ export function physicsTables(J) {
   out.push(`| 2 步の並進・自転の大きさ(q = 2 と銀河なし)・明示の 0 と未宣言の 20 步 | ${B.twoSteps.xv && B.twoSteps.u ? 'ビット同一' : '違う'}・${B.explicitZero.runSame ? 'ビット同一' : '違う'} |`);
   out.push(`| R_ref の既定(6.5×10⁶ m / 10^L)[本の長さ]・cap6500km の受け手の係数 | ${B.refDefault.refRadius}・${B.refDefault.capFactorOne ? 1 : '1 でない'} |`);
   if (J.N && J.N.connected) {
-    out.push('', '| 距離 [au] | 受け手の Σβ | 源の β | 軸の ω [1/本の時間] | R_d の次数(1/2→1・1→2) | 質量の次数(1/10→1・1→10) | 距離の次数 |', '|---|---|---|---|---|---|---|');
-    for (const r of J.N.plain) out.push(`| ${r.dAU} | ${e2s(r.betaSum)} | ${e2s(r.srcBeta)} | ${e3s(r.omega)} | ${f3(r.pRdLo)}・${f3(r.pRdHi)} | ${f3(r.pmLo)}・${f3(r.pmHi)} | ${f3(r.pr)} |`);
+    out.push('', '| 距離 [au] | 受け手の Σβ | 源の場/自己の場の尺度 ξ | 軸の ω [1/本の時間] | R_d の次数(1/2→1・1→2) | 質量の次数(1/10→1・1→10) | 距離の次数 |', '|---|---|---|---|---|---|---|');
+    for (const r of J.N.plain) out.push(`| ${r.dAU} | ${e2s(r.betaSum)} | ${e2s(r.xi)} | ${e3s(r.omega)} | ${f3(r.pRdLo)}・${f3(r.pRdHi)} | ${f3(r.pmLo)}・${f3(r.pmHi)} | ${f3(r.pr)} |`);
     out.push('', '| 距離 [au](外殻あり) | 受け手の Σβ | dragCore の R_d の次数(1/2→1・1→2) | 外径の次数(3/4→1・1→3/2) | 質量の次数(1/10→1・1→10) | 距離の次数 | 外殻なしとの ω の比 |', '|---|---|---|---|---|---|---|');
     for (const r of J.N.shell) out.push(`| ${r.dAU} | ${e2s(r.betaSum)} | ${f3(r.pRdLo)}・${f3(r.pRdHi)} | ${f3(r.pRoLo)}・${f3(r.pRoHi)} | ${f3(r.pmLo)}・${f3(r.pmHi)} | ${f3(r.pr)} | ${f2(r.omegaRatioToPlain)} |`);
   }
   if (J.X) {
     const X = J.X;
     out.push('', '| 天体 | 引きずりの半径 R_d [km] | 係数 q = 1 | 係数 q = 2 |', '|---|---|---|---|');
-    for (const b of X.bodies) out.push(`| ${b.label} | ${b.RdKm} | ${f3(b.f1)} | ${f3(b.f2)} |`);
+    for (const b of X.bodies) out.push(`| ${b.label} | ${Number(b.RdKm).toFixed(1)} | ${f3(b.f1)} | ${f3(b.f2)} |`);
     out.push('', '| q | f | 軸の角(銀河なしとの)の最大 [rad] | 一次の見積りとの比の範囲 | 軌道法線との角の変化の最大 [rad] | 同じ R_d の対(太陽と木星)の角の変化 [rad] | 違う R_d の対の角の変化の最大 [rad] | 違う R_d の対の一次の見積りとの比の範囲 |', '|---|---|---|---|---|---|---|---|');
     for (const r of X.rows) out.push(`| ${r.q} | ${r.f} | ${e2s(r.axisMax)} | ${f3(r.ratioMin)}〜${f3(r.ratioMax)} | ${e2s(r.orbitNormalMax)} | ${fl(r.sameRdPairMax, FLOOR_ANG)} | ${fl(r.diffPairMax, FLOOR_ANG)} | ${r.diffPairRatioMin === null ? '—' : f3(r.diffPairRatioMin) + '〜' + f3(r.diffPairRatioMax)} |`);
-    out.push('', '| q | f | 維持の型の軸のコストの和 [本の単位] | q = 0 との比 | 軸は保たれた |', '|---|---|---|---|---|');
-    for (const m of X.maintain) out.push(`| ${m.q} | ${m.f} | ${e3s(m.axisCost)} | ${m.ratioToQ0 === null ? '—' : f3(m.ratioToQ0)} | ${m.axesHeld ? 'はい' : 'いいえ'} |`);
+    out.push('', '| q | f | 維持の型の軸のコストの和 [本の単位] | 和の q = 0 との比 | 水星・金星・地球・火星の熱(受け手ごと)の q = 0 との比 | 軸は保たれた |', '|---|---|---|---|---|---|');
+    for (const m of X.maintain) out.push(`| ${m.q} | ${m.f} | ${e3s(m.axisCost)} | ${m.ratioToQ0 === null ? '—' : f3(m.ratioToQ0)} | ${[1, 2, 3, 4].map((i) => m.perBodyRatioToQ0[i] === null ? '—' : f3(m.perBodyRatioToQ0[i])).join('・')} | ${m.axesHeld ? 'はい' : 'いいえ'} |`);
   }
   return out.join('\n');
 }
