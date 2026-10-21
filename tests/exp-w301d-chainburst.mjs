@@ -310,7 +310,7 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
     const fresh = { cond, sib: sib.map((k) => H4C.omit(R[k], ['wallSec'])) };
     const old = prev && prev[j.key] ? { cond: carry.prev.cond, sib: sib.map((k) => (prev[k] ? H4C.omit(prev[k], ['wallSec']) : null)) } : undefined;
     if (carry && sib.length === 2 && H4C.canCarry(carry, j.key, fresh, old)) { R[j.key] = JSON.parse(JSON.stringify(prev[j.key])); H4C.markCarried(carry, j.key); console.log(j.key + ' 転記(h/h2 が前の正本と JSON の表現で一致: ' + sib.join(',') + ')'); }
-    else { fineRun.push(j); H4C.markMeasured(carry, j.key); }
+    else { fineRun.push(j); if (carry && sib.length !== 2) carry.note[j.key] = 'h と h/2 の仕事が同じ族に無い(転記の判定の外)'; H4C.markMeasured(carry, j.key); }
   }
   await runPool(fineRun);
   // 第312便c(AN400・R232): **影の記録**(既定 —— h/4 より細かい刻みの仕事は全部測る)。転記の判定が真だった仕事について、前の正本の結果を写していたら
