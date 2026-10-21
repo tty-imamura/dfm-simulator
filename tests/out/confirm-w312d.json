@@ -1,0 +1,1492 @@
+{
+ "version": "w312d-confirm-1",
+ "libVersion": "w312d-confirm-lib-1",
+ "planet3LibVersion": "w312d-planet3-lib-2",
+ "planet3HarnessVersion": "w312d-planet3-2",
+ "an336LibVersion": "w306a-an336-1",
+ "apsisVersion": "w304e-apsis-1",
+ "emxVersion": "w303c-emx4-1",
+ "generator": "tests/exp-w312d-confirm.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+ "ruling": "原仮定者の裁定(第114報): 水星・金星・火星で絞り込んだ候補を、木星と「太陽と地球と月」で確認する —— 決断事項 AN398(軌道に依る R_d を天体の性質として採らない・候補から決めた規則で R_d を置き残差を測る・合わせない・1 つの天体に 1 つの宣言・太陽は固定・G_loc の分は各系で)・AN396・AN336・統括の検証項目 R233。確認の材料(在位へ入れない)",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "quick": false,
+ "parts": [
+  "E",
+  "T",
+  "C"
+ ],
+ "stage2": false,
+ "kernel": "k2",
+ "rule": {
+  "type": "rd2OverMp",
+  "k": 8.10046e-27,
+  "moonP": "earth"
+ },
+ "systems": [
+  "jupiter",
+  "earthmoon"
+ ],
+ "planet3File": "tests/out/planet3-w311d.json",
+ "live": {
+  "earthmoon": true,
+  "jupiter": true
+ },
+ "book": {
+  "ids": [
+   "jupiterSunInertial3d",
+   "earthMoonSunInertial3d"
+  ],
+  "newDrag": {
+   "law": "inertial",
+   "invSq": {
+    "outerShell": "uniform"
+   },
+   "pairs": "all",
+   "history": "positions",
+   "dragCoreDefault": "cap6500km",
+   "initMotion": "observed",
+   "spinDrag": {
+    "rot": "surfaceFlip",
+    "axial": "on",
+    "axialModel": "bevel",
+    "initSpin": "observed"
+   }
+  },
+  "gLoc": {
+   "law": "kappaC2"
+  },
+  "pinEM": {
+   "commit": "c98db78",
+   "note": "第312便の基点の 🌦️ earthMoonSunInertial3d の宣言(太陽 pinned・地球の J₂・引きずり無効)"
+  },
+  "declFile": "tests/data-w306a-decl305.json",
+  "capM": 6500000,
+  "window": {
+   "jupiter": 8,
+   "earthmoonMoon": 118,
+   "earthmoonEarth": 8
+  },
+  "extractor": {
+   "jupiter": {
+    "main": "apsNew",
+    "sub": "detB"
+   },
+   "earthmoon": {
+    "main": "emb",
+    "sub": "earth"
+   }
+  },
+  "sampleEvery": 8
+ },
+ "plan": {
+  "systems": [
+   "jupiter",
+   "earthmoon"
+  ],
+  "plan": {
+   "jupiter": {
+    "kinds": [
+     "q00",
+     "q10",
+     "q01",
+     "q11"
+    ],
+    "divs": [
+     1,
+     2
+    ],
+    "dragDivs": [
+     1,
+     2
+    ]
+   },
+   "earthmoon": {
+    "kinds": [
+     "q00",
+     "q10",
+     "q11"
+    ],
+    "divs": [
+     1,
+     2
+    ],
+    "dragDivs": [
+     1
+    ]
+   }
+  },
+  "specs": 13
+ },
+ "E": {
+  "N": {
+   "jupiter": 8,
+   "earthmoon": 118
+  },
+  "nEarth": 8,
+  "divs": {
+   "jupiter": [
+    1,
+    2
+   ],
+   "earthmoon": [
+    1,
+    2
+   ]
+  },
+  "rows": {
+   "earthmoon|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=118": {
+    "key": "earthmoon|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=118",
+    "spec": {
+     "system": "earthmoon",
+     "kind": "q11",
+     "div": 1,
+     "N": 118,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "Rd": {
+      "earth": 85061.07886483398,
+      "moon": 478.0701683538957
+     },
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 1,
+    "status": "run",
+    "steps": 1740861,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 10.249606217834357,
+    "earth": 418.75394168908855,
+    "embE": 0.016708598588806193,
+    "nEarth": 8,
+    "tEarth": 25246.586834612925,
+    "moon": {
+     "sidH": 27.321528705639434,
+     "T4p": 8.86147787703284,
+     "node": 18.599152772685066,
+     "sid": 27.313824043422876,
+     "anom": 27.55361263396177,
+     "T1": 8.884276550256427,
+     "T2": 8.861794320902117,
+     "eMean": 0.05484504781644098,
+     "incMean": 5.1441212969575485,
+     "nPeri": 118
+    },
+    "betaMax": 5.135605990686731e-8,
+    "isqSteps": 1740861,
+    "wallSec": 1220.717
+   },
+   "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
+    "key": "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q01",
+     "div": 2,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "Rd": {
+      "jupiter": 3455245.105974855
+     }
+    },
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 1,
+    "detB": 0.02389173703947079,
+    "apsNew": 0.023901335211823884,
+    "periodDays": 4332.682993290582,
+    "ecc": 0.048372874300523346,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 1.0450602602525163e-8,
+    "isqSteps": 760089,
+    "overlap": 0,
+    "wallSec": 453.557,
+    "status": "run"
+   },
+   "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
+    "key": "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q11",
+     "div": 2,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "Rd": {
+      "jupiter": 3455245.105974855
+     }
+    },
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 1,
+    "detB": -0.01761096018646416,
+    "apsNew": -0.017610537526550167,
+    "periodDays": 4332.6830623684,
+    "ecc": 0.04837288170851278,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 1.045060259138874e-8,
+    "isqSteps": 760089,
+    "overlap": 0,
+    "wallSec": 297.789,
+    "status": "run"
+   },
+   "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
+    "key": "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q01",
+     "div": 1,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "Rd": {
+      "jupiter": 3455245.105974855
+     }
+    },
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 1,
+    "detB": -0.012209862347263692,
+    "apsNew": -0.012207672555460816,
+    "periodDays": 4332.674613243553,
+    "ecc": 0.04835954703251325,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 1.0450336831615362e-8,
+    "isqSteps": 380044,
+    "overlap": 0,
+    "wallSec": 189.34,
+    "status": "run"
+   },
+   "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
+    "key": "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q11",
+     "div": 1,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "Rd": {
+      "jupiter": 3455245.105974855
+     }
+    },
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 1,
+    "detB": -0.05372019578984743,
+    "apsNew": -0.05371966294775682,
+    "periodDays": 4332.6746823218255,
+    "ecc": 0.048359554442544236,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 1.045033682051679e-8,
+    "isqSteps": 380044,
+    "overlap": 0,
+    "wallSec": 146.754,
+    "status": "run"
+   },
+   "earthmoon|q00|-|div=2|N=118": {
+    "key": "earthmoon|q00|-|div=2|N=118",
+    "spec": {
+     "system": "earthmoon",
+     "kind": "q00",
+     "div": 2,
+     "N": 118,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.008,
+    "warnings": 0,
+    "status": "run",
+    "steps": 3481718,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 6.512397924020169,
+    "earth": 415.79501456600207,
+    "embE": 0.016708499376905175,
+    "nEarth": 8,
+    "tEarth": 25246.582102515742,
+    "moon": {
+     "sidH": 27.32151241429588,
+     "T4p": 8.861417623039195,
+     "node": 18.599147746851525,
+     "sid": 27.313806978691172,
+     "anom": 27.553591549270777,
+     "T1": 8.88445192100977,
+     "T2": 8.861831440275175,
+     "eMean": 0.05484647977198442,
+     "incMean": 5.14412194716033,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 17.038
+   },
+   "earthmoon|q10|-|div=2|N=118": {
+    "key": "earthmoon|q10|-|div=2|N=118",
+    "spec": {
+     "system": "earthmoon",
+     "kind": "q10",
+     "div": 2,
+     "N": 118,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.008,
+    "warnings": 0,
+    "status": "run",
+    "steps": 3481719,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 3.9533072727599365,
+    "earth": 413.22436647665205,
+    "embE": 0.01670853903626874,
+    "nEarth": 8,
+    "tEarth": 25246.584131091306,
+    "moon": {
+     "sidH": 27.321514862352124,
+     "T4p": 8.861418933213914,
+     "node": 18.59914914125834,
+     "sid": 27.31380940232177,
+     "anom": 27.55359399584125,
+     "T1": 8.884452861467219,
+     "T2": 8.861831996689387,
+     "eMean": 0.0548465186309698,
+     "incMean": 5.144121934934663,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 20.025
+   },
+   "earthmoon|q00|-|div=1|N=118": {
+    "key": "earthmoon|q00|-|div=1|N=118",
+    "spec": {
+     "system": "earthmoon",
+     "kind": "q00",
+     "div": 1,
+     "N": 118,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "status": "run",
+    "steps": 1740860,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 6.487717429102257,
+    "earth": 415.01817468873526,
+    "embE": 0.016708505663008702,
+    "nEarth": 8,
+    "tEarth": 25246.58211475385,
+    "moon": {
+     "sidH": 27.321516022388213,
+     "T4p": 8.86144243421959,
+     "node": 18.599139229699738,
+     "sid": 27.313810787357383,
+     "anom": 27.553600366003213,
+     "T1": 8.884243659329023,
+     "T2": 8.86176967836259,
+     "eMean": 0.0548477449998409,
+     "incMean": 5.144121503134597,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 8.439
+   },
+   "earthmoon|q10|-|div=1|N=118": {
+    "key": "earthmoon|q10|-|div=1|N=118",
+    "spec": {
+     "system": "earthmoon",
+     "kind": "q10",
+     "div": 1,
+     "N": 118,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "status": "run",
+    "steps": 1740860,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 3.928589177139395,
+    "earth": 412.44740616542896,
+    "embE": 0.016708545322314455,
+    "nEarth": 8,
+    "tEarth": 25246.584143338125,
+    "moon": {
+     "sidH": 27.32151844401157,
+     "T4p": 8.861444706396862,
+     "node": 18.599140621330157,
+     "sid": 27.313813215007706,
+     "anom": 27.553602816563803,
+     "T1": 8.884244602152831,
+     "T2": 8.861770233800012,
+     "eMean": 0.05484778388016024,
+     "incMean": 5.144121490846927,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 8.46
+   },
+   "jupiter|q00|-|div=2|N=8": {
+    "key": "jupiter|q00|-|div=2|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q00",
+     "div": 2,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2"
+    },
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 0,
+    "detB": -0.07997845846857217,
+    "apsNew": -0.07998265466871898,
+    "periodDays": 4332.682889192641,
+    "ecc": 0.04837286323368799,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 4.262,
+    "status": "run"
+   },
+   "jupiter|q10|-|div=2|N=8": {
+    "key": "jupiter|q10|-|div=2|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q10",
+     "div": 2,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2"
+    },
+    "h": 0.0788,
+    "dt": 0.0394,
+    "warnings": 0,
+    "detB": -0.12150592907551708,
+    "apsNew": -0.12149469775600306,
+    "periodDays": 4332.682958271979,
+    "ecc": 0.04837287064166436,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 760089,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 3.875,
+    "status": "run"
+   },
+   "jupiter|q00|-|div=1|N=8": {
+    "key": "jupiter|q00|-|div=1|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q00",
+     "div": 1,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2"
+    },
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 0,
+    "detB": -0.11608803980932397,
+    "apsNew": -0.11609195261241287,
+    "periodDays": 4332.674509147152,
+    "ecc": 0.04835953596345825,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.995,
+    "status": "run"
+   },
+   "jupiter|q10|-|div=1|N=8": {
+    "key": "jupiter|q10|-|div=1|N=8",
+    "spec": {
+     "system": "jupiter",
+     "kind": "q10",
+     "div": 1,
+     "N": 8,
+     "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+     "kernel": "k2"
+    },
+    "h": 0.0788,
+    "dt": 0.0788,
+    "warnings": 0,
+    "detB": -0.1576086453823951,
+    "apsNew": -0.1576040078715522,
+    "periodDays": 4332.674578225342,
+    "ecc": 0.04835954337350122,
+    "nPeri": 8,
+    "complete": true,
+    "steps": 380044,
+    "nan": false,
+    "betaMax": 0,
+    "isqSteps": 0,
+    "overlap": 0,
+    "wallSec": 1.897,
+    "status": "run"
+   }
+  }
+ },
+ "T": {
+  "targets": {
+   "jupiter": {
+    "id": "jupiterSunInertial3d",
+    "kind": "an336",
+    "value": 0.12108664095813723,
+    "pn1": 0.06238664095813723,
+    "a1": 0.0587,
+    "recordId": "OBS-7f3c18db",
+    "sourceWidth": 0.0283,
+    "sigma": null,
+    "calibrationEligible": false,
+    "formula": "q⋆ = q_1PN(初期の接触要素 a₀・e₀・ケプラー周期 P_K —— 6πG(M+m)/(c₀²a(1−e²)) を ″/世紀へ)+ A1(EPM2011 の近日点の追加の歳差 —— 記録 ID で引く)",
+    "pn1a": 778.3408166927109,
+    "pn1e": 0.04838624000000159,
+    "gLocAnalytic": -0.04151184889547828,
+    "h": 0.0788,
+    "an336": {
+     "value": 0.12108664095813723,
+     "pn1": 0.06238664095813723,
+     "a1": 0.0587,
+     "recordId": "OBS-7f3c18db",
+     "h": 0.0788
+    }
+   },
+   "earthmoon": {
+    "id": "earthMoonSunInertial3d",
+    "kind": "pn1only",
+    "value": 3.8387407960803235,
+    "pn1": 3.8387407960803235,
+    "a1": null,
+    "recordId": null,
+    "sourceWidth": null,
+    "sigma": null,
+    "calibrationEligible": false,
+    "formula": "q⋆ = q_1PN だけ(地球–月の重心〔EMB〕の初期の接触要素・二体の式 6πG(M+m)/(c₀²a(1−e²)) —— AN336 の生成器に地球の行〔A1 の記録 ID〕が無い)",
+    "pn1a": 1495.97529707196,
+    "pn1e": 0.01670550879599525,
+    "earthOwn": {
+     "value": 3.8479504696151214,
+     "a": 1494.5240652688253,
+     "e": 0.015779710197570233
+    },
+    "gLocAnalytic": -2.5591449690081696,
+    "h": 0.016,
+    "an336": null
+   }
+  }
+ },
+ "C": {
+  "rule": {
+   "type": "rd2OverMp",
+   "k": 8.10046e-27,
+   "moonP": "earth"
+  },
+  "ruleKey": "rd2OverMp:8.10046e-27:moonP=earth",
+  "kernel": "k2",
+  "basis": {
+   "rows": [
+    {
+     "key": "mercury",
+     "emoji": "🌡️",
+     "ja": "水星",
+     "rd": 0.004990791256528977,
+     "src": "区間の割線(エンジン)",
+     "Rd": 12177.530665930704,
+     "m": 3.3011e+23,
+     "R": 2440000,
+     "p": 55460469129.30411,
+     "rdOverR": 0.004990791256528977,
+     "rdOverM": 3.68893116413641e-20,
+     "rd2OverMp": 8.099836348488934e-27
+    },
+    {
+     "key": "venus",
+     "emoji": "🌋",
+     "ja": "金星",
+     "rd": 0.010797025804655544,
+     "src": "段 S の一次の見積り",
+     "Rd": 65322.00611816604,
+     "m": 4.8675e+24,
+     "R": 6050000,
+     "p": 108204505132.61678,
+     "rdOverR": 0.010797025804655544,
+     "rdOverM": 1.3420032073583161e-20,
+     "rd2OverMp": 8.101542686620889e-27
+    },
+    {
+     "key": "mars",
+     "emoji": "🔴",
+     "ja": "火星",
+     "rd": 0.010110851565687038,
+     "src": "段 S の一次の見積り",
+     "Rd": 34270.731381896214,
+     "m": 6.4171e+23,
+     "R": 3389500,
+     "p": 225955592029.5077,
+     "rdOverR": 0.010110851565687038,
+     "rdOverM": 5.3405325430328675e-20,
+     "rd2OverMp": 8.099996754877978e-27
+    }
+   ],
+   "table": {
+    "rdOverR": {
+     "values": [
+      {
+       "key": "mercury",
+       "v": 0.004990791256528977
+      },
+      {
+       "key": "venus",
+       "v": 0.010797025804655544
+      },
+      {
+       "key": "mars",
+       "v": 0.010110851565687038
+      }
+     ],
+     "mean": 0.008632889542290521,
+     "spread": 2.163389580866726,
+     "n": 3
+    },
+    "rdOverM": {
+     "values": [
+      {
+       "key": "mercury",
+       "v": 3.68893116413641e-20
+      },
+      {
+       "key": "venus",
+       "v": 1.3420032073583161e-20
+      },
+      {
+       "key": "mars",
+       "v": 5.3405325430328675e-20
+      }
+     ],
+     "mean": 3.4571556381758647e-20,
+     "spread": 3.9795229353777097,
+     "n": 3
+    },
+    "rd2OverMp": {
+     "values": [
+      {
+       "key": "mercury",
+       "v": 8.099836348488934e-27
+      },
+      {
+       "key": "venus",
+       "v": 8.101542686620889e-27
+      },
+      {
+       "key": "mars",
+       "v": 8.099996754877978e-27
+      }
+     ],
+     "mean": 8.100458596662601e-27,
+     "spread": 1.0002106632848542,
+     "n": 3
+    }
+   },
+   "planet3": {
+    "version": "w312d-planet3-2",
+    "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+    "kernel": "k2"
+   }
+  },
+  "k2Rule": {
+   "type": "rd2OverMp",
+   "k": 8.10046e-27,
+   "moonP": "earth"
+  },
+  "applied": {
+   "jupiter": {
+    "Rd": 3455245.105974855,
+    "rdOverR": 0.04833051398722731,
+    "R": 71492000,
+    "m": 1.898e+27,
+    "admissible": true,
+    "why": null
+   },
+   "earth": {
+    "Rd": 85061.07886483398,
+    "rdOverR": 0.013351291612750586,
+    "R": 6371000,
+    "m": 5.9724e+24,
+    "admissible": true,
+    "why": null
+   },
+   "moon": {
+    "Rd": 478.0701683538957,
+    "rdOverR": 0.0002747529703183309,
+    "R": 1739999.9999999998,
+    "m": 7.346e+22,
+    "admissible": true,
+    "why": null
+   },
+   "moonEarthP": {
+    "Rd": 478.0701683538957,
+    "rdOverR": 0.0002747529703183309,
+    "R": 1739999.9999999998,
+    "m": 7.346e+22,
+    "admissible": true,
+    "why": null
+   },
+   "moonSunP": {
+    "Rd": 9433.69661523869,
+    "rdOverR": 0.005421664721401547,
+    "R": 1739999.9999999998,
+    "m": 7.346e+22,
+    "admissible": true,
+    "why": null
+   },
+   "moonDefined": true
+  },
+  "byType": {
+   "rdOverR": {
+    "jupiter": {
+     "Rd": 617182.5718800001,
+     "rdOverR": 0.00863289,
+     "R": 71492000,
+     "m": 1.898e+27,
+     "admissible": true,
+     "why": null
+    },
+    "earth": {
+     "Rd": 55000.142190000006,
+     "rdOverR": 0.00863289,
+     "R": 6371000,
+     "m": 5.9724e+24,
+     "admissible": true,
+     "why": null
+    },
+    "moonEarthP": {
+     "Rd": 15021.228599999999,
+     "rdOverR": 0.00863289,
+     "R": 1739999.9999999998,
+     "m": 7.346e+22,
+     "admissible": true,
+     "why": null
+    },
+    "moonSunP": null
+   },
+   "rdOverM": {
+    "jupiter": {
+     "Rd": 65616896.800000004,
+     "rdOverR": 0.9178215296816428,
+     "R": 71492000,
+     "m": 1.898e+27,
+     "admissible": false,
+     "why": "R_d 6.562e+4 km が cap 6500 km を超える(拒否 —— 走らせない)"
+    },
+    "earth": {
+     "Rd": 206475.42384,
+     "rdOverR": 0.03240863660963742,
+     "R": 6371000,
+     "m": 5.9724e+24,
+     "admissible": true,
+     "why": null
+    },
+    "moonEarthP": {
+     "Rd": 2539.6297360000003,
+     "rdOverR": 0.0014595573195402302,
+     "R": 1739999.9999999998,
+     "m": 7.346e+22,
+     "admissible": true,
+     "why": null
+    },
+    "moonSunP": null
+   },
+   "rd2OverMp": {
+    "jupiter": {
+     "Rd": 3455245.105974855,
+     "rdOverR": 0.04833051398722731,
+     "R": 71492000,
+     "m": 1.898e+27,
+     "admissible": true,
+     "why": null
+    },
+    "earth": {
+     "Rd": 85061.07886483398,
+     "rdOverR": 0.013351291612750586,
+     "R": 6371000,
+     "m": 5.9724e+24,
+     "admissible": true,
+     "why": null
+    },
+    "moonEarthP": {
+     "Rd": 478.0701683538957,
+     "rdOverR": 0.0002747529703183309,
+     "R": 1739999.9999999998,
+     "m": 7.346e+22,
+     "admissible": true,
+     "why": null
+    },
+    "moonSunP": {
+     "Rd": 9433.69661523869,
+     "rdOverR": 0.005421664721401547,
+     "R": 1739999.9999999998,
+     "m": 7.346e+22,
+     "admissible": true,
+     "why": null
+    }
+   }
+  },
+  "orbits": {
+   "jupiter": {
+    "sun": {
+     "a": 778340816692.7104,
+     "e": 0.04838623999999586,
+     "p": 776518543206.8508,
+     "r": 743098411636.7614
+    }
+   },
+   "earth": {
+    "sun": {
+     "a": 149597529707.1961,
+     "e": 0.01670550879599525,
+     "p": 149555780922.58035,
+     "r": 147098426858.81366
+    },
+    "earthOwn": {
+     "a": 149452406526.88254,
+     "e": 0.01577971019755968,
+     "p": 149415192989.16095,
+     "r": 147094090863.55942
+    }
+   },
+   "moon": {
+    "earth": {
+     "a": 386328996.64882404,
+     "e": 0.07628360000008841,
+     "p": 384080875.7308115,
+     "r": 356858430.0000305
+    },
+    "sun": {
+     "a": 149597529707.1961,
+     "e": 0.01670550879599525,
+     "p": 149555780922.58035,
+     "r": 147098426858.81366
+    },
+    "moonOwn": {
+     "a": 162658355761.89395,
+     "e": 0.09349293122448353,
+     "p": 161236570754.8472,
+     "r": 147450949293.55945
+    }
+   }
+  },
+  "beta0": {
+   "jupiter": {
+    "jupiterSun": 1.0382950136133129e-8,
+    "sunJupiter": 3.34757979352032e-14
+   },
+   "earthmoonMoonEarthP": {
+    "earthSun": 5.1035728934168934e-8,
+    "earthMoon": 3.2033043855473345e-10,
+    "moonSun": 1.304334850259455e-10,
+    "moonEarth": 6.688297889410944e-11
+   },
+   "earthmoonMoonSunP": {
+    "earthSun": 5.1035728934168934e-8,
+    "earthMoon": 3.2033043859938926e-10,
+    "moonSun": 5.07889910708031e-8,
+    "moonEarth": 2.6043304889653317e-8
+   }
+  },
+  "embWeight": {
+   "moonEarthP": 0.9878805899973899,
+   "moonSunP": 0.9999412572444002,
+   "massFracEarth": 0.9878495367077637
+  },
+  "systems": {
+   "jupiter": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": -0.11609195261241287,
+       "q10": -0.1576040078715522,
+       "q01": -0.012207672555460816,
+       "q11": -0.05371966294775682
+      },
+      "dqG": -0.04151205525913934,
+      "tD": 0.16259869621727657,
+      "DG": 0.10388434492379539,
+      "r": -0.05871435129348118,
+      "D01": 0.10388428005695205,
+      "I": 6.486684334117143e-8,
+      "sub": {
+       "dqG": -0.041520605573071134,
+       "tD": 0.16260724653120837,
+       "DG": 0.10388844959254767,
+       "r": -0.05871879693866069,
+       "D01": 0.10387817746206028,
+       "I": 0.000010272130487390396
+      }
+     },
+     "2": {
+      "q": {
+       "q00": -0.07998265466871898,
+       "q10": -0.12149469775600306,
+       "q01": 0.023901335211823884,
+       "q11": -0.017610537526550167
+      },
+      "dqG": -0.04151204308728408,
+      "tD": 0.16259868404542133,
+      "DG": 0.1038841602294529,
+      "r": -0.058714523815968415,
+      "D01": 0.10388398988054287,
+      "I": 1.7034891003353536e-7,
+      "sub": {
+       "dqG": -0.04152747060694491,
+       "tD": 0.16261411156508215,
+       "DG": 0.10389496888905292,
+       "r": -0.05871914267602922,
+       "D01": 0.10387019550804297,
+       "I": 0.0000247733810099654
+      }
+     }
+    },
+    "dqG": -0.04151204308728408,
+    "dqGBand": 1.217185525981268e-8,
+    "dqGVsAnalytic": 0.00000467798498427113,
+    "tD": 0.16259868404542133,
+    "fine": 2,
+    "r": -0.058714523815968415,
+    "DG": 0.1038841602294529,
+    "band": 1.725224872337061e-7,
+    "gate": {
+     "r": -0.058714523815968415,
+     "band": 1.725224872337061e-7,
+     "tol": 0.01,
+     "pass": false
+    },
+    "rOverTD": -0.36110085490954363,
+    "I": 1.7034891003353536e-7,
+    "verdict": "規則が届かない"
+   },
+   "earthmoon": {
+    "byDiv": {
+     "1": {
+      "q": {
+       "q00": 6.487717429102257,
+       "q10": 3.928589177139395,
+       "q11": 10.249606217834357
+      },
+      "dqG": -2.559128251962862,
+      "tD": 6.3978690480431855,
+      "DG": 6.3210170406949615,
+      "r": -0.0768520073482235,
+      "sub": {
+       "dqG": -2.570768523306299,
+       "tD": 6.409509319386622,
+       "DG": 6.306535523659591,
+       "r": -0.1029737957270318
+      }
+     },
+     "2": {
+      "q": {
+       "q00": 6.512397924020169,
+       "q10": 3.9533072727599365
+      },
+      "dqG": -2.5590906512602323,
+      "tD": 6.397831447340556,
+      "sub": {
+       "dqG": -2.5706480893500157,
+       "tD": 6.409388885430339
+      }
+     }
+    },
+    "dqG": -2.5590906512602323,
+    "dqGBand": 0.000037600702629703164,
+    "dqGVsAnalytic": 0.000021224959349741397,
+    "tD": 6.397831447340556,
+    "fine": 1,
+    "r": -0.0768520073482235,
+    "DG": 6.3210170406949615,
+    "band": null,
+    "gate": {
+     "r": -0.0768520073482235,
+     "band": null,
+     "tol": null,
+     "pass": null
+    },
+    "rOverTD": -0.012012196316951938,
+    "I": null,
+    "verdict": "帯なし(h だけ —— 門は判定しない)"
+   }
+  },
+  "moon": {
+   "byDiv": {
+    "1": {
+     "sidH": {
+      "unit": "d",
+      "obs": 27.321661554,
+      "q00": 27.321516022388213,
+      "q10": 27.32151844401157,
+      "q11": 27.321528705639434,
+      "dG": 0.000002421623356951841,
+      "dD": 0.000012683251220835245,
+      "dDG": 0.000010261627863883405,
+      "q00MinusObs": -0.0001455316117855432,
+      "q11MinusObs": -0.00013284836056470795
+     },
+     "T4p": {
+      "unit": "yr",
+      "obs": 8.850391,
+      "q00": 8.86144243421959,
+      "q10": 8.861444706396862,
+      "q11": 8.86147787703284,
+      "dG": 0.000002272177271223086,
+      "dD": 0.000035442813249630944,
+      "dDG": 0.00003317063597840786,
+      "q00MinusObs": 0.011051434219590206,
+      "q11MinusObs": 0.011086877032839837
+     },
+     "node": {
+      "unit": "yr",
+      "obs": 18.599525,
+      "q00": 18.599139229699738,
+      "q10": 18.599140621330157,
+      "q11": 18.599152772685066,
+      "dG": 0.0000013916304197891805,
+      "dD": 0.000013542985328740542,
+      "dDG": 0.000012151354908951362,
+      "q00MinusObs": -0.0003857703002623225,
+      "q11MinusObs": -0.00037222731493358197
+     }
+    },
+    "2": {
+     "sidH": {
+      "unit": "d",
+      "obs": 27.321661554,
+      "q00": 27.32151241429588,
+      "q10": 27.321514862352124,
+      "q11": null,
+      "dG": 0.0000024480562430539976,
+      "dD": null,
+      "dDG": null,
+      "q00MinusObs": -0.0001491397041171183,
+      "q11MinusObs": null
+     },
+     "T4p": {
+      "unit": "yr",
+      "obs": 8.850391,
+      "q00": 8.861417623039195,
+      "q10": 8.861418933213914,
+      "q11": null,
+      "dG": 0.0000013101747189381285,
+      "dD": null,
+      "dDG": null,
+      "q00MinusObs": 0.01102662303919466,
+      "q11MinusObs": null
+     },
+     "node": {
+      "unit": "yr",
+      "obs": 18.599525,
+      "q00": 18.599147746851525,
+      "q10": 18.59914914125834,
+      "q11": null,
+      "dG": 0.0000013944068157911715,
+      "dD": null,
+      "dDG": null,
+      "q00MinusObs": -0.00037725314847492086,
+      "q11MinusObs": null
+     }
+    }
+   }
+  },
+  "cost": {
+   "rows": {
+    "earthmoon|drag|h/1": {
+     "system": "earthmoon",
+     "drag": true,
+     "div": 1,
+     "n": 1,
+     "steps": 1740861,
+     "wallSec": 1220.717,
+     "msPerStep": 0.7012145139675138
+    },
+    "jupiter|drag|h/2": {
+     "system": "jupiter",
+     "drag": true,
+     "div": 2,
+     "n": 2,
+     "steps": 1520178,
+     "wallSec": 751.346,
+     "msPerStep": 0.49424869982331016
+    },
+    "jupiter|drag|h/1": {
+     "system": "jupiter",
+     "drag": true,
+     "div": 1,
+     "n": 2,
+     "steps": 760088,
+     "wallSec": 336.094,
+     "msPerStep": 0.4421777478397238
+    },
+    "earthmoon|nodrag|h/2": {
+     "system": "earthmoon",
+     "drag": false,
+     "div": 2,
+     "n": 2,
+     "steps": 6963437,
+     "wallSec": 37.063,
+     "msPerStep": 0.005322515303865031
+    },
+    "earthmoon|nodrag|h/1": {
+     "system": "earthmoon",
+     "drag": false,
+     "div": 1,
+     "n": 2,
+     "steps": 3481720,
+     "wallSec": 16.899,
+     "msPerStep": 0.004853635559436141
+    },
+    "jupiter|nodrag|h/2": {
+     "system": "jupiter",
+     "drag": false,
+     "div": 2,
+     "n": 2,
+     "steps": 1520178,
+     "wallSec": 8.137,
+     "msPerStep": 0.0053526626487161375
+    },
+    "jupiter|nodrag|h/1": {
+     "system": "jupiter",
+     "drag": false,
+     "div": 1,
+     "n": 2,
+     "steps": 760088,
+     "wallSec": 3.8920000000000003,
+     "msPerStep": 0.005120459736241067
+    }
+   },
+   "msPerStepDrag": {
+    "jupiter": 0.4768917310524298,
+    "earthmoon": 0.7012145139675138
+   },
+   "stage2": {
+    "note": "1 走行の CPU 秒 = 引きずりの步の実測(ms/步)× 步(步は刻みと窓に比例)。K1 の步の費用は K2 と同じ程度の見込み(前計算の表の差し替え —— 統合の後に実測)",
+    "jupiter": {
+     "h": {
+      "steps": 380044,
+      "cpuSec": 181
+     },
+     "h2": {
+      "steps": 760088,
+      "cpuSec": 362
+     },
+     "h4": {
+      "steps": 1520176,
+      "cpuSec": 725
+     }
+    },
+    "earthmoon": {
+     "h": {
+      "steps": 1740861,
+      "cpuSec": 1221
+     },
+     "h2": {
+      "steps": 3481722,
+      "cpuSec": 2441
+     },
+     "h4": {
+      "steps": 6963444,
+      "cpuSec": 4883
+     },
+     "long354": {
+      "steps": 5222583,
+      "cpuSec": 3662
+     },
+     "long1062": {
+      "steps": 15667749,
+      "cpuSec": 10986
+     }
+    }
+   }
+  }
+ },
+ "gates": {
+  "targetsAn336": true,
+  "runsComplete": true,
+  "noRejected": true,
+  "gLocMeasured": true,
+  "ruleFromPlanet3": true,
+  "inPositionUnchanged": true
+ },
+ "ok": true,
+ "timing": {
+  "E": {
+   "wallSec": 1221.919
+  },
+  "T": {
+   "wallSec": 0.009
+  },
+  "C": {
+   "wallSec": 0.097
+  }
+ },
+ "elapsedS": 1225.08,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第312便d",
+  "target": "beta/index.html",
+  "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+  "generatedAt": "2026-10-21T18:15:13.222Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7203220,
+    "sha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+    "mtime": "2026-10-21T17:00:18.026Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-21T17:00:18.119Z"
+   },
+   {
+    "file": "tests/out/planet3-w311d.json",
+    "bytes": 79795,
+    "sha256": "3f8f90cf4302a1b3729b8a1c8d72503d4e54f82cbed7bb88951394146d6f8157",
+    "mtime": "2026-10-21T17:54:47.247Z"
+   },
+   {
+    "file": "tests/out/an336-w306a.json",
+    "bytes": 88006,
+    "sha256": "2e748c1ef1f92935b8d7ff76d8cee2231df30bbc56de7752ba27fe04e5457fe7",
+    "mtime": "2026-10-21T17:00:18.186Z"
+   },
+   {
+    "file": "paper/data/pn1-ephemeris-candidates.csv",
+    "bytes": 21528,
+    "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
+    "mtime": "2026-10-21T17:00:18.105Z"
+   },
+   {
+    "file": "paper/data/pn1-primary-audit-20261015.csv",
+    "bytes": 4489,
+    "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
+    "mtime": "2026-10-21T17:00:18.105Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w312d-confirm.mjs",
+    "bytes": 46513,
+    "sha256": "d9c1a773661e86eb019e770da11dfed01f9fdff60ac8b058a305d542aac685cf",
+    "mtime": "2026-10-21T17:26:29.294Z"
+   },
+   {
+    "file": "tests/lib-w312d-confirm.mjs",
+    "bytes": 11743,
+    "sha256": "1b1f637e01d26be2db240433b048a1b1097f7738b902541db7a0521d6bf3bd08",
+    "mtime": "2026-10-21T17:26:47.226Z"
+   },
+   {
+    "file": "tests/exp-w311d-planet3.mjs",
+    "bytes": 59391,
+    "sha256": "64c0a265748a29b3f04bbed649f2cf3f48d82e325812516f4e393d09b30f0204",
+    "mtime": "2026-10-21T17:13:32.989Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 19974,
+    "sha256": "e7cbad683235d706ebc1a05e81223bec75d212b3c2f0a6ccaaa17c6b72b818d7",
+    "mtime": "2026-10-21T17:11:38.772Z"
+   },
+   {
+    "file": "tests/exp-w303c-earthmoon.mjs",
+    "bytes": 73010,
+    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
+    "mtime": "2026-10-21T17:00:18.158Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-21T17:00:18.186Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-21T17:00:18.186Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 51360,
+    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
+    "mtime": "2026-10-21T17:00:18.154Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-21T17:00:18.182Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-21T17:00:18.178Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-21T17:00:18.174Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-21T17:00:18.178Z"
+   }
+  ],
+  "codeSha256": "5d4c6d29af3607012ef9eae94d89091dc540f8cdca2c05edaf9ae9f231437073",
+  "harnessVersion": "w312d-confirm-1",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)",
+  "notClaim": [
+   "フィットした",
+   "較正した",
+   "収束した",
+   "完全に一致",
+   "法則を確かめた",
+   "R_d を決めた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.FIT_COND_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondSig",
+    "HP.inertialDragIsqState",
+    "HP.inertialDragState",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dfmInertialDragStep",
+    "dragCoreAngular",
+    "dragCoreAvgK",
+    "dragCoreLookup",
+    "dragCoreTableBuild",
+    "fmt",
+    "inertialDragNormApply",
+    "pnSource",
+    "relDragCoefficientOf",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1506,
+   "segments": 1351,
+   "closureShare": 0.3481
+  },
+  "scopeSha256": "41dc024930c56cb87f8979da888009e266753d265591d13ab6561d1c14dfc8ae",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/out/planet3-w311d.json",
+    "stableSha256": "535cf368c345ffffc4902765f22df472972ce3d78f4fd18cb9973cc454d95080",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/E/rows/*/wallSec",
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/stats/wallByKind/*/wallSec",
+     "/timing/*/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/an336-w306a.json",
+    "stableSha256": "05384bd87a407f704ee3698f51c85ddbd592baf8643f0f7c5c16d429470d0b0c",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
