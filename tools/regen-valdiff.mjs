@@ -14,9 +14,10 @@
 //   比べ方は値ごとの JSON の表現の一致(−0 と 0・NaN と null を区別しない)・鍵の順は見ない・配列の順と長さは見る。
 //
 // ■ 使い方
-//   node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,段] [--all-files]
+//   node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,段] [--all-files] [--ignore 鍵,鍵]
 //     標準出力に段ごとの 1 行(changed / same / added / removed / unreadable)と合計。--json に全件(差の Pointer の先頭 5 つ・差の数)。
-//     既定は再生成表の現行の段(role current —— 履歴の段は --all-files で足す)の書く JSON(outs + merges)。
+//     既定は再生成表の現行の段(role current —— 履歴の段は --all-files で足す)の書く JSON(outs + merges)。--ignore は名で除く鍵を足す(例: 走行の数 stats ——
+//     基点の正本が h/4 を転記した世代〔第311便〕だと an336・shell の stats が走行の数だけ違う。足した名は結果の excluded.ignore に残る)。
 //   node tools/regen-valdiff.mjs --self-test    小さな JSON の対で除く鍵と差の検出を確かめる(QA lint.regenTools312 (b))。違えば 1。
 //
 // ■ しないこと: 判定しない・書き換えない(読むだけ)。「値が同じ」は除いた鍵の外が同じことだけを意味する(結果が正しいことの保証ではない)。
@@ -44,14 +45,14 @@ function dropPointer(J, ptr) {
   };
   walk(J, 0);
 }
-/** 鍵の名で除く(階層を問わない)—— 除いた数を返す。 */
-function dropByName(J) {
+/** 鍵の名で除く(階層を問わない)—— 除いた数を返す。extra は --ignore で足した名。 */
+function dropByName(J, extra) {
   let n = 0;
   const walk = (x) => {
     if (!x || typeof x !== 'object') return;
     if (Array.isArray(x)) { for (const v of x) walk(v); return; }
     for (const k of Object.keys(x)) {
-      if (VALDIFF_RUNTIME_KEYS.includes(k) || VALDIFF_ID_RE.test(k) || (k === 'line' && Number.isInteger(x[k]))) { delete x[k]; n++; continue; }
+      if (VALDIFF_RUNTIME_KEYS.includes(k) || VALDIFF_ID_RE.test(k) || (k === 'line' && Number.isInteger(x[k])) || (extra && extra.includes(k))) { delete x[k]; n++; continue; }
       walk(x[k]);
     }
   };
@@ -59,12 +60,12 @@ function dropByName(J) {
   return n;
 }
 /** 比べる写し(① 最上位の来歴 ② 宣言の Pointer ③ 鍵の名)。 */
-export function valueView(J, volatilePaths) {
+export function valueView(J, volatilePaths, extra) {
   if (!J || typeof J !== 'object') return { view: J, droppedByName: 0 };
   const V = JSON.parse(JSON.stringify(J));
   if (!Array.isArray(V)) for (const k of VALDIFF_TOP) delete V[k];
   for (const p of volatilePaths || []) dropPointer(V, p);
-  const n = dropByName(V);
+  const n = dropByName(V, extra);
   return { view: V, droppedByName: n };
 }
 /** 値の差(Pointer の並び —— 先頭 limit 個と総数)。鍵の順は見ない・配列は順と長さを見る・葉は JSON の表現で比べる。 */
@@ -93,13 +94,13 @@ export function valueDiffs(a, b, limit) {
   return { n, first: out };
 }
 /** 1 ファイルの比べ(now・base は JSON の本文か null)。 */
-export function compareFile(nowText, baseText, volatilePaths) {
+export function compareFile(nowText, baseText, volatilePaths, extra) {
   if (nowText === null && baseText === null) return { status: 'absent' };
   if (baseText === null) return { status: 'added' };
   if (nowText === null) return { status: 'removed' };
   let A = null, B = null;
   try { A = JSON.parse(nowText); B = JSON.parse(baseText); } catch { return { status: 'unreadable' }; }
-  const va = valueView(A, volatilePaths), vb = valueView(B, volatilePaths);
+  const va = valueView(A, volatilePaths, extra), vb = valueView(B, volatilePaths, extra);
   const d = valueDiffs(va.view, vb.view, 5);
   return { status: d.n ? 'changed' : 'same', nDiff: d.n, firstDiffs: d.first, droppedByName: { now: va.droppedByName, base: vb.droppedByName },
     byteSame: nowText === baseText };
@@ -107,7 +108,7 @@ export function compareFile(nowText, baseText, volatilePaths) {
 
 /**
  * 段ごとの値の差(再生成表 —— 段の書く JSON)。
- * @param {{root:string, base:string, steps?:string[], allFiles?:boolean, T:object, readBase?:Function, readNow?:Function}} o
+ * @param {{root:string, base:string, steps?:string[], allFiles?:boolean, T:object, readBase?:Function, readNow?:Function, ignore?:string[]}} o
  */
 export function valDiff(o) {
   const T = o.T;
@@ -120,14 +121,14 @@ export function valDiff(o) {
     if (!want && !o.allFiles && st.role === 'history') continue;
     const files = [...new Set((st.outs || []).concat(st.merges || []))].filter((f) => /\.json$/.test(f));
     if (!files.length) { rows.push({ key: st.key, status: 'no-json', files: [] }); continue; }
-    const fr = files.map((f) => Object.assign({ file: f }, compareFile(readNow(f), readBase(f), T.volatilePathsOf(f))));
+    const fr = files.map((f) => Object.assign({ file: f }, compareFile(readNow(f), readBase(f), T.volatilePathsOf(f), o.ignore)));
     const st2 = fr.some((z) => z.status === 'changed') ? 'changed' : fr.some((z) => z.status === 'unreadable') ? 'unreadable'
       : fr.some((z) => z.status === 'added') ? 'added' : fr.some((z) => z.status === 'removed') ? 'removed' : fr.every((z) => z.status === 'absent') ? 'absent' : 'same';
     rows.push({ key: st.key, status: st2, files: fr });
   }
   const count = {}; for (const r of rows) count[r.status] = (count[r.status] || 0) + 1;
   return { version: VALDIFF_VERSION, base: o.base, rows, count,
-    excluded: { top: VALDIFF_TOP, declared: '再生成表の volatilePaths(正本ごと)と META_RUN', byName: VALDIFF_RUNTIME_KEYS, idPattern: String(VALDIFF_ID_RE), line: 'line(整数)' } };
+    excluded: { top: VALDIFF_TOP, declared: '再生成表の volatilePaths(正本ごと)と META_RUN', byName: VALDIFF_RUNTIME_KEYS, idPattern: String(VALDIFF_ID_RE), line: 'line(整数)', ignore: o.ignore || [] } };
 }
 
 /** 自己試験(QA lint.regenTools312 (b)): 小さな JSON の対で除く鍵と差の検出。 */
@@ -153,6 +154,8 @@ export function valDiffSelfTest() {
   const d6 = compareFile(JSON.stringify(Object.assign(JSON.parse(JSON.stringify(base)), { rows: [Object.assign({}, base.rows[0], { obs: { when: 'X', durationMs: 200 } })] })), JSON.stringify(base), ['/rows/*/obs/when']);
   r.declared = c6.nDiff === 2 && d6.status === 'same';
   // 追加・消えた・読めない
+  r.ignore = compareFile(JSON.stringify({ v: 1, stats: { runs: 82 } }), JSON.stringify({ v: 1, stats: { runs: 68 } }), [], ['stats']).status === 'same'
+    && compareFile(JSON.stringify({ v: 1, stats: { runs: 82 } }), JSON.stringify({ v: 1, stats: { runs: 68 } }), []).status === 'changed';
   r.files = compareFile('{}', null, []).status === 'added' && compareFile(null, '{}', []).status === 'removed' && compareFile('{', '{}', []).status === 'unreadable'
     && compareFile(null, null, []).status === 'absent';
   // 段ごと(表の写し)
@@ -162,7 +165,7 @@ export function valDiffSelfTest() {
   const vd = valDiff({ root: '/nonexistent', base: 'REV', T, readBase: (f) => (BASE[f] === undefined ? null : BASE[f]), readNow: (f) => (NOW[f] === undefined ? null : NOW[f]) });
   r.steps = vd.rows.map((z) => z.key + ':' + z.status).join(',');
   r.stepsOk = r.steps === 'A:same,B:changed,C:no-json' && vd.count.same === 1 && vd.count.changed === 1;
-  r.ok = !!(r.same && r.changed && r.declared && r.files && r.stepsOk);
+  r.ok = !!(r.same && r.changed && r.declared && r.ignore && r.files && r.stepsOk);
   return r;
 }
 
@@ -172,12 +175,13 @@ if (IS_MAIN) {
   const getArg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : d; };
   if (argv.includes('--self-test')) { const r = valDiffSelfTest(); console.log(JSON.stringify(r, null, 1)); process.exit(r.ok ? 0 : 1); }
   const base = getArg('--base', null);
-  if (!base) { console.error('使い方: node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,段] [--all-files] | --self-test'); process.exit(2); }
+  if (!base) { console.error('使い方: node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,段] [--all-files] [--ignore 鍵,鍵] | --self-test'); process.exit(2); }
   try { execFileSync('git', ['-C', ROOT, 'rev-parse', '--verify', base + '^{commit}'], { stdio: 'ignore' }); } catch { console.error('rev が無い: ' + base); process.exit(2); }
   const T = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')).href);
   const steps = (getArg('--steps', '') || '').split(',').filter(Boolean);
   const t0 = Date.now();
-  const r = valDiff({ root: ROOT, base, steps, allFiles: argv.includes('--all-files'), T });
+  const ignore = (getArg('--ignore', '') || '').split(',').filter(Boolean);
+  const r = valDiff({ root: ROOT, base, steps, allFiles: argv.includes('--all-files'), T, ignore });
   for (const z of r.rows) {
     if (z.status === 'same' || z.status === 'no-json' || z.status === 'absent') continue;
     const f = z.files.filter((w) => w.status !== 'same').map((w) => `${w.file.replace('tests/out/', '')} ${w.status}${w.nDiff ? '(' + w.nDiff + ' か所: ' + w.firstDiffs.slice(0, 3).join(' ') + ')' : ''}`).join(' / ');

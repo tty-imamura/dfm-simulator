@@ -77,7 +77,7 @@ node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [
 ```
 node tools/regen-chain.mjs --calibrate <timeline.txt> --log $REGEN_LOG [--base-sec <見積りの file>] [--apply [--out <file>]] [--json <file>]
 node tools/regen-chain.mjs --scope-all [--write] [--check]      # REGEN_SCOPE が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)
-node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,…] [--all-files]   # 正本の値の差の記録(段ごとに changed / same)
+node tools/regen-valdiff.mjs --base <rev> [--json <out>] [--steps 段,…] [--all-files] [--ignore 鍵,…]   # 正本の値の差の記録(段ごとに changed / same)
 node tools/regen-valdiff.mjs --self-test
 ```
 
@@ -87,6 +87,7 @@ node tools/regen-valdiff.mjs --self-test
   `--out`(既定 `tests/data-w311c-regensec.json`)へ書く(前の便の見積りから引き直して照合する用途)。
 - **値の差の記録**(`tools/regen-valdiff.mjs` —— 判定ではなく測定): 鎖の後の作業木の正本と基点の rev の正本を、最上位の来歴(`/meta`・`/h4Carry`・`/h4Carried`)・
   再生成表の `volatilePaths`・実行時の鍵の名(時刻・所要・速さ・同一性の hash・html の行番号 `line`)を除いて比べる。観測の時刻・継続時間の欄は名で除かない。
+  `--ignore stats` のように名を足せる(基点の正本が h/4 を転記した世代だと、an336・shell の走行の数 `stats` だけが違う)。
 - **h/4 の転記の既定**(`tests/lib-w311c-h4carry.mjs`・版 `w312c-h4carry-2`): 既定は全部測る(影の記録 `h4Carry` を正本に書く)。`H4_CARRY=1` は比較の実験だけ
   (第311便c の転記 —— その正本はコミットしない)。
 

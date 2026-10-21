@@ -3434,7 +3434,7 @@ lastAddAt = Date.now();
           const b = VD.valDiffSelfTest();
           if (!b.ok) bad.push('(b) ' + JSON.stringify(b).slice(0, 240));
           if (VD.VALDIFF_VERSION !== 'w312c-valdiff-1') bad.push('(b) 道具の版 ' + VD.VALDIFF_VERSION);
-          cases.push(`(b) tools/regen-valdiff.mjs ${VD.VALDIFF_VERSION}: 除く鍵の外が同じなら same ${b.same}・値の差・観測の when/durationMs・配列の長さ・鍵の有無は changed ${b.changed}・宣言の Pointer ${b.declared}・追加/消えた/読めない ${b.files}・段ごと ${b.steps}`);
+          cases.push(`(b) tools/regen-valdiff.mjs ${VD.VALDIFF_VERSION}: 除く鍵の外が同じなら same ${b.same}・値の差・観測の when/durationMs・配列の長さ・鍵の有無は changed ${b.changed}・宣言の Pointer ${b.declared}・--ignore の名 ${b.ignore}・追加/消えた/読めない ${b.files}・段ごと ${b.steps}`);
         } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
         add('lint.regenTools312', bad.length === 0,
           `**鎖の道具 —— 再起動の型の直しと値の差の記録**(第312便c・統括の検証項目 R232・決断事項 AN394): ${cases.join(' / ')} —— 値の差の記録は**判定ではなく測定**(「値が同じ」は除いた鍵の外が同じことだけ)`
