@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
+ "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.032
+   "wallSec": 0.025
   },
   "B": {
-   "wallSec": 0.471
+   "wallSec": 0.323
   },
   "N": {
-   "wallSec": 0.544
+   "wallSec": 0.39
   },
   "X": {
-   "wallSec": 267.482
+   "wallSec": 190.345
   }
  },
- "elapsedS": 270.673,
+ "elapsedS": 192.838,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
-  "generatedAt": "2026-10-21T17:33:06.671Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-21T23:27:05.262Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7209264,
-    "sha256": "6836f11088ef24b0757435de694cfc51baa00faa42b789d73e9c41c7a849362e",
-    "mtime": "2026-10-21T17:09:43.542Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    }
   ],
   "code": [
@@ -2294,46 +2294,46 @@
     "file": "tests/exp-w312b-galaxialrd.mjs",
     "bytes": 45116,
     "sha256": "7a6d24ef9b6de0b200d32c733a3498a00bf76b6cffb77443ece8a6394f422cb4",
-    "mtime": "2026-10-21T17:28:33.688Z"
+    "mtime": "2026-10-21T18:39:31.158Z"
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
     "bytes": 40328,
     "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
-    "mtime": "2026-10-21T17:00:17.326Z"
+    "mtime": "2026-10-20T18:41:40.636Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-21T17:00:17.342Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
-    "bytes": 14692,
-    "sha256": "4df20c1b73f262736071f59a3414f3d3073e417c5d6985550f89ee7bfbaf4a8d",
-    "mtime": "2026-10-21T17:00:17.346Z"
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-21T20:13:23.994Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-21T17:00:17.338Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-21T17:00:17.334Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-21T17:00:17.338Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "bb4598888f54495ea52c6a0edcdf13f70c1deff8c4d201c83122793d9cad7b34",
+  "codeSha256": "b3b61096162f1db8dfd8539e65b99f870309111da7e4a52b583f86c9201ea89a",
   "harnessVersion": "w312b-galaxialrd-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2402,11 +2402,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1510,
-   "segments": 1352,
-   "closureShare": 0.3466
+   "names": 1523,
+   "segments": 1363,
+   "closureShare": 0.3481
   },
-  "scopeSha256": "df4a6edf216a343fdd0ad1ec59b7b926488da88a8b8a5a2eafff7ad130795777",
+  "scopeSha256": "069615fcf7d608258055622953fd40eeb3482424439262d2244b76ba952299d8",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
