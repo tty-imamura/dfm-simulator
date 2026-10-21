@@ -62,9 +62,10 @@ const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 // ==== 第311便c の塊(ここから)====
 // 第311便c(決断事項 AN393 (a)・統括の検証項目 R228): **h/4 の転記**(tests/lib-w311c-h4carry.mjs)。h/4 を測る 4 か所 —— 段 Z6 の人工二体の行・水星の根の行
 //   (段 M・参考 Bref・段 N の G_loc の行)・移送の行(段 T)・本ごとの対照(段 T の controls)—— は、同じ単位の h と h/2 の値の鍵が前の正本(書き換える前の
-//   W303B_OUT)とビット同一なら h/4 を前の正本から写す(違えば測る)。値の鍵: Z6 は行の key・note・analytic と runs[0..1] / 根の行は h/4 の欄
+//   W303B_OUT)と JSON の表現で一致すれば h/4 を前の正本から写す(違えば測る)。値の鍵: Z6 は行の key・note・analytic と runs[0..1] / 根の行は h/4 の欄
 //   (diffH4・h4gap・last と配列の [2])と変種の名(variant・label —— Bref は返した後に名を替える)を除く全欄 / 移送の行は h/4 から作る欄を除く行の欄と
-//   表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc(移送の行を測り直すときは対照の h/4 を測る —— anomDays が要る)。H4_CARRY=0 で全部測る
+//   表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc(移送の行を測り直すときは対照の h/4 を測る —— anomDays が要る)。
+//   第312便c(AN400・R232): **既定は全部測る**(H4_CARRY=1 は比較の実験だけ)—— 転記の判定は影の記録(正本の h4Carry)にだけ使う
 let CARRY = null;
 /** 転記の文脈を差し替える(試験用 —— 器の本走は main が前の正本で開く) */
 export function setH4Carry(c) { CARRY = c; }
@@ -350,7 +351,7 @@ function partZtoy(HP, log) {
       const pr = CARRY && CARRY.prev && CARRY.prev.zero && CARRY.prev.zero.toy ? (CARRY.prev.zero.toy.rows || []).find((z) => z.key === C.key) : null;
       const view = (z, rr) => ({ key: z.key, note: z.note, analytic: z.analytic, runs: rr.slice(0, 2) });
       if (CARRY && pr && Array.isArray(pr.runs) && pr.runs.length === 3 && H4C.canCarry(CARRY, 'Z6:' + C.key, view(C, runs), view(pr, pr.runs))) { runs.push(pr.runs[2]); H4C.markCarried(CARRY, 'Z6:' + C.key); }
-      else { runs.push(runOf(4)); if (CARRY) H4C.markMeasured(CARRY, 'Z6:' + C.key); }
+      else { runs.push(runOf(4)); if (CARRY) { H4C.markMeasured(CARRY, 'Z6:' + C.key); if (pr && Array.isArray(pr.runs)) H4C.shadowCompare(CARRY, 'Z6:' + C.key, runs[2], pr.runs[2]); } }   // 第312便c: 影の記録
     }
     const last = runs[runs.length - 1];
     rows.push({ key: C.key, note: C.note, analytic: C.analytic, runs, ratio: last.dVarpi / C.analytic });
@@ -375,16 +376,17 @@ export function fitMercury(HP, V, o, log = () => {}) {
   // 第311便c(AN393 (a)): h と h/2 を先に測り、行の値の鍵(h/4 の欄と変種の名を除く全欄)が前の正本の根の行と同じなら h/4 の欄を写す(欄の並びは従来と同じ)
   const runs2 = DIVS.filter((d) => d !== 4).map(runOf);
   if (!DIVS.includes(4)) { const r = rowOfRuns(V, o, runs2); log(r); return r; }
-  const r2 = rowOfRuns(V, o, runs2), pr = CARRY ? prevFits().find((z) => Array.isArray(z.periodShiftDays) && z.periodShiftDays.length === 3 && H4C.bitSame(fitView(z), fitView(r2))) : null;
+  const r2 = rowOfRuns(V, o, runs2), pr = CARRY ? prevFits().find((z) => Array.isArray(z.periodShiftDays) && z.periodShiftDays.length === 3 && H4C.jsonSame(fitView(z), fitView(r2))) : null;
   const ck = 'M:' + V.key + ':' + (gl ? JSON.stringify(gl) : '-') + ':' + target;
+  const carryRow = (z) => { z.diffH4 = pr.diffH4; z.h4gap = Math.abs(z.diffH4 - z.diffH2); for (const k of ARR4) z[k].push(pr[k][2]); z.last = z.diffH4; return z; };
   if (CARRY && pr && H4C.canCarry(CARRY, ck, fitView(r2), fitView(pr))) {
-    r2.diffH4 = pr.diffH4; r2.h4gap = Math.abs(r2.diffH4 - r2.diffH2);
-    for (const k of ARR4) r2[k].push(pr[k][2]);
-    r2.last = r2.diffH4; H4C.markCarried(CARRY, ck);
+    carryRow(r2); H4C.markCarried(CARRY, ck);
     log(r2); return r2;
   }
   if (CARRY) { if (!pr) H4C.canCarry(CARRY, ck, fitView(r2), undefined); H4C.markMeasured(CARRY, ck); }
   const r = rowOfRuns(V, o, runs2.concat([runOf(4)]));
+  // 第312便c(AN400): 影の記録 —— 転記していたら入った行(h と h/2 の行に前の正本の h/4 の欄を写した行)と測った行を JSON の表現で比べる
+  if (CARRY && pr) H4C.shadowCompare(CARRY, ck, r, carryRow(JSON.parse(JSON.stringify(r2))));
   log(r);
   return r;
   function rowOfRuns(V, o, runs) {
@@ -446,7 +448,9 @@ export function partT(HP, M, log = console.log) {
       const pc = CARRY && CARRY.prev && CARRY.prev.transfer && CARRY.prev.transfer.controls ? CARRY.prev.transfer.controls[id] : null;
       if (pc && pc.length === 3 && H4C.canCarry(CARRY, 'control:' + id, ctl[id].map(raw), pc.slice(0, 2))) { H4C.markCarried(CARRY, 'control:' + id); return pc[2]; }
       if (CARRY) H4C.markMeasured(CARRY, 'control:' + id);
-      return raw(ctl4[id]());
+      const m4 = raw(ctl4[id]());
+      if (CARRY && pc && pc.length === 3) H4C.shadowCompare(CARRY, 'control:' + id, m4, pc[2]);   // 第312便c: 影の記録
+      return m4;
     };
     tg[id] = targetOf(p);
   }
@@ -468,7 +472,7 @@ export function partT(HP, M, log = console.log) {
       // 第311便c(AN393 (a)): h と h/2 を先に。行の値の鍵(h/4 から作る欄を除く)と表の行の鍵が前の正本と同じなら h/4 の行の値を写す
       const t2 = transferOne(HP, id, sp, ctl[id], null, DIVS.filter((d) => d !== 4)), p = t2.p, runs = t2.runs;
       if (DIVS.includes(4)) {
-        const pt = CARRY && CARRY.prev && CARRY.prev.transfer ? (CARRY.prev.transfer.table || []).find((z) => z.variant === sp.variant && H4C.bitSame(z.x, sp.x)) : null;
+        const pt = CARRY && CARRY.prev && CARRY.prev.transfer ? (CARRY.prev.transfer.table || []).find((z) => z.variant === sp.variant && H4C.jsonSame(z.x, sp.x)) : null;
         const pr = pt ? (pt.rows || []).find((z) => z.id === id) : null;
         const T0 = tg[id], an0 = anOf(p), dAn0 = an0 === null ? null : an0 - T0.value;
         const fresh = { table: { variant: sp.variant, x: sp.x, param: sp.param, lambdaOverRs: sp.lambdaOverRs },
@@ -481,7 +485,12 @@ export function partT(HP, M, log = console.log) {
         if (CARRY && pr && Array.isArray(pr.preds) && pr.preds.length === 3 && H4C.canCarry(CARRY, ck, fresh, old)) {
           runs.push({ div: 4, pred: pr.preds[2], periodShiftDays: pr.periodShiftDays, anomShiftDays: pr.anomShiftDays, eccShift: pr.eccShift, xiMax: null }); H4C.markCarried(CARRY, ck);
         } else {
-          runs.push(transferOne(HP, id, sp, [ctl4[id]()], null, [4]).runs[0]); if (CARRY) H4C.markMeasured(CARRY, ck);
+          const m4 = transferOne(HP, id, sp, [ctl4[id]()], null, [4]).runs[0];
+          runs.push(m4); if (CARRY) H4C.markMeasured(CARRY, ck);
+          // 第312便c(AN400): 影の記録 —— 行が読む h/4 の欄(予言・周期・離心率の変化)を、転記していたら入った前の正本の値と比べる
+          if (CARRY && pr && Array.isArray(pr.preds) && pr.preds.length === 3) H4C.shadowCompare(CARRY, ck,
+            { pred: m4.pred, periodShiftDays: m4.periodShiftDays, anomShiftDays: m4.anomShiftDays, eccShift: m4.eccShift },
+            { pred: pr.preds[2], periodShiftDays: pr.periodShiftDays, anomShiftDays: pr.anomShiftDays, eccShift: pr.eccShift });
         }
       }
       const best = runs[runs.length - 1].pred, numErr = runs.length >= 2 ? Math.abs(runs[runs.length - 1].pred - runs[runs.length - 2].pred) : null;
@@ -808,6 +817,9 @@ if (IS_MAIN) {
   const h4c = H4C.carryStamp(CARRY, { unit: '段 Z6 の人工二体の行(Z6:<鍵>)・根の行(M:<変種>:<G_loc>:<標的> —— 段 M・参考・段 N)・移送の行(T:<変種>:<本>)・対照(control:<本>)',
     valueKeys: 'Z6 は行の key・note・analytic と h・h/2 の runs / 根の行は h/4 の欄(diffH4・h4gap・last・配列の [2])と変種の名を除く全欄 / 移送の行は h/4 から作る欄を除く行の欄と表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc' });
   if (h4c) out.h4Carried = h4c;
+  const h4s = H4C.shadowStamp(CARRY, { unit: '段 Z6 の人工二体の行(Z6:<鍵>)・根の行(M:<変種>:<G_loc>:<標的> —— 段 M・参考・段 N)・移送の行(T:<変種>:<本>)・対照(control:<本>)',
+    valueKeys: '転記の判定は第311便c の値の鍵(h と h/2)/ 比べる値: Z6 は h/4 の走行・根の行は行の全欄・移送の行は行が読む h/4 の欄(予言・周期・近点周期・離心率の変化)・対照は h/4 の aps・periodDays・ecc' });
+  if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
   const CODE = ['tests/exp-w303b-inertialr2.mjs', 'tests/lib-w306e-pre.mjs', 'tests/lib-w304c-pre.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第303便b', target: TARGET, code: CODE, inputs: [TARGET, DECL303_DATA_FILE, DECL305_DATA_FILE] }), {
