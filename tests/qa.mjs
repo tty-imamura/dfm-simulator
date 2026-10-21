@@ -3275,6 +3275,10 @@ lastAddAt = Date.now();
 // ----        値の鍵の照合・丸めの床の書式 fmtFloor/fmtDiff)② 一覧の形(版・段が表の現行の段・役割 a/b/c・b に dt3/kf0・c に charon-h4/charoneps-h4・読み手の欄)
 // ----     ③ 転記を当てた段(carry "applied")の器が lib を import して前の正本を開く・code の並びに lib がある / 役割 b・c の器(較正走行・カロンの系列)は lib を使わない
 // ----     ④ 転記を当てた段の正本に `h4Carried` があれば版・元の測定の sha256・転記した単位がある(無ければ全部測った正本 —— 鎖の前の世代)。
+// ----     第312便c(決断事項 AN400・統括の検証項目 R232)—— **世代は lib の版で**(H4_CARRY_VERSION が w312c-h4carry-2 以降): 既定は全部測る・影の記録。
+// ----     ③ の器は shadowCompare・shadowStamp も使う / ④ 正本を書いた lib(meta.code の lib の sha)が今の lib と同じなら、影の記録 `h4Carry`
+// ----     (mode shadow・版が履歴にある・数の整合・前の正本の時刻と sha が再生成表の除外の鍵)があり、転記の来歴 `h4Carried`(比較の実験)が無い。
+// ----     今の lib より前の lib で書いた正本は旧の形を許す(鎖の前の世代)/ ⑤ 除外の鍵の並び(lib の SHADOW_VOLATILE = 表の V_H4_SHADOW)が 4 段の volatilePaths にある。
 // ----   docs.w311c …… PHYSICS〔第311便c〕(「## 7.」の前・2 段の感度診断・h と h/2 の一致は収束の証明ではない)・AI_SPEC §121・CHANGELOG・tools/README・
 // ----     post-merge の ③′ の第311便c の塊・新しい節に禁句と言わないことの言い回しが無い。root は 2 本とも SKIP。
 {
@@ -3292,7 +3296,14 @@ lastAddAt = Date.now();
           const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
           const r = H4.h4CarrySelfTest(tmp);
           if (!r.ok) bad.push('① ' + JSON.stringify(r).slice(0, 220));
-          cases.push(`① 自己試験 ビット ${r.bits}・転記 ${r.carry}・来歴の引き継ぎ ${r.originKept}・無効の経路 ${r.off}・値の鍵 ${r.compare}・書式 ${Object.values(r.format).join(' | ')}`);
+          cases.push(`① 自己試験 ${H4.H4_CARRY_VERSION}: JSON の表現 ${r.bits}・転記 ${r.carry}・来歴の引き継ぎ ${r.originKept}・既定と無効の経路 ${r.off}・値の鍵 ${r.compare}・書式 ${Object.values(r.format).join(' | ')}`
+            + (r.counter ? `・反例(h と h/2 が同じで h/4 が違う)影 ${r.counter.shadowH4} / 転記 ${r.counter.carryH4} / 正しい値 ${r.counter.truthH4}(differ ${JSON.stringify(r.counter.differ)})・影の数え方 ${r.shadowOk}・−0 と 0 は同じ表現 ${r.jsonRepr}` : ''));
+          const gen312 = typeof H4.shadowStamp === 'function' && (H4.H4_CARRY_HISTORY || []).some((z) => z.version === 'w312c-h4carry-2');
+          const knownVer = new Set(gen312 ? H4.H4_CARRY_HISTORY.map((z) => z.version) : [H4.H4_CARRY_VERSION]);
+          if (gen312) {
+            if (H4.carryEnabled({}) !== false || H4.carryMode({}) !== 'shadow') bad.push('① 既定が全部測る(影)でない');
+            if (JSON.stringify(H4.SHADOW_VOLATILE) !== JSON.stringify(RT.V_H4_SHADOW)) bad.push('⑤ lib の SHADOW_VOLATILE と表の V_H4_SHADOW が違う');
+          }
           let J = null;
           try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w311c-h4roles.json'), 'utf8')); } catch { bad.push('② 一覧 tests/data-w311c-h4roles.json が読めない'); }
           if (J) {
@@ -3315,6 +3326,7 @@ lastAddAt = Date.now();
               const h = (String((cur.get(s.key) || {}).cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
               const tx = h && fs.existsSync(path.join(ROOT, h)) ? fs.readFileSync(path.join(ROOT, h), 'utf8') : '';
               if (!/from '\.\/lib-w311c-h4carry\.mjs'/.test(tx) || !/openCarry\(/.test(tx) || tx.indexOf("'tests/lib-w311c-h4carry.mjs'") < 0) bad.push('③ ' + s.key + ' の器が転記の型を使っていない(import・openCarry・code の並び)');
+              if (gen312 && (!/shadowCompare\(/.test(tx) || !/shadowStamp\(/.test(tx))) bad.push('③ ' + s.key + ' の器が影の記録(shadowCompare・shadowStamp)を使っていない');
             }
             for (const s of (J.steps || []).filter((z) => z.role !== 'a')) {
               const h = (String((cur.get(s.key) || {}).cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
@@ -3327,19 +3339,38 @@ lastAddAt = Date.now();
               const out = (cur.get(s.key) || {}).outs ? cur.get(s.key).outs[0] : null;
               let O = null; try { O = JSON.parse(fs.readFileSync(path.join(ROOT, out), 'utf8')); } catch { O = null; }
               if (!O) { bad.push('④ ' + s.key + ' の正本が読めない'); continue; }
+              // 第312便c: 正本を書いた lib が今の lib か(meta.code の sha —— 世代は lib の版で)
+              const libSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'tests', 'lib-w311c-h4carry.mjs'))).digest('hex');
+              const wroteWithCur = (((O.meta || {}).code) || []).some((c) => c.file === 'tests/lib-w311c-h4carry.mjs' && c.sha256 === libSha);
+              if (gen312) {
+                const vp = RT.volatilePathsOf(out);
+                for (const ptr of H4.SHADOW_VOLATILE) if (!vp.includes(ptr)) bad.push('⑤ ' + out + ' の volatilePaths に ' + ptr + ' が無い');
+              }
               if (O.h4Carried) {
                 const c = O.h4Carried;
-                if (c.version !== H4.H4_CARRY_VERSION || !c.origin || !/^[0-9a-f]{64}$/.test(String(c.origin.fromTargetSha256 || '')) || !Array.isArray(c.carried) || !c.carried.length) bad.push('④ ' + s.key + ' の h4Carried の形');
+                if (!knownVer.has(c.version) || !c.origin || !/^[0-9a-f]{64}$/.test(String(c.origin.fromTargetSha256 || '')) || !Array.isArray(c.carried) || !c.carried.length) bad.push('④ ' + s.key + ' の h4Carried の形');
+                if (gen312 && wroteWithCur) bad.push('④ ' + s.key + ' の正本が転記の実験(H4_CARRY=1)の正本 —— 既定(全部測る)で書き直す');
                 st4.push(`${s.key} 転記 ${c.carried.length}・測り直し ${(c.measured || []).length}(元の測定 ${String(c.origin.fromDate)})`);
-              } else st4.push(`${s.key} 全部測った正本(転記の来歴なし)`);
+              } else if (O.h4Carry) {
+                const c = O.h4Carry, us = c.units || {}, ks = Object.keys(us);
+                const nW = ks.filter((k) => us[k].wouldCarry === true).length, nS = ks.filter((k) => us[k].wouldCarry === true && us[k].sameAsFresh === true).length;
+                const dif = ks.filter((k) => us[k].wouldCarry === true && us[k].sameAsFresh === false);
+                if (c.mode !== 'shadow' || !knownVer.has(c.version) || c.nUnits !== ks.length || c.wouldCarry !== nW || c.sameAsFresh !== nS || JSON.stringify(c.differ) !== JSON.stringify(dif)
+                  || (c.unchecked || []).length || (c.prevUsable && !(c.prev && /^\d{4}-\d\d-\d\dT/.test(String(c.prev.generatedAt)) && /^[0-9a-f]{64}$/.test(String(c.prev.fileSha256)))))
+                  bad.push('④ ' + s.key + ' の h4Carry(影の記録)の形・数');
+                st4.push(`${s.key} 影の記録 単位 ${c.nUnits}・転記の判定が真 ${c.wouldCarry}・そのうち測った値と同じ ${c.sameAsFresh}・違った ${dif.length}${dif.length ? '(' + dif.slice(0, 3).join(',') + ')' : ''}`);
+              } else {
+                if (gen312 && wroteWithCur) bad.push('④ ' + s.key + ' の正本に影の記録 h4Carry が無い(今の lib で書いた正本)');
+                st4.push(`${s.key} 全部測った正本(影の記録なし —— ${wroteWithCur ? '今の lib' : '前の lib で書いた世代'})`);
+              }
             }
             cases.push('③ 器の import・openCarry・code の並び ok / ④ ' + st4.join('・'));
           }
         } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
         finally { fs.rmSync(tmp, { recursive: true, force: true }); }
         add('lint.h4Carry311', bad.length === 0,
-          `**h/4 の転記の型と振り分けの一覧**(第311便c・決断事項 AN393・統括の検証項目 R228): ${cases.join(' / ')} —— h と h/2 は 2 段の感度診断。`
-          + `**h と h/2 の一致は収束の証明ではない**(転記した h/4 は前の正本で測った値)`
+          `**h/4 の転記の型と振り分けの一覧**(第311便c・決断事項 AN393・統括の検証項目 R228 / 第312便c・AN400・R232 —— 既定は全部測る・影の記録): ${cases.join(' / ')} —— h と h/2 は 2 段の感度診断。`
+          + `**h と h/2 の一致は収束の証明ではない**・**h と h/2 の一致は h/4 の一致を保証しない**(転記は比較の実験 H4_CARRY=1 だけ)`
           + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
       }
       // ---- docs.w311c
@@ -3382,6 +3413,112 @@ lastAddAt = Date.now();
   }
 }
 // ==== 第311便c の塊(ここまで)====
+// ==== 第312便c の塊(ここから)====
+// ---- 第312便c(統括の検証項目 R232・決断事項 AN400・AN394): lint.regenTools312・lint.scopeAll312・docs.w312c ----
+// ----   lint.regenTools312 …… 鎖の道具の 2 つを固定する: (a) `--calibrate` の再起動の型の直し(規則の版 w312c-calibrate-2 —— `calibrateProbe312`:
+// ----     再起動を挟んだ小さな timeline で、済み印の `run Ns` を先に読む・reuse と manual は飛ばす・印の無い段は再開した回の済み印の確かめ〔≤ 5 s〕を
+// ----     飛ばして前の回の組を使う・旧の規則〔最後の組〕なら 2 s・0.5 s を実測と読んだ)と CLI の口(--base-sec・--out・--json)
+// ----     (b) 値の差の記録の道具 tools/regen-valdiff.mjs の自己試験(除く鍵 —— 最上位の来歴・宣言の Pointer・実行時の鍵の名 —— と差の検出・段ごとの集計)。
+// ----   lint.scopeAll312 …… `REGEN_SCOPE` が presets:"all" の段の理由の一覧 tests/data-w312c-scopeall.json(版 w312c-scopeall-1 —— 生成物)が、今の器と lib から
+// ----     引き直した一覧と段・使い方の種類・見込みで同じ(行の番号は照合しない)・数の整合・理由の無い段は宣言だけが広い段。**絞らない**(AN394 の本番の後)。
+// ----   docs.w312c …… PHYSICS〔第312便c〕(「## 7.」の前・h と h/2 の一致は h/4 の一致を保証しない)・AI_SPEC §125・CHANGELOG・tools/README・
+// ----     post-merge の ③′ の第312便c の塊・新しい節に禁句と言わないことの言い回しが無い。root は 3 本とも SKIP。
+{
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(path.join(ROOT, 'tools', 'regen-valdiff.mjs'))) {
+    console.log('SKIP lint.regenTools312 / lint.scopeAll312 / docs.w312c(beta 対象でない・第312便c 未適用 — ' + TARGET + ')');
+  } else {
+    await (async () => {
+      // ---- lint.regenTools312
+      {
+        const bad = [], cases = [];
+        try {
+          const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          const VD = await import('file://' + path.join(ROOT, 'tools', 'regen-valdiff.mjs'));
+          if (RT.CALIBRATE_RULE !== 'w312c-calibrate-2') bad.push('(a) 規則の版が w312c-calibrate-2 でない: ' + RT.CALIBRATE_RULE);
+          const a = RT.calibrateProbe312();
+          if (!a.ok) bad.push('(a) ' + JSON.stringify(a).slice(0, 240));
+          cases.push(`(a) --calibrate ${a.rule}: 回 ${a.runs}(再起動 ${a.restarts})・印なし ${Object.entries(a.noMarks).map(([k, v]) => k + ' ' + v).join(' ')}・印あり ${Object.entries(a.marks).map(([k, v]) => k + ' ' + v).join(' ')}`
+            + `・旧の規則(最後の組)なら A ${a.old.A} s・B ${a.old.B} s`);
+          const tx = fs.readFileSync(path.join(ROOT, 'tools', 'regen-chain.mjs'), 'utf8');
+          for (const w of ["'--base-sec'", "'--out'", 'scopeAllReasons312', "'--scope-all'"]) if (tx.indexOf(w) < 0) bad.push('(a) tools/regen-chain.mjs に ' + w + ' が無い');
+          const b = VD.valDiffSelfTest();
+          if (!b.ok) bad.push('(b) ' + JSON.stringify(b).slice(0, 240));
+          if (VD.VALDIFF_VERSION !== 'w312c-valdiff-1') bad.push('(b) 道具の版 ' + VD.VALDIFF_VERSION);
+          cases.push(`(b) tools/regen-valdiff.mjs ${VD.VALDIFF_VERSION}: 除く鍵の外が同じなら same ${b.same}・値の差・観測の when/durationMs・配列の長さ・鍵の有無は changed ${b.changed}・宣言の Pointer ${b.declared}・--ignore の名 ${b.ignore}・追加/消えた/読めない ${b.files}・段ごと ${b.steps}`);
+        } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        add('lint.regenTools312', bad.length === 0,
+          `**鎖の道具 —— 再起動の型の直しと値の差の記録**(第312便c・統括の検証項目 R232・決断事項 AN394): ${cases.join(' / ')} —— 値の差の記録は**判定ではなく測定**(「値が同じ」は除いた鍵の外が同じことだけ)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- lint.scopeAll312
+      {
+        const bad = [], cases = [];
+        try {
+          const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          let J = null;
+          try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w312c-scopeall.json'), 'utf8')); } catch { bad.push('一覧 tests/data-w312c-scopeall.json が読めない'); }
+          if (J) {
+            if (J.version !== RT.SCOPE_ALL_VERSION) bad.push('一覧の版 ' + J.version + ' ≠ ' + RT.SCOPE_ALL_VERSION);
+            const r = await RT.scopeAllReasons312({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
+            const sig = (rows) => rows.map((z) => z.key + ':' + z.prospect + ':' + z.kinds.join('+')).sort();
+            const a = sig(J.steps || []), b = sig(r.rows);
+            const onlyA = a.filter((z) => !b.includes(z)), onlyB = b.filter((z) => !a.includes(z));
+            if (onlyA.length || onlyB.length) bad.push('一覧と今の器が違う(node tools/regen-chain.mjs --scope-all --write)—— 一覧だけ ' + onlyA.slice(0, 3).join(',') + ' / 今だけ ' + onlyB.slice(0, 3).join(','));
+            for (const z of (J.steps || [])) {
+              if (!['narrow-now', 'find-only', 'count-only', 'enumerates'].includes(z.prospect)) bad.push('見込みの語 ' + z.key + ':' + z.prospect);
+              if (z.prospect !== 'narrow-now' && !(z.reasons || []).length) bad.push('理由の無い段 ' + z.key);
+              if (!Array.isArray(z.namedIds) || z.nNamed !== z.namedIds.length) bad.push('名指しの本の数 ' + z.key);
+            }
+            const c = J.counts || {};
+            if (c.steps !== (J.steps || []).length) bad.push('数の整合(段)');
+            cases.push(`段 ${c.steps}(器 ${c.harnesses})—— 見込み ${Object.entries(c.byProspect || {}).map(([k, v]) => k + ' ' + v).join(' / ')} —— 使い方 ${Object.entries(c.byKind || {}).map(([k, v]) => k + ' ' + v).join(' / ')}`);
+          }
+        } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        add('lint.scopeAll312', bad.length === 0,
+          `**REGEN_SCOPE の presets:"all" の段の理由の一覧**(第312便c・決断事項 AN394・統括の検証項目 R232): ${cases.join(' / ')} —— **絞らない**(記録だけ —— 絞るのは影の運用の後)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- docs.w312c
+      {
+        const bad = [], cases = [];
+        const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch { return ''; } };
+        const Ph = rd('docs/PHYSICS.md'), Ai = rd('docs/AI_SPEC.md'), Ch = rd('CHANGELOG.md'), Tr = rd('tools/README.md'), Pm = rd('tools/post-merge-qa.sh');
+        const i0 = Ph.indexOf('〔第312便c'), i7 = Ph.indexOf('\n## 7. ');
+        const mN = i0 >= 0 ? /\n〔第\d+便[a-z]* — /.exec(Ph.slice(i0 + 5)) : null, iN = mN ? i0 + 5 + mN.index : -1;   // 次の節の見出し(段落の頭の〔第…〕は節でない)
+        const sec = i0 >= 0 ? Ph.slice(i0, iN > i0 && iN < i7 ? iN : (i7 > i0 ? i7 : undefined)) : '';
+        if (!(i0 >= 0 && i7 > i0)) bad.push('① PHYSICS〔第312便c〕が「## 7.」の前に無い');
+        for (const w of ['h と h/2 の一致は h/4 の一致を保証しない', 'H4_CARRY=1', 'h4Carry', 'JSON の表現の一致', '2 段の感度診断']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第312便c〕に「' + w + '」が無い');
+        const a0 = Ai.indexOf('## 125. 第312便c'), a1 = Ai.indexOf('\n## ', a0 + 5);
+        const s125 = a0 >= 0 ? Ai.slice(a0, a1 > a0 ? a1 : undefined) : '';
+        if (!s125) bad.push('② AI_SPEC §125 が無い');
+        for (const w of ['w312c-h4carry-2', 'shadowStamp', 'JSON の表現の一致', 'w312c-calibrate-2', 'regen-valdiff.mjs', 'data-w312c-scopeall.json', 'lint.regenTools312', 'lint.scopeAll312', 'docs.w312c', 'lint.h4Carry311', 'SYSTEM_PROMPT には載せない'])
+          if (s125 && s125.indexOf(w) < 0) bad.push('② AI_SPEC §125 に「' + w + '」が無い');
+        const c0 = Ch.search(/## v1\.46(?:-b\d+|\.0)\(/), c1 = Ch.indexOf('\n## ', c0 + 5);
+        if (!(c0 >= 0 && Ch.slice(c0, c1 > c0 ? c1 : undefined).indexOf('第312便c') >= 0)) bad.push('③ CHANGELOG の beta 節に第312便c の行が無い');
+        for (const w of ['--base-sec', 'regen-valdiff.mjs', '--scope-all', 'H4_CARRY=1']) if (Tr.indexOf(w) < 0) bad.push('④ tools/README に「' + w + '」が無い');
+        const p0 = Pm.indexOf('# ==== 第312便c の塊(ここから)'), p1 = Pm.indexOf('# ==== 第312便c の塊(ここまで)');
+        const pb = p0 >= 0 && p1 > p0 ? Pm.slice(p0, p1) : '';
+        for (const w of ['lint.regenTools312', 'lint.scopeAll312', 'docs.w312c', 'lint.h4Carry311']) if (pb.indexOf(w) < 0) bad.push('⑤ post-merge の第312便c の塊に ' + w + ' が無い');
+        // ⑥ 書かない語(言い回し —— 鉤括弧の中は除く)と禁句(引用も含めて書かない —— 符号点と逆順の文字列で持つ・第310便c の型)
+        const strip = (x) => x.replace(/「[^」]*」/g, '');
+        const NOT = [/収束した/, /法則を発見した/, /フィットした/, /較正した/, /完全に一致/, /確認した/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (x) => x.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb]), cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]),
+          cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+        const clLine = (Ch.slice(c0, c1 > c0 ? c1 : undefined).split('\n').find((l) => l.indexOf('第312便c') >= 0) || '');
+        for (const [nm, tx] of [['PHYSICS〔第312便c〕', sec], ['AI_SPEC §125', s125], ['CHANGELOG', clLine]]) {
+          for (const re of NOT) if (re.test(strip(tx))) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+          for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+        }
+        cases.push(`① PHYSICS〔第312便c〕${sec.length} 字 / ② AI_SPEC §125 ${s125.length} 字 / ③ CHANGELOG / ④ tools/README / ⑤ post-merge ③′ の塊 / ⑥ 書かない語 ${NOT.length}・禁句 ${NG.length} の照合`);
+        add('docs.w312c', bad.length === 0,
+          `**第312便c の文書**(h/4 の転記の既定・影の記録・鎖の道具 —— 統括の検証項目 R232・決断事項 AN400・AN394): ${cases.join(' / ')}`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      }
+    })();
+  }
+}
+// ==== 第312便c の塊(ここまで)====
 
 // ---- 第288便f(原仮定者の裁定(第78報)で閉じた AN90「通知は GitHub の失敗メール・一時出力の集約は 27 段の刻印の版上げと同じ便・Chromium の版を
 // ---- QA 結果 JSON の env に記録・pn1 の領域宣言から OBS_COMPARE_* を外すのは実際の読込依存が無いことを検査してから」・統括の検証項目 R118):

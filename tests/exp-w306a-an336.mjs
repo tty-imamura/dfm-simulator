@@ -144,8 +144,9 @@ export function measure(HP, q, dt, revMax, o = {}) {
 // ==== 第311便c の塊(ここから)====
 // 第311便c(決断事項 AN393 (a)・統括の検証項目 R228): **段 T の移送の行の h/4 を転記**(tests/lib-w311c-h4carry.mjs)。行の h と h/2 を先に測り、行の値の鍵
 //   (h/4 から作る欄 —— pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB ——
-//   を除き、配列は h と h/2 の 2 つ)が前の正本(書き換える前の W306A_OUT)の同じ本の行とビット同一なら、行を前の正本から写す(違えば h/4 を測る)。
-//   本ごとの対照の h/4 は要るときだけ走らせる。段 M(根の行と h/2 の根 —— 門は h/4)は測る。走行の数(stats)と所要は値の鍵ではない。H4_CARRY=0 で全部測る
+//   を除き、配列は h と h/2 の 2 つ)が前の正本(書き換える前の W306A_OUT)の同じ本の行と JSON の表現で一致すれば、行を前の正本から写す(違えば h/4 を測る)。
+//   本ごとの対照の h/4 は要るときだけ走らせる。段 M(根の行と h/2 の根 —— 門は h/4)は測る。走行の数(stats)と所要は値の鍵ではない。
+//   第312便c(AN400・R232): **既定は全部測る**(H4_CARRY=1 は比較の実験だけ)—— 転記の判定は影の記録(正本の h4Carry)にだけ使う
 let CARRY = null;
 /** 転記の文脈を差し替える(試験用 —— 器の本走は main が前の正本で開く) */
 export function setH4Carry(c) { CARRY = c; CTX.clear(); }
@@ -241,12 +242,14 @@ export function partT(HP, M, log = console.log) {
     const c = ctx(HP, id, N_RUN), T = c.tg, an = analyticOf(c, k, C.n);
     // 第311便c(AN393 (a)): h と h/2 を先に測り、行の値の鍵が前の正本の同じ本の行と同じなら行を写す(rowOf は同じ式 —— 2 刻みの行は比べるためだけに作る)
     const runs2 = DIVS.filter((d) => d !== 4).map((d) => measure(HP, caseOf(c.base, c.wExt, { k, gl: C.gl }), c.h / d, N_RUN));
+    let prT = null;
+    const ck = 'T:' + id;
     if (DIVS.includes(4)) {
       const pr = CARRY && CARRY.prev && CARRY.prev.transfer ? (CARRY.prev.transfer.table || []).find((z) => z.id === id) : null;
-      const ck = 'T:' + id;
+      prT = pr;
       if (CARRY && pr && Array.isArray(pr.periodDays) && pr.periodDays.length === 3 && H4C.canCarry(CARRY, ck, tRowView(rowOf(runs2, [1, 2].map((d) => c.ctl[d]))), tRowView(pr))) {
         const row = JSON.parse(JSON.stringify(pr)); table.push(row); H4C.markCarried(CARRY, ck);
-        log(`T ${c.emoji}: 転記(h と h/2 の行が前の正本とビット同一)—— 予言 ${row.pred.toPrecision(8)}`);
+        log(`T ${c.emoji}: 転記(h と h/2 の行が前の正本と JSON の表現で一致)—— 予言 ${row.pred.toPrecision(8)}`);
         continue;
       }
       if (CARRY) { if (!pr) H4C.canCarry(CARRY, ck, null, undefined); H4C.markMeasured(CARRY, ck); }
@@ -254,6 +257,8 @@ export function partT(HP, M, log = console.log) {
     const runs = DIVS.includes(4) ? runs2.concat([measure(HP, caseOf(c.base, c.wExt, { k, gl: C.gl }), c.h / 4, N_RUN)]) : runs2;
     const ctl = DIVS.map((d) => c.ctl[d]);
     const row = rowOf(runs, ctl);
+    // 第312便c(AN400): 影の記録 —— 転記していたら入った行(前の正本の行の写し)と測った行を JSON の表現で比べる
+    if (CARRY && prT && Array.isArray(prT.periodDays) && prT.periodDays.length === 3) H4C.shadowCompare(CARRY, ck, row, prT);
     table.push(row);
     log(`T ${c.emoji}: 予言 ${row.pred.toPrecision(8)}(新・±${row.numErr.toExponential(1)})・参照値 ${T.value.toPrecision(8)}${T.sourceWidth ? '(幅 ' + T.sourceWidth + ')' : '(幅なし)'}・${row.judge.text}`);
     continue;
@@ -448,6 +453,9 @@ if (IS_MAIN) {
   const h4c = H4C.carryStamp(CARRY, { unit: '段 T の移送の行(T:<本>)',
     valueKeys: '行の欄から h/4 で作る欄(pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB)を除き、配列は h と h/2(走行の数 stats と所要は値の鍵ではない)' });
   if (h4c) out.h4Carried = h4c;
+  const h4s = H4C.shadowStamp(CARRY, { unit: '段 T の移送の行(T:<本>)',
+    valueKeys: '転記の判定は第311便c の値の鍵(行の欄から h/4 で作る欄を除き、配列は h と h/2)/ 比べる値: 行の全欄(転記していたら前の正本の行がそのまま入った)' });
+  if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
   const CODE = ['tests/exp-w306a-an336.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w308d-pre.mjs', 'tests/exp-w306a-an336contract.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/lib-w297b-fit.mjs',
     'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便a', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE, AN.CANDIDATE_FILE, AN.AUDIT_FILE, 'tests/out/gfamily-w305b.json', DECL307D_DATA_FILE] }), {

@@ -295,8 +295,9 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
     launch();
   });
   // 第311便c(AN393 (a)・R228): **h/4 より細かい刻みの仕事の転記**(tests/lib-w311c-h4carry.mjs)。仕事の族(種類・積分の型・本・変種・窓)ごとに、
-  //   h と h/2 の仕事を先に走らせ、その結果(所要 wallSec を除く)と 🔗/🧨 の宣言(cond)が前の正本とビット同一なら、同じ族の h/4・h/8・h/16 の仕事は
-  //   前の正本の結果を写す(違えば測る —— 古い細かい刻みと新しい h/h2 を混ぜない)。H4_CARRY=0 で全部測る。W301D_ONLY のときは使わない
+  //   h と h/2 の仕事を先に走らせ、その結果(所要 wallSec を除く)と 🔗/🧨 の宣言(cond)が前の正本と JSON の表現で一致すれば、同じ族の h/4・h/8・h/16 の仕事は
+  //   前の正本の結果を写す(違えば測る —— 古い細かい刻みと新しい h/h2 を混ぜない)。W301D_ONLY のときは使わない。
+  //   第312便c(AN400・R232): **既定は全部測る**(H4_CARRY=1 は比較の実験だけ)—— 転記の判定は影の記録(h4Carry)にだけ使う
   const divOf = (j) => Math.round(H0 / j.dt), famOf = (j) => [j.kind, j.scheme || '', j.id, j.variant, j.T].join('|');
   const isFine = (j) => j.kind !== 'validate' && j.dt !== undefined && divOf(j) >= 4;
   const carry = ONLY ? null : H4C.openCarry(OUT_PATH, { harnessVersion: HARNESS_VERSION });
@@ -308,16 +309,25 @@ if (IS_MAIN && process.env.W301D_JOB) {   // 子プロセス: 1 つの仕事を�
     const prev = carry && carry.prev && carry.prev.results ? carry.prev.results : null;
     const fresh = { cond, sib: sib.map((k) => H4C.omit(R[k], ['wallSec'])) };
     const old = prev && prev[j.key] ? { cond: carry.prev.cond, sib: sib.map((k) => (prev[k] ? H4C.omit(prev[k], ['wallSec']) : null)) } : undefined;
-    if (carry && sib.length === 2 && H4C.canCarry(carry, j.key, fresh, old)) { R[j.key] = JSON.parse(JSON.stringify(prev[j.key])); H4C.markCarried(carry, j.key); console.log(j.key + ' 転記(h/h2 が前の正本とビット同一: ' + sib.join(',') + ')'); }
-    else { fineRun.push(j); H4C.markMeasured(carry, j.key); }
+    if (carry && sib.length === 2 && H4C.canCarry(carry, j.key, fresh, old)) { R[j.key] = JSON.parse(JSON.stringify(prev[j.key])); H4C.markCarried(carry, j.key); console.log(j.key + ' 転記(h/h2 が前の正本と JSON の表現で一致: ' + sib.join(',') + ')'); }
+    else { fineRun.push(j); if (carry && sib.length !== 2) carry.note[j.key] = 'h と h/2 の仕事が同じ族に無い(転記の判定の外)'; H4C.markMeasured(carry, j.key); }
   }
   await runPool(fineRun);
+  // 第312便c(AN400・R232): **影の記録**(既定 —— h/4 より細かい刻みの仕事は全部測る)。転記の判定が真だった仕事について、前の正本の結果を写していたら
+  //   測った結果(所要 wallSec を除く)と JSON の表現で同じだったかを記録する(正本の h4Carry —— 値の鍵は測った値)
+  if (carry && carry.mode === 'shadow') for (const j of fineRun) {
+    const pj = carry.prev && carry.prev.results ? carry.prev.results[j.key] : undefined;
+    if (pj !== undefined) H4C.shadowCompare(carry, j.key, H4C.omit(R[j.key], ['wallSec']), H4C.omit(pj, ['wallSec']));
+  }
   fs.rmSync(tmpDir, { recursive: true, force: true });
   const ordered = {}; for (const j of list) ordered[j.key] = R[j.key];
   const out = { meta: null, rEsc: R_ESC, h: H0, every: EVERY, cond, results: ordered };
   const h4c = H4C.carryStamp(carry, { unit: '仕事(results の鍵)—— 族(種類・積分の型・本・変種・窓)の刻み h/4・h/8・h/16',
     valueKeys: '同じ族の h と h/2 の仕事の結果(所要 wallSec を除く全欄)と cond(🔗/🧨 の宣言)' });
   if (h4c) out.h4Carried = h4c;
+  const h4s = H4C.shadowStamp(carry, { unit: '仕事(results の鍵)—— 族(種類・積分の型・本・変種・窓)の刻み h/4・h/8・h/16',
+    valueKeys: '転記の判定: 同じ族の h と h/2 の仕事の結果(所要 wallSec を除く全欄)と cond(🔗/🧨 の宣言)/ 比べる値: 仕事の結果(所要 wallSec を除く全欄)' });
+  if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
   if (!ONLY) { out.gates = gatesOf(R, HP); const { numbers, ...g } = out.gates; out.ok = Object.values(g).every(Boolean); out.decision = decisionOf(R, out.gates); }
   const CODE = ['tests/exp-w301d-chainburst.mjs', 'tests/lib-w301d-coupled.mjs', 'tests/lib-w301d-shell.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w311c-h4carry.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便d', target: TARGET, code: CODE, inputs: [TARGET] }), {
