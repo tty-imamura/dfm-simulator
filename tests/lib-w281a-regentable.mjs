@@ -1240,6 +1240,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/planet3-w311d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/wallByKind/*/wallSec']) },
     note: '第311便d: 3 惑星の dragCore の探索の材料(4 つの走行 q00/q10/q01/q11・G_loc の宣言を固定して差し引く・惑星の R_d の格子と根の区間・数値の門 abs(r) ≤ max(3 × 帯, 0.01″/世紀)・R_d/R が 3 惑星でそろうかの表 —— 探索の値を在位へ入れない)' }),
   // ==== 第311便d の塊(ここまで)====
+  // ==== 第312便d の塊(ここから)====
+  // ---- 第312便d(原仮定者の裁定(第114報)・決断事項 AN398・AN396・AN336・統括の検証項目 R233): **確認の器**(🏀 jupiterSunInertial3d と 🌦️ earthMoonSunInertial3d の三体 ——
+  //   3 惑星の探索の正本 planet3-w311d.json から決めた規則〔既定は R_d²/(m p) の平均〕で R_d を置いて残差を測る。合わせない・1 つの天体に 1 つの宣言・太陽は固定・
+  //   G_loc の分は各系で・地球は 1PN の式の値だけの参照・月は 118 公転の emx4 の窓)。段 E〔🏀 の 4 つの走行 × h/h2・🌦️ の q00/q10 × h/h2 と q11 × h〕・T〔標的と G_loc の分〕・
+  //   C〔規則の表・受理の目安・t = 0 の β・残差と数値の門・月の診断・所要と 2 段目の費用〕。在位の本の宣言は変えない(写しは器の中で組む)。html・凍結の写し 2 つ
+  //   (tests/data-w306a-decl305.json と器の中の 🌦️ の写し)・planet3 の正本・第306便a の正本・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。
+  //   所要は第312便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。K1 の確認の系(2 段目)は統合の後に統括(正本は別名 —— 鎖では走らせない)。
+  //   同じ便で段 planet3-311d の器を v2 に(版 w312d-planet3-2 —— AN396 の採用の欄・門の直し・C₂ の実測。命令・出力・所要は同じ・段 T・S・E・R の値は v1 とビット同一)
+  S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json'], 1225, { secSource: 'w312d-branch', node: true, workers: 2, after: ['planet3-311d', 'an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/confirm-w312d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/C/cost/rows/*/wallSec', '/C/cost/rate/*/rateStepsPerSec', '/C/cost/stage2/*/*/spentSec']) },
+    note: '第312便d: 確認の器(3 惑星の規則で 🏀 木星と 🌦️ 太陽と地球と月に R_d を置き、4 つの走行 q00/q10/q01/q11 で残差 r = q11 − q00 − q⋆ を測る —— 合わせない・1 つの天体に 1 つの宣言・月の p は地球のまわりと太陽のまわりで定まらない〔表〕・在位へ入れない)' }),
+  // ==== 第312便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
