@@ -1228,7 +1228,7 @@ export const REGEN_STEPS = [
   //   (tests/data-w306a-decl305.json と器の中の 🌦️ の写し)・planet3 の正本・第306便a の正本・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。
   //   所要は第312便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。K1 の確認の系(2 段目)は統合の後に統括(正本は別名 —— 鎖では走らせない)。
   //   同じ便で段 planet3-311d の器を v2 に(版 w312d-planet3-2 —— AN396 の採用の欄・門の直し・C₂ の実測。命令・出力・所要は同じ・段 T・S・E・R の値は v1 とビット同一)
-  S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json'], 1500, { secSource: 'w312d-branch', node: true, workers: 2, after: ['planet3-311d', 'an336-306a', 'obscompare', 'samplestatus'],
+  S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json'], 1225, { secSource: 'w312d-branch', node: true, workers: 2, after: ['planet3-311d', 'an336-306a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/confirm-w312d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/C/cost/rows/*/wallSec', '/C/cost/rate/*/rateStepsPerSec', '/C/cost/stage2/*/*/spentSec']) },
     note: '第312便d: 確認の器(3 惑星の規則で 🏀 木星と 🌦️ 太陽と地球と月に R_d を置き、4 つの走行 q00/q10/q01/q11 で残差 r = q11 − q00 − q⋆ を測る —— 合わせない・1 つの天体に 1 つの宣言・月の p は地球のまわりと太陽のまわりで定まらない〔表〕・在位へ入れない)' }),
   // ==== 第312便d の塊(ここまで)====
