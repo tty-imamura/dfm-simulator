@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第279便c",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T08:31:47.121Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-20T23:54:48.098Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 96091,
-    "sha256": "83d183ebe82ffad5090ae88c3204c769bb04ac3fa1703b5bfe62ccbcf0a7ff24",
-    "mtime": "2026-10-20T08:29:27.352Z"
+    "sha256": "de5623ab067362407d38d3dd8ad9190ffa79cf09183421b99d3d95f67fa479ff",
+    "mtime": "2026-10-20T23:53:15.916Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
     "bytes": 87314,
-    "sha256": "409aca00d33132e7920d897813a7711483e56cdf1643ef747cc0caa80f830593",
-    "mtime": "2026-10-20T08:30:43.376Z"
+    "sha256": "11b64d1f568ed8b35061a8c9a32e85ebab0177a190d049e1afbb7c7ba65f8ae5",
+    "mtime": "2026-10-20T23:54:04.756Z"
    }
   ],
   "code": [
@@ -30,43 +30,43 @@
     "file": "tests/exp-w279c-bgbudget2.mjs",
     "bytes": 26992,
     "sha256": "d174b76cf02ee97462bc9d1465d0d33b354d978f1f0333f7077dbb82d3e7ba56",
-    "mtime": "2026-10-09T10:19:39.535Z"
+    "mtime": "2026-10-20T16:19:56.628Z"
    },
    {
     "file": "tests/lib-w279c-bgbudget2.mjs",
     "bytes": 14214,
     "sha256": "e08bafb86e07ea250878404acb0ada9be58992b23ae77d0f0fab39ea077020fb",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-10-09T10:19:39.603Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
   "codeSha256": "4b78e41c7347876d9d4106a890775bf71622759b2d74e2ff9fad4cf7b556d7a2",
@@ -130,16 +130,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1456,
-   "segments": 1305,
-   "closureShare": 0.3364
+   "names": 1468,
+   "segments": 1313,
+   "closureShare": 0.3385
   },
-  "scopeSha256": "0de4b8020d908531028aae0a3e7686b4c5fd6eea3e7e043c2b077b5093578fb4",
+  "scopeSha256": "1b71e5d1f7c05ac410a411d3610bbbac44619496c9153965857df6d3fbdb7602",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "c8244892d3d8576b5355ed6b8fb1f92b29b36a1e2ac75850dcc269ac7069067c",
+    "stableSha256": "248bce8da4f15036208c89a7d7584c78367af45fdf6c7ae3ef414c00b7fd2b4a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -149,7 +149,7 @@
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "stableSha256": "cf423ebc2abc8c3f31437eb4925d4aaa8b6193fedd3afcbe8dc246f2f079a473",
+    "stableSha256": "6af3fc8e495f2779ecd598ab8c15e72a7f1b5ad0fbe75b9b2056f04123db17f4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3989,7 +3989,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765371939005,
-     "ms": 61.5,
+     "ms": 87.4000000001397,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4017,7 +4017,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376531868879,
-     "ms": 214.39999999850988,
+     "ms": 162.19999999995343,
      "meshVelN": 20001,
      "meshVelUMax": 0.4740160203706734,
      "meshVelKickMax": 4.715217628827654e-24,
@@ -4045,7 +4045,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 3.249308648191059,
-     "ms": 226,
+     "ms": 175,
      "meshVelN": 32000,
      "meshVelUMax": 2.7730912661943297,
      "meshVelKickMax": 0.0009324681848022852,
@@ -4073,7 +4073,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213986,
-     "ms": 16.600000001490116,
+     "ms": 15.600000000093132,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4101,7 +4101,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213305,
-     "ms": 63,
+     "ms": 67.5,
      "meshVelN": 20001,
      "meshVelUMax": 0.4740160203706734,
      "meshVelKickMax": 4.7152176678048744e-24,
@@ -4129,7 +4129,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219786981379,
-     "ms": 25.900000002235174,
+     "ms": 41.0999999998603,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4157,7 +4157,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219781659954,
-     "ms": 89.60000000149012,
+     "ms": 113.60000000009313,
      "meshVelN": 40001,
      "meshVelUMax": 0.4740160203683489,
      "meshVelKickMax": 2.3576088421360922e-24,
@@ -4185,7 +4185,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 3.2762508784724185,
-     "ms": 291.1000000014901,
+     "ms": 218.89999999990687,
      "meshVelN": 64000,
      "meshVelUMax": 2.895322792520311,
      "meshVelKickMax": 0.0004657993829317613,
@@ -4213,7 +4213,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787001554,
-     "ms": 32.899999998509884,
+     "ms": 25.0999999998603,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4241,7 +4241,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787004343,
-     "ms": 170.70000000298023,
+     "ms": 106.10000000009313,
      "meshVelN": 40001,
      "meshVelUMax": 0.4740160203683489,
      "meshVelKickMax": 2.3576088422295977e-24,
@@ -4389,7 +4389,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283369575109093,
-     "ms": 81.39999999850988,
+     "ms": 79.5,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4417,7 +4417,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.28336091060813,
-     "ms": 64.60000000149012,
+     "ms": 68.89999999990687,
      "meshVelN": 20001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 9.230954067484948e-31,
@@ -4445,7 +4445,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": -5.764277943853813e-13,
-     "ms": 152.60000000149012,
+     "ms": 168.39999999990687,
      "meshVelN": 32000,
      "meshVelUMax": 99.9999999998908,
      "meshVelKickMax": 1.071747995389894e-12,
@@ -4473,7 +4473,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202045,
-     "ms": 13,
+     "ms": 17.699999999953434,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4501,7 +4501,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202006,
-     "ms": 44.599999997764826,
+     "ms": 61.300000000046566,
      "meshVelN": 20001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 9.231215414917267e-31,
@@ -4529,7 +4529,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283237635190551,
-     "ms": 27.5,
+     "ms": 39.9000000001397,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4557,7 +4557,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283228970719047,
-     "ms": 116.19999999925494,
+     "ms": 129,
      "meshVelN": 40001,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 4.61550016778107e-31,
@@ -4585,7 +4585,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": -8.819611707622244e-13,
-     "ms": 293.30000000074506,
+     "ms": 232.19999999995343,
      "meshVelN": 64000,
      "meshVelUMax": 99.99999999989176,
      "meshVelKickMax": 5.334812070044265e-13,
@@ -4613,7 +4613,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404001975,
-     "ms": 37.100000001490116,
+     "ms": 31.600000000093132,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -4641,7 +4641,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404002259,
-     "ms": 117.69999999925494,
+     "ms": 108.39999999990687,
      "meshVelN": 40000,
      "meshVelUMax": 2.293279944942756,
      "meshVelKickMax": 4.6156113869072645e-31,
@@ -4708,5 +4708,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 59.042
+ "elapsedS": 39.64
 }
