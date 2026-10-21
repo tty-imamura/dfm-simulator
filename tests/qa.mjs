@@ -3346,7 +3346,7 @@ lastAddAt = Date.now();
         if (!s121) bad.push('② AI_SPEC §121 が無い');
         for (const w of ['w311c-easy-backfill-1', 'readyPick', 'data-w311c-regensec.json', 'data-w311c-h4roles.json', 'lib-w311c-h4carry.mjs', 'fmtFloor', 'lint.readyQueue311', 'lint.h4Carry311', 'docs.w311c', 'SYSTEM_PROMPT には載せない'])
           if (s121 && s121.indexOf(w) < 0) bad.push('② AI_SPEC §121 に「' + w + '」が無い');
-        const c0 = Ch.indexOf('## v1.46-b311'), c1 = Ch.indexOf('\n## ', c0 + 5);
+        const c0 = Ch.search(/## v1\.46(?:-b\d+|\.0)\(/), c1 = Ch.indexOf('\n## ', c0 + 5);
         if (!(c0 >= 0 && Ch.slice(c0, c1 > c0 ? c1 : undefined).indexOf('第311便c') >= 0)) bad.push('③ CHANGELOG の v1.46-b311 に第311便c の行が無い');
         for (const w of ['--calibrate', 'REGEN_RESERVE=0', 'w311c-easy-backfill-1']) if (Tr.indexOf(w) < 0) bad.push('④ tools/README に「' + w + '」が無い');
         const p0 = Pm.indexOf('# ==== 第311便c の塊(ここから)'), p1 = Pm.indexOf('# ==== 第311便c の塊(ここまで)');
@@ -81409,7 +81409,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           'w311a-corespin-1', 'dragCore', 'spinAxis', '宣言の一定のベクトル', 'dragCoreThinShellCheck', 'inertialDragIsqCoreSpin', '言わないこと'])
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第311便a〕に「' + w + '」が無い');
       }
-      { const hb = CLg.indexOf('## v1.46-b311'), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
+      { const hb = CLg.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
         if (cs.indexOf('第311便a') < 0) bad.push('CHANGELOG の v1.46-b311 の節に第311便a が無い'); }
       if (RM.indexOf('第311便a') < 0) bad.push('README に第311便a が無い');
       { const ai = AS.indexOf('## 119.');
@@ -83288,7 +83288,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           '分母に入れない', '太陽系の局所の慣性系そのものに吸収される', 'コリオリ', '大きさは未定', '銀河の模型からの数ではない', '南銀極', '言わないこと'])
           if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第311便b〕に「' + w + '」が無い');
       }
-      { const hb = CL.indexOf('## v1.46-b311'), hn = CL.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
+      { const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CL.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
         if (cs.indexOf('第311便b') < 0) bad.push('CHANGELOG の v1.46-b311 の節に第311便b が無い'); }
       if (RM.indexOf('第311便b') < 0) bad.push('README に第311便b が無い');
       { const ai = AS.indexOf('## 120.');
