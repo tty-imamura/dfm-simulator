@@ -8176,12 +8176,37 @@ function validateRelativeDragInvSq(a){
 //   (受け手ごとの ω_G)。駆動の型(τ_C)は PR だけを読むので銀河の平行な分は慣性自転を駆動しない・維持の型は ω_D = Σ_j ω_ij + ω_G(S._rdWX —— 姿勢へ適用したのと同じ値)の
 //   コストを積む。観測の初期自転の分解(initSpin)は写しで同じ inertialDragIsqBuild を呼ぶので ω_D に銀河の分も入る。
 const REL_DRAG_GALAXY_AXIAL_KEY="galaxyAxial", REL_DRAG_GALAXY_AXIAL_KEYS=["wx","wy","wz"], GALAXY_AXIAL_VERSION="w311b-galaxial-1";
+// ===== 第312便b(原仮定者の裁定(第114報)「一様軸引きずりは受ける側の dragCore の R_d に応じて変わる。ただし一様重力の様に一定の勾配で近似するので、どの場所でも R_d が同じなら
+//   影響は同じ」・決断事項 AN395・統括の検証項目 R231): **受け手の R_d の応答** galaxyAxial.rdPow・refRadius(opt-in —— rdPow の無い宣言は第311便b とビット同一)=====
+//   受け手 i(新則の受け手 —— pinned でない・R_d > 0)の軸の ω に足す銀河の分を ω_G × (R_d,i/R_ref)^q にする(q = rdPow ∈ {0, 1, 2} —— 0 は第311便b と同じ・省略は 0)。
+//   R_d,i は受け手の引きずりの半径 S._rdIsqRd(dragCore の宣言の半径・未宣言は cap6500km の既定か明示の半径 —— 外殻を持つ受け手も dragCore の R_d)。係数は R_d だけで決まり
+//   **位置に依らない**(同じ R_d なら同じ —— 一定の勾配の近似)。R_ref = refRadius(本の長さの単位・正の有限の数)・省略は 6.5×10⁶ m を本の長さの単位へ(物理の単位 scaleExp.L の
+//   無い本で rdPow 1・2 に refRadius を省略すると validatePreset が拒否)。refRadius は rdPow と一緒にだけ。係数 x = R_d,i/R_ref・q = 1 は x・q = 2 は x·x(q = 0 は掛けない)。
+//   β・並進の右辺・回転の係数・分母 1 − Σβ・逆写像は変えない(銀河の分の大きさだけが受け手ごとに変わる)。版 GALAXY_AXIAL_RD_VERSION は rdPow を宣言した本だけ読み口に記録
+//   (GALAXY_AXIAL_VERSION は第311便b のまま —— rdPow の無い本の読み口は第311便b の形のまま)。一様回転の鍵は作らない(第114報: 慣性系でもコリオリの項が要る —— 背景側の
+//   支配天体を明示しない本では規約として無視)。大きさの既定は置かない(AN395)
+const REL_DRAG_GALAXY_AXIAL_RD_KEYS=["rdPow","refRadius"], GALAXY_AXIAL_RD_POWS=[0,1,2], GALAXY_AXIAL_RD_VERSION="w312b-galaxial-rd-1", GALAXY_AXIAL_REF_RADIUS_M=6.5e6;
+function galaxyAxialPowOf(g){ return (g && (g.rdPow===1 || g.rdPow===2))? g.rdPow : 0; }
+// rdPow 1・2 で refRadius を省略した宣言(本の長さの単位の SI の倍率 10^L が要る —— validatePreset と inertialDragLenPrepare が読む)
+function galaxyAxialNeedsLen(rd){ const g=rd && rd[REL_DRAG_GALAXY_AXIAL_KEY]; return !!(g && typeof g==="object" && galaxyAxialPowOf(g)>0 && g.refRadius===undefined); }
+// R_ref(本の長さの単位): 宣言の refRadius・省略は 6.5×10⁶ m / 10^L(S._rdLenSI —— 解けなければ NaN〔呼び手は足さない〕)
+function galaxyAxialRefRadius(S,g){ if(g.refRadius!==undefined) return g.refRadius; const Lm=S._rdLenSI; return (Lm>0)? GALAXY_AXIAL_REF_RADIUS_M/Lm : NaN; }
+function galaxyAxialRdFactor(Rd,Rr,q){ const x=Rd/Rr; return (q===1)? x : x*x; }
 function validateGalaxyAxial(g, out){
-  const nm='physics.relativeDrag.galaxyAxial', form=nm+' は {wx, wy, wz}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)';
+  const nm='physics.relativeDrag.galaxyAxial', form=nm+' は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)';
   if(typeof g!=="object" || g===null || Array.isArray(g)) return {ok:false, err:form};
-  for(const k of Object.keys(g)) if(REL_DRAG_GALAXY_AXIAL_KEYS.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'(wx・wy・wz だけ —— 一様並進・一様回転の鍵は作らない〔第110報〕・第311便b)'};
+  for(const k of Object.keys(g)) if(REL_DRAG_GALAXY_AXIAL_KEYS.indexOf(k)<0 && REL_DRAG_GALAXY_AXIAL_RD_KEYS.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)'};
   const o={};
   for(const k of REL_DRAG_GALAXY_AXIAL_KEYS){ if(!isNum(g[k])) return {ok:false, err:form}; o[k]=(g[k]===0)? 0 : g[k]; }
+  if(g.rdPow!==undefined){   // 第312便b(R231): 受け手の R_d の応答の次数
+    if(GALAXY_AXIAL_RD_POWS.indexOf(g.rdPow)<0) return {ok:false, err:nm+'.rdPow は 0・1・2 のどれか(受け手の引きずりの半径 R_d の応答 ω_G × (R_d/R_ref)^rdPow —— 省略は 0〔第311便b と同じ〕・第312便b)'};
+    o.rdPow=(g.rdPow===0)? 0 : g.rdPow;
+  }
+  if(g.refRadius!==undefined){
+    if(g.rdPow===undefined) return {ok:false, err:nm+'.refRadius は rdPow と一緒にだけ(応答の基準の半径 R_ref —— rdPow の無い宣言は第311便b の同じ ω_G・第312便b)'};
+    if(!isNum(g.refRadius) || !(g.refRadius>0)) return {ok:false, err:nm+'.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)'};
+    o.refRadius=g.refRadius;
+  }
   const sd=out[REL_DRAG_SPIN3_KEY];
   if(!(sd && sd.axial==="on")) return {ok:false, err:nm+' は spinDrag.axial:"on"(軸の ω を使う本)だけ —— 軸を引きずらない本では効かない(第311便b)'};
   return {ok:true, galaxyAxial:o};
@@ -27823,6 +27848,9 @@ function validatePreset(obj){
   }
   if(!errors.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][DRAG_CORE_DEFAULT_KEY]!==undefined && !(p.scaleExp && isNum(p.scaleExp.L)))
     bad('physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない・第309便a)');
+  // 第312便b(R231): galaxyAxial.rdPow 1・2 で refRadius を省略した本は物理の単位の宣言が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する)
+  if(!errors.length && p.physics && galaxyAxialNeedsLen(p.physics[REL_DRAG_KEY]) && !(p.scaleExp && isNum(p.scaleExp.L)))
+    bad('physics.relativeDrag.galaxyAxial.rdPow(1・2)で refRadius を省略する本は物理の単位の宣言 scaleExp.L が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本は refRadius を宣言する・第312便b)');
   // 第311便b(決断事項 AN389・AN382・統括の検証項目 R227): 新則(invSq)の受け手は**宣言の質量 m > 0 かつ R_d > 0**。宣言の質量が正でない天体(質量の下限 massFloor へ持ち上げる前に判定)に
   //   引きずりの半径(明示の radius か dragCore)を宣言した本は拒否する(宣言の矛盾 —— 持ち上げた質量で受け手・源にしない)。半径の無い天体は今のまま源にも受け手にもならない(受理)
   if(!errors.length && isqMassNonPos.length && p.physics && p.physics[REL_DRAG_KEY] && p.physics[REL_DRAG_KEY][REL_DRAG_INVSQ_KEY]!==undefined)
@@ -41761,7 +41789,7 @@ const SIM_STATE_DERIVED=Object.freeze([
   {key:"_dragCoreEp", kind:"latch", ja:"構造核の表を作った宣言の世代の印(最初の步で今の世代を置く —— 世代が変わったら表を捨てる照合だけ)"},
   {key:"zonal", kind:"cache", ja:"帯状重力の宣言の写し(係数 _A は遅延のキャッシュ)"},
   {key:"_rdRadArr", kind:"cache", ja:"引きずりの半径(第309便a —— dragCoreDefault・invSq の本だけ。宣言と宣言半径から步の頭で作り直す)"},
-  {key:"_rdLenSI", kind:"cache", ja:"本の長さの単位の SI の倍率 10^L(第309便a —— dragCoreDefault を宣言した本だけ build が本の scaleExp から作る定数)"}]);
+  {key:"_rdLenSI", kind:"cache", ja:"本の長さの単位の SI の倍率 10^L(第309便a —— dragCoreDefault を宣言した本と、第312便b の galaxyAxial.rdPow 1・2 で refRadius を省略した本だけ build が本の scaleExp から作る定数)"}]);
 function ckDeep(v){
   if(v===null || typeof v!=="object") return v;
   if(ArrayBuffer.isView(v)) return v.slice();
@@ -58241,9 +58269,11 @@ function inertialDragIsqRowGuard(S,n,A,UX,UY,UZ,ax,degMax){
   if(low) S.inertialDragIsqLowDen=(S.inertialDragIsqLowDen||0)+low;
   const g=ax? S.relDrag[REL_DRAG_GALAXY_AXIAL_KEY] : null;
   if(g && (g.wx!==0 || g.wy!==0 || g.wz!==0)){
-    const gx=g.wx, gy=g.wy, gz=g.wz, AX=S.sax, AY=S.say, AZ=S.saz;
-    for(let i=0;i<n;i++){
+    const q=galaxyAxialPowOf(g), Rr=q? galaxyAxialRefRadius(S,g) : 1, AX=S.sax, AY=S.say, AZ=S.saz;   // 第312便b: q = rdPow(0 は第311便b と同じ —— 掛けない)
+    if(!q || Rr>0) for(let i=0;i<n;i++){
       if(pin[i] || !(RD[i]>0)) continue;
+      let gx=g.wx, gy=g.wy, gz=g.wz;
+      if(q){ const f=galaxyAxialRdFactor(RD[i],Rr,q); gx*=f; gy*=f; gz*=f; }   // 第312便b: ω_G × (R_d,i/R_ref)^q(受け手の R_d だけ —— 位置に依らない)
       WX[i]+=gx; WY[i]+=gy; WZ[i]+=gz;
       const pa=gx*AX[i]+gy*AY[i]+gz*AZ[i]; WS[i]+=(inertialDrag3AxialSign(AX[i],AY[i],AZ[i])>0)? pa : -pa;   // 傾きを持たない受け手が読む符号つきのスカラー(受け手の軸への射影)
     }
@@ -58258,13 +58288,25 @@ function inertialDragGalaxyAxialState(S){
   T._rdIsqRd=null; T._rdIsqMd=null; T._rdIsqSc=null; T._rdRadArr=null; T._rdIsqSh=null;
   inertialDragIsqCore(T,n);
   const zero=!!g && g.wx===0 && g.wy===0 && g.wz===0, active=!!g && !zero && !!(sd && sd.axial) && relDragCoefficientOf(rd)>0, receivers=[];
+  const rdDecl=!!g && g.rdPow!==undefined, q=galaxyAxialPowOf(g), Rr=q? galaxyAxialRefRadius(S,g) : 1, rdOn=!q || Rr>0;   // 第312便b: rdPow を宣言した本だけ R_d の応答の欄
   for(let i=0;i<n;i++){
-    const rc=!S.pinned[i] && T._rdIsqRd[i]>0, w=(rc && active)? [g.wx, g.wy, g.wz] : [0,0,0], pa=w[0]*S.sax[i]+w[1]*S.say[i]+w[2]*S.saz[i];
-    receivers.push({i, receiver:rc, omegaG:w, omegaGs:(inertialDrag3AxialSign(S.sax[i],S.say[i],S.saz[i])>0)? pa : -pa});
+    const rc=!S.pinned[i] && T._rdIsqRd[i]>0, f=(rc && q && Rr>0)? galaxyAxialRdFactor(T._rdIsqRd[i],Rr,q) : 1;
+    let w=(rc && active && rdOn)? [g.wx, g.wy, g.wz] : [0,0,0];
+    if(q && rc && active && rdOn) w=[w[0]*f, w[1]*f, w[2]*f];
+    const pa=w[0]*S.sax[i]+w[1]*S.say[i]+w[2]*S.saz[i], row={i, receiver:rc, omegaG:w, omegaGs:(inertialDrag3AxialSign(S.sax[i],S.say[i],S.saz[i])>0)? pa : -pa};
+    if(rdDecl){ row.Rd=T._rdIsqRd[i]; row.rdFactor=rc? f : null; }
+    receivers.push(row);
   }
-  return {version:GALAXY_AXIAL_VERSION, key:REL_DRAG_GALAXY_AXIAL_KEY, declared:!!g, decl:g? {wx:g.wx, wy:g.wy, wz:g.wz} : null, explicitZero:zero, active,
+  const res={version:GALAXY_AXIAL_VERSION, key:REL_DRAG_GALAXY_AXIAL_KEY, declared:!!g, decl:g? {wx:g.wx, wy:g.wy, wz:g.wz} : null, explicitZero:zero, active,
     unit:"本の角速度の単位(1/本の時間単位)", denominator:"none", holdRecord:"pairs", receivers,
     rowGuard:{badRows:S.inertialDragIsqBadRow||0, lowDenRows:S.inertialDragIsqLowDen||0, denMin:REL_DRAG_INIT_DEN_MIN}};
+  if(rdDecl){
+    res.decl.rdPow=g.rdPow; if(g.refRadius!==undefined) res.decl.refRadius=g.refRadius;
+    res.rd={version:GALAXY_AXIAL_RD_VERSION, rdPow:g.rdPow, rule:"omegaG*(Rd/Rref)^rdPow", radius:"dragCore R_d(S._rdIsqRd)", position:"independent",
+      refRadius:(q && !(Rr>0))? null : (q? Rr : (g.refRadius!==undefined? g.refRadius : null)), refRadiusDeclared:g.refRadius!==undefined,
+      refRadiusDefaultM:(g.refRadius===undefined)? GALAXY_AXIAL_REF_RADIUS_M : null, lenSI:(S._rdLenSI>0)? S._rdLenSI : null, resolved:rdOn};
+  }
+  return res;
 }
 // 帳簿の鍵(新則の本だけ —— inertialDragInit が張る)
 function inertialDragIsqLedgerInit(S){
@@ -58596,7 +58638,7 @@ function dragCoreDefaultState(S){
 // build の後段(dragCoreDefault を宣言した本だけ): 本の長さの単位の SI の倍率 10^L を控える(build の定数 —— 宣言の無い本は鍵を作らない)
 function inertialDragLenPrepare(S,preset){
   const rd=preset && preset.physics && preset.physics[REL_DRAG_KEY];
-  if(!rd || rd.law!=="inertial" || rd[DRAG_CORE_DEFAULT_KEY]===undefined || rd[DRAG_CORE_DEFAULT_KEY]===null) return;
+  if(!rd || rd.law!=="inertial" || ((rd[DRAG_CORE_DEFAULT_KEY]===undefined || rd[DRAG_CORE_DEFAULT_KEY]===null) && !galaxyAxialNeedsLen(rd))) return;   // 第312便b: galaxyAxial の R_ref の既定にも使う
   const L=preset.scaleExp && preset.scaleExp.L;
   S._rdLenSI=isNum(L)? Math.pow(10,L) : null;
 }

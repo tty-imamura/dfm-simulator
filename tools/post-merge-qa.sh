@@ -242,6 +242,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coreSpin311 docs.coreSpin311 behavi
 #   docs.galaxial311 —— 正本と文書)と、受理・分解・build を読む behavior.invSq310・docs.invSq310(段 Z の 2 行が拒否へ)・behavior.invSq309・behavior.initObs309・docs.recheck309・状態の契約
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxial311 docs.galaxial311 behavior.invSq310 docs.invSq310 behavior.invSq309 docs.invSq309 behavior.initObs309 docs.recheck309 lint.stateContract302"
 # ==== 第311便b の塊(ここまで)====
+# ==== 第312便b の塊(ここから)====
+# 第312便b(原仮定者の裁定(第114報)・AN395・R231): 枝 b の新設 2 本(behavior.galaxialRd312 —— 銀河の一様軸引きずりの受け手の R_d の応答 rdPow・refRadius の受理・省略のビット同一・
+#   q の比・位置の不変・同じ R_d の双子・β と並進の不変・同じ R_d の対の軸の角・docs.galaxialRd312 —— 正本と文書・〔第311便b〕と〔第311便 — 統括〕の注記)と、
+#   同じ鍵と読み口を読む behavior.galaxial311・docs.galaxial311(〔第311便b〕に注記)・新則の受理を読む behavior.invSq310・behavior.coreSpin311・behavior.initObs309・状態の契約
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRd312 docs.galaxialRd312 behavior.galaxial311 docs.galaxial311 behavior.invSq310 behavior.coreSpin311 behavior.initObs309 lint.stateContract302"
+# ==== 第312便b の塊(ここまで)====
 # ==== 第311便d の塊(ここから)====
 # 第311便d(原仮定者の裁定(第110報)AN387・(第111報)AN391・AN392・AN386・AN396・R229): 枝 d の新設 1 本(docs.planet3_311 —— 3 惑星の dragCore の探索の器の正本と文書・
 #   在位の 🌡️🌋🔴 の宣言が不変)と、同じ写しの作り方と標的を読む docs.mdSweep310・docs.an336_306

@@ -65,6 +65,9 @@ export const SMOKE_KNOBS = Object.freeze({
   'pairnorm-305a': { env: { W305A_PARTS: 'Z,K' }, note: '段 Z・K だけ(約 5 s —— 三体の長窓 M は鎖)' },
   // ==== 第311便b の塊(ここから)====
   'galaxial-311b': { env: { W311B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 35 s・全段 A・B・D)' },
+  // ==== 第312便b の塊(ここから)====
+  'galaxialrd-312b': { env: { W312B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 60 s・全段 A・B・N・X)' },
+  // ==== 第312便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
