@@ -178,7 +178,7 @@
     },
     "betaMax": 5.135605990686731e-8,
     "isqSteps": 1740861,
-    "wallSec": 1220.717
+    "wallSec": 891.895
    },
    "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
     "key": "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8",
@@ -207,7 +207,7 @@
     "betaMax": 1.0450602602525163e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 453.557,
+    "wallSec": 254.172,
     "status": "run"
    },
    "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=2|N=8": {
@@ -237,7 +237,7 @@
     "betaMax": 1.045060259138874e-8,
     "isqSteps": 760089,
     "overlap": 0,
-    "wallSec": 297.789,
+    "wallSec": 239.801,
     "status": "run"
    },
    "jupiter|q01|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
@@ -267,7 +267,7 @@
     "betaMax": 1.0450336831615362e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 189.34,
+    "wallSec": 120.641,
     "status": "run"
    },
    "jupiter|q11|rd2OverMp:8.10046e-27:moonP=earth|kernel=k2|div=1|N=8": {
@@ -297,7 +297,7 @@
     "betaMax": 1.045033682051679e-8,
     "isqSteps": 380044,
     "overlap": 0,
-    "wallSec": 146.754,
+    "wallSec": 114.881,
     "status": "run"
    },
    "earthmoon|q00|-|div=2|N=118": {
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 17.038
+    "wallSec": 9.788
    },
    "earthmoon|q10|-|div=2|N=118": {
     "key": "earthmoon|q10|-|div=2|N=118",
@@ -378,7 +378,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 20.025
+    "wallSec": 11.204
    },
    "earthmoon|q00|-|div=1|N=118": {
     "key": "earthmoon|q00|-|div=1|N=118",
@@ -418,7 +418,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 8.439
+    "wallSec": 5.065
    },
    "earthmoon|q10|-|div=1|N=118": {
     "key": "earthmoon|q10|-|div=1|N=118",
@@ -458,7 +458,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 8.46
+    "wallSec": 5.899
    },
    "jupiter|q00|-|div=2|N=8": {
     "key": "jupiter|q00|-|div=2|N=8",
@@ -484,7 +484,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 4.262,
+    "wallSec": 3.161,
     "status": "run"
    },
    "jupiter|q10|-|div=2|N=8": {
@@ -511,7 +511,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 3.875,
+    "wallSec": 3.373,
     "status": "run"
    },
    "jupiter|q00|-|div=1|N=8": {
@@ -538,7 +538,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.995,
+    "wallSec": 1.876,
     "status": "run"
    },
    "jupiter|q10|-|div=1|N=8": {
@@ -565,7 +565,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.897,
+    "wallSec": 1.605,
     "status": "run"
    }
   }
@@ -1147,8 +1147,7 @@
      "div": 1,
      "n": 1,
      "steps": 1740861,
-     "wallSec": 1220.717,
-     "msPerStep": 0.7012145139675138
+     "wallSec": 891.895
     },
     "jupiter|drag|h/2": {
      "system": "jupiter",
@@ -1156,8 +1155,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 751.346,
-     "msPerStep": 0.49424869982331016
+     "wallSec": 493.97299999999996
     },
     "jupiter|drag|h/1": {
      "system": "jupiter",
@@ -1165,8 +1163,7 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 336.094,
-     "msPerStep": 0.4421777478397238
+     "wallSec": 235.522
     },
     "earthmoon|nodrag|h/2": {
      "system": "earthmoon",
@@ -1174,8 +1171,7 @@
      "div": 2,
      "n": 2,
      "steps": 6963437,
-     "wallSec": 37.063,
-     "msPerStep": 0.005322515303865031
+     "wallSec": 20.992
     },
     "earthmoon|nodrag|h/1": {
      "system": "earthmoon",
@@ -1183,8 +1179,7 @@
      "div": 1,
      "n": 2,
      "steps": 3481720,
-     "wallSec": 16.899,
-     "msPerStep": 0.004853635559436141
+     "wallSec": 10.964
     },
     "jupiter|nodrag|h/2": {
      "system": "jupiter",
@@ -1192,8 +1187,7 @@
      "div": 2,
      "n": 2,
      "steps": 1520178,
-     "wallSec": 8.137,
-     "msPerStep": 0.0053526626487161375
+     "wallSec": 6.534000000000001
     },
     "jupiter|nodrag|h/1": {
      "system": "jupiter",
@@ -1201,50 +1195,53 @@
      "div": 1,
      "n": 2,
      "steps": 760088,
-     "wallSec": 3.8920000000000003,
-     "msPerStep": 0.005120459736241067
+     "wallSec": 3.481
     }
    },
-   "msPerStepDrag": {
-    "jupiter": 0.4768917310524298,
-    "earthmoon": 0.7012145139675138
+   "rate": {
+    "jupiter": {
+     "rateStepsPerSec": 3125.8144332723327
+    },
+    "earthmoon": {
+     "rateStepsPerSec": 1951.8676525824228
+    }
    },
    "stage2": {
-    "note": "1 走行の CPU 秒 = 引きずりの步の実測(ms/步)× 步(步は刻みと窓に比例)。K1 の步の費用は K2 と同じ程度の見込み(前計算の表の差し替え —— 統合の後に実測)",
+    "note": "1 走行の CPU 秒の見積り spentSec = 步 ÷ 引きずりの步の実測の速さ rate(步は刻みと窓に比例)。K1 の步の費用は K2 と同じ程度の見込み(統合の後に実測)",
     "jupiter": {
      "h": {
       "steps": 380044,
-      "cpuSec": 181
+      "spentSec": 122
      },
      "h2": {
       "steps": 760088,
-      "cpuSec": 362
+      "spentSec": 243
      },
      "h4": {
       "steps": 1520176,
-      "cpuSec": 725
+      "spentSec": 486
      }
     },
     "earthmoon": {
      "h": {
       "steps": 1740861,
-      "cpuSec": 1221
+      "spentSec": 892
      },
      "h2": {
       "steps": 3481722,
-      "cpuSec": 2441
+      "spentSec": 1784
      },
      "h4": {
       "steps": 6963444,
-      "cpuSec": 4883
+      "spentSec": 3568
      },
      "long354": {
       "steps": 5222583,
-      "cpuSec": 3662
+      "spentSec": 2676
      },
      "long1062": {
       "steps": 15667749,
-      "cpuSec": 10986
+      "spentSec": 8027
      }
     }
    }
@@ -1261,22 +1258,22 @@
  "ok": true,
  "timing": {
   "E": {
-   "wallSec": 1221.919
+   "wallSec": 892.46
   },
   "T": {
-   "wallSec": 0.009
+   "wallSec": 0.01
   },
   "C": {
-   "wallSec": 0.097
+   "wallSec": 0.094
   }
  },
- "elapsedS": 1225.08,
+ "elapsedS": 894.654,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便d",
   "target": "beta/index.html",
   "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
-  "generatedAt": "2026-10-21T18:15:13.222Z",
+  "generatedAt": "2026-10-21T18:35:41.881Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1318,9 +1315,9 @@
   "code": [
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 46513,
-    "sha256": "d9c1a773661e86eb019e770da11dfed01f9fdff60ac8b058a305d542aac685cf",
-    "mtime": "2026-10-21T17:26:29.294Z"
+    "bytes": 46696,
+    "sha256": "7eb3130fd62e01fd456cf4859ba2b57de580e84221e34d53abf8ab41c845f26b",
+    "mtime": "2026-10-21T18:20:38.412Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
@@ -1389,7 +1386,7 @@
     "mtime": "2026-10-21T17:00:18.178Z"
    }
   ],
-  "codeSha256": "5d4c6d29af3607012ef9eae94d89091dc540f8cdca2c05edaf9ae9f231437073",
+  "codeSha256": "7fbb7df026f0ab8e93da949aad8233cd118959dbbc85541fbcaf82fef60a9bf0",
   "harnessVersion": "w312d-confirm-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)",
   "notClaim": [
