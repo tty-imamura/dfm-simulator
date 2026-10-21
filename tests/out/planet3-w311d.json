@@ -1,14 +1,14 @@
 {
- "version": "w311d-planet3-1",
- "libVersion": "w311d-planet3-lib-1",
+ "version": "w312d-planet3-2",
+ "libVersion": "w312d-planet3-lib-2",
  "shellLibVersion": "w310d-shell-lib-1",
  "an336LibVersion": "w306a-an336-1",
  "apsisVersion": "w304e-apsis-1",
  "generator": "tests/exp-w311d-planet3.mjs",
  "target": "beta/index.html",
- "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+ "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
  "reuseFrom": null,
- "ruling": "原仮定者の裁定(第110報)AN387・(第111報)AN391: G_loc の宣言を固定して寄与を差し引き、太陽–水星・太陽–金星・太陽–火星で各天体の dragCore を探索する —— 決断事項 AN392(ノブの順)・AN386(値域と探索の型)・AN396(数値の門)・AN336(標的 1PN + A1)・統括の検証項目 R229。探索の材料(探索の値を在位へ入れない)",
+ "ruling": "原仮定者の裁定(第110報)AN387・(第111報)AN391: G_loc の宣言を固定して寄与を差し引き、太陽–水星・太陽–金星・太陽–火星で各天体の dragCore を探索する —— 決断事項 AN392(ノブの順)・AN386(値域と探索の型)・AN396(数値の門)・AN336(標的 1PN + A1)・統括の検証項目 R229。探索の材料(探索の値を在位へ入れない)。v2(第312便d —— 原仮定者の裁定(第114報)・決断事項 AN396 の最終の採用の欄・統括の検証項目 R233): 候補の点そのものの 4 つの欄・--kernel k1 の口・R_d の口・門の直し",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
  "parts": [
@@ -19,6 +19,12 @@
   "G"
  ],
  "stage2": false,
+ "kernel": "k2",
+ "planets": [
+  "mercury",
+  "venus",
+  "mars"
+ ],
  "live": [
   {
    "id": "mercurySunInertial3d",
@@ -120,6 +126,7 @@
       "betaR": 0.0033639926155020995,
       "betaSunE": 6.602055985479863e-16,
       "betaSunR": 6.602055985479867e-16,
+      "c2": 0.45678871506841284,
       "dBeta": 1.491587000262556e-13,
       "dBetaSun": 5.974357889087746e-16,
       "shellPlanet": false,
@@ -155,6 +162,7 @@
       "betaR": 0.0000337559902068489,
       "betaSunE": 6.602055983881708e-16,
       "betaSunR": 6.602055983881714e-16,
+      "c2": 0.45836470407937335,
       "dBeta": 1.0105380005987375e-12,
       "dBetaSun": 8.96153683580093e-16,
       "shellPlanet": false,
@@ -190,6 +198,7 @@
       "betaR": 0.000003038135479398926,
       "betaSunE": 6.602055983867032e-16,
       "betaSunR": 6.602055983867031e-16,
+      "c2": 0.4583792425308986,
       "dBeta": 1.0651563753245939e-12,
       "dBetaSun": 1.4935894726368088e-16,
       "shellPlanet": false,
@@ -225,6 +234,7 @@
       "betaR": 3.3757155011074917e-7,
       "betaSunE": 6.602055983865745e-16,
       "betaSunR": 6.602055983865746e-16,
+      "c2": 0.4583805206820689,
       "dBeta": 4.802442981233005e-12,
       "dBetaSun": 1.4935894726371e-16,
       "shellPlanet": false,
@@ -260,6 +270,7 @@
       "betaR": 8.439290959048055e-8,
       "betaSunE": 6.602055983865622e-16,
       "betaSunR": 6.602055983865626e-16,
+      "c2": 0.4583806405091196,
       "dBeta": 2.041214161216818e-11,
       "dBetaSun": 7.467947363185639e-16,
       "shellPlanet": false,
@@ -295,6 +306,7 @@
       "betaR": 3.038144914684728e-8,
       "betaSunE": 6.602055983865596e-16,
       "betaSunR": 6.602055983865604e-16,
+      "c2": 0.45838066607223166,
       "dBeta": 1.8845967478628713e-11,
       "dBetaSun": 1.1948715781097068e-15,
       "shellPlanet": false,
@@ -330,6 +342,7 @@
       "betaR": 3.3757166663312834e-9,
       "betaSunE": 6.602055983865582e-16,
       "betaSunR": 6.602055983865592e-16,
+      "c2": 0.4583806788537884,
       "dBeta": 1.167108664693468e-10,
       "dBetaSun": 1.4935894726371367e-15,
       "shellPlanet": false,
@@ -358,6 +371,8 @@
     "rdEst": 0.004990793524728564,
     "RdEstKm": 12.17753596533286,
     "Rkm": 2439.9999529123306,
+    "c2": 0.4583806788537884,
+    "c2Rd": 0.001,
     "gridInit": [
      1,
      0.1,
@@ -563,6 +578,7 @@
       "betaR": 0.0005900644881028572,
       "betaSunE": 4.0835782107613615e-15,
       "betaSunR": 4.083578210761371e-15,
+      "c2": 0.4581014139009842,
       "dBeta": 9.187149831465633e-14,
       "dBetaSun": 2.318146090040772e-15,
       "shellPlanet": false,
@@ -598,6 +614,7 @@
       "betaR": 0.000005904206080592124,
       "betaSunE": 4.083578208212047e-15,
       "betaSunR": 4.083578208212047e-15,
+      "c2": 0.4583778855884178,
       "dBeta": 1.2489856787057092e-12,
       "dBetaSun": 0,
       "shellPlanet": false,
@@ -633,6 +650,7 @@
       "betaR": 5.313814951358078e-7,
       "betaSunE": 4.083578208188614e-15,
       "betaSunR": 4.083578208188611e-15,
+      "c2": 0.45838042849218874,
       "dBeta": 2.7130227330450383e-12,
       "dBetaSun": 7.727153638337523e-16,
       "shellPlanet": false,
@@ -668,6 +686,7 @@
       "betaR": 5.904241714384132e-8,
       "betaSunE": 4.0835782081865534e-15,
       "betaSunR": 4.083578208186548e-15,
+      "c2": 0.4583806520455632,
       "dBeta": 2.1272690090639365e-12,
       "dBetaSun": 1.3522518867097488e-15,
       "shellPlanet": false,
@@ -703,6 +722,7 @@
       "betaR": 1.4760604961101822e-8,
       "betaSunE": 4.0835782081863586e-15,
       "betaSunR": 4.0835782081863554e-15,
+      "c2": 0.4583806730037041,
       "dBeta": 1.9415531801434627e-11,
       "dBetaSun": 7.727153638341791e-16,
       "shellPlanet": false,
@@ -738,6 +758,7 @@
       "betaR": 5.313817837755022e-9,
       "betaSunE": 4.0835782081863176e-15,
       "betaSunR": 4.0835782081863176e-15,
+      "c2": 0.458380677474774,
       "dBeta": 5.696440536758465e-12,
       "dBetaSun": 0,
       "shellPlanet": false,
@@ -773,6 +794,7 @@
       "betaR": 5.904242071087607e-10,
       "betaSunE": 4.083578208186302e-15,
       "betaSunR": 4.083578208186294e-15,
+      "c2": 0.4583806797103082,
       "dBeta": 6.369600484150656e-11,
       "dBetaSun": 1.9317884095854746e-15,
       "shellPlanet": false,
@@ -801,6 +823,8 @@
     "rdEst": 0.010797025804655544,
     "RdEstKm": 65.32200576421195,
     "Rkm": 6049.999967217445,
+    "c2": 0.4583806797103082,
+    "c2Rd": 0.001,
     "gridInit": [
      1,
      0.1,
@@ -1006,6 +1030,7 @@
       "betaR": 0.00037662663568234446,
       "betaSunE": 1.4429849441324284e-16,
       "betaSunR": 1.44298494413243e-16,
+      "c2": 0.4582024282030979,
       "dBeta": 3.6315037520169827e-13,
       "dBetaSun": 1.0250378587135509e-15,
       "shellPlanet": false,
@@ -1041,6 +1066,7 @@
       "betaR": 0.0000037677166844036365,
       "betaSunE": 1.442984944056644e-16,
       "betaSunR": 1.4429849440566428e-16,
+      "c2": 0.45837889652128416,
       "dBeta": 6.2023750560620566e-12,
       "dBetaSun": 8.541982156394874e-16,
       "shellPlanet": false,
@@ -1076,6 +1102,7 @@
       "betaR": 3.39095702040642e-7,
       "betaSunE": 1.4429849440559466e-16,
       "betaSunR": 1.442984944055948e-16,
+      "c2": 0.458380519254761,
       "dBeta": 1.6877020658262353e-11,
       "dBetaSun": 1.0250378587678803e-15,
       "shellPlanet": false,
@@ -1111,6 +1138,7 @@
       "betaR": 3.7677311953199756e-8,
       "betaSunE": 1.442984944055884e-16,
       "betaSunR": 1.442984944055886e-16,
+      "c2": 0.4583806619132168,
       "dBeta": 5.5193217141655166e-12,
       "dBetaSun": 1.3667171450238997e-15,
       "shellPlanet": false,
@@ -1146,6 +1174,7 @@
       "betaR": 9.419328262054236e-9,
       "betaSunE": 1.4429849440558783e-16,
       "betaSunR": 1.44298494405588e-16,
+      "c2": 0.4583806752874517,
       "dBeta": 1.196162120311552e-10,
       "dBetaSun": 1.195877501895917e-15,
       "shellPlanet": false,
@@ -1181,6 +1210,7 @@
       "betaR": 3.3909581956848836e-9,
       "betaSunE": 1.4429849440558773e-16,
       "betaSunR": 1.4429849440558783e-16,
+      "c2": 0.45838067814062133,
       "dBeta": 4.9284326071258326e-11,
       "dBetaSun": 6.83358572511953e-16,
       "shellPlanet": false,
@@ -1216,6 +1246,7 @@
       "betaR": 3.767731340777833e-10,
       "betaSunE": 1.4429849440558766e-16,
       "betaSunR": 1.4429849440558778e-16,
+      "c2": 0.4583806795672065,
       "dBeta": 8.688142574230943e-11,
       "dBetaSun": 8.541982156399417e-16,
       "shellPlanet": false,
@@ -1244,6 +1275,8 @@
     "rdEst": 0.010110851565687038,
     "RdEstKm": 34.27073220632649,
     "Rkm": 3389.500081539154,
+    "c2": 0.4583806795672065,
+    "c2Rd": 0.001,
     "gridInit": [
      1,
      0.1,
@@ -1434,7 +1467,7 @@
    }
   },
   "formula": {
-   "beta": "β(惑星 ← 太陽) ≈ (M☉/m)(R_d²/(3r²))〔惑星の自己の場が分母の大半 —— 中心の自己の場 3m/R_d²〕→ D_G ∝ R_d²",
+   "beta": "β(惑星 ← 太陽) ≈ C₂(M☉/m)(R_d/r)²・C₂ ≈ 0.45838〔惑星の一様球の自己の場の比の体積平均 —— 自己の場が分母の大半。中心の自己の場 3m/R_d² だけなら 1/3〕→ D_G ∝ R_d²(c2 はエンジンの β から測った値)",
    "rdEst": "rd_est = √(t_D/D_G,est(θ₀))(t_D = q⋆ − ΔqG の解析の一次)・表の補間は x = (R_d/R)² の直線",
    "perCentury": "第310便d の一次の式(並進の主項 2π b₀/p²・⟨ρ²⟩ の項・回転 −3π c/(p² h₀)・太陽を受け手 —— 1 周期の値 × 1 世紀/P_K)"
   }
@@ -1502,7 +1535,7 @@
     "betaMax": 0.0076725807046072085,
     "isqSteps": 760875,
     "overlap": 0,
-    "wallSec": 260.116
+    "wallSec": 330.797
    },
    "mercury|q11|rd=0.01|md=1|sun=1|div=2|N=8": {
     "key": "mercury|q11|rd=0.01|md=1|sun=1|div=2|N=8",
@@ -1532,7 +1565,7 @@
     "betaMax": 7.768487561282847e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 258.355
+    "wallSec": 333.801
    },
    "mercury|q11|rd=0.005|md=1|sun=1|div=2|N=8": {
     "key": "mercury|q11|rd=0.005|md=1|sun=1|div=2|N=8",
@@ -1562,7 +1595,7 @@
     "betaMax": 1.942123701069897e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 260.957
+    "wallSec": 400.948
    },
    "mercury|q11|rd=0.003|md=1|sun=1|div=2|N=8": {
     "key": "mercury|q11|rd=0.003|md=1|sun=1|div=2|N=8",
@@ -1592,7 +1625,7 @@
     "betaMax": 6.991646714514652e-8,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 260.159
+    "wallSec": 500.601
    },
    "mercury|q01|rd=0.005|md=1|sun=1|div=2|N=8": {
     "key": "mercury|q01|rd=0.005|md=1|sun=1|div=2|N=8",
@@ -1622,7 +1655,7 @@
     "betaMax": 1.9421243868038066e-7,
     "isqSteps": 760056,
     "overlap": 0,
-    "wallSec": 256.005
+    "wallSec": 467.044
    },
    "venus|q11|rd=1|md=1|sun=1|div=2|N=8": {
     "key": "venus|q11|rd=1|md=1|sun=1|div=2|N=8",
@@ -1652,7 +1685,7 @@
     "betaMax": 0.0005927475646763993,
     "isqSteps": 760953,
     "overlap": 0,
-    "wallSec": 259.75
+    "wallSec": 458.513
    },
    "mars|q11|rd=1|md=1|sun=1|div=2|N=8": {
     "key": "mars|q11|rd=1|md=1|sun=1|div=2|N=8",
@@ -1682,7 +1715,7 @@
     "betaMax": 0.00038192990244364334,
     "isqSteps": 761111,
     "overlap": 0,
-    "wallSec": 252.265
+    "wallSec": 395.506
    },
    "mercury|q11|rd=1|md=1|sun=1|div=1|N=8": {
     "key": "mercury|q11|rd=1|md=1|sun=1|div=1|N=8",
@@ -1712,7 +1745,7 @@
     "betaMax": 0.007672561571136631,
     "isqSteps": 380437,
     "overlap": 0,
-    "wallSec": 129.02
+    "wallSec": 210.702
    },
    "mercury|q11|rd=0.01|md=1|sun=1|div=1|N=8": {
     "key": "mercury|q11|rd=0.01|md=1|sun=1|div=1|N=8",
@@ -1742,7 +1775,7 @@
     "betaMax": 7.76846993379112e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 126.194
+    "wallSec": 211.548
    },
    "mercury|q11|rd=0.005|md=1|sun=1|div=1|N=8": {
     "key": "mercury|q11|rd=0.005|md=1|sun=1|div=1|N=8",
@@ -1772,7 +1805,7 @@
     "betaMax": 1.9421192938839115e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 127.61
+    "wallSec": 220.033
    },
    "mercury|q11|rd=0.003|md=1|sun=1|div=1|N=8": {
     "key": "mercury|q11|rd=0.003|md=1|sun=1|div=1|N=8",
@@ -1802,7 +1835,7 @@
     "betaMax": 6.991630848932884e-8,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 127.673
+    "wallSec": 203.554
    },
    "mercury|q01|rd=0.005|md=1|sun=1|div=1|N=8": {
     "key": "mercury|q01|rd=0.005|md=1|sun=1|div=1|N=8",
@@ -1832,7 +1865,7 @@
     "betaMax": 1.942119979606341e-7,
     "isqSteps": 380028,
     "overlap": 0,
-    "wallSec": 130.147
+    "wallSec": 205.563
    },
    "venus|q11|rd=1|md=1|sun=1|div=1|N=8": {
     "key": "venus|q11|rd=1|md=1|sun=1|div=1|N=8",
@@ -1862,7 +1895,7 @@
     "betaMax": 0.0005927188424452917,
     "isqSteps": 380477,
     "overlap": 0,
-    "wallSec": 131.458
+    "wallSec": 215.402
    },
    "mars|q11|rd=1|md=1|sun=1|div=1|N=8": {
     "key": "mars|q11|rd=1|md=1|sun=1|div=1|N=8",
@@ -1892,7 +1925,7 @@
     "betaMax": 0.00038191901672714196,
     "isqSteps": 380554,
     "overlap": 0,
-    "wallSec": 128.033
+    "wallSec": 204.833
    },
    "mercury|q00|-|div=2|N=8": {
     "key": "mercury|q00|-|div=2|N=8",
@@ -1917,7 +1950,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.376
+    "wallSec": 5.933
    },
    "mercury|q10|-|div=2|N=8": {
     "key": "mercury|q10|-|div=2|N=8",
@@ -1942,7 +1975,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.658
+    "wallSec": 7.722
    },
    "venus|q00|-|div=2|N=8": {
     "key": "venus|q00|-|div=2|N=8",
@@ -1967,7 +2000,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.293
+    "wallSec": 7.68
    },
    "venus|q10|-|div=2|N=8": {
     "key": "venus|q10|-|div=2|N=8",
@@ -1992,7 +2025,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.49
+    "wallSec": 7.312
    },
    "mars|q00|-|div=2|N=8": {
     "key": "mars|q00|-|div=2|N=8",
@@ -2017,7 +2050,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.214
+    "wallSec": 6.94
    },
    "mars|q10|-|div=2|N=8": {
     "key": "mars|q10|-|div=2|N=8",
@@ -2042,7 +2075,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 2.437
+    "wallSec": 5.807
    },
    "mercury|q00|-|div=1|N=8": {
     "key": "mercury|q00|-|div=1|N=8",
@@ -2067,7 +2100,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.274
+    "wallSec": 3.444
    },
    "mercury|q10|-|div=1|N=8": {
     "key": "mercury|q10|-|div=1|N=8",
@@ -2092,7 +2125,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.294
+    "wallSec": 2.787
    },
    "venus|q00|-|div=1|N=8": {
     "key": "venus|q00|-|div=1|N=8",
@@ -2117,7 +2150,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.234
+    "wallSec": 3.483
    },
    "venus|q10|-|div=1|N=8": {
     "key": "venus|q10|-|div=1|N=8",
@@ -2142,7 +2175,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.363
+    "wallSec": 4.189
    },
    "mars|q00|-|div=1|N=8": {
     "key": "mars|q00|-|div=1|N=8",
@@ -2167,7 +2200,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.19
+    "wallSec": 2.005
    },
    "mars|q10|-|div=1|N=8": {
     "key": "mars|q10|-|div=1|N=8",
@@ -2192,7 +2225,7 @@
     "betaMax": 0,
     "isqSteps": 0,
     "overlap": 0,
-    "wallSec": 1.299
+    "wallSec": 4.337
    }
   }
  },
@@ -2802,7 +2835,29 @@
     },
     "bracket": "one",
     "pass": false,
-    "explorationValue": false
+    "explorationValue": false,
+    "adopt": {
+     "how": "abs(r) の最小の点",
+     "candidate": {
+      "theta": {
+       "rd": 0.005,
+       "md": 1,
+       "sunMd": 1
+      },
+      "RdM": 12199.999764561653,
+      "rByDiv": {
+       "1": 0.26462867195986917,
+       "2": 0.2645877332185762
+      }
+     },
+     "d12": 0.00004093874129296182,
+     "d24": null,
+     "rootBracketed": true,
+     "numericResolved": null,
+     "targetReached": null,
+     "declAdmissible": true,
+     "adopted": false
+    }
    },
    "venus": {
     "gate": {
@@ -2818,7 +2873,16 @@
     },
     "bracket": "none",
     "pass": false,
-    "explorationValue": false
+    "explorationValue": false,
+    "adopt": {
+     "how": null,
+     "candidate": null,
+     "rootBracketed": false,
+     "numericResolved": null,
+     "targetReached": null,
+     "declAdmissible": false,
+     "adopted": false
+    }
    },
    "mars": {
     "gate": {
@@ -2834,10 +2898,33 @@
     },
     "bracket": "none",
     "pass": false,
-    "explorationValue": false
+    "explorationValue": false,
+    "adopt": {
+     "how": null,
+     "candidate": null,
+     "rootBracketed": false,
+     "numericResolved": null,
+     "targetReached": null,
+     "declAdmissible": false,
+     "adopted": false
+    }
    }
   },
   "allPass": false,
+  "adoptRule": {
+   "epsFit": 0.001,
+   "epsNum": 0.0003,
+   "unit": "″/世紀",
+   "note": "決断事項 AN396 の推奨(ε_fit = 1e-3″/世紀・ε_num = 3e-4″/世紀 —— 裁定で変わる・観測の 3σ ではない)",
+   "kernel": "k2",
+   "fields": [
+    "rootBracketed",
+    "numericResolved",
+    "targetReached",
+    "declAdmissible"
+   ]
+  },
+  "adoptAll": false,
   "identification": {
    "knobs": "太陽の R_d(cap6500km に固定)・太陽の m_d・各惑星の R_d と m_d・dragCore の自転と軸(太陽 + 3 惑星で 8 個以上)",
    "targets": 3,
@@ -2861,19 +2948,19 @@
  "ok": true,
  "timing": {
   "S": {
-   "wallSec": 0.957
+   "wallSec": 1.074
   },
   "E": {
-   "wallSec": 1415.706
+   "wallSec": 2231.029
   },
   "T": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "R": {
-   "wallSec": 0.002
+   "wallSec": 0.01
   },
   "G": {
-   "wallSec": 0
+   "wallSec": 0.001
   }
  },
  "stats": {
@@ -2882,62 +2969,62 @@
   "wallByKind": {
    "mercury-drag-h2": {
     "n": 5,
-    "wallSec": 1295.592,
+    "wallSec": 2033.1909999999998,
     "steps": 3801099
    },
    "venus-drag-h2": {
     "n": 1,
-    "wallSec": 259.75,
+    "wallSec": 458.513,
     "steps": 760953
    },
    "mars-drag-h2": {
     "n": 1,
-    "wallSec": 252.265,
+    "wallSec": 395.506,
     "steps": 761111
    },
    "mercury-drag-h1": {
     "n": 5,
-    "wallSec": 640.644,
+    "wallSec": 1051.4,
     "steps": 1900549
    },
    "venus-drag-h1": {
     "n": 1,
-    "wallSec": 131.458,
+    "wallSec": 215.402,
     "steps": 380477
    },
    "mars-drag-h1": {
     "n": 1,
-    "wallSec": 128.033,
+    "wallSec": 204.833,
     "steps": 380554
    },
    "mercury-nodrag-h2": {
     "n": 2,
-    "wallSec": 5.034,
+    "wallSec": 13.655000000000001,
     "steps": 1520112
    },
    "venus-nodrag-h2": {
     "n": 2,
-    "wallSec": 4.783,
+    "wallSec": 14.992,
     "steps": 1520082
    },
    "mars-nodrag-h2": {
     "n": 2,
-    "wallSec": 4.651,
+    "wallSec": 12.747,
     "steps": 1520728
    },
    "mercury-nodrag-h1": {
     "n": 2,
-    "wallSec": 2.568,
+    "wallSec": 6.231,
     "steps": 760056
    },
    "venus-nodrag-h1": {
     "n": 2,
-    "wallSec": 2.597,
+    "wallSec": 7.672000000000001,
     "steps": 760040
    },
    "mars-nodrag-h1": {
     "n": 2,
-    "wallSec": 2.489,
+    "wallSec": 6.342,
     "steps": 760362
    }
   }
@@ -2993,121 +3080,121 @@
    }
   }
  },
- "elapsedS": 1418.565,
+ "elapsedS": 2233.999,
  "meta": {
   "provenanceVersion": "w272e-1",
-  "wave": "第311便d",
+  "wave": "第312便d",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:42:25.348Z",
+  "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+  "generatedAt": "2026-10-21T17:54:47.213Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "sha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+    "mtime": "2026-10-21T17:00:18.026Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-10-21T17:00:18.119Z"
    },
    {
     "file": "tests/out/an336-w306a.json",
     "bytes": 88006,
     "sha256": "2e748c1ef1f92935b8d7ff76d8cee2231df30bbc56de7752ba27fe04e5457fe7",
-    "mtime": "2026-10-21T01:18:44.629Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
     "bytes": 21528,
     "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
-    "mtime": "2026-10-20T16:19:56.570Z"
+    "mtime": "2026-10-21T17:00:18.105Z"
    },
    {
     "file": "paper/data/pn1-primary-audit-20261015.csv",
     "bytes": 4489,
     "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
-    "mtime": "2026-10-20T16:19:56.572Z"
+    "mtime": "2026-10-21T17:00:18.105Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 48718,
-    "sha256": "6f6dfefcce2019659c88e8f59004c6d745884436d7392a3baad401ce1916ef87",
-    "mtime": "2026-10-20T19:36:00.571Z"
+    "bytes": 59391,
+    "sha256": "64c0a265748a29b3f04bbed649f2cf3f48d82e325812516f4e393d09b30f0204",
+    "mtime": "2026-10-21T17:13:32.989Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
-    "bytes": 15768,
-    "sha256": "e96e3c461589b71e7d3776d2c6bffca4c1556699abf97314ee6902f6ed77c6e0",
-    "mtime": "2026-10-20T19:36:00.574Z"
+    "bytes": 19974,
+    "sha256": "e7cbad683235d706ebc1a05e81223bec75d212b3c2f0a6ccaaa17c6b72b818d7",
+    "mtime": "2026-10-21T17:11:38.772Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-10-20T16:19:56.684Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-21T17:00:18.186Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 51360,
     "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "mtime": "2026-10-21T17:00:18.154Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-21T17:00:18.182Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-21T17:00:18.178Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-10-21T17:00:18.174Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-10-21T17:00:18.178Z"
    }
   ],
-  "codeSha256": "4fcbd72a00e5741838eb7d45350b7b6b20dfa43a8292b9244810f8cbcb6cba01",
-  "harnessVersion": "w311d-planet3-1",
+  "codeSha256": "48218f34bcc252551c39b40029b79fc42950d30dd9994a73599c805b99e4012f",
+  "harnessVersion": "w312d-planet3-2",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W311D_WORKERS)",
   "notClaim": [
    "フィットした",
