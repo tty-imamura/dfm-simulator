@@ -3,50 +3,50 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便b",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T10:13:11.178Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:31:39.205Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/data-w305b-declbdb.json",
     "bytes": 18281,
     "sha256": "b87c32481270535b4918f5910516913780b4b452321a8aa3cfc34352f67681e5",
-    "mtime": "2026-10-16T04:33:50.405Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    },
    {
     "file": "tests/data-w306b-decl305.json",
     "bytes": 2909,
     "sha256": "b90b045b2bd48a6626e3f396fec60c437156a90ef1e09d919664e570251967c5",
-    "mtime": "2026-10-16T18:18:45.782Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109264,
-    "sha256": "71f571f5b4856affc83d02429b124ed4f70ef03ca6415a04abc862cd86f55378",
-    "mtime": "2026-10-20T09:50:55.044Z"
+    "bytes": 109265,
+    "sha256": "890b5f7f31f67f1a888a55a48715fcc9d30ece6e3e983007a31b5d17cf3b9a76",
+    "mtime": "2026-10-21T01:12:33.313Z"
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "bytes": 72745,
-    "sha256": "4b3d077bdc72a58572aa31b723da146fa867ed26edba33582b67f7b8826160b9",
-    "mtime": "2026-10-20T08:52:40.484Z"
+    "bytes": 72742,
+    "sha256": "8eb40a84da79ee205844690506c8d463d1a4e620d6ce5fc7de02e384e144350b",
+    "mtime": "2026-10-21T00:33:52.804Z"
    },
    {
     "file": "paper/data/obs-time-standard-20261016.csv",
     "bytes": 17529,
     "sha256": "ab5580562b0d8838a348ffd66400b05a460583668d7cf7b15c1a74cc477d4907",
-    "mtime": "2026-10-16T03:33:57.220Z"
+    "mtime": "2026-10-20T16:19:56.570Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-09T10:19:39.375Z"
+    "mtime": "2026-10-20T16:19:56.572Z"
    }
   ],
   "code": [
@@ -54,70 +54,70 @@
     "file": "tests/exp-w306b-periodn.mjs",
     "bytes": 58927,
     "sha256": "c95742c3a8a419c6f36a939451722d81274f079acb8eddd06d9b12186dfad042",
-    "mtime": "2026-10-16T18:18:45.786Z"
+    "mtime": "2026-10-20T16:19:56.652Z"
    },
    {
     "file": "tests/lib-w306b-meanlon.mjs",
     "bytes": 16016,
     "sha256": "95ca149e71f68008ae9329f346c8458395a7eb46c8509ba90e558e636bf2ee1b",
-    "mtime": "2026-10-16T18:18:45.789Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-10-15T05:47:28.831Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/exp-w305b-gfamily.mjs",
     "bytes": 49833,
     "sha256": "7fe5ae96efbca025ed76314a726ec7ea445a60734ba127f670b98cfe32615f69",
-    "mtime": "2026-10-16T19:11:11.231Z"
+    "mtime": "2026-10-20T16:19:56.652Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 77963,
-    "sha256": "9b1ed340e048116a2f34bcc8e824f92dcc014c2c716c28dcec36070c6d1c152b",
-    "mtime": "2026-10-16T17:38:33.226Z"
+    "bytes": 85144,
+    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
+    "mtime": "2026-10-20T19:41:43.611Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 51360,
     "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-14T11:11:27.687Z"
+    "mtime": "2026-10-20T16:19:56.644Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-14T01:39:42.913Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
     "bytes": 73010,
     "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-16T17:38:33.226Z"
+    "mtime": "2026-10-20T16:19:56.648Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "44319809f4f33243eb6852cc32bf294618bd04f623c2e1864b034a9b9ce56701",
+  "codeSha256": "98282472d9e58bb852dbe340956c2b8404c4c663aa4ae2c909183702342f8cad",
   "harnessVersion": "w306b-periodn-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第97報)AN336(水星の標的を 1PN + A1 へ —— k は 1PN + A1 の値)・第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・α = c_loc/c₀・n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -208,11 +208,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1505,
-   "segments": 1354,
-   "closureShare": 0.3459
+   "names": 1517,
+   "segments": 1362,
+   "closureShare": 0.3479
   },
-  "scopeSha256": "161d6119fa9af253ba0d75940a307c38891915f92d2cf34f7fc91e1b4be29e5f",
+  "scopeSha256": "d00e676662f07993954b9342f60d5140c9ade287c7c2a4740d759f64dcc90f4b",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -229,7 +229,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "4067cb67bb028111d0bc0914cd6efb49efc5c2cf506eba2af8ed9d9f59c6fb9d",
+    "stableSha256": "3b7fb2129320ad306860810d4ad77648ef16de21072c31a0303e18715bbdd50e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -241,7 +241,7 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "stableSha256": "15da30d4485d8d9bfc1aa833b89966754386f06e8c961456bfa65bda7f10401e",
+    "stableSha256": "e0f64e4ea146bdb44ed8b6a9d1b41e0d2f5a0225c40fdb3d21ba24fd493ac521",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -5154,9 +5154,9 @@
  "moon": {
   "transcribed": {
    "file": "tests/out/pairnorm-w305a.json",
-   "sha256": "4b3d077bdc72a58572aa31b723da146fa867ed26edba33582b67f7b8826160b9",
+   "sha256": "8eb40a84da79ee205844690506c8d463d1a4e620d6ce5fc7de02e384e144350b",
    "harnessVersion": "w305a-pairnorm-1",
-   "generatedAt": "2026-10-20T08:52:40.476Z",
+   "generatedAt": "2026-10-21T00:33:52.801Z",
    "wave": "第305便a",
    "base": "bdb7ae5",
    "declFile": "tests/data-w305a-decl304.json",
@@ -5327,7 +5327,7 @@
    "nodeOffY": 0.00000906843694536974,
    "eOff": -3.8744234077958684e-8,
    "offSidB1D": -0.000025257130523925753,
-   "wallSec": 188.198,
+   "wallSec": 159.858,
    "note": "刻み h だけ(h/2 は省く —— 転記の行の h と h/2 の差 |sidOff| の桁は 1e-7 日)。差 = n = 2・対 − 引きずり OFF(同じ刻み・同じ初期状態)"
   }
  },
@@ -5779,22 +5779,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 2.697
+   "wallSec": 2.351
   },
   "P": {
-   "wallSec": 574.903
+   "wallSec": 498.56
   },
   "R": {
-   "wallSec": 565.485
+   "wallSec": 480.947
   },
   "G": {
-   "wallSec": 0.003
+   "wallSec": 0.009
   },
   "E": {
-   "wallSec": 188.202
+   "wallSec": 159.866
   },
   "T": {
-   "wallSec": 0.049
+   "wallSec": 0.064
   }
  },
  "stats": {
@@ -5802,5 +5802,5 @@
   "memoHits": 70,
   "emRuns": 2
  },
- "elapsedS": 1333.553
+ "elapsedS": 1143.591
 }
