@@ -2904,6 +2904,90 @@ export function calibrateProbe312() {
     && old.A === 2 && old.B === 0.5;
   return res;
 }
+
+/**
+ * 第312便c(R232・決断事項 AN394「`REGEN_SCOPE:"all"` の理由を段ごとに先に」): **領域の宣言が presets:"all" の段の理由の一覧**(絞らない —— 記録だけ)。
+ *   器の REGEN_SCOPE が presets:"all" の現行の段ごとに、器と lib(`codeFilesOf` —— lint.regenScope と同じ集合)の本文で
+ *   `allPresets()` / `BUILTIN_PRESETS` を `.find` 以外で使う箇所(`deriveScope` の allWhy)を拾い、使い方で分ける:
+ *     value(変数に受ける)・iterate(for … of・forEach)・filter・map・count(.length —— 名簿の数を数える)・spread・value-arg(引数・式に渡す)・
+ *     other(その他のメソッド)。lib の中の使い方は via:'lib'。宣言だけが広い段(器と lib の下限が all でない)は declared-wide。
+ *   変数に受けた箇所は、その変数の使い方(.find/.findIndex/.some だけか)も見る(find-via-var)。
+ *   見込み(prospect): narrow-now(宣言だけが広い —— 下限の本の集合に絞れる)/ find-only(変数に受けて名指しで引くだけ —— 名指しの本に絞れる見込み)/
+ *     count-only(数だけ —— 数を読む口に替えれば絞れる見込み)/ enumerates(全本を読む —— 絞ると器の目的〔全本の一覧・数え上げ・条件の選別〕が変わる)。
+ *   namedIds = 器と lib の本文が文字列で名指す内蔵の本の ID(全本の読みを除いて引いた下限 —— 絞るときの候補の集合)。
+ * @param {{root:string, html?:string, steps?:Array}} o
+ * @returns {Promise<{version:string, rows:Array, counts:object}>}
+ */
+export const SCOPE_ALL_VERSION = 'w312c-scopeall-1';
+export async function scopeAllReasons312(o) {
+  const SC = await import('./lib-w281a-scope.mjs');
+  const root = o.root, html = o.html || (root.replace(/\/$/, '') + '/beta/index.html');
+  const steps = (o.steps || REGEN_STEPS).filter((z) => z.role !== 'history' && !z.outside);
+  const rd = (f) => { try { return fs.readFileSync(root.replace(/\/$/, '') + '/' + f, 'utf8'); } catch { return null; } };
+  const cache = new Map();
+  const analyse = (harness, metaCode) => {
+    const files = SC.codeFilesOf(root, harness, metaCode);
+    const der = SC.deriveScope(html, files);
+    const neutral = files.map((f) => Object.assign({}, f, { text: f.text.replace(/allPresets\s*\(\s*\)/g, 'allPresets__w312c()').replace(/BUILTIN_PRESETS/g, 'BUILTIN_PRESETS__w312c') }));
+    const named = SC.deriveScope(html, neutral).presets;
+    const reasons = [];
+    for (const f of files.filter((z) => z.primary)) {
+      const code = SC.scanJs(f.text).code;
+      const lines = code.split('\n'), raw = f.text.split('\n');
+      const re = /(?:allPresets\s*\(\s*\)|BUILTIN_PRESETS)\s*(?:\.\s*([A-Za-z_$][\w$]*))?/g;
+      let m;
+      while ((m = re.exec(code))) {
+        const meth = m[1] || null;
+        if (meth === 'find' || meth === 'findIndex' || meth === 'some') continue;
+        const ln = code.slice(0, m.index).split('\n').length, line = lines[ln - 1] || '';
+        let kind = 'other';
+        if (meth === 'filter') kind = 'filter'; else if (meth === 'map') kind = 'map'; else if (meth === 'forEach') kind = 'iterate'; else if (meth === 'length') kind = 'count';
+        else if (!meth) {
+          const pre = line.slice(0, Math.max(0, line.indexOf(m[0]) >= 0 ? line.indexOf(m[0]) : 0));
+          if (/\bof\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'iterate';
+          else if (/\.\.\.\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'spread';
+          else if (/(?:\b(?:const|let|var)\s+|,\s*)([A-Za-z_$][\w$]*)\s*=\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'value';
+          else kind = 'value-arg';
+        }
+        const r = { file: f.file, line: ln, use: meth || '(値)', kind, via: f.file === harness ? 'harness' : 'lib', text: String(raw[ln - 1] || '').trim().slice(0, 140) };
+        if (kind === 'value') {
+          const v = (/(?:\b(?:const|let|var)\s+|,\s*)([A-Za-z_$][\w$]*)\s*=\s*(?:HP\s*\.\s*)?$/.exec(line.slice(0, line.indexOf(m[0]))) || [])[1];
+          if (v) {
+            const uses = [...code.matchAll(new RegExp('\\b' + v.replace(/\$/g, '\\$') + '\\b\\s*(\\.\\s*[A-Za-z_$][\\w$]*|\\[|\\))?', 'g'))].slice(1).map((z) => (z[1] || '').replace(/\s+/g, ''));
+            r.var = v; r.varUses = [...new Set(uses.map((u) => u || '(値)'))];
+            if (uses.length && uses.every((u) => /^\.(find|findIndex|some)$/.test(u))) r.kind = kind = 'find-via-var';
+          }
+        }
+        reasons.push(r);
+      }
+    }
+    return { derivedAll: der.presets === 'all', allWhy: der.allWhy, reasons, namedIds: Array.isArray(named) ? named : [] };
+  };
+  const rows = [];
+  for (const st of steps) {
+    const harness = (String(st.cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
+    if (!harness) continue;
+    const text = rd(harness);
+    const decl = text ? SC.readDeclaredScope(text) : null;
+    if (!decl || decl.presets !== 'all') continue;
+    const metaCode = [];
+    for (const out of (st.outs || [])) { const t = rd(out); if (!t) continue; try { for (const c of ((JSON.parse(t).meta || {}).code || [])) metaCode.push(c.file); } catch { /* 読めない正本は器の本文だけ */ } }
+    const ck = harness + '|' + [...new Set(metaCode)].sort().join(',');
+    if (!cache.has(ck)) cache.set(ck, analyse(harness, [...new Set(metaCode)]));
+    const A = cache.get(ck);
+    const kinds = [...new Set(A.reasons.map((z) => z.kind))].sort();
+    let prospect;
+    if (!A.derivedAll) prospect = 'narrow-now';
+    else if (kinds.length && kinds.every((k) => k === 'find-via-var')) prospect = 'find-only';
+    else if (kinds.length && kinds.every((k) => k === 'count' || k === 'find-via-var')) prospect = 'count-only';
+    else prospect = 'enumerates';
+    rows.push({ key: st.key, harness, derivedAll: A.derivedAll, kinds: A.derivedAll ? kinds : ['declared-wide'], reasons: A.reasons.map((z) => Object.assign({}, z)),
+      namedIds: A.namedIds, nNamed: A.namedIds.length, prospect });
+  }
+  const counts = { steps: rows.length, harnesses: new Set(rows.map((z) => z.harness)).size, byProspect: {}, byKind: {} };
+  for (const r of rows) { counts.byProspect[r.prospect] = (counts.byProspect[r.prospect] || 0) + 1; for (const k of r.kinds) counts.byKind[k] = (counts.byKind[k] || 0) + 1; }
+  return { version: SCOPE_ALL_VERSION, rows, counts };
+}
 // ==== 第312便c の塊(ここまで)====
 
 /** 波の型(第283便e —— 波ごとに全段の完了を待つ・波の中は LPT)の見積り: 波ごとの最大レーンの秒の和。 */
@@ -3737,4 +3821,4 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe,
   // 第311便c(R228)
   READY_QUEUE_RULE, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311,
-  CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312 };
+  CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312 };
