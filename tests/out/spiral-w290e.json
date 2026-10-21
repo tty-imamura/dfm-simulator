@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便e",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T06:55:16.124Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:03:59.356Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w290e-spiral.mjs",
     "bytes": 38327,
     "sha256": "7d0ce9c3fc51f87042ae7eb9d6287d9b6b2c99ab06569a6fc80747e970a6facb",
-    "mtime": "2026-10-09T10:19:39.563Z"
+    "mtime": "2026-10-20T16:19:56.640Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "77f15c99d7dff396d76ffbb5931652cad340ae7cccd1063621408eae17876857",
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1459,
-   "segments": 1308,
-   "closureShare": 0.3374
+   "names": 1471,
+   "segments": 1316,
+   "closureShare": 0.3395
   },
-  "scopeSha256": "00fb6e6ea5b8ad55ba1b559175bccae69cddbb28033e02ad9d64dc8d9b3375b9",
+  "scopeSha256": "76da29c2af047166cd9eb7cb13f7ec55453c73a7165f8d7beffb0e7642bb1339",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1179,71 +1179,71 @@
      "label": "🍭 N",
      "n": 144,
      "steps": 200,
-     "wallSec": 0.055900919,
-     "rateStepsPerSec": 3577.7587126966555
+     "wallSec": 0.047764697,
+     "rateStepsPerSec": 4187.192896879467
     },
     {
      "label": "🍭 2N",
      "n": 288,
      "steps": 200,
-     "wallSec": 0.285635296,
-     "rateStepsPerSec": 700.193578317436
+     "wallSec": 0.150196765,
+     "rateStepsPerSec": 1331.586602414506
     },
     {
      "label": "🍭 4N",
      "n": 576,
      "steps": 200,
-     "wallSec": 0.687615343,
-     "rateStepsPerSec": 290.8602928018143
+     "wallSec": 0.561296047,
+     "rateStepsPerSec": 356.318205105763
     },
     {
      "label": "🍭 内蔵(450)",
      "n": 450,
      "steps": 200,
-     "wallSec": 0.36483487,
-     "rateStepsPerSec": 548.1932140971065
+     "wallSec": 0.305602874,
+     "rateStepsPerSec": 654.4441070930504
     },
     {
      "label": "🎢 N",
      "n": 145,
      "steps": 200,
-     "wallSec": 0.043271139,
-     "rateStepsPerSec": 4622.01838504875
+     "wallSec": 0.052258409,
+     "rateStepsPerSec": 3827.135265445988
     },
     {
      "label": "🎢 2N",
      "n": 289,
      "steps": 200,
-     "wallSec": 0.256415451,
-     "rateStepsPerSec": 779.9841983781234
+     "wallSec": 0.146222601,
+     "rateStepsPerSec": 1367.7776118891497
     },
     {
      "label": "🎢 4N",
      "n": 577,
      "steps": 200,
-     "wallSec": 0.846865987,
-     "rateStepsPerSec": 236.16487504533583
+     "wallSec": 0.500964955,
+     "rateStepsPerSec": 399.2295229513609
     },
     {
      "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
-     "wallSec": 0.40548208,
-     "rateStepsPerSec": 493.24004651450934
+     "wallSec": 0.312458694,
+     "rateStepsPerSec": 640.0846058711364
     },
     {
      "label": "🥏",
      "n": 300,
      "steps": 200,
-     "wallSec": 0.20358018,
-     "rateStepsPerSec": 982.4139068940798
+     "wallSec": 0.148754995,
+     "rateStepsPerSec": 1344.492667288248
     },
     {
      "label": "📀",
      "n": 301,
      "steps": 200,
-     "wallSec": 0.204338109,
-     "rateStepsPerSec": 978.7699464322634
+     "wallSec": 0.200085893,
+     "rateStepsPerSec": 999.5707193610097
     }
    ],
    "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
@@ -1275,5 +1275,5 @@
   "kArmImplemented": false
  },
  "ok": false,
- "elapsedS": 85.595
+ "elapsedS": 55.455
 }

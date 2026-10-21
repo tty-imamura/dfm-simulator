@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "f5a8992e318e005443b4626409b1e4e593136025add159dd819a12d68240db44",
+ "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -142,7 +142,7 @@
      "merBeta": null,
      "merOmegaNorm": null,
      "step1Finite": true,
-     "step3Finite": false
+     "step3Finite": true
     },
     "nodeMarginUlp": 0,
     "nodesCollapsed": 2,
@@ -162,7 +162,7 @@
      "merBeta": null,
      "merOmegaNorm": null,
      "step1Finite": true,
-     "step3Finite": false
+     "step3Finite": true
     },
     "nodeMarginUlp": 0,
     "nodesCollapsed": 6,
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.0038279468
+     "wallSec": 0.004084014933
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.004643261167
+     "wallSec": 0.004739972433
     }
    }
   ]
@@ -1282,46 +1282,46 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.622
+   "wallSec": 0.388
   },
   "K": {
-   "wallSec": 0.027
+   "wallSec": 0.029
   },
   "B": {
-   "wallSec": 2.047
+   "wallSec": 1.637
   },
   "R": {
-   "wallSec": 0.49
+   "wallSec": 0.258
   },
   "M": {
-   "wallSec": 1.089
+   "wallSec": 0.803
   },
   "C": {
-   "wallSec": 0.462
+   "wallSec": 0.271
   },
   "P": {
-   "wallSec": 1.163
+   "wallSec": 1.184
   }
  },
- "elapsedS": 8.128,
+ "elapsedS": 6.353,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "f5a8992e318e005443b4626409b1e4e593136025add159dd819a12d68240db44",
-  "generatedAt": "2026-10-20T16:59:42.804Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:05:15.830Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7191593,
-    "sha256": "f5a8992e318e005443b4626409b1e4e593136025add159dd819a12d68240db44",
-    "mtime": "2026-10-20T16:51:59.960Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:27:34.496Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    }
   ],
   "code": [
@@ -1329,43 +1329,43 @@
     "file": "tests/exp-w311a-corespin.mjs",
     "bytes": 43106,
     "sha256": "01c7eb881598db78cf7c7a4a15a9586ec5e73018f8e05ef4d82e8a05cbb82663",
-    "mtime": "2026-10-20T16:54:30.134Z"
+    "mtime": "2026-10-20T19:41:54.131Z"
    },
    {
     "file": "tests/lib-w311a-corespin.mjs",
     "bytes": 6201,
     "sha256": "e0f2396c257488fd2227cf7214da2fac1fa78bc688ed32e89590364f0ded3f84",
-    "mtime": "2026-10-20T16:47:33.092Z"
+    "mtime": "2026-10-20T19:41:54.134Z"
    },
    {
     "file": "tests/lib-w310a-shell.mjs",
     "bytes": 11335,
     "sha256": "2c5904e504c445034c516d9f816613beed2604ac5ddad93ceb0a1a5376c52611",
-    "mtime": "2026-10-20T16:27:34.588Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-10-20T16:27:34.588Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:27:34.580Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:27:34.572Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:27:34.580Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "07a1250e0e91f131c5295904e27f1e7f49b1188f98c8942e27fdafdc7e50d640",
@@ -1407,11 +1407,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1477,
-   "segments": 1324,
-   "closureShare": 0.3419
+   "names": 1483,
+   "segments": 1328,
+   "closureShare": 0.3426
   },
-  "scopeSha256": "5267d03da3d6fef281b1ed44a3866d7d4f057eaf59cb6af4f33f20a4580b0abe",
+  "scopeSha256": "c0c74ab175cea89651f69e77bcf96cbf243c0520c6d07642db6b756373c6d4c3",
   "scopeComplete": true,
   "inputsStable": [
    {

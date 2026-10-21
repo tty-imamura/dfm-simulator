@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
+ "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -1874,30 +1874,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.00070527715
+     "wallSec": 0.0006834529167
     },
     "direct": {
-     "wallSec": 0.0009257170833
+     "wallSec": 0.0009402965667
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.00612607875
+     "wallSec": 0.00548895845
     },
     "direct": {
-     "wallSec": 0.0080022704
+     "wallSec": 0.00739057065
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.05212677367
+     "wallSec": 0.044557597
     },
     "direct": {
-     "wallSec": 0.08264826783
+     "wallSec": 0.05819130267
     }
    }
   ]
@@ -2079,43 +2079,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.145
+   "wallSec": 0.101
   },
   "C": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.651
+   "wallSec": 0.265
   },
   "S": {
-   "wallSec": 0.242
+   "wallSec": 0.201
   },
   "E": {
-   "wallSec": 1.662
+   "wallSec": 0.733
   },
   "M": {
-   "wallSec": 0.041
+   "wallSec": 0.035
   },
   "P": {
-   "wallSec": 5.778
+   "wallSec": 4.712
   },
   "Z": {
-   "wallSec": 0.402
+   "wallSec": 0.113
   }
  },
- "elapsedS": 11.413,
+ "elapsedS": 8.087,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
-  "generatedAt": "2026-10-20T17:03:18.817Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:04:42.159Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7184696,
-    "sha256": "a5ca952b3ef8663d2e34454af226eb33c234cbc24cae20db07cdbe6fb1264fae",
-    "mtime": "2026-10-20T16:43:42.964Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    }
   ],
   "code": [
@@ -2123,55 +2123,55 @@
     "file": "tests/exp-w310a-invsq.mjs",
     "bytes": 44908,
     "sha256": "0cbd97952448bb400b69fb19ac8a04fb9139cd9cc202c8404c0ce513b2c2e906",
-    "mtime": "2026-10-20T16:44:24.746Z"
+    "mtime": "2026-10-20T18:41:40.636Z"
    },
    {
     "file": "tests/lib-w310a-shell.mjs",
     "bytes": 11335,
     "sha256": "2c5904e504c445034c516d9f816613beed2604ac5ddad93ceb0a1a5376c52611",
-    "mtime": "2026-10-20T16:27:35.184Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-10-20T16:27:35.184Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-10-20T16:27:35.184Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 37764,
     "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:27:35.148Z"
+    "mtime": "2026-10-20T16:19:56.656Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
     "bytes": 21642,
     "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
-    "mtime": "2026-10-20T16:27:35.184Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:27:35.168Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:27:35.164Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:27:35.176Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "db3c503fe46178703e7f25e7eb2282480723f9586ccf2489806825088521d24c",
@@ -2218,11 +2218,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1476,
-   "segments": 1323,
-   "closureShare": 0.3409
+   "names": 1483,
+   "segments": 1328,
+   "closureShare": 0.3426
   },
-  "scopeSha256": "96b64b113dfd1c7437dbb1cf5fed4451c8ed70749738ef116c4d2506fbc05804",
+  "scopeSha256": "7c5b2b3c64f98ee8b7fc87c6f082f0041391d615a7f09971832c525e879b94fa",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

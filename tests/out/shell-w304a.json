@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-  "generatedAt": "2026-10-20T09:01:36.242Z",
+  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+  "generatedAt": "2026-10-21T01:02:33.747Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7173069,
-    "sha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-    "mtime": "2026-10-20T03:02:07.011Z"
+    "bytes": 7203220,
+    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+    "mtime": "2026-10-20T19:41:54.076Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-16T19:11:11.231Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    }
   ],
   "code": [
@@ -24,43 +24,43 @@
     "file": "tests/exp-w304a-shell.mjs",
     "bytes": 36513,
     "sha256": "94015ccf8c8930d516ec5d8e90ce0bf5ad8474efa4250092ac703131278b2501",
-    "mtime": "2026-10-16T19:11:11.231Z"
+    "mtime": "2026-10-20T16:19:56.648Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 51360,
     "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-14T11:11:27.687Z"
+    "mtime": "2026-10-20T16:19:56.644Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-14T01:39:42.913Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-09T10:19:39.611Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-09T10:19:39.599Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-09T10:19:39.615Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
     "bytes": 5337,
     "sha256": "29de399a2c1d1df45a31a0f197ab366b5ac7d7a89540990b64abc8acba5ac1db",
-    "mtime": "2026-10-16T19:11:11.237Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
   "codeSha256": "33e3f73e10fad4f7e756dbc2a0c050cce4cdc56530ccdb3c224a1a9bc3c3aab0",
@@ -119,11 +119,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1492,
-   "segments": 1341,
-   "closureShare": 0.3452
+   "names": 1504,
+   "segments": 1349,
+   "closureShare": 0.3472
   },
-  "scopeSha256": "87969dd639fd47b8c04af6aaacdf68e80105e3a4d243946a4abb0448e71bec8e",
+  "scopeSha256": "8ad2ec68464d2d0a83bd27af3be6a9aae1138da5d271c896066b5a1b3a203f4f",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -806,11 +806,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.491
+   "wallSec": 0.32
   },
   "M": {
-   "wallSec": 49.561
+   "wallSec": 37.262
   }
  },
- "elapsedS": 53
+ "elapsedS": 39.643
 }
