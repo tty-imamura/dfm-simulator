@@ -83471,7 +83471,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const r of J.X.rows) for (const p of r.pairs) if (p.ratio !== null) { nP++; if (!relq(p.ratio, p.change / p.firstOrder, 1e-9)) mP++; }
         if (mP) bad.push('② 段 X の対の比 = 変化/一次の見積りが違う ' + mP + ' 対');
         const Rr = J.X.refRadiusKm * 1e3, rowsQ = J.X.bodies.map((b) => [b.f1, b.f2, b.RdKm * 1e3]);
-        if (!rowsQ.every(([f1, f2, R]) => relq(f1, R / Rr, 1e-9) && relq(f2, (R / Rr) * (R / Rr), 1e-9))) bad.push('② 係数 ≠ (R_d/R_ref)^q');
+        if (!rowsQ.every(([f1, f2, R]) => relq(f1, R / Rr, 1e-8) && relq(f2, (R / Rr) * (R / Rr), 1e-8))) bad.push('② 係数 ≠ (R_d/R_ref)^q');   // 正本の R_d と係数はどちらも 10 桁に丸めた値 —— 相対 1e-8
         cases.push(`② 段 N を対象 html で作り直して ${nN - mN}/${nN} 個が相対 1e-9・段 B の門と孤立の比が一致・段 X の対の比 ${nP} 対・係数 = (R_d/R_ref)^q`);
       } catch (e) { bad.push('② 作り直せない: ' + String(e && e.stack || e).slice(0, 160)); }
       // ③
