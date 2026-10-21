@@ -2042,25 +2042,25 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.548
+   "wallSec": 0.596
   },
   "P": {
-   "wallSec": 1.657
+   "wallSec": 1.253
   },
   "S": {
-   "wallSec": 0.394
+   "wallSec": 0.369
   },
   "E": {
-   "wallSec": 3.311
+   "wallSec": 2.113
   }
  },
- "elapsedS": 9.148,
+ "elapsedS": 6.659,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便a",
   "target": "beta/index.html",
   "targetSha256": "1bf797d59474ff654d112cc7243612fa7653ad86c9d648ba4f485fb28b45f635",
-  "generatedAt": "2026-10-21T17:28:53.893Z",
+  "generatedAt": "2026-10-21T17:30:21.956Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2090,9 +2090,9 @@
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
-    "bytes": 26478,
-    "sha256": "87fe268ffe0895eb4d0f97fbe023a254c5882454ac97cafdcb3c7fc895a2d88a",
-    "mtime": "2026-10-21T17:16:31.070Z"
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-10-21T17:29:58.924Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
@@ -2143,7 +2143,7 @@
     "mtime": "2026-10-21T17:00:15.942Z"
    }
   ],
-  "codeSha256": "759c6e7da832854aff15ccf2a0f5b5092c3b738ea1fa3b46f3115e391d4736dd",
+  "codeSha256": "c5b25e556bbfcfe80a3ed6c92165e397694c0777437d58f5974dfc3c29e3dc60",
   "harnessVersion": "w312a-decay-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
