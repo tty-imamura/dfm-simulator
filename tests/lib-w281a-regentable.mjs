@@ -1180,6 +1180,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/corespin-w311a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/rows/*/evalSec/wallSec']) },
     note: '第311便a: dragCore の自転と軸 dragCore:{spin?, spinAxis?}(新則の本だけ —— 版 w311a-corespin-1・宣言の一定のベクトル・核と外殻を別に合成)と極薄の一様の厚い殻の受理の防御(求積の節点が内部に表現できるか —— AN384)・太陽–水星の写しの核の自転の表' }),
   // ==== 第311便a の塊(ここまで)====
+  // ==== 第312便a の塊(ここから)====
+  // ---- 第312便a(原仮定者の裁定(第114報)AN398・決断事項 AN398・統括の検証項目 R230): **減衰の比較の器**(段 K〔K_α・M_α〔α = 1, 2〕の閉じた式と独立の求積・
+  //   エンジンの K1 の族の核・係数 C_α〕・P〔近点の一次の式の自己試験 —— 並進 n = 1, 2・回転の枠 k = 3, 4〕・S〔スクリーニング —— 🌡️🌋🔴 の第306便a の世代の写しの t = 0 の
+  //   配置で列ごとに要る R_d・並び・木星/地球/月への外挿・第311便d の正本の t_D と見積りを読む〕・E〔一貫した K1 の opt-in のエンジン —— 受理・玩具の配置の lib との照合・
+  //   遠方の次数・受け手の尺度・☿ の写しのミリメートルの R_d・核の自転のビット同一・K2 の読み口の不変〕)。本の宣言は変えない(写しは器の中で組む)。
+  //   html・凍結の写し tests/data-w306a-decl305.json・第311便d の正本 tests/out/planet3-w311d.json を読む・1 プロセス。所要は第312便a の枝の実測(正本の elapsedS)
+  S('decay-312a', 'node tests/exp-w312a-decay.mjs', ['tests/out/decay-w312a.json'], 8, { secSource: 'w312a-branch', node: true, after: ['planet3-311d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/decay-w312a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第312便a: 減衰の比較(AN398 —— 成分を 1 つずつ変えた列のスクリーニング: 基準 K2・一貫した K1・回転だけ r⁻²・軸だけ・自己の場の質量の次数 γ = 0 —— 3 惑星の一次の近点の式が要る R_d と並び・外挿)と一貫した K1 の重みの opt-in invSq.kernel:"k1"(版 w312a-invsq-k1-1)の照合' }),
+  // ==== 第312便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・

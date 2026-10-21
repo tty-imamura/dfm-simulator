@@ -247,6 +247,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxial311 docs.galaxial311 behavi
 #   在位の 🌡️🌋🔴 の宣言が不変)と、同じ写しの作り方と標的を読む docs.mdSweep310・docs.an336_306
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3_311 docs.mdSweep310 docs.an336_306"
 # ==== 第311便d の塊(ここまで)====
+# ==== 第312便a の塊(ここから)====
+# 第312便a(原仮定者の裁定(第114報)AN398・R230): 枝 a の新設 2 本(behavior.decayK1_312 —— 一貫した K1 の重みの opt-in の受理・未宣言のビット同一・lib との照合・遠方の次数・
+#   docs.decay312 —— 減衰の比較のスクリーニングの正本と文書)と、受理器と新則の評価を読む behavior.invSq310・behavior.invSq309・behavior.initObs309・behavior.coreSpin311・behavior.galaxial311・
+#   第311便d の正本を読む docs.planet3_311・状態の契約
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.decayK1_312 docs.decay312 behavior.invSq310 behavior.invSq309 behavior.initObs309 behavior.coreSpin311 behavior.galaxial311 docs.planet3_311 lint.stateContract302"
+# ==== 第312便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

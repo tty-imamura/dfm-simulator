@@ -8062,18 +8062,21 @@ function relDragInitObsOf(rd){
 //   R_d = min(R·10^L, 6.5×10⁶ m)/10^L(scaleExp.L —— SI へ換算してからクランプし本の長さの単位へ戻す。クランプしない天体は R そのもの)・質量は全質量。
 //   **引きずりの半径だけ**(表示・接触・慣性モーメント・重力の半径 S.R・radOv は変えない)。物理の単位(scaleExp.L)を宣言した本だけ(validatePreset が拒否)。
 //   旧則の本では、宣言半径を読む引きずりの項(回転引きずりの M1・軸引きずり sphere/bevel/剛体の步・inertialR2.self:"radius")が R_d を読む(並進の点の核は半径を読まない)。
-const REL_DRAG_INVSQ_KEY="invSq", REL_DRAG_INVSQ_KEYS=["Wbg2","order","outerShell"], REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1", REL_DRAG_INVSQ_LAW="invsq-ball-total-ratio";
+const REL_DRAG_INVSQ_KEY="invSq", REL_DRAG_INVSQ_KEYS=["Wbg2","order","outerShell","kernel"], REL_DRAG_INVSQ_VERSION="w310a-invsq-wbg0-1", REL_DRAG_INVSQ_LAW="invsq-ball-total-ratio";
 // 第310便a(原仮定者の裁定(第107報)・決断事項 AN378・統括の検証項目 R222): 版 "w309a-invsq-1"(Wbg2 は 0 以上を受理)→ **"w310a-invsq-wbg0-1"**(Wbg2 は **0 だけ** を受理 —— 省略・0・−0 を受理し
 //   正準形 0。正・負・NaN・±Infinity・null・文字列・真偽値・配列・オブジェクトは拒否 —— 背景を分母に入れると二重計上〔第107報〕)。同じ版で自己の場の前計算(inertialDragIsqRule の SK・SD)・
 //   中心 r = 0 の向き 0(inertialDragIsqPoint)・外殻の源 invSq.outerShell(原仮定者の裁定(第109報)AN380 —— 版 REL_DRAG_INVSQ_SHELL_VERSION)。法則名は式が同じなので据え置き。
 //   エンジンの評価は状態の Wbg2 をそのまま読む(器・QA が内部状態を手で組む「参照の比較」は非零でも動く —— 公開の本の受理とは別)。
 const REL_DRAG_INVSQ_SHELLS=["uniform","thin"], REL_DRAG_INVSQ_SHELL_VERSION="w310a-outershell-1";
+// 第312便a(原仮定者の裁定(第114報)AN398・統括の検証項目 R230): 源の体積平均の重みの族 invSq.kernel —— "k2"(省略 = 今の 1/r² の族 —— 正準形は鍵を書かない)| "k1"
+//   (1/r の族 —— 自己の場・回転・軸・外殻も同じ族・**減衰の比較の opt-in**・法則名 REL_DRAG_INVSQ_LAW_K1。式は inertialDragIsqK1 の注記)。未知の値は拒否
+const REL_DRAG_INVSQ_KERNELS=["k2","k1"], REL_DRAG_INVSQ_KERNEL_VERSION="w312a-invsq-k1-1", REL_DRAG_INVSQ_LAW_K1="inv1-ball-total-ratio";
 const REL_DRAG_INVSQ_ORDER_DEFAULT=8, REL_DRAG_INVSQ_ORDER_RANGE=[2,24], REL_DRAG_INVSQ_NMAX=64;
 const REL_DRAG_INVSQ_NEAR=0.3, REL_DRAG_INVSQ_FAR=3;   // x = r/R < 0.3(内部)と x ≥ 3(外部)は級数・その間は閉じた式
 const REL_DRAG_INVSQ_DENY=["Wbg","gain","background","norm","compose","coreTable","solver","solverTol","solverMaxIter","spinSource","inertialR2","shellSelf","shellSelfEps","env","eps","solveIters"];
 const DRAG_CORE_DEFAULT_KEY="dragCoreDefault", DRAG_CORE_DEFAULTS=["cap6500km"], DRAG_CORE_DEFAULT_CAP_M=6.5e6, DRAG_CORE_DEFAULT_VERSION="w309a-cap6500km-1";
 function validateInvSq(a){
-  const form='physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<'+REL_DRAG_INVSQ_ORDER_RANGE[0]+'〜'+REL_DRAG_INVSQ_ORDER_RANGE[1]+' の整数 —— 受け手の体積の求積の次数・既定 '+REL_DRAG_INVSQ_ORDER_DEFAULT+'>, outerShell?:<"uniform"|"thin" —— 外殻の源(第310便a)>}(第309便a)';
+  const form='physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<'+REL_DRAG_INVSQ_ORDER_RANGE[0]+'〜'+REL_DRAG_INVSQ_ORDER_RANGE[1]+' の整数 —— 受け手の体積の求積の次数・既定 '+REL_DRAG_INVSQ_ORDER_DEFAULT+'>, outerShell?:<"uniform"|"thin" —— 外殻の源(第310便a)>, kernel?:<"k2"(省略)|"k1" —— 源の重みの族(第312便a)>}(第309便a)';
   if(typeof a!=="object" || a===null || Array.isArray(a)) return {ok:false, err:form};
   for(const k of Object.keys(a)) if(REL_DRAG_INVSQ_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.invSq に未知の鍵 '+k+'('+REL_DRAG_INVSQ_KEYS.join("・")+' だけ —— 第309便a・第310便a)'};
   // 第310便a(AN378): Wbg2 は 0 だけ(省略・0・−0 を受理 —— 正準形は 0。null・文字列 "0"・真偽値・NaN・±Infinity・正・負・配列・オブジェクトは拒否)
@@ -8086,6 +8089,11 @@ function validateInvSq(a){
   if(a.outerShell!==undefined && a.outerShell!==null){
     if(REL_DRAG_INVSQ_SHELLS.indexOf(a.outerShell)<0) return {ok:false, err:'physics.relativeDrag.invSq.outerShell は "uniform"(内径 R_d・外径 R の一様の厚い殻 —— 球の差)か "thin"(半径 R の球面 —— 比較)だけ(第310便a・AN384)'};
     out.outerShell=a.outerShell;
+  }
+  // 第312便a(AN398・R230): 源の重みの族(opt-in —— 省略と "k2" は今の K2 で正準形に鍵を書かない〔ビット同一〕・"k1" は 1/r の族の比較の版)
+  if(a.kernel!==undefined && a.kernel!==null){
+    if(REL_DRAG_INVSQ_KERNELS.indexOf(a.kernel)<0) return {ok:false, err:'physics.relativeDrag.invSq.kernel は "k2"(省略 —— 源の一様球の 1/r² の体積平均)か "k1"(1/r の体積平均 —— 自己の場・回転・軸・外殻も同じ族・減衰の比較の opt-in)だけ(第312便a・AN398)'};
+    if(a.kernel==="k1") out.kernel="k1";
   }
   return {ok:true, invSq:out};
 }
@@ -58082,6 +58090,7 @@ function inertialDragIsqNode(S,n,i,row,W,wq,RD,MD,SH,sc,BE,RV,OP,rot,ax,gain,set
 //   out = {overlap, noR, rowMax, negW, totW, nodes, shells, shellNodes}。ax: 軸を作る・rot: 回転の係数を作る・gain: A。
 //   opt(第310便a —— 読み口だけ): direct = 自己の場を前計算でなく今の経路(節点 − 中心の差の長さ —— inertialDragIsqPoint)で・parts = 外殻と体積の部分ごとの内訳
 function inertialDragIsqEval(S,n,X,Y,Z,BE,RV,OP,rot,ax,gain,opt){
+  if(S.relDrag[REL_DRAG_INVSQ_KEY].kernel==="k1") return inertialDragIsqEvalK1(S,n,X,Y,Z,BE,RV,OP,rot,ax,gain,opt);   // 第312便a: K1 の族(宣言した本だけ —— 下は K2 の経路のまま)
   const rd=S.relDrag, isq=rd[REL_DRAG_INVSQ_KEY], Wbg2=isq.Wbg2, rule=inertialDragIsqRule(isq.order), pin=S.pinned, AX=S.sax, AY=S.say, AZ=S.saz;
   const set=S._rdPairSet, NP=S._rdPairN, noR=inertialDragIsqCore(S,n), RD=S._rdIsqRd, MD=S._rdIsqMd, sc=inertialDragIsqScratch(S,n);
   const SH=(S._rdIsqSh && S._rdIsqSh.cnt>0)? S._rdIsqSh : null, direct=!!(opt && opt.direct), parts=(opt && opt.parts) || null;
@@ -58267,6 +58276,7 @@ function inertialDragIsqLedgerInit(S){
 //   (第310便a: 外殻の源は KS・dKS・MS・dMS と betaCore/betaShell・rotCore/rotShell・ampCore/ampShell の内訳 —— beta・rotC・amp は和。外殻の無い本は今と同じ形)
 function inertialDragIsqPointAt(S,i,px,py,pz){
   if(!S || !S.relDrag || !S.relDrag[REL_DRAG_INVSQ_KEY] || S.coord3d!==true) return null;
+  if(S.relDrag[REL_DRAG_INVSQ_KEY].kernel==="k1") return inertialDragIsqPointAtK1(S,i,px,py,pz);   // 第312便a: K1 の族の点の読み口(res.kernel つき)
   const n=S.n, T=Object.create(S);
   T._rdIsqRd=null; T._rdIsqMd=null; T._rdIsqSc=null; T._rdRadArr=null; T._rdIsqSh=null; T._rdIsqCs=null;
   inertialDragIsqCore(T,n);
@@ -58336,12 +58346,243 @@ function inertialDragIsqState(S,opt){
     capVersion:rd[DRAG_CORE_DEFAULT_KEY]? DRAG_CORE_DEFAULT_VERSION : null, nodes:q? q.nodes : null, overlap:q? q.overlap : null, noR:q? q.noR : null,
     negFrac:(q && q.totW>0)? q.negW/q.totW : null, steps:S.inertialDragIsqN||0, betaMax:S.inertialDragIsqBetaMax||0, negMax:S.inertialDragIsqNegMax||0,
     overlapSteps:S.inertialDragIsqOverlap||0, overlapLastT:(S.inertialDragIsqOverlapT===undefined)? null : S.inertialDragIsqOverlapT, tooLarge:S.inertialDragIsqTooLarge||0, receivers};
+  if(rd[REL_DRAG_INVSQ_KEY].kernel==="k1"){ res.law=REL_DRAG_INVSQ_LAW_K1; res.kernel={key:"k1", version:REL_DRAG_INVSQ_KERNEL_VERSION, k2Law:REL_DRAG_INVSQ_LAW}; }   // 第312便a: K1 の族の本だけ(K2 の本の読み口は今のまま)
   if(shDecl) res.outerShell={version:REL_DRAG_INVSQ_SHELL_VERSION, mode:rd[REL_DRAG_INVSQ_KEY].outerShell, shells:q? q.shells : null, shellNodes:q? q.shellNodes : null,
     Ms:SH? Array.from(SH.Ms.subarray(0,n)) : null, Ro:SH? Array.from(SH.Ro.subarray(0,n)) : null};
   // 第311便a: 核の自転と軸の宣言(宣言した本だけ —— 源ごとの核の Ω_c = s·â〔宣言の一定のベクトル・片方だけの宣言は天体の状態から〕と外殻の自転〔天体の状態〕)
   if(T._rdIsqCs && T._rdIsqCs.cnt>0){ const Z=T._rdIsqCs; res.coreSpin={version:REL_DRAG_CORE_SPIN_VERSION, model:"declared-constant-vector", sources:[]};
     for(let j=0;j<n;j++) if(Z.on[j]) res.coreSpin.sources.push({j, s:Z.s[j], axis:[Z.ax[j],Z.ay[j],Z.az[j]], declaredSpin:!!Z.dS[j], declaredAxis:!!Z.dA[j], shell:!!(SH && SH.Ms[j]>0),
       shellSpin:S.spin[j], shellAxis:[S.sax[j],S.say[j],S.saz[j]]}); }
+  return res;
+}
+// ===== 第312便a(原仮定者の裁定(第114報)AN398「距離に応じた引きずりの減衰が強すぎる可能性 —— r⁻³ なら r⁻² などを調査」・決断事項 AN398・統括の検証項目 R230):
+//   **一貫した K1 の重み**(新則 invSq の本だけの opt-in —— 鍵 physics.relativeDrag.invSq.kernel:"k1"・版 REL_DRAG_INVSQ_KERNEL_VERSION)=====
+// 比較の法則の版(在位へ入れない —— 減衰の比較のスクリーニングの opt-in)。K2(今 —— 源の一様球の 1/r² の体積平均・遠方 m/r²)の代わりに**同じ族で** 1/r の体積平均を使う:
+//   K1(r; R) = ⟨1/|x − ρ|⟩_ball = 1/r(r ≥ R —— 殻の定理で外部は厳密)・(3R² − r²)/(2R³)(r < R)・dK1/dr = −1/r²・−r/R³(r = R で連続)。
+//   M1(r; R) = ⟨(ρ·n̂)/|x − ρ|⟩_ball = ⟨ρ²⟩/(3r²) = R²/(5r²)(外部 r > R —— 1/|x − ρ| の Legendre 展開で l = 1 の項だけ・厳密)・dM1/dr = −2R²/(5r³)。
+//   薄い殻(半径 a): K = 1/r(外部)・1/a(内部)・dK/dr = −1/r²・0(殻の上 r = a は両側の平均 −1/(2a²) —— 構成の選択)・M = a²/(3r²)。一様の厚い殻は球の差(K2 と同じ組み方)。
+//   W(x) = W_bg′ + 自己の場 + 他の源(全部 K1 の族 —— 単位 [M/L]・受理は Wbg2 = 0 だけ)・β_ij = ⟨m_d,j K1_j/W⟩(比の平均)・回転 Ω_j â_j × ⟨(m_d,j M1_j/W) n̂_j⟩・
+//   軸 amp = −n̂·∇(m_d,j M1_j/W)(∇W は自己の場を含む全項)・受け手の自己の場は前計算(規則の SK1 = K1(t_a; 1)・SD1 = dK1/dr(t_a; 1) —— m_d SK1/R_d・m_d SD1/R_d²)。
+//   受け手の外殻: uniform は径の求積([R_d, R])・**thin は殻の上の点**(半径 R・角度の規則 —— 自分の殻の場は有限 M_s/R・動径の微分は両側の平均 −M_s/(2R²)。
+//   K2 の thin は殻の上で場が対数で発散し殻の分 0 —— K1 では有限なので殻の分を数える)。遠方の次数: β ∝ r⁻¹・回転 ∝ r⁻²・軸 ∝ r⁻³(K2 の r⁻²・r⁻³・r⁻⁴ から 1 つずつ)。
+//   **K2 の経路は 1 字も変えない**(評価の入口 inertialDragIsqEval・inertialDragIsqPointAt の頭で kernel の値で分ける —— 以下は K1 の版の関数。build・行の帳簿・銀河の一様軸・
+//   核の自転と軸・観測の初期値の分解は同じ build を通る)。**既存の係数に r を掛けるだけの変更ではない**(自己の場・回転・軸・外殻を同じ族で作り直す)。
+//   極薄の一様の厚い殻の受理の防御(dragCoreThinShellCheck)は K2 の核で節点の表現と有限性を確かめる(幾何の判定 —— K1 の核は K2 が有限の所で有限)。
+// K1 と dK1/dr(B[0]・B[1])
+function inertialDragIsqK1(r,R,B){
+  if(r>=R){ B[0]=1/r; B[1]=-1/(r*r); return; }
+  const R3=R*R*R; B[0]=(3*R*R-r*r)/(2*R3); B[1]=-r/R3;
+}
+// M1 と dM1/dr(B[2]・B[3] —— 外部 r > R だけ)
+function inertialDragIsqM1(r,R,B){ const q=R*R/(5*r*r); B[2]=q; B[3]=-2*q/r; }
+// 薄い殻(半径 a)の K1 の族: B[0] = K・B[1] = dK/dr・m2 のとき B[2] = M = a²/(3r²)・B[3] = dM/dr(外部だけ)
+function inertialDragIsqThinK1(r,a,m2,B){
+  if(r>a){ B[0]=1/r; B[1]=-1/(r*r); } else if(r<a){ B[0]=1/a; B[1]=0; } else { B[0]=1/a; B[1]=-0.5/(a*a); }
+  if(m2){ const q=a*a/(3*r*r); B[2]=q; B[3]=-2*q/r; }
+}
+// 外殻の源の K_s・dK_s/dr(K1 の族 —— uniform は球の差・thin は球面)
+function inertialDragIsqShellK1(r,Ri,Ro,thin,B,C){
+  if(thin){ inertialDragIsqThinK1(r,Ro,false,B); return; }
+  const Vo=Ro*Ro*Ro, Vi=Ri*Ri*Ri, iV=1/(Vo-Vi);
+  inertialDragIsqK1(r,Ro,C); const k=C[0], dk=C[1];
+  inertialDragIsqK1(r,Ri,C);
+  B[0]=(Vo*k-Vi*C[0])*iV; B[1]=(Vo*dk-Vi*C[1])*iV;
+}
+// 外殻の源の M_s・dM_s/dr(K1 の族 —— 外部 r > Ro だけ)
+function inertialDragIsqShellM1(r,Ri,Ro,thin,B,C){
+  if(thin){ inertialDragIsqThinK1(r,Ro,true,C); B[2]=C[2]; B[3]=C[3]; return; }
+  const Vo=Ro*Ro*Ro, Vi=Ri*Ri*Ri, iV=1/(Vo-Vi);
+  inertialDragIsqM1(r,Ro,C); const m=C[2], dm=C[3];
+  inertialDragIsqM1(r,Ri,C);
+  B[2]=(Vo*m-Vi*C[2])*iV; B[3]=(Vo*dm-Vi*C[3])*iV;
+}
+// 規則の K1 の自己の場の表(inertialDragIsqRule のキャッシュの規則に SK1・SD1 を 1 回だけ足す —— K2 の SK・SD は触らない・状態ではない)
+function inertialDragIsqRuleK1(rule){
+  if(rule.SK1) return rule;
+  const n=rule.n, SK1=new Float64Array(n), SD1=new Float64Array(n), B=new Float64Array(4);
+  for(let a=0;a<n;a++){ inertialDragIsqK1(rule.TA[a],1,B); SK1[a]=B[0]; SD1[a]=B[1]; }
+  rule.SK1=SK1; rule.SD1=SD1;
+  return rule;
+}
+// 以下 K1 の版(K2 の inertialDragIsqPoint・PointRecv・Node・Eval・PointAt と同じ式・同じ和の順で、核の関数だけを K1 の族へ —— Eval は自己の場の表と薄い殻の受け手の分が違う)
+function inertialDragIsqPointK1(S,n,i,X,Y,Z,px,py,pz,RD,MD,Wbg2,sc,SH){
+  const B=sc.B;
+  let W=Wbg2, gx=0, gy=0, gz=0;
+  for(let k=0;k<n;k++){
+    const Rk=RD[k];
+    if(!(Rk>0)){ sc.ok[k]=0; continue; }
+    const dx=px-X[k], dy=py-Y[k], dz=pz-Z[k], r=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    sc.ok[k]=1; sc.r[k]=r; sc.nx[k]=(r>0)? dx/r : 0; sc.ny[k]=(r>0)? dy/r : 0; sc.nz[k]=(r>0)? dz/r : 0;
+    inertialDragIsqK1(r,Rk,B);
+    const w=MD[k]*B[0], gr=MD[k]*B[1];
+    sc.K[k]=B[0]; W+=w; gx+=gr*sc.nx[k]; gy+=gr*sc.ny[k]; gz+=gr*sc.nz[k];
+    if(SH && SH.Ms[k]>0){ inertialDragIsqShellK1(r,Rk,SH.Ro[k],SH.thin,B,sc.C); const ms=SH.Ms[k], ws=ms*B[0], gs=ms*B[1]; sc.KS[k]=B[0]; W+=ws; gx+=gs*sc.nx[k]; gy+=gs*sc.ny[k]; gz+=gs*sc.nz[k]; }
+  }
+  sc.gx=gx; sc.gy=gy; sc.gz=gz;
+  return W;
+}
+function inertialDragIsqPointRecvK1(n,i,X,Y,Z,px,py,pz,RD,MD,Wbg2,sc,SH,w1,g1,has2,w2,g2,ux,uy,uz){
+  const B=sc.B;
+  let W=Wbg2, gx=0, gy=0, gz=0;
+  for(let k=0;k<n;k++){
+    if(k===i){ sc.ok[k]=0; W+=w1; gx+=g1*ux; gy+=g1*uy; gz+=g1*uz; if(has2){ W+=w2; gx+=g2*ux; gy+=g2*uy; gz+=g2*uz; } continue; }
+    const Rk=RD[k];
+    if(!(Rk>0)){ sc.ok[k]=0; continue; }
+    const dx=px-X[k], dy=py-Y[k], dz=pz-Z[k], r=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    sc.ok[k]=1; sc.r[k]=r; sc.nx[k]=(r>0)? dx/r : 0; sc.ny[k]=(r>0)? dy/r : 0; sc.nz[k]=(r>0)? dz/r : 0;
+    inertialDragIsqK1(r,Rk,B);
+    const w=MD[k]*B[0], gr=MD[k]*B[1];
+    sc.K[k]=B[0]; W+=w; gx+=gr*sc.nx[k]; gy+=gr*sc.ny[k]; gz+=gr*sc.nz[k];
+    if(SH && SH.Ms[k]>0){ inertialDragIsqShellK1(r,Rk,SH.Ro[k],SH.thin,B,sc.C); const ms=SH.Ms[k], ws=ms*B[0], gs=ms*B[1]; sc.KS[k]=B[0]; W+=ws; gx+=gs*sc.nx[k]; gy+=gs*sc.ny[k]; gz+=gs*sc.nz[k]; }
+  }
+  sc.gx=gx; sc.gy=gy; sc.gz=gz;
+  return W;
+}
+function inertialDragIsqNodeK1(S,n,i,row,W,wq,RD,MD,SH,sc,BE,RV,OP,rot,ax,gain,set,NP,out,parts,part,CS){
+  const B=sc.B, C=sc.C, sp=S.spin, AX=S.sax, AY=S.say, AZ=S.saz, iW=1/W;
+  for(let j=0;j<n;j++){
+    if(j===i || !sc.ok[j]) continue;
+    if(set && !set.has(i*NP+j)) continue;
+    const md=MD[j], hs=!!(SH && SH.Ms[j]>0);
+    BE[row+j]+=wq*md*sc.K[j]*iW;
+    let bS=0;
+    if(hs){ bS=wq*SH.Ms[j]*sc.KS[j]*iW; BE[row+j]+=bS; }
+    if(parts){ parts.BP[(row+j)*2+part]+=wq*md*sc.K[j]*iW+bS; parts.BS[row+j]+=bS; }
+    if(!rot && !ax) continue;
+    inertialDragIsqM1(sc.r[j],RD[j],B);
+    const nx=sc.nx[j], ny=sc.ny[j], nz=sc.nz[j], g=md*B[2]*iW;
+    let gS=0, dS=0;
+    if(hs){ inertialDragIsqShellM1(sc.r[j],RD[j],SH.Ro[j],SH.thin,C,sc.D); gS=SH.Ms[j]*C[2]*iW; dS=SH.Ms[j]*C[3]; }
+    const cs=!!(CS && CS.on[j]);   // 第311便a: 核の自転と軸を宣言した源(核と外殻の係数を別にも積む —— 宣言の無い源は下の今の経路)
+    if(rot){
+      const b=(row+j)*3; RV[b]+=wq*g*nx; RV[b+1]+=wq*g*ny; RV[b+2]+=wq*g*nz;
+      if(hs){ RV[b]+=wq*gS*nx; RV[b+1]+=wq*gS*ny; RV[b+2]+=wq*gS*nz; if(parts){ parts.RS[b]+=wq*gS*nx; parts.RS[b+1]+=wq*gS*ny; parts.RS[b+2]+=wq*gS*nz; } }
+      if(cs){ const RC=CS.RVC; RC[b]+=wq*g*nx; RC[b+1]+=wq*g*ny; RC[b+2]+=wq*g*nz; if(hs){ const RX=CS.RVS; RX[b]+=wq*gS*nx; RX[b+1]+=wq*gS*ny; RX[b+2]+=wq*gS*nz; } }
+    }
+    const Om=sp[j];
+    if(cs){   // 第311便a: 軸は核(Ω_c・â_c)と外殻(天体の自転 Om・軸 â_j)をそれぞれの軸で評価してから足す(amp も別)
+      if(!ax) continue;
+      const Oc=CS.s[j], c1=(Oc!==0 && Number.isFinite(Oc)), c2=(hs && Om!==0 && Number.isFinite(Om));
+      if(!c1 && !c2) continue;
+      const gd=sc.gx*nx+sc.gy*ny+sc.gz*nz, ampC=-(md*B[3]*iW-g*gd*iW), ampS=hs? -(dS*iW-gS*gd*iW) : 0, b3=(row+j)*3, b=(row+j)*4;
+      if(c1){
+        const a0=CS.ax[j], a1=CS.ay[j], a2=CS.az[j], cx=a1*nz-a2*ny, cy=a2*nx-a0*nz, cz=a0*ny-a1*nx, sn=Math.sqrt(cx*cx+cy*cy+cz*cz), mu=nx*a0+ny*a1+nz*a2;
+        const f=wq*gain*ampC*sn*Oc, ox=f*(2*mu*nx-a0), oy=f*(2*mu*ny-a1), oz=f*(2*mu*nz-a2);
+        OP[b]+=ox; OP[b+1]+=oy; OP[b+2]+=oz; CS.OPC[b3]+=ox; CS.OPC[b3+1]+=oy; CS.OPC[b3+2]+=oz;
+      }
+      if(c2){
+        const a0=AX[j], a1=AY[j], a2=AZ[j], cx=a1*nz-a2*ny, cy=a2*nx-a0*nz, cz=a0*ny-a1*nx, sn=Math.sqrt(cx*cx+cy*cy+cz*cz), mu=nx*a0+ny*a1+nz*a2;
+        const f=wq*gain*ampS*sn*Om, ox=f*(2*mu*nx-a0), oy=f*(2*mu*ny-a1), oz=f*(2*mu*nz-a2);
+        OP[b]+=ox; OP[b+1]+=oy; OP[b+2]+=oz; CS.OPS[b3]+=ox; CS.OPS[b3+1]+=oy; CS.OPS[b3+2]+=oz;
+      }
+      out.totW+=wq; if(ampC+ampS<0) out.negW+=wq;
+      continue;
+    }
+    if(ax && Om!==0 && Number.isFinite(Om)){
+      let amp=-(md*B[3]*iW-g*(sc.gx*nx+sc.gy*ny+sc.gz*nz)*iW);
+      if(hs) amp+=-(dS*iW-gS*(sc.gx*nx+sc.gy*ny+sc.gz*nz)*iW);
+      const ax0=AX[j], ay0=AY[j], az0=AZ[j], cx=ay0*nz-az0*ny, cy=az0*nx-ax0*nz, cz=ax0*ny-ay0*nx, sn=Math.sqrt(cx*cx+cy*cy+cz*cz), mu=nx*ax0+ny*ay0+nz*az0;
+      const f=wq*gain*amp*sn*Om, ox=f*(2*mu*nx-ax0), oy=f*(2*mu*ny-ay0), oz=f*(2*mu*nz-az0), b=(row+j)*4;
+      OP[b]+=ox; OP[b+1]+=oy; OP[b+2]+=oz;
+      out.totW+=wq; if(amp<0) out.negW+=wq;
+    }
+  }
+}
+function inertialDragIsqEvalK1(S,n,X,Y,Z,BE,RV,OP,rot,ax,gain,opt){
+  const rd=S.relDrag, isq=rd[REL_DRAG_INVSQ_KEY], Wbg2=isq.Wbg2, rule=inertialDragIsqRuleK1(inertialDragIsqRule(isq.order)), pin=S.pinned, AX=S.sax, AY=S.say, AZ=S.saz;
+  const set=S._rdPairSet, NP=S._rdPairN, noR=inertialDragIsqCore(S,n), RD=S._rdIsqRd, MD=S._rdIsqMd, sc=inertialDragIsqScratch(S,n);
+  const SH=(S._rdIsqSh && S._rdIsqSh.cnt>0)? S._rdIsqSh : null, direct=!!(opt && opt.direct), parts=(opt && opt.parts) || null;
+  const CS=(S._rdIsqCs && S._rdIsqCs.cnt>0)? S._rdIsqCs : null;   // 第311便a: 核の自転と軸を宣言した源(無い本は null —— 今の経路)
+  const out={overlap:null, noR, rowMax:0, negW:0, totW:0, nodes:rule.N, shells:SH? SH.cnt : 0, shellNodes:0};
+  const RE=SH? SH.Rout : RD;   // 重なりの判定の半径(第310便a: 外殻を持つ天体は外径 —— 外殻の無い本は今と同じ R_d)
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
+    if(!(RD[i]>0) || !(RD[j]>0)) continue;
+    const dx=X[j]-X[i], dy=Y[j]-Y[i], dz=Z[j]-Z[i];
+    if(!(Math.sqrt(dx*dx+dy*dy+dz*dz)>RE[i]+RE[j])){ out.overlap=[i,j]; return out; }
+  }
+  BE.fill(0,0,n*n); if(rot) RV.fill(0,0,n*n*3); if(ax) OP.fill(0,0,n*n*4);
+  if(parts){ parts.BS.fill(0,0,n*n); parts.BP.fill(0,0,n*n*2); parts.RS.fill(0,0,n*n*3); }
+  if(CS){   // 第311便a: 核と外殻の回転の係数(RVC・RVS)と軸の ω(OPC・OPS)を宣言した源の分だけ別に積む作業(受け手 × 源 × 3)
+    if(!CS.RVC || CS.RVC.length<n*n*3){ const F=()=>new Float64Array(n*n*3); CS.RVC=F(); CS.RVS=F(); CS.OPC=F(); CS.OPS=F(); }
+    CS.RVC.fill(0,0,n*n*3); CS.RVS.fill(0,0,n*n*3); CS.OPC.fill(0,0,n*n*3); CS.OPS.fill(0,0,n*n*3);
+  }
+  const NA=rule.NA, SKt=rule.SK1, SDt=rule.SD1, B=sc.B, C=sc.C;
+  for(let i=0;i<n;i++){
+    const Ri=RD[i];
+    if(!(Ri>0) || pin[i]) continue;
+    const xi=X[i], yi=Y[i], zi=Z[i], row=i*n, mdi=MD[i], R2=Ri*Ri, R3=R2*Ri;
+    const hs=!!(SH && SH.Ms[i]>0), msi=hs? SH.Ms[i] : 0, Roi=hs? SH.Ro[i] : 0, fc=hs? mdi/(mdi+msi) : 1;
+    // 体積の部分(K1): 0 = dragCore の球(規則の節点)・1 = 外殻(uniform —— 径の求積を [R_d, R] に・thin —— 殻の上の点〔自分の殻の場は有限 1/R —— K2 の対数の発散が無い〕)
+    const nPart=hs? 2 : 1;
+    for(let part=0;part<nPart;part++){
+      const dR=Roi-Ri, Vs=Roi*Roi*Roi-R3, fs=hs? msi/(mdi+msi) : 0, thinP=(part===1 && SH.thin), na=thinP? 1 : rule.n;
+      for(let a=0;a<na;a++){
+        let w1=0, g1=0, w2=0, g2=0, s=0, wa=0;
+        if(part===0){
+          if(!direct){
+            w1=mdi*(SKt[a]/Ri); g1=mdi*(SDt[a]/R2);
+            if(hs){ inertialDragIsqShellK1(Ri*rule.TA[a],Ri,Roi,SH.thin,B,C); w2=msi*B[0]; g2=msi*B[1]; }
+          }
+        } else if(thinP){   // 薄い殻の上の点(半径 R —— 自分の殻の場 M_s/R・動径の微分は両側の平均 −M_s/(2R²)〔構成の選択〕・direct でも前計算)
+          s=Roi; wa=fs;
+          inertialDragIsqK1(s,Ri,B); w1=mdi*B[0]; g1=mdi*B[1]; inertialDragIsqThinK1(s,Roi,false,B); w2=msi*B[0]; g2=msi*B[1];
+        } else {
+          const v=rule.GX[a], h=v*v*(3-2*v);
+          s=Ri+dR*h; wa=rule.GW[a]*3*s*s*dR*6*v*(1-v)/Vs*fs;
+          if(!direct){ inertialDragIsqK1(s,Ri,B); w1=mdi*B[0]; g1=mdi*B[1]; inertialDragIsqShellK1(s,Ri,Roi,false,B,C); w2=msi*B[0]; g2=msi*B[1]; }
+        }
+        for(let qa=0;qa<NA;qa++){
+          let px, py, pz, wq, ux, uy, uz;
+          if(part===0){ const q=a*NA+qa, tR=Ri*rule.T[q]; ux=rule.SX[q]; uy=rule.SY[q]; uz=rule.SZ[q]; px=xi+tR*ux; py=yi+tR*uy; pz=zi+tR*uz; wq=hs? rule.W[q]*fc : rule.W[q]; }
+          else { ux=rule.SX[qa]; uy=rule.SY[qa]; uz=rule.SZ[qa]; px=xi+s*ux; py=yi+s*uy; pz=zi+s*uz; wq=wa*rule.WA[qa]; out.shellNodes++; }
+          const W=(direct && !thinP)? inertialDragIsqPointK1(S,n,i,X,Y,Z,px,py,pz,RD,MD,Wbg2,sc,SH) : inertialDragIsqPointRecvK1(n,i,X,Y,Z,px,py,pz,RD,MD,Wbg2,sc,SH,w1,g1,hs,w2,g2,ux,uy,uz);
+          inertialDragIsqNodeK1(S,n,i,row,W,wq,RD,MD,SH,sc,BE,RV,OP,rot,ax,gain,set,NP,out,parts,part,CS);
+        }
+      }
+    }
+    let rs=0; for(let j=0;j<n;j++) rs+=BE[row+j];
+    if(rs>out.rowMax) out.rowMax=rs;
+  }
+  if(ax) for(let i=0;i<n;i++) for(let j=0;j<n;j++){ const b=(i*n+j)*4; if(CS && CS.on[j]) continue; if(OP[b]===0 && OP[b+1]===0 && OP[b+2]===0) continue; const pa=OP[b]*AX[j]+OP[b+1]*AY[j]+OP[b+2]*AZ[j]; OP[b+3]=(inertialDrag3AxialSign(AX[j],AY[j],AZ[j])>0)? pa : -pa; }
+  // 第311便a: 核の自転と軸を宣言した源の符号つきのスカラーは、核の部分を核の軸へ・外殻の部分を天体の軸へそれぞれ射影して足す(第302便e の正準化をそれぞれに)
+  if(ax && CS) for(let i=0;i<n;i++) for(let j=0;j<n;j++){
+    if(!CS.on[j]) continue;
+    const b=(i*n+j)*4, b3=(i*n+j)*3, P=CS.OPC, Q=CS.OPS, c=!(P[b3]===0 && P[b3+1]===0 && P[b3+2]===0), d=!(Q[b3]===0 && Q[b3+1]===0 && Q[b3+2]===0);
+    if(!c && !d) continue;
+    let w=0;
+    if(c){ const a0=CS.ax[j], a1=CS.ay[j], a2=CS.az[j], pa=P[b3]*a0+P[b3+1]*a1+P[b3+2]*a2; w=(inertialDrag3AxialSign(a0,a1,a2)>0)? pa : -pa; }
+    if(d){ const pa=Q[b3]*AX[j]+Q[b3+1]*AY[j]+Q[b3+2]*AZ[j], ws=(inertialDrag3AxialSign(AX[j],AY[j],AZ[j])>0)? pa : -pa; w=c? w+ws : ws; }
+    OP[b+3]=w;
+  }
+  return out;
+}
+function inertialDragIsqPointAtK1(S,i,px,py,pz){
+  if(!S || !S.relDrag || !S.relDrag[REL_DRAG_INVSQ_KEY] || S.coord3d!==true) return null;
+  const n=S.n, T=Object.create(S);
+  T._rdIsqRd=null; T._rdIsqMd=null; T._rdIsqSc=null; T._rdRadArr=null; T._rdIsqSh=null; T._rdIsqCs=null;
+  inertialDragIsqCore(T,n);
+  const RD=T._rdIsqRd, MD=T._rdIsqMd, sc=inertialDragIsqScratch(T,n), B=sc.B, Wbg2=S.relDrag[REL_DRAG_INVSQ_KEY].Wbg2, SH=(T._rdIsqSh && T._rdIsqSh.cnt>0)? T._rdIsqSh : null;
+  const CS=(T._rdIsqCs && T._rdIsqCs.cnt>0)? T._rdIsqCs : null;   // 第311便a
+  const W=inertialDragIsqPointK1(T,n,i,S.x,S.y,S.z,px,py,pz,RD,MD,Wbg2,sc,SH), terms=[];
+  for(let j=0;j<n;j++){
+    if(j===i || !sc.ok[j]) continue;
+    const r=sc.r[j], o={j, r, n:[sc.nx[j],sc.ny[j],sc.nz[j]], K:sc.K[j], beta:MD[j]*sc.K[j]/W};
+    inertialDragIsqK1(r,RD[j],B); o.dK=B[1];
+    if(r>RD[j]){ inertialDragIsqM1(r,RD[j],B); o.M=B[2]; o.dM=B[3]; o.rotC=MD[j]*B[2]/W; o.amp=-(MD[j]*B[3]/W-MD[j]*B[2]*(sc.gx*o.n[0]+sc.gy*o.n[1]+sc.gz*o.n[2])/(W*W)); }
+    if(SH && SH.Ms[j]>0){
+      const ms=SH.Ms[j], Ro=SH.Ro[j], gd=sc.gx*o.n[0]+sc.gy*o.n[1]+sc.gz*o.n[2];
+      o.KS=sc.KS[j]; o.betaCore=o.beta; o.betaShell=ms*sc.KS[j]/W; o.beta=o.betaCore+o.betaShell;
+      inertialDragIsqShellK1(r,RD[j],Ro,SH.thin,B,sc.C); o.dKS=B[1];
+      if(r>Ro){ inertialDragIsqShellM1(r,RD[j],Ro,SH.thin,B,sc.C); o.MS=B[2]; o.dMS=B[3]; o.rotCore=o.rotC; o.rotShell=ms*B[2]/W; o.rotC=o.rotCore+o.rotShell;
+        o.ampCore=o.amp; o.ampShell=-(ms*B[3]/W-ms*B[2]*gd/(W*W)); o.amp=o.ampCore+o.ampShell; }
+    }
+    if(CS && CS.on[j]){ o.coreSpin={s:CS.s[j], axis:[CS.ax[j],CS.ay[j],CS.az[j]]}; o.shellSpin={s:S.spin[j], axis:[S.sax[j],S.say[j],S.saz[j]]}; }   // 第311便a: 核(ampCore・rotC の核の分)は coreSpin・外殻は天体の自転で合成する
+    terms.push(o);
+  }
+  const res={W, grad:[sc.gx,sc.gy,sc.gz], Rd:Array.from(RD.subarray(0,n)), md:Array.from(MD.subarray(0,n)), terms};
+  if(SH) res.shell={mode:SH.thin? "thin" : "uniform", Ms:Array.from(SH.Ms.subarray(0,n)), Ro:Array.from(SH.Ro.subarray(0,n))};
+  if(CS) res.coreSpin={version:REL_DRAG_CORE_SPIN_VERSION, sources:Array.from({length:n},(_,j)=>j).filter((j)=>CS.on[j])};
+  res.kernel={key:"k1", version:REL_DRAG_INVSQ_KERNEL_VERSION, law:REL_DRAG_INVSQ_LAW_K1};
   return res;
 }
 // dragCore の既定の読み口(状態を 1 bit も動かさない): 粒子ごとの宣言半径・引きずりの半径・クランプの有無(宣言が無い本は null)
