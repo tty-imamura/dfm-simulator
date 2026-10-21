@@ -279,19 +279,23 @@ export function moonOf(J, rk, kern) {
   }
   return out;
 }
-/** 所要(系・走行・刻みごと —— 新しく走らせた行だけ)と 2 段目の費用の見積り */
+/**
+ * 所要(系・走行・刻みごと —— 新しく走らせた行だけ)と 2 段目の費用の見積り。揮発の欄は安定 hash の除外の語彙だけ(wallSec・rateStepsPerSec・spentSec ——
+ * lint.stableHashPaths)—— 步(steps)は決定的。rate は引きずりの步の速さ(步/s)・stage2 の spentSec は見積りの CPU 秒(步 ÷ 速さ)
+ */
 export function costOf(J) {
   const rows = Object.values(J.E.rows).filter((r) => r.status === 'run' && !r.reused), by = {};
   for (const r of rows) { const k = r.spec.system + '|' + (Q.KINDS[r.spec.kind].drag ? 'drag' : 'nodrag') + '|h/' + r.spec.div;
     const w = by[k] || (by[k] = { system: r.spec.system, drag: Q.KINDS[r.spec.kind].drag, div: r.spec.div, n: 0, steps: 0, wallSec: 0 }); w.n++; w.steps += r.steps; w.wallSec += r.wallSec; }
-  for (const w of Object.values(by)) w.msPerStep = 1000 * w.wallSec / w.steps;
-  const ms = (sys) => { const z = Object.values(by).filter((w) => w.system === sys && w.drag); return z.length ? z.reduce((s, w) => s + w.wallSec, 0) * 1000 / z.reduce((s, w) => s + w.steps, 0) : null; };
+  const rate = {};
+  for (const sys of ['jupiter', 'earthmoon']) { const z = Object.values(by).filter((w) => w.system === sys && w.drag);
+    if (z.length) rate[sys] = { rateStepsPerSec: z.reduce((s, w) => s + w.steps, 0) / z.reduce((s, w) => s + w.wallSec, 0) }; }
   const stepsOf = (sys, div, N) => { const z = rows.find((r) => r.spec.system === sys && r.spec.div === 1 && Q.KINDS[r.spec.kind].drag) || rows.find((r) => r.spec.system === sys && r.spec.div === 1);
     return z ? z.steps * div * N / z.spec.N : null; };
-  const est = (sys, div, N) => { const m = ms(sys), s = stepsOf(sys, div, N); return (m && s) ? { steps: Math.round(s), cpuSec: Math.round(m * s / 1000) } : null; };
-  return { rows: by, msPerStepDrag: { jupiter: ms('jupiter'), earthmoon: ms('earthmoon') },
+  const est = (sys, div, N) => { const s = stepsOf(sys, div, N); return (rate[sys] && s) ? { steps: Math.round(s), spentSec: Math.round(s / rate[sys].rateStepsPerSec) } : null; };
+  return { rows: by, rate,
     stage2: {
-      note: '1 走行の CPU 秒 = 引きずりの步の実測(ms/步)× 步(步は刻みと窓に比例)。K1 の步の費用は K2 と同じ程度の見込み(前計算の表の差し替え —— 統合の後に実測)',
+      note: '1 走行の CPU 秒の見積り spentSec = 步 ÷ 引きずりの步の実測の速さ rate(步は刻みと窓に比例)。K1 の步の費用は K2 と同じ程度の見込み(統合の後に実測)',
       jupiter: { h: est('jupiter', 1, N_JUP), h2: est('jupiter', 2, N_JUP), h4: est('jupiter', 4, N_JUP) },
       earthmoon: { h: est('earthmoon', 1, N_MOON), h2: est('earthmoon', 2, N_MOON), h4: est('earthmoon', 4, N_MOON), long354: est('earthmoon', 1, 354), long1062: est('earthmoon', 1, 1062) } } };
 }
