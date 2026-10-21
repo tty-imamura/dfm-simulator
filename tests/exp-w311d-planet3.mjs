@@ -479,7 +479,8 @@ export async function runAll(HP, o = {}) {
     // 段 S の見積りから 2 段目の --at の既定(指定が無い惑星は rd_est)
     const at = Object.assign({}, o.at || {});
     if (J.S) for (const k of o.planets) if (!at[k] && (o.md && o.md.length || o.sunmd && o.sunmd.length || o.coreSpin) && J.S.planets[k]) at[k] = Number(J.S.planets[k].rdEst.toPrecision(4));
-    const plan = planOf(Object.assign({}, o, { at, theta0: parts.includes('E') }));
+    // 第312便(統括): θ₀(R_d = R)は K2 の錨。K1 では β ≈ C₁(M☉/m)(R/r) が 0.1 の程度になり軌道が壊れる(水星の h/2 で配列の長さが尽きた)ので走らせない
+    const plan = planOf(Object.assign({}, o, { at, theta0: parts.includes('E') && (o.kernel || 'k2') === 'k2' }));
     J.plan = { divs: o.divs, N: o.N, grid: o.grid, cross: o.cross, at, md: o.md || [], sunmd: o.sunmd || [], coreSpin: o.coreSpin || null, specs: plan.length };
     const rows = await runPlan(plan, o.run, o.reuse, o.log || (() => {}));
     // v2: 2 段目は使い回せる正本の同じ惑星・同じ窓・同じ刻みの行も足す(--refine の区間に正本の点を入れる —— html と器の版が同じときだけ o.reuse がある)
