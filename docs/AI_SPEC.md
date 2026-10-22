@@ -4131,3 +4131,38 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **2 段目(統合の後に統括)**: `node tests/exp-w312d-confirm.mjs --system jupiter|earthmoon --kernel k1 --planet3 <K1 の 3 惑星の --merge の出力> --rule '{"type":"rdOverM"}' --divs 1,2 [--h4] [--kinds …] [--moon N]`(出力 `tests/out/confirm-w312d-stage2[-<系>].json` —— 鎖の正本ではない)。K1 の 3 惑星は `node tests/exp-w311d-planet3.mjs --planet <惑星> --kernel k1 --rdm <R_d/m の列> --refine 2 --h4` を惑星ごとに走らせ `--merge`。
 - **QA**: `docs.confirm312`(root は SKIP —— 正本の門・規則の比の表を planet3 の正本から作り直して一致・既定の規則・標的〔🏀 は第306便a の正本と生成器・🌦️ は 1PN だけ〕・規則を確認の系へ当てた表と t = 0 の β を対象 html で作り直して相対 1e-9・段 C の残差と月の診断を走行の行から作り直してビット同一・在位の 🏀🌦️ の宣言が凍結の写しのまま・PHYSICS〔第312便d〕の表と数・文書・CANON・禁句)と `docs.planet3_311` の v2 の世代切替(採用の欄と ε・`adoptOf` の境界 5 件・門の直し 2 件・C₂ の実測・PHYSICS〔第312便d〕の v2 の表)。post-merge の ③′ に docs.confirm312・docs.planet3_311・docs.mdSweep310・docs.an336_306・lint.canon304。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときに木星・地球・月・惑星の dragCore の R_d を確認の器や探索の器の値で宣言しない(在位の宣言は別便)。軌道に依る R_d の規則を天体の性質として書かない(AN398)。数値の門を観測の 3σ と呼ばない。地球の 1PN だけの参照を観測の値と呼ばない。
+
+## 129. 第313便c —— 値の差の除外の宣言(JSON Pointer)と差の分類・鎖の末端の直列の模擬と予約の前の backfill の余裕 α・PHYSICS の節の探し方の lint・post-merge の scope-all(統括の検証項目 R236・決断事項 AN394 の影の 2 回目の土台・**道具・器・文書・QA だけ** —— html・宣言の鍵・エンジンの式・物理・正本の値・判定の門・`S._core` は不変・**SYSTEM_PROMPT には載せない**)
+
+- **値の差の除外の宣言(`tools/regen-valdiff.mjs` 版 `w313c-valdiff-2`・宣言 `tests/data-w313c-valdiff-volatile.json` 版 `w313c-valdiff-decl-1`)**: 第312便c の道具は、最上位の来歴・再生成表の `volatilePaths`・実行時の鍵の名だけを除き、表に宣言の無い揮発の欄(`/when`・`ms`・`msPerStep`・`mergeKey`・`carried/fromGeneratedAt`・`sourceAt`・html の行番号の配列・beta の版名・転記元の契約の hash ほか)が差に残った。段ごと・正本ごとに JSON Pointer(`*` は 1 段の任意 —— `volatilePaths` の型)・種類・理由を宣言する。**置き場は鎖の計画に響かない別のデータ**: 再生成表の `volatilePaths` は安定 hash の刻印(`stampedDeclDrift` —— 刻印の Pointer ≠ 今の宣言なら読み手の段が regen)と表の lib の sha(families・timing294 の `meta.code`)に入るので、そこへ足すと計画が動く。器・lib・鎖の道具は宣言を読まない(QA ④)。
+  - 種類(`VALDIFF_DECL_KINDS`)—— 除く: `clock`(器の `new Date()` の時刻・入力の正本の実行時刻の写し)・`wall`(壁時計の秒・ms・その比と割合)・`rate`(步/秒)・`wallText`(所要の数を埋めた文)・`timingRecord`(保存 QA・速さの測定の節 —— 並び・顔ぶれ・割り振りも所要で決まる)・`mergeKey`・`codeId`(エンジンの sha・契約の hash・閉包の大きさ・対象 html の sha の写し)・`provenance`(比べた相手・転記元の契約・QA の rev・見積りの出所)・`line`・`build`・`sched`(どの worker で走ったか)/ 並びを問わない: `order`(配列を `by` の欄で引く表に直す —— 同じ名の要素は除いた後の本文の順に `#2` を付ける)/ 除かない: `count`(段・試験・走行の数 —— 差は構成の差に数える)。
+  - **観測の epoch・物理の時刻・正本の値は宣言しない**: `checkDeclared` が種類ごとに今の正本の値の型を照合する —— `clock` は 2026 年以後の ISO の時刻だけ(重力波の epoch のような観測の時刻を入れた宣言は落ちる)・`wall` は数・`rate` は非負の数・`mergeKey` と `codeId` は 16 進(か非負の数)・`line` は 1 以上の整数・`order` は要素が `by` の欄を持つ。宣言は c98db78・b2a8b4e・今の正本の 3 世代で型の照合を通り、113 個の Pointer がどれも今の正本で引ける(引けない Pointer は数えるだけ —— 鎖の後に欄が消えることがある)。
+  - **差の分類**(宣言の後に残った差を葉の型で): 数(物理の差の候補 —— 意味を確かめるのは人)/ 文字列(文言)/ 鍵の有無・長さ・型(構成)/ 宣言の数え上げ。段の分類 `category`: `same`・`same-by-declared`・`text`・`count`・`struct`・`number`・`added` ほか。CLI: `--now <rev>`(今の側も rev の正本 —— 便の基準線を git だけで引き直す)・`--table`(段ごとの分類の表)・`--declared <file>`・`--no-declared`(第312便c の比べ方)。
+  - **第312便の基準線(`node tools/regen-valdiff.mjs --base c98db78 --now a28c4c1 --table`)**: 現行の段 183 —— 宣言の前 changed 39 / same 137 / no-json 4 / added 3 → 宣言の後 same 137・**same-by-declared 32**・text 2・count 2・struct 3・added 3・no-json 4・**number 0**(第312便c の基準線の `--ignore stats` は宣言の `count` に置き換えた —— 名で一律に除かない)。
+
+| 分類 | 段 | 残った差 |
+|---|---|---|
+| same-by-declared(32) | obsintake・recordid・calaudit・dt3・kf0・solarsigma・d68three・stoprule・issues・assessed・charon-h・charon-h2・charon-h4・charoneps-h・charoneps-h2・charoneps-h4・charonwin・qsplit・nslockledger・intakeB・confirm2・confirm3・confirm4・galaxylite・galaxyprof2・d0audit2・bgbudget2・galaxyprof・emgrid・analogy・families・semic-302d | なし(実行時刻・所要・速さ・結合の鍵・コードの同一性・来歴・行番号・版名) |
+| text(2) | invsq-309a(未知の鍵の一覧に kernel)・galaxial-311b(拒否の文 9 行に rdPow・refRadius) | 文言 |
+| count(2) | shell-304b・an336-306a | 器の走行の数え上げ `stats`(h/4 の既定を全部測るへ —— AN400) |
+| struct(3) | planet3-311d(器 v2 の欄・版・文)・samplestatus(関与する段の表に 3 段の追加・QA の試験の表)・timing294(段の表に 3 段・段の数) | 構成と数え上げ |
+| added(3) | decay-312a・galaxialrd-312b・confirm-312d | 新しい正本 |
+
+  - 宣言の数: 段 30・Pointer 113(clock 18・wall 52・rate 2・wallText 1・timingRecord 3・mergeKey 2・codeId 8・provenance 9・line 1・build 1・order 5・count 11)。第311便の鎖の前後(8a638a4 → b2a8b4e)に当てると number の段が残る(families・statecontract-302e —— 数の葉の差)—— 宣言が差を一律に飲み込まないことの見本。
+- **鎖の末端の直列(第312便の鎖)**: 末端の inertialr2-303b → shell-304b → gfamily-305b → an336-306a → planet3-311d → confirm-312d は、各段が前の段の正本を入力(`meta.inputs`)に読む**依存の契約**で直列(並べ替えでは縮まない)。依存だけの下限(レーン無限・所要は今の見積り = 第312便の鎖の実測)は 13,260 s(臨界路 synodic-299b → emonly-300b → inertialr2-303b → shell-304b → … → confirm-312d)。**見積りが正確なら**予約つきの ready queue は下限 + 24 s(末端の開始の遅れ 20 s)—— 優先度(臨界路)と予約は既に末端を最早で入れている。**見積りが外れると**(第312便の鎖の 1 回目は第311便の鎖の実測を見積りにした —— synodic-299b の見積り 5214 s に実際 3595 s ほか)、予約した集約段 htmlagg(全レーン)の t_res が遅く置かれ、その前に終わる見込みで入れた段を、synodic-299b が早く終わった後も集約段が待った(入れた段は止めない)。
+- **予約の前の backfill の余裕 α(規則の版 `w313c-easy-backfill-2`・`RESERVE_BEFORE_ALPHA = 0.5`・履歴 `READY_QUEUE_RULE_HISTORY`)**: 予約の前に入れるのは「見積り ≤ α ×(t_res − 今)」の段だけ(extra の内の backfill は変えない・α = 1 は旧の規則 `w311c-easy-backfill-1` と同じ式)。`readyPick`・`simulateReadyQueue`(`alpha`)と鎖のシェル(`REGEN_RESERVE_ALPHA`・既定 50 —— 百分率・100 で旧の規則)が同じ規則。模擬(`node tools/regen-chain.mjs --simulate all --est <c98db78 の tests/data-w311c-regensec.json>` —— 所要は今の見積り・見積りは前の便の見積り):
+
+| 見積り | 優先度 | greedy | 予約 α = 1 | 予約 α = 0.5 | shell-304b の開始の遅れ(α = 1 → 0.5) |
+|---|---|---|---|---|---|
+| 前の便の見積り | 前の便の見積りの臨界路 | 15,946 s | 14,428 s | 13,802 s | +1,168 → +542 s |
+| 前の便の見積り | 今の見積りの臨界路 | 15,934 s | 14,437 s | 13,637 s | +1,177 → +377 s |
+| 今の見積り(正確) | 今の見積りの臨界路 | 15,934 s | 13,284 s | 13,295 s | +20 → +20 s |
+
+  見積りが実際より長い段があると α = 0.5 で末端が早く入り、見積りが正確なら旧の規則とほぼ同じ(+11 s)。見積りが実際より短い場合は予約の前に入れる段が減ってレーンが空き、壁時計が少し延びることがある(模擬 —— 判定ではない)。末端の 4 段(gfamily-305b 以降)が 1 コアで走る時間は依存の契約で残る —— 縮めるのは段の中の並列(器の改修 —— 本便はしない)。
+  - `--simulate <chain.json|all>`: 実測は**再起動の型を直した規則**(`calibrateSec` —— w312c-calibrate-2)で読む(第311便c の版は timeline の最後の組 —— 再開した回の済み印の確かめの秒 —— を所要と読んだ)・`--log`(済み印の `run Ns`)・`--est <file>`(見積りを別のファイルの段の sec から)・`--alpha 1,0.5`・`--tail 段,…`。出力に依存だけの下限 `lowerBoundSec`・臨界路 `criticalPath`・末端の段の最早の開始 `tailEs` と模擬ごとの開始・遅れ。
+  - 自己試験 `reserveAlphaProbe313`(小さな表 —— レーン 2・見積り 10 で実際 2 の段 X・末端の直列 P → H〔全レーン〕→ T・詰め物 F): α = 1 は F を予約の前に入れて H を F の終わりまで待たせ(壁時計 13 × scale)、α = 0.5 は H を X の終わりで入れる(9 × scale)。模擬と bash(`REGEN_RESERVE_ALPHA=100` と既定)の開始の並びが同じ。`readyQueueProbe311` (u) の u3 は α から期待を引く(α = 0.5 で B は extra の内)・u6 は旧の規則の u3。
+- **PHYSICS の節の探し方の lint(`lint.sectionLookup313`)**: tests/qa.mjs の `indexOf('〔第NNN便x')`(見出しの型 ` — ` の無い探し方)を数え、**第313便以降の新設に禁止**(第312便の post-merge で docs.w312c が〔第311便 — 統括〕の注記の「〔第312便c〕」を節の頭と読んだ)。既存(第312便まで 30 種 46 か所)は一覧で残す(数が増えれば違反)。見出しの型は 103 か所。今の PHYSICS で見出しでない所に当たる既存は〔第301便e(2 か所 —— 有無の照合だけ)。
+- **post-merge の ②(`tools/post-merge-qa.sh`)**: `node tools/regen-chain.mjs --scope-all --check` を足した(落ちたら「統合で段が増えた —— `--scope-all --write` で引き直す」—— 第312便の統合の後に一覧が 2 段古くなった)。③′ に第313便c の新設 4 本と世代を受けた lint.readyQueue311・lint.regenTools312・lint.scopeAll312。
+- **鎖で動く段**: 再生成表の lib(`tests/lib-w281a-regentable.mjs` —— 規則 α と自己試験)を変えたので、lib を `meta.code` に持つ families・timing294 が regen(計画)。値の差の宣言(別のデータ)と道具(tools/regen-valdiff.mjs)はどの段の入力にも入らない。
+- **QA**: `lint.valdiffDecl313`(道具の版の履歴・宣言の版と語彙・`checkDeclared`・自己試験・器と lib と鎖の道具が宣言を読まない)・`lint.readyQueue313`(規則の履歴と α・`reserveAlphaProbe313` の模擬と bash・シェルの既定の α・`--simulate` の口・全段の模擬の違反 0)・`lint.sectionLookup313`・`docs.w313c`。世代の切り替え: `lint.readyQueue311` は規則の版を履歴で(`w311c-easy-backfill-1` の世代)・`lint.regenTools312` は道具の版を履歴で(`w312c-valdiff-1` の世代)。root は 4 本とも SKIP。
+- **AI 生成の規則**: SYSTEM_PROMPT には載せない。鎖の運用と記録の道具の話で、本の宣言・判定・表示を変えない。値の差の記録は判定ではなく測定(「値が同じ」は除いた欄の外が同じことだけ)。観測の epoch・物理の時刻を揮発として宣言しない。

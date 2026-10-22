@@ -3223,7 +3223,9 @@ lastAddAt = Date.now();
       try {
         const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
         if (typeof RT.readyQueueProbe311 !== 'function') { bad.push('表に readyQueueProbe311 が無い(第311便c 未適用)'); return; }
-        if (RT.READY_QUEUE_RULE !== 'w311c-easy-backfill-1') bad.push('規則の版が w311c-easy-backfill-1 でない: ' + RT.READY_QUEUE_RULE);
+        // 第313便c(R236): 世代は規則の履歴で(w313c-easy-backfill-2 —— 予約の前の backfill の余裕 α。w311c-easy-backfill-1 は α = 1 の旧の規則 —— lint.readyQueue313)
+        const rqHist = RT.READY_QUEUE_RULE_HISTORY || ['w311c-easy-backfill-1'];
+        if (!rqHist.includes('w311c-easy-backfill-1') || !rqHist.includes(RT.READY_QUEUE_RULE)) bad.push('規則の版が w311c-easy-backfill-1 の世代でない: ' + RT.READY_QUEUE_RULE);
         const r = await RT.readyQueueProbe311({ root: ROOT, tmpDir: tmp });
         for (const k of ['u', 's', 'b', 't']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 200));
         cases.push(`(u) readyPick ${Object.keys(r.u).filter((k) => k !== 'ok').map((k) => k + ' [' + r.u[k].starts + (r.u[k].res ? ' / 予約 ' + r.u[k].res.key + ' t=' + r.u[k].res.tRes + ' extra ' + r.u[k].res.extra : ' / 予約なし') + ']').join(' ')}`);
@@ -3443,7 +3445,8 @@ lastAddAt = Date.now();
           for (const w of ["'--base-sec'", "'--out'", 'scopeAllReasons312', "'--scope-all'"]) if (tx.indexOf(w) < 0) bad.push('(a) tools/regen-chain.mjs に ' + w + ' が無い');
           const b = VD.valDiffSelfTest();
           if (!b.ok) bad.push('(b) ' + JSON.stringify(b).slice(0, 240));
-          if (VD.VALDIFF_VERSION !== 'w312c-valdiff-1') bad.push('(b) 道具の版 ' + VD.VALDIFF_VERSION);
+          // 第313便c(R236): 世代は道具の版の履歴で(w313c-valdiff-2 —— 除外の宣言・差の分類 —— lint.valdiffDecl313)
+          if (!(VD.VALDIFF_HISTORY || [VD.VALDIFF_VERSION]).includes('w312c-valdiff-1') || !(VD.VALDIFF_HISTORY || ['w312c-valdiff-1']).includes(VD.VALDIFF_VERSION)) bad.push('(b) 道具の版 ' + VD.VALDIFF_VERSION);
           cases.push(`(b) tools/regen-valdiff.mjs ${VD.VALDIFF_VERSION}: 除く鍵の外が同じなら same ${b.same}・値の差・観測の when/durationMs・配列の長さ・鍵の有無は changed ${b.changed}・宣言の Pointer ${b.declared}・--ignore の名 ${b.ignore}・追加/消えた/読めない ${b.files}・段ごと ${b.steps}`);
         } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
         add('lint.regenTools312', bad.length === 0,
@@ -3519,6 +3522,183 @@ lastAddAt = Date.now();
   }
 }
 // ==== 第312便c の塊(ここまで)====
+// ==== 第313便c の塊(ここから)====
+// ---- 第313便c(統括の検証項目 R236・決断事項 AN394 の影の 2 回目の土台): lint.valdiffDecl313・lint.readyQueue313・lint.sectionLookup313・docs.w313c ----
+// ----   lint.valdiffDecl313 …… 値の差の道具 tools/regen-valdiff.mjs(版 w313c-valdiff-2)の**除外の宣言** tests/data-w313c-valdiff-volatile.json(版 w313c-valdiff-decl-1)を固定する:
+// ----     ① 道具の版の履歴(w312c-valdiff-1 → w313c-valdiff-2)・宣言の版・種類の語彙が道具と同じ ② `checkDeclared` —— 段が表の現行の段・正本がその段の outs/merges・
+// ----        Pointer の形・理由・**種類ごとの値の型**(clock は 2026 年以後の ISO の時刻だけ —— 観測の epoch・物理の時刻は宣言しない・wall は数・rate は非負の数 ほか)
+// ----     ③ 自己試験(宣言で同じ・並びを問わない表・数え上げ・文言・数の差の分類・同じ名の要素・悪い宣言を落とす・段ごとの分類)
+// ----     ④ **鎖の計画に響かない**: 器(tests/exp-*.mjs)・lib(tests/lib-*.mjs)・鎖の道具(regen-chain・regen-plan)が宣言のファイルを読まない・表の段が書かない。
+// ----   lint.readyQueue313 …… 予約の前の backfill の余裕 α(規則の版 w313c-easy-backfill-2・RESERVE_BEFORE_ALPHA)を固定する: ① 規則の履歴と α の範囲
+// ----     ② `reserveAlphaProbe313` —— 小さな表(見積りより早く終わる段 X・末端の直列 P → H〔全レーン〕→ T・詰め物 F)で、α = 1(旧の規則)は F を予約の前に入れて
+// ----        H を待たせ・α = 0.5 は H を先に入れる(模擬と bash の開始の並びが同じ —— bash は REGEN_RESERVE_ALPHA)③ 鎖のシェルの既定の α ④ --simulate の口
+// ----        (all・--est・--alpha・再起動の型を直した実測 calibrateSec)⑤ 全段 regen の表の模擬(α と旧の規則)で順序・書込・予算の違反 0(壁時計は報告だけ)。
+// ----   lint.sectionLookup313 …… tests/qa.mjs の中で PHYSICS の節を `indexOf('〔第NNN便x')`(見出しの型 ` — ` の無いもの)で探す箇所を数え、**第313便以降の新設に禁止**
+// ----     (第312便は〔第311便 — 統括〕の → 注記の「〔第312便c〕」を節の頭と読んだ)。既存(第312便まで —— 30 種 46 か所)は一覧で残す(数が増えれば違反)。
+// ----     今の PHYSICS で見出しでない所に当たる既存の箇所を情報として出す。
+// ----   docs.w313c …… PHYSICS〔第313便c〕(「## 7.」の前)・AI_SPEC §129・CHANGELOG・tools/README・post-merge の ② と ③′ の第313便c の塊・書かない語と禁句。
+// ----   **beta 線の鎖の道具なので root は 4 本とも SKIP**。
+{
+  if (!TARGET.startsWith('beta/') || !fs.existsSync(path.join(ROOT, 'tests', 'data-w313c-valdiff-volatile.json'))) {
+    console.log('SKIP lint.valdiffDecl313 / lint.readyQueue313 / lint.sectionLookup313 / docs.w313c(beta 対象でない・第313便c 未適用 — ' + TARGET + ')');
+  } else {
+    await (async () => {
+      // ---- lint.valdiffDecl313
+      {
+        const bad = [], cases = [];
+        try {
+          const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          const VD = await import('file://' + path.join(ROOT, 'tools', 'regen-valdiff.mjs'));
+          // ①
+          const hist = VD.VALDIFF_HISTORY || [];
+          if (!hist.includes('w312c-valdiff-1') || !hist.includes('w313c-valdiff-2') || !hist.includes(VD.VALDIFF_VERSION)) bad.push('① 道具の版の履歴 ' + JSON.stringify(hist) + ' / ' + VD.VALDIFF_VERSION);
+          if (VD.VALDIFF_DECL_FILE !== 'tests/data-w313c-valdiff-volatile.json' || VD.VALDIFF_DECL_VERSION !== 'w313c-valdiff-decl-1') bad.push('① 宣言のファイル・版 ' + VD.VALDIFF_DECL_FILE + ' ' + VD.VALDIFF_DECL_VERSION);
+          const D = VD.loadDeclared(ROOT);
+          if (!D) bad.push('① 宣言が読めない');
+          else {
+            const kv = Object.keys(D.kinds || {}).sort().join(','), kt = Object.keys(VD.VALDIFF_DECL_KINDS).sort().join(',');
+            if (kv !== kt) bad.push('① 宣言の種類の語彙が道具と違う: ' + kv + ' ≠ ' + kt);
+            // ②
+            const c = VD.checkDeclared(D, RT, (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch { return null; } });
+            if (!c.ok) bad.push('② ' + c.bad.slice(0, 4).join(' / '));
+            cases.push(`①② 宣言 ${D.version}: 段 ${c.steps}・Pointer ${c.pointers}(${Object.entries(c.byKind).map(([k, v]) => k + ' ' + v).join('・')})—— 型の照合 ${c.ok ? 'ok' : '違反'}`
+              + `・今の正本で引けない Pointer ${c.unresolved.length}(情報 —— 鎖の後に欄が消えることがある)`);
+          }
+          // ③
+          const st = VD.valDiffSelfTest();
+          if (!st.ok || !st.decl || !st.decl.ok) bad.push('③ 自己試験 ' + JSON.stringify(st.decl || null).slice(0, 220));
+          else cases.push(`③ 自己試験: 宣言で同じ ${st.decl.sameByDeclared}・分類 ${st.decl.categories}・同じ名の要素 ${st.decl.dupOk}・宣言の照合(良い ${st.decl.check.good}・悪い宣言の違反 ${st.decl.check.bad})・段ごと ${st.decl.valDiff}`);
+          // ④ 鎖の計画に響かない(器・lib・鎖の道具が宣言のファイルを読まない・表の段が書かない)
+          const nm = 'data-w313c-valdiff-volatile';
+          const readers = [];
+          for (const f of fs.readdirSync(path.join(ROOT, 'tests'))) if (/^(exp|lib)-.*\.mjs$/.test(f) && fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8').indexOf(nm) >= 0) readers.push('tests/' + f);
+          for (const f of ['tools/regen-chain.mjs', 'tools/regen-plan.mjs']) if (fs.readFileSync(path.join(ROOT, f), 'utf8').indexOf(nm) >= 0) readers.push(f);
+          if (readers.length) bad.push('④ 宣言のファイルを器・lib・鎖の道具が読む: ' + readers.join(','));
+          const writers = RT.REGEN_STEPS.filter((z) => [...(z.outs || []), ...(z.merges || []), ...(z.touches || [])].includes(VD.VALDIFF_DECL_FILE)).map((z) => z.key);
+          if (writers.length) bad.push('④ 表の段が宣言のファイルを書く: ' + writers.join(','));
+          cases.push(`④ 器・lib・鎖の道具の読み手 ${readers.length}・表の書き手 ${writers.length}(再生成表の volatilePaths は変えない —— 安定 hash の刻印と表の lib の sha に入るため)`);
+        } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        add('lint.valdiffDecl313', bad.length === 0,
+          `**値の差の除外の宣言**(第313便c・統括の検証項目 R236・決断事項 AN394): ${cases.join(' / ')} —— 除外は意味を確かめた JSON Pointer の宣言で、`
+          + `**観測の epoch・物理の時刻・正本の値は宣言しない**。値の差の記録は**判定ではなく測定**(「値が同じ」は除いた鍵の外が同じことだけ)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- lint.readyQueue313
+      {
+        const bad = [], cases = [];
+        const os = await import('node:os');
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w313c-ra-'));
+        try {
+          const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          // ①
+          const hist = RT.READY_QUEUE_RULE_HISTORY || [];
+          if (!hist.includes('w311c-easy-backfill-1') || !hist.includes('w313c-easy-backfill-2') || !hist.includes(RT.READY_QUEUE_RULE)) bad.push('① 規則の履歴 ' + JSON.stringify(hist) + ' / ' + RT.READY_QUEUE_RULE);
+          const A = RT.RESERVE_BEFORE_ALPHA;
+          if (!(Number.isFinite(A) && A > 0 && A <= 1)) bad.push('① α の範囲 ' + A);
+          // ②
+          if (typeof RT.reserveAlphaProbe313 !== 'function') bad.push('② reserveAlphaProbe313 が無い');
+          else {
+            const r = await RT.reserveAlphaProbe313({ tmpDir: tmp });
+            if (!r.ok) bad.push('② ' + JSON.stringify({ s: r.s, b: r.b }).slice(0, 260));
+            cases.push(`② 小さな表(秒 ×${r.scale}・優先度 ${r.priority}): 模擬 α=1 ${r.s.old.order}(H ${r.s.old.h}・壁時計 ${r.s.old.makespan})/ α=${r.alpha} ${r.s.now.order}(H ${r.s.now.h}・${r.s.now.makespan})`
+              + (r.b ? ` —— bash REGEN_RESERVE_ALPHA=100 rc ${r.b.old.rc} ${r.b.old.order}(H ${r.b.old.h})/ 既定 rc ${r.b.now.rc} ${r.b.now.order}(H ${r.b.now.h})・照合 ${r.b.old.check && r.b.now.check}` : ''));
+          }
+          // ③ 鎖のシェルの既定の α
+          const fx = RT.reserveAlphaFixture313(1);
+          const ch = RT.buildChain({ steps: fx.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: fx, deps: RT.tableDeps({ steps: fx }) });
+          const sh = RT.chainShell(ch, { lanes: 2 });
+          const want = 'REGEN_RESERVE_ALPHA=${REGEN_RESERVE_ALPHA:-' + Math.round(A * 100) + '}';
+          if (sh.indexOf(want) < 0 || sh.indexOf('* REGEN_RESERVE_ALPHA') < 0) bad.push('③ 鎖のシェルに ' + want + ' と α の比べが無い');
+          cases.push(`③ 鎖のシェルの既定 ${want}(100 で旧の規則)`);
+          // ④ --simulate の口
+          const tx = fs.readFileSync(path.join(ROOT, 'tools', 'regen-chain.mjs'), 'utf8');
+          for (const w of ["'--est'", "'--alpha'", "'--tail'", 'calibrateSec', "src === 'all'", 'lowerBoundSec', 'criticalPath']) if (tx.indexOf(w) < 0) bad.push('④ tools/regen-chain.mjs の --simulate に ' + w + ' が無い');
+          // ⑤ 全段 regen の表の模擬
+          const all = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+          const G = RT.buildChain(all, { root: ROOT });
+          const e = RT.simulateReadyQueue(G, { lanes: 4 }), e1 = RT.simulateReadyQueue(G, { lanes: 4, alpha: 1 });
+          if (!e.check.ok || !e1.check.ok || e.pending.length || e1.pending.length) bad.push('⑤ 全段の模擬の違反・未了');
+          cases.push(`⑤ 全段の模擬 ${e.events.length} 段(見積り = 表の sec): α=${A} ${Math.round(e.makespan)} s・α=1 ${Math.round(e1.makespan)} s(違反 0 —— 見積りの壁時計は判定に使わない)`);
+        } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+        finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+        add('lint.readyQueue313', bad.length === 0,
+          `**予約の前の backfill の余裕 α**(第313便c・統括の検証項目 R236): ${cases.join(' / ')} —— 予約の前に入れるのは「見積り ≤ α ×(t_res − 今)」の段だけ`
+          + `(走行中の段が見積りより早く終わって t_res が前へ動いても間に合う見込みの段)。**見積りが正確なら旧の規則とほぼ同じ・外れたときに予約の段の待ちが短い**(模擬)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- lint.sectionLookup313
+      {
+        const bad = [], cases = [];
+        try {
+          const Q = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+          const Ph = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+          // 第312便まで(e05e0da)の見出しの型でない探し方(30 種 46 か所)—— 一覧で残す(数が増えれば違反)
+          const LOOSE312 = { '〔第269便d': 1, '〔第271便d': 3, '〔第272便b': 1, '〔第273便b': 1, '〔第274便b': 1, '〔第275便a': 1, '〔第275便b': 3, '〔第276便a': 6, '〔第276便b': 1,
+            '〔第277便c': 1, '〔第277便d': 2, '〔第278便d': 2, '〔第279便c': 2, '〔第280便a': 1, '〔第280便d': 1, '〔第280便e': 1, '〔第281便c': 1, '〔第281便d': 1, '〔第282便a': 1,
+            '〔第282便e': 1, '〔第285便d': 1, '〔第286便d': 1, '〔第287便d': 3, '〔第289便b': 1, '〔第294便d': 1, '〔第297便d': 1, '〔第299便e': 1, '〔第301便e': 2, '〔第302便d': 2,
+            '〔第311便c': 1 };
+          const re = /\b(indexOf|lastIndexOf|includes|search|startsWith)\(\s*(['"`])(〔第(\d+)便([a-z]*)[^'"`]*)\2/g;
+          const loose = new Map();
+          let m, nHead = 0;
+          while ((m = re.exec(Q))) {
+            const lit = m[3], rest = lit.slice(('〔第' + m[4] + '便' + m[5]).length);
+            if (/^ —/.test(rest)) { nHead++; continue; }
+            loose.set(lit, (loose.get(lit) || 0) + 1);
+            if (Number(m[4]) >= 313) bad.push('第313便以降の新設が見出しの型でない探し方: indexOf(\'' + lit + '\')(〔第' + m[4] + '便' + m[5] + ' — 〕の型で探す)');
+          }
+          for (const [lit, n] of loose) if (n > (LOOSE312[lit] || 0)) bad.push('見出しの型でない探し方が増えた: ' + lit + ' ' + (LOOSE312[lit] || 0) + ' → ' + n);
+          const nLoose = [...loose.values()].reduce((a, b) => a + b, 0);
+          const offHead = [...loose.keys()].filter((lit) => Ph.indexOf(lit) >= 0 && Ph.indexOf(lit) !== Ph.indexOf(lit + ' — '));
+          cases.push(`見出しの型(〔第NNN便x — 〕)${nHead} か所・見出しの型でない ${nLoose} か所(${loose.size} 種 —— 第312便までの一覧の内)`
+            + `・今の PHYSICS で見出しでない所に当たる既存 ${offHead.length}(${offHead.join('・') || 'なし'} —— 情報)`);
+        } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+        add('lint.sectionLookup313', bad.length === 0,
+          `**PHYSICS の節の探し方**(第313便c・統括の検証項目 R236): ${cases.join(' / ')} —— 第313便以降の新設は見出しの型 \`〔第NNN便x — \` で探す`
+          + `(他の節の本文の注記の〔第NNN便x〕を節の頭と読まない —— 第312便の docs.w312c の教訓)`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+      }
+      // ---- docs.w313c
+      {
+        const bad = [], cases = [];
+        const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch { return ''; } };
+        const Ph = rd('docs/PHYSICS.md'), Ai = rd('docs/AI_SPEC.md'), Ch = rd('CHANGELOG.md'), Tr = rd('tools/README.md'), Pm = rd('tools/post-merge-qa.sh');
+        const i0 = Ph.indexOf('〔第313便c — '), i7 = Ph.indexOf('\n## 7. ');
+        const mN = i0 >= 0 ? /\n〔第\d+便[a-z]* — /.exec(Ph.slice(i0 + 5)) : null, iN = mN ? i0 + 5 + mN.index : -1;
+        const sec = i0 >= 0 ? Ph.slice(i0, iN > i0 && iN < i7 ? iN : (i7 > i0 ? i7 : undefined)) : '';
+        if (!(i0 >= 0 && i7 > i0)) bad.push('① PHYSICS〔第313便c〕が「## 7.」の前に無い');
+        for (const w of ['値の差の基準線', '物理の差は無かった', 'data-w313c-valdiff-volatile.json', '観測の epoch', 'JSON Pointer']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第313便c〕に「' + w + '」が無い');
+        const a0 = Ai.indexOf('## 129. 第313便c'), a1 = Ai.indexOf('\n## ', a0 + 5);
+        const s129 = a0 >= 0 ? Ai.slice(a0, a1 > a0 ? a1 : undefined) : '';
+        if (!s129) bad.push('② AI_SPEC §129 が無い');
+        for (const w of ['w313c-valdiff-2', 'w313c-valdiff-decl-1', 'data-w313c-valdiff-volatile.json', 'w313c-easy-backfill-2', 'RESERVE_BEFORE_ALPHA', 'REGEN_RESERVE_ALPHA', '--simulate',
+          '--scope-all --check', 'lint.valdiffDecl313', 'lint.readyQueue313', 'lint.sectionLookup313', 'docs.w313c', 'SYSTEM_PROMPT には載せない'])
+          if (s129 && s129.indexOf(w) < 0) bad.push('② AI_SPEC §129 に「' + w + '」が無い');
+        const c0 = Ch.search(/## v1\.46(?:-b\d+|\.0)\(/), c1 = Ch.indexOf('\n## ', c0 + 5);
+        if (!(c0 >= 0 && Ch.slice(c0, c1 > c0 ? c1 : undefined).indexOf('第313便c') >= 0)) bad.push('③ CHANGELOG の beta 節に第313便c の行が無い');
+        for (const w of ['data-w313c-valdiff-volatile.json', '--now', 'REGEN_RESERVE_ALPHA', '--scope-all --check', '--est']) if (Tr.indexOf(w) < 0) bad.push('④ tools/README に「' + w + '」が無い');
+        const blocks = Pm.split('# ==== 第313便c の塊(ここから)').slice(1).map((z) => z.split('# ==== 第313便c の塊(ここまで)')[0]);
+        if (!blocks.some((b) => b.indexOf('--scope-all --check') >= 0)) bad.push('⑤ post-merge の ② の第313便c の塊に --scope-all --check が無い');
+        if (!blocks.some((b) => ['lint.valdiffDecl313', 'lint.readyQueue313', 'lint.sectionLookup313', 'docs.w313c'].every((w) => b.indexOf(w) >= 0))) bad.push('⑤ post-merge の ③′ の第313便c の塊に新設 4 本が無い');
+        // ⑥ 書かない語(言い回し —— 鉤括弧の中は除く)と禁句(引用も含めて書かない —— 符号点と逆順の文字列で持つ・第310便c の型)
+        const strip = (x) => x.replace(/「[^」]*」/g, '');
+        const NOT = [/収束した/, /法則を発見した/, /フィットした/, /較正した/, /完全に一致/, /確認した/, /法則を確かめた/];
+        const cp = (a) => String.fromCodePoint(...a), rv = (x) => x.split('').reverse().join('');
+        const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb]), cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]),
+          cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+        const clLine = (Ch.slice(c0, c1 > c0 ? c1 : undefined).split('\n').find((l) => l.indexOf('第313便c') >= 0) || '');
+        for (const [nm, tx] of [['PHYSICS〔第313便c〕', sec], ['AI_SPEC §129', s129], ['CHANGELOG', clLine]]) {
+          for (const re of NOT) if (re.test(strip(tx))) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+          for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+        }
+        cases.push(`① PHYSICS〔第313便c〕${sec.length} 字 / ② AI_SPEC §129 ${s129.length} 字 / ③ CHANGELOG / ④ tools/README / ⑤ post-merge ② と ③′ の塊 / ⑥ 書かない語 ${NOT.length}・禁句 ${NG.length} の照合`);
+        add('docs.w313c', bad.length === 0,
+          `**第313便c の文書**(鎖の道具 —— 値の差の除外の宣言・末端の直列の模擬と予約の余裕・節の探し方・post-merge の scope-all —— 統括の検証項目 R236・決断事項 AN394): ${cases.join(' / ')}`
+          + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+      }
+    })();
+  }
+}
+// ==== 第313便c の塊(ここまで)====
 
 // ---- 第288便f(原仮定者の裁定(第78報)で閉じた AN90「通知は GitHub の失敗メール・一時出力の集約は 27 段の刻印の版上げと同じ便・Chromium の版を
 // ---- QA 結果 JSON の env に記録・pn1 の領域宣言から OBS_COMPARE_* を外すのは実際の読込依存が無いことを検査してから」・統括の検証項目 R118):
