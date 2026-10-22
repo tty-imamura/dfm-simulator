@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便b",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:31:39.205Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T01:38:30.741Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/data-w305b-declbdb.json",
@@ -26,15 +26,15 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109265,
-    "sha256": "890b5f7f31f67f1a888a55a48715fcc9d30ece6e3e983007a31b5d17cf3b9a76",
-    "mtime": "2026-10-21T01:12:33.313Z"
+    "bytes": 109264,
+    "sha256": "0625f7e56037413a116118fcad216f3d151fa0571592b1fcdb01a6537a2fda0b",
+    "mtime": "2026-10-22T01:19:09.437Z"
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "bytes": 72742,
-    "sha256": "8eb40a84da79ee205844690506c8d463d1a4e620d6ce5fc7de02e384e144350b",
-    "mtime": "2026-10-21T00:33:52.804Z"
+    "bytes": 72736,
+    "sha256": "05d2772730016634e25409f2e05bb47c6197cdc24f864803e6e7c6c468d6fbd6",
+    "mtime": "2026-10-21T23:28:53.448Z"
    },
    {
     "file": "paper/data/obs-time-standard-20261016.csv",
@@ -76,9 +76,9 @@
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 85144,
-    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 87015,
+    "sha256": "49bf3085d30b6e1fdff6d6650808b0455b8b7028a87b6e58bf36b5aa4d7c431d",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "98282472d9e58bb852dbe340956c2b8404c4c663aa4ae2c909183702342f8cad",
+  "codeSha256": "79f847351962bd46c8c251cc8c2618a2251bfe34896e60a2d89991512a4b0b3c",
   "harnessVersion": "w306b-periodn-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第97報)AN336(水星の標的を 1PN + A1 へ —— k は 1PN + A1 の値)・第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・α = c_loc/c₀・n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -208,11 +208,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1362,
-   "closureShare": 0.3479
+   "names": 1538,
+   "segments": 1378,
+   "closureShare": 0.3495
   },
-  "scopeSha256": "d00e676662f07993954b9342f60d5140c9ade287c7c2a4740d759f64dcc90f4b",
+  "scopeSha256": "0a926e020f19b88ee96d694e1632caf7e4650c20b553902aed158703a67f8bf3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -229,7 +229,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "3b7fb2129320ad306860810d4ad77648ef16de21072c31a0303e18715bbdd50e",
+    "stableSha256": "1f12b614a73a45ac1743563f66dfb74b6130c0d0f558f80d2a2cd88282689b6a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -241,7 +241,7 @@
    },
    {
     "file": "tests/out/pairnorm-w305a.json",
-    "stableSha256": "e0f64e4ea146bdb44ed8b6a9d1b41e0d2f5a0225c40fdb3d21ba24fd493ac521",
+    "stableSha256": "580a9cf9f806422f7613416ae6e385c2db0ff38f735e19eb490ea4ed5244c6f7",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -5154,9 +5154,9 @@
  "moon": {
   "transcribed": {
    "file": "tests/out/pairnorm-w305a.json",
-   "sha256": "8eb40a84da79ee205844690506c8d463d1a4e620d6ce5fc7de02e384e144350b",
+   "sha256": "05d2772730016634e25409f2e05bb47c6197cdc24f864803e6e7c6c468d6fbd6",
    "harnessVersion": "w305a-pairnorm-1",
-   "generatedAt": "2026-10-21T00:33:52.801Z",
+   "generatedAt": "2026-10-21T23:28:53.441Z",
    "wave": "第305便a",
    "base": "bdb7ae5",
    "declFile": "tests/data-w305a-decl304.json",
@@ -5327,7 +5327,7 @@
    "nodeOffY": 0.00000906843694536974,
    "eOff": -3.8744234077958684e-8,
    "offSidB1D": -0.000025257130523925753,
-   "wallSec": 159.858,
+   "wallSec": 163.154,
    "note": "刻み h だけ(h/2 は省く —— 転記の行の h と h/2 の差 |sidOff| の桁は 1e-7 日)。差 = n = 2・対 − 引きずり OFF(同じ刻み・同じ初期状態)"
   }
  },
@@ -5779,22 +5779,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 2.351
+   "wallSec": 2.439
   },
   "P": {
-   "wallSec": 498.56
+   "wallSec": 502.708
   },
   "R": {
-   "wallSec": 480.947
+   "wallSec": 488.949
   },
   "G": {
-   "wallSec": 0.009
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 159.866
+   "wallSec": 163.157
   },
   "T": {
-   "wallSec": 0.064
+   "wallSec": 0.076
   }
  },
  "stats": {
@@ -5802,5 +5802,5 @@
   "memoHits": 70,
   "emRuns": 2
  },
- "elapsedS": 1143.591
+ "elapsedS": 1159.228
 }
