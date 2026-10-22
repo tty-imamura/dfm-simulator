@@ -1193,6 +1193,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/decay-w312a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第312便a: 減衰の比較(AN398 —— 成分を 1 つずつ変えた列のスクリーニング: 基準 K2・一貫した K1・回転だけ r⁻²・軸だけ・自己の場の質量の次数 γ = 0 —— 3 惑星の一次の近点の式が要る R_d と並び・外挿)と一貫した K1 の重みの opt-in invSq.kernel:"k1"(版 w312a-invsq-k1-1)の照合' }),
   // ==== 第312便a の塊(ここまで)====
+  // ==== 第313便a の塊(ここから)====
+  // ---- 第313便a(原仮定者の裁定(第115報)AN399・AN402・決断事項 AN403・AN404・統括の検証項目 R234): **K1 の規則の鍵 invSq.rdRule:"kappaM" と外殻の受け手 invSq.shellRecv の器**
+  //   (段 A〔受理の表〕・R〔太陽・水星・金星・地球・月・火星・木星の R_d = κ₀m と閉じた式・r_s との比・規則と器の写しの明示の dragCore のビット同一〕・B〔外殻の受け手 —— ☿ の写しの
+  //   m_d/M × outerShell × shellRecv の β・回転・軸と近距離の場〕・E〔3 惑星・木星・太陽と地球と月の写しの K1 + 規則の受理・分解・步・質量の下限の記録〕)。本の宣言は変えない
+  //   (写しは器の中で組む)。html と凍結の写し tests/data-w306a-decl305.json を読む・1 プロセス。所要は第313便a の枝の実測(正本の elapsedS)
+  S('kappam-313a', 'node tests/exp-w313a-kappam.mjs', ['tests/out/kappam-w313a.json'], 8, { secSource: 'w313a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/kappam-w313a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第313便a: K1 の規則の鍵 invSq.rdRule:"kappaM"(全天体 R_d = κ₀m_d —— κ₀ = 10G/(C₁c²) の一次の値・cap を見ない・エンジンが使う質量 —— 版 w313a-invsq-k1-kappam-1)と外殻の受け手 invSq.shellRecv:"core"(版 w313a-shellrecv-1)の受理・規則の表・外殻の受け手の表(AN403 の材料)・写しの步' }),
+  // ==== 第313便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・

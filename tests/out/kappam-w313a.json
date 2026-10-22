@@ -1,0 +1,2469 @@
+{
+ "version": "w313a-kappam-1",
+ "generator": "tests/exp-w313a-kappam.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
+ "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
+ "rdRuleVersion": "w313a-invsq-k1-kappam-1",
+ "shellRecvVersion": "w313a-shellrecv-1",
+ "kernelVersion": "w312a-invsq-k1-1",
+ "versionReaders": [
+  {
+   "file": "tests/exp-w312a-decay.mjs・exp-w312b-galaxialrd.mjs・exp-w311d-planet3.mjs・exp-w312d-confirm.mjs・exp-w311a-corespin.mjs",
+   "reads": "invSq の受理と K1/K2 の核・読み口",
+   "handling": "rdRule・shellRecv を宣言しない —— 省略は今と同じ経路(正本の値は不変 —— scratch で照合)"
+  }
+ ],
+ "quick": false,
+ "A": {
+  "rows": [
+   {
+    "case": "rdRule 省略(K1)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "rdRule null",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "rdRule \"kappaM\"(K1)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "rdRule \"kappaM\" + kernel 省略(K2)",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = κ₀m は K1 の一次の値 —— K2 の本は今のまま・第313便a・AN399・AN402)"
+   },
+   {
+    "case": "rdRule \"kappaM\" + kernel \"k2\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = κ₀m は K1 の一次の値 —— K2 の本は今のまま・第313便a・AN399・AN402)"
+   },
+   {
+    "case": "rdRule \"KappaM\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule \"kappa\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule \"\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule 1",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule true",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule [\"kappaM\"]",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule {}",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+   },
+   {
+    "case": "rdRule + dragCoreDefault",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.dragCoreDefault は invSq.rdRule と一緒に宣言しない(どちらも dragCore の半径を宣言しない天体の R_d を決める規則 —— K1 の規則 R_d = κ₀m は cap 6.5×10⁶ m を見ない・第313便a・原仮定者の裁定(第115"
+   },
+   {
+    "case": "shellRecv 省略",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "shellRecv null",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "shellRecv \"mass\"",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "shellRecv \"core\"(K1・outerShell)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "shellRecv \"core\" + outerShell 省略",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は outerShell と一緒にだけ(外殻の無い本では何もしない宣言 —— 第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv \"core\" + K2",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は kernel:\"k1\" の本だけ(K2 の本は今の受け手の平均のまま・第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv \"Core\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv \"shell\"",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv 0",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv false",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+   },
+   {
+    "case": "shellRecv [\"core\"]",
+    "ok": false,
+    "pass": true,
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+   },
+   {
+    "case": "規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)",
+    "ok": false,
+    "pass": true,
+    "err": "bodies[0] の規則の引きずりの半径 R_d = κ₀m = 0.0017513950102615917 が 0<R_d≤radius(0.001)の外 —— 今の受理の契約のまま拒否(中性子星・ブラックホールの本は規則の対象外・第313便a・AN404)"
+   },
+   {
+    "case": "規則 + 太陽の半径 0.001(radiusFloor —— R_d = κ₀M☉ の内)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "規則 + dragCore:{massFrac:0.5}(radius の省略)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "規則なし + dragCore:{massFrac:0.5}(radius の省略)",
+    "ok": false,
+    "pass": true,
+    "err": "bodies[1].dragCore.radius は 0<R_c≤radius(コアの半径・絶対)"
+   },
+   {
+    "case": "規則 + 明示の dragCore.radius(規則より優先 —— cap を見ない)",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "規則 + dragCore:{massFrac:0.5} + outerShell uniform",
+    "ok": true,
+    "pass": true,
+    "err": null
+   },
+   {
+    "case": "規則 + 群の代表粒子の半径 particleRadius",
+    "ok": false,
+    "pass": true,
+    "err": "bodies[2].particleRadius は invSq.rdRule の本では宣言しない(規則 R_d = κ₀m は single の天体の質量から置く —— 群の代表粒子の半径は対象外・第313便a)"
+   }
+  ],
+  "allPass": true,
+  "n": 31
+ },
+ "R": {
+  "C1": 0.8431139667085161,
+  "kappaSI": 8.80761885975153e-27,
+  "books": {
+   "mercury": {
+    "key": "mercury",
+    "id": "mercurySunInertial3d",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "kappaBook": 8.80761885975153e-8,
+    "kappaSI": 8.80761885975153e-27,
+    "kappaBookSame": true,
+    "C1Same": true,
+    "GSI": 6.674000000000001e-11,
+    "cSI": 299792458,
+    "bodies": [
+     {
+      "name": "sun",
+      "i": 0,
+      "m": 1988.5,
+      "mSI": 1.9885e+30,
+      "mDeclared": 1988.5,
+      "RdBook": 0.00017513950102615916,
+      "RdM": 17513.950102615916,
+      "closedM": 17513.95010261592,
+      "relClosed": 2.0771892039068543e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 695000000,
+      "RdOverR": 0.000025199928205202756
+     },
+     {
+      "name": "mercury",
+      "i": 1,
+      "m": 0.00033010999322868884,
+      "mSI": 3.3010999322868886e+23,
+      "mDeclared": 0.00033011,
+      "RdBook": 2.9074830021534496e-11,
+      "RdM": 0.0029074830021534495,
+      "closedM": 0.00290748300215345,
+      "relClosed": 1.4916024226899783e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 2440000,
+      "RdOverR": 1.1915913943251841e-9
+     }
+    ],
+    "bitReadout": true,
+    "bitInit": true,
+    "bitSteps": true,
+    "steps": 30,
+    "initOk": true,
+    "declaredMassRelRd": 2.0512287744400662e-8,
+    "declaredMassRelBeta": 2.0512283150539165e-8,
+    "receivers": [
+     {
+      "i": 0,
+      "Rd": 0.00017513950102615916,
+      "betaSum": 3.5127724721818435e-14
+     },
+     {
+      "i": 1,
+      "Rd": 2.9074830021534496e-11,
+      "betaSum": 2.116005788757701e-7
+     }
+    ]
+   },
+   "venus": {
+    "key": "venus",
+    "id": "venusSunInertial3d",
+    "decl": {
+     "id": "venusSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.0048675,
+       "R": 0.0605,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "kappaBook": 8.80761885975153e-8,
+    "kappaSI": 8.80761885975153e-27,
+    "kappaBookSame": true,
+    "C1Same": true,
+    "GSI": 6.674000000000001e-11,
+    "cSI": 299792458,
+    "bodies": [
+     {
+      "name": "sun",
+      "i": 0,
+      "m": 1988.5,
+      "mSI": 1.9885e+30,
+      "mDeclared": 1988.5,
+      "RdBook": 0.00017513950102615916,
+      "RdM": 17513.950102615916,
+      "closedM": 17513.95010261592,
+      "relClosed": 2.0771892039068543e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 695000000,
+      "RdOverR": 0.000025199928205202756
+     },
+     {
+      "name": "venus",
+      "i": 1,
+      "m": 0.00486750015988946,
+      "mSI": 4.86750015988946e+24,
+      "mDeclared": 0.0048675,
+      "RdBook": 4.287108620808599e-10,
+      "RdM": 0.04287108620808599,
+      "closedM": 0.042871086208085996,
+      "relClosed": 1.6185486577660984e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 6050000,
+      "RdOverR": 7.086129951749751e-9
+     }
+    ],
+    "bitReadout": true,
+    "bitInit": true,
+    "bitSteps": true,
+    "steps": 30,
+    "initOk": true,
+    "declaredMassRelRd": 3.2848372536902544e-8,
+    "declaredMassRelBeta": 3.28483716939894e-8,
+    "receivers": [
+     {
+      "i": 0,
+      "Rd": 0.00017513950102615916,
+      "betaSum": 3.3547063427404135e-13
+     },
+     {
+      "i": 1,
+      "Rd": 4.287108620808599e-10,
+      "betaSum": 1.3704843181805606e-7
+     }
+    ]
+   },
+   "mars": {
+    "key": "mars",
+    "id": "marsSunInertial3d",
+    "decl": {
+     "id": "marsSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00064171,
+       "R": 0.033895,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "kappaBook": 8.80761885975153e-8,
+    "kappaSI": 8.80761885975153e-27,
+    "kappaBookSame": true,
+    "C1Same": true,
+    "GSI": 6.674000000000001e-11,
+    "cSI": 299792458,
+    "bodies": [
+     {
+      "name": "sun",
+      "i": 0,
+      "m": 1988.5,
+      "mSI": 1.9885e+30,
+      "mDeclared": 1988.5,
+      "RdBook": 0.00017513950102615916,
+      "RdM": 17513.950102615916,
+      "closedM": 17513.95010261592,
+      "relClosed": 2.0771892039068543e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 695000000,
+      "RdOverR": 0.000025199928205202756
+     },
+     {
+      "name": "mars",
+      "i": 1,
+      "m": 0.000641710008494556,
+      "mSI": 6.41710008494556e+23,
+      "mDeclared": 0.00064171,
+      "RdBook": 5.6519371733079655e-11,
+      "RdM": 0.005651937173307965,
+      "closedM": 0.005651937173307967,
+      "relClosed": 3.0692547046865134e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 3389500,
+      "RdOverR": 1.6674840458203173e-9
+     }
+    ],
+    "bitReadout": true,
+    "bitInit": true,
+    "bitSteps": true,
+    "steps": 30,
+    "initOk": true,
+    "declaredMassRelRd": 1.3237375030325578e-8,
+    "declaredMassRelBeta": 1.3237379297459791e-8,
+    "receivers": [
+     {
+      "i": 0,
+      "Rd": 0.00017513950102615916,
+      "betaSum": 2.289714794365669e-14
+     },
+     {
+      "i": 1,
+      "Rd": 5.6519371733079655e-11,
+      "betaSum": 7.095257174705882e-8
+     }
+    ]
+   },
+   "jupiter": {
+    "key": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "decl": {
+     "id": "jupiterSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 198.85,
+       "R": 0.695,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.1898,
+       "R": 0.071492,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "kappaBook": 8.80761885975153e-8,
+    "kappaSI": 8.807618859751531e-27,
+    "kappaBookSame": true,
+    "C1Same": true,
+    "GSI": 6.674000000000001e-11,
+    "cSI": 299792458,
+    "bodies": [
+     {
+      "name": "sun",
+      "i": 0,
+      "m": 198.85000610351562,
+      "mSI": 1.988500061035156e+30,
+      "mDeclared": 198.85,
+      "RdBook": 0.000017513950640190312,
+      "RdM": 17513.950640190313,
+      "closedM": 17513.95064019031,
+      "relClosed": 2.0771891401494677e-16,
+      "rdOverRs": 5.930396360909314,
+      "src": "rule",
+      "floored": false,
+      "R_M": 695000000,
+      "RdOverR": 0.0000251999289786911
+     },
+     {
+      "name": "jupiter",
+      "i": 1,
+      "m": 0.18979999423027039,
+      "mSI": 1.8979999423027037e+27,
+      "mDeclared": 0.1898,
+      "RdBook": 1.671686008763261e-8,
+      "RdM": 16.71686008763261,
+      "closedM": 16.71686008763261,
+      "relClosed": 0,
+      "rdOverRs": 5.930396360909314,
+      "src": "rule",
+      "floored": false,
+      "R_M": 71492000,
+      "RdOverR": 2.3382840160623024e-7
+     }
+    ],
+    "bitReadout": true,
+    "bitInit": true,
+    "bitSteps": true,
+    "steps": 30,
+    "initOk": true,
+    "declaredMassRelRd": 3.06940682617521e-8,
+    "declaredMassRelBeta": 3.069407073672929e-8,
+    "receivers": [
+     {
+      "i": 0,
+      "Rd": 0.000017513950640190312,
+      "betaSum": 1.896682586427754e-11
+     },
+     {
+      "i": 1,
+      "Rd": 1.671686008763261e-8,
+      "betaSum": 1.9871198513162374e-8
+     }
+    ]
+   },
+   "earthmoon": {
+    "key": "earthmoon",
+    "id": "earthMoonSunInertial3d",
+    "decl": {
+     "id": "earthMoonSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.96,
+       "dragCore": null,
+       "pinned": true
+      },
+      {
+       "m": 0.0059724,
+       "R": 0.06371,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00007346,
+       "R": 0.0174,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "kappaBook": 8.80761885975153e-8,
+    "kappaSI": 8.80761885975153e-27,
+    "kappaBookSame": true,
+    "C1Same": true,
+    "GSI": 6.674000000000001e-11,
+    "cSI": 299792458,
+    "bodies": [
+     {
+      "name": "sun",
+      "i": 0,
+      "m": 1988.5,
+      "mSI": 1.9885e+30,
+      "mDeclared": 1988.5,
+      "RdBook": 0.00017513950102615916,
+      "RdM": 17513.950102615916,
+      "closedM": 17513.95010261592,
+      "relClosed": 2.0771892039068543e-16,
+      "rdOverRs": 5.930396360909312,
+      "src": "rule",
+      "floored": false,
+      "R_M": 696000000,
+      "RdOverR": 0.000025163721411804476
+     },
+     {
+      "name": "earth",
+      "i": 1,
+      "m": 0.005972399841994047,
+      "mSI": 5.972399841994047e+24,
+      "mDeclared": 0.0059724,
+      "RdBook": 5.260262148632383e-10,
+      "RdM": 0.05260262148632383,
+      "closedM": 0.05260262148632383,
+      "relClosed": 0,
+      "rdOverRs": 5.930396360909314,
+      "src": "rule",
+      "floored": false,
+      "R_M": 6371000,
+      "RdOverR": 8.256572200019435e-9
+     },
+     {
+      "name": "moon",
+      "i": 2,
+      "m": 0.00007346000347752124,
+      "mSI": 7.346000347752124e+22,
+      "mDeclared": 0.00007346,
+      "RdBook": 6.4700771206602904e-12,
+      "RdM": 0.0006470077120660291,
+      "closedM": 0.0006470077120660291,
+      "relClosed": 0,
+      "rdOverRs": 5.930396360909314,
+      "src": "rule",
+      "floored": false,
+      "R_M": 1739999.9999999998,
+      "RdOverR": 3.718435126816259e-10
+     }
+    ],
+    "bitReadout": true,
+    "bitInit": true,
+    "bitSteps": true,
+    "steps": 30,
+    "initOk": true,
+    "declaredMassRelRd": 4.733897452263888e-8,
+    "declaredMassRelBeta": 4.7338976609654674e-8,
+    "receivers": [
+     {
+      "i": 0,
+      "Rd": 0.00017513950102615916,
+      "betaSum": 0
+     },
+     {
+      "i": 1,
+      "Rd": 5.260262148632383e-10,
+      "betaSum": 1.0038798405210996e-7
+     },
+     {
+      "i": 2,
+      "Rd": 6.4700771206602904e-12,
+      "betaSum": 1.0026778072505077e-7
+     }
+    ]
+   }
+  },
+  "rows": [
+   {
+    "book": "mercury",
+    "name": "sun",
+    "i": 0,
+    "m": 1988.5,
+    "mSI": 1.9885e+30,
+    "mDeclared": 1988.5,
+    "RdBook": 0.00017513950102615916,
+    "RdM": 17513.950102615916,
+    "closedM": 17513.95010261592,
+    "relClosed": 2.0771892039068543e-16,
+    "rdOverRs": 5.930396360909312,
+    "src": "rule",
+    "floored": false,
+    "R_M": 695000000,
+    "RdOverR": 0.000025199928205202756
+   },
+   {
+    "book": "mercury",
+    "name": "mercury",
+    "i": 1,
+    "m": 0.00033010999322868884,
+    "mSI": 3.3010999322868886e+23,
+    "mDeclared": 0.00033011,
+    "RdBook": 2.9074830021534496e-11,
+    "RdM": 0.0029074830021534495,
+    "closedM": 0.00290748300215345,
+    "relClosed": 1.4916024226899783e-16,
+    "rdOverRs": 5.930396360909312,
+    "src": "rule",
+    "floored": false,
+    "R_M": 2440000,
+    "RdOverR": 1.1915913943251841e-9
+   },
+   {
+    "book": "venus",
+    "name": "venus",
+    "i": 1,
+    "m": 0.00486750015988946,
+    "mSI": 4.86750015988946e+24,
+    "mDeclared": 0.0048675,
+    "RdBook": 4.287108620808599e-10,
+    "RdM": 0.04287108620808599,
+    "closedM": 0.042871086208085996,
+    "relClosed": 1.6185486577660984e-16,
+    "rdOverRs": 5.930396360909312,
+    "src": "rule",
+    "floored": false,
+    "R_M": 6050000,
+    "RdOverR": 7.086129951749751e-9
+   },
+   {
+    "book": "earthmoon",
+    "name": "earth",
+    "i": 1,
+    "m": 0.005972399841994047,
+    "mSI": 5.972399841994047e+24,
+    "mDeclared": 0.0059724,
+    "RdBook": 5.260262148632383e-10,
+    "RdM": 0.05260262148632383,
+    "closedM": 0.05260262148632383,
+    "relClosed": 0,
+    "rdOverRs": 5.930396360909314,
+    "src": "rule",
+    "floored": false,
+    "R_M": 6371000,
+    "RdOverR": 8.256572200019435e-9
+   },
+   {
+    "book": "earthmoon",
+    "name": "moon",
+    "i": 2,
+    "m": 0.00007346000347752124,
+    "mSI": 7.346000347752124e+22,
+    "mDeclared": 0.00007346,
+    "RdBook": 6.4700771206602904e-12,
+    "RdM": 0.0006470077120660291,
+    "closedM": 0.0006470077120660291,
+    "relClosed": 0,
+    "rdOverRs": 5.930396360909314,
+    "src": "rule",
+    "floored": false,
+    "R_M": 1739999.9999999998,
+    "RdOverR": 3.718435126816259e-10
+   },
+   {
+    "book": "mars",
+    "name": "mars",
+    "i": 1,
+    "m": 0.000641710008494556,
+    "mSI": 6.41710008494556e+23,
+    "mDeclared": 0.00064171,
+    "RdBook": 5.6519371733079655e-11,
+    "RdM": 0.005651937173307965,
+    "closedM": 0.005651937173307967,
+    "relClosed": 3.0692547046865134e-16,
+    "rdOverRs": 5.930396360909312,
+    "src": "rule",
+    "floored": false,
+    "R_M": 3389500,
+    "RdOverR": 1.6674840458203173e-9
+   },
+   {
+    "book": "jupiter",
+    "name": "jupiter",
+    "i": 1,
+    "m": 0.18979999423027039,
+    "mSI": 1.8979999423027037e+27,
+    "mDeclared": 0.1898,
+    "RdBook": 1.671686008763261e-8,
+    "RdM": 16.71686008763261,
+    "closedM": 16.71686008763261,
+    "relClosed": 0,
+    "rdOverRs": 5.930396360909314,
+    "src": "rule",
+    "floored": false,
+    "R_M": 71492000,
+    "RdOverR": 2.3382840160623024e-7
+   }
+  ],
+  "maxRelClosed": 3.0692547046865134e-16,
+  "maxRdOverRsDev": 1.4976712611565478e-16,
+  "allBit": true,
+  "allRule": true,
+  "maxDeclaredRelRd": 4.733897452263888e-8,
+  "maxDeclaredRelBeta": 4.7338976609654674e-8
+ },
+ "B": {
+  "rows": [
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1725255827356939e-7,
+    "shellFrac": 0
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.999999,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.999999
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.0000012068749559701697,
+    "rot": 1.0609796180306052e-17,
+    "omega": 5.185344241485412e-22,
+    "Rd": 2.9074800946704477e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 0.9999990000000001,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 4.703551002485913,
+    "shellFrac": 0.0000010000000000287557
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.99,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.99
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.009952955371953714,
+    "rot": 8.749773732417457e-14,
+    "omega": 3.6400952453323655e-18,
+    "Rd": 2.8784081721319153e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 0.99,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 47035.512199203564,
+    "shellFrac": 0.010000000000000009
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.5,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.5
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.497637400169322,
+    "rot": 4.3747957159937555e-12,
+    "omega": 1.8213677165705206e-16,
+    "Rd": 1.4537415010767248e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 0.5,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2351775.6099708294,
+    "shellFrac": 0.5
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1725255827356939e-7,
+    "shellFrac": 0
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.999999,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.999999
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005788757697e-7,
+    "rot": 1.860208469114264e-18,
+    "omega": 1.5454411815398658e-22,
+    "Rd": 2.9074800946704477e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.17252560149966e-7,
+    "shellFrac": 0.0000010000000000287557
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.99,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.99
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.1160057887361903e-7,
+    "rot": 1.8602084690953645e-18,
+    "omega": 1.5451105966804142e-22,
+    "Rd": 2.8784081721319153e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.172627239649084e-7,
+    "shellFrac": 0.010000000000000009
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.5,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.5
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.1160057876826298e-7,
+    "rot": 1.860208468169161e-18,
+    "omega": 1.5449934251486463e-22,
+    "Rd": 1.4537415010767248e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1776062442795516e-7,
+    "shellFrac": 0.5
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1725255827356939e-7,
+    "shellFrac": 0
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.999999,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.999999
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.0000012045445042546358,
+    "rot": 1.0589308874743366e-17,
+    "omega": 5.179590275425357e-22,
+    "Rd": 2.9074800946704477e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 0.9999990000000001,
+     "wShell": 9.999999999567094e-7
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 4.692537558091673,
+    "shellFrac": 0.0000010000000000287557
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.99,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.99
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.009929788574364985,
+    "rot": 8.729407497933831e-14,
+    "omega": 3.634514626175398e-18,
+    "Rd": 2.8784081721319153e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 0.99,
+     "wShell": 0.009999999999999974
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 46926.02860195271,
+    "shellFrac": 0.010000000000000009
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.5,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.5
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 0.49681817315618937,
+    "rot": 4.367593784479903e-12,
+    "omega": 1.8196580281024654e-16,
+    "Rd": 1.4537415010767248e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 0.5,
+     "wShell": 0.5
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2347904.0381655633,
+    "shellFrac": 0.5
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1725255827356939e-7,
+    "shellFrac": 0
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.999999,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.999999
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.1160057887576962e-7,
+    "rot": 1.8602084691142632e-18,
+    "omega": 1.5454544344307841e-22,
+    "Rd": 2.9074800946704477e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.172525605252453e-7,
+    "shellFrac": 0.0000010000000000287557
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.99,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.99
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.1160057887254367e-7,
+    "rot": 1.8602084690859274e-18,
+    "omega": 1.5451325016481466e-22,
+    "Rd": 2.8784081721319153e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.172678059974727e-7,
+    "shellFrac": 0.010000000000000009
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.5,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM",
+      "shellRecv": "core"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": {
+        "massFrac": 0.5
+       },
+       "pinned": false
+      }
+     ]
+    },
+    "beta": 2.116005787145108e-7,
+    "rot": 1.8602084676966078e-18,
+    "omega": 1.544989792780168e-22,
+    "Rd": 1.4537415010767248e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8,
+    "formDev": 2.1801465100030648e-7,
+    "shellFrac": 0.5
+   }
+  ],
+  "snap": [
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 1,
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.999999,
+    "beta": 0.0000012068751675707046,
+    "rot": 1.0609798040514116e-17,
+    "omega": 5.185462369968065e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 0.9999990000000001,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.99,
+    "beta": 0.009952957487959047,
+    "rot": 8.749775592625523e-14,
+    "omega": 3.640096804744016e-18,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 0.99,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "mass",
+    "f": 0.5,
+    "beta": 0.4976375059695659,
+    "rot": 4.374796646097591e-12,
+    "omega": 1.8213684894776796e-16,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 0.5,
+     "wShell": 0
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 1,
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.999999,
+    "beta": 2.1160079047651582e-7,
+    "rot": 1.860210329324207e-18,
+    "omega": 1.5454847617270696e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.99,
+    "beta": 2.137379579961201e-7,
+    "rot": 1.8789984495694625e-18,
+    "omega": 1.5608518362813906e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "thin",
+    "recv": "core",
+    "f": 0.5,
+    "beta": 4.2320106674888664e-7,
+    "rot": 3.720416138212265e-18,
+    "omega": 3.0908077415975328e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 1,
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.999999,
+    "beta": 0.0000012045447158551701,
+    "rot": 1.058931073495143e-17,
+    "omega": 5.179639808382992e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 0.9999990000000001,
+     "wShell": 9.999999999567094e-7
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.99,
+    "beta": 0.009929790690370295,
+    "rot": 8.729409358141891e-14,
+    "omega": 3.634516180158202e-18,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 0.99,
+     "wShell": 0.009999999999999974
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "mass",
+    "f": 0.5,
+    "beta": 0.4968182789564342,
+    "rot": 4.3675947145837575e-12,
+    "omega": 1.8196588009787938e-16,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 0.5,
+     "wShell": 0.5
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 1,
+    "beta": 2.116005788757701e-7,
+    "rot": 1.8602084691142656e-18,
+    "omega": 1.5453419785333657e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00033010999322868884,
+    "shellInfo": null,
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.999999,
+    "beta": 2.1160079047651577e-7,
+    "rot": 1.8602103293242064e-18,
+    "omega": 1.5454609742405544e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.0003301096631186956,
+    "shellInfo": {
+     "Ms": 3.301099932143982e-10,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.99,
+    "beta": 2.1373795799502356e-7,
+    "rot": 1.878998449559827e-18,
+    "omega": 1.56087376388362e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00032680889329640196,
+    "shellInfo": {
+     "Ms": 0.0000033010999322868797,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   },
+   {
+    "shell": "uniform",
+    "recv": "core",
+    "f": 0.5,
+    "beta": 4.232010665338723e-7,
+    "rot": 3.720416136322065e-18,
+    "omega": 3.090742442547574e-22,
+    "Rd": 2.9074830021534496e-11,
+    "md": 0.00016505499661434442,
+    "shellInfo": {
+     "Ms": 0.00016505499661434442,
+     "Ro": 0.0244,
+     "wCore": 1,
+     "wShell": 0,
+     "recv": "core"
+    },
+    "form": 2.1160062484654718e-7,
+    "r": 697.8361219141021,
+    "kappa": 8.80761885975153e-8
+   }
+  ],
+  "near": [
+   {
+    "shell": "thin",
+    "d": 1.01,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 1.01 × R",
+    "mass": {
+     "beta": 9.947001266255585e-10,
+     "betaShell": 4.973500633127743e-10,
+     "rot": 4.005063216115752e-12,
+     "rotShell": 4.005063216115752e-12,
+     "omega": 4.967776312693112e-13,
+     "mercuryBeta": 0.49763067634745073
+    },
+    "core": {
+     "beta": 9.947001266255585e-10,
+     "betaShell": 4.973500633127743e-10,
+     "rot": 4.005063216115752e-12,
+     "rotShell": 4.005063216115752e-12,
+     "omega": 4.967776312693112e-13,
+     "mercuryBeta": 2.1160057876761722e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.499999999999995,
+    "rotShellFrac": 1
+   },
+   {
+    "shell": "thin",
+    "d": 1.5,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 1.5 × R",
+    "mass": {
+     "beta": 6.697647521479152e-10,
+     "betaShell": 3.3488237607395647e-10,
+     "rot": 1.8158066613787825e-12,
+     "rotShell": 1.8158066613787825e-12,
+     "omega": 1.516506357644921e-13,
+     "mercuryBeta": 0.4976326523554302
+    },
+    "core": {
+     "beta": 6.697647521479152e-10,
+     "betaShell": 3.3488237607395647e-10,
+     "rot": 1.8158066613787825e-12,
+     "rotShell": 1.8158066613787825e-12,
+     "omega": 1.516506357644921e-13,
+     "mercuryBeta": 2.1160057876782864e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.4999999999999983,
+    "rotShellFrac": 1
+   },
+   {
+    "shell": "thin",
+    "d": 3,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 3 × R",
+    "mass": {
+     "beta": 3.348823761871838e-10,
+     "betaShell": 1.6744118809359342e-10,
+     "rot": 4.53951665498184e-13,
+     "rotShell": 4.53951665498184e-13,
+     "omega": 1.89565800537799e-14,
+     "mercuryBeta": 0.4976350256792401
+    },
+    "core": {
+     "beta": 3.348823761871838e-10,
+     "betaShell": 1.6744118809359342e-10,
+     "rot": 4.53951665498184e-13,
+     "rotShell": 4.53951665498184e-13,
+     "omega": 1.89565800537799e-14,
+     "mercuryBeta": 2.1160057876804662e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.5000000000000046,
+    "rotShellFrac": 1
+   },
+   {
+    "shell": "uniform",
+    "d": 1.01,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 1.01 × R",
+    "mass": {
+     "beta": 9.947001266255585e-10,
+     "betaShell": 4.973500633127743e-10,
+     "rot": 2.4030379296694283e-12,
+     "rotShell": 2.4030379296694283e-12,
+     "omega": 2.9806310208838767e-13,
+     "mercuryBeta": 0.4968112125900383
+    },
+    "core": {
+     "beta": 9.947001266255585e-10,
+     "betaShell": 4.973500633127743e-10,
+     "rot": 2.4030379296694283e-12,
+     "rotShell": 2.4030379296694283e-12,
+     "omega": 2.9806310208838767e-13,
+     "mercuryBeta": 2.1160057871386578e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.499999999999995,
+    "rotShellFrac": 1
+   },
+   {
+    "shell": "uniform",
+    "d": 1.5,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 1.5 × R",
+    "mass": {
+     "beta": 6.697647521479152e-10,
+     "betaShell": 3.3488237607395647e-10,
+     "rot": 1.089483996827274e-12,
+     "rotShell": 1.089483996827274e-12,
+     "omega": 9.099231307340976e-14,
+     "mercuryBeta": 0.4968134399888329
+    },
+    "core": {
+     "beta": 6.697647521479152e-10,
+     "betaShell": 3.3488237607395647e-10,
+     "rot": 1.089483996827274e-12,
+     "rotShell": 1.089483996827274e-12,
+     "omega": 9.099231307340976e-14,
+     "mercuryBeta": 2.1160057871407675e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.4999999999999983,
+    "rotShellFrac": 1
+   },
+   {
+    "shell": "uniform",
+    "d": 3,
+    "decl": "mercury m_d/M=0.5 + 試験の受け手 m=1e-6・R=1e-4(本の単位)を水星の中心から 3 × R",
+    "mass": {
+     "beta": 3.348823761871838e-10,
+     "betaShell": 1.6744118809359342e-10,
+     "rot": 2.723709992989095e-13,
+     "rotShell": 2.723709992989095e-13,
+     "omega": 1.1373777894690434e-14,
+     "mercuryBeta": 0.496815806465783
+    },
+    "core": {
+     "beta": 3.348823761871838e-10,
+     "betaShell": 1.6744118809359342e-10,
+     "rot": 2.723709992989095e-13,
+     "rotShell": 2.723709992989095e-13,
+     "omega": 1.1373777894690434e-14,
+     "mercuryBeta": 2.116005787142945e-7
+    },
+    "bitSame": true,
+    "shellFrac": 0.5000000000000046,
+    "rotShellFrac": 1
+   }
+  ],
+  "coreFormDevMax": 2.1801465100030648e-7,
+  "coreSpread": {
+   "thin": 5.080662557332971e-10,
+   "uniform": 7.620928332841004e-10
+  },
+  "massShellFracDev": 0.007021142563502392,
+  "nearBitSame": true,
+  "nearShellFrac": [
+   0.499999999999995,
+   0.4999999999999983,
+   0.5000000000000046,
+   0.499999999999995,
+   0.4999999999999983,
+   0.5000000000000046
+  ],
+  "allAccepted": true
+ },
+ "E": {
+  "rows": [
+   {
+    "key": "mercury",
+    "id": "mercurySunInertial3d",
+    "case": "🌡️ 水星",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "accepted": true,
+    "warnings": [],
+    "initOk": true,
+    "initWhy": null,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 1988.5,
+      "Rd": 0.00017513950102615916,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 1,
+      "m": 0.00033010999322868884,
+      "Rd": 2.9074830021534496e-11,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     }
+    ],
+    "betaMax0": 2.116005788757701e-7,
+    "betaMaxRun": 2.2397398416405312e-7,
+    "steps": 60,
+    "finite": true,
+    "badRow": 0,
+    "lowDen": 0,
+    "overlap": 0,
+    "tooLarge": 0
+   },
+   {
+    "key": "venus",
+    "id": "venusSunInertial3d",
+    "case": "🌋 金星",
+    "decl": {
+     "id": "venusSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.0048675,
+       "R": 0.0605,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "accepted": true,
+    "warnings": [],
+    "initOk": true,
+    "initWhy": null,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 1988.5,
+      "Rd": 0.00017513950102615916,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 1,
+      "m": 0.00486750015988946,
+      "Rd": 4.287108620808599e-10,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     }
+    ],
+    "betaMax0": 1.3704843181805606e-7,
+    "betaMaxRun": 1.372200340754849e-7,
+    "steps": 60,
+    "finite": true,
+    "badRow": 0,
+    "lowDen": 0,
+    "overlap": 0,
+    "tooLarge": 0
+   },
+   {
+    "key": "mars",
+    "id": "marsSunInertial3d",
+    "case": "🔴 火星",
+    "decl": {
+     "id": "marsSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00064171,
+       "R": 0.033895,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "accepted": true,
+    "warnings": [],
+    "initOk": true,
+    "initWhy": null,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 1988.5,
+      "Rd": 0.00017513950102615916,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 1,
+      "m": 0.000641710008494556,
+      "Rd": 5.6519371733079655e-11,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     }
+    ],
+    "betaMax0": 7.095257174705882e-8,
+    "betaMaxRun": 7.095257174705882e-8,
+    "steps": 60,
+    "finite": true,
+    "badRow": 0,
+    "lowDen": 0,
+    "overlap": 0,
+    "tooLarge": 0
+   },
+   {
+    "key": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "case": "🏀 木星",
+    "decl": {
+     "id": "jupiterSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 198.85,
+       "R": 0.695,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.1898,
+       "R": 0.071492,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "accepted": true,
+    "warnings": [],
+    "initOk": true,
+    "initWhy": null,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 198.85000610351562,
+      "Rd": 0.000017513950640190312,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 1,
+      "m": 0.18979999423027039,
+      "Rd": 1.671686008763261e-8,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909315
+     }
+    ],
+    "betaMax0": 1.9871198513162374e-8,
+    "betaMaxRun": 1.9871198513162374e-8,
+    "steps": 60,
+    "finite": true,
+    "badRow": 0,
+    "lowDen": 0,
+    "overlap": 0,
+    "tooLarge": 0
+   },
+   {
+    "key": "earthmoon",
+    "id": "earthMoonSunInertial3d",
+    "case": "🌦️ 太陽と地球と月",
+    "decl": {
+     "id": "earthMoonSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.96,
+       "dragCore": null,
+       "pinned": true
+      },
+      {
+       "m": 0.0059724,
+       "R": 0.06371,
+       "dragCore": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00007346,
+       "R": 0.0174,
+       "dragCore": null,
+       "pinned": false
+      }
+     ]
+    },
+    "accepted": true,
+    "warnings": [],
+    "initOk": true,
+    "initWhy": null,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 1988.5,
+      "Rd": 0.00017513950102615916,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 1,
+      "m": 0.005972399841994047,
+      "Rd": 5.260262148632383e-10,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     },
+     {
+      "i": 2,
+      "m": 0.00007346000347752124,
+      "Rd": 6.4700771206602904e-12,
+      "src": "rule",
+      "floored": false,
+      "rdOverRs": 5.930396360909314
+     }
+    ],
+    "betaMax0": 1.0038798405210996e-7,
+    "betaMaxRun": 1.0038898810019425e-7,
+    "steps": 60,
+    "finite": true,
+    "badRow": 0,
+    "lowDen": 0,
+    "overlap": 0,
+    "tooLarge": 0
+   }
+  ],
+  "floored": {
+   "key": "floored",
+   "id": "mercurySunInertial3d",
+   "case": "🌡️ 水星の質量 1e-12(宣言)→ 下限",
+   "decl": {
+    "id": "mercurySunInertial3d",
+    "invSq": {
+     "outerShell": "uniform",
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "bodies": [
+     {
+      "m": 1988.5,
+      "R": 6.95,
+      "dragCore": null,
+      "pinned": false
+     },
+     {
+      "m": 1e-12,
+      "R": 0.0244,
+      "dragCore": null,
+      "pinned": false
+     }
+    ]
+   },
+   "accepted": true,
+   "warnings": [
+    "bodies[1].m を値域に修正"
+   ],
+   "initOk": true,
+   "initWhy": null,
+   "rdRule": [
+    {
+     "i": 0,
+     "m": 1988.5,
+     "Rd": 0.00017513950102615916,
+     "src": "rule",
+     "floored": false,
+     "rdOverRs": 5.930396360909314
+    },
+    {
+     "i": 1,
+     "m": 9.999999974752427e-7,
+     "Rd": 8.80761883751443e-14,
+     "src": "rule",
+     "floored": true,
+     "rdOverRs": 5.930396360909315
+    }
+   ],
+   "betaMax0": 2.1160057887577057e-7,
+   "betaMaxRun": 2.2397397215885594e-7,
+   "steps": 60,
+   "finite": true,
+   "badRow": 0,
+   "lowDen": 0,
+   "overlap": 0,
+   "tooLarge": 0,
+   "expectRd": 8.80761883751443e-14,
+   "flooredOk": true
+  },
+  "allOk": true
+ },
+ "gates": {
+  "acceptance": true,
+  "ruleClosedForm": true,
+  "ruleOverRs": true,
+  "ruleAllBodies": true,
+  "explicitBitSame": true,
+  "kappaFixed": true,
+  "shellAccepted": true,
+  "coreForm": true,
+  "coreIndependentOfShell": true,
+  "massShellFraction": true,
+  "nearFieldShellSource": true,
+  "engine": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.036
+  },
+  "R": {
+   "wallSec": 1.15
+  },
+  "B": {
+   "wallSec": 1.504
+  },
+  "E": {
+   "wallSec": 1.168
+  }
+ },
+ "elapsedS": 5.614,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第313便a",
+  "target": "beta/index.html",
+  "targetSha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
+  "generatedAt": "2026-10-22T11:55:47.831Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7240957,
+    "sha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
+    "mtime": "2026-10-22T11:46:55.849Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-22T11:37:58.525Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w313a-kappam.mjs",
+    "bytes": 33523,
+    "sha256": "39af5b601e5d62a3259a40dfe3e3a45ab7afad473ad51170905c851790e944af",
+    "mtime": "2026-10-22T11:52:39.802Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 19974,
+    "sha256": "e7cbad683235d706ebc1a05e81223bec75d212b3c2f0a6ccaaa17c6b72b818d7",
+    "mtime": "2026-10-22T11:37:59.413Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-22T11:37:59.321Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-22T11:37:59.305Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-22T11:37:59.301Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-22T11:37:59.313Z"
+   }
+  ],
+  "codeSha256": "03c74bb32cceae8f75a8aaee96938838faefcd8ee02ba9c03c16c7cf2c585ba4",
+  "harnessVersion": "w313a-kappam-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を確かめた",
+   "フィットした",
+   "較正した",
+   "完全に一致",
+   "確認した",
+   "収束した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonSunInertial3d",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "saturn",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.validatePreset",
+    "REL_DRAG_INVSQ_C1",
+    "REL_DRAG_INVSQ_KERNEL_VERSION",
+    "REL_DRAG_INVSQ_RDRULE_VERSION",
+    "REL_DRAG_INVSQ_SHELL_RECV_VERSION",
+    "T",
+    "appStepDt",
+    "ch",
+    "ctx",
+    "inertialDragInitObsState",
+    "inertialDragIsqState"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1511,
+   "segments": 1348,
+   "closureShare": 0.3445
+  },
+  "scopeSha256": "34138976950a05a808be87041cee02278e75dee535f6ddbc95bdbb54510b53e1",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

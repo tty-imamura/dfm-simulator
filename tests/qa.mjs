@@ -2436,6 +2436,9 @@ lastAddAt = Date.now();
       // ==== 第312便d の塊(ここから)==== 確認の器(confirm-312d —— 🏀 木星・🌦️ 太陽と地球と月 に 3 惑星の規則で R_d を置いて残差を測る)。領域 REGEN_SCOPE を刻む
       'tests/out/confirm-w312d.json',
       // ==== 第312便d の塊(ここまで)====
+      // ==== 第313便a の塊(ここから)==== K1 の規則の鍵 rdRule:"kappaM" と外殻の受け手 shellRecv の器(kappam-313a)。領域 REGEN_SCOPE を刻む
+      'tests/out/kappam-w313a.json',
+      // ==== 第313便a の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -84961,6 +84964,215 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第312便d の塊(ここまで)====
+// ==== 第313便a の塊(ここから —— behavior.kappaM313・behavior.shellRecv313・docs.kappaM313 の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第313便a(原仮定者の裁定(第115報)AN399・AN402・決断事項 AN403・AN404・統括の検証項目 R234): behavior.kappaM313 ——
+// ----   **K1 の規則の鍵 invSq.rdRule:"kappaM"(全天体 R_d = κ₀m_d)**の振る舞い(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に REL_DRAG_INVSQ_RDRULE_VERSION="w313a-invsq-k1-kappam-1" ∧ 器 tests/exp-w313a-kappam.mjs。
+// ----   ① 受理の表(器の段 A を対象 html で作り直す —— K1 の本だけ・dragCoreDefault と一緒にしない・未知の値・AN404・radius の省略・明示の優先・群の代表粒子の半径)
+// ----   ② 規則の R_d と閉じた式 10Gm/(C₁c²)(QA の中で SI の式を作り直す —— 相対 < 1e-14)・R_d/r_s = 5/C₁・κ₀ の SI = 8.80761886e-27 m/kg(相対 < 1e-8)・cap を見ない(太陽 17.5 km)
+// ----   ③ 明示の dragCore.radius が規則より優先(読み口 src "declared")・④ 質量の下限の天体の記録(宣言 1e-12 → 下限・floored・R_d = κ₀ × 下限)
+// ----   ⑤ 未宣言のビット同一: rdRule を省略した K1 の写しの読み口に rdRule・shellRecv の欄が無い・shellRecv "mass" の明示と省略の正準形・読み口・10 步が同じ
+// ----   ⑥ 器の写しの明示の dragCore {massFrac:1, radius:κ₀·m}(エンジンと同じ演算の順・エンジンが使う質量)と規則の写しがビット同一(☿ と 🌦️ —— 読み口・分解・10 步)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const km313Harn = path.join(ROOT, 'tests', 'exp-w313a-kappam.mjs');
+  const km313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && km313Html.indexOf('REL_DRAG_INVSQ_RDRULE_VERSION="w313a-invsq-k1-kappam-1"') >= 0 && fs.existsSync(km313Harn))) {
+    console.log('SKIP behavior.kappaM313(第313便a の K1 の規則の鍵の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + km313Harn);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const st = E('inertialDragIsqState'), obs = E('inertialDragInitObsState'), rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+      const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return S; };
+      const fp = (S) => { const h = crypto.createHash('sha1'); for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin', 'sax', 'say', 'saz', 'rotA']) h.update(Buffer.from(Float64Array.from(S[k].subarray(0, S.n)).buffer)); return h.digest('hex'); };
+      const run = (S, k) => { const dt = E('appStepDt')(S); for (let i = 0; i < k; i++) S.step(dt); return fp(S); };
+      // ① 受理
+      const A = X.partA(H);
+      if (!A.allPass) bad.push('① 受理の表 ' + A.rows.filter((r) => !r.pass).map((r) => r.case).slice(0, 3).join(' / '));
+      if (A.n < 30) bad.push('① 受理の表の行が少ない ' + A.n);
+      cases.push(`① 受理の表 ${A.rows.filter((r) => r.pass).length}/${A.n}`);
+      // ② 規則の R_d と閉じた式
+      const C1 = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1);
+      const qM = X.ruleBook(HP, 'mercury'), SM = sim(qM), sM = st(SM), rr = sM.rdRule, se = qM.scaleExp;
+      const Lm = Math.pow(10, se.L), Mm = Math.pow(10, se.M), Tm = Math.pow(10, se.T), G = qM.physics.G * Lm ** 3 / (Mm * Tm * Tm), c = qM.physics.cLight * Lm / Tm;
+      let mc = 0, mrs = 0;
+      for (const b of rr.bodies) { const mSI = b.m * Mm, RdSI = b.Rd * Lm; mc = Math.max(mc, rel(RdSI, 10 * G * mSI / (C1 * c * c))); mrs = Math.max(mrs, rel(RdSI / (2 * G * mSI / (c * c)), 5 / C1)); if (b.src !== 'rule') bad.push('② 規則の写しの天体 ' + b.i + ' の src ' + b.src); }
+      if (!(mc < 1e-14 && mrs < 1e-14)) bad.push('② 規則の R_d と閉じた式 ' + mc + '・R_d/r_s ' + mrs);
+      if (!(rel(rr.kappaSI, 8.80761886e-27) < 1e-8) || rr.version !== 'w313a-invsq-k1-kappam-1' || rr.key !== 'kappaM' || rr.cap !== 'none') bad.push('② κ₀ の SI・版・鍵 ' + rr.kappaSI + ' ' + rr.version);
+      const sunRdM = rr.bodies[0].Rd * Lm;
+      if (!(sunRdM > 1.75e4 && sunRdM < 1.76e4)) bad.push('② 太陽の R_d が κ₀M☉ でない(cap を見ない)' + sunRdM);
+      cases.push(`② 規則の R_d と閉じた式 ${mc.toExponential(1)}・R_d/r_s と 5/C₁ ${mrs.toExponential(1)}・κ₀ ${rr.kappaSI.toExponential(6)} m/kg・太陽 ${(sunRdM / 1e3).toFixed(2)} km(cap を見ない)`);
+      // ③ 明示の dragCore.radius が優先
+      const q3 = X.ruleBook(HP, 'mercury'); q3.bodies[0].dragCore = { massFrac: 1, radius: 0.5 };
+      const r3 = st(sim(q3)).rdRule.bodies[0];
+      if (!(r3.src === 'declared' && r3.Rd === 0.5)) bad.push('③ 明示の dragCore.radius が規則より優先でない ' + JSON.stringify(r3));
+      // ④ 質量の下限の天体
+      const q4 = X.ruleBook(HP, 'mercury'); q4.bodies[1].m = 1e-12;
+      const v4 = HP.validatePreset(clone(q4)), r4 = st(sim(q4)).rdRule.bodies[1], k4 = (10 * q4.physics.G) / (C1 * q4.physics.cLight * q4.physics.cLight);
+      if (!(r4.floored === true && r4.Rd === k4 * Math.fround(1e-6) && (v4.warnings || []).some((w) => /bodies\[1\]\.m を値域に修正/.test(w)))) bad.push('④ 質量の下限の記録 ' + JSON.stringify(r4));
+      cases.push('③ 明示の dragCore.radius が優先(src declared)・④ 下限の天体 floored・R_d = κ₀ × 下限');
+      // ⑤ 未宣言のビット同一
+      const q5 = X.ruleBook(HP, 'mercury', { rule: false }), q5m = X.ruleBook(HP, 'mercury', { rule: false, recv: 'mass' });
+      const v5 = HP.validatePreset(clone(q5)), v5m = HP.validatePreset(clone(q5m));
+      if (JSON.stringify(v5.preset.physics.relativeDrag) !== JSON.stringify(v5m.preset.physics.relativeDrag)) bad.push('⑤ shellRecv "mass" の明示と省略の正準形が違う');
+      const S5 = sim(q5), S5m = sim(q5m), s5 = st(S5);
+      if ('rdRule' in s5 || 'shellRecv' in s5) bad.push('⑤ rdRule を省略した K1 の読み口に rdRule/shellRecv の欄がある');
+      if (JSON.stringify(s5) !== JSON.stringify(st(S5m))) bad.push('⑤ shellRecv "mass" の明示と省略の読み口が違う');
+      if (run(S5, 10) !== run(S5m, 10)) bad.push('⑤ shellRecv "mass" の明示と省略の 10 步が違う');
+      cases.push('⑤ 省略のビット同一(rdRule・shellRecv の欄なし・"mass" の明示と省略の正準形・読み口・10 步)');
+      // ⑥ 器の写しの明示の dragCore とのビット同一
+      for (const key of ['mercury', 'earthmoon']) {
+        const SR = sim(X.ruleBook(HP, key)), SX = sim(X.explicitBook(HP, key, 'engine'));
+        if (JSON.stringify(st(SR).receivers) !== JSON.stringify(st(SX).receivers)) bad.push('⑥ ' + key + ' の規則と明示の dragCore の読み口が違う');
+        if (JSON.stringify(obs(SR)) !== JSON.stringify(obs(SX))) bad.push('⑥ ' + key + ' の分解が違う');
+        if (run(SR, 10) !== run(SX, 10)) bad.push('⑥ ' + key + ' の 10 步が違う');
+      }
+      cases.push('⑥ 規則と器の写しの明示の dragCore(κ₀·m —— エンジンと同じ値): ☿・🌦️ の読み口・分解・10 步がビット同一');
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.kappaM313', bad.length === 0,
+      `**K1 の規則の鍵 invSq.rdRule:"kappaM" の振る舞い**(第313便a・原仮定者の裁定(第115報)AN399・AN402・AN404・R234 —— 全天体 R_d = κ₀m_d・κ₀ = 10G/(C₁c²) の一次の値に固定・cap を見ない・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第313便a: behavior.shellRecv313 —— **外殻の受け手の opt-in invSq.shellRecv:"core"**(新設 —— root は SKIP)。世代切替は behavior.kappaM313 と同じ。
+// ----   ① ☿ の写し(太陽 κ₀M☉・水星 dragCore:{massFrac} —— 規則の R_d = κ₀m_d・外殻 uniform/thin): mass の β ≈ 外殻の質量の割合(m_d/M = 0.5 → 0.49〜0.5)・core の β と C₁κ₀M☉/r の差 < 1e-5・
+// ----      core の β が m_d/M(0.99・0.5)に依らない(< 1e-6)・読み口 shell.wCore 1・wShell 0・recv "core"・shellRecv の版
+// ----   ② 近距離の場: 外殻を持つ水星の観測半径の 1.01・3 倍の試験の受け手の行が mass と core でビット同一・源の外殻の分の割合 ≈ 0.5(core でも外殻は源)
+// ----   ③ core の写しの観測の初期値の分解・10 步が有限・行の帳簿(badRow 0)
+{
+  await (async () => {   // 第310便c(heap)
+  const sr313Harn = path.join(ROOT, 'tests', 'exp-w313a-kappam.mjs');
+  const sr313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && sr313Html.indexOf('REL_DRAG_INVSQ_SHELL_RECV_VERSION="w313a-shellrecv-1"') >= 0 && fs.existsSync(sr313Harn))) {
+    console.log('SKIP behavior.shellRecv313(第313便a の外殻の受け手の opt-in の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + sr313Harn);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const st = E('inertialDragIsqState'), obs = E('inertialDragInitObsState'), rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+      const C1 = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1);
+      const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return S; };
+      const one = (shell, recv, f) => { const q = X.ruleBook(HP, 'mercury', { shell, recv: recv === 'core' ? 'core' : undefined }); if (f < 1) q.bodies[1].dragCore = { massFrac: f };
+        const S = sim(q), s = st(S), r = s.receivers.find((x) => x.i === 1), rn = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0], S.z[1] - S.z[0]);
+        return { S, s, r, beta: r.beta[0], form: C1 * s.rdRule.kappa * S.m[0] / rn }; };
+      // ①
+      for (const shell of ['uniform', 'thin']) {
+        const m5 = one(shell, 'mass', 0.5), c99 = one(shell, 'core', 0.99), c5 = one(shell, 'core', 0.5);
+        if (!(m5.beta > 0.49 && m5.beta < 0.5)) bad.push('① ' + shell + ' の mass の β(m_d/M = 0.5)が外殻の割合でない ' + m5.beta);
+        if (!(rel(c5.beta, c5.form) < 1e-5 && rel(c99.beta, c99.form) < 1e-5)) bad.push('① ' + shell + ' の core の β と C₁κ₀M☉/r ' + rel(c5.beta, c5.form));
+        if (!(rel(c5.beta, c99.beta) < 1e-6)) bad.push('① ' + shell + ' の core の β が m_d/M に依る ' + rel(c5.beta, c99.beta));
+        const sh = c5.r.shell;
+        if (!(sh && sh.wCore === 1 && sh.wShell === 0 && sh.recv === 'core')) bad.push('① ' + shell + ' の core の読み口の重み ' + JSON.stringify(sh));
+        if (!(c5.s.shellRecv && c5.s.shellRecv.version === 'w313a-shellrecv-1' && c5.s.shellRecv.key === 'core')) bad.push('① shellRecv の版の欄');
+        if ('shellRecv' in m5.s) bad.push('① mass(省略)の読み口に shellRecv の欄がある');
+        cases.push(`① ${shell}: mass の β(0.5)${m5.beta.toFixed(4)}・core の β と C₁κ₀M☉/r ${rel(c5.beta, c5.form).toExponential(1)}・core の m_d/M 0.99 と 0.5 ${rel(c5.beta, c99.beta).toExponential(1)}`);
+      }
+      // ② 近距離の場
+      let nb = 0, fr = [];
+      for (const shell of ['uniform', 'thin']) for (const d of [1.01, 3]) {
+        const row = {};
+        for (const recv of ['mass', 'core']) {
+          const q = X.ruleBook(HP, 'mercury', { shell, recv: recv === 'core' ? 'core' : undefined });
+          delete q.physics.relativeDrag.initMotion; delete q.physics.relativeDrag.spinDrag.initSpin;
+          q.bodies[1].dragCore = { massFrac: 0.5 };
+          const M = q.bodies[1];
+          q.bodies.push({ type: 'single', m: 1e-6, radius: 1e-4, x: M.x, y: M.y, z: (M.z || 0) + d * M.radius, vx: M.vx, vy: M.vy, vz: M.vz || 0, spin: 0, pinned: false });
+          row[recv] = st(sim(q)).receivers.find((x) => x.i === 2);
+        }
+        if (JSON.stringify(row.mass) !== JSON.stringify(row.core)) bad.push('② ' + shell + ' d=' + d + ' の試験の受け手の行が mass と core で違う'); else nb++;
+        const f = row.core.betaSrcShell[1] / row.core.beta[1]; fr.push(f.toFixed(4));
+        if (!(f > 0.49 && f < 0.51)) bad.push('② ' + shell + ' d=' + d + ' の源の外殻の分の割合 ' + f);
+      }
+      cases.push(`② 近距離の場(観測半径の 1.01・3 倍): mass と core の試験の受け手の行がビット同一 ${nb}/4・源の外殻の分の割合 ${fr.join('・')}`);
+      // ③
+      const c = one('uniform', 'core', 0.5), o = obs(c.S), dt = E('appStepDt')(c.S);
+      for (let k = 0; k < 10; k++) c.S.step(dt);
+      if (!(o && o.ok)) bad.push('③ core の写しの分解が ok でない');
+      if (![c.S.x[1], c.S.y[1], c.S.vx[1], c.S.vy[1]].every(Number.isFinite) || (c.S.inertialDragIsqBadRow || 0) !== 0) bad.push('③ core の写しの 10 步が有限でない/badRow');
+      cases.push('③ core の写しの分解・10 步が有限・badRow 0');
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.shellRecv313', bad.length === 0,
+      `**外殻の受け手の opt-in invSq.shellRecv:"core" の振る舞い**(第313便a・決断事項 AN403・R234 —— 受け手の平均は dragCore だけ・外殻は源のまま): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第313便a: docs.kappaM313 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_INVSQ_RDRULE_VERSION="w313a-invsq-k1-kappam-1" ∧ 正本 tests/out/kappam-w313a.json ∧ 器。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・規則と外殻の受け手の版
+// ----   ② 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第313便a〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ③ CHANGELOG(beta の節 —— 版名で探さない)・README・AI_SPEC §127・再生成の段・.gitignore の例外・post-merge の ③′・CANON
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  const km313Out = path.join(ROOT, 'tests', 'out', 'kappam-w313a.json'), km313Harn = path.join(ROOT, 'tests', 'exp-w313a-kappam.mjs');
+  const km313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && km313Html.indexOf('REL_DRAG_INVSQ_RDRULE_VERSION="w313a-invsq-k1-kappam-1"') >= 0 && fs.existsSync(km313Out) && fs.existsSync(km313Harn))) {
+    console.log('SKIP docs.kappaM313(第313便a の K1 の規則の鍵の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(km313Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + km313Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CLg = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第313便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      if (J.rdRuleVersion !== 'w313a-invsq-k1-kappam-1' || J.shellRecvVersion !== 'w313a-shellrecv-1') bad.push('正本の版 ' + J.rdRuleVersion + '/' + J.shellRecvVersion);
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
+      if (!sec) bad.push('PHYSICS〔第313便a〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第313便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第313便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`② 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第313便a〕が「## 7. 論文」の後');
+        for (const w of ['R234', '第115報', 'AN399', 'AN402', 'AN403', 'AN404', 'exp-w313a-kappam.mjs', 'kappam-w313a.json', 'docs.kappaM313', 'behavior.kappaM313', 'behavior.shellRecv313', 'W313A_OUT',
+          'w313a-invsq-k1-kappam-1', 'w313a-shellrecv-1', 'invSq.rdRule', 'invSq.shellRecv', '重力半径に比例する長さ', '一次の値', '在位の本は宣言しない', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第313便a〕に「' + w + '」が無い');
+      }
+      { const hb = CLg.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
+        if (cs.indexOf('第313便a') < 0) bad.push('CHANGELOG の beta の節に第313便a が無い'); }
+      if (RM.indexOf('第313便a') < 0) bad.push('README に第313便a が無い');
+      { const ai = AS.indexOf('## 127.');
+        if (ai < 0) bad.push('AI_SPEC に §127 が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['invSq', 'rdRule', 'kappaM', 'shellRecv', 'w313a-invsq-k1-kappam-1', 'SYSTEM_PROMPT には載せない', 'docs.kappaM313']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §127 に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('kappam-313a', 'node tests/exp-w313a-kappam.mjs', ['tests/out/kappam-w313a.json']") < 0 || !/secSource: 'w313a-branch'/.test(RT)) bad.push('再生成の段 kappam-313a');
+      if (GI.indexOf('!tests/out/kappam-w313a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.kappaM313') < 0 || PM.indexOf('behavior.kappaM313') < 0 || PM.indexOf('behavior.shellRecv313') < 0) bad.push('post-merge の ③′ に docs.kappaM313/behavior.kappaM313/behavior.shellRecv313 が無い');
+      if (QA.indexOf("'tests/out/kappam-w313a.json',") < 0) bad.push('CANON に正本が無い');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /法則を確かめた/, /完全に一致/, /フィットした/, /較正した/, /収束した/, /シュヴァルツシルト半径そのもの/, /現実の核/, /確認した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第313便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第313便a〕に禁句(' + w.length + ' 字)');
+      { const tx = rd('tests/exp-w313a-kappam.mjs'); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push('tests/exp-w313a-kappam.mjs に禁句(' + w.length + ' 字)'); }
+      cases.push('③ CHANGELOG(beta の節)・README・AI_SPEC §127・段・.gitignore・post-merge ③′・CANON / ④ 書かない語・禁句');
+    }
+    add('docs.kappaM313', bad.length === 0,
+      `**K1 の規則の鍵と外殻の受け手の正本と文書**(第313便a・原仮定者の裁定(第115報)AN399・AN402・AN403・AN404・R234 —— 正本 kappam-w313a.json・κ₀ は一次の値〔合わせない〕・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第313便a の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
