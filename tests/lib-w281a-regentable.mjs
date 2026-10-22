@@ -1264,6 +1264,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/confirm-w312d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/C/cost/rows/*/wallSec', '/C/cost/rate/*/rateStepsPerSec', '/C/cost/stage2/*/*/spentSec']) },
     note: '第312便d: 確認の器(3 惑星の規則で 🏀 木星と 🌦️ 太陽と地球と月に R_d を置き、4 つの走行 q00/q10/q01/q11 で残差 r = q11 − q00 − q⋆ を測る —— 合わせない・1 つの天体に 1 つの宣言・月の p は地球のまわりと太陽のまわりで定まらない〔表〕・在位へ入れない)' }),
   // ==== 第312便d の塊(ここまで)====
+  // ==== 第313便d の塊(ここから)====
+  // ---- 第313便d(原仮定者の裁定(第115報)AN399・AN402・決断事項 AN401・AN405・AN396′・AN336・統括の検証項目 R237): **K1 の確認の系の正本(h/4 まで)と小さい係数の分解の表**
+  //   (段 P〔t = 0 の写しの宣言の印字 —— 全天体 κ₀m・κ₀ の閉じた式〕・T〔標的の列 —— q_1PN・A1 の暦表ごとの列・η・有限質量比の予測・G の値〕・E〔3 惑星 q00/q10/q11(κ₀)× h・h/2・h/4 と
+  //   h/4 の κ の割線の細分〔ε_fit まで〕・🏀 q00/q10/q01/q11 × h・h/2・h/4・🌦️ q00/q10/q11 × h・h/2〕・K〔κ₀ の残差の表〕・R〔根の κ_i/κ₀ と採用の欄〕・D〔分解の表と候補の感度の並び〕・
+  //   M〔月の診断・所要と 2 段目の費用〕)。在位の本の宣言は変えない(写しは器の中で組む)。html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(標的の照合)・
+  //   観測の記録 CSV 2 本を読む(planet3 と confirm の正本は読まない —— κ₀ は閉じた式で固定)。走行は子プロセス 2 本(workers 2)。所要は第313便d の枝の実測(正本の elapsedS 7248 s ——
+  //   他の枝と同じ容器で並走・QA_FAST の枠の間は子プロセスの 1 本を止めた〔約 51 分〕。空いた容器では約 3500 s の見込み)。🌦️ の h/4 と月の長い窓は統合の後の 2 段目(正本の外 —— 費用の見積りは段 M)
+  S('k1confirm-313d', 'node tests/exp-w313d-k1confirm.mjs', ['tests/out/k1confirm-w313d.json'], 7250, { secSource: 'w313d-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/k1confirm-w313d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/M/cost/rows/*/wallSec', '/M/cost/rate/*/rateStepsPerSec', '/M/cost/stage2/*/*/spentSec', '/M/planetCost/*/wallSec']) },
+    note: '第313便d: K1 の確認の系の正本(太陽を含む全天体に R_d = κ₀m —— κ₀ = 10G/(C₁c²) 固定・合わせない。3 惑星・🏀 木星は h/4 まで・🌦️ は h/2 まで。r_1PN と暦表ごとの r_{1PN+A1}・有限質量比の予測 (4/3)η q_1PN・G の値の列・3 惑星の根の κ_i/κ₀〔h/4 の割線・ε_fit まで〕・小さい係数の分解の表 —— 在位へ入れない)' }),
+  // ==== 第313便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1763,6 +1774,10 @@ export const STATIC_READ_DECL = [
     why: '出力の説明文の中の言及(読まない)' },
   { via: 'tests/exp-w284a-cluster.mjs', file: 'tests/out/cluster-w283f.json', kind: 'imported-main',
     why: 'exp-w284a-cluster の本走(段 clusterStable —— after に clusterAnalogy)が読む正本。段 clusterScan(exp-w285a-cluster)は定数と関数だけを import し、この読みは走らない' },
+  // ==== 第313便d の塊(ここから)====
+  { via: 'tests/exp-w312d-confirm.mjs', file: 'tests/out/planet3-w311d.json', kind: 'imported-main',
+    why: '確認の器の本走(段 confirm-312d —— after に planet3-311d)と段 C の規則の表が読む正本。段 k1confirm-313d(exp-w313d-k1confirm)は確認の器の写しと走行の関数(baseOf・bookOf・runSpec・moonOf・costOf)だけを import し、規則の基礎の表(ruleBasis・planet3Of)は呼ばない —— κ₀ は閉じた式で固定' },
+  // ==== 第313便d の塊(ここまで)====
 ];
 const STATIC_SKIP_MODULES = ['tests/lib-w281a-regentable.mjs'];
 const stripComments = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');

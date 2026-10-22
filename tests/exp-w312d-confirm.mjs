@@ -36,6 +36,12 @@
 //   (--rule の k を省けば --planet3 の 3 惑星の平均 —— 規則は 3 惑星の値から決め、確認の系では動かさない。--planet3 の既定は正本 tests/out/planet3-w311d.json)
 //   --kernel k1 は枝 a の invSq.kernel(受理しない html では「未接続」と記録して走らせない —— 門 noRejected は偽)。
 //
+// ■ v2(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・決断事項 AN401・AN405・統括の検証項目 R237)
+//   ・`--rule '{"type":"kappa0"}'`(`--kernel k1` だけ): **太陽を含む全天体**に写しの明示の dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(本の単位 —— κ₀ は閉じた式で固定・
+//     合わせない・枝 a の鍵 rdRule:"kappaM" と同値の写し)。🌦️ の太陽は pinned(受け手でない —— 源としてだけ効く)を記録する。
+//   ・受理の目安から cap を外す(lib の admissibleOf —— 0 < R_d ≤ 観測半径だけ)。正本の版が PREV_VERSIONS なら第312便の世代(QA の世代切替が capM で作り直す)。
+//   ・既定の計画(鎖の正本 confirm-w312d.json)は v1 と同じ(K2・規則 R_d²/(m p))—— 段 C の規則の表の受理の欄だけが cap を外して変わる(🏀 の R_d/m の行)。
+//
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「法則を確かめた」「R_d を決めた」。「確認した」は規則で置いた残差が数値の門の内のときだけ
 //   (そうでなければ「規則が届かない」と数で)。数値の門は観測の 3σ ではない。
 import fs from 'node:fs';
@@ -57,7 +63,11 @@ import * as C from './lib-w312d-confirm.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragIsqState","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","ch","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","fmt","inertialDragNormApply","pnSource","relDragCoefficientOf","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w312d-confirm-1';
+export const HARNESS_VERSION = 'w313d-confirm-2';
+/** v2: 正本の版の前の世代(鎖で作り直す前の正本 —— QA docs.confirm312 の世代切替が読む)と、その世代の受理の目安の cap(m) */
+export const PREV_VERSIONS = Object.freeze(['w312d-confirm-1']);
+export const PREV_LIB_VERSIONS = Object.freeze(['w312d-confirm-lib-1']);
+export const PREV_CAP_M = 6.5e6;
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const NOT_CLAIM = ['フィットした', '較正した', '収束した', '完全に一致', '法則を確かめた', 'R_d を決めた'];
@@ -91,10 +101,13 @@ export function pinnedEM(HP) {
   return q;
 }
 export const baseOf = (HP, sys) => (sys === 'jupiter' ? Q.pinnedBook(HP, PL3.PIN, 'jupiterSunInertial3d') : pinnedEM(HP));
-/** 走行の本。spec = {system, kind, Rd:{jupiter|earth|moon: m}, kernel} */
+/** 走行の本。spec = {system, kind, Rd:{jupiter|earth|moon: m}, kernel}。v2: Rd.rule === "kappa0" は全天体の規則(太陽も —— 本の単位の 10 G m/(C₁ c²)) */
 export function bookOf(base, sys, kind, Rd, kernel) {
   const k = Q.KINDS[kind]; if (!k) throw new Error('走行の種類 ' + kind);
+  const kap = !!(Rd && Rd.rule === 'kappa0');
+  if (kap && k.drag && kernel !== 'k1') throw new Error('全天体の規則 kappa0 は K1 の写しだけ(--kernel k1)');
   if (sys === 'jupiter') {
+    if (kap && k.drag) return Q.bookOf(base, kind, Q.withKernel({ rd: Q.rdOfKf(base, 1), rule: 'kappa0', kf: 1 }, kernel));   // 太陽と木星に κ₀m(lib の bookOf)
     const R = base.bodies[1].radius * Math.pow(10, base.scaleExp.L);
     return Q.bookOf(base, kind, k.drag ? Q.withKernel({ rd: Rd.jupiter / R }, kernel) : Q.THETA0);
   }
@@ -104,6 +117,10 @@ export function bookOf(base, sys, kind, Rd, kernel) {
   q.physics.relativeDrag = clone(Q.NEW_DRAG);
   if (kernel === 'k1') q.physics.relativeDrag.invSq.kernel = 'k1';
   const L = Math.pow(10, q.scaleExp.L);
+  if (kap) {   // v2: 全天体の規則 —— 太陽(pinned —— 源としてだけ)・地球・月に κ₀m(本の単位)
+    for (const i of [0, 1, 2]) q.bodies[i].dragCore = { massFrac: 1, radius: Q.rdBookKappa0(q, q.bodies[i].m) };
+    return q;
+  }
   q.bodies[1].dragCore = { massFrac: 1, radius: Rd.earth / L };   // 1 つの天体に 1 つの宣言(規則の R_d —— 在位の構造核の宣言は写しの中で置き換える)
   q.bodies[2].dragCore = { massFrac: 1, radius: Rd.moon / L };
   return q;
@@ -206,16 +223,18 @@ export function ruleBasis(HP, P311) {
 /** 既定の規則(今の法則 K2 の数値の根の並び —— 3 惑星の R_d²/(m p) の平均・月の p は地球のまわり) */
 export const defaultRule = (basis) => ({ type: 'rd2OverMp', k: Number(basis.table.rd2OverMp.mean.toPrecision(6)), moonP: 'earth' });
 /** 規則を確認の系の天体へ(R_d・R_d/R・受理の目安)—— 月は p の 2 つの選び方を両方並べる(rd2OverMp のとき) */
-export function applyRule(HP, rule) {
+export function applyRule(HP, rule, capM) {
   const props = { jupiter: C.bodyProps('jupiter', baseOf(HP, 'jupiter')), earthmoon: C.bodyProps('earthmoon', baseOf(HP, 'earthmoon')) };
-  const cell = (bk, b, r) => { const Rd = C.rdOfRule(r, bk, b), a = C.admissibleOf(Rd, b.R); return { Rd, rdOverR: Number.isFinite(Rd) ? Rd / b.R : null, R: b.R, m: b.m, admissible: a.ok, why: a.why }; };
+  // v2: 受理の目安は 0 < R_d ≤ 観測半径だけ(capM は第312便の世代の作り直しだけ —— QA の世代切替)
+  const cell = (bk, b, r) => { const Rd = C.rdOfRule(r, bk, b), a = C.admissibleOf(Rd, b.R, Number.isFinite(capM) ? { capM } : {}); return { Rd, rdOverR: Number.isFinite(Rd) ? Rd / b.R : null, R: b.R, m: b.m, admissible: a.ok, why: a.why }; };
   const out = { jupiter: cell('jupiter', props.jupiter.jupiter, rule), earth: cell('earth', props.earthmoon.earth, rule), props };
+  if (rule.type === 'kappa0') { out.sun = cell('sun', props.earthmoon.sun, rule); out.sunJ = cell('sun', props.jupiter.sun, rule); }   // v2: 全天体の規則は太陽も
   if (rule.type === 'rd2OverMp') { out.moonEarthP = cell('moon', props.earthmoon.moon, Object.assign({}, rule, { moonP: 'earth' })); out.moonSunP = cell('moon', props.earthmoon.moon, Object.assign({}, rule, { moonP: 'sun' })); }
   out.moon = cell('moon', props.earthmoon.moon, rule);
   out.moonDefined = Number.isFinite(out.moon.Rd);
   return out;
 }
-/** t = 0 の写しの β(エンジンの読み口 —— 受け手 i ← 源 j)。🌦️ は月の p の 2 つの選び方で */
+/** t = 0 の写しの β(エンジンの読み口 —— 受け手 i ← 源 j)。🌦️ は月の p の 2 つの選び方で。v2: Rd.rule === "kappa0" は全天体の規則 */
 export function betaAt0(HP, sys, Rd, kernel) {
   const base = baseOf(HP, sys), q = bookOf(base, sys, 'q11', Rd, kernel), v = HP.validatePreset(clone(q));
   if (!v.ok) return { err: JSON.stringify(v.errors).slice(0, 200) };
@@ -300,16 +319,18 @@ export function costOf(J) {
       earthmoon: { h: est('earthmoon', 1, N_MOON), h2: est('earthmoon', 2, N_MOON), h4: est('earthmoon', 4, N_MOON), long354: est('earthmoon', 1, 354), long1062: est('earthmoon', 1, 1062) } } };
 }
 export function partC(HP, J, o = {}) {
-  const basis = o.basis || ruleBasis(HP, planet3Of()), rule = J.rule, applied = applyRule(HP, rule), kern = J.kernel || 'k2', rk = C.ruleKey(rule);
+  // v2: o.capM は第312便の世代の受理の目安(QA の世代切替だけ)。全天体の規則 kappa0 の t = 0 の β は全天体に κ₀m(K1 —— 確認の系の規則)
+  const capM = o.capM, basis = o.basis || ruleBasis(HP, planet3Of()), rule = J.rule, applied = applyRule(HP, rule, capM), kern = J.kernel || 'k2', rk = C.ruleKey(rule);
   const rd2 = rule.type === 'rd2OverMp' ? rule : defaultRule(basis);
   // 今の法則の規則(R_d²/(m p) が一定)を全部の型と並べた表(t = 0 だけ)
   const k2Rule = defaultRule(basis), byType = {};
-  for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) byType[t] = applyRule(HP, { type: t, k: Number(basis.table[t].mean.toPrecision(6)), moonP: 'earth' });
+  for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) byType[t] = applyRule(HP, { type: t, k: Number(basis.table[t].mean.toPrecision(6)), moonP: 'earth' }, capM);
   const beta0 = {};
-  if (applied.jupiter.admissible) beta0.jupiter = betaAt0(HP, 'jupiter', { jupiter: applied.jupiter.Rd }, kern);
-  const apE = applyRule(HP, Object.assign({}, rd2, { moonP: 'earth' })), apS = applyRule(HP, Object.assign({}, rd2, { moonP: 'sun' }));
-  beta0.earthmoonMoonEarthP = betaAt0(HP, 'earthmoon', { earth: apE.earth.Rd, moon: apE.moon.Rd }, kern);
-  beta0.earthmoonMoonSunP = betaAt0(HP, 'earthmoon', { earth: apS.earth.Rd, moon: apS.moon.Rd }, kern);
+  const kap = rule.type === 'kappa0' ? { rule: 'kappa0' } : null;
+  if (applied.jupiter.admissible) beta0.jupiter = betaAt0(HP, 'jupiter', kap || { jupiter: applied.jupiter.Rd }, kern);
+  const apE = applyRule(HP, Object.assign({}, rd2, { moonP: 'earth' }), capM), apS = applyRule(HP, Object.assign({}, rd2, { moonP: 'sun' }), capM);
+  beta0.earthmoonMoonEarthP = betaAt0(HP, 'earthmoon', kap || { earth: apE.earth.Rd, moon: apE.moon.Rd }, kern);
+  beta0.earthmoonMoonSunP = betaAt0(HP, 'earthmoon', kap || { earth: apS.earth.Rd, moon: apS.moon.Rd }, kern);
   // EMB の近日点への引きずりの重み(推定 —— 地球と月の β(← 太陽)の質量の平均 / 地球の β)。月の p の 2 つの選び方で
   const mE = applied.props.earthmoon.earth.m, mM = applied.props.earthmoon.moon.m, wEMB = (b) => (b && Number.isFinite(b.earthSun) && b.earthSun > 0) ? (mE * b.earthSun + mM * b.moonSun) / ((mE + mM) * b.earthSun) : null;
   const out = { rule, ruleKey: rk, kernel: kern, basis: { rows: basis.rows, table: basis.table, planet3: basis.planet3 }, k2Rule, applied: { jupiter: applied.jupiter, earth: applied.earth, moon: applied.moon, moonEarthP: applied.moonEarthP || null, moonSunP: applied.moonSunP || null, moonDefined: applied.moonDefined },
@@ -363,8 +384,7 @@ export function physicsTables(J) {
     for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) { const T = Cc.basis.table[t];
       out.push(`| ${RULE_JA[t]} | ${T.values.map((z) => ex(z.v, 3)).join(' | ')} | ${ex(T.mean, 3)} | ${fx(T.spread, 3)} |`); }
     out.push('', '| 規則を確認の系へ(同じ式・1 つの天体に 1 つ)—— R_d [km](R_d/R) | 🏀 木星 | 地球 | 月(p = 地球のまわり) | 月(p = 太陽のまわり) |', '|---|---|---|---|---|');
-    for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) { const a = Cc.byType[t];
-      out.push(`| ${RULE_JA[t]} | ${adm(a.jupiter)} | ${adm(a.earth)} | ${adm(a.moonEarthP)} | ${t === 'rd2OverMp' ? adm(a.moonSunP) : '(p に依らない)'} |`); }
+    out.push(...byTypeRows(Cc.byType));
     const b0 = Cc.beta0, E0 = b0.earthmoonMoonEarthP, S0 = b0.earthmoonMoonSunP;
     if (E0 && S0 && !E0.err && !S0.err) {
       out.push('', '| t = 0 の β(R_d²/(m p) が一定の規則 —— エンジンの読み口) | 地球 ← 太陽 | 地球 ← 月 | 月 ← 太陽 | 月 ← 地球 | EMB の重み(推定) |', '|---|---|---|---|---|---|');
@@ -386,6 +406,11 @@ export function physicsTables(J) {
   }
   return out.join('\n');
 }
+/** 規則を確認の系へ当てた表の行(3 つの型 —— 第312便d の physicsTables と同じ行。v2: cap を外した後の表〔PHYSICS〔第313便d〕〕にも使う) */
+export function byTypeRows(byType) {
+  return ['rdOverR', 'rdOverM', 'rd2OverMp'].map((t) => { const a = byType[t];
+    return `| ${RULE_JA[t]} | ${adm(a.jupiter)} | ${adm(a.earth)} | ${adm(a.moonEarthP)} | ${t === 'rd2OverMp' ? adm(a.moonSunP) : '(p に依らない)'} |`; });
+}
 export function docNumbers(J) {
   const out = [], Cc = J.C; if (!Cc) return out;
   out.push(ex(Cc.basis.table.rd2OverMp.mean, 3), km(Cc.applied.jupiter.Rd), km(Cc.applied.earth.Rd));
@@ -398,7 +423,8 @@ export function docNumbers(J) {
 export function planOf(o) {
   const specs = [], seen = new Set();
   for (const sys of o.systems) {
-    const P = o.plan[sys], N = sys === 'jupiter' ? o.nJup : o.nMoon, Rd = sys === 'jupiter' ? { jupiter: o.applied.jupiter.Rd } : { earth: o.applied.earth.Rd, moon: o.applied.moon.Rd };
+    const kap = o.ruleKey === 'kappa0';   // v2: 全天体の規則(太陽も —— 本の単位の κ₀m は bookOf が置く)
+    const P = o.plan[sys], N = sys === 'jupiter' ? o.nJup : o.nMoon, Rd = kap ? { rule: 'kappa0' } : (sys === 'jupiter' ? { jupiter: o.applied.jupiter.Rd } : { earth: o.applied.earth.Rd, moon: o.applied.moon.Rd });
     const ok = sys === 'jupiter' ? o.applied.jupiter.admissible : (o.applied.earth.admissible && o.applied.moon.admissible);
     for (const kind of P.kinds) {
       const drag = Q.KINDS[kind].drag; if (drag && !ok) continue;   // 規則の R_d が受理の目安の外 —— 走らせない(段 C の拒否の記録)
@@ -455,6 +481,7 @@ export async function main() {
   const rule = argOf('--rule') ? JSON.parse(argOf('--rule')) : null;
   if (rule) { const e = C.checkRule(rule); if (e) throw new Error(e); }
   const kernel = argOf('--kernel') || 'k2'; if (!Q.KERNELS.includes(kernel)) throw new Error('--kernel は ' + Q.KERNELS.join('|'));
+  if (rule && rule.type === 'kappa0' && kernel !== 'k1') throw new Error('--rule kappa0 は --kernel k1 と一緒にだけ(K1 の写しだけ)');
   const divL = listOf('--divs'), kindsL = listOf('--kinds'), h4 = process.argv.includes('--h4'), moonN = Number(argOf('--moon')) || null, p3f = argOf('--planet3');
   const stage2 = !!(sysArg || rule || kernel !== 'k2' || divL || kindsL || h4 || moonN || p3f);
   const base = quick ? QUICK_PLAN : BRANCH_PLAN, plan = {};
@@ -478,12 +505,13 @@ export async function main() {
   const out = { version: HARNESS_VERSION, libVersion: C.LIB_VERSION, planet3LibVersion: Q.LIB_VERSION, planet3HarnessVersion: PL3.HARNESS_VERSION, an336LibVersion: AN.LIB_VERSION, apsisVersion: AP.APSIS_VERSION,
     emxVersion: EMX.EXTRACTOR_VERSION, generator: 'tests/exp-w312d-confirm.mjs', target: TARGET, targetSha256,
     ruling: '原仮定者の裁定(第114報): 水星・金星・火星で絞り込んだ候補を、木星と「太陽と地球と月」で確認する —— 決断事項 AN398(軌道に依る R_d を天体の性質として採らない・' +
-      '候補から決めた規則で R_d を置き残差を測る・合わせない・1 つの天体に 1 つの宣言・太陽は固定・G_loc の分は各系で)・AN396・AN336・統括の検証項目 R233。確認の材料(在位へ入れない)',
+      '候補から決めた規則で R_d を置き残差を測る・合わせない・1 つの天体に 1 つの宣言・太陽は固定・G_loc の分は各系で)・AN396・AN336・統括の検証項目 R233。確認の材料(在位へ入れない)。' +
+      'v2(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・統括の検証項目 R237): 全天体の規則 kappa0(太陽も・κ₀ 固定)の口・受理の目安の cap を外す',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w312d-confirm.mjs', 'tests/lib-w312d-confirm.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306a-an336.mjs',
     'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第312便d', target: TARGET, code: CODE,
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第313便d', target: TARGET, code: CODE,
     inputs: [TARGET, PL3.DECL_FILE, PLANET3_OUT, AN336_OUT, AN.CANDIDATE_FILE, AN.AUDIT_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W312D_WORKERS)',
