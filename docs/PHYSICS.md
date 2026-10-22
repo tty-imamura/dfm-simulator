@@ -36792,7 +36792,7 @@ t = 0 の写しの宣言(段 P —— 本の ID・天体ごとの m・R・宣言
 
 @@TABLES@@
 
-**⑨ 版の世代と鎖で動く段。** 器と lib を変えたので、鎖で作り直す段は planet3-311d(器 v3 —— 値の段は v2 とビット同一の見込み・版だけ変わる)・confirm-312d(確認の器 v2 —— 段 C の規則の表の受理の欄が cap を外して変わる)・decay-312a(lib の来歴と planet3 の正本の版)・新しい段 k1confirm-313d(枝の実測 @@ELAPSED@@ —— 他の枝と同じ容器で並走・見積りは 5400 s で登録)。在位の本の宣言・html は変えていないので、他の段は動かない。
+**⑨ 版の世代と鎖で動く段。** 器と lib を変えたので、鎖で作り直す段は planet3-311d(器 v3 —— 値の段は v2 とビット同一の見込み・版だけ変わる)・confirm-312d(確認の器 v2 —— 段 C の規則の表の受理の欄が cap を外して変わる)・decay-312a(lib の来歴と planet3 の正本の版)・新しい段 k1confirm-313d(枝の実測 @@ELAPSED@@ —— 他の枝と同じ容器で並走・見積りは 5400 s で登録)。在位の本の宣言・html は変えていないので、他の段は動かない(html は基点とバイト同一 —— 内蔵の本の bitsame・sigsame の差分は無い)。QA: `docs.planet3v3_313`(器と lib の版と前の世代・κ₀ の閉じた式と天体ごとの κ₀m の表・全天体の規則の写し・cap を外す・K1 の割線と ε_fit の止め方・`candidateOf` の半径・cap を外した後の規則の表)・`docs.k1confirm313`(正本の門・標的の列と段 P を対象 html で作り直す・段 K・R・D・M を走行の行から作り直してビット同一・在位の宣言が不変・本節の表と数が逐語)を新設。`docs.planet3_311`・`docs.confirm312` は版の世代切替(前の世代の正本も今の世代の正本も通す)。`lint.regenChain` (o) の宣言した読みの数は段 k1confirm-313d の有無で切り替え(静的な読みの宣言 —— k1confirm は確認の器の走行の関数だけを import し planet3 の正本は読まない)。
 
 **⑩ 2 段目(統合の後に統括)。** (i) 枝 a の鍵(`invSq.rdRule:"kappaM"`)で全天体に κm を置いた写しと本器の写しの dragCore(本の単位の 10 G m/(C₁ c²))の継ぎ目の照合。(ii) 🌦️ の h/4(費用の見積りは段 M)と月の長い窓(354 公転 —— 見積りは段 M)。(iii) 探索の器 v3 の 2 段目は `node tests/exp-w311d-planet3.mjs --planet <惑星> --kernel k1 --rule kappa0 --kf <列> --divs 1,2 [--refine N] [--h4]`・確認の器 v2 は `node tests/exp-w312d-confirm.mjs --system <系> --kernel k1 --rule '{"type":"kappa0"}' [--divs …] [--h4]`(出力は 2 段目の別名 —— 鎖の正本ではない)。
 
