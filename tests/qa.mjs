@@ -83682,7 +83682,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ⑥ 全天体 κ₀m の太陽系の写し(K1): 係数が共通(相対 1e-15)・30 步の天体どうしの軸の角の変化(銀河の分)は丸めの床・地球だけ 2κ₀m の写しで地球と太陽の対は一次の見積りの比 1
 // ----   ⑦ 器の段 A・B の門が全部真・内蔵の本で massPow・refMass を宣言する本 0
 {
-  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const grm313Harn = path.join(ROOT, 'tests', 'exp-w313b-galaxialrdm.mjs');
   const grm313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && grm313Html.indexOf('GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1"') >= 0 && fs.existsSync(grm313Harn))) {
@@ -83797,7 +83797,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ③ 表の行(physicsTables)と数(docNumbers)が PHYSICS〔第313便b〕に逐語・節が「## 7.」の前・語・CHANGELOG(beta 節)・README・AI_SPEC §128・再生成の段・.gitignore・post-merge・CANON
 // ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
 {
-  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const grm313Out = path.join(ROOT, 'tests', 'out', 'galaxialrdm-w313b.json'), grm313Harn = path.join(ROOT, 'tests', 'exp-w313b-galaxialrdm.mjs');
   const grm313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && grm313Html.indexOf('GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1"') >= 0 && fs.existsSync(grm313Out) && fs.existsSync(grm313Harn))) {
