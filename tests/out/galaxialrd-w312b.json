@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -285,7 +285,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便"
    },
    {
     "key": "galaxyAxial",
@@ -294,7 +294,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 massPow(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— in"
    }
   ],
   "units": [
@@ -2262,39 +2262,39 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.025
+   "wallSec": 0.034
   },
   "B": {
-   "wallSec": 0.323
+   "wallSec": 0.48
   },
   "N": {
-   "wallSec": 0.39
+   "wallSec": 0.551
   },
   "X": {
-   "wallSec": 190.345
+   "wallSec": 267.999
   }
  },
- "elapsedS": 192.838,
+ "elapsedS": 271.207,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-21T23:27:05.262Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T22:44:03.597Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w312b-galaxialrd.mjs",
-    "bytes": 45116,
-    "sha256": "7a6d24ef9b6de0b200d32c733a3498a00bf76b6cffb77443ece8a6394f422cb4",
-    "mtime": "2026-10-21T18:39:31.158Z"
+    "bytes": 45757,
+    "sha256": "5f911caa18a2d5dc675343c89d86f9d3e5da82a62a6ef3a24cf9b694b098bcdd",
+    "mtime": "2026-10-22T15:06:06.426Z"
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
@@ -2333,7 +2333,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "b3b61096162f1db8dfd8539e65b99f870309111da7e4a52b583f86c9201ea89a",
+  "codeSha256": "d1dc3a456afb5d47a8bc1378d2b9ddd85a34be82d922b381a6343ac9c725a972",
   "harnessVersion": "w312b-galaxialrd-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2402,11 +2402,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1523,
-   "segments": 1363,
-   "closureShare": 0.3481
+   "names": 1538,
+   "segments": 1373,
+   "closureShare": 0.3496
   },
-  "scopeSha256": "069615fcf7d608258055622953fd40eeb3482424439262d2244b76ba952299d8",
+  "scopeSha256": "5cd75a71e80888968e997b1012fa6e979eb9c68b06322155e85c38bb337639be",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
