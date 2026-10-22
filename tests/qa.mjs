@@ -3043,7 +3043,10 @@ lastAddAt = Date.now();
       //   第289便d: 段 ejectstate289 の器は exp-w288a-fixcap.mjs を import する(→ 同じ imported-main の宣言がもう 1 組 —— 19 組)
       const has288aRT = RT.REGEN_STEPS.some((z) => z.key === 'fixcap288');
       const has289dRT = RT.REGEN_STEPS.some((z) => z.key === 'ejectstate289');
-      if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 && r.o.declared === 17 + (has288aRT ? 1 : 0) + (has289dRT ? 1 : 0) && r.o.detect285 === true && r.o.detectSparc === true))
+      // ==== 第313便d の塊(ここから)==== 段 k1confirm-313d の器は確認の器 exp-w312d-confirm.mjs を import する(→ planet3 の正本の imported-main の宣言が 1 本・1 組増える —— 表の段で切り替える)
+      const has313dRT = RT.REGEN_STEPS.some((z) => z.key === 'k1confirm-313d');
+      // ==== 第313便d の塊(ここまで)====
+      if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 + (has313dRT ? 1 : 0) && r.o.declared === 17 + (has288aRT ? 1 : 0) + (has289dRT ? 1 : 0) + (has313dRT ? 1 : 0) && r.o.detect285 === true && r.o.detectSparc === true))
         bad.push('(o) 固定値: ' + JSON.stringify(r.o).slice(0, 200));
       const CS = await import('file://' + path.join(ROOT, 'tests', 'lib-w284f-calshard.mjs'));
       const j = CS.calShardSelfTest();
