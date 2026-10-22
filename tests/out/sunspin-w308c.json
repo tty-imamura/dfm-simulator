@@ -3,7 +3,7 @@
  "libVersion": "w308c-sunspin-lib-1",
  "generator": "tests/exp-w308c-sunspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+ "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
  "ruling": "原仮定者の裁定(第102報)②(太陽の観測の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率)・①(相互の引きずりに反作用を返すと二重計上にならないか)・原仮定者の裁定(第101報)((C) のエネルギーの出所は太陽の慣性自転・中心部の収縮で釣り合う・軸引きずりは軸方向に対する角度差の 2 倍で傾いた軸)・決断事項 AN355・AN348・統括の検証項目 R216",
  "inputs": {
   "planets": [
@@ -3367,34 +3367,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.163
+   "wallSec": 0.115
   },
   "required": {
-   "wallSec": 0.055
+   "wallSec": 0.04
   },
   "galaxy": {
-   "wallSec": 0.02
+   "wallSec": 0.01
   },
   "doubleCount": {
-   "wallSec": 0.003
+   "wallSec": 0.001
   },
   "contraction": {
-   "wallSec": 0.045
+   "wallSec": 0.039
   }
  },
- "elapsedS": 2.355,
+ "elapsedS": 1.935,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便c",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:05:22.193Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T00:09:12.814Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    }
   ],
   "code": [
@@ -3493,11 +3493,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1468,
-   "segments": 1313,
-   "closureShare": 0.3385
+   "names": 1489,
+   "segments": 1329,
+   "closureShare": 0.34
   },
-  "scopeSha256": "9bc2180c772b8499791ec9f5cfceb5b41ef54c74442048b554874f58ac680bc8",
+  "scopeSha256": "1084ddc7fe1294c3fb2a00873ab5aa2b85d7ace6ac4e2414222234c7eb3d8dc1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

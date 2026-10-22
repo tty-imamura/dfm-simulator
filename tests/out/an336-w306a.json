@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:18:44.623Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T01:30:16.362Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -32,9 +32,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109265,
-    "sha256": "890b5f7f31f67f1a888a55a48715fcc9d30ece6e3e983007a31b5d17cf3b9a76",
-    "mtime": "2026-10-21T01:12:33.313Z"
+    "bytes": 109264,
+    "sha256": "0625f7e56037413a116118fcad216f3d151fa0571592b1fcdb01a6537a2fda0b",
+    "mtime": "2026-10-22T01:19:09.437Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -46,9 +46,9 @@
   "code": [
    {
     "file": "tests/exp-w306a-an336.mjs",
-    "bytes": 47513,
-    "sha256": "9cc816e4ef99b7883da4c33b7a22f5b8761b59c53f557dda525eb9d6549d6b55",
-    "mtime": "2026-10-20T19:41:43.612Z"
+    "bytes": 48354,
+    "sha256": "6ff8e1b06ee4a7b92c251feade1eaad5037ab42c7909ead58076064a6a495e8f",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
@@ -82,9 +82,9 @@
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 85144,
-    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 87015,
+    "sha256": "49bf3085d30b6e1fdff6d6650808b0455b8b7028a87b6e58bf36b5aa4d7c431d",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
@@ -124,12 +124,12 @@
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
-    "bytes": 14692,
-    "sha256": "4df20c1b73f262736071f59a3414f3d3073e417c5d6985550f89ee7bfbaf4a8d",
-    "mtime": "2026-10-20T19:41:43.616Z"
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "f0f900103f4fa6d0db673a74693c0914964365555f30e7089ad7a86771f178de",
+  "codeSha256": "19de0ee0d7be04e76fa526848056e501fbf4d4f5461900ab151271a20b8dfcbe",
   "harnessVersion": "w306a-an336-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -220,11 +220,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1362,
-   "closureShare": 0.3479
+   "names": 1538,
+   "segments": 1378,
+   "closureShare": 0.3495
   },
-  "scopeSha256": "d00e676662f07993954b9342f60d5140c9ade287c7c2a4740d759f64dcc90f4b",
+  "scopeSha256": "0a926e020f19b88ee96d694e1632caf7e4650c20b553902aed158703a67f8bf3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -235,7 +235,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "3b7fb2129320ad306860810d4ad77648ef16de21072c31a0303e18715bbdd50e",
+    "stableSha256": "1f12b614a73a45ac1743563f66dfb74b6130c0d0f558f80d2a2cd88282689b6a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3393,50 +3393,77 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.025
+   "wallSec": 0.034
   },
   "M": {
-   "wallSec": 85.288
+   "wallSec": 85.171
   },
   "T": {
-   "wallSec": 211.375
+   "wallSec": 505.714
   },
   "R": {
-   "wallSec": 0.048
+   "wallSec": 0.046
   },
   "G": {
-   "wallSec": 38.427
+   "wallSec": 39.131
   }
  },
  "stats": {
-  "runs": 68,
+  "runs": 82,
   "memoHits": 11,
-  "stepsTotal": 63518824,
+  "stepsTotal": 108748489,
   "freshRuns": 7
  },
- "h4Carried": {
-  "version": "w311c-h4carry-1",
-  "rule": "h と h/2 を先に測り、前の正本の h と h/2 の値の鍵とビット同一の単位だけ h/4(より細かい刻みを含む)を転記した(違う単位は測り直した)",
+ "h4Carry": {
+  "mode": "shadow",
+  "version": "w312c-h4carry-2",
+  "rule": "h/4 は全部測った(値の鍵は測った値)。単位ごとに、前の正本から転記していたら(h と h/2 の値の鍵が前の正本と JSON の表現で一致すれば h/4 を写す —— 第311便c の型)測った値と同じだったかを記録する —— 判定ではなく測定(h と h/2 の一致は h/4 の一致を保証しない)",
+  "compare": "JSON の表現の一致(−0 と 0・NaN と null を区別しない)",
   "unit": "段 T の移送の行(T:<本>)",
-  "valueKeys": "行の欄から h/4 で作る欄(pred・numErr・diff・rel・widthRatio・judge・secondary・spreadNew・spreadB・analyticMinusMeasured・complete・finite・窓の numErrNew・numErrB)を除き、配列は h と h/2(走行の数 stats と所要は値の鍵ではない)",
-  "origin": {
-   "fromTargetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-   "fromDate": "2026-10-20T10:05:00.935Z",
-   "fromWave": "第306便a",
-   "fromFileSha256": "01dc7b698ae7b488322d791fa0e0ace5ff893127ceeeff01cb254980095f61a5"
+  "valueKeys": "転記の判定は第311便c の値の鍵(行の欄から h/4 で作る欄を除き、配列は h と h/2)/ 比べる値: 行の全欄(転記していたら前の正本の行がそのまま入った)",
+  "prevUsable": true,
+  "prevWhy": null,
+  "nUnits": 7,
+  "wouldCarry": 7,
+  "sameAsFresh": 7,
+  "differ": [],
+  "unchecked": [],
+  "units": {
+   "T:mercurySunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   }
   },
-  "carried": [
-   "T:mercurySunInertial3d",
-   "T:venusSunInertial3d",
-   "T:marsSunInertial3d",
-   "T:jupiterSunInertial3d",
-   "T:saturnSunInertial3d",
-   "T:uranusSunInertial3d",
-   "T:neptuneSunInertial3d"
-  ],
-  "measured": [],
-  "wallSec": "転記した単位の所要は元の測定の所要(転記)",
-  "env": "H4_CARRY=0 で全部測る"
+  "prev": {
+   "generatedAt": "2026-10-21T17:25:57.851Z",
+   "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+   "fileSha256": "9eb9e5e205ec9858522a25b4e787c374cffa35f093bf520bed630beca9f1f107"
+  },
+  "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 369.185
+ "elapsedS": 664.896
 }

@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+ "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1595,43 +1595,43 @@
    "wallSec": 0.006
   },
   "Z": {
-   "wallSec": 0.7
+   "wallSec": 0.607
   },
   "L": {
-   "wallSec": 0.144
+   "wallSec": 0.102
   },
   "C": {
-   "wallSec": 0.036
+   "wallSec": 0.031
   },
   "K": {
-   "wallSec": 0.059
+   "wallSec": 0.053
   },
   "H": {
-   "wallSec": 0.117
+   "wallSec": 0.088
   },
   "S": {
-   "wallSec": 0.574
+   "wallSec": 0.567
   },
   "R": {
-   "wallSec": 0.152
+   "wallSec": 0.093
   },
   "X": {
-   "wallSec": 0.112
+   "wallSec": 0.102
   }
  },
- "elapsedS": 3.73,
+ "elapsedS": 2.988,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:05:15.390Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-21T23:36:27.050Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    }
   ],
   "code": [
@@ -1709,11 +1709,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1483,
-   "segments": 1328,
-   "closureShare": 0.3418
+   "names": 1504,
+   "segments": 1344,
+   "closureShare": 0.3434
   },
-  "scopeSha256": "fbce757ad29d36d0405e192e876f7189c724ee166555dbecae2928b3d00c8f3e",
+  "scopeSha256": "1445fa5616ef57d040de5580827d3edb0e351369064de86d998f5d39df65931a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

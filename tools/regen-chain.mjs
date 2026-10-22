@@ -43,6 +43,7 @@
 //       全段 regen の鎖の ready queue の模擬(順序違反・書込の重なり・予算超過 0 —— 第284便f)。
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
 //   node tools/regen-chain.mjs --env          鎖を回す環境の版(Node・Chromium)を 1 行の JSON で(第288便f —— chainShell が $REGEN_LOG/env.json に書く)。
+//   node tools/regen-chain.mjs --scope-all [--write] [--check]   第312便c: 領域の宣言が presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json)。
 //
 // 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112):
 //   ・**済み印の契約 = 静的な部分(policy・code)+ 入力の安定 hash**(版 w287f-chaincontract-2 —— tests/lib-w281a-regentable.mjs の
@@ -110,10 +111,14 @@ if (argv.includes('--env')) {
 
 // ==== 第311便c の塊(ここから)====
 // 第311便c(統括の検証項目 R228): **前回の鎖の実測で見積りを更新する**。
-//   node tools/regen-chain.mjs --calibrate <timeline.txt> [--log <REGEN_LOG>] [--source <出所の名>] [--tol 0.1] [--apply]
+//   node tools/regen-chain.mjs --calibrate <timeline.txt> [--log <REGEN_LOG>] [--source <出所の名>] [--tol 0.1] [--apply] [--base-sec <file>] [--out <file>] [--json <file>]
+//   (第312便c: 規則 w312c-calibrate-2 —— 済み印の `run Ns` を先に読む・再開した回の済み印の確かめを飛ばす)
 //   差の一覧(段・今の見積り・表の値・実測・比・処置)を出す。--apply で tests/data-w311c-regensec.json(表の外 —— 段の sec を読み込み時に上書き)へ
 //   書く(既にある段の行は上書き・無い段は足す)。表の本文は書き換えない(表は families・timing294 の正本の meta.code —— 書き換えると 2 段が regen)。
 if (argv.includes('--calibrate')) {
+  // 第312便c(R232): 規則の版 w312c-calibrate-2 —— --log の済み印の `run Ns` を実測として先に読む・再開した回の済み印の確かめ(≤ 5 s)を飛ばす
+  //   (tests/lib-w281a-regentable.mjs の calibrateSec)。--base-sec <file>: 「今の見積り」をそのファイル(例: 鎖の前の版の見積り)から読む・
+  //   --apply はそのファイルを元に書く。--out <file>: --apply の書き先(既定 tests/data-w311c-regensec.json)。--json <file>: 差の一覧を JSON で
   const tlPath = resolve(getArg('--calibrate', null));
   if (!tlPath || !fs.existsSync(tlPath)) { console.error('timeline が無い: ' + tlPath); process.exit(2); }
   const text = fs.readFileSync(tlPath, 'utf8');
@@ -124,16 +129,27 @@ if (argv.includes('--calibrate')) {
     const dd = path.join(resolve(logDir), 'done');
     if (fs.existsSync(dd)) for (const f of fs.readdirSync(dd)) if (f.endsWith('.done')) marks.set(f.replace(/\.done$/, ''), fs.readFileSync(path.join(dd, f), 'utf8').split('\n')[0]);
   }
+  const baseSec = getArg('--base-sec', null);
+  let baseDoc = null, steps;
+  if (baseSec) {
+    try { baseDoc = JSON.parse(fs.readFileSync(resolve(baseSec), 'utf8')); } catch (e) { console.error('--base-sec が読めない: ' + baseSec); process.exit(2); }
+    steps = T.REGEN_STEPS.map((z) => { const tbl = z.secTable !== undefined ? z.secTable : z.sec; const m = baseDoc.steps && baseDoc.steps[z.key];
+      return Object.assign({}, z, { sec: (m && Number.isFinite(m.sec) && m.sec >= 0 && z.role !== 'history') ? m.sec : tbl, secTable: tbl }); });
+  }
   const source = getArg('--source', null) || ('chain ' + ((text.match(/^# ready-queue (\S+)/m) || [])[1] || 'measured'));
-  const r = T.calibrateSec(text, { marks, tol: Number(getArg('--tol', '0.1')), source });
+  const r = T.calibrateSec(text, { marks, tol: Number(getArg('--tol', '0.1')), source, steps });
   const fmt = (x) => (x === null || x === undefined ? '—' : String(x));
-  console.log(`regen-chain --calibrate: ${r.header || '(見出しなし)'} —— 段 ${r.rows.length}・更新 ${Object.keys(r.apply).length}・`
-    + `許容の内 ${r.rows.filter((z) => z.action === 'keep').length}・飛ばした ${r.rows.filter((z) => z.action === 'skip').length}(出所の名 ${source})`);
-  for (const z of r.rows) console.log(`  ${z.action.padEnd(6)} ${z.key.padEnd(22)} 見積り ${fmt(z.sec).padStart(6)} s(表 ${fmt(z.secTable).padStart(6)})・実測 ${fmt(z.measured).padStart(8)} s・比 ${fmt(z.ratio).padStart(6)}  ${z.why}`);
+  console.log(`regen-chain --calibrate(規則 ${r.rule}): ${r.header || '(見出しなし)'} —— 回 ${r.runs}(再起動 ${r.restarts})・段 ${r.rows.length}・更新 ${Object.keys(r.apply).length}・`
+    + `許容の内 ${r.rows.filter((z) => z.action === 'keep').length}・飛ばした ${r.rows.filter((z) => z.action === 'skip').length}・済み印の秒 ${r.rows.filter((z) => z.from === 'mark').length}`
+    + `(出所の名 ${source}${baseSec ? '・今の見積り ' + baseSec : ''})`);
+  for (const z of r.rows) console.log(`  ${z.action.padEnd(6)} ${z.key.padEnd(22)} 見積り ${fmt(z.sec).padStart(6)} s(表 ${fmt(z.secTable).padStart(6)})・実測 ${fmt(z.measured).padStart(8)} s(${fmt(z.from)})・比 ${fmt(z.ratio).padStart(6)}  ${z.why}`);
+  const js = getArg('--json', null);
+  if (js) fs.writeFileSync(resolve(js), JSON.stringify(r, null, 1) + '\n');
   if (argv.includes('--apply')) {
-    const file = path.join(ROOT, T.REGEN_SEC_FILE);
+    const file = getArg('--out', null) ? resolve(getArg('--out', null)) : path.join(ROOT, T.REGEN_SEC_FILE);
     let cur = null;
-    try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { cur = null; }
+    if (baseDoc) cur = JSON.parse(JSON.stringify(baseDoc));
+    else { try { cur = JSON.parse(fs.readFileSync(path.join(ROOT, T.REGEN_SEC_FILE), 'utf8')); } catch { cur = null; } }
     if (!cur || cur.version !== T.REGEN_SEC_VERSION) cur = { version: T.REGEN_SEC_VERSION, steps: {} };
     cur.what = '再生成の鎖の段の所要の見積り(秒)—— 前回の鎖の実測(timeline の start/end)。tests/lib-w281a-regentable.mjs が読み込み時に段の sec を上書きする'
       + '(優先度〔臨界路〕・予約・模擬の見積りにだけ使う —— 済み印の契約と計画の判定には入らない)。書くのは node tools/regen-chain.mjs --calibrate <timeline> --apply';
@@ -143,7 +159,7 @@ if (argv.includes('--calibrate')) {
     // 出所の名 → timeline の見出し(鎖の開始時刻・レーン)
     cur.sources = Object.assign({}, cur.sources || {}, Object.keys(r.apply).length ? { [source]: r.header || null } : {});
     fs.writeFileSync(file, JSON.stringify(cur, null, 1) + '\n');
-    console.log(`  → ${T.REGEN_SEC_FILE}(段 ${Object.keys(cur.steps).length} —— 今回 ${Object.keys(r.apply).length} 段を書いた)`);
+    console.log(`  → ${path.relative(ROOT, file)}(段 ${Object.keys(cur.steps).length} —— 今回 ${Object.keys(r.apply).length} 段を書いた)`);
   }
   process.exit(0);
 }
@@ -174,6 +190,37 @@ if (argv.includes('--simulate')) {
   process.exit(0);
 }
 // ==== 第311便c の塊(ここまで)====
+
+// ==== 第312便c の塊(ここから)====
+// 第312便c(統括の検証項目 R232・決断事項 AN394): **領域の宣言が presets:"all" の段の理由の一覧**(絞らない —— 記録だけ)。
+//   node tools/regen-chain.mjs --scope-all [--write] [--check]
+//   段ごとに理由(器と lib の allPresets() / BUILTIN_PRESETS の使い方)・名指しの本の ID・見込みを出す。--write で tests/data-w312c-scopeall.json を書く
+//   (生成物 —— 手で直さない)。--check は書いた一覧と今の器の一覧(段の集合・使い方の種類・見込み)を照合する(違えば 1 —— QA lint.scopeAll312 と同じ)。
+if (argv.includes('--scope-all')) {
+  const r = await T.scopeAllReasons312({ root: ROOT, html: HTML });
+  const file = path.join(ROOT, 'tests', 'data-w312c-scopeall.json');
+  const doc = { version: r.version, what: '再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:"all" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。'
+      + '理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)',
+    tool: 'node tools/regen-chain.mjs --scope-all --write', counts: r.counts,
+    kinds: { value: '変数に受ける(使い方は varUses)', 'find-via-var': '変数に受けて .find/.findIndex/.some だけで引く', iterate: 'for … of・forEach で全本を回る', filter: '条件で全本から選ぶ',
+      map: '全本を写す・並べる', count: '.length で名簿の数を数える', spread: '展開して写す', 'value-arg': '引数・式に渡す', other: 'その他のメソッド', 'declared-wide': '宣言だけが all(器と lib の下限は all でない)' },
+    prospects: { 'narrow-now': '宣言だけが広い —— 下限の本の集合に絞れる', 'find-only': '変数に受けて名指しで引くだけ —— 受け方を .find に直せば名指しの本に絞れる見込み',
+      'count-only': '数だけ —— 数を読む口に替えれば絞れる見込み', enumerates: '全本を読む —— 絞ると器の目的(全本の一覧・数え上げ・条件の選別)が変わる' },
+    steps: r.rows };
+  const sig = (rows) => rows.map((z) => z.key + ':' + z.prospect + ':' + z.kinds.join('+')).sort().join(',');
+  console.log(`regen-chain --scope-all(${r.version}): 段 ${r.counts.steps}(器 ${r.counts.harnesses})—— 見込み ${Object.entries(r.counts.byProspect).map(([k, v]) => k + ' ' + v).join(' / ')}`
+    + ` —— 使い方 ${Object.entries(r.counts.byKind).map(([k, v]) => k + ' ' + v).join(' / ')}`);
+  for (const z of r.rows) console.log(`  ${z.prospect.padEnd(11)} ${z.key.padEnd(20)} ${z.kinds.join(',').padEnd(26)} 名指し ${String(z.nNamed).padStart(3)}  ${z.reasons.slice(0, 2).map((q) => q.file.replace('tests/', '') + ':' + q.line).join(' ')}`);
+  if (argv.includes('--write')) { fs.writeFileSync(file, JSON.stringify(doc, null, 1) + '\n'); console.log('  → tests/data-w312c-scopeall.json'); }
+  if (argv.includes('--check')) {
+    let cur = null; try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { cur = null; }
+    const ok = !!cur && cur.version === r.version && sig(cur.steps || []) === sig(r.rows);
+    console.log('  照合: ' + (ok ? '一覧と今の器が同じ' : '一覧と今の器が違う(--scope-all --write で書き直す)'));
+    process.exit(ok ? 0 : 1);
+  }
+  process.exit(0);
+}
+// ==== 第312便c の塊(ここまで)====
 
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);

@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
+ "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.004084014933
+     "wallSec": 0.004405512533
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.004739972433
+     "wallSec": 0.004332605333
     }
    }
   ]
@@ -1282,40 +1282,40 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.388
+   "wallSec": 0.442
   },
   "K": {
-   "wallSec": 0.029
+   "wallSec": 0.023
   },
   "B": {
-   "wallSec": 1.637
+   "wallSec": 1.641
   },
   "R": {
-   "wallSec": 0.258
+   "wallSec": 0.283
   },
   "M": {
-   "wallSec": 0.803
+   "wallSec": 0.808
   },
   "C": {
-   "wallSec": 0.271
+   "wallSec": 0.287
   },
   "P": {
-   "wallSec": 1.184
+   "wallSec": 1.179
   }
  },
- "elapsedS": 6.353,
+ "elapsedS": 6.538,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:05:15.830Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T00:09:08.375Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -1407,11 +1407,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1483,
-   "segments": 1328,
-   "closureShare": 0.3426
+   "names": 1505,
+   "segments": 1345,
+   "closureShare": 0.345
   },
-  "scopeSha256": "c0c74ab175cea89651f69e77bcf96cbf243c0520c6d07642db6b756373c6d4c3",
+  "scopeSha256": "a979e2873724ba83d993d2be15ba3086e4f8aa4f15c2b6f0efa7667792d1d1e1",
   "scopeComplete": true,
   "inputsStable": [
    {

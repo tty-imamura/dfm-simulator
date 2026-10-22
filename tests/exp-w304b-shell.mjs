@@ -268,11 +268,12 @@ const XR = { eta: [1e-3, 1e4], lambdaM: [1e-2, 1e12], k: [1e-4, 1e14] };
 // ==== 第311便c の塊(ここから)====
 // 第311便c(決断事項 AN393 (a)・統括の検証項目 R228): **h/4 の転記**(tests/lib-w311c-h4carry.mjs)。h/4 を測る 3 か所 —— 水星の根の行の最後の h/4(段 M)・
 //   移送の T_FINE の行の h/4(段 T)・本ごとの対照(引きずり OFF)の h/4 —— は、同じ単位の h と h/2 の値の鍵が前の正本(書き換える前の W304B_OUT)と
-//   ビット同一なら前の正本の h/4 の値を写す(違えば測る —— 古い h/4 と新しい h/h2 を混ぜない)。対照の h/4 は要るときだけ走らせる(水星の対照は
+//   JSON の表現で一致すれば前の正本の h/4 の値を写す(違えば測る —— 古い h/4 と新しい h/h2 を混ぜない)。対照の h/4 は要るときだけ走らせる(水星の対照は
 //   正本の mercury.control に h/h2/h4 の生の値があるので、h/h2 が同じなら写す —— 他の本の対照は転記した行が読まないので走らせない)。
 //   値の鍵: 段 M の行は h/4 の欄(diffs[2]・periodShiftDays[2]・eccShift[2]・h4gap・analyticOverMeasured)を除く全欄 / 段 T の行は h/4 から作る欄
 //   (preds[2]・pred・numErr・diff・diffSigma・rel・judge・periodShiftDays・eccShift)を除く全欄と表の行の鍵(key・x・divs ほか)/ 対照は h と h/2 の
-//   aps・periodDays・ecc。走行の数(stats)と所要(timing・elapsedS)は値の鍵ではない(転記の分だけ減る)。H4_CARRY=0 で全部測る
+//   aps・periodDays・ecc。走行の数(stats)と所要(timing・elapsedS)は値の鍵ではない(転記の分だけ減る)。
+//   第312便c(AN400・R232): **既定は全部測る**(H4_CARRY=1 は比較の実験だけ)—— 転記の判定は影の記録(正本の h4Carry)にだけ使う
 let CARRY = null;
 /** 転記の文脈を差し替える(試験用 —— 器の本走は main が前の正本で開く) */
 export function setH4Carry(c) { CARRY = c; CTX.clear(); }
@@ -290,8 +291,11 @@ function ctlH4(HP, id, off, h, ctl) {
   if (pc && pc.length === 3 && H4C.canCarry(CARRY, 'control:' + id, [1, 2].map((d) => Object.assign({ div: d }, raw(ctl[d]))), pc.slice(0, 2))) {
     H4C.markCarried(CARRY, 'control:' + id); return raw(pc[2]);
   }
+  if (CARRY && id !== MERCURY) CARRY.note['control:' + id] = '水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)';
   if (CARRY) H4C.markMeasured(CARRY, 'control:' + id);
-  return meas(HP, off, h / 4);
+  const m4 = meas(HP, off, h / 4);
+  if (CARRY && pc && pc.length === 3) H4C.shadowCompare(CARRY, 'control:' + id, raw(m4), raw(pc[2]));   // 第312便c(AN400): 影の記録
+  return m4;
 }
 // ==== 第311便c の塊(ここまで)====
 function ctxOf(HP, id) {
@@ -335,6 +339,9 @@ export function fitMercury(HP, cfg, log = () => {}) {
     const r4 = meas(HP, cs, C.h / 4);
     row.diffs.push(r4.aps - C.ctl[4].aps); row.periodShiftDays.push(r4.periodDays - C.ctl[4].periodDays); row.eccShift.push(r4.ecc - C.ctl[4].ecc);
     if (CARRY) H4C.markMeasured(CARRY, 'M:' + row.key);
+    // 第312便c(AN400): 影の記録 —— 行の h/4 の欄(h4gap・analyticOverMeasured はこの 3 つから作る)を、転記していたら入った前の正本の値と比べる
+    if (CARRY && prevRow && Array.isArray(prevRow.diffs) && prevRow.diffs.length === 3) H4C.shadowCompare(CARRY, 'M:' + row.key,
+      { diff: row.diffs[2], periodShiftDays: row.periodShiftDays[2], eccShift: row.eccShift[2] }, { diff: prevRow.diffs[2], periodShiftDays: prevRow.periodShiftDays[2], eccShift: prevRow.eccShift[2] });
   }
   row.h4gap = Math.abs(row.diffs[2] - row.diffs[1]);
   row.analyticOverMeasured = an.rate / row.diffs[2];
@@ -546,6 +553,9 @@ export function partT(HP, M, log = console.log, opt = {}) {
         } else {
           const r4 = meas(HP, cs, C.h / 4);
           preds.push(r4.aps - C.ctl[4].aps); lastP = r4.periodDays - C.ctl[4].periodDays; lastE = r4.ecc - C.ctl[4].ecc; if (CARRY) H4C.markMeasured(CARRY, ck);
+          // 第312便c(AN400): 影の記録 —— 行の h/4 の欄(予言・周期・離心率の変化 —— 残りの h/4 の欄はこの 3 つから作る)を前の正本の値と比べる
+          if (CARRY && pr && Array.isArray(pr.preds) && pr.preds.length === 3) H4C.shadowCompare(CARRY, ck,
+            { pred: preds[2], periodShiftDays: lastP, eccShift: lastE }, { pred: pr.preds[2], periodShiftDays: pr.periodShiftDays, eccShift: pr.eccShift });
         }
       }
       const best = preds[preds.length - 1], numErr = Math.abs(preds[preds.length - 1] - preds[preds.length - 2]), d = best - T.value;
@@ -873,6 +883,9 @@ if (IS_MAIN) {
   const h4c = H4C.carryStamp(CARRY, { unit: '段 M の水星の根の行(M:<構成>)・段 T の T_FINE の行(T:<構成>:<本>)・本ごとの対照(control:<本>)',
     valueKeys: '段 M の行は h/4 の欄(diffs[2]・periodShiftDays[2]・eccShift[2]・h4gap・analyticOverMeasured)を除く全欄 / 段 T は h/4 から作る欄を除く行の欄と表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc(走行の数 stats と所要は値の鍵ではない)' });
   if (h4c) out.h4Carried = h4c;
+  const h4s = H4C.shadowStamp(CARRY, { unit: '段 M の水星の根の行(M:<構成>)・段 T の T_FINE の行(T:<構成>:<本>)・本ごとの対照(control:<本>)',
+    valueKeys: '転記の判定は第311便c の値の鍵(h と h/2)/ 比べる値: 段 M は diffs・periodShiftDays・eccShift の [2]・段 T は h/4 の予言と周期・離心率の変化・対照(水星)は h/4 の aps・periodDays・ecc' });
+  if (h4s) out.h4Carry = h4s;   // 第312便c(AN400): 影の記録
   const CODE = ['tests/exp-w304b-shell.mjs', 'tests/exp-w303b-inertialr2.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w302b-gloc.mjs', 'tests/lib-w302a-wbg.mjs', 'tests/lib-w302c-pre.mjs',
     'tests/lib-w303a-pre.mjs', 'tests/lib-w297b-fit.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/lib-w302h-splitrec.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w311c-h4carry.mjs'];

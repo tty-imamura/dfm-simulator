@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T01:12:33.313Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T01:19:09.435Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/data-w305b-declbdb.json",
@@ -46,15 +46,15 @@
    },
    {
     "file": "tests/exp-w304b-shell.mjs",
-    "bytes": 87318,
-    "sha256": "407af953444e90cec770c08ac058b24030bb1d51f26c894a251d1a1c88f5d6d8",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 89271,
+    "sha256": "a697159901da1a7ae20f867e5faff8db0261da7c8d46485273d1d53a6706bc91",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 85144,
-    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 87015,
+    "sha256": "49bf3085d30b6e1fdff6d6650808b0455b8b7028a87b6e58bf36b5aa4d7c431d",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -99,7 +99,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "a8b86026ac5978c376513a1645b7530d44e47a2914e6f4e6e9aaa033fb6353db",
+  "codeSha256": "ef36a0bc70fa9e271b05debb04156befb1c8f8472c347f503a50d36233a920e8",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -184,11 +184,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1362,
-   "closureShare": 0.3479
+   "names": 1538,
+   "segments": 1378,
+   "closureShare": 0.3495
   },
-  "scopeSha256": "6252bc867caa6f8e7967e84de5ca86c27228fca05c9ea095916745c75930951b",
+  "scopeSha256": "52bfe2814f4bdf8c0fd0c9573d83539d28e13e9d75c48b08c0b5ebc33355ada2",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4324,22 +4324,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 32.836
+   "wallSec": 32.263
   },
   "M": {
-   "wallSec": 152.823
+   "wallSec": 148.306
   },
   "T": {
-   "wallSec": 773.651
+   "wallSec": 742.353
   },
   "P": {
    "wallSec": 0.001
   },
   "S": {
-   "wallSec": 35.858
+   "wallSec": 33.82
   },
   "D": {
-   "wallSec": 89.398
+   "wallSec": 91.377
   }
  },
  "stats": {
@@ -4347,5 +4347,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1086.669
+ "elapsedS": 1049.974
 }

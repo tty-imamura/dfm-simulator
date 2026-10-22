@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便b",
   "target": "beta/index.html",
-  "targetSha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-  "generatedAt": "2026-10-21T00:54:26.220Z",
+  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+  "generatedAt": "2026-10-22T01:01:39.121Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7203220,
-    "sha256": "6e9c34e3ffb2be385daf5f851e51010904e3c09ea024878c54303c84fd6c774e",
-    "mtime": "2026-10-20T19:41:54.076Z"
+    "bytes": 7228389,
+    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+    "mtime": "2026-10-21T18:39:31.103Z"
    },
    {
     "file": "tests/data-w304b-decl945.json",
@@ -22,15 +22,15 @@
   "code": [
    {
     "file": "tests/exp-w304b-shell.mjs",
-    "bytes": 87318,
-    "sha256": "407af953444e90cec770c08ac058b24030bb1d51f26c894a251d1a1c88f5d6d8",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 89271,
+    "sha256": "a697159901da1a7ae20f867e5faff8db0261da7c8d46485273d1d53a6706bc91",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 85144,
-    "sha256": "7a93b3066825387be47c0385234d93d26de52fc9acc0f2e8bd530e9c7e33c769",
-    "mtime": "2026-10-20T19:41:43.611Z"
+    "bytes": 87015,
+    "sha256": "49bf3085d30b6e1fdff6d6650808b0455b8b7028a87b6e58bf36b5aa4d7c431d",
+    "mtime": "2026-10-21T20:13:23.977Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
@@ -130,12 +130,12 @@
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
-    "bytes": 14692,
-    "sha256": "4df20c1b73f262736071f59a3414f3d3073e417c5d6985550f89ee7bfbaf4a8d",
-    "mtime": "2026-10-20T19:41:43.616Z"
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "f60a013fab79dc23d461feb944a7ebb4c6f5093d31a0b635488f7a0f4482af69",
+  "codeSha256": "8f69d154769b55d318bb1f55d9781b75e39238ddc224a7890344dcb6d6b426a1",
   "harnessVersion": "w304b-shell-1",
   "loadErrors": 0,
   "fitstop": "w303e-fitstop-1",
@@ -221,11 +221,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1362,
-   "closureShare": 0.3479
+   "names": 1538,
+   "segments": 1378,
+   "closureShare": 0.3495
   },
-  "scopeSha256": "6252bc867caa6f8e7967e84de5ca86c27228fca05c9ea095916745c75930951b",
+  "scopeSha256": "52bfe2814f4bdf8c0fd0c9573d83539d28e13e9d75c48b08c0b5ebc33355ada2",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -17141,19 +17141,19 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 7.738
+   "wallSec": 7.306
   },
   "M": {
-   "wallSec": 483.798
+   "wallSec": 834.608
   },
   "T": {
-   "wallSec": 2351.016
+   "wallSec": 2684.009
   },
   "E": {
-   "wallSec": 826.056
+   "wallSec": 835.078
   },
   "K": {
-   "wallSec": 0.141
+   "wallSec": 0.123
   },
   "P": {
    "wallSec": 0
@@ -17163,137 +17163,506 @@
   }
  },
  "stats": {
-  "measures": 1455,
+  "measures": 1572,
   "memoHits": 94,
-  "wrapCalls": 756803617
+  "wrapCalls": 922512248
  },
- "h4Carried": {
-  "version": "w311c-h4carry-1",
-  "rule": "h と h/2 を先に測り、前の正本の h と h/2 の値の鍵とビット同一の単位だけ h/4(より細かい刻みを含む)を転記した(違う単位は測り直した)",
+ "h4Carry": {
+  "mode": "shadow",
+  "version": "w312c-h4carry-2",
+  "rule": "h/4 は全部測った(値の鍵は測った値)。単位ごとに、前の正本から転記していたら(h と h/2 の値の鍵が前の正本と JSON の表現で一致すれば h/4 を写す —— 第311便c の型)測った値と同じだったかを記録する —— 判定ではなく測定(h と h/2 の一致は h/4 の一致を保証しない)",
+  "compare": "JSON の表現の一致(−0 と 0・NaN と null を区別しない)",
   "unit": "段 M の水星の根の行(M:<構成>)・段 T の T_FINE の行(T:<構成>:<本>)・本ごとの対照(control:<本>)",
-  "valueKeys": "段 M の行は h/4 の欄(diffs[2]・periodShiftDays[2]・eccShift[2]・h4gap・analyticOverMeasured)を除く全欄 / 段 T は h/4 から作る欄を除く行の欄と表の行の鍵 / 対照は h と h/2 の aps・periodDays・ecc(走行の数 stats と所要は値の鍵ではない)",
-  "origin": {
-   "fromTargetSha256": "d6d458a19a45b0096ca25d67ae887562f842454166b6f02556dadcde889271ad",
-   "fromDate": "2026-10-20T09:29:23.652Z",
-   "fromWave": "第304便b",
-   "fromFileSha256": "8a6400d58827fd6976b2fe57432d1412508ae3ea45c0a049747dff92073fa807"
+  "valueKeys": "転記の判定は第311便c の値の鍵(h と h/2)/ 比べる値: 段 M は diffs・periodShiftDays・eccShift の [2]・段 T は h/4 の予言と周期・離心率の変化・対照(水星)は h/4 の aps・periodDays・ecc",
+  "prevUsable": true,
+  "prevWhy": null,
+  "nUnits": 117,
+  "wouldCarry": 111,
+  "sameAsFresh": 111,
+  "differ": [],
+  "unchecked": [],
+  "units": {
+   "M:M1:η∞:η☉1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:mercurySunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M1:η∞:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M1:η∞:η☉0.01": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η0.5:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η1:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η2:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η5:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η10:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η30:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η50:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η∞:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η1:η☉なし": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η1:η☉1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η1:η☉0.01": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η∞:η☉なし": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η∞:η☉1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2:η∞:η☉0.01": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η0.5:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η1:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η2:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η5:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η10:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η30:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η50:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3:η∞:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η1:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η10:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η30:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η300:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η1000:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4:η3000:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4r:η1:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M4r:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2ref:η10:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2ref:η30:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2ref:η50:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2ref:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M2ref:η∞:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3ref:η50:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3ref:η100:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "M:M3ref:η∞:η☉0.1": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M1:η∞:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:venusSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M1:η∞:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:marsSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M1:η∞:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:jupiterSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M1:η∞:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:saturnSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M1:η∞:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:uranusSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M1:η∞:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "control:neptuneSunInertial3d": {
+    "wouldCarry": false,
+    "sameAsFresh": null,
+    "why": "水星の外の対照は正本に h/4 の記録が無い(転記の判定の外 —— 転記した行は読まない)"
+   },
+   "T:M2:η1:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η1:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η1:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η1:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η1:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η1:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η10:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η50:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2:η∞:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η1:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M3:η∞:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M4:η1000:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η50:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:venusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:marsSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:jupiterSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:saturnSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:uranusSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   },
+   "T:M2ref:η∞:η☉0.1:neptuneSunInertial3d": {
+    "wouldCarry": true,
+    "sameAsFresh": true
+   }
   },
-  "carried": [
-   "M:M1:η∞:η☉1",
-   "M:M1:η∞:η☉0.1",
-   "M:M1:η∞:η☉0.01",
-   "M:M2:η0.5:η☉0.1",
-   "M:M2:η1:η☉0.1",
-   "M:M2:η2:η☉0.1",
-   "M:M2:η5:η☉0.1",
-   "M:M2:η10:η☉0.1",
-   "M:M2:η30:η☉0.1",
-   "M:M2:η50:η☉0.1",
-   "M:M2:η100:η☉0.1",
-   "M:M2:η∞:η☉0.1",
-   "M:M2:η1:η☉なし",
-   "M:M2:η1:η☉1",
-   "M:M2:η1:η☉0.01",
-   "M:M2:η∞:η☉なし",
-   "M:M2:η∞:η☉1",
-   "M:M2:η∞:η☉0.01",
-   "M:M3:η0.5:η☉0.1",
-   "M:M3:η1:η☉0.1",
-   "M:M3:η2:η☉0.1",
-   "M:M3:η5:η☉0.1",
-   "M:M3:η10:η☉0.1",
-   "M:M3:η30:η☉0.1",
-   "M:M3:η50:η☉0.1",
-   "M:M3:η100:η☉0.1",
-   "M:M3:η∞:η☉0.1",
-   "M:M4:η1:η☉0.1",
-   "M:M4:η10:η☉0.1",
-   "M:M4:η30:η☉0.1",
-   "M:M4:η100:η☉0.1",
-   "M:M4:η300:η☉0.1",
-   "M:M4:η1000:η☉0.1",
-   "M:M4:η3000:η☉0.1",
-   "M:M4r:η1:η☉0.1",
-   "M:M4r:η100:η☉0.1",
-   "M:M2ref:η10:η☉0.1",
-   "M:M2ref:η30:η☉0.1",
-   "M:M2ref:η50:η☉0.1",
-   "M:M2ref:η100:η☉0.1",
-   "M:M2ref:η∞:η☉0.1",
-   "M:M3ref:η50:η☉0.1",
-   "M:M3ref:η100:η☉0.1",
-   "M:M3ref:η∞:η☉0.1",
-   "control:mercurySunInertial3d",
-   "T:M1:η∞:η☉0.1:venusSunInertial3d",
-   "T:M1:η∞:η☉0.1:marsSunInertial3d",
-   "T:M1:η∞:η☉0.1:jupiterSunInertial3d",
-   "T:M1:η∞:η☉0.1:saturnSunInertial3d",
-   "T:M1:η∞:η☉0.1:uranusSunInertial3d",
-   "T:M1:η∞:η☉0.1:neptuneSunInertial3d",
-   "T:M2:η1:η☉0.1:venusSunInertial3d",
-   "T:M2:η1:η☉0.1:marsSunInertial3d",
-   "T:M2:η1:η☉0.1:jupiterSunInertial3d",
-   "T:M2:η1:η☉0.1:saturnSunInertial3d",
-   "T:M2:η1:η☉0.1:uranusSunInertial3d",
-   "T:M2:η1:η☉0.1:neptuneSunInertial3d",
-   "T:M2:η10:η☉0.1:venusSunInertial3d",
-   "T:M2:η10:η☉0.1:marsSunInertial3d",
-   "T:M2:η10:η☉0.1:jupiterSunInertial3d",
-   "T:M2:η10:η☉0.1:saturnSunInertial3d",
-   "T:M2:η10:η☉0.1:uranusSunInertial3d",
-   "T:M2:η10:η☉0.1:neptuneSunInertial3d",
-   "T:M2:η50:η☉0.1:venusSunInertial3d",
-   "T:M2:η50:η☉0.1:marsSunInertial3d",
-   "T:M2:η50:η☉0.1:jupiterSunInertial3d",
-   "T:M2:η50:η☉0.1:saturnSunInertial3d",
-   "T:M2:η50:η☉0.1:uranusSunInertial3d",
-   "T:M2:η50:η☉0.1:neptuneSunInertial3d",
-   "T:M2:η∞:η☉0.1:venusSunInertial3d",
-   "T:M2:η∞:η☉0.1:marsSunInertial3d",
-   "T:M2:η∞:η☉0.1:jupiterSunInertial3d",
-   "T:M2:η∞:η☉0.1:saturnSunInertial3d",
-   "T:M2:η∞:η☉0.1:uranusSunInertial3d",
-   "T:M2:η∞:η☉0.1:neptuneSunInertial3d",
-   "T:M3:η1:η☉0.1:venusSunInertial3d",
-   "T:M3:η1:η☉0.1:marsSunInertial3d",
-   "T:M3:η1:η☉0.1:jupiterSunInertial3d",
-   "T:M3:η1:η☉0.1:saturnSunInertial3d",
-   "T:M3:η1:η☉0.1:uranusSunInertial3d",
-   "T:M3:η1:η☉0.1:neptuneSunInertial3d",
-   "T:M3:η∞:η☉0.1:venusSunInertial3d",
-   "T:M3:η∞:η☉0.1:marsSunInertial3d",
-   "T:M3:η∞:η☉0.1:jupiterSunInertial3d",
-   "T:M3:η∞:η☉0.1:saturnSunInertial3d",
-   "T:M3:η∞:η☉0.1:uranusSunInertial3d",
-   "T:M3:η∞:η☉0.1:neptuneSunInertial3d",
-   "T:M4:η1:η☉0.1:venusSunInertial3d",
-   "T:M4:η1:η☉0.1:marsSunInertial3d",
-   "T:M4:η1:η☉0.1:jupiterSunInertial3d",
-   "T:M4:η1:η☉0.1:saturnSunInertial3d",
-   "T:M4:η1:η☉0.1:uranusSunInertial3d",
-   "T:M4:η1:η☉0.1:neptuneSunInertial3d",
-   "T:M4:η1000:η☉0.1:venusSunInertial3d",
-   "T:M4:η1000:η☉0.1:marsSunInertial3d",
-   "T:M4:η1000:η☉0.1:jupiterSunInertial3d",
-   "T:M4:η1000:η☉0.1:saturnSunInertial3d",
-   "T:M4:η1000:η☉0.1:uranusSunInertial3d",
-   "T:M4:η1000:η☉0.1:neptuneSunInertial3d",
-   "T:M2ref:η50:η☉0.1:venusSunInertial3d",
-   "T:M2ref:η50:η☉0.1:marsSunInertial3d",
-   "T:M2ref:η50:η☉0.1:jupiterSunInertial3d",
-   "T:M2ref:η50:η☉0.1:saturnSunInertial3d",
-   "T:M2ref:η50:η☉0.1:uranusSunInertial3d",
-   "T:M2ref:η50:η☉0.1:neptuneSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:venusSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:marsSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:jupiterSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:saturnSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:uranusSunInertial3d",
-   "T:M2ref:η∞:η☉0.1:neptuneSunInertial3d"
-  ],
-  "measured": [],
-  "wallSec": "転記した単位の所要は元の測定の所要(転記)",
-  "env": "H4_CARRY=0 で全部測る"
+  "prev": {
+   "generatedAt": "2026-10-21T20:09:06.434Z",
+   "targetSha256": "1c1a743a6c9faeeaba3be533d971b0f4599aba69e00511bcb53ff6cf1f653979",
+   "fileSha256": "430075e6f6b687d0cc75f4392745eb30153bbfaefc8edda5339f259174240c2e"
+  },
+  "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 3670.995
+ "elapsedS": 4363.144
 }

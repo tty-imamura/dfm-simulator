@@ -153,6 +153,9 @@ export const REGEN_TABLE_VERSION = 'w311c-regentable-11';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
+// 第312便c(AN400・R232): h/4 の影の記録(正本の h4Carry —— tests/lib-w311c-h4carry.mjs の SHADOW_VOLATILE と同じ並び。QA lint.h4Carry311 が照合)の
+//   前の正本の時刻と sha(走らせるたびに変わる —— 比べた相手の同一性 meta)。転記を当てた 4 器の正本の volatilePaths に足す
+export const V_H4_SHADOW = ['/h4Carry/prev/generatedAt', '/h4Carry/prev/targetSha256', '/h4Carry/prev/fileSha256'];
 const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit/carriedOverFrom',
   '/presets/*/run/wallSec', '/presets/*/run/timeBudget/*/wallSec', '/presets/*/run/timeBudget/*/rateStepsPerSec',
   '/presets/*/run/stopRule/wallSec', '/presets/*/run/stopRule/rateStepsPerSec',
@@ -934,7 +937,7 @@ export const REGEN_STEPS = [
   //   **連鎖円盤の飛びの器**(🔗🔩 の再現と新旧の法則・本体の帳簿の分離〔重力の段のキック/ドリフトと移送〕・結合積分の独立な器 tests/lib-w301d-coupled.mjs〔rk4/rk2/split/semic〕との
   //   刻みの比較・対照〔gain・自転・種・粒子数〕・t = 480 の長い窓)。html を読む(html の生成領域〔obs-compare・sample-status〕の後・子プロセス 2 本 —— 結果は並列数に依らない)。所要は第301便d の枝の実測(正本の elapsedS)
   S('chainburst-301d', 'node tests/exp-w301d-chainburst.mjs', ['tests/out/chainburst-w301d.json'], 900, { secSource: 'w301d-branch', node: true, after: ['obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec']) },
+    volatilePaths: { 'tests/out/chainburst-w301d.json': META_RUN.concat(['/elapsedS', '/results/*/wallSec'], V_H4_SHADOW) },
     note: '第301便d: 連鎖円盤の 14000 步付近の飛び —— 本体の分割の数値の飛び(rk4 は刻みで収束し円盤の大半は飛ばない)・帳簿の分離・対照(値だけ —— 探索の写しは作らない)' }),
   // ---- 第302便b(原仮定者の裁定(第92報)AN304 ①・補足・統括の検証項目 R187): **局所重力 G_loc の族の実測**(零試験〔n=0 と未宣言のビット同一・κ→0・c₀ の走査・
   //   symmetric の運動量・二次元の拒否〕/ 人工二体〔固定中心・自由な二体・自由な軽い二体 —— A・B〔n=2,−2,−3,1,−1・receiver/symmetric〕・E〔二次元の EIH〕・h/h2/h4〕/
@@ -974,7 +977,7 @@ export const REGEN_STEPS = [
   //   html の生成領域〔obs-compare・sample-status〕の後)・1 プロセス。所要は第303便b の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
   S('inertialr2-303b', 'node tests/exp-w303b-inertialr2.mjs', ['tests/out/inertialr2-w303b.json'], 1300, { secSource: 'w303b-branch', node: true,
     after: ['planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    volatilePaths: { 'tests/out/inertialr2-w303b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec'], V_H4_SHADOW) },
     note: '第303便b: 源の慣性決定力 r⁻² を引きずりの分母へ —— 零試験と閉形式・水星で変種ごとの λ・6 本への移送の予言(σ と数値の誤差)・G_loc の候補の表・地球–月と冥王星–カロンの λ の逆算(値だけ —— どの本にもオンにしない)' }),
   // ---- 第304便a(原仮定者の裁定(第94報)「引きずり核球面近似係数」・統括の検証項目 R195): **引きずり核の球面**(宣言 dragCore:{shellRatio}・relativeDrag.shellSelf・
   //   inertialR2.self:"shell" —— 省略時オフ)の零試験(② η→0・③ 孤立した 1 体・④ 二体の閉形式・⑤ 解法・⑥ 共変・⑦ 総速度・⑧ 殻の核の閉形式と数値積分)と
@@ -1001,7 +1004,7 @@ export const REGEN_STEPS = [
   //   (tests/data-w304b-decl945.json)に器の中で固定。html だけを読む・1 プロセス。W304B_PARTS で段を分けられる。所要は第304便b の枝の実測(正本の elapsedS)
   S('shell-304b', 'node tests/exp-w304b-shell.mjs', ['tests/out/shell-w304b.json'], 4800, { secSource: 'w304b-branch', node: true,
     after: ['inertialr2-303b', 'planets3d-299c', 'gloc-302b', 'emonly-300b', 'inertial3-295c', 'synodic-299b', 'moon3d-298c', 'swing293', 'dragcore292', 'obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/shell-w304b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    volatilePaths: { 'tests/out/shell-w304b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec'], V_H4_SHADOW) },
     note: '第304便b: 引きずり核の球面近似(自己の項 S3 m/R_d³・S2 q/R_d² を行の分母へ —— 器の中の写し)—— 水星で η と λ/k・6 本への移送と惑星ごとの η・地球–月と冥王星–カロン・多体・対ごとの正規化の対照・解析の表(値だけ —— どの本にもオンにしない)' }),
   // ---- 第305便b(第95報・AN332 の裁定〔n = 2 を先・n = +1 は次点・n = 0 は対照〕・決断事項 AN331・AN330・統括の検証項目 R200): **惑星の G_loc の n の族 × λ ∝ m の写し**
   //   (段 Z〔写しの記録・新しい抽出器の自己試験・G_loc だけの近点と一次の解析〕・M〔水星の k —— n = 2/+1/0 × 照合規約 43.0 と参考の標的・h/2 の根〕・
@@ -1180,6 +1183,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/corespin-w311a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/rows/*/evalSec/wallSec']) },
     note: '第311便a: dragCore の自転と軸 dragCore:{spin?, spinAxis?}(新則の本だけ —— 版 w311a-corespin-1・宣言の一定のベクトル・核と外殻を別に合成)と極薄の一様の厚い殻の受理の防御(求積の節点が内部に表現できるか —— AN384)・太陽–水星の写しの核の自転の表' }),
   // ==== 第311便a の塊(ここまで)====
+  // ==== 第312便a の塊(ここから)====
+  // ---- 第312便a(原仮定者の裁定(第114報)AN398・決断事項 AN398・統括の検証項目 R230): **減衰の比較の器**(段 K〔K_α・M_α〔α = 1, 2〕の閉じた式と独立の求積・
+  //   エンジンの K1 の族の核・係数 C_α〕・P〔近点の一次の式の自己試験 —— 並進 n = 1, 2・回転の枠 k = 3, 4〕・S〔スクリーニング —— 🌡️🌋🔴 の第306便a の世代の写しの t = 0 の
+  //   配置で列ごとに要る R_d・並び・木星/地球/月への外挿・第311便d の正本の t_D と見積りを読む〕・E〔一貫した K1 の opt-in のエンジン —— 受理・玩具の配置の lib との照合・
+  //   遠方の次数・受け手の尺度・☿ の写しのミリメートルの R_d・核の自転のビット同一・K2 の読み口の不変〕)。本の宣言は変えない(写しは器の中で組む)。
+  //   html・凍結の写し tests/data-w306a-decl305.json・第311便d の正本 tests/out/planet3-w311d.json を読む・1 プロセス。所要は第312便a の枝の実測(正本の elapsedS)
+  S('decay-312a', 'node tests/exp-w312a-decay.mjs', ['tests/out/decay-w312a.json'], 8, { secSource: 'w312a-branch', node: true, after: ['planet3-311d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/decay-w312a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第312便a: 減衰の比較(AN398 —— 成分を 1 つずつ変えた列のスクリーニング: 基準 K2・一貫した K1・回転だけ r⁻²・軸だけ・自己の場の質量の次数 γ = 0 —— 3 惑星の一次の近点の式が要る R_d と並び・外挿)と一貫した K1 の重みの opt-in invSq.kernel:"k1"(版 w312a-invsq-k1-1)の照合' }),
+  // ==== 第312便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
@@ -1210,6 +1223,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galaxial-w311b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第311便b: 銀河の一様軸引きずり relativeDrag.galaxyAxial(新則の本だけ・opt-in・受け手の軸の ω に同じ ω_G を足す —— 分母・β・並進は不変)の受理とビット同一の確かめ・新則の受け手は宣言の質量 m > 0(受理で拒否)・観測の移動の分解の分母の下限 1 − Σβ ≥ 1e-2(motionDenomSmall)・非有限の行の帳簿・ω_G の格子(尺度 V₀/R₀ —— 大きさは未定 AN395)の診断' }),
   // ==== 第311便b の塊(ここまで)====
+  // ==== 第312便b の塊(ここから)====
+  // ---- 第312便b(原仮定者の裁定(第114報)・決断事項 AN395・統括の検証項目 R231): **銀河の一様軸引きずりの受け手の R_d の応答(galaxyAxial.rdPow・refRadius)と
+  //   今の軸の核(bevel)の自然な応答の次数の診断の器**(段 A〔rdPow・refRadius の受理・物理の単位〕・B〔省略のビット同一・同じ状態の build・孤立の比・位置の不変・
+  //   同じ R_d の双子・R_ref の既定〕・N〔二体の写しで受け手の R_d・質量・外殻を変えた軸の ω の次数 × 距離 0.0387〜387 au —— 一様の極限〕・X〔第311便b の太陽系の写し ×
+  //   rdPow 0・1・2 × ω_G = f Ω_ref〔f = 10⁻²・1〕× 水星の 2 公転: 軸の向き・軌道法線との角・同じ R_d の対と違う R_d の対の軸の角・維持の型〕)。本の宣言は変えない
+  //   (写しは器の中で組む)。html だけを読む・1 プロセス。所要は第312便b の枝の実測(正本の elapsedS)
+  S('galaxialrd-312b', 'node tests/exp-w312b-galaxialrd.mjs', ['tests/out/galaxialrd-w312b.json'], 600, { secSource: 'w312b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/galaxialrd-w312b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第312便b: 銀河の一様軸引きずりの受け手の R_d の応答 galaxyAxial.rdPow・refRadius(opt-in —— ω_G × (R_d/R_ref)^q・位置に依らない・省略は第311便b とビット同一・β と並進は不変)の受理とビット同一の確かめ・今の軸の核の自然な応答の次数(R_d・質量・外殻・距離)・同じ R_d の対と違う R_d の対の軸の角・ω_G の格子(尺度 V₀/R₀ —— 大きさと q は未定 AN395)' }),
+  // ==== 第312便b の塊(ここまで)====
   // ==== 第311便d の塊(ここから)====
   // ---- 第311便d(原仮定者の裁定(第110報)AN387・(第111報)AN391・決断事項 AN392・AN386・AN396・AN336・統括の検証項目 R229): **3 惑星(水星・金星・火星)の dragCore の探索の器**
   //   (段 T〔標的 1PN + A1 と G_loc の分 —— q00・q10 × h/h2〕・S〔一次の見積り —— t = 0 の写しの β の R_d の表・rd_est・m_d の床・太陽の m_d の効き〕・E〔各惑星の q11(θ₀)・
@@ -1220,6 +1243,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/planet3-w311d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/stats/wallByKind/*/wallSec']) },
     note: '第311便d: 3 惑星の dragCore の探索の材料(4 つの走行 q00/q10/q01/q11・G_loc の宣言を固定して差し引く・惑星の R_d の格子と根の区間・数値の門 abs(r) ≤ max(3 × 帯, 0.01″/世紀)・R_d/R が 3 惑星でそろうかの表 —— 探索の値を在位へ入れない)' }),
   // ==== 第311便d の塊(ここまで)====
+  // ==== 第312便d の塊(ここから)====
+  // ---- 第312便d(原仮定者の裁定(第114報)・決断事項 AN398・AN396・AN336・統括の検証項目 R233): **確認の器**(🏀 jupiterSunInertial3d と 🌦️ earthMoonSunInertial3d の三体 ——
+  //   3 惑星の探索の正本 planet3-w311d.json から決めた規則〔既定は R_d²/(m p) の平均〕で R_d を置いて残差を測る。合わせない・1 つの天体に 1 つの宣言・太陽は固定・
+  //   G_loc の分は各系で・地球は 1PN の式の値だけの参照・月は 118 公転の emx4 の窓)。段 E〔🏀 の 4 つの走行 × h/h2・🌦️ の q00/q10 × h/h2 と q11 × h〕・T〔標的と G_loc の分〕・
+  //   C〔規則の表・受理の目安・t = 0 の β・残差と数値の門・月の診断・所要と 2 段目の費用〕。在位の本の宣言は変えない(写しは器の中で組む)。html・凍結の写し 2 つ
+  //   (tests/data-w306a-decl305.json と器の中の 🌦️ の写し)・planet3 の正本・第306便a の正本・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。
+  //   所要は第312便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。K1 の確認の系(2 段目)は統合の後に統括(正本は別名 —— 鎖では走らせない)。
+  //   同じ便で段 planet3-311d の器を v2 に(版 w312d-planet3-2 —— AN396 の採用の欄・門の直し・C₂ の実測。命令・出力・所要は同じ・段 T・S・E・R の値は v1 とビット同一)
+  S('confirm-312d', 'node tests/exp-w312d-confirm.mjs', ['tests/out/confirm-w312d.json'], 1225, { secSource: 'w312d-branch', node: true, workers: 2, after: ['planet3-311d', 'an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/confirm-w312d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/C/cost/rows/*/wallSec', '/C/cost/rate/*/rateStepsPerSec', '/C/cost/stage2/*/*/spentSec']) },
+    note: '第312便d: 確認の器(3 惑星の規則で 🏀 木星と 🌦️ 太陽と地球と月に R_d を置き、4 つの走行 q00/q10/q01/q11 で残差 r = q11 − q00 − q⋆ を測る —— 合わせない・1 つの天体に 1 つの宣言・月の p は地球のまわりと太陽のまわりで定まらない〔表〕・在位へ入れない)' }),
+  // ==== 第312便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -1235,7 +1270,7 @@ export const REGEN_STEPS = [
   // <<< w306a 段 an336-306a(統合で他の枝の段と混ざらないように境界を置く)
   S('an336-306a', 'node tests/exp-w306a-an336.mjs', ['tests/out/an336-w306a.json'], 900, { secSource: 'w306a-branch', node: true,
     after: ['gfamily-305b', 'planets3d-299c', 'inertialr2-303b', 'obscompare', 'samplestatus'],
-    volatilePaths: { 'tests/out/an336-w306a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    volatilePaths: { 'tests/out/an336-w306a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec'], V_H4_SHADOW) },
     note: '第306便a: 水星の標的を 1PN + A1 の派生した参照値へ —— 生成器と契約・水星の k(n = 2 を宣言・n = +1/0 は対照)・7 本への移送・在位の 7 本の宣言の門(G1〜G3・fitRecord)' }),
   // >>> w306a 段 an336-306a
   // ---- 第306便e(決断事項 AN339 の案 (A)・統括の検証項目 R208): **🟪 plutoCharonInertialFit の宣言の直し (A) の器**(段 decl〔第305便の宣言の写し tests/data-w306e-decl305.json から
@@ -2642,37 +2677,67 @@ export function simulateReadyQueue(chain, o) {
  * 第311便c(R228): **前回の鎖の実測で見積り `sec` を更新する**(`tools/regen-chain.mjs --calibrate <timeline> [--apply]`)。純関数(ファイルは書かない)。
  *   ・timeline の start/end の対(rc 0・終わりがある回)を段の実測の所要とする。同じ段が何回もあれば最後の回。
  *   ・済み印で飛ばした回・gate の再利用(所要が 1 s 未満で、今の見積りが 30 s 以上)は実測と見なさない(`skipped:'resumed-or-reused'`)。
- *     `--log <REGEN_LOG>` の済み印(1 行目 `run <秒>s` / `reuse`)があれば、それで決める(reuse・manual は実測にしない)。
  *   ・終わりの無い回(鎖を止めた時点で走っていた段)は `unfinished`。
  *   ・今の見積りとの差が tol(既定 10%)以下か 2 s 以下なら書き換えない(便ごとの雑音で表を動かさない)。
+ * 第312便c(統括の検証項目 R232)—— **再起動の型の直し**(規則の版 `CALIBRATE_RULE`)。第311便の鎖はコンテナの再起動で 2 回再開し、再開した回で
+ *   済み印で飛ばした段の start/end(0.1〜4.4 s —— 済み印の契約の入力の hash を引く時間)が最後の組として残った。旧の規則はそれを実測と読んだ
+ *   (`--log` を付けても —— 済み印の `run Ns` を見たのは種類だけで、秒は timeline の最後の組を使った)。規則:
+ *   ① `--log` の済み印があれば**済み印を先に読む**: 1 行目 `run <N>s …` → 実測 N 秒(timeline の組は使わない —— 出所 'mark')/
+ *      `reuse …`(gate の再利用 —— 鎖で走っていない)・`manual`(鎖の外で走らせた段 —— timeline の組は済み印の確かめだけ)→ 飛ばす /
+ *      それ以外の形 → 飛ばす。
+ *   ② 済み印が無い段(--log なし・印が無い)は timeline の組から: `# ready-queue` の見出しで回に分け(`timelineRuns` —— 見出しの直前の
+ *      `# restart` の注釈を数える)、**2 回目以降の回の、所要が `RESUME_CHECK_MAX_SEC`(5 s)以下の組**は、同じ段が前の回で rc 0 で終わって
+ *      いれば「済み印の確かめ」として飛ばす(前の回の組を使う)。残った組の最後を実測とする(旧の規則の「< 1 s かつ見積り ≥ 30 s」も残す)。
  * @param {string} text timeline.txt
  * @param {{steps?:Array, marks?:Map<string,string>, tol?:number, source?:string}} [o]
- * @returns {{rows:Array, apply:object, header:string|null}}
+ * @returns {{rows:Array, apply:object, header:string|null, runs:number, restarts:number, rule:string}}
  */
+export const CALIBRATE_RULE = 'w312c-calibrate-2';
+export const RESUME_CHECK_MAX_SEC = 5;
 export function calibrateSec(text, o) {
   const opt = o || {};
   const steps = opt.steps || REGEN_STEPS;
   const by = new Map(steps.map((z) => [z.key, z]));
   const tol = Number.isFinite(opt.tol) ? opt.tol : 0.1;
   const header = (String(text).match(/^# ready-queue [^\n]*/m) || [null])[0];
-  const tl = parseTimeline(text);
-  const last = new Map();
-  for (const e of tl.events) last.set(e.key, e);
+  const R = timelineRuns(text);
+  // 段ごとの組(回の番号つき —— 回の中は start の順)
+  const pairs = new Map();
+  R.runs.forEach((run, ri) => { for (const e of run.events) { if (!pairs.has(e.key)) pairs.set(e.key, []); pairs.get(e.key).push(Object.assign({ run: ri }, e)); } });
   const rows = [], apply = {};
-  for (const [k, e] of last) {
+  for (const [k, list] of pairs) {
     const st = by.get(k);
     const cur = st ? (Number(st.sec) || 0) : null;
-    const row = { key: k, sec: cur, secTable: st ? (st.secTable !== undefined ? st.secTable : st.sec) : null, measured: null, action: 'keep', why: '' };
+    const row = { key: k, sec: cur, secTable: st ? (st.secTable !== undefined ? st.secTable : st.sec) : null, measured: null, from: null, pairs: list.length, action: 'keep', why: '' };
     if (!st) { row.action = 'skip'; row.why = '表に無い段'; rows.push(row); continue; }
     if (st.role === 'history') { row.action = 'skip'; row.why = '履歴の段'; rows.push(row); continue; }
-    if (!Number.isFinite(e.end)) { row.action = 'skip'; row.why = 'unfinished(終わりの記録が無い)'; rows.push(row); continue; }
-    if (e.rc !== 0) { row.action = 'skip'; row.why = 'rc=' + e.rc; rows.push(row); continue; }
-    const d = e.end - e.start;
-    row.measured = Math.round(d * 10) / 10;
+    const done = (z) => Number.isFinite(z.end) && z.rc === 0;
+    const longest = list.filter(done).reduce((m, z) => Math.max(m, z.end - z.start), 0);
+    row.timelineMax = Math.round(longest * 10) / 10;
     const mk = opt.marks ? opt.marks.get(k) : undefined;
+    let d = null;
     if (mk !== undefined) {
-      if (!/^run\b/.test(mk || '')) { row.action = 'skip'; row.why = '済み印が run でない(' + String(mk || '').slice(0, 24) + ')'; rows.push(row); continue; }
-    } else if (d < 1 && cur >= 30) { row.action = 'skip'; row.why = 'resumed-or-reused(所要 < 1 s・見積り ≥ 30 s —— 済み印か gate の再利用)'; rows.push(row); continue; }
+      // ① 済み印を先に読む
+      const m = /^run\s+(\d+(?:\.\d+)?)s\b/.exec(mk || '');
+      if (m) { d = Number(m[1]); row.from = 'mark'; }
+      else {
+        row.action = 'skip';
+        row.why = /^reuse\b/.test(mk || '') ? '済み印が reuse(gate の再利用 —— 鎖で走っていない)'
+          : /^manual\b/.test(mk || '') ? '済み印が manual(鎖の外で走らせた段 —— timeline の組は済み印の確かめだけ)'
+          : '済み印の形が読めない(' + String(mk || '').slice(0, 24) + ')';
+        rows.push(row); continue;
+      }
+    } else {
+      // ② timeline の組から(再開した回の済み印の確かめを飛ばす)
+      const keep = list.filter((z, i) => !(z.run > 0 && done(z) && (z.end - z.start) <= RESUME_CHECK_MAX_SEC && list.slice(0, i).some((w) => w.run < z.run && done(w))));
+      row.resumeChecks = list.length - keep.length;
+      const e = keep[keep.length - 1];
+      if (!Number.isFinite(e.end)) { row.action = 'skip'; row.why = 'unfinished(終わりの記録が無い)'; rows.push(row); continue; }
+      if (e.rc !== 0) { row.action = 'skip'; row.why = 'rc=' + e.rc; rows.push(row); continue; }
+      d = e.end - e.start; row.from = 'timeline' + (row.resumeChecks ? '(再開の確かめ ' + row.resumeChecks + ' 組を飛ばした)' : '');
+      if (d < 1 && cur >= 30) { row.measured = Math.round(d * 10) / 10; row.action = 'skip'; row.why = 'resumed-or-reused(所要 < 1 s・見積り ≥ 30 s —— 済み印か gate の再利用)'; rows.push(row); continue; }
+    }
+    row.measured = Math.round(d * 10) / 10;
     const s = Math.max(0, Math.round(d));
     row.ratio = cur > 0 ? Math.round((d / cur) * 1000) / 1000 : null;
     if (Math.abs(s - cur) <= 2 || (cur > 0 && Math.abs(s - cur) <= tol * cur)) { row.action = 'keep'; row.why = '差が許容の内(±' + Math.round(tol * 100) + '% か ±2 s)'; }
@@ -2680,7 +2745,7 @@ export function calibrateSec(text, o) {
     rows.push(row);
   }
   rows.sort((a, b) => (b.measured || 0) - (a.measured || 0));
-  return { header, rows, apply };
+  return { header, rows, apply, runs: R.runs.length, restarts: R.restarts, rule: CALIBRATE_RULE };
 }
 
 /**
@@ -2814,6 +2879,148 @@ export async function readyQueueProbe311(o) {
   return res;
 }
 // ==== 第311便c の塊(ここまで)====
+
+// ==== 第312便c の塊(ここから)====
+/**
+ * 第312便c(R232): timeline を `# ready-queue` の見出しで回に分ける(済み印で再開した回・別の鎖を連結したファイル)。
+ *   見出しの直前の行が `# restart …` の注釈なら、その回は再起動の後(restarts に数える)。回ごとに parseTimeline。
+ * @param {string} text
+ * @returns {{runs:Array<{header:string|null, restart:string|null, events:Array, lanes:number|null}>, restarts:number}}
+ */
+export function timelineRuns(text) {
+  const lines = String(text).split(/\r?\n/);
+  const runs = [];
+  let cur = null, pendingRestart = null;
+  for (const line of lines) {
+    if (/^# restart\b/.test(line)) { pendingRestart = line; continue; }
+    if (/^# ready-queue /.test(line)) { cur = { header: line, restart: pendingRestart, lines: [line] }; runs.push(cur); pendingRestart = null; continue; }
+    if (!cur) { cur = { header: null, restart: null, lines: [] }; runs.push(cur); }
+    cur.lines.push(line);
+  }
+  const out = runs.map((r) => { const tl = parseTimeline(r.lines.join('\n')); return { header: r.header, restart: r.restart, events: tl.events, lanes: tl.lanes }; })
+    .filter((r) => r.events.length || r.header);
+  return { runs: out, restarts: out.filter((r) => r.restart).length };
+}
+
+/**
+ * 第312便c(R232): `--calibrate` の自己試験(QA lint.regenTools312 (a))—— 再起動を挟んだ小さな timeline:
+ *   回 1: A(100 s)・B(50 s)・C(走行中に止まる)/ `# restart` / 回 2: A・B は済み印の確かめ(2 s・0.5 s)・C(80 s)・D(3 s —— 初めて走る短い段)・E(rc 1)。
+ *   済み印 A=run 98s・B=reuse・C=run 79s・D=run 3s・M=manual。
+ *   (1) 印なし: A 100・B 50(再開の確かめを飛ばす)・C 80・D 3(前の回に組が無い短い段は実測)・E rc=1・M(0.4 s —— 旧の規則の < 1 s・見積り ≥ 30 s で飛ばす)
+ *   (2) 印あり: A 98(済み印)・B 飛ばす(reuse)・C 79・D 3・M 飛ばす(manual)
+ *   (3) 旧の規則(最後の組)なら A は 2 s・B は 0.5 s —— 直した規則と違うことを確かめる
+ */
+export function calibrateProbe312() {
+  const t0 = 1000;
+  const tl = ['# ready-queue 2026-10-22T00:00:00Z lanes=4',
+    `start A ${t0} 1`, `start B ${t0} 1`, `start C ${t0 + 1} 1`, `end B 0 ${t0 + 50}`, `end A 0 ${t0 + 100}`,
+    '# restart after container restart 2026-10-22T00:10:00Z',
+    '# ready-queue 2026-10-22T00:10:05Z lanes=4',
+    `start A ${t0 + 700} 1`, `end A 0 ${t0 + 702}`, `start B ${t0 + 700} 1`, `end B 0 ${t0 + 700.5}`, `start M ${t0 + 701} 1`, `end M 0 ${t0 + 701.4}`,
+    `start C ${t0 + 703} 1`, `end C 0 ${t0 + 783}`, `start D ${t0 + 790} 1`, `end D 0 ${t0 + 793}`, `start E ${t0 + 800} 1`, `end E 1 ${t0 + 805}`].join('\n') + '\n';
+  const steps = ['A', 'B', 'C', 'D', 'E', 'M'].map((k) => ({ key: k, sec: 60, role: 'current' }));
+  const pick = (r) => Object.fromEntries(r.rows.map((z) => [z.key, z.action === 'skip' ? 'skip' : z.measured]));
+  const r1 = calibrateSec(tl, { steps, tol: 0 });
+  const marks = new Map([['A', 'run 98s 2026-10-22T00:01:40Z'], ['B', 'reuse 2026-10-22T00:00:50Z'], ['C', 'run 79s 2026-10-22T00:13:03Z'], ['D', 'run 3s 2026-10-22T00:13:13Z'], ['M', 'manual']]);
+  const r2 = calibrateSec(tl, { steps, marks, tol: 0 });
+  // 旧の規則(第311便c —— 最後の組)
+  const last = new Map(); for (const e of parseTimeline(tl).events) last.set(e.key, e);
+  const old = { A: last.get('A').end - last.get('A').start, B: last.get('B').end - last.get('B').start };
+  const p1 = pick(r1), p2 = pick(r2);
+  const why2 = Object.fromEntries(r2.rows.map((z) => [z.key, z.why]));
+  const res = { noMarks: p1, marks: p2, old, runs: r1.runs, restarts: r1.restarts, rule: r1.rule };
+  res.ok = r1.runs === 2 && r1.restarts === 1 && r1.rule === CALIBRATE_RULE
+    && p1.A === 100 && p1.B === 50 && p1.C === 80 && p1.D === 3 && p1.E === 'skip' && p1.M === 'skip'
+    && p2.A === 98 && p2.B === 'skip' && /reuse/.test(why2.B) && p2.C === 79 && p2.D === 3 && p2.M === 'skip' && /manual/.test(why2.M)
+    && r2.rows.find((z) => z.key === 'A').from === 'mark' && r1.rows.find((z) => z.key === 'A').resumeChecks === 1
+    && old.A === 2 && old.B === 0.5;
+  return res;
+}
+
+/**
+ * 第312便c(R232・決断事項 AN394「`REGEN_SCOPE:"all"` の理由を段ごとに先に」): **領域の宣言が presets:"all" の段の理由の一覧**(絞らない —— 記録だけ)。
+ *   器の REGEN_SCOPE が presets:"all" の現行の段ごとに、器と lib(`codeFilesOf` —— lint.regenScope と同じ集合)の本文で
+ *   `allPresets()` / `BUILTIN_PRESETS` を `.find` 以外で使う箇所(`deriveScope` の allWhy)を拾い、使い方で分ける:
+ *     value(変数に受ける)・iterate(for … of・forEach)・filter・map・count(.length —— 名簿の数を数える)・spread・value-arg(引数・式に渡す)・
+ *     other(その他のメソッド)。lib の中の使い方は via:'lib'。宣言だけが広い段(器と lib の下限が all でない)は declared-wide。
+ *   変数に受けた箇所は、その変数の使い方(.find/.findIndex/.some だけか)も見る(find-via-var)。
+ *   見込み(prospect): narrow-now(宣言だけが広い —— 下限の本の集合に絞れる)/ find-only(変数に受けて名指しで引くだけ —— 名指しの本に絞れる見込み)/
+ *     count-only(数だけ —— 数を読む口に替えれば絞れる見込み)/ enumerates(全本を読む —— 絞ると器の目的〔全本の一覧・数え上げ・条件の選別〕が変わる)。
+ *   namedIds = 器と lib の本文が文字列で名指す内蔵の本の ID(全本の読みを除いて引いた下限 —— 絞るときの候補の集合)。
+ * @param {{root:string, html?:string, steps?:Array}} o
+ * @returns {Promise<{version:string, rows:Array, counts:object}>}
+ */
+export const SCOPE_ALL_VERSION = 'w312c-scopeall-1';
+export async function scopeAllReasons312(o) {
+  const SC = await import('./lib-w281a-scope.mjs');
+  const root = o.root, html = o.html || (root.replace(/\/$/, '') + '/beta/index.html');
+  const steps = (o.steps || REGEN_STEPS).filter((z) => z.role !== 'history' && !z.outside);
+  const rd = (f) => { try { return fs.readFileSync(root.replace(/\/$/, '') + '/' + f, 'utf8'); } catch { return null; } };
+  const cache = new Map();
+  const analyse = (harness, metaCode) => {
+    const files = SC.codeFilesOf(root, harness, metaCode);
+    const der = SC.deriveScope(html, files);
+    const neutral = files.map((f) => Object.assign({}, f, { text: f.text.replace(/allPresets\s*\(\s*\)/g, 'allPresets__w312c()').replace(/BUILTIN_PRESETS/g, 'BUILTIN_PRESETS__w312c') }));
+    const named = SC.deriveScope(html, neutral).presets;
+    const reasons = [];
+    for (const f of files.filter((z) => z.primary)) {
+      const code = SC.scanJs(f.text).code;
+      const lines = code.split('\n'), raw = f.text.split('\n');
+      const re = /(?:allPresets\s*\(\s*\)|BUILTIN_PRESETS)\s*(?:\.\s*([A-Za-z_$][\w$]*))?/g;
+      let m;
+      while ((m = re.exec(code))) {
+        const meth = m[1] || null;
+        if (meth === 'find' || meth === 'findIndex' || meth === 'some') continue;
+        const ln = code.slice(0, m.index).split('\n').length, line = lines[ln - 1] || '';
+        let kind = 'other';
+        if (meth === 'filter') kind = 'filter'; else if (meth === 'map') kind = 'map'; else if (meth === 'forEach') kind = 'iterate'; else if (meth === 'length') kind = 'count';
+        else if (!meth) {
+          const pre = line.slice(0, Math.max(0, line.indexOf(m[0]) >= 0 ? line.indexOf(m[0]) : 0));
+          if (/\bof\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'iterate';
+          else if (/\.\.\.\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'spread';
+          else if (/(?:\b(?:const|let|var)\s+|,\s*)([A-Za-z_$][\w$]*)\s*=\s*(?:HP\s*\.\s*)?$/.test(pre)) kind = 'value';
+          else kind = 'value-arg';
+        }
+        const r = { file: f.file, line: ln, use: meth || '(値)', kind, via: f.file === harness ? 'harness' : 'lib', text: String(raw[ln - 1] || '').trim().slice(0, 140) };
+        if (kind === 'value') {
+          const v = (/(?:\b(?:const|let|var)\s+|,\s*)([A-Za-z_$][\w$]*)\s*=\s*(?:HP\s*\.\s*)?$/.exec(line.slice(0, line.indexOf(m[0]))) || [])[1];
+          if (v) {
+            const uses = [...code.matchAll(new RegExp('\\b' + v.replace(/\$/g, '\\$') + '\\b\\s*(\\.\\s*[A-Za-z_$][\\w$]*|\\[|\\))?', 'g'))].slice(1).map((z) => (z[1] || '').replace(/\s+/g, ''));
+            r.var = v; r.varUses = [...new Set(uses.map((u) => u || '(値)'))];
+            if (uses.length && uses.every((u) => /^\.(find|findIndex|some)$/.test(u))) r.kind = kind = 'find-via-var';
+          }
+        }
+        reasons.push(r);
+      }
+    }
+    return { derivedAll: der.presets === 'all', allWhy: der.allWhy, reasons, namedIds: Array.isArray(named) ? named : [] };
+  };
+  const rows = [];
+  for (const st of steps) {
+    const harness = (String(st.cmd || '').match(/tests\/exp-[\w.-]+\.mjs/) || [null])[0];
+    if (!harness) continue;
+    const text = rd(harness);
+    const decl = text ? SC.readDeclaredScope(text) : null;
+    if (!decl || decl.presets !== 'all') continue;
+    const metaCode = [];
+    for (const out of (st.outs || [])) { const t = rd(out); if (!t) continue; try { for (const c of ((JSON.parse(t).meta || {}).code || [])) metaCode.push(c.file); } catch { /* 読めない正本は器の本文だけ */ } }
+    const ck = harness + '|' + [...new Set(metaCode)].sort().join(',');
+    if (!cache.has(ck)) cache.set(ck, analyse(harness, [...new Set(metaCode)]));
+    const A = cache.get(ck);
+    const kinds = [...new Set(A.reasons.map((z) => z.kind))].sort();
+    let prospect;
+    if (!A.derivedAll) prospect = 'narrow-now';
+    else if (kinds.length && kinds.every((k) => k === 'find-via-var')) prospect = 'find-only';
+    else if (kinds.length && kinds.every((k) => k === 'count' || k === 'find-via-var')) prospect = 'count-only';
+    else prospect = 'enumerates';
+    rows.push({ key: st.key, harness, derivedAll: A.derivedAll, kinds: A.derivedAll ? kinds : ['declared-wide'], reasons: A.reasons.map((z) => Object.assign({}, z)),
+      namedIds: A.namedIds, nNamed: A.namedIds.length, prospect });
+  }
+  const counts = { steps: rows.length, harnesses: new Set(rows.map((z) => z.harness)).size, byProspect: {}, byKind: {} };
+  for (const r of rows) { counts.byProspect[r.prospect] = (counts.byProspect[r.prospect] || 0) + 1; for (const k of r.kinds) counts.byKind[k] = (counts.byKind[k] || 0) + 1; }
+  return { version: SCOPE_ALL_VERSION, rows, counts };
+}
+// ==== 第312便c の塊(ここまで)====
 
 /** 波の型(第283便e —— 波ごとに全段の完了を待つ・波の中は LPT)の見積り: 波ごとの最大レーンの秒の和。 */
 export function waveMakespan(chain, lanes, secOf) {
@@ -3645,4 +3852,5 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe,
   // 第311便c(R228)
-  READY_QUEUE_RULE, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311 };
+  READY_QUEUE_RULE, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311,
+  CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312 };
