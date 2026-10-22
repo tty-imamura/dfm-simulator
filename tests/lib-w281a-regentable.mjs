@@ -1260,9 +1260,9 @@ export const REGEN_STEPS = [
   //   (段 P〔t = 0 の写しの宣言の印字 —— 全天体 κ₀m・κ₀ の閉じた式〕・T〔標的の列 —— q_1PN・A1 の暦表ごとの列・η・有限質量比の予測・G の値〕・E〔3 惑星 q00/q10/q11(κ₀)× h・h/2・h/4 と
   //   h/4 の κ の割線の細分〔ε_fit まで〕・🏀 q00/q10/q01/q11 × h・h/2・h/4・🌦️ q00/q10/q11 × h・h/2〕・K〔κ₀ の残差の表〕・R〔根の κ_i/κ₀ と採用の欄〕・D〔分解の表と候補の感度の並び〕・
   //   M〔月の診断・所要と 2 段目の費用〕)。在位の本の宣言は変えない(写しは器の中で組む)。html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(標的の照合)・
-  //   観測の記録 CSV 2 本を読む(planet3 と confirm の正本は読まない —— κ₀ は閉じた式で固定)。走行は子プロセス 2 本(workers 2)。所要は第313便d の枝の実測(正本の elapsedS ——
-  //   他の枝と同じ容器で並走)。🌦️ の h/4 と月の長い窓は統合の後の 2 段目(正本の外 —— 費用の見積りは段 M)
-  S('k1confirm-313d', 'node tests/exp-w313d-k1confirm.mjs', ['tests/out/k1confirm-w313d.json'], 5400, { secSource: 'w313d-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+  //   観測の記録 CSV 2 本を読む(planet3 と confirm の正本は読まない —— κ₀ は閉じた式で固定)。走行は子プロセス 2 本(workers 2)。所要は第313便d の枝の実測(正本の elapsedS 7248 s ——
+  //   他の枝と同じ容器で並走・QA_FAST の枠の間は子プロセスの 1 本を止めた〔約 51 分〕。空いた容器では約 3500 s の見込み)。🌦️ の h/4 と月の長い窓は統合の後の 2 段目(正本の外 —— 費用の見積りは段 M)
+  S('k1confirm-313d', 'node tests/exp-w313d-k1confirm.mjs', ['tests/out/k1confirm-w313d.json'], 7250, { secSource: 'w313d-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/k1confirm-w313d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/M/cost/rows/*/wallSec', '/M/cost/rate/*/rateStepsPerSec', '/M/cost/stage2/*/*/spentSec', '/M/planetCost/*/wallSec']) },
     note: '第313便d: K1 の確認の系の正本(太陽を含む全天体に R_d = κ₀m —— κ₀ = 10G/(C₁c²) 固定・合わせない。3 惑星・🏀 木星は h/4 まで・🌦️ は h/2 まで。r_1PN と暦表ごとの r_{1PN+A1}・有限質量比の予測 (4/3)η q_1PN・G の値の列・3 惑星の根の κ_i/κ₀〔h/4 の割線・ε_fit まで〕・小さい係数の分解の表 —— 在位へ入れない)' }),
   // ==== 第313便d の塊(ここまで)====

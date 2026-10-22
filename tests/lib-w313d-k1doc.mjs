@@ -42,7 +42,7 @@ export function physicsTables(J) {
     out.push('', '| 系(κ₀ 固定 —— 規則で置いた残差) | q_1PN [″/世紀] | 刻み | D_G = q11 − q10 | r_1PN = q11 − q00 − q_1PN | r(EPM2011 の A1) | r(INPOP10a の A1) |', '|---|---|---|---|---|---|---|');
     for (const s of SYSTEMS) { const K = J.K.systems[s.key], T = J.T.systems[s.key]; if (!K) continue;
       for (const d of Object.keys(K.byDiv).map(Number).sort((a, b) => a - b)) { const b = K.byDiv[d];
-        out.push(`| ${s.emoji} ${s.ja} | ${fx(T.q1pn, 6)} | h/${d} | ${fx(b.DG, 6)} | ${fx(b.r1pn, 6)} | ${fx(b.rA1.EPM2011, 6)} | ${fx(b.rA1.INPOP10a, 6)} |`); } }
+        out.push(`| ${s.emoji} ${s.ja} | ${fx(T.q1pn, 6)} | h/${d} | ${fx(b.DG, 6)} | ${ex(b.r1pn, 3)} | ${ex(b.rA1.EPM2011, 3)} | ${ex(b.rA1.INPOP10a, 3)} |`); } }
     out.push('', '| 系 | A1 EPM2011 [″/世紀](幅の種類) | A1 INPOP10a [″/世紀](幅の種類) | η = Mm/(M+m)² | (4/3)η q_1PN [″/世紀] |', '|---|---|---|---|---|');
     for (const s of SYSTEMS) { const T = J.T.systems[s.key], a = T.a1;
       const cell = (z) => (z && Number.isFinite(z.value) ? z.value + '(' + (z.key === 'INPOP10a' || /interval/.test(z.widthKind) ? '区間の半幅 ' : '幅 ') + z.width + ')' : '—');
@@ -51,7 +51,7 @@ export function physicsTables(J) {
   if (J.R) {
     out.push('', `| 惑星(根 —— h/4 の κ の割線・太陽も規則のまま) | 点 kf = κ/κ₀ と r_1PN(h/4)| 候補の kf | 候補の R_d [m] | r(h)/r(h/2)/r(h/4) | rootBracketed | numericResolved | targetReached | declAdmissible | 採用 |`, '|---|---|---|---|---|---|---|---|---|---|');
     for (const key of PLANET_KEYS) { const o = J.R.planets[key], s = sysOf(key); if (!o || !o.candidate) continue; const a = o.adopt, c = o.candidate;
-      out.push(`| ${s.emoji} ${s.ja} | ${o.points.map((z) => fk(z.kf) + ': ' + fx(z.r, 6)).join('・')} | ${fk(c.kf)} | ${ex(c.RdM, 6)} | ${[1, 2, 4].map((d) => fx(c.rByDiv[d], 6)).join(' / ')} | ${yn(a.rootBracketed)} | ${yn(a.numericResolved)} | ${yn(a.targetReached)} | ${yn(a.declAdmissible)} | ${a.adopted ? '採る' : '採らない'} |`); }
+      out.push(`| ${s.emoji} ${s.ja} | ${o.points.map((z) => fk(z.kf) + ': ' + ex(z.r, 3)).join('・')} | ${fk(c.kf)} | ${ex(c.RdM, 6)} | ${[1, 2, 4].map((d) => ex(c.rByDiv[d], 3)).join(' / ')} | ${yn(a.rootBracketed)} | ${yn(a.numericResolved)} | ${yn(a.targetReached)} | ${yn(a.declAdmissible)} | ${a.adopted ? '採る' : '採らない'} |`); }
     out.push('', '| 根の κ_i/κ₀(3 惑星) | 🌡️ 水星 | 🌋 金星 | 🔴 火星 | 最大/最小 |', '|---|---|---|---|---|');
     const cellK = (f) => PLANET_KEYS.map((k) => fk(J.R.planets[k] && J.R.planets[k].candidate ? f(J.R.planets[k]) : null)).join(' | ');
     out.push(`| 1PN だけ(h/4 の候補の点 —— 走行) | ${cellK((o) => o.candidate.kf)} | ${fk(J.R.spread.pn1)} |`);
@@ -61,7 +61,7 @@ export function physicsTables(J) {
   if (J.D) {
     out.push('', '| 系(軌道の半直弦の順・最も細かい刻み) | p [au] | r_1PN(κ₀) | − (4/3)η q_1PN | 残り | G の値の効き(感度 —— 引かない) | 数値の帯 | 残り/q_1PN | abs(残り) ≤ ε_fit |', '|---|---|---|---|---|---|---|---|---|');
     for (const z of J.D.rows) { const s = sysOf(z.key);
-      out.push(`| ${s.emoji} ${s.ja}(h/${z.fine}) | ${fx(z.p / 1.495978707e11, 4)} | ${fx(z.r1pn, 6)} | ${ex(z.fm, 3)} | ${fx(z.rem, 6)} | ${ex(z.gDr, 2)} | ${fl(z.band)} | ${ex(z.remOverQ, 2)} | ${yn(z.remWithinFit)} |`); }
+      out.push(`| ${s.emoji} ${s.ja}(h/${z.fine}) | ${fx(z.p / 1.495978707e11, 4)} | ${ex(z.r1pn, 3)} | ${ex(z.fm, 3)} | ${ex(z.rem, 2)} | ${ex(z.gDr, 2)} | ${fl(z.band)} | ${ex(z.remOverQ, 2)} | ${yn(z.remWithinFit)} |`); }
     out.push('', `| 系(候補の感度の並び —— 水星を 1 に・並べるだけ) | 残り/q_1PN | ${J.D.shapeDefs.map((c) => c.label + '(' + c.kind + ')').join(' | ')} |`, '|---|---|' + J.D.shapeDefs.map(() => '---|').join(''));
     for (const z of J.D.rows) { const s = sysOf(z.key), sh = J.D.shapes.find((y) => y.key === z.key);
       out.push(`| ${s.emoji} ${s.ja} | ${ex(z.remOverQ, 2)} | ${J.D.shapeDefs.map((c) => ex(sh[c.key], 2)).join(' | ')} |`); }
@@ -79,6 +79,6 @@ export function docNumbers(J) {
   const out = [];
   if (J.P) out.push(J.P.C1.toFixed(10), ex(J.P.systems.mercury.kappa0, 8));
   if (J.R) for (const k of PLANET_KEYS) { const o = J.R.planets[k]; if (o && o.candidate) out.push(fk(o.candidate.kf)); }
-  if (J.K) for (const s of SYSTEMS) { const K = J.K.systems[s.key]; if (K && K.fine !== null) out.push(fx(K.r1pn, 6)); }
+  if (J.K) for (const s of SYSTEMS) { const K = J.K.systems[s.key]; if (K && K.fine !== null) out.push(ex(K.r1pn, 3)); }
   return out;
 }
