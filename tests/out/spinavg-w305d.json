@@ -2,7 +2,7 @@
  "version": "w305d-spinavg-1",
  "generator": "tests/exp-w305d-spinavg.mjs",
  "target": "beta/index.html",
- "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第96報)後半(回転引きずり = 移動と回転の両方に効く座標変換・軸引きずり = 引きずり元による様々な軸の回転・多粒子の平均と熱力学との類似)・統括の検証項目 R202",
  "spinVersion": "w298c-spin3-1",
  "axialLaw": "mu2-pointK",
@@ -80,7 +80,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 4.461,
+   "wallSec": 9.239,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -254,7 +254,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 6.435,
+   "wallSec": 13.37,
    "axial": true,
    "kappa": 4,
    "kappaFrom": "declared",
@@ -441,7 +441,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 72.838,
+   "wallSec": 158.234,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -639,7 +639,7 @@
    "dt": 0.016,
    "steps": 600,
    "drag": true,
-   "wallSec": 91.691,
+   "wallSec": 128.433,
    "axial": true,
    "kappa": 4,
    "kappaFrom": "declared",
@@ -831,7 +831,7 @@
    "dt": 0.002,
    "steps": 600,
    "drag": true,
-   "wallSec": 1.632,
+   "wallSec": 1.901,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1005,7 +1005,7 @@
    "dt": 0.58,
    "steps": 600,
    "drag": true,
-   "wallSec": 5.585,
+   "wallSec": 6.565,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1179,7 +1179,7 @@
    "dt": 0.58,
    "steps": 600,
    "drag": true,
-   "wallSec": 4.195,
+   "wallSec": 5.412,
    "axial": false,
    "kappa": 4,
    "kappaFrom": "readout",
@@ -1694,7 +1694,7 @@
       }
      ]
     },
-    "wallSec": 0.023
+    "wallSec": 0.026
    },
    {
     "geom": "ball",
@@ -1832,7 +1832,7 @@
       }
      ]
     },
-    "wallSec": 0.097
+    "wallSec": 0.1
    },
    {
     "geom": "ball",
@@ -1970,7 +1970,7 @@
       }
      ]
     },
-    "wallSec": 0.282
+    "wallSec": 0.331
    },
    {
     "geom": "ball",
@@ -2108,7 +2108,7 @@
       }
      ]
     },
-    "wallSec": 0.852
+    "wallSec": 1.342
    },
    {
     "geom": "ball",
@@ -2246,7 +2246,7 @@
       }
      ]
     },
-    "wallSec": 4.289
+    "wallSec": 5.102
    },
    {
     "geom": "ball",
@@ -2384,7 +2384,7 @@
       }
      ]
     },
-    "wallSec": 0.2
+    "wallSec": 0.305
    },
    {
     "geom": "ball",
@@ -2522,7 +2522,7 @@
       }
      ]
     },
-    "wallSec": 0.32
+    "wallSec": 0.297
    },
    {
     "geom": "ball",
@@ -2660,7 +2660,7 @@
       }
      ]
     },
-    "wallSec": 0.267
+    "wallSec": 0.293
    },
    {
     "geom": "ball",
@@ -2798,7 +2798,7 @@
       }
      ]
     },
-    "wallSec": 0.462
+    "wallSec": 0.293
    },
    {
     "geom": "ball",
@@ -2936,7 +2936,7 @@
       }
      ]
     },
-    "wallSec": 0.263
+    "wallSec": 0.314
    },
    {
     "geom": "ball",
@@ -3080,7 +3080,7 @@
      "sRotMeanAbs": 0.012370831998825724,
      "sRotRms": 0.4735902344885329
     },
-    "wallSec": 0.384
+    "wallSec": 0.311
    },
    {
     "geom": "disk",
@@ -3218,7 +3218,7 @@
       }
      ]
     },
-    "wallSec": 0.015
+    "wallSec": 0.02
    },
    {
     "geom": "disk",
@@ -3356,7 +3356,7 @@
       }
      ]
     },
-    "wallSec": 0.062
+    "wallSec": 0.077
    },
    {
     "geom": "disk",
@@ -3494,7 +3494,7 @@
       }
      ]
     },
-    "wallSec": 0.301
+    "wallSec": 0.319
    },
    {
     "geom": "disk",
@@ -3632,7 +3632,7 @@
       }
      ]
     },
-    "wallSec": 1.296
+    "wallSec": 1.261
    },
    {
     "geom": "disk",
@@ -3770,7 +3770,7 @@
       }
      ]
     },
-    "wallSec": 4.594
+    "wallSec": 5.355
    },
    {
     "geom": "disk",
@@ -3908,7 +3908,7 @@
       }
      ]
     },
-    "wallSec": 0.304
+    "wallSec": 0.332
    },
    {
     "geom": "disk",
@@ -4046,7 +4046,7 @@
       }
      ]
     },
-    "wallSec": 0.243
+    "wallSec": 0.286
    },
    {
     "geom": "disk",
@@ -4184,7 +4184,7 @@
       }
      ]
     },
-    "wallSec": 0.318
+    "wallSec": 0.298
    },
    {
     "geom": "disk",
@@ -4322,7 +4322,7 @@
       }
      ]
     },
-    "wallSec": 0.294
+    "wallSec": 0.298
    },
    {
     "geom": "disk",
@@ -4460,7 +4460,7 @@
       }
      ]
     },
-    "wallSec": 0.315
+    "wallSec": 0.296
    },
    {
     "geom": "disk",
@@ -4604,7 +4604,7 @@
      "sRotMeanAbs": 0.03967392658793669,
      "sRotRms": 2.1841012859087776
     },
-    "wallSec": 0.274
+    "wallSec": 0.298
    }
   ]
  },
@@ -4666,34 +4666,34 @@
  "ok": true,
  "timing": {
   "pass": {
-   "wallSec": 35.719
+   "wallSec": 75.381
   },
   "books": {
-   "wallSec": 297.889
+   "wallSec": 518.625
   },
   "order": {
-   "wallSec": 0.043
+   "wallSec": 0.035
   },
   "identity": {
-   "wallSec": 0.056
+   "wallSec": 0.035
   },
   "scan": {
-   "wallSec": 40.645
+   "wallSec": 45.507
   }
  },
- "elapsedS": 375.778,
+ "elapsedS": 641.494,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第305便d",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-21T23:33:22.697Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T22:18:52.850Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    }
   ],
   "code": [
@@ -4767,11 +4767,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1501,
-   "segments": 1341,
-   "closureShare": 0.3427
+   "names": 1514,
+   "segments": 1349,
+   "closureShare": 0.3436
   },
-  "scopeSha256": "2a65cdd16ef30f85d4bc7fb8224439f9addb61f6d523433ed92929905c89d8d5",
+  "scopeSha256": "d94ac8206a87be1b9880e21f3f679bc9cf6d3a048101f2ce694b61b21f98fe2e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
