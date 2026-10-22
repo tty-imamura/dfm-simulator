@@ -384,8 +384,7 @@ export function physicsTables(J) {
     for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) { const T = Cc.basis.table[t];
       out.push(`| ${RULE_JA[t]} | ${T.values.map((z) => ex(z.v, 3)).join(' | ')} | ${ex(T.mean, 3)} | ${fx(T.spread, 3)} |`); }
     out.push('', '| 規則を確認の系へ(同じ式・1 つの天体に 1 つ)—— R_d [km](R_d/R) | 🏀 木星 | 地球 | 月(p = 地球のまわり) | 月(p = 太陽のまわり) |', '|---|---|---|---|---|');
-    for (const t of ['rdOverR', 'rdOverM', 'rd2OverMp']) { const a = Cc.byType[t];
-      out.push(`| ${RULE_JA[t]} | ${adm(a.jupiter)} | ${adm(a.earth)} | ${adm(a.moonEarthP)} | ${t === 'rd2OverMp' ? adm(a.moonSunP) : '(p に依らない)'} |`); }
+    out.push(...byTypeRows(Cc.byType));
     const b0 = Cc.beta0, E0 = b0.earthmoonMoonEarthP, S0 = b0.earthmoonMoonSunP;
     if (E0 && S0 && !E0.err && !S0.err) {
       out.push('', '| t = 0 の β(R_d²/(m p) が一定の規則 —— エンジンの読み口) | 地球 ← 太陽 | 地球 ← 月 | 月 ← 太陽 | 月 ← 地球 | EMB の重み(推定) |', '|---|---|---|---|---|---|');
@@ -406,6 +405,11 @@ export function physicsTables(J) {
     // 所要(壁時計の秒・ms/步)は揮発の値 —— 逐語の表に入れない(正本の C.cost と本文の「程度」で書く)
   }
   return out.join('\n');
+}
+/** 規則を確認の系へ当てた表の行(3 つの型 —— 第312便d の physicsTables と同じ行。v2: cap を外した後の表〔PHYSICS〔第313便d〕〕にも使う) */
+export function byTypeRows(byType) {
+  return ['rdOverR', 'rdOverM', 'rd2OverMp'].map((t) => { const a = byType[t];
+    return `| ${RULE_JA[t]} | ${adm(a.jupiter)} | ${adm(a.earth)} | ${adm(a.moonEarthP)} | ${t === 'rd2OverMp' ? adm(a.moonSunP) : '(p に依らない)'} |`; });
 }
 export function docNumbers(J) {
   const out = [], Cc = J.C; if (!Cc) return out;
