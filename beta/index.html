@@ -47839,7 +47839,7 @@ function updateBodyEdit(){
       const d=(S.dragCoreD && S.dragCoreD[i]) || null;
       const sh=(S.dragShellD && S.dragShellD[i]) || null;   // 第304便a: 引きずり核の殻(読み取りだけ —— 体積の核とは排他なので ON の欄を止める)
       $("#beDcOn").checked=!!d; $("#beDcOn").disabled=!!sh; $("#beDcEdit").style.display=d? "" : "none";
-      if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt(d.radius); }
+      if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt((d.radius>0)? d.radius : invSqKappa0(S.params.G, S.params.cLight)*(d.massFrac*S.m[i])); }   // 第313便a: 規則の本の radius の省略は規則の R_d = κ₀·(massFrac·m) を見せる
       $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null));
     } }
   { const box=$("#beSaBox"); box.style.display=vis.spinAxis3? "" : "none";
@@ -56500,12 +56500,13 @@ function dragCoreEdit(S,i,cfg){
   if(cur && cur.spin!==undefined) b.dragCore.spin=cur.spin;   // 第311便a: 宣言の核の自転と軸は編集(massFrac・radius)で落とさない(受理器をもう一度通す)
   if(cur && cur.spinAxis!==undefined) b.dragCore.spinAxis=cur.spinAxis;
   if(R>0) b.radius=R;
+  b.m=S.m[i];   // 第313便a: 規則の本の radius の省略(R_d = κ₀·(massFrac·m))の受理はエンジンが使う質量を読む(他の受理は b.m を読まない)
   if(S.coreMd && S.coreMd[i]) b.core={};   // コア V2 と同時に宣言しない(受理器と同じ規則)
   const v=validateDragCoreBody(b, S.params);
   if(!v.ok) return {ok:false, err:v.err};
   if(!v.dragCore) return {ok:false, err:v.warn||"dragCore"};
   if(!S.dragCoreD) S.dragCoreD=new Array(S.m.length).fill(null);
-  S.dragCoreD[i]={massFrac:v.dragCore.massFrac, radius:v.dragCore.radius, R};
+  S.dragCoreD[i]={massFrac:v.dragCore.massFrac, radius:v.dragCore.radius, R};   // 第313便a: 規則の本の radius の省略は radius undefined のまま(R_d は步の頭で規則から)
   if(v.dragCore.spin!==undefined) S.dragCoreD[i].spin=v.dragCore.spin;
   if(v.dragCore.spinAxis!==undefined) S.dragCoreD[i].spinAxis=v.dragCore.spinAxis;
   dragCoreInit(S);
@@ -58692,7 +58693,7 @@ function inertialDragIsqPointAtK1(S,i,px,py,pz){
 }
 // 第313便a(R234・AN402): 規則の読み口(inertialDragIsqState の rdRule —— 状態を 1 bit も動かさない。T は同じ步の頭で作り直した写し)。κ₀(本の長さ/本の質量)・単位があれば SI の κ₀ [m/kg]・
 //   天体ごとの m(エンジンが使う質量)・m_d・R_d・src("rule" = 規則で置いた・"declared" = 明示の dragCore.radius・"point" = 半径の無い点〔規則を当てない〕・"massNonPos" = 質量が正でない)・
-//   floored(質量が下限 massLo に等しい —— 宣言が下限より小さく持ち上げた天体〔宣言がちょうど下限の天体も同じ印〕)・r_s = 2Gm/c² との比 R_d/r_s(= 5/C₁ —— 規則の天体)
+//   floored(質量が下限 massLo に等しい —— 宣言が下限より小さく持ち上げた天体〔宣言がちょうど下限の天体も同じ印〕)・r_s = 2Gm/c²(天体の質量 m —— m_d ではない)との比 R_d/r_s(= 5/C₁·massFrac —— 規則の天体)
 function inertialDragIsqRdRuleState(S,T,n){
   if(!T._rdIsqRd) inertialDragIsqCore(T,n);   // 粒子 > 64 で評価しなかった本も規則の R_d は作る
   const ph=S.params, G=ph.G, c=ph.cLight, kap=invSqKappa0(G,c), lo=invSqMassLo(ph), loE=invSqEngineMass(lo, ph), D=S.dragCoreD||null, RA=T._rdRadArr, Q=S._rdRuleSI||null, bodies=[];

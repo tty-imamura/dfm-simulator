@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
+ "targetSha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,31 +2338,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.036
+   "wallSec": 0.059
   },
   "R": {
-   "wallSec": 1.15
+   "wallSec": 1.282
   },
   "B": {
-   "wallSec": 1.504
+   "wallSec": 1.676
   },
   "E": {
-   "wallSec": 1.168
+   "wallSec": 1.766
   }
  },
- "elapsedS": 5.614,
+ "elapsedS": 7.922,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
-  "generatedAt": "2026-10-22T11:55:47.831Z",
+  "targetSha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
+  "generatedAt": "2026-10-22T13:04:49.861Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7240957,
-    "sha256": "73d3f73e175f955d66e9822059d8ebd7afcc5e4dae3f193a88c0b74aa6a3b2a0",
-    "mtime": "2026-10-22T11:46:55.849Z"
+    "bytes": 7241478,
+    "sha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
+    "mtime": "2026-10-22T13:04:41.701Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -2454,7 +2454,7 @@
    "segments": 1348,
    "closureShare": 0.3445
   },
-  "scopeSha256": "34138976950a05a808be87041cee02278e75dee535f6ddbc95bdbb54510b53e1",
+  "scopeSha256": "6a52bedb8a60342c9c4f4d0d9becd4a5e21aaff951f2725bdd53d09ae1f1c1af",
   "scopeComplete": true,
   "inputsStable": [
    {
