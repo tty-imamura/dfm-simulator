@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便e",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-21T23:35:42.907Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T23:47:08.895Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -115,11 +115,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1508,
-   "segments": 1348,
-   "closureShare": 0.3429
+   "names": 1521,
+   "segments": 1356,
+   "closureShare": 0.3439
   },
-  "scopeSha256": "c456779a15040ee6bfc67c699638bae0d4c1c6238e19216333d1a869b7aa10f3",
+  "scopeSha256": "798cc8f07bd5e7b623f58795692e3efc1b6abc9254ef68ea826163fbe74d704e",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -293,11 +293,11 @@
    "M1_16": 551856.44309496,
    "late": 551856.4430958406,
    "eProxy": 3.989633641573282e-9,
-   "wallSec": 11.293,
+   "wallSec": 16.486,
    "steps": 2759283
   },
   "h2": {
-   "wallSec": 11.448,
+   "wallSec": 18.912,
    "dt": 0.08,
    "steps": 5518565,
    "revN": 8,
@@ -320,7 +320,7 @@
    }
   },
   "h4": {
-   "wallSec": 22.957,
+   "wallSec": 38.258,
    "dt": 0.04,
    "steps": 11037129,
    "revN": 8,
@@ -368,7 +368,7 @@
     "d": 0.0011411890154704452,
     "nan": false,
     "revN": 8,
-    "wallSec": 5.729
+    "wallSec": 8.48
    },
    {
     "eps": 0.0025,
@@ -376,7 +376,7 @@
     "d": 0.0003335564397275448,
     "nan": false,
     "revN": 8,
-    "wallSec": 6.105
+    "wallSec": 8.17
    }
   ],
   "extrapolated": 551856.4387835835,
@@ -573,5 +573,5 @@
   "「観測と一致した」",
   "「時計の換算で合った」"
  ],
- "elapsedS": 136.519
+ "elapsedS": 205.585
 }

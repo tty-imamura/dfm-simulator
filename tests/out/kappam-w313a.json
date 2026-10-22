@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,37 +2338,37 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.059
+   "wallSec": 0.072
   },
   "R": {
-   "wallSec": 1.282
+   "wallSec": 1.557
   },
   "B": {
-   "wallSec": 1.676
+   "wallSec": 2.069
   },
   "E": {
-   "wallSec": 1.766
+   "wallSec": 1.426
   }
  },
- "elapsedS": 7.922,
+ "elapsedS": 7.303,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
-  "generatedAt": "2026-10-22T13:04:49.861Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T23:48:31.481Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7241478,
-    "sha256": "4a495c1ccf1c0b7f15601762f3f46055a1dcb07b0e88b02d9e1f09a3f751b9a5",
-    "mtime": "2026-10-22T13:04:41.701Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-22T11:37:58.525Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    }
   ],
   "code": [
@@ -2376,40 +2376,40 @@
     "file": "tests/exp-w313a-kappam.mjs",
     "bytes": 33523,
     "sha256": "39af5b601e5d62a3259a40dfe3e3a45ab7afad473ad51170905c851790e944af",
-    "mtime": "2026-10-22T11:52:39.802Z"
+    "mtime": "2026-10-22T15:02:23.206Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
-    "bytes": 19974,
-    "sha256": "e7cbad683235d706ebc1a05e81223bec75d212b3c2f0a6ccaaa17c6b72b818d7",
-    "mtime": "2026-10-22T11:37:59.413Z"
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-10-22T15:03:06.002Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-10-22T11:37:59.321Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-22T11:37:59.305Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-22T11:37:59.301Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-22T11:37:59.313Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "03c74bb32cceae8f75a8aaee96938838faefcd8ee02ba9c03c16c7cf2c585ba4",
+  "codeSha256": "2231be0d1357c18f9fae26a685768b729066ff43060b310267f519a7f3d9b909",
   "harnessVersion": "w313a-kappam-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2450,11 +2450,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1511,
-   "segments": 1348,
-   "closureShare": 0.3445
+   "names": 1516,
+   "segments": 1351,
+   "closureShare": 0.3448
   },
-  "scopeSha256": "6a52bedb8a60342c9c4f4d0d9becd4a5e21aaff951f2725bdd53d09ae1f1c1af",
+  "scopeSha256": "e6c26fbafa589f46c4c0de9ffb727dd7cd1a38ec48d4ab3ff8873e4be20a68c2",
   "scopeComplete": true,
   "inputsStable": [
    {
