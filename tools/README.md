@@ -91,6 +91,24 @@ node tools/regen-valdiff.mjs --self-test
 - **h/4 の転記の既定**(`tests/lib-w311c-h4carry.mjs`・版 `w312c-h4carry-2`): 既定は全部測る(影の記録 `h4Carry` を正本に書く)。`H4_CARRY=1` は比較の実験だけ
   (第311便c の転記 —— その正本はコミットしない)。
 
+第313便c(統括の検証項目 R236・決断事項 AN394)から:
+
+```
+node tools/regen-valdiff.mjs --base <rev> [--now <rev>] [--table] [--declared <file> | --no-declared] [--json <out>]   # 宣言の除外と差の分類
+node tools/regen-chain.mjs --simulate <chain.json|all> [--timeline <timeline.txt>] [--log $REGEN_LOG] [--est <見積りの json>] [--alpha 1,0.5] [--tail 段,…]
+node tools/regen-chain.mjs --scope-all --check                  # post-merge の ② でも走る(落ちたら統合で段が増えた —— --write で引き直す)
+```
+
+- **除外の宣言**(`tests/data-w313c-valdiff-volatile.json` 版 `w313c-valdiff-decl-1`): 段ごと・正本ごとの JSON Pointer と種類と理由(実行時刻・所要・速さ・結合の鍵・
+  コードの同一性・来歴・行番号・版名ほか / 並びを問わない表 `order` / 数え上げ `count` —— 除かない)。再生成表の `volatilePaths` と別のデータ(鎖の計画を動かさない)。
+  **観測の epoch・物理の時刻・正本の値は宣言しない**(`checkDeclared` が種類ごとに値の型を照合 —— QA lint.valdiffDecl313)。既定で読む。
+- **差の分類**: 宣言の後に残った差を数(物理の差の候補)・文字列(文言)・構成・数え上げに分け、段ごとに `same-by-declared`・`text`・`count`・`struct`・`number`。
+  `--now <rev>` で今の側も rev の正本(便の基準線を git だけで引き直す)。
+- **予約の前の backfill の余裕 α**(規則の版 `w313c-easy-backfill-2`・`RESERVE_BEFORE_ALPHA = 0.5`): 予約の前に入れるのは「見積り ≤ α ×(t_res − 今)」の段だけ。
+  シェルは `REGEN_RESERVE_ALPHA`(百分率・既定 50 —— 100 で第311便c の規則 `w311c-easy-backfill-1`)。`REGEN_RESERVE=0` は今も予約なし。
+- **`--simulate`**: `all` で今の表の全段 regen の鎖・実測は再起動の型を直した規則(`calibrateSec`)・`--est` で見積りを別のファイルから・`--alpha` で α を並べる。
+  依存だけの下限・臨界路・末端の段の最早の開始と模擬ごとの遅れを出す。
+
 ## p2fig-compare.mjs — 論文2 の図データの照合(第287便f)
 
 ```

@@ -167,26 +167,76 @@ if (argv.includes('--calibrate')) {
 // 第311便c(R228): 鎖の計画(--json の出力)と実測の timeline で、旧の規則(greedy)と予約(easy)の壁時計を模擬する(走らせない)。
 //   node tools/regen-chain.mjs --simulate <chain.json> [--timeline <timeline.txt>] [--lanes 4] [--workers 段=n,段=n]
 //   所要は timeline の実測(無い段は計画の sec)・見積りは計画の sec(est=plan)と実測(est=meas)の 2 通り・優先度は計画の並びと実測の臨界路の 2 通り
+// 第313便c(統括の検証項目 R236): **末端の直列の模擬**(走らせない)。
+//   node tools/regen-chain.mjs --simulate <chain.json|all> [--timeline <timeline.txt>] [--log <REGEN_LOG>] [--est <見積りの json>] [--alpha 1,0.5] [--tail 段,段]
+//                                [--lanes 4] [--workers 段=n,段=n]
+//   ・all: 今の再生成表の全段 regen の鎖(計画の json の代わり —— 所要は表の sec〔tests/data-w311c-regensec.json の見積り〕)。
+//   ・実測は**再起動の型を直した規則**(calibrateSec —— w312c-calibrate-2: 済み印の `run Ns` を先に・再開した回の済み印の確かめ〔≤ 5 s〕を飛ばす)で読む
+//     (第311便c の版は timeline の最後の組を読んでいた —— 再開した回の確かめの 0.3 s を所要と読む)。
+//   ・--est <file>: 見積りを別のファイルの段の sec から(例: 前の便の tests/data-w311c-regensec.json —— 見積りが外れた場合の模擬)。
+//   ・--alpha: 予約の前の backfill の余裕 α の並び(既定 1 と今の規則の RESERVE_BEFORE_ALPHA)。
+//   ・依存だけの下限(lowerBoundSec —— レーン無限・所要は実測)と臨界路(criticalPath)・末端の段(--tail、既定は臨界路の最後の 6 段)の
+//     依存だけの最早の開始(es)と、模擬ごとの開始(start)・遅れ(start − es)を出す。
 if (argv.includes('--simulate')) {
-  const plan = JSON.parse(fs.readFileSync(resolve(getArg('--simulate', null)), 'utf8'));
+  const src = getArg('--simulate', null);
+  let plan;
+  if (src === 'all') {
+    const all = { steps: T.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+    plan = T.buildChain(all, { root: ROOT });
+  } else plan = JSON.parse(fs.readFileSync(resolve(src), 'utf8'));
   const tlp = getArg('--timeline', null);
   const meas = new Map();
-  if (tlp) for (const e of T.parseTimeline(fs.readFileSync(resolve(tlp), 'utf8')).events) if (Number.isFinite(e.end) && e.rc === 0) meas.set(e.key, e.end - e.start);
+  let calib = null;
+  if (tlp) {
+    // 第313便c: 再起動の型を直した規則で実測を読む(計画の段の表 —— 表に無い段は計画の sec を今の見積りに)
+    let marks = null;
+    const logDir = getArg('--log', null);
+    if (logDir) {
+      marks = new Map();
+      const dd = path.join(resolve(logDir), 'done');
+      if (fs.existsSync(dd)) for (const f of fs.readdirSync(dd)) if (f.endsWith('.done')) marks.set(f.replace(/\.done$/, ''), fs.readFileSync(path.join(dd, f), 'utf8').split('\n')[0]);
+    }
+    const steps = Object.values(plan.steps).map((r) => ({ key: r.key, sec: r.sec || 0, role: 'current' }));
+    calib = T.calibrateSec(fs.readFileSync(resolve(tlp), 'utf8'), { marks, tol: 0, steps });
+    for (const z of calib.rows) if (z.measured !== null && z.action !== 'skip') meas.set(z.key, z.measured);
+  }
   const lanes = Number(getArg('--lanes', '4')) || 4;
   const over = Object.fromEntries((getArg('--workers', '') || '').split(',').filter(Boolean).map((z) => z.split('=')).map(([k, v]) => [k, v === 'all' ? 'all' : Number(v)]));
   const rows = Object.fromEntries(Object.entries(plan.steps).map(([k, r]) => [k, Object.assign({}, r, k in over ? { workers: over[k] } : {})]));
   const secOf = (k) => (meas.has(k) ? meas.get(k) : (rows[k].sec || 0));
-  const planOf = (k) => rows[k].sec || 0;
+  // 第313便c: --est <file> —— 見積り(est=plan の側)を別のファイルの段の sec から
+  const estFile = getArg('--est', null);
+  const estDoc = estFile ? JSON.parse(fs.readFileSync(resolve(estFile), 'utf8')) : null;
+  const planOf = (k) => { const m = estDoc && estDoc.steps ? estDoc.steps[k] : null; return m && Number.isFinite(m.sec) ? m.sec : (rows[k].sec || 0); };
   const priMeas = T.chainPriority({ steps: Object.fromEntries(Object.entries(rows).map(([k, r]) => [k, Object.assign({}, r, { sec: secOf(k) })])) });
+  const priPlan = estDoc ? T.chainPriority({ steps: Object.fromEntries(Object.entries(rows).map(([k, r]) => [k, Object.assign({}, r, { sec: planOf(k) })])) })
+    : (plan.priority || T.chainPriority({ steps: rows }));
+  // 第313便c: 依存だけの下限・臨界路・末端の段の最早の開始(所要は実測)
+  const es = new Map();
+  const ES = (k) => { if (es.has(k)) return es.get(k); const v = Math.max(0, ...((rows[k].deps || []).filter((d) => rows[d]).map((d) => ES(d) + secOf(d)))); es.set(k, v); return v; };
+  for (const k of Object.keys(rows)) ES(k);
+  const endKey = Object.keys(rows).reduce((a, k) => (ES(k) + secOf(k) > ES(a) + secOf(a) ? k : a), Object.keys(rows)[0]);
+  const lb = ES(endKey) + secOf(endKey);
+  const cpath = [endKey];
+  for (let k = endKey; ;) { const d = (rows[k].deps || []).filter((q) => rows[q]).find((q) => Math.abs(ES(q) + secOf(q) - ES(k)) < 1e-6); if (!d) break; cpath.unshift(d); k = d; }
+  const tail = (getArg('--tail', '') || '').split(',').filter(Boolean);
+  const tailKeys = (tail.length ? tail : cpath.slice(-6)).filter((k) => rows[k]);
+  const alphas = (getArg('--alpha', '') || '').split(',').filter(Boolean).map(Number).filter(Number.isFinite);
+  const AL = alphas.length ? alphas : [...new Set([1, T.RESERVE_BEFORE_ALPHA])];
   const out = [];
-  for (const [pl, pri] of [['plan', plan.priority || T.chainPriority({ steps: rows })], ['meas', priMeas]])
+  for (const [pl, pri] of [['plan', priPlan], ['meas', priMeas]])
     for (const [el, estOf] of [['plan', planOf], ['meas', secOf]])
-      for (const rule of ['greedy', 'easy']) {
-        const s = T.simulateReadyQueue({ steps: rows, priority: pri }, { lanes, secOf, estOf, rule });
-        out.push({ rule, priority: pl, estimate: el, makespanSec: Math.round(s.makespan), makespanH: Math.round(s.makespan / 36) / 100, ok: s.check.ok, pending: s.pending.length,
-          backfills: s.events.filter((e) => e.backfill).length, reservations: s.reservations.length });
+      for (const [rule, al] of [['greedy', 1]].concat(AL.map((a) => ['easy', a]))) {
+        const s = T.simulateReadyQueue({ steps: rows, priority: pri }, { lanes, secOf, estOf, rule, alpha: al });
+        const st = Object.fromEntries(s.events.map((e) => [e.key, e.start]));
+        out.push({ rule, alpha: rule === 'easy' ? al : null, priority: pl, estimate: el, makespanSec: Math.round(s.makespan), makespanH: Math.round(s.makespan / 36) / 100,
+          overLowerBoundSec: Math.round(s.makespan - lb), ok: s.check.ok, pending: s.pending.length,
+          backfills: s.events.filter((e) => e.backfill).length, reservations: s.reservations.length,
+          tail: Object.fromEntries(tailKeys.map((k) => [k, { start: Math.round(st[k]), delay: Math.round(st[k] - ES(k)) }])) });
       }
-  console.log(JSON.stringify({ steps: Object.keys(rows).length, measured: meas.size, lanes, workers: over, rule: T.READY_QUEUE_RULE, runs: out }, null, 1));
+  console.log(JSON.stringify({ steps: Object.keys(rows).length, measured: meas.size, lanes, workers: over, rule: T.READY_QUEUE_RULE, alphaDefault: T.RESERVE_BEFORE_ALPHA,
+    source: src === 'all' ? '全段 regen(今の表)' : src, est: estFile || '計画の sec', calibrate: calib ? { rule: calib.rule, runs: calib.runs, restarts: calib.restarts } : null,
+    lowerBoundSec: Math.round(lb), criticalPath: cpath, tailEs: Object.fromEntries(tailKeys.map((k) => [k, Math.round(ES(k))])), runs: out }, null, 1));
   process.exit(0);
 }
 // ==== 第311便c の塊(ここまで)====

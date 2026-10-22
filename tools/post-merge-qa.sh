@@ -5,6 +5,7 @@
 # (CI が最終裁定者 —— 手元のゲートは CI の代わりにしない)。順序(先に落ちるものを先に):
 #   ① 静的受理   tests/qa-preflight.mjs(QA_TARGET=beta/index.html —— tier lint の文と全内蔵の受理・構築・1 歩。Chromium なし・heap の上限 6144 MiB —— 第305便e)
 #   ② 接続契約   node tools/regen-chain.mjs --audit と --self-test(再生成表の依存・html を書く段・済み印の契約 —— 枝ごとに足した段の接続)
+#                第313便c: と --scope-all --check(presets:"all" の段の理由の一覧が今の器と同じか —— 落ちたら統合で段が増えた・--write で引き直す)
 #   ③ 前回失敗項 --failed の id(無ければ tests/out/qa-results-full-beta.json の FAIL の id)を qapart で beta に
 #   ③′ 本便の新設ブロック(第288便f・原仮定者の裁定(第78報)AN90): POST_MERGE_WAVE_IDS(既定は本便〔第293便〕の新設・更新 13 本 ——
 #                第290便f で第289便の contract 系 6 本から差し替え)を qapart で beta に。
@@ -297,6 +298,12 @@ WAVE_IDS="$WAVE_IDS ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
 #   (POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
 [ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.regenTools312 lint.scopeAll312 docs.w312c lint.h4Carry311 lint.stableHashPaths docs.chainBurst301 docs.inertialR2_303 docs.shell304b docs.an336_306"
 # ==== 第312便c の塊(ここまで)====
+# ==== 第313便c の塊(ここから)====
+# 第313便c(統括の検証項目 R236 —— 鎖の道具): 枝 c の新設 4 本(lint.valdiffDecl313 —— 値の差の除外の宣言と差の分類・lint.readyQueue313 —— 予約の前の
+#   backfill の余裕 α・lint.sectionLookup313 —— PHYSICS の節の探し方・docs.w313c —— 文書)と、規則と道具の版を世代で読む lint.readyQueue311・lint.regenTools312、
+#   ② の scope-all の一覧を見る lint.scopeAll312(POST_MERGE_WAVE_IDS で一覧を差し替えたときは足さない —— 他の枝の塊と同じ扱い)
+[ -n "${POST_MERGE_WAVE_IDS+x}" ] || WAVE_IDS="$WAVE_IDS lint.valdiffDecl313 lint.readyQueue313 lint.sectionLookup313 docs.w313c lint.readyQueue311 lint.regenTools312 lint.scopeAll312"
+# ==== 第313便c の塊(ここまで)====
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -331,6 +338,16 @@ node tools/regen-chain.mjs --audit >"$LOG/2-audit.json" 2>&1; ra=$?
 node tools/regen-chain.mjs --self-test >"$LOG/2-selftest.json" 2>&1; rs=$?
 S2="audit $([ $ra -eq 0 ] && echo ok || echo FAIL)・self-test $([ $rs -eq 0 ] && echo ok || echo FAIL)"
 [ $ra -eq 0 ] && [ $rs -eq 0 ] || fail=1
+# ==== 第313便c の塊(ここから)====
+# 第313便c(統括の検証項目 R236): ② に REGEN_SCOPE の presets:"all" の段の理由の一覧(tests/data-w312c-scopeall.json —— 生成物)と今の器の照合を足した。
+#   統合で器・段が増えると一覧が古くなる(第312便の統合の後に 2 段)—— 落ちたら「統合で段が増えた —— node tools/regen-chain.mjs --scope-all --write で引き直す」
+node tools/regen-chain.mjs --scope-all --check >"$LOG/2-scopeall.log" 2>&1; rsa=$?
+if [ $rsa -eq 0 ]; then S2="$S2・scope-all ok"
+else
+  S2="$S2・scope-all FAIL(統合で段が増えた —— node tools/regen-chain.mjs --scope-all --write で引き直す)"; fail=1
+  say "② scope-all: 一覧と今の器が違う —— 統合で段が増えた。node tools/regen-chain.mjs --scope-all --write で引き直して、一覧の差を確かめてからコミットする"
+fi
+# ==== 第313便c の塊(ここまで)====
 
 # ③ 前回失敗項
 if [ -z "$FAILED" ] && [ -f tests/out/qa-results-full-beta.json ]; then
