@@ -8192,10 +8192,23 @@ function galaxyAxialNeedsLen(rd){ const g=rd && rd[REL_DRAG_GALAXY_AXIAL_KEY]; r
 // R_ref(本の長さの単位): 宣言の refRadius・省略は 6.5×10⁶ m / 10^L(S._rdLenSI —— 解けなければ NaN〔呼び手は足さない〕)
 function galaxyAxialRefRadius(S,g){ if(g.refRadius!==undefined) return g.refRadius; const Lm=S._rdLenSI; return (Lm>0)? GALAXY_AXIAL_REF_RADIUS_M/Lm : NaN; }
 function galaxyAxialRdFactor(Rd,Rr,q){ const x=Rd/Rr; return (q===1)? x : x*x; }
+// ===== 第313便b(原仮定者の裁定(第115報)「一様軸引きずりの R_d の応答の次数は、K1 を主にする q = 1 で、質量も入る」(決断事項 AN395)・K1 を採用する(AN399)・
+//   太陽を含む全天体に同じ規則 R_d = κm(AN402)・統括の検証項目 R235): **受け手の質量の次数** galaxyAxial.massPow・refMass(opt-in —— 省略・rdPow だけの宣言は第312便b とビット同一)=====
+//   massPow:-1 を宣言した本は、受け手 i の軸の ω に足す銀河の分を **ω_G × (R_d,i/R_ref) × (m_ref/m_i)** にする(K1 の核の自然な応答 R_d¹·m⁻¹·r⁻³ の形 —— 位置に依らない)。
+//   **K1 の本(invSq.kernel:"k1")と rdPow:1 と一緒にだけ**(それ以外は受理で拒否)。refMass = m_ref(本の質量の単位・正の有限の数・massPow と一緒に必須・massPow なしの refMass は拒否)。
+//   R_ref は第312便b のまま(refRadius・省略は 6.5×10⁶ m を本の長さの単位へ —— 尺度でありキャップの意味は無い)。m_i は**エンジンの質量 S.m[i]**(受け手の宣言の質量 ——
+//   Float32 の本は丸めた値・受理で下限 massFloor へ持ち上げた天体は持ち上げた値〔重力と自己の場が使うのと同じ質量〕・dragCore の massFrac は掛けない)。
+//   全天体が R_d = κm なら R_d,i/m_i = κ で係数は全天体に共通の κ m_ref/R_ref(q = 0 に戻すのではなく、規則の上で共通になる)。評価は第311便b・第312便b と同じ 1 か所
+//   (inertialDragIsqRowGuard の銀河の項)で、β・並進の右辺・回転の係数・分母 1 − Σβ・逆写像・axisHold の対の記録は変えない。観測の初期自転の分解(initSpin)は写しで同じ build を
+//   呼ぶので同じ応答。版 GALAXY_AXIAL_RDM_VERSION は massPow を宣言した本だけ読み口に記録(GALAXY_AXIAL_VERSION・GALAXY_AXIAL_RD_VERSION は据え置き)。大きさの既定は置かない
+const REL_DRAG_GALAXY_AXIAL_RDM_KEYS=["massPow","refMass"], GALAXY_AXIAL_MASS_POWS=[-1], GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1";
+function galaxyAxialMassPowOf(g){ return (g && g.massPow===-1)? -1 : 0; }
+// 受け手の係数(massPow −1 —— rdPow 1 と一緒にだけ): x = R_d,i/R_ref に m_ref/m_i を掛ける(演算の順は (R_d/R_ref)·(m_ref/m))
+function galaxyAxialRdmFactor(Rd,Rr,m,Mr){ const x=Rd/Rr; return x*(Mr/m); }
 function validateGalaxyAxial(g, out){
-  const nm='physics.relativeDrag.galaxyAxial', form=nm+' は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)';
+  const nm='physics.relativeDrag.galaxyAxial', form=nm+' は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)';
   if(typeof g!=="object" || g===null || Array.isArray(g)) return {ok:false, err:form};
-  for(const k of Object.keys(g)) if(REL_DRAG_GALAXY_AXIAL_KEYS.indexOf(k)<0 && REL_DRAG_GALAXY_AXIAL_RD_KEYS.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)'};
+  for(const k of Object.keys(g)) if(REL_DRAG_GALAXY_AXIAL_KEYS.indexOf(k)<0 && REL_DRAG_GALAXY_AXIAL_RD_KEYS.indexOf(k)<0 && REL_DRAG_GALAXY_AXIAL_RDM_KEYS.indexOf(k)<0) return {ok:false, err:nm+' に未知の鍵 '+k+'(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b・第313便b)'};
   const o={};
   for(const k of REL_DRAG_GALAXY_AXIAL_KEYS){ if(!isNum(g[k])) return {ok:false, err:form}; o[k]=(g[k]===0)? 0 : g[k]; }
   if(g.rdPow!==undefined){   // 第312便b(R231): 受け手の R_d の応答の次数
@@ -8207,6 +8220,14 @@ function validateGalaxyAxial(g, out){
     if(!isNum(g.refRadius) || !(g.refRadius>0)) return {ok:false, err:nm+'.refRadius は正の有限の数(本の長さの単位 —— 応答の基準の半径 R_ref・省略は 6.5×10⁶ m を本の長さの単位へ・第312便b)'};
     o.refRadius=g.refRadius;
   }
+  if(g.massPow!==undefined){   // 第313便b(R235・AN395): 受け手の質量の次数(−1 だけ —— K1 の本と rdPow 1 と一緒にだけ)
+    const mpe=nm+'.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:"k1" と rdPow:1 の本だけ・第313便b・AN395)';
+    if(g.massPow!==-1) return {ok:false, err:mpe+' —— 値が -1 でない'};
+    if(!(out[REL_DRAG_INVSQ_KEY] && out[REL_DRAG_INVSQ_KEY].kernel==="k1")) return {ok:false, err:mpe+' —— invSq.kernel が "k1" でない'};
+    if(g.rdPow!==1) return {ok:false, err:mpe+' —— rdPow が 1 でない'};
+    if(!isNum(g.refMass) || !(g.refMass>0)) return {ok:false, err:nm+'.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)'};
+    o.massPow=-1; o.refMass=g.refMass;
+  } else if(g.refMass!==undefined) return {ok:false, err:nm+'.refMass は massPow と一緒にだけ(応答の基準の質量 m_ref —— massPow の無い宣言は第312便b の ω_G × (R_d/R_ref)^rdPow・第313便b)'};
   const sd=out[REL_DRAG_SPIN3_KEY];
   if(!(sd && sd.axial==="on")) return {ok:false, err:nm+' は spinDrag.axial:"on"(軸の ω を使う本)だけ —— 軸を引きずらない本では効かない(第311便b)'};
   return {ok:true, galaxyAxial:o};
@@ -58270,10 +58291,11 @@ function inertialDragIsqRowGuard(S,n,A,UX,UY,UZ,ax,degMax){
   const g=ax? S.relDrag[REL_DRAG_GALAXY_AXIAL_KEY] : null;
   if(g && (g.wx!==0 || g.wy!==0 || g.wz!==0)){
     const q=galaxyAxialPowOf(g), Rr=q? galaxyAxialRefRadius(S,g) : 1, AX=S.sax, AY=S.say, AZ=S.saz;   // 第312便b: q = rdPow(0 は第311便b と同じ —— 掛けない)
+    const mp=galaxyAxialMassPowOf(g), M=S.m;   // 第313便b: massPow −1(K1・rdPow 1 の本だけ —— 受理が保証)は (R_d,i/R_ref)(m_ref/m_i)・m_i はエンジンの質量(R_d > 0 の受け手は m > 0)
     if(!q || Rr>0) for(let i=0;i<n;i++){
       if(pin[i] || !(RD[i]>0)) continue;
       let gx=g.wx, gy=g.wy, gz=g.wz;
-      if(q){ const f=galaxyAxialRdFactor(RD[i],Rr,q); gx*=f; gy*=f; gz*=f; }   // 第312便b: ω_G × (R_d,i/R_ref)^q(受け手の R_d だけ —— 位置に依らない)
+      if(q){ const f=mp? galaxyAxialRdmFactor(RD[i],Rr,M[i],g.refMass) : galaxyAxialRdFactor(RD[i],Rr,q); gx*=f; gy*=f; gz*=f; }   // 第312便b: ω_G × (R_d,i/R_ref)^q(受け手の R_d だけ —— 位置に依らない)・第313便b: × m_ref/m_i
       WX[i]+=gx; WY[i]+=gy; WZ[i]+=gz;
       const pa=gx*AX[i]+gy*AY[i]+gz*AZ[i]; WS[i]+=(inertialDrag3AxialSign(AX[i],AY[i],AZ[i])>0)? pa : -pa;   // 傾きを持たない受け手が読む符号つきのスカラー(受け手の軸への射影)
     }
@@ -58289,12 +58311,14 @@ function inertialDragGalaxyAxialState(S){
   inertialDragIsqCore(T,n);
   const zero=!!g && g.wx===0 && g.wy===0 && g.wz===0, active=!!g && !zero && !!(sd && sd.axial) && relDragCoefficientOf(rd)>0, receivers=[];
   const rdDecl=!!g && g.rdPow!==undefined, q=galaxyAxialPowOf(g), Rr=q? galaxyAxialRefRadius(S,g) : 1, rdOn=!q || Rr>0;   // 第312便b: rdPow を宣言した本だけ R_d の応答の欄
+  const mp=galaxyAxialMassPowOf(g);   // 第313便b: massPow を宣言した本だけ受け手ごとの mass・responseFactor(rdFactor は R_d の分 R_d/R_ref)
   for(let i=0;i<n;i++){
-    const rc=!S.pinned[i] && T._rdIsqRd[i]>0, f=(rc && q && Rr>0)? galaxyAxialRdFactor(T._rdIsqRd[i],Rr,q) : 1;
+    const rc=!S.pinned[i] && T._rdIsqRd[i]>0, f=(rc && q && Rr>0)? (mp? galaxyAxialRdmFactor(T._rdIsqRd[i],Rr,S.m[i],g.refMass) : galaxyAxialRdFactor(T._rdIsqRd[i],Rr,q)) : 1;
     let w=(rc && active && rdOn)? [g.wx, g.wy, g.wz] : [0,0,0];
     if(q && rc && active && rdOn) w=[w[0]*f, w[1]*f, w[2]*f];
     const pa=w[0]*S.sax[i]+w[1]*S.say[i]+w[2]*S.saz[i], row={i, receiver:rc, omegaG:w, omegaGs:(inertialDrag3AxialSign(S.sax[i],S.say[i],S.saz[i])>0)? pa : -pa};
-    if(rdDecl){ row.Rd=T._rdIsqRd[i]; row.rdFactor=rc? f : null; }
+    if(rdDecl){ row.Rd=T._rdIsqRd[i]; row.rdFactor=rc? (mp? ((Rr>0)? galaxyAxialRdFactor(T._rdIsqRd[i],Rr,1) : 1) : f) : null; }
+    if(mp){ row.mass=S.m[i]; row.responseFactor=rc? f : null; }
     receivers.push(row);
   }
   const res={version:GALAXY_AXIAL_VERSION, key:REL_DRAG_GALAXY_AXIAL_KEY, declared:!!g, decl:g? {wx:g.wx, wy:g.wy, wz:g.wz} : null, explicitZero:zero, active,
@@ -58305,6 +58329,11 @@ function inertialDragGalaxyAxialState(S){
     res.rd={version:GALAXY_AXIAL_RD_VERSION, rdPow:g.rdPow, rule:"omegaG*(Rd/Rref)^rdPow", radius:"dragCore R_d(S._rdIsqRd)", position:"independent",
       refRadius:(q && !(Rr>0))? null : (q? Rr : (g.refRadius!==undefined? g.refRadius : null)), refRadiusDeclared:g.refRadius!==undefined,
       refRadiusDefaultM:(g.refRadius===undefined)? GALAXY_AXIAL_REF_RADIUS_M : null, lenSI:(S._rdLenSI>0)? S._rdLenSI : null, resolved:rdOn};
+  }
+  if(mp){   // 第313便b(R235・AN395): massPow を宣言した本だけ(版・式・m_ref・質量の読み —— 受け手ごとの mass・responseFactor は receivers[])
+    res.decl.massPow=g.massPow; res.decl.refMass=g.refMass;
+    res.rdm={version:GALAXY_AXIAL_RDM_VERSION, massPow:g.massPow, refMass:g.refMass, rule:"omegaG*(Rd/Rref)*(mref/m)", kernel:"k1", rdPow:1, mass:"S.m(エンジンの質量 —— 下限で持ち上げた天体は持ち上げた値・dragCore の massFrac は掛けない)",
+      position:"independent", commonWhenRdProportionalToMass:true};
   }
   return res;
 }
