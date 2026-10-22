@@ -83828,15 +83828,21 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       try {
         const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
         const H = loadHtmlHeadless(path.join(ROOT, TARGET)), N = X.partN(H), B = X.partB(H);
-        let nN = 0, mN = 0;
+        // 規則の値の R_d の行(ctrl 1)の軸の ω とその次数は丸めの尺度 ε r/R_d に敏い(節点の向きの最後の 1 bit が r/R_d 倍に効く)—— 相対 1e-9 で同じでなければ
+        //   丸めの尺度の内(abs の差 ≤ roundScale × max(1, abs(値)))を許す(Node の版で三角関数の最後の bit が違っても門の意味は同じ)。対照の行と他の欄は相対 1e-9
+        const SENS = ['omega', 'pRdLo', 'pRdHi', 'pmLo', 'pmHi', 'pr', 'devMax', 'vsCtrl', 'omegaR3PerRdm', 'dirMaxRad'];
+        let nN = 0, mN = 0, nR = 0;
         N.rows.forEach((r, k) => { const q = J.N.rows[k];
-          for (const f of Object.keys(r)) if (typeof r[f] === 'number' && Number.isFinite(r[f])) { nN++; if (!relq(r[f], q[f], 1e-9) && !(Math.abs(r[f] - q[f]) < 1e-12)) { mN++; if (mN <= 3) bad.push('② 段 N の rows[' + k + '].' + f + ' を作り直すと違う ' + r[f] + '/' + q[f]); } } });
+          for (const f of Object.keys(r)) if (typeof r[f] === 'number' && Number.isFinite(r[f])) { nN++;
+            if (relq(r[f], q[f], 1e-9) || Math.abs(r[f] - q[f]) < 1e-12) continue;
+            if (q.ctrl === 1 && SENS.includes(f) && Math.abs(r[f] - q[f]) <= q.roundScale * Math.max(1, Math.abs(q[f]))) { nR++; continue; }
+            mN++; if (mN <= 3) bad.push('② 段 N の rows[' + k + '].' + f + ' を作り直すと違う ' + r[f] + '/' + q[f]); } });
         if (B.allPass !== true || JSON.stringify(B.isolated.map((r) => [r.k, r.j, r.ratio, r.exact])) !== JSON.stringify(J.B.isolated.map((r) => [r.k, r.j, r.ratio, r.exact]))) bad.push('② 段 B を作り直すと正本と違う');
         let nP = 0, mP = 0;
         for (const r of J.X.rows) for (const p of r.pairs) if (p.ratio !== null) { nP++; if (!relq(p.ratio, p.change / p.firstOrder, 1e-9)) mP++; }
         if (mP) bad.push('② 段 X の対の比 = 変化/一次の見積りが違う ' + mP + ' 対');
         if (!J.X.bodies.every((b, i) => relq(b.RdPerM, J.N.kappaSI, 1e-8) && Math.abs(b.fRule - 1) < 1e-9 && Math.abs(b.fOff - (i === J.X.offBody ? 2 : 1)) < 1e-9)) bad.push('② 段 X の R_d/m ≠ κ₀ か係数が 1(地球だけ 2)でない');
-        cases.push(`② 段 N を対象 html で作り直して ${nN - mN}/${nN} 個が相対 1e-9・段 B の門と孤立の比が一致・段 X の対の比 ${nP} 対・R_d/m = κ₀ と係数`);
+        cases.push(`② 段 N を対象 html で作り直して ${nN - mN - nR}/${nN} 個が相対 1e-9(${nR} 個は規則の値の R_d の行の丸めの尺度の内)・段 B の門と孤立の比が一致・段 X の対の比 ${nP} 対・R_d/m = κ₀ と係数`);
       } catch (e) { bad.push('② 作り直せない: ' + String(e && e.stack || e).slice(0, 160)); }
       // ③
       if (!sec) bad.push('PHYSICS〔第313便b〕が無い');
