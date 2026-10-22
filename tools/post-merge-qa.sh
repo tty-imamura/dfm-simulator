@@ -265,6 +265,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.decayK1_312 docs.decay312 behavior.
 #   v2 の世代切替を受けた docs.planet3_311(AN396 の採用の欄・門の直し)・同じ写しと標的を読む docs.mdSweep310・docs.an336_306・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.confirm312 docs.planet3_311 docs.mdSweep310 docs.an336_306 lint.canon304"
 # ==== 第312便d の塊(ここまで)====
+# ==== 第313便a の塊(ここから)====
+# 第313便a(原仮定者の裁定(第115報)AN399・AN402・AN403・AN404・R234): 枝 a の新設 3 本(behavior.kappaM313 —— K1 の規則の鍵 rdRule:"kappaM" の受理・閉じた式・明示の優先・下限の記録・
+#   省略のビット同一・器の写しの明示の dragCore とのビット同一・behavior.shellRecv313 —— 外殻の受け手 "core"・近距離の場・docs.kappaM313 —— 正本と文書)と、受理器と K1 の評価を読む
+#   behavior.decayK1_312・docs.decay312・behavior.invSq310・behavior.invSq309・behavior.initObs309・behavior.coreSpin311・behavior.galaxial311・behavior.galaxialRd312・状態の契約・CANON
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.kappaM313 behavior.shellRecv313 docs.kappaM313 behavior.decayK1_312 docs.decay312 behavior.invSq310 behavior.invSq309 behavior.initObs309 behavior.coreSpin311 behavior.galaxial311 behavior.galaxialRd312 lint.stateContract302 lint.canon304"
+# ==== 第313便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
