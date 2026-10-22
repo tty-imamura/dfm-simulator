@@ -284,8 +284,9 @@ export function partN(H) {
   const k1 = q0.physics, kb = kappaBook(q0);
   for (const r of rows) for (const k of ['omega', 'pRdLo', 'pRdHi', 'pmLo', 'pmHi', 'pr', 'devMax', 'vsCtrl', 'omegaR3PerRdm']) if (typeof r[k] === 'number') r[k] = r10(r[k]);
   const ctlR3 = ctl.map((r) => r.omegaR3PerRdm), ctlSpread = ctlR3.length ? (Math.max(...ctlR3) - Math.min(...ctlR3)) / Math.max(...ctlR3) : null;
-  return { kernel: 'k1', recv: { id: MER, body: '水星の写し', RdRule: 'κ₀m', mBook: r10(Math.fround(q0.bodies[1].m)), RdM: r10(kb * Math.fround(q0.bodies[1].m) * L) },
-    src: { body: '太陽', RdRule: 'κ₀M☉', RdM: r10(kb * Math.fround(q0.bodies[0].m) * L) }, kappaBook: r10(kb), kappaSI: r10(kappaSI(q0)), G: k1.G, cLight: k1.cLight, C1: r10(C1),
+  const Mu = Math.pow(10, q0.scaleExp.M);   // 診断の写しの本の ID と宣言の要点(R・m・R_d)を出力に
+  return { kernel: 'k1', recv: { id: MER, body: '水星の写し', RdRule: 'κ₀m', mBook: r10(Math.fround(q0.bodies[1].m)), mKg: r10(Math.fround(q0.bodies[1].m) * Mu), RM: r10(q0.bodies[1].radius * L), RdM: r10(kb * Math.fround(q0.bodies[1].m) * L) },
+    src: { id: MER, body: '太陽', RdRule: 'κ₀M☉', mKg: r10(Math.fround(q0.bodies[0].m) * Mu), RM: r10(q0.bodies[0].radius * L), RdM: r10(kb * Math.fround(q0.bodies[0].m) * L) }, kappaBook: r10(kb), kappaSI: r10(kappaSI(q0)), G: k1.G, cLight: k1.cLight, C1: r10(C1),
     distAU: N_DIST.map((d) => r10(A_MER_AU * d)), orders: N_ORDERS, ctrl: N_CTRL, far: N_FAR, rows,
     summary: { mmDevMax: r10(Math.max(...mm1.map((r) => r.devMax))), mmDevOverRound: r10(Math.max(...mm1.map((r) => r.devMax / r.roundScale))), ctrlDevMax: r10(Math.max(...ctl.map((r) => r.devMax))),
       srcRecvSame, ctrlOmegaR3Spread: r10(ctlSpread), vsCtrlMax: r10(Math.max(...mm1.map((r) => Math.abs(r.vsCtrl)))), vsCtrlOverRoundMax: r10(Math.max(...mm1.map((r) => Math.abs(r.vsCtrl) / r.roundScale))) },
@@ -337,7 +338,7 @@ export function partX(H, quick) {
   plan.push({ mode: 'q0', f: 1 }, { mode: 'rdOnly', f: 1 });
   const runs = plan.map((p) => runSolar(H, { ...p, steps }, geo));
   const rule1 = runs.find((r) => r.mode === 'rule' && r.off === null && r.f === 1), off1 = runs.find((r) => r.mode === 'rule' && r.off === X_OFF && r.f === 1), rdo = runs.find((r) => r.mode === 'rdOnly');
-  const bodies = G311.LABELS.map((label, i) => ({ i, label, RdM: r10(ref.Rd[i] * L), mKg: r10(ref.m[i] * Mu), RdPerM: r10((ref.Rd[i] * L) / (ref.m[i] * Mu)),
+  const bodies = G311.LABELS.map((label, i) => ({ i, label, RM: r10(base.bodies[i].radius * L), RdM: r10(ref.Rd[i] * L), mKg: r10(ref.m[i] * Mu), RdPerM: r10((ref.Rd[i] * L) / (ref.m[i] * Mu)),
     fRule: r10(rule1.factors[i]), fOff: r10(off1.factors[i]), fRdOnly: r10(rdo.factors[i]) }));
   const rows = runs.map((r) => {
     const rf = r.off === null ? ref : refOff, per = [], pairs = [];
@@ -372,7 +373,7 @@ export function partX(H, quick) {
     init.rows.push({ i, label: G311.LABELS[i], ruleVsNone: r10(dR), ruleFirstOrder: r10(fR * est1), ruleRatio: r10(est1 > 10 * FLOOR_ANG ? dR / (fR * est1) : null), ruleVsQ0: r10(dQ),
       offVsNone: r10(dO), offFactor: r10(fO), offRatio: r10(est1 > 10 * FLOOR_ANG ? dO / (fO * est1) : null) });
   }
-  return { kernel: 'k1', geometry: { omHat: geo.omHat, OmRefSI: geo.OmRefSI, omHatDotNgp: geo.omHatDotNgp }, OmRefBook: r10(OmBook), steps, dt, Teff: r10((steps - 1) * dt),
+  return { kernel: 'k1', copyId: base.id, copyFrom: 'jupiterSunInertial3d の単位と太陽 + 惑星の本(第311便b の器の写し)', geometry: { omHat: geo.omHat, OmRefSI: geo.OmRefSI, omHatDotNgp: geo.omHatDotNgp }, OmRefBook: r10(OmBook), steps, dt, Teff: r10((steps - 1) * dt),
     orbitsMercury: quick ? G311.N_ORB_QUICK : G311.N_ORB, kappaBook: r10(kappaBook(base)), refRadiusM: r10(kappaBook(base) * Math.fround(base.bodies[0].m) * L), refMassKg: r10(Math.fround(base.bodies[0].m) * Mu),
     offBody: X_OFF, bodies, rows, ruleVsQ0AxisMax: r10(ruleVsQ0), initSpin: init, refFinite: ref.finite && refOff.finite,
     firstStepNote: '最初の步は履歴が無く u = 0・軸の ω を使わない(今の経路 —— 一次の見積りの時間は (步数 − 1) h)',
