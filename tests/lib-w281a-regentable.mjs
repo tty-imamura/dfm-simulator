@@ -1765,6 +1765,10 @@ export const STATIC_READ_DECL = [
     why: '出力の説明文の中の言及(読まない)' },
   { via: 'tests/exp-w284a-cluster.mjs', file: 'tests/out/cluster-w283f.json', kind: 'imported-main',
     why: 'exp-w284a-cluster の本走(段 clusterStable —— after に clusterAnalogy)が読む正本。段 clusterScan(exp-w285a-cluster)は定数と関数だけを import し、この読みは走らない' },
+  // ==== 第313便d の塊(ここから)====
+  { via: 'tests/exp-w312d-confirm.mjs', file: 'tests/out/planet3-w311d.json', kind: 'imported-main',
+    why: '確認の器の本走(段 confirm-312d —— after に planet3-311d)と段 C の規則の表が読む正本。段 k1confirm-313d(exp-w313d-k1confirm)は確認の器の写しと走行の関数(baseOf・bookOf・runSpec・moonOf・costOf)だけを import し、規則の基礎の表(ruleBasis・planet3Of)は呼ばない —— κ₀ は閉じた式で固定' },
+  // ==== 第313便d の塊(ここまで)====
 ];
 const STATIC_SKIP_MODULES = ['tests/lib-w281a-regentable.mjs'];
 const stripComments = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
