@@ -85044,7 +85044,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----   ② 近距離の場: 外殻を持つ水星の観測半径の 1.01・3 倍の試験の受け手の行が mass と core でビット同一・源の外殻の分の割合 ≈ 0.5(core でも外殻は源)
 // ----   ③ core の写しの観測の初期値の分解・10 步が有限・行の帳簿(badRow 0)
 {
-  await (async () => {   // 第310便c(heap)
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const sr313Harn = path.join(ROOT, 'tests', 'exp-w313a-kappam.mjs');
   const sr313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && sr313Html.indexOf('REL_DRAG_INVSQ_SHELL_RECV_VERSION="w313a-shellrecv-1"') >= 0 && fs.existsSync(sr313Harn))) {
