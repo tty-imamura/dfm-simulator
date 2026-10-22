@@ -17,15 +17,31 @@
 //     比 g(rd) = β(rd)/β(1) は器が t = 0 の写しで測り、rd² からのずれを表に出す。
 //   ・第312便d(v2 —— 決断事項 AN396 の最終の採用の欄・統括の検証項目 R233): adoptOf が候補の点そのものの 4 つの欄 rootBracketed・numericResolved・targetReached・
 //     declAdmissible を作る(ε は器の宣言の定数を引数で受ける —— 今の粗い門〔gateOf〕は残す)。R_d の口の換算(R_d/R・R_d/m・絶対の m)と K1 の比較の鍵(kernel)。
+//   ・第313便d(v3 —— 原仮定者の裁定(第115報)AN399・AN402・決断事項 AN396′・統括の検証項目 R237): **全天体の規則 R_d = κ₀m**(θ.rule = "kappa0" —— K1 の写しだけ・
+//     太陽にも写しの明示の dragCore {massFrac: 1, radius: κ₀M☉/L}。κ₀ = 10G/(C₁c²) は本の G・c と C₁ の閉じた式で固定〔合わせない〕—— 本の単位の長さは 10 G m/(C₁ c²))。
+//     adoptOf の cap を外す(0 < R_d ≤ 観測半径だけ —— K1 は cap を見ない・宣言した K2 は超えてよい)。K1 の細分は x = R_d の割線(β ∝ R_d —— secantLin)。
 //
 // ■ しないこと: html を読まない・エンジンの式を写さない・**フィットしない**(探索の材料 —— 探索の値を在位へ入れない)。全ノブが決まったとは書かない(AN392)。
 import * as AN from './lib-w306a-an336.mjs';
-export const LIB_VERSION = 'w312d-planet3-lib-2';
+export const LIB_VERSION = 'w313d-planet3-lib-3';
 /** 一次の見積りの係数の注記(受け手の一様球の自己の場の比の体積平均 —— 器は段 S でエンジンの β から測って c2 に書く。この数は注記で、計算には使わない) */
 export const C2_NOTE = Object.freeze({ value: 0.45838, note: 'β ≈ C₂(M☉/m)(R_d/r)²・C₂ ≈ 0.45838(受け手の一様球の自己の場の比の体積平均 —— 中心の自己の場 3m/R_d² だけなら 1/3)' });
 /** K1 の比較の鍵(枝 a の invSq.kernel —— 省略 = 今〔k2〕。受理しない html では器が「未接続」と記録する) */
 export const KERNELS = Object.freeze(['k2', 'k1']);
-export const CAP_M = 6.5e6;   // AN363 の dragCore の既定の半径の上限(m)
+export const CAP_M = 6.5e6;   // AN363 の dragCore の既定の半径の上限(m)—— v3: K2 の未宣言の既定の上限の記録だけ(器の受理・採用の欄では見ない)
+/** v3(第313便d): K1 の一次の値の係数 C₁ = 6[(√3/2)ln(2+√3) − 1](閉じた式 —— 一様球の自己の場の比の体積平均の K1 の族)と全天体の規則の名 */
+export const C1_CLOSED = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1);
+export const RULES = Object.freeze(['kappa0']);
+/** 本の単位の R_d = κ₀ m = 10 G m /(C₁ c²)(G・c・m は本の単位 —— 換算なしに本の単位の長さ。p は本) */
+export const rdBookKappa0 = (p, m) => 10 * p.physics.G * m / (C1_CLOSED * p.physics.cLight * p.physics.cLight);
+/** κ₀ [m/kg](本の G・c を SI へ換算 —— 表示と表のため) */
+export const kappa0SI = (p) => 10 * p.physics.G * Math.pow(10, p.scaleExp.L) / (C1_CLOSED * p.physics.cLight * p.physics.cLight * Math.pow(10, p.scaleExp.M));
+/** κ/κ₀ の倍率 kf の惑星の R_d/R(本の単位の R_d を半径で割る —— 表と区間の x。宣言の半径は bookOf が kf·10 G m/(C₁ c²) で置く) */
+export const rdOfKf = (p, kf) => kf * rdBookKappa0(p, p.bodies[1].m) / p.bodies[1].radius;
+/** R_d/R から κ/κ₀ の倍率へ(12 桁 —— 行の鍵) */
+export const kfOfRd = (p, rd) => Number((rd * p.bodies[1].radius / rdBookKappa0(p, p.bodies[1].m)).toPrecision(12));
+/** 全天体の規則の候補 θ(惑星の R_d = kf·κ₀m —— kf = 1 は κ₀ そのもの) */
+export const thetaOfKf = (p, kf) => ({ rd: rdOfKf(p, kf), md: 1, sunMd: 1, rule: 'kappa0', kf });
 /** 3 惑星(器の --planet の鍵 —— 本の ID・絵文字は在位の本) */
 export const PLANETS = Object.freeze([
   Object.freeze({ key: 'mercury', id: 'mercurySunInertial3d', emoji: '🌡️', ja: '水星' }),
@@ -57,10 +73,12 @@ export const SUN_MD_POINTS = Object.freeze([1, 1e-1, 1e-3, 1e-6]);
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const pos = (x) => Number.isFinite(x) && x > 0;
 export const r3 = (x) => Number(Number(x).toPrecision(3));
-export const thetaOf = (o = {}) => ({ rd: o.rd === undefined ? 1 : o.rd, md: o.md === undefined ? 1 : o.md, sunMd: o.sunMd === undefined ? 1 : o.sunMd });
+// v3: rule(全天体の規則 "kappa0")は宣言したときだけ鍵に載る(省略の行の鍵と JSON は v2 とビット同一)
+export const thetaOf = (o = {}) => Object.assign({ rd: o.rd === undefined ? 1 : o.rd, md: o.md === undefined ? 1 : o.md, sunMd: o.sunMd === undefined ? 1 : o.sunMd }, o.rule ? { rule: o.rule } : {}, o.kf !== undefined ? { kf: o.kf } : {});
 export const kernelOf = (t) => (t && t.kernel === 'k1') ? 'k1' : 'k2';
-export const thetaKey = (t) => { const q = thetaOf(t); return 'rd=' + q.rd + '|md=' + q.md + '|sun=' + q.sunMd + (t && t.coreSpin ? '|spin=' + JSON.stringify(t.coreSpin) : '') + (kernelOf(t) === 'k1' ? '|kernel=k1' : ''); };
-export const isTheta0 = (t) => { const q = thetaOf(t); return q.rd === 1 && q.md === 1 && q.sunMd === 1 && !(t && t.coreSpin); };
+export const ruleOf = (t) => (t && t.rule) ? t.rule : null;
+export const thetaKey = (t) => { const q = thetaOf(t); return 'rd=' + q.rd + '|md=' + q.md + '|sun=' + q.sunMd + (t && t.coreSpin ? '|spin=' + JSON.stringify(t.coreSpin) : '') + (q.rule ? '|rule=' + q.rule : '') + (q.kf !== undefined ? '|kf=' + q.kf : '') + (kernelOf(t) === 'k1' ? '|kernel=k1' : ''); };
+export const isTheta0 = (t) => { const q = thetaOf(t); return q.rd === 1 && q.md === 1 && q.sunMd === 1 && !(t && t.coreSpin) && !q.rule; };
 /** θ に K1 の鍵を載せる(k2 は省略 —— 今の動作の行と同じ鍵) */
 export const withKernel = (t, kernel) => (kernel === 'k1' ? Object.assign({}, t, { kernel: 'k1' }) : t);
 /* R_d の口(v2): 絶対の R_d [m]・R_d/m [m/kg] を惑星の R_d/R へ(6 桁 —— 行の鍵に使う)。K1 の根は R_d がミリメートルの程度の見込み(R_d/R は 1e-9 の程度) */
@@ -72,6 +90,9 @@ export function checkTheta(t) {
   if (!(pos(q.md) && q.md <= 1)) return 'm_d/M は 0 < md ≤ 1(AN386)';
   if (!(pos(q.sunMd) && q.sunMd <= 1)) return '太陽の m_d/M☉ は 0 < sunMd ≤ 1(AN386)';
   if (q.rd === 1 && q.md < 1) return 'R_d = R で m_d < M は外殻の体積が 0(エンジンの受理と同じ —— rd < 1 が要る)';
+  if (q.rule !== undefined && !RULES.includes(q.rule)) return '全天体の規則は ' + RULES.join('|') + '(v3)';
+  if (q.rule === 'kappa0' && q.sunMd !== 1) return '全天体の規則 kappa0 では太陽の m_d を掃引しない(太陽も規則の R_d = κ₀M☉・m_d = M☉)';
+  if (q.kf !== undefined && !(pos(q.kf) && q.rule === 'kappa0')) return 'κ/κ₀ の倍率 kf は全天体の規則 kappa0 の正の数だけ';
   return null;
 }
 
@@ -103,7 +124,12 @@ export function bookOf(base, kind, th = THETA0) {
   q.physics.relativeDrag = clone(NEW_DRAG);
   if (kernelOf(th) === 'k1') q.physics.relativeDrag.invSq.kernel = 'k1';   // v2: 枝 a の鍵(受理しない html は validatePreset が拒否 —— 器が「未接続」と記録)
   const L = Math.pow(10, q.scaleExp.L), R = q.bodies[1].radius;
-  if (t.rd < 1 || t.md < 1) q.bodies[1].dragCore = { massFrac: t.md, radius: t.rd * R };
+  if (t.rule === 'kappa0') {   // v3: 全天体の規則(K1 だけ)—— 太陽も写しの明示の dragCore(κ₀M☉ —— 本の単位の 10 G m/(C₁ c²))・惑星は候補の R_d
+    if (kernelOf(th) !== 'k1') throw new Error('θ: 全天体の規則 kappa0 は K1 の写しだけ(--kernel k1)');
+    q.bodies[0].dragCore = { massFrac: 1, radius: rdBookKappa0(q, q.bodies[0].m) };
+    q.bodies[1].dragCore = { massFrac: t.md, radius: t.kf !== undefined ? t.kf * rdBookKappa0(q, q.bodies[1].m) : t.rd * R };
+  }
+  else if (t.rd < 1 || t.md < 1) q.bodies[1].dragCore = { massFrac: t.md, radius: t.rd * R };
   if (t.sunMd < 1) q.bodies[0].dragCore = { massFrac: t.sunMd, radius: CAP_M / L };
   if (th && th.coreSpin) {
     const cs = th.coreSpin, b = cs.body === 0 ? 0 : 1, B = q.bodies[b];
@@ -149,11 +175,11 @@ export function gateOf(r, band, G = GATE) {
 }
 
 /**
- * 決断事項 AN396 の最終の採用の欄(v2 —— 今の粗い門 gateOf は残す)。**候補の点そのもの**の値で:
+ * 決断事項 AN396 の最終の採用の欄(v2 —— 今の粗い門 gateOf は残す。v3: declAdmissible から cap を外す —— 0 < R_d ≤ 観測半径だけ)。**候補の点そのもの**の値で:
  *   rootBracketed   区間が 1 つ ∧ 候補が区間の内(両端を含む)
  *   numericResolved 候補の点で abs(r_h − r_h/2) ≤ ε_num ∧ abs(r_h/2 − r_h/4) ≤ ε_num(h/4 が無ければ null —— 採らない)
  *   targetReached   候補の点の h/4 の残差 abs(r_h/4) ≤ ε_fit(h/4 が無ければ null)
- *   declAdmissible  宣言として受理できる(受理した走行・質量 > 0・0 < R_d ≤ min(R, cap)・0 < m_d ≤ M・分母が正〔β の最大 < 1〕・有限)
+ *   declAdmissible  宣言として受理できる(受理した走行・質量 > 0・0 < R_d ≤ R〔v3: cap は見ない —— 原仮定者の裁定(第115報)〕・0 < m_d ≤ M・分母が正〔β の最大 < 1〕・有限)
  * c = {theta, rByDiv:{1,2,4}, R(惑星の半径 m), runs:[{status, nan, betaMax}]}・br = {kind, lo, hi}・eps = {fit, num}
  */
 export function adoptOf(c, br, eps) {
@@ -165,7 +191,7 @@ export function adoptOf(c, br, eps) {
   const targetReached = f(r[4]) ? Math.abs(r[4]) <= eps.fit : null;
   const RdM = t.rd * c.R, runs = c.runs || [];
   const declAdmissible = runs.length > 0 && runs.every((z) => z.status === 'run' && z.nan === false && f(z.betaMax) && z.betaMax >= 0 && z.betaMax < 1)
-    && f(c.R) && c.R > 0 && RdM > 0 && t.rd <= 1 && RdM <= CAP_M && t.md > 0 && t.md <= 1 && t.sunMd > 0 && t.sunMd <= 1;
+    && f(c.R) && c.R > 0 && RdM > 0 && t.rd <= 1 && t.md > 0 && t.md <= 1 && t.sunMd > 0 && t.sunMd <= 1;
   return { candidate: { theta: t, RdM, rByDiv: r }, d12, d24, rootBracketed, numericResolved, targetReached, declAdmissible,
     adopted: rootBracketed && numericResolved === true && targetReached === true && declAdmissible };
 }
@@ -190,6 +216,12 @@ export function secantX(lo, hi) {
   const x = xl - lo.r * (xh - xl) / (hi.r - lo.r);
   return x > 0 ? Math.sqrt(x) : null;
 }
+/** v3: x = rd の割線(K1 —— β ∝ R_d・区間の中)。全天体の規則の細分は R_d に線形 */
+export function secantLin(lo, hi) {
+  if (hi.r === lo.r) return null;
+  const x = lo.rd - lo.r * (hi.rd - lo.rd) / (hi.r - lo.r);
+  return x > 0 ? x : null;
+}
 /** ln rd の割線(比較) */
 export function secantLn(lo, hi) {
   const a = Math.log(lo.rd), b = Math.log(hi.rd);
@@ -197,12 +229,12 @@ export function secantLn(lo, hi) {
   return Math.exp(a - lo.r * (b - a) / (hi.r - lo.r));
 }
 /** 次の点: 区間があれば x の割線(区間の外なら ln の二分)・無ければ null */
-export function nextRd(rows) {
+export function nextRd(rows, o = {}) {
   const B = bracketsOf(rows);
   if (B.kind !== 'one') return { rd: null, why: B.kind === 'none' ? '区間なし' : '区間が複数' };
   const { lo, hi } = B.brackets[0];
   if (lo === hi) return { rd: lo.rd, why: '格子の点が根' };
-  let rd = secantX(lo, hi), how = 'x = (R_d/R)² の割線';
+  let rd = o.lin ? secantLin(lo, hi) : secantX(lo, hi), how = o.lin ? 'x = R_d/R の割線(K1 —— β ∝ R_d)' : 'x = (R_d/R)² の割線';
   if (!(rd > lo.rd && rd < hi.rd)) { rd = Math.sqrt(lo.rd * hi.rd); how = 'ln R_d の二分(割線が区間の外)'; }
   return { rd, why: how, lo: lo.rd, hi: hi.rd };
 }
