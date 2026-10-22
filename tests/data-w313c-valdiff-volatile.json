@@ -1,0 +1,715 @@
+{
+ "version": "w313c-valdiff-decl-1",
+ "what": "値の差の記録(tools/regen-valdiff.mjs)の**除外の宣言**(決断事項 AN394 の影の 2 回目の土台・統括の検証項目 R236)。段ごと・正本ごとの JSON Pointer(`*` は 1 段の任意)と種類と理由。鎖の計画に響かない別のデータ(再生成表の volatilePaths は安定 hash の刻印と表の lib の sha に入る —— そこへ足すと読み手の段の計画が動く)。器と表の lib は読まない",
+ "rule": "観測の epoch・物理の時刻・正本の値(物理量・判定・本の宣言)は宣言しない。種類ごとの値の型を tools/regen-valdiff.mjs の checkDeclared が照合する(QA lint.valdiffDecl313)。宣言は第312便の基準線(c98db78 → a28c4c1 の正本)の差を器の本文と正本の値で 1 つずつ確かめて書いた(手で直す —— 生成物ではない)",
+ "tool": "node tools/regen-valdiff.mjs --base <rev> [--now <rev>] [--table](既定で読む —— --no-declared で外す・--declared <file> で差し替え)",
+ "kinds": {
+  "clock": "exclude —— 実行時刻(器が new Date() で刻む時刻・入力の正本の実行時刻の写し)—— 観測の epoch・物理の時刻ではない",
+  "wall": "exclude —— 所要(壁時計の秒・ms・その比と割合)",
+  "rate": "exclude —— 速さ(步/秒・µs/步 —— 壁時計から作る)",
+  "wallText": "exclude —— 所要の数を埋めた文(器が壁時計の最長などを文に書く)",
+  "timingRecord": "exclude —— 所要の記録の節(QA・速さの測定 —— 中の数・並び・顔ぶれ・割り振りは所要の走行で決まる)",
+  "mergeKey": "exclude —— 結合の鍵(対象 html と入力の hash —— 列を同じ html で作ったかの照合用)",
+  "codeId": "exclude —— コードと対象の同一性(エンジンの sha・契約の hash・閉包の大きさ・対象 html の sha の写し)",
+  "provenance": "exclude —— 来歴(比べた相手・転記元の契約・QA の rev・見積りの出所)",
+  "line": "exclude —— html の行番号(html の行が動くと動く)",
+  "build": "exclude —— beta の版名(便ごとに変わる)",
+  "sched": "exclude —— 実行の割り振り(どの worker で走ったか —— 走らせるたびに変わる)",
+  "order": "order —— 並びを問わない(配列を by の欄で引く表に直して比べる —— 並びが所要の順の表)",
+  "count": "count —— 数え上げ(段・QA・本の数 —— 除かない。差は構成の差に数え、物理の差に数えない)"
+ },
+ "steps": {
+  "obsintake": {
+   "tests/out/obsintake-w263c.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w263c-obsintake.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "recordid": {
+   "tests/out/recordid-w270b.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w270b-recordid.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "calaudit": {
+   "tests/out/calaudit-w249.json": [
+    {
+     "ptr": "/presets/*/run/h2Reuse/contractSha",
+     "kind": "codeId",
+     "why": "dt/2 の転記の契約の hash(エンジンの sha・法則の sha・dt・步数の上限ほか)。中の物理の宣言は h2Reuse/stable/parts/physicsDecl、dt・步数は run の欄で比べる(除かない)"
+    },
+    {
+     "ptr": "/presets/*/run/h2Reuse/stable/parts/numerics",
+     "kind": "codeId",
+     "why": "安定 hash の数値方式の部分(dt・dtH・stepsPerOrbit0・engineSha の hash)。dt と stepsPerOrbit0 は同じ正本の run の欄で比べる(除かない)—— 残りはエンジンの sha"
+    },
+    {
+     "ptr": "/presets/*/run/h2Reuse/reusedFrom/contractSha",
+     "kind": "provenance",
+     "why": "転記元(前の正本の h/2)の契約の hash"
+    },
+    {
+     "ptr": "/presets/*/run/dtHalf/reusedFrom/contractSha",
+     "kind": "provenance",
+     "why": "転記元(前の正本の h/2)の契約の hash"
+    },
+    {
+     "ptr": "/presets/*/run/timeBudget/*/reusedFrom/contractSha",
+     "kind": "provenance",
+     "why": "転記元(前の正本の段)の契約の hash"
+    },
+    {
+     "ptr": "/presets/*/run/stopRuleStages/*/reusedFrom/contractSha",
+     "kind": "provenance",
+     "why": "転記元(前の正本の段)の契約の hash"
+    },
+    {
+     "ptr": "/h2Reuse/reusedSec",
+     "kind": "wall",
+     "why": "転記した h/2 の元の走行の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/h2Reuse/engineFingerprint/closure/names",
+     "kind": "codeId",
+     "why": "エンジンの依存閉包の関数の数(コードの大きさ —— html のコードが変わると動く)"
+    },
+    {
+     "ptr": "/h2Reuse/engineFingerprint/closure/closureShare",
+     "kind": "codeId",
+     "why": "エンジンの依存閉包の割合(コードの大きさの比)"
+    }
+   ],
+   "tests/out/calaudit-w249-diag.json": [
+    {
+     "ptr": "/h2Store/entries/*/contract/engineSha",
+     "kind": "codeId",
+     "why": "h/2 の転記の帳簿の契約のエンジンの sha(コードの同一性)"
+    },
+    {
+     "ptr": "/h4Store/entries/*/contract/engineSha",
+     "kind": "codeId",
+     "why": "h/4 の転記の帳簿の契約のエンジンの sha(コードの同一性)"
+    },
+    {
+     "ptr": "/h2Store/entries/*/stable/parts/numerics",
+     "kind": "codeId",
+     "why": "安定 hash の数値方式の部分(dt・dtH・stepsPerOrbit0・engineSha の hash —— dt・步数は calaudit-w249.json の run の欄で比べる)"
+    }
+   ]
+  },
+  "solarsigma": {
+   "tests/out/solarsigma-w262d.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w262d-solarsigma.mjs の when: new Date().toISOString())"
+    },
+    {
+     "ptr": "/inputs/calauditWhen",
+     "kind": "clock",
+     "why": "入力 calaudit-w249.json の実行時刻の写し(meta.when)"
+    }
+   ]
+  },
+  "d68three": {
+   "tests/out/d68-w268a.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w268a-d68.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "stoprule": {
+   "tests/out/stoprule-w270a.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w270a-stoprule.mjs の when: new Date().toISOString())"
+    },
+    {
+     "ptr": "/replay/differingRows/*/nowWallSec",
+     "kind": "wall",
+     "why": "今の calaudit の段の壁時計(秒 —— 写し)"
+    },
+    {
+     "ptr": "/replay/differingRows/*/nowRate",
+     "kind": "rate",
+     "why": "今の calaudit の段の速さ(步/秒 —— 写し)"
+    },
+    {
+     "ptr": "/replay/rows/*/nowWallSec",
+     "kind": "wall",
+     "why": "今の calaudit の段の壁時計(秒 —— 写し)"
+    },
+    {
+     "ptr": "/replay/rows/*/nowRate",
+     "kind": "rate",
+     "why": "今の calaudit の段の速さ(步/秒 —— 写し)"
+    },
+    {
+     "ptr": "/resource/maxWallSec",
+     "kind": "wall",
+     "why": "資源上限の照合の最長の壁時計(秒)"
+    },
+    {
+     "ptr": "/resource/finding",
+     "kind": "wallText",
+     "why": "資源上限の照合の文(最長の壁時計の秒を文に書く —— 判定の語「資源上限を超えた段は 0」は exceeded の配列で比べる)"
+    }
+   ]
+  },
+  "issues": {
+   "tests/out/issues-w272a.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w272a-issues.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "assessed": {
+   "tests/out/assessed-w273c.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w273c-assessedtable.mjs の when: new Date().toISOString())"
+    },
+    {
+     "ptr": "/input/canonicalWhen",
+     "kind": "clock",
+     "why": "入力の正本(calaudit)の実行時刻の写し(meta.when)"
+    },
+    {
+     "ptr": "/stamp/inCanonicalNow",
+     "kind": "codeId",
+     "why": "入力の正本が刻んだ対象 html の sha の写し(meta.targetSha256 —— 刻印の変化の値は stampChanged・valuesChanged で比べる)"
+    }
+   ]
+  },
+  "charon-h": {
+   "tests/out/charon-w272b.json": [
+    {
+     "ptr": "/columns/*/*/mergeKey",
+     "kind": "mergeKey",
+     "why": "列(h・h/2・h/4)を同じ対象 html と観測入力で作ったかの結合の鍵(hash)"
+    },
+    {
+     "ptr": "/columns/*/*/carried/fromGeneratedAt",
+     "kind": "clock",
+     "why": "転記した列の元の正本の生成時刻(来歴の時刻)"
+    }
+   ]
+  },
+  "charoneps-h": {
+   "tests/out/charoneps-w276b.json": [
+    {
+     "ptr": "/columns/*/*/mergeKey",
+     "kind": "mergeKey",
+     "why": "列(h・h/2・h/4)を同じ対象 html と観測入力で作ったかの結合の鍵(hash)"
+    },
+    {
+     "ptr": "/columns/*/*/carried/fromGeneratedAt",
+     "kind": "clock",
+     "why": "転記した列の元の正本の生成時刻(来歴の時刻)"
+    }
+   ]
+  },
+  "charonwin": {
+   "tests/out/charonwin-w278b.json": [
+    {
+     "ptr": "/engine/runs/*/*/ms",
+     "kind": "wall",
+     "why": "エンジンの走行の壁時計(ms —— 窓の段 h・h/2・h/4 ごと)"
+    }
+   ]
+  },
+  "qsplit": {
+   "tests/out/qsplit-w271c.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w271c-qsplit.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "nslockledger": {
+   "tests/out/nslockledger-w273c.json": [
+    {
+     "ptr": "/sourceAt",
+     "kind": "clock",
+     "why": "入力 nslock-w272c.json の実行時刻の写し(meta.at —— tests/exp-w272c-nslock.mjs の at: new Date())"
+    }
+   ]
+  },
+  "intakeB": {
+   "tests/out/intakeB-w266a.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w266a-intakeB.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "confirm2": {
+   "tests/out/confirm2-w267a.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w267a-confirm2.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "confirm3": {
+   "tests/out/confirm3-w269b.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w269b-confirm3.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "confirm4": {
+   "tests/out/confirm4-w270b.json": [
+    {
+     "ptr": "/when",
+     "kind": "clock",
+     "why": "器の実行時刻(tests/exp-w270b-confirm4.mjs の when: new Date().toISOString())"
+    }
+   ]
+  },
+  "galaxylite": {
+   "tests/out/galaxylite-w274c.json": [
+    {
+     "ptr": "/table/*/msPerStep",
+     "kind": "wall",
+     "why": "1 步の壁時計(ms)"
+    },
+    {
+     "ptr": "/table/*/msMin",
+     "kind": "wall",
+     "why": "1 步の壁時計の最小(ms)"
+    },
+    {
+     "ptr": "/table/*/msMax",
+     "kind": "wall",
+     "why": "1 步の壁時計の最大(ms)"
+    },
+    {
+     "ptr": "/perfRounds",
+     "kind": "wall",
+     "why": "速さの測定の回ごとの壁時計(ms の表)"
+    }
+   ]
+  },
+  "galaxyprof2": {
+   "tests/out/galaxyprof2-w275c.json": [
+    {
+     "ptr": "/timing",
+     "kind": "wall",
+     "why": "速さの測定の節(中央値・最小・最大・広がりの比・回ごとの ms・比 —— 数だけ)"
+    },
+    {
+     "ptr": "/node/*/legacy/msPerStep",
+     "kind": "wall",
+     "why": "Node の 1 步の壁時計(ms —— 旧の経路)"
+    },
+    {
+     "ptr": "/node/*/prepared/msPerStep",
+     "kind": "wall",
+     "why": "Node の 1 步の壁時計(ms —— 前計算の経路)"
+    },
+    {
+     "ptr": "/node/*/repeats",
+     "kind": "wall",
+     "why": "Node の繰り返しの 1 步の壁時計(ms)"
+    },
+    {
+     "ptr": "/node/*/ratioPreparedOverLegacy",
+     "kind": "wall",
+     "why": "壁時計の比(前計算 / 旧)"
+    },
+    {
+     "ptr": "/node/*/ratioMedian",
+     "kind": "wall",
+     "why": "壁時計の比の中央値"
+    },
+    {
+     "ptr": "/node/*/crossStepCache/*/msPerStep",
+     "kind": "wall",
+     "why": "步をまたぐ再利用の 1 步の壁時計(ms)"
+    },
+    {
+     "ptr": "/node/*/crossStepCache/*/ratio",
+     "kind": "wall",
+     "why": "步をまたぐ再利用の壁時計の比"
+    }
+   ]
+  },
+  "d0audit2": {
+   "tests/out/d0sites-w276a.json": [
+    {
+     "ptr": "/sites/rows/*/lines",
+     "kind": "line",
+     "why": "html の行番号(該当の箇所の行 —— html の行が動くと動く。箇所の数と中身は rows の他の欄で比べる)"
+    }
+   ]
+  },
+  "bgbudget2": {
+   "tests/out/bgbudget2-w279c.json": [
+    {
+     "ptr": "/engine/*/rows/*/ms",
+     "kind": "wall",
+     "why": "エンジンの走行の壁時計(ms)"
+    }
+   ]
+  },
+  "galaxyprof": {
+   "tests/out/galaxyprof-w274c.json": [
+    {
+     "ptr": "/ratioLastOverFirst",
+     "kind": "wall",
+     "why": "壁時計の比(最後の対象 / 最初の対象)"
+    },
+    {
+     "ptr": "/targets/*/target",
+     "kind": "provenance",
+     "why": "比べた html の名(基点の html は便ごとに変わる)"
+    },
+    {
+     "ptr": "/targets/*/warmMs",
+     "kind": "wall",
+     "why": "暖機の壁時計(ms)"
+    },
+    {
+     "ptr": "/targets/*/rounds",
+     "kind": "wall",
+     "why": "回ごとの壁時計(ms)"
+    },
+    {
+     "ptr": "/targets/*/cell",
+     "kind": "wall",
+     "why": "壁時計の統計(中央値・最小・最大・広がりの比)"
+    },
+    {
+     "ptr": "/targets/*/derived",
+     "kind": "wall",
+     "why": "壁時計から作る比(toyStep・gravityReSumInPass2・srcArrayShare)"
+    },
+    {
+     "ptr": "/targets/*/shareOfStepTotal",
+     "kind": "wall",
+     "why": "壁時計の割合"
+    },
+    {
+     "ptr": "/targets/*/perFrame",
+     "kind": "wall",
+     "why": "1 こまの壁時計(ms)"
+    }
+   ]
+  },
+  "emgrid": {
+   "tests/out/emgrid-w280b.json": [
+    {
+     "ptr": "/rows/*/wallS",
+     "kind": "wall",
+     "why": "行ごとの走行の壁時計(秒)"
+    }
+   ]
+  },
+  "analogy": {
+   "tests/out/analogy-w282d.json": [
+    {
+     "ptr": "/spinResponse/runs/*/msPerStep",
+     "kind": "wall",
+     "why": "1 步の壁時計(ms)"
+    },
+    {
+     "ptr": "/analogy/health/*/msPerStep",
+     "kind": "wall",
+     "why": "1 步の壁時計(ms)"
+    }
+   ]
+  },
+  "samplestatus": {
+   "tests/out/samplestatus-w279a.json": [
+    {
+     "ptr": "/rows/*/timing/regenSteps/*/sec",
+     "kind": "wall",
+     "why": "関与する再生成の段の所要の見積り(秒 —— tests/data-w311c-regensec.json の写し)"
+    },
+    {
+     "ptr": "/rows/*/timing/qa/ms",
+     "kind": "wall",
+     "why": "保存 QA の所要(ms)"
+    },
+    {
+     "ptr": "/rows/*/timing/qa/tests/*/ms",
+     "kind": "wall",
+     "why": "保存 QA の試験ごとの所要(ms)"
+    },
+    {
+     "ptr": "/rows/*/timing/calaudit/reusedSec",
+     "kind": "wall",
+     "why": "転記した段の元の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/rows/*/timing/calaudit/reusedH2Sec",
+     "kind": "wall",
+     "why": "転記した h/2 の元の壁時計(秒)"
+    },
+    {
+     "ptr": "/rows/*/timing/calaudit/reusedH4Sec",
+     "kind": "wall",
+     "why": "転記した h/4 の元の壁時計(秒)"
+    },
+    {
+     "ptr": "/timingNote/regenSecSum",
+     "kind": "wall",
+     "why": "再生成の段の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/timingNote/alwaysSec",
+     "kind": "wall",
+     "why": "常時群の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/timingNote/undeclaredSec",
+     "kind": "wall",
+     "why": "領域を宣言しない段の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/timingNote/qaDurationMs",
+     "kind": "wall",
+     "why": "保存 QA の所要(ms)"
+    },
+    {
+     "ptr": "/timingNote/reuse/h2/sec",
+     "kind": "wall",
+     "why": "転記した h/2 の元の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/timingNote/reuse/h4/sec",
+     "kind": "wall",
+     "why": "転記した h/4 の元の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/rows/*/timing/regenSteps",
+     "kind": "order",
+     "why": "関与する再生成の段の表(並びは所要の見積りの順 —— 段の名で引く)",
+     "by": "key"
+    },
+    {
+     "ptr": "/rows/*/timing/qa/tests",
+     "kind": "order",
+     "why": "保存 QA の試験の表(並びは所要の順 —— 試験の名で引く)",
+     "by": "id"
+    },
+    {
+     "ptr": "/rows/*/timing/regenSteps/*/share",
+     "kind": "count",
+     "why": "段が宣言する本の数(all か数 —— 領域の宣言の数え上げ)"
+    },
+    {
+     "ptr": "/timingNote/regenSteps",
+     "kind": "count",
+     "why": "再生成表の現行の段の数"
+    },
+    {
+     "ptr": "/timingNote/undeclaredSteps",
+     "kind": "count",
+     "why": "領域を宣言しない段の数"
+    },
+    {
+     "ptr": "/timingNote/qaTotal",
+     "kind": "count",
+     "why": "保存 QA の試験の数"
+    },
+    {
+     "ptr": "/timingNote/qaAttribution/unattributed",
+     "kind": "count",
+     "why": "本に帰せない QA の試験の数"
+    },
+    {
+     "ptr": "/timingNote/reuse/*/n",
+     "kind": "count",
+     "why": "転記した段の数"
+    },
+    {
+     "ptr": "/rows/*/timing/qa/n",
+     "kind": "count",
+     "why": "本に帰す QA の試験の数"
+    }
+   ]
+  },
+  "shell-304b": {
+   "tests/out/shell-w304b.json": [
+    {
+     "ptr": "/stats",
+     "kind": "count",
+     "why": "器の走行の数え上げ(測った回数・記憶の当たり・包みの呼び出しの数 —— h/4 の転記の既定〔AN400〕で動く。物理の値は rows・各表の欄で比べる)"
+    }
+   ]
+  },
+  "an336-306a": {
+   "tests/out/an336-w306a.json": [
+    {
+     "ptr": "/stats",
+     "kind": "count",
+     "why": "器の走行の数え上げ(走行の数・記憶の当たり・步の総数・新しく走った数 —— h/4 の転記の既定〔AN400〕で動く。物理の値は各表の欄で比べる)"
+    }
+   ]
+  },
+  "families": {
+   "tests/out/families-w283b.json": [
+    {
+     "ptr": "/betaBuild",
+     "kind": "build",
+     "why": "beta の版名(BETA_BUILD の写し —— 便ごとに変わる)"
+    }
+   ]
+  },
+  "semic-302d": {
+   "tests/out/semic-w302d.json": [
+    {
+     "ptr": "/gates/split/baseFrom",
+     "kind": "provenance",
+     "why": "分割の門の基点の来歴(前の正本から転記するたびに carried( … ) が重なる —— 門の値は gates/split の他の欄で比べる)"
+    }
+   ]
+  },
+  "timing294": {
+   "tests/out/timing-w294d.json": [
+    {
+     "ptr": "/sources/qa/commit",
+     "kind": "provenance",
+     "why": "読んだ保存 QA の記録の rev"
+    },
+    {
+     "ptr": "/sources/qa/date",
+     "kind": "clock",
+     "why": "読んだ保存 QA の記録の時刻"
+    },
+    {
+     "ptr": "/qa",
+     "kind": "timingRecord",
+     "why": "保存 QA の所要の記録(総数・所要・上位 15・単位ごとの所要と割り振り —— QA の走行の写し)"
+    },
+    {
+     "ptr": "/live",
+     "kind": "timingRecord",
+     "why": "現行の本の速さの測定(µs/步・測った步数 K は時間の予算で決まる・閉包の数と digest はコードの同一性)"
+    },
+    {
+     "ptr": "/calibration/top5",
+     "kind": "timingRecord",
+     "why": "較正走行の所要の上位 5(顔ぶれも所要で決まる)"
+    },
+    {
+     "ptr": "/calibration/table/wallSecDt",
+     "kind": "wall",
+     "why": "較正走行の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/calibration/table/wallSecRun",
+     "kind": "wall",
+     "why": "較正走行の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/calibration/table/transcribedSec",
+     "kind": "wall",
+     "why": "転記した段の元の壁時計の和(秒)"
+    },
+    {
+     "ptr": "/calibration/table/rows/*/dtHalf/reusedFromWallSec",
+     "kind": "wall",
+     "why": "転記した h/2 の元の壁時計(秒)"
+    },
+    {
+     "ptr": "/calibration/table/rows/*/dtQuarter/reusedFromWallSec",
+     "kind": "wall",
+     "why": "転記した h/4 の元の壁時計(秒)"
+    },
+    {
+     "ptr": "/calibration/table/rows",
+     "kind": "order",
+     "why": "較正走行の表(並びは壁時計の順 —— 本の ID で引く)",
+     "by": "id"
+    },
+    {
+     "ptr": "/chain/presetsAll/*/sec",
+     "kind": "wall",
+     "why": "段の所要の見積り(秒)"
+    },
+    {
+     "ptr": "/chain/rows/*/sec",
+     "kind": "wall",
+     "why": "段の所要の見積り(秒)"
+    },
+    {
+     "ptr": "/chain/presetsAll/*/secSource",
+     "kind": "provenance",
+     "why": "段の所要の見積りの出所"
+    },
+    {
+     "ptr": "/chain/rows/*/secSource",
+     "kind": "provenance",
+     "why": "段の所要の見積りの出所"
+    },
+    {
+     "ptr": "/chain/secCurrent",
+     "kind": "wall",
+     "why": "現行の段の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/chain/secPresetsAll",
+     "kind": "wall",
+     "why": "presets:\"all\" の段の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/chain/secAlways",
+     "kind": "wall",
+     "why": "常時群の所要の見積りの和(秒)"
+    },
+    {
+     "ptr": "/chain/retiredBound/*/sec",
+     "kind": "wall",
+     "why": "段の所要の見積り(秒)"
+    },
+    {
+     "ptr": "/chain/retiredBound/*/retiredSecUpperPerHtml",
+     "kind": "wall",
+     "why": "退役の本の所要の上限の見積り(秒)"
+    },
+    {
+     "ptr": "/chain/presetsAll",
+     "kind": "order",
+     "why": "presets:\"all\" の段の表(並びは所要の見積りの順 —— 段の名で引く)",
+     "by": "key"
+    },
+    {
+     "ptr": "/chain/rows",
+     "kind": "order",
+     "why": "段の表(並びは所要の見積りの順 —— 段の名で引く)",
+     "by": "key"
+    },
+    {
+     "ptr": "/chain/nCurrent",
+     "kind": "count",
+     "why": "再生成表の現行の段の数"
+    },
+    {
+     "ptr": "/chain/nAlways",
+     "kind": "count",
+     "why": "常時群の段の数"
+    }
+   ]
+  }
+ }
+}
