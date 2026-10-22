@@ -70,6 +70,9 @@ export const SMOKE_KNOBS = Object.freeze({
   // ==== 第312便b の塊(ここから)====
   'galaxialrd-312b': { env: { W312B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 60 s・全段 A・B・N・X)' },
   // ==== 第312便b の塊(ここまで)====
+  // ==== 第313便b の塊(ここから)====
+  'galaxialrdm-313b': { env: { W313B_QUICK: '1' }, note: 'QUICK(水星の 1/4 公転 —— 約 25 s・全段 A・B・N・X)' },
+  // ==== 第313便b の塊(ここまで)====
   // ==== 第311便b の塊(ここまで)====
 });
 
