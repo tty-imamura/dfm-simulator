@@ -2576,17 +2576,29 @@ export function chainPriority(chain, tableIdx) {
 //     足りる —— 使った分だけ extra を減らす)」のときだけ入れる。予約は 1 段だけ(EASY)。
 //   ・走っている段は止めない。見積りが外れて待ちが延びても、順序(依存)・書込の排他・レーンの予算を優先する(予約は入れる順だけを変える)。
 //   ・旧の規則(空いたレーンへ優先度の順に入れるだけ)は rule:'greedy'(bash は REGEN_RESERVE=0)。
-export const READY_QUEUE_RULE = 'w311c-easy-backfill-1';
+// ==== 第313便c の塊(ここから)====
+// 第313便c(統括の検証項目 R236): **予約の前に終わる見込みに余裕 α**(規則の版 w313c-easy-backfill-2)。第312便の鎖の 1 回目は、予約した集約段 htmlagg
+//   (全レーン)の t_res を走行中の段の見積りの終わり(synodic-299b の見積り —— 前の鎖の実測で長め)で置き、その前に終わる見込みの段を入れた。
+//   synodic-299b が見積りより早く終わると、t_res は前へ動くが、入れた段は止めないので、集約段とその後ろの直列(inertialr2-303b → shell-304b →
+//   gfamily-305b → an336-306a → planet3-311d → confirm-312d —— 各段が前の段の正本を入力に読む)が待った。規則: 予約の前の backfill は
+//   「見積り ≤ α ×(t_res − 今)」の段だけ(α = RESERVE_BEFORE_ALPHA = 0.5 —— 走行中の段が早く終わって t_res が前へ動いても間に合う見込みの段だけ)。
+//   extra の内の backfill は変えない。α = 1 は旧の規則(w311c-easy-backfill-1)と同じ(bash は REGEN_RESERVE_ALPHA=100)。
+//   模擬(`node tools/regen-chain.mjs --simulate all --est <前の見積り>`)の比べは AI_SPEC §129(見積りが外れた場合に短く・見積りが正確な場合はほぼ同じ)。
+export const READY_QUEUE_RULE = 'w313c-easy-backfill-2';
+export const READY_QUEUE_RULE_HISTORY = ['w311c-easy-backfill-1', 'w313c-easy-backfill-2'];
+export const RESERVE_BEFORE_ALPHA = 0.5;
+// ==== 第313便c の塊(ここまで)====
 const needOf = (r, lanes) => (r.workers === 'all' ? lanes : Math.max(1, Math.min(r.workers || 1, lanes)));
 
 /**
  * ready queue の 1 回の選択(純関数 —— 模擬が呼び、chainShell の bash が同じ手順を書く)。
  * @param {{now:number, pri:string[], rows:object, state:Map, lock:Map|Set, running:Array<{key,start,est,workers}>, free:number, lanes:number,
- *          estOf:(k)=>number, rule?:'easy'|'greedy'}} s
+ *          estOf:(k)=>number, rule?:'easy'|'greedy', alpha?:number}} s   第313便c: alpha(既定 RESERVE_BEFORE_ALPHA —— 1 は旧の規則)
  * @returns {{starts:Array<{key:string, need:number, backfill:null|'before'|'extra'}>, reservation:null|{key:string, need:number, tRes:number, extra:number}}}
  */
 export function readyPick(s) {
   const rule = s.rule || 'easy';
+  const alpha = Number.isFinite(s.alpha) ? s.alpha : RESERVE_BEFORE_ALPHA;   // 第313便c
   let free = s.free;
   const lock = new Set(s.lock instanceof Map ? s.lock.keys() : (s.lock || []));
   const run = (s.running || []).map((e) => ({ end: Math.max(e.start + e.est, s.now), w: e.workers }));
@@ -2612,7 +2624,9 @@ export function readyPick(s) {
       }
     } else {
       if (need > free) continue;
-      if (s.now + est > res.tRes) { if (need > res.extra) continue; res.extra -= need; backfill = 'extra'; } else backfill = 'before';
+      // 第313便c: 予約の前に終わる見込みは「見積り ≤ α ×(t_res − 今)」(α = 1 は旧の規則の「今 + 見積り ≤ t_res」と同じ式で引く)
+      const late = alpha === 1 ? s.now + est > res.tRes : est > alpha * (res.tRes - s.now);
+      if (late) { if (need > res.extra) continue; res.extra -= need; backfill = 'extra'; } else backfill = 'before';
     }
     free -= need; for (const f of (r.writes || [])) lock.add(f);
     run.push({ end: s.now + est, w: need });
@@ -2627,13 +2641,14 @@ export function readyPick(s) {
  * 所要 `secOf`(走った秒)と見積り `estOf`(予約の計算に使う秒 —— 既定は secOf)を分けられる(見積りが外れたときの模擬)。
  * 同じ時刻に終わる段はまとめて回収してから選ぶ(bash のランナーは wait -n の後に終わった段を全部回収する)。
  * @param {object} chain buildChain の戻り
- * @param {{lanes?:number, secOf?:(k)=>number, estOf?:(k)=>number, rule?:'easy'|'greedy'}} [o]
+ * @param {{lanes?:number, secOf?:(k)=>number, estOf?:(k)=>number, rule?:'easy'|'greedy', alpha?:number}} [o]   第313便c: alpha(既定 RESERVE_BEFORE_ALPHA)
  * @returns {{makespan:number, events:Array<{key,start,end,workers,backfill}>, check:object, reservations:Array, rule:string}}
  */
 export function simulateReadyQueue(chain, o) {
   const opt = o || {};
   const lanes = opt.lanes || 4;
   const rule = opt.rule || 'easy';
+  const alpha = Number.isFinite(opt.alpha) ? opt.alpha : RESERVE_BEFORE_ALPHA;   // 第313便c
   const rows = chain.steps;
   const secOf = opt.secOf || ((k) => rows[k].sec || 0);
   const estOf = opt.estOf || secOf;
@@ -2646,7 +2661,7 @@ export function simulateReadyQueue(chain, o) {
   let t = 0, free = lanes;
   for (let guard = 0; guard < 100000; guard++) {
     const pick = readyPick({ now: t, pri, rows, state, lock, running: running.map((e) => ({ key: e.key, start: e.start, est: e.est, workers: e.workers })),
-      free, lanes, estOf, rule });
+      free, lanes, estOf, rule, alpha });
     for (const z of pick.starts) {
       const r = rows[z.key];
       free -= z.need; for (const f of (r.writes || [])) lock.set(f, z.key);
@@ -2669,7 +2684,7 @@ export function simulateReadyQueue(chain, o) {
   }
   for (const e of events) delete e.est;
   const check = checkTimeline(events, { rows, lanes });
-  return { rule, makespan: events.reduce((m, e) => Math.max(m, e.end), 0), events, reservations,
+  return { rule, alpha, makespan: events.reduce((m, e) => Math.max(m, e.end), 0), events, reservations,
     pending: [...state].filter(([, s]) => s !== 'ok').map(([k]) => k), check };
 }
 
@@ -2816,14 +2831,20 @@ export async function readyQueueProbe311(o) {
       running: [{ key: 'x', start: 0, est: 10, workers: 1 }, { key: 'y', start: 0, est: 5, workers: 1 }] });
     const u5 = readyPick({ now: 5, pri: ['H', 'B'], rows, state: st(['H', 'B']), lock: new Map(), lanes: 4, free: 1, estOf: () => 1,
       running: [{ key: 'x', start: 0, est: 2, workers: 3 }] });
+    // 第313便c: u6 = u3 を旧の規則(alpha 1)で —— B(見積り 4 ≤ t_res − 今 = 5)は予約の前に入る。今の規則(alpha 0.5)の u3 では 4 > 2.5 → extra の内で入る
+    const u6 = readyPick({ now: 0, pri: ['H2', 'B'], rows, state: st(['H2', 'B']), lock: new Map(), lanes: 4, free: 1, estOf: (k) => est[k], alpha: 1,
+      running: [{ key: 'x', start: 0, est: 5, workers: 1 }, { key: 'y', start: 0, est: 5, workers: 1 }, { key: 'z', start: 0, est: 9, workers: 1 }] });
     const ks = (p) => p.starts.map((z) => z.key + (z.backfill ? ':' + z.backfill : '')).join(',');
     res.u = { u1: { starts: ks(u1), res: u1.reservation }, u2: { starts: ks(u2), res: u2.reservation }, u3: { starts: ks(u3), res: u3.reservation },
-      u4: { starts: ks(u4), res: u4.reservation }, u5: { starts: ks(u5), res: u5.reservation } };
+      u4: { starts: ks(u4), res: u4.reservation }, u5: { starts: ks(u5), res: u5.reservation }, u6: { starts: ks(u6), res: u6.reservation } };
+    // 第313便c: u3 の期待は規則の α から(見積り 4 ≤ α × 5 なら before・extra は 1 のまま / でなければ extra の内 —— extra は 0 へ)
+    const u3Before = 4 <= RESERVE_BEFORE_ALPHA * 5;
     res.u.ok = ks(u1) === 'B:before,D:before' && u1.reservation.key === 'H' && u1.reservation.tRes === 10 && u1.reservation.extra === 0
       && ks(u2) === 'C:extra' && u2.reservation.tRes === 10 && u2.reservation.extra === 1
-      && ks(u3) === 'B:before' && u3.reservation.tRes === 5 && u3.reservation.extra === 1
+      && ks(u3) === (u3Before ? 'B:before' : 'B:extra') && u3.reservation.tRes === 5 && u3.reservation.extra === (u3Before ? 1 : 0)
       && ks(u4) === 'B,C' && u4.reservation === null
-      && ks(u5) === '' && u5.reservation.tRes === 5;
+      && ks(u5) === '' && u5.reservation.tRes === 5
+      && ks(u6) === 'B:before' && u6.reservation.tRes === 5 && u6.reservation.extra === 1;
   }
   // (s)(b)
   const scale = o.scale || 1;   // 秒の倍率(1 —— 予約の判定の余裕は 1.2 s と 1.8 s。容器が混んでも段の入りの遅れがこれより小さければ並びは模擬と同じ)
@@ -2879,6 +2900,67 @@ export async function readyQueueProbe311(o) {
   return res;
 }
 // ==== 第311便c の塊(ここまで)====
+// ==== 第313便c の塊(ここから)====
+/**
+ * 第313便c(R236): **予約の前の backfill の余裕 α の小さな表**(レーン 2)。X は見積り 10・実際 2(見積りより早く終わる)。P(1)→ H(全レーン・1)→ T(5)が末端の直列、
+ * F(6)は依存の無い詰め物。t=1 に P が終わると H はレーン不足 —— 予約の t_res は X の見積りの終わり 10。旧の規則(α = 1)は F(1 + 6 ≤ 10)を入れ、
+ * X が 2 で終わっても H は F の終わり 7 まで待つ(壁時計 13)。α = 0.5 は F(6 > 0.5 × 9)を入れず、H は 2 で入る(壁時計 9)。
+ * 段の cmd は実際の秒の sleep・表の sec は見積り(bash の EST)—— 秒は scale 倍。
+ */
+export function reserveAlphaFixture313(scale) {
+  const s = scale || 1;
+  const mk = (key, est, act, after, extra) => Object.assign({ key, cmd: 'sleep ' + (Math.round(act * s * 1000) / 1000), outs: [], after: after || [], role: 'current', sec: est * s, act: act * s }, extra || {});
+  return [mk('X', 10, 2), mk('P', 1, 1), mk('H', 1, 1, ['P'], { exclusive: true }), mk('T', 5, 5, ['H']), mk('F', 6, 6)];
+}
+/**
+ * 第313便c(R236): α の自己試験(QA lint.readyQueue313)。(s) 模擬: α = 1 と α = RESERVE_BEFORE_ALPHA の開始の並び・H の開始・壁時計(所要は実際の秒・見積りは表の sec)。
+ * (b) 同じ表の bash を REGEN_RESERVE_ALPHA=100 と既定(α の百分率)で走らせ、開始の並びが模擬と同じ・時系列の照合 0。
+ * @param {{tmpDir?:string, scale?:number}} o
+ */
+export async function reserveAlphaProbe313(o) {
+  const opt = o || {};
+  const scale = opt.scale || 0.5;
+  const fx = reserveAlphaFixture313(scale);
+  const act = Object.fromEntries(fx.map((z) => [z.key, z.act]));
+  const fdeps = tableDeps({ steps: fx });
+  const ch = buildChain({ steps: fx.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: fx, deps: fdeps });
+  const sim = (alpha) => simulateReadyQueue(ch, { lanes: 2, rule: 'easy', alpha, secOf: (k) => act[k], estOf: (k) => ch.steps[k].sec });
+  const order = (evs) => evs.slice().sort((a, b) => (a.start - b.start) || 0).map((e) => e.key).join(',');
+  const startOf = (evs, k) => (evs.find((e) => e.key === k) || {}).start;
+  const S1 = sim(1), S2 = sim(RESERVE_BEFORE_ALPHA);
+  const r = { scale, alpha: RESERVE_BEFORE_ALPHA, priority: ch.priority.join(','),
+    s: { old: { order: order(S1.events), h: startOf(S1.events, 'H'), makespan: Math.round(S1.makespan * 1000) / 1000 },
+      now: { order: order(S2.events), h: startOf(S2.events, 'H'), makespan: Math.round(S2.makespan * 1000) / 1000 } }, b: null };
+  r.s.ok = r.priority === 'X,P,H,F,T' && r.s.old.order === 'X,P,F,H,T' && r.s.now.order === 'X,P,H,F,T'
+    && Math.abs(r.s.old.h - 7 * scale) < 1e-9 && Math.abs(r.s.now.h - 2 * scale) < 1e-9 && Math.abs(S1.makespan - 13 * scale) < 1e-9 && Math.abs(S2.makespan - 9 * scale) < 1e-9
+    && S1.check.ok && S2.check.ok;
+  if (opt.tmpDir) {
+    const cp = await import('node:child_process');
+    const tmp = opt.tmpDir.replace(/\/$/, '') + '/ra313';
+    fs.mkdirSync(tmp, { recursive: true });
+    fs.writeFileSync(tmp + '/stub-tool.mjs', "import fs from 'node:fs';\nconst a = process.argv.slice(2);\nif (a.includes('--env')) { console.log('{}'); process.exit(0); }\n"
+      + "const li = a.indexOf('--lines'); if (li >= 0) fs.writeFileSync(a[li + 1], '');\nconst si = a.indexOf('--static'); console.log(si >= 0 ? a[si + 1] : '0'.repeat(64));\n");
+    fs.writeFileSync(tmp + '/chain.sh', chainShell(ch, { lanes: 2 }));
+    const runOne = (alphaPct) => {
+      const log = tmp + '/log-' + (alphaPct === null ? 'default' : alphaPct);
+      fs.rmSync(log, { recursive: true, force: true });
+      const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: log, REGEN_TOOL: tmp + '/stub-tool.mjs', REGEN_LANES: '2', REGEN_RESERVE: '1' });
+      if (alphaPct === null) delete env.REGEN_RESERVE_ALPHA; else env.REGEN_RESERVE_ALPHA = String(alphaPct);
+      const x = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp, timeout: 120000 });
+      const text = fs.existsSync(log + '/timeline.txt') ? fs.readFileSync(log + '/timeline.txt', 'utf8') : '';
+      const tl = parseTimeline(text);
+      const t0 = Math.min(...tl.events.map((e) => e.start));
+      const evs = tl.events.map((e) => ({ key: e.key, start: e.start - t0, end: e.end - t0, workers: e.workers }));
+      return { rc: x.status, order: order(evs), check: checkTimeline(evs, { rows: ch.steps, lanes: 2 }).ok, h: Math.round(startOf(evs, 'H') * 100) / 100,
+        wall: Math.round(Math.max(...evs.map((e) => e.end)) * 100) / 100 };
+    };
+    const B1 = runOne(100), B2 = runOne(null);
+    r.b = { old: B1, now: B2, ok: B1.rc === 0 && B2.rc === 0 && B1.order === r.s.old.order && B2.order === r.s.now.order && B1.check && B2.check && B2.h < B1.h };
+  }
+  r.ok = !!(r.s.ok && (r.b === null || r.b.ok));
+  return r;
+}
+// ==== 第313便c の塊(ここまで)====
 
 // ==== 第312便c の塊(ここから)====
 /**
@@ -3173,6 +3255,8 @@ export function chainShell(chain, o) {
   assoc('EST', (r) => String(Math.max(0, Math.round((Number(r.sec) || 0) * 1000))));
   L.push('declare -A T0=()');
   L.push('REGEN_RESERVE=${REGEN_RESERVE:-1}   # 予約の規則 ' + READY_QUEUE_RULE + '(0 で旧の規則)');
+  // 第313便c: 予約の前の backfill の余裕 α(百分率 —— 既定 RESERVE_BEFORE_ALPHA。100 で第311便c の規則 w311c-easy-backfill-1)
+  L.push('REGEN_RESERVE_ALPHA=${REGEN_RESERVE_ALPHA:-' + Math.round(RESERVE_BEFORE_ALPHA * 100) + '}   # 予約の前に終わる見込み: 見積り × 100 ≤ (t_res − 今) × α(100 で旧の規則)');
   L.push('reserve_at() {   # $1=レーン不足の最初の段が要るレーン → tres(ms)・extra。走行中の段の見積りの終わり(開始 + 見積り。過ぎていれば今)を早い順に足す');
   L.push('  local avail=$free e w; tres=-1');
   L.push('  while read -r e w; do');
@@ -3210,7 +3294,7 @@ export function chainShell(chain, o) {
   L.push('      fi');
   L.push('    else');
   L.push('      [ "$need" -le "$free" ] || continue');
-  L.push('      if [ $((now + ${EST[$k]})) -gt "$tres" ]; then [ "$need" -le "$extra" ] || continue; extra=$((extra - need)); fi');
+  L.push('      if [ $(( ${EST[$k]} * 100 )) -gt $(( (tres - now) * REGEN_RESERVE_ALPHA )) ]; then [ "$need" -le "$extra" ] || continue; extra=$((extra - need)); fi   # 第313便c: α');
   L.push('    fi');
   L.push('    free=$((free - need)); nrun=$((nrun + 1)); for w in ${WR[$k]}; do LOCK[$w]=$k; done; STATE[$k]=running; T0[$k]=$now');
   L.push('    echo "start $k $(date +%s.%N) $need" >>"$REGEN_LOG/timeline.txt"');
@@ -3852,5 +3936,5 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
   depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe,
   // 第311便c(R228)
-  READY_QUEUE_RULE, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311,
+  READY_QUEUE_RULE, READY_QUEUE_RULE_HISTORY, RESERVE_BEFORE_ALPHA, reserveAlphaFixture313, reserveAlphaProbe313, readyPick, calibrateSec, laneReview311, REGEN_SEC_FILE, REGEN_SEC_VERSION, REGEN_SEC, readyQueueFixture311, readyQueueProbe311,
   CALIBRATE_RULE, RESUME_CHECK_MAX_SEC, timelineRuns, calibrateProbe312, V_H4_SHADOW, SCOPE_ALL_VERSION, scopeAllReasons312 };
