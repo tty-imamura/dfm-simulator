@@ -264,6 +264,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.decayK1_312 docs.decay312 behavior.
 #   v2 の世代切替を受けた docs.planet3_311(AN396 の採用の欄・門の直し)・同じ写しと標的を読む docs.mdSweep310・docs.an336_306・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.confirm312 docs.planet3_311 docs.mdSweep310 docs.an336_306 lint.canon304"
 # ==== 第312便d の塊(ここまで)====
+# ==== 第313便b の塊(ここから)====
+# 第313便b(原仮定者の裁定(第115報)・AN395・AN399・AN402・R235): 枝 b の新設 2 本(behavior.galaxialRdm313 —— 一様軸引きずりの受け手の質量の次数 massPow・refMass の受理・
+#   省略と rdPow だけの宣言のビット同一・R_d 2 倍 → 2 倍・質量 10 倍 → 0.1 倍・位置の不変・β と並進の不変・全天体 κm で共通の係数・docs.galaxialRdm313 —— 正本と文書)と、
+#   同じ鍵と読み口を読む behavior.galaxialRd312(器の段 A の massPow の行の世代切替)・docs.galaxialRd312・behavior.galaxial311・docs.galaxial311・新則と K1 の受理を読む
+#   behavior.invSq310・behavior.initObs309・behavior.coreSpin311・behavior.decayK1_312・状態の契約
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRdm313 docs.galaxialRdm313 behavior.galaxialRd312 docs.galaxialRd312 behavior.galaxial311 docs.galaxial311 behavior.invSq310 behavior.initObs309 behavior.coreSpin311 behavior.decayK1_312 lint.stateContract302"
+# ==== 第313便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

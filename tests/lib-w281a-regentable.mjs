@@ -1255,6 +1255,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/confirm-w312d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/C/cost/rows/*/wallSec', '/C/cost/rate/*/rateStepsPerSec', '/C/cost/stage2/*/*/spentSec']) },
     note: '第312便d: 確認の器(3 惑星の規則で 🏀 木星と 🌦️ 太陽と地球と月に R_d を置き、4 つの走行 q00/q10/q01/q11 で残差 r = q11 − q00 − q⋆ を測る —— 合わせない・1 つの天体に 1 つの宣言・月の p は地球のまわりと太陽のまわりで定まらない〔表〕・在位へ入れない)' }),
   // ==== 第312便d の塊(ここまで)====
+  // ==== 第313便b の塊(ここから)====
+  // ---- 第313便b(原仮定者の裁定(第115報)・決断事項 AN395・AN399・AN402・統括の検証項目 R235): **一様軸引きずりの受け手の質量の次数(galaxyAxial.massPow・refMass ——
+  //   K1・rdPow 1 と一緒にだけ)と K1 の核の自然な応答を規則の値(ミリメートル)の R_d で測る器**(段 A〔massPow・refMass の受理・K1 と rdPow 1 の条件・物理の単位〕・
+  //   B〔rdPow だけの読み口・同じ状態の build・孤立の比〔R_d 2 倍 → 2 倍・質量 10 倍 → 0.1 倍〕・位置の不変・R_d/m が同じ双子・R_ref の既定・下限で持ち上げた質量〕・
+  //   N〔二体の写し —— 受け手 R_d = κ₀m・源 R_d = κ₀M☉ —— の軸の ω の次数 × 距離 0.387〜38.7 au × 求積の次数 8・16 × 原点・同じ R_d/m の対照〕・
+  //   X〔太陽系の写し —— 全天体 R_d = κ₀m・K1 —— × ω_G = f Ω_ref〔f = 10⁻²・1〕× 水星の 2 公転: 共通の係数・1 天体だけ規則から外した写し・q = 0 と rdPow 1 だけの比較・
+  //   観測の初期自転の分解〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。所要は第313便b の枝の実測(正本の elapsedS)
+  S('galaxialrdm-313b', 'node tests/exp-w313b-galaxialrdm.mjs', ['tests/out/galaxialrdm-w313b.json'], 300, { secSource: 'w313b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/galaxialrdm-w313b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第313便b: 一様軸引きずりの受け手の質量の次数 galaxyAxial.massPow −1・refMass(K1・rdPow 1 と一緒にだけ —— ω_G (R_d,i/R_ref)(m_ref/m_i)・位置に依らない・省略と rdPow だけの宣言は第312便b とビット同一・β と並進は不変)の受理とビット同一の確かめ・K1 の核の自然な応答 R_d¹·m⁻¹·r⁻³ を規則の値(ミリメートル)の R_d で(丸めの尺度 ε r/R_d と同じ R_d/m の対照)・全天体 κ₀m で共通の係数と天体どうしの軸の角・1 天体だけ規則から外した写し・ω_G の格子(尺度 V₀/R₀ —— 大きさは未定 AN395)' }),
+  // ==== 第313便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -2436,6 +2436,9 @@ lastAddAt = Date.now();
       // ==== 第312便d の塊(ここから)==== 確認の器(confirm-312d —— 🏀 木星・🌦️ 太陽と地球と月 に 3 惑星の規則で R_d を置いて残差を測る)。領域 REGEN_SCOPE を刻む
       'tests/out/confirm-w312d.json',
       // ==== 第312便d の塊(ここまで)====
+      // ==== 第313便b の塊(ここから)==== 一様軸引きずりの受け手の質量の次数と K1 の核の自然な応答(ミリメートルの R_d)の器(galaxialrdm-313b)。領域 REGEN_SCOPE を刻む
+      'tests/out/galaxialrdm-w313b.json',
+      // ==== 第313便b の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -83668,6 +83671,218 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第312便b の塊(ここまで)====
+// ==== 第313便b の塊(ここから —— behavior.galaxialRdm313・docs.galaxialRdm313 の 2 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第313便b(原仮定者の裁定(第115報)「一様軸引きずりの R_d の応答の次数は、K1 を主にする q = 1 で、質量も入る」(決断事項 AN395)・「K1 を採用する」(AN399)・
+// ----   「太陽を含む全天体に同じ規則 R_d = κm」(AN402)・統括の検証項目 R235): behavior.galaxialRdm313 —— **一様軸引きずりの受け手の質量の次数 galaxyAxial.massPow・refMass の振る舞い**
+// ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1" ∧ 器 tests/exp-w313b-galaxialrdm.mjs。
+// ----   ① 受理(QA の中で直に: K1・rdPow 1・massPow −1・refMass を受理 / K2・rdPow 2・rdPow なし・massPow 1・refMass なし・0・refMass だけ・未知の鍵を拒否 —— 文言「massPow は -1〔K1・rdPow 1 と一緒にだけ〕」)
+// ----   ② 省略と rdPow だけ(rdPow だけの K1 の読み口は第312便b の形・銀河の分 = ω_G (R_d/R_ref)・明示の 0 の massPow の 20 步 = 未宣言の 20 步)
+// ----   ③ 孤立の受け手: R_d 2 倍 → 2 倍・質量 10 倍 → 0.1 倍(器と同じ式でビット)④ 位置の不変(受け手を 2 か所へ)・R_d と質量を 2 倍にした双子は同じ係数(ビット)
+// ----   ⑤ 同じ状態の build で β・並進の右辺・回転の係数がビット同一・軸の ω = 銀河なし + ω_G (R_d,i/R_ref)(m_ref/m_i)・2 步の並進がビット同一
+// ----   ⑥ 全天体 κ₀m の太陽系の写し(K1): 係数が共通(相対 1e-15)・30 步の天体どうしの軸の角の変化(銀河の分)は丸めの床・地球だけ 2κ₀m の写しで地球と太陽の対は一次の見積りの比 1
+// ----   ⑦ 器の段 A・B の門が全部真・内蔵の本で massPow・refMass を宣言する本 0
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  const grm313Harn = path.join(ROOT, 'tests', 'exp-w313b-galaxialrdm.mjs');
+  const grm313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && grm313Html.indexOf('GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1"') >= 0 && fs.existsSync(grm313Harn))) {
+    console.log('SKIP behavior.galaxialRdm313(第313便b の一様軸引きずりの質量の次数の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + grm313Harn);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const V = (q) => HP.validatePreset(clone(q)), msg = (v) => (v.errors || []).join(' ');
+      const mkS = (q) => { const v = V(q); if (!v.ok) throw new Error(msg(v).slice(0, 120)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return { S, warnings: v.warnings || [] }; };
+      const G = { wx: 3.1e-11, wy: -1.7e-11, wz: 4.3e-11 }, MREF = 0.5, Lm = Math.pow(10, 8), RrDef = 6.5e6 / Lm;
+      const ev = E('inertialDragInitObsEval'), st = E('inertialDragGalaxyAxialState'), isq = E('inertialDragIsqState');
+      const evPair = (S) => { const n = S.n, vel = [S.vx, S.vy, S.vz], S0 = Object.create(S); S0.relDrag = clone(S.relDrag); delete S0.relDrag.galaxyAxial;
+        return { T1: ev(S, n, null, null, null, null, vel).T, T0: ev(S0, n, null, null, null, null, vel).T }; };
+      // ①
+      let n1 = 0, a1 = 0;
+      const MP = /massPow は -1〔K1・rdPow 1 と一緒にだけ〕/;
+      for (const [g, kernel, ok, re] of [[{ ...G, rdPow: 1, massPow: -1, refMass: 1 }, 'k1', true], [{ ...G, rdPow: 1, refRadius: 0.0625, massPow: -1, refMass: 2.5 }, 'k1', true],
+        [{ ...G, rdPow: 1, massPow: -1, refMass: 1 }, null, false, MP], [{ ...G, rdPow: 2, massPow: -1, refMass: 1 }, 'k1', false, MP], [{ ...G, massPow: -1, refMass: 1 }, 'k1', false, MP],
+        [{ ...G, rdPow: 1, massPow: 1, refMass: 1 }, 'k1', false, MP], [{ ...G, rdPow: 1, massPow: '-1', refMass: 1 }, 'k1', false, MP], [{ ...G, rdPow: 1, massPow: -1 }, 'k1', false, /refMass は正の有限の数/],
+        [{ ...G, rdPow: 1, massPow: -1, refMass: 0 }, 'k1', false, /refMass は正の有限の数/], [{ ...G, rdPow: 1, refMass: 1 }, 'k1', false, /refMass は massPow と一緒にだけ/],
+        [{ ...G, rdPow: 1, massPow: -1, refMass: 1, massRef: 1 }, 'k1', false, /未知の鍵/]]) {
+        a1++; const v = V(X.merCopy(HP, g, kernel));
+        if (ok ? (v.ok && v.preset.physics.relativeDrag.galaxyAxial.massPow === -1 && v.preset.physics.relativeDrag.galaxyAxial.refMass === g.refMass && v.preset.physics.relativeDrag.galaxyAxial.rdPow === 1)
+          : (!v.ok && /galaxyAxial/.test(msg(v)) && re.test(msg(v)))) n1++;
+        else bad.push('① ' + JSON.stringify(g) + '(' + (kernel || 'k2') + ')の受理が契約と違う: ' + (v.ok ? JSON.stringify(v.preset.physics.relativeDrag.galaxyAxial) : msg(v).slice(0, 80)));
+      }
+      cases.push(`① 受理 ${n1}/${a1}(K1・rdPow 1・massPow −1・refMass を受理 / K2・rdPow 2・rdPow なし・massPow 1・文字列・refMass なし・0・refMass だけ・未知の鍵を拒否)`);
+      // ②
+      { const { S } = mkS(X.merCopy(HP, { ...G, rdPow: 1 })), s = st(S), { T1, T0 } = evPair(S), Rd = isq(S).receivers.map((r) => r.Rd);
+        if (!(s.rd && s.rd.version === 'w312b-galaxial-rd-1' && s.rdm === undefined && s.receivers.every((r) => r.mass === undefined && r.responseFactor === undefined))) bad.push('② rdPow だけの読み口が第312便b の形でない');
+        for (let i = 0; i < S.n; i++) { const f = Rd[i] / RrDef; if (!(T1._rdWX[i] === T0._rdWX[i] + G.wx * f && T1._rdWY[i] === T0._rdWY[i] + G.wy * f && T1._rdWZ[i] === T0._rdWZ[i] + G.wz * f)) bad.push('② rdPow だけの受け手 ' + i + ' の銀河の分 ≠ ω_G (R_d/R_ref)'); }
+        const run = (q) => { const { S: R } = mkS(q), dt = E('appStepDt')(R); for (let k = 0; k < 20; k++) R.step(dt); return R; };
+        const fp = (R) => ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin', 'sax', 'say', 'saz', 'rotA'].map((k) => Array.from(R[k].subarray(0, R.n)).join(',')).join('|');
+        const Z = run(X.merCopy(HP, { wx: 0, wy: 0, wz: 0, rdPow: 1, massPow: -1, refMass: MREF })), N0 = run(X.merCopy(HP, undefined));
+        if (fp(Z) !== fp(N0)) bad.push('② 明示の 0 の massPow の 20 步が未宣言とビット同一でない');
+        cases.push('② rdPow だけ(K1)の読み口は第312便b の形・銀河の分 = ω_G (R_d/R_ref)・明示の 0 の massPow の 20 步 = 未宣言'); }
+      // ③
+      { let n3 = 0; const mSun = 1988.5, w = {};
+        for (const [k, j] of [[1, 1], [2, 1], [1, 10]]) {
+          const q = X.merCopy(HP, { ...G, rdPow: 1, refRadius: 0.0625, massPow: -1, refMass: mSun }); q.bodies[0].dragCore = { massFrac: 1, radius: 0.0625 * k }; q.bodies[0].m = mSun * j;
+          const { S } = mkS(q), S1 = Object.create(S); S1.n = 1;
+          const T = ev(S1, 1, null, null, null, null, [S.vx, S.vy, S.vz]).T, fx = X.rdmFactor(0.0625 * k, 0.0625, S.m[0], mSun);
+          w[k + '_' + j] = T._rdWX[0];
+          if (T._rdWX[0] === G.wx * fx && T._rdWY[0] === G.wy * fx && T._rdWZ[0] === G.wz * fx && T._rdA[0] === 0) n3++; else bad.push('③ 孤立の受け手 k=' + k + ' j=' + j + ' の ω/ω_G ' + (T._rdWX[0] / G.wx));
+        }
+        const r2 = w['2_1'] / w['1_1'], r10 = w['1_10'] / w['1_1'];
+        if (r2 !== 2) bad.push('③ R_d 2 倍の比 ' + r2);
+        if (!(Math.abs(r10 - 0.1) <= 4 * Math.pow(2, -52) * 0.1)) bad.push('③ 質量 10 倍の比 ' + r10);
+        cases.push(`③ 孤立の受け手 ${n3}/3 がビット(器の式)・R_d 2 倍 → ${r2}・質量 10 倍 → ${r10}`); }
+      // ④ ⑤
+      { const base = X.merCopy(HP, { ...G, rdPow: 1, massPow: -1, refMass: MREF });
+        base.bodies[1].dragCore = { massFrac: 1, radius: 0.0078125 };
+        const tw = clone(base.bodies[1]); tw.m = base.bodies[1].m * 2; tw.dragCore = { massFrac: 1, radius: 0.015625 };
+        for (const k of ['x', 'y', 'z']) tw[k] = -base.bodies[1][k] * 1.5; for (const k of ['vx', 'vy', 'vz']) tw[k] = -tw[k];
+        base.bodies.push(tw);
+        const rows = [];
+        for (const sc of [1, 3]) {
+          const q = clone(base); for (const k of ['x', 'y', 'z']) q.bodies[1][k] = base.bodies[1][k] * sc;
+          const { S } = mkS(q), n = S.n, { T1, T0 } = evPair(S), s = st(S), RD = isq(S).receivers.map((r) => r.Rd);
+          let okB = true; for (let k = 0; k < n * n; k++) if (!Object.is(T1._rdIsqBE[k], T0._rdIsqBE[k]) || !Object.is(T1._rdA[k], T0._rdA[k])) okB = false;
+          for (let k = 0; k < n * 3 * n; k++) if (!Object.is(T1._rdIsqRV[k], T0._rdIsqRV[k])) okB = false;
+          for (let i = 0; i < n; i++) if (!(Object.is(T1._rdUX[i], T0._rdUX[i]) && Object.is(T1._rdUY[i], T0._rdUY[i]) && Object.is(T1._rdUZ[i], T0._rdUZ[i]))) okB = false;
+          if (!okB) bad.push('⑤ massPow で β・右辺・回転の係数が銀河の有無で違う(scale ' + sc + ')');
+          for (let i = 0; i < n; i++) { const f = X.rdmFactor(RD[i], RrDef, S.m[i], MREF);
+            if (!(T1._rdWX[i] === T0._rdWX[i] + G.wx * f && T1._rdWY[i] === T0._rdWY[i] + G.wy * f && T1._rdWZ[i] === T0._rdWZ[i] + G.wz * f && s.receivers[i].responseFactor === f && s.receivers[i].mass === S.m[i])) bad.push('⑤ 受け手 ' + i + ' の軸の ω ≠ 銀河なし + ω_G (R_d/R_ref)(m_ref/m)'); }
+          if (!(S.m[2] === 2 * S.m[1] && JSON.stringify(s.receivers[1].omegaG) === JSON.stringify(s.receivers[2].omegaG) && s.receivers[1].responseFactor === s.receivers[2].responseFactor)) bad.push('④ R_d と質量を 2 倍にした双子の係数が違う');
+          rows.push(JSON.stringify(s.receivers.map((r) => r.omegaG)));
+        }
+        if (rows[0] !== rows[1]) bad.push('④ 受け手を動かすと銀河の分が変わる(位置に依る)');
+        const run2 = (q) => { const { S } = mkS(q), dt = E('appStepDt')(S); for (let k = 0; k < 2; k++) S.step(dt); return S; };
+        const A2 = run2(X.merCopy(HP, { ...G, rdPow: 1, massPow: -1, refMass: MREF })), B2 = run2(X.merCopy(HP, undefined));
+        for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz', 'spin']) for (let i = 0; i < A2.n; i++) if (!Object.is(A2[k][i], B2[k][i])) { bad.push('⑤ 2 步の ' + k + '[' + i + '] が銀河の有無で違う'); break; }
+        cases.push('④ 位置の不変(1 倍・3 倍の距離)・R_d と質量を 2 倍にした双子は同じ係数 / ⑤ build の β・右辺・回転の係数はビット同一・軸の ω = 銀河なし + ω_G (R_d/R_ref)(m_ref/m)・2 步の並進はビット同一'); }
+      // ⑥ 全天体 κ₀m の太陽系の写し(K1 —— 30 步)
+      { const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], cr = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+        const ang = (a, b) => Math.atan2(Math.hypot(...cr(a, b)), dot(a, b)), ax = (S, i) => [S.sax[i], S.say[i], S.saz[i]], steps = 30;
+        const b0 = X.solarK1(HP), kb = X.kappaBook(b0), mS = Math.fround(b0.bodies[0].m), Gb = { wx: 2e-8, wy: -1e-8, wz: 1.5e-8 };
+        const gal = { ...Gb, rdPow: 1, refRadius: kb * mS, massPow: -1, refMass: mS };
+        const drag = (g) => { const d = { law: 'inertial', invSq: { order: 8 }, pairs: 'all', history: 'positions', dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } }; if (g) d.galaxyAxial = g; return d; };
+        const run = (g, off) => { const { S } = mkS(X.solarK1(HP, drag(g), off)), dt = E('appStepDt')(S), n = S.n, a0 = [...Array(n).keys()].map((i) => ax(S, i)), s = g ? st(S) : null;
+          for (let k = 0; k < steps; k++) S.step(dt); return { S, dt, a0, aT: [...Array(n).keys()].map((i) => ax(S, i)), s }; };
+        const R1 = run(gal, null), R0 = run(null, null), O1 = run(gal, 3), O0 = run(null, 3), n = R1.S.n, T = (steps - 1) * R1.dt;
+        const fs = R1.s.receivers.map((r) => r.responseFactor), spread = (Math.max(...fs) - Math.min(...fs)) / Math.max(...fs);
+        if (!(spread < 1e-15 && fs.every((f) => Math.abs(f - 1) < 1e-12))) bad.push('⑥ 全天体 κ₀m の係数が共通でない ' + spread);
+        const dpsi = (A, B, i, j) => (ang(A.aT[i], A.aT[j]) - ang(A.a0[i], A.a0[j])) - (ang(B.aT[i], B.aT[j]) - ang(B.a0[i], B.a0[j]));
+        let pm = 0; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) pm = Math.max(pm, Math.abs(dpsi(R1, R0, i, j)));
+        if (!(pm < 1e-13)) bad.push('⑥ 全天体 κ₀m で天体どうしの軸の角が銀河の分で変わる ' + pm);
+        const est = (i, j) => { const w = [0, 1, 2].map((k) => O1.s.receivers[i].omegaG[k] - O1.s.receivers[j].omegaG[k]); return -dot(w, cr(O1.a0[i], O1.a0[j])) * T / Math.sin(ang(O1.a0[i], O1.a0[j])); };
+        const dO = dpsi(O1, O0, 0, 3), eO = est(0, 3);
+        if (!(O1.s.receivers[3].responseFactor > 1.999 && Math.abs(eO) > 1e-11 && Math.abs(dO / eO - 1) < 1e-2)) bad.push('⑥ 地球だけ 2κ₀m の写しで太陽と地球の対の変化が一次の見積りと違う ' + dO + '/' + eO);
+        cases.push(`⑥ 全天体 κ₀m(K1)の係数の広がり ${spread < 1e-15 ? '< 1e-15' : spread}・${steps} 步の天体どうしの軸の角の変化 ${pm < 1e-13 ? '< 1e-13' : pm} rad・地球だけ 2κ₀m の太陽と地球の対の変化/一次の見積り ${(dO / eO).toFixed(4)}`); }
+      // ⑦
+      { const A = X.partA(H), B = X.partB(H), Gt = X.gatesOf({ A, B });
+        if (Gt.acceptance !== true || Gt.confirm !== true || Gt.rd2Ratio2 !== true || Gt.mass10Ratio01 !== true) bad.push('⑦ 器の段 A・B の門が真でない ' + JSON.stringify(Gt));
+        const nD = HP.allPresets().filter((p) => p.physics && p.physics.relativeDrag && p.physics.relativeDrag.galaxyAxial && (p.physics.relativeDrag.galaxyAxial.massPow !== undefined || p.physics.relativeDrag.galaxyAxial.refMass !== undefined)).length;
+        if (nD) bad.push('⑦ 内蔵の本で massPow・refMass を宣言する本 ' + nD);
+        cases.push(`⑦ 器の段 A(${A.nPass}/${A.nCases})・B の門・内蔵の本の宣言 ${nD}`); }
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.galaxialRdm313', bad.length === 0,
+      `**一様軸引きずりの受け手の質量の次数 massPow・refMass**(第313便b・原仮定者の裁定(第115報)・AN395・AN399・AN402・R235 —— opt-in・K1・rdPow 1 と一緒にだけ・省略と rdPow だけの宣言は第312便b とビット同一・位置に依らない・β と並進は不変・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第313便b: docs.galaxialRdm313 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1" ∧ 正本 tests/out/galaxialrdm-w313b.json ∧ 器。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・版と定数・格子
+// ----   ② 作り直し: 段 N(K1 の核の自然な応答 —— 対象 html で器の partN を走らせて ω と次数が正本と相対 1e-9)・段 B(器の partB を走らせて門と孤立の比が正本と一致)・
+// ----      段 X の対の比 = 変化/一次の見積り(正本の行から相対 1e-9)・規則の写しの係数 = 1(正本の表)
+// ----   ③ 表の行(physicsTables)と数(docNumbers)が PHYSICS〔第313便b〕に逐語・節が「## 7.」の前・語・CHANGELOG(beta 節)・README・AI_SPEC §128・再生成の段・.gitignore・post-merge・CANON
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  const grm313Out = path.join(ROOT, 'tests', 'out', 'galaxialrdm-w313b.json'), grm313Harn = path.join(ROOT, 'tests', 'exp-w313b-galaxialrdm.mjs');
+  const grm313Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && grm313Html.indexOf('GALAXY_AXIAL_RDM_VERSION="w313b-galaxial-rdm-1"') >= 0 && fs.existsSync(grm313Out) && fs.existsSync(grm313Harn))) {
+    console.log('SKIP docs.galaxialRdm313(第313便b の一様軸引きずりの質量の次数の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(grm313Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + grm313Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QT = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第313便b — '), i7 = PH.indexOf('\n## 7. 論文'), iN = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (iN > i0 && (i7 < 0 || iN < i7)) ? iN : (i7 > i0 ? i7 : undefined)) : '';
+    const relq = (a, b, t) => a === b || Math.abs(a - b) <= t * Math.max(Math.abs(a), Math.abs(b));
+    if (J && X) {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length || GK.length < 20) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true || JSON.stringify(J.stages) !== JSON.stringify(['A', 'B', 'N', 'X'])) bad.push('正本が試走(QUICK・段の一部)');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      if (J.galaxyAxialVersion !== 'w311b-galaxial-1' || J.galaxyAxialRdVersion !== 'w312b-galaxial-rd-1' || J.galaxyAxialRdmVersion !== 'w313b-galaxial-rdm-1' || JSON.stringify(J.massPows) !== '[-1]' || J.refRadiusDefaultM !== 6.5e6) bad.push('正本の版と定数');
+      if (JSON.stringify(J.fGrid) !== JSON.stringify(X.F_GRID) || !relq(J.N.kappaSI, 8.80761886e-27, 1e-9) || !relq(J.N.C1, 0.8431139667, 1e-9)) bad.push('正本の格子・κ₀・C₁ が器と違う');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
+      // ②
+      try {
+        const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+        const H = loadHtmlHeadless(path.join(ROOT, TARGET)), N = X.partN(H), B = X.partB(H);
+        let nN = 0, mN = 0;
+        N.rows.forEach((r, k) => { const q = J.N.rows[k];
+          for (const f of Object.keys(r)) if (typeof r[f] === 'number' && Number.isFinite(r[f])) { nN++; if (!relq(r[f], q[f], 1e-9) && !(Math.abs(r[f] - q[f]) < 1e-12)) { mN++; if (mN <= 3) bad.push('② 段 N の rows[' + k + '].' + f + ' を作り直すと違う ' + r[f] + '/' + q[f]); } } });
+        if (B.allPass !== true || JSON.stringify(B.isolated.map((r) => [r.k, r.j, r.ratio, r.exact])) !== JSON.stringify(J.B.isolated.map((r) => [r.k, r.j, r.ratio, r.exact]))) bad.push('② 段 B を作り直すと正本と違う');
+        let nP = 0, mP = 0;
+        for (const r of J.X.rows) for (const p of r.pairs) if (p.ratio !== null) { nP++; if (!relq(p.ratio, p.change / p.firstOrder, 1e-9)) mP++; }
+        if (mP) bad.push('② 段 X の対の比 = 変化/一次の見積りが違う ' + mP + ' 対');
+        if (!J.X.bodies.every((b, i) => relq(b.RdPerM, J.N.kappaSI, 1e-8) && Math.abs(b.fRule - 1) < 1e-9 && Math.abs(b.fOff - (i === J.X.offBody ? 2 : 1)) < 1e-9)) bad.push('② 段 X の R_d/m ≠ κ₀ か係数が 1(地球だけ 2)でない');
+        cases.push(`② 段 N を対象 html で作り直して ${nN - mN}/${nN} 個が相対 1e-9・段 B の門と孤立の比が一致・段 X の対の比 ${nP} 対・R_d/m = κ₀ と係数`);
+      } catch (e) { bad.push('② 作り直せない: ' + String(e && e.stack || e).slice(0, 160)); }
+      // ③
+      if (!sec) bad.push('PHYSICS〔第313便b〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第313便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第313便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第313便b〕が「## 7. 論文」の後');
+        for (const w of ['R235', '第115報', 'AN395', 'AN399', 'AN402', 'exp-w313b-galaxialrdm.mjs', 'galaxialrdm-w313b.json', 'behavior.galaxialRdm313', 'docs.galaxialRdm313', 'W313B_OUT', 'W313B_QUICK',
+          'massPow', 'refMass', 'w313b-galaxial-rdm-1', 'GALAXY_AXIAL_RDM_VERSION', 'responseFactor', 'K1・rdPow 1 と一緒にだけ', '位置に依らない', '大きさは未定', '共通', '丸めの尺度', '近い原点', '求積の次数',
+          '下限で持ち上げ', '一様回転', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第313便b〕に「' + w + '」が無い');
+      }
+      { const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CL.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
+        if (cs.indexOf('第313便b') < 0) bad.push('CHANGELOG の beta 節に第313便b が無い'); }
+      if (RM.indexOf('第313便b') < 0) bad.push('README に第313便b が無い');
+      { const ai = AS.indexOf('## 128.');
+        if (ai < 0) bad.push('AI_SPEC に §128 が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['massPow', 'refMass', 'w313b-galaxial-rdm-1', 'SYSTEM_PROMPT には載せない', 'docs.galaxialRdm313', 'K1']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §128 に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('galaxialrdm-313b', 'node tests/exp-w313b-galaxialrdm.mjs', ['tests/out/galaxialrdm-w313b.json']") < 0 || !/secSource: 'w313b-branch'/.test(RT)) bad.push('再生成の段 galaxialrdm-313b');
+      if (GI.indexOf('!tests/out/galaxialrdm-w313b.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.galaxialRdm313') < 0 || PM.indexOf('behavior.galaxialRdm313') < 0) bad.push('post-merge に docs.galaxialRdm313/behavior.galaxialRdm313 が無い');
+      if (QT.indexOf("'tests/out/galaxialrdm-w313b.json'") < 0) bad.push('CANON に galaxialrdm-w313b.json が無い');
+      // ④
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/天の川を較正した/, /フィットした/, /法則を発見した/, /完全に一致/, /較正した/, /ω_G の大きさを決めた/, /法則を確かめた/, /収束した/, /κ を合わせた/, /現実の核/, /シュヴァルツシルト半径そのもの/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第313便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第313便b〕に禁句(' + w.length + ' 字)');
+      { const tx = rd('tests/exp-w313b-galaxialrdm.mjs'); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push('tests/exp-w313b-galaxialrdm.mjs に禁句(' + w.length + ' 字)'); }
+      cases.push('③ 語・CHANGELOG・README・AI_SPEC §128・段・.gitignore・post-merge・CANON / ④ 書かない語・禁句');
+    }
+    add('docs.galaxialRdm313', bad.length === 0,
+      `**一様軸引きずりの質量の次数と K1 の核の自然な応答(ミリメートルの R_d)の器の正本と文書**(第313便b・原仮定者の裁定(第115報)・AN395・AN399・AN402・R235 —— 正本 galaxialrdm-w313b.json・ω_G の大きさは未定): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第313便b の塊(ここまで)====
 // ==== 第307便e の塊(ここから)====
 // ---- 第307便e(DECISIONS v66 §0 AN340 ④・AN342 ③・AN344 ①②・統括の検証項目 R213 —— 細目): behavior.gLocNull307 / preset.fitRole307 / preset.coldReason307 / docs.w307e
 // ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html の読み口(HP.gLocDetach・HP.FIT_TARGET_ROLES)∧ lib tests/lib-w307e-pre.mjs の isGen307e(本の宣言が第306便から動いた ——
