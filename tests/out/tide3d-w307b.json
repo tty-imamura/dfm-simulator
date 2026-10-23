@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,49 +1589,49 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "E": {
-   "wallSec": 0.006
+   "wallSec": 0.005
   },
   "Z": {
-   "wallSec": 0.727
+   "wallSec": 0.709
   },
   "L": {
-   "wallSec": 0.128
+   "wallSec": 0.208
   },
   "C": {
-   "wallSec": 0.037
+   "wallSec": 0.048
   },
   "K": {
-   "wallSec": 0.075
+   "wallSec": 0.03
   },
   "H": {
-   "wallSec": 0.104
+   "wallSec": 0.081
   },
   "S": {
-   "wallSec": 0.62
+   "wallSec": 0.69
   },
   "R": {
-   "wallSec": 0.136
+   "wallSec": 0.102
   },
   "X": {
-   "wallSec": 0.111
+   "wallSec": 0.115
   }
  },
- "elapsedS": 3.715,
+ "elapsedS": 3.591,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T21:55:19.369Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T10:34:58.650Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
@@ -1709,11 +1709,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1352,
-   "closureShare": 0.3444
+   "names": 1532,
+   "segments": 1367,
+   "closureShare": 0.3464
   },
-  "scopeSha256": "05113e5e0485bec7ee1c08a697a47895270cd4271d6ae5cf000088622de11958",
+  "scopeSha256": "dd90a7ddfce0a8de04916e3e66ba133682b52e7ec62cd78a47eb2c1186e6a7c5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
