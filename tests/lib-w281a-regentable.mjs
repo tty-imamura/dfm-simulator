@@ -1286,6 +1286,20 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/k1confirm-w313d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/M/cost/rows/*/wallSec', '/M/cost/rate/*/rateStepsPerSec', '/M/cost/stage2/*/*/spentSec', '/M/planetCost/*/wallSec']) },
     note: '第313便d: K1 の確認の系の正本(太陽を含む全天体に R_d = κ₀m —— κ₀ = 10G/(C₁c²) 固定・合わせない。3 惑星・🏀 木星は h/4 まで・🌦️ は h/2 まで。r_1PN と暦表ごとの r_{1PN+A1}・有限質量比の予測 (4/3)η q_1PN・G の値の列・3 惑星の根の κ_i/κ₀〔h/4 の割線・ε_fit まで〕・小さい係数の分解の表 —— 在位へ入れない)' }),
   // ==== 第313便d の塊(ここまで)====
+  // ==== 第314便c の塊(ここから)====
+  // ---- 第314便c(原仮定者の裁定(第116報)の補足・決断事項 AN410〔推奨〕・AN405・AN401・AN396′・AN336・統括の検証項目 R240): **外惑星 3 本(🟡🔷💙)の K1 の確認**(段 k1outer-314c ——
+  //   太陽を含む全天体に R_d = κ₀ × エンジンの質量〔規則の鍵 rdRule:"kappaM" とビット同一の型〕・q00/q10/q11 × h・h/2・h/4 × 16 公転の入れ子の窓 4・8・16・主の窓は実測・
+  //   相対の門〔AN410 の推奨の型〕・小さい係数の分解の表の延長)と **🌦️ の h/4・月の 354 公転の正本化**(段 k1em-314c —— `--stage em`・K1 の確認の器の走行の関数をそのまま)。
+  //   2 段は同じ器(tests/exp-w314c-k1outer.mjs)・別の正本。**k1confirm-313d の after に連ねない**(第313便d の正本は読まない —— 文書の表〔tests/lib-w314c-k1doc.mjs〕で並べる)。
+  //   html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(標的の照合)・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。所要は第314便c の枝の実測
+  //   (正本の elapsedS —— 他の枝と同じ容器で並走)。
+  S('k1outer-314c', 'node tests/exp-w314c-k1outer.mjs', ['tests/out/k1outer-w314c.json'], 2100, { secSource: 'w314c-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/k1outer-w314c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/rateStepsPerSec']) },
+    note: '第314便c: 外惑星 3 本(🟡 土星・🔷 天王星・💙 海王星 —— AN336 の在位の写し)の K1 の確認の正本(太陽を含む全天体 R_d = κ₀ × エンジンの質量・κ₀ 固定・合わせない。h・h/2・h/4 × 窓 4・8・16 公転〔同じ走行の入れ子〕・r_1PN と r/q_1PN・有限質量比の予測・外惑星の門〔絶対 ε_fit・相対 1e-2 q_1PN・数値の帯 —— AN410 の推奨の型〕・小さい係数の分解の表の延長 —— 在位へ入れない)' }),
+  S('k1em-314c', 'node tests/exp-w314c-k1outer.mjs --stage em', ['tests/out/k1em-w314c.json'], 3600, { secSource: 'w314c-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/k1em-w314c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec']) },
+    note: '第314便c: 🌦️ 太陽と地球と月の K1 の確認の h/4(q00・q10・q11 —— 月 118 公転・地球 8 公転)と月の長い窓 354 公転(刻み h —— 引きずりの有無の差)の正本(第313便d の K1 の確認の器の写しと走行の関数のまま・統括の 2 段目の値とビットで照合 —— 在位へ入れない)' }),
+  // ==== 第314便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

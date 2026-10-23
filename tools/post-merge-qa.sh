@@ -284,6 +284,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRdm313 docs.galaxialRdm313 
 #   同じ写しと標的を読む docs.mdSweep310・docs.an336_306・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3v3_313 docs.k1confirm313 docs.planet3_311 docs.confirm312 docs.mdSweep310 docs.an336_306 lint.regenScope lint.stableHashPaths lint.canon304"
 # ==== 第313便d の塊(ここまで)====
+# ==== 第314便c の塊(ここから)====
+# 第314便c(原仮定者の裁定(第116報)の補足・AN410〔推奨〕・AN405・AN401・AN396′・R240): 枝 c の新設 2 本(docs.k1outer314 —— 外惑星 3 本の K1 の確認の正本〔全天体 κ₀ × エンジンの質量・
+#   相対の門〕と小さい係数の分解の表の延長・docs.k1em314 —— 🌦️ の h/4・月の 354 公転の正本と統括の 2 段目との照合)と、同じ写しと標的と第313便d の正本を読む docs.k1confirm313・
+#   docs.planet3_311・docs.confirm312・docs.an336_306・正本の段の lint.regenScope・lint.stableHashPaths・lint.regenChain・CANON の lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm313 docs.planet3_311 docs.confirm312 docs.an336_306 lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304"
+# ==== 第314便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
