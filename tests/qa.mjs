@@ -85762,7 +85762,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const K2 = X.partK(J), R2 = X.partR(Object.assign({}, J, { K: K2 })), D2 = X.partD(Object.assign({}, J, { K: K2, R: R2 })), M2 = X.partM(J);
       if (JSON.stringify(K2) !== JSON.stringify(J.K)) bad.push('④ 段 K を作り直すと違う');
       if (JSON.stringify(R2) !== JSON.stringify(J.R)) bad.push('④ 段 R を作り直すと違う');
-      if (JSON.stringify(D2) !== JSON.stringify(J.D)) bad.push('④ 段 D を作り直すと違う');
+      // 第313便(統括 —— CI の Node 24 で落ちた): 段 D の候補の感度の並びは Math.pow(p/p☿, ±2・±3) —— V8 の版で最後の bit が違う(Node 24 で sun2 の 1 欄が相対 1.7e-16)。
+      //   数は相対 1e-12 の内・数でない欄は JSON の表現の一致で照合する(段 K・R・M は今のまま JSON の表現の一致)
+      const nearSame313 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+        : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && nearSame313(a[k], b[k])))
+        : JSON.stringify(a) === JSON.stringify(b);
+      if (!nearSame313(D2, J.D)) bad.push('④ 段 D を作り直すと違う');
       if (JSON.stringify(M2) !== JSON.stringify(J.M)) bad.push('④ 段 M を作り直すと違う');
       for (const k of X.PLANET_KEYS) { const a = J.R.planets[k].adopt; if (a.adopted !== (a.rootBracketed === true && a.numericResolved === true && a.targetReached === true && a.declAdmissible === true)) bad.push('④ 採用 = 4 つの欄の積 でない ' + k); }
       cases.push(`④ 段 K・R・D・M を走行の行から作り直して一致 —— 根の kf ${X.PLANET_KEYS.map((k) => k + ' ' + J.R.planets[k].candidate.kf).join('・')}・採用 ${X.PLANET_KEYS.map((k) => J.R.planets[k].adopt.adopted).join('/')}`);
