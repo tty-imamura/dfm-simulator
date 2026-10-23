@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.034
+   "wallSec": 0.026
   },
   "B": {
-   "wallSec": 0.48
+   "wallSec": 0.388
   },
   "N": {
-   "wallSec": 0.551
+   "wallSec": 0.556
   },
   "X": {
-   "wallSec": 267.999
+   "wallSec": 224.961
   }
  },
- "elapsedS": 271.207,
+ "elapsedS": 227.848,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T22:44:03.597Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:03:59.273Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
@@ -2402,11 +2402,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1538,
-   "segments": 1373,
-   "closureShare": 0.3496
+   "names": 1553,
+   "segments": 1388,
+   "closureShare": 0.3518
   },
-  "scopeSha256": "5cd75a71e80888968e997b1012fa6e979eb9c68b06322155e85c38bb337639be",
+  "scopeSha256": "3eb294d26b6c45a870a739270872dc5e61f7314eee6a593dcfc1b249b5498a89",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

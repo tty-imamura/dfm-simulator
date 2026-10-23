@@ -2,7 +2,7 @@
  "version": "w314b-rdscale-1",
  "generator": "tests/exp-w314b-rdscale.mjs",
  "target": "beta/index.html",
- "targetSha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第116報)の補足(現状の R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討する —— κ の認識が違い複雑化する場合は採用せず解説を行う)・統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -3696,7 +3696,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.412
+    "wallSec": 0.459
    },
    {
     "kind": "q10",
@@ -3725,7 +3725,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.377
+    "wallSec": 0.516
    },
    {
     "kind": "q11",
@@ -3757,7 +3757,7 @@
     "nan": false,
     "betaMax": 3.209975441893601e-7,
     "overlap": 0,
-    "wallSec": 19.251
+    "wallSec": 25.621
    },
    {
     "kind": "q11",
@@ -3789,7 +3789,7 @@
     "nan": false,
     "betaMax": 2.7063765768290744e-8,
     "overlap": 0,
-    "wallSec": 20.069
+    "wallSec": 25.468
    },
    {
     "kind": "q11",
@@ -3821,7 +3821,7 @@
     "nan": false,
     "betaMax": 5.4127528868324274e-8,
     "overlap": 0,
-    "wallSec": 20.268
+    "wallSec": 26.045
    },
    {
     "kind": "q11",
@@ -3853,7 +3853,7 @@
     "nan": false,
     "betaMax": 6.419947130069395e-7,
     "overlap": 0,
-    "wallSec": 21.32
+    "wallSec": 24.928
    }
   ],
   "rows": [
@@ -3989,37 +3989,37 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.048
+   "wallSec": 0.08
   },
   "S": {
-   "wallSec": 0.117
+   "wallSec": 0.147
   },
   "R": {
-   "wallSec": 0.018
+   "wallSec": 0.016
   },
   "P": {
-   "wallSec": 81.737
+   "wallSec": 103.075
   }
  },
- "elapsedS": 86.069,
+ "elapsedS": 105.119,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便b",
   "target": "beta/index.html",
-  "targetSha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
-  "generatedAt": "2026-10-23T05:52:38.311Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:15:54.617Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
-    "mtime": "2026-10-23T05:26:26.234Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-23T05:26:26.387Z"
+    "mtime": "2026-10-20T16:19:56.589Z"
    }
   ],
   "code": [
@@ -4027,49 +4027,49 @@
     "file": "tests/exp-w314b-rdscale.mjs",
     "bytes": 36061,
     "sha256": "11b272487e415f899627888c8154007f31ad34ec86fa358bd1646a773a4f4619",
-    "mtime": "2026-10-23T05:48:43.197Z"
+    "mtime": "2026-10-23T05:59:17.459Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-10-23T05:26:26.486Z"
+    "mtime": "2026-10-22T15:03:06.002Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-10-23T05:26:26.486Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-10-23T05:26:26.486Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-23T05:26:26.478Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-23T05:26:26.474Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-23T05:26:26.470Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-23T05:26:26.478Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "d636cfdee2cbd02483ce01cdb7ad31d2c79d5d51dd7fda348112d5deb14151ae",
@@ -4115,11 +4115,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1515,
-   "segments": 1350,
-   "closureShare": 0.3444
+   "names": 1530,
+   "segments": 1365,
+   "closureShare": 0.3467
   },
-  "scopeSha256": "48f7cc9ccd393a44974a3a9bb88ba2369e460b0782f45f02972281bc98d7ae8d",
+  "scopeSha256": "f72b6e2f02834648ba2fb7b0c66ab269c0a5ebc5a28b11cfe8a7a6adfa7c8c18",
   "scopeComplete": true,
   "inputsStable": [
    {

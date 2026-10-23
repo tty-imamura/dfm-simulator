@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T22:33:40.403Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:15:37.032Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -32,9 +32,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109264,
-    "sha256": "75a1fa099790c4db053ede4fce0dad19c2548452b9a241eb4f26a9df81dd81f8",
-    "mtime": "2026-10-22T22:22:09.340Z"
+    "bytes": 109265,
+    "sha256": "7eb638efd204144fb4f02dbcf1d5c8672cd2438c523874f68ca4d4473004f08a",
+    "mtime": "2026-10-23T11:04:55.792Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -220,11 +220,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1551,
-   "segments": 1386,
-   "closureShare": 0.3504
+   "names": 1566,
+   "segments": 1401,
+   "closureShare": 0.3524
   },
-  "scopeSha256": "66ce8dc2466cca01210ebf34f18f775d8f8f3635312a887c9c94e757e729dd6b",
+  "scopeSha256": "8b453894e2aebcb480fc856663719de9ba9e939803c41852c9a063db406a9864",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -235,7 +235,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "98a2dbfbe93350eaf18b603f8862a8db79e3fc46a42ec2ddf164ec90082b3ee9",
+    "stableSha256": "b990374f6308e15304356ef5da3bc061627636de6dea67cbb84dcb8e057bfa83",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3393,19 +3393,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.025
+   "wallSec": 0.024
   },
   "M": {
-   "wallSec": 87.734
+   "wallSec": 80.851
   },
   "T": {
-   "wallSec": 524.732
+   "wallSec": 484.393
   },
   "R": {
-   "wallSec": 0.077
+   "wallSec": 0.054
   },
   "G": {
-   "wallSec": 40.338
+   "wallSec": 38.268
   }
  },
  "stats": {
@@ -3459,11 +3459,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-22T01:30:16.362Z",
-   "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-   "fileSha256": "6eb1c627d7d795115a8b6db2138a74c0628eada8e142618f6bc1a2026d2cb63f"
+   "generatedAt": "2026-10-22T22:33:40.403Z",
+   "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+   "fileSha256": "61106300c0320d861344254856da0fe5ed4f93df70bf9a54c6ea0f5a7b73dc78"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 688.877
+ "elapsedS": 639.034
 }

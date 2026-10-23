@@ -3,7 +3,7 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -2397,49 +2397,49 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.049
+   "wallSec": 1.274
   },
   "P": {
-   "wallSec": 0.011
+   "wallSec": 0.013
   },
   "A": {
-   "wallSec": 0.413
+   "wallSec": 0.417
   },
   "E": {
-   "wallSec": 0.489
+   "wallSec": 0.367
   },
   "T": {
-   "wallSec": 0.044
+   "wallSec": 0.056
   },
   "B": {
-   "wallSec": 0.184
+   "wallSec": 0.223
   },
   "D": {
-   "wallSec": 0.231
+   "wallSec": 0.216
   },
   "G": {
-   "wallSec": 0.083
+   "wallSec": 0.098
   }
  },
- "elapsedS": 4.546,
+ "elapsedS": 4.542,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T22:46:27.177Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:18:55.597Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    },
    {
     "file": "tests/out/bevel-w308a.json",
-    "bytes": 86401,
-    "sha256": "8128032bd0990d214db0d1da79bdeebf79e5f223beaa0ed26b832c7ea64f612a",
-    "mtime": "2026-10-22T21:55:07.304Z"
+    "bytes": 86402,
+    "sha256": "837848e0c531c739c29f527b1d0b151d0d865de5faf1dd98dbfa8b7f8b60f827",
+    "mtime": "2026-10-23T10:34:28.560Z"
    }
   ],
   "code": [
@@ -2539,16 +2539,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1520,
-   "segments": 1355,
-   "closureShare": 0.3461
+   "names": 1535,
+   "segments": 1370,
+   "closureShare": 0.3484
   },
-  "scopeSha256": "023483ecbf7d4e5e979f3d14b0116ba9bc977008465d761947f04749131c4e6f",
+  "scopeSha256": "bc898fe7ec44e102567e1e970efa1a00abfe4878e0a2bcdcb9907d9e6e56ffcb",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bevel-w308a.json",
-    "stableSha256": "c4069c5fa53c903413892b60bcbcb4f4dc1ddaed7f1122cf38c5239cc0f3cf7c",
+    "stableSha256": "c4dc8ad95539d42fb964f2b8661741aa31cb9ce84006d4a8ddd9024851f1a46a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
