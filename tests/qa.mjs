@@ -85663,7 +85663,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 }
 // ---- 第314便a: ui.rdExcess314 —— **R_d > R の表示**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ ページに inertialDragIsqRdExcessOf ∧ 器。
 // ----   中性子星の写し(器の nsBook —— 受理した本をカスタムの本として読み込む)と ☿ の写し(超過なし):
-// ----   ① 選択粒子の欄: 超過の天体(0)だけ #beDcRdX が出て「R_d/R = 2.0434」と「物質半径を超える」・粒子 1 には出ない・en の文
+// ----   ① 選択粒子の欄: 超過の天体(0)だけ #beDcRdX が出て「R_d/R = 2.0434」と「物質半径を超える」・粒子 1 には出ない・en の文・構造核の注記に新則の R_c > R の受理(新則の本)
 // ----   ② 説明の 1 行 #rdExcessNotice(「R_d > R の天体 1」と最大の比)・☿ の写しには出ない
 // ----   ③ 破線の円: render 1 回で rdExcessRingN が 1(超過の天体だけ)・☿ の写しは 0
 // ----   ④ 画素: 表示の読み口を null にした render との差が中性子星の写しでは半径 R_d の円の帯(±3 px)の中だけ・☿ の写しは 0・続けて 2 回の render の差 0
@@ -85696,7 +85696,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const one = (id) => {
           HP.loadPreset(id, false); running = false;
           const r = {};
-          HP.selectBody(0, 'A'); const xe = document.getElementById('beDcRdX'); r.row0 = { shown: xe.style.display !== 'none', txt: xe.textContent };
+          HP.selectBody(0, 'A'); const xe = document.getElementById('beDcRdX'); r.row0 = { shown: xe.style.display !== 'none', txt: xe.textContent }; r.note0 = document.getElementById('beDcNote').textContent;
           HP.selectBody(1, 'A'); r.row1 = document.getElementById('beDcRdX').style.display !== 'none';
           selIdx = -1; updateBodyEdit();
           const nt = document.getElementById('rdExcessNotice'); r.notice = nt ? nt.textContent : null;
@@ -85728,6 +85728,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const N = R.ns, M = R.mer;
         if (!(N.row0.shown && /R_d\/R = 2\.0434/.test(N.row0.txt) && /物質半径を超える/.test(N.row0.txt) && !N.row1)) bad.push('① 選択粒子の欄 ' + JSON.stringify([N.row0, N.row1]));
         if (M.row0.shown || M.row1) bad.push('① ☿ の写しに R_d/R の行');
+        if (!(/R_c > R も受理する/.test(N.note0) && /R_c > R も受理する/.test(M.note0))) bad.push('① 構造核の注記に新則の R_c > R の受理が無い');
         if (!(/R_d\/R = 2\.0434 \(exceeds the material radius/.test(R.en.row) && /Bodies with R_d > R: 1/.test(R.en.notice))) bad.push('① en の文');
         if (!(N.notice && /R_d > R の天体 1・最大の比 R_d\/R = 2\.0434/.test(N.notice) && /物質半径ではない/.test(N.notice))) bad.push('② 説明の 1 行 ' + N.notice);
         if (M.notice !== null) bad.push('② ☿ の写しに説明の 1 行');

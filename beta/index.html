@@ -1813,6 +1813,7 @@ ja: {
   beDcNote:(R)=>"慣性決定力の構造核(一様のコア+マントル殻)。f=コアの質量の割合(0<f≤1)・R_c=コアの半径(0<R_c≤R"+((R===null)? " —— この粒子は半径 radius の宣言が無いので付けられない" : "="+R)+")。",
   beDcShell:(eta,Rd)=>"引きずり核の殻(第304便a —— 読み取り): 引きずり核球面近似係数 η="+eta+"(核の半径/天体の半径)・R_d="+Rd+"。体積の構造核とは排他(本の宣言 dragCore:{shellRatio} —— ここでは付け外ししない)。",
   beDcErr:(e)=>"⛔ 受理されない —— "+e+"(何も書いていない)",
+  beDcNoteIsq:" 新しい引きずり則 invSq の本は R_c > R も受理する(K1 —— 外殻を宣言した本の f<1 は除く・K2 —— f=1 だけ。R_c は重力半径に比例する引きずりの半径で物質半径ではない —— 第314便a・AN404・AN411)。",
   beDcRdX:(q,Rd,R)=>"R_d/R = "+q+"(物質半径を超える —— R_d = "+Rd+" は重力半径に比例する引きずりの半径・R = "+R+" は観測半径。受理〔第314便a・AN404〕・引きずり球どうしの重なりは今のまま数える)",
   rdExcessNotice:(n,q)=>"R_d > R の天体 "+n+"・最大の比 R_d/R = "+q+"(引きずりの半径 R_d は重力半径に比例する長さ —— 物質半径ではない。観測半径を超えても受理し〔原仮定者の裁定(第116報)AN404〕、キャンバスでは超過の天体だけ半径 R_d の破線の円で示す。引きずり球どうしの重なりは今のまま数える)",
   beDdc:"構造核 dragCore: relativeDrag.law:\"inertial\" の本で、この粒子を源とする核を一様 2 層(コア+マントル殻)で体積平均した ⟨K⟩(r) に替える(〔第292便c〕)。宣言の鍵と値域は受理器と同じ(dragCore:{massFrac, radius})。ON で付け(既定 f=0.5・R_c=R/2)、OFF で外す。通らない編集は 1 bit も書かず理由を出す。⏮初めからで本の宣言に戻る。",
@@ -3097,6 +3098,7 @@ en: {
   beDcNote:(R)=>"Inertial-determinacy structure core (uniform core + mantle shell). f = core mass fraction (0<f≤1), R_c = core radius (0<R_c≤R"+((R===null)? " - this body declares no radius, so none can be attached" : "="+R)+").",
   beDcShell:(eta,Rd)=>"Drag-core shell (wave 304a, read-only): drag-core sphere approximation coefficient eta="+eta+" (core radius / body radius), R_d="+Rd+". Exclusive with the volume structure core (book declaration dragCore:{shellRatio} - not attached or removed here).",
   beDcErr:(e)=>"⛔ Not accepted - "+e+" (nothing was written)",
+  beDcNoteIsq:" In a book with the new drag law invSq, R_c > R is also accepted (K1 - except f<1 in a book declaring an outer shell; K2 - f=1 only). R_c is a drag radius proportional to the gravitational radius, not the material radius (wave 314a, AN404, AN411).",
   beDcRdX:(q,Rd,R)=>"R_d/R = "+q+" (exceeds the material radius - R_d = "+Rd+" is a drag radius proportional to the gravitational radius; R = "+R+" is the observed radius. Accepted (wave 314a, AN404); overlapping drag spheres are still counted)",
   rdExcessNotice:(n,q)=>"Bodies with R_d > R: "+n+", largest ratio R_d/R = "+q+" (the drag radius R_d is a length proportional to the gravitational radius - not the material radius. It is accepted even beyond the observed radius (the adjudicator's ruling, 116th report, AN404), and on the canvas only those bodies get a dashed circle of radius R_d. Overlapping drag spheres are still counted)",
   beDdc:"Structure core dragCore: in a relativeDrag.law:\"inertial\" book, replaces the kernel of the pairs this body sources with <K>(r) volume-averaged over two uniform layers (core + mantle shell; wave 292c). Keys and ranges are those of the validator (dragCore:{massFrac, radius}). ON attaches one (default f=0.5, R_c=R/2), OFF removes it. A rejected edit writes nothing and shows why. ⏮ Restart returns to the book's declaration.",
@@ -47922,7 +47924,7 @@ function updateBodyEdit(){
       const sh=(S.dragShellD && S.dragShellD[i]) || null;   // 第304便a: 引きずり核の殻(読み取りだけ —— 体積の核とは排他なので ON の欄を止める)
       $("#beDcOn").checked=!!d; $("#beDcOn").disabled=!!sh; $("#beDcEdit").style.display=d? "" : "none";
       if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt((d.radius>0)? d.radius : invSqKappa0(S.params.G, S.params.cLight)*(d.massFrac*S.m[i])); }   // 第313便a: 規則の本の radius の省略は規則の R_d = κ₀·(massFrac·m) を見せる
-      $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null));
+      $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null)+((S.relDrag && S.relDrag[REL_DRAG_INVSQ_KEY])? T("beDcNoteIsq") : ""));   // 第314便a: 新則の本は R_c > R の受理を添える
       { const rx=inertialDragIsqRdExcessOf(S), xr=rx? rx.by.get(i) : null, xe=$("#beDcRdX");   // 第314便a(AN404): R_d > R の天体だけ比の行(読み口と同じ R_d・R)
         xe.style.display=xr? "" : "none"; xe.textContent=xr? T("beDcRdX")(xr.ratio.toPrecision(5), fmt(xr.Rd), fmt(xr.Robs)) : ""; }
     } }
