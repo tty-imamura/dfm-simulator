@@ -1292,11 +1292,11 @@ export const REGEN_STEPS = [
   //   相対の門〔AN410 の推奨の型〕・小さい係数の分解の表の延長)と **🌦️ の h/4・月の 354 公転の正本化**(段 k1em-314c —— `--stage em`・K1 の確認の器の走行の関数をそのまま)。
   //   2 段は同じ器(tests/exp-w314c-k1outer.mjs)・別の正本。**k1confirm-313d の after に連ねない**(第313便d の正本は読まない —— 文書の表〔tests/lib-w314c-k1doc.mjs〕で並べる)。
   //   html・凍結の写し tests/data-w306a-decl305.json・第306便a の正本(標的の照合)・観測の記録 CSV 2 本を読む。走行は子プロセス 2 本(workers 2)。所要は第314便c の枝の実測
-  //   (正本の elapsedS —— 他の枝と同じ容器で並走: k1outer 1965.5 s〔引きずりの走行の CPU 3708 s・引きずりなし 213 s を 2 本で〕)。
+  //   (正本の elapsedS —— 他の枝と同じ容器で並走: k1outer 1965.5 s〔引きずりの走行の CPU 3708 s・引きずりなし 213 s を 2 本で〕・k1em 2613.7 s〔🌦️ q11 h/4 2584.4 s と q11 354 公転 1943.6 s を 2 本で —— 最長の 1 本が段の所要を決める〕)。
   S('k1outer-314c', 'node tests/exp-w314c-k1outer.mjs', ['tests/out/k1outer-w314c.json'], 1970, { secSource: 'w314c-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/k1outer-w314c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/rateStepsPerSec']) },
     note: '第314便c: 外惑星 3 本(🟡 土星・🔷 天王星・💙 海王星 —— AN336 の在位の写し)の K1 の確認の正本(太陽を含む全天体 R_d = κ₀ × エンジンの質量・κ₀ 固定・合わせない。h・h/2・h/4 × 窓 4・8・16 公転〔同じ走行の入れ子〕・r_1PN と r/q_1PN・有限質量比の予測・外惑星の門〔絶対 ε_fit・相対 1e-2 q_1PN・数値の帯 —— AN410 の推奨の型〕・小さい係数の分解の表の延長 —— 在位へ入れない)' }),
-  S('k1em-314c', 'node tests/exp-w314c-k1outer.mjs --stage em', ['tests/out/k1em-w314c.json'], 3600, { secSource: 'w314c-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
+  S('k1em-314c', 'node tests/exp-w314c-k1outer.mjs --stage em', ['tests/out/k1em-w314c.json'], 2620, { secSource: 'w314c-branch', node: true, workers: 2, after: ['an336-306a', 'obscompare', 'samplestatus'],
     volatilePaths: { 'tests/out/k1em-w314c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec']) },
     note: '第314便c: 🌦️ 太陽と地球と月の K1 の確認の h/4(q00・q10・q11 —— 月 118 公転・地球 8 公転)と月の長い窓 354 公転(刻み h —— 引きずりの有無の差)の正本(第313便d の K1 の確認の器の写しと走行の関数のまま・統括の 2 段目の値とビットで照合 —— 在位へ入れない)' }),
   // ==== 第314便c の塊(ここまで)====
