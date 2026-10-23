@@ -47030,7 +47030,7 @@ function renderHelp(){
   // 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238): 引きずりの半径 R_d が観測半径 R を超える天体がある本だけ 1 行(表示専用 —— 読み口
   //   inertialDragIsqRdExcessOf を読み込んだ状態から。超過の無い本には出さない)
   { const rx=inertialDragIsqRdExcessOf(sim);
-    if(rx){ const xn=document.createElement("p"); xn.id="rdExcessNotice"; xn.className="note rdExcessNotice"; xn.textContent=T("rdExcessNotice")(rx.n, fmt(rx.maxRatio)); el.appendChild(xn); } }
+    if(rx){ const xn=document.createElement("p"); xn.id="rdExcessNotice"; xn.className="note rdExcessNotice"; xn.textContent=T("rdExcessNotice")(rx.n, rx.maxRatio.toPrecision(5)); el.appendChild(xn); } }
   el=SEC.ledger;
   // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
   // 中身は calibrationBudget() の自動算出(宣言は持たない)。タップで内訳を開く。表示専用。
@@ -47924,7 +47924,7 @@ function updateBodyEdit(){
       if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt((d.radius>0)? d.radius : invSqKappa0(S.params.G, S.params.cLight)*(d.massFrac*S.m[i])); }   // 第313便a: 規則の本の radius の省略は規則の R_d = κ₀·(massFrac·m) を見せる
       $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null));
       { const rx=inertialDragIsqRdExcessOf(S), xr=rx? rx.by.get(i) : null, xe=$("#beDcRdX");   // 第314便a(AN404): R_d > R の天体だけ比の行(読み口と同じ R_d・R)
-        xe.style.display=xr? "" : "none"; xe.textContent=xr? T("beDcRdX")(fmt(xr.ratio), fmt(xr.Rd), fmt(xr.Robs)) : ""; }
+        xe.style.display=xr? "" : "none"; xe.textContent=xr? T("beDcRdX")(xr.ratio.toPrecision(5), fmt(xr.Rd), fmt(xr.Robs)) : ""; }
     } }
   { const box=$("#beSaBox"); box.style.display=vis.spinAxis3? "" : "none";
     if(vis.spinAxis3){

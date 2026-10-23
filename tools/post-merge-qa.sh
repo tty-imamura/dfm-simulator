@@ -284,6 +284,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRdm313 docs.galaxialRdm313 
 #   同じ写しと標的を読む docs.mdSweep310・docs.an336_306・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3v3_313 docs.k1confirm313 docs.planet3_311 docs.confirm312 docs.mdSweep310 docs.an336_306 lint.regenScope lint.stableHashPaths lint.canon304"
 # ==== 第313便d の塊(ここまで)====
+# ==== 第314便a の塊(ここから)====
+# 第314便a(原仮定者の裁定(第116報)AN404・AN403/AN409・決断事項 AN411 の推奨の型・R238): 枝 a の新設 3 本(behavior.rdExcess314 —— R_d > 観測半径の受理の表・警告の文・
+#   読み口 radiusExcess・重なりは今のまま数える・超過の無い本のビット同一・ui.rdExcess314 —— 選択粒子の欄の R_d/R の行・説明の 1 行・破線の円〔超過の天体だけ〕・
+#   docs.rdExcess314 —— 正本と文書)と、受理の表を世代切替した behavior.kappaM313・docs.kappaM313・受理器と新則の評価を読む behavior.shellRecv313・behavior.invSq309・
+#   behavior.invSq310・behavior.coreSpin311・behavior.decayK1_312・構造核の受理の behavior.dragCoreGate・選択粒子の欄の ui.selEdit299・説明の並びの ui.descOrder・状態の契約・CANON・段の lint
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rdExcess314 ui.rdExcess314 docs.rdExcess314 behavior.kappaM313 docs.kappaM313 behavior.shellRecv313 behavior.invSq309 behavior.invSq310 behavior.coreSpin311 behavior.decayK1_312 behavior.dragCoreGate ui.selEdit299 ui.descOrder lint.stateContract302 lint.canon304 lint.regenScope lint.stableHashPaths"
+# ==== 第314便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

@@ -2439,6 +2439,9 @@ lastAddAt = Date.now();
       // ==== 第313便a の塊(ここから)==== K1 の規則の鍵 rdRule:"kappaM" と外殻の受け手 shellRecv の器(kappam-313a)。領域 REGEN_SCOPE を刻む
       'tests/out/kappam-w313a.json',
       // ==== 第313便a の塊(ここまで)====
+      // ==== 第314便a の塊(ここから)==== R_d > 観測半径の受理と表示の器(rdexcess-314a)。領域 REGEN_SCOPE を刻む
+      'tests/out/rdexcess-w314a.json',
+      // ==== 第314便a の塊(ここまで)====
       // ==== 第313便b の塊(ここから)==== 一様軸引きずりの受け手の質量の次数と K1 の核の自然な応答(ミリメートルの R_d)の器(galaxialrdm-313b)。領域 REGEN_SCOPE を刻む
       'tests/out/galaxialrdm-w313b.json',
       // ==== 第313便b の塊(ここまで)====
