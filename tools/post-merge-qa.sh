@@ -284,6 +284,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRdm313 docs.galaxialRdm313 
 #   同じ写しと標的を読む docs.mdSweep310・docs.an336_306・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3v3_313 docs.k1confirm313 docs.planet3_311 docs.confirm312 docs.mdSweep310 docs.an336_306 lint.regenScope lint.stableHashPaths lint.canon304"
 # ==== 第313便d の塊(ここまで)====
+# ==== 第314便d の塊(ここから)====
+# 第314便d(原仮定者の裁定(第116報)の補足・R241): 枝 d の新設 2 本(behavior.pn1x3d314 —— 三次元の geoPN=1〔EIH の 1PN の 3 成分〕の器を作り直して正本と一致・受理の表・
+#   走行中の門・切り替えられるようになった在位の geoPN=1 の本の零試験・読み口・docs.pn1x3d314 —— 正本と文書)と、受理の門・三次元の步を読む behavior.coord3d298
+#   (器 w298a の拒否の行を geoPN=2 へ)・preset.coord3d298・docs.coord3d298・behavior.coord3dHaltAB299・behavior.drag3d298・preset.planets3d299・docs.planets3d299・
+#   二次元の 1PN を読む behavior.pn1Binary・behavior.pn1Sources・docs.pn1Contract・behavior.geoModeResolve・二次元→三次元の切り替えの零試験 ui.paramTab299・
+#   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
+# ==== 第314便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
