@@ -1018,6 +1018,11 @@ tests/out/regen-plan-w281a.json
 #   小さい係数の分解の表)。QA docs.k1confirm313 が読むのでコミットする(試走 W313D_QUICK の出力は W313D_OUT で別名 —— 例外にしない)
 !tests/out/k1confirm-w313d.json
 # ==== 第313便d の塊(ここまで)====
+# ==== 第314便a の塊(ここから)====
+# 第314便a(原仮定者の裁定(第116報)AN404・AN403/AN409・決断事項 AN411 の推奨の型・統括の検証項目 R238): R_d > 観測半径の受理と表示の器の正本(tests/exp-w314a-rdexcess.mjs)。
+#   QA docs.rdExcess314 が読むのでコミットする(試走 W314A_QUICK の出力は W314A_OUT で別名 —— 例外にしない)
+!tests/out/rdexcess-w314a.json
+# ==== 第314便a の塊(ここまで)====
 # ==== 第314便b の塊(ここから)====
 # 第314便b(原仮定者の裁定(第116報)の補足・統括の検証項目 R239): R_d の倍率の器の正本(tests/exp-w314b-rdscale.mjs —— 重力半径へ置き換える場合の検討)。QA docs.rdScale314 が読むのでコミットする
 #   (試走 W314B_QUICK の出力は W314B_OUT で別名 —— 例外にしない)

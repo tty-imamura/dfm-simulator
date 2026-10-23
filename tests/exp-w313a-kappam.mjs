@@ -112,14 +112,20 @@ const recvJson = (st) => JSON.stringify(st.receivers);
 const declOf = (q) => ({ id: q.id, invSq: q.physics.relativeDrag.invSq, bodies: q.bodies.map((b) => ({ m: b.m, R: b.radius, dragCore: b.dragCore || null, pinned: !!b.pinned })) });
 
 /* ───────── 段 A(受理の表)───────── */
+/** 第314便a の世代(原仮定者の裁定(第116報)AN404「R_d は観測半径を超えても受理する」—— 規則の写しで太陽の半径を κ₀M☉ より小さくした本を受理する html)。前の世代は AN404 の拒否で偽 */
+export function rdxGen(H) {
+  const q = ruleBook(H.HP, 'mercury', { rule: false }); q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].m = 1988.5 * 10; q.bodies[0].radius = 0.001;
+  return H.HP.validatePreset(clone(q)).ok === true;
+}
 export function partA(H) {
   const HP = H.HP, rows = [];
   const base = () => ruleBook(HP, 'mercury', { rule: false });
+  const gen314 = rdxGen(H);   // 第314便a(世代切替 —— 受理の振る舞いで判定・REGEN_SCOPE は動かさない)
   const T = (lab, mod, ok, re, canon) => {
     const q = base(); mod(q);
     const v = HP.validatePreset(clone(q)), m = (v.errors || []).join(' ');
     let pass;
-    if (ok) pass = v.ok && (canon ? canon(v.preset) : true);
+    if (ok) pass = v.ok && (canon ? canon(v.preset, v) : true);
     else pass = !v.ok && re.test(m);
     rows.push({ case: lab, ok: v.ok, pass, err: v.ok ? null : m.slice(0, 160) });
   };
@@ -138,10 +144,13 @@ export function partA(H) {
   T('shellRecv "core" + outerShell 省略', (q) => { q.physics.relativeDrag.invSq.shellRecv = 'core'; delete q.physics.relativeDrag.invSq.outerShell; }, false, /shellRecv:"core" は outerShell と一緒にだけ/);
   T('shellRecv "core" + K2', (q) => { q.physics.relativeDrag.invSq.shellRecv = 'core'; delete q.physics.relativeDrag.invSq.kernel; }, false, /shellRecv:"core" は kernel:"k1" の本だけ/);
   for (const bad of ['Core', 'shell', 0, false, ['core']]) T('shellRecv ' + JSON.stringify(bad), (q) => { q.physics.relativeDrag.invSq.shellRecv = bad; }, false, /shellRecv は "mass"/);
-  T('規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].m = 1988.5 * 10; q.bodies[0].radius = 0.001; }, false, /AN404/);
+  // 第314便a(世代切替): R_d > 観測半径を受理する html では受理して警告 1 行(AN404 —— 第116報)・前の世代は拒否(AN404 —— 第313便a)
+  T('規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].m = 1988.5 * 10; q.bodies[0].radius = 0.001; },
+    gen314, gen314 ? null : /AN404/, gen314 ? (p, v) => p.bodies[0].radius === 0.001 && (v.warnings || []).some((w) => /AN404/.test(w)) : undefined);
   T('規則 + 太陽の半径 0.001(radiusFloor —— R_d = κ₀M☉ の内)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.radiusFloor = 0.001; q.bodies[0].radius = 0.001; }, true, null, (p) => p.bodies[0].radius === 0.001);
   T('規則 + dragCore:{massFrac:0.5}(radius の省略)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.bodies[1].dragCore = { massFrac: 0.5 }; }, true, null, (p) => JSON.stringify(p.bodies[1].dragCore) === '{"massFrac":0.5}');
-  T('規則なし + dragCore:{massFrac:0.5}(radius の省略)', (q) => { q.bodies[1].dragCore = { massFrac: 0.5 }; }, false, /dragCore\.radius は 0<R_c≤radius/);
+  // 第314便a(世代切替): 新則の本の明示の radius の文は「正の有限数 —— radius の省略は invSq.rdRule の本だけ」(R_c > radius は受理の世代)・前の世代は「0<R_c≤radius」
+  T('規則なし + dragCore:{massFrac:0.5}(radius の省略)', (q) => { q.bodies[1].dragCore = { massFrac: 0.5 }; }, false, gen314 ? /radius の省略は invSq\.rdRule の本だけ/ : /dragCore\.radius は 0<R_c≤radius/);
   T('規則 + 明示の dragCore.radius(規則より優先 —— cap を見ない)', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.bodies[0].dragCore = { massFrac: 1, radius: 0.5 }; }, true, null, (p) => p.bodies[0].dragCore.radius === 0.5);
   T('規則 + dragCore:{massFrac:0.5} + outerShell uniform', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.physics.relativeDrag.invSq.outerShell = 'uniform'; q.bodies[1].dragCore = { massFrac: 0.5 }; }, true, null, (p) => p.bodies[1].dragCore.radius === undefined);
   T('規則 + 群の代表粒子の半径 particleRadius', (q) => { q.physics.relativeDrag.invSq.rdRule = 'kappaM'; q.bodies.push({ type: 'ring', n: 4, cx: 0, cy: 0, rIn: 2000, rOut: 2100, mMin: 1e-6, mMax: 1e-6, spinMin: 0, spinMax: 0, omega: 0, vNoise: 0, vMode: 'none', direction: 1, pinned: false, particleRadius: 1e-3 }); }, false, /particleRadius は invSq\.rdRule の本では宣言しない/);

@@ -1202,6 +1202,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/kappam-w313a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第313便a: K1 の規則の鍵 invSq.rdRule:"kappaM"(全天体 R_d = κ₀m_d —— κ₀ = 10G/(C₁c²) の一次の値・cap を見ない・エンジンが使う質量 —— 版 w313a-invsq-k1-kappam-1)と外殻の受け手 invSq.shellRecv:"core"(版 w313a-shellrecv-1)の受理・規則の表・外殻の受け手の表(AN403 の材料)・写しの步' }),
   // ==== 第313便a の塊(ここまで)====
+  // ==== 第314便a の塊(ここから)====
+  // ---- 第314便a(原仮定者の裁定(第116報)AN404「R_d は観測半径を超えても受理する。超えた場合の表示も用意する」・AN403/AN409・決断事項 AN411 の推奨の型・統括の検証項目 R238):
+  //   **R_d > 観測半径の受理と表示の器**(段 A〔受理の表 —— K1 × 規則/省略/明示 × 超過/内・K2 × massFrac 1/0.5・外殻 + 超過・点・正と有限・cap・旧則〕・W〔警告の文〕・
+  //   N〔中性子星 1.4 M☉・R 12 km と試験粒子の写しの走行 —— R_d の和の 3・1.5・0.8 倍・読み口 radiusExcess・重なりは数える〕・S〔太陽系の写し —— 超過なし・警告 0〕)。
+  //   本の宣言は変えない(写しは器の中で組む)。html と凍結の写し tests/data-w306a-decl305.json を読む・1 プロセス。所要は第314便a の枝の実測(正本の elapsedS)
+  S('rdexcess-314a', 'node tests/exp-w314a-rdexcess.mjs', ['tests/out/rdexcess-w314a.json'], 3, { secSource: 'w314a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rdexcess-w314a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第314便a: R_d > 観測半径の受理(新則 invSq の本 —— K1 は規則・省略・明示の 3 経路・K2 は massFrac = 1 だけ・外殻の組は拒否)と受理の警告・読み口 radiusExcess(版 w314a-rd-excess-1)・中性子星の写しの走行(重なりは今のまま数える)・太陽系の写しに超過が無いこと' }),
+  // ==== 第314便a の塊(ここまで)====
   // ==== 第309便c の塊(ここから)====
   // ---- 第309便c(原仮定者の裁定(第103報)AN355・AN357・(第104報)AN362・AN363・(第105報)AN364・統括の検証項目 R220): **観測の自転と移動の初期値の分解の門と AN357 の再確認の器**
   //   (段 K〔参照の純関数の確かめ〕・E〔エンジンの門 —— G = 0 の写し 3 体: 不動点・最初の步の Δx/h と rotA・firstStep:"zero"・チェックポイント・分解し直し・非収束・受理〕・
