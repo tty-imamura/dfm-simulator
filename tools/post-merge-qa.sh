@@ -284,6 +284,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galaxialRdm313 docs.galaxialRdm313 
 #   同じ写しと標的を読む docs.mdSweep310・docs.an336_306・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.planet3v3_313 docs.k1confirm313 docs.planet3_311 docs.confirm312 docs.mdSweep310 docs.an336_306 lint.regenScope lint.stableHashPaths lint.canon304"
 # ==== 第313便d の塊(ここまで)====
+# ==== 第314便b の塊(ここから)====
+# 第314便b(原仮定者の裁定(第116報)の補足・R239): 枝 b の新設 1 本(docs.rdScale314 —— R_d を重力半径へ置き換える場合の検討の正本と文書・PHYSICS〔第314便b〕の解説)と、
+#   同じ κ₀ と規則の写しを読む docs.kappaM313・docs.k1confirm313・docs.decay312・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.rdScale314 docs.kappaM313 docs.k1confirm313 docs.decay312 lint.regenScope lint.stableHashPaths lint.canon304"
+# ==== 第314便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

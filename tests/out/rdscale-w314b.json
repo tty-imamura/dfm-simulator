@@ -1,0 +1,4134 @@
+{
+ "version": "w314b-rdscale-1",
+ "generator": "tests/exp-w314b-rdscale.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
+ "ruling": "原仮定者の裁定(第116報)の補足(現状の R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討する —— κ の認識が違い複雑化する場合は採用せず解説を行う)・統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "quick": false,
+ "K": {
+  "inputs": {
+   "G": 6.674,
+   "cLight": 29979.2458,
+   "scaleExp": {
+    "L": 8,
+    "T": 4,
+    "M": 27
+   },
+   "q1pn": 42.98051038206748,
+   "dqG": -28.653664074480943
+  },
+  "bodyInputs": [
+   {
+    "name": "sun",
+    "id": "mercurySunInertial3d",
+    "i": 0,
+    "ja": "☀️ 太陽",
+    "m": 1988.5,
+    "R": 6.95,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "mercury",
+    "id": "mercurySunInertial3d",
+    "i": 1,
+    "ja": "🌡️ 水星",
+    "m": 0.00033011,
+    "R": 0.0244,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "venus",
+    "id": "venusSunInertial3d",
+    "i": 1,
+    "ja": "🌋 金星",
+    "m": 0.0048675,
+    "R": 0.0605,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "earth",
+    "id": "earthMoonSunInertial3d",
+    "i": 1,
+    "ja": "🌍 地球",
+    "m": 0.0059724,
+    "R": 0.06371,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "moon",
+    "id": "earthMoonSunInertial3d",
+    "i": 2,
+    "ja": "🌙 月",
+    "m": 0.00007346,
+    "R": 0.0174,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "mars",
+    "id": "marsSunInertial3d",
+    "i": 1,
+    "ja": "🔴 火星",
+    "m": 0.00064171,
+    "R": 0.033895,
+    "scaleExp": {
+     "L": 8,
+     "T": 4,
+     "M": 27
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "i": 1,
+    "ja": "🏀 木星",
+    "m": 0.1898,
+    "R": 0.071492,
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "saturn",
+    "id": "saturnSunInertial3d",
+    "i": 1,
+    "ja": "🪐 土星",
+    "m": 0.056834,
+    "R": 0.0603,
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "uranus",
+    "id": "uranusSunInertial3d",
+    "i": 1,
+    "ja": "🧊 天王星",
+    "m": 0.0086811,
+    "R": 0.025559,
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   },
+   {
+    "name": "neptune",
+    "id": "neptuneSunInertial3d",
+    "i": 1,
+    "ja": "🔵 海王星",
+    "m": 0.0102409,
+    "R": 0.024764,
+    "scaleExp": {
+     "L": 9,
+     "T": 5,
+     "M": 28
+    },
+    "G": 6.674,
+    "cLight": 29979.2458
+   }
+  ],
+  "formula": {
+   "C1": 0.8431139667085161,
+   "kappaBook": 8.80761885975153e-8,
+   "GSI": 6.674000000000001e-11,
+   "cSI": 299792458,
+   "kappaSI": 8.807618859751531e-27,
+   "gOverC2": 7.42582647410185e-28,
+   "kappaOverGc2": 11.860792721818628,
+   "rdOverRs": 5.930396360909314,
+   "tenOverC1": 11.860792721818626,
+   "fiveOverC1": 5.930396360909313,
+   "aGm": 0.08431139667085161,
+   "aRs": 0.16862279334170321,
+   "c1KappaOver10Gc2": 1.0000000000000002,
+   "q1pn": 42.98051038206748,
+   "dqG": -28.653664074480943,
+   "tD": 71.63417445654842,
+   "tDOverQ": 1.6666664453206668,
+   "dqGOverQ": -0.6666664453206669
+  },
+  "bodies": [
+   {
+    "name": "sun",
+    "id": "mercurySunInertial3d",
+    "i": 0,
+    "mSI": 1.9885e+30,
+    "RSI": 695000000,
+    "gm": 1476.625594375153,
+    "rs": 2953.251188750306,
+    "Rd": 17513.95010261592,
+    "rdOverRs": 5.930396360909314,
+    "rdOverGm": 11.860792721818628,
+    "rdOverR": 0.000025199928205202763,
+    "rsOverR": 0.000004249282285971663
+   },
+   {
+    "name": "mercury",
+    "id": "mercurySunInertial3d",
+    "i": 1,
+    "mSI": 3.3011e+23,
+    "RSI": 2440000,
+    "gm": 0.0002451339577365762,
+    "rs": 0.0004902679154731524,
+    "Rd": 0.0029074830617925778,
+    "rdOverRs": 5.930396360909313,
+    "rdOverGm": 11.860792721818626,
+    "rdOverR": 1.19159141876745e-9,
+    "rsOverR": 2.0092947355457068e-10
+   },
+   {
+    "name": "venus",
+    "id": "venusSunInertial3d",
+    "i": 1,
+    "mSI": 4.8675e+24,
+    "RSI": 6050000,
+    "gm": 0.003614521036269076,
+    "rs": 0.007229042072538152,
+    "Rd": 0.04287108479984058,
+    "rdOverRs": 5.930396360909313,
+    "rdOverGm": 11.860792721818626,
+    "rdOverR": 7.086129718981914e-9,
+    "rsOverR": 1.1948829871963888e-9
+   },
+   {
+    "name": "earth",
+    "id": "earthMoonSunInertial3d",
+    "i": 1,
+    "mSI": 5.9724e+24,
+    "RSI": 6371000,
+    "gm": 0.004435000603392589,
+    "rs": 0.008870001206785178,
+    "Rd": 0.052602622877980044,
+    "rdOverRs": 5.930396360909314,
+    "rdOverGm": 11.860792721818628,
+    "rdOverR": 8.256572418455508e-9,
+    "rsOverR": 1.39224630462803e-9
+   },
+   {
+    "name": "moon",
+    "id": "earthMoonSunInertial3d",
+    "i": 2,
+    "mSI": 7.346e+22,
+    "RSI": 1739999.9999999998,
+    "gm": 0.000054550121278752196,
+    "rs": 0.00010910024255750439,
+    "Rd": 0.0006470076814373475,
+    "rdOverRs": 5.930396360909314,
+    "rdOverGm": 11.860792721818628,
+    "rdOverR": 3.718434950789354e-10,
+    "rsOverR": 6.270128882615196e-11
+   },
+   {
+    "name": "mars",
+    "id": "marsSunInertial3d",
+    "i": 1,
+    "mSI": 6.4171e+23,
+    "RSI": 3389500,
+    "gm": 0.0004765227106695899,
+    "rs": 0.0009530454213391798,
+    "Rd": 0.0056519370984911554,
+    "rdOverRs": 5.930396360909313,
+    "rdOverGm": 11.860792721818626,
+    "rdOverR": 1.6674840237472062e-9,
+    "rsOverR": 2.811758139369169e-10
+   },
+   {
+    "name": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "i": 1,
+    "mSI": 1.898e+27,
+    "RSI": 71492000,
+    "gm": 1.4094218647845314,
+    "rs": 2.8188437295690627,
+    "Rd": 16.716860595808406,
+    "rdOverRs": 5.930396360909313,
+    "rdOverGm": 11.860792721818626,
+    "rdOverR": 2.3382840871437932e-7,
+    "rsOverR": 3.9428799440064103e-8
+   },
+   {
+    "name": "saturn",
+    "id": "saturnSunInertial3d",
+    "i": 1,
+    "mSI": 5.6834e+26,
+    "RSI": 60300000,
+    "gm": 0.42203942182910464,
+    "rs": 0.8440788436582093,
+    "Rd": 5.005722102751185,
+    "rdOverRs": 5.930396360909312,
+    "rdOverGm": 11.860792721818624,
+    "rdOverR": 8.301363354479577e-8,
+    "rsOverR": 1.3997990773767981e-8
+   },
+   {
+    "name": "uranus",
+    "id": "uranusSunInertial3d",
+    "i": 1,
+    "mSI": 8.6811e+25,
+    "RSI": 25559000,
+    "gm": 0.06446434220432556,
+    "rs": 0.12892868440865113,
+    "Rd": 0.7645982008338901,
+    "rdOverRs": 5.930396360909314,
+    "rdOverGm": 11.860792721818628,
+    "rdOverR": 2.9915028007116476e-8,
+    "rsOverR": 5.044355585455265e-9
+   },
+   {
+    "name": "neptune",
+    "id": "neptuneSunInertial3d",
+    "i": 1,
+    "mSI": 1.02409e+26,
+    "RSI": 24764000,
+    "gm": 0.07604714633862965,
+    "rs": 0.1520942926772593,
+    "Rd": 0.9019794398082945,
+    "rdOverRs": 5.930396360909313,
+    "rdOverGm": 11.860792721818626,
+    "rdOverR": 3.642301081441991e-8,
+    "rsOverR": 6.14174982544255e-9
+   }
+  ],
+  "engine": {
+   "mercury": {
+    "C1": 0.8431139667085161,
+    "kappa": 8.80761885975153e-8,
+    "kappaSI": 8.80761885975153e-27,
+    "rdOverRs": 5.930396360909313,
+    "C1Same": true,
+    "kappaSame": true
+   },
+   "jupiter": {
+    "C1": 0.8431139667085161,
+    "kappa": 8.80761885975153e-8,
+    "kappaSI": 8.807618859751531e-27,
+    "rdOverRs": 5.930396360909313,
+    "C1Same": true,
+    "kappaSame": true
+   }
+  },
+  "mercuryPn1": {
+   "a": 579.0922654152438,
+   "e": 0.20563592999999875,
+   "P": 760.0559795008314,
+   "formulaVersion": "w303b-pn1Formula(二体・初期の接触要素・ケプラー周期で ″/世紀へ換算)"
+  },
+  "maxRdOverRsDev": 1.4976712611565478e-16,
+  "maxRdOverGmDev": 1.4976712611565478e-16
+ },
+ "S": {
+  "systems": {
+   "mercury": {
+    "key": "mercury",
+    "id": "mercurySunInertial3d",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.00017513950102615916,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 2.9074830021534496e-11,
+       "pinned": false
+      }
+     ]
+    },
+    "base": {
+     "planet": {
+      "i": 1,
+      "j": 0,
+      "Rd": 2.9074830021534496e-11,
+      "md": 0.00033010999322868884,
+      "beta": 2.116005788757701e-7,
+      "rot": 1.8602084691142656e-18,
+      "omega": 1.5453419785333657e-22,
+      "spinSrc": 0.029031,
+      "roundScale": 0.005329377536448789
+     },
+     "sun": {
+      "i": 0,
+      "j": 1,
+      "Rd": 0.00017513950102615916,
+      "md": 1988.5,
+      "beta": 3.5127724721818435e-14,
+      "rot": 8.51061489779865e-39,
+      "omega": 3.0245385960994324e-43,
+      "spinSrc": 0.0124,
+      "roundScale": 8.847275747901615e-10
+     },
+     "dist": 697.8361219141021,
+     "betaMax": 2.116005788757701e-7
+    },
+    "ruleBitSame": true,
+    "configs": [
+     {
+      "mode": "recv",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00017513950102615916,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.4513395270831797e-12,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.7840343837616796e-8,
+      "RdPlanet": 2.4513395270831797e-12,
+      "RdSun": 0.00017513950102615916,
+      "roundScalePlanet": 0.06321064229613549,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00017513950102615916,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 4.9026790541663594e-12,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.5680687031405715e-8,
+      "RdPlanet": 4.9026790541663594e-12,
+      "RdSun": 0.00017513950102615916,
+      "roundScalePlanet": 0.031605321148067744,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00017513950102615916,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 1.4537415010767248e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.0580030075946792e-7,
+      "RdPlanet": 1.4537415010767248e-11,
+      "RdSun": 0.00017513950102615916,
+      "roundScalePlanet": 0.010658755072897578,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00017513950102615916,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 5.814966004306899e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 4.2320106717890997e-7,
+      "RdPlanet": 5.814966004306899e-11,
+      "RdSun": 0.00017513950102615916,
+      "roundScalePlanet": 0.0026646887682243944,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.000014766255943751528,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.9074830021534496e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 2.116005788757701e-7,
+      "RdPlanet": 2.9074830021534496e-11,
+      "RdSun": 0.000014766255943751528,
+      "roundScalePlanet": 0.005329377536448789,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.000029532511887503056,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.9074830021534496e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 2.116005788757701e-7,
+      "RdPlanet": 2.9074830021534496e-11,
+      "RdSun": 0.000029532511887503056,
+      "roundScalePlanet": 0.005329377536448789,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00008756975051307958,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.9074830021534496e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 2.116005788757701e-7,
+      "RdPlanet": 2.9074830021534496e-11,
+      "RdSun": 0.00008756975051307958,
+      "roundScalePlanet": 0.005329377536448789,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00035027900205231833,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.9074830021534496e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 2.116005788757701e-7,
+      "RdPlanet": 2.9074830021534496e-11,
+      "RdSun": 0.00035027900205231833,
+      "roundScalePlanet": 0.005329377536448789,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.000014766255943751528,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 2.4513395270831797e-12,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.7840343837616796e-8,
+      "RdPlanet": 2.4513395270831797e-12,
+      "RdSun": 0.000014766255943751528,
+      "roundScalePlanet": 0.06321064229613549,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.000029532511887503056,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 4.9026790541663594e-12,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.5680687031405715e-8,
+      "RdPlanet": 4.9026790541663594e-12,
+      "RdSun": 0.000029532511887503056,
+      "roundScalePlanet": 0.031605321148067744,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00008756975051307958,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 1.4537415010767248e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.0580030075946792e-7,
+      "RdPlanet": 1.4537415010767248e-11,
+      "RdSun": 0.00008756975051307958,
+      "roundScalePlanet": 0.010658755072897578,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "mercurySunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 1988.5,
+         "R": 6.95,
+         "Rd": 0.00035027900205231833,
+         "pinned": false
+        },
+        {
+         "m": 0.00033011,
+         "R": 0.0244,
+         "Rd": 5.814966004306899e-11,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 4.2320106717890997e-7,
+      "RdPlanet": 5.814966004306899e-11,
+      "RdSun": 0.00035027900205231833,
+      "roundScalePlanet": 0.0026646887682243944,
+      "spinSunSame": true
+     }
+    ]
+   },
+   "jupiter": {
+    "key": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "decl": {
+     "id": "jupiterSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 198.85,
+       "R": 0.695,
+       "Rd": 0.000017513950640190312,
+       "pinned": false
+      },
+      {
+       "m": 0.1898,
+       "R": 0.071492,
+       "Rd": 1.671686008763261e-8,
+       "pinned": false
+      }
+     ]
+    },
+    "base": {
+     "planet": {
+      "i": 1,
+      "j": 0,
+      "Rd": 1.671686008763261e-8,
+      "md": 0.18979999423027039,
+      "beta": 1.9871198513162374e-8,
+      "rot": 1.6404989902996888e-21,
+      "omega": 1.2795131987433437e-24,
+      "spinSrc": 0.29031,
+      "roundScale": 0.00000987033404403338
+     },
+     "sun": {
+      "i": 0,
+      "j": 1,
+      "Rd": 0.000017513950640190312,
+      "md": 198.85000610351562,
+      "beta": 1.896682586427754e-11,
+      "rot": 1.4265524200313287e-30,
+      "omega": 6.742126633180397e-32,
+      "spinSrc": 17.5851814,
+      "roundScale": 9.421117863245846e-9
+     },
+     "dist": 743.0984116367614,
+     "betaMax": 1.9871198513162374e-8
+    },
+    "ruleBitSame": true,
+    "configs": [
+     {
+      "mode": "recv",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000017513950640190312,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.4094218219395203e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.675368531001458e-9,
+      "RdPlanet": 1.4094218219395203e-9,
+      "RdSun": 0.000017513950640190312,
+      "roundScalePlanet": 0.00011706998619138971,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000017513950640190312,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 2.8188436438790406e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.350737056325065e-9,
+      "RdPlanet": 2.8188436438790406e-9,
+      "RdSun": 0.000017513950640190312,
+      "roundScalePlanet": 0.00005853499309569486,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000017513950640190312,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 8.358430043816306e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 9.935599356425093e-9,
+      "RdPlanet": 8.358430043816306e-9,
+      "RdSun": 0.000017513950640190312,
+      "roundScalePlanet": 0.00001974066808806676,
+      "spinSunSame": true
+     },
+     {
+      "mode": "recv",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000017513950640190312,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 3.343372017526522e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.9742396227573566e-8,
+      "RdPlanet": 3.343372017526522e-8,
+      "RdSun": 0.000017513950640190312,
+      "roundScalePlanet": 0.00000493516702201669,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.0000014766256396988008,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.671686008763261e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.9871198513162374e-8,
+      "RdPlanet": 1.671686008763261e-8,
+      "RdSun": 0.0000014766256396988008,
+      "roundScalePlanet": 0.00000987033404403338,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.0000029532512793976016,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.671686008763261e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.9871198513162374e-8,
+      "RdPlanet": 1.671686008763261e-8,
+      "RdSun": 0.0000029532512793976016,
+      "roundScalePlanet": 0.00000987033404403338,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000008756975320095156,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.671686008763261e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.9871198513162374e-8,
+      "RdPlanet": 1.671686008763261e-8,
+      "RdSun": 0.000008756975320095156,
+      "roundScalePlanet": 0.00000987033404403338,
+      "spinSunSame": true
+     },
+     {
+      "mode": "src",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000035027901280380624,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.671686008763261e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.9871198513162374e-8,
+      "RdPlanet": 1.671686008763261e-8,
+      "RdSun": 0.000035027901280380624,
+      "roundScalePlanet": 0.00000987033404403338,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "gm",
+      "a": 0.08431139667085161,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.0000014766256396988008,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 1.4094218219395203e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 1.675368531001458e-9,
+      "RdPlanet": 1.4094218219395203e-9,
+      "RdSun": 0.0000014766256396988008,
+      "roundScalePlanet": 0.00011706998619138971,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "rs",
+      "a": 0.16862279334170321,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.0000029532512793976016,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 2.8188436438790406e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.350737056325065e-9,
+      "RdPlanet": 2.8188436438790406e-9,
+      "RdSun": 0.0000029532512793976016,
+      "roundScalePlanet": 0.00005853499309569486,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "half",
+      "a": 0.5,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000008756975320095156,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 8.358430043816306e-9,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 9.935599356425093e-9,
+      "RdPlanet": 8.358430043816306e-9,
+      "RdSun": 0.000008756975320095156,
+      "roundScalePlanet": 0.00001974066808806676,
+      "spinSunSame": true
+     },
+     {
+      "mode": "both",
+      "scale": "two",
+      "a": 2,
+      "decl": {
+       "id": "jupiterSunInertial3d",
+       "invSq": {
+        "outerShell": "uniform",
+        "kernel": "k1"
+       },
+       "bodies": [
+        {
+         "m": 198.85,
+         "R": 0.695,
+         "Rd": 0.000035027901280380624,
+         "pinned": false
+        },
+        {
+         "m": 0.1898,
+         "R": 0.071492,
+         "Rd": 3.343372017526522e-8,
+         "pinned": false
+        }
+       ]
+      },
+      "err": null,
+      "betaMax": 3.9742396227573566e-8,
+      "RdPlanet": 3.343372017526522e-8,
+      "RdSun": 0.000035027901280380624,
+      "roundScalePlanet": 0.00000493516702201669,
+      "spinSunSame": true
+     }
+    ]
+   }
+  },
+  "rows": [
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.7840343837616796e-8,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.08431141319367938,
+    "pow": 0.9999999207622566,
+    "expect": 1,
+    "dev": 7.92377433667113e-8,
+    "restore": 11.860790397414043
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.5683680486587608e-19,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.08431141319368017,
+    "pow": 0.9999999207622529,
+    "expect": 1,
+    "dev": 7.923774714146958e-8,
+    "restore": 11.86079039741393
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 1.3019298193298395e-23,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.0842486541759164,
+    "pow": 1.0003010032572142,
+    "expect": 1,
+    "dev": 0.00030100325721416077,
+    "restore": 11.869625809237714
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 3.5127724721818435e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 6.049695373574828e-41,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.00710841160858969,
+    "pow": 1.9999999999999996,
+    "expect": 2,
+    "dev": 4.440892098500626e-16,
+    "restore": 140.67840398994568
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 2.1499665267050744e-45,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.007108411608559925,
+    "pow": 2.000000000001693,
+    "expect": 2,
+    "dev": 1.6928680679484387e-12,
+    "restore": 140.67840399053475
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.5680687031405715e-8,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.16862282334470224,
+    "pow": 0.9999999000446296,
+    "expect": 1,
+    "dev": 9.995537042506442e-8,
+    "restore": 5.930395305715997
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 3.136736040717758e-19,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.1686228233447033,
+    "pow": 0.999999900044626,
+    "expect": 1,
+    "dev": 9.99553739777781e-8,
+    "restore": 5.93039530571596
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 2.6038152341282863e-23,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.16849443490815433,
+    "pow": 1.0004277906229608,
+    "expect": 1,
+    "dev": 0.00042779062296083303,
+    "restore": 5.934914114790178
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.5127724721818435e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 2.4198781494299313e-40,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.02843364643435876,
+    "pow": 1.9999999999999998,
+    "expect": 2,
+    "dev": 2.220446049250313e-16,
+    "restore": 35.16960099748642
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 8.599866106820298e-45,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.0284336464342397,
+    "pow": 2.000000000002352,
+    "expect": 2,
+    "dev": 2.3518964553659316e-12,
+    "restore": 35.16960099763369
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.0580030075946792e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.5000000535044986,
+    "pow": 0.9999998456186587,
+    "expect": 1,
+    "dev": 1.5438134126632974e-7,
+    "restore": 1.9999997859820284
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 9.301043340866526e-19,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.5000000535044977,
+    "pow": 0.9999998456186613,
+    "expect": 1,
+    "dev": 1.5438133871281678e-7,
+    "restore": 1.999999785982032
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 7.725331783865223e-23,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.49991082175850077,
+    "pow": 1.0002573369630725,
+    "expect": 1,
+    "dev": 0.00025733696307250753,
+    "restore": 2.0003567765994164
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 3.5127724721818435e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 2.1276537244496626e-39,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 7.561346490248581e-44,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 4.2320106717890997e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1.9999995719641661,
+    "pow": 0.9999996912373795,
+    "expect": 1,
+    "dev": 3.087626204711924e-7,
+    "restore": 0.5000001070089813
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 3.7204161419926685e-18,
+    "base": 1.8602084691142656e-18,
+    "ratio": 1.9999995719641772,
+    "pow": 0.9999996912373875,
+    "expect": 1,
+    "dev": 3.0876261247758663e-7,
+    "restore": 0.5000001070089786
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 3.0904789695032893e-22,
+    "base": 1.5453419785333657e-22,
+    "ratio": 1.999867351326574,
+    "pow": 0.9999043110350452,
+    "expect": 1,
+    "dev": 0.00009568896495482093,
+    "restore": 0.5000331643679612
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 3.5127724721818435e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 3.40424595911946e-38,
+    "base": 8.51061489779865e-39,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 1.209815438439773e-42,
+    "base": 3.0245385960994324e-43,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 2.116005788757701e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.3223127476248667e-20,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.007108411608589671,
+    "pow": 2.000000000000001,
+    "expect": 2,
+    "dev": 8.881784197001252e-16,
+    "restore": 140.67840398994605
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 1.098322638346107e-24,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.007107311220449015,
+    "pow": 2.000062595195371,
+    "expect": 2,
+    "dev": 0.00006259519537099578,
+    "restore": 140.70018449773522
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 2.9616675331658056e-15,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.0843113966708542,
+    "pow": 0.9999999999999875,
+    "expect": 1,
+    "dev": 1.2545520178264269e-14,
+    "restore": 11.860792721818262
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 7.1754182856118485e-40,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.08431139667085438,
+    "pow": 0.9999999999999867,
+    "expect": 1,
+    "dev": 1.3322676295501878e-14,
+    "restore": 11.860792721818237
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 2.5500307335211565e-44,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.08431139668079553,
+    "pow": 0.9999999999523124,
+    "expect": 1,
+    "dev": 4.7687631621329274e-11,
+    "restore": 11.860792720419733
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 2.116005788757701e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 5.2892509904994667e-20,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.028433646434358684,
+    "pow": 2.0000000000000013,
+    "expect": 2,
+    "dev": 1.3322676295501878e-15,
+    "restore": 35.16960099748651
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 4.393290553384428e-24,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.02842924488179606,
+    "pow": 2.000086969051512,
+    "expect": 2,
+    "dev": 0.00008696905151195367,
+    "restore": 35.175046124433806
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 5.9233350663316e-15,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.1686227933417081,
+    "pow": 0.9999999999999837,
+    "expect": 1,
+    "dev": 1.63202784619898e-14,
+    "restore": 5.930396360909142
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 1.4350836571223653e-39,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.16862279334170824,
+    "pow": 0.9999999999999832,
+    "expect": 1,
+    "dev": 1.6764367671839864e-14,
+    "restore": 5.930396360909137
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 5.100061466821721e-44,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.16862279335429764,
+    "pow": 0.9999999999580415,
+    "expect": 1,
+    "dev": 4.195854774735608e-11,
+    "restore": 5.930396360466373
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 2.116005788757701e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 4.650521172785664e-19,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 3.863354946333414e-23,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.7563862360909527e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.5000000000000088,
+    "pow": 0.9999999999999747,
+    "expect": 1,
+    "dev": 2.531308496145357e-14,
+    "restore": 1.999999999999965
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 4.255307448899401e-39,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.5000000000000089,
+    "pow": 0.9999999999999744,
+    "expect": 1,
+    "dev": 2.5646151868841116e-14,
+    "restore": 1.9999999999999645
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 1.5122692980055284e-43,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.49999999998539024,
+    "pow": 1.000000000042155,
+    "expect": 1,
+    "dev": 4.215494620041227e-11,
+    "restore": 2.000000000058439
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 2.116005788757701e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 7.440833876457062e-18,
+    "base": 1.8602084691142656e-18,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 6.181367914133463e-22,
+    "base": 1.5453419785333657e-22,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 7.025544944363438e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1.9999999999999292,
+    "pow": 0.9999999999999489,
+    "expect": 1,
+    "dev": 5.10702591327572e-14,
+    "restore": 0.5000000000000178
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 1.7021229795596695e-38,
+    "base": 8.51061489779865e-39,
+    "ratio": 1.999999999999929,
+    "pow": 0.9999999999999487,
+    "expect": 1,
+    "dev": 5.129230373768223e-14,
+    "restore": 0.5000000000000178
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 6.0490771921681325e-43,
+    "base": 3.0245385960994324e-43,
+    "ratio": 1.999999999989839,
+    "pow": 0.9999999999926704,
+    "expect": 1,
+    "dev": 7.329581386272821e-12,
+    "restore": 0.5000000000025403
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.7840343837616796e-8,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.08431141319367938,
+    "pow": 0.9999999207622566,
+    "expect": 1,
+    "dev": 7.92377433667113e-8,
+    "restore": 11.860790397414043
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.1148605643627151e-21,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.0005993202282825611,
+    "pow": 2.9999999207622503,
+    "expect": 3,
+    "dev": 7.923774969498254e-8,
+    "restore": 1668.5570631674568
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 9.276828251833104e-26,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.000600309082436073,
+    "pow": 2.9993333453092546,
+    "expect": 3,
+    "dev": 0.0006666546907454496,
+    "restore": 1665.8085463940822
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 2.9616675331658056e-15,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.0843113966708542,
+    "pow": 0.9999999999999875,
+    "expect": 1,
+    "dev": 1.2545520178264269e-14,
+    "restore": 11.860792721818262
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 5.1005826637929906e-42,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.0005993201108315104,
+    "pow": 2.999999999999987,
+    "expect": 3,
+    "dev": 1.2878587085651816e-14,
+    "restore": 1668.5573901609562
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 1.8126668068947996e-46,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.0005993201109195592,
+    "pow": 2.9999999999405853,
+    "expect": 3,
+    "dev": 5.941469538583988e-11,
+    "restore": 1668.557389915821
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.5680687031405715e-8,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.16862282334470224,
+    "pow": 0.9999999000446296,
+    "expect": 1,
+    "dev": 9.995537042506442e-8,
+    "restore": 5.930395305715997
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 8.918884353968023e-21,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.004794561739746692,
+    "pow": 2.9999999000446187,
+    "expect": 3,
+    "dev": 9.995538130525006e-8,
+    "restore": 208.5696366593941
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 7.40025297059848e-25,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.004788747781006908,
+    "pow": 3.0006815230853046,
+    "expect": 3,
+    "dev": 0.0006815230853045584,
+    "restore": 208.82285844457957
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 5.9233350663316e-15,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.1686227933417081,
+    "pow": 0.9999999999999837,
+    "expect": 1,
+    "dev": 1.63202784619898e-14,
+    "restore": 5.930396360909142
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 4.0804661310343863e-41,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.004794560886652076,
+    "pow": 2.999999999999983,
+    "expect": 3,
+    "dev": 1.687538997430238e-14,
+    "restore": 208.56967377011983
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 1.4501334453930848e-45,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.00479456088695061,
+    "pow": 2.9999999999650044,
+    "expect": 3,
+    "dev": 3.4995562003814484e-11,
+    "restore": 208.56967375713322
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.0580030075946792e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 0.5000000535044986,
+    "pow": 0.9999998456186587,
+    "expect": 1,
+    "dev": 1.5438134126632974e-7,
+    "restore": 1.9999997859820284
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 2.3252608352166315e-19,
+    "base": 1.8602084691142656e-18,
+    "ratio": 0.12500001337612443,
+    "pow": 2.999999845618661,
+    "expect": 3,
+    "dev": 1.543813388238391e-7,
+    "restore": 7.999999143928128
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 1.9313329459663058e-23,
+    "base": 1.5453419785333657e-22,
+    "ratio": 0.12497770543962519,
+    "pow": 3.000257336963073,
+    "expect": 3,
+    "dev": 0.0002573369630729516,
+    "restore": 8.001427106397665
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.7563862360909527e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 0.5000000000000088,
+    "pow": 0.9999999999999747,
+    "expect": 1,
+    "dev": 2.531308496145357e-14,
+    "restore": 1.999999999999965
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 1.0638268622248502e-39,
+    "base": 8.51061489779865e-39,
+    "ratio": 0.12500000000000222,
+    "pow": 2.9999999999999742,
+    "expect": 3,
+    "dev": 2.5757174171303632e-14,
+    "restore": 7.999999999999858
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 3.780673245013821e-44,
+    "base": 3.0245385960994324e-43,
+    "ratio": 0.12499999999634756,
+    "pow": 3.000000000042155,
+    "expect": 3,
+    "dev": 4.2155168245017194e-11,
+    "restore": 8.000000000233756
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 4.2320106717890997e-7,
+    "base": 2.116005788757701e-7,
+    "ratio": 1.9999995719641661,
+    "pow": 0.9999996912373795,
+    "expect": 1,
+    "dev": 3.087626204711924e-7,
+    "restore": 0.5000001070089813
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 1.4881664567970674e-17,
+    "base": 1.8602084691142656e-18,
+    "ratio": 7.999998287856709,
+    "pow": 2.9999996912373876,
+    "expect": 3,
+    "dev": 3.087626123665643e-7,
+    "restore": 0.12500002675224464
+   },
+   {
+    "sys": "mercury",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 1.2361915878013157e-21,
+    "base": 1.5453419785333657e-22,
+    "ratio": 7.999469405306296,
+    "pow": 2.999904311035045,
+    "expect": 3,
+    "dev": 0.00009568896495482093,
+    "restore": 0.1250082910919903
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 7.025544944363438e-14,
+    "base": 3.5127724721818435e-14,
+    "ratio": 1.9999999999999292,
+    "pow": 0.9999999999999489,
+    "expect": 1,
+    "dev": 5.10702591327572e-14,
+    "restore": 0.5000000000000178
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 6.808491918238678e-38,
+    "base": 8.51061489779865e-39,
+    "ratio": 7.999999999999716,
+    "pow": 2.9999999999999485,
+    "expect": 3,
+    "dev": 5.1514348342607263e-14,
+    "restore": 0.12500000000000444
+   },
+   {
+    "sys": "mercury",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 2.419630876867253e-42,
+    "base": 3.0245385960994324e-43,
+    "ratio": 7.999999999959356,
+    "pow": 2.9999999999926703,
+    "expect": 3,
+    "dev": 7.329692408575283e-12,
+    "restore": 0.12500000000063508
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.675368531001458e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.08431139822249373,
+    "pow": 0.9999999925588625,
+    "expect": 1,
+    "dev": 7.441137483965576e-9,
+    "restore": 11.860792503536095
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.3831276365475632e-22,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.08431139822249396,
+    "pow": 0.9999999925588614,
+    "expect": 1,
+    "dev": 7.441138594188601e-9,
+    "restore": 11.86079250353606
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 1.0787769491019046e-25,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.08431151395401083,
+    "pow": 0.9999994375510388,
+    "expect": 1,
+    "dev": 5.624489611832928e-7,
+    "restore": 11.860776222633925
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.896682586427754e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.0140521782812392e-32,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.007108411608589675,
+    "pow": 2.000000000000001,
+    "expect": 2,
+    "dev": 8.881784197001252e-16,
+    "restore": 140.67840398994596
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 4.792581121342249e-34,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.007108411606741791,
+    "pow": 2.000000000105109,
+    "expect": 2,
+    "dev": 1.0510881054415222e-10,
+    "restore": 140.67840402651638
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.350737056325065e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.16862279615925474,
+    "pow": 0.9999999906132907,
+    "expect": 1,
+    "dev": 9.386709298730977e-9,
+    "restore": 5.930396261817153
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 2.766255268407679e-22,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.1686227961592549,
+    "pow": 0.9999999906132901,
+    "expect": 1,
+    "dev": 9.38670985384249e-9,
+    "restore": 5.930396261817147
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 2.157554338203034e-25,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.16862306229603932,
+    "pow": 0.999999103975865,
+    "expect": 1,
+    "dev": 8.960241349997844e-7,
+    "restore": 5.930386901907713
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 1.896682586427754e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 4.056208713124957e-32,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.0284336464343587,
+    "pow": 2.000000000000001,
+    "expect": 2,
+    "dev": 8.881784197001252e-16,
+    "restore": 35.16960099748649
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 1.9170324485368995e-33,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.028433646426967163,
+    "pow": 2.000000000146037,
+    "expect": 2,
+    "dev": 1.460369603023537e-10,
+    "restore": 35.169601006629094
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 9.935599356425093e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.5000000050245538,
+    "pow": 0.9999999855022026,
+    "expect": 1,
+    "dev": 1.4497797407031499e-8,
+    "restore": 1.9999999799017851
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 8.202495033926228e-22,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.5000000050245555,
+    "pow": 0.9999999855021974,
+    "expect": 1,
+    "dev": 1.4497802625079714e-8,
+    "restore": 1.999999979901778
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 6.397568481923118e-25,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.5000001944650827,
+    "pow": 0.9999994388924882,
+    "expect": 1,
+    "dev": 5.611075117872844e-7,
+    "restore": 1.9999992221399716
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.896682586427754e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 3.566381050078322e-31,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 1.6855316582950993e-32,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 3.9742396227573566e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1.999999959803573,
+    "pow": 0.9999999710044066,
+    "expect": 1,
+    "dev": 2.8995593370773065e-8,
+    "restore": 0.500000010049107
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 3.2809979146571854e-21,
+    "base": 1.6404989902996888e-21,
+    "ratio": 1.9999999598035765,
+    "pow": 0.9999999710044093,
+    "expect": 1,
+    "dev": 2.8995590706237806e-8,
+    "restore": 0.5000000100491061
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "recv",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 2.5590260657799506e-24,
+    "base": 1.2795131987433437e-24,
+    "ratio": 1.9999997407555177,
+    "pow": 0.9999998129946235,
+    "expect": 1,
+    "dev": 1.870053765173907e-7,
+    "restore": 0.500000064811129
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 1.896682586427754e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 5.706209680125315e-30,
+    "base": 1.4265524200313287e-30,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "recv",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 2.696850653272159e-31,
+    "base": 6.742126633180397e-32,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.9871198513162374e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.166134206652598e-23,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.0071084116085896945,
+    "pow": 1.9999999999999996,
+    "expect": 2,
+    "dev": 4.440892098500626e-16,
+    "restore": 140.6784039899456
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 9.095305280895151e-27,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.007108410675112989,
+    "pow": 2.0000000530963895,
+    "expect": 2,
+    "dev": 5.309638950734552e-8,
+    "restore": 140.67842246383788
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.5991195790581613e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.0843113966723326,
+    "pow": 0.9999999999928976,
+    "expect": 1,
+    "dev": 7.102429755434514e-12,
+    "restore": 11.860792721610283
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 1.2027462695913721e-31,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.08431139667233248,
+    "pow": 0.9999999999928981,
+    "expect": 1,
+    "dev": 7.101874643922201e-12,
+    "restore": 11.8607927216103
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 5.684381102521204e-33,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.08431139626696342,
+    "pow": 1.0000000019369075,
+    "expect": 1,
+    "dev": 1.936907523258924e-9,
+    "restore": 11.860792778636974
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 1.9871198513162374e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 4.664536826610392e-23,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.028433646434358778,
+    "pow": 1.9999999999999996,
+    "expect": 2,
+    "dev": 4.440892098500626e-16,
+    "restore": 35.1696009974864
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 3.6381221123580606e-26,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.028433642700451955,
+    "pow": 2.000000073771519,
+    "expect": 2,
+    "dev": 7.377151911569513e-8,
+    "restore": 35.16960561595947
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.198239158111145e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.16862279334439223,
+    "pow": 0.9999999999910415,
+    "expect": 1,
+    "dev": 8.95850060800285e-12,
+    "restore": 5.9303963608147425
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 2.405492539178855e-31,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.16862279334439234,
+    "pow": 0.999999999991041,
+    "expect": 1,
+    "dev": 8.9589446972127e-12,
+    "restore": 5.930396360814738
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 1.1368762227603498e-32,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.16862279286855553,
+    "pow": 1.0000000015762975,
+    "expect": 1,
+    "dev": 1.5762975369426613e-9,
+    "restore": 5.930396377549729
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 1.9871198513162374e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 4.101247475749222e-22,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 3.198782996858359e-25,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.25,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 4
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 9.483412932229739e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.5000000000047962,
+    "pow": 0.9999999999861612,
+    "expect": 1,
+    "dev": 1.3838818979650114e-11,
+    "restore": 1.9999999999808153
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 7.132762100225053e-31,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.5000000000047955,
+    "pow": 0.9999999999861631,
+    "expect": 1,
+    "dev": 1.3836931600508251e-11,
+    "restore": 1.999999999980818
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 3.3710633142629703e-32,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.49999999965482284,
+    "pow": 1.0000000009959709,
+    "expect": 1,
+    "dev": 9.959708613394014e-10,
+    "restore": 2.000000001380709
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 1.9871198513162374e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1,
+    "pow": 0,
+    "expect": 0,
+    "dev": 0,
+    "restore": 1
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 6.561995961198755e-21,
+    "base": 1.6404989902996888e-21,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "src",
+    "role": "src",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 5.1180527949733746e-24,
+    "base": 1.2795131987433437e-24,
+    "ratio": 4,
+    "pow": 2,
+    "expect": 2,
+    "dev": 0,
+    "restore": 0.25
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 3.793365172782732e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1.99999999996163,
+    "pow": 0.9999999999723219,
+    "expect": 1,
+    "dev": 2.7678082048510078e-11,
+    "restore": 0.5000000000095925
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 2.8531048400079203e-30,
+    "base": 1.4265524200313287e-30,
+    "ratio": 1.9999999999616298,
+    "pow": 0.9999999999723218,
+    "expect": 1,
+    "dev": 2.767819307081254e-11,
+    "restore": 0.5000000000095925
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "src",
+    "role": "recv",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 1.3484253268819465e-31,
+    "base": 6.742126633180397e-32,
+    "ratio": 2.0000000003646727,
+    "pow": 1.0000000002630558,
+    "expect": 1,
+    "dev": 2.6305579936547474e-10,
+    "restore": 0.4999999999088318
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.675368531001458e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.08431139822249373,
+    "pow": 0.9999999925588625,
+    "expect": 1,
+    "dev": 7.441137483965576e-9,
+    "restore": 11.860792503536095
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 9.831840547795938e-25,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.0005993201218612053,
+    "pow": 2.9999999925588607,
+    "expect": 3,
+    "dev": 7.441139260322416e-9,
+    "restore": 1668.557359453362
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 7.668386543514178e-28,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.0005993206284269344,
+    "pow": 2.99999965080706,
+    "expect": 3,
+    "dev": 3.491929398968807e-7,
+    "restore": 1668.5559491331844
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "beta",
+    "value": 1.5991195790581613e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.0843113966723326,
+    "pow": 0.9999999999928976,
+    "expect": 1,
+    "dev": 7.102429755434514e-12,
+    "restore": 11.860792721610283
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "rot",
+    "value": 8.549615544951254e-34,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.0005993201108420184,
+    "pow": 2.9999999999928977,
+    "expect": 3,
+    "dev": 7.1023187331320514e-12,
+    "restore": 1668.5573901317011
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "gm",
+    "a": 0.08431139667085161,
+    "qty": "omega",
+    "value": 4.0406920690535446e-35,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.0005993201090539987,
+    "pow": 3.000000001199176,
+    "expect": 3,
+    "dev": 1.1991758697149635e-9,
+    "restore": 1668.5573951096978
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.350737056325065e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.16862279615925474,
+    "pow": 0.9999999906132907,
+    "expect": 1,
+    "dev": 9.386709298730977e-9,
+    "restore": 5.930396261817153
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 7.865472424908628e-24,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.004794560966765211,
+    "pow": 2.999999990613289,
+    "expect": 3,
+    "dev": 9.386710964065514e-9,
+    "restore": 208.56967028509368
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 6.1347055050682824e-27,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.0047945621124451075,
+    "pow": 2.999999856376307,
+    "expect": 3,
+    "dev": 1.4362369293863253e-7,
+    "restore": 208.56962044653227
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "beta",
+    "value": 3.198239158111145e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.16862279334439223,
+    "pow": 0.9999999999910415,
+    "expect": 1,
+    "dev": 8.95850060800285e-12,
+    "restore": 5.9303963608147425
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "rot",
+    "value": 6.83969243594994e-33,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.004794560886728392,
+    "pow": 2.9999999999910414,
+    "expect": 3,
+    "dev": 8.958611630305313e-12,
+    "restore": 208.5696737668
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "rs",
+    "a": 0.16862279334170321,
+    "qty": "omega",
+    "value": 3.2325536564018666e-34,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.004794560874151078,
+    "pow": 3.0000000014647,
+    "expect": 3,
+    "dev": 1.4646999169087849e-9,
+    "restore": 208.56967431392962
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 9.935599356425093e-9,
+    "base": 1.9871198513162374e-8,
+    "ratio": 0.5000000050245538,
+    "pow": 0.9999999855022026,
+    "expect": 1,
+    "dev": 1.4497797407031499e-8,
+    "restore": 1.9999999799017851
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 2.050623758481557e-22,
+    "base": 1.6404989902996888e-21,
+    "ratio": 0.1250000012561389,
+    "pow": 2.9999999855021975,
+    "expect": 3,
+    "dev": 1.4497802514057412e-8,
+    "restore": 7.999999919607112
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 1.5993921204807795e-25,
+    "base": 1.2795131987433437e-24,
+    "ratio": 0.12500004861627068,
+    "pow": 2.9999994388924884,
+    "expect": 3,
+    "dev": 5.611075115652397e-7,
+    "restore": 7.999996888559886
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "beta",
+    "value": 9.483412932229739e-12,
+    "base": 1.896682586427754e-11,
+    "ratio": 0.5000000000047962,
+    "pow": 0.9999999999861612,
+    "expect": 1,
+    "dev": 1.3838818979650114e-11,
+    "restore": 1.9999999999808153
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "rot",
+    "value": 1.7831905250562633e-31,
+    "base": 1.4265524200313287e-30,
+    "ratio": 0.12500000000119887,
+    "pow": 2.999999999986163,
+    "expect": 3,
+    "dev": 1.3836931600508251e-11,
+    "restore": 7.999999999923272
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "half",
+    "a": 0.5,
+    "qty": "omega",
+    "value": 8.427658285657426e-33,
+    "base": 6.742126633180397e-32,
+    "ratio": 0.12499999991370571,
+    "pow": 3.000000000995971,
+    "expect": 3,
+    "dev": 9.959708613394014e-10,
+    "restore": 8.000000005522836
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 3.9742396227573566e-8,
+    "base": 1.9871198513162374e-8,
+    "ratio": 1.999999959803573,
+    "pow": 0.9999999710044066,
+    "expect": 1,
+    "dev": 2.8995593370773065e-8,
+    "restore": 0.500000010049107
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 1.3123991658628742e-20,
+    "base": 1.6404989902996888e-21,
+    "ratio": 7.999999839214306,
+    "pow": 2.999999971004409,
+    "expect": 3,
+    "dev": 2.899559081726011e-8,
+    "restore": 0.12500000251227653
+   },
+   {
+    "sys": "jupiter",
+    "recv": "planet",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 1.0236104263119802e-23,
+    "base": 1.2795131987433437e-24,
+    "ratio": 7.999998963022071,
+    "pow": 2.9999998129946235,
+    "expect": 3,
+    "dev": 1.870053765173907e-7,
+    "restore": 0.12500001620278225
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "beta",
+    "value": 3.793365172782732e-11,
+    "base": 1.896682586427754e-11,
+    "ratio": 1.99999999996163,
+    "pow": 0.9999999999723219,
+    "expect": 1,
+    "dev": 2.7678082048510078e-11,
+    "restore": 0.5000000000095925
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "rot",
+    "value": 1.1412419360031681e-29,
+    "base": 1.4265524200313287e-30,
+    "ratio": 7.999999999846519,
+    "pow": 2.9999999999723217,
+    "expect": 3,
+    "dev": 2.7678304093115003e-11,
+    "restore": 0.12500000000239814
+   },
+   {
+    "sys": "jupiter",
+    "recv": "sun",
+    "mode": "both",
+    "role": "both",
+    "scale": "two",
+    "a": 2,
+    "qty": "omega",
+    "value": 5.393701307527786e-31,
+    "base": 6.742126633180397e-32,
+    "ratio": 8.000000001458691,
+    "pow": 3.000000000263056,
+    "expect": 3,
+    "dev": 2.6305579936547474e-10,
+    "restore": 0.12499999997720795
+   }
+  ],
+  "devMax": {
+   "beta": 3.087626204711924e-7,
+   "rot": 3.0876261247758663e-7,
+   "omega": 0.0006815230853045584
+  },
+  "powOk": true,
+  "allAccepted": true,
+  "spinUnchanged": true,
+  "ruleBitSame": true
+ },
+ "R": {
+  "systems": {
+   "mercury": {
+    "id": "mercurySunInertial3d",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.00017513950102615914,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 2.907483002153449e-11,
+       "pinned": false
+      }
+     ]
+    },
+    "ell": [
+     0.000029532511887503056,
+     4.9026790541663594e-12
+    ],
+    "Reff": [
+     0.00017513950102615914,
+     2.907483002153449e-11
+    ],
+    "ellOverRd": [
+     0.16862279334170321,
+     0.16862279334170321
+    ],
+    "RdUlpSame": [
+     false,
+     false
+    ],
+    "maxRelRd": 2.2226608137637056e-16,
+    "maxRel": {
+     "beta": 1.7965545140611666e-16,
+     "rot": 7.667253831079063e-16,
+     "omega": 0.00005098348777142742
+    },
+    "roundScale": 0.005329377536448789,
+    "bitSame": false
+   },
+   "jupiter": {
+    "id": "jupiterSunInertial3d",
+    "decl": {
+     "id": "jupiterSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 198.85,
+       "R": 0.695,
+       "Rd": 0.00001751395064019031,
+       "pinned": false
+      },
+      {
+       "m": 0.1898,
+       "R": 0.071492,
+       "Rd": 1.6716860087632604e-8,
+       "pinned": false
+      }
+     ]
+    },
+    "ell": [
+     0.0000029532512793976016,
+     2.8188436438790397e-9
+    ],
+    "Reff": [
+     0.00001751395064019031,
+     1.6716860087632604e-8
+    ],
+    "ellOverRd": [
+     0.16862279334170321,
+     0.16862279334170316
+    ],
+    "RdUlpSame": [
+     false,
+     false
+    ],
+    "maxRelRd": 3.9585453642217825e-16,
+    "maxRel": {
+     "beta": 6.660337972106643e-16,
+     "rot": 8.595100601051082e-16,
+     "omega": 3.769204569112265e-8
+    },
+    "roundScale": 0.00000987033404403338,
+    "bitSame": false
+   }
+  },
+  "maxRelRd": 3.9585453642217825e-16,
+  "maxRel": {
+   "beta": 6.660337972106643e-16,
+   "rot": 8.595100601051082e-16,
+   "omega": 0.00005098348777142742
+  }
+ },
+ "P": {
+  "id": "mercurySunInertial3d",
+  "h": 0.016,
+  "N": 2,
+  "q1pn": 42.98051038206748,
+  "q00": -9.266728028705108,
+  "q10": -37.92068095140045,
+  "dqG": -28.65395292269534,
+  "runs": [
+   {
+    "kind": "q00",
+    "a": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {},
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": null,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": -9.266728028705108,
+    "steps": 95007,
+    "tEnd": 1520.1093424260387,
+    "nan": false,
+    "betaMax": 0,
+    "overlap": 0,
+    "wallSec": 0.412
+   },
+   {
+    "kind": "q10",
+    "a": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {},
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": null,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": null,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": -37.92068095140045,
+    "steps": 95007,
+    "tEnd": 1520.1096226914283,
+    "nan": false,
+    "betaMax": 0,
+    "overlap": 0,
+    "wallSec": 0.377
+   },
+   {
+    "kind": "q11",
+    "a": 1,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.00017513950102615916,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 2.9074830021534496e-11,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": 33.714195360158094,
+    "steps": 95007,
+    "tEnd": 1520.1099461978122,
+    "nan": false,
+    "betaMax": 3.209975441893601e-7,
+    "overlap": 0,
+    "wallSec": 19.251
+   },
+   {
+    "kind": "q11",
+    "a": 0.08431139667085161,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.000014766255943751528,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 2.4513395270831797e-12,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": -31.881042355029077,
+    "steps": 95007,
+    "tEnd": 1520.1096499666987,
+    "nan": false,
+    "betaMax": 2.7063765768290744e-8,
+    "overlap": 0,
+    "wallSec": 20.069
+   },
+   {
+    "kind": "q11",
+    "a": 0.16862279334170321,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.000029532511887503056,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 4.9026790541663594e-12,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": -25.841403201295922,
+    "steps": 95007,
+    "tEnd": 1520.109677241853,
+    "nan": false,
+    "betaMax": 5.4127528868324274e-8,
+    "overlap": 0,
+    "wallSec": 20.268
+   },
+   {
+    "kind": "q11",
+    "a": 2,
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "Rd": 0.00035027900205231833,
+       "pinned": false
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "Rd": 5.814966004306899e-11,
+       "pinned": false
+      }
+     ]
+    },
+    "aps": 105.34899039713781,
+    "steps": 95007,
+    "tEnd": 1520.110269704509,
+    "nan": false,
+    "betaMax": 6.419947130069395e-7,
+    "overlap": 0,
+    "wallSec": 21.32
+   }
+  ],
+  "rows": [
+   {
+    "a": 1,
+    "scale": "one",
+    "RdSun": 0.00017513950102615916,
+    "RdPlanet": 2.9074830021534496e-11,
+    "q11": 33.714195360158094,
+    "DG": 71.63487631155854,
+    "ratio": 1,
+    "ratioOverA": 0,
+    "r1pn": 0.0004130067957248684
+   },
+   {
+    "a": 0.08431139667085161,
+    "scale": "gm",
+    "RdSun": 0.000014766255943751528,
+    "RdPlanet": 2.4513395270831797e-12,
+    "q11": -31.881042355029077,
+    "DG": 6.039638596371372,
+    "ratio": 0.08431142632400769,
+    "ratioOverA": 3.5170993784028326e-7,
+    "r1pn": -65.59482470839146
+   },
+   {
+    "a": 0.16862279334170321,
+    "scale": "rs",
+    "RdSun": 0.000029532511887503056,
+    "RdPlanet": 4.9026790541663594e-12,
+    "q11": -25.841403201295922,
+    "DG": 12.079277750104527,
+    "ratio": 0.1686228604286079,
+    "ratioOverA": 3.978519353964316e-7,
+    "r1pn": -59.555185554658294
+   },
+   {
+    "a": 2,
+    "scale": "two",
+    "RdSun": 0.00035027900205231833,
+    "RdPlanet": 5.814966004306899e-11,
+    "q11": 105.34899039713781,
+    "DG": 143.26967134853825,
+    "ratio": 1.999998865432831,
+    "ratioOverA": -5.672835845516033e-7,
+    "r1pn": 71.63520804377544
+   }
+  ],
+  "complete": true
+ },
+ "C": {
+  "adopt": false,
+  "verdict": "採用しない(解説を行う)",
+  "keep": "エンジン・規則の鍵 invSq.rdRule:\"kappaM\"・κ₀ = 10G/(C₁c²) は今のまま",
+  "reasons": [
+   {
+    "code": "kappa",
+    "ja": "今の κ₀ は G/c² ではなく 10/C₁ 倍(R_d = κ₀m は Gm/c² の 10/C₁ 倍・r_s の 5/C₁ 倍)—— 「現状の R_d = Gm/c²」は今のエンジンの値ではない",
+    "kappaOverGc2": 11.860792721818628,
+    "rdOverRs": 5.930396360909314
+   },
+   {
+    "code": "powers",
+    "ja": "置き換え(R_d を C₁/5 倍)を戻す係数は項ごとに違う —— 並進は 5/C₁・回転と軸は (5/C₁)³(受け手の分母に 5/C₁・源の第 1 モーメントに (5/C₁)² の 2 か所)。1 つの係数では戻らない",
+    "restoreBoth": {
+     "mercury": {
+      "beta": 5.930395305715997,
+      "rot": 208.5696366593941,
+      "omega": 208.82285844457957
+     },
+     "jupiter": {
+      "beta": 5.930396261817153,
+      "rot": 208.56967028509368,
+      "omega": 208.56962044653227
+     }
+    },
+    "restoreRecv": {
+     "mercury": {
+      "beta": 5.930395305715997,
+      "rot": 5.93039530571596,
+      "omega": 5.934914114790178
+     },
+     "jupiter": {
+      "beta": 5.930396261817153,
+      "rot": 5.930396261817147,
+      "omega": 5.930386901907713
+     }
+    },
+    "restoreSrc": {
+     "mercury": {
+      "beta": 1,
+      "rot": 35.16960099748651,
+      "omega": 35.175046124433806
+     },
+     "jupiter": {
+      "beta": 1,
+      "rot": 35.1696009974864,
+      "omega": 35.16960561595947
+     }
+    },
+    "spread": 35.2122999698361
+   },
+   {
+    "code": "periapsis",
+    "ja": "係数なしで置き換えると引きずりの近点の分 D_G が約 C₁/5 倍になり、1PN の近点から外れる",
+    "DGratio": 0.1686228604286079,
+    "r1pn": -59.555185554658294
+   },
+   {
+    "code": "reparam",
+    "ja": "宣言の長さだけを r_s にして内部で (5/C₁) 倍の有効長を使う形は今と同値(新しい物理ではない)—— 表示の長さと核の球の半径が別になり、κ の読みが 2 つになる",
+    "maxRel": {
+     "beta": 6.660337972106643e-16,
+     "rot": 8.595100601051082e-16,
+     "omega": 0.00005098348777142742
+    }
+   }
+  ]
+ },
+ "gates": {
+  "kappaClosed": true,
+  "engineSame": true,
+  "ratiosClosed": true,
+  "scaleAccepted": true,
+  "ruleBitSame": true,
+  "sourceSpinUnchanged": true,
+  "powers": true,
+  "periapsisRuns": true,
+  "periapsisScales": true,
+  "reparamSame": true,
+  "conclusion": true
+ },
+ "ok": true,
+ "timing": {
+  "K": {
+   "wallSec": 0.048
+  },
+  "S": {
+   "wallSec": 0.117
+  },
+  "R": {
+   "wallSec": 0.018
+  },
+  "P": {
+   "wallSec": 81.737
+  }
+ },
+ "elapsedS": 86.069,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第314便b",
+  "target": "beta/index.html",
+  "targetSha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
+  "generatedAt": "2026-10-23T05:52:38.311Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7246398,
+    "sha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
+    "mtime": "2026-10-23T05:26:26.234Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-23T05:26:26.387Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w314b-rdscale.mjs",
+    "bytes": 36061,
+    "sha256": "11b272487e415f899627888c8154007f31ad34ec86fa358bd1646a773a4f4619",
+    "mtime": "2026-10-23T05:48:43.197Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-10-23T05:26:26.486Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-23T05:26:26.486Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-23T05:26:26.486Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-23T05:26:26.478Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-23T05:26:26.474Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-23T05:26:26.470Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-23T05:26:26.478Z"
+   }
+  ],
+  "codeSha256": "d636cfdee2cbd02483ce01cdb7ad31d2c79d5d51dd7fda348112d5deb14151ae",
+  "harnessVersion": "w314b-rdscale-1",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を確かめた",
+   "フィットした",
+   "較正した",
+   "完全に一致",
+   "確認した",
+   "収束した",
+   "R_d を決めた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonSunInertial3d",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragIsqState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ch",
+    "ctx",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1515,
+   "segments": 1350,
+   "closureShare": 0.3444
+  },
+  "scopeSha256": "48f7cc9ccd393a44974a3a9bb88ba2369e460b0782f45f02972281bc98d7ae8d",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
