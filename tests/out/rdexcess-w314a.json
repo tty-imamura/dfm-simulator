@@ -1,0 +1,1598 @@
+{
+ "version": "w314a-rdexcess-1",
+ "generator": "tests/exp-w314a-rdexcess.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "ruling": "原仮定者の裁定(第116報)AN404 R_d は観測半径を超えても受理する・超えた場合の表示も用意する・AN403/AN409 外殻の引きずりは粒子同士が触れるぐらいの距離の特別処理(将来の地表のサンプル)・決断事項 AN411 の推奨の型・統括の検証項目 R238",
+ "units": {
+  "book": {
+   "L": 3,
+   "T": -5,
+   "M": 30
+  },
+  "G": 6.6743,
+  "cLight": 2.99792458,
+  "si": {
+   "G": 6.6743e-11,
+   "c": 299792458,
+   "Msun": 1.98847e+30
+  }
+ },
+ "versionReaders": [
+  {
+   "file": "tests/exp-w313a-kappam.mjs",
+   "reads": "段 A の AN404 の拒否の行(規則 + 太陽の半径 1.0e-3・規則なし + dragCore:{massFrac:0.5} の文)",
+   "handling": "受理の振る舞いで世代を判定(rdxGen —— REGEN_SCOPE は動かさない)・新しい世代は受理して警告・文は「radius の省略は invSq.rdRule の本だけ」"
+  },
+  {
+   "file": "tests/exp-w311a-corespin.mjs・exp-w310a-invsq.mjs・exp-w312a-decay.mjs・exp-w313b-galaxialrdm.mjs",
+   "reads": "dragCore と invSq の受理・読み口",
+   "handling": "超過の天体を宣言しない —— 受理と読み口は今と同じ(正本の値は不変 —— scratch で照合)"
+  }
+ ],
+ "quick": false,
+ "rdExcessVersion": "w314a-rd-excess-1",
+ "A": {
+  "rows": [
+   {
+    "case": "K1 規則・dragCore なし(R_d = κ₀m > R —— 規則の経路)",
+    "path": "rule",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・dragCore:{massFrac:1}(radius の省略の経路)",
+    "path": "omit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・dragCore:{massFrac:0.5}(radius の省略・外殻なし —— R_d = κ₀·0.5m > R)",
+    "path": "omit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 12.260131454683385 が観測半径 R = 12 を超える(比 R_d/R = 1.02168)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則なし・明示の dragCore {massFrac:1, radius:κ₀m}(明示の経路)",
+    "path": "explicit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 24.52026290936677
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・明示の dragCore {massFrac:1, radius:30}(明示が規則より優先)",
+    "path": "explicit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 30
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 30 が観測半径 R = 12 を超える(比 R_d/R = 2.50000)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 明示の dragCore {massFrac:0.5, radius:20}(外殻なし)",
+    "path": "explicit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 20
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 20 が観測半径 R = 12 を超える(比 R_d/R = 1.66667)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・観測半径 30(R_d < R —— 内)",
+    "path": "inside",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 30,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・外殻 uniform・dragCore:{massFrac:0.5}(R_d ≥ R —— 外殻の組)",
+    "path": "shell",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "AN403・AN409",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "pass": true
+   },
+   {
+    "case": "K1 規則・外殻 thin・dragCore:{massFrac:0.5}(R_d ≥ R —— 外殻の組)",
+    "path": "shell",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "thin",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "AN403・AN409",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "pass": true
+   },
+   {
+    "case": "K1 外殻 uniform・明示の dragCore {massFrac:0.5, radius:12}(R_d = R —— 外殻の組)",
+    "path": "shell",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "AN403・AN409",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "pass": true
+   },
+   {
+    "case": "K1 規則・外殻 uniform・dragCore なし(m_d = m —— 外殻を持たない)",
+    "path": "shell",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 規則・外殻 uniform・明示の dragCore {massFrac:0.9, radius:6}(内 —— 外殻あり)",
+    "path": "shell",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.9,
+        "radius": 6
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 今のまま)",
+    "path": "explicit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "マントルの体積が 0",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1",
+    "pass": true
+   },
+   {
+    "case": "K1 規則なし・dragCore:{massFrac:0.5}(radius の省略は規則の本だけ)",
+    "path": "omit",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "radius の省略は invSq\\.rdRule の本だけ",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "pass": true
+   },
+   {
+    "case": "K2 明示の dragCore {massFrac:1, radius:κ₀m}(マントルなし —— AN411)",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {},
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 24.52026290936677
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K2 明示の dragCore {massFrac:0.5, radius:κ₀m}(マントルあり —— AN411)",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {},
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 24.52026290936677
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "AN411",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_c < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)(AN411)",
+    "pass": true
+   },
+   {
+    "case": "K2 外殻 uniform・明示の dragCore {massFrac:0.5, radius:κ₀m}",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "outerShell": "uniform"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 24.52026290936677
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "AN411",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_c < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)(AN411)",
+    "pass": true
+   },
+   {
+    "case": "K2 明示の dragCore {massFrac:0.5, radius:6}(内)",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {},
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 6
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K2 明示の dragCore {massFrac:1, radius:12}(R_c = R —— 超過でない)",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {},
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K2 dragCore なし(R_d = R —— 今のまま)",
+    "path": "k2",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {},
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K1 明示の dragCore.radius −1(正の検査は残す)",
+    "path": "finite",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": -1
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "正の有限数",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "pass": true
+   },
+   {
+    "case": "K1 明示の dragCore.radius \"24\"(文字列 —— 有限の数の検査は残す)",
+    "path": "finite",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": "24"
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "正の有限数",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "pass": true
+   },
+   {
+    "case": "K1 規則・試験粒子の半径なし(点 —— 規則を当てない)",
+    "path": "point",
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": null,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 1,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 1,
+    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "K2 + dragCoreDefault cap6500km(☿ の写し —— 太陽の R はクランプ・cap の超過は AN404 の警告でない)",
+    "path": "cap",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform"
+     },
+     "cap": "cap6500km",
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
+    "nWarnX": 0,
+    "warn": null,
+    "err": null,
+    "pass": true
+   },
+   {
+    "case": "旧則(invSq なし)の構造核 R_c > R(今の契約 0 < R_c ≤ R)",
+    "path": "old",
+    "decl": {
+     "body": {
+      "radius": 12,
+      "m": 2.7838579999999995,
+      "dragCore": {
+       "massFrac": 1,
+       "radius": 24.52026290936677
+      }
+     },
+     "physics": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 1,
+       "eps": 0.1,
+       "pairs": "all",
+       "history": "positions"
+      },
+      "softening": 0.1
+     }
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "dragCore\\.radius は 0<R_c≤radius",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "dragCore.radius は 0<R_c≤radius(コアの半径・絶対)",
+    "pass": true
+   },
+   {
+    "case": "law が inertial でない本の dragCore R_c > R(今の契約)",
+    "path": "old",
+    "decl": {
+     "body": {
+      "radius": 12,
+      "m": 2.7838579999999995,
+      "dragCore": {
+       "massFrac": 1,
+       "radius": 24.52026290936677
+      }
+     },
+     "physics": {
+      "relativeDrag": {
+       "law": "pairSlip",
+       "kappa": 1
+      }
+     }
+    },
+    "expectOk": false,
+    "expectWarn": null,
+    "expectErr": "dragCore\\.radius は 0<R_c≤radius",
+    "ok": false,
+    "nWarnX": 0,
+    "warn": null,
+    "err": "dragCore.radius は 0<R_c≤radius(コアの半径・絶対)",
+    "pass": true
+   }
+  ],
+  "allPass": true,
+  "n": 26,
+  "kappaBook": 8.808014767102133,
+  "RdNS": 24.52026290936677
+ },
+ "W": {
+  "line": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+  "perBody": 1,
+  "miss": [],
+  "mentionsCap": false,
+  "omitLine": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+  "omitPrefixed": true,
+  "ok": true
+ },
+ "N": {
+  "rows": [
+   {
+    "case": "K1 + rdRule・距離 3 × (R_d,NS + R_d,p)",
+    "d": 3,
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 1,
+    "radiusExcess": {
+     "version": "w314a-rd-excess-1",
+     "bodies": [
+      {
+       "i": 0,
+       "Rd": 24.52026290936677,
+       "Robs": 12,
+       "ratio": 2.0433552424472308
+      }
+     ]
+    },
+    "displayN": 1,
+    "displayMax": 2.0433552424472308,
+    "displaySame": true,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 2.783858060836792,
+      "Rd": 24.52026290936677,
+      "src": "rule"
+     },
+     {
+      "i": 1,
+      "m": 0.0000019884701032424346,
+      "Rd": 0.000017514474033300465,
+      "src": "rule"
+     }
+    ],
+    "r0": 73.56084127152242,
+    "rdSum": 24.520280423840806,
+    "overlap0": null,
+    "betaP": 0.21895278147310918,
+    "betaNS": 2.0074124074233378e-7,
+    "rotP": 0.357918395441178,
+    "steps": 30,
+    "dt": 0.5,
+    "finite": true,
+    "r1": 73.4973031233282,
+    "overlapSteps": 0,
+    "betaMaxRun": 0.21909109745271332,
+    "badRow": 0,
+    "lowDen": 0,
+    "tooLarge": 0
+   },
+   {
+    "case": "K1 + rdRule・距離 1.5 × (R_d,NS + R_d,p)",
+    "d": 1.5,
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 1,
+    "radiusExcess": {
+     "version": "w314a-rd-excess-1",
+     "bodies": [
+      {
+       "i": 0,
+       "Rd": 24.52026290936677,
+       "Robs": 12,
+       "ratio": 2.0433552424472308
+      }
+     ]
+    },
+    "displayN": 1,
+    "displayMax": 2.0433552424472308,
+    "displaySame": true,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 2.783858060836792,
+      "Rd": 24.52026290936677,
+      "src": "rule"
+     },
+     {
+      "i": 1,
+      "m": 0.0000019884701032424346,
+      "Rd": 0.000017514474033300465,
+      "src": "rule"
+     }
+    ],
+    "r0": 36.78042063576121,
+    "rdSum": 24.520280423840806,
+    "overlap0": null,
+    "betaP": 0.3588748583085615,
+    "betaNS": 4.01469507151448e-7,
+    "rotP": 1.1732932789050123,
+    "steps": 30,
+    "dt": 0.5,
+    "finite": true,
+    "r1": 36.47863788562668,
+    "overlapSteps": 0,
+    "betaMaxRun": 0.36064584334861854,
+    "badRow": 0,
+    "lowDen": 0,
+    "tooLarge": 0
+   },
+   {
+    "case": "K1 + rdRule・距離 0.8 × (R_d,NS + R_d,p)",
+    "d": 0.8,
+    "decl": {
+     "id": "w314aNeutronStar",
+     "invSq": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 1,
+    "radiusExcess": {
+     "version": "w314a-rd-excess-1",
+     "bodies": [
+      {
+       "i": 0,
+       "Rd": 24.52026290936677,
+       "Robs": 12,
+       "ratio": 2.0433552424472308
+      }
+     ]
+    },
+    "displayN": 1,
+    "displayMax": 2.0433552424472308,
+    "displaySame": true,
+    "rdRule": [
+     {
+      "i": 0,
+      "m": 2.783858060836792,
+      "Rd": 24.52026290936677,
+      "src": "rule"
+     },
+     {
+      "i": 1,
+      "m": 0.0000019884701032424346,
+      "Rd": 0.000017514474033300465,
+      "src": "rule"
+     }
+    ],
+    "r0": 19.616224339072645,
+    "rdSum": 24.520280423840806,
+    "overlap0": [
+     0,
+     1
+    ],
+    "betaP": null,
+    "betaNS": null,
+    "rotP": null,
+    "steps": 30,
+    "dt": 0.5,
+    "finite": true,
+    "r1": 19.452518346605117,
+    "overlapSteps": 30,
+    "betaMaxRun": 0,
+    "badRow": 0,
+    "lowDen": 0,
+    "tooLarge": 0
+   }
+  ],
+  "explicit": {
+   "case": "K1 + rdRule・明示の dragCore {massFrac:1, radius:30}(規則より優先)・距離 3 × (30 + R_d,p)",
+   "d": 3,
+   "decl": {
+    "id": "w314aNeutronStar",
+    "invSq": {
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "cap": null,
+    "bodies": [
+     {
+      "m": 2.7838579999999995,
+      "R": 12,
+      "dragCore": {
+       "massFrac": 1,
+       "radius": 30
+      }
+     },
+     {
+      "m": 0.0000019884699999999997,
+      "R": 0.01,
+      "dragCore": null
+     }
+    ]
+   },
+   "accepted": true,
+   "nWarnX": 1,
+   "radiusExcess": {
+    "version": "w314a-rd-excess-1",
+    "bodies": [
+     {
+      "i": 0,
+      "Rd": 30,
+      "Robs": 12,
+      "ratio": 2.5
+     }
+    ]
+   },
+   "displayN": 1,
+   "displayMax": 2.5,
+   "displaySame": true,
+   "rdRule": [
+    {
+     "i": 0,
+     "m": 2.783858060836792,
+     "Rd": 30,
+     "src": "declared"
+    },
+    {
+     "i": 1,
+     "m": 0.0000019884701032424346,
+     "Rd": 0.000017514474033300465,
+     "src": "rule"
+    }
+   ],
+   "r0": 90.0000525434221,
+   "rdSum": 24.520280423840806,
+   "overlap0": null,
+   "betaP": 0.18647149686269326,
+   "betaNS": 2.0074126693300885e-7,
+   "rotP": 0.3729427759955004,
+   "steps": 30,
+   "dt": 0.5,
+   "finite": true,
+   "r1": 89.96310180899003,
+   "overlapSteps": 0,
+   "betaMaxRun": 0.18652987456186365,
+   "badRow": 0,
+   "lowDen": 0,
+   "tooLarge": 0
+  },
+  "k2": {
+   "case": "K2・明示の dragCore {massFrac:1, radius:κ₀m}(AN411)・距離 3 × R_d の和",
+   "d": 3,
+   "decl": {
+    "id": "w314aNeutronStar",
+    "invSq": {},
+    "cap": null,
+    "bodies": [
+     {
+      "m": 2.7838579999999995,
+      "R": 12,
+      "dragCore": {
+       "massFrac": 1,
+       "radius": 24.52026290936677
+      }
+     },
+     {
+      "m": 0.0000019884699999999997,
+      "R": 0.01,
+      "dragCore": null
+     }
+    ]
+   },
+   "accepted": true,
+   "nWarnX": 1,
+   "radiusExcess": {
+    "version": "w314a-rd-excess-1",
+    "bodies": [
+     {
+      "i": 0,
+      "Rd": 24.52026290936677,
+      "Robs": 12,
+      "ratio": 2.0433552424472308
+     }
+    ]
+   },
+   "displayN": 1,
+   "displayMax": 2.0433552424472308,
+   "displaySame": true,
+   "rdRule": null,
+   "r0": 73.56084127152242,
+   "rdSum": 24.520280423840806,
+   "overlap0": null,
+   "betaP": 0.011986137544203425,
+   "betaNS": 3.729473463550154e-8,
+   "rotP": 0.03958100417238231,
+   "steps": 30,
+   "dt": 0.5,
+   "finite": true,
+   "r1": 73.54502697143234,
+   "overlapSteps": 0,
+   "betaMaxRun": 0.011991142243228323,
+   "badRow": 0,
+   "lowDen": 0,
+   "tooLarge": 0
+  },
+  "kappaBook": 8.808014767102133,
+  "RdEngine": 24.52026290936677,
+  "RdClosedSI": 24520.262373515405,
+  "RdClosedKm": 24.520262373515404,
+  "ratioEngine": 2.0433552424472308,
+  "relEngineVsClosed": 2.1853410788657017e-8,
+  "maxRelReadout": 0,
+  "allFinite": true
+ },
+ "S": {
+  "rows": [
+   {
+    "key": "mercury",
+    "id": "mercurySunInertial3d",
+    "decl": {
+     "id": "mercurySunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null
+      },
+      {
+       "m": 0.00033011,
+       "R": 0.0244,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 0,
+    "nWarn": 1,
+    "hasField": false,
+    "display": null,
+    "maxRdOverR": 0.000025199928205202756,
+    "maxAt": 0,
+    "src": [
+     "rule",
+     "rule"
+    ]
+   },
+   {
+    "key": "venus",
+    "id": "venusSunInertial3d",
+    "decl": {
+     "id": "venusSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null
+      },
+      {
+       "m": 0.0048675,
+       "R": 0.0605,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 0,
+    "nWarn": 1,
+    "hasField": false,
+    "display": null,
+    "maxRdOverR": 0.000025199928205202756,
+    "maxAt": 0,
+    "src": [
+     "rule",
+     "rule"
+    ]
+   },
+   {
+    "key": "mars",
+    "id": "marsSunInertial3d",
+    "decl": {
+     "id": "marsSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.95,
+       "dragCore": null
+      },
+      {
+       "m": 0.00064171,
+       "R": 0.033895,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 0,
+    "nWarn": 1,
+    "hasField": false,
+    "display": null,
+    "maxRdOverR": 0.000025199928205202756,
+    "maxAt": 0,
+    "src": [
+     "rule",
+     "rule"
+    ]
+   },
+   {
+    "key": "jupiter",
+    "id": "jupiterSunInertial3d",
+    "decl": {
+     "id": "jupiterSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 198.85,
+       "R": 0.695,
+       "dragCore": null
+      },
+      {
+       "m": 0.1898,
+       "R": 0.071492,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 0,
+    "nWarn": 1,
+    "hasField": false,
+    "display": null,
+    "maxRdOverR": 0.0000251999289786911,
+    "maxAt": 0,
+    "src": [
+     "rule",
+     "rule"
+    ]
+   },
+   {
+    "key": "earthmoon",
+    "id": "earthMoonSunInertial3d",
+    "decl": {
+     "id": "earthMoonSunInertial3d",
+     "invSq": {
+      "outerShell": "uniform",
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "cap": null,
+     "bodies": [
+      {
+       "m": 1988.5,
+       "R": 6.96,
+       "dragCore": null
+      },
+      {
+       "m": 0.0059724,
+       "R": 0.06371,
+       "dragCore": null
+      },
+      {
+       "m": 0.00007346,
+       "R": 0.0174,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "nWarnX": 0,
+    "nWarn": 1,
+    "hasField": false,
+    "display": null,
+    "maxRdOverR": 0.000025163721411804476,
+    "maxAt": 0,
+    "src": [
+     "rule",
+     "rule",
+     "rule"
+    ]
+   }
+  ],
+  "allNone": true
+ },
+ "gates": {
+  "acceptance": true,
+  "warnText": true,
+  "excessReadout": true,
+  "displaySame": true,
+  "overlapKept": true,
+  "finite": true,
+  "explicitPriority": true,
+  "k2Excess": true,
+  "closedForm": true,
+  "solarNone": true,
+  "version": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.01
+  },
+  "W": {
+   "wallSec": 0.001
+  },
+  "N": {
+   "wallSec": 0.28
+  },
+  "S": {
+   "wallSec": 0.129
+  }
+ },
+ "elapsedS": 2.058,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第314便a",
+  "target": "beta/index.html",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:19:09.368Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-20T16:19:56.589Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w314a-rdexcess.mjs",
+    "bytes": 29716,
+    "sha256": "985bfc028cc1b507fbe34f6b41df52cd7698afdcbb434a6ce2cbb5867180c244",
+    "mtime": "2026-10-23T06:58:16.127Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-21T20:13:23.994Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-20T16:19:56.672Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T16:19:56.676Z"
+   }
+  ],
+  "codeSha256": "b70e276b577bc30e6bdd7ef6dbfc36018b38474bf2189006e3b5b0bbdf2fb8b3",
+  "harnessVersion": "w314a-rdexcess-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を確かめた",
+   "フィットした",
+   "較正した",
+   "完全に一致",
+   "確認した",
+   "収束した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonSunInertial3d",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercury",
+    "mercurySunInertial3d",
+    "saturn",
+    "venusSunInertial3d"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.validatePreset",
+    "REL_DRAG_INVSQ_C1",
+    "REL_DRAG_INVSQ_KERNEL_VERSION",
+    "REL_DRAG_INVSQ_RDRULE_VERSION",
+    "REL_DRAG_INVSQ_SHELL_RECV_VERSION",
+    "REL_DRAG_RD_EXCESS_VERSION",
+    "T",
+    "appStepDt",
+    "ch",
+    "ctx",
+    "inertialDragInitObsState",
+    "inertialDragIsqRdExcessOf",
+    "inertialDragIsqState",
+    "validateDragCoreBody"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1531,
+   "segments": 1366,
+   "closureShare": 0.3471
+  },
+  "scopeSha256": "62bcdf720b87132e8932fccbb0b912a38181830d978009a36419aac6fc6dae73",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

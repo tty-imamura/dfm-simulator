@@ -170,7 +170,7 @@ function part3(HP) {
 function part4(HP) {
   const cases = {
     kFrame: (p) => { p.physics.kFrame = 1; }, kRep: (p) => { p.physics.kRep = 1; }, muF: (p) => { p.physics.muF = 0.5; }, kappaS: (p) => { p.physics.kappaS = 0.05; },
-    etaRad: (p) => { p.physics.etaRad = 0.01; }, gravityXY: (p) => { p.physics.gravityX = 0.01; }, geoPN12: (p) => { p.physics.geoPN = 1; },
+    etaRad: (p) => { p.physics.etaRad = 0.01; }, gravityXY: (p) => { p.physics.gravityX = 0.01; }, geoPN12: (p) => { p.physics.geoPN = 2; },   // 第314便d(R241): 三次元の geoPN=1 は受理(EIH の 1PN の 3 成分)—— 鍵 geoPN12 は 2 を今のまま拒否(両方の世代で同じ行)
     geodesic: (p) => { p.physics.geodesic = true; }, geoLegacy: (p) => { p.physics.geoPN = 3; p.physics.spaceMesh = { mode: 'vertex', gravity: true }; },
     physicsOther: (p) => { p.physics.spinSpin = 1; }, relativeDragLaw: (p) => { p.physics.relativeDrag = { law: 'pairSlip', kappa: 0.1, pairs: [[0, 1]] }; },
     spinSource: (p) => { p.physics.relativeDrag = { law: 'inertial', gain: 1, pairs: 'all', spinSource: 'surfaceFlip' }; p.bodies[0].radius = 1; },

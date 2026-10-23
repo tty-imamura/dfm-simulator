@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.009
+   "wallSec": 0.006
   },
   "K": {
-   "wallSec": 0.005
+   "wallSec": 0.003
   },
   "L": {
-   "wallSec": 0.239
+   "wallSec": 0.231
   },
   "S": {
-   "wallSec": 0.122
+   "wallSec": 0.104
   },
   "V": {
-   "wallSec": 0.612
+   "wallSec": 0.382
   },
   "E": {
-   "wallSec": 15.96
+   "wallSec": 12.734
   },
   "P": {
-   "wallSec": 0.003
+   "wallSec": 0.006
   }
  },
- "elapsedS": 18.938,
+ "elapsedS": 15.116,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T21:55:07.303Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T10:34:28.564Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
@@ -4018,11 +4018,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1527,
-   "segments": 1362,
-   "closureShare": 0.3458
+   "names": 1542,
+   "segments": 1377,
+   "closureShare": 0.3478
   },
-  "scopeSha256": "f4dff8f090b60f142a22cc4ee16f67b27271641791a9b1052d643300a5cf5314",
+  "scopeSha256": "b30cab568c76ea9fc6406771d1de24c37002e0d8315582e92f72e34e78df484f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

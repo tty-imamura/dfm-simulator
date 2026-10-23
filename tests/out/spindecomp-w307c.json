@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,34 +1575,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.15
+   "wallSec": 0.102
   },
   "decomp": {
-   "wallSec": 0.284
+   "wallSec": 0.133
   },
   "radius": {
-   "wallSec": 0.217
+   "wallSec": 0.25
   },
   "misc": {
-   "wallSec": 0.062
+   "wallSec": 0.045
   },
   "evolution": {
-   "wallSec": 4.63
+   "wallSec": 4.573
   }
  },
- "elapsedS": 7.769,
+ "elapsedS": 7.154,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T23:48:41.654Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T10:34:57.462Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
@@ -1674,11 +1674,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1502,
-   "segments": 1337,
-   "closureShare": 0.341
+   "names": 1514,
+   "segments": 1349,
+   "closureShare": 0.3423
   },
-  "scopeSha256": "aa82943d93e3e967189591cfd2ef0170c20557b3a6523dd4d0fd3ecf8e616a3f",
+  "scopeSha256": "9fe4e535a5690ce58a70441997c088f2c536b9372b73c5fd83036ec069087e0a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

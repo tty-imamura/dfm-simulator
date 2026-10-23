@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T17:14:23.013Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T09:18:21.185Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w298a-coord3d.mjs",
-    "bytes": 31394,
-    "sha256": "abf6f9c7311e55ab5ab6cc4af11f278160a0121a5dc5eeecb15fde7c1e190e56",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 31549,
+    "sha256": "b45d2097722664a78b0db7c4476519cbba465ac86b3f2535074a726acfea65ac",
+    "mtime": "2026-10-23T07:09:27.511Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "cfc1f7613da089dfa6ba7c1988ed24265a50c3a3b91795b62a3e7682a28afd05",
+  "codeSha256": "a3989bdcf111d64cd8bd634b9f2b35d32f9c9feb78d5da6f5dd6d5d680106dfa",
   "harnessVersion": "w298a-coord3d-1",
   "coord3dVersion": "w298a-coord3d-1",
   "loadErrors": 0,
@@ -137,11 +137,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1525,
-   "segments": 1360,
-   "closureShare": 0.3452
+   "names": 1540,
+   "segments": 1375,
+   "closureShare": 0.3472
   },
-  "scopeSha256": "7e1c376c1f410d42aaae306d64eb3663e445cabe8ecaa6ac16ce8dafb70b27f1",
+  "scopeSha256": "3a089c84a0f4b5f361e9172d3c987f66a80134fb2f14cb145088599e62881788",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -692,5 +692,5 @@
   "covariantDouble": true
  },
  "ok": true,
- "elapsedS": 3.635
+ "elapsedS": 3.728
 }

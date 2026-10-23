@@ -3,7 +3,7 @@
  "libVersion": "w309c-recheck-lib-1",
  "generator": "tests/exp-w309c-recheck.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
  "initObsVersion": "w309c-initobs-1",
  "ok": true,
@@ -4190,31 +4190,31 @@
  },
  "timing": {
   "K": {
-   "wallSec": 0.065
+   "wallSec": 0.051
   },
   "E": {
-   "wallSec": 0.242
+   "wallSec": 0.161
   },
   "P": {
-   "wallSec": 0.286
+   "wallSec": 0.21
   },
   "R": {
-   "wallSec": 1.262
+   "wallSec": 1.344
   }
  },
- "elapsedS": 3.863,
+ "elapsedS": 3.192,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便c",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T21:55:13.677Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:18:28.879Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    }
   ],
   "code": [
@@ -4339,11 +4339,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1516,
-   "segments": 1351,
-   "closureShare": 0.3447
+   "names": 1531,
+   "segments": 1366,
+   "closureShare": 0.3467
   },
-  "scopeSha256": "bc8b976a21b8b375cb9027299da1559886a9c9d9646b2d04c0433340ef37533e",
+  "scopeSha256": "d277926972ffd7d044889f11af1cd6939fa82f53e96668b78d3957168d86434d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

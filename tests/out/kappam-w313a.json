@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -163,9 +163,9 @@
    },
    {
     "case": "規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)",
-    "ok": false,
+    "ok": true,
     "pass": true,
-    "err": "bodies[0] の規則の引きずりの半径 R_d = κ₀m = 0.0017513950102615917 が 0<R_d≤radius(0.001)の外 —— 今の受理の契約のまま拒否(中性子星・ブラックホールの本は規則の対象外・第313便a・AN404)"
+    "err": null
    },
    {
     "case": "規則 + 太陽の半径 0.001(radiusFloor —— R_d = κ₀M☉ の内)",
@@ -183,7 +183,7 @@
     "case": "規則なし + dragCore:{massFrac:0.5}(radius の省略)",
     "ok": false,
     "pass": true,
-    "err": "bodies[1].dragCore.radius は 0<R_c≤radius(コアの半径・絶対)"
+    "err": "bodies[1].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)"
    },
    {
     "case": "規則 + 明示の dragCore.radius(規則より優先 —— cap を見ない)",
@@ -2338,31 +2338,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.072
+   "wallSec": 0.037
   },
   "R": {
-   "wallSec": 1.557
+   "wallSec": 0.769
   },
   "B": {
-   "wallSec": 2.069
+   "wallSec": 1.222
   },
   "E": {
-   "wallSec": 1.426
+   "wallSec": 0.775
   }
  },
- "elapsedS": 7.303,
+ "elapsedS": 4.462,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T23:48:31.481Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T11:18:49.111Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -2374,9 +2374,9 @@
   "code": [
    {
     "file": "tests/exp-w313a-kappam.mjs",
-    "bytes": 33523,
-    "sha256": "39af5b601e5d62a3259a40dfe3e3a45ab7afad473ad51170905c851790e944af",
-    "mtime": "2026-10-22T15:02:23.206Z"
+    "bytes": 34771,
+    "sha256": "312c46bf22419174609a81f7d58fd7178cef550ff19af77c2f3972ed5fa2ecf3",
+    "mtime": "2026-10-23T06:58:16.123Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -2409,7 +2409,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "2231be0d1357c18f9fae26a685768b729066ff43060b310267f519a7f3d9b909",
+  "codeSha256": "b0357ef4c9824d1bd1994fee21189708870ac5e32d9ca36ff9fe4c0f508c24e2",
   "harnessVersion": "w313a-kappam-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2450,11 +2450,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1516,
-   "segments": 1351,
-   "closureShare": 0.3448
+   "names": 1531,
+   "segments": 1366,
+   "closureShare": 0.3471
   },
-  "scopeSha256": "e6c26fbafa589f46c4c0de9ffb727dd7cd1a38ec48d4ab3ff8873e4be20a68c2",
+  "scopeSha256": "62bcdf720b87132e8932fccbb0b912a38181830d978009a36419aac6fc6dae73",
   "scopeComplete": true,
   "inputsStable": [
    {

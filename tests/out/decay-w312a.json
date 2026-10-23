@@ -3,7 +3,7 @@
  "libVersion": "w312a-decay-lib-1",
  "generator": "tests/exp-w312a-decay.mjs",
  "target": "beta/index.html",
- "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
  "ruling": "原仮定者の裁定(第114報)AN398 —— R_d² が惑星の質量 × 軌道の半直弦に比例する結果は、距離に応じた引きずりの減衰が強すぎる可能性(r⁻³ なら r⁻² などを調査・軸引きずりだけ違う場合・受け側の質量が影響する場合も)・決断事項 AN398・統括の検証項目 R230",
  "kernelVersion": "w312a-invsq-k1-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2042,31 +2042,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.41
+   "wallSec": 0.559
   },
   "P": {
-   "wallSec": 0.929
+   "wallSec": 0.866
   },
   "S": {
-   "wallSec": 0.275
+   "wallSec": 0.176
   },
   "E": {
-   "wallSec": 1.245
+   "wallSec": 1.194
   }
  },
- "elapsedS": 4.641,
+ "elapsedS": 4.749,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便a",
   "target": "beta/index.html",
-  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-  "generatedAt": "2026-10-22T23:48:49.916Z",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T12:40:51.077Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7246398,
-    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
-    "mtime": "2026-10-22T15:06:06.374Z"
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -2076,9 +2076,9 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "bytes": 80126,
-    "sha256": "50b1d9945ad62e0b50b85b0ab00a472b7ad4ba3211fffdbd51391badfc81baec",
-    "mtime": "2026-10-22T23:11:04.784Z"
+    "bytes": 80147,
+    "sha256": "1f4be25bb4b1e23733b6793b53d862f072816080e10c1d4f6ac84e56b3fb2c51",
+    "mtime": "2026-10-23T12:26:19.812Z"
    }
   ],
   "code": [
@@ -2189,11 +2189,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1518,
-   "segments": 1353,
-   "closureShare": 0.3457
+   "names": 1533,
+   "segments": 1368,
+   "closureShare": 0.3481
   },
-  "scopeSha256": "68ee32a5d97354263dc6640fab10ee0ca453818fe44eb4e85501a046572a3bd3",
+  "scopeSha256": "23652beea8d25185252e3350538b8a67bbae4da0578a02eba5a394d5a9c4dca9",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2204,7 +2204,7 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "stableSha256": "2165d999bf4f05576cfb3a98dae95816dd0b77c02bed6f6f9484639046c1ff39",
+    "stableSha256": "23a2e3c436b66d152f4d1073c2808367062131a3ec7377f959967b34d71e86af",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",

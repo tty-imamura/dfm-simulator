@@ -1,0 +1,961 @@
+{
+ "version": "w314c-k1outer-1",
+ "planet3HarnessVersion": "w313d-planet3-3",
+ "planet3LibVersion": "w313d-planet3-lib-3",
+ "confirmHarnessVersion": "w313d-confirm-2",
+ "confirmLibVersion": "w313d-confirm-lib-2",
+ "k1confirmHarnessVersion": "w313d-k1confirm-1",
+ "an336LibVersion": "w306a-an336-1",
+ "apsisVersion": "w304e-apsis-1",
+ "emxVersion": "w303c-emx4-1",
+ "generator": "tests/exp-w314c-k1outer.mjs --stage em",
+ "target": "beta/index.html",
+ "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "reuseFrom": null,
+ "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
+ "invSqVersion": "w310a-invsq-wbg0-1",
+ "stage": "em",
+ "quick": false,
+ "parts": [
+  "T",
+  "E",
+  "K",
+  "M",
+  "S"
+ ],
+ "kernel": "k1",
+ "rule": "kappa0",
+ "plan": {
+  "kinds": [
+   "q00",
+   "q10",
+   "q11"
+  ],
+  "h4": {
+   "div": 4,
+   "nMoon": 118,
+   "nEarth": 8
+  },
+  "long": {
+   "div": 1,
+   "nMoon": 354,
+   "nEarth": 8
+  }
+ },
+ "live": {
+  "earthmoon": true
+ },
+ "book": {
+  "pinEM": {
+   "commit": "c98db78",
+   "note": "第312便の基点の 🌦️ earthMoonSunInertial3d の宣言(太陽 pinned・地球の J₂・引きずり無効)"
+  },
+  "newDrag": {
+   "law": "inertial",
+   "invSq": {
+    "outerShell": "uniform"
+   },
+   "pairs": "all",
+   "history": "positions",
+   "dragCoreDefault": "cap6500km",
+   "initMotion": "observed",
+   "spinDrag": {
+    "rot": "surfaceFlip",
+    "axial": "on",
+    "axialModel": "bevel",
+    "initSpin": "observed"
+   }
+  },
+  "gLoc": {
+   "law": "kappaC2"
+  },
+  "extractor": {
+   "earth": "emb(EMB の接触の離心ベクトルの回帰)",
+   "moon": "w303c-emx4-1"
+  },
+  "rule": "kappa0 —— 太陽を含む全天体に dragCore {massFrac: 1, radius: 10 G m/(C₁ c²)}(本の単位・K1 —— 第313便d の K1 の確認の器の写しのまま)"
+ },
+ "T": {
+  "earthmoon": {
+   "id": "earthMoonSunInertial3d",
+   "q1pn": 3.8387407960803235,
+   "a": 1495.97529707196,
+   "e": 0.01670550879599525,
+   "p": 149555780922.58035,
+   "M": 1.9885e+30,
+   "m": 6.04586e+24,
+   "eta": 0.000003040393883003565,
+   "fm": 0.0000155617120464518,
+   "a1": {
+    "EPM2011": {
+     "value": 0.00019,
+     "recordId": "OBS-7be70715",
+     "body": "Earth",
+     "width": 0.00019,
+     "widthKind": "source-sigma(68% は未確認)",
+     "audited": true,
+     "unit": "″/世紀"
+    },
+    "INPOP10a": {
+     "value": -0.0002,
+     "recordId": "OBS-a8107cf2",
+     "body": "Earth-Moon barycenter",
+     "width": 0.0009,
+     "widthKind": "interval-halfwidth(postfit 残差の変化が 5% 未満の区間 —— 1σ ではない)",
+     "audited": false,
+     "unit": "″/世紀"
+    }
+   },
+   "G": 6.674,
+   "gLocAnalytic": -2.5591449690081696,
+   "an336": null,
+   "earthOwnQ1pn": 3.8479504696151214
+  }
+ },
+ "E": {
+  "plan": {
+   "kinds": [
+    "q00",
+    "q10",
+    "q11"
+   ],
+   "h4": {
+    "div": 4,
+    "nMoon": 118,
+    "nEarth": 8
+   },
+   "long": {
+    "div": 1,
+    "nMoon": 354,
+    "nEarth": 8
+   }
+  },
+  "nEarth": 8,
+  "rows": {
+   "confirm:earthmoon|q00|-|div=4|N=118": {
+    "key": "confirm:earthmoon|q00|-|div=4|N=118",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q00",
+     "div": 4,
+     "N": 118,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.004,
+    "warnings": 0,
+    "status": "run",
+    "steps": 6963435,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 6.518564507704742,
+    "earth": 416.1734431016164,
+    "embE": 0.01670849780535419,
+    "nEarth": 8,
+    "tEarth": 25246.582100793537,
+    "moon": {
+     "sidH": 27.321511475328617,
+     "T4p": 8.861411605038624,
+     "node": 18.59915041989675,
+     "sid": 27.313805909042454,
+     "anom": 27.553587770969877,
+     "T1": 8.88456506419912,
+     "T2": 8.861871919344463,
+     "eMean": 0.05484601199521376,
+     "incMean": 5.144122194032859,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 19.589
+   },
+   "confirm:earthmoon|q10|-|div=4|N=118": {
+    "key": "confirm:earthmoon|q10|-|div=4|N=118",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q10",
+     "div": 4,
+     "N": 118,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.004,
+    "warnings": 0,
+    "status": "run",
+    "steps": 6963436,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 3.9594843129451327,
+    "earth": 413.6028343866146,
+    "embE": 0.016708537464762755,
+    "nEarth": 8,
+    "tEarth": 25246.58412937208,
+    "moon": {
+     "sidH": 27.321513908483904,
+     "T4p": 8.861413000625285,
+     "node": 18.59915181269498,
+     "sid": 27.313808333870515,
+     "anom": 27.553590218657597,
+     "T1": 8.884566009563677,
+     "T2": 8.861872478182136,
+     "eMean": 0.05484605087069928,
+     "incMean": 5.144122182047968,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 21.025
+   },
+   "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
+    "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q11",
+     "div": 1,
+     "N": 354,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "Rd": {
+      "rule": "kappa0"
+     },
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 1,
+    "status": "run",
+    "steps": 5222781,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 10.326407977609808,
+    "earth": 418.81574061596797,
+    "embE": 0.01670865029680571,
+    "nEarth": 8,
+    "tEarth": 25246.589425411203,
+    "moon": {
+     "sidH": 27.321670830429515,
+     "T4p": 8.849832372359293,
+     "node": 18.60194260560806,
+     "sid": 27.320797199047327,
+     "anom": 27.554404046582786,
+     "T1": 8.856143465561104,
+     "T2": 8.85229795095997,
+     "eMean": 0.05490305276635771,
+     "incMean": 5.144427204749667,
+     "nPeri": 352
+    },
+    "betaMax": 1.0076462786787211e-7,
+    "isqSteps": 5222781,
+    "wallSec": 1847.629
+   },
+   "confirm:earthmoon|q00|-|div=1|N=354": {
+    "key": "confirm:earthmoon|q00|-|div=1|N=354",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q00",
+     "div": 1,
+     "N": 354,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "status": "run",
+    "steps": 5222780,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 6.487717429102257,
+    "earth": 415.01817468873526,
+    "embE": 0.016708505663008702,
+    "nEarth": 8,
+    "tEarth": 25246.58211475385,
+    "moon": {
+     "sidH": 27.321662426634497,
+     "T4p": 8.849833338674042,
+     "node": 18.601929014825203,
+     "sid": 27.320788796279455,
+     "anom": 27.554395507674506,
+     "T1": 8.856143121467639,
+     "T2": 8.852297644289788,
+     "eMean": 0.05490293738589192,
+     "incMean": 5.144427337895572,
+     "nPeri": 352
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 13.268
+   },
+   "confirm:earthmoon|q10|-|div=1|N=354": {
+    "key": "confirm:earthmoon|q10|-|div=1|N=354",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q10",
+     "div": 1,
+     "N": 354,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.016,
+    "warnings": 0,
+    "status": "run",
+    "steps": 5222780,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 3.928589177139395,
+    "earth": 412.44740616542896,
+    "embE": 0.016708545322314455,
+    "nEarth": 8,
+    "tEarth": 25246.584143338125,
+    "moon": {
+     "sidH": 27.321664861631074,
+     "T4p": 8.84983371114592,
+     "node": 18.601930387825696,
+     "sid": 27.320791230626583,
+     "anom": 27.554397960078578,
+     "T1": 8.856144037579677,
+     "T2": 8.852298555613332,
+     "eMean": 0.05490297352616662,
+     "incMean": 5.14442731391615,
+     "nPeri": 352
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 13.897
+   },
+   "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
+    "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q11",
+     "div": 4,
+     "N": 118,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "Rd": {
+      "rule": "kappa0"
+     },
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.004,
+    "warnings": 1,
+    "status": "run",
+    "steps": 6963437,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 10.35728714782059,
+    "earth": 419.9714647816608,
+    "embE": 0.01670864243954017,
+    "nEarth": 8,
+    "tEarth": 25246.58941145872,
+    "moon": {
+     "sidH": 27.32151981885007,
+     "T4p": 8.861412540241847,
+     "node": 18.59916410880571,
+     "sid": 27.313814231884965,
+     "anom": 27.553596243553866,
+     "T1": 8.884565349715249,
+     "T2": 8.861870999344413,
+     "eMean": 0.05484613725465278,
+     "incMean": 5.1441221082467985,
+     "nPeri": 118
+    },
+    "betaMax": 1.0076157849255032e-7,
+    "isqSteps": 6963437,
+    "wallSec": 2444.146
+   }
+  }
+ },
+ "K": {
+  "div": 4,
+  "nMoon": 118,
+  "nEarth": 8,
+  "q": {
+   "q00": 6.518564507704742,
+   "q10": 3.9594843129451327,
+   "q11": 10.35728714782059
+  },
+  "DG": 6.397802834875458,
+  "dqG": -2.559080194759609,
+  "r1pn": -0.000018155964474519948,
+  "rA1": {
+   "EPM2011": -0.00020815596447451996,
+   "INPOP10a": 0.00018184403552548006
+  },
+  "rOverQ": -0.000004729666689936114,
+  "withinFit": true,
+  "afterFm": -0.000033717676520971746,
+  "earthOwn": {
+   "q": {
+    "q00": 416.1734431016164,
+    "q10": 413.6028343866146,
+    "q11": 419.9714647816608
+   },
+   "DG": 6.368630395046239,
+   "dqG": -2.5706087150018107
+  }
+ },
+ "M": {
+  "h4": {
+   "div": 4,
+   "N": 118,
+   "sidH": {
+    "unit": "d",
+    "obs": 27.321661554,
+    "q00": 27.321511475328617,
+    "q10": 27.321513908483904,
+    "q11": 27.32151981885007,
+    "dG": 0.0000024331552879175433,
+    "dD": 0.000008343521454179381,
+    "dDG": 0.000005910366166261838,
+    "q00MinusObs": -0.00015007867138194797,
+    "q11MinusObs": -0.0001417351499277686
+   },
+   "T4p": {
+    "unit": "yr",
+    "obs": 8.850391,
+    "q00": 8.861411605038624,
+    "q10": 8.861413000625285,
+    "q11": 8.861412540241847,
+    "dG": 0.0000013955866613457601,
+    "dD": 9.352032233067575e-7,
+    "dDG": -4.603834380390026e-7,
+    "q00MinusObs": 0.011020605038623899,
+    "q11MinusObs": 0.011021540241847205
+   },
+   "node": {
+    "unit": "yr",
+    "obs": 18.599525,
+    "q00": 18.59915041989675,
+    "q10": 18.59915181269498,
+    "q11": 18.59916410880571,
+    "dG": 0.000001392798232302539,
+    "dD": 0.000013688908961029256,
+    "dDG": 0.000012296110728726717,
+    "q00MinusObs": -0.0003745801032515317,
+    "q11MinusObs": -0.0003608911942905024
+   }
+  },
+  "long": {
+   "div": 1,
+   "N": 354,
+   "sidH": {
+    "unit": "d",
+    "obs": 27.321661554,
+    "q00": 27.321662426634497,
+    "q10": 27.321664861631074,
+    "q11": 27.321670830429515,
+    "dG": 0.000002434996577704851,
+    "dD": 0.000008403795018097071,
+    "dDG": 0.00000596879844039222,
+    "q00MinusObs": 8.726344979947953e-7,
+    "q11MinusObs": 0.000009276429516091866
+   },
+   "T4p": {
+    "unit": "yr",
+    "obs": 8.850391,
+    "q00": 8.849833338674042,
+    "q10": 8.84983371114592,
+    "q11": 8.849832372359293,
+    "dG": 3.7247187734124054e-7,
+    "dD": -9.663147491068003e-7,
+    "dDG": -0.0000013387866264480408,
+    "q00MinusObs": -0.0005576613259581364,
+    "q11MinusObs": -0.0005586276407072432
+   },
+   "node": {
+    "unit": "yr",
+    "obs": 18.599525,
+    "q00": 18.601929014825203,
+    "q10": 18.601930387825696,
+    "q11": 18.60194260560806,
+    "dG": 0.000001373000493742893,
+    "dD": 0.000013590782856454098,
+    "dDG": 0.000012217782362711205,
+    "q00MinusObs": 0.002404014825202694,
+    "q11MinusObs": 0.002417605608059148
+   }
+  },
+  "moonPinnedSun": true,
+  "note": "🌦️ の太陽は pinned(受け手でない —— 源としてだけ効く)。q11 − q10 = 全天体の規則の引きずりの効き・q10 − q00 = G_loc の効き・q00 − 観測 = 在位の写しの基線の差"
+ },
+ "S": {
+  "src": "統括の 2 段目(第313便の統合の後 —— 正本の外・K1 の確認の器の specOf・runSpec で 🌦️ の 1 本ずつ)",
+  "h4": {
+   "q00": {
+    "steps": {
+     "now": 6963435,
+     "ref": 6963435,
+     "same": true,
+     "diff": 0
+    },
+    "emb": {
+     "now": 6.518564507704742,
+     "ref": 6.518564507704742,
+     "same": true,
+     "diff": 0
+    },
+    "earth": {
+     "now": 416.1734431016164,
+     "ref": 416.1734431016164,
+     "same": true,
+     "diff": 0
+    },
+    "sidH": {
+     "now": 27.321511475328617,
+     "ref": 27.321511475328617,
+     "same": true,
+     "diff": 0
+    },
+    "T4p": {
+     "now": 8.861411605038624,
+     "ref": 8.861411605038624,
+     "same": true,
+     "diff": 0
+    },
+    "node": {
+     "now": 18.59915041989675,
+     "ref": 18.59915041989675,
+     "same": true,
+     "diff": 0
+    }
+   },
+   "q10": {
+    "steps": {
+     "now": 6963436,
+     "ref": 6963436,
+     "same": true,
+     "diff": 0
+    },
+    "emb": {
+     "now": 3.9594843129451327,
+     "ref": 3.9594843129451327,
+     "same": true,
+     "diff": 0
+    },
+    "earth": {
+     "now": 413.6028343866146,
+     "ref": 413.6028343866146,
+     "same": true,
+     "diff": 0
+    },
+    "sidH": {
+     "now": 27.321513908483904,
+     "ref": 27.321513908483904,
+     "same": true,
+     "diff": 0
+    },
+    "T4p": {
+     "now": 8.861413000625285,
+     "ref": 8.861413000625285,
+     "same": true,
+     "diff": 0
+    },
+    "node": {
+     "now": 18.59915181269498,
+     "ref": 18.59915181269498,
+     "same": true,
+     "diff": 0
+    }
+   },
+   "q11": {
+    "steps": {
+     "now": 6963437,
+     "ref": 6963437,
+     "same": true,
+     "diff": 0
+    },
+    "emb": {
+     "now": 10.35728714782059,
+     "ref": 10.35728714782059,
+     "same": true,
+     "diff": 0
+    },
+    "earth": {
+     "now": 419.9714647816608,
+     "ref": 419.9714647816608,
+     "same": true,
+     "diff": 0
+    },
+    "sidH": {
+     "now": 27.32151981885007,
+     "ref": 27.32151981885007,
+     "same": true,
+     "diff": 0
+    },
+    "T4p": {
+     "now": 8.861412540241847,
+     "ref": 8.861412540241847,
+     "same": true,
+     "diff": 0
+    },
+    "node": {
+     "now": 18.59916410880571,
+     "ref": 18.59916410880571,
+     "same": true,
+     "diff": 0
+    }
+   }
+  },
+  "long354": {
+   "sidH": {
+    "dDG": {
+     "now": 0.00000596879844039222,
+     "ref": 0.00000596879844039222,
+     "same": true,
+     "diff": 0
+    },
+    "dG": {
+     "now": 0.000002434996577704851,
+     "ref": 0.000002434996577704851,
+     "same": true,
+     "diff": 0
+    },
+    "q00MinusObs": {
+     "now": 8.726344979947953e-7,
+     "ref": 8.726344979947953e-7,
+     "same": true,
+     "diff": 0
+    }
+   },
+   "T4p": {
+    "dDG": {
+     "now": -0.0000013387866264480408,
+     "ref": -0.0000013387866264480408,
+     "same": true,
+     "diff": 0
+    },
+    "dG": {
+     "now": 3.7247187734124054e-7,
+     "ref": 3.7247187734124054e-7,
+     "same": true,
+     "diff": 0
+    },
+    "q00MinusObs": {
+     "now": -0.0005576613259581364,
+     "ref": -0.0005576613259581364,
+     "same": true,
+     "diff": 0
+    }
+   },
+   "node": {
+    "dDG": {
+     "now": 0.000012217782362711205,
+     "ref": 0.000012217782362711205,
+     "same": true,
+     "diff": 0
+    },
+    "dG": {
+     "now": 0.000001373000493742893,
+     "ref": 0.000001373000493742893,
+     "same": true,
+     "diff": 0
+    },
+    "q00MinusObs": {
+     "now": 0.002404014825202694,
+     "ref": 0.002404014825202694,
+     "same": true,
+     "diff": 0
+    }
+   }
+  },
+  "quick": false,
+  "r1pnH4": {
+   "now": -0.000018155964474519948,
+   "ref": -0.000018155964474519948,
+   "same": true
+  },
+  "nSame": 28,
+  "n": 28,
+  "allSame": true
+ },
+ "cost": {
+  "rows": {
+   "nodrag|h/4|N=118": {
+    "n": 2,
+    "steps": 13926871,
+    "wallSec": 40.614
+   },
+   "drag|h/1|N=354": {
+    "n": 1,
+    "steps": 5222781,
+    "wallSec": 1847.629
+   },
+   "nodrag|h/1|N=354": {
+    "n": 2,
+    "steps": 10445560,
+    "wallSec": 27.165
+   },
+   "drag|h/4|N=118": {
+    "n": 1,
+    "steps": 6963437,
+    "wallSec": 2444.146
+   }
+  }
+ },
+ "gates": {
+  "targetEm": true,
+  "runsComplete": true,
+  "noRejected": true,
+  "inPositionUnchanged": true
+ },
+ "ok": true,
+ "timing": {
+  "T": {
+   "wallSec": 0.009
+  },
+  "E": {
+   "wallSec": 2464.65
+  },
+  "K": {
+   "wallSec": 0.001
+  },
+  "M": {
+   "wallSec": 0.001
+  },
+  "S": {
+   "wallSec": 0
+  }
+ },
+ "stats": {
+  "runs": 6,
+  "steps": 36558649
+ },
+ "elapsedS": 2466.314,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第314便c",
+  "target": "beta/index.html",
+  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+  "generatedAt": "2026-10-23T12:03:44.227Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7277040,
+    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+    "mtime": "2026-10-23T07:09:27.447Z"
+   },
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "bytes": 25529,
+    "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
+    "mtime": "2026-10-20T16:19:56.589Z"
+   },
+   {
+    "file": "tests/out/an336-w306a.json",
+    "bytes": 88635,
+    "sha256": "675eb1808cfb4cdc5fba0ffaca1c319d3945c2e604fed3da943357461702a260",
+    "mtime": "2026-10-23T11:15:37.044Z"
+   },
+   {
+    "file": "paper/data/pn1-ephemeris-candidates.csv",
+    "bytes": 21528,
+    "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
+    "mtime": "2026-10-20T16:19:56.570Z"
+   },
+   {
+    "file": "paper/data/pn1-primary-audit-20261015.csv",
+    "bytes": 4489,
+    "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
+    "mtime": "2026-10-20T16:19:56.572Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w314c-k1outer.mjs",
+    "bytes": 49685,
+    "sha256": "4a40e14149b68c4c854286ed204cca3fd690b3a7079b6ddd8a96b1132170f561",
+    "mtime": "2026-10-23T07:18:13.826Z"
+   },
+   {
+    "file": "tests/exp-w313d-k1confirm.mjs",
+    "bytes": 35140,
+    "sha256": "1d8be501769c48444dd26f0e2f14f75f96bb3b7757f4d6432b37c6990601ad22",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/exp-w312d-confirm.mjs",
+    "bytes": 50144,
+    "sha256": "c63f53a8af377a3b4317b424e672f623b6daa9a4300da4d536c7530a469954b6",
+    "mtime": "2026-10-22T15:03:05.998Z"
+   },
+   {
+    "file": "tests/lib-w312d-confirm.mjs",
+    "bytes": 19950,
+    "sha256": "3da97537c3c0e9feda171b17a68dde2960adbb38f02b657bda30c7cfa844ee63",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/exp-w311d-planet3.mjs",
+    "bytes": 64416,
+    "sha256": "1cf5bf77ed156ecaa7b7ff79d5fe5a8d076764fc3d123e218ba8724523eb8fa7",
+    "mtime": "2026-10-22T15:03:05.998Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-10-22T15:03:06.002Z"
+   },
+   {
+    "file": "tests/exp-w303c-earthmoon.mjs",
+    "bytes": 73010,
+    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
+    "mtime": "2026-10-20T16:19:56.648Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/exp-w299c-planets3d.mjs",
+    "bytes": 51360,
+    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
+    "mtime": "2026-10-20T16:19:56.644Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-20T16:19:56.672Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T16:19:56.676Z"
+   }
+  ],
+  "codeSha256": "0ff9cb41495acd618d9031dbbbf3a72b36dc79d2648e640fcc46cc4cc0703877",
+  "harnessVersion": "w314c-k1outer-1",
+  "stage": "em",
+  "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W314C_WORKERS)",
+  "notClaim": [
+   "フィットした",
+   "較正した",
+   "収束した",
+   "完全に一致",
+   "法則を確かめた",
+   "R_d を決めた",
+   "シュヴァルツシルト半径そのもの",
+   "検証が完了した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "FIT_COND_KEYS",
+    "FIT_COND_VERSION",
+    "FIT_KNOB_KEYS",
+    "FIT_NUMERICS_KEYS",
+    "FIT_RECORD_KEYS",
+    "FIT_RECORD_VERSION",
+    "FIT_RECORD_VERSIONS",
+    "FIT_RESIDUAL_KEYS",
+    "FIT_TARGET_KEYS",
+    "FIT_TOL_KEYS",
+    "HP.FIT_COND_VERSION",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.fitCondSig",
+    "HP.inertialDragIsqState",
+    "HP.inertialDragState",
+    "HP.sim",
+    "HP.validateFitRecord",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmGaussLegendre01",
+    "dfmInertialDragStep",
+    "dragCoreAngular",
+    "dragCoreAvgK",
+    "dragCoreLookup",
+    "dragCoreTableBuild",
+    "fmt",
+    "inertialDragNormApply",
+    "pnSource",
+    "relDragCoefficientOf",
+    "validateFitRecord"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1557,
+   "segments": 1392,
+   "closureShare": 0.3535
+  },
+  "scopeSha256": "c371327ff2d3f6a4d440ab02973af425ac64cff7a16e09af2afee6345a967748",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/data-w306a-decl305.json",
+    "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/out/an336-w306a.json",
+    "stableSha256": "e980557b16fe74c5700db06d581238b235358114bb129b4ec4c8efb7452945e7",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/h4Carry/prev/fileSha256",
+     "/h4Carry/prev/generatedAt",
+     "/h4Carry/prev/targetSha256",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
