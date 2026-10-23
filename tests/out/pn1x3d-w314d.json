@@ -1,0 +1,1138 @@
+{
+ "version": "w314d-pn1x3d-1",
+ "generator": "tests/exp-w314d-pn1x3d.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "12379c615a8857f7952d75900ec71e5d0bb048935d3d39577b3c744b19a8adc0",
+ "ruling": "原仮定者の裁定(第116報)の補足 —— 太陽と全惑星とトリトン以上の 7 大衛星を 1 つにまとめた三次元サンプルの対照に geoPN=1 と geoPN=3 の両方・統括の検証項目 R241",
+ "coord3dPn1Version": "w314d-pn1-3d-1",
+ "pn1EihVersion": "w291b-eih-2",
+ "coord3dVersion": "w298a-coord3d-1",
+ "rots": [
+  [
+   40,
+   30,
+   50
+  ],
+  [
+   200,
+   73,
+   -15
+  ],
+  [
+   10,
+   120,
+   260
+  ]
+ ],
+ "tol": {
+  "cov": 1e-9,
+  "covPlane": 1e-12,
+  "oracle": 1e-12,
+  "covAcc": 1e-13,
+  "pn1Ratio": 0.05,
+  "hOrder": [
+   1.8,
+   2.2
+  ]
+ },
+ "k1Drag": {
+  "law": "inertial",
+  "invSq": {
+   "kernel": "k1",
+   "rdRule": "kappaM"
+  },
+  "pairs": "all",
+  "history": "positions",
+  "initMotion": "observed",
+  "spinDrag": {
+   "rot": "surfaceFlip",
+   "axial": "on",
+   "axialModel": "bevel",
+   "initSpin": "observed"
+  }
+ },
+ "versionReaders": [
+  {
+   "file": "tests/exp-w298a-coord3d.mjs・正本 coord3d-w298a.json",
+   "reads": "受理の門 coord3dDenyOf の拒否の表(鍵 geoPN12 の行は geoPN=1 を宣言して拒否を期待)",
+   "handling": "行の宣言を geoPN=2 へ(geoPN12 の鍵は 2 を今のまま拒否 —— 両方の世代で同じ行・正本の値は変わらない)"
+  },
+  {
+   "file": "tests/qa.mjs ui.paramTab299",
+   "reads": "二次元→三次元の切り替えられる在位の本(coordSwitchPlanOf から導く)と零試験(300 步・ビット同一)",
+   "handling": "変えない(geoPN=1 の在位の二次元の本 6 本が切り替えられるようになる —— 零試験はビット同一〔器の段 P・A〕)"
+  },
+  {
+   "file": "tests/exp-w285b-pn1.mjs・exp-w291b-pnsources.mjs・exp-w291b-retiredfx.mjs",
+   "reads": "二次元の dfmPN1Delta・dfmPN1EIHKick・geoCoreDispatch",
+   "handling": "変わらない(二次元の関数は 1 文字も変えない —— 試走で正本と照合)"
+  }
+ ],
+ "notClaim": [
+  "法則を確かめた",
+  "較正した",
+  "収束した",
+  "完全に一致",
+  "検証が完了した(太陽系について)",
+  "DFM から導出した"
+ ],
+ "quick": false,
+ "stages": [
+  "A",
+  "P",
+  "R",
+  "N",
+  "X"
+ ],
+ "A": {
+  "rows": [
+   {
+    "label": "geoPN=1(三次元・kFrame=0)",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=2(kFrame=0 —— 互換入力)",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "geoPN12"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— geoPN=2(1PN の測地線・E12 —— 三次元では未対応)"
+   },
+   {
+    "label": "geoPN=1 ∧ kFrame=1",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "kFrame"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— kFrame>0(E6′ の引きずり近似 q —— 三次元の引きずりは第 2 段の慣性決定力 3 成分で扱う)"
+   },
+   {
+    "label": "geoPN=1 ∧ physics.geodesic:true",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "geodesic"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— physics.geodesic:true(測地線 1PN)"
+   },
+   {
+    "label": "geoPN=1 ∧ physics.approxMany(太陽を支配天体 —— 固定)",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "geoPN12"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— geoPN=1 ∧ physics.approxMany(近似多粒子の対のマスク〔塵どうしの重力なし〕と EIH の 1PN の源の和が合わない —— 三次元の geoPN=1"
+   },
+   {
+    "label": "geoPN=1 ∧ 試験粒子(bodies[1].testParticle)",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "testParticle"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— bodies[1].testParticle(試験粒子契約 —— 1PN の経路)"
+   },
+   {
+    "label": "geoPN=1 ∧ λ_PN の係数 0.5",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ pnAlpha 1.0(PPN γ = 0.5)",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ 太陽 pinned(宣言のまま)",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ integrator leapfrog",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ stateCarry 省略(Float32 の状態)",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ 慣性決定力 relativeDrag.law:\"inertial\"(警告 inertialPlusGeodesic —— 二次元と同じ)",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": true,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ 明示潮汐 physics.tide と天体の tide",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=1 ∧ bodies[1].pnSource:false",
+    "expect": "accept",
+    "ok": true,
+    "deny": [],
+    "warned": null,
+    "pass": true,
+    "why": null
+   },
+   {
+    "label": "geoPN=0 ∧ physics.geodesic:true(従来の拒否)",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "geodesic"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— physics.geodesic:true(測地線 1PN)"
+   },
+   {
+    "label": "geoPN=3 ∧ 慣性の宣言なし(従来の拒否)",
+    "expect": "reject",
+    "ok": false,
+    "deny": [
+     "geoPN12"
+    ],
+    "warned": null,
+    "pass": true,
+    "why": "三次元(physics.coord:\"3d\")では未対応 —— geoPN=3 で慣性決定力の宣言(relativeDrag.law:\"inertial\")が無い(測地線 ON に解決する —— 三次元では未対応)"
+   }
+  ],
+  "nPass": 16,
+  "nCases": 16,
+  "runtime": [
+   {
+    "geoPN": 0,
+    "advanced": true,
+    "halt": null,
+    "pn1": false,
+    "pnOrb": false
+   },
+   {
+    "geoPN": 1,
+    "advanced": true,
+    "halt": null,
+    "pn1": true,
+    "pnOrb": true
+   },
+   {
+    "geoPN": 2,
+    "advanced": false,
+    "halt": "geoPN(測地線・1PN)",
+    "pn1": false,
+    "pnOrb": true
+   },
+   {
+    "geoPN": 1,
+    "advanced": true,
+    "halt": null,
+    "pn1": true,
+    "pnOrb": true
+   },
+   {
+    "geoPN": 0,
+    "advanced": true,
+    "halt": null,
+    "pn1": false,
+    "pnOrb": false
+   }
+  ],
+  "runtimeOk": true,
+  "approxManyRuntime": {
+   "advanced": false,
+   "halt": "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)"
+  },
+  "approxManyHalted": true,
+  "switch2dGeoPN1": {
+   "n2dGeoPN1": 21,
+   "switchable": [
+    "earthMoonReal",
+    "emAuditSolar",
+    "mercury",
+    "mercuryReal",
+    "jupiterGalilean",
+    "marsMoonsReal"
+   ],
+   "still": [
+    {
+     "id": "venusReal",
+     "keys": [
+      "physicsOther"
+     ]
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "keys": [
+      "physicsOther"
+     ]
+    },
+    {
+     "id": "uranusReal",
+     "keys": [
+      "testParticle"
+     ]
+    },
+    {
+     "id": "neptuneReal",
+     "keys": [
+      "physicsOther"
+     ]
+    },
+    {
+     "id": "alphaCenAB",
+     "keys": [
+      "physicsOther"
+     ]
+    },
+    {
+     "id": "siriusAB",
+     "keys": [
+      "physicsOther"
+     ]
+    },
+    {
+     "id": "psrDoubleAB",
+     "keys": [
+      "physicsOther",
+      "spinAxisDisplay"
+     ]
+    },
+    {
+     "id": "psrJ1757DFM",
+     "keys": [
+      "physicsOther",
+      "pulse",
+      "spinDipole",
+      "dragQ"
+     ]
+    },
+    {
+     "id": "psrJ1946DFM",
+     "keys": [
+      "physicsOther",
+      "pulse",
+      "spinDipole",
+      "dragQ"
+     ]
+    },
+    {
+     "id": "psrB1534",
+     "keys": [
+      "physicsOther",
+      "core",
+      "pulse",
+      "spinDipole",
+      "dragQ"
+     ]
+    },
+    {
+     "id": "saturnZonalD68",
+     "keys": [
+      "zonal"
+     ]
+    },
+    {
+     "id": "saturnD68Consistent",
+     "keys": [
+      "zonal"
+     ]
+    },
+    {
+     "id": "saturnD68ObsOrbit",
+     "keys": [
+      "zonal"
+     ]
+    },
+    {
+     "id": "saturnRingReal",
+     "keys": [
+      "testParticle"
+     ]
+    },
+    {
+     "id": "binary",
+     "keys": [
+      "muF"
+     ]
+    }
+   ]
+  },
+  "builtin3dPN1": [],
+  "supportedHasPn1": true,
+  "rejectedHasGeoPN12": true
+ },
+ "P": {
+  "orbits": 8,
+  "h0": 2.11126,
+  "formula": {
+   "pinned": {
+    "a": 579.0909093819812,
+    "e": 0.20563076963004823,
+    "PK": 760.0533729091604,
+    "perOrbitRad": 5.018662959587055e-7,
+    "arcsecCy": 42.98065604901811
+   },
+   "free": {
+    "a": 579.0907634765157,
+    "e": 0.20563056948385414,
+    "PK": 760.0530225710662,
+    "perOrbitRad": 5.018664625879201e-7,
+    "arcsecCy": 42.98069013088644
+   }
+  },
+  "an336q1pn": 42.98051038206748,
+  "rows": [
+   {
+    "variant": "pinned",
+    "integrator": "semi",
+    "h": 2.11126,
+    "hDiv": 1,
+    "orbits": 8,
+    "steps": 2882,
+    "rate2d": -0.0005498486998738559,
+    "rate3d": -0.0005498486998738559,
+    "rate0_2d": -0.0005503554700733128,
+    "rate0_3d": -0.0005503554700733128,
+    "inc2dRad": 5.067701994568904e-7,
+    "inc3dRad": 5.067701994568904e-7,
+    "inc2dCy": 43.400634420250285,
+    "inc3dCy": 43.400634420250285,
+    "q1pnCy": 42.98065604901811,
+    "ratio3d": 1.00977133459185,
+    "period2d": 760.3641699924607,
+    "period3d": 760.3641699924607,
+    "ecc2d": 0.20563082103985658,
+    "ecc3d": 0.20563082103985658,
+    "bits1": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "bits0": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "rateSame": true,
+    "wallSec": 0.18
+   },
+   {
+    "variant": "pinned",
+    "integrator": "semi",
+    "h": 1.05563,
+    "hDiv": 2,
+    "orbits": 8,
+    "steps": 5761,
+    "rate2d": -0.00013705776434514162,
+    "rate3d": -0.00013705776434514162,
+    "rate0_2d": -0.00013756003030764764,
+    "rate0_3d": -0.00013756003030764764,
+    "inc2dRad": 5.022659625060228e-7,
+    "inc3dRad": 5.022659625060228e-7,
+    "inc2dCy": 43.01488415029302,
+    "inc3dCy": 43.01488415029302,
+    "q1pnCy": 42.98065604901811,
+    "ratio3d": 1.0007963606054753,
+    "period2d": 760.1313047891271,
+    "period3d": 760.1313047891271,
+    "ecc2d": 0.20563078272248497,
+    "ecc3d": 0.20563078272248497,
+    "bits1": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "bits0": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "rateSame": true,
+    "wallSec": 0.183
+   },
+   {
+    "variant": "free",
+    "integrator": "semi",
+    "h": 2.11126,
+    "hDiv": 1,
+    "orbits": 8,
+    "steps": 2882,
+    "rate2d": -0.0005498512801926481,
+    "rate3d": -0.0005498512801926481,
+    "rate0_2d": -0.0005503580654130001,
+    "rate0_3d": -0.0005503580654130001,
+    "inc2dRad": 5.067852203520084e-7,
+    "inc3dRad": 5.067852203520084e-7,
+    "inc2dCy": 43.40194084008308,
+    "inc3dCy": 43.40194084008308,
+    "q1pnCy": 42.98069013088644,
+    "ratio3d": 1.0098009293921022,
+    "period2d": 760.3638195153786,
+    "period3d": 760.3638195153786,
+    "ecc2d": 0.205630620876419,
+    "ecc3d": 0.205630620876419,
+    "bits1": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "bits0": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "rateSame": true,
+    "wallSec": 0.049999999999999996
+   },
+   {
+    "variant": "free",
+    "integrator": "semi",
+    "h": 1.05563,
+    "hDiv": 2,
+    "orbits": 8,
+    "steps": 5761,
+    "rate2d": -0.0001370576175315426,
+    "rate3d": -0.0001370576175315426,
+    "rate0_2d": -0.00013755989041891155,
+    "rate0_3d": -0.00013755989041891155,
+    "inc2dRad": 5.022728873689411e-7,
+    "inc3dRad": 5.022728873689411e-7,
+    "inc2dCy": 43.01549703446892,
+    "inc3dCy": 43.01549703446892,
+    "q1pnCy": 42.98069013088644,
+    "ratio3d": 1.0008098265401624,
+    "period2d": 760.1309543950978,
+    "period3d": 760.1309543950978,
+    "ecc2d": 0.20563058257148878,
+    "ecc3d": 0.20563058257148878,
+    "bits1": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "bits0": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "rateSame": true,
+    "wallSec": 0.086
+   },
+   {
+    "variant": "freeLeapfrog",
+    "integrator": "leapfrog",
+    "h": 2.11126,
+    "hDiv": 1,
+    "orbits": 8,
+    "steps": 2881,
+    "rate2d": -0.0005498438285461718,
+    "rate3d": -0.0005498438285461718,
+    "rate0_2d": -0.0005503457799593475,
+    "rate0_3d": -0.0005503457799593475,
+    "inc2dRad": 5.01951413175647e-7,
+    "inc3dRad": 5.01951413175647e-7,
+    "inc2dCy": 42.98796544246772,
+    "inc3dCy": 42.98796544246772,
+    "q1pnCy": 42.98069013088644,
+    "ratio3d": 1.0001692693058006,
+    "period2d": 760.1456884588348,
+    "period3d": 760.1456884588348,
+    "ecc2d": 0.20563059232843522,
+    "ecc3d": 0.20563059232843522,
+    "bits1": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "bits0": {
+     "nv": 13,
+     "nd": 0,
+     "maxRel": 0
+    },
+    "rateSame": true,
+    "wallSec": 0.167
+   }
+  ],
+  "deltaRows": [
+   {
+    "sun": "pinned",
+    "steps": 0,
+    "receivers": 1,
+    "bitSame": true,
+    "dzNonZero": 0,
+    "deltaMax": 3.3420102123231265e-16
+   },
+   {
+    "sun": "pinned",
+    "steps": 100,
+    "receivers": 1,
+    "bitSame": true,
+    "dzNonZero": 0,
+    "deltaMax": 1.1528988060992972e-16
+   },
+   {
+    "sun": "free",
+    "steps": 0,
+    "receivers": 2,
+    "bitSame": true,
+    "dzNonZero": 0,
+    "deltaMax": 1.6710051041874165e-15
+   },
+   {
+    "sun": "free",
+    "steps": 100,
+    "receivers": 2,
+    "bitSame": true,
+    "dzNonZero": 0,
+    "deltaMax": 3.3802200846065706e-16
+   }
+  ]
+ },
+ "R": {
+  "orbits": 8,
+  "h": 2.11126,
+  "ref": {
+   "rate": -0.0005498512801926481,
+   "inc": 5.067852203520084e-7,
+   "period": 760.3638195153786,
+   "ecc": 0.205630620876419,
+   "planeDrift": 0
+  },
+  "rows": [
+   {
+    "rot": [
+     40,
+     30,
+     50
+    ],
+    "rate": -0.0005498512801914922,
+    "inc": 5.067852207375507e-7,
+    "relRate": 2.102343666271055e-12,
+    "relInc": 7.607607261607704e-10,
+    "relPeriod": 1.9437128022779547e-15,
+    "relEcc": 6.613913819689193e-15,
+    "absRate": 1.1559763563040448e-15,
+    "planeDrift": 5.158807480286034e-16,
+    "zEnd": 5.56178033683275e-16,
+    "wallSec": 0.025
+   },
+   {
+    "rot": [
+     200,
+     73,
+     -15
+    ],
+    "rate": -0.0005498512801916155,
+    "inc": 5.067852189945873e-7,
+    "relRate": 1.8779517048926585e-12,
+    "relInc": 2.678493897294399e-9,
+    "relPeriod": 1.495163694059968e-15,
+    "relEcc": 6.2089803205245484e-15,
+    "absRate": 1.0325941490751944e-15,
+    "planeDrift": 1.128084379585066e-15,
+    "zEnd": 6.257002878936875e-16,
+    "wallSec": 0.018000000000000002
+   },
+   {
+    "rot": [
+     10,
+     120,
+     260
+    ],
+    "rate": -0.0005498512801920955,
+    "inc": 5.067852191768417e-7,
+    "relRate": 1.0050314825533263e-12,
+    "relInc": 2.3188654435122993e-9,
+    "relPeriod": 9.868080380795789e-15,
+    "relEcc": 1.0258315312170993e-14,
+    "absRate": 5.526178473158616e-16,
+    "planeDrift": 1.6709682002982022e-15,
+    "zEnd": 1.6685341010498433e-15,
+    "wallSec": 0.015
+   }
+  ],
+  "worst": {
+   "relRate": 2.102343666271055e-12,
+   "relInc": 2.678493897294399e-9,
+   "relPeriod": 9.868080380795789e-15,
+   "relEcc": 1.0258315312170993e-14,
+   "absRate": 1.1559763563040448e-15,
+   "planeDrift": 1.6709682002982022e-15
+  }
+ },
+ "N": {
+  "steps": 2000,
+  "orbits": 2,
+  "bodies": [
+   {
+    "key": "jupiter",
+    "ja": "木星",
+    "m": 1.898,
+    "a": 7784.8,
+    "incl": 1.303,
+    "node": 100.46
+   },
+   {
+    "key": "saturn",
+    "ja": "土星",
+    "m": 0.5683,
+    "a": 14335,
+    "incl": 2.485,
+    "node": 113.66
+   }
+  ],
+  "rows": [
+   {
+    "conf": "2d",
+    "steps": 2000,
+    "h": 21.11256,
+    "pn1DiffKm": [
+     0.03972893592245383,
+     28.028932946239518,
+     134.90955958184782
+    ],
+    "finite": true,
+    "dPNewton1": 1.1968422100325077e-9,
+    "dP1PN1": 1.251329749593879e-10,
+    "dPNewton0": 2.350705041291402e-16,
+    "dP1PN0": 1.2010388781322307e-9,
+    "wallSec": 0.058
+   },
+   {
+    "conf": "3dFlat",
+    "steps": 2000,
+    "h": 21.11256,
+    "pn1DiffKm": [
+     0.03972893592245383,
+     28.028932946239518,
+     134.90955958184782
+    ],
+    "finite": true,
+    "dPNewton1": 1.1968422100325077e-9,
+    "dP1PN1": 1.251329749593879e-10,
+    "dPNewton0": 2.350705041291402e-16,
+    "dP1PN0": 1.2010388781322307e-9,
+    "wallSec": 0.046
+   },
+   {
+    "conf": "3dTilt",
+    "steps": 2000,
+    "h": 21.11256,
+    "pn1DiffKm": [
+     0.040307602253968115,
+     27.9653969667372,
+     125.57970946584162
+    ],
+    "finite": true,
+    "dPNewton1": 1.2154783338252496e-9,
+    "dP1PN1": 1.2407094393283631e-10,
+    "dPNewton0": 2.5549813317505944e-16,
+    "dP1PN0": 1.2199301375669954e-9,
+    "wallSec": 0.028999999999999998
+   }
+  ],
+  "flatBits": {
+   "g1": {
+    "nv": 19,
+    "nd": 0,
+    "maxRel": 0
+   },
+   "g0": {
+    "nv": 19,
+    "nd": 0,
+    "maxRel": 0
+   }
+  },
+  "hScan": [
+   {
+    "integrator": "leapfrog",
+    "hDiv": 1,
+    "steps": 2000,
+    "dP1PN": 1.2407094393283631e-10,
+    "wallSec": 0.019
+   },
+   {
+    "integrator": "leapfrog",
+    "hDiv": 2,
+    "steps": 4000,
+    "dP1PN": 6.205482279704377e-11,
+    "wallSec": 0.039
+   },
+   {
+    "integrator": "leapfrog",
+    "hDiv": 4,
+    "steps": 8000,
+    "dP1PN": 3.103087936039365e-11,
+    "wallSec": 0.078
+   },
+   {
+    "integrator": "semi",
+    "hDiv": 1,
+    "steps": 2000,
+    "dP1PN": 2.4686594446597114e-10,
+    "wallSec": 0.013
+   },
+   {
+    "integrator": "semi",
+    "hDiv": 2,
+    "steps": 4000,
+    "dP1PN": 1.236796257120483e-10,
+    "wallSec": 0.027
+   },
+   {
+    "integrator": "semi",
+    "hDiv": 4,
+    "steps": 8000,
+    "dP1PN": 6.189856618130918e-11,
+    "wallSec": 0.055
+   }
+  ],
+  "hOrder": {
+   "leapfrog": {
+    "r12": 1.999376331129366,
+    "r24": 1.999776483171393
+   },
+   "semi": {
+    "r12": 1.9960114129123094,
+    "r24": 1.9981016256462896
+   }
+  }
+ },
+ "X": {
+  "members": [
+   "sun",
+   "mercury",
+   "venus",
+   "earth",
+   "moon",
+   "mars",
+   "jupiter",
+   "io",
+   "europa",
+   "ganymede",
+   "callisto",
+   "saturn",
+   "titan",
+   "uranus",
+   "neptune",
+   "triton"
+  ],
+  "steps": 20,
+  "rows": {
+   "g1": {
+    "ok": true,
+    "errors": [],
+    "warnings": 0,
+    "deny": [],
+    "build": {
+     "wallSec": 0.001
+    },
+    "h": 0.00421862799335,
+    "n": 16,
+    "integrator": "leapfrog",
+    "run20": {
+     "wallSec": 0.028
+    },
+    "finite": true,
+    "halt": null,
+    "t": 0.08437255986700003,
+    "cost": {
+     "steps": 200,
+     "wallSec": 0.053,
+     "rateStepsPerSec": 3773.5849056603774
+    },
+    "pn1": {
+     "version": "w314d-pn1-3d-1",
+     "eihVersion": "w291b-eih-2",
+     "on": true,
+     "law": "eih-kf0",
+     "sources": 16,
+     "wide": true,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "split": "delta3 (dfmPN1Delta3) kicked before dfmCore3 (the phase of the 2D delta); the test-particle form inside dfmCore3 right after each pair's gravity (the phase of the 2D _core core=1)",
+     "notDerivedFromDFM": true
+    }
+   },
+   "g0": {
+    "ok": true,
+    "errors": [],
+    "warnings": 0,
+    "deny": [],
+    "build": {
+     "wallSec": 0.001
+    },
+    "h": 0.00421862799335,
+    "n": 16,
+    "integrator": "leapfrog",
+    "run20": {
+     "wallSec": 0.001
+    },
+    "finite": true,
+    "halt": null,
+    "t": 0.08437255986700003,
+    "cost": {
+     "steps": 200,
+     "wallSec": 0.014,
+     "rateStepsPerSec": 14285.714285714286
+    }
+   },
+   "g3": {
+    "ok": true,
+    "errors": [],
+    "warnings": 0,
+    "deny": [],
+    "build": {
+     "wallSec": 0.837
+    },
+    "h": 0.00421862799335,
+    "n": 16,
+    "integrator": "leapfrog",
+    "run20": {
+     "wallSec": 2.45
+    },
+    "finite": true,
+    "halt": null,
+    "t": 0.08437255986700003,
+    "cost": {
+     "steps": 20,
+     "wallSec": 2.45,
+     "rateStepsPerSec": 8.16326530612245
+    }
+   }
+  },
+  "wide": {
+   "receivers": 16,
+   "sources": 16,
+   "wide": true,
+   "bitSame": true
+  },
+  "oracle": [
+   {
+    "label": "16 体(人工の配置・20 步後)",
+    "n": 16,
+    "rel": 6.90787247469515e-16,
+    "scale": 1.9159191017453665e-7
+   },
+   {
+    "label": "太陽・木星・土星(傾き・10 步後)",
+    "n": 3,
+    "rel": 1.9541413805063403e-16,
+    "scale": 4.621738608134431e-12
+   },
+   {
+    "label": "太陽(固定)–水星(回した軌道・10 步後)",
+    "n": 2,
+    "rel": 1.5193254536350604e-16,
+    "scale": 5.611952707136144e-9
+   },
+   {
+    "label": "太陽(自由)–水星(pnAlpha 1.0・λ_PN 0.5・回した軌道)",
+    "n": 2,
+    "rel": 1.824920844770971e-16,
+    "scale": 2.4038235223115695e-9
+   }
+  ],
+  "covAcc": {
+   "rot": [
+    10,
+    120,
+    260
+   ],
+   "rel": 6.462268799577105e-13,
+   "roundFloor": 2.8137733081336883e-12,
+   "relSJS": 2.6256142566895593e-16
+  },
+  "pn1DiffKm": 0.0006922677137048009,
+  "coreInline": {
+   "bitSame": true,
+   "n": 2
+  }
+ },
+ "gates": {
+  "acceptance": true,
+  "runtimeGate": true,
+  "supportedPn1": true,
+  "noBuiltin3dPN1": true,
+  "planarBitSame": true,
+  "deltaPlanarBitSame": true,
+  "pn1Magnitude": true,
+  "covariance": true,
+  "planeKept": true,
+  "nbodyFinite": true,
+  "nbodyFlatBitSame": true,
+  "momentumBudget": true,
+  "momentumFirstOrder": true,
+  "solar16Accepted": true,
+  "solar16K1Accepted": true,
+  "wideBitSame": true,
+  "oracle": true,
+  "covAcc": true,
+  "coreInline": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.065
+  },
+  "P": {
+   "wallSec": 0.687
+  },
+  "R": {
+   "wallSec": 0.1
+  },
+  "N": {
+   "wallSec": 0.366
+  },
+  "X": {
+   "wallSec": 3.449
+  }
+ },
+ "elapsedS": 6.629,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第314便d",
+  "target": "beta/index.html",
+  "targetSha256": "12379c615a8857f7952d75900ec71e5d0bb048935d3d39577b3c744b19a8adc0",
+  "generatedAt": "2026-10-23T05:58:58.646Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7264265,
+    "sha256": "12379c615a8857f7952d75900ec71e5d0bb048935d3d39577b3c744b19a8adc0",
+    "mtime": "2026-10-23T05:45:41.466Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w314d-pn1x3d.mjs",
+    "bytes": 48933,
+    "sha256": "163a41f1da761a5227c57841604e4b8d7485ca2d272506c92c4ebc2993a3432e",
+    "mtime": "2026-10-23T05:57:40.843Z"
+   },
+   {
+    "file": "tests/lib-w300c-solar16.mjs",
+    "bytes": 28107,
+    "sha256": "84b61917cdeb56a1bcc85512b420715a0a573ca84e8b52c4d88a6d52fd75c676",
+    "mtime": "2026-10-23T05:26:27.502Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-10-23T05:26:27.502Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-23T05:26:27.506Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-23T05:26:27.494Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-23T05:26:27.490Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-23T05:26:27.498Z"
+   }
+  ],
+  "codeSha256": "79c49c9b8aebddf665bf3f9ca9922b795d2a31f10faa29736acf1429f023e83c",
+  "harnessVersion": "w314d-pn1x3d-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を確かめた",
+   "較正した",
+   "収束した",
+   "完全に一致",
+   "検証が完了した(太陽系について)",
+   "DFM から導出した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "COORD3D_PN1_VERSION",
+    "COORD3D_VERSION",
+    "DT",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.validatePreset",
+    "PN1_EIH_VERSION",
+    "RAY_ALPHA_MIN",
+    "T",
+    "coordSwitchPlanOf",
+    "ctx",
+    "dfmPN1Delta"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1518,
+   "segments": 1353,
+   "closureShare": 0.3447
+  },
+  "scopeSha256": "f1cf9237fe111f7a2d5c579131be352c1256ce62671e64f80a6879033a572383",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
