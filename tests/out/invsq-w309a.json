@@ -3,7 +3,7 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -2255,7 +2255,7 @@
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order・outerShell・kernel だけ —— 第309便a・第310便a)"
+    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order・outerShell・kernel・rdRule・shellRecv だけ —— 第309便a・第310便a)"
    },
    {
     "name": "次数 1",
@@ -2397,49 +2397,49 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.135
+   "wallSec": 1.049
   },
   "P": {
-   "wallSec": 0.012
+   "wallSec": 0.011
   },
   "A": {
-   "wallSec": 0.46
+   "wallSec": 0.413
   },
   "E": {
-   "wallSec": 0.461
+   "wallSec": 0.489
   },
   "T": {
-   "wallSec": 0.034
+   "wallSec": 0.044
   },
   "B": {
-   "wallSec": 0.178
+   "wallSec": 0.184
   },
   "D": {
-   "wallSec": 0.224
+   "wallSec": 0.231
   },
   "G": {
-   "wallSec": 0.095
+   "wallSec": 0.083
   }
  },
- "elapsedS": 4.808,
+ "elapsedS": 4.546,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-22T00:09:19.198Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T22:46:27.177Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    },
    {
     "file": "tests/out/bevel-w308a.json",
     "bytes": 86401,
-    "sha256": "3c171aa7c76871edb5de38a8666b505dec6a29f0a72be48808613c7fd166894a",
-    "mtime": "2026-10-22T00:08:42.336Z"
+    "sha256": "8128032bd0990d214db0d1da79bdeebf79e5f223beaa0ed26b832c7ea64f612a",
+    "mtime": "2026-10-22T21:55:07.304Z"
    }
   ],
   "code": [
@@ -2539,16 +2539,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1505,
-   "segments": 1345,
-   "closureShare": 0.3448
+   "names": 1520,
+   "segments": 1355,
+   "closureShare": 0.3461
   },
-  "scopeSha256": "bd34c29b4adeec473b7ebcaec2800a3303f3cded0d52d754dbf379ad9d167fe9",
+  "scopeSha256": "023483ecbf7d4e5e979f3d14b0116ba9bc977008465d761947f04749131c4e6f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bevel-w308a.json",
-    "stableSha256": "ade98dc619db0bb279dc34a646995cef66331c459a8e44d5d972ec5236d468ed",
+    "stableSha256": "c4069c5fa53c903413892b60bcbcb4f4dc1ddaed7f1122cf38c5239cc0f3cf7c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

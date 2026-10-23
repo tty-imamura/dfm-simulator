@@ -89,6 +89,8 @@ const same = (a, b, n) => { for (let k = 0; k < n; k++) if (!Object.is(a[k], b[k
 export const rdFactor = (Rd, Rr, q) => { if (!q) return 1; const x = Rd / Rr; return q === 1 ? x : x * x; };
 
 /* ───────── 段 A(受理)───────── */
+/** 第313便b の世代(galaxyAxial.massPow を受理する html —— K1・rdPow 1・massPow −1・refMass の写しを受理するか)。前の世代の html では偽(未知の鍵で拒否) */
+function rdmGen(H) { return H.HP.validatePreset(clone(merCopy(H.HP, { wx: 1e-12, wy: 0, wz: 0, rdPow: 1, massPow: -1, refMass: 1 }, {}, 'k1'))).ok === true; }
 export function partA(H) {
   const HP = H.HP, rows = [];
   const tryV = (q) => { const v = HP.validatePreset(clone(q)); return { ok: v.ok, errFull: v.ok ? '' : String((v.errors || [])[0] || ''), err: v.ok ? null : String((v.errors || [])[0] || '').slice(0, 160), canon: v.ok ? (v.preset.physics.relativeDrag || {}).galaxyAxial : undefined, preset: v.ok ? v.preset : null }; };
@@ -116,7 +118,8 @@ export function partA(H) {
     ['refRadius 文字列', { ...G0, rdPow: 2, refRadius: '0.06' }, false, /正の有限の数/],
     ['refRadius null', { ...G0, rdPow: 1, refRadius: null }, false, /正の有限の数/],
     ['未知の鍵 rot(一様回転)', { ...G0, rot: 1e-12 }, false, /未知の鍵/],
-    ['未知の鍵 massPow', { ...G0, rdPow: 2, massPow: -1 }, false, /未知の鍵/],
+    // 第313便b(世代切替): massPow を受理する html(GALAXY_AXIAL_RDM_VERSION がある)では K2 の本・rdPow 2 の massPow は「K1・rdPow 1 と一緒にだけ」の拒否(前の世代は未知の鍵)
+    ['未知の鍵 massPow', { ...G0, rdPow: 2, massPow: -1 }, false, rdmGen(H) ? /massPow は -1〔K1・rdPow 1 と一緒にだけ〕/ : /未知の鍵/],
   ];
   for (const [name, g, expect, chk] of A) {
     const r = tryV(merCopy(HP, g));

@@ -2,7 +2,7 @@
  "version": "w311b-galaxial-1",
  "generator": "tests/exp-w311b-galaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第110報)太陽系における天の川銀河による一様軸引きずりを検討・一様並進引きずりと一様回転引きずりは慣性系では無視できる・背景慣性決定力は引きずりの分母に入れない・(第113報)・決断事項 AN389・AN382・AN390・AN395・統括の検証項目 R227",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -143,7 +143,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -152,7 +152,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -161,7 +161,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -170,7 +170,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 vx(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 vx(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b"
    },
    {
     "key": "galaxyAxial",
@@ -179,7 +179,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便b・第312便b)"
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便"
    },
    {
     "key": "galaxyAxial",
@@ -188,7 +188,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -197,7 +197,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -206,7 +206,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -215,7 +215,7 @@
     "expectOk": false,
     "pass": true,
     "canon": null,
-    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
+    "err": "physics.relativeDrag.galaxyAxial は {wx, wy, wz, rdPow?, refRadius?, massPow?, refMass?}(銀河の一様軸引きずりの角速度 —— 本の角速度の単位・3 成分とも有限の数・第311便b)"
    },
    {
     "key": "galaxyAxial",
@@ -1050,28 +1050,28 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.124
+   "wallSec": 0.114
   },
   "B": {
-   "wallSec": 0.2
+   "wallSec": 0.173
   },
   "D": {
-   "wallSec": 226.882
+   "wallSec": 226.249
   }
  },
- "elapsedS": 229.112,
+ "elapsedS": 228.495,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便b",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-22T00:06:22.403Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T23:43:58.651Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    }
   ],
   "code": [
@@ -1154,11 +1154,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1522,
-   "segments": 1362,
-   "closureShare": 0.3481
+   "names": 1537,
+   "segments": 1372,
+   "closureShare": 0.3495
   },
-  "scopeSha256": "f4eb0b07ed8c130379962bfbda0c23a8f05e6a4612ed175983b462c2040069f6",
+  "scopeSha256": "5a126fd2de08a68dd2483418e715aa69c2c33897c91630993fc20247aebc5da6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

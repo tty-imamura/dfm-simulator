@@ -1,0 +1,2833 @@
+{
+ "version": "w313b-galaxialrdm-1",
+ "generator": "tests/exp-w313b-galaxialrdm.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+ "ruling": "原仮定者の裁定(第115報)一様軸引きずりの R_d の応答の次数は K1 を主にする q = 1 で質量も入る(決断事項 AN395)・K1 を採用する(AN399)・太陽を含む全天体に同じ規則 R_d = κm(AN402)・統括の検証項目 R235",
+ "galaxyAxialVersion": "w311b-galaxial-1",
+ "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
+ "galaxyAxialRdmVersion": "w313b-galaxial-rdm-1",
+ "massPows": [
+  -1
+ ],
+ "refRadiusDefaultM": 6500000,
+ "invSqKernelVersion": "w312a-invsq-k1-1",
+ "fGrid": [
+  0.01,
+  1
+ ],
+ "versionReaders": [
+  {
+   "file": "tests/exp-w312b-galaxialrd.mjs・正本 galaxialrd-w312b.json",
+   "reads": "galaxyAxial の受理(未知の鍵 massPow の行)・build・読み口 inertialDragGalaxyAxialState",
+   "handling": "受理の行を世代切替(massPow を受理する html では「K1・rdPow 1 と一緒にだけ」の拒否)—— 値は変わらない(試走で正本と照合・領域 hash は変わる〔鎖で作り直す〕)"
+  },
+  {
+   "file": "tests/exp-w311b-galaxial.mjs・正本 galaxial-w311b.json",
+   "reads": "galaxyAxial の受理・build・読み口",
+   "handling": "変わらない(massPow の無い宣言は第312便b とビット同一 —— 試走で正本と照合)"
+  },
+  {
+   "file": "tests/qa.mjs behavior.galaxial311・docs.galaxial311・behavior.galaxialRd312・docs.galaxialRd312",
+   "reads": "GALAXY_AXIAL_VERSION・GALAXY_AXIAL_RD_VERSION の世代切替・受理・build",
+   "handling": "変わらない(版は据え置き —— 質量の次数は別の版 GALAXY_AXIAL_RDM_VERSION)"
+  }
+ ],
+ "notClaim": [
+  "天の川を較正した",
+  "フィットした",
+  "法則を発見した",
+  "完全に一致",
+  "ω_G の大きさを決めた",
+  "κ を合わせた",
+  "銀河の模型から ω_G を導いた"
+ ],
+ "quick": false,
+ "stages": [
+  "A",
+  "B",
+  "N",
+  "X"
+ ],
+ "A": {
+  "galaxy": [
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass 1",
+    "kernel": "k1",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 1,
+     "massPow": -1,
+     "refMass": 1
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・refRadius・massPow −1・refMass 2.5",
+    "kernel": "k1",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 1,
+     "refRadius": 0.0625,
+     "massPow": -1,
+     "refMass": 2.5
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1 だけ(第312便b の形)",
+    "kernel": "k1",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12,
+     "rdPow": 1
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・省略(第311便b の形)",
+    "kernel": "k1",
+    "ok": true,
+    "expectOk": true,
+    "pass": true,
+    "canon": {
+     "wx": 1e-12,
+     "wy": -2e-12,
+     "wz": 3e-12
+    },
+    "err": null
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K2(省略)・rdPow 1・massPow −1",
+    "kernel": null,
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— in"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K2(\"k2\" を明示)・rdPow 1・massPow −1",
+    "kernel": "k2",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— in"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 2・massPow −1",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— rd"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 0・massPow −1",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— rd"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow なし・massPow −1",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— rd"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow 1",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −2",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −0.5",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow 0",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −0",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow 文字列 \"-1\"",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow null",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow NaN",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow 真偽値",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.massPow は -1〔K1・rdPow 1 と一緒にだけ〕(受け手の質量の次数 —— ω_G × (R_d/R_ref) × (m_ref/m)・invSq.kernel:\"k1\" と rdPow:1 の本だけ・第313便b・AN395) —— 値が"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass なし",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass 0",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass −1",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass Infinity",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass NaN",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass 文字列",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・massPow −1・refMass null",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は正の有限の数(本の質量の単位 —— 応答の基準の質量 m_ref・massPow と一緒に必須・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K1・rdPow 1・refMass だけ(massPow なし)",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は massPow と一緒にだけ(応答の基準の質量 m_ref —— massPow の無い宣言は第312便b の ω_G × (R_d/R_ref)^rdPow・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "K2・refMass だけ",
+    "kernel": null,
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial.refMass は massPow と一緒にだけ(応答の基準の質量 m_ref —— massPow の無い宣言は第312便b の ω_G × (R_d/R_ref)^rdPow・第313便b)"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 massRef",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 massRef(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第"
+   },
+   {
+    "key": "galaxyAxial",
+    "name": "未知の鍵 rot(一様回転)",
+    "kernel": "k1",
+    "ok": false,
+    "expectOk": false,
+    "pass": true,
+    "canon": null,
+    "err": "physics.relativeDrag.galaxyAxial に未知の鍵 rot(wx・wy・wz と rdPow・refRadius と massPow・refMass だけ —— 一様並進・一様回転の鍵は作らない〔第110報・第114報: 一様回転は背景側の支配天体を明示しない本では規約として無視〕・第311便"
+   }
+  ],
+  "units": [
+   {
+    "name": "単位なし・K1・rdPow 1・massPow −1・refRadius 省略",
+    "ok": false,
+    "expectOk": false,
+    "err": "physics.relativeDrag.galaxyAxial.rdPow(1・2)で refRadius を省略する本は物理の単位の宣言 scaleExp.L が要る(R_ref の既定 6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本は refRadius を宣言する・第312便b)",
+    "pass": true
+   },
+   {
+    "name": "単位なし・K1・rdPow 1・massPow −1・refRadius 0.0625",
+    "ok": true,
+    "expectOk": true,
+    "err": null,
+    "pass": true
+   },
+   {
+    "name": "旧則の本 + massPow −1",
+    "ok": false,
+    "expectOk": false,
+    "err": "physics.relativeDrag.galaxyAxial は新しい引きずり則 invSq の本だけ(在位の移行は新則で —— 旧則の軸の核の組み合わせを増やさない・第311便b)",
+    "pass": true
+   }
+  ],
+  "nPass": 32,
+  "nCases": 32,
+  "allPass": true,
+  "massPows": [
+   -1
+  ],
+  "rdmVersion": "w313b-galaxial-rdm-1",
+  "rdVersion": "w312b-galaxial-rd-1",
+  "version": "w311b-galaxial-1"
+ },
+ "B": {
+  "rdOnly": {
+   "shape312": true,
+   "omegaPlusFG": true,
+   "version": "w311b-galaxial-1"
+  },
+  "fixedState": {
+   "A": true,
+   "U": true,
+   "beta": true,
+   "rot": true,
+   "deg": true,
+   "omegaPlusFG": true,
+   "factors": [
+    0.0002514458134,
+    568.5750444
+   ],
+   "Rd": [
+    0.065,
+    0.02439999953
+   ],
+   "mass": [
+    1988.5,
+    0.0003301099932
+   ],
+   "refMass": 0.5,
+   "rdm": {
+    "version": "w313b-galaxial-rdm-1",
+    "rule": "omegaG*(Rd/Rref)*(mref/m)",
+    "kernel": "k1",
+    "rdPow": 1,
+    "massPow": -1
+   },
+   "versionSame": true
+  },
+  "isolated": [
+   {
+    "k": 0.5,
+    "j": 1,
+    "ratio": 0.5,
+    "expect": 0.5,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 1988.5
+   },
+   {
+    "k": 1,
+    "j": 1,
+    "ratio": 1,
+    "expect": 1,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 1988.5
+   },
+   {
+    "k": 2,
+    "j": 1,
+    "ratio": 2,
+    "expect": 2,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 1988.5
+   },
+   {
+    "k": 0.5,
+    "j": 10,
+    "ratio": 0.05,
+    "expect": 0.05,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 19885
+   },
+   {
+    "k": 1,
+    "j": 10,
+    "ratio": 0.1,
+    "expect": 0.1,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 19885
+   },
+   {
+    "k": 2,
+    "j": 10,
+    "ratio": 0.2,
+    "expect": 0.2,
+    "exact": true,
+    "nearExpect": true,
+    "betaSum": 0,
+    "m": 19885
+   }
+  ],
+  "isolatedRatios": {
+   "rd2": 2,
+   "rdHalf": 0.5,
+   "m10": 0.1
+  },
+  "position": {
+   "rows": [
+    {
+     "scale": 1,
+     "r1": 697.8361219,
+     "omegaG1": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "omegaG2": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "factor1": 182.04887788574547,
+     "factor2": 182.04887788574547,
+     "m1": 0.00033010999322868884,
+     "m2": 0.0006602199864573777,
+     "twinSame": true,
+     "buildPlusFG": true,
+     "betaSame": true
+    },
+    {
+     "scale": 0.5,
+     "r1": 348.9181189,
+     "omegaG1": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "omegaG2": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "factor1": 182.04887788574547,
+     "factor2": 182.04887788574547,
+     "m1": 0.00033010999322868884,
+     "m2": 0.0006602199864573777,
+     "twinSame": true,
+     "buildPlusFG": true,
+     "betaSame": true
+    },
+    {
+     "scale": 3,
+     "r1": 2093.508134,
+     "omegaG1": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "omegaG2": [
+      5.64351521445811e-9,
+      -3.094830924057673e-9,
+      7.828101749087055e-9
+     ],
+     "factor1": 182.04887788574547,
+     "factor2": 182.04887788574547,
+     "m1": 0.00033010999322868884,
+     "m2": 0.0006602199864573777,
+     "twinSame": true,
+     "buildPlusFG": true,
+     "betaSame": true
+    }
+   ],
+   "invariant": true,
+   "twinSame": true,
+   "massExact": true,
+   "buildPlusFG": true,
+   "betaSame": true,
+   "twinRatio": 2
+  },
+  "twoSteps": {
+   "xv": true,
+   "u": true,
+   "axesDiffer": true
+  },
+  "refDefault": {
+   "refRadius": 0.065,
+   "expect": 0.065,
+   "ok": true
+  },
+  "liftedMass": {
+   "declared": 1e-8,
+   "engine": 9.999999974752427e-7,
+   "readMass": 9.999999974752427e-7,
+   "warned": true,
+   "factorIsEngineMass": true,
+   "notDeclared": true,
+   "ok": true
+  },
+  "allPass": true
+ },
+ "N": {
+  "kernel": "k1",
+  "recv": {
+   "id": "mercurySunInertial3d",
+   "body": "水星の写し",
+   "RdRule": "κ₀m",
+   "mBook": 0.0003301099932,
+   "mKg": 3.301099932e+23,
+   "RM": 2440000,
+   "RdM": 0.002907483002
+  },
+  "src": {
+   "id": "mercurySunInertial3d",
+   "body": "太陽",
+   "RdRule": "κ₀M☉",
+   "mKg": 1.9885e+30,
+   "RM": 695000000,
+   "RdM": 17513.9501
+  },
+  "kappaBook": 8.80761886e-8,
+  "kappaSI": 8.80761886e-27,
+  "G": 6.674,
+  "cLight": 29979.2458,
+  "C1": 0.8431139667,
+  "distAU": [
+   0.387,
+   3.87,
+   38.7
+  ],
+  "orders": [
+   8,
+   16
+  ],
+  "ctrl": 1000000,
+  "far": 10,
+  "rows": [
+   {
+    "dAU": 0.387,
+    "order": 8,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 57894375960,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690933431e-22,
+    "betaSum": 2.55055035e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.9996782706,
+    "pRdHi": 0.9997636037,
+    "pmLo": -1.000015622,
+    "pmHi": -1.000013236,
+    "pr": -2.999678271,
+    "roundScale": 0.004421396042,
+    "dirMaxRad": 0.00001237849542,
+    "omegaR3PerRdm": 5.928619426e-7,
+    "devMax": 0.0003217294404,
+    "vsCtrl": 0.000292582901
+   },
+   {
+    "dAU": 0.387,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 57894375960,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690933431e-22,
+    "betaSum": 2.55055035e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.9996782706,
+    "pRdHi": 0.9997636037,
+    "pmLo": -1.000015622,
+    "pmHi": -1.000013236,
+    "pr": -2.999678271,
+    "roundScale": 0.004421396042,
+    "dirMaxRad": 0.00001237849542,
+    "omegaR3PerRdm": 5.928619426e-7,
+    "devMax": 0.0003217294404,
+    "vsCtrl": 0.000292582901
+   },
+   {
+    "dAU": 0.387,
+    "order": 16,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 57894375960,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.691064519e-22,
+    "betaSum": 2.550550358e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.999752605,
+    "pRdHi": 0.9996784838,
+    "pmLo": -0.9999740961,
+    "pmHi": -1.000035572,
+    "pr": -2.999752605,
+    "roundScale": 0.004421396042,
+    "dirMaxRad": 0.00001669215648,
+    "omegaR3PerRdm": 5.928908235e-7,
+    "devMax": 0.0003215162108,
+    "vsCtrl": 0.0003413081603
+   },
+   {
+    "dAU": 0.387,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 57894375960,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.691064519e-22,
+    "betaSum": 2.550550358e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.999752605,
+    "pRdHi": 0.9996784838,
+    "pmLo": -0.9999740961,
+    "pmHi": -1.000035572,
+    "pr": -2.999752605,
+    "roundScale": 0.004421396042,
+    "dirMaxRad": 0.00001669215648,
+    "omegaR3PerRdm": 5.928908235e-7,
+    "devMax": 0.0003215162108,
+    "vsCtrl": 0.0003413081603
+   },
+   {
+    "dAU": 0.387,
+    "order": 8,
+    "origin": "far",
+    "ctrl": 1,
+    "rM": 57894375960,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690655052e-22,
+    "betaSum": 2.55055035e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 1.000056333,
+    "pRdHi": 1.000000063,
+    "pmLo": -0.9999751116,
+    "pmHi": -0.9999598498,
+    "pr": -3.000056333,
+    "roundScale": 0.04863535646,
+    "dirMaxRad": 0.000008115552183,
+    "omegaR3PerRdm": 5.928006106e-7,
+    "devMax": 0.00005633319595,
+    "vsCtrl": 0.0001891018393
+   },
+   {
+    "dAU": 0.387,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 57894375960,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690146341e-22,
+    "betaSum": 2.55055035e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.9999996844,
+    "pRdHi": 0.9999993686,
+    "pmLo": -0.9999983005,
+    "pmHi": -0.999999829,
+    "pr": -2.999999684,
+    "roundScale": 4.421396147e-9,
+    "dirMaxRad": 4.305791718e-11,
+    "omegaR3PerRdm": 5.926885321e-7,
+    "devMax": 0.000001699484398,
+    "vsCtrl": 0
+   },
+   {
+    "dAU": 0.387,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 57894375960,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.69014635e-22,
+    "betaSum": 2.550550358e-7,
+    "xi": 3.025155693e-7,
+    "pRdLo": 0.9999996845,
+    "pRdHi": 0.9999993685,
+    "pmLo": -0.9999983005,
+    "pmHi": -0.9999998291,
+    "pr": -2.999999684,
+    "roundScale": 4.421396147e-9,
+    "dirMaxRad": 7.852166639e-12,
+    "omegaR3PerRdm": 5.926885341e-7,
+    "devMax": 0.000001699525928,
+    "vsCtrl": 0
+   },
+   {
+    "dAU": 3.87,
+    "order": 8,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 578943759600,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.694861016e-25,
+    "betaSum": 2.550550942e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9949593519,
+    "pRdHi": 0.9990247747,
+    "pmLo": -0.9998543189,
+    "pmHi": -1.00023528,
+    "pr": -2.994959352,
+    "roundScale": 0.04421396042,
+    "dirMaxRad": 0.00008635607158,
+    "omegaR3PerRdm": 5.937272615e-7,
+    "devMax": 0.005040648089,
+    "vsCtrl": 0.001752176512
+   },
+   {
+    "dAU": 3.87,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 578943759600,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.694861016e-25,
+    "betaSum": 2.550550942e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9949593519,
+    "pRdHi": 0.9990247747,
+    "pmLo": -0.9998543189,
+    "pmHi": -1.00023528,
+    "pr": -2.994959352,
+    "roundScale": 0.04421396042,
+    "dirMaxRad": 0.00008635607158,
+    "omegaR3PerRdm": 5.937272615e-7,
+    "devMax": 0.005040648089,
+    "vsCtrl": 0.001752176512
+   },
+   {
+    "dAU": 3.87,
+    "order": 16,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 578943759600,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.699523268e-25,
+    "betaSum": 2.55055095e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9950994376,
+    "pRdHi": 0.9967618757,
+    "pmLo": -0.9999155859,
+    "pmHi": -1.000012729,
+    "pr": -2.995099438,
+    "roundScale": 0.04421396042,
+    "dirMaxRad": 0.0001284314638,
+    "omegaR3PerRdm": 5.947544411e-7,
+    "devMax": 0.0049005624,
+    "vsCtrl": 0.003485257706
+   },
+   {
+    "dAU": 3.87,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 578943759600,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.699523268e-25,
+    "betaSum": 2.55055095e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9950994376,
+    "pRdHi": 0.9967618757,
+    "pmLo": -0.9999155859,
+    "pmHi": -1.000012729,
+    "pr": -2.995099438,
+    "roundScale": 0.04421396042,
+    "dirMaxRad": 0.0001284314638,
+    "omegaR3PerRdm": 5.947544411e-7,
+    "devMax": 0.0049005624,
+    "vsCtrl": 0.003485257706
+   },
+   {
+    "dAU": 3.87,
+    "order": 8,
+    "origin": "far",
+    "ctrl": 1,
+    "rM": 578943759600,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.712257475e-25,
+    "betaSum": 2.550550942e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.994017741,
+    "pRdHi": 0.9869592792,
+    "pmLo": -0.9999657616,
+    "pmHi": -1.000197209,
+    "pr": -2.994017741,
+    "roundScale": 0.4863535646,
+    "dirMaxRad": 0.0003485786653,
+    "omegaR3PerRdm": 5.975600202e-7,
+    "devMax": 0.01304072082,
+    "vsCtrl": 0.008218907281
+   },
+   {
+    "dAU": 3.87,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 578943759600,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690147403e-25,
+    "betaSum": 2.550550942e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9999999574,
+    "pRdHi": 0.9999999359,
+    "pmLo": -0.9999998389,
+    "pmHi": -0.9999999817,
+    "pr": -2.999999957,
+    "roundScale": 4.421396147e-8,
+    "dirMaxRad": 7.696811481e-11,
+    "omegaR3PerRdm": 5.926887662e-7,
+    "devMax": 1.611046455e-7,
+    "vsCtrl": 0
+   },
+   {
+    "dAU": 3.87,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 578943759600,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.690147411e-25,
+    "betaSum": 2.55055095e-8,
+    "xi": 3.025155693e-8,
+    "pRdLo": 0.9999999547,
+    "pRdHi": 0.9999999366,
+    "pmLo": -0.9999998389,
+    "pmHi": -0.9999999818,
+    "pr": -2.999999955,
+    "roundScale": 4.421396147e-8,
+    "dirMaxRad": 4.726290551e-11,
+    "omegaR3PerRdm": 5.92688768e-7,
+    "devMax": 1.610746414e-7,
+    "vsCtrl": 0
+   },
+   {
+    "dAU": 38.7,
+    "order": 8,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 5789437596000,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.762656813e-28,
+    "betaSum": 2.550551001e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 0.97954181,
+    "pRdHi": 0.9857146256,
+    "pmLo": -0.9988787299,
+    "pmHi": -1.000411856,
+    "pr": -2.97954181,
+    "roundScale": 0.4421396042,
+    "dirMaxRad": 0.001421140095,
+    "omegaR3PerRdm": 6.086639178e-7,
+    "devMax": 0.02045819,
+    "vsCtrl": 0.02695363108
+   },
+   {
+    "dAU": 38.7,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 5789437596000,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.762656813e-28,
+    "betaSum": 2.550551001e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 0.97954181,
+    "pRdHi": 0.9857146256,
+    "pmLo": -0.9988787299,
+    "pmHi": -1.000411856,
+    "pr": -2.97954181,
+    "roundScale": 0.4421396042,
+    "dirMaxRad": 0.001421140095,
+    "omegaR3PerRdm": 6.086639178e-7,
+    "devMax": 0.02045819,
+    "vsCtrl": 0.02695363108
+   },
+   {
+    "dAU": 38.7,
+    "order": 16,
+    "origin": "src",
+    "ctrl": 1,
+    "rM": 5789437596000,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.791014325e-28,
+    "betaSum": 2.55055101e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 1.016505971,
+    "pRdHi": 0.9669383785,
+    "pmLo": -0.995746255,
+    "pmHi": -1.000786386,
+    "pr": -3.016505971,
+    "roundScale": 0.4421396042,
+    "dirMaxRad": 0.001029435465,
+    "omegaR3PerRdm": 6.149115973e-7,
+    "devMax": 0.03306162149,
+    "vsCtrl": 0.03749486792
+   },
+   {
+    "dAU": 38.7,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1,
+    "rM": 5789437596000,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.791014325e-28,
+    "betaSum": 2.55055101e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 1.016505971,
+    "pRdHi": 0.9669383785,
+    "pmLo": -0.995746255,
+    "pmHi": -1.000786386,
+    "pr": -3.016505971,
+    "roundScale": 0.4421396042,
+    "dirMaxRad": 0.001029435465,
+    "omegaR3PerRdm": 6.149115973e-7,
+    "devMax": 0.03306162149,
+    "vsCtrl": 0.03749486792
+   },
+   {
+    "dAU": 38.7,
+    "order": 8,
+    "origin": "far",
+    "ctrl": 1,
+    "rM": 5789437596000,
+    "RdM": 0.002907483002,
+    "m": 0.0003301099932,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.241139924e-28,
+    "betaSum": 2.550551001e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 0.9376379367,
+    "pRdHi": 0.9973096612,
+    "pmLo": -0.9975850759,
+    "pmHi": -0.9984233649,
+    "pr": -2.937637937,
+    "roundScale": 4.863535646,
+    "dirMaxRad": 0.000730726372,
+    "omegaR3PerRdm": 4.93764191e-7,
+    "devMax": 0.06236206327,
+    "vsCtrl": -0.1669081836
+   },
+   {
+    "dAU": 38.7,
+    "order": 8,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 5789437596000,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 1024,
+    "omega": 2.690147568e-28,
+    "betaSum": 2.550551001e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 0.9999999904,
+    "pRdHi": 0.9999999704,
+    "pmLo": -0.9999999971,
+    "pmHi": -0.9999999924,
+    "pr": -2.99999999,
+    "roundScale": 4.421396147e-7,
+    "dirMaxRad": 9.462136129e-10,
+    "omegaR3PerRdm": 5.926888025e-7,
+    "devMax": 2.957786938e-8,
+    "vsCtrl": 0
+   },
+   {
+    "dAU": 38.7,
+    "order": 16,
+    "origin": "recv",
+    "ctrl": 1000000,
+    "rM": 5789437596000,
+    "RdM": 2907.482933,
+    "m": 330.1099854,
+    "RdSrcM": 17513.9501,
+    "nodes": 8192,
+    "omega": 2.690147596e-28,
+    "betaSum": 2.55055101e-9,
+    "xi": 3.025155693e-9,
+    "pRdLo": 0.9999999447,
+    "pRdHi": 0.9999999766,
+    "pmLo": -0.9999999984,
+    "pmHi": -1.000000001,
+    "pr": -2.999999945,
+    "roundScale": 4.421396147e-7,
+    "dirMaxRad": 1.177250016e-9,
+    "omegaR3PerRdm": 5.926888087e-7,
+    "devMax": 5.530198743e-8,
+    "vsCtrl": 0
+   }
+  ],
+  "summary": {
+   "mmDevMax": 0.03306162149,
+   "mmDevOverRound": 0.1140058036,
+   "ctrlDevMax": 0.000001699525928,
+   "srcRecvSame": true,
+   "ctrlOmegaR3Spread": 4.666867265e-7,
+   "vsCtrlMax": 0.03749486792,
+   "vsCtrlOverRoundMax": 0.08480323311
+  },
+  "estimate": {
+   "pRd": 1,
+   "pm": -1,
+   "pr": -3,
+   "why": "一様の極限(源の場 ≪ 受け手の自己の場・受け手の上で源の M1 の場がほぼ一様な勾配)の見積り: W ≈ 受け手の自己の場 m_d,i K1(t R_d,i; R_d,i) ∝ m_d,i/R_d,i。amp = −n̂·∇(m_d,j M1_j/W) の第 1 項 m_d,j M1′/W ∝ R_d,i/m_d,i・第 2 項 m_d,j M1 (n̂·∇W)/W² ∝ (m_d,i/R_d,i²)/(m_d,i/R_d,i)² × (受け手の上の M1 の変化 ∝ R_d,i/r) = R_d,i/m_d,i —— どちらも R_d,i/m_d,i・M1′ ∝ r⁻³",
+   "round": "第 2 項は受け手の上の源の距離の変化 R_d/r(水星の写し 0.387 au で 5×10⁻¹⁴)を倍精度の距離で表す —— 丸めの尺度 ε r/R_d(ε = 2⁻⁵²・遠い原点は座標の大きさ (N_FAR + 1) r で)"
+  }
+ },
+ "X": {
+  "kernel": "k1",
+  "copyId": "w311bSolarCopy",
+  "copyFrom": "jupiterSunInertial3d の単位と太陽 + 惑星の本(第311便b の器の写し)",
+  "geometry": {
+   "omHat": [
+    0.8676661436080016,
+    0.0003515931391418637,
+    -0.497147201157447
+   ],
+   "OmRefSI": 9.089990689904927e-16,
+   "omHatDotNgp": -0.999999999999995
+  },
+  "OmRefBook": 9.08999069e-11,
+  "steps": 720,
+  "dt": 0.21112559999999997,
+  "Teff": 151.7993064,
+  "orbitsMercury": 2,
+  "kappaBook": 8.80761886e-8,
+  "refRadiusM": 17513.95064,
+  "refMassKg": 1.988500061e+30,
+  "offBody": 3,
+  "bodies": [
+   {
+    "i": 0,
+    "label": "太陽",
+    "RM": 695000000,
+    "RdM": 17513.95064,
+    "mKg": 1.988500061e+30,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 1,
+    "fRdOnly": 1
+   },
+   {
+    "i": 1,
+    "label": "水星",
+    "RM": 2440000,
+    "RdM": 0.002907483194,
+    "mKg": 3.301100151e+23,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 1,
+    "fRdOnly": 1.660095574e-7
+   },
+   {
+    "i": 2,
+    "label": "金星",
+    "RM": 6050000,
+    "RdM": 0.0428710857,
+    "mKg": 4.867500102e+24,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 1,
+    "fRdOnly": 0.00000244782497
+   },
+   {
+    "i": 3,
+    "label": "地球",
+    "RM": 6371000,
+    "RdM": 0.05260262251,
+    "mKg": 5.972399958e+24,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 2,
+    "fRdOnly": 0.000003003469839
+   },
+   {
+    "i": 4,
+    "label": "火星",
+    "RM": 3389500,
+    "RdM": 0.005651937045,
+    "mKg": 6.417099939e+23,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 1,
+    "fRdOnly": 3.227105729e-7
+   },
+   {
+    "i": 5,
+    "label": "木星",
+    "RM": 71492000,
+    "RdM": 16.71686009,
+    "mKg": 1.897999942e+27,
+    "RdPerM": 8.80761886e-27,
+    "fRule": 1,
+    "fOff": 1,
+    "fRdOnly": 0.0009544882495
+   }
+  ],
+  "rows": [
+   {
+    "mode": "rule",
+    "off": null,
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 2.220446049e-16,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalVsNoGalaxy": 4.043503032e-11
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255980095e-10,
+      "firstOrder": 1.255957777e-10,
+      "ratio": 1.00001777,
+      "orbitNormalVsNoGalaxy": 1.148534242e-10
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209892369e-10,
+      "firstOrder": 1.20989065e-10,
+      "ratio": 1.000001421,
+      "orbitNormalVsNoGalaxy": -6.495243926e-11
+     },
+     {
+      "i": 3,
+      "factor": 1,
+      "vsNoGalaxy": 1.228134486e-10,
+      "firstOrder": 1.22805384e-10,
+      "ratio": 1.00006567,
+      "orbitNormalVsNoGalaxy": -1.197326682e-10
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.377629598e-10,
+      "firstOrder": 1.377613266e-10,
+      "ratio": 1.000011855,
+      "orbitNormalVsNoGalaxy": 9.14135434e-12
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": -1.179611964e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 4.718447855e-16,
+      "firstOrder": 5.865278431e-27,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": -6.883382753e-15,
+      "firstOrder": 3.114460717e-26,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.892130979e-14,
+      "firstOrder": -1.098783338e-27,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": -2.775557562e-17,
+      "firstOrder": -1.544155138e-27,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.831068713e-15,
+      "firstOrder": 1.220515012e-26,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": -5.662137426e-15,
+      "firstOrder": 3.125710166e-26,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.70894418e-14,
+      "firstOrder": 1.406587484e-27,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 1.776356839e-15,
+      "firstOrder": 1.163204751e-26,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": -7.993605777e-15,
+      "firstOrder": 1.54568266e-26,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 2.892130979e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.304512054e-15,
+      "firstOrder": -1.254805642e-26,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": -1.110223025e-16,
+      "withOff": false,
+      "change": 1.509903313e-14,
+      "firstOrder": 1.257360288e-26,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": -6.272760089e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.897682094e-14,
+      "firstOrder": 5.029387165e-28,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.377629598e-10,
+    "ratioMin": 1.000001421,
+    "ratioMax": 1.00006567,
+    "nRatio": 6,
+    "orbitNormalMax": 1.197326682e-10,
+    "allPairMax": 2.897682094e-14,
+    "offPairMax": null,
+    "nonOffPairMax": 2.897682094e-14,
+    "estRatioMin": null,
+    "estRatioMax": null,
+    "nEst": 0
+   },
+   {
+    "mode": "rule",
+    "off": 3,
+    "f": 0.01,
+    "omegaG": 9.08999069e-13,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 0.5,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272337011e-10,
+      "firstOrder": 1.272324338e-10,
+      "ratio": 1.00000996,
+      "orbitNormalVsNoGalaxy": 4.043505808e-11
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255980095e-10,
+      "firstOrder": 1.255957777e-10,
+      "ratio": 1.00001777,
+      "orbitNormalVsNoGalaxy": 1.148534372e-10
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209892369e-10,
+      "firstOrder": 1.20989065e-10,
+      "ratio": 1.000001421,
+      "orbitNormalVsNoGalaxy": -6.495243926e-11
+     },
+     {
+      "i": 3,
+      "factor": 2,
+      "vsNoGalaxy": 2.455921528e-10,
+      "firstOrder": 2.456107679e-10,
+      "ratio": 0.9999242088,
+      "orbitNormalVsNoGalaxy": -2.394294762e-10
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.377629598e-10,
+      "firstOrder": 1.377613266e-10,
+      "ratio": 1.000011855,
+      "orbitNormalVsNoGalaxy": 9.141243318e-12
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187377729e-10,
+      "firstOrder": 1.187358749e-10,
+      "ratio": 1.000015985,
+      "orbitNormalVsNoGalaxy": 8.875995078e-11
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": -1.179611964e-16,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 4.718447855e-16,
+      "firstOrder": 5.865278431e-27,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.225859414e-10,
+      "firstOrder": -1.226053705e-10,
+      "ratio": 0.9998415315
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.892130979e-14,
+      "firstOrder": -1.098783338e-27,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": -2.775557562e-17,
+      "firstOrder": -1.544155138e-27,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.831068713e-15,
+      "firstOrder": 1.220515012e-26,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.227202229e-10,
+      "firstOrder": -1.227413895e-10,
+      "ratio": 0.9998275506
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.70894418e-14,
+      "firstOrder": 1.406587484e-27,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 1.776356839e-15,
+      "firstOrder": 1.163204751e-26,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.208832479e-10,
+      "firstOrder": -1.209024885e-10,
+      "ratio": 0.9998408583
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 2.892130979e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.304512054e-15,
+      "firstOrder": -1.254805642e-26,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1,
+      "withOff": true,
+      "change": -1.007811612e-10,
+      "firstOrder": -1.008146798e-10,
+      "ratio": 0.9996675226
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1,
+      "withOff": true,
+      "change": -1.18708543e-10,
+      "firstOrder": -1.187295407e-10,
+      "ratio": 0.9998231471
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 2.897682094e-14,
+      "firstOrder": 5.029387165e-28,
+      "ratio": null
+     }
+    ],
+    "axisMax": 2.455921528e-10,
+    "ratioMin": 0.9999242088,
+    "ratioMax": 1.00001777,
+    "nRatio": 6,
+    "orbitNormalMax": 2.394294762e-10,
+    "allPairMax": 1.227202229e-10,
+    "offPairMax": 1.227202229e-10,
+    "nonOffPairMax": 2.897682094e-14,
+    "estRatioMin": 0.9996675226,
+    "estRatioMax": 0.9998415315,
+    "nEst": 5
+   },
+   {
+    "mode": "rule",
+    "off": null,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 2.220446049e-16,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529761e-9
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255958637e-8,
+      "firstOrder": 1.255957777e-8,
+      "ratio": 1.000000685,
+      "orbitNormalVsNoGalaxy": 1.148511659e-8
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209890716e-8,
+      "firstOrder": 1.20989065e-8,
+      "ratio": 1.000000055,
+      "orbitNormalVsNoGalaxy": -6.495292297e-9
+     },
+     {
+      "i": 3,
+      "factor": 1,
+      "vsNoGalaxy": 1.228050887e-8,
+      "firstOrder": 1.22805384e-8,
+      "ratio": 0.9999975958,
+      "orbitNormalVsNoGalaxy": -1.197240085e-8
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.37761329e-8,
+      "firstOrder": 1.377613266e-8,
+      "ratio": 1.000000018,
+      "orbitNormalVsNoGalaxy": 9.113037547e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821411e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 7.382983114e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 5.259681579e-15,
+      "firstOrder": 7.507556391e-25,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 3.14193116e-14,
+      "firstOrder": 2.101784537e-24,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 9.214851104e-15,
+      "firstOrder": -1.406442673e-25,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 5.939693182e-15,
+      "firstOrder": -1.329924509e-25,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 8.687495168e-15,
+      "firstOrder": 1.562259215e-24,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 3.902433932e-14,
+      "firstOrder": 2.075059099e-24,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.14908083e-14,
+      "firstOrder": 1.80043198e-25,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 6.161737787e-15,
+      "firstOrder": 7.069599206e-25,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 3.091971124e-14,
+      "firstOrder": 1.878963204e-26,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.454392162e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.998401444e-15,
+      "firstOrder": -8.73888206e-27,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": -1.110223025e-16,
+      "withOff": false,
+      "change": 3.042011087e-14,
+      "firstOrder": 2.885272511e-25,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.314015729e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.515454429e-14,
+      "firstOrder": -3.582117422e-26,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.37761329e-8,
+    "ratioMin": 0.9999975958,
+    "ratioMax": 1.000000685,
+    "nRatio": 6,
+    "orbitNormalMax": 1.197240085e-8,
+    "allPairMax": 3.902433932e-14,
+    "offPairMax": null,
+    "nonOffPairMax": 3.902433932e-14,
+    "estRatioMin": null,
+    "estRatioMax": null,
+    "nEst": 0
+   },
+   {
+    "mode": "rule",
+    "off": 3,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 0.5,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529775e-9
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255958637e-8,
+      "firstOrder": 1.255957777e-8,
+      "ratio": 1.000000685,
+      "orbitNormalVsNoGalaxy": 1.148511659e-8
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209890716e-8,
+      "firstOrder": 1.20989065e-8,
+      "ratio": 1.000000055,
+      "orbitNormalVsNoGalaxy": -6.49529229e-9
+     },
+     {
+      "i": 3,
+      "factor": 2,
+      "vsNoGalaxy": 2.456108635e-8,
+      "firstOrder": 2.456107679e-8,
+      "ratio": 1.000000389,
+      "orbitNormalVsNoGalaxy": -2.394487186e-8
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.37761329e-8,
+      "firstOrder": 1.377613266e-8,
+      "ratio": 1.000000018,
+      "orbitNormalVsNoGalaxy": 9.113037547e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821397e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 7.382983114e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 5.259681579e-15,
+      "firstOrder": 7.507556391e-25,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.226054408e-8,
+      "firstOrder": -1.226053705e-8,
+      "ratio": 1.000000573
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 9.214851104e-15,
+      "firstOrder": -1.406442673e-25,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 5.939693182e-15,
+      "firstOrder": -1.329924509e-25,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 8.687495168e-15,
+      "firstOrder": 1.562259215e-24,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.227413937e-8,
+      "firstOrder": -1.227413895e-8,
+      "ratio": 1.000000034
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.14908083e-14,
+      "firstOrder": 1.80043198e-25,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 2.220446049e-16,
+      "withOff": false,
+      "change": 6.161737787e-15,
+      "firstOrder": 7.069599206e-25,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -1,
+      "withOff": true,
+      "change": -1.209025802e-8,
+      "firstOrder": -1.209024885e-8,
+      "ratio": 1.000000758
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.454392162e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.998401444e-15,
+      "firstOrder": -8.73888206e-27,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 1,
+      "withOff": true,
+      "change": -1.008146455e-8,
+      "firstOrder": -1.008146798e-8,
+      "ratio": 0.99999966
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1,
+      "withOff": true,
+      "change": -1.187296095e-8,
+      "firstOrder": -1.187295407e-8,
+      "ratio": 1.00000058
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 1.110223025e-16,
+      "withOff": false,
+      "change": 1.515454429e-14,
+      "firstOrder": -3.582117422e-26,
+      "ratio": null
+     }
+    ],
+    "axisMax": 2.456108635e-8,
+    "ratioMin": 1.000000018,
+    "ratioMax": 1.000000685,
+    "nRatio": 6,
+    "orbitNormalMax": 2.394487186e-8,
+    "allPairMax": 1.227413937e-8,
+    "offPairMax": 1.227413937e-8,
+    "nonOffPairMax": 1.515454429e-14,
+    "estRatioMin": 0.99999966,
+    "estRatioMax": 1.000000758,
+    "nEst": 5
+   },
+   {
+    "mode": "q0",
+    "off": null,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 0,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529761e-9
+     },
+     {
+      "i": 1,
+      "factor": 1,
+      "vsNoGalaxy": 1.255958637e-8,
+      "firstOrder": 1.255957777e-8,
+      "ratio": 1.000000685,
+      "orbitNormalVsNoGalaxy": 1.148511659e-8
+     },
+     {
+      "i": 2,
+      "factor": 1,
+      "vsNoGalaxy": 1.209890716e-8,
+      "firstOrder": 1.20989065e-8,
+      "ratio": 1.000000055,
+      "orbitNormalVsNoGalaxy": -6.495292297e-9
+     },
+     {
+      "i": 3,
+      "factor": 1,
+      "vsNoGalaxy": 1.228050887e-8,
+      "firstOrder": 1.22805384e-8,
+      "ratio": 0.9999975958,
+      "orbitNormalVsNoGalaxy": -1.197240085e-8
+     },
+     {
+      "i": 4,
+      "factor": 1,
+      "vsNoGalaxy": 1.37761329e-8,
+      "firstOrder": 1.377613266e-8,
+      "ratio": 1.000000018,
+      "orbitNormalVsNoGalaxy": 9.113037547e-10
+     },
+     {
+      "i": 5,
+      "factor": 1,
+      "vsNoGalaxy": 1.187359036e-8,
+      "firstOrder": 1.187358749e-8,
+      "ratio": 1.000000241,
+      "orbitNormalVsNoGalaxy": 8.875821411e-9
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 7.382983114e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 5.259681579e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.14193116e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 9.214851104e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 5.939693182e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 8.687495168e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.902433932e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.14908083e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 6.161737787e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.091971124e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.454392162e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.998401444e-15,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.042011087e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 3.314015729e-14,
+      "firstOrder": 0,
+      "ratio": null
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": true,
+      "dfactor": 0,
+      "withOff": false,
+      "change": 1.515454429e-14,
+      "firstOrder": 0,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.37761329e-8,
+    "ratioMin": 0.9999975958,
+    "ratioMax": 1.000000685,
+    "nRatio": 6,
+    "orbitNormalMax": 1.197240085e-8,
+    "allPairMax": 3.902433932e-14,
+    "offPairMax": null,
+    "nonOffPairMax": 3.902433932e-14,
+    "estRatioMin": null,
+    "estRatioMax": null,
+    "nEst": 0
+   },
+   {
+    "mode": "rdOnly",
+    "off": null,
+    "f": 1,
+    "omegaG": 9.08999069e-11,
+    "finite": true,
+    "badRows": 0,
+    "betaMax": 2.133328309e-7,
+    "law": "inv1-ball-total-ratio",
+    "factorSpread": 0.999999834,
+    "per": [
+     {
+      "i": 0,
+      "factor": 1,
+      "vsNoGalaxy": 1.272324441e-8,
+      "firstOrder": 1.272324338e-8,
+      "ratio": 1.000000081,
+      "orbitNormalVsNoGalaxy": 4.043529761e-9
+     },
+     {
+      "i": 1,
+      "factor": 1.660095574e-7,
+      "vsNoGalaxy": 0,
+      "firstOrder": 2.085009946e-15,
+      "ratio": null,
+      "orbitNormalVsNoGalaxy": 0
+     },
+     {
+      "i": 2,
+      "factor": 0.00000244782497,
+      "vsNoGalaxy": 2.99344134e-14,
+      "firstOrder": 2.961600543e-14,
+      "ratio": null,
+      "orbitNormalVsNoGalaxy": -1.590394483e-14
+     },
+     {
+      "i": 3,
+      "factor": 0.000003003469839,
+      "vsNoGalaxy": 3.673368067e-14,
+      "firstOrder": 3.688422668e-14,
+      "ratio": null,
+      "orbitNormalVsNoGalaxy": -3.574918139e-14
+     },
+     {
+      "i": 4,
+      "factor": 3.227105729e-7,
+      "vsNoGalaxy": 4.980584145e-15,
+      "firstOrder": 4.445703663e-15,
+      "ratio": null,
+      "orbitNormalVsNoGalaxy": 3.330669074e-16
+     },
+     {
+      "i": 5,
+      "factor": 0.0009544882495,
+      "vsNoGalaxy": 1.133490243e-11,
+      "firstOrder": 1.133319974e-11,
+      "ratio": 1.000150239,
+      "orbitNormalVsNoGalaxy": 8.472771096e-12
+     }
+    ],
+    "pairs": [
+     {
+      "i": 0,
+      "j": 1,
+      "sameFactor": false,
+      "dfactor": 0.999999834,
+      "withOff": false,
+      "change": -1.095446229e-8,
+      "firstOrder": -1.095446247e-8,
+      "ratio": 0.999999983
+     },
+     {
+      "i": 0,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": 0.9999975522,
+      "withOff": false,
+      "change": 4.595345271e-9,
+      "firstOrder": 4.595339529e-9,
+      "ratio": 1.00000125
+     },
+     {
+      "i": 0,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": 0.9999969965,
+      "withOff": false,
+      "change": 1.226050278e-8,
+      "firstOrder": 1.226050022e-8,
+      "ratio": 1.000000208
+     },
+     {
+      "i": 0,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 0.9999996773,
+      "withOff": false,
+      "change": -8.38842773e-10,
+      "firstOrder": -8.388378939e-10,
+      "ratio": 1.000005817
+     },
+     {
+      "i": 0,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": 0.9990455118,
+      "withOff": false,
+      "change": -6.313880807e-10,
+      "firstOrder": -6.313931543e-10,
+      "ratio": 0.9999919645
+     },
+     {
+      "i": 1,
+      "j": 2,
+      "sameFactor": false,
+      "dfactor": -0.000002281815412,
+      "withOff": false,
+      "change": -2.353672812e-14,
+      "firstOrder": -2.179478533e-14,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -0.000002837460282,
+      "withOff": false,
+      "change": -3.663735981e-14,
+      "firstOrder": -3.482738178e-14,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": -1.567010155e-7,
+      "withOff": false,
+      "change": -4.440892099e-16,
+      "firstOrder": -1.841416066e-16,
+      "ratio": null
+     },
+     {
+      "i": 1,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": -0.0009543222399,
+      "withOff": false,
+      "change": -4.306735524e-12,
+      "firstOrder": -4.304826951e-12,
+      "ratio": 1.000443356
+     },
+     {
+      "i": 2,
+      "j": 3,
+      "sameFactor": false,
+      "dfactor": -5.556448694e-7,
+      "withOff": false,
+      "change": -6.161737787e-15,
+      "firstOrder": -6.717884742e-15,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 0.000002125114397,
+      "withOff": false,
+      "change": -3.830269435e-15,
+      "firstOrder": -4.027907278e-15,
+      "ratio": null
+     },
+     {
+      "i": 2,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": -0.0009520404245,
+      "withOff": false,
+      "change": 9.336635631e-12,
+      "firstOrder": 9.335928974e-12,
+      "ratio": 1.000075692
+     },
+     {
+      "i": 3,
+      "j": 4,
+      "sameFactor": false,
+      "dfactor": 0.000002680759266,
+      "withOff": false,
+      "change": -2.653433029e-14,
+      "firstOrder": -2.70259887e-14,
+      "ratio": null
+     },
+     {
+      "i": 3,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": -0.0009514847796,
+      "withOff": false,
+      "change": 1.129885074e-11,
+      "firstOrder": 1.129693508e-11,
+      "ratio": 1.000169574
+     },
+     {
+      "i": 4,
+      "j": 5,
+      "sameFactor": false,
+      "dfactor": -0.0009541655389,
+      "withOff": false,
+      "change": -3.494982082e-13,
+      "firstOrder": -3.490192472e-13,
+      "ratio": null
+     }
+    ],
+    "axisMax": 1.272324441e-8,
+    "ratioMin": 1.000000081,
+    "ratioMax": 1.000150239,
+    "nRatio": 2,
+    "orbitNormalMax": 4.043529761e-9,
+    "allPairMax": 1.226050278e-8,
+    "offPairMax": null,
+    "nonOffPairMax": 1.226050278e-8,
+    "estRatioMin": 0.9999919645,
+    "estRatioMax": 1.000443356,
+    "nEst": 8
+   }
+  ],
+  "ruleVsQ0AxisMax": 9.248160397e-25,
+  "initSpin": {
+   "ok": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "rows": [
+    {
+     "i": 0,
+     "label": "太陽",
+     "ruleVsNone": 2.887128136e-10,
+     "ruleFirstOrder": 2.887128088e-10,
+     "ruleRatio": 1.000000017,
+     "ruleVsQ0": 0,
+     "offVsNone": 2.887128136e-10,
+     "offFactor": 1,
+     "offRatio": 1.000000017
+    },
+    {
+     "i": 1,
+     "label": "水星",
+     "ruleVsNone": 6.672422704e-10,
+     "ruleFirstOrder": 6.672422943e-10,
+     "ruleRatio": 0.9999999642,
+     "ruleVsQ0": 0,
+     "offVsNone": 6.672422704e-10,
+     "offFactor": 1,
+     "offRatio": 0.9999999642
+    },
+    {
+     "i": 2,
+     "label": "金星",
+     "ruleVsNone": 2.663551873e-9,
+     "ruleFirstOrder": 2.663551871e-9,
+     "ruleRatio": 1.000000001,
+     "ruleVsQ0": 0,
+     "offVsNone": 2.663551873e-9,
+     "offFactor": 1,
+     "offRatio": 1.000000001
+    },
+    {
+     "i": 3,
+     "label": "地球",
+     "ruleVsNone": 1.109414804e-11,
+     "ruleFirstOrder": 1.109414437e-11,
+     "ruleRatio": 1.00000033,
+     "ruleVsQ0": 1.806281327e-27,
+     "offVsNone": 2.218828372e-11,
+     "offFactor": 2,
+     "offRatio": 0.9999997733
+    },
+    {
+     "i": 4,
+     "label": "火星",
+     "ruleVsNone": 1.280323401e-11,
+     "ruleFirstOrder": 1.280325992e-11,
+     "ruleRatio": 0.9999979763,
+     "ruleVsQ0": 0,
+     "offVsNone": 1.280323401e-11,
+     "offFactor": 1,
+     "offRatio": 0.9999979763
+    },
+    {
+     "i": 5,
+     "label": "木星",
+     "ruleVsNone": 4.44800915e-12,
+     "ruleFirstOrder": 4.448005514e-12,
+     "ruleRatio": 1.000000818,
+     "ruleVsQ0": 0,
+     "offVsNone": 4.44800915e-12,
+     "offFactor": 1,
+     "offRatio": 1.000000818
+    }
+   ]
+  },
+  "refFinite": true,
+  "firstStepNote": "最初の步は履歴が無く u = 0・軸の ω を使わない(今の経路 —— 一次の見積りの時間は (步数 − 1) h)",
+  "note": "大きさは未定(AN395)・銀河の模型からの数ではない —— abs(ω_G) = f Ω_ref の格子(Ω_ref = V₀/R₀ は尺度だけ)。基準の組 (R_ref, m_ref) = (κ₀M☉, M☉) は規則の上の基準(係数は全天体 κ₀m で 1)"
+ },
+ "gates": {
+  "acceptance": true,
+  "confirm": true,
+  "rd2Ratio2": true,
+  "mass10Ratio01": true,
+  "naturalAllFinite": true,
+  "naturalCtrlLimit": true,
+  "naturalMmWithinRound": true,
+  "naturalOriginNearSame": true,
+  "naturalCtrlOmegaR3": true,
+  "naturalMmVsCtrlWithinRound": true,
+  "allFinite": true,
+  "ruleFactorCommon": true,
+  "ruleAllPairsUnchanged": true,
+  "linearResponse": true,
+  "offPairsFirstOrder": true,
+  "offOtherPairsUnchanged": true,
+  "offFactor2": true,
+  "q0AllPairsUnchanged": true,
+  "rdOnlyNotCommon": true,
+  "initSpinFirstOrder": true
+ },
+ "ok": true,
+ "timing": {
+  "A": {
+   "wallSec": 0.042
+  },
+  "B": {
+   "wallSec": 0.2
+  },
+  "N": {
+   "wallSec": 1.782
+  },
+  "X": {
+   "wallSec": 137.713
+  }
+ },
+ "elapsedS": 141.799,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第313便b",
+  "target": "beta/index.html",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T22:33:50.554Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w313b-galaxialrdm.mjs",
+    "bytes": 54216,
+    "sha256": "20818fdb1ad398eac0c857e4d54f270771d8e26040838545187ca96cd2385974",
+    "mtime": "2026-10-22T15:06:06.432Z"
+   },
+   {
+    "file": "tests/exp-w311b-galaxial.mjs",
+    "bytes": 40328,
+    "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
+    "mtime": "2026-10-20T18:41:40.636Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16510,
+    "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
+    "mtime": "2026-10-20T16:19:56.680Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-21T20:13:23.994Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-20T16:19:56.672Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-20T16:19:56.668Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-20T16:19:56.676Z"
+   }
+  ],
+  "codeSha256": "66e7c5d68260cdefc8863cd8a84b703ea6db678f032febdf352c334ae8001efe",
+  "harnessVersion": "w313b-galaxialrdm-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "天の川を較正した",
+   "フィットした",
+   "法則を発見した",
+   "完全に一致",
+   "ω_G の大きさを決めた",
+   "κ を合わせた",
+   "銀河の模型から ω_G を導いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "GALAXY_AXIAL_MASS_POWS",
+    "GALAXY_AXIAL_RDM_VERSION",
+    "GALAXY_AXIAL_RD_VERSION",
+    "GALAXY_AXIAL_REF_RADIUS_M",
+    "GALAXY_AXIAL_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.validatePreset",
+    "INERTIAL_DRAG3_MAINT_SC",
+    "REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED",
+    "REL_DRAG_AXIS_HOLD_LEDGER_VERSION",
+    "REL_DRAG_AXIS_HOLD_MAINT_VERSION",
+    "REL_DRAG_INIT_DEN_MIN",
+    "REL_DRAG_INIT_OBS_VERSION",
+    "REL_DRAG_INVSQ_KERNEL_VERSION",
+    "REL_DRAG_INVSQ_VERSION",
+    "T",
+    "appStepDt",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "ctx",
+    "cw",
+    "inertialDrag3AxialSign",
+    "inertialDrag3SpinState",
+    "inertialDragGalaxyAxialState",
+    "inertialDragInitObsEval",
+    "inertialDragInitObsRedo",
+    "inertialDragInitObsState",
+    "inertialDragInverseMap",
+    "inertialDragIsqState",
+    "pnSource",
+    "retiredOf",
+    "sim"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1537,
+   "segments": 1372,
+   "closureShare": 0.3495
+  },
+  "scopeSha256": "7ad76c4d3fe923cbc9b86356d9e6ed4d8fc504497e5785686c96927a8f5c706e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

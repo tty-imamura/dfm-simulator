@@ -3,7 +3,7 @@
  "libVersion": "w308b-hold-lib-1",
  "generator": "tests/exp-w308b-hold.mjs",
  "target": "beta/index.html",
- "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
+ "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
  "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
  "holdVersion": "w308b-axishold-1",
  "quick": false,
@@ -3934,40 +3934,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.005
+   "wallSec": 0.001
   },
   "A": {
-   "wallSec": 0.008
+   "wallSec": 0.004
   },
   "E": {
-   "wallSec": 0.026
+   "wallSec": 0.014
   },
   "L": {
-   "wallSec": 0.356
+   "wallSec": 0.262
   },
   "K": {
-   "wallSec": 0.029
+   "wallSec": 0.015
   },
   "D": {
-   "wallSec": 0.426
+   "wallSec": 0.384
   },
   "V": {
-   "wallSec": 9.705
+   "wallSec": 11.542
   }
  },
- "elapsedS": 12.707,
+ "elapsedS": 14.548,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便b",
   "target": "beta/index.html",
-  "targetSha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-  "generatedAt": "2026-10-21T23:55:13.583Z",
+  "targetSha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+  "generatedAt": "2026-10-22T23:47:55.016Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7228389,
-    "sha256": "28548b0b4e7675c7618f826434b71c8e4a438296c70da04340f501473d711adb",
-    "mtime": "2026-10-21T18:39:31.103Z"
+    "bytes": 7246398,
+    "sha256": "573b619df62343b0013e6cc91f6b280d3d5fb3f2c8170117ac0387532b36886e",
+    "mtime": "2026-10-22T15:06:06.374Z"
    }
   ],
   "code": [
@@ -4049,11 +4049,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1520,
-   "segments": 1360,
-   "closureShare": 0.3463
+   "names": 1533,
+   "segments": 1368,
+   "closureShare": 0.3472
   },
-  "scopeSha256": "c39b1fed4bc2a1f68b365e2bf072ac1ffaaaaa9b4ffa846c7cebb2f719e35744",
+  "scopeSha256": "ffb04df07314e775a31c4654655102005a8cb4dfa0ada841b312a7b65f30e0cc",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

@@ -44,6 +44,13 @@
 //   ・門 gLocMeasured は計画にある惑星だけで判定(惑星ごとの 2 段目の出力でも真)・`--refine` は使い回した正本の同じ惑星の行も区間に入れる。
 //   ・段 S は一次の見積りの係数 C₂(β ≈ C₂(M☉/m)(R_d/r)²)をエンジンの β から測って c2 に書く。
 //
+// ■ v3(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・決断事項 AN396′・統括の検証項目 R237)
+//   ・`--rule kappa0`(`--kernel k1` だけ): 太陽を含む全天体に写しの明示の dragCore(太陽 {massFrac: 1, radius: κ₀M☉/L}・惑星は候補の R_d —— κ₀ = 10G/(C₁c²) を
+//     本の G・c と C₁ の閉じた式で固定)。`--kf`(κ/κ₀ の倍率の列 —— 惑星の R_d = kf·κ₀m)。行の鍵に rule を入れ、段 R・G は走行の rule の行だけで作る。
+//   ・細分は粗い門で止めない —— 細かい刻みの abs(r) ≤ ε_fit(ADOPT_EPS.fit)まで(決断事項 AN396′)。K1 の細分は x = R_d/R の割線(β ∝ R_d)。
+//   ・採用の欄の cap を外す(0 < R_d ≤ 観測半径だけ —— lib の adoptOf)・candidateOf の半径は段 S が無ければ凍結の写しの半径(段 S に依らない —— 第312便の未決 4)。
+//   ・既定の計画(鎖の正本)は v2 と同じ(K2 の 26 走行 —— 段 T・S・E・R・G の値は v2 とビット同一の見込み)。版の世代: 正本の版が PREV_VERSIONS なら v2 の世代(鎖で作り直す前)。
+//
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「R_d を決めた」「全ノブが決まった」。届かないものは届かないと数で書く。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -63,7 +70,10 @@ import * as Q from './lib-w311d-planet3.mjs';
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragIsqState","HP.inertialDragState","HP.sim","HP.validateFitRecord","HP.validatePreset","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w312d-planet3-2';   // 第312便d: v2(AN396 の採用の欄・--kernel・R_d の口・門の直し)
+export const HARNESS_VERSION = 'w313d-planet3-3';   // 第313便d: v3(全天体の規則 --rule kappa0・細分を ε_fit まで・採用の欄の cap を外す・candidateOf を段 S に依らずに)
+/** v3: 正本の版の前の世代(鎖で作り直す前の正本 —— QA docs.planet3_311 の世代切替が読む。値の段は v2 とビット同一の見込み) */
+export const PREV_VERSIONS = Object.freeze(['w312d-planet3-2']);
+export const PREV_LIB_VERSIONS = Object.freeze(['w312d-planet3-lib-2']);
 /** 決断事項 AN396 の最終の採用の ε(器の宣言の定数 —— 推奨の値・原仮定者の裁定で変わる) */
 export const ADOPT_EPS = Object.freeze({ fit: 1e-3, num: 3e-4, unit: '″/世紀', note: '決断事項 AN396 の推奨(ε_fit = 1e-3″/世紀・ε_num = 3e-4″/世紀 —— 裁定で変わる・観測の 3σ ではない)' });
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -228,7 +238,8 @@ export function rowsOf(J, planet, ex = MAIN_EX) {
   const E = J.E, T = J.T, tg = T.targets.find((z) => z.key === planet), divs = E.divs, out = [], kern = J.kernel || 'k2';
   const thetas = new Map();
   // v2: 走行の kernel の行だけ(K1 と K2 の行を 1 つの区間に混ぜない)
-  for (const r of Object.values(E.rows)) if (r.spec.planet === planet && (r.spec.kind === 'q11' || r.spec.kind === 'q01') && Q.kernelOf(r.spec.theta) === kern) thetas.set(Q.thetaKey(r.spec.theta), r.spec.theta);
+  // v3: 走行の rule(全天体の規則)の行だけ —— 太陽の R_d が違う行を 1 つの区間に混ぜない
+  for (const r of Object.values(E.rows)) if (r.spec.planet === planet && (r.spec.kind === 'q11' || r.spec.kind === 'q01') && Q.kernelOf(r.spec.theta) === kern && Q.ruleOf(r.spec.theta) === (J.rule || null)) thetas.set(Q.thetaKey(r.spec.theta), r.spec.theta);
   for (const th of thetas.values()) {
     const row = { theta: Q.thetaOf(th), key: Q.thetaKey(th), byDiv: {} };
     for (const dv of divs) {
@@ -269,7 +280,7 @@ export function partR(J, ex = MAIN_EX) {
       o.rdAnchorSquare = Q.rdEstSquare(o.theta0.DG, tD);
       if (SP) o.rdAnchorTable = Q.rdEstTable(SP.rows.map((r) => ({ rd: r.theta.rd, D: o.theta0.DG * r.g })), tD);
     }
-    o.next = Q.nextRd(line.map((r) => ({ rd: r.theta.rd, r: r.r })));
+    o.next = Q.nextRd(line.map((r) => ({ rd: r.theta.rd, r: r.r })), { lin: (J.kernel || 'k2') === 'k1' });
     const gated = rows.filter((r) => r.gate && r.gate.pass !== null);
     const best = gated.length ? gated.slice().sort((a, b) => Math.abs(a.r) - Math.abs(b.r))[0] : null;
     o.best = best ? { theta: best.theta, r: best.r, band: best.band, gate: best.gate } : null;
@@ -297,9 +308,14 @@ export function candidateOf(J, planet) {
   const kern = J.kernel || 'k2', key = Q.thetaKey(Q.withKernel(c.theta, kern));
   const runs = Object.values(J.E.rows).filter((r) => r.spec.planet === planet && r.spec.kind === 'q11' && Q.thetaKey(r.spec.theta) === key)
     .map((r) => ({ div: r.spec.div, status: r.status, nan: r.status === 'run' ? r.nan : null, betaMax: r.status === 'run' ? r.betaMax : null }));
-  const S = J.S && J.S.planets[planet], Rm = S ? S.Rkm * 1e3 : null;
+  // v3: 半径は段 S があればその値(v2 とビット同一)・無ければ凍結の写しの観測半径(段 S に依らない —— 第312便の未決 4)
+  const S = J.S && J.S.planets[planet], Rm = S ? S.Rkm * 1e3 : radiusOfPlanet(planet);
   return { theta: c.theta, how: last ? '細分の最後の点' : 'abs(r) の最小の点', rByDiv, R: Rm, runs };
 }
+/** v3: 凍結の写しの惑星の観測半径 [m](段 S に依らない candidateOf の半径) */
+export function radiusOfPlanet(planet) { const pl = Q.planetOf(planet), d = pl && PIN.decl[pl.id]; return d ? d.bodies[1].radius * Math.pow(10, d.scaleExp.L) : null; }
+/** v3: 凍結の写しの本の宣言(physics・bodies・scaleExp —— κ₀ の本の単位の R_d の計算に使う) */
+export function pinOf(planet) { const d = PIN.decl[Q.planetOf(planet).id]; return { physics: d.physics, bodies: d.bodies, scaleExp: d.scaleExp }; }
 export function partG(J) {
   const R = J.R, per = {}, G = Q.GATE;
   for (const pl of Q.PLANETS) {
@@ -421,11 +437,11 @@ export function docNumbers(J) {
 /* ───────── 走行の計画と組み立て ───────── */
 /** 走行の一覧(段 T と E)。o = {planets, divs, grid{planet:[rd]}, cross{planet:[rd]}, md[], sunmd[], at{planet:rd}, coreSpin, N} */
 export function planOf(o) {
-  const specs = [], N = o.N, divs = o.divs, K = (th) => Q.withKernel(th, o.kernel), add = (s) => specs.push(Object.assign({ N }, s, s.theta ? { theta: K(s.theta) } : {}));
+  const specs = [], N = o.N, divs = o.divs, K = (th) => Q.withKernel(o.rule ? Object.assign({}, th, { rule: o.rule }) : th, o.kernel), add = (s) => specs.push(Object.assign({ N }, s, s.theta ? { theta: K(s.theta) } : {}));
   for (const k of o.planets) {
     for (const dv of divs) { add({ planet: k, kind: 'q00', div: dv }); add({ planet: k, kind: 'q10', div: dv }); }
     if (o.theta0 !== false) for (const dv of divs) add({ planet: k, kind: 'q11', theta: Q.thetaOf({}), div: dv });
-    for (const rd of (o.grid[k] || [])) for (const dv of (o.gridDivs || divs)) add({ planet: k, kind: 'q11', theta: Q.thetaOf({ rd }), div: dv });
+    for (const rd of (o.grid[k] || [])) for (const dv of (o.gridDivs || divs)) add({ planet: k, kind: 'q11', theta: o.thetaFor ? o.thetaFor(k, rd) : Q.thetaOf({ rd }), div: dv });
     for (const rd of (o.cross[k] || [])) for (const dv of divs) add({ planet: k, kind: 'q01', theta: Q.thetaOf({ rd }), div: dv });
     const at = o.at && o.at[k];
     if (at) {
@@ -471,6 +487,9 @@ export async function runAll(HP, o = {}) {
   let t0 = Date.now();
   const tick = (k) => { t[k] = { wallSec: (Date.now() - t0) / 1000 }; t0 = Date.now(); };
   const J = { quick, parts, stage2: !!o.stage2, kernel: o.kernel || 'k2', planets: (o.planets || Q.PLANETS.map((p) => p.key)).slice() };
+  if (o.rule) J.rule = o.rule;   // v3: 全天体の規則(宣言したときだけ —— 既定の計画の JSON は v2 と同じ形)
+  // v3: 候補 θ(全天体の規則なら κ/κ₀ の倍率 kf を 12 桁で鍵にする —— 宣言の半径は kf·10 G m/(C₁ c²))
+  const TH = (k, rd) => Q.withKernel(o.rule === 'kappa0' ? Q.thetaOfKf(pinOf(k), Q.kfOfRd(pinOf(k), rd)) : Q.thetaOf({ rd }), o.kernel);
   J.live = liveDeclGate(HP);
   J.book = { ids: Q.PLANETS.map((p) => p.id), newDrag: clone(Q.NEW_DRAG), offDrag: clone(Q.OFF_DRAG), gLoc: clone(Q.GLOC_FIXED), declFile: DECL_FILE, capM: Q.CAP_M, window: o.N, extractor: { main: MAIN_EX, sub: SUB_EX, K: APSIS_K } };
   const targets = targetTable(HP);
@@ -480,13 +499,14 @@ export async function runAll(HP, o = {}) {
     const at = Object.assign({}, o.at || {});
     if (J.S) for (const k of o.planets) if (!at[k] && (o.md && o.md.length || o.sunmd && o.sunmd.length || o.coreSpin) && J.S.planets[k]) at[k] = Number(J.S.planets[k].rdEst.toPrecision(4));
     // 第312便(統括): θ₀(R_d = R)は K2 の錨。K1 では β ≈ C₁(M☉/m)(R/r) が 0.1 の程度になり軌道が壊れる(水星の h/2 で配列の長さが尽きた)ので走らせない
-    const plan = planOf(Object.assign({}, o, { at, theta0: parts.includes('E') && (o.kernel || 'k2') === 'k2' }));
+    const plan = planOf(Object.assign({}, o, { at, theta0: parts.includes('E') && (o.kernel || 'k2') === 'k2', thetaFor: o.rule ? TH : null }));
     J.plan = { divs: o.divs, N: o.N, grid: o.grid, cross: o.cross, at, md: o.md || [], sunmd: o.sunmd || [], coreSpin: o.coreSpin || null, specs: plan.length };
+    if (o.rule) J.plan.rule = o.rule;
     const rows = await runPlan(plan, o.run, o.reuse, o.log || (() => {}));
     // v2: 2 段目は使い回せる正本の同じ惑星・同じ窓・同じ刻みの行も足す(--refine の区間に正本の点を入れる —— html と器の版が同じときだけ o.reuse がある)
     if (o.stage2 && o.reuse) for (const r of Object.values(o.reuse)) {
       if (!(r && r.status === 'run' && r.spec && o.planets.includes(r.spec.planet) && r.spec.N === o.N && o.divs.includes(r.spec.div))) continue;
-      if (Q.KINDS[r.spec.kind].drag && Q.kernelOf(r.spec.theta) !== (o.kernel || 'k2')) continue;
+      if (Q.KINDS[r.spec.kind].drag && (Q.kernelOf(r.spec.theta) !== (o.kernel || 'k2') || Q.ruleOf(r.spec.theta) !== (o.rule || null))) continue;
       if (!rows[r.key]) rows[r.key] = Object.assign({}, r, { reused: true });
     }
     J.E = { N: o.N, divs: o.divs.slice().sort((a, b) => a - b), rows };
@@ -498,15 +518,17 @@ export async function runAll(HP, o = {}) {
         for (let it = 0; it < o.refine; it++) {
           const tmp = Object.assign({}, J, { T: { targets }, R: null }); tmp.T.planets = tTable(tmp);
           const line = rowsOf(tmp, k).filter((r) => r.theta.md === 1 && r.theta.sunMd === 1 && Number.isFinite(r.r));
-          const nx = Q.nextRd(line.map((r) => ({ rd: r.theta.rd, r: r.r })));
+          const nx = Q.nextRd(line.map((r) => ({ rd: r.theta.rd, r: r.r })), { lin: (o.kernel || 'k2') === 'k1' });
           if (!nx.rd) { tr.push({ it, stop: nx.why }); break; }
-          const rd = Number(nx.rd.toPrecision(6)), sp = J.E.divs.map((dv) => ({ planet: k, kind: 'q11', theta: Q.withKernel(Q.thetaOf({ rd }), o.kernel), div: dv, N: o.N }));
+          // v3: K1 の R_d/R は 1e-9 の程度 —— 全天体の規則の細分は 12 桁(ε_fit の κ の分解能より十分細かい)・それ以外は v2 と同じ 6 桁
+          const th = o.rule ? TH(k, nx.rd) : TH(k, Number(nx.rd.toPrecision(6))), rd = th.rd, sp = J.E.divs.map((dv) => ({ planet: k, kind: 'q11', theta: th, div: dv, N: o.N }));
           const rs = await Promise.all(sp.map((s) => o.run(s).then((r) => { (o.log || (() => {}))(r); return r; })));
           for (const r of rs) J.E.rows[r.key] = r;
           const tmp2 = Object.assign({}, J, { T: { targets } }); tmp2.T.planets = tTable(tmp2);
           const row = rowsOf(tmp2, k).find((r) => r.theta.rd === rd && r.theta.md === 1 && r.theta.sunMd === 1);
           tr.push({ it, rd, how: nx.why, r: row ? row.r : null, band: row ? row.band : null, pass: row && row.gate ? row.gate.pass : null });
-          if (row && row.gate && row.gate.pass) break;
+          // v3(決断事項 AN396′): 粗い門で止めない —— 細かい刻みの abs(r) ≤ ε_fit で止める
+          if (row && Number.isFinite(row.r) && Math.abs(row.r) <= ADOPT_EPS.fit) break;
         }
       }));
     }
@@ -518,7 +540,7 @@ export async function runAll(HP, o = {}) {
         const line = rowsOf(tmp, k).filter((r) => r.theta.md === 1 && r.theta.sunMd === 1 && !Q.isTheta0(r.theta) && Number.isFinite(r.r));
         const cand = tr.length ? tr[tr.length - 1].rd : (line.length ? line.slice().sort((a, b) => Math.abs(a.r) - Math.abs(b.r))[0].theta.rd : null);
         if (Number.isFinite(cand) && !rds.includes(cand)) rds.push(cand);
-        for (const rd of rds) sp.push({ planet: k, kind: 'q11', theta: Q.withKernel(Q.thetaOf({ rd }), o.kernel), div: 4, N: o.N });
+        for (const rd of rds) sp.push({ planet: k, kind: 'q11', theta: TH(k, rd), div: 4, N: o.N });
         for (const kind of ['q00', 'q10']) sp.push({ planet: k, kind, div: 4, N: o.N });
       }
       const rs = await runPlan(sp, o.run, o.reuse, o.log || (() => {}));
@@ -549,8 +571,10 @@ export async function mergeMain(files, TARGET) {
   if (bad.length) throw new Error('--merge: html か器の版が違う出力がある(' + bad.length + ' 本)');
   const N = Js[0].E.N; if (Js.some((j) => j.E.N !== N)) throw new Error('--merge: 窓が違う');
   const kern = Js[0].kernel || 'k2'; if (Js.some((j) => (j.kernel || 'k2') !== kern)) throw new Error('--merge: kernel が違う出力がある(K1 と K2 の行を混ぜない)');
+  const rule0 = Js[0].rule || null; if (Js.some((j) => (j.rule || null) !== rule0)) throw new Error('--merge: 全天体の規則が違う出力がある(太陽の R_d の違う行を混ぜない)');
   const planets = Q.PLANETS.map((p) => p.key).filter((k) => Js.some((j) => (j.planets || Q.PLANETS.map((p) => p.key)).includes(k)));
   const J = { quick: false, parts: PARTS_ALL.slice(), stage2: true, kernel: kern, planets, merged: files.map((f) => path.relative(ROOT, path.isAbsolute(f) ? f : path.join(ROOT, f))), live: Js[0].live, book: Js[0].book };
+  if (rule0) J.rule = rule0;
   J.S = { planets: {}, formula: Js[0].S ? Js[0].S.formula : null };
   for (const j of Js) if (j.S) Object.assign(J.S.planets, j.S.planets);
   const divs = [...new Set(Js.flatMap((j) => j.E.divs))].sort((a, b) => a - b);
@@ -578,21 +602,30 @@ export async function main() {
   if (argOf('--merge')) return mergeMain(argOf('--merge').split(','), TARGET);
   const quick = process.env.W311D_QUICK === '1';
   const plArg = argOf('--planet'), planets = plArg ? plArg.split(',').map((s) => { const p = Q.planetOf(s.trim()); if (!p) throw new Error('--planet ' + s); return p.key; }) : Q.PLANETS.map((p) => p.key);
-  const rdL0 = listOf('--rd'), rdAbsL = listOf('--rdabs'), rdmL = listOf('--rdm'), mdL = listOf('--md'), smL = listOf('--sunmd'), crL = listOf('--cross'), divL = listOf('--divs'), atL = listOf('--at');
+  const rdL0 = listOf('--rd'), rdAbsL = listOf('--rdabs'), rdmL = listOf('--rdm'), kfL = listOf('--kf'), mdL = listOf('--md'), smL = listOf('--sunmd'), crL = listOf('--cross'), divL = listOf('--divs'), atL = listOf('--at');
   const refine = Number(argOf('--refine')) || 0, h4 = process.argv.includes('--h4'), coreSpin = argOf('--coreSpin') ? JSON.parse(argOf('--coreSpin')) : null;
   if (coreSpin) { const e = checkCoreSpin(coreSpin); if (e) throw new Error(e); }
   const kernel = argOf('--kernel') || 'k2';
   if (!Q.KERNELS.includes(kernel)) throw new Error('--kernel は ' + Q.KERNELS.join('|'));
-  if ([rdL0, rdAbsL, rdmL].filter(Boolean).length > 1) throw new Error('--rd・--rdabs・--rdm は 1 つだけ');
-  if ((rdAbsL || rdmL) && planets.length !== 1) throw new Error('--rdabs・--rdm は --planet を 1 つにして使う(惑星の R と m で R_d/R へ換算する)');
+  const rule = argOf('--rule') || null;   // v3: 全天体の規則(kappa0 —— K1 だけ)
+  if (rule !== null && !Q.RULES.includes(rule)) throw new Error('--rule は ' + Q.RULES.join('|'));
+  if (rule === 'kappa0' && kernel !== 'k1') throw new Error('--rule kappa0 は --kernel k1 と一緒にだけ(K1 の写しだけ)');
+  if (kfL && rule !== 'kappa0') throw new Error('--kf(κ/κ₀ の倍率)は --rule kappa0 と一緒にだけ');
+  if ([rdL0, rdAbsL, rdmL, kfL].filter(Boolean).length > 1) throw new Error('--rd・--rdabs・--rdm・--kf は 1 つだけ');
+  if ((rdAbsL || rdmL || kfL) && planets.length !== 1) throw new Error('--rdabs・--rdm・--kf は --planet を 1 つにして使う(惑星の R と m で R_d/R へ換算する)');
   let rdL = rdL0;
+  if (kfL) {   // v3: κ/κ₀ の倍率を惑星の R_d/R へ(凍結の写しの本の単位 —— 10 G m/(C₁ c²)/R)。行の鍵は kf(12 桁)
+    const pb = pinOf(planets[0]);
+    rdL = kfL.map((x) => Q.rdOfKf(pb, x));
+    console.log('  κ の口: --kf ' + kfL.join(',') + '(κ₀ = ' + Q.kappa0SI(pb).toExponential(9) + ' m/kg)→ R_d/R ' + rdL.join(','));
+  }
   if (rdAbsL || rdmL) {   // v2: 絶対の R_d [m] か R_d/m [m/kg] を惑星の R_d/R へ(凍結の写しの R と m)
     const b = PIN.decl[Q.planetOf(planets[0]).id].bodies[1], ex = PIN.decl[Q.planetOf(planets[0]).id].scaleExp, Rm = b.radius * Math.pow(10, ex.L), mKg = b.m * Math.pow(10, ex.M);
     rdL = rdAbsL ? rdAbsL.map((x) => Q.rdFromAbs(x, Rm)) : rdmL.map((x) => Q.rdFromRdm(x, mKg, Rm));
     console.log('  R_d の口: ' + (rdAbsL ? '--rdabs ' + rdAbsL.join(',') + ' m' : '--rdm ' + rdmL.join(',') + ' m/kg') + ' → R_d/R ' + rdL.join(','));
   }
   for (const x of (rdL || [])) if (!(x > 0 && x <= 1)) throw new Error('R_d/R は 0 < rd ≤ 1(' + x + ')');
-  const stage2 = !!(rdL || mdL || smL || crL || refine || h4 || coreSpin || atL || kernel !== 'k2');
+  const stage2 = !!(rdL || mdL || smL || crL || refine || h4 || coreSpin || atL || kernel !== 'k2' || rule);
   const plan = quick ? QUICK_PLAN : BRANCH_PLAN;
   const grid = {}, cross = {}, at = {};
   for (const k of planets) {
@@ -619,19 +652,20 @@ export async function main() {
   const NW = Math.max(1, Number(process.env.W311D_WORKERS) || 2), run = makePool(NW, fileURLToPath(import.meta.url));
   const divs = divL || (quick ? QUICK_PLAN.divs.slice() : BRANCH_PLAN.divs.slice());
   const log = (r) => console.log(`  ${r.key}: ${r.status}${r.status === 'run' ? '・新 ' + Number(r.apsNew).toFixed(4) + '・B ' + Number(r.detB).toFixed(4) + '″/世紀・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s' : '・' + (r.unconnected ? r.unconnected + '・' : '') + (r.err || '').slice(0, 120)}`);
-  const R = await runAll(HP, { quick, parts, planets, divs, grid, cross, at, md: mdL, sunmd: smL, coreSpin, kernel, refine, h4: h4 ? (rdL || true) : null, N: quick ? N_ORB_QUICK : N_ORB, run, reuse, log, stage2 });
+  const R = await runAll(HP, { quick, parts, planets, divs, grid, cross, at, md: mdL, sunmd: smL, coreSpin, kernel, rule, refine, h4: h4 ? (rdL || true) : null, N: quick ? N_ORB_QUICK : N_ORB, run, reuse, log, stage2 });
   const out = { version: HARNESS_VERSION, libVersion: Q.LIB_VERSION, shellLibVersion: D.LIB_VERSION, an336LibVersion: AN.LIB_VERSION, apsisVersion: AP.APSIS_VERSION, generator: 'tests/exp-w311d-planet3.mjs', target: TARGET,
     targetSha256, reuseFrom,
     ruling: '原仮定者の裁定(第110報)AN387・(第111報)AN391: G_loc の宣言を固定して寄与を差し引き、太陽–水星・太陽–金星・太陽–火星で各天体の dragCore を探索する ' +
       '—— 決断事項 AN392(ノブの順)・AN386(値域と探索の型)・AN396(数値の門)・AN336(標的 1PN + A1)・統括の検証項目 R229。探索の材料(探索の値を在位へ入れない)。' +
-      'v2(第312便d —— 原仮定者の裁定(第114報)・決断事項 AN396 の最終の採用の欄・統括の検証項目 R233): 候補の点そのものの 4 つの欄・--kernel k1 の口・R_d の口・門の直し',
+      'v2(第312便d —— 原仮定者の裁定(第114報)・決断事項 AN396 の最終の採用の欄・統括の検証項目 R233): 候補の点そのものの 4 つの欄・--kernel k1 の口・R_d の口・門の直し。' +
+      'v3(第313便d —— 原仮定者の裁定(第115報)AN399・AN402・決断事項 AN396′・統括の検証項目 R237): 全天体の規則 --rule kappa0(κ₀ 固定)・細分を ε_fit まで・採用の欄の cap を外す',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   delete out.Rsub;
   out.Rsub = R.Rsub ? { extractor: R.Rsub.extractor, planets: Object.fromEntries(Object.entries(R.Rsub.planets).map(([k, v]) => [k, { theta0: v.theta0, bracket: v.bracket, secantX: v.secantX || null }])) } : null;
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/lib-w310d-shell.mjs', 'tests/lib-w309a-invsq.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/lib-w306a-an336.mjs',
     'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第312便d', target: TARGET, code: CODE,
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第313便d', target: TARGET, code: CODE,
     inputs: [TARGET, DECL_FILE, AN336_OUT, AN.CANDIDATE_FILE, AN.AUDIT_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W311D_WORKERS)',
