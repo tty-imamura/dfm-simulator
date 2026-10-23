@@ -3696,7 +3696,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.381
+    "wallSec": 0.412
    },
    {
     "kind": "q10",
@@ -3725,7 +3725,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.474
+    "wallSec": 0.377
    },
    {
     "kind": "q11",
@@ -3757,7 +3757,7 @@
     "nan": false,
     "betaMax": 3.209975441893601e-7,
     "overlap": 0,
-    "wallSec": 22.031
+    "wallSec": 19.251
    },
    {
     "kind": "q11",
@@ -3789,7 +3789,7 @@
     "nan": false,
     "betaMax": 2.7063765768290744e-8,
     "overlap": 0,
-    "wallSec": 21.112
+    "wallSec": 20.069
    },
    {
     "kind": "q11",
@@ -3821,7 +3821,7 @@
     "nan": false,
     "betaMax": 5.4127528868324274e-8,
     "overlap": 0,
-    "wallSec": 21.9
+    "wallSec": 20.268
    },
    {
     "kind": "q11",
@@ -3853,7 +3853,7 @@
     "nan": false,
     "betaMax": 6.419947130069395e-7,
     "overlap": 0,
-    "wallSec": 21.439
+    "wallSec": 21.32
    }
   ],
   "rows": [
@@ -3989,25 +3989,25 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.053
+   "wallSec": 0.048
   },
   "S": {
-   "wallSec": 0.12
+   "wallSec": 0.117
   },
   "R": {
-   "wallSec": 0.015
+   "wallSec": 0.018
   },
   "P": {
-   "wallSec": 87.367
+   "wallSec": 81.737
   }
  },
- "elapsedS": 89.145,
+ "elapsedS": 86.069,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便b",
   "target": "beta/index.html",
   "targetSha256": "e429bc297318fd0f69eed9fa851bb2610007605e4f15d35fb1053a2b4b787678",
-  "generatedAt": "2026-10-23T05:47:20.863Z",
+  "generatedAt": "2026-10-23T05:52:38.311Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -4025,9 +4025,9 @@
   "code": [
    {
     "file": "tests/exp-w314b-rdscale.mjs",
-    "bytes": 35906,
-    "sha256": "a027d74621ffa9f21228463e36fefeeee615296c33cd7d5c8a012dca743d5518",
-    "mtime": "2026-10-23T05:45:46.646Z"
+    "bytes": 36061,
+    "sha256": "11b272487e415f899627888c8154007f31ad34ec86fa358bd1646a773a4f4619",
+    "mtime": "2026-10-23T05:48:43.197Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -4072,7 +4072,7 @@
     "mtime": "2026-10-23T05:26:26.478Z"
    }
   ],
-  "codeSha256": "0862ce0454d1a1ae9aef621f81b138c433c8397a71d4f98f43f9a373920ea8ee",
+  "codeSha256": "d636cfdee2cbd02483ce01cdb7ad31d2c79d5d51dd7fda348112d5deb14151ae",
   "harnessVersion": "w314b-rdscale-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
