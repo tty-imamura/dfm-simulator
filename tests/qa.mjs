@@ -85596,6 +85596,228 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第313便a の塊(ここまで)====
+// ==== 第314便a の塊(ここから —— behavior.rdExcess314・ui.rdExcess314・docs.rdExcess314 の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第314便a(原仮定者の裁定(第116報)AN404「R_d は観測半径を超えても受理する。超えた場合の表示も用意する」・AN403/AN409・決断事項 AN411 の推奨の型・統括の検証項目 R238):
+// ----   behavior.rdExcess314 —— **R_d > 観測半径の受理と警告と読み口**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_RD_EXCESS_VERSION="w314a-rd-excess-1" ∧
+// ----   器 tests/exp-w314a-rdexcess.mjs。
+// ----   ① 受理の表(器の段 A を対象 html で作り直す —— K1 × 規則/radius の省略/明示 × 超過/内・K2 × massFrac 1/0.5・外殻 + 超過〔AN403・AN409 の文で拒否〕・点・正と有限・
+// ----      K2 の cap〔AN404 の警告でない〕・旧則と law が inertial でない本〔今の契約 0 < R_c ≤ R〕)・② 警告の文(超過の天体ごとに 1 行・語・cap の文と別)
+// ----   ③ 読み口 radiusExcess(中性子星 1.4 M☉・R 12 km の写し): 版・天体 0 だけ・R_d と QA の中で作り直した κ₀·m(Float32)の相対 < 1e-12・R_obs = 12・比 = R_d/R・表示の読み口と同じ行
+// ----   ④ 重なりは今のまま数える: R_d の和の 0.8 倍は t = 0 で overlap [0,1]・10 步の overlap 10・1.5 倍は重ならず β > 0
+// ----   ⑤ 超過の無い本: ☿ の写し(K1 + rdRule)の読み口に radiusExcess の欄が無い・AN404 の警告 0・表示の読み口 null(内蔵 176 本の指紋・署名の同一は器 bitsame/sigsame)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rx314Harn = path.join(ROOT, 'tests', 'exp-w314a-rdexcess.mjs');
+  const rx314Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && rx314Html.indexOf('REL_DRAG_RD_EXCESS_VERSION="w314a-rd-excess-1"') >= 0 && fs.existsSync(rx314Harn))) {
+    console.log('SKIP behavior.rdExcess314(第314便a の R_d > 観測半径の受理の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + rx314Harn);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const st = E('inertialDragIsqState'), ex = E('inertialDragIsqRdExcessOf'), rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300);
+      const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return { S, v }; };
+      const isX = (w) => /AN404/.test(w) && /観測半径/.test(w);
+      // ①
+      const A = X.partA(H);
+      if (!A.allPass) bad.push('① 受理の表 ' + A.rows.filter((r) => !r.pass).map((r) => r.case).slice(0, 3).join(' / '));
+      if (A.n < 26) bad.push('① 受理の表の行が少ない ' + A.n);
+      const nAcc = A.rows.filter((r) => r.ok && r.nWarnX > 0).length, nRej = A.rows.filter((r) => !r.ok).length;
+      cases.push(`① 受理の表 ${A.rows.filter((r) => r.pass).length}/${A.n}(超過を受理して警告 ${nAcc}・拒否 ${nRej} —— 外殻の組・K2 の massFrac < 1・R_c = R ∧ massFrac < 1・正と有限・旧則)`);
+      // ②
+      const W = X.partW(H);
+      if (!W.ok) bad.push('② 警告の文 ' + JSON.stringify({ miss: W.miss, cap: W.mentionsCap, per: W.perBody }));
+      cases.push('② 警告の文(天体ごとに 1 行・R_d・R・比・物質半径ではない・重なりは今のまま数える・cap の文と別)');
+      // ③
+      const C1 = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1), k = (10 * X.NS_G) / (C1 * X.NS_C * X.NS_C);
+      const z3 = sim(X.nsBook({ rule: true, d: 3 })), s3 = st(z3.S), r3 = s3.radiusExcess, d3 = ex(z3.S);
+      const RdQ = k * Math.fround(z3.S.m[0]);
+      if (!(r3 && r3.version === 'w314a-rd-excess-1' && r3.bodies.length === 1 && r3.bodies[0].i === 0 && r3.bodies[0].Robs === 12)) bad.push('③ 読み口 radiusExcess の形 ' + JSON.stringify(r3));
+      else {
+        if (!(rel(r3.bodies[0].Rd, RdQ) < 1e-12 && rel(r3.bodies[0].ratio, RdQ / 12) < 1e-12)) bad.push('③ R_d・比と κ₀m ' + r3.bodies[0].Rd + ' / ' + RdQ);
+        if (!(d3 && d3.n === 1 && d3.bodies[0].Rd === r3.bodies[0].Rd && d3.bodies[0].Robs === r3.bodies[0].Robs && d3.maxRatio === r3.bodies[0].ratio)) bad.push('③ 表示の読み口が読み口と違う');
+        if (z3.v.warnings.filter(isX).length !== 1) bad.push('③ AN404 の警告が 1 行でない');
+      }
+      cases.push(`③ 読み口 radiusExcess(中性子星の写し): R_d/R ${r3 ? r3.bodies[0].ratio.toFixed(4) : '—'}・κ₀m との相対 ${r3 ? rel(r3.bodies[0].Rd, RdQ).toExponential(1) : '—'}・表示の読み口と同じ行`);
+      // ④
+      const z8 = sim(X.nsBook({ rule: true, d: 0.8 })), s8 = st(z8.S), dt8 = E('appStepDt')(z8.S);
+      for (let i = 0; i < 10; i++) z8.S.step(dt8);
+      const s8b = st(z8.S);
+      if (!(Array.isArray(s8.overlap) && s8.overlap[0] === 0 && s8.overlap[1] === 1 && s8b.overlapSteps === 10 && s8.radiusExcess)) bad.push('④ 0.8 倍の重なり ' + JSON.stringify(s8.overlap) + ' ' + s8b.overlapSteps);
+      const z15 = sim(X.nsBook({ rule: true, d: 1.5 })), s15 = st(z15.S), rp = s15.receivers.find((r) => r.i === 1);
+      if (!(s15.overlap === null && rp && rp.beta[0] > 0)) bad.push('④ 1.5 倍で重なる/β が無い');
+      if (![z8.S.x[1], z8.S.y[1], z8.S.vx[1], z8.S.vy[1]].every(Number.isFinite)) bad.push('④ 0.8 倍の 10 步が有限でない');
+      cases.push(`④ 重なりは今のまま数える: 0.8 倍 overlap ${JSON.stringify(s8.overlap)}・10 步で ${s8b.overlapSteps}・1.5 倍 β ${rp ? rp.beta[0].toExponential(3) : '—'}`);
+      // ⑤
+      const zm = sim(X.solarBook(HP, 'mercury')), sm = st(zm.S);
+      if ('radiusExcess' in sm || zm.v.warnings.filter(isX).length !== 0 || ex(zm.S) !== null) bad.push('⑤ ☿ の写しに超過の欄・警告・表示');
+      cases.push('⑤ 超過の無い本(☿ の K1 + rdRule の写し): 読み口に欄を足さない・AN404 の警告 0・表示の読み口 null');
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.rdExcess314', bad.length === 0,
+      `**R_d > 観測半径の受理と警告と読み口**(第314便a・原仮定者の裁定(第116報)AN404・AN403/AN409・AN411 の推奨の型・R238 —— 新則 invSq の本だけ・重なりの検査は外さない・新しい鍵は無い): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第314便a: ui.rdExcess314 —— **R_d > R の表示**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ ページに inertialDragIsqRdExcessOf ∧ 器。
+// ----   中性子星の写し(器の nsBook —— 受理した本をカスタムの本として読み込む)と ☿ の写し(超過なし):
+// ----   ① 選択粒子の欄: 超過の天体(0)だけ #beDcRdX が出て「R_d/R = 2.0434」と「物質半径を超える」・粒子 1 には出ない・en の文
+// ----   ② 説明の 1 行 #rdExcessNotice(「R_d > R の天体 1」と最大の比)・☿ の写しには出ない
+// ----   ③ 破線の円: render 1 回で rdExcessRingN が 1(超過の天体だけ)・☿ の写しは 0
+// ----   ④ 画素: 表示の読み口を null にした render との差が中性子星の写しでは半径 R_d の円の帯(±3 px)の中だけ・☿ の写しは 0・続けて 2 回の render の差 0
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const rx314Harn = path.join(ROOT, 'tests', 'exp-w314a-rdexcess.mjs');
+  const uctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const up = await uctx.newPage();
+  const errs = [];
+  up.on('pageerror', (e) => errs.push(String(e.message || e)));
+  up.on('dialog', (d) => d.accept());
+  await up.goto(INDEX, { waitUntil: 'load' });
+  await up.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has314a = await up.evaluate(() => typeof inertialDragIsqRdExcessOf === 'function' && typeof drawRdExcessRing === 'function');
+  if (!(TARGET.startsWith('beta/') && has314a && fs.existsSync(rx314Harn))) {
+    console.log('SKIP ui.rdExcess314(第314便a の R_d > R の表示の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [];
+    let R = null;
+    try {
+      const X = await import('file://' + rx314Harn);
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      const mer = await (async () => { const H = loadHtmlHeadless(path.join(ROOT, TARGET)); return X.solarBook(H.HP, 'mercury'); })();
+      R = await up.evaluate(({ ns, mer }) => {
+        const o = { bad: [] };
+        const put = (b, id) => { const q = JSON.parse(JSON.stringify(b)); q.id = id; const v = validatePreset(q); if (!v.ok) return (v.errors || []).join(' ').slice(0, 120); const cs = getCustomPresets().filter((x) => x.id !== id); cs.push(v.preset); setCustomPresets(cs); return null; };
+        const e1 = put(ns, 'custom_w314a_ns'), e2 = put(mer, 'custom_w314a_mer');
+        if (e1 || e2) { o.bad.push('写しを受理しない ' + (e1 || e2)); return o; }
+        const pix = () => { const c = document.querySelector('canvas'); return c.getContext('2d').getImageData(0, 0, c.width, c.height).data; };
+        const one = (id) => {
+          HP.loadPreset(id, false); running = false;
+          const r = {};
+          HP.selectBody(0, 'A'); const xe = document.getElementById('beDcRdX'); r.row0 = { shown: xe.style.display !== 'none', txt: xe.textContent };
+          HP.selectBody(1, 'A'); r.row1 = document.getElementById('beDcRdX').style.display !== 'none';
+          selIdx = -1; updateBodyEdit();
+          const nt = document.getElementById('rdExcessNotice'); r.notice = nt ? nt.textContent : null;
+          const n0 = rdExcessRingN; render(); r.rings = rdExcessRingN - n0;
+          const a = pix(); render(); const b = pix();
+          let det = 0; for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) det++;
+          const keep = inertialDragIsqRdExcessOf; inertialDragIsqRdExcessOf = () => null; render(); const c = pix(); inertialDragIsqRdExcessOf = keep; render();
+          const cv = document.querySelector('canvas'), W = cv.width, dp = window.devicePixelRatio || 1;
+          const rx = keep(sim), z = zoom();
+          const sx = w2sX(sim.x[0]), sy = w2sY(sim.y[0], viewZOf(sim, 0)), rr = Math.max(1.2, Math.min(sim.R[0] * (sim.params.dispMag || 1) * z, drawRadiusCap()));
+          const rad = rx ? rr * rx.by.get(0).ratio : 0;
+          let nd = 0, out = 0;
+          for (let p = 0; p < b.length; p += 4) {
+            if (b[p] === c[p] && b[p + 1] === c[p + 1] && b[p + 2] === c[p + 2] && b[p + 3] === c[p + 3]) continue;
+            nd++; const q = p / 4, x = (q % W) / dp, y = Math.floor(q / W) / dp, d = Math.hypot(x + 0.5 / dp - sx, y + 0.5 / dp - sy);
+            if (!(d >= rad - 3 && d <= rad + 3)) out++;
+          }
+          Object.assign(r, { det, nd, out, rad });
+          return r;
+        };
+        o.ns = one('custom_w314a_ns'); o.mer = one('custom_w314a_mer');
+        HP.setLang('en'); HP.loadPreset('custom_w314a_ns', false); HP.selectBody(0, 'A');
+        o.en = { row: document.getElementById('beDcRdX').textContent, notice: (document.getElementById('rdExcessNotice') || {}).textContent || '' };
+        HP.setLang('ja'); selIdx = -1; updateBodyEdit();
+        return o;
+      }, { ns: X.nsBook({ rule: true }), mer });
+      bad.push(...R.bad);
+      if (R.ns && R.mer) {
+        const N = R.ns, M = R.mer;
+        if (!(N.row0.shown && /R_d\/R = 2\.0434/.test(N.row0.txt) && /物質半径を超える/.test(N.row0.txt) && !N.row1)) bad.push('① 選択粒子の欄 ' + JSON.stringify([N.row0, N.row1]));
+        if (M.row0.shown || M.row1) bad.push('① ☿ の写しに R_d/R の行');
+        if (!(/R_d\/R = 2\.0434 \(exceeds the material radius/.test(R.en.row) && /Bodies with R_d > R: 1/.test(R.en.notice))) bad.push('① en の文');
+        if (!(N.notice && /R_d > R の天体 1・最大の比 R_d\/R = 2\.0434/.test(N.notice) && /物質半径ではない/.test(N.notice))) bad.push('② 説明の 1 行 ' + N.notice);
+        if (M.notice !== null) bad.push('② ☿ の写しに説明の 1 行');
+        if (!(N.rings === 1 && M.rings === 0)) bad.push('③ 破線の円の数 ' + N.rings + '/' + M.rings);
+        if (!(N.det === 0 && M.det === 0)) bad.push('④ 続けて 2 回の render の差 ' + N.det + '/' + M.det);
+        if (!(N.nd > 0 && N.out === 0 && M.nd === 0)) bad.push('④ 画素の差 ' + JSON.stringify({ ns: [N.nd, N.out, N.rad], mer: M.nd }));
+      }
+    } catch (e) { bad.push('走らない: ' + String(e && e.stack || e).slice(0, 200)); }
+    if (errs.length) bad.push('ページのエラー ' + errs[0].slice(0, 80));
+    const N = R && R.ns, M = R && R.mer;
+    add('ui.rdExcess314', bad.length === 0,
+      `**R_d > R の表示**(第314便a・原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238 —— 表示専用): ① 選択粒子の欄 R_d/R の行(超過の天体だけ・ja/en) / ② 説明の 1 行(${N && N.notice ? 'あり' : '—'}・☿ なし)`
+      + ` / ③ 破線の円 中性子星 ${N ? N.rings : '—'}・☿ ${M ? M.rings : '—'} / ④ 画素の差 中性子星 ${N ? N.nd : '—'}(半径 R_d ${N ? N.rad.toFixed(1) : '—'} px の帯の外 ${N ? N.out : '—'})・☿ ${M ? M.nd : '—'}・続けて 2 回 ${N ? N.det : '—'}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  await uctx.close();
+  })();   // 第310便c(heap)
+}
+// ---- 第314便a: docs.rdExcess314 —— **正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ html に REL_DRAG_RD_EXCESS_VERSION="w314a-rd-excess-1" ∧ 正本 tests/out/rdexcess-w314a.json ∧ 器。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)・読み口の版
+// ----   ② 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第314便a〕に逐語で入っている・節が「## 7.」の前・語・〔第313便a〕の AN404 の文の注記
+// ----   ③ CHANGELOG(beta の節 —— 版名で探さない)・README・AI_SPEC §131・再生成の段・.gitignore の例外・post-merge・CANON
+// ----   ④ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  const rx314Out = path.join(ROOT, 'tests', 'out', 'rdexcess-w314a.json'), rx314Harn = path.join(ROOT, 'tests', 'exp-w314a-rdexcess.mjs');
+  const rx314Html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && rx314Html.indexOf('REL_DRAG_RD_EXCESS_VERSION="w314a-rd-excess-1"') >= 0 && fs.existsSync(rx314Out) && fs.existsSync(rx314Harn))) {
+    console.log('SKIP docs.rdExcess314(第314便a の R_d > 観測半径の受理の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(rx314Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + rx314Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CLg = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第314便a — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    if (J && X) {
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      if (J.rdExcessVersion !== 'w314a-rd-excess-1') bad.push('正本の版 ' + J.rdExcessVersion);
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
+      if (!sec) bad.push('PHYSICS〔第314便a〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第314便a〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第314便a〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`② 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第314便a〕が「## 7. 論文」の後');
+        for (const w of ['R238', '第116報', 'AN404', 'AN403', 'AN409', 'AN411', 'exp-w314a-rdexcess.mjs', 'rdexcess-w314a.json', 'docs.rdExcess314', 'behavior.rdExcess314', 'ui.rdExcess314', 'W314A_OUT',
+          'w314a-rd-excess-1', 'radiusExcess', '重なりの検査は外さない', '物質半径ではない', '重力半径に比例する長さ', '将来の地表のサンプル', 'shellRecv', '外殻を宣言しない', '今のモデルの帰結', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第314便a〕に「' + w + '」が無い');
+        { const j0 = PH.indexOf('〔第313便a — '), j1 = PH.indexOf('\n〔第', j0 + 10), s313 = j0 >= 0 ? PH.slice(j0, j1 > j0 ? j1 : undefined) : '';
+          if (s313.indexOf('→〔第314便a〕') < 0) bad.push('PHYSICS〔第313便a〕の AN404 の文に →〔第314便a〕の注記が無い'); }
+      }
+      { const hb = CLg.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
+        if (cs.indexOf('第314便a') < 0) bad.push('CHANGELOG の beta の節に第314便a が無い'); }
+      if (RM.indexOf('第314便a') < 0) bad.push('README に第314便a が無い');
+      { const ai = AS.indexOf('## 131.');
+        if (ai < 0) bad.push('AI_SPEC に §131 が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['radiusExcess', 'w314a-rd-excess-1', 'AN404', 'AN411', '重なり', 'SYSTEM_PROMPT には載せない', 'docs.rdExcess314']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §131 に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('rdexcess-314a', 'node tests/exp-w314a-rdexcess.mjs', ['tests/out/rdexcess-w314a.json']") < 0 || !/secSource: 'w314a-branch'/.test(RT)) bad.push('再生成の段 rdexcess-314a');
+      if (GI.indexOf('!tests/out/rdexcess-w314a.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.rdExcess314') < 0 || PM.indexOf('behavior.rdExcess314') < 0 || PM.indexOf('ui.rdExcess314') < 0) bad.push('post-merge に docs.rdExcess314/behavior.rdExcess314/ui.rdExcess314 が無い');
+      if (QA.indexOf("'tests/out/rdexcess-w314a.json',") < 0) bad.push('CANON に正本が無い');
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /法則を確かめた/, /完全に一致/, /フィットした/, /較正した/, /収束した/, /シュヴァルツシルト半径そのもの/, /現実の核/, /確認した/, /検証が完了した/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第314便a〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第314便a〕に禁句(' + w.length + ' 字)');
+      { const tx = rd('tests/exp-w314a-rdexcess.mjs'); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push('tests/exp-w314a-rdexcess.mjs に禁句(' + w.length + ' 字)'); }
+      cases.push('③ CHANGELOG(beta の節)・README・AI_SPEC §131・段・.gitignore・post-merge・CANON / ④ 書かない語・禁句');
+    }
+    add('docs.rdExcess314', bad.length === 0,
+      `**R_d > 観測半径の受理と表示の正本と文書**(第314便a・原仮定者の裁定(第116報)AN404・AN403/AN409・AN411 の推奨の型・R238 —— 正本 rdexcess-w314a.json・重なりの検査は外さない・在位の本は宣言しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第314便a の塊(ここまで)====
 // ==== 第313便d の塊(ここから)====
 // ---- 第313便d(原仮定者の裁定(第115報)AN399・AN402・補足〔6.5e6 m は K2 の未宣言の上限 —— K1 は無視〕・決断事項 AN396′・統括の検証項目 R237):
 // ----   docs.planet3v3_313 —— **探索の器 v3・確認の器 v2 の口と版の世代切替**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 器 tests/exp-w311d-planet3.mjs の版 w313d-planet3-3 ∧
