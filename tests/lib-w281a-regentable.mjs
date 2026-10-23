@@ -1305,6 +1305,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rdscale-w314b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/runs/*/wallSec']) },
     note: '第314便b: R_d を重力半径へ置き換える場合の検討(R_d = κ₀m は Gm/c² の 10/C₁ 倍・r_s の 5/C₁ 倍・置き換えの倍率 a の t = 0 の冪〔受け手だけ 1・1・1・源だけ 0・2・2・両方 1・3・3〕・☿ の近点の D_G の比・宣言の長さだけの再パラメータ化の同値 —— 結論は採用しない。κ₀・規則の鍵は今のまま)' }),
   // ==== 第314便b の塊(ここまで)====
+  // ==== 第314便d の塊(ここから)====
+  // ---- 第314便d(原仮定者の裁定(第116報)の補足「まとめた三次元サンプルの対照に geoPN=1 と geoPN=3 の両方」・統括の検証項目 R241): **三次元の geoPN=1(EIH の 1PN の 3 成分)の器**
+  //   (段 A〔受理の表・走行中の門・二次元→三次元の切り替え〕・P〔☄️ の写しの太陽–水星 —— 二次元と三次元の状態のビットの比較・近点の率 × h・h/2・q_1PN〕・R〔回転の共変 3 通り〕・
+  //   N〔太陽・木星・土星の人工の円軌道 —— 1PN の有無の差・Σm·v と EIH の 1PN の運動量の収支・刻みの次数〕・X〔16 体の人工の配置 —— 受理・20 步の有限・詰め替え版・独立に書いた EIH との照合・
+  //   加速度の回転の共変・所要〕)。本の宣言は変えない(写しは器の中で組む)。html だけを読む・1 プロセス。所要は第314便d の枝の実測(正本の elapsedS)
+  S('pn1x3d-314d', 'node tests/exp-w314d-pn1x3d.mjs', ['tests/out/pn1x3d-w314d.json'], 10, { secSource: 'w314d-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/pn1x3d-w314d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/rows/*/wallSec', '/R/rows/*/wallSec', '/N/rows/*/wallSec', '/N/hScan/*/wallSec',
+      '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
+    note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
+  // ==== 第314便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

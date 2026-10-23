@@ -1445,7 +1445,7 @@ ja: {
   tgStepDiag:"ステップ診断を表示",
   // 第299便f(原仮定者の裁定(第89報)⑥「シミュレーションカテゴリに三次元の切り替えを追加」・R172): 読み込んだ本を 2d↔3d に切り替える(本の宣言の写しで再構築)
   coordSwLabel:"三次元で走らせる(physics.coord:\"3d\")",
-  coordSwDesc:"読み込んだ本を二次元/三次元に切り替える。切り替えは**本の宣言の写し**を作って初めから再構築する(内蔵の本の定義は変えない・未保存の編集は破棄・A/B 比較は終わる)。二次元→三次元は z=vz=0・自転軸 +z の宣言どおりの変換で、走りは二次元と同じ軌道になる(零試験 —— 三次元の核 dfmStep3 を通る)。三次元で未対応の機能(kFrame・geoPN 1/2・コア V2・光線 ほか —— 受理の門 coord3dDenyOf)を宣言した本は切り替えを拒否して理由を出す。三次元→二次元は、粒子の z・vz・群の傾き incl/node・自転軸の有効化 spinAxis.enable が 0 でなければ警告し、もう一度押したときだけ切り替える(値は捨てない —— 二次元の本では「目的の組」の coord2dZ の警告のまま走る)。⏮初めからは切り替えた写しのまま、別の本を読み込むと外れる。保存は本の ID と physics.coord で残り、読み込みで同じ写しを作る。写しの署名(presetSig)は宣言の本と違う。フィットの記録(fitRecord)は消さない —— 条件の署名が合わなければ「以前の条件でのフィット」と出る。",
+  coordSwDesc:"読み込んだ本を二次元/三次元に切り替える。切り替えは**本の宣言の写し**を作って初めから再構築する(内蔵の本の定義は変えない・未保存の編集は破棄・A/B 比較は終わる)。二次元→三次元は z=vz=0・自転軸 +z の宣言どおりの変換で、走りは二次元と同じ軌道になる(零試験 —— 三次元の核 dfmStep3 を通る)。三次元で未対応の機能(kFrame・geoPN 2・コア V2・光線 ほか —— 受理の門 coord3dDenyOf。geoPN=1 は三次元でも EIH の 1PN の 3 成分で走る)を宣言した本は切り替えを拒否して理由を出す。三次元→二次元は、粒子の z・vz・群の傾き incl/node・自転軸の有効化 spinAxis.enable が 0 でなければ警告し、もう一度押したときだけ切り替える(値は捨てない —— 二次元の本では「目的の組」の coord2dZ の警告のまま走る)。⏮初めからは切り替えた写しのまま、別の本を読み込むと外れる。保存は本の ID と physics.coord で残り、読み込みで同じ写しを作る。写しの署名(presetSig)は宣言の本と違う。フィットの記録(fitRecord)は消さない —— 条件の署名が合わなければ「以前の条件でのフィット」と出る。",
   coordSwDeny:(list)=>"⛔ 切り替えられない —— "+list,
   coordSwConfirm:(keys)=>"⚠ この本は Z の宣言を持つ: "+keys+" —— 二次元では z を積分しない(値は捨てない)。もう一度 OFF にすると二次元で再構築する。",
   coordSwDone:(c)=>(c==="3d")? "三次元(physics.coord:\"3d\")の写しで再構築しました" : "二次元の写しで再構築しました",
@@ -2750,7 +2750,7 @@ en: {
   tgStepDiag:"Show step diagnostics",
   // wave 299f: run the loaded book in 2D or 3D (rebuilt from a copy of the book's declaration)
   coordSwLabel:"Run in 3D (physics.coord:\"3d\")",
-  coordSwDesc:"Switches the loaded book between 2D and 3D. The switch makes a COPY of the book's declaration and rebuilds from the start (the built-in definition is not changed; unsaved edits are discarded; A/B comparison ends). 2D→3D is the declared conversion z=vz=0 with every spin axis +z, and the run follows the same orbit as in 2D (zero test - through the 3D step dfmStep3). A book that declares a feature unsupported in 3D (kFrame, geoPN 1/2, core V2, rays and others - the coord3dDenyOf gate) is refused with the reasons. For 3D→2D, non-zero body z/vz, group incl/node or spinAxis.enable raise a warning and the switch happens only on a second press (nothing is discarded - the 2D book runs under the coord2dZ warning). ⏮ Restart keeps the switched copy; loading another book drops it. A save keeps the book ID and physics.coord, and loading rebuilds the same copy. The copy's signature (presetSig) differs from the declared book. A fit record (fitRecord) is kept - if its condition signature no longer matches it shows as a fit under earlier conditions.",
+  coordSwDesc:"Switches the loaded book between 2D and 3D. The switch makes a COPY of the book's declaration and rebuilds from the start (the built-in definition is not changed; unsaved edits are discarded; A/B comparison ends). 2D→3D is the declared conversion z=vz=0 with every spin axis +z, and the run follows the same orbit as in 2D (zero test - through the 3D step dfmStep3). A book that declares a feature unsupported in 3D (kFrame, geoPN 2, core V2, rays and others - the coord3dDenyOf gate; geoPN=1 runs in 3D as the three-component EIH 1PN) is refused with the reasons. For 3D→2D, non-zero body z/vz, group incl/node or spinAxis.enable raise a warning and the switch happens only on a second press (nothing is discarded - the 2D book runs under the coord2dZ warning). ⏮ Restart keeps the switched copy; loading another book drops it. A save keeps the book ID and physics.coord, and loading rebuilds the same copy. The copy's signature (presetSig) differs from the declared book. A fit record (fitRecord) is kept - if its condition signature no longer matches it shows as a fit under earlier conditions.",
   coordSwDeny:(list)=>"⛔ Cannot switch - "+list,
   coordSwConfirm:(keys)=>"⚠ This book has Z declarations: "+keys+" - 2D does not integrate z (nothing is discarded). Turn it OFF again to rebuild in 2D.",
   coordSwDone:(c)=>(c==="3d")? "Rebuilt as a 3D copy (physics.coord:\"3d\")" : "Rebuilt as a 2D copy",
@@ -9797,7 +9797,9 @@ const COORD3D_SUPPORTED=Object.freeze([
   // 第299便e(原仮定者の裁定(第89報)④・R174): 参照模型(形状トイ・Core 力学・渦巻)—— 潜在だった面外 z を座標へ(xy の解は二次元と同じ式・同じ乱数の順)
   {key:"shapeToy", ja:"参照模型 physics.shapeToy(規定運動の潜在 z を座標 S.z・S.vz へ・Core 力学の cfZ/cfVz を同期し z のキックを取り込む・渦巻の円盤と腕)", en:"reference models physics.shapeToy (the latent z of the prescribed motion becomes S.z/S.vz; the core law syncs cfZ/cfVz and takes the z kicks; spiral disc and arms)"},
   // 第307便b(原仮定者の裁定(第100報)・AN345 ③⑤・R210): 明示潮汐(旧 COORD3D_REJECTED の tide)—— CTL のベクトル化・慣性自転へのブレーキ・内部熱と放射
-  {key:"tide", ja:"明示潮汐 physics.tide と天体の tide(定時間遅延 CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転 S.spin とその軸へ・反作用・仕事と熱の帳簿・内部熱と放射 heat/coolTau)", en:"explicit tides physics.tide and body tide (the vector form of the constant-time-lag model - z force, three-component torque on the inertial spin S.spin and its axis, reaction, work/heat ledger, internal heat and radiation heat/coolTau)"}]);
+  {key:"tide", ja:"明示潮汐 physics.tide と天体の tide(定時間遅延 CTL のベクトル形 —— z の力・3 成分のトルク・慣性自転 S.spin とその軸へ・反作用・仕事と熱の帳簿・内部熱と放射 heat/coolTau)", en:"explicit tides physics.tide and body tide (the vector form of the constant-time-lag model - z force, three-component torque on the inertial spin S.spin and its axis, reaction, work/heat ledger, internal heat and radiation heat/coolTau)"},
+  // 第314便d(原仮定者の裁定(第116報)の補足・R241): geoPN=1(旧 COORD3D_REJECTED の geoPN12 のうち 1 —— 2 は今のまま拒否)
+  {key:"pn1", ja:"geoPN=1 の EIH の 1PN(二次元の kF0 と同じ式の 3 成分 —— Δ₃ dfmPN1Delta3 と試験粒子形₃ dfmPN1Test3 を dfmCore3 の前に・全質量源・pinned・λ_PN の係数・pnAlpha・補償和。approxMany とは一緒にしない)", en:"geoPN=1 EIH 1PN (the three-component form of the same 2D kF0 formula - delta3 dfmPN1Delta3 and the test-particle form dfmPN1Test3 before dfmCore3; all mass sources, pinned, the lambdaPN coefficient, pnAlpha, compensated sums; not together with approxMany)"}]);
 // 三次元で**拒否する**機能(受理の門 coord3dDenyOf の理由 —— 第 2 段以降で対応させる候補。並びは docs と同じ)
 const COORD3D_REJECTED=Object.freeze(["kFrame","kRep","muF","kappaS","etaRad","gravityXY","geoPN12","geodesic","geoLegacy","physicsOther",
   "relativeDragLaw","thermal","phaseChange","fusion","universeBox","measureBox","photonEmit","rays","echoFlipAt",
@@ -9816,7 +9818,9 @@ function coord3dDenyOf(p){
   if(nz("etaRad")) add("etaRad","etaRad≠0(E11 放射冷却・光掻き出し)");
   if(nz("gravityX") || nz("gravityY")) add("gravityXY","gravityX/gravityY≠0(一様外場は二次元の成分しか宣言できない)");
   const g=(typeof ph.geoPN==="number")? ph.geoPN : 0, rd=ph[REL_DRAG_KEY], inert=!!(rd && typeof rd==="object" && rd.law==="inertial");
-  if(g===1 || g===2) add("geoPN12","geoPN="+g+"(1PN の測地線・E12 —— 三次元では未対応)");
+  // 第314便d(R241): geoPN=1(EIH の 1PN の 3 成分 —— dfmPN1EIHKick3)は受理。geoPN=2 は今のまま拒否。geoPN=1 ∧ approxMany は拒否(同じ鍵の行)
+  if(g===2) add("geoPN12","geoPN="+g+"(1PN の測地線・E12 —— 三次元では未対応)");
+  if(g===1 && ph.approxMany!==undefined && ph.approxMany!==null) add("geoPN12","geoPN=1 ∧ physics.approxMany(近似多粒子の対のマスク〔塵どうしの重力なし〕と EIH の 1PN の源の和が合わない —— 三次元の geoPN=1 は approxMany なしで)");
   if(g>=3 && !inert) add("geoPN12","geoPN="+g+" で慣性決定力の宣言(relativeDrag.law:\"inertial\")が無い(測地線 ON に解決する —— 三次元では未対応)");
   if(ph[GEODESIC_KEY]===true) add("geodesic","physics.geodesic:true(測地線 1PN)");
   const sm=ph[SPACE_MESH_KEY];
@@ -9875,7 +9879,8 @@ function coord3dRuntimeWhy(S){
   const p=S.params||{};
   const nz=(k)=>(typeof p[k]==="number" && p[k]!==0);
   for(const k of ["kFrame","kRep","muF","kappaS","etaRad","gravityX","gravityY"]) if(nz(k)) return "physics."+k+"≠0";
-  if(geoEffectiveMode(S)!==0 || p[GEODESIC_KEY]===true) return "geoPN(測地線・1PN)";
+  { const ge=geoEffectiveMode(S);   // 第314便d(R241): geoPN=1 の EIH(coord3dPN1Of —— kFrame=0・geodesic でない・approxMany でない)だけ通す
+    if((ge!==0 && !(ge===1 && coord3dPN1Of(S))) || p[GEODESIC_KEY]===true) return (ge===1 && S._amKind)? "geoPN=1 ∧ physics.approxMany(塵の対のマスクと EIH の源の和が合わない)" : "geoPN(測地線・1PN)"; }
   if(p.halo) return "physics.halo";
   if(p.petersGW===true) return "physics.petersGW";
   if(S.hasRelativeDrag && !(S.relDrag && S.relDrag.law==="inertial")) return "physics.relativeDrag";
@@ -41947,7 +41952,7 @@ const SIM_BUILD_RESET=Object.freeze([
   {feature:"compactForce", ja:"コンパクト連星の追加対力の作業", keys:["_cfAx","_cfAy","_cfW"]},
   {feature:"spinSpin", ja:"スピン双極子間力の作業", keys:["_ssAx","_ssAy","_ssQ"]},
   {feature:"fusion", ja:"融合の作業", keys:["_fusDead","_fusInto"]},
-  {feature:"pn1", ja:"1PN の源と場の作業", keys:["_pn1","_pn1K","_pn1W"]},
+  {feature:"pn1", ja:"1PN の源と場の作業(第314便d: 三次元の Δ₃・詰め替え・キックの作業 _pn13・_pn13W・_pn13K)", keys:["_pn1","_pn1K","_pn1W","_pn13","_pn13K","_pn13W"]},
   {feature:"testParticle", ja:"試験粒子の控え", keys:["_tpSnap"]},
   {feature:"inertialDrag", ja:"慣性決定力の履歴・帳簿・標本・作業(二次元・三次元)・軸回転の分解(慣性軸回転の角・引きずり軸回転の角 —— 軸引きずりを宣言した本だけ)", keys:["rotAIn","rotADr"], re:/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/},
   {feature:"gLoc", ja:"局所重力 G_loc の宣言・帳簿・作業(第302便b —— 宣言した三次元の本だけ)", keys:["_gLoc","_glPsi","_glAx","_glAy","_glAz"], re:/^gLoc[A-Z]/},
@@ -44562,7 +44567,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間(第297便c): 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
-11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 にする(三次元の geoPN=4 は規則 12)。1PN・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
+11. 座標(第298便a): 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 か 1(1 は EIH の 1PN —— 二次元と同じ式の 3 成分・approxMany とは一緒にしない)にする(三次元の geoPN=4 は規則 12)。geoPN=2・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
 12. 三次元の慣性決定力(第298便c): geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(第301便a —— 既定の合成則がその形。鍵 norm・background は書かない)。背景慣性決定力は鍵 Wbg [M/L³](正の数 —— 引きずりは W_bg が小さいほど強い。未推定は {Wbg:null, enabled:false}・引きずり無しは enabled:false)で直接書く(第302便a —— gain は廃止・書かない。旧 gain は Wbg = 1/gain として読まれる)。
 13. 近似の原則(第300便b): 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系で月の公転周期を目標にするなら朔望月(恒星月を恒星年で一様換算)で読み、公転周期にこだわらない系は恒星月でよい。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"synodic"|"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
@@ -57158,7 +57163,7 @@ function inertialDragNormState(S){
 // 二次元の經路のうち**読まないもの**: フレーム u と決定力和(E6′・時計・減光の材料 —— どれも三次元では未対応)・τ は進めない(時計は未対応)。
 // 零試験の契約: 全粒子 z=vz=0・軸が +z の三次元の走行は、同じ本の二次元の走行と x・y・vx・vy・spin・rotA・radE・t がビット同一
 //(器 tests/exp-w298a-coord3d.mjs —— 違えば差の大きさと理由を記録)。
-function dfmCore3(S,dt,mode){
+function dfmCore3(S,dt,mode,pn){
   const n=S.n, p=S.params;
   const kickDt=(mode!==0)? dt*0.5 : dt;
   const doPre=(mode!==2), doPost=(mode!==1), doDrift=(mode!==2);
@@ -57172,6 +57177,10 @@ function dfmCore3(S,dt,mode){
                    : Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
   const ckF=contactKOf(p), ccF=contactCapOf(p);
   const AMK=S._amKind||null;   // 第301便b(R180): 近似多粒子の対のマスク(宣言した本だけ —— 未宣言は null で対ごとの比較 1 つ)
+  // 第314便d(R241): geoPN=1 の試験粒子形₃(dfmStep3 が pn=true を渡した步だけ —— 宣言の無い本は真偽値 1 つ)。式・相は `_core` の E12 の塊(geo=真・geo2=偽)と同じ
+  //   (対の重力の直後・接触の前に受け手の加速度へ積む —— 平面の写しでは二次元と同じ浮動小数の演算列)。係数・源の条件は dfmPN1Test3 と同じ
+  const invC2p=(pn===true)? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0, pnOn=(invC2p>0);
+  const pnA3=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), cA3=1+2*pnA3, cB3=pnA3-0.5, pnK3=pnOn? ((G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/G : Infinity) : 0, pnOv3=S.pnOv;
   ax.fill(0); ay.fill(0); az.fill(0);
   for(let i=0;i<n;i++){
     const mi=m[i], Ri=R[i];
@@ -57188,6 +57197,20 @@ function dfmCore3(S,dt,mode){
       const fg=G*invd3;
       ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy; az[i]-=fg*mj*dz;
       ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy; az[j]+=fg*mi*dz;
+      if(pnOn){   // 第314便d(R241): 試験粒子形₃(反作用は返さない —— 有限質量比の分は dfmPN1EIHKick3 の Δ₃)
+        if((pnOv3[j]||mj>=pnK3*Math.max(Rj,eps)) && !pinned[i]){
+          const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy, guz=-fg*mj*dz;
+          const wxi=vx[i], wyi=vy[i], wzi=vz[i];
+          const v2i=wxi*wxi+wyi*wyi+wzi*wzi, dU=gux*wxi+guy*wyi+guz*wzi;
+          ax[i]+=invC2p*((cB3*v2i-cA3*Uj)*gux - cA3*dU*wxi); ay[i]+=invC2p*((cB3*v2i-cA3*Uj)*guy - cA3*dU*wyi); az[i]+=invC2p*((cB3*v2i-cA3*Uj)*guz - cA3*dU*wzi);
+        }
+        if((pnOv3[i]||mi>=pnK3*Math.max(Ri,eps)) && !pinned[j]){
+          const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy, guz=fg*mi*dz;   // j から見た ∇U(符号反転)
+          const wxj=vx[j], wyj=vy[j], wzj=vz[j];
+          const v2j=wxj*wxj+wyj*wyj+wzj*wzj, dU=gux*wxj+guy*wyj+guz*wzj;
+          ax[j]+=invC2p*((cB3*v2j-cA3*Ui)*gux - cA3*dU*wxj); ay[j]+=invC2p*((cB3*v2j-cA3*Ui)*guy - cA3*dU*wyj); az[j]+=invC2p*((cB3*v2j-cA3*Ui)*guz - cA3*dU*wzj);
+        }
+      }
       const sumR=Ri+Rj;
       if(cOn && d<sumR && d>1e-9){
         const nxv=dx/d, nyv=dy/d, nzv=dz/d;
@@ -57245,8 +57268,12 @@ function dfmStep3(S,dt){
   S.coord3dHalt=null;
   if(S.hasTide && S.tide.split==="half") dfmTideStep3(S,dt*0.5);   // 第307便b(R210): 三次元の明示潮汐の前半歩(二次元と同じ位置 —— split:"half" を宣言した本だけ)
   if(S.hasRelativeDrag && relDragSemicOn(S)) inertialDragSemicPre(S);   // 第302便d(R188): semic の位置の写し(二次元と同じ位置 —— 核の前)
-  if(S.integrator==="leapfrog"){ dfmCore3(S,dt,1); dfmCore3(S,dt,2); }
-  else dfmCore3(S,dt,0);
+  // 第314便d(R241): geoPN=1(EIH の 1PN の 3 成分)—— 二次元の geoCoreDispatchBody と同じ分け方: Δ₃ は核の前(semi は dt・leapfrog は各パスの前に dt/2)・
+  //   試験粒子形₃ は核の中(dfmCore3 の第 4 引数 —— `_core` の core=1 と同じ相)。源の同期も同じ(kF0 を離れたら宣言だけに戻す)。宣言の無い三次元の本は数の比較 1 つと旗 1 つ
+  const pn1=(S.params.geoPN===1 && coord3dPN1Of(S));
+  if(pn1 || S._pnOrb===1) pnOrbitalSync(S);
+  if(S.integrator==="leapfrog"){ if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,1,pn1); if(pn1) dfmPN1EIHKick3(S,dt*0.5); dfmCore3(S,dt,2,pn1); }
+  else { if(pn1) dfmPN1EIHKick3(S,dt); dfmCore3(S,dt,0,pn1); }
   // 第299便e(R174): 参照模型(二次元と同じ位置 —— 核の後・引きずりの前。潜在 z を座標へ・Core 力学の cfZ/cfVz を S.z/S.vz と同期)
   if(S.hasShapeToy) dfmShapeToyStep3(S,dt);
   if(S.hasCoreField) dfmCoreFieldStep3(S,dt);
@@ -57375,7 +57402,8 @@ function coord3dState(S){
   for(let i=0;i<S.n;i++) if(S.saOn[i]) axes.push({i, axis:[S.sax[i],S.say[i],S.saz[i]], precessionRate:S.saOm[i], precessAxis:[S.sapx[i],S.sapy[i],S.sapz[i]],
     tiltDeg:Math.acos(Math.max(-1,Math.min(1,S.saz[i])))*180/Math.PI, azimuthDeg:Math.atan2(S.say[i],S.sax[i])*180/Math.PI, prescribed:true});
   return {version:COORD3D_VERSION, coord:"3d", n:S.n, halt:S.coord3dHalt||null, axes, totals:coord3dTotals(S),
-    clockAdvanced:false, supported:COORD3D_SUPPORTED.map((z)=>z.key)};
+    clockAdvanced:false, supported:COORD3D_SUPPORTED.map((z)=>z.key),
+    ...((S.params && S.params.geoPN===1)? {pn1:coord3dPN1State(S)} : null)};   // 第314便d(R241): geoPN=1 の三次元の本だけ(他の本の読み口は 1 鍵も変わらない)
 }
 // 軌道面の基底(二体の相対状態 r・v から: n̂=r×v/|r×v|・ê₁=r̂・ê₂=n̂×ê₁)。ライブ比較・実測の推定器が三次元の本で**軌道面の位相**を数えるのに使う
 function coord3dPlaneOf(S,ci,oi){
@@ -60776,6 +60804,184 @@ function dfmPN1EIHKick(S,h){
   }
   return 1;
 }
+// ===== 第314便d(原仮定者の裁定(第116報)の補足「太陽・全惑星・トリトン以上の 7 大衛星を 1 つにまとめた三次元サンプル —— 対照として geoPN=1 と
+//   geoPN=3 の両方」の前提・統括の検証項目 R241): **三次元の geoPN=1(EIH の 1PN の 3 成分)** =====
+// 二次元の kF0(geoPN=1 ∧ kFrame=0)は `_core` の試験粒子形(core=1)と `_core` の前の差分 Δ=EIH−試験粒子形(dfmPN1EIHKick)の和で EIH の全体を当てる。
+// 三次元の步(dfmStep3 → dfmCore3)には 1PN の項が無かったので、**同じ 2 つの部分の 3 成分版**を**同じ相**に差し込む:
+//   ① Δ₃ = dfmPN1Delta3 —— dfmPN1Delta と同じ式・同じ加算の順に z の項を足しただけ(源が多いとき ns>8 は詰め替え版 dfmPN1Delta3Wide —— 結果はビット同一)。
+//      dfmCore3 の前に dfmPN1EIHKick3 で当てる(二次元の dfmPN1EIHKick と同じ相 —— semi は dt・leapfrog は各パスの前に dt/2)。
+//   ② 試験粒子形₃ —— `_core` の E12 の塊(geo=真・geo2=偽 —— 反作用を返さない)と同じ式に z を足しただけ。dfmCore3 の対の走査の中(重力の直後・接触の前 ——
+//      `_core` と同じ位置)で受け手の加速度に積む(dfmStep3 が第 4 引数 pn=true を渡した步だけ)。dfmPN1Test3 は同じ式の単独の版(器・QA の照合と読み口)。
+// 平面の写し(z=vz=0)では Δ₃ と ② の各項は二次元と同じ浮動小数の演算列(+0 を足すだけ)なので、**二次元の本と三次元の写しの走行はビット同一**
+// (二次元→三次元の切り替えの零試験の契約が geoPN=1 の本でも成り立つ —— 器 tests/exp-w314d-pn1x3d.mjs と ui.paramTab299 が測る)。
+// 契約は二次元と同じ: 源の集合(pnOv のビット 2 = 全質量源 —— pnOrbitalSync)・pinned(受け手は受けない・源の g_b=0)・Plummer 軟化・
+// λ_PN の係数(physics.lambdaPN)・pnAlpha(PPN γ=α−½)・stateCarry:"double" の補償和(z も)。`S._core`・dfmCore3・二次元の関数は 1 命令も変えない。
+// 三次元で geoPN=1 と一緒に宣言できない組(受理の門 coord3dDenyOf の "geoPN12" の行): kFrame>0・physics.geodesic:true・試験粒子(既存の拒否)・
+// physics.approxMany(塵どうしの重力を外す対のマスクと EIH の源の和が合わない)。geoPN=2 は今のまま拒否。
+// **DFM から導出した項ではない**(kF0 対照 —— 標準理論の 1PN と照合する物差し・PN1_CONTRACT と同じ)。
+const COORD3D_PN1_VERSION="w314d-pn1-3d-1";
+// 三次元の本で geoPN=1 の EIH が走る条件(走行中の門 coord3dRuntimeWhy と dfmStep3 が同じ式を読む —— 状態を書かない)
+function coord3dPN1Of(S){
+  const p=S.params;
+  return p.geoPN===1 && !(p.kFrame>0) && p[GEODESIC_KEY]!==true && !S._amKind && geoEffectiveMode(S)===1;
+}
+// Δ₃=EIH−試験粒子形(3 成分)を DX/DY/DZ に書く。当てた受け手の数を返す。**状態は変えない**。narrow=true は器の照合用(詰め替え版へ回さない)
+function dfmPN1Delta3(S,DX,DY,DZ,narrow){
+  const p=S.params, n=S.n, G=p.G, c=p.cLight;
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(c*c);
+  for(let i=0;i<n;i++){ DX[i]=0; DY[i]=0; DZ[i]=0; }
+  if(!(n>=2) || !(invC2>0) || !(G>0)) return 0;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), gam=pnA-0.5, cA=1+2*pnA;   // β=1: 2(β+γ)=1+2α=cA
+  const cVb=1+gam, cV2=1+2*gam, cAb=(3+4*gam)/2;
+  const pnK=(RAY_ALPHA_MIN/4)*(c*c)/G, eps=p.softening, eps2=eps*eps;
+  const x=S.x, y=S.y, z=S.z, vx=S.vx, vy=S.vy, vz=S.vz, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
+  let T=S._pn13; if(!T || T.nAl<n) T=S._pn13={nAl:n, src:new Int32Array(n), phi:new Float64Array(n), gx:new Float64Array(n), gy:new Float64Array(n), gz:new Float64Array(n)};
+  const src=T.src, phi=T.phi, gxA=T.gx, gyA=T.gy, gzA=T.gz;
+  let ns=0; for(let i=0;i<n;i++) if(pnOv[i] || m[i]>=pnK*Math.max(R[i],eps)) src[ns++]=i;
+  if(ns===0) return 0;
+  if(ns>8 && narrow!==true) return dfmPN1Delta3Wide(S,DX,DY,DZ);
+  for(let i=0;i<n;i++){   // Φ_i(源だけの和)と源のニュートン加速度 g_i(源だけの和・固定は 0)
+    let ph=0, gx=0, gy=0, gz=0;
+    for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;
+      const dx=x[i]-x[j], dy=y[i]-y[j], dz=z[i]-z[j], W=1/Math.sqrt(dx*dx+dy*dy+dz*dz+eps2), Gm=G*m[j], f=Gm*W*W*W;
+      ph+=Gm*W; gx-=f*dx; gy-=f*dy; gz-=f*dz; }
+    phi[i]=ph; gxA[i]=pin[i]? 0 : gx; gyA[i]=pin[i]? 0 : gy; gzA[i]=pin[i]? 0 : gz;
+  }
+  let nAny=0;
+  for(let a=0;a<n;a++){
+    if(pin[a]) continue;
+    const vax=vx[a], vay=vy[a], vaz=vz[a], phA=phi[a];
+    let sx=0, sy=0, sz=0;
+    for(let k=0;k<ns;k++){ const b=src[k]; if(b===a) continue;
+      const dx=x[a]-x[b], dy=y[a]-y[b], dz=z[a]-z[b], W=1/Math.sqrt(dx*dx+dy*dy+dz*dz+eps2), Gm=G*m[b], q=Gm*W*W*W;
+      const vbx=vx[b], vby=vy[b], vbz=vz[b], gbx=gxA[b], gby=gyA[b], gbz=gzA[b];
+      const dva=dx*vax+dy*vay+dz*vaz, dvb=dx*vbx+dy*vby+dz*vbz;
+      const s=cVb*(vbx*vbx+vby*vby+vbz*vbz) - 2*cVb*(vax*vbx+vay*vby+vaz*vbz) - 1.5*dvb*dvb*W*W - cA*(phA-Gm*W) - phi[b] - 0.5*(dx*gbx+dy*gby+dz*gbz);
+      sx+=s*(-q*dx) + q*(-cA*dva*vbx - cV2*dvb*(vax-vbx)) + cAb*Gm*W*gbx;
+      sy+=s*(-q*dy) + q*(-cA*dva*vby - cV2*dvb*(vay-vby)) + cAb*Gm*W*gby;
+      sz+=s*(-q*dz) + q*(-cA*dva*vbz - cV2*dvb*(vaz-vbz)) + cAb*Gm*W*gbz;
+    }
+    if(sx!==0 || sy!==0 || sz!==0){ DX[a]=invC2*sx; DY[a]=invC2*sy; DZ[a]=invC2*sz; nAny++; }
+  }
+  return nAny;
+}
+// `dfmPN1Delta3` の源が多いとき(ns>8)の詰め替え版 —— dfmPN1DeltaWide と同じ詰め替え(W を 1 対 1 回だけ作って控える)に z を足しただけ(結果はビット同一)
+function dfmPN1Delta3Wide(S,DX,DY,DZ){
+  const p=S.params, n=S.n, G=p.G, c=p.cLight;
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(c*c);
+  for(let i=0;i<n;i++){ DX[i]=0; DY[i]=0; DZ[i]=0; }
+  if(!(n>=2) || !(invC2>0) || !(G>0)) return 0;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), gam=pnA-0.5, cA=1+2*pnA;
+  const cVb=1+gam, cV2=1+2*gam, cAb=(3+4*gam)/2;
+  const pnK=(RAY_ALPHA_MIN/4)*(c*c)/G, eps=p.softening, eps2=eps*eps;
+  const x=S.x, y=S.y, z=S.z, vx=S.vx, vy=S.vy, vz=S.vz, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
+  let T=S._pn13W; if(!T || T.nAl<n) T=S._pn13W={nAl:n, src:new Int32Array(n), sk:new Int32Array(n), phi:new Float64Array(n), gx:new Float64Array(n), gy:new Float64Array(n), gz:new Float64Array(n),
+    sx:new Float64Array(n), sy:new Float64Array(n), sz:new Float64Array(n), svx:new Float64Array(n), svy:new Float64Array(n), svz:new Float64Array(n), sgm:new Float64Array(n), svb:new Float64Array(n), W:null};
+  const src=T.src, sk=T.sk, phi=T.phi, gxA=T.gx, gyA=T.gy, gzA=T.gz;
+  let ns=0; for(let i=0;i<n;i++){ if(pnOv[i] || m[i]>=pnK*Math.max(R[i],eps)){ sk[i]=ns; src[ns++]=i; } else sk[i]=-1; }
+  if(ns===0) return 0;
+  if(!T.W || T.W.length<n*ns) T.W=new Float64Array(n*ns);
+  const WC=T.W, SX=T.sx, SY=T.sy, SZ=T.sz, SVX=T.svx, SVY=T.svy, SVZ=T.svz, SGM=T.sgm, SVB=T.svb;
+  for(let k=0;k<ns;k++){ const j=src[k]; SX[k]=x[j]; SY[k]=y[j]; SZ[k]=z[j]; SVX[k]=vx[j]; SVY[k]=vy[j]; SVZ[k]=vz[j]; SGM[k]=G*m[j]; SVB[k]=cVb*(vx[j]*vx[j]+vy[j]*vy[j]+vz[j]*vz[j]); }
+  for(let i=0;i<n;i++){
+    let ph=0, gx=0, gy=0, gz=0; const ki=sk[i], row=i*ns, xi=x[i], yi=y[i], zi=z[i];
+    for(let k=0;k<ns;k++){ if(k===ki) continue;
+      const dx=xi-SX[k], dy=yi-SY[k], dz=zi-SZ[k], W=(ki>k)? WC[src[k]*ns+ki] : 1/Math.sqrt(dx*dx+dy*dy+dz*dz+eps2), Gm=SGM[k], f=Gm*W*W*W;
+      WC[row+k]=W;
+      ph+=Gm*W; gx-=f*dx; gy-=f*dy; gz-=f*dz; }
+    phi[i]=ph; gxA[i]=pin[i]? 0 : gx; gyA[i]=pin[i]? 0 : gy; gzA[i]=pin[i]? 0 : gz;
+  }
+  const PB=T.pb||(T.pb=new Float64Array(T.nAl)), GBX=T.gbx||(T.gbx=new Float64Array(T.nAl)), GBY=T.gby||(T.gby=new Float64Array(T.nAl)), GBZ=T.gbz||(T.gbz=new Float64Array(T.nAl));
+  for(let k=0;k<ns;k++){ const j=src[k]; PB[k]=phi[j]; GBX[k]=gxA[j]; GBY[k]=gyA[j]; GBZ[k]=gzA[j]; }
+  let nAny=0;
+  for(let a=0;a<n;a++){
+    if(pin[a]) continue;
+    const vax=vx[a], vay=vy[a], vaz=vz[a], phA=phi[a], row=a*ns, ka=sk[a], xa=x[a], ya=y[a], za=z[a];
+    let sx=0, sy=0, sz=0;
+    for(let k=0;k<ns;k++){ if(k===ka) continue;
+      const dx=xa-SX[k], dy=ya-SY[k], dz=za-SZ[k], W=WC[row+k], Gm=SGM[k], q=Gm*W*W*W;
+      const vbx=SVX[k], vby=SVY[k], vbz=SVZ[k], gbx=GBX[k], gby=GBY[k], gbz=GBZ[k];
+      const dva=dx*vax+dy*vay+dz*vaz, dvb=dx*vbx+dy*vby+dz*vbz;
+      const s=SVB[k] - 2*cVb*(vax*vbx+vay*vby+vaz*vbz) - 1.5*dvb*dvb*W*W - cA*(phA-Gm*W) - PB[k] - 0.5*(dx*gbx+dy*gby+dz*gbz);
+      sx+=s*(-q*dx) + q*(-cA*dva*vbx - cV2*dvb*(vax-vbx)) + cAb*Gm*W*gbx;
+      sy+=s*(-q*dy) + q*(-cA*dva*vby - cV2*dvb*(vay-vby)) + cAb*Gm*W*gby;
+      sz+=s*(-q*dz) + q*(-cA*dva*vbz - cV2*dvb*(vaz-vbz)) + cAb*Gm*W*gbz;
+    }
+    if(sx!==0 || sy!==0 || sz!==0){ DX[a]=invC2*sx; DY[a]=invC2*sy; DZ[a]=invC2*sz; nAny++; }
+  }
+  return nAny;
+}
+// 試験粒子形₃ の単独の版(dfmCore3 の中の塊と同じ式 —— 器・QA の照合用。`_core` の E12 の塊〔geo=真・geo2=偽 —— 反作用を返さない・受け手の絶対速度〕に z を足しただけ)を AX/AY/AZ に書く。
+//   a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]、U=Gm_j/√(d²+ε²)、源の条件は `_core` と同じ pnOv ∨ m ≥ pnK·max(R,ε)。当てた回数を返す。**状態は変えない**
+function dfmPN1Test3(S,AX,AY,AZ){
+  const p=S.params, n=S.n, G=p.G;
+  for(let i=0;i<n;i++){ AX[i]=0; AY[i]=0; AZ[i]=0; }
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight);
+  if(!(n>=2) || !(invC2>0)) return 0;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), cA=1+2*pnA, cB=pnA-0.5;
+  const pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity, eps=p.softening, eps2=eps*eps;
+  const m=S.mEff, x=S.x, y=S.y, z=S.z, vx=S.vx, vy=S.vy, vz=S.vz, R=S.R, pinned=S.pinned, pnOv=S.pnOv;
+  let nAny=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i], Ri=R[i], xi=x[i], yi=y[i], zi=z[i];
+    for(let j=i+1;j<n;j++){
+      const dx=xi-x[j], dy=yi-y[j], dz=zi-z[j];
+      const d2=dx*dx+dy*dy+dz*dz;
+      const mj=m[j], Rj=R[j];
+      const invW=1/Math.sqrt(d2+eps2);
+      const invd3=invW*invW*invW;
+      const fg=G*invd3;
+      if((pnOv[j]||mj>=pnK*Math.max(Rj,eps)) && !pinned[i]){
+        const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy, guz=-fg*mj*dz;
+        const wxi=vx[i], wyi=vy[i], wzi=vz[i];
+        const v2i=wxi*wxi+wyi*wyi+wzi*wzi, dU=gux*wxi+guy*wyi+guz*wzi;
+        AX[i]+=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*wxi);
+        AY[i]+=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*wyi);
+        AZ[i]+=invC2*((cB*v2i-cA*Uj)*guz - cA*dU*wzi);
+        nAny++;
+      }
+      if((pnOv[i]||mi>=pnK*Math.max(Ri,eps)) && !pinned[j]){
+        const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy, guz=fg*mi*dz;   // j から見た ∇U(符号反転)
+        const wxj=vx[j], wyj=vy[j], wzj=vz[j];
+        const v2j=wxj*wxj+wyj*wyj+wzj*wzj, dU=gux*wxj+guy*wyj+guz*wzj;
+        AX[j]+=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxj);
+        AY[j]+=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyj);
+        AZ[j]+=invC2*((cB*v2j-cA*Ui)*guz - cA*dU*wzj);
+        nAny++;
+      }
+    }
+  }
+  return nAny;
+}
+// Δ₃ を h だけ速度へ当てる(dfmPN1EIHKick と同じ形に z を足しただけ —— stateCarry:"double" は dfmCore3 と同じ補償和・z も)。
+//   Δ₃ が 0 の受け手には 1 bit も触らない。試験粒子形₃ は dfmCore3 の中(二次元の `_core` の core=1 と同じ相)
+function dfmPN1EIHKick3(S,h){
+  const n=S.n;
+  let K=S._pn13K; if(!K || K.dx.length<n) K=S._pn13K={dx:new Float64Array(n), dy:new Float64Array(n), dz:new Float64Array(n)};
+  if(!dfmPN1Delta3(S,K.dx,K.dy,K.dz)) return 0;
+  const vx=S.vx, vy=S.vy, vz=S.vz, carV=!!S.carVx;
+  for(let i=0;i<n;i++){
+    const kx=K.dx[i]*h, ky=K.dy[i]*h, kz=K.dz[i]*h;
+    if(kx===0 && ky===0 && kz===0) continue;
+    if(carV){
+      const addX=kx+S.carVx[i], v0x=vx[i]; vx[i]=v0x+addX; S.carVx[i]=addX-(vx[i]-v0x);
+      const addY=ky+S.carVy[i], v0y=vy[i]; vy[i]=v0y+addY; S.carVy[i]=addY-(vy[i]-v0y);
+      const addZ=kz+S.carVz[i], v0z=vz[i]; vz[i]=v0z+addZ; S.carVz[i]=addZ-(vz[i]-v0z);
+    } else { vx[i]+=kx; vy[i]+=ky; vz[i]+=kz; }
+  }
+  return 1;
+}
+// 読み口(表示・器・QA —— 状態を 1 bit も動かさない)。三次元の本で geoPN=1 を宣言した本だけ coord3dState が載せる
+function coord3dPN1State(S){
+  if(!S || S.coord3d!==true || !S.params) return null;
+  const p=S.params, on=coord3dPN1Of(S);
+  let ns=0;
+  if(on && S.pnOv){ const G=p.G, c=p.cLight, pnK=(G>0)? (RAY_ALPHA_MIN/4)*(c*c)/G : Infinity, eps=p.softening;
+    for(let i=0;i<S.n;i++) if(S.pnOv[i] || S.mEff[i]>=pnK*Math.max(S.R[i],eps)) ns++; }
+  return {version:COORD3D_PN1_VERSION, eihVersion:PN1_EIH_VERSION, on, law:on? "eih-kf0" : null, sources:ns, wide:ns>8,
+    lambdaPN:(p.lambdaPN!==undefined? p.lambdaPN : 1), pnAlpha:(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
+    split:"delta3 (dfmPN1Delta3) kicked before dfmCore3 (the phase of the 2D delta); the test-particle form inside dfmCore3 right after each pair's gravity (the phase of the 2D _core core=1)", notDerivedFromDFM:true};
+}
 // ===== 第291便b(R133): 「GR 1PN 準拠」の表示条件 —— **モード番号ではなく実行条件**で判定する(表示だけ) =====
 // 条件: EIH 経路(kF0)・λ_PN=1・pnAlpha=1.5(γ=1)・全質量源(有限の正の質量はすべて実効の 1PN 源)・kFrame=0・固定の天体なし・
 // 他の引きずり/外力なし(相対すべり則・一様外場・ハロー・スピン結合・軸力・コンパクト力・空間メッシュ・帯状重力・
@@ -62758,7 +62964,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     // 第301便c(R181): 軸回転の分解(慣性軸回転 + 引きずり軸回転 —— 読み口・状態を書かない)
     axialSplit:(S)=>inertialDrag3AxialSplitOf(S||sim), axialSplitVersion:REL_DRAG_AXIAL_SPLIT_VERSION,
     ref3d:{ version:SHAPE_TOY3_VERSION, sc:SHAPE_TOY3_SC, ckArrs:SHAPE_TOY_CK_ARRS, write:shapeToy3Write, state:(S)=>shapeToy3State(S||sim),
-      ckSnap:shapeToyCkSnap, ckRestore:shapeToyCkRestore, rng:mulberry32S } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+      ckSnap:shapeToyCkSnap, ckRestore:shapeToyCkRestore, rng:mulberry32S },
+    // 第314便d(R241): 三次元の geoPN=1(EIH の 1PN の 3 成分)の読み口(器・QA —— delta/test は状態を書かない・kick は速度を書く)
+    pn1:{ version:COORD3D_PN1_VERSION, on:coord3dPN1Of, delta:dfmPN1Delta3, test:dfmPN1Test3, kick:dfmPN1EIHKick3, state:(S)=>coord3dPN1State(S||sim) } }, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
   validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS, MASS_LEDGER_DR_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
