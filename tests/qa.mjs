@@ -2445,6 +2445,9 @@ lastAddAt = Date.now();
       // ==== 第313便d の塊(ここから)==== K1 の確認の系の正本(k1confirm-313d —— 全天体 κ₀m・h/4 まで・小さい係数の分解の表)。領域 REGEN_SCOPE を刻む
       'tests/out/k1confirm-w313d.json',
       // ==== 第313便d の塊(ここまで)====
+      // ==== 第314便b の塊(ここから)==== R_d の倍率の器(rdscale-314b —— 重力半径へ置き換える場合の検討)。領域 REGEN_SCOPE を刻む
+      'tests/out/rdscale-w314b.json',
+      // ==== 第314便b の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -85816,6 +85819,113 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第313便d の塊(ここまで)====
+// ==== 第314便b の塊(ここから —— docs.rdScale314 の 1 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第314便b(原仮定者の裁定(第116報)の補足「R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討 —— κ の認識が違い複雑化する場合は採用せず解説を行う」・
+// ----   統括の検証項目 R239): docs.rdScale314 —— **R_d を重力半径へ置き換える場合の検討の正本と文書**(新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本
+// ----   tests/out/rdscale-w314b.json ∧ 器 tests/exp-w314b-rdscale.mjs(html は変えない —— 器と正本と文書だけ・html を読まない)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・版/来歴(w272e-1)・領域 hash(完全)
+// ----   ② 純関数の作り直し(formulaOf・bodyRow・比と冪 ln(比)/ln a・戻す係数・解析の冪・D_G の比・conclusionOf —— 超越関数を通る数は相対 1e-12 の内・数でない欄は表現の一致)
+// ----   ③ 表の行(physicsTables)と数の文字列(docNumbers)が PHYSICS〔第314便b〕に逐語で入っている・節が「## 7.」の前・語
+// ----   ④ CHANGELOG(beta の節 —— 版名で探さない)・README・AI_SPEC §132・再生成の段・.gitignore の例外・post-merge・CANON
+// ----   ⑤ 書かない語(「」の引用を除いて —— 節)と禁句(引用も含めて —— 節と器)
+{
+  const rs314Out = path.join(ROOT, 'tests', 'out', 'rdscale-w314b.json'), rs314Harn = path.join(ROOT, 'tests', 'exp-w314b-rdscale.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(rs314Out) && fs.existsSync(rs314Harn))) {
+    console.log('SKIP docs.rdScale314(第314便b の R_d の倍率の器の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let J = null, X = null;
+    try { J = JSON.parse(fs.readFileSync(rs314Out, 'utf8')); } catch (e) { bad.push('正本が読めない'); }
+    try { X = await import('file://' + rs314Harn); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), CLg = rd('CHANGELOG.md'), RM = rd('README.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第314便b — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    // 数は相対 1e-12 の内(0 の近くは絶対 1e-15)・数でない欄は表現の一致(超越関数を通る数を JSON.stringify の完全一致で比べない —— Node 24 の最後の bit)
+    const near = (x, y) => x === y || (Number.isFinite(x) && Number.isFinite(y) && (Math.abs(x - y) <= 1e-12 * Math.max(Math.abs(x), Math.abs(y)) || Math.abs(x - y) <= 1e-15));
+    const same = (a, b, at, out) => {
+      if (typeof a === 'number' || typeof b === 'number') { if (!near(a, b)) out.push(at + ' ' + a + ' / ' + b); return; }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(at + ' ' + JSON.stringify(a) + ' / ' + JSON.stringify(b)); return; }
+      const ks = new Set(Object.keys(a).concat(Object.keys(b)));
+      for (const k of ks) same(a[k], b[k], at + '/' + k, out);
+    };
+    if (J && X) {
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+      if (J.ok !== true) bad.push('正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('門の数が器と違う ' + Object.keys(G).length + '/' + GK.length);
+      if (J.quick === true) bad.push('正本が試走(QUICK)');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION)) bad.push('正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('正本に領域 hash(完全)が無い');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)`);
+      // ② 純関数の作り直し
+      const diff = [];
+      try {
+        same(X.formulaOf(J.K.inputs), J.K.formula, 'K/formula', diff);
+        J.K.bodyInputs.forEach((inp, i) => same(X.bodyRow(inp), J.K.bodies[i], 'K/bodies/' + i, diff));
+        if (J.K.bodies.length !== X.BODY_ROWS.length) diff.push('天体の表の行数 ' + J.K.bodies.length);
+        let nS = 0;
+        for (const r of J.S.rows) {
+          nS++;
+          same({ ratio: r.value / r.base, pow: X.powOf(r.ratio, r.a), restore: X.restoreOf(r.ratio), expect: X.EXPECT_POW[r.role][r.qty], dev: Math.abs(r.pow - r.expect) },
+            { ratio: r.ratio, pow: r.pow, restore: r.restore, expect: r.expect, dev: r.dev }, 'S/' + r.sys + '/' + r.recv + '/' + r.mode + '/' + r.scale + '/' + r.qty, diff);
+          const sc = X.SCALES.find((s) => s.key === r.scale);
+          if (!sc || sc.a !== r.a) diff.push('S の倍率 ' + r.scale);
+          if (r.role !== (r.recv === 'planet' ? r.mode : ({ recv: 'src', src: 'recv', both: 'both' })[r.mode])) diff.push('S の役割 ' + r.recv + '/' + r.mode);
+        }
+        if (nS !== X.SYSTEMS.length * X.MODES.length * X.SCALES.length * 2 * X.QTYS.length) diff.push('段 S の行数 ' + nS);
+        const P = J.P, q11 = P.runs.filter((r) => r.kind === 'q11'), q00 = P.runs.find((r) => r.kind === 'q00'), q10 = P.runs.find((r) => r.kind === 'q10');
+        P.rows.forEach((r, i) => { const DG = q11[i].aps - q10.aps, DG1 = q11[0].aps - q10.aps;
+          same({ q11: q11[i].aps, DG, ratio: DG / DG1, ratioOverA: (DG / DG1) / q11[i].a - 1, r1pn: q11[i].aps - q00.aps - P.q1pn }, { q11: r.q11, DG: r.DG, ratio: r.ratio, ratioOverA: r.ratioOverA, r1pn: r.r1pn }, 'P/rows/' + i, diff); });
+        same(X.conclusionOf(J), J.C, 'C', diff);
+      } catch (e) { diff.push('作り直しが落ちた: ' + String(e).slice(0, 120)); }
+      if (diff.length) bad.push('純関数を作り直すと正本と違う(' + diff.length + ' 件): ' + diff.slice(0, 3).join(' , '));
+      cases.push(`② 純関数の作り直し(式・天体 ${J.K.bodies.length} 行・段 S ${J.S.rows.length} 行・段 P ${J.P.rows.length} 行・結論 —— 相対 1e-12 の内)`);
+      if (J.C.adopt !== false) bad.push('結論が「採用しない」でない');
+      // ③ 文書
+      if (!sec) bad.push('PHYSICS〔第314便b〕が無い');
+      else {
+        let rows = [];
+        try { rows = X.physicsTables(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---')); } catch (e) { bad.push('表の行が作れない: ' + String(e).slice(0, 80)); }
+        let nMiss = 0;
+        for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第314便b〕の表に行が無い: ' + r.slice(0, 70)); }
+        let nums = []; try { nums = X.docNumbers(J); } catch (e) { bad.push('数の文字列が作れない'); }
+        const missN = nums.filter((x) => sec.indexOf(x) < 0);
+        if (missN.length) bad.push('PHYSICS〔第314便b〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        cases.push(`③ 表の行 ${rows.length} 行・数 ${nums.length} 個を正本から作り直して照合`);
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第314便b〕が「## 7. 論文」の後');
+        for (const w of ['R239', '第116報', 'exp-w314b-rdscale.mjs', 'rdscale-w314b.json', 'docs.rdScale314', 'W314B_OUT', 'w314b-rdscale-1', 'κ₀ = 10G/(C₁c²)', '10/C₁', '5/C₁', 'C₁/5',
+          '採用しない', '再パラメータ化', '重力半径に比例する長さ', '一次の値', '在位の本は宣言しない', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第314便b〕に「' + w + '」が無い');
+      }
+      { const hb = CLg.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = CLg.indexOf('\n## ', hb + 5), cs = hb >= 0 ? CLg.slice(hb, hn > hb ? hn : undefined) : '';
+        if (cs.indexOf('第314便b') < 0) bad.push('CHANGELOG の beta の節に第314便b が無い'); }
+      if (RM.indexOf('第314便b') < 0) bad.push('README に第314便b が無い');
+      { const ai = AS.indexOf('## 132.');
+        if (ai < 0) bad.push('AI_SPEC に §132 が無い');
+        else { const as = AS.slice(ai, ai + 6000); for (const w of ['第314便b', 'rdscale-w314b.json', 'docs.rdScale314', '採用しない', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §132 に「' + w + '」が無い'); } }
+      if (RT.indexOf("S('rdscale-314b', 'node tests/exp-w314b-rdscale.mjs', ['tests/out/rdscale-w314b.json']") < 0 || !/secSource: 'w314b-branch'/.test(RT)) bad.push('再生成の段 rdscale-314b');
+      if (GI.indexOf('!tests/out/rdscale-w314b.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.rdScale314') < 0) bad.push('post-merge に docs.rdScale314 が無い');
+      if (QA.indexOf("'tests/out/rdscale-w314b.json',") < 0) bad.push('CANON に正本が無い');
+      cases.push('④ CHANGELOG(beta の節)・README・AI_SPEC §132・段・.gitignore・post-merge・CANON');
+      // ⑤ 書かない語・禁句
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/法則を発見した/, /法則を確かめた/, /完全に一致/, /フィットした/, /較正した/, /収束した/, /シュヴァルツシルト半径そのもの/, /現実の核/, /確認した/, /検証が完了した/, /R_d を決めた/];
+      const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+      const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rv));
+      const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第314便b〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第314便b〕に禁句(' + w.length + ' 字)');
+      { const tx = rd('tests/exp-w314b-rdscale.mjs'); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push('tests/exp-w314b-rdscale.mjs に禁句(' + w.length + ' 字)'); }
+      cases.push('⑤ 書かない語・禁句');
+    }
+    add('docs.rdScale314', bad.length === 0,
+      `**R_d を重力半径へ置き換える場合の検討の正本と文書**(第314便b・原仮定者の裁定(第116報)の補足・R239 —— 正本 rdscale-w314b.json・κ₀ = 10G/(C₁c²) は今のまま・結論は採用しない〔解説〕): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第314便b の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

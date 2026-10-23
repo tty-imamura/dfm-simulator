@@ -1286,6 +1286,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/k1confirm-w313d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/M/cost/rows/*/wallSec', '/M/cost/rate/*/rateStepsPerSec', '/M/cost/stage2/*/*/spentSec', '/M/planetCost/*/wallSec']) },
     note: '第313便d: K1 の確認の系の正本(太陽を含む全天体に R_d = κ₀m —— κ₀ = 10G/(C₁c²) 固定・合わせない。3 惑星・🏀 木星は h/4 まで・🌦️ は h/2 まで。r_1PN と暦表ごとの r_{1PN+A1}・有限質量比の予測 (4/3)η q_1PN・G の値の列・3 惑星の根の κ_i/κ₀〔h/4 の割線・ε_fit まで〕・小さい係数の分解の表 —— 在位へ入れない)' }),
   // ==== 第313便d の塊(ここまで)====
+  // ==== 第314便b の塊(ここから)====
+  // ---- 第314便b(原仮定者の裁定(第116報)の補足「R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討 —— κ の認識が違い複雑化する場合は採用せず解説」・
+  //   統括の検証項目 R239): **R_d の倍率の器**(段 K〔式の整理 —— C₁・κ₀ = 10G/(C₁c²)・10/C₁・5/C₁・天体の表〕・S〔🌡️・🏀 の写しの受け手だけ・源だけ・両方の R_d を
+  //   a ∈ {C₁/10, C₁/5, 1/2, 2} 倍 —— t = 0 の β・回転の係数・軸の ω の比と冪・戻す係数〕・R〔宣言の長さ ℓ = r_s・内部の R_eff = (5/C₁)ℓ の同値〕・P〔☿ の q00・q10・q11 × a ∈ {1, C₁/10,
+  //   C₁/5, 2}・刻み h・2 公転 —— D_G の比〕・C〔結論 —— 採用しない〕)。本の宣言・エンジン・κ₀ は変えない(写しは器の中で組む)。html と凍結の写し tests/data-w306a-decl305.json を読む・
+  //   1 プロセス。所要は第314便b の枝の実測(正本の elapsedS)
+  S('rdscale-314b', 'node tests/exp-w314b-rdscale.mjs', ['tests/out/rdscale-w314b.json'], 120, { secSource: 'w314b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rdscale-w314b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/P/runs/*/wallSec']) },
+    note: '第314便b: R_d を重力半径へ置き換える場合の検討(R_d = κ₀m は Gm/c² の 10/C₁ 倍・r_s の 5/C₁ 倍・置き換えの倍率 a の t = 0 の冪〔受け手だけ 1・1・1・源だけ 0・2・2・両方 1・3・3〕・☿ の近点の D_G の比・宣言の長さだけの再パラメータ化の同値 —— 結論は採用しない。κ₀・規則の鍵は今のまま)' }),
+  // ==== 第314便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
