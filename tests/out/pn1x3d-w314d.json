@@ -461,7 +461,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.18
+    "wallSec": 0.229
    },
    {
     "variant": "pinned",
@@ -495,7 +495,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.183
+    "wallSec": 0.304
    },
    {
     "variant": "free",
@@ -529,7 +529,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.049999999999999996
+    "wallSec": 0.094
    },
    {
     "variant": "free",
@@ -563,7 +563,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.086
+    "wallSec": 0.08800000000000001
    },
    {
     "variant": "freeLeapfrog",
@@ -597,7 +597,7 @@
      "maxRel": 0
     },
     "rateSame": true,
-    "wallSec": 0.167
+    "wallSec": 0.169
    }
   ],
   "deltaRows": [
@@ -661,7 +661,7 @@
     "absRate": 1.1559763563040448e-15,
     "planeDrift": 5.158807480286034e-16,
     "zEnd": 5.56178033683275e-16,
-    "wallSec": 0.025
+    "wallSec": 0.028999999999999998
    },
    {
     "rot": [
@@ -678,7 +678,7 @@
     "absRate": 1.0325941490751944e-15,
     "planeDrift": 1.128084379585066e-15,
     "zEnd": 6.257002878936875e-16,
-    "wallSec": 0.018000000000000002
+    "wallSec": 0.017
    },
    {
     "rot": [
@@ -695,7 +695,7 @@
     "absRate": 5.526178473158616e-16,
     "planeDrift": 1.6709682002982022e-15,
     "zEnd": 1.6685341010498433e-15,
-    "wallSec": 0.015
+    "wallSec": 0.02
    }
   ],
   "worst": {
@@ -743,7 +743,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.058
+    "wallSec": 0.061
    },
    {
     "conf": "3dFlat",
@@ -759,7 +759,7 @@
     "dP1PN1": 1.251329749593879e-10,
     "dPNewton0": 2.350705041291402e-16,
     "dP1PN0": 1.2010388781322307e-9,
-    "wallSec": 0.046
+    "wallSec": 0.039
    },
    {
     "conf": "3dTilt",
@@ -775,7 +775,7 @@
     "dP1PN1": 1.2407094393283631e-10,
     "dPNewton0": 2.5549813317505944e-16,
     "dP1PN0": 1.2199301375669954e-9,
-    "wallSec": 0.028999999999999998
+    "wallSec": 0.025
    }
   ],
   "flatBits": {
@@ -796,42 +796,42 @@
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 1.2407094393283631e-10,
-    "wallSec": 0.019
+    "wallSec": 0.016
    },
    {
     "integrator": "leapfrog",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 6.205482279704377e-11,
-    "wallSec": 0.039
+    "wallSec": 0.03
    },
    {
     "integrator": "leapfrog",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 3.103087936039365e-11,
-    "wallSec": 0.078
+    "wallSec": 0.09
    },
    {
     "integrator": "semi",
     "hDiv": 1,
     "steps": 2000,
     "dP1PN": 2.4686594446597114e-10,
-    "wallSec": 0.013
+    "wallSec": 0.022
    },
    {
     "integrator": "semi",
     "hDiv": 2,
     "steps": 4000,
     "dP1PN": 1.236796257120483e-10,
-    "wallSec": 0.027
+    "wallSec": 0.046
    },
    {
     "integrator": "semi",
     "hDiv": 4,
     "steps": 8000,
     "dP1PN": 6.189856618130918e-11,
-    "wallSec": 0.055
+    "wallSec": 0.076
    }
   ],
   "hOrder": {
@@ -872,21 +872,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.001
+     "wallSec": 0.005
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.028
+     "wallSec": 0.037
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.053,
-     "rateStepsPerSec": 3773.5849056603774
+     "wallSec": 0.079,
+     "rateStepsPerSec": 2531.6455696202534
     },
     "pn1": {
      "version": "w314d-pn1-3d-1",
@@ -907,21 +907,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.001
+     "wallSec": 0
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 0.001
+     "wallSec": 0.002
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 200,
-     "wallSec": 0.014,
-     "rateStepsPerSec": 14285.714285714286
+     "wallSec": 0.037,
+     "rateStepsPerSec": 5405.405405405406
     }
    },
    "g3": {
@@ -930,21 +930,21 @@
     "warnings": 0,
     "deny": [],
     "build": {
-     "wallSec": 0.837
+     "wallSec": 1.004
     },
     "h": 0.00421862799335,
     "n": 16,
     "integrator": "leapfrog",
     "run20": {
-     "wallSec": 2.45
+     "wallSec": 3.049
     },
     "finite": true,
     "halt": null,
     "t": 0.08437255986700003,
     "cost": {
      "steps": 20,
-     "wallSec": 2.45,
-     "rateStepsPerSec": 8.16326530612245
+     "wallSec": 3.049,
+     "rateStepsPerSec": 6.559527714004592
     }
    }
   },
@@ -1020,28 +1020,28 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.065
+   "wallSec": 0.089
   },
   "P": {
-   "wallSec": 0.687
+   "wallSec": 0.911
   },
   "R": {
-   "wallSec": 0.1
+   "wallSec": 0.107
   },
   "N": {
-   "wallSec": 0.366
+   "wallSec": 0.406
   },
   "X": {
-   "wallSec": 3.449
+   "wallSec": 4.282
   }
  },
- "elapsedS": 6.629,
+ "elapsedS": 9.811,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便d",
   "target": "beta/index.html",
   "targetSha256": "12379c615a8857f7952d75900ec71e5d0bb048935d3d39577b3c744b19a8adc0",
-  "generatedAt": "2026-10-23T05:58:58.646Z",
+  "generatedAt": "2026-10-23T06:05:41.873Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -1053,9 +1053,9 @@
   "code": [
    {
     "file": "tests/exp-w314d-pn1x3d.mjs",
-    "bytes": 48933,
-    "sha256": "163a41f1da761a5227c57841604e4b8d7485ca2d272506c92c4ebc2993a3432e",
-    "mtime": "2026-10-23T05:57:40.843Z"
+    "bytes": 49025,
+    "sha256": "6bcf47c5d9cc2702844d8c6772ecf7c598fe8f338e93d976c0490c6e1d4b288c",
+    "mtime": "2026-10-23T06:02:37.512Z"
    },
    {
     "file": "tests/lib-w300c-solar16.mjs",
@@ -1094,7 +1094,7 @@
     "mtime": "2026-10-23T05:26:27.498Z"
    }
   ],
-  "codeSha256": "79c49c9b8aebddf665bf3f9ca9922b795d2a31f10faa29736acf1429f023e83c",
+  "codeSha256": "6ccdab1421acf1ebdc192a4e252a14d1534e2984e6369006832f2a689d2266fd",
   "harnessVersion": "w314d-pn1x3d-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [

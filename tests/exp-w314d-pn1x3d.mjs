@@ -466,12 +466,13 @@ export function physicsTables(J) {
     for (const r of J.P.rows) out.push(`| ${VAR_JA[r.variant]} | ${r.integrator} | h/${r.hDiv} | ${f4(r.inc3dCy)} | ${f4(r.q1pnCy)} | ${f4(r.ratio3d)} | ${f3(r.period3d)} | ${r.ecc3d.toFixed(6)} | ${r.bits1.nd === 0 && r.bits0.nd === 0 && r.rateSame ? '同一(' + r.bits1.nv + ' 値 × 2)' : '違う ' + r.bits1.nd + '・' + r.bits0.nd} |`);
   }
   if (J.R) {
+    // 丸めの床の程度の数は床で書く(逐語の表 —— 実測の値は正本と節の読み)
     out.push('', '| 向き [Ω, i, ω]° | 近点の率の相対の差 | 1PN の分の相対の差 | 周期の相対の差 | 離心率の相対の差 | 軌道面の法線のずれ [rad] |', '|---|---|---|---|---|---|');
-    for (const r of J.R.rows) out.push(`| ${r.rot.join(', ')} | ${fl(r.relRate, 1e-15)} | ${fl(r.relInc, 1e-15)} | ${fl(r.relPeriod, 1e-15)} | ${fl(r.relEcc, 1e-15)} | ${fl(r.planeDrift, 1e-16)} |`);
+    for (const r of J.R.rows) out.push(`| ${r.rot.join(', ')} | ${fl(r.relRate, 1e-9)} | ${fl(r.relInc, 1e-7)} | ${fl(r.relPeriod, 1e-9)} | ${fl(r.relEcc, 1e-9)} | ${fl(r.planeDrift, 1e-12)} |`);
   }
   if (J.N) {
     out.push('', '| 配置(太陽・木星・土星) | 步 | 1PN の有無の差(木星・土星)[km] | Σm·v の変化(geoPN=1) | EIH の 1PN の運動量の変化(geoPN=1) | Σm·v の変化(geoPN=0) |', '|---|---|---|---|---|---|');
-    for (const r of J.N.rows) out.push(`| ${CONF_JA[r.conf]} | ${r.steps} | ${r.pn1DiffKm.slice(1).map((d) => d.toFixed(2)).join('・')} | ${e2s(r.dPNewton1)} | ${fl(r.dP1PN1, 1e-15)} | ${fl(r.dPNewton0, 1e-15)} |`);
+    for (const r of J.N.rows) out.push(`| ${CONF_JA[r.conf]} | ${r.steps} | ${r.pn1DiffKm.slice(1).map((d) => d.toFixed(2)).join('・')} | ${e2s(r.dPNewton1)} | ${e2s(r.dP1PN1)} | ${fl(r.dPNewton0, 1e-14)} |`);
     out.push('', '| 積分器(傾けた写し・geoPN=1) | 刻み | 步 | EIH の 1PN の運動量の変化 |', '|---|---|---|---|');
     for (const r of J.N.hScan) out.push(`| ${r.integrator} | h/${r.hDiv} | ${r.steps} | ${e3s(r.dP1PN)} |`);
     out.push('', '| 積分器 | 変化の比 h/(h/2) | 変化の比 (h/2)/(h/4) |', '|---|---|---|');
@@ -484,9 +485,9 @@ export function physicsTables(J) {
       out.push(`| ${nm} | ${r.ok ? '受理' : '拒否'} | ${r.finite ? '有限' : '違う'} | ${k === 'g1' && r.pn1 ? r.pn1.sources + (r.pn1.wide ? '(詰め替え版)' : '') : '—'} | ${r.cost ? r.cost.steps : '—'} |`); }
     out.push('', '| 照合(16 体と小さな写し) | 値 |', '|---|---|');
     out.push(`| 詰め替え版 Δ₃ と素の Δ₃(16 体・源 ${X.wide.sources}) | ${X.wide.bitSame ? 'ビット同一' : '違う'} |`);
-    for (const r of X.oracle) out.push(`| 独立に書いた EIH の 3 成分との差(${r.label}) | ${fl(r.rel, 1e-15)} |`);
-    out.push(`| 加速度の回転の共変(16 体 —— 向き ${X.covAcc.rot.join(', ')}・丸めの尺度 ${fl(X.covAcc.roundFloor, 1e-15)}) | ${fl(X.covAcc.rel, 1e-15)} |`);
-    out.push(`| 加速度の回転の共変(太陽・木星・土星の傾けた写し —— 同じ向き) | ${fl(X.covAcc.relSJS, 1e-15)} |`);
+    for (const r of X.oracle) out.push(`| 独立に書いた EIH の 3 成分との差(${r.label}) | ${fl(r.rel, 1e-14)} |`);
+    out.push(`| 加速度の回転の共変(16 体 —— 向き ${X.covAcc.rot.join(', ')}・丸めの尺度 ${e2s(X.covAcc.roundFloor)}) | ${fl(X.covAcc.rel, 1e-12)} |`);
+    out.push(`| 加速度の回転の共変(太陽・木星・土星の傾けた写し —— 同じ向き) | ${fl(X.covAcc.relSJS, 1e-14)} |`);
     out.push(`| 核の中の試験粒子形₃ と単独の版(二体・回した軌道) | ${X.coreInline.bitSame ? 'ビット同一' : '違う'} |`);
   }
   return out.join('\n');
