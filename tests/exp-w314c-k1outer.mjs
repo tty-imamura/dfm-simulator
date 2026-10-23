@@ -34,6 +34,8 @@
 //   T 標的(EMB の q_1PN・A1 の暦表ごとの列・有限質量比の予測)・E 走行・K h/4 の残差・M 月の診断(118 公転 h/4・354 公転 h)・S 統括の 2 段目との照合・所要
 //
 // ■ 試走: W314C_QUICK=1(W314C_OUT が要る —— 正本を書かない)。W314C_FROM=<出力>: 同じ html・同じ器の版の走行の行を使い回す(純関数の段だけを作り直す)。
+// ■ 再開: W314C_CACHE=<dir>(容器の再起動に備える —— 子プロセスの走行 1 本ごとの結果を <dir> に逐次書き、同じ html・同じ器の版・同じ走行の鍵の結果があれば走らせずに読む。
+//   読んだ本数を正本の resumed に記録する —— 走行は決定的なので値は走らせ直した値と同じ・所要の wallSec は元の走行の実測)。鎖は使わない(既定なし)。
 //
 // ■ 言わないこと: 「フィットした」「較正した」「収束した」「完全に一致」「法則を確かめた」「R_d を決めた」「シュヴァルツシルト半径そのもの」「検証が完了した」。
 //   門の内なら「規則で置いた残差が数値の門の内」と書く。数値の門と ε は観測の 3σ ではない。h・h/2・h/4 は刻みの感度診断。窓は抽出の感度診断。
@@ -160,6 +162,17 @@ function makePool(NW, self) {
     ch.on('close', (code) => { active--; pump(); if (code !== 0) return rej(new Error(specKey(sp) + ': ' + err.slice(0, 600)));
       try { res(JSON.parse(out.slice(out.lastIndexOf('\n{') + 1))); } catch (e) { rej(new Error(specKey(sp) + ': 出力が JSON でない ' + out.slice(-200))); } }); } };
   return (sp, pri = 0) => new Promise((res, rej) => { q.push({ sp, res, rej, pri }); pump(); });
+}
+/** 再開の写し(W314C_CACHE —— 走行 1 本ごとのファイル。鍵は器の版・対象 html の sha・走行の鍵) */
+function cachedRun(run, dir, targetSha256, stat) {
+  if (!dir) return run;
+  fs.mkdirSync(dir, { recursive: true });
+  const fileOf = (sp) => path.join(dir, crypto.createHash('sha256').update(HARNESS_VERSION + '|' + targetSha256 + '|' + specKey(sp)).digest('hex').slice(0, 32) + '.json');
+  return (sp, pri) => {
+    const f = fileOf(sp);
+    try { const c = JSON.parse(fs.readFileSync(f, 'utf8')); if (c.version === HARNESS_VERSION && c.targetSha256 === targetSha256 && c.row && c.row.key === specKey(sp)) { stat.resumed++; return Promise.resolve(c.row); } } catch (e) { /* 無い */ }
+    return run(sp, pri).then((r) => { const tmp = f + '.tmp'; fs.writeFileSync(tmp, JSON.stringify({ version: HARNESS_VERSION, targetSha256, row: r })); fs.renameSync(tmp, f); return r; });
+  };
 }
 
 /* ───────── 段 P(t = 0 の写しの宣言の印字と規則の鍵の写しとの照合)───────── */
@@ -308,7 +321,7 @@ export function partKem(J) {
   if (![q.q00, q.q10, q.q11].every(Number.isFinite)) return { div: P.h4.div, q, r1pn: null };
   const rc = C.residualCols(q, T.q1pn, T.a1);
   return Object.assign({ div: P.h4.div, nMoon: P.h4.nMoon, nEarth: J.E.nEarth, q }, rc, { rOverQ: rc.r1pn / T.q1pn, withinFit: Math.abs(rc.r1pn) <= EPS.fit, afterFm: rc.r1pn - T.fm,
-    earthOwn: { q: qe, DG: qe.q11 - qe.q10, dqG: qe.q10 - qe.q00, r1pnEarthOwn: Number.isFinite(T.earthOwnQ1pn) ? qe.q11 - qe.q00 - T.earthOwnQ1pn : null } });
+    earthOwn: { q: qe, DG: qe.q11 - qe.q10, dqG: qe.q10 - qe.q00 } });   // 地球自身(副 —— 月の効きを含む・1PN だけの参照とは比べない)
 }
 /** 確認の器の月の診断(CF.moonOf)を 1 つの窓・刻みで(行は確認の器の鍵へ) */
 export function moonAt(J, div, N) {
@@ -459,7 +472,8 @@ export async function main() {
     if (P0.targetSha256 === targetSha256 && P0.version === HARNESS_VERSION && P0.stage === stage && P0.E) { reuse = P0.E.rows; reuseFrom = path.relative(ROOT, f); }
     else throw new Error('W314C_FROM: html か器の版か段が違う(' + f + ')');
   }
-  const NW = Math.max(1, Number(process.env.W314C_WORKERS) || 2), run = makePool(NW, fileURLToPath(import.meta.url));
+  const NW = Math.max(1, Number(process.env.W314C_WORKERS) || 2), cstat = { resumed: 0 };
+  const run = cachedRun(makePool(NW, fileURLToPath(import.meta.url)), process.env.W314C_CACHE ? path.resolve(process.env.W314C_CACHE) : null, targetSha256, cstat);
   const log = (r) => console.log(`  ${new Date().toISOString().slice(11, 19)} ${r.key}: ${r.status}${r.status === 'run' ? '・' + (r.spec.via === 'outer'
     ? Object.entries(r.windows).map(([N, w]) => 'N' + N + ' ' + Number(w.apsNew).toExponential(9)).join(' ') : 'EMB ' + Number(r.emb).toFixed(9) + '・月 ' + (r.moon ? Number(r.moon.sidH).toFixed(9) + ' d' : '—'))
     + '・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s' : '・' + (r.err || '').slice(0, 160)}`);
@@ -472,6 +486,7 @@ export async function main() {
     ruling: '原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・' +
       'AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
+  if (cstat.resumed > 0) out.resumed = cstat.resumed;   // 再開の写しから読んだ走行の本数(読まなければ鍵を作らない)
   out.elapsedS = (Date.now() - t0) / 1000;
   const CODE = ['tests/exp-w314c-k1outer.mjs', 'tests/exp-w313d-k1confirm.mjs', 'tests/exp-w312d-confirm.mjs', 'tests/lib-w312d-confirm.mjs', 'tests/exp-w311d-planet3.mjs', 'tests/lib-w311d-planet3.mjs',
     'tests/exp-w303c-earthmoon.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w280b-emgrid.mjs',
