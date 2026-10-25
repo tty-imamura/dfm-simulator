@@ -1329,6 +1329,14 @@ export const REGEN_STEPS = [
       '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
     note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
   // ==== 第314便d の塊(ここまで)====
+  // ==== 第315便a の塊(ここから)====
+  // ---- 第315便a(原仮定者の裁定(第117報)・決断事項 AN414・統括の推奨 AN417/AN419/AN420・統括の検証項目 R242): **記号の体系の器**(段 K〔html の C_1 と自動 ON の許容〕・
+  //   F〔記号の表・旧記号との対応・式の 3 段と太陽の数〕・L〔物理対応ロックの読込時の自動 ON の受理の表 —— html の判定と器の独立の実装〕・P〔内蔵の全本の数え —— 領域 presets "all"〕)。
+  //   本の宣言・鍵・エンジンの式は変えない(読むだけ)。html と凍結の写し tests/data-w306a-decl305.json を読む・1 プロセス。所要は第315便a の枝の実測(正本の elapsedS)
+  S('symbols-315a', 'node tests/exp-w315a-symbols.mjs', ['tests/out/symbols-w315a.json'], 11, { secSource: 'w315a-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/symbols-w315a.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第315便a: 記号の体系(X_k・Y_k・κ_D・r_s・r_d・c_0・G_0)の式の 3 段と太陽の数・物理対応ロックの読込時の自動 ON(版 w315a-physlock-auto-1 —— 値を書き直さない)の受理の表と内蔵の全本の数え' }),
+  // ==== 第315便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
