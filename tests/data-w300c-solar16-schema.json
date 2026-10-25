@@ -1,16 +1,16 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "tests/data-w300c-solar16-schema.json",
- "title": "太陽系 16 体の三次元の本の入力の契約(第300便c)",
- "description": "原仮定者の裁定(第90報)④「太陽・全惑星・トリトン以上の 7 大衛星を 1 つにまとめた三次元サンプル —— 特定の日時の観測値で開始」「観測レコードは別途プロンプトで取得する」の入力の契約。成員 = 太陽・8 惑星・月・イオ・エウロパ・ガニメデ・カリスト・タイタン・トリトン。全天体で同じ元期(JD・TDB)・太陽系重心が原点・ICRF に揃えた J2000 の黄道・幾何学的な状態(光行時間と光行差の補正なし)・km と km/s・天体中心(系の重心と混ぜない)・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ。構造の検査はこのスキーマ、意味の検査(欠測・重複・元期の混在・重心と天体中心の混在・光行時間補正・単位・原点・衛星の中心)は生成器 tests/lib-w300c-solar16.mjs の checkSolar16 が行う。本スキーマは数値を持たない(観測レコードは別途取得)。",
- "x-version": "w300c-solar16-schema-1",
+ "title": "太陽系 16 体の三次元の本の入力の契約(第300便c —— 第315便d で質量の換算・合成・極の版を足した)",
+ "description": "原仮定者の裁定(第90報)④「太陽・全惑星・トリトン以上の 7 大衛星を 1 つにまとめた三次元サンプル —— 特定の日時の観測値で開始」「観測レコードは別途プロンプトで取得する」の入力の契約。成員 = 太陽・8 惑星・月・イオ・エウロパ・ガニメデ・カリスト・タイタン・トリトン。全天体で同じ元期(JD・TDB)・太陽系重心が原点・ICRF に揃えた J2000 の黄道・幾何学的な状態(光行時間と光行差の補正なし)・km と km/s・天体中心(系の重心と混ぜない)・天体自身の質量・IAU の北極と符号つきの自転率・出典と取得日と暦表の版・不確かさは資料のものだけ。構造の検査はこのスキーマ、意味の検査(欠測・重複・元期の混在・重心と天体中心の混在・光行時間補正・単位・原点・衛星の中心)は生成器 tests/lib-w300c-solar16.mjs の checkSolar16 が行う。本スキーマは数値を持たない(観測レコードは別途取得)。第315便d(決断事項 AN412): kg 換算は本の基準重力 G_0(massConversion —— 換算の G の値と版・質量〔GM〕の表の版を記録させる・資料の GM を mass.gmKm3s2 に書けば kg との換算を照合)・すでに SSB の衛星の状態に母惑星の状態を足し直した取り違えの検出(衛星が母惑星の位置の 2 倍の近くで束縛)・母惑星中心で得た衛星だけ composed(同じ元期・同じ面で合成 —— 元期と面と和を照合)・地球と月の極と自転率の模型の版(pole.model・spin.model —— 地球と月は必須)。",
+ "x-version": "w315d-solar16-schema-2",
  "x-members": ["sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "io", "europa", "ganymede", "callisto", "saturn", "titan", "uranus", "neptune", "triton"],
  "x-naifBodyCenter": {"sun": 10, "mercury": 199, "venus": 299, "earth": 399, "moon": 301, "mars": 499, "jupiter": 599, "io": 501, "europa": 502, "ganymede": 503, "callisto": 504, "saturn": 699, "titan": 606, "uranus": 799, "neptune": 899, "triton": 801},
  "type": "object",
  "additionalProperties": false,
- "required": ["schema", "epoch", "frame", "units", "correction", "source", "bodies"],
+ "required": ["schema", "epoch", "frame", "units", "correction", "source", "massConversion", "bodies"],
  "properties": {
-  "schema": {"const": "w300c-solar16-1"},
+  "schema": {"const": "w315d-solar16-2"},
   "epoch": {
    "type": "object", "additionalProperties": false, "required": ["jdTdb", "timeScale"],
    "properties": {
@@ -47,6 +47,15 @@
     "note": {"type": "string", "maxLength": 480}
    }
   },
+  "massConversion": {
+   "type": "object", "additionalProperties": false, "required": ["gSI", "gBasis", "massVersion"],
+   "properties": {
+    "gSI": {"type": "number", "exclusiveMinimum": 0, "description": "GM(km³/s²)を kg へ換算した G の値(m³ kg⁻¹ s⁻²)。本の基準重力 G_0(本の単位の G_UNITS 6.674 —— SI で 6.674×10⁻¹¹)と同じでなければ拒否(決断事項 AN412 —— 本の G_0·m が資料の GM に戻る)"},
+    "gBasis": {"const": "G_0", "description": "換算の G の出所 —— 本の基準重力 G_0 だけ(他の G で換算した kg は拒否)"},
+    "massVersion": {"type": "string", "minLength": 1, "maxLength": 120, "description": "質量(GM)の表の版(例 暦表の GM の表の名と版)"},
+    "note": {"type": "string", "maxLength": 240}
+   }
+  },
   "bodies": {
    "type": "array", "minItems": 16, "maxItems": 16,
    "items": {
@@ -61,9 +70,18 @@
       "type": "object", "additionalProperties": false, "required": ["x", "y", "z", "vx", "vy", "vz"],
       "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}, "vx": {"type": "number"}, "vy": {"type": "number"}, "vz": {"type": "number"}}
      },
+     "composed": {
+      "type": "object", "additionalProperties": false, "required": ["from", "parent", "epochJdTdb", "reference", "plane", "equinox", "relState"],
+      "properties": {"from": {"const": "parentCentric"}, "parent": {"type": "string", "minLength": 1, "maxLength": 16}, "epochJdTdb": {"type": "number"},
+       "reference": {"type": "string", "maxLength": 16}, "plane": {"type": "string", "maxLength": 16}, "equinox": {"type": "string", "maxLength": 16},
+       "relState": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z", "vx", "vy", "vz"],
+        "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}, "vx": {"type": "number"}, "vy": {"type": "number"}, "vz": {"type": "number"}}}},
+      "description": "母惑星中心で得た衛星の状態から SSB の state を合成したときだけ書く(SSB で得た衛星には書かない —— 母惑星の状態を足し直さない)。母惑星は成員の親・元期と枠と面と分点が全体と同じ・state = 母惑星の state + relState でなければ拒否"
+     },
      "mass": {
       "type": "object", "additionalProperties": false, "required": ["kg", "includes", "source"],
-      "properties": {"kg": {"type": "number", "exclusiveMinimum": 0}, "includes": {"const": "body", "description": "天体自身の質量(衛星を含む系の質量は拒否)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240}}
+      "properties": {"kg": {"type": "number", "exclusiveMinimum": 0}, "includes": {"const": "body", "description": "天体自身の質量(衛星を含む系の質量は拒否)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240},
+       "gmKm3s2": {"type": "number", "exclusiveMinimum": 0, "description": "資料の GM(km³/s²)。書けば kg × massConversion.gSI と相対 1e-9 で照合(合わなければ拒否)"}}
      },
      "radius": {
       "type": "object", "additionalProperties": false, "required": ["km", "source"],
@@ -71,12 +89,14 @@
      },
      "pole": {
       "type": "object", "additionalProperties": false, "required": ["raDeg", "decDeg", "source"],
-      "properties": {"raDeg": {"type": "number"}, "decDeg": {"type": "number", "minimum": -90, "maximum": 90}, "source": {"type": "string", "minLength": 1, "maxLength": 240}},
+      "properties": {"raDeg": {"type": "number"}, "decDeg": {"type": "number", "minimum": -90, "maximum": 90}, "source": {"type": "string", "minLength": 1, "maxLength": 240},
+       "model": {"type": "string", "minLength": 1, "maxLength": 120, "description": "極の模型の版(例 IAU WGCCRE の版)。地球と月は必須(歳差・秤動を含む極の模型 —— 本では軸は一定の近似で使う)"}},
       "description": "IAU の北極(ICRF の赤道座標 α0・δ0 —— 元期の値)"
      },
      "spin": {
       "type": "object", "additionalProperties": false, "required": ["rateDegPerDay", "source"],
-      "properties": {"rateDegPerDay": {"type": "number", "description": "IAU の自転角 W の率(符号つき —— 負は IAU の北極に対して逆行)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240}}
+      "properties": {"rateDegPerDay": {"type": "number", "description": "IAU の自転角 W の率(符号つき —— 負は IAU の北極に対して逆行)"}, "source": {"type": "string", "minLength": 1, "maxLength": 240},
+       "model": {"type": "string", "minLength": 1, "maxLength": 120, "description": "自転率の模型の版。地球と月は必須"}}
      },
      "uncertainty": {
       "type": "object", "additionalProperties": false, "required": ["source"],

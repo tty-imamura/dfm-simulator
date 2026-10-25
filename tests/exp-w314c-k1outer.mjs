@@ -21,8 +21,9 @@
 //   E 走行(3 惑星 × q00・q10・q11 × h・h/2・h/4 —— 16 公転の入れ子の窓 4・8・16)
 //   K 窓 × 刻みごとの残差の表(r_1PN = q11 − q00 − q_1PN・r/q_1PN・D_G・ΔqG・暦表ごとの r_{1PN+A1}・刻みの帯)
 //   W 主の窓の選び方(実測 —— 8 公転〔第313便d〕から: 最も細かい 2 刻みの帯が帯の許容の内になる最小の窓・無ければ最長の窓)と窓の感度(r(h/4) の窓どうしの差)
-//   G 外惑星の門(決断事項 AN410 の推奨の型 —— 器の宣言の定数 OUTER_GATE・裁定で変わる): 絶対 abs(r) ≤ ε_fit・相対 abs(r) ≤ 1e-2 q_1PN・数値の帯
-//     (h–h/2 と h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))。相対の門と相対の帯は q_1PN < 10 ε_fit の系に置く(推奨の文言の通り —— 土星は q_1PN 0.0137 ≥ 0.01 で外れる)
+//   G 外惑星の門(決断事項 AN410 —— 器の宣言の定数 OUTER_GATE): **全系に一様**(第315便d —— policy:"all")abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・数値の帯
+//     (h–h/2 と h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))。q_1PN が 0 や非有限の系は比を作らず合格にしない・帯が負や非有限は合格にしない。
+//     第314便c の型(相対の門と相対の帯は q_1PN < 10 ε_fit の系だけ —— 土星は外れた)は OUTER_GATE_W314C に凍結(PHYSICS〔第314便c〕の表を作り直す文書の lib だけが読む)
 //   D 小さい係数の分解の表の延長(外惑星 3 本: r_1PN → 有限質量比の予測を引く → G の値の効き〔感度 —— 引かない〕→ 数値の帯 → 残り・相対の残り)と
 //     候補の感度の並び(太陽の構造の型・背景宇宙の型 —— 第313便d の 5 系に外惑星 3 本を足した 8 系の軌道の半直弦の順 —— 並べるだけ・候補を決めない)
 //
@@ -34,6 +35,9 @@
 //   T 標的(EMB の q_1PN・A1 の暦表ごとの列・有限質量比の予測)・E 走行・K h/4 の残差・M 月の診断(118 公転 h/4・354 公転 h)・S 統括の 2 段目との照合・所要
 //
 // ■ 試走: W314C_QUICK=1(W314C_OUT が要る —— 正本を書かない)。W314C_FROM=<出力>: 同じ html・同じ器の版の走行の行を使い回す(純関数の段だけを作り直す)。
+// ■ 門の作り直し(第315便d・決断事項 AN410): `--regate`(段 outer だけ)—— 正本の走行の行(E)と t = 0 の写し(P)をそのまま使い、標的の列・K・W・G・D・門を
+//   器の純関数で作り直して同じ正本へ書く(走行の値は変えない —— r_1PN・帯の数は同じ・門の真偽だけ)。正本の領域 hash が今の html と同じとき(か html が同じとき)だけ。
+//   作り直しの記録は正本の regate(元の生成時刻・対象の sha・領域 hash・コードの sha)。
 // ■ 再開: W314C_CACHE=<dir>(容器の再起動に備える —— 子プロセスの走行 1 本ごとの結果を <dir> に逐次書き、同じ html・同じ器の版・同じ走行の鍵の結果があれば走らせずに読む。
 //   読んだ本数を正本の resumed に記録する —— 走行は決定的なので値は走らせ直した値と同じ・所要の wallSec は元の走行の実測)。鎖は使わない(既定なし)。
 //
@@ -75,9 +79,14 @@ export const PARTS_EM = Object.freeze(['T', 'E', 'K', 'M', 'S']);
 export const EPS = PL3.ADOPT_EPS;
 export const C1_REF = K13.C1_REF;
 export const KAPPA0_REF = K13.KAPPA0_REF;
-/** 外惑星の門(決断事項 AN410 の推奨の型 —— 器の宣言の定数・裁定で変わる)。相対の門と相対の帯は q_1PN < applyBelow × ε_fit の系に置く */
-export const OUTER_GATE = Object.freeze({ fit: EPS.fit, num: EPS.num, rel: 1e-2, bandRel: 1e-2, applyBelow: 10, unit: '″/世紀',
+/** 外惑星の門(決断事項 AN410 —— 第315便d で全系に一様へ): abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN)・q_1PN = 0 の系では比を作らない */
+export const OUTER_GATE = Object.freeze({ fit: EPS.fit, num: EPS.num, rel: 1e-2, bandRel: 1e-2, policy: 'all', unit: '″/世紀',
+  note: '決断事項 AN410(全系に一様の門 —— 第315便d): abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN) と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))をすべての系に置く。q_1PN が 0 や非有限の系は比を作らず合格にしない・帯が負や非有限は合格にしない。観測の 3σ ではない' });
+/** 第314便c の型(凍結 —— PHYSICS〔第314便c〕の表を作り直す文書の lib だけが読む): 相対の門と相対の帯は q_1PN < applyBelow × ε_fit の系だけ */
+export const OUTER_GATE_W314C = Object.freeze({ fit: EPS.fit, num: EPS.num, rel: 1e-2, bandRel: 1e-2, applyBelow: 10, policy: 'below', unit: '″/世紀',
   note: '決断事項 AN410 の推奨の型(裁定で変わる): 絶対の門 abs(r_1PN) ≤ ε_fit に加えて、q_1PN < 10 ε_fit の系は相対の門 abs(r_1PN) ≤ 1e-2 q_1PN と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))。観測の 3σ ではない' });
+/** 相対の門と相対の帯を置く系か(一様の門 policy:"all" は全系・第314便c の型は q_1PN < applyBelow × ε_fit) */
+export const relAppliesOf = (q1pn, G = OUTER_GATE) => (G.policy === 'all' ? true : q1pn < G.applyBelow * G.fit);
 /** 外惑星 3 本(軌道の半直弦の順 —— 絵文字は在位の本) */
 export const OUTER = Object.freeze([
   Object.freeze({ key: 'saturn', id: 'saturnSunInertial3d', emoji: '🟡', ja: '土星' }),
@@ -222,7 +231,7 @@ export function targetsOf(HP) {
     const base = baseOf(HP, s.key), pn = AN.pn1Of(base), U = C.siOf(base), M = U.B[0].m, m = U.B[1].m, q1pn = pn.value, L = live ? live.find((z) => z.id === s.id) : null;
     const P = C.bodyProps('jupiter', base);   // 二体の式(太陽と惑星 —— 🏀 と同じ形)
     out[s.key] = { id: s.id, q1pn, a: pn.a, e: pn.e, p: P.jupiter.p.sun, M, m, eta: C.etaOf(M, m), fm: C.finiteMassPred(q1pn, M, m), a1: a1ColumnsOf(recs, A1_BODY_OUTER[s.key]), G: base.physics.G,
-      gLocAnalytic: Q.gLocAnalytic(base, 2), h: hOf(base), relApplies: q1pn < OUTER_GATE.applyBelow * OUTER_GATE.fit,
+      gLocAnalytic: Q.gLocAnalytic(base, 2), h: hOf(base), relApplies: relAppliesOf(q1pn),
       an336: L ? { value: L.target.value, pn1: L.target.pn1, a1: L.target.a1, recordId: L.target.recordId, h: L.h } : null };
   }
   return out;
@@ -256,10 +265,10 @@ export function partK(J) {
 /** 帯の許容(外惑星: min(ε_num, bandRel·q_1PN) —— 相対の門を置かない系は ε_num) */
 export const bandTolOf = (q1pn, applies, G = OUTER_GATE) => (applies ? Math.min(G.num, G.bandRel * Math.abs(q1pn)) : G.num);
 /** 主の窓(実測): startWindow 以上の窓で、最も細かい 2 刻みの帯 ≤ 帯の許容 になる最小の窓・無ければ最長の窓。窓の感度 = r(最も細かい刻み)の隣り合う窓の差 */
-export function partW(J) {
-  const out = { rule: '主の窓 = 開始の窓(' + J.E.startWindow + ' 公転 —— 第313便d)以上で、最も細かい 2 刻みの帯 ≤ 帯の許容 min(ε_num, 1e-2 q_1PN)〔相対の門を置かない系は ε_num〕になる最小の窓・無ければ最長の窓', systems: {} };
+export function partW(J, G = OUTER_GATE) {
+  const out = { rule: '主の窓 = 開始の窓(' + J.E.startWindow + ' 公転 —— 第313便d)以上で、最も細かい 2 刻みの帯 ≤ 帯の許容 min(ε_num, 1e-2 q_1PN)' + (G.policy === 'all' ? '(全系 —— 決断事項 AN410 の一様の門)' : '〔相対の門を置かない系は ε_num〕') + 'になる最小の窓・無ければ最長の窓', systems: {} };
   for (const s of OUTER) {
-    const T = J.T.systems[s.key], Kk = J.K.systems[s.key], tol = bandTolOf(T.q1pn, T.relApplies), ws = J.E.windows.slice().sort((a, b) => a - b), rows = [];
+    const T = J.T.systems[s.key], Kk = J.K.systems[s.key], tol = bandTolOf(T.q1pn, relAppliesOf(T.q1pn, G), G), ws = J.E.windows.slice().sort((a, b) => a - b), rows = [];
     for (const N of ws) { const w = Kk.byWin[N], ds = Object.keys(w.byDiv).map(Number).sort((a, b) => a - b), last = ds.length >= 2 ? ds[ds.length - 2] + '-' + ds[ds.length - 1] : null;
       rows.push({ N, fine: w.fine, r1pn: Number.isFinite(w.r1pn) ? w.r1pn : null, bandFine: last ? w.bands[last] : null, bandFineKey: last, inTol: last ? w.bands[last] <= tol : null }); }
     const cand = rows.filter((z) => z.N >= J.E.startWindow && z.inTol === true);
@@ -269,22 +278,38 @@ export function partW(J) {
   }
   return out;
 }
-/** 外惑星の門(AN410 の推奨の型 —— 主の窓・最も細かい刻み) */
+/**
+ * 外惑星の門(主の窓・最も細かい刻み)。G.policy === 'all'(決断事項 AN410 —— 第315便d): 全系に abs(r) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN) ——
+ * q_1PN が 0 や非有限の系は比を作らず(rOverQ・relTol は null)合格にしない・帯が 2 本未満・負・非有限なら合格にしない。
+ * それ以外(第314便c の型 OUTER_GATE_W314C)は第314便c の式のまま(欄と真偽はビット同一 —— 文書の lib が PHYSICS〔第314便c〕の表を作り直す)。
+ */
 export function gateOuter(r, q1pn, bands, applies, fm, G = OUTER_GATE) {
-  const f = Number.isFinite, b = Object.values(bands || {}), tol = bandTolOf(q1pn, applies, G);
-  const absOk = f(r) ? Math.abs(r) <= G.fit : null, relTol = G.rel * Math.abs(q1pn), relOk = f(r) ? Math.abs(r) <= relTol : null;
-  const bandAbsOk = b.length >= 2 ? b.every((x) => x <= G.num) : null, bandRelOk = b.length >= 2 ? b.every((x) => x <= G.bandRel * Math.abs(q1pn)) : null;
-  const relFm = (f(r) && f(fm)) ? Math.abs(r - fm) <= relTol : null;
-  const pass = absOk === true && bandAbsOk === true && (applies ? (relOk === true && bandRelOk === true) : true);
-  return { r, q1pn, rOverQ: f(r) ? r / q1pn : null, absTol: G.fit, absOk, relTol, relOk, relAfterFm: relFm, bands: b, bandTol: tol, bandAbsOk, bandRelOk, applies, pass,
-    verdict: pass ? '規則で置いた残差が数値の門の内' : '門の外(数で —— 規則が届かないか帯が広い)' };
+  const f = Number.isFinite, b = Object.values(bands || {});
+  if (G.policy !== 'all') {
+    const tol = bandTolOf(q1pn, applies, G);
+    const absOk = f(r) ? Math.abs(r) <= G.fit : null, relTol = G.rel * Math.abs(q1pn), relOk = f(r) ? Math.abs(r) <= relTol : null;
+    const bandAbsOk = b.length >= 2 ? b.every((x) => x <= G.num) : null, bandRelOk = b.length >= 2 ? b.every((x) => x <= G.bandRel * Math.abs(q1pn)) : null;
+    const relFm = (f(r) && f(fm)) ? Math.abs(r - fm) <= relTol : null;
+    const pass = absOk === true && bandAbsOk === true && (applies ? (relOk === true && bandRelOk === true) : true);
+    return { r, q1pn, rOverQ: f(r) ? r / q1pn : null, absTol: G.fit, absOk, relTol, relOk, relAfterFm: relFm, bands: b, bandTol: tol, bandAbsOk, bandRelOk, applies, pass,
+      verdict: pass ? '規則で置いた残差が数値の門の内' : '門の外(数で —— 規則が届かないか帯が広い)' };
+  }
+  const qOk = f(q1pn) && q1pn !== 0, bandsOk = b.length >= 2 && b.every((x) => f(x) && x >= 0);
+  const relTol = qOk ? G.rel * Math.abs(q1pn) : null, gateTol = qOk ? Math.min(G.fit, relTol) : null, bandTol = qOk ? Math.min(G.num, G.bandRel * Math.abs(q1pn)) : null;
+  const absOk = f(r) ? Math.abs(r) <= G.fit : null, relOk = (f(r) && qOk) ? Math.abs(r) <= relTol : null;
+  const bandAbsOk = bandsOk ? b.every((x) => x <= G.num) : (b.length >= 2 ? false : null), bandRelOk = (bandsOk && qOk) ? b.every((x) => x <= G.bandRel * Math.abs(q1pn)) : (b.length >= 2 ? false : null);
+  const relFm = (f(r) && f(fm) && qOk) ? Math.abs(r - fm) <= relTol : null;
+  const pass = qOk && bandsOk && absOk === true && relOk === true && bandAbsOk === true && bandRelOk === true;
+  return { r, q1pn, rOverQ: (f(r) && qOk) ? r / q1pn : null, qOk, absTol: G.fit, absOk, relTol, relOk, gateTol, relAfterFm: relFm, bands: b, bandsOk, bandTol, bandAbsOk, bandRelOk, applies: true, policy: G.policy, pass,
+    verdict: pass ? '規則で置いた残差が数値の門の内' : (qOk ? '門の外(数で —— 規則が届かないか帯が広い)' : '比を作らない(q_1PN が 0 か非有限 —— 合格にしない)') };
 }
-export function partG(J) {
-  const out = { rule: { fit: OUTER_GATE.fit, num: OUTER_GATE.num, rel: OUTER_GATE.rel, bandRel: OUTER_GATE.bandRel, applyBelow: OUTER_GATE.applyBelow, unit: OUTER_GATE.unit, note: OUTER_GATE.note }, systems: {} };
+export function partG(J, G = OUTER_GATE) {
+  const out = { rule: G.policy === 'all' ? { fit: G.fit, num: G.num, rel: G.rel, bandRel: G.bandRel, policy: G.policy, unit: G.unit, note: G.note }
+    : { fit: G.fit, num: G.num, rel: G.rel, bandRel: G.bandRel, applyBelow: G.applyBelow, unit: G.unit, note: G.note }, systems: {} };
   for (const s of OUTER) {
     const T = J.T.systems[s.key], N = J.W.systems[s.key].main, w = J.K.systems[s.key].byWin[N];
-    out.systems[s.key] = Object.assign({ N, fine: w.fine }, gateOuter(w.r1pn, T.q1pn, w.bands, T.relApplies, T.fm),
-      { relInfo: gateOuter(w.r1pn, T.q1pn, w.bands, true, T.fm) });   // 相対の門を置かない系(土星)も相対の列を並べる(参考)
+    out.systems[s.key] = Object.assign({ N, fine: w.fine }, gateOuter(w.r1pn, T.q1pn, w.bands, relAppliesOf(T.q1pn, G), T.fm, G),
+      G.policy !== 'all' ? { relInfo: gateOuter(w.r1pn, T.q1pn, w.bands, true, T.fm, G) } : {});   // 第314便c の型: 相対の門を置かない系(土星)も相対の列を並べる(参考)
   }
   out.allPass = OUTER.every((s) => out.systems[s.key].pass);
   return out;
@@ -445,6 +470,36 @@ export async function runEm(HP, o) {
   return J;
 }
 
+/**
+ * 門の作り直し(第315便d・決断事項 AN410 —— 段 outer だけ)。P0 = 今の正本。走行の行(E)・t = 0 の写し(P)・計画・本の記録はそのまま、
+ * 在位の宣言の照合(live)・標的の列(T)・K・W・G・D・所要・門を器の純関数で作り直す(走行の値は変えない)。scope = {htmlSame, scopeSame}
+ */
+export const REGATE_VERSION = 'w315d-regate-1';
+export function regateOuter(HP, P0, scope) {
+  const bad = [];
+  if (P0.version !== HARNESS_VERSION) bad.push('器の版が違う ' + P0.version);
+  if (P0.stage !== 'outer' || P0.quick === true || !P0.E || !P0.P) bad.push('段 outer の正本(試走でない・E と P がある)でない');
+  if (JSON.stringify(P0.parts) !== JSON.stringify(PARTS_OUTER)) bad.push('全段の正本でない');
+  if (!(scope.htmlSame || scope.scopeSame)) bad.push('対象 html も領域 hash も正本の刻印と違う(走行の値が変わりうる —— 段を走らせ直す)');
+  if (bad.length) throw new Error('--regate: ' + bad.join(' / '));
+  const t = {}; let t0 = Date.now();
+  const tick = (k) => { t[k] = { wallSec: (Date.now() - t0) / 1000 }; t0 = Date.now(); };
+  const J = { stage: 'outer', quick: false, parts: P0.parts.slice(), kernel: P0.kernel, rule: P0.rule, plan: clone(P0.plan), gate: clone(OUTER_GATE) };
+  J.live = liveOuter(HP); J.book = clone(P0.book); J.P = clone(P0.P);
+  J.T = { systems: targetsOf(HP), inner: Object.fromEntries(Object.entries(K13.targetsOf(HP)).map(([k, v]) => [k, { p: v.p }])) }; tick('T');
+  J.E = clone(P0.E);
+  J.K = partK(J); tick('K'); J.W = partW(J); tick('W'); J.G = partG(J); tick('G'); J.D = partD(J); tick('D');
+  J.cost = costOuter(J);
+  J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
+  J.timing = Object.assign({}, clone(P0.timing || {}), Object.fromEntries(Object.entries(t).map(([k, v]) => ['regate' + k, v])));
+  const runs = Object.values(J.E.rows).filter((r) => r.status === 'run');
+  J.stats = { runs: runs.length, steps: runs.reduce((s, r) => s + r.steps, 0) };
+  J.regate = { version: REGATE_VERSION, why: '決断事項 AN410(全系に一様の門 —— 第315便d): 門の欄だけを器の純関数で作り直した(走行の行 E と t = 0 の写し P は元の正本のまま —— r_1PN・帯の数は同じ)',
+    from: { generatedAt: P0.meta && P0.meta.generatedAt || null, targetSha256: P0.targetSha256, scopeSha256: P0.meta && P0.meta.scopeSha256 || null, codeSha256: P0.meta && P0.meta.codeSha256 || null, elapsedS: P0.elapsedS },
+    htmlSame: !!scope.htmlSame, scopeSame: !!scope.scopeSame, kept: ['P', 'E', 'plan', 'book'], rebuilt: ['gate', 'live', 'T', 'K', 'W', 'G', 'D', 'cost', 'gates', 'stats'] };
+  return J;
+}
+
 /* ───────── 実行 ───────── */
 const argOf = (k) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : null; };
 export async function main() {
@@ -465,6 +520,8 @@ export async function main() {
   const t0 = Date.now(), targetSha256 = crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex');
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
+  const regate = process.argv.includes('--regate');
+  if (regate && (stage !== 'outer' || quick || process.env.W314C_FROM)) throw new Error('--regate は段 outer の正本だけ(試走・W314C_FROM と一緒にしない)');
   let reuse = null, reuseFrom = null;
   if (process.env.W314C_FROM) {   // 同じ html・同じ器の版・同じ段の走行の行を使い回す(純関数の段だけを作り直す)
     const f = path.isAbsolute(process.env.W314C_FROM) ? process.env.W314C_FROM : path.join(ROOT, process.env.W314C_FROM);
@@ -479,11 +536,17 @@ export async function main() {
     + '・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s' : '・' + (r.err || '').slice(0, 160)}`);
   const plan = stage === 'em' ? (quick ? EM_QUICK : EM_PLAN) : (quick ? OUTER_QUICK : OUTER_PLAN);
   console.log('第314便c k1' + stage + ': ' + (quick ? '試走' : '正本') + '・workers ' + NW + '・段 ' + parts.join(',') + (reuseFrom ? '・行の使い回し ' + reuseFrom : ''));
-  const R = await (stage === 'em' ? runEm : runOuter)(HP, { quick, parts, plan, run, log, reuse });
+  let R;
+  if (regate) {   // 第315便d(AN410): 門の欄だけを作り直す(走行しない)
+    const P0 = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+    const scope = { htmlSame: P0.targetSha256 === targetSha256, scopeSame: !!(P0.meta && P0.meta.scopeComplete === true && W281A_SCOPE.scopeComplete === true && P0.meta.scopeSha256 === W281A_SCOPE.scopeSha256) };
+    R = regateOuter(HP, P0, scope);
+    console.log('  --regate: 元の正本 ' + (P0.meta && P0.meta.generatedAt) + '・html ' + (scope.htmlSame ? '同じ' : '違う') + '・領域 hash ' + (scope.scopeSame ? '同じ' : '違う'));
+  } else R = await (stage === 'em' ? runEm : runOuter)(HP, { quick, parts, plan, run, log, reuse });
   const out = { version: HARNESS_VERSION, planet3HarnessVersion: PL3.HARNESS_VERSION, planet3LibVersion: Q.LIB_VERSION, confirmHarnessVersion: CF.HARNESS_VERSION, confirmLibVersion: C.LIB_VERSION,
     k1confirmHarnessVersion: K13.HARNESS_VERSION, an336LibVersion: AN.LIB_VERSION, apsisVersion: AP.APSIS_VERSION, emxVersion: EMX.EXTRACTOR_VERSION, generator: 'tests/exp-w314c-k1outer.mjs' + (stage === 'em' ? ' --stage em' : ''),
     target: TARGET, targetSha256, reuseFrom,
-    ruling: '原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・' +
+    ruling: '原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(' + (stage === 'em' ? '推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる' : '全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN) —— 第315便d') + ')・AN405(有限質量比は既知の寄与)・' +
       'AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   if (cstat.resumed > 0) out.resumed = cstat.resumed;   // 再開の写しから読んだ走行の本数(読まなければ鍵を作らない)

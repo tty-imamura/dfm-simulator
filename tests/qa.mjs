@@ -74559,6 +74559,18 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const miss = suite.bad.filter((z) => !(z.rejected && z.hit));
         if (miss.length) bad.push('不正な入力が拒否されない/符号が違う: ' + miss.map((z) => z.name + '→' + z.codes.join('+')).join(' / '));
         cases.push(`不正な入力 ${suite.bad.length} 種を符号どおり拒否(${[...new Set(suite.bad.map((z) => z.expect))].join('・')})`);
+        // 第315便d(決断事項 AN412): 入力の契約の更新 —— 世代切替 = スキーマの x-version w315d-solar16-schema-2(観測レコードは入れない・内蔵にも入れない)
+        if (sch['x-version'] === 'w315d-solar16-schema-2') {
+          const mcS = sch.properties.massConversion, syn = S16.syntheticRecord(), bp = sch.properties.bodies.items.properties;
+          if (!(sch.required.indexOf('massConversion') >= 0 && mcS && mcS.properties.gBasis.const === 'G_0' && JSON.stringify(mcS.required) === JSON.stringify(['gSI', 'gBasis', 'massVersion']))) bad.push('AN412: スキーマの massConversion(gSI・gBasis "G_0"・massVersion)');
+          if (!(Math.abs(S16.G0_SI / (S16.G_UNITS * Math.pow(10, 3 * S16.UNITS.L - S16.UNITS.M - 2 * S16.UNITS.T)) - 1) <= 1e-15 && syn.massConversion.gSI === S16.G0_SI && syn.schema === sch.properties.schema.const)) bad.push('AN412: kg 換算の G = 本の基準重力 G_0');
+          if (!(bp.composed && bp.composed.properties.from.const === 'parentCentric' && bp.mass.properties.gmKm3s2 && bp.pole.properties.model && bp.spin.properties.model)) bad.push('AN412: スキーマの composed・gmKm3s2・pole.model・spin.model');
+          const need = [S16.ERR.parentAdded, S16.ERR.massG, S16.ERR.massVersion, S16.ERR.poleModel, S16.ERR.composeEpoch, S16.ERR.composePlane];
+          const got = new Set(suite.bad.filter((z) => z.rejected && z.hit).map((z) => z.expect)), missE = need.filter((c) => !got.has(c));
+          if (missE.length) bad.push('AN412: 不正な入力の変種が無いか拒否されない ' + missE.join(','));
+          if (!(t.derived && t.derived.gSI === S16.G0_SI && JSON.stringify(t.derived.composed) === JSON.stringify(['io']))) bad.push('AN412: 人工の入力の合成の照合(イオ)');
+          cases.push(`AN412(第315便d): kg 換算は基準重力 G_0 = ${S16.G0_SI}・SSB の衛星の状態に母惑星の状態を足し直した型・合成の元期と面・GM との照合・質量の表の版・地球と月の極の模型の版を符号どおり拒否(${need.length} 符号)`);
+        }
         // radiusFloor の受理契約
         const mk = (o) => ({ name: 'r', description: 'r', sampleClass: o.cls || 'principle', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
           physics: Object.assign({ coord: '3d', kFrame: 0, kRep: 0, muF: 0, kappaS: 0, etaRad: 0 }, o.ph || {}), bodies: [{ type: 'single', m: 1, radius: 0.0014, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
@@ -86171,6 +86183,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----     ③ 段 P(t = 0 の写し —— 全天体 κ₀ × エンジンの質量・規則の鍵の写しとビット同一)を対象 html で作り直して相対 1e-9 ④ 段 K・W・G・D を走行の行から器の純関数で作り直して
 // ----     相対 1e-12(数でない欄は表現の一致)・門の判定 = 欄の積・門の定数が器の宣言(AN410 の推奨の型) ⑤ 在位の 🟡🔷💙 の宣言が不変 ⑥ 表の行と数が PHYSICS〔第314便c〕に逐語・
 // ----     語・AI_SPEC §133・再生成の段・.gitignore・post-merge ③′・CANON ⑦ 書かない語と禁句
+// ----   第315便d(決断事項 AN410 —— 全系に一様の門): 世代切替 = 器の OUTER_GATE.policy === "all"。① 門の定数(一様 —— applyBelow なし・第314便c の型は OUTER_GATE_W314C に凍結)・
+// ----     正本の regate(門の欄だけの作り直し —— 版 w315d-regate-1・html か領域 hash が同じ・E と P を保つ)を許す ② 相対の門を置く系 = 全系 ④ 門の判定 = 一様の欄の積
+// ----     (q_1PN が有限で 0 でない ∧ 帯が有限で非負 ∧ abs(r) ≤ ε_fit ∧ abs(r) ≤ 1e-2 q_1PN ∧ 帯 ≤ ε_num ∧ 帯 ≤ 1e-2 q_1PN)・gateTol = min(ε_fit, 1e-2 q_1PN)。
+// ----     ⑥ PHYSICS〔第314便c〕の表は文書の lib が第314便c の型の門で作り直す(表の文は第314便c のまま —— 一様の門の表は PHYSICS〔第315便d〕・docs.satK1_315)
 // ----   docs.k1em314: ① 正本の門・試走でない・全段・版/来歴・計画(h/4 は月 118 公転・地球 8 公転・長い窓 354 公転 —— 刻み h) ② 標的の列を作り直して相対 1e-12 ③ 段 K・M・S を
 // ----     走行の行から作り直して相対 1e-12 ④ 長い窓の EMB の近日点の率(最初の 8 公転 —— 窓の長さに依らない)が第313便d の正本の 118 公転・刻み h の行とビット同一・統括の 2 段目との
 // ----     照合の数 ⑤ 在位の 🌦️ の宣言が不変 ⑥ 表の行と数が PHYSICS〔第314便c〕に逐語 ⑦ 禁句
@@ -86221,6 +86237,9 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === stage)) bad.push('① 正本の版/来歴(w272e-1)');
     if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
     if (J.reuseFrom !== null) bad.push('① 正本が行の使い回し(W314C_FROM)で作られた');
+    // 第315便d(AN410): 門の欄だけの作り直し(--regate)は段 outer の正本だけ・html か領域 hash が刻印と同じ・走行の行 E と t = 0 の写し P を保つ
+    if (J.regate !== undefined && !(stage === 'outer' && X.REGATE_VERSION && J.regate && J.regate.version === X.REGATE_VERSION && (J.regate.htmlSame === true || J.regate.scopeSame === true)
+      && JSON.stringify(J.regate.kept) === JSON.stringify(['P', 'E', 'plan', 'book']) && J.regate.from && typeof J.regate.from.targetSha256 === 'string')) bad.push('① 正本の regate(門の欄だけの作り直し)の記録');
     if (J.kernel !== 'k1') bad.push('① 正本が K1 でない');
     return GK;
   };
@@ -86230,8 +86249,13 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const GK = common(Jo, bo, 'outer', X.PARTS_OUTER), P = X.OUTER_PLAN;
       if (!(Jo.E && Jo.E.runN === P.runN && JSON.stringify(Jo.E.windows) === JSON.stringify(P.windows) && JSON.stringify(Jo.E.divs) === JSON.stringify(P.divs) && Jo.E.startWindow === P.startWindow && Object.keys(Jo.E.rows).length === X.OUTER.length * P.divs.length * P.kinds.length))
         bo.push('① 計画が器の宣言(16 公転の入れ子の窓 4・8・16 × h・h/2・h/4 × q00・q10・q11)と違う');
-      const OG = X.OUTER_GATE;
-      if (!(OG.fit === 1e-3 && OG.num === 3e-4 && OG.rel === 1e-2 && OG.bandRel === 1e-2 && OG.applyBelow === 10 && nearSame314(Jo.gate, JSON.parse(JSON.stringify(OG))))) bo.push('① 外惑星の門の定数が器の宣言(AN410 の推奨の型)と違う');
+      const OG = X.OUTER_GATE, uni = OG.policy === 'all';   // 第315便d(AN410): 一様の門の世代
+      if (uni) {
+        const OL = X.OUTER_GATE_W314C;
+        if (!(OG.fit === 1e-3 && OG.num === 3e-4 && OG.rel === 1e-2 && OG.bandRel === 1e-2 && OG.applyBelow === undefined && nearSame314(Jo.gate, JSON.parse(JSON.stringify(OG))))) bo.push('① 外惑星の門の定数が器の宣言(AN410 —— 全系に一様)と違う');
+        if (!(OL && OL.applyBelow === 10 && OL.policy === 'below' && OL.fit === OG.fit && OL.num === OG.num && OL.rel === OG.rel && OL.bandRel === OG.bandRel)) bo.push('① 第314便c の型の門(OUTER_GATE_W314C)が凍結の値でない');
+        if (!(Jo.G && Jo.G.rule && Jo.G.rule.policy === 'all' && Jo.G.rule.applyBelow === undefined)) bo.push('① 正本の門の規則に policy "all" が無い');
+      } else if (!(OG.fit === 1e-3 && OG.num === 3e-4 && OG.rel === 1e-2 && OG.bandRel === 1e-2 && OG.applyBelow === 10 && nearSame314(Jo.gate, JSON.parse(JSON.stringify(OG))))) bo.push('① 外惑星の門の定数が器の宣言(AN410 の推奨の型)と違う');
       co.push(`① 門 ${GK.filter((k) => Jo.gates[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・${Jo.E.runN} 公転の入れ子の窓 ${Jo.E.windows.join('・')} × h/${Jo.E.divs.join('・h/')}・走行 ${Object.keys(Jo.E.rows).length} 本`);
       // ②
       const T2 = X.targetsOf(HPx);
@@ -86239,7 +86263,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const ts = Jo.T.systems;
       if (!(ts.saturn.a1.EPM2011.value === -0.00032 && ts.saturn.a1.INPOP10a.value === 0.00015 && ts.saturn.a1.EPM2011.audited === true && Object.keys(ts.uranus.a1).length === 0 && Object.keys(ts.neptune.a1).length === 0))
         bo.push('② A1 の列(土星 EPM2011 −0.00032・INPOP10a +0.00015 —— 天王星・海王星は行なし)');
-      if (!(ts.saturn.relApplies === false && ts.uranus.relApplies === true && ts.neptune.relApplies === true && ts.neptune.q1pn < OG.fit)) bo.push('② 相対の門を置く系(q_1PN < 10 ε_fit —— 天王星・海王星)・海王星の q_1PN < ε_fit');
+      if (uni) { if (!(X.OUTER.every((s) => ts[s.key].relApplies === true) && ts.neptune.q1pn < OG.fit)) bo.push('② 相対の門を置く系(一様 —— 全系)・海王星の q_1PN < ε_fit'); }
+      else if (!(ts.saturn.relApplies === false && ts.uranus.relApplies === true && ts.neptune.relApplies === true && ts.neptune.q1pn < OG.fit)) bo.push('② 相対の門を置く系(q_1PN < 10 ε_fit —— 天王星・海王星)・海王星の q_1PN < ε_fit');
       for (const s of X.OUTER) { const t = ts[s.key]; if (!(Math.abs(t.fm - (4 / 3) * t.eta * t.q1pn) <= 1e-15 * Math.max(1, Math.abs(t.fm)) + 1e-20)) bo.push('② 有限質量比の予測 (4/3)η q_1PN ' + s.key); }
       co.push(`② 標的の列を作り直して相対 1e-12(q_1PN ${X.OUTER.map((s) => s.ja + ' ' + ts[s.key].q1pn.toExponential(4)).join('・')}・相対の門 ${X.OUTER.filter((s) => ts[s.key].relApplies).map((s) => s.ja).join('・')})`);
       // ③
@@ -86256,9 +86281,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!nearSame314(G3, Jo.G)) bo.push('④ 段 G を作り直すと違う');
       if (!nearSame314(D2, Jo.D)) bo.push('④ 段 D を作り直すと違う');
       for (const s of X.OUTER) { const g = Jo.G.systems[s.key];
-        if (g.pass !== (g.absOk === true && g.bandAbsOk === true && (g.applies ? (g.relOk === true && g.bandRelOk === true) : true))) bo.push('④ 門の判定 = 欄の積 でない ' + s.key);
+        if (uni) {
+          if (g.pass !== (g.qOk === true && g.bandsOk === true && g.absOk === true && g.relOk === true && g.bandAbsOk === true && g.bandRelOk === true)) bo.push('④ 門の判定 = 一様の欄の積 でない ' + s.key);
+          if (!(g.policy === 'all' && g.applies === true && Object.is(g.gateTol, Math.min(OG.fit, g.relTol)) && Object.is(g.bandTol, Math.min(OG.num, OG.bandRel * Math.abs(g.q1pn))) && g.relInfo === undefined)) bo.push('④ 一様の門の許容(min(ε_fit, 1e-2 q_1PN)・min(ε_num, 1e-2 q_1PN))' + s.key);
+          // 比を作らない系(q_1PN が 0 か非有限)と帯の負・非有限は合格にしない —— 器の純関数で人工の値を引く
+          const z0 = X.gateOuter(0, 0, { a: 0, b: 0 }, true, 0), zN = X.gateOuter(1e-9, 1e-3, { a: -1e-12, b: 0 }, true, 0), zF = X.gateOuter(1e-9, NaN, { a: 0, b: 0 }, true, 0), z1 = X.gateOuter(1e-9, 1e-3, { a: 1e-12 }, true, 0);
+          if (!(z0.pass === false && z0.rOverQ === null && z0.relTol === null && zN.pass === false && zF.pass === false && z1.pass === false)) bo.push('④ q_1PN = 0・非有限・帯の負・帯 1 本を合格にしている');
+        } else if (g.pass !== (g.absOk === true && g.bandAbsOk === true && (g.applies ? (g.relOk === true && g.bandRelOk === true) : true))) bo.push('④ 門の判定 = 欄の積 でない ' + s.key);
         if (g.pass && g.verdict !== '規則で置いた残差が数値の門の内') bo.push('④ 門の内の語 ' + s.key); }
-      co.push(`④ 段 K・W・G・D を走行の行から作り直して一致 —— 主の窓 ${X.OUTER.map((s) => s.ja + ' ' + Jo.W.systems[s.key].main).join('・')} 公転・門 ${X.OUTER.map((s) => s.ja + ' ' + (Jo.G.systems[s.key].pass ? '内' : '外')).join('・')}・r_1PN ${X.OUTER.map((s) => Jo.G.systems[s.key].r.toExponential(2)).join('・')}`);
+      co.push(`④ 段 K・W・G・D を走行の行から作り直して一致 —— 主の窓 ${X.OUTER.map((s) => s.ja + ' ' + Jo.W.systems[s.key].main).join('・')} 公転・門${uni ? '(一様 —— AN410)' : ''} ${X.OUTER.map((s) => s.ja + ' ' + (Jo.G.systems[s.key].pass ? '内' : '外')).join('・')}・r_1PN ${X.OUTER.map((s) => Jo.G.systems[s.key].r.toExponential(2)).join('・')}${uni ? '・r/q_1PN ' + X.OUTER.map((s) => Jo.G.systems[s.key].rOverQ.toExponential(3)).join('・') : ''}${Jo.regate ? '(門の欄は ' + Jo.regate.version + ' で作り直した —— 走行の行は元のまま)' : ''}`);
       // ⑤
       if (!(X.gatesOf({ stage: 'outer', live: X.liveOuter(HPx) }).inPositionUnchanged === true)) bo.push('⑤ 在位の宣言が凍結の写しと違う');
       co.push('⑤ 在位の 🟡🔷💙 の宣言は凍結の写しのまま(在位へ入れていない)');
@@ -86329,7 +86360,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     co.push('⑦ 書かない語・禁句'); ce.push('⑦ 禁句(器と文書の lib)');
   }
   add('docs.k1outer314', bo.length === 0,
-    `**外惑星 3 本の K1 の確認の正本**(第314便c・原仮定者の裁定(第116報)の補足・AN410〔推奨〕・AN405・AN401・AN396′・AN336・R240 —— 正本 k1outer-w314c.json・太陽を含む全天体に R_d = κ₀ × エンジンの質量〔κ₀ 固定・合わせない〕・相対の門・在位へ入れない): ${co.join(' / ')}`
+    `**外惑星 3 本の K1 の確認の正本**(第314便c・原仮定者の裁定(第116報)の補足・AN410〔第315便d で全系に一様の門〕・AN405・AN401・AN396′・AN336・R240 —— 正本 k1outer-w314c.json・太陽を含む全天体に R_d = κ₀ × エンジンの質量〔κ₀ 固定・合わせない〕・在位へ入れない): ${co.join(' / ')}`
     + (bo.length ? ` / **違反 ${bo.length} 件**: ${bo.slice(0, 6).join(' , ')}` : ''));
   add('docs.k1em314', be.length === 0,
     `**🌦️ の h/4 と月の 354 公転の正本**(第314便c・R240 —— 正本 k1em-w314c.json・K1 の確認の器の写しと走行の関数のまま・統括の 2 段目との照合): ${ce.join(' / ')}`
