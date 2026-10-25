@@ -842,7 +842,7 @@
      ワンタップ切替。#classChips のチップ見た目を流用しつつ独立クラス化・タップ領域を確保) */
   #familyRow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;}
   .retiredNotice{border-left:3px solid var(--dim);padding-left:6px;}   /* 第283便b: 退役(履歴)の 1 行 */
-  .rdExcessNotice{border-left:3px dashed var(--dim);padding-left:6px;}   /* 第314便a(AN404): R_d > R の天体の 1 行(破線の円の凡例 —— 色に意味は付けない) */
+  .rsExcessNotice{border-left:3px dashed var(--dim);padding-left:6px;}   /* 第315便b(AN415): r_s > R_obs の天体の 1 行(灰の破線の円の凡例 —— 色に意味は付けない。第314便a の R_d > R の行 .rdExcessNotice から付け替え) */
   .familyRowLabel{font-size:calc(11px*var(--uz,1));color:var(--dim);white-space:nowrap;}
   .familyLink{display:inline-block;max-width:100%;padding:4px 10px;border-radius:999px;
     font-size:calc(11.5px*var(--uz,1));line-height:1.5;white-space:nowrap;overflow:hidden;
@@ -1001,6 +1001,8 @@
            第95便(原仮定者指示): パネルを畳んで(min)いても表示・2行分割(selConvLinesNow) -->
       <!-- 第22便: 半径R(明示指定)・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off"></div>
+      <!-- 第315便b(決断事項 AN415): シュヴァルツシルト半径 r_s = 2G_0m/c_0² が観測半径 R_obs を超える天体だけ r_s/R_obs の行(表示専用 —— 読み口 schwarzschildExcessOf・本の種類を限らない) -->
+      <div class="beNote" id="beRsX" style="display:none"></div>
       <!-- 第299便f(原仮定者の裁定(第89報)⑤): kFrame=0 のときは行ごと隠す(値は保持 —— kFrame を戻せば出る)。出し分けは selEditVisOf -->
       <div class="beRow" id="beDqRow"><label id="beLdq">引きずりq</label><input type="text" id="beDq" inputmode="decimal" autocomplete="off" placeholder="既定(physics.q)"></div>
       <!-- 第245便(原仮定者指示「パルス周期が画面から読めない」): 第226便の運動学パルスチャネルの
@@ -1026,8 +1028,8 @@
         <div class="beRow" id="beDcEdit"><label id="beLdcMF" style="min-width:24px">f</label><input type="text" id="beDcMF" inputmode="decimal" autocomplete="off">
           <label id="beLdcR" style="min-width:24px">R_c</label><input type="text" id="beDcR" inputmode="decimal" autocomplete="off"></div>
         <div class="beNote" id="beDcNote"></div>
-        <!-- 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」): 引きずりの半径 R_d が観測半径 R を超える天体だけ R_d/R の行(新則 invSq の本 —— dragCore の宣言の有無に依らない) -->
-        <div class="beNote" id="beDcRdX" style="display:none"></div>
+        <!-- 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」): 引きずりの半径 R_d が観測半径 R を超える天体だけ R_d/R の行(#beDcRdX)を置いた
+             → 第315便b(決断事項 AN415): r_s > R_obs の行 #beRsX(半径の行の下 —— 本の種類を限らない)へ付け替えた(r_d の超過は表示しない) -->
       </div>
       <!-- 第299便f(原仮定者の裁定(第89報)⑤「コア軸の切り替えとパラメータを出す」): **三次元の本の自転軸**(spinAxis.enable —— 力学の軸)。
            傾き θ(+z から)・方位 φ(+x から)・歳差 Ω_p(rad/時間 —— 規定運動)・歳差の軸(傾き・方位)。二次元の本の表示専用の spinAxis とは別の欄 -->
@@ -1814,8 +1816,8 @@ ja: {
   beDcShell:(eta,Rd)=>"引きずり核の殻(第304便a —— 読み取り): 引きずり核球面近似係数 η="+eta+"(核の半径/天体の半径)・R_d="+Rd+"。体積の構造核とは排他(本の宣言 dragCore:{shellRatio} —— ここでは付け外ししない)。",
   beDcErr:(e)=>"⛔ 受理されない —— "+e+"(何も書いていない)",
   beDcNoteIsq:" 新しい引きずり則 invSq の本は R_c > R も受理する(K1 —— 外殻を宣言した本の f<1 は除く・K2 —— f=1 だけ。R_c は重力半径に比例する引きずりの半径で物質半径ではない —— 第314便a・AN404・AN411)。",
-  beDcRdX:(q,Rd,R)=>"R_d/R = "+q+"(物質半径を超える —— R_d = "+Rd+" は重力半径に比例する引きずりの半径・R = "+R+" は観測半径。受理〔第314便a・AN404〕・引きずり球どうしの重なりは今のまま数える)",
-  rdExcessNotice:(n,q)=>"R_d > R の天体 "+n+"・最大の比 R_d/R = "+q+"(引きずりの半径 R_d は重力半径に比例する長さ —— 物質半径ではない。観測半径を超えても受理し〔原仮定者の裁定(第116報)AN404〕、キャンバスでは超過の天体だけ半径 R_d の破線の円で示す。引きずり球どうしの重なりは今のまま数える)",
+  beRsX:(q,rs,R)=>"r_s/R_obs = "+q+"(シュヴァルツシルト半径 r_s = "+rs+" が観測半径 R_obs = "+R+" を超える —— r_s = 2G_0m/c_0² は本の基準重力 G_0・基準光速 c_0 と全質量 m から計算した GR の参照の尺度で、DFM による地平面の判定ではない。表示だけ〔第315便b・決断事項 AN415〕)",
+  rsExcessNotice:(n,q)=>"r_s > R_obs の天体 "+n+"・最大の比 r_s/R_obs = "+q+"(シュヴァルツシルト半径 r_s = 2G_0m/c_0² —— 本の基準重力 G_0・基準光速 c_0 と全質量 m から計算した GR の参照の尺度 —— が観測半径 R_obs を超える天体。DFM による地平面の判定ではない。キャンバスでは該当の天体だけ半径 r_s の灰の破線の円で示す〔粒子と同じ表示倍率・色に意味は無い〕。引きずりの半径 r_d が R_obs を超える受理と警告は今のまま〔決断事項 AN415〕)",
   beDdc:"構造核 dragCore: relativeDrag.law:\"inertial\" の本で、この粒子を源とする核を一様 2 層(コア+マントル殻)で体積平均した ⟨K⟩(r) に替える(〔第292便c〕)。宣言の鍵と値域は受理器と同じ(dragCore:{massFrac, radius})。ON で付け(既定 f=0.5・R_c=R/2)、OFF で外す。通らない編集は 1 bit も書かず理由を出す。⏮初めからで本の宣言に戻る。",
   beLsaOn:"自転軸(三次元)",
   beSaNoteOn:"θ=+z からの傾き・φ=+x からの方位(今の軸)・Ω_p=歳差[rad/時間](p̂ のまわりの規定運動)・p̂=歳差の軸。",
@@ -3099,8 +3101,8 @@ en: {
   beDcShell:(eta,Rd)=>"Drag-core shell (wave 304a, read-only): drag-core sphere approximation coefficient eta="+eta+" (core radius / body radius), R_d="+Rd+". Exclusive with the volume structure core (book declaration dragCore:{shellRatio} - not attached or removed here).",
   beDcErr:(e)=>"⛔ Not accepted - "+e+" (nothing was written)",
   beDcNoteIsq:" In a book with the new drag law invSq, R_c > R is also accepted (K1 - except f<1 in a book declaring an outer shell; K2 - f=1 only). R_c is a drag radius proportional to the gravitational radius, not the material radius (wave 314a, AN404, AN411).",
-  beDcRdX:(q,Rd,R)=>"R_d/R = "+q+" (exceeds the material radius - R_d = "+Rd+" is a drag radius proportional to the gravitational radius; R = "+R+" is the observed radius. Accepted (wave 314a, AN404); overlapping drag spheres are still counted)",
-  rdExcessNotice:(n,q)=>"Bodies with R_d > R: "+n+", largest ratio R_d/R = "+q+" (the drag radius R_d is a length proportional to the gravitational radius - not the material radius. It is accepted even beyond the observed radius (the adjudicator's ruling, 116th report, AN404), and on the canvas only those bodies get a dashed circle of radius R_d. Overlapping drag spheres are still counted)",
+  beRsX:(q,rs,R)=>"r_s/R_obs = "+q+" (the Schwarzschild radius r_s = "+rs+" exceeds the observed radius R_obs = "+R+" - r_s = 2G_0m/c_0² is a GR reference scale computed from the book's base gravity G_0, base light speed c_0 and the total mass m; it is not a horizon determination by DFM. Display only (wave 315b, decision AN415))",
+  rsExcessNotice:(n,q)=>"Bodies with r_s > R_obs: "+n+", largest ratio r_s/R_obs = "+q+" (the Schwarzschild radius r_s = 2G_0m/c_0² - a GR reference scale computed from the book's base gravity G_0, base light speed c_0 and the total mass m - exceeds the observed radius R_obs for these bodies. This is not a horizon determination by DFM. On the canvas only those bodies get a grey dashed circle of radius r_s (same display scale as the particle; the colour carries no meaning). A drag radius r_d beyond R_obs is still accepted with its warning (decision AN415))",
   beDdc:"Structure core dragCore: in a relativeDrag.law:\"inertial\" book, replaces the kernel of the pairs this body sources with <K>(r) volume-averaged over two uniform layers (core + mantle shell; wave 292c). Keys and ranges are those of the validator (dragCore:{massFrac, radius}). ON attaches one (default f=0.5, R_c=R/2), OFF removes it. A rejected edit writes nothing and shows why. ⏮ Restart returns to the book's declaration.",
   beLsaOn:"Spin axis (3D)",
   beSaNoteOn:"θ = tilt from +z, φ = azimuth from +x (current axis), Ω_p = precession [rad/time] (prescribed about p̂), p̂ = precession axis.",
@@ -8109,13 +8111,15 @@ function invSqMassLo(ph){ return (ph && isNum(ph.massFloor) && ph.massFloor>0 &&
 //   ・受理(新則 invSq の本だけ —— 旧則の構造核の表・law が inertial でない本は今の契約 0 < R_c ≤ R のまま): K1(kernel:"k1")は規則の R_d = κ₀m(dragCore を宣言しない天体)・
 //     radius を省略した dragCore(R_d = κ₀·massFrac·m)・明示の dragCore.radius の 3 経路とも R_d > R を受理する。ただし外殻 outerShell を宣言した本で massFrac < 1(外殻の質量を
 //     持つ)の天体の R_d ≥ R は拒否(外殻の内径が外径に届く —— 外殻は粒子が触れる距離の特別処理〔AN403・AN409〕・将来の地表のサンプル)。K2 は明示の dragCore.radius で
-//     massFrac = 1(マントルなし)だけ受理・massFrac < 1 は R_c < R のまま(同じ型の文で拒否 —— AN411)。R_c = R ∧ massFrac < 1 は今のまま「マントルの体積が 0」で拒否。
+//     massFrac = 1(マントルなし)だけ受理・massFrac < 1 は R_c < R のまま(同じ型の文で拒否 —— AN411)。R_c = R ∧ massFrac < 1 は今のまま「マントルの体積が 0」で拒否
+//     (→ 第315便b: **K1 で外殻を宣言しない本は r_d = R も受理へそろえた** —— K1 の外殻なしの R_d ≥ R の受理と同じ型。K2・旧則・外殻の組は今のまま拒否)。
 //     正・有限の検査は残す。K1 で外殻を宣言しない本の massFrac < 1 は外殻を作らない(m − m_d は今のまま引きずりの源にならない)ので R_d > R を受理する。
 //   ・受理の警告: 超過の天体ごとに 1 行(R_d・R・比 R_d/R —— 重力半径に比例する長さとして受理・物質半径ではない・引きずり球どうしの重なりは今のまま数える)。cap 6.5×10⁶ m
 //     (K2 の未宣言の上限 —— K1 は見ない)の文とは別。
 //   ・**重なりの検査は外さない**(距離 > R_d,i + R_d,j —— 外殻を持つ天体は外径。M₁ = R²/(5r²) などの閉じた式は球の外だけなので、超過の受理は重なった引きずり球の積分を
 //     意味しない —— 重なれば今のまま overlap を数えてその步の引きずりを作らない)。半径の無い点には規則を当てない(今のまま)。
 //   ・読み口 inertialDragIsqState の radiusExcess(超過がある本だけ —— 無い本は欄を足さない)・表示(選択粒子の欄の R_d/R の行・説明の 1 行・キャンバスの破線の円 —— 超過の天体だけ)。
+//     → 第315便b(決断事項 AN415): **表示は r_s > R_obs へ付け替えた**(schwarzschildExcessOf の注記 —— r_d の超過は表示しない)。受理・受理の警告・読み口 radiusExcess は今のまま。
 const REL_DRAG_RD_EXCESS_VERSION="w314a-rd-excess-1";
 // 新則 invSq の族(正規化した relativeDrag): "k1" | "k2" | null(新則でない —— R_d > R の受理は無い・今の契約)
 function invSqRdExcessKindOf(rd){ const q=rd && rd.law==="inertial" && rd[REL_DRAG_INVSQ_KEY]; return q? ((q.kernel==="k1")? "k1" : "k2") : null; }
@@ -9001,7 +9005,8 @@ function validateDragCoreBody(b, ph){
   if(ruleNoR && (!(Rc>0) || !Number.isFinite(Rc))) return {ok:false, err:'dragCore(radius を省略 —— 規則 R_d = κ₀ m_d)の R_d = '+Rc+' が正の有限数でない(第313便a —— radius を超える R_d は第314便a・AN404 で受理)'};
   if(!ruleNoR && (!isNum(d.radius) || !(d.radius>0) || (d.radius>b.radius && !xk))) return {ok:false, err:xk? 'dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)' : 'dragCore.radius は 0<R_c≤radius(コアの半径・絶対)'};
   if(xk){ const why=invSqRdExcessDenyOf(xk, d.massFrac, ph[REL_DRAG_KEY], Rc, b.radius); if(why) return {ok:false, err:why}; }
-  if(Rc===b.radius && d.massFrac<1) return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
+  // 第315便b(DECISIONS の K1 の境界の 1 点): K1 で外殻を宣言しない本は r_d = R ∧ massFrac < 1 も受理(外殻を作らない —— r_d > R の受理と同じ型。外殻の組は上の invSqRdExcessDenyOf で拒否)
+  if(Rc===b.radius && d.massFrac<1 && xk!=="k1") return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
   const rd=ph && ph[REL_DRAG_KEY];
   if(hasSpin && !(rd && rd.law==="inertial" && rd[REL_DRAG_INVSQ_KEY])) return {ok:false, err:'dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:"inertial" でない本とは一緒にしない —— 第311便a)'};
   if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
@@ -34630,18 +34635,21 @@ function setStepDiag(v){ stepDiagOn=!!v;
 // 物理・セーブ・署名には一切効かない。
 let coreAxisShow=true;
 let spinAxisGlyphN=0;   // 第288便e: 点粒子の自転軸の宣言(spinAxis)を描いた回数の累計(表示の検査用 —— 力学に効かない)
-// 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238): 引きずりの半径 R_d が観測半径 R を超える天体だけ、半径 R_d の破線の円を描く
-//   (画面の半径 = 粒子の表示の半径 rr × R_d/R —— 粒子の表示倍率 dispMag・radiusScale・最小の表示半径と同じ尺度で、粒子の円との比が R_d/R になる)。色に意味は付けない・
-//   **表示専用**(物理・署名には 1 bit も効かない)。超過の無い本では呼ばれない(描画は 1 px も変わらない)。rdExcessRingN = 描いた回数の累計(表示の検査用)
-let rdExcessRingN=0;
-function drawRdExcessRing(x,y,rr,ratio){
+// 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238): 引きずりの半径 R_d が観測半径 R を超える天体だけ、半径 R_d の破線の円を描いた
+//   → 第315便b(決断事項 AN415): **円の対象を r_s > R_obs の天体へ付け替えた**(r_d の円は描かない —— 下の drawRsExcessRing)。
+// 第315便b(決断事項 AN415・統括の検証項目 R243): シュヴァルツシルト半径 r_s = 2G_0m/c_0² が観測半径 R_obs を超える天体だけ、半径 r_s の**灰の破線の円**を描く
+//   (読み口 schwarzschildExcessOf の行 —— 画面の半径 = 粒子の表示の半径 rr × r_s/R_obs。粒子の表示倍率 dispMag・radiusScale・最小の表示半径と同じ尺度なので、粒子の円との比が
+//   r_s/R_obs になる〔表示の半径が最小の表示半径や上限に当たる粒子では比は表示の倍率のまま〕)。色に意味は付けない・GR の参照の尺度で DFM による地平面の判定ではない・
+//   **表示専用**(物理・署名には 1 bit も効かない)。超過の無い本では呼ばれない(描画は 1 px も変わらない)。rsExcessRingN = 描いた回数の累計(表示の検査用)
+let rsExcessRingN=0;
+function drawRsExcessRing(x,y,rr,ratio){
   const r=rr*ratio;
   if(!(r>0) || !Number.isFinite(r)) return;
   ctx.save();
-  ctx.strokeStyle="rgba(220,224,240,0.75)"; ctx.lineWidth=1; if(ctx.setLineDash) ctx.setLineDash([3,3]);
+  ctx.strokeStyle="rgba(190,190,190,0.8)"; ctx.lineWidth=1; if(ctx.setLineDash) ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.stroke();
   ctx.restore();
-  rdExcessRingN++;
+  rsExcessRingN++;
 }
 let layerAxisGlyphN=0;   // 第289便e: 層の軸の宣言を描いた回数の累計(表示の検査用 —— 力学に効かない)
 try{ const _ca=localStorage.getItem("hp_core_axis"); if(_ca!==null) coreAxisShow=(_ca==="1"); }catch(_){}
@@ -38749,7 +38757,7 @@ function render(){
   const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   const ordV=viewDrawOrder(sim);   // 第298便d: 三次元の本を横から見るときだけ遠い順(二次元の本・θ=±90 は null —— 添字順のまま)
   const svS=spinVisBegin(sim, performance.now());   // 第307便d(R212): スピンの回転表示の上限(描画の角 —— 物理の角は読むだけ)
-  const rdxV=inertialDragIsqRdExcessOf(sim);   // 第314便a(AN404): R_d > R の天体(新則の三次元の本だけ —— 他の本は null で下の円を描かない)
+  const rsxV=schwarzschildExcessOf(sim);   // 第315便b(AN415): r_s > R_obs の天体(本の種類を限らない —— 超過の無い本は null で下の円を描かない。第314便a の R_d の円から付け替え)
   for(let kV=0;kV<sim.n;kV++){
     const i=ordV? ordV[kV] : kV;
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i],viewZOf(sim,i));
@@ -38888,7 +38896,7 @@ function render(){
         }
       }
     }
-    if(rdxV){ const xr=rdxV.by.get(i); if(xr) drawRdExcessRing(sx,sy,rr,xr.ratio); }   // 第314便a(AN404): 超過の天体だけ半径 R_d の破線の円(表示専用)
+    if(rsxV){ const xr=rsxV.by.get(i); if(xr) drawRsExcessRing(sx,sy,rr,xr.ratio); }   // 第315便b(AN415): 超過の天体だけ半径 r_s の灰の破線の円(表示専用)
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
   }
   // 第33便(台帳4-63): 光子(S.photons)の描画 — 粒子描画の後、光線 drawRays とは独立(実装1)。
@@ -39263,7 +39271,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   }
   const ordV=viewDrawOrder(S);   // 第298便d: 三次元の本を傾けて見るときだけ遠い順
   const svS=spinVisBegin(S, performance.now());   // 第307便d(R212): スピンの回転表示の上限(A/B 側も —— 状態は sim ごと)
-  const rdxV=inertialDragIsqRdExcessOf(S);   // 第314便a(AN404): R_d > R の天体(A/B 側も同じ —— 超過の無い本は null)
+  const rsxV=schwarzschildExcessOf(S);   // 第315便b(AN415): r_s > R_obs の天体(A/B 側も同じ —— 超過の無い本は null)
   for(let kV=0;kV<S.n;kV++){
     const i=ordV? ordV[kV] : kV;
     const px=sx(S.x[i]), py=sy(S.y[i],viewZOf(S,i));
@@ -39304,7 +39312,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
         ctx.lineWidth=1;
       }
     }
-    if(rdxV){ const xr=rdxV.by.get(i); if(xr) drawRdExcessRing(px,py,rr,xr.ratio); }   // 第314便a(AN404): 超過の天体だけ半径 R_d の破線の円(A/B 側も同じ)
+    if(rsxV){ const xr=rsxV.by.get(i); if(xr) drawRsExcessRing(px,py,rr,xr.ratio); }   // 第315便b(AN415): 超過の天体だけ半径 r_s の灰の破線の円(A/B 側も同じ)
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
     if(selIdx===i && S===selSimRef()){   // 第12便: A/B比較中の選択リング(選択された宇宙側にのみ描く)
       ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
@@ -47034,10 +47042,11 @@ function renderHelp(){
     const gn=document.createElement("p"); gn.id="groupCardNote"; gn.className="note groupCardNote";
     gn.dataset.k=GROUP_CARD_NOTE[currentPreset.id]; gn.textContent=T(GROUP_CARD_NOTE[currentPreset.id]); el.appendChild(gn);
   }
-  // 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238): 引きずりの半径 R_d が観測半径 R を超える天体がある本だけ 1 行(表示専用 —— 読み口
-  //   inertialDragIsqRdExcessOf を読み込んだ状態から。超過の無い本には出さない)
-  { const rx=inertialDragIsqRdExcessOf(sim);
-    if(rx){ const xn=document.createElement("p"); xn.id="rdExcessNotice"; xn.className="note rdExcessNotice"; xn.textContent=T("rdExcessNotice")(rx.n, rx.maxRatio.toPrecision(5)); el.appendChild(xn); } }
+  // 第314便a(原仮定者の裁定(第116報)AN404「超えた場合の表示も用意する」・R238): 引きずりの半径 R_d が観測半径 R を超える天体がある本だけ 1 行を出した
+  //   → 第315便b(決断事項 AN415・R243): **シュヴァルツシルト半径 r_s が観測半径 R_obs を超える天体がある本だけ 1 行**へ付け替えた(表示専用 —— 読み口
+  //   schwarzschildExcessOf を読み込んだ状態から。超過の無い本には出さない・r_d の超過の行は出さない)
+  { const rx=schwarzschildExcessOf(sim);
+    if(rx){ const xn=document.createElement("p"); xn.id="rsExcessNotice"; xn.className="note rsExcessNotice"; xn.textContent=T("rsExcessNotice")(rx.n, rx.maxRatio.toPrecision(5)); el.appendChild(xn); } }
   el=SEC.ledger;
   // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
   // 中身は calibrationBudget() の自動算出(宣言は持たない)。タップで内訳を開く。表示専用。
@@ -47902,6 +47911,10 @@ function updateBodyEdit(){
   // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
   // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
   $("#beR").value=fmt(S.R[i]);   // 第22便: 半径系(実効値を表示。第81便: Rc/R 欄は廃止)
+  // 第315便b(決断事項 AN415・R243): シュヴァルツシルト半径 r_s が観測半径 R_obs を超える天体だけ比の行(読み口 schwarzschildExcessOf と同じ r_s・R_obs —— 本の種類を限らない。
+  //   第314便a の構造核の箱の R_d/R の行 #beDcRdX から付け替え —— r_d の超過は表示しない)
+  { const rx=schwarzschildExcessOf(S), xr=rx? rx.by.get(i) : null, xe=$("#beRsX");
+    xe.style.display=xr? "" : "none"; xe.textContent=xr? T("beRsX")(xr.ratio.toPrecision(5), fmt(xr.rs), fmt(xr.Robs)) : ""; }
   // 第239便(第31報): 粒子別の引きずり減衰指数 q_i(第237便 body.dragQ)を編集欄へ。未宣言(0)は空欄=既定 physics.q
   $("#beDq").value=(S.dragQ && S.dragQ[i]>0)? fmt(S.dragQ[i]) : "";
   $("#beDq").placeholder=T("beDqPh")+" "+fmt(S.params.q);
@@ -47930,8 +47943,6 @@ function updateBodyEdit(){
       $("#beDcOn").checked=!!d; $("#beDcOn").disabled=!!sh; $("#beDcEdit").style.display=d? "" : "none";
       if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt((d.radius>0)? d.radius : invSqKappa0(S.params.G, S.params.cLight)*(d.massFrac*S.m[i])); }   // 第313便a: 規則の本の radius の省略は規則の R_d = κ₀·(massFrac·m) を見せる
       $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null)+((S.relDrag && S.relDrag[REL_DRAG_INVSQ_KEY])? T("beDcNoteIsq") : ""));   // 第314便a: 新則の本は R_c > R の受理を添える
-      { const rx=inertialDragIsqRdExcessOf(S), xr=rx? rx.by.get(i) : null, xe=$("#beDcRdX");   // 第314便a(AN404): R_d > R の天体だけ比の行(読み口と同じ R_d・R)
-        xe.style.display=xr? "" : "none"; xe.textContent=xr? T("beDcRdX")(xr.ratio.toPrecision(5), fmt(xr.Rd), fmt(xr.Robs)) : ""; }
     } }
   { const box=$("#beSaBox"); box.style.display=vis.spinAxis3? "" : "none";
     if(vis.spinAxis3){
@@ -58842,6 +58853,7 @@ function inertialDragIsqRdExcessRows(S,T,n){
   return rows;
 }
 // 表示の読み口(選択粒子の欄・説明の 1 行・キャンバスの破線の円が読む —— 新則 invSq の三次元の本だけ・超過が無ければ null)。状態を 1 bit も動かさない
+//   → 第315便b(決断事項 AN415): 表示はこの読み口を読まない(schwarzschildExcessOf へ付け替えた)。r_d の超過の行は器・QA の照合のためにこのまま残す(本文は不変)
 function inertialDragIsqRdExcessOf(S){
   if(!S || !S.relDrag || !S.relDrag[REL_DRAG_INVSQ_KEY] || S.coord3d!==true || !(S.n>0)) return null;
   const n=S.n, T=Object.create(S);
@@ -58851,6 +58863,34 @@ function inertialDragIsqRdExcessOf(S){
   const by=new Map(); let mx=0;
   for(const r of rows){ by.set(r.i, r); if(r.ratio>mx) mx=r.ratio; }
   return {version:REL_DRAG_RD_EXCESS_VERSION, bodies:rows, by, n:rows.length, maxRatio:mx};
+}
+// ===== 第315便b(決断事項 AN415・原仮定者の裁定(第116報)の補足と訂正②・原仮定者の裁定(第117報)AN414 の記号・統括の検証項目 R243):
+//   **観測半径を超えたシュヴァルツシルト半径 r_s の表示の読み口**(表示専用 —— 状態を 1 bit も書かない・新しい鍵は無い)=====
+//   ・r_s = 2 G_0 m / c_0²(G_0 = 本の基準重力 physics.G・c_0 = 本の基準光速 physics.cLight・m = **エンジンの全質量** S.m —— 値域・Float32 の処理の後の値。
+//     dragCore の割合 massFrac を掛けない)。演算の順: (2·G_0·m)/(c_0·c_0)。
+//   ・R_obs = 観測半径(dragCore を宣言した天体はその宣言の倍精度の R・他は宣言の半径 radOv —— radiusScale・最小の表示半径・粒子の表示倍率は判定に使わない。
+//     半径 0/未宣言の天体〔質量から半径を作る天体〕と質量が正でない天体は判定しない)。**r_s > R_obs**(等号は超過に含めない)の天体だけの表(無ければ null)。
+//   ・本の種類を限らない(新則・旧則・二次元・三次元・引きずりの有無・kernel・geoPN に依らない —— r_s は GR の参照の尺度で、DFM が地平面を解いたものではない)。
+//     r_d(引きずりの半径)> R_obs の受理・受理の警告・読み口 inertialDragIsqState の radiusExcess は第314便a のまま(表示からは外した)。
+//   ・表示(選択粒子の欄 #beRsX・説明の 1 行 #rsExcessNotice・キャンバスの灰の破線の円 drawRsExcessRing —— 超過の天体だけ・半径 r_s を粒子と同じ表示倍率で)が読む。
+const AN415_RS_VERSION="w315b-rs-excess-1";
+function schwarzschildExcessOf(S){
+  if(!S || !S.params || !(S.n>0) || !S.m) return null;
+  const n=S.n, G=S.params.G, c=S.params.cLight, D=S.dragCoreD||null, RO=S.radOv||null;
+  if(!(G>0) || !Number.isFinite(G) || !(c>0) || !Number.isFinite(c)) return null;
+  let rows=null, mx=0;
+  for(let j=0;j<n;j++){
+    const m=S.m[j];
+    if(!(m>0) || !Number.isFinite(m)) continue;
+    const d=D? D[j] : null, Robs=(d && d.R>0)? d.R : (RO? RO[j] : 0);
+    if(!(Robs>0) || !Number.isFinite(Robs)) continue;
+    const rs=(2*G*m)/(c*c);
+    if(rs>Robs){ const r={i:j, rs, Robs, ratio:rs/Robs}; (rows || (rows=[])).push(r); if(r.ratio>mx) mx=r.ratio; }
+  }
+  if(!rows) return null;
+  const by=new Map();
+  for(const r of rows) by.set(r.i, r);
+  return {version:AN415_RS_VERSION, bodies:rows, by, n:rows.length, maxRatio:mx};
 }
 // dragCore の既定の読み口(状態を 1 bit も動かさない): 粒子ごとの宣言半径・引きずりの半径・クランプの有無(宣言が無い本は null)
 function dragCoreDefaultState(S){
