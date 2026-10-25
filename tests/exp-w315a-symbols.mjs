@@ -27,7 +27,7 @@ import { loadHtmlMain } from './lib-w280b-emgrid.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 段 P が内蔵の全本を開くので presets は "all")
-const REGEN_SCOPE = {"presets":"all","roots":["HP.PHYS_LOCK_AUTO_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.physLock","HP.physLockAutoOnOf","HP.physLockCalc","HP.sim","HP.validatePreset","PHYS_LOCK_AUTO_REL","PHYS_LOCK_AUTO_VERSION","REL_DRAG_INVSQ_C1","ctx","cw","enforcePhysLock","loadPreset","loadSave","physLockAutoApply","physLockAutoOnOf","physLockSetFlag","updatePhysLockBadge"]};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.PHYS_LOCK_AUTO_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.loadPreset","HP.physLock","HP.physLockAutoOnOf","HP.physLockCalc","HP.sim","HP.validatePreset","PHYS_LOCK_AUTO_REL","PHYS_LOCK_AUTO_VERSION","REL_DRAG_INVSQ_C1","ctx","cw","enforcePhysLock","loadPreset","loadSave","physLockAutoApply","physLockAutoOnOf","physLockSetFlag","updatePhysLockBadge"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w315a-symbols-1';

@@ -2885,25 +2885,25 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.045
+   "wallSec": 0.081
   },
   "F": {
    "wallSec": 0
   },
   "L": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "P": {
-   "wallSec": 3.832
+   "wallSec": 9.207
   }
  },
- "elapsedS": 6.72,
+ "elapsedS": 12.218,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
   "targetSha256": "57ad1d8bd948e4a5153bd4aca605881d20b3a9b5b9f336fb1c53ca7510b1e8ef",
-  "generatedAt": "2026-10-25T14:27:20.086Z",
+  "generatedAt": "2026-10-25T14:29:46.517Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -2921,9 +2921,9 @@
   "code": [
    {
     "file": "tests/exp-w315a-symbols.mjs",
-    "bytes": 20280,
-    "sha256": "d0a54811337fe92c2264118bf5d22c149fdec56278703841616d2643c1e713da",
-    "mtime": "2026-10-25T14:15:21.537Z"
+    "bytes": 20320,
+    "sha256": "fab01211a2e0e0dd137575df004486cf4394375efcae75ed6dc15091817f8e6c",
+    "mtime": "2026-10-25T14:29:34.001Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -2950,7 +2950,7 @@
     "mtime": "2026-10-25T13:52:09.916Z"
    }
   ],
-  "codeSha256": "72fdc626b5bca4af667c120d3802d2d61c3b578a18ec34a5f6947ee7d936ee89",
+  "codeSha256": "199bdc0049b3204d13d37a04267bab978278961a80401b533e6fd397b32011fa",
   "harnessVersion": "w315a-symbols-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2991,16 +2991,13 @@
    ],
    "core": true,
    "consts": [],
-   "complete": false,
+   "complete": true,
    "names": 1531,
    "segments": 1366,
-   "closureShare": 0.3451,
-   "why": [
-    "器が complete:true を宣言していない"
-   ]
+   "closureShare": 0.3451
   },
   "scopeSha256": "e6259e76b319f76a4623e6de2e6966b36832c56b4f186a3b7d003ccf88b10c87",
-  "scopeComplete": false,
+  "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/data-w306a-decl305.json",
