@@ -282,7 +282,7 @@
      "max": 0
     }
    },
-   "wallSec": 94.801
+   "wallSec": 82.71
   },
   "m5h2": {
    "key": "m5h2",
@@ -508,7 +508,7 @@
      "max": 0
     }
    },
-   "wallSec": 96.641
+   "wallSec": 80.834
   },
   "h": {
    "key": "h",
@@ -734,7 +734,7 @@
      "max": 0
     }
    },
-   "wallSec": 42.666
+   "wallSec": 39.582
   },
   "m5": {
    "key": "m5",
@@ -960,7 +960,7 @@
      "max": 0
     }
    },
-   "wallSec": 42.636
+   "wallSec": 38.872
   },
   "transfer": {
    "key": "transfer",
@@ -1186,7 +1186,7 @@
      "max": 0.006420567838183037
     }
    },
-   "wallSec": 51.171
+   "wallSec": 51.173
   },
   "flat2d": {
    "key": "flat2d",
@@ -1399,7 +1399,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 3.85
+   "wallSec": 3.734
   },
   "flat2dh2": {
    "key": "flat2dh2",
@@ -1612,7 +1612,7 @@
    },
    "conserved": null,
    "drag": null,
-   "wallSec": 9.119
+   "wallSec": 7.223
   },
   "probe": {
    "key": "probe",
@@ -1678,7 +1678,7 @@
      ]
     }
    },
-   "wallSec": 1.562
+   "wallSec": 1.352
   }
  },
  "stepDependence": {
@@ -1924,28 +1924,28 @@
  "ok": true,
  "timing": {
   "h2": {
-   "wallSec": 94.801
+   "wallSec": 82.71
   },
   "m5h2": {
-   "wallSec": 96.641
+   "wallSec": 80.834
   },
   "h": {
-   "wallSec": 42.666
+   "wallSec": 39.582
   },
   "m5": {
-   "wallSec": 42.636
+   "wallSec": 38.872
   },
   "transfer": {
-   "wallSec": 51.171
+   "wallSec": 51.173
   },
   "flat2d": {
-   "wallSec": 3.85
+   "wallSec": 3.734
   },
   "flat2dh2": {
-   "wallSec": 9.119
+   "wallSec": 7.223
   },
   "probe": {
-   "wallSec": 1.562
+   "wallSec": 1.352
   }
  },
  "notClaim": [
@@ -1957,22 +1957,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第300便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T09:16:14.206Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T22:41:13.254Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w300c-saturnring3d.mjs",
-    "bytes": 43128,
-    "sha256": "f26c94d153f9f778fece1ae89e0e25f87c770b43905e9f5b55070bb83b8eb6b6",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 43931,
+    "sha256": "1dae86cc34d8997ef4a8046c978de03fd82facc60b67771bb2e8b8b07f9027cd",
+    "mtime": "2026-10-25T16:42:07.778Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w300c-saturnring3d.mjs",
@@ -2005,7 +2017,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "96d9f98c6392b7de7a7664f322b741567cb983173a7ef5bf7d41d73f097c7f08",
+  "codeSha256": "a7b17da1e99647889640a04ca6c5e12c6802435e53cd9dde74c9606f94f77ae7",
   "harnessVersion": "w300c-saturnring3d-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」",
@@ -2027,14 +2039,21 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1552,
-   "segments": 1387,
-   "closureShare": 0.3517
+   "names": 1555,
+   "segments": 1390,
+   "closureShare": 0.3525
   },
-  "scopeSha256": "aa56a368809df20aa22c70913bcc73c9c86e04f554aa3d6b39ecb1e6431a5226",
+  "scopeSha256": "7de91576c113b8b8a870be787bd162aa2d4dafb049b06043588c392dbc8c899d",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 189.994
+ "elapsedS": 172.703
 }

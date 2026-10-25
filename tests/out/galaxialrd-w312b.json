@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,45 +2262,57 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.026
+   "wallSec": 0.032
   },
   "B": {
-   "wallSec": 0.388
+   "wallSec": 0.481
   },
   "N": {
-   "wallSec": 0.556
+   "wallSec": 0.511
   },
   "X": {
-   "wallSec": 224.961
+   "wallSec": 277.383
   }
  },
- "elapsedS": 227.848,
+ "elapsedS": 280.104,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:03:59.273Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T22:42:15.239Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w312b-galaxialrd.mjs",
-    "bytes": 45757,
-    "sha256": "5f911caa18a2d5dc675343c89d86f9d3e5da82a62a6ef3a24cf9b694b098bcdd",
-    "mtime": "2026-10-22T15:06:06.426Z"
+    "bytes": 46220,
+    "sha256": "a701488f117db225df56494991311e1a8ba0b99ac1dc0ac8dcf88a6b16146cbe",
+    "mtime": "2026-10-25T16:42:07.805Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/exp-w311b-galaxial.mjs",
-    "bytes": 40328,
-    "sha256": "6dfdcc61a3b8783f59e3c85045ff8277c2aecb1f6bddf4b0a88b03205adc77dc",
-    "mtime": "2026-10-20T18:41:40.636Z"
+    "bytes": 40791,
+    "sha256": "360391b86e7491ab40d3ce0e22e2057c4c6f40fe6912fafb985afeae2a684822",
+    "mtime": "2026-10-25T16:42:07.801Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -2333,7 +2345,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "d1dc3a456afb5d47a8bc1378d2b9ddd85a34be82d922b381a6343ac9c725a972",
+  "codeSha256": "56b0dfc33ed1499767b77c33daa678a4f8b880eac197832fd8d7e440dc0394de",
   "harnessVersion": "w312b-galaxialrd-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2402,13 +2414,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1553,
-   "segments": 1388,
-   "closureShare": 0.3518
+   "names": 1558,
+   "segments": 1393,
+   "closureShare": 0.3526
   },
-  "scopeSha256": "3eb294d26b6c45a870a739270872dc5e61f7314eee6a593dcfc1b249b5498a89",
+  "scopeSha256": "5e1f2a4199c6e882be9ea1cc910915130ff9cf867037025b90b3bb689f73d74a",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }
