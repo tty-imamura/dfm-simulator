@@ -84189,12 +84189,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const html7 = rd(TARGET);
         if ((html7.match(/gLocDetach\(ab\.simB\)/g) || []).length !== 2) bad.push('⑤ gLocDetach(ab.simB) が abStart と ⏮ の 2 か所に無い');
         // ⑥
+        const L7g = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は B 側 = q00 の形(新則の引きずりなし)
         for (const id of IDS7) {
-          const p = find(id), ab = p.abBody || {}, pp = ab.physicsPatch || {};
-          if (!(pp.gLoc === null && pp.relativeDrag && pp.relativeDrag.enabled === false && canon(pp.relativeDrag) === canon(PRE7.DECL306[id].abBody.physicsPatch.relativeDrag))) bad.push('⑥ ' + id + ' のワンタップが両方 OFF でない');
+          const p = find(id), ab = p.abBody || {}, pp = ab.physicsPatch || {}, k1g = L7g.gateInposK1(p);
+          const offWant = k1g ? { law: 'inertial', invSq: {}, enabled: false, pairs: 'all', history: 'positions' } : PRE7.DECL306[id].abBody.physicsPatch.relativeDrag;
+          if (!(pp.gLoc === null && pp.relativeDrag && pp.relativeDrag.enabled === false && canon(pp.relativeDrag) === canon(offWant))) bad.push('⑥ ' + id + ' のワンタップが両方 OFF でない');
           if (!(/両方 OFF/.test(ab.label.ja) && /both off/.test(ab.label.en) && ab.label.ja.length <= 60 && ab.label.en.length <= 60)) bad.push('⑥ ' + id + ' の表示名');
           const cj = String((p.descStruct || {}).control || ''), ce = String(((p.en || {}).descStruct || {}).control || '');
-          if (!(cj.indexOf('gLoc:null') >= 0 && cj.indexOf('k のフィットの基線') >= 0 && ce.indexOf('gLoc:null') >= 0 && ce.indexOf('k-fit baseline') >= 0)) bad.push('⑥ ' + id + ' の対照の説明');
+          const kj = k1g ? '規則で置いた残差の基線 q00' : 'k のフィットの基線', ke = k1g ? 'rule-residual baseline q00' : 'k-fit baseline';
+          if (!(cj.indexOf('gLoc:null') >= 0 && cj.indexOf(kj) >= 0 && ce.indexOf('gLoc:null') >= 0 && ce.indexOf(ke) >= 0)) bad.push('⑥ ' + id + ' の対照の説明');
           if (/physicsPatch は gLoc を持たない|physicsPatch has no gLoc/.test(cj + ce)) bad.push('⑥ ' + id + ' に古い文(physicsPatch は gLoc を持たない)');
         }
         cases.push(`⑤ ⏮ の再適用・⑥ 7 本のワンタップ = 両方 OFF(版 ${HP.GLOC_DETACH_VERSION})`);
@@ -84360,9 +84363,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const pre8 = path.join(ROOT, 'tests', 'lib-w308d-pre.mjs');
-  let H8 = null, PRE8 = null, gen8 = false;
+  let H8 = null, PRE8 = null, gen8 = false, K1_8 = [];
   if (TARGET.startsWith('beta/')) {
     try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H8 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H8 = null; }
+    // 第315便c(AN406): 在位の 🌡️ が K1 へ移った世代(fitRecord を持たない)は記録の照合を移行の前の宣言の写しで —— 画面の箱の行は移った本を除く
+    try { const L7f = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs')); if (H8 && H8.HP) { K1_8 = L7f.LEGACY7_IDS.filter((id) => L7f.gateInposK1(H8.HP.allPresets().find((q) => q.id === id))); L7f.pinHeadless(H8); } } catch (e) { K1_8 = []; }
     try { PRE8 = await import('file://' + pre8); gen8 = !!(H8 && H8.HP && PRE8.isGen308d(H8.evalExpr('BUILTIN_PRESETS'))); } catch (e) { PRE8 = null; gen8 = false; }
   }
   const has8 = !!(H8 && H8.HP && typeof H8.HP.tide3ReceiverWarnings === 'function' && PRE8);
@@ -84419,10 +84424,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
                 tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
             return o; }, IDS8);
           for (const id of IDS8) {
+            if (K1_8.includes(id)) { if (dom[id] && dom[id].roles) bad.push('③ ' + id + '(K1 へ移った在位の本)にフィットの記録の箱の役割の行がある'); continue; }   // 第315便c: 移った本は fitRecord を持たない
             const want = ROLES8[id], order = HP.FIT_TARGET_ROLES.filter((r) => want.indexOf(r) >= 0).join(',');
             if (!(dom[id] && dom[id].roles === order && canon(dom[id].tr) === canon(want))) bad.push('③ ' + id + ' のフィットの記録の箱(DOM)' + JSON.stringify(dom[id]));
           }
-          cases.push('③ 🟫 の観測カード・フィットの記録の箱の役割の行(DOM)');
+          cases.push('③ 🟫 の観測カード・フィットの記録の箱の役割の行(DOM' + (K1_8.length ? ' —— K1 へ移った ' + K1_8.length + ' 本は箱の行なし' : '') + ')');
         } else cases.push('③ 🟫 の観測カード(DOM は page が無いので省略)');
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
       add('preset.fitRole308', bad.length === 0,
