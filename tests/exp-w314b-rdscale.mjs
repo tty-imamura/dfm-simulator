@@ -37,6 +37,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as Q from './lib-w311d-planet3.mjs';
 import * as AN from './lib-w306a-an336.mjs';
 import * as AP from './lib-w304e-apsis.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限)
 const REGEN_SCOPE = {"presets":["earthMoonSunInertial3d","jupiterSunInertial3d","marsSunInertial3d","mercury","mercurySunInertial3d","neptuneSunInertial3d","saturn","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw"],"core":true,"consts":[],"complete":true};
 
@@ -371,6 +372,7 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const log = (r) => console.log(`  ${new Date().toISOString().slice(11, 19)} P ${r.decl.id} ${r.kind} a=${r.a} R_d(太陽・水星)=${r.decl.bodies.map((b) => (b.Rd === null ? '—' : b.Rd.toExponential(4))).join('・')} m=${r.decl.bodies.map((b) => b.m).join('・')} R=${r.decl.bodies.map((b) => b.R).join('・')}: ${r.err ? '拒否 ' + r.err : Number(r.aps).toFixed(6) + '″/世紀・' + r.steps + ' 步・' + r.wallSec.toFixed(1) + ' s'}`);
   const R = runAll(HP, { quick, log });
   const out = { version: HARNESS_VERSION, generator: 'tests/exp-w314b-rdscale.mjs', target: TARGET,
@@ -379,9 +381,9 @@ export async function main() {
       '統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)',
     invSqVersion: HP.REL_DRAG_INVSQ_VERSION || null, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w314b-rdscale.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
+  const CODE = ['tests/exp-w314b-rdscale.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w311d-planet3.mjs', 'tests/lib-w306a-an336.mjs', 'tests/lib-w304e-apsis.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第314便b', target: TARGET, code: CODE, inputs: [TARGET, DECL_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第314便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)',
     notClaim: NOT_CLAIM });

@@ -2458,6 +2458,9 @@ lastAddAt = Date.now();
       // ==== 第314便d の塊(ここから)==== 三次元の geoPN=1(EIH の 1PN の 3 成分)の器(pn1x3d-314d)。領域 REGEN_SCOPE を刻む
       'tests/out/pn1x3d-w314d.json',
       // ==== 第314便d の塊(ここまで)====
+      // ==== 第315便c の塊(ここから)==== 在位の惑星 7 本の K1 への移行の継ぎ目(inposk1-315c —— 移行した本の r_1PN・一様の門・凍結の写し + 変換とのビット同一)。領域 REGEN_SCOPE を刻む
+      'tests/out/inposk1-w315c.json',
+      // ==== 第315便c の塊(ここまで)====
     ];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
@@ -74287,7 +74290,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     try {
       J3c9 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'planets3d-w299c.json'), 'utf8'));
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      H3c9 = loadHtmlHeadless(path.join(ROOT, TARGET));   // 本走行の中では loadHtmlMain の再読み込みが既に読んだ大域と衝突する —— 他のブロックと同じ headless
+      H3c9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET)));   // 本走行の中では loadHtmlMain の再読み込みが既に読んだ大域と衝突する —— 他のブロックと同じ headless   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     } catch (e) { err3c9 = String(e && e.stack || e).slice(0, 200); }
     const near9 = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
       if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near9(x, b[i], tol));
@@ -77645,7 +77648,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   } else {
     const bad = [], cases = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302b-gloc.mjs')); } catch (e) { bad.push('器 tests/exp-w302b-gloc.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'gloc-w302b.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/gloc-w302b.json が読めない'); }
@@ -78181,7 +78184,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const bad = [], cases = [];
     let H = null, PH = '', CL = '', AS = '', RD = '';
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); RD = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) { bad.push('文書が読めない'); }
     const sec = (() => { const a = PH.indexOf('〔第302便a — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
@@ -78446,7 +78449,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     let H = null, X = null, J = null, D = null, PH = '', CL = '', AS = '', RD = '', RT = '', GI = '', HV = '';
     const err0 = [];
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302c-wbgest.mjs')); D = await import('file://' + path.join(ROOT, 'tests', 'exp-w301a-dragnorm.mjs')); } catch (e) { err0.push('器: ' + String(e).slice(0, 120)); }
     // 第303便a(R191): 在位の惑星の本から G_loc を外した世代 —— 第302便の宣言の写し(tests/lib-w303a-pre.mjs)で正本 wbgest-w302c(歴史の記録)と照合する
     let PRE303 = null; try { PRE303 = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { PRE303 = null; }
@@ -79053,7 +79056,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   let PRE = null, X = null, H = null, J = null, err0 = [];
   try { PRE = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { err0.push('tests/lib-w303a-pre.mjs が読めない'); }
   if (PRE && TARGET.startsWith('beta/')) {
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }
   }
   const has303a = TARGET.startsWith('beta/') && !!(PRE && H && H.HP && PRE.isGen303a(H.HP.allPresets()));
@@ -79294,7 +79297,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w303b-inertialr2.mjs')); } catch (e) { err0.push('器 tests/exp-w303b-inertialr2.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'inertialr2-w303b.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/inertialr2-w303b.json が読めない'); }
@@ -79442,7 +79445,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w304a-shell.mjs')); } catch (e) { err0.push('器 tests/exp-w304a-shell.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'shell-w304a.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/shell-w304a.json が読めない'); }
@@ -80028,7 +80031,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const j2Out = path.join(ROOT, 'tests', 'out', 'j2-w305c.json'), j2Harn = path.join(ROOT, 'tests', 'exp-w305c-j2.mjs');
-  let H5 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H5 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H5 = null; } }
+  let H5 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H5 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H5 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const has305c = !!(H5 && H5.HP && typeof H5.HP.j2State === 'function');
   if (!(TARGET.startsWith('beta/') && has305c && fs.existsSync(j2Out) && fs.existsSync(j2Harn))) {
     console.log('SKIP behavior.j2_305 / preset.emJ2_305 / docs.j2_305(第305便c の三次元の J₂ の前の世代 — ' + TARGET + ')');
@@ -80579,7 +80582,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w305a-pairnorm.mjs')); } catch (e) { err0.push('器 tests/exp-w305a-pairnorm.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pairnorm-w305a.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/pairnorm-w305a.json が読めない'); }
@@ -81293,7 +81296,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const IL = await import('file://' + iq309Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const jup = HP.allPresets().find((q) => q.id === 'jupiterSunInertial3d'), mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const INV = { law: 'inertial', invSq: { Wbg2: 0, order: 8 }, dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
       const mk = (mut) => { const q = clone(jup); q.physics.relativeDrag = clone(INV); if (mut) mut(q); return q; };
@@ -81466,7 +81469,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const SL = await import('file://' + iq310Lib), IL = await import('file://' + iq310Lib9);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => IL.norm(IL.sub(a, b)) / Math.max(IL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (f, shell, mut) => { const q = clone(mer); q.physics.relativeDrag = { law: 'inertial', invSq: { order: 8 }, dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
@@ -81649,7 +81652,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const CL = await import('file://' + cs311Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => CL.norm(CL.sub(a, b)) / Math.max(CL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'), st = E('inertialDragIsqState');
       const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return S; };
@@ -81908,7 +81911,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const io309Out = path.join(ROOT, 'tests', 'out', 'recheck-w309c.json'), io309Harn = path.join(ROOT, 'tests', 'exp-w309c-recheck.mjs'), io309Lib = path.join(ROOT, 'tests', 'lib-w309c-recheck.mjs');
-  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H9 = null; } }
+  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H9 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   let has309c = false; try { has309c = !!(H9 && typeof H9.evalExpr('REL_DRAG_INIT_OBS_VERSION') === 'string'); } catch (e) { has309c = false; }
   if (!(TARGET.startsWith('beta/') && has309c && fs.existsSync(io309Out) && fs.existsSync(io309Harn) && fs.existsSync(io309Lib))) {
     console.log('SKIP behavior.initObs309 / docs.recheck309(第309便c の観測の初期値の分解の前の世代 — ' + TARGET + ')');
@@ -82080,7 +82083,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     try {
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       // 第306便a(AN336): 🌡️ が λ ∝ m の k と G_loc を宣言した世代では、W_bg 221 の 🌡️ の写し(第305便の宣言 —— tests/lib-w306a-pre.mjs の pin305・本ごとの門)で試す
       const PRE6s = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
       const base = PRE6s.pin305(HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'));
@@ -82233,7 +82236,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + X5p), J = JSON.parse(fs.readFileSync(J5p, 'utf8'));
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H5 = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H5.HP;
+      const H5 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H5.HP;   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       // 第306便e(AN339 の案 (A)・R208): 🟪 の宣言を直した世代では、器は第305便の宣言の写し(tests/lib-w306e-pre.mjs の pin305)で測る —— 照合も同じ写しで(第305便の html では no-op)
       let PRE305 = null; try { PRE305 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306e-pre.mjs')); } catch (e) { PRE305 = null; }
       const gen306e = !!(PRE305 && PRE305.isGen306e(H5.evalExpr('BUILTIN_PRESETS')));
@@ -82316,7 +82319,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8')), decl = JS.declarations || [];
       const TOK = /\b(TDB|TT|TDT|UTC|UT1|TCB|TCG)\b/;
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const HP = loadHtmlHeadless(path.join(ROOT, TARGET)).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');
+      const HP = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       let nCsv = 0, nHtml = 0, nUnknown = 0;
       for (const r of T.rows) {
         const tag = r.target_id;
@@ -82467,7 +82470,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   let H6 = null, J6 = null, err6 = null;
   const IDS6 = ['mercurySunInertial3d', 'venusSunInertial3d', 'marsSunInertial3d', 'jupiterSunInertial3d', 'saturnSunInertial3d', 'uranusSunInertial3d', 'neptuneSunInertial3d'];
-  try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { err6 = String(e && e.message || e).slice(0, 160); }
+  try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { err6 = String(e && e.message || e).slice(0, 160); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const g6 = (p) => !!(p && p.physics && p.physics.gLoc && p.physics.gLoc.law === 'kappaC2' && p.physics.relativeDrag && p.physics.relativeDrag.inertialR2 && p.physics.relativeDrag.inertialR2.denom === 'pair');
   const all6 = H6 ? H6.HP.allPresets() : [], gens = IDS6.map((id) => g6(all6.find((q) => q.id === id)));
   if (!TARGET.startsWith('beta/') || (!err6 && !gens.some(Boolean))) {
@@ -82545,7 +82548,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const er306Out = path.join(ROOT, 'tests', 'out', 'emresolve-w306c.json'), er306Harn = path.join(ROOT, 'tests', 'exp-w306c-emresolve.mjs'), er306Lib = path.join(ROOT, 'tests', 'lib-w306c-pre.mjs');
-  let H6 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H6 = null; } }
+  let H6 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H6 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const has305c6 = !!(H6 && H6.HP && typeof H6.HP.j2State === 'function');
   if (!(TARGET.startsWith('beta/') && has305c6 && fs.existsSync(er306Out) && fs.existsSync(er306Harn) && fs.existsSync(er306Lib))) {
     console.log('SKIP preset.emResolve306 / docs.emResolve306 / docs.obsMoonNode306(第306便c の解き直しの前の世代 — ' + TARGET + ')');
@@ -82720,7 +82723,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   let PRE6 = null, gen6 = false, H6 = null;
   if (TARGET.startsWith('beta/') && fs.existsSync(X6p) && fs.existsSync(J6p) && fs.existsSync(L6p)) {
     try { PRE6 = await import('file://' + L6p); const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); gen6 = PRE6.isGen306e(H6.evalExpr('BUILTIN_PRESETS')); } catch (e) { gen6 = false; }
+      H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); gen6 = PRE6.isGen306e(H6.evalExpr('BUILTIN_PRESETS')); } catch (e) { gen6 = false; }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   }
   if (!gen6) {
     console.log('SKIP preset.charonFix306 / docs.charonFix306(第306便e の 🟪 の宣言の直しの前の世代 — ' + TARGET + ')');
@@ -83515,7 +83518,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + ga311Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (extra, mut) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
         q.physics.relativeDrag = Object.assign({ law: 'inertial', invSq: { order: 8 }, pairs: 'all', history: 'positions', dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } }, extra || {});
@@ -83692,7 +83695,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + gr312Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (g, mut) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
         q.physics.relativeDrag = { law: 'inertial', invSq: { order: 8 }, pairs: 'all', history: 'positions', dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
@@ -85119,7 +85122,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const DL = await import('file://' + dk312Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => DL.norm(DL.sub(a, b)) / Math.max(DL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'), st = E('inertialDragIsqState'), pAt = E('inertialDragIsqPointAt'), obs = E('inertialDragInitObsState');
       const bk = (isq, o = {}) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;

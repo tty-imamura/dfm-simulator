@@ -45,6 +45,7 @@ import { EARTH_J2, EARTH_J2_SOURCE, twoBodyOf } from './exp-w305c-j2.mjs';
 import { emOnlyBodies, emOnlyPhysics, declCheck as emDeclCheck, runEm3, windowsOf as emWindowsOf } from './exp-w300b-emonly.mjs';
 import { DECL305, DECL305_DATA_FILE, LIB_VERSION as PRE_VERSION } from './lib-w306c-pre.mjs';
 import { pinDecl306e, DECL306_DATA_FILE } from './lib-w307e-pre.mjs';   // 第307便e: 第306便の 🌦️ の fitRecord(交点の標的 18.600・標的の役割なし)へ器の中だけで戻す(段 record の門 —— 第306便の html では no-op)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","earthMoonSunInertialFit","mercurySunInertial3d","plutoCharonInertialFit"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.fitTargetGates","HP.inertialDragLedgerOf","HP.inertialDragSemicWork","HP.inertialDragState","HP.j2SecularRates","HP.j2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","T","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","inertialDragEnergy","inertialDragLedgerOf","inertialDragNormApply","inertialDragSemicPre","inertialDragSemicWork","j2Energy","j2Kick3","j2Prepare","pnSource","relDragCoefficientOf","synUniform","validateFitRecord","validateJ2Body"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -478,6 +479,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinDecl306e(null, [FIT_ID]);   // 第307便e(AN342 ③・AN344 ①): 本の交点の標的 18.599525 と役割 role は第306便の記録の外(この器の記録は第306便c の形のまま —— 今の記録は preset.fitRole307)
   if (typeof HP.j2State !== 'function') throw new Error('対象の html に三次元の J₂(第305便c)が無い');
   const prev = (PARTS.length < PARTS_ALL.length && fs.existsSync(OUT)) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
@@ -495,10 +497,10 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「月を再現した」', '「交点を再現した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w306c-emresolve.mjs', 'tests/lib-w306c-pre.mjs', 'tests/lib-w307e-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w305c-j2.mjs', 'tests/exp-w304c-baseline.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w304c-pre.mjs',
+  const CODE = ['tests/exp-w306c-emresolve.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w306c-pre.mjs', 'tests/lib-w307e-pre.mjs', 'tests/lib-w303e-fitstop.mjs', 'tests/exp-w305c-j2.mjs', 'tests/exp-w304c-baseline.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w304c-pre.mjs',
     'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便c', target: TARGET, code: CODE, inputs: [TARGET, DECL305_DATA_FILE, 'tests/data-w305c-decl304.json', 'tests/data-w304c-decl303.json', DECL306_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第306便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL305_DATA_FILE, 'tests/data-w305c-decl304.json', 'tests/data-w304c-decl303.json', DECL306_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: 'DECISIONS v64 AN337 ③④⑤・v65 §0 AN337(J₂ ありで初期配置を解き直す —— J₂ を交点に合わせて動かすのを第一手にしない)・AN335 ①', reading: '統括の検証項目 R206(🌦️ の J₂ ありの初期配置の解き直し・交点の観測の行・J₂ × 引きずり ON の仕事の帳簿)' });
   J.elapsedS = (Date.now() - t0) / 1000;

@@ -38,6 +38,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { idsFromDecl as idsToys } from './exp-w307a-sphereaxial.mjs';
 import { idsFromDecl as idsPlanets, buildConfigs } from './exp-w307c-spindecomp.mjs';
 import * as L from './lib-w308a-bevel.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 本 7 本)
 const REGEN_SCOPE = {"presets":["chainDiskToy3d","chainDiskToy3dTilt","chainSpreadToy3d","jupiterGalilean","jupiterSunInertial3d","saturnRingInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3SpinState","HP.sim","HP.validatePreset","REL_DRAG_AXIAL_BEVEL_VERSION","REL_DRAG_AXIAL_LAW_BEVEL","REL_DRAG_AXIAL_LAW_SPHERE","REL_DRAG_AXIAL_NORMS","REL_DRAG_AXIAL_SPHERE_H","REL_DRAG_AXIAL_SPHERE_VERSION","REL_DRAG_M1_FAR_MIN","REL_DRAG_M1_FAR_TERMS","REL_DRAG_M1_FAR_VERSION","REL_DRAG_SPIN_NODES","T","ab","appStepDt","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep3","inertialDrag3AxialApply","inertialDrag3AxialBevel","inertialDrag3AxialBevelAt","inertialDrag3AxialSphere","inertialDrag3AxialSphereAt","inertialDrag3RigidStep","inertialSpinMoment","inertialSpinMomentDr","inertialSpinMomentFar","relDrag3SpinOf","relDragCoefficientOf","sim"],"core":true,"consts":[],"complete":true};
 
@@ -468,15 +469,16 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const H = loadHtmlHeadless(html);
+  pinDecl315c(H.evalExpr);   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(H, { quick });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w308a-bevel.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214',
     axialVersion: E(H, 'REL_DRAG_AXIAL_BEVEL_VERSION'), axialLaw: E(H, 'REL_DRAG_AXIAL_LAW_BEVEL'), m1FarVersion: E(H, 'REL_DRAG_M1_FAR_VERSION'), norms: E(H, 'REL_DRAG_AXIAL_NORMS'), ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w308a-bevel.mjs', 'tests/lib-w308a-bevel.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs',
+  const CODE = ['tests/exp-w308a-bevel.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w308a-bevel.mjs', 'tests/lib-w307a-sphereaxial.mjs', 'tests/exp-w307a-sphereaxial.mjs', 'tests/exp-w307c-spindecomp.mjs',
     'tests/lib-w307c-spindecomp.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便a', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第308便a', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)',
     notClaim: NOT_CLAIM });

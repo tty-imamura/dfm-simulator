@@ -37,6 +37,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { idsFromDecl as idsJovian, buildConfigs as buildConfigs307 } from './exp-w307c-spindecomp.mjs';
 import { planetIds } from './exp-w309c-recheck.mjs';
 import * as L from './lib-w310b-pairheat.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 述語で探す 🌦️・🌔)
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","galaxy","galaxyGeo2","galaxyStd","jupiterGalilean","jupiterSunInertial3d","marsSunInertial3d","mercurySunInertial3d","neptuneSunInertial3d","saturnSunInertial3d","uranusSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDrag3HoldF","HP.sim","HP.validatePreset","INERTIAL_DRAG3_MAINT_SC","REL_DRAG_AXIS_HOLD_INTERVAL_UNDECLARED","REL_DRAG_AXIS_HOLD_LEDGER_VERSION","REL_DRAG_AXIS_HOLD_MAINT_VERSION","REL_DRAG_INIT_OBS_VERSION","REL_DRAG_INVSQ_VERSION","T","appStepDt","ckRestoreOne","ckSnapOne","ctx","cw","inertialDrag3SpinState","inertialDragInitObsRedo","inertialDragInitObsState","inertialDragInverseMap","inertialDragIsqState","retiredOf","sim"],"core":true,"consts":[],"complete":true};
 
@@ -411,14 +412,15 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const H = loadHtmlHeadless(html);
+  pinDecl315c(H.evalExpr);   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(H, { quick: QUICK });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w310b-pairheat.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223',
     maintainVersion: H.evalExpr('REL_DRAG_AXIS_HOLD_MAINT_VERSION'), ledgerVersion: H.evalExpr('REL_DRAG_AXIS_HOLD_LEDGER_VERSION'), invsqVersion: H.evalExpr('REL_DRAG_INVSQ_VERSION'), ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w310b-pairheat.mjs', 'tests/lib-w310b-pairheat.mjs', 'tests/exp-w309c-recheck.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第310便b', target: TARGET, code: CODE, inputs: [TARGET, 'tests/out/recheck-w309c.json'] }), {
+  const CODE = ['tests/exp-w310b-pairheat.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w310b-pairheat.mjs', 'tests/exp-w309c-recheck.mjs', 'tests/exp-w307c-spindecomp.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第310便b', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, 'tests/out/recheck-w309c.json'] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)',
     notClaim: ['規則を決めた', '帳簿が完全に閉じた', '完全に一致', '内部の温度が上がった', 'τ_hold を導いた'] });

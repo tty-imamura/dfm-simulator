@@ -52,3 +52,6 @@ export function pinDecl315c(evalExpr, ids) {
   return { version: LIB_VERSION, data: LEGACY7_DATA_FILE, pinned: changed.length > 0, changed, skipped,
     note: "第315便c の移行の前(基点 af2f426)の在位の惑星の本の宣言(全欄)に器の中だけで戻した(本ごとの門)—— html は変えない" };
 }
+/** headless の写し(tests/lib-w279b-headless.mjs の loadHtmlHeadless の戻り値 H)の BUILTIN_PRESETS を移行の前の宣言へ戻して H を返す(QA の世代切替の 1 式 ——
+ *  `pinHeadless(loadHtmlHeadless(html))`)。H が無い・evalExpr が無いときはそのまま返す。 */
+export function pinHeadless(H) { if (H && typeof H.evalExpr === "function") pinDecl315c(H.evalExpr); return H; }

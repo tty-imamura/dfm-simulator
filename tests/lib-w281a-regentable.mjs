@@ -1329,6 +1329,16 @@ export const REGEN_STEPS = [
       '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
     note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
   // ==== 第314便d の塊(ここまで)====
+  // ==== 第315便c の塊(ここから)====
+  // ---- 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・AN405・AN401・AN396′・統括の検証項目 R244): **在位の惑星 7 本の K1 への移行の継ぎ目**(段 inposk1-315c ——
+  //   移行した在位の本そのもの〔K1 + rdRule:"kappaM"・太陽を含む全天体 r_d = Y_k m・合わせない〕を q00・q10・q11 × h・h/2〔外惑星は h/4 も〕× 8 公転で走らせ、r_1PN = q11 − q00 − q_1PN・
+  //   刻みの帯・AN410 の一様の門・凍結の写し tests/data-w315c-legacy7.json に移行の変換を当てた本と移行した本のビット同一・K1 の確認の系の行〔k1confirm-313d・k1outer-314c の窓 8〕との比較)。
+  //   html・凍結の写し・第313便d と第314便c の正本を読む(after に連ねる)。走行は子プロセス 3 本(workers 3)。所要は第315便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。
+  //   移行の前の宣言を研究対象にする器(42 本 —— 段 43)は凍結の写しへ世代切替(tests/lib-w315c-legacy7.mjs の pinDecl315c —— 正本の意味的出力は移行の前と同じ・meta だけが動く)
+  S('inposk1-315c', 'node tests/exp-w315c-inposk1.mjs', ['tests/out/inposk1-w315c.json'], 2700, { secSource: 'w315c-branch', node: true, workers: 3, after: ['k1confirm-313d', 'k1outer-314c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/inposk1-w315c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/B/systems/*/wallSec']) },
+    note: '第315便c: 在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)を K1 + rdRule:"kappaM" へ移した継ぎ目の正本(移行した本そのものの r_1PN・刻みの帯・AN410 の一様の門・凍結の写し + 変換とのビット同一・K1 の確認の系の行との比較 —— Y_k は合わせない)' }),
+  // ==== 第315便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
