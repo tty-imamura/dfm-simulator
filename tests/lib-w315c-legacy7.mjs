@@ -59,7 +59,9 @@ export function pinHeadless(H) { if (H && typeof H.evalExpr === "function") pinD
  *  (例: 確認の器の liveDeclGate・liveSame・liveOuter を「移行の前の宣言は凍結の写しのまま」の意味で読む)。 */
 export function legacyView(HP) {
   if (!HP || typeof HP.allPresets !== "function") return HP;
-  const v = Object.create(HP);
-  v.allPresets = () => HP.allPresets().map((p) => pinLegacy7(p));
+  // 一覧の関数を束ねて呼ぶ(器の領域の下限 —— lib-w281a-scope の deriveScope —— はこの lib を import する器の読みを 7 本の名指しのままに数える。
+  //   器は legacyView を呼ばない〔QA だけ〕—— 器の写しは pinDecl315c が名指しの 7 本だけを差し替える)
+  const list = HP.allPresets.bind(HP), v = Object.create(HP);
+  v.allPresets = () => list().map((p) => pinLegacy7(p));
   return v;
 }
