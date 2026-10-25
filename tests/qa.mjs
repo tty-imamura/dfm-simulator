@@ -86607,8 +86607,12 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (!near315(B2, Js.B)) bad.push('④ 段 B を作り直すと違う');
       const v0 = X.bandVerdict(0, { a: 0, b: 0 }), vN = X.bandVerdict(1, { a: -1e-9, b: 0 }), v1 = X.bandVerdict(1, { a: 1e-9 }), vF = X.bandVerdict(NaN, { a: 0, b: 0 }), vOk = X.bandVerdict(1, { a: 1e-3, b: 1e-3 });
       if (!(v0.inBand === null && v0.tol === null && vN.inBand === false && v1.inBand === false && vF.inBand === null && vOk.inBand === true)) bad.push('④ 帯の判定の純関数(差 0・非有限は比を作らない・帯の負・帯 1 本は内にしない)');
-      const nIn = Object.values(Js.B.systems).filter((z) => z.q.aps.dDG.inBand === true).length;
-      cases.push(`④ 段 K・W・B を走行の行から作り直して一致 —— 近点 q11 − q10 が数値の帯の内 ${nIn}/${Object.keys(Js.B.systems).length} 系(観測の 3σ ではない)・イオ(二体)${Js.B.systems['io|two'].q.aps.dDG.v.toFixed(3)}″/世紀`);
+      const wv0 = X.windowVerdict(1, { 8: 1, 16: 1.001 }), wvN = X.windowVerdict(1, { 8: 1, 16: NaN }), wv1 = X.windowVerdict(1, { 8: 1, 16: 1.02 });
+      if (!(wv0.winOk === true && wvN.winOk === false && wv1.winOk === false)) bad.push('④ 窓の感度の判定の純関数(非有限の窓・1e-2 を越える窓の差を内にしない)');
+      for (const [id, z] of Object.entries(Js.B.systems)) for (const q of Object.values(z.q)) for (const y of Object.values(q))
+        if (y.inAll !== (y.inBand === true && y.winOk === true)) { bad.push('④ 判定 = 刻みの帯 ∧ 窓の感度 でない ' + id); break; }
+      const nIn = Object.values(Js.B.systems).filter((z) => z.q.aps.dDG.inAll === true).length;
+      cases.push(`④ 段 K・W・B を走行の行から作り直して一致 —— 近点 q11 − q10 が数値の帯の内(刻みと窓)${nIn}/${Object.keys(Js.B.systems).length} 系(観測の 3σ ではない)・イオ(二体)${Js.B.systems['io|two'].q.aps.dDG.v.toFixed(3)}″/世紀`);
       // ⑤
       if (!sec) bad.push('PHYSICS〔第315便d〕が無い');
       else {

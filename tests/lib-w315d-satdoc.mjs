@@ -35,10 +35,10 @@ export function physicsTablesSat(Js) {
       out.push(`| ${SAT_JA[k]} | ${ex(s.rdRule, 4)} | ${ex(s.rdOverR, 3)} | ${ex(s.rsOverR, 3)} | ${ex(m.rdRule, 4)} | ${ex(m.rdOverR, 3)} | ${ex(m.rsOverR, 3)} | ${ex(two.rdSumOverA, 3)} | ${same ? 'ビット同一' : '違う'} |`); }
   }
   if (Js.K && Js.W && Js.B) {
-    out.push('', '| 衛星(系・主の窓・最も細かい刻み) | 近点 q11 − q10 [″/世紀] | 帯 | 近点 q10 − q00 [″/世紀] | 帯 | 恒星周期 q11 − q10 [s] | 帯 | 交点 q11 − q10 [″/世紀] | 帯 | 母惑星の軸の角 q11 − q10 [″] | 近点 q11 − q10 の判定 |', '|---|---|---|---|---|---|---|---|---|---|---|');
+    out.push('', '| 衛星(系・主の窓・最も細かい刻み) | 近点 q11 − q10 [″/世紀] | 刻みの帯 | 窓の差の最大 | 近点 q10 − q00 [″/世紀] | 刻みの帯 | 窓の差の最大 | 恒星周期 q11 − q10 [s] | 刻みの帯 | 交点 q11 − q10 [″/世紀] | 刻みの帯 | 母惑星の軸の角 q11 − q10 [″] | 近点 q11 − q10 の判定 |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|');
     for (const k of sats) for (const sys of Js.E.systems) { const id = k + '|' + sys, b = Js.B.systems[id]; if (!b) continue;
       const q = b.q, v = (Q2, df) => q[Q2][df];
-      out.push(`| ${SAT_JA[k]}(${sysLab(sys)}・${b.N} 公転・h/${b.fine}) | ${ex(v('aps', 'dDG').v, 4)} | ${bandsCell(v('aps', 'dDG').bands)} | ${ex(v('aps', 'dG').v, 4)} | ${bandsCell(v('aps', 'dG').bands)} | ${fl(v('sid', 'dDG').v, 1e-9)} | ${bandsCell(v('sid', 'dDG').bands)} | ${fl(v('node', 'dDG').v, 1e-9)} | ${bandsCell(v('node', 'dDG').bands)} | ${fl(v('axPar', 'dDG').v, 1e-12)} | ${v('aps', 'dDG').verdict} |`); }
+      out.push(`| ${SAT_JA[k]}(${sysLab(sys)}・${b.N} 公転・h/${b.fine}) | ${ex(v('aps', 'dDG').v, 4)} | ${bandsCell(v('aps', 'dDG').bands)} | ${fl(v('aps', 'dDG').winSpread)} | ${ex(v('aps', 'dG').v, 4)} | ${bandsCell(v('aps', 'dG').bands)} | ${fl(v('aps', 'dG').winSpread)} | ${fl(v('sid', 'dDG').v, 1e-9)} | ${bandsCell(v('sid', 'dDG').bands)} | ${fl(v('node', 'dDG').v, 1e-9)} | ${bandsCell(v('node', 'dDG').bands)} | ${fl(v('axPar', 'dDG').v, 1e-9)} | ${v('aps', 'dDG').verdict} |`); }
     out.push('', '| 衛星(系 —— 近点 q11 − q10 の窓 × 刻みの感度・同じ走行の入れ子の窓) | 窓 N 公転 | h | h/2 | h/4 | 帯 h–h/2 | 帯 h/2–h/4 | 許容 1e-2 × abs(q11 − q10) | 許容の内 | 主の窓 |', '|---|---|---|---|---|---|---|---|---|---|');
     for (const k of sats) for (const sys of Js.E.systems) { const id = k + '|' + sys, Kk = Js.K.systems[id], W = Js.W.systems[id]; if (!Kk || !W) continue;
       for (const N of Object.keys(Kk.byWin).map(Number).sort((a, b) => a - b)) { const w = Kk.byWin[N], r = (d) => (w.byDiv[d] ? ex(w.byDiv[d].dDG.aps, 4) : '—'), row = W.rows.find((z) => z.N === N), bb = w.bands.dDG.aps;

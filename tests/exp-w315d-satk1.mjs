@@ -12,7 +12,8 @@
 //   E 走行(6 衛星 × 二体・三体 × q00・q10・q11 × h・h/2・h/4 —— 32 公転の 1 本の走行の入れ子の窓 8・16・32)
 //   K 窓 × 刻みごとの差の表(恒星周期・近点の率・交点の率・軸 —— 引きずりの有無の差 q11 − q10 と G_loc の差 q10 − q00・近点の r_1PN = q11 − q00 − q_1PN〔参考〕・刻みの帯)
 //   W 主の窓(実測 —— 開始の窓 8 公転から: 近点の q11 − q10 の最も細かい 2 刻みの帯 ≤ 1e-2 × abs(q11 − q10) になる最小の窓・無ければ最長の窓)と窓の感度
-//   B 数値の帯の判定(主の窓・最も細かい刻み —— 量 × 差ごとに、h–h/2・h/2–h/4 の帯 ≤ 1e-2 × abs(差)なら「数値の帯の内」・でなければ「帯の外 —— 数値で決まらない」)と
+//   B 数値の帯の判定(主の窓・最も細かい刻み —— 量 × 差ごとに、h–h/2・h/2–h/4 の帯 ≤ 1e-2 × abs(差)〔刻みの帯〕で、窓 8・16・32 の値の主の窓からの差の最大も
+//     ≤ 1e-2 × abs(差)〔窓の感度〕なら「数値の帯の内(刻みと窓)」・刻みの帯だけ内なら「窓で決まらない」・でなければ「帯の外 —— 数値で決まらない」)と
 //     二体と三体の差(太陽の効き)。**観測の 3σ を付けない**(衛星の量に観測の σ は無い)・**近点の ε_fit を衛星の合格に流用しない**
 //
 // ■ 試走: W315D_QUICK=1(W315D_OUT が要る —— 正本を書かない)。再開: W315D_CACHE=<dir>(走行 1 本ごとの結果を逐次書き、同じ html・同じ器の版・同じ走行の鍵があれば読む ——
@@ -45,8 +46,8 @@ export const SATS = Object.freeze(L.SAT_SEEDS.map((s) => s.key));
 /** 計画(正本)。窓は同じ走行の入れ子(runN 公転の 1 本から最初の N 公転)・刻み h = 恒星周期(種)/ stepsPerOrbit */
 export const PLAN = Object.freeze({ runN: 32, windows: Object.freeze([8, 16, 32]), startWindow: 8, divs: Object.freeze([1, 2, 4]), stepsPerOrbit: 720, kinds: Object.freeze(['q00', 'q10', 'q11']), systems: Object.freeze(['two', 'three']) });
 export const QUICK = Object.freeze({ runN: 4, windows: Object.freeze([2, 4]), startWindow: 2, divs: Object.freeze([1, 2]), stepsPerOrbit: 360, kinds: Object.freeze(['q00', 'q10', 'q11']), systems: Object.freeze(['two', 'three']) });
-/** 数値の帯の判定(器の宣言 —— 観測の 3σ ではない・近点の ε_fit を流用しない): 最も細かい 2 刻みの帯と、その前の帯がどちらも 1e-2 × abs(差)以下 */
-export const SAT_BAND = Object.freeze({ rel: 1e-2, note: '数値の帯の判定(器の宣言): 主の窓・刻み h–h/2 と h/2–h/4 の帯がどちらも 1e-2 × abs(差)以下なら「数値の帯の内」。観測の 3σ ではない(衛星の量に観測の σ は無い)・近点の ε_fit を衛星の合格に流用しない' });
+/** 数値の帯の判定(器の宣言 —— 観測の 3σ ではない・近点の ε_fit を流用しない): 刻みの帯(h–h/2・h/2–h/4)と窓の感度(窓どうしの差の最大)がどちらも 1e-2 × abs(差)以下 */
+export const SAT_BAND = Object.freeze({ rel: 1e-2, note: '数値の帯の判定(器の宣言): 主の窓・最も細かい刻みで、刻み h–h/2 と h/2–h/4 の帯がどちらも 1e-2 × abs(差)以下(刻みの帯)で、同じ走行の入れ子の窓の値の主の窓からの差の最大も 1e-2 × abs(差)以下(窓の感度)なら「数値の帯の内(刻みと窓)」。観測の 3σ ではない(衛星の量に観測の σ は無い)・近点の ε_fit を衛星の合格に流用しない' });
 /** 量(差の単位 —— 恒星周期は秒・率は ″/世紀・軸は ″) */
 export const QTY = Object.freeze([
   Object.freeze({ key: 'sid', ja: '恒星周期', unit: 's', of: (w) => (Number.isFinite(w.sidDays) ? w.sidDays * 86400 : null) }),
@@ -169,6 +170,12 @@ export function bandVerdict(v, bands, G = SAT_BAND) {
   return { v: finiteOr(v), bands: b.map(finiteOr), tol, inBand, bandOverV: (okB && vOk) ? Math.max(...b) / Math.abs(v) : null,
     verdict: inBand === true ? '数値の帯の内' : (inBand === null ? '比を作らない(差が 0 か非有限)' : '帯の外 —— 数値で決まらない') };
 }
+/** 窓の感度の判定(純関数): vals = 窓ごとの値(最も細かい刻み)・v = 主の窓の値。値がすべて有限で 2 窓以上・v が 0 でなく有限なら、差の最大 ≤ rel × abs(v) */
+export function windowVerdict(v, vals, G = SAT_BAND) {
+  const xs = Object.values(vals || {}), fin = xs.length >= 2 && xs.every((x) => Number.isFinite(x)), vOk = Number.isFinite(v) && v !== 0;
+  const spread = (fin && vOk) ? Math.max(...xs.map((x) => Math.abs(x - v))) : null, tol = vOk ? G.rel * Math.abs(v) : null;
+  return { winVals: Object.fromEntries(Object.entries(vals || {}).map(([k, x]) => [k, finiteOr(x)])), winSpread: spread, winTol: tol, winOk: (fin && vOk) ? spread <= tol : (fin ? null : false) };
+}
 export function partW(J) {
   const out = { rule: '主の窓 = 開始の窓(' + J.E.startWindow + ' 公転)以上で、近点の q11 − q10 の最も細かい 2 刻みの帯 ≤ 1e-2 × abs(q11 − q10) になる最小の窓・無ければ最長の窓', systems: {} };
   for (const id of Object.keys(J.K.systems)) {
@@ -187,7 +194,11 @@ export function partB(J) {
   const out = { rule: clone(SAT_BAND), systems: {}, sun: {} };
   for (const id of Object.keys(J.K.systems)) {
     const N = J.W.systems[id].main, w = J.K.systems[id].byWin[N], z = w.byDiv[w.fine], row = { N, fine: w.fine, q: {} };
-    for (const Q of QTY) { row.q[Q.key] = {}; for (const df of DIFFS) row.q[Q.key][df] = bandVerdict(z[df][Q.key], w.bands[df][Q.key]); }
+    for (const Q of QTY) { row.q[Q.key] = {}; for (const df of DIFFS) {
+      const bv = bandVerdict(z[df][Q.key], w.bands[df][Q.key]), vals = {};
+      for (const N2 of J.E.windows) { const w2 = J.K.systems[id].byWin[N2], z2 = (w2 && w2.fine !== null) ? w2.byDiv[w2.fine] : null; vals[N2] = z2 ? z2[df][Q.key] : null; }
+      const wv = windowVerdict(bv.v, vals), inAll = bv.inBand === true && wv.winOk === true;
+      row.q[Q.key][df] = Object.assign(bv, wv, { inAll, verdict: inAll ? '数値の帯の内(刻みと窓)' : (bv.inBand === true ? '刻みの帯の内・窓の感度の外 —— 窓で決まらない' : bv.verdict) }); } }
     row.r1pn = Object.assign(bandVerdict(z.r1pn, w.bands.r1pn), { rOverQ: z.rOverQ, note: '参考(門を付けない —— 近点の ε_fit を流用しない)' });
     out.systems[id] = row;
   }
