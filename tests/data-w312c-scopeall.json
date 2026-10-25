@@ -3,10 +3,10 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 60,
-  "harnesses": 59,
+  "steps": 61,
+  "harnesses": 60,
   "byProspect": {
-   "enumerates": 31,
+   "enumerates": 32,
    "narrow-now": 11,
    "find-only": 18
   },
@@ -16,7 +16,7 @@
    "declared-wide": 11,
    "count": 2,
    "iterate": 6,
-   "value": 11,
+   "value": 12,
    "find-via-var": 23
   }
  },
@@ -2414,6 +2414,34 @@
     "saturn"
    ],
    "nNamed": 3,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "symbols-315a",
+   "harness": "tests/exp-w315a-symbols.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "value"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w315a-symbols.mjs",
+     "line": 153,
+     "use": "(値)",
+     "kind": "value",
+     "via": "harness",
+     "text": "const all = HP.allPresets();",
+     "var": "all",
+     "varUses": [
+      ".slice",
+      "(値)"
+     ]
+    }
+   ],
+   "namedIds": [
+    "mercurySunInertial3d"
+   ],
+   "nNamed": 1,
    "prospect": "enumerates"
   },
   {

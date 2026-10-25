@@ -310,6 +310,14 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm3
 #   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
 # ==== 第314便d の塊(ここまで)====
+# ==== 第315便a の塊(ここから)====
+# 第315便a(原仮定者の裁定(第117報)AN414・統括の推奨 AN419・R242): 枝 a の新設 3 本(docs.symbols315 —— 記号の体系の正本と文書・ui.physLock315 —— 物理対応ロックの読込時の
+#   自動 ON〔値を書き直さない〕・lint.kappaSymbol315 —— 新しい説明の裸のカッパ)と、世代切替を受けた物理対応ロックとパラメータのラベルを読む physlock.kt-derive・physlock.ui-110・
+#   budget.consistency・params.direct-input・ab.edit-target・wave124.ui・wave125.ui・ui.wave96a、SYSTEM_PROMPT を読む prompt.spec-sync・prompt.schema-sync・ai.external-prompt・
+#   preset.lambdaPN297、文を読む behavior.lambdaPnOnDrag297・ai.stabilize・behavior.clusterAnalogy、loadSave の指紋の behavior.ckFixcapRestore、一覧の lint.scopeAll312、
+#   正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・状態の契約 lint.stateContract302・lint.coreBudget・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.symbols315 ui.physLock315 lint.kappaSymbol315 physlock.kt-derive physlock.ui-110 budget.consistency params.direct-input ab.edit-target wave124.ui wave125.ui ui.wave96a prompt.spec-sync prompt.schema-sync ai.external-prompt preset.lambdaPN297 behavior.lambdaPnOnDrag297 ai.stabilize behavior.clusterAnalogy behavior.ckFixcapRestore lint.scopeAll312 lint.regenScope lint.stableHashPaths lint.canon304 lint.stateContract302 lint.coreBudget lint.sectionLookup313"
+# ==== 第315便a の塊(ここまで)====
 # ==== 第315便b の塊(ここから)====
 # 第315便b(決断事項 AN415・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・R243): 枝 b の新設 3 本(behavior.rsExcess315 —— r_s > R_obs の読み口の表・等号・質量の割合と本の種類で不変・
 #   状態を書かない・K1 の境界の 1 点・ui.rsExcess315 —— 選択粒子の欄 #beRsX・説明の 1 行 #rsExcessNotice・灰の破線の円・画素・docs.rsExcess315 —— 正本と文書)と、表示を世代切替した

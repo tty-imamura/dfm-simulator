@@ -84,7 +84,7 @@ The suggested A/B runs drag-on vs drag-off side by side.
 
 ### 3-4. Time dilation, light bending, Shapiro delay (🛰️ weak-field GR calibration, 🔭 lensing, ☿ Mercury)
 
-Set the knob Kt to its real value (c²/G) and:
+Set the knob — the spacetime coefficient X_k (the reciprocal of the older Kt) — to its real value (reference gravity G_0 ÷ reference light speed c_0², the "correspondence lock"; when loaded values already satisfy it the lock switches on by itself and the values stay as they are) and:
 - ✅ GPS clock gain **+38.5 μs/day**, starlight deflection at the Sun's limb **1.75″**, and
   Shapiro delay **≈281 μs** all match simultaneously, from the single scalar psi
 - ⚠️ The base rules do **not** produce Mercury's perihelion precession (43″/century). Only
