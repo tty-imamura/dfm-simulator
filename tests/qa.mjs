@@ -83197,7 +83197,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const mt309Out = path.join(ROOT, 'tests', 'out', 'maintain-w309b.json'), mt309Harn = path.join(ROOT, 'tests', 'exp-w309b-maintain.mjs'), mt309Lib = path.join(ROOT, 'tests', 'lib-w309b-maintain.mjs');
-  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H9 = null; } }
+  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H9 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
   let has309b = false; try { has309b = !!(H9 && typeof H9.evalExpr('REL_DRAG_AXIS_HOLD_MAINT_VERSION') === 'string'); } catch (e) { has309b = false; }
   if (!(TARGET.startsWith('beta/') && has309b && fs.existsSync(mt309Out) && fs.existsSync(mt309Harn) && fs.existsSync(mt309Lib))) {
     console.log('SKIP behavior.maintain309 / docs.maintain309(第309便b の維持の型の前の世代 — ' + TARGET + ')');
@@ -83349,7 +83349,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const ph310Out = path.join(ROOT, 'tests', 'out', 'pairheat-w310b.json'), ph310Harn = path.join(ROOT, 'tests', 'exp-w310b-pairheat.mjs'), ph310Lib = path.join(ROOT, 'tests', 'lib-w310b-pairheat.mjs');
-  let H10 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H10 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H10 = null; } }
+  let H10 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H10 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H10 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
   let has310b = false; try { has310b = !!(H10 && typeof H10.evalExpr('REL_DRAG_AXIS_HOLD_LEDGER_VERSION') === 'string'); } catch (e) { has310b = false; }
   if (!(TARGET.startsWith('beta/') && has310b && fs.existsSync(ph310Out) && fs.existsSync(ph310Harn) && fs.existsSync(ph310Lib))) {
     console.log('SKIP behavior.holdLedger310 / docs.pairHeat310(第310便b の帳簿の欄の前の世代 — ' + TARGET + ')');
@@ -83904,7 +83904,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + grm313Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
       const V = (q) => HP.validatePreset(clone(q)), msg = (v) => (v.errors || []).join(' ');
       const mkS = (q) => { const v = V(q); if (!v.ok) throw new Error(msg(v).slice(0, 120)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return { S, warnings: v.warnings || [] }; };
       const G = { wx: 3.1e-11, wy: -1.7e-11, wz: 4.3e-11 }, MREF = 0.5, Lm = Math.pow(10, 8), RrDef = 6.5e6 / Lm;
