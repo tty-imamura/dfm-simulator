@@ -77321,6 +77321,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const g = (id) => { const q = ps.find((z) => z.id === id); return q ? (HP.relDragCoefficientOf ? HP.relDragCoefficientOf(q.physics.relativeDrag) : q.physics.relativeDrag.gain) : null; };
       o.transfer = { emo: g('earthMoonOnly3d'), ems: g('earthMoonSunInertial3d'), mer: g('mercurySunInertialFit'), plu: g('plutoCharonInertialFit') };
       o.merLaw = (() => { const q = ps.find((z) => z.id === 'mercurySunInertial3d'); return q && q.fitRecord ? String(q.fitRecord.law || '') : ''; })();   // 第303便a の世代の印(lib-w303a-pre の GEN303A_MARK)
+      o.merK1 = (() => { const q = ps.find((z) => z.id === 'mercurySunInertial3d'), isq = q && q.physics && q.physics.relativeDrag && q.physics.relativeDrag.invSq; return !!(isq && isq.rdRule === 'kappaM'); })();   // 第315便c(AN406): 🌡️ が K1 へ移った世代(fitRecord を持たない)
       if (saved && HP.loadPreset) { try { HP.loadPreset(saved.id, false); } catch (e) {} }
       return o;
     }).catch((e) => ({ err: String(e).slice(0, 200) }));
@@ -77371,6 +77372,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           // 第303便a(R191): 🟫🟪 を semic で再フィットした世代では、正本の段 ③(分割の世代の gain —— 歴史の記録)は第302便の宣言の写し(tests/lib-w303a-pre.mjs の DECL302 —— 1/W_bg)と照合
           //   (今の W_bg は preset.revertGLoc303 が正本 refit-w303a と照合)
           let PRE301 = null; try { PRE301 = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { PRE301 = null; }
+          if (r.merK1 && !r.merLaw) { try { const L7r = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs')); r.merLaw = String((L7r.legacy7Of('mercurySunInertial3d').fitRecord || {}).law || ''); } catch (e) { r.merLaw = ''; } }   // 第315便c(AN406): 世代の印は移行の前の宣言の写しの記録から
           const gen303a301 = !!(PRE301 && (PRE301.GEN303A_MARK.test(r.merLaw || '') || /第306便a/.test(r.merLaw || '')));   // 第306便a(AN336): 🌡️ の記録を q⋆ へ替えた世代も 🟫🟪 は第303便a の宣言のまま
           const g302 = (id) => { const d = PRE301 && PRE301.DECL302[id]; return d && d.relativeDrag && d.relativeDrag.Wbg ? 1 / d.relativeDrag.Wbg : null; };
           const wantMer = gen303a301 ? g302('mercurySunInertialFit') : r.transfer.mer, wantPlu = gen303a301 ? g302('plutoCharonInertialFit') : r.transfer.plu;
