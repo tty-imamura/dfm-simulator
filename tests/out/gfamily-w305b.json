@@ -3,14 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:04:55.792Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:06:52.710Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w305b-declbdb.json",
@@ -22,9 +28,15 @@
   "code": [
    {
     "file": "tests/exp-w305b-gfamily.mjs",
-    "bytes": 49833,
-    "sha256": "7fe5ae96efbca025ed76314a726ec7ea445a60734ba127f670b98cfe32615f69",
-    "mtime": "2026-10-20T16:19:56.652Z"
+    "bytes": 50286,
+    "sha256": "e195c71bc84d72a5e2799035fa68b7071339cab4fa396d74ccdfba5be322fd6a",
+    "mtime": "2026-10-25T16:42:07.789Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
@@ -46,21 +58,21 @@
    },
    {
     "file": "tests/exp-w304b-shell.mjs",
-    "bytes": 89271,
-    "sha256": "a697159901da1a7ae20f867e5faff8db0261da7c8d46485273d1d53a6706bc91",
-    "mtime": "2026-10-21T20:13:23.977Z"
+    "bytes": 89724,
+    "sha256": "61b4dc4137bd604a80c01973709605f0c236697d39057bbba742209fffe16fc1",
+    "mtime": "2026-10-25T16:42:07.786Z"
    },
    {
     "file": "tests/exp-w303b-inertialr2.mjs",
-    "bytes": 87015,
-    "sha256": "49bf3085d30b6e1fdff6d6650808b0455b8b7028a87b6e58bf36b5aa4d7c431d",
-    "mtime": "2026-10-21T20:13:23.977Z"
+    "bytes": 87468,
+    "sha256": "5b341ac60eef51235c4e8df403575f8727d680c45ebcbe9602890b572006deb1",
+    "mtime": "2026-10-25T16:42:07.781Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 51360,
-    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 52338,
+    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -99,7 +111,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "ef36a0bc70fa9e271b05debb04156befb1c8f8472c347f503a50d36233a920e8",
+  "codeSha256": "8ccda94f48cbe810b2deddcd63561cbc7378ecf6951e45168bdcbe688298da40",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -184,13 +196,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1566,
-   "segments": 1401,
-   "closureShare": 0.3524
+   "names": 1569,
+   "segments": 1404,
+   "closureShare": 0.3532
   },
-  "scopeSha256": "16edb84690c981d96e0aab0e1a53470aa226e062805b6d068446dad2ed1e3732",
+  "scopeSha256": "8a8e02abb05ae27050d25ea6b7f619aeb24621ec4e67c64a81b75e04f3a2fc33",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w305b-declbdb.json",
     "stableSha256": "b2a19c0fdf8046f1ebe168b23b009f386e5c2d2ebb6609e7a4db356eef007955",
@@ -4324,22 +4342,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 28.792
+   "wallSec": 39.484
   },
   "M": {
-   "wallSec": 132.129
+   "wallSec": 160.364
   },
   "T": {
-   "wallSec": 833.871
+   "wallSec": 853.085
   },
   "P": {
    "wallSec": 0.001
   },
   "S": {
-   "wallSec": 32.757
+   "wallSec": 38.01
   },
   "D": {
-   "wallSec": 77.466
+   "wallSec": 102.537
   }
  },
  "stats": {
@@ -4347,5 +4365,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1106.714
+ "elapsedS": 1195.97
 }

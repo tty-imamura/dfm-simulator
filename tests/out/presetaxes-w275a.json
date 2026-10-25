@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:19:28.295Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:17:54.185Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
    }
   ],
   "code": [
@@ -1913,7 +1913,7 @@
   {
    "id": "mercurySunInertial3d",
    "emoji": "🌡️",
-   "name": "太陽と水星(慣性決定力版・三次元)— 1PN + A1 の参照値に合わせた k(G_loc n = 2)",
+   "name": "太陽と水星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1928,13 +1928,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "ac5169ce",
+   "presetSigHash": "6e14aa82",
    "bodiesSha256": "30d20b8fbe1b54f138de433f673633d5467dcd4d61ca3e2c0a1cea8ab6f78727"
   },
   {
    "id": "venusSunInertial3d",
    "emoji": "🌋",
-   "name": "太陽と金星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と金星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1949,13 +1949,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "bb1f8986",
+   "presetSigHash": "ddd647d8",
    "bodiesSha256": "bb61ae546955ce3cde90d6ee1ceb2a44f2bad5208da4f88d3a79d009dbd060df"
   },
   {
    "id": "marsSunInertial3d",
    "emoji": "🔴",
-   "name": "太陽と火星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と火星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1970,13 +1970,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "42448b8e",
+   "presetSigHash": "191bb640",
    "bodiesSha256": "42025981779f7b055b80332a8dbe87c22a47cc175caaf17537e3bf012d05deee"
   },
   {
    "id": "jupiterSunInertial3d",
    "emoji": "🏀",
-   "name": "太陽と木星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と木星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1991,13 +1991,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "895620fb",
+   "presetSigHash": "f4b75402",
    "bodiesSha256": "e6fa1c4ad765cc360d2dd63293b24e970c07ab0d26050284de9f6ead664aa83c"
   },
   {
    "id": "saturnSunInertial3d",
    "emoji": "🟡",
-   "name": "太陽と土星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と土星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2012,7 +2012,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "9b2e1167",
+   "presetSigHash": "fe13790c",
    "bodiesSha256": "4f3a538aaca88d32e3ffb35709b2efccbe86d2965deff6d525730a3b7f24006a"
   },
   {
@@ -2039,7 +2039,7 @@
   {
    "id": "uranusSunInertial3d",
    "emoji": "🔷",
-   "name": "太陽と天王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と天王星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2054,13 +2054,13 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "f6888573",
+   "presetSigHash": "3b3775d4",
    "bodiesSha256": "d0ff4523c22560ab50b9c873b928da529bd7ff088ae55915d14e66250c97625b"
   },
   {
    "id": "neptuneSunInertial3d",
    "emoji": "💙",
-   "name": "太陽と海王星(慣性決定力版・三次元)— 水星の k の移送(G_loc n = 2)",
+   "name": "太陽と海王星(慣性決定力版・三次元)— K1 の規則 r_d = Y_k m(合わせない)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2075,7 +2075,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "83bb8ec3",
+   "presetSigHash": "26bbd272",
    "bodiesSha256": "ab507834d939b278da9667dfb13a456d224cf73f993f6039e911d964709f0c08"
   },
   {

@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -1378,40 +1378,40 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.04
+   "wallSec": 0.033
   },
   "E": {
-   "wallSec": 0.017
+   "wallSec": 0.005
   },
   "F": {
    "wallSec": 0.009
   },
   "V": {
-   "wallSec": 0.023
+   "wallSec": 0.014
   },
   "Z": {
-   "wallSec": 0.16
+   "wallSec": 0.116
   },
   "B": {
-   "wallSec": 11.177
+   "wallSec": 11.218
   },
   "K": {
-   "wallSec": 0.164
+   "wallSec": 0.17
   }
  },
- "elapsedS": 13.926,
+ "elapsedS": 13.386,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
-  "generatedAt": "2026-10-25T15:25:30.776Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:17:24.888Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7282633,
-    "sha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
-    "mtime": "2026-10-25T14:08:40.488Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
    }
   ],
   "code": [
@@ -1419,31 +1419,31 @@
     "file": "tests/exp-w315b-rsexcess.mjs",
     "bytes": 32083,
     "sha256": "5126cbe6e09cb03806b2e3e8258eaadc5ca8ab03c7a4ae112677e4af73e3f934",
-    "mtime": "2026-10-25T14:35:23.137Z"
+    "mtime": "2026-10-25T15:47:41.333Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
     "bytes": 25956,
     "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
-    "mtime": "2026-10-25T13:52:12.360Z"
+    "mtime": "2026-10-21T20:13:23.994Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-25T13:52:12.348Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-25T13:52:12.344Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-25T13:52:12.352Z"
+    "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
   "codeSha256": "d64aef7f2400d57fe1c0ddf4317310c47f7472922ce69cd864a9f7295faba1fb",
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1532,
-   "segments": 1367,
-   "closureShare": 0.347
+   "names": 1536,
+   "segments": 1371,
+   "closureShare": 0.3478
   },
-  "scopeSha256": "266794eaedc887bd705770fa6009764b5758deaa75987e4b22ca9d5efcbe5b2c",
+  "scopeSha256": "30f954e15a1a7d435ca797aa9f7890800a34bc752d7cd7b7f84b06c75becc8a0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

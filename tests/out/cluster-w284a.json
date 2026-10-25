@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:00:09.154Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:25:45.536Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
    },
    {
     "file": "tests/out/cluster-w283f.json",
-    "bytes": 144115,
-    "sha256": "dcc849b99e7b6cbed29ccf7661c34bdc106161c02eb7307bcf7d433c9b640ef9",
-    "mtime": "2026-10-23T10:34:52.748Z"
+    "bytes": 144130,
+    "sha256": "96bd59576297f8f2d88df21a8a14dfa501f0919609c0627e914ce0668c109f9b",
+    "mtime": "2026-10-25T20:46:41.558Z"
    },
    {
     "file": "tests/fixtures/cluster-w284a-preset.json",
@@ -124,16 +124,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1515,
-   "segments": 1350,
-   "closureShare": 0.3428
+   "names": 1518,
+   "segments": 1353,
+   "closureShare": 0.3436
   },
-  "scopeSha256": "7b3eb5c963456e0d910da37eedbca0100c8b0b830b515a295abeca8b02178658",
+  "scopeSha256": "00fbaa7e5a379d8068421ba4a33afc96167ecaec9ea6e5dc94ebdc3ea4bc5292",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/cluster-w283f.json",
-    "stableSha256": "792cafec469e5f46d9fda2e711fe0178759e8d7a6d80eec807c844c13de334a1",
+    "stableSha256": "899095433baf49e890d53f070fcf2c58c60c5aea087280ee81fb23ba1cca0e48",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -220,7 +220,7 @@
  "preset": "clusterAnalogyBH",
  "declaration": {
   "warnings": [
-   "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+   "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
   ],
   "ledger": {
    "nRep": 40,
@@ -327,7 +327,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -1283,8 +1283,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.364,
-   "rateStepsPerSec": 228.95908416366336
+   "wallSec": 28.459,
+   "rateStepsPerSec": 228.30567593277667
   },
   {
    "key": "n40-r20-s1",
@@ -1304,7 +1304,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -2260,8 +2260,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.833,
-   "rateStepsPerSec": 225.63459730492008
+   "wallSec": 28.16,
+   "rateStepsPerSec": 231.36246786632393
   },
   {
    "key": "n40-r20-s2",
@@ -2281,7 +2281,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -3238,8 +3238,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.22,
-   "rateStepsPerSec": 238.95567519728596
+   "wallSec": 28.077,
+   "rateStepsPerSec": 231.44510322165868
   },
   {
    "key": "n40-r10-s0",
@@ -3259,7 +3259,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -4215,8 +4215,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.488,
-   "rateStepsPerSec": 228.57949134008254
+   "wallSec": 27.911,
+   "rateStepsPerSec": 233.32853233472562
   },
   {
    "key": "n40-r10-s1",
@@ -4236,7 +4236,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -5192,8 +5192,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.945,
-   "rateStepsPerSec": 225.14853549216497
+   "wallSec": 28.6,
+   "rateStepsPerSec": 227.94428028704093
   },
   {
    "key": "n40-r10-s2",
@@ -5213,7 +5213,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -6170,8 +6170,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 25.98,
-   "rateStepsPerSec": 250.69637883008357
+   "wallSec": 29.13,
+   "rateStepsPerSec": 223.46368715083798
   },
   {
    "key": "n80-r20-s0",
@@ -6191,7 +6191,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -7146,8 +7146,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 40.882,
-   "rateStepsPerSec": 159.0808661069377
+   "wallSec": 39.005,
+   "rateStepsPerSec": 166.50393134282336
   },
   {
    "key": "n80-r20-s1",
@@ -7167,7 +7167,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -8122,8 +8122,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 40.153,
-   "rateStepsPerSec": 161.66051292286198
+   "wallSec": 38.913,
+   "rateStepsPerSec": 167.06197793131898
   },
   {
    "key": "n80-r20-s2",
@@ -8143,7 +8143,7 @@
    "RDR": 1.0307763814926147,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -9098,8 +9098,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 41.802,
-   "rateStepsPerSec": 155.2914110429448
+   "wallSec": 36.053,
+   "rateStepsPerSec": 180.45615305355204
   },
   {
    "key": "n80-r10-s0",
@@ -9119,7 +9119,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -10074,8 +10074,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 42.395,
-   "rateStepsPerSec": 153.4417844711231
+   "wallSec": 37.739,
+   "rateStepsPerSec": 172.26254087247787
   },
   {
    "key": "n80-r10-s1",
@@ -10095,7 +10095,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -11050,8 +11050,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 40.778,
-   "rateStepsPerSec": 159.35079306528957
+   "wallSec": 38.799,
+   "rateStepsPerSec": 167.38130908715195
   },
   {
    "key": "n80-r10-s2",
@@ -11071,7 +11071,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -12026,8 +12026,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 41.164,
-   "rateStepsPerSec": 157.95246800731263
+   "wallSec": 37.256,
+   "rateStepsPerSec": 174.3247605724739
   },
   {
    "key": "n160-r20-s0",
@@ -12047,7 +12047,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -13002,8 +13002,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 66.693,
-   "rateStepsPerSec": 97.40991837409618
+   "wallSec": 68.94,
+   "rateStepsPerSec": 94.15457041977247
   },
   {
    "key": "n160-r20-s1",
@@ -13023,7 +13023,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -13978,8 +13978,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 65.689,
-   "rateStepsPerSec": 98.8875154511743
+   "wallSec": 73.345,
+   "rateStepsPerSec": 88.57299070530345
   },
   {
    "key": "n160-r20-s2",
@@ -13999,7 +13999,7 @@
    "RDR": 0.7288689613342285,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -14954,8 +14954,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 61.402,
-   "rateStepsPerSec": 105.73549808272824
+   "wallSec": 63.643,
+   "rateStepsPerSec": 102.0359960319335
   },
   {
    "key": "n160-r10-s0",
@@ -14975,7 +14975,7 @@
    "RDR": 0.5153881907463074,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -15930,8 +15930,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 68.083,
-   "rateStepsPerSec": 95.3824867156336
+   "wallSec": 72.664,
+   "rateStepsPerSec": 89.31278771673512
   },
   {
    "key": "n160-r10-s1",
@@ -15951,7 +15951,7 @@
    "RDR": 0.5153881907463074,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -16905,8 +16905,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 68.382,
-   "rateStepsPerSec": 94.8950004393287
+   "wallSec": 72.77,
+   "rateStepsPerSec": 89.25128092116137
   },
   {
    "key": "n160-r10-s2",
@@ -16926,7 +16926,7 @@
    "RDR": 0.5153881907463074,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -17881,8 +17881,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 70.323,
-   "rateStepsPerSec": 92.40378171032556
+   "wallSec": 69.593,
+   "rateStepsPerSec": 93.33410151523881
   },
   {
    "key": "spin0-s0",
@@ -17902,7 +17902,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -18858,8 +18858,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.066,
-   "rateStepsPerSec": 223.81100404103202
+   "wallSec": 26.649,
+   "rateStepsPerSec": 244.04022144390464
   },
   {
    "key": "spin0-s1",
@@ -18879,7 +18879,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -19835,8 +19835,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.01,
-   "rateStepsPerSec": 224.31459429520908
+   "wallSec": 28.705,
+   "rateStepsPerSec": 226.6843909606101
   },
   {
    "key": "spin0-s2",
@@ -19856,7 +19856,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -20812,8 +20812,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.395,
-   "rateStepsPerSec": 229.27502388281496
+   "wallSec": 25.354,
+   "rateStepsPerSec": 256.4102564102564
   },
   {
    "key": "virial",
@@ -20833,7 +20833,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [
@@ -21772,8 +21772,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 30.394,
-   "rateStepsPerSec": 213.89668262089452
+   "wallSec": 28.899,
+   "rateStepsPerSec": 224.96875433967506
   },
   {
    "key": "contactOn",
@@ -21792,7 +21792,7 @@
    "mStar": 0.3125,
    "RDR": 8.746427536010742,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -22750,8 +22750,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.112,
-   "rateStepsPerSec": 231.46163737676812
+   "wallSec": 28.676,
+   "rateStepsPerSec": 226.620969434147
   },
   {
    "key": "eqPinned",
@@ -22771,7 +22771,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -23727,8 +23727,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 29.289,
-   "rateStepsPerSec": 221.8646214948471
+   "wallSec": 26.905,
+   "rateStepsPerSec": 241.92645137203658
   },
   {
    "key": "centerFree",
@@ -23748,7 +23748,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -24704,8 +24704,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.838,
-   "rateStepsPerSec": 225.45403938487232
+   "wallSec": 27.881,
+   "rateStepsPerSec": 233.21936296562893
   },
   {
    "key": "toyOff",
@@ -25679,8 +25679,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 5.33,
-   "rateStepsPerSec": 1249.0362374710871
+   "wallSec": 6.514,
+   "rateStepsPerSec": 1012.9748319524776
   },
   {
    "key": "cut08",
@@ -25700,7 +25700,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -26655,8 +26655,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 28.64,
-   "rateStepsPerSec": 227.32853885283285
+   "wallSec": 26.969,
+   "rateStepsPerSec": 241.52968802415296
   },
   {
    "key": "eps8",
@@ -26676,7 +26676,7 @@
    "RDR": 1.457737922668457,
    "contactK": 0,
    "warnings": [
-    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
+    "geoPN=3: λ_PN=1 —— geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。"
    ],
    "eqInit": {
     "rows": [],
@@ -27631,8 +27631,8 @@
     ],
     "verdict": "未達"
    },
-   "wallSec": 27.599,
-   "rateStepsPerSec": 236.01398601398603
+   "wallSec": 23.807,
+   "rateStepsPerSec": 273.08356862910364
   }
  ],
  "summary": [
@@ -27760,5 +27760,5 @@
   "E0": -117053.79305150372,
   "E1": 1272952.8601665813
  },
- "elapsedS": 371.007
+ "elapsedS": 368.489
 }

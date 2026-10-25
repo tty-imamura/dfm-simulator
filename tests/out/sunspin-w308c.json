@@ -3,7 +3,7 @@
  "libVersion": "w308c-sunspin-lib-1",
  "generator": "tests/exp-w308c-sunspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第102報)②(太陽の観測の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率)・①(相互の引きずりに反作用を返すと二重計上にならないか)・原仮定者の裁定(第101報)((C) のエネルギーの出所は太陽の慣性自転・中心部の収縮で釣り合う・軸引きずりは軸方向に対する角度差の 2 倍で傾いた軸)・決断事項 AN355・AN348・統括の検証項目 R216",
  "inputs": {
   "planets": [
@@ -3367,42 +3367,54 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.097
+   "wallSec": 0.107
   },
   "required": {
-   "wallSec": 0.048
+   "wallSec": 0.052
   },
   "galaxy": {
-   "wallSec": 0.016
+   "wallSec": 0.024
   },
   "doubleCount": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "contraction": {
-   "wallSec": 0.044
+   "wallSec": 0.042
   }
  },
- "elapsedS": 1.967,
+ "elapsedS": 2.071,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:19:25.568Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:17:56.139Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w308c-sunspin.mjs",
-    "bytes": 49389,
-    "sha256": "95c129ac346689b7755c3abd78064045006dcc27c1c0f82bceb152f004af50ca",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 49842,
+    "sha256": "d24fd35ad4180c3cfb6797ccd6e559ce789889d2d6c30cf71425e30a0b35ec8e",
+    "mtime": "2026-10-25T16:42:07.797Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w308c-sunspin.mjs",
@@ -3412,9 +3424,9 @@
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37764,
-    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 38217,
+    "sha256": "c60d0b0e0eed806d10f1cf036393567a2f24e760c0987fffa233abfee093f32f",
+    "mtime": "2026-10-25T16:42:07.795Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
@@ -3453,7 +3465,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "8557618a9adb5288fe84fa6cd64f6d628d782925fde4bf25495ae1aa0be3ce8e",
+  "codeSha256": "d04ca8b0b9f2c0352445bd183df66f6957c2b67c56343db8cee02e849d6e5d42",
   "harnessVersion": "w308c-sunspin-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。鏡映の核・curl の核・三次元の CTL は器の参照の純関数〔エンジンの式ではない〕)",
   "notClaim": [
@@ -3493,13 +3505,20 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1514,
-   "segments": 1349,
-   "closureShare": 0.3423
+   "names": 1517,
+   "segments": 1352,
+   "closureShare": 0.3431
   },
-  "scopeSha256": "d17f9b04eb3287f20fe8b30c313e39819a9831bb8f448c34ec11a27929e631c7",
+  "scopeSha256": "da4e9f0f3e369153aa279ad2776ef72c826558c0d09f99c98402af900b3b85ac",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }
