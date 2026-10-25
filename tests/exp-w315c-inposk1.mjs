@@ -244,6 +244,35 @@ export function partC(J, root = ROOT) {
   return out;
 }
 
+/* ───────── 文書の行(PHYSICS〔第315便c〕の表と obsCard の数 —— QA docs.inposK1_315 が正本から作り直して逐語で照合)───────── */
+export const fe = (x, d = 3) => (Number.isFinite(x) ? Number(x).toExponential(d) : '—');
+const ff = (x) => Q.fmtFloor(x, 1e-12, 3);   // 丸めの程度の数は床で書く(< 1e-12)
+/** 引きずりの半径の表記(SI の m —— 1 m 以上は m・未満は mm) */
+export const rdTxt = (m) => (!Number.isFinite(m) ? '—' : (m >= 1000 ? (m / 1000).toFixed(3) + ' km' : (m >= 1 ? m.toPrecision(4) + ' m' : (m * 1000).toPrecision(4) + ' mm')));
+/** 本ごとの数の表記(obsCard ja/en と PHYSICS の表が同じ文字列を使う) */
+export function numsOf(J, key) {
+  const K = J.K.systems[key], G = J.G.systems[key], T = J.T[key], P = J.P && J.P.systems[key], C = J.C && J.C.systems[key], fine = K.fine, z = K.byDiv[fine];
+  const rOf = (d) => (K.byDiv[d] ? fe(K.byDiv[d].r1pn) : '—');
+  return { q1pn: Number(T.q1pn).toPrecision(7), r: fe(K.r1pn), rh: rOf(1), rh2: rOf(2), rh4: rOf(4), fineLabel: fine === 1 ? 'h' : 'h/' + fine, tol: fe(G.tolR), bands: Object.values(K.bands).map(ff),
+    bandTol: fe(G.tolB), fm: fe(T.fm), verdict: G.verdict, period: z && Number.isFinite(z.period) ? z.period.toFixed(4) : '—',
+    rdSun: P ? rdTxt(P.bodies[0].rdRule) : '—', rdPlanet: P ? rdTxt(P.bodies[1].rdRule) : '—', YkSI: P && Number.isFinite(P.YkSI) ? fe(P.YkSI, 6) : '—', rdOverRs: P ? Number(P.rdOverRs).toFixed(6) : '—',
+    dr: C && Number.isFinite(C.drFine) ? ff(C.drFine) : '—', bits: C ? C.nSame + '/' + C.n : '—' };
+}
+/** PHYSICS〔第315便c〕の継ぎ目の表(行の並びは太陽からの順) */
+export function docRows(J) {
+  const rows = ['| 本 | q_1PN〔″/世紀〕 | r_1PN(h) | r_1PN(h/2) | r_1PN(h/4) | 刻みの帯 | 門 min(ε_fit, 1e-2 q_1PN) | 判定 | 確認の系との差 Δr・q のビットの一致 |', '|---|---|---|---|---|---|---|---|---|'];
+  for (const b of BOOKS) { const n = numsOf(J, b.key);
+    rows.push('| ' + b.emoji + ' ' + b.ja + ' | ' + n.q1pn + ' | ' + n.rh + ' | ' + n.rh2 + ' | ' + n.rh4 + ' | ' + n.bands.join('・') + ' | ' + n.tol + ' | ' + n.verdict + ' | ' + n.dr + '・' + n.bits + ' |'); }
+  return rows;
+}
+/** 規則の r_d の表(t = 0 —— 段 P) */
+export function rdRows(J) {
+  const rows = ['| 本 | 太陽の r_d | 惑星の r_d | 惑星の r_d/R | Y_k〔m/kg〕 | r_d/r_s |', '|---|---|---|---|---|---|'];
+  for (const b of BOOKS) { const n = numsOf(J, b.key), P = J.P.systems[b.key];
+    rows.push('| ' + b.emoji + ' ' + b.ja + ' | ' + n.rdSun + ' | ' + n.rdPlanet + ' | ' + fe(P.bodies[1].rdOverR) + ' | ' + n.YkSI + ' | ' + n.rdOverRs + ' |'); }
+  return rows;
+}
+
 /* ───────── 門(器の自己点検)───────── */
 export function gatesOf(J) {
   const g = {};

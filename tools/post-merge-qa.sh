@@ -310,6 +310,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm3
 #   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
 # ==== 第314便d の塊(ここまで)====
+# ==== 第315便c の塊(ここから)====
+# 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・R244): 枝 c の新設 3 本(preset.inposK1_315 —— 在位の 7 本の K1 + rdRule の宣言・behavior.inposK1_315 —— 凍結の写し + 変換と
+#   移行した本のビット同一・r_d の読み口・docs.inposK1_315 —— 継ぎ目の正本と文書)と、世代切替を受けた在位の 7 本を読む QA(凍結の写し pinHeadless・legacyView —— 第299便c〜第314便c)・
+#   正本の段の lint.regenScope・lint.stableHashPaths・lint.regenChain・CANON の lint.canon304・状態の契約・lint.qaHeapRelease310・lint.sectionLookup313
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.inposK1_315 behavior.inposK1_315 docs.inposK1_315 preset.planets3d299 docs.planets3d299 behavior.dragNorm301 preset.refit301 behavior.gLoc302 behavior.wbgDirect302 ui.wbgSlider302 behavior.wbgEstimate302 preset.gLocPlanets302 preset.revertGLoc303 behavior.inertialR2_303 behavior.shell304 behavior.j2_305 behavior.pairNorm305 behavior.invSq309 behavior.invSq310 behavior.coreSpin311 behavior.initObs309 behavior.shellTinyEta305 docs.charonAudit305 docs.obsTime305 preset.planets306 preset.emResolve306 preset.charonFix306 behavior.galaxial311 behavior.galaxialRd312 behavior.decayK1_312 docs.mdSweep310 docs.planet3_311 docs.confirm312 docs.k1confirm313 docs.k1outer314 docs.an336_306 lint.regenScope lint.stableHashPaths lint.regenChain lint.canon304 lint.stateContract302 lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第315便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
