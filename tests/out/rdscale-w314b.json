@@ -2,7 +2,7 @@
  "version": "w314b-rdscale-1",
  "generator": "tests/exp-w314b-rdscale.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第116報)の補足(現状の R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討する —— κ の認識が違い複雑化する場合は採用せず解説を行う)・統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -3696,7 +3696,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.459
+    "wallSec": 0.511
    },
    {
     "kind": "q10",
@@ -3725,7 +3725,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.516
+    "wallSec": 0.54
    },
    {
     "kind": "q11",
@@ -3757,7 +3757,7 @@
     "nan": false,
     "betaMax": 3.209975441893601e-7,
     "overlap": 0,
-    "wallSec": 25.621
+    "wallSec": 24.996
    },
    {
     "kind": "q11",
@@ -3789,7 +3789,7 @@
     "nan": false,
     "betaMax": 2.7063765768290744e-8,
     "overlap": 0,
-    "wallSec": 25.468
+    "wallSec": 25
    },
    {
     "kind": "q11",
@@ -3821,7 +3821,7 @@
     "nan": false,
     "betaMax": 5.4127528868324274e-8,
     "overlap": 0,
-    "wallSec": 26.045
+    "wallSec": 22.508
    },
    {
     "kind": "q11",
@@ -3853,7 +3853,7 @@
     "nan": false,
     "betaMax": 6.419947130069395e-7,
     "overlap": 0,
-    "wallSec": 24.928
+    "wallSec": 23.287
    }
   ],
   "rows": [
@@ -3989,31 +3989,37 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.08
+   "wallSec": 0.067
   },
   "S": {
-   "wallSec": 0.147
+   "wallSec": 0.12
   },
   "R": {
-   "wallSec": 0.016
+   "wallSec": 0.015
   },
   "P": {
-   "wallSec": 103.075
+   "wallSec": 96.889
   }
  },
- "elapsedS": 105.119,
+ "elapsedS": 98.748,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:15:54.617Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T23:03:49.362Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -4025,9 +4031,15 @@
   "code": [
    {
     "file": "tests/exp-w314b-rdscale.mjs",
-    "bytes": 36061,
-    "sha256": "11b272487e415f899627888c8154007f31ad34ec86fa358bd1646a773a4f4619",
-    "mtime": "2026-10-23T05:59:17.459Z"
+    "bytes": 36514,
+    "sha256": "4aa22b480ef0eee059a0dd0b27fe7066065f4fce0f0209b2cddb0ae4f118957a",
+    "mtime": "2026-10-25T16:42:07.809Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -4072,7 +4084,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "d636cfdee2cbd02483ce01cdb7ad31d2c79d5d51dd7fda348112d5deb14151ae",
+  "codeSha256": "a7599a5d344ab8c8dc611a904dbf9523e6db8310d316eaef568f75e34e454854",
   "harnessVersion": "w314b-rdscale-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -4115,13 +4127,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1530,
-   "segments": 1365,
-   "closureShare": 0.3467
+   "names": 1535,
+   "segments": 1370,
+   "closureShare": 0.3475
   },
-  "scopeSha256": "f72b6e2f02834648ba2fb7b0c66ab269c0a5ebc5a28b11cfe8a7a6adfa7c8c18",
+  "scopeSha256": "f7e5f9bc6175e1b6be4137b3c79676c627ccf98205b6654f97ab896ac721f0df",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",

@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs --stage em",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -171,7 +171,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 19.589
+    "wallSec": 20.051
    },
    "confirm:earthmoon|q10|-|div=4|N=118": {
     "key": "confirm:earthmoon|q10|-|div=4|N=118",
@@ -212,7 +212,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 21.025
+    "wallSec": 22.062
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
@@ -256,7 +256,7 @@
     },
     "betaMax": 1.0076462786787211e-7,
     "isqSteps": 5222781,
-    "wallSec": 1847.629
+    "wallSec": 1818.995
    },
    "confirm:earthmoon|q00|-|div=1|N=354": {
     "key": "confirm:earthmoon|q00|-|div=1|N=354",
@@ -297,7 +297,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 13.268
+    "wallSec": 20.684
    },
    "confirm:earthmoon|q10|-|div=1|N=354": {
     "key": "confirm:earthmoon|q10|-|div=1|N=354",
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 13.897
+    "wallSec": 22.595
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
@@ -382,7 +382,7 @@
     },
     "betaMax": 1.0076157849255032e-7,
     "isqSteps": 6963437,
-    "wallSec": 2444.146
+    "wallSec": 2462.191
    }
   }
  },
@@ -694,22 +694,22 @@
    "nodrag|h/4|N=118": {
     "n": 2,
     "steps": 13926871,
-    "wallSec": 40.614
+    "wallSec": 42.113
    },
    "drag|h/1|N=354": {
     "n": 1,
     "steps": 5222781,
-    "wallSec": 1847.629
+    "wallSec": 1818.995
    },
    "nodrag|h/1|N=354": {
     "n": 2,
     "steps": 10445560,
-    "wallSec": 27.165
+    "wallSec": 43.278999999999996
    },
    "drag|h/4|N=118": {
     "n": 1,
     "steps": 6963437,
-    "wallSec": 2444.146
+    "wallSec": 2462.191
    }
   }
  },
@@ -722,13 +722,13 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.009
+   "wallSec": 0.012
   },
   "E": {
-   "wallSec": 2464.65
+   "wallSec": 2483.022
   },
   "K": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "M": {
    "wallSec": 0.001
@@ -741,19 +741,25 @@
   "runs": 6,
   "steps": 36558649
  },
- "elapsedS": 2466.314,
+ "elapsedS": 2484.822,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T12:03:44.227Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T22:49:59.179Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -763,9 +769,9 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "bytes": 88635,
-    "sha256": "675eb1808cfb4cdc5fba0ffaca1c319d3945c2e604fed3da943357461702a260",
-    "mtime": "2026-10-23T11:15:37.044Z"
+    "bytes": 89236,
+    "sha256": "32cb0f30057137fdcff256d7cb770fa4d5a0d83a4bda651fe39081305145e0df",
+    "mtime": "2026-10-25T21:19:32.626Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
@@ -783,21 +789,27 @@
   "code": [
    {
     "file": "tests/exp-w314c-k1outer.mjs",
-    "bytes": 49685,
-    "sha256": "4a40e14149b68c4c854286ed204cca3fd690b3a7079b6ddd8a96b1132170f561",
-    "mtime": "2026-10-23T07:18:13.826Z"
+    "bytes": 57686,
+    "sha256": "e3ee04b085991ca7933f79576051921376ed944b28f596507da3dcae53fcf78d",
+    "mtime": "2026-10-25T16:42:14.511Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
-    "bytes": 35140,
-    "sha256": "1d8be501769c48444dd26f0e2f14f75f96bb3b7757f4d6432b37c6990601ad22",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "bytes": 35770,
+    "sha256": "285ccdb6671103407dd43cb7acb54ebd59534708255eb8c6055b7d7ee3214d9e",
+    "mtime": "2026-10-25T16:42:07.809Z"
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
-    "bytes": 50144,
-    "sha256": "c63f53a8af377a3b4317b424e672f623b6daa9a4300da4d536c7530a469954b6",
-    "mtime": "2026-10-22T15:03:05.998Z"
+    "bytes": 50774,
+    "sha256": "8e02f7c93d8eb698006da1ca3e5ed6bec08f31796fba42d1dcaf7dd6b4a5b962",
+    "mtime": "2026-10-25T16:42:07.805Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
@@ -807,9 +819,9 @@
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
-    "bytes": 64416,
-    "sha256": "1cf5bf77ed156ecaa7b7ff79d5fe5a8d076764fc3d123e218ba8724523eb8fa7",
-    "mtime": "2026-10-22T15:03:05.998Z"
+    "bytes": 65046,
+    "sha256": "5b97b9f648a7c5903328785f5ced1946463c5504cfc6f2154bfd4b470c7ed014",
+    "mtime": "2026-10-25T16:42:07.805Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -819,9 +831,9 @@
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
-    "bytes": 73010,
-    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 73463,
+    "sha256": "11b93ede35632be26dbe4fc9050fafd7ea4d688c723c028c5af861d3187cd7da",
+    "mtime": "2026-10-25T16:42:07.785Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
@@ -837,9 +849,9 @@
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
-    "bytes": 51360,
-    "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "bytes": 52338,
+    "sha256": "ecff672647e6d96c73d5822d504ccdcc7b2f27142c3de958d913b02dfa5fd859",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
@@ -866,7 +878,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "0ff9cb41495acd618d9031dbbbf3a72b36dc79d2648e640fcc46cc4cc0703877",
+  "codeSha256": "79978dec05ef3d78eac940eee1a0b41446bb0e617ca93bf8b524a4f97e54b284",
   "harnessVersion": "w314c-k1outer-1",
   "stage": "em",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W314C_WORKERS)",
@@ -927,13 +939,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1557,
-   "segments": 1392,
-   "closureShare": 0.3535
+   "names": 1562,
+   "segments": 1397,
+   "closureShare": 0.3543
   },
-  "scopeSha256": "c371327ff2d3f6a4d440ab02973af425ac64cff7a16e09af2afee6345a967748",
+  "scopeSha256": "25f648a7865c5e22a2156578114a715bd55982c42efefe7aef51df94543bd48f",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
@@ -942,7 +960,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "e980557b16fe74c5700db06d581238b235358114bb129b4ec4c8efb7452945e7",
+    "stableSha256": "106370c1f3884b3b9f2322fc2e37fc112ba6bf94acc6ff826c33e544691cde72",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
