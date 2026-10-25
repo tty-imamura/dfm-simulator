@@ -37507,6 +37507,59 @@ R_d を r_s にした式で今と同じ引きずりを出すには、並進に 5
 
 **⑦ 言わないこと。** 「法則を確かめた」「検証が完了した」(太陽系について —— 衛星が残る)「κ を決めた」「R_d を決めた」「シュヴァルツシルト半径そのもの」「収束した」。外惑星の残差が門の内のときは「規則で置いた残差が数値の門の内」と書く。v1.46 の root への昇格はしない(在位の本の移行の後)。
 
+〔第315便c — 在位の惑星 7 本(🌡️ 水星・🌋 金星・🔴 火星・🏀 木星・🟡 土星・🔷 天王星・💙 海王星)を新則 invSq の K1 + 規則の鍵 `rdRule:"kappaM"` へ移す —— 太陽を含む全天体 r_d = Y_k m・Y_k は合わせない(原仮定者の裁定(第117報)・決断事項 AN406・AN410・AN405・AN401・AN396′・統括の検証項目 R244)(**在位の 7 本の宣言だけを変えた —— 内蔵の他の 169 本は 1 bit 不変**・新しい宣言の鍵は無い・`S._core` 不変・🌦️ earthMoonSunInertial3d は対象外〔AN418〕)〕
+
+**① 何を変えたか(宣言の変換)。** 決断事項 AN406「在位の 7 本を K1 + `rdRule:"kappaM"` へ移す —— 外殻は宣言しない・`shellRecv` は省略・initMotion "observed"・値は鎖で測り直す」を、7 本(`mercurySunInertial3d`・`venusSunInertial3d`・`marsSunInertial3d`・`jupiterSunInertial3d`・`saturnSunInertial3d`・`uranusSunInertial3d`・`neptuneSunInertial3d`)の `physics.relativeDrag` の**置き換えだけ**で行った:
+
+- 移行の前(第306便a〜第314便の宣言): `{law:"inertial", Wbg:W_ext, eps:0.05, history:"positions", pairs:"all", inertialR2:{lambdaRs:4.99986, sources:"all", denom:"pair"}}`(λ ∝ m の k・W_bg = W_ext)。
+- 移行の後: `{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}` —— 太陽を含む全天体の引きずりの半径 **r_d = Y_k m**(m はエンジンが使う質量)・**Y_k = 10G_0/(C_1c_0²)**(サンプルの G_0・c_0 と閉じた式の C_1 = 6[(√3/2)ln(2+√3) − 1] で計算 —— 本の単位では html の `invSqKappa0` と同じ演算の順・**合わせない**)・外殻なし(`outerShell` を宣言しない)・`shellRecv` 省略・dragCore を宣言しない(規則が r_d を置く)・**並進だけ**(回転・軸の引きずり `spinDrag` は移行の前と同じく宣言しない)。G_loc は `{law:"kappaC2"}`(n = 2・自己なし)のまま、太陽は free のまま(二体・重心 0・全運動量 0)、bodies・timeRef・scaleExp と physics の他の鍵は 1 字も変えていない。
+- シュヴァルツシルト半径(重力半径)r_s = 2G_0m/c_0² と比べると r_d/r_s = 5/C_1 = 5.930396(全天体で同じ比 —— 鍵の名 `kappaM` は保存形式のまま・説明の記号は Y_k・r_d・r_s)。
+- A/B の対照(abBody)は「引きずりと G_loc を切る」= 規則で置いた残差の基線 q00 と同じ形(`relativeDrag:{law:"inertial", invSq:{}, enabled:false, pairs:"all", history:"positions"}`・`gLoc:null`)。
+- 🌡️ の旧い fitRecord(版 w298b-1 —— λ ∝ m の k 4.99986 を派生した参照値 q⋆ への数値フィットの記録・status fitted)は**本から外して履歴に残した**(凍結の写し `tests/data-w315c-legacy7.json` と正本 `tests/out/an336-w306a.json`)。移行の後の本は fitRecord を持たない(Y_k は合わせないので fitted の記録を作らない —— 規則で置いた残差と門は obsCard と正本 `tests/out/inposk1-w315c.json`)。
+- notClaim の an336_* を外して `inposk1_rule`(「規則で置いた・合わせない・数値の門は観測の 3σ ではない・現実の宇宙とは主張しない」)を足した。名前・obsCard・説明の先頭・parameterAudit は新記号(Y_k・r_d・r_s・X_k・G_0・c_0)で書いた(移行の前の説明は「以下は第306便a までの本の説明」として履歴に残す)。
+- 読み口(新しい宣言の鍵は無い): 版 `IN_POSITION_K1_VERSION = "w315c-inpos-k1-1"`・`inPositionK1Of(p)`(本の宣言から移行した在位の本か・kernel・rdRule・外殻・shellRecv・initMotion・旧則の鍵の有無・G_loc・太陽 free・Y_k・天体ごとの m・エンジンが使う質量・r_d・r_s —— 状態を読まない)・`inPositionK1State()`(移行した在位の本の ID の並び)。
+
+**② 移行の型 —— 凍結の写しと生のまま。** 57 本の器と多くの QA が 7 本を読む。**移行の前の宣言を研究対象にする器と QA は凍結の写しへ、在位の本そのものを測るものは生のまま**にした:
+
+- **凍結の写し**: `tests/data-w315c-legacy7.json`(版 w315c-legacy7-1 —— 第315便の基点 af2f426 の 7 本の宣言の**全欄**をビット同一に写した)と読む助け `tests/lib-w315c-legacy7.mjs`(`legacy7Of(id)`・`pinLegacy7(p)`・`gateInposK1(p)`〔本ごとの門 —— 移行した世代なら真〕・`pinDecl315c(evalExpr)`〔html の大域の BUILTIN_PRESETS の 7 本を器の中だけで移行の前の宣言に戻す〕・`pinHeadless(H)`・`legacyView(HP)`〔allPresets だけを写しに替えた派生 —— 共有の HP は変えない〕)。**写しの後に旧い世代の lib を重ねる**(`pinDecl315c()` の後に第306便a の `pinDecl305()` —— その門は写しの後の宣言で引く)。
+- 器の世代切替(**42 本・段 43** —— html を読み込んだ直後に `pinDecl315c()`・`meta.code` に lib・`meta.inputs` に凍結の写し・**正本の欄は足さない**): planets3d-299c・saturnring3d-300c・dragnorm-301a・wbglaw-301g・gloc-302b・semic-302d・wbgest-302c・refit-303a・inertialr2-303b・earthmoon-303c・shell-304a・shell-304b・baseline-304c・pairnorm-305a・gfamily-305b・j2-305c・an336-306a・periodn-306b・emresolve-306c・tide3d-307b・spindecomp-307c・bevel-308a・hold-308b・sunspin-308c・invsq-309a・maintain-309b・recheck-309c・invsq-310a・pairheat-310b・mdsweep-310d・corespin-311a・galaxial-311b・planet3-311d・decay-312a・galaxialrd-312b・confirm-312d・kappam-313a・galaxialrdm-313b・k1confirm-313d・rdexcess-314a・rdscale-314b・k1outer-314c・k1em-314c。正本の意味的出力は移行の前と同じ(`meta` の code と inputs と領域 hash だけが動く —— 鎖では走り直して同じ値)。枝のうちに 8 段(rdexcess-314a・pairheat-310b・sunspin-308c・recheck-309c・decay-312a・kappam-313a・gloc-302b・corespin-311a)を走らせ、揮発の欄を除いて正本と同じ値を確かめた。K1 の確認の系(planet3-311d・confirm-312d・k1confirm-313d・k1outer-314c・k1em-314c)も凍結の写し —— 「在位の宣言は変えない」の照合(`liveDeclGate`・`liveSame`・`liveOuter`)は移行の前の宣言の意味で読む(在位の列は本便の継ぎ目の正本が持つ)。
+- QA の世代切替: 7 本を読む QA の headless の写し 22 か所を `pinHeadless`・在位の宣言の不変の照合 6 か所を `legacyView`・ui.wbgSlider302 の代表の本(🌡️ が K1 の世代も 🟫)。
+- **生のまま**: 継ぎ目の器 `tests/exp-w315c-inposk1.mjs`(段 inposk1-315c —— 走行は子プロセス `W315C_WORKERS`・試走は `W315C_QUICK=1` と `W315C_OUT`〔正本を書かない〕・再開は `W315C_CACHE`)・QA `preset.inposK1_315`・`behavior.inposK1_315`・`docs.inposK1_315`・SAMPLE_STATUS の原稿の 7 本の行・全本を走査する段(samplestatus・families ほか —— 宣言の値が変わる)。
+
+**③ 継ぎ目の表(移行した本そのものを走らせる —— 正本 `tests/out/inposk1-w315c.json`)。** 7 本 × q00(引きずりなし・G_loc なし = A/B の対照)・q10(引きずりなし + 在位の G_loc)・q11(本そのもの)× 刻み h・h/2(外惑星 3 本は h/4 も)× 8 公転・新しい抽出器(第304便e)。r_1PN = q11 − q00 − q_1PN(q_1PN は二体の 1PN の式 —— 観測ではない)・刻みの帯は隣り合う刻みの r_1PN の差・**決断事項 AN410 の一様の門** abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN)(ε_fit = 1e-3″/世紀・ε_num = 3e-4″/世紀 —— 数値の門で、観測の 3σ ではない)。確認の系との差 Δr は最も細かい刻みの r_1PN の差(🌡️🌋🔴🏀 は k1confirm-w313d の段 K・🟡🔷💙 は k1outer-w314c の窓 8)、ビットの一致は同じ刻みの q00・q10・q11 の数。
+
+| 本 | q_1PN〔″/世紀〕 | r_1PN(h) | r_1PN(h/2) | r_1PN(h/4) | 刻みの帯 | 門 min(ε_fit, 1e-2 q_1PN) | 判定 | 確認の系との差 Δr・q のビットの一致 |
+|---|---|---|---|---|---|---|---|---|
+| 🌡️ 水星 | 42.98051 | 6.625e-5 | 2.618e-5 | — | 4.007e-5 | 1.000e-3 | 規則で置いた残差が数値の門の内 | 1.988e-6・4/6 |
+| 🌋 金星 | 8.624521 | 5.883e-5 | 6.965e-5 | — | 1.082e-5 | 1.000e-3 | 規則で置いた残差が数値の門の内 | -4.177e-6・4/6 |
+| 🔴 火星 | 1.350865 | 1.255e-5 | 6.091e-6 | — | 6.456e-6 | 1.000e-3 | 規則で置いた残差が数値の門の内 | 3.477e-7・4/6 |
+| 🏀 木星 | 0.06238664 | 7.933e-5 | 7.926e-5 | — | 7.234e-8 | 6.239e-4 | 規則で置いた残差が数値の門の内 | 3.644e-8・4/6 |
+| 🟡 土星 | 0.01370940 | 5.180e-6 | 5.150e-6 | 5.251e-6 | 3.029e-8・1.012e-7 | 1.371e-4 | 規則で置いた残差が数値の門の内 | < 1e-12・9/9 |
+| 🔷 天王星 | 0.002384637 | 1.481e-7 | 1.304e-7 | 1.573e-7 | 1.766e-8・2.691e-8 | 2.385e-5 | 規則で置いた残差が数値の門の内 | < 1e-12・9/9 |
+| 💙 海王星 | 0.0007741015 | -1.901e-7 | 1.382e-7 | -6.927e-10 | 3.283e-7・1.389e-7 | 7.741e-6 | 規則で置いた残差が数値の門の内 | < 1e-12・9/9 |
+
+規則の r_d(t = 0 —— エンジンの r_d・m_d は読み口 `inPositionK1Of` とビット同一):
+
+| 本 | 太陽の r_d | 惑星の r_d | 惑星の r_d/R | Y_k〔m/kg〕 | r_d/r_s |
+|---|---|---|---|---|---|
+| 🌡️ 水星 | 17.514 km | 2.907 mm | 1.192e-9 | 8.807619e-27 | 5.930396 |
+| 🌋 金星 | 17.514 km | 42.87 mm | 7.086e-9 | 8.807619e-27 | 5.930396 |
+| 🔴 火星 | 17.514 km | 5.652 mm | 1.667e-9 | 8.807619e-27 | 5.930396 |
+| 🏀 木星 | 17.514 km | 16.72 m | 2.338e-7 | 8.807619e-27 | 5.930396 |
+| 🟡 土星 | 17.514 km | 5.006 m | 8.301e-8 | 8.807619e-27 | 5.930396 |
+| 🔷 天王星 | 17.514 km | 764.6 mm | 2.992e-8 | 8.807619e-27 | 5.930396 |
+| 💙 海王星 | 17.514 km | 902.0 mm | 3.642e-8 | 8.807619e-27 | 5.930396 |
+
+段 B(移行が宣言の変換そのもの): 7 本とも凍結の写し + 変換と移行した本の受理後の宣言が同じ 7/7・20000 步の状態のビット同一 7/7。段 C(K1 の確認の系の行と同じ刻み・同じ窓): q00・q10 のビットの一致 34/34・q11 は 🟡🔷💙 9/9・🌡️🌋🔴🏀 0/8(最も細かい刻みの Δr は表の右の列)。一様の門の内 7/7・走行 51 本(37628643 步)。
+
+**④ 移行が宣言の変換そのものであること。** 器の段 B は、凍結の写し(移行の前の宣言)に移行の変換(器の `INPOS_K1_DRAG` で relativeDrag を置き換える)を当てた本と、移行した在位の本の受理後の physics・bodies・timeRef・scaleExp の正準 JSON が同じで、20000 步の状態(位置・速度・自転)がビット同一であることを 7 本で確かめる(QA `behavior.inposK1_315` は 200 步)。K1 の確認の系の q00・q10 は同じ宣言(凍結の写し `tests/data-w306a-decl305.json` の bodies は在位の本と同じ・**太陽は free** —— 確認の器の `pinnedBook` は「凍結の写しの本」の意味で太陽を固定していない)なので、同じ刻み・同じ窓の q00・q10 はビット同一の見込み。q11 は、🟡🔷💙 の確認の系が Y_k × エンジンの質量の明示の dragCore(規則の鍵と同じ演算の順)なのでビット同一の見込み、🌡️🌋🔴🏀 の確認の系は 10 G m/(C₁ c²) の明示の dragCore(宣言の質量・演算の順が違う)なので r_d の最後の桁の差だけ違う。確認の系の q11 は回転と軸の引きずり(spinDrag)を宣言していたが、二体の軌道(位置・速度)は spinDrag の有無で 1 公転ビット同一(枝の実測 —— 🌡️ 47503 步・🏀 47505 步・自転の値だけが違う)。
+
+**⑤ 鎖で動く段。** 7 本の宣言(説明文の欄を除く領域)が変わるので、7 本を名指す段と `presets:"all"` の段は領域 hash が変わって鎖で走り直す。凍結の写しへ切り替えた 43 段は同じ値のはず・継ぎ目の段 inposk1-315c と全本を走査する段は値が変わる(統括の鎖の計画で数える)。
+
+**⑥ 残った決断事項。** 🌡️ の `referenceKind:"observation-fit"` は宣言専用の meta として残した(合わせていない本の分類語の見直しは別便)。🌦️ の K1 への移行は AN418(衛星の検証の後)。
+
+**⑦ 言わないこと。** 「r_d を決めた」「1PN を導いた」「フィットした」(Y_k は規則で置いた値 —— 合わせていない)「現実の宇宙」(DFM は学習向きの仮定のモデルで、現実の宇宙とは主張しない)。門の内なら「規則で置いた残差が数値の門の内」と書く。数値の門と ε は観測の 3σ ではない。h・h/2・h/4 は刻みの感度診断。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
