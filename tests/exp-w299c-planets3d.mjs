@@ -32,6 +32,7 @@ import * as P3 from './lib-w299c-planets3d.mjs';
 import { inPlaneLongitude } from './exp-w298c-moon3d.mjs';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
 import { pinSplit302 } from './lib-w302h-splitrec.mjs';   // 第302便h: 第299便c の 🌡️ のフィット(G_loc の前)と移送の記録を同じ分割の步で保つ(器の中だけ —— 宣言・署名は変えない)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_RECORD_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondSig","HP.inertialDragState","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -187,6 +188,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const PIN302 = pinSplit302();   // 第302便h: semic を既定にした世代でも、この正本(歴史の記録)は分割の步で測る(子プロセスも同じ)
   const NW = Math.max(1, Number(process.env.W299C_WORKERS) || 2);
   const run = makePool(NW, fileURLToPath(import.meta.url));
@@ -260,8 +262,8 @@ export async function main() {
   J.ok = Object.values(J.gates).every(Boolean);
   J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「43″ を再現した」', '「gain は普遍定数」', '「二次元の値を写して fitted」'];
-  const CODE = ['tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w299c-planets3d.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w302h-splitrec.mjs'];
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第299便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, extractorVersion: EXTRACTOR_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第89報)②「太陽系の各惑星の geoPN=3 版を、それぞれ三次元で用意する」', reading: '統括の検証項目 R171(惑星の geoPN=3 三次元の新本・初期状態の生成器・測定と標的のある惑星のフィット)' });
   J.elapsedS = (Date.now() - t0) / 1000;
@@ -403,16 +405,19 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinSplit302();
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN && process.argv.includes('--emit')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const J = JSON.parse(fs.readFileSync(process.env.W299C_OUT || path.join(ROOT, 'tests', 'out', 'planets3d-w299c.json'), 'utf8'));
   fs.writeFileSync(process.argv[process.argv.indexOf('--emit') + 1], emitBooks(HP, J));
 } else if (IS_MAIN && process.argv.includes('--probe')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const key = process.argv[process.argv.indexOf('--probe') + 1] || 'mercury';
   const d = P3.planetDecl3(HP, key, { gain: 0 });
   console.log(JSON.stringify({ kepler: d.kepler, poles: d.poles, bodies: d.bodies, timeRef: d.timeRef, camera: d.camera }, null, 1));

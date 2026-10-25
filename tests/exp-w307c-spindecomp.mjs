@@ -35,6 +35,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { ctlPair } from './lib-w292d-tide.mjs';
 import * as L from './lib-w307c-spindecomp.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 // 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 + 本 3 本)
 const REGEN_SCOPE = {"presets":["jupiterGalilean","jupiterSunInertial3d","venusSunInertial3d"],"roots":["$","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validatePreset","T","ctx","cw","sim"],"core":false,"consts":[],"complete":true};
 
@@ -399,14 +400,15 @@ export async function main() {
   const t0 = Date.now();
   const W281A_SCOPE = w281aScopeStamp(html, REGEN_SCOPE);
   const { HP } = loadHtmlMain(html);
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const R = runAll(HP, { quick });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w307c-spindecomp.mjs', target: TARGET,
     targetSha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'),
     ruling: '原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211',
     ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
-  const CODE = ['tests/exp-w307c-spindecomp.mjs', 'tests/lib-w307c-spindecomp.mjs', 'tests/lib-w292d-tide.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第307便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w307c-spindecomp.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w307c-spindecomp.mjs', 'tests/lib-w292d-tide.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第307便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION,
     engine: 'Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。軸引きずりの球面の核・三次元の CTL・内部熱は器の参照の純関数〔エンジンの式ではない〕)',
     notClaim: NOT_CLAIM });

@@ -52,6 +52,7 @@ import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の
 import { pre302c } from './lib-w302c-pre.mjs';   // 第302便c: G_loc の前の宣言の写し
 import { pinDecl302, DECL302_DATA_FILE } from './lib-w303a-pre.mjs';   // 第303便a: 第302便の本の宣言の写し(この正本は第302便の宣言で測った歴史の記録 —— 器の中だけ・html と署名は変えない)
 import { pinDecl303, DECL303_DATA_FILE } from './lib-w304c-pre.mjs';   // 第304便c: 第303便の 🌦️🌔 の宣言の写し(pinDecl302 の前に —— 軟化・初期配置・引きずりの宣言を第303便へ戻してから第302便の欄を戻す・歴史の値を保つ)
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.FIT_COND_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_NORM_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.dragCoreLookup","HP.dragCoreState","HP.fitCondSig","HP.geoEffectiveMode","HP.geoLawOfSim","HP.inertialDragState","HP.relDragBackgroundOf","HP.relDragStepOrderOf","HP.sim","HP.validateFitRecord","HP.validatePreset","LAWS","T","ab","ch","ctx","cw","fmt","pnSource","validateFitRecord"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -440,6 +441,7 @@ if (IS_MAIN) {
   const OUT_PATH = process.env.W301G_OUT || path.join(ROOT, 'tests', 'out', 'wbglaw-w301g.json');
   const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   pinDecl303();   // 第304便c: 🌦️🌔 を第303便の宣言へ(軟化 0.01・初期配置・W_bg —— 続く pinDecl302 が第302便の欄を戻す)
   pinDecl302();   // 第303便a: 在位の惑星の本の G_loc と フィットの本の W_bg・初期配置を第302便の宣言に戻して測る(歴史の値を保つ)
   const e3 = (x) => (x === null || x === undefined || !Number.isFinite(x)) ? '—' : Number(x).toExponential(3);
@@ -457,9 +459,9 @@ if (IS_MAIN) {
   const out = { meta: null, version: HARNESS_VERSION, si: SI, selection: { rows: cls.rows.map((r) => ({ id: r.id, emoji: r.emoji, role: r.role, group: r.group, ex: r.ex, dt: r.dt, N: r.N })), excluded: cls.excluded,
       retiredFitRecords: RETIRED_FIT_RECORDS },
     candidates: CANDIDATES.map((c) => ({ key: c.key, label: c.label, kind: c.kind })), table: A, fits: B, loo: Cc, response: D, predictions: E, gates, ok: Object.values(gates).every(Boolean) };
-  const CODE = ['tests/exp-w301g-wbglaw.mjs', 'tests/lib-w302c-pre.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w297b-fit.mjs',
+  const CODE = ['tests/exp-w301g-wbglaw.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w302c-pre.mjs', 'tests/exp-w295c-inertial3.mjs', 'tests/exp-w298c-moon3d.mjs', 'tests/exp-w299c-planets3d.mjs', 'tests/lib-w299c-planets3d.mjs', 'tests/lib-w297b-fit.mjs',
     'tests/exp-w301a-dragnorm.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w303a-pre.mjs', 'tests/lib-w304c-pre.mjs'];
-  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便g', target: TARGET, code: CODE, inputs: [TARGET, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
+  out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第301便g', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL302_DATA_FILE, DECL303_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(AN300 —— 第91報への追加): 慣性決定力は、重力決定力に比べて近距離の天体の影響が大きい為、背景慣性決定力がサンプル毎に異なるのは問題無い。法則性の探索を行う',
     reading: '統括の検証項目 R185(W_bg を近距離の天体の影響で説明する候補を次元の合う形で列挙し、自由パラメータ 1〜2 で当てはめ、leave-one-out と未フィットの本への予測で確かめる —— 本の宣言は変えない)',

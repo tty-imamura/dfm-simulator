@@ -3,12 +3,12 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 61,
-  "harnesses": 60,
+  "steps": 62,
+  "harnesses": 61,
   "byProspect": {
    "enumerates": 32,
    "narrow-now": 11,
-   "find-only": 18
+   "find-only": 19
   },
   "byKind": {
    "filter": 14,
@@ -17,7 +17,7 @@
    "count": 2,
    "iterate": 6,
    "value": 12,
-   "find-via-var": 23
+   "find-via-var": 24
   }
  },
  "kinds": {
@@ -1175,7 +1175,7 @@
    "reasons": [
     {
      "file": "tests/exp-w301a-dragnorm.mjs",
-     "line": 145,
+     "line": 146,
      "use": "(値)",
      "kind": "iterate",
      "via": "harness",
@@ -1321,7 +1321,7 @@
    "reasons": [
     {
      "file": "tests/exp-w301g-wbglaw.mjs",
-     "line": 112,
+     "line": 113,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1387,7 +1387,7 @@
    "reasons": [
     {
      "file": "tests/exp-w302d-semic.mjs",
-     "line": 62,
+     "line": 63,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1458,7 +1458,7 @@
    "reasons": [
     {
      "file": "tests/exp-w302c-wbgest.mjs",
-     "line": 188,
+     "line": 189,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1466,7 +1466,7 @@
     },
     {
      "file": "tests/exp-w302c-wbgest.mjs",
-     "line": 267,
+     "line": 268,
      "use": "filter",
      "kind": "filter",
      "via": "harness",
@@ -1535,7 +1535,7 @@
    "reasons": [
     {
      "file": "tests/exp-w303a-refit.mjs",
-     "line": 292,
+     "line": 293,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1930,7 +1930,7 @@
    "reasons": [
     {
      "file": "tests/exp-w309a-invsq.mjs",
-     "line": 265,
+     "line": 266,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -1959,7 +1959,7 @@
    "reasons": [
     {
      "file": "tests/exp-w310a-invsq.mjs",
-     "line": 149,
+     "line": 150,
      "use": "(値)",
      "kind": "value",
      "via": "harness",
@@ -2477,6 +2477,51 @@
    ],
    "nNamed": 8,
    "prospect": "enumerates"
+  },
+  {
+   "key": "inposk1-315c",
+   "harness": "tests/exp-w315c-inposk1.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "find-via-var"
+   ],
+   "reasons": [
+    {
+     "file": "tests/lib-w299c-planets3d.mjs",
+     "line": 115,
+     "use": "(値)",
+     "kind": "find-via-var",
+     "via": "lib",
+     "text": "const all = HP.allPresets(), sp = all.find((q) => q.id === SUN.src), pp = all.find((q) => q.id === pl.src);",
+     "var": "all",
+     "varUses": [
+      ".find"
+     ]
+    }
+   ],
+   "namedIds": [
+    "earthMoonSunInertial3d",
+    "earthMoonSunInertialFit",
+    "jupiterGalilean",
+    "jupiterSunInertial3d",
+    "marsMoonsReal",
+    "marsSunInertial3d",
+    "mercury",
+    "mercuryReal",
+    "mercurySunInertial3d",
+    "mercurySunInertialFit",
+    "neptuneReal",
+    "neptuneSunInertial3d",
+    "saturn",
+    "saturnRingReal",
+    "saturnSunInertial3d",
+    "uranusReal",
+    "uranusSunInertial3d",
+    "venusReal",
+    "venusSunInertial3d"
+   ],
+   "nNamed": 19,
+   "prospect": "find-only"
   },
   {
    "key": "an336-306a",

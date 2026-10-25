@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as R3 from './lib-w300c-saturnring3d.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragProbeAt","HP.inertialDragState","HP.sim","HP.validateApproxMany","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -207,6 +208,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const NW = Math.max(1, Number(process.env.W300C_WORKERS) || 2);
   const run = makePool(NW, fileURLToPath(import.meta.url));
   const d = R3.ringDecl3(HP, {});
@@ -271,8 +273,8 @@ export async function main() {
   J.ok = Object.values(J.gates).every(Boolean);
   J.timing = Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { wallSec: Number(r.wallSec) || 0 }]));
   J.notClaim = ['「現実を再現した」', '「gain をフィットした」(gain 0 の基準 —— 標的なし)', '「環の全粒子を置いた」(各帯 40 粒の縮約)'];
-  const CODE = ['tests/exp-w300c-saturnring3d.mjs', 'tests/lib-w300c-saturnring3d.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第300便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
+  const CODE = ['tests/exp-w300c-saturnring3d.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w300c-saturnring3d.mjs', 'tests/lib-w301b-approxmany.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第300便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第90報)⑥「土星の輪の geoPN=3 版の三次元サンプルを作成する」', reading: '統括の検証項目 R177(土星の輪の三次元の新本・試験粒子の扱い・面の保持と損失と刻み依存・回転引きずりの見え方)' });
   J.elapsedS = (Date.now() - t0) / 1000;
@@ -357,10 +359,12 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const spec = JSON.parse(process.argv[process.argv.indexOf('--child') + 1]);
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   process.stdout.write(JSON.stringify(childTask(HP, spec)));
 } else if (IS_MAIN && process.argv.includes('--emit')) {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const { HP } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   const J = JSON.parse(fs.readFileSync(process.env.W300C_OUT || path.join(ROOT, 'tests', 'out', 'saturnring3d-w300c.json'), 'utf8'));
   fs.writeFileSync(process.argv[process.argv.indexOf('--emit') + 1], emitBook(HP, J));
 } else if (IS_MAIN) await main();

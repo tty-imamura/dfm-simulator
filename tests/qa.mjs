@@ -2464,6 +2464,9 @@ lastAddAt = Date.now();
       // ==== 第315便b の塊(ここから)==== 観測半径を超えたシュヴァルツシルト半径 r_s の表示の読み口と K1 の境界の 1 点の器(rsexcess-315b)。領域 REGEN_SCOPE を刻む
       'tests/out/rsexcess-w315b.json',
       // ==== 第315便b の塊(ここまで)====
+      // ==== 第315便c の塊(ここから)==== 在位の惑星 7 本の K1 への移行の継ぎ目(inposk1-315c —— 移行した本の r_1PN・一様の門・凍結の写し + 変換とのビット同一)。領域 REGEN_SCOPE を刻む
+      'tests/out/inposk1-w315c.json',
+      // ==== 第315便c の塊(ここまで)====
       // ==== 第315便d の塊(ここから)==== 衛星 6 本の K1 の検証の器(satk1-315d —— 二体と三体 × 引きずりの有無)。領域 REGEN_SCOPE を刻む
       'tests/out/satk1-w315d.json',
       // ==== 第315便d の塊(ここまで)====
@@ -23431,6 +23434,7 @@ if (!FAST) {
         for (const q of HP293.allPresets()) {
           const rd0 = q.physics && q.physics.relativeDrag;
           if (!rd0 || rd0.law !== 'inertial' || q.familyRole === 'retired') continue;
+          if (rd0.invSq) continue;   // 第315便c(AN406): 新則 invSq の本(在位の 7 本 —— K1 + rdRule)は旧則の合成則 compose の契約の外
           const v = HP293.validatePreset(JSON.parse(JSON.stringify(q))); if (!v.ok) continue;
           HP293.sim.build(v.preset); const S = HP293.sim;
           for (let k = 0; k < 3; k++) S.step(0.016);
@@ -74322,7 +74326,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     try {
       J3c9 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'planets3d-w299c.json'), 'utf8'));
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      H3c9 = loadHtmlHeadless(path.join(ROOT, TARGET));   // 本走行の中では loadHtmlMain の再読み込みが既に読んだ大域と衝突する —— 他のブロックと同じ headless
+      H3c9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET)));   // 本走行の中では loadHtmlMain の再読み込みが既に読んだ大域と衝突する —— 他のブロックと同じ headless   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     } catch (e) { err3c9 = String(e && e.stack || e).slice(0, 200); }
     const near9 = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
       if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near9(x, b[i], tol));
@@ -77365,6 +77369,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const g = (id) => { const q = ps.find((z) => z.id === id); return q ? (HP.relDragCoefficientOf ? HP.relDragCoefficientOf(q.physics.relativeDrag) : q.physics.relativeDrag.gain) : null; };
       o.transfer = { emo: g('earthMoonOnly3d'), ems: g('earthMoonSunInertial3d'), mer: g('mercurySunInertialFit'), plu: g('plutoCharonInertialFit') };
       o.merLaw = (() => { const q = ps.find((z) => z.id === 'mercurySunInertial3d'); return q && q.fitRecord ? String(q.fitRecord.law || '') : ''; })();   // 第303便a の世代の印(lib-w303a-pre の GEN303A_MARK)
+      o.merK1 = (() => { const q = ps.find((z) => z.id === 'mercurySunInertial3d'), isq = q && q.physics && q.physics.relativeDrag && q.physics.relativeDrag.invSq; return !!(isq && isq.rdRule === 'kappaM'); })();   // 第315便c(AN406): 🌡️ が K1 へ移った世代(fitRecord を持たない)
       if (saved && HP.loadPreset) { try { HP.loadPreset(saved.id, false); } catch (e) {} }
       return o;
     }).catch((e) => ({ err: String(e).slice(0, 200) }));
@@ -77415,6 +77420,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           // 第303便a(R191): 🟫🟪 を semic で再フィットした世代では、正本の段 ③(分割の世代の gain —— 歴史の記録)は第302便の宣言の写し(tests/lib-w303a-pre.mjs の DECL302 —— 1/W_bg)と照合
           //   (今の W_bg は preset.revertGLoc303 が正本 refit-w303a と照合)
           let PRE301 = null; try { PRE301 = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { PRE301 = null; }
+          if (r.merK1 && !r.merLaw) { try { const L7r = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs')); r.merLaw = String((L7r.legacy7Of('mercurySunInertial3d').fitRecord || {}).law || ''); } catch (e) { r.merLaw = ''; } }   // 第315便c(AN406): 世代の印は移行の前の宣言の写しの記録から
           const gen303a301 = !!(PRE301 && (PRE301.GEN303A_MARK.test(r.merLaw || '') || /第306便a/.test(r.merLaw || '')));   // 第306便a(AN336): 🌡️ の記録を q⋆ へ替えた世代も 🟫🟪 は第303便a の宣言のまま
           const g302 = (id) => { const d = PRE301 && PRE301.DECL302[id]; return d && d.relativeDrag && d.relativeDrag.Wbg ? 1 / d.relativeDrag.Wbg : null; };
           const wantMer = gen303a301 ? g302('mercurySunInertialFit') : r.transfer.mer, wantPlu = gen303a301 ? g302('plutoCharonInertialFit') : r.transfer.plu;
@@ -77692,7 +77698,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   } else {
     const bad = [], cases = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302b-gloc.mjs')); } catch (e) { bad.push('器 tests/exp-w302b-gloc.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'gloc-w302b.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/gloc-w302b.json が読めない'); }
@@ -78228,7 +78234,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const bad = [], cases = [];
     let H = null, PH = '', CL = '', AS = '', RD = '';
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { bad.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8'); RD = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) { bad.push('文書が読めない'); }
     const sec = (() => { const a = PH.indexOf('〔第302便a — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1; return a >= 0 && b > a ? PH.slice(a, b) : ''; })();
@@ -78409,7 +78415,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // 第304便c(R197): 🌦️ が引きずり OFF の宣言(基線の見直し)になった世代では、宣言した W_bg のある代表の本を 🌡️ にする(世代は 🌦️ の宣言から読む)
       const emsU = HP.allPresets().find((p) => p.id === 'earthMoonSunInertial3d'), emsRdU = emsU && emsU.physics && emsU.physics.relativeDrag;
       // 第306便a(AN336): 🌡️ が λ ∝ m の k と G_loc を宣言した世代(W_bg = W_ext —— フィットの値ではない)では代表の本を 🟫(W_bg のフィット)にする(世代は 🌡️ の宣言から読む)
-      const merU = HP.allPresets().find((p) => p.id === 'mercurySunInertial3d'), merRdU = merU && merU.physics && merU.physics.relativeDrag, g306U = !!(merRdU && merRdU.inertialR2 && merRdU.inertialR2.denom === 'pair' && merU.physics.gLoc);
+      const merU = HP.allPresets().find((p) => p.id === 'mercurySunInertial3d'), merRdU = merU && merU.physics && merU.physics.relativeDrag, g306U = !!(merRdU && ((merRdU.inertialR2 && merRdU.inertialR2.denom === 'pair' && merU.physics.gLoc) || (merRdU.invSq && merRdU.invSq.rdRule === 'kappaM')));   // 第315便c(AN406): 🌡️ が K1 + rdRule の世代(W_bg を持たない)も代表の本は 🟫
       o.book = (emsRdU && emsRdU.Wbg === null && emsRdU.enabled === false) ? (g306U ? 'mercurySunInertialFit' : 'mercurySunInertial3d') : 'earthMoonSunInertial3d';
       HP.loadPreset(o.book, false);
       const sig0 = presetSig(HP.currentPreset()), par0 = JSON.stringify(HP.sim.params);
@@ -78493,7 +78499,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     let H = null, X = null, J = null, D = null, PH = '', CL = '', AS = '', RD = '', RT = '', GI = '', HV = '';
     const err0 = [];
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w302c-wbgest.mjs')); D = await import('file://' + path.join(ROOT, 'tests', 'exp-w301a-dragnorm.mjs')); } catch (e) { err0.push('器: ' + String(e).slice(0, 120)); }
     // 第303便a(R191): 在位の惑星の本から G_loc を外した世代 —— 第302便の宣言の写し(tests/lib-w303a-pre.mjs)で正本 wbgest-w302c(歴史の記録)と照合する
     let PRE303 = null; try { PRE303 = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { PRE303 = null; }
@@ -79100,7 +79106,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   let PRE = null, X = null, H = null, J = null, err0 = [];
   try { PRE = await import('file://' + path.join(ROOT, 'tests', 'lib-w303a-pre.mjs')); } catch (e) { err0.push('tests/lib-w303a-pre.mjs が読めない'); }
   if (PRE && TARGET.startsWith('beta/')) {
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless: ' + String(e).slice(0, 120)); }
   }
   const has303a = TARGET.startsWith('beta/') && !!(PRE && H && H.HP && PRE.isGen303a(H.HP.allPresets()));
@@ -79341,7 +79347,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w303b-inertialr2.mjs')); } catch (e) { err0.push('器 tests/exp-w303b-inertialr2.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'inertialr2-w303b.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/inertialr2-w303b.json が読めない'); }
@@ -79489,7 +79495,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w304a-shell.mjs')); } catch (e) { err0.push('器 tests/exp-w304a-shell.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'shell-w304a.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/shell-w304a.json が読めない'); }
@@ -80075,7 +80081,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const j2Out = path.join(ROOT, 'tests', 'out', 'j2-w305c.json'), j2Harn = path.join(ROOT, 'tests', 'exp-w305c-j2.mjs');
-  let H5 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H5 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H5 = null; } }
+  let H5 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H5 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H5 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const has305c = !!(H5 && H5.HP && typeof H5.HP.j2State === 'function');
   if (!(TARGET.startsWith('beta/') && has305c && fs.existsSync(j2Out) && fs.existsSync(j2Harn))) {
     console.log('SKIP behavior.j2_305 / preset.emJ2_305 / docs.j2_305(第305便c の三次元の J₂ の前の世代 — ' + TARGET + ')');
@@ -80626,7 +80632,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   } else {
     const err0 = [];
     let H = null, X = null, J = null;
-    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
     catch (e) { err0.push('headless が読めない: ' + String(e).slice(0, 160)); }
     try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w305a-pairnorm.mjs')); } catch (e) { err0.push('器 tests/exp-w305a-pairnorm.mjs が読めない: ' + String(e).slice(0, 120)); }
     try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pairnorm-w305a.json'), 'utf8')); } catch (e) { err0.push('正本 tests/out/pairnorm-w305a.json が読めない'); }
@@ -81340,7 +81346,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const IL = await import('file://' + iq309Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const jup = HP.allPresets().find((q) => q.id === 'jupiterSunInertial3d'), mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const INV = { law: 'inertial', invSq: { Wbg2: 0, order: 8 }, dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
       const mk = (mut) => { const q = clone(jup); q.physics.relativeDrag = clone(INV); if (mut) mut(q); return q; };
@@ -81513,7 +81519,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const SL = await import('file://' + iq310Lib), IL = await import('file://' + iq310Lib9);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => IL.norm(IL.sub(a, b)) / Math.max(IL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (f, shell, mut) => { const q = clone(mer); q.physics.relativeDrag = { law: 'inertial', invSq: { order: 8 }, dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
@@ -81696,7 +81702,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const CL = await import('file://' + cs311Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => CL.norm(CL.sub(a, b)) / Math.max(CL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'), st = E('inertialDragIsqState');
       const sim = (q) => { const v = HP.validatePreset(clone(q)); if (!v.ok) throw new Error((v.errors || []).join(' ').slice(0, 160)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return S; };
@@ -81955,7 +81961,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const io309Out = path.join(ROOT, 'tests', 'out', 'recheck-w309c.json'), io309Harn = path.join(ROOT, 'tests', 'exp-w309c-recheck.mjs'), io309Lib = path.join(ROOT, 'tests', 'lib-w309c-recheck.mjs');
-  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H9 = null; } }
+  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H9 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   let has309c = false; try { has309c = !!(H9 && typeof H9.evalExpr('REL_DRAG_INIT_OBS_VERSION') === 'string'); } catch (e) { has309c = false; }
   if (!(TARGET.startsWith('beta/') && has309c && fs.existsSync(io309Out) && fs.existsSync(io309Harn) && fs.existsSync(io309Lib))) {
     console.log('SKIP behavior.initObs309 / docs.recheck309(第309便c の観測の初期値の分解の前の世代 — ' + TARGET + ')');
@@ -82127,7 +82133,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const bad = [], cases = [];
     try {
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       // 第306便a(AN336): 🌡️ が λ ∝ m の k と G_loc を宣言した世代では、W_bg 221 の 🌡️ の写し(第305便の宣言 —— tests/lib-w306a-pre.mjs の pin305・本ごとの門)で試す
       const PRE6s = await import('file://' + path.join(ROOT, 'tests', 'lib-w306a-pre.mjs'));
       const base = PRE6s.pin305(HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'));
@@ -82280,7 +82286,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + X5p), J = JSON.parse(fs.readFileSync(J5p, 'utf8'));
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H5 = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H5.HP;
+      const H5 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H5.HP;   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       // 第306便e(AN339 の案 (A)・R208): 🟪 の宣言を直した世代では、器は第305便の宣言の写し(tests/lib-w306e-pre.mjs の pin305)で測る —— 照合も同じ写しで(第305便の html では no-op)
       let PRE305 = null; try { PRE305 = await import('file://' + path.join(ROOT, 'tests', 'lib-w306e-pre.mjs')); } catch (e) { PRE305 = null; }
       const gen306e = !!(PRE305 && PRE305.isGen306e(H5.evalExpr('BUILTIN_PRESETS')));
@@ -82363,7 +82369,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const JS = JSON.parse(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'judgement-sources.json'), 'utf8')), decl = JS.declarations || [];
       const TOK = /\b(TDB|TT|TDT|UTC|UT1|TCB|TCG)\b/;
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const HP = loadHtmlHeadless(path.join(ROOT, TARGET)).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');
+      const HP = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))).HP, live = HP.allPresets().filter((p) => p.familyRole !== 'retired');   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       let nCsv = 0, nHtml = 0, nUnknown = 0;
       for (const r of T.rows) {
         const tag = r.target_id;
@@ -82514,7 +82520,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   let H6 = null, J6 = null, err6 = null;
   const IDS6 = ['mercurySunInertial3d', 'venusSunInertial3d', 'marsSunInertial3d', 'jupiterSunInertial3d', 'saturnSunInertial3d', 'uranusSunInertial3d', 'neptuneSunInertial3d'];
-  try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { err6 = String(e && e.message || e).slice(0, 160); }
+  try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { err6 = String(e && e.message || e).slice(0, 160); }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const g6 = (p) => !!(p && p.physics && p.physics.gLoc && p.physics.gLoc.law === 'kappaC2' && p.physics.relativeDrag && p.physics.relativeDrag.inertialR2 && p.physics.relativeDrag.inertialR2.denom === 'pair');
   const all6 = H6 ? H6.HP.allPresets() : [], gens = IDS6.map((id) => g6(all6.find((q) => q.id === id)));
   if (!TARGET.startsWith('beta/') || (!err6 && !gens.some(Boolean))) {
@@ -82592,7 +82598,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const er306Out = path.join(ROOT, 'tests', 'out', 'emresolve-w306c.json'), er306Harn = path.join(ROOT, 'tests', 'exp-w306c-emresolve.mjs'), er306Lib = path.join(ROOT, 'tests', 'lib-w306c-pre.mjs');
-  let H6 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H6 = null; } }
+  let H6 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H6 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   const has305c6 = !!(H6 && H6.HP && typeof H6.HP.j2State === 'function');
   if (!(TARGET.startsWith('beta/') && has305c6 && fs.existsSync(er306Out) && fs.existsSync(er306Harn) && fs.existsSync(er306Lib))) {
     console.log('SKIP preset.emResolve306 / docs.emResolve306 / docs.obsMoonNode306(第306便c の解き直しの前の世代 — ' + TARGET + ')');
@@ -82767,7 +82773,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   let PRE6 = null, gen6 = false, H6 = null;
   if (TARGET.startsWith('beta/') && fs.existsSync(X6p) && fs.existsSync(J6p) && fs.existsSync(L6p)) {
     try { PRE6 = await import('file://' + L6p); const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      H6 = loadHtmlHeadless(path.join(ROOT, TARGET)); gen6 = PRE6.isGen306e(H6.evalExpr('BUILTIN_PRESETS')); } catch (e) { gen6 = false; }
+      H6 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); gen6 = PRE6.isGen306e(H6.evalExpr('BUILTIN_PRESETS')); } catch (e) { gen6 = false; }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
   }
   if (!gen6) {
     console.log('SKIP preset.charonFix306 / docs.charonFix306(第306便e の 🟪 の宣言の直しの前の世代 — ' + TARGET + ')');
@@ -83238,7 +83244,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const mt309Out = path.join(ROOT, 'tests', 'out', 'maintain-w309b.json'), mt309Harn = path.join(ROOT, 'tests', 'exp-w309b-maintain.mjs'), mt309Lib = path.join(ROOT, 'tests', 'lib-w309b-maintain.mjs');
-  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H9 = null; } }
+  let H9 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H9 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H9 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
   let has309b = false; try { has309b = !!(H9 && typeof H9.evalExpr('REL_DRAG_AXIS_HOLD_MAINT_VERSION') === 'string'); } catch (e) { has309b = false; }
   if (!(TARGET.startsWith('beta/') && has309b && fs.existsSync(mt309Out) && fs.existsSync(mt309Harn) && fs.existsSync(mt309Lib))) {
     console.log('SKIP behavior.maintain309 / docs.maintain309(第309便b の維持の型の前の世代 — ' + TARGET + ')');
@@ -83390,7 +83396,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const ph310Out = path.join(ROOT, 'tests', 'out', 'pairheat-w310b.json'), ph310Harn = path.join(ROOT, 'tests', 'exp-w310b-pairheat.mjs'), ph310Lib = path.join(ROOT, 'tests', 'lib-w310b-pairheat.mjs');
-  let H10 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H10 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H10 = null; } }
+  let H10 = null; if (TARGET.startsWith('beta/')) { try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H10 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))); } catch (e) { H10 = null; } }   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
   let has310b = false; try { has310b = !!(H10 && typeof H10.evalExpr('REL_DRAG_AXIS_HOLD_LEDGER_VERSION') === 'string'); } catch (e) { has310b = false; }
   if (!(TARGET.startsWith('beta/') && has310b && fs.existsSync(ph310Out) && fs.existsSync(ph310Harn) && fs.existsSync(ph310Lib))) {
     console.log('SKIP behavior.holdLedger310 / docs.pairHeat310(第310便b の帳簿の欄の前の世代 — ' + TARGET + ')');
@@ -83562,7 +83568,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + ga311Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (extra, mut) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
         q.physics.relativeDrag = Object.assign({ law: 'inertial', invSq: { order: 8 }, pairs: 'all', history: 'positions', dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } }, extra || {});
@@ -83739,7 +83745,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + gr312Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d');
       const mk = (g, mut) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
         q.physics.relativeDrag = { law: 'inertial', invSq: { order: 8 }, pairs: 'all', history: 'positions', dragCoreDefault: 'cap6500km', spinDrag: { rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel' } };
@@ -83945,7 +83951,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const X = await import('file://' + grm313Harn);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(器の世代切替と同じ —— pinHeadless)
       const V = (q) => HP.validatePreset(clone(q)), msg = (v) => (v.errors || []).join(' ');
       const mkS = (q) => { const v = V(q); if (!v.ok) throw new Error(msg(v).slice(0, 120)); const S = HP.coord3d.makeSim(); S.build(clone(v.preset)); return { S, warnings: v.warnings || [] }; };
       const G = { wx: 3.1e-11, wy: -1.7e-11, wz: 4.3e-11 }, MREF = 0.5, Lm = Math.pow(10, 8), RrDef = 6.5e6 / Lm;
@@ -84231,12 +84237,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         const html7 = rd(TARGET);
         if ((html7.match(/gLocDetach\(ab\.simB\)/g) || []).length !== 2) bad.push('⑤ gLocDetach(ab.simB) が abStart と ⏮ の 2 か所に無い');
         // ⑥
+        const L7g = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は B 側 = q00 の形(新則の引きずりなし)
         for (const id of IDS7) {
-          const p = find(id), ab = p.abBody || {}, pp = ab.physicsPatch || {};
-          if (!(pp.gLoc === null && pp.relativeDrag && pp.relativeDrag.enabled === false && canon(pp.relativeDrag) === canon(PRE7.DECL306[id].abBody.physicsPatch.relativeDrag))) bad.push('⑥ ' + id + ' のワンタップが両方 OFF でない');
+          const p = find(id), ab = p.abBody || {}, pp = ab.physicsPatch || {}, k1g = L7g.gateInposK1(p);
+          const offWant = k1g ? { law: 'inertial', invSq: {}, enabled: false, pairs: 'all', history: 'positions' } : PRE7.DECL306[id].abBody.physicsPatch.relativeDrag;
+          if (!(pp.gLoc === null && pp.relativeDrag && pp.relativeDrag.enabled === false && canon(pp.relativeDrag) === canon(offWant))) bad.push('⑥ ' + id + ' のワンタップが両方 OFF でない');
           if (!(/両方 OFF/.test(ab.label.ja) && /both off/.test(ab.label.en) && ab.label.ja.length <= 60 && ab.label.en.length <= 60)) bad.push('⑥ ' + id + ' の表示名');
           const cj = String((p.descStruct || {}).control || ''), ce = String(((p.en || {}).descStruct || {}).control || '');
-          if (!(cj.indexOf('gLoc:null') >= 0 && cj.indexOf('k のフィットの基線') >= 0 && ce.indexOf('gLoc:null') >= 0 && ce.indexOf('k-fit baseline') >= 0)) bad.push('⑥ ' + id + ' の対照の説明');
+          const kj = k1g ? '規則で置いた残差の基線 q00' : 'k のフィットの基線', ke = k1g ? 'rule-residual baseline q00' : 'k-fit baseline';
+          if (!(cj.indexOf('gLoc:null') >= 0 && cj.indexOf(kj) >= 0 && ce.indexOf('gLoc:null') >= 0 && ce.indexOf(ke) >= 0)) bad.push('⑥ ' + id + ' の対照の説明');
           if (/physicsPatch は gLoc を持たない|physicsPatch has no gLoc/.test(cj + ce)) bad.push('⑥ ' + id + ' に古い文(physicsPatch は gLoc を持たない)');
         }
         cases.push(`⑤ ⏮ の再適用・⑥ 7 本のワンタップ = 両方 OFF(版 ${HP.GLOC_DETACH_VERSION})`);
@@ -84402,9 +84411,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const pre8 = path.join(ROOT, 'tests', 'lib-w308d-pre.mjs');
-  let H8 = null, PRE8 = null, gen8 = false;
+  let H8 = null, PRE8 = null, gen8 = false, K1_8 = [];
   if (TARGET.startsWith('beta/')) {
     try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H8 = loadHtmlHeadless(path.join(ROOT, TARGET)); } catch (e) { H8 = null; }
+    // 第315便c(AN406): 在位の 🌡️ が K1 へ移った世代(fitRecord を持たない)は記録の照合を移行の前の宣言の写しで —— 画面の箱の行は移った本を除く
+    try { const L7f = await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs')); if (H8 && H8.HP) { K1_8 = L7f.LEGACY7_IDS.filter((id) => L7f.gateInposK1(H8.HP.allPresets().find((q) => q.id === id))); L7f.pinHeadless(H8); } } catch (e) { K1_8 = []; }
     try { PRE8 = await import('file://' + pre8); gen8 = !!(H8 && H8.HP && PRE8.isGen308d(H8.evalExpr('BUILTIN_PRESETS'))); } catch (e) { PRE8 = null; gen8 = false; }
   }
   const has8 = !!(H8 && H8.HP && typeof H8.HP.tide3ReceiverWarnings === 'function' && PRE8);
@@ -84461,10 +84472,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
                 tr: [...box.querySelectorAll('.frRow[data-k="target"]')].map((d) => d.dataset.role || null) } : null; }
             return o; }, IDS8);
           for (const id of IDS8) {
+            if (K1_8.includes(id)) { if (dom[id] && dom[id].roles) bad.push('③ ' + id + '(K1 へ移った在位の本)にフィットの記録の箱の役割の行がある'); continue; }   // 第315便c: 移った本は fitRecord を持たない
             const want = ROLES8[id], order = HP.FIT_TARGET_ROLES.filter((r) => want.indexOf(r) >= 0).join(',');
             if (!(dom[id] && dom[id].roles === order && canon(dom[id].tr) === canon(want))) bad.push('③ ' + id + ' のフィットの記録の箱(DOM)' + JSON.stringify(dom[id]));
           }
-          cases.push('③ 🟫 の観測カード・フィットの記録の箱の役割の行(DOM)');
+          cases.push('③ 🟫 の観測カード・フィットの記録の箱の役割の行(DOM' + (K1_8.length ? ' —— K1 へ移った ' + K1_8.length + ' 本は箱の行なし' : '') + ')');
         } else cases.push('③ 🟫 の観測カード(DOM は page が無いので省略)');
       } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
       add('preset.fitRole308', bad.length === 0,
@@ -84932,7 +84944,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             && relq(r.deltaFromM.total, q.deltaFromM.total) && relq(r.perCentury.rot, q.perCentury.rot);
           if (!ok) { nd++; if (nd <= 3) bad.push('② 段 S を作り直すと違う行 ' + q.shape + ' ' + q.f); } });
         // ③ 在位の宣言が不変
-        const LG = X.liveDeclGate(HPm);
+        const LG = X.liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPm));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
         if (!(LG.bodiesSame && LG.scaleSame && LG.timeRefSame && LG.oldRule && LG.noInvSq && LG.noDragCore && LG.gLoc && LG.gLoc.law === 'kappaC2')) bad.push('③ 在位の 🌡️ の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
         cases.push(`② 段 K の遠方の係数・段 S の ${S2.rows.length} 行(β・回転の速さ・β(太陽 ← 水星)・差)を作り直して一致 / ③ 在位の 🌡️ は第306便a の世代のまま(k ${LG.k}・gLoc ${LG.gLoc && LG.gLoc.law})`);
       } catch (e) { bad.push('② 作り直せない: ' + String(e).slice(0, 160)); }
@@ -85069,7 +85081,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const mer = J.R.planets.mercury;
       cases.push(`④ 段 T・R・G を走行の行から作り直して一致(水星の区間 ${mer.bracket.kind}${mer.bracket.kind === 'one' ? ' [' + mer.bracket.lo + ', ' + mer.bracket.hi + ']' : ''}・数値の門 3 対同時 ${J.G.allPass})`);
       // ⑤ 在位の宣言が不変
-      const LG = X.liveDeclGate(HPm);
+      const LG = X.liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPm));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
       if (!LG.every((z) => z.bodiesSame && z.scaleSame && z.timeRefSame && z.oldRule && z.noInvSq && z.noDragCore && z.gLoc && z.gLoc.law === 'kappaC2')) bad.push('⑤ 在位の 🌡️🌋🔴 の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
       cases.push('⑤ 在位の 🌡️🌋🔴 は第306便a の世代のまま(旧則・G_loc kappaC2・invSq/dragCore なし)');
       // ==== 第312便d の塊(ここから)==== v2 の世代切替(器 w312d-planet3-2 —— 決断事項 AN396 の採用の欄・門の直し・R_d と K1 の口・係数 C₂ の実測)
@@ -85166,7 +85178,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     try {
       const DL = await import('file://' + dk312Lib);
       const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
-      const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));
+      const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).pinHeadless(loadHtmlHeadless(path.join(ROOT, TARGET))), HP = H.HP, E = H.evalExpr, clone = (x) => JSON.parse(JSON.stringify(x));   // 第315便c(AN406): 在位の 7 本は移行の前の宣言の写しで(pinHeadless —— 本ごとの門・基点の html では no-op)
       const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(b), 1e-300), relv = (a, b) => DL.norm(DL.sub(a, b)) / Math.max(DL.norm(b), 1e-300);
       const mer = HP.allPresets().find((q) => q.id === 'mercurySunInertial3d'), st = E('inertialDragIsqState'), pAt = E('inertialDragIsqPointAt'), obs = E('inertialDragInitObsState');
       const bk = (isq, o = {}) => { const q = clone(mer); delete q.fitRecord; delete q.abBody;
@@ -85395,7 +85407,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (JSON.stringify(X.moonOf(J, J.C.ruleKey, J.kernel)) !== JSON.stringify(J.C.moon)) bad.push('④ 月の診断を作り直すと違う');
       cases.push(`④ 段 C を走行の行から作り直して一致 —— 🏀 r = ${J.C.systems.jupiter.r.toFixed(6)}(${J.C.systems.jupiter.verdict})・🌦️ r = ${J.C.systems.earthmoon.r.toFixed(6)}(${J.C.systems.earthmoon.verdict})`);
       // ⑤
-      const LS = X.liveSame(HPc);
+      const LS = X.liveSame((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPc));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
       if (!(LS.earthmoon === true && LS.jupiter === true)) bad.push('⑤ 在位の 🏀🌦️ の宣言が凍結の写しと違う ' + JSON.stringify(LS));
       cases.push('⑤ 在位の 🏀🌦️ の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
@@ -86105,7 +86117,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`④ 段 K・R・D・M を走行の行から作り直して一致 —— 根の kf ${X.PLANET_KEYS.map((k) => k + ' ' + J.R.planets[k].candidate.kf).join('・')}・採用 ${X.PLANET_KEYS.map((k) => J.R.planets[k].adopt.adopted).join('/')}`);
       // ⑤
       const LP = J.live;
-      if (!(X.gatesOf({ live: { planets: HPk ? (await import('file://' + path.join(ROOT, 'tests', 'exp-w311d-planet3.mjs'))).liveDeclGate(HPk) : [], confirm: (await import('file://' + path.join(ROOT, 'tests', 'exp-w312d-confirm.mjs'))).liveSame(HPk) } }).inPositionUnchanged === true && LP)) bad.push('⑤ 在位の宣言が凍結の写しと違う');
+      if (!(X.gatesOf({ live: { planets: HPk ? (await import('file://' + path.join(ROOT, 'tests', 'exp-w311d-planet3.mjs'))).liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPk)) : [], confirm: (await import('file://' + path.join(ROOT, 'tests', 'exp-w312d-confirm.mjs'))).liveSame((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPk)) } }).inPositionUnchanged === true && LP)) bad.push('⑤ 在位の宣言が凍結の写しと違う');
       cases.push('⑤ 在位の 🌡️🌋🔴🏀🌦️ の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     // ⑥ 文書
@@ -86371,7 +86383,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (g.pass && g.verdict !== '規則で置いた残差が数値の門の内') bo.push('④ 門の内の語 ' + s.key); }
       co.push(`④ 段 K・W・G・D を走行の行から作り直して一致 —— 主の窓 ${X.OUTER.map((s) => s.ja + ' ' + Jo.W.systems[s.key].main).join('・')} 公転・門${uni ? '(一様 —— AN410)' : ''} ${X.OUTER.map((s) => s.ja + ' ' + (Jo.G.systems[s.key].pass ? '内' : '外')).join('・')}・r_1PN ${X.OUTER.map((s) => Jo.G.systems[s.key].r.toExponential(2)).join('・')}${uni ? '・r/q_1PN ' + X.OUTER.map((s) => Jo.G.systems[s.key].rOverQ.toExponential(3)).join('・') : ''}${Jo.regate ? '(門の欄は ' + Jo.regate.version + ' で作り直した —— 走行の行は元のまま)' : ''}`);
       // ⑤
-      if (!(X.gatesOf({ stage: 'outer', live: X.liveOuter(HPx) }).inPositionUnchanged === true)) bo.push('⑤ 在位の宣言が凍結の写しと違う');
+      if (!(X.gatesOf({ stage: 'outer', live: X.liveOuter((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPx)) }).inPositionUnchanged === true)) bo.push('⑤ 在位の宣言が凍結の写しと違う');
       co.push('⑤ 在位の 🟡🔷💙 の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bo.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   }
@@ -87145,6 +87157,217 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
 }
 // ==== 第315便b の塊(ここまで)====
+// ==== 第315便c の塊(ここから —— preset.inposK1_315・behavior.inposK1_315・docs.inposK1_315 の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・AN405・AN401・AN396′・統括の検証項目 R244): **在位の惑星 7 本の K1 への移行**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ html に IN_POSITION_K1_VERSION="w315c-inpos-k1-1" ∧ 器 tests/exp-w315c-inposk1.mjs ∧ 凍結の写し tests/data-w315c-legacy7.json。
+// ----   preset.inposK1_315: ① 在位の 7 本(🌡️🌋🔴🏀🟡🔷💙 —— 🌦️ は含まない)の relativeDrag が器の INPOS_K1_DRAG(新則 invSq の K1 + rdRule:"kappaM"・外殻なし・shellRecv なし・
+// ----      initMotion "observed"・spinDrag なし)と同じ・旧則の鍵(Wbg・eps・inertialR2・gain・dragCoreDefault)なし・dragCore なし・太陽 free・G_loc {law:"kappaC2"}・fitRecord なし・
+// ----      受理の警告 0・A/B の対照(B 側)= q00 の形 ② 移行で変えたのは引きずりの宣言だけ(physics の他の鍵・bodies・timeRef・scaleExp は凍結の写しと同じ)
+// ----      ③ 読み口 inPositionK1State の移行した本 = 7 本・inPositionK1Of の版・🌦️ は K1 でない ④ notClaim inposk1_rule(ja/en の文)・名前の新記号
+// ----   behavior.inposK1_315: ① 凍結の写しに移行の変換(器の convertLegacy)を当てた本と移行した本の受理後の宣言が同じで、200 步の状態(位置・速度・自転)がビット同一
+// ----      ② エンジンの r_d・m_d(inertialDragIsqState の rdRule)= 読み口 inPositionK1Of の r_d・エンジンが使う質量(ビット)・r_d/r_s = 5/C_1 ③ 凍結の写しへの世代切替
+// ----      (pinDecl315c・pinHeadless・legacyView)が 7 本を移行の前の宣言(全欄)に戻す・共有の HP は変えない
+// ----   docs.inposK1_315: ① 正本 inposk1-w315c.json の門(器の gatesOf で作り直して一致)・計画・来歴・領域 hash ② 段 K・G・C を正本の走行の行から作り直して一致・段 T を html から
+// ----      作り直して相対 1e-12 ③ 一様の門(AN410)が 7 本とも真 ④ PHYSICS〔第315便c〕の表(継ぎ目・規則の r_d)の行を正本から作り直して逐語・語・書かない語・禁句・裸の κ を書かない
+// ----      ⑤ obsCard(ja/en)と SAMPLE_STATUS の原稿の 7 本の行が正本の数を持つ ⑥ AI_SPEC §137・CHANGELOG・README・段・.gitignore・post-merge ③′・CANON
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
+  const xHarn = path.join(ROOT, 'tests', 'exp-w315c-inposk1.mjs'), xLib = path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'), xData = path.join(ROOT, 'tests', 'data-w315c-legacy7.json');
+  const oOut = path.join(ROOT, 'tests', 'out', 'inposk1-w315c.json');
+  const html315c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && html315c.indexOf('IN_POSITION_K1_VERSION="w315c-inpos-k1-1"') >= 0 && fs.existsSync(xHarn) && fs.existsSync(xLib) && fs.existsSync(xData))) {
+    console.log('SKIP preset.inposK1_315 / behavior.inposK1_315 / docs.inposK1_315(第315便c の在位の 7 本の K1 への移行の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const nearSame315 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && nearSame315(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b);
+  let X = null, L7 = null, H = null, err0 = null;
+  try { X = await import('file://' + xHarn); L7 = await import('file://' + xLib); const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+  catch (e) { err0 = String(e && e.stack || e).slice(0, 200); }
+  const IDS = X ? X.BOOKS.map((b) => b.id) : [];
+  // ───── preset.inposK1_315 ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib/html が読めない: ' + err0);
+    else {
+      const HP = H.HP, E = H.evalExpr, all = HP.allPresets();
+      if (JSON.stringify(IDS) !== JSON.stringify(L7.LEGACY7_IDS) || JSON.stringify(E('IN_POSITION_K1_IDS').slice()) !== JSON.stringify(IDS)) bad.push('① 7 本の並びが器・凍結の写し・html で違う');
+      if (IDS.includes('earthMoonSunInertial3d')) bad.push('① 🌦️ が移行の対象に入っている(AN406 は 7 本 —— AN418)');
+      let nOk = 0;
+      for (const id of IDS) {
+        const p = all.find((q) => q.id === id), lg = L7.legacy7Of(id);
+        if (!p || !lg) { bad.push('① ' + id + ' の本/凍結の写しが無い'); continue; }
+        const rdp = p.physics.relativeDrag || {}, B = p.bodies || [];
+        const okDecl = JSON.stringify(rdp) === JSON.stringify(X.INPOS_K1_DRAG) && ['Wbg', 'eps', 'inertialR2', 'gain', 'dragCoreDefault', 'spinDrag', 'norm', 'background', 'compose'].every((k) => rdp[k] === undefined)
+          && !rdp.invSq.outerShell && !rdp.invSq.shellRecv && JSON.stringify(p.physics.gLoc) === JSON.stringify({ law: 'kappaC2' }) && B.length === 2 && B.every((z) => !z.dragCore && z.pinned === false) && !p.fitRecord;
+        if (!okDecl) bad.push('① ' + p.emoji + ' の宣言が K1 + rdRule の形でない ' + JSON.stringify(rdp).slice(0, 120));
+        const v = HP.validatePreset(clone(p));
+        if (!v.ok || (v.warnings || []).length) bad.push('① ' + p.emoji + ' の受理 ' + JSON.stringify(v.ok ? v.warnings : v.errors).slice(0, 140));
+        else {
+          const isq = v.preset.physics.relativeDrag.invSq;
+          if (!(isq.kernel === 'k1' && isq.rdRule === 'kappaM' && !isq.outerShell && !isq.shellRecv && v.preset.physics.relativeDrag.initMotion === 'observed')) bad.push('① ' + p.emoji + ' の受理後の invSq');
+          const q00 = HP.validatePreset(clone(X.runBookOf(p, 'q00'))), pp = v.preset.abBody && v.preset.abBody.physicsPatch;
+          if (!(pp && q00.ok && pp.gLoc === null && JSON.stringify(pp.relativeDrag) === JSON.stringify(q00.preset.physics.relativeDrag))) bad.push('① ' + p.emoji + ' の A/B の対照が q00 の形でない');
+        }
+        // ② 変えたのは引きずりの宣言だけ
+        const ph = clone(p.physics), lph = clone(lg.physics); delete ph.relativeDrag; delete lph.relativeDrag;
+        if (!(JSON.stringify(ph) === JSON.stringify(lph) && JSON.stringify(p.bodies) === JSON.stringify(lg.bodies) && JSON.stringify(p.timeRef) === JSON.stringify(lg.timeRef) && JSON.stringify(p.scaleExp) === JSON.stringify(lg.scaleExp)))
+          bad.push('② ' + p.emoji + ' の physics(引きずりの外)・bodies・timeRef・scaleExp が凍結の写しと違う');
+        if (!(lg.physics.relativeDrag && lg.physics.relativeDrag.inertialR2 && lg.physics.relativeDrag.inertialR2.lambdaRs === 4.99986)) bad.push('② ' + id + ' の凍結の写しが移行の前(λ ∝ m の k 4.99986)の宣言でない');
+        // ④ notClaim・名前
+        if (!((p.notClaim || []).includes('inposk1_rule') && !(p.notClaim || []).some((k) => /^an336_/.test(k)))) bad.push('④ ' + p.emoji + ' の notClaim');
+        if (!(/r_d = Y_k m/.test(p.name) && /r_d = Y_k m/.test((p.en || {}).name || '') && !/κ/.test(p.name + ((p.en || {}).name || '')))) bad.push('④ ' + p.emoji + ' の名前(新記号 r_d = Y_k m・裸の κ を書かない)');
+        if (okDecl) nOk++;
+      }
+      // ③ 読み口
+      const st = E('inPositionK1State()'), ver = E('IN_POSITION_K1_VERSION'), em = all.find((q) => q.id === 'earthMoonSunInertial3d');
+      if (!(st && st.version === 'w315c-inpos-k1-1' && ver === st.version && JSON.stringify(st.migrated) === JSON.stringify(IDS))) bad.push('③ 読み口 inPositionK1State の移行した本 ' + JSON.stringify(st && st.migrated));
+      if (!(E('inPositionK1Of')(em) === null && em && !((em.physics.relativeDrag || {}).invSq))) bad.push('③ 🌦️ が K1 の在位の本に数えられる/移った');
+      // ④ 文(ja/en)
+      const nja = (html315c.match(/\n  nc_inposk1_rule:"/g) || []).length;
+      if (nja !== 2) bad.push('④ notClaim の文 nc_inposk1_rule(ja/en)が ' + nja + ' 件');
+      { const tx = HP.T ? (() => { HP.setLang && HP.setLang('ja'); const a = HP.T('nc_inposk1_rule'); HP.setLang && HP.setLang('en'); const b = HP.T('nc_inposk1_rule'); HP.setLang && HP.setLang('ja'); return [a, b]; })() : ['', ''];
+        if (!(/r_d = Y_k m/.test(tx[0]) && /現実の宇宙とは主張しない/.test(tx[0]) && /not claimed to be the real universe/.test(tx[1]) && !/κ/.test(tx[0] + tx[1]))) bad.push('④ notClaim の文(新記号・現実の宇宙とは主張しない)'); }
+      cases.push(`① 7 本(${IDS.map((id) => all.find((q) => q.id === id).emoji).join('')})= 器の INPOS_K1_DRAG(K1 + rdRule:"kappaM"・外殻なし・shellRecv なし・initMotion observed・並進だけ)${nOk}/7・旧則の鍵なし・太陽 free・G_loc kappaC2・fitRecord なし・受理の警告 0・A/B = q00 / ② 引きずりの外は凍結の写しと同じ / ③ 読み口 ${st && st.version}・移行 ${(st && st.migrated || []).length} 本・🌦️ は対象外 / ④ notClaim inposk1_rule・名前の新記号`);
+    }
+    add('preset.inposK1_315', bad.length === 0,
+      `**在位の惑星 7 本の K1 への移行の宣言**(第315便c・原仮定者の裁定(第117報)・決断事項 AN406・R244 —— 太陽を含む全天体 r_d = Y_k m・合わせない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── behavior.inposK1_315 ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib/html が読めない: ' + err0);
+    else {
+      const HP = H.HP, E = H.evalExpr, all = HP.allPresets(), inPos = E('inPositionK1Of'), C1 = E('REL_DRAG_INVSQ_C1'), N = 200;
+      let nBit = 0, nRd = 0;
+      for (const id of IDS) {
+        const p = all.find((q) => q.id === id), a = X.convertLegacy(id), va = HP.validatePreset(clone(a)), vb = HP.validatePreset(clone(p));
+        if (!va.ok || !vb.ok) { bad.push('① ' + id + ' の受理'); continue; }
+        const view = (vp) => JSON.stringify([vp.physics, vp.bodies, vp.timeRef || null, vp.scaleExp || null]);
+        if (view(va.preset) !== view(vb.preset)) bad.push('① ' + p.emoji + ' の凍結の写し + 変換と移行した本の受理後の宣言が違う');
+        const h = (await import('file://' + path.join(ROOT, 'tests', 'lib-w299c-planets3d.mjs'))).stepsOf(p.timeRef.pRef).h;
+        const Sa = HP.coord3d.makeSim(); Sa.build(clone(va.preset)); const Sb = HP.coord3d.makeSim(); Sb.build(clone(vb.preset));
+        for (let k = 0; k < N; k++) { Sa.step(h); Sb.step(h); }
+        const sv = (S) => [0, 1].flatMap((i) => [S.x[i], S.y[i], S.z[i], S.vx[i], S.vy[i], S.vz[i], S.spin[i]]);
+        const xa = sv(Sa), xb = sv(Sb);
+        if (xa.every((x, i) => Object.is(x, xb[i]))) nBit++; else bad.push('① ' + p.emoji + ' の ' + N + ' 步の状態がビット同一でない');
+        // ② r_d の読み口
+        const st = HP.inertialDragIsqState(Sb), rr = st && st.rdRule, s = inPos(p);
+        const okRd = !!(rr && rr.key === 'kappaM' && s && s.migrated && [0, 1].every((i) => { const z = (rr.bodies || []).find((y) => y.i === i), rc = (st.receivers || []).find((y) => y.i === i);
+          return z && rc && z.src === 'rule' && Object.is(rc.Rd, s.bodies[i].rd) && Object.is(rc.md, s.bodies[i].mEngine) && Math.abs(s.bodies[i].rd / s.bodies[i].rs - 5 / C1) <= 1e-12 * (5 / C1); })
+          && Object.is(s.Yk, E('invSqKappa0')(p.physics.G, p.physics.cLight)));
+        if (okRd) nRd++; else bad.push('② ' + p.emoji + ' のエンジンの r_d・m_d と読み口 inPositionK1Of が違う');
+      }
+      // ③ 凍結の写しへの世代切替(別の headless の写しで —— 共有の HP は変えない)
+      { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')), H2 = loadHtmlHeadless(path.join(ROOT, TARGET));
+        const before = H2.HP.allPresets().filter((q) => IDS.includes(q.id)).map((q) => L7.gateInposK1(q)), r = L7.pinDecl315c(H2.evalExpr), after = H2.HP.allPresets().filter((q) => IDS.includes(q.id));
+        const okPin = before.every(Boolean) && r.pinned && JSON.stringify(r.changed) === JSON.stringify(IDS) && after.every((q) => JSON.stringify(q) === JSON.stringify(L7.legacy7Of(q.id)) && !L7.gateInposK1(q));
+        const lv = L7.legacyView(HP), okView = IDS.every((id) => JSON.stringify(lv.allPresets().find((q) => q.id === id)) === JSON.stringify(L7.legacy7Of(id))) && IDS.every((id) => L7.gateInposK1(HP.allPresets().find((q) => q.id === id)));
+        const r2 = L7.pinDecl315c(H2.evalExpr);
+        if (!okPin) bad.push('③ pinDecl315c が 7 本を移行の前の宣言(全欄)に戻さない');
+        if (!okView) bad.push('③ legacyView が凍結の写しを見せない/共有の HP を変えた');
+        if (r2.pinned) bad.push('③ 2 度目の pinDecl315c が門を通る(写しの後は no-op のはず)');
+        cases.push(`③ pinDecl315c で 7 本が移行の前の宣言(全欄)に戻る ${okPin}・legacyView ${okView}・2 度目は no-op ${!r2.pinned}`); }
+      cases.unshift(`① 凍結の写し + 変換と移行した本: 受理後の宣言が同じ・${N} 步の状態(位置・速度・自転)のビット同一 ${nBit}/7 / ② エンジンの r_d・m_d = 読み口(ビット)・r_d/r_s = 5/C_1 = ${(5 / C1).toFixed(6)} ${nRd}/7`);
+    }
+    add('behavior.inposK1_315', bad.length === 0,
+      `**在位の 7 本の移行は宣言の変換そのもの**(第315便c・AN406・R244 —— 凍結の写し tests/data-w315c-legacy7.json + 変換 = 移行した本): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.inposK1_315 ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), CL = rd('CHANGELOG.md'), RM = rd('README.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs');
+    const i0 = PH.indexOf('〔第315便c — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+    const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /法則を確かめた/, /法則を発見した/, /r_d を決めた/, /R_d を決めた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /天の川を較正/, /検証が完了した/, /地平面を判定/];
+    const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+    const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+    const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+    let J = null;
+    try { J = JSON.parse(fs.readFileSync(oOut, 'utf8')); } catch (e) { bad.push('正本 inposk1-w315c.json が読めない'); }
+    if (err0) bad.push('器/lib/html が読めない: ' + err0);
+    if (J && X && !err0) {
+      try {
+        // ①
+        const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2);
+        if (J.ok !== true) bad.push('① 正本の ok が真でない');
+        for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+        if (GK.length !== 4 || Object.keys(G).length !== GK.length) bad.push('① 門の数 ' + Object.keys(G).length + '/' + GK.length);
+        if (J.quick === true || J.reuseFrom !== null || JSON.stringify(J.parts) !== JSON.stringify(X.PARTS_ALL) || !nearSame315(J.plan, clone(X.PLAN))) bad.push('① 正本が試走/全段でない/計画が器の宣言と違う');
+        if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本の版/来歴(w272e-1)/領域 hash');
+        if (!(J.meta && (J.meta.inputs || []).some((z) => (z.file || z) === 'tests/data-w315c-legacy7.json'))) bad.push('① 正本の入力に凍結の写しが無い');
+        const nRows = X.BOOKS.reduce((s, b) => s + (X.OUTER_KEYS.includes(b.key) ? X.PLAN.outerDivs.length : X.PLAN.divs.length) * X.PLAN.kinds.length, 0);
+        if (!(J.E && Object.keys(J.E.rows).length === nRows)) bad.push('① 走行の行の数 ' + (J.E ? Object.keys(J.E.rows).length : 0) + '/' + nRows);
+        cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・7 本 × q00・q10・q11 × h・h/2(外惑星は h/4 も)× ${X.PLAN.N} 公転 = ${nRows} 行・来歴 w272e-1・領域 hash`);
+        // ②
+        const K2 = X.partK(J), G3 = X.partG(Object.assign({}, J, { K: K2 })), C2 = X.partC(Object.assign({}, J, { K: K2 }), ROOT), T2 = X.targetsOf(H.HP);
+        if (!nearSame315(K2, J.K)) bad.push('② 段 K を作り直すと違う');
+        if (!nearSame315(G3, J.G)) bad.push('② 段 G を作り直すと違う');
+        if (!nearSame315(C2, J.C)) bad.push('② 段 C を作り直すと違う');
+        if (!nearSame315(T2, J.T)) bad.push('② 段 T を html から作り直すと違う');
+        cases.push('② 段 K・G・C を正本の走行の行から・段 T を html から作り直して一致(相対 1e-12)');
+        // ③
+        const gs = X.BOOKS.map((b) => J.G.systems[b.key]);
+        if (!(J.G.allPass === true && gs.every((g) => g.pass === true && g.verdict === '規則で置いた残差が数値の門の内' && Math.abs(g.r) <= g.tolR))) bad.push('③ 一様の門(AN410)の外の本がある');
+        if (!nearSame315(J.G.rule, clone(X.UNIFORM_GATE)) || X.UNIFORM_GATE.fit !== 1e-3 || X.UNIFORM_GATE.num !== 3e-4 || X.UNIFORM_GATE.rel !== 1e-2) bad.push('③ 門の定数が器の宣言(AN410)と違う');
+        cases.push(`③ 一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN): ${gs.filter((g) => g.pass).length}/7(r_1PN ${X.BOOKS.map((b) => b.emoji + X.fe(J.G.systems[b.key].r, 2)).join(' ')})`);
+        // ④ PHYSICS
+        if (!sec) bad.push('PHYSICS〔第315便c〕が無い');
+        else {
+          const rows = X.docRows(J).concat(X.rdRows(J)).filter((l) => !l.startsWith('|---'));
+          let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('④ PHYSICS〔第315便c〕の表に行が無い: ' + r.slice(0, 70)); }
+          for (const w of ['R244', '第117報', 'AN406', 'AN410', 'AN405', 'AN418', 'exp-w315c-inposk1.mjs', 'inposk1-w315c.json', 'data-w315c-legacy7.json', 'lib-w315c-legacy7.mjs', 'pinDecl315c', 'legacy7Of',
+            'legacyView', 'pinHeadless', 'preset.inposK1_315', 'behavior.inposK1_315', 'docs.inposK1_315', 'w315c-inpos-k1-1', 'inPositionK1Of', 'rdRule:"kappaM"', 'r_d = Y_k m', 'Y_k = 10G_0/(C_1c_0²)',
+            '規則で置いた残差が数値の門の内', '合わせない', '現実の宇宙とは主張しない', 'w298b-1', '履歴', 'W315C_OUT', 'W315C_QUICK', '凍結の写し', '生のまま', '言わないこと'])
+            if (sec.indexOf(w) < 0) bad.push('④ PHYSICS〔第315便c〕に「' + w + '」が無い');
+          for (const re of NOT) if (re.test(strip(sec))) bad.push('④ PHYSICS〔第315便c〕に書かない語 ' + re.source);
+          if (/確認した/.test(strip(sec))) bad.push('④ PHYSICS〔第315便c〕に「確認した」');
+          if (/κ(?!_D)/.test(sec.replace(/`[^`]*`/g, ''))) bad.push('④ PHYSICS〔第315便c〕に裸の κ(新記号 Y_k・X_k・κ_D で書く)');
+          for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('④ PHYSICS〔第315便c〕に禁句(' + w.length + ' 字)');
+          cases.push(`④ PHYSICS〔第315便c〕の表 ${rows.length} 行を正本から作り直して逐語・語・書かない語・禁句・裸の κ なし`);
+        }
+        for (const f of ['tests/exp-w315c-inposk1.mjs', 'tests/lib-w315c-legacy7.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); }
+        // ⑤ obsCard・SAMPLE_STATUS の原稿
+        const all = H.HP.allPresets(), src = JSON.parse(rd('tests/data-w279a-samplestatus-src.json') || '{}');
+        let nObs = 0;
+        for (const b of X.BOOKS) {
+          const p = all.find((q) => q.id === b.id), n = X.numsOf(J, b.key), oj = JSON.stringify(p.obsCard || []), oe = JSON.stringify((p.en || {}).obsCard || []);
+          const want = [n.r, n.tol, n.q1pn, n.rdSun, n.rdPlanet], miss = want.filter((w) => oj.indexOf(w) < 0 || oe.indexOf(w) < 0);
+          if (miss.length) bad.push('⑤ ' + b.emoji + ' の obsCard(ja/en)に正本の数が無い ' + miss.join(','));
+          else nObs++;
+          if (!/規則で置いた残差が数値の門の内/.test(oj) || !/inside the numerical gate/.test(oe)) bad.push('⑤ ' + b.emoji + ' の obsCard の判定の文');
+          for (const re of NOT) if (re.test(strip(oj))) bad.push('⑤ ' + b.emoji + ' の obsCard に書かない語 ' + re.source);
+          if (/κ/.test(oj + oe)) bad.push('⑤ ' + b.emoji + ' の obsCard に裸の κ');
+          const row = src.rows && src.rows[b.id];
+          if (!(row && (row.evidence || [])[0] === 'tests/out/inposk1-w315c.json' && String(row.state || '').indexOf(n.r) >= 0 && String((row.en || {}).state || '').indexOf(n.r) >= 0 && !/fitted/.test(JSON.stringify(row)))) bad.push('⑤ ' + b.emoji + ' の SAMPLE_STATUS の原稿の行(証拠・r_1PN・fitted と書かない)');
+        }
+        cases.push(`⑤ obsCard(ja/en)が正本の数(r_1PN・門・q_1PN・r_d)を持つ ${nObs}/7・SAMPLE_STATUS の原稿の 7 行`);
+        // ⑥
+        { const ai = AS.indexOf('## 137.'); if (ai < 0) bad.push('⑥ AI_SPEC に §137 が無い');
+          else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w315c-inposk1.mjs', 'inposk1-w315c.json', 'data-w315c-legacy7.json', 'preset.inposK1_315', 'behavior.inposK1_315', 'docs.inposK1_315', 'inPositionK1Of', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('⑥ AI_SPEC §137 に「' + w + '」が無い'); } }
+        { const hb = CL.search(/## v1\.46(?:-b\d+|\.0)\(/), hn = hb >= 0 ? CL.indexOf('\n## ', hb + 5) : -1, cs = hb >= 0 ? CL.slice(hb, hn > hb ? hn : undefined) : '';
+          if (cs.indexOf('第315便c') < 0 || cs.indexOf('AN406') < 0) bad.push('⑥ CHANGELOG の beta 節に第315便c(AN406)の行が無い'); }
+        if (RM.indexOf('第315便c') < 0) bad.push('⑥ README に第315便c の要点が無い');
+        if (RT.indexOf("S('inposk1-315c', 'node tests/exp-w315c-inposk1.mjs', ['tests/out/inposk1-w315c.json']") < 0 || !/secSource: 'w315c-branch'/.test(RT)) bad.push('⑥ 再生成の段 inposk1-315c');
+        if (GI.indexOf('!tests/out/inposk1-w315c.json') < 0) bad.push('⑥ .gitignore の例外');
+        if (PM.indexOf('docs.inposK1_315') < 0 || PM.indexOf('preset.inposK1_315') < 0 || PM.indexOf('behavior.inposK1_315') < 0) bad.push('⑥ post-merge の ③′ に第315便c の 3 本が無い');
+        if (QA0.indexOf("'tests/out/inposk1-w315c.json',") < 0) bad.push('⑥ CANON(lint.canon304)に第315便c の正本が無い');
+        cases.push('⑥ AI_SPEC §137・CHANGELOG・README・段・.gitignore・post-merge ③′・CANON');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('docs.inposK1_315', bad.length === 0,
+      `**在位の 7 本の K1 への移行の継ぎ目の正本と文書**(第315便c・AN406・AN410・R244 —— 正本 inposk1-w315c.json・規則で置いた残差・Y_k は合わせない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第315便c の塊(ここまで)====
 // ==== 第315便d の塊(ここから —— docs.satK1_315 の 1 ブロック。統合で他の枝の塊と混ぜない)====
 // ---- 第315便d(原仮定者の裁定(第117報)・決断事項 AN413・AN410・AN412・AN414〔新記号〕・統括の検証項目 R245): docs.satK1_315 —— **衛星 6 本の K1 の検証の正本と文書**
 // ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/satk1-w315d.json ∧ 器 tests/exp-w315d-satk1.mjs ∧ 文書の lib tests/lib-w315d-satdoc.mjs(html の宣言・エンジンは変えない)。

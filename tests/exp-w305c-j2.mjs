@@ -31,6 +31,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as L from './lib-w297b-fit.mjs';
 import * as EM from './exp-w303c-earthmoon.mjs';
 import { emOnlyBodies, emOnlyPhysics, declCheck as emDeclCheck, runEm3, windowsOf as emWindowsOf } from './exp-w300b-emonly.mjs';
+import { pinDecl315c, LEGACY7_DATA_FILE } from './lib-w315c-legacy7.mjs';   // 第315便c(決断事項 AN406・R244): 在位の 7 本を K1 へ移した世代では、この器は移行の前(af2f426)の宣言の写しで測る
 const REGEN_SCOPE = {"presets":["earthMoonOnly3d","earthMoonSunInertial3d","mercurySunInertial3d","plutoCharonInertialFit"],"roots":["$","DT","FIT_COND_KEYS","FIT_COND_VERSION","FIT_KNOB_KEYS","FIT_NUMERICS_KEYS","FIT_RECORD_KEYS","FIT_RECORD_VERSION","FIT_RECORD_VERSIONS","FIT_RESIDUAL_KEYS","FIT_TARGET_KEYS","FIT_TOL_KEYS","HP.FIT_COND_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.fitCondInputsOf","HP.fitCondSig","HP.fitCondStateOf","HP.fitTargetGates","HP.inertialDragState","HP.j2SecularRates","HP.j2State","HP.sim","HP.synodic","HP.validateFitRecord","HP.validatePreset","T","ctx","cw","dfmGaussLegendre01","dfmInertialDragStep","dragCoreAngular","dragCoreAvgK","dragCoreLookup","dragCoreTableBuild","inertialDragNormApply","j2Energy","j2Kick3","j2Prepare","pnSource","relDragCoefficientOf","synUniform","validateFitRecord","validateJ2Body"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -373,6 +374,7 @@ export async function main() {
   const { loadHtmlMain } = await import('./lib-w280b-emgrid.mjs');
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
+  pinDecl315c();   // 第315便c(AN406): 在位の 7 本の宣言を移行の前の写しへ(本ごとの門 —— 基点の html では no-op・正本の欄は足さない)
   if (typeof HP.j2State !== 'function') throw new Error('対象の html に三次元の J₂(第305便c)が無い');
   // 第306便c(R206): 🌦️🌔 の初期配置を J₂ ありで解き直した世代では、この器は第305便の宣言の写し(tests/lib-w306c-pre.mjs の pin305)で測る(歴史の値を保つ ——
   //   第305便の html では no-op)。器の中の BUILTIN_PRESETS だけを書き換える(html と署名の宣言は変えない)
@@ -394,9 +396,9 @@ export async function main() {
   J.gates = gatesOf(J);
   J.ok = Object.values(J.gates).every(Boolean) && PARTS_ALL.every((k) => !!J[k]);
   J.notClaim = ['「月を再現した」', '「交点を再現した」', '「現実を再現した」'];   // 書かない語(引用 —— 本文には書かない)
-  const CODE = ['tests/exp-w305c-j2.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w306c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
+  const CODE = ['tests/exp-w305c-j2.mjs', 'tests/lib-w315c-legacy7.mjs', 'tests/lib-w305c-pre.mjs', 'tests/lib-w306c-pre.mjs', 'tests/exp-w303c-earthmoon.mjs', 'tests/exp-w300b-emonly.mjs', 'tests/lib-w297b-fit.mjs', 'tests/lib-w296b-fit.mjs',
     'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便c', target: TARGET, code: CODE, inputs: [TARGET, DECL304_DATA_FILE, DECL305_DATA_FILE] }), {
+  J.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第305便c', target: TARGET, code: CODE, inputs: [TARGET, LEGACY7_DATA_FILE, DECL304_DATA_FILE, DECL305_DATA_FILE] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: 'DECISIONS v63 AN327 ③⑤・v64 §0 AN327(交点は J₂ —— 全残差の帰属は追加の測定の後)', reading: '統括の検証項目 R201(三次元の J₂ と 🌦️ の交点・🌔 のヘルプと T1 の転記の契約)' });
   J.elapsedS = (Date.now() - t0) / 1000;

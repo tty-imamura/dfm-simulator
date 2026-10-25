@@ -1346,6 +1346,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rsexcess-w315b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第315便b: 観測半径 R_obs を超えたシュヴァルツシルト半径 r_s = 2G_0m/c_0²(全質量・本の基準値 —— 表示専用・本の種類を限らない・DFM による地平面の判定ではない)の読み口 schwarzschildExcessOf(版 w315b-rs-excess-1)の写しの表・等号の境界・質量の割合と本の種類で不変・状態を書かない・内蔵の全本の一覧と K1 の境界の 1 点(外殻なしの r_d = R ∧ massFrac < 1 を受理)' }),
   // ==== 第315便b の塊(ここまで)====
+  // ==== 第315便c の塊(ここから)====
+  // ---- 第315便c(原仮定者の裁定(第117報)・決断事項 AN406・AN410・AN405・AN401・AN396′・統括の検証項目 R244): **在位の惑星 7 本の K1 への移行の継ぎ目**(段 inposk1-315c ——
+  //   移行した在位の本そのもの〔K1 + rdRule:"kappaM"・太陽を含む全天体 r_d = Y_k m・合わせない〕を q00・q10・q11 × h・h/2〔外惑星は h/4 も〕× 8 公転で走らせ、r_1PN = q11 − q00 − q_1PN・
+  //   刻みの帯・AN410 の一様の門・凍結の写し tests/data-w315c-legacy7.json に移行の変換を当てた本と移行した本のビット同一・K1 の確認の系の行〔k1confirm-313d・k1outer-314c の窓 8〕との比較)。
+  //   html・凍結の写し・第313便d と第314便c の正本を読む(after に連ねる)。走行は子プロセス 3 本(workers 3)。所要は第315便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)。
+  //   移行の前の宣言を研究対象にする器(42 本 —— 段 43)は凍結の写しへ世代切替(tests/lib-w315c-legacy7.mjs の pinDecl315c —— 正本の意味的出力は移行の前と同じ・meta だけが動く)
+  S('inposk1-315c', 'node tests/exp-w315c-inposk1.mjs', ['tests/out/inposk1-w315c.json'], 2700, { secSource: 'w315c-branch', node: true, workers: 3, after: ['k1confirm-313d', 'k1outer-314c', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/inposk1-w315c.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/B/systems/*/wallSec']) },
+    note: '第315便c: 在位の惑星 7 本(🌡️🌋🔴🏀🟡🔷💙)を K1 + rdRule:"kappaM" へ移した継ぎ目の正本(移行した本そのものの r_1PN・刻みの帯・AN410 の一様の門・凍結の写し + 変換とのビット同一・K1 の確認の系の行との比較 —— Y_k は合わせない)' }),
+  // ==== 第315便c の塊(ここまで)====
   // ==== 第315便d の塊(ここから)====
   // ---- 第315便d(原仮定者の裁定(第117報)・決断事項 AN413・AN414〔新記号〕・統括の検証項目 R245): **衛星 6 本の K1 の検証の器**(段 satk1-315d —— イオ・エウロパ・ガニメデ・
   //   カリスト・タイタン・トリトン × 母惑星との二体・太陽 + 母惑星 + 衛星の三体 × q00・q10・q11〔全天体 r_d = Y_k m —— 規則の鍵 rdRule:"kappaM"〕× h・h/2・h/4 × 32 公転の
@@ -1526,6 +1536,11 @@ export const EXTERNAL_VOLATILE = {
   //   歴史の記録の器〔fit-297b〕の派生本の照合〔derivedCheck〕と QA preset.fitRole309 の入力)
   'tests/data-w309d-decl308.json': [],
   // ==== 第309便d の塊(ここまで)====
+  // ==== 第315便c の塊(ここから)====
+  // 第315便c(AN406・R244): 移行の前(af2f426)の在位の惑星 7 本の宣言の全欄の凍結の写し(tests/lib-w315c-legacy7.mjs が読む —— 書き換えない・除く欄は無い。
+  //   移行の前の宣言を研究対象にする器 42 本〔段 43〕と継ぎ目の器 inposk1-315c・QA の入力)
+  'tests/data-w315c-legacy7.json': [],
+  // ==== 第315便c の塊(ここまで)====
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

@@ -290,68 +290,73 @@
    }
   },
   "mercurySunInertial3d": {
-   "purpose": "太陽と水星の三次元で λ ∝ m の k を 1PN + A1 の参照値へ合わせる(G_loc n = 2)",
+   "purpose": "太陽と水星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "差 42.97856(h/2 42.97851)・q⋆ 42.97851・k 4.99986・fitted",
+   "state": "r_1PN 2.618e-5″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1confirm-w313d.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Mercury in 3D; k (lambda ~ m) matched to the 1PN + A1 reference (G_loc n = 2)",
-    "state": "diff 42.97856 (h/2 42.97851)\"/cy; q* 42.97851; k 4.99986; fitted"
+    "purpose": "Sun-Mercury 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 2.618e-5\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "venusSunInertial3d": {
-   "purpose": "太陽と金星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と金星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 8.624057・参照値 8.627121・幅の 1.91 倍・合わせていない",
+   "state": "r_1PN 6.965e-5″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1confirm-w313d.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Venus in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 8.624057\"/cy; reference 8.627121; 1.91 x the source width; not matched"
+    "purpose": "Sun-Venus 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 6.965e-5\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "marsSunInertial3d": {
-   "purpose": "太陽と火星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と火星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 1.350807・参照値 1.350845・幅の 1.03 倍・合わせていない",
+   "state": "r_1PN 6.091e-6″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1confirm-w313d.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Mars in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 1.350807\"/cy; reference 1.350845; 1.03 x the source width; not matched"
+    "purpose": "Sun-Mars 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 6.091e-6\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "jupiterSunInertial3d": {
-   "purpose": "太陽と木星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と木星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 0.06246310・参照値 0.1210866・幅の 2.07 倍・合わせていない",
+   "state": "r_1PN 7.926e-5″/世紀(h/2)・規則で置いた残差が門 6.239e-4 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1confirm-w313d.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Jupiter in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 0.06246310\"/cy; reference 0.1210866; 2.07 x the source width; not matched"
+    "purpose": "Sun-Jupiter 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 7.926e-5\"/cy (h/2); rule residual inside the gate 6.239e-4"
    }
   },
   "saturnSunInertial3d": {
-   "purpose": "太陽と土星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と土星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 0.01371399・参照値 0.01338940・幅の 0.69 倍・合わせていない",
+   "state": "r_1PN 5.251e-6″/世紀(h/4)・規則で置いた残差が門 1.371e-4 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1outer-w314c.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Saturn in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 0.01371399\"/cy; reference 0.01338940; 0.69 x the source width; not matched"
+    "purpose": "Sun-Saturn 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 5.251e-6\"/cy (h/4); rule residual inside the gate 1.371e-4"
    }
   },
   "saturnRingInertial3d": {
@@ -368,29 +373,31 @@
    }
   },
   "uranusSunInertial3d": {
-   "purpose": "太陽と天王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と天王星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 0.002384692・参照値 0.002384637(1PN だけ)・合わせていない",
+   "state": "r_1PN 1.573e-7″/世紀(h/4)・規則で置いた残差が門 2.385e-5 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1outer-w314c.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Uranus in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 0.002384692\"/cy; reference 0.002384637 (1PN only); not matched"
+    "purpose": "Sun-Uranus 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN 1.573e-7\"/cy (h/4); rule residual inside the gate 2.385e-5"
    }
   },
   "neptuneSunInertial3d": {
-   "purpose": "太陽と海王星の三次元に水星の k を移送して近点率の差を予言する(G_loc n = 2)",
+   "purpose": "太陽と海王星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
-   "state": "予言 0.0007740288・参照値 0.0007741015(1PN だけ)・合わせていない",
+   "state": "r_1PN -6.927e-10″/世紀(h/4)・規則で置いた残差が門 7.741e-6 の内",
    "evidence": [
-    "tests/out/an336-w306a.json",
+    "tests/out/inposk1-w315c.json",
+    "tests/out/k1outer-w314c.json",
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun and Neptune in 3D; Mercury's k carried over (G_loc n = 2)",
-    "state": "predicted 0.0007740288\"/cy; reference 0.0007741015 (1PN only); not matched"
+    "purpose": "Sun-Neptune 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "state": "r_1PN -6.927e-10\"/cy (h/4); rule residual inside the gate 7.741e-6"
    }
   },
   "plutoCharonInertial": {
