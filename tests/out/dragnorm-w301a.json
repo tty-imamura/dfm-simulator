@@ -3,14 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第301便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T10:10:44.369Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T20:20:34.890Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w303a-decl302.json",
@@ -28,9 +34,15 @@
   "code": [
    {
     "file": "tests/exp-w301a-dragnorm.mjs",
-    "bytes": 24631,
-    "sha256": "c5cc92f5b2a0302fcec4611d9708aaa1976a9d259c0f90e336424307beb755da",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 25084,
+    "sha256": "c69618646de44ed5847b292881db4e550563c823a2f6fa1920979987d8f8f84e",
+    "mtime": "2026-10-25T16:42:07.778Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/exp-w295c-inertial3.mjs",
@@ -69,7 +81,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "a696036c4d878921a66a3dee0a80b4b90b49f1893ee5bfda66d71f040c2d153a",
+  "codeSha256": "92473ee0e65a7dd0f947a5144184fc346a7f1551e534ad74d51a8d5236eed94e",
   "harnessVersion": "w301a-dragnorm-1",
   "normVersion": "w301a-norm-1",
   "loadErrors": 0,
@@ -106,13 +118,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1542,
-   "segments": 1377,
-   "closureShare": 0.3496
+   "names": 1545,
+   "segments": 1380,
+   "closureShare": 0.3504
   },
-  "scopeSha256": "dbaf62c14f03b0fd491406ef0ed6dcec0f67d641c7ad7df7efc46f5749cc8a33",
+  "scopeSha256": "939b55bb795de4da263e7a1cf348744bf5630e1bd53cc3a1b20c4297f0917752",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w303a-decl302.json",
     "stableSha256": "15ecfb6d08875009c7deed68c2511efb7855a2c2340c51970ccd550c301bd262",
@@ -970,5 +988,5 @@
   "cosmicNoPrecession": true
  },
  "ok": true,
- "elapsedS": 105.414
+ "elapsedS": 106.706
 }

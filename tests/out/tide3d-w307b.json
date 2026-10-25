@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,57 +1589,69 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.005
+   "wallSec": 0.006
   },
   "Z": {
-   "wallSec": 0.709
+   "wallSec": 0.606
   },
   "L": {
-   "wallSec": 0.208
+   "wallSec": 0.111
   },
   "C": {
-   "wallSec": 0.048
+   "wallSec": 0.035
   },
   "K": {
-   "wallSec": 0.03
+   "wallSec": 0.054
   },
   "H": {
-   "wallSec": 0.081
+   "wallSec": 0.1
   },
   "S": {
-   "wallSec": 0.69
+   "wallSec": 0.499
   },
   "R": {
-   "wallSec": 0.102
+   "wallSec": 0.128
   },
   "X": {
-   "wallSec": 0.115
+   "wallSec": 0.108
   }
  },
- "elapsedS": 3.591,
+ "elapsedS": 3.39,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T10:34:58.650Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T20:13:56.879Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w307b-tide3d.mjs",
-    "bytes": 42093,
-    "sha256": "0f106e8b1849294de7b70f21f851f64533c7de5340e82d755436d7763637ef93",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 42556,
+    "sha256": "bf83ee6f0991d5d0f742e7b1648e54eabe5b56436ec1a17b90c4accb8a435671",
+    "mtime": "2026-10-25T16:42:07.795Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w307b-tide3d.mjs",
@@ -1672,7 +1684,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "f2cc31d98fcd33a544dc7cd50f2d54519227bdc399b6cc30f6c21b154d899198",
+  "codeSha256": "39c4c94011768be34192b6eb5e975f3114ad180855484c41b7b4f3a8862bd6fc",
   "harnessVersion": "w307b-tide3d-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1709,13 +1721,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1532,
-   "segments": 1367,
-   "closureShare": 0.3464
+   "names": 1535,
+   "segments": 1370,
+   "closureShare": 0.3472
   },
-  "scopeSha256": "dd90a7ddfce0a8de04916e3e66ba133682b52e7ec62cd78a47eb2c1186e6a7c5",
+  "scopeSha256": "bda1ac5ee4d5339458caf62f86f777d76987ba942c94b8b25f7a2ae3dbebcd21",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }

@@ -3,7 +3,7 @@
  "libVersion": "w309c-recheck-lib-1",
  "generator": "tests/exp-w309c-recheck.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
  "initObsVersion": "w309c-initobs-1",
  "ok": true,
@@ -4190,39 +4190,51 @@
  },
  "timing": {
   "K": {
-   "wallSec": 0.051
+   "wallSec": 0.055
   },
   "E": {
-   "wallSec": 0.161
+   "wallSec": 0.259
   },
   "P": {
-   "wallSec": 0.21
+   "wallSec": 0.184
   },
   "R": {
-   "wallSec": 1.344
+   "wallSec": 1.091
   }
  },
- "elapsedS": 3.192,
+ "elapsedS": 3.165,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:18:28.879Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T20:13:47.243Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w309c-recheck.mjs",
-    "bytes": 39849,
-    "sha256": "2848dacca454de8aa9922d1fdd51051a040286cef955ec0b26fd07c57f91afb9",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 40312,
+    "sha256": "e336496c42ba5a9690bde5c75ab2a5a5444bc3749f8979997c7da620546321cb",
+    "mtime": "2026-10-25T16:42:07.797Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w309c-recheck.mjs",
@@ -4232,9 +4244,9 @@
    },
    {
     "file": "tests/exp-w308c-sunspin.mjs",
-    "bytes": 49389,
-    "sha256": "95c129ac346689b7755c3abd78064045006dcc27c1c0f82bceb152f004af50ca",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 49842,
+    "sha256": "d24fd35ad4180c3cfb6797ccd6e559ce789889d2d6c30cf71425e30a0b35ec8e",
+    "mtime": "2026-10-25T16:42:07.797Z"
    },
    {
     "file": "tests/lib-w308c-sunspin.mjs",
@@ -4244,9 +4256,9 @@
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37764,
-    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 38217,
+    "sha256": "c60d0b0e0eed806d10f1cf036393567a2f24e760c0987fffa233abfee093f32f",
+    "mtime": "2026-10-25T16:42:07.795Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
@@ -4291,7 +4303,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "92782fd731b19a73383df18e2962cd4c24ae4a09c25dcc0262d4d4d11eb6e1f7",
+  "codeSha256": "102d6eca650713df6f7ba0adc7fc02bde5ed4cfec1c8fb34f8d9b80dc089d321",
   "harnessVersion": "w309c-recheck-1",
   "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— validatePreset・build・step・読み口はエンジンのまま。修正版の引きずりは器の参照の純関数〔エンジンの式ではない —— 第309便a の新則と統合の後に照合〕)",
   "notClaim": [
@@ -4339,13 +4351,20 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1531,
-   "segments": 1366,
-   "closureShare": 0.3467
+   "names": 1534,
+   "segments": 1369,
+   "closureShare": 0.3475
   },
-  "scopeSha256": "d277926972ffd7d044889f11af1cd6939fa82f53e96668b78d3957168d86434d",
+  "scopeSha256": "8410ec8035d07d41c19b23eb3b45ffa7ff62ec25eae81749474a38dab5b6ee10",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }
