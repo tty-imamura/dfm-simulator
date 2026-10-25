@@ -86794,8 +86794,21 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       }
     }
     for (const id of Object.keys(ALLOW)) if (!seenAllow[id]) bad.push('許可の表の ' + id + ' にカッパが無い(古い許可)');
+    // 説明に cLight の語を出さない(原仮定者の裁定(第117報)AN414「cLight はソース内の変数名なので、説明では使わない」—— 鍵 key:"cLight" はコードの識別子ではなく文字列だが、PARAM_DEFS の key の値は数えない)
+    let nCl = 0; const clAt = [];
+    for (const [nm, tx] of Object.entries(TB)) {
+      if (!tx) continue;
+      const sc = SC.scanJs(tx);
+      for (const m of sc.nocom.matchAll(/cLight/g)) {
+        const p = m.index; if (sc.code[p] !== ' ') continue;
+        const ks = [...sc.code.slice(0, p).matchAll(/([A-Za-z_$][\w$]*)\s*:/g)], key = ks.length ? ks[ks.length - 1][1] : '?';
+        if (nm === 'PARAM_DEFS' && key === 'key') continue;
+        nCl++; clAt.push(nm + '/' + key);
+      }
+    }
+    if (nCl) bad.push('UI の表示の文に cLight の語 ' + nCl + ' 件: ' + [...new Set(clAt)].slice(0, 6).join(', '));
     if (nUi) bad.push('UI の表示の文に裸のカッパ ' + nUi + ' 件: ' + [...new Set(hitsBad)].slice(0, 6).join(', '));
-    cases.push(`UI(I18N ${TB.I18N.length} 字・LAWS ${TB.LAWS.length} 字・PARAM_DEFS ${TB.PARAM_DEFS.length} 字)の裸のカッパ ${nUi}・許可 ${Object.keys(seenAllow).length}/${Object.keys(ALLOW).length} 鍵(${Object.values(seenAllow).reduce((a, b) => a + b, 0)} 字)`);
+    cases.push(`UI(I18N ${TB.I18N.length} 字・LAWS ${TB.LAWS.length} 字・PARAM_DEFS ${TB.PARAM_DEFS.length} 字)の裸のカッパ ${nUi}・許可 ${Object.keys(seenAllow).length}/${Object.keys(ALLOW).length} 鍵(${Object.values(seenAllow).reduce((a, b) => a + b, 0)} 字)・説明の cLight の語 ${nCl}`);
     // 文書: PHYSICS の〔第315便〕以降の節(「## 7.」の前まで)・AI_SPEC §135 以降(コードの書式の中は引用 —— 数えない)
     const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
     const p0 = PH.indexOf('\n〔第315便'), p7 = PH.indexOf('\n## 7. 論文');
