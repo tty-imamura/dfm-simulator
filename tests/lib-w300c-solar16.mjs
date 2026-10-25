@@ -17,13 +17,21 @@
 //   ・ソフトニングの下限は physics.softeningFloor(0.001 = 1000 km —— 第277便b の既存の宣言)で足りる(最も近い衛星で力の相対の差 ≈1.5(ε/r)² ≈1.2×10⁻⁵)。
 //   ・camera.scale の上限 3000(受理器とズームの両方)は天王星(≈2900 単位)までを短辺に収め、海王星(≈4500)は外 —— 本便は変えない(既存の本 3 本の署名が動く)。
 //
+// ■ 第315便d(原仮定者の裁定(第117報)・決断事項 AN412・統括の検証項目 R245)—— 入力の契約の更新(観測レコードは入れない —— 内蔵にも入れない)
+//   ・kg 換算は本の基準重力 G_0(massConversion.gSI = G_UNITS × 10^(3L − M − 2T) = 6.674×10⁻¹¹・gBasis "G_0"・質量〔GM〕の表の版 massVersion)。資料の GM を
+//     mass.gmKm3s2 に書けば kg × gSI と相対 1e-9 で照合(本の G_0·m が資料の GM に戻る —— 他の G で換算した kg は拒否)。
+//   ・すでに SSB の衛星の状態に母惑星の状態を足し直した取り違えの検出(衛星 − 2 × 母惑星 が Hill 半径の 0.5 倍の内で束縛 —— 符号 satelliteParentAdded)。
+//   ・母惑星中心で得た衛星だけ composed {from:"parentCentric", parent, epochJdTdb, reference, plane, equinox, relState}(同じ元期・同じ枠と面と分点・state = 母惑星の state + relState)。
+//   ・地球と月の極と自転率の模型の版(pole.model・spin.model —— 地球と月は必須)。
+//   ・syntheticRecord は契約の新しい欄を持つ(宣言 solar16Decl の入力の欄は変えない —— 本の宣言はビット同一)。不正な入力の変種を 7 種足した。
+//
 // ■ 言わないこと
 //   ・人工の入力の結果を「太陽系の配置の検証」と呼ばない。観測レコードの数値を作らない・補わない(不確かさも資料のものだけ)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as W302A from './lib-w302a-wbg.mjs';   // 第302便a: gain ⇔ W_bg の読み書き(器の側)
-export const LIB_VERSION = 'w300c-solar16-lib-1';
+export const LIB_VERSION = 'w315d-solar16-lib-2';
 export const RESERVED_ID = 'solarSystem16Inertial3d';   // 観測レコードが届いた便で使う本の id(本便では内蔵に入れない —— QA docs.solar16Contract300 が照合)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const SCHEMA_PATH = 'tests/data-w300c-solar16-schema.json';
@@ -32,6 +40,9 @@ export const UNITS = Object.freeze({ L: 9, T: 5, M: 28 });
 export const G_UNITS = 6.674, C_UNITS = 29979.2458, KAPPA_T = 7.425826474101849e-9;
 export const KM_PER_UNIT = 1e6, KMS_PER_UNIT = 10, KG_PER_UNIT = 1e28, S_PER_UNIT = 1e5;
 export const G_SI = 6.674e-11;
+/** 第315便d(AN412): 本の基準重力 G_0 の SI の値(G_UNITS を本の単位から換算 —— kg 換算の G はこれと同じでなければ拒否) */
+export const G0_SI = G_UNITS * Math.pow(10, 3 * UNITS.L - UNITS.M - 2 * UNITS.T);
+export const SCHEMA_ID = 'w315d-solar16-2';
 export const AU_KM = 1.495978707e8;
 export const SOFTENING = 0.001, RADIUS_FLOOR = 0.001;
 export const CAMERA_MAX = 3000;
@@ -66,11 +77,17 @@ export const CHECK_TOL = Object.freeze({
   speedFactor: [0.5, 1.6],  // 太陽に対する速さ / 円軌道の速さ √(GM☉/r)
   massKg: [1e20, 1e31],
   hillFrac: 0.5,        // 衛星は親の Hill 半径の 0.5 倍の内側
-  obliquity: [84381, 84382] });
+  obliquity: [84381, 84382],
+  gRel: 1e-12,          // 第315便d: kg 換算の G と G_0 の相対の差
+  gmRel: 1e-9,          // 第315便d: kg × gSI と資料の GM の相対の差
+  composeKm: 1e-6, composeKmS: 1e-9, composeRel: 1e-12 });   // 第315便d: 合成の和の照合(絶対 + 母惑星の大きさの相対)
 export const ERR = Object.freeze({
   schema: 'schema', missing: 'missing', duplicate: 'duplicate', extra: 'extra', epochMix: 'epochMix', timeScale: 'timeScale', barycenter: 'barycenterMix',
   lightTime: 'lightTime', units: 'units', unitScale: 'unitScale', origin: 'origin', satCenter: 'satelliteCenter', massIncl: 'massIncludes', nonFinite: 'nonFinite',
-  frame: 'frame', source: 'source', uncertainty: 'uncertainty' });
+  frame: 'frame', source: 'source', uncertainty: 'uncertainty',
+  // 第315便d(AN412)
+  massG: 'massConversionG', massVersion: 'massVersion', poleModel: 'poleModel', parentAdded: 'satelliteParentAdded',
+  compose: 'composeParent', composeEpoch: 'composeEpoch', composePlane: 'composePlane', composeMismatch: 'composeMismatch' });
 
 /* ── 構造の検査(スキーマの部分集合 —— type/const/enum/required/additionalProperties/properties/items/minItems/maxItems/minimum/maximum/exclusiveMinimum/minLength/maxLength/pattern)── */
 export function schemaErrors(sch, x, at = '$') {
@@ -120,7 +137,9 @@ export function checkSolar16(rec, o = {}) {
   const sch = o.schema || loadSchema();
   for (const m of schemaErrors(sch, rec)) {
     // 構造の違反のうち意味の符号で読めるものは符号を付ける(元期の時刻系・光行時間・単位・中心・質量の includes・枠)
-    const code = /\.epoch\.timeScale/.test(m) ? ERR.timeScale : /\.correction/.test(m) ? ERR.lightTime : /\.units\./.test(m) ? ERR.units
+    const code = /\.massConversion\.massVersion/.test(m) ? ERR.massVersion : /\.massConversion/.test(m) ? ERR.massG : /\.composed/.test(m) ? ERR.compose   // 第315便d
+      : /\.(pole|spin)\.model/.test(m) ? ERR.poleModel
+      : /\.epoch\.timeScale/.test(m) ? ERR.timeScale : /\.correction/.test(m) ? ERR.lightTime : /\.units\./.test(m) ? ERR.units
       : /\.center /.test(m) ? ERR.barycenter : /\.mass\.includes/.test(m) ? ERR.massIncl : /\.frame\./.test(m) ? ERR.frame
       : /\.uncertainty/.test(m) ? ERR.uncertainty : /\.source\b/.test(m) ? ERR.source : ERR.schema;
     E(code, m);
@@ -158,9 +177,30 @@ export function checkSolar16(rec, o = {}) {
     const b = by[m.key], P = by[m.parent], rr = sub(posOf(b), posOf(P)), vv = sub(velOf(b), velOf(P)), r = nrm(rr), v = nrm(vv);
     const mu = G_SI * (P.mass.kg + b.mass.kg) / 1e9, rP = nrm(sub(posOf(P), posOf(sun))), hill = rP * Math.cbrt(P.mass.kg / (3 * sun.mass.kg)), eps = 0.5 * v * v - mu / r;
     sats[m.key] = { rKm: r, vKmS: v, hillKm: hill, energy: eps };
-    if (!(r < CHECK_TOL.hillFrac * hill && eps < 0)) E(ERR.satCenter, m.ja + 'が' + memberOf(m.parent).ja + 'に束縛されていない(距離 ' + r.toExponential(3) + ' km・Hill 半径の ' + (r / hill).toPrecision(3) + ' 倍・比エネルギー ' + eps.toPrecision(3) + ' —— 座標の中心の取り違えの疑い)');
+    if (!(r < CHECK_TOL.hillFrac * hill && eps < 0)) {
+      // 第315便d(AN412): すでに SSB の衛星の状態に母惑星の状態を足し直した型(衛星 = 2 × 母惑星 + 母惑星中心の状態)—— 衛星 − 2 × 母惑星 が束縛なら専用の符号
+      const r2 = sub(posOf(b), posOf(P).map((q) => 2 * q)), v2 = sub(velOf(b), velOf(P).map((q) => 2 * q)), rn2 = nrm(r2), e2 = 0.5 * nrm(v2) ** 2 - mu / rn2;
+      if (rn2 < CHECK_TOL.hillFrac * hill && e2 < 0) E(ERR.parentAdded, m.ja + 'の状態が' + memberOf(m.parent).ja + 'の状態を 2 回含む(衛星 − 2 × 母惑星 の距離 ' + rn2.toExponential(3) + ' km で束縛 —— すでに SSB の衛星の状態に母惑星の状態を足し直した疑い)');
+      else E(ERR.satCenter, m.ja + 'が' + memberOf(m.parent).ja + 'に束縛されていない(距離 ' + r.toExponential(3) + ' km・Hill 半径の ' + (r / hill).toPrecision(3) + ' 倍・比エネルギー ' + eps.toPrecision(3) + ' —— 座標の中心の取り違えの疑い)');
+    }
   }
-  return { ok: errors.length === 0, errors, warnings, derived: { comKm, comKmS, massKg: M, satellites: sats } };
+  // ---- 第315便d(決断事項 AN412): kg 換算の G = 本の基準重力 G_0・資料の GM との照合・地球と月の極と自転率の模型の版・母惑星中心の合成
+  const mc = rec.massConversion;
+  if (!(Math.abs(mc.gSI / G0_SI - 1) <= CHECK_TOL.gRel)) E(ERR.massG, 'kg 換算の G ' + mc.gSI + ' が本の基準重力 G_0 ' + G0_SI + ' と違う(本の G_0·m が資料の GM に戻らない)');
+  for (const b of B) if (b.mass.gmKm3s2 !== undefined) { const gm = b.mass.kg * mc.gSI / 1e9;
+    if (!(Math.abs(gm / b.mass.gmKm3s2 - 1) <= CHECK_TOL.gmRel)) E(ERR.massG, b.key + ' の kg × gSI ' + gm.toPrecision(10) + ' km³/s² が資料の GM ' + b.mass.gmKm3s2 + ' と合わない'); }
+  for (const k of ['earth', 'moon']) { const b = by[k]; if (!(b.pole.model && b.spin.model)) E(ERR.poleModel, memberOf(k).ja + 'の極と自転率の模型の版(pole.model・spin.model)が無い'); }
+  const composed = [];
+  for (const b of B) if (b.composed) {
+    const mb = memberOf(b.key), c = b.composed;
+    if (!mb.parent || c.parent !== mb.parent) { E(ERR.compose, b.key + ' の composed.parent ' + c.parent + ' は成員の親' + (mb.parent ? ' ' + mb.parent : 'が無い') + 'と違う'); continue; }
+    if (c.epochJdTdb !== rec.epoch.jdTdb) E(ERR.composeEpoch, b.key + ' の母惑星中心の状態の元期 ' + c.epochJdTdb + ' が全体の元期 ' + rec.epoch.jdTdb + ' と違う(同じ元期で合成する)');
+    if (c.reference !== rec.frame.reference || c.plane !== rec.frame.plane || c.equinox !== rec.frame.equinox) E(ERR.composePlane, b.key + ' の母惑星中心の状態の枠・面・分点 ' + [c.reference, c.plane, c.equinox].join('/') + ' が全体の ' + [rec.frame.reference, rec.frame.plane, rec.frame.equinox].join('/') + ' と違う(同じ面で合成する)');
+    const P = by[c.parent], rs = c.relState, dr = nrm(sub(posOf(b), [P.state.x + rs.x, P.state.y + rs.y, P.state.z + rs.z])), dv = nrm(sub(velOf(b), [P.state.vx + rs.vx, P.state.vy + rs.vy, P.state.vz + rs.vz]));
+    if (!(dr <= CHECK_TOL.composeKm + CHECK_TOL.composeRel * nrm(posOf(P)) && dv <= CHECK_TOL.composeKmS + CHECK_TOL.composeRel * nrm(velOf(P)))) E(ERR.composeMismatch, b.key + ' の state が 母惑星の state + relState と違う(位置 ' + dr.toExponential(2) + ' km・速度 ' + dv.toExponential(2) + ' km/s —— 合成の取り違えの疑い)');
+    composed.push(b.key);
+  }
+  return { ok: errors.length === 0, errors, warnings, derived: { comKm, comKmS, massKg: M, satellites: sats, gSI: mc.gSI, composed } };
 }
 
 /* ── 単位の変換と宣言 ── */
@@ -284,14 +324,20 @@ export function syntheticRecord() {
   for (const s of Object.values(st)) { M += s.m; for (let q = 0; q < 3; q++) { c[q] += s.m * s.r[q]; p[q] += s.m * s.v[q]; } }
   for (const s of Object.values(st)) for (let q = 0; q < 3; q++) { s.r[q] -= c[q] / M; s.v[q] -= p[q] / M; }
   const SYN = '人工の入力(SYNTHETIC —— 実際の配置ではない)';
-  return { schema: 'w300c-solar16-1', epoch: { jdTdb: 2451545.0, timeScale: 'TDB', calendar: 'SYNTHETIC' },
+  const rel = { io: { r: sub(st.io.r, st.jupiter.r), v: sub(st.io.v, st.jupiter.v) } };   // 第315便d: 合成の例(イオ —— 母惑星中心の状態。人工)
+  const MODEL = (k) => ((k === 'earth' || k === 'moon') ? { model: 'SYNTHETIC' } : {});
+  return { schema: SCHEMA_ID, epoch: { jdTdb: 2451545.0, timeScale: 'TDB', calendar: 'SYNTHETIC' },
     frame: { origin: 'SSB', naifOrigin: 0, reference: 'ICRF', plane: 'ecliptic', equinox: 'J2000', obliquityArcsec: 84381.448 },
     units: { position: 'km', velocity: 'km/s', mass: 'kg', radius: 'km', angle: 'deg', spinRate: 'deg/d' }, correction: 'NONE',
     source: { ephemeris: 'SYNTHETIC', provider: 'tests/lib-w300c-solar16.mjs syntheticRecord', retrieved: '2026-10-12', note: SYN },
+    massConversion: { gSI: G0_SI, gBasis: 'G_0', massVersion: 'SYNTHETIC', note: SYN },
     bodies: MEMBERS.map((m, i) => { const s = st[m.key];
-      return { key: m.key, naifId: m.naif, center: 'body', state: { x: s.r[0], y: s.r[1], z: s.r[2], vx: s.v[0], vy: s.v[1], vz: s.v[2] },
-        mass: { kg: s.m, includes: 'body', source: SYN }, radius: { km: s.R, source: SYN },
-        pole: { raDeg: 10 * i, decDeg: 60 + (i % 4) * 5, source: SYN }, spin: { rateDegPerDay: (m.key === 'venus' || m.key === 'uranus' || m.key === 'triton') ? -50 - i : 100 + 10 * i, source: SYN } }; }) };
+      const o = { key: m.key, naifId: m.naif, center: 'body', state: { x: s.r[0], y: s.r[1], z: s.r[2], vx: s.v[0], vy: s.v[1], vz: s.v[2] } };
+      if (rel[m.key]) o.composed = { from: 'parentCentric', parent: m.parent, epochJdTdb: 2451545.0, reference: 'ICRF', plane: 'ecliptic', equinox: 'J2000',
+        relState: { x: rel[m.key].r[0], y: rel[m.key].r[1], z: rel[m.key].r[2], vx: rel[m.key].v[0], vy: rel[m.key].v[1], vz: rel[m.key].v[2] } };
+      return Object.assign(o, { mass: { kg: s.m, includes: 'body', source: SYN, gmKm3s2: s.m * G0_SI / 1e9 }, radius: { km: s.R, source: SYN },
+        pole: Object.assign({ raDeg: 10 * i, decDeg: 60 + (i % 4) * 5, source: SYN }, MODEL(m.key)),
+        spin: Object.assign({ rateDegPerDay: (m.key === 'venus' || m.key === 'uranus' || m.key === 'triton') ? -50 - i : 100 + 10 * i, source: SYN }, MODEL(m.key)) }); }) };
 }
 /** 不正な入力の変種(どれも拒否されるべき —— code は checkSolar16 の符号)。 */
 export function badVariants(rec) {
@@ -314,5 +360,13 @@ export function badVariants(rec) {
     { name: '衛星を親の中心の座標で書いた', code: ERR.satCenter, rec: C((r) => { const P = B(r, 'saturn').state, b = B(r, 'titan').state; for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz']) b[k] -= P[k]; }) },
     { name: '有限数でない', code: ERR.schema, rec: C((r) => { B(r, 'venus').state.vx = null; }) },
     { name: '不確かさに出典が無い', code: ERR.uncertainty, rec: C((r) => { B(r, 'earth').uncertainty = { positionKm: 1 }; }) },
-    { name: '取得日が無い', code: ERR.source, rec: C((r) => { delete r.source.retrieved; }) }];
+    { name: '取得日が無い', code: ERR.source, rec: C((r) => { delete r.source.retrieved; }) },
+    // ---- 第315便d(決断事項 AN412)
+    { name: '衛星の SSB の状態に母惑星の状態を足し直した(タイタン)', code: ERR.parentAdded, rec: C((r) => { const P = B(r, 'saturn').state, b = B(r, 'titan').state; for (const k of ['x', 'y', 'z', 'vx', 'vy', 'vz']) b[k] += P[k]; }) },
+    { name: 'kg 換算の G が本の基準重力 G_0 と違う(6.6743×10⁻¹¹)', code: ERR.massG, rec: C((r) => { r.massConversion.gSI = 6.6743e-11; }) },
+    { name: 'kg と資料の GM が合わない(木星)', code: ERR.massG, rec: C((r) => { B(r, 'jupiter').mass.gmKm3s2 *= 1 + 1e-6; }) },
+    { name: '質量の表の版が無い', code: ERR.massVersion, rec: C((r) => { delete r.massConversion.massVersion; }) },
+    { name: '地球の極の模型の版が無い', code: ERR.poleModel, rec: C((r) => { delete B(r, 'earth').pole.model; }) },
+    { name: '母惑星中心の合成の元期が違う(イオ)', code: ERR.composeEpoch, rec: C((r) => { B(r, 'io').composed.epochJdTdb = r.epoch.jdTdb + 0.5; }) },
+    { name: '母惑星中心の合成の面が違う(イオ —— 赤道面)', code: ERR.composePlane, rec: C((r) => { B(r, 'io').composed.plane = 'equator'; }) }];
 }

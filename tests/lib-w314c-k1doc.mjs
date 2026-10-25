@@ -4,9 +4,11 @@
 //     第313便d の正本(tests/out/k1confirm-w313d.json —— 5 系)の行と並べる(段 k1outer-314c は第313便d の正本を読まない —— 文書の表だけで並べる)
 //   ・physicsTablesEm(Je, J313)・docNumbersEm(Je, J313): 🌦️ の h/4 と月の 354 公転の正本(tests/out/k1em-w314c.json)の表と数(h・h/2 は第313便d の正本の行)
 // 逐語照合する表に丸めの程度の数を書かない(帯・小さい差は丸めの床 fmtFloor —— 1e-12″/世紀)。
+// 第315便d(決断事項 AN410 —— 全系に一様の門): 正本の門の欄は一様の門へ作り直した。PHYSICS〔第314便c〕の表は第314便c の型(OUTER_GATE_W314C —— 凍結)の
+//   門を同じ走行の行から器の純関数で作り直して書く(表の文は第314便c のまま —— 一様の門の表は PHYSICS〔第315便d〕・tests/lib-w315d-satdoc.mjs)。
 import * as Q from './lib-w311d-planet3.mjs';
 import * as CF from './exp-w312d-confirm.mjs';
-import { OUTER, outerOf, OUTER_GATE } from './exp-w314c-k1outer.mjs';
+import { OUTER, outerOf, OUTER_GATE, OUTER_GATE_W314C, relAppliesOf, partW, partG } from './exp-w314c-k1outer.mjs';
 import { sysOf } from './exp-w313d-k1confirm.mjs';
 export const DOC_LIB_VERSION = 'w314c-k1doc-1';
 export const K313_OUT = 'tests/out/k1confirm-w313d.json';
@@ -18,8 +20,14 @@ const AU = 1.495978707e11;
 const labOf = (key) => { const o = outerOf(key); if (o) return o.emoji + ' ' + o.ja; const s = sysOf(key); return s ? s.emoji + ' ' + s.ja : key; };
 const a1Cell = (z, kind) => (z && Number.isFinite(z.value) ? z.value + '(' + kind + ' ' + z.width + ')' : '行なし');
 
-export function physicsTablesOuter(Jo, J313) {
-  const out = [];
+/** 第314便c の型の門(凍結の定数)で W・G を作り直した写し(K・T は正本のまま —— 走行の行は同じ) */
+export function legacyViewOuter(Jo) {
+  if (!(Jo && Jo.K && Jo.T && Jo.E)) return Jo;
+  const W = partW(Jo, OUTER_GATE_W314C), G = partG(Object.assign({}, Jo, { W }), OUTER_GATE_W314C);
+  return Object.assign({}, Jo, { W, G, legacyGate: OUTER_GATE_W314C });
+}
+export function physicsTablesOuter(Jo0, J313) {
+  const out = [], Jo = legacyViewOuter(Jo0);
   if (Jo.P) {
     out.push('| 系(t = 0 の写し —— 全天体 R_d = κ₀ × エンジンの質量・K1) | 天体 | m [kg] | エンジンの質量 [kg] | 観測半径 R [m] | R_d [m] | R_d/R | R_d/r_s | エンジンの R_d・m_d・β(規則の鍵 rdRule:"kappaM" の写しと) |',
       '|---|---|---|---|---|---|---|---|---|');
@@ -29,7 +37,7 @@ export function physicsTablesOuter(Jo, J313) {
   if (Jo.T) {
     out.push('', '| 系 | q_1PN [″/世紀] | 器の刻み h | A1 EPM2011 [″/世紀] | A1 INPOP10a [″/世紀] | η = Mm/(M+m)² | (4/3)η q_1PN [″/世紀] | 相対の門(q_1PN < 10 ε_fit) |', '|---|---|---|---|---|---|---|---|');
     for (const s of OUTER) { const T = Jo.T.systems[s.key];
-      out.push(`| ${s.emoji} ${s.ja} | ${ex(T.q1pn, 6)} | ${T.h} | ${a1Cell(T.a1.EPM2011, '幅')} | ${a1Cell(T.a1.INPOP10a, '区間の半幅')} | ${ex(T.eta, 4)} | ${ex(T.fm, 3)} | ${T.relApplies ? '置く' : '置かない(q_1PN ≥ 10 ε_fit)'} |`); }
+      out.push(`| ${s.emoji} ${s.ja} | ${ex(T.q1pn, 6)} | ${T.h} | ${a1Cell(T.a1.EPM2011, '幅')} | ${a1Cell(T.a1.INPOP10a, '区間の半幅')} | ${ex(T.eta, 4)} | ${ex(T.fm, 3)} | ${relAppliesOf(T.q1pn, OUTER_GATE_W314C) ? '置く' : '置かない(q_1PN ≥ 10 ε_fit)'} |`); }
   }
   if (Jo.K && Jo.W) {
     out.push('', '| 系(主の窓 —— κ₀ 固定・規則で置いた残差) | 刻み | ΔqG = q10 − q00 | D_G = q11 − q10 | r_1PN = q11 − q00 − q_1PN | r_1PN/q_1PN | r(EPM2011 の A1) | r(INPOP10a の A1) |', '|---|---|---|---|---|---|---|---|');
@@ -42,7 +50,7 @@ export function physicsTablesOuter(Jo, J313) {
         out.push(`| ${s.emoji} ${s.ja} | ${N} | ${r(1)} | ${r(2)} | ${r(4)} | ${fl(w.bands['1-2'])} | ${fl(w.bands['2-4'])} | ${ex(W.tol, 2)} | ${yn(row ? row.inTol : null)} | ${N === W.main ? '主' : ''} |`); } }
   }
   if (Jo.G) {
-    out.push('', `| 系(主の窓・h/4 —— 決断事項 AN410 の推奨の型) | q_1PN | r_1PN | abs(r) ≤ ε_fit(${ex(OUTER_GATE.fit, 0)}) | 相対の許容 1e-2 q_1PN | abs(r) ≤ 1e-2 q_1PN | 帯(h–h/2・h/2–h/4) | 帯の許容 | 帯の門 | 相対の門 | 判定 |`, '|---|---|---|---|---|---|---|---|---|---|---|');
+    out.push('', `| 系(主の窓・h/4 —— 決断事項 AN410 の推奨の型) | q_1PN | r_1PN | abs(r) ≤ ε_fit(${ex(OUTER_GATE_W314C.fit, 0)}) | 相対の許容 1e-2 q_1PN | abs(r) ≤ 1e-2 q_1PN | 帯(h–h/2・h/2–h/4) | 帯の許容 | 帯の門 | 相対の門 | 判定 |`, '|---|---|---|---|---|---|---|---|---|---|---|');
     for (const s of OUTER) { const g = Jo.G.systems[s.key], ri = g.relInfo;
       const relCell = g.applies ? yn(g.relOk) : yn(ri.relOk) + '(参考)';
       const bandOk = g.applies ? (g.bandAbsOk === true && g.bandRelOk === true) : g.bandAbsOk === true;

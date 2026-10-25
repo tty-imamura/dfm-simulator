@@ -10,9 +10,9 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "17efa0b8b48fef19245dcc73ad63270931737df8e932c5b7a114a6a38eaf8ea3",
  "reuseFrom": null,
- "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
+ "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN) —— 第315便d)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "stage": "outer",
  "quick": false,
@@ -51,9 +51,9 @@
   "num": 0.0003,
   "rel": 0.01,
   "bandRel": 0.01,
-  "applyBelow": 10,
+  "policy": "all",
   "unit": "″/世紀",
-  "note": "決断事項 AN410 の推奨の型(裁定で変わる): 絶対の門 abs(r_1PN) ≤ ε_fit に加えて、q_1PN < 10 ε_fit の系は相対の門 abs(r_1PN) ≤ 1e-2 q_1PN と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))。観測の 3σ ではない"
+  "note": "決断事項 AN410(全系に一様の門 —— 第315便d): abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN) と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))をすべての系に置く。q_1PN が 0 や非有限の系は比を作らず合格にしない・帯が負や非有限は合格にしない。観測の 3σ ではない"
  },
  "live": [
   {
@@ -436,7 +436,7 @@
     "G": 6.674,
     "gLocAnalytic": -0.009134379126917344,
     "h": 0.1957,
-    "relApplies": false,
+    "relApplies": true,
     "an336": {
      "value": 0.013389400874347215,
      "pn1": 0.013709400874347216,
@@ -2352,10 +2352,10 @@
   }
  },
  "W": {
-  "rule": "主の窓 = 開始の窓(8 公転 —— 第313便d)以上で、最も細かい 2 刻みの帯 ≤ 帯の許容 min(ε_num, 1e-2 q_1PN)〔相対の門を置かない系は ε_num〕になる最小の窓・無ければ最長の窓",
+  "rule": "主の窓 = 開始の窓(8 公転 —— 第313便d)以上で、最も細かい 2 刻みの帯 ≤ 帯の許容 min(ε_num, 1e-2 q_1PN)(全系 —— 決断事項 AN410 の一様の門)になる最小の窓・無ければ最長の窓",
   "systems": {
    "saturn": {
-    "tol": 0.0003,
+    "tol": 0.00013709400874347216,
     "rows": [
      {
       "N": 4,
@@ -2491,9 +2491,9 @@
    "num": 0.0003,
    "rel": 0.01,
    "bandRel": 0.01,
-   "applyBelow": 10,
+   "policy": "all",
    "unit": "″/世紀",
-   "note": "決断事項 AN410 の推奨の型(裁定で変わる): 絶対の門 abs(r_1PN) ≤ ε_fit に加えて、q_1PN < 10 ε_fit の系は相対の門 abs(r_1PN) ≤ 1e-2 q_1PN と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))。観測の 3σ ではない"
+   "note": "決断事項 AN410(全系に一様の門 —— 第315便d): abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN) と数値の帯の門(h–h/2・h/2–h/4 の差 ≤ min(ε_num, 1e-2 q_1PN))をすべての系に置く。q_1PN が 0 や非有限の系は比を作らず合格にしない・帯が負や非有限は合格にしない。観測の 3σ ではない"
   },
   "systems": {
    "saturn": {
@@ -2502,41 +2502,25 @@
     "r": 0.000005250818789926531,
     "q1pn": 0.013709400874347216,
     "rOverQ": 0.00038300862583657967,
+    "qOk": true,
     "absTol": 0.001,
     "absOk": true,
     "relTol": 0.00013709400874347216,
     "relOk": true,
+    "gateTol": 0.00013709400874347216,
     "relAfterFm": true,
     "bands": [
      3.0289840909775156e-8,
      1.0124546162906811e-7
     ],
-    "bandTol": 0.0003,
+    "bandsOk": true,
+    "bandTol": 0.00013709400874347216,
     "bandAbsOk": true,
     "bandRelOk": true,
-    "applies": false,
+    "applies": true,
+    "policy": "all",
     "pass": true,
-    "verdict": "規則で置いた残差が数値の門の内",
-    "relInfo": {
-     "r": 0.000005250818789926531,
-     "q1pn": 0.013709400874347216,
-     "rOverQ": 0.00038300862583657967,
-     "absTol": 0.001,
-     "absOk": true,
-     "relTol": 0.00013709400874347216,
-     "relOk": true,
-     "relAfterFm": true,
-     "bands": [
-      3.0289840909775156e-8,
-      1.0124546162906811e-7
-     ],
-     "bandTol": 0.00013709400874347216,
-     "bandAbsOk": true,
-     "bandRelOk": true,
-     "applies": true,
-     "pass": true,
-     "verdict": "規則で置いた残差が数値の門の内"
-    }
+    "verdict": "規則で置いた残差が数値の門の内"
    },
    "uranus": {
     "N": 8,
@@ -2544,41 +2528,25 @@
     "r": 1.573204219036152e-7,
     "q1pn": 0.002384637457426602,
     "rOverQ": 0.00006597246948950832,
+    "qOk": true,
     "absTol": 0.001,
     "absOk": true,
     "relTol": 0.000023846374574266022,
     "relOk": true,
+    "gateTol": 0.000023846374574266022,
     "relAfterFm": true,
     "bands": [
      1.7659064346659675e-8,
      2.6905548063810292e-8
     ],
+    "bandsOk": true,
     "bandTol": 0.000023846374574266022,
     "bandAbsOk": true,
     "bandRelOk": true,
     "applies": true,
+    "policy": "all",
     "pass": true,
-    "verdict": "規則で置いた残差が数値の門の内",
-    "relInfo": {
-     "r": 1.573204219036152e-7,
-     "q1pn": 0.002384637457426602,
-     "rOverQ": 0.00006597246948950832,
-     "absTol": 0.001,
-     "absOk": true,
-     "relTol": 0.000023846374574266022,
-     "relOk": true,
-     "relAfterFm": true,
-     "bands": [
-      1.7659064346659675e-8,
-      2.6905548063810292e-8
-     ],
-     "bandTol": 0.000023846374574266022,
-     "bandAbsOk": true,
-     "bandRelOk": true,
-     "applies": true,
-     "pass": true,
-     "verdict": "規則で置いた残差が数値の門の内"
-    }
+    "verdict": "規則で置いた残差が数値の門の内"
    },
    "neptune": {
     "N": 8,
@@ -2586,41 +2554,25 @@
     "r": -6.926553595010959e-10,
     "q1pn": 0.0007741015435735884,
     "rOverQ": -8.947861753427055e-7,
+    "qOk": true,
     "absTol": 0.001,
     "absOk": true,
     "relTol": 0.000007741015435735885,
     "relOk": true,
+    "gateTol": 0.000007741015435735885,
     "relAfterFm": true,
     "bands": [
      3.282905894090495e-7,
      1.389053200788904e-7
     ],
+    "bandsOk": true,
     "bandTol": 0.000007741015435735885,
     "bandAbsOk": true,
     "bandRelOk": true,
     "applies": true,
+    "policy": "all",
     "pass": true,
-    "verdict": "規則で置いた残差が数値の門の内",
-    "relInfo": {
-     "r": -6.926553595010959e-10,
-     "q1pn": 0.0007741015435735884,
-     "rOverQ": -8.947861753427055e-7,
-     "absTol": 0.001,
-     "absOk": true,
-     "relTol": 0.000007741015435735885,
-     "relOk": true,
-     "relAfterFm": true,
-     "bands": [
-      3.282905894090495e-7,
-      1.389053200788904e-7
-     ],
-     "bandTol": 0.000007741015435735885,
-     "bandAbsOk": true,
-     "bandRelOk": true,
-     "applies": true,
-     "pass": true,
-     "verdict": "規則で置いた残差が数値の門の内"
-    }
+    "verdict": "規則で置いた残差が数値の門の内"
    }
   },
   "allPass": true
@@ -2925,138 +2877,184 @@
   },
   "D": {
    "wallSec": 0.001
+  },
+  "regateT": {
+   "wallSec": 0.051
+  },
+  "regateK": {
+   "wallSec": 0.001
+  },
+  "regateW": {
+   "wallSec": 0
+  },
+  "regateG": {
+   "wallSec": 0
+  },
+  "regateD": {
+   "wallSec": 0.001
   }
  },
  "stats": {
   "runs": 27,
   "steps": 47892324
  },
- "elapsedS": 2047.857,
+ "regate": {
+  "version": "w315d-regate-1",
+  "why": "決断事項 AN410(全系に一様の門 —— 第315便d): 門の欄だけを器の純関数で作り直した(走行の行 E と t = 0 の写し P は元の正本のまま —— r_1PN・帯の数は同じ)",
+  "from": {
+   "generatedAt": "2026-10-23T12:48:53.986Z",
+   "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+   "scopeSha256": "c371327ff2d3f6a4d440ab02973af425ac64cff7a16e09af2afee6345a967748",
+   "codeSha256": "0ff9cb41495acd618d9031dbbbf3a72b36dc79d2648e640fcc46cc4cc0703877",
+   "elapsedS": 2047.857
+  },
+  "htmlSame": false,
+  "scopeSame": true,
+  "kept": [
+   "P",
+   "E",
+   "plan",
+   "book"
+  ],
+  "rebuilt": [
+   "gate",
+   "live",
+   "T",
+   "K",
+   "W",
+   "G",
+   "D",
+   "cost",
+   "gates",
+   "stats"
+  ]
+ },
+ "elapsedS": 4.361,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T12:48:53.986Z",
+  "targetSha256": "17efa0b8b48fef19245dcc73ad63270931737df8e932c5b7a114a6a38eaf8ea3",
+  "generatedAt": "2026-10-25T14:21:15.215Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "sha256": "17efa0b8b48fef19245dcc73ad63270931737df8e932c5b7a114a6a38eaf8ea3",
+    "mtime": "2026-10-25T13:52:13.136Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-10-25T13:52:13.256Z"
    },
    {
     "file": "tests/out/an336-w306a.json",
     "bytes": 88635,
     "sha256": "675eb1808cfb4cdc5fba0ffaca1c319d3945c2e604fed3da943357461702a260",
-    "mtime": "2026-10-23T11:15:37.044Z"
+    "mtime": "2026-10-25T13:52:13.360Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
     "bytes": 21528,
     "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
-    "mtime": "2026-10-20T16:19:56.570Z"
+    "mtime": "2026-10-25T13:52:13.237Z"
    },
    {
     "file": "paper/data/pn1-primary-audit-20261015.csv",
     "bytes": 4489,
     "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
-    "mtime": "2026-10-20T16:19:56.572Z"
+    "mtime": "2026-10-25T13:52:13.237Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w314c-k1outer.mjs",
-    "bytes": 49685,
-    "sha256": "4a40e14149b68c4c854286ed204cca3fd690b3a7079b6ddd8a96b1132170f561",
-    "mtime": "2026-10-23T07:18:13.826Z"
+    "bytes": 57056,
+    "sha256": "19c8d96d2d2a1ce807e2e6a71a53298ce69a0d82546a60ce2dcf1faa22132e0f",
+    "mtime": "2026-10-25T14:21:00.873Z"
    },
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
     "bytes": 35140,
     "sha256": "1d8be501769c48444dd26f0e2f14f75f96bb3b7757f4d6432b37c6990601ad22",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "mtime": "2026-10-25T13:52:13.332Z"
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
     "bytes": 50144,
     "sha256": "c63f53a8af377a3b4317b424e672f623b6daa9a4300da4d536c7530a469954b6",
-    "mtime": "2026-10-22T15:03:05.998Z"
+    "mtime": "2026-10-25T13:52:13.332Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
     "bytes": 19950,
     "sha256": "3da97537c3c0e9feda171b17a68dde2960adbb38f02b657bda30c7cfa844ee63",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "mtime": "2026-10-25T13:52:13.360Z"
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
     "bytes": 64416,
     "sha256": "1cf5bf77ed156ecaa7b7ff79d5fe5a8d076764fc3d123e218ba8724523eb8fa7",
-    "mtime": "2026-10-22T15:03:05.998Z"
+    "mtime": "2026-10-25T13:52:13.328Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "mtime": "2026-10-25T13:52:13.360Z"
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
     "bytes": 73010,
     "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "mtime": "2026-10-25T13:52:13.320Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-25T13:52:13.356Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-25T13:52:13.356Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 51360,
     "sha256": "f4b6ea28f6390234595653bd841fb4ba8ea0357e45895c4b93f1c5aca68c4d08",
-    "mtime": "2026-10-20T16:19:56.644Z"
+    "mtime": "2026-10-25T13:52:13.316Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16510,
     "sha256": "cfb489f0dbca5a7ae7d809e957a1cf6ca254e570a75ed1adcdcecff2c12b56ce",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-10-25T13:52:13.356Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-10-25T13:52:13.348Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-10-25T13:52:13.344Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 82714,
     "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-10-25T13:52:13.352Z"
    }
   ],
-  "codeSha256": "0ff9cb41495acd618d9031dbbbf3a72b36dc79d2648e640fcc46cc4cc0703877",
+  "codeSha256": "e7184f85157b66c753c8558ec545d00b1fe0a079e50f839363b38d71012cec23",
   "harnessVersion": "w314c-k1outer-1",
   "stage": "outer",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W314C_WORKERS)",

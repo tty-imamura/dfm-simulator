@@ -1329,6 +1329,16 @@ export const REGEN_STEPS = [
       '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
     note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
   // ==== 第314便d の塊(ここまで)====
+  // ==== 第315便d の塊(ここから)====
+  // ---- 第315便d(原仮定者の裁定(第117報)・決断事項 AN413・AN414〔新記号〕・統括の検証項目 R245): **衛星 6 本の K1 の検証の器**(段 satk1-315d —— イオ・エウロパ・ガニメデ・
+  //   カリスト・タイタン・トリトン × 母惑星との二体・太陽 + 母惑星 + 衛星の三体 × q00・q10・q11〔全天体 r_d = Y_k m —— 規則の鍵 rdRule:"kappaM"〕× h・h/2・h/4 × 32 公転の
+  //   入れ子の窓 8・16・32)。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json・在位の本は jupiterGalilean・saturnRingReal の値だけを .find で読む(在位の 🏀🟡💙 の
+  //   宣言は読まない)。走行は子プロセス 2 本(workers 2)。所要は第315便d の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 全走行の 1 回目 828.7 s〔負荷平均 7〜10〕・
+  //   軸の角を atan2 へ直した 2 回目 1114.4 s〔負荷平均 10 前後〕を採る。正本は 2 回目の走行の行を再開の写し W315D_CACHE から読んで純関数の段を作り直した —— resumed 108)
+  S('satk1-315d', 'node tests/exp-w315d-satk1.mjs', ['tests/out/satk1-w315d.json'], 1115, { secSource: 'w315d-branch', node: true, workers: 2, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/satk1-w315d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
+    note: '第315便d: 衛星 6 本の K1 の検証の正本(二体と三体 × 引きずりの有無の差 —— 恒星周期・近点・交点・軸。近似要素の種〔観測レコードではない〕・数値の帯の判定〔観測の 3σ を付けない〕—— 在位へ入れない)' }),
+  // ==== 第315便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
