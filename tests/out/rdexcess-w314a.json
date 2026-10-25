@@ -2,7 +2,7 @@
  "version": "w314a-rdexcess-1",
  "generator": "tests/exp-w314a-rdexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第116報)AN404 R_d は観測半径を超えても受理する・超えた場合の表示も用意する・AN403/AN409 外殻の引きずりは粒子同士が触れるぐらいの距離の特別処理(将来の地表のサンプル)・決断事項 AN411 の推奨の型・統括の検証項目 R238",
  "units": {
   "book": {
@@ -444,7 +444,7 @@
     "pass": true
    },
    {
-    "case": "K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 今のまま)",
+    "case": "K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 第315便b で受理)",
     "path": "explicit",
     "decl": {
      "id": "w314aNeutronStar",
@@ -468,13 +468,13 @@
       }
      ]
     },
-    "expectOk": false,
-    "expectWarn": null,
-    "expectErr": "マントルの体積が 0",
-    "ok": false,
+    "expectOk": true,
+    "expectWarn": 0,
+    "expectErr": null,
+    "ok": true,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1",
+    "err": null,
     "pass": true
    },
    {
@@ -1470,25 +1470,31 @@
    "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.28
+   "wallSec": 0.397
   },
   "S": {
-   "wallSec": 0.129
+   "wallSec": 0.205
   }
  },
- "elapsedS": 2.058,
+ "elapsedS": 2.556,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:19:09.368Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:00:36.025Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -1500,9 +1506,15 @@
   "code": [
    {
     "file": "tests/exp-w314a-rdexcess.mjs",
-    "bytes": 29716,
-    "sha256": "985bfc028cc1b507fbe34f6b41df52cd7698afdcbb434a6ce2cbb5867180c244",
-    "mtime": "2026-10-23T06:58:16.127Z"
+    "bytes": 31573,
+    "sha256": "fe8981a4007008b4b9291fbf7485542a3be9629f9045fbf3fb589634ff2aab4f",
+    "mtime": "2026-10-25T16:42:07.809Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
@@ -1535,7 +1547,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "b70e276b577bc30e6bdd7ef6dbfc36018b38474bf2189006e3b5b0bbdf2fb8b3",
+  "codeSha256": "e505027ce86dca78d33161c50eeb0d9642d8e102a84eff6a3f050d6c44c3386a",
   "harnessVersion": "w314a-rdexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1579,13 +1591,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1531,
-   "segments": 1366,
-   "closureShare": 0.3471
+   "names": 1537,
+   "segments": 1372,
+   "closureShare": 0.3481
   },
-  "scopeSha256": "62bcdf720b87132e8932fccbb0b912a38181830d978009a36419aac6fc6dae73",
+  "scopeSha256": "282bc799db233a79cd4a3b564034d6761fbf21f5ffce72b52ab7fb4d47831171",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",

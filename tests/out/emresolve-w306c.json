@@ -3,14 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便c",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T10:30:53.749Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T20:53:23.478Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306c-decl305.json",
@@ -40,9 +46,15 @@
   "code": [
    {
     "file": "tests/exp-w306c-emresolve.mjs",
-    "bytes": 55720,
-    "sha256": "a615792204f376cad4c7edab75a747744cf1c93c61e64e277c1225788305d62b",
-    "mtime": "2026-10-20T16:19:56.652Z"
+    "bytes": 56173,
+    "sha256": "a1914807383e4c5eea82bb107feb2df18ffc24f2e2795a1960c60b6a5388d34c",
+    "mtime": "2026-10-25T16:42:07.789Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w306c-pre.mjs",
@@ -64,15 +76,15 @@
    },
    {
     "file": "tests/exp-w305c-j2.mjs",
-    "bytes": 41986,
-    "sha256": "eac248fd14339b8c26815b39b433436c0beacd67aec8af8b3dabc1caceefe427",
-    "mtime": "2026-10-20T16:19:56.652Z"
+    "bytes": 42439,
+    "sha256": "1faf8f5433897d1095dd0c035ab575ab4cc7f0566c60d64930780bc986a7e52f",
+    "mtime": "2026-10-25T16:42:07.789Z"
    },
    {
     "file": "tests/exp-w304c-baseline.mjs",
-    "bytes": 35409,
-    "sha256": "2fa2ed3ba621c3ddebcea036beae69511a99d15132dfc18cf02d1629d505d036",
-    "mtime": "2026-10-20T16:19:56.652Z"
+    "bytes": 35862,
+    "sha256": "25fdda2fbb4545c8c24db9d30e3c4d02cb54274bd5ad89ef052fb474d928239f",
+    "mtime": "2026-10-25T16:42:07.786Z"
    },
    {
     "file": "tests/lib-w305c-pre.mjs",
@@ -88,9 +100,9 @@
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
-    "bytes": 73010,
-    "sha256": "ab97e15d1348db27bea081c2bdf36b2b282e45a68f33b52fa2bf1b337d94c00a",
-    "mtime": "2026-10-20T16:19:56.648Z"
+    "bytes": 73463,
+    "sha256": "11b93ede35632be26dbe4fc9050fafd7ea4d688c723c028c5af861d3187cd7da",
+    "mtime": "2026-10-25T16:42:07.785Z"
    },
    {
     "file": "tests/exp-w300b-emonly.mjs",
@@ -135,7 +147,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "6bc7dc9c49d85e88f063f99e5d8ca0f943fcc3e05620c3838e7f2ae937504532",
+  "codeSha256": "f054e744f50a86814378446d55afed94a29e454f3b5e127f42aa03603f775fac",
   "harnessVersion": "w306c-emresolve-1",
   "loadErrors": 0,
   "ruling": "DECISIONS v64 AN337 ③④⑤・v65 §0 AN337(J₂ ありで初期配置を解き直す —— J₂ を交点に合わせて動かすのを第一手にしない)・AN335 ①",
@@ -205,13 +217,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1570,
-   "segments": 1405,
-   "closureShare": 0.3529
+   "names": 1573,
+   "segments": 1408,
+   "closureShare": 0.3537
   },
-  "scopeSha256": "72e8bf5e7d8f8b870719b1ca79f7ff0d984aeb0e9a185a2d1ead34d8e523ef5b",
+  "scopeSha256": "b01733b6ec02b89a20b6d4f55577b74cf233b31bd5622c1943e0acdf3f207a0c",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306c-decl305.json",
     "stableSha256": "045c97fe014d00f03b64a50b6ad3362abd001d9f324ca250dc5953edae82db5c",
@@ -444,7 +462,7 @@
    "e0": 0.07628360000003576,
    "inc": 5.288439999999994
   },
-  "wallSec": 94.783
+  "wallSec": 112.155
  },
  "measure": {
   "note": "解き直しの前(第305便の宣言 —— 初期配置は J₂ なしで解いたまま)と後(J₂ ありの参照積分 → エンジンで解き直した丸め)の長窓 [0,1062] の 4 量(M4・交点・恒星月〔調和〕・平均傾斜)",
@@ -514,7 +532,7 @@
     ],
     "slide": null,
     "steps": 15668338,
-    "wallSec": 36.493
+    "wallSec": 44.288
    },
    "beforeOff": {
     "fromZero": [
@@ -581,7 +599,7 @@
     ],
     "slide": null,
     "steps": 15668354,
-    "wallSec": 56.091
+    "wallSec": 60.711
    },
    "afterOn": {
     "fromZero": [
@@ -672,7 +690,7 @@
      }
     },
     "steps": 15668353,
-    "wallSec": 53.627
+    "wallSec": 61.484
    },
    "afterOn2": {
     "fromZero": [
@@ -739,7 +757,7 @@
     ],
     "slide": null,
     "steps": 31336702,
-    "wallSec": 103.512
+    "wallSec": 134.87
    },
    "afterOff": {
     "fromZero": [
@@ -806,7 +824,7 @@
     ],
     "slide": null,
     "steps": 15668368,
-    "wallSec": 50.686
+    "wallSec": 71.716
    },
    "afterAz0": {
     "fromZero": [
@@ -873,7 +891,7 @@
     ],
     "slide": null,
     "steps": 15668359,
-    "wallSec": 49.467
+    "wallSec": 69.353
    },
    "ref": {
     "fromZero": [
@@ -1188,7 +1206,7 @@
    ],
    "pass": true
   },
-  "wallSec": 381.466
+  "wallSec": 480.039
  },
  "phase": {
   "note": "起点の位相(重心の公転の t=0 —— 近日点 0°/遠日点 180°)× J₂ あり/なし —— 参照積分で長窓の平均の要素を解き直した(元期の宣言が無い分の幅)",
@@ -1304,7 +1322,7 @@
    "ph0": -0.0015232674593477213,
    "ph180": -0.0015232923034815826
   },
-  "wallSec": 51.008
+  "wallSec": 64.732
  },
  "attrib": {
   "note": "交点の残り(後の宣言の長窓 − B1)の目録 —— 同じ初期配置の差(参照積分 —— アプリの物理ではない)。correction は本と現実の差の向きに符号をそろえた寄与(本の値 − 直した値)・range は元期・窓の不定の幅",
@@ -1387,7 +1405,7 @@
    "地球の J₄ と高次(別の鍵 —— 未対応)",
    "月の図形(J₂・C₂₂)と潮汐の散逸"
   ],
-  "wallSec": 28.992
+  "wallSec": 36.017
  },
  "ledger": {
   "note": "J₂ × 引きずり ON の仕事の帳簿(診断 —— 定義と数だけ・補正値を力やエネルギーへ足さない)。本の対照(abBody の W_bg)の写し・後の宣言の初期配置",
@@ -1686,7 +1704,7 @@
    "figOpenRel": 0.00009423452395507589
   },
   "ok": true,
-  "wallSec": 138.497
+  "wallSec": 170.024
  },
  "emo": {
   "note": "🌔 = 後の 🌦️ の宣言の写しの規則(emOnlyBodies・emOnlyPhysics)—— 引きずり OFF の地球と月の二体(重力と地球の J₂)。数の正本は tests/out/emonly-w300b.json(鎖で作り直す)",
@@ -1763,7 +1781,7 @@
   "h2Diff": {
    "sid": 0.000003283532173270487
   },
-  "wallSec": 16.622
+  "wallSec": 22.069
  },
  "record": {
   "record": {
@@ -1965,5 +1983,5 @@
   "「交点を再現した」",
   "「現実を再現した」"
  ],
- "elapsedS": 711.483
+ "elapsedS": 885.173
 }

@@ -3,7 +3,7 @@
  "libVersion": "w310b-pairheat-lib-1",
  "generator": "tests/exp-w310b-pairheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223",
  "maintainVersion": "w309b-maintain-1",
  "ledgerVersion": "w310b-holdledger-1",
@@ -3826,51 +3826,63 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0
   },
   "R": {
-   "wallSec": 0.274
+   "wallSec": 0.232
   },
   "T": {
-   "wallSec": 0.079
+   "wallSec": 0.086
   },
   "F": {
-   "wallSec": 0.123
+   "wallSec": 0.154
   },
   "U": {
-   "wallSec": 0.301
+   "wallSec": 0.521
   },
   "H": {
-   "wallSec": 0.034
+   "wallSec": 0.053
   }
  },
- "elapsedS": 2.381,
+ "elapsedS": 2.826,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便b",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T11:19:05.413Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T21:00:36.283Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/out/recheck-w309c.json",
-    "bytes": 96059,
-    "sha256": "bf8c4fbe3a635eab31c34915dd36dbd46fe52953791ae8a941f5a3766ce3a5f8",
-    "mtime": "2026-10-23T11:18:28.876Z"
+    "bytes": 96663,
+    "sha256": "33a41266fff4c35e7d7699f6fed7fc3db5364b66b221027813515c9118cf83ad",
+    "mtime": "2026-10-25T20:13:47.246Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w310b-pairheat.mjs",
-    "bytes": 38754,
-    "sha256": "cca84c077afee12013ab3322b81dce9e2681846b8bfbbd9a374dbe7f458bc6b9",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 39217,
+    "sha256": "d8b5cc74ed50a98a2a68c25d133d6d5a1f6ea34b6ffed4f53d962755c4fa99e2",
+    "mtime": "2026-10-25T16:42:07.801Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w310b-pairheat.mjs",
@@ -3880,15 +3892,15 @@
    },
    {
     "file": "tests/exp-w309c-recheck.mjs",
-    "bytes": 39849,
-    "sha256": "2848dacca454de8aa9922d1fdd51051a040286cef955ec0b26fd07c57f91afb9",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 40312,
+    "sha256": "e336496c42ba5a9690bde5c75ab2a5a5444bc3749f8979997c7da620546321cb",
+    "mtime": "2026-10-25T16:42:07.797Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
-    "bytes": 37764,
-    "sha256": "82e94d775916067a74a2648134a3b73cc1e54ea6c17eb85d8c4d530f0fa9c05a",
-    "mtime": "2026-10-20T16:19:56.656Z"
+    "bytes": 38217,
+    "sha256": "c60d0b0e0eed806d10f1cf036393567a2f24e760c0987fffa233abfee093f32f",
+    "mtime": "2026-10-25T16:42:07.795Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -3909,7 +3921,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "b20db178102b7e6c9d3bb50c52c8bda4d218b58110009e3308277a1cb61a82fa",
+  "codeSha256": "06cfb5babda25ef61001e6665d26b885bea61376902f1dc550309b16d501d3be",
   "harnessVersion": "w310b-pairheat-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -3967,16 +3979,22 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1551,
-   "segments": 1386,
-   "closureShare": 0.3513
+   "names": 1556,
+   "segments": 1391,
+   "closureShare": 0.3521
   },
-  "scopeSha256": "66c931b87490e1d13c8df203ff79e2019437486a7798378e3e16e981691e6490",
+  "scopeSha256": "3c3b2bb4912552f8c8cb894782c39d4cfce77ecfe3013e55edb4287f2ef6eca0",
   "scopeComplete": true,
   "inputsStable": [
    {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
     "file": "tests/out/recheck-w309c.json",
-    "stableSha256": "c1a5e7ab3f4be467b3d1fffecfb1d00e6388b2fcfba14975697ce8443e2c9cd5",
+    "stableSha256": "65a0394e533154278d71cda9f53508441886be38c95e04037eed2ce65e5ffda4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
