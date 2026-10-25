@@ -55,3 +55,11 @@ export function pinDecl315c(evalExpr, ids) {
 /** headless の写し(tests/lib-w279b-headless.mjs の loadHtmlHeadless の戻り値 H)の BUILTIN_PRESETS を移行の前の宣言へ戻して H を返す(QA の世代切替の 1 式 ——
  *  `pinHeadless(loadHtmlHeadless(html))`)。H が無い・evalExpr が無いときはそのまま返す。 */
 export function pinHeadless(H) { if (H && typeof H.evalExpr === "function") pinDecl315c(H.evalExpr); return H; }
+/** HP の見え方(allPresets だけを移行の前の宣言の写しに替えた派生のオブジェクト —— 共有の HP は変えない)。在位の宣言の不変を照合する QA の世代切替
+ *  (例: 確認の器の liveDeclGate・liveSame・liveOuter を「移行の前の宣言は凍結の写しのまま」の意味で読む)。 */
+export function legacyView(HP) {
+  if (!HP || typeof HP.allPresets !== "function") return HP;
+  const v = Object.create(HP);
+  v.allPresets = () => HP.allPresets().map((p) => pinLegacy7(p));
+  return v;
+}

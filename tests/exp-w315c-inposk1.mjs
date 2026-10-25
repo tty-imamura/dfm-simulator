@@ -62,11 +62,11 @@ export const UNIFORM_GATE = Object.freeze({ fit: EPS.fit, num: EPS.num, rel: 1e-
   note: '決断事項 AN410: 全系に一様の門 abs(r_1PN) ≤ min(ε_fit, 1e-2 q_1PN)・帯 ≤ min(ε_num, 1e-2 q_1PN)(最も細かい刻みの残差と隣り合う刻みの差)—— 数値の門で、観測の 3σ ではない' });
 /**
  * 移行の変換(決断事項 AN406 —— 在位の本の relativeDrag をこれに置き換える。G_loc・bodies・timeRef・scaleExp は変えない)。
- * 鍵の形は K1 の確認の器の q11(tests/lib-w311d-planet3.mjs の NEW_DRAG + invSq.kernel:"k1")から外殻 outerShell と dragCoreDefault を外し、規則の鍵 rdRule:"kappaM" を足した形
- * (外殻の質量 0 の天体は外殻を作らないので outerShell の有無で走行は同じ —— 枝の実測)。
+ * 鍵の形は K1 の確認の器の q11(tests/lib-w311d-planet3.mjs の NEW_DRAG + invSq.kernel:"k1")から外殻 outerShell・dragCoreDefault・回転と軸の引きずり spinDrag を外し、
+ * 規則の鍵 rdRule:"kappaM" を足した形(並進だけ —— 移行の前の本と同じく回転・軸の引きずりは宣言しない)。外殻の質量 0 の天体は外殻を作らないので outerShell の有無で走行は同じ・
+ * spinDrag の有無で軌道(位置・速度)は 1 公転ビット同一(自転の値だけが違う)—— 枝の実測。段 C が確認の系(spinDrag あり)の行とビットで比べる。
  */
-export const INPOS_K1_DRAG = Object.freeze({ law: 'inertial', invSq: Object.freeze({ kernel: 'k1', rdRule: 'kappaM' }), pairs: 'all', history: 'positions', initMotion: 'observed',
-  spinDrag: Object.freeze({ rot: 'surfaceFlip', axial: 'on', axialModel: 'bevel', initSpin: 'observed' }) });
+export const INPOS_K1_DRAG = Object.freeze({ law: 'inertial', invSq: Object.freeze({ kernel: 'k1', rdRule: 'kappaM' }), pairs: 'all', history: 'positions', initMotion: 'observed' });
 /** 7 本(太陽からの順 —— 絵文字は在位の本)。cmp: 比べる確認の系の正本 */
 export const BOOKS = Object.freeze([
   Object.freeze({ key: 'mercury', id: 'mercurySunInertial3d', emoji: '🌡️', ja: '水星', cmp: 'k1confirm' }),

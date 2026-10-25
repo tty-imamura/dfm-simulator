@@ -78365,7 +78365,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // 第304便c(R197): 🌦️ が引きずり OFF の宣言(基線の見直し)になった世代では、宣言した W_bg のある代表の本を 🌡️ にする(世代は 🌦️ の宣言から読む)
       const emsU = HP.allPresets().find((p) => p.id === 'earthMoonSunInertial3d'), emsRdU = emsU && emsU.physics && emsU.physics.relativeDrag;
       // 第306便a(AN336): 🌡️ が λ ∝ m の k と G_loc を宣言した世代(W_bg = W_ext —— フィットの値ではない)では代表の本を 🟫(W_bg のフィット)にする(世代は 🌡️ の宣言から読む)
-      const merU = HP.allPresets().find((p) => p.id === 'mercurySunInertial3d'), merRdU = merU && merU.physics && merU.physics.relativeDrag, g306U = !!(merRdU && merRdU.inertialR2 && merRdU.inertialR2.denom === 'pair' && merU.physics.gLoc);
+      const merU = HP.allPresets().find((p) => p.id === 'mercurySunInertial3d'), merRdU = merU && merU.physics && merU.physics.relativeDrag, g306U = !!(merRdU && ((merRdU.inertialR2 && merRdU.inertialR2.denom === 'pair' && merU.physics.gLoc) || (merRdU.invSq && merRdU.invSq.rdRule === 'kappaM')));   // 第315便c(AN406): 🌡️ が K1 + rdRule の世代(W_bg を持たない)も代表の本は 🟫
       o.book = (emsRdU && emsRdU.Wbg === null && emsRdU.enabled === false) ? (g306U ? 'mercurySunInertialFit' : 'mercurySunInertial3d') : 'earthMoonSunInertial3d';
       HP.loadPreset(o.book, false);
       const sig0 = presetSig(HP.currentPreset()), par0 = JSON.stringify(HP.sim.params);
@@ -84888,7 +84888,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             && relq(r.deltaFromM.total, q.deltaFromM.total) && relq(r.perCentury.rot, q.perCentury.rot);
           if (!ok) { nd++; if (nd <= 3) bad.push('② 段 S を作り直すと違う行 ' + q.shape + ' ' + q.f); } });
         // ③ 在位の宣言が不変
-        const LG = X.liveDeclGate(HPm);
+        const LG = X.liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPm));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
         if (!(LG.bodiesSame && LG.scaleSame && LG.timeRefSame && LG.oldRule && LG.noInvSq && LG.noDragCore && LG.gLoc && LG.gLoc.law === 'kappaC2')) bad.push('③ 在位の 🌡️ の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
         cases.push(`② 段 K の遠方の係数・段 S の ${S2.rows.length} 行(β・回転の速さ・β(太陽 ← 水星)・差)を作り直して一致 / ③ 在位の 🌡️ は第306便a の世代のまま(k ${LG.k}・gLoc ${LG.gLoc && LG.gLoc.law})`);
       } catch (e) { bad.push('② 作り直せない: ' + String(e).slice(0, 160)); }
@@ -85025,7 +85025,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       const mer = J.R.planets.mercury;
       cases.push(`④ 段 T・R・G を走行の行から作り直して一致(水星の区間 ${mer.bracket.kind}${mer.bracket.kind === 'one' ? ' [' + mer.bracket.lo + ', ' + mer.bracket.hi + ']' : ''}・数値の門 3 対同時 ${J.G.allPass})`);
       // ⑤ 在位の宣言が不変
-      const LG = X.liveDeclGate(HPm);
+      const LG = X.liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPm));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
       if (!LG.every((z) => z.bodiesSame && z.scaleSame && z.timeRefSame && z.oldRule && z.noInvSq && z.noDragCore && z.gLoc && z.gLoc.law === 'kappaC2')) bad.push('⑤ 在位の 🌡️🌋🔴 の宣言が第306便a の世代と違う ' + JSON.stringify(LG).slice(0, 160));
       cases.push('⑤ 在位の 🌡️🌋🔴 は第306便a の世代のまま(旧則・G_loc kappaC2・invSq/dragCore なし)');
       // ==== 第312便d の塊(ここから)==== v2 の世代切替(器 w312d-planet3-2 —— 決断事項 AN396 の採用の欄・門の直し・R_d と K1 の口・係数 C₂ の実測)
@@ -85351,7 +85351,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (JSON.stringify(X.moonOf(J, J.C.ruleKey, J.kernel)) !== JSON.stringify(J.C.moon)) bad.push('④ 月の診断を作り直すと違う');
       cases.push(`④ 段 C を走行の行から作り直して一致 —— 🏀 r = ${J.C.systems.jupiter.r.toFixed(6)}(${J.C.systems.jupiter.verdict})・🌦️ r = ${J.C.systems.earthmoon.r.toFixed(6)}(${J.C.systems.earthmoon.verdict})`);
       // ⑤
-      const LS = X.liveSame(HPc);
+      const LS = X.liveSame((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPc));   // 第315便c(AN406): 在位の 7 本が K1 へ移った世代は移行の前の宣言の写しで照合(legacyView —— 共有の HP は変えない)
       if (!(LS.earthmoon === true && LS.jupiter === true)) bad.push('⑤ 在位の 🏀🌦️ の宣言が凍結の写しと違う ' + JSON.stringify(LS));
       cases.push('⑤ 在位の 🏀🌦️ の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
@@ -86016,7 +86016,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       cases.push(`④ 段 K・R・D・M を走行の行から作り直して一致 —— 根の kf ${X.PLANET_KEYS.map((k) => k + ' ' + J.R.planets[k].candidate.kf).join('・')}・採用 ${X.PLANET_KEYS.map((k) => J.R.planets[k].adopt.adopted).join('/')}`);
       // ⑤
       const LP = J.live;
-      if (!(X.gatesOf({ live: { planets: HPk ? (await import('file://' + path.join(ROOT, 'tests', 'exp-w311d-planet3.mjs'))).liveDeclGate(HPk) : [], confirm: (await import('file://' + path.join(ROOT, 'tests', 'exp-w312d-confirm.mjs'))).liveSame(HPk) } }).inPositionUnchanged === true && LP)) bad.push('⑤ 在位の宣言が凍結の写しと違う');
+      if (!(X.gatesOf({ live: { planets: HPk ? (await import('file://' + path.join(ROOT, 'tests', 'exp-w311d-planet3.mjs'))).liveDeclGate((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPk)) : [], confirm: (await import('file://' + path.join(ROOT, 'tests', 'exp-w312d-confirm.mjs'))).liveSame((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPk)) } }).inPositionUnchanged === true && LP)) bad.push('⑤ 在位の宣言が凍結の写しと違う');
       cases.push('⑤ 在位の 🌡️🌋🔴🏀🌦️ の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     // ⑥ 文書
@@ -86263,7 +86263,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         if (g.pass && g.verdict !== '規則で置いた残差が数値の門の内') bo.push('④ 門の内の語 ' + s.key); }
       co.push(`④ 段 K・W・G・D を走行の行から作り直して一致 —— 主の窓 ${X.OUTER.map((s) => s.ja + ' ' + Jo.W.systems[s.key].main).join('・')} 公転・門 ${X.OUTER.map((s) => s.ja + ' ' + (Jo.G.systems[s.key].pass ? '内' : '外')).join('・')}・r_1PN ${X.OUTER.map((s) => Jo.G.systems[s.key].r.toExponential(2)).join('・')}`);
       // ⑤
-      if (!(X.gatesOf({ stage: 'outer', live: X.liveOuter(HPx) }).inPositionUnchanged === true)) bo.push('⑤ 在位の宣言が凍結の写しと違う');
+      if (!(X.gatesOf({ stage: 'outer', live: X.liveOuter((await import('file://' + path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'))).legacyView(HPx)) }).inPositionUnchanged === true)) bo.push('⑤ 在位の宣言が凍結の写しと違う');
       co.push('⑤ 在位の 🟡🔷💙 の宣言は凍結の写しのまま(在位へ入れていない)');
     } catch (e) { bo.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
   }
