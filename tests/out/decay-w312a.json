@@ -3,7 +3,7 @@
  "libVersion": "w312a-decay-lib-1",
  "generator": "tests/exp-w312a-decay.mjs",
  "target": "beta/index.html",
- "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
+ "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
  "ruling": "原仮定者の裁定(第114報)AN398 —— R_d² が惑星の質量 × 軌道の半直弦に比例する結果は、距離に応じた引きずりの減衰が強すぎる可能性(r⁻³ なら r⁻² などを調査・軸引きずりだけ違う場合・受け側の質量が影響する場合も)・決断事項 AN398・統括の検証項目 R230",
  "kernelVersion": "w312a-invsq-k1-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -2042,31 +2042,37 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.559
+   "wallSec": 0.296
   },
   "P": {
-   "wallSec": 0.866
+   "wallSec": 0.737
   },
   "S": {
-   "wallSec": 0.176
+   "wallSec": 0.16
   },
   "E": {
-   "wallSec": 1.194
+   "wallSec": 1.27
   }
  },
- "elapsedS": 4.749,
+ "elapsedS": 4.384,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便a",
   "target": "beta/index.html",
-  "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-  "generatedAt": "2026-10-23T12:40:51.077Z",
+  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+  "generatedAt": "2026-10-25T23:26:51.359Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7277040,
-    "sha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-    "mtime": "2026-10-23T07:09:27.447Z"
+    "bytes": 7273413,
+    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+    "mtime": "2026-10-25T16:42:07.717Z"
+   },
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "bytes": 194518,
+    "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
+    "mtime": "2026-10-25T16:42:07.778Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
@@ -2076,17 +2082,23 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "bytes": 80147,
-    "sha256": "1f4be25bb4b1e23733b6793b53d862f072816080e10c1d4f6ac84e56b3fb2c51",
-    "mtime": "2026-10-23T12:26:19.812Z"
+    "bytes": 80716,
+    "sha256": "73f8d9b6162bdf44996ea011a88dec5ebf1a85177a85b6a505032ccbf43c73c0",
+    "mtime": "2026-10-25T23:26:45.142Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w312a-decay.mjs",
-    "bytes": 40726,
-    "sha256": "b83ad8a07328faaed37a0b8e17d8603f000cdea66b24f3df53850fcec57f9b17",
-    "mtime": "2026-10-21T18:25:03.620Z"
+    "bytes": 41189,
+    "sha256": "ed8928f41ce0d6c1de79ff5ff4b94ae0bdb3fc3580a0ac890fc1dcfb8f37d74d",
+    "mtime": "2026-10-25T16:42:07.805Z"
+   },
+   {
+    "file": "tests/lib-w315c-legacy7.mjs",
+    "bytes": 6556,
+    "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
+    "mtime": "2026-10-25T16:42:07.814Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
@@ -2143,7 +2155,7 @@
     "mtime": "2026-10-20T16:19:56.676Z"
    }
   ],
-  "codeSha256": "874176e9cd8fb7af3d3e5c91806b8d786de50fa4b107489c49c268096538592a",
+  "codeSha256": "e33f4a24c54f4d2cbb69ab1d7f304463c6210b5f59e03373113370e3bc5e6059",
   "harnessVersion": "w312a-decay-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2189,13 +2201,19 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1533,
-   "segments": 1368,
-   "closureShare": 0.3481
+   "names": 1538,
+   "segments": 1373,
+   "closureShare": 0.3488
   },
-  "scopeSha256": "23652beea8d25185252e3350538b8a67bbae4da0578a02eba5a394d5a9c4dca9",
+  "scopeSha256": "d8e06cc5a7c1228180c2e065305a45360f8d3a44b1ff74b18237ffe75c9259f7",
   "scopeComplete": true,
   "inputsStable": [
+   {
+    "file": "tests/data-w315c-legacy7.json",
+    "stableSha256": "016d8e2fb1f560d3243a3f2e0a837095b72525c587d75fceadc5c685364c3bcf",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
    {
     "file": "tests/data-w306a-decl305.json",
     "stableSha256": "c10b4d8e1de38a93f2333725bcae84a28cbd79c0d5c9609c09209b3a3b34e371",
@@ -2204,7 +2222,7 @@
    },
    {
     "file": "tests/out/planet3-w311d.json",
-    "stableSha256": "23a2e3c436b66d152f4d1073c2808367062131a3ec7377f959967b34d71e86af",
+    "stableSha256": "0ae9ad196c7dd6a9fcb01242ec2e9c79ce3c02a9eed80b9028f2867b8d47e438",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/E/rows/*/wallSec",
