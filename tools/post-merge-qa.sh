@@ -313,9 +313,10 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.c
 # ==== 第315便a の塊(ここから)====
 # 第315便a(原仮定者の裁定(第117報)AN414・統括の推奨 AN419・R242): 枝 a の新設 3 本(docs.symbols315 —— 記号の体系の正本と文書・ui.physLock315 —— 物理対応ロックの読込時の
 #   自動 ON〔値を書き直さない〕・lint.kappaSymbol315 —— 新しい説明の裸のカッパ)と、世代切替を受けた物理対応ロックとパラメータのラベルを読む physlock.kt-derive・physlock.ui-110・
-#   budget.consistency・params.direct-input・ab.edit-target・wave124.ui・wave125.ui・ui.wave96a、SYSTEM_PROMPT を読む prompt.spec-sync・prompt.schema-sync・ai.external-prompt、
+#   budget.consistency・params.direct-input・ab.edit-target・wave124.ui・wave125.ui・ui.wave96a、SYSTEM_PROMPT を読む prompt.spec-sync・prompt.schema-sync・ai.external-prompt・
+#   preset.lambdaPN297、文を読む behavior.lambdaPnOnDrag297・ai.stabilize・behavior.clusterAnalogy、loadSave の指紋の behavior.ckFixcapRestore、一覧の lint.scopeAll312、
 #   正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・状態の契約 lint.stateContract302・lint.coreBudget・lint.sectionLookup313
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.symbols315 ui.physLock315 lint.kappaSymbol315 physlock.kt-derive physlock.ui-110 budget.consistency params.direct-input ab.edit-target wave124.ui wave125.ui ui.wave96a prompt.spec-sync prompt.schema-sync ai.external-prompt lint.regenScope lint.stableHashPaths lint.canon304 lint.stateContract302 lint.coreBudget lint.sectionLookup313"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.symbols315 ui.physLock315 lint.kappaSymbol315 physlock.kt-derive physlock.ui-110 budget.consistency params.direct-input ab.edit-target wave124.ui wave125.ui ui.wave96a prompt.spec-sync prompt.schema-sync ai.external-prompt preset.lambdaPN297 behavior.lambdaPnOnDrag297 ai.stabilize behavior.clusterAnalogy behavior.ckFixcapRestore lint.scopeAll312 lint.regenScope lint.stableHashPaths lint.canon304 lint.stateContract302 lint.coreBudget lint.sectionLookup313"
 # ==== 第315便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
