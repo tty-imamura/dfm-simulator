@@ -310,6 +310,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm3
 #   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
 # ==== 第314便d の塊(ここまで)====
+# ==== 第315便d の塊(ここから)====
+# 第315便d(原仮定者の裁定(第117報)・AN413・AN410・AN412・AN414・R245): 枝 d の新設 1 本(docs.satK1_315 —— 衛星 6 本の K1 の検証の正本〔二体と三体 × 引きずりの有無・
+#   近似要素の種・数値の帯の判定〕と文書・外惑星の一様の門の表・16 体の入力の契約の変種の表)と、門を一様へ世代切替した docs.k1outer314・同じ器の docs.k1em314・
+#   入力の契約を更新した docs.solar16Contract300・16 体の写しを読む docs.pn1x3d314・第313便d の正本の docs.k1confirm313・正本の段の lint.regenScope・lint.stableHashPaths・
+#   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 docs.solar16Contract300 docs.pn1x3d314 docs.k1confirm313 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310"
+# ==== 第315便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

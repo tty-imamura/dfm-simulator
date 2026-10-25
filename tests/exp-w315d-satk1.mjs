@@ -30,8 +30,9 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as AP from './lib-w304e-apsis.mjs';
 import * as L from './lib-w315d-satk1.mjs';
-// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 在位の本は .find で 2 本だけ引く)
-const REGEN_SCOPE = {"presets":["jupiterGalilean","saturnRingReal"],"roots":["HP.allPresets","HP.coord3d","HP.inertialDragIsqState","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+// 第281便a の領域 hash の宣言(器と lib から deriveScope で引いた下限 —— 在位の本は .find で引く〔jupiterGalilean・saturnRingReal〕・"saturn" は母惑星の鍵の文字列が 🪐 の id と同じ綴り
+//   で数えられた分〔器は 🪐 を読まない —— 広めの宣言は許される〕。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json だけを読む)
+const REGEN_SCOPE = {"presets":["jupiterGalilean","saturn","saturnRingReal"],"roots":["$","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.inertialDragIsqState","HP.sim","HP.validatePreset","T","ch","ctx","cw","pnSource"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w315d-satk1-1';

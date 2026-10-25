@@ -182,7 +182,8 @@ export function attachSatSampler(S, o) {
   const a0s = ax(oi), a0p = ax(ci);
   const T = [], EP = [], EQ = [], TH = [], OM = [], INC = [], EN = [], EC = [], AXS = [], AXP = [], rev = [];
   let t = 0, k = 0, thPrev = Math.atan2(dot(r0, Q), dot(r0, P)), thAcc = thPrev, acc = 0, omPrev = null, omAcc = 0, bad = false;
-  const ang = (a, b) => (a && b) ? Math.acos(Math.max(-1, Math.min(1, dot(a, b)))) : null;
+  // 角は atan2(|a × b|, a · b)(acos は 1 に近い内積で分解能が √(2·2⁻⁵³) rad ≈ 1.5×10⁻⁸ rad —— 軸の正規化の丸めを動きと読まない)
+  const ang = (a, b) => (a && b) ? Math.atan2(nrm(cross(a, b)), dot(a, b)) : null;
   const orig = S.step;
   S.step = function (dt) {
     const out = orig.apply(this, arguments);
@@ -234,7 +235,7 @@ export function windowOf(R, N, Tsec) {
   return { N, complete: true, t1, sidDays: sid ? sid.P * Tsec / 86400 : null, sidRmsDays: sid ? sid.rms * Tsec / 86400 : null,
     aps: ap ? perCentury(ap.rate, Tsec) : null, apsE: ap ? ap.e : null, node: nd ? perCentury(nd.rate, Tsec) : null, nodeRms: nd ? nd.rms : null,
     incMeanDeg: deg(mean(s.inc)), eMean: mean(s.ec),
-    // 軸: 衛星と母惑星の自転軸の t = 0 からの角(″ —— 窓の終わりの標本。率にしない —— 実測では引きずりの最初の步で一度だけ動いて止まる型)
+    // 軸: 衛星と母惑星の自転軸の t = 0 からの角(″ —— 窓の終わりの標本・atan2 の角)
     axSat: (last >= 0 && s.axS[last] !== null) ? deg(s.axS[last]) * 3600 : null, axPar: (last >= 0 && s.axP[last] !== null) ? deg(s.axP[last]) * 3600 : null };
 }
 /**
