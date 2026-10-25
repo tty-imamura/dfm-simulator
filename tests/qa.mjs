@@ -23421,6 +23421,7 @@ if (!FAST) {
         for (const q of HP293.allPresets()) {
           const rd0 = q.physics && q.physics.relativeDrag;
           if (!rd0 || rd0.law !== 'inertial' || q.familyRole === 'retired') continue;
+          if (rd0.invSq) continue;   // 第315便c(AN406): 新則 invSq の本(在位の 7 本 —— K1 + rdRule)は旧則の合成則 compose の契約の外
           const v = HP293.validatePreset(JSON.parse(JSON.stringify(q))); if (!v.ok) continue;
           HP293.sim.build(v.preset); const S = HP293.sim;
           for (let k = 0; k < 3; k++) S.step(0.016);
