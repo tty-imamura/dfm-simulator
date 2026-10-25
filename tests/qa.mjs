@@ -24916,7 +24916,9 @@ if (!FAST) {
         // 退役の PN 分離 3 本: λ_PN=1 のワンタップ対照は撤去
         o.pnAb = ['psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN'].filter((id) => { const p = B.find((q) => q.id === id); return !!(p && p.abBody); });
         const sp = String(HP.SYSTEM_PROMPT || '');
-        o.sp = { range: sp.indexOf('geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)') >= 0,
+        // 第315便a(AN414): 世代切替 —— SYSTEM_PROMPT の光学の量は時空係数 X_k と書く(鍵 kappaT は不変)
+        o.sp = { range: sp.indexOf(HP.PHYS_LOCK_AUTO_VERSION ? 'geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔時空係数 X_k・光線〕と時計は別)'
+          : 'geoPN=2,3,4 は lambdaPN=0(q・慣性決定力の引きずりと力学の 1PN を重ねない・光学〔κ・光線〕と時計は別)') >= 0,
           def: /lambdaPN=1\(geoPN=2・3・4 では lambdaPN=0\)/.test(sp), g4: sp.indexOf('4=' + ((typeof wheelZoomFactor === 'function') ? '慣性決定力の多粒子' : '空間メッシュ・連鎖') + '〔標準 relativeDrag.law:"inertial"+solver:"network-pcg-v1"・kFrame=0・lambdaPN=0。' + ((typeof spaceMeshRetiredDenyOf === 'function') ? '旧 physics.spaceMesh は廃止 —— 受理で拒否〕' : '旧 spaceMesh.lawVersion は互換〕')) >= 0,   // 第302便e(AN302 ④): geoPN=4 の語(世代切替 = wheelZoomFactor)   // 第300便a: 廃止の世代は語が「廃止 —— 受理で拒否」
           noOld: sp.indexOf('新しく作る設定では使わない') < 0 };
         return o;
@@ -24957,7 +24959,8 @@ if (!FAST) {
         const st = (ph) => geoModeOf(ph).standard;
         o.std = { g2l1: st({ geoPN: 2, kFrame: 1, lambdaPN: 1 }), g2l0: st({ geoPN: 2, kFrame: 1, lambdaPN: 0 }) };
         const ja = T('modeWarn_lambdaPnOnDrag')(2, 1);
-        o.msgJa = ja.indexOf('geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。') >= 0;
+        o.msgJa = ja.indexOf(HP.PHYS_LOCK_AUTO_VERSION ? 'geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の時空係数 X_k とは別。q や gain と 1PN を重ねない)。値は捨てていない。'   // 第315便a(AN414): 世代切替
+          : 'geoPN=2・3・4 では力学の λ_PN を 0 にする(光学の κ とは別。q や gain と 1PN を重ねない)。値は捨てていない。') >= 0;
         const L0 = LANG; LANG = 'en'; let en = ''; try { en = T('modeWarn_lambdaPnOnDrag')(2, 1); } finally { LANG = L0; }
         o.msgEn = /set the dynamical λ_PN to 0/.test(en) && /do not stack 1PN on q or gain/.test(en) && en !== ja;
         // 受理は値を書き換えない(警告だけ)
@@ -52577,7 +52580,8 @@ if (!FAST) {
       const rk = HP.stabilizePreset(realP, { kepler: true });
       const kExp = 6.674 / (30000 * 30000);
       if (!(Math.abs(rk.preset.physics.kappaT / kExp - 1) < 1e-12)) bad.push('κ が G/c₀² へ再導出されていない');
-      if (!rk.changes.some((c) => /κ/.test(c))) bad.push('κ 再導出が変更点に列挙されていない');
+      // 第315便a(AN414): 世代切替 —— 安定化の文は時空係数 X_k(鍵 kappaT)と書く
+      if (!rk.changes.some((c) => (HP.PHYS_LOCK_AUTO_VERSION ? /X_k/ : /κ/).test(c))) bad.push('κ 再導出が変更点に列挙されていない');
       const toy = HP.stabilizePreset(mk({ G: 1, cLight: 30, kappaT: 0.016666666666666666, softening: 2, timeScale: 1 },
         [sgl(1000, 0, 0, true), sgl(1, 100, 3.1639)], 300), { kepler: true });
       if (toy.preset.physics.kappaT !== 0.016666666666666666) bad.push('トイ設定の κ が黙って変えられた');
