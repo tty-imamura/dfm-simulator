@@ -310,6 +310,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.k1outer314 docs.k1em314 docs.k1confirm3
 #   状態の契約・S._core・正本の段の lint.regenScope・lint.stableHashPaths・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.pn1x3d314 docs.pn1x3d314 behavior.coord3d298 preset.coord3d298 docs.coord3d298 behavior.coord3dHaltAB299 behavior.drag3d298 preset.planets3d299 docs.planets3d299 behavior.pn1Binary behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve ui.paramTab299 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
 # ==== 第314便d の塊(ここまで)====
+# ==== 第315便b の塊(ここから)====
+# 第315便b(決断事項 AN415・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・R243): 枝 b の新設 3 本(behavior.rsExcess315 —— r_s > R_obs の読み口の表・等号・質量の割合と本の種類で不変・
+#   状態を書かない・K1 の境界の 1 点・ui.rsExcess315 —— 選択粒子の欄 #beRsX・説明の 1 行 #rsExcessNotice・灰の破線の円・画素・docs.rsExcess315 —— 正本と文書)と、表示を世代切替した
+#   ui.rdExcess314・受理の境界を世代切替した器を読む behavior.rdExcess314・docs.rdExcess314・受理器を読む behavior.kappaM313・docs.kappaM313・behavior.dragCoreGate・選択粒子の欄と説明の並びの
+#   ui.selEdit299・ui.descOrder・ui.gwGroupMove(🎻 の家族のカード)・状態の契約・CANON・段の lint
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rsExcess315 ui.rsExcess315 docs.rsExcess315 ui.rdExcess314 behavior.rdExcess314 docs.rdExcess314 behavior.kappaM313 docs.kappaM313 behavior.dragCoreGate ui.selEdit299 ui.descOrder ui.gwGroupMove lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.canon304 lint.qaHeapRelease310"
+# ==== 第315便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

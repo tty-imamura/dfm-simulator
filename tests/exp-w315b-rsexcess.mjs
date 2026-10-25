@@ -154,7 +154,7 @@ export function partP(H) {
 export function partE(H) {
   const HP = H.HP, sx = E(H, 'schwarzschildExcessOf'), rows = [];
   const below = Math.fround(3 - 2 ** -22), above = Math.fround(3 + 2 ** -22);
-  for (const [lab, R, exp] of [['R_obs = r_s = 3(等号)', 3, false], ['R_obs = Float32 の 1 つ下(' + below + ')', below, true], ['R_obs = Float32 の 1 つ上(' + above + ')', above, false],
+  for (const [lab, R, exp] of [['R_obs = r_s = 3(等号)', 3, false], ['R_obs = r_s の Float32 の 1 つ下', below, true], ['R_obs = r_s の Float32 の 1 つ上', above, false],
     ['R_obs = 2.999', 2.999, true], ['R_obs = 3.001', 3.001, false]]) {
     const q = edgeBook(R), z = simOf(HP, q);
     if (z.err) { rows.push({ case: lab, decl: declOf(q), expectExcess: exp, accepted: false, err: z.err, pass: false }); continue; }
@@ -295,8 +295,8 @@ export function physicsTables(J) {
   const out = [];
   out.push('| 写しの表(1.4 M☉ の星 —— 本の長さ 1 km・G_0・c_0 は SI の値) | R_obs [km] | r_s [km](読み口) | r_s/R_obs | 円 | r_d の超過(読み口 radiusExcess) | 受理の警告(AN404) |', '|---|---|---|---|---|---|---|');
   for (const r of J.P.rows) out.push(`| ${r.case} | ${r.Robs} | ${p5(r.rsEngine)} | ${p5(r.ratio)} | ${r.ring ? 'あり' : 'なし'} | ${r.rdExcess ? 'r_d/R_obs ' + p5(r.rdExcess[0].ratio) : 'なし'} | ${r.nWarnX} |`);
-  out.push('', '| 等号の境界(G_0 = 2・c_0 = 2 —— r_s = m = 3) | R_obs | r_s/R_obs | 超過 | 期待 |', '|---|---|---|---|---|');
-  for (const r of J.E.rows) out.push(`| ${r.case} | ${r.Robs} | ${r.ratio === null ? '—' : String(r.ratio)} | ${r.excess ? 'あり' : 'なし'} | ${r.expectExcess ? 'あり' : 'なし'}${r.pass ? '' : '(違う)'} |`);
+  out.push('', '| 等号の境界(G_0 = 2・c_0 = 2 —— r_s = m = 3・二次元の写し) | R_obs(Float32) | r_s/R_obs − 1 | 超過 | 期待 |', '|---|---|---|---|---|');
+  for (const r of J.E.rows) out.push(`| ${r.case} | ${Number(r.Robs).toPrecision(8)} | ${r.ratio === null ? '—' : (r.ratio === 1 ? '0' : fl(r.ratio - 1, 1e-12))} | ${r.excess ? 'あり' : 'なし'} | ${r.expectExcess ? 'あり' : 'なし'}${r.pass ? '' : '(違う)'} |`);
   out.push('', '| 質量の割合(R_obs 3 km の写し) | massFrac | r_s [km] | r_s/R_obs |', '|---|---|---|---|');
   for (const r of J.F.rows) out.push(`| ${r.case} | ${r.massFrac} | ${p5(r.rs)} | ${p5(r.ratio)} |`);
   out.push('', '| 本の種類(R_obs 3 km の写し) | r_s [km] | r_s/R_obs | 超過の天体 |', '|---|---|---|---|');
