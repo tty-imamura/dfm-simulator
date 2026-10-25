@@ -21293,7 +21293,10 @@ if (!FAST) {
             if (!(R4.physicalClass === 'planet' && R4.physicalM <= R4.physicalMaxM && R4.repDeclaredVsRule <= 1e-12 && R4.softeningVsPhysics === 0 && R4.dragVsCenterR === 0
               && R4.drawVsRep === 0 && rl(R4.repBuilt, R4.rep) <= 1e-7 && R4.rep < 8.75)) bad.push('第284便a: radii(物理半径・代表粒子の半径・軟化・R_drag・表示)' + JSON.stringify(R4));
             if (!(P4.contactK === 0 && P4.gammaN === 0 && P4.muF === 0 && P4.vModes.join(',') === 'equilibrium,equilibrium' && P4.centerPinned && P4.geoPN === 3 && P4.kFrame === 0)) bad.push('第284便a: physics(contactK 0・γn 0・μf 0・equilibrium)' + JSON.stringify(P4));
-            if (JSON.stringify(D4) !== JSON.stringify(J4.declaration)) bad.push('第284便a: 宣言の照合が正本と違う');
+            // 第315便a(AN414): 世代切替 —— 受理の警告(目的の組の lambdaPnOnDrag)の文の光学の量を時空係数 X_k と書いた世代は、正本の記録した旧い文と
+            //   この 1 句だけ読み替えて照合する(両側を同じ向きへ —— 鎖で正本を作り直した後もそのまま通る)
+            const nw315 = (o) => { const t = JSON.stringify(o); return (H4.HP.PHYS_LOCK_AUTO_VERSION ? t.split('光学の時空係数 X_k とは別').join('光学の κ とは別') : t); };
+            if (nw315(D4) !== nw315(J4.declaration)) bad.push('第284便a: 宣言の照合が正本と違う');
             if (!(w <= 1e-12)) bad.push('第284便a: いまの html で t=0 の量・T_out を引き直すと正本と違う(相対 ' + w + ')—— 器を走らせ直すこと');
             else cases.push(`第284便a: いまの html で t=0 の量・T_out(${orb.Tout.toFixed(3)})・D_A・eqInit を引き直して正本と相対 ${w.toExponential(1)}・束縛率 t=0 ${z0.info.boundStars.toFixed(3)}/${z0.info.boundDR.toFixed(3)}`);
           } catch (e) { bad.push('第284便a: headless の引き直し: ' + String(e).slice(0, 120)); }
