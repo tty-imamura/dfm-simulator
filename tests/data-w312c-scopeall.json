@@ -3,10 +3,10 @@
  "what": "再生成表の現行の段のうち、器の領域の宣言(REGEN_SCOPE)が presets:\"all\" の段の理由の一覧(決断事項 AN394 —— 絞らない・記録だけ)。理由は器と lib の本文の allPresets() / BUILTIN_PRESETS の使い方(行は書いた時点の行 —— 照合は段・種類・見込みだけ)。namedIds は本文が文字列で名指す内蔵の本の ID(絞るときの候補)",
  "tool": "node tools/regen-chain.mjs --scope-all --write",
  "counts": {
-  "steps": 59,
-  "harnesses": 58,
+  "steps": 60,
+  "harnesses": 59,
   "byProspect": {
-   "enumerates": 30,
+   "enumerates": 31,
    "narrow-now": 11,
    "find-only": 18
   },
@@ -16,7 +16,7 @@
    "declared-wide": 11,
    "count": 2,
    "iterate": 6,
-   "value": 10,
+   "value": 11,
    "find-via-var": 23
   }
  },
@@ -2414,6 +2414,40 @@
     "saturn"
    ],
    "nNamed": 3,
+   "prospect": "enumerates"
+  },
+  {
+   "key": "rsexcess-315b",
+   "harness": "tests/exp-w315b-rsexcess.mjs",
+   "derivedAll": true,
+   "kinds": [
+    "value"
+   ],
+   "reasons": [
+    {
+     "file": "tests/exp-w315b-rsexcess.mjs",
+     "line": 215,
+     "use": "(値)",
+     "kind": "value",
+     "via": "harness",
+     "text": "const HP = H.HP, sx = E(H, 'schwarzschildExcessOf'), list = HP.allPresets(), excess = [], near = [], solar = [];",
+     "var": "list",
+     "varUses": [
+      ")"
+     ]
+    }
+   ],
+   "namedIds": [
+    "earthMoonSunInertial3d",
+    "jupiterSunInertial3d",
+    "marsSunInertial3d",
+    "mercurySunInertial3d",
+    "neptuneSunInertial3d",
+    "saturnSunInertial3d",
+    "uranusSunInertial3d",
+    "venusSunInertial3d"
+   ],
+   "nNamed": 8,
    "prospect": "enumerates"
   },
   {

@@ -14,6 +14,10 @@
 //     K2 の明示 {massFrac:1, radius:κ₀m} の写し(AN411 の受理)。
 //   S(太陽系の写し): ☿♀♂♃(第306便a の凍結の写し)と 🌦️ を K1 + rdRule(+ 外殻 uniform)で —— radiusExcess の欄が無い・AN404 の警告 0・表示の読み口が null。
 //
+// ■ 第315便b(決断事項 AN415・K1 の境界の 1 点)の世代切替: 段 A の「K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R)」の行は、K1 の外殻なしの
+//   R_c = R ∧ massFrac < 1 を受理する html(k1EdgeGen —— 受理の振る舞いで判定・REGEN_SCOPE は動かさない)では受理を期待する(前の世代は「マントルの体積が 0」で拒否)。
+//   表示は第315便b で r_s > R_obs へ付け替えた(inertialDragIsqRdExcessOf は表示が読まない —— 本器の照合のために残る・本文は不変)。
+//
 // ■ 言わないこと: 「法則を確かめた」「フィットした」「較正した」「完全に一致」「確認した」。R_d は重力半径に比例する長さ(物質半径ではない)。受理は重なった引きずり球の積分を
 //   意味しない(重なりの検査は今のまま —— 閉じた式は球の外だけ)。
 //
@@ -125,8 +129,14 @@ const declOf = (q) => ({ id: q.id, invSq: q.physics.relativeDrag.invSq, cap: q.p
   bodies: q.bodies.filter((b) => b.type === 'single').map((b) => ({ m: b.m, R: b.radius === undefined ? null : b.radius, dragCore: b.dragCore || null })) });
 
 /* ───────── 段 A(受理の表)───────── */
+/** 第315便b の世代(K1 の境界の 1 点 —— K1 で外殻を宣言しない本の massFrac < 1 ∧ R_c = R を受理する html)。前の世代は「マントルの体積が 0」で偽。
+ *  探りの写しは段 A の行と別の massFrac(0.9)—— 受理の振る舞いで判定・REGEN_SCOPE は動かさない */
+export function k1EdgeGen(H) {
+  return H.HP.validatePreset(clone(nsBook({ nsCore: { massFrac: 0.9, radius: NS.R } }))).ok === true;
+}
 export function partA(H) {
   const HP = H.HP, VB = E(H, 'validateDragCoreBody'), rows = [], k = kappaBook(NS_G, NS_C), RdNS = k * Math.fround(mNS);
+  const g315 = k1EdgeGen(H);   // 第315便b(世代切替): K1 の外殻なしの R_c = R ∧ massFrac < 1 は受理(前の世代は拒否)
   const T = (lab, path, q, ok, nWarn, re) => {
     const v = HP.validatePreset(clone(q)), m = (v.errors || []).join(' '), wx = (v.warnings || []).filter(isX);
     const pass = ok ? (v.ok && wx.length === nWarn) : (!v.ok && re.test(m));
@@ -150,7 +160,8 @@ export function partA(H) {
   T('K1 外殻 uniform・明示の dragCore {massFrac:0.5, radius:12}(R_d = R —— 外殻の組)', 'shell', nsBook({ shell: 'uniform', nsCore: { massFrac: 0.5, radius: 12 } }), false, 0, SHELL);
   T('K1 規則・外殻 uniform・dragCore なし(m_d = m —— 外殻を持たない)', 'shell', nsBook({ rule: true, shell: 'uniform' }), true, 1);
   T('K1 規則・外殻 uniform・明示の dragCore {massFrac:0.9, radius:6}(内 —— 外殻あり)', 'shell', nsBook({ rule: true, shell: 'uniform', nsCore: { massFrac: 0.9, radius: 6 } }), true, 0);
-  T('K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 今のまま)', 'explicit', nsBook({ nsCore: { massFrac: 0.5, radius: 12 } }), false, 0, /マントルの体積が 0/);
+  if (g315) T('K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 第315便b で受理)', 'explicit', nsBook({ nsCore: { massFrac: 0.5, radius: 12 } }), true, 0);
+  else T('K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 今のまま)', 'explicit', nsBook({ nsCore: { massFrac: 0.5, radius: 12 } }), false, 0, /マントルの体積が 0/);
   T('K1 規則なし・dragCore:{massFrac:0.5}(radius の省略は規則の本だけ)', 'omit', nsBook({ nsCore: { massFrac: 0.5 } }), false, 0, /radius の省略は invSq\.rdRule の本だけ/);
   T('K2 明示の dragCore {massFrac:1, radius:κ₀m}(マントルなし —— AN411)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 1, radius: RdNS } }), true, 1);
   T('K2 明示の dragCore {massFrac:0.5, radius:κ₀m}(マントルあり —— AN411)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 0.5, radius: RdNS } }), false, 0, /AN411/);

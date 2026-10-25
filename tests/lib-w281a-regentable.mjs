@@ -1329,6 +1329,15 @@ export const REGEN_STEPS = [
       '/X/rows/*/build/wallSec', '/X/rows/*/run20/wallSec', '/X/rows/*/cost/wallSec', '/X/rows/*/cost/rateStepsPerSec']) },
     note: '第314便d: 三次元の geoPN=1(EIH の 1PN の 3 成分 —— Δ₃ を核の前・試験粒子形₃ を核の中 —— 二次元と同じ相)の受理の表・平面の写しで二次元とビット同一・回転の共変・N 体の運動量の収支(刻みの一次)・16 体の人工の配置の受理と有限と所要(geoPN=0・3 と並べて)—— 在位へ入れない' }),
   // ==== 第314便d の塊(ここまで)====
+  // ==== 第315便b の塊(ここから)====
+  // ---- 第315便b(決断事項 AN415・原仮定者の裁定(第116報)の補足と訂正②・原仮定者の裁定(第117報)AN414 の記号・統括の検証項目 R243): **観測半径を超えたシュヴァルツシルト半径 r_s の
+  //   表示の読み口と K1 の境界の 1 点の器**(段 P〔1.4 M☉ の星の写し —— R 12 km は円なし・R 3 km は円あり・SI の閉じた式〕・E〔等号の境界〕・F〔質量の割合で不変〕・V〔本の種類で不変〕・
+  //   Z〔状態を書かない〕・B〔内蔵の全本の t = 0 —— r_s > R_obs の天体の一覧・太陽系の三次元の本〕・K〔K1 の境界の 1 点の受理の表〕)。本の宣言は変えない(写しは器の中で組む)。
+  //   html だけを読む・1 プロセス(段 B が全本を読み込む —— 領域は presets:"all")。所要は第315便b の枝の実測(正本の elapsedS)
+  S('rsexcess-315b', 'node tests/exp-w315b-rsexcess.mjs', ['tests/out/rsexcess-w315b.json'], 14, { secSource: 'w315b-branch', node: true, after: ['obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/rsexcess-w315b.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第315便b: 観測半径 R_obs を超えたシュヴァルツシルト半径 r_s = 2G_0m/c_0²(全質量・本の基準値 —— 表示専用・本の種類を限らない・DFM による地平面の判定ではない)の読み口 schwarzschildExcessOf(版 w315b-rs-excess-1)の写しの表・等号の境界・質量の割合と本の種類で不変・状態を書かない・内蔵の全本の一覧と K1 の境界の 1 点(外殻なしの r_d = R ∧ massFrac < 1 を受理)' }),
+  // ==== 第315便b の塊(ここまで)====
   // ==== 第315便d の塊(ここから)====
   // ---- 第315便d(原仮定者の裁定(第117報)・決断事項 AN413・AN414〔新記号〕・統括の検証項目 R245): **衛星 6 本の K1 の検証の器**(段 satk1-315d —— イオ・エウロパ・ガニメデ・
   //   カリスト・タイタン・トリトン × 母惑星との二体・太陽 + 母惑星 + 衛星の三体 × q00・q10・q11〔全天体 r_d = Y_k m —— 規則の鍵 rdRule:"kappaM"〕× h・h/2・h/4 × 32 公転の

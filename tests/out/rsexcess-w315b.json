@@ -1,0 +1,1491 @@
+{
+ "version": "w315b-rsexcess-1",
+ "generator": "tests/exp-w315b-rsexcess.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
+ "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
+ "units": {
+  "book": {
+   "L": 3,
+   "T": -5,
+   "M": 30
+  },
+  "G": 6.6743,
+  "cLight": 2.99792458,
+  "si": {
+   "G": 6.6743e-11,
+   "c": 299792458,
+   "Msun": 1.98847e+30,
+   "Rsun": 695700000
+  }
+ },
+ "quick": false,
+ "rsVersion": "w315b-rs-excess-1",
+ "nBuiltin": 176,
+ "P": {
+  "rows": [
+   {
+    "case": "中性子星の写し(R 12 km —— r_d > R・r_s < R)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "mEngine": 2.783858060836792,
+    "rsEngine": 4.134675225250383,
+    "rsKm": 4.134675225250383,
+    "Robs": 12,
+    "ratio": 0.34455626877086526,
+    "readout": null,
+    "ring": false,
+    "sameAsMine": true,
+    "relSI": 2.1853410592551105e-8,
+    "rdExcess": [
+     {
+      "i": 0,
+      "Rd": 24.52026290936677,
+      "Robs": 12,
+      "ratio": 2.0433552424472308
+     }
+    ],
+    "rdDisplayReadoutN": 1,
+    "nWarnX": 1
+   },
+   {
+    "case": "r_s > R の写し(R 3 km)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "mEngine": 2.783858060836792,
+    "rsEngine": 4.134675225250383,
+    "rsKm": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "readout": {
+     "version": "w315b-rs-excess-1",
+     "n": 1,
+     "maxRatio": 1.378225075083461,
+     "bodies": [
+      {
+       "i": 0,
+       "rs": 4.134675225250383,
+       "Robs": 3,
+       "ratio": 1.378225075083461
+      }
+     ]
+    },
+    "ring": true,
+    "sameAsMine": true,
+    "relSI": 2.1853410592551105e-8,
+    "rdExcess": [
+     {
+      "i": 0,
+      "Rd": 24.52026290936677,
+      "Robs": 3,
+      "ratio": 8.173420969788923
+     }
+    ],
+    "rdDisplayReadoutN": 1,
+    "nWarnX": 1
+   }
+  ],
+  "RsSI": 4134.67513489363,
+  "RsSIkm": 4.134675134893629
+ },
+ "E": {
+  "rows": [
+   {
+    "case": "R_obs = r_s = 3(等号)",
+    "decl": {
+     "id": "w315bEdge",
+     "coord": "2d",
+     "G": 2,
+     "cLight": 2,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 3,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.001,
+       "R": 0.5,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectExcess": false,
+    "accepted": true,
+    "rs": 3,
+    "Robs": 3,
+    "excess": false,
+    "ratio": 1,
+    "pass": true
+   },
+   {
+    "case": "R_obs = r_s の Float32 の 1 つ下",
+    "decl": {
+     "id": "w315bEdge",
+     "coord": "2d",
+     "G": 2,
+     "cLight": 2,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 3,
+       "R": 2.999999761581421,
+       "dragCore": null
+      },
+      {
+       "m": 0.001,
+       "R": 0.5,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectExcess": true,
+    "accepted": true,
+    "rs": 3,
+    "Robs": 2.999999761581421,
+    "excess": true,
+    "ratio": 1.000000079472866,
+    "pass": true
+   },
+   {
+    "case": "R_obs = r_s の Float32 の 1 つ上",
+    "decl": {
+     "id": "w315bEdge",
+     "coord": "2d",
+     "G": 2,
+     "cLight": 2,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 3,
+       "R": 3.000000238418579,
+       "dragCore": null
+      },
+      {
+       "m": 0.001,
+       "R": 0.5,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectExcess": false,
+    "accepted": true,
+    "rs": 3,
+    "Robs": 3.000000238418579,
+    "excess": false,
+    "ratio": 0.9999999205271466,
+    "pass": true
+   },
+   {
+    "case": "R_obs = 2.999",
+    "decl": {
+     "id": "w315bEdge",
+     "coord": "2d",
+     "G": 2,
+     "cLight": 2,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 3,
+       "R": 2.999,
+       "dragCore": null
+      },
+      {
+       "m": 0.001,
+       "R": 0.5,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectExcess": true,
+    "accepted": true,
+    "rs": 3,
+    "Robs": 2.999000072479248,
+    "excess": true,
+    "ratio": 1.0003334203056304,
+    "pass": true
+   },
+   {
+    "case": "R_obs = 3.001",
+    "decl": {
+     "id": "w315bEdge",
+     "coord": "2d",
+     "G": 2,
+     "cLight": 2,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 3,
+       "R": 3.001,
+       "dragCore": null
+      },
+      {
+       "m": 0.001,
+       "R": 0.5,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectExcess": false,
+    "accepted": true,
+    "rs": 3,
+    "Robs": 3.000999927520752,
+    "excess": false,
+    "ratio": 0.9996668018844046,
+    "pass": true
+   }
+  ],
+  "allPass": true
+ },
+ "F": {
+  "rows": [
+   {
+    "case": "dragCore なし(K1 + rdRule)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 1
+   },
+   {
+    "case": "明示 {massFrac:1, radius:2}",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 2
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 1
+   },
+   {
+    "case": "明示 {massFrac:0.5, radius:2}",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 2
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 0.5
+   },
+   {
+    "case": "明示 {massFrac:0.2, radius:2}",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": {
+        "massFrac": 0.2,
+        "radius": 2
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 0.2
+   },
+   {
+    "case": "規則の本の radius の省略 {massFrac:0.5}",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": {
+        "massFrac": 0.5
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 0.5
+   },
+   {
+    "case": "K2 明示 {massFrac:0.5, radius:2}",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {},
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 2
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461,
+    "massFrac": 0.5
+   }
+  ],
+  "allAccepted": true,
+  "bitSame": true
+ },
+ "V": {
+  "rows": [
+   {
+    "case": "三次元 K1 + rdRule",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 K1(規則なし)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 K2",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {},
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 旧則",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "law": "inertial"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 引きずりなし",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 K1 + rdRule・geoPN 1",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 1,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "三次元 K1 + rdRule・geoPN 3",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 3,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": true,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "二次元 引きずりなし",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "2d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": false,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   },
+   {
+    "case": "二次元 旧則",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "2d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "law": "inertial"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "accepted": true,
+    "coord3d": false,
+    "n": 1,
+    "rs": 4.134675225250383,
+    "Robs": 3,
+    "ratio": 1.378225075083461
+   }
+  ],
+  "allAccepted": true,
+  "bitSame": true
+ },
+ "Z": {
+  "rows": [
+   {
+    "case": "r_s > R の写し(三次元 K1 + rdRule)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "steps": 10,
+    "dt": 0.5,
+    "readSame": true,
+    "runSame": true,
+    "excessSteps": 10,
+    "fpA": "171378efd97a33b7",
+    "fpB": "171378efd97a33b7"
+   },
+   {
+    "case": "r_s > R の写し(二次元 引きずりなし)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "2d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": null,
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 3,
+       "dragCore": null
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "steps": 10,
+    "dt": 0.5,
+    "readSame": true,
+    "runSame": true,
+    "excessSteps": 10,
+    "fpA": "d25e7e6fed40020c",
+    "fpB": "d25e7e6fed40020c"
+   }
+  ],
+  "ok": true
+ },
+ "B": {
+  "nPresets": 176,
+  "judged": 1191,
+  "nSame": 176,
+  "excess": [
+   {
+    "id": "massLadder",
+    "i": 2,
+    "m": 10000,
+    "rs": 17.77777777777778,
+    "Robs": 15,
+    "ratio": 1.1851851851851853,
+    "coord3d": false,
+    "G": 0.8,
+    "cLight": 30
+   },
+   {
+    "id": "gw150914DFM",
+    "i": 0,
+    "m": 1376.021240234375,
+    "rs": 20.436189909317765,
+    "Robs": 10.21855354309082,
+    "ratio": 1.9999102439635896,
+    "coord3d": false,
+    "G": 6.674,
+    "cLight": 29.9792458
+   },
+   {
+    "id": "gw150914DFM",
+    "i": 1,
+    "m": 1193.08203125,
+    "rs": 17.719240266862922,
+    "Robs": 8.860017776489258,
+    "ratio": 1.9999102387674996,
+    "coord3d": false,
+    "G": 6.674,
+    "cLight": 29.9792458
+   }
+  ],
+  "excessPresets": [
+   "massLadder",
+   "gw150914DFM"
+  ],
+  "nearTop": [
+   {
+    "id": "gw150914",
+    "i": 0,
+    "ratio": 0.9999551219817948
+   },
+   {
+    "id": "gw150914Merge4s",
+    "i": 0,
+    "ratio": 0.9999551219817948
+   },
+   {
+    "id": "gw150914SpinDipole",
+    "i": 0,
+    "ratio": 0.9999551219817948
+   },
+   {
+    "id": "gw150914",
+    "i": 1,
+    "ratio": 0.9999551193837498
+   },
+   {
+    "id": "gw150914Merge4s",
+    "i": 1,
+    "ratio": 0.9999551193837498
+   },
+   {
+    "id": "gw150914SpinDipole",
+    "i": 1,
+    "ratio": 0.9999551193837498
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "i": 26,
+    "ratio": 0.8829290683156714
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "i": 27,
+    "ratio": 0.8829290683156714
+   }
+  ],
+  "maxBelow": 0.9999551219817948,
+  "solar": [
+   {
+    "id": "earthMoonSunInertial3d",
+    "maxRatio": 0.0000042431769720745255,
+    "at": 0,
+    "m": 1988.5,
+    "Robs": 6.960000038146973,
+    "rs": 0.000029532511887503056,
+    "readoutNull": true
+   },
+   {
+    "id": "mercurySunInertial3d",
+    "maxRatio": 0.000004249282402588396,
+    "at": 0,
+    "m": 1988.5,
+    "Robs": 6.949999809265137,
+    "rs": 0.000029532511887503056,
+    "readoutNull": true
+   },
+   {
+    "id": "venusSunInertial3d",
+    "maxRatio": 0.000004249282402588396,
+    "at": 0,
+    "m": 1988.5,
+    "Robs": 6.949999809265137,
+    "rs": 0.000029532511887503056,
+    "readoutNull": true
+   },
+   {
+    "id": "marsSunInertial3d",
+    "maxRatio": 0.000004249282402588396,
+    "at": 0,
+    "m": 1988.5,
+    "Robs": 6.949999809265137,
+    "rs": 0.000029532511887503056,
+    "readoutNull": true
+   },
+   {
+    "id": "jupiterSunInertial3d",
+    "maxRatio": 0.000004249282460130703,
+    "at": 0,
+    "m": 198.85000610351562,
+    "Robs": 0.6949999928474426,
+    "rs": 0.0000029532512793976016,
+    "readoutNull": true
+   },
+   {
+    "id": "saturnSunInertial3d",
+    "maxRatio": 0.000004249282460130703,
+    "at": 0,
+    "m": 198.85000610351562,
+    "Robs": 0.6949999928474426,
+    "rs": 0.0000029532512793976016,
+    "readoutNull": true
+   },
+   {
+    "id": "uranusSunInertial3d",
+    "maxRatio": 0.000004249282460130703,
+    "at": 0,
+    "m": 198.85000610351562,
+    "Robs": 0.6949999928474426,
+    "rs": 0.0000029532512793976016,
+    "readoutNull": true
+   },
+   {
+    "id": "neptuneSunInertial3d",
+    "maxRatio": 0.000004249282460130703,
+    "at": 0,
+    "m": 198.85000610351562,
+    "Robs": 0.6949999928474426,
+    "rs": 0.0000029532512793976016,
+    "readoutNull": true
+   }
+  ],
+  "solarMax": 0.000004249282460130703,
+  "sunSI": {
+   "rsM": 2953.3393820668784,
+   "Rm": 695700000,
+   "ratio": 0.000004245133508792408
+  }
+ },
+ "K": {
+  "rows": [
+   {
+    "case": "K1 外殻なし・明示 {massFrac:0.5, radius:R}(r_d = R —— 第315便b で受理)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true,
+    "run": {
+     "steps": 10,
+     "finite": true,
+     "badRow": 0
+    }
+   },
+   {
+    "case": "K1 外殻なし・明示 {massFrac:0.9, radius:R}(r_d = R)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.9,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true,
+    "run": {
+     "steps": 10,
+     "finite": true,
+     "badRow": 0
+    }
+   },
+   {
+    "case": "K1 + rdRule・外殻なし・明示 {massFrac:0.5, radius:R}(r_d = R)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1",
+      "rdRule": "kappaM"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true,
+    "run": {
+     "steps": 10,
+     "finite": true,
+     "badRow": 0
+    }
+   },
+   {
+    "case": "K1 外殻なし・明示 {massFrac:1, radius:R}(r_d = R —— 前から受理)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true
+   },
+   {
+    "case": "K1 外殻なし・明示 {massFrac:0.5, radius:0.999R}(内 —— 前から受理)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 11.988
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true
+   },
+   {
+    "case": "K1 外殻 uniform・明示 {massFrac:0.5, radius:R}(r_d = R —— 外殻の組)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "outerShell": "uniform",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectErr": "AN403・AN409",
+    "ok": false,
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "nWarnX": null,
+    "pass": true
+   },
+   {
+    "case": "K1 外殻 thin・明示 {massFrac:0.5, radius:R}(r_d = R —— 外殻の組)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {
+      "outerShell": "thin",
+      "kernel": "k1"
+     },
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectErr": "AN403・AN409",
+    "ok": false,
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "nWarnX": null,
+    "pass": true
+   },
+   {
+    "case": "K2・明示 {massFrac:0.5, radius:R}(R_c = R —— 今のまま)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {},
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 0.5,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": false,
+    "expectErr": "マントルの体積が 0",
+    "ok": false,
+    "err": "bodies[0].dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1",
+    "nWarnX": null,
+    "pass": true
+   },
+   {
+    "case": "K2・明示 {massFrac:1, radius:R}(マントルなし —— 今のまま受理)",
+    "decl": {
+     "id": "w315bCompactStar",
+     "coord": "3d",
+     "G": 6.6743,
+     "cLight": 2.99792458,
+     "geoPN": 0,
+     "drag": {},
+     "bodies": [
+      {
+       "m": 2.7838579999999995,
+       "R": 12,
+       "dragCore": {
+        "massFrac": 1,
+        "radius": 12
+       }
+      },
+      {
+       "m": 0.0000019884699999999997,
+       "R": 0.01,
+       "dragCore": null
+      }
+     ]
+    },
+    "expectOk": true,
+    "expectErr": null,
+    "ok": true,
+    "err": null,
+    "nWarnX": 0,
+    "pass": true
+   },
+   {
+    "case": "旧則(invSq なし)・{massFrac:0.5, radius:R}(R_c = R —— 今のまま)",
+    "decl": {
+     "body": {
+      "radius": 12,
+      "m": 2.7838579999999995,
+      "dragCore": {
+       "massFrac": 0.5,
+       "radius": 12
+      }
+     },
+     "physics": {
+      "relativeDrag": {
+       "law": "inertial",
+       "gain": 1,
+       "eps": 0.1,
+       "pairs": "all",
+       "history": "positions"
+      },
+      "softening": 0.1
+     }
+    },
+    "expectOk": false,
+    "expectErr": "マントルの体積が 0",
+    "ok": false,
+    "err": "dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1",
+    "nWarnX": null,
+    "pass": true
+   }
+  ],
+  "allPass": true,
+  "n": 10
+ },
+ "gates": {
+  "nsNoRing": true,
+  "innerRing": true,
+  "closedForm": true,
+  "edge": true,
+  "massFracInvariant": true,
+  "kindInvariant": true,
+  "stateUntouched": true,
+  "builtinScanned": true,
+  "solarSmall": true,
+  "k1Edge": true,
+  "version": true
+ },
+ "ok": true,
+ "timing": {
+  "P": {
+   "wallSec": 0.04
+  },
+  "E": {
+   "wallSec": 0.017
+  },
+  "F": {
+   "wallSec": 0.009
+  },
+  "V": {
+   "wallSec": 0.023
+  },
+  "Z": {
+   "wallSec": 0.16
+  },
+  "B": {
+   "wallSec": 11.177
+  },
+  "K": {
+   "wallSec": 0.164
+  }
+ },
+ "elapsedS": 13.926,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第315便b",
+  "target": "beta/index.html",
+  "targetSha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
+  "generatedAt": "2026-10-25T15:25:30.776Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7282633,
+    "sha256": "7d06f08a6b286d02a9ed5aa3a2af297afb11ecfd9567ddc5195d380ced966f0c",
+    "mtime": "2026-10-25T14:08:40.488Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w315b-rsexcess.mjs",
+    "bytes": 32083,
+    "sha256": "5126cbe6e09cb03806b2e3e8258eaadc5ca8ab03c7a4ae112677e4af73e3f934",
+    "mtime": "2026-10-25T14:35:23.137Z"
+   },
+   {
+    "file": "tests/lib-w311c-h4carry.mjs",
+    "bytes": 25956,
+    "sha256": "fdfd657710b8e568d2affb33481bdaa5a292702d935ee5ff7f1430bbbde6e885",
+    "mtime": "2026-10-25T13:52:12.360Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-25T13:52:12.348Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-25T13:52:12.344Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-25T13:52:12.352Z"
+   }
+  ],
+  "codeSha256": "d64aef7f2400d57fe1c0ddf4317310c47f7472922ce69cd864a9f7295faba1fb",
+  "harnessVersion": "w315b-rsexcess-1",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "法則を確かめた",
+   "フィットした",
+   "較正した",
+   "完全に一致",
+   "確認した",
+   "収束した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "AN415_RS_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "appStepDt",
+    "ctx",
+    "inertialDragIsqRdExcessOf",
+    "inertialDragIsqState",
+    "schwarzschildExcessOf",
+    "validateDragCoreBody"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1532,
+   "segments": 1367,
+   "closureShare": 0.347
+  },
+  "scopeSha256": "266794eaedc887bd705770fa6009764b5758deaa75987e4b22ca9d5efcbe5b2c",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
