@@ -86513,7 +86513,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----      作り直して相対 1e-12 ③ 一様の門(AN410)が 7 本とも真 ④ PHYSICS〔第315便c〕の表(継ぎ目・規則の r_d)の行を正本から作り直して逐語・語・書かない語・禁句・裸の κ を書かない
 // ----      ⑤ obsCard(ja/en)と SAMPLE_STATUS の原稿の 7 本の行が正本の数を持つ ⑥ AI_SPEC §137・CHANGELOG・README・段・.gitignore・post-merge ③′・CANON
 {
-  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const xHarn = path.join(ROOT, 'tests', 'exp-w315c-inposk1.mjs'), xLib = path.join(ROOT, 'tests', 'lib-w315c-legacy7.mjs'), xData = path.join(ROOT, 'tests', 'data-w315c-legacy7.json');
   const oOut = path.join(ROOT, 'tests', 'out', 'inposk1-w315c.json');
   const html315c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
@@ -86707,7 +86707,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       `**在位の 7 本の K1 への移行の継ぎ目の正本と文書**(第315便c・AN406・AN410・R244 —— 正本 inposk1-w315c.json・規則で置いた残差・Y_k は合わせない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
-  })();
+  })();   // 第310便c(heap)
 }
 // ==== 第315便c の塊(ここまで)====
 
