@@ -52224,7 +52224,7 @@ if (!FAST) {
         if (!(/軌道を保てていません|ドリフト/.test(kf1msg))) bad.push('kF1 差し戻し理由がドリフト検査でない: ' + kf1msg.slice(0, 80));
         if (!/観測安定則/.test(r1.preset.description)) bad.push('説明文に観測安定則の宣言が無い');
         const fc = (r1.preset.parameterAudit && r1.preset.parameterAudit.fixedConventions || []).join('|');
-        if (!/kFrame=0(.|\n)*2026-08-25/.test(fc)) bad.push('parameterAudit に kFrame=0(裁定 2026-08-25)の規約宣言が無い');
+        if (!/kFrame=0(.|\n)*(2026-08-25|観測安定則|observation-stability)/.test(fc)) bad.push('parameterAudit に kFrame=0(観測安定則)の規約宣言が無い');   // 第316便c(R248): 日付の裁定の来歴を外した世代は「観測安定則」で引く
       }
       // (b′) 否定対照: 転写ミス(周期を 5% ずらす)は安定則の対象外 — 従来どおり差し戻される
       const RECS_BAD = BIN_RECS.map((t) => t.quantity === 'orbital_period' ? Object.assign({}, t, { value: t.value * 1.05 }) : t);
@@ -68376,7 +68376,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (row.obs !== '—') badD.push('①要因の行の obs が「—」でない');
           if (!Number.isFinite(gap) || row.model.indexOf(sgn(gap).replace('−', '-').replace(/^\+/, '+') + ' deg/yr') < 0) badD.push(`①同じ窓の差 ${sgn(gap)} deg/yr が model に無い`);
           if (!Number.isFinite(init) || row.model.indexOf('初速が ' + sgn(init)) < 0) badD.push(`①初速の差 ${sgn(init)} が model に無い`);
-          for (const w of ['1PN', '引きずり', 'AB3']) if (row.model.indexOf(w) < 0) badD.push('①要因の行に「' + w + '」が無い');
+          // 第316便c(R248): 表示の文から統括の裁定キューの項目(AB3)を外した世代は AB3 を求めない(html の MISC_TEXT_CLEAN_VERSION で世代切替)
+          const gen316c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const MISC_TEXT_CLEAN_VERSION="w316c-misc-text-1"') >= 0;
+          for (const w of ['1PN', '引きずり'].concat(gen316c ? [] : ['AB3'])) if (row.model.indexOf(w) < 0) badD.push('①要因の行に「' + w + '」が無い');
         }
         const rowEn = r.d68.en.find((z) => /What drives the FAIL/.test(z.q));
         if (!rowEn || rowEn.obs !== '—' || rowEn.model.indexOf(sgn(gap) + ' deg/yr') < 0 || rowEn.model.indexOf(sgn(init)) < 0) badD.push('①en の要因の行が無い / 数が違う');
@@ -87512,6 +87514,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----      LIVE_COMPARE_SPEC の名)は出す側で外す —— retiredNoticeText の理由の部分・provTextClean の出力を見る。
 // ----   世代切替: html の `const MISC_TEXT_CLEAN_VERSION="w316c-misc-text-1"`(root 等は SKIP)。
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H316c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && H316c.indexOf('const MISC_TEXT_CLEAN_VERSION="w316c-misc-text-1"') >= 0)) {
     console.log('SKIP lint.presetText316c / lint.miscText316c(第316便c の前の世代 — ' + TARGET + ')');
@@ -87563,9 +87566,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     // ② その他の画面の文
     {
       const bad = [], cases = [];
-      const FNS = ['approxManyCrossCheck', 'buildAstroFromRecords', 'centerCaptureCheck', 'coord3dBodyKeys', 'coord3dRuntimeWhy', 'dragCoreEdit', 'dragCoreThinShellCheck', 'dragShellCrossCheck', 'dragShellRdCheck', 'dragShellSelfCheck', 'drawLightRulerOn', 'fixedCaptureCheck', 'gLocCrossCheck', 'geoInertialSetWbg', 'invSqRdExcessDenyOf', 'invSqRdExcessWarn', 'j2CrossCheck', 'loadSave', 'makeSim', 'relDragLegacyGainWarn', 'restoreDraft', 'retiredNoticeText', 'spinAxisValidate', 'tide3ReceiverWarnings', 'validateApproxMany', 'validateAxisHold', 'validateAxisHoldMaintain', 'validateDragCoreBody', 'validateDragCoreSpin', 'validateDragShellBody', 'validateFitRecord', 'validateGLoc', 'validateGalaxyAxial', 'validateInertialR2', 'validateInitObs', 'validateInvSq', 'validateJ2Body', 'validatePreset', 'validateRelativeDrag', 'validateRelativeDragInertial', 'validateRelativeDragInvSq', 'validateSpaceMesh', 'validateWbgEnv'];
-      const ALLOW_FN = { validateRelativeDragInertial: { sym: 'κ', why: '軸引きずりの係数 axialCoupling の単位の注(κ [L³/M] —— 時空係数ではない)' },
-        centerCaptureCheck: { sym: 'R_c', why: '中心の捕獲の慣性半径 R′ = √(R_c² + R_j²)(中心天体の半径 —— dragCore ではない)' } };
+      const FNS = ['approxManyCrossCheck', 'buildAstroFromRecords', 'coord3dBodyKeys', 'coord3dRuntimeWhy', 'dragCoreEdit', 'dragCoreThinShellCheck', 'dragShellCrossCheck', 'dragShellRdCheck', 'dragShellSelfCheck', 'drawLightRulerOn', 'fixedCaptureCheck', 'gLocCrossCheck', 'geoInertialSetWbg', 'invSqRdExcessDenyOf', 'invSqRdExcessWarn', 'j2CrossCheck', 'loadSave', 'makeSim', 'relDragLegacyGainWarn', 'restoreDraft', 'retiredNoticeText', 'spinAxisValidate', 'tide3ReceiverWarnings', 'validateApproxMany', 'validateAxisHold', 'validateAxisHoldMaintain', 'validateDragCoreBody', 'validateDragCoreSpin', 'validateDragShellBody', 'validateFitRecord', 'validateGLoc', 'validateGalaxyAxial', 'validateInertialR2', 'validateInitObs', 'validateInvSq', 'validateJ2Body', 'validatePreset', 'validateRelativeDrag', 'validateRelativeDragInertial', 'validateRelativeDragInvSq', 'validateSpaceMesh', 'validateWbgEnv'];
+      // centerCaptureCheck は数えない —— 🌰 の版 w287a-capture-1 の領域は 1 字も変えない契約(behavior.fixedCaptureContract が基点の sha256 で照合)なので
+      //   理由の文「centerCapture はオブジェクト(第287便a)」と慣性半径の式の R_c はそのまま残す(PHYSICS〔第316便c〕の残したもの)
+      const ALLOW_FN = { validateRelativeDragInertial: { sym: 'κ', why: '軸引きずりの係数 axialCoupling の単位の注(κ [L³/M] —— 時空係数ではない)' } };
       const G = (re) => new RegExp(re.source, 'g');
       let nCh = 0; const hit = [], seenA = {};
       for (const fn of FNS) {
@@ -87606,6 +87610,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         `**その他の画面の文から来歴の語と旧記号を外した**(第316便c・原仮定者の裁定(第118報)・R248 —— 受理の判定・鍵・記録は不変・理由の文だけ): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
     }
+  })();   // 第310便c(heap)
   })();   // 第310便c(heap)
 }
 // ---- 第316便c(R248): docs.w316c —— 文書と運用(PHYSICS〔第316便c — …〕は「## 7.」の前・AI_SPEC §141・CHANGELOG の beta 節の 1 行・post-merge の塊)。

@@ -183,7 +183,7 @@ export function partA(H) {
 /* ───────── 段 W(警告の文)───────── */
 export function partW(H) {
   const HP = H.HP, v = HP.validatePreset(clone(nsBook({ rule: true }))), w = (v.warnings || []).filter(isX), line = w[0] || '';
-  const words = ['R_d = ', '観測半径 R = 12', '比 R_d/R = ', '重力半径に比例する長さとして受理', '物質半径ではない', '引きずり球どうしの重なりは今のまま数える'].concat(typeof HP.MISC_TEXT_CLEAN_VERSION === 'string' ? [] : ['第314便a', 'AN404']);   // 第316便c(R248): 受理の理由の文から来歴の語(AN・第N便)を外した世代も同じ文の本体で引く
+  const words = ['R_d = ', '観測半径 R = 12', '比 R_d/R = ', '重力半径に比例する長さとして受理', '物質半径ではない', '引きずり球どうしの重なりは今のまま数える'];   // 第316便c(R248): 来歴の語(第314便a・AN404)は照合しない —— 受理の理由の文から外した世代も前の世代も文の本体で引く(REGEN_SCOPE を動かさない型)
   const miss = words.filter((x) => line.indexOf(x) < 0), cap = /cap|6\.5/.test(line);
   const v2 = HP.validatePreset(clone(nsBook({ rule: true, nsCore: { massFrac: 1 } }))), w2 = (v2.warnings || []).filter(isX);
   return { line, perBody: w.length, miss, mentionsCap: cap, omitLine: w2[0] || '', omitPrefixed: /^bodies\[0\]\.dragCore の引きずりの半径/.test(w2[0] || ''), ok: w.length === 1 && !miss.length && !cap && /^bodies\[0\] の規則の引きずりの半径/.test(line) && /^bodies\[0\]\.dragCore の引きずりの半径/.test(w2[0] || '') };

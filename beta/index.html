@@ -54562,7 +54562,7 @@ const CENTER_CAPTURE_VERSION="w287a-capture-1", CENTER_CAPTURE_INERTIA=["body"],
 function centerCaptureCheck(p){
   const CC=p? p.centerCapture : undefined;
   if(CC===undefined) return {ok:true, out:null};
-  if(!CC || typeof CC!=="object" || Array.isArray(CC)) return {ok:false, err:"centerCapture はオブジェクト"};
+  if(!CC || typeof CC!=="object" || Array.isArray(CC)) return {ok:false, err:"centerCapture はオブジェクト(第287便a)"};
   if(CC.version!==CENTER_CAPTURE_VERSION) return {ok:false, err:'centerCapture.version は "'+CENTER_CAPTURE_VERSION+'"'};
   if(CC.center!==0) return {ok:false, err:"centerCapture.center は 0(bodies[0] の single が中心)"};
   const b0=(p.bodies||[])[0];
