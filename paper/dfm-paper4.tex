@@ -79,6 +79,20 @@ TODO abstract.
 
 \maketitle
 
+% wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
+% Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the spin-diffusion coefficient as $\kappa_s$; this version writes $X_k$ and $S_k$. The implementation keys (\texttt{kappaT}, \texttt{kappaS}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
+\begin{center}
+\small
+\begin{tabular}{@{}lp{0.74\columnwidth}@{}}
+\hline
+$X_k$ & spacetime coefficient of Paper~1 (implementation key \texttt{kappaT}); optical well depth $\psi = W X_k$ \\
+$S_k$ & spin-diffusion coefficient (key \texttt{kappaS}) \\
+$c_0$ & reference light speed of a sample (key \texttt{cLight}) \\
+\hline
+\end{tabular}
+\end{center}
+
 % =====================================================================
 \section{Introduction}
 % [第93便: 本文起こし第2弾 — 序論。位置づけ文は論文1/2 の Negative claims と整合]
@@ -244,7 +258,7 @@ consulted) is converted -- by declared, deterministic functions and by
 nothing else -- into a running two-dimensional system. Per-sample real
 units are declared as scale exponents constrained to the one-parameter
 family $L-T=4$, $M+2T-3L=11$, which preserves the real constants
-($G$, $c_0$, $\kappa=G/c_0^2$); the qLock falloff $q$ is the exact-form
+($G$, $c_0$, $X_k=G/c_0^2$); the qLock falloff $q$ is the exact-form
 value $q_{\mathrm{exact}}$ evaluated once at a declared reference orbit;
 the shared correction $D_0=0.006$ is reused from the lunar calibration
 of Paper 3 \emph{with zero per-system refits}; and initial speeds are
@@ -438,10 +452,10 @@ its own light a body sweeps out by spinning) starts at $0.000$
 everywhere; by $t=288$ the central body has dimmed to $0.818$ while its
 surroundings average $0.192$ -- a dark centre with a bright surround,
 contrast 4.3. Dimming is set purely by the depth of the well
-$\psi=W\kappa$ (with $\kappa$ the spacetime coefficient of Paper~1 --
+$\psi=W X_k$ (with $X_k$ the spacetime coefficient of Paper~1 --
 not Einstein's gravitational constant $8\pi G/c^4$, and distinct from
-the spin diffusivity $\kappa_s$) and never enters the dynamics:
-sweeping $\kappa$ over
+the spin diffusivity $S_k$) and never enters the dynamics:
+sweeping $X_k$ over
 $1/12,\,1/14,\,1/16,\,1/20,\,1/24$ leaves particle count, fusion count, mass fraction,
 spin and radius identical to the last bit while the dimming alone moves
 through $1.000/0.818/0.574/0.349/0.251$. The grains start with zero

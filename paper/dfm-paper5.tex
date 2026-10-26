@@ -59,6 +59,18 @@ TODO abstract.
 
 \maketitle
 
+% wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
+% Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spin-diffusion coefficient as $\kappa_s$; this version writes $S_k$. The implementation key (\texttt{kappaS}), all numbers, equations and claims are unchanged; only the symbol is renamed.}
+\begin{center}
+\small
+\begin{tabular}{@{}lp{0.74\columnwidth}@{}}
+\hline
+$S_k$ & spin-diffusion coefficient (implementation key \texttt{kappaS}) \\
+\hline
+\end{tabular}
+\end{center}
+
 % =====================================================================
 \section{Introduction}
 
@@ -229,16 +241,16 @@ itself as the time-window result of the battery (test~6).
 \subsection{The six tests}
 
 \emph{Knockout (test 1).} With all thermal channels off
-($\kappa_s=\mu_F=\gamma_n=0$) the contrast is frozen exactly:
+($S_k=\mu_F=\gamma_n=0$) the contrast is frozen exactly:
 $R=1.0000$, $\lambda=0$ over three seeds. With \emph{only} conduction
-removed ($\kappa_s=0$, collisions on) the rate collapses to the noise
+removed ($S_k=0$, collisions on) the rate collapses to the noise
 scale ($|\lambda| \lesssim 2\times10^{-6}$ per step, sign not even
 stable): inter-group transport is carried essentially entirely by the
 conduction channel, while collisions merely dissipate within each
 group. The phenomenon has exactly one load-bearing mechanism, and
 removing it stops the clock.
 
-\emph{Dose response (test 2).} Sweeping $\kappa_s \in \{0.05, 0.15,
+\emph{Dose response (test 2).} Sweeping $S_k \in \{0.05, 0.15,
 0.45\}$ moves $\lambda$ monotonically and nearly proportionally; the
 global fit below gives an exponent $1.006$.
 
@@ -252,7 +264,7 @@ rate increases monotonically. Jointly with the dose sweep the rates
 collapse onto
 \begin{equation}
 \lambda \;\approx\; \lambda_0
-\left(\frac{\kappa_s}{0.15}\right)^{1.006}
+\left(\frac{S_k}{0.15}\right)^{1.006}
 \left(\frac{n}{120}\right)^{1.084},
 \qquad \lambda_0 = 3.28\times10^{-5}\ \text{per step},
 \label{eq:microfit}

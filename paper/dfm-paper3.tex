@@ -249,7 +249,7 @@ numbers}---real constants, masses and orbital elements---before it
 breaks, and what has to be said honestly at each step.
 Each sample declares its own length/time/mass exponents, so that
 $G=6.674$ and $c_0=3\times10^{4}$ restore to their SI counterparts and
-the correspondence lock $\kappa=G/c_0^{2}$ holds exactly.
+the correspondence lock $X_k=G/c_0^{2}$ holds exactly.
 Four results follow.
 (P1)~With a double-precision state carry, the geodesic 1PN mode
 reproduces Mercury's perihelion advance \emph{in the dynamics}, not as
@@ -302,6 +302,19 @@ agreement of a number is not identification of a mechanism.
 \end{abstract}
 
 \maketitle
+
+% wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
+% Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the light speed in the correspondence lock as $c_{\mathrm{light}}$; this version writes $X_k$ and $c_0$ (the committed figure panels of Papers~1 and~2 keep their earlier labels). The letter $\kappa$ now denotes only Einstein's gravitational constant $8\pi G/c^{4}$. The implementation keys (\texttt{kappaT}, \texttt{cLight}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
+\begin{center}
+\small
+\begin{tabular}{@{}lp{0.74\columnwidth}@{}}
+\hline
+$X_k$ & spacetime coefficient (implementation key \texttt{kappaT}); clock and optical potential $\psi = W X_k$; correspondence lock $X_k = G/c_0^{2}$ \\
+$c_0$ & reference light speed of a sample (key \texttt{cLight}), $3\times10^{4}$ for all samples of this paper \\
+\hline
+\end{tabular}
+\end{center}
 
 % =====================================================================
 \section{Introduction}
@@ -536,45 +549,44 @@ secondary mass & $3.3011{\times}10^{-4}$ & $7.346{\times}10^{-3}$
  & $10^{-5}$ (grain) \\
 $G_{\mathrm{sim}}$ & $6.674$ & $6.674$ & $6.674$ \\
 $c_0$ & $3{\times}10^{4}$ & $3{\times}10^{4}$ & $3{\times}10^{4}$ \\
-$\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
+$X_k=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
  & $7.4156{\times}10^{-9}$ \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}}
 
 \subsection{The correspondence lock
-  \texorpdfstring{$\kappa=G/c_0^{2}$}{kappa = G/c0\textasciicircum 2}}
+  \texorpdfstring{$X_k=G/c_0^{2}$}{Xk = G/c0\textasciicircum 2}}
 \label{sec:physlock}
 
 DFM reads clocks and light from the single dimensionless potential
-$\psi = W\kappa$, where $\kappa$ (the parameter \texttt{kappaT}) is
+$\psi = W X_k$, where $X_k$ (the parameter \texttt{kappaT}) is
 the spacetime coefficient and $W$ the determinacy field; the legacy
-form of the same quantity is $\psi=W/K_t$ with $K_t=1/\kappa$.
-The two forms are equivalent, and $\kappa$ is the canonical
+form of the same quantity is $\psi=W/K_t$ with $K_t=1/X_k$.
+The two forms are equivalent, and $X_k$ is the canonical
 editing, declaration, and storage key throughout the implementation
 and throughout the companion papers, with $K_t$ retained only as a
 backward-compatible input key (and on the committed figure panels of
-Papers~1 and~2, whose labels predate the change).\footnote{The engine's internal canonicalization to $\kappa$
-(with $\psi=W\kappa$ evaluated as a multiplication rather than a
+Papers~1 and~2, whose labels predate the change).\footnote{The engine's internal canonicalization to $X_k$
+(with $\psi=W X_k$ evaluated as a multiplication rather than a
 division) leaves the matter sector bit-identical---E4 gravity,
-E6$'$ dragging and the E12 geodesic term do not read $\kappa$---and
+E6$'$ dragging and the E12 geodesic term do not read $X_k$---and
 perturbs only clocks, optics, and heads-up displays at the ULP level,
 far inside every analytic-comparison tolerance.}
-$\kappa$ carries dimensions of length per mass, the same as $G/c^{2}$,
-so $\kappa m$ is a gravitational length; it is \emph{not} Einstein's
-gravitational constant $\kappa=8\pi G/c^{4}$ of general relativity,
-with which it shares only the letter.
+$X_k$ carries dimensions of length per mass, the same as $G/c^{2}$,
+so $X_k m$ is a gravitational length; it is \emph{not} Einstein's
+gravitational constant $\kappa=8\pi G/c^{4}$ of general relativity.
 
 The \emph{correspondence lock} (\texttt{physLock}) is the declaration
 \begin{equation}
-  \kappa = \frac{G}{c_{\mathrm{light}}^{2}} ,
+  X_k = \frac{G}{c_0^{2}} ,
   \label{eq:lock}
 \end{equation}
 which places the clock-and-light sector in the same weak-field
 correspondence with general relativity that Paper~1 established for
 its benchmark preset.
 With $G=6.674$ and $c_0=3\times10^{4}$ the lock gives
-$\kappa=7.4156\times10^{-9}$;
+$X_k=7.4156\times10^{-9}$;
 all six samples of this paper declare exactly this value, and a
 verification gate asserts that the lock is satisfied at the moment
 each harness configuration is built.
@@ -583,7 +595,7 @@ by a display convention rather than by the dimensional conversion,
 multiplying displayed constants together to derive a third displayed
 quantity is not a legitimate operation, and the project's canon says
 so explicitly; the dimensional-conversion system
-($G$, $\kappa$, $g_x/g_y$, $\varepsilon$, $D_0$) is internally
+($G$, $X_k$, $g_x/g_y$, $\varepsilon$, $D_0$) is internally
 consistent on its own.
 
 \subsection{The dragging profile and its two parameters}
@@ -2673,7 +2685,7 @@ the regenerated figure data.
 Claim & Measured once by / committed result &
   CI regression gate (pins it) \\
 \midrule
-correspondence lock $\kappa=G/c_0^{2}$ & analytic identity &
+correspondence lock $X_k=G/c_0^{2}$ & analytic identity &
   \texttt{physlock.\allowbreak kt-derive} \\
 1PN source declaration & sample declaration &
   \texttt{pn.source-flag} \\
@@ -2702,7 +2714,7 @@ qLock $q^{*}$ $6.16/8.25/21.8$ & Eq.~(\ref{eq:qlock}), analytic &
   \texttt{wave123.ui} \\
 qLock persistence and toggle & sample declaration &
   \texttt{wave124.ui} \\
-$\kappa$ canonical form & engine declaration &
+$X_k$ canonical form & engine declaration &
   \texttt{wave125.ui}, \texttt{wave128.\allowbreak engine} \\
 radial audit W1--W5 &
   \texttt{exp-\allowbreak qlockradial} /
