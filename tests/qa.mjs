@@ -7087,7 +7087,7 @@ if (!TARGET.startsWith('beta/')) {
     console.log('SKIP docs.sampleStatus-sync(対象 html に第279便a の生成領域 sample-status なし — root 等)');
   } else {
     const bad = [];
-    let nMd = 0, nHtml = 0, nCanon = 0, tl = null, cases6 = '';
+    let nMd = 0, nHtml = 0, nCanon = 0, tl = null, cases6 = '', note315 = '';
     try {
       const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
       const reg = SS.parseRegion(html);
@@ -7121,7 +7121,18 @@ if (!TARGET.startsWith('beta/')) {
       if (md.indexOf(want) < 0) bad.push('③md の状況の集計行 ≠ html');
       const want4 = `**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**`;
       if (md.indexOf(want4) < 0) bad.push('③md の較正の集計行 ≠ html');
-      for (const z of J.rows || []) if (JSON.stringify(z.status) !== JSON.stringify(T[z.id])) bad.push('④正本の status ≠ html ' + z.id);
+      // 第315便(統合 —— 決断事項 AN406 の在位の 7 本の移行で説明の文が beta だけ変わった): root 等の**別の世代の html**(正本の生成の対象 sha と違う・beta でない)では、
+      //   判定の欄(objective・calibration・mismatch・outlook)を 1 字も違わないことを見て、説明の文(purpose・state・evidence・en・brief)だけの違いは数えて記録する
+      const sha315 = crypto.createHash('sha256').update(html).digest('hex');
+      const otherGen315 = !TARGET.startsWith('beta/') && !!(J.meta && J.meta.targetSha256) && J.meta.targetSha256 !== sha315;
+      const VERDICT315 = ['objective', 'calibration', 'mismatch', 'outlook'];
+      let textOnly315 = 0;
+      for (const z of J.rows || []) {
+        if (JSON.stringify(z.status) === JSON.stringify(T[z.id])) continue;
+        if (otherGen315 && T[z.id] && VERDICT315.every((k) => JSON.stringify((z.status || {})[k]) === JSON.stringify(T[z.id][k]))) { textOnly315++; continue; }
+        bad.push('④正本の status ≠ html ' + z.id);
+      }
+      if (otherGen315) note315 = `④ 対象は正本の生成の対象と別の世代の html(root)—— 判定の欄は全本一致・説明の文だけ違う本 ${textOnly315}(第315便 —— beta の世代で照合)`;
       for (const line of md.split('\n')) {
         const bare = line.replace(/[「『][^」』]*[」』]/g, '');
         if (SS.FORBIDDEN.test(bare)) bad.push('⑤禁止語: ' + line.slice(0, 40));
@@ -7171,7 +7182,7 @@ if (!TARGET.startsWith('beta/')) {
       `**サンプル状況一覧 ↔ html ↔ 正本**(第279便a): 行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}` +
       (tl ? ` / 状況 達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet} / 4 値 ${Object.values(tl.four).join('/')}` +
         `・判定保留(量定義不一致)${tl.calibration['hold-definition']}・較正対象外 ${tl.calibration['out-of-scope']}` : '') +
-      (cases6 ? ' / ' + cases6 : '') +
+      (cases6 ? ' / ' + cases6 : '') + (note315 ? ' / ' + note315 : '') +
       (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ' / 3 者一致・禁止語 0'));
   }
   })();   // 第310便c(heap)
