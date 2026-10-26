@@ -87608,6 +87608,33 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     }
   })();   // 第310便c(heap)
 }
+// ---- 第316便c(R248): docs.w316c —— 文書と運用(PHYSICS〔第316便c — …〕は「## 7.」の前・AI_SPEC §141・CHANGELOG の beta 節の 1 行・post-merge の塊)。
+{
+  const H316d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H316d.indexOf('const MISC_TEXT_CLEAN_VERSION="w316c-misc-text-1"') >= 0)) {
+    console.log('SKIP docs.w316c(第316便c の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const Ph = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'), Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+    const Ch = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), Pm = fs.readFileSync(path.join(ROOT, 'tools', 'post-merge-qa.sh'), 'utf8');
+    const i0 = Ph.indexOf('〔第316便c — '), i7 = Ph.indexOf('\n## 7. ');
+    if (!(i0 >= 0 && i7 > i0)) bad.push('① PHYSICS〔第316便c — 〕が「## 7.」の前に無い');
+    else {
+      const sec = Ph.slice(i0, i7);
+      for (const w of ['plutoCharonKF0Control', '71 本', 'provTextClean', 'lint.presetText316c', 'lint.miscText316c', 'CAL_CONTRACT', 'RETIRED_PRESETS', 'fitRecord', 'compactForce.kappa', 'spinDrag.axialCoupling', 'centerCaptureCheck']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第316便c〕に「' + w + '」が無い');
+    }
+    const a0 = Ai.indexOf('## 141. 第316便c'), a1 = Ai.indexOf('\n## ', a0 + 5);
+    if (a0 < 0) bad.push('② AI_SPEC に §141(第316便c)が無い');
+    else { const as = Ai.slice(a0, a1 > a0 ? a1 : undefined); for (const w of ['provTextClean', 'MISC_TEXT_CLEAN_VERSION', 'PRESET_TEXT_CLEAN_B_VERSION', 'retiredNoticeText']) if (as.indexOf(w) < 0) bad.push('② AI_SPEC §141 に「' + w + '」が無い'); }
+    const c0 = Ch.search(/## v1\.46(?:-b\d+|\.0)\(/), c1 = c0 >= 0 ? Ch.indexOf('\n## ', c0 + 5) : -1;
+    if (!(c0 >= 0 && Ch.slice(c0, c1 > c0 ? c1 : undefined).indexOf('第316便c') >= 0)) bad.push('③ CHANGELOG の beta 節に第316便c の行が無い');
+    const p0 = Pm.indexOf('# ==== 第316便c の塊(ここから)'), p1 = Pm.indexOf('# ==== 第316便c の塊(ここまで)');
+    if (!(p0 >= 0 && p1 > p0)) bad.push('④ post-merge に第316便c の塊が無い');
+    else for (const w of ['lint.presetText316c', 'lint.miscText316c', 'docs.w316c']) if (Pm.slice(p0, p1).indexOf(w) < 0) bad.push('④ post-merge の第316便c の塊に ' + w + ' が無い');
+    add('docs.w316c', bad.length === 0,
+      `**第316便c の文書と運用**(PHYSICS〔第316便c — 〕・AI_SPEC §141・CHANGELOG・post-merge の塊 —— 原仮定者の裁定(第118報)・R248)` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
 // ==== 第316便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====

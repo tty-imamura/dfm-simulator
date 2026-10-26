@@ -338,6 +338,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.inposK1_315 behavior.inposK1_315 docs
 #   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 docs.solar16Contract300 docs.pn1x3d314 docs.k1confirm313 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310"
 # ==== 第315便d の塊(ここまで)====
+# ==== 第316便c の塊(ここから)====
+# 第316便c(原仮定者の裁定(第118報)・AN417・AN420・AN426・R248): 枝 c の新設 3 本(lint.presetText316c —— サンプルの説明の後半 71 本の表示の欄に来歴の語と旧記号が無い・
+#   lint.miscText316c —— 受理器の理由ほかその他の画面の文と出す側で外す欄 provTextClean・docs.w316c —— 文書)と、受理の理由の文の照合を世代切替した QA
+#   (behavior.tide3d307・behavior.tide3Recv308・behavior.galaxial311・behavior.rdExcess314・ui.rdExcess314・behavior.alphaCenAB)・後半の本の説明を読む QA。
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316c lint.miscText316c docs.w316c behavior.tide3d307 behavior.tide3Recv308 behavior.galaxial311 behavior.rdExcess314 ui.rdExcess314 docs.rdExcess314 behavior.kappaM313 behavior.rsExcess315 behavior.alphaCenAB behavior.siriusAB docs.period-definitions lint.kappaSymbol315 lint.stateContract302 lint.coreBudget lint.regenScope lint.stableHashPaths lint.qaHeapRelease310 lint.sectionLookup313"
+# ==== 第316便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
