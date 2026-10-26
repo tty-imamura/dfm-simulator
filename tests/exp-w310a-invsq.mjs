@@ -92,9 +92,10 @@ function partA(H) {
     ['−Infinity', -Infinity, false], ['null', null, false], ['文字列 "0"', '0', false], ['文字列 "a"', 'a', false], ['true', true, false], ['false', false, false], ['配列 []', [], false], ['オブジェクト {}', {}, false]];
   for (const [name, w, expectOk] of cases) {
     const q = base(); if (w !== undefined) q.physics.relativeDrag.invSq.Wbg2 = w;
+    // 第316便(統括): 受理の理由の文から来歴の語を外した世代(第316便c)は「第107報」を含まない —— 理由の文の本体(二重計上・省略は 0)で同じ拒否を見る
     const v = HP.validatePreset(q), err = v.ok ? null : String((v.errors || [])[0] || '');
     const canon0 = v.ok ? Object.is(v.preset.physics.relativeDrag.invSq.Wbg2, 0) : null;
-    out.push({ key: 'Wbg2', name, ok: v.ok, expectOk, canonicalPlusZero: canon0, pass: v.ok === expectOk && (v.ok ? canon0 === true : /invSq\.Wbg2 は 0 だけ/.test(err) && /二重計上/.test(err) && /第107報/.test(err)), err: err === null ? null : err.slice(0, 120) });
+    out.push({ key: 'Wbg2', name, ok: v.ok, expectOk, canonicalPlusZero: canon0, pass: v.ok === expectOk && (v.ok ? canon0 === true : /invSq\.Wbg2 は 0 だけ/.test(err) && /二重計上/.test(err) && /第107報|二重計上・省略は 0/.test(err)), err: err === null ? null : err.slice(0, 120) });
   }
   const sh = [['uniform', 'uniform', true], ['thin', 'thin', true], ['null(省略)', null, true], ['"ball"', 'ball', false], ['1', 1, false], ['true', true, false]];
   for (const [name, s, expectOk] of sh) {
