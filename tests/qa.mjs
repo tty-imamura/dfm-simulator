@@ -69580,8 +69580,14 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         for (const p of HP.allPresets()) if (ids.includes(p.id)) out[p.id] = { ja: p.obsCard, en: (p.en || {}).obsCard, kF: p.physics.kFrame, geo: p.physics.geoPN };
         const pop = HP.allPresets().filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired')
           .map((p) => ({ id: p.id, rows: (p.obsCard || []).map((r) => ({ q: r.q, cond: r.cond || null })) }));
-        return { out, pop };
+        return { out, pop, gen316: !!(HP.PRESET_TEXT_CLEAN_A_VERSION || HP.PRESET_TEXT_CLEAN_B_VERSION) };
       }, ids);
+      // 第316便(統括 —— 原仮定者の裁定(第118報)「アプリ内の説明文から第〜便・決断事項〜を無くす」): 説明の文から来歴の語を外した世代では、
+      // model/obs の文は来歴の語の分だけ凍結の写しと違う —— 来歴の語を除いた数の並び(値・σ・窓)が凍結の写しと同じなら同値とみなす(値は 1 字も変えない)
+      const META316 = /第\d+(?:〜\d+)?[便報][a-z]?|AN\d{3}|\bR\d{3}\b|[Ww]aves?[- ]?\d+(?:[–-]\d+)?[a-z]?|reports? ?\d+(?:[–-]\d+)?/g;
+      const nums316 = (x) => String(x == null ? '' : x).replace(META316, '').match(/\d+(?:[.,]\d+)*/g) || [];
+      let nText316 = 0;
+      const same316 = (a, b) => { if (a === b) return true; if (cur.gen316 && JSON.stringify(nums316(a)) === JSON.stringify(nums316(b))) { nText316++; return true; } return false; };
       if (TB.rows.length !== 12 || TB.quantities.length !== 17) bad.push(`表の行数 ${TB.rows.length}/${TB.quantities.length}(12/17 でない)`);
       let nVal = 0, nRen = 0;
       for (const r of TB.rows) {
@@ -69597,13 +69603,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         let frM = fr ? fr.model : null, feM = fe ? fe.model : null;
         { const rw = has294bCR && W294B_TEXT[r.id + ':' + r.row];
           if (rw && frM === rw.ja[0] && feM === rw.en[0] && numHead(rw.ja[0]) === numHead(rw.ja[1]) && numHead(rw.en[0]) === numHead(rw.en[1])) { frM = rw.ja[1]; feM = rw.en[1]; nRewrite++; } }
-        if (j && fr && j.model === frM && j.obs === fr.obs && e && fe && e.model === feM && e.obs === fe.obs) nVal++;
+        if (j && fr && same316(j.model, frM) && same316(j.obs, fr.obs) && e && fe && same316(e.model, feM) && same316(e.obs, fe.obs)) nVal++;
         else bad.push(`① ${r.id}[${r.row}] の model/obs が凍結の写しと違う(値は 1 字も変えない)`);
         if (!(j && j.cond && j.cond.kFrame === 0 && j.cond.geoPN === 1 && Object.keys(j.cond).length === 2)) bad.push(`① ${r.id}[${r.row}] の条件欄が {kFrame:0,geoPN:1} でない`);
         if (!(c.kF === 0 && c.geo === 1)) bad.push(`① ${r.id} の physics が kFrame=0・geoPN=1 でない`);
         if (r.nameChanged) nRen++;
       }
-      cases.push(`① 表 ${TB.rows.length} 行(行名を変えた ${nRen}・条件欄だけ ${TB.rows.length - nRen})—— model/obs が凍結の写しと同値 ${nVal}/${TB.rows.length}・条件欄 {kFrame:0,geoPN:1}`);
+      cases.push(`① 表 ${TB.rows.length} 行(行名を変えた ${nRen}・条件欄だけ ${TB.rows.length - nRen})—— model/obs が凍結の写しと同値 ${nVal}/${TB.rows.length}${nText316 ? `(うち来歴の語を外した文 ${nText316} 欄は数の並びで同値 —— 第316便の世代)` : ''}・条件欄 {kFrame:0,geoPN:1}`);
       // ②
       const JUDGED = /自転|パルス|離心率|(^|[(（\s])e=|近点移動|近日点前進|近点回転|歳差|近点前進|アプシ|公転周期|恒星月|公転|周期/;
       const off = [];
