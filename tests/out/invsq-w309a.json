@@ -3,7 +3,7 @@
  "libVersion": "w309a-invsq-lib-1",
  "generator": "tests/exp-w309a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第103報)正確な引きずり(修正版)①球体による引きずり ②各引きずりは慣性決定力(質量に比例・距離の二乗に反比例)に比例しトータルの慣性決定力(背景・自分自身の体積平均を含む)で割る ③球の半径は dragCore の半径 ⑤回転は引きずる側の球の近い側と遠い側の移動の差分 ⑥軸は引きずられる側の球の近い側と遠い側の回転引きずりの差分 ⑦鏡映の向き ⑧軸方向で弱い・第104報 AN363(dragCore の既定)・決断事項 AN359・AN363・統括の検証項目 R218",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -2234,91 +2234,91 @@
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.Wbg は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+    "err": "physics.relativeDrag.Wbg は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版)"
    },
    {
     "name": "inertialR2 と一緒",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.inertialR2 は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+    "err": "physics.relativeDrag.inertialR2 は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版)"
    },
    {
     "name": "eps と一緒",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.eps は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版・第309便a)"
+    "err": "physics.relativeDrag.eps は新しい引きずり則 invSq と一緒に宣言しない(旧則の鍵 —— 新則は分子 m/r²〔源の球の体積平均〕・トータルの分母〔W_bg′ [M/L²] + 自己 + 他の源〕で別の法則の版)"
    },
    {
     "name": "未知の鍵",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order・outerShell・kernel・rdRule・shellRecv だけ —— 第309便a・第310便a)"
+    "err": "physics.relativeDrag.invSq に未知の鍵 foo(Wbg2・order・outerShell・kernel・rdRule・shellRecv だけ)"
    },
    {
     "name": "次数 1",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源(第"
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源>, kernel?"
    },
    {
     "name": "次数 25",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0(第310便a)>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源(第"
+    "err": "physics.relativeDrag.invSq は {Wbg2?:<0 だけ —— 省略は 0>, order?:<2〜24 の整数 —— 受け手の体積の求積の次数・既定 8>, outerShell?:<\"uniform\"|\"thin\" —— 外殻の源>, kernel?"
    },
    {
     "name": "Wbg2 負",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上・省略は 0(正の背景の比較は参照の器の引数で)"
    },
    {
     "name": "Wbg2 正",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上(原仮定者の裁定(第107報))・省略は 0(第310便a・AN378 —— 正の背景の比較は参照の器の引数で)"
+    "err": "physics.relativeDrag.invSq.Wbg2 は 0 だけ —— 背景を分母に入れると二重計上・省略は 0(正の背景の比較は参照の器の引数で)"
    },
    {
     "name": "sphere の核",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.spinDrag(新則 invSq): axial:\"on\" は axialModel:\"bevel\"(鏡映 × sinθ × 受け手の近遠の差分)を明示する —— mu2・sphere は旧則の核(第309便a)"
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): axial:\"on\" は axialModel:\"bevel\"(鏡映 × sinθ × 受け手の近遠の差分)を明示する —— mu2・sphere は旧則の核"
    },
    {
     "name": "速さの型",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.spinDrag(新則 invSq): axialNorm は \"diff\"(符号つきの近遠の差分)だけ(第309便a)"
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): axialNorm は \"diff\"(符号つきの近遠の差分)だけ"
    },
    {
     "name": "rigid の步",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.spinDrag(新則 invSq): rotStep:\"rigid\" は旧則の M1 の步 —— 新則では宣言しない(第309便a)"
+    "err": "physics.relativeDrag.spinDrag(新則 invSq): rotStep:\"rigid\" は旧則の M1 の步 —— 新則では宣言しない"
    },
    {
     "name": "二次元の本",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq は三次元の本(physics.coord:\"3d\")だけ(源と受け手の球の体積平均 —— 第309便a)"
+    "err": "physics.relativeDrag.invSq は三次元の本(physics.coord:\"3d\")だけ(源と受け手の球の体積平均)"
    },
    {
     "name": "dragCore の殻",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "bodies[0].dragCore.shellRatio(殻)は新しい引きずり則 invSq と一緒に宣言しない —— 新則の源と自己は一様球(dragCore:{massFrac, radius} か既定 —— 第309便a)"
+    "err": "bodies[0].dragCore.shellRatio(殻)は新しい引きずり則 invSq と一緒に宣言しない —— 新則の源と自己は一様球(dragCore:{massFrac, radius} か既定)"
    },
    {
     "name": "dragCore の一様球",
@@ -2332,14 +2332,14 @@
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.dragCoreDefault は \"cap6500km\"(未宣言の天体の引きずりの半径 min(R, 6.5×10⁶ m)・全質量 —— 第309便a)だけ"
+    "err": "physics.relativeDrag.dragCoreDefault は \"cap6500km\"(未宣言の天体の引きずりの半径 min(R, 6.5×10⁶ m)・全質量)だけ"
    },
    {
     "name": "scaleExp の無い本の既定",
     "ok": false,
     "expectOk": false,
     "pass": true,
-    "err": "physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない・第309便a)"
+    "err": "physics.relativeDrag.dragCoreDefault は物理の単位の宣言 scaleExp.L が要る(6.5×10⁶ m を本の長さの単位へ換算する —— 単位の無い本には当てない)"
    },
    {
     "name": "axisHold(維持 —— 枝 b の鍵)と一緒",
@@ -2397,43 +2397,43 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 1.411
+   "wallSec": 1.046
   },
   "P": {
-   "wallSec": 0.011
+   "wallSec": 0.01
   },
   "A": {
-   "wallSec": 0.405
+   "wallSec": 0.485
   },
   "E": {
-   "wallSec": 0.611
+   "wallSec": 0.472
   },
   "T": {
-   "wallSec": 0.06
+   "wallSec": 0.035
   },
   "B": {
-   "wallSec": 0.203
+   "wallSec": 0.208
   },
   "D": {
-   "wallSec": 0.2
+   "wallSec": 0.228
   },
   "G": {
-   "wallSec": 0.065
+   "wallSec": 0.089
   }
  },
- "elapsedS": 5.038,
+ "elapsedS": 4.633,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:00:31.147Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T18:01:23.502Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2443,9 +2443,9 @@
    },
    {
     "file": "tests/out/bevel-w308a.json",
-    "bytes": 87005,
-    "sha256": "73c5f034f05324ea06e22d0ebd60ddb040aaa4cecbee123c797f6f0f09115f84",
-    "mtime": "2026-10-25T20:13:42.242Z"
+    "bytes": 87004,
+    "sha256": "221bbc66325428af8c8b990c04a8158d095604e250268f83675c914ce1ac605d",
+    "mtime": "2026-10-26T13:57:19.172Z"
    }
   ],
   "code": [
@@ -2499,12 +2499,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "e2f4e9c0e4efc052aef2ecf9291e0ec8b654428b1dafde0b7c3e2f0c9eb04edf",
+  "codeSha256": "53a6424357d00e961c4cfba6fdde646a60d73499d6d0114e125ca7b29db05f53",
   "harnessVersion": "w309a-invsq-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2516,7 +2516,7 @@
    "W_bg′ を同定した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -2551,11 +2551,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1540,
-   "segments": 1375,
-   "closureShare": 0.3492
+   "names": 1314,
+   "segments": 1155,
+   "closureShare": 0.3111
   },
-  "scopeSha256": "69a0b77db4962487388e10b33da90da98c788425dc86a16a287bb7d48f08b4c8",
+  "scopeSha256": "2a3ecdbf2dd760331e0daf0c72db307f4fb20ce061a9eb7ffab980d6a22ec8b3",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2566,7 +2566,7 @@
    },
    {
     "file": "tests/out/bevel-w308a.json",
-    "stableSha256": "31b382954b46c5cf53ef65015c205818e759c9e748b808a5af232f76898fa415",
+    "stableSha256": "0cb63352309dfb8ec6f6298327d00c3c23b69b6645dca3b11aa821cfd7f03de2",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
