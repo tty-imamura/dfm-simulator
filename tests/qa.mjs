@@ -11292,7 +11292,9 @@ if (!TARGET.startsWith('beta/')) {
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const defs = {};
-  for (const mm of html.matchAll(/\{key:"(\w+)",\s*label:[^}]*?lo:([\d.eE+-]+),\s*hi:([\d.eE+-]+)/g))
+  // 第316便a(AN422 ①): PARAM_DEFS から label・desc を I18N へ移した —— 表の中だけを見て、label の有無に依らず key の後の lo・hi を読む(基点・root と同じ 22 鍵・同じ値)
+  const pdBlk316 = (html.match(/const PARAM_DEFS = \[([\s\S]*?)\n\];/) || [null, ''])[1];
+  for (const mm of pdBlk316.matchAll(/\{key:"(\w+)",[^}]*?lo:([\d.eE+-]+),\s*hi:([\d.eE+-]+)/g))
     defs[mm[1]] = { lo: +mm[2], hi: +mm[3] };
   // 第124便: inv:true(κ=1/Kt 編集)の def は UI 値域が逆数 — params(Kt)側の値域へ戻して照合
   if (/key:"Kt",[^}]*inv:true/.test(html) && defs.Kt) defs.Kt = { lo: 1 / defs.Kt.hi, hi: 1 / defs.Kt.lo };
@@ -59271,7 +59273,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && (gen123 ? (mk.qLock === true && ek.qLock === true && em.abBody.physicsPatch.qLock === true)
           : (mk.physics.q === 5 && ek.physics.q === 5 && em.abBody.physicsPatch.q === 5));
       // ④ q クランプ・スライダー上限(第122便: 8 → 第123便: 40)
-      out.qRange = gen123 ? (/q:\[0\.5,40\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*40/.test(src))
+      out.qRange = gen123 ? (/q:\[0\.5,40\]/.test(src) && /key:"q",[^}]*hi:\s*40/.test(src))   // 第316便a(AN422 ①): label は I18N へ移した —— label の有無に依らない
         : (/q:\[0\.5,8\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*8/.test(src));
       // ⑤ 🪨 の主役ノブ(第122便: q ⇄ 第123便: qLock で q は編集対象外 → D0 が先頭)
       out.qKnob = Array.isArray(mk.activeParams) && mk.activeParams[0] === (gen123 ? 'D0' : 'q');
