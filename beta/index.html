@@ -1388,9 +1388,10 @@ const DFM_STANCE = Object.freeze({
   ja:"DFM のスタンス: 相対性理論との共存を目指し、混乱は避けます。光速不変の基準から絶対時間の基準に変えることで直観的になり、学習向きです。較正ノブの自由度が増え、宇宙の偶然で片付けられていた現象もフィットできます。フィットはできますが、現実の宇宙だとは主張しません。",
   en:"DFM's stance: it aims to coexist with relativity and avoids confusion. Switching the reference from an invariant light speed to absolute time makes it intuitive and suited to learning. The calibration knobs gain freedom, so phenomena once put down to cosmic coincidence can be fitted too. Being able to fit them is not a claim that this is the real universe."});
 // 第315便a(AN414): 記号の 1 行(ja/en)—— 光速定数 c・重力定数 G(基準の定数)/基準光速 c_0・基準重力 G_0(サンプルごとの基準値)/局所光速 c_loc・局所重力 G_loc(その場の値)
+// 第316便a(原仮定者の裁定(第118報)の命名規則・統括の検証項目 R246): 命名の 1 文(定数 _D・係数 _k・dragCore の変数 _d・距離 r・半径 R・r_s は慣例)と下付きの約束を足した
 const DFM_SYMBOL_LINE = Object.freeze({
-  ja:"記号: 光速定数 c と重力定数 G は基準の定数、基準光速 c_0 と基準重力 G_0 はサンプルごとの基準値(このパラメータ)、局所光速 c_loc と局所重力 G_loc はその場の値。長さはシュヴァルツシルト半径(重力半径)r_s = 2G_0m/c_0² を物差しにする。",
-  en:"Symbols: the light-speed constant c and the gravitational constant G are the reference constants; the reference light speed c_0 and reference gravity G_0 are each sample's reference values (these parameters); the local light speed c_loc and local gravity G_loc are the values on the spot. Lengths are measured against the Schwarzschild (gravitational) radius r_s = 2G_0m/c_0²."});
+  ja:"記号: 光速定数 c と重力定数 G は基準の定数、基準光速 c_0 と基準重力 G_0 はサンプルごとの基準値(このパラメータ)、局所光速 c_loc と局所重力 G_loc はその場の値。長さはシュヴァルツシルト半径(重力半径)r_s = 2G_0m/c_0² を物差しにする。命名: DFM の定数は _D(κ_D)、DFM の係数は _k(時空係数 X_k・引きずり係数 Y_k・スピン拡散 S_k)、引きずり核 dragCore の変数は _d(引きずり半径 R_d・引きずり質量 m_d)。距離は r、半径は R(シュヴァルツシルト半径 r_s は慣例どおり小文字)。_ は下付きを表す(c_0 は c₀ と表示)。",
+  en:"Symbols: the light-speed constant c and the gravitational constant G are the reference constants; the reference light speed c_0 and reference gravity G_0 are each sample's reference values (these parameters); the local light speed c_loc and local gravity G_loc are the values on the spot. Lengths are measured against the Schwarzschild (gravitational) radius r_s = 2G_0m/c_0². Naming: DFM constants carry _D (κ_D), DFM coefficients _k (the spacetime coefficient X_k, the drag coefficient Y_k, spin diffusion S_k), and drag-core (dragCore) variables _d (the drag radius R_d, the drag mass m_d); a distance is r and a radius is R (the Schwarzschild radius r_s stays lower-case by convention). An underscore marks a subscript (c_0 is shown as c₀)."});
 // 第316便a(原仮定者の裁定(第118報)・統括の検証項目 R246): 画面に出る文(I18N・LAWS・PARAM_DEFS の表示の欄・DFM_*・SYSTEM_PROMPT)から来歴の語(第N便・第N報・決断事項・AN・
 //   原仮定者・統括の検証項目・en の wave NNN / dispatch NN / the adjudicator's ruling …)を外した —— 外した来歴は git の 34c6296 以前の版と docs/PHYSICS.md〔第316便a〕に残る。
 //   記号も同じ便で直した(スピン拡散 K_s → S_k・引きずり半径 r_d → R_d・dragCore の R_c → R_d)。鍵の名と保存の鍵は不変。
@@ -4022,6 +4023,50 @@ en: {
 
 // <<< w275a-generated: i18n
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
+// 第316便a(原仮定者の裁定(第118報)・決断事項 AN426・統括の検証項目 R246): **記号の下付きの表示(1 か所)**。ソースの綴りは `_` のまま(c_0・X_k・R_d —— `_` は下付きを表す)で、
+//   画面に入れる直前にだけ 1 字の添字を下付きへ変える(T() の戻り値・I18N の表・保存の文は変えない)。
+//   ・数字と Unicode に下付きの字がある英字(a e h i j k l m n o p r s t u v x)→ Unicode の下付き(c₀・G₀・Xₖ・Yₖ・Sₖ・rₛ・C₁・bₘ・gₓ)
+//   ・下付きの字が無い英字(d・D・y・c・z ほか —— R_d・κ_D・m_d・g_y)→ html の文脈では <sub>(symDispSet が DOM の要素で作る —— innerHTML は使わない)・
+//     文字だけの文脈(キャンバス・title・alert —— mode "text")では `_` のまま
+//   ・2 字以上の添字(_loc・_obs・_rad・_1PN・_bg・_SI …)は変えない。鍵・識別子・ファイル名を壊さない: 記号は 1 字の英字かギリシャ字で、その前が英数字・_・.・$ でない
+//     (係数の数字だけは前に来てよい —— 2G_0m・10G_0)。添字の後ろ: 英字の添字は英数字・_ が続かない/数字の添字は数字・大文字・_ が続かない(r_1PN は変えない・C_1c_0 は C₁c₀)
+//   世代の印 UI_TEXT_CLEAN_VERSION(QA の世代切替)。純関数 —— HP.symDisp(s, "text"|"html")・HP.symDispSegs(s)・HP.symDispText(s)(DOM の textContent に当たる文字)
+const UI_TEXT_CLEAN_VERSION="w316a-ui-text-clean-1";
+const SYM_SUB_UNI=Object.freeze({"0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉",
+  a:"ₐ",e:"ₑ",h:"ₕ",i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",r:"ᵣ",s:"ₛ",t:"ₜ",u:"ᵤ",v:"ᵥ",x:"ₓ"});
+const SYM_SUB_RE=/(?<![A-Za-z0-9_.$\u0370-\u03FF])(\d*)([A-Za-z\u0391-\u03A9\u03B1-\u03C9])_(?:([A-Za-z])(?![A-Za-z0-9_])|(\d)(?![0-9A-Z_]))/g;
+function symDispSegs(s){
+  // 戻り値: [{t:"文字"} | {sub:"d"}] —— Unicode に下付きのある添字は t の中で置き換え済み・無い添字は sub で返す
+  const src=String(s==null? "" : s), out=[]; let buf="", last=0, prev=null;
+  // 1) Unicode へ(繰り返し —— C₁c_0 の c_0 のように、置き換えた字の後ろの記号も拾う)
+  let t=src;
+  for(let it=0; it<4; it++){ const n=t.replace(SYM_SUB_RE,(m,dg,b,l,d)=>{ const c=l||d; return SYM_SUB_UNI[c]? dg+b+SYM_SUB_UNI[c] : m; }); if(n===t) break; t=n; }
+  // 2) 残った 1 字の添字(下付きの字が無い字)を sub へ
+  SYM_SUB_RE.lastIndex=0;
+  for(const m of t.matchAll(SYM_SUB_RE)){
+    const c=m[3]||m[4]; if(SYM_SUB_UNI[c]) continue;
+    const at=m.index+m[1].length+m[2].length;   // "_" の位置
+    buf+=t.slice(last,at); if(buf) out.push({t:buf}); buf=""; out.push({sub:c}); last=at+2;
+  }
+  buf+=t.slice(last); if(buf) out.push({t:buf});
+  return out;
+}
+function symDisp(s, mode){
+  const segs=symDispSegs(s);
+  if(mode==="html"){ const esc=(x)=>x.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    return segs.map(g=>g.sub!==undefined? "<sub>"+esc(g.sub)+"</sub>" : esc(g.t)).join(""); }
+  return segs.map(g=>g.sub!==undefined? "_"+g.sub : g.t).join("");   // "text": 下付きの字が無い字は `_` のまま
+}
+function symDispText(s){ return symDispSegs(s).map(g=>g.sub!==undefined? g.sub : g.t).join(""); }   // DOM に入れた後の textContent に当たる文字(QA の照合用)
+function symDispSet(el, s){
+  // DOM の要素で作る(innerHTML は使わない —— 本の説明は AI 生成・保存の文も通る)
+  el.textContent="";
+  for(const g of symDispSegs(s)){
+    if(g.sub!==undefined){ const b=document.createElement("sub"); b.textContent=g.sub; el.appendChild(b); }
+    else el.appendChild(document.createTextNode(g.t));
+  }
+  return el;
+}
 
 // ===== 理論用語集(v1.13・理論解説パネル): プリセット説明文中の A/E/T 参照を自動抽出して表示 =====
 const LAWS = {
@@ -42478,7 +42523,7 @@ function mkCatDetails(host,label,descText){
       const nx=sum.nextElementSibling;
       const open=(nx && nx.classList && nx.classList.contains("pdesc"))? nx : null;
       if(open){ open.remove(); info.setAttribute("aria-expanded","false"); return; }
-      const d=document.createElement("div"); d.className="pdesc open"; d.textContent=descText;
+      const d=document.createElement("div"); d.className="pdesc open"; symDispSet(d, descText);   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
       sum.after(d); info.setAttribute("aria-expanded","true");
     });
     sum.appendChild(info);
@@ -43251,7 +43296,7 @@ function buildParamRows(){
     const showSim=applyBoth? sim : editSim();   // 表示値の参照元(applyBoth時はA=Bを同期済み)
     const row=document.createElement("div"); row.className="prow";
     row.dataset.k=key;   // 第295便a(R153): 編集欄の赤文字(refreshModeDeviation)が鍵で行を探す(表示専用)
-    const lab=document.createElement("label"); lab.textContent=paramLabel(def);
+    const lab=document.createElement("label"); symDispSet(lab, paramLabel(def));   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
     // 第88便 EXT-03: 役割チップ(物理仮定/実験条件/数値)— 宣言 PARAM_ROLES の表示専用チップ
     { const rc=document.createElement("span"); rc.className="roleChip"; rc.dataset.role=paramRole(key);
       rc.textContent=T("role_"+paramRole(key)); rc.title=T("role_"+paramRole(key)+"Tip"); lab.appendChild(rc); }
@@ -43263,7 +43308,7 @@ function buildParamRows(){
           && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
         if(open){ open.remove(); return; }
         const d=document.createElement("div"); d.className="pdesc open"; d.dataset.key=key;
-        d.textContent=paramDesc(def);
+        symDispSet(d, paramDesc(def));   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
         row.after(d);
       });
     }
@@ -43402,14 +43447,14 @@ function buildParamRows(){
   {
     const g=mkCat(T("grpSpacetime"),T("grpSpacetimeDesc"));
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("physLockLabel");
+    const lab=document.createElement("label"); symDispSet(lab, T("physLockLabel"));
     lab.style.flex="1"; lab.className="tappable";
     lab.addEventListener("click",()=>{
       const open=row.nextElementSibling && row.nextElementSibling.classList
         && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
       if(open){ open.remove(); return; }
       const d=document.createElement("div"); d.className="pdesc open";
-      d.textContent=T("physLockDesc");
+      symDispSet(d, T("physLockDesc"));   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
       row.after(d);
     });
     const cb=document.createElement("input"); cb.type="checkbox"; cb.id="physLockCb"; cb.checked=physLock;
@@ -43423,14 +43468,14 @@ function buildParamRows(){
     let cLinkRow=null;
     {
       const row2=document.createElement("div"); row2.className="prow";
-      const lab2=document.createElement("label"); lab2.textContent=T("cLinkLabel");
+      const lab2=document.createElement("label"); symDispSet(lab2, T("cLinkLabel"));
       lab2.style.flex="1"; lab2.className="tappable";
       lab2.addEventListener("click",()=>{
         const open=row2.nextElementSibling && row2.nextElementSibling.classList
           && row2.nextElementSibling.classList.contains("pdesc") ? row2.nextElementSibling : null;
         if(open){ open.remove(); return; }
         const d=document.createElement("div"); d.className="pdesc open";
-        d.textContent=T("cLinkDesc");
+        symDispSet(d, T("cLinkDesc"));
         row2.after(d);
       });
       const cb2=document.createElement("input"); cb2.type="checkbox"; cb2.id="cLinkCb"; cb2.checked=cLink;
@@ -43443,14 +43488,14 @@ function buildParamRows(){
   { const g=mkCat(T("grpDrag"),T("grpDragDesc"));
     // 第124便(原仮定者指示): qLock トグル行を「引きずり減衰 q」の直前に置く
     const qlRow=document.createElement("div"); qlRow.className="prow"; qlRow.id="qLockRow";   // 第307便d: id(淡色の対象を探す)
-    { const lab=document.createElement("label"); lab.textContent=T("qLockLabel");
+    { const lab=document.createElement("label"); symDispSet(lab, T("qLockLabel"));
       lab.style.flex="1"; lab.className="tappable";
       lab.addEventListener("click",()=>{
         const open=qlRow.nextElementSibling && qlRow.nextElementSibling.classList
           && qlRow.nextElementSibling.classList.contains("pdesc") ? qlRow.nextElementSibling : null;
         if(open){ open.remove(); return; }
         const d=document.createElement("div"); d.className="pdesc open";
-        d.textContent=T("qLockDesc"); qlRow.after(d);
+        symDispSet(d, T("qLockDesc")); qlRow.after(d);
       });
       const cb=document.createElement("input"); cb.type="checkbox"; cb.id="qLockCb"; cb.checked=qLockOn;
       cb.addEventListener("change",()=>setQLock(cb.checked));
@@ -47011,7 +47056,7 @@ function renderHelp(){
   const host=$("#helpBody"); host.textContent="";
   const SEC={}; for(const k of HELP_SECTIONS) SEC[k]=document.createDocumentFragment();
   let el=SEC.chips;   // 「いま差し込んでいる区画」— 各ブロックの先頭で切り替える
-  const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
+  const mk=(tag,txt)=>{const e=document.createElement(tag); symDispSet(e, txt); el.appendChild(e); return e;};   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
   // 第51便 51B(原仮定者指示): 表示順を「タグ(分類チップ)→タイトル→数値主張(claims)→本文」へ
   // 組み替え。各ブロックの中身は不変 — 並びだけの変更(タグと数値主張を本文より先に見せる)
   const cls=classifyPreset(currentPreset);
@@ -47695,7 +47740,7 @@ function showFirstVisit(){
 function buildAbout(){
   const el=$("#aboutBody"); if(!el) return;
   el.textContent="";
-  const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
+  const mk=(tag,txt)=>{const e=document.createElement(tag); symDispSet(e, txt); el.appendChild(e); return e;};   // 第316便a(AN426): 記号の下付きは symDispSet(表示だけ)
   mk("p",T("aboutBody"));
   // 第88便 EXT-01: 初見ガイドの再表示導線
   { const fb=document.createElement("button"); fb.type="button"; fb.id="btnFvAgain";
@@ -48029,7 +48074,7 @@ function updateBodyEdit(){
       const sh=(S.dragShellD && S.dragShellD[i]) || null;   // 第304便a: 引きずり核の殻(読み取りだけ —— 体積の核とは排他なので ON の欄を止める)
       $("#beDcOn").checked=!!d; $("#beDcOn").disabled=!!sh; $("#beDcEdit").style.display=d? "" : "none";
       if(d){ $("#beDcMF").value=fmt(d.massFrac); $("#beDcR").value=fmt((d.radius>0)? d.radius : invSqKappa0(S.params.G, S.params.cLight)*(d.massFrac*S.m[i])); }   // 第313便a: 規則の本の radius の省略は規則の R_d = κ₀·(massFrac·m) を見せる
-      $("#beDcNote").textContent=beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null)+((S.relDrag && S.relDrag[REL_DRAG_INVSQ_KEY])? T("beDcNoteIsq") : ""));   // 第314便a: 新則の本は R_c > R の受理を添える
+      symDispSet($("#beDcNote"), beDcMsg || (sh? T("beDcShell")(fmt(sh.eta), fmt(sh.eta*sh.R)) : T("beDcNote")((S.radOv[i]>0)? fmt(S.radOv[i]) : null)+((S.relDrag && S.relDrag[REL_DRAG_INVSQ_KEY])? T("beDcNoteIsq") : "")));   // 第316便a(AN420・AN426): R_d の下付き(表示だけ)   // 第314便a: 新則の本は R_c > R の受理を添える
     } }
   { const box=$("#beSaBox"); box.style.display=vis.spinAxis3? "" : "none";
     if(vis.spinAxis3){
@@ -63738,6 +63783,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // v1.26: 物理対応ロック(4-12)のQA用
   setPhysLock, physLock:()=>physLock, physLockCalc, physLockSatisfied,
   physLockAutoOnOf, physLockAutoApply, physLockSetFlag, PHYS_LOCK_AUTO_VERSION, DFM_STANCE, DFM_SYMBOL_LINE,   // 第315便a(AN414): 読込時の自動 ON(値を書き直さない)・スタンスと記号の文
+  UI_TEXT_CLEAN_VERSION, symDisp, symDispSegs, symDispText, paramLabel,   // 第316便a(AN422 ①・AN426): 下付きの表示の純関数・ラベルを引く関数(QA が表で照合する)
   stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
   // 第171便: 操作レスポンスの分離(QA ui.input-responsive 用の機械検査口)。
   // camPreview/captureCamSnapshot は「即時反映パス」の本体そのものを公開する(重複実装しない)
