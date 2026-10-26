@@ -87516,6 +87516,192 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   })();   // 第310便c(heap)
 }
 // ==== 第315便d の塊(ここまで)====
+// ==== 第316便d の塊(ここから —— docs.satH316・docs.paperSymbols316・lint.perfTargets316 の 3 ブロック。統合で他の枝の塊と混ぜない)====
+// ---- 第316便d(原仮定者の裁定(第118報)・決断事項 AN423・AN424・統括の検証項目 R249): docs.satH316 —— **衛星 6 本の三体の診断の正本と文書**
+// ----   (新設 —— root は SKIP)。世代切替 = beta 対象 ∧ 正本 tests/out/sath-w316d.json ∧ 器 tests/exp-w316d-sath.mjs ∧ 文書の lib tests/lib-w316d-sathdoc.mjs(html の宣言・エンジンは変えない)。
+// ----   ① 正本の門(器の gatesOf で作り直して一致・全部真)・試走でない・全段・6 衛星・版/来歴(w272e-1)・領域 hash(完全)・計画が器の宣言(64 公転の入れ子の窓 8・16・32・64 × h・h/2・h/4・
+// ----     保留の窓 8・16・32)・判定の規則 HARM_RULE(走行の前に宣言)・判定から外す量(AN424 —— トリトンの近点)
+// ----   ② 最初の 32 公転は第315便d の走行とビット同一(prefixOf を作り直して一致・全部同じ)・種は第315便d の正本と同じ(相対 1e-12)
+// ----   ③ 段 A・C・V を走行の行から器の純関数で作り直して相対 1e-12(数でない欄は表現の一致)・判定 = R1 ∧ R2 ∧(L か R3)・表の代表の数は二体だけ
+// ----   ④ 表の行と数が PHYSICS〔第316便d〕に逐語・節が「## 7.」の前・語・AI_SPEC §142・CHANGELOG・README・再生成の段・.gitignore・post-merge・CANON
+// ----   ⑤ 書かない語・禁句・新しい説明に裸の係数記号が無いこと(節の κ は κ_D だけ・コードの書式の中は引用)
+{
+  await (async () => {   // 第310便c(heap)
+  const hOut = path.join(ROOT, 'tests', 'out', 'sath-w316d.json'), sOut = path.join(ROOT, 'tests', 'out', 'satk1-w315d.json');
+  const hHarn = path.join(ROOT, 'tests', 'exp-w316d-sath.mjs'), hDoc = path.join(ROOT, 'tests', 'lib-w316d-sathdoc.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(hOut) && fs.existsSync(hHarn) && fs.existsSync(hDoc))) {
+    console.log('SKIP docs.satH316(第316便d の衛星の三体の診断の器の前の世代 — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), QA0 = rd('tests/qa.mjs'), CLx = rd('CHANGELOG.md'), RMx = rd('README.md');
+  const i0 = PH.indexOf('〔第316便d — '), i7 = PH.indexOf('\n## 7. 論文'), i1 = PH.indexOf('\n〔第', i0 + 10);
+  const sec = i0 >= 0 ? PH.slice(i0, (i1 > i0 && (i7 < 0 || i1 < i7)) ? i1 : (i7 > i0 ? i7 : undefined)) : '';
+  // 超越関数を通る数は相対 1e-12 の内(数でない欄は JSON の表現の一致)
+  const near316 = (a, b) => (typeof a === 'number' && typeof b === 'number') ? (Object.is(a, b) || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))
+    : (a && b && typeof a === 'object' && typeof b === 'object') ? (Array.isArray(a) === Array.isArray(b) && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && near316(a[k], b[k])))
+    : JSON.stringify(a) === JSON.stringify(b);
+  const strip = (t) => t.replace(/「[^」]*」/g, '');
+  const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /法則を確かめた/, /シュヴァルツシルト半径そのもの/, /現実の核/, /検証が完了した/, /地平面を判定した/];
+  const cp = (a) => String.fromCodePoint(...a), rv = (t) => t.split('').reverse().join('');
+  const NG = [cp([0x79c1, 0x4fe1]), cp([0x6dfb, 0x4ed8]), cp([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH'].map(rv));
+  const NG2 = [cp([0x518d, 0x73fe, 0x3057, 0x305f]), cp([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cp([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cp([0x666e, 0x904d, 0x5b9a, 0x6570])];
+  const bad = [], cases = [];
+  let J = null, Js = null, X = null, D = null;
+  try { J = JSON.parse(fs.readFileSync(hOut, 'utf8')); } catch (e) { bad.push('正本 sath が読めない'); }
+  try { Js = JSON.parse(fs.readFileSync(sOut, 'utf8')); } catch (e) { Js = null; }
+  try { X = await import('file://' + hHarn); D = await import('file://' + hDoc); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 120)); }
+  if (J && X && D) {
+    try {
+      // ①
+      const G = J.gates || {}, G2 = X.gatesOf(J), GK = Object.keys(G2), P = X.PLAN;
+      if (J.ok !== true) bad.push('① 正本の ok が真でない');
+      for (const k of GK) { if (G[k] !== true) bad.push('① 正本の門 ' + k + ' が真でない'); if (G2[k] !== G[k]) bad.push('① 門 ' + k + ' を作り直すと正本と違う'); }
+      if (Object.keys(G).length !== GK.length) bad.push('① 門の数が器と違う');
+      if (J.quick === true) bad.push('① 正本が試走(QUICK)');
+      if (JSON.stringify(J.parts) !== JSON.stringify(X.PARTS) || JSON.stringify(J.sats) !== JSON.stringify(X.SATS)) bad.push('① 正本が全段・6 衛星でない');
+      if (J.version !== X.HARNESS_VERSION || !(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.stage === 'sath')) bad.push('① 正本の版/来歴(w272e-1)');
+      if (!(J.meta && J.meta.scope && J.meta.scopeComplete === true)) bad.push('① 正本に領域 hash(完全)が無い');
+      if (J.reuseFrom !== null || J.kernel !== 'k1') bad.push('① 正本が行の使い回しか K1 でない');
+      if (!(J.E && J.E.runN === P.runN && JSON.stringify(J.E.windows) === JSON.stringify(P.windows) && JSON.stringify(J.E.divs) === JSON.stringify(P.divs) && JSON.stringify(J.E.holdout) === JSON.stringify(P.holdout)
+        && J.E.stepsPerOrbit === P.stepsPerOrbit && Object.keys(J.E.rows).length === X.SATS.length * P.systems.length * P.kinds.length * P.divs.length)) bad.push('① 計画が器の宣言と違う');
+      if (!near316(J.harmRule, JSON.parse(JSON.stringify(X.HARM_RULE))) || !near316(J.exclude, JSON.parse(JSON.stringify(X.EXCLUDE))) || !Object.keys(X.EXCLUDE).every((k) => k === 'triton|aps')) bad.push('① 判定の規則 HARM_RULE・判定から外す量(トリトンの近点だけ)');
+      cases.push(`① 門 ${GK.filter((k) => G[k] === true).length}/${GK.length}(器の gatesOf で作り直して一致)・${X.SATS.length} 衛星 × 二体・三体 × q00・q10・q11 × h/${P.divs.join('・h/')}・${P.runN} 公転の入れ子の窓 ${P.windows.join('・')}・保留の窓 ${P.holdout.join('・')}・走行 ${Object.keys(J.E.rows).length} 本`);
+      // ②
+      if (Js) {
+        const pf = X.prefixOf(J, Js);
+        if (!near316(pf, J.prefix) || !(pf.compared > 0 && pf.same === pf.compared)) bad.push('② 最初の 32 公転が第315便d の走行とビット同一でない(' + pf.same + '/' + pf.compared + ')');
+        for (const k of X.SATS) if (!near316(J.T.systems[k], Js.T.systems[k])) bad.push('② 種が第315便d の正本と違う ' + k);
+        cases.push(`② 最初の 32 公転は第315便d の走行とビット同一 ${pf.same}/${pf.compared}(窓 × 量)・種は第315便d の正本と同じ`);
+      } else cases.push('② 第315便d の正本が無い(照合しない)');
+      // ③
+      const A2 = X.partA(J), C2 = X.partC(J), V2 = X.partV(J);
+      if (!near316(A2, J.A)) bad.push('③ 段 A を作り直すと違う');
+      if (!near316(C2, J.C)) bad.push('③ 段 C を作り直すと違う');
+      if (!near316(V2, J.V)) bad.push('③ 段 V を作り直すと違う');
+      for (const [id, o] of Object.entries(J.A.systems)) for (const [M, m] of Object.entries(o.models)) if (m.determined !== (m.R1 === true && m.R2 === true && (M === 'L' || m.R3 === true))) { bad.push('③ 判定 = R1 ∧ R2 ∧(L か R3)でない ' + id + '/' + M); break; }
+      const nDet3 = X.SATS.filter((k) => J.A.systems[k + '|three'].determinedBy.length > 0).length;
+      const ca = J.C.rep.count.aps;
+      if (!(ca.excluded.length === 1 && ca.excluded[0] === 'triton' && ca.judged === X.SATS.length - 1)) bad.push('③ 表の代表の近点の数(二体だけ・トリトンを外す)');
+      cases.push(`③ 段 A・C・V を走行の行から作り直して一致 —— 代表(二体)の近点 q11 − q10 が数値の帯の内 ${ca.inBand}/${ca.judged}(トリトンは判定から外す)・三体の永年の効きが帯の内で決まった衛星 ${nDet3}/${X.SATS.length}`);
+      // ④
+      if (!sec) bad.push('PHYSICS〔第316便d〕が無い');
+      else {
+        const rows = D.physicsTablesSatH(J).split('\n').filter((l) => l.startsWith('|') && !l.startsWith('|---'));
+        let nMiss = 0; for (const r of rows) if (sec.indexOf(r) < 0) { nMiss++; if (nMiss <= 4) bad.push('PHYSICS〔第316便d〕の衛星の表に行が無い: ' + r.slice(0, 70)); }
+        const nums = D.docNumbersSatH(J), missN = nums.filter((x) => sec.indexOf(x) < 0); if (missN.length) bad.push('PHYSICS〔第316便d〕に正本の数が無い: ' + missN.slice(0, 5).join(', '));
+        if (i7 >= 0 && i0 > i7) bad.push('PHYSICS〔第316便d〕が「## 7. 論文」の後');
+        for (const w of ['R249', '第118報', 'AN423', 'AN424', 'AN416', 'AN422', 'exp-w316d-sath.mjs', 'sath-w316d.json', 'docs.satH316', 'docs.paperSymbols316', 'lint.perfTargets316', 'W316D_OUT', 'W316D_QUICK', 'W316D_CACHE',
+          'HARM_RULE', '帯の内で決まらない', '保留の窓', '条件数', '離心率ベクトル', '判定から外す', '太陽の効きの記録', 'w316d-scope-5', 'SCOPE_STOP_ADDED_316', 'scope-stop-probe316.mjs', 'w316d-perf-targets-1', 'X_k', 'S_k', 'c_0', 'R_d', '言わないこと'])
+          if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第316便d〕に「' + w + '」が無い');
+        cases.push(`④ PHYSICS〔第316便d〕の表の行 ${rows.length} 行と数 ${nums.length} 個を正本から作り直して照合`);
+      }
+      { const ai = AS.indexOf('## 142.'); if (ai < 0) bad.push('AI_SPEC に §142 が無い');
+        else { const as = AS.slice(ai, ai + 8000); for (const w of ['exp-w316d-sath.mjs', 'sath-w316d.json', 'docs.satH316', 'docs.paperSymbols316', 'lint.perfTargets316', 'AN423', 'AN424', 'AN416', 'w316d-scope-5', 'SYSTEM_PROMPT には載せない']) if (as.indexOf(w) < 0) bad.push('AI_SPEC §142 に「' + w + '」が無い'); } }
+      { const ci = CLx.search(/## v1\.46(?:-b\d+|\.0)\(/), cs = ci >= 0 ? CLx.slice(ci, ci + 40000) : ''; if (cs.indexOf('第316便d') < 0) bad.push('CHANGELOG の beta の節に第316便d が無い'); }
+      if (RMx.indexOf('第316便d') < 0) bad.push('README に第316便d が無い');
+      if (RT.indexOf("S('sath-316d', 'node tests/exp-w316d-sath.mjs', ['tests/out/sath-w316d.json']") < 0 || !/secSource: 'w316d-branch'/.test(RT)) bad.push('再生成の段 sath-316d');
+      if (GI.indexOf('!tests/out/sath-w316d.json') < 0) bad.push('.gitignore の例外');
+      if (PM.indexOf('docs.satH316') < 0) bad.push('post-merge に docs.satH316 が無い');
+      if (QA0.indexOf("'tests/out/sath-w316d.json',") < 0) bad.push('CANON(lint.canon304)に第316便d の正本が無い');
+      // ⑤
+      for (const re of NOT) if (re.test(strip(sec))) bad.push('PHYSICS〔第316便d〕に書かない語 ' + re.source);
+      for (const w of NG.concat(NG2)) if (sec.indexOf(w) >= 0) bad.push('PHYSICS〔第316便d〕に禁句(' + w.length + ' 字)');
+      if (/κ(?!_D)/.test(sec.replace(/`[^`\n]*`/g, ''))) bad.push('PHYSICS〔第316便d〕に裸の κ(κ は κ_D だけ —— コードの書式の外)');
+      if (/(?<![\w`])r_d(?![\w`])/.test(sec.replace(/`[^`\n]*`/g, '').replace(/鍵 r_d/g, ''))) bad.push('PHYSICS〔第316便d〕の新しい文に r_d(引きずり半径は R_d —— 鍵の名はコードの書式で)');
+      for (const f of ['tests/exp-w316d-sath.mjs', 'tests/lib-w316d-sathdoc.mjs', 'tools/scope-stop-probe316.mjs']) { const tx = rd(f); for (const w of NG.concat(NG2)) if (tx.indexOf(w) >= 0) bad.push(f + ' に禁句(' + w.length + ' 字)'); if (tx.indexOf('κ') >= 0) bad.push(f + ' に κ の字'); }
+      cases.push('⑤ 書かない語・禁句・裸の κ・新しい文の r_d(節と器と lib と道具)');
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  }
+  add('docs.satH316', bad.length === 0,
+    `**衛星 6 本の三体の診断の正本と文書**(第316便d・原仮定者の裁定(第118報)・AN423・AN424・R249 —— 正本 sath-w316d.json・表の代表は二体・三体は太陽の効きの記録〔合否の数にしない〕・太陽の位相の調和の回帰〔窓の見かけの傾きを吸っただけなら改善と呼ばない〕・トリトンの近点は判定から外す・観測の 3σ を付けない・在位へ入れない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- 第316便d(原仮定者の裁定(第118報)・決断事項 AN416・統括の検証項目 R249): docs.paperSymbols316 —— **論文 1〜5(en/ja の 10 本)の記号・記号表・脚注 1 つ**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 論文 1 の記号表の印(`\textit{Notation.}\footnote{`)。本文(TeX のコメントの外)の `\kappa` はアインシュタインの重力定数(`\kappa=8\pi`)・
+// ----   論文 1 の `\kappa_D` と図のパネル見出しの注記(旧表記)だけ・`\kappa_s` と `c_{\mathrm{light}}` は 0(記号表の脚注の旧 → 新の対応は数えない)/ 記号表と脚注は論文ごとに 1 つ・
+// ----   要旨の後・最初の節の前・その論文が使う記号の行だけ / 「記号を共有するだけ」の句が無い / 論文 1 のマクロ \Kt = X_k と κ_D の定義 1 回 / 本文に来歴の語が無い /
+// ----   括弧と環境の対応(コメントの外)/ paper/README の記号の注記
+{
+  const bad = [], cases = [];
+  const PE1 = (() => { try { return fs.readFileSync(path.join(ROOT, 'paper', 'dfm-paper.tex'), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && PE1.indexOf('\\textit{Notation.}\\footnote{') >= 0)) {
+    console.log('SKIP docs.paperSymbols316(第316便d の論文の記号の前の世代 — ' + TARGET + ')');
+  } else {
+    try {
+      const uncom = (t) => t.split('\n').map((l) => { let i = 0; while (i < l.length) { if (l[i] === '\\') { i += 2; continue; } if (l[i] === '%') return l.slice(0, i); i++; } return l; }).join('\n');
+      const FILES = ['dfm-paper.tex', 'dfm-paper-ja.tex', 'dfm-paper2.tex', 'dfm-paper2-ja.tex', 'dfm-paper3.tex', 'dfm-paper3-ja.tex', 'dfm-paper4.tex', 'dfm-paper4-ja.tex', 'dfm-paper5.tex', 'dfm-paper5-ja.tex'];
+      const rows = [];
+      for (const f of FILES) {
+        const raw = fs.readFileSync(path.join(ROOT, 'paper', f), 'utf8'), t = uncom(raw), ja = /-ja\.tex$/.test(f), p1 = /^dfm-paper(-ja)?\.tex$/.test(f);
+        const mark = ja ? '\\textbf{記号}\\footnote{' : '\\textit{Notation.}\\footnote{';
+        const nb = t.split(mark).length - 1, b0 = t.indexOf(mark), b1 = b0 >= 0 ? t.indexOf('\\end{center}', b0) : -1, blk = (b0 >= 0 && b1 > b0) ? t.slice(b0, b1) : '';
+        if (nb !== 1 || !blk) { bad.push(f + ': 記号表と脚注が 1 つでない(' + nb + ')'); continue; }
+        const fs0 = t.search(/\\section\{/), ab = Math.max(t.lastIndexOf('\\end{abstract}', b0), t.lastIndexOf('概要 TODO。', b0), t.lastIndexOf('}]', b0));
+        if (!(b0 < fs0 && ab >= 0)) bad.push(f + ': 記号表が要旨の後・最初の節の前に無い');
+        const body = t.slice(0, b0) + t.slice(b1);
+        const kap = [...body.matchAll(/\\kappa(?![A-Za-z])/g)].filter((m) => { const s = body.slice(m.index, m.index + 16);
+          return !/^\\kappa\s*=\s*8\\pi/.test(s) && !/^\\kappa_D/.test(s); }).length;
+        const legacy = (body.match(/the earlier symbol \$\\kappa\$ of this|以前の記号 \$\\kappa\$\(現在は/g) || []).length;
+        if (kap - legacy !== 0) bad.push(f + ': 本文に時空係数の \\kappa が ' + (kap - legacy) + ' 件残る');
+        if ((body.match(/\\kappa_s/g) || []).length) bad.push(f + ': 本文に \\kappa_s が残る');
+        if ((body.match(/c_\{\\mathrm\{light\}\}/g) || []).length) bad.push(f + ': 本文に c_{\\mathrm{light}} が残る');
+        if (/shares only the letter|記号を共有するだけ/.test(body)) bad.push(f + ': 「記号を共有するだけ」の句が残る');
+        if (/第3\d\d便|決断事項|AN4\d\d|wave 3\d\d|原仮定者/.test(body)) bad.push(f + ': 本文(コメントの外)に来歴の語');
+        // 記号表の行 = その論文が使う記号
+        const want = [];
+        if (/X_k|\\Kt\b/.test(body)) want.push('$X_k$'); if (/S_k/.test(body)) want.push('$S_k$'); if (/c_0/.test(body)) want.push('$c_0$');
+        if (p1) want.push('$\\kappa_D$', '$r_s$');
+        const have = [...blk.matchAll(/\n(\$[^$]+\$) & /g)].map((m) => m[1]);
+        if (JSON.stringify(have.slice().sort()) !== JSON.stringify(want.slice().sort())) bad.push(f + ': 記号表の行 ' + have.join(',') + ' ≠ 使う記号 ' + want.join(','));
+        if (!/kappa[TS]/.test(blk) || !(ja ? /変えていない/.test(blk) : /unchanged/.test(blk))) bad.push(f + ': 脚注に実装の鍵と「不変」の語が無い');
+        // 括弧と環境(コメントの外)
+        let dep = 0, mn = 0; for (let i = 0; i < t.length; i++) { const c = t[i]; if (c === '\\') { i++; continue; } if (c === '{') dep++; else if (c === '}') { dep--; mn = Math.min(mn, dep); } }
+        const st = []; let envBad = 0; for (const m of t.matchAll(/\\(begin|end)\{([^}]+)\}/g)) { if (m[1] === 'begin') st.push(m[2]); else if (st.pop() !== m[2]) envBad++; }
+        if (dep !== 0 || mn < 0 || envBad || st.length) bad.push(f + ': 括弧か環境の対応が崩れた(' + dep + '・' + envBad + '・' + st.length + ')');
+        rows.push(f.replace('dfm-paper', 'p').replace('.tex', '') + ' ' + have.length + ' 行');
+      }
+      for (const f of ['dfm-paper.tex', 'dfm-paper-ja.tex']) { const t = fs.readFileSync(path.join(ROOT, 'paper', f), 'utf8');
+        if (t.indexOf('\\newcommand{\\Kt}{X_k}') < 0) bad.push(f + ': マクロ \\Kt が X_k でない');
+        if (t.split('\\kappa_D \\equiv 2G/c^2').length - 1 !== 1) bad.push(f + ': κ_D の定義が 1 回でない'); }
+      const PR = fs.readFileSync(path.join(ROOT, 'paper', 'README.md'), 'utf8');
+      if (!(PR.indexOf('記号の注記') >= 0 && PR.indexOf('AN416') >= 0 && PR.indexOf('S_k') >= 0)) bad.push('paper/README に記号の注記が無い');
+      cases.push(`論文 10 本の記号表(${rows.join('・')})・本文の時空係数の \\kappa 0・\\kappa_s 0・c_light 0・共有の句 0・来歴の語 0・括弧と環境の対応・論文 1 の \\Kt = X_k と κ_D の定義 1 回・paper/README`);
+    } catch (e) { bad.push('論文が読めない: ' + String(e).slice(0, 160)); }
+    add('docs.paperSymbols316', bad.length === 0,
+      `**論文 1〜5 の記号**(第316便d・原仮定者の裁定(第118報)・AN416・R249 —— 本文を置き換え、記号表に脚注 1 つ。数値・式の中身・主張は変えない・ψ = X_k W の X_k を κ_D にしない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ---- 第316便d(原仮定者の裁定(第118報)・統括の検証項目 R249): lint.perfTargets316 —— **perf の正本に測った対象の html の sha256 と Node の版**(新設 —— root は SKIP)。
+// ----   世代切替 = beta 対象 ∧ 器 tests/perf.mjs に `PERF_TARGETS`。器が測定の前に root と beta の html の sha256・Node の版を読み、正本の新しい欄 targets に書く(既存の欄は不変・閾値と判定式は不変)。
+// ----   正本に targets があれば形(版 w316d-perf-targets-1・sha は 64 桁の 16 進・node は v で始まる・nodeMajor は整数)を見る。無ければ「未走行(次の perf の走行で入る)」と印字する
+{
+  const bad = [], cases = [];
+  const src = (() => { try { return fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && src.indexOf('PERF_TARGETS') >= 0)) {
+    console.log('SKIP lint.perfTargets316(第316便d の perf の対象の sha の前の世代 — ' + TARGET + ')');
+  } else {
+    if (!/const PERF_TARGETS = \{ version: 'w316d-perf-targets-1', root: perfTargetOf\('index\.html'\), beta: perfTargetOf\(path\.join\('beta', 'index\.html'\)\),/.test(src)) bad.push('器に PERF_TARGETS(root と beta の sha256)が無い');
+    if (!/node: process\.version, nodeMajor:/.test(src) || src.indexOf('targets: PERF_TARGETS,') < 0) bad.push('器が targets に Node の版を書かない');
+    if (src.indexOf('const THRESH') < 0) bad.push('器の閾値の宣言が見つからない');
+    let ran = '未走行(tests/out/perf-results.json に targets が無い —— 次の perf の走行で入る)';
+    try {
+      const pj = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'perf-results.json'), 'utf8'));
+      if (pj.targets) { const t = pj.targets, hx = (x) => typeof x === 'string' && /^[0-9a-f]{64}$/.test(x);
+        if (!(t.version === 'w316d-perf-targets-1' && t.root && t.beta && hx(t.root.sha256) && hx(t.beta.sha256) && t.root.file === 'index.html' && t.beta.file === 'beta/index.html'
+          && typeof t.node === 'string' && /^v\d+\./.test(t.node) && Number.isInteger(t.nodeMajor) && t.node === (pj.env && pj.env.node))) bad.push('正本の targets の形が崩れた');
+        ran = `root ${String(t.root.sha256).slice(0, 12)}…・beta ${String(t.beta.sha256).slice(0, 12)}…・Node ${t.node}`; }
+      if (!(pj.env && typeof pj.env.node === 'string' && Array.isArray(pj.results))) bad.push('正本の既存の欄(env・results)が崩れた');
+    } catch (e) { bad.push('perf-results.json が読めない'); }
+    cases.push('器: 測定の前に root と beta の html の sha256・Node の版を新しい欄 targets へ(既存の欄・閾値・判定式は不変)/ 直近の正本: ' + ran);
+    add('lint.perfTargets316', bad.length === 0,
+      `**perf の正本に測った対象の sha**(第316便d・原仮定者の裁定(第118報)・R249 —— 手元のゲート〔Node 22〕と CI〔Node 24〕の perf を同じ対象・同じ Node かで読み分ける): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第316便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
