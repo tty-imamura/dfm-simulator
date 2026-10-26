@@ -338,6 +338,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.inposK1_315 behavior.inposK1_315 docs
 #   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 docs.solar16Contract300 docs.pn1x3d314 docs.k1confirm313 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310"
 # ==== 第315便d の塊(ここまで)====
+# ==== 第316便b の塊(ここから)====
+# 第316便b(原仮定者の裁定(第118報)・決断事項 AN425・R247): 枝 b の新設 2 本(lint.presetText316b —— サンプルの説明の前半 105 本と SAMPLE_STATUS の表示の文に来歴の語と旧記号が無い・
+#   preset.referenceKind316b —— 🌡️ の referenceKind)と、表示の文を照合していて世代切替を受けた QA(ui.mercuryNaming・preset.earthMoonInertial・docs.analogyKernelNote・
+#   preset.revived292b・preset.inposK1_315・ui.samplePicker・preset.revertGLoc303・preset.emBaseline304・preset.emJ2_305・preset.emResolve306)・SAMPLE_STATUS の同期
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316b preset.referenceKind316b ui.mercuryNaming preset.earthMoonInertial docs.analogyKernelNote preset.revived292b ui.samplePicker preset.revertGLoc303 preset.emBaseline304 preset.emJ2_305 preset.emResolve306 docs.sampleStatus-sync"
+# ==== 第316便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
