@@ -2,7 +2,7 @@
  "version": "w315b-rsexcess-1",
  "generator": "tests/exp-w315b-rsexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "決断事項 AN415 観測半径を超えた R_d の表示を、観測半径を超えたシュヴァルツシルト半径 r_s の表示に変更(r_s は全質量と本の G_0・c_0 から・DFM による地平面の判定ではない・R_d の受理と警告と読み口は残す)・原仮定者の裁定(第117報)AN414 の記号・K1 の境界の 1 点・統括の検証項目 R243",
  "units": {
   "book": {
@@ -1224,9 +1224,9 @@
      ]
     },
     "expectOk": false,
-    "expectErr": "AN403・AN409",
+    "expectErr": "AN403・AN409|将来の地表のサンプル",
     "ok": false,
-    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "nWarnX": null,
     "pass": true
    },
@@ -1259,9 +1259,9 @@
      ]
     },
     "expectOk": false,
-    "expectErr": "AN403・AN409",
+    "expectErr": "AN403・AN409|将来の地表のサンプル",
     "ok": false,
-    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "nWarnX": null,
     "pass": true
    },
@@ -1378,48 +1378,48 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.033
+   "wallSec": 0.025
   },
   "E": {
    "wallSec": 0.005
   },
   "F": {
-   "wallSec": 0.009
+   "wallSec": 0.008
   },
   "V": {
-   "wallSec": 0.014
+   "wallSec": 0.022
   },
   "Z": {
-   "wallSec": 0.116
+   "wallSec": 0.112
   },
   "B": {
-   "wallSec": 11.218
+   "wallSec": 11.517
   },
   "K": {
-   "wallSec": 0.17
+   "wallSec": 0.22
   }
  },
- "elapsedS": 13.386,
+ "elapsedS": 13.961,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:17:24.888Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:34:09.614Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w315b-rsexcess.mjs",
-    "bytes": 32083,
-    "sha256": "5126cbe6e09cb03806b2e3e8258eaadc5ca8ab03c7a4ae112677e4af73e3f934",
-    "mtime": "2026-10-25T15:47:41.333Z"
+    "bytes": 32379,
+    "sha256": "44273a85e5eba9249a4268918468e7e6633a0be09c7d3fe090fe0bffb8751d0b",
+    "mtime": "2026-10-26T10:28:30.999Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -1441,12 +1441,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "d64aef7f2400d57fe1c0ddf4317310c47f7472922ce69cd864a9f7295faba1fb",
+  "codeSha256": "c94597059b5c7815a93ea57c4d8b584db8b0c321917716bc71eb54e8552a44c1",
   "harnessVersion": "w315b-rsexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1458,7 +1458,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -1479,11 +1479,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1536,
-   "segments": 1371,
-   "closureShare": 0.3478
+   "names": 1308,
+   "segments": 1149,
+   "closureShare": 0.3097
   },
-  "scopeSha256": "30f954e15a1a7d435ca797aa9f7890800a34bc752d7cd7b7f84b06c75becc8a0",
+  "scopeSha256": "2b251da7971afa02f0486de40aa3d64b752147c1e85aaacc137db652438f374f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

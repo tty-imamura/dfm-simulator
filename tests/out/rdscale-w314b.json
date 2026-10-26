@@ -2,7 +2,7 @@
  "version": "w314b-rdscale-1",
  "generator": "tests/exp-w314b-rdscale.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第116報)の補足(現状の R_d = κm を重力半径 2κm へ置き換えて引きずりの式を合わせた場合を検討する —— κ の認識が違い複雑化する場合は採用せず解説を行う)・統括の検証項目 R239。検討と解説の材料(html・本の宣言・エンジンの式・κ₀ は変えない —— 写しは器の中で組む)",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "quick": false,
@@ -3696,7 +3696,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.511
+    "wallSec": 0.41
    },
    {
     "kind": "q10",
@@ -3725,7 +3725,7 @@
     "nan": false,
     "betaMax": 0,
     "overlap": 0,
-    "wallSec": 0.54
+    "wallSec": 0.543
    },
    {
     "kind": "q11",
@@ -3757,7 +3757,7 @@
     "nan": false,
     "betaMax": 3.209975441893601e-7,
     "overlap": 0,
-    "wallSec": 24.996
+    "wallSec": 30.168
    },
    {
     "kind": "q11",
@@ -3789,7 +3789,7 @@
     "nan": false,
     "betaMax": 2.7063765768290744e-8,
     "overlap": 0,
-    "wallSec": 25
+    "wallSec": 32.51
    },
    {
     "kind": "q11",
@@ -3821,7 +3821,7 @@
     "nan": false,
     "betaMax": 5.4127528868324274e-8,
     "overlap": 0,
-    "wallSec": 22.508
+    "wallSec": 29.661
    },
    {
     "kind": "q11",
@@ -3853,7 +3853,7 @@
     "nan": false,
     "betaMax": 6.419947130069395e-7,
     "overlap": 0,
-    "wallSec": 23.287
+    "wallSec": 26.654
    }
   ],
   "rows": [
@@ -3989,31 +3989,31 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.067
+   "wallSec": 0.087
   },
   "S": {
-   "wallSec": 0.12
+   "wallSec": 0.155
   },
   "R": {
-   "wallSec": 0.015
+   "wallSec": 0.016
   },
   "P": {
-   "wallSec": 96.889
+   "wallSec": 119.994
   }
  },
- "elapsedS": 98.748,
+ "elapsedS": 122.081,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T23:03:49.362Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:32:39.619Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4079,12 +4079,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "a7599a5d344ab8c8dc611a904dbf9523e6db8310d316eaef568f75e34e454854",
+  "codeSha256": "034061b710e4fe1eee3644be00df2dce38cf55dcd399455218a268b458636f57",
   "harnessVersion": "w314b-rdscale-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -4097,7 +4097,7 @@
    "R_d を決めた"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -4127,11 +4127,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1535,
-   "segments": 1370,
-   "closureShare": 0.3475
+   "names": 1307,
+   "segments": 1148,
+   "closureShare": 0.3094
   },
-  "scopeSha256": "f7e5f9bc6175e1b6be4137b3c79676c627ccf98205b6654f97ab896ac721f0df",
+  "scopeSha256": "f0a8357996a2bda60d58746cc919e3488bf0476d2881663aeb1a96544c43953e",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -3,7 +3,7 @@
  "libVersion": "w309b-maintain-lib-1",
  "generator": "tests/exp-w309b-maintain.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第103報)AN356・AN358・(第104報)AN362・統括の検証項目 R219",
  "maintainVersion": "w309b-maintain-1",
  "quick": false,
@@ -1132,46 +1132,46 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "A": {
-   "wallSec": 0.008
+   "wallSec": 0.006
   },
   "E": {
-   "wallSec": 0.04
+   "wallSec": 0.022
   },
   "L": {
-   "wallSec": 0.35
+   "wallSec": 0.434
   },
   "T": {
-   "wallSec": 0.179
+   "wallSec": 0.159
   },
   "K": {
-   "wallSec": 0.065
+   "wallSec": 0.045
   },
   "S": {
-   "wallSec": 0.121
+   "wallSec": 0.09
   },
   "D": {
-   "wallSec": 0.264
+   "wallSec": 0.258
   },
   "V": {
-   "wallSec": 1.11
+   "wallSec": 1.103
   }
  },
- "elapsedS": 4.202,
+ "elapsedS": 3.881,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:00:31.326Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:34:26.408Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1219,12 +1219,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "67f11bdb20437ffb1aec9dd01462726f3fd6fe611481762b949f7f5731107909",
+  "codeSha256": "b62c508b8c45a1d08ab10f89703e4882eaf2f1b9cf1f359c8cd13c7264fa18ff",
   "harnessVersion": "w309b-maintain-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1236,7 +1236,7 @@
    "背景の口座は遠方宇宙の物理の経路"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "chainDiskToy3dTilt",
     "jupiterSunInertial3d",
@@ -1270,11 +1270,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1552,
-   "segments": 1387,
-   "closureShare": 0.3503
+   "names": 1324,
+   "segments": 1165,
+   "closureShare": 0.3122
   },
-  "scopeSha256": "fdb6c66f10f216103e06506b682a2597144b237434e10b47baba398c50ca4fa8",
+  "scopeSha256": "165f1cb02df1e1a84c2acf8fa09bae1bb5ba46f7509fb2ef675efb43563437d0",
   "scopeComplete": true,
   "inputsStable": [
    {
