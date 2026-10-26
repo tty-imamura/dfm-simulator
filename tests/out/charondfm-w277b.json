@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T23:04:23.292Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T13:02:20.778Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -56,7 +56,7 @@
   ],
   "codeSha256": "8d4c32e331d0657507190ecf6b26a46098210c82e8e5227a7c3237d999a2dc4b",
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "plutoCharonDFM",
     "plutoCharonKF0Control"
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1521,
-   "segments": 1356,
-   "closureShare": 0.3446
+   "names": 1291,
+   "segments": 1132,
+   "closureShare": 0.3062
   },
-  "scopeSha256": "4b954c00e0aaba4a8ca5c0e0f633b356a340c8b9eb39245b1b4385a9760afaf2",
+  "scopeSha256": "db1ae87b8bbc97dcd111ea14692999da0bbab7484842cc6ad47b4b7c75134094",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2984,7 +2984,7 @@
      },
      "ok": false,
      "out": null,
-     "err": "physics.relativeDrag.law は \"pairSlip\" か \"inertial\"(第290便c)のみ"
+     "err": "physics.relativeDrag.law は \"pairSlip\" か \"inertial\"のみ"
     },
     {
      "input": {
