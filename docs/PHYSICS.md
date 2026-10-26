@@ -38015,40 +38015,40 @@ R_d を r_s にした式で今と同じ引きずりを出すには、並進に 5
 
 **⑦ 停止集合の版上げ(AN422 ②)。** `tests/lib-w281a-scope.mjs` の現行版を **`w316d-scope-5`** へ。停止集合 `SCOPE_STOP` に**物理を読まない表示の関数 26 個**(`SCOPE_STOP_ADDED_316` —— HUD `syncHud`・キャンバスの描画 `drawWorldInto`・`drawSpaceGridOn`・`drawGalaxyTracerInto`・`_smDrawLegend`・`_smLineStyle`・パラメータの行と選択とカードの表示同期 `beLayNumsFill`・`buildInertialWbgRow`・`inertialWbgRowSync`・`wbgRowSync`・`geo3InertialSync`・`geo0ChoiceBuild`・`geo0ChoiceSync`・`bgRangeCardSync`・`bgRangeCardFill`・`syncMeshChip`・`refreshGeoInfoNotes`・`refreshModeDeviation`・選択とボタンとバッジ `rebuildAiBaseSelect`・`setPresetSelectValue`・`updatePresetPickBtn`・`updatePhysLockBadge`・`updateSaveNameDefault`・`updatePlayBtn`・`updateAbTargetUI`・`updateAbBtn`)を足した。条件は第282便e と同じ(最上位の function・本体の直接の書き込みが表示の境界 `SCOPE_STOP_BOUNDARY` の中・宣言した器が HP/文字列で読まない・物理側 `PHYSICS_KEEP` は入れない)。**`updateBodyEdit` は入れない**(選択粒子の編集の表示状態 `beCvConfirm`・`beDcSel`・`beLayIdx` などを直接書く —— 境界の外)。**`loadPreset`・`validatePreset`・物理の定義と計算の関数も入れない**。観測比較のパネル(`ocRender`・`ocOpen`・`ocBuildControls`)は表示だけだが、器 `tests/exp-w285d-obscompare.mjs` が `HP.obsCompare` から読むので入れない(lint.scopeStop ② —— 最初の案の 29 個から外した)。止めると宣言した全器の閉包の和から 186 名が落ちる(閉包の平均 1535.7 名 → 1305.3 名・1.88 MB → 1.67 MB)—— 落ちる名前は残る閉包から参照されない(書き手の検出は全関数を走査する —— 落ちる関数の書き込みは表示の状態 `presetFilter`・`trailLife`・`stepDiagOn`・`_smGainUser` など)。版 4 以前の刻印は版 4 の停止集合 `SCOPE_STOP_4`(第286便d の `SCOPE_STOP` と並びまで同じ)・版 2〜3 は `SCOPE_STOP_3` で引き直す(`stopSetOf` —— 再生成の表の領域の読みの照合も同じ規則)。
 
-対照(道具 `tools/scope-stop-probe316.mjs` —— 基点の html の写しに 1 か所だけの変更を入れ、宣言した 132 器の領域 hash を版 4 と版 5 で引き直した本数。関数と表の変更は閉包と HP の部分の hash で全器を数え、プリセットの欄の変更はその本を名指しする器 1 本の scopeHash そのものから数え、標本の器 3 本で scopeHash そのものと照合した):
+対照(道具 `tools/scope-stop-probe316.mjs` —— 基点の html の写しに 1 か所だけの変更を入れ、宣言した 133 器の領域 hash を版 4 と版 5 で引き直した本数。関数と表の変更は閉包と HP の部分の hash で全器を数え、プリセットの欄の変更はその本を名指しする器 1 本の scopeHash そのものから数え、標本の器 3 本で scopeHash そのものと照合した):
 
 | 変更(基点の html の写しに 1 か所) | 種類 | 版 4 で変わる器 | 版 5 で変わる器 | 版 5 で残る内訳 | 標本の器 3 本の scopeHash との照合 |
 |---|---|---|---|---|---|
-| I18N の文(ja physLockOn に 1 字) | 表示の文 | 0/132 | 0/132 | — | 3/3 一致 |
-| PARAM_DEFS の desc(D₀ の説明に 1 字) | 表示の文 | 132/132 | 132/132 | 式: PARAM_DEFS(132) | 3/3 一致 |
-| サンプルの名(🟠 jupiterGalilean の name に 1 字) | 表示の文 | 73/132 | 73/132 | プリセット: jupiterGalilean(73) | 3/3 一致 |
-| サンプルの英語の名(🟠 の en.name に 1 字 —— 説明文の欄 PROSE_KEYS の en) | 表示の文 | 0/132 | 0/132 | — | 3/3 一致 |
-| 受理の理由の文(validatePreset の本体 —— 物理側で止めない) | 表示の文 | 132/132 | 132/132 | 式: validatePreset(132) | 3/3 一致 |
-| ヘルプ(renderHelp の本体 —— 版 2 から停止) | 表示の文 | 0/132 | 0/132 | — | 3/3 一致 |
-| 選択粒子の編集(updateBodyEdit の本体 —— 表示状態 be* を書くので止めない) | 表示の文 | 132/132 | 132/132 | 式: updateBodyEdit(132) | 3/3 一致 |
-| キャンバスの描画(drawWorldInto の本体 —— 版 5 で停止) | 表示の文 | 132/132 | 0/132 | — | 3/3 一致 |
-| HUD(syncHud の本体 —— 版 5 で停止) | 表示の文 | 132/132 | 0/132 | — | 3/3 一致 |
-| 表示の同期(refreshModeDeviation の本体 —— 版 5 で停止) | 表示の文 | 132/132 | 0/132 | — | 3/3 一致 |
-| loadPreset の本体(通知の文 —— 物理側で止めない) | 表示の文 | 132/132 | 132/132 | 式: loadPreset(132) | 3/3 一致 |
-| 質量(🟠 の最初の m の最下位桁) | 物理 | 73/132 | 73/132 | プリセット: jupiterGalilean(73) | 3/3 一致 |
-| G_0(🟠 の physics.G の最下位桁) | 物理 | 73/132 | 73/132 | プリセット: jupiterGalilean(73) | 3/3 一致 |
-| c_0(🟠 の physics.cLight の最下位桁) | 物理 | 73/132 | 73/132 | プリセット: jupiterGalilean(73) | 3/3 一致 |
-| ソフトニング(🟠 の softening の最下位桁) | 物理 | 73/132 | 73/132 | プリセット: jupiterGalilean(73) | 3/3 一致 |
-| 引きずりの規則 Y_k(invSqKappa0 の本体) | 物理 | 132/132 | 132/132 | 式: invSqKappa0(132) | 3/3 一致 |
-| 引きずり核 dragCore(dragCoreLookup の本体) | 物理 | 132/132 | 132/132 | 式: dragCoreLookup(132) | 3/3 一致 |
-| dragCore の受理(validateDragCoreBody の本体) | 物理 | 132/132 | 132/132 | 式: validateDragCoreBody(132) | 3/3 一致 |
-| 積分器を持つ sim の構築(makeSim の本体) | 物理 | 132/132 | 132/132 | 式: makeSim(132) | 3/3 一致 |
+| I18N の文(ja physLockOn に 1 字) | 表示の文 | 0/133 | 0/133 | — | 3/3 一致 |
+| PARAM_DEFS の desc(D₀ の説明に 1 字) | 表示の文 | 133/133 | 133/133 | 式: PARAM_DEFS(133) | 3/3 一致 |
+| サンプルの名(🟠 jupiterGalilean の name に 1 字) | 表示の文 | 74/133 | 74/133 | プリセット: jupiterGalilean(74) | 3/3 一致 |
+| サンプルの英語の名(🟠 の en.name に 1 字 —— 説明文の欄 PROSE_KEYS の en) | 表示の文 | 0/133 | 0/133 | — | 3/3 一致 |
+| 受理の理由の文(validatePreset の本体 —— 物理側で止めない) | 表示の文 | 133/133 | 133/133 | 式: validatePreset(133) | 3/3 一致 |
+| ヘルプ(renderHelp の本体 —— 版 2 から停止) | 表示の文 | 0/133 | 0/133 | — | 3/3 一致 |
+| 選択粒子の編集(updateBodyEdit の本体 —— 表示状態 be* を書くので止めない) | 表示の文 | 133/133 | 133/133 | 式: updateBodyEdit(133) | 3/3 一致 |
+| キャンバスの描画(drawWorldInto の本体 —— 版 5 で停止) | 表示の文 | 133/133 | 0/133 | — | 3/3 一致 |
+| HUD(syncHud の本体 —— 版 5 で停止) | 表示の文 | 133/133 | 0/133 | — | 3/3 一致 |
+| 表示の同期(refreshModeDeviation の本体 —— 版 5 で停止) | 表示の文 | 133/133 | 0/133 | — | 3/3 一致 |
+| loadPreset の本体(通知の文 —— 物理側で止めない) | 表示の文 | 133/133 | 133/133 | 式: loadPreset(133) | 3/3 一致 |
+| 質量(🟠 の最初の m の最下位桁) | 物理 | 74/133 | 74/133 | プリセット: jupiterGalilean(74) | 3/3 一致 |
+| G_0(🟠 の physics.G の最下位桁) | 物理 | 74/133 | 74/133 | プリセット: jupiterGalilean(74) | 3/3 一致 |
+| c_0(🟠 の physics.cLight の最下位桁) | 物理 | 74/133 | 74/133 | プリセット: jupiterGalilean(74) | 3/3 一致 |
+| ソフトニング(🟠 の softening の最下位桁) | 物理 | 74/133 | 74/133 | プリセット: jupiterGalilean(74) | 3/3 一致 |
+| 引きずりの規則 Y_k(invSqKappa0 の本体) | 物理 | 133/133 | 133/133 | 式: invSqKappa0(133) | 3/3 一致 |
+| 引きずり核 dragCore(dragCoreLookup の本体) | 物理 | 133/133 | 133/133 | 式: dragCoreLookup(133) | 3/3 一致 |
+| dragCore の受理(validateDragCoreBody の本体) | 物理 | 133/133 | 133/133 | 式: validateDragCoreBody(133) | 3/3 一致 |
+| 積分器を持つ sim の構築(makeSim の本体) | 物理 | 133/133 | 133/133 | 式: makeSim(133) | 3/3 一致 |
 
-- **表示の文だけの変更で版 5 で不変になったもの**: I18N の文(表 `I18N` は閉包で辿らない —— 版 4 でも不変)・サンプルの英語の名(説明文の欄 `PROSE_KEYS`)・ヘルプ(`renderHelp` —— 版 2 から停止)・キャンバスの描画・HUD・表示の同期の関数(版 4 では 132 器すべてが変わった)。
-- **残るもの(どの段がなぜ)**: `PARAM_DEFS` の desc(物理の範囲と既定を持つ表 —— 物理が読むので表ごと閉包に入る。ja の label/desc を I18N へ移すのは枝 a〔AN422 ①〕)・受理の理由の文(`validatePreset` の本体 —— 物理側)・`loadPreset` の本体の文(物理側)・`updateBodyEdit` の文(表示の状態を書くので止めない)・サンプルの名(`name` は説明文の欄でない —— その本か all を宣言した 73 器)。
-- **物理の変更は版 5 でも必ず変わる**: 質量・G_0・c_0・ソフトニング(🟠 の宣言 —— 73 器)・引きずりの規則 Y_k の関数 `invSqKappa0`・dragCore の表 `dragCoreLookup`・dragCore の受理 `validateDragCoreBody`・sim の構築 `makeSim`(132 器)—— 版 4 と版 5 で変わる器の集合が同じ。
+- **表示の文だけの変更で版 5 で不変になったもの**: I18N の文(表 `I18N` は閉包で辿らない —— 版 4 でも不変)・サンプルの英語の名(説明文の欄 `PROSE_KEYS`)・ヘルプ(`renderHelp` —— 版 2 から停止)・キャンバスの描画・HUD・表示の同期の関数(版 4 では 133 器すべてが変わった)。
+- **残るもの(どの段がなぜ)**: `PARAM_DEFS` の desc(物理の範囲と既定を持つ表 —— 物理が読むので表ごと閉包に入る。ja の label/desc を I18N へ移すのは枝 a〔AN422 ①〕)・受理の理由の文(`validatePreset` の本体 —— 物理側)・`loadPreset` の本体の文(物理側)・`updateBodyEdit` の文(表示の状態を書くので止めない)・サンプルの名(`name` は説明文の欄でない —— その本か all を宣言した 74 器)。
+- **物理の変更は版 5 でも必ず変わる**: 質量・G_0・c_0・ソフトニング(🟠 の宣言 —— 74 器)・引きずりの規則 Y_k の関数 `invSqKappa0`・dragCore の表 `dragCoreLookup`・dragCore の受理 `validateDragCoreBody`・sim の構築 `makeSim`(133 器)—— 版 4 と版 5 で変わる器の集合が同じ。
 - **本便の鎖への効き(regen-plan のコードで確かめた読み)**: `planRegen` は刻印の版で領域 hash を引き直す(`scopeOn(html, m.scope)` → `scopeHash(html, sc)` が `sc.version` を読む)ので、**版 4 の刻印の段は版 4 の閉包で照合される** —— 本便の a・b・c の変更(`PARAM_DEFS` の文・`updateBodyEdit` の文・`loadPreset` の本体・本の名と説明)は版 4 でも版 5 でも閉包に入るので、本便の鎖は版上げで減らない。器を走らせ直した段は `scopeStamp`(宣言に版が無い → 現行版)で**版 5 で刻み直される** —— 次便から、表示の関数 26 個の文の変更ではそれらの段が regen にならない。本便で reuse になった段は版 4 の刻印のまま(付け替えの道具は無い —— 走らせ直したときに版 5 へ)。
-- **版上げとは別の効き(lib の sha)**: 停止集合の lib `tests/lib-w281a-scope.mjs` そのものを書き換えたので、`meta.code` にそれを刻む正本 121 本(と `tests/lib-w281a-regentable.mjs` を刻む 2 本)は `planRegen` のコードの照合(`式(器・lib)`)で regen になる —— 本便は a・b・c の変更で宣言した全器の領域が動くので、鎖の段の数はほとんど増えない。QA では `lint.canon304` ④(19 件 —— 「鎖で作り直す段」)と `lint.provenanceMeta`(コード x/y)が、鎖で走らせ直すまで刻印の型の FAIL になる(基点の刻印の型の既知の FAIL と同じ種類 —— 統括の鎖で直る)。
+- **版上げとは別の効き(lib の sha)**: 停止集合の lib `tests/lib-w281a-scope.mjs` そのものを書き換えたので、`meta.code` にそれを刻む正本 121 本(と `tests/lib-w281a-regentable.mjs` を刻む 2 本)は `planRegen` のコードの照合(`式(器・lib)`)で regen になる —— 本便は a・b・c の変更で宣言した全器の領域が動くので、鎖の段の数はほとんど増えない(本枝だけの `tools/regen-plan.mjs --base beta/_w316_base.html` —— html は基点と同じ: always 13・regen 144・reuse 27・history 33・recheck 12。regen の原因の上位は `式(器・lib): tests/lib-w281a-scope.mjs` 114・`対象 html(領域の宣言なし —— html 全体)` 24〔基点の前から古い〕・`正本が無い` 6・`式(器・lib): tests/lib-w281a-regentable.mjs` 2 —— 段 sath-316d は依存先 satk1-315d の regen で recheck)。QA では `lint.canon304` ④(19 件 —— 「鎖で作り直す段」)と `lint.provenanceMeta`(コード x/y)が、鎖で走らせ直すまで刻印の型の FAIL になる(基点の刻印の型の既知の FAIL と同じ種類 —— 統括の鎖で直る)。
 - `T()` を呼ぶ関数が閉包に入る理由(PARAM_DEFS の文言を I18N へ移すのは枝 a —— 重ねない): 表 `I18N` は閉包で辿らない(`TEXT_REGISTRIES`)ので、`T()` を呼ぶこと自体では文の変更は領域に入らない。入るのは関数の本体に書いた文字列(受理の理由の文・`loadPreset` と `updateBodyEdit` の通知の文)と、物理が読む表 `PARAM_DEFS` の中の文だけ。
 
 **⑧ perf の正本に対象の sha。** `tests/perf.mjs` が測定の前(2 ページを開いた直後)に root と beta の html の sha256 と Node の版を読み、正本 `tests/out/perf-results.json` の新しい欄 `targets`(版 `w316d-perf-targets-1` —— `root`・`beta` の `file` と `sha256`・`node`・`nodeMajor`)に書く。既存の欄・閾値・判定式は変えない。手元のゲート(Node 22)と CI(Node 24)の perf を、同じ対象を測ったか・同じ Node かで読み分けられる。今の正本は本便の前の走行なので `targets` が無い(次の perf の走行で入る —— QA `lint.perfTargets316` は無ければ「未走行」と印字する)。
 
-**⑨ QA と段。** 新設 `docs.satH316`(正本の門・最初の 32 公転のビット同一・段 A・C・V を走行の行から作り直して一致・判定 = R1 ∧ R2 ∧(L か R3)・表の代表の数は二体だけ・本節の表と数・文書)・`docs.paperSymbols316`(論文 10 本の本文の記号・記号表と脚注・区別の文・括弧と環境・論文 1 のマクロと κ_D の定義 1 回・paper/README)・`lint.perfTargets316`(perf の器と正本の targets)。世代切替 `lint.scopeStop` ①(器の版の定数 `SCOPE_STOP_ADDED_316` の有無 —— 新しい世代は版 5 = 版 4 + 足した 29 個・`stopSetOf`)。段 sath-316d(`secSource:'w316d-branch'`・after `satk1-315d`・workers 2・所要 1213 s —— 枝の実測)・CANON・.gitignore の例外・post-merge・煙試験の段(試走 8 公転)。
+**⑨ QA と段。** 新設 `docs.satH316`(正本の門・最初の 32 公転のビット同一・段 A・C・V を走行の行から作り直して一致・判定 = R1 ∧ R2 ∧(L か R3)・表の代表の数は二体だけ・本節の表と数・文書)・`docs.paperSymbols316`(論文 10 本の本文の記号・記号表と脚注・区別の文・括弧と環境・論文 1 のマクロと κ_D の定義 1 回・paper/README)・`lint.perfTargets316`(perf の器と正本の targets)。世代切替 `lint.scopeStop` ①(器の版の定数 `SCOPE_STOP_ADDED_316` の有無 —— 新しい世代は版 5 = 版 4 + 足した 26 個・`stopSetOf`)。段 sath-316d(`secSource:'w316d-branch'`・after `satk1-315d`・workers 2・所要 1213 s —— 枝の実測)・CANON・.gitignore の例外・post-merge・煙試験の段(試走 8 公転)。
 
 **⑩ 残ったこと(決断事項の候補)。** (a) 三体の差の系列の直線でない成分の出所 —— 案: 三体の写しを母惑星中心の座標で積む対照(丸めの切り分け)と、太陽の引きずりだけを切った q11 の変種(結合の項の切り分け)。(b) `updateBodyEdit` を止めるには選択粒子の編集の表示状態 `be*` を表示の境界へ足すか、文を I18N へ移す(どちらも物理を読まないことの確かめが要る)。(c) `loadPreset` と `validatePreset` の本体の文(通知・受理の理由)を表へ移せば、その文の変更で全段が regen にならない(枝 c の範囲の文と重なる)。(d) トリトンの離心率の種(1.6×10⁻⁵)は近点の向きを決めない —— 近点の代わりに離心率ベクトルの差を表の量にする。(e) 領域 hash の道具 `SCOPE_TOOLING`(`tests/lib-w281a-scope.mjs`・`tests/lib-w281a-regentable.mjs`)の変更は刻印の版で読めるので、`planRegen` と `lint.provenanceMeta` のコードの照合から外す案(道具を直すたびに 121 本が regen になる —— 推奨は外す・版を上げたときだけ刻印の版で照合)。
 
