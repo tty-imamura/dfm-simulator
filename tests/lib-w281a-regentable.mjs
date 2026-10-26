@@ -89,7 +89,7 @@
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope, stopSetOf } from './lib-w281a-scope.mjs';
 import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 集約段の断片の順序
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
@@ -1366,6 +1366,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/satk1-w315d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
     note: '第315便d: 衛星 6 本の K1 の検証の正本(二体と三体 × 引きずりの有無の差 —— 恒星周期・近点・交点・軸。近似要素の種〔観測レコードではない〕・数値の帯の判定〔観測の 3σ を付けない〕—— 在位へ入れない)' }),
   // ==== 第315便d の塊(ここまで)====
+  // ==== 第316便d の塊(ここから)====
+  // ---- 第316便d(原仮定者の裁定(第118報)・決断事項 AN423・AN424・統括の検証項目 R249): **衛星 6 本の三体の診断の器**(段 sath-316d —— 第315便d の本の写しと抽出をそのまま使い、
+  //   6 衛星 × 二体・三体 × q00・q10・q11 × h・h/2・h/4 を 64 公転の 1 本へ延ばす〔最初の 32 公転は第315便d の走行とビット同一 —— 門 prefixSame〕・入れ子の窓 8・16・32・64・
+  //   太陽の位相の調和の回帰 L・H1・H2 の診断〔条件数・率の標準誤差の膨らみ・保留の窓の予測の残差〕・表の代表は二体〔三体は太陽の効きの記録〕・トリトンの近点は判定から外す・
+  //   離心率ベクトルの差)。母惑星と太陽は凍結の写し tests/data-w306a-decl305.json・第315便d の正本 tests/out/satk1-w315d.json を読む(最初の 32 公転の照合 —— after に連ねる)。
+  //   走行は子プロセス 2 本(workers 2)。所要は第316便d の枝の実測(他の 3 枝と同じ 4 核の容器で並走 —— 負荷平均 3〜9・正本の 1 回目の全走行 1212.8 s を採る。
+  //   正本は再開の写し W316D_CACHE から読んで行を細くし作り直した —— resumed 108)
+  S('sath-316d', 'node tests/exp-w316d-sath.mjs', ['tests/out/sath-w316d.json'], 1213, { secSource: 'w316d-branch', node: true, workers: 2, after: ['satk1-315d', 'obscompare', 'samplestatus'],
+    volatilePaths: { 'tests/out/sath-w316d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec', '/E/rows/*/wallSec', '/cost/rows/*/wallSec', '/cost/rate/*/rateStepsPerSec']) },
+    note: '第316便d: 衛星 6 本の三体の診断の正本(表の代表は二体の引きずりの効き・三体は太陽の効きの記録〔合否の数にしない〕・太陽の位相の調和の回帰で三体の永年の効きが帯の内で決まるか・トリトンの近点は判定から外し離心率ベクトルで記録 —— 在位へ入れない)' }),
+  // ==== 第316便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -2644,7 +2655,7 @@ export function htmlTailAudit(o) {
     const ck = canonJson({ v: m.scope.version || null, roots: sc.roots, consts: sc.consts });
     let segs = P.closures.get(ck);
     if (!segs) {
-      const stop = m.scope.version === 'w286d-scope-4' ? SCOPE_STOP : SCOPE_STOP.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
+      const stop = stopSetOf(m.scope.version);   // 第316便d(AN422 ②): 刻印の版の停止集合(版 5 = SCOPE_STOP・版 4 = SCOPE_STOP_4・それ以前 = SCOPE_STOP_3 —— 第286便d の 2 分岐と同じ規則)
       let cl = null;
       try { cl = closureOf(P.parsed, sc.roots, undefined, { hardStop: stop }); } catch { cl = null; }
       segs = cl ? cl.segIdx.map((i) => P.parsed.segments[i]) : [];

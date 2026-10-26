@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:19:32.617Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:34:50.861Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 109865,
-    "sha256": "b1ad02cc4e5b72647bb49e6343375244813b04a426ade1acf69510617091d2c9",
-    "mtime": "2026-10-25T21:06:52.718Z"
+    "bytes": 109866,
+    "sha256": "12b2d9eedfa0e9b87abb05532c071fad8e876faab1e208951c892f2d74bfc536",
+    "mtime": "2026-10-26T15:21:53.056Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -130,9 +130,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    },
    {
     "file": "tests/lib-w311c-h4carry.mjs",
@@ -141,7 +141,7 @@
     "mtime": "2026-10-21T20:13:23.994Z"
    }
   ],
-  "codeSha256": "a111935c9d4ce88e8478be4dcbfda310ed8fd1d0932254ea713d442f91059934",
+  "codeSha256": "fad200fe383bd633c960c4bc7e30c9ac8eb1a328af2a9a23bf79c5d479f96750",
   "harnessVersion": "w306a-an336-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定〔第97報〕AN336「水星の標的を 1PN + A1 に替える」(派生した参照値 —— sigma null・原資料の幅は未確認・停止許容 0.0009 は宣言・43.0 は履歴の列)・第95報・AN332 の裁定(n = 2 を先・n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -157,7 +157,7 @@
    "法則を発見した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -232,11 +232,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1569,
-   "segments": 1404,
-   "closureShare": 0.3532
+   "names": 1351,
+   "segments": 1192,
+   "closureShare": 0.3169
   },
-  "scopeSha256": "82956a240448ec785bc6be65262f77ab9ffc795c919d288fbb2fd00b0df75b13",
+  "scopeSha256": "b74ca3368b41d911c7134a9a631581eace38faf37c36089d5419d6455267af04",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -253,7 +253,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "64b39ae6bb560143f97e84cbd24e0c5d46b18ef62c67a99818d9361327174216",
+    "stableSha256": "c1f274326cce3ba82017d9b1be5b798f0a68212872271dacdb1c2870004eb526",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3411,19 +3411,19 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.027
+   "wallSec": 0.048
   },
   "M": {
-   "wallSec": 107.914
+   "wallSec": 104.838
   },
   "T": {
-   "wallSec": 575.57
+   "wallSec": 585.868
   },
   "R": {
-   "wallSec": 0.042
+   "wallSec": 0.067
   },
   "G": {
-   "wallSec": 37.874
+   "wallSec": 43.843
   }
  },
  "stats": {
@@ -3477,11 +3477,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-10-23T11:15:37.032Z",
-   "targetSha256": "e8f6793b5c72eafe287bcb508dc2146bccb24913bae4b3f5c9ba7a1f11da5fdc",
-   "fileSha256": "675eb1808cfb4cdc5fba0ffaca1c319d3945c2e604fed3da943357461702a260"
+   "generatedAt": "2026-10-25T21:19:32.617Z",
+   "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+   "fileSha256": "32cb0f30057137fdcff256d7cb770fa4d5a0d83a4bda651fe39081305145e0df"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 757.419
+ "elapsedS": 775.124
 }

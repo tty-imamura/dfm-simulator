@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第305便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:06:52.710Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:21:53.048Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -106,12 +106,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "8ccda94f48cbe810b2deddcd63561cbc7378ecf6951e45168bdcbe688298da40",
+  "codeSha256": "c5e32513bd5bda556e54c3ad666d8737c9c3a07ba0b16de7bee82516ce021078",
   "harnessVersion": "w305b-gfamily-1",
   "loadErrors": 0,
   "ruling": "第95報・AN332 の裁定(アプリは絶対時間・慣性速度は絶対時間の慣性速度を維持・観察者の時計の率 α = c_loc/c₀・読み (ii) n = 2 を先に確認・読み (i) n = +1 は次点・n = 0 は対照・近点では n は決まらない)",
@@ -126,7 +126,7 @@
    "η が決まった"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -196,11 +196,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1569,
-   "segments": 1404,
-   "closureShare": 0.3532
+   "names": 1351,
+   "segments": 1192,
+   "closureShare": 0.3169
   },
-  "scopeSha256": "8a8e02abb05ae27050d25ea6b7f619aeb24621ec4e67c64a81b75e04f3a2fc33",
+  "scopeSha256": "0a84f13172ebbbcad05412977d9e07e39f12f0b4394ddc4228b2a38d52ba8305",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4342,22 +4342,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 39.484
+   "wallSec": 36.187
   },
   "M": {
-   "wallSec": 160.364
+   "wallSec": 184.527
   },
   "T": {
-   "wallSec": 853.085
+   "wallSec": 908.386
   },
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "S": {
-   "wallSec": 38.01
+   "wallSec": 42.26
   },
   "D": {
-   "wallSec": 102.537
+   "wallSec": 106.859
   }
  },
  "stats": {
@@ -4365,5 +4365,5 @@
   "memoHits": 18,
   "measures2d": 21
  },
- "elapsedS": 1195.97
+ "elapsedS": 1280.311
 }

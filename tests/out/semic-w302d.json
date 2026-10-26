@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便d",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T19:41:19.185Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T13:47:27.729Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -88,9 +88,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -135,7 +135,7 @@
     "mtime": "2026-10-21T20:13:23.977Z"
    }
   ],
-  "codeSha256": "845921b19748dbe91e5021cb22cc0033ecab1725b3209c33beb082772be79067",
+  "codeSha256": "cde3bad9a637f18484e27506f3bb7ac9c4888926adbc1e14777ed7f29446c637",
   "harnessVersion": "w302d-semic-1",
   "semicVersion": "w302d-semic-1",
   "orderPreVersion": "w302d-orderpre-1",
@@ -150,7 +150,7 @@
    "目的の門を緩めた"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "FIT_RECORD_VERSION",
@@ -206,11 +206,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1571,
-   "segments": 1406,
-   "closureShare": 0.3541
+   "names": 1362,
+   "segments": 1201,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "c82f3809acf0fef110c43a8980db4e8a6b2c79952b5269fd7a7748325c9f0fa4",
+  "scopeSha256": "023167e6b49223e6994d5becbddd5e0fe215a4b9d21a56fc238c87885bfd5e0d",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -377,7 +377,7 @@
   "split": {
    "steps": 600,
    "dt": 0.016,
-   "baseFrom": "carried(carried(carried(carried(carried(beta/_w302_base.html)))))",
+   "baseFrom": "carried(carried(carried(carried(carried(carried(beta/_w302_base.html))))))",
    "fpSplit": {
     "earthMoonInertial": "232cfc51",
     "earthMoonSunInertial": "bf61fc85",
@@ -515,7 +515,7 @@
    "gain0Same": true,
    "ledger": true
   },
-  "wallSec": 40.729
+  "wallSec": 45.778
  },
  "fit": {
   "rows": [
@@ -665,7 +665,7 @@
     "boundMaxSemic": 0.002065939296275486
    }
   ],
-  "wallSec": 84.757
+  "wallSec": 90.367
  },
  "chain": {
   "w296c": {
@@ -677,7 +677,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 13.531,
+    "wallSec": 13.041,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -704,7 +704,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 12.606,
+    "wallSec": 13.273,
     "bools": {
      "part5.accept.ok": true,
      "part5.gates.noNaN": true,
@@ -2605,7 +2605,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 20.37,
+    "wallSec": 24.009,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -2638,7 +2638,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 20.749,
+    "wallSec": 25.555,
     "bools": {
      "part5.spinSource3d.ok": true,
      "part5.dragCore3d.ok": true,
@@ -3515,7 +3515,7 @@
      },
      "spinDrag2d": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag は三次元の本(physics.coord:\"3d\")だけ —— 二次元の自転源は spinSource:\"surfaceFlip\"(第298便c)"
+      "err": "physics.relativeDrag.spinDrag は三次元の本(physics.coord:\"3d\")だけ —— 二次元の自転源は spinSource:\"surfaceFlip\""
      },
      "spinDrag3d": {
       "ok": true,
@@ -3527,7 +3527,7 @@
      },
      "both": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:\"surfaceFlip\" は spinDrag:{rot:\"surfaceFlip\", axial:\"off\"} と同じ —— 第298便c)"
+      "err": "physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:\"surfaceFlip\" は spinDrag:{rot:\"surfaceFlip\", axial:\"off\"} と同じ)"
      },
      "noCoupling": {
       "ok": false,
@@ -3543,11 +3543,11 @@
      },
      "unknownKey": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag に未知の鍵 x(rot・axial・axialCoupling —— 第298便c)"
+      "err": "physics.relativeDrag.spinDrag に未知の鍵 x(rot・axial・axialCoupling)"
      },
      "sum": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag は compose:\"solve\"(既定 —— 共通の移動速度を全体で解く)専用(compose:\"sum\" では宣言しない —— 第296便c)"
+      "err": "physics.relativeDrag.spinDrag は compose:\"solve\"(既定 —— 共通の移動速度を全体で解く)専用(compose:\"sum\" では宣言しない)"
      },
      "ok": true,
      "rejectedList": [
@@ -4453,7 +4453,7 @@
      },
      "spinDrag2d": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag は三次元の本(physics.coord:\"3d\")だけ —— 二次元の自転源は spinSource:\"surfaceFlip\"(第298便c)"
+      "err": "physics.relativeDrag.spinDrag は三次元の本(physics.coord:\"3d\")だけ —— 二次元の自転源は spinSource:\"surfaceFlip\""
      },
      "spinDrag3d": {
       "ok": true,
@@ -4465,7 +4465,7 @@
      },
      "both": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:\"surfaceFlip\" は spinDrag:{rot:\"surfaceFlip\", axial:\"off\"} と同じ —— 第298便c)"
+      "err": "physics.relativeDrag.spinDrag と spinSource は同時に宣言しない(三次元では spinSource:\"surfaceFlip\" は spinDrag:{rot:\"surfaceFlip\", axial:\"off\"} と同じ)"
      },
      "noCoupling": {
       "ok": false,
@@ -4481,11 +4481,11 @@
      },
      "unknownKey": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag に未知の鍵 x(rot・axial・axialCoupling —— 第298便c)"
+      "err": "physics.relativeDrag.spinDrag に未知の鍵 x(rot・axial・axialCoupling)"
      },
      "sum": {
       "ok": false,
-      "err": "physics.relativeDrag.spinDrag は compose:\"solve\"(既定 —— 共通の移動速度を全体で解く)専用(compose:\"sum\" では宣言しない —— 第296便c)"
+      "err": "physics.relativeDrag.spinDrag は compose:\"solve\"(既定 —— 共通の移動速度を全体で解く)専用(compose:\"sum\" では宣言しない)"
      },
      "ok": true,
      "rejectedList": [
@@ -4556,7 +4556,7 @@
    "split": {
     "code": 0,
     "ok": true,
-    "wallSec": 4.829,
+    "wallSec": 6.974,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -4605,7 +4605,7 @@
    "semic": {
     "code": 0,
     "ok": true,
-    "wallSec": 5.101,
+    "wallSec": 5.959,
     "bools": {
      "selfTest.ok": true,
      "gateB.rows.0.allSame": true,
@@ -6002,7 +6002,7 @@
    "env": null,
    "split": {
     "code": 0,
-    "wallSec": 296.908,
+    "wallSec": 350.713,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -6013,7 +6013,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 336.813,
+    "wallSec": 351.671,
     "bools": {
      "gate.stableAll": true,
      "gate.migrateAll": true,
@@ -9176,7 +9176,7 @@
    },
    "split": {
     "code": 0,
-    "wallSec": 49.235,
+    "wallSec": 54.688,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9203,7 +9203,7 @@
    },
    "semic": {
     "code": 0,
-    "wallSec": 48.128,
+    "wallSec": 56.739,
     "bools": {},
     "numbers": {
      "A.base": {
@@ -9233,8 +9233,8 @@
    "rawSplit": null,
    "rawSemic": null
   },
-  "wallSec": 808.292
+  "wallSec": 902.671
  },
  "ok": true,
- "elapsedS": 936.005
+ "elapsedS": 1041.211
 }

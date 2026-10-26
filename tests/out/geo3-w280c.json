@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:40:48.396Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:00:19.163Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1720500,
-    "sha256": "becf625e9ed384a3d354f67fb87452be739ae2d40388fc03e28b7cdae99093c0",
-    "mtime": "2026-10-25T18:02:49.653Z"
+    "bytes": 1720886,
+    "sha256": "7ff5ae00629d5663b8808b142f6bf0137200e12dc39a426f469253e450bb894b",
+    "mtime": "2026-10-26T12:04:23.483Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
     "bytes": 103791,
-    "sha256": "47ee8dcb2b775555e40debd9d4a4ed60942de73ee0eb81e54f7a4136bd9656dc",
-    "mtime": "2026-10-25T20:12:05.722Z"
+    "sha256": "8a536ceeefd5803616eeea1566be2d410ea4cfe9ee51eb3d6d4b3ecc80f03b4f",
+    "mtime": "2026-10-26T13:52:56.132Z"
    }
   ],
   "code": [
@@ -69,7 +69,7 @@
    "v1.45.0 RC を切った"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "alphaCenAB",
     "alphaCenABDFM",
@@ -135,16 +135,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1523,
-   "segments": 1358,
-   "closureShare": 0.3437
+   "names": 1297,
+   "segments": 1138,
+   "closureShare": 0.3066
   },
-  "scopeSha256": "6d599e042b9dbe1d0646ce69e25b98fd067b2167a952238503ad05800eecf940",
+  "scopeSha256": "68f777e4d7273e6edfa89d4b30b6e1c266b5696ccbe8b94d3f307b1cc1f22291",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "5ed8f56952b348ebc386d0f9ac1044b0a3e70efd2808251e34dfc2b08bc900c7",
+    "stableSha256": "176f3ccf1145b9d844a76211c2dec291ed4e42740fb8278f5e0eaa4ec6f6fa0c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -172,7 +172,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "ba2bfd5a7926ece5dd2c3f2c7456067cb140025e967bee561e34cbb593b383d7",
+    "stableSha256": "f2b971f38134856583e45b8cafa2a66cc509cfaedfb2a31570bd49f05fb52ee4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -200,7 +200,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "1c51c5bce9adf36b8305d7a8c5b105f37271451c8ff0a74b3991fbbe1e9a79fd",
+    "stableSha256": "a665fe466cc9bcad07f519df002cdce6e60d4180242e3dc09af3ae25acfb2411",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -280,7 +280,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.666
+       "wallSec": 3.156
       },
       "dt/2": {
        "steps": 5700398,
@@ -313,7 +313,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.079
+       "wallSec": 8.39
       }
      }
     },
@@ -352,7 +352,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.491
+       "wallSec": 3.101
       },
       "dt/2": {
        "steps": 5700398,
@@ -385,7 +385,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.108
+       "wallSec": 6.39
       }
      }
     },
@@ -424,7 +424,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.043
+       "wallSec": 3.24
       },
       "dt/2": {
        "steps": 5700398,
@@ -457,7 +457,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.993
+       "wallSec": 6.021
       }
      }
     },
@@ -496,7 +496,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.096
+       "wallSec": 2.706
       },
       "dt/2": {
        "steps": 5700398,
@@ -529,7 +529,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.967
+       "wallSec": 5.27
       }
      }
     },
@@ -572,7 +572,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.655
+       "wallSec": 10.274
       },
       "dt/2": {
        "steps": 5700398,
@@ -609,7 +609,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.968
+       "wallSec": 18.105
       }
      }
     },
@@ -652,7 +652,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.572
+       "wallSec": 14.034
       },
       "dt/2": {
        "steps": 5700398,
@@ -689,7 +689,7 @@
          "stop": null
         }
        },
-       "wallSec": 24.942
+       "wallSec": 31.231
       }
      }
     },
@@ -732,7 +732,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.738
+       "wallSec": 8.328
       },
       "dt/2": {
        "steps": 5700398,
@@ -769,7 +769,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.302
+       "wallSec": 17.938
       }
      }
     },
@@ -812,7 +812,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.208
+       "wallSec": 13.059
       },
       "dt/2": {
        "steps": 5700398,
@@ -849,7 +849,7 @@
          "stop": null
         }
        },
-       "wallSec": 22.485
+       "wallSec": 26.36
       }
      }
     },
@@ -892,7 +892,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.326
+       "wallSec": 8.792
       },
       "dt/2": {
        "steps": 5700398,
@@ -929,7 +929,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.455
+       "wallSec": 17.668
       }
      }
     },
@@ -968,7 +968,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.822
+       "wallSec": 3.993
       },
       "dt/2": {
        "steps": 5700398,
@@ -1001,7 +1001,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.394
+       "wallSec": 8.21
       }
      }
     },
@@ -1040,7 +1040,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.162
+       "wallSec": 3.438
       },
       "dt/2": {
        "steps": 5700398,
@@ -1073,7 +1073,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.207
+       "wallSec": 7.75
       }
      }
     },
@@ -1116,7 +1116,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.35
+       "wallSec": 9.609
       },
       "dt/2": {
        "steps": 5700398,
@@ -1153,7 +1153,7 @@
          "stop": null
         }
        },
-       "wallSec": 20.972
+       "wallSec": 23.164
       }
      }
     }
@@ -1270,7 +1270,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 21.023
+       "wallSec": 24.291
       },
       "dt/2": {
        "steps": 41388996,
@@ -1303,7 +1303,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 45.429
+       "wallSec": 51.554
       }
      }
     },
@@ -1342,7 +1342,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 16.139
+       "wallSec": 19.89
       },
       "dt/2": {
        "steps": 41388996,
@@ -1375,7 +1375,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.678
+       "wallSec": 39.636
       }
      }
     },
@@ -1414,7 +1414,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 18.803
+       "wallSec": 19.883
       },
       "dt/2": {
        "steps": 41388996,
@@ -1447,7 +1447,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.461
+       "wallSec": 37.08
       }
      }
     },
@@ -1492,7 +1492,7 @@
          "stop": null
         }
        },
-       "wallSec": 97.131
+       "wallSec": 109.897
       },
       "dt/2": {
        "steps": 41388996,
@@ -1531,7 +1531,7 @@
          "stop": null
         }
        },
-       "wallSec": 192.811
+       "wallSec": 225.267
       }
      }
     },
@@ -1576,7 +1576,7 @@
          "stop": null
         }
        },
-       "wallSec": 63.286
+       "wallSec": 80.013
       },
       "dt/2": {
        "steps": 41388996,
@@ -1615,7 +1615,7 @@
          "stop": null
         }
        },
-       "wallSec": 130.985
+       "wallSec": 148.09
       }
      }
     },
@@ -1660,7 +1660,7 @@
          "stop": null
         }
        },
-       "wallSec": 58.89
+       "wallSec": 63.543
       },
       "dt/2": {
        "steps": 41388996,
@@ -1699,7 +1699,7 @@
          "stop": null
         }
        },
-       "wallSec": 120.926
+       "wallSec": 126.337
       }
      }
     }
@@ -1922,7 +1922,7 @@
    "weave": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排",
    "meshV2": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他 | physics.meshVelocity は geoPN=3 のトイ(sc",
    "noMeshVelocity": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は physics.meshVelocity(輸送経路 {law:\"vMinusU\",field,mutual,frame})の宣言が要る",
-   "geoPN2WithVMinusU": "physics.spaceMesh.lawVersion:\"vMinusU\" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c) | physics.meshVelocity は physics.spaceMesh(",
+   "geoPN2WithVMinusU": "physics.spaceMesh.lawVersion:\"vMinusU\" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路) | physics.meshVelocity は physics.spaceMesh(座標変換慣性・織り込",
    "toyLawWithMeshVelocity": "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ",
    "calibration": "physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)",
    "pnRefNoVelocity": "physics.spaceMesh.pn:\"reference-1PN\" は pnVelocity:\"xdot\"|\"v\" の宣言が要る(既定を置かない —— 1PN が座標速度 ẋ と慣性速度 v のどちらを読むかは導出できていない) | physics.meshVelocity は geoPN=3 のトイ(scala",
@@ -2070,5 +2070,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1056.453
+ "elapsedS": 1207.705
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T17:40:44.549Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T11:40:59.852Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "604eb525d1cc9c447417159d72265f1b663d793f386c637b469ae67724007419",
+  "codeSha256": "a4c865f484bda111645f98b627b94da04ca0a5faf129124febcdfce44434371a",
   "harnessVersion": "w286a-jeans-1",
   "libVersion": "w286a-jeans-1",
   "ruling": "原仮定者の裁定(第76報)⑤: 球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
@@ -63,7 +63,7 @@
    "3D の球状星団の平衡"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -89,11 +89,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1519,
-   "segments": 1354,
-   "closureShare": 0.3436
+   "names": 1291,
+   "segments": 1132,
+   "closureShare": 0.3062
   },
-  "scopeSha256": "3d1828dd5ffe0a48502dcbe14518caa7a8518100bfe9d2928b1d4d07ed2b927b",
+  "scopeSha256": "46c3596809ecffc79e770381041171d10fad39f9f3268d82bcd702015fad5461",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -408,7 +408,7 @@
  "acceptance": {
   "nonPlummer": {
    "ok": false,
-   "err": "bodies[2].vMode \"jeans\" は profile:\"plummer\" の disk 行だけ(第286便a)"
+   "err": "bodies[2].vMode \"jeans\" は profile:\"plummer\" の disk 行だけ"
   },
   "rotTooHigh": {
    "ok": false,
@@ -420,7 +420,7 @@
   },
   "dragRNoSpin": {
    "ok": false,
-   "err": "physics.spaceMesh.dragR は centerSpin:\"read\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)"
+   "err": "physics.spaceMesh.dragR は centerSpin:\"read\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い)"
   },
   "dragRNeg": {
    "ok": false,
@@ -431,5 +431,5 @@
    "err": ""
   }
  },
- "elapsedS": 12.024
+ "elapsedS": 10.819
 }

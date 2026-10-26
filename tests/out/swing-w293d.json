@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第293便d",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T18:12:54.240Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T12:15:52.090Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/out/dragcore-w292c.json",
-    "bytes": 35107,
-    "sha256": "16256498acb139c0d70fc69dcd8f2f73186d70ef5f2532c0e0d94c208b5dcdba",
-    "mtime": "2026-10-25T18:00:40.473Z"
+    "bytes": 35108,
+    "sha256": "0ee454053249761013a0c9fb2903b2d30817f95e6680fea677fbf188af28d6b6",
+    "mtime": "2026-10-26T12:01:36.315Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "877ac9cf3ec31ea629a203b794b408b7c7352c4ce8e31d08060799a832eeb601",
+  "codeSha256": "5c078d45a4b419ad44a59d1ff510f91411112c081e9879c06847b1bbb9c4fe17",
   "harnessVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
   "coreVersion": "w292c-dragcore-1",
@@ -75,7 +75,7 @@
    "全系の保存則が閉じた"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonInertial",
     "emAuditSolar"
@@ -96,16 +96,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1544,
-   "segments": 1379,
-   "closureShare": 0.35
+   "names": 1319,
+   "segments": 1160,
+   "closureShare": 0.312
   },
-  "scopeSha256": "e198875dcef87676963fdafd316a30a68ac0fea3f06ec76b288c1e295915171d",
+  "scopeSha256": "cc7011b78eb48247f980894a55797a931736b68e75c10c3b6c3b534b922d0baa",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/dragcore-w292c.json",
-    "stableSha256": "6b3ee36abf906919fcea0ccaf09e26e9dc26bd9c18656df61501c60161462bc8",
+    "stableSha256": "6937910c9814ff440226577af77ef9854586377e3419db51cf3b3d1be93e188c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -23510,128 +23510,128 @@
  "ok": true,
  "timing": {
   "br-A1-instant-apo-0.008": {
-   "wallSec": 19.472
+   "wallSec": 21.478
   },
   "br-A1-instant-peri-0.008": {
-   "wallSec": 20.335
+   "wallSec": 21.503
   },
   "br-A1-smooth-peri-0.008": {
-   "wallSec": 20.631999999999998
-  },
-  "br-A1-smooth-apo-0.008": {
-   "wallSec": 19.151
-  },
-  "br-A2-instant-apo-0.008": {
-   "wallSec": 18.329
+   "wallSec": 22.603
   },
   "br-A2-instant-peri-0.008": {
-   "wallSec": 19.778
+   "wallSec": 21.993000000000002
+  },
+  "br-A2-instant-apo-0.008": {
+   "wallSec": 20.938
+  },
+  "br-A1-smooth-apo-0.008": {
+   "wallSec": 23.891
   },
   "br-C-instant-peri-0.008": {
-   "wallSec": 16.480999999999998
+   "wallSec": 18.269000000000002
   },
   "br-A2-smooth-peri-0.008": {
-   "wallSec": 18.405
+   "wallSec": 20.506999999999998
   },
   "br-A2-smooth-apo-0.008": {
-   "wallSec": 18.997999999999998
+   "wallSec": 21.753999999999998
   },
   "br-C-instant-apo-0.008": {
-   "wallSec": 16.215
+   "wallSec": 17.303
   },
   "br-C-smooth-peri-0.008": {
-   "wallSec": 16.433999999999997
+   "wallSec": 18.533
   },
   "br-C-smooth-apo-0.008": {
-   "wallSec": 16.574
+   "wallSec": 18.343
   },
   "br-A1-instant-peri-0.016": {
-   "wallSec": 10.212
+   "wallSec": 10.24
   },
   "br-A1-instant-apo-0.016": {
-   "wallSec": 10.027000000000001
+   "wallSec": 12.190999999999999
   },
   "br-A1-smooth-peri-0.016": {
-   "wallSec": 10.04
-  },
-  "br-A2-instant-peri-0.016": {
-   "wallSec": 9.337
+   "wallSec": 11.796
   },
   "br-A1-smooth-apo-0.016": {
-   "wallSec": 9.798
+   "wallSec": 11.825
+  },
+  "br-A2-instant-peri-0.016": {
+   "wallSec": 11.793
   },
   "br-A2-instant-apo-0.016": {
-   "wallSec": 9.815000000000001
+   "wallSec": 12.554
   },
   "br-A2-smooth-peri-0.016": {
-   "wallSec": 9.604
-  },
-  "br-A2-smooth-apo-0.016": {
-   "wallSec": 9.889
+   "wallSec": 12.988
   },
   "br-C-instant-peri-0.016": {
-   "wallSec": 8.786000000000001
+   "wallSec": 9.372
+  },
+  "br-A2-smooth-apo-0.016": {
+   "wallSec": 11.724
   },
   "br-C-instant-apo-0.016": {
-   "wallSec": 9.119
-  },
-  "br-C-smooth-peri-0.016": {
-   "wallSec": 9.076
-  },
-  "br-C-smooth-apo-0.016": {
-   "wallSec": 8.957
-  },
-  "bridge-0.0016": {
-   "wallSec": 15.18
-  },
-  "cond-A2-0.008": {
-   "wallSec": 15.668
-  },
-  "cond-A1-0.008": {
-   "wallSec": 16.077
-  },
-  "cond-D-0.008": {
-   "wallSec": 13.635
-  },
-  "cond-C-0.008": {
-   "wallSec": 13.681
-  },
-  "cond-B-0.008": {
-   "wallSec": 16.037
-  },
-  "bridge-0.008": {
-   "wallSec": 3.158
-  },
-  "cond-S-0.008": {
-   "wallSec": 10.596
-  },
-  "cond-A1-0.016": {
-   "wallSec": 8.287
-  },
-  "cond-Bdrop-0.008": {
-   "wallSec": 13.206
-  },
-  "cond-A2-0.016": {
-   "wallSec": 8.717
-  },
-  "cond-C-0.016": {
-   "wallSec": 7.112
-  },
-  "cond-B-0.016": {
    "wallSec": 8.817
   },
-  "cond-D-0.016": {
-   "wallSec": 7.597
+  "br-C-smooth-peri-0.016": {
+   "wallSec": 9.033000000000001
   },
-  "cond-Bdrop-0.016": {
-   "wallSec": 7.194
+  "br-C-smooth-apo-0.016": {
+   "wallSec": 8.634
+  },
+  "bridge-0.0016": {
+   "wallSec": 15.902
+  },
+  "cond-A2-0.008": {
+   "wallSec": 16.368
+  },
+  "cond-A1-0.008": {
+   "wallSec": 17.768
+  },
+  "cond-C-0.008": {
+   "wallSec": 14.584
+  },
+  "cond-B-0.008": {
+   "wallSec": 17.573
+  },
+  "cond-D-0.008": {
+   "wallSec": 15.162
+  },
+  "bridge-0.008": {
+   "wallSec": 3.187
+  },
+  "cond-S-0.008": {
+   "wallSec": 11.62
+  },
+  "cond-A1-0.016": {
+   "wallSec": 8.105
+  },
+  "cond-Bdrop-0.008": {
+   "wallSec": 14.175
+  },
+  "cond-A2-0.016": {
+   "wallSec": 9.498
+  },
+  "cond-C-0.016": {
+   "wallSec": 7.853
+  },
+  "cond-B-0.016": {
+   "wallSec": 9.316
   },
   "cond-S-0.016": {
-   "wallSec": 5.601
+   "wallSec": 5.842
+  },
+  "cond-Bdrop-0.016": {
+   "wallSec": 7.285
+  },
+  "cond-D-0.016": {
+   "wallSec": 7.736
   },
   "bridge-0.016": {
-   "wallSec": 1.988
+   "wallSec": 2.01
   }
  },
- "elapsedS": 174.835
+ "elapsedS": 192.955
 }

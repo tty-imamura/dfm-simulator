@@ -2,7 +2,7 @@
  "version": "w302e-axialsign-1",
  "generator": "tests/exp-w302e-axialsign.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "base": null,
  "ruling": "原仮定者の裁定(第92報)・統括の検証項目 R189(AN298 ①⑤ —— 源の軸を上半球へ正規化して符号を Ω へ移す・赤道は y → x の順)",
  "signVersion": "w302e-axial-sign-1",
@@ -298,19 +298,19 @@
   "probeReady": true
  },
  "ok": true,
- "elapsedS": 31.175,
+ "elapsedS": 37.772,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:13:23.846Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T13:56:57.938Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -334,12 +334,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "226996cab6d91a734310bba7d05c73e2b12116b5121ebce505d94044e9973cb9",
+  "codeSha256": "ae2edd6d9acf2e7930cf8471b7b7151a76acf11062ba80ed6fe763c912f5e743",
   "harnessVersion": "w302e-axialsign-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -347,7 +347,7 @@
    "軸引きずりの強さが較正された"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "chainDiskToy3dTilt"
    ],
@@ -371,11 +371,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1535,
-   "segments": 1370,
-   "closureShare": 0.346
+   "names": 1317,
+   "segments": 1156,
+   "closureShare": 0.3096
   },
-  "scopeSha256": "8a77972b871b70724e8bc3457866af2314927efdc0b319ec225d0b2c3f81032b",
+  "scopeSha256": "b73a54c1387ed10dbdd926c0114b17cc909418f42abfc68777543e767f3a6f9d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

@@ -258,6 +258,22 @@ bookkeeping in interactive form.
 
 \maketitle
 
+% wave 316d (the originator's ruling, report 118 -- decision AN416): a short notation table and one note.
+% Symbols only -- no number, equation, window or claim is changed; implementation keys are unchanged.
+\noindent\textit{Notation.}\footnote{Earlier versions of this paper wrote the spacetime coefficient as $\kappa$ and the spin-diffusion coefficient as $\kappa_s$; this version writes $X_k$ and $S_k$ (the figure panels keep the earlier labels). The implementation keys (\texttt{kappaT}, \texttt{kappaS}), all numbers, equations and claims are unchanged; only the symbols are renamed.}
+\begin{center}
+\small
+\begin{tabular}{@{}lp{0.74\columnwidth}@{}}
+\hline
+$X_k$ & spacetime coefficient (implementation key \texttt{kappaT}); clock and optical potential $\psi = W X_k$ \\
+$S_k$ & spin-diffusion coefficient of rule E10$'$ (key \texttt{kappaS}) \\
+$c_0$ & reference light speed of a configuration (key \texttt{cLight}) \\
+$\kappa_D$ & determinacy constant (defined in item C3); the letter $\kappa$ alone denotes Einstein's gravitational constant $8\pi G/c^4$ \\
+$r_s$ & Schwarzschild (gravitational) radius, $r_s = \kappa_D m$ \\
+\hline
+\end{tabular}
+\end{center}
+
 % =====================================================================
 \section{Introduction}
 \label{sec:intro}
@@ -909,7 +925,7 @@ action), converging to rolling contact; slip dissipation is radiated.
 
 \paragraph*{E10$'$ (Spin diffusion).}
 \begin{equation}
-\frac{\ud s_i}{\ud t} = \kappa_s\sum_{j\ne i}
+\frac{\ud s_i}{\ud t} = S_k\sum_{j\ne i}
  \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(d_{ij}),
 \label{eq:E10}
 \end{equation}
@@ -1533,7 +1549,7 @@ a static hot/cold lattice closes its temperature gap exponentially at
 a measured rate $1.8\times10^{-3}$ per unit time while total spin
 angular momentum $\sum_i I_i s_i$ is conserved to the rounding floor,
 and a two-body version of the same run reproduces the analytic
-relaxation rate $\kappa_s\,g(d)$ of Eq.~(\ref{eq:E10}) to
+relaxation rate $S_k\,g(d)$ of Eq.~(\ref{eq:E10}) to
 $3\times10^{-5}$ relative error.
 Equilibration is thus a property of the diffusion rule itself, not an
 artifact of everything decaying to zero.
@@ -1883,7 +1899,7 @@ Verification-run configurations (embedded suite; preset IDs
 Run & Configuration \\
 \hline
 V1 & $\Dz{=}0$, $k_F{=}1$, $G{=}1$, $k_{\rm rep}{=}1$,
-$\mu_f{=}0.5$, $\gamma_n{=}0.4$, $\kappa_s{=}0.05$,
+$\mu_f{=}0.5$, $\gamma_n{=}0.4$, $S_k{=}0.05$,
 $\eta_{\rm rad}{=}0$, $\varepsilon{=}2$; central $m{=}30$
 ($s{=}0.5$) $+$ disk $n{=}48$, $r{\le}120$, $m\in[0.5,2]$,
 $s\in[-2,2]$, random velocities ($\times1.2$); 1000 steps
@@ -1892,7 +1908,7 @@ V9 & $G{=}1$, $\Dz{=}2$, $\varepsilon{=}2$; pinned $m{=}50$ at
 origin, $m{=}20$ at $(18,-7)$, probe $m{=}0.01$ at three points;
 central difference $h{=}0.01$ \\
 V10 & $G{=}1$, $\Dz{=}0$, $k_F{=}0$, $k_{\rm rep}{=}0$,
-$\mu_f{=}0.5$, $\gamma_n{=}0.4$, $\kappa_s{=}0.3$,
+$\mu_f{=}0.5$, $\gamma_n{=}0.4$, $S_k{=}0.3$,
 $\eta_{\rm rad}{=}2\times10^{-4}$ ($p{=}1$), $\varepsilon{=}2$;
 37 particles (central $m{=}30$, $s{=}0.8$ $+$ disk $n{=}36$,
 $r{\le}55$, $m\in[1,2]$, $s\in[-1.5,1.5]$); 1000 steps \\
@@ -1900,13 +1916,13 @@ V10b & $G{=}0$, $k_{\rm rep}{=}2$, all dissipation off; three
 particles $m{=}2,3,2.5$ at stated positions with spins
 $2,-1.5,1$; 1000 steps \\
 V11 & $G{=}1$, $\Dz{=}0.5$, $\mu_f{=}0.02$, $\gamma_n{=}0.05$,
-$k_{\rm rep}{=}1$, $\kappa_s{=}0.05$, $\varepsilon{=}4$; central
+$k_{\rm rep}{=}1$, $S_k{=}0.05$, $\varepsilon{=}4$; central
 $m{=}600$ ($s{=}0.05$) $+$ disk $n{=}140$, $r{\le}130$,
 $m\in[0.5,1.2]$, near-Keplerian ($\times1.05$); A/B with
 $k_F{=}1/0$ from identical initial conditions; outer band
 $r\in[85,130]$, time-averaged over steps 1000--2000 \\
 Zeroth-law control & $G{=}0$, $k_F{=}0$, $k_{\rm rep}{=}0$,
-$\mu_f{=}\gamma_n{=}\eta_{\rm rad}{=}0$, $\kappa_s{=}0.3$;
+$\mu_f{=}\gamma_n{=}\eta_{\rm rad}{=}0$, $S_k{=}0.3$;
 $8\times6$ static lattice (spacing 40), $m{=}1$, spins $0.3$
 (left) / $2.5$ (right), 4000 steps; two-body variant $m{=}2$,
 $d{=}30$, spins $2/0$, 2500 steps \\

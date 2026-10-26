@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T22:50:31.233Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T18:00:46.046Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -58,9 +58,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "da1b7733499ec315a032b2de080e622998ad9164bf0eaad8828152293d1829b4",
+  "codeSha256": "1ab3dc10138d94a6fab3627bc295b888ed01060c243384c5b2c605209ca265b0",
   "harnessVersion": "w291b-pnsources-7",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
@@ -86,7 +86,7 @@
    "RC を切った"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -119,11 +119,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1523,
-   "segments": 1358,
-   "closureShare": 0.3448
+   "names": 1295,
+   "segments": 1136,
+   "closureShare": 0.3072
   },
-  "scopeSha256": "d806cdbc4049a8a00489c69664edae2448070f3aaa353498f3ac3111b189b85c",
+  "scopeSha256": "0356e603e1a9e8b7a0fb699aa938ce7a7a52ea7165615ed08200ea385ab208b9",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -174,7 +174,7 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "nowSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "A": {
   "n": 176,
   "kf0Books": 28,
@@ -5652,13 +5652,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.117,
+   "wallSec": 0.092,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.185,
+   "wallSec": 0.142,
    "errors": 0
   }
  },
- "elapsedS": 136.502
+ "elapsedS": 154.225
 }

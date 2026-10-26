@@ -107,7 +107,7 @@ function simOf(HP, q) {
   const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
   return { S, preset: v.preset, warnings: v.warnings || [] };
 }
-const isX = (w) => /AN404/.test(w) && /観測半径/.test(w);
+const isX = (w) => /AN404|重力半径に比例する長さとして受理/.test(w) && /観測半径/.test(w);   // 第316便c(R248): 受理の理由の文から AN404 を外した世代も同じ警告
 /** 写しの要点(本の ID と宣言の要点 —— R・m・dragCore・引きずり —— 出力に必ず印字する) */
 const declOf = (q) => ({ id: q.id, coord: q.physics.coord || '2d', G: q.physics.G, cLight: q.physics.cLight, geoPN: q.physics.geoPN, drag: q.physics.relativeDrag ? (q.physics.relativeDrag.invSq || { law: q.physics.relativeDrag.law }) : null,
   bodies: q.bodies.map((b) => ({ m: b.m, R: b.radius === undefined ? null : b.radius, dragCore: b.dragCore || null })) });
@@ -254,7 +254,7 @@ export function partK(H, quick) {
     const v = VB(clone(b), clone(ph));
     rows.push({ case: lab, decl: { body: b, physics: ph }, expectOk: false, expectErr: re.source, ok: v.ok, err: v.ok ? null : String(v.err).slice(0, 240), nWarnX: null, pass: !v.ok && re.test(String(v.err)) });
   };
-  const SHELL = /AN403・AN409/, ZERO = /マントルの体積が 0/;
+  const SHELL = /AN403・AN409|将来の地表のサンプル/, ZERO = /マントルの体積が 0/;   // 第316便c(R248): 受理の理由の文から来歴の語(AN・第N便)を外した世代も同じ文の本体で引く
   T('K1 外殻なし・明示 {massFrac:0.5, radius:R}(r_d = R —— 第315便b で受理)', starBook({ kind: 'k1', core: { massFrac: 0.5, radius: R } }), true, null, true);
   T('K1 外殻なし・明示 {massFrac:0.9, radius:R}(r_d = R)', starBook({ kind: 'k1', core: { massFrac: 0.9, radius: R } }), true, null, true);
   T('K1 + rdRule・外殻なし・明示 {massFrac:0.5, radius:R}(r_d = R)', starBook({ kind: 'k1rule', core: { massFrac: 0.5, radius: R } }), true, null, true);

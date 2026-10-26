@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第294便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T18:07:29.062Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T12:09:22.934Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "de5ff357ece8c250fd163e426d358990a884d5acca3915536660429c05ceba53",
+  "codeSha256": "fbbf56b724ae6a4eb28dc9757c76c1888343efa58620f1b82976feba7a80e3d5",
   "harnessVersion": "w294a-geo3-1",
   "modePolicy": "w295a-1",
   "saveWarnCodes": [
@@ -107,7 +107,7 @@
    "8.85 年を較正ゼロで出した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonInertial",
     "earthMoonReal"
@@ -144,11 +144,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1547,
-   "segments": 1382,
-   "closureShare": 0.351
+   "names": 1325,
+   "segments": 1166,
+   "closureShare": 0.3134
   },
-  "scopeSha256": "14e9e6d26cd6d90200306c48fd2950656cd02176d8081705669530e6cf7dc80e",
+  "scopeSha256": "0a9e2fe091da4b86d6d3ac14645d643d3c196d876708e5fa56cb52a1feadc934",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -324,7 +324,7 @@
    {
     "geoPN": 0,
     "steps": 39596878,
-    "wallSec": 182.166,
+    "wallSec": 210.419,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -382,7 +382,7 @@
    {
     "geoPN": 3,
     "steps": 39596878,
-    "wallSec": 222.469,
+    "wallSec": 250.905,
     "nan": false,
     "revN": 27,
     "nB": 27,
@@ -760,5 +760,5 @@
   "paramSameAsJson": true
  },
  "ok": true,
- "elapsedS": 406.86
+ "elapsedS": 464.113
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第302便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:30:04.269Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:04:22.625Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -100,9 +100,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    },
    {
     "file": "tests/lib-w303a-pre.mjs",
@@ -117,7 +117,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "1c01376822025e696aeb5a44923815940d04e7df9d49982af129b0301a1263f2",
+  "codeSha256": "6dc814809fdb7711a98268c6f3a8132ac6e55b0fe741af1f5adb9f26909bd09a",
   "harnessVersion": "w302c-wbgest-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第92報)AN304 ①(慣性速度に影響する重力の計算に 1PN 相当の補正 —— G_loc = κ·c_loc² ほか)・③(W_bg は背景宇宙・銀河の中の位置・恒星系の中の位置などの合算で決まると推定 —— 推定値で dragCore のフィットが安定する)",
@@ -130,7 +130,7 @@
    "推定とフィットが一致した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -197,11 +197,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1572,
-   "segments": 1407,
-   "closureShare": 0.354
+   "names": 1357,
+   "segments": 1198,
+   "closureShare": 0.318
   },
-  "scopeSha256": "9f58a13d811ab6802955a66c0cf66858bca60c0694ccd7547619ae5547a6a953",
+  "scopeSha256": "11b058989c248425ef1e4faac38b0fc8ebd401f054119628e42fb805440cb344",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -2585,23 +2585,23 @@
  "ok": true,
  "timing": {
   "N": {
-   "wallSec": 195.575
+   "wallSec": 229.426
   },
   "P": {
-   "wallSec": 84.306
+   "wallSec": 89.068
   },
   "G": {
-   "wallSec": 94.532
+   "wallSec": 97.629
   },
   "E": {
-   "wallSec": 0.009
+   "wallSec": 0.005
   },
   "C": {
-   "wallSec": 190.703
+   "wallSec": 222.437
   },
   "L": {
-   "wallSec": 0.189
+   "wallSec": 0.159
   }
  },
- "elapsedS": 567.248
+ "elapsedS": 640.878
 }

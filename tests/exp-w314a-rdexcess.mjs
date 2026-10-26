@@ -124,7 +124,7 @@ function simOf(HP, q) {
   const S = HP.coord3d.makeSim(); S.build(clone(v.preset));
   return { S, preset: v.preset, warnings: v.warnings || [] };
 }
-const isX = (w) => /AN404/.test(w) && /観測半径/.test(w);
+const isX = (w) => /AN404|重力半径に比例する長さとして受理/.test(w) && /観測半径/.test(w);   // 第316便c(R248): 受理の理由の文から AN404 を外した世代も同じ警告(重力半径に比例する長さとして受理)
 /** 写しの要点(本の ID と宣言の要点 —— 出力に必ず印字する) */
 const declOf = (q) => ({ id: q.id, invSq: q.physics.relativeDrag.invSq, cap: q.physics.relativeDrag.dragCoreDefault || null,
   bodies: q.bodies.filter((b) => b.type === 'single').map((b) => ({ m: b.m, R: b.radius === undefined ? null : b.radius, dragCore: b.dragCore || null })) });
@@ -148,7 +148,7 @@ export function partA(H) {
     const v = VB(clone(b), clone(ph));
     rows.push({ case: lab, path, decl: { body: b, physics: ph }, expectOk: false, expectWarn: null, expectErr: re.source, ok: v.ok, nWarnX: 0, warn: null, err: v.ok ? null : String(v.err).slice(0, 240), pass: !v.ok && re.test(String(v.err)) });
   };
-  const SHELL = /AN403・AN409/;
+  const SHELL = /AN403・AN409|将来の地表のサンプル/;   // 第316便c(R248): 受理の理由の文から来歴の語(AN・第N便)を外した世代も同じ文の本体で引く
   T('K1 規則・dragCore なし(R_d = κ₀m > R —— 規則の経路)', 'rule', nsBook({ rule: true }), true, 1);
   T('K1 規則・dragCore:{massFrac:1}(radius の省略の経路)', 'omit', nsBook({ rule: true, nsCore: { massFrac: 1 } }), true, 1);
   T('K1 規則・dragCore:{massFrac:0.5}(radius の省略・外殻なし —— R_d = κ₀·0.5m > R)', 'omit', nsBook({ rule: true, nsCore: { massFrac: 0.5 } }), true, 1);
@@ -165,8 +165,8 @@ export function partA(H) {
   else T('K1 外殻なし・明示の dragCore {massFrac:0.5, radius:12}(R_c = R —— 今のまま)', 'explicit', nsBook({ nsCore: { massFrac: 0.5, radius: 12 } }), false, 0, /マントルの体積が 0/);
   T('K1 規則なし・dragCore:{massFrac:0.5}(radius の省略は規則の本だけ)', 'omit', nsBook({ nsCore: { massFrac: 0.5 } }), false, 0, /radius の省略は invSq\.rdRule の本だけ/);
   T('K2 明示の dragCore {massFrac:1, radius:κ₀m}(マントルなし —— AN411)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 1, radius: RdNS } }), true, 1);
-  T('K2 明示の dragCore {massFrac:0.5, radius:κ₀m}(マントルあり —— AN411)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 0.5, radius: RdNS } }), false, 0, /AN411/);
-  T('K2 外殻 uniform・明示の dragCore {massFrac:0.5, radius:κ₀m}', 'k2', nsBook({ kernel: 'k2', shell: 'uniform', nsCore: { massFrac: 0.5, radius: RdNS } }), false, 0, /AN411/);
+  T('K2 明示の dragCore {massFrac:0.5, radius:κ₀m}(マントルあり —— AN411)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 0.5, radius: RdNS } }), false, 0, /AN411|マントルなし\)の宣言だけ受理/);
+  T('K2 外殻 uniform・明示の dragCore {massFrac:0.5, radius:κ₀m}', 'k2', nsBook({ kernel: 'k2', shell: 'uniform', nsCore: { massFrac: 0.5, radius: RdNS } }), false, 0, /AN411|マントルなし\)の宣言だけ受理/);
   T('K2 明示の dragCore {massFrac:0.5, radius:6}(内)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 0.5, radius: 6 } }), true, 0);
   T('K2 明示の dragCore {massFrac:1, radius:12}(R_c = R —— 超過でない)', 'k2', nsBook({ kernel: 'k2', nsCore: { massFrac: 1, radius: 12 } }), true, 0);
   T('K2 dragCore なし(R_d = R —— 今のまま)', 'k2', nsBook({ kernel: 'k2' }), true, 0);
@@ -175,15 +175,15 @@ export function partA(H) {
   T('K1 規則・試験粒子の半径なし(点 —— 規則を当てない)', 'point', nsBook({ rule: true, point: true }), true, 1);
   T('K2 + dragCoreDefault cap6500km(☿ の写し —— 太陽の R はクランプ・cap の超過は AN404 の警告でない)', 'cap', solarBook(HP, 'mercury', { cap: true }), true, 0);
   const inert = { relativeDrag: { law: 'inertial', gain: 1, eps: 0.1, pairs: 'all', history: 'positions' }, softening: 0.1 };
-  D('旧則(invSq なし)の構造核 R_c > R(今の契約 0 < R_c ≤ R)', 'old', { radius: 12, m: mNS, dragCore: { massFrac: 1, radius: RdNS } }, inert, /dragCore\.radius は 0<R_c≤radius/);
-  D('law が inertial でない本の dragCore R_c > R(今の契約)', 'old', { radius: 12, m: mNS, dragCore: { massFrac: 1, radius: RdNS } }, { relativeDrag: { law: 'pairSlip', kappa: 1 } }, /dragCore\.radius は 0<R_c≤radius/);
+  D('旧則(invSq なし)の構造核 R_c > R(今の契約 0 < R_c ≤ R)', 'old', { radius: 12, m: mNS, dragCore: { massFrac: 1, radius: RdNS } }, inert, /dragCore\.radius は 0<R_[cd]≤radius/);
+  D('law が inertial でない本の dragCore R_c > R(今の契約)', 'old', { radius: 12, m: mNS, dragCore: { massFrac: 1, radius: RdNS } }, { relativeDrag: { law: 'pairSlip', kappa: 1 } }, /dragCore\.radius は 0<R_[cd]≤radius/);
   return { rows, allPass: rows.every((r) => r.pass), n: rows.length, kappaBook: k, RdNS };
 }
 
 /* ───────── 段 W(警告の文)───────── */
 export function partW(H) {
   const HP = H.HP, v = HP.validatePreset(clone(nsBook({ rule: true }))), w = (v.warnings || []).filter(isX), line = w[0] || '';
-  const words = ['R_d = ', '観測半径 R = 12', '比 R_d/R = ', '重力半径に比例する長さとして受理', '物質半径ではない', '引きずり球どうしの重なりは今のまま数える', '第314便a', 'AN404'];
+  const words = ['R_d = ', '観測半径 R = 12', '比 R_d/R = ', '重力半径に比例する長さとして受理', '物質半径ではない', '引きずり球どうしの重なりは今のまま数える'];   // 第316便c(R248): 来歴の語(第314便a・AN404)は照合しない —— 受理の理由の文から外した世代も前の世代も文の本体で引く(REGEN_SCOPE を動かさない型)
   const miss = words.filter((x) => line.indexOf(x) < 0), cap = /cap|6\.5/.test(line);
   const v2 = HP.validatePreset(clone(nsBook({ rule: true, nsCore: { massFrac: 1 } }))), w2 = (v2.warnings || []).filter(isX);
   return { line, perBody: w.length, miss, mentionsCap: cap, omitLine: w2[0] || '', omitPrefixed: /^bodies\[0\]\.dragCore の引きずりの半径/.test(w2[0] || ''), ok: w.length === 1 && !miss.length && !cap && /^bodies\[0\] の規則の引きずりの半径/.test(line) && /^bodies\[0\]\.dragCore の引きずりの半径/.test(w2[0] || '') };

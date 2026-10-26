@@ -148,7 +148,7 @@ export function partA(H) {
     const q = merCopy(HP); mut(q); const r = tryV(q);
     const row = { name, ok: r.ok, expectOk: expect, err: r.err, mCanon: r.ok ? r10(r.preset.bodies[1].m) : null };
     if (r.ok) { const S = HP.coord3d.makeSim(); S.build(clone(r.preset)); const s = E(H, 'inertialDragIsqState')(S); row.merIsReceiver = s ? s.receivers.some((x) => x.i === 1) : null; }
-    row.pass = r.ok === expect && (r.ok ? row.merIsReceiver === wantRecv : /宣言の質量が正でない/.test(r.errFull) && /AN389/.test(r.errFull));
+    row.pass = r.ok === expect && (r.ok ? row.merIsReceiver === wantRecv : /宣言の質量が正でない/.test(r.errFull) && /AN389|質量の下限で持ち上げて受け手にしない/.test(r.errFull));   // 第316便c(R248): 受理の理由の文から来歴の語(AN・第N便)を外した世代も同じ文の本体で引く
     R.push(row);
   };
   recv('質量 0・半径あり(既定の massFloor)', (q) => { q.bodies[1].m = 0; }, false);

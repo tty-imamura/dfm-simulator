@@ -3,7 +3,7 @@
  "libVersion": "w309c-recheck-lib-1",
  "generator": "tests/exp-w309c-recheck.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
  "initObsVersion": "w309c-initobs-1",
  "ok": true,
@@ -4190,31 +4190,31 @@
  },
  "timing": {
   "K": {
-   "wallSec": 0.055
+   "wallSec": 0.077
   },
   "E": {
-   "wallSec": 0.259
+   "wallSec": 0.282
   },
   "P": {
-   "wallSec": 0.184
+   "wallSec": 0.251
   },
   "R": {
-   "wallSec": 1.091
+   "wallSec": 1.695
   }
  },
- "elapsedS": 3.165,
+ "elapsedS": 4.505,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:13:47.243Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:21:23.019Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4298,12 +4298,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "102d6eca650713df6f7ba0adc7fc02bde5ed4cfec1c8fb34f8d9b80dc089d321",
+  "codeSha256": "c907ce516cfbe0f81f852592d98c3eda7eb64359091c6559130c3ad31e8a02d7",
   "harnessVersion": "w309c-recheck-1",
   "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— validatePreset・build・step・読み口はエンジンのまま。修正版の引きずりは器の参照の純関数〔エンジンの式ではない —— 第309便a の新則と統合の後に照合〕)",
   "notClaim": [
@@ -4315,7 +4315,7 @@
    "銀河の自転で太陽の自転を説明した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "galaxy",
     "galaxyGeo2",
@@ -4351,11 +4351,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1534,
-   "segments": 1369,
-   "closureShare": 0.3475
+   "names": 1306,
+   "segments": 1147,
+   "closureShare": 0.3093
   },
-  "scopeSha256": "8410ec8035d07d41c19b23eb3b45ffa7ff62ec25eae81749474a38dab5b6ee10",
+  "scopeSha256": "730386010ffbea7d0d16f836ba46cb46367bb70a42dd53c693174767dd6a7cc6",
   "scopeComplete": true,
   "inputsStable": [
    {

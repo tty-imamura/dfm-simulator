@@ -3,7 +3,7 @@
  "libVersion": "w308c-sunspin-lib-1",
  "generator": "tests/exp-w308c-sunspin.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第102報)②(太陽の観測の自転と要求される慣性自転の乖離・銀河の慣性自転に由来する引きずり軸回転の比率)・①(相互の引きずりに反作用を返すと二重計上にならないか)・原仮定者の裁定(第101報)((C) のエネルギーの出所は太陽の慣性自転・中心部の収縮で釣り合う・軸引きずりは軸方向に対する角度差の 2 倍で傾いた軸)・決断事項 AN355・AN348・統括の検証項目 R216",
  "inputs": {
   "planets": [
@@ -3367,34 +3367,34 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.107
+   "wallSec": 0.132
   },
   "required": {
-   "wallSec": 0.052
+   "wallSec": 0.056
   },
   "galaxy": {
-   "wallSec": 0.024
+   "wallSec": 0.012
   },
   "doubleCount": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "contraction": {
-   "wallSec": 0.042
+   "wallSec": 0.034
   }
  },
- "elapsedS": 2.071,
+ "elapsedS": 2.286,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:17:56.139Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T18:02:00.423Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3460,12 +3460,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "d04ca8b0b9f2c0352445bd183df66f6957c2b67c56343db8cee02e849d6e5d42",
+  "codeSha256": "2949ab4ed5addb6d434b8c0b09914fb784ba0ef12741c7d8fc2bdea83d578e42",
   "harnessVersion": "w308c-sunspin-1",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— 本の宣言を読むだけ。鏡映の核・curl の核・三次元の CTL は器の参照の純関数〔エンジンの式ではない〕)",
   "notClaim": [
@@ -3477,7 +3477,7 @@
    "係数 A が決まった"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "galaxy",
     "galaxyGeo2",
@@ -3505,11 +3505,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1352,
-   "closureShare": 0.3431
+   "names": 1287,
+   "segments": 1128,
+   "closureShare": 0.3047
   },
-  "scopeSha256": "da4e9f0f3e369153aa279ad2776ef72c826558c0d09f99c98402af900b3b85ac",
+  "scopeSha256": "50d0c89202f31cf5ed3cb7a55765df15045a1d55430ce08d6aeae63f97f67b8b",
   "scopeComplete": true,
   "inputsStable": [
    {

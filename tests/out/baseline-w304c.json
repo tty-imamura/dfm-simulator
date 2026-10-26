@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T19:22:17.248Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T13:25:20.330Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -100,18 +100,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "24b0d1ad648796190c2512417501803444a4389e5e3d9e4c0b9a9f181d8e63f4",
+  "codeSha256": "88f7bbc882940dc7b3f9f7cb190d5d39d9471fc11dd52601037ef42a82a6ab81",
   "harnessVersion": "w304c-baseline-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第94報)—— 決断事項 AN316 ①〜④ の提案に同意",
   "reading": "統括の検証項目 R197(🌦️🌔 の基線の見直しと「引きずり OFF で許容の内」の記録)",
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonOnly3d",
     "earthMoonSunInertial3d",
@@ -163,11 +163,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1570,
-   "segments": 1405,
-   "closureShare": 0.3534
+   "names": 1347,
+   "segments": 1188,
+   "closureShare": 0.3156
   },
-  "scopeSha256": "e7267294e6aaf8876ad81220b0da4f13bc5d292ac032127606afa2e383234f26",
+  "scopeSha256": "5d97312866e974ec1e63514dfa605c8c93c758b5c6526b7b2ed2692e4f47a0d9",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -377,7 +377,7 @@
    "e": 0.016708600000002977,
    "rDot": 0
   },
-  "wallSec": 524.032
+  "wallSec": 545.849
  },
  "measure": {
   "note": "本の宣言(html)の 🌦️・引きずり OFF(宣言)と ON(第303便a の W_bg —— 対照)",
@@ -1321,7 +1321,7 @@
      ]
     },
     "steps": 15668354,
-    "wallSec": 57.942,
+    "wallSec": 55.131,
     "m4a": {
      "slide": {
       "n": 79,
@@ -1491,7 +1491,7 @@
      }
     ],
     "steps": 31336703,
-    "wallSec": 102.098
+    "wallSec": 108.101
    },
    "h4": {
     "fromZero": [
@@ -1531,7 +1531,7 @@
      }
     ],
     "steps": 20891114,
-    "wallSec": 76.497
+    "wallSec": 78.161
    }
   },
   "on": {
@@ -2466,7 +2466,7 @@
      ]
     },
     "steps": 15667838,
-    "wallSec": 68.129,
+    "wallSec": 65.92,
     "drag": {
      "boundMax": 0.00006825417555982632,
      "boundOver": 0,
@@ -2669,7 +2669,7 @@
    "softYrOld": 0.010658164787251751,
    "note": "軟化の近点への効き(解析)= 3π(ε/a)²/(1−e²)² ÷ 近点の 1 近点月あたりの回転 —— 近点の周期を伸ばす向き"
   },
-  "wallSec": 434.925
+  "wallSec": 443.032
  },
  "record": {
   "record": {
@@ -2860,7 +2860,7 @@
       "nPeri": 354
      }
     ],
-    "wallSec": 18.099
+    "wallSec": 18.044
    },
    "h2": {
     "key": "ctrl-h2",
@@ -2883,7 +2883,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 12.85
+    "wallSec": 12.176
    },
    "on": {
     "key": "ctrl-on-h",
@@ -2906,7 +2906,7 @@
       "nPeri": 118
      }
     ],
-    "wallSec": 7.654
+    "wallSec": 8.295
    }
   },
   "sun118": {
@@ -2922,7 +2922,7 @@
    "sid": 0.000003283515425778205,
    "synUniform": 0.000003839747318323816
   },
-  "wallSec": 45.302
+  "wallSec": 45.214
  },
  "gates": {
   "solved": true,
@@ -2941,5 +2941,5 @@
   "「引きずりが無いことを示した」",
   "「現実を再現した」"
  ],
- "elapsedS": 1004.501
+ "elapsedS": 1034.279
 }

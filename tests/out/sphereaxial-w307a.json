@@ -3,7 +3,7 @@
  "libVersion": "w307a-sphereaxial-lib-1",
  "generator": "tests/exp-w307a-sphereaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第100報)(軸引きずり = 受け手の球面の近い側と遠い側の回転引きずりの差分 —— 赤道で歯車の逆回転・軸へ近付くと弱まりつつ同じ向きへ)・決断事項 AN345 ①②(今の μ² の符号の反転では作れない・角度分布は分母の距離則に依る)・統括の検証項目 R209",
  "axialVersion": "w307a-axial-sphere-1",
  "axialLaw": "sphere-rigid-halfcurl",
@@ -3730,43 +3730,43 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 0.028
+   "wallSec": 0.038
   },
   "Z": {
-   "wallSec": 0.32
+   "wallSec": 0.324
   },
   "A": {
-   "wallSec": 2.828
+   "wallSec": 3.366
   },
   "L": {
-   "wallSec": 10.02
+   "wallSec": 11.873
   },
   "F": {
-   "wallSec": 6.098
+   "wallSec": 7.304
   },
   "C": {
-   "wallSec": 1.34
+   "wallSec": 1.898
   },
   "E": {
-   "wallSec": 11.315
+   "wallSec": 13.644
   },
   "R": {
-   "wallSec": 9.281
+   "wallSec": 11.408
   }
  },
- "elapsedS": 43.098,
+ "elapsedS": 51.513,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:12:50.900Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:42:29.117Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -3796,12 +3796,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "7344f1b0ec6f35e23a4027935b86aff2aae6ed44e733fdbea39eec0b07caa877",
+  "codeSha256": "2d9993469359951f8885c02b38965fc05e5be3b015d84e6559d42ce8aa30eee1",
   "harnessVersion": "w307a-sphereaxial-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -3813,7 +3813,7 @@
    "観測の 1σ で較正済み"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "chainDiskToy3d",
     "chainDiskToy3dTilt",
@@ -3848,11 +3848,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1545,
-   "segments": 1380,
-   "closureShare": 0.3485
+   "names": 1317,
+   "segments": 1158,
+   "closureShare": 0.3104
   },
-  "scopeSha256": "89889a6ea55b2ed36ba75fa1ce720f4f901f639a10cd048644b811fceae48200",
+  "scopeSha256": "40bf7b483cfb14cd4015804a7043d34d9ee901b08ef9d1c3ba9e2941e1d2ed05",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

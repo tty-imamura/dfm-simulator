@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T18:13:26.564Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T11:41:16.865Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "65225d26c0b3ef840a0c04299a057971bf4429fcd437265e1161306f4996a4bf",
+  "codeSha256": "f5863c062990aa4d254298b717924b6ce03ed66c3c9b8a41c58352aec19e54e7",
   "harnessVersion": "w285c-bgderiv-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第75報)⑥: 背景複素決定力の W₀・A₀ を設定することで gradW・gradA・dWdt・dAdt が算出できるか調査する",
@@ -54,7 +54,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [],
    "roots": [
     "$",
@@ -79,11 +79,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 1520,
-   "segments": 1355,
-   "closureShare": 0.3435
+   "names": 1290,
+   "segments": 1131,
+   "closureShare": 0.3052
   },
-  "scopeSha256": "206988dd1c4c5ecbdde60204698d7c4eeb19dd198f85e3adaf920b45d3e031f5",
+  "scopeSha256": "2385ff1aac7e20f9a16a038bc6e22c38b7ec24cb60fc0c8751ef1486e65ffdc1",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1448,5 +1448,5 @@
   "applied": "適用中"
  },
  "htmlVersion": "w285c-bgderiv-1",
- "elapsedS": 0.121
+ "elapsedS": 0.182
 }
