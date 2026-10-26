@@ -338,6 +338,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS preset.inposK1_315 behavior.inposK1_315 docs
 #   lint.regenChain・lint.scopeAll312・CANON の lint.canon304・lint.qaHeapRelease310
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 docs.solar16Contract300 docs.pn1x3d314 docs.k1confirm313 lint.regenScope lint.stableHashPaths lint.regenChain lint.scopeAll312 lint.canon304 lint.qaHeapRelease310"
 # ==== 第315便d の塊(ここまで)====
+# ==== 第316便a の塊(ここから)====
+# 第316便a(原仮定者の裁定(第118報)・決断事項 AN417・AN420・AN422 ①・AN426・R246): 枝 a の新設 4 本(lint.uiText316 —— a の表の文字列に来歴の語・旧記号・裸の κ が無い・
+#   params.i18n316 —— パラメータのラベルと説明は I18N の表・ui.symDisp316 —— 下付きの表示の純関数の表と通す所・docs.uiText316 —— 文書)と、世代切替した既存の照合
+#   (lint.kappaSymbol315・prompt.spec-sync・preset.inposK1_315・ui.rdExcess314・ui.rsExcess315 ほか —— 表示の文と下付きの DOM の文字)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.uiText316 params.i18n316 ui.symDisp316 docs.uiText316 lint.kappaSymbol315 prompt.spec-sync preset.inposK1_315"
+# ==== 第316便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

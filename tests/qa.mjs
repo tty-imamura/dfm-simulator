@@ -87661,7 +87661,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     if (!(i0 >= 0 && i7 > i0)) bad.push('PHYSICS〔第316便a〕が「## 7.」の前に無い');
     for (const w of ['R246', '第118報', 'AN417', 'AN420', 'AN422', 'AN426', 'S_k', 'R_d', 'X_k', 'Y_k', 'κ_D', 'r_s', '_D', '_k', '_d', 'UI_TEXT_CLEAN_VERSION', 'symDisp', '<sub>', 'lint.uiText316', 'params.i18n316', 'ui.symDisp316', 'paramLabel', 'paramDescs', 'regen'])
       if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第316便a〕に「' + w + '」が無い');
-    if (/K_s(?![^`]*`)/.test(sec.replace(/`[^`\n]*`/g, '').replace(/旧 K_s|K_s →|K_s→|K_s(\)|〕|」|・)/g, ''))) bad.push('PHYSICS〔第316便a〕に旧記号 K_s を新しい記号として書いた');
+    if (sec.replace(/`[^`\n]*`/g, '').indexOf('K_s') >= 0) bad.push('PHYSICS〔第316便a〕に旧記号 K_s(コードの書式の外)');
     const a0 = AS.indexOf('\n## 139. '), s139 = a0 >= 0 ? AS.slice(a0, AS.indexOf('\n## ', a0 + 5) > a0 ? AS.indexOf('\n## ', a0 + 5) : undefined) : '';
     if (!s139) bad.push('AI_SPEC に §139 が無い');
     else for (const w of ['第316便a', 'UI_TEXT_CLEAN_VERSION', 'w316a-ui-text-clean-1', 'symDisp', 'symDispText', 'paramLabel', 'I18N.ja.params', 'lint.uiText316', 'params.i18n316', 'ui.symDisp316', 'docs.uiText316']) if (s139.indexOf(w) < 0) bad.push('AI_SPEC §139 に「' + w + '」が無い');
