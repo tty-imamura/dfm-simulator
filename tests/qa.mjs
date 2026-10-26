@@ -16363,10 +16363,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     let detRows, nRest, detOpen;
     if (cat57) {
       // 第88便: 役割チップ(EXT-03)対応 — 比較は label の先頭テキストノード(root/beta 両対応)
+      // 第316便a(AN422 ①・AN426): 世代切替 —— ラベルは I18N の表(paramLabel)・表示は下付き(<sub> の欄があるので label の全文の先頭で比べる)
+      const u316 = !!HP.UI_TEXT_CLEAN_VERSION;
       const catLabels = [...document.querySelectorAll('#paramRows details.catParams .prow label')]
-        .map(l => (l.firstChild ? l.firstChild.textContent : l.textContent));
+        .map(l => (u316 ? l.textContent : (l.firstChild ? l.firstChild.textContent : l.textContent)));
       const missing = HP.PARAM_DEFS.filter(d => d.key !== 'timeScale' && d.key !== 'timeScale')
-        .filter(d => !catLabels.includes(d.label)).map(d => d.key);
+        .filter(d => (u316 ? !catLabels.some((t) => t.indexOf(HP.symDispText(HP.paramLabel(d))) === 0) : !catLabels.includes(d.label))).map(d => d.key);
       detRows = total - missing.length; nRest = total;
       detOpen = [...document.querySelectorAll('#paramRows details.catParams')].some(d2 => d2.open);
     } else {
@@ -62576,7 +62578,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // ① 宣言とスライダーの左端
       const def = HP.PARAM_DEFS.find((d) => d.key === 'D0');
       o.decl = { zeroLeft: def.zeroLeft === true, lo: def.lo, hi: def.hi, mode: def.mode,
-        desc: /遠方の錨なし/.test(def.desc) };
+        desc: /遠方の錨なし/.test(HP.UI_TEXT_CLEAN_VERSION ? HP.paramDesc(def) : def.desc) };   // 第316便a(AN422 ①): 世代切替 —— ja の説明は I18N.ja.paramDescs
       let snap = null;
       const rows = Array.from(document.querySelectorAll('.prow'));
       for (const row of rows) {
@@ -72846,8 +72848,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.geoJa = [...document.querySelectorAll('#ppFold_geo .ppChip')].filter((c) => /^[0-3]$/.test(c.dataset.v)).map((c) => c.textContent);
         const GJ = ['0: 汎用', '1: 1PN準拠', '2: 引きずり近似', '3: 慣性決定力'];
         const pd = PARAM_DEFS.find((d) => d.key === 'geoPN');
-        o.geoLabel = pd.label;
-        o.geoDesc = GJ.every((w) => pd.desc.indexOf(w) >= 0);
+        const pdLab = HP.UI_TEXT_CLEAN_VERSION ? I18N.ja.params.geoPN : pd.label, pdDesc = HP.UI_TEXT_CLEAN_VERSION ? I18N.ja.paramDescs.geoPN : pd.desc;   // 第316便a(AN422 ①): 世代切替
+        o.geoLabel = pdLab;
+        o.geoDesc = GJ.every((w) => pdDesc.indexOf(w) >= 0);
         o.dragDesc = ['0=汎用', '1=1PN準拠', '2=引きずり近似', '3=慣性決定力'].every((w) => HP.T('grpDragDesc').indexOf(w) >= 0)
           && !/0=測地線不用|3=空間メッシュ/.test(HP.T('grpDragDesc'));
         o.sp = HP.SYSTEM_PROMPT.indexOf('0=汎用/1=1PN準拠') >= 0 && HP.SYSTEM_PROMPT.indexOf('主に現実較正') < 0;
@@ -76922,13 +76925,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       cases.push(`表示の空間メッシュ overlays.spaceMesh の在位 ${r.overlayLive.length} 本は受理・受動プローブあり・法則の選択に旧メッシュ 0`);
       // ⑤
       const W = r.words;
-      if (!W.ja.every((s) => /廃止\(第300便a\)/.test(s) && !/廃止予定/.test(s)) || !W.en.every((s) => /retired \(wave 300a\)/.test(s))) bad.push('⑤i18n の廃止の語');
+      if (!W.ja.every((s) => (W.u316 ? (/は廃止/.test(s) && !/第\d+便/.test(s)) : /廃止\(第300便a\)/.test(s)) && !/廃止予定/.test(s)) || !W.en.every((s) => (W.u316 ? (/is retired/.test(s) && !/\bwave \d+/.test(s)) : /retired \(wave 300a\)/.test(s)))) bad.push('⑤i18n の廃止の語');   // 第316便a(R246): 世代切替 —— 画面の文から来歴の語(第300便a・wave 300a)を外した
       if (!(W.u316 ? /physics\.spaceMesh\(旧法則版の空間メッシュ\)は廃止\(受理で拒否される\)/ : /physics\.spaceMesh\(旧法則版の空間メッシュ\)は廃止\(第300便a —— 受理で拒否される\)/).test(W.sp) || /spaceMesh[^\n]{0,40}廃止予定/.test(W.sp)) bad.push('⑤SYSTEM_PROMPT の規則 12');   // 第316便a(R246): 世代切替(W.u316 —— 来歴の語を外した規則 12)
       if (!W.rej.every((s) => /spaceMesh/.test(s))) bad.push('⑤拒否の文');
       let PH = '', AI = '', CL = '', RM = '';
       try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
         CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'); RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8'); } catch (e) { bad.push('⑤文書が読めない'); }
-      if (AI.indexOf('physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)') < 0) bad.push('⑤AI_SPEC の規則 12');
+      if (AI.indexOf(W.u316 ? 'physics.spaceMesh(旧法則版の空間メッシュ)は廃止(受理で拒否される)' : 'physics.spaceMesh(旧法則版の空間メッシュ)は廃止(第300便a —— 受理で拒否される)') < 0) bad.push('⑤AI_SPEC の規則 12');   // 第316便a(R246): 世代切替 —— §5 の SYSTEM_PROMPT の逐語
       const a = PH.indexOf('〔第300便a — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1;
       const sec = a >= 0 ? PH.slice(a, b > a ? b : undefined) : '';
       if (!sec) bad.push('⑤PHYSICS〔第300便a〕節が無い');
