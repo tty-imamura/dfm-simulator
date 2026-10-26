@@ -4025,7 +4025,7 @@ en: {
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
 // 第316便a(原仮定者の裁定(第118報)・決断事項 AN426・統括の検証項目 R246): **記号の下付きの表示(1 か所)**。ソースの綴りは `_` のまま(c_0・X_k・R_d —— `_` は下付きを表す)で、
 //   画面に入れる直前にだけ 1 字の添字を下付きへ変える(T() の戻り値・I18N の表・保存の文は変えない)。
-//   ・数字と Unicode に下付きの字がある英字(a e h i j k l m n o p r s t u v x)→ Unicode の下付き(c₀・G₀・Xₖ・Yₖ・Sₖ・rₛ・C₁・bₘ・gₓ)
+//   ・数字と Unicode に下付きの字がある英字(a e h i j k l m n o p r s t u v x)→ Unicode の下付き(c₀・G₀・Xₖ・Yₖ・Sₖ・rₛ・C₁・bₘ —— g_x も同じ)
 //   ・下付きの字が無い英字(d・D・y・c・z ほか —— R_d・κ_D・m_d・g_y)→ html の文脈では <sub>(symDispSet が DOM の要素で作る —— innerHTML は使わない)・
 //     文字だけの文脈(キャンバス・title・alert —— mode "text")では `_` のまま
 //   ・2 字以上の添字(_loc・_obs・_rad・_1PN・_bg・_SI …)は変えない。鍵・識別子・ファイル名を壊さない: 記号は 1 字の英字かギリシャ字で、その前が英数字・_・.・$ でない
