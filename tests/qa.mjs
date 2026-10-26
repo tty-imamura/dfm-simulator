@@ -87519,7 +87519,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
     const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
     const H = loadHtmlHeadless(path.join(ROOT, TARGET)), HP = H.HP, E = H.evalExpr;
-    const PROV = /第\s*\d+\s*[便報]|\b[Ww](?:AVE|ave)[Ss]?\s+\d+[a-h]?\b|原仮定者|決断事項|(?<![A-Za-z_0-9])AN\d{2,3}(?![0-9])|adjudicat|統括の(?:検証項目|読み)|(?<![A-Za-z_0-9])R2\d\d(?![A-Za-z_0-9])|本便|次便|後便|\d{4}-\d{2}-\d{2}\s*裁定/;
+    const PROV = /第\s*\d+\s*[便報]|\b[Ww](?:AVE|ave)[Ss]?\s+\d+[a-h]?\b|[Ww]ave-\d+|原仮定者|決断事項|(?<![A-Za-z_0-9])A[A-Z]\d{1,3}(?![0-9])|adjudicat|統括の(?:検証項目|読み)|(?<![A-Za-z_0-9])R2\d\d(?![A-Za-z_0-9])|本便|次便|後便|\d{4}-\d{2}-\d{2}\s*裁定/;
     const OLDSYM = /κ₀|κ_[TgS]|κs\b|\bK_s\b|\br_d\b|\bR_c\b/;
     const KAPPA = /κ(?![_₀ₛD])/;
     const QA_ID_OK = /\bwave\d+\.\w+/g;   // QA のブロック名(wave121.ui など)は ID —— 来歴の語として数えない
