@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便c",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T18:15:59.859Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T12:17:21.954Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/out/swing-w293d.json",
-    "bytes": 538352,
-    "sha256": "f077a261bb5dfa5afe1aba45b87b39f97720ea6b4bd52437a624b66221e2ddd9",
-    "mtime": "2026-10-25T18:12:54.249Z"
+    "bytes": 538345,
+    "sha256": "bd433354a4354e96cfdc4cd2dd5a41ad8da1eb648ea88d14fef5687b90eeacfb",
+    "mtime": "2026-10-26T12:15:52.099Z"
    }
   ],
   "code": [
@@ -52,9 +52,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
@@ -63,7 +63,7 @@
     "mtime": "2026-10-20T16:19:56.680Z"
    }
   ],
-  "codeSha256": "ade6c17fa35805a0815794bb7430f478f4f0ca32f02973d6b0351a1787a3f0b4",
+  "codeSha256": "a2d8085ec6dbfb1587f42f9495a2ecb633528b9d52b76fac09eab2e73258a681",
   "harnessVersion": "w295c-inertial3-1",
   "swingVersion": "w293d-swing-1",
   "engineVersion": "w290c-inertial-1",
@@ -85,7 +85,7 @@
    "全系の保存則が閉じた"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonInertial",
     "earthMoonSunInertial",
@@ -114,16 +114,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1544,
-   "segments": 1379,
-   "closureShare": 0.35
+   "names": 1320,
+   "segments": 1161,
+   "closureShare": 0.3121
   },
-  "scopeSha256": "7dd8e074c76fea043a1b17ddb1ee90679c4f98356136f3cac3a7970e7ad4c7f0",
+  "scopeSha256": "e628fd93de567e86d64587fa5d07f6019755a0906586ba7c9f2f94d8b6bf466a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/swing-w293d.json",
-    "stableSha256": "d57333ea976c8d2c88a7f61aa88cd339e9b5535784bf95663357525fbeac019c",
+    "stableSha256": "e0742e60e14fb8d80a14f345ad3ebf604e9ca3a5d36e1c47ccfe3070ce072f20",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1963,49 +1963,49 @@
  "ok": true,
  "timing": {
   "em-G0-0.008": {
-   "wallSec": 14.663
+   "wallSec": 15.032
   },
   "em-A1-0.008": {
-   "wallSec": 15.039
+   "wallSec": 17.241
   },
   "em-A2-0.008": {
-   "wallSec": 16.797
+   "wallSec": 18.427
   },
   "em-A1-0.016": {
-   "wallSec": 8.115
+   "wallSec": 9.359
   },
   "em-A2-0.016": {
-   "wallSec": 8.349
+   "wallSec": 9.311
   },
   "em-G0-0.016": {
-   "wallSec": 7.721
+   "wallSec": 8.43
   },
   "mer-gain0-h2": {
-   "wallSec": 2.337
+   "wallSec": 3.232
   },
   "mer-gain-h2": {
-   "wallSec": 2.766
+   "wallSec": 3.412
   },
   "mer-gain0-h": {
-   "wallSec": 2.988
+   "wallSec": 3.961
   },
   "mer-gain-h": {
-   "wallSec": 3.086
-  },
-  "plu-gain0-h2": {
-   "wallSec": 25.59
+   "wallSec": 3.852
   },
   "plu-gain-h2": {
-   "wallSec": 25.066
+   "wallSec": 27.425
+  },
+  "plu-gain0-h2": {
+   "wallSec": 28.467
   },
   "plu-gain0-h": {
-   "wallSec": 26.882
+   "wallSec": 29.32
   },
   "plu-gain-h": {
-   "wallSec": 26.813
+   "wallSec": 25.197
   }
  },
  "inputMapping": "🟤・🟣 は親の vx/vy を力学速度 v にそのまま与えた(ẋ=v+u)—— 観測の座標速度と同一の比較ではない(🌤️ も 🔆 の状態を v に与えた)。gain 0 の行だけが親と同じ座標速度で始まる",
  "notTarget": "合否・年数の約束は書かない(値の記録)。gain はフィットしない —— 8.85 年・43″/世紀・公転周期のどれにも合わせない",
- "elapsedS": 80.218
+ "elapsedS": 85.624
 }

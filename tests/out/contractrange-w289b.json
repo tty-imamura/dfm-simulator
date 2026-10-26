@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便b",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T18:13:11.495Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T12:11:15.998Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "07fcefc55a5d7e6acdf9fb753d5508f580a314bfd530902393c3dd71c6f98b41",
+  "codeSha256": "5c924b1a7656299907a42d0849c30c70bca5262efda4066aa41c0680ab86c47c",
   "harnessVersion": "w289b-contractrange-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第79報)③で閉じた AN100(第288便c の旗「契約範囲外」を観測比較の評価器へ接続 —— 合否の数字は変えない・5 区分の「条」とは別の欄・過去の正本を遡って無効にしない)・統括の検証項目 R120",
@@ -63,7 +63,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": "all",
    "roots": [
     "$",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1517,
-   "segments": 1352,
-   "closureShare": 0.3431
+   "names": 1288,
+   "segments": 1129,
+   "closureShare": 0.3048
   },
-  "scopeSha256": "a374c66cfdb1eedc9725aa133f2632e0e54039413abee1c30574affb22a05c0c",
+  "scopeSha256": "bf424fd5887d13e0308e177118c87903319a5c1224c22e3d55211735eb5cdc0e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -201,5 +201,5 @@
   ]
  },
  "ok": true,
- "elapsedS": 6.111
+ "elapsedS": 7.043
 }
