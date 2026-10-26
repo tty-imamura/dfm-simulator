@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.009
+   "wallSec": 0.011
   },
   "K": {
-   "wallSec": 0.007
+   "wallSec": 0.006
   },
   "L": {
-   "wallSec": 0.258
+   "wallSec": 0.349
   },
   "S": {
-   "wallSec": 0.127
+   "wallSec": 0.161
   },
   "V": {
-   "wallSec": 0.607
+   "wallSec": 0.679
   },
   "E": {
-   "wallSec": 13.684
+   "wallSec": 15.89
   },
   "P": {
    "wallSec": 0.004
   }
  },
- "elapsedS": 16.564,
+ "elapsedS": 19.054,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T20:13:42.241Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T13:57:19.167Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -3961,12 +3961,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "7dc90c6c4d5572ab2d52ba5c54698f33163dfc2941b35b650dece578db0e549f",
+  "codeSha256": "64ddd0063df002fd2e7870688aec7740954f1f611309fcfd71bf4ee9057fe408",
   "harnessVersion": "w308a-bevel-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -3979,7 +3979,7 @@
    "観測の 1σ で較正済み"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "chainDiskToy3d",
     "chainDiskToy3dTilt",
@@ -4030,11 +4030,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1545,
-   "segments": 1380,
-   "closureShare": 0.3485
+   "names": 1317,
+   "segments": 1158,
+   "closureShare": 0.3104
   },
-  "scopeSha256": "0fc59af9c014049cb57b1ba8e020563c2347bafdce012595a4749898c09bfb89",
+  "scopeSha256": "14d31c6c80975af96f3526abcf5778110605bdc32d97af5b09208a860839216c",
   "scopeComplete": true,
   "inputsStable": [
    {
