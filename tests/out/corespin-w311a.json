@@ -3,7 +3,7 @@
  "libVersion": "w311a-corespin-lib-1",
  "generator": "tests/exp-w311a-corespin.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第110報)AN387 ④ 選択肢として dragCore の自転も軸方向を含めてノブ・(第113報)・DECISIONS v70 §0c ①・§1 AN397(推奨の型 —— 宣言の一定のベクトル)・決断事項 AN384(数値的に解像できない薄さの厚い殻は受理で拒否)・統括の検証項目 R226",
  "coreSpinVersion": "w311a-corespin-1",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -246,7 +246,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin +Infinity",
@@ -254,7 +254,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin 文字列 \"1\"",
@@ -262,7 +262,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin null",
@@ -270,7 +270,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin true",
@@ -278,7 +278,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin 20.5(値域の外)",
@@ -286,7 +286,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin −21(値域の外)",
@@ -294,7 +294,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spin 配列",
@@ -302,7 +302,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否・第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転の角速度 —— 天体の spin と同じ単位〔rad/本の時間〕)は -20〜20 の有限数(天体の spin の値域 —— 外は丸めずに拒否)"
    },
    {
     "name": "spinAxis 配列",
@@ -398,7 +398,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore に未知の鍵 omega(massFrac・radius だけ —— 新則 invSq の本は核の自転と軸 spin・spinAxis も〔第311便a〕・コア v2 の core:{"
+    "err": "bodies[0].dragCore に未知の鍵 omega(massFrac・radius だけ —— 新則 invSq の本は核の自転と軸 spin・spinAxis も・コア v2 の core:{} とは別の鍵)"
    },
    {
     "name": "旧則の本(invSq なし・law:\"inertial\")",
@@ -406,7 +406,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:\"inertial\" でない本とは一緒にしない —— 第311"
+    "err": "bodies[0].dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:\"inertial\" でない本とは一緒にしない)"
    },
    {
     "name": "引きずりの無い本(relativeDrag なし)",
@@ -414,7 +414,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:\"inertial\" でない本とは一緒にしない —— 第311"
+    "err": "bodies[0].dragCore.spin・spinAxis(核の自転と軸)は新しい引きずり則 invSq の本だけで宣言する(旧則の構造核の表・law:\"inertial\" でない本とは一緒にしない)"
    },
    {
     "name": "殻の形 shellRatio と一緒",
@@ -422,7 +422,7 @@
     "expectOk": false,
     "pass": true,
     "canonical": null,
-    "err": "bodies[0].dragCore.spin(核の自転と軸)は殻の形 shellRatio と一緒に宣言しない —— 新則 invSq の dragCore:{massFrac, radius} だけ(第311便a)"
+    "err": "bodies[0].dragCore.spin(核の自転と軸)は殻の形 shellRatio と一緒に宣言しない —— 新則 invSq の dragCore:{massFrac, radius} だけ"
    }
   ],
   "nCases": 29,
@@ -1248,13 +1248,13 @@
    {
     "decl": "未宣言",
     "evalSec": {
-     "wallSec": 0.003529785833
+     "wallSec": 0.003963777933
     }
    },
    {
     "decl": "宣言",
     "evalSec": {
-     "wallSec": 0.0044085345
+     "wallSec": 0.005169721467
     }
    }
   ]
@@ -1282,40 +1282,40 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.307
+   "wallSec": 0.362
   },
   "K": {
-   "wallSec": 0.022
+   "wallSec": 0.031
   },
   "B": {
-   "wallSec": 1.393
+   "wallSec": 1.798
   },
   "R": {
-   "wallSec": 0.289
+   "wallSec": 0.316
   },
   "M": {
-   "wallSec": 0.621
+   "wallSec": 0.754
   },
   "C": {
-   "wallSec": 0.222
+   "wallSec": 0.315
   },
   "P": {
-   "wallSec": 1.078
+   "wallSec": 1.169
   }
  },
- "elapsedS": 6.23,
+ "elapsedS": 6.777,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第311便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:30:16.013Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:43:32.296Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1375,12 +1375,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "f176095c8dcb6d5cd3065326dc3261861a5d0ed7ba60104de28579acff73e188",
+  "codeSha256": "2e6ccfd291e05bba3f7a22d3337843ab8b023003269a9352d3851989ddc56620",
   "harnessVersion": "w311a-corespin-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1391,7 +1391,7 @@
    "核の角運動量を解いた"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "mercurySunInertial3d"
    ],
@@ -1419,11 +1419,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1540,
-   "segments": 1375,
-   "closureShare": 0.3494
+   "names": 1312,
+   "segments": 1153,
+   "closureShare": 0.3113
   },
-  "scopeSha256": "9084c6e7d0767576fd9463f93c75a47892a01815ca7b1c8af1675dc9efccae50",
+  "scopeSha256": "759f5f4e469272d84cf47482b430028a7ddbf4a105606d9bbf28b24593126507",
   "scopeComplete": true,
   "inputsStable": [
    {

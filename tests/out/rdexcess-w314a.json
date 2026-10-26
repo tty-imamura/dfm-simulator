@@ -2,7 +2,7 @@
  "version": "w314a-rdexcess-1",
  "generator": "tests/exp-w314a-rdexcess.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第116報)AN404 R_d は観測半径を超えても受理する・超えた場合の表示も用意する・AN403/AN409 外殻の引きずりは粒子同士が触れるぐらいの距離の特別処理(将来の地表のサンプル)・決断事項 AN411 の推奨の型・統括の検証項目 R238",
  "units": {
   "book": {
@@ -62,7 +62,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0] の規則の引きずりの半径(Y_k m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -96,7 +96,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径(規則 Y_k·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -130,7 +130,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 12.260131454683385 が観測半径 R = 12 を超える(比 R_d/R = 1.02168)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径(規則 Y_k·massFrac·m) R_d = 12.260131454683385 が観測半径 R = 12 を超える(比 R_d/R = 1.02168)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -164,7 +164,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -199,7 +199,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 30 が観測半径 R = 12 を超える(比 R_d/R = 2.50000)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 30 が観測半径 R = 12 を超える(比 R_d/R = 2.50000)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -233,7 +233,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 20 が観測半径 R = 12 を超える(比 R_d/R = 1.66667)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 20 が観測半径 R = 12 を超える(比 R_d/R = 1.66667)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -297,11 +297,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "AN403・AN409",
+    "expectErr": "AN403・AN409|将来の地表のサンプル",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "pass": true
    },
    {
@@ -332,11 +332,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "AN403・AN409",
+    "expectErr": "AN403・AN409|将来の地表のサンプル",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12.260131454683385 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "pass": true
    },
    {
@@ -367,11 +367,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "AN403・AN409",
+    "expectErr": "AN403・AN409|将来の地表のサンプル",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)",
+    "err": "bodies[0].dragCore の引きずりの半径 R_d = 12 ≥ radius(観測半径 12)と外殻 invSq.outerShell(massFrac < 1 —— 外殻の質量を持つ天体)は一緒に宣言しない —— 外殻の内径 R_d が外径 R に届く(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "pass": true
    },
    {
@@ -403,7 +403,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0] の規則の引きずりの半径(Y_k m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -507,7 +507,7 @@
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_d も受理〔K1・K2 は massFrac = 1〕・radius の省略は invSq.rdRule の本だけ)",
     "pass": true
    },
    {
@@ -538,7 +538,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0].dragCore の引きずりの半径 R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -567,11 +567,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "AN411",
+    "expectErr": "AN411|マントルなし\\)の宣言だけ受理",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_c < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)(AN411)",
+    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_d < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "pass": true
    },
    {
@@ -601,11 +601,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "AN411",
+    "expectErr": "AN411|マントルなし\\)の宣言だけ受理",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_c < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル〔原仮定者の裁定(第116報)AN403・AN409〕・第314便a)(AN411)",
+    "err": "bodies[0].dragCore.radius > radius(観測半径)は massFrac = 1(マントルなし)の宣言だけ受理 —— massFrac < 1(マントル・外殻あり)は 0 < R_d < radius のまま(外殻は粒子が触れる距離の特別処理 —— 将来の地表のサンプル)",
     "pass": true
    },
    {
@@ -732,7 +732,7 @@
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_d も受理〔K1・K2 は massFrac = 1〕・radius の省略は invSq.rdRule の本だけ)",
     "pass": true
    },
    {
@@ -766,7 +766,7 @@
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)",
+    "err": "bodies[0].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_d も受理〔K1・K2 は massFrac = 1〕・radius の省略は invSq.rdRule の本だけ)",
     "pass": true
    },
    {
@@ -797,7 +797,7 @@
     "expectErr": null,
     "ok": true,
     "nWarnX": 1,
-    "warn": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+    "warn": "bodies[0] の規則の引きずりの半径(Y_k m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
     "err": null,
     "pass": true
    },
@@ -857,11 +857,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "dragCore\\.radius は 0<R_c≤radius",
+    "expectErr": "dragCore\\.radius は 0<R_[cd]≤radius",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "dragCore.radius は 0<R_c≤radius(コアの半径・絶対)",
+    "err": "dragCore.radius は 0<R_d≤radius(コアの半径・絶対)",
     "pass": true
    },
    {
@@ -885,11 +885,11 @@
     },
     "expectOk": false,
     "expectWarn": null,
-    "expectErr": "dragCore\\.radius は 0<R_c≤radius",
+    "expectErr": "dragCore\\.radius は 0<R_[cd]≤radius",
     "ok": false,
     "nWarnX": 0,
     "warn": null,
-    "err": "dragCore.radius は 0<R_c≤radius(コアの半径・絶対)",
+    "err": "dragCore.radius は 0<R_d≤radius(コアの半径・絶対)",
     "pass": true
    }
   ],
@@ -899,11 +899,11 @@
   "RdNS": 24.52026290936677
  },
  "W": {
-  "line": "bodies[0] の規則の引きずりの半径(κ₀m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+  "line": "bodies[0] の規則の引きずりの半径(Y_k m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
   "perBody": 1,
   "miss": [],
   "mentionsCap": false,
-  "omitLine": "bodies[0].dragCore の引きずりの半径(規則 κ₀·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える —— 第314便a・原仮定者の裁定(第116報)AN404)",
+  "omitLine": "bodies[0].dragCore の引きずりの半径(規則 Y_k·massFrac·m) R_d = 24.52026290936677 が観測半径 R = 12 を超える(比 R_d/R = 2.04336)—— 重力半径に比例する長さとして受理(物質半径ではない・引きずり球どうしの重なりは今のまま数える)",
   "omitPrefixed": true,
   "ok": true
  },
@@ -1470,25 +1470,25 @@
    "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.397
+   "wallSec": 0.454
   },
   "S": {
-   "wallSec": 0.205
+   "wallSec": 0.142
   }
  },
- "elapsedS": 2.556,
+ "elapsedS": 2.485,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:00:36.025Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T15:43:36.853Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1506,9 +1506,9 @@
   "code": [
    {
     "file": "tests/exp-w314a-rdexcess.mjs",
-    "bytes": 31573,
-    "sha256": "fe8981a4007008b4b9291fbf7485542a3be9629f9045fbf3fb589634ff2aab4f",
-    "mtime": "2026-10-25T16:42:07.809Z"
+    "bytes": 32184,
+    "sha256": "f6577c705dc538304f1c6ad5cb5a3e34852ca01ce6b39aae6cfcc1931b52d423",
+    "mtime": "2026-10-26T10:28:30.999Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -1542,12 +1542,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "e505027ce86dca78d33161c50eeb0d9642d8e102a84eff6a3f050d6c44c3386a",
+  "codeSha256": "62479205b5d98c359d67eb0a08becefc5d40722fcd854cacb6308c7cbcbbbb8a",
   "harnessVersion": "w314a-rdexcess-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -1559,7 +1559,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -1591,11 +1591,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1537,
-   "segments": 1372,
-   "closureShare": 0.3481
+   "names": 1309,
+   "segments": 1150,
+   "closureShare": 0.31
   },
-  "scopeSha256": "282bc799db233a79cd4a3b564034d6761fbf21f5ffce72b52ab7fb4d47831171",
+  "scopeSha256": "d527e7e2bad29b8687d7eac84c59c428fc0224f7448fc3c99fd7e83795907914",
   "scopeComplete": true,
   "inputsStable": [
    {
