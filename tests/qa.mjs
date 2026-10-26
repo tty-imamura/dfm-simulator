@@ -87529,14 +87529,17 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
 // ----      旧記号(κ_D 以外のカッパ〔κ・κs・κ₀・κ_T・κ_g〕・K_s・引きずり半径 r_d・en の裸の kappa・dragCore の R_c〔3 本〕)が無い。
 // ----      許可の表(別の量 —— 本ごとの理由): shapeToy の中心の調和ポテンシャルの係数 κ₀(Φ = ½κ₀r² —— 時空・引きずりの量ではない)・周転円の振動数 κ(Ω < √κ)・
 // ----      pairSlip の宣言の鍵 relativeDrag.kappa(鍵の名)。許可した本に語が残っていること(古い許可を検出)。
+// ----      較正の分類の本(退役を含む)の obsCard の行名(q)は判定器 calaudit が量の名として読む鍵なので数えない(変えていない —— 表示の側は未決)。
 // ----   ② preset.referenceKind316b …… 決断事項 AN425: 🌡️ mercurySunInertial3d の referenceKind が "theory-control"(宣言専用メタ —— sampleClass・notClaim・物理は不変)・
 // ----      在位の他の 6 本は referenceKind を宣言しない・"observation-fit" の本の集合は宣言から数える(🌡️ を含まない)・凍結の写し(第315便c の前)は "observation-fit" のまま(履歴)。
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   const H316b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   if (!(TARGET.startsWith('beta/') && H316b.indexOf('const PRESET_TEXT_CLEAN_A_VERSION="w316b-preset-text-a-1"') >= 0)) {
     console.log('SKIP lint.presetText316b / preset.referenceKind316b(第316便b の前の世代 — ' + TARGET + ')');
-  } else {
-    await (async () => {
+    return;
+  }
+  {
       const B316 = [
       'gclock', 'grcal', 'grcalGps', 'grcalLight', 'grcalShapiro', 'projectile', 'echo', 'boxtrans', 'boxrot', 'boxexpand', 'boxcomoving', 'boxbound', 'boxbreath',
       'boxredshift', 'probeH', 'freebox', 'cosmicweb', 'galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB', 'darkrotor', 'rotorSolo', 'nebulaRotor', 'nebulaShell',
@@ -87570,14 +87573,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
             shapeToyDisk: '周転円の振動数 κ(Ω < √κ)', plutoCharonDFM: '宣言の鍵 relativeDrag.kappa' };
           const RC3 = ['earthMoonInertial', 'earthMoonSunInertial', 'mercurySunInertialFit'];
           const seenAllow = {}, hitsProv = [], hitsSym = [];
-          let nStr = 0;
+          let nStr = 0, nKey = 0;
           const fields = (p) => {
             const out = [];
             const push = (tag, v) => { if (typeof v === 'string') out.push([tag, v]); else if (Array.isArray(v)) v.forEach((x, i) => push(tag + '[' + i + ']', x)); };
             for (const [lg, o] of [['', p], ['en.', p.en || {}]]) {
               push(lg + 'name', o.name);
               const ds = o.descStruct || {}; for (const k of ['summary', 'observe', 'control', 'brief']) push(lg + 'descStruct.' + k, ds[k]);
-              (o.obsCard || []).forEach((r, i) => { for (const k of ['q', 'model', 'obs']) push(lg + 'obsCard[' + i + '].' + k, r && r[k]); });
+              // 較正の分類の本(退役を含む)の obsCard の行名(q)は判定器 calaudit が量の名として読む鍵 —— 来歴の語を残す(表示の側の未決 —— PHYSICS〔第316便b〕⑦)
+              (o.obsCard || []).forEach((r, i) => { for (const k of ['q', 'model', 'obs']) { if (k === 'q' && p.sampleClass === 'calibration') { nKey++; continue; } push(lg + 'obsCard[' + i + '].' + k, r && r[k]); } });
               const pa = o.parameterAudit || {}; for (const k of ['observedInputs', 'fitted', 'derived', 'numerical', 'fixedConventions']) push(lg + 'parameterAudit.' + k, pa[k]);
               const ff = o.failureFirst || {}; for (const k of ['pass', 'fail']) push(lg + 'failureFirst.' + k, ff[k]);
             }
@@ -87602,7 +87606,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           for (const id of Object.keys(ALLOW)) if (!seenAllow[id]) bad.push('許可の表の ' + id + '(' + ALLOW_WHY[id] + ')に語が無い(古い許可)');
           if (hitsProv.length) bad.push('表示の欄に来歴の語 ' + hitsProv.length + ' 件: ' + hitsProv.slice(0, 5).join(' , '));
           if (hitsSym.length) bad.push('表示の欄に旧記号 ' + hitsSym.length + ' 件: ' + hitsSym.slice(0, 5).join(' , '));
-          cases.push(`先頭 ${B316.length} 本(〜 plutoCharonDFM・境界 plutoCharonKF0Control)の表示の欄 ${nStr} 個の来歴の語 ${hitsProv.length}・旧記号 ${hitsSym.length}・許可 ${Object.keys(seenAllow).length}/${Object.keys(ALLOW).length} 本(${Object.values(seenAllow).reduce((a, b) => a + b, 0)} 個)`);
+          cases.push(`先頭 ${B316.length} 本(〜 plutoCharonDFM・境界 plutoCharonKF0Control)の表示の欄 ${nStr} 個の来歴の語 ${hitsProv.length}・旧記号 ${hitsSym.length}・許可 ${Object.keys(seenAllow).length}/${Object.keys(ALLOW).length} 本(${Object.values(seenAllow).reduce((a, b) => a + b, 0)} 個)・判定器の鍵の行名(較正の分類の obsCard の q)${nKey} 個は数えない`);
           // SAMPLE_STATUS: 原稿の表示の文(全行)と html の生成領域の文字列(根拠の試験 ID は除く)
           let src = null; try { src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { src = null; }
           const ssHits = [];
@@ -87652,8 +87656,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           `**🌡️ の参照の種類**(第316便b・決断事項 AN425・R247 —— 規則で置いた残差の基線は理論の対照・宣言専用メタ・物理と署名は不変): ${cases.join(' / ')}`
           + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
       }
-    })();
   }
+  })();   // 第310便c(heap)
 }
 // ==== 第316便b の塊(ここまで)====
 
