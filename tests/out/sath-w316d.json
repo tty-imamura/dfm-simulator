@@ -51438,19 +51438,19 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.03
+   "wallSec": 0.173
   },
   "A": {
-   "wallSec": 0.006
+   "wallSec": 0.009
   },
   "C": {
-   "wallSec": 0.007
+   "wallSec": 0.014
   },
   "V": {
-   "wallSec": 0
+   "wallSec": 0.005
   }
  },
  "stats": {
@@ -51458,13 +51458,13 @@
   "steps": 11612361
  },
  "resumed": 108,
- "elapsedS": 2.178,
+ "elapsedS": 3.425,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第316便d",
   "target": "beta/index.html",
   "targetSha256": "d35affa9a9669765c28aacb1f4d7e6d241ed0aec11e4690f4f583edbacc75576",
-  "generatedAt": "2026-10-26T08:10:32.905Z",
+  "generatedAt": "2026-10-26T08:36:46.130Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -51524,12 +51524,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 85973,
-    "sha256": "14913c8edbcca09eeac8b298c89bba4633d9a3c398b737eba2e9e974a6048696",
-    "mtime": "2026-10-26T07:59:36.808Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T08:32:13.116Z"
    }
   ],
-  "codeSha256": "a4fdc5acd00484f869a0ce830dba24aec2c1f6a2db61bce94c3a5c42e70dcbcc",
+  "codeSha256": "9b62aea67125fb27ac663c6acffc0b31654d0b18b962990f494791cde39ae089",
   "harnessVersion": "w316d-sath-1",
   "stage": "sath",
   "engine": "Node(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・走行は子プロセス W316D_WORKERS)",
@@ -51573,7 +51573,7 @@
    "segments": 1144,
    "closureShare": 0.3091
   },
-  "scopeSha256": "001c56a6445069f4577a9b0c6d61f7af98ec86eb186f166eb4b2dc6a24f0c36a",
+  "scopeSha256": "215bb44e0ef5acf8e522bcd0573d9a01be8964444b135549d2db113a2d32b677",
   "scopeComplete": true,
   "inputsStable": [
    {
