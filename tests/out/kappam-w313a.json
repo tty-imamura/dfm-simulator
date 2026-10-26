@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
+ "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -39,61 +39,61 @@
     "case": "rdRule \"kappaM\" + kernel 省略(K2)",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = κ₀m は K1 の一次の値 —— K2 の本は今のまま・第313便a・AN399・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = Y_k m は K1 の一次の値 —— K2 の本は今のまま)"
    },
    {
     "case": "rdRule \"kappaM\" + kernel \"k2\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = κ₀m は K1 の一次の値 —— K2 の本は今のまま・第313便a・AN399・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は kernel:\"k1\" の本だけ(R_d = Y_k m は K1 の一次の値 —— K2 の本は今のまま)"
    },
    {
     "case": "rdRule \"KappaM\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule \"kappa\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule \"\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule 1",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule true",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule [\"kappaM\"]",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule {}",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = κ₀ m_d —— κ₀ = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ(第313便a・AN402)"
+    "err": "physics.relativeDrag.invSq.rdRule は \"kappaM\"(全天体の引きずりの半径 R_d = Y_k m_d —— Y_k = 10G/(C₁c²) を本の G・c で・cap を見ない)だけ"
    },
    {
     "case": "rdRule + dragCoreDefault",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.dragCoreDefault は invSq.rdRule と一緒に宣言しない(どちらも dragCore の半径を宣言しない天体の R_d を決める規則 —— K1 の規則 R_d = κ₀m は cap 6.5×10⁶ m を見ない・第313便a・原仮定者の裁定(第115"
+    "err": "physics.relativeDrag.dragCoreDefault は invSq.rdRule と一緒に宣言しない(どちらも dragCore の半径を宣言しない天体の R_d を決める規則 —— K1 の規則 R_d = Y_k m は cap 6.5×10⁶ m を見ない)"
    },
    {
     "case": "shellRecv 省略",
@@ -123,43 +123,43 @@
     "case": "shellRecv \"core\" + outerShell 省略",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は outerShell と一緒にだけ(外殻の無い本では何もしない宣言 —— 第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は outerShell と一緒にだけ(外殻の無い本では何もしない宣言)"
    },
    {
     "case": "shellRecv \"core\" + K2",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は kernel:\"k1\" の本だけ(K2 の本は今の受け手の平均のまま・第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv:\"core\" は kernel:\"k1\" の本だけ(K2 の本は今の受け手の平均のまま)"
    },
    {
     "case": "shellRecv \"Core\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ"
    },
    {
     "case": "shellRecv \"shell\"",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ"
    },
    {
     "case": "shellRecv 0",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ"
    },
    {
     "case": "shellRecv false",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ"
    },
    {
     "case": "shellRecv [\"core\"]",
     "ok": false,
     "pass": true,
-    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ(第313便a・AN403)"
+    "err": "physics.relativeDrag.invSq.shellRecv は \"mass\"(省略 —— 受け手の平均は dragCore と外殻を質量で重み)か \"core\"(受け手の平均は dragCore だけ —— 外殻は源のまま)だけ"
    },
    {
     "case": "規則 + 太陽の半径 1.0e-3 < κ₀M☉ = 1.75e-4 × 10(radiusFloor 0.001 —— AN404)",
@@ -183,7 +183,7 @@
     "case": "規則なし + dragCore:{massFrac:0.5}(radius の省略)",
     "ok": false,
     "pass": true,
-    "err": "bodies[1].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_c も受理〔K1・K2 は massFrac = 1 —— 第314便a・AN404・AN411〕・radius の省略は invSq.rdRule の本だけ)"
+    "err": "bodies[1].dragCore.radius は正の有限数(コアの半径・絶対 —— 新則 invSq の本は radius〔観測半径〕を超える R_d も受理〔K1・K2 は massFrac = 1〕・radius の省略は invSq.rdRule の本だけ)"
    },
    {
     "case": "規則 + 明示の dragCore.radius(規則より優先 —— cap を見ない)",
@@ -201,7 +201,7 @@
     "case": "規則 + 群の代表粒子の半径 particleRadius",
     "ok": false,
     "pass": true,
-    "err": "bodies[2].particleRadius は invSq.rdRule の本では宣言しない(規則 R_d = κ₀m は single の天体の質量から置く —— 群の代表粒子の半径は対象外・第313便a)"
+    "err": "bodies[2].particleRadius は invSq.rdRule の本では宣言しない(規則 R_d = Y_k m は single の天体の質量から置く —— 群の代表粒子の半径は対象外)"
    }
   ],
   "allPass": true,
@@ -2338,31 +2338,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.034
+   "wallSec": 0.06
   },
   "R": {
-   "wallSec": 0.979
+   "wallSec": 1.436
   },
   "B": {
-   "wallSec": 1.525
+   "wallSec": 1.825
   },
   "E": {
-   "wallSec": 1.297
+   "wallSec": 1.221
   }
  },
- "elapsedS": 6.167,
+ "elapsedS": 7.118,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-  "generatedAt": "2026-10-25T21:30:24.526Z",
+  "targetSha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+  "generatedAt": "2026-10-26T17:25:13.169Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7273413,
-    "sha256": "0c4634161b0a98648b7254e96bbc6a6c2c50d77923f6af82767b2a7a4deda54a",
-    "mtime": "2026-10-25T16:42:07.717Z"
+    "bytes": 7237667,
+    "sha256": "e5dc9aacf3fee4ebb360bbbbc48a868b17d2ca3168d8d3246050850efa67b7e5",
+    "mtime": "2026-10-26T10:28:42.335Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2380,9 +2380,9 @@
   "code": [
    {
     "file": "tests/exp-w313a-kappam.mjs",
-    "bytes": 35234,
-    "sha256": "5313aeb206ff5138bf3a8ea7dcd849f6bcad4460fddc09a3a36cf0328db7e1fd",
-    "mtime": "2026-10-25T16:42:07.809Z"
+    "bytes": 35481,
+    "sha256": "5618289389ca58398bd002a412c643a079dcada27163ac14fe9f8d40d006474e",
+    "mtime": "2026-10-26T10:28:30.999Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
@@ -2416,12 +2416,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 82714,
-    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "bytes": 86053,
+    "sha256": "c7ff685a88b0331e2e6c1dcb01e63e25ccd534eaf17346f92df61de02c885b0c",
+    "mtime": "2026-10-26T09:03:02.858Z"
    }
   ],
-  "codeSha256": "1fca80fb38d2b7f6fa35c0b43f5e613bc73f4d07eba29af809740b290b127db4",
+  "codeSha256": "6e1a55854da9ea59b7a89aa24389b93128a20c975c87b65f3039bf1e12f23dbb",
   "harnessVersion": "w313a-kappam-1",
   "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・1 プロセス)",
   "notClaim": [
@@ -2433,7 +2433,7 @@
    "収束した"
   ],
   "scope": {
-   "version": "w286d-scope-4",
+   "version": "w316d-scope-5",
    "presets": [
     "earthMoonSunInertial3d",
     "jupiterSunInertial3d",
@@ -2462,11 +2462,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1536,
-   "segments": 1371,
-   "closureShare": 0.3479
+   "names": 1308,
+   "segments": 1149,
+   "closureShare": 0.3097
   },
-  "scopeSha256": "35acf6604313d8c4e1e8b1a654aaa349ae96f6e64cb67314a106627202f8fe3f",
+  "scopeSha256": "7e26e31f619749710ff910865b5dfd4045274ee2066126a33700ef40647e2e62",
   "scopeComplete": true,
   "inputsStable": [
    {
