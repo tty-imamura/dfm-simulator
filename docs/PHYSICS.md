@@ -37897,7 +37897,7 @@ R_d を r_s にした式で今と同じ引きずりを出すには、並進に 5
 
 **来歴の行き先**: 外した来歴は各本・各関数の直上の既存のコメント(`// 第NNN便x(…)`)と PHYSICS の各節・git の履歴に残る。行ごとのコメントは足していない(同じ来歴がコメントに既にある)。
 
-**世代切替した QA と器**(受理の理由の文の照合 —— 判定は不変・新旧どちらの文でも通る型): `behavior.tide3d307`(`第308便d・決断事項 AN350` の警告の除外 → 文の本体「τ⊥ は数えるだけ」「潮汐の B ∝ R⁵ は」)・`behavior.tide3Recv308`(同じ警告の数え)・`behavior.galaxial311`(新則の質量 0 の拒否 `AN389` → 「質量の下限で持ち上げて受け手にしない」)・`behavior.rdExcess314`・`ui.rdExcess314` と器 `tests/exp-w314a-rdexcess.mjs`・`tests/exp-w315b-rsexcess.mjs`・`tests/exp-w313a-kappam.mjs`(R_d > 観測半径の警告 `AN404` → 「重力半径に比例する長さとして受理」)・`behavior.alphaCenAB`(✨ の観測安定則の宣言 —— 日付の裁定 → 「適用第1号」)。
+**世代切替した QA と器**(受理の理由の文の照合 —— 判定は不変・新旧どちらの文でも通る型): `behavior.tide3d307`(`第308便d・決断事項 AN350` の警告の除外 → 文の本体「τ⊥ は数えるだけ」「潮汐の B ∝ R⁵ は」)・`behavior.tide3Recv308`(同じ警告の数え)・`behavior.galaxial311` と器 `tests/exp-w311b-galaxial.mjs`(新則の質量 0 の拒否 `AN389` → 「質量の下限で持ち上げて受け手にしない」)・`behavior.rdExcess314`・`ui.rdExcess314` と器 `tests/exp-w314a-rdexcess.mjs`・`tests/exp-w315b-rsexcess.mjs`・`tests/exp-w313a-kappam.mjs`(R_d > 観測半径の警告 `AN404` → 「重力半径に比例する長さとして受理」・外殻の組の拒否 `AN403・AN409` → 「将来の地表のサンプル」・K2 のマントルの拒否 `AN411` → 「マントルなし)の宣言だけ受理」・旧則の契約の文 `0<R_c≤radius` → `0<R_d≤radius`・警告の語の一覧から `第314便a`・`AN404` を外す)・`behavior.alphaCenAB`(✨ の観測安定則の宣言 —— 日付の裁定 → 「適用第1号」)。
 
 **新しい QA**: `lint.presetText316c`(後半 71 本の ID を固定の一覧で —— 宣言の物の木を歩き、出す欄に来歴の語と旧記号が無い・量の名の q は `provTextClean` の出力を見る)・`lint.miscText316c`(43 関数の本文の文字列〔scanJs でコメントを潰す〕・`MASS_BASIS` の注・出す側で外す 400 文〔退役の理由 ja/en・観測の比較の名・ライブ比較の名・フィットの記録〕に来歴の語が無い・`provTextClean` の型の例)・`docs.w316c`。
 
