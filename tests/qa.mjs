@@ -47217,6 +47217,10 @@ if (!FAST) {
       EN = 'This sample does not yet run on the inertial-determinacy kernel of the DFM restatement and corrections (relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.';
       GE = '; p=1 q-field, not the restated inertial kernel';
     }
+    // 第316便b(R247): 原稿は root と beta の共有 —— 原稿が新しい世代の要旨で対象 html が前の世代(root 等の凍結した写し)なら、
+    // 原稿の要旨を対象の世代の語へ戻してから ②③ を当てる(生成領域はその世代の原稿から組んだもの)
+    const GE_NEW316 = '; p=1 q-field, not the restated inertial kernel', GE_OLD316 = '; p=1 q-field, not the report-79 inertial kernel';
+    const enStateOf = (r) => { const s = r && r.en && r.en.state; return (!cln316b && typeof s === 'string' && s.endsWith(GE_NEW316)) ? s.slice(0, -GE_NEW316.length) + GE_OLD316 : s; };
     const NO = /接続した|創発|引きずりが戻った|connected the complex|emerged/;
     const bad = [];
     const LS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
@@ -47226,9 +47230,10 @@ if (!FAST) {
     for (const id of IDS) {
       const r = (src.rows || {})[id];
       if (!r) { bad.push('②原稿に無い ' + id); continue; }
-      if (!r.state.endsWith(G) || !(r.en && r.en.state.endsWith(GE))) bad.push('②状況の末尾に要旨が無い ' + id);
+      const enSt = enStateOf(r);
+      if (!r.state.endsWith(G) || !(r.en && typeof enSt === 'string' && enSt.endsWith(GE))) bad.push('②状況の末尾に要旨が無い ' + id);
       const st = { purpose: r.purpose, objective: r.objective, state: r.state, calibration: 'out-of-scope', mismatch: null, outlook: null,
-        en: { purpose: r.en.purpose, state: r.en.state, mismatch: null, outlook: null } };
+        en: { purpose: r.en.purpose, state: enSt, mismatch: null, outlook: null } };
       const bj = LS.composeBrief(st, 'ja'), be = LS.composeBrief(st, 'en');
       if (bj.length > LS.BRIEF_CAP.ja || be.length > LS.BRIEF_CAP.en) bad.push(`②上限超え ${id} ${bj.length}/${be.length}`);
       if (NO.test(bj + be)) bad.push('②書かない語 ' + id);
@@ -87565,7 +87570,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           if (JSON.stringify(head) !== JSON.stringify(B316)) bad.push('先頭 ' + B316.length + ' 本の並びが固定の一覧と違う(最初の差: ' + (head.find((x, i) => x !== B316[i]) || '—') + ')');
           if (!arr[B316.length] || arr[B316.length].id !== 'plutoCharonKF0Control') bad.push(B316.length + 1 + ' 本目が plutoCharonKF0Control でない(枝 c との境界)');
           if (H.HP.PRESET_TEXT_CLEAN_A_VERSION !== 'w316b-preset-text-a-1') bad.push('HP.PRESET_TEXT_CLEAN_A_VERSION が無い');
-          const PROV = /第\s*\d+(?:\s*[〜~]\s*\d+)?\s*便|第\s*\d+\s*報|原仮定者|決断事項|統括|検証項目\s*R\d|\bAN\d{2,4}\b|\bR\d{3}\b|本便|審査|DECISIONS|\bwaves?[\s-]*\d+|\boriginator|\badjudicat|\bcoordinator|\bhypothesist|\breport[\s-]*\d+|\b\d+(?:st|nd|rd|th) report|\bsessions?[\s-]*\d+|\bthis wave\b|\bnext wave\b|\bdecision items?\b|\bruling\b|\bthree reviews\b/i;
+          const PROV = /第\s*\d+(?:\s*[〜~]\s*\d+)?\s*便|第\s*\d+\s*報|原仮定者|決断事項|統括|検証項目\s*R\d|\bAN\d{2,4}\b|\bR\d{3}\b|本便|DECISIONS|\bwaves?[\s-]*\d+|\boriginator|\badjudicat|\bcoordinator|\bhypothesist|\breport[\s-]*\d+|\b\d+(?:st|nd|rd|th) report|\bsessions?[\s-]*\d+|\bthis wave\b|\bnext wave\b|\bdecision items?\b|\bruling\b|\bthree reviews\b/i;
           const SYM = /κ(?!_D)|K_s|(?<![A-Za-z0-9_])r_d(?![A-Za-z0-9])|\bkappa(?:0|_T)?\b/g;
           const ALLOW = { shapeToyClusterCore: /^(κ₀|κ|kappa0)$/, shapeToyDiskCore: /^(κ₀|κ|kappa0)$/, shapeToyArmCore: /^(κ₀|κ|kappa0)$/, shapeToySpiralCore: /^(κ₀|κ|kappa0)$/,
             shapeToyDisk: /^(κ|kappa)$/, plutoCharonDFM: /^kappa$/ };
