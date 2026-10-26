@@ -290,7 +290,7 @@
    }
   },
   "mercurySunInertial3d": {
-   "purpose": "太陽と水星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と水星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 2.618e-5″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
@@ -299,12 +299,12 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Mercury 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Mercury 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 2.618e-5\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "venusSunInertial3d": {
-   "purpose": "太陽と金星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と金星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 6.965e-5″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
@@ -313,12 +313,12 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Venus 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Venus 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 6.965e-5\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "marsSunInertial3d": {
-   "purpose": "太陽と火星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と火星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 6.091e-6″/世紀(h/2)・規則で置いた残差が門 1.000e-3 の内",
    "evidence": [
@@ -327,12 +327,12 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Mars 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Mars 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 6.091e-6\"/cy (h/2); rule residual inside the gate 1.000e-3"
    }
   },
   "jupiterSunInertial3d": {
-   "purpose": "太陽と木星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と木星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 7.926e-5″/世紀(h/2)・規則で置いた残差が門 6.239e-4 の内",
    "evidence": [
@@ -341,12 +341,12 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Jupiter 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Jupiter 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 7.926e-5\"/cy (h/2); rule residual inside the gate 6.239e-4"
    }
   },
   "saturnSunInertial3d": {
-   "purpose": "太陽と土星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と土星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 5.251e-6″/世紀(h/4)・規則で置いた残差が門 1.371e-4 の内",
    "evidence": [
@@ -355,7 +355,7 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Saturn 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Saturn 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 5.251e-6\"/cy (h/4); rule residual inside the gate 1.371e-4"
    }
   },
@@ -373,7 +373,7 @@
    }
   },
   "uranusSunInertial3d": {
-   "purpose": "太陽と天王星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と天王星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN 1.573e-7″/世紀(h/4)・規則で置いた残差が門 2.385e-5 の内",
    "evidence": [
@@ -382,12 +382,12 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Uranus 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Uranus 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN 1.573e-7\"/cy (h/4); rule residual inside the gate 2.385e-5"
    }
   },
   "neptuneSunInertial3d": {
-   "purpose": "太陽と海王星の三次元 —— 規則 r_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
+   "purpose": "太陽と海王星の三次元 —— 規則 R_d = Y_k m(K1・全天体・合わせない)で近点率の差の 1PN の残差を測る",
    "objective": "met",
    "state": "r_1PN -6.927e-10″/世紀(h/4)・規則で置いた残差が門 7.741e-6 の内",
    "evidence": [
@@ -396,7 +396,7 @@
     "tests/out/planets3d-w299c.json"
    ],
    "en": {
-    "purpose": "Sun-Neptune 3D; rule r_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
+    "purpose": "Sun-Neptune 3D; rule R_d = Y_k m (K1, all bodies, not matched): 1PN residual of the apsidal rate",
     "state": "r_1PN -6.927e-10\"/cy (h/4); rule residual inside the gate 7.741e-6"
    }
   },
@@ -594,7 +594,7 @@
    ],
    "en": {
     "purpose": "Galaxy analogy: DFM BH and stellar-mass optical-camouflage dwarfs",
-    "state": "spin response nonzero; the curve is numbers only; p=1 q-field, not the report-79 inertial kernel"
+    "state": "spin response nonzero; the curve is numbers only; p=1 q-field, not the restated inertial kernel"
    }
   },
   "galaxyAnalogyBHTilt90": {
@@ -606,7 +606,7 @@
    ],
    "en": {
     "purpose": "🌚 copy, axis tipped 90°, declared precession",
-    "state": "only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the report-79 inertial kernel"
+    "state": "only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the restated inertial kernel"
    }
   },
   "galaxyAnalogyBHTilt90Layers": {
@@ -631,7 +631,7 @@
    ],
    "en": {
     "purpose": "Cluster analogy: DFM BH and optical-camouflage dwarfs",
-    "state": "cluster units, 4 radii, rotating Jeans start; gates not met; p=1 q-field, not the report-79 inertial kernel"
+    "state": "cluster units, 4 radii, rotating Jeans start; gates not met; p=1 q-field, not the restated inertial kernel"
    }
   },
   "clusterGrowthCopy": {
@@ -643,7 +643,7 @@
    ],
    "en": {
     "purpose": "Free centre merges infalling clumps by centre-only capture",
-    "state": "ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 inertial kernel"
+    "state": "ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the restated inertial kernel"
    }
   },
   "galaxyAnalogyBHCompose": {
@@ -655,7 +655,7 @@
    ],
    "en": {
     "purpose": "🌚 copy: explicit static background, centre counted once",
-    "state": "bit-identical to 🌚; resting centre u=0; A_spin = contract; p=1 q-field, not the report-79 inertial kernel"
+    "state": "bit-identical to 🌚; resting centre u=0; A_spin = contract; p=1 q-field, not the restated inertial kernel"
    }
   },
   "fixedCaptureCopy": {
@@ -667,7 +667,7 @@
    ],
    "en": {
     "purpose": "A pinned centre merges infalling clumps energy-first",
-    "state": "merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 inertial kernel"
+    "state": "merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the restated inertial kernel"
    }
   },
   "shapeToyCluster": {
@@ -1827,7 +1827,7 @@
   "charonGeoToy3": {
    "purpose": "太陽の背景を置いた geoPN=4 契約の周期を kF0 と並べる",
    "objective": "partial",
-   "state": "pn:off・λ_PN=0 で B 側との周期の差は 10⁻⁵ s の桁(第296便までの pnVelocity v は +5.6×10⁻⁴ s)",
+   "state": "pn:off・λ_PN=0 で B 側との周期の差は 10⁻⁵ s の桁(以前の pnVelocity v は +5.6×10⁻⁴ s)",
    "evidence": [
     "tests/out/refit-w297a.json",
     "tests/out/geo3-w280c.json"
@@ -2127,7 +2127,7 @@
    }
   },
   "psrJ1757CF": {
-   "purpose": "凍結した κ を J1757 へ流す",
+   "purpose": "凍結した結合係数を J1757 へ流す",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -2135,12 +2135,12 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Carry the frozen κ over to J1757",
+    "purpose": "Carry the frozen coupling coefficient over to J1757",
     "state": "the comparison runs are in the ledger"
    }
   },
   "psrJ1946CF": {
-   "purpose": "凍結した κ を J1946 へ流す",
+   "purpose": "凍結した結合係数を J1946 へ流す",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -2148,7 +2148,7 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Carry the frozen κ over to J1946",
+    "purpose": "Carry the frozen coupling coefficient over to J1946",
     "state": "the comparison runs are in the ledger"
    }
   },
@@ -2181,7 +2181,7 @@
    }
   },
   "psrB1534CF": {
-   "purpose": "凍結した κ を B1534 へ流す",
+   "purpose": "凍結した結合係数を B1534 へ流す",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -2189,7 +2189,7 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Carry the frozen κ over to B1534",
+    "purpose": "Carry the frozen coupling coefficient over to B1534",
     "state": "the comparison runs are in the ledger"
    }
   },

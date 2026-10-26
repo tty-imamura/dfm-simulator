@@ -344,6 +344,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.satK1_315 docs.k1outer314 docs.k1em314 
 #   (lint.kappaSymbol315・prompt.spec-sync・preset.inposK1_315・ui.rdExcess314・ui.rsExcess315 ほか —— 表示の文と下付きの DOM の文字)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.uiText316 params.i18n316 ui.symDisp316 docs.uiText316 lint.kappaSymbol315 prompt.spec-sync preset.inposK1_315"
 # ==== 第316便a の塊(ここまで)====
+# ==== 第316便b の塊(ここから)====
+# 第316便b(原仮定者の裁定(第118報)・決断事項 AN425・R247): 枝 b の新設 2 本(lint.presetText316b —— サンプルの説明の前半 105 本と SAMPLE_STATUS の表示の文に来歴の語と旧記号が無い・
+#   preset.referenceKind316b —— 🌡️ の referenceKind)と、表示の文を照合していて世代切替を受けた QA(ui.mercuryNaming・preset.earthMoonInertial・docs.analogyKernelNote・
+#   preset.revived292b・preset.inposK1_315・ui.samplePicker・preset.revertGLoc303・preset.emBaseline304・preset.emJ2_305・preset.emResolve306)・SAMPLE_STATUS の同期
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.presetText316b preset.referenceKind316b ui.mercuryNaming preset.earthMoonInertial docs.analogyKernelNote preset.revived292b ui.samplePicker preset.revertGLoc303 preset.emBaseline304 preset.emJ2_305 preset.emResolve306 docs.sampleStatus-sync"
+# ==== 第316便b の塊(ここまで)====
 # ==== 第316便d の塊(ここから)====
 # 第316便d(原仮定者の裁定(第118報)・AN423・AN424・AN416・AN422 ②・R249): 枝 d の新設 3 本(docs.satH316 —— 衛星 6 本の三体の診断の正本と文書・docs.paperSymbols316 —— 論文 1〜5 の
 #   記号と記号表と脚注・lint.perfTargets316 —— perf の正本に測った対象の sha256 と Node の版)と、停止集合の版上げを読む lint.scopeStop・lint.regenScope・lint.regenChain・lint.scopeAll312・
